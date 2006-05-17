@@ -1,4 +1,4 @@
-# user
+# user test
 user_profile:
   url:   /user/:nickname
   param: { module: user, action: show }
