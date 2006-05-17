@@ -1,0 +1,19 @@
+prod:
+  propel:
+    param:
+      host:               localhost
+      username:           root
+      password:           RegIt!
+
+all:
+  propel:
+    class:                sfPropelDatabase
+    param:
+      phptype:            mysql
+      host:               localhost
+      database:           swregistry
+      username:           root
+      password:           RegIt!
+      compat_assoc_lower: true
+      # datasource:       propel
+

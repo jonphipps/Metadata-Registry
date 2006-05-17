@@ -1,0 +1,5 @@
+all:
+  javascripts: [setagent]
+
+  components:
+    menubar:      []

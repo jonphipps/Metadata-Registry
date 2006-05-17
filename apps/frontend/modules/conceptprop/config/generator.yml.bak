@@ -1,0 +1,75 @@
+generator:
+  class:              sfPropelAdminGenerator
+  param:
+    model_class:      ConceptProperty
+    theme:            default
+
+    fields:
+      id:           { name: ID }
+
+      created_at:
+        name: Date Created
+        type: plain
+        params: date_format='MM/dd/yy'
+
+      last_updated:
+        name: Last Updated
+        help: This is the date the property was last updated
+        type: plain
+        params: date_format='MM/dd/yy'
+
+      concept_id:       { name: Parent Concept }
+      concept_related_by_concept_id:  { name: Parent Concept, type: plain }
+      skos_property:    { name: skos:property }
+      object:           { name: Value }
+      _show_object:     { name: Value }
+
+    list:
+      title:       Concept Property List
+      display:     [concept_related_by_concept_id, skos_property, last_updated, _show_object]
+      displayfilter: false
+      object_actions:
+        _show:
+        _edit:      { credentials: [administrator] }
+      actions:
+        _create:    { credentials: [administrator] }
+      filters:      [concept_id, skos_property_id, last_updated, object]
+      # urlfilter form is [field to filter on]: [value passed from routing.yml]
+      # multiple filters can be set but they're currently mutually exclusive (any of the list can be used but only one per url)
+      urlfilters:
+        concept_id: concept_id
+
+    edit:
+      fields:
+        skos_property_id: { name: skos:property, params: onchange=swapOptions() }
+        language:         { type: select_language_tag }
+      title:        Edit
+      display:      [concept_related_by_concept_id, skos_property_id, _object, language]
+      actions:
+        # You can add a string literal to the query string like this: foo: "'bar'" whhich will add foo=bar
+        _list:         { query_string: {concept_id: concept_id} }
+        _save:         { credentials: [[administrator, hasAgents]] }
+        _delete:       { credentials: [administrator] }
+        _create:       { credentials: [[administrator, hasAgents]] }
+        _save_and_add: { credentials: [administrator] }
+
+    show:
+      fields:
+        id:           { name: ID, credentials: [administrator] }
+        object:       { helper: auto_link_text }
+      display:        [id, created_at, last_updated, concept_related_by_concept_id, skos_property, object, _language]
+      actions:
+        _edit:        { credentials: [administrator] }
+        _list:
+          query_string:
+            concept_id: concept_id
+
+    create:
+      fields:
+        skos_property_id: { name: skos:property, params: include_blank=true onchange=swapOptions() }
+        scheme_id:
+        related_concept_id:
+        _object:          { name: Value }
+        concept_id:       { type: input_hidden_tag }
+        language:         { type: select_language_tag }
+      display:            [skos_property_id, _object, concept_id, language]

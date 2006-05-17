@@ -1,0 +1,3 @@
+#!/bin/sh
+
+php lib/pake/bin/pake.php -f lib/symfony/data/symfony/bin/pakefile.php $@

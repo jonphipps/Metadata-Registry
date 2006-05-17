@@ -1,0 +1,9 @@
+# default values
+all:
+  adminfield:
+    charmin:   20
+    charmax:   60
+    textrows:  3
+    textcols:  60
+    intsize:   7
+    floatsize: 7
