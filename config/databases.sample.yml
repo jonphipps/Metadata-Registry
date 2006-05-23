@@ -2,8 +2,8 @@ prod:
   propel:
     param:
       host:               localhost
-      username:           root
-      password:           RegIt!
+      username:
+      password:
 
 all:
   propel:
@@ -12,8 +12,8 @@ all:
       phptype:            mysql
       host:               localhost
       database:           swregistry
-      username:           root
-      password:           RegIt!
+      username:
+      password:
       compat_assoc_lower: true
       # datasource:       propel
 
