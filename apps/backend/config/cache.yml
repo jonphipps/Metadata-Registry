@@ -1,4 +1,0 @@
-default:
-  activate:  off
-  type:      slot
-  lifetime:  86400
