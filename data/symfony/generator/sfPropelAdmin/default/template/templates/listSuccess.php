@@ -1,6 +1,5 @@
 [?php use_helpers('I18N', 'Date') ?]
 
-<h1><?php echo $this->getParameterValue('list.title', $this->getModuleName().' list') ?></h1>
 
 <div id="sf_admin_header">
 [?php include_partial('<?php echo $this->getModuleName() ?>/list_header') ?]
@@ -8,7 +7,7 @@
 
 <div id="sf_admin_bar">
 
-<?php if ($this->getParameterValue('list.filters')): ?>
+<?php if ($this->getParameterValue('list.filters') && $this->getParameterValue('list.displayfilter', true)): ?>
 [?php echo include_partial('filters', array('filters' => $filters)) ?]
 <?php endif; ?>
 

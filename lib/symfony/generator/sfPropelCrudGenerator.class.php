@@ -311,23 +311,26 @@ class sfPropelCrudGenerator extends sfGenerator
     }
     else if ($type == CreoleTypes::CHAR || $type == CreoleTypes::VARCHAR)
     {
-      $size = ($column->getSize() > 20 ? ($column->getSize() < 80 ? $column->getSize() : 80) : 20);
+      $fieldMin = sfConfig::get('app_adminfield_charmin', 20);
+      $fieldMax = sfConfig::get('app_adminfield_charmax', 80);
+
+      $size = ($column->getSize() > $fieldMin ? ($column->getSize() < $fieldMax ? $column->getSize() : $fieldMax) : $fieldMin);
       $params = $this->getObjectTagParams($params, array('size' => $size));
       return "object_input_tag(\${$this->getSingularName()}, 'get{$column->getPhpName()}', $params)";
     }
     else if ($type == CreoleTypes::INTEGER || $type == CreoleTypes::TINYINT || $type == CreoleTypes::SMALLINT || $type == CreoleTypes::BIGINT)
     {
-      $params = $this->getObjectTagParams($params, array('size' => 7));
+      $params = $this->getObjectTagParams($params, array('size' => sfConfig::get('app_adminfield_intsize', 7)));
       return "object_input_tag(\${$this->getSingularName()}, 'get{$column->getPhpName()}', $params)";
     }
     else if ($type == CreoleTypes::FLOAT || $type == CreoleTypes::DOUBLE || $type == CreoleTypes::DECIMAL || $type == CreoleTypes::NUMERIC || $type == CreoleTypes::REAL)
     {
-      $params = $this->getObjectTagParams($params, array('size' => 7));
+      $params = $this->getObjectTagParams($params, array('size' => sfConfig::get('app_adminfield_floatsize', 7)));
       return "object_input_tag(\${$this->getSingularName()}, 'get{$column->getPhpName()}', $params)";
     }
     else if ($type == CreoleTypes::TEXT || $type == CreoleTypes::LONGVARCHAR)
     {
-      $params = $this->getObjectTagParams($params, array('size' => '30x3'));
+      $params = $this->getObjectTagParams($params, array('size' => sfConfig::get('app_adminfield_textcols', '45').'x'.sfConfig::get('app_adminfield_textrows', '3')));
       return "object_textarea_tag(\${$this->getSingularName()}, 'get{$column->getPhpName()}', $params)";
     }
     else

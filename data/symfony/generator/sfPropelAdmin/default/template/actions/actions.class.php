@@ -37,9 +37,14 @@ class <?php echo $this->getGeneratedModuleName() ?>Actions extends sfActions
     $this->pager->init();
   }
 
+  public function executeShow ()
+  {
+    $this-><?php echo $this->getSingularName() ?> = <?php echo $this->getClassName() ?>Peer::retrieveByPk(<?php echo $this->getRetrieveByPkParamsForAction(49) ?>);
+    $this->forward404Unless($this-><?php echo $this->getSingularName() ?>);
+  }
   public function executeCreate ()
   {
-    return $this->forward('<?php echo $this->getModuleName() ?>', 'edit');
+    $this-><?php echo $this->getSingularName() ?> = new <?php echo $this->getClassName() ?>();
   }
 
   public function executeSave ()
@@ -49,13 +54,12 @@ class <?php echo $this->getGeneratedModuleName() ?>Actions extends sfActions
 
   public function executeEdit ()
   {
-    $this-><?php echo $this->getSingularName() ?> = $this->get<?php echo $this->getClassName() ?>OrCreate();
 
     if ($this->getRequest()->getMethod() == sfRequest::POST)
     {
-      $this-><?php echo $this->getSingularName() ?> = $this->get<?php echo $this->getClassName() ?>OrCreate();
+      $this->save = true;
+      $this->get<?php echo $this->getClassName() ?>OrCreate();
 
-      $this->update<?php echo $this->getClassName() ?>FromRequest();
       $this-><?php echo $this->getSingularName() ?>->save();
 
       $this->setFlash('notice', 'Your modifications have been saved');
@@ -72,6 +76,7 @@ class <?php echo $this->getGeneratedModuleName() ?>Actions extends sfActions
     }
     else
     {
+      $this->get<?php echo $this->getClassName() ?>OrCreate();
       // add javascripts
       $this->getResponse()->addJavascript('/sf/js/prototype/prototype');
       $this->getResponse()->addJavascript('/sf/js/sf_admin/collapse');
@@ -85,8 +90,7 @@ class <?php echo $this->getGeneratedModuleName() ?>Actions extends sfActions
 
     $this-><?php echo $this->getSingularName() ?>->delete();
 
-<?php foreach ($this->getColumnCategories('edit.display') as $category): ?>
-<?php foreach ($this->getColumns('edit.display', $category) as $name => $column): ?>
+<?php foreach ($this->getColumns('') as $name => $column): ?>
 <?php $input_type = $this->getParameterValue('edit.fields.'.$column->getName().'.type') ?>
 <?php if ($input_type == 'admin_input_upload_tag'): ?>
 <?php $upload_dir = $this->getParameterValue('edit.fields.'.$column->getName().'.upload_dir') ?>
@@ -96,27 +100,39 @@ class <?php echo $this->getGeneratedModuleName() ?>Actions extends sfActions
         unlink($currentFile);
       }
 
-<?php endif ?>
-<?php endforeach ?>
-<?php endforeach ?>
+<?php endif; ?>
+<?php endforeach; ?>
+
+<?php foreach ($this->getColumns('') as $name => $column): ?>
+<?php $input_type = $this->getParameterValue('create.fields.'.$column->getName().'.type') ?>
+<?php if ($input_type == 'admin_input_upload_tag'): ?>
+<?php $upload_dir = $this->getParameterValue('create.fields.'.$column->getName().'.upload_dir') ?>
+      $currentFile = sfConfig::get('sf_upload_dir').'/<?php echo $upload_dir ?>/'.$this-><?php echo $this->getSingularName() ?>->get<?php echo $column->getPhpName() ?>();
+      if (is_file($currentFile))
+      {
+        unlink($currentFile);
+      }
+
+<?php endif; ?>
+<?php endforeach; ?>
     return $this->redirect('<?php echo $this->getModuleName() ?>/list');
   }
 
   public function handleErrorEdit()
   {
     $this->preExecute();
-    $this-><?php echo $this->getSingularName() ?> = $this->get<?php echo $this->getClassName() ?>OrCreate();
-    $this->update<?php echo $this->getClassName() ?>FromRequest();
+    $this->save = true;
+    $this->get<?php echo $this->getClassName() ?>OrCreate();
+    //$this->update<?php echo $this->getClassName() ?>FromRequest();
 
     return sfView::SUCCESS;
   }
 
-  protected function update<?php echo $this->getClassName() ?>FromRequest()
+  protected function update<?php echo $this->getClassName() ?>FromEditRequest()
   {
     $<?php echo $this->getSingularName() ?> = $this->getRequestParameter('<?php echo $this->getSingularName() ?>');
 
-<?php foreach ($this->getColumnCategories('edit.display') as $category): ?>
-<?php foreach ($this->getColumns('edit.display', $category) as $name => $column): $type = $column->getCreoleType(); ?>
+<?php foreach ($this->getColumns('') as $name => $column): $type = $column->getCreoleType(); ?>
 <?php $name = $column->getName() ?>
 <?php if ($column->isPrimaryKey()) continue ?>
 <?php $credentials = $this->getParameterValue('edit.fields.'.$column->getName().'.credentials') ?>
@@ -124,7 +140,7 @@ class <?php echo $this->getGeneratedModuleName() ?>Actions extends sfActions
 <?php if ($credentials): $credentials = str_replace("\n", ' ', var_export($credentials, true)) ?>
     if ($this->getUser()->hasCredential(<?php echo $credentials ?>))
     {
-<?php endif ?>
+<?php endif; ?>
 <?php if ($input_type == 'admin_input_upload_tag'): ?>
 <?php $upload_dir = $this->getParameterValue('edit.fields.'.$column->getName().'.upload_dir') ?>
     $currentFile = sfConfig::get('sf_upload_dir').'/<?php echo $upload_dir ?>/'.$this-><?php echo $this->getSingularName() ?>->get<?php echo $column->getPhpName() ?>();
@@ -139,10 +155,10 @@ class <?php echo $this->getGeneratedModuleName() ?>Actions extends sfActions
 
     if (!$this->getRequest()->hasErrors() && $this->getRequest()->getFileSize('<?php echo $this->getSingularName() ?>[<?php echo $name ?>]'))
     {
-<?php else: ?>
+<?php elseif ($type != CreoleTypes::BOOLEAN): ?>
     if (isset($<?php echo $this->getSingularName() ?>['<?php echo $name ?>']))
     {
-<?php endif ?>
+<?php endif; ?>
 <?php if ($input_type == 'admin_input_upload_tag'): ?>
       $fileName = md5($this->getRequest()->getFileName('<?php echo $this->getSingularName() ?>[<?php echo $name ?>]').time());
       $ext = $this->getRequest()->getFileExtension('<?php echo $this->getSingularName() ?>[<?php echo $name ?>]');
@@ -166,40 +182,133 @@ class <?php echo $this->getGeneratedModuleName() ?>Actions extends sfActions
       $this-><?php echo $this->getSingularName() ?>->set<?php echo $column->getPhpName() ?>(isset($<?php echo $this->getSingularName() ?>['<?php echo $name ?>']) ? $<?php echo $this->getSingularName() ?>['<?php echo $name ?>'] : 0);
 <?php else: ?>
       $this-><?php echo $this->getSingularName() ?>->set<?php echo $column->getPhpName() ?>($<?php echo $this->getSingularName() ?>['<?php echo $name ?>']);
-<?php endif ?>
+<?php endif; ?>
+<?php if ($type != CreoleTypes::BOOLEAN): ?>
     }
+<?php endif; ?>
 <?php if ($credentials): ?>
       }
-<?php endif ?>
-<?php endforeach ?>
-<?php endforeach ?>
+<?php endif; ?>
+<?php endforeach; ?>
+  }
+
+  protected function update<?php echo $this->getClassName() ?>FromCreateRequest()
+  {
+    $<?php echo $this->getSingularName() ?> = $this->getRequestParameter('<?php echo $this->getSingularName() ?>');
+
+<?php foreach ($this->getColumns('') as $name => $column): $type = $column->getCreoleType(); ?>
+<?php $name = $column->getName() ?>
+<?php if ($column->isPrimaryKey()) continue ?>
+<?php $credentials = $this->getParameterValue('create.fields.'.$column->getName().'.credentials') ?>
+<?php $input_type = $this->getParameterValue('create.fields.'.$column->getName().'.type') ?>
+<?php if ($credentials): $credentials = str_replace("\n", ' ', var_export($credentials, true)) ?>
+    if ($this->getUser()->hasCredential(<?php echo $credentials ?>))
+    {
+<?php endif; ?>
+<?php if ($input_type == 'admin_input_upload_tag'): ?>
+<?php $upload_dir = $this->getParameterValue('create.fields.'.$column->getName().'.upload_dir') ?>
+    $currentFile = sfConfig::get('sf_upload_dir').'/<?php echo $upload_dir ?>/'.$this-><?php echo $this->getSingularName() ?>->get<?php echo $column->getPhpName() ?>();
+    if (!$this->getRequest()->hasErrors() && isset($<?php echo $this->getSingularName() ?>['<?php echo $name ?>_remove']))
+    {
+      $this-><?php echo $this->getSingularName() ?>->set<?php echo $column->getPhpName() ?>('');
+      if (is_file($currentFile))
+      {
+        unlink($currentFile);
+      }
+    }
+
+    if (!$this->getRequest()->hasErrors() && $this->getRequest()->getFileSize('<?php echo $this->getSingularName() ?>[<?php echo $name ?>]'))
+    {
+<?php elseif ($type != CreoleTypes::BOOLEAN): ?>
+    if (isset($<?php echo $this->getSingularName() ?>['<?php echo $name ?>']))
+    {
+<?php endif; ?>
+<?php if ($input_type == 'admin_input_upload_tag'): ?>
+      $fileName = md5($this->getRequest()->getFileName('<?php echo $this->getSingularName() ?>[<?php echo $name ?>]').time());
+      $ext = $this->getRequest()->getFileExtension('<?php echo $this->getSingularName() ?>[<?php echo $name ?>]');
+      if (is_file($currentFile))
+      {
+        unlink($currentFile);
+      }
+      $this->getRequest()->moveFile('<?php echo $this->getSingularName() ?>[<?php echo $name ?>]', sfConfig::get('sf_upload_dir').'/<?php echo $upload_dir ?>/'.$fileName.$ext);
+      $this-><?php echo $this->getSingularName() ?>->set<?php echo $column->getPhpName() ?>($fileName.$ext);
+<?php elseif ($type == CreoleTypes::DATE || $type == CreoleTypes::TIMESTAMP): ?>
+      if ($<?php echo $this->getSingularName() ?>['<?php echo $name ?>'])
+      {
+        list($d, $m, $y) = sfI18N::getDateForCulture($<?php echo $this->getSingularName() ?>['<?php echo $name ?>'], $this->getUser()->getCulture());
+        $this-><?php echo $this->getSingularName() ?>->set<?php echo $column->getPhpName() ?>("$y-$m-$d");
+      }
+      else
+      {
+        $this-><?php echo $this->getSingularName() ?>->set<?php echo $column->getPhpName() ?>(null);
+      }
+<?php elseif ($type == CreoleTypes::BOOLEAN): ?>
+    $this-><?php echo $this->getSingularName() ?>->set<?php echo $column->getPhpName() ?>(isset($<?php echo $this->getSingularName() ?>['<?php echo $name ?>']) ? $<?php echo $this->getSingularName() ?>['<?php echo $name ?>'] : 0);
+<?php else: ?>
+    $this-><?php echo $this->getSingularName() ?>->set<?php echo $column->getPhpName() ?>($<?php echo $this->getSingularName() ?>['<?php echo $name ?>']);
+<?php endif; ?>
+<?php if ($type != CreoleTypes::BOOLEAN): ?>
+    }
+<?php endif; ?>
+<?php if ($credentials): ?>
+      }
+<?php endif; ?>
+<?php endforeach; ?>
   }
 
   protected function get<?php echo $this->getClassName() ?>OrCreate (<?php echo $this->getMethodParamsForGetOrCreate() ?>)
   {
     if (<?php echo $this->getTestPksForGetOrCreate() ?>)
     {
-      $<?php echo $this->getSingularName() ?> = new <?php echo $this->getClassName() ?>();
+      $this-><?php echo $this->getSingularName() ?> = new <?php echo $this->getClassName() ?>();
+
+      if($this->save)
+      {
+        $this->update<?php echo $this->getClassName() ?>FromCreateRequest();
+      }
     }
     else
     {
-      $<?php echo $this->getSingularName() ?> = <?php echo $this->getClassName() ?>Peer::retrieveByPk(<?php echo $this->getRetrieveByPkParamsForGetOrCreate() ?>);
+      $this-><?php echo $this->getSingularName() ?> = <?php echo $this->getClassName() ?>Peer::retrieveByPk(<?php echo $this->getRetrieveByPkParamsForGetOrCreate() ?>);
 
-      $this->forward404Unless($<?php echo $this->getSingularName() ?>);
+      $this->forward404Unless($this-><?php echo $this->getSingularName() ?>);
+
+      if ($this->save)
+      {
+        $this->update<?php echo $this->getClassName() ?>FromEditRequest();
+      }
     }
 
-    return $<?php echo $this->getSingularName() ?>;
+    return;
   }
 
   protected function processFilters ()
   {
-<?php if ($this->getParameterValue('list.filters')): ?>
-    if ($this->getRequest()->hasParameter('filter'))
+  $hasFilter = false;
+<?php $urlFilters = $this->getParameterValue('list.urlfilters'); if($urlFilters): ?>
+  <?php foreach ($urlFilters as $key => $param):  ?>
+  if ($this->hasRequestParameter('<?php echo $param ?>'))
     {
+      $hasFilter = true;
+      //cancels all other filters
+      $this->getUser()->getAttributeHolder()->removeNamespace('sf_admin/<?php echo $this->getSingularName() ?>/filters');
+      $this->getUser()->getAttributeHolder()->set('<?php echo $key ?>', $this->getRequestParameter('<?php echo $param ?>'),'sf_admin/<?php echo $this->getSingularName() ?>/filters');
+    }
+  <?php endforeach; ?>
+<?php endif; ?>
+<?php if ($this->getParameterValue('list.filters')): ?>
+  if ($this->getRequest()->hasParameter('filter'))
+    {
+      $hasFilter = true;
       $this->getUser()->getAttributeHolder()->removeNamespace('sf_admin/<?php echo $this->getSingularName() ?>/filters');
       $this->getUser()->getAttributeHolder()->add($this->getRequestParameter('filters'), 'sf_admin/<?php echo $this->getSingularName() ?>/filters');
     }
-<?php endif ?>
+    if (!$hasFilter)
+    {
+      //cancels all filters
+      $this->getUser()->getAttributeHolder()->removeNamespace('sf_admin/<?php echo $this->getSingularName() ?>/filters');
+    }
+<?php endif; ?>
   }
 
   protected function processSort ()
@@ -222,10 +331,10 @@ class <?php echo $this->getGeneratedModuleName() ?>Actions extends sfActions
       $c->add(<?php echo $this->getPeerClassName() ?>::<?php echo strtoupper($column->getName()) ?>, strtr($this->filters['<?php echo $column->getName() ?>'], '*', '%'), Criteria::LIKE);
 <?php else: ?>
       $c->add(<?php echo $this->getPeerClassName() ?>::<?php echo strtoupper($column->getName()) ?>, $this->filters['<?php echo $column->getName() ?>']);
-<?php endif ?>
+<?php endif; ?>
     }
-<?php endforeach ?>
-<?php endif ?>
+<?php endforeach; ?>
+<?php endif; ?>
   }
 
   protected function addSortCriteria (&$c)

@@ -1,8 +1,7 @@
 [?php use_helpers('Object', 'Validation', 'ObjectAdmin', 'I18N', 'Date') ?]
 
-
 <div id="sf_admin_header">
-[?php include_partial('<?php echo $this->getModuleName() ?>/edit_header', array('<?php echo $this->getSingularName() ?>' => $<?php echo $this->getSingularName() ?>)) ?]
+[?php include_partial('<?php echo $this->getModuleName() ?>/create_header', array('<?php echo $this->getSingularName() ?>' => $<?php echo $this->getSingularName() ?>)) ?]
 </div>
 
 <div id="sf_admin_content">
@@ -28,7 +27,7 @@
 [?php echo object_input_hidden_tag($<?php echo $this->getSingularName() ?>, 'get<?php echo $pk->getPhpName() ?>') ?]
 <?php endforeach; ?>
 
-<?php foreach ($this->getColumnCategories('edit.display') as $category): ?>
+<?php foreach ($this->getColumnCategories('create.display') as $category): ?>
 <?php
   if ($category[0] == '-')
   {
@@ -45,9 +44,9 @@
 <?php if ($category != 'NONE'): ?><h2>[?php echo __('<?php echo $category_name ?>') ?]</h2>
 
 <?php endif; ?>
-<?php foreach ($this->getColumns('edit.display', $category) as $name => $column): ?>
+<?php foreach ($this->getColumns('create.display', $category) as $name => $column): ?>
 <?php if ($column->isPrimaryKey()) continue ?>
-<?php $credentials = $this->getParameterValue('edit.fields.'.$column->getName().'.credentials') ?>
+<?php $credentials = $this->getParameterValue('create.fields.'.$column->getName().'.credentials') ?>
 <?php if ($credentials): $credentials = str_replace("\n", ' ', var_export($credentials, true)) ?>
     [?php if ($sf_user->hasCredential(<?php echo $credentials ?>)): ?]
 <?php endif; ?>
@@ -55,12 +54,12 @@
   [?php echo <?php echo $this->getColumnCreateTag($column) ?> ?]
 <?php else: ?>
 <div class="form-row">
-  <label <?php if ($column->isNotNull()): ?>class="required" <?php endif; ?>for="<?php echo $this->getSingularName() ?>[<?php echo $column->getName() ?>]">[?php echo __('<?php echo $this->getParameterValue('edit.fields.'.$column->getName().'.name') ?>:') ?]</label>
+  <label <?php if ($column->isNotNull()): ?>class="required" <?php endif; ?>for="<?php echo $this->getSingularName() ?>[<?php echo $column->getName() ?>]">[?php echo __('<?php echo $this->getParameterValue('create.fields.'.$column->getName().'.name') ?>:') ?]</label>
   <div class="content[?php if ($sf_request->hasError('<?php echo $this->getSingularName() ?>{<?php echo $column->getName() ?>}')): ?] form-error[?php endif; ?]">
   [?php if ($sf_request->hasError('<?php echo $this->getSingularName() ?>{<?php echo $column->getName() ?>}')): ?]<div class="form-error-msg">&darr;&nbsp;[?php echo $sf_request->getError('<?php echo $this->getSingularName() ?>{<?php echo $column->getName() ?>}') ?]&nbsp;&darr;</div>[?php endif; ?]
 
-  [?php echo <?php echo $this->getColumnEditTag($column) ?> ?]
-  <?php echo $this->getHelp($column, 'edit') ?>
+  [?php echo <?php echo $this->getColumnCreateTag($column) ?> ?]
+  <?php echo $this->getHelp($column, 'create') ?>
   </div>
 </div>
 <?php endif; ?>
@@ -72,24 +71,12 @@
 </fieldset>
 <?php endforeach; ?>
 
-[?php echo include_partial('edit_actions', array('<?php echo $this->getSingularName() ?>' => $<?php echo $this->getSingularName() ?>)) ?]
+[?php echo include_partial('create_actions', array('<?php echo $this->getSingularName() ?>' => $<?php echo $this->getSingularName() ?>)) ?]
 
 </form>
-
-<ul class="sf_admin_actions">
-<?php
-/*
- * WARNING: delete is a form, it must be outside the main form
- */
- $editActions = $this->getParameterValue('edit.actions');
-?>
-  <?php if (!$editActions || isset($editActions['_delete'])): ?>
-    <?php echo $this->addCredentialCondition($this->getButtonToAction('_delete', $editActions['_delete'], true), $editActions['_delete']) ?>
-  <?php endif; ?>
-</ul>
 
 </div>
 
 <div id="sf_admin_footer">
-[?php include_partial('<?php echo $this->getModuleName() ?>/edit_footer', array('<?php echo $this->getSingularName() ?>' => $<?php echo $this->getSingularName() ?>)) ?]
+[?php include_partial('<?php echo $this->getModuleName() ?>/create_footer', array('<?php echo $this->getSingularName() ?>' => $<?php echo $this->getSingularName() ?>)) ?]
 </div>

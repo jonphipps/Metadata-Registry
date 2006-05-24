@@ -1,7 +1,36 @@
 <?php
+  class pakeYaml
+  {
+    public static function load ($input)
+    {
+      // syck is prefered over spyc
+      if (function_exists('syck_load')) {
+        if (!empty($input) && is_readable($input))
+        {
+          $input = file_get_contents($input);
+        }
+
+        return syck_load($input);
+      }
+      else
+      {
+        $spyc = new pakeSpyc();
+
+        return $spyc->load($input);
+      }
+    }
+
+    public static function dump ($array)
+    {
+      $spyc = new pakeSpyc();
+
+      return $spyc->dump($array);
+    }
+  }
+
   /** 
    * Spyc -- A Simple PHP YAML Class
-   * @version 0.2.3 -- 2006-02-04
+   * @version 0.2.2 -- 2006-01-29
    * @author Chris Wanstrath <chris@ozmm.org>
    * @link http://spyc.sourceforge.net/
    * @copyright Copyright 2005-2006 Chris Wanstrath
@@ -13,7 +42,7 @@
    * A node, used by Spyc for parsing YAML.
    * @package Spyc
    */
-  class YAMLNode {
+  class pakeYAMLNode {
     /**#@+
      * @access public
      * @var string
@@ -42,7 +71,7 @@
      * @access public
      * @return void
      */
-     public function YAMLNode() {
+     public function pakeYAMLNode() {
       $this->id = uniqid('');
     }
   }
@@ -61,7 +90,7 @@
    * </code>
    * @package Spyc
    */
-  class Spyc {
+  class pakeSpyc {
     
     /**
      * Load YAML into a PHP array statically
@@ -79,7 +108,7 @@
      * @param string $input Path of YAML file or string containing YAML
      */
      public function YAMLLoad($input) {
-      $spyc = new Spyc;
+      $spyc = new pakeSpyc;
       return $spyc->load($input);
     }
     
@@ -104,7 +133,7 @@
      * @param int $wordwrap Pass in 0 for no wordwrap, false for default (40)
      */
      public function YAMLDump($array,$indent = false,$wordwrap = false) {
-      $spyc = new Spyc;
+      $spyc = new pakeSpyc;
       return $spyc->dump($array,$indent,$wordwrap);
     }
   
@@ -133,7 +162,7 @@
         $yaml = explode("\n",$input);
       }
       // Initiate some objects and values
-      $base              = new YAMLNode;
+      $base              = new pakeYAMLNode;
       $base->indent      = 0;
       $this->_lastIndent = 0;
       $this->_lastNode   = $base->id;
@@ -157,7 +186,7 @@
           $last->data[key($last->data)] .= "\n";
         } elseif ($ifchk{0} != '#' && substr($ifchk,0,3) != '---') {
           // Create a new node and get its indent
-          $node         = new YAMLNode;
+          $node         = new pakeYAMLNode;
           $node->indent = $this->_getIndent($line);
           
           // Check where the node lies in the hierarchy
@@ -185,7 +214,7 @@
               // we drop our indent.
               $parent =& $this->_allNodes[$node->parent];
               $this->_allNodes[$node->parent]->children = true;
-              if (is_array($parent->data) && key($parent->data)) {
+              if (is_array($parent->data)) {
                 $chk = $parent->data[key($parent->data)];
                 if ($chk === '>') {
                   $this->_inBlock  = true;
@@ -596,7 +625,7 @@
       // Check for strings      
       $regex = '/(?:(")|(?:\'))((?(1)[^"]+|[^\']+))(?(1)"|\')/';
       if (preg_match_all($regex,$inline,$strings)) {
-        $saved_strings[] = $strings[0][0];
+        $strings = $strings[2];
         $inline  = preg_replace($regex,'YAMLString',$inline); 
       }
       unset($regex);
@@ -616,11 +645,11 @@
       $explode = explode(', ',$inline);
       
       // Re-add the strings
-      if (!empty($saved_strings)) {
+      if (!empty($strings)) {
         $i = 0;
         foreach ($explode as $key => $value) {
-          if (strpos($value,'YAMLString')) {
-            $explode[$key] = str_replace('YAMLString',$saved_strings[$i],$value);
+          if ($value == 'YAMLString') {
+            $explode[$key] = $strings[$i];
             ++$i;
           }
         }
@@ -767,7 +796,7 @@
         $key = key($node->data);
         $key = empty($key) ? 0 : $key;
         // If it's an array, add to it of course
-        if (isset($node->data[$key]) && is_array($node->data[$key])) {
+        if (is_array($node->data[$key])) {
           $node->data[$key] = $this->_array_kmerge($node->data[$key],$childs);
         } else {
           $node->data[$key] = $childs;

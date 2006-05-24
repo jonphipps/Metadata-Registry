@@ -115,7 +115,26 @@ function object_select_tag($object, $method, $options = array(), $default_value 
   }
   unset($options['related_class']);
 
-  $select_options = _get_values_for_object_select_tag($object, $related_class);
+  if(isset($options['related_class_method']) and $related_class)
+  {
+    $related_class_method = $options['related_class_method'];
+    $related_class .= 'Peer';
+    require_once(sfConfig::get('sf_model_lib_dir').'/'.$related_class.'.php');
+    $classPeer = new $related_class;
+    if (isset($options['related_class_method_arg']))
+    {
+      $related_class_method_arg = $options['related_class_method_arg'];
+      unset($options['related_class_method_arg']);
+    }
+    $select_options = $classPeer->$related_class_method($related_class_method_arg);
+    unset($options['related_class_method']);
+  }
+  else
+  {
+     $select_options = _get_values_for_object_select_tag($object, $related_class);
+  }
+
+  //$select_options = _get_values_for_object_select_tag($object, $related_class);
 
   if (isset($options['include_custom']))
   {

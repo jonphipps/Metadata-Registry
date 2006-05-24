@@ -78,17 +78,23 @@ class sfPropelAdminGenerator extends sfPropelCrudGenerator
       throw new sfConfigurationException($error);
     }
 
+    $this->params['field_size_min'] = isset($params['field_size_min']) ? $params['field_size_min'] : 20;
+    $this->params['field_size_max'] = isset($params['field_size_max']) ? $params['field_size_max'] : 80;
+    $this->params['textarea_size'] = isset($params['textarea_size']) ? $params['textarea_size'] : '30x3';
     $this->setTheme($theme);
     $templateFiles = array(
-      'listSuccess', 'editSuccess', '_filters', 
-      '_list_th_'.$this->getParameterValue('list.layout', 'tabular'), '_list_td_'.$this->getParameterValue('list.layout', 'tabular'),
+      'listSuccess', 'editSuccess', 'showSuccess', 'createSuccess', '_filters',
+      '_list_th_'.$this->getParameterValue('list.layout', 'tabular'),
+      '_list_td_'.$this->getParameterValue('list.layout', 'tabular'),
       '_list_th_tabular',
-      '_list_header', '_edit_header', '_list_footer', '_edit_footer',
-      '_list_td_actions', '_list_actions', '_edit_actions',
+      '_list_header', '_edit_header', '_show_header', '_create_header',
+      '_list_footer', '_edit_footer', '_show_footer', '_create_footer',
+      '_list_td_actions', '_list_actions', '_edit_actions', '_show_actions', '_create_actions',
     );
     $this->generatePhpFiles($this->generatedModuleName, $templateFiles);
 
     // require generated action class
+    $data='';
     $data = "require_once(sfConfig::get('sf_module_cache_dir').'/".$this->generatedModuleName."/actions/actions.class.php')\n";
 
     return $data;
@@ -131,6 +137,8 @@ class sfPropelAdminGenerator extends sfPropelCrudGenerator
       $default_icon   = '/sf/images/sf_admin/'.$actionName.'_icon.png';
       $default_action = $actionName;
       $default_class  = 'sf_admin_action_'.$actionName;
+      // overrides link boolean so that links are only generated for the items in the list
+      $pk_link = (bool) strpos(" edit save delete save_and_add", $actionName);
 
       if ($actionName == 'save' || $actionName == 'save_and_add')
       {
@@ -155,14 +163,36 @@ class sfPropelAdminGenerator extends sfPropelCrudGenerator
     {
       $default_name   = strtr($actionName, '_', ' ');
       $default_icon   = '/sf/images/sf_admin/default_icon.png';
-      $default_action = 'List'.sfInflector::camelize($actionName);
+      //$default_action = 'List'.sfInflector::camelize($actionName);
+      $default_action = $actionName;
       $default_class  = '';
     }
 
     $name   = isset($params['name']) ? $params['name'] : $default_name;
     $icon   = isset($params['icon']) ? $params['icon'] : $default_icon;
     $action = isset($params['action']) ? $params['action'] : $default_action;
-    $url_params = $pk_link ? '?'.$this->getPrimaryKeyUrlParams() : '\'';
+    if ($pk_link)
+    {
+      $url_params = '?'. $this->getPrimaryKeyUrlParams();
+    }
+    elseif (isset($params['query_string']))
+    {
+      $qry = '';
+      $queryString = $params['query_string'];
+      foreach ($queryString as $key => $value)
+      {
+        $qry[] = $key . '=' . $this->getQueryParam($value);
+      }
+      if (is_array($qry))
+      {
+        $qry = implode('&', $qry);
+      }
+      $url_params = '?'. $qry . "'";
+    }
+    else
+    {
+      $url_params = "'";
+    }
 
     if (!isset($options['class']) && $default_class)
     {
@@ -173,7 +203,7 @@ class sfPropelAdminGenerator extends sfPropelCrudGenerator
       $options['style'] = 'background: #ffc url('.$icon.') no-repeat 3px 2px';
     }
 
-    $li_class = $li_class ? ' class='.$li_class : '';
+    $li_class = $li_class ? ' class="'.$li_class.'"' : '';
 
     $html = '<li'.$li_class.'>';
 
@@ -201,6 +231,19 @@ class sfPropelAdminGenerator extends sfPropelCrudGenerator
     return $html;
   }
 
+  public function getQueryParam($value)
+  {
+    $qte = $value{0};
+    if ($qte == "'" || $qte == '"')
+    {
+      //it's a string
+      return trim($value,"'\"");
+    }
+    else
+    {
+      return "'.\$" . $this->getSingularName() . "->get" . sfInflector::camelize($value) . "().'";
+    }
+  }
   public function getLinkToAction($actionName, $params, $pk_link = false)
   {
     // default values
@@ -215,7 +258,8 @@ class sfPropelAdminGenerator extends sfPropelCrudGenerator
     {
       $name   = isset($params['name']) ? $params['name'] : $actionName;
       $icon   = isset($params['icon']) ? $params['icon'] : '/sf/images/sf_admin/default_icon.png';
-      $action = isset($params['action']) ? $params['action'] : 'List'.sfInflector::camelize($actionName);
+      //$action = isset($params['action']) ? $params['action'] : 'List'.sfInflector::camelize($actionName);
+      $action = isset($params['action']) ? $params['action'] : $actionName;
     }
 
     $url_params = $pk_link ? '?'.$this->getPrimaryKeyUrlParams() : '\'';
@@ -225,8 +269,18 @@ class sfPropelAdminGenerator extends sfPropelCrudGenerator
 
   public function getColumnEditTag($column, $params = array())
   {
+    return $this->getColumnInputTag($column, $params, 'edit');
+  }
+
+  public function getColumnCreateTag($column, $params = array())
+  {
+    return $this->getColumnInputTag($column, $params, 'create');
+  }
+
+  public function getColumnInputTag($column, $params = array(), $view = 'edit')
+  {
     // user defined parameters
-    $user_params = $this->getParameterValue('edit.fields.'.$column->getName().'.params');
+    $user_params = $this->getParameterValue($view.'.fields.'.$column->getName().'.params');
     $user_params = is_array($user_params) ? $user_params : sfToolkit::stringToArray($user_params);
     $params      = $user_params ? array_merge($params, $user_params) : $params;
 
@@ -250,7 +304,7 @@ class sfPropelAdminGenerator extends sfPropelCrudGenerator
     }
 
     // user sets a specific tag to use
-    if ($inputType = $this->getParameterValue('edit.fields.'.$column->getName().'.type'))
+    if ($inputType = $this->getParameterValue($view.'.fields.'.$column->getName().'.type'))
     {
       if ($inputType == 'plain')
       {
@@ -474,7 +528,17 @@ EOF;
 
   public function getColumnListTag($column, $params = array())
   {
-    $user_params = $this->getParameterValue('list.fields.'.$column->getName().'.params');
+    return $this->getColumnTag($column, $params, 'list');
+  }
+
+  public function getColumnShowTag($column, $params = array())
+  {
+    return $this->getColumnTag($column, $params, 'show');
+  }
+
+  public function getColumnTag($column, $params = array(), $view = 'list')
+  {
+    $user_params = $this->getParameterValue($view.'.fields.'.$column->getName().'.params');
     $user_params = is_array($user_params) ? $user_params : sfToolkit::stringToArray($user_params);
     $params      = $user_params ? array_merge($params, $user_params) : $params;
 
