@@ -27,6 +27,9 @@ class <?php echo $this->getGeneratedModuleName() ?>Actions extends sfActions
 
     $this->processFilters();
 
+<?php if ($this->getParameterValue('list.filters')): ?>
+    $this->filters = $this->getUser()->getAttributeHolder()->getAll('sf_admin/<?php echo $this->getSingularName() ?>/filters');
+<?php endif ?>
     // pager
     $this->pager = new sfPropelPager('<?php echo $this->getClassName() ?>', <?php echo $this->getParameterValue('list.max_per_page', 20) ?>);
     $c = new Criteria();
@@ -42,6 +45,7 @@ class <?php echo $this->getGeneratedModuleName() ?>Actions extends sfActions
     $this-><?php echo $this->getSingularName() ?> = <?php echo $this->getClassName() ?>Peer::retrieveByPk(<?php echo $this->getRetrieveByPkParamsForAction(49) ?>);
     $this->forward404Unless($this-><?php echo $this->getSingularName() ?>);
   }
+
   public function executeCreate ()
   {
     $this-><?php echo $this->getSingularName() ?> = new <?php echo $this->getClassName() ?>();
@@ -54,14 +58,12 @@ class <?php echo $this->getGeneratedModuleName() ?>Actions extends sfActions
 
   public function executeEdit ()
   {
-
     if ($this->getRequest()->getMethod() == sfRequest::POST)
     {
       $this->save = true;
       $this->get<?php echo $this->getClassName() ?>OrCreate();
 
       $this-><?php echo $this->getSingularName() ?>->save();
-
       $this->setFlash('notice', 'Your modifications have been saved');
 
       if ($this->getRequestParameter('save_and_add'))
@@ -128,85 +130,22 @@ class <?php echo $this->getGeneratedModuleName() ?>Actions extends sfActions
     return sfView::SUCCESS;
   }
 
-  protected function update<?php echo $this->getClassName() ?>FromEditRequest()
+<?php $views = array('edit','create'); foreach ($views as $view): ?>
+  protected function update<?php echo $this->getClassName() ?>From<?php echo ucfirst($view) ?>Request()
   {
     $<?php echo $this->getSingularName() ?> = $this->getRequestParameter('<?php echo $this->getSingularName() ?>');
 
 <?php foreach ($this->getColumns('') as $name => $column): $type = $column->getCreoleType(); ?>
 <?php $name = $column->getName() ?>
 <?php if ($column->isPrimaryKey()) continue ?>
-<?php $credentials = $this->getParameterValue('edit.fields.'.$column->getName().'.credentials') ?>
-<?php $input_type = $this->getParameterValue('edit.fields.'.$column->getName().'.type') ?>
+<?php $credentials = $this->getParameterValue($view.'.fields.'.$column->getName().'.credentials') ?>
+<?php $input_type = $this->getParameterValue($view.'.fields.'.$column->getName().'.type') ?>
 <?php if ($credentials): $credentials = str_replace("\n", ' ', var_export($credentials, true)) ?>
     if ($this->getUser()->hasCredential(<?php echo $credentials ?>))
     {
 <?php endif; ?>
 <?php if ($input_type == 'admin_input_upload_tag'): ?>
-<?php $upload_dir = $this->getParameterValue('edit.fields.'.$column->getName().'.upload_dir') ?>
-    $currentFile = sfConfig::get('sf_upload_dir').'/<?php echo $upload_dir ?>/'.$this-><?php echo $this->getSingularName() ?>->get<?php echo $column->getPhpName() ?>();
-    if (!$this->getRequest()->hasErrors() && isset($<?php echo $this->getSingularName() ?>['<?php echo $name ?>_remove']))
-    {
-      $this-><?php echo $this->getSingularName() ?>->set<?php echo $column->getPhpName() ?>('');
-      if (is_file($currentFile))
-      {
-        unlink($currentFile);
-      }
-    }
-
-    if (!$this->getRequest()->hasErrors() && $this->getRequest()->getFileSize('<?php echo $this->getSingularName() ?>[<?php echo $name ?>]'))
-    {
-<?php elseif ($type != CreoleTypes::BOOLEAN): ?>
-    if (isset($<?php echo $this->getSingularName() ?>['<?php echo $name ?>']))
-    {
-<?php endif; ?>
-<?php if ($input_type == 'admin_input_upload_tag'): ?>
-      $fileName = md5($this->getRequest()->getFileName('<?php echo $this->getSingularName() ?>[<?php echo $name ?>]').time());
-      $ext = $this->getRequest()->getFileExtension('<?php echo $this->getSingularName() ?>[<?php echo $name ?>]');
-      if (is_file($currentFile))
-      {
-        unlink($currentFile);
-      }
-      $this->getRequest()->moveFile('<?php echo $this->getSingularName() ?>[<?php echo $name ?>]', sfConfig::get('sf_upload_dir').'/<?php echo $upload_dir ?>/'.$fileName.$ext);
-      $this-><?php echo $this->getSingularName() ?>->set<?php echo $column->getPhpName() ?>($fileName.$ext);
-<?php elseif ($type == CreoleTypes::DATE || $type == CreoleTypes::TIMESTAMP): ?>
-      if ($<?php echo $this->getSingularName() ?>['<?php echo $name ?>'])
-      {
-        list($d, $m, $y) = sfI18N::getDateForCulture($<?php echo $this->getSingularName() ?>['<?php echo $name ?>'], $this->getUser()->getCulture());
-        $this-><?php echo $this->getSingularName() ?>->set<?php echo $column->getPhpName() ?>("$y-$m-$d");
-      }
-      else
-      {
-        $this-><?php echo $this->getSingularName() ?>->set<?php echo $column->getPhpName() ?>(null);
-      }
-<?php elseif ($type == CreoleTypes::BOOLEAN): ?>
-      $this-><?php echo $this->getSingularName() ?>->set<?php echo $column->getPhpName() ?>(isset($<?php echo $this->getSingularName() ?>['<?php echo $name ?>']) ? $<?php echo $this->getSingularName() ?>['<?php echo $name ?>'] : 0);
-<?php else: ?>
-      $this-><?php echo $this->getSingularName() ?>->set<?php echo $column->getPhpName() ?>($<?php echo $this->getSingularName() ?>['<?php echo $name ?>']);
-<?php endif; ?>
-<?php if ($type != CreoleTypes::BOOLEAN): ?>
-    }
-<?php endif; ?>
-<?php if ($credentials): ?>
-      }
-<?php endif; ?>
-<?php endforeach; ?>
-  }
-
-  protected function update<?php echo $this->getClassName() ?>FromCreateRequest()
-  {
-    $<?php echo $this->getSingularName() ?> = $this->getRequestParameter('<?php echo $this->getSingularName() ?>');
-
-<?php foreach ($this->getColumns('') as $name => $column): $type = $column->getCreoleType(); ?>
-<?php $name = $column->getName() ?>
-<?php if ($column->isPrimaryKey()) continue ?>
-<?php $credentials = $this->getParameterValue('create.fields.'.$column->getName().'.credentials') ?>
-<?php $input_type = $this->getParameterValue('create.fields.'.$column->getName().'.type') ?>
-<?php if ($credentials): $credentials = str_replace("\n", ' ', var_export($credentials, true)) ?>
-    if ($this->getUser()->hasCredential(<?php echo $credentials ?>))
-    {
-<?php endif; ?>
-<?php if ($input_type == 'admin_input_upload_tag'): ?>
-<?php $upload_dir = $this->getParameterValue('create.fields.'.$column->getName().'.upload_dir') ?>
+<?php $upload_dir = $this->getParameterValue($view.'.fields.'.$column->getName().'.upload_dir') ?>
     $currentFile = sfConfig::get('sf_upload_dir').'/<?php echo $upload_dir ?>/'.$this-><?php echo $this->getSingularName() ?>->get<?php echo $column->getPhpName() ?>();
     if (!$this->getRequest()->hasErrors() && isset($<?php echo $this->getSingularName() ?>['<?php echo $name ?>_remove']))
     {
@@ -256,6 +195,7 @@ class <?php echo $this->getGeneratedModuleName() ?>Actions extends sfActions
 <?php endforeach; ?>
   }
 
+<?php endforeach; ?>
   protected function get<?php echo $this->getClassName() ?>OrCreate (<?php echo $this->getMethodParamsForGetOrCreate() ?>)
   {
     if (<?php echo $this->getTestPksForGetOrCreate() ?>)
@@ -284,29 +224,25 @@ class <?php echo $this->getGeneratedModuleName() ?>Actions extends sfActions
 
   protected function processFilters ()
   {
-  $hasFilter = false;
-<?php $urlFilters = $this->getParameterValue('list.urlfilters'); if($urlFilters): ?>
-  <?php foreach ($urlFilters as $key => $param):  ?>
-  if ($this->hasRequestParameter('<?php echo $param ?>'))
-    {
-      $hasFilter = true;
-      //cancels all other filters
-      $this->getUser()->getAttributeHolder()->removeNamespace('sf_admin/<?php echo $this->getSingularName() ?>/filters');
-      $this->getUser()->getAttributeHolder()->set('<?php echo $key ?>', $this->getRequestParameter('<?php echo $param ?>'),'sf_admin/<?php echo $this->getSingularName() ?>/filters');
-    }
-  <?php endforeach; ?>
-<?php endif; ?>
 <?php if ($this->getParameterValue('list.filters')): ?>
-  if ($this->getRequest()->hasParameter('filter'))
+    if ($this->getRequest()->hasParameter('filter'))
     {
-      $hasFilter = true;
+      $filters = $this->getRequestParameter('filters');
+<?php foreach ($this->getColumns('list.filters') as $column): $type = $column->getCreoleType() ?>
+<?php if ($type == CreoleTypes::DATE || $type == CreoleTypes::TIMESTAMP): ?>
+      if (isset($filters['<?php echo $column->getName() ?>']['from']) && $filters['<?php echo $column->getName() ?>']['from'] !== '')
+      {
+        $filters['<?php echo $column->getName() ?>']['from'] = sfI18N::getTimestampForCulture($filters['<?php echo $column->getName() ?>']['from'], $this->getUser()->getCulture());
+      }
+      if (isset($filters['<?php echo $column->getName() ?>']['to']) && $filters['<?php echo $column->getName() ?>']['to'] !== '')
+      {
+        $filters['<?php echo $column->getName() ?>']['to'] = sfI18N::getTimestampForCulture($filters['<?php echo $column->getName() ?>']['to'], $this->getUser()->getCulture());
+      }
+<?php endif; ?>
+<?php endforeach; ?>
+
       $this->getUser()->getAttributeHolder()->removeNamespace('sf_admin/<?php echo $this->getSingularName() ?>/filters');
-      $this->getUser()->getAttributeHolder()->add($this->getRequestParameter('filters'), 'sf_admin/<?php echo $this->getSingularName() ?>/filters');
-    }
-    if (!$hasFilter)
-    {
-      //cancels all filters
-      $this->getUser()->getAttributeHolder()->removeNamespace('sf_admin/<?php echo $this->getSingularName() ?>/filters');
+      $this->getUser()->getAttributeHolder()->add($filters, 'sf_admin/<?php echo $this->getSingularName() ?>/filters');
     }
 <?php endif; ?>
   }
@@ -323,8 +259,44 @@ class <?php echo $this->getGeneratedModuleName() ?>Actions extends sfActions
   protected function addFiltersCriteria (&$c)
   {
 <?php if ($this->getParameterValue('list.filters')): ?>
-    $this->filters = $this->getUser()->getAttributeHolder()->getAll('sf_admin/<?php echo $this->getSingularName() ?>/filters');
 <?php foreach ($this->getColumns('list.filters') as $column): $type = $column->getCreoleType() ?>
+<?php if ($type == CreoleTypes::DATE || $type == CreoleTypes::TIMESTAMP): ?>
+    if (isset($this->filters['<?php echo $column->getName() ?>']))
+    {
+      if (isset($this->filters['<?php echo $column->getName() ?>']['from']) && $this->filters['<?php echo $column->getName() ?>']['from'] !== '')
+      {
+<?php if ($type == CreoleTypes::DATE): ?>
+        $criterion = $c->getNewCriterion(<?php echo $this->getPeerClassName() ?>::<?php echo strtoupper($column->getName()) ?>, date('Y-m-d', $this->filters['<?php echo $column->getName() ?>']['from']), Criteria::GREATER_EQUAL);
+<?php else: ?>
+        $criterion = $c->getNewCriterion(<?php echo $this->getPeerClassName() ?>::<?php echo strtoupper($column->getName()) ?>, $this->filters['<?php echo $column->getName() ?>']['from'], Criteria::GREATER_EQUAL);
+<?php endif; ?>
+      }
+      if (isset($this->filters['<?php echo $column->getName() ?>']['to']) && $this->filters['<?php echo $column->getName() ?>']['to'] !== '')
+      {
+        if (isset($criterion))
+        {
+<?php if ($type == CreoleTypes::DATE): ?>
+          $criterion->addAnd($c->getNewCriterion(<?php echo $this->getPeerClassName() ?>::<?php echo strtoupper($column->getName()) ?>, date('Y-m-d', $this->filters['<?php echo $column->getName() ?>']['to']), Criteria::LESS_EQUAL));
+<?php else: ?>
+          $criterion->addAnd($c->getNewCriterion(<?php echo $this->getPeerClassName() ?>::<?php echo strtoupper($column->getName()) ?>, $this->filters['<?php echo $column->getName() ?>']['to'], Criteria::LESS_EQUAL));
+<?php endif; ?>
+        }
+        else
+        {
+<?php if ($type == CreoleTypes::DATE): ?>
+          $criterion = $c->getNewCriterion(<?php echo $this->getPeerClassName() ?>::<?php echo strtoupper($column->getName()) ?>, date('Y-m-d', $this->filters['<?php echo $column->getName() ?>']['to']), Criteria::LESS_EQUAL);
+<?php else: ?>
+          $criterion = $c->getNewCriterion(<?php echo $this->getPeerClassName() ?>::<?php echo strtoupper($column->getName()) ?>, $this->filters['<?php echo $column->getName() ?>']['to'], Criteria::LESS_EQUAL);
+<?php endif; ?>
+        }
+      }
+
+      if (isset($criterion))
+      {
+        $c->add($criterion);
+      }
+    }
+<?php else: ?>
     if (isset($this->filters['<?php echo $column->getName() ?>']) && $this->filters['<?php echo $column->getName() ?>'] !== '')
     {
 <?php if ($type == CreoleTypes::CHAR || $type == CreoleTypes::VARCHAR): ?>
@@ -333,6 +305,7 @@ class <?php echo $this->getGeneratedModuleName() ?>Actions extends sfActions
       $c->add(<?php echo $this->getPeerClassName() ?>::<?php echo strtoupper($column->getName()) ?>, $this->filters['<?php echo $column->getName() ?>']);
 <?php endif; ?>
     }
+<?php endif; ?>
 <?php endforeach; ?>
 <?php endif; ?>
   }

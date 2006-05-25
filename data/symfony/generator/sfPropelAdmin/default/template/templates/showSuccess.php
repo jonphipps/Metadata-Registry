@@ -6,16 +6,7 @@
 
 <div id="sf_admin_content">
 
-[?php if ($sf_request->hasErrors()): ?]
-<div class="form-errors">
-<h2>[?php echo __('There are some errors that prevent the form to validate') ?]</h2>
-<ul>
-[?php foreach ($sf_request->getErrorNames() as $name): ?]
-  <li>[?php echo $sf_request->getError($name) ?]</li>
-[?php endforeach ?]
-</ul>
-</div>
-[?php elseif ($sf_flash->has('notice')): ?]
+[?php if ($sf_flash->has('notice')): ?]
 <div class="save-ok">
 <h2>[?php echo __($sf_flash->get('notice')) ?]</h2>
 </div>
