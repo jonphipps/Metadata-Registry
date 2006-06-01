@@ -54,7 +54,7 @@ class Concept extends BaseConcept {
       $conceptProperty->setSkosPropertyId(SkosProperty::getPrefLabelId());
     }
     $conceptProperty->setObject($v);
-    $this->addConceptProperty($conceptProperty);
+    $this->addConceptPropertyRelatedByConceptId($conceptProperty);
     parent::setPrefLabel($v);
     return;
   }
