@@ -8,6 +8,10 @@ Options +FollowSymLinks +ExecCGI
   RewriteCond %{REQUEST_URI} !\.html$
   RewriteRule .* - [L]
 
+  # we skip selenium
+  RewriteCond %{REQUEST_URI} /selenium/.+$
+  RewriteRule .* - [L]
+
   # we check if the .html version is here (caching)
   RewriteRule ^$ index.html [QSA]
   RewriteRule ^([^.]+)$ $1.html [QSA]

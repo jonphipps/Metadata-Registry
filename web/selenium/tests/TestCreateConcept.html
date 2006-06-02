@@ -1,0 +1,185 @@
+<html>
+<head><title>TestCreateConcept</title></head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">TestCreateConcept</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>http://registry/</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=sign in / register</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>//fieldset/input[position()="1" and @value="" and @id="nickname" and @name="nickname"]</td>
+	<td>jonphipps</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>//fieldset/input[position()="2" and @value="" and @id="password" and @name="password"]</td>
+	<td>phipj121</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@type='submit' and @value='sign in']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Vocabularies</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//a[@href="/concept/list/vocabulary_id/8"]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@type='button' and @value='create']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>concept[pref_label]</td>
+	<td>test label</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@type='submit' and @value='save']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Detail for test label</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Your modifications have been saved</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@type='button' and @value='list']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>test label</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//a[img/@alt='edit']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>concept[pref_label]</td>
+	<td>test label edited</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>concept[uri]</td>
+	<td>http://purl.org/gem//GemLevel/100004-test</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//input[@name='concept[is_top_concept]' and @value='1']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@type='submit' and @value='save']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Detail for test label edited</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Your modifications have been saved</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@type='button' and @value='list']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyElementPresent</td>
+	<td>//td[1]/img</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//td[2]</td>
+	<td>test label edited</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//a[img/@alt='Show Properties']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//td[1]</td>
+	<td>test label edited</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//td[2]</td>
+	<td>prefLabel</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//td[4]</td>
+	<td>test label edited</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Concept</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//a[img/@alt='edit']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@value='delete']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertConfirmation</td>
+	<td>Are you sure?</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//div[@id='sf_admin_content']</td>
+	<td>no result</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=sign out</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//div[1]/h2</td>
+	<td>Vocabularies*</td>
+</tr>
+</tbody></table>
+</body>
+</html>
