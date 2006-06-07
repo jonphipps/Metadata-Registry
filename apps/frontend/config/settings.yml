@@ -64,7 +64,7 @@ all:
 #
 #    i18n:                   off
 #
-#    timeout:                1800
+    timeout:                43200
 #
 #    suffix:                 .
 #

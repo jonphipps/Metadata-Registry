@@ -39,7 +39,7 @@
  */
 function esc_entities($value)
 {
-  return htmlentities($value, ENT_QUOTES);
+  return htmlentities($value, ENT_QUOTES, 'UTF-8');
 }
 
 define('ESC_ENTITIES', 'esc_entities');

@@ -46,9 +46,10 @@ function link_to($name = '', $options = '', $html_options = array())
   $html_options = _convert_options_to_javascript($html_options);
 
   $absolute = false;
-  if (isset($html_options['absolute_url']))
+  if (isset($html_options['absolute_url']) || isset($html_options['absolute']))
   {
     unset($html_options['absolute_url']);
+    unset($html_options['absolute']);
     $absolute = true;
   }
 
@@ -140,20 +141,22 @@ function mail_to($email, $name = '', $html_options = array())
 
   $html_options = _convert_options_to_javascript($html_options);
 
-  if (!$name)
-  {
-    $name = $email;
-  }
-
   if (isset($html_options['encode']) && $html_options['encode'])
   {
     unset($html_options['encode']);
     $html_options['href'] = _encodeText('mailto:'.$email);
-    $name = _encodeText($name);
+    if (!$name)
+    {
+      $name = _encodeText($email);
+    }
   }
   else
   {
     $html_options['href'] = 'mailto:'.$email;
+    if (!$name)
+    {
+      $name = $email;
+    }    
   }
 
   return content_tag('a', $name, $html_options);

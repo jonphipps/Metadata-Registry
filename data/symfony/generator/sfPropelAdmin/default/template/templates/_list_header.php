@@ -1,1 +1,1 @@
-<h1><?php echo $this->getParameterValue('list.title', $this->getModuleName().' list') ?></h1>
+<h1><?php echo $this->getI18NString('list.title', $this->getModuleName().' list') ?></h1>

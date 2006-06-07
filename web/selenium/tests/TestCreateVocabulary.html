@@ -1,0 +1,194 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>TestCreateVocabulary</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">TestCreateVocabulary</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/frontend_dev.php/</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=sign in / register</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>document.forms[1].nickname</td>
+	<td>jonphipps</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>document.forms[1].password</td>
+	<td>phipj121</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>document.forms[1].commit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@value='create']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>vocabulary[agent_id]</td>
+	<td>label=National Science Digital Library</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>vocabulary[name]</td>
+	<td>test vocabulary</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>vocabulary[note]</td>
+	<td>test note</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>vocabulary[uri]</td>
+	<td>http://testURI</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>vocabulary[url]</td>
+	<td>http://testURL</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>vocabulary[token]</td>
+	<td>testToken</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>vocabulary[community]</td>
+	<td>semantic web</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>save</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//div[2]/div/h2</td>
+	<td>Your modifications have been saved</td>
+</tr>
+<tr>
+	<td>verifyValue</td>
+	<td>vocabulary[agent_id]</td>
+	<td>53</td>
+</tr>
+<tr>
+	<td>verifyValue</td>
+	<td>vocabulary[name]</td>
+	<td>test vocabulary</td>
+</tr>
+<tr>
+	<td>verifyValue</td>
+	<td>vocabulary[base_domain]</td>
+	<td>exact:http://purl.metadataregistry.org/</td>
+</tr>
+<tr>
+	<td>verifyValue</td>
+	<td>vocabulary[uri]</td>
+	<td>exact:http://testURI</td>
+</tr>
+<tr>
+	<td>verifyValue</td>
+	<td>vocabulary[token]</td>
+	<td>testToken</td>
+</tr>
+<tr>
+	<td>verifyValue</td>
+	<td>vocabulary[url]</td>
+	<td>exact:http://testURL</td>
+</tr>
+<tr>
+	<td>verifyValue</td>
+	<td>vocabulary[note]</td>
+	<td>test note</td>
+</tr>
+<tr>
+	<td>verifyValue</td>
+	<td>vocabulary[community]</td>
+	<td>semantic web</td>
+</tr>
+<tr>
+	<td>storeLocation</td>
+	<td>pageURI</td>
+	<td></td>
+</tr>
+<tr>
+	<td>store</td>
+	<td>${pageURI}</td>
+	<td>pageUri</td>
+</tr>
+<tr>
+	<td>store</td>
+	<td>javascript{storedVars['pageUri'].split('/').pop()}</td>
+	<td>vocabID</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>vocabulary[note]</td>
+	<td>${vocabID}</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@value='list']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//tr[5]/td[1]</td>
+	<td>test vocabulary</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//tr[5]/td[3]</td>
+	<td>National Science Digital Library</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//a[contains(@href, '/frontend_dev.php/vocabulary/edit/id/${vocabID}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@value='delete']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertConfirmation</td>
+	<td>Are you sure?</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//div[1]/h2</td>
+	<td>Vocabularies   Schemas   Application Profiles   Crosswalks</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=sign out</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//div[1]/h2</td>
+	<td>Vocabularies   Schemas   Application Profiles   Crosswalks</td>
+</tr>
+
+</tbody></table>
+</body>
+</html>

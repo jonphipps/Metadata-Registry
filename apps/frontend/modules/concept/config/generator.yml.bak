@@ -36,7 +36,6 @@ generator:
         _edit:          { credentials: [[administrator, vocabularymaintainer]] }
       actions:
         _create:        { credentials: [[administrator, vocabularymaintainer]] }
-      filters:          [is_top_concept, vocabulary_id, pref_label, last_updated, is_top_concept]
       urlfilters:
         vocabulary_id: vocabulary_id
 
@@ -65,7 +64,7 @@ generator:
       fields:
         id:            { name: ID, credentials: [administrator] }
         uri:           { helper: auto_link_text }
-      listproperties: { name: Properties }
+      _listproperties: { name: Properties }
       display:        [vocabulary, id, created_at, last_updated, pref_label, uri, is_top_concept, _listproperties]
       actions:
         _edit:        { credentials: [administrator, vocabularymaintainer] }

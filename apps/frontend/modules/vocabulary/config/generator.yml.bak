@@ -32,13 +32,12 @@ generator:
       _versions:     { name: Versions }
 
     list:
-      display:   [id, name, last_updated, agent, _concepts, _versions]
+      display:   [name, last_updated, agent, _concepts, _versions]
       object_actions:
         _show:
         _edit:      { credentials: [administrator] }
       actions:
         _create:    { credentials: [administrator] }
-      filters:      [agent_id]
 
     edit:
       title:        Detail for %%name%%

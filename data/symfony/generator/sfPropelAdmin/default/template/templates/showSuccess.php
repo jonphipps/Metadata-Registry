@@ -39,7 +39,7 @@
     [?php if ($sf_user->hasCredential(<?php echo $credentials ?>)): ?]
 <?php endif; ?>
 <div class="form-row">
-  <label <?php if ($column->isNotNull()): ?>class="required" <?php endif; ?>for="<?php echo $this->getSingularName() ?>[<?php echo $column->getName() ?>]">[?php echo __('<?php echo $this->getParameterValue('show.fields.'.$column->getName().'.name') ?>:') ?]</label>
+  <label <?php if ($column->isNotNull()): ?>class="required" <?php endif; ?>for="<?php echo $this->getSingularName() ?>[<?php echo $column->getName() ?>]">[?php echo __('<?php echo str_replace("'", "\\'", $this->getParameterValue('show.fields.'.$column->getName().'.name')) ?>:') ?]</label>
   <div class="content[?php if ($sf_request->hasError('<?php echo $this->getSingularName() ?>{<?php echo $column->getName() ?>}')): ?] form-error[?php endif; ?]">
   [?php if ($sf_request->hasError('<?php echo $this->getSingularName() ?>{<?php echo $column->getName() ?>}')): ?]<div class="form-error-msg">&darr;&nbsp;[?php echo $sf_request->getError('<?php echo $this->getSingularName() ?>{<?php echo $column->getName() ?>}') ?]&nbsp;&darr;</div>[?php endif; ?]
 

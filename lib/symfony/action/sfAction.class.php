@@ -61,10 +61,20 @@ abstract class sfAction extends sfComponent
     return true;
   }
 
+  /**
+   * Execute an application defined process prior to execution of this Action.
+   *
+   * By Default, this method is empty.
+   */
   public function preExecute ()
   {
   }
 
+  /**
+   * Execute an application defined process immediately after execution of this Action.
+   *
+   * By Default, this method is empty.
+   */
   public function postExecute ()
   {
   }
@@ -90,12 +100,6 @@ abstract class sfAction extends sfComponent
       return 1;
     }
 
-    // ignore cache? (only in debug mode)
-    if (sfConfig::get('sf_debug') && $this->request->getParameter('ignore_cache', false, 'symfony/request/sfWebRequest') == true)
-    {
-      return 1;
-    }
-
     $cache = $this->getContext()->getViewCacheManager();
 
     return (!$cache->has(sfRouting::getInstance()->getCurrentInternalUri(), $suffix));
@@ -110,6 +114,12 @@ abstract class sfAction extends sfComponent
     throw new sfError404Exception();
   }
 
+  /**
+   * Forwards current action to the default 404 error action
+   * unless the specified condition is true.
+   *
+   * @param bool A condition that evaluates to true or false.
+   */
   public function forward404Unless ($condition)
   {
     if (!$condition)
@@ -118,6 +128,12 @@ abstract class sfAction extends sfComponent
     }
   }
 
+  /**
+   * Forwards current action to the default 404 error action
+   * if the specified condition is true.
+   *
+   * @param bool A condition that evaluates to true or false.
+   */
   public function forward404If ($condition)
   {
     if ($condition)
@@ -155,6 +171,21 @@ abstract class sfAction extends sfComponent
     throw new sfActionStopException();
   }
 
+  /**
+   * If the condition is true, forwards current action to a new one (without browser redirection).
+   *
+   * This method must be called as with a return:
+   *
+   * <code>
+   *  $condition = true
+   *  return $this->forwardIf($condition, 'module', 'action')
+   * </code>
+   *
+   * @param  bool   A condition that evaluates to true or false.
+   * @param  string module name
+   * @param  string action name
+   * @return sfView::NONE
+   */
   public function forwardIf ($condition, $module, $action)
   {
     if ($condition)
@@ -163,6 +194,21 @@ abstract class sfAction extends sfComponent
     }
   }
 
+  /**
+   * Unless the condition is true, forwards current action to a new one (without browser redirection).
+   *
+   * This method must be called as with a return:
+   *
+   * <code>
+   *  $condition = false
+   *  return $this->forwardUnless($condition, 'module', 'action')
+   * </code>
+   *
+   * @param  bool   A condition that evaluates to true or false.
+   * @param  string module name
+   * @param  string action name
+   * @return sfView::NONE
+   */
   public function forwardUnless ($condition, $module, $action)
   {
     if (!$condition)
@@ -173,15 +219,7 @@ abstract class sfAction extends sfComponent
 
   public function sendEmail($module, $action)
   {
-    $presentation = $this->getPresentationFor($module, $action, 'sfMail');
-
-    // error? (like a security forwarding)
-    if (!$presentation)
-    {
-      throw new sfException('There was an error when trying to send this email.');
-    }
-
-    return $presentation;
+    return $this->getPresentationFor($module, $action, 'sfMail');
   }
 
   public function getPresentationFor($module, $action, $viewName = null)
@@ -221,15 +259,29 @@ abstract class sfAction extends sfComponent
     $controller->setRenderMode($renderMode);
 
     // remove the action entry
-    for ($i = $index; $i < $actionStack->getSize(); $i++)
+    $nb = $actionStack->getSize() - $index;
+    while ($nb-- > 0)
     {
-      $actionEntry = $actionStack->removeEntry($i);
+      $actionEntry = $actionStack->popEntry();
+
+      if ($actionEntry->getModuleName() == sfConfig::get('sf_login_module') && $actionEntry->getActionName() == sfConfig::get('sf_login_action'))
+      {
+        $error = 'Your mail action is secured but the user is not authenticated.';
+
+        throw new sfException($error);
+      }
+      else if ($actionEntry->getModuleName() == sfConfig::get('sf_secure_module') && $actionEntry->getActionName() == sfConfig::get('sf_secure_action'))
+      {
+        $error = 'Your mail action is secured but the user does not have access.';
+
+        throw new sfException($error);
+      }
     }
 
     // remove viewName
     if ($viewName)
     {
-      $this->getRequest()->setAttribute($module.'_'.$action.'_view_name', '', 'symfony/action/view');
+      $this->getRequest()->getAttributeHolder()->remove($module.'_'.$action.'_view_name', 'symfony/action/view');
     }
 
     return $presentation;
@@ -260,6 +312,19 @@ abstract class sfAction extends sfComponent
     throw new sfActionStopException();
   }
 
+  /**
+   * Redirects current request to a new URL, only if specified condition is true.
+   *
+   * @see redirect
+   *
+   * This method must be called as with a return:
+   *
+   * <code>return $this->redirectIf($condition, '/ModuleName/ActionName')</code>
+   *
+   * @param  bool   A condition that evaluates to true or false.
+   * @param  string url
+   * @return sfView::NONE
+   */
   public function redirectIf ($condition, $url)
   {
     if ($condition)
@@ -268,6 +333,19 @@ abstract class sfAction extends sfComponent
     }
   }
 
+  /**
+   * Redirects current request to a new URL, unless specified condition is true.
+   *
+   * @see redirect
+   *
+   * This method must be called as with a return:
+   *
+   * <code>return $this->redirectUnless($condition, '/ModuleName/ActionName')</code>
+   *
+   * @param  bool   A condition that evaluates to true or false.
+   * @param  string url
+   * @return sfView::NONE
+   */
   public function redirectUnless ($condition, $url)
   {
     if (!$condition)
@@ -405,6 +483,13 @@ abstract class sfAction extends sfComponent
     return $credentials;
   }
 
+  /**
+   * Sets an alternate template for this Action.
+   *
+   * See 'Naming Conventions' in the 'Symfony View' documentation.
+   *
+   * @param string template name
+   */
   public function setTemplate($name)
   {
     if (sfConfig::get('sf_logging_active')) $this->getContext()->getLogger()->info('{sfAction} change template to "'.$name.'"');
@@ -412,6 +497,13 @@ abstract class sfAction extends sfComponent
     $this->template = $name;
   }
 
+  /**
+   * Gets the name of the alternate template for this Action.
+   *
+   * See 'Naming Conventions' in the 'Symfony View' documentation.
+   *
+   * @return string
+   */
   public function getTemplate()
   {
     return $this->template;

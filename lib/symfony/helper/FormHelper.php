@@ -323,7 +323,7 @@ tinyMCE.init({
     error_reporting($error_reporting);
 
     $fckeditor           = new FCKeditor($name);
-    $fckeditor->BasePath = DIRECTORY_SEPARATOR.sfConfig::get('sf_rich_text_fck_js_dir').DIRECTORY_SEPARATOR;
+    $fckeditor->BasePath = '/'.sfConfig::get('sf_rich_text_fck_js_dir').'/';
     $fckeditor->Value    = $content;
 
     if (isset($options['width']))
@@ -347,6 +347,11 @@ tinyMCE.init({
     if (isset($options['tool']))
     {
       $fckeditor->ToolbarSet = $options['tool'];
+    }
+
+    if (isset($options['config']))
+    {
+      $fckeditor->Config['CustomConfigurationsPath'] = javascript_path($options['config']);
     }
 
     $content = $fckeditor->CreateHtml();
@@ -384,6 +389,36 @@ function input_upload_tag($name, $options = array())
   return input_tag($name, '', $options);
 }
 
+function input_date_range_tag($name, $value, $options = array())
+{
+  $before = '';
+  if (isset($options['before']))
+  {
+    $before = $options['before'];
+    unset($options['before']);
+  }
+
+  $middle = '';
+  if (isset($options['middle']))
+  {
+    $middle = $options['middle'];
+    unset($options['middle']);
+  }
+
+  $after = '';
+  if (isset($options['after']))
+  {
+    $after = $options['after'];
+    unset($options['after']);
+  }
+
+  return $before.
+         input_date_tag($name.'[from]', $value['from'], $options).
+         $middle.
+         input_date_tag($name.'[to]', $value['to'], $options).
+         $after;
+}
+
 function input_date_tag($name, $value, $options = array())
 {
   $options = _parse_attributes($options);
@@ -413,19 +448,14 @@ function input_date_tag($name, $value, $options = array())
   }
 
   // parse date
-  if (($value !== null) && ($value != '') && (!is_int($value)))
+  if (($value === null) || ($value === ''))
   {
-    $value = strtotime($value);
-    if ($value === -1)
-    {
-      $value = 0;
-//      throw new Exception("Unable to parse value of date as date/time value");
-    }
-    else
-    {
-      $dateFormat = new sfDateFormat($culture);
-      $value = $dateFormat->format($value, 'd');
-    }
+    $value = '';
+  }
+  else
+  {
+    $dateFormat = new sfDateFormat($culture);
+    $value = $dateFormat->format($value, 'd');
   }
 
   // register our javascripts and stylesheets
@@ -460,7 +490,11 @@ function input_date_tag($name, $value, $options = array())
   ';
 
   // construct html
-  $html = input_tag($name, $value);
+  if (!isset($options['size']))
+  {
+    $options['size'] = 9;
+  }
+  $html = input_tag($name, $value, $options);
 
   // calendar button
   $calendar_button = '...';
@@ -469,13 +503,13 @@ function input_date_tag($name, $value, $options = array())
   {
     $calendar_button = $options['calendar_button_img'];
     $calendar_button_type = 'img';
-    unset($options['calendar_button']);
+    unset($options['calendar_button_img']);
   }
   else if (isset($options['calendar_button_txt']))
   {
     $calendar_button = $options['calendar_button_txt'];
     $calendar_button_type = 'txt';
-    unset($options['calendar_button']);
+    unset($options['calendar_button_txt']);
   }
 
   if ($calendar_button_type == 'img')
@@ -484,7 +518,7 @@ function input_date_tag($name, $value, $options = array())
   }
   else
   {
-    $html .= content_tag('button', $calendar_button, array('disabled' => 'disabled', 'onclick' => 'return false', 'id' => 'trigger_'.$name));
+    $html .= content_tag('button', $calendar_button, array('type' => 'button', 'disabled' => 'disabled', 'onclick' => 'return false', 'id' => 'trigger_'.$name));
   }
 
   if (isset($options['with_format']))
@@ -952,7 +986,7 @@ function _parse_value_for_date($value, $key, $format_char)
   {
     return date($format_char, $value);
   }
-  else if ($value == '' || ($name == 'ampm' && ($value == 'AM' || $value == 'PM')))
+  else if ($value == '' || ($key == 'ampm' && ($value == 'AM' || $value == 'PM')))
   {
     return $value;
   }

@@ -257,7 +257,7 @@ ul.sf_admin_actions input
 
 .sf_admin_action_reset_filter
 {
-  background: url(/sf/images/sf_admin/cancel.png) no-repeat 3px 2px;
+  background: url(/sf/images/sf_admin/reset.png) no-repeat 3px 2px;
   border-right: 4px solid #E75C58 !important;
 }
 

@@ -404,6 +404,9 @@ if (Propel::isInit()) {
 	/** A key representing a particular subclass */
 	const CLASSKEY_".strtoupper($child->getKey())." = '" . $child->getKey() . "';
 
+        /** A key representing a particular subclass */
+        const CLASSKEY_".strtoupper($child->getClassName())." = '" . $child->getKey() . "';
+
 	/** A class that can be returned by this peer. */
 	const CLASSNAME_".strtoupper($child->getKey())." = '". $childBuilder->getClasspath() . "';
 ";
@@ -1336,7 +1339,8 @@ if (Propel::isInit()) {
 		$script .= "
 
 		\$v = ".$this->getPeerClassname()."::doSelect(\$criteria, \$con);
-        return !empty(\$v) > 0 ? \$v[0] : null;
+
+		return !empty(\$v) > 0 ? \$v[0] : null;
 	}
 ";
 	}
@@ -1439,7 +1443,8 @@ if (Propel::isInit()) {
 		}
 		$script .= "
 		\$v = ".$this->getPeerClassname()."::doSelect(\$criteria, \$con);
-        return !empty(\$v) ? \$v[0] : null;
+
+		return !empty(\$v) ? \$v[0] : null;
 	}";
 	}
 

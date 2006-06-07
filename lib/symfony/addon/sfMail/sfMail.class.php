@@ -12,7 +12,8 @@
  *
  * sfMail class.
  *
- * @package    symfony.runtime.addon
+ * @package    symfony
+ * @subpackage addon
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
  * @version    SVN: $Id$
  */
@@ -170,7 +171,7 @@ class sfMail
     {
       foreach ($addresses as $address)
       {
-        list($address, $name) = $this->splitAddress($recipient);
+        list($address, $name) = $this->splitAddress($address);
         $this->mailer->AddAddress($address, $name);
       }
     }

@@ -44,7 +44,7 @@ class sfMailView extends sfPHPView
    * Render the presentation and send the email to the client.
    *
    */
-  public function &render()
+  public function &render($templateVars = null)
   {
     $template         = $this->getDirectory().'/'.$this->getTemplate();
     $actionStackEntry = $this->getContext()->getActionStack()->getLastEntry();
@@ -85,7 +85,7 @@ class sfMailView extends sfPHPView
     $all_retvals = array();
     foreach ($all_templates as $templateFile)
     {
-      if (preg_match('/\.(.+?)\.php$/', $templateFile, $matches))
+      if (preg_match('/\.([^.]+?)\.php$/', $templateFile, $matches))
       {
         $all_retvals[$matches[1]] = $this->renderFile($templateFile);
       }

@@ -233,12 +233,6 @@ class sfWebResponse extends sfResponse
       $this->getContext()->getLogger()->info('{sfWebResponse} send status "'.$status.'"');
     }
 
-    // set headers from HTTP meta
-    foreach ($this->getHttpMetas() as $name => $value)
-    {
-      $this->setHttpHeader($name, $value, false);
-    }
-
     // headers
     foreach ($this->headers as $name => $values)
     {
@@ -343,6 +337,9 @@ class sfWebResponse extends sfResponse
     if ($override || !$this->hasParameter($key, 'helper/asset/auto/httpmeta'))
     {
       $this->setParameter($key, $value, 'helper/asset/auto/httpmeta');
+
+      // set HTTP header
+      $this->setHttpHeader($key, $value, false);
     }
   }
 
@@ -429,6 +426,46 @@ class sfWebResponse extends sfResponse
     }
 
     $this->setParameter($js, $js, 'helper/asset/auto/javascript'.$position);
+  }
+
+  public function getCookies()
+  {
+    $cookies = array();
+    foreach ($this->cookies as $cookie)
+    {
+      $cookies[$cookie['name']] = $cookie;
+    }
+
+    return $cookies;
+  }
+
+  public function getHttpHeaders()
+  {
+    return $this->headers;
+  }
+
+  public function mergeProperties($response)
+  {
+    // add stylesheets
+    foreach (array('first', '', 'last') as $position)
+    {
+      $this->getParameterHolder()->add($response->getStylesheets($position), 'helper/asset/auto/stylesheet'.$position);
+    }
+
+    // add javascripts
+    foreach (array('first', '', 'last') as $position)
+    {
+      $this->getParameterHolder()->add($response->getJavascripts($position), 'helper/asset/auto/javascript'.$position);
+    }
+
+    // add headers
+    foreach ($response->getHttpHeaders() as $name => $values)
+    {
+      foreach ($values as $value)
+      {
+        $this->setHttpHeader($name, $value);
+      }
+    }
   }
 
   /**

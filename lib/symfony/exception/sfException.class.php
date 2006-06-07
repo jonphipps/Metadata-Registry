@@ -175,6 +175,18 @@ class sfException extends Exception
       $error_reference = $matches[1];
     }
 
+    // dump main objects values
+    $sf_settings = '';
+    $settingsTable = $requestTable = $responseTable = $globalsTable = '';
+    if (class_exists('sfContext', false) && sfContext::hasInstance())
+    {
+      $context = sfContext::getInstance();
+      $settingsTable = $this->formatArrayAsHtml(sfDebug::settingsAsArray());
+      $requestTable  = $this->formatArrayAsHtml(sfDebug::requestAsArray($context->getRequest()));
+      $responseTable = $this->formatArrayAsHtml(sfDebug::responseAsArray($context->getResponse()));
+      $globalsTable  = $this->formatArrayAsHtml(sfDebug::globalsAsArray());
+    }
+
     include(sfConfig::get('sf_symfony_data_dir').'/data/exception.'.($format == 'html' ? 'php' : 'txt'));
 
     // if test, do not exit
@@ -182,6 +194,11 @@ class sfException extends Exception
     {
       exit(1);
     }
+  }
+
+  private function formatArrayAsHtml($values)
+  {
+    return '<pre>'.@sfYaml::Dump($values).'</pre>';
   }
 
   private function fileExcerpt($file, $line)

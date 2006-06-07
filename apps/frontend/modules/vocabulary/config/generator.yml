@@ -63,3 +63,10 @@ generator:
       actions:
         _edit:      { credentials: [administrator] }
         _list:
+
+    create:
+      display:      [agent_id, name, base_domain, uri, token, url, note, community]
+      actions:
+        _list:      -
+        _save:         { credentials: [[administrator, hasAgents]] }
+        _save_and_add: { credentials: [administrator] }

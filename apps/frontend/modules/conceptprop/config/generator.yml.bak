@@ -44,7 +44,7 @@ generator:
         skos_property_id: { name: skos:property, params: onchange=swapOptions() }
         language:         { type: select_language_tag }
       title:        Edit
-      display:      [concept_related_by_concept_id, skos_property_id, _object, language]
+      display:      [skos_property_id, _object, language]
       actions:
         # You can add a string literal to the query string like this: foo: "'bar'" whhich will add foo=bar
         _list:         { query_string: {concept_id: concept_id} }
@@ -57,7 +57,7 @@ generator:
       fields:
         id:           { name: ID, credentials: [administrator] }
         object:       { helper: auto_link_text }
-      display:        [id, created_at, last_updated, concept_related_by_concept_id, skos_property, object, _language]
+      display:        [id, created_at, last_updated, skos_property, object, _language]
       actions:
         _edit:        { credentials: [administrator] }
         _list:

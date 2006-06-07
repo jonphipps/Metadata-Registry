@@ -9,7 +9,7 @@
   </div>
   <div style="padding:5px 0px 0px 0px; margin:0">
     <label for="concept_property[related_concept_id]"><?php echo __('Related&nbsp;concept:') ?></label>
-    <?php echo object_select_tag($concept_property, 'getRelatedConceptId', array (
+    <?php $action = $sf_context->getActionStack()->getLastEntry()->getActionInstance(); echo object_select_tag($concept_property, 'getRelatedConceptId', array (
     'related_class' => 'Concept',
     'related_class_method' => "getConceptsByVocabID",
     'related_class_method_arg' => $action->getVocabularyId(),

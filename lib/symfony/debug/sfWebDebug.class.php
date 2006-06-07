@@ -24,7 +24,7 @@ class sfWebDebug
     $max_priority    = 1000,
     $types           = array(),
     $last_time_log   = -1,
-    $base_image_path = '/sf/images/sf_debug_stats';
+    $base_image_path = '/sf/images/sf_web_debug';
 
   private static
     $instance        = null;
@@ -71,8 +71,8 @@ class sfWebDebug
     }
 
     // register our css and js
-    $this->context->getResponse()->addJavascript('/sf/js/prototype/prototype');
-    $this->context->getResponse()->addStylesheet('/sf/css/sf_debug_stats/main');
+    $this->context->getResponse()->addJavascript('/sf/js/sf_web_debug/main');
+    $this->context->getResponse()->addStylesheet('/sf/css/sf_web_debug/main');
   }
 
   public function logShortMessage($message)
@@ -135,14 +135,14 @@ class sfWebDebug
     // replace constants value with constant name
     $log_line = strtr($log_line, $constants);
 
-    $log_line = sfToolkit::pregtr($log_line, array('/&quot;(.+?)&quot;/s' => '"<span class="sfStatsFileInfo">\\1</span>"',
-                                                   '/^(.+?)\(\)\:/S'      => '<span class="sfStatsFileInfo">\\1()</span>:',
-                                                   '/line (\d+)$/'        => 'line <span class="sfStatsFileInfo">\\1</span>'));
+    $log_line = sfToolkit::pregtr($log_line, array('/&quot;(.+?)&quot;/s' => '"<span class="sfWebDebugLogInfo">\\1</span>"',
+                                                   '/^(.+?)\(\)\:/S'      => '<span class="sfWebDebugLogInfo">\\1()</span>:',
+                                                   '/line (\d+)$/'        => 'line <span class="sfWebDebugLogInfo">\\1</span>'));
 
     // special formatting for creole/SQL lines
     if (strtolower($type) == 'creole')
     {
-      $log_line = preg_replace('/\b(SELECT|FROM|AS|LIMIT|ASC|COUNT|DESC|WHERE|LEFT JOIN|INNER JOIN|RIGHT JOIN|ORDER BY|GROUP BY|IN|LIKE|DISTINCT)\b/', '<span class="sfStatsFileInfo">\\1</span>', $log_line);
+      $log_line = preg_replace('/\b(SELECT|FROM|AS|LIMIT|ASC|COUNT|DESC|WHERE|LEFT JOIN|INNER JOIN|RIGHT JOIN|ORDER BY|GROUP BY|IN|LIKE|DISTINCT)\b/', '<span class="sfWebDebugLogInfo">\\1</span>', $log_line);
 
       // remove username/password from DSN
       if (strpos($log_line, 'DSN') !== false)
@@ -165,96 +165,42 @@ class sfWebDebug
 
     $result = '';
 
-    // total time elapsed
-    $total_time = 0;
-    if (sfConfig::get('sf_debug'))
-    {
-      $total_time = (microtime(true) - sfConfig::get('sf_timer_start')) * 1000;
-      $total_time = sprintf(($total_time <= 1) ? '%.2f' : '%.0f', $total_time);
-    }
-
-    // memory used
-    $total_memory = 0;
-    if (sfConfig::get('sf_debug') && function_exists('memory_get_usage'))
-    {
-      $total_memory = sprintf('%.1f', (memory_get_usage() / 1024));
-    }
-
     // max priority
-    $log_image = '';
+    $max_priority = '';
     if ($sf_logging_active = sfConfig::get('sf_logging_active'))
     {
-      if ($this->max_priority >= 6)
-      {
-        $log_image = 'info';
-      }
-      else if ($this->max_priority >= 4)
-      {
-        $log_image = 'warning';
-      }
-      else
-      {
-        $log_image = 'error';
-      }
+      $max_priority = $this->getPriority($this->max_priority);
     }
 
-    // short messages
-    $short_messages = '';
-    if ($this->short_log)
-    {
-      $short_messages = '<div id="sfStatsShortMessages">&raquo;&nbsp;'.implode('<br />&raquo;&nbsp;', $this->short_log).'</div>';
-    }
-
-    $result .= '
-      <div class="sfStats" id="sfStats'.ucfirst($log_image).'">
-      '.$this->displayMenu($log_image).'
-      <div id="sfStatsDetails">'.$this->displayCurrentConfig().'</div>
-      <div id="sfStatsTime">processed in <strong>'.$total_time.'</strong> ms</div>
-      '.($total_memory ? '<div id="sfStatsMemory">memory: <strong>'.$total_memory.'</strong> KB</div>' : '').'
-      '.$short_messages.'
-      </div>
-    ';
-
+    $logs = '';
+    $sql_logs = array();
     if ($sf_logging_active)
     {
-      $logs  = '<table id="sfStatsLogs">';
-      $logs .= "<tr>
-        <th>#</th>
-        <th>&nbsp;</th>
-        <th>ms</th>
-        <th>type</th>
-        <th>message</th>
-      </tr>\n";
+      $logs = '<table id="sfWebDebugLogs">
+        <tr>
+          <th>#</th>
+          <th>&nbsp;</th>
+          <th>ms</th>
+          <th>type</th>
+          <th>message</th>
+        </tr>'."\n";
       $line_nb = 0;
       foreach($this->log as $logEntry)
       {
         $log = $logEntry->getMessage();
 
-        if ($logEntry->getPriority() >= 6)
-        {
-          $class = 'Green';
-          $priority = 'info';
-        }
-        else if ($logEntry->getPriority() >= 4)
-        {
-          $class = 'Orange';
-          $priority = 'warning';
-        }
-        else
-        {
-          $class = 'Red';
-          $priority = 'error';
-        }
+        $priority = $this->getPriority($logEntry->getPriority());
 
-        if (strpos($type = $logEntry->getType(), 'sf') === 0) {
-            $type = substr($type, 2);
+        if (strpos($type = $logEntry->getType(), 'sf') === 0)
+        {
+          $type = substr($type, 2);
         }
 
         // xdebug information
         $debug_info = '';
         if ($logEntry->getDebugStack())
         {
-          $debug_info .= '&nbsp;<a href="#" onclick="Element.toggle(\'debug_'.$line_nb.'\'); return false;">'.image_tag($this->base_image_path.'/toggle.gif').'</a><div class="sfStatsDebugInfo" id="debug_'.$line_nb.'" style="display:none">';
+          $debug_info .= '&nbsp;<a href="#" onclick="sfWebDebugToggle(\'debug_'.$line_nb.'\'); return false;">'.image_tag($this->base_image_path.'/toggle.gif').'</a><div class="sfWebDebugDebugInfo" id="debug_'.$line_nb.'" style="display:none">';
           foreach ($logEntry->getDebugStack() as $i => $log_line)
           {
             $debug_info .= '#'.$i.' &raquo; '.$this->formatLogLine($type, $log_line).'<br/>';
@@ -265,72 +211,132 @@ class sfWebDebug
         // format log
         $log = $this->formatLogLine($type, $log);
 
+        // sql queries log
+        if (preg_match('/executeQuery.+?\:\s+(.+)$/', $log, $match))
+        {
+          $sql_logs[] .= $match[1]."\n";
+        }
+
         ++$line_nb;
-        $logs .= sprintf("<tr class='sfStats%s %s'><td>%s</td><td>%s</td><td>+%s&nbsp;</td><td><span class=\"sfStatsLogType\">%s</span></td><td>%s%s</td></tr>\n", $class, $logEntry->getType(), $line_nb, image_tag($this->base_image_path.'/'.$priority.'.png', 'align=middle'), $logEntry->getElapsedTime(), $type, $log, $debug_info);
+        $logs .= sprintf("<tr class='sfWebDebugLogLine sfWebDebug%s %s'><td>%s</td><td>%s</td><td>+%s&nbsp;</td><td><span class=\"sfWebDebugLogType\">%s</span></td><td>%s%s</td></tr>\n", ucfirst($priority), $logEntry->getType(), $line_nb, image_tag($this->base_image_path.'/'.$priority.'.png'), $logEntry->getElapsedTime(), $type, $log, $debug_info);
       }
       $logs .= '</table>';
-
-      $result .= javascript_tag('
-      function toggleMessages(myclass)
-      {
-        elements = document.getElementsByClassName(myclass);
-        for (i = 0, x = elements.length; i < x; ++i)
-        {
-          Element.toggle(elements[i]);
-        }
-      }
-      ');
 
       ksort($this->types);
       $types = array();
       foreach ($this->types as $type => $nb)
       {
-        $types[] = '<a id="'.$type.'" href="#" onclick="toggleMessages(\''.$type.'\'); return false;">'.$type."</a>\n";
+        $types[] = '<a id="sfWebDebug'.$type.'" href="#" onclick="sfWebDebugToggleMessages(\''.$type.'\'); return false;">'.$type.'</a>';
       }
+    }
 
-      $result .= '
-      <div id="sfStatsLogMain" style="display: none">
-        <div id="sfStatsLogMenu">
-          <div class="float">'.
-          implode('&nbsp;-&nbsp;', $types).'&nbsp;&nbsp;
-          <a href="#" onclick="toggleMessages(\'sfStatsGreen\')">'.image_tag($this->base_image_path.'/info.png', 'align=middle').'</a>&nbsp;
-          <a href="#" onclick="Element.hide(\'sfStatsLogMain\')">'.image_tag($this->base_image_path.'/close.png', 'align=middle').'</a>
-          </div>
-          <strong>Log messages</strong>
+    // ignore cache link
+    $cacheLink = '';
+    if (sfConfig::get('sf_debug') && sfConfig::get('sf_cache'))
+    {
+      $self_url = $_SERVER['PHP_SELF'].((strpos($_SERVER['PHP_SELF'], 'sf_ignore_cache') === false) ? '?sf_ignore_cache=1' : '');
+      $cacheLink = '<a href="'.$self_url.'" title="reload and ignore cache"><img src="'.$this->base_image_path.'/reload.png" /></a>';
+    }
+
+    // logging information
+    $logLink = '';
+    if (sfConfig::get('sf_logging_active'))
+    {
+      $logLink = '<li><a href="#" onclick="document.getElementById(\'sfWebDebugConfig\').style.display=\'none\';document.getElementById(\'sfWebDebugDatabaseDetails\').style.display=\'none\';sfWebDebugToggle(\'sfWebDebugLog\'); return false;"><img src="'.$this->base_image_path.'/comment.png" /> logs &amp; msgs</a></li>';
+    }
+
+    // database information
+    $dbInfo = '';
+    $dbInfoDetails = '';
+    if (null !== ($nb = $this->getDatabaseRequestNumber()))
+    {
+      $dbInfo = '<li><a href="#" onclick="document.getElementById(\'sfWebDebugConfig\').style.display=\'none\';document.getElementById(\'sfWebDebugLog\').style.display=\'none\';sfWebDebugToggle(\'sfWebDebugDatabaseDetails\'); return false;"><img src="'.$this->base_image_path.'/database.png" /> '.$nb.'</a></li>';
+
+      $dbInfoDetails = '
+        <div id="sfWebDebugDatabaseDetails">
+        <ol><li>'.implode('</li><li>', $sql_logs).'</li></ol>
         </div>
-        <div id="sfStatsLog">'.$logs.'</div>
-      </div>
       ';
     }
 
-    return '<div id="sfStatsBase">'.$result.'</div>';
-  }
-
-  private function displayMenu($log_image)
-  {
-    $result = '<div id="sfStatsRightMenu">';
-
-    if (sfConfig::get('sf_logging_active'))
+    // memory used
+    $memoryInfo = '';
+    if (sfConfig::get('sf_debug') && function_exists('memory_get_usage'))
     {
-      $result .= '<a href="#" onclick="Element.show(\'sfStatsLogMain\'); return false;">'.image_tag($this->base_image_path.'/'.$log_image.'.png', 'align=middle').'</a>&nbsp;';
+      $total_memory = sprintf('%.1f', (memory_get_usage() / 1024));
+      $memoryInfo = '<li><img src="'.$this->base_image_path.'/memory.png" /> '.$total_memory.' KB</li>';
     }
 
-    if (sfConfig::get('sf_debug') && sfConfig::get('sf_cache'))
+    // total time elapsed
+    $timeInfo = '';
+    if (sfConfig::get('sf_debug'))
     {
-      $self_url = $_SERVER['PHP_SELF'].((strpos($_SERVER['PHP_SELF'], 'ignore_cache') !== false) ? '?ignore_cache=1' : '');
-      $result .= '<a href="'.$self_url.'" title="reload and ignore cache">'.image_tag($this->base_image_path.'/reload.png', 'align=middle').'</a>';
+      $total_time = (microtime(true) - sfConfig::get('sf_timer_start')) * 1000;
+      $total_time = sprintf(($total_time <= 1) ? '%.2f' : '%.0f', $total_time);
+      $timeInfo = '<li class="last"><img src="'.$this->base_image_path.'/time.png" /> '.$total_time.' ms</li>';
+    }
+
+    // short log messages
+    $short_messages = '';
+    if ($this->short_log)
+    {
+      $short_messages = '<ul id="sfWebDebugShortMessages"><li>&raquo;&nbsp;'.implode('</li><li>&raquo&nbsp;', $this->short_log).'</li></ul>';
+    }
+
+    // logs
+    $logInfo = '';
+    if ($sf_logging_active)
+    {
+      $logInfo = $short_messages.'
+        <ul id="sfWebDebugLogMenu">
+          <li><a href="#" onclick="sfWebDebugToggleAllLogLines(true, \'sfWebDebugLogLine\'); return false;">[all]</a></li>
+          <li><a href="#" onclick="sfWebDebugToggleAllLogLines(false, \'sfWebDebugLogLine\'); return false;">[none]</a></li>
+          <li><a href="#" onclick="sfWebDebugShowOnlyLogLines(\'info\'); return false;"><img src="'.$this->base_image_path.'/info.png" /></a></li>
+          <li><a href="#" onclick="sfWebDebugShowOnlyLogLines(\'warning\'); return false;"><img src="'.$this->base_image_path.'/warning.png" /></a></li>
+          <li><a href="#" onclick="sfWebDebugShowOnlyLogLines(\'error\'); return false;"><img src="'.$this->base_image_path.'/error.png" /></a></li>
+          <li>'.implode("</li>\n<li>", $types).'</li>
+        </ul>
+        <div id="sfWebDebugLog">'.$logs.'</div>
+      ';
     }
 
     $result .= '
-    <a href="#" onclick="Element.hide(\'sfStats'.ucfirst($log_image).'\'); return false;">'.image_tag($this->base_image_path.'/close.png', 'align=middle').'</a>
+    <div id="sfWebDebug">
+      <div id="sfWebDebugBar" class="sfWebDebug'.ucfirst($max_priority).'">
+        <a href="#" onclick="sfWebDebugToggleMenu(); return false;"><img src="'.$this->base_image_path.'/sf.png" /></a>
+        <ul id="sfWebDebugDetails" class="menu">
+          <li><a href="#" onclick="document.getElementById(\'sfWebDebugLog\').style.display=\'none\';document.getElementById(\'sfWebDebugDatabaseDetails\').style.display=\'none\';sfWebDebugToggle(\'sfWebDebugConfig\'); return false;"><img src="'.$this->base_image_path.'/config.png" /> vars &amp; config</a></li>
+          '.$cacheLink.'
+          '.$logLink.'
+          '.$dbInfo.'
+          '.$memoryInfo.'
+          '.$timeInfo.'
+        </ul>
+        <a href="#" onclick="document.getElementById(\'sfWebDebug\').style.display=\'none\'; return false;"><img src="'.$this->base_image_path.'/close.png" /></a>
+      </div>
+
+      <div id="sfWebDebugLog" class="top" style="display: none">
+      <h1>Log and debug messages</h1>
+      '.$logInfo.'
+      </div>
+
+      <div id="sfWebDebugConfig" class="top" style="display: none">
+      <h1>Configuration and request variables</h1>
+      '.$this->getCurrentConfigAsHtml().'
+      </div>
+
+      <div id="sfWebDebugDatabaseDetails" class="top" style="display: none">
+      <h1>SQL queries</h1>
+      '.$dbInfoDetails
+      .'
+      </div>
     </div>
-    <div id="sfStatsLeftMenu"><a href="#" class="bold" onclick="Element.toggle(\'sfStatsDetails\', \'sfStatsTime\'); return false;">symfony</a></div>
     ';
 
     return $result;
   }
 
-  private function displayCurrentConfig()
+  private function getCurrentConfigAsHtml()
   {
     $config = array(
       'debug'        => sfConfig::get('sf_debug')             ? 'on' : 'off',
@@ -342,15 +348,38 @@ class sfWebDebug
       'compression'  => sfConfig::get('sf_compressed')        ? 'on' : 'off',
       'tidy'         => (extension_loaded('tidy'))            ? 'on' : 'off',
       'syck'         => (extension_loaded('syck'))            ? 'on' : 'off',
-      'memusage'     => (function_exists('memory_get_usage')) ? 'on' : 'off'
     );
 
-    $result = '';
+    $result = '<ul id="sfWebDebugConfigSummary">';
     foreach ($config as $key => $value)
     {
-      $result .= '<div class="is'.$value.'"><span class="float bold">['.$value.']</span>'.$key.'</div>';
+      $result .= '<li class="is'.$value.''.($key == 'syck' ? ' last' : '').'">'.$key.'</li>';
     }
+    $result .= '</ul>';
 
+    $context = sfContext::getInstance();
+    $result .= $this->formatArrayAsHtml('request',  sfDebug::requestAsArray($context->getRequest()));
+    $result .= $this->formatArrayAsHtml('response', sfDebug::responseAsArray($context->getResponse()));
+    $result .= $this->formatArrayAsHtml('settings', sfDebug::settingsAsArray());
+    $result .= $this->formatArrayAsHtml('globals',  sfDebug::globalsAsArray());
+    $result .= $this->formatArrayAsHtml('php',      sfDebug::phpInfoAsArray());
+
+    return $result;
+  }
+
+  private function formatArrayAsHtml($id, $values)
+  {
+    $id = ucfirst(strtolower($id));
+    $content = '
+    <h2>'.$id.' <a href="#" onclick="sfWebDebugToggle(\'sfWebDebug'.$id.'\'); return false;"><img src="'.$this->base_image_path.'/toggle.gif" /></a></h2>
+    <div id="sfWebDebug'.$id.'" style="display: none"><pre>'.@sfYaml::Dump($values).'</pre></div>
+    ';
+
+    return $content;
+  }
+
+  public function getDatabaseRequestNumber()
+  {
     if (sfConfig::get('sf_debug'))
     {
       // get Propel statistics if available (user created a model and a db)
@@ -363,7 +392,7 @@ class sfWebDebug
           $con = Propel::getConnection();
           if (method_exists($con, 'getNumQueriesExecuted'))
           {
-            $result .= '<div><span class="float bold">['.$con->getNumQueriesExecuted().']</span>db requests</div>';
+            return $con->getNumQueriesExecuted();
           }
         }
         catch (Exception $e)
@@ -372,15 +401,18 @@ class sfWebDebug
       }
     }
 
-    return $result;
+    return null;
   }
 
-  public function decorateContentWithDebug($internalUri, $suffix, $retval, $border_color, $bg_color)
+  public function decorateContentWithDebug($internalUri, $suffix, $retval, $new = false)
   {
     if (!sfConfig::get('sf_web_debug'))
     {
       return $retval;
     }
+
+    $border_color = $new ? '#f00' : '#f00';
+    $bg_color     = $new ? '#9ff' : '#ff9';
 
     $cache = $this->context->getViewCacheManager();
     $this->loadHelpers();
@@ -389,8 +421,8 @@ class sfWebDebug
     $id            = md5($internalUri);
     $retval = '
       <div id="main_'.$id.'" class="sfWebDebugActionCache" style="border: 1px solid '.$border_color.'">
-      <div id="sub_main_'.$id.'" class="sfStatsCache" style="background-color: '.$bg_color.'; border-right: 1px solid '.$border_color.'; border-bottom: 1px solid '.$border_color.';">
-      <div style="height: 16px; padding: 2px"><a href="#" onclick="Element.toggle(\''.$id.'\'); return false;"><strong>cache information</strong></a>&nbsp;<a href="#" onclick="Element.hide(\'sub_main_'.$id.'\'); document.getElementById(\'main_'.$id.'\').style.border = \'none\'; return false;">'.image_tag($this->base_image_path.'/close.png', 'align=middle').'</a>&nbsp;</div>
+      <div id="sub_main_'.$id.'" class="sfWebDebugCache" style="background-color: '.$bg_color.'; border-right: 1px solid '.$border_color.'; border-bottom: 1px solid '.$border_color.';">
+      <div style="height: 16px; padding: 2px"><a href="#" onclick="sfWebDebugToggle(\''.$id.'\'); return false;"><strong>cache information</strong></a>&nbsp;<a href="#" onclick="Element.hide(\'sub_main_'.$id.'\'); document.getElementById(\'main_'.$id.'\').style.border = \'none\'; return false;">'.image_tag($this->base_image_path.'/close.png').'</a>&nbsp;</div>
         <div style="padding: 2px; display: none" id="'.$id.'">
         [uri]&nbsp;'.$internalUri.'<br />
         [life&nbsp;time]&nbsp;'.$cache->getLifeTime($internalUri, $suffix).'&nbsp;seconds<br />
@@ -403,6 +435,22 @@ class sfWebDebug
     ';
 
     return $retval;
+  }
+
+  private function getPriority($value)
+  {
+    if ($value >= 6)
+    {
+      return 'info';
+    }
+    else if ($value >= 4)
+    {
+      return 'warning';
+    }
+    else
+    {
+      return 'error';
+    }
   }
 }
 

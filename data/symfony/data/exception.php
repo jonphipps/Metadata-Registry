@@ -17,6 +17,8 @@
   table.vars { padding: 0; margin: 0; border: 1px solid #999; background-color: #fff; }
   table.vars th { padding: 2px; background-color: #ddd; font-weight: bold }
   table.vars td  { padding: 2px; font-family: monospace; white-space: pre }
+  p.error { padding: 10px; background-color: #f00; font-weight: bold; text-align: center; -moz-border-radius: 10px; }
+  p.error a { color: #fff }
   #main { padding: 20px; padding-left: 70px; border: 1px solid #ddd; background-color: #fff; text-align:left; -moz-border-radius: 10px; min-width: 13em; max-width: 52em }
   #message { padding: 10px; margin-bottom: 10px; background-color: #eee; -moz-border-radius: 10px }
   </style>
@@ -33,10 +35,23 @@
   <h1>[<?php echo $name ?>]</h1>
   <h2 id="message"><?php echo $message ?></h2>
   <?php if ($error_reference): ?>
-    <p><a href='http://www.symfony-project.com/errors/<?php echo $error_reference ?>'>learn more about this issue</a></p>
-  <?php endif ?>
+    <p class="error"><a href='http://www.symfony-project.com/errors/<?php echo $error_reference ?>'>learn more about this issue</a></p>
+  <?php endif; ?>
   <h2>stack trace</h2>
   <ul><li><?php echo implode('</li><li>', $traces) ?></li></ul>
+
+  <h2>symfony settings <a href="#" onclick="toggle('sf_settings'); return false;">...</a></h2>
+  <div id="sf_settings" style="display: none"><?php echo $settingsTable ?></div>
+
+  <h2>request <a href="#" onclick="toggle('sf_request'); return false;">...</a></h2>
+  <div id="sf_request" style="display: none"><?php echo $requestTable ?></div>
+
+  <h2>response <a href="#" onclick="toggle('sf_response'); return false;">...</a></h2>
+  <div id="sf_response" style="display: none"><?php echo $responseTable ?></div>
+
+  <h2>global vars <a href="#" onclick="toggle('sf_globals'); return false;">...</a></h2>
+  <div id="sf_globals" style="display: none"><?php echo $globalsTable ?></div>
+
   <p id="footer">
     symfony v.<?php echo sfConfig::get('sf_version') ?> - php <?php echo PHP_VERSION ?><br />
     for help resolving this issue, please visit <a href="http://www.symfony-project.com/">http://www.symfony-project.com/</a>.

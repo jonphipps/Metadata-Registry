@@ -66,13 +66,13 @@ class OCI8PreparedStatement extends PreparedStatementCommon implements PreparedS
     }
     
     /**
-     * ' -> ''
+     * Nothing to do - since oci_bind is used to insert data, no escaping is needed
      * @param string $str
      * @return string
      */
     protected function escape($str)
     {
-        return str_replace("'","''", $str);
+        return $str;
     }
 
     /**
@@ -322,9 +322,9 @@ class OCI8PreparedStatement extends PreparedStatementCommon implements PreparedS
             // it's ok to have a fatal error here, IMO, if object doesn't have
             // __toString() and is being passed to this method.
             if ( is_object ( $value ) ) {
-                $this->boundInVars[$paramIndex] = $this->escape($value->__toString());
+                $this->boundInVars[$paramIndex] = $value->__toString();
             } else {
-                $this->boundInVars[$paramIndex] = $this->escape((string)$value);
+                $this->boundInVars[$paramIndex] = (string)$value;
             }
         }
     }
@@ -345,7 +345,7 @@ class OCI8PreparedStatement extends PreparedStatementCommon implements PreparedS
         } else {
             if (is_numeric($value)) $value = date('Y-m-d H:i:s', $value);
             elseif (is_object($value)) $value = date('Y-m-d H:i:s', $value->getTime());
-            $this->boundInVars[$paramIndex] = $this->escape($value);
+            $this->boundInVars[$paramIndex] = $value;
         }
     }
 
@@ -364,7 +364,7 @@ class OCI8PreparedStatement extends PreparedStatementCommon implements PreparedS
         } else {
             if (is_numeric($value)) $value = date("Y-m-d", $value);
             elseif (is_object($value)) $value = date("Y-m-d", $value->getTime());
-            $this->boundInVars[$paramIndex] = $this->escape($value);
+            $this->boundInVars[$paramIndex] = $value;
         }
     }
 

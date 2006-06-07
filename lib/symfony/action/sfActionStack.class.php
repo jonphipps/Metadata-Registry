@@ -32,7 +32,7 @@ class sfActionStack
    * @param string   An action name.
    * @param sfAction An sfAction implementation instance.
    *
-   * @return sfActionEntry sfActionEntry instance
+   * @return sfActionStackEntry sfActionStackEntry instance
    */
   public function addEntry ($moduleName, $actionName, $actionInstance, $isSlot = false)
   {
@@ -49,7 +49,7 @@ class sfActionStack
    *
    * @param int An entry index.
    *
-   * @return ActionStackEntry An action stack entry implementation.
+   * @return sfActionStackEntry An action stack entry implementation.
    */
   public function getEntry ($index)
   {
@@ -68,27 +68,17 @@ class sfActionStack
    *
    * @param int An entry index.
    *
-   * @return ActionStackEntry An action stack entry implementation.
+   * @return sfActionStackEntry An action stack entry implementation.
    */
-  public function removeEntry ($index)
+  public function popEntry ()
   {
-    $retval = $this->getEntry($index);
-
-    if ($retval)
-    {
-      unset($this->stack[$index]);
-    }
-
-    // rearranged keys
-    sort($this->stack);
-
-    return $retval;
+    return array_pop($this->stack);
   }
 
   /**
    * Retrieve the first entry.
    *
-   * @return ActionStackEntry An action stack entry implementation.
+   * @return sfActionStackEntry An action stack entry implementation.
    */
   public function getFirstEntry ()
   {
@@ -105,7 +95,7 @@ class sfActionStack
   /**
    * Retrieve the last entry.
    *
-   * @return ActionStackEntry An action stack entry implementation.
+   * @return sfActionStackEntry An action stack entry implementation.
    */
   public function getLastEntry ()
   {

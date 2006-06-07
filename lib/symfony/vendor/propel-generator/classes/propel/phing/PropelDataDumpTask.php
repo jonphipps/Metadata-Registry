@@ -319,7 +319,7 @@ class PropelDataDumpTask extends AbstractPropelDataModelTask {
                             Creole::registerDriver($dsn['phptype'], $this->databaseDriver);
                         }
 
-                        $this->conn = Creole::getConnection($dsn, Creole::NO_ASSOC_LOWER);
+                        $this->conn = Creole::getConnection($dsn);
 
                         $doc = $this->createXMLDoc($database);
                         $doc->save($outFile->getAbsolutePath());
@@ -341,7 +341,7 @@ class PropelDataDumpTask extends AbstractPropelDataModelTask {
     private function getTableDataRS($tableName) {
         // Set Statement object in associated PropelDataDump
         // instance.
-        return $this->conn->createStatement()->executeQuery("SELECT * FROM " . $tableName);
+        return $this->conn->createStatement()->executeQuery("SELECT * FROM " . $this->getPlatformForTargetDatabase()->quoteIdentifier ( $tableName ) );
     }
 
     /**
