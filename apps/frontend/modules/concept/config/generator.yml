@@ -68,7 +68,7 @@ generator:
       _listproperties: { name: Properties }
       display:        [vocabulary, id, created_at, last_updated, pref_label, uri, is_top_concept, _listproperties]
       actions:
-        _edit:        { credentials: [administrator, vocabularymaintainer] }
+        _edit:        { credentials: [[administrator, vocabularymaintainer]] }
         _list:
           query_string:
             vocabulary_id: vocabulary_id
