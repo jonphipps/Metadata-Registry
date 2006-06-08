@@ -8,11 +8,18 @@
 <td>
 <?php $skos = $property->getSkosPropertyId();
   if (in_array($skos, $skosProps)): ?>
-  <?php echo $property->getConceptRelatedByRelatedConceptId()->getPrefLabel(); ?>
+  <?php $relatedConcept = $property->getConceptRelatedByRelatedConceptId();
+    if ($relatedConcept)
+    {
+       echo link_to($relatedConcept->getPrefLabel(), 'concept/show?id=' . $relatedConcept->getId()) ;
+    }
+    else
+    {
+       echo $property->getObject();
+    } ?>
 <?php else: ?>
   <?php echo $property->getObject(); ?>
 <?php endif; ?>
 </td></tr>
   <?php endforeach ?>
   </table>
-
