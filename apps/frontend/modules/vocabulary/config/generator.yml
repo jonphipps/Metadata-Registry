@@ -6,36 +6,26 @@ generator:
 
     fields:
       id:           { name: ID }
-
-      created_at:
-        name: Date Created
-        type: plain
-        params: date_format='MM/dd/yy'
-
-      last_updated:
-        name: Last Updated
-        help: This is the date the Vocabulary was last updated
-        type: plain
-        params: date_format='MM/dd/yy'
-
+      created_at:   { name: Date Created, type: plain, params: date_format='MM/dd/yy' }
+      last_updated: { name: Last Updated, type: plain, params: date_format='MM/dd/yy', help: This is the date the Vocabulary was last updated }
       agent:        { name: Owner }
-      agent_id:
-        name: Owner
-      name:          { name: Name }
-      note:          { name: Note }
-      uri:           { name: URI }
-      url:           { name: URL }
-      base_domain:   { name: Base Domain }
-      token:         { name: Token }
-      community:     { name: Community }
-      _concepts:     { name: Concepts }
-      _versions:     { name: Versions }
+      agent_id:     { name: Owner
+      name:         { name: Name }
+      note:         { name: Note }
+      uri:          { name: URI }
+      url:          { name: URL }
+      base_domain:  { name: Base Domain }
+      token:        { name: Token }
+      community:    { name: Community }
+      _concepts:    { name: Concepts }
+      _versions:    { name: Versions }
 
     list:
       display:   [name, last_updated, agent, _concepts, _versions]
       object_actions:
         _show:
         _edit:      { credentials: [administrator] }
+        rdf:        { name: Get RDF, icon: /sf/images/sf_admin/rdf_icon.png }
       actions:
         _create:    { credentials: [administrator] }
       filters:      [agent_id]

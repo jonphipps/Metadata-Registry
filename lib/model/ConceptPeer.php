@@ -40,4 +40,19 @@ class ConceptPeer extends BaseConceptPeer {
     return $options;
   }
 
+  /**
+  * gets concept by concept URI
+  *
+  * @return Concept
+  * @param  var_type $var
+  */
+  public function getConceptByUri($conceptUri)
+  {
+    $c = new Criteria();
+    $c->add(self::URI, $conceptUri);
+
+    $concept = self::doSelectOne($c);
+
+    return $concept;
+  }
 } // ConceptPeer

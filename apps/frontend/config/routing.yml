@@ -1,3 +1,20 @@
+# rdf
+uri_concept:
+  url:  /:scheme/:concept.rdf
+  param: { module: rdf, action: showConcept, type: uri }
+
+uri_scheme:
+  url:  /:scheme.rdf
+  param: { module: rdf, action: showScheme, type: uri }
+
+rdf_concept:
+  url:  /concept/show/:id.rdf
+  param: { module: rdf, action: showConcept, type: rdf }
+
+rdf_vocabulary:
+  url:  /vocabulary/show/:id.rdf
+  param: { module: rdf, action: showScheme, type: rdf }
+
 # user
 user_profile:
   url:   /user/:nickname

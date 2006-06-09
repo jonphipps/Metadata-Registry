@@ -3,9 +3,35 @@ Options +FollowSymLinks +ExecCGI
 <IfModule mod_rewrite.c>
   RewriteEngine On
 
+  # Rewrite rule to serve HTML content from the namespace URI if requested
+  # must begin with uri. and must have no extension
+  RewriteCond %{HTTP_ACCEPT} text/html [OR]
+  RewriteCond %{HTTP_ACCEPT} application/xhtml\+xml [OR]
+  RewriteCond %{HTTP_USER_AGENT} ^Mozilla/.*
+  # add .html to the end and redirect
+  RewriteRule ^example5/$ example5-content/2005-10-31-docs/index.html [R=303]
+
+  # Rewrite rule to serve HTML content from class or prop URIs if requested
+  RewriteCond %{HTTP_ACCEPT} text/html [OR]
+  RewriteCond %{HTTP_ACCEPT} application/xhtml\+xml [OR]
+  RewriteCond %{HTTP_USER_AGENT} ^Mozilla/.*
+  RewriteRule ^example5/(.+) example5-content/2005-10-31-docs/$1.html [R=303]
+
+  # Rewrite rule to serve RDF content is requested
+  RewriteCond %{HTTP_ACCEPT} application/rdf\+xml
+  RewriteRule ^example5/ example5-content/2005-10-31.rdf [R=303]
+
+  # Choose the default response
+  # ---------------------------
+
+  # Rewrite rule to serve RDF/XML content by default
+  RewriteRule ^example5/ example5-content/2005-10-31.rdf [R=303]
+
+
   # we skip all files with .something
   RewriteCond %{REQUEST_URI} \..+$
   RewriteCond %{REQUEST_URI} !\.html$
+  RewriteCond %{REQUEST_URI} !\.rdf$
   RewriteRule .* - [L]
 
   # we skip selenium

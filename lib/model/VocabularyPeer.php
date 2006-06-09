@@ -39,4 +39,23 @@ class VocabularyPeer extends BaseVocabularyPeer {
     return $nextId;
   }
 
+  /**
+  * description
+  *
+  * @return return_type
+  * @param  var_type $var
+  */
+  function retrieveByUri($uri)
+  {
+		$con = Propel::getConnection(self::DATABASE_NAME);
+
+		$criteria = new Criteria(VocabularyPeer::DATABASE_NAME);
+
+		$criteria->add(VocabularyPeer::URI, $uri);
+
+		$v = VocabularyPeer::doSelect($criteria, $con);
+
+      return !empty($v) > 0 ? $v[0] : null;
+  }
+
 } // VocabularyPeer
