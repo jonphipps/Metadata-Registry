@@ -20,7 +20,7 @@ class vocabularyActions extends autovocabularyActions
   public function executeCreate ()
   {
     $this->vocabulary = new Vocabulary();
-    $this->vocabulary->setBaseDomain('http://purl.metadataregistry.org/');
+    $this->vocabulary->setBaseDomain('http://metadataregistry.org/uri/');
   }
 
   public function executeList ()
