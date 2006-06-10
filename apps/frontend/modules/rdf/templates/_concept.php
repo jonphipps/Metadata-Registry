@@ -1,4 +1,4 @@
-    <!-- Concept: <?php echo $concept->getPrefLabel(); ?>  -->
+<!-- Concept: <?php echo $concept->getPrefLabel(); ?>  -->
     <skos:Concept rdf:about="<?php echo $concept->getUri(); ?>">
         <skos:inScheme rdf:resource="<?php echo $vocabulary->getUri(); ?>"/>
 <?php foreach ($properties as $property): ?>

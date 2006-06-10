@@ -1,18 +1,34 @@
 # rdf
+uri_concept_html:
+  url:  /uri/:scheme/:concept.html
+  param: { module: rdf, action: showConcept, type: html }
+
+uri_scheme_html:
+  url:  /uri/:scheme.html
+  param: { module: rdf, action: showScheme, type: html }
+
 uri_concept:
-  url:  /:scheme/:concept.rdf
+  url:  /uri/:scheme/:concept.rdf
   param: { module: rdf, action: showConcept, type: uri }
 
 uri_scheme:
-  url:  /:scheme.rdf
+  url:  /uri/:scheme.rdf
   param: { module: rdf, action: showScheme, type: uri }
 
+uri_concept_unknown:
+  url:  /uri/:scheme/:concept.
+  param: { module: rdf, action: showConcept, type: unknown }
+
+uri_scheme_unknown:
+  url:  /uri/:scheme.
+  param: { module: rdf, action: showScheme, type: unknown }
+
 rdf_concept:
-  url:  /concept/show/:id.rdf
+  url:  /concept/show/id/:id.rdf
   param: { module: rdf, action: showConcept, type: rdf }
 
 rdf_vocabulary:
-  url:  /vocabulary/show/:id.rdf
+  url:  /vocabulary/show/id/:id.rdf
   param: { module: rdf, action: showScheme, type: rdf }
 
 # user
