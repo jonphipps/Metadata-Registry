@@ -19,9 +19,13 @@ class rdfActions extends sfActions
      //build the complete URI
      $rootUri = 'http://'.$_SERVER['SERVER_NAME'].'/';
      $schemeUri = $rootUri . 'uri/' . $this->getRequestParameter('scheme','');
-     $this->getContext()->getResponse()->setStatusCode(303);
+     $type = $this->getRequestParameter('type');
 
-     switch ($this->getRequestParameter('type'))
+     //$_SERVER['HTTP_ACCEPT'] = '';
+     //$_SERVER['HTTP_USER_AGENT'] = '';
+
+
+     switch ($type)
      {
        case 'rdf':
           //this URI HAS an 'id', HAS an 'rdf' suffix, and does NOT have a 'uri' action
@@ -38,10 +42,12 @@ class rdfActions extends sfActions
           $this->forward404Unless($vocabulary);
 
           //redirect
-          $this->redirect('http://' . $_SERVER['SERVER_NAME'] . '/concept/list/vocabulary_id/' . $vocabulary->getId() . '.html');
+          $this->getContext()->getResponse()->setStatusCode(303);
+          $this->redirect('http://' . $_SERVER['HTTP_HOST'] . '/concept/list/vocabulary_id/' . $vocabulary->getId() . '.html');
           break;
        case 'uri':
           //this URI does NOT have an 'id', HAS an 'rdf' suffix, and HAS a 'uri' action
+          //$this->getContext()->getResponse()->setStatusCode(303);
           $vocabulary = VocabularyPeer::retrieveByUri($schemeUri);
           break;
        default: //covers case of 'unknown' too
@@ -56,7 +62,7 @@ class rdfActions extends sfActions
 
              $this->forward404Unless($vocabulary);
              //redirect
-             $this->redirect('http://' . $_SERVER['SERVER_NAME'] . '/concept/list/vocabulary_id/' . $vocabulary->getId() . '.html');
+             $this->redirect('http://' . $_SERVER['HTTP_HOST'] . '/concept/list/vocabulary_id/' . $vocabulary->getId() . '.html');
           }
           //else if ((true === strpos($_SERVER['HTTP_ACCEPT'],'text/xml')) ||
           //    (true === strpos($_SERVER['HTTP_ACCEPT'], 'application/xml')) ||
@@ -67,7 +73,6 @@ class rdfActions extends sfActions
 
              $this->forward404Unless($vocabulary);
              //we redirect to rdf
-             $this->redirect('http://' . $_SERVER['SERVER_NAME'] . '/' . $_SERVER['REDIRECT_URL'] . '.rdf');
           }
           break;
      }
@@ -91,9 +96,12 @@ class rdfActions extends sfActions
      //build the complete URI
      $rootUri = 'http://'.$_SERVER['HTTP_HOST'].'/';
      $conceptUri = $rootUri . 'uri/' . $this->getRequestParameter('scheme','') . '/' . $this->getRequestParameter('concept','');
-     $this->getContext()->getResponse()->setStatusCode(303);
+     $type = $this->getRequestParameter('type');
 
-     switch ($this->getRequestParameter('type'))
+     //$_SERVER['HTTP_ACCEPT'] = '';
+     //$_SERVER['HTTP_USER_AGENT'] = '';
+
+     switch ($type)
      {
        case 'rdf':
           //this URI HAS an 'id', HAS an 'rdf' suffix, and does NOT have a 'uri' action
@@ -110,6 +118,7 @@ class rdfActions extends sfActions
           $this->forward404Unless($concept);
 
           //redirect
+          $this->getContext()->getResponse()->setStatusCode(303);
           $this->redirect('http://' . $_SERVER['HTTP_HOST'] . '/conceptprop/list/concept_id/' . $concept->getId() . '.html');
           break;
        case 'uri':
@@ -128,6 +137,7 @@ class rdfActions extends sfActions
 
              $this->forward404Unless($concept);
              //redirect
+             $this->getContext()->getResponse()->setStatusCode(303);
              $this->redirect('http://' . $_SERVER['HTTP_HOST'] . '/conceptprop/list/concept_id/' . $concept->getId() . '.html');
           }
           //else if ((true === strpos($_SERVER['HTTP_ACCEPT'],'text/xml')) ||
@@ -139,7 +149,8 @@ class rdfActions extends sfActions
 
              $this->forward404Unless($concept);
              //we redirect to rdf
-             $this->redirect('http://' . $_SERVER['HTTP_HOST'] . '/' . $_SERVER['REDIRECT_URL'] . '.rdf');
+             $redirectUri = ($_SERVER['REDIRECT_URL']) ? $_SERVER['REDIRECT_URL'] : $_SERVER['REQUEST_URI'];
+             $this->redirect('http://' . $_SERVER['HTTP_HOST'] .  $redirectUri . '.rdf');
           }
           break;
      }
