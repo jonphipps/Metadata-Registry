@@ -9,7 +9,7 @@ generator:
       created_at:   { name: Date Created, type: plain, params: date_format='MM/dd/yy' }
       last_updated: { name: Last Updated, type: plain, params: date_format='MM/dd/yy', help: This is the date the Vocabulary was last updated }
       agent:        { name: Owner }
-      agent_id:     { name: Owner
+      agent_id:     { name: Owner }
       name:         { name: Name }
       note:         { name: Note }
       uri:          { name: URI }

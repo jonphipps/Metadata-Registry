@@ -16,22 +16,61 @@ class rdfActions extends sfActions
    */
   public function executeShowScheme()
   {
-    if ('rdf' == $this->getRequestParameter('type'))
-    {
-       $id = $this->getRequestParameter('id');
-       $vocabulary = VocabularyPeer::retrieveByPK($id);
-    }
-    else
-    {
-        //build the complete URI
-       /**
-       * @todo set the rootURI in a config parameter
-       **/
-       $rootUri = 'http://uri.registry/';
-       $schemeUri = $rootUri . $this->getRequestParameter('scheme','');
+     //build the complete URI
+     $rootUri = 'http://'.$_SERVER['SERVER_NAME'].'/';
+     $schemeUri = $rootUri . 'uri/' . $this->getRequestParameter('scheme','');
+     $this->getContext()->getResponse()->setStatusCode(303);
 
-       $vocabulary = VocabularyPeer::retrieveByUri($schemeUri);
-    }
+     switch ($this->getRequestParameter('type'))
+     {
+       case 'rdf':
+          //this URI HAS an 'id', HAS an 'rdf' suffix, and does NOT have a 'uri' action
+          $id = $this->getRequestParameter('id');
+          $vocabulary = VocabularyPeer::retrieveByPK($id);
+          $this->getContext()->getResponse()->setStatusCode(200);
+          break;
+       case 'html':
+          //this URI does NOT have an 'id', HAS an 'html' suffix, and HAS a 'uri' action
+          //redirect to the base registry using the correct id for the scheme:
+          //   http://metadataregistry.org/concept/list/vocabulary_id/16.html
+          $vocabulary = VocabularyPeer::retrieveByUri($schemeUri);
+
+          $this->forward404Unless($vocabulary);
+
+          //redirect
+          $this->redirect('http://' . $_SERVER['SERVER_NAME'] . '/concept/list/vocabulary_id/' . $vocabulary->getId() . '.html');
+          break;
+       case 'uri':
+          //this URI does NOT have an 'id', HAS an 'rdf' suffix, and HAS a 'uri' action
+          $vocabulary = VocabularyPeer::retrieveByUri($schemeUri);
+          break;
+       default: //covers case of 'unknown' too
+          //this URI does NOT have an 'id', does NOT have a suffix, and HAS a 'uri' action
+          //do content negotiation
+          if ((true === strpos($_SERVER['HTTP_ACCEPT'],'text/html')) ||
+              (true === strpos($_SERVER['HTTP_ACCEPT'], 'application/xhtml+xml')) ||
+              (0 === strpos($_SERVER['HTTP_USER_AGENT'], 'Mozilla')) )
+          {
+             //we redirect to html
+             $vocabulary = VocabularyPeer::retrieveByUri($schemeUri);
+
+             $this->forward404Unless($vocabulary);
+             //redirect
+             $this->redirect('http://' . $_SERVER['SERVER_NAME'] . '/concept/list/vocabulary_id/' . $vocabulary->getId() . '.html');
+          }
+          //else if ((true === strpos($_SERVER['HTTP_ACCEPT'],'text/xml')) ||
+          //    (true === strpos($_SERVER['HTTP_ACCEPT'], 'application/xml')) ||
+          //    (true === strpos($_SERVER['HTTP_ACCEPT'], 'application/rdf+xml')))
+          else
+          {
+             $vocabulary = VocabularyPeer::retrieveByUri($schemeUri);
+
+             $this->forward404Unless($vocabulary);
+             //we redirect to rdf
+             $this->redirect('http://' . $_SERVER['SERVER_NAME'] . '/' . $_SERVER['REDIRECT_URL'] . '.rdf');
+          }
+          break;
+     }
 
     $this->forward404Unless($vocabulary);
 
@@ -49,26 +88,65 @@ class rdfActions extends sfActions
 
   public function executeShowConcept()
   {
-    if ('rdf' == $this->getRequestParameter('type'))
-    {
-       $id = $this->getRequestParameter('id');
-       $concept = ConceptPeer::retrieveByPK($id);
-    }
-    else
-    {
-       //build the complete URI
-       /**
-       * @todo set the rootURI in a config parameter
-       **/
-       $rootUri = 'http://uri.registry/';
-       $conceptUri = $rootUri . $this->getRequestParameter('scheme','') . '/' . $this->getRequestParameter('concept','');
+     //build the complete URI
+     $rootUri = 'http://'.$_SERVER['SERVER_NAME'].'/';
+     $conceptUri = $rootUri . 'uri/' . $this->getRequestParameter('scheme','') . '/' . $this->getRequestParameter('concept','');
+     $this->getContext()->getResponse()->setStatusCode(303);
 
-       $concept = ConceptPeer::getConceptByUri($conceptUri);
-    }
-    
-    $vocabulary = $concept->getVocabulary();
+     switch ($this->getRequestParameter('type'))
+     {
+       case 'rdf':
+          //this URI HAS an 'id', HAS an 'rdf' suffix, and does NOT have a 'uri' action
+          $id = $this->getRequestParameter('id');
+          $concept = ConceptPeer::retrieveByPK($id);
+          $this->getContext()->getResponse()->setStatusCode(200);
+          break;
+       case 'html':
+          //this URI does NOT have an 'id', HAS an 'html' suffix, and HAS a 'uri' action
+          //redirect to the base registry using the correct id for the scheme:
+          //   http://metadataregistry.org/concept/list/vocabulary_id/16.html
+          $concept = ConceptPeer::getConceptByUri($conceptUri);
+
+          $this->forward404Unless($concept);
+
+          //redirect
+          $this->redirect('http://' . $_SERVER['SERVER_NAME'] . '/conceptprop/list/concept_id/' . $concept->getId() . '.html');
+          break;
+       case 'uri':
+          //this URI does NOT have an 'id', HAS an 'rdf' suffix, and HAS a 'uri' action
+          $concept = ConceptPeer::getConceptByUri($conceptUri);
+          break;
+       default: //covers case of 'unknown' too
+          //this URI does NOT have an 'id', does NOT have a suffix, and HAS a 'uri' action
+          //do content negotiation
+          if ((true === strpos($_SERVER['HTTP_ACCEPT'],'text/html')) ||
+              (true === strpos($_SERVER['HTTP_ACCEPT'], 'application/xhtml+xml')) ||
+              (0 === strpos($_SERVER['HTTP_USER_AGENT'], 'Mozilla')) )
+          {
+             //we redirect to html
+             $concept = ConceptPeer::getConceptByUri($conceptUri);
+
+             $this->forward404Unless($concept);
+             //redirect
+             $this->redirect('http://' . $_SERVER['SERVER_NAME'] . '/conceptprop/list/concept_id/' . $concept->getId() . '.html');
+          }
+          //else if ((true === strpos($_SERVER['HTTP_ACCEPT'],'text/xml')) ||
+          //    (true === strpos($_SERVER['HTTP_ACCEPT'], 'application/xml')) ||
+          //    (true === strpos($_SERVER['HTTP_ACCEPT'], 'application/rdf+xml')))
+          else
+          {
+             $concept = ConceptPeer::getConceptByUri($conceptUri);
+
+             $this->forward404Unless($concept);
+             //we redirect to rdf
+             $this->redirect('http://' . $_SERVER['SERVER_NAME'] . '/' . $_SERVER['REDIRECT_URL'] . '.rdf');
+          }
+          break;
+     }
 
     $this->forward404Unless($concept);
+
+    $vocabulary = $concept->getVocabulary();
 
     //get the property data
     $properties = $concept->getConceptPropertysRelatedByConceptId();
