@@ -89,7 +89,7 @@ class rdfActions extends sfActions
   public function executeShowConcept()
   {
      //build the complete URI
-     $rootUri = 'http://'.$_SERVER['SERVER_NAME'].'/';
+     $rootUri = 'http://'.$_SERVER['HTTP_HOST'].'/';
      $conceptUri = $rootUri . 'uri/' . $this->getRequestParameter('scheme','') . '/' . $this->getRequestParameter('concept','');
      $this->getContext()->getResponse()->setStatusCode(303);
 
@@ -110,7 +110,7 @@ class rdfActions extends sfActions
           $this->forward404Unless($concept);
 
           //redirect
-          $this->redirect('http://' . $_SERVER['SERVER_NAME'] . '/conceptprop/list/concept_id/' . $concept->getId() . '.html');
+          $this->redirect('http://' . $_SERVER['HTTP_HOST'] . '/conceptprop/list/concept_id/' . $concept->getId() . '.html');
           break;
        case 'uri':
           //this URI does NOT have an 'id', HAS an 'rdf' suffix, and HAS a 'uri' action
@@ -128,7 +128,7 @@ class rdfActions extends sfActions
 
              $this->forward404Unless($concept);
              //redirect
-             $this->redirect('http://' . $_SERVER['SERVER_NAME'] . '/conceptprop/list/concept_id/' . $concept->getId() . '.html');
+             $this->redirect('http://' . $_SERVER['HTTP_HOST'] . '/conceptprop/list/concept_id/' . $concept->getId() . '.html');
           }
           //else if ((true === strpos($_SERVER['HTTP_ACCEPT'],'text/xml')) ||
           //    (true === strpos($_SERVER['HTTP_ACCEPT'], 'application/xml')) ||
@@ -139,7 +139,7 @@ class rdfActions extends sfActions
 
              $this->forward404Unless($concept);
              //we redirect to rdf
-             $this->redirect('http://' . $_SERVER['SERVER_NAME'] . '/' . $_SERVER['REDIRECT_URL'] . '.rdf');
+             $this->redirect('http://' . $_SERVER['HTTP_HOST'] . '/' . $_SERVER['REDIRECT_URL'] . '.rdf');
           }
           break;
      }
