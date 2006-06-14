@@ -3,14 +3,14 @@ Options +FollowSymLinks +ExecCGI
 <IfModule mod_rewrite.c>
   RewriteEngine On
 
+  # we skip selenium
+  RewriteCond %{REQUEST_URI} /selenium/.+$
+  RewriteRule .* - [L]
+
   # we skip all files with .something
   RewriteCond %{REQUEST_URI} \..+$
   RewriteCond %{REQUEST_URI} !\.html$
   RewriteCond %{REQUEST_URI} !\.rdf$
-  RewriteRule .* - [L]
-
-  # we skip selenium
-  RewriteCond %{REQUEST_URI} /selenium/.+$
   RewriteRule .* - [L]
 
   # we check if the .html version is here (caching)
