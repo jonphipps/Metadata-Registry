@@ -41,4 +41,3 @@ function link_to_profile($user)
   }
 }
 
-?>

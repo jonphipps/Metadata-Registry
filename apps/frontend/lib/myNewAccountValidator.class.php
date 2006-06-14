@@ -53,4 +53,3 @@ class myNewAccountValidator extends sfValidator
   }
 }
 
-?>

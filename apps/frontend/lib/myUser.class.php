@@ -219,4 +219,3 @@ class myUser extends sfBasicSecurityUser
   }
 }
 
-?>

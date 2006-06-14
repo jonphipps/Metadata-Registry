@@ -13,7 +13,7 @@
 <h2><?php echo __('question tags') ?></h2>
 
 <ul id="question_tags">
-  <?php echo include_partial('tag/question_tags', array('question' => $question, 'tags' => $question->getTags())) ?> 
+  <?php echo include_partial('tag/question_tags', array('question' => $question, 'tags' => $question->getTags())) ?>
 </ul>
 
 <?php if ($sf_user->isAuthenticated()): ?>

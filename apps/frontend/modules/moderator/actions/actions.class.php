@@ -85,4 +85,3 @@ class moderatorActions extends sfActions
   }
 }
 
-?>

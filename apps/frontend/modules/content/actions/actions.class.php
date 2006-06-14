@@ -39,4 +39,3 @@ class contentActions extends sfActions
   }
 }
 
-?>

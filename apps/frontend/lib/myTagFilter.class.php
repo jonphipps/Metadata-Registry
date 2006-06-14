@@ -53,4 +53,3 @@ class myTagFilter extends sfFilter
   }
 }
 
-?>

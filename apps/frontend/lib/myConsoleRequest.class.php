@@ -4,4 +4,3 @@ class myConsoleRequest extends sfConsoleRequest
 {
 }
 
-?>

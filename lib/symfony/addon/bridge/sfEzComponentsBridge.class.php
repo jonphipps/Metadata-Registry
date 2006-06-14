@@ -16,7 +16,7 @@ require_once((sfConfig::get('sf_ez_lib_dir') ? sfConfig::get('sf_ez_lib_dir').'/
  * @package    symfony
  * @subpackage addon
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
- * @version    SVN: $Id: sfEzComponentsBridge.class.php 1248 2006-04-23 05:44:10Z fabien $
+ * @version    SVN: $Id: sfEzComponentsBridge.class.php 1415 2006-06-11 08:33:51Z fabien $
  */
 class sfEzComponentsBridge
 {
@@ -25,5 +25,3 @@ class sfEzComponentsBridge
     return ezcBase::autoload($class);
   }
 }
-
-?>

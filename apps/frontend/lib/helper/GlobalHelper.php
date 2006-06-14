@@ -54,4 +54,3 @@ function pager_navigation($pager, $uri)
   return $navigation;
 }
 
-?>

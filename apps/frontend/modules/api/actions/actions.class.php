@@ -75,4 +75,3 @@ class apiActions extends sfActions
   }
 }
 
-?>

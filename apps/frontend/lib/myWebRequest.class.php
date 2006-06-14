@@ -4,4 +4,3 @@ class myWebRequest extends sfWebRequest
 {
 }
 
-?>

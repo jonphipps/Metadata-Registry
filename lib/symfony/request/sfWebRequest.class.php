@@ -324,8 +324,9 @@ class sfWebRequest extends sfRequest
   public function getUri()
   {
     $pathArray = $this->getPathInfoArray();
+    $protocol  = $this->isSecure() ? 'https' : 'http';
 
-    return 'http://'.$pathArray['HTTP_HOST'].$pathArray['REQUEST_URI'];
+    return $protocol.'://'.$pathArray['HTTP_HOST'].$pathArray['REQUEST_URI'];
   }
 
   public function getPathInfo ()
@@ -670,8 +671,11 @@ class sfWebRequest extends sfRequest
       return $this->getHttpHeader($header, 'ssl');
     }
 
-    $error = sprintf('Call to undefined function: %s::%s().', get_class($this), $name);
-    trigger_error($error, E_USER_ERROR);
+    if (substr($name, 0, 2) != '__')
+    {
+      $error = sprintf('Call to undefined function: %s::%s().', get_class($this), $name);
+      trigger_error($error, E_USER_ERROR);
+    }
   }
 
   /**
@@ -733,5 +737,3 @@ class sfWebRequest extends sfRequest
   {
   }
 }
-
-?>

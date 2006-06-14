@@ -27,7 +27,7 @@
  * @subpackage validator
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
  * @author     Fédéric Coelho <frederic.coelho@symfony-project.com>
- * @version    SVN: $Id: sfPropelUniqueValidator.class.php 1278 2006-04-26 09:57:32Z fabien $
+ * @version    SVN: $Id: sfPropelUniqueValidator.class.php 1415 2006-06-11 08:33:51Z fabien $
  */
 class sfPropelUniqueValidator extends sfValidator
 {
@@ -98,5 +98,3 @@ class sfPropelUniqueValidator extends sfValidator
     return true;
   }
 }
-
-?>

@@ -15,4 +15,3 @@ class menubarComponents extends sfComponents
   }
 }
 
-?>

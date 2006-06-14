@@ -9,7 +9,7 @@
  */
 
 // fix for PHP 5.0 (no Countable interface)
-if (!in_array('Countable', spl_classes()))
+if (!interface_exists('Countable', false))
 {
   interface Countable
   {
@@ -29,18 +29,20 @@ if (!in_array('Countable', spl_classes()))
 class sfOutputEscaperArrayDecorator extends sfOutputEscaperGetterDecorator implements Iterator, ArrayAccess, Countable
 {
   /**
-   * Used by the iterator to remember if the current element is valid.
+   * Used by the iterator to know if the current element is valid.
    *
-   * @var boolean
+   * @var int
    */
-  private $valid = false;
+  private $count;
 
   /**
    * Reset the array to the beginning (as required for the Iterator interface).
    */
   public function rewind()
   {
-    $this->valid = (reset($this->value) !== false);
+    reset($this->value);
+
+    $this->count = count($this->value);
   }
 
   /**
@@ -73,7 +75,9 @@ class sfOutputEscaperArrayDecorator extends sfOutputEscaperGetterDecorator imple
    */
   public function next()
   {
-    $this->valid = (next($this->value) !== false);
+    next($this->value);
+
+    $this->count --;
   }
 
   /**
@@ -88,7 +92,7 @@ class sfOutputEscaperArrayDecorator extends sfOutputEscaperGetterDecorator imple
    */
   public function valid()
   {
-    return $this->valid;
+    return $this->count > 0;
   }
 
   /**
@@ -168,5 +172,3 @@ class sfOutputEscaperArrayDecorator extends sfOutputEscaperGetterDecorator imple
     return $this->value[$key];
   }
 }
-
-?>

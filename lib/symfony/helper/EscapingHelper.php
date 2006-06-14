@@ -39,7 +39,9 @@
  */
 function esc_entities($value)
 {
-  return htmlentities($value, ENT_QUOTES, 'UTF-8');
+  // Numbers and boolean values get turned into strings which can cause problems
+  // with type comparisons (e.g. === or is_int() etc).
+  return is_string($value) ? htmlentities($value, ENT_QUOTES, 'UTF-8') : $value;
 }
 
 define('ESC_ENTITIES', 'esc_entities');
@@ -90,5 +92,3 @@ function esc_js_no_entities($value)
 }
 
 define('ESC_JS_NO_ENTITIES', 'esc_js_no_entities');
-
-?>

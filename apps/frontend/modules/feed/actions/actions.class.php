@@ -101,5 +101,3 @@ class feedActions extends sfActions
     $this->feed = $feed;
   }
 }
-
-?>

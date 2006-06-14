@@ -34,7 +34,7 @@ class Inheritance extends XMLElement {
 
     private $key;
     private $className;
-	private $pkg;
+	  private $pkg;
     private $ancestor;
     private $parent;
 
@@ -46,7 +46,7 @@ class Inheritance extends XMLElement {
     {
         $this->key = $this->getAttribute("key");
         $this->className = $this->getAttribute("class");
-		$this->pkg = $this->getAttribute("package");
+		    $this->pkg = $this->getAttribute("package");
         $this->ancestor = $this->getAttribute("extends");
     }
 

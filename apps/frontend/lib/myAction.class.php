@@ -4,4 +4,3 @@ class myAction extends sfAction
 {
 }
 
-?>

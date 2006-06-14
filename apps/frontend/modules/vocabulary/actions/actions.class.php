@@ -31,5 +31,3 @@ class vocabularyActions extends autovocabularyActions
     parent::executeList();
   }
 }
-
-?>

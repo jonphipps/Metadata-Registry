@@ -24,7 +24,7 @@ else
  * @package    symfony
  * @subpackage addon
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
- * @version    SVN: $Id: sfZendFrameworkBridge.class.php 1248 2006-04-23 05:44:10Z fabien $
+ * @version    SVN: $Id: sfZendFrameworkBridge.class.php 1415 2006-06-11 08:33:51Z fabien $
  */
 class sfZendFrameworkBridge
 {
@@ -42,5 +42,3 @@ class sfZendFrameworkBridge
     return true;
   }
 }
-
-?>

@@ -85,4 +85,3 @@ else
   require_once(sfConfig::get('sf_symfony_lib_dir').'/symfony.php');
 }
 
-?>

@@ -28,4 +28,3 @@
   return truncate_text($property->getObject(), 30);
 }
 
-?>

@@ -4,4 +4,3 @@ class myConsoleController extends sfConsoleController
 {
 }
 
-?>

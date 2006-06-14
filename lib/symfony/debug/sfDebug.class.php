@@ -14,7 +14,7 @@
  * @package    symfony
  * @subpackage debug
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
- * @version    SVN: $Id: sfDebug.class.php 1357 2006-05-13 15:34:31Z fabien $
+ * @version    SVN: $Id: sfDebug.class.php 1415 2006-06-11 08:33:51Z fabien $
  */
 class sfDebug
 {
@@ -110,5 +110,3 @@ class sfDebug
     return $values;
   }
 }
-
-?>

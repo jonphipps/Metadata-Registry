@@ -341,4 +341,3 @@ class sfPropelCrudGenerator extends sfGenerator
   }
 }
 
-?>

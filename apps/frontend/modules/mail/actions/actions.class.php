@@ -28,4 +28,3 @@ class mailActions extends sfActions
   }
 }
 
-?>

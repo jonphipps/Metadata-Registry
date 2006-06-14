@@ -20,4 +20,3 @@ class sidebarComponents extends sfComponents
   }
 }
 
-?>

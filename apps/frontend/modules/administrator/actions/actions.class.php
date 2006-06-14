@@ -88,4 +88,3 @@ class administratorActions extends sfActions
   }
 }
 
-?>
