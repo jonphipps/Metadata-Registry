@@ -111,7 +111,7 @@ if (!function_exists('__autoload'))
 {
   function __autoload($class)
   {
-    static $functions;
+	 static $functions;
 
     if (!$functions)
     {

@@ -68,9 +68,9 @@ class VocabularyHasUserMapBuilder {
 
 		$tMap->addForeignPrimaryKey('USER_ID', 'UserId', 'int' , CreoleTypes::INTEGER, 'reg_user', 'ID', true, null);
 
-		$tMap->addColumn('IS_MAINTAINER_FOR', 'IsMaintainerFor', 'boolean', CreoleTypes::BOOLEAN, false, null);
+		$tMap->addColumn('IS_MAINTAINER_FOR', 'IsMaintainerFor', 'boolean', CreoleTypes::BOOLEAN, false);
 
-		$tMap->addColumn('IS_REGISTRAR_FOR', 'IsRegistrarFor', 'boolean', CreoleTypes::BOOLEAN, false, null);
+		$tMap->addColumn('IS_REGISTRAR_FOR', 'IsRegistrarFor', 'boolean', CreoleTypes::BOOLEAN, false);
 				
     } // doBuild()
 

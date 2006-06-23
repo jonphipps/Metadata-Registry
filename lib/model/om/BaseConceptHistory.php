@@ -211,7 +211,7 @@ abstract class BaseConceptHistory extends BaseObject  implements Persistent {
 
 		if ($this->aConceptProperty !== null && $this->aConceptProperty->getId() !== $v) {
 			$this->aConceptProperty = null;
-		}		
+		}
 
 	} // setConceptPropertyId()
 
@@ -231,7 +231,7 @@ abstract class BaseConceptHistory extends BaseObject  implements Persistent {
 
 		if ($this->aUser !== null && $this->aUser->getId() !== $v) {
 			$this->aUser = null;
-		}		
+		}
 
 	} // setUserId()
 
@@ -381,7 +381,7 @@ abstract class BaseConceptHistory extends BaseObject  implements Persistent {
 		if ($con === null) {
 			$con = Propel::getConnection(ConceptHistoryPeer::DATABASE_NAME);
 		}
-		
+
 		try {
 			$con->begin();
 			$affectedRows = $this->doSave($con);
@@ -395,7 +395,7 @@ abstract class BaseConceptHistory extends BaseObject  implements Persistent {
 
 	/**
 	 * Stores the object in the database.
-	 * 
+	 *
 	 * If the object is new, it inserts it; otherwise an update is performed.
 	 * All related objects are also updated in this method.
 	 *
@@ -406,7 +406,7 @@ abstract class BaseConceptHistory extends BaseObject  implements Persistent {
 	 */
 	protected function doSave($con)
 	{
-		$affectedRows = 0; // initialize var to track total num of affected rows	
+		$affectedRows = 0; // initialize var to track total num of affected rows
 		if (!$this->alreadyInSave) {
 			$this->alreadyInSave = true;
 
@@ -429,14 +429,14 @@ abstract class BaseConceptHistory extends BaseObject  implements Persistent {
 				}
 				$this->setConceptProperty($this->aConceptProperty);
 			}
-	
+
 
 			// If this object has been modified, then save it to the database.
 			if ($this->isModified()) {
 				if ($this->isNew()) {
 					$pk = ConceptHistoryPeer::doInsert($this, $con);
-					$affectedRows += 1; // we are assuming that there is only 1 row per doInsert() which 
-										 // should always be true here (even though technically 
+					$affectedRows += 1; // we are assuming that there is only 1 row per doInsert() which
+										 // should always be true here (even though technically
 										 // BasePeer::doInsert() can insert multiple rows).
 
 					$this->setNew(false);
@@ -760,7 +760,7 @@ abstract class BaseConceptHistory extends BaseObject  implements Persistent {
 
 	/**
 	 * Sets contents of passed object to values from current object.
-	 * 
+	 *
 	 * If desired, this method can also make copies of all associated (fkey referrers)
 	 * objects.
 	 *
@@ -792,7 +792,7 @@ abstract class BaseConceptHistory extends BaseObject  implements Persistent {
 	 * Makes a copy of this object that will be inserted as a new row in table when saved.
 	 * It creates a new object filling in the simple attributes, but skipping any primary
 	 * keys that are defined for the table.
-	 * 
+	 *
 	 * If desired, this method can also make copies of all associated (fkey referrers)
 	 * objects.
 	 *
@@ -863,7 +863,7 @@ abstract class BaseConceptHistory extends BaseObject  implements Persistent {
 		if ($this->aUser === null && ($this->user_id !== null)) {
 
 			$this->aUser = UserPeer::retrieveByPK($this->user_id, $con);
-					
+
 			/* The following can be used instead of the line above to
 			   guarantee the related object contains a reference
 			   to this object, but this level of coupling
@@ -914,7 +914,7 @@ abstract class BaseConceptHistory extends BaseObject  implements Persistent {
 		if ($this->aConceptProperty === null && ($this->concept_property_id !== null)) {
 
 			$this->aConceptProperty = ConceptPropertyPeer::retrieveByPK($this->concept_property_id, $con);
-					
+
 			/* The following can be used instead of the line above to
 			   guarantee the related object contains a reference
 			   to this object, but this level of coupling

@@ -137,36 +137,36 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	 * @var array
 	 */
 	protected $collAgentHasUsers;
-	
+
 	/**
 	 * The criteria used to select the current contents of collAgentHasUsers.
 	 * @var Criteria
 	 */
-	private $lastAgentHasUserCriteria = null;
+	protected $lastAgentHasUserCriteria = null;
 
 	/**
 	 * Collection to store aggregation of collConceptHistorys.
 	 * @var array
 	 */
 	protected $collConceptHistorys;
-	
+
 	/**
 	 * The criteria used to select the current contents of collConceptHistorys.
 	 * @var Criteria
 	 */
-	private $lastConceptHistoryCriteria = null;
+	protected $lastConceptHistoryCriteria = null;
 
 	/**
 	 * Collection to store aggregation of collVocabularyHasUsers.
 	 * @var array
 	 */
 	protected $collVocabularyHasUsers;
-	
+
 	/**
 	 * The criteria used to select the current contents of collVocabularyHasUsers.
 	 * @var Criteria
 	 */
-	private $lastVocabularyHasUserCriteria = null;
+	protected $lastVocabularyHasUserCriteria = null;
 
 	/**
 	 * Flag to prevent endless save loop, if this object is referenced
@@ -756,7 +756,7 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		if ($con === null) {
 			$con = Propel::getConnection(UserPeer::DATABASE_NAME);
 		}
-		
+
 		try {
 			$con->begin();
 			$affectedRows = $this->doSave($con);
@@ -770,7 +770,7 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 	/**
 	 * Stores the object in the database.
-	 * 
+	 *
 	 * If the object is new, it inserts it; otherwise an update is performed.
 	 * All related objects are also updated in this method.
 	 *
@@ -781,17 +781,17 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	 */
 	protected function doSave($con)
 	{
-		$affectedRows = 0; // initialize var to track total num of affected rows	
+		$affectedRows = 0; // initialize var to track total num of affected rows
 		if (!$this->alreadyInSave) {
 			$this->alreadyInSave = true;
-	
+
 
 			// If this object has been modified, then save it to the database.
 			if ($this->isModified()) {
 				if ($this->isNew()) {
 					$pk = UserPeer::doInsert($this, $con);
-					$affectedRows += 1; // we are assuming that there is only 1 row per doInsert() which 
-										 // should always be true here (even though technically 
+					$affectedRows += 1; // we are assuming that there is only 1 row per doInsert() which
+										 // should always be true here (even though technically
 										 // BasePeer::doInsert() can insert multiple rows).
 
 					$this->setId($pk);  //[IMV] update autoincrement primary key
@@ -1216,7 +1216,7 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 	/**
 	 * Sets contents of passed object to values from current object.
-	 * 
+	 *
 	 * If desired, this method can also make copies of all associated (fkey referrers)
 	 * objects.
 	 *
@@ -1262,21 +1262,15 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 			$copyObj->setNew(false);
 
 			foreach($this->getAgentHasUsers() as $relObj) {
-				if($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
-					$copyObj->addAgentHasUser($relObj->copy($deepCopy));
-				}
+				$copyObj->addAgentHasUser($relObj->copy($deepCopy));
 			}
 
 			foreach($this->getConceptHistorys() as $relObj) {
-				if($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
-					$copyObj->addConceptHistory($relObj->copy($deepCopy));
-				}
+				$copyObj->addConceptHistory($relObj->copy($deepCopy));
 			}
 
 			foreach($this->getVocabularyHasUsers() as $relObj) {
-				if($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
-					$copyObj->addVocabularyHasUser($relObj->copy($deepCopy));
-				}
+				$copyObj->addVocabularyHasUser($relObj->copy($deepCopy));
 			}
 
 		} // if ($deepCopy)
@@ -1292,7 +1286,7 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	 * Makes a copy of this object that will be inserted as a new row in table when saved.
 	 * It creates a new object filling in the simple attributes, but skipping any primary
 	 * keys that are defined for the table.
-	 * 
+	 *
 	 * If desired, this method can also make copies of all associated (fkey referrers)
 	 * objects.
 	 *

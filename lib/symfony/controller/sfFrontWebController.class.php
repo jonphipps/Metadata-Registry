@@ -39,13 +39,13 @@ class sfFrontWebController extends sfWebController
         $this->getContext()->getLogger()->info('{sfFrontWebController} dispatch request');
       }
 
-      // determine our module and action
-      $request    = $this->getContext()->getRequest();
+		// determine our module and action
+		$request    = $this->getContext()->getRequest();
       $moduleName = $request->getParameter('module');
-      $actionName = $request->getParameter('action');
+		$actionName = $request->getParameter('action');
 
       // make the first request
-      $this->forward($moduleName, $actionName);
+		$this->forward($moduleName, $actionName);
     }
     catch (sfException $e)
     {

@@ -1113,7 +1113,8 @@ abstract class BaseConceptHistoryPeer {
 		$criteria->add(ConceptHistoryPeer::SID, $sid);
 		$criteria->add(ConceptHistoryPeer::CONCEPT_PROPERTY_ID, $concept_property_id);
 		$v = ConceptHistoryPeer::doSelect($criteria, $con);
-        return !empty($v) ? $v[0] : null;
+
+		return !empty($v) ? $v[0] : null;
 	}
 } // BaseConceptHistoryPeer
 

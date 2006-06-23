@@ -78,18 +78,6 @@ abstract class BaseAgentPeer {
 	/** the column name for the TYPE field */
 	const TYPE = 'reg_agent.TYPE';
 
-	/** A key representing a particular subclass */
-	const CLASSKEY_INDIVIDUAL = 'INDIVIDUAL';
-
-	/** A class that can be returned by this peer. */
-	const CLASSNAME_INDIVIDUAL = 'model.Individual';
-
-	/** A key representing a particular subclass */
-	const CLASSKEY_ORGANIZATION = 'ORGANIZATION';
-
-	/** A class that can be returned by this peer. */
-	const CLASSNAME_ORGANIZATION = 'model.Organization';
-
 	/** The PHP to DB Name Mapping */
 	private static $phpNameMap = null;
 
@@ -365,11 +353,12 @@ abstract class BaseAgentPeer {
 	{
 		$results = array();
 	
+		// set the class once to avoid overhead in the loop
+		$cls = AgentPeer::getOMClass();
+		$cls = Propel::import($cls);
 		// populate the object(s)
 		while($rs->next()) {
 		
-			// class must be set each time from the record row
-			$cls = Propel::import(AgentPeer::getOMClass($rs, 1));
 			$obj = new $cls();
 			$obj->hydrate($rs);
 			$results[] = $obj;
@@ -390,40 +379,17 @@ abstract class BaseAgentPeer {
 	}
 
 	/**
-	 * The returned Class will contain objects of the default type or
-	 * objects that inherit from the default.
+	 * The class that the Peer will make instances of.
 	 *
-	 * @param ResultSet $rs ResultSet with pointer to record containing om class.
-	 * @param int $colnum Column to examine for OM class information (first is 1).
-	 * @throws PropelException Any exceptions caught during processing will be
-	 *		 rethrown wrapped into a PropelException.
+	 * This uses a dot-path notation which is tranalted into a path
+	 * relative to a location on the PHP include_path.
+	 * (e.g. path.to.MyClass -> 'path/to/MyClass.php')
+	 *
+	 * @return string path.to.ClassName
 	 */
-	public static function getOMClass(ResultSet $rs, $colnum)
+	public static function getOMClass()
 	{
-		try {
-
-			$omClass = null;
-			$classKey = $rs->getString($colnum - 1 + 16);
-
-			switch($classKey) {
-
-				case self::CLASSKEY_INDIVIDUAL:
-					$omClass = self::CLASSNAME_INDIVIDUAL;
-					break;
-
-				case self::CLASSKEY_ORGANIZATION:
-					$omClass = self::CLASSNAME_ORGANIZATION;
-					break;
-
-				default:
-					$omClass = self::CLASS_DEFAULT;
-
-			} // switch
-
-		} catch (Exception $e) {
-			throw new PropelException('Unable to get OM class.', $e);
-		}
-		return $omClass;
+		return AgentPeer::CLASS_DEFAULT;
 	}
 
 	/**
@@ -637,7 +603,8 @@ abstract class BaseAgentPeer {
 
 
 		$v = AgentPeer::doSelect($criteria, $con);
-        return !empty($v) > 0 ? $v[0] : null;
+
+		return !empty($v) > 0 ? $v[0] : null;
 	}
 
 	/**

@@ -475,7 +475,7 @@ abstract class BaseAgentHasUserPeer {
 			$obj1 = new $cls();
 			$obj1->hydrate($rs);
 
-			$omClass = AgentPeer::getOMClass($rs, $startcol);
+			$omClass = AgentPeer::getOMClass();
 
 			$cls = Propel::import($omClass);
 			$obj2 = new $cls();
@@ -611,7 +611,7 @@ abstract class BaseAgentHasUserPeer {
 				
 				// Add objects for joined Agent rows
 	
-			$omClass = AgentPeer::getOMClass($rs, $startcol3);
+			$omClass = AgentPeer::getOMClass();
 
 	
 			$cls = Propel::import($omClass);
@@ -756,7 +756,7 @@ abstract class BaseAgentHasUserPeer {
 			$obj1 = new $cls();
 			$obj1->hydrate($rs);		
 
-			$omClass = AgentPeer::getOMClass($rs, $startcol2);
+			$omClass = AgentPeer::getOMClass();
 
 	
 			$cls = Propel::import($omClass);
@@ -1103,7 +1103,8 @@ abstract class BaseAgentHasUserPeer {
 		$criteria->add(AgentHasUserPeer::USER_ID, $user_id);
 		$criteria->add(AgentHasUserPeer::AGENT_ID, $agent_id);
 		$v = AgentHasUserPeer::doSelect($criteria, $con);
-        return !empty($v) ? $v[0] : null;
+
+		return !empty($v) ? $v[0] : null;
 	}
 } // BaseAgentHasUserPeer
 

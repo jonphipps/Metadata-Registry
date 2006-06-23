@@ -1103,7 +1103,8 @@ abstract class BaseVocabularyHasUserPeer {
 		$criteria->add(VocabularyHasUserPeer::VOCABULARY_ID, $vocabulary_id);
 		$criteria->add(VocabularyHasUserPeer::USER_ID, $user_id);
 		$v = VocabularyHasUserPeer::doSelect($criteria, $con);
-        return !empty($v) ? $v[0] : null;
+
+		return !empty($v) ? $v[0] : null;
 	}
 } // BaseVocabularyHasUserPeer
 

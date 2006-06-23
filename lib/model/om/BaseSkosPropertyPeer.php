@@ -608,7 +608,8 @@ abstract class BaseSkosPropertyPeer {
 
 
 		$v = SkosPropertyPeer::doSelect($criteria, $con);
-        return !empty($v) > 0 ? $v[0] : null;
+
+		return !empty($v) > 0 ? $v[0] : null;
 	}
 
 	/**

@@ -20,6 +20,18 @@
  */	
 class SkosPropertyPeer extends BaseSkosPropertyPeer {
 
+	/** the value for the altLabel ID  */
+	const LABEL_ALT_ID = 1;
+
+	/** the value for the hiddenLabel ID  */
+	const LABEL_HIDDEN_ID = 9;
+
+	/** the value for the prefLabel ID  */
+	const LABEL_PREF_ID = 19;
+
+	/** the value for the label ID  */
+	const LABEL_ID = 27;
+
   /**
   * description
   *
@@ -39,4 +51,6 @@ class SkosPropertyPeer extends BaseSkosPropertyPeer {
 
     return $results;
   }
+
+
 } // SkosPropertyPeer

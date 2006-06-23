@@ -598,7 +598,8 @@ abstract class BaseUserPeer {
 
 
 		$v = UserPeer::doSelect($criteria, $con);
-        return !empty($v) > 0 ? $v[0] : null;
+
+		return !empty($v) > 0 ? $v[0] : null;
 	}
 
 	/**

@@ -418,7 +418,7 @@ abstract class BaseVocabularyPeer {
 			$obj1 = new $cls();
 			$obj1->hydrate($rs);
 
-			$omClass = AgentPeer::getOMClass($rs, $startcol);
+			$omClass = AgentPeer::getOMClass();
 
 			$cls = Propel::import($omClass);
 			$obj2 = new $cls();
@@ -521,7 +521,7 @@ abstract class BaseVocabularyPeer {
 				
 				// Add objects for joined Agent rows
 	
-			$omClass = AgentPeer::getOMClass($rs, $startcol2);
+			$omClass = AgentPeer::getOMClass();
 
 	
 			$cls = Propel::import($omClass);
@@ -786,7 +786,8 @@ abstract class BaseVocabularyPeer {
 
 
 		$v = VocabularyPeer::doSelect($criteria, $con);
-        return !empty($v) > 0 ? $v[0] : null;
+
+		return !empty($v) > 0 ? $v[0] : null;
 	}
 
 	/**

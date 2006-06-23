@@ -68,9 +68,9 @@ class AgentHasUserMapBuilder {
 
 		$tMap->addForeignPrimaryKey('AGENT_ID', 'AgentId', 'int' , CreoleTypes::INTEGER, 'reg_agent', 'ID', true, null);
 
-		$tMap->addColumn('IS_REGISTRAR_FOR', 'IsRegistrarFor', 'boolean', CreoleTypes::BOOLEAN, false, null);
+		$tMap->addColumn('IS_REGISTRAR_FOR', 'IsRegistrarFor', 'boolean', CreoleTypes::BOOLEAN, false);
 
-		$tMap->addColumn('IS_ADMIN_FOR', 'IsAdminFor', 'boolean', CreoleTypes::BOOLEAN, false, null);
+		$tMap->addColumn('IS_ADMIN_FOR', 'IsAdminFor', 'boolean', CreoleTypes::BOOLEAN, false);
 				
     } // doBuild()
 

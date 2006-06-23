@@ -151,12 +151,12 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 	 * @var array
 	 */
 	protected $collConceptPropertys;
-	
+
 	/**
 	 * The criteria used to select the current contents of collConceptPropertys.
 	 * @var Criteria
 	 */
-	private $lastConceptPropertyCriteria = null;
+	protected $lastConceptPropertyCriteria = null;
 
 	/**
 	 * Flag to prevent endless save loop, if this object is referenced
@@ -743,7 +743,7 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 		if ($con === null) {
 			$con = Propel::getConnection(SkosPropertyPeer::DATABASE_NAME);
 		}
-		
+
 		try {
 			$con->begin();
 			$affectedRows = $this->doSave($con);
@@ -757,7 +757,7 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 
 	/**
 	 * Stores the object in the database.
-	 * 
+	 *
 	 * If the object is new, it inserts it; otherwise an update is performed.
 	 * All related objects are also updated in this method.
 	 *
@@ -768,17 +768,17 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 	 */
 	protected function doSave($con)
 	{
-		$affectedRows = 0; // initialize var to track total num of affected rows	
+		$affectedRows = 0; // initialize var to track total num of affected rows
 		if (!$this->alreadyInSave) {
 			$this->alreadyInSave = true;
-	
+
 
 			// If this object has been modified, then save it to the database.
 			if ($this->isModified()) {
 				if ($this->isNew()) {
 					$pk = SkosPropertyPeer::doInsert($this, $con);
-					$affectedRows += 1; // we are assuming that there is only 1 row per doInsert() which 
-										 // should always be true here (even though technically 
+					$affectedRows += 1; // we are assuming that there is only 1 row per doInsert() which
+										 // should always be true here (even though technically
 										 // BasePeer::doInsert() can insert multiple rows).
 
 					$this->setId($pk);  //[IMV] update autoincrement primary key
@@ -1189,7 +1189,7 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 
 	/**
 	 * Sets contents of passed object to values from current object.
-	 * 
+	 *
 	 * If desired, this method can also make copies of all associated (fkey referrers)
 	 * objects.
 	 *
@@ -1239,9 +1239,7 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 			$copyObj->setNew(false);
 
 			foreach($this->getConceptPropertys() as $relObj) {
-				if($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
-					$copyObj->addConceptProperty($relObj->copy($deepCopy));
-				}
+				$copyObj->addConceptProperty($relObj->copy($deepCopy));
 			}
 
 		} // if ($deepCopy)
@@ -1257,7 +1255,7 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 	 * Makes a copy of this object that will be inserted as a new row in table when saved.
 	 * It creates a new object filling in the simple attributes, but skipping any primary
 	 * keys that are defined for the table.
-	 * 
+	 *
 	 * If desired, this method can also make copies of all associated (fkey referrers)
 	 * objects.
 	 *

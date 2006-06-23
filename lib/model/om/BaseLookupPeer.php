@@ -45,6 +45,9 @@ abstract class BaseLookupPeer {
 	/** A key representing a particular subclass */
 	const CLASSKEY_1 = '1';
 
+        /** A key representing a particular subclass */
+        const CLASSKEY_STATUS = '1';
+
 	/** A class that can be returned by this peer. */
 	const CLASSNAME_1 = 'model.Status';
 
@@ -567,7 +570,8 @@ abstract class BaseLookupPeer {
 
 
 		$v = LookupPeer::doSelect($criteria, $con);
-        return !empty($v) > 0 ? $v[0] : null;
+
+		return !empty($v) > 0 ? $v[0] : null;
 	}
 
 	/**
