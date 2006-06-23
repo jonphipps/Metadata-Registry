@@ -92,7 +92,8 @@ class conceptActions extends autoconceptActions
 
     //current vocabulary can't be retrieved, so we send back to the list
     //TODO: forward to an intermediate error page
-    $this->forwardUnless($vocabId,'vocabulary','list');
+    //TODO: This shouldn't happen here
+    //$this->forwardUnless($vocabId,'vocabulary','list');
 
     return $vocabObj;
   }
@@ -113,6 +114,7 @@ class conceptActions extends autoconceptActions
   {
     $this->redirect('/conceptprop/list?concept_id=' . $this->getRequestParameter('id') );
   }
+
 }
 
 

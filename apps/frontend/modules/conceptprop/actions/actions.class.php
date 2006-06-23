@@ -105,7 +105,7 @@ class conceptpropActions extends autoconceptpropActions
       $attributeHolder = $this->getUser()->getAttributeHolder();
       myActionTools::updateAdminFilters($attributeHolder, 'concept_id', $conceptId, 'concept_property');
     }
-    //concept_id's not in the query string, but it's in a filter
+	 //concept_id's not in the query string, but it's in a filter
     elseif (isset($this->filters['concept_id']) && $this->filters['concept_id'] !== '')
     {
       $conceptId = $this->filters['concept_id'];
@@ -129,7 +129,8 @@ class conceptpropActions extends autoconceptpropActions
     //current Concept can't be retrieved, so we send back to the vocabulary list
     //TODO: make this smarter and check for a vocabulary. If there is, go back to the concepts for it instead
     //TODO: forward to an intermediate error page
-    $this->forwardUnless($conceptId,'vocabulary','list');
+    //TODO: This shouldn't happen here
+    //$this->forwardUnless($conceptId,'vocabulary','list');
 
     return $conceptObj;
   }
@@ -146,5 +147,71 @@ class conceptpropActions extends autoconceptpropActions
     return $conceptObj;
   }
 
-}
+  public function executeSearch ()
+  {
+	  $sort_column = $this->getRequestParameter('sort');
+	  if ($sort_column)
+	  {
+			switch ($sort_column)
+		  {
+			 case 'concept_pref_label':
+				$sort_column = ConceptPropertyPeer::CONCEPT_PREF_LABEL;
+				break;
+			 case 'vocabulary_name':
+				$sort_column = ConceptPropertyPeer::VOCABULARY_NAME;
+				break;
+			 case 'skos_property_name':
+				$sort_column = ConceptPropertyPeer::SKOS_PROPERTY_NAME;
+				break;
+			 case 'object':
+				$sort_column = ConceptPropertyPeer::OBJECT;
+				break;
+		  }
+		$this->getUser()->setAttribute('sort', $this->getRequestParameter('sort'), 'sf_admin/concept_search/sort');
+		$this->getUser()->setAttribute('type', $this->getRequestParameter('type', 'asc'), 'sf_admin/concept_search/sort');
+	  }
 
+	 if ($this->getRequest()->hasParameter('search'))
+    {
+      $this->getRequest()->setParameter('filter','filter');
+      $filters = array('label' => $this->getRequestParameter('search'));
+      $this->getUser()->getAttributeHolder()->removeNamespace('sf_admin/concept_search/filters');
+      $this->getUser()->getAttributeHolder()->add($filters, 'sf_admin/concept_search/filters');
+	 }
+	 $this->filters = $this->getUser()->getAttributeHolder()->getAll('sf_admin/concept_search/filters');
+
+    // pager
+	 $this->pager = new sfPropelPager('ConceptProperty', 20);
+
+	 $c = new Criteria();
+
+	 //set sort criteria
+	 if ($sort_column)
+	 {
+		if ($this->getUser()->getAttribute('type', null, 'sf_admin/concept_search/sort') == 'asc')
+		{
+		  $c->addAscendingOrderByColumn($sort_column);
+		}
+		else
+		{
+		  $c->addDescendingOrderByColumn($sort_column);
+		}
+	 }
+
+	 if (isset($this->filters['label']) && $this->filters['label'] !== '')
+    {
+      $c->add(ConceptPropertyPeer::OBJECT, '%' . $this->filters['label'] . '%', Criteria::LIKE);
+      $c->add(ConceptPropertyPeer::SKOS_PROPERTY_ID,
+        array(SkosPropertyPeer::LABEL,
+          SkosPropertyPeer::LABEL_ALT_ID,
+          SkosPropertyPeer::LABEL_HIDDEN_ID,
+          SkosPropertyPeer::LABEL_PREF_ID), Criteria::IN);
+    }
+
+    $this->pager->setCriteria($c);
+    $this->pager->setPeerMethod('doSelectSearchResults');
+    $this->pager->setPage($this->getRequestParameter('page', 1));
+    $this->pager->init();
+  } //executeSearch
+
+}

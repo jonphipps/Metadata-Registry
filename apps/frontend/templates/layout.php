@@ -29,6 +29,9 @@
     <div style="padding-top: 10px;">
       <?php echo link_to(image_tag('logo.gif.jpg', 'alt=registry align=left'), '@homepage') ?>
     </div>
+    <div id="search">
+      <?php include_partial('conceptprop/search') ?>
+    </div>
   </div>
 
   <div id="login" style="display: none">
@@ -41,6 +44,7 @@
       <?php echo link_to_function(__('cancel'), visual_effect('blind_up', 'login', array('duration' => 0.5))) ?>
     </form>
   </div>
+
 
   <div id="content">
     <div id="content_main">

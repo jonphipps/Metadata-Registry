@@ -86,24 +86,24 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	 * @var array
 	 */
 	protected $collConceptPropertysRelatedByConceptId;
-	
+
 	/**
 	 * The criteria used to select the current contents of collConceptPropertysRelatedByConceptId.
 	 * @var Criteria
 	 */
-	private $lastConceptPropertyRelatedByConceptIdCriteria = null;
+	protected $lastConceptPropertyRelatedByConceptIdCriteria = null;
 
 	/**
 	 * Collection to store aggregation of collConceptPropertysRelatedByRelatedConceptId.
 	 * @var array
 	 */
 	protected $collConceptPropertysRelatedByRelatedConceptId;
-	
+
 	/**
 	 * The criteria used to select the current contents of collConceptPropertysRelatedByRelatedConceptId.
 	 * @var Criteria
 	 */
-	private $lastConceptPropertyRelatedByRelatedConceptIdCriteria = null;
+	protected $lastConceptPropertyRelatedByRelatedConceptIdCriteria = null;
 
 	/**
 	 * Flag to prevent endless save loop, if this object is referenced
@@ -205,7 +205,7 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 
 	/**
 	 * Get the [pref_label] column value.
-	 * 
+	 *
 	 * @return string
 	 */
 	public function getPrefLabel()
@@ -216,7 +216,7 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 
 	/**
 	 * Get the [vocabulary_id] column value.
-	 * 
+	 *
 	 * @return int
 	 */
 	public function getVocabularyId()
@@ -318,7 +318,7 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 
 	/**
 	 * Set the value of [pref_label] column.
-	 * 
+	 *
 	 * @param string $v new value
 	 * @return void
 	 */
@@ -334,7 +334,7 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 
 	/**
 	 * Set the value of [vocabulary_id] column.
-	 * 
+	 *
 	 * @param int $v new value
 	 * @return void
 	 */
@@ -348,7 +348,7 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 
 		if ($this->aVocabulary !== null && $this->aVocabulary->getId() !== $v) {
 			$this->aVocabulary = null;
-		}		
+		}
 
 	} // setVocabularyId()
 
@@ -465,7 +465,7 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 		if ($con === null) {
 			$con = Propel::getConnection(ConceptPeer::DATABASE_NAME);
 		}
-		
+
 		try {
 			$con->begin();
 			$affectedRows = $this->doSave($con);
@@ -479,7 +479,7 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 
 	/**
 	 * Stores the object in the database.
-	 * 
+	 *
 	 * If the object is new, it inserts it; otherwise an update is performed.
 	 * All related objects are also updated in this method.
 	 *
@@ -490,7 +490,7 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	 */
 	protected function doSave($con)
 	{
-		$affectedRows = 0; // initialize var to track total num of affected rows	
+		$affectedRows = 0; // initialize var to track total num of affected rows
 		if (!$this->alreadyInSave) {
 			$this->alreadyInSave = true;
 
@@ -506,14 +506,14 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 				}
 				$this->setVocabulary($this->aVocabulary);
 			}
-	
+
 
 			// If this object has been modified, then save it to the database.
 			if ($this->isModified()) {
 				if ($this->isNew()) {
 					$pk = ConceptPeer::doInsert($this, $con);
-					$affectedRows += 1; // we are assuming that there is only 1 row per doInsert() which 
-										 // should always be true here (even though technically 
+					$affectedRows += 1; // we are assuming that there is only 1 row per doInsert() which
+										 // should always be true here (even though technically
 										 // BasePeer::doInsert() can insert multiple rows).
 
 					$this->setId($pk);  //[IMV] update autoincrement primary key
@@ -862,7 +862,7 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 
 	/**
 	 * Sets contents of passed object to values from current object.
-	 * 
+	 *
 	 * If desired, this method can also make copies of all associated (fkey referrers)
 	 * objects.
 	 *
@@ -892,15 +892,11 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 			$copyObj->setNew(false);
 
 			foreach($this->getConceptPropertysRelatedByConceptId() as $relObj) {
-				if($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
-					$copyObj->addConceptPropertyRelatedByConceptId($relObj->copy($deepCopy));
-				}
+				$copyObj->addConceptPropertyRelatedByConceptId($relObj->copy($deepCopy));
 			}
 
 			foreach($this->getConceptPropertysRelatedByRelatedConceptId() as $relObj) {
-				if($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
-					$copyObj->addConceptPropertyRelatedByRelatedConceptId($relObj->copy($deepCopy));
-				}
+				$copyObj->addConceptPropertyRelatedByRelatedConceptId($relObj->copy($deepCopy));
 			}
 
 		} // if ($deepCopy)
@@ -916,7 +912,7 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	 * Makes a copy of this object that will be inserted as a new row in table when saved.
 	 * It creates a new object filling in the simple attributes, but skipping any primary
 	 * keys that are defined for the table.
-	 * 
+	 *
 	 * If desired, this method can also make copies of all associated (fkey referrers)
 	 * objects.
 	 *
@@ -987,7 +983,7 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 		if ($this->aVocabulary === null && ($this->vocabulary_id !== null)) {
 
 			$this->aVocabulary = VocabularyPeer::retrieveByPK($this->vocabulary_id, $con);
-					
+
 			/* The following can be used instead of the line above to
 			   guarantee the related object contains a reference
 			   to this object, but this level of coupling

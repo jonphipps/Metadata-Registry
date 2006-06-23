@@ -31,6 +31,11 @@ rdf_vocabulary:
   url:  /vocabulary/show/id/:id.rdf
   param: { module: rdf, action: showScheme, type: rdf }
 
+# concepts
+concept_search:
+  url:   /search/*
+  param: { module: conceptprop, action: search }
+
 # user
 user_profile:
   url:   /user/:nickname

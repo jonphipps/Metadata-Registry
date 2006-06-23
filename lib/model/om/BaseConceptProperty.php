@@ -127,12 +127,12 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 	 * @var array
 	 */
 	protected $collConceptHistorys;
-	
+
 	/**
 	 * The criteria used to select the current contents of collConceptHistorys.
 	 * @var Criteria
 	 */
-	private $lastConceptHistoryCriteria = null;
+	protected $lastConceptHistoryCriteria = null;
 
 	/**
 	 * Flag to prevent endless save loop, if this object is referenced
@@ -378,7 +378,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 
 		if ($this->aConceptRelatedByConceptId !== null && $this->aConceptRelatedByConceptId->getId() !== $v) {
 			$this->aConceptRelatedByConceptId = null;
-		}		
+		}
 
 	} // setConceptId()
 
@@ -398,7 +398,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 
 		if ($this->aSkosProperty !== null && $this->aSkosProperty->getId() !== $v) {
 			$this->aSkosProperty = null;
-		}		
+		}
 
 	} // setSkosPropertyId()
 
@@ -434,7 +434,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 
 		if ($this->aVocabulary !== null && $this->aVocabulary->getId() !== $v) {
 			$this->aVocabulary = null;
-		}		
+		}
 
 	} // setSchemeId()
 
@@ -454,7 +454,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 
 		if ($this->aConceptRelatedByRelatedConceptId !== null && $this->aConceptRelatedByRelatedConceptId->getId() !== $v) {
 			$this->aConceptRelatedByRelatedConceptId = null;
-		}		
+		}
 
 	} // setRelatedConceptId()
 
@@ -490,7 +490,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 
 		if ($this->aLookup !== null && $this->aLookup->getId() !== $v) {
 			$this->aLookup = null;
-		}		
+		}
 
 	} // setStatusId()
 
@@ -597,7 +597,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 		if ($con === null) {
 			$con = Propel::getConnection(ConceptPropertyPeer::DATABASE_NAME);
 		}
-		
+
 		try {
 			$con->begin();
 			$affectedRows = $this->doSave($con);
@@ -611,7 +611,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 
 	/**
 	 * Stores the object in the database.
-	 * 
+	 *
 	 * If the object is new, it inserts it; otherwise an update is performed.
 	 * All related objects are also updated in this method.
 	 *
@@ -622,7 +622,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 	 */
 	protected function doSave($con)
 	{
-		$affectedRows = 0; // initialize var to track total num of affected rows	
+		$affectedRows = 0; // initialize var to track total num of affected rows
 		if (!$this->alreadyInSave) {
 			$this->alreadyInSave = true;
 
@@ -666,14 +666,14 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 				}
 				$this->setConceptRelatedByRelatedConceptId($this->aConceptRelatedByRelatedConceptId);
 			}
-	
+
 
 			// If this object has been modified, then save it to the database.
 			if ($this->isModified()) {
 				if ($this->isNew()) {
 					$pk = ConceptPropertyPeer::doInsert($this, $con);
-					$affectedRows += 1; // we are assuming that there is only 1 row per doInsert() which 
-										 // should always be true here (even though technically 
+					$affectedRows += 1; // we are assuming that there is only 1 row per doInsert() which
+										 // should always be true here (even though technically
 										 // BasePeer::doInsert() can insert multiple rows).
 
 					$this->setId($pk);  //[IMV] update autoincrement primary key
@@ -1057,7 +1057,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 
 	/**
 	 * Sets contents of passed object to values from current object.
-	 * 
+	 *
 	 * If desired, this method can also make copies of all associated (fkey referrers)
 	 * objects.
 	 *
@@ -1093,9 +1093,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 			$copyObj->setNew(false);
 
 			foreach($this->getConceptHistorys() as $relObj) {
-				if($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
-					$copyObj->addConceptHistory($relObj->copy($deepCopy));
-				}
+				$copyObj->addConceptHistory($relObj->copy($deepCopy));
 			}
 
 		} // if ($deepCopy)
@@ -1111,7 +1109,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 	 * Makes a copy of this object that will be inserted as a new row in table when saved.
 	 * It creates a new object filling in the simple attributes, but skipping any primary
 	 * keys that are defined for the table.
-	 * 
+	 *
 	 * If desired, this method can also make copies of all associated (fkey referrers)
 	 * objects.
 	 *
@@ -1182,7 +1180,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 		if ($this->aSkosProperty === null && ($this->skos_property_id !== null)) {
 
 			$this->aSkosProperty = SkosPropertyPeer::retrieveByPK($this->skos_property_id, $con);
-					
+
 			/* The following can be used instead of the line above to
 			   guarantee the related object contains a reference
 			   to this object, but this level of coupling
@@ -1233,7 +1231,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 		if ($this->aConceptRelatedByConceptId === null && ($this->concept_id !== null)) {
 
 			$this->aConceptRelatedByConceptId = ConceptPeer::retrieveByPK($this->concept_id, $con);
-					
+
 			/* The following can be used instead of the line above to
 			   guarantee the related object contains a reference
 			   to this object, but this level of coupling
@@ -1284,7 +1282,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 		if ($this->aVocabulary === null && ($this->scheme_id !== null)) {
 
 			$this->aVocabulary = VocabularyPeer::retrieveByPK($this->scheme_id, $con);
-					
+
 			/* The following can be used instead of the line above to
 			   guarantee the related object contains a reference
 			   to this object, but this level of coupling
@@ -1335,7 +1333,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 		if ($this->aLookup === null && ($this->status_id !== null)) {
 
 			$this->aLookup = LookupPeer::retrieveByPK($this->status_id, $con);
-					
+
 			/* The following can be used instead of the line above to
 			   guarantee the related object contains a reference
 			   to this object, but this level of coupling
@@ -1386,7 +1384,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 		if ($this->aConceptRelatedByRelatedConceptId === null && ($this->related_concept_id !== null)) {
 
 			$this->aConceptRelatedByRelatedConceptId = ConceptPeer::retrieveByPK($this->related_concept_id, $con);
-					
+
 			/* The following can be used instead of the line above to
 			   guarantee the related object contains a reference
 			   to this object, but this level of coupling

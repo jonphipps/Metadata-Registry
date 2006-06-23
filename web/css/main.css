@@ -281,6 +281,15 @@ div#footer
   text-align: right;
 }
 
+div#search
+{
+  float: right;
+  margin-top:20px;
+  padding-left: 100px;
+  padding-right: 10px;
+  text-align: right;
+}
+
 .form_error
 {
   padding-left: 85px;
