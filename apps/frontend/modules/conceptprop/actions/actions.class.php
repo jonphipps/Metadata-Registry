@@ -202,10 +202,10 @@ class conceptpropActions extends autoconceptpropActions
     {
       $c->add(ConceptPropertyPeer::OBJECT, '%' . $this->filters['label'] . '%', Criteria::LIKE);
       $c->add(ConceptPropertyPeer::SKOS_PROPERTY_ID,
-        array(SkosPropertyPeer::LABEL,
-          SkosPropertyPeer::LABEL_ALT_ID,
-          SkosPropertyPeer::LABEL_HIDDEN_ID,
-          SkosPropertyPeer::LABEL_PREF_ID), Criteria::IN);
+		  array(SkosPropertyPeer::LABEL_ID,
+			 SkosPropertyPeer::LABEL_ALT_ID,
+			 SkosPropertyPeer::LABEL_HIDDEN_ID,
+			 SkosPropertyPeer::LABEL_PREF_ID), Criteria::IN);
     }
 
     $this->pager->setCriteria($c);

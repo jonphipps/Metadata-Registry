@@ -28,8 +28,9 @@ p
 
 #sf_admin_bar
 {
-  margin: 50px 0px 0px 0px;
+  margin: 0px 0px 0px 0px;
   position: absolute;
+  top: 150px;
   right: 0px;
   width: 240px;
 }
@@ -303,6 +304,20 @@ ul.sf_admin_actions input
 .sf_admin_filters li
 {
   list-style-type: none;
+}
+
+.sf_admin_filters label
+{
+ background-color: white; 
+margin-right: 0px;
+padding-right: 0px;
+}
+
+.sf_admin_filters .content
+{
+ background-color: white; 
+margin-left: 0px;
+padding-left: 0px;
 }
 
 .sf_admin_row_0 td

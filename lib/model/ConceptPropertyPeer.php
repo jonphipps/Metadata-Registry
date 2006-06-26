@@ -64,7 +64,7 @@ class ConceptPropertyPeer extends BaseConceptPropertyPeer {
 		$c->addJoin(ConceptPropertyPeer::SKOS_PROPERTY_ID, SkosPropertyPeer::ID);
 
       //populateObjects(ResultSet $rs)
-      $rs = self::doSelectRS($c);
+		$rs = self::doSelectRS($c);
       $results = array();
 
 		// set the class once to avoid overhead in the loop
