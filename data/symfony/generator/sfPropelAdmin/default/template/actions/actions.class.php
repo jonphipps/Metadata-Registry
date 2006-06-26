@@ -37,6 +37,9 @@ class <?php echo $this->getGeneratedModuleName() ?>Actions extends sfActions
     $this->addFiltersCriteria($c);
     $this->pager->setCriteria($c);
     $this->pager->setPage($this->getRequestParameter('page', 1));
+<?php if ($this->getParameterValue('list.peer_method')): ?>
+    $this->pager->setPeerMethod('<?php echo $this->getParameterValue('list.peer_method') ?>');
+<?php endif ?>
     $this->pager->init();
   }
 
@@ -346,6 +349,7 @@ class <?php echo $this->getGeneratedModuleName() ?>Actions extends sfActions
   {
     if ($sort_column = $this->getUser()->getAttribute('sort', null, 'sf_admin/<?php echo $this->getSingularName() ?>/sort'))
     {
+      $sort_column = Propel::getDB($c->getDbName())->quoteIdentifier($sort_column);
       if ($this->getUser()->getAttribute('type', null, 'sf_admin/<?php echo $this->getSingularName() ?>/sort') == 'asc')
       {
         $c->addAscendingOrderByColumn($sort_column);

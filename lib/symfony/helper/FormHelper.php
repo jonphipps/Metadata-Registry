@@ -21,28 +21,40 @@ require_once(sfConfig::get('sf_symfony_lib_dir').'/helper/ValidationHelper.php')
  * @version    SVN: $Id$
  */
 
-/*
-      # Accepts a container (hash, array, enumerable, your type) and returns a string of option tags. Given a container
-      # where the elements respond to first and last (such as a two-element array), the "lasts" serve as option values and
-      # the "firsts" as option text. Hashes are turned into this form automatically, so the keys become "firsts" and values
-      # become lasts. If +selected+ is specified, the matching "last" or element will get the selected option-tag.  +Selected+
-      # may also be an array of values to be selected when using a multiple select.
-      #
-      # Examples (call, result):
-      #   options_for_select([["Dollar", "$"], ["Kroner", "DKK"]])
-      #     <option value="$">Dollar</option>\n<option value="DKK">Kroner</option>
-      #
-      #   options_for_select([ "VISA", "MasterCard" ], "MasterCard")
-      #     <option>VISA</option>\n<option selected="selected">MasterCard</option>
-      #
-      #   options_for_select({ "Basic" => "$20", "Plus" => "$40" }, "$40")
-      #     <option value="$20">Basic</option>\n<option value="$40" selected="selected">Plus</option>
-      #
-      #   options_for_select([ "VISA", "MasterCard", "Discover" ], ["VISA", "Discover"])
-      #     <option selected="selected">VISA</option>\n<option>MasterCard</option>\n<option selected="selected">Discover</option>
-      #
-      # NOTE: Only the option tags are returned, you have to wrap this call in a regular HTML select tag.
-*/
+/**
+ * Returns a formatted set of <option> tags based on optional <i>$options</i> array variable.
+ *
+ * The options_for_select helper is usually called in conjunction with the select_tag helper, as it is relatively
+ * useless on its own. By passing an array of <i>$options</i>, the helper will automatically generate <option> tags
+ * using the array key as the value and the array value as the display title. Additionally the options_for_select tag is
+ * smart enough to detect nested arrays as <optgroup> tags.  If the helper detects that the array value is an array itself,
+ * it creates an <optgroup> tag with the name of the group being the key and the contents of the <optgroup> being the array.
+ *
+ * <b>Options:</b>
+ * - include_blank  - Includes a blank <option> tag at the beginning of the string with an empty value
+ * - include_custom - Includes an <option> tag with a custom display title at the beginning of the string with an empty value
+ *
+ * <b>Examples:</b>
+ * <code>
+ *  echo select_tag('person', options_for_select(array(1 => 'Larry', 2 => 'Moe', 3 => 'Curly')));
+ * </code>
+ *
+ * <code>
+ *  $card_list = array('VISA' => 'Visa', 'MAST' => 'MasterCard', 'AMEX' => 'American Express', 'DISC' => 'Discover');
+ *  echo select_tag('cc_type', options_for_select($card_list), 'AMEX', array('include_custom' => '-- Select Credit Card Type --'));
+ * </code>
+ *
+ * <code>
+ *  $optgroup_array = array(1 => 'Joe', 2 => 'Sue', 'Group A' => array(3 => 'Mary', 4 => 'Tom'), 'Group B' => array(5 => 'Bill', 6 =>'Andy'));
+ *  echo select_tag('employee', options_for_select($optgroup_array, null, array('include_blank' => true)), array('class' => 'mystyle'));
+ * </code>
+ *
+ * @param  array dataset to create <option> tags and <optgroup> tags from
+ * @param  string selected option value
+ * @param  array  additional HTML compliant <option> tag parameters
+ * @return string populated with <option> tags derived from the <i>$options</i> array variable
+ * @see select_tag
+ */
 function options_for_select($options = array(), $selected = '', $html_options = array())
 {
   $html_options = _parse_attributes($html_options);
@@ -95,13 +107,24 @@ function options_for_select($options = array(), $selected = '', $html_options = 
   return $html;
 }
 
-/*
-    # Starts a form tag that points the action to an url configured with <tt>url_for_options</tt> just like
-    # ActionController::Base#url_for. The method for the form defaults to POST.
-    #
-    # Options:
-    # * <tt>:multipart</tt> - If set to true, the enctype is set to "multipart/form-data".
-*/
+/**
+ * Returns an HTML <form> tag that points to a valid action, route or URL as defined by <i>$url_for_options</i>.
+ *
+ * By default, the form tag is generated in POST format, but can easily be configured along with any additional
+ * HTML parameters via the optional <i>$options</i> parameter. If you are using file uploads, be sure to set the 
+ * <i>multipart</i> option to true.
+ *
+ * <b>Options:</b>
+ * - multipart - When set to true, enctype is set to "multipart/form-data".
+ *
+ * <b>Examples:</b>
+ *   <code><?php echo form_tag('@myroute'); ?></code>
+ *   <code><?php echo form_tag('/module/action', array('name' => 'myformname', 'multipart' => true)); ?></code>
+ *
+ * @param  string valid action, route or URL
+ * @param  array optional HTML parameters for the <form> tag
+ * @return string opening HTML <form> tag with options
+ */
 function form_tag($url_for_options = '', $options = array())
 {
   $options = _parse_attributes($options);
@@ -123,6 +146,38 @@ function form_tag($url_for_options = '', $options = array())
   return tag('form', $html_options, true);
 }
 
+/**
+ * Returns a <select> tag, optionally comprised of <option> tags.
+ *
+ * The select tag does not generate <option> tags by default.  
+ * To do so, you must populate the <i>$option_tags</i> parameter with a string of valid HTML compliant <option> tags.
+ * Fortunately, Symfony provides a handy helper function to convert an array of data into option tags (see options_for_select). 
+ * If you need to create a "multiple" select tag (ability to select multiple options), set the <i>multiple</i> option to true.  
+ * Doing so will automatically convert the name field to an array type variable (i.e. name="name" becomes name="name[]").
+ * 
+ * <b>Options:</b>
+ * - multiple - If set to true, the select tag will allow multiple options to be selected at once.
+ *
+ * <b>Examples:</b>
+ * <code>
+ *  $person_list = array(1 => 'Larry', 2 => 'Moe', 3 => 'Curly');
+ *  echo select_tag('person', options_for_select($person_list, $sf_params->get('person')), array('class' => 'full'));
+ * </code>
+ *
+ * <code>
+ *  echo select_tag('department', options_for_select($department_list), array('multiple' => true));
+ * </code>
+ *
+ * <code>
+ *  echo select_tag('url', options_for_select($url_list), array('onChange' => 'Javascript:this.form.submit();'));
+ * </code>
+ *
+ * @param  string field name 
+ * @param  string contains a string of valid <option></option> tags
+ * @param  array  additional HTML compliant <select> tag parameters
+ * @return string <select> tag optionally comprised of <option> tags.
+ * @see options_for_select, content_tag
+ */
 function select_tag($name, $option_tags = null, $options = array())
 {
   $options = _convert_options($options);
@@ -132,9 +187,33 @@ function select_tag($name, $option_tags = null, $options = array())
     $name .= '[]';
   }
 
-  return content_tag('select', $option_tags, array_merge(array('name' => $name, 'id' => get_name_from_id($id)), $options));
+  return content_tag('select', $option_tags, array_merge(array('name' => $name, 'id' => get_id_from_name($id)), $options));
 }
 
+/**
+ * Returns a <select> tag populated with all the countries in the world.
+ *
+ * The select_country_tag builds off the traditional select_tag function, and is conveniently populated with 
+ * all the countries in the world (sorted alphabetically). Each option in the list has a two-character country 
+ * code for its value and the country's name as its display title.  The country data is retrieved via the sfCultureInfo
+ * class, which stores a wide variety of i18n and i10n settings for various countries and cultures throughout the world.
+ * Here's an example of an <option> tag generated by the select_country_tag:
+ *
+ * <samp>
+ *  <option value="US">United States</option>
+ * </samp>
+ *
+ * <b>Examples:</b>
+ * <code>
+ *  echo select_country_tag('country', 'FR');
+ * </code>
+ *
+ * @param  string field name 
+ * @param  string selected field value (two-character country code)
+ * @param  array  additional HTML compliant <select> tag parameters
+ * @return string <select> tag populated with all the countries in the world.
+ * @see select_tag, options_for_select, sfCultureInfo
+ */
 function select_country_tag($name, $value, $options = array())
 {
   $c = new sfCultureInfo(sfContext::getInstance()->getUser()->getCulture());
@@ -158,6 +237,30 @@ function select_country_tag($name, $value, $options = array())
   return select_tag($name, $option_tags, $options);
 }
 
+/**
+ * Returns a <select> tag populated with all the languages in the world (or almost).
+ *
+ * The select_language_tag builds off the traditional select_tag function, and is conveniently populated with 
+ * all the languages in the world (sorted alphabetically). Each option in the list has a two or three character 
+ * language/culture code for its value and the language's name as its display title.  The country data is 
+ * retrieved via the sfCultureInfo class, which stores a wide variety of i18n and i10n settings for various 
+ * countries and cultures throughout the world. Here's an example of an <option> tag generated by the select_country_tag:
+ *
+ * <samp>
+ *  <option value="en">English</option>
+ * </samp>
+ *
+ * <b>Examples:</b>
+ * <code>
+ *  echo select_language_tag('language', 'de');
+ * </code>
+ *
+ * @param  string field name 
+ * @param  string selected field value (two or threecharacter language/culture code)
+ * @param  array  additional HTML compliant <select> tag parameters
+ * @return string <select> tag populated with all the languages in the world.
+ * @see select_tag, options_for_select, sfCultureInfo
+ */
 function select_language_tag($name, $value, $options = array())
 {
   $c = new sfCultureInfo(sfContext::getInstance()->getUser()->getCulture());
@@ -181,11 +284,48 @@ function select_language_tag($name, $value, $options = array())
   return select_tag($name, $option_tags, $options);
 }
 
+/**
+ * Returns an XHTML compliant <input> tag with type="text".
+ *
+ * The input_tag helper generates your basic XHTML <input> tag and can utilize any standard <input> tag parameters 
+ * passed in the optional <i>$options</i> parameter.
+ *
+ * <b>Examples:</b>
+ * <code>
+ *  echo input_tag('name');
+ * </code>
+ *
+ * <code>
+ *  echo input_tag('amount', $sf_params->get('amount'), array('size' => 8, 'maxlength' => 8));
+ * </code>
+ *
+ * @param  string field name 
+ * @param  string selected field value
+ * @param  array  additional HTML compliant <input> tag parameters
+ * @return string XHTML compliant <input> tag with type="text"
+ */
 function input_tag($name, $value = null, $options = array())
 {
-  return tag('input', array_merge(array('type' => 'text', 'name' => $name, 'id' => get_name_from_id($name, $value), 'value' => $value), _convert_options($options)));
+  return tag('input', array_merge(array('type' => 'text', 'name' => $name, 'id' => get_id_from_name($name, $value), 'value' => $value), _convert_options($options)));
 }
 
+/**
+ * Returns an XHTML compliant <input> tag with type="hidden".
+ *
+ * Similar to the input_tag helper, the input_hidden_tag helper generates an XHTML <input> tag and can utilize 
+ * any standard <input> tag parameters passed in the optional <i>$options</i> parameter.  The only difference is 
+ * that it creates the tag with type="hidden", meaning that is not visible on the page.
+ *
+ * <b>Examples:</b>
+ * <code>
+ *  echo input_hidden_tag('id', $id);
+ * </code>
+ *
+ * @param  string field name 
+ * @param  string populated field value
+ * @param  array  additional HTML compliant <input> tag parameters
+ * @return string XHTML compliant <input> tag with type="hidden"
+ */
 function input_hidden_tag($name, $value = null, $options = array())
 {
   $options = _parse_attributes($options);
@@ -194,6 +334,26 @@ function input_hidden_tag($name, $value = null, $options = array())
   return input_tag($name, $value, $options);
 }
 
+/**
+ * Returns an XHTML compliant <input> tag with type="file".
+ *
+ * Similar to the input_tag helper, the input_hidden_tag helper generates your basic XHTML <input> tag and can utilize
+ * any standard <input> tag parameters passed in the optional <i>$options</i> parameter.  The only difference is that it 
+ * creates the tag with type="file", meaning that next to the field will be a "browse" (or similar) button. 
+ * This gives the user the ability to choose a file from there computer to upload to the web server.  Remember, if you 
+ * plan to upload files to your website, be sure to set the <i>multipart</i> option form_tag helper function to true 
+ * or your files will not be properly uploaded to the web server.
+ *
+ * <b>Examples:</b>
+ * <code>
+ *  echo input_file_tag('filename', array('size' => 30));
+ * </code>
+ *
+ * @param  string field name 
+ * @param  array  additional HTML compliant <input> tag parameters
+ * @return string XHTML compliant <input> tag with type="file"
+ * @see input_tag, form_tag
+ */
 function input_file_tag($name, $options = array())
 {
   $options = _parse_attributes($options);
@@ -202,6 +362,28 @@ function input_file_tag($name, $options = array())
   return input_tag($name, null, $options);
 }
 
+/**
+ * Returns an XHTML compliant <input> tag with type="password".
+ *
+ * Similar to the input_tag helper, the input_hidden_tag helper generates your basic XHTML <input> tag and can utilize
+ * any standard <input> tag parameters passed in the optional <i>$options</i> parameter.  The only difference is that it 
+ * creates the tag with type="password", meaning that the text entered into this field will not be visible to the end user.
+ * In most cases it is replaced by  * * * * * * * *.  Even though this text is not readable, it is recommended that you do not 
+ * populate the optional <i>$value</i> option with a plain-text password or any other sensitive information, as this is a 
+ * potential security risk.
+ *
+ * <b>Examples:</b>
+ * <code>
+ *  echo input_password_tag('password');
+ *  echo input_password_tag('password_confirm');
+ * </code>
+ *
+ * @param  string field name
+ * @param  string populated field value
+ * @param  array  additional HTML compliant <input> tag parameters
+ * @return string XHTML compliant <input> tag with type="password"
+ * @see input_tag
+ */
 function input_password_tag($name = 'password', $value = null, $options = array())
 {
   $options = _parse_attributes($options);
@@ -211,11 +393,46 @@ function input_password_tag($name = 'password', $value = null, $options = array(
 }
 
 /**
- * example user css file
- / * user: foo * / => without spaces. 'foo' is the name in the select box
- .cool {
- color: #f00;
- }
+ * Returns a <textarea> tag, optionally wrapped with an inline rich-text JavaScript editor.
+ *
+ * The texarea_tag helper generates a standard HTML <textarea> tag and can be manipulated with
+ * any number of standard HTML parameters via the <i>$options</i> array variable.  However, the 
+ * textarea tag also has the unique capability of being transformed into a WYSIWYG rich-text editor
+ * such as TinyMCE (http://tinymce.moxiecode.com) or FCKEditor (http://www.fckeditor.net) very 
+ * easily with the use of some specific options:
+ *
+ * <b>Options:</b>
+ *  - rich - Enables TinyMCE or FCKEditor with the value <i>tinymce</i> or <i>fck</i> respectively
+ *
+ * <b>TinyMCE Specific Options:</b>
+ *  - css - Path to the TinyMCE editor stylesheet
+ *
+ *    <b>Css example:</b>
+ *    <code>
+ *    / * user: foo * / => without spaces. 'foo' is the name in the select box
+ *    .foobar
+ *    {
+ *      color: #f00;
+ *    }
+ *    </code>
+ *
+ * <b>FCKEditor Specific Options:</b>
+ *  - tool   - Sets the FCKEditor toolbar style
+ *  - config - Sets custom path to the FCKEditor configuration file
+ *
+ * <b>Examples:</b>
+ * <code>
+ *  echo textarea_tag('notes');
+ * </code>
+ *
+ * <code>
+ *  echo textarea_tag('description', 'This is a description', array('rows' => 10, 'cols' => 50));
+ * </code> 
+ *
+ * @param  string field name
+ * @param  string populated field value
+ * @param  array  additional HTML compliant <textarea> tag parameters
+ * @return string <textarea> tag optionally wrapped with a rich-text WYSIWYG editor
  */
 function textarea_tag($name, $content = null, $options = array())
 {
@@ -310,9 +527,14 @@ tinyMCE.init({
   '.(isset($options['tinymce_options']) ? ','.$options['tinymce_options'] : '').'
 });';
 
+    if (isset($options['tinymce_options']))
+    {
+      unset($options['tinymce_options']);
+    }
+
     return
       content_tag('script', javascript_cdata_section($tinymce_js), array('type' => 'text/javascript')).
-      content_tag('textarea', $content, array_merge(array('name' => $name, 'id' => get_name_from_id($id, $value)), _convert_options($options)));
+      content_tag('textarea', $content, array_merge(array('name' => $name, 'id' => get_id_from_name($id, null)), _convert_options($options)));
   }
   elseif ($rich === 'fck')
   {
@@ -371,35 +593,134 @@ tinyMCE.init({
   }
   else
   {
-    return content_tag('textarea', (is_object($content)) ? $content->__toString() : $content, array_merge(array('name' => $name, 'id' => get_name_from_id($id, null)), _convert_options($options)));
+    return content_tag('textarea', (is_object($content)) ? $content->__toString() : $content, array_merge(array('name' => $name, 'id' => get_id_from_name($id, null)), _convert_options($options)));
   }
 }
 
+/**
+ * Returns an XHTML compliant <input> tag with type="checkbox".
+ *
+ * When creating multiple checkboxes with the same name, be sure to use an array for the
+ * <i>$name</i> parameter (i.e. 'name[]').  The checkbox_tag is smart enough to create unique ID's
+ * based on the <i>$value</i> parameter like so:
+ *
+ * <samp>
+ *  <input type="checkbox" name="status[]" id="status_3" value="3" />
+ *  <input type="checkbox" name="status[]" id="status_4" value="4" />
+ * </samp>
+ * 
+ * <b>Examples:</b>
+ * <code>
+ *  echo checkbox_tag('newsletter', 1, $sf_params->get('newsletter'));
+ * </code>
+ *
+ * <code>
+ *  echo checkbox_tag('option_a', 'yes', true, array('class' => 'style_a'));
+ * </code>
+ *
+ * <code>
+ *  // one request variable with an array of checkbox values
+ *  echo checkbox_tag('choice[]', 1);
+ *  echo checkbox_tag('choice[]', 2);
+ *  echo checkbox_tag('choice[]', 3);
+ *  echo checkbox_tag('choice[]', 4); 
+ * </code>
+ *
+ * <code>
+ *  // assuming you have Prototype.js enabled, you could do this
+ *  echo checkbox_tag('show_tos', 1, false, array('onclick' => "Element.toggle('tos'); return false;"));
+ * </code>
+ *
+ * @param  string field name 
+ * @param  string checkbox value (if checked)
+ * @param  bool   is the checkbox checked? (1 or 0)
+ * @param  array  additional HTML compliant <input> tag parameters
+ * @return string XHTML compliant <input> tag with type="checkbox"
+ */
 function checkbox_tag($name, $value = '1', $checked = false, $options = array())
 {
-  $html_options = array_merge(array('type' => 'checkbox', 'name' => $name, 'id' => get_name_from_id($name, $value), 'value' => $value), _convert_options($options));
+  $html_options = array_merge(array('type' => 'checkbox', 'name' => $name, 'id' => get_id_from_name($name, $value), 'value' => $value), _convert_options($options));
   if ($checked) $html_options['checked'] = 'checked';
 
   return tag('input', $html_options);
 }
 
+/**
+ * Returns an XHTML compliant <input> tag with type="radio".
+ * 
+ * <b>Examples:</b>
+ * <code>
+ *  echo ' Yes ' . radiobutton_tag('newsletter', 1);
+ *  echo ' No ' . radiobutton_tag('newsletter', 0); 
+ * </code>
+ *
+ * @param  string field name 
+ * @param  string radio button value (if selected)
+ * @param  bool   is the radio button selected? (1 or 0)
+ * @param  array  additional HTML compliant <input> tag parameters
+ * @return string XHTML compliant <input> tag with type="radio"
+ */
 function radiobutton_tag($name, $value, $checked = false, $options = array())
 {
-  $html_options = array_merge(array('type' => 'radio', 'name' => $name, 'id' => get_name_from_id($name, $value), 'value' => $value), _convert_options($options));
+  $html_options = array_merge(array('type' => 'radio', 'name' => $name, 'id' => get_id_from_name($name, $value), 'value' => $value), _convert_options($options));
   if ($checked) $html_options['checked'] = 'checked';
 
   return tag('input', $html_options);
 }
 
+/**
+ * Returns an XHTML compliant <input> tag with type="file".
+ *
+ * Alias for input_file_tag
+ *
+ * <b>DEPRECIATED:</b> Use input_file_tag
+ * @see input_file_tag
+ */
 function input_upload_tag($name, $options = array())
 {
-  $options = _parse_attributes($options);
-
-  $options['type'] = 'file';
-
-  return input_tag($name, '', $options);
+  if (sfConfig::get('sf_logging_active'))
+  {
+    sfContext::getInstance()->getLogger()->err('This function is deprecated. Please use input_file_tag.');
+  }
+  
+  return input_file_tag($name, $options);
 }
 
+/**
+ * Returns two XHTML compliant <input> tags to be used as a free-text date fields for a date range.
+ * 
+ * Built on the input_date_tag, the input_date_range_tag combines two input tags that allow the user
+ * to specify a from and to date.  
+ * You can easily implement a JavaScript calendar by enabling the 'rich' option in the 
+ * <i>$options</i> parameter.  This includes a button next to the field that when clicked, 
+ * will open an inline JavaScript calendar.  When a date is selected, it will automatically
+ * populate the <input> tag with the proper date, formatted to the user's culture setting.
+ *
+ * <b>Note:</b> The <i>$name</i> parameter will automatically converted to array names. 
+ * For example, a <i>$name</i> of "date" becomes date[from] and date[to]
+ * 
+ * <b>Options:</b>
+ * - rich - If set to true, includes an inline JavaScript calendar can auto-populate the date field with the chosen date
+ * - before - string to be displayed before the input_date_range_tag
+ * - middle - string to be displayed between the from and to tags
+ * - after - string to be displayed after the input_date_range_tag
+ *
+ * <b>Examples:</b>
+ * <code>
+ *  $date = array('from' => '2006-05-15', 'to' => '2006-06-15');
+ *  echo input_date_range_tag('date', $date, array('rich' => true));
+ * </code>
+ *
+ * <code>
+ *  echo input_date_range_tag('date', null, array('middle' => ' through ', 'rich' => true));
+ * </code>
+ *
+ * @param  string field name 
+ * @param  array  dates: $value['from'] and $value['to']
+ * @param  array  additional HTML compliant <input> tag parameters
+ * @return string XHTML compliant <input> tag with optional JS calendar integration
+ * @see input_date_tag
+ */
 function input_date_range_tag($name, $value, $options = array())
 {
   $options = _parse_attributes($options);
@@ -432,6 +753,30 @@ function input_date_range_tag($name, $value, $options = array())
          $after;
 }
 
+/**
+ * Returns an XHTML compliant <input> tag to be used as a free-text date field.
+ * 
+ * You can easily implement a JavaScript calendar by enabling the 'rich' option in the 
+ * <i>$options</i> parameter.  This includes a button next to the field that when clicked, 
+ * will open an inline JavaScript calendar.  When a date is selected, it will automatically
+ * populate the <input> tag with the proper date, formatted to the user's culture setting. 
+ * Symfony also conveniently offers the input_date_range_tag, that allows you to specify a to
+ * and from date.
+ *
+ * <b>Options:</b>
+ * - rich - If set to true, includes an inline JavaScript calendar can auto-populate the date field with the chosen date
+ *
+ * <b>Examples:</b>
+ * <code>
+ *  echo input_date_tag('date', null, array('rich' => true));
+ * </code>
+ *
+ * @param  string field name 
+ * @param  string date
+ * @param  array  additional HTML compliant <input> tag parameters
+ * @return string XHTML compliant <input> tag with optional JS calendar integration
+ * @see input_date_range_tag
+ */
 function input_date_tag($name, $value, $options = array())
 {
   $options = _parse_attributes($options);
@@ -496,7 +841,7 @@ function input_date_tag($name, $value, $options = array())
   $js = '
     document.getElementById("trigger_'.$name.'").disabled = false;
     Calendar.setup({
-      inputField : "'.$name.'",
+      inputField : "'.get_id_from_name($name).'",
       ifFormat : "'.$calendar_date_format.'",
       button : "trigger_'.$name.'"
     });
@@ -527,7 +872,7 @@ function input_date_tag($name, $value, $options = array())
 
   if ($calendar_button_type == 'img')
   {
-    $html .= image_tag($calendar_button, array('id' => 'trigger_'.$name, 'style' => 'cursor: pointer', 'align' => 'absmiddle'));
+    $html .= image_tag($calendar_button, array('id' => 'trigger_'.$name, 'style' => 'cursor: pointer; vertical-align: middle'));
   }
   else
   {
@@ -546,21 +891,110 @@ function input_date_tag($name, $value, $options = array())
   return $html;
 }
 
+/**
+ * Returns an XHTML compliant <input> tag with type="submit".
+ * 
+ * By default, this helper creates a submit tag with a name of <em>commit</em> to avoid
+ * conflicts with other parts of the framework.  It is recommended that you do not use the name
+ * "submit" for submit tags unless absolutely necessary. Also, the default <i>$value</i> parameter
+ * (title of the button) is set to "Save changes", which can be easily overwritten by passing a 
+ * <i>$value</i> parameter.
+ *
+ * <b>Examples:</b>
+ * <code>
+ *  echo submit_tag();
+ * </code>
+ *
+ * <code>
+ *  echo submit_tag('Update Record');
+ * </code>
+ *
+ * @param  string field value (title of submit button)
+ * @param  array  additional HTML compliant <input> tag parameters
+ * @return string XHTML compliant <input> tag with type="submit"
+ */
 function submit_tag($value = 'Save changes', $options = array())
 {
   return tag('input', array_merge(array('type' => 'submit', 'name' => 'commit', 'value' => $value), _convert_options($options)));
 }
 
+/**
+ * Returns an XHTML compliant <input> tag with type="reset".
+ *
+ * By default, this helper creates a submit tag with a name of <em>reset</em>.  Also, the default 
+ * <i>$value</i> parameter (title of the button) is set to "Reset" which can be easily overwritten 
+ * by passing a <i>$value</i> parameter.
+ *
+ * <b>Examples:</b>
+ * <code>
+ *  echo reset_tag();
+ * </code>
+ *
+ * <code>
+ *  echo reset_tag('Start Over');
+ * </code>
+ *
+ * @param  string field value (title of reset button)
+ * @param  array  additional HTML compliant <input> tag parameters
+ * @return string XHTML compliant <input> tag with type="reset"
+ */
 function reset_tag($value = 'Reset', $options = array())
 {
   return tag('input', array_merge(array('type' => 'reset', 'name' => 'reset', 'value' => $value), _convert_options($options)));
 }
 
+/**
+ * Returns an XHTML compliant <input> tag with type="image".
+ *
+ * The submit_image_tag is very similar to the submit_tag, the only difference being that it uses an image
+ * for the submit button instead of the browser-generated default button. The image is defined by the 
+ * <i>$source</i> parameter and must be a valid image, either local or remote (URL). By default, this 
+ * helper creates a submit tag with a name of <em>commit</em> to avoid conflicts with other parts of the 
+ * framework.  It is recommended that you do not use the name "submit" for submit tags unless absolutely necessary.
+ *
+ * <b>Examples:</b>
+ * <code>
+ *  // Assuming your image is in the /web/images/ directory
+ *  echo submit_image_tag('my_submit_button.gif');
+ * </code>
+ *
+ * <code>
+ *  echo submit_image_tag('http://mydomain.com/my_submit_button.gif');
+ * </code>
+ *
+ * @param  string path to image file
+ * @param  array  additional HTML compliant <input> tag parameters
+ * @return string XHTML compliant <input> tag with type="image"
+ */
 function submit_image_tag($source, $options = array())
 {
   return tag('input', array_merge(array('type' => 'image', 'name' => 'commit', 'src' => image_path($source)), _convert_options($options)));
 }
 
+/**
+ * Returns a <select> tag populated with all the days of the month (1 - 31).
+ *
+ * By default, the <i>$value</i> parameter is set to today's day. To override this, simply pass an integer 
+ * (1 - 31) to the <i>$value</i> parameter. You can also set the <i>$value</i> parameter to null which will disable
+ * the <i>$value</i>, however this will only be useful if you pass 'include_blank' or 'include_custom' to the <i>$options</i>
+ * parameter. For convenience, Symfony also offers the select_date_tag helper function which combines the 
+ * select_year_tag, select_month_tag, and select_day_tag functions into a single helper.
+ *
+ * <b>Options:</b>
+ * - include_blank  - Includes a blank <option> tag at the beginning of the string with an empty value.
+ * - include_custom - Includes an <option> tag with a custom display title at the beginning of the string with an empty value.
+ *
+ * <b>Examples:</b>
+ * <code>
+ *  echo submit_day_tag('day', 14);
+ * </code>
+ *
+ * @param  string field name
+ * @param  integer selected value (1 - 31)
+ * @param  array  additional HTML compliant <select> tag parameters
+ * @return string <select> tag populated with all the days of the month (1 - 31).
+ * @see select_date_tag, select datetime_tag
+ */
 function select_day_tag($name, $value = null, $options = array(), $html_options = array())
 {
   if ($value === null)
@@ -588,6 +1022,38 @@ function select_day_tag($name, $value = null, $options = array(), $html_options 
   return select_tag($name, options_for_select($select_options, $value), $html_options);
 }
 
+/**
+ * Returns a <select> tag populated with all the months of the year (1 - 12).
+ *
+ * By default, the <i>$value</i> parameter is set to today's month. To override this, simply pass an integer 
+ * (1 - 12) to the <i>$value</i> parameter. You can also set the <i>$value</i> parameter to null which will disable
+ * the <i>$value</i>, however this will only be useful if you pass 'include_blank' or 'include_custom' to the <i>$options</i>
+ * parameter. Also, the each month's display title is set to return its respective full month name, which can be easily 
+ * overridden by passing the 'use_short_names' or 'use_month_numbers' options to the <i>$options</i> parameter.
+ * For convenience, Symfony also offers the select_date_tag helper function which combines the 
+ * select_year_tag, select_month_tag, and select_day_tag functions into a single helper.
+ *
+ * <b>Options:</b>
+ * - include_blank     - Includes a blank <option> tag at the beginning of the string with an empty value
+ * - include_custom    - Includes an <option> tag with a custom display title at the beginning of the string with an empty value
+ * - use_month_numbers - If set to true, will show the month's numerical value (1 - 12) instead of the months full name.
+ * - use_short_month   - If set to true, will show the month's short name (i.e. Jan, Feb, Mar) instead of its full name.
+ *  
+ * <b>Examples:</b>
+ * <code>
+ *  echo submit_month_tag('month', 5, array('use_short_month' => true));
+ * </code>
+ *
+ * <code>
+ *  echo submit_month_tag('month', null, array('use_month_numbers' => true, 'include_blank' => true));
+ * </code>
+ *
+ * @param  string field name
+ * @param  integer selected value (1 - 12)
+ * @param  array  additional HTML compliant <select> tag parameters
+ * @return string <select> tag populated with all the months of the year (1 - 12).
+ * @see select_date_tag, select datetime_tag
+ */
 function select_month_tag($name, $value = null, $options = array(), $html_options = array())
 {
   if ($value === null)
@@ -638,6 +1104,41 @@ function select_month_tag($name, $value = null, $options = array(), $html_option
   return select_tag($name, options_for_select($select_options, $value), $html_options);
 }
 
+/**
+ * Returns a <select> tag populated with a range of years.
+ *
+ * By default, the <i>$value</i> parameter is set to today's year. To override this, simply pass a four-digit integer (YYYY)
+ * to the <i>$value</i> parameter. You can also set the <i>$value</i> parameter to null which will disable
+ * the <i>$value</i>, however this will only be useful if you pass 'include_blank' or 'include_custom' to the <i>$options</i>
+ * parameter. Also, the default selectable range of years is set to show five years back and five years forward from today's year.
+ * For instance, if today's year is 2006, the default 'year_start' option will be set to 2001 and the 'year_end' option will be set
+ * to 2011.  These start and end dates can easily be overwritten by setting the 'year_start' and 'year_end' options in the <i>$options</i>
+ * parameter. For convenience, Symfony also offers the select_date_tag helper function which combines the 
+ * select_year_tag, select_month_tag, and select_day_tag functions into a single helper.
+ *
+ * <b>Options:</b>
+ * - include_blank  - Includes a blank <option> tag at the beginning of the string with an empty value
+ * - include_custom - Includes an <option> tag with a custom display title at the beginning of the string with an empty value
+ * - year_start     - If set, the range of years will begin at this four-digit date (i.e. 1979)
+ * - year_end       - If set, the range of years will end at this four-digit date (i.e. 2025)
+ *  
+ * <b>Examples:</b>
+ * <code>
+ *  echo submit_year_tag('year');
+ * </code>
+ *
+ * <code>
+ *  $year_start = date('Y', strtotime('-10 years'));
+ *  $year_end = date('Y', strtotime('+10 years'));
+ *  echo submit_year_tag('year', null, array('year_start' => $year_start, 'year_end' => $year_end));
+ * </code>
+ *
+ * @param  string field name
+ * @param  integer selected value within the range of years.
+ * @param  array  additional HTML compliant <select> tag parameters
+ * @return string <select> tag populated with a range of years.
+ * @see select_date_tag, select datetime_tag
+ */
 function select_year_tag($name, $value = null, $options = array(), $html_options = array())
 {
   if ($value === null)
@@ -681,13 +1182,54 @@ function select_year_tag($name, $value = null, $options = array(), $html_options
 }
 
 /**
- * Enter description here...
+ * Returns three <select> tags populated with a range of months, days, and years.
  *
- * @param string $name
- * @param string $value (proper date format: array('year'=>2005, 'month'=>1, 'day'=1) or timestamp or english date text)
- * @param array $options
- * @param array $html_options
- * @return string
+ * By default, the <i>$value</i> parameter is set to today's month, day and year. To override this, simply pass a valid date
+ * or a correctly formatted date array (see example) to the <i>$value</i> parameter. You can also set the <i>$value</i> 
+ * parameter to null which will disable the <i>$value</i>, however this will only be useful if you pass 'include_blank' or 
+ * 'include_custom' to the <i>$options</i> parameter. Also, the default selectable range of years is set to show five years 
+ * back and five years forward from today's year. For instance, if today's year is 2006, the default 'year_start' option will 
+ * be set to 2001 and the 'year_end' option will be set to 2011.  These start and end dates can easily be overwritten by 
+ * setting the 'year_start' and 'year_end' options in the <i>$options</i> parameter. 
+ *
+ * <b>Note:</b> The <i>$name</i> parameter will automatically converted to array names. For example, a <i>$name</i> of "date" becomes:
+ * <samp>
+ *  <select name="date[month]">...</select>
+ *  <select name="date[day]">...</select>
+ *  <select name="date[year]">...</select>
+ * </samp>
+ *  
+ * <b>Options:</b>
+ * - include_blank     - Includes a blank <option> tag at the beginning of the string with an empty value.
+ * - include_custom    - Includes an <option> tag with a custom display title at the beginning of the string with an empty value.
+ * - discard_month     - If set to true, will only return select tags for day and year.
+ * - discard_day       - If set to true, will only return select tags for month and year.
+ * - discard_year      - If set to true, will only return select tags for month and day.
+ * - use_month_numbers - If set to true, will show the month's numerical value (1 - 12) instead of the months full name.
+ * - use_short_month   - If set to true, will show the month's short name (i.e. Jan, Feb, Mar) instead of its full name.
+ * - year_start        - If set, the range of years will begin at this four-digit date (i.e. 1979)
+ * - year_end          - If set, the range of years will end at this four-digit date (i.e. 2025)
+ * - date_seperator    - Includes a string of defined text between each generated select tag
+ *  
+ * <b>Examples:</b>
+ * <code>
+ *  echo submit_date_tag('date');
+ * </code>
+ *
+ * <code>
+ *  echo select_date_tag('date', '2006-10-30');
+ * </code>
+ *
+ * <code>
+ *  $date = array('year' => '1979', 'month' => 10, 'day' => 30);
+ *  echo select_date_tag('date', $date, array('year_start' => $date['year'] - 10, 'year_end' => $date['year'] + 10));
+ * </code>
+ *
+ * @param  string field name (automatically becomes an array of parts: name[year], name[month], year[day])
+ * @param  mixed  accepts a valid date string or properly formatted date array
+ * @param  array  additional HTML compliant <select> tag parameters
+ * @return string three <select> tags populated with a months, days and years
+ * @see select datetime_tag, select_month_tag, select_date_tag, select_year_tag
  */
 function select_date_tag($name, $value = null, $options = array(), $html_options = array())
 {
@@ -767,6 +1309,37 @@ function select_date_tag($name, $value = null, $options = array(), $html_options
   return implode($date_seperator, $tags);
 }
 
+/**
+ * Returns a <select> tag populated with 60 seconds (0 - 59).
+ *
+ * By default, the <i>$value</i> parameter is set to the current second (right now). To override this, simply pass an integer 
+ * (0 - 59) to the <i>$value</i> parameter. You can also set the <i>$value</i> parameter to null which will disable
+ * the <i>$value</i>, however this will only be useful if you pass 'include_blank' or 'include_custom' to the <i>$options</i>
+ * parameter. In many cases, you have no need for all 60 seconds in a minute.  the 'second_step' option in the 
+ * <i>$options</i> parameter gives you the ability to define intervals to display.  So for instance you could define 15 as your 
+ * 'minute_step' interval and the select tag would return the values 0, 15, 30, and 45. For convenience, Symfony also offers the 
+ * select_time_tag select_datetime_tag helper functions which combine other date and time helpers to easily build date and time select boxes.
+ *
+ * <b>Options:</b>
+ * - include_blank  - Includes a blank <option> tag at the beginning of the string with an empty value.
+ * - include_custom - Includes an <option> tag with a custom display title at the beginning of the string with an empty value.
+ * - second_step    - If set, the seconds will be incremented in blocks of X, where X = 'second_step'
+ * 
+ * <b>Examples:</b>
+ * <code>
+ *  echo submit_second_tag('second');
+ * </code>
+ *
+ * <code>
+ *  echo submit_second_tag('second', 15, array('second_step' => 15));
+ * </code>
+ *
+ * @param  string field name
+ * @param  integer selected value (0 - 59)
+ * @param  array  additional HTML compliant <select> tag parameters
+ * @return string <select> tag populated with 60 seconds (0 - 59).
+ * @see select_time_tag, select datetime_tag
+ */
 function select_second_tag($name, $value = null, $options = array(), $html_options = array())
 {
   if ($value === null)
@@ -795,6 +1368,37 @@ function select_second_tag($name, $value = null, $options = array(), $html_optio
   return select_tag($name, options_for_select($select_options, $value), $html_options);
 }
 
+/**
+ * Returns a <select> tag populated with 60 minutes (0 - 59).
+ *
+ * By default, the <i>$value</i> parameter is set to the current minute. To override this, simply pass an integer 
+ * (0 - 59) to the <i>$value</i> parameter. You can also set the <i>$value</i> parameter to null which will disable
+ * the <i>$value</i>, however this will only be useful if you pass 'include_blank' or 'include_custom' to the <i>$options</i>
+ * parameter. In many cases, you have no need for all 60 minutes in an hour.  the 'minute_step' option in the 
+ * <i>$options</i> parameter gives you the ability to define intervals to display.  So for instance you could define 15 as your 
+ * 'minute_step' interval and the select tag would return the values 0, 15, 30, and 45. For convenience, Symfony also offers the 
+ * select_time_tag select_datetime_tag helper functions which combine other date and time helpers to easily build date and time select boxes.
+ *
+ * <b>Options:</b>
+ * - include_blank  - Includes a blank <option> tag at the beginning of the string with an empty value.
+ * - include_custom - Includes an <option> tag with a custom display title at the beginning of the string with an empty value.
+ * - minute_step    - If set, the minutes will be incremented in blocks of X, where X = 'minute_step'
+ * 
+ * <b>Examples:</b>
+ * <code>
+ *  echo submit_minute_tag('minute');
+ * </code>
+ *
+ * <code>
+ *  echo submit_minute_tag('minute', 15, array('minute_step' => 15));
+ * </code>
+ *
+ * @param  string field name
+ * @param  integer selected value (0 - 59)
+ * @param  array  additional HTML compliant <select> tag parameters
+ * @return string <select> tag populated with 60 minutes (0 - 59).
+ * @see select_time_tag, select datetime_tag
+ */
 function select_minute_tag($name, $value = null, $options = array(), $html_options = array())
 {
   if ($value === null)
@@ -823,6 +1427,35 @@ function select_minute_tag($name, $value = null, $options = array(), $html_optio
   return select_tag($name, options_for_select($select_options, $value), $html_options);
 }
 
+/**
+ * Returns a <select> tag populated with 24 hours (0 - 23), or optionally 12 hours (1 - 12).
+ *
+ * By default, the <i>$value</i> parameter is set to the current hour. To override this, simply pass an integer 
+ * (0 - 23 or 1 - 12 if '12hour_time' = true) to the <i>$value</i> parameter. You can also set the <i>$value</i> parameter to null which will disable
+ * the <i>$value</i>, however this will only be useful if you pass 'include_blank' or 'include_custom' to the <i>$options</i>
+ * parameter. For convenience, Symfony also offers the select_time_tag select_datetime_tag helper functions
+ * which combine other date and time helpers to easily build date and time select boxes.
+ *
+ * <b>Options:</b>
+ * - include_blank  - Includes a blank <option> tag at the beginning of the string with an empty value.
+ * - include_custom - Includes an <option> tag with a custom display title at the beginning of the string with an empty value.
+ * - 12hour_time    - If set to true, will return integers 1 through 12 instead of the default 0 through 23 as well as an AM/PM select box.
+ * 
+ * <b>Examples:</b>
+ * <code>
+ *  echo submit_hour_tag('hour');
+ * </code>
+ *
+ * <code>
+ *  echo submit_hour_tag('hour', 6, array('12hour_time' => true));
+ * </code>
+ *
+ * @param  string field name
+ * @param  integer selected value (0 - 23 or 1 - 12 if '12hour_time' = true)
+ * @param  array  additional HTML compliant <select> tag parameters
+ * @return string <select> tag populated with 24 hours (0 - 23), or optionally 12 hours (1 - 12).
+ * @see select_time_tag, select datetime_tag
+ */
 function select_hour_tag($name, $value = null, $options = array(), $html_options = array())
 {
   if ($value === null)
@@ -855,6 +1488,35 @@ function select_hour_tag($name, $value = null, $options = array(), $html_options
   return select_tag($name, options_for_select($select_options, $value), $html_options);
 }
 
+/**
+ * Returns a <select> tag populated with AM and PM options for use with 12-Hour time.
+ *
+ * By default, the <i>$value</i> parameter is set to the correct AM/PM setting based on the current time. 
+ * To override this, simply pass either AM or PM to the <i>$value</i> parameter. You can also set the 
+ * <i>$value</i> parameter to null which will disable the <i>$value</i>, however this will only be 
+ * useful if you pass 'include_blank' or 'include_custom' to the <i>$options</i> parameter. For 
+ * convenience, Symfony also offers the select_time_tag select_datetime_tag helper functions
+ * which combine other date and time helpers to easily build date and time select boxes.
+ *
+ * <b>Options:</b>
+ * - include_blank  - Includes a blank <option> tag at the beginning of the string with an empty value.
+ * - include_custom - Includes an <option> tag with a custom display title at the beginning of the string with an empty value.
+ * 
+ * <b>Examples:</b>
+ * <code>
+ *  echo submit_ampm_tag('ampm');
+ * </code>
+ *
+ * <code>
+ *  echo submit_ampm_tag('ampm', 'PM', array('include_blank' => true));
+ * </code>
+ *
+ * @param  string field name
+ * @param  integer selected value (AM or PM)
+ * @param  array  additional HTML compliant <select> tag parameters
+ * @return string <select> tag populated with AM and PM options for use with 12-Hour time.
+ * @see select_time_tag, select datetime_tag
+ */
 function select_ampm_tag($name, $value = null, $options = array(), $html_options = array())
 {
   if ($value === null)
@@ -881,13 +1543,49 @@ function select_ampm_tag($name, $value = null, $options = array(), $html_options
 }
 
 /**
- * Enter description here...
+ * Returns three <select> tags populated with hours, minutes, and optionally seconds.
  *
- * @param string $name
- * @param string $value (proper time format: array('hour'=>0, 'minute'=>0, 'second'=0) or timestamp or english date text)
- * @param array $options
- * @param array $html_options
- * @return string
+ * By default, the <i>$value</i> parameter is set to the current hour and minute. To override this, simply pass a valid time
+ * or a correctly formatted time array (see example) to the <i>$value</i> parameter. You can also set the <i>$value</i> 
+ * parameter to null which will disable the <i>$value</i>, however this will only be useful if you pass 'include_blank' or 
+ * 'include_custom' to the <i>$options</i> parameter. To include seconds to the result, use set the 'include_second' option in the 
+ * <i>$options</i> parameter to true. <b>Note:</b> The <i>$name</i> parameter will automatically converted to array names. 
+ * For example, a <i>$name</i> of "time" becomes:
+ * <samp>
+ *  <select name="time[hour]">...</select>
+ *  <select name="time[minute]">...</select>
+ *  <select name="time[second]">...</select>
+ * </samp>
+ *  
+ * <b>Options:</b>
+ * - include_blank  - Includes a blank <option> tag at the beginning of the string with an empty value.
+ * - include_custom - Includes an <option> tag with a custom display title at the beginning of the string with an empty value.
+ * - include_second - If set to true, includes the "seconds" select tag as part of the result.
+ * - second_step    - If set, the seconds will be incremented in blocks of X, where X = 'second_step'
+ * - minute_step    - If set, the minutes will be incremented in blocks of X, where X = 'minute_step'
+ * - 12hour_time    - If set to true, will return integers 1 through 12 instead of the default 0 through 23 as well as an AM/PM select box.
+ * - time_seperator - Includes a string of defined text between each generated select tag
+ * - ampm_seperator - Includes a string of defined text between the minute/second select box and the AM/PM select box 
+ *  
+ * <b>Examples:</b>
+ * <code>
+ *  echo submit_time_tag('time');
+ * </code>
+ *
+ * <code>
+ *  echo select_time_tag('date', '09:31');
+ * </code>
+ *
+ * <code>
+ *  $time = array('hour' => '15', 'minute' => 46, 'second' => 01);
+ *  echo select_time_tag('time', $time, array('include_second' => true, '12hour_time' => true));
+ * </code>
+ *
+ * @param  string field name (automatically becomes an array of parts: name[hour], name[minute], year[second])
+ * @param  mixed  accepts a valid time string or properly formatted time array
+ * @param  array  additional HTML compliant <select> tag parameters
+ * @return string three <select> tags populated with a hours, minutes and optionally seconds.
+ * @see select datetime_tag, select_hour_tag, select_minute_tag, select_second_tag
  */
 function select_time_tag($name, $value = null, $options = array(), $html_options = array())
 {
@@ -952,12 +1650,62 @@ function select_time_tag($name, $value = null, $options = array(), $html_options
 }
 
 /**
- * Enter description here...
+ * Returns a variable number of <select> tags populated with date and time related select boxes.
  *
- * @param string $name
- * @param string $value (proper datetime format YYYY-MM-DD HH:MM:SS)
- * @param array $options
- * @return string
+ * The select_datetime_tag is the culmination of both the select_date_tag and the select_time_tag.
+ * By default, the <i>$value</i> parameter is set to the current date and time. To override this, simply pass a valid 
+ * date, time, datetime string or correctly formatted array (see example) to the <i>$value</i> parameter. 
+ * You can also set the <i>$value</i> parameter to null which will disable the <i>$value</i>, however this 
+ * will only be useful if you pass 'include_blank' or 'include_custom' to the <i>$options</i> parameter. 
+ * To include seconds to the result, use set the 'include_second' option in the <i>$options</i> parameter to true. 
+ * <b>Note:</b> The <i>$name</i> parameter will automatically converted to array names. 
+ * For example, a <i>$name</i> of "datetime" becomes:
+ * <samp>
+ *  <select name="datetime[month]">...</select>
+ *  <select name="datetime[day]">...</select>
+ *  <select name="datetime[year]">...</select>
+ *  <select name="datetime[hour]">...</select>
+ *  <select name="datetime[minute]">...</select>
+ *  <select name="datetime[second]">...</select>
+ * </samp>
+ *  
+ * <b>Options:</b>
+ * - include_blank     - Includes a blank <option> tag at the beginning of the string with an empty value.
+ * - include_custom    - Includes an <option> tag with a custom display title at the beginning of the string with an empty value.
+ * - include_second    - If set to true, includes the "seconds" select tag as part of the result.
+ * - discard_month     - If set to true, will only return select tags for day and year.
+ * - discard_day       - If set to true, will only return select tags for month and year.
+ * - discard_year      - If set to true, will only return select tags for month and day.
+ * - use_month_numbers - If set to true, will show the month's numerical value (1 - 12) instead of the months full name.
+ * - use_short_month   - If set to true, will show the month's short name (i.e. Jan, Feb, Mar) instead of its full name. 
+ * - year_start        - If set, the range of years will begin at this four-digit date (i.e. 1979)
+ * - year_end          - If set, the range of years will end at this four-digit date (i.e. 2025)
+ * - second_step       - If set, the seconds will be incremented in blocks of X, where X = 'second_step'
+ * - minute_step       - If set, the minutes will be incremented in blocks of X, where X = 'minute_step'
+ * - 12hour_time       - If set to true, will return integers 1 through 12 instead of the default 0 through 23.
+ * - date_seperator    - Includes a string of defined text between each generated select tag
+ * - time_seperator    - Includes a string of defined text between each generated select tag
+ * - ampm_seperator    - Includes a string of defined text between the minute/second select box and the AM/PM select box 
+ *  
+ * <b>Examples:</b>
+ * <code>
+ *  echo submit_datetime_tag('datetime');
+ * </code>
+ *
+ * <code>
+ *  echo select_datetime_tag('datetime', '1979-10-30');
+ * </code>
+ *
+ * <code>
+ *  $datetime = array('year' => '1979', 'month' => 10, 'day' => 30, 'hour' => '15', 'minute' => 46);
+ *  echo select_datetime_tag('time', $datetime, array('use_short_month' => true, '12hour_time' => true));
+ * </code>
+ *
+ * @param  string field name (automatically becomes an array of date and time parts)
+ * @param  mixed  accepts a valid time string or properly formatted time array
+ * @param  array  additional HTML compliant <select> tag parameters
+ * @return string a variable number of <select> tags populated with date and time related select boxes
+ * @see select date_tag, select_time_tag
  */
 function select_datetime_tag($name, $value = null, $options = array(), $html_options = array())
 {
@@ -970,14 +1718,104 @@ function select_datetime_tag($name, $value = null, $options = array(), $html_opt
   return $date.$datetime_seperator.$time;
 }
 
+/**
+ * Returns a <select> tag, populated with a range of numbers
+ *
+ * By default, the select_number_tag generates a list of numbers from 1 - 10, with an incremental value of 1.  These values
+ * can be easily changed by passing one or several <i>$options</i>.  Numbers can be either positive or negative, integers or decimals,
+ * and can be incremented by any number, decimal or integer.  If you require the range of numbers to be listed in descending order, pass
+ * the 'reverse' option to easily display the list of numbers in the opposite direction.
+ * 
+ * <b>Options:</b>
+ * - include_blank  - Includes a blank <option> tag at the beginning of the string with an empty value.
+ * - include_custom - Includes an <option> tag with a custom display title at the beginning of the string with an empty value.
+ * - multiple       - If set to true, the select tag will allow multiple numbers to be selected at once.
+ * - start          - The first number in the list. If not specified, the default value is 1.
+ * - end            - The last number in the list. If not specified, the default value is 10.
+ * - increment      - The number by which to increase each number in the list by until the number is greater than or equal to the 'end' option. 
+ *                    If not specified, the default value is 1.
+ * - reverse        - Reverses the order of numbers so they are display in descending order
+ *
+ * <b>Examples:</b>
+ * <code>
+ *  echo select_number_tag('rating', '', array('reverse' => true));
+ * </code>
+ *
+ * <code>
+ *  echo echo select_number_tag('tax_rate', '0.07', array('start' => '0.05', 'end' => '0.09', 'increment' => '0.01'));
+ * </code>
+ *
+ * <code>
+ *  echo select_number_tag('limit', 5, array('start' => 5, 'end' => 120, 'increment' => 15));
+ * </code>
+ *
+ * @param  string field name 
+ * @param  string the selected option
+ * @param  array  <i>$options</i> to manipulate the output of the tag.
+ * @param  array  additional HTML compliant <select> tag parameters
+ * @return string <select> tag populated with a range of numbers.
+ * @see options_for_select, content_tag
+ */
+function select_number_tag($name, $value, $options = array(), $html_options = array())
+{
+  if (!isset($options['start'])) $options['start'] = 1;
+  if (empty($options['end'])) $options['end'] = 10;
+  if (empty($options['increment'])) $options['increment'] = 1;
+
+  $range = array();
+
+  for ($x = $options['start']; $x < ($options['end'] + $options['increment']); $x += $options['increment'])
+  {
+    $range[(string) $x] = $x;
+  }
+
+  if (isset($options['reverse'])) $range = array_reverse($range);
+
+  unset($options['start']);
+  unset($options['end']);
+  unset($options['increment']);
+  unset($options['reverse']);
+
+  return select_tag($name, options_for_select($range, $value, $options), $html_options);
+}
+
+/**
+ * Returns a <label> tag with <i>$label</i> for the specified <i>$id</i> parameter.
+ *
+ * @param  string id
+ * @param  string label or title
+ * @param  array  additional HTML compliant <label> tag parameters
+ * @return string <label> tag with <i>$label</i> for the specified <i>$id</i> parameter.
+ */
 function label_for($id, $label, $options = array())
 {
   $options = _parse_attributes($options);
 
-  return content_tag('label', $label, array_merge(array('for' => get_name_from_id($id, null)), $options));
+  return content_tag('label', $label, array_merge(array('for' => get_id_from_name($id, null)), $options));
 }
 
-function get_name_from_id($name, $value = null)
+/**
+ * Returns a formatted ID based on the <i>$name</i> parameter and optionally the <i>$value</i> parameter.
+ *
+ * This function determines the proper form field ID name based on the parameters. If a form field has an
+ * array value as a name we need to convert them to proper and unique IDs like so:
+ * <samp>
+ *  name[] => name (if value == null)
+ *  name[] => name_value (if value != null)
+ *  name[bob] => name_bob
+ *  name[item][total] => name_item_total
+ * </samp>
+ *
+ * <b>Examples:</b>
+ * <code>
+ *  echo get_id_from_name('status[]', '1');
+ * </code>
+ *
+ * @param  string field name 
+ * @param  string field value
+ * @return string <select> tag populated with all the languages in the world.
+ */
+function get_id_from_name($name, $value = null)
 {
   // check to see if we have an array variable for a field name
   if (strstr($name, '['))
@@ -992,6 +1830,13 @@ function get_name_from_id($name, $value = null)
   return $name;
 }
 
+/**
+ * Prepends zeros to the begging of <i>$string</i> until the string reaches <i>$strlen</i> length.
+ *
+ * @param  string string to check
+ * @param  string required length of string
+ * @return string formatted string with zeros at the beginning of the string until it reaches <i>$strlen</i> length
+ */
 function _prepend_zeros($string, $strlen)
 {
   if ($strlen > strlen($string))
@@ -1005,6 +1850,15 @@ function _prepend_zeros($string, $strlen)
   return $string;
 }
 
+/**
+ * Retrieves the proper date format based on the specified <i>$culture</i> setting
+ *
+ * <b>Note:</b> If no <i>$culture</i> is defined, the user's culture setting will be used in its place.
+ *
+ * @param  string two or three character culture setting variable
+ * @return string formatted date/time format based on the specified date/time setting
+ * @see sfUser
+ */
 function _get_I18n_date_locales($culture = null)
 {
   if (!$culture)
@@ -1041,12 +1895,18 @@ function _get_I18n_date_locales($culture = null)
   return $retval;
 }
 
-/*
-      # _parse_value_for_date can parse any date field from $value given as:
-      # 1. $value = array('year'=>2000, 'month'=>1, 'day'=>1) and $key = 'year|month|day'
-      # 2. $value = timestamp and $format_char = 'h|H|i|s|A|d|m|Y'
-      # 3. english text presentation of date (i.e '14:23', '03:30 AM', '2005-12-25' Refer to strtotime function in PHP manual)
-*/
+/**
+ * Converts date values (<i>$value</i>) into its correct date format (<i>$format_char</i>)
+ *
+ * This function is primarily used in select_date_tag, select_time_tag and select_datetime_tag.
+ *
+ * <b>Note:</b> If <i>$value</i> is empty, it will be populated with the current date and time.
+ *
+ * @param  string date or date part
+ * @param  string custom key for array values
+ * @return string properly formatted date part value.
+ * @see select_date_tag, select_time_tag, select_datetime_tag
+ */
 function _parse_value_for_date($value, $key, $format_char)
 {
   if (is_array($value))
@@ -1070,6 +1930,12 @@ function _parse_value_for_date($value, $key, $format_char)
   return date($format_char, strtotime($value));
 }
 
+/**
+ * Converts specific <i>$options</i> to their correct HTML format
+ *
+ * @param  array options
+ * @return array returns properly formatted options 
+ */
 function _convert_options($options)
 {
   $options = _parse_attributes($options);
@@ -1078,10 +1944,19 @@ function _convert_options($options)
   {
     $options = _boolean_attribute($options, $attribute);
   }
+  
+  // Parse any javascript options
+  $options = _convert_options_to_javascript($options);
 
   return $options;
 }
 
+/**
+ * Removes an attribute if it is found in an array of <i>$options</i>.
+ *
+ * @param  array options
+ * @return string filtered array of <i>$options</i>
+ */
 function _boolean_attribute($options, $attribute)
 {
   if (array_key_exists($attribute, $options))
