@@ -205,7 +205,7 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 
 	/**
 	 * Get the [pref_label] column value.
-	 *
+	 * 
 	 * @return string
 	 */
 	public function getPrefLabel()
@@ -216,7 +216,7 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 
 	/**
 	 * Get the [vocabulary_id] column value.
-	 *
+	 * 
 	 * @return int
 	 */
 	public function getVocabularyId()
@@ -318,7 +318,7 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 
 	/**
 	 * Set the value of [pref_label] column.
-	 *
+	 * 
 	 * @param string $v new value
 	 * @return void
 	 */
@@ -334,7 +334,7 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 
 	/**
 	 * Set the value of [vocabulary_id] column.
-	 *
+	 * 
 	 * @param int $v new value
 	 * @return void
 	 */

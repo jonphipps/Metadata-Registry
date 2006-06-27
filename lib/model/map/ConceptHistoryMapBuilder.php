@@ -70,11 +70,11 @@ class ConceptHistoryMapBuilder {
 
 		$tMap->addForeignKey('USER_ID', 'UserId', 'int', CreoleTypes::INTEGER, 'reg_user', 'ID', true, null);
 
-		$tMap->addColumn('CHANGED_AT', 'ChangedAt', 'int', CreoleTypes::TIMESTAMP, false);
+		$tMap->addColumn('CHANGED_AT', 'ChangedAt', 'int', CreoleTypes::TIMESTAMP, false, null);
 
-		$tMap->addColumn('OLD_VALUES', 'OldValues', 'string', CreoleTypes::LONGVARCHAR, true);
+		$tMap->addColumn('OLD_VALUES', 'OldValues', 'string', CreoleTypes::LONGVARCHAR, true, null);
 
-		$tMap->addColumn('NEW_VALUES', 'NewValues', 'string', CreoleTypes::LONGVARCHAR, true);
+		$tMap->addColumn('NEW_VALUES', 'NewValues', 'string', CreoleTypes::LONGVARCHAR, true, null);
 				
     } // doBuild()
 
