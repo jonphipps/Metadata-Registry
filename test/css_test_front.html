@@ -1,0 +1,203 @@
+<!-- $TopStyle:URL=http://registry$ -->
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta name="title" content="The Registry Project" />
+<meta name="robots" content="index, follow" />
+<meta name="description" content="The Metadata Registry Project" />
+<meta name="keywords" content="semantic web, registry, rdf, skos, metadata" />
+<meta name="language" content="en" />
+
+<title>The Registry Project</title>
+
+<link rel="shortcut icon" href="/favicon.ico" />
+
+<script type="text/javascript" src="../data/symfony/web/sf/js/prototype/prototype.js"></script>
+<script type="text/javascript" src="../web/js/setresource.js"></script>
+<script type="text/javascript" src="../data/symfony/web/sf/js/prototype/builder.js"></script>
+<script type="text/javascript" src="../data/symfony/web/sf/js/prototype/effects.js"></script>
+<link rel="stylesheet" type="text/css" media="screen" href="../data/symfony/web/sf/css/sf_admin/main.css" />
+<link rel="stylesheet" type="text/css" media="screen" href="../web/css/main.css" />
+<link rel="stylesheet" type="text/css" media="screen" href="../web/css/layout.css" />
+</head>
+<body>
+
+  
+  <div id="indicator" style="display: none"></div>
+
+  <div id="header">
+    <ul>
+              <li><a href="/login.html">sign in / register</a></li>
+            <li class="last"><a href="/about.html">about</a></li>
+    </ul>
+    <div style="padding-top: 10px;">
+      <a href="/"><img alt="registry" align="left" src="../web/images/logo.gif.jpg" /></a>    </div>
+    <div id="search">
+      <form method="post" action="/search.html">  <input type="text" name="search" id="search" value="" style="width: 150px" />&nbsp;<input type="submit" name="commit" value="Search" class="small" /></form>    </div>
+  </div>
+
+  <div id="login" style="display: none">
+    <h2>please sign-in first</h2>
+    <form id="loginform" method="post" action="/login.html">      <label for="nickname">nickname:</label><input type="text" name="nickname" id="nickname" value="" />      <label for="password">password:</label><input type="password" name="password" id="password" value="" />      <input type="hidden" name="referer" id="referer" value="http://registry/" />      <input type="submit" name="commit" value="login" />      <a href="#" onclick="new Effect.BlindUp('login', {duration:0.5});; return false;">cancel</a>    </form>
+  </div>
+
+
+  <div id="content">
+    <div id="content_main">
+      
+
+<div id="sf_admin_header">
+<h1>Resources&nbsp;&nbsp;&nbsp;<a href="/agent/list.html">Owners</a></h1>
+<h2>Vocabularies&nbsp;&nbsp;&nbsp;<a href="#">Schemas</a>&nbsp;&nbsp;&nbsp;<a href="#">Application Profiles</a>&nbsp;&nbsp;&nbsp;<a href="#">Crosswalks</a></h2>
+
+</div>
+
+<div id="sf_admin_bar">
+
+
+<div class="sf_admin_filters">
+<form method="get" action="/">
+  <fieldset>
+    <h2>filters</h2>
+    <div class="form-row">
+    <label for="agent_id">Owner:</label>
+    <div class="content">
+    <select name="filters[agent_id]" id="filters_agent_id" include_blank="1"><option value=""></option>
+<option value="38">Organization Name</option>
+<option value="44">b</option>
+<option value="45">bb</option>
+<option value="46">Diane Hillmann</option>
+<option value="47">Diane Hillmann</option>
+<option value="48">Diane Hillmann</option>
+<option value="49">Diane Hillmann</option>
+<option value="50">Diane Hillmann</option>
+<option value="51">Diane Hillmann</option>
+<option value="52">GEM Exchange</option>
+<option value="53">National Science Digital Library</option>
+</select>    </div>
+    </div>
+
+      </fieldset>
+
+  <ul class="sf_admin_actions">
+    <li><input class="sf_admin_action_reset_filter" value="reset" type="button" onclick="document.location.href='/vocabulary/list/filter/filter.html';" /></li>
+    <li><input type="submit" name="filter" value="filter" class="sf_admin_action_filter" /></li>
+  </ul>
+
+</form>
+</div>
+
+</div>
+
+<div id="sf_admin_content">
+
+<table cellspacing="0" class="sf_admin_list">
+<thead>
+<tr>
+  <th id="sf_admin_list_th_name">
+                <a href="/vocabulary/list/sort/name/type/asc.html">Name</a>                </th>
+  <th id="sf_admin_list_th_last_updated">
+                <a href="/vocabulary/list/sort/last_updated/type/asc.html">Last Updated</a>              <img align="absmiddle" alt="This is the date the Vocabulary was last updated" title="This is the date the Vocabulary was last updated" src="../data/symfony/web/sf/images/sf_admin/help.png" />  </th>
+  <th id="sf_admin_list_th_agent">
+        Owner          </th>
+  <th id="sf_admin_list_th_concepts">
+        Concepts          </th>
+  <th id="sf_admin_list_th_versions">
+        Versions          </th>
+  <th id="sf_admin_list_th_sf_actions">Actions</th>
+</tr>
+</thead>
+<tbody>
+<tr class="sf_admin_row_0">
+    <td>Diane's New Vocabulary</td>
+      <td>05/31/06</td>
+      <td>Diane Hillmann</td>
+      <td><a href="/concept/list/vocabulary_id/7.html">Concepts</a></td>
+      <td><a href="#">Versions</a></td>
+  <td>
+<ul class="sf_admin_td_actions">
+  <li><a href="/vocabulary/show/id/7.html"><img alt="show" title="show" src="../data/symfony/web/sf/images/sf_admin/show_icon.png" /></a></li>
+    <li><a href="/vocabulary/show/id/7.rdf"><img alt="Get RDF" title="Get RDF" src="../data/symfony/web/sf/images/sf_admin/rdf_icon.png" /></a></li>
+</ul>
+</td></tr>
+<tr class="sf_admin_row_1">
+    <td>Level Element GEM Controlled Vocabulary</td>
+      <td>06/14/06</td>
+      <td>GEM Exchange</td>
+      <td><a href="/concept/list/vocabulary_id/8.html">Concepts</a></td>
+      <td><a href="#">Versions</a></td>
+  <td>
+<ul class="sf_admin_td_actions">
+  <li><a href="/vocabulary/show/id/8.html"><img alt="show" title="show" src="../data/symfony/web/sf/images/sf_admin/show_icon.png" /></a></li>
+    <li><a href="/vocabulary/show/id/8.rdf"><img alt="Get RDF" title="Get RDF" src="../data/symfony/web/sf/images/sf_admin/rdf_icon.png" /></a></li>
+</ul>
+</td></tr>
+<tr class="sf_admin_row_0">
+    <td>NSDL Education Level Vocabulary</td>
+      <td>04/24/06</td>
+      <td>National Science Digital Library</td>
+      <td><a href="/concept/list/vocabulary_id/10.html">Concepts</a></td>
+      <td><a href="#">Versions</a></td>
+  <td>
+<ul class="sf_admin_td_actions">
+  <li><a href="/vocabulary/show/id/10.html"><img alt="show" title="show" src="../data/symfony/web/sf/images/sf_admin/show_icon.png" /></a></li>
+    <li><a href="/vocabulary/show/id/10.rdf"><img alt="Get RDF" title="Get RDF" src="../data/symfony/web/sf/images/sf_admin/rdf_icon.png" /></a></li>
+</ul>
+</td></tr>
+<tr class="sf_admin_row_1">
+    <td>NSDL Learning Resource Type Vocabulary</td>
+      <td>04/24/06</td>
+      <td>National Science Digital Library</td>
+      <td><a href="/concept/list/vocabulary_id/11.html">Concepts</a></td>
+      <td><a href="#">Versions</a></td>
+  <td>
+<ul class="sf_admin_td_actions">
+  <li><a href="/vocabulary/show/id/11.html"><img alt="show" title="show" src="../data/symfony/web/sf/images/sf_admin/show_icon.png" /></a></li>
+    <li><a href="/vocabulary/show/id/11.rdf"><img alt="Get RDF" title="Get RDF" src="../data/symfony/web/sf/images/sf_admin/rdf_icon.png" /></a></li>
+</ul>
+</td></tr>
+<tr class="sf_admin_row_0">
+    <td>test vocab</td>
+      <td>06/14/06</td>
+      <td>Organization Name</td>
+      <td><a href="/concept/list/vocabulary_id/16.html">Concepts</a></td>
+      <td><a href="#">Versions</a></td>
+  <td>
+<ul class="sf_admin_td_actions">
+  <li><a href="/vocabulary/show/id/16.html"><img alt="show" title="show" src="../data/symfony/web/sf/images/sf_admin/show_icon.png" /></a></li>
+    <li><a href="/vocabulary/show/id/16.rdf"><img alt="Get RDF" title="Get RDF" src="../data/symfony/web/sf/images/sf_admin/rdf_icon.png" /></a></li>
+</ul>
+</td></tr>
+</tbody>
+<tfoot>
+<tr><th colspan="6">
+<div class="float-right">
+</div>
+5 results</th></tr>
+</tfoot>
+</table>
+
+<ul class="sf_admin_actions">
+                  </ul>
+
+</div>
+
+<div id="sf_admin_footer">
+</div>
+      <div class="verticalalign"></div>
+    </div>
+
+    <div id="content_bar">
+      <div class="topbar"></div>
+            <div class="verticalalign"></div>
+    </div>
+  </div>
+
+  <div id="footer">
+  powered by <a href="http://www.symfony-project.com/"><img align="middle" src="../web/images/symfony.gif" alt="Symfony" /></a>  <a href="http://www.redhat.com/"><img align="middle" src="../web/images/poweredby.png" alt="Poweredby" /></a>  </div>
+</body>
+</html>
