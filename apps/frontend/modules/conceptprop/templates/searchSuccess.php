@@ -1,7 +1,7 @@
 <?php use_helpers('I18N', 'Date') ?>
 
 <div id="sf_admin_header">
-<h1><?php echo __('Search results for [search term]', array()) ?></h1>
+<h1><?php echo __('Search results for ', array()) . "<em>'" . $sf_params->get('term') . "'</em>" ?></h1>
 </div>
 
 <div id="sf_admin_content">
@@ -22,10 +22,10 @@
   </th>
   <th id="sf_admin_list_th_concept_pref_label">
 			 <?php if ($sf_user->getAttribute('sort', null, 'sf_admin/concept_search/sort') == 'concept_pref_label'): ?>
-		<?php echo link_to(__('prefLabel'), 'conceptprop/search?sort=concept_pref_label&type='.($sf_user->getAttribute('type', 'asc', 'sf_admin/concept_search/sort') == 'asc' ? 'desc' : 'asc')) ?>
+		<?php echo link_to(__('Concept'), 'conceptprop/search?sort=concept_pref_label&type='.($sf_user->getAttribute('type', 'asc', 'sf_admin/concept_search/sort') == 'asc' ? 'desc' : 'asc')) ?>
 		(<?php echo __($sf_user->getAttribute('type', 'asc', 'sf_admin/concept_search/sort')) ?>)
 		<?php else: ?>
-		<?php echo link_to(__('prefLabel'), 'conceptprop/search?sort=concept_pref_label&type=asc') ?>
+		<?php echo link_to(__('Concept'), 'conceptprop/search?sort=concept_pref_label&type=asc') ?>
 		<?php endif; ?>
   </th>
   <th id="sf_admin_list_th_object">
@@ -53,9 +53,9 @@
 <tbody>
 <?php $i = 1; foreach ($pager->getResults() as $concept_property): $odd = fmod(++$i, 2) ?>
 <tr class="sf_admin_row_<?php echo $odd ?>">
-		<td><?php echo $concept_property->getVocabularyName() ?></td>
-		<td><?php echo $concept_property->getConceptPrefLabel() ?></td>
-		<td><?php echo $concept_property->getObject() ?></td>
+		<td><?php echo link_to($concept_property->getVocabularyName(), '/vocabulary/show?id=' . $concept_property->getVocabularyId()) ?></td>
+		<td><?php echo link_to($concept_property->getConceptPrefLabel(), '/concept/show?id=' . $concept_property->getConceptId()) ?></td>
+		<td><?php echo link_to($concept_property->getObject(), '/conceptprop/show?id=' . $concept_property->getId()) ?></td>
 		<td><?php echo $concept_property->getSkosPropertyName() ?></td>
 		<td><?php echo $concept_property->getLanguage() ?></td>
 <td>

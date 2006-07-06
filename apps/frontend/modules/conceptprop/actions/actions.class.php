@@ -110,6 +110,16 @@ class conceptpropActions extends autoconceptpropActions
     {
       $conceptId = $this->filters['concept_id'];
     }
+    //there's no concept_id anywhere, so we get it by retrieving the conceptproperty object
+    else
+    {
+      $conceptPropertyId = $this->getRequestParameter('id');
+      if ($conceptPropertyId)
+      {
+         $conceptPropertyObj = ConceptPropertyPeer::retrieveByPK($conceptPropertyId);
+         $conceptId = $conceptPropertyObj->getConceptId();
+      }
+    }
     //there's a concept_id but no vocabulary object
     if ($conceptId && !$conceptObj)
     {
@@ -171,10 +181,10 @@ class conceptpropActions extends autoconceptpropActions
 		$this->getUser()->setAttribute('type', $this->getRequestParameter('type', 'asc'), 'sf_admin/concept_search/sort');
 	  }
 
-	 if ($this->getRequest()->hasParameter('search'))
+	 if ($this->getRequest()->hasParameter('term'))
     {
       $this->getRequest()->setParameter('filter','filter');
-      $filters = array('label' => $this->getRequestParameter('search'));
+      $filters = array('label' => $this->getRequestParameter('term'));
       $this->getUser()->getAttributeHolder()->removeNamespace('sf_admin/concept_search/filters');
       $this->getUser()->getAttributeHolder()->add($filters, 'sf_admin/concept_search/filters');
 	 }

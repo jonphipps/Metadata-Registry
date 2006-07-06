@@ -10,14 +10,14 @@ default:
     keywords:     semantic web, registry, rdf, skos, metadata
     language:     en
 
-  stylesheets:    [main, layout, tab-menu]
+  stylesheets:    [main, layout]
 
-  javascripts:    [/sf/js/prototype/prototype.js, tab-menu]
+  javascripts:    [/sf/js/prototype/prototype.js]
 
   has_layout:     on
   layout:         layout
 
-  components:
+  components:          {}
     sidebar:      [sidebar, default]
 
   use_default_slots: on

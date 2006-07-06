@@ -283,11 +283,14 @@ div#footer
 
 div#search
 {
-  float: right;
-  margin-top:20px;
-  padding-left: 100px;
+  position:relative;
+  
+  top:-50px;
+  right:0px;
   padding-right: 10px;
   text-align: right;
+  float: right;
+  clear: both;
 }
 
 .form_error

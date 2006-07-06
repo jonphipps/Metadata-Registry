@@ -33,7 +33,7 @@ rdf_vocabulary:
 
 # concepts
 concept_search:
-  url:   /search/*
+  url:   /search.
   param: { module: conceptprop, action: search }
 
 # user

@@ -30,7 +30,7 @@
       <?php echo link_to(image_tag('logo.gif.jpg', 'alt=registry align=left'), '@homepage') ?>
     </div>
     <div id="search">
-      <?php include_partial('conceptprop/search') ?>
+      <?php include_partial('conceptprop/search', array('searchTerm' => $sf_params->get('term'))) ?>
     </div>
   </div>
 
