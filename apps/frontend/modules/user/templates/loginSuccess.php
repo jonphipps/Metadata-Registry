@@ -1,5 +1,11 @@
 <?php use_helpers('Validation', 'Javascript') ?>
 
+<script type="text/javascript">
+//<![CDATA[
+   formUtil.focusOnFirst('login_form');
+//]]>
+</script>
+
 <h1><?php echo __('sign in / register') ?></h1>
 
 <div class="in_form">
