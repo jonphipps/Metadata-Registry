@@ -119,7 +119,7 @@ class rdfActions extends sfActions
 
           //redirect
           $this->getContext()->getResponse()->setStatusCode(303);
-          $this->redirect('http://' . $_SERVER['HTTP_HOST'] . '/conceptprop/list/concept_id/' . $concept->getId() . '.html');
+          $this->redirect('http://' . $_SERVER['HTTP_HOST'] . '/concept/show/id/' . $concept->getId() . '.html');
           break;
        case 'uri':
           //this URI does NOT have an 'id', HAS an 'rdf' suffix, and HAS a 'uri' action
@@ -138,7 +138,7 @@ class rdfActions extends sfActions
              $this->forward404Unless($concept);
              //redirect
              $this->getContext()->getResponse()->setStatusCode(303);
-             $this->redirect('http://' . $_SERVER['HTTP_HOST'] . '/conceptprop/list/concept_id/' . $concept->getId() . '.html');
+             $this->redirect('http://' . $_SERVER['HTTP_HOST'] . '/concept/show/id/' . $concept->getId() . '.html');
           }
           //else if ((true === strpos($_SERVER['HTTP_ACCEPT'],'text/xml')) ||
           //    (true === strpos($_SERVER['HTTP_ACCEPT'], 'application/xml')) ||
@@ -189,4 +189,3 @@ class rdfActions extends sfActions
     return;
   }
 }
-
