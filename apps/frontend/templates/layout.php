@@ -7,7 +7,13 @@
 
 <?php echo include_title() ?>
 
-<link rel="shortcut icon" href="/favicon.ico" />
+<?php if ($_SERVER['HTTP_HOST'] == 'registry'): ?>
+<link rel="shortcut icon" href="/registry_favicon_dev.ico" />
+<?php elseif ($_SERVER['HTTP_HOST'] == 'beta.metadataregistry.org'): ?>
+<link rel="shortcut icon" href="/registry_favicon_beta.ico" />
+<?php else: ?>
+<link rel="shortcut icon" href="/registry_favicon_prod.ico" />
+<?php endif; ?>
 
 </head>
 <body>
