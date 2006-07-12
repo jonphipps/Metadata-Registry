@@ -18,4 +18,3 @@ class agentActions extends autoagentActions
   }
 
 }
-
