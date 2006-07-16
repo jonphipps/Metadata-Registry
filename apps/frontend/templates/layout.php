@@ -35,6 +35,7 @@
     <div style="padding-top: 10px;">
       <?php echo link_to(image_tag('logo.gif.jpg', 'alt=registry align=left'), '@homepage') ?>
     </div>
+    
     <div id="search">
       <?php include_partial('conceptprop/search', array('searchTerm' => $sf_params->get('term'))) ?>
     </div>
@@ -55,15 +56,12 @@
   <div id="content">
     <div id="content_main">
       <?php echo $content ?>
-      <div class="verticalalign"></div>
     </div>
 
     <div id="content_bar">
-      <div class="topbar"></div>
       <?php include_component_slot('sidebar') ?>
-      <div class="verticalalign"></div>
     </div>
-  </div>
+    </div>
 
   <div id="footer">
   <?php echo __('powered by %1%', array('%1%' => link_to(image_tag('symfony.gif', 'align=middle'), 'http://www.symfony-project.com/'))) ?>

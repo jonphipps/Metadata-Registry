@@ -5,14 +5,6 @@
 [?php include_partial('<?php echo $this->getModuleName() ?>/list_header') ?]
 </div>
 
-<div id="sf_admin_bar">
-
-<?php if ($this->getParameterValue('list.filters') && $this->getParameterValue('list.displayfilter', true)): ?>
-[?php echo include_partial('filters', array('filters' => $filters)) ?]
-<?php endif; ?>
-
-</div>
-
 <div id="sf_admin_content">
 
 [?php if(!$pager->getNbResults()): ?]
@@ -62,4 +54,12 @@
 
 <div id="sf_admin_footer">
 [?php include_partial('<?php echo $this->getModuleName() ?>/list_footer') ?]
+</div>
+
+<div id="sf_admin_bar">
+
+<?php if ($this->getParameterValue('list.filters') && $this->getParameterValue('list.displayfilter', true)): ?>
+[?php echo include_partial('filters', array('filters' => $filters)) ?]
+<?php endif; ?>
+
 </div>

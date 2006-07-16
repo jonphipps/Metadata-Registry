@@ -1,17 +1,5 @@
 /*CSS code from www.fu2k.org - In search of the One True Layout*/
 
-#content_main
-{
-  float: left;
-  width: 480px;
-  margin-right: 10px;
-}
-#content_bar
-{
-  float: left;
-  width: 220px;
-  padding:10px;
-}
 /* Start Mac IE5 filter \*/
 #content_main, #content_bar
   {

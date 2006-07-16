@@ -33,9 +33,9 @@ div#header
   margin-right: auto;
   margin-bottom: 10px;
   text-align: left;
-  width: 780px;
+  width: 100%;
   height: 82px;
-  background:url(/images/header_background.gif) no-repeat top left;
+  background: white url(/images/header_bar.gif) repeat-x top left;
 }
 
 div#header h1
@@ -100,10 +100,29 @@ div#header li :link, div#header li :visited
   color:#fff;
 }
 
+div#content
+{
+  width:100%
+}
+
 div#content_main
 {
-  background: white url(/images/content_top.gif) no-repeat top left;
-  padding:25px;
+  background: white;
+  padding:5px;
+  margin-right:250px;
+  margin-left:10px;
+  top:0;
+}
+
+div#content_bar
+{
+  position:absolute;
+  background-color: white;
+  top:0;
+  right:0;
+  width: 220px;
+  margin-right:10px;
+  padding:5px;
 }
 
 div#content_main h1
@@ -245,14 +264,9 @@ div#content_main p
   padding-bottom: 10px;
 }
 
-div#content_bar
-{
-  background-color: white;
-}
-
 div#content_bar div.topbar
 {
-  background:url(/images/side_top.gif) no-repeat top left;
+  background: blue;
   height:15px;
   margin:-10px;
 }
@@ -273,19 +287,19 @@ div#content_bar h2
 
 div#footer
 {
-  margin-left: auto;
-  margin-right: auto;
-  height:80px;
-  padding-top:40px;
-  background:url(/images/footer_background.gif) no-repeat top left;
+  height:40px;
+  left:0;
+  width:96%;
   text-align: right;
+  margin:10px 10px 0px 10px;
+  padding:10px 10px 0px 10px;
 }
 
 div#search
 {
   position:relative;
   
-  top:-50px;
+  top:-30px;
   right:0px;
   padding-right: 10px;
   text-align: right;
@@ -441,11 +455,6 @@ ul#tag_cloud li.tag_popularity_4
 ul.plain_list
 {
   margin-left: 15px;
-}
-
-#sf_admin_content
-{
-  margin-right: 0px;
 }
 
 h1

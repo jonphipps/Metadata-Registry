@@ -28,16 +28,23 @@ p
 
 #sf_admin_bar
 {
+  float:right;
   margin: 0px 0px 0px 0px;
-  position: absolute;
-  top: 150px;
+  bottom: 0px;
   right: 0px;
   width: 240px;
+  right:0px;
+}
+
+#sf_admin_bar div.form-row,
+#sf_admin_bar div.content,
+#sf_admin_bar div.form-row label
+{
+  background-color:#F6F2F6;
 }
 
 #sf_admin_content
 {
-  margin-right: 270px;
 }
 
 h1
@@ -171,6 +178,18 @@ fieldset.collapse h2 a.collapse-toggle:hover { text-decoration:underline; }
 .float-right
 {
   float: right;
+}
+
+div#sf_admin_header
+{
+  margin:-5px -5px 10px -5px;
+  padding:0px;
+}
+
+div#sf_admin_header h2
+{
+  padding:0px;
+  margin:5px 0px -5px 5px;
 }
 
 ul.sf_admin_td_actions
