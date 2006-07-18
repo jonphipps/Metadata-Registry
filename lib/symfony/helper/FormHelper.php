@@ -838,12 +838,22 @@ function input_date_tag($name, $value, $options = array())
   $calendar_date_format = strtr($calendar_date_format, array('M' => 'm', 'y' => 'Y'));
   $calendar_date_format = preg_replace('/([mdy])+/i', '%\\1', $calendar_date_format);
 
+  $id_inputField = (isset($options['id']))? $options['id'] : get_id_from_name($name);
   $js = '
     document.getElementById("trigger_'.$name.'").disabled = false;
     Calendar.setup({
-      inputField : "'.get_id_from_name($name).'",
+      inputField : "'.$id_inputField.'",
       ifFormat : "'.$calendar_date_format.'",
-      button : "trigger_'.$name.'"
+      button : "trigger_'.$name.'"';
+
+  // calendar options
+  if (isset($options['calendar_options']))
+  {
+    $js .= ",\n".$options['calendar_options'];
+    unset($options['calendar_options']);
+  }
+
+  $js .= '
     });
   ';
 
@@ -915,7 +925,7 @@ function input_date_tag($name, $value, $options = array())
  */
 function submit_tag($value = 'Save changes', $options = array())
 {
-  return tag('input', array_merge(array('type' => 'submit', 'name' => 'commit', 'value' => $value), _convert_options($options)));
+  return tag('input', array_merge(array('type' => 'submit', 'name' => 'commit', 'value' => $value), _convert_options_to_javascript(_convert_options($options))));
 }
 
 /**
@@ -968,7 +978,7 @@ function reset_tag($value = 'Reset', $options = array())
  */
 function submit_image_tag($source, $options = array())
 {
-  return tag('input', array_merge(array('type' => 'image', 'name' => 'commit', 'src' => image_path($source)), _convert_options($options)));
+  return tag('input', array_merge(array('type' => 'image', 'name' => 'commit', 'src' => image_path($source)), _convert_options_to_javascript(_convert_options($options))));
 }
 
 /**
@@ -1458,10 +1468,6 @@ function select_minute_tag($name, $value = null, $options = array(), $html_optio
  */
 function select_hour_tag($name, $value = null, $options = array(), $html_options = array())
 {
-  if ($value === null)
-  {
-    $value = date('h');
-  }
     
   $options = _parse_attributes($options);
   $select_options = array();
@@ -1477,8 +1483,13 @@ function select_hour_tag($name, $value = null, $options = array(), $html_options
 
   $_12hour_time = _get_option($options, '12hour_time');
 
-  $start_hour = ($_12hour_time) ? 1 : 0;
-  $end_hour = ($_12hour_time) ? 12 : 23;
+  if ($value === null)
+  {
+    $value = date($_12hour_time ? 'h' : 'H');
+  }
+
+  $start_hour = $_12hour_time ? 1  : 0;
+  $end_hour   = $_12hour_time ? 12 : 23;
 
   for ($x = $start_hour; $x <= $end_hour; $x++)
   {
@@ -1945,8 +1956,6 @@ function _convert_options($options)
     $options = _boolean_attribute($options, $attribute);
   }
   
-  // Parse any javascript options
-  $options = _convert_options_to_javascript($options);
 
   return $options;
 }

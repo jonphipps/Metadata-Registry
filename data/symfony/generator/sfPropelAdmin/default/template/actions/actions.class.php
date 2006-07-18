@@ -97,7 +97,7 @@ class <?php echo $this->getGeneratedModuleName() ?>Actions extends sfActions
 
 <?php foreach ($this->getColumns('') as $name => $column): ?>
 <?php $input_type = $this->getParameterValue('edit.fields.'.$column->getName().'.type') ?>
-<?php if ($input_type == 'admin_input_upload_tag'): ?>
+<?php if ($input_type == 'admin_input_file_tag'): ?>
 <?php $upload_dir = $this->replaceConstants($this->getParameterValue('edit.fields.'.$column->getName().'.upload_dir')) ?>
       $currentFile = sfConfig::get('sf_upload_dir')."/<?php echo $upload_dir ?>/".$this-><?php echo $this->getSingularName() ?>->get<?php echo $column->getPhpName() ?>();
       if (is_file($currentFile))
@@ -157,7 +157,7 @@ class <?php echo $this->getGeneratedModuleName() ?>Actions extends sfActions
     if ($this->getUser()->hasCredential(<?php echo $credentials ?>))
     {
 <?php endif; ?>
-<?php if ($input_type == 'admin_input_upload_tag'): ?>
+<?php if ($input_type == 'admin_input_file_tag'): ?>
 <?php $upload_dir = $this->replaceConstants($this->getParameterValue($view.'.fields.'.$column->getName().'.upload_dir')) ?>
     $currentFile = sfConfig::get('sf_upload_dir')."/<?php echo $upload_dir ?>/".$this-><?php echo $this->getSingularName() ?>->get<?php echo $column->getPhpName() ?>();
     if (!$this->getRequest()->hasErrors() && isset($<?php echo $this->getSingularName() ?>['<?php echo $name ?>_remove']))
@@ -175,7 +175,7 @@ class <?php echo $this->getGeneratedModuleName() ?>Actions extends sfActions
     if (isset($<?php echo $this->getSingularName() ?>['<?php echo $name ?>']))
     {
 <?php endif; ?>
-<?php if ($input_type == 'admin_input_upload_tag'): ?>
+<?php if ($input_type == 'admin_input_file_tag'): ?>
 <?php if ($this->getParameterValue($view.'.fields.'.$column->getName().'.filename')): ?>
       $fileName = "<?php echo str_replace('"', '\\"', $this->replaceConstants($this->getParameterValue($view.'fields.'.$column->getName().'.filename'))) ?>";
 <?php else: ?>

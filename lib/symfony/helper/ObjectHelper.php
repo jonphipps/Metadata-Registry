@@ -134,7 +134,6 @@ function object_select_tag($object, $method, $options = array(), $default_value 
      $select_options = _get_values_for_object_select_tag($object, $related_class);
   }
 
-  //$select_options = _get_values_for_object_select_tag($object, $related_class);
 
   if (isset($options['include_custom']))
   {
