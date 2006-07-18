@@ -50,15 +50,11 @@ body, #sf_admin_container td
 
 #sf_admin_container h1
 {
-  margin: 8px 0;
+  margin: 0px;
   padding: 3px;
-  padding-left: 5px;
   color: #555;
   font-family: "Trebuchet MS", Arial, Verdana, sans-serif;
   font-size: 16px;
-  border: 1px solid #ddd;
-  border-left: 4px solid #66f;
-  background-color: #ffc;
 }
 
 #sf_admin_container fieldset h2
@@ -81,7 +77,7 @@ body, #sf_admin_container td
 #sf_admin_container label
 {
   display: block;
-  padding: 0 1em 3px 0;
+  padding: 0px 1em 3px 0;
   float: left;
   text-align: left;
   width: 8em;
@@ -161,8 +157,8 @@ body, #sf_admin_container td
 
 #sf_admin_container fieldset
 {
-  margin-bottom: 3px;
-  border: 1px solid #ddd;
+  margin-bottom: 5px;
+  border: 1px solid silver;
   border-bottom: 0px;
   background-color: #fff;
 }
@@ -185,14 +181,15 @@ body, #sf_admin_container td
 
 #sf_admin_container div#sf_admin_header
 {
-  margin:-5px -5px 10px -5px;
-  padding:0px;
+  background-color: #ffc;
+  border: 1px solid silver;
+  border-bottom:0;
 }
 
 #sf_admin_container div#sf_admin_header h2
 {
-  padding:0px;
-  margin:5px 0px -5px 5px;
+  padding:5px;
+  border-top: 1px solid silver;
 }
 
 #sf_admin_container ul.sf_admin_td_actions
@@ -224,6 +221,12 @@ body, #sf_admin_container td
   display: inline;
 }
 
+#sf_admin_container ul.sf_admin_actions li.float-left
+{
+  float:left;
+  margin-top:-30px;
+}
+
 #sf_admin_container ul.sf_admin_actions input
 {
   padding: 3px 3px 3px 20px;
@@ -241,53 +244,62 @@ body, #sf_admin_container td
 {
   background: url(/sf/images/sf_admin/edit.png) no-repeat 3px 2px;
   border-right: 4px solid #73B65A !important;
+  padding-left:20px !important;
 }
 #sf_admin_container .sf_admin_action_create
 {
   background: url(/sf/images/sf_admin/add.png) no-repeat 3px 2px;
   border-right: 4px solid #73B65A !important;
+  padding-left:20px !important;
 }
 
 #sf_admin_container .sf_admin_action_save
 {
   background: url(/sf/images/sf_admin/save.png) no-repeat 3px 2px;
   border-right: 4px solid #73B65A !important;
+  padding-left:20px !important;
 }
 
 #sf_admin_container .sf_admin_action_save_and_add
 {
   background: url(/sf/images/sf_admin/save.png) no-repeat 3px 2px;
   border-right: 4px solid #73B65A !important;
+  padding-left:20px !important;
 }
 
 #sf_admin_container .sf_admin_action_delete
 {
   background: url(/sf/images/sf_admin/delete.png) no-repeat 3px 2px;
   border-right: 4px solid #E75C58 !important;
+  padding-left:20px !important;
 }
 
 #sf_admin_container .sf_admin_action_cancel
 {
   background: url(/sf/images/sf_admin/cancel.png) no-repeat 3px 2px;
   border-right: 4px solid #E75C58 !important;
+  padding-left:20px !important;
 }
 
 #sf_admin_container .sf_admin_action_filter
 {
   background: url(/sf/images/sf_admin/filter.png) no-repeat 3px 2px;
   border-right: 4px solid #66f !important;
+  padding-left:20px !important;
 }
 
 #sf_admin_container .sf_admin_action_reset_filter
 {
   background: url(/sf/images/sf_admin/reset.png) no-repeat 3px 2px;
   border-right: 4px solid #E75C58 !important;
+  padding-left:20px !important;
 }
 
 #sf_admin_container .sf_admin_action_list
 {
   background: url(/sf/images/sf_admin/list.png) no-repeat 3px 2px;
   border-right: 4px solid #66f !important;
+  padding-left:20px !important;
 }
 
 #sf_admin_container .sf_admin_default_action
@@ -302,6 +314,11 @@ body, #sf_admin_container td
   border: 1px solid #ddd;
   border-bottom: 0px;
   border-right: 0px;
+}
+
+div#sf_admin_container.sf_admin_list
+{
+  width: 100%;
 }
 
 #sf_admin_container .sf_admin_list th
@@ -344,7 +361,7 @@ padding-left: 0px;
 
 #sf_admin_container .sf_admin_row_0 td
 {
-  
+  background-color: #eef7ff;
 }
 
 #sf_admin_container .sf_admin_row_1 td
@@ -357,20 +374,20 @@ padding-left: 0px;
   color: #aaa;
 }
 
-#sf_admin_container form#sf_admin_edit_form
+div #sf_admin_container
 {
   margin-left:auto;
   margin-right:auto;
   margin-bottom:10px;
+  margin-top:10px;
   background-color:white;
   width:480px;
-  border:1px solid gray;
 }
 
 #sf_admin_container form#sf_admin_edit_form .form-row,
 #sf_admin_container form#sf_admin_edit_form fieldset
 {
-  background-color:#F2ECF2;
+  background-color:#f5f5f5;
 }
 
 #sf_admin_container form#sf_admin_edit_form ul

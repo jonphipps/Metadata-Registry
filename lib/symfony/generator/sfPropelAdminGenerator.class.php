@@ -98,7 +98,7 @@ class sfPropelAdminGenerator extends sfPropelCrudGenerator
     if ($help)
     {
       $tmp = "[?php echo image_tag('/sf/images/sf_admin/help.png', array('align' => 'absmiddle', 'alt' => __('".$this->escapeString($help)."'), 'title' => __('".$this->escapeString($help)."'))) ?]";
-      if ($type == 'edit')
+      if ($type != 'list')
       {
          $tmp = '<div class="sf_admin_icon_edit_help" id="sf_admin_icon_edit_help_' . $column->getName() . '">' . $tmp . "</div>";
       }

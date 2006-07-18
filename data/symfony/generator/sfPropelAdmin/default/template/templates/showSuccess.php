@@ -1,5 +1,6 @@
 [?php use_helpers('Object', 'Validation', 'ObjectAdmin', 'I18N', 'Date', 'Text') ?]
 
+<div id="sf_admin_container">
 <div id="sf_admin_header">
 [?php include_partial('<?php echo $this->getModuleName() ?>/show_header', array('<?php echo $this->getSingularName() ?>' => $<?php echo $this->getSingularName() ?>)) ?]
 </div>
@@ -54,7 +55,7 @@
   [?php else: ?]
     &nbsp;
   [?php endif; ?]
-  <?php echo $this->getHelp($column, 'show') ?>
+  <?php if ($this->getParameterValue('edit.helptype') != 'icon'): echo $this->getHelp($column, 'show'); else: echo $this->getHelpAsIcon($column, 'show'); endif; ?>
   </div>
 </div>
 <?php if ($credentials): ?>
@@ -65,7 +66,7 @@
 </fieldset>
 <?php endforeach; ?>
 
-[?php echo include_partial('show_actions', array('<?php echo $this->getSingularName() ?>' => $<?php echo $this->getSingularName() ?>)) ?]
+[?php include_partial('show_actions', array('<?php echo $this->getSingularName() ?>' => $<?php echo $this->getSingularName() ?>)) ?]
 
 <ul class="sf_admin_actions">
 <?php
@@ -83,4 +84,5 @@
 
 <div id="sf_admin_footer">
 [?php include_partial('<?php echo $this->getModuleName() ?>/show_footer', array('<?php echo $this->getSingularName() ?>' => $<?php echo $this->getSingularName() ?>)) ?]
+</div>
 </div>

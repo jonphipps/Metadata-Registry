@@ -1,6 +1,6 @@
 [?php use_helpers('I18N', 'Date') ?]
 
-<div id="sf_admin_container">
+<div id="sf_admin_container" class="sf_admin_list">
 
 <div id="sf_admin_header">
 [?php include_partial('<?php echo $this->getModuleName() ?>/list_header') ?]
