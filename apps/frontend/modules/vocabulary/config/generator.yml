@@ -6,8 +6,8 @@ generator:
 
     fields:
       id:             { name: ID }
-      created_at:     { name: Date Created, type: plain, params: date_format='F', help: This is the date the Vocabulary was created }
-      last_updated:   { name: Last Updated, type: plain, params: date_format='F', help: This is the date the Vocabulary was last updated }
+      created_at:     { name: Date Created, type: plain, params: date_format='s', help: This is the date the Vocabulary was created }
+      last_updated:   { name: Last Updated, type: plain, params: date_format='s', help: This is the date the Vocabulary was last updated }
       agent:          { name: Owner, help: The individual or organization that registered the vocabulary }
       agent_id:       { name: Owner, help: The individual or organization that registered the vocabulary }
       name:           { name: Name, help: A descriptive name for the vocabulary. This will be displayed in lists of vocabularies. }

@@ -61,7 +61,7 @@ body, #sf_admin_container td
 {
   padding: 3px;
   color: #333;
-  background-color: #ccf;
+  background-color: #ffe6cc;
   font-size: 11px;
 }
 
@@ -111,6 +111,7 @@ body, #sf_admin_container td
   clear: both;
   padding: 5px;
   border-bottom: 1px solid #ddd;
+  background-color: #fffff0;
 }
 
 #sf_admin_container .form-row .content
@@ -384,10 +385,9 @@ div #sf_admin_container
   width:480px;
 }
 
-#sf_admin_container form#sf_admin_edit_form .form-row,
 #sf_admin_container form#sf_admin_edit_form fieldset
 {
-  background-color:#f5f5f5;
+  background-color: #fffff0;
 }
 
 #sf_admin_container form#sf_admin_edit_form ul

@@ -63,7 +63,7 @@
 
   [?php $value = <?php echo $this->getColumnCreateTag($column); ?>; echo $value ? $value : '&nbsp;' ?]
   </div>
-  <?php if ($this->getParameterValue('edit.helptype') != 'icon'): echo $this->getHelp($column, 'create'); else: echo $this->getHelpAsIcon($column, 'create'); endif; ?>
+  <?php if ($this->getParameterValue('create.helptype') == 'div'): echo $this->getHelp($column, 'create'); elseif ($this->getParameterValue('create.helptype') == 'icon'): echo $this->getHelpAsIcon($column, 'create'); endif; ?>
 </div>
 <?php endif; ?>
 <?php if ($credentials): ?>

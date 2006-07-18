@@ -330,7 +330,7 @@ class sfPropelAdminGenerator extends sfPropelCrudGenerator
     {
       if ($inputType == 'plain')
       {
-        return $this->getColumnListTag($column, $params);
+        return $this->getColumnTag($column, $params, $view);
       }
       else
       {

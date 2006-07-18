@@ -30,7 +30,7 @@
     $collapse = false;
   }
 ?>
-<fieldset class="<?php if ($collapse): ?> collapse<?php endif; ?>">
+<fieldset id="sf_fieldset_<?php echo preg_replace('/[^a-z0-9_]/', '_', strtolower($category_name)) ?>" class="<?php if ($collapse): ?> collapse<?php endif; ?>">
 <?php if ($category != 'NONE'): ?><h2>[?php echo __('<?php echo $category_name ?>') ?]</h2>
 
 <?php endif; ?>
@@ -40,9 +40,8 @@
     [?php if ($sf_user->hasCredential(<?php echo $credentials ?>)): ?]
 <?php endif; ?>
 <div class="form-row">
-  <label <?php if ($column->isNotNull()): ?>class="required" <?php endif; ?>for="<?php echo $this->getSingularName() ?>[<?php echo $column->getName() ?>]">[?php echo __('<?php echo str_replace("'", "\\'", $this->getParameterValue('show.fields.'.$column->getName().'.name')) ?>:') ?]</label>
+  [?php echo label_for('<?php echo $this->getParameterValue("edit.fields.".$column->getName().".label_for", $this->getSingularName()."[".$column->getName()."]") ?>', __('<?php echo str_replace("'", "\\'", $this->getParameterValue('show.fields.'.$column->getName().'.name')) ?>:'), '<?php if ($column->isNotNull()): ?>class="required" <?php endif; ?>') ?]
   <div class="content[?php if ($sf_request->hasError('<?php echo $this->getSingularName() ?>{<?php echo $column->getName() ?>}')): ?] form-error[?php endif; ?]">
-  [?php if ($sf_request->hasError('<?php echo $this->getSingularName() ?>{<?php echo $column->getName() ?>}')): ?]<div class="form-error-msg">&darr;&nbsp;[?php echo $sf_request->getError('<?php echo $this->getSingularName() ?>{<?php echo $column->getName() ?>}') ?]&nbsp;&darr;</div>[?php endif; ?]
 
     [?php $showValue = <?php echo $this->getColumnShowTag($column) ?> ?]
     [?php if ($showValue): ?]
@@ -55,7 +54,7 @@
   [?php else: ?]
     &nbsp;
   [?php endif; ?]
-  <?php if ($this->getParameterValue('edit.helptype') != 'icon'): echo $this->getHelp($column, 'show'); else: echo $this->getHelpAsIcon($column, 'show'); endif; ?>
+  <?php if ($this->getParameterValue('show.helptype') == 'div'): echo $this->getHelp($column, 'show'); elseif ($this->getParameterValue('show.helptype') == 'icon'): echo $this->getHelpAsIcon($column, 'show'); endif; ?>
   </div>
 </div>
 <?php if ($credentials): ?>
@@ -75,7 +74,7 @@
  */
  $editActions = $this->getParameterValue('show.actions');
 ?>
-  <?php if (!$editActions && isset($editActions['_delete'])): ?>
+  <?php if (!$editActions || isset($editActions['_delete'])): ?>
     <?php echo $this->addCredentialCondition($this->getButtonToAction('_delete', $editActions['_delete'], true), $editActions['_delete']) ?>
   <?php endif; ?>
 </ul>

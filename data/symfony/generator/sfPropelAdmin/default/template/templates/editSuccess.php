@@ -62,7 +62,7 @@
 
   [?php echo <?php echo $this->getColumnEditTag($column) ?> ?]
   </div>
-  <?php if ($this->getParameterValue('edit.helptype') != 'icon'): echo $this->getHelp($column, 'edit'); else: echo $this->getHelpAsIcon($column, 'edit'); endif; ?>
+  <?php if ($this->getParameterValue('edit.helptype') == 'div'): echo $this->getHelp($column, 'edit'); elseif ($this->getParameterValue('edit.helptype') == 'icon'): echo $this->getHelpAsIcon($column, 'edit'); endif; ?>
 </div>
 <?php endif; ?>
 <?php if ($credentials): ?>
