@@ -5,38 +5,46 @@ generator:
     theme:            default
 
     fields:
-      id:           { name: ID }
-      created_at:   { name: Date Created, type: plain, params: date_format='MM/dd/yy' }
-      last_updated: { name: Last Updated, type: plain, params: date_format='MM/dd/yy', help: This is the date the Vocabulary was last updated }
-      agent:        { name: Owner }
-      agent_id:     { name: Owner }
-      name:         { name: Name }
-      note:         { name: Note }
-      uri:          { name: URI }
-      url:          { name: URL }
-      base_domain:  { name: Base Domain }
-      token:        { name: Token }
-      community:    { name: Community }
-      _concepts:    { name: Concepts }
-      _versions:    { name: Versions }
+      id:             { name: ID }
+      created_at:     { name: Date Created, type: plain, params: date_format='F', help: This is the date the Vocabulary was created }
+      last_updated:   { name: Last Updated, type: plain, params: date_format='F', help: This is the date the Vocabulary was last updated }
+      agent:          { name: Owner, help: The individual or organization that registered the vocabulary }
+      agent_id:       { name: Owner, help: The individual or organization that registered the vocabulary }
+      name:           { name: Name, help: A descriptive name for the vocabulary. This will be displayed in lists of vocabularies. }
+      note:           { name: Note, help: A note about this vocabulary }
+      uri:            { name: URI, help: The URI of this vocabulary. By default this will be a concatenation of the Base Domain and the Token. }
+      url:            { name: URL, help: A non-Registry URL that contains more information about this vocabulary }
+      base_domain:    { name: Base Domain, help: The root of all URIs for this vocabulary and its terms. Defaults to the Base Domain set by the Owner of this vocabulary. }
+      token:          { name: Token, help: A unique token representing this vocabulary. This can be used as the RDF container class or to identify an encoding scheme in XML}
+      community:      { name: Community, help: Tags identifying communities of practice that this vocabulary addresses }
+      _concepts:      { name: Concepts }
+      _versions:      { name: Versions }
 
     list:
-      display:   [name, last_updated, agent, _concepts, _versions]
+      title:           Registry vocabulary list
+      fields:
+        last_updated: { params: date_format='yyyy-MM-dd' }
+      display:        [name, last_updated, agent, _concepts, _versions]
+      sort:           name
       object_actions:
         _show:
-        _edit:      { credentials: [administrator] }
-        rdf:        { name: Get RDF, icon: /sf/images/sf_admin/rdf_icon.png }
+        _edit:        { credentials: [administrator] }
+        rdf:          { name: Get RDF, icon: /sf/images/sf_admin/rdf_icon.png }
       actions:
-        _create:    { credentials: [administrator] }
-      filters:      [agent_id]
+        _create:      { credentials: [[administrator, hasAgents]] }
+      filters:        [agent_id]
 
     edit:
-      title:        Detail for %%name%%
-      display:      [agent_id, name, base_domain, uri, token, url, note, community]
+      title:          Detail for %%name%%
+      helptype:       icon
+      display:
+        "Metadata":   [id, created_at, last_updated]      
+        "Detail":     [agent_id, name, url, note, community]
+        "URI":        [base_domain, token, uri]
       fields:
-        id:           { type: plain }
-        created_at:   { type: plain }
-        last_updated: { type: plain }
+        id:           { type: plain, credentials: [administrator] }
+        created_at:     { params: date_format='F' }
+        last_updated:   { params: date_format='F' }
       actions:
         _list:      -
         _save:         { credentials: [[administrator, hasAgents]] }
@@ -55,7 +63,7 @@ generator:
         _list:
 
     create:
-      display:      [agent_id, name, base_domain, uri, token, url, note, community]
+      display:      [agent_id, base_domain, token, uri, name, url, note, community]
       actions:
         _list:      -
         _save:         { credentials: [[administrator, hasAgents]] }

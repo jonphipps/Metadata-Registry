@@ -40,7 +40,7 @@
     $collapse = false;
   }
 ?>
-<fieldset class="<?php if ($collapse): ?> collapse<?php endif; ?>">
+<fieldset id="sf_fieldset_<?php echo preg_replace('/[^a-z0-9_]/', '_', strtolower($category_name)) ?>" class="<?php if ($collapse): ?> collapse<?php endif; ?>">
 <?php if ($category != 'NONE'): ?><h2>[?php echo __('<?php echo $category_name ?>') ?]</h2>
 
 <?php endif; ?>
@@ -61,8 +61,8 @@
     [?php endif; ?]
 
   [?php echo <?php echo $this->getColumnCreateTag($column) ?> ?]
-  <?php echo $this->getHelp($column, 'create') ?>
   </div>
+  <?php if ($this->getParameterValue('edit.helptype') != 'icon'): echo $this->getHelp($column, 'create'); else: echo $this->getHelpAsIcon($column, 'create'); endif; ?>
 </div>
 <?php endif; ?>
 <?php if ($credentials): ?>

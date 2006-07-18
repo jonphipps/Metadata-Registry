@@ -4,6 +4,6 @@ all:
     charmin:   20
     charmax:   60
     textrows:  3
-    textcols:  60
+    textcols:  55
     intsize:   7
     floatsize: 7

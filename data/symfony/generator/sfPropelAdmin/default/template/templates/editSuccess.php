@@ -1,6 +1,5 @@
 [?php use_helpers('Object', 'Validation', 'ObjectAdmin', 'I18N', 'Date') ?]
 
-
 <div id="sf_admin_header">
 [?php include_partial('<?php echo $this->getModuleName() ?>/edit_header', array('<?php echo $this->getSingularName() ?>' => $<?php echo $this->getSingularName() ?>)) ?]
 </div>
@@ -46,7 +45,6 @@
 
 <?php endif; ?>
 <?php foreach ($this->getColumns('edit.display', $category) as $name => $column): ?>
-<?php if ($column->isPrimaryKey()) continue ?>
 <?php $credentials = $this->getParameterValue('edit.fields.'.$column->getName().'.credentials') ?>
 <?php if ($credentials): $credentials = str_replace("\n", ' ', var_export($credentials, true)) ?>
     [?php if ($sf_user->hasCredential(<?php echo $credentials ?>)): ?]
@@ -62,8 +60,8 @@
   [?php endif; ?]
 
   [?php echo <?php echo $this->getColumnEditTag($column) ?> ?]
-  <?php echo $this->getHelp($column, 'edit') ?>
   </div>
+  <?php if ($this->getParameterValue('edit.helptype') != 'icon'): echo $this->getHelp($column, 'edit'); else: echo $this->getHelpAsIcon($column, 'edit'); endif; ?>
 </div>
 <?php endif; ?>
 <?php if ($credentials): ?>

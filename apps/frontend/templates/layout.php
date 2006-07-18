@@ -56,10 +56,12 @@
   <div id="content">
     <div id="content_main">
       <?php echo $content ?>
+      <div class="verticalalign"></div>
     </div>
 
     <div id="content_bar">
       <?php include_component_slot('sidebar') ?>
+      <div class="verticalalign"></div>
     </div>
     </div>
 

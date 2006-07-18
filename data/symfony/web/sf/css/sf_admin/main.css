@@ -43,6 +43,7 @@ p
   background-color:#F6F2F6;
 }
 
+
 #sf_admin_content
 {
 }
@@ -69,9 +70,9 @@ fieldset h2
 
 input, textarea, select
 {
-  padding: 3px;
+  padding: 2px !important;
   font-family: Arial, sans-serif;
-  font-size: 11px;
+  font-size: 12px;
   border: 1px solid #ddd;
   vertical-align:middle;
 }
@@ -110,7 +111,7 @@ label.required
 .form-row
 {
   clear: both;
-  padding: 10px;
+  padding: 5px;
   border-bottom: 1px solid #ddd;
 }
 
@@ -354,7 +355,35 @@ padding-left: 0px;
   color: #aaa;
 }
 
+form#sf_admin_edit_form
+{
+  margin-left:auto;
+  margin-right:auto;
+  margin-bottom:10px;
+  background-color:white;
+  width:480px;
+  border:1px solid gray;
+}
+
+form#sf_admin_edit_form .form-row,
+form#sf_admin_edit_form fieldset
+{
+  background-color:#F2ECF2;
+}
+
+form#sf_admin_edit_form ul
+{
+  background-color:white;
+  padding-right:10px;
+}
+
 .mceEditor td
 {
   padding: 0px;
+}
+
+div.sf_admin_icon_edit_help
+{
+  float:right;
+  margin-top:-20px;
 }
