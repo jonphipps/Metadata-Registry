@@ -1,5 +1,5 @@
 <?php if ($sf_user->hasCredential('administrator')): ?>
-<div id="panel_admin" name="panel_admin">
+<div id="panel_admin">
   <h2><?php echo __('administration') ?></h2>
 
   <ul>

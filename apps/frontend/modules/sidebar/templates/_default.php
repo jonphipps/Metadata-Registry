@@ -1,7 +1,7 @@
 <?php use_helper('Global') ?>
 <?php echo include_partial('sidebar/administration') ?>
 <?php if ($sf_user->isAuthenticated()): ?>
-<div id="panel_admin" name="panel_admin">
+<div id="panel_admin">
   <h2><?php echo __('Register New...') ?></h2>
   <ul>
     <li><?php echo link_to(__('Resource Owner'), 'agent/create') ?></li>

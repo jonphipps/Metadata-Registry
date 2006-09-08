@@ -35,7 +35,8 @@ class UserPeer extends BaseUserPeer {
     if ($user)
     {
       // password is OK?
-      if (sha1($user->getSalt().$password) == $user->getSha1Password())
+      $shaiPass = sha1($user->getSalt().$password);
+      if ($shaiPass == $user->getSha1Password())
       {
         return $user;
       }
