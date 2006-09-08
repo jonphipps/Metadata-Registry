@@ -147,7 +147,8 @@ class userActions extends sfActions
   {
     $this->getRequest()->setAttribute('newaccount', true);
 
-    return array('user', 'loginSuccess');
+    $this->forward('user', 'login');
+    //return array('user', 'loginSuccess');
   }
 
   public function handleErrorPasswordRequest()
@@ -163,7 +164,8 @@ class userActions extends sfActions
     $this->updateUserFromRequest();
     $this->setShowVars();
 
-    return array('user', 'showSuccess');
+    $this->forward('user', 'show');
+    //return array('user', 'showSuccess');
   }
 
   private function updateUserFromRequest()
@@ -176,11 +178,7 @@ class userActions extends sfActions
 
   private function setShowVars()
   {
-    $this->interests = $this->subscriber->getInterestsJoinQuestion();
-    $this->answers   = $this->subscriber->getAnswersJoinQuestion();
-    $this->questions = $this->subscriber->getQuestions();
-
-    $this->setTitle('Registry! &raquo; '.$this->subscriber->__toString().'\'s profile');
+    $response = $this->getResponse();
+    $response->setTitle('Registry! :: '.$this->subscriber->__toString().'\'s profile');
   }
 }
-

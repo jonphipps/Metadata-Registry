@@ -1,8 +1,7 @@
 <?php use_helpers('Validation', 'Javascript') ?>
 
-<?php echo javascript_tag("
-  formUtil.focusOnFirst('login_form');          
-") ?>
+<div id="sf_admin_container">
+<?php echo javascript_tag("formUtil.focusOnFirst('login_form');") ?>
 
 <h1><?php echo __('sign in / register') ?></h1>
 
@@ -68,3 +67,4 @@
 
   return false;
 }") ?>
+</div>

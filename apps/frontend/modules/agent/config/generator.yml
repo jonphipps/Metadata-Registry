@@ -20,27 +20,44 @@ generator:
       city:
       state:
       postal_code:
-      country:
+      country:        { type: select_country_tag }
       phone:
       web_address:
       type:
 
     list:
-      title:        List of Resource Owners
-      display:      [id, org_name, last_updated]
+      title:           Resource Owners
+      display:         [org_name, last_updated, state, country, type]
+      helpers:         [state]
+      object_actions:
+        _show:
+        _edit:         { credentials: [administrator] }
       actions:
-        _create:    { credentials: [administrator] }
+        _create:       { credentials: [[administrator, subscriber]] }
 
     edit:
-      title:        Detail for %%org_name%%
-      display:      [type, org_name, org_email, ind_affiliation, address1, address2, city, state, postal_code, country, phone, web_address]
+      title:           Detail for %%org_name%%
+      display:
+        "Metadata":   [id, created_at, last_updated]      
+        "Detail":     [type, org_name, org_email, ind_affiliation, address1, address2, city, state, postal_code, country, phone, web_address]      
       fields:
-        id:         { type: plain }
-        created_at: { type: plain }
-        last_updated: { type: plain }
+        id:            { type: plain, credentials: [administrator] }
+        created_at:    { type: plain, credentials: [administrator] }
+        last_updated:  { type: plain, credentials: [administrator] }
+        country:       { type: select_country_tag }
       actions:
         _list:      -
         _save:         { credentials: [[administrator, subscriber]] }
         _delete:       { credentials: [administrator] }
         _create:       { credentials: [[administrator, subscriber]] }
-        _save_and_add: { credentials: [administrator] }
+        _save_and_add: { credentials: [[administrator, subscriber]] }
+
+    create:
+      title:           Create new Resource Owner
+      display:
+        "Detail":      [type, org_name, org_email, ind_affiliation, address1, address2, city, state, postal_code, country, phone, web_address]      
+      actions:
+        _list:      -
+        _save:         { credentials: [[administrator, subscriber]] }
+        _delete:       { credentials: [administrator] }
+        _save_and_add: { credentials: [[administrator, subscriber]] }        

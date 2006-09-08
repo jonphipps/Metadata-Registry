@@ -1,5 +1,6 @@
 <?php use_helpers('Date', 'Text', 'Object') ?>
 
+<div id="sf_admin_container">
 <h1><?php echo __('%1%\'s profile', array('%1%' => $subscriber->__toString())) ?>
 <?php if ($subscriber->getIsModerator()): ?> [<?php echo __('moderator') ?>]<?php endif ?>
 <?php if ($subscriber->getIsAdministrator()): ?> [<?php echo __('administrator') ?>]<?php endif ?>
@@ -56,3 +57,4 @@
   <li><?php $voc = $vocabulary->getVocabulary(); echo link_to($voc->getName(), 'vocabulary/edit?id=' . $voc->getId()) ?></li>
 <?php endforeach ?>
 </ul>
+</div>

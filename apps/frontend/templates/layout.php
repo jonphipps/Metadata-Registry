@@ -55,7 +55,7 @@
 
   <div id="content">
     <div id="content_main">
-      <?php echo $content ?>
+<?php echo $sf_data->getRaw('sf_content') ?>
       <div class="verticalalign"></div>
     </div>
 
