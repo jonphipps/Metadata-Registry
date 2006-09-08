@@ -22,6 +22,7 @@ abstract class sfWebController extends sfController
 {
   private
     $redirectedUri = null;
+
   /**
    * Generate a formatted symfony URL.
    *
@@ -46,7 +47,7 @@ abstract class sfWebController extends sfController
     $url = '';
     if (!($sf_no_script_name = sfConfig::get('sf_no_script_name')))
     {
-      $url = $_SERVER['SCRIPT_NAME'];
+      $url = $this->getContext()->getRequest()->getScriptName();
     }
     else if (($sf_relative_url_root = $this->getContext()->getRequest()->getRelativeUrlRoot()) && $sf_no_script_name)
     {
@@ -73,14 +74,14 @@ abstract class sfWebController extends sfController
       // use PATH format
       $divider = '/';
       $equals  = '/';
-      $url    .= '/';
+      $querydiv = '/';
     }
     else
     {
       // use GET format
       $divider = ini_get('arg_separator.output');
       $equals  = '=';
-      $url    .= '?';
+      $querydiv = '?';
     }
 
     // default module
@@ -96,10 +97,9 @@ abstract class sfWebController extends sfController
     }
 
     $r = sfRouting::getInstance();
-    if ($r->hasRoutes() && $generated_url = $r->generate($route_name, $parameters, $divider, $equals))
+    if ($r->hasRoutes() && $generated_url = $r->generate($route_name, $parameters, $querydiv, $divider, $equals))
     {
-      // strip off first divider character
-      $url .= ltrim($generated_url, $divider);
+      $url .= $generated_url;
     }
     else
     {
@@ -107,7 +107,7 @@ abstract class sfWebController extends sfController
 
       if (sfConfig::get('sf_url_format') == 'PATH')
       {
-        $query = strtr($query, ini_get(arg_separator.output).'=', '/');
+        $query = strtr($query, ini_get('arg_separator.output').'=', '/');
       }
 
       $url .= $query;
@@ -203,6 +203,7 @@ abstract class sfWebController extends sfController
   public function redirect ($url, $delay = 0)
   {
     $this->redirectedUri = $url;
+
     $response = $this->getContext()->getResponse();
 
     // redirect
@@ -212,6 +213,7 @@ abstract class sfWebController extends sfController
     $response->sendHttpHeaders();
     $response->sendContent();
   }
+
   /**
    * get the URL of a redirection if any.
    *

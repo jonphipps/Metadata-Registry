@@ -103,7 +103,7 @@ class sfConfigCache
     else
     {
       // we do not have a registered handler for this file
-      $error = sprintf('Configuration file "%s" does not have a registered handler', $config);
+      $error = sprintf('Configuration file "%s" does not have a registered handler', implode(', ', $configs));
 
       throw new sfConfigurationException($error);
     }
@@ -113,17 +113,7 @@ class sfConfigCache
   {
     $configs = array();
 
-    $globalConfigPath = basename(dirname($configPath)).'/'.basename($configPath);
-    $files = array(
-      sfConfig::get('sf_symfony_data_dir').'/'.$globalConfigPath, // default symfony configuration
-      sfConfig::get('sf_app_dir').'/'.$globalConfigPath,          // default project configuration
-      sfConfig::get('sf_plugin_data_dir').'/'.$configPath,        // used for plugin modules
-      sfConfig::get('sf_symfony_data_dir').'/'.$configPath,       // core modules or global plugins
-      sfConfig::get('sf_root_dir').'/'.$globalConfigPath,         // used for main configuration
-      sfConfig::get('sf_cache_dir').'/'.$configPath,              // used for generated modules
-      sfConfig::get('sf_app_dir').'/'.$configPath,
-    );
-
+    $files = sfLoader::getConfigDirs($configPath);
     foreach (array_unique($files) as $file)
     {
       if (is_readable($file))
@@ -150,11 +140,21 @@ class sfConfigCache
    */
   public function checkConfig($configPath, $optional = false)
   {
+    if (sfConfig::get('sf_logging_active'))
+    {
+      $timer = sfTimerManager::getTimer('Configuration');
+    }
+
     // the cache filename we'll be using
     $cache = $this->getCacheName($configPath);
 
     if (sfConfig::get('sf_in_bootstrap') && is_readable($cache))
     {
+      if (sfConfig::get('sf_logging_active'))
+      {
+        $timer->addTime();
+      }
+
       return $cache;
     }
 
@@ -194,6 +194,11 @@ class sfConfigCache
     {
       // configuration has changed so we need to reparse it
       $this->callHandler($configPath, $files, $cache);
+    }
+
+    if (sfConfig::get('sf_logging_active'))
+    {
+      $timer->addTime();
     }
 
     return $cache;
@@ -339,12 +344,6 @@ class sfConfigCache
   {
     $fileCache = new sfFileCache(dirname($cache));
     $fileCache->setSuffix('');
-    if (!$fileCache->set(basename($cache), '', $data))
-    {
-      // cannot write cache file
-      $error = sprintf('Failed to write cache file "%s" generated from configuration file "%s"', $cache, $config);
-
-      throw new sfCacheException($error);
-    }
+    $fileCache->set(basename($cache), '', $data);
   }
 }

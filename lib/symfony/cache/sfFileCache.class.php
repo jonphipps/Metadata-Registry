@@ -50,7 +50,7 @@ class sfFileCache extends sfCache
   *
   * @var boolean $writeControl
   */
-  protected $writeControl = true;
+  protected $writeControl = false;
 
   /**
   * Enable / disable read control
@@ -95,7 +95,7 @@ class sfFileCache extends sfCache
   protected $hashedDirectoryLevel = 0;
 
   private
-    $suffix = '.cache';
+    $suffix = '';
 
   /**
   * Constructor
@@ -150,6 +150,12 @@ class sfFileCache extends sfCache
     */
     public function setCacheDir($cacheDir)
     {
+      // remove last DIRECTORY_SEPARATOR
+      if (DIRECTORY_SEPARATOR == substr($cacheDir, -1))
+      {
+        $cacheDir = substr($cacheDir, 0, -1);
+      }
+
       // create cache dir if needed
       if (!is_dir($cacheDir))
       {
@@ -238,21 +244,11 @@ class sfFileCache extends sfCache
 
     if ($this->writeControl)
     {
-      if (!$this->writeAndControl($path, $file, $data))
-      {
-        @touch($path.$file, time() - 2 * abs($this->lifeTime));
-        return false;
-      }
-      else
-      {
-        return true;
-      }
+      $this->writeAndControl($path, $file, $data);
     }
     else
     {
-      $ret = $this->write($path, $file, $data);
-
-      return $ret;
+      $this->write($path, $file, $data);
     }
   }
 

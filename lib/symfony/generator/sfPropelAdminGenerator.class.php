@@ -79,15 +79,12 @@ class sfPropelAdminGenerator extends sfPropelCrudGenerator
       throw new sfConfigurationException($error);
     }
 
-    $this->params['field_size_min'] = isset($params['field_size_min']) ? $params['field_size_min'] : 20;
-    $this->params['field_size_max'] = isset($params['field_size_max']) ? $params['field_size_max'] : 80;
-    $this->params['textarea_size'] = isset($params['textarea_size']) ? $params['textarea_size'] : '30x3';
     $this->setTheme($theme);
     $templateFiles = sfFinder::type('file')->name('*.php')->relative()->in($themeDir.'/templates');
     $this->generatePhpFiles($this->generatedModuleName, $templateFiles);
 
     // require generated action class
-    $data = "require_once(sfConfig::get('sf_module_cache_dir').'/".$this->generatedModuleName."/actions/actions.class.php')\n";
+    $data = "require_once(sfConfig::get('sf_module_cache_dir').'/".$this->generatedModuleName."/actions/actions.class.php');\n";
 
     return $data;
   }
@@ -187,7 +184,7 @@ class sfPropelAdminGenerator extends sfPropelCrudGenerator
     }
     else
     {
-      $url_params = "'";
+      $url_params = '\'';;
     }
 
     if (!isset($options['class']) && $default_class)
@@ -306,9 +303,13 @@ class sfPropelAdminGenerator extends sfPropelCrudGenerator
     $user_params = is_array($user_params) ? $user_params : sfToolkit::stringToArray($user_params);
     $params      = $user_params ? array_merge($params, $user_params) : $params;
 
-    if ($column->isPartial())
+    if ($column->isComponent())
     {
-      return "include_partial('".$column->getName()."', array('type' => 'edit', '{$this->getSingularName()}' => \${$this->getSingularName()}))";
+      return "get_component('".$this->getModuleName()."', '".$column->getName()."', array('type' => 'edit', '{$this->getSingularName()}' => \${$this->getSingularName()}))";
+    }
+    else if ($column->isPartial())
+    {
+      return "get_partial('".$column->getName()."', array('type' => 'edit', '{$this->getSingularName()}' => \${$this->getSingularName()}))";
     }
 
     // default control name
@@ -443,7 +444,7 @@ EOF;
   public function splitFlag($text)
   {
     $flag = '';
-    if (in_array($text[0], array('=', '-', '+', '_')))
+    if (in_array($text[0], array('=', '-', '+', '_', '~')))
     {
       $flag = $text[0];
       $text = substr($text, 1);
@@ -469,13 +470,13 @@ EOF;
   private function getFieldParameterValue($key, $type = '', $default = null)
   {
     $retval = $this->getValueFromKey($type.'.fields.'.$key, $default);
-    if ($retval)
+    if ($retval !== null)
     {
       return $retval;
     }
 
     $retval = $this->getValueFromKey('fields.'.$key, $default);
-    if ($retval)
+    if ($retval !== null)
     {
       return $retval;
     }
@@ -540,6 +541,10 @@ EOF;
       {
         $vars[] = '\'%%_'.$column->getName().'%%\' => '.$this->getColumnListTag($column);
       }
+      else if ($column->isComponent())
+      {
+        $vars[] = '\'%%_'.$column->getName().'%%\' => '.$this->getColumnListTag($column);
+      }
       else
       {
         $vars[] = '\'%%'.$column->getName().'%%\' => '.$this->getColumnListTag($column);
@@ -587,7 +592,11 @@ EOF;
 
     $type = $column->getCreoleType();
 
-    if ($column->isPartial())
+    if ($column->isComponent())
+    {
+      return "get_component('".$this->getModuleName()."', '".$column->getName()."', array('type' => 'list', '{$this->getSingularName()}' => \${$this->getSingularName()}))";
+    }
+    else if ($column->isPartial())
     {
       return "get_partial('".$column->getName()."', array('type' => 'list', '{$this->getSingularName()}' => \${$this->getSingularName()}))";
     }
@@ -611,9 +620,13 @@ EOF;
     $user_params = $this->getParameterValue('list.fields.'.$column->getName().'.params');
     $user_params = is_array($user_params) ? $user_params : sfToolkit::stringToArray($user_params);
     $params      = $user_params ? array_merge($params, $user_params) : $params;
-    if ($column->isPartial())
+    if ($column->isComponent())
     {
-      return "include_partial('".$column->getName()."', array('type' => 'filter', 'filters' => \$filters))";
+      return "get_component('".$this->getModuleName()."', '".$column->getName()."', array('type' => 'list'))";
+    }
+    else if ($column->isPartial())
+    {
+      return "get_partial('".$column->getName()."', array('type' => 'filter', 'filters' => \$filters))";
     }
 
     $type = $column->getCreoleType();
@@ -735,6 +748,10 @@ class sfAdminColumn
     return (($this->flag == '_') ? true : false);
   }
 
+  public function isComponent ()
+  {
+    return (($this->flag == '~') ? true : false);
+  }
   public function isLink ()
   {
     return (($this->flag == '=' || $this->isPrimaryKey()) ? true : false);

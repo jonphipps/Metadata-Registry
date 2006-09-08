@@ -286,12 +286,6 @@ class sfWebRequest extends sfRequest
 
     // load parameters from GET/PATH_INFO/POST
     $this->loadParameters();
-
-    // sfStats call
-    if (sfConfig::get('sf_stats'))
-    {
-      sfStats::record($this->context);
-    }
   }
 
   /**
@@ -324,9 +318,49 @@ class sfWebRequest extends sfRequest
   public function getUri()
   {
     $pathArray = $this->getPathInfoArray();
-    $protocol  = $this->isSecure() ? 'https' : 'http';
 
-    return $protocol.'://'.$this->getHost().$pathArray['REQUEST_URI'];
+    if ($this->isAbsUri())
+    {
+      return $pathArray['REQUEST_URI'];
+    }
+
+    return $this->getUriPrefix().$pathArray['REQUEST_URI'];
+  }
+
+  /**
+   * See if the client is using absolute uri
+   *
+   * @return boolean
+   */
+  public function isAbsUri()
+  {
+    $pathArray = $this->getPathInfoArray();
+
+    return preg_match('/^http/', $pathArray['REQUEST_URI']);
+  }
+
+  /**
+   * Uri prefix,including protocol,hostname and server port
+   *
+   * @return string
+   */
+  public function getUriPrefix()
+  {
+    $pathArray = $this->getPathInfoArray();
+    if ($this->isSecure())
+    {
+      $standardPort = '443';
+      $proto = 'https';
+    }
+    else
+    {
+      $standardPort = '80';
+      $proto = 'http';
+    }
+
+    $port = ($pathArray['SERVER_PORT'] == $standardPort) ? "" : ":".$pathArray['SERVER_PORT'];
+
+    return $proto.'://'.$pathArray['HTTP_HOST'].$port;
   }
 
   public function getPathInfo ()
@@ -341,10 +375,12 @@ class sfWebRequest extends sfRequest
     {
       if (isset($pathArray['REQUEST_URI']))
       {
-        $script_name = $pathArray['SCRIPT_NAME'];
-        $pathInfo = preg_replace('/^'.preg_quote($script_name, '/').'/', '', $pathArray['REQUEST_URI']);
+        $script_name = $this->getScriptName();
+        $uri_prefix = $this->isAbsUri() ? $this->getUriPrefix() : '';
+        $pathInfo = preg_replace('/^'.preg_quote($uri_prefix, '/').'/','',$pathArray['REQUEST_URI']);
+        $pathInfo = preg_replace('/^'.preg_quote($script_name, '/').'/', '', $pathInfo);
         $prefix_name = preg_replace('#/[^/]+$#', '', $script_name);
-        $pathInfo = preg_replace('/^'.preg_quote($prefix_name, '/').'/', '', $pathArray['REQUEST_URI']);
+        $pathInfo = preg_replace('/^'.preg_quote($prefix_name, '/').'/', '', $pathInfo);
         $pathInfo = preg_replace('/'.preg_quote($pathArray['QUERY_STRING'], '/').'$/', '', $pathInfo);
       }
     }
@@ -358,7 +394,7 @@ class sfWebRequest extends sfRequest
     }
 
     // for IIS
-    if ($pos = stripos($pathInfo, '.php'))
+    if (isset($_SERVER['SERVER_SOFTWARE']) && false !== stripos($_SERVER['SERVER_SOFTWARE'], 'iis') && $pos = stripos($pathInfo, '.php'))
     {
       $pathInfo = substr($pathInfo, $pos + 4);
     }
@@ -419,10 +455,10 @@ class sfWebRequest extends sfRequest
     // merge POST parameters
     $this->getParameterHolder()->addByRef($_POST);
 
-    // move symfony parameters in a protected namespace (parameters prefixed with sf_)
+    // move symfony parameters in a protected namespace (parameters prefixed with _sf_)
     foreach ($this->getParameterHolder()->getAll() as $key => $value)
     {
-      if (stripos($key, 'sf_') !== false)
+      if (stripos($key, '_sf_') !== false)
       {
         $this->getParameterHolder()->remove($key);
         $this->setParameter($key, $value, 'symfony/request/sfWebRequest');
@@ -537,7 +573,7 @@ class sfWebRequest extends sfRequest
   {
     $pathArray = $this->getPathInfoArray();
 
-    return isset($pathArray['SCRIPT_NAME']) ? $pathArray['SCRIPT_NAME'] : '';
+    return isset($pathArray['SCRIPT_NAME']) ? $pathArray['SCRIPT_NAME'] : (isset($pathArray['ORIG_SCRIPT_NAME']) ? $pathArray['ORIG_SCRIPT_NAME'] : '');
   }
 
   /**
@@ -717,7 +753,7 @@ class sfWebRequest extends sfRequest
     {
       $pathArray = $this->getPathInfoArray();
 
-      $this->relativeUrlRoot = preg_replace('#/[^/]+\.php5?$#', '', $pathArray['SCRIPT_NAME']);
+      $this->relativeUrlRoot = preg_replace('#/[^/]+\.php5?$#', '', $this->getScriptName());
     }
 
     return $this->relativeUrlRoot;

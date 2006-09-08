@@ -2,10 +2,37 @@
 
 require_once 'propel/engine/builder/om/php5/PHP5ComplexObjectBuilder.php';
 
-class sfObjectBuilder extends PHP5ComplexObjectBuilder
+/*
+ * This file is part of the symfony package.
+ * (c) 2004-2006 Fabien Potencier <fabien.potencier@symfony-project.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+/**
+ * @package    symfony
+ * @subpackage addon
+ * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
+ * @version    SVN: $Id$
+ */
+class SfObjectBuilder extends PHP5ComplexObjectBuilder
 {
+  public function build()
+  {
+    if (!DataModelBuilder::getBuildProperty('builderAddComments'))
+    {
+      return sfToolkit::stripComments(parent::build());
+    }
+  }
+
   protected function addIncludes(&$script)
   {
+    if (!DataModelBuilder::getBuildProperty('builderAddIncludes'))
+    {
+      return;
+    }
+
     parent::addIncludes($script);
 
     // include the i18n classes if needed
@@ -146,6 +173,40 @@ $script .= '
 ';
       }
     }
+  }
+
+  protected function addDoSave(&$script)
+  {
+    $tmp = '';
+    parent::addDoSave($tmp);
+    // add autosave to i18n object even if the base object is not changed
+    $tmp = preg_replace_callback('#(\$this\->(.+?)\->isModified\(\))#', array($this, 'i18nDoSaveCallback'), $tmp);
+
+    $script .= $tmp;
+  }
+
+  private function i18nDoSaveCallback($matches)
+  {
+    $value = $matches[1];
+
+    // get the related class to see if it is a i18n one
+    $table = $this->getTable();
+    $column = null;
+    foreach ($table->getForeignKeys() as $fk)
+    {
+      if ($matches[2] == $this->getFKVarName($fk))
+      {
+        $column = $fk;
+        break;
+      }
+    }
+    $foreign_table = $this->getDatabase()->getTable($fk->getForeignTableName());
+    if ($foreign_table->getAttribute('isI18N'))
+    {
+      $value .= ' || $this->'.$matches[2].'->getCurrent'.substr($matches[2], 1).'I18n()->isModified()';
+    }
+
+    return $value;
   }
 
   protected function addSave(&$script)

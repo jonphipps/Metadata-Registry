@@ -32,7 +32,6 @@ default:
 
     compressed:             off
 
-    tidy:                   off
 
     i18n:                   off
 
@@ -51,7 +50,6 @@ default:
 
     no_script_name:         on
 
-    stats:                  off
 
     # E_COMPILE_ERROR | E_ERROR | E_CORE_ERROR | E_USER_ERROR = 337
     error_reporting:        337
@@ -64,7 +62,7 @@ default:
 
     activated_modules:      [default]
 
-    strip_comments:         off
+    strip_comments:         on
 
     etag:                   on
 
@@ -74,3 +72,7 @@ default:
     validation_error_id_prefix: error_for_
 
     autoloading_functions: ~
+    charset: utf-8
+
+    escaping_strategy: bc
+    escaping_method:   ESC_ENTITIES

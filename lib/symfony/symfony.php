@@ -38,6 +38,7 @@ if (!sfConfig::get('sf_in_bootstrap'))
   require_once($sf_symfony_lib_dir.'/config/sfYamlConfigHandler.class.php');
   require_once($sf_symfony_lib_dir.'/config/sfAutoloadConfigHandler.class.php');
   require_once($sf_symfony_lib_dir.'/config/sfRootConfigHandler.class.php');
+  require_once($sf_symfony_lib_dir.'/config/sfLoader.class.php');
 
   // basic exception classes
   require_once($sf_symfony_lib_dir.'/exception/sfException.class.php');
@@ -48,55 +49,64 @@ if (!sfConfig::get('sf_in_bootstrap'))
 
   // utils
   require_once($sf_symfony_lib_dir.'/util/sfParameterHolder.class.php');
+  require_once($sf_symfony_lib_dir.'/util/sfTimerManager.class.php');
+  require_once($sf_symfony_lib_dir.'/util/sfTimer.class.php');
 }
 else
 {
   require_once($sf_symfony_lib_dir.'/config/sfConfigCache.class.php');
 }
 
-class Symfony
+final class Symfony
 {
-  public static function autoload($class)
+  protected static $classes = array();
+
+  public static function getClassPath($class)
   {
-    static $loaded;
+    return isset(self::$classes[$class]) ? self::$classes[$class] : null;
+  }
 
-    if (!$loaded)
+  public static function __autoload($class)
+  {
+    // load the list of autoload classes
+    if (!self::$classes)
     {
-      // load the list of autoload classes
-      include_once(sfConfigCache::getInstance()->checkConfig(sfConfig::get('sf_app_config_dir_name').'/autoload.yml'));
-
-      $loaded = true;
+      $file = sfConfigCache::getInstance()->checkConfig(sfConfig::get('sf_app_config_dir_name').'/autoload.yml');
+      self::$classes = include($file);
     }
 
-    $classes = sfConfig::get('sf_class_autoload', array());
-    if (!isset($classes[$class]))
+    // class already exists
+    if (class_exists($class, false))
     {
-      if (sfContext::hasInstance())
-      {
-        // see if the file exists in the current module lib directory
-        // must be in a module context
-        $current_module = sfContext::getInstance()->getModuleName();
-        if ($current_module)
-        {
-          $module_lib = sfConfig::get('sf_app_module_dir').'/'.$current_module.'/'.sfConfig::get('sf_app_module_lib_dir_name').'/'.$class.'.class.php';
-          if (is_readable($module_lib))
-          {
-            require_once($module_lib);
-
-            return true;
-          }
-        }
-      }
-
-      return false;
+      return true;
     }
-    else
+
+    // we have a class path, let's include it
+    if (isset(self::$classes[$class]))
     {
-      // class exists, let's include it
-      require_once($classes[$class]);
+      require(self::$classes[$class]);
 
       return true;
     }
+
+    // see if the file exists in the current module lib directory
+    // must be in a module context
+    if (sfContext::hasInstance())
+    {
+      $current_module = sfContext::getInstance()->getModuleName();
+      if ($current_module)
+      {
+        $module_lib = sfConfig::get('sf_app_module_dir').'/'.$current_module.'/'.sfConfig::get('sf_app_module_lib_dir_name').'/'.$class.'.class.php';
+        if (is_readable($module_lib))
+        {
+          require($module_lib);
+
+          return true;
+        }
+      }
+    }
+
+    return false;
   }
 }
 
@@ -107,17 +117,34 @@ class Symfony
  *
  * @return void
  */
-if (!function_exists('__autoload'))
+if (function_exists('spl_autoload_register'))
 {
+  ini_set('unserialize_callback_func', 'spl_autoload_call');
+
+  // load functions and methods that can autoload classes
+  $functions = (array) sfConfig::get('sf_autoloading_functions', array());
+  array_unshift($functions, array('Symfony', '__autoload'));
+
+  foreach ($functions as $function)
+  {
+    spl_autoload_register($function);
+  }
+  unset($functions);
+
+}
+elseif (!function_exists('__autoload'))
+{
+  ini_set('unserialize_callback_func', '__autoload');
+
   function __autoload($class)
   {
-    static $functions;
+    static $functions = null;
 
-    if (!$functions)
+    if (null === $functions)
     {
       // load functions and methods that can autoload classes
-      $functions = is_array(sfConfig::get('sf_autoloading_functions')) ? sfConfig::get('sf_autoloading_functions') : array();
-      array_unshift($functions, array('Symfony', 'autoload'));
+      $functions = (array) sfConfig::get('sf_autoloading_functions', array());
+      array_unshift($functions, array('Symfony', '__autoload'));
     }
 
     foreach ($functions as $function)
@@ -146,8 +173,6 @@ try
 {
   $configCache = sfConfigCache::getInstance();
 
-  ini_set('unserialize_callback_func', '__autoload');
-
   // force setting default timezone if not set
   if (function_exists('date_default_timezone_get'))
   {
@@ -171,7 +196,7 @@ try
 
   // load base settings
   include($configCache->checkConfig($sf_app_config_dir_name.'/logging.yml'));
-  $configCache->import($sf_app_config_dir_name.'/php.yml');
+  $configCache->import($sf_app_config_dir_name.'/php.yml', false);
   include($configCache->checkConfig($sf_app_config_dir_name.'/settings.yml'));
   include($configCache->checkConfig($sf_app_config_dir_name.'/app.yml'));
 
@@ -188,22 +213,15 @@ try
   // compress output
   ob_start(sfConfig::get('sf_compressed') ? 'ob_gzhandler' : '');
 
-/*
-  if (sfConfig::get('sf_logging_active'))
-  {
-    set_error_handler(array('sfLogger', 'errorHandler'));
-  }
-*/
-
   // required core classes for the framework
   // create a temp var to avoid substitution during compilation
   if (!$sf_debug && !sfConfig::get('sf_test'))
   {
     $core_classes = $sf_app_config_dir_name.'/core_compile.yml';
-    $configCache->import($core_classes);
+    $configCache->import($core_classes, false);
   }
 
-  $configCache->import($sf_app_config_dir_name.'/routing.yml');
+  $configCache->import($sf_app_config_dir_name.'/routing.yml', false);
 }
 catch (sfException $e)
 {

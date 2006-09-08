@@ -26,6 +26,7 @@ function form_error($param, $options = array(), $catalogue = 'messages')
 {
   $param_for_sf = str_replace(array('[', ']'), array('{', '}'), $param);
   $param = str_replace(array('{', '}'), array('[', ']'), $param);
+
   $options = _parse_attributes($options);
 
   $request = sfContext::getInstance()->getRequest();

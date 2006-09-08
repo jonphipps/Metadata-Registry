@@ -55,7 +55,7 @@ class sfI18N
 
     if (sfConfig::get('sf_i18n_cache'))
     {
-      $subdir = str_replace(sfConfig::get('sf_root_dir'), '', $dir);
+      $subdir = preg_replace('|'.preg_quote(sfConfig::get('sf_app_dir')).'(.*)[\/\\\\]'.sfConfig::get('sf_app_i18n_dir_name').'|', '\\1', $dir);
 
       $cache_dir = sfConfig::get('sf_i18n_cache_dir').$subdir;
 
@@ -76,7 +76,7 @@ class sfI18N
 
   public function createMessageFormat($source)
   {
-    $messageFormat = new sfMessageFormat($source);
+    $messageFormat = new sfMessageFormat($source, sfConfig::get('sf_charset'));
 
     if (sfConfig::get('sf_debug') && sfConfig::get('sf_i18n_debug'))
     {

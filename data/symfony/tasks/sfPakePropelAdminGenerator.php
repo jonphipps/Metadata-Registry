@@ -2,12 +2,6 @@
 
 pake_desc('initialize a new propel admin module');
 pake_task('propel-init-admin', 'app_exists');
-pake_task('init-propeladmin');
-
-function run_init_propeladmin($task, $args)
-{
-  throw new Exception('This task is deprecated. Please use "propel-init-admin".');
-}
 
 function run_propel_init_admin($task, $args)
 {
@@ -35,7 +29,7 @@ function run_propel_init_admin($task, $args)
   $moduleDir = sfConfig::get('sf_root_dir').'/'.sfConfig::get('sf_apps_dir_name').'/'.$app.'/'.sfConfig::get('sf_app_module_dir_name').'/'.$module;
 
   // create basic application structure
-  $finder = pakeFinder::type('any')->prune('.svn')->discard('.svn', '.sf');
+  $finder = pakeFinder::type('any')->ignore_version_control()->discard('.sf');
   pake_mirror($finder, sfConfig::get('sf_symfony_data_dir').'/generator/sfPropelAdmin/default/skeleton/', $moduleDir);
 
   // customize php and yml files

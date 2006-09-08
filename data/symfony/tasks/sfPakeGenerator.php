@@ -13,8 +13,12 @@ pake_task('init-module', 'app_exists');
 pake_alias('module', 'init-module');
 
 pake_desc('initialize a new symfony batch script');
-pake_task('init-batch', 'app_exists');
+pake_task('init-batch', 'project_exists');
 pake_alias('batch', 'init-batch');
+
+pake_desc('initialize a new symfony controller script');
+pake_task('init-controller', 'app_exists');
+pake_alias('controller', 'init-controller');
 
 function run_init_project($task, $args)
 {
@@ -33,7 +37,7 @@ function run_init_project($task, $args)
   $sf_root_dir = sfConfig::get('sf_root_dir');
 
   // create basic project structure
-  $finder = pakeFinder::type('any')->prune('.svn')->discard('.svn', '.sf');
+  $finder = pakeFinder::type('any')->ignore_version_control()->discard('.sf');
   pake_mirror($finder, sfConfig::get('sf_symfony_data_dir').'/skeleton/project', $sf_root_dir);
 
   $finder = pakeFinder::type('file')->name('properties.ini', 'apache.conf', 'propel.ini');
@@ -62,10 +66,16 @@ function run_init_app($task, $args)
   $app = $args[0];
 
   $sf_root_dir = sfConfig::get('sf_root_dir');
+  $app_dir = $sf_root_dir.'/'.sfConfig::get('sf_apps_dir_name').'/'.$app;
+
+  if (is_dir($app_dir))
+  {
+    throw new Exception(sprintf('The directory "%s" already exists.', $app_dir));
+  }
 
   // create basic application structure
-  $finder = pakeFinder::type('any')->prune('.svn')->discard('.svn', '.sf');
-  pake_mirror($finder, sfConfig::get('sf_symfony_data_dir').'/skeleton/app/app', $sf_root_dir.'/'.sfConfig::get('sf_apps_dir_name').'/'.$app);
+  $finder = pakeFinder::type('any')->ignore_version_control()->discard('.sf');
+  pake_mirror($finder, sfConfig::get('sf_symfony_data_dir').'/skeleton/app/app', $app_dir);
 
   // create $app.php or index.php if it is our first app
   $index_name = 'index';
@@ -77,7 +87,7 @@ function run_init_app($task, $args)
 
   // set no_script_name value in settings.yml for production environment
   $finder = pakeFinder::type('file')->name('settings.yml');
-  pake_replace_tokens($finder, $sf_root_dir.'/'.sfConfig::get('sf_apps_dir_name').'/'.$app.'/'.sfConfig::get('sf_app_config_dir_name'), '##', '##', array('NO_SCRIPT_NAME' => ($first_app ? 'on' : 'off')));
+  pake_replace_tokens($finder, $app_dir.'/'.sfConfig::get('sf_app_config_dir_name'), '##', '##', array('NO_SCRIPT_NAME' => ($first_app ? 'on' : 'off')));
 
   pake_copy(sfConfig::get('sf_symfony_data_dir').'/skeleton/app/web/index.php', sfConfig::get('sf_web_dir').'/'.$index_name.'.php');
   pake_copy(sfConfig::get('sf_symfony_data_dir').'/skeleton/app/web/index_dev.php', sfConfig::get('sf_web_dir').'/'.$app.'_dev.php');
@@ -100,14 +110,29 @@ function run_init_module($task, $args)
 
   $app    = $args[0];
   $module = $args[1];
+  $sf_root_dir = sfConfig::get('sf_root_dir');
+  $module_dir  = $sf_root_dir.'/'.sfConfig::get('sf_apps_dir_name').'/'.$app.'/'.sfConfig::get('sf_app_module_dir_name').'/'.$module;
+
+  if (is_dir($module_dir))
+  {
+    throw new Exception(sprintf('The directory "%s" already exists.', $module_dir));
+  }
+
+  try
+  {
+    $author_name = $task->get_property('author', 'symfony');
+  }
+  catch (pakeException $e)
+  {
+    $author_name = 'Your name here';
+  }
 
   $constants = array(
     'PROJECT_NAME' => $task->get_property('name', 'symfony'),
     'APP_NAME'     => $app,
     'MODULE_NAME'  => $module,
+    'AUTHOR_NAME'  => $author_name,
   );
-
-  $sf_root_dir = sfConfig::get('sf_root_dir');
 
   if (is_readable(sfConfig::get('sf_data_dir').'/skeleton/module'))
   {
@@ -119,8 +144,8 @@ function run_init_module($task, $args)
   }
 
   // create basic application structure
-  $finder = pakeFinder::type('any')->prune('.svn')->discard('.svn', '.sf');
-  pake_mirror($finder, $sf_skeleton_dir.'/module/', $sf_root_dir.'/'.sfConfig::get('sf_apps_dir_name').'/'.$app.'/'.sfConfig::get('sf_app_module_dir_name').'/'.$module);
+  $finder = pakeFinder::type('any')->ignore_version_control()->discard('.sf');
+  pake_mirror($finder, $sf_skeleton_dir.'/module/', $module_dir);
 
   // create basic test
   pake_copy($sf_skeleton_dir.'/test/actionsTest.php', $sf_root_dir.'/test/'.$app.'/'.$module.'ActionsTest.php');
@@ -130,23 +155,44 @@ function run_init_module($task, $args)
 
   // customize php and yml files
   $finder = pakeFinder::type('file')->name('*.php', '*.yml');
-  pake_replace_tokens($finder, $sf_root_dir.'/'.sfConfig::get('sf_apps_dir_name').'/'.$app.'/'.sfConfig::get('sf_app_module_dir_name').'/'.$module, '##', '##', $constants);
+  pake_replace_tokens($finder, $module_dir, '##', '##', $constants);
 }
 
 function run_init_batch($task, $args)
 {
   // handling two required arguments (application and batch name)
-  if (count($args) < 2)
+  if (count($args) < 1)
   {
-    throw new Exception('You must provide your batch script name.');
+    throw new Exception('You must provide the batch skeleton name');
   }
 
-  $app   = $args[0];
+  // TODO: ADD FINDER HERE TO LOCATE BATCH SKELTON LOCALLY OR IN SYMFONY DIRS, AND SEND PATH TO SKELETONS FUNCTION
+  $batch = '_batch_'.$args[0];
+  $batch($task, $args);
+
+  if (!file_exists(sfConfig::get('sf_symfony_data_dir').'/skeleton/batch/'.$args[0].'.php'))
+  {
+    throw new Exception('The skeleton you specified could not be found.');
+  }
+}
+
+function _batch_default($task, $args)
+{
+  if (count($args) < 2)
+  {
+    throw new Exception('You must provide the destination script name');
+  }
+  if (count($args) < 3)
+  {
+    throw new Exception('You must provide the application name');
+  }
+
   $batch = $args[1];
+  $app   = $args[2];
 
   // handling two optional arguments (environment and debug)
-  $env   = isset($args[2]) && in_array($args[2], array('prod', 'dev')) ? $args[2] : 'dev';
-  $debug = isset($args[3]) && in_array($args[3], array(true, false)) ? $args[3] : true;
+  $env   = isset($args[3]) && in_array($args[3], array('prod', 'dev')) ? $args[3] : 'dev';
+  $debug = isset($args[4]) && in_array($args[4], array(true, false)) ? $args[4] : true;
 
   $constants = array(
     'PROJECT_NAME' => $task->get_property('name', 'symfony'),
@@ -158,6 +204,67 @@ function run_init_batch($task, $args)
 
   $sf_bin_dir = sfConfig::get('sf_bin_dir');
 
-  pake_copy(sfConfig::get('sf_symfony_data_dir').'/skeleton/batch/batch.php', $sf_bin_dir.'/'.$batch.'.php');
+  pake_copy(sfConfig::get('sf_symfony_data_dir').'/skeleton/batch/default.php', $sf_bin_dir.'/'.$batch.'.php');
   pake_replace_tokens($batch.'.php', $sf_bin_dir, '##', '##', $constants);
+}
+
+function _batch_rotate_log($task, $args)
+{
+  if (count($args) < 2)
+  {
+    throw new Exception('You must provide the application');
+  }
+  if (count($args) < 3)
+  {
+    throw new Exception('You must provide the environment');
+  }
+	
+  $app = $args[1];
+	$env = $args[2];
+	$batch = 'rotate_log_'.$app.'_'.$env;
+	
+  // handling two optional arguments (environment and debug)
+  $debug = isset($args[4]) && in_array($args[4], array(true, false)) ? $args[4] : true;
+
+  $constants = array(
+    'PROJECT_NAME' => $task->get_property('name', 'symfony'),
+    'APP_NAME'     => $app,
+    'BATCH_NAME'   => $batch,
+    'ENV_NAME'     => $env,
+    'DEBUG'        => $debug,
+  );
+
+  $sf_bin_dir = sfConfig::get('sf_bin_dir');
+
+  pake_copy(sfConfig::get('sf_symfony_data_dir').'/skeleton/batch/rotate_log.php', $sf_bin_dir.'/'.$batch.'.php');
+  pake_replace_tokens($batch.'.php', $sf_bin_dir, '##', '##', $constants);		
+}
+
+function run_init_controller($task, $args)
+{
+  // handling two required arguments (application and batch name)
+  if (count($args) < 2)
+  {
+    throw new Exception('You must provide the environment name');
+  }
+
+  $app = $args[0];
+  $env = $args[1];
+
+  // handling two optional arguments (environment and debug)
+  $controller   = isset($args[2]) ? $args[2] : $app.'_'.$env;
+  $debug        = isset($args[3]) && in_array($args[3], array(true, false)) ? $args[3] : true;
+
+  $constants = array(
+    'PROJECT_NAME'    => $task->get_property('name', 'symfony'),
+    'APP_NAME'        => $app,
+    'CONTROLLER_NAME' => $controller,
+    'ENV_NAME'        => $env,
+    'DEBUG'           => $debug,
+  );
+
+  $sf_web_dir = sfConfig::get('sf_web_dir');
+
+  pake_copy(sfConfig::get('sf_symfony_data_dir').'/skeleton/controller/controller.php', $sf_web_dir.'/'.$controller.'.php');
+  pake_replace_tokens($controller.'.php', $sf_web_dir, '##', '##', $constants);
 }

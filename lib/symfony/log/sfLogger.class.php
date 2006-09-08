@@ -48,9 +48,6 @@ class sfLogger extends sfLog
     {
       if (sfConfig::get('sf_logging_active'))
       {
-        $sf_symfony_lib_dir = sfConfig::get('sf_symfony_lib_dir');
-        require_once $sf_symfony_lib_dir.'/log/sfLog/composite.class.php';
-        require_once $sf_symfony_lib_dir.'/log/sfLog/file.class.php';
         $logger = &sfLog::singleton('composite');
         $conf = array('mode' => 0666);
         $file_logger = &sfLog::singleton('file', sfConfig::get('sf_log_dir').DIRECTORY_SEPARATOR.sfConfig::get('sf_app').'_'.sfConfig::get('sf_environment').'.log', 'symfony', $conf);
@@ -59,7 +56,6 @@ class sfLogger extends sfLog
 
         if (sfConfig::get('sf_web_debug'))
         {
-          require_once $sf_symfony_lib_dir.'/log/sfLogger/var.class.php';
           $var_logger = &sfLog::singleton('var', '', 'symfony');
           $var_logger->setMask(sfLog::UPTO(constant('SF_PEAR_LOG_'.strtoupper(sfConfig::get('sf_logging_level')))));
           $logger->addChild($var_logger);
@@ -69,37 +65,10 @@ class sfLogger extends sfLog
       }
       else
       {
-        require_once sfConfig::get('sf_symfony_lib_dir').'/log/sfLogger/no.class.php';
         sfLogger::$logger = new sfNoLogger();
       }
     }
 
     return sfLogger::$logger;
-  }
-
-  public static function errorHandler($code, $message, $file, $line)
-  {
-    /* Map the PHP error to a sfLog priority. */
-    switch ($code)
-    {
-      case E_WARNING:
-      case E_USER_WARNING:
-        $priority = SF_PEAR_LOG_WARNING;
-        break;
-      case E_NOTICE:
-      case E_USER_NOTICE:
-        $priority = SF_PEAR_LOG_NOTICE;
-        break;
-      case E_ERROR:
-      case E_USER_ERROR:
-        $priority = SF_PEAR_LOG_ERR;
-        break;
-      default:
-        $priority = SF_PEAR_LOG_INFO;
-    }
-
-    sfLogger::$logger->log($message.' in '.$file.' at line '.$line, $priority);
-
-    die();
   }
 }

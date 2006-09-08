@@ -1,4 +1,4 @@
-[?php use_helpers('Object', 'Validation', 'ObjectAdmin', 'I18N', 'Date', 'Text') ?]
+[?php use_helper('Object', 'Validation', 'ObjectAdmin', 'I18N', 'Date', 'Text') ?]
 
 <div id="sf_admin_container">
 <div id="sf_admin_header">

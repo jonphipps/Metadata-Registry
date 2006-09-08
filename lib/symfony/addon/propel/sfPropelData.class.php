@@ -173,7 +173,12 @@ class sfPropelData
         {
           $peer_class = trim($class.'Peer');
 
-          require_once(sfConfig::get('sf_model_lib_dir').'/'.$peer_class.'.php');
+          if (!$classPath = Symfony::getClassPath($peer_class))
+          {
+            throw new sfException(sprintf('Unable to find path for class "%s".', $peer_class));
+          }
+
+          require_once($classPath);
 
           call_user_func(array($peer_class, 'doDeleteAll'));
         }
@@ -211,7 +216,12 @@ class sfPropelData
     $class_map_builder = $class.'MapBuilder';
     if (!isset($this->maps[$class]))
     {
-      require_once(sfConfig::get('sf_model_lib_dir').'/map/'.$class_map_builder.'.php');
+      if (!$classPath = Symfony::getClassPath($class_map_builder))
+      {
+        throw new sfException(sprintf('Unable to find path for class "%s".', $class_map_builder));
+      }
+
+      require_once($classPath);
       $this->maps[$class] = new $class_map_builder();
       $this->maps[$class]->doBuild();
     }
@@ -227,7 +237,7 @@ class sfPropelData
   public function dumpData($directory_or_file = null, $tables = 'all', $connectionName = 'propel')
   {
     $sameFile = true;
-    if (is_dir($directory_or_file) && 'all' === $tables ||  (is_array($tables) && 1 < count($tables)))
+    if (is_dir($directory_or_file))
     {
       // multi files
       $sameFile = false;

@@ -24,7 +24,7 @@ class sfMailView extends sfPHPView
    *
    * @return null
    */
-  public function &getEngine()
+  public function getEngine()
   {
     return 'sfMail';
   }
@@ -44,7 +44,7 @@ class sfMailView extends sfPHPView
    * Render the presentation and send the email to the client.
    *
    */
-  public function &render($templateVars = null)
+  public function render($templateVars = null)
   {
     $template         = $this->getDirectory().'/'.$this->getTemplate();
     $actionStackEntry = $this->getContext()->getActionStack()->getLastEntry();

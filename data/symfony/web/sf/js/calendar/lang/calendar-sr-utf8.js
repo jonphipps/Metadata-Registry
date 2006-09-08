@@ -1,6 +1,6 @@
 // ** I18N
 
-// Calendar SR language Serbian (Latin)
+// Calendar SR language Serbian (Latin) 
 // Author: Mihai Bazon, <mishoo@infoiasi.ro>
 // Translation: Nenad Nikolic <shone@europe.com>
 // Encoding: UTF-8
@@ -88,7 +88,7 @@ Calendar._TT["DRAG_TO_MOVE"] = "Pritisni i vuci za promenu pozicije";
 Calendar._TT["PART_TODAY"] = " (danas)";
 
 // Choose first day of week.
-Calendar._TT["DAY_FIRST"] = "%s kao prvi dan u nedelji";
+Calendar._TT["DAY_FIRST"] = "%s kao prvi dan u nedelji"; 
 Calendar._TT["MON_FIRST"] = "Prikaži ponedeljak kao prvi dan nedelje";
 Calendar._TT["SUN_FIRST"] = "Prikaži nedelju kao prvi dan nedelje";
 

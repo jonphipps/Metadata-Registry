@@ -1,6 +1,6 @@
 <?php
 
-require_once(sfConfig::get('sf_symfony_lib_dir').'/helper/FormHelper.php');
+use_helper('Form');
 
 /*
  * This file is part of the symfony package.
@@ -34,7 +34,7 @@ function object_input_date_tag($object, $method, $options = array(), $default_va
 {
   $options = _parse_attributes($options);
 
-  $value = _get_object_value($object, $method, $default_value);
+  $value = _get_object_value($object, $method, $default_value, $param = 'm/d/y');
 
   return input_date_tag(_convert_method_to_name($method, $options), $value, $options);
 }
@@ -115,6 +115,11 @@ function object_select_tag($object, $method, $options = array(), $default_value 
   }
   unset($options['related_class']);
 
+  $peer_method = isset($options['peer_method']) ? $options['peer_method'] : null;
+  unset($options['peer_method']);
+
+  $text_method = isset($options['text_method']) ? $options['text_method'] : null;
+  unset($options['text_method']);
   if(isset($options['related_class_method']) and $related_class)
   {
     $related_class_method = $options['related_class_method'];
@@ -131,7 +136,7 @@ function object_select_tag($object, $method, $options = array(), $default_value 
   }
   else
   {
-     $select_options = _get_values_for_object_select_tag($object, $related_class);
+  $select_options = _get_values_for_object_select_tag($object, $related_class, $text_method, $peer_method);
   }
 
 
@@ -157,14 +162,24 @@ function object_select_tag($object, $method, $options = array(), $default_value 
   return select_tag(_convert_method_to_name($method, $options), $option_tags, $options);
 }
 
-function _get_values_for_object_select_tag($object, $class)
+function _get_values_for_object_select_tag($object, $class, $text_method = null, $peer_method = null)
 {
   // FIXME: drop Propel dependency
+  if (!$classPath = Symfony::getClassPath($class.'Peer'))
+  {
+    throw new sfException(sprintf('Unable to find path for class "%s".', $class.'Peer'));
+  }
+  require_once($classPath);
+  $method = $peer_method ? $peer_method : 'doSelect';
+  $objects = call_user_func(array($class.'Peer', $method), new Criteria());
 
+  return _get_options_from_objects($objects, $text_method);
+}
+
+function _get_options_from_objects($objects, $text_method = null)
+{
   $select_options = array();
 
-  require_once(sfConfig::get('sf_model_lib_dir').'/'.$class.'Peer.php');
-  $objects = call_user_func(array($class.'Peer', 'doSelect'), new Criteria());
   if ($objects)
   {
     // multi primary keys handling
@@ -172,7 +187,7 @@ function _get_values_for_object_select_tag($object, $class)
 
     // which method to call?
     $methodToCall = '';
-    foreach (array('toString', '__toString', 'getPrimaryKey') as $method)
+    foreach (array($text_method, 'toString', '__toString', 'getPrimaryKey') as $method)
     {
       if (is_callable(array($objects[0], $method)))
       {
@@ -287,7 +302,7 @@ function _convert_method_to_name ($method, &$options)
 }
 
 // returns default_value if object value is null
-function _get_object_value ($object, $method, $default_value = null)
+function _get_object_value ($object, $method, $default_value = null, $param = null)
 {
   // method exists?
   if (!is_callable(array($object, $method)))
@@ -298,7 +313,14 @@ function _get_object_value ($object, $method, $default_value = null)
     throw new sfViewException($error);
   }
 
-  $object_value = $object->$method();
+  if (null !== $param)
+  {
+    $object_value = $object->$method($param);
+  }
+  else
+  {
+    $object_value = $object->$method();
+  }
 
   return ($default_value !== null && $object_value === null) ? $default_value : $object_value;
 }

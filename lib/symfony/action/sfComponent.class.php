@@ -21,7 +21,7 @@ abstract class sfComponent
   protected
     $context                  = null,
     $var_holder               = null,
-	 $request                  = null,
+    $request                  = null,
     $response                 = null,
     $request_parameter_holder = null;
 
@@ -58,7 +58,7 @@ abstract class sfComponent
     $this->var_holder               = new sfParameterHolder();
     $this->request                  = $context->getRequest();
     $this->response                 = $context->getResponse();
-	 $this->request_parameter_holder = $this->request->getParameterHolder();
+    $this->request_parameter_holder = $this->request->getParameterHolder();
 
     return true;
   }
@@ -152,7 +152,7 @@ abstract class sfComponent
    */
   public function getRequest()
   {
-	 return $this->request;
+    return $this->request;
   }
 
   /**
@@ -257,6 +257,34 @@ abstract class sfComponent
   public function __get($key)
   {
     return $this->var_holder->get($key);
+  }
+
+  /**
+   * Returns true if a variable for the template is set.
+   *
+   * This is just really a shortcut for:
+   * <code>$this->getVarHolder()->has('name')</code>
+   *
+   * @param  string key
+   * @return boolean
+   */
+  public function __isset($name)
+  {
+    return $this->var_holder->has($name);
+  }
+
+  /**
+   * Removes a variable for the template.
+   *
+   * This is just really a shortcut for:
+   * <code>$this->getVarHolder()->remove('name')</code>
+   *
+   * @param  string key
+   * @return void
+   */
+  public function __unset($name)
+  {
+    $this->var_holder->remove($name);
   }
 
   /**

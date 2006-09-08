@@ -8,7 +8,6 @@ dev:
     error_reporting:        4095
     web_debug:              on
     cache:                  off
-    stats:                  off
     no_script_name:         off
     etag:                   off
 
@@ -17,7 +16,6 @@ test:
     # E_ALL | E_STRICT & ~E_NOTICE = 2047
     error_reporting:        2047
     cache:                  off
-    stats:                  off
     web_debug:              off
     no_script_name:         off
     etag:                   off
@@ -56,8 +54,6 @@ all:
 #
 #    compressed:             on
 #
-#    tidy:                   on
-#
 #    i18n:                   off
 #
 #    timeout:                1800
@@ -75,8 +71,6 @@ all:
 #
 #    no_script_name:         on
 #
-#    stats:                  off
-#
 #    # E_COMPILE_ERROR | E_ERROR | E_CORE_ERROR | E_USER_ERROR = 337
 #    error_reporting:        337
 #
@@ -88,7 +82,7 @@ all:
 #
 #    activated_modules:      [default]
 #
-#    strip_comments:         off
+#    strip_comments:         on
 #
 #    etag:                   on
 #
@@ -96,3 +90,10 @@ all:
 #    validation_error_suffix:    ' &nbsp;&darr;'
 #    validation_error_class:     form_error
 #    validation_error_id_prefix: error_for_
+# 
+#    autoloading_functions: ~
+# 
+#    charset: utf-8
+# 
+#    escaping_strategy: bc
+#    escaping_method:   ESC_ENTITIES

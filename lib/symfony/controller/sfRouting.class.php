@@ -60,7 +60,7 @@ class sfRouting
   {
     if ($this->current_route_name)
     {
-      list($url, $regexp, $names, $names_hash, $defaults, $requirements, $suffix) = $this->routes[$this->current_route_name];
+      list($url, $regexp, $names, $names_hash, $defaults, $suffix) = $this->routes[$this->current_route_name];
 
       $request = sfContext::getInstance()->getRequest();
 
@@ -167,7 +167,7 @@ class sfRouting
   * - :string: :string denotes a named paramater (available later as $request->getParameter('string'))
   * - *: * match an indefinite number of parameters in a route
   *
-  * Here is the a very common rule in a symfony project:
+  * Here is a very common rule in a symfony project:
   *
   * <code>
   * $r->connect('/:module/:action/*');
@@ -200,7 +200,7 @@ class sfRouting
     if (($route == '') || ($route == '/'))
     {
       $regexp = '/^[\/]*$/';
-      $this->routes[$name] = array($route, $regexp, array(), array(), $default, $requirements, $suffix);
+      $this->routes[$name] = array($route, $regexp, array(), array(), $default, $suffix);
     }
     else
     {
@@ -237,9 +237,29 @@ class sfRouting
       {
         if (preg_match('/^:(.+)$/', $element, $r))
         {
-          $parsed[] = '(?:\/([^\/]+))?';
-          $names[] = $r[1];
-          $names_hash[$r[1]] = 1;
+          $element = $r[1];
+
+          // regex is [^\/]+ or the requirement regex
+          if (isset($requirements[$element]))
+          {
+            $regex = $requirements[$element];
+            if (0 === strpos($regex, '^'))
+            {
+              $regex = substr($regex, 1);
+            }
+            if (strlen($regex) - 1 === strpos($regex, '$'))
+            {
+              $regex = substr($regex, 0, -1);
+            }
+          }
+          else
+          {
+            $regex = '[^\/]+';
+          }
+
+          $parsed[] = '(?:\/('.$regex.'))?';
+          $names[] = $element;
+          $names_hash[$element] = 1;
         }
         elseif (preg_match('/^\*$/', $element, $r))
         {
@@ -252,7 +272,7 @@ class sfRouting
       }
       $regexp = '#^'.join('', $parsed).$regexp_suffix.'$#';
 
-      $this->routes[$name] = array($route, $regexp, $names, $names_hash, $default, $requirements, $suffix);
+      $this->routes[$name] = array($route, $regexp, $names, $names_hash, $default, $suffix);
     }
 
     if (sfConfig::get('sf_logging_active'))
@@ -271,7 +291,7 @@ class sfRouting
   * @param  string equal sign to use between key and value
   * @return string url
   */
-  public function generate($name, $params, $divider, $equals)
+  public function generate($name, $params, $querydiv = '/', $divider = '/', $equals = '/')
   {
     $global_defaults = sfConfig::get('sf_routing_defaults', null);
 
@@ -286,7 +306,7 @@ class sfRouting
         throw new sfConfigurationException($error);
       }
 
-      list($url, $regexp, $names, $names_hash, $defaults, $requirements, $suffix) = $this->routes[$name];
+      list($url, $regexp, $names, $names_hash, $defaults, $suffix) = $this->routes[$name];
       if ($global_defaults !== null)
       {
         $defaults = array_merge($defaults, $global_defaults);
@@ -298,7 +318,7 @@ class sfRouting
       $found = false;
       foreach ($this->routes as $name => $route)
       {
-        list($url, $regexp, $names, $names_hash, $defaults, $requirements, $suffix) = $route;
+        list($url, $regexp, $names, $names_hash, $defaults, $suffix) = $route;
         if ($global_defaults !== null)
         {
           $defaults = array_merge($defaults, $global_defaults);
@@ -318,15 +338,6 @@ class sfRouting
           if (isset($names_hash[$key])) continue;
 
           if (!isset($tparams[$key]) || $tparams[$key] != $value) continue 2;
-        }
-
-        // we must match all requirements for rule
-        foreach ($requirements as $req_param => $req_regexp)
-        {
-          if (!preg_match('/'.$req_regexp.'/', $tparams[$req_param]))
-          {
-            continue 2;
-          }
         }
 
         // we must have consumed all $params keys if there is no * in route
@@ -368,15 +379,20 @@ class sfRouting
         if (is_array($value))
         {
           foreach ($value as $v)
+          {
             $tmp .= $key.$equals.urlencode($v).$divider;
+          }
         }
         else
         {
           $tmp .= urlencode($key).$equals.urlencode($value).$divider;
         }
       }
-
-      $real_url = preg_replace('/\*(\/|$)/', $tmp, $real_url);
+      if (strlen($tmp) > 0)
+      {
+        $tmp = $querydiv.$tmp;
+      }
+      $real_url = preg_replace('/\/\*(\/|$)/', $tmp, $real_url);
     }
 
     // strip off last divider character
@@ -423,7 +439,7 @@ class sfRouting
       $out = array();
       $r = null;
 
-      list($route, $regexp, $names, $names_hash, $defaults, $requirements, $suffix) = $route;
+      list($route, $regexp, $names, $names_hash, $defaults, $suffix) = $route;
 
       $break = false;
 
@@ -456,12 +472,6 @@ class sfRouting
           // if $found is a named url element (i.e. ':action')
           if (isset($names[$pos]))
           {
-            // check requirements
-            if (isset($requirements[$names[$pos]]) && !preg_match('/'.$requirements[$names[$pos]].'/', $found))
-            {
-              $break = false;
-              break;
-            }
             $out[$names[$pos]] = urldecode($found);
           }
           // unnamed elements go in as 'pass'

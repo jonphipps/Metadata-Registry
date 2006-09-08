@@ -1,6 +1,6 @@
 <?php
 
-require_once(sfConfig::get('sf_symfony_lib_dir').'/helper/ValidationHelper.php');
+use_helper('Validation');
 
 /*
  * This file is part of the symfony package.
@@ -41,7 +41,7 @@ require_once(sfConfig::get('sf_symfony_lib_dir').'/helper/ValidationHelper.php')
  *
  * <code>
  *  $card_list = array('VISA' => 'Visa', 'MAST' => 'MasterCard', 'AMEX' => 'American Express', 'DISC' => 'Discover');
- *  echo select_tag('cc_type', options_for_select($card_list), 'AMEX', array('include_custom' => '-- Select Credit Card Type --'));
+ *  echo select_tag('cc_type', options_for_select($card_list, 'AMEX', array('include_custom' => '-- Select Credit Card Type --')));
  * </code>
  *
  * <code>
@@ -470,8 +470,22 @@ function textarea_tag($name, $content = null, $options = array())
 
   if ($rich == 'tinymce')
   {
+    if (isset($options['tinymce_gzip']))
+    {
+      // use tinymce's gzipped js?
+      if ($options['tinymce_gzip'] === true)
+      {
+        $tinymce_file = '/tiny_mce_gzip.php';
+      }
+      unset($options['tinymce_gzip']);
+    }
+    // use standard tinymce js
+    else
+    {
+      $tinymce_file = '/tiny_mce.js';
+    }
     // tinymce installed?
-    $js_path = sfConfig::get('sf_rich_text_js_dir') ? '/'.sfConfig::get('sf_rich_text_js_dir').'/tiny_mce.js' : '/sf/js/tinymce/tiny_mce.js';
+    $js_path = sfConfig::get('sf_rich_text_js_dir') ? '/'.sfConfig::get('sf_rich_text_js_dir'). $tinymce_file : '/sf/js/tinymce' . $tinymce_file;
     if (!is_readable(sfConfig::get('sf_web_dir').$js_path))
     {
       throw new sfConfigurationException('You must install TinyMCE to use this helper (see rich_text_js_dir settings).');
@@ -556,7 +570,7 @@ tinyMCE.init({
     error_reporting($error_reporting);
 
     $fckeditor           = new FCKeditor($name);
-    $fckeditor->BasePath = '/'.sfConfig::get('sf_rich_text_fck_js_dir').'/';
+    $fckeditor->BasePath = sfContext::getInstance()->getRequest()->getRelativeUrlRoot().'/'.sfConfig::get('sf_rich_text_fck_js_dir').'/';
     $fckeditor->Value    = $content;
 
     if (isset($options['width']))
@@ -666,24 +680,6 @@ function radiobutton_tag($name, $value, $checked = false, $options = array())
   if ($checked) $html_options['checked'] = 'checked';
 
   return tag('input', $html_options);
-}
-
-/**
- * Returns an XHTML compliant <input> tag with type="file".
- *
- * Alias for input_file_tag
- *
- * <b>DEPRECIATED:</b> Use input_file_tag
- * @see input_file_tag
- */
-function input_upload_tag($name, $options = array())
-{
-  if (sfConfig::get('sf_logging_active'))
-  {
-    sfContext::getInstance()->getLogger()->err('This function is deprecated. Please use input_file_tag.');
-  }
-  
-  return input_file_tag($name, $options);
 }
 
 /**
@@ -860,7 +856,7 @@ function input_date_tag($name, $value, $options = array())
   // construct html
   if (!isset($options['size']))
   {
-    $options['size'] = 9;
+    $options['size'] = 11;
   }
   $html = input_tag($name, $value, $options);
 
@@ -978,6 +974,14 @@ function reset_tag($value = 'Reset', $options = array())
  */
 function submit_image_tag($source, $options = array())
 {
+  if (!isset($options['alt']))
+  {
+    $path_pos = strrpos($source, '/');
+    $dot_pos = strrpos($source, '.');
+    $begin = $path_pos ? $path_pos + 1 : 0;
+    $nb_str = ($dot_pos ? $dot_pos : strlen($source)) - $begin;
+    $options['alt'] = ucfirst(substr($source, $begin, $nb_str));
+  }
   return tag('input', array_merge(array('type' => 'image', 'name' => 'commit', 'src' => image_path($source)), _convert_options_to_javascript(_convert_options($options))));
 }
 
@@ -1468,7 +1472,6 @@ function select_minute_tag($name, $value = null, $options = array(), $html_optio
  */
 function select_hour_tag($name, $value = null, $options = array(), $html_options = array())
 {
-    
   $options = _parse_attributes($options);
   $select_options = array();
 
@@ -1955,7 +1958,6 @@ function _convert_options($options)
   {
     $options = _boolean_attribute($options, $attribute);
   }
-  
 
   return $options;
 }

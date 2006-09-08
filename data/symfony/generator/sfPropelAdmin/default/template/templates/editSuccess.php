@@ -1,4 +1,4 @@
-[?php use_helpers('Object', 'Validation', 'ObjectAdmin', 'I18N', 'Date') ?]
+[?php use_helper('Object', 'Validation', 'ObjectAdmin', 'I18N', 'Date') ?]
 
 <div id="sf_admin_container">
 <div id="sf_admin_header">
@@ -22,7 +22,7 @@
 </div>
 [?php endif; ?]
 
-[?php echo form_tag('<?php echo $this->getModuleName() ?>/edit', 'id=sf_admin_edit_form name=sf_admin_edit_form multipart=true') ?]
+[?php echo form_tag('<?php echo $this->getModuleName() ?>/edit', 'id=sf_admin_edit_form name=sf_admin_edit_form multipart=true onsubmit=double_list_submit(); return true;') ?]
 
 <?php foreach ($this->getPrimaryKey() as $pk): ?>
 [?php echo object_input_hidden_tag($<?php echo $this->getSingularName() ?>, 'get<?php echo $pk->getPhpName() ?>') ?]
@@ -50,19 +50,19 @@
 <?php if ($credentials): $credentials = str_replace("\n", ' ', var_export($credentials, true)) ?>
     [?php if ($sf_user->hasCredential(<?php echo $credentials ?>)): ?]
 <?php endif; ?>
-<?php if ($this->getParameterValue('create.fields.'.$column->getName().'.type') == 'input_hidden_tag'): ?>
-  [?php echo <?php echo $this->getColumnCreateTag($column) ?> ?]
+<?php if ($this->getParameterValue('edit.fields.'.$column->getName().'.type') == 'input_hidden_tag'): ?>
+  [?php echo <?php echo $this->getColumnEditTag($column) ?> ?]
 <?php else: ?>
 <div class="form-row">
-  [?php echo label_for('<?php echo $this->getParameterValue("edit.fields.".$column->getName().".label_for", $this->getSingularName()."[".$column->getName()."]") ?>', __('<?php echo str_replace("'", "\\'", $this->getParameterValue('edit.fields.'.$column->getName().'.name')) ?>:'), '<?php if ($column->isNotNull()): ?>class="required" <?php endif; ?>') ?]
+  [?php echo label_for('<?php echo $this->getParameterValue("edit.fields.".$column->getName().".label_for", $this->getSingularName()."[".$column->getName()."]") ?>', __('<?php $label_name = str_replace("'", "\\'", $this->getParameterValue('edit.fields.'.$column->getName().'.name')); echo $label_name ?><?php if ($label_name): ?>:<?php endif ?>'), '<?php if ($column->isNotNull()): ?>class="required" <?php endif; ?>') ?]
   <div class="content[?php if ($sf_request->hasError('<?php echo $this->getSingularName() ?>{<?php echo $column->getName() ?>}')): ?] form-error[?php endif; ?]">
   [?php if ($sf_request->hasError('<?php echo $this->getSingularName() ?>{<?php echo $column->getName() ?>}')): ?]
     [?php echo form_error('<?php echo $this->getSingularName() ?>{<?php echo $column->getName() ?>}', array('class' => 'form-error-msg')) ?]
   [?php endif; ?]
 
-  [?php echo <?php echo $this->getColumnEditTag($column) ?> ?]
+  [?php $value = <?php echo $this->getColumnEditTag($column); ?>; echo $value ? $value : '&nbsp;' ?]
   </div>
-  <?php if ($this->getParameterValue('edit.helptype') == 'div'): echo $this->getHelp($column, 'edit'); elseif ($this->getParameterValue('edit.helptype') == 'icon'): echo $this->getHelpAsIcon($column, 'edit'); endif; ?>
+<?php if ($this->getParameterValue('edit.helptype') == 'div'): echo $this->getHelp($column, 'edit'); elseif ($this->getParameterValue('edit.helptype') == 'icon'): echo $this->getHelpAsIcon($column, 'edit'); endif; ?>
 </div>
 <?php endif; ?>
 <?php if ($credentials): ?>

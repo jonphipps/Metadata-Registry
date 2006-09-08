@@ -13,8 +13,8 @@
  * their return values.
  *
  * @see        sfOutputEscaper
- * @package    symfony.view
- * @subpackage escaper
+ * @package    symfony
+ * @subpackage view
  * @author     Mike Squire <mike@somosis.co.uk>
  * @version    SVN: $Id$
  */
@@ -46,8 +46,7 @@ class sfOutputEscaperObjectDecorator extends sfOutputEscaperGetterDecorator
     if (count($args) > 0)
     {
       $escapingMethod = $args[count($args) - 1];
-
-      if (substr($escapingMethod, 0, 4) === 'esc_')
+      if (is_string($escapingMethod) && substr($escapingMethod, 0, 4) === 'esc_')
       {
         array_pop($args);
       }

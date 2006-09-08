@@ -18,138 +18,173 @@
  */
 class sfPropelDatabaseSchema
 {
-  protected $schema = array();
+  protected $connection_name = '';
+  protected $database        = array();
+
+  public function asArray()
+  {
+    return array($this->connection_name => $this->database);
+  }
 
   public function loadYAML($file)
   {
-    $this->schema = sfYaml::load($file);
+    $schema = sfYaml::load($file);
 
-    if (count($this->schema) > 1)
+    if (count($schema) > 1)
     {
       throw new sfException('A schema.yml must only contain 1 database entry.');
     }
 
-    $this->fixYAML();
-  }
+    $this->connection_name = array_shift(array_keys($schema));
+    if ($this->connection_name)
+    {
+      $this->database = $schema[$this->connection_name];
 
-  public function asArray()
-  {
-    return $this->schema;
-  }
-
-  public function asYAML()
-  {
-    return sfYaml::dump($this->schema);
+      $this->fixYAMLDatabase();
+      $this->fixYAMLI18n();
+      $this->fixYAMLColumns();
+    }
   }
 
   public function asXML()
   {
     $xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
 
-    foreach ($this->schema as $db_name => $database)
+    $xml .= "<database name=\"$this->connection_name\"".$this->getAttributesFor($this->database).">\n";
+
+    // tables
+    foreach ($this->getChildren($this->database) as $tb_name => $table)
     {
-      $xml .= "\n<database name=\"$db_name\"".$this->getAttributesFor($database).">\n";
+      $xml .= "\n  <table name=\"$tb_name\"".$this->getAttributesFor($table).">\n";
 
-      // tables
-      foreach ($this->getChildren($database) as $tb_name => $table)
+      // columns
+      foreach ($this->getChildren($table) as $col_name => $column)
       {
-        $xml .= "\n  <table name=\"$tb_name\"".$this->getAttributesFor($table).">\n";
-
-        // columns
-        foreach ($this->getChildren($table) as $col_name => $column)
-        {
-          $xml .= "    <column name=\"$col_name\"".$this->getAttributesForColumn($col_name, $column);
-        }
-
-        // indexes
-        if (isset($table['_indexes']))
-        {
-          foreach ($table['_indexes'] as $index_name => $index)
-          {
-            $xml .= "    <index name=\"$index_name\">\n";
-            foreach ($index as $index_column)
-            {
-              $xml .= "      <index-column name=\"$index_column\" />\n";
-            }
-            $xml .= "    </index>\n";
-          }
-        }
-
-        // foreign-keys
-        if (isset($table['_foreign_keys']))
-        {
-          foreach ($table['_foreign_keys'] as $fkey_table => $fkey)
-          {
-            $xml .= "    <foreign-key foreignTable=\"$fkey_table\"".$this->getAttributesFor($fkey).">\n";
-            if (isset($fkey['references']))
-            {
-              foreach ($fkey['references'] as $reference)
-              {
-                $xml .= "      <reference local=\"$reference[local]\" foreign=\"$reference[foreign]\" />\n";
-              }
-            }
-            $xml .= "    </foreign-key>\n";
-          }
-        }
-
-        $xml .= "  </table>\n";
+        $xml .= "    <column name=\"$col_name\"".$this->getAttributesForColumn($col_name, $column);
       }
-      $xml .= "\n</database>\n";
+
+      // indexes
+      if (isset($table['_indexes']))
+      {
+        foreach ($table['_indexes'] as $index_name => $index)
+        {
+          $xml .= "    <index name=\"$index_name\">\n";
+          foreach ($index as $index_column)
+          {
+            $xml .= "      <index-column name=\"$index_column\" />\n";
+          }
+          $xml .= "    </index>\n";
+        }
+      }
+
+      // uniques
+      if (isset($table['_uniques']))
+      {
+        foreach ($table['_uniques'] as $unique_name => $index)
+        {
+          $xml .= "    <unique name=\"$unique_name\">\n";
+          foreach ($index as $unique_column)
+          {
+            $xml .= "      <unique-column name=\"$unique_column\" />\n";
+          }
+          $xml .= "    </unique>\n";
+        }
+      }
+
+      // foreign-keys
+      if (isset($table['_foreign_keys']))
+      {
+        foreach ($table['_foreign_keys'] as $fkey_name => $fkey)
+        {
+          $xml .= "    <foreign-key foreignTable=\"$fkey[foreign_table]\"";
+          // foreign key name
+          if(!is_numeric($fkey_name))
+          {
+            $xml .= " name=\"$fkey_name\"";
+          }
+          // onDelete
+          if(isset($fkey['on_delete']))
+          {
+            $xml .= " onDelete=\"$fkey[on_delete]\"";
+          }
+          $xml .= ">\n";
+
+          // references
+          if (isset($fkey['references']))
+          {
+            foreach ($fkey['references'] as $reference)
+            {
+              $xml .= "      <reference local=\"$reference[local]\" foreign=\"$reference[foreign]\" />\n";
+            }
+          }
+          $xml .= "    </foreign-key>\n";
+        }
+      }
+
+      $xml .= "  </table>\n";
     }
+    $xml .= "\n</database>\n";
 
     return $xml;
   }
-
-  private function fixYAML()
-  {
-    $this->fixYAMLDatabase();
-    $this->fixYAMLI18n();
-    $this->fixYAMLColumns();
-  }
-
+  
   private function fixYAMLDatabase()
   {
-    foreach ($this->schema as $db_name => &$database)
+    if (!isset($this->database['_attributes']))
     {
-      if (!isset($database['_attributes']))
-      {
-        $database['_attributes'] = array();
-      }
-
-      $this->setIfNotSet($database['_attributes'], 'defaultIdMethod', 'native');
-      $this->setIfNotSet($database['_attributes'], 'noXsd', true);
+      $this->database['_attributes'] = array();
     }
+    // conventions for database attributes
+    $this->setIfNotSet($this->database['_attributes'], 'defaultIdMethod', 'native');
+    $this->setIfNotSet($this->database['_attributes'], 'noXsd', true);
   }
 
   private function fixYAMLI18n()
   {
-    foreach ($this->schema as $db_name => &$database)
+    foreach ($this->getTables() as $i18n_table => $columns)
     {
-      foreach ($this->getChildren($database) as $i18n_table => $columns)
+      $pos = strpos($i18n_table, '_i18n');
+      
+      $has_primary_key = false;
+      foreach ($columns as $column => $attributes)
       {
-        $pos = strpos($i18n_table, '_i18n');
-        if ($pos > 0 && $pos == strlen($i18n_table) - 5)
+        if (is_array($attributes) && array_key_exists('primaryKey', $attributes))
         {
-          // i18n automatism
-          $main_table = substr($i18n_table, 0, $pos);
-          if (isset($database[$main_table]))
-          {
-            // set attributes for main table
-            $database[$main_table]['_attributes']['isI18N'] = 1;
-            $this->setIfNotSet($database[$main_table]['_attributes'], 'i18nTable', $i18n_table);
+           $has_primary_key = true;
+        }
+      }
 
-            // set id and culture columns for i18n table
-            $this->setIfNotSet($database[$i18n_table], 'id', $database[$main_table]['id']);
-            $this->setIfNotSet($database[$i18n_table], 'culture', array( 'isCulture' => 'true', 'type' => 'varchar', 'size' => '7', 'required' => true, 'primaryKey' => true));
+      if ($pos > 0 && $pos == strlen($i18n_table) - 5 && !$has_primary_key)
+      {
+        // i18n table without primary key
+        $main_table = $this->findTable(substr($i18n_table, 0, $pos));
+        
+        if ($main_table)
+        {
+          // set i18n attributes for main table
+          $this->setIfNotSet($this->database[$main_table]['_attributes'], 'isI18N', 1);
+          $this->setIfNotSet($this->database[$main_table]['_attributes'], 'i18nTable', $i18n_table);
 
-            // set id as foreign key for i18n table
-            $this->setIfNotSet($database[$i18n_table]['id'], 'foreignTable', $main_table);
-            $this->setIfNotSet($database[$i18n_table]['id'], 'foreignReference', 'id');
-          }
-          else
-          {
-            throw new sfException(sprintf('Missing main table for internationalized table "%s".', $i18n_table));
-          }
+          // set id and culture columns for i18n table
+          $this->setIfNotSet($this->database[$i18n_table], 'id', array (
+            'type'             => 'integer',
+            'required'         => true, 
+            'primaryKey'       => true,
+            'foreignTable'     => $main_table,
+            'foreignReference' => 'id',
+            'onDelete'         => 'cascade'
+          ));
+          $this->setIfNotSet($this->database[$i18n_table], 'culture', array(
+            'isCulture'  => true,
+            'type'       => 'varchar',
+            'size'       => '7',
+            'required'   => true,
+            'primaryKey' => true
+          ));
+        }
+        else
+        {
+          throw new sfException(sprintf('Missing main table for internationalized table "%s".', $i18n_table));
         }
       }
     }
@@ -157,53 +192,100 @@ class sfPropelDatabaseSchema
 
   private function fixYAMLColumns()
   {
-    foreach ($this->schema as $db_name => &$database)
+    foreach ($this->getTables() as $table => $columns)
     {
-      foreach ($database as $table => &$columns)
+      $has_primary_key = false;
+      
+      foreach ($columns as $column => $attributes)
       {
-        foreach ($columns as $name => &$attributes)
+        if ($attributes == null)
         {
-          if ($attributes == null && $table != '_attributes' && ($name == 'created_at' || $name == 'updated_at'))
+          // conventions for null attributes  
+          if ($column == 'created_at' || $column == 'updated_at')
           {
-            // timestamp automatism
-            $columns[$name]['type']= 'timestamp';
+            // timestamp convention
+            $this->database[$table][$column]['type']= 'timestamp';
           }
 
-          if ($attributes == null && $name == 'id' && $table != '_attributes')
+          if ($column == 'id')
           {
-            // primary key automatism
-            $columns['id']['type']= 'integer';
-            $columns['id']['required'] = true;
-            $columns['id']['primaryKey'] = true;
-            $columns['id']['autoincrement'] = true;
+            // primary key convention
+            $this->database[$table]['id'] = array (
+              'type'          => 'integer',
+              'required'      => true,
+              'primaryKey'    => true,
+              'autoincrement' => true
+            );
+            $has_primary_key = true;
           }
-
-          $pos = strpos($name, '_id');
-          if ($attributes == null && $pos > 0 && $pos == strlen($name) - 3 && $table != '_attributes')
+        }
+        else
+        {
+          if(!is_array($attributes))
           {
-            // foreign key automatism
-            $foreign_table_phpName = sfInflector::camelize(substr($name, 0, $pos));
-            $foreign_table = '';
-            foreach ($this->getChildren($database) as $fk_tb_name => $fk_table)
+            // compact type given as single attribute
+            $this->database[$table][$column] = $this->getAttributesFromCompactType($attributes);
+          }
+          else
+          {
+            if (isset($attributes['type']))
             {
-              if (isset($fk_table['_attributes']['phpName']) && $fk_table['_attributes']['phpName'] == $foreign_table_phpName)
-              {
-                $foreign_table = $fk_tb_name;
-              }
+              // compact type given as value of the type attribute
+              $this->database[$table][$column] = array_merge($this->database[$table][$column], $this->getAttributesFromCompactType($attributes['type']));
             }
-            if ($foreign_table)
+            if (isset($attributes['primaryKey']))
             {
-              $columns[$name]['type'] = 'integer';
-              $columns[$name]['foreignTable'] = $foreign_table;
-              $columns[$name]['foreignReference'] = 'id';
-            }
-            else
-            {
-              throw new sfException(sprintf('Unable to resolve foreign table for column "%s"', $name));
+              $has_primary_key = true;
             }
           }
         }
+        
+        $pos = strpos($column, '_id');
+        if ($pos > 0 && $pos == strlen($column) - 3)
+        {
+          // foreign key convention
+          $foreign_table = $this->findTable(substr($column, 0, $pos));
+          if ($foreign_table || isset($this->database[$table][$column]['foreignTable']))
+          {
+            $this->database[$table][$column] = array_merge(
+              array(
+                'type'             => 'integer',
+                'foreignReference' => 'id'
+              ),
+              ($foreign_table ? array('foreignTable' => $foreign_table) : array()),
+              ($attributes != null ? $this->database[$table][$column] : array())
+            );
+          }
+          else
+          {
+            throw new sfException(sprintf('Unable to resolve foreign table for column "%s"', $column));
+          }
+        }
       }
+      
+      if(!$has_primary_key)
+      {
+        // convention for tables without primary key
+        $this->database[$table]['id'] = array (
+          'type'          => 'integer',
+          'required'      => true,
+          'primaryKey'    => true,
+          'autoincrement' => true
+        );
+      }
+    }
+  }
+  
+  private function getAttributesFromCompactType($type)
+  {
+    preg_match('/varchar\(([\d]+)\)/', $type, $matches);
+    if (isset($matches[1]))
+    {
+      return array('type' => 'varchar', 'size' => $matches[1]);
+    }
+    else
+    {
+      return array('type' => $type);
     }
   }
 
@@ -215,27 +297,28 @@ class sfPropelDatabaseSchema
     }
   }
 
-  function getAttributesForColumn($col_name, $column)
+  private function findTable($table_name)
   {
-    $attributes_string = '';
-    if (!is_array($column) && $column != null)
+    // find a table from a phpName or a name
+    $table_match = false;
+    foreach ($this->getTables() as $tb_name => $table)
     {
-      // simple type definition
-      preg_match('/varchar\(([\d]+)\)/', $column, $matches);
-      if (isset($matches[1]))
+      if ((isset($table['_attributes']['phpName']) && $table['_attributes']['phpName'] == sfInflector::camelize($table_name)) || ($tb_name == $table_name))
       {
-        $attributes_string .= " type=\"varchar\" size=\"$matches[1]\" />\n";
-      }
-      else
-      {
-        $attributes_string .= " type=\"$column\" />\n";
+        $table_match = $tb_name;
       }
     }
-    elseif (is_array($column))
+    return $table_match;
+  }
+
+  private function getAttributesForColumn($col_name, $column)
+  {
+    $attributes_string = '';
+    if (is_array($column))
     {
       foreach ($column as $key => $value)
       {
-        if (!in_array($key, array('foreignTable', 'foreignReference', 'onDelete', 'index')))
+        if (!in_array($key, array('foreignTable', 'foreignReference', 'onDelete', 'index', 'unique')))
         {
           $attributes_string .= " $key=\"".$this->getCorrectValueFor($key, $value)."\"";
         }
@@ -247,6 +330,7 @@ class sfPropelDatabaseSchema
       throw new sfException('Incorrect settings for column '.$col_name);
     }
 
+    // conventions for foreign key attributes
     if (is_array($column) && isset($column['foreignTable']))
     {
       $attributes_string .= "    <foreign-key foreignTable=\"$column[foreignTable]\"";
@@ -259,17 +343,34 @@ class sfPropelDatabaseSchema
       $attributes_string .= "    </foreign-key>\n";  
     }
 
+    // conventions for index and unique index attributes
     if (is_array($column) && isset($column['index']))
     {
-      $attributes_string .= "    <index name=\"${col_name}_index\">\n";
-      $attributes_string .= "      <index-column name=\"$col_name\" />\n";
-      $attributes_string .= "    </index>\n"; 
+      if($column['index'] === 'unique')
+      {
+        $attributes_string .= "    <unique name=\"${col_name}_unique\">\n";
+        $attributes_string .= "      <unique-column name=\"$col_name\" />\n";
+        $attributes_string .= "    </unique>\n";
+      }
+      else
+      {
+        $attributes_string .= "    <index name=\"${col_name}_index\">\n";
+        $attributes_string .= "      <index-column name=\"$col_name\" />\n";
+        $attributes_string .= "    </index>\n";
+      }
+    }
+
+    // conventions for sequence name attributes
+    // required for databases using sequences for auto-increment columns (e.g. PostgreSQL or Oracle)
+    if (is_array($column) && isset($column['sequence'])) 
+    {
+      $attributes_string .= "    <id-method-parameter value=\"$column[sequence]\" />\n"; 
     }
 
     return $attributes_string;
   }
 
-  function getAttributesFor($tag)
+  private function getAttributesFor($tag)
   {
     if (!isset($tag['_attributes']))
     {
@@ -285,9 +386,9 @@ class sfPropelDatabaseSchema
     return $attributes_string;
   }
 
-  function getCorrectValueFor($key, $value)
+  private function getCorrectValueFor($key, $value)
   {
-    $booleans = array('required', 'primaryKey', 'autoincrement', 'noXsd', 'isI18N');
+    $booleans = array('required', 'primaryKey', 'autoincrement', 'autoIncrement', 'noXsd', 'isI18N', 'isCulture');
     if (in_array($key, $booleans))
     {
       return ($value == 1) ? 'true' : 'false';
@@ -298,6 +399,11 @@ class sfPropelDatabaseSchema
     } 
   }
 
+  private function getTables()
+  {
+    return $this->getChildren($this->database); 
+  }
+  
   private function getChildren($hash)
   {
     foreach ($hash as $key => $value)
@@ -310,5 +416,283 @@ class sfPropelDatabaseSchema
     }
 
     return $hash;
+  }
+
+  public function loadXML($file)
+  {
+    $schema = simplexml_load_file($file);
+    $database = array();
+    
+    // database
+    list($database_name, $database_attributes) = $this->getNameAndAttributes($schema->attributes());
+    if($database_name)
+    {
+      $this->connection_name = $database_name;
+    }
+    else
+    {
+      throw new sfException('The database tag misses a name attribute');
+    }
+    if ($database_attributes)
+    {
+      $database['_attributes'] = $database_attributes;
+    }
+    
+    // tables
+    foreach($schema as $table)
+    {
+      list($table_name, $table_attributes) = $this->getNameAndAttributes($table->attributes());
+      if($table_name)
+      {
+        $database[$table_name] = array();
+      }
+      else
+      {
+        throw new sfException('A table tag misses the name attribute');
+      }
+      if($table_attributes)
+      {
+        $database[$table_name]['_attributes'] = $table_attributes;
+      }
+      
+      // columns
+      foreach($table->xpath('column') as $column)
+      {
+        list($column_name, $column_attributes) = $this->getNameAndAttributes($column->attributes());
+        if($column_name)
+        {
+          $database[$table_name][$column_name] = $column_attributes; 
+        }
+        else
+        {
+          throw new sfException('A column tag misses the name attribute');
+        }
+      }
+
+      // foreign-keys
+      $database[$table_name]['_foreign_keys'] = array();
+      foreach($table->xpath('foreign-key') as $foreign_key)
+      {
+        $foreign_key_table = array();
+
+        // foreign key attributes
+        if(isset($foreign_key['foreignTable']))
+        {
+          $foreign_key_table['foreign_table'] = (string) $foreign_key['foreignTable']; 
+        }
+        else
+        {
+          throw new sfException('A foreign key misses the foreignTable attribute');
+        } 
+        if(isset($foreign_key['onDelete']))
+        {
+          $foreign_key_table['on_delete'] = (string) $foreign_key['onDelete']; 
+        }
+
+        // foreign key references
+        $foreign_key_table['references'] = array();
+        foreach($foreign_key->xpath('reference') as $reference)
+        {
+          $reference_attributes = array();
+          foreach($reference->attributes() as $reference_attribute_name => $reference_attribute_value)
+          {
+            $reference_attributes[$reference_attribute_name] = strval($reference_attribute_value);  
+          }
+          $foreign_key_table['references'][] = $reference_attributes;
+        }
+
+        if(isset($foreign_key['name']))
+        {
+          $database[$table_name]['_foreign_keys'][(string)$foreign_key['name']] = $foreign_key_table; 
+        }
+        else
+        {
+          $database[$table_name]['_foreign_keys'][] = $foreign_key_table; 
+        }
+
+      }
+      $this->removeEmptyKey($database[$table_name], '_foreign_keys');
+
+      // indexes
+      $database[$table_name]['_indexes'] = array();
+      foreach($table->xpath('index') as $index)
+      {
+        $index_keys = array();
+        foreach($index->xpath('index-column') as $index_key)
+        {
+          $index_keys[] = strval($index_key['name']);
+        }
+        $database[$table_name]['_indexes'][strval($index['name'])] = $index_keys;
+      }
+      $this->removeEmptyKey($database[$table_name], '_indexes');
+
+      // unique indexes
+      $database[$table_name]['_uniques'] = array();
+      foreach($table->xpath('unique') as $index)
+      {
+        $unique_keys = array();
+        foreach($index->xpath('unique-column') as $unique_key)
+        {
+          $unique_keys[] = strval($unique_key['name']);
+        }
+        $database[$table_name]['_uniques'][strval($index['name'])] = $unique_keys;
+      }
+      $this->removeEmptyKey($database[$table_name], '_uniques');      
+    }
+    $this->database = $database;
+    
+    $this->fixXML();
+  }
+
+  public function fixXML()
+  {
+    $this->fixXMLForeignKeys();
+    $this->fixXMLIndexes();
+    // $this->fixXMLColumns();
+  }
+
+  private function fixXMLForeignKeys()
+  {
+    foreach($this->getTables() as $table => $columns)
+    {
+      if(isset($this->database[$table]['_foreign_keys']))
+      {
+        $foreign_keys = $this->database[$table]['_foreign_keys'];
+        foreach($foreign_keys as $foreign_key_name => $foreign_key_attributes)
+        {
+          // Only single foreign keys can be simplified
+          if (count($foreign_key_attributes['references']) == 1)
+          {
+            $reference = $foreign_key_attributes['references'][0];
+            
+            // set simple foreign key
+            $this->database[$table][$reference['local']]['foreignTable'] = $foreign_key_attributes['foreign_table'];
+            $this->database[$table][$reference['local']]['foreignReference'] = $reference['foreign'];
+            if(isset($foreign_key_attributes['_attributes']['onDelete']))
+            {
+              $this->database[$table][$reference['local']]['onDelete'] = $foreign_key_attributes['_attributes']['onDelete'];
+            }
+            
+            // remove complex foreign key
+            unset($this->database[$table]['_foreign_keys'][$foreign_key_name]);
+          }
+
+          $this->removeEmptyKey($this->database[$table], '_foreign_keys');
+        }
+      }
+    }
+  }
+
+  private function fixXMLIndexes()
+  {
+    foreach($this->getTables() as $table => $columns)
+    {
+      if(isset($this->database[$table]['_indexes']))
+      {
+        $indexes = $this->database[$table]['_indexes'];
+        foreach($indexes as $index => $references)
+        {
+          // Only single indexes can be simplified
+          if (count($references) == 1 && array_key_exists(substr($index,0,strlen($index)-6), $columns))
+          {
+            $reference = $references[0];
+            
+            // set simple index
+            $this->database[$table][$reference]['index'] = 'true';
+            
+            // remove complex index
+            unset($this->database[$table]['_indexes'][$index]);
+          }
+          
+          $this->removeEmptyKey($this->database[$table], '_indexes');
+        }
+      }
+      if(isset($this->database[$table]['_uniques']))
+      {
+        $uniques = $this->database[$table]['_uniques'];
+        foreach($uniques as $index => $references)
+        {
+          // Only single unique indexes can be simplified
+          if (count($references) == 1 && array_key_exists(substr($index,0,strlen($index)-7), $columns))
+          {
+            $reference = $references[0];
+
+            // set simple index
+            $this->database[$table][$reference]['index'] = 'unique';
+
+            // remove complex unique index
+            unset($this->database[$table]['_uniques'][$index]);
+          }
+
+          $this->removeEmptyKey($this->database[$table], '_uniques');
+        }
+      }
+    }
+  }
+
+  private function fixXMLColumns()
+  {
+    foreach($this->getTables() as $table => $columns)
+    {
+      foreach($columns as $column => $attributes)
+      {
+        if ($column == 'id' && !array_diff($attributes, array('type' => 'integer', 'required' => 'true', 'primaryKey' => 'true', 'autoincrement' => 'true')))
+        {
+          // simplify primary keys
+          $this->database[$table]['id'] = null;
+        }
+
+        if (($column == 'created_at') || ($column == 'updated_at') && !array_diff($attributes, array('type' => 'timestamp')))
+        {
+          // simplify timestamps
+          $this->database[$table][$column] = null;   
+        }
+
+        $pos                 = strpos($column, '_id');
+        $has_fk_name         = $pos > 0 && $pos == strlen($column) - 3;
+        $is_foreign_key      = isset($attributes['type']) && $attributes['type'] == 'integer' && isset($attributes['foreignReference']) && $attributes['foreignReference'] == 'id'; 
+        $has_foreign_table   = isset($attributes['foreignTable']) && array_key_exists($attributes['foreignTable'], $this->getTables());
+        $has_other_attribute = isset($attributes['onDelete']);
+        if ($has_fk_name && $has_foreign_table && $is_foreign_key && !$has_other_attribute)
+        {
+          // simplify foreign key
+          $this->database[$table][$column] = null;
+        }
+
+      }
+    }
+  }
+
+  public function asYAML()
+  {
+    return sfYaml::dump(array($this->connection_name => $this->database));
+  }
+
+  private function getNameAndAttributes($hash, $name_attribute = 'name')
+  {
+    // tag name
+    $name = '';
+    if(isset($hash[$name_attribute]))
+    {
+      $name = strval($hash[$name_attribute]);
+      unset($hash[$name_attribute]);
+    }
+
+    // tag attributes
+    $attributes = array();
+    foreach($hash as $attribute => $value)
+    {
+      $attributes[$attribute] = strval($value);
+    }
+
+    return array($name, $attributes);
+  }
+
+  private function removeEmptyKey(&$hash, $key)
+  {
+    if(isset($hash[$key]) && !$hash[$key])
+    {
+      unset($hash[$key]);
+    }
   }
 }
