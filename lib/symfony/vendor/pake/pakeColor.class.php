@@ -5,7 +5,7 @@
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
  * @copyright  2004-2005 Fabien Potencier <fabien.potencier@symfony-project.com>
  * @license    see the LICENSE file included in the distribution
- * @version    SVN: $Id: pakeColor.class.php 1942 2006-09-05 08:28:57Z fabien $
+ * @version    SVN: $Id: pakeColor.class.php 2042 2006-09-11 16:13:40Z fabien $
  */
 
 /**
@@ -18,7 +18,7 @@
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
  * @copyright  2004-2005 Fabien Potencier <fabien.potencier@symfony-project.com>
  * @license    see the LICENSE file included in the distribution
- * @version    SVN: $Id: pakeColor.class.php 1942 2006-09-05 08:28:57Z fabien $
+ * @version    SVN: $Id: pakeColor.class.php 2042 2006-09-11 16:13:40Z fabien $
  */
 class pakeColor
 {
@@ -32,7 +32,7 @@ class pakeColor
   static function colorize($text = '', $parameters = array())
   {
     // disable colors if not supported (windows or non tty console)
-    if (strtoupper(substr(PHP_OS, 0, 3)) == 'WIN' || !@posix_isatty(STDOUT))
+    if (strtoupper(substr(PHP_OS, 0, 3)) == 'WIN' || !function_exists('posix_isatty') || !@posix_isatty(STDOUT))
     {
       return $text;
     }

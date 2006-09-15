@@ -358,7 +358,7 @@ class sfWebRequest extends sfRequest
       $proto = 'http';
     }
 
-    $port = ($pathArray['SERVER_PORT'] == $standardPort) ? "" : ":".$pathArray['SERVER_PORT'];
+    $port = $pathArray['SERVER_PORT'] == $standardPort || !$pathArray['SERVER_PORT'] ? '' : ':'.$pathArray['SERVER_PORT'];
 
     return $proto.'://'.$pathArray['HTTP_HOST'].$port;
   }
@@ -751,9 +751,7 @@ class sfWebRequest extends sfRequest
   {
     if ($this->relativeUrlRoot === null)
     {
-      $pathArray = $this->getPathInfoArray();
-
-      $this->relativeUrlRoot = preg_replace('#/[^/]+\.php5?$#', '', $this->getScriptName());
+      $this->relativeUrlRoot = sfConfig::get('sf_relative_url_root', preg_replace('#/[^/]+\.php5?$#', '', $this->getScriptName()));
     }
 
     return $this->relativeUrlRoot;

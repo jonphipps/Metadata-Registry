@@ -125,7 +125,7 @@ abstract class sfController
         }
 
         // action is defined in this class?
-        if (!in_array('execute'.ucfirst($controllerName), get_class_methods($moduleName.$classSuffix.'s')))
+        if (!method_exists($moduleName.'Actions', '__call') && !in_array('execute'.ucfirst($controllerName), get_class_methods($moduleName.$classSuffix.'s')))
         {
           if ($throwExceptions)
           {
@@ -154,7 +154,6 @@ abstract class sfController
    *
    * @param string  A module name.
    * @param string  An action name.
-   * @param boolean Is this action is a slot context
    *
    * @return void
    *
@@ -163,7 +162,7 @@ abstract class sfController
    * @throws <b>sfInitializationException</b> If the action could not be initialized.
    * @throws <b>sfSecurityException</b> If the action requires security but the user implementation is not of type sfSecurityUser.
    */
-  public function forward ($moduleName, $actionName, $isSlot = false)
+  public function forward ($moduleName, $actionName)
   {
     // replace unwanted characters
     $moduleName = preg_replace('/[^a-z0-9\-_]+/i', '', $moduleName);
@@ -228,7 +227,7 @@ abstract class sfController
     $actionInstance = $this->getAction($moduleName, $actionName);
 
     // add a new action stack entry
-    $this->getActionStack()->addEntry($moduleName, $actionName, $actionInstance, $isSlot);
+    $this->getActionStack()->addEntry($moduleName, $actionName, $actionInstance);
 
     // include module configuration
     require(sfConfigCache::getInstance()->checkConfig(sfConfig::get('sf_app_module_dir_name').'/'.$moduleName.'/'.sfConfig::get('sf_app_module_config_dir_name').'/module.yml'));
@@ -292,11 +291,6 @@ abstract class sfController
           $this->loadModuleFilters($filterChain);
         }
 
-        // register common HTTP filter
-        $commonFilter = new sfCommonFilter();
-        $commonFilter->initialize($this->context);
-        $filterChain->register($commonFilter);
-
         if (sfConfig::get('sf_cache'))
         {
           // register cache filter
@@ -304,6 +298,11 @@ abstract class sfController
           $cacheFilter->initialize($this->context);
           $filterChain->register($cacheFilter);
         }
+
+        // register common HTTP filter
+        $commonFilter = new sfCommonFilter();
+        $commonFilter->initialize($this->context);
+        $filterChain->register($commonFilter);
 
         if (sfConfig::get('sf_use_flash'))
         {
@@ -658,5 +657,10 @@ abstract class sfController
   public function inCLI()
   {
     return 'cli' == php_sapi_name();
+  }
+
+  public function __call($method, $arguments)
+  {
+    return sfMixer::callMixins();
   }
 }

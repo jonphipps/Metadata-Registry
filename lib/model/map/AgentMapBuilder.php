@@ -95,6 +95,8 @@ class AgentMapBuilder {
 		$tMap->addColumn('WEB_ADDRESS', 'WebAddress', 'string', CreoleTypes::VARCHAR, false, 255);
 
 		$tMap->addColumn('TYPE', 'Type', 'string', CreoleTypes::CHAR, false, 15);
+
+		$tMap->addColumn('TYPE_ID', 'TypeId', 'int', CreoleTypes::INTEGER, false, null);
 				
     } // doBuild()
 

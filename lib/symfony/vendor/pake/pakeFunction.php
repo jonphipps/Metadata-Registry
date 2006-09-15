@@ -5,7 +5,7 @@
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
  * @copyright  2004-2005 Fabien Potencier <fabien.potencier@symfony-project.com>
  * @license    see the LICENSE file included in the distribution
- * @version    SVN: $Id: pakeFunction.php 1942 2006-09-05 08:28:57Z fabien $
+ * @version    SVN: $Id: pakeFunction.php 2006 2006-09-08 09:43:39Z fabien $
  */
 
 require_once dirname(__FILE__).'/pakeException.class.php';
@@ -189,7 +189,7 @@ function pake_remove($arg, $target_dir)
     }
     else
     {
-      pake_echo_action('file-', $file);
+      pake_echo_action(is_link($file) ? 'link-' : 'file-', $file);
 
       unlink($file);
     }
@@ -228,8 +228,15 @@ function pake_replace_tokens($arg, $target_dir, $begin_token, $end_token, $token
   }
 }
 
-function pake_symlink($origin_dir, $target_dir)
+function pake_symlink($origin_dir, $target_dir, $copy_on_windows = false)
 {
+  if (!function_exists('symlink') && $copy_on_windows)
+  {
+    $finder = pakeFinder::type('any')->ignore_version_control();
+    pake_mirror($finder, $origin_dir, $target_dir);
+    return;
+  }
+
   $ok = false;
   if (is_link($target_dir))
   {
@@ -245,7 +252,7 @@ function pake_symlink($origin_dir, $target_dir)
 
   if (!$ok)
   {
-    pake_echo_action('symlink+', $target_dir);
+    pake_echo_action('link+', $target_dir);
     symlink($origin_dir, $target_dir);
   }
 }

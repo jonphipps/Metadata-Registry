@@ -5,6 +5,9 @@ define('SF_APP',         'frontend');
 define('SF_ENVIRONMENT', 'prod');
 define('SF_DEBUG',       false);
 
+set_time_limit(300);
+ini_set('max_execution_time','300'),
+
 require_once(SF_ROOT_DIR.DIRECTORY_SEPARATOR.'apps'.DIRECTORY_SEPARATOR.SF_APP.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'config.php');
 
 sfContext::getInstance()->getController()->dispatch();

@@ -13,7 +13,7 @@
  * @package    symfony
  * @subpackage view
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
- * @version    SVN: $Id: sfPartialView.class.php 1968 2006-09-06 14:13:56Z fabien $
+ * @version    SVN: $Id: sfPartialView.class.php 2056 2006-09-13 06:52:27Z fabien $
  */
 class sfPartialView extends sfPHPView
 {
@@ -30,12 +30,16 @@ class sfPartialView extends sfPHPView
     {
       $this->setDirectory(sfConfig::get('sf_app_template_dir'));
     }
+    else
+    {
+      $this->setDirectory(sfLoader::getTemplateDir($this->moduleName, $this->getTemplate()));
+    }
   }
 
   public function render($templateVars = array())
   {
     $sf_logging_active = sfConfig::get('sf_logging_active');
-    if ($sf_logging_active)
+    if (sfConfig::get('sf_debug') && $sf_logging_active)
     {
       $timer = sfTimerManager::getTimer(sprintf('Partial "%s/%s"', $this->moduleName, $this->actionName));
     }
@@ -50,7 +54,7 @@ class sfPartialView extends sfPHPView
     // render template
     $retval = $this->renderFile($this->getDirectory().'/'.$this->getTemplate());
 
-    if ($sf_logging_active)
+    if (sfConfig::get('sf_debug') && $sf_logging_active)
     {
       $timer->addTime();
     }

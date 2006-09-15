@@ -14,7 +14,7 @@ require_once 'propel/engine/builder/om/php5/PHP5MapBuilderBuilder.php';
  * @package    symfony
  * @subpackage addon
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
- * @version    SVN: $Id: SfMapBuilderBuilder.php 1920 2006-09-01 15:22:16Z fabien $
+ * @version    SVN: $Id: SfMapBuilderBuilder.php 2000 2006-09-08 07:14:17Z fabien $
  */
 class SfMapBuilderBuilder extends PHP5MapBuilderBuilder
 {
@@ -24,6 +24,8 @@ class SfMapBuilderBuilder extends PHP5MapBuilderBuilder
     {
       return sfToolkit::stripComments(parent::build());
     }
+    
+    return parent::build();
   }
 
   protected function addIncludes(&$script)

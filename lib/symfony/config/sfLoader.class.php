@@ -13,7 +13,7 @@
  * @package    symfony
  * @subpackage util
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
- * @version    SVN: $Id: sfLoader.class.php 1946 2006-09-05 12:37:00Z fabien $
+ * @version    SVN: $Id: sfLoader.class.php 2031 2006-09-11 07:20:16Z fabien $
  */
 class sfLoader
 {
@@ -41,10 +41,10 @@ class sfLoader
     return $dirs;
   }
 
-  static public function getTemplateDirs($appDir, $moduleName)
+  static public function getTemplateDirs($moduleName)
   {
     $templateDir = sfConfig::get('sf_app_module_template_dir_name');
-    $dirs = array($appDir);                                                                                                    // application
+    $dirs = array(sfConfig::get('sf_app_module_dir').'/'.$moduleName.'/'.$templateDir);                                        // application
 
     $dirs = array_merge($dirs, glob(sfConfig::get('sf_plugins_dir').'/*/modules/'.$moduleName.'/'.$templateDir));              // plugins
 
@@ -54,9 +54,9 @@ class sfLoader
     return $dirs;
   }
 
-  static public function getTemplateDir($appDir, $moduleName, $templateFile)
+  static public function getTemplateDir($moduleName, $templateFile)
   {
-    $dirs = self::getTemplateDirs($appDir, $moduleName);
+    $dirs = self::getTemplateDirs($moduleName);
     foreach ($dirs as $dir)
     {
       if (is_readable($dir.'/'.$templateFile))
@@ -149,6 +149,14 @@ class sfLoader
       }
 
       $loaded[$helperName] = true;
+    }
+  }
+
+  static public function loadPluginConfig()
+  {
+    foreach (glob(sfConfig::get('sf_plugins_dir').'/*/config/config.php') as $config)
+    {
+      include($config);
     }
   }
 }

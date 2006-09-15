@@ -31,10 +31,10 @@ generator:
       display:        [is_top_concept, prefLabel, last_updated]
       displayfilter:  false
       object_actions:
-        properties:     { name: Show Properties, action: properties, icon: /sf/images/sf_admin/properties.png }
+        properties:     { name: Show Properties, action: properties, icon: /sf/sf_admin/images/properties.png }
         _show:          { name: Show Detail }
         _edit:          { credentials: [[administrator, vocabularymaintainer]] }
-        rdf:            { name: Get RDF, icon: /sf/images/sf_admin/rdf_icon.png }
+        rdf:            { name: Get RDF, icon: /sf/sf_admin/images/rdf_icon.png }
       actions:
         _create:        { credentials: [[administrator, vocabularymaintainer]] }
       filters:          [is_top_concept, vocabulary_id, pref_label, last_updated, is_top_concept]

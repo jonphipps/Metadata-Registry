@@ -1,28 +1,26 @@
 #!/bin/sh
 #
 # Shell wrapper for symfony (based on Phing shell wrapper)
-# $Id: symfony.sh 500 2006-01-23 09:15:57Z fabien $
+# $Id: symfony.sh 1885 2006-08-30 16:17:14Z fabien $
 #
 # This script will do the following:
 # - check for PHP_COMMAND env, if found, use it.
 #   - if not found assume php is on the path
 # - check for SYMFONY_HOME env, if found use it
-#   - if not look for it
-# - check for PHP_CLASSPATH, if found use it
-#   - if not found set it using SYMFONY_HOME/lib
+#   - if not found, use a sensible default
+
+if [ -z "$PHP_COMMAND" ] ; then
+  PHP_COMMAND=php
+fi
 
 if [ -z "$SYMFONY_HOME" ] ; then
-  SYMFONY_HOME="bin"
+  SYMFONY_HOME="@DATA-DIR@/symfony"
 fi
 
-if (test -z "$PHP_COMMAND") ; then
-  # echo "WARNING: PHP_COMMAND environment not set. (Assuming php on PATH)"
-  export PHP_COMMAND=php
+if [ -d "$SYMFONY_HOME" ] ; then
+  COMMAND=$SYMFONY_HOME/bin/symfony.php
+else
+  COMMAND=`dirname $0`/symfony.php
 fi
 
-if (test -z "$PHP_CLASSPATH") ; then
-  PHP_CLASSPATH=$SYMFONY_HOME/lib
-  export PHP_CLASSPATH
-fi
-
-$PHP_COMMAND -d html_errors=off -qC $SYMFONY_HOME/symfony.php $*
+$PHP_COMMAND -d html_errors=off $COMMAND $*

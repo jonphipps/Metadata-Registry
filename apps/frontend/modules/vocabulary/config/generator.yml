@@ -29,7 +29,7 @@ generator:
       object_actions:
         _show:
         _edit:        { credentials: [administrator] }
-        rdf:          { name: Get RDF, icon: /sf/images/sf_admin/rdf_icon.png }
+        rdf:          { name: Get RDF, icon: /sf/sf_admin/images/rdf_icon.png }
       actions:
         _create:      { credentials: [[administrator, hasAgents]] }
       filters:        [agent_id]

@@ -96,3 +96,14 @@ all:
 #    validation_error_suffix:    ' &nbsp;&darr;'
 #    validation_error_class:     form_error
 #    validation_error_id_prefix: error_for_
+# 
+#    autoloading_functions: ~
+# 
+#    charset: utf-8
+# 
+#    escaping_strategy: bc
+#    escaping_method:   ESC_ENTITIES
+#
+#    prototype_web_dir: /sf/prototype
+#    admin_web_dir:     /sf/sf_admin
+#    web_debug_web_dir: /sf/sf_web_debug

@@ -177,14 +177,14 @@ function get_component($moduleName, $componentName, $vars = array())
 
   // run component
   $sf_logging_active = sfConfig::get('sf_logging_active');
-  if ($sf_logging_active)
+  if (sfConfig::get('sf_debug') && $sf_logging_active)
   {
     $timer = sfTimerManager::getTimer(sprintf('Component "%s/%s"', $moduleName, $componentName));
   }
 
   $retval = $componentInstance->$componentToRun();
 
-  if ($sf_logging_active)
+  if (sfConfig::get('sf_debug') && $sf_logging_active)
   {
     $timer->addTime();
   }
@@ -285,9 +285,9 @@ function _get_cache($cacheManager, $uri)
 {
   $retval = $cacheManager->get($uri);
 
-  if ($retval !== null && sfConfig::get('sf_web_debug'))
+  if (sfConfig::get('sf_web_debug'))
   {
-    $retval = sfWebDebug::getInstance()->decorateContentWithDebug($uri, 'slot', $retval, false);
+    $retval = sfWebDebug::getInstance()->decorateContentWithDebug($uri, $retval, false);
   }
 
   return $retval;
@@ -299,7 +299,7 @@ function _set_cache($cacheManager, $uri, $retval)
 
   if ($saved && sfConfig::get('sf_web_debug'))
   {
-    $retval = sfWebDebug::getInstance()->decorateContentWithDebug($uri, 'slot', $retval, true);
+    $retval = sfWebDebug::getInstance()->decorateContentWithDebug($uri, $retval, true);
   }
 
   return $retval;

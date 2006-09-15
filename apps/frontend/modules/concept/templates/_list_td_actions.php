@@ -4,11 +4,11 @@
 ?>
 <td>
 <ul class="sf_admin_td_actions">
-  <li><?php echo link_to(image_tag('/sf/images/sf_admin/properties.png', array('alt' => __('Show Properties'), 'title' => __('Show Properties'))), 'concept/properties?id='.$concept->getId()) ?></li>
-  <li><?php echo link_to(image_tag('/sf/images/sf_admin/show_icon.png', array('alt' => __('show'), 'title' => __('show'))), 'concept/show?id='.$concept->getId()) ?></li>
+  <li><?php echo link_to(image_tag(sfConfig::get('sf_admin_web_dir').'/images/properties.png', array('alt' => __('Show Properties'), 'title' => __('Show Properties'))), 'concept/properties?id='.$concept->getId()) ?></li>
+  <li><?php echo link_to(image_tag(sfConfig::get('sf_admin_web_dir').'/images/show_icon.png', array('alt' => __('show'), 'title' => __('show'))), 'concept/show?id='.$concept->getId()) ?></li>
   <?php if ($sf_user->hasCredential(array (   0 =>    array (     0 => 'administrator',     1 => 'vocabularymaintainer',   ), ))): ?>
-<li><?php echo link_to(image_tag('/sf/images/sf_admin/edit_icon.png', array('alt' => __('edit'), 'title' => __('edit'))), 'concept/edit?id='.$concept->getId()) ?></li>
+<li><?php echo link_to(image_tag(sfConfig::get('sf_admin_web_dir').'/images/edit_icon.png', array('alt' => __('edit'), 'title' => __('edit'))), 'concept/edit?id='.$concept->getId()) ?></li>
 
-<?php endif; ?>  <li><?php echo link_to(image_tag('/sf/images/sf_admin/rdf_icon.png', array('alt' => __('Get RDF'), 'title' => __('Get RDF'))), '@rdf_concept?id='.$concept->getId()) ?></li>
+<?php endif; ?>  <li><?php echo link_to(image_tag(sfConfig::get('sf_admin_web_dir').'/images/rdf_icon.png', array('alt' => __('Get RDF'), 'title' => __('Get RDF'))), '@rdf_concept?id='.$concept->getId()) ?></li>
 </ul>
 </td>

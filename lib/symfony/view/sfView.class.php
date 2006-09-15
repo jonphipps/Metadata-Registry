@@ -320,8 +320,6 @@ abstract class sfView
 
     $this->parameter_holder->add(sfConfig::get('mod_'.strtolower($moduleName).'_view_param', array()));
 
-    // set the currently executing module's template directory as the default template directory
-    $this->directory = sfConfig::get('sf_app_module_dir').'/'.$moduleName.'/'.sfConfig::get('sf_app_module_template_dir_name');
     $this->decoratorDirectory = sfConfig::get('sf_app_template_dir');
 
     // store our current view
@@ -333,9 +331,6 @@ abstract class sfView
 
     // include view configuration
     $this->configure();
-
-    // set template directory
-    $this->setDirectory(sfLoader::getTemplateDir($this->directory, $moduleName, $this->getTemplate()));
 
     return true;
   }
@@ -494,7 +489,7 @@ abstract class sfView
       $this->decoratorTemplate = $template;
     }
 
-    if (!strpos($this->decoratorTemplate, '.')) 
+    if (!strpos($this->decoratorTemplate, '.'))
     {
       $this->decoratorTemplate .= $this->getExtension();
     }
@@ -590,5 +585,10 @@ abstract class sfView
   public function setExtension ($ext)
   {
     $this->extension = $ext;
+  }
+
+  public function __call($method, $arguments)
+  {
+    return sfMixer::callMixins();
   }
 }

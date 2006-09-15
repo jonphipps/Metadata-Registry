@@ -95,7 +95,7 @@ class sfFileCache extends sfCache
   protected $hashedDirectoryLevel = 0;
 
   private
-    $suffix = '';
+    $suffix = '.cache';
 
   /**
   * Constructor
@@ -110,6 +110,17 @@ class sfFileCache extends sfCache
   public function __construct($cacheDir)
   {
     $this->setCacheDir($cacheDir);
+  }
+
+  public function initialize($options = array())
+  {
+    foreach (array('fileLocking', 'writeControl', 'readControl', 'fileNameProtection', 'automaticCleaningFactor', 'hashedDirectoryLevel') as $option)
+    {
+      if (array_key_exists($option, $options))
+      {
+        $this->$option = $options[$option];
+      }
+    }
   }
 
   public function setSuffix($suffix)

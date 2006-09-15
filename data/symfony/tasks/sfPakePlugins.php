@@ -9,8 +9,8 @@ pake_task('plugin-upgrade', 'project_exists');
 pake_desc('uninstall a plugin');
 pake_task('plugin-uninstall', 'project_exists');
 
-pake_desc('upgrade all plugins');
-pake_task('plugin-upgrade-all', 'project_exists');
+pake_desc('list installed plugins');
+pake_task('plugin-list', 'project_exists');
 
 // symfony plugin-install pluginName
 function run_plugin_install($task, $args)
@@ -31,6 +31,8 @@ function run_plugin_install($task, $args)
   {
     throw new Exception($error);
   }
+
+  _install_web_content(_get_plugin_name($args[0]));
 }
 
 function run_plugin_upgrade($task, $args)
@@ -51,6 +53,10 @@ function run_plugin_upgrade($task, $args)
   {
     throw new Exception($error);
   }
+
+  $plugin_name = _get_plugin_name($args[0]);
+  _uninstall_web_content($plugin_name);
+  _install_web_content($plugin_name);
 }
 
 function run_plugin_uninstall($task, $args)
@@ -59,6 +65,8 @@ function run_plugin_uninstall($task, $args)
   {
     throw new Exception('You must provide the plugin name.');
   }
+
+  _uninstall_web_content(_get_plugin_name($args[0]));
 
   $config = _pear_init();
 
@@ -73,13 +81,21 @@ function run_plugin_uninstall($task, $args)
   }
 }
 
-function run_plugin_upgrade_all($task, $args)
+function run_plugin_list($task, $args)
 {
-  $config = _pear_init();
+  pake_echo('Installed plugins:');
 
-  // upgrade all plugins
-  pake_echo_action('plugin', 'upgrading all plugins');
-  _pear_run_upgrade_all($config, sfConfig::get('sf_lib_dir').DIRECTORY_SEPARATOR.'plugins');
+  $config = _pear_init();
+  $registry = $config->getRegistry();
+  $installed = $registry->packageInfo(null, null, null);
+  foreach ($installed as $channel => $packages)
+  {
+    foreach ($packages as $package)
+    {
+      $pobj = $registry->getPackage(isset($package['package']) ? $package['package'] : $package['name'], $channel);
+      pake_echo(sprintf(" %-40s %10s-%-6s %s", pakeColor::colorize($pobj->getPackage(), 'INFO'), $pobj->getVersion(), $pobj->getState() ? $pobj->getState() : null, pakeColor::colorize('# '.$channel, 'COMMENT')));
+    }
+  }
 }
 
 function _pear_run_command($config, $command, $opts, $params)
@@ -113,31 +129,6 @@ function _pear_echo_message($message)
   }
 
   return $t;
-}
-
-function _pear_run_upgrade_all($config, $install_dir)
-{
-  $registry = new PEAR_Registry($install_dir);
-  $remote = new PEAR_Remote($config);
-  $cmd = &PEAR_Command::factory('upgrade', $config);
-
-  $pkgs = $registry->listPackages();
-  foreach ($pkgs as $pkg)
-  {
-    $remoteInfo = $remote->call('package.info', $pkg);
-    $versions = array_keys($remoteInfo['releases']);
-    $last = $versions[0];
-    $info = $registry->packageInfo($pkg);
-    $current = $info['version'];
-    if ($current < $last)
-    {
-      $ok = $cmd->run("upgrade", array(), $pkgs);
-      if (PEAR::isError($ok))
-      {
-        throw new Exception($ok->getMessage());
-      }
-    }
-  }
 }
 
 function _pear_init()
@@ -232,14 +223,52 @@ function _pear_init()
     'channel'       => 'pear.symfony-project.com',
     'date'          => date('Y-m-d'),
     'time'          => date('H:i:s'),
-    'version'       => $sf_version,
+    'version'       => array('release' => $sf_version, 'api' => '1.0.0'),
     'stability'     => array('release' => 'stable', 'api' => 'stable'),
     'xsdversion'    => '2.0',
     '_lastmodified' => time(),
+    'old'           => array('version' => $sf_version),
   );
   $dir = sfConfig::get('sf_plugins_dir').DIRECTORY_SEPARATOR.'.registry'.DIRECTORY_SEPARATOR.'.channel.pear.symfony-project.com';
   pake_mkdirs($dir);
   file_put_contents($dir.DIRECTORY_SEPARATOR.'symfony.reg', serialize($symfony));
 
   return $config;
+}
+
+function _get_plugin_name($arg)
+{
+  $plugin_name = (false !== $pos = strrpos($arg, '/')) ? substr($arg, $pos + 1) : $arg;
+  $plugin_name = (false !== $pos = strrpos($plugin_name, '-')) ? substr($plugin_name, 0, $pos) : $plugin_name;
+
+  return $plugin_name;
+}
+
+function _install_web_content($plugin_name)
+{
+  $web_dir = sfConfig::get('sf_plugins_dir').DIRECTORY_SEPARATOR.$plugin_name.DIRECTORY_SEPARATOR.'web';
+  if (is_dir($web_dir))
+  {
+    pake_echo_action('plugin', 'installing web data for plugin');
+    pake_symlink($web_dir, sfConfig::get('sf_web_dir').DIRECTORY_SEPARATOR.$plugin_name, true);
+  }
+}
+
+function _uninstall_web_content($plugin_name)
+{
+  $web_dir = sfConfig::get('sf_plugins_dir').DIRECTORY_SEPARATOR.$plugin_name.DIRECTORY_SEPARATOR.'web';
+  $target_dir = sfConfig::get('sf_web_dir').DIRECTORY_SEPARATOR.$plugin_name;
+  if (is_dir($web_dir) && is_dir($target_dir))
+  {
+    pake_echo_action('plugin', 'uninstalling web data for plugin');
+    if (is_link($target_dir))
+    {
+      pake_remove($target_dir, '');
+    }
+    else
+    {
+      pake_remove(pakeFinder::type('any'), $target_dir);
+      pake_remove($target_dir, '');
+    }
+  }
 }

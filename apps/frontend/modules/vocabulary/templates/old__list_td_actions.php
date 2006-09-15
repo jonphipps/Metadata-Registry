@@ -4,8 +4,8 @@
 ?>
 <td>
 <ul class="sf_admin_td_actions">
-  <li><?php echo link_to(image_tag('/sf/images/sf_admin/default_icon.png', array('alt' => __('show'), 'title' => __('show'))), 'vocabulary/ListShow?id='.$vocabulary->getId()) ?></li>
+  <li><?php echo link_to(image_tag(sfConfig::get('sf_admin_web_dir').'/images/default_icon.png', array('alt' => __('show'), 'title' => __('show'))), 'vocabulary/ListShow?id='.$vocabulary->getId()) ?></li>
  <?php $sf_user->getVocabularyCredentials($vocabulary->getId()); if ($sf_user->hasCredential(array (0 => 'administrator', 1 => 'maintainer' ))): ?>
-  <li><?php echo link_to(image_tag('/sf/images/sf_admin/edit_icon.png', array('alt' => __('edit'), 'title' => __('edit'))), 'vocabulary/edit?id='.$vocabulary->getId()) ?></li>
+  <li><?php echo link_to(image_tag(sfConfig::get('sf_admin_web_dir').'/images/edit_icon.png', array('alt' => __('edit'), 'title' => __('edit'))), 'vocabulary/edit?id='.$vocabulary->getId()) ?></li>
 <?php endif ?></ul>
 </td>

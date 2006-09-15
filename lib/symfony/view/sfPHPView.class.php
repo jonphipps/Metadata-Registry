@@ -128,10 +128,11 @@ class sfPHPView extends sfView
   {
     // require our configuration
     $context = $this->getContext();
-    $actionStackEntry = $context->getController()->getActionStack()->getLastEntry();
-    $action = $actionStackEntry->getActionInstance();
     $viewConfigFile = $this->moduleName.'/'.sfConfig::get('sf_app_module_config_dir_name').'/view.yml';
     require(sfConfigCache::getInstance()->checkConfig(sfConfig::get('sf_app_module_dir_name').'/'.$viewConfigFile));
+
+    // set template directory
+    $this->setDirectory(sfLoader::getTemplateDir($this->moduleName, $this->getTemplate()));
   }
 
   /**
@@ -185,9 +186,9 @@ class sfPHPView extends sfView
     }
 
     $retval = null;
+    $response = $context->getResponse();
     if (sfConfig::get('sf_cache'))
     {
-      $response = $context->getResponse();
       $key   = $response->getParameterHolder()->remove('current_key', 'symfony/cache/current');
       $cache = $response->getParameter($key, null, 'symfony/cache');
       if ($cache !== null)
@@ -199,11 +200,21 @@ class sfPHPView extends sfView
       }
     }
 
+    // decorator
+    $layout = $response->getParameter($this->moduleName.'_'.$this->actionName.'_layout', null, 'symfony/action/view');
+    if (false === $layout)
+    {
+      $this->setDecorator(false);
+    }
+    else if (null !== $layout)
+    {
+      $this->setDecoratorTemplate($layout.$this->getExtension());
+    }
+
     // template variables
     if ($templateVars === null)
     {
-      $actionStackEntry = $context->getActionStack()->getLastEntry();
-      $actionInstance   = $actionStackEntry->getActionInstance();
+      $actionInstance   = $context->getActionStack()->getLastEntry()->getActionInstance();
       $templateVars     = $actionInstance->getVarHolder()->getAll();
     }
 
@@ -233,7 +244,7 @@ class sfPHPView extends sfView
 
         if (sfConfig::get('sf_web_debug'))
         {
-          $retval = sfWebDebug::getInstance()->decorateContentWithDebug($key, '', $retval, true);
+          $retval = sfWebDebug::getInstance()->decorateContentWithDebug($key, $retval, true);
         }
       }
     }

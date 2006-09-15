@@ -60,9 +60,9 @@
 		<td><?php echo $concept_property->getLanguage() ?></td>
 <td>
 <ul class="sf_admin_td_actions">
-  <li><?php echo link_to(image_tag('/sf/images/sf_admin/show_icon.png', array('alt' => __('show'), 'title' => __('show'))), 'concept/show?id='.$concept_property->getConceptId()) ?></li>
+  <li><?php echo link_to(image_tag(sfConfig::get('sf_admin_web_dir').'/images/show_icon.png', array('alt' => __('show'), 'title' => __('show'))), 'concept/show?id='.$concept_property->getConceptId()) ?></li>
   <?php if ($sf_user->hasCredential(array (   0 => 'administrator', ))): ?>
-<li><?php echo link_to(image_tag('/sf/images/sf_admin/edit_icon.png', array('alt' => __('edit'), 'title' => __('edit'))), 'concept/edit?id='.$concept_property->getConceptId()) ?></li>
+<li><?php echo link_to(image_tag(sfConfig::get('sf_admin_web_dir').'/images/edit_icon.png', array('alt' => __('edit'), 'title' => __('edit'))), 'concept/edit?id='.$concept_property->getConceptId()) ?></li>
 
 <?php endif; ?></ul>
 </td>
@@ -73,15 +73,15 @@
 <tr><th colspan="6">
 <div class="float-right">
 <?php if ($pager->haveToPaginate()): ?>
-  <?php echo link_to(image_tag('/sf/images/sf_admin/first.png', 'align=absmiddle'), 'conceptprop/search?page=1') ?>
-  <?php echo link_to(image_tag('/sf/images/sf_admin/previous.png', 'align=absmiddle'), 'conceptprop/search?page='.$pager->getPreviousPage()) ?>
+  <?php echo link_to(image_tag(sfConfig::get('sf_admin_web_dir').'/images/first.png', 'align=absmiddle'), 'conceptprop/search?page=1') ?>
+  <?php echo link_to(image_tag(sfConfig::get('sf_admin_web_dir').'/images/previous.png', 'align=absmiddle'), 'conceptprop/search?page='.$pager->getPreviousPage()) ?>
 
   <?php foreach ($pager->getLinks() as $page): ?>
 	 <?php echo link_to_unless($page == $pager->getPage(), $page, 'conceptprop/search?page='.$page) ?>
   <?php endforeach; ?>
 
-  <?php echo link_to(image_tag('/sf/images/sf_admin/next.png', 'align=absmiddle'), 'conceptprop/search?page='.$pager->getNextPage()) ?>
-  <?php echo link_to(image_tag('/sf/images/sf_admin/last.png', 'align=absmiddle'), 'conceptprop/search?page='.$pager->getLastPage()) ?>
+  <?php echo link_to(image_tag(sfConfig::get('sf_admin_web_dir').'/images/next.png', 'align=absmiddle'), 'conceptprop/search?page='.$pager->getNextPage()) ?>
+  <?php echo link_to(image_tag(sfConfig::get('sf_admin_web_dir').'/images/last.png', 'align=absmiddle'), 'conceptprop/search?page='.$pager->getLastPage()) ?>
 <?php endif; ?>
 </div>
 <?php echo format_number_choice('[0] no result|[1] 1 result|(1,+Inf] %1% results', array('%1%' => $pager->getNbResults()), $pager->getNbResults()) ?>
