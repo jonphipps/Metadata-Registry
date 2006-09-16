@@ -18,11 +18,12 @@
         <column name="phone" type="VARCHAR" size="45"/>
         <column name="web_address" type="VARCHAR" size="255"/>
         <column name="type" type="CHAR" size="15"/>
-        <column name="type_id" type="INTEGER"  inheritance="single">
-            <inheritance key="INDIVIDUAL" class="Individual" extends="Agent"/>
-            <inheritance key="ORGANIZATION" class="Organization" extends="Agent"/>
+        <column name="type_int" type="INTEGER"/>
+<!--      <column name="type" type="INTEGER"  inheritance="single">
+            <inheritance key="1" class="Individual" extends="Agent"/>
+            <inheritance key="2" class="Organization" extends="Agent"/>
         </column>
-
+-->
     </table>
     <table name="reg_agent_has_user" phpName="AgentHasUser">
         <column name="user_id" type="INTEGER" required="true" primaryKey="true" default=""/>
