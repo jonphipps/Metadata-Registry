@@ -3,9 +3,6 @@ generator:
   param:
     model_class:      Agent
     theme:            default
-    field_size_min:   20
-    field_size_max:   60
-    textarea_size:    55x3
 
     fields:
       id:             { name: ID }
@@ -24,6 +21,7 @@ generator:
       phone:
       web_address:
       type:
+      type_int:
 
     list:
       title:           Resource Owners
@@ -39,7 +37,7 @@ generator:
       title:           Detail for %%org_name%%
       display:
         "Metadata":   [id, created_at, last_updated]      
-        "Detail":     [type, org_name, org_email, ind_affiliation, address1, address2, city, state, postal_code, country, phone, web_address]      
+        "Detail":     [_type, org_name, org_email, ind_affiliation, address1, address2, city, state, postal_code, country, phone, web_address]
       fields:
         id:            { type: plain, credentials: [administrator] }
         created_at:    { type: plain, credentials: [administrator] }
