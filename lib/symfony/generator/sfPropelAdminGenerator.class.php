@@ -535,7 +535,7 @@ EOF;
     {
       if ($column->isLink())
       {
-        $vars[] = '\'%%'.$column->getName().'%%\' => link_to('.$this->getColumnListTag($column).', \''.$this->getModuleName().'/edit?'.$this->getPrimaryKeyUrlParams().')';
+        $vars[] = '\'%%'.$column->getName().'%%\' => link_to('.$this->getColumnListTag($column).', \''.$this->getModuleName().'/show?'.$this->getPrimaryKeyUrlParams().')';
       }
       elseif ($column->isPartial())
       {
