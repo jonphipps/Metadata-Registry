@@ -53,9 +53,9 @@
 <?php if ($this->getParameterValue('edit.fields.'.$column->getName().'.type') == 'input_hidden_tag'): ?>
   [?php echo <?php echo $this->getColumnEditTag($column) ?> ?]
 <?php else: ?>
-<div class="form-row">
+<div id="form_row_<?php echo $this->getSingularName() ?>_<?php echo $column->getName() ?>" class="form-row">
   [?php echo label_for('<?php echo $this->getParameterValue("edit.fields.".$column->getName().".label_for", $this->getSingularName()."[".$column->getName()."]") ?>', __('<?php $label_name = str_replace("'", "\\'", $this->getParameterValue('edit.fields.'.$column->getName().'.name')); echo $label_name ?><?php if ($label_name): ?>:<?php endif ?>'), '<?php if ($column->isNotNull()): ?>class="required" <?php endif; ?>') ?]
-  <div class="content[?php if ($sf_request->hasError('<?php echo $this->getSingularName() ?>{<?php echo $column->getName() ?>}')): ?] form-error[?php endif; ?]">
+  <div id="form_row_content_<?php echo $this->getSingularName() ?>_<?php echo $column->getName() ?>" class="content[?php if ($sf_request->hasError('<?php echo $this->getSingularName() ?>{<?php echo $column->getName() ?>}')): ?] form-error[?php endif; ?]">
   [?php if ($sf_request->hasError('<?php echo $this->getSingularName() ?>{<?php echo $column->getName() ?>}')): ?]
     [?php echo form_error('<?php echo $this->getSingularName() ?>{<?php echo $column->getName() ?>}', array('class' => 'form-error-msg')) ?]
   [?php endif; ?]
