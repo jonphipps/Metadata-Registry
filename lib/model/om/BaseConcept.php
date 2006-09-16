@@ -627,7 +627,7 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	
 	public function getVocabulary($con = null)
 	{
-				include_once 'model/om/BaseVocabularyPeer.php';
+				include_once 'lib/model/om/BaseVocabularyPeer.php';
 
 		if ($this->aVocabulary === null && ($this->vocabulary_id !== null)) {
 
@@ -649,7 +649,7 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	
 	public function getConceptPropertysRelatedByConceptId($criteria = null, $con = null)
 	{
-				include_once 'model/om/BaseConceptPropertyPeer.php';
+				include_once 'lib/model/om/BaseConceptPropertyPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -687,7 +687,7 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	
 	public function countConceptPropertysRelatedByConceptId($criteria = null, $distinct = false, $con = null)
 	{
-				include_once 'model/om/BaseConceptPropertyPeer.php';
+				include_once 'lib/model/om/BaseConceptPropertyPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -712,7 +712,7 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	
 	public function getConceptPropertysRelatedByConceptIdJoinSkosProperty($criteria = null, $con = null)
 	{
-				include_once 'model/om/BaseConceptPropertyPeer.php';
+				include_once 'lib/model/om/BaseConceptPropertyPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -747,7 +747,7 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	
 	public function getConceptPropertysRelatedByConceptIdJoinVocabulary($criteria = null, $con = null)
 	{
-				include_once 'model/om/BaseConceptPropertyPeer.php';
+				include_once 'lib/model/om/BaseConceptPropertyPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -782,7 +782,7 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	
 	public function getConceptPropertysRelatedByConceptIdJoinLookup($criteria = null, $con = null)
 	{
-				include_once 'model/om/BaseConceptPropertyPeer.php';
+				include_once 'lib/model/om/BaseConceptPropertyPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -824,7 +824,7 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	
 	public function getConceptPropertysRelatedByRelatedConceptId($criteria = null, $con = null)
 	{
-				include_once 'model/om/BaseConceptPropertyPeer.php';
+				include_once 'lib/model/om/BaseConceptPropertyPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -862,7 +862,7 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	
 	public function countConceptPropertysRelatedByRelatedConceptId($criteria = null, $distinct = false, $con = null)
 	{
-				include_once 'model/om/BaseConceptPropertyPeer.php';
+				include_once 'lib/model/om/BaseConceptPropertyPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -887,7 +887,7 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	
 	public function getConceptPropertysRelatedByRelatedConceptIdJoinSkosProperty($criteria = null, $con = null)
 	{
-				include_once 'model/om/BaseConceptPropertyPeer.php';
+				include_once 'lib/model/om/BaseConceptPropertyPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -922,7 +922,7 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	
 	public function getConceptPropertysRelatedByRelatedConceptIdJoinVocabulary($criteria = null, $con = null)
 	{
-				include_once 'model/om/BaseConceptPropertyPeer.php';
+				include_once 'lib/model/om/BaseConceptPropertyPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -957,7 +957,7 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	
 	public function getConceptPropertysRelatedByRelatedConceptIdJoinLookup($criteria = null, $con = null)
 	{
-				include_once 'model/om/BaseConceptPropertyPeer.php';
+				include_once 'lib/model/om/BaseConceptPropertyPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}

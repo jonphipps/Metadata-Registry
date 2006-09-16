@@ -538,7 +538,7 @@ abstract class BaseConceptHistory extends BaseObject  implements Persistent {
 	
 	public function getUser($con = null)
 	{
-				include_once 'model/om/BaseUserPeer.php';
+				include_once 'lib/model/om/BaseUserPeer.php';
 
 		if ($this->aUser === null && ($this->user_id !== null)) {
 
@@ -568,7 +568,7 @@ abstract class BaseConceptHistory extends BaseObject  implements Persistent {
 	
 	public function getConceptProperty($con = null)
 	{
-				include_once 'model/om/BaseConceptPropertyPeer.php';
+				include_once 'lib/model/om/BaseConceptPropertyPeer.php';
 
 		if ($this->aConceptProperty === null && ($this->concept_property_id !== null)) {
 

@@ -823,7 +823,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	
 	public function getAgent($con = null)
 	{
-				include_once 'model/om/BaseAgentPeer.php';
+				include_once 'lib/model/om/BaseAgentPeer.php';
 
 		if ($this->aAgent === null && ($this->agent_id !== null)) {
 
@@ -845,7 +845,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	
 	public function getConcepts($criteria = null, $con = null)
 	{
-				include_once 'model/om/BaseConceptPeer.php';
+				include_once 'lib/model/om/BaseConceptPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -883,7 +883,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	
 	public function countConcepts($criteria = null, $distinct = false, $con = null)
 	{
-				include_once 'model/om/BaseConceptPeer.php';
+				include_once 'lib/model/om/BaseConceptPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -915,7 +915,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	
 	public function getConceptPropertys($criteria = null, $con = null)
 	{
-				include_once 'model/om/BaseConceptPropertyPeer.php';
+				include_once 'lib/model/om/BaseConceptPropertyPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -953,7 +953,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	
 	public function countConceptPropertys($criteria = null, $distinct = false, $con = null)
 	{
-				include_once 'model/om/BaseConceptPropertyPeer.php';
+				include_once 'lib/model/om/BaseConceptPropertyPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -978,7 +978,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	
 	public function getConceptPropertysJoinSkosProperty($criteria = null, $con = null)
 	{
-				include_once 'model/om/BaseConceptPropertyPeer.php';
+				include_once 'lib/model/om/BaseConceptPropertyPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -1013,7 +1013,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	
 	public function getConceptPropertysJoinConceptRelatedByConceptId($criteria = null, $con = null)
 	{
-				include_once 'model/om/BaseConceptPropertyPeer.php';
+				include_once 'lib/model/om/BaseConceptPropertyPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -1048,7 +1048,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	
 	public function getConceptPropertysJoinLookup($criteria = null, $con = null)
 	{
-				include_once 'model/om/BaseConceptPropertyPeer.php';
+				include_once 'lib/model/om/BaseConceptPropertyPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -1083,7 +1083,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	
 	public function getConceptPropertysJoinConceptRelatedByRelatedConceptId($criteria = null, $con = null)
 	{
-				include_once 'model/om/BaseConceptPropertyPeer.php';
+				include_once 'lib/model/om/BaseConceptPropertyPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -1125,7 +1125,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	
 	public function getVocabularyHasUsers($criteria = null, $con = null)
 	{
-				include_once 'model/om/BaseVocabularyHasUserPeer.php';
+				include_once 'lib/model/om/BaseVocabularyHasUserPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -1163,7 +1163,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	
 	public function countVocabularyHasUsers($criteria = null, $distinct = false, $con = null)
 	{
-				include_once 'model/om/BaseVocabularyHasUserPeer.php';
+				include_once 'lib/model/om/BaseVocabularyHasUserPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -1188,7 +1188,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	
 	public function getVocabularyHasUsersJoinUser($criteria = null, $con = null)
 	{
-				include_once 'model/om/BaseVocabularyHasUserPeer.php';
+				include_once 'lib/model/om/BaseVocabularyHasUserPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}

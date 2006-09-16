@@ -10,7 +10,7 @@ abstract class BaseSkosPropertyPeer {
 	const TABLE_NAME = 'reg_skos_property';
 
 	
-	const CLASS_DEFAULT = 'model.SkosProperty';
+	const CLASS_DEFAULT = 'lib.model.SkosProperty';
 
 	
 	const NUM_COLUMNS = 17;
@@ -93,8 +93,8 @@ abstract class BaseSkosPropertyPeer {
 	
 	public static function getMapBuilder()
 	{
-		include_once 'model/map/SkosPropertyMapBuilder.php';
-		return BasePeer::getMapBuilder('model.map.SkosPropertyMapBuilder');
+		include_once 'lib/model/map/SkosPropertyMapBuilder.php';
+		return BasePeer::getMapBuilder('lib.model.map.SkosPropertyMapBuilder');
 	}
 	
 	public static function getPhpNameMap()
@@ -438,6 +438,6 @@ if (Propel::isInit()) {
 		Propel::log('Could not initialize Peer: ' . $e->getMessage(), Propel::LOG_ERR);
 	}
 } else {
-			require_once 'model/map/SkosPropertyMapBuilder.php';
-	Propel::registerMapBuilder('model.map.SkosPropertyMapBuilder');
+			require_once 'lib/model/map/SkosPropertyMapBuilder.php';
+	Propel::registerMapBuilder('lib.model.map.SkosPropertyMapBuilder');
 }

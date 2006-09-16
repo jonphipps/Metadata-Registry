@@ -783,7 +783,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 	
 	public function getSkosProperty($con = null)
 	{
-				include_once 'model/om/BaseSkosPropertyPeer.php';
+				include_once 'lib/model/om/BaseSkosPropertyPeer.php';
 
 		if ($this->aSkosProperty === null && ($this->skos_property_id !== null)) {
 
@@ -813,7 +813,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 	
 	public function getConceptRelatedByConceptId($con = null)
 	{
-				include_once 'model/om/BaseConceptPeer.php';
+				include_once 'lib/model/om/BaseConceptPeer.php';
 
 		if ($this->aConceptRelatedByConceptId === null && ($this->concept_id !== null)) {
 
@@ -843,7 +843,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 	
 	public function getVocabulary($con = null)
 	{
-				include_once 'model/om/BaseVocabularyPeer.php';
+				include_once 'lib/model/om/BaseVocabularyPeer.php';
 
 		if ($this->aVocabulary === null && ($this->scheme_id !== null)) {
 
@@ -873,7 +873,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 	
 	public function getLookup($con = null)
 	{
-				include_once 'model/om/BaseLookupPeer.php';
+				include_once 'lib/model/om/BaseLookupPeer.php';
 
 		if ($this->aLookup === null && ($this->status_id !== null)) {
 
@@ -903,7 +903,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 	
 	public function getConceptRelatedByRelatedConceptId($con = null)
 	{
-				include_once 'model/om/BaseConceptPeer.php';
+				include_once 'lib/model/om/BaseConceptPeer.php';
 
 		if ($this->aConceptRelatedByRelatedConceptId === null && ($this->related_concept_id !== null)) {
 
@@ -925,7 +925,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 	
 	public function getConceptHistorys($criteria = null, $con = null)
 	{
-				include_once 'model/om/BaseConceptHistoryPeer.php';
+				include_once 'lib/model/om/BaseConceptHistoryPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -963,7 +963,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 	
 	public function countConceptHistorys($criteria = null, $distinct = false, $con = null)
 	{
-				include_once 'model/om/BaseConceptHistoryPeer.php';
+				include_once 'lib/model/om/BaseConceptHistoryPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -988,7 +988,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 	
 	public function getConceptHistorysJoinUser($criteria = null, $con = null)
 	{
-				include_once 'model/om/BaseConceptHistoryPeer.php';
+				include_once 'lib/model/om/BaseConceptHistoryPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}

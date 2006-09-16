@@ -448,7 +448,7 @@ abstract class BaseAgentHasUser extends BaseObject  implements Persistent {
 	
 	public function getUser($con = null)
 	{
-				include_once 'model/om/BaseUserPeer.php';
+				include_once 'lib/model/om/BaseUserPeer.php';
 
 		if ($this->aUser === null && ($this->user_id !== null)) {
 
@@ -478,7 +478,7 @@ abstract class BaseAgentHasUser extends BaseObject  implements Persistent {
 	
 	public function getAgent($con = null)
 	{
-				include_once 'model/om/BaseAgentPeer.php';
+				include_once 'lib/model/om/BaseAgentPeer.php';
 
 		if ($this->aAgent === null && ($this->agent_id !== null)) {
 

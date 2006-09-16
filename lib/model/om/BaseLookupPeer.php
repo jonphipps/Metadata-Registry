@@ -10,7 +10,7 @@ abstract class BaseLookupPeer {
 	const TABLE_NAME = 'reg_lookup';
 
 	
-	const CLASS_DEFAULT = 'model.Lookup';
+	const CLASS_DEFAULT = 'lib.model.Lookup';
 
 	
 	const NUM_COLUMNS = 4;
@@ -38,7 +38,7 @@ abstract class BaseLookupPeer {
         const CLASSKEY_STATUS = '1';
 
 	
-	const CLASSNAME_1 = 'model.Status';
+	const CLASSNAME_1 = 'lib.model.Status';
 
 	
 	private static $phpNameMap = null;
@@ -63,8 +63,8 @@ abstract class BaseLookupPeer {
 	
 	public static function getMapBuilder()
 	{
-		include_once 'model/map/LookupMapBuilder.php';
-		return BasePeer::getMapBuilder('model.map.LookupMapBuilder');
+		include_once 'lib/model/map/LookupMapBuilder.php';
+		return BasePeer::getMapBuilder('lib.model.map.LookupMapBuilder');
 	}
 	
 	public static function getPhpNameMap()
@@ -399,6 +399,6 @@ if (Propel::isInit()) {
 		Propel::log('Could not initialize Peer: ' . $e->getMessage(), Propel::LOG_ERR);
 	}
 } else {
-			require_once 'model/map/LookupMapBuilder.php';
-	Propel::registerMapBuilder('model.map.LookupMapBuilder');
+			require_once 'lib/model/map/LookupMapBuilder.php';
+	Propel::registerMapBuilder('lib.model.map.LookupMapBuilder');
 }

@@ -73,7 +73,7 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 
 
 	
-	protected $type_id;
+	protected $type_int;
 
 	
 	protected $collAgentHasUsers;
@@ -236,10 +236,10 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	}
 
 	
-	public function getTypeId()
+	public function getTypeInt()
 	{
 
-		return $this->type_id;
+		return $this->type_int;
 	}
 
 	
@@ -417,12 +417,12 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 
 	} 
 	
-	public function setTypeId($v)
+	public function setTypeInt($v)
 	{
 
-		if ($this->type_id !== $v) {
-			$this->type_id = $v;
-			$this->modifiedColumns[] = AgentPeer::TYPE_ID;
+		if ($this->type_int !== $v) {
+			$this->type_int = $v;
+			$this->modifiedColumns[] = AgentPeer::TYPE_INT;
 		}
 
 	} 
@@ -463,7 +463,7 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 
 			$this->type = $rs->getString($startcol + 15);
 
-			$this->type_id = $rs->getInt($startcol + 16);
+			$this->type_int = $rs->getInt($startcol + 16);
 
 			$this->resetModified();
 
@@ -682,7 +682,7 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 				return $this->getType();
 				break;
 			case 16:
-				return $this->getTypeId();
+				return $this->getTypeInt();
 				break;
 			default:
 				return null;
@@ -710,7 +710,7 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 			$keys[13] => $this->getPhone(),
 			$keys[14] => $this->getWebAddress(),
 			$keys[15] => $this->getType(),
-			$keys[16] => $this->getTypeId(),
+			$keys[16] => $this->getTypeInt(),
 		);
 		return $result;
 	}
@@ -775,7 +775,7 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 				$this->setType($value);
 				break;
 			case 16:
-				$this->setTypeId($value);
+				$this->setTypeInt($value);
 				break;
 		} 	}
 
@@ -800,7 +800,7 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[13], $arr)) $this->setPhone($arr[$keys[13]]);
 		if (array_key_exists($keys[14], $arr)) $this->setWebAddress($arr[$keys[14]]);
 		if (array_key_exists($keys[15], $arr)) $this->setType($arr[$keys[15]]);
-		if (array_key_exists($keys[16], $arr)) $this->setTypeId($arr[$keys[16]]);
+		if (array_key_exists($keys[16], $arr)) $this->setTypeInt($arr[$keys[16]]);
 	}
 
 	
@@ -824,7 +824,7 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(AgentPeer::PHONE)) $criteria->add(AgentPeer::PHONE, $this->phone);
 		if ($this->isColumnModified(AgentPeer::WEB_ADDRESS)) $criteria->add(AgentPeer::WEB_ADDRESS, $this->web_address);
 		if ($this->isColumnModified(AgentPeer::TYPE)) $criteria->add(AgentPeer::TYPE, $this->type);
-		if ($this->isColumnModified(AgentPeer::TYPE_ID)) $criteria->add(AgentPeer::TYPE_ID, $this->type_id);
+		if ($this->isColumnModified(AgentPeer::TYPE_INT)) $criteria->add(AgentPeer::TYPE_INT, $this->type_int);
 
 		return $criteria;
 	}
@@ -885,7 +885,7 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 
 		$copyObj->setType($this->type);
 
-		$copyObj->setTypeId($this->type_id);
+		$copyObj->setTypeInt($this->type_int);
 
 
 		if ($deepCopy) {
@@ -935,7 +935,7 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	
 	public function getAgentHasUsers($criteria = null, $con = null)
 	{
-				include_once 'model/om/BaseAgentHasUserPeer.php';
+				include_once 'lib/model/om/BaseAgentHasUserPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -973,7 +973,7 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	
 	public function countAgentHasUsers($criteria = null, $distinct = false, $con = null)
 	{
-				include_once 'model/om/BaseAgentHasUserPeer.php';
+				include_once 'lib/model/om/BaseAgentHasUserPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -998,7 +998,7 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	
 	public function getAgentHasUsersJoinUser($criteria = null, $con = null)
 	{
-				include_once 'model/om/BaseAgentHasUserPeer.php';
+				include_once 'lib/model/om/BaseAgentHasUserPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -1040,7 +1040,7 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	
 	public function getVocabularys($criteria = null, $con = null)
 	{
-				include_once 'model/om/BaseVocabularyPeer.php';
+				include_once 'lib/model/om/BaseVocabularyPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -1078,7 +1078,7 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	
 	public function countVocabularys($criteria = null, $distinct = false, $con = null)
 	{
-				include_once 'model/om/BaseVocabularyPeer.php';
+				include_once 'lib/model/om/BaseVocabularyPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}

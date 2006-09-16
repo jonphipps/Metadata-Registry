@@ -10,7 +10,7 @@ abstract class BaseConceptHistoryPeer {
 	const TABLE_NAME = 'reg_concept_history';
 
 	
-	const CLASS_DEFAULT = 'model.ConceptHistory';
+	const CLASS_DEFAULT = 'lib.model.ConceptHistory';
 
 	
 	const NUM_COLUMNS = 6;
@@ -60,8 +60,8 @@ abstract class BaseConceptHistoryPeer {
 	
 	public static function getMapBuilder()
 	{
-		include_once 'model/map/ConceptHistoryMapBuilder.php';
-		return BasePeer::getMapBuilder('model.map.ConceptHistoryMapBuilder');
+		include_once 'lib/model/map/ConceptHistoryMapBuilder.php';
+		return BasePeer::getMapBuilder('lib.model.map.ConceptHistoryMapBuilder');
 	}
 	
 	public static function getPhpNameMap()
@@ -811,6 +811,6 @@ if (Propel::isInit()) {
 		Propel::log('Could not initialize Peer: ' . $e->getMessage(), Propel::LOG_ERR);
 	}
 } else {
-			require_once 'model/map/ConceptHistoryMapBuilder.php';
-	Propel::registerMapBuilder('model.map.ConceptHistoryMapBuilder');
+			require_once 'lib/model/map/ConceptHistoryMapBuilder.php';
+	Propel::registerMapBuilder('lib.model.map.ConceptHistoryMapBuilder');
 }

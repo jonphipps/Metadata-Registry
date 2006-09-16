@@ -10,7 +10,7 @@ abstract class BaseAgentHasUserPeer {
 	const TABLE_NAME = 'reg_agent_has_user';
 
 	
-	const CLASS_DEFAULT = 'model.AgentHasUser';
+	const CLASS_DEFAULT = 'lib.model.AgentHasUser';
 
 	
 	const NUM_COLUMNS = 4;
@@ -54,8 +54,8 @@ abstract class BaseAgentHasUserPeer {
 	
 	public static function getMapBuilder()
 	{
-		include_once 'model/map/AgentHasUserMapBuilder.php';
-		return BasePeer::getMapBuilder('model.map.AgentHasUserMapBuilder');
+		include_once 'lib/model/map/AgentHasUserMapBuilder.php';
+		return BasePeer::getMapBuilder('lib.model.map.AgentHasUserMapBuilder');
 	}
 	
 	public static function getPhpNameMap()
@@ -316,7 +316,7 @@ abstract class BaseAgentHasUserPeer {
 			$obj1 = new $cls();
 			$obj1->hydrate($rs);
 
-			$omClass = AgentPeer::getOMClass($rs, $startcol);
+			$omClass = AgentPeer::getOMClass();
 
 			$cls = Propel::import($omClass);
 			$obj2 = new $cls();
@@ -427,7 +427,7 @@ abstract class BaseAgentHasUserPeer {
 
 				
 					
-			$omClass = AgentPeer::getOMClass($rs, $startcol3);
+			$omClass = AgentPeer::getOMClass();
 
 	
 			$cls = Propel::import($omClass);
@@ -539,7 +539,7 @@ abstract class BaseAgentHasUserPeer {
 			$obj1 = new $cls();
 			$obj1->hydrate($rs);		
 
-			$omClass = AgentPeer::getOMClass($rs, $startcol2);
+			$omClass = AgentPeer::getOMClass();
 
 	
 			$cls = Propel::import($omClass);
@@ -801,6 +801,6 @@ if (Propel::isInit()) {
 		Propel::log('Could not initialize Peer: ' . $e->getMessage(), Propel::LOG_ERR);
 	}
 } else {
-			require_once 'model/map/AgentHasUserMapBuilder.php';
-	Propel::registerMapBuilder('model.map.AgentHasUserMapBuilder');
+			require_once 'lib/model/map/AgentHasUserMapBuilder.php';
+	Propel::registerMapBuilder('lib.model.map.AgentHasUserMapBuilder');
 }

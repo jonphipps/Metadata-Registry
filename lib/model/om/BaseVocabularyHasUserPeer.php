@@ -10,7 +10,7 @@ abstract class BaseVocabularyHasUserPeer {
 	const TABLE_NAME = 'reg_vocabulary_has_user';
 
 	
-	const CLASS_DEFAULT = 'model.VocabularyHasUser';
+	const CLASS_DEFAULT = 'lib.model.VocabularyHasUser';
 
 	
 	const NUM_COLUMNS = 4;
@@ -54,8 +54,8 @@ abstract class BaseVocabularyHasUserPeer {
 	
 	public static function getMapBuilder()
 	{
-		include_once 'model/map/VocabularyHasUserMapBuilder.php';
-		return BasePeer::getMapBuilder('model.map.VocabularyHasUserMapBuilder');
+		include_once 'lib/model/map/VocabularyHasUserMapBuilder.php';
+		return BasePeer::getMapBuilder('lib.model.map.VocabularyHasUserMapBuilder');
 	}
 	
 	public static function getPhpNameMap()
@@ -801,6 +801,6 @@ if (Propel::isInit()) {
 		Propel::log('Could not initialize Peer: ' . $e->getMessage(), Propel::LOG_ERR);
 	}
 } else {
-			require_once 'model/map/VocabularyHasUserMapBuilder.php';
-	Propel::registerMapBuilder('model.map.VocabularyHasUserMapBuilder');
+			require_once 'lib/model/map/VocabularyHasUserMapBuilder.php';
+	Propel::registerMapBuilder('lib.model.map.VocabularyHasUserMapBuilder');
 }

@@ -10,7 +10,7 @@ abstract class BaseConceptPeer {
 	const TABLE_NAME = 'reg_concept';
 
 	
-	const CLASS_DEFAULT = 'model.Concept';
+	const CLASS_DEFAULT = 'lib.model.Concept';
 
 	
 	const NUM_COLUMNS = 7;
@@ -63,8 +63,8 @@ abstract class BaseConceptPeer {
 	
 	public static function getMapBuilder()
 	{
-		include_once 'model/map/ConceptMapBuilder.php';
-		return BasePeer::getMapBuilder('model.map.ConceptMapBuilder');
+		include_once 'lib/model/map/ConceptMapBuilder.php';
+		return BasePeer::getMapBuilder('lib.model.map.ConceptMapBuilder');
 	}
 	
 	public static function getPhpNameMap()
@@ -549,6 +549,6 @@ if (Propel::isInit()) {
 		Propel::log('Could not initialize Peer: ' . $e->getMessage(), Propel::LOG_ERR);
 	}
 } else {
-			require_once 'model/map/ConceptMapBuilder.php';
-	Propel::registerMapBuilder('model.map.ConceptMapBuilder');
+			require_once 'lib/model/map/ConceptMapBuilder.php';
+	Propel::registerMapBuilder('lib.model.map.ConceptMapBuilder');
 }

@@ -10,7 +10,7 @@ abstract class BaseUserPeer {
 	const TABLE_NAME = 'reg_user';
 
 	
-	const CLASS_DEFAULT = 'model.User';
+	const CLASS_DEFAULT = 'lib.model.User';
 
 	
 	const NUM_COLUMNS = 15;
@@ -87,8 +87,8 @@ abstract class BaseUserPeer {
 	
 	public static function getMapBuilder()
 	{
-		include_once 'model/map/UserMapBuilder.php';
-		return BasePeer::getMapBuilder('model.map.UserMapBuilder');
+		include_once 'lib/model/map/UserMapBuilder.php';
+		return BasePeer::getMapBuilder('lib.model.map.UserMapBuilder');
 	}
 	
 	public static function getPhpNameMap()
@@ -428,6 +428,6 @@ if (Propel::isInit()) {
 		Propel::log('Could not initialize Peer: ' . $e->getMessage(), Propel::LOG_ERR);
 	}
 } else {
-			require_once 'model/map/UserMapBuilder.php';
-	Propel::registerMapBuilder('model.map.UserMapBuilder');
+			require_once 'lib/model/map/UserMapBuilder.php';
+	Propel::registerMapBuilder('lib.model.map.UserMapBuilder');
 }

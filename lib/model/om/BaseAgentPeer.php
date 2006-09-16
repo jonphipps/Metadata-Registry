@@ -10,7 +10,7 @@ abstract class BaseAgentPeer {
 	const TABLE_NAME = 'reg_agent';
 
 	
-	const CLASS_DEFAULT = 'model.Agent';
+	const CLASS_DEFAULT = 'lib.model.Agent';
 
 	
 	const NUM_COLUMNS = 17;
@@ -68,19 +68,7 @@ abstract class BaseAgentPeer {
 	const TYPE = 'reg_agent.TYPE';
 
 	
-	const TYPE_ID = 'reg_agent.TYPE_ID';
-
-	
-	const CLASSKEY_INDIVIDUAL = 'INDIVIDUAL';
-
-        
-	const CLASSNAME_INDIVIDUAL = 'model.Individual';
-
-
-	const CLASSKEY_ORGANIZATION = 'ORGANIZATION';
-
-
-	const CLASSNAME_ORGANIZATION = 'model.Organization';
+	const TYPE_INT = 'reg_agent.TYPE_INT';
 
 	
 	private static $phpNameMap = null;
@@ -88,25 +76,25 @@ abstract class BaseAgentPeer {
 
 	
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'CreatedAt', 'LastUpdated', 'OrgEmail', 'OrgName', 'IndAffiliation', 'IndRole', 'Address1', 'Address2', 'City', 'State', 'PostalCode', 'Country', 'Phone', 'WebAddress', 'Type', 'TypeId', ),
-		BasePeer::TYPE_COLNAME => array (AgentPeer::ID, AgentPeer::CREATED_AT, AgentPeer::LAST_UPDATED, AgentPeer::ORG_EMAIL, AgentPeer::ORG_NAME, AgentPeer::IND_AFFILIATION, AgentPeer::IND_ROLE, AgentPeer::ADDRESS1, AgentPeer::ADDRESS2, AgentPeer::CITY, AgentPeer::STATE, AgentPeer::POSTAL_CODE, AgentPeer::COUNTRY, AgentPeer::PHONE, AgentPeer::WEB_ADDRESS, AgentPeer::TYPE, AgentPeer::TYPE_ID, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'created_at', 'last_updated', 'org_email', 'org_name', 'ind_affiliation', 'ind_role', 'address1', 'address2', 'city', 'state', 'postal_code', 'country', 'phone', 'web_address', 'type', 'type_id', ),
+		BasePeer::TYPE_PHPNAME => array ('Id', 'CreatedAt', 'LastUpdated', 'OrgEmail', 'OrgName', 'IndAffiliation', 'IndRole', 'Address1', 'Address2', 'City', 'State', 'PostalCode', 'Country', 'Phone', 'WebAddress', 'Type', 'TypeInt', ),
+		BasePeer::TYPE_COLNAME => array (AgentPeer::ID, AgentPeer::CREATED_AT, AgentPeer::LAST_UPDATED, AgentPeer::ORG_EMAIL, AgentPeer::ORG_NAME, AgentPeer::IND_AFFILIATION, AgentPeer::IND_ROLE, AgentPeer::ADDRESS1, AgentPeer::ADDRESS2, AgentPeer::CITY, AgentPeer::STATE, AgentPeer::POSTAL_CODE, AgentPeer::COUNTRY, AgentPeer::PHONE, AgentPeer::WEB_ADDRESS, AgentPeer::TYPE, AgentPeer::TYPE_INT, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'created_at', 'last_updated', 'org_email', 'org_name', 'ind_affiliation', 'ind_role', 'address1', 'address2', 'city', 'state', 'postal_code', 'country', 'phone', 'web_address', 'type', 'type_int', ),
 		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, )
 	);
 
 	
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'CreatedAt' => 1, 'LastUpdated' => 2, 'OrgEmail' => 3, 'OrgName' => 4, 'IndAffiliation' => 5, 'IndRole' => 6, 'Address1' => 7, 'Address2' => 8, 'City' => 9, 'State' => 10, 'PostalCode' => 11, 'Country' => 12, 'Phone' => 13, 'WebAddress' => 14, 'Type' => 15, 'TypeId' => 16, ),
-		BasePeer::TYPE_COLNAME => array (AgentPeer::ID => 0, AgentPeer::CREATED_AT => 1, AgentPeer::LAST_UPDATED => 2, AgentPeer::ORG_EMAIL => 3, AgentPeer::ORG_NAME => 4, AgentPeer::IND_AFFILIATION => 5, AgentPeer::IND_ROLE => 6, AgentPeer::ADDRESS1 => 7, AgentPeer::ADDRESS2 => 8, AgentPeer::CITY => 9, AgentPeer::STATE => 10, AgentPeer::POSTAL_CODE => 11, AgentPeer::COUNTRY => 12, AgentPeer::PHONE => 13, AgentPeer::WEB_ADDRESS => 14, AgentPeer::TYPE => 15, AgentPeer::TYPE_ID => 16, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'created_at' => 1, 'last_updated' => 2, 'org_email' => 3, 'org_name' => 4, 'ind_affiliation' => 5, 'ind_role' => 6, 'address1' => 7, 'address2' => 8, 'city' => 9, 'state' => 10, 'postal_code' => 11, 'country' => 12, 'phone' => 13, 'web_address' => 14, 'type' => 15, 'type_id' => 16, ),
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'CreatedAt' => 1, 'LastUpdated' => 2, 'OrgEmail' => 3, 'OrgName' => 4, 'IndAffiliation' => 5, 'IndRole' => 6, 'Address1' => 7, 'Address2' => 8, 'City' => 9, 'State' => 10, 'PostalCode' => 11, 'Country' => 12, 'Phone' => 13, 'WebAddress' => 14, 'Type' => 15, 'TypeInt' => 16, ),
+		BasePeer::TYPE_COLNAME => array (AgentPeer::ID => 0, AgentPeer::CREATED_AT => 1, AgentPeer::LAST_UPDATED => 2, AgentPeer::ORG_EMAIL => 3, AgentPeer::ORG_NAME => 4, AgentPeer::IND_AFFILIATION => 5, AgentPeer::IND_ROLE => 6, AgentPeer::ADDRESS1 => 7, AgentPeer::ADDRESS2 => 8, AgentPeer::CITY => 9, AgentPeer::STATE => 10, AgentPeer::POSTAL_CODE => 11, AgentPeer::COUNTRY => 12, AgentPeer::PHONE => 13, AgentPeer::WEB_ADDRESS => 14, AgentPeer::TYPE => 15, AgentPeer::TYPE_INT => 16, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'created_at' => 1, 'last_updated' => 2, 'org_email' => 3, 'org_name' => 4, 'ind_affiliation' => 5, 'ind_role' => 6, 'address1' => 7, 'address2' => 8, 'city' => 9, 'state' => 10, 'postal_code' => 11, 'country' => 12, 'phone' => 13, 'web_address' => 14, 'type' => 15, 'type_int' => 16, ),
 		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, )
 	);
 
 	
 	public static function getMapBuilder()
 	{
-		include_once 'model/map/AgentMapBuilder.php';
-		return BasePeer::getMapBuilder('model.map.AgentMapBuilder');
+		include_once 'lib/model/map/AgentMapBuilder.php';
+		return BasePeer::getMapBuilder('lib.model.map.AgentMapBuilder');
 	}
 	
 	public static function getPhpNameMap()
@@ -185,7 +173,7 @@ abstract class BaseAgentPeer {
 
 		$criteria->addSelectColumn(AgentPeer::TYPE);
 
-		$criteria->addSelectColumn(AgentPeer::TYPE_ID);
+		$criteria->addSelectColumn(AgentPeer::TYPE_INT);
 
 	}
 
@@ -253,9 +241,10 @@ abstract class BaseAgentPeer {
 	{
 		$results = array();
 	
+				$cls = AgentPeer::getOMClass();
+		$cls = Propel::import($cls);
 				while($rs->next()) {
 		
-						$cls = Propel::import(AgentPeer::getOMClass($rs, 1));
 			$obj = new $cls();
 			$obj->hydrate($rs);
 			$results[] = $obj;
@@ -270,31 +259,9 @@ abstract class BaseAgentPeer {
 	}
 
 	
-	public static function getOMClass(ResultSet $rs, $colnum)
+	public static function getOMClass()
 	{
-		try {
-
-			$omClass = null;
-			$classKey = $rs->getString($colnum - 1 + 17);
-
-			switch($classKey) {
-
-				case self::CLASSKEY_INDIVIDUAL:
-					$omClass = self::CLASSNAME_INDIVIDUAL;
-					break;
-
-				case self::CLASSKEY_ORGANIZATION:
-					$omClass = self::CLASSNAME_ORGANIZATION;
-					break;
-
-				default:
-					$omClass = self::CLASS_DEFAULT;
-
-			} 
-		} catch (Exception $e) {
-			throw new PropelException('Unable to get OM class.', $e);
-		}
-		return $omClass;
+		return AgentPeer::CLASS_DEFAULT;
 	}
 
 	
@@ -471,6 +438,6 @@ if (Propel::isInit()) {
 		Propel::log('Could not initialize Peer: ' . $e->getMessage(), Propel::LOG_ERR);
 	}
 } else {
-			require_once 'model/map/AgentMapBuilder.php';
-	Propel::registerMapBuilder('model.map.AgentMapBuilder');
+			require_once 'lib/model/map/AgentMapBuilder.php';
+	Propel::registerMapBuilder('lib.model.map.AgentMapBuilder');
 }

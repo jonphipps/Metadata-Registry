@@ -10,7 +10,7 @@ abstract class BaseVocabularyPeer {
 	const TABLE_NAME = 'reg_vocabulary';
 
 	
-	const CLASS_DEFAULT = 'model.Vocabulary';
+	const CLASS_DEFAULT = 'lib.model.Vocabulary';
 
 	
 	const NUM_COLUMNS = 12;
@@ -78,8 +78,8 @@ abstract class BaseVocabularyPeer {
 	
 	public static function getMapBuilder()
 	{
-		include_once 'model/map/VocabularyMapBuilder.php';
-		return BasePeer::getMapBuilder('model.map.VocabularyMapBuilder');
+		include_once 'lib/model/map/VocabularyMapBuilder.php';
+		return BasePeer::getMapBuilder('lib.model.map.VocabularyMapBuilder');
 	}
 	
 	public static function getPhpNameMap()
@@ -281,7 +281,7 @@ abstract class BaseVocabularyPeer {
 			$obj1 = new $cls();
 			$obj1->hydrate($rs);
 
-			$omClass = AgentPeer::getOMClass($rs, $startcol);
+			$omClass = AgentPeer::getOMClass();
 
 			$cls = Propel::import($omClass);
 			$obj2 = new $cls();
@@ -362,7 +362,7 @@ abstract class BaseVocabularyPeer {
 
 				
 					
-			$omClass = AgentPeer::getOMClass($rs, $startcol2);
+			$omClass = AgentPeer::getOMClass();
 
 	
 			$cls = Propel::import($omClass);
@@ -574,6 +574,6 @@ if (Propel::isInit()) {
 		Propel::log('Could not initialize Peer: ' . $e->getMessage(), Propel::LOG_ERR);
 	}
 } else {
-			require_once 'model/map/VocabularyMapBuilder.php';
-	Propel::registerMapBuilder('model.map.VocabularyMapBuilder');
+			require_once 'lib/model/map/VocabularyMapBuilder.php';
+	Propel::registerMapBuilder('lib.model.map.VocabularyMapBuilder');
 }

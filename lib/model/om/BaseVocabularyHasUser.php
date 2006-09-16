@@ -448,7 +448,7 @@ abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
 	
 	public function getUser($con = null)
 	{
-				include_once 'model/om/BaseUserPeer.php';
+				include_once 'lib/model/om/BaseUserPeer.php';
 
 		if ($this->aUser === null && ($this->user_id !== null)) {
 
@@ -478,7 +478,7 @@ abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
 	
 	public function getVocabulary($con = null)
 	{
-				include_once 'model/om/BaseVocabularyPeer.php';
+				include_once 'lib/model/om/BaseVocabularyPeer.php';
 
 		if ($this->aVocabulary === null && ($this->vocabulary_id !== null)) {
 

@@ -418,7 +418,7 @@ abstract class BaseLookup extends BaseObject  implements Persistent {
 	
 	public function getConceptPropertys($criteria = null, $con = null)
 	{
-				include_once 'model/om/BaseConceptPropertyPeer.php';
+				include_once 'lib/model/om/BaseConceptPropertyPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -456,7 +456,7 @@ abstract class BaseLookup extends BaseObject  implements Persistent {
 	
 	public function countConceptPropertys($criteria = null, $distinct = false, $con = null)
 	{
-				include_once 'model/om/BaseConceptPropertyPeer.php';
+				include_once 'lib/model/om/BaseConceptPropertyPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -481,7 +481,7 @@ abstract class BaseLookup extends BaseObject  implements Persistent {
 	
 	public function getConceptPropertysJoinSkosProperty($criteria = null, $con = null)
 	{
-				include_once 'model/om/BaseConceptPropertyPeer.php';
+				include_once 'lib/model/om/BaseConceptPropertyPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -516,7 +516,7 @@ abstract class BaseLookup extends BaseObject  implements Persistent {
 	
 	public function getConceptPropertysJoinConceptRelatedByConceptId($criteria = null, $con = null)
 	{
-				include_once 'model/om/BaseConceptPropertyPeer.php';
+				include_once 'lib/model/om/BaseConceptPropertyPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -551,7 +551,7 @@ abstract class BaseLookup extends BaseObject  implements Persistent {
 	
 	public function getConceptPropertysJoinVocabulary($criteria = null, $con = null)
 	{
-				include_once 'model/om/BaseConceptPropertyPeer.php';
+				include_once 'lib/model/om/BaseConceptPropertyPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -586,7 +586,7 @@ abstract class BaseLookup extends BaseObject  implements Persistent {
 	
 	public function getConceptPropertysJoinConceptRelatedByRelatedConceptId($criteria = null, $con = null)
 	{
-				include_once 'model/om/BaseConceptPropertyPeer.php';
+				include_once 'lib/model/om/BaseConceptPropertyPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}

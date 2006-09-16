@@ -893,7 +893,7 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	
 	public function getAgentHasUsers($criteria = null, $con = null)
 	{
-				include_once 'model/om/BaseAgentHasUserPeer.php';
+				include_once 'lib/model/om/BaseAgentHasUserPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -931,7 +931,7 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	
 	public function countAgentHasUsers($criteria = null, $distinct = false, $con = null)
 	{
-				include_once 'model/om/BaseAgentHasUserPeer.php';
+				include_once 'lib/model/om/BaseAgentHasUserPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -956,7 +956,7 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	
 	public function getAgentHasUsersJoinAgent($criteria = null, $con = null)
 	{
-				include_once 'model/om/BaseAgentHasUserPeer.php';
+				include_once 'lib/model/om/BaseAgentHasUserPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -998,7 +998,7 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	
 	public function getConceptHistorys($criteria = null, $con = null)
 	{
-				include_once 'model/om/BaseConceptHistoryPeer.php';
+				include_once 'lib/model/om/BaseConceptHistoryPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -1036,7 +1036,7 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	
 	public function countConceptHistorys($criteria = null, $distinct = false, $con = null)
 	{
-				include_once 'model/om/BaseConceptHistoryPeer.php';
+				include_once 'lib/model/om/BaseConceptHistoryPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -1061,7 +1061,7 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	
 	public function getConceptHistorysJoinConceptProperty($criteria = null, $con = null)
 	{
-				include_once 'model/om/BaseConceptHistoryPeer.php';
+				include_once 'lib/model/om/BaseConceptHistoryPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -1103,7 +1103,7 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	
 	public function getVocabularyHasUsers($criteria = null, $con = null)
 	{
-				include_once 'model/om/BaseVocabularyHasUserPeer.php';
+				include_once 'lib/model/om/BaseVocabularyHasUserPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -1141,7 +1141,7 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	
 	public function countVocabularyHasUsers($criteria = null, $distinct = false, $con = null)
 	{
-				include_once 'model/om/BaseVocabularyHasUserPeer.php';
+				include_once 'lib/model/om/BaseVocabularyHasUserPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -1166,7 +1166,7 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	
 	public function getVocabularyHasUsersJoinVocabulary($criteria = null, $con = null)
 	{
-				include_once 'model/om/BaseVocabularyHasUserPeer.php';
+				include_once 'lib/model/om/BaseVocabularyHasUserPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
