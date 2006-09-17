@@ -12,7 +12,7 @@ default:
 
   stylesheets:    [main, layout]
 
-  javascripts:    [/sf/js/prototype/prototype.js]
+  javascripts:    [/sf/prototype/js/prototype.js]
 
   has_layout:     on
   layout:         layout
