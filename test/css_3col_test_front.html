@@ -1,0 +1,271 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta name="title" content="The Registry Project" />
+<meta name="robots" content="index, follow" />
+<meta name="description" content="The Metadata Registry Project" />
+<meta name="keywords" content="semantic web, registry, rdf, skos, metadata" />
+<meta name="language" content="en" />
+
+<title>The Registry Project</title>
+
+<link rel="shortcut icon" href="/favicon.ico" />
+
+<script type="text/javascript" src="../data/symfony/web/sf/js/prototype/prototype.js"></script>
+<script type="text/javascript" src="../web/js/setresource.js"></script>
+<script type="text/javascript" src="../data/symfony/web/sf/js/prototype/builder.js"></script>
+<script type="text/javascript" src="../data/symfony/web/sf/js/prototype/effects.js"></script>
+<link rel="stylesheet" type="text/css" media="screen" href="../data/symfony/web/sf/css/sf_admin/main.css" />
+<link rel="stylesheet" type="text/css" media="screen" href="../web/css/main.css" />
+<link rel="stylesheet" type="text/css" media="screen" href="../web/css/layout.css" />
+	<style type="text/css">
+
+		/*** The Essential Code ***/
+
+		body {
+			min-width: 630px;         /* 2 x (LC fullwidth + CC padding) + RC fullwidth */
+		}
+
+		#content {
+			padding-left: 200px;      /* LC fullwidth */
+			padding-right: 190px;     /* RC fullwidth + CC padding */
+		}
+		
+		#content .column {
+			position: relative;
+			float: left;
+		}
+		
+		#content_main {
+			padding: 10px 20px;       /* CC padding */
+			width: 100%;
+		}
+		
+		#left_sidebar {
+			width: 180px;             /* LC width */
+			padding: 0 10px;          /* LC padding */
+			right: 240px;             /* LC fullwidth + CC padding */
+			margin-left: -100%;
+		}
+		
+		#right_sidebar {
+			width: 130px;             /* RC width */
+			padding: 0 10px;          /* RC padding */
+			margin-right: -100%;
+		}
+		
+		#footer {
+			clear: both;
+		}
+		
+		/*** IE Fix ***/
+		* html #left_sidebar {
+			left: 150px;              /* RC fullwidth */
+		}
+
+		/*** Equal-height Columns ***/
+
+		#content {
+			overflow: hidden;
+		}
+
+		#content .column {
+			padding-bottom: 1001em;     /* X + padding-bottom */
+			margin-bottom: -1000em;     /* X */
+		}
+
+		/*** Footer Fix ***/
+
+		* html body {
+			overflow: hidden;
+		}
+		
+		* html #footer-wrapper {
+			float: left;
+			position: relative;
+			width: 100%;
+			padding-bottom: 10010px;
+			margin-bottom: -10000px;
+			background: #F2ECF2;         /*** Same as body background ***/
+		}
+
+		/*** Just for Looks ***/
+
+		body {
+			margin: 0;
+			padding: 0;
+			background: #F2ECF2;
+      font-size:62.5%; /* Explain @ www.clagnut.com/blog/348/ */
+		}
+
+		#left_sidebar {
+			background: #FFF;
+		}
+
+		#content_main {
+			background: #FFF;
+		}
+
+		#right_sidebar {
+			background: #FFF;
+		}
+
+		#content .column {
+			padding-top: 1em;
+			text-align: justify;
+		}
+
+    p {
+       font-size: 1.2em;
+ }
+  
+    h1 { 
+        font: 2.4em sans-serif;
+ }  
+    h2 { 
+        font: 1.4em sans-serif;
+ }  
+ 
+div#header
+{
+  text-align: left;
+  height: 90px;
+  background-color: #ffffff;
+}
+div.topbar 
+{
+  background-color: #D8732F;
+  height: 7px; 
+  margin: 0;
+  padding: 0;
+  border: 0;
+  line-height: 7px
+}
+div#header ul, div#footer ul
+{
+  list-style: none;
+  display:inline;
+  float:right;
+  padding: 5px 5px;
+  background: #d8732f url(/images/menu_left.gif) no-repeat left bottom;
+  font-size: 11px;
+}
+
+div#header li, div#footer li, div#header form
+{
+  display: inline;
+  list-style: none;
+}
+
+div#header li
+{
+  padding: 0 7px;
+  font-weight: bold;
+  border-right: solid 1px #fff;
+}
+
+div#header li.last
+{
+  border-right: none;
+}
+
+div#header .last input
+{
+  border: solid 1px gray;
+  width:70px;
+  background-color: #F4F4F4;
+  vertical-align:sub;
+  margin-top:7px;
+}
+
+div#header .last input:focus, div#header .last input:hover
+{
+  background-color: white;
+}
+
+div#header li :link, div#header li :visited
+{
+  color:#fff;
+}
+
+div#search
+{
+  position:relative;
+  
+  top:-30px;
+  right:0px;
+  padding-right: 10px;
+  text-align: right;
+  float: right;
+  clear: both;
+}
+	</style>
+</head>
+
+<body>
+
+	<div id="header">
+          <div class="topbar">
+            &nbsp;
+          </div>
+
+          <ul>
+            <li>
+              <a href="/login.html">sign in / register</a>
+            </li>
+
+            <li class="last">
+              <a href="/about.html">about</a>
+            </li>
+          </ul>
+
+          <div style="padding-top: 0px;">
+            <a href="/"><img alt="registry" align="left" src="../web/images/logo.gif.jpg" /></a>
+          </div>
+
+          <div id="search">
+            <form method="get" action="/search.html">
+              <input type="text" name="term" id="term" value="" style="width: 150px" />&nbsp; <input type="submit" name="commit" value="Search" class="small" />
+            </form>
+          </div>
+        </div>
+
+        <div id="login" style="display: none">
+          <h2>
+            please sign-in first
+          </h2>
+
+          <form id="loginform" method="post" action="/login.html" name="loginform">
+            <label for="nickname">nickname:</label><input type="text" name="nickname" id="nickname" value="" /> <label for="password">password:</label><input type="password" name="password" id="password" value="" /> <input type="hidden" name="referer" id="referer" value="http://registry/" /> <input type="submit" name="commit" value="login" /> <a href="#" onclick="new Effect.BlindUp('login', {duration:0.5});; return false;">cancel</a>
+          </form>
+  </div>
+
+	<div id="content">
+
+		<div id="content_main" class="column">
+			<h1>This is the main content.</h1>
+			<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla.</p>
+			<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla.</p>
+		</div>
+
+		<div id="left_sidebar" class="column">
+			<h2>This is the left sidebar.</h2>
+			<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla.</p>
+		</div>
+
+		<div id="right_sidebar" class="column">
+			<h2>This is the right sidebar.</h2>
+			<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla.</p>
+		</div>
+
+	</div>
+
+	<div id="footer-wrapper">
+		<div id="footer">This is the footer.</div>
+	</div>
+
+</body>
+
+</html>

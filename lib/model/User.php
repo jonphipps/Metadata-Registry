@@ -42,4 +42,14 @@ class User extends BaseUser {
     return $AgentCount;
   }
 
+  /**
+  * alias for __toString
+  *
+  * @return string firstname, lastname
+  */
+  public function getUser()
+  {
+    return $this->__toString();
+  }
+
 } // User
