@@ -15,7 +15,7 @@ class administratorActions extends sfActions
     $this->users = UserPeer::getProblematicUsers();
 
     $this->title = 'problematic user list';
-    $this->setTitle($this->title);
+    $this->getContext()->getResponse()->setTitle($this->title);
   }
 
   public function executeModerators()
@@ -23,7 +23,7 @@ class administratorActions extends sfActions
     $this->users = UserPeer::getModerators();
 
     $this->title = 'moderator list';
-    $this->setTitle($this->title);
+    $this->getContext()->getResponse()->setTitle($this->title);
   }
 
   public function executeAdministrators()
@@ -31,7 +31,7 @@ class administratorActions extends sfActions
     $this->users = UserPeer::getAdministrators();
 
     $this->title = 'administrator list';
-    $this->setTitle($this->title);
+    $this->getContext()->getResponse()->setTitle($this->title);
   }
 
   public function executeModeratorCandidates()
@@ -39,7 +39,7 @@ class administratorActions extends sfActions
     $this->users = UserPeer::getModeratorCandidates();
 
     $this->title = 'moderator candidates';
-    $this->setTitle($this->title);
+    $this->getContext()->getResponse()->setTitle($this->title);
   }
 
   public function executePromoteModerator()
@@ -87,4 +87,3 @@ class administratorActions extends sfActions
     $this->redirect($this->getRequest()->getReferer());
   }
 }
-

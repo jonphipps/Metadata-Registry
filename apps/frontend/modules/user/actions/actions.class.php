@@ -58,7 +58,7 @@ class userActions extends autouserActions
     {
       // display the form
       $response = $this->getResponse();
-      $response->setTitle('The Registry! &raquo; sign in / register');
+      $response->setTitle('The Registry! :: sign in / register');
       $AttributeHolder = $request->getAttributeHolder();
       $referrer = $request->getReferer();
       $AttributeHolder->set('referer', $referrer);

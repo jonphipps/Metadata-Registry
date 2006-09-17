@@ -22,7 +22,7 @@ class contentActions extends sfActions
 
     $this->html = markdown(file_get_contents($file));
 
-    $this->setTitle('The Registry! &raquo; about');
+    $this->getContext()->getResponse()->setTitle('The Registry! :: about');
   }
 
   public function executeUnavailable()
@@ -35,7 +35,6 @@ class contentActions extends sfActions
       $file = sfConfig::get('sf_data_dir').'/content/unavailable_en.txt';
     }
 
-    $this->setTitle('The Registry! &raquo; maintenance');
+    $this->getContext()->getResponse()->setTitle('The Registry! :: maintenance');
   }
 }
-
