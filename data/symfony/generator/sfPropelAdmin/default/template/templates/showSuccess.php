@@ -39,9 +39,9 @@
 <?php if ($credentials): $credentials = str_replace("\n", ' ', var_export($credentials, true)) ?>
     [?php if ($sf_user->hasCredential(<?php echo $credentials ?>)): ?]
 <?php endif; ?>
-<div class="form-row">
+<div id="form_row_<?php echo $this->getSingularName() ?>_<?php echo $column->getName() ?>" class="form-row">
   [?php echo label_for('<?php echo $this->getParameterValue("edit.fields.".$column->getName().".label_for", $this->getSingularName()."[".$column->getName()."]") ?>', __('<?php echo str_replace("'", "\\'", $this->getParameterValue('show.fields.'.$column->getName().'.name')) ?>:'), '<?php if ($column->isNotNull()): ?>class="required" <?php endif; ?>') ?]
-  <div class="content[?php if ($sf_request->hasError('<?php echo $this->getSingularName() ?>{<?php echo $column->getName() ?>}')): ?] form-error[?php endif; ?]">
+  <div id="form_row_content_<?php echo $this->getSingularName() ?>_<?php echo $column->getName() ?>" class="content[?php if ($sf_request->hasError('<?php echo $this->getSingularName() ?>{<?php echo $column->getName() ?>}')): ?] form-error[?php endif; ?]">
 
     [?php $showValue = <?php echo $this->getColumnShowTag($column) ?> ?]
     [?php if ($showValue): ?]
@@ -74,7 +74,7 @@
  */
  $editActions = $this->getParameterValue('show.actions');
 ?>
-  <?php if (!$editActions || isset($editActions['_delete'])): ?>
+  <?php if (isset($editActions['_delete'])): ?>
     <?php echo $this->addCredentialCondition($this->getButtonToAction('_delete', $editActions['_delete'], true), $editActions['_delete']) ?>
   <?php endif; ?>
 </ul>
