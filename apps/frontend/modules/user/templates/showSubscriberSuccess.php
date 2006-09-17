@@ -74,7 +74,7 @@
    <ul class="plain_list">
    <?php $vocabularys = $subscriber->getVocabularyHasUsersJoinVocabulary() ?>
    <?php foreach ($vocabularys as $vocabulary):  ?>
-     <li><?php $voc = $vocabulary->getVocabulary(); echo link_to($voc->getName(), 'vocabulary/edit?id=' . $voc->getId()) ?></li>
+     <li><?php $voc = $vocabulary->getVocabulary(); echo link_to($voc->getName(), 'vocabulary/show?id=' . $voc->getId()) ?></li>
    <?php endforeach ?>
    </ul>
 </div>

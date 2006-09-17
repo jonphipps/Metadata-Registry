@@ -5,12 +5,12 @@
  *
  * @package    registry
  * @subpackage user
- * @author     Your name here
- * @version    SVN: $Id: actions.class.php 2 2006-04-03 21:07:20Z jphipps $
+ * @author     Jon Phipps
+ * @version    SVN: $Id: actions.class.php 1415 2006-06-11 08:33:51Z fabien $
  */
-class userActions extends sfActions
+class userActions extends autouserActions
 {
-  public function executeShow()
+  public function executeShowSubscriber()
   {
     if ($this->hasRequestParameter('nickname'))
     {

@@ -37,9 +37,17 @@ concept_search:
   param: { module: conceptprop, action: search }
 
 # user
+user_show:
+  url:   /user/show/id:/id
+  param: { module: user, action: show }
+
+user_list:
+  url:   /user/list
+  param: { module: user, action: list }
+
 user_profile:
   url:   /user/:nickname
-  param: { module: user, action: show }
+  param: { module: user, action: showSubscriber }
 
 user_update:
   url:   /update_user
@@ -47,7 +55,7 @@ user_update:
 
 current_user_profile:
   url:   /user
-  param: { module: user, action: show }
+  param: { module: user, action: showSubscriber }
 
 add_account:
   url:   /add_user
