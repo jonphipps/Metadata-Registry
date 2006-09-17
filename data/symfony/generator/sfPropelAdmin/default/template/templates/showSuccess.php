@@ -31,6 +31,7 @@
 
 <?php endif; ?>
 <?php foreach ($this->getColumns('show.display', $category) as $name => $column): ?>
+<?php if ($column->isPrimaryKey()) continue ?>
 <?php $credentials = $this->getParameterValue('show.fields.'.$column->getName().'.credentials') ?>
 <?php if ($credentials): $credentials = str_replace("\n", ' ', var_export($credentials, true)) ?>
     [?php if ($sf_user->hasCredential(<?php echo $credentials ?>)): ?]
