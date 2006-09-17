@@ -13,10 +13,6 @@
 </div>
 [?php endif; ?]
 
-<?php foreach ($this->getPrimaryKey() as $pk): ?>
-[?php echo object_input_hidden_tag($<?php echo $this->getSingularName() ?>, 'get<?php echo $pk->getPhpName() ?>') ?]
-<?php endforeach; ?>
-
 <?php foreach ($this->getColumnCategories('show.display') as $category): ?>
 <?php
   if ($category[0] == '-')
