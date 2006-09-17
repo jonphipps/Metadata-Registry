@@ -21,22 +21,17 @@ generator:
       phone:
       web_address:
       type:
-      type_int:
 
     list:
       title:           Resource Owners
-      display:         [org_name, last_updated, state, country, type]
-      helpers:         [state]
-      object_actions:
-        _show:
-        _edit:         { credentials: [administrator] }
+      display:         [=org_name, type]
       actions:
         _create:       { credentials: [[administrator, subscriber]] }
 
     edit:
       title:           Detail for %%org_name%%
       display:
-        "Metadata":   [id, created_at, last_updated]      
+        "Metadata":   [id, created_at, last_updated]
         "Detail":     [_type, org_name, org_email, ind_affiliation, address1, address2, city, state, postal_code, country, phone, web_address]
       fields:
         id:            { type: plain, credentials: [administrator] }
@@ -53,9 +48,22 @@ generator:
     create:
       title:           Create new Resource Owner
       display:
-        "Detail":      [type, org_name, org_email, ind_affiliation, address1, address2, city, state, postal_code, country, phone, web_address]      
+        "Detail":      [type, org_name, org_email, ind_affiliation, address1, address2, city, state, postal_code, country, phone, web_address]
       actions:
         _list:      -
         _save:         { credentials: [[administrator, subscriber]] }
         _delete:       { credentials: [administrator] }
-        _save_and_add: { credentials: [[administrator, subscriber]] }        
+        _save_and_add: { credentials: [[administrator, subscriber]] }
+
+    show:
+      title:           Detail for %%org_name%%
+      display:
+        "Metadata":   [created_at, last_updated]
+        "Detail":     [type, org_name, org_email, ind_affiliation, address1, address2, city, state, postal_code, country, phone, web_address]
+      fields:
+        id:            { type: plain, credentials: [administrator] }
+        created_at:    { type: plain, credentials: [administrator] }
+        last_updated:  { type: plain, credentials: [administrator] }
+      actions:
+        _list:      -
+        _edit:         { credentials: [administrator] }

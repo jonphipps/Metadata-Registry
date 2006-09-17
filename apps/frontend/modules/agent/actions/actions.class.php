@@ -10,11 +10,10 @@
  */
 class agentActions extends autoagentActions
 {
- public function preExecute()
-  {
-    parent::preExecute();
-    $this->getUser()->getAgentCredentials($this->getRequestParameter('id'));
-    return;
-  }
-
+   public function preExecute()
+   {
+      parent::preExecute();
+      $this->getUser()->getAgentCredentials($this->getRequestParameter('id'));
+      return;
+   }
 }
