@@ -83,6 +83,7 @@ body, #sf_admin_container td
   width: 8em;
   color: #666;
   font-weight: normal !important;
+  white-space: nowrap;
 }
 
 #sf_admin_container label.required
