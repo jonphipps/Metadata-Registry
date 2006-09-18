@@ -70,11 +70,5 @@
    <?php endif ?>
 
    <h3><?php echo __('Registered Vocabularies') ?></h3>
-
-   <ul class="plain_list">
-   <?php $vocabularys = $subscriber->getVocabularyHasUsersJoinVocabulary() ?>
-   <?php foreach ($vocabularys as $vocabulary):  ?>
-     <li><?php $voc = $vocabulary->getVocabulary(); echo link_to($voc->getName(), 'vocabulary/show?id=' . $voc->getId()) ?></li>
-   <?php endforeach ?>
-   </ul>
+   <?php include_partial('vocabulary_list', array('user' => $subscriber)) ?>
 </div>

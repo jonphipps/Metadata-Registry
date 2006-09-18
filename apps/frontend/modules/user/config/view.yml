@@ -12,5 +12,7 @@ showSubscriberSuccess:
 
 all:
   stylesheets: [-*, /sf/sf_admin/css/main, main, layout]
+  stylesheets: [user/layout]
+
   components:
     menubar:      []
