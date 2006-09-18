@@ -51,13 +51,15 @@ generator:
 
     show:
       title:           Detail for %%user%%
-      display:
-        "Metadata":    [id, created_at, last_updated]
-        "Detail":      [nickname, salutation, first_name, last_name, email]
-        "Permissions": [want_to_be_moderator, is_moderator, is_administrator]
-        "Vocabularies": [_vocabularyList]
       fields:
-        vocabularyList: { name: List }
+        vocabulary_list: { name: " " }
+        agent_list:      { name: " " }
+      display:
+        "Metadata":     [id, created_at, last_updated]
+        "Detail":       [nickname, salutation, first_name, last_name, email]
+        "Permissions":  [want_to_be_moderator, is_moderator, is_administrator]
+        "Vocabularies": [_vocabularyList]
+        "Agents":       [_agentList]
       actions:
         _list:      -
         _edit:         { credentials: [administrator] }

@@ -10,3 +10,22 @@ div#sf_admin_container.sf_admin_list div#sf_admin_header
 {
   padding-left: 11em !important;
 }
+
+fieldset#sf_fieldset_agents .form-row .content,
+fieldset#sf_fieldset_vocabularies .form-row .content
+{ 
+  padding-left: 20px !important;
+}
+
+fieldset#sf_fieldset_agents .form-row label,
+fieldset#sf_fieldset_vocabularies .form-row label
+{ 
+  display: none;
+}
+
+fieldset#sf_fieldset_agents .form-row ul,
+fieldset#sf_fieldset_vocabularies .form-row ul
+{ 
+  list-style: none;
+}
+
