@@ -30,4 +30,9 @@ class vocabularyActions extends autovocabularyActions
     $this->getUser()->getAttributeHolder()->removeNamespace('sf_admin/concept_property/filters');
     parent::executeList();
   }
+
+  public function executeRdf ()
+  {
+     $this->forward('rdf','ShowScheme');
+  }
 }

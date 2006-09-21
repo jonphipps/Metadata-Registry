@@ -24,7 +24,7 @@ generator:
       title:           Registry vocabulary list
       fields:
         last_updated: { params: date_format='yyyy-MM-dd' }
-      display:        [name, last_updated, agent, _concepts, _versions]
+      display:        [=name, last_updated, agent, _concepts, _versions]
       sort:           name
       object_actions:
         _show:
@@ -52,19 +52,20 @@ generator:
         _create:       { credentials: [[administrator, hasAgents]] }
         _save_and_add: { credentials: [administrator] }
 
-    show:
-      fields:
-        id:           { name: ID, credentials: [administrator] }
-        uri:          { helper: auto_link_text }
-        url:          { helper: auto_link_text }
-      display:      [id, created_at, last_updated, agent, name, base_domain, uri, token, url, note, community]
-      actions:
-        _edit:      { credentials: [administrator] }
-        _list:
-
     create:
       display:      [agent_id, base_domain, token, uri, name, url, note, community]
       actions:
         _list:      -
         _save:         { credentials: [[administrator, hasAgents]] }
         _save_and_add: { credentials: [administrator] }
+
+    show:
+      fields:
+        id:           { name: ID, credentials: [administrator] }
+        uri:          { helper: auto_link_text }
+        url:          { helper: auto_link_text }
+      display:      [id, created_at, last_updated, =agent, name, base_domain, uri, token, url, note, community]
+      actions:
+        _edit:      { credentials: [administrator] }
+        _list:
+        rdf:          { name: Get RDF, icon: /sf/sf_admin/images/rdf_icon.png }
