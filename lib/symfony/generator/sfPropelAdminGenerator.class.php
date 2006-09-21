@@ -129,10 +129,10 @@ class sfPropelAdminGenerator extends sfPropelCrudGenerator
       $actionName     = substr($actionName, 1);
       $default_name   = strtr($actionName, '_', ' ');
       $default_icon   = sfConfig::get('sf_admin_web_dir').'/images/'.$actionName.'_icon.png';
-      $default_action = $actionName;
+      $default_action = ($actionName == 'cancel') ? 'show' : $actionName;
       $default_class  = 'sf_admin_action_'.$actionName;
       // overrides link boolean so that links are only generated for the items in the list
-      $pk_link = (bool) strpos(" edit save delete save_and_add", $actionName);
+      $pk_link = (bool) strpos(" edit save delete save_and_add cancel show", $actionName);
 
       if ($actionName == 'save' || $actionName == 'save_and_add')
       {
@@ -161,6 +161,9 @@ class sfPropelAdminGenerator extends sfPropelCrudGenerator
       $default_class  = '';
     }
 
+    /**
+    * @todo add a parameter for the $icon path, otherwise default to the path specified for sf_admin images
+    **/
     $name   = isset($params['name']) ? $params['name'] : $default_name;
     $icon   = isset($params['icon']) ? $params['icon'] : $default_icon;
     $action = isset($params['action']) ? $params['action'] : $default_action;
@@ -193,7 +196,11 @@ class sfPropelAdminGenerator extends sfPropelCrudGenerator
     }
     else
     {
-      $options['style'] = 'background: #ffc url('.$icon.') no-repeat 3px 2px';
+       /**
+        * @todo this requires padding-left added equal to the width of $icon + 4 pixels --
+        * like this for 16px wide image : "...no-repeat 2px 3px; padding-left:20px !important"
+        **/
+       $options['style'] = 'background: #ffc url('.$icon.') no-repeat 3px 2px';
     }
 
     $li_class = $li_class ? ' class="'.$li_class.'"' : '';
