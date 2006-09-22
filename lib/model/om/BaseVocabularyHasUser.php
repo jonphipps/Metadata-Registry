@@ -17,11 +17,11 @@ abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
 
 
 	
-	protected $is_maintainer_for;
+	protected $is_maintainer_for = true;
 
 
 	
-	protected $is_registrar_for;
+	protected $is_registrar_for = true;
 
 	
 	protected $aUser;
@@ -77,6 +77,7 @@ abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
 		}
 
 	} 
+
 	
 	public function setUserId($v)
 	{
@@ -91,26 +92,29 @@ abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
 		}
 
 	} 
+
 	
 	public function setIsMaintainerFor($v)
 	{
 
-		if ($this->is_maintainer_for !== $v) {
+		if ($this->is_maintainer_for !== $v || $v === true) {
 			$this->is_maintainer_for = $v;
 			$this->modifiedColumns[] = VocabularyHasUserPeer::IS_MAINTAINER_FOR;
 		}
 
 	} 
+
 	
 	public function setIsRegistrarFor($v)
 	{
 
-		if ($this->is_registrar_for !== $v) {
+		if ($this->is_registrar_for !== $v || $v === true) {
 			$this->is_registrar_for = $v;
 			$this->modifiedColumns[] = VocabularyHasUserPeer::IS_REGISTRAR_FOR;
 		}
 
 	} 
+
 	
 	public function hydrate(ResultSet $rs, $startcol = 1)
 	{
@@ -128,7 +132,9 @@ abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
 
 			$this->setNew(false);
 
-						return $startcol + 4; 
+			
+			return $startcol + 4; 
+
 		} catch (Exception $e) {
 			throw new PropelException("Error populating VocabularyHasUser object", $e);
 		}
@@ -181,11 +187,16 @@ abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
 	
 	protected function doSave($con)
 	{
-		$affectedRows = 0; 		if (!$this->alreadyInSave) {
+		$affectedRows = 0; 
+		if (!$this->alreadyInSave) {
 			$this->alreadyInSave = true;
 
 
-												
+			
+			
+			
+			
+
 			if ($this->aUser !== null) {
 				if ($this->aUser->isModified()) {
 					$affectedRows += $this->aUser->save($con);
@@ -201,20 +212,26 @@ abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
 			}
 
 
-						if ($this->isModified()) {
+			
+			if ($this->isModified()) {
 				if ($this->isNew()) {
 					$pk = VocabularyHasUserPeer::doInsert($this, $con);
-					$affectedRows += 1; 										 										 
+					$affectedRows += 1; 
+										 
+										 
+
 					$this->setNew(false);
 				} else {
 					$affectedRows += VocabularyHasUserPeer::doUpdate($this, $con);
 				}
-				$this->resetModified(); 			}
+				$this->resetModified(); 
+			}
 
 			$this->alreadyInSave = false;
 		}
 		return $affectedRows;
 	} 
+
 	
 	protected $validationFailures = array();
 
@@ -247,7 +264,11 @@ abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
 			$failureMap = array();
 
 
-												
+			
+			
+			
+			
+
 			if ($this->aUser !== null) {
 				if (!$this->aUser->validate($columns)) {
 					$failureMap = array_merge($failureMap, $this->aUser->getValidationFailures());
@@ -299,7 +320,8 @@ abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
 			default:
 				return null;
 				break;
-		} 	}
+		} 
+	}
 
 	
 	public function toArray($keyType = BasePeer::TYPE_PHPNAME)
@@ -337,7 +359,8 @@ abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
 			case 3:
 				$this->setIsRegistrarFor($value);
 				break;
-		} 	}
+		} 
+	}
 
 	
 	public function fromArray($arr, $keyType = BasePeer::TYPE_PHPNAME)
@@ -408,13 +431,16 @@ abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
 		$copyObj->setNew(true);
 
 		$copyObj->setVocabularyId(''); 
+
 		$copyObj->setUserId(''); 
+
 	}
 
 	
 	public function copy($deepCopy = false)
 	{
-				$clazz = get_class($this);
+		
+		$clazz = get_class($this);
 		$copyObj = new $clazz();
 		$this->copyInto($copyObj, $deepCopy);
 		return $copyObj;
@@ -448,7 +474,8 @@ abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
 	
 	public function getUser($con = null)
 	{
-				include_once 'lib/model/om/BaseUserPeer.php';
+		
+		include_once 'lib/model/om/BaseUserPeer.php';
 
 		if ($this->aUser === null && ($this->user_id !== null)) {
 
@@ -478,7 +505,8 @@ abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
 	
 	public function getVocabulary($con = null)
 	{
-				include_once 'lib/model/om/BaseVocabularyPeer.php';
+		
+		include_once 'lib/model/om/BaseVocabularyPeer.php';
 
 		if ($this->aVocabulary === null && ($this->vocabulary_id !== null)) {
 

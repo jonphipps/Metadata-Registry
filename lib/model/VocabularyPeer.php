@@ -45,7 +45,7 @@ class VocabularyPeer extends BaseVocabularyPeer {
   * @return return_type
   * @param  var_type $var
   */
-  function retrieveByUri($uri)
+  public static function  retrieveByUri($uri)
   {
 		$con = Propel::getConnection(self::DATABASE_NAME);
 

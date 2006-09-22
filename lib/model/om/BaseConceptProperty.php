@@ -48,19 +48,16 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 	protected $status_id;
 
 	
-	protected $aSkosProperty;
+	protected $aConcept;
 
 	
-	protected $aConceptRelatedByConceptId;
+	protected $aSkosProperty;
 
 	
 	protected $aVocabulary;
 
 	
 	protected $aLookup;
-
-	
-	protected $aConceptRelatedByRelatedConceptId;
 
 	
 	protected $collConceptHistorys;
@@ -88,8 +85,10 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 		if ($this->created_at === null || $this->created_at === '') {
 			return null;
 		} elseif (!is_int($this->created_at)) {
-						$ts = strtotime($this->created_at);
-			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse value of [created_at] as date/time value: " . var_export($this->created_at, true));
+			
+			$ts = strtotime($this->created_at);
+			if ($ts === -1 || $ts === false) { 
+				throw new PropelException("Unable to parse value of [created_at] as date/time value: " . var_export($this->created_at, true));
 			}
 		} else {
 			$ts = $this->created_at;
@@ -110,8 +109,10 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 		if ($this->last_updated === null || $this->last_updated === '') {
 			return null;
 		} elseif (!is_int($this->last_updated)) {
-						$ts = strtotime($this->last_updated);
-			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse value of [last_updated] as date/time value: " . var_export($this->last_updated, true));
+			
+			$ts = strtotime($this->last_updated);
+			if ($ts === -1 || $ts === false) { 
+				throw new PropelException("Unable to parse value of [last_updated] as date/time value: " . var_export($this->last_updated, true));
 			}
 		} else {
 			$ts = $this->last_updated;
@@ -184,13 +185,15 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 		}
 
 	} 
+
 	
 	public function setCreatedAt($v)
 	{
 
 		if ($v !== null && !is_int($v)) {
 			$ts = strtotime($v);
-			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse date/time value for [created_at] from input: " . var_export($v, true));
+			if ($ts === -1 || $ts === false) { 
+				throw new PropelException("Unable to parse date/time value for [created_at] from input: " . var_export($v, true));
 			}
 		} else {
 			$ts = $v;
@@ -201,13 +204,15 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 		}
 
 	} 
+
 	
 	public function setLastUpdated($v)
 	{
 
 		if ($v !== null && !is_int($v)) {
 			$ts = strtotime($v);
-			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse date/time value for [last_updated] from input: " . var_export($v, true));
+			if ($ts === -1 || $ts === false) { 
+				throw new PropelException("Unable to parse date/time value for [last_updated] from input: " . var_export($v, true));
 			}
 		} else {
 			$ts = $v;
@@ -218,6 +223,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 		}
 
 	} 
+
 	
 	public function setConceptId($v)
 	{
@@ -227,11 +233,12 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 			$this->modifiedColumns[] = ConceptPropertyPeer::CONCEPT_ID;
 		}
 
-		if ($this->aConceptRelatedByConceptId !== null && $this->aConceptRelatedByConceptId->getId() !== $v) {
-			$this->aConceptRelatedByConceptId = null;
+		if ($this->aConcept !== null && $this->aConcept->getId() !== $v) {
+			$this->aConcept = null;
 		}
 
 	} 
+
 	
 	public function setSkosPropertyId($v)
 	{
@@ -246,6 +253,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 		}
 
 	} 
+
 	
 	public function setObject($v)
 	{
@@ -256,6 +264,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 		}
 
 	} 
+
 	
 	public function setSchemeId($v)
 	{
@@ -270,6 +279,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 		}
 
 	} 
+
 	
 	public function setRelatedConceptId($v)
 	{
@@ -279,11 +289,8 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 			$this->modifiedColumns[] = ConceptPropertyPeer::RELATED_CONCEPT_ID;
 		}
 
-		if ($this->aConceptRelatedByRelatedConceptId !== null && $this->aConceptRelatedByRelatedConceptId->getId() !== $v) {
-			$this->aConceptRelatedByRelatedConceptId = null;
-		}
-
 	} 
+
 	
 	public function setLanguage($v)
 	{
@@ -294,6 +301,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 		}
 
 	} 
+
 	
 	public function setStatusId($v)
 	{
@@ -308,6 +316,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 		}
 
 	} 
+
 	
 	public function hydrate(ResultSet $rs, $startcol = 1)
 	{
@@ -337,7 +346,9 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 
 			$this->setNew(false);
 
-						return $startcol + 10; 
+			
+			return $startcol + 10; 
+
 		} catch (Exception $e) {
 			throw new PropelException("Error populating ConceptProperty object", $e);
 		}
@@ -395,23 +406,28 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 	
 	protected function doSave($con)
 	{
-		$affectedRows = 0; 		if (!$this->alreadyInSave) {
+		$affectedRows = 0; 
+		if (!$this->alreadyInSave) {
 			$this->alreadyInSave = true;
 
 
-												
+			
+			
+			
+			
+
+			if ($this->aConcept !== null) {
+				if ($this->aConcept->isModified()) {
+					$affectedRows += $this->aConcept->save($con);
+				}
+				$this->setConcept($this->aConcept);
+			}
+
 			if ($this->aSkosProperty !== null) {
 				if ($this->aSkosProperty->isModified()) {
 					$affectedRows += $this->aSkosProperty->save($con);
 				}
 				$this->setSkosProperty($this->aSkosProperty);
-			}
-
-			if ($this->aConceptRelatedByConceptId !== null) {
-				if ($this->aConceptRelatedByConceptId->isModified()) {
-					$affectedRows += $this->aConceptRelatedByConceptId->save($con);
-				}
-				$this->setConceptRelatedByConceptId($this->aConceptRelatedByConceptId);
 			}
 
 			if ($this->aVocabulary !== null) {
@@ -428,24 +444,23 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 				$this->setLookup($this->aLookup);
 			}
 
-			if ($this->aConceptRelatedByRelatedConceptId !== null) {
-				if ($this->aConceptRelatedByRelatedConceptId->isModified()) {
-					$affectedRows += $this->aConceptRelatedByRelatedConceptId->save($con);
-				}
-				$this->setConceptRelatedByRelatedConceptId($this->aConceptRelatedByRelatedConceptId);
-			}
 
-
-						if ($this->isModified()) {
+			
+			if ($this->isModified()) {
 				if ($this->isNew()) {
 					$pk = ConceptPropertyPeer::doInsert($this, $con);
-					$affectedRows += 1; 										 										 
+					$affectedRows += 1; 
+										 
+										 
+
 					$this->setId($pk);  
+
 					$this->setNew(false);
 				} else {
 					$affectedRows += ConceptPropertyPeer::doUpdate($this, $con);
 				}
-				$this->resetModified(); 			}
+				$this->resetModified(); 
+			}
 
 			if ($this->collConceptHistorys !== null) {
 				foreach($this->collConceptHistorys as $referrerFK) {
@@ -459,6 +474,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 		}
 		return $affectedRows;
 	} 
+
 	
 	protected $validationFailures = array();
 
@@ -491,16 +507,20 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 			$failureMap = array();
 
 
-												
-			if ($this->aSkosProperty !== null) {
-				if (!$this->aSkosProperty->validate($columns)) {
-					$failureMap = array_merge($failureMap, $this->aSkosProperty->getValidationFailures());
+			
+			
+			
+			
+
+			if ($this->aConcept !== null) {
+				if (!$this->aConcept->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aConcept->getValidationFailures());
 				}
 			}
 
-			if ($this->aConceptRelatedByConceptId !== null) {
-				if (!$this->aConceptRelatedByConceptId->validate($columns)) {
-					$failureMap = array_merge($failureMap, $this->aConceptRelatedByConceptId->getValidationFailures());
+			if ($this->aSkosProperty !== null) {
+				if (!$this->aSkosProperty->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aSkosProperty->getValidationFailures());
 				}
 			}
 
@@ -513,12 +533,6 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 			if ($this->aLookup !== null) {
 				if (!$this->aLookup->validate($columns)) {
 					$failureMap = array_merge($failureMap, $this->aLookup->getValidationFailures());
-				}
-			}
-
-			if ($this->aConceptRelatedByRelatedConceptId !== null) {
-				if (!$this->aConceptRelatedByRelatedConceptId->validate($columns)) {
-					$failureMap = array_merge($failureMap, $this->aConceptRelatedByRelatedConceptId->getValidationFailures());
 				}
 			}
 
@@ -587,7 +601,8 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 			default:
 				return null;
 				break;
-		} 	}
+		} 
+	}
 
 	
 	public function toArray($keyType = BasePeer::TYPE_PHPNAME)
@@ -649,7 +664,8 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 			case 9:
 				$this->setStatusId($value);
 				break;
-		} 	}
+		} 
+	}
 
 	
 	public function fromArray($arr, $keyType = BasePeer::TYPE_PHPNAME)
@@ -733,7 +749,9 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 
 
 		if ($deepCopy) {
-									$copyObj->setNew(false);
+			
+			
+			$copyObj->setNew(false);
 
 			foreach($this->getConceptHistorys() as $relObj) {
 				$copyObj->addConceptHistory($relObj->copy($deepCopy));
@@ -741,15 +759,18 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 
 		} 
 
+
 		$copyObj->setNew(true);
 
 		$copyObj->setId(NULL); 
+
 	}
 
 	
 	public function copy($deepCopy = false)
 	{
-				$clazz = get_class($this);
+		
+		$clazz = get_class($this);
 		$copyObj = new $clazz();
 		$this->copyInto($copyObj, $deepCopy);
 		return $copyObj;
@@ -762,6 +783,37 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 			self::$peer = new ConceptPropertyPeer();
 		}
 		return self::$peer;
+	}
+
+	
+	public function setConcept($v)
+	{
+
+
+		if ($v === null) {
+			$this->setConceptId('');
+		} else {
+			$this->setConceptId($v->getId());
+		}
+
+
+		$this->aConcept = $v;
+	}
+
+
+	
+	public function getConcept($con = null)
+	{
+		
+		include_once 'lib/model/om/BaseConceptPeer.php';
+
+		if ($this->aConcept === null && ($this->concept_id !== null)) {
+
+			$this->aConcept = ConceptPeer::retrieveByPK($this->concept_id, $con);
+
+			
+		}
+		return $this->aConcept;
 	}
 
 	
@@ -783,7 +835,8 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 	
 	public function getSkosProperty($con = null)
 	{
-				include_once 'lib/model/om/BaseSkosPropertyPeer.php';
+		
+		include_once 'lib/model/om/BaseSkosPropertyPeer.php';
 
 		if ($this->aSkosProperty === null && ($this->skos_property_id !== null)) {
 
@@ -792,36 +845,6 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 			
 		}
 		return $this->aSkosProperty;
-	}
-
-	
-	public function setConceptRelatedByConceptId($v)
-	{
-
-
-		if ($v === null) {
-			$this->setConceptId('');
-		} else {
-			$this->setConceptId($v->getId());
-		}
-
-
-		$this->aConceptRelatedByConceptId = $v;
-	}
-
-
-	
-	public function getConceptRelatedByConceptId($con = null)
-	{
-				include_once 'lib/model/om/BaseConceptPeer.php';
-
-		if ($this->aConceptRelatedByConceptId === null && ($this->concept_id !== null)) {
-
-			$this->aConceptRelatedByConceptId = ConceptPeer::retrieveByPK($this->concept_id, $con);
-
-			
-		}
-		return $this->aConceptRelatedByConceptId;
 	}
 
 	
@@ -843,7 +866,8 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 	
 	public function getVocabulary($con = null)
 	{
-				include_once 'lib/model/om/BaseVocabularyPeer.php';
+		
+		include_once 'lib/model/om/BaseVocabularyPeer.php';
 
 		if ($this->aVocabulary === null && ($this->scheme_id !== null)) {
 
@@ -873,7 +897,8 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 	
 	public function getLookup($con = null)
 	{
-				include_once 'lib/model/om/BaseLookupPeer.php';
+		
+		include_once 'lib/model/om/BaseLookupPeer.php';
 
 		if ($this->aLookup === null && ($this->status_id !== null)) {
 
@@ -882,36 +907,6 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 			
 		}
 		return $this->aLookup;
-	}
-
-	
-	public function setConceptRelatedByRelatedConceptId($v)
-	{
-
-
-		if ($v === null) {
-			$this->setRelatedConceptId(NULL);
-		} else {
-			$this->setRelatedConceptId($v->getId());
-		}
-
-
-		$this->aConceptRelatedByRelatedConceptId = $v;
-	}
-
-
-	
-	public function getConceptRelatedByRelatedConceptId($con = null)
-	{
-				include_once 'lib/model/om/BaseConceptPeer.php';
-
-		if ($this->aConceptRelatedByRelatedConceptId === null && ($this->related_concept_id !== null)) {
-
-			$this->aConceptRelatedByRelatedConceptId = ConceptPeer::retrieveByPK($this->related_concept_id, $con);
-
-			
-		}
-		return $this->aConceptRelatedByRelatedConceptId;
 	}
 
 	
@@ -925,7 +920,8 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 	
 	public function getConceptHistorys($criteria = null, $con = null)
 	{
-				include_once 'lib/model/om/BaseConceptHistoryPeer.php';
+		
+		include_once 'lib/model/om/BaseConceptHistoryPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -945,8 +941,12 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 				$this->collConceptHistorys = ConceptHistoryPeer::doSelect($criteria, $con);
 			}
 		} else {
-						if (!$this->isNew()) {
-												
+			
+			if (!$this->isNew()) {
+				
+				
+				
+
 
 				$criteria->add(ConceptHistoryPeer::CONCEPT_PROPERTY_ID, $this->getId());
 
@@ -963,7 +963,8 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 	
 	public function countConceptHistorys($criteria = null, $distinct = false, $con = null)
 	{
-				include_once 'lib/model/om/BaseConceptHistoryPeer.php';
+		
+		include_once 'lib/model/om/BaseConceptHistoryPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -988,7 +989,8 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 	
 	public function getConceptHistorysJoinUser($criteria = null, $con = null)
 	{
-				include_once 'lib/model/om/BaseConceptHistoryPeer.php';
+		
+		include_once 'lib/model/om/BaseConceptHistoryPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -1007,7 +1009,10 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 				$this->collConceptHistorys = ConceptHistoryPeer::doSelectJoinUser($criteria, $con);
 			}
 		} else {
-									
+			
+			
+			
+
 			$criteria->add(ConceptHistoryPeer::CONCEPT_PROPERTY_ID, $this->getId());
 
 			if (!isset($this->lastConceptHistoryCriteria) || !$this->lastConceptHistoryCriteria->equals($criteria)) {

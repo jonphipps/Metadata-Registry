@@ -71,8 +71,10 @@ abstract class BaseConceptHistory extends BaseObject  implements Persistent {
 		if ($this->changed_at === null || $this->changed_at === '') {
 			return null;
 		} elseif (!is_int($this->changed_at)) {
-						$ts = strtotime($this->changed_at);
-			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse value of [changed_at] as date/time value: " . var_export($this->changed_at, true));
+			
+			$ts = strtotime($this->changed_at);
+			if ($ts === -1 || $ts === false) { 
+				throw new PropelException("Unable to parse value of [changed_at] as date/time value: " . var_export($this->changed_at, true));
 			}
 		} else {
 			$ts = $this->changed_at;
@@ -110,6 +112,7 @@ abstract class BaseConceptHistory extends BaseObject  implements Persistent {
 		}
 
 	} 
+
 	
 	public function setConceptPropertyId($v)
 	{
@@ -124,6 +127,7 @@ abstract class BaseConceptHistory extends BaseObject  implements Persistent {
 		}
 
 	} 
+
 	
 	public function setUserId($v)
 	{
@@ -138,13 +142,15 @@ abstract class BaseConceptHistory extends BaseObject  implements Persistent {
 		}
 
 	} 
+
 	
 	public function setChangedAt($v)
 	{
 
 		if ($v !== null && !is_int($v)) {
 			$ts = strtotime($v);
-			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse date/time value for [changed_at] from input: " . var_export($v, true));
+			if ($ts === -1 || $ts === false) { 
+				throw new PropelException("Unable to parse date/time value for [changed_at] from input: " . var_export($v, true));
 			}
 		} else {
 			$ts = $v;
@@ -155,6 +161,7 @@ abstract class BaseConceptHistory extends BaseObject  implements Persistent {
 		}
 
 	} 
+
 	
 	public function setOldValues($v)
 	{
@@ -165,6 +172,7 @@ abstract class BaseConceptHistory extends BaseObject  implements Persistent {
 		}
 
 	} 
+
 	
 	public function setNewValues($v)
 	{
@@ -175,6 +183,7 @@ abstract class BaseConceptHistory extends BaseObject  implements Persistent {
 		}
 
 	} 
+
 	
 	public function hydrate(ResultSet $rs, $startcol = 1)
 	{
@@ -196,7 +205,9 @@ abstract class BaseConceptHistory extends BaseObject  implements Persistent {
 
 			$this->setNew(false);
 
-						return $startcol + 6; 
+			
+			return $startcol + 6; 
+
 		} catch (Exception $e) {
 			throw new PropelException("Error populating ConceptHistory object", $e);
 		}
@@ -249,11 +260,16 @@ abstract class BaseConceptHistory extends BaseObject  implements Persistent {
 	
 	protected function doSave($con)
 	{
-		$affectedRows = 0; 		if (!$this->alreadyInSave) {
+		$affectedRows = 0; 
+		if (!$this->alreadyInSave) {
 			$this->alreadyInSave = true;
 
 
-												
+			
+			
+			
+			
+
 			if ($this->aUser !== null) {
 				if ($this->aUser->isModified()) {
 					$affectedRows += $this->aUser->save($con);
@@ -269,20 +285,26 @@ abstract class BaseConceptHistory extends BaseObject  implements Persistent {
 			}
 
 
-						if ($this->isModified()) {
+			
+			if ($this->isModified()) {
 				if ($this->isNew()) {
 					$pk = ConceptHistoryPeer::doInsert($this, $con);
-					$affectedRows += 1; 										 										 
+					$affectedRows += 1; 
+										 
+										 
+
 					$this->setNew(false);
 				} else {
 					$affectedRows += ConceptHistoryPeer::doUpdate($this, $con);
 				}
-				$this->resetModified(); 			}
+				$this->resetModified(); 
+			}
 
 			$this->alreadyInSave = false;
 		}
 		return $affectedRows;
 	} 
+
 	
 	protected $validationFailures = array();
 
@@ -315,7 +337,11 @@ abstract class BaseConceptHistory extends BaseObject  implements Persistent {
 			$failureMap = array();
 
 
-												
+			
+			
+			
+			
+
 			if ($this->aUser !== null) {
 				if (!$this->aUser->validate($columns)) {
 					$failureMap = array_merge($failureMap, $this->aUser->getValidationFailures());
@@ -373,7 +399,8 @@ abstract class BaseConceptHistory extends BaseObject  implements Persistent {
 			default:
 				return null;
 				break;
-		} 	}
+		} 
+	}
 
 	
 	public function toArray($keyType = BasePeer::TYPE_PHPNAME)
@@ -419,7 +446,8 @@ abstract class BaseConceptHistory extends BaseObject  implements Persistent {
 			case 5:
 				$this->setNewValues($value);
 				break;
-		} 	}
+		} 
+	}
 
 	
 	public function fromArray($arr, $keyType = BasePeer::TYPE_PHPNAME)
@@ -498,13 +526,16 @@ abstract class BaseConceptHistory extends BaseObject  implements Persistent {
 		$copyObj->setNew(true);
 
 		$copyObj->setSid(''); 
+
 		$copyObj->setConceptPropertyId(''); 
+
 	}
 
 	
 	public function copy($deepCopy = false)
 	{
-				$clazz = get_class($this);
+		
+		$clazz = get_class($this);
 		$copyObj = new $clazz();
 		$this->copyInto($copyObj, $deepCopy);
 		return $copyObj;
@@ -538,7 +569,8 @@ abstract class BaseConceptHistory extends BaseObject  implements Persistent {
 	
 	public function getUser($con = null)
 	{
-				include_once 'lib/model/om/BaseUserPeer.php';
+		
+		include_once 'lib/model/om/BaseUserPeer.php';
 
 		if ($this->aUser === null && ($this->user_id !== null)) {
 
@@ -568,7 +600,8 @@ abstract class BaseConceptHistory extends BaseObject  implements Persistent {
 	
 	public function getConceptProperty($con = null)
 	{
-				include_once 'lib/model/om/BaseConceptPropertyPeer.php';
+		
+		include_once 'lib/model/om/BaseConceptPropertyPeer.php';
 
 		if ($this->aConceptProperty === null && ($this->concept_property_id !== null)) {
 

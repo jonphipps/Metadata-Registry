@@ -49,7 +49,6 @@ class Agent extends BaseAgent {
         $agentUser = new AgentHasUser();
         $agentUser->setAgentId($agentId);
         $agentUser->setUserId($userId);
-        $agentUser->setIsRegistrarFor($mode == 'create');
         $agentUser->save($con);
       }
 

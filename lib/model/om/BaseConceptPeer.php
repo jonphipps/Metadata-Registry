@@ -133,16 +133,19 @@ abstract class BaseConceptPeer {
 	
 	public static function doCount(Criteria $criteria, $distinct = false, $con = null)
 	{
-				$criteria = clone $criteria;
+		
+		$criteria = clone $criteria;
 
-				$criteria->clearSelectColumns()->clearOrderByColumns();
+		
+		$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
 			$criteria->addSelectColumn(ConceptPeer::COUNT_DISTINCT);
 		} else {
 			$criteria->addSelectColumn(ConceptPeer::COUNT);
 		}
 
-				foreach($criteria->getGroupByColumns() as $column)
+		
+		foreach($criteria->getGroupByColumns() as $column)
 		{
 			$criteria->addSelectColumn($column);
 		}
@@ -151,7 +154,8 @@ abstract class BaseConceptPeer {
 		if ($rs->next()) {
 			return $rs->getInt(1);
 		} else {
-						return 0;
+			
+			return 0;
 		}
 	}
 	
@@ -182,18 +186,23 @@ abstract class BaseConceptPeer {
 			ConceptPeer::addSelectColumns($criteria);
 		}
 
-				$criteria->setDbName(self::DATABASE_NAME);
+		
+		$criteria->setDbName(self::DATABASE_NAME);
 
-						return BasePeer::doSelect($criteria, $con);
+		
+		
+		return BasePeer::doSelect($criteria, $con);
 	}
 	
 	public static function populateObjects(ResultSet $rs)
 	{
 		$results = array();
 	
-				$cls = ConceptPeer::getOMClass();
+		
+		$cls = ConceptPeer::getOMClass();
 		$cls = Propel::import($cls);
-				while($rs->next()) {
+		
+		while($rs->next()) {
 		
 			$obj = new $cls();
 			$obj->hydrate($rs);
@@ -206,16 +215,19 @@ abstract class BaseConceptPeer {
 	
 	public static function doCountJoinVocabulary(Criteria $criteria, $distinct = false, $con = null)
 	{
-				$criteria = clone $criteria;
 		
-				$criteria->clearSelectColumns()->clearOrderByColumns();
+		$criteria = clone $criteria;
+		
+		
+		$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
 			$criteria->addSelectColumn(ConceptPeer::COUNT_DISTINCT);
 		} else {
 			$criteria->addSelectColumn(ConceptPeer::COUNT);
 		}
 		
-				foreach($criteria->getGroupByColumns() as $column)
+		
+		foreach($criteria->getGroupByColumns() as $column)
 		{
 			$criteria->addSelectColumn($column);
 		}
@@ -226,7 +238,8 @@ abstract class BaseConceptPeer {
 		if ($rs->next()) {
 			return $rs->getInt(1);
 		} else {
-						return 0;
+			
+			return 0;
 		}
 	}
 
@@ -236,7 +249,8 @@ abstract class BaseConceptPeer {
 	{
 		$c = clone $c;
 
-				if ($c->getDbName() == Propel::getDefaultDB()) {
+		
+		if ($c->getDbName() == Propel::getDefaultDB()) {
 			$c->setDbName(self::DATABASE_NAME);
 		}
 
@@ -264,14 +278,18 @@ abstract class BaseConceptPeer {
 
 			$newObject = true;
 			foreach($results as $temp_obj1) {
-				$temp_obj2 = $temp_obj1->getVocabulary(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+				$temp_obj2 = $temp_obj1->getVocabulary(); 
+				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
-										$temp_obj2->addConcept($obj1); 					break;
+					
+					$temp_obj2->addConcept($obj1); 
+					break;
 				}
 			}
 			if ($newObject) {
 				$obj2->initConcepts();
-				$obj2->addConcept($obj1); 			}
+				$obj2->addConcept($obj1); 
+			}
 			$results[] = $obj1;
 		}
 		return $results;
@@ -283,14 +301,16 @@ abstract class BaseConceptPeer {
 	{
 		$criteria = clone $criteria;
 
-				$criteria->clearSelectColumns()->clearOrderByColumns();
+		
+		$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
 			$criteria->addSelectColumn(ConceptPeer::COUNT_DISTINCT);
 		} else {
 			$criteria->addSelectColumn(ConceptPeer::COUNT);
 		}
 		
-				foreach($criteria->getGroupByColumns() as $column)
+		
+		foreach($criteria->getGroupByColumns() as $column)
 		{
 			$criteria->addSelectColumn($column);
 		}
@@ -301,7 +321,8 @@ abstract class BaseConceptPeer {
 		if ($rs->next()) {
 			return $rs->getInt(1);
 		} else {
-						return 0;
+			
+			return 0;
 		}
 	}
 
@@ -311,7 +332,8 @@ abstract class BaseConceptPeer {
 	{
 		$c = clone $c;
 
-				if ($c->getDbName() == Propel::getDefaultDB()) {
+		
+		if ($c->getDbName() == Propel::getDefaultDB()) {
 			$c->setDbName(self::DATABASE_NAME);
 		}
 
@@ -336,7 +358,8 @@ abstract class BaseConceptPeer {
 			$obj1->hydrate($rs);
 
 				
-					
+				
+	
 			$omClass = VocabularyPeer::getOMClass();
 
 	
@@ -347,9 +370,11 @@ abstract class BaseConceptPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj2 = $temp_obj1->getVocabulary(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+				$temp_obj2 = $temp_obj1->getVocabulary(); 
+				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
-					$temp_obj2->addConcept($obj1); 					break;
+					$temp_obj2->addConcept($obj1); 
+					break;
 				}
 			}
 			
@@ -383,15 +408,21 @@ abstract class BaseConceptPeer {
 		}
 
 		if ($values instanceof Criteria) {
-			$criteria = clone $values; 		} else {
-			$criteria = $values->buildCriteria(); 		}
+			$criteria = clone $values; 
+		} else {
+			$criteria = $values->buildCriteria(); 
+		}
 
 		$criteria->remove(ConceptPeer::ID); 
 
-				$criteria->setDbName(self::DATABASE_NAME);
+
+		
+		$criteria->setDbName(self::DATABASE_NAME);
 
 		try {
-									$con->begin();
+			
+			
+			$con->begin();
 			$pk = BasePeer::doInsert($criteria, $con);
 			$con->commit();
 		} catch(PropelException $e) {
@@ -413,12 +444,17 @@ abstract class BaseConceptPeer {
 
 		if ($values instanceof Criteria) {
 			$criteria = clone $values; 
+
 			$comparison = $criteria->getComparison(ConceptPeer::ID);
 			$selectCriteria->add(ConceptPeer::ID, $criteria->remove(ConceptPeer::ID), $comparison);
 
-		} else { 			$criteria = $values->buildCriteria(); 			$selectCriteria = $values->buildPkeyCriteria(); 		}
+		} else { 
+			$criteria = $values->buildCriteria(); 
+			$selectCriteria = $values->buildPkeyCriteria(); 
+		}
 
-				$criteria->setDbName(self::DATABASE_NAME);
+		
+		$criteria->setDbName(self::DATABASE_NAME);
 
 		return BasePeer::doUpdate($selectCriteria, $criteria, $con);
 	}
@@ -429,8 +465,11 @@ abstract class BaseConceptPeer {
 		if ($con === null) {
 			$con = Propel::getConnection(self::DATABASE_NAME);
 		}
-		$affectedRows = 0; 		try {
-									$con->begin();
+		$affectedRows = 0; 
+		try {
+			
+			
+			$con->begin();
 			$affectedRows += BasePeer::doDeleteAll(ConceptPeer::TABLE_NAME, $con);
 			$con->commit();
 			return $affectedRows;
@@ -448,19 +487,25 @@ abstract class BaseConceptPeer {
 		}
 
 		if ($values instanceof Criteria) {
-			$criteria = clone $values; 		} elseif ($values instanceof Concept) {
+			$criteria = clone $values; 
+		} elseif ($values instanceof Concept) {
 
 			$criteria = $values->buildPkeyCriteria();
 		} else {
-						$criteria = new Criteria(self::DATABASE_NAME);
+			
+			$criteria = new Criteria(self::DATABASE_NAME);
 			$criteria->add(ConceptPeer::ID, (array) $values, Criteria::IN);
 		}
 
-				$criteria->setDbName(self::DATABASE_NAME);
+		
+		$criteria->setDbName(self::DATABASE_NAME);
 
 		$affectedRows = 0; 
+
 		try {
-									$con->begin();
+			
+			
+			$con->begin();
 			
 			$affectedRows += BasePeer::doDelete($criteria, $con);
 			$con->commit();
@@ -494,16 +539,7 @@ abstract class BaseConceptPeer {
 
 		}
 
-		$res =  BasePeer::doValidate(ConceptPeer::DATABASE_NAME, ConceptPeer::TABLE_NAME, $columns);
-    if ($res !== true) {
-        $request = sfContext::getInstance()->getRequest();
-        foreach ($res as $failed) {
-            $col = ConceptPeer::translateFieldname($failed->getColumn(), BasePeer::TYPE_COLNAME, BasePeer::TYPE_PHPNAME);
-            $request->setError($col, $failed->getMessage());
-        }
-    }
-
-    return $res;
+		return BasePeer::doValidate(ConceptPeer::DATABASE_NAME, ConceptPeer::TABLE_NAME, $columns);
 	}
 
 	
@@ -542,13 +578,19 @@ abstract class BaseConceptPeer {
 	}
 
 } 
+
+
 if (Propel::isInit()) {
-			try {
+	
+	
+	try {
 		BaseConceptPeer::getMapBuilder();
 	} catch (Exception $e) {
 		Propel::log('Could not initialize Peer: ' . $e->getMessage(), Propel::LOG_ERR);
 	}
 } else {
-			require_once 'lib/model/map/ConceptMapBuilder.php';
+	
+	
+	require_once 'lib/model/map/ConceptMapBuilder.php';
 	Propel::registerMapBuilder('lib.model.map.ConceptMapBuilder');
 }
