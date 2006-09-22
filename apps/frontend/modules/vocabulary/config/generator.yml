@@ -17,19 +17,13 @@ generator:
       base_domain:    { name: Base Domain, help: The root of all URIs for this vocabulary and its terms. Defaults to the Base Domain set by the Owner of this vocabulary. }
       token:          { name: Token, help: A unique token representing this vocabulary. This can be used as the RDF container class or to identify an encoding scheme in XML}
       community:      { name: Community, help: Tags identifying communities of practice that this vocabulary addresses }
-      _concepts:      { name: Concepts }
-      _versions:      { name: Versions }
 
     list:
       title:           Registry vocabulary list
       fields:
         last_updated: { params: date_format='yyyy-MM-dd' }
-      display:        [=name, last_updated, agent, _concepts, _versions]
+      display:        [=name, last_updated, _agent]
       sort:           name
-      object_actions:
-        _show:
-        _edit:        { credentials: [administrator] }
-        rdf:          { name: Get RDF, icon: /sf/sf_admin/images/rdf_icon.png }
       actions:
         _create:      { credentials: [[administrator, hasAgents]] }
       filters:        [agent_id]
@@ -51,6 +45,7 @@ generator:
         _delete:       { credentials: [administrator] }
         _create:       { credentials: [[administrator, hasAgents]] }
         _save_and_add: { credentials: [administrator] }
+        _cancel:       { credentials: [[administrator, hasAgents]] }
 
     create:
       display:      [agent_id, base_domain, token, uri, name, url, note, community]
@@ -64,7 +59,12 @@ generator:
         id:           { name: ID, credentials: [administrator] }
         uri:          { helper: auto_link_text }
         url:          { helper: auto_link_text }
-      display:      [id, created_at, last_updated, =agent, name, base_domain, uri, token, url, note, community]
+        created_at:     { params: date_format='F' }
+        last_updated:   { params: date_format='F' }
+      display:
+        "Metadata":   [id, created_at, last_updated]      
+        "Detail":     [_agent, name, url, note, community]
+        "URI":        [base_domain, token, uri]
       actions:
         _edit:      { credentials: [administrator] }
         _list:
