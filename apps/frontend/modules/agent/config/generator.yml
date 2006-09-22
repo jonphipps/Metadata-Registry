@@ -48,7 +48,7 @@ generator:
     create:
       title:           Create new Resource Owner
       display:
-        "Detail":      [type, org_name, org_email, ind_affiliation, address1, address2, city, state, postal_code, country, phone, web_address]
+        "Detail":      [_type, org_name, org_email, ind_affiliation, address1, address2, city, state, postal_code, country, phone, web_address]
       actions:
         _list:      -
         _save:         { credentials: [[administrator, subscriber]] }
