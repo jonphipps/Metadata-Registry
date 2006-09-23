@@ -71,10 +71,6 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	
 	protected $type;
 
-
-	
-	protected $type_int;
-
 	
 	protected $collAgentHasUsers;
 
@@ -237,13 +233,6 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	{
 
 		return $this->type;
-	}
-
-	
-	public function getTypeInt()
-	{
-
-		return $this->type_int;
 	}
 
 	
@@ -439,17 +428,6 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	} 
 
 	
-	public function setTypeInt($v)
-	{
-
-		if ($this->type_int !== $v) {
-			$this->type_int = $v;
-			$this->modifiedColumns[] = AgentPeer::TYPE_INT;
-		}
-
-	} 
-
-	
 	public function hydrate(ResultSet $rs, $startcol = 1)
 	{
 		try {
@@ -486,14 +464,12 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 
 			$this->type = $rs->getString($startcol + 15);
 
-			$this->type_int = $rs->getInt($startcol + 16);
-
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			
-			return $startcol + 17; 
+			return $startcol + 16; 
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Agent object", $e);
@@ -714,9 +690,6 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 			case 15:
 				return $this->getType();
 				break;
-			case 16:
-				return $this->getTypeInt();
-				break;
 			default:
 				return null;
 				break;
@@ -744,7 +717,6 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 			$keys[13] => $this->getPhone(),
 			$keys[14] => $this->getWebAddress(),
 			$keys[15] => $this->getType(),
-			$keys[16] => $this->getTypeInt(),
 		);
 		return $result;
 	}
@@ -808,9 +780,6 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 			case 15:
 				$this->setType($value);
 				break;
-			case 16:
-				$this->setTypeInt($value);
-				break;
 		} 
 	}
 
@@ -835,7 +804,6 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[13], $arr)) $this->setPhone($arr[$keys[13]]);
 		if (array_key_exists($keys[14], $arr)) $this->setWebAddress($arr[$keys[14]]);
 		if (array_key_exists($keys[15], $arr)) $this->setType($arr[$keys[15]]);
-		if (array_key_exists($keys[16], $arr)) $this->setTypeInt($arr[$keys[16]]);
 	}
 
 	
@@ -859,7 +827,6 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(AgentPeer::PHONE)) $criteria->add(AgentPeer::PHONE, $this->phone);
 		if ($this->isColumnModified(AgentPeer::WEB_ADDRESS)) $criteria->add(AgentPeer::WEB_ADDRESS, $this->web_address);
 		if ($this->isColumnModified(AgentPeer::TYPE)) $criteria->add(AgentPeer::TYPE, $this->type);
-		if ($this->isColumnModified(AgentPeer::TYPE_INT)) $criteria->add(AgentPeer::TYPE_INT, $this->type_int);
 
 		return $criteria;
 	}
@@ -919,8 +886,6 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 		$copyObj->setWebAddress($this->web_address);
 
 		$copyObj->setType($this->type);
-
-		$copyObj->setTypeInt($this->type_int);
 
 
 		if ($deepCopy) {

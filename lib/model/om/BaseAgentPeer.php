@@ -13,7 +13,7 @@ abstract class BaseAgentPeer {
 	const CLASS_DEFAULT = 'lib.model.Agent';
 
 	
-	const NUM_COLUMNS = 17;
+	const NUM_COLUMNS = 16;
 
 	
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -68,26 +68,23 @@ abstract class BaseAgentPeer {
 	const TYPE = 'reg_agent.TYPE';
 
 	
-	const TYPE_INT = 'reg_agent.TYPE_INT';
-
-	
 	private static $phpNameMap = null;
 
 
 	
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'CreatedAt', 'LastUpdated', 'OrgEmail', 'OrgName', 'IndAffiliation', 'IndRole', 'Address1', 'Address2', 'City', 'State', 'PostalCode', 'Country', 'Phone', 'WebAddress', 'Type', 'TypeInt', ),
-		BasePeer::TYPE_COLNAME => array (AgentPeer::ID, AgentPeer::CREATED_AT, AgentPeer::LAST_UPDATED, AgentPeer::ORG_EMAIL, AgentPeer::ORG_NAME, AgentPeer::IND_AFFILIATION, AgentPeer::IND_ROLE, AgentPeer::ADDRESS1, AgentPeer::ADDRESS2, AgentPeer::CITY, AgentPeer::STATE, AgentPeer::POSTAL_CODE, AgentPeer::COUNTRY, AgentPeer::PHONE, AgentPeer::WEB_ADDRESS, AgentPeer::TYPE, AgentPeer::TYPE_INT, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'created_at', 'last_updated', 'org_email', 'org_name', 'ind_affiliation', 'ind_role', 'address1', 'address2', 'city', 'state', 'postal_code', 'country', 'phone', 'web_address', 'type', 'type_int', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'CreatedAt', 'LastUpdated', 'OrgEmail', 'OrgName', 'IndAffiliation', 'IndRole', 'Address1', 'Address2', 'City', 'State', 'PostalCode', 'Country', 'Phone', 'WebAddress', 'Type', ),
+		BasePeer::TYPE_COLNAME => array (AgentPeer::ID, AgentPeer::CREATED_AT, AgentPeer::LAST_UPDATED, AgentPeer::ORG_EMAIL, AgentPeer::ORG_NAME, AgentPeer::IND_AFFILIATION, AgentPeer::IND_ROLE, AgentPeer::ADDRESS1, AgentPeer::ADDRESS2, AgentPeer::CITY, AgentPeer::STATE, AgentPeer::POSTAL_CODE, AgentPeer::COUNTRY, AgentPeer::PHONE, AgentPeer::WEB_ADDRESS, AgentPeer::TYPE, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'created_at', 'last_updated', 'org_email', 'org_name', 'ind_affiliation', 'ind_role', 'address1', 'address2', 'city', 'state', 'postal_code', 'country', 'phone', 'web_address', 'type', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, )
 	);
 
 	
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'CreatedAt' => 1, 'LastUpdated' => 2, 'OrgEmail' => 3, 'OrgName' => 4, 'IndAffiliation' => 5, 'IndRole' => 6, 'Address1' => 7, 'Address2' => 8, 'City' => 9, 'State' => 10, 'PostalCode' => 11, 'Country' => 12, 'Phone' => 13, 'WebAddress' => 14, 'Type' => 15, 'TypeInt' => 16, ),
-		BasePeer::TYPE_COLNAME => array (AgentPeer::ID => 0, AgentPeer::CREATED_AT => 1, AgentPeer::LAST_UPDATED => 2, AgentPeer::ORG_EMAIL => 3, AgentPeer::ORG_NAME => 4, AgentPeer::IND_AFFILIATION => 5, AgentPeer::IND_ROLE => 6, AgentPeer::ADDRESS1 => 7, AgentPeer::ADDRESS2 => 8, AgentPeer::CITY => 9, AgentPeer::STATE => 10, AgentPeer::POSTAL_CODE => 11, AgentPeer::COUNTRY => 12, AgentPeer::PHONE => 13, AgentPeer::WEB_ADDRESS => 14, AgentPeer::TYPE => 15, AgentPeer::TYPE_INT => 16, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'created_at' => 1, 'last_updated' => 2, 'org_email' => 3, 'org_name' => 4, 'ind_affiliation' => 5, 'ind_role' => 6, 'address1' => 7, 'address2' => 8, 'city' => 9, 'state' => 10, 'postal_code' => 11, 'country' => 12, 'phone' => 13, 'web_address' => 14, 'type' => 15, 'type_int' => 16, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'CreatedAt' => 1, 'LastUpdated' => 2, 'OrgEmail' => 3, 'OrgName' => 4, 'IndAffiliation' => 5, 'IndRole' => 6, 'Address1' => 7, 'Address2' => 8, 'City' => 9, 'State' => 10, 'PostalCode' => 11, 'Country' => 12, 'Phone' => 13, 'WebAddress' => 14, 'Type' => 15, ),
+		BasePeer::TYPE_COLNAME => array (AgentPeer::ID => 0, AgentPeer::CREATED_AT => 1, AgentPeer::LAST_UPDATED => 2, AgentPeer::ORG_EMAIL => 3, AgentPeer::ORG_NAME => 4, AgentPeer::IND_AFFILIATION => 5, AgentPeer::IND_ROLE => 6, AgentPeer::ADDRESS1 => 7, AgentPeer::ADDRESS2 => 8, AgentPeer::CITY => 9, AgentPeer::STATE => 10, AgentPeer::POSTAL_CODE => 11, AgentPeer::COUNTRY => 12, AgentPeer::PHONE => 13, AgentPeer::WEB_ADDRESS => 14, AgentPeer::TYPE => 15, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'created_at' => 1, 'last_updated' => 2, 'org_email' => 3, 'org_name' => 4, 'ind_affiliation' => 5, 'ind_role' => 6, 'address1' => 7, 'address2' => 8, 'city' => 9, 'state' => 10, 'postal_code' => 11, 'country' => 12, 'phone' => 13, 'web_address' => 14, 'type' => 15, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, )
 	);
 
 	
@@ -172,8 +169,6 @@ abstract class BaseAgentPeer {
 		$criteria->addSelectColumn(AgentPeer::WEB_ADDRESS);
 
 		$criteria->addSelectColumn(AgentPeer::TYPE);
-
-		$criteria->addSelectColumn(AgentPeer::TYPE_INT);
 
 	}
 

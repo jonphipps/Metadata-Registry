@@ -38,9 +38,9 @@ class AgentMapBuilder {
 
 		$tMap->addColumn('LAST_UPDATED', 'LastUpdated', 'int', CreoleTypes::TIMESTAMP, false, null);
 
-		$tMap->addColumn('ORG_EMAIL', 'OrgEmail', 'string', CreoleTypes::VARCHAR, false, 100);
+		$tMap->addColumn('ORG_EMAIL', 'OrgEmail', 'string', CreoleTypes::VARCHAR, true, 100);
 
-		$tMap->addColumn('ORG_NAME', 'OrgName', 'string', CreoleTypes::VARCHAR, false, 255);
+		$tMap->addColumn('ORG_NAME', 'OrgName', 'string', CreoleTypes::VARCHAR, true, 255);
 
 		$tMap->addColumn('IND_AFFILIATION', 'IndAffiliation', 'string', CreoleTypes::VARCHAR, false, 255);
 
@@ -63,8 +63,6 @@ class AgentMapBuilder {
 		$tMap->addColumn('WEB_ADDRESS', 'WebAddress', 'string', CreoleTypes::VARCHAR, false, 255);
 
 		$tMap->addColumn('TYPE', 'Type', 'string', CreoleTypes::CHAR, false, 15);
-
-		$tMap->addColumn('TYPE_INT', 'TypeInt', 'int', CreoleTypes::INTEGER, false, null);
 				
     } 
 

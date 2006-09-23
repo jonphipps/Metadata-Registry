@@ -17,7 +17,7 @@ generator:
       city:
       state:
       postal_code:
-      country:        { type: select_country_tag }
+      country:        { type: select_country_tag, params: include_blank=true }
       phone:
       web_address:
       type:

@@ -5,8 +5,8 @@
     <column name="id" type="INTEGER" required="true" autoIncrement="true" primaryKey="true"/>
     <column name="created_at" type="TIMESTAMP"/>
     <column name="last_updated" type="TIMESTAMP"/>
-    <column name="org_email" type="VARCHAR" size="100"/>
-    <column name="org_name" type="VARCHAR" size="255"/>
+    <column name="org_email" type="VARCHAR" size="100" required="true"/>
+    <column name="org_name" type="VARCHAR" size="255" required="true"/>
     <column name="ind_affiliation" type="VARCHAR" size="255"/>
     <column name="ind_role" type="VARCHAR" size="45"/>
     <column name="address1" type="VARCHAR" size="255"/>
@@ -18,7 +18,6 @@
     <column name="phone" type="VARCHAR" size="45"/>
     <column name="web_address" type="VARCHAR" size="255"/>
     <column name="type" type="CHAR" size="15"/>
-    <column name="type_int" type="INTEGER"/>
   </table>
     <table name="reg_agent_has_user" phpName="AgentHasUser">
     <column name="user_id" type="INTEGER" required="true" primaryKey="true" default=""/>
