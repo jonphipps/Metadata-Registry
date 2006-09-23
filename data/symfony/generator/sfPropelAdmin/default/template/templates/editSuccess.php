@@ -7,9 +7,14 @@
 
 <div id="sf_admin_content">
 
+<?php
+/**
+* @todo make the error message an admin config parameter.
+**/
+ ?>
 [?php if ($sf_request->hasErrors()): ?]
 <div class="form-errors">
-<h2>[?php echo __('There are some errors that keep this form from validating') ?]</h2>
+<h2>[?php echo __('Please correct the errors indicated below...') ?]</h2>
 <ul>
 [?php foreach ($sf_request->getErrorNames() as $name): ?]
   <li>[?php echo $sf_request->getError($name) ?]</li>
