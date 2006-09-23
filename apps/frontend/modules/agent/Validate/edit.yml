@@ -7,7 +7,7 @@ names:
   agent{org_name}:
     required:     Yes
     required_msg: Name cannot be blank
-    validators:   nameValidator
+    validators:   nameValidator, loginValidator
   agent{org_email}:
     required:     Yes
     required_msg: Email cannot be blank
@@ -24,6 +24,11 @@ emailValidator:
     match:        Yes
     match_error:  "Please enter a valid email address (for example: name@domain.com)"
     pattern:      /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/i
-
+loginValidator:
+  class:          sfPropelUniqueValidator
+  param:
+    class:        Agent
+    column:       org_name
+    unique_error: This owner has already been registered.
 fillin:
   activate: on                                                                                  
