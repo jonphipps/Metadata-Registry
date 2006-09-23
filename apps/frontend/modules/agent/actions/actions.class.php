@@ -15,5 +15,5 @@ class agentActions extends autoagentActions
       parent::preExecute();
       $this->getUser()->getAgentCredentials($this->getRequestParameter('id'));
       return;
-   }
+   }   
 }
