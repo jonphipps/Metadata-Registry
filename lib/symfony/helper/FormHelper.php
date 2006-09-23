@@ -70,10 +70,12 @@ function options_for_select($options = array(), $selected = '', $html_options = 
   if (isset($html_options['include_custom']))
   {
     $html .= content_tag('option', $html_options['include_custom'], array('value' => ''))."\n";
+    unset($html_options['include_custom']);
   }
   else if (isset($html_options['include_blank']))
   {
     $html .= content_tag('option', '', array('value' => ''))."\n";
+    unset($html_options['include_blank']);
   }
 
   foreach ($options as $key => $value)
@@ -81,8 +83,6 @@ function options_for_select($options = array(), $selected = '', $html_options = 
     if (is_array($value))
     {
       $optgroup_html_options = $html_options;
-      unset($optgroup_html_options['include_custom']);
-      unset($optgroup_html_options['include_blank']);
       $html .= content_tag('optgroup', options_for_select($value, $selected, $optgroup_html_options), array('label' => $key));
     }
     else 
@@ -232,7 +232,7 @@ function select_country_tag($name, $value, $options = array())
 
   asort($countries);
 
-  $option_tags = options_for_select($countries, $value);
+  $option_tags = options_for_select($countries, $value, $options);
 
   return select_tag($name, $option_tags, $options);
 }
