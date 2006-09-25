@@ -39,6 +39,6 @@ class defaultActions extends sfActions
   }
 
   public function executeSecure()
-  {
+  {   
   }
 }

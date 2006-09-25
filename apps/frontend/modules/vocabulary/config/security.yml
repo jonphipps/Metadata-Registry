@@ -3,9 +3,9 @@ all:
 
 create:
   is_secure:   on
-  credentials: [administrator, hasAgents]
+  credentials: [[administrator, hasAgents]]
 
 edit:
   is_secure:   on
-  credentials: [administrator, vocabularyadmin]
+  credentials: [[administrator, vocabularyadmin]]
 

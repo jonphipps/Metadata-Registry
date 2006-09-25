@@ -3,9 +3,9 @@ all:
 
 create:
   is_secure:   on
-  credentials: subscriber
+  credentials: [subscriber]
 
 edit:
   is_secure:   on
-  credentials: [administrator, agentadmin]
+  credentials: [[administrator, agentadmin]]
 

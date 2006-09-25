@@ -3,9 +3,9 @@ all:
 
 create:
   is_secure:   on
-  credentials: [administrator, vocabularymaintainer]
+  credentials: [[administrator, vocabularymaintainer]]
 
 edit:
   is_secure:   on
-  credentials: [administrator, vocabularymaintainer]
+  credentials: [[administrator, vocabularymaintainer]]
 
