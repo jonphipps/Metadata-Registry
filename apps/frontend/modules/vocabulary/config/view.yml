@@ -1,2 +1,7 @@
 all:
   javascripts: [setfocus]
+  stylesheets: [vocabulary/layout]
+createSuccess:
+  javascripts: [vocabulary]
+editSuccess:
+  javascripts: [vocabulary]
