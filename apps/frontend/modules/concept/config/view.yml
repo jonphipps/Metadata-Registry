@@ -1,2 +1,4 @@
 all:
   javascripts: [setfocus]
+  stylesheets: [concept/layout]
+  

@@ -22,7 +22,7 @@ generator:
       title:           Registry vocabulary list
       fields:
         last_updated: { params: date_format='yyyy-MM-dd' }
-      display:        [=name, last_updated, _agent]
+      display:        [=name, _agent, last_updated]
       sort:           name
       actions:
         _create:      { credentials: [[administrator, hasAgents]] }
@@ -39,16 +39,22 @@ generator:
         id:           { type: plain, credentials: [administrator] }
         created_at:     { params: date_format='F' }
         last_updated:   { params: date_format='F' }
+        agent_id:     { params: peer_method=getAgentsForCurrentUser include_blank=true }
       actions:
         _list:      -
-        _save:         { credentials: [[administrator, hasAgents]] }
+        _save:         { credentials: [[administrator, hasAgents, vocabularymaintainer]] }
         _delete:       { credentials: [administrator] }
         _create:       { credentials: [[administrator, hasAgents]] }
         _save_and_add: { credentials: [administrator] }
-        _cancel:       { credentials: [[administrator, hasAgents]] }
+        _cancel:       { credentials: [[administrator, hasAgents, vocabularymaintainer]] }
 
     create:
-      display:      [agent_id, base_domain, token, uri, name, url, note, community]
+      helptype:       icon
+      fields:
+        agent_id:     { params: peer_method=getAgentsForCurrentUser include_blank=true }
+      display:
+        "Detail":     [agent_id, name, url, note, community]
+        "URI":        [base_domain, token, uri]
       actions:
         _list:      -
         _save:         { credentials: [[administrator, hasAgents]] }
@@ -62,10 +68,10 @@ generator:
         created_at:     { params: date_format='F' }
         last_updated:   { params: date_format='F' }
       display:
-        "Metadata":   [id, created_at, last_updated]      
+        "-Metadata":   [id, created_at, last_updated]      
         "Detail":     [_agent, name, url, note, community]
         "URI":        [base_domain, token, uri]
       actions:
-        _edit:      { credentials: [administrator] }
+        _edit:      { credentials: [[administrator, vocabularymaintainer]] }
         _list:
         rdf:          { name: Get RDF, icon: /sf/sf_admin/images/rdf_icon.png }

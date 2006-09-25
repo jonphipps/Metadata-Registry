@@ -5,7 +5,7 @@
       'topConcepts' => $topConcepts)); ?>
 
 <?php foreach ($concepts as $concept): ?>
-<?php $properties = $concept->getConceptPropertysRelatedByConceptId();
+<?php $properties = $concept->getConceptPropertys();
       echo include_partial('rdf/concept', array(
       'concept' => $concept,
       'vocabulary' => $vocabulary,

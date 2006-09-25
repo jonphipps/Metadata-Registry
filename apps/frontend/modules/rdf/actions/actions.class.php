@@ -160,7 +160,7 @@ class rdfActions extends sfActions
     $vocabulary = $concept->getVocabulary();
 
     //get the property data
-    $properties = $concept->getConceptPropertysRelatedByConceptId();
+    $properties = $concept->getConceptPropertys();
 
     $this->properties = $properties;
     $this->vocabulary = $vocabulary;

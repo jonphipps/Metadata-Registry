@@ -28,13 +28,8 @@ generator:
       title:          Concepts for %%vocabulary%%
       fields:
         is_top_concept: { name: " ", help: This is a top-level concept  }
-      display:        [is_top_concept, prefLabel, last_updated]
+      display:        [is_top_concept, =prefLabel, last_updated]
       displayfilter:  false
-      object_actions:
-        properties:     { name: Show Properties, action: properties, icon: /sf/sf_admin/images/properties.png }
-        _show:          { name: Show Detail }
-        _edit:          { credentials: [[administrator, vocabularymaintainer]] }
-        rdf:            { name: Get RDF, icon: /sf/sf_admin/images/rdf_icon.png }
       actions:
         _create:        { credentials: [[administrator, vocabularymaintainer]] }
       filters:          [is_top_concept, vocabulary_id, pref_label, last_updated, is_top_concept]
@@ -73,3 +68,5 @@ generator:
         _list:
           query_string:
             vocabulary_id: vocabulary_id
+        rdf:            { name: Get RDF, icon: /sf/sf_admin/images/rdf_icon.png }
+            
