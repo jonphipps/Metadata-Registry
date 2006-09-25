@@ -1,4 +1,4 @@
-<?php use_helpers('I18N', 'Date') ?>
+<?php use_helper('I18N', 'Date') ?>
 
 <div id="sf_admin_header">
 <h1><?php echo __('Search results for ', array()) . "<em>'" . $sf_params->get('term') . "'</em>" ?></h1>

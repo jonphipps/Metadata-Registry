@@ -1,6 +1,6 @@
 <?php
 
-use_helpers('Javascript', 'Global');
+use_helper('Javascript', 'Global');
 
 function link_to_user_interested($user, $question)
 {
@@ -40,4 +40,3 @@ function link_to_profile($user)
     return link_to($user->__toString(), '@user_profile?nickname='.$user->getNickname());
   }
 }
-

@@ -1,4 +1,4 @@
-<?php use_helpers('Validation', 'Javascript') ?>
+<?php use_helper('Validation', 'Javascript') ?>
 
 <div id="sf_admin_container">
 <?php echo javascript_tag("formUtil.focusOnFirst('login_form');") ?>

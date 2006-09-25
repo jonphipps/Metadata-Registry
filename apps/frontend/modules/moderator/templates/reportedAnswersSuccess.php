@@ -1,4 +1,4 @@
-<?php use_helpers('Date', 'User', 'Global', 'Question') ?>
+<?php use_helper('Date', 'User', 'Global', 'Question') ?>
 
 <h1><?php echo __('answers reported as spam') ?></h1>
 
