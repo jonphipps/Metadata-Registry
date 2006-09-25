@@ -59,7 +59,7 @@ class conceptActions extends autoconceptActions
   */
   public function getCurrentVocabulary()
   {
-    //check if there's a request parameter
+    //check if there's a request parameter     
     $vocabId = $this->getRequestParameter('vocabulary_id');
     $vocabObj = $this->getUser()->getCurrentVocabulary();
 
@@ -89,6 +89,7 @@ class conceptActions extends autoconceptActions
       }
       $vocabId = $this->getUser()->getCurrentVocabulary()->getId();
     }
+    $this->getUser()->getVocabularyCredentials($vocabId);
 
     //current vocabulary can't be retrieved, so we send back to the list
     //TODO: forward to an intermediate error page

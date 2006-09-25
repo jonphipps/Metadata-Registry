@@ -1,0 +1,11 @@
+all:
+  is_secure:  off
+
+create:
+  is_secure:   on
+  credentials: [administrator, hasAgents]
+
+edit:
+  is_secure:   on
+  credentials: [administrator, vocabularyadmin]
+

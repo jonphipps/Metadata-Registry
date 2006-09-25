@@ -26,7 +26,7 @@ generator:
       title:           Resource Owners
       display:         [=org_name, type]
       actions:
-        _create:       { credentials: [[administrator, subscriber]] }
+        _create:       { credentials: [subscriber] }
 
     edit:
       title:           Detail for %%org_name%%
@@ -40,10 +40,10 @@ generator:
         country:       { type: select_country_tag }
       actions:
         _list:      -
-        _save:         { credentials: [[administrator, subscriber]] }
+        _save:         { credentials: [subscriber] }
         _delete:       { credentials: [administrator] }
-        _create:       { credentials: [[administrator, subscriber]] }
-        _save_and_add: { credentials: [[administrator, subscriber]] }
+        _create:       { credentials: [subscriber] }
+        _save_and_add: { credentials: [administrator] }
 
     create:
       title:           Create new Resource Owner
@@ -51,9 +51,9 @@ generator:
         "Detail":      [_type, org_name, org_email, ind_affiliation, address1, address2, city, state, postal_code, country, phone, web_address]
       actions:
         _list:      -
-        _save:         { credentials: [[administrator, subscriber]] }
+        _save:         { credentials: [subscriber] }
         _delete:       { credentials: [administrator] }
-        _save_and_add: { credentials: [[administrator, subscriber]] }
+        _save_and_add: { credentials: [administrator] }
 
     show:
       title:           Detail for %%org_name%%
@@ -66,4 +66,4 @@ generator:
         last_updated:  { type: plain, credentials: [administrator] }
       actions:
         _list:      -
-        _edit:         { credentials: [administrator] }
+        _edit:         { credentials: [administrator, agentadmin] }

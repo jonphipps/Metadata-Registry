@@ -74,17 +74,18 @@ class myUser extends sfBasicSecurityUser
     //$agentId = sfContext::getInstance()->getRequest()->getParameter('id');
     if ($agentId && $this->isAuthenticated())
     {
-      $agentContact = $this->getIsAgentContact($agentId);
+      $agentContact = AgentHasUserPeer::retrieveByPK($agentId, $this->getSubscriberId());
       if (isset($agentContact))
       {
-        if ($agentContact['contact'])
-        {
-          $this->addCredential('agentcontact');
-        }
-        if ($agentContact['registrar'])
-        {
-          $this->addCredential('agentregistrar');
-        }
+         $this->addCredential('agentcontact');
+         if ($agentContact->getIsRegistrarFor())
+         {
+            $this->addCredential('agentregistrar');
+         }
+         if ($agentContact->getIsAdminFor())
+         {
+            $this->addCredential('agentadmin');
+         }
       }
     }
     return;
@@ -95,28 +96,30 @@ class myUser extends sfBasicSecurityUser
     //$vocabularyId = sfContext::getInstance()->getRequest()->getParameter('id');
     if ($this->isAuthenticated())
     {
-      if (!$this->hasCredential('hasAgents'))
+      if (!$this->hasCredential(array (0 => 'hasAgents' )))
       {
         $this->setHasAgents();
       }
       if ($vocabularyId)
       {
-        $vocabularyContact = $this->getIsVocabularyContact($vocabularyId);
-        if (isset($vocabularyContact))
-        {
-          if ($vocabularyContact['contact'])
-          {
+         /* @var VocabularyHasUserPeer */
+         $vocabularyContact = VocabularyHasUserPeer::retrieveByPK($vocabularyId, $this->getSubscriberId());
+         if (isset($vocabularyContact))
+         {
             $this->addCredential('vocabularycontact');
-          }
-          if ($vocabularyContact['registrar'])
-          {
-            $this->addCredential('vocabularyregistrar');
-          }
-          if ($vocabularyContact['maintainer'])
-          {
-            $this->addCredential('vocabularymaintainer');
-          }
-        }
+            if ($vocabularyContact->getIsRegistrarFor())
+            {
+               $this->addCredential('vocabularyregistrar');
+            }
+            if ($vocabularyContact->getIsMaintainerFor())
+            {
+               $this->addCredential('vocabularymaintainer');
+            }
+            if ($vocabularyContact->getIsAdminFor())
+            {
+               $this->addCredential('vocabularyadmin');
+            }
+         }
       }
     }
     return;
@@ -140,40 +143,6 @@ class myUser extends sfBasicSecurityUser
       $this->addCredential('hasAgents');
     }
     return $count;
-  }
-
-  public function getIsAgentContact($agentId)
-  {
-    $criteria = new Criteria();
-  	$criteria->add(AgentHasUserPeer::USER_ID, $this->getSubscriberId());
-  	$criteria->add(AgentHasUserPeer::AGENT_ID, $agentId);
-    $user = new User();
-    $AgentHasUsersColl = $user->getAgentHasUsers($criteria);
-
-    if (count($AgentHasUsersColl))
-    {
-      $result['contact'] = true;
-
-      $result['registrar'] = $AgentHasUsersColl[0]->getIsRegistrarFor();
-      return $result;
-    }
-  }
-
-  public function getIsVocabularyContact($vocabularyId)
-  {
-    $criteria = new Criteria();
-  	$criteria->add(VocabularyHasUserPeer::USER_ID, $this->getSubscriberId());
-  	$criteria->add(VocabularyHasUserPeer::VOCABULARY_ID, $vocabularyId);
-    $user = new User();
-    $VocabularyHasUsersColl = $user->getVocabularyHasUsers($criteria);
-
-    if (count($VocabularyHasUsersColl))
-    {
-      $result['contact'] = true;
-      $result['registrar'] = $VocabularyHasUsersColl[0]->getIsRegistrarFor();
-      $result['maintainer'] = $VocabularyHasUsersColl[0]->getIsMaintainerFor();
-      return $result;
-    }
   }
 
   /**
@@ -218,4 +187,3 @@ class myUser extends sfBasicSecurityUser
     return $this->setAttribute('concept', $concept);
   }
 }
-
