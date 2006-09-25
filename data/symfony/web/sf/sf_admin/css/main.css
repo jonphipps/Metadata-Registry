@@ -404,8 +404,8 @@ div #sf_admin_container
 
 #sf_admin_container div.sf_admin_icon_edit_help
 {
-  float:right;
-  margin-top:-20px;
+  float:left;
+  padding-right:4px;
 }
 select.sf_admin_multiple, select.sf_admin_multiple-selected
 {
@@ -416,4 +416,8 @@ ul.sf_admin_checklist li
 {
   list-style: none;
   line-height: 1.5em;
+}
+
+input {
+	border:0px
 }

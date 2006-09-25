@@ -32,7 +32,7 @@ class SkosProperty extends BaseSkosProperty {
   * @return return_type
   * @param  var_type $var
   */
-  public function getPrefLabelId()
+  static public function getPrefLabelId()
   {
     //TODO: This is clearly not the best way to do this
     return '19';

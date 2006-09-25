@@ -21,11 +21,11 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 
 
 	
-	protected $org_email;
+	protected $org_email = '';
 
 
 	
-	protected $org_name;
+	protected $org_name = '';
 
 
 	
@@ -288,7 +288,7 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	public function setOrgEmail($v)
 	{
 
-		if ($this->org_email !== $v) {
+		if ($this->org_email !== $v || $v === '') {
 			$this->org_email = $v;
 			$this->modifiedColumns[] = AgentPeer::ORG_EMAIL;
 		}
@@ -299,7 +299,7 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	public function setOrgName($v)
 	{
 
-		if ($this->org_name !== $v) {
+		if ($this->org_name !== $v || $v === '') {
 			$this->org_name = $v;
 			$this->modifiedColumns[] = AgentPeer::ORG_NAME;
 		}

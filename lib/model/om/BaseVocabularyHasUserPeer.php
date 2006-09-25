@@ -13,7 +13,7 @@ abstract class BaseVocabularyHasUserPeer {
 	const CLASS_DEFAULT = 'lib.model.VocabularyHasUser';
 
 	
-	const NUM_COLUMNS = 4;
+	const NUM_COLUMNS = 5;
 
 	
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -32,23 +32,26 @@ abstract class BaseVocabularyHasUserPeer {
 	const IS_REGISTRAR_FOR = 'reg_vocabulary_has_user.IS_REGISTRAR_FOR';
 
 	
+	const IS_ADMIN_FOR = 'reg_vocabulary_has_user.IS_ADMIN_FOR';
+
+	
 	private static $phpNameMap = null;
 
 
 	
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('VocabularyId', 'UserId', 'IsMaintainerFor', 'IsRegistrarFor', ),
-		BasePeer::TYPE_COLNAME => array (VocabularyHasUserPeer::VOCABULARY_ID, VocabularyHasUserPeer::USER_ID, VocabularyHasUserPeer::IS_MAINTAINER_FOR, VocabularyHasUserPeer::IS_REGISTRAR_FOR, ),
-		BasePeer::TYPE_FIELDNAME => array ('vocabulary_id', 'user_id', 'is_maintainer_for', 'is_registrar_for', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, )
+		BasePeer::TYPE_PHPNAME => array ('VocabularyId', 'UserId', 'IsMaintainerFor', 'IsRegistrarFor', 'IsAdminFor', ),
+		BasePeer::TYPE_COLNAME => array (VocabularyHasUserPeer::VOCABULARY_ID, VocabularyHasUserPeer::USER_ID, VocabularyHasUserPeer::IS_MAINTAINER_FOR, VocabularyHasUserPeer::IS_REGISTRAR_FOR, VocabularyHasUserPeer::IS_ADMIN_FOR, ),
+		BasePeer::TYPE_FIELDNAME => array ('vocabulary_id', 'user_id', 'is_maintainer_for', 'is_registrar_for', 'is_admin_for', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, )
 	);
 
 	
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('VocabularyId' => 0, 'UserId' => 1, 'IsMaintainerFor' => 2, 'IsRegistrarFor' => 3, ),
-		BasePeer::TYPE_COLNAME => array (VocabularyHasUserPeer::VOCABULARY_ID => 0, VocabularyHasUserPeer::USER_ID => 1, VocabularyHasUserPeer::IS_MAINTAINER_FOR => 2, VocabularyHasUserPeer::IS_REGISTRAR_FOR => 3, ),
-		BasePeer::TYPE_FIELDNAME => array ('vocabulary_id' => 0, 'user_id' => 1, 'is_maintainer_for' => 2, 'is_registrar_for' => 3, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, )
+		BasePeer::TYPE_PHPNAME => array ('VocabularyId' => 0, 'UserId' => 1, 'IsMaintainerFor' => 2, 'IsRegistrarFor' => 3, 'IsAdminFor' => 4, ),
+		BasePeer::TYPE_COLNAME => array (VocabularyHasUserPeer::VOCABULARY_ID => 0, VocabularyHasUserPeer::USER_ID => 1, VocabularyHasUserPeer::IS_MAINTAINER_FOR => 2, VocabularyHasUserPeer::IS_REGISTRAR_FOR => 3, VocabularyHasUserPeer::IS_ADMIN_FOR => 4, ),
+		BasePeer::TYPE_FIELDNAME => array ('vocabulary_id' => 0, 'user_id' => 1, 'is_maintainer_for' => 2, 'is_registrar_for' => 3, 'is_admin_for' => 4, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, )
 	);
 
 	
@@ -109,6 +112,8 @@ abstract class BaseVocabularyHasUserPeer {
 		$criteria->addSelectColumn(VocabularyHasUserPeer::IS_MAINTAINER_FOR);
 
 		$criteria->addSelectColumn(VocabularyHasUserPeer::IS_REGISTRAR_FOR);
+
+		$criteria->addSelectColumn(VocabularyHasUserPeer::IS_ADMIN_FOR);
 
 	}
 

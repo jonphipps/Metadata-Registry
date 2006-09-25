@@ -23,6 +23,10 @@ abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
 	
 	protected $is_registrar_for = true;
 
+
+	
+	protected $is_admin_for = true;
+
 	
 	protected $aUser;
 
@@ -61,6 +65,13 @@ abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
 	{
 
 		return $this->is_registrar_for;
+	}
+
+	
+	public function getIsAdminFor()
+	{
+
+		return $this->is_admin_for;
 	}
 
 	
@@ -116,6 +127,17 @@ abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
 	} 
 
 	
+	public function setIsAdminFor($v)
+	{
+
+		if ($this->is_admin_for !== $v || $v === true) {
+			$this->is_admin_for = $v;
+			$this->modifiedColumns[] = VocabularyHasUserPeer::IS_ADMIN_FOR;
+		}
+
+	} 
+
+	
 	public function hydrate(ResultSet $rs, $startcol = 1)
 	{
 		try {
@@ -128,12 +150,14 @@ abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
 
 			$this->is_registrar_for = $rs->getBoolean($startcol + 3);
 
+			$this->is_admin_for = $rs->getBoolean($startcol + 4);
+
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			
-			return $startcol + 4; 
+			return $startcol + 5; 
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating VocabularyHasUser object", $e);
@@ -317,6 +341,9 @@ abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
 			case 3:
 				return $this->getIsRegistrarFor();
 				break;
+			case 4:
+				return $this->getIsAdminFor();
+				break;
 			default:
 				return null;
 				break;
@@ -332,6 +359,7 @@ abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
 			$keys[1] => $this->getUserId(),
 			$keys[2] => $this->getIsMaintainerFor(),
 			$keys[3] => $this->getIsRegistrarFor(),
+			$keys[4] => $this->getIsAdminFor(),
 		);
 		return $result;
 	}
@@ -359,6 +387,9 @@ abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
 			case 3:
 				$this->setIsRegistrarFor($value);
 				break;
+			case 4:
+				$this->setIsAdminFor($value);
+				break;
 		} 
 	}
 
@@ -371,6 +402,7 @@ abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[1], $arr)) $this->setUserId($arr[$keys[1]]);
 		if (array_key_exists($keys[2], $arr)) $this->setIsMaintainerFor($arr[$keys[2]]);
 		if (array_key_exists($keys[3], $arr)) $this->setIsRegistrarFor($arr[$keys[3]]);
+		if (array_key_exists($keys[4], $arr)) $this->setIsAdminFor($arr[$keys[4]]);
 	}
 
 	
@@ -382,6 +414,7 @@ abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(VocabularyHasUserPeer::USER_ID)) $criteria->add(VocabularyHasUserPeer::USER_ID, $this->user_id);
 		if ($this->isColumnModified(VocabularyHasUserPeer::IS_MAINTAINER_FOR)) $criteria->add(VocabularyHasUserPeer::IS_MAINTAINER_FOR, $this->is_maintainer_for);
 		if ($this->isColumnModified(VocabularyHasUserPeer::IS_REGISTRAR_FOR)) $criteria->add(VocabularyHasUserPeer::IS_REGISTRAR_FOR, $this->is_registrar_for);
+		if ($this->isColumnModified(VocabularyHasUserPeer::IS_ADMIN_FOR)) $criteria->add(VocabularyHasUserPeer::IS_ADMIN_FOR, $this->is_admin_for);
 
 		return $criteria;
 	}
@@ -426,6 +459,8 @@ abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
 		$copyObj->setIsMaintainerFor($this->is_maintainer_for);
 
 		$copyObj->setIsRegistrarFor($this->is_registrar_for);
+
+		$copyObj->setIsAdminFor($this->is_admin_for);
 
 
 		$copyObj->setNew(true);

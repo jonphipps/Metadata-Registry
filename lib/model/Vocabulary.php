@@ -49,15 +49,16 @@ class Vocabulary extends BaseVocabulary {
 
       //see if there's already an entry in the table and if not, add it
       $criteria = new Criteria();
-			$criteria->add(VocabularyHasUserPeer::USER_ID, $userId);
+		$criteria->add(VocabularyHasUserPeer::USER_ID, $userId);
       $VocabularyHasUsersColl = $this->getVocabularyHasUsers($criteria, $con);
       if (!count($VocabularyHasUsersColl))
       {
         $vocabularyUser = new VocabularyHasUser();
         $vocabularyUser->setVocabularyId($vocabularyId);
         $vocabularyUser->setUserId($userId);
-        $vocabularyUser->setIsRegistrarFor($mode == 'create');
-        $vocabularyUser->setIsMaintainerFor($mode == 'create');
+        $vocabularyUser->setIsRegistrarFor(true);
+        $vocabularyUser->setIsAdminFor(true);
+        $vocabularyUser->setIsMaintainerFor(true);
         $vocabularyUser->save($con);
       }
 

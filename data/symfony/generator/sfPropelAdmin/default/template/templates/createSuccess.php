@@ -60,6 +60,7 @@
   [?php echo <?php echo $this->getColumnCreateTag($column) ?> ?]
 <?php else: ?>
 <div class="form-row">
+<?php if ($this->getParameterValue('create.helptype') == 'icon'): echo $this->getHelpAsIcon($column, 'create'); endif; ?>
   [?php echo label_for('<?php echo $this->getParameterValue("edit.fields.".$column->getName().".label_for", $this->getSingularName()."[".$column->getName()."]") ?>', __('<?php $label_name = str_replace("'", "\\'", $this->getParameterValue('create.fields.'.$column->getName().'.name')); echo $label_name ?><?php if ($label_name): ?>:<?php endif ?>'), '<?php if ($column->isNotNull()): ?>class="required" <?php endif; ?>') ?]
   <div class="content[?php if ($sf_request->hasError('<?php echo $this->getSingularName() ?>{<?php echo $column->getName() ?>}')): ?] form-error[?php endif; ?]">
   [?php if ($sf_request->hasError('<?php echo $this->getSingularName() ?>{<?php echo $column->getName() ?>}')): ?]
@@ -68,7 +69,7 @@
 
   [?php $value = <?php echo $this->getColumnCreateTag($column); ?>; echo $value ? $value : '&nbsp;' ?]
   </div>
-  <?php if ($this->getParameterValue('create.helptype') == 'div'): echo $this->getHelp($column, 'create'); elseif ($this->getParameterValue('create.helptype') == 'icon'): echo $this->getHelpAsIcon($column, 'create'); endif; ?>
+<?php if ($this->getParameterValue('create.helptype') == 'div'): echo $this->getHelp($column, 'create'); endif; ?>
 </div>
 <?php endif; ?>
 <?php if ($credentials): ?>

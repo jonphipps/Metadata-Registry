@@ -59,6 +59,7 @@
   [?php echo <?php echo $this->getColumnEditTag($column) ?> ?]
 <?php else: ?>
 <div id="form_row_<?php echo $this->getSingularName() ?>_<?php echo $column->getName() ?>" class="form-row">
+<?php if ($this->getParameterValue('edit.helptype') == 'icon'): echo $this->getHelpAsIcon($column, 'edit'); endif; ?>
   [?php echo label_for('<?php echo $this->getParameterValue("edit.fields.".$column->getName().".label_for", $this->getSingularName()."[".$column->getName()."]") ?>', __('<?php $label_name = str_replace("'", "\\'", $this->getParameterValue('edit.fields.'.$column->getName().'.name')); echo $label_name ?><?php if ($label_name): ?>:<?php endif ?>'), '<?php if ($column->isNotNull()): ?>class="required" <?php endif; ?>') ?]
   <div id="form_row_content_<?php echo $this->getSingularName() ?>_<?php echo $column->getName() ?>" class="content[?php if ($sf_request->hasError('<?php echo $this->getSingularName() ?>{<?php echo $column->getName() ?>}')): ?] form-error[?php endif; ?]">
   [?php if ($sf_request->hasError('<?php echo $this->getSingularName() ?>{<?php echo $column->getName() ?>}')): ?]
@@ -67,7 +68,7 @@
 
   [?php $value = <?php echo $this->getColumnEditTag($column); ?>; echo $value ? $value : '&nbsp;' ?]
   </div>
-<?php if ($this->getParameterValue('edit.helptype') == 'div'): echo $this->getHelp($column, 'edit'); elseif ($this->getParameterValue('edit.helptype') == 'icon'): echo $this->getHelpAsIcon($column, 'edit'); endif; ?>
+<?php if ($this->getParameterValue('edit.helptype') == 'div'): echo $this->getHelp($column, 'edit'); endif; ?>
 </div>
 <?php endif; ?>
 <?php if ($credentials): ?>

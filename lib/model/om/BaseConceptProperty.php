@@ -48,7 +48,10 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 	protected $status_id;
 
 	
-	protected $aConcept;
+	protected $aConceptRelatedByRelatedConceptId;
+
+	
+	protected $aConceptRelatedByConceptId;
 
 	
 	protected $aSkosProperty;
@@ -233,8 +236,8 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 			$this->modifiedColumns[] = ConceptPropertyPeer::CONCEPT_ID;
 		}
 
-		if ($this->aConcept !== null && $this->aConcept->getId() !== $v) {
-			$this->aConcept = null;
+		if ($this->aConceptRelatedByConceptId !== null && $this->aConceptRelatedByConceptId->getId() !== $v) {
+			$this->aConceptRelatedByConceptId = null;
 		}
 
 	} 
@@ -287,6 +290,10 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 		if ($this->related_concept_id !== $v) {
 			$this->related_concept_id = $v;
 			$this->modifiedColumns[] = ConceptPropertyPeer::RELATED_CONCEPT_ID;
+		}
+
+		if ($this->aConceptRelatedByRelatedConceptId !== null && $this->aConceptRelatedByRelatedConceptId->getId() !== $v) {
+			$this->aConceptRelatedByRelatedConceptId = null;
 		}
 
 	} 
@@ -416,11 +423,18 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 			
 			
 
-			if ($this->aConcept !== null) {
-				if ($this->aConcept->isModified()) {
-					$affectedRows += $this->aConcept->save($con);
+			if ($this->aConceptRelatedByRelatedConceptId !== null) {
+				if ($this->aConceptRelatedByRelatedConceptId->isModified()) {
+					$affectedRows += $this->aConceptRelatedByRelatedConceptId->save($con);
 				}
-				$this->setConcept($this->aConcept);
+				$this->setConceptRelatedByRelatedConceptId($this->aConceptRelatedByRelatedConceptId);
+			}
+
+			if ($this->aConceptRelatedByConceptId !== null) {
+				if ($this->aConceptRelatedByConceptId->isModified()) {
+					$affectedRows += $this->aConceptRelatedByConceptId->save($con);
+				}
+				$this->setConceptRelatedByConceptId($this->aConceptRelatedByConceptId);
 			}
 
 			if ($this->aSkosProperty !== null) {
@@ -512,9 +526,15 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 			
 			
 
-			if ($this->aConcept !== null) {
-				if (!$this->aConcept->validate($columns)) {
-					$failureMap = array_merge($failureMap, $this->aConcept->getValidationFailures());
+			if ($this->aConceptRelatedByRelatedConceptId !== null) {
+				if (!$this->aConceptRelatedByRelatedConceptId->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aConceptRelatedByRelatedConceptId->getValidationFailures());
+				}
+			}
+
+			if ($this->aConceptRelatedByConceptId !== null) {
+				if (!$this->aConceptRelatedByConceptId->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aConceptRelatedByConceptId->getValidationFailures());
 				}
 			}
 
@@ -786,7 +806,38 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 	}
 
 	
-	public function setConcept($v)
+	public function setConceptRelatedByRelatedConceptId($v)
+	{
+
+
+		if ($v === null) {
+			$this->setRelatedConceptId(NULL);
+		} else {
+			$this->setRelatedConceptId($v->getId());
+		}
+
+
+		$this->aConceptRelatedByRelatedConceptId = $v;
+	}
+
+
+	
+	public function getConceptRelatedByRelatedConceptId($con = null)
+	{
+		
+		include_once 'lib/model/om/BaseConceptPeer.php';
+
+		if ($this->aConceptRelatedByRelatedConceptId === null && ($this->related_concept_id !== null)) {
+
+			$this->aConceptRelatedByRelatedConceptId = ConceptPeer::retrieveByPK($this->related_concept_id, $con);
+
+			
+		}
+		return $this->aConceptRelatedByRelatedConceptId;
+	}
+
+	
+	public function setConceptRelatedByConceptId($v)
 	{
 
 
@@ -797,23 +848,23 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 		}
 
 
-		$this->aConcept = $v;
+		$this->aConceptRelatedByConceptId = $v;
 	}
 
 
 	
-	public function getConcept($con = null)
+	public function getConceptRelatedByConceptId($con = null)
 	{
 		
 		include_once 'lib/model/om/BaseConceptPeer.php';
 
-		if ($this->aConcept === null && ($this->concept_id !== null)) {
+		if ($this->aConceptRelatedByConceptId === null && ($this->concept_id !== null)) {
 
-			$this->aConcept = ConceptPeer::retrieveByPK($this->concept_id, $con);
+			$this->aConceptRelatedByConceptId = ConceptPeer::retrieveByPK($this->concept_id, $con);
 
 			
 		}
-		return $this->aConcept;
+		return $this->aConceptRelatedByConceptId;
 	}
 
 	

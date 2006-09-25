@@ -1032,7 +1032,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 
 
 	
-	public function getConceptPropertysJoinConcept($criteria = null, $con = null)
+	public function getConceptPropertysJoinConceptRelatedByRelatedConceptId($criteria = null, $con = null)
 	{
 		
 		include_once 'lib/model/om/BaseConceptPropertyPeer.php';
@@ -1051,7 +1051,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 
 				$criteria->add(ConceptPropertyPeer::SCHEME_ID, $this->getId());
 
-				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinConcept($criteria, $con);
+				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinConceptRelatedByRelatedConceptId($criteria, $con);
 			}
 		} else {
 			
@@ -1061,7 +1061,46 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 			$criteria->add(ConceptPropertyPeer::SCHEME_ID, $this->getId());
 
 			if (!isset($this->lastConceptPropertyCriteria) || !$this->lastConceptPropertyCriteria->equals($criteria)) {
-				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinConcept($criteria, $con);
+				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinConceptRelatedByRelatedConceptId($criteria, $con);
+			}
+		}
+		$this->lastConceptPropertyCriteria = $criteria;
+
+		return $this->collConceptPropertys;
+	}
+
+
+	
+	public function getConceptPropertysJoinConceptRelatedByConceptId($criteria = null, $con = null)
+	{
+		
+		include_once 'lib/model/om/BaseConceptPropertyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collConceptPropertys === null) {
+			if ($this->isNew()) {
+				$this->collConceptPropertys = array();
+			} else {
+
+				$criteria->add(ConceptPropertyPeer::SCHEME_ID, $this->getId());
+
+				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinConceptRelatedByConceptId($criteria, $con);
+			}
+		} else {
+			
+			
+			
+
+			$criteria->add(ConceptPropertyPeer::SCHEME_ID, $this->getId());
+
+			if (!isset($this->lastConceptPropertyCriteria) || !$this->lastConceptPropertyCriteria->equals($criteria)) {
+				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinConceptRelatedByConceptId($criteria, $con);
 			}
 		}
 		$this->lastConceptPropertyCriteria = $criteria;

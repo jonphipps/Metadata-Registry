@@ -140,7 +140,7 @@ class Concept extends BaseConcept {
       $c = new Criteria();
       $c->add(ConceptPeer::ID, $this->getId());
       $c->add(ConceptPropertyPeer::SKOS_PROPERTY_ID, SkosProperty::getPrefLabelId());
-      $conceptPropertyColl = $this->getConceptPropertysRelatedByConceptId($c);
+      $conceptPropertyColl = $this->getConceptPropertys($c);
       if (isset($conceptPropertyColl[0]))
       {
         $conceptProperty = $conceptPropertyColl[0];
