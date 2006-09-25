@@ -1,4 +1,4 @@
-<?php if ($sf_user->hasCredential('moderator')): ?>
+<?php if ($sf_user->hasCredential(array (0 => 'moderator' ))): ?>
   <?php if ($answer->getReports()): ?>
     &nbsp;[<?php echo __('%1% reports', array('%1%' => $answer->getReports())) ?>]
     &nbsp;<?php echo link_to('['.__('reset reports').']', 'moderator/resetAnswerReports?id='.$answer->getId(), 'confirm='.__('Are you sure you want to reset the report spam counter for this answer?')) ?>

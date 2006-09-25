@@ -1,4 +1,4 @@
-<?php if ($sf_user->hasCredential('administrator')): ?>
+<?php if ($sf_user->hasCredential(array (0 => 'administrator' ))): ?>
 <div id="panel_admin">
   <h2><?php echo __('administration') ?></h2>
 

@@ -1,4 +1,4 @@
-<?php if ($sf_user->hasCredential('administrator')): ?>
+<?php if ($sf_user->hasCredential(array (0 => 'administrator' ))): ?>
 <div class="options">
   <?php if ($subscriber->getDeletions()): ?>
     [<?php echo __('%1% contributions removed', array('%1%' => $subscriber->getDeletions())) ?>]

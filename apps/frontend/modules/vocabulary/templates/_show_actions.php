@@ -3,7 +3,7 @@
 // date: 2006/09/20 15:27:48
 ?>
 <ul class="sf_admin_actions">
-             <?php if ($sf_user->hasCredential(array (   0 => 'administrator', ))): ?>
+             <?php if ($sf_user->hasCredential(array (   0 =>    array (     0 => 'administrator',     1 => 'vocabularymaintainer',   ), ))): ?>
 <li><?php echo button_to(__('edit'), 'vocabulary/edit?id='.$vocabulary->getId(), array (
   'class' => 'sf_admin_action_edit',
 )) ?></li>

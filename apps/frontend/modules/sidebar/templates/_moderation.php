@@ -1,4 +1,4 @@
-<?php if ($sf_user->hasCredential('moderator')): ?>
+<?php if ($sf_user->hasCredential(array (0 => 'moderator' ))): ?>
   <h2><?php echo __('moderation') ?></h2>
 
   <ul>

@@ -4,7 +4,7 @@
 <div id="mainMenu">
 	<a>Resources</a>
 	<a>Owners</a>
-<?php if ($sf_user->hasCredential('administrator')): ?>
+<?php if ($sf_user->hasCredential(array (0 => 'administrator' ))): ?>
 	<a>Users</a>
 <?php endif ?>
 </div>
@@ -19,7 +19,7 @@
 	<div id="submenu_2">
 		<?php echo link_to(__('List'), 'agent/list') ?>
 	</div>
-<?php if ($sf_user->hasCredential('administrator')): ?>
+<?php if ($sf_user->hasCredential(array (0 => 'administrator' ))): ?>
 	<!-- Third sub menu -->
 	<div id="submenu_3">
 		<?php echo link_to(__('List'), 'user/list') ?>
