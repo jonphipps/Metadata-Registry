@@ -38,11 +38,13 @@ generator:
 
     edit:
       title:        Detail for %%pref_label%%
-      display:      [vocabulary_id, pref_label, uri, is_top_concept]
+      display:
+        "Metadata":   [id, created_at, last_updated]
+        "Detail":     [vocabulary_id, pref_label, uri, is_top_concept]
       fields:
-        id:           { type: plain }
-        created_at:   { type: plain }
-        last_updated: { type: plain }
+        id:            { type: plain, credentials: [administrator] }
+        created_at:    { type: plain, credentials: [administrator] }
+        last_updated:  { type: plain, credentials: [administrator] }
       actions:
         _list:
           query_string:
@@ -62,7 +64,9 @@ generator:
         id:            { name: ID, credentials: [administrator] }
         uri:           { helper: auto_link_text }
       _listproperties: { name: Properties }
-      display:        [vocabulary, id, created_at, last_updated, pref_label, uri, is_top_concept, _listproperties]
+      display:
+        "Metadata":   [id, created_at, last_updated]
+        "Detail":    [pref_label, uri, is_top_concept, _listproperties]
       actions:
         _edit:        { credentials: [[administrator, vocabularymaintainer]] }
         _list:
