@@ -4,9 +4,9 @@ function updateUri()
    var tokenField = $('vocabulary_token');
    var uriField = $('vocabulary_uri');
    var updateIt = true;
-   if(uriField.value != "")
+   if(uriField.value != domainField.value + tokenField.value)
    {
-      updateIt = confirm("Update the URI?");
+      updateIt = confirm("Automatically update the URI based on your changes?");
    }
    if(updateIt)
    {
