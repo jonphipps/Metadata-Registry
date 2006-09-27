@@ -96,4 +96,12 @@ class UserPeer extends BaseUserPeer {
 
     return self::doSelect($c);
   }
+  
+  public static function getUsersCount()
+  {
+    $c = new Criteria();
+
+    return self::doCount($c);
+  }
+
 } // UserPeer
