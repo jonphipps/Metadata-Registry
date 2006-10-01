@@ -5,46 +5,49 @@ generator:
     theme:            default
 
     fields:
-      id:             { name: ID }
-      uri:            { name: URI }
+      id:             
+         name:        ID
+         type:        plain
+         credentials: [administrator]
       created_at:
-        name: Date Created
-        type: plain
-        params: date_format='MM/dd/yy'
+        name:         Date Created
+        type:         plain
+        params:       date_format='MM/dd/yy'
+        credentials:  [[administrator, vocabularymaintainer]]
       last_updated:
-        name: Last Updated
-        help: This is the date the Concept was last updated
-        type: plain
-        params: date_format='MM/dd/yy'
+        name:         Last Updated
+        help:         This is the date the Concept was last updated
+        type:         plain
+        params:       date_format='MM/dd/yy'
+        credentials:  [[administrator, vocabularymaintainer]]
+      uri:            { name: URI }
       pref_label:     { name: Label }
       vocabulary:     { name: Vocabulary }
       vocabulary_id:  { name: Vocabulary }
+      status_id:      { name: Status }
       is_top_concept: { name: Top Concept? }
-      _versions:      { name: History }
-      _properties:    { name: Properties }
-      _listproperties: { name: Properties }
+      versions:       { name: History }
+      properties:     { name: Properties }
+      listproperties: { name: " " }
 
     list:
       title:          Concepts for %%vocabulary%%
       fields:
         is_top_concept: { name: " ", help: This is a top-level concept  }
-      display:        [is_top_concept, =prefLabel, last_updated]
+      display:        [is_top_concept, =prefLabel, uri, status, last_updated]
       displayfilter:  false
       actions:
         _create:        { credentials: [[administrator, vocabularymaintainer]] }
-      filters:          [is_top_concept, vocabulary_id, pref_label, last_updated, is_top_concept]
+      filters:          [vocabulary_id, pref_label, last_updated, is_top_concept, status]
       urlfilters:
         vocabulary_id: vocabulary_id
 
     edit:
       title:        Detail for %%pref_label%%
       display:
-        "Metadata":   [id, created_at, last_updated]
-        "Detail":     [vocabulary_id, pref_label, uri, is_top_concept]
-      fields:
-        id:            { type: plain, credentials: [administrator] }
-        created_at:    { type: plain, credentials: [administrator] }
-        last_updated:  { type: plain, credentials: [administrator] }
+        "Metadata":    [id, created_at, last_updated]
+        "Detail":      [vocabulary_id, pref_label, uri, is_top_concept, status_id]
+        "Properties":  [_listproperties]
       actions:
         _list:
           query_string:
@@ -56,19 +59,21 @@ generator:
 
     create:
       fields:
-        vocabulary_id:  { type: input_hidden_tag }
-      display:          [vocabulary_id, pref_label, uri, is_top_concept]
+        vocabulary_id: { type: input_hidden_tag }
+      display:         
+        "Detail":      [vocabulary_id, pref_label, uri, is_top_concept, status_id]
+        "Properties":  [_listproperties]
 
     show:
       fields:
         id:            { name: ID, credentials: [administrator] }
         uri:           { helper: auto_link_text }
-      _listproperties: { name: Properties }
       display:
-        "Metadata":   [id, created_at, last_updated]
-        "Detail":    [pref_label, uri, is_top_concept, _listproperties]
+        "Metadata":    [id, created_at, last_updated]
+        "Detail":      [pref_label, uri, is_top_concept, status]
+        "Properties":  [_listproperties]
       actions:
-        _edit:        { credentials: [[administrator, vocabularymaintainer]] }
+        _edit:         { credentials: [[administrator, vocabularymaintainer]] }
         _list:
           query_string:
             vocabulary_id: vocabulary_id
