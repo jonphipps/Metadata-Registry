@@ -9,14 +9,16 @@
   </div>
   <div style="padding:5px 0px 0px 0px; margin:0">
 	 <label for="concept_property[related_concept_id]"><?php echo __('Related&nbsp;concept:') ?></label>
-	 <?php $action = $sf_context->getActionStack()->getLastEntry()->getActionInstance(); echo object_select_tag($concept_property, 'getRelatedConceptId', array (
-    'related_class' => 'Concept',
-    'related_class_method' => "getConceptsByVocabID",
-	 'related_class_method_arg' => $action->getVocabularyId(),
-	 'control_name' => 'concept_property[related_concept_id]',
-    'include_blank' => 'true'
-  )) ?>
-  <div class="sf_admin_edit_help" style="padding:5px 0px 0px 0px; margin:0"><?php echo __('Selecting a related concept above will automatically insert the URI of that concept into the value field below (after you save it) and create a reciprocal property for the related concept. ') ?></div>
+	 <?php $action = $sf_context->getActionStack()->getLastEntry()->getActionInstance(); 
+     echo object_select_tag($concept_property, 'getRelatedConceptId', array (
+      'related_class' => 'Concept',
+      'related_class_method' => "getConceptsByVocabID",
+	   'related_class_method_arg' => $action->getVocabularyId(),
+	   'control_name' => 'concept_property[related_concept_id]',
+      'include_blank' => 'true'
+     )) ?>
+  <div class="sf_admin_edit_help" style="padding:5px 0px 0px 0px; margin:0">
+    <?php echo __('Selecting a related concept above will automatically insert the URI of that concept into the value field below (after you save it) and create a reciprocal property for the related concept. ') ?></div>
   </div>
 </div>
   <?php echo object_textarea_tag($concept_property, 'getObject', array (
@@ -43,5 +45,6 @@ function swapOptions()
     new Effect.BlindUp(the_div);
     \$('concept_property_related_concept_id').selectedIndex = '';
   }
-}"
+}
+swapOptions();"
 ) ?>
