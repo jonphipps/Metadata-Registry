@@ -3,7 +3,7 @@
 <?php if ($sf_user->getCurrentVocabulary()): ?>
   <?php echo link_to($vocabulary->getName(), 'vocabulary/show?id=' . $vocabulary->getId()) ?>
   <br /><?php echo link_to('Concepts: ', '/concept/list?vocabulary_id=' . $vocabulary->getID()) ?>
-  Showing&nbsp;<?php echo $concept->getPrefLabel() ?>
+  Adding new
  <?php endif; ?>
 </h1>
 <h2>&nbsp;Detail&nbsp;&nbsp;&nbsp;<?php echo link_to('Properties', '/concept/properties?id='.$concept->getId()) ?>&nbsp;&nbsp;&nbsp;<a href="#">History</a>&nbsp;&nbsp;&nbsp;<a href="#">Versions</a></h2>
