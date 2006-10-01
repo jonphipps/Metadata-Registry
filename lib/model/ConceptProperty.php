@@ -127,6 +127,10 @@ class ConceptProperty extends BaseConceptProperty {
 	 */
 	public function getSkosPropertyName()
 	{
+      if (!$this->skos_property_name && $this->getSkosPropertyId())
+      {
+         $this->skos_property_name = SkosPropertyPeer::retrieveByPK($this->getSkosPropertyId())->getName();
+      }
 		return $this->skos_property_name;
 	}
 
