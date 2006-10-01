@@ -228,38 +228,6 @@ abstract class BaseConceptPropertyPeer {
 	}
 
 	
-	public static function doCountJoinConceptRelatedByRelatedConceptId(Criteria $criteria, $distinct = false, $con = null)
-	{
-		
-		$criteria = clone $criteria;
-		
-		
-		$criteria->clearSelectColumns()->clearOrderByColumns();
-		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
-			$criteria->addSelectColumn(ConceptPropertyPeer::COUNT_DISTINCT);
-		} else {
-			$criteria->addSelectColumn(ConceptPropertyPeer::COUNT);
-		}
-		
-		
-		foreach($criteria->getGroupByColumns() as $column)
-		{
-			$criteria->addSelectColumn($column);
-		}
-
-		$criteria->addJoin(ConceptPropertyPeer::RELATED_CONCEPT_ID, ConceptPeer::ID);
-
-		$rs = ConceptPropertyPeer::doSelectRS($criteria, $con);
-		if ($rs->next()) {
-			return $rs->getInt(1);
-		} else {
-			
-			return 0;
-		}
-	}
-
-
-	
 	public static function doCountJoinConceptRelatedByConceptId(Criteria $criteria, $distinct = false, $con = null)
 	{
 		
@@ -388,54 +356,34 @@ abstract class BaseConceptPropertyPeer {
 
 
 	
-	public static function doSelectJoinConceptRelatedByRelatedConceptId(Criteria $c, $con = null)
+	public static function doCountJoinConceptRelatedByRelatedConceptId(Criteria $criteria, $distinct = false, $con = null)
 	{
-		$c = clone $c;
-
 		
-		if ($c->getDbName() == Propel::getDefaultDB()) {
-			$c->setDbName(self::DATABASE_NAME);
+		$criteria = clone $criteria;
+		
+		
+		$criteria->clearSelectColumns()->clearOrderByColumns();
+		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->addSelectColumn(ConceptPropertyPeer::COUNT_DISTINCT);
+		} else {
+			$criteria->addSelectColumn(ConceptPropertyPeer::COUNT);
+		}
+		
+		
+		foreach($criteria->getGroupByColumns() as $column)
+		{
+			$criteria->addSelectColumn($column);
 		}
 
-		ConceptPropertyPeer::addSelectColumns($c);
-		$startcol = (ConceptPropertyPeer::NUM_COLUMNS - ConceptPropertyPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
-		ConceptPeer::addSelectColumns($c);
+		$criteria->addJoin(ConceptPropertyPeer::RELATED_CONCEPT_ID, ConceptPeer::ID);
 
-		$c->addJoin(ConceptPropertyPeer::RELATED_CONCEPT_ID, ConceptPeer::ID);
-		$rs = BasePeer::doSelect($c, $con);
-		$results = array();
-
-		while($rs->next()) {
-
-			$omClass = ConceptPropertyPeer::getOMClass();
-
-			$cls = Propel::import($omClass);
-			$obj1 = new $cls();
-			$obj1->hydrate($rs);
-
-			$omClass = ConceptPeer::getOMClass();
-
-			$cls = Propel::import($omClass);
-			$obj2 = new $cls();
-			$obj2->hydrate($rs, $startcol);
-
-			$newObject = true;
-			foreach($results as $temp_obj1) {
-				$temp_obj2 = $temp_obj1->getConceptRelatedByRelatedConceptId(); 
-				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
-					$newObject = false;
-					
-					$temp_obj2->addConceptPropertyRelatedByRelatedConceptId($obj1); 
-					break;
-				}
-			}
-			if ($newObject) {
-				$obj2->initConceptPropertysRelatedByRelatedConceptId();
-				$obj2->addConceptPropertyRelatedByRelatedConceptId($obj1); 
-			}
-			$results[] = $obj1;
+		$rs = ConceptPropertyPeer::doSelectRS($criteria, $con);
+		if ($rs->next()) {
+			return $rs->getInt(1);
+		} else {
+			
+			return 0;
 		}
-		return $results;
 	}
 
 
@@ -621,7 +569,7 @@ abstract class BaseConceptPropertyPeer {
 			$obj1 = new $cls();
 			$obj1->hydrate($rs);
 
-			$omClass = LookupPeer::getOMClass($rs, $startcol);
+			$omClass = LookupPeer::getOMClass();
 
 			$cls = Propel::import($omClass);
 			$obj2 = new $cls();
@@ -648,6 +596,58 @@ abstract class BaseConceptPropertyPeer {
 
 
 	
+	public static function doSelectJoinConceptRelatedByRelatedConceptId(Criteria $c, $con = null)
+	{
+		$c = clone $c;
+
+		
+		if ($c->getDbName() == Propel::getDefaultDB()) {
+			$c->setDbName(self::DATABASE_NAME);
+		}
+
+		ConceptPropertyPeer::addSelectColumns($c);
+		$startcol = (ConceptPropertyPeer::NUM_COLUMNS - ConceptPropertyPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+		ConceptPeer::addSelectColumns($c);
+
+		$c->addJoin(ConceptPropertyPeer::RELATED_CONCEPT_ID, ConceptPeer::ID);
+		$rs = BasePeer::doSelect($c, $con);
+		$results = array();
+
+		while($rs->next()) {
+
+			$omClass = ConceptPropertyPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj1 = new $cls();
+			$obj1->hydrate($rs);
+
+			$omClass = ConceptPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj2 = new $cls();
+			$obj2->hydrate($rs, $startcol);
+
+			$newObject = true;
+			foreach($results as $temp_obj1) {
+				$temp_obj2 = $temp_obj1->getConceptRelatedByRelatedConceptId(); 
+				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+					$newObject = false;
+					
+					$temp_obj2->addConceptPropertyRelatedByRelatedConceptId($obj1); 
+					break;
+				}
+			}
+			if ($newObject) {
+				$obj2->initConceptPropertysRelatedByRelatedConceptId();
+				$obj2->addConceptPropertyRelatedByRelatedConceptId($obj1); 
+			}
+			$results[] = $obj1;
+		}
+		return $results;
+	}
+
+
+	
 	public static function doCountJoinAll(Criteria $criteria, $distinct = false, $con = null)
 	{
 		$criteria = clone $criteria;
@@ -666,8 +666,6 @@ abstract class BaseConceptPropertyPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(ConceptPropertyPeer::RELATED_CONCEPT_ID, ConceptPeer::ID);
-
 		$criteria->addJoin(ConceptPropertyPeer::CONCEPT_ID, ConceptPeer::ID);
 
 		$criteria->addJoin(ConceptPropertyPeer::SKOS_PROPERTY_ID, SkosPropertyPeer::ID);
@@ -675,6 +673,8 @@ abstract class BaseConceptPropertyPeer {
 		$criteria->addJoin(ConceptPropertyPeer::SCHEME_ID, VocabularyPeer::ID);
 
 		$criteria->addJoin(ConceptPropertyPeer::STATUS_ID, LookupPeer::ID);
+
+		$criteria->addJoin(ConceptPropertyPeer::RELATED_CONCEPT_ID, ConceptPeer::ID);
 
 		$rs = ConceptPropertyPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
@@ -702,19 +702,17 @@ abstract class BaseConceptPropertyPeer {
 		ConceptPeer::addSelectColumns($c);
 		$startcol3 = $startcol2 + ConceptPeer::NUM_COLUMNS;
 
-		ConceptPeer::addSelectColumns($c);
-		$startcol4 = $startcol3 + ConceptPeer::NUM_COLUMNS;
-
 		SkosPropertyPeer::addSelectColumns($c);
-		$startcol5 = $startcol4 + SkosPropertyPeer::NUM_COLUMNS;
+		$startcol4 = $startcol3 + SkosPropertyPeer::NUM_COLUMNS;
 
 		VocabularyPeer::addSelectColumns($c);
-		$startcol6 = $startcol5 + VocabularyPeer::NUM_COLUMNS;
+		$startcol5 = $startcol4 + VocabularyPeer::NUM_COLUMNS;
 
 		LookupPeer::addSelectColumns($c);
-		$startcol7 = $startcol6 + LookupPeer::NUM_COLUMNS;
+		$startcol6 = $startcol5 + LookupPeer::NUM_COLUMNS;
 
-		$c->addJoin(ConceptPropertyPeer::RELATED_CONCEPT_ID, ConceptPeer::ID);
+		ConceptPeer::addSelectColumns($c);
+		$startcol7 = $startcol6 + ConceptPeer::NUM_COLUMNS;
 
 		$c->addJoin(ConceptPropertyPeer::CONCEPT_ID, ConceptPeer::ID);
 
@@ -723,6 +721,8 @@ abstract class BaseConceptPropertyPeer {
 		$c->addJoin(ConceptPropertyPeer::SCHEME_ID, VocabularyPeer::ID);
 
 		$c->addJoin(ConceptPropertyPeer::STATUS_ID, LookupPeer::ID);
+
+		$c->addJoin(ConceptPropertyPeer::RELATED_CONCEPT_ID, ConceptPeer::ID);
 
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
@@ -749,43 +749,17 @@ abstract class BaseConceptPropertyPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj2 = $temp_obj1->getConceptRelatedByRelatedConceptId(); 
+				$temp_obj2 = $temp_obj1->getConceptRelatedByConceptId(); 
 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
-					$temp_obj2->addConceptPropertyRelatedByRelatedConceptId($obj1); 
+					$temp_obj2->addConceptPropertyRelatedByConceptId($obj1); 
 					break;
 				}
 			}
 			
 			if ($newObject) {
-				$obj2->initConceptPropertysRelatedByRelatedConceptId();
-				$obj2->addConceptPropertyRelatedByRelatedConceptId($obj1);
-			}
-
-				
-				
-	
-			$omClass = ConceptPeer::getOMClass();
-
-	
-			$cls = Propel::import($omClass);
-			$obj3 = new $cls();
-			$obj3->hydrate($rs, $startcol3);
-			
-			$newObject = true;
-			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
-				$temp_obj1 = $results[$j];
-				$temp_obj3 = $temp_obj1->getConceptRelatedByConceptId(); 
-				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
-					$newObject = false;
-					$temp_obj3->addConceptPropertyRelatedByConceptId($obj1); 
-					break;
-				}
-			}
-			
-			if ($newObject) {
-				$obj3->initConceptPropertysRelatedByConceptId();
-				$obj3->addConceptPropertyRelatedByConceptId($obj1);
+				$obj2->initConceptPropertysRelatedByConceptId();
+				$obj2->addConceptPropertyRelatedByConceptId($obj1);
 			}
 
 				
@@ -795,13 +769,39 @@ abstract class BaseConceptPropertyPeer {
 
 	
 			$cls = Propel::import($omClass);
+			$obj3 = new $cls();
+			$obj3->hydrate($rs, $startcol3);
+			
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj3 = $temp_obj1->getSkosProperty(); 
+				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj3->addConceptProperty($obj1); 
+					break;
+				}
+			}
+			
+			if ($newObject) {
+				$obj3->initConceptPropertys();
+				$obj3->addConceptProperty($obj1);
+			}
+
+				
+				
+	
+			$omClass = VocabularyPeer::getOMClass();
+
+	
+			$cls = Propel::import($omClass);
 			$obj4 = new $cls();
 			$obj4->hydrate($rs, $startcol4);
 			
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj4 = $temp_obj1->getSkosProperty(); 
+				$temp_obj4 = $temp_obj1->getVocabulary(); 
 				if ($temp_obj4->getPrimaryKey() === $obj4->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj4->addConceptProperty($obj1); 
@@ -817,7 +817,7 @@ abstract class BaseConceptPropertyPeer {
 				
 				
 	
-			$omClass = VocabularyPeer::getOMClass();
+			$omClass = LookupPeer::getOMClass();
 
 	
 			$cls = Propel::import($omClass);
@@ -827,7 +827,7 @@ abstract class BaseConceptPropertyPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj5 = $temp_obj1->getVocabulary(); 
+				$temp_obj5 = $temp_obj1->getLookup(); 
 				if ($temp_obj5->getPrimaryKey() === $obj5->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj5->addConceptProperty($obj1); 
@@ -843,7 +843,7 @@ abstract class BaseConceptPropertyPeer {
 				
 				
 	
-			$omClass = LookupPeer::getOMClass($rs, $startcol6);
+			$omClass = ConceptPeer::getOMClass();
 
 	
 			$cls = Propel::import($omClass);
@@ -853,58 +853,22 @@ abstract class BaseConceptPropertyPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj6 = $temp_obj1->getLookup(); 
+				$temp_obj6 = $temp_obj1->getConceptRelatedByRelatedConceptId(); 
 				if ($temp_obj6->getPrimaryKey() === $obj6->getPrimaryKey()) {
 					$newObject = false;
-					$temp_obj6->addConceptProperty($obj1); 
+					$temp_obj6->addConceptPropertyRelatedByRelatedConceptId($obj1); 
 					break;
 				}
 			}
 			
 			if ($newObject) {
-				$obj6->initConceptPropertys();
-				$obj6->addConceptProperty($obj1);
+				$obj6->initConceptPropertysRelatedByRelatedConceptId();
+				$obj6->addConceptPropertyRelatedByRelatedConceptId($obj1);
 			}
 
 			$results[] = $obj1;
 		}
 		return $results;
-	}
-
-
-	
-	public static function doCountJoinAllExceptConceptRelatedByRelatedConceptId(Criteria $criteria, $distinct = false, $con = null)
-	{
-		
-		$criteria = clone $criteria;
-		
-		
-		$criteria->clearSelectColumns()->clearOrderByColumns();
-		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
-			$criteria->addSelectColumn(ConceptPropertyPeer::COUNT_DISTINCT);
-		} else {
-			$criteria->addSelectColumn(ConceptPropertyPeer::COUNT);
-		}
-		
-		
-		foreach($criteria->getGroupByColumns() as $column)
-		{
-			$criteria->addSelectColumn($column);
-		}
-
-		$criteria->addJoin(ConceptPropertyPeer::SKOS_PROPERTY_ID, SkosPropertyPeer::ID);
-
-		$criteria->addJoin(ConceptPropertyPeer::SCHEME_ID, VocabularyPeer::ID);
-
-		$criteria->addJoin(ConceptPropertyPeer::STATUS_ID, LookupPeer::ID);
-
-		$rs = ConceptPropertyPeer::doSelectRS($criteria, $con);
-		if ($rs->next()) {
-			return $rs->getInt(1);
-		} else {
-			
-			return 0;
-		}
 	}
 
 
@@ -964,13 +928,13 @@ abstract class BaseConceptPropertyPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(ConceptPropertyPeer::RELATED_CONCEPT_ID, ConceptPeer::ID);
-
 		$criteria->addJoin(ConceptPropertyPeer::CONCEPT_ID, ConceptPeer::ID);
 
 		$criteria->addJoin(ConceptPropertyPeer::SCHEME_ID, VocabularyPeer::ID);
 
 		$criteria->addJoin(ConceptPropertyPeer::STATUS_ID, LookupPeer::ID);
+
+		$criteria->addJoin(ConceptPropertyPeer::RELATED_CONCEPT_ID, ConceptPeer::ID);
 
 		$rs = ConceptPropertyPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
@@ -1002,13 +966,13 @@ abstract class BaseConceptPropertyPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(ConceptPropertyPeer::RELATED_CONCEPT_ID, ConceptPeer::ID);
-
 		$criteria->addJoin(ConceptPropertyPeer::CONCEPT_ID, ConceptPeer::ID);
 
 		$criteria->addJoin(ConceptPropertyPeer::SKOS_PROPERTY_ID, SkosPropertyPeer::ID);
 
 		$criteria->addJoin(ConceptPropertyPeer::STATUS_ID, LookupPeer::ID);
+
+		$criteria->addJoin(ConceptPropertyPeer::RELATED_CONCEPT_ID, ConceptPeer::ID);
 
 		$rs = ConceptPropertyPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
@@ -1040,13 +1004,13 @@ abstract class BaseConceptPropertyPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(ConceptPropertyPeer::RELATED_CONCEPT_ID, ConceptPeer::ID);
-
 		$criteria->addJoin(ConceptPropertyPeer::CONCEPT_ID, ConceptPeer::ID);
 
 		$criteria->addJoin(ConceptPropertyPeer::SKOS_PROPERTY_ID, SkosPropertyPeer::ID);
 
 		$criteria->addJoin(ConceptPropertyPeer::SCHEME_ID, VocabularyPeer::ID);
+
+		$criteria->addJoin(ConceptPropertyPeer::RELATED_CONCEPT_ID, ConceptPeer::ID);
 
 		$rs = ConceptPropertyPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
@@ -1059,119 +1023,38 @@ abstract class BaseConceptPropertyPeer {
 
 
 	
-	public static function doSelectJoinAllExceptConceptRelatedByRelatedConceptId(Criteria $c, $con = null)
+	public static function doCountJoinAllExceptConceptRelatedByRelatedConceptId(Criteria $criteria, $distinct = false, $con = null)
 	{
-		$c = clone $c;
-
+		
+		$criteria = clone $criteria;
 		
 		
+		$criteria->clearSelectColumns()->clearOrderByColumns();
+		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->addSelectColumn(ConceptPropertyPeer::COUNT_DISTINCT);
+		} else {
+			$criteria->addSelectColumn(ConceptPropertyPeer::COUNT);
+		}
 		
-		if ($c->getDbName() == Propel::getDefaultDB()) {
-			$c->setDbName(self::DATABASE_NAME);
+		
+		foreach($criteria->getGroupByColumns() as $column)
+		{
+			$criteria->addSelectColumn($column);
 		}
 
-		ConceptPropertyPeer::addSelectColumns($c);
-		$startcol2 = (ConceptPropertyPeer::NUM_COLUMNS - ConceptPropertyPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+		$criteria->addJoin(ConceptPropertyPeer::SKOS_PROPERTY_ID, SkosPropertyPeer::ID);
 
-		SkosPropertyPeer::addSelectColumns($c);
-		$startcol3 = $startcol2 + SkosPropertyPeer::NUM_COLUMNS;
+		$criteria->addJoin(ConceptPropertyPeer::SCHEME_ID, VocabularyPeer::ID);
 
-		VocabularyPeer::addSelectColumns($c);
-		$startcol4 = $startcol3 + VocabularyPeer::NUM_COLUMNS;
+		$criteria->addJoin(ConceptPropertyPeer::STATUS_ID, LookupPeer::ID);
 
-		LookupPeer::addSelectColumns($c);
-		$startcol5 = $startcol4 + LookupPeer::NUM_COLUMNS;
-
-		$c->addJoin(ConceptPropertyPeer::SKOS_PROPERTY_ID, SkosPropertyPeer::ID);
-
-		$c->addJoin(ConceptPropertyPeer::SCHEME_ID, VocabularyPeer::ID);
-
-		$c->addJoin(ConceptPropertyPeer::STATUS_ID, LookupPeer::ID);
-
-
-		$rs = BasePeer::doSelect($c, $con);
-		$results = array();
-		
-		while($rs->next()) {
-
-			$omClass = ConceptPropertyPeer::getOMClass();
-
-			$cls = Propel::import($omClass);
-			$obj1 = new $cls();
-			$obj1->hydrate($rs);		
-
-			$omClass = SkosPropertyPeer::getOMClass();
-
-	
-			$cls = Propel::import($omClass);
-			$obj2  = new $cls();
-			$obj2->hydrate($rs, $startcol2);
+		$rs = ConceptPropertyPeer::doSelectRS($criteria, $con);
+		if ($rs->next()) {
+			return $rs->getInt(1);
+		} else {
 			
-			$newObject = true;
-			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
-				$temp_obj1 = $results[$j];
-				$temp_obj2 = $temp_obj1->getSkosProperty(); 
-				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
-					$newObject = false;
-					$temp_obj2->addConceptProperty($obj1);
-					break;
-				}
-			}
-			
-			if ($newObject) {
-				$obj2->initConceptPropertys();
-				$obj2->addConceptProperty($obj1);
-			}
-
-			$omClass = VocabularyPeer::getOMClass();
-
-	
-			$cls = Propel::import($omClass);
-			$obj3  = new $cls();
-			$obj3->hydrate($rs, $startcol3);
-			
-			$newObject = true;
-			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
-				$temp_obj1 = $results[$j];
-				$temp_obj3 = $temp_obj1->getVocabulary(); 
-				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
-					$newObject = false;
-					$temp_obj3->addConceptProperty($obj1);
-					break;
-				}
-			}
-			
-			if ($newObject) {
-				$obj3->initConceptPropertys();
-				$obj3->addConceptProperty($obj1);
-			}
-
-			$omClass = LookupPeer::getOMClass($rs, $startcol4);
-
-	
-			$cls = Propel::import($omClass);
-			$obj4  = new $cls();
-			$obj4->hydrate($rs, $startcol4);
-			
-			$newObject = true;
-			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
-				$temp_obj1 = $results[$j];
-				$temp_obj4 = $temp_obj1->getLookup(); 
-				if ($temp_obj4->getPrimaryKey() === $obj4->getPrimaryKey()) {
-					$newObject = false;
-					$temp_obj4->addConceptProperty($obj1);
-					break;
-				}
-			}
-			
-			if ($newObject) {
-				$obj4->initConceptPropertys();
-				$obj4->addConceptProperty($obj1);
-			}
-
-			$results[] = $obj1;
+			return 0;
 		}
-		return $results;
 	}
 
 
@@ -1263,7 +1146,7 @@ abstract class BaseConceptPropertyPeer {
 				$obj3->addConceptProperty($obj1);
 			}
 
-			$omClass = LookupPeer::getOMClass($rs, $startcol4);
+			$omClass = LookupPeer::getOMClass();
 
 	
 			$cls = Propel::import($omClass);
@@ -1310,22 +1193,22 @@ abstract class BaseConceptPropertyPeer {
 		ConceptPeer::addSelectColumns($c);
 		$startcol3 = $startcol2 + ConceptPeer::NUM_COLUMNS;
 
-		ConceptPeer::addSelectColumns($c);
-		$startcol4 = $startcol3 + ConceptPeer::NUM_COLUMNS;
-
 		VocabularyPeer::addSelectColumns($c);
-		$startcol5 = $startcol4 + VocabularyPeer::NUM_COLUMNS;
+		$startcol4 = $startcol3 + VocabularyPeer::NUM_COLUMNS;
 
 		LookupPeer::addSelectColumns($c);
-		$startcol6 = $startcol5 + LookupPeer::NUM_COLUMNS;
+		$startcol5 = $startcol4 + LookupPeer::NUM_COLUMNS;
 
-		$c->addJoin(ConceptPropertyPeer::RELATED_CONCEPT_ID, ConceptPeer::ID);
+		ConceptPeer::addSelectColumns($c);
+		$startcol6 = $startcol5 + ConceptPeer::NUM_COLUMNS;
 
 		$c->addJoin(ConceptPropertyPeer::CONCEPT_ID, ConceptPeer::ID);
 
 		$c->addJoin(ConceptPropertyPeer::SCHEME_ID, VocabularyPeer::ID);
 
 		$c->addJoin(ConceptPropertyPeer::STATUS_ID, LookupPeer::ID);
+
+		$c->addJoin(ConceptPropertyPeer::RELATED_CONCEPT_ID, ConceptPeer::ID);
 
 
 		$rs = BasePeer::doSelect($c, $con);
@@ -1349,20 +1232,20 @@ abstract class BaseConceptPropertyPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj2 = $temp_obj1->getConceptRelatedByRelatedConceptId(); 
+				$temp_obj2 = $temp_obj1->getConceptRelatedByConceptId(); 
 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
-					$temp_obj2->addConceptPropertyRelatedByRelatedConceptId($obj1);
+					$temp_obj2->addConceptPropertyRelatedByConceptId($obj1);
 					break;
 				}
 			}
 			
 			if ($newObject) {
-				$obj2->initConceptPropertysRelatedByRelatedConceptId();
-				$obj2->addConceptPropertyRelatedByRelatedConceptId($obj1);
+				$obj2->initConceptPropertysRelatedByConceptId();
+				$obj2->addConceptPropertyRelatedByConceptId($obj1);
 			}
 
-			$omClass = ConceptPeer::getOMClass();
+			$omClass = VocabularyPeer::getOMClass();
 
 	
 			$cls = Propel::import($omClass);
@@ -1372,20 +1255,20 @@ abstract class BaseConceptPropertyPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj3 = $temp_obj1->getConceptRelatedByConceptId(); 
+				$temp_obj3 = $temp_obj1->getVocabulary(); 
 				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
 					$newObject = false;
-					$temp_obj3->addConceptPropertyRelatedByConceptId($obj1);
+					$temp_obj3->addConceptProperty($obj1);
 					break;
 				}
 			}
 			
 			if ($newObject) {
-				$obj3->initConceptPropertysRelatedByConceptId();
-				$obj3->addConceptPropertyRelatedByConceptId($obj1);
+				$obj3->initConceptPropertys();
+				$obj3->addConceptProperty($obj1);
 			}
 
-			$omClass = VocabularyPeer::getOMClass();
+			$omClass = LookupPeer::getOMClass();
 
 	
 			$cls = Propel::import($omClass);
@@ -1395,7 +1278,7 @@ abstract class BaseConceptPropertyPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj4 = $temp_obj1->getVocabulary(); 
+				$temp_obj4 = $temp_obj1->getLookup(); 
 				if ($temp_obj4->getPrimaryKey() === $obj4->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj4->addConceptProperty($obj1);
@@ -1408,7 +1291,7 @@ abstract class BaseConceptPropertyPeer {
 				$obj4->addConceptProperty($obj1);
 			}
 
-			$omClass = LookupPeer::getOMClass($rs, $startcol5);
+			$omClass = ConceptPeer::getOMClass();
 
 	
 			$cls = Propel::import($omClass);
@@ -1418,17 +1301,17 @@ abstract class BaseConceptPropertyPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj5 = $temp_obj1->getLookup(); 
+				$temp_obj5 = $temp_obj1->getConceptRelatedByRelatedConceptId(); 
 				if ($temp_obj5->getPrimaryKey() === $obj5->getPrimaryKey()) {
 					$newObject = false;
-					$temp_obj5->addConceptProperty($obj1);
+					$temp_obj5->addConceptPropertyRelatedByRelatedConceptId($obj1);
 					break;
 				}
 			}
 			
 			if ($newObject) {
-				$obj5->initConceptPropertys();
-				$obj5->addConceptProperty($obj1);
+				$obj5->initConceptPropertysRelatedByRelatedConceptId();
+				$obj5->addConceptPropertyRelatedByRelatedConceptId($obj1);
 			}
 
 			$results[] = $obj1;
@@ -1455,22 +1338,22 @@ abstract class BaseConceptPropertyPeer {
 		ConceptPeer::addSelectColumns($c);
 		$startcol3 = $startcol2 + ConceptPeer::NUM_COLUMNS;
 
-		ConceptPeer::addSelectColumns($c);
-		$startcol4 = $startcol3 + ConceptPeer::NUM_COLUMNS;
-
 		SkosPropertyPeer::addSelectColumns($c);
-		$startcol5 = $startcol4 + SkosPropertyPeer::NUM_COLUMNS;
+		$startcol4 = $startcol3 + SkosPropertyPeer::NUM_COLUMNS;
 
 		LookupPeer::addSelectColumns($c);
-		$startcol6 = $startcol5 + LookupPeer::NUM_COLUMNS;
+		$startcol5 = $startcol4 + LookupPeer::NUM_COLUMNS;
 
-		$c->addJoin(ConceptPropertyPeer::RELATED_CONCEPT_ID, ConceptPeer::ID);
+		ConceptPeer::addSelectColumns($c);
+		$startcol6 = $startcol5 + ConceptPeer::NUM_COLUMNS;
 
 		$c->addJoin(ConceptPropertyPeer::CONCEPT_ID, ConceptPeer::ID);
 
 		$c->addJoin(ConceptPropertyPeer::SKOS_PROPERTY_ID, SkosPropertyPeer::ID);
 
 		$c->addJoin(ConceptPropertyPeer::STATUS_ID, LookupPeer::ID);
+
+		$c->addJoin(ConceptPropertyPeer::RELATED_CONCEPT_ID, ConceptPeer::ID);
 
 
 		$rs = BasePeer::doSelect($c, $con);
@@ -1494,20 +1377,20 @@ abstract class BaseConceptPropertyPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj2 = $temp_obj1->getConceptRelatedByRelatedConceptId(); 
+				$temp_obj2 = $temp_obj1->getConceptRelatedByConceptId(); 
 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
-					$temp_obj2->addConceptPropertyRelatedByRelatedConceptId($obj1);
+					$temp_obj2->addConceptPropertyRelatedByConceptId($obj1);
 					break;
 				}
 			}
 			
 			if ($newObject) {
-				$obj2->initConceptPropertysRelatedByRelatedConceptId();
-				$obj2->addConceptPropertyRelatedByRelatedConceptId($obj1);
+				$obj2->initConceptPropertysRelatedByConceptId();
+				$obj2->addConceptPropertyRelatedByConceptId($obj1);
 			}
 
-			$omClass = ConceptPeer::getOMClass();
+			$omClass = SkosPropertyPeer::getOMClass();
 
 	
 			$cls = Propel::import($omClass);
@@ -1517,20 +1400,20 @@ abstract class BaseConceptPropertyPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj3 = $temp_obj1->getConceptRelatedByConceptId(); 
+				$temp_obj3 = $temp_obj1->getSkosProperty(); 
 				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
 					$newObject = false;
-					$temp_obj3->addConceptPropertyRelatedByConceptId($obj1);
+					$temp_obj3->addConceptProperty($obj1);
 					break;
 				}
 			}
 			
 			if ($newObject) {
-				$obj3->initConceptPropertysRelatedByConceptId();
-				$obj3->addConceptPropertyRelatedByConceptId($obj1);
+				$obj3->initConceptPropertys();
+				$obj3->addConceptProperty($obj1);
 			}
 
-			$omClass = SkosPropertyPeer::getOMClass();
+			$omClass = LookupPeer::getOMClass();
 
 	
 			$cls = Propel::import($omClass);
@@ -1540,7 +1423,7 @@ abstract class BaseConceptPropertyPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj4 = $temp_obj1->getSkosProperty(); 
+				$temp_obj4 = $temp_obj1->getLookup(); 
 				if ($temp_obj4->getPrimaryKey() === $obj4->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj4->addConceptProperty($obj1);
@@ -1553,7 +1436,7 @@ abstract class BaseConceptPropertyPeer {
 				$obj4->addConceptProperty($obj1);
 			}
 
-			$omClass = LookupPeer::getOMClass($rs, $startcol5);
+			$omClass = ConceptPeer::getOMClass();
 
 	
 			$cls = Propel::import($omClass);
@@ -1563,17 +1446,17 @@ abstract class BaseConceptPropertyPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj5 = $temp_obj1->getLookup(); 
+				$temp_obj5 = $temp_obj1->getConceptRelatedByRelatedConceptId(); 
 				if ($temp_obj5->getPrimaryKey() === $obj5->getPrimaryKey()) {
 					$newObject = false;
-					$temp_obj5->addConceptProperty($obj1);
+					$temp_obj5->addConceptPropertyRelatedByRelatedConceptId($obj1);
 					break;
 				}
 			}
 			
 			if ($newObject) {
-				$obj5->initConceptPropertys();
-				$obj5->addConceptProperty($obj1);
+				$obj5->initConceptPropertysRelatedByRelatedConceptId();
+				$obj5->addConceptPropertyRelatedByRelatedConceptId($obj1);
 			}
 
 			$results[] = $obj1;
@@ -1600,22 +1483,22 @@ abstract class BaseConceptPropertyPeer {
 		ConceptPeer::addSelectColumns($c);
 		$startcol3 = $startcol2 + ConceptPeer::NUM_COLUMNS;
 
-		ConceptPeer::addSelectColumns($c);
-		$startcol4 = $startcol3 + ConceptPeer::NUM_COLUMNS;
-
 		SkosPropertyPeer::addSelectColumns($c);
-		$startcol5 = $startcol4 + SkosPropertyPeer::NUM_COLUMNS;
+		$startcol4 = $startcol3 + SkosPropertyPeer::NUM_COLUMNS;
 
 		VocabularyPeer::addSelectColumns($c);
-		$startcol6 = $startcol5 + VocabularyPeer::NUM_COLUMNS;
+		$startcol5 = $startcol4 + VocabularyPeer::NUM_COLUMNS;
 
-		$c->addJoin(ConceptPropertyPeer::RELATED_CONCEPT_ID, ConceptPeer::ID);
+		ConceptPeer::addSelectColumns($c);
+		$startcol6 = $startcol5 + ConceptPeer::NUM_COLUMNS;
 
 		$c->addJoin(ConceptPropertyPeer::CONCEPT_ID, ConceptPeer::ID);
 
 		$c->addJoin(ConceptPropertyPeer::SKOS_PROPERTY_ID, SkosPropertyPeer::ID);
 
 		$c->addJoin(ConceptPropertyPeer::SCHEME_ID, VocabularyPeer::ID);
+
+		$c->addJoin(ConceptPropertyPeer::RELATED_CONCEPT_ID, ConceptPeer::ID);
 
 
 		$rs = BasePeer::doSelect($c, $con);
@@ -1639,20 +1522,20 @@ abstract class BaseConceptPropertyPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj2 = $temp_obj1->getConceptRelatedByRelatedConceptId(); 
+				$temp_obj2 = $temp_obj1->getConceptRelatedByConceptId(); 
 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
-					$temp_obj2->addConceptPropertyRelatedByRelatedConceptId($obj1);
+					$temp_obj2->addConceptPropertyRelatedByConceptId($obj1);
 					break;
 				}
 			}
 			
 			if ($newObject) {
-				$obj2->initConceptPropertysRelatedByRelatedConceptId();
-				$obj2->addConceptPropertyRelatedByRelatedConceptId($obj1);
+				$obj2->initConceptPropertysRelatedByConceptId();
+				$obj2->addConceptPropertyRelatedByConceptId($obj1);
 			}
 
-			$omClass = ConceptPeer::getOMClass();
+			$omClass = SkosPropertyPeer::getOMClass();
 
 	
 			$cls = Propel::import($omClass);
@@ -1662,20 +1545,20 @@ abstract class BaseConceptPropertyPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj3 = $temp_obj1->getConceptRelatedByConceptId(); 
+				$temp_obj3 = $temp_obj1->getSkosProperty(); 
 				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
 					$newObject = false;
-					$temp_obj3->addConceptPropertyRelatedByConceptId($obj1);
+					$temp_obj3->addConceptProperty($obj1);
 					break;
 				}
 			}
 			
 			if ($newObject) {
-				$obj3->initConceptPropertysRelatedByConceptId();
-				$obj3->addConceptPropertyRelatedByConceptId($obj1);
+				$obj3->initConceptPropertys();
+				$obj3->addConceptProperty($obj1);
 			}
 
-			$omClass = SkosPropertyPeer::getOMClass();
+			$omClass = VocabularyPeer::getOMClass();
 
 	
 			$cls = Propel::import($omClass);
@@ -1685,7 +1568,7 @@ abstract class BaseConceptPropertyPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj4 = $temp_obj1->getSkosProperty(); 
+				$temp_obj4 = $temp_obj1->getVocabulary(); 
 				if ($temp_obj4->getPrimaryKey() === $obj4->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj4->addConceptProperty($obj1);
@@ -1698,7 +1581,7 @@ abstract class BaseConceptPropertyPeer {
 				$obj4->addConceptProperty($obj1);
 			}
 
-			$omClass = VocabularyPeer::getOMClass();
+			$omClass = ConceptPeer::getOMClass();
 
 	
 			$cls = Propel::import($omClass);
@@ -1708,17 +1591,134 @@ abstract class BaseConceptPropertyPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj5 = $temp_obj1->getVocabulary(); 
+				$temp_obj5 = $temp_obj1->getConceptRelatedByRelatedConceptId(); 
 				if ($temp_obj5->getPrimaryKey() === $obj5->getPrimaryKey()) {
 					$newObject = false;
-					$temp_obj5->addConceptProperty($obj1);
+					$temp_obj5->addConceptPropertyRelatedByRelatedConceptId($obj1);
 					break;
 				}
 			}
 			
 			if ($newObject) {
-				$obj5->initConceptPropertys();
-				$obj5->addConceptProperty($obj1);
+				$obj5->initConceptPropertysRelatedByRelatedConceptId();
+				$obj5->addConceptPropertyRelatedByRelatedConceptId($obj1);
+			}
+
+			$results[] = $obj1;
+		}
+		return $results;
+	}
+
+
+	
+	public static function doSelectJoinAllExceptConceptRelatedByRelatedConceptId(Criteria $c, $con = null)
+	{
+		$c = clone $c;
+
+		
+		
+		
+		if ($c->getDbName() == Propel::getDefaultDB()) {
+			$c->setDbName(self::DATABASE_NAME);
+		}
+
+		ConceptPropertyPeer::addSelectColumns($c);
+		$startcol2 = (ConceptPropertyPeer::NUM_COLUMNS - ConceptPropertyPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+
+		SkosPropertyPeer::addSelectColumns($c);
+		$startcol3 = $startcol2 + SkosPropertyPeer::NUM_COLUMNS;
+
+		VocabularyPeer::addSelectColumns($c);
+		$startcol4 = $startcol3 + VocabularyPeer::NUM_COLUMNS;
+
+		LookupPeer::addSelectColumns($c);
+		$startcol5 = $startcol4 + LookupPeer::NUM_COLUMNS;
+
+		$c->addJoin(ConceptPropertyPeer::SKOS_PROPERTY_ID, SkosPropertyPeer::ID);
+
+		$c->addJoin(ConceptPropertyPeer::SCHEME_ID, VocabularyPeer::ID);
+
+		$c->addJoin(ConceptPropertyPeer::STATUS_ID, LookupPeer::ID);
+
+
+		$rs = BasePeer::doSelect($c, $con);
+		$results = array();
+		
+		while($rs->next()) {
+
+			$omClass = ConceptPropertyPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj1 = new $cls();
+			$obj1->hydrate($rs);		
+
+			$omClass = SkosPropertyPeer::getOMClass();
+
+	
+			$cls = Propel::import($omClass);
+			$obj2  = new $cls();
+			$obj2->hydrate($rs, $startcol2);
+			
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj2 = $temp_obj1->getSkosProperty(); 
+				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj2->addConceptProperty($obj1);
+					break;
+				}
+			}
+			
+			if ($newObject) {
+				$obj2->initConceptPropertys();
+				$obj2->addConceptProperty($obj1);
+			}
+
+			$omClass = VocabularyPeer::getOMClass();
+
+	
+			$cls = Propel::import($omClass);
+			$obj3  = new $cls();
+			$obj3->hydrate($rs, $startcol3);
+			
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj3 = $temp_obj1->getVocabulary(); 
+				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj3->addConceptProperty($obj1);
+					break;
+				}
+			}
+			
+			if ($newObject) {
+				$obj3->initConceptPropertys();
+				$obj3->addConceptProperty($obj1);
+			}
+
+			$omClass = LookupPeer::getOMClass();
+
+	
+			$cls = Propel::import($omClass);
+			$obj4  = new $cls();
+			$obj4->hydrate($rs, $startcol4);
+			
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj4 = $temp_obj1->getLookup(); 
+				if ($temp_obj4->getPrimaryKey() === $obj4->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj4->addConceptProperty($obj1);
+					break;
+				}
+			}
+			
+			if ($newObject) {
+				$obj4->initConceptPropertys();
+				$obj4->addConceptProperty($obj1);
 			}
 
 			$results[] = $obj1;

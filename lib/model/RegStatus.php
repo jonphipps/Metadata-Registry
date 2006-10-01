@@ -12,16 +12,6 @@
  *
  * @package lib.model
  */	
-class Status extends BaseStatus {
-   /**
-   * description
-   *
-   * @return return_type
-   * @param  var_type $var
-   */
-   public function __toString()
-   {
-     return $this->getDisplayName();
-   }
+class RegStatus extends BaseRegStatus {
 
-} // Status
+} // RegStatus

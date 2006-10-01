@@ -45,6 +45,10 @@
     <column name="pref_label" type="VARCHAR" size="255" required="true" default=""/>
     <column name="vocabulary_id" type="INTEGER"/>
     <column name="is_top_concept" type="BOOLEAN"/>
+    <column name="status_id" type="INTEGER"/>
+    <foreign-key foreignTable="reg_status" onDelete="RESTRICT" onUpdate="RESTRICT">
+      <reference local="status_id" foreign="id"/>
+    </foreign-key>
     <foreign-key foreignTable="reg_vocabulary" onDelete="CASCADE" onUpdate="RESTRICT">
       <reference local="vocabulary_id" foreign="id"/>
     </foreign-key>
@@ -57,6 +61,9 @@
     </index>
     <index name="pref_label">
       <index-column name="pref_label"/>
+    </index>
+    <index name="status_id" default="1">
+      <index-column name="status_id"/>
     </index>
   </table>
   <table name="reg_concept_history" phpName="ConceptHistory">
@@ -91,9 +98,6 @@
     <column name="language" type="CHAR" size="6"/>
     <column name="status_id" type="INTEGER"/>
     <foreign-key foreignTable="reg_concept" onDelete="CASCADE" onUpdate="RESTRICT">
-      <reference local="related_concept_id" foreign="id"/>
-    </foreign-key>
-    <foreign-key foreignTable="reg_concept" onDelete="CASCADE" onUpdate="RESTRICT">
       <reference local="concept_id" foreign="id"/>
     </foreign-key>
     <foreign-key foreignTable="reg_skos_property" onDelete="RESTRICT" onUpdate="RESTRICT">
@@ -104,6 +108,9 @@
     </foreign-key>
     <foreign-key foreignTable="reg_lookup" onDelete="RESTRICT" onUpdate="RESTRICT">
       <reference local="status_id" foreign="id"/>
+    </foreign-key>
+    <foreign-key foreignTable="reg_concept" onDelete="CASCADE" onUpdate="RESTRICT">
+      <reference local="related_concept_id" foreign="id"/>
     </foreign-key>
     <unique name="id">
       <unique-column name="id"/>
@@ -126,14 +133,17 @@
   </table>
   <table name="reg_lookup" idMethod="native" phpName="Lookup">
     <column name="id" type="INTEGER" required="true" autoIncrement="true" primaryKey="true"/>
-    <column name="type_id" type="INTEGER" inheritance="single">
-      <inheritance key="1" class="Status" extends="model.Lookup"/>
-    </column>
+    <column name="type_id" type="INTEGER"/>
+    <column name="display_order" type="INTEGER"/>
     <column name="short_value" type="CHAR" size="20"/>
     <column name="long_value" type="VARCHAR" size="255"/>
     <unique name="id">
       <unique-column name="id"/>
     </unique>
+    <index name="display_order">
+      <index-column name="type_id"/>
+      <index-column name="display_order"/>
+    </index>
   </table>
   <table name="reg_skos_property" phpName="SkosProperty" idMethod="native">
     <column name="id" type="INTEGER" required="true" autoIncrement="true" primaryKey="true"/>
@@ -162,6 +172,17 @@
     <unique name="uri">
       <unique-column name="uri"/>
     </unique>
+  </table>
+  <table name="reg_status" phpName="Status" idMethod="native">
+    <column name="id" type="INTEGER" required="true" autoIncrement="true" primaryKey="true"/>
+    <column name="display_order" type="INTEGER"/>
+    <column name="display_name" type="VARCHAR" size="255"/>
+    <unique name="id">
+      <unique-column name="id"/>
+    </unique>
+    <index name="display_order">
+      <index-column name="display_order"/>
+    </index>
   </table>
   <table name="reg_user" phpName="User" idMethod="native">
     <column name="id" type="INTEGER" required="true" autoIncrement="true" primaryKey="true"/>

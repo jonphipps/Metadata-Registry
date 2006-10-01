@@ -17,6 +17,10 @@ abstract class BaseLookup extends BaseObject  implements Persistent {
 
 
 	
+	protected $display_order;
+
+
+	
 	protected $short_value;
 
 
@@ -47,6 +51,13 @@ abstract class BaseLookup extends BaseObject  implements Persistent {
 	{
 
 		return $this->type_id;
+	}
+
+	
+	public function getDisplayOrder()
+	{
+
+		return $this->display_order;
 	}
 
 	
@@ -86,6 +97,17 @@ abstract class BaseLookup extends BaseObject  implements Persistent {
 	} 
 
 	
+	public function setDisplayOrder($v)
+	{
+
+		if ($this->display_order !== $v) {
+			$this->display_order = $v;
+			$this->modifiedColumns[] = LookupPeer::DISPLAY_ORDER;
+		}
+
+	} 
+
+	
 	public function setShortValue($v)
 	{
 
@@ -116,16 +138,18 @@ abstract class BaseLookup extends BaseObject  implements Persistent {
 
 			$this->type_id = $rs->getInt($startcol + 1);
 
-			$this->short_value = $rs->getString($startcol + 2);
+			$this->display_order = $rs->getInt($startcol + 2);
 
-			$this->long_value = $rs->getString($startcol + 3);
+			$this->short_value = $rs->getString($startcol + 3);
+
+			$this->long_value = $rs->getString($startcol + 4);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			
-			return $startcol + 4; 
+			return $startcol + 5; 
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Lookup object", $e);
@@ -284,9 +308,12 @@ abstract class BaseLookup extends BaseObject  implements Persistent {
 				return $this->getTypeId();
 				break;
 			case 2:
-				return $this->getShortValue();
+				return $this->getDisplayOrder();
 				break;
 			case 3:
+				return $this->getShortValue();
+				break;
+			case 4:
 				return $this->getLongValue();
 				break;
 			default:
@@ -302,8 +329,9 @@ abstract class BaseLookup extends BaseObject  implements Persistent {
 		$result = array(
 			$keys[0] => $this->getId(),
 			$keys[1] => $this->getTypeId(),
-			$keys[2] => $this->getShortValue(),
-			$keys[3] => $this->getLongValue(),
+			$keys[2] => $this->getDisplayOrder(),
+			$keys[3] => $this->getShortValue(),
+			$keys[4] => $this->getLongValue(),
 		);
 		return $result;
 	}
@@ -326,9 +354,12 @@ abstract class BaseLookup extends BaseObject  implements Persistent {
 				$this->setTypeId($value);
 				break;
 			case 2:
-				$this->setShortValue($value);
+				$this->setDisplayOrder($value);
 				break;
 			case 3:
+				$this->setShortValue($value);
+				break;
+			case 4:
 				$this->setLongValue($value);
 				break;
 		} 
@@ -341,8 +372,9 @@ abstract class BaseLookup extends BaseObject  implements Persistent {
 
 		if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
 		if (array_key_exists($keys[1], $arr)) $this->setTypeId($arr[$keys[1]]);
-		if (array_key_exists($keys[2], $arr)) $this->setShortValue($arr[$keys[2]]);
-		if (array_key_exists($keys[3], $arr)) $this->setLongValue($arr[$keys[3]]);
+		if (array_key_exists($keys[2], $arr)) $this->setDisplayOrder($arr[$keys[2]]);
+		if (array_key_exists($keys[3], $arr)) $this->setShortValue($arr[$keys[3]]);
+		if (array_key_exists($keys[4], $arr)) $this->setLongValue($arr[$keys[4]]);
 	}
 
 	
@@ -352,6 +384,7 @@ abstract class BaseLookup extends BaseObject  implements Persistent {
 
 		if ($this->isColumnModified(LookupPeer::ID)) $criteria->add(LookupPeer::ID, $this->id);
 		if ($this->isColumnModified(LookupPeer::TYPE_ID)) $criteria->add(LookupPeer::TYPE_ID, $this->type_id);
+		if ($this->isColumnModified(LookupPeer::DISPLAY_ORDER)) $criteria->add(LookupPeer::DISPLAY_ORDER, $this->display_order);
 		if ($this->isColumnModified(LookupPeer::SHORT_VALUE)) $criteria->add(LookupPeer::SHORT_VALUE, $this->short_value);
 		if ($this->isColumnModified(LookupPeer::LONG_VALUE)) $criteria->add(LookupPeer::LONG_VALUE, $this->long_value);
 
@@ -385,6 +418,8 @@ abstract class BaseLookup extends BaseObject  implements Persistent {
 	{
 
 		$copyObj->setTypeId($this->type_id);
+
+		$copyObj->setDisplayOrder($this->display_order);
 
 		$copyObj->setShortValue($this->short_value);
 
@@ -506,45 +541,6 @@ abstract class BaseLookup extends BaseObject  implements Persistent {
 
 
 	
-	public function getConceptPropertysJoinConceptRelatedByRelatedConceptId($criteria = null, $con = null)
-	{
-		
-		include_once 'lib/model/om/BaseConceptPropertyPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collConceptPropertys === null) {
-			if ($this->isNew()) {
-				$this->collConceptPropertys = array();
-			} else {
-
-				$criteria->add(ConceptPropertyPeer::STATUS_ID, $this->getId());
-
-				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinConceptRelatedByRelatedConceptId($criteria, $con);
-			}
-		} else {
-			
-			
-			
-
-			$criteria->add(ConceptPropertyPeer::STATUS_ID, $this->getId());
-
-			if (!isset($this->lastConceptPropertyCriteria) || !$this->lastConceptPropertyCriteria->equals($criteria)) {
-				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinConceptRelatedByRelatedConceptId($criteria, $con);
-			}
-		}
-		$this->lastConceptPropertyCriteria = $criteria;
-
-		return $this->collConceptPropertys;
-	}
-
-
-	
 	public function getConceptPropertysJoinConceptRelatedByConceptId($criteria = null, $con = null)
 	{
 		
@@ -653,6 +649,45 @@ abstract class BaseLookup extends BaseObject  implements Persistent {
 
 			if (!isset($this->lastConceptPropertyCriteria) || !$this->lastConceptPropertyCriteria->equals($criteria)) {
 				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinVocabulary($criteria, $con);
+			}
+		}
+		$this->lastConceptPropertyCriteria = $criteria;
+
+		return $this->collConceptPropertys;
+	}
+
+
+	
+	public function getConceptPropertysJoinConceptRelatedByRelatedConceptId($criteria = null, $con = null)
+	{
+		
+		include_once 'lib/model/om/BaseConceptPropertyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collConceptPropertys === null) {
+			if ($this->isNew()) {
+				$this->collConceptPropertys = array();
+			} else {
+
+				$criteria->add(ConceptPropertyPeer::STATUS_ID, $this->getId());
+
+				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinConceptRelatedByRelatedConceptId($criteria, $con);
+			}
+		} else {
+			
+			
+			
+
+			$criteria->add(ConceptPropertyPeer::STATUS_ID, $this->getId());
+
+			if (!isset($this->lastConceptPropertyCriteria) || !$this->lastConceptPropertyCriteria->equals($criteria)) {
+				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinConceptRelatedByRelatedConceptId($criteria, $con);
 			}
 		}
 		$this->lastConceptPropertyCriteria = $criteria;

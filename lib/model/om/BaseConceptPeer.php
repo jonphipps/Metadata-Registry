@@ -13,7 +13,7 @@ abstract class BaseConceptPeer {
 	const CLASS_DEFAULT = 'lib.model.Concept';
 
 	
-	const NUM_COLUMNS = 7;
+	const NUM_COLUMNS = 8;
 
 	
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -41,23 +41,26 @@ abstract class BaseConceptPeer {
 	const IS_TOP_CONCEPT = 'reg_concept.IS_TOP_CONCEPT';
 
 	
+	const STATUS_ID = 'reg_concept.STATUS_ID';
+
+	
 	private static $phpNameMap = null;
 
 
 	
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'CreatedAt', 'LastUpdated', 'Uri', 'PrefLabel', 'VocabularyId', 'IsTopConcept', ),
-		BasePeer::TYPE_COLNAME => array (ConceptPeer::ID, ConceptPeer::CREATED_AT, ConceptPeer::LAST_UPDATED, ConceptPeer::URI, ConceptPeer::PREF_LABEL, ConceptPeer::VOCABULARY_ID, ConceptPeer::IS_TOP_CONCEPT, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'created_at', 'last_updated', 'uri', 'pref_label', 'vocabulary_id', 'is_top_concept', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'CreatedAt', 'LastUpdated', 'Uri', 'PrefLabel', 'VocabularyId', 'IsTopConcept', 'StatusId', ),
+		BasePeer::TYPE_COLNAME => array (ConceptPeer::ID, ConceptPeer::CREATED_AT, ConceptPeer::LAST_UPDATED, ConceptPeer::URI, ConceptPeer::PREF_LABEL, ConceptPeer::VOCABULARY_ID, ConceptPeer::IS_TOP_CONCEPT, ConceptPeer::STATUS_ID, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'created_at', 'last_updated', 'uri', 'pref_label', 'vocabulary_id', 'is_top_concept', 'status_id', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, )
 	);
 
 	
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'CreatedAt' => 1, 'LastUpdated' => 2, 'Uri' => 3, 'PrefLabel' => 4, 'VocabularyId' => 5, 'IsTopConcept' => 6, ),
-		BasePeer::TYPE_COLNAME => array (ConceptPeer::ID => 0, ConceptPeer::CREATED_AT => 1, ConceptPeer::LAST_UPDATED => 2, ConceptPeer::URI => 3, ConceptPeer::PREF_LABEL => 4, ConceptPeer::VOCABULARY_ID => 5, ConceptPeer::IS_TOP_CONCEPT => 6, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'created_at' => 1, 'last_updated' => 2, 'uri' => 3, 'pref_label' => 4, 'vocabulary_id' => 5, 'is_top_concept' => 6, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'CreatedAt' => 1, 'LastUpdated' => 2, 'Uri' => 3, 'PrefLabel' => 4, 'VocabularyId' => 5, 'IsTopConcept' => 6, 'StatusId' => 7, ),
+		BasePeer::TYPE_COLNAME => array (ConceptPeer::ID => 0, ConceptPeer::CREATED_AT => 1, ConceptPeer::LAST_UPDATED => 2, ConceptPeer::URI => 3, ConceptPeer::PREF_LABEL => 4, ConceptPeer::VOCABULARY_ID => 5, ConceptPeer::IS_TOP_CONCEPT => 6, ConceptPeer::STATUS_ID => 7, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'created_at' => 1, 'last_updated' => 2, 'uri' => 3, 'pref_label' => 4, 'vocabulary_id' => 5, 'is_top_concept' => 6, 'status_id' => 7, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, )
 	);
 
 	
@@ -124,6 +127,8 @@ abstract class BaseConceptPeer {
 		$criteria->addSelectColumn(ConceptPeer::VOCABULARY_ID);
 
 		$criteria->addSelectColumn(ConceptPeer::IS_TOP_CONCEPT);
+
+		$criteria->addSelectColumn(ConceptPeer::STATUS_ID);
 
 	}
 
@@ -213,6 +218,38 @@ abstract class BaseConceptPeer {
 	}
 
 	
+	public static function doCountJoinStatus(Criteria $criteria, $distinct = false, $con = null)
+	{
+		
+		$criteria = clone $criteria;
+		
+		
+		$criteria->clearSelectColumns()->clearOrderByColumns();
+		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->addSelectColumn(ConceptPeer::COUNT_DISTINCT);
+		} else {
+			$criteria->addSelectColumn(ConceptPeer::COUNT);
+		}
+		
+		
+		foreach($criteria->getGroupByColumns() as $column)
+		{
+			$criteria->addSelectColumn($column);
+		}
+
+		$criteria->addJoin(ConceptPeer::STATUS_ID, StatusPeer::ID);
+
+		$rs = ConceptPeer::doSelectRS($criteria, $con);
+		if ($rs->next()) {
+			return $rs->getInt(1);
+		} else {
+			
+			return 0;
+		}
+	}
+
+
+	
 	public static function doCountJoinVocabulary(Criteria $criteria, $distinct = false, $con = null)
 	{
 		
@@ -241,6 +278,58 @@ abstract class BaseConceptPeer {
 			
 			return 0;
 		}
+	}
+
+
+	
+	public static function doSelectJoinStatus(Criteria $c, $con = null)
+	{
+		$c = clone $c;
+
+		
+		if ($c->getDbName() == Propel::getDefaultDB()) {
+			$c->setDbName(self::DATABASE_NAME);
+		}
+
+		ConceptPeer::addSelectColumns($c);
+		$startcol = (ConceptPeer::NUM_COLUMNS - ConceptPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+		StatusPeer::addSelectColumns($c);
+
+		$c->addJoin(ConceptPeer::STATUS_ID, StatusPeer::ID);
+		$rs = BasePeer::doSelect($c, $con);
+		$results = array();
+
+		while($rs->next()) {
+
+			$omClass = ConceptPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj1 = new $cls();
+			$obj1->hydrate($rs);
+
+			$omClass = StatusPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj2 = new $cls();
+			$obj2->hydrate($rs, $startcol);
+
+			$newObject = true;
+			foreach($results as $temp_obj1) {
+				$temp_obj2 = $temp_obj1->getStatus(); 
+				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+					$newObject = false;
+					
+					$temp_obj2->addConcept($obj1); 
+					break;
+				}
+			}
+			if ($newObject) {
+				$obj2->initConcepts();
+				$obj2->addConcept($obj1); 
+			}
+			$results[] = $obj1;
+		}
+		return $results;
 	}
 
 
@@ -315,6 +404,8 @@ abstract class BaseConceptPeer {
 			$criteria->addSelectColumn($column);
 		}
 
+		$criteria->addJoin(ConceptPeer::STATUS_ID, StatusPeer::ID);
+
 		$criteria->addJoin(ConceptPeer::VOCABULARY_ID, VocabularyPeer::ID);
 
 		$rs = ConceptPeer::doSelectRS($criteria, $con);
@@ -340,8 +431,13 @@ abstract class BaseConceptPeer {
 		ConceptPeer::addSelectColumns($c);
 		$startcol2 = (ConceptPeer::NUM_COLUMNS - ConceptPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 
+		StatusPeer::addSelectColumns($c);
+		$startcol3 = $startcol2 + StatusPeer::NUM_COLUMNS;
+
 		VocabularyPeer::addSelectColumns($c);
-		$startcol3 = $startcol2 + VocabularyPeer::NUM_COLUMNS;
+		$startcol4 = $startcol3 + VocabularyPeer::NUM_COLUMNS;
+
+		$c->addJoin(ConceptPeer::STATUS_ID, StatusPeer::ID);
 
 		$c->addJoin(ConceptPeer::VOCABULARY_ID, VocabularyPeer::ID);
 
@@ -360,7 +456,7 @@ abstract class BaseConceptPeer {
 				
 				
 	
-			$omClass = VocabularyPeer::getOMClass();
+			$omClass = StatusPeer::getOMClass();
 
 	
 			$cls = Propel::import($omClass);
@@ -370,10 +466,222 @@ abstract class BaseConceptPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj2 = $temp_obj1->getVocabulary(); 
+				$temp_obj2 = $temp_obj1->getStatus(); 
 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj2->addConcept($obj1); 
+					break;
+				}
+			}
+			
+			if ($newObject) {
+				$obj2->initConcepts();
+				$obj2->addConcept($obj1);
+			}
+
+				
+				
+	
+			$omClass = VocabularyPeer::getOMClass();
+
+	
+			$cls = Propel::import($omClass);
+			$obj3 = new $cls();
+			$obj3->hydrate($rs, $startcol3);
+			
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj3 = $temp_obj1->getVocabulary(); 
+				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj3->addConcept($obj1); 
+					break;
+				}
+			}
+			
+			if ($newObject) {
+				$obj3->initConcepts();
+				$obj3->addConcept($obj1);
+			}
+
+			$results[] = $obj1;
+		}
+		return $results;
+	}
+
+
+	
+	public static function doCountJoinAllExceptStatus(Criteria $criteria, $distinct = false, $con = null)
+	{
+		
+		$criteria = clone $criteria;
+		
+		
+		$criteria->clearSelectColumns()->clearOrderByColumns();
+		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->addSelectColumn(ConceptPeer::COUNT_DISTINCT);
+		} else {
+			$criteria->addSelectColumn(ConceptPeer::COUNT);
+		}
+		
+		
+		foreach($criteria->getGroupByColumns() as $column)
+		{
+			$criteria->addSelectColumn($column);
+		}
+
+		$criteria->addJoin(ConceptPeer::VOCABULARY_ID, VocabularyPeer::ID);
+
+		$rs = ConceptPeer::doSelectRS($criteria, $con);
+		if ($rs->next()) {
+			return $rs->getInt(1);
+		} else {
+			
+			return 0;
+		}
+	}
+
+
+	
+	public static function doCountJoinAllExceptVocabulary(Criteria $criteria, $distinct = false, $con = null)
+	{
+		
+		$criteria = clone $criteria;
+		
+		
+		$criteria->clearSelectColumns()->clearOrderByColumns();
+		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->addSelectColumn(ConceptPeer::COUNT_DISTINCT);
+		} else {
+			$criteria->addSelectColumn(ConceptPeer::COUNT);
+		}
+		
+		
+		foreach($criteria->getGroupByColumns() as $column)
+		{
+			$criteria->addSelectColumn($column);
+		}
+
+		$criteria->addJoin(ConceptPeer::STATUS_ID, StatusPeer::ID);
+
+		$rs = ConceptPeer::doSelectRS($criteria, $con);
+		if ($rs->next()) {
+			return $rs->getInt(1);
+		} else {
+			
+			return 0;
+		}
+	}
+
+
+	
+	public static function doSelectJoinAllExceptStatus(Criteria $c, $con = null)
+	{
+		$c = clone $c;
+
+		
+		
+		
+		if ($c->getDbName() == Propel::getDefaultDB()) {
+			$c->setDbName(self::DATABASE_NAME);
+		}
+
+		ConceptPeer::addSelectColumns($c);
+		$startcol2 = (ConceptPeer::NUM_COLUMNS - ConceptPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+
+		VocabularyPeer::addSelectColumns($c);
+		$startcol3 = $startcol2 + VocabularyPeer::NUM_COLUMNS;
+
+		$c->addJoin(ConceptPeer::VOCABULARY_ID, VocabularyPeer::ID);
+
+
+		$rs = BasePeer::doSelect($c, $con);
+		$results = array();
+		
+		while($rs->next()) {
+
+			$omClass = ConceptPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj1 = new $cls();
+			$obj1->hydrate($rs);		
+
+			$omClass = VocabularyPeer::getOMClass();
+
+	
+			$cls = Propel::import($omClass);
+			$obj2  = new $cls();
+			$obj2->hydrate($rs, $startcol2);
+			
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj2 = $temp_obj1->getVocabulary(); 
+				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj2->addConcept($obj1);
+					break;
+				}
+			}
+			
+			if ($newObject) {
+				$obj2->initConcepts();
+				$obj2->addConcept($obj1);
+			}
+
+			$results[] = $obj1;
+		}
+		return $results;
+	}
+
+
+	
+	public static function doSelectJoinAllExceptVocabulary(Criteria $c, $con = null)
+	{
+		$c = clone $c;
+
+		
+		
+		
+		if ($c->getDbName() == Propel::getDefaultDB()) {
+			$c->setDbName(self::DATABASE_NAME);
+		}
+
+		ConceptPeer::addSelectColumns($c);
+		$startcol2 = (ConceptPeer::NUM_COLUMNS - ConceptPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+
+		StatusPeer::addSelectColumns($c);
+		$startcol3 = $startcol2 + StatusPeer::NUM_COLUMNS;
+
+		$c->addJoin(ConceptPeer::STATUS_ID, StatusPeer::ID);
+
+
+		$rs = BasePeer::doSelect($c, $con);
+		$results = array();
+		
+		while($rs->next()) {
+
+			$omClass = ConceptPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj1 = new $cls();
+			$obj1->hydrate($rs);		
+
+			$omClass = StatusPeer::getOMClass();
+
+	
+			$cls = Propel::import($omClass);
+			$obj2  = new $cls();
+			$obj2->hydrate($rs, $startcol2);
+			
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj2 = $temp_obj1->getStatus(); 
+				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj2->addConcept($obj1);
 					break;
 				}
 			}

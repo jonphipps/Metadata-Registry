@@ -2,10 +2,10 @@
 
 
 	
-class LookupMapBuilder {
+class RegStatusMapBuilder {
 
 	
-	const CLASS_NAME = 'lib.model.map.LookupMapBuilder';	
+	const CLASS_NAME = 'lib.model.map.RegStatusMapBuilder';	
 
     
     private $dbMap;
@@ -27,20 +27,16 @@ class LookupMapBuilder {
     {
 		$this->dbMap = Propel::getDatabaseMap('propel');
 		
-		$tMap = $this->dbMap->addTable('reg_lookup');
-		$tMap->setPhpName('Lookup');
+		$tMap = $this->dbMap->addTable('reg_status');
+		$tMap->setPhpName('RegStatus');
 
 		$tMap->setUseIdGenerator(true);
 
 		$tMap->addPrimaryKey('ID', 'Id', 'int', CreoleTypes::INTEGER, true, null);
 
-		$tMap->addColumn('TYPE_ID', 'TypeId', 'int', CreoleTypes::INTEGER, false, null);
-
 		$tMap->addColumn('DISPLAY_ORDER', 'DisplayOrder', 'int', CreoleTypes::INTEGER, false, null);
 
-		$tMap->addColumn('SHORT_VALUE', 'ShortValue', 'string', CreoleTypes::CHAR, false, 20);
-
-		$tMap->addColumn('LONG_VALUE', 'LongValue', 'string', CreoleTypes::VARCHAR, false, 255);
+		$tMap->addColumn('DISPLAY_NAME', 'DisplayName', 'string', CreoleTypes::VARCHAR, false, 255);
 				
     } 
 

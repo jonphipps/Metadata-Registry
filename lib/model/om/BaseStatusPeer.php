@@ -1,38 +1,32 @@
 <?php
 
 
-abstract class BaseLookupPeer {
+abstract class BaseStatusPeer {
 
 	
 	const DATABASE_NAME = 'propel';
 
 	
-	const TABLE_NAME = 'reg_lookup';
+	const TABLE_NAME = 'reg_status';
 
 	
-	const CLASS_DEFAULT = 'lib.model.Lookup';
+	const CLASS_DEFAULT = 'lib.model.Status';
 
 	
-	const NUM_COLUMNS = 5;
+	const NUM_COLUMNS = 3;
 
 	
 	const NUM_LAZY_LOAD_COLUMNS = 0;
 
 
 	
-	const ID = 'reg_lookup.ID';
+	const ID = 'reg_status.ID';
 
 	
-	const TYPE_ID = 'reg_lookup.TYPE_ID';
+	const DISPLAY_ORDER = 'reg_status.DISPLAY_ORDER';
 
 	
-	const DISPLAY_ORDER = 'reg_lookup.DISPLAY_ORDER';
-
-	
-	const SHORT_VALUE = 'reg_lookup.SHORT_VALUE';
-
-	
-	const LONG_VALUE = 'reg_lookup.LONG_VALUE';
+	const DISPLAY_NAME = 'reg_status.DISPLAY_NAME';
 
 	
 	private static $phpNameMap = null;
@@ -40,31 +34,31 @@ abstract class BaseLookupPeer {
 
 	
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'TypeId', 'DisplayOrder', 'ShortValue', 'LongValue', ),
-		BasePeer::TYPE_COLNAME => array (LookupPeer::ID, LookupPeer::TYPE_ID, LookupPeer::DISPLAY_ORDER, LookupPeer::SHORT_VALUE, LookupPeer::LONG_VALUE, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'type_id', 'display_order', 'short_value', 'long_value', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'DisplayOrder', 'DisplayName', ),
+		BasePeer::TYPE_COLNAME => array (StatusPeer::ID, StatusPeer::DISPLAY_ORDER, StatusPeer::DISPLAY_NAME, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'display_order', 'display_name', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, )
 	);
 
 	
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'TypeId' => 1, 'DisplayOrder' => 2, 'ShortValue' => 3, 'LongValue' => 4, ),
-		BasePeer::TYPE_COLNAME => array (LookupPeer::ID => 0, LookupPeer::TYPE_ID => 1, LookupPeer::DISPLAY_ORDER => 2, LookupPeer::SHORT_VALUE => 3, LookupPeer::LONG_VALUE => 4, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'type_id' => 1, 'display_order' => 2, 'short_value' => 3, 'long_value' => 4, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'DisplayOrder' => 1, 'DisplayName' => 2, ),
+		BasePeer::TYPE_COLNAME => array (StatusPeer::ID => 0, StatusPeer::DISPLAY_ORDER => 1, StatusPeer::DISPLAY_NAME => 2, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'display_order' => 1, 'display_name' => 2, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, )
 	);
 
 	
 	public static function getMapBuilder()
 	{
-		include_once 'lib/model/map/LookupMapBuilder.php';
-		return BasePeer::getMapBuilder('lib.model.map.LookupMapBuilder');
+		include_once 'lib/model/map/StatusMapBuilder.php';
+		return BasePeer::getMapBuilder('lib.model.map.StatusMapBuilder');
 	}
 	
 	public static function getPhpNameMap()
 	{
 		if (self::$phpNameMap === null) {
-			$map = LookupPeer::getTableMap();
+			$map = StatusPeer::getTableMap();
 			$columns = $map->getColumns();
 			$nameMap = array();
 			foreach ($columns as $column) {
@@ -98,27 +92,23 @@ abstract class BaseLookupPeer {
 	
 	public static function alias($alias, $column)
 	{
-		return str_replace(LookupPeer::TABLE_NAME.'.', $alias.'.', $column);
+		return str_replace(StatusPeer::TABLE_NAME.'.', $alias.'.', $column);
 	}
 
 	
 	public static function addSelectColumns(Criteria $criteria)
 	{
 
-		$criteria->addSelectColumn(LookupPeer::ID);
+		$criteria->addSelectColumn(StatusPeer::ID);
 
-		$criteria->addSelectColumn(LookupPeer::TYPE_ID);
+		$criteria->addSelectColumn(StatusPeer::DISPLAY_ORDER);
 
-		$criteria->addSelectColumn(LookupPeer::DISPLAY_ORDER);
-
-		$criteria->addSelectColumn(LookupPeer::SHORT_VALUE);
-
-		$criteria->addSelectColumn(LookupPeer::LONG_VALUE);
+		$criteria->addSelectColumn(StatusPeer::DISPLAY_NAME);
 
 	}
 
-	const COUNT = 'COUNT(reg_lookup.ID)';
-	const COUNT_DISTINCT = 'COUNT(DISTINCT reg_lookup.ID)';
+	const COUNT = 'COUNT(reg_status.ID)';
+	const COUNT_DISTINCT = 'COUNT(DISTINCT reg_status.ID)';
 
 	
 	public static function doCount(Criteria $criteria, $distinct = false, $con = null)
@@ -129,9 +119,9 @@ abstract class BaseLookupPeer {
 		
 		$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
-			$criteria->addSelectColumn(LookupPeer::COUNT_DISTINCT);
+			$criteria->addSelectColumn(StatusPeer::COUNT_DISTINCT);
 		} else {
-			$criteria->addSelectColumn(LookupPeer::COUNT);
+			$criteria->addSelectColumn(StatusPeer::COUNT);
 		}
 
 		
@@ -140,7 +130,7 @@ abstract class BaseLookupPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$rs = LookupPeer::doSelectRS($criteria, $con);
+		$rs = StatusPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
 			return $rs->getInt(1);
 		} else {
@@ -153,7 +143,7 @@ abstract class BaseLookupPeer {
 	{
 		$critcopy = clone $criteria;
 		$critcopy->setLimit(1);
-		$objects = LookupPeer::doSelect($critcopy, $con);
+		$objects = StatusPeer::doSelect($critcopy, $con);
 		if ($objects) {
 			return $objects[0];
 		}
@@ -162,7 +152,7 @@ abstract class BaseLookupPeer {
 	
 	public static function doSelect(Criteria $criteria, $con = null)
 	{
-		return LookupPeer::populateObjects(LookupPeer::doSelectRS($criteria, $con));
+		return StatusPeer::populateObjects(StatusPeer::doSelectRS($criteria, $con));
 	}
 	
 	public static function doSelectRS(Criteria $criteria, $con = null)
@@ -173,7 +163,7 @@ abstract class BaseLookupPeer {
 
 		if (!$criteria->getSelectColumns()) {
 			$criteria = clone $criteria;
-			LookupPeer::addSelectColumns($criteria);
+			StatusPeer::addSelectColumns($criteria);
 		}
 
 		
@@ -189,7 +179,7 @@ abstract class BaseLookupPeer {
 		$results = array();
 	
 		
-		$cls = LookupPeer::getOMClass();
+		$cls = StatusPeer::getOMClass();
 		$cls = Propel::import($cls);
 		
 		while($rs->next()) {
@@ -210,7 +200,7 @@ abstract class BaseLookupPeer {
 	
 	public static function getOMClass()
 	{
-		return LookupPeer::CLASS_DEFAULT;
+		return StatusPeer::CLASS_DEFAULT;
 	}
 
 	
@@ -226,7 +216,7 @@ abstract class BaseLookupPeer {
 			$criteria = $values->buildCriteria(); 
 		}
 
-		$criteria->remove(LookupPeer::ID); 
+		$criteria->remove(StatusPeer::ID); 
 
 
 		
@@ -258,8 +248,8 @@ abstract class BaseLookupPeer {
 		if ($values instanceof Criteria) {
 			$criteria = clone $values; 
 
-			$comparison = $criteria->getComparison(LookupPeer::ID);
-			$selectCriteria->add(LookupPeer::ID, $criteria->remove(LookupPeer::ID), $comparison);
+			$comparison = $criteria->getComparison(StatusPeer::ID);
+			$selectCriteria->add(StatusPeer::ID, $criteria->remove(StatusPeer::ID), $comparison);
 
 		} else { 
 			$criteria = $values->buildCriteria(); 
@@ -283,7 +273,7 @@ abstract class BaseLookupPeer {
 			
 			
 			$con->begin();
-			$affectedRows += BasePeer::doDeleteAll(LookupPeer::TABLE_NAME, $con);
+			$affectedRows += BasePeer::doDeleteAll(StatusPeer::TABLE_NAME, $con);
 			$con->commit();
 			return $affectedRows;
 		} catch (PropelException $e) {
@@ -296,18 +286,18 @@ abstract class BaseLookupPeer {
 	 public static function doDelete($values, $con = null)
 	 {
 		if ($con === null) {
-			$con = Propel::getConnection(LookupPeer::DATABASE_NAME);
+			$con = Propel::getConnection(StatusPeer::DATABASE_NAME);
 		}
 
 		if ($values instanceof Criteria) {
 			$criteria = clone $values; 
-		} elseif ($values instanceof Lookup) {
+		} elseif ($values instanceof Status) {
 
 			$criteria = $values->buildPkeyCriteria();
 		} else {
 			
 			$criteria = new Criteria(self::DATABASE_NAME);
-			$criteria->add(LookupPeer::ID, (array) $values, Criteria::IN);
+			$criteria->add(StatusPeer::ID, (array) $values, Criteria::IN);
 		}
 
 		
@@ -330,13 +320,13 @@ abstract class BaseLookupPeer {
 	}
 
 	
-	public static function doValidate(Lookup $obj, $cols = null)
+	public static function doValidate(Status $obj, $cols = null)
 	{
 		$columns = array();
 
 		if ($cols) {
-			$dbMap = Propel::getDatabaseMap(LookupPeer::DATABASE_NAME);
-			$tableMap = $dbMap->getTable(LookupPeer::TABLE_NAME);
+			$dbMap = Propel::getDatabaseMap(StatusPeer::DATABASE_NAME);
+			$tableMap = $dbMap->getTable(StatusPeer::TABLE_NAME);
 
 			if (! is_array($cols)) {
 				$cols = array($cols);
@@ -352,7 +342,7 @@ abstract class BaseLookupPeer {
 
 		}
 
-		return BasePeer::doValidate(LookupPeer::DATABASE_NAME, LookupPeer::TABLE_NAME, $columns);
+		return BasePeer::doValidate(StatusPeer::DATABASE_NAME, StatusPeer::TABLE_NAME, $columns);
 	}
 
 	
@@ -362,12 +352,12 @@ abstract class BaseLookupPeer {
 			$con = Propel::getConnection(self::DATABASE_NAME);
 		}
 
-		$criteria = new Criteria(LookupPeer::DATABASE_NAME);
+		$criteria = new Criteria(StatusPeer::DATABASE_NAME);
 
-		$criteria->add(LookupPeer::ID, $pk);
+		$criteria->add(StatusPeer::ID, $pk);
 
 
-		$v = LookupPeer::doSelect($criteria, $con);
+		$v = StatusPeer::doSelect($criteria, $con);
 
 		return !empty($v) > 0 ? $v[0] : null;
 	}
@@ -384,8 +374,8 @@ abstract class BaseLookupPeer {
 			$objs = array();
 		} else {
 			$criteria = new Criteria();
-			$criteria->add(LookupPeer::ID, $pks, Criteria::IN);
-			$objs = LookupPeer::doSelect($criteria, $con);
+			$criteria->add(StatusPeer::ID, $pks, Criteria::IN);
+			$objs = StatusPeer::doSelect($criteria, $con);
 		}
 		return $objs;
 	}
@@ -397,13 +387,13 @@ if (Propel::isInit()) {
 	
 	
 	try {
-		BaseLookupPeer::getMapBuilder();
+		BaseStatusPeer::getMapBuilder();
 	} catch (Exception $e) {
 		Propel::log('Could not initialize Peer: ' . $e->getMessage(), Propel::LOG_ERR);
 	}
 } else {
 	
 	
-	require_once 'lib/model/map/LookupMapBuilder.php';
-	Propel::registerMapBuilder('lib.model.map.LookupMapBuilder');
+	require_once 'lib/model/map/StatusMapBuilder.php';
+	Propel::registerMapBuilder('lib.model.map.StatusMapBuilder');
 }
