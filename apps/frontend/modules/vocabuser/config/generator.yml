@@ -1,0 +1,42 @@
+generator:
+  class:              sfPropelAdminGenerator
+  param:
+    model_class:      VocabularyHasUser
+    theme:            default
+
+    fields:
+      vocabulary_id:  { params: peer_method=getVocabulariesForCurrentUser include_blank=true }
+      user_id:        { params: peer_method=getUsersForAgentUsers include_blank=true }
+
+    list:
+      peer_method:       doSelectForUser
+      peer_count_method: doCountForUser
+      title:             Resource Owner and User Relationships
+      display:           [_user, _vocabulary, isRegistrarFor, isAdminFor, isMaintainerFor]
+      object_actions:
+        _edit:           { credentials: [administrator] }
+        _delete:         { credentials: [administrator] }
+      actions:
+        _create:         { credentials: [administrator] }
+  
+    edit:
+      helptype:       icon
+      fields:
+        user:          { type: plain }
+        vocabulary:    { type: plain }
+      display:         [user, vocabulary, isAdminFor, isMaintainerFor]
+      actions:
+        _list:      -
+        _save:         { credentials: [[administrator, hasAgents, vocabularymaintainer]] }
+        _delete:       { credentials: [administrator] }
+        _create:       { credentials: [[administrator, hasAgents]] }
+        _save_and_add: { credentials: [administrator] }
+        _cancel:       { credentials: [[administrator, hasAgents, vocabularymaintainer]] }
+
+    create:
+      helptype:       icon
+      display:          [user_id, vocabulary_id, isAdminFor, isMaintainerFor]
+      actions:
+        _list:      -
+        _save:         { credentials: [[administrator, hasAgents]] }
+        _save_and_add: { credentials: [administrator] }
