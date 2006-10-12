@@ -40,6 +40,9 @@ class <?php echo $this->getGeneratedModuleName() ?>Actions extends sfActions
 <?php if ($this->getParameterValue('list.peer_method')): ?>
     $this->pager->setPeerMethod('<?php echo $this->getParameterValue('list.peer_method') ?>');
 <?php endif ?>
+<?php if ($this->getParameterValue('list.peer_count_method')): ?>
+    $this->pager->setPeerCountMethod('<?php echo $this->getParameterValue('list.peer_count_method') ?>');
+<?php endif ?>
     $this->pager->init();
   }
 
