@@ -7,5 +7,5 @@ class conceptComponents extends sfComponents
     $c->add(ConceptPropertyPeer::CONCEPT_ID, $this->conceptId);
     $c->addDescendingOrderByColumn(ConceptPropertyPeer::SKOS_PROPERTY_ID);
     $this->properties = ConceptPropertyPeer::doSelect($c);
-  }
+  } 
 }

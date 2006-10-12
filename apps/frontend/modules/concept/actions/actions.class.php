@@ -115,6 +115,22 @@ class conceptActions extends autoconceptActions
   {
     $this->redirect('/conceptprop/list?concept_id=' . $this->getRequestParameter('id') );
   }
+  
+  public function executegetConceptList() 
+  {
+     $vocabId = $this->getRequestParameter('selectedVocabularyId');
+     $conceptId = sfContext::getInstance()->getUser()->getAttribute('concept')->getId();
+     $results = ConceptPeer::getConceptsByVocabID($vocabId, $conceptId);
+     foreach ($results as $myCconcept)
+     {
+        $options[$myCconcept->getId()] = $myCconcept->getPrefLabel();
+     }
+     if (!isset($options))
+     {
+         $options[''] = 'There are no related concepts to select';
+     }
+     $this->concepts = $options;
+  }
 
 }
 
