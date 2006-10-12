@@ -297,14 +297,23 @@ div#footer
 
 div#search
 {
-  position:relative;
+  position:absolute;
   
-  top:-30px;
+  top:26px;
   right:0px;
-  padding-right: 10px;
+  margin-right: 2px;
+  padding:3px;
   text-align: right;
   float: right;
   clear: both;
+  background-color: #F4F4F4;
+}
+
+input.searchterm
+{
+  border: solid 1px gray;
+  width:150px;
+  background-color: white;
 }
 
 .form_error
