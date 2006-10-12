@@ -36,8 +36,10 @@ generator:
         is_top_concept: { name: " ", help: This is a top-level concept  }
       display:        [is_top_concept, =prefLabel, uri, status, last_updated]
       displayfilter:  false
+      object_actions:
+        _edit:          { credentials: [[administrator, vocabularymaintainer]] }
       actions:
-        _create:        { credentials: [[administrator, vocabularymaintainer]] }
+        _create:        { name: Add Concept, credentials: [[administrator, vocabularymaintainer]] }
       filters:          [vocabulary_id, pref_label, last_updated, is_top_concept, status]
       urlfilters:
         vocabulary_id: vocabulary_id
