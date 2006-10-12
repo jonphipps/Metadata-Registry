@@ -6,9 +6,9 @@ generator:
 
     fields:
       id:             { name: ID type: plain, credentials: [administrator] }
-      created_at:     { name: Date Created type: plain, credentials: [administrator] }
-      last_updated:   { name: Last Updated type: plain, credentials: [administrator] }
-      nickname:       { name: Login Name}
+      created_at:     { name: Date Created, type: plain, credentials: [administrator] }
+      last_updated:   { name: Last Updated, type: plain, credentials: [administrator] }
+      nickname:       { name: Login Name }
       salutation:     { name: Salutation }
       first_name:     { name: First Name }
       last_name:      { name: Last Name }
@@ -21,6 +21,8 @@ generator:
     list:
       title:           Users
       display:         [=user, nickname, last_name, first_name]
+      object_actions:
+         _edit:        { credentials: [[administrator, agentadmin]] } 
       actions:
         _create:       { credentials: [administrator] }
 

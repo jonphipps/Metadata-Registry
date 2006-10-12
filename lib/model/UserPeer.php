@@ -104,4 +104,31 @@ class UserPeer extends BaseUserPeer {
     return self::doCount($c);
   }
 
+  /**
+  * 
+  * gets an array of User objects related to a group of Agents
+  * The user group is defined by the agents for which the user is an admin
+  * or all users if the user is a sysem admin
+  *
+  * @return Agent
+  */
+  public static function getUsersForAgentUsers()
+  {
+   $con = Propel::getConnection(self::DATABASE_NAME);  
+   $isAdmin = sfContext::getInstance()->getUser()->hasCredential(array (0 => 'administrator' ));
+   $sql = "SELECT DISTINCT * FROM " . UserPeer::TABLE_NAME;
+   if (!$isAdmin)
+   {
+      $userId = sfContext::getInstance()->getUser()->getSubscriberId();
+      $sql .= " INNER JOIN " . AgentHasUserPeer::TABLE_NAME . " ON " .  UserPeer::ID . " = " . AgentHasUserPeer::USER_ID .
+              " WHERE " . AgentHasUserPeer::USER_ID . " = " . $userId;
+   }
+    
+   $stmt = $con->createStatement();
+   $rs = $stmt->executeQuery($sql, ResultSet::FETCHMODE_NUM);
+    
+   $result =  parent::populateObjects($rs);   
+   return $result;
+  }
+
 } // UserPeer

@@ -93,8 +93,9 @@
     <column name="concept_id" type="INTEGER" required="true" default=""/>
     <column name="skos_property_id" type="INTEGER" required="true" default=""/>
     <column name="object" type="LONGVARCHAR" required="true"/>
-    <column name="scheme_id" type="INTEGER"/>
-    <column name="related_concept_id" type="INTEGER"/>
+    <column name="scheme_id" type="INTEGER" default=""/>
+    <column name="related_concept_id" type="INTEGER" default=""/>
+    <column name="reciprocal_property_id" type="INTEGER" default=""/>
     <column name="language" type="CHAR" size="6"/>
     <column name="status_id" type="INTEGER"/>
     <foreign-key foreignTable="reg_concept" onDelete="CASCADE" onUpdate="RESTRICT">

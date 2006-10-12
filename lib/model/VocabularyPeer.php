@@ -58,4 +58,29 @@ class VocabularyPeer extends BaseVocabularyPeer {
       return !empty($v) > 0 ? $v[0] : null;
   }
 
+  /**
+  * 
+  * gets an array of Vocabulary objects related to a user
+  *
+  * @return Agent
+  */
+  public static function getVocabulariesForCurrentUser()
+  {
+   $con = Propel::getConnection(self::DATABASE_NAME);  
+   $isAdmin = sfContext::getInstance()->getUser()->hasCredential(array (0 => 'administrator' ));
+   $sql = "SELECT DISTINCT * FROM " . VocabularyPeer::TABLE_NAME;
+   if (!$isAdmin)
+   {
+      $userId = sfContext::getInstance()->getUser()->getSubscriberId();
+      $sql .= " INNER JOIN " . AgentHasUserPeer::TABLE_NAME . " ON " .  VocabularyPeer::AGENT_ID . " = " . AgentHasUserPeer::AGENT_ID .
+              " WHERE " . AgentHasUserPeer::USER_ID . " = " . $userId;
+   }
+    
+   $stmt = $con->createStatement();
+   $rs = $stmt->executeQuery($sql, ResultSet::FETCHMODE_NUM);
+    
+   $result =  parent::populateObjects($rs);   
+   return $result;
+  }
+
 } // VocabularyPeer

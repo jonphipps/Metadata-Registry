@@ -19,7 +19,7 @@ class User extends BaseUser {
   {
     if ($this->getLastName())
     {
-      return ucfirst(strtolower($this->getFirstName())).' '.strtoupper($this->getLastName());
+      return ucfirst(strtolower($this->getFirstName())).' '.ucfirst(strtolower($this->getLastName()));
     }
     else
     {
