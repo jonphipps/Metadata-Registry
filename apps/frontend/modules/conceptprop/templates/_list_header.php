@@ -1,5 +1,5 @@
 <h1>
-<?php if ($sf_params->get('concept_id')): ?>
+<?php if ($sf_params->get('concept_id') || $sf_user->getAttribute('concept_id', null, 'sf_admin/concept_property/filters')): ?>
    <?php $vocabulary = $sf_user->getCurrentVocabulary() ?>
    <?php echo link_to('Vocabulary:', 'vocabulary/list') ?>
    <?php if ($vocabulary): ?>

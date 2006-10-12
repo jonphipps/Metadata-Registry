@@ -35,11 +35,15 @@ class ConceptPeer extends BaseConceptPeer {
   * @return array an array of the form: $option[$option_value] = $option_text
   * @param  var_type $var
   */
-  public function getConceptsByVocabID($vocabId)
+  public static function getConceptsByVocabID($vocabId, $currentConceptId = null)
   {
     $c = new Criteria();
 
     $c->add(self::VOCABULARY_ID, $vocabId);
+    if ($currentConceptId)
+    {
+       $c->add(self::ID, $currentConceptId, Criteria::NOT_EQUAL );
+    }
 
     $results = self::doSelect($c);
 
@@ -47,9 +51,30 @@ class ConceptPeer extends BaseConceptPeer {
     {
       $options[$myCconcept->getId()] = $myCconcept->getPrefLabel();
     }
-    return $options;
+    return $results;
   }
-
+  
+  /**
+  * description
+  *
+  * @return return_type
+  * @param  var_type $var
+  */
+  public static function getConceptsByCurrentVocabID()
+  {
+     $conceptProperty = sfContext::getInstance()->getActionStack()->getLastEntry()->getActionInstance()->concept_property;
+     if ($conceptProperty)
+     {
+         $vocabId = $conceptProperty->getSchemeId();
+     }
+     else
+     {
+         $vocabId = sfContext::getInstance()->getUser()->getAttribute('vocabulary')->getId();
+     }
+     $conceptId = sfContext::getInstance()->getUser()->getAttribute('concept')->getId();
+     return self::getConceptsByVocabID($vocabId, $conceptId);
+  }
+  
   /**
   * gets concept by concept URI
   *

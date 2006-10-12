@@ -19,19 +19,23 @@ generator:
         params: date_format='MM/dd/yy'
 
       concept_id:       { name: Parent Concept }
-      concept_related_by_concept_id:  { name: Parent Concept, type: plain }
+      related_concept_id:  
+      scheme_id:        
       skos_property:    { name: skos:property }
       object:           { name: Value }
       show_object:      { name: Value }
       listproperties:   { name: "" }
 
     list:
-      title:       Concept Property List
-      display:     [=skos_property, _show_object, last_updated]
+      title:         Concept Property List
+      display:       [=skos_property, _show_object, last_updated]
       displayfilter: false
+      object_actions:
+        _edit:       { credentials: [[administrator, vocabularymaintainer]] }
+        _delete:     { credentials: [[administrator, vocabularymaintainer]] }
       actions:
-        _create:    { credentials: [[administrator, vocabularymaintainer]] }
-      filters:      [concept_id, skos_property_id, last_updated, object]
+        _create:     { name: Add Property, credentials: [[administrator, vocabularymaintainer]] }
+      filters:       [concept_id, skos_property_id, last_updated, object]
       # urlfilter form is [field to filter on]: [value passed from routing.yml]
       # multiple filters can be set but they're currently mutually exclusive (any of the list can be used but only one per url)
       urlfilters:
@@ -39,14 +43,15 @@ generator:
 
     edit:
       fields:
-        skos_property_id: { name: skos:property, params: onchange=swapOptions() }
+        skos_property_id: { name: skos:property, params: include_blank=true onchange=swapOptions() }
+        related_concept_id: { params: related_class=Concept peer_method=getConceptsByCurrentVocabID }
         language:         { type: select_language_tag }
       title:        Edit
       display:      
-        "Detail":      [concept_related_by_concept_id, skos_property_id, _object, language]
+        "Detail":      [skos_property_id, _scheme_id, related_concept_id, _object, language]
         "Properties":  [_listproperties]
       actions:
-        # You can add a string literal to the query string like this: foo: "'bar'" whhich will add foo=bar
+        # You can add a string literal to the query string like this: foo: "'bar'" which will add foo=bar
         _list:         { query_string: {concept_id: concept_id} }
         _save:         { credentials: [[administrator, vocabularymaintainer]] }
         _delete:       { credentials: [[administrator, vocabularymaintainer]] }
@@ -59,7 +64,7 @@ generator:
         object:       { helper: auto_link_text }
       display:        
         "Metadata":   [id, created_at, last_updated]
-        "Detail":     [skos_property, object, _language]
+        "Detail":     [skos_property, related_scheme, related_concept, object, _language]
         "Properties": [_listproperties]
       actions:
         _edit:        { credentials: [[administrator, vocabularymaintainer]] }
@@ -69,12 +74,12 @@ generator:
 
     create:
       fields:
-        skos_property_id: { name: skos:property, params: include_blank=true onchange=swapOptions() }
-        scheme_id:
-        related_concept_id:
-        _object:          { name: Value }
-        concept_id:       { type: input_hidden_tag }
-        language:         { type: select_language_tag }
+        skos_property_id:   { name: skos:property, params: include_blank=true onchange=swapOptions() }
+        scheme_id:          { name: Vocabulary }
+        related_concept_id: { params: related_class=Concept peer_method=getConceptsByCurrentVocabID }
+        _object:            { name: Value }
+        concept_id:         { type: input_hidden_tag }
+        language:           { type: select_language_tag }
       display:            
-        "Detail":      [skos_property_id, _object, concept_id, language]
+        "Detail":      [skos_property_id, _scheme_id, related_concept_id, _object, concept_id, language]
         "Properties":  [_listproperties]

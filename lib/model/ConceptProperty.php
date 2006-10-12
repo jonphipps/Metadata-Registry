@@ -165,5 +165,58 @@ class ConceptProperty extends BaseConceptProperty {
 		}
 
 	} // setPrefLabel()
+   
+   public function setSchemeId($v)
+   {
+      if ($this->scheme_id !== $v || $v === 0) {
+         if ($v == 0 || $v == '') 
+         {
+            $v = null;
+         }
+         $this->scheme_id = $v;
+         $this->modifiedColumns[] = ConceptPropertyPeer::SCHEME_ID;
+      }
+
+      if ($this->aVocabulary !== null && $this->aVocabulary->getId() !== $v) {
+         $this->aVocabulary = null;
+      }
+
+   } 
+
+   public function setRelatedConceptId($v)
+   {
+      if ($this->related_concept_id !== $v || $v === 0) {
+         if ($v == 0 || $v == '') 
+         {
+            $v = null;
+         }
+         $this->related_concept_id = $v;
+         $this->modifiedColumns[] = ConceptPropertyPeer::RELATED_CONCEPT_ID;
+      }
+
+      if ($this->aConceptRelatedByRelatedConceptId !== null && $this->aConceptRelatedByRelatedConceptId->getId() !== $v) {
+         $this->aConceptRelatedByRelatedConceptId = null;
+      }
+   } 
+   
+  /**
+  * Gets the related vocabulary object
+  *
+  * @return Vocabulary
+  */
+  public function getRelatedScheme()
+  {
+     return VocabularyPeer::retrieveByPK($this->scheme_id);
+  }
+
+  /**
+  * Gets the related vocabulary object
+  *
+  * @return Vocabulary
+  */
+  public function getRelatedConcept()
+  {
+     return ConceptPeer::retrieveByPK($this->related_concept_id);
+  }
 
 } // ConceptProperty

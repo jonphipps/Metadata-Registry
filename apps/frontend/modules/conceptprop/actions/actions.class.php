@@ -33,20 +33,51 @@ class conceptpropActions extends autoconceptpropActions
     $this->concept_property->setLanguage('en');
   }
 
+  public function executeDelete()
+  {
+     $id = $this->getRequestParameter('id'); 
+     $this->deleteReciprocalProperty($id);
+
+      //check and correct filter if necessary
+      $concept = $this->getUser()->getAttributeHolder()->get('concept');
+      $this->getUser()->getAttributeHolder()->add(array('concept_id' => $concept->getId()), 'sf_admin/concept_property/filters');
+      
+      parent::executeDelete();
+  }
+  
   public function executeEdit ()
   {
     if ($this->getRequest()->getMethod() == sfRequest::POST)
     {
       //before the save...
-      //if there's a related term
       $concept_property = $this->getRequestParameter('concept_property');
+
+      /**
+      * @todo the list of skos property types that require a related concept should be in a master configuration array
+      * this applies to the template too
+      **/
+      //check to see if the skosproperty requires a related concept
+      if (!in_array($concept_property['skos_property_id'], array('3','16','21') ))
+      {
+         $concept_property['related_concept_id'] = null;
+         $concept_property['scheme_id'] = null;
+         //save the array back to the request parameter
+         $this->request_parameter_holder->set('concept_property', $concept_property);
+      }
+      
+      $conceptPropertyId = $this->getRequestParameter('id');
+      if (isset($conceptPropertyId))
+      {
+         $this->deleteReciprocalProperty($conceptPropertyId, $concept_property['related_concept_id']);
+      }
+      
       if (isset($concept_property['related_concept_id']) and $concept_property['related_concept_id'])
       {
         //we want to lookup the URI of the related term
         $related_concept = ConceptPeer::retrieveByPK($concept_property['related_concept_id']);
         if ($related_concept)
         {
-          //and overwrite whatever is in the current object TODO: move this into an AJAX action in the user interface
+          //and overwrite whatever is in the current object TODO: move this into an javascript action in the user interface
           $concept_property['object'] = $related_concept->getUri();
           $this->getRequest()->getParameterHolder()->set('concept_property', $concept_property);
         }
@@ -65,6 +96,7 @@ class conceptpropActions extends autoconceptpropActions
       }
     }
     parent::executeEdit();
+
   }
 
   /**
@@ -117,7 +149,10 @@ class conceptpropActions extends autoconceptpropActions
       if ($conceptPropertyId)
       {
          $conceptPropertyObj = ConceptPropertyPeer::retrieveByPK($conceptPropertyId);
-         $conceptId = $conceptPropertyObj->getConceptId();
+         if ($conceptPropertyObj)
+         {
+            $conceptId = $conceptPropertyObj->getConceptId();
+         }
       }
     }
     //there's a concept_id but no vocabulary object
@@ -223,5 +258,50 @@ class conceptpropActions extends autoconceptpropActions
     $this->pager->setPage($this->getRequestParameter('page', 1));
     $this->pager->init();
   } //executeSearch
-
+  
+  /**
+  * checks for replated property and deletes if found
+  *
+  * @return return_type
+  * @param  var_type $var
+  */
+  private function deleteReciprocalProperty($propertyId, $relatedIdFromRequest = '')
+  {
+      //retrieve the existing property
+      if (isset($propertyId))
+      {
+         /* @var ConceptProperty */
+         $currentProperty = ConceptPropertyPeer::retrieveByPk($propertyId);
+      }
+      if (isset($currentProperty))
+      {
+         //check to see if it defines a relationship
+         $currentRelatedSchemeId = $currentProperty->getSchemeId();
+         $currentRelatedConceptId = $currentProperty->getRelatedConceptId();
+         $currentRelatedConceptInverseSkosId = $currentProperty->getSkosProperty()->getInverseId();
+         //if it does and it doesn't match the current relationship
+         if (isset($currentRelatedConceptId) && $currentRelatedConceptId != $relatedIdFromRequest)
+         {
+            //retrieve the related property
+            $c = new Criteria();
+            $c->add(ConceptPropertyPeer::CONCEPT_ID, $currentRelatedConceptId);
+            $c->add(ConceptPropertyPeer::SKOS_PROPERTY_ID, $currentRelatedConceptInverseSkosId);
+            /* @var ConceptProperty */
+            $relatedProperty = ConceptPropertyPeer::doSelectOne($c);
+            if (isset($relatedProperty))
+            {
+               //then delete it
+               try
+               {
+                  $relatedProperty->delete();
+               }
+               catch (PropelException $e)
+               {
+                  $this->getRequest()->setError('delete', 'Could not delete the related Concept Property.');
+               }
+            }      
+         }
+      }
+     return;
+  }
 }

@@ -13,7 +13,7 @@ abstract class BaseConceptPropertyPeer {
 	const CLASS_DEFAULT = 'lib.model.ConceptProperty';
 
 	
-	const NUM_COLUMNS = 10;
+	const NUM_COLUMNS = 11;
 
 	
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -44,6 +44,9 @@ abstract class BaseConceptPropertyPeer {
 	const RELATED_CONCEPT_ID = 'reg_concept_property.RELATED_CONCEPT_ID';
 
 	
+	const RECIPROCAL_PROPERTY_ID = 'reg_concept_property.RECIPROCAL_PROPERTY_ID';
+
+	
 	const LANGUAGE = 'reg_concept_property.LANGUAGE';
 
 	
@@ -55,18 +58,18 @@ abstract class BaseConceptPropertyPeer {
 
 	
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'CreatedAt', 'LastUpdated', 'ConceptId', 'SkosPropertyId', 'Object', 'SchemeId', 'RelatedConceptId', 'Language', 'StatusId', ),
-		BasePeer::TYPE_COLNAME => array (ConceptPropertyPeer::ID, ConceptPropertyPeer::CREATED_AT, ConceptPropertyPeer::LAST_UPDATED, ConceptPropertyPeer::CONCEPT_ID, ConceptPropertyPeer::SKOS_PROPERTY_ID, ConceptPropertyPeer::OBJECT, ConceptPropertyPeer::SCHEME_ID, ConceptPropertyPeer::RELATED_CONCEPT_ID, ConceptPropertyPeer::LANGUAGE, ConceptPropertyPeer::STATUS_ID, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'created_at', 'last_updated', 'concept_id', 'skos_property_id', 'object', 'scheme_id', 'related_concept_id', 'language', 'status_id', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'CreatedAt', 'LastUpdated', 'ConceptId', 'SkosPropertyId', 'Object', 'SchemeId', 'RelatedConceptId', 'ReciprocalPropertyId', 'Language', 'StatusId', ),
+		BasePeer::TYPE_COLNAME => array (ConceptPropertyPeer::ID, ConceptPropertyPeer::CREATED_AT, ConceptPropertyPeer::LAST_UPDATED, ConceptPropertyPeer::CONCEPT_ID, ConceptPropertyPeer::SKOS_PROPERTY_ID, ConceptPropertyPeer::OBJECT, ConceptPropertyPeer::SCHEME_ID, ConceptPropertyPeer::RELATED_CONCEPT_ID, ConceptPropertyPeer::RECIPROCAL_PROPERTY_ID, ConceptPropertyPeer::LANGUAGE, ConceptPropertyPeer::STATUS_ID, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'created_at', 'last_updated', 'concept_id', 'skos_property_id', 'object', 'scheme_id', 'related_concept_id', 'reciprocal_property_id', 'language', 'status_id', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, )
 	);
 
 	
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'CreatedAt' => 1, 'LastUpdated' => 2, 'ConceptId' => 3, 'SkosPropertyId' => 4, 'Object' => 5, 'SchemeId' => 6, 'RelatedConceptId' => 7, 'Language' => 8, 'StatusId' => 9, ),
-		BasePeer::TYPE_COLNAME => array (ConceptPropertyPeer::ID => 0, ConceptPropertyPeer::CREATED_AT => 1, ConceptPropertyPeer::LAST_UPDATED => 2, ConceptPropertyPeer::CONCEPT_ID => 3, ConceptPropertyPeer::SKOS_PROPERTY_ID => 4, ConceptPropertyPeer::OBJECT => 5, ConceptPropertyPeer::SCHEME_ID => 6, ConceptPropertyPeer::RELATED_CONCEPT_ID => 7, ConceptPropertyPeer::LANGUAGE => 8, ConceptPropertyPeer::STATUS_ID => 9, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'created_at' => 1, 'last_updated' => 2, 'concept_id' => 3, 'skos_property_id' => 4, 'object' => 5, 'scheme_id' => 6, 'related_concept_id' => 7, 'language' => 8, 'status_id' => 9, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'CreatedAt' => 1, 'LastUpdated' => 2, 'ConceptId' => 3, 'SkosPropertyId' => 4, 'Object' => 5, 'SchemeId' => 6, 'RelatedConceptId' => 7, 'ReciprocalPropertyId' => 8, 'Language' => 9, 'StatusId' => 10, ),
+		BasePeer::TYPE_COLNAME => array (ConceptPropertyPeer::ID => 0, ConceptPropertyPeer::CREATED_AT => 1, ConceptPropertyPeer::LAST_UPDATED => 2, ConceptPropertyPeer::CONCEPT_ID => 3, ConceptPropertyPeer::SKOS_PROPERTY_ID => 4, ConceptPropertyPeer::OBJECT => 5, ConceptPropertyPeer::SCHEME_ID => 6, ConceptPropertyPeer::RELATED_CONCEPT_ID => 7, ConceptPropertyPeer::RECIPROCAL_PROPERTY_ID => 8, ConceptPropertyPeer::LANGUAGE => 9, ConceptPropertyPeer::STATUS_ID => 10, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'created_at' => 1, 'last_updated' => 2, 'concept_id' => 3, 'skos_property_id' => 4, 'object' => 5, 'scheme_id' => 6, 'related_concept_id' => 7, 'reciprocal_property_id' => 8, 'language' => 9, 'status_id' => 10, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, )
 	);
 
 	
@@ -135,6 +138,8 @@ abstract class BaseConceptPropertyPeer {
 		$criteria->addSelectColumn(ConceptPropertyPeer::SCHEME_ID);
 
 		$criteria->addSelectColumn(ConceptPropertyPeer::RELATED_CONCEPT_ID);
+
+		$criteria->addSelectColumn(ConceptPropertyPeer::RECIPROCAL_PROPERTY_ID);
 
 		$criteria->addSelectColumn(ConceptPropertyPeer::LANGUAGE);
 

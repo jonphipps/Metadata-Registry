@@ -33,11 +33,15 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 
 
 	
-	protected $scheme_id;
+	protected $scheme_id = 0;
 
 
 	
-	protected $related_concept_id;
+	protected $related_concept_id = 0;
+
+
+	
+	protected $reciprocal_property_id = 0;
 
 
 	
@@ -165,6 +169,13 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 	}
 
 	
+	public function getReciprocalPropertyId()
+	{
+
+		return $this->reciprocal_property_id;
+	}
+
+	
 	public function getLanguage()
 	{
 
@@ -272,7 +283,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 	public function setSchemeId($v)
 	{
 
-		if ($this->scheme_id !== $v) {
+		if ($this->scheme_id !== $v || $v === 0) {
 			$this->scheme_id = $v;
 			$this->modifiedColumns[] = ConceptPropertyPeer::SCHEME_ID;
 		}
@@ -287,13 +298,24 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 	public function setRelatedConceptId($v)
 	{
 
-		if ($this->related_concept_id !== $v) {
+		if ($this->related_concept_id !== $v || $v === 0) {
 			$this->related_concept_id = $v;
 			$this->modifiedColumns[] = ConceptPropertyPeer::RELATED_CONCEPT_ID;
 		}
 
 		if ($this->aConceptRelatedByRelatedConceptId !== null && $this->aConceptRelatedByRelatedConceptId->getId() !== $v) {
 			$this->aConceptRelatedByRelatedConceptId = null;
+		}
+
+	} 
+
+	
+	public function setReciprocalPropertyId($v)
+	{
+
+		if ($this->reciprocal_property_id !== $v || $v === 0) {
+			$this->reciprocal_property_id = $v;
+			$this->modifiedColumns[] = ConceptPropertyPeer::RECIPROCAL_PROPERTY_ID;
 		}
 
 	} 
@@ -345,16 +367,18 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 
 			$this->related_concept_id = $rs->getInt($startcol + 7);
 
-			$this->language = $rs->getString($startcol + 8);
+			$this->reciprocal_property_id = $rs->getInt($startcol + 8);
 
-			$this->status_id = $rs->getInt($startcol + 9);
+			$this->language = $rs->getString($startcol + 9);
+
+			$this->status_id = $rs->getInt($startcol + 10);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			
-			return $startcol + 10; 
+			return $startcol + 11; 
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating ConceptProperty object", $e);
@@ -613,9 +637,12 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 				return $this->getRelatedConceptId();
 				break;
 			case 8:
-				return $this->getLanguage();
+				return $this->getReciprocalPropertyId();
 				break;
 			case 9:
+				return $this->getLanguage();
+				break;
+			case 10:
 				return $this->getStatusId();
 				break;
 			default:
@@ -637,8 +664,9 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 			$keys[5] => $this->getObject(),
 			$keys[6] => $this->getSchemeId(),
 			$keys[7] => $this->getRelatedConceptId(),
-			$keys[8] => $this->getLanguage(),
-			$keys[9] => $this->getStatusId(),
+			$keys[8] => $this->getReciprocalPropertyId(),
+			$keys[9] => $this->getLanguage(),
+			$keys[10] => $this->getStatusId(),
 		);
 		return $result;
 	}
@@ -679,9 +707,12 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 				$this->setRelatedConceptId($value);
 				break;
 			case 8:
-				$this->setLanguage($value);
+				$this->setReciprocalPropertyId($value);
 				break;
 			case 9:
+				$this->setLanguage($value);
+				break;
+			case 10:
 				$this->setStatusId($value);
 				break;
 		} 
@@ -700,8 +731,9 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[5], $arr)) $this->setObject($arr[$keys[5]]);
 		if (array_key_exists($keys[6], $arr)) $this->setSchemeId($arr[$keys[6]]);
 		if (array_key_exists($keys[7], $arr)) $this->setRelatedConceptId($arr[$keys[7]]);
-		if (array_key_exists($keys[8], $arr)) $this->setLanguage($arr[$keys[8]]);
-		if (array_key_exists($keys[9], $arr)) $this->setStatusId($arr[$keys[9]]);
+		if (array_key_exists($keys[8], $arr)) $this->setReciprocalPropertyId($arr[$keys[8]]);
+		if (array_key_exists($keys[9], $arr)) $this->setLanguage($arr[$keys[9]]);
+		if (array_key_exists($keys[10], $arr)) $this->setStatusId($arr[$keys[10]]);
 	}
 
 	
@@ -717,6 +749,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(ConceptPropertyPeer::OBJECT)) $criteria->add(ConceptPropertyPeer::OBJECT, $this->object);
 		if ($this->isColumnModified(ConceptPropertyPeer::SCHEME_ID)) $criteria->add(ConceptPropertyPeer::SCHEME_ID, $this->scheme_id);
 		if ($this->isColumnModified(ConceptPropertyPeer::RELATED_CONCEPT_ID)) $criteria->add(ConceptPropertyPeer::RELATED_CONCEPT_ID, $this->related_concept_id);
+		if ($this->isColumnModified(ConceptPropertyPeer::RECIPROCAL_PROPERTY_ID)) $criteria->add(ConceptPropertyPeer::RECIPROCAL_PROPERTY_ID, $this->reciprocal_property_id);
 		if ($this->isColumnModified(ConceptPropertyPeer::LANGUAGE)) $criteria->add(ConceptPropertyPeer::LANGUAGE, $this->language);
 		if ($this->isColumnModified(ConceptPropertyPeer::STATUS_ID)) $criteria->add(ConceptPropertyPeer::STATUS_ID, $this->status_id);
 
@@ -762,6 +795,8 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 		$copyObj->setSchemeId($this->scheme_id);
 
 		$copyObj->setRelatedConceptId($this->related_concept_id);
+
+		$copyObj->setReciprocalPropertyId($this->reciprocal_property_id);
 
 		$copyObj->setLanguage($this->language);
 
@@ -873,7 +908,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 
 
 		if ($v === null) {
-			$this->setSchemeId(NULL);
+			$this->setSchemeId('');
 		} else {
 			$this->setSchemeId($v->getId());
 		}
@@ -935,7 +970,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 
 
 		if ($v === null) {
-			$this->setRelatedConceptId(NULL);
+			$this->setRelatedConceptId('');
 		} else {
 			$this->setRelatedConceptId($v->getId());
 		}
