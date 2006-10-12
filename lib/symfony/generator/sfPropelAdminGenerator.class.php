@@ -369,17 +369,29 @@ class sfPropelAdminGenerator extends sfPropelCrudGenerator
     return array('NONE');
   }
 
-  public function addCredentialCondition($content, $params = array())
+  public function addCredentialCondition($content, $params = array(), $inRow = false)
   {
     if (isset($params['credentials']))
     {
       $credentials = str_replace("\n", ' ', var_export($params['credentials'], true));
-
-      return <<<EOF
+      if ($inRow)
+      {
+         return <<<EOF
+[?php if (\$sf_user->hasCredential($credentials)): ?]
+$content
+[?php else: ?]
+&nbsp;
+[?php endif; ?]
+EOF;
+      }
+      else
+      {
+         return <<<EOF
 [?php if (\$sf_user->hasCredential($credentials)): ?]
 $content
 [?php endif; ?]
 EOF;
+      }
     }
     else
     {
