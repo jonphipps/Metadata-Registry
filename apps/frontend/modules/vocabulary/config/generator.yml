@@ -51,7 +51,7 @@ generator:
       fields:
         created_at:     { params: date_format='F' }
         last_updated:   { params: date_format='F' }
-        agent_id:     { params: peer_method=getAgentsForCurrentUser include_blank=true }
+        agent_id:       { params: peer_method=getAgentsForCurrentUser include_blank=true }
         token:          { params: onblur=updateUri() }
       actions:
         _list:      -
@@ -65,6 +65,7 @@ generator:
       helptype:       icon
       fields:
         agent_id:     { params: peer_method=getAgentsForCurrentUser include_blank=true }
+        token:        { params: onblur=updateUri() }
       display:
         "Detail":     [agent_id, name, url, note, community]
         "URI":        [base_domain, token, uri]

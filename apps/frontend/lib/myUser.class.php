@@ -72,21 +72,31 @@ class myUser extends sfBasicSecurityUser
   public function getAgentCredentials($agentId = false)
   {
     //$agentId = sfContext::getInstance()->getRequest()->getParameter('id');
-    if ($agentId && $this->isAuthenticated())
+    if ($this->isAuthenticated())
     {
-      $agentContact = AgentHasUserPeer::retrieveByPK($agentId, $this->getSubscriberId());
-      if (isset($agentContact))
-      {
-         $this->addCredential('agentcontact');
-         if ($agentContact->getIsRegistrarFor())
+       if ($agentId)
+       {
+         $agentContact = AgentHasUserPeer::retrieveByPK($agentId, $this->getSubscriberId());
+         if (isset($agentContact))
          {
-            $this->addCredential('agentregistrar');
+            $this->addCredential('agentcontact');
+            if ($agentContact->getIsRegistrarFor())
+            {
+               $this->addCredential('agentregistrar');
+            }
+            if ($agentContact->getIsAdminFor())
+            {
+               $this->addCredential('agentadmin');
+            }
          }
-         if ($agentContact->getIsAdminFor())
-         {
-            $this->addCredential('agentadmin');
-         }
-      }
+       }
+       //we're doing this here on the assumption that if the user has been able to get to create, she must be authorized.
+       elseif ('create' == sfContext::getInstance()->getRequest()->getParameter('action'))
+       {
+          $this->addCredential('agentcontact');
+          $this->addCredential('agentregistrar');
+          $this->addCredential('agentadmin');
+       }
     }
     return;
   }
