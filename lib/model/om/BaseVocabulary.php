@@ -103,10 +103,8 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 		if ($this->created_at === null || $this->created_at === '') {
 			return null;
 		} elseif (!is_int($this->created_at)) {
-			
-			$ts = strtotime($this->created_at);
-			if ($ts === -1 || $ts === false) { 
-				throw new PropelException("Unable to parse value of [created_at] as date/time value: " . var_export($this->created_at, true));
+						$ts = strtotime($this->created_at);
+			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse value of [created_at] as date/time value: " . var_export($this->created_at, true));
 			}
 		} else {
 			$ts = $this->created_at;
@@ -127,10 +125,8 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 		if ($this->last_updated === null || $this->last_updated === '') {
 			return null;
 		} elseif (!is_int($this->last_updated)) {
-			
-			$ts = strtotime($this->last_updated);
-			if ($ts === -1 || $ts === false) { 
-				throw new PropelException("Unable to parse value of [last_updated] as date/time value: " . var_export($this->last_updated, true));
+						$ts = strtotime($this->last_updated);
+			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse value of [last_updated] as date/time value: " . var_export($this->last_updated, true));
 			}
 		} else {
 			$ts = $this->last_updated;
@@ -210,7 +206,6 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 		}
 
 	} 
-
 	
 	public function setAgentId($v)
 	{
@@ -225,15 +220,13 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 		}
 
 	} 
-
 	
 	public function setCreatedAt($v)
 	{
 
 		if ($v !== null && !is_int($v)) {
 			$ts = strtotime($v);
-			if ($ts === -1 || $ts === false) { 
-				throw new PropelException("Unable to parse date/time value for [created_at] from input: " . var_export($v, true));
+			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse date/time value for [created_at] from input: " . var_export($v, true));
 			}
 		} else {
 			$ts = $v;
@@ -244,15 +237,13 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 		}
 
 	} 
-
 	
 	public function setLastUpdated($v)
 	{
 
 		if ($v !== null && !is_int($v)) {
 			$ts = strtotime($v);
-			if ($ts === -1 || $ts === false) { 
-				throw new PropelException("Unable to parse date/time value for [last_updated] from input: " . var_export($v, true));
+			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse date/time value for [last_updated] from input: " . var_export($v, true));
 			}
 		} else {
 			$ts = $v;
@@ -263,7 +254,6 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 		}
 
 	} 
-
 	
 	public function setName($v)
 	{
@@ -274,7 +264,6 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 		}
 
 	} 
-
 	
 	public function setNote($v)
 	{
@@ -285,7 +274,6 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 		}
 
 	} 
-
 	
 	public function setUri($v)
 	{
@@ -296,7 +284,6 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 		}
 
 	} 
-
 	
 	public function setUrl($v)
 	{
@@ -307,7 +294,6 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 		}
 
 	} 
-
 	
 	public function setBaseDomain($v)
 	{
@@ -318,7 +304,6 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 		}
 
 	} 
-
 	
 	public function setToken($v)
 	{
@@ -329,7 +314,6 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 		}
 
 	} 
-
 	
 	public function setCommunity($v)
 	{
@@ -340,7 +324,6 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 		}
 
 	} 
-
 	
 	public function setLastUriId($v)
 	{
@@ -351,7 +334,6 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 		}
 
 	} 
-
 	
 	public function hydrate(ResultSet $rs, $startcol = 1)
 	{
@@ -385,9 +367,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 
 			$this->setNew(false);
 
-			
-			return $startcol + 12; 
-
+						return $startcol + 12; 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Vocabulary object", $e);
 		}
@@ -445,16 +425,11 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	
 	protected function doSave($con)
 	{
-		$affectedRows = 0; 
-		if (!$this->alreadyInSave) {
+		$affectedRows = 0; 		if (!$this->alreadyInSave) {
 			$this->alreadyInSave = true;
 
 
-			
-			
-			
-			
-
+												
 			if ($this->aAgent !== null) {
 				if ($this->aAgent->isModified()) {
 					$affectedRows += $this->aAgent->save($con);
@@ -463,22 +438,16 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 			}
 
 
-			
-			if ($this->isModified()) {
+						if ($this->isModified()) {
 				if ($this->isNew()) {
 					$pk = VocabularyPeer::doInsert($this, $con);
-					$affectedRows += 1; 
-										 
-										 
-
+					$affectedRows += 1; 										 										 
 					$this->setId($pk);  
-
 					$this->setNew(false);
 				} else {
 					$affectedRows += VocabularyPeer::doUpdate($this, $con);
 				}
-				$this->resetModified(); 
-			}
+				$this->resetModified(); 			}
 
 			if ($this->collConcepts !== null) {
 				foreach($this->collConcepts as $referrerFK) {
@@ -508,7 +477,6 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 		}
 		return $affectedRows;
 	} 
-
 	
 	protected $validationFailures = array();
 
@@ -541,11 +509,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 			$failureMap = array();
 
 
-			
-			
-			
-			
-
+												
 			if ($this->aAgent !== null) {
 				if (!$this->aAgent->validate($columns)) {
 					$failureMap = array_merge($failureMap, $this->aAgent->getValidationFailures());
@@ -639,8 +603,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 			default:
 				return null;
 				break;
-		} 
-	}
+		} 	}
 
 	
 	public function toArray($keyType = BasePeer::TYPE_PHPNAME)
@@ -710,8 +673,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 			case 11:
 				$this->setLastUriId($value);
 				break;
-		} 
-	}
+		} 	}
 
 	
 	public function fromArray($arr, $keyType = BasePeer::TYPE_PHPNAME)
@@ -803,9 +765,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 
 
 		if ($deepCopy) {
-			
-			
-			$copyObj->setNew(false);
+									$copyObj->setNew(false);
 
 			foreach($this->getConcepts() as $relObj) {
 				$copyObj->addConcept($relObj->copy($deepCopy));
@@ -821,18 +781,15 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 
 		} 
 
-
 		$copyObj->setNew(true);
 
 		$copyObj->setId(NULL); 
-
 	}
 
 	
 	public function copy($deepCopy = false)
 	{
-		
-		$clazz = get_class($this);
+				$clazz = get_class($this);
 		$copyObj = new $clazz();
 		$this->copyInto($copyObj, $deepCopy);
 		return $copyObj;
@@ -866,8 +823,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	
 	public function getAgent($con = null)
 	{
-		
-		include_once 'lib/model/om/BaseAgentPeer.php';
+				include_once 'lib/model/om/BaseAgentPeer.php';
 
 		if ($this->aAgent === null && ($this->agent_id !== null)) {
 
@@ -889,8 +845,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	
 	public function getConcepts($criteria = null, $con = null)
 	{
-		
-		include_once 'lib/model/om/BaseConceptPeer.php';
+				include_once 'lib/model/om/BaseConceptPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -910,12 +865,8 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 				$this->collConcepts = ConceptPeer::doSelect($criteria, $con);
 			}
 		} else {
-			
-			if (!$this->isNew()) {
-				
-				
-				
-
+						if (!$this->isNew()) {
+												
 
 				$criteria->add(ConceptPeer::VOCABULARY_ID, $this->getId());
 
@@ -932,8 +883,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	
 	public function countConcepts($criteria = null, $distinct = false, $con = null)
 	{
-		
-		include_once 'lib/model/om/BaseConceptPeer.php';
+				include_once 'lib/model/om/BaseConceptPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -958,8 +908,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	
 	public function getConceptsJoinStatus($criteria = null, $con = null)
 	{
-		
-		include_once 'lib/model/om/BaseConceptPeer.php';
+				include_once 'lib/model/om/BaseConceptPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -978,10 +927,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 				$this->collConcepts = ConceptPeer::doSelectJoinStatus($criteria, $con);
 			}
 		} else {
-			
-			
-			
-
+									
 			$criteria->add(ConceptPeer::VOCABULARY_ID, $this->getId());
 
 			if (!isset($this->lastConceptCriteria) || !$this->lastConceptCriteria->equals($criteria)) {
@@ -1004,8 +950,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	
 	public function getConceptPropertys($criteria = null, $con = null)
 	{
-		
-		include_once 'lib/model/om/BaseConceptPropertyPeer.php';
+				include_once 'lib/model/om/BaseConceptPropertyPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -1025,12 +970,8 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 				$this->collConceptPropertys = ConceptPropertyPeer::doSelect($criteria, $con);
 			}
 		} else {
-			
-			if (!$this->isNew()) {
-				
-				
-				
-
+						if (!$this->isNew()) {
+												
 
 				$criteria->add(ConceptPropertyPeer::SCHEME_ID, $this->getId());
 
@@ -1047,8 +988,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	
 	public function countConceptPropertys($criteria = null, $distinct = false, $con = null)
 	{
-		
-		include_once 'lib/model/om/BaseConceptPropertyPeer.php';
+				include_once 'lib/model/om/BaseConceptPropertyPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -1073,8 +1013,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	
 	public function getConceptPropertysJoinConceptRelatedByConceptId($criteria = null, $con = null)
 	{
-		
-		include_once 'lib/model/om/BaseConceptPropertyPeer.php';
+				include_once 'lib/model/om/BaseConceptPropertyPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -1093,10 +1032,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinConceptRelatedByConceptId($criteria, $con);
 			}
 		} else {
-			
-			
-			
-
+									
 			$criteria->add(ConceptPropertyPeer::SCHEME_ID, $this->getId());
 
 			if (!isset($this->lastConceptPropertyCriteria) || !$this->lastConceptPropertyCriteria->equals($criteria)) {
@@ -1112,8 +1048,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	
 	public function getConceptPropertysJoinSkosProperty($criteria = null, $con = null)
 	{
-		
-		include_once 'lib/model/om/BaseConceptPropertyPeer.php';
+				include_once 'lib/model/om/BaseConceptPropertyPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -1132,10 +1067,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinSkosProperty($criteria, $con);
 			}
 		} else {
-			
-			
-			
-
+									
 			$criteria->add(ConceptPropertyPeer::SCHEME_ID, $this->getId());
 
 			if (!isset($this->lastConceptPropertyCriteria) || !$this->lastConceptPropertyCriteria->equals($criteria)) {
@@ -1151,8 +1083,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	
 	public function getConceptPropertysJoinLookup($criteria = null, $con = null)
 	{
-		
-		include_once 'lib/model/om/BaseConceptPropertyPeer.php';
+				include_once 'lib/model/om/BaseConceptPropertyPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -1171,10 +1102,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinLookup($criteria, $con);
 			}
 		} else {
-			
-			
-			
-
+									
 			$criteria->add(ConceptPropertyPeer::SCHEME_ID, $this->getId());
 
 			if (!isset($this->lastConceptPropertyCriteria) || !$this->lastConceptPropertyCriteria->equals($criteria)) {
@@ -1190,8 +1118,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	
 	public function getConceptPropertysJoinConceptRelatedByRelatedConceptId($criteria = null, $con = null)
 	{
-		
-		include_once 'lib/model/om/BaseConceptPropertyPeer.php';
+				include_once 'lib/model/om/BaseConceptPropertyPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -1210,10 +1137,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinConceptRelatedByRelatedConceptId($criteria, $con);
 			}
 		} else {
-			
-			
-			
-
+									
 			$criteria->add(ConceptPropertyPeer::SCHEME_ID, $this->getId());
 
 			if (!isset($this->lastConceptPropertyCriteria) || !$this->lastConceptPropertyCriteria->equals($criteria)) {
@@ -1236,8 +1160,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	
 	public function getVocabularyHasUsers($criteria = null, $con = null)
 	{
-		
-		include_once 'lib/model/om/BaseVocabularyHasUserPeer.php';
+				include_once 'lib/model/om/BaseVocabularyHasUserPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -1257,12 +1180,8 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 				$this->collVocabularyHasUsers = VocabularyHasUserPeer::doSelect($criteria, $con);
 			}
 		} else {
-			
-			if (!$this->isNew()) {
-				
-				
-				
-
+						if (!$this->isNew()) {
+												
 
 				$criteria->add(VocabularyHasUserPeer::VOCABULARY_ID, $this->getId());
 
@@ -1279,8 +1198,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	
 	public function countVocabularyHasUsers($criteria = null, $distinct = false, $con = null)
 	{
-		
-		include_once 'lib/model/om/BaseVocabularyHasUserPeer.php';
+				include_once 'lib/model/om/BaseVocabularyHasUserPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -1305,8 +1223,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	
 	public function getVocabularyHasUsersJoinUser($criteria = null, $con = null)
 	{
-		
-		include_once 'lib/model/om/BaseVocabularyHasUserPeer.php';
+				include_once 'lib/model/om/BaseVocabularyHasUserPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -1325,10 +1242,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 				$this->collVocabularyHasUsers = VocabularyHasUserPeer::doSelectJoinUser($criteria, $con);
 			}
 		} else {
-			
-			
-			
-
+									
 			$criteria->add(VocabularyHasUserPeer::VOCABULARY_ID, $this->getId());
 
 			if (!isset($this->lastVocabularyHasUserCriteria) || !$this->lastVocabularyHasUserCriteria->equals($criteria)) {

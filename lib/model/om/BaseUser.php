@@ -105,10 +105,8 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		if ($this->created_at === null || $this->created_at === '') {
 			return null;
 		} elseif (!is_int($this->created_at)) {
-			
-			$ts = strtotime($this->created_at);
-			if ($ts === -1 || $ts === false) { 
-				throw new PropelException("Unable to parse value of [created_at] as date/time value: " . var_export($this->created_at, true));
+						$ts = strtotime($this->created_at);
+			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse value of [created_at] as date/time value: " . var_export($this->created_at, true));
 			}
 		} else {
 			$ts = $this->created_at;
@@ -129,10 +127,8 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		if ($this->last_updated === null || $this->last_updated === '') {
 			return null;
 		} elseif (!is_int($this->last_updated)) {
-			
-			$ts = strtotime($this->last_updated);
-			if ($ts === -1 || $ts === false) { 
-				throw new PropelException("Unable to parse value of [last_updated] as date/time value: " . var_export($this->last_updated, true));
+						$ts = strtotime($this->last_updated);
+			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse value of [last_updated] as date/time value: " . var_export($this->last_updated, true));
 			}
 		} else {
 			$ts = $this->last_updated;
@@ -240,15 +236,13 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		}
 
 	} 
-
 	
 	public function setCreatedAt($v)
 	{
 
 		if ($v !== null && !is_int($v)) {
 			$ts = strtotime($v);
-			if ($ts === -1 || $ts === false) { 
-				throw new PropelException("Unable to parse date/time value for [created_at] from input: " . var_export($v, true));
+			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse date/time value for [created_at] from input: " . var_export($v, true));
 			}
 		} else {
 			$ts = $v;
@@ -259,15 +253,13 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		}
 
 	} 
-
 	
 	public function setLastUpdated($v)
 	{
 
 		if ($v !== null && !is_int($v)) {
 			$ts = strtotime($v);
-			if ($ts === -1 || $ts === false) { 
-				throw new PropelException("Unable to parse date/time value for [last_updated] from input: " . var_export($v, true));
+			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse date/time value for [last_updated] from input: " . var_export($v, true));
 			}
 		} else {
 			$ts = $v;
@@ -278,7 +270,6 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		}
 
 	} 
-
 	
 	public function setNickname($v)
 	{
@@ -289,7 +280,6 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		}
 
 	} 
-
 	
 	public function setSalutation($v)
 	{
@@ -300,7 +290,6 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		}
 
 	} 
-
 	
 	public function setFirstName($v)
 	{
@@ -311,7 +300,6 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		}
 
 	} 
-
 	
 	public function setLastName($v)
 	{
@@ -322,7 +310,6 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		}
 
 	} 
-
 	
 	public function setEmail($v)
 	{
@@ -333,7 +320,6 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		}
 
 	} 
-
 	
 	public function setSha1Password($v)
 	{
@@ -344,7 +330,6 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		}
 
 	} 
-
 	
 	public function setSalt($v)
 	{
@@ -355,7 +340,6 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		}
 
 	} 
-
 	
 	public function setWantToBeModerator($v)
 	{
@@ -366,7 +350,6 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		}
 
 	} 
-
 	
 	public function setIsModerator($v)
 	{
@@ -377,7 +360,6 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		}
 
 	} 
-
 	
 	public function setIsAdministrator($v)
 	{
@@ -388,7 +370,6 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		}
 
 	} 
-
 	
 	public function setDeletions($v)
 	{
@@ -399,7 +380,6 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		}
 
 	} 
-
 	
 	public function setPassword($v)
 	{
@@ -410,7 +390,6 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		}
 
 	} 
-
 	
 	public function hydrate(ResultSet $rs, $startcol = 1)
 	{
@@ -450,9 +429,7 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 			$this->setNew(false);
 
-			
-			return $startcol + 15; 
-
+						return $startcol + 15; 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating User object", $e);
 		}
@@ -510,27 +487,20 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	
 	protected function doSave($con)
 	{
-		$affectedRows = 0; 
-		if (!$this->alreadyInSave) {
+		$affectedRows = 0; 		if (!$this->alreadyInSave) {
 			$this->alreadyInSave = true;
 
 
-			
-			if ($this->isModified()) {
+						if ($this->isModified()) {
 				if ($this->isNew()) {
 					$pk = UserPeer::doInsert($this, $con);
-					$affectedRows += 1; 
-										 
-										 
-
+					$affectedRows += 1; 										 										 
 					$this->setId($pk);  
-
 					$this->setNew(false);
 				} else {
 					$affectedRows += UserPeer::doUpdate($this, $con);
 				}
-				$this->resetModified(); 
-			}
+				$this->resetModified(); 			}
 
 			if ($this->collAgentHasUsers !== null) {
 				foreach($this->collAgentHasUsers as $referrerFK) {
@@ -560,7 +530,6 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		}
 		return $affectedRows;
 	} 
-
 	
 	protected $validationFailures = array();
 
@@ -688,8 +657,7 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 			default:
 				return null;
 				break;
-		} 
-	}
+		} 	}
 
 	
 	public function toArray($keyType = BasePeer::TYPE_PHPNAME)
@@ -771,8 +739,7 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 			case 14:
 				$this->setPassword($value);
 				break;
-		} 
-	}
+		} 	}
 
 	
 	public function fromArray($arr, $keyType = BasePeer::TYPE_PHPNAME)
@@ -876,9 +843,7 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 
 		if ($deepCopy) {
-			
-			
-			$copyObj->setNew(false);
+									$copyObj->setNew(false);
 
 			foreach($this->getAgentHasUsers() as $relObj) {
 				$copyObj->addAgentHasUser($relObj->copy($deepCopy));
@@ -894,18 +859,15 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 		} 
 
-
 		$copyObj->setNew(true);
 
 		$copyObj->setId(NULL); 
-
 	}
 
 	
 	public function copy($deepCopy = false)
 	{
-		
-		$clazz = get_class($this);
+				$clazz = get_class($this);
 		$copyObj = new $clazz();
 		$this->copyInto($copyObj, $deepCopy);
 		return $copyObj;
@@ -931,8 +893,7 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	
 	public function getAgentHasUsers($criteria = null, $con = null)
 	{
-		
-		include_once 'lib/model/om/BaseAgentHasUserPeer.php';
+				include_once 'lib/model/om/BaseAgentHasUserPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -952,12 +913,8 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 				$this->collAgentHasUsers = AgentHasUserPeer::doSelect($criteria, $con);
 			}
 		} else {
-			
-			if (!$this->isNew()) {
-				
-				
-				
-
+						if (!$this->isNew()) {
+												
 
 				$criteria->add(AgentHasUserPeer::USER_ID, $this->getId());
 
@@ -974,8 +931,7 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	
 	public function countAgentHasUsers($criteria = null, $distinct = false, $con = null)
 	{
-		
-		include_once 'lib/model/om/BaseAgentHasUserPeer.php';
+				include_once 'lib/model/om/BaseAgentHasUserPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -1000,8 +956,7 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	
 	public function getAgentHasUsersJoinAgent($criteria = null, $con = null)
 	{
-		
-		include_once 'lib/model/om/BaseAgentHasUserPeer.php';
+				include_once 'lib/model/om/BaseAgentHasUserPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -1020,10 +975,7 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 				$this->collAgentHasUsers = AgentHasUserPeer::doSelectJoinAgent($criteria, $con);
 			}
 		} else {
-			
-			
-			
-
+									
 			$criteria->add(AgentHasUserPeer::USER_ID, $this->getId());
 
 			if (!isset($this->lastAgentHasUserCriteria) || !$this->lastAgentHasUserCriteria->equals($criteria)) {
@@ -1046,8 +998,7 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	
 	public function getConceptHistorys($criteria = null, $con = null)
 	{
-		
-		include_once 'lib/model/om/BaseConceptHistoryPeer.php';
+				include_once 'lib/model/om/BaseConceptHistoryPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -1067,12 +1018,8 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 				$this->collConceptHistorys = ConceptHistoryPeer::doSelect($criteria, $con);
 			}
 		} else {
-			
-			if (!$this->isNew()) {
-				
-				
-				
-
+						if (!$this->isNew()) {
+												
 
 				$criteria->add(ConceptHistoryPeer::USER_ID, $this->getId());
 
@@ -1089,8 +1036,7 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	
 	public function countConceptHistorys($criteria = null, $distinct = false, $con = null)
 	{
-		
-		include_once 'lib/model/om/BaseConceptHistoryPeer.php';
+				include_once 'lib/model/om/BaseConceptHistoryPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -1115,8 +1061,7 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	
 	public function getConceptHistorysJoinConceptProperty($criteria = null, $con = null)
 	{
-		
-		include_once 'lib/model/om/BaseConceptHistoryPeer.php';
+				include_once 'lib/model/om/BaseConceptHistoryPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -1135,10 +1080,7 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 				$this->collConceptHistorys = ConceptHistoryPeer::doSelectJoinConceptProperty($criteria, $con);
 			}
 		} else {
-			
-			
-			
-
+									
 			$criteria->add(ConceptHistoryPeer::USER_ID, $this->getId());
 
 			if (!isset($this->lastConceptHistoryCriteria) || !$this->lastConceptHistoryCriteria->equals($criteria)) {
@@ -1161,8 +1103,7 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	
 	public function getVocabularyHasUsers($criteria = null, $con = null)
 	{
-		
-		include_once 'lib/model/om/BaseVocabularyHasUserPeer.php';
+				include_once 'lib/model/om/BaseVocabularyHasUserPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -1182,12 +1123,8 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 				$this->collVocabularyHasUsers = VocabularyHasUserPeer::doSelect($criteria, $con);
 			}
 		} else {
-			
-			if (!$this->isNew()) {
-				
-				
-				
-
+						if (!$this->isNew()) {
+												
 
 				$criteria->add(VocabularyHasUserPeer::USER_ID, $this->getId());
 
@@ -1204,8 +1141,7 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	
 	public function countVocabularyHasUsers($criteria = null, $distinct = false, $con = null)
 	{
-		
-		include_once 'lib/model/om/BaseVocabularyHasUserPeer.php';
+				include_once 'lib/model/om/BaseVocabularyHasUserPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -1230,8 +1166,7 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	
 	public function getVocabularyHasUsersJoinVocabulary($criteria = null, $con = null)
 	{
-		
-		include_once 'lib/model/om/BaseVocabularyHasUserPeer.php';
+				include_once 'lib/model/om/BaseVocabularyHasUserPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -1250,10 +1185,7 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 				$this->collVocabularyHasUsers = VocabularyHasUserPeer::doSelectJoinVocabulary($criteria, $con);
 			}
 		} else {
-			
-			
-			
-
+									
 			$criteria->add(VocabularyHasUserPeer::USER_ID, $this->getId());
 
 			if (!isset($this->lastVocabularyHasUserCriteria) || !$this->lastVocabularyHasUserCriteria->equals($criteria)) {

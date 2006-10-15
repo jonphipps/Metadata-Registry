@@ -103,10 +103,8 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 		if ($this->created_at === null || $this->created_at === '') {
 			return null;
 		} elseif (!is_int($this->created_at)) {
-			
-			$ts = strtotime($this->created_at);
-			if ($ts === -1 || $ts === false) { 
-				throw new PropelException("Unable to parse value of [created_at] as date/time value: " . var_export($this->created_at, true));
+						$ts = strtotime($this->created_at);
+			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse value of [created_at] as date/time value: " . var_export($this->created_at, true));
 			}
 		} else {
 			$ts = $this->created_at;
@@ -127,10 +125,8 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 		if ($this->last_updated === null || $this->last_updated === '') {
 			return null;
 		} elseif (!is_int($this->last_updated)) {
-			
-			$ts = strtotime($this->last_updated);
-			if ($ts === -1 || $ts === false) { 
-				throw new PropelException("Unable to parse value of [last_updated] as date/time value: " . var_export($this->last_updated, true));
+						$ts = strtotime($this->last_updated);
+			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse value of [last_updated] as date/time value: " . var_export($this->last_updated, true));
 			}
 		} else {
 			$ts = $this->last_updated;
@@ -245,15 +241,13 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 		}
 
 	} 
-
 	
 	public function setCreatedAt($v)
 	{
 
 		if ($v !== null && !is_int($v)) {
 			$ts = strtotime($v);
-			if ($ts === -1 || $ts === false) { 
-				throw new PropelException("Unable to parse date/time value for [created_at] from input: " . var_export($v, true));
+			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse date/time value for [created_at] from input: " . var_export($v, true));
 			}
 		} else {
 			$ts = $v;
@@ -264,15 +258,13 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 		}
 
 	} 
-
 	
 	public function setLastUpdated($v)
 	{
 
 		if ($v !== null && !is_int($v)) {
 			$ts = strtotime($v);
-			if ($ts === -1 || $ts === false) { 
-				throw new PropelException("Unable to parse date/time value for [last_updated] from input: " . var_export($v, true));
+			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse date/time value for [last_updated] from input: " . var_export($v, true));
 			}
 		} else {
 			$ts = $v;
@@ -283,7 +275,6 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 		}
 
 	} 
-
 	
 	public function setOrgEmail($v)
 	{
@@ -294,7 +285,6 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 		}
 
 	} 
-
 	
 	public function setOrgName($v)
 	{
@@ -305,7 +295,6 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 		}
 
 	} 
-
 	
 	public function setIndAffiliation($v)
 	{
@@ -316,7 +305,6 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 		}
 
 	} 
-
 	
 	public function setIndRole($v)
 	{
@@ -327,7 +315,6 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 		}
 
 	} 
-
 	
 	public function setAddress1($v)
 	{
@@ -338,7 +325,6 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 		}
 
 	} 
-
 	
 	public function setAddress2($v)
 	{
@@ -349,7 +335,6 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 		}
 
 	} 
-
 	
 	public function setCity($v)
 	{
@@ -360,7 +345,6 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 		}
 
 	} 
-
 	
 	public function setState($v)
 	{
@@ -371,7 +355,6 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 		}
 
 	} 
-
 	
 	public function setPostalCode($v)
 	{
@@ -382,7 +365,6 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 		}
 
 	} 
-
 	
 	public function setCountry($v)
 	{
@@ -393,7 +375,6 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 		}
 
 	} 
-
 	
 	public function setPhone($v)
 	{
@@ -404,7 +385,6 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 		}
 
 	} 
-
 	
 	public function setWebAddress($v)
 	{
@@ -415,7 +395,6 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 		}
 
 	} 
-
 	
 	public function setType($v)
 	{
@@ -426,7 +405,6 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 		}
 
 	} 
-
 	
 	public function hydrate(ResultSet $rs, $startcol = 1)
 	{
@@ -468,9 +446,7 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 
 			$this->setNew(false);
 
-			
-			return $startcol + 16; 
-
+						return $startcol + 16; 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Agent object", $e);
 		}
@@ -528,27 +504,20 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	
 	protected function doSave($con)
 	{
-		$affectedRows = 0; 
-		if (!$this->alreadyInSave) {
+		$affectedRows = 0; 		if (!$this->alreadyInSave) {
 			$this->alreadyInSave = true;
 
 
-			
-			if ($this->isModified()) {
+						if ($this->isModified()) {
 				if ($this->isNew()) {
 					$pk = AgentPeer::doInsert($this, $con);
-					$affectedRows += 1; 
-										 
-										 
-
+					$affectedRows += 1; 										 										 
 					$this->setId($pk);  
-
 					$this->setNew(false);
 				} else {
 					$affectedRows += AgentPeer::doUpdate($this, $con);
 				}
-				$this->resetModified(); 
-			}
+				$this->resetModified(); 			}
 
 			if ($this->collAgentHasUsers !== null) {
 				foreach($this->collAgentHasUsers as $referrerFK) {
@@ -570,7 +539,6 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 		}
 		return $affectedRows;
 	} 
-
 	
 	protected $validationFailures = array();
 
@@ -693,8 +661,7 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 			default:
 				return null;
 				break;
-		} 
-	}
+		} 	}
 
 	
 	public function toArray($keyType = BasePeer::TYPE_PHPNAME)
@@ -780,8 +747,7 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 			case 15:
 				$this->setType($value);
 				break;
-		} 
-	}
+		} 	}
 
 	
 	public function fromArray($arr, $keyType = BasePeer::TYPE_PHPNAME)
@@ -889,9 +855,7 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 
 
 		if ($deepCopy) {
-			
-			
-			$copyObj->setNew(false);
+									$copyObj->setNew(false);
 
 			foreach($this->getAgentHasUsers() as $relObj) {
 				$copyObj->addAgentHasUser($relObj->copy($deepCopy));
@@ -903,18 +867,15 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 
 		} 
 
-
 		$copyObj->setNew(true);
 
 		$copyObj->setId(NULL); 
-
 	}
 
 	
 	public function copy($deepCopy = false)
 	{
-		
-		$clazz = get_class($this);
+				$clazz = get_class($this);
 		$copyObj = new $clazz();
 		$this->copyInto($copyObj, $deepCopy);
 		return $copyObj;
@@ -940,8 +901,7 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	
 	public function getAgentHasUsers($criteria = null, $con = null)
 	{
-		
-		include_once 'lib/model/om/BaseAgentHasUserPeer.php';
+				include_once 'lib/model/om/BaseAgentHasUserPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -961,12 +921,8 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 				$this->collAgentHasUsers = AgentHasUserPeer::doSelect($criteria, $con);
 			}
 		} else {
-			
-			if (!$this->isNew()) {
-				
-				
-				
-
+						if (!$this->isNew()) {
+												
 
 				$criteria->add(AgentHasUserPeer::AGENT_ID, $this->getId());
 
@@ -983,8 +939,7 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	
 	public function countAgentHasUsers($criteria = null, $distinct = false, $con = null)
 	{
-		
-		include_once 'lib/model/om/BaseAgentHasUserPeer.php';
+				include_once 'lib/model/om/BaseAgentHasUserPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -1009,8 +964,7 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	
 	public function getAgentHasUsersJoinUser($criteria = null, $con = null)
 	{
-		
-		include_once 'lib/model/om/BaseAgentHasUserPeer.php';
+				include_once 'lib/model/om/BaseAgentHasUserPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -1029,10 +983,7 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 				$this->collAgentHasUsers = AgentHasUserPeer::doSelectJoinUser($criteria, $con);
 			}
 		} else {
-			
-			
-			
-
+									
 			$criteria->add(AgentHasUserPeer::AGENT_ID, $this->getId());
 
 			if (!isset($this->lastAgentHasUserCriteria) || !$this->lastAgentHasUserCriteria->equals($criteria)) {
@@ -1055,8 +1006,7 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	
 	public function getVocabularys($criteria = null, $con = null)
 	{
-		
-		include_once 'lib/model/om/BaseVocabularyPeer.php';
+				include_once 'lib/model/om/BaseVocabularyPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -1076,12 +1026,8 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 				$this->collVocabularys = VocabularyPeer::doSelect($criteria, $con);
 			}
 		} else {
-			
-			if (!$this->isNew()) {
-				
-				
-				
-
+						if (!$this->isNew()) {
+												
 
 				$criteria->add(VocabularyPeer::AGENT_ID, $this->getId());
 
@@ -1098,8 +1044,7 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	
 	public function countVocabularys($criteria = null, $distinct = false, $con = null)
 	{
-		
-		include_once 'lib/model/om/BaseVocabularyPeer.php';
+				include_once 'lib/model/om/BaseVocabularyPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}

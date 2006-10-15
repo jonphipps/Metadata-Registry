@@ -48,8 +48,6 @@ class ConceptPropertyMapBuilder {
 
 		$tMap->addForeignKey('RELATED_CONCEPT_ID', 'RelatedConceptId', 'int', CreoleTypes::INTEGER, 'reg_concept', 'ID', false, null);
 
-		$tMap->addColumn('RECIPROCAL_PROPERTY_ID', 'ReciprocalPropertyId', 'int', CreoleTypes::INTEGER, false, null);
-
 		$tMap->addColumn('LANGUAGE', 'Language', 'string', CreoleTypes::CHAR, false, 6);
 
 		$tMap->addForeignKey('STATUS_ID', 'StatusId', 'int', CreoleTypes::INTEGER, 'reg_lookup', 'ID', false, null);

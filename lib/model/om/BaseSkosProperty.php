@@ -216,7 +216,6 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 		}
 
 	} 
-
 	
 	public function setParentId($v)
 	{
@@ -227,7 +226,6 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 		}
 
 	} 
-
 	
 	public function setInverseId($v)
 	{
@@ -238,7 +236,6 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 		}
 
 	} 
-
 	
 	public function setName($v)
 	{
@@ -249,7 +246,6 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 		}
 
 	} 
-
 	
 	public function setUri($v)
 	{
@@ -260,7 +256,6 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 		}
 
 	} 
-
 	
 	public function setObjectType($v)
 	{
@@ -271,7 +266,6 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 		}
 
 	} 
-
 	
 	public function setDisplayOrder($v)
 	{
@@ -282,7 +276,6 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 		}
 
 	} 
-
 	
 	public function setPicklistOrder($v)
 	{
@@ -293,7 +286,6 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 		}
 
 	} 
-
 	
 	public function setLabel($v)
 	{
@@ -304,7 +296,6 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 		}
 
 	} 
-
 	
 	public function setDefinition($v)
 	{
@@ -315,7 +306,6 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 		}
 
 	} 
-
 	
 	public function setComment($v)
 	{
@@ -326,7 +316,6 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 		}
 
 	} 
-
 	
 	public function setExamples($v)
 	{
@@ -337,7 +326,6 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 		}
 
 	} 
-
 	
 	public function setIsRequired($v)
 	{
@@ -348,7 +336,6 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 		}
 
 	} 
-
 	
 	public function setIsReciprocal($v)
 	{
@@ -359,7 +346,6 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 		}
 
 	} 
-
 	
 	public function setIsSingleton($v)
 	{
@@ -370,7 +356,6 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 		}
 
 	} 
-
 	
 	public function setIsScheme($v)
 	{
@@ -381,7 +366,6 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 		}
 
 	} 
-
 	
 	public function setIsInPicklist($v)
 	{
@@ -392,7 +376,6 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 		}
 
 	} 
-
 	
 	public function hydrate(ResultSet $rs, $startcol = 1)
 	{
@@ -436,9 +419,7 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 
 			$this->setNew(false);
 
-			
-			return $startcol + 17; 
-
+						return $startcol + 17; 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating SkosProperty object", $e);
 		}
@@ -491,27 +472,20 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 	
 	protected function doSave($con)
 	{
-		$affectedRows = 0; 
-		if (!$this->alreadyInSave) {
+		$affectedRows = 0; 		if (!$this->alreadyInSave) {
 			$this->alreadyInSave = true;
 
 
-			
-			if ($this->isModified()) {
+						if ($this->isModified()) {
 				if ($this->isNew()) {
 					$pk = SkosPropertyPeer::doInsert($this, $con);
-					$affectedRows += 1; 
-										 
-										 
-
+					$affectedRows += 1; 										 										 
 					$this->setId($pk);  
-
 					$this->setNew(false);
 				} else {
 					$affectedRows += SkosPropertyPeer::doUpdate($this, $con);
 				}
-				$this->resetModified(); 
-			}
+				$this->resetModified(); 			}
 
 			if ($this->collConceptPropertys !== null) {
 				foreach($this->collConceptPropertys as $referrerFK) {
@@ -525,7 +499,6 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 		}
 		return $affectedRows;
 	} 
-
 	
 	protected $validationFailures = array();
 
@@ -643,8 +616,7 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 			default:
 				return null;
 				break;
-		} 
-	}
+		} 	}
 
 	
 	public function toArray($keyType = BasePeer::TYPE_PHPNAME)
@@ -734,8 +706,7 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 			case 16:
 				$this->setIsInPicklist($value);
 				break;
-		} 
-	}
+		} 	}
 
 	
 	public function fromArray($arr, $keyType = BasePeer::TYPE_PHPNAME)
@@ -847,9 +818,7 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 
 
 		if ($deepCopy) {
-			
-			
-			$copyObj->setNew(false);
+									$copyObj->setNew(false);
 
 			foreach($this->getConceptPropertys() as $relObj) {
 				$copyObj->addConceptProperty($relObj->copy($deepCopy));
@@ -857,18 +826,15 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 
 		} 
 
-
 		$copyObj->setNew(true);
 
 		$copyObj->setId(NULL); 
-
 	}
 
 	
 	public function copy($deepCopy = false)
 	{
-		
-		$clazz = get_class($this);
+				$clazz = get_class($this);
 		$copyObj = new $clazz();
 		$this->copyInto($copyObj, $deepCopy);
 		return $copyObj;
@@ -894,8 +860,7 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 	
 	public function getConceptPropertys($criteria = null, $con = null)
 	{
-		
-		include_once 'lib/model/om/BaseConceptPropertyPeer.php';
+				include_once 'lib/model/om/BaseConceptPropertyPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -915,12 +880,8 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 				$this->collConceptPropertys = ConceptPropertyPeer::doSelect($criteria, $con);
 			}
 		} else {
-			
-			if (!$this->isNew()) {
-				
-				
-				
-
+						if (!$this->isNew()) {
+												
 
 				$criteria->add(ConceptPropertyPeer::SKOS_PROPERTY_ID, $this->getId());
 
@@ -937,8 +898,7 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 	
 	public function countConceptPropertys($criteria = null, $distinct = false, $con = null)
 	{
-		
-		include_once 'lib/model/om/BaseConceptPropertyPeer.php';
+				include_once 'lib/model/om/BaseConceptPropertyPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -963,8 +923,7 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 	
 	public function getConceptPropertysJoinConceptRelatedByConceptId($criteria = null, $con = null)
 	{
-		
-		include_once 'lib/model/om/BaseConceptPropertyPeer.php';
+				include_once 'lib/model/om/BaseConceptPropertyPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -983,10 +942,7 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinConceptRelatedByConceptId($criteria, $con);
 			}
 		} else {
-			
-			
-			
-
+									
 			$criteria->add(ConceptPropertyPeer::SKOS_PROPERTY_ID, $this->getId());
 
 			if (!isset($this->lastConceptPropertyCriteria) || !$this->lastConceptPropertyCriteria->equals($criteria)) {
@@ -1002,8 +958,7 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 	
 	public function getConceptPropertysJoinVocabulary($criteria = null, $con = null)
 	{
-		
-		include_once 'lib/model/om/BaseConceptPropertyPeer.php';
+				include_once 'lib/model/om/BaseConceptPropertyPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -1022,10 +977,7 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinVocabulary($criteria, $con);
 			}
 		} else {
-			
-			
-			
-
+									
 			$criteria->add(ConceptPropertyPeer::SKOS_PROPERTY_ID, $this->getId());
 
 			if (!isset($this->lastConceptPropertyCriteria) || !$this->lastConceptPropertyCriteria->equals($criteria)) {
@@ -1041,8 +993,7 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 	
 	public function getConceptPropertysJoinLookup($criteria = null, $con = null)
 	{
-		
-		include_once 'lib/model/om/BaseConceptPropertyPeer.php';
+				include_once 'lib/model/om/BaseConceptPropertyPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -1061,10 +1012,7 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinLookup($criteria, $con);
 			}
 		} else {
-			
-			
-			
-
+									
 			$criteria->add(ConceptPropertyPeer::SKOS_PROPERTY_ID, $this->getId());
 
 			if (!isset($this->lastConceptPropertyCriteria) || !$this->lastConceptPropertyCriteria->equals($criteria)) {
@@ -1080,8 +1028,7 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 	
 	public function getConceptPropertysJoinConceptRelatedByRelatedConceptId($criteria = null, $con = null)
 	{
-		
-		include_once 'lib/model/om/BaseConceptPropertyPeer.php';
+				include_once 'lib/model/om/BaseConceptPropertyPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -1100,10 +1047,7 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinConceptRelatedByRelatedConceptId($criteria, $con);
 			}
 		} else {
-			
-			
-			
-
+									
 			$criteria->add(ConceptPropertyPeer::SKOS_PROPERTY_ID, $this->getId());
 
 			if (!isset($this->lastConceptPropertyCriteria) || !$this->lastConceptPropertyCriteria->equals($criteria)) {

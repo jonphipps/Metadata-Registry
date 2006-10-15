@@ -62,7 +62,6 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 		}
 
 	} 
-
 	
 	public function setDisplayOrder($v)
 	{
@@ -73,7 +72,6 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 		}
 
 	} 
-
 	
 	public function setDisplayName($v)
 	{
@@ -84,7 +82,6 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 		}
 
 	} 
-
 	
 	public function hydrate(ResultSet $rs, $startcol = 1)
 	{
@@ -100,9 +97,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 
 			$this->setNew(false);
 
-			
-			return $startcol + 3; 
-
+						return $startcol + 3; 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Status object", $e);
 		}
@@ -155,27 +150,20 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 	
 	protected function doSave($con)
 	{
-		$affectedRows = 0; 
-		if (!$this->alreadyInSave) {
+		$affectedRows = 0; 		if (!$this->alreadyInSave) {
 			$this->alreadyInSave = true;
 
 
-			
-			if ($this->isModified()) {
+						if ($this->isModified()) {
 				if ($this->isNew()) {
 					$pk = StatusPeer::doInsert($this, $con);
-					$affectedRows += 1; 
-										 
-										 
-
+					$affectedRows += 1; 										 										 
 					$this->setId($pk);  
-
 					$this->setNew(false);
 				} else {
 					$affectedRows += StatusPeer::doUpdate($this, $con);
 				}
-				$this->resetModified(); 
-			}
+				$this->resetModified(); 			}
 
 			if ($this->collConcepts !== null) {
 				foreach($this->collConcepts as $referrerFK) {
@@ -189,7 +177,6 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 		}
 		return $affectedRows;
 	} 
-
 	
 	protected $validationFailures = array();
 
@@ -265,8 +252,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 			default:
 				return null;
 				break;
-		} 
-	}
+		} 	}
 
 	
 	public function toArray($keyType = BasePeer::TYPE_PHPNAME)
@@ -300,8 +286,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 			case 2:
 				$this->setDisplayName($value);
 				break;
-		} 
-	}
+		} 	}
 
 	
 	public function fromArray($arr, $keyType = BasePeer::TYPE_PHPNAME)
@@ -357,9 +342,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 
 
 		if ($deepCopy) {
-			
-			
-			$copyObj->setNew(false);
+									$copyObj->setNew(false);
 
 			foreach($this->getConcepts() as $relObj) {
 				$copyObj->addConcept($relObj->copy($deepCopy));
@@ -367,18 +350,15 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 
 		} 
 
-
 		$copyObj->setNew(true);
 
 		$copyObj->setId(NULL); 
-
 	}
 
 	
 	public function copy($deepCopy = false)
 	{
-		
-		$clazz = get_class($this);
+				$clazz = get_class($this);
 		$copyObj = new $clazz();
 		$this->copyInto($copyObj, $deepCopy);
 		return $copyObj;
@@ -404,8 +384,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 	
 	public function getConcepts($criteria = null, $con = null)
 	{
-		
-		include_once 'lib/model/om/BaseConceptPeer.php';
+				include_once 'lib/model/om/BaseConceptPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -425,12 +404,8 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 				$this->collConcepts = ConceptPeer::doSelect($criteria, $con);
 			}
 		} else {
-			
-			if (!$this->isNew()) {
-				
-				
-				
-
+						if (!$this->isNew()) {
+												
 
 				$criteria->add(ConceptPeer::STATUS_ID, $this->getId());
 
@@ -447,8 +422,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 	
 	public function countConcepts($criteria = null, $distinct = false, $con = null)
 	{
-		
-		include_once 'lib/model/om/BaseConceptPeer.php';
+				include_once 'lib/model/om/BaseConceptPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -473,8 +447,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 	
 	public function getConceptsJoinVocabulary($criteria = null, $con = null)
 	{
-		
-		include_once 'lib/model/om/BaseConceptPeer.php';
+				include_once 'lib/model/om/BaseConceptPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -493,10 +466,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 				$this->collConcepts = ConceptPeer::doSelectJoinVocabulary($criteria, $con);
 			}
 		} else {
-			
-			
-			
-
+									
 			$criteria->add(ConceptPeer::STATUS_ID, $this->getId());
 
 			if (!isset($this->lastConceptCriteria) || !$this->lastConceptCriteria->equals($criteria)) {
