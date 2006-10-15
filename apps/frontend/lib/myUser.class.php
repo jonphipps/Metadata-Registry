@@ -131,6 +131,13 @@ class myUser extends sfBasicSecurityUser
             }
          }
       }
+      //we're doing this here on the assumption that if the user has been able to get to create, she must be authorized.
+      elseif ('create' == sfContext::getInstance()->getRequest()->getParameter('action'))
+      {
+         $this->addCredential('vocabularycontact');
+         $this->addCredential('vocabularyregistrar');
+         $this->addCredential('vocabularyadmin');
+      }
     }
     return;
   }
