@@ -74,4 +74,4 @@ class Vocabulary extends BaseVocabulary {
     }
   }
 
-} // Vocabulary
+}
