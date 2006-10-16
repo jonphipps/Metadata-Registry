@@ -1,0 +1,11 @@
+Welcome to The Registry!
+============
+
+This is the home page for the National Science Digital Library Metadata Registry.
+
+The NSDL Metadata Registry is a fundamental piece of the NSDL core technical architecture.
+
+The NSDL Metadata Registry project has been funded by the National Science Foundation
+
+
+

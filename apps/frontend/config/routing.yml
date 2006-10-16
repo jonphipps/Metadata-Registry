@@ -15,6 +15,10 @@ uri_scheme:
   url:  /uri/:scheme.rdf
   param: { module: rdf, action: showScheme, type: uri }
 
+uri_scheme_xml_schema:
+  url:  /uri/:scheme.xsd
+  param: { module: xml, action: showScheme, type: xmlschema }
+
 uri_concept_unknown:
   url:  /uri/:scheme/:concept.
   param: { module: rdf, action: showConcept, type: unknown }
@@ -30,7 +34,11 @@ rdf_concept:
 rdf_vocabulary:
   url:  /vocabulary/show/id/:id.rdf
   param: { module: rdf, action: showScheme, type: rdf }
-
+  
+xml_schema_vocabulary:
+  url:  /vocabulary/show/id/:id.xsd
+  param: { module: xml, action: showScheme, type: xmlschema }
+  
 # concepts
 concept_search:
   url:   /search.
@@ -82,7 +90,7 @@ about:
 # default rules
 homepage:
   url:   /
-  param: { module: vocabulary, action: list }
+  param: { module: content, action: home }
 
 default_symfony:
   url:   /symfony/:action/*

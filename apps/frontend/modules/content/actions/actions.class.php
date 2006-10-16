@@ -10,6 +10,22 @@
  */
 class contentActions extends sfActions
 {
+  public function executeHome()
+  {
+    require_once('markdown.php');
+
+    $fileRoot = sfConfig::get('sf_data_dir').'/content/home_';
+    $file = $fileRoot . $this->getUser()->getCulture() . '.txt';
+    if (!is_readable($file))
+    {
+      $file = $fileRoot . '_en.txt';
+    }
+
+    $this->html = markdown(file_get_contents($file));
+
+    $this->getContext()->getResponse()->setTitle('The Registry! :: home');
+  }
+
   public function executeAbout()
   {
     require_once('markdown.php');
