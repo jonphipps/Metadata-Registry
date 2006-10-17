@@ -3,14 +3,26 @@
 // date: 2006/09/20 15:27:48
 ?>
 <ul class="sf_admin_actions">
-             <?php if ($sf_user->hasCredential(array (   0 =>    array (     0 => 'administrator',     1 => 'vocabularymaintainer',   ), ))): ?>
-<li><?php echo button_to(__('edit'), 'vocabulary/edit?id='.$vocabulary->getId(), array (
-  'class' => 'sf_admin_action_edit',
-)) ?></li>
-<?php endif; ?>             <li><?php echo button_to(__('list'), 'vocabulary/list', array (
-  'class' => 'sf_admin_action_list',
-)) ?></li>
-             <li><?php echo button_to(__('Get RDF'), '@rdf_vocabulary?id='.$vocabulary->getId(), array (
-  'style' => 'background: #ffc url(/sf/sf_admin/images/rdf_icon.png) no-repeat 2px 3px; padding-left:20px !important',
-)) ?></li>
-   </ul>
+<?php if ($sf_user->hasCredential(array (   0 =>    array (     0 => 'administrator',     1 => 'vocabularymaintainer',   ), ))): ?>
+   <li>
+      <?php echo button_to(__('edit'), 'vocabulary/edit?id='.$vocabulary->getId(), array (
+       'class' => 'sf_admin_action_edit',
+       )) ?>
+   </li>
+<?php endif; ?>
+   <li>
+      <?php echo button_to(__('list'), 'vocabulary/list', array (
+       'class' => 'sf_admin_action_list',
+       )) ?>
+   </li>
+   <li>
+      <?php echo button_to(__('Get RDF'), '@rdf_vocabulary?id='.$vocabulary->getId(), array (
+       'style' => 'background: #ffc url(/sf/sf_admin/images/rdf_icon.png) no-repeat 2px 3px; padding-left:20px !important',
+       )) ?>
+   </li>
+   <li>
+      <?php echo button_to(__('Get XML Schema'), '@xml_schema_vocabulary?id='.$vocabulary->getId(), array (
+       'style' => 'background: #ffc url(/sf/sf_admin/images/xmlschema_icon.png) no-repeat 2px 1px; padding-left:23px !important',
+       )) ?>
+   </li>
+</ul>

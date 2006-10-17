@@ -17,7 +17,7 @@ uri_scheme:
 
 uri_scheme_xml_schema:
   url:  /uri/:scheme.xsd
-  param: { module: xml, action: showScheme, type: xmlschema }
+  param: { module: xml, action: showScheme, type: uri }
 
 uri_concept_unknown:
   url:  /uri/:scheme/:concept.
