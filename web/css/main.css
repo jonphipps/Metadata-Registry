@@ -476,3 +476,23 @@ h1
   border: 0;
   background-color: #ffc;
 }
+
+div#home ol {
+padding-left:25px;
+margin-top:6px;
+margin-bottom:12px
+}
+
+div#home h1 {
+color:#D8732F;
+font-size: 18px;
+font-style:normal;
+padding-left:6px;
+margin-left:-6px;
+}
+
+div#home {
+background-color:#FFFFCC;
+padding:6px;
+margin-bottom:6px
+}

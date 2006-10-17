@@ -1,7 +1,7 @@
 <?php use_helper('Global') ?>
 <?php echo include_partial('sidebar/administration') ?>
-<?php if ($sf_user->isAuthenticated()): ?>
 <div id="panel_default">
+<?php if ($sf_user->isAuthenticated()): ?>
   <h2><?php echo __('Register New...') ?></h2>
   <ul>
     <li><?php echo link_to(__('Resource Owner'), 'agent/create') ?></li>
@@ -9,5 +9,11 @@
     <li><?php echo link_to(__('Vocabulary'), 'vocabulary/create') ?></li>
   <?php endif ?>
   </ul>
-</div>
+<?php else: ?>
+  <h2><?php echo __('Browse...') ?></h2>
+  <ul>
+    <li><?php echo link_to(__('Resource Owners'), 'agent/list') ?></li>
+    <li><?php echo link_to(__('Vocabularies'), 'vocabulary/list') ?></li>
+  </ul>
 <?php endif ?>
+</div>
