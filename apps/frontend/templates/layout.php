@@ -55,7 +55,7 @@
 
   <div id="content">
     <div id="content_main">
-<?php echo $sf_data->getRaw('sf_content') ?>
+      <?php echo $sf_data->getRaw('sf_content') ?>
       <div class="verticalalign"></div>
     </div>
 
@@ -69,5 +69,13 @@
   <?php echo __('powered by %1%', array('%1%' => link_to(image_tag('symfony.gif', 'align=middle'), 'http://www.symfony-project.com/'))) ?>
   <?php echo __('%1%', array('%1%' => link_to(image_tag('poweredby.png', 'align=middle'), 'http://www.redhat.com/'))) ?>
   </div>
+
+   <?php //Google analytics ?>
+   <script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
+   </script>
+   <script type="text/javascript">
+   _uacct = "UA-840150-1";
+   urchinTracker();
+   </script>
 </body>
 </html>
