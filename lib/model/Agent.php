@@ -26,6 +26,11 @@ class Agent extends BaseAgent {
     return $this->getOrgName();
   }
 
+  public function getCountryName() {
+
+    return format_country($this->getCountry());
+  }
+
   public function save($con = null)
   {
     $con = Propel::getConnection();
