@@ -76,6 +76,11 @@ class myUser extends sfBasicSecurityUser
     {
        if ($agentId)
        {
+         //make sure we've revoked the credentials -- we revoke, then set them every time the agent is accessed
+         $this->removeCredential('agentcontact');
+         $this->removeCredential('agentregistrar');
+         $this->removeCredential('agentadmin');
+
          $agentContact = AgentHasUserPeer::retrieveByPK($agentId, $this->getSubscriberId());
          if (isset($agentContact))
          {
@@ -112,6 +117,12 @@ class myUser extends sfBasicSecurityUser
       }
       if ($vocabularyId)
       {
+         //make sure we've revoked the credentials -- we revoke, then set them every time the vocabulary is accessed
+         $this->removeCredential('vocabularycontact');
+         $this->removeCredential('vocabularyregistrar');
+         $this->removeCredential('vocabularymaintainer');
+         $this->removeCredential('vocabularyadmin');
+
          /* @var VocabularyHasUserPeer */
          $vocabularyContact = VocabularyHasUserPeer::retrieveByPK($vocabularyId, $this->getSubscriberId());
          if (isset($vocabularyContact))
@@ -148,8 +159,8 @@ class myUser extends sfBasicSecurityUser
   * @return boolean
   */
   public function setHasAgents() {
-		//$criteria = new Criteria();
-		//$criteria->add(AgentHasUserPeer::USER_ID, $this->getSubscriberId());
+      //$criteria = new Criteria();
+      //$criteria->add(AgentHasUserPeer::USER_ID, $this->getSubscriberId());
     //$count =  AgentHasUserPeer::doCount($criteria);
     $user = new User();
     $count = $user->getAgentCount($this->getSubscriberId());
