@@ -6,5 +6,7 @@
   Editing&nbsp;<?php echo $concept->getPrefLabel() ?>
  <?php endif; ?>
 </h1>
+<?php if (!$sf_request->hasErrors()): ?>
 <h2>&nbsp;Detail&nbsp;&nbsp;&nbsp;<?php echo link_to('Properties', '/concept/properties?id='.$concept->getId()) ?>&nbsp;&nbsp;&nbsp;<a href="#">History</a>&nbsp;&nbsp;&nbsp;<a href="#">Versions</a></h2>
+<?php endif; ?>
 
