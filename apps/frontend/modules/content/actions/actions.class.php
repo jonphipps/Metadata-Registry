@@ -14,7 +14,12 @@ class contentActions extends sfActions
   {
     require_once('markdown.php');
 
-    $fileRoot = sfConfig::get('sf_data_dir').'/content/home_';
+    $hostPrefix = '/content/';
+    if ('sandbox.registry' == $this->getRequest()->getHost())
+    {
+      $hostPrefix .= 'sandbox_';
+    }
+    $fileRoot = sfConfig::get('sf_data_dir') . $hostPrefix . 'home_';
     $file = $fileRoot . $this->getUser()->getCulture() . '.txt';
     if (!is_readable($file))
     {
@@ -30,10 +35,10 @@ class contentActions extends sfActions
   {
     require_once('markdown.php');
 
-    $file = sfConfig::get('sf_data_dir').'/content/about_'.$this->getUser()->getCulture().'.txt';
+    $file = sfConfig::get('sf_data_dir') . $hostPrefix . 'about_'.$this->getUser()->getCulture().'.txt';
     if (!is_readable($file))
     {
-      $file = sfConfig::get('sf_data_dir').'/content/about_en.txt';
+      $file = sfConfig::get('sf_data_dir') . $hostPrefix . 'about_en.txt';
     }
 
     $this->html = markdown(file_get_contents($file));
@@ -45,10 +50,10 @@ class contentActions extends sfActions
   {
     require_once('markdown.php');
 
-    $file = sfConfig::get('sf_data_dir').'/content/unavailable_'.$this->getUser()->getCulture().'.txt';
+    $file = sfConfig::get('sf_data_dir') . $hostPrefix . 'unavailable_'.$this->getUser()->getCulture().'.txt';
     if (!is_readable($file))
     {
-      $file = sfConfig::get('sf_data_dir').'/content/unavailable_en.txt';
+      $file = sfConfig::get('sf_data_dir') . $hostPrefix . 'unavailable_en.txt';
     }
 
     $this->getContext()->getResponse()->setTitle('The Registry! :: maintenance');

@@ -1,0 +1,10 @@
+About The Registry
+============
+
+The NSDL Metadata Registry is a fundamental piece of the NSDL core technical architecture.
+
+The Registry will complement the existing NSDL Metadata Repository by providing a means for NSDL and its affiliated projects to identify, declare and publish through registration their metadata schemas (element/property sets) and schemes (controlled vocabularies). In addition to supporting registration of schemes and schemas for consumption and use by human and machine agents, the NSDL Registry will support the machine mapping of relationships among terms and concepts in those schemes (semantic mappings) and schemas (crosswalks). Thus, the Registry will support the key NSDL goals of metadata discovery, reuse, standardization and interoperability both within NSDL and globally.
+
+The project will use as its development base the open-source Dublin Core Metadata Initiative (DCMI) Registry application. The existing DCMI application will be significantly extended through this work to support: (1) the automated creation and maintenance of schemas and application profiles by NSDL projects; and (2) the submission of schemas and schemes to a registry workflow for review and publication. All of the development work will leverage the latest knowledge and standards for networked knowledge organization systems, schema and application profile declaration, and registry development.
+
+The NSDL Metadata Registry project has been funded by the National Science Foundation

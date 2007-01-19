@@ -4,6 +4,12 @@ prod:
   rotate: on
   purge:  off
 
+sandbox:
+  active: off
+  level:  err
+  rotate: on
+  purge:  off
+
 dev:
 
 test:

@@ -2,6 +2,10 @@ prod:
   .settings:
     no_script_name:           on
 
+sandbox:
+  .settings:
+    no_script_name:           on
+
 dev:
   .settings:
     # E_ALL | E_STRICT = 4095

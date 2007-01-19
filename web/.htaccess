@@ -14,6 +14,10 @@ Options +FollowSymLinks +ExecCGI
   RewriteCond %{REQUEST_URI} !\.xsd$
   RewriteRule .* - [L]
 
+  # check for the sandbox
+  RewriteCond %{HTTP_HOST} ^sandbox.registry.*
+  RewriteRule ^(.*)$ frontend_sand.php [QSA,L]
+
   # we check if the .html version is here (caching)
   RewriteRule ^$ index.html [QSA]
   RewriteRule ^([^.]+)$ $1.html [QSA]

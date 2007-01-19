@@ -493,6 +493,7 @@ margin-left:-6px;
 
 div#home {
 background-color:#FFFFCC;
+width:90% !important;
 padding:6px;
 margin-bottom:6px
 }
