@@ -3,3 +3,71 @@ generator:
   param:
     model_class:      Agent
     theme:            default
+
+    fields:
+      id:             { name: ID }
+      created_at:     { name: Date Created }
+      last_updated:   { name: Last Updated }
+      org_name:       { name: Owner Name}
+      org_email:      { name: Owner Email }
+      ind_affiliation:{ name: Affiliation (Individual) }
+      ind_role:       { name: Role (Individual) }
+      address1:       { name: Address Line 1 }
+      address2:       { name: Address Line 2 }
+      city:
+      state:
+      postal_code:
+      country:
+      country_name:   { name: Country }
+      phone:
+      web_address:
+      type:
+
+    list:
+      title:           Resource Owners
+      display:         [=org_name, type]
+      actions:
+        _create:       { credentials: [subscriber] }
+      object_actions:
+        _edit:         { credentials: [[administrator, agentadmin]] }
+
+    edit:
+      title:           Detail for %%org_name%%
+      display:
+        "Metadata":   [id, created_at, last_updated]
+        "Detail":     [_type, org_name, org_email, ind_affiliation, address1, address2, city, state, postal_code, country, phone, web_address]
+      fields:
+        id:            { type: plain, credentials: [administrator] }
+        created_at:    { type: plain, credentials: [administrator] }
+        last_updated:  { type: plain, credentials: [administrator] }
+        country:       { type: select_country_tag, params: include_blank=true }
+      actions:
+        _list:      -
+        _save:         { credentials: [agentadmin] }
+        _delete:       { credentials: [administrator] }
+        _save_and_add: { credentials: [administrator] }
+
+    create:
+      title:           Create new Resource Owner
+      fields:
+        country:        { type: select_country_tag, params: include_blank=true }
+      display:
+        "Detail":      [_type, org_name, org_email, ind_affiliation, address1, address2, city, state, postal_code, country, phone, web_address]
+      actions:
+        _list:      -
+        _save:         { credentials: [[administrator, agentadmin]] }
+        _delete:       { credentials: [administrator] }
+        _save_and_add: { credentials: [administrator] }
+
+    show:
+      title:           Detail for %%org_name%%
+      display:
+        "Metadata":   [id, created_at, last_updated]
+        "Detail":     [type, org_name, org_email, ind_affiliation, address1, address2, city, state, postal_code, country_name, phone, web_address]
+      fields:
+        id:            { type: plain, credentials: [administrator] }
+        created_at:    { type: plain, credentials: [administrator] }
+        last_updated:  { type: plain, credentials: [administrator] }
+      actions:
+        _list:      -
+        _edit:         { credentials: [[administrator, agentadmin]] }
