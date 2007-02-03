@@ -1,0 +1,49 @@
+Welcome to The Registry!
+============
+This is the home page for the [National Science Digital Library](http://www.nsdl.org/) Metadata Registry.
+
+The Metadata Registry provides services to developers and consumers of controlled vocabularies and is one of the first production deployments of the [RDF-based](http://www.w3.org/RDF/) [Semantic Web Community's](http://www.w3.org/2001/sw/) [Simple Knowledge Organization System](http://www.w3.org/2004/02/skos/) (SKOS)
+
+Play in the [Metadata Registry Sandbox](http://beta.metadataregistry.org)
+============
+If you just want to experiment and play around a bit, go on over to the [Metadata Registry Sandbox](http://beta.metadataregistry.org). The code is (usually) the same, but it's using a non-production database. (Please be careful not to kick any sand out of the box)
+
+How to begin
+------------
+[Step-by-step illustrated instructions...](http://metadataregistry.org/wiki/index.php/Step-By-Step_Instruction)
+
+Documentation
+============
+Our Latest paper describing the Metadata Registry:
+------------
+
+[A Metadata Registry from Vocabularies UP: The NSDL Registry Project](http://arxiv.org/abs/cs.DL/0605111)
+
+Presented at the [International Conference on Dublin Core and Metadata Applications, 3 - 6 October 2006](http://dc2006.ucol.mx/news.php).
+
+[Functional requirements and planning documents](http://metadataregistry.org/wiki/index.php/Working_Notes_and_Documentation)
+------------
+These documents include use cases, information on versioning strategies, and other detailed information on the registry development process.
+
+[The Registry Blog](http://metadataregistry.org/blog/)
+------------
+The Registry Blog is where all registry developers are welcome to post on advances and issues.
+
+[Code Development](http://metadataregistry.org/trac/registry/)
+------------
+The Registry software is available, and will continue to be as the software grows and matures. Instructions for obtaining the latest code can be found at the above link. If you encounter a bug, or would like to make a suggestion, please [create a ticket](http://metadataregistry.org/trac/registry/newticket).
+
+The NSDL Registry is available now!
+------------
+Although [versioning/history](http://metadataregistry.org/wiki/index.php/Versioning?reg_wikidb_session=aefcef8ffd41d72a8189d95d39779ba9), subscription output, help and [notifications](http://metadataregistry.org/wiki/index.php/NSDL_Registry_Functional_Requirements?reg_wikidb_session=aefcef8ffd41d72a8189d95d39779ba9#Notifications), and [data import](http://metadataregistry.org/wiki/index.php/NSDL_Registry_Use_Case_Documentation_%28Vocabularies%29?reg_wikidb_session=aefcef8ffd41d72a8189d95d39779ba9#Use_Case_4a:_Maintainer_Uploads_non-Hosted_Vocabulary_Terms_to_the_Registry) are not yet available, NSDL projects are welcome to use the Registry to make their vocabularies available to others.  As new functionality is introduced, we will notify all registered users and give instructions on how to use the new functions.
+
+The Registry can also provide "namespace" services to help you create and manage a unique namespace for your vocabulary as well as provide a permanent, [resolvable URI](http://www.w3.org/2001/sw/BestPractices/VM/http-examples/) for your vocabulary and each of your concepts.
+
+The NSDL Registry is [funded](http://www.nsf.gov/awardsearch/showAward.do?AwardNumber=0532854) by the [National Science Foundation](http://www.nsf.gov/) (NSF) to provide essential services to the National Science Digital Library [Core Infrastructure](http://citi.comm.nsdl.org/cgi-bin/wiki.pl) and associated projects.  It was conceived as a part of a distributed registry system supporting improved interoperability for all.
+
+The NSDL Registry is in active development. Because development began with controlled vocabulary registration, this portion is most complete—other sections will be added as ready.   The vocabularies already registered focus primarily on education.
+
+For even more information regarding the Project, see the [Registry Project page](http://eg2.ischool.washington.edu/registry).
+
+Registry project contacts
+------------
