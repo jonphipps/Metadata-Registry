@@ -3,3 +3,65 @@ generator:
   param:
     model_class:      User
     theme:            default
+
+    fields:
+      id:             { name: ID type: plain, credentials: [administrator] }
+      created_at:     { name: Date Created, type: plain, credentials: [administrator] }
+      last_updated:   { name: Last Updated, type: plain, credentials: [administrator] }
+      nickname:       { name: Login Name }
+      salutation:     { name: Salutation }
+      first_name:     { name: First Name }
+      last_name:      { name: Last Name }
+      email:          { name: Email }
+      password:       { name: Password }
+      want_to_be_moderator: { name: Maintainer Request }
+      is_moderator:         { name: Maintainer }
+      is_administrator:     { name: Administrator }
+
+    list:
+      title:           Users
+      display:         [=user, nickname, last_name, first_name]
+      object_actions:
+         _edit:        { credentials: [[administrator, agentadmin]] } 
+      actions:
+        _create:       { credentials: [administrator] }
+
+    edit:
+      title:           Detail for %%user%%
+      display:
+        "Metadata":    [id, created_at, last_updated]
+        "Detail":      [nickname, salutation, first_name, last_name, email]
+        "Permissions": [want_to_be_moderator, is_moderator, is_administrator]
+      actions:
+        _list:      -
+        _save:         { credentials: [administrator] }
+        _delete:       { credentials: [administrator] }
+        _create:       { credentials: [administrator] }
+        _save_and_add: { credentials: [administrator] }
+
+    create:
+      title:           Add new user
+      display:
+        "Detail":      [nickname, password, salutation, first_name, last_name, email]
+        "Permissions": [want_to_be_moderator, is_moderator, is_administrator]
+      actions:
+        _list:      -
+        _save:         { credentials: [administrator] }
+        _delete:       { credentials: [administrator] }
+        _create:       { credentials: [administrator] }
+        _save_and_add: { credentials: [administrator] }
+
+    show:
+      title:           Detail for %%user%%
+      fields:
+        vocabulary_list: { name: " " }
+        agent_list:      { name: " " }
+      display:
+        "Metadata":     [id, created_at, last_updated]
+        "Detail":       [nickname, salutation, first_name, last_name, email]
+        "Permissions":  [want_to_be_moderator, is_moderator, is_administrator]
+        "Vocabularies": [_vocabularyList]
+        "Agents":       [_agentList]
+      actions:
+        _list:      -
+        _edit:         { credentials: [administrator] }

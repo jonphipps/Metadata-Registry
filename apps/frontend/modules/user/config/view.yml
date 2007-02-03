@@ -1,0 +1,18 @@
+loginSuccess:
+  javascripts: [setfocus]
+
+passwordRequestSuccess:
+  javascripts: [setfocus]
+
+showSuccess:
+  javascripts: [setfocus]
+
+showSubscriberSuccess:
+  javascripts: [setfocus]
+
+all:
+  stylesheets: [-*, /sf/sf_admin/css/main, main, layout]
+  stylesheets: [user/layout]
+
+  components:
+    menubar:      []
