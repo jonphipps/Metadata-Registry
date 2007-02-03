@@ -3,3 +3,90 @@ generator:
   param:
     model_class:      Vocabulary
     theme:            default
+
+    fields:
+      id:             
+         name: ID
+         type: plain
+         credentials: [administrator] 
+      created_at:     
+         name: Date Created
+         type: plain
+         params: date_format='s'
+         help: This is the date the Vocabulary was created
+         credentials: [[administrator, vocabularymaintainer]] 
+      last_updated:   
+         name: Last Updated
+         type: plain
+         params: date_format='s'
+         help: This is the date the Vocabulary was last updated 
+         credentials: [[administrator, vocabularymaintainer]]
+      agent:          { name: Owner, help: The individual or organization that registered the vocabulary }
+      agent_id:       { name: Owner, help: The individual or organization that registered the vocabulary }
+      name:           { name: Name, help: A descriptive name for the vocabulary. This will be displayed in lists of vocabularies. }
+      note:           { name: Note, help: A note about this vocabulary }
+      uri:            { name: URI, help: The URI of this vocabulary. By default this will be a concatenation of the Base Domain and the Token. }
+      url:            { name: URL, help: A non-Registry URL that contains more information about this vocabulary }
+      base_domain:    { name: Base Domain, help: The root of all URIs for this vocabulary and its terms. Defaults to the Base Domain set by the Owner of this vocabulary. }
+      token:          { name: Token, help: A unique token representing this vocabulary. This can be used as the RDF container class or to identify an encoding scheme in XML}
+      community:      { name: Community, help: Tags identifying communities of practice that this vocabulary addresses }
+
+    list:
+      title:           Registry vocabulary list
+      fields:
+        last_updated: { params: date_format='yyyy-MM-dd' }
+      display:        [=name, _agent, last_updated]
+      sort:           name
+      actions:
+        _create:      { credentials: [[administrator, hasAgents]] }
+      filters:        [agent_id]
+
+    edit:
+      title:          Detail for %%name%%
+      helptype:       icon
+      display:
+        "Metadata":   [id, created_at, last_updated]      
+        "Detail":     [agent_id, name, url, note, community]
+        "URI":        [base_domain, token, uri]
+      fields:
+        created_at:     { params: date_format='F' }
+        last_updated:   { params: date_format='F' }
+        agent_id:       { params: peer_method=getAgentsForCurrentUser }
+        token:          { params: onblur=updateUri() }
+      actions:
+        _list:      -
+        _save:         { credentials: [[administrator, hasAgents, vocabularymaintainer]] }
+        _delete:       { credentials: [administrator] }
+        _create:       { credentials: [[administrator, hasAgents]] }
+        _save_and_add: { credentials: [administrator] }
+        _cancel:       { credentials: [[administrator, hasAgents, vocabularymaintainer]] }
+
+    create:
+      helptype:       icon
+      fields:
+        agent_id:     { params: peer_method=getAgentsForCurrentUser }
+        token:        { params: onblur=updateUri() }
+      display:
+        "Detail":     [agent_id, name, url, note, community]
+        "URI":        [base_domain, token, uri]
+      actions:
+        _list:      -
+        _save:         { credentials: [[administrator, hasAgents]] }
+        _save_and_add: { credentials: [administrator] }
+
+    show:
+      fields:
+        uri:           { helper: auto_link_text }
+        url:           { helper: auto_link_text }
+        created_at:    { params: date_format='F' }
+        last_updated:  { params: date_format='F' }
+      display:
+        "Metadata":   [id, created_at, last_updated]      
+        "Detail":     [_agent, name, url, note, community]
+        "URI":        [base_domain, token, uri]
+        "Users":      [_listUsers]
+        
+      actions:
+        _edit:      { credentials: [[administrator, vocabularymaintainer]] }
+        _list:
+        rdf:          { name: Get RDF, icon: /sf/sf_admin/images/rdf_icon.png }
