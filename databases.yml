@@ -1,0 +1,21 @@
+prod:
+  propel:
+    param:
+
+sandbox:
+  propel:
+    param:
+      database:           swregistry_test
+
+all:
+#  propel:
+#    class:          sfPropelDatabase
+#    param:
+#      dsn:          mysql://root:@localhost/dbname
+      phptype:            mysql
+      host:               localhost
+      database:           swregistry
+      username:           root
+      password:           RegIt!
+      compat_assoc_lower: true
+      # datasource:       propel
