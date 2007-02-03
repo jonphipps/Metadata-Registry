@@ -3,3 +3,15 @@ generator:
   param:
     model_class:      AgentHasUser
     theme:            default
+    
+    list:
+      peer_method:     doSelectJoinAll
+      title:           Resource Owner and User Relationships
+      display:         [_user, _agent, isRegistrarFor, isAdminFor]
+      object_actions:
+        _edit:         { credentials: [administrator] }
+        _delete:       { credentials: [administrator] }
+
+      actions:
+        _create:       { credentials: [administrator] }
+    
