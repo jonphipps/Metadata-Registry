@@ -9,4 +9,4 @@
  */ 
 class VocabularyHasUser extends BaseVocabularyHasUser
 {
-}
+} // VocabularyHasUser

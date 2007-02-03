@@ -9,4 +9,4 @@
  */ 
 class Lookup extends BaseLookup
 {
-}
+} // Lookup

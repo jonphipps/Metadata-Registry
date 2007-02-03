@@ -9,4 +9,4 @@
  */ 
 class StatusPeer extends BaseStatusPeer
 {
-}
+} // StatusPeer

@@ -9,4 +9,4 @@
  */ 
 class LookupPeer extends BaseLookupPeer
 {
-}
+} // LookupPeer

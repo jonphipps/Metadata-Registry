@@ -9,4 +9,4 @@
  */ 
 class ConceptHistoryPeer extends BaseConceptHistoryPeer
 {
-}
+} // ConceptHistoryPeer

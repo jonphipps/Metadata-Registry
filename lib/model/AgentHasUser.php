@@ -9,4 +9,4 @@
  */ 
 class AgentHasUser extends BaseAgentHasUser
 {
-}
+} // AgentHasUser

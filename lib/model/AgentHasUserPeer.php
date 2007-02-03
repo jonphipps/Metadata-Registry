@@ -9,4 +9,11 @@
  */ 
 class AgentHasUserPeer extends BaseAgentHasUserPeer
 {
-}
+  public function getAgentCount($userId) {
+    $criteria = new Criteria();
+  	$criteria->add(AgentHasUserPeer::USER_ID, $userId);
+    $AgentCount = $this->doCount($criteria);
+    return $AgentCount;
+  }
+
+} // AgentHasUserPeer

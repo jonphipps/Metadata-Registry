@@ -9,4 +9,4 @@
  */ 
 class ConceptHistory extends BaseConceptHistory
 {
-}
+} // ConceptHistory
