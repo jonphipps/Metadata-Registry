@@ -8,11 +8,13 @@
 <?php echo include_title() ?>
 
 <?php if ($_SERVER['HTTP_HOST'] == 'registry'): ?>
-<link rel="shortcut icon" href="/registry_favicon_dev.ico" />
+   <link rel="shortcut icon" href="/registry_favicon_dev.ico" />
 <?php elseif ($_SERVER['HTTP_HOST'] == 'beta.metadataregistry.org'): ?>
-<link rel="shortcut icon" href="/registry_favicon_beta.ico" />
+   <link rel="shortcut icon" href="/registry_favicon_beta.ico" />
+<?php elseif ($_SERVER['HTTP_HOST'] == 'sandbox.metadataregistry.org'): ?>
+   <link rel="shortcut icon" href="/registry_favicon_sand.ico" />
 <?php else: ?>
-<link rel="shortcut icon" href="/registry_favicon_prod.ico" />
+   <link rel="shortcut icon" href="/registry_favicon_prod.ico" />
 <?php endif; ?>
 
 </head>

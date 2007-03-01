@@ -22,10 +22,6 @@ $sf_symfony_lib_dir = sfConfig::get('sf_symfony_lib_dir');
 if (!sfConfig::get('sf_in_bootstrap'))
 {
   // YAML support
-  if (!function_exists('syck_load'))
-  {
-    require_once($sf_symfony_lib_dir.'/util/Spyc.class.php');
-  }
   require_once($sf_symfony_lib_dir.'/util/sfYaml.class.php');
 
   // cache support
@@ -49,125 +45,14 @@ if (!sfConfig::get('sf_in_bootstrap'))
 
   // utils
   require_once($sf_symfony_lib_dir.'/util/sfParameterHolder.class.php');
-  require_once($sf_symfony_lib_dir.'/util/sfTimerManager.class.php');
-  require_once($sf_symfony_lib_dir.'/util/sfTimer.class.php');
 }
 else
 {
   require_once($sf_symfony_lib_dir.'/config/sfConfigCache.class.php');
 }
 
-final class Symfony
-{
-  protected static $classes = array();
-
-  public static function getClassPath($class)
-  {
-    return isset(self::$classes[$class]) ? self::$classes[$class] : null;
-  }
-
-  public static function __autoload($class)
-  {
-    // load the list of autoload classes
-    if (!self::$classes)
-    {
-      $file = sfConfigCache::getInstance()->checkConfig(sfConfig::get('sf_app_config_dir_name').'/autoload.yml');
-      self::$classes = include($file);
-    }
-
-    // class already exists
-    if (class_exists($class, false))
-    {
-      return true;
-    }
-
-    // we have a class path, let's include it
-    if (isset(self::$classes[$class]))
-    {
-      require(self::$classes[$class]);
-
-      return true;
-    }
-
-    // see if the file exists in the current module lib directory
-    // must be in a module context
-    if (sfContext::hasInstance())
-    {
-      $current_module = sfContext::getInstance()->getModuleName();
-      if ($current_module)
-      {
-        $module_lib = sfConfig::get('sf_app_module_dir').'/'.$current_module.'/'.sfConfig::get('sf_app_module_lib_dir_name').'/'.$class.'.class.php';
-        if (is_readable($module_lib))
-        {
-          require($module_lib);
-
-          return true;
-        }
-      }
-    }
-
-    return false;
-  }
-}
-
-/**
- * Handles autoloading of classes that have been specified in autoload.yml.
- *
- * @param string A class name.
- *
- * @return void
- */
-if (function_exists('spl_autoload_register'))
-{
-  ini_set('unserialize_callback_func', 'spl_autoload_call');
-
-  // load functions and methods that can autoload classes
-  $functions = (array) sfConfig::get('sf_autoloading_functions', array());
-  array_unshift($functions, array('Symfony', '__autoload'));
-
-  foreach ($functions as $function)
-  {
-    spl_autoload_register($function);
-  }
-  unset($functions);
-
-}
-elseif (!function_exists('__autoload'))
-{
-  ini_set('unserialize_callback_func', '__autoload');
-
-  function __autoload($class)
-  {
-    static $functions = null;
-
-    if (null === $functions)
-    {
-      // load functions and methods that can autoload classes
-      $functions = (array) sfConfig::get('sf_autoloading_functions', array());
-      array_unshift($functions, array('Symfony', '__autoload'));
-    }
-
-    foreach ($functions as $function)
-    {
-      if (call_user_func($function, $class))
-      {
-        return true;
-      }
-    }
-
-    // unspecified class
-
-    // do not print an error if the autoload came from class_exists
-    $trace = debug_backtrace();
-    if (count($trace) < 1 || ($trace[1]['function'] != 'class_exists' && $trace[1]['function'] != 'is_a'))
-    {
-      $error = sprintf('Autoloading of class "%s" failed. Try to clear the symfony cache and refresh. [err0003]', $class);
-      $e = new sfAutoloadException($error);
-
-      $e->printStackTrace();
-    }
-  }
-}
+// autoloading
+sfCore::initAutoload();
 
 try
 {
@@ -191,24 +76,43 @@ try
 
   $sf_debug = sfConfig::get('sf_debug');
 
-  // load base settings
-  include($configCache->checkConfig($sf_app_config_dir_name.'/logging.yml'));
-  $configCache->import($sf_app_config_dir_name.'/php.yml', false);
-  include($configCache->checkConfig($sf_app_config_dir_name.'/settings.yml'));
-  include($configCache->checkConfig($sf_app_config_dir_name.'/app.yml'));
-
-  // create bootstrap file for next time
-  if (!sfConfig::get('sf_in_bootstrap') && !$sf_debug && !sfConfig::get('sf_test'))
+  // load timer classes if in debug mode
+  if ($sf_debug)
   {
-    $configCache->checkConfig($sf_app_config_dir_name.'/bootstrap_compile.yml');
+    require_once($sf_symfony_lib_dir.'/debug/sfTimerManager.class.php');
+    require_once($sf_symfony_lib_dir.'/debug/sfTimer.class.php');
+  }
+
+  // load base settings
+  include($configCache->checkConfig($sf_app_config_dir_name.'/settings.yml'));
+  if (sfConfig::get('sf_logging_enabled', true))
+  {
+    include($configCache->checkConfig($sf_app_config_dir_name.'/logging.yml'));
+  }
+  if ($file = $configCache->checkConfig($sf_app_config_dir_name.'/app.yml', true))
+  {
+    include($file);
+  }
+  if (sfConfig::get('sf_i18n'))
+  {
+    include($configCache->checkConfig($sf_app_config_dir_name.'/i18n.yml'));
+  }
+
+  // add autoloading callables
+  foreach ((array) sfConfig::get('sf_autoloading_functions', array()) as $callable)
+  {
+    sfCore::addAutoloadCallable($callable);
   }
 
   // error settings
   ini_set('display_errors', $sf_debug ? 'on' : 'off');
   error_reporting(sfConfig::get('sf_error_reporting'));
 
-  // compress output
-  ob_start(sfConfig::get('sf_compressed') ? 'ob_gzhandler' : '');
+  // create bootstrap file for next time
+  if (!sfConfig::get('sf_in_bootstrap') && !$sf_debug && !sfConfig::get('sf_test'))
+  {
+    $configCache->checkConfig($sf_app_config_dir_name.'/bootstrap_compile.yml');
+  }
 
   // required core classes for the framework
   // create a temp var to avoid substitution during compilation
@@ -218,10 +122,14 @@ try
     $configCache->import($core_classes, false);
   }
 
+  $configCache->import($sf_app_config_dir_name.'/php.yml', false);
   $configCache->import($sf_app_config_dir_name.'/routing.yml', false);
 
   // include all config.php from plugins
   sfLoader::loadPluginConfig();
+
+  // compress output
+  ob_start(sfConfig::get('sf_compressed') ? 'ob_gzhandler' : '');
 }
 catch (sfException $e)
 {
@@ -229,7 +137,19 @@ catch (sfException $e)
 }
 catch (Exception $e)
 {
-  // wrap non symfony exceptions
-  $sfException = new sfException();
-  $sfException->printStackTrace($e);
+  if (sfConfig::get('sf_test'))
+  {
+    throw $e;
+  }
+
+  try
+  {
+    // wrap non symfony exceptions
+    $sfException = new sfException();
+    $sfException->printStackTrace($e);
+  }
+  catch (Exception $e)
+  {
+    header('HTTP/1.0 500 Internal Server Error');
+  }
 }

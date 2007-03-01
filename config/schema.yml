@@ -1,0 +1,505 @@
+---
+propel: 
+  reg_agent:
+    _attributes: 
+      idMethod: native
+      phpName: Agent
+    id: 
+      type: INTEGER
+      required: true
+      autoIncrement: true
+      primaryKey: true
+    created_at: 
+      type: TIMESTAMP
+    last_updated: 
+      type: TIMESTAMP
+    org_email: 
+      type: VARCHAR
+      size: 100
+      required: true
+      default: ''
+    org_name: 
+      type: VARCHAR
+      size: 255
+      required: true
+      default: ''
+    ind_affiliation: 
+      type: VARCHAR
+      size: 255
+    ind_role: 
+      type: VARCHAR
+      size: 45
+    address1: 
+      type: VARCHAR
+      size: 255
+    address2: 
+      type: VARCHAR
+      size: 255
+    city: 
+      type: VARCHAR
+      size: 45
+    state: 
+      type: CHAR
+      size: 2
+    postal_code: 
+      type: VARCHAR
+      size: 15
+    country: 
+      type: CHAR
+      size: 3
+    phone: 
+      type: VARCHAR
+      size: 45
+    web_address: 
+      type: VARCHAR
+      size: 255
+    type: 
+      type: CHAR
+      size: 15
+
+  reg_agent_has_user: 
+    _attributes: 
+      phpName: AgentHasUser
+    user_id: 
+      type: INTEGER
+      required: true
+      primaryKey: true
+      default: 
+      foreignTable: reg_user
+      foreignReference: id
+      onDelete: CASCADE
+      onUpdate: RESTRICT
+    agent_id: 
+      type: INTEGER
+      required: true
+      primaryKey: true
+      default: 0
+      foreignTable: reg_agent
+      foreignReference: id
+      onDelete: CASCADE
+      onUpdate: RESTRICT
+    is_registrar_for: 
+      type: BOOLEAN
+      default: 1
+    is_admin_for: 
+      type: BOOLEAN
+      default: 1
+    _indexes: 
+      user_id: 
+        - user_id
+      agent_id: 
+        - agent_id
+
+  reg_concept: 
+    _attributes: 
+      idMethod: native
+      phpName: Concept
+    id: 
+      type: INTEGER
+      required: true
+      autoIncrement: true
+      primaryKey: true
+    created_at: 
+      type: TIMESTAMP
+    last_updated: 
+      type: TIMESTAMP
+    uri: 
+      type: VARCHAR
+      size: 255
+      required: true
+      default: 
+    pref_label: 
+      type: VARCHAR
+      size: 255
+      required: true
+      default: 
+    vocabulary_id: 
+      type: INTEGER
+      foreignTable: reg_vocabulary
+      foreignReference: id
+      onDelete: CASCADE
+      onUpdate: RESTRICT
+    is_top_concept:
+      type: BOOLEAN
+    status_id: 
+      type: INTEGER
+      default: 1
+      foreignTable: reg_status
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
+    _indexes: 
+      vocabulary_id: 
+        - vocabulary_id
+      pref_label: 
+        - pref_label
+      status_id: 
+        - status_id
+    _uniques: 
+      vocabulary_id_pref_label: 
+        - vocabulary_id
+        - pref_label
+
+  reg_concept_history: 
+    _attributes: 
+      phpName: ConceptHistory
+    sid: 
+      type: CHAR
+      size: 32
+      required: true
+      primaryKey: true
+      default: 
+    concept_property_id: 
+      type: INTEGER
+      required: true
+      primaryKey: true
+      default: 
+      foreignTable: reg_concept_property
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
+    user_id: 
+      type: INTEGER
+      required: true
+      default: 
+      foreignTable: reg_user
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
+    changed_at: 
+      type: TIMESTAMP
+    old_values: 
+      type: LONGVARCHAR
+      required: true
+    new_values: 
+      type: LONGVARCHAR
+      required: true
+    _indexes: 
+      user_id: 
+        - user_id
+      concept_property_id: 
+        - concept_property_id
+
+  reg_concept_property: 
+    _attributes: 
+      idMethod: native
+      phpName: ConceptProperty
+    id: 
+      type: INTEGER
+      required: true
+      autoIncrement: true
+      primaryKey: true
+    created_at: 
+      type: TIMESTAMP
+    last_updated: 
+      type: TIMESTAMP
+    concept_id: 
+      type: INTEGER
+      required: true
+      default: 
+      foreignTable: reg_concept
+      foreignReference: id
+      onDelete: CASCADE
+      onUpdate: RESTRICT
+    skos_property_id: 
+      type: INTEGER
+      required: true
+      default: 
+      foreignTable: reg_skos_property
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
+    object: 
+      type: LONGVARCHAR
+      required: true
+    scheme_id: 
+      type: INTEGER
+      foreignTable: reg_vocabulary
+      foreignReference: id
+      onDelete: CASCADE
+      onUpdate: RESTRICT
+    related_concept_id: 
+      type: INTEGER
+      foreignTable: reg_concept
+      foreignReference: id
+      onDelete: CASCADE
+      onUpdate: RESTRICT
+    language: 
+      type: CHAR
+      size: 6
+    status_id: 
+      type: INTEGER
+      foreignTable: reg_lookup
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
+    _indexes: 
+      concept_id: 
+        - concept_id
+      skos_property_id: 
+        - skos_property_id
+      scheme_id: 
+        - scheme_id
+      related_concept_id: 
+        - related_concept_id
+      status_id: 
+        - status_id
+    _uniques: 
+      id: 
+        - id
+
+  reg_lookup: 
+    _attributes: 
+      idMethod: native
+      phpName: Lookup
+    id: 
+      type: INTEGER
+      required: true
+      autoIncrement: true
+      primaryKey: true
+    type_id: 
+      type: INTEGER
+    short_value: 
+      type: CHAR
+      size: 20
+    long_value: 
+      type: VARCHAR
+      size: 255
+    display_order: 
+      type: INTEGER
+    _indexes: 
+      display_order: 
+        - type_id
+        - display_order
+    _uniques: 
+      id: 
+        - id
+
+  reg_skos_property: 
+    _attributes: 
+      idMethod: native
+      phpName: SkosProperty
+    id: 
+      type: INTEGER
+      required: true
+      autoIncrement: true
+      primaryKey: true
+    parent_id: 
+      type: INTEGER
+    inverse_id: 
+      type: INTEGER
+    name: 
+      type: VARCHAR
+      size: 255
+      required: true
+      default: 
+    uri: 
+      type: VARCHAR
+      size: 255
+      required: true
+      default: 
+    object_type: 
+      type: CHAR
+      required: true
+      default: 
+    display_order: 
+      type: INTEGER
+    picklist_order: 
+      type: INTEGER
+    label: 
+      type: VARCHAR
+      size: 255
+    definition: 
+      type: LONGVARCHAR
+    comment: 
+      type: LONGVARCHAR
+    examples: 
+      type: VARCHAR
+      size: 255
+    is_required: 
+      type: BOOLEAN
+      required: true
+      default: 0
+    is_reciprocal: 
+      type: BOOLEAN
+      required: true
+      default: 0
+    is_singleton: 
+      type: BOOLEAN
+      required: true
+      default: 0
+    is_scheme: 
+      type: BOOLEAN
+      required: true
+      default: 0
+    is_in_picklist: 
+      type: BOOLEAN
+      required: true
+      default: 1
+    _uniques: 
+      id: 
+        - id
+      name: 
+        - name
+      uri: 
+        - uri
+
+  reg_status: 
+    _attributes: 
+      idMethod: native
+      phpName: Status
+    id: 
+      type: INTEGER
+      required: true
+      autoIncrement: true
+      primaryKey: true
+    display_order: 
+      type: INTEGER
+    display_name: 
+      type: VARCHAR
+      size: 255
+    _indexes: 
+      display_order: 
+        - display_order
+    _uniques: 
+      id: 
+        - id
+
+  reg_user: 
+    _attributes: 
+      idMethod: native
+      phpName: User
+    id: 
+      type: INTEGER
+      required: true
+      autoIncrement: true
+      primaryKey: true
+    created_at: 
+      type: TIMESTAMP
+    last_updated: 
+      type: TIMESTAMP
+    nickname: 
+      type: VARCHAR
+      size: 50
+    salutation: 
+      type: VARCHAR
+      size: 5
+    first_name: 
+      type: VARCHAR
+      size: 100
+    last_name: 
+      type: VARCHAR
+      size: 100
+    email: 
+      type: VARCHAR
+      size: 100
+    sha1_password: 
+      type: VARCHAR
+      size: 40
+    salt: 
+      type: VARCHAR
+      size: 32
+    want_to_be_moderator: 
+      type: BOOLEAN
+      default: 0
+    is_moderator: 
+      type: BOOLEAN
+      default: 0
+    is_administrator: 
+      type: BOOLEAN
+      default: 0
+    deletions: 
+      type: INTEGER
+      default: 0
+    password: 
+      type: VARCHAR
+      size: 40
+
+  reg_vocabulary: 
+    _attributes: 
+      idMethod: native
+      phpName: Vocabulary
+    id: 
+      type: INTEGER
+      required: true
+      autoIncrement: true
+      primaryKey: true
+    agent_id: 
+      type: INTEGER
+      required: true
+      foreignTable: reg_agent
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
+    created_at: 
+      type: TIMESTAMP
+      required: true
+    last_updated: 
+      type: TIMESTAMP
+    name: 
+      type: VARCHAR
+      size: 255
+      required: true
+    note: 
+      type: LONGVARCHAR
+    uri: 
+      type: VARCHAR
+      size: 255
+      required: true
+    url: 
+      type: VARCHAR
+      size: 255
+      required: true
+    base_domain: 
+      type: VARCHAR
+      size: 255
+    token: 
+      type: VARCHAR
+      size: 45
+      required: true
+    community: 
+      type: VARCHAR
+      size: 45
+    last_uri_id: 
+      type: INTEGER
+      default: 1000
+    _indexes: 
+      agent_id: 
+        - agent_id
+
+  reg_vocabulary_has_user: 
+    _attributes: 
+      idMethod: native
+      phpName: VocabularyHasUser
+    vocabulary_id: 
+      type: INTEGER
+      required: true
+      primaryKey: true
+      default: 
+      foreignTable: reg_vocabulary
+      foreignReference: id
+      onDelete: CASCADE
+      onUpdate: RESTRICT
+    user_id: 
+      type: INTEGER
+      required: true
+      primaryKey: true
+      default: 
+      foreignTable: reg_user
+      foreignReference: id
+      onDelete: CASCADE
+      onUpdate: RESTRICT
+    is_maintainer_for: 
+      type: BOOLEAN
+      default: 1
+    is_registrar_for: 
+      type: BOOLEAN
+      default: 1
+    is_admin_for: 
+      type: BOOLEAN
+      default: 1
+    _indexes: 
+      resource_id: 
+        - vocabulary_id
+      user_id: 
+        - user_id

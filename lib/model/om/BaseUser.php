@@ -460,7 +460,7 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	
 	public function save($con = null)
 	{
-    if ($this->isNew() && !$this->isColumnModified('created_at'))
+    if ($this->isNew() && !$this->isColumnModified(UserPeer::CREATED_AT))
     {
       $this->setCreatedAt(time());
     }

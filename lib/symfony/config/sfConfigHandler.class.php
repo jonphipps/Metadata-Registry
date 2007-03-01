@@ -23,141 +23,64 @@
 abstract class sfConfigHandler
 {
   protected
-    $parameter_holder = null;
+    $parameterHolder = null;
 
   /**
-   * Add a set of replacement values.
+   * Executes this configuration handler
    *
-   * @param string The old value.
-   * @param string The new value which will replace the old value.
+   * @param array An array of filesystem path to a configuration file
    *
-   * @return void
-   */
-  public function addReplacement($oldValue, $newValue)
-  {
-    $this->oldValues[] = $oldValue;
-    $this->newValues[] = $newValue;
-  }
-
-  /**
-   * Execute this configuration handler.
+   * @return string Data to be written to a cache file
    *
-   * @param array An array of filesystem path to a configuration file.
-   *
-   * @return string Data to be written to a cache file.
-   *
-   * @throws <b>sfConfigurationException</b> If a requested configuration file
-   *                                       does not exist or is not readable.
-   * @throws <b>sfParseException</b> If a requested configuration file is
-   *                               improperly formatted.
+   * @throws <b>sfConfigurationException</b> If a requested configuration file does not exist or is not readable
+   * @throws <b>sfParseException</b> If a requested configuration file is improperly formatted
    */
   abstract public function execute($configFiles);
 
   /**
-   * Initialize this ConfigHandler.
+   * Initializes this configuration handler.
    *
-   * @param array An associative array of initialization parameters.
+   * @param array An associative array of initialization parameters
    *
-   * @return bool true, if initialization completes successfully, otherwise false.
+   * @return bool true, if initialization completes successfully, otherwise false
    *
-   * @throws <b>sfInitializationException</b> If an error occurs while initializing this ConfigHandler.
+   * @throws <b>sfInitializationException</b> If an error occurs while initializing this ConfigHandler
    */
   public function initialize($parameters = null)
   {
-    $this->getParameterHolder()->add($parameters);
-  }
-
-  public function __construct()
-  {
-    $this->parameter_holder = new sfParameterHolder();
+    $this->parameterHolder = new sfParameterHolder();
+    $this->parameterHolder->add($parameters);
   }
 
   /**
-   * Literalize a string value.
-   *
-   * @param string The value to literalize.
-   *
-   * @return string A literalized value.
-   */
-  public static function literalize($value)
-  {
-    static
-      $keys = array("\\", "%'", "'"),
-      $reps = array("\\\\", "\"", "\\'");
-
-    if ($value == null)
-    {
-      // null value
-      return 'null';
-    }
-
-    // lowercase our value for comparison
-    $value  = trim($value);
-    $lvalue = strtolower($value);
-
-    if ($lvalue == 'on' || $lvalue == 'yes' || $lvalue == 'true')
-    {
-      // replace values 'on' and 'yes' with a boolean true value
-      return 'true';
-    }
-    else if ($lvalue == 'off' || $lvalue == 'no' || $lvalue == 'false')
-    {
-      // replace values 'off' and 'no' with a boolean false value
-      return 'false';
-    }
-    else if (!is_numeric($value))
-    {
-      $value = str_replace($keys, $reps, $value);
-
-      return "'".$value."'";
-    }
-
-    // numeric value
-    return $value;
-  }
-
-  /**
-   * Replace constant identifiers in a value.
+   * Replaces constant identifiers in a value.
    *
    * If the value is an array replacements are made recursively.
-   * 
-   * @param mixed The value on which to run the replacement procedure.
    *
-   * @return string The new value.
+   * @param mixed The value on which to run the replacement procedure
+   *
+   * @return string The new value
    */
   public static function replaceConstants($value)
   {
     if (is_array($value))
     {
-      array_walk_recursive($value, array('self', 'replaceConstantsCallback'));
+      array_walk_recursive($value, create_function('&$value', '$value = sfToolkit::replaceConstants($value);'));
     }
     else
     {
-      self::replaceConstantsCallback($value);
+      $value = sfToolkit::replaceConstants($value);
     }
 
     return $value;
   }
 
   /**
-   * Replaces constant identifiers in a scalar value.
+   * Replaces a relative filesystem path with an absolute one.
    *
-   * This is used by the {@link replaceConstants}.
+   * @param string A relative filesystem path
    *
-   * @param string the value to perform the replacement on
-   * @return string the value with substitutions made
-   */
-  private static function replaceConstantsCallback(&$value)
-  {
-    $value = preg_replace('/%(.+?)%/e', 'sfConfig::get(strtolower("\\1"))', $value);
-  }
-
-  /**
-   * Replace a relative filesystem path with an absolute one.
-   *
-   * @param string A relative filesystem path.
-   *
-   * @return string The new path.
+   * @return string The new path
    */
   public static function replacePath($path)
   {
@@ -170,8 +93,13 @@ abstract class sfConfigHandler
     return $path;
   }
 
+  /**
+   * Gets the parameter holder for this configuration handler.
+   *
+   * @return sfParameterHolder A sfParameterHolder instance
+   */
   public function getParameterHolder()
   {
-    return $this->parameter_holder;
+    return $this->parameterHolder;
   }
 }

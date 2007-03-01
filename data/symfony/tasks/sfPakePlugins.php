@@ -1,5 +1,13 @@
 <?php
 
+/*
+ * This file is part of the symfony package.
+ * (c) 2004-2006 Fabien Potencier <fabien.potencier@symfony-project.com>
+ * 
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 pake_desc('install a new plugin');
 pake_task('plugin-install', 'project_exists');
 
@@ -93,7 +101,7 @@ function run_plugin_list($task, $args)
     foreach ($packages as $package)
     {
       $pobj = $registry->getPackage(isset($package['package']) ? $package['package'] : $package['name'], $channel);
-      pake_echo(sprintf(" %-40s %10s-%-6s %s", pakeColor::colorize($pobj->getPackage(), 'INFO'), $pobj->getVersion(), $pobj->getState() ? $pobj->getState() : null, pakeColor::colorize('# '.$channel, 'COMMENT')));
+      pake_echo(sprintf(" %-40s %10s-%-6s %s", pakeColor::colorize($pobj->getPackage(), 'INFO'), $pobj->getVersion(), $pobj->getState() ? $pobj->getState() : null, pakeColor::colorize(sprintf('# %s (%s)', $channel, $registry->getChannel($channel)->getAlias()), 'COMMENT')));
     }
   }
 }
@@ -120,11 +128,14 @@ function _pear_run_command($config, $command, $opts, $params)
 function _pear_echo_message($message)
 {
   $t = '';
-  foreach (explode("\n", $message) as $line)
+  foreach (explode("\n", $message) as $longline)
   {
-    if ($line = trim($line))
+    foreach (explode("\n", wordwrap($longline, 62)) as $line)
     {
-      $t .= pake_format_action('pear', $line);
+      if ($line = trim($line))
+      {
+        $t .= pake_format_action('pear', $line);
+      }
     }
   }
 
@@ -141,18 +152,7 @@ function _pear_init()
   require_once 'PEAR/Remote.php';
 
   // current symfony release
-  if (is_readable('lib/symfony'))
-  {
-    $sf_version = file_get_contents('lib/symfony/BRANCH');
-  }
-  else
-  {
-    // PEAR config
-    if ((include('symfony/pear.php')) != 'OK')
-    {
-      throw new Exception('Unable to find symfony librairies.');
-    }
-  }
+  $sf_version = preg_replace('/\-\w+$/', '', file_get_contents(sfConfig::get('sf_symfony_lib_dir').'/VERSION'));
 
   // PEAR
   PEAR_Command::setFrontendType('CLI');
@@ -163,11 +163,16 @@ function _pear_init()
   $config_file = sfConfig::get('sf_plugins_dir').DIRECTORY_SEPARATOR.'.pearrc';
 
   // change the configuration for symfony use
-  $config->set('php_dir',  sfConfig::get('sf_root_dir').'/plugins');
-  $config->set('data_dir', sfConfig::get('sf_root_dir').'/plugins');
-  $config->set('test_dir', sfConfig::get('sf_root_dir').'/plugins');
-  $config->set('doc_dir',  sfConfig::get('sf_root_dir').'/plugins');
-  $config->set('bin_dir',  sfConfig::get('sf_root_dir').'/plugins');
+  $config->set('php_dir',  sfConfig::get('sf_plugins_dir'));
+  $config->set('data_dir', sfConfig::get('sf_plugins_dir'));
+  $config->set('test_dir', sfConfig::get('sf_plugins_dir'));
+  $config->set('doc_dir',  sfConfig::get('sf_plugins_dir'));
+  $config->set('bin_dir',  sfConfig::get('sf_plugins_dir'));
+
+  // change the PEAR temp dir
+  $config->set('cache_dir',    sfConfig::get('sf_cache_dir'));
+  $config->set('download_dir', sfConfig::get('sf_cache_dir'));
+  $config->set('tmp_dir',      sfConfig::get('sf_cache_dir'));
 
   // save out configuration file
   $config->writeConfigFile($config_file, 'user');
@@ -227,7 +232,7 @@ function _pear_init()
     'stability'     => array('release' => 'stable', 'api' => 'stable'),
     'xsdversion'    => '2.0',
     '_lastmodified' => time(),
-    'old'           => array('version' => $sf_version),
+    'old'           => array('version' => $sf_version, 'release_state' => 'stable'),
   );
   $dir = sfConfig::get('sf_plugins_dir').DIRECTORY_SEPARATOR.'.registry'.DIRECTORY_SEPARATOR.'.channel.pear.symfony-project.com';
   pake_mkdirs($dir);

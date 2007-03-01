@@ -22,12 +22,17 @@
  */
 class sfConfigCache
 {
-  private
+  protected
     $handlers = array();
 
-  private static
+  protected static
     $instance = null;
 
+  /**
+   * Retrieves the singleton instance of this class.
+   *
+   * @return sfConfigCache A sfConfigCache instance
+   */
   public static function getInstance()
   {
     if (!self::$instance)
@@ -39,18 +44,15 @@ class sfConfigCache
   }
 
   /**
-   * Load a configuration handler.
+   * Loads a configuration handler.
    *
-   * @param string The handler to use when parsing a configuration file.
-   * @param array  An array of absolute filesystem paths to configuration files.
-   * @param string An absolute filesystem path to the cache file that will be written.
+   * @param string The handler to use when parsing a configuration file
+   * @param array  An array of absolute filesystem paths to configuration files
+   * @param string An absolute filesystem path to the cache file that will be written
    *
-   * @return void
-   *
-   * @throws <b>sfConfigurationException</b> If a requested configuration file
-   *                                       does not have an associated configuration handler.
+   * @throws <b>sfConfigurationException</b> If a requested configuration file does not have an associated configuration handler
    */
-  private function callHandler($handler, $configs, $cache)
+  protected function callHandler($handler, $configs, $cache)
   {
     if (count($this->handlers) == 0)
     {
@@ -60,6 +62,8 @@ class sfConfigCache
 
     // handler to call for this configuration file
     $handlerToCall = null;
+
+    $handler = str_replace(DIRECTORY_SEPARATOR, '/', $handler);
 
     // grab the base name of the handler
     $basename = basename($handler);
@@ -109,38 +113,28 @@ class sfConfigCache
     }
   }
 
-  public function findConfigPaths($configPath)
-  {
-    $configs = array();
-
-    $files = sfLoader::getConfigDirs($configPath);
-    foreach (array_unique($files) as $file)
-    {
-      if (is_readable($file))
-      {
-        $configs[] = $file;
-      }
-    }
-
-    return $configs;
-  }
-
   /**
-   * Check to see if a configuration file has been modified and if so
+   * Checks to see if a configuration file has been modified and if so
    * recompile the cache file associated with it.
    *
-   * If the configuration file path is relative, the path itself is relative
-   * to the symfony [sf_app_dir] application setting.
+   * The recompilation only occurs in a non debug environment.
    *
-   * @param string A filesystem path to a configuration file.
+   * If the configuration file path is relative, symfony will look in directories 
+   * defined in the sfLoader::getConfigPaths() method.
    *
-   * @return string An absolute filesystem path to the cache filename associated with this specified configuration file.
+   * @param string A filesystem path to a configuration file
    *
-   * @throws <b>sfConfigurationException</b> If a requested configuration file does not exist.
+   * @return string An absolute filesystem path to the cache filename associated with this specified configuration file
+   *
+   * @throws <b>sfConfigurationException</b> If a requested configuration file does not exist
+   *
+   * @see sfLoader::getConfigPaths()
    */
   public function checkConfig($configPath, $optional = false)
   {
-    if (sfConfig::get('sf_debug') && sfConfig::get('sf_logging_active'))
+    static $process_cache_cleared = false;
+
+    if (sfConfig::get('sf_debug') && sfConfig::get('sf_logging_enabled'))
     {
       $timer = sfTimerManager::getTimer('Configuration');
     }
@@ -150,7 +144,7 @@ class sfConfigCache
 
     if (sfConfig::get('sf_in_bootstrap') && is_readable($cache))
     {
-      if (sfConfig::get('sf_debug') && sfConfig::get('sf_logging_active'))
+      if (sfConfig::get('sf_debug') && sfConfig::get('sf_logging_enabled'))
       {
         $timer->addTime();
       }
@@ -160,7 +154,7 @@ class sfConfigCache
 
     if (!sfToolkit::isPathAbsolute($configPath))
     {
-      $files = $this->findConfigPaths($configPath);
+      $files = sfLoader::getConfigPaths($configPath);
     }
     else
     {
@@ -194,9 +188,16 @@ class sfConfigCache
     {
       // configuration has changed so we need to reparse it
       $this->callHandler($configPath, $files, $cache);
+
+      // clear process cache
+      if ('config/config_handlers.yml' != $configPath && sfConfig::has('sf_use_process_cache') && !$process_cache_cleared)
+      {
+        sfProcessCache::clear();
+        $process_cache_cleared = true;
+      }
     }
 
-    if (sfConfig::get('sf_debug') && sfConfig::get('sf_logging_active'))
+    if (sfConfig::get('sf_debug') && sfConfig::get('sf_logging_enabled'))
     {
       $timer->addTime();
     }
@@ -205,9 +206,7 @@ class sfConfigCache
   }
 
   /**
-   * Clear all configuration cache files.
-   *
-   * @return void
+   * Clears all configuration cache files.
    */
   public function clear()
   {
@@ -215,11 +214,11 @@ class sfConfigCache
   }
 
   /**
-   * Convert a normal filename into a cache filename.
+   * Converts a normal filename into a cache filename.
    *
-   * @param string A normal filename.
+   * @param string A normal filename
    *
-   * @return string An absolute filesystem path to a cache filename.
+   * @return string An absolute filesystem path to a cache filename
    */
   public function getCacheName($config)
   {
@@ -230,22 +229,19 @@ class sfConfigCache
     }
 
     // replace unfriendly filename characters with an underscore
-    $config  = str_replace(array('\\', '/'), '_', $config);
+    $config  = str_replace(array('\\', '/', ' '), '_', $config);
     $config .= '.php';
 
     return sfConfig::get('sf_config_cache_dir').'/'.$config;
   }
 
   /**
-   * Import a configuration file.
+   * Imports a configuration file.
    *
-   * If the configuration file path is relative, the path itself is relative
-   * to the symfony [sf_app_dir] application setting.
-   *
-   * @param string A filesystem path to a configuration file.
+   * @param string A filesystem path to a configuration file
    * @param bool   Only allow this configuration file to be included once per request?
    *
-   * @return void
+   * @see checkConfig()
    */
   public function import($config, $once = true, $optional = false)
   {
@@ -268,14 +264,11 @@ class sfConfigCache
   }
 
   /**
-   * Load all configuration application and module level handlers.
+   * Loads all configuration application and module level handlers.
    *
-   * @return void
-   *
-   * @throws <b>sfConfigurationException</b> If a configuration related error
-   *                                       occurs.
+   * @throws <b>sfConfigurationException</b> If a configuration related error occurs.
    */
-  private function loadConfigHandlers()
+  protected function loadConfigHandlers()
   {
     // manually create our config_handlers.yml handler
     $this->handlers['config_handlers.yml'] = new sfRootConfigHandler();
@@ -332,15 +325,15 @@ class sfConfigCache
   }
 
   /**
-   * Write a cache file.
+   * Writes a cache file.
    *
-   * @param string An absolute filesystem path to a configuration file.
-   * @param string An absolute filesystem path to the cache file that will be written.
-   * @param string Data to be written to the cache file.
+   * @param string An absolute filesystem path to a configuration file
+   * @param string An absolute filesystem path to the cache file that will be written
+   * @param string Data to be written to the cache file
    *
-   * @throws sfCacheException If the cache file cannot be written.
+   * @throws sfCacheException If the cache file cannot be written
    */
-  private function writeCacheFile($config, $cache, &$data)
+  protected function writeCacheFile($config, $cache, &$data)
   {
     $fileCache = new sfFileCache(dirname($cache));
     $fileCache->setSuffix('');

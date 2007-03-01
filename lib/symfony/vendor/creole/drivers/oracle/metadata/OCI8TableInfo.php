@@ -78,6 +78,7 @@ class OCI8TableInfo extends TableInfo {
 				, OCI8Types::getType($row['data_type'])
 				, $row['data_type']
 				, $row['data_length']
+				, $row['data_precision']
 				, $row['data_scale']
 				, $row['nullable']
 				, $row['data_default']
@@ -204,17 +205,14 @@ class OCI8TableInfo extends TableInfo {
 				, d.column_name AS foreign_column
 				, b.constraint_name AS foreign_constraint_name
 				, a.delete_rule AS on_delete
-            FROM all_constraints a
-				, all_constraints b
-				, all_cons_columns c
-				, all_cons_columns d
+            FROM user_constraints a
+				, user_constraints b
+				, user_cons_columns c
+				, user_cons_columns d
             WHERE a.r_constraint_name = b.constraint_name
                 AND c.constraint_name = a.constraint_name
                 AND d.constraint_name = b.constraint_name
                 AND a.r_owner = b.owner
-		AND c.owner = a.owner
-		AND d.owner = b.owner
-		AND c.position = d.position
                 AND a.constraint_type='R'
 				AND a.table_name = '{$this->name}'
 				AND a.owner = '{$this->schema}'

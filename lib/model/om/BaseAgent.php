@@ -477,7 +477,7 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	
 	public function save($con = null)
 	{
-    if ($this->isNew() && !$this->isColumnModified('created_at'))
+    if ($this->isNew() && !$this->isColumnModified(AgentPeer::CREATED_AT))
     {
       $this->setCreatedAt(time());
     }

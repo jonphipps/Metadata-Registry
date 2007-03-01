@@ -10,7 +10,6 @@
  */
 
 /**
- *
  * sfDatabaseConfigHandler allows you to setup database connections in a
  * configuration file that will be created for you automatically upon first
  * request.
@@ -24,14 +23,14 @@
 class sfDatabaseConfigHandler extends sfYamlConfigHandler
 {
   /**
-   * Execute this configuration handler.
+   * Executes this configuration handler.
    *
-   * @param array An array of absolute filesystem path to a configuration file.
+   * @param array An array of absolute filesystem path to a configuration file
    *
-   * @return string Data to be written to a cache file.
+   * @return string Data to be written to a cache file
    *
-   * @throws sfConfigurationException If a requested configuration file does not exist or is not readable.
-   * @throws sfParseException If a requested configuration file is improperly formatted.
+   * @throws sfConfigurationException If a requested configuration file does not exist or is not readable
+   * @throws sfParseException If a requested configuration file is improperly formatted
    */
   public function execute($configFiles)
   {
@@ -89,7 +88,19 @@ class sfDatabaseConfigHandler extends sfYamlConfigHandler
       }
 
       // parse parameters
-      $parameters = (isset($dbConfig['param']) ? var_export($dbConfig['param'], true) : 'null');
+      if (isset($dbConfig['param']))
+      {
+        foreach ($dbConfig['param'] as &$value)
+        {
+          $value = $this->replaceConstants($value);
+        }
+
+        $parameters = var_export($dbConfig['param'], true);
+      }
+      else
+      {
+        $parameters = 'null';
+      }
 
       // append new data
       $data[] = sprintf("\n\$database = new %s();\n".

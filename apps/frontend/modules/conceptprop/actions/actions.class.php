@@ -20,17 +20,17 @@ class conceptpropActions extends autoconceptpropActions
     parent::preExecute();
   }
 
-  public function executeCreate ()
+  public function setDefaults ($concept_property)
   {
     $conceptId = $this->concept->getId();
     $vocabId = $this->concept->getVocabularyId();
 
-    $this->concept_property = new ConceptProperty();
-    $this->concept_property->setConceptId($conceptId);
-    $this->concept_property->setSchemeId($vocabId);
+    $concept_property->setConceptId($conceptId);
+    $concept_property->setSchemeId($vocabId);
 
     //TODO: set this more dynamically based on the user's default language
-    $this->concept_property->setLanguage('en');
+    $concept_property->setLanguage('en');
+    parent::setDefaults($concept_property);
   }
 
   public function executeDelete()

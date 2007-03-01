@@ -14,7 +14,7 @@
  * @package    symfony
  * @subpackage log
  * @author     Joe Simms
- * @version    SVN: $Id: sfLogManager.class.php 1788 2006-08-23 20:16:59Z fabien $
+ * @version    SVN: $Id: sfLogManager.class.php 3329 2007-01-23 08:29:34Z fabien $
  **/
 class sfLogManager
 {
@@ -25,9 +25,14 @@ class sfLogManager
   const DEF_HISTORY   = 10;
 
   /**
-   * rotates log file
+   * Rotates log file.
    *
-   * @return void
+   * @param string Application name
+   * @param string Enviroment name
+   * @param string Period 
+   * @param string History
+   * @param boolean Override
+   *
    * @author Joe Simms
    **/
   public static function rotate($app, $env, $period = null, $history = null, $override = false)

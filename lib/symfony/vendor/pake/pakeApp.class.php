@@ -5,7 +5,7 @@
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
  * @copyright  2004-2005 Fabien Potencier <fabien.potencier@symfony-project.com>
  * @license    see the LICENSE file included in the distribution
- * @version    SVN: $Id: pakeApp.class.php 1796 2006-08-24 06:04:28Z fabien $
+ * @version    SVN: $Id: pakeApp.class.php 2574 2006-10-31 06:44:28Z fabien $
  */
 
 /**
@@ -18,7 +18,7 @@
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
  * @copyright  2004-2005 Fabien Potencier <fabien.potencier@symfony-project.com>
  * @license    see the LICENSE file included in the distribution
- * @version    SVN: $Id: pakeApp.class.php 1796 2006-08-24 06:04:28Z fabien $
+ * @version    SVN: $Id: pakeApp.class.php 2574 2006-10-31 06:44:28Z fabien $
  */
 class pakeApp
 {
@@ -32,7 +32,7 @@ class pakeApp
     array('--dry-run',  '-n', pakeGetopt::NO_ARGUMENT,       "Do a dry run without executing actions."),
     array('--help',     '-H', pakeGetopt::NO_ARGUMENT,       "Display this help message."),
     array('--libdir',   '-I', pakeGetopt::REQUIRED_ARGUMENT, "Include LIBDIR in the search path for required modules."),
-    array('--nosearch', '-N', pakeGetopt::NO_ARGUMENT,       "Do not search parent directories for the Rakefile."),
+    array('--nosearch', '-N', pakeGetopt::NO_ARGUMENT,       "Do not search parent directories for the pakefile."),
     array('--prereqs',  '-P', pakeGetopt::NO_ARGUMENT,       "Display the tasks and dependencies, then exit."),
     array('--quiet',    '-q', pakeGetopt::NO_ARGUMENT,       "Do not log messages to standard output."),
     array('--pakefile', '-f', pakeGetopt::REQUIRED_ARGUMENT, "Use FILE as the pakefile."),
@@ -97,7 +97,7 @@ class pakeApp
     return $this->dryrun;
   }
 
-  public function run($pakefile = null, $options = null)
+  public function run($pakefile = null, $options = null, $load_pakefile = true)
   {
     if ($pakefile)
     {
@@ -105,7 +105,10 @@ class pakeApp
     }
 
     $this->handle_options($options);
-    $this->load_pakefile();
+    if ($load_pakefile)
+    {
+      $this->load_pakefile();
+    }
 
     if ($this->show_tasks)
     {
@@ -349,6 +352,9 @@ class pakeApp
     if ($relative && $target_dir)
     {
       $files = preg_replace('/^'.preg_quote(realpath($target_dir), '/').'/', '', $files);
+
+      // remove leading /
+      $files = array_map(create_function('$f', 'return 0 === strpos($f, DIRECTORY_SEPARATOR) ? substr($f, 1) : $f;'), $files);
     }
 
     return $files;

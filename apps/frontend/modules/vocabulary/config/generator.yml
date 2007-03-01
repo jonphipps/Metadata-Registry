@@ -8,7 +8,8 @@ generator:
       id:             
          name: ID
          type: plain
-         credentials: [administrator] 
+         credentials: [administrator]
+         mode:        edit
       created_at:     
          name: Date Created
          type: plain
@@ -44,35 +45,22 @@ generator:
     edit:
       title:          Detail for %%name%%
       helptype:       icon
-      display:
-        "Metadata":   [id, created_at, last_updated]      
-        "Detail":     [agent_id, name, url, note, community]
-        "URI":        [base_domain, token, uri]
       fields:
         created_at:     { params: date_format='F' }
         last_updated:   { params: date_format='F' }
         agent_id:       { params: peer_method=getAgentsForCurrentUser }
         token:          { params: onblur=updateUri() }
-      actions:
-        _list:      -
-        _save:         { credentials: [[administrator, hasAgents, vocabularymaintainer]] }
-        _delete:       { credentials: [administrator] }
-        _create:       { credentials: [[administrator, hasAgents]] }
-        _save_and_add: { credentials: [administrator] }
-        _cancel:       { credentials: [[administrator, hasAgents, vocabularymaintainer]] }
-
-    create:
-      helptype:       icon
-      fields:
-        agent_id:     { params: peer_method=getAgentsForCurrentUser }
-        token:        { params: onblur=updateUri() }
       display:
+        "Metadata":   { fields: [id, created_at, last_updated], mode: edit, credentials: [[administrator, vocabularymaintainer]] }
         "Detail":     [agent_id, name, url, note, community]
         "URI":        [base_domain, token, uri]
       actions:
-        _list:      -
-        _save:         { credentials: [[administrator, hasAgents]] }
+        _list:         -
+        _save:         { credentials: [[administrator, hasAgents, vocabularymaintainer]] }
+        _delete:       { credentials: [administrator] }
+        _create:       { credentials: [[administrator, hasAgents]], mode: edit }
         _save_and_add: { credentials: [administrator] }
+        _cancel:       { credentials: [[administrator, hasAgents, vocabularymaintainer]] }
 
     show:
       fields:
@@ -80,13 +68,21 @@ generator:
         url:           { helper: auto_link_text }
         created_at:    { params: date_format='F' }
         last_updated:  { params: date_format='F' }
+        list_users:    { name: - }
       display:
-        "Metadata":   [id, created_at, last_updated]      
+        "Metadata":   [id, created_at, last_updated]
         "Detail":     [_agent, name, url, note, community]
         "URI":        [base_domain, token, uri]
-        "Users":      [_listUsers]
-        
+        "Users":      [_list_users]
+
       actions:
-        _edit:      { credentials: [[administrator, vocabularymaintainer]] }
         _list:
-        rdf:          { name: Get RDF, icon: /sf/sf_admin/images/rdf_icon.png }
+        _edit:       { credentials: [[administrator, vocabularymaintainer]] }
+        rdf:
+          name:      Get RDF
+          icon:      %SF_ADMIN_WEB_DIR%/images/rdf_icon.png
+          route:     rdf_vocabulary
+        xml:
+          name:      Get XML Schema
+          icon:      %SF_ADMIN_WEB_DIR%/images/xmlschema_icon.png
+          route:     xml_schema_vocabulary

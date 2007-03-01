@@ -14,7 +14,7 @@ require_once 'propel/engine/builder/om/php5/PHP5ExtensionObjectBuilder.php';
  * @package    symfony
  * @subpackage addon
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
- * @version    SVN: $Id: SfExtensionObjectBuilder.php 1919 2006-09-01 14:41:22Z fabien $
+ * @version    SVN: $Id: SfExtensionObjectBuilder.php 2624 2006-11-07 09:34:59Z fabien $
  */
 class SfExtensionObjectBuilder extends PHP5ExtensionObjectBuilder
 {
@@ -26,5 +26,36 @@ class SfExtensionObjectBuilder extends PHP5ExtensionObjectBuilder
     }
 
     parent::addIncludes($script);
+  }
+
+  protected function addClassOpen(&$script)
+  {
+    $table = $this->getTable();
+    $tableName = $table->getName();
+    $tableDesc = $table->getDescription();
+
+    $baseClassname = $this->getObjectBuilder()->getClassname();
+
+    $script .= "
+/**
+ * Subclass for representing a row from the '$tableName' table.
+ *
+ * $tableDesc
+ *
+ * @package ".$this->getPackage()."
+ */ 
+class ".$this->getClassname()." extends $baseClassname
+{";
+  }
+
+  /**
+   * Closes class.
+   * @param string &$script The script will be modified in this method.
+   */ 
+  protected function addClassClose(&$script)
+  {
+    $script .= "
+}
+";
   }
 }

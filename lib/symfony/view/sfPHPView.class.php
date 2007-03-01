@@ -19,30 +19,28 @@
  */
 class sfPHPView extends sfView
 {
+  /**
+   * Executes any presentation logic for this view.
+   */
   public function execute()
   {
   }
 
   /**
-   * Returns an array with some variables that will be accessible to the template.
+   * Returns variables that will be accessible to the template.
+   *
+   * @return array Attributes from the template
    */
   protected function getGlobalVars()
   {
     $context = $this->getContext();
 
-    $lastActionEntry  = $context->getActionStack()->getLastEntry();
-    $firstActionEntry = $context->getActionStack()->getFirstEntry();
-
     $shortcuts = array(
-      'sf_context'       => $context,
-      'sf_params'        => $context->getRequest()->getParameterHolder(),
-      'sf_request'       => $context->getRequest(),
-      'sf_user'          => $context->getUser(),
-      'sf_view'          => $this,
-      'sf_last_module'   => $lastActionEntry->getModuleName(),
-      'sf_last_action'   => $lastActionEntry->getActionName(),
-      'sf_first_module'  => $firstActionEntry->getModuleName(),
-      'sf_first_action'  => $firstActionEntry->getActionName(),
+      'sf_context' => $context,
+      'sf_params'  => $context->getRequest()->getParameterHolder(),
+      'sf_request' => $context->getRequest(),
+      'sf_user'    => $context->getUser(),
+      'sf_view'    => $this,
     );
 
     if (sfConfig::get('sf_use_flash'))
@@ -55,6 +53,9 @@ class sfPHPView extends sfView
     return $shortcuts;
   }
 
+  /**
+   * Load core and standard helpers to be use in the template.
+   */
   protected function loadCoreAndStandardHelpers()
   {
     static $coreHelpersLoaded = 0;
@@ -65,7 +66,6 @@ class sfPHPView extends sfView
     }
 
     $coreHelpersLoaded = 1;
-
     $core_helpers = array('Helper', 'Url', 'Asset', 'Tag', 'Escaping');
     $standard_helpers = sfConfig::get('sf_standard_helpers');
 
@@ -73,26 +73,31 @@ class sfPHPView extends sfView
     sfLoader::loadHelpers($helpers);
   }
 
+  /**
+   * Renders the presentation.
+   *
+   * @param string Filename
+   *
+   * @return string File content
+   */
   protected function renderFile($_sfFile)
   {
-    if ($sf_logging_active = sfConfig::get('sf_logging_active'))
+    if (sfConfig::get('sf_logging_enabled'))
     {
-      $this->getContext()->getLogger()->info('{sfPHPView} render "'.$_sfFile.'"');
+      $this->getContext()->getLogger()->info('{sfView} render "'.$_sfFile.'"');
     }
 
     $this->loadCoreAndStandardHelpers();
 
-    $_escaping       = $this->getEscaping();
-    $_escapingMethod = $this->getEscapingMethod();
-
-    if (($_escaping === false) || ($_escaping === 'bc'))
+    $_escaping = $this->getEscaping();
+    if ($_escaping === false || $_escaping === 'bc')
     {
-      extract($this->attribute_holder->getAll());
+      extract($this->attributeHolder->getAll());
     }
 
     if ($_escaping !== false)
     {
-      $sf_data = sfOutputEscaper::escape($_escapingMethod, $this->attribute_holder->getAll());
+      $sf_data = sfOutputEscaper::escape($this->getEscapingMethod(), $this->attributeHolder->getAll());
 
       if ($_escaping === 'both')
       {
@@ -103,17 +108,16 @@ class sfPHPView extends sfView
       }
     }
 
-    // render to variable
+    // render
     ob_start();
     ob_implicit_flush(0);
     require($_sfFile);
-    $retval = ob_get_clean();
 
-    return $retval;
+    return ob_get_clean();
   }
 
   /**
-   * Retrieve the template engine associated with this view.
+   * Retrieves the template engine associated with this view.
    *
    * Note: This will return null because PHP itself has no engine reference.
    *
@@ -124,39 +128,53 @@ class sfPHPView extends sfView
     return null;
   }
 
+  /**
+   * Configures template.
+   *
+   * @return void
+   */
   public function configure()
   {
+    // store our current view
+    $actionStackEntry = $this->getContext()->getActionStack()->getLastEntry();
+    if (!$actionStackEntry->getViewInstance())
+    {
+      $actionStackEntry->setViewInstance($this);
+    }
+
     // require our configuration
-    $context = $this->getContext();
     $viewConfigFile = $this->moduleName.'/'.sfConfig::get('sf_app_module_config_dir_name').'/view.yml';
     require(sfConfigCache::getInstance()->checkConfig(sfConfig::get('sf_app_module_dir_name').'/'.$viewConfigFile));
 
     // set template directory
-    $this->setDirectory(sfLoader::getTemplateDir($this->moduleName, $this->getTemplate()));
+    if (!$this->directory)
+    {
+      $this->setDirectory(sfLoader::getTemplateDir($this->moduleName, $this->getTemplate()));
+    }
   }
 
   /**
    * Loop through all template slots and fill them in with the results of
    * presentation data.
    *
-   * @param string A chunk of decorator content.
+   * @param string A chunk of decorator content
    *
-   * @return string A decorated template.
+   * @return string A decorated template
    */
   protected function decorate($content)
   {
     $template = $this->getDecoratorDirectory().'/'.$this->getDecoratorTemplate();
 
-    if (sfConfig::get('sf_logging_active'))
+    if (sfConfig::get('sf_logging_enabled'))
     {
-      $this->getContext()->getLogger()->info('{sfPHPView} decorate content with "'.$template.'"');
+      $this->getContext()->getLogger()->info('{sfView} decorate content with "'.$template.'"');
     }
 
     // set the decorator content as an attribute
-    $this->attribute_holder->set('sf_content', $content);
+    $this->attributeHolder->set('sf_content', $content);
 
     // for backwards compatibility with old layouts; remove at 0.8.0?
-    $this->attribute_holder->set('content', $content);
+    $this->attributeHolder->set('content', $content);
 
     // render the decorator template and return the result
     $retval = $this->renderFile($template);
@@ -165,13 +183,13 @@ class sfPHPView extends sfView
   }
 
   /**
-   * Render the presentation.
+   * Renders the presentation.
    *
    * When the controller render mode is sfView::RENDER_CLIENT, this method will
    * render the presentation directly to the client and null will be returned.
    *
    * @return string A string representing the rendered presentation, if
-   *                the controller render mode is sfView::RENDER_VAR, otherwise null.
+   *                the controller render mode is sfView::RENDER_VAR, otherwise null
    */
   public function render($templateVars = null)
   {
@@ -219,8 +237,8 @@ class sfPHPView extends sfView
     }
 
     // assigns some variables to the template
-    $this->attribute_holder->add($this->getGlobalVars());
-    $this->attribute_holder->add($retval !== null ? $vars : $templateVars);
+    $this->attributeHolder->add($this->getGlobalVars());
+    $this->attributeHolder->add($retval !== null ? $vars : $templateVars);
 
     // render template if no cache
     if ($retval === null)

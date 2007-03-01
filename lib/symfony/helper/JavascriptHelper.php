@@ -390,7 +390,7 @@
    * Takes the same arguments as 'link_to_remote()'.
    *
    * Example:
-   *   <select id="options" onchange="<?= remote_function(array('update' => 'options', 'url' => '@update_options')) ?>">
+   *   <select id="options" onchange="<?php echo remote_function(array('update' => 'options', 'url' => '@update_options')) ?>">
    *     <option value="0">Hello</option>
    *     <option value="1">World</option>
    *   </select>
@@ -719,6 +719,8 @@
   {
     $context = sfContext::getInstance();
 
+    $tag_options = _convert_options($tag_options);
+
     $response = $context->getResponse();
     $response->addJavascript(sfConfig::get('sf_prototype_web_dir').'/js/prototype');
     $response->addJavascript(sfConfig::get('sf_prototype_web_dir').'/js/effects');
@@ -730,15 +732,17 @@
       $response->addStylesheet(sfConfig::get('sf_prototype_web_dir').'/css/input_auto_complete_tag');
     }
 
+    $tag_options['id'] = get_id_from_name(isset($tag_options['id']) ? $tag_options['id'] : $name);
+
     $javascript  = input_tag($name, $value, $tag_options);
-    $javascript .= content_tag('div', '' , array('id' => (isset($tag_options['id']) ? $tag_options['id'] : $name).'_auto_complete', 'class' => 'auto_complete'));
-    $javascript .= _auto_complete_field($name, $url, $comp_options);
+    $javascript .= content_tag('div', '' , array('id' => $tag_options['id'].'_auto_complete', 'class' => 'auto_complete'));
+    $javascript .= _auto_complete_field($tag_options['id'], $url, $comp_options);
 
     return $javascript;
   }
 
   /**
-   * wrapper for script.aculo.us/prototype Ajax.Autocompleter.
+   * wrapper for script.aculo.us/prototype Ajax.InPlaceEditor.
    * @param string name id of field that can be edited
    * @param string url of module/action to be called when ok is clicked
    * @param array editor tag options. (rows, cols, highlightcolor, highlightendcolor, etc...)
@@ -837,7 +841,7 @@
       }
       if (isset($options['external_control']))
       {
-        $js_options['externalControl'] = $options['external_control'];
+        $js_options['externalControl'] = "'".$options['external_control']."'";
       }
       if (isset($options['options']))
       {
@@ -845,7 +849,7 @@
       }
       if (isset($options['with']))
       {
-        $js_options['callback'] = "function(form) { return".$options['with']."}";
+        $js_options['callback'] = "function(form, value) { return ".$options['with']." }";
       }
       if (isset($options['highlightcolor']))
       {
@@ -855,7 +859,7 @@
       {
         $js_options['highlightendcolor'] = "'".$options['highlightendcolor']."'";
       }
-      if(isset($options['loadTextURL']))
+      if (isset($options['loadTextURL']))
       {
         $js_options['loadTextURL'] =  "'".$options['loadTextURL']."'";
       }
@@ -877,14 +881,14 @@
   {
     $javascript = "new Ajax.Autocompleter(";
 
-    $javascript .= "'$field_id', ";
+    $javascript .= "'".get_id_from_name($field_id)."', ";
     if (isset($options['update']))
     {
       $javascript .= "'".$options['update']."', ";
     }
     else
     {
-      $javascript .= "'{$field_id}_auto_complete', ";
+      $javascript .= "'".get_id_from_name($field_id)."_auto_complete', ";
     }
 
     $javascript .= "'".url_for($url)."'";
@@ -996,7 +1000,7 @@
     $callback = remote_function($options);
 
     $javascript  = 'new '.$klass.'("'.$name.'", ';
-    if (isset($options['frequency']))
+    if (isset($options['frequency']) && $options['frequency'] > 0)
     {
       $javascript .= $options['frequency'].", ";
     }

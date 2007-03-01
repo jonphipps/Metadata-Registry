@@ -34,7 +34,7 @@ function object_input_date_tag($object, $method, $options = array(), $default_va
 {
   $options = _parse_attributes($options);
 
-  $value = _get_object_value($object, $method, $default_value, $param = 'm/d/y');
+  $value = _get_object_value($object, $method, $default_value, $param = 'Y-m-d G:i');
 
   return input_date_tag(_convert_method_to_name($method, $options), $value, $options);
 }
@@ -69,19 +69,19 @@ function object_textarea_tag($object, $method, $options = array(), $default_valu
 function objects_for_select($options = array(), $value_method, $text_method = null, $selected = null, $html_options = array())
 {
   $select_options = array();
-  foreach($options as $option)
+  foreach ($options as $option)
   {
     // text method exists?
     if ($text_method && !is_callable(array($option, $text_method)))
     {
-      $error = sprintf('Method "%s" doesn\'t exist for object of class "%s"', $text_method, get_class($option));
+      $error = sprintf('Method "%s" doesn\'t exist for object of class "%s"', $text_method, _get_class_decorated($option));
       throw new sfViewException($error);
     }
 
     // value method exists?
     if (!is_callable(array($option, $value_method)))
     {
-      $error = sprintf('Method "%s" doesn\'t exist for object of class "%s"', $value_method, get_class($option));
+      $error = sprintf('Method "%s" doesn\'t exist for object of class "%s"', $value_method, _get_class_decorated($option));
       throw new sfViewException($error);
     }
 
@@ -97,7 +97,7 @@ function objects_for_select($options = array(), $value_method, $text_method = nu
 /**
  * Returns a list html tag.
  *
- * @param object An object.
+ * @param object An object or the selected value
  * @param string An object column.
  * @param array Input options (related_class option is mandatory).
  * @param bool Input default value.
@@ -108,72 +108,44 @@ function objects_for_select($options = array(), $value_method, $text_method = nu
 function object_select_tag($object, $method, $options = array(), $default_value = null)
 {
   $options = _parse_attributes($options);
-  $related_class = isset($options['related_class']) ? $options['related_class'] : '';
-  if (!isset($options['related_class']) && preg_match('/^get(.+?)Id$/', $method, $match))
+
+  $related_class = _get_option($options, 'related_class', false);
+  if (false === $related_class && preg_match('/^get(.+?)Id$/', $method, $match))
   {
     $related_class = $match[1];
   }
-  unset($options['related_class']);
 
-  $peer_method = isset($options['peer_method']) ? $options['peer_method'] : null;
-  unset($options['peer_method']);
+  $peer_method = _get_option($options, 'peer_method');
 
-  $text_method = isset($options['text_method']) ? $options['text_method'] : null;
-  unset($options['text_method']);
-  if(isset($options['related_class_method']) and $related_class)
+  $text_method = _get_option($options, 'text_method');
+
+  $select_options = _get_options_from_objects(sfContext::getInstance()->retrieveObjects($related_class, $peer_method), $text_method);
+
+  if ($value = _get_option($options, 'include_custom'))
   {
-    $related_class_method = $options['related_class_method'];
-    $related_class .= 'Peer';
-    require_once(sfConfig::get('sf_model_lib_dir').'/'.$related_class.'.php');
-    $classPeer = new $related_class;
-    if (isset($options['related_class_method_arg']))
-    {
-      $related_class_method_arg = $options['related_class_method_arg'];
-      unset($options['related_class_method_arg']);
-    }
-    $select_options = $classPeer->$related_class_method($related_class_method_arg);
-    unset($options['related_class_method']);
+    $select_options = array('' => $value) + $select_options;
+  }
+  else if (_get_option($options, 'include_title'))
+  {
+    $select_options = array('' => '-- '._convert_method_to_name($method, $options).' --') + $select_options;
+  }
+  else if (_get_option($options, 'include_blank'))
+  {
+    $select_options = array('' => '') + $select_options;
+  }
+
+  if (is_object($object))
+  {
+    $value = _get_object_value($object, $method, $default_value);
   }
   else
   {
-  $select_options = _get_values_for_object_select_tag($object, $related_class, $text_method, $peer_method);
+    $value = $object;
   }
 
-
-  if (isset($options['include_custom']))
-  {
-    $select_options = array('' => $options['include_custom']) + $select_options;
-    unset($options['include_custom']);
-  }
-  else if (isset($options['include_title']))
-  {
-    $select_options = array('' => '-- '._convert_method_to_name($method, $options).' --') + $select_options;
-    unset($options['include_title']);
-  }
-  else if (isset($options['include_blank']))
-  {
-    $select_options = array('' => '') + $select_options;
-    unset($options['include_blank']);
-  }
-
-  $value = _get_object_value($object, $method, $default_value);
   $option_tags = options_for_select($select_options, $value, $options);
 
   return select_tag(_convert_method_to_name($method, $options), $option_tags, $options);
-}
-
-function _get_values_for_object_select_tag($object, $class, $text_method = null, $peer_method = null)
-{
-  // FIXME: drop Propel dependency
-  if (!$classPath = Symfony::getClassPath($class.'Peer'))
-  {
-    throw new sfException(sprintf('Unable to find path for class "%s".', $class.'Peer'));
-  }
-  require_once($classPath);
-  $method = $peer_method ? $peer_method : 'doSelect';
-  $objects = call_user_func(array($class.'Peer', $method), new Criteria());
-
-  return _get_options_from_objects($objects, $text_method);
 }
 
 function _get_options_from_objects($objects, $text_method = null)
@@ -187,7 +159,7 @@ function _get_options_from_objects($objects, $text_method = null)
 
     // which method to call?
     $methodToCall = '';
-    foreach (array($text_method, 'toString', '__toString', 'getPrimaryKey') as $method)
+    foreach (array($text_method, '__toString', 'toString', 'getPrimaryKey') as $method)
     {
       if (is_callable(array($objects[0], $method)))
       {
@@ -282,46 +254,71 @@ function object_checkbox_tag($object, $method, $options = array(), $default_valu
 {
   $options = _parse_attributes($options);
 
-  $value = _get_object_value($object, $method, $default_value);
-  $value = in_array($value, array(true, 1, 'on', 'true', 't', 'yes', 'y'), true);
+  $checked = (boolean) _get_object_value($object, $method, $default_value);
 
-  return checkbox_tag(_convert_method_to_name($method, $options), 1, $value, $options);
+  return checkbox_tag(_convert_method_to_name($method, $options), isset($options['value']) ? $options['value'] : 1, $checked, $options);
 }
 
-function _convert_method_to_name ($method, &$options)
+function _convert_method_to_name($method, &$options)
 {
   $name = _get_option($options, 'control_name');
 
   if (!$name)
   {
-    $name = sfInflector::underscore($method);
-    $name = preg_replace('/^get_?/', '', $name);
+    if (is_array($method))
+    {
+      $name = implode('-',$method[1]);
+    }
+    else
+    {
+      $name = sfInflector::underscore($method);
+      $name = preg_replace('/^get_?/', '', $name);
+    }
   }
 
   return $name;
 }
 
 // returns default_value if object value is null
-function _get_object_value ($object, $method, $default_value = null, $param = null)
+// method is either a string or: array('method',array('param1','param2'))
+function _get_object_value($object, $method, $default_value = null, $param = null)
 {
+  // compatibility with the array syntax
+  if (is_string($method))
+  {
+    $param = ($param == null ? array() : array($param));
+    $method = array($method, $param);
+  }
+  
   // method exists?
-  if (!is_callable(array($object, $method)))
+  if (!is_callable(array($object, $method[0])))
   {
     $error = 'Method "%s" doesn\'t exist for object of class "%s"';
-    $error = sprintf($error, $method, get_class($object));
+    $error = sprintf($error, $method[0], _get_class_decorated($object));
 
     throw new sfViewException($error);
   }
 
-  if (null !== $param)
-  {
-    $object_value = $object->$method($param);
-  }
-  else
-  {
-    $object_value = $object->$method();
-  }
+  $object_value = call_user_func_array(array($object, $method[0]), $method[1]);
 
   return ($default_value !== null && $object_value === null) ? $default_value : $object_value;
 }
 
+/**
+ * Returns the name of the class of an decorated object
+ *
+ * @param object An object that might be wrapped in an sfOutputEscaperObjectDecorator(-derivative)
+ *
+ * @return string The name of the class of the object being decorated for escaping, or the class of the object if it isn't decorated
+ */
+function _get_class_decorated($object)
+{
+  if ($object instanceof sfOutputEscaperObjectDecorator)
+  {
+    return sprintf('%s (decorated with %s)', get_class($object->getRawValue()), get_class($object));
+  }
+  else
+  {
+    return get_class($object);
+  }
+}

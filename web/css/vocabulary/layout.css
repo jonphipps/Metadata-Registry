@@ -1,4 +1,4 @@
-div#sf_admin_container.sf_admin_list div#sf_admin_content, 
+div#sf_admin_container.sf_admin_list div#sf_admin_content,
 div#sf_admin_container.sf_admin_list div#sf_admin_header
 {
   width: 600px !important;
@@ -6,27 +6,28 @@ div#sf_admin_container.sf_admin_list div#sf_admin_header
   margin-right: auto;
 }
 
-fieldset#sf_fieldset_users .form-row .content
+fieldset#sf_fieldset_users .show-row .content
 {
   padding-left: 11em !important;
 }
 
-fieldset#sf_fieldset_users .form-row .content
+fieldset#sf_fieldset_users .show-row .content
 { 
   padding-left: 20px !important;
 }
 
-fieldset#sf_fieldset_users .form-row label
+fieldset#sf_fieldset_users .show-row label
 { 
   display: none;
 }
 
-fieldset#sf_fieldset_users .form-row ul
+fieldset#sf_fieldset_users .show-row ul
 { 
   list-style: none;
 }
 
-fieldset#sf_fieldset_users .form-row th, fieldset#sf_fieldset_users .form-row td
+fieldset#sf_fieldset_users .show-row th,
+fieldset#sf_fieldset_users .show-row td
 { 
   text-align: center !important;
 }

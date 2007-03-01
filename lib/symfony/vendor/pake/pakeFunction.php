@@ -5,7 +5,7 @@
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
  * @copyright  2004-2005 Fabien Potencier <fabien.potencier@symfony-project.com>
  * @license    see the LICENSE file included in the distribution
- * @version    SVN: $Id: pakeFunction.php 2006 2006-09-08 09:43:39Z fabien $
+ * @version    SVN: $Id: pakeFunction.php 3263 2007-01-13 14:20:52Z fabien $
  */
 
 require_once dirname(__FILE__).'/pakeException.class.php';
@@ -21,24 +21,27 @@ function pake_import($name, $import_default_tasks = true)
 {
   $class_name = 'pake'.ucfirst(strtolower($name)).'Task';
 
-  // plugin available?
-  $plugin_path = '';
-  foreach (pakeApp::get_plugin_dirs() as $dir)
+  if (!class_exists($class_name))
   {
-    if (file_exists($dir.DIRECTORY_SEPARATOR.$class_name.'.class.php'))
+    // plugin available?
+    $plugin_path = '';
+    foreach (pakeApp::get_plugin_dirs() as $dir)
     {
-      $plugin_path = $dir.DIRECTORY_SEPARATOR.$class_name.'.class.php';
-      break;
+      if (file_exists($dir.DIRECTORY_SEPARATOR.$class_name.'.class.php'))
+      {
+        $plugin_path = $dir.DIRECTORY_SEPARATOR.$class_name.'.class.php';
+        break;
+      }
     }
-  }
 
-  if ($plugin_path)
-  {
-    require_once $plugin_path;
-  }
-  else
-  {
-    throw new pakeException(sprintf('Plugin "%s" does not exist.', $name));
+    if ($plugin_path)
+    {
+      require_once $plugin_path;
+    }
+    else
+    {
+      throw new pakeException(sprintf('Plugin "%s" does not exist.', $name));
+    }
   }
 
   if ($import_default_tasks && is_callable($class_name, 'import_default_tasks'))
@@ -349,12 +352,12 @@ function pake_strip_php_comments($arg)
   }
 }
 
-function pake_format_action($section, $text)
+function pake_format_action($section, $text, $size = null)
 {
   if (pakeApp::get_instance()->get_verbose())
   {
     $width = 9 + strlen(pakeColor::colorize('', 'INFO'));
-    return sprintf('>> %-'.$width.'s %s', pakeColor::colorize($section, 'INFO'), pakeApp::excerpt($text))."\n";
+    return sprintf('>> %-'.$width.'s %s', pakeColor::colorize($section, 'INFO'), pakeApp::excerpt($text, $size))."\n";
   }
 }
 
@@ -392,5 +395,35 @@ function pake_exception_default_handler($exception)
 {
   $e = new pakeException();
   $e->render($exception);
+  exit(1);
 }
 set_exception_handler('pake_exception_default_handler');
+
+// fix php behavior if using cgi php
+// from http://www.sitepoint.com/article/php-command-line-1/3
+if (false !== strpos(PHP_SAPI, 'cgi'))
+{
+   // handle output buffering
+   @ob_end_flush();
+   ob_implicit_flush(true);
+
+   // PHP ini settings
+   set_time_limit(0);
+   ini_set('track_errors', true);
+   ini_set('html_errors', false);
+   ini_set('magic_quotes_runtime', false);
+
+   // define stream constants
+   define('STDIN', fopen('php://stdin', 'r'));
+   define('STDOUT', fopen('php://stdout', 'w'));
+   define('STDERR', fopen('php://stderr', 'w'));
+
+   // change directory
+   if (isset($_SERVER['PWD']))
+   {
+     chdir($_SERVER['PWD']);
+   }
+
+   // close the streams on script termination
+   register_shutdown_function(create_function('', 'fclose(STDIN); fclose(STDOUT); fclose(STDERR); return true;'));
+}

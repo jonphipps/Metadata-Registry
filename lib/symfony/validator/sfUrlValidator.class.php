@@ -9,28 +9,27 @@
  */
 
 /**
- * sfUrlValidator verifies a parameter contains a value that qualifies as a
- * valid URL.
+ * sfUrlValidator verifies a parameter contains a value that qualifies as a valid URL.
  *
  * @package    symfony
  * @subpackage validator
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
- * @version    SVN: $Id: sfUrlValidator.class.php 1679 2006-08-21 08:53:31Z fabien $
+ * @version    SVN: $Id: sfUrlValidator.class.php 3345 2007-01-29 10:25:09Z fabien $
  */
 class sfUrlValidator extends sfValidator
 {
   /**
-   * Execute this validator.
+   * Executes this validator.
    *
-   * @param mixed A file or parameter value/array.
-   * @param error An error message reference.
+   * @param mixed A file or parameter value/array
+   * @param error An error message reference
    *
-   * @return bool true, if this validator executes successfully, otherwise false.
+   * @return bool true, if this validator executes successfully, otherwise false
    */
-  public function execute (&$value, &$error)
+  public function execute(&$value, &$error)
   {
     $re = '/^(http|https|ftp):\/\/(([A-Z0-9][A-Z0-9_-]*)(\.[A-Z0-9][A-Z0-9_-]*)+)/i';
-    
+
     if (!preg_match($re, $value))
     {
       $error = $this->getParameterHolder()->get('url_error');
@@ -40,7 +39,15 @@ class sfUrlValidator extends sfValidator
     return true;
   }
 
-  public function initialize ($context, $parameters = null)
+  /**
+   * Initializes this validator.
+   *
+   * @param sfContext The current application context
+   * @param array   An associative array of initialization parameters
+   *
+   * @return bool true, if initialization completes successfully, otherwise false
+   */
+  public function initialize($context, $parameters = null)
   {
     // initialize parent
     parent::initialize($context);

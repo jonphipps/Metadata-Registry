@@ -1,4 +1,5 @@
-<?php $value = object_textarea_tag($concept_property, 'getObject', array (
+<?php //@DEPRECATED
+$value = object_textarea_tag($concept_property, 'getObject', array (
   'size' => '55x3',
   'control_name' => 'concept_property[object]',
 )); echo $value ? $value : '&nbsp;' ?>
@@ -18,6 +19,7 @@ function swapOptions()
   if(showSelect[selectedId])
   {
     Element.show('form_row_concept_property_scheme_id','form_row_concept_property_related_concept_id');
+    Element.hide('form_row_concept_property_language');
     //new Effect.BlindUp(the_div1);
     //new Effect.BlindUp(the_div2);
     \$('concept_property_scheme_id').focus();
@@ -25,6 +27,7 @@ function swapOptions()
   else
   {
     Element.hide('form_row_concept_property_scheme_id','form_row_concept_property_related_concept_id');
+    Element.show('form_row_concept_property_language');
     //Element.show('form_row_concept_property_object');
     //new Effect.BlindUp(the_div1);
     //new Effect.BlindUp(the_div2);

@@ -1,25 +1,14 @@
 <?php
 
-  // include base peer class
-  require_once 'model/om/BaseSkosPropertyPeer.php';
-  
-  // include object class
-  include_once 'model/SkosProperty.php';
-
-
 /**
- * Skeleton subclass for performing query and update operations on the 'reg_skos_property' table.
+ * Subclass for performing query and update operations on the 'reg_skos_property' table.
  *
  * 
  *
- * You should add additional methods to this class to meet the
- * application requirements.  This class will only be generated as
- * long as it does not already exist in the output directory.
- *
- * @package model
- */	
-class SkosPropertyPeer extends BaseSkosPropertyPeer {
-
+ * @package lib.model
+ */ 
+class SkosPropertyPeer extends BaseSkosPropertyPeer
+{
 	/** the value for the altLabel ID  */
 	const LABEL_ALT_ID = 1;
 

@@ -1,3 +1,5 @@
 all:
-  javascripts: [setfocus]
   stylesheets: [conceptprop/layout]
+
+editSuccess:
+  javascripts: [conceptprop/swapoptions: { position: last }]

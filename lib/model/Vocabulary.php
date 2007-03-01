@@ -1,20 +1,14 @@
 <?php
 
-require_once 'model/om/BaseVocabulary.php';
-
-
 /**
- * Skeleton subclass for representing a row from the 'reg_vocabulary' table.
+ * Subclass for representing a row from the 'reg_vocabulary' table.
  *
  * 
  *
- * You should add additional methods to this class to meet the
- * application requirements.  This class will only be generated as
- * long as it does not already exist in the output directory.
- *
- * @package model
- */	
-class Vocabulary extends BaseVocabulary {
+ * @package lib.model
+ */ 
+class Vocabulary extends BaseVocabulary
+{
   public function __toString() {
 
     return $this->getName();

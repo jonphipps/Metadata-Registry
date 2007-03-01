@@ -45,26 +45,18 @@ generator:
         vocabulary_id: vocabulary_id
 
     edit:
-      title:        Detail for %%pref_label%%
+      title:           Detail for %%pref_label%%
+      hide:            [vocabulary_id]
       display:
-        "Metadata":    [id, created_at, last_updated]
-        "Detail":      [vocabulary_id, pref_label, uri, is_top_concept, status_id]
+        "Metadata":    { fields: [id, created_at, last_updated], mode: edit, credentials: [[administrator, vocabularymaintainer]] }
+        "Detail":      [pref_label, uri, is_top_concept, status_id]
         "Properties":  [_listproperties]
       actions:
-        _list:
-          query_string:
-            vocabulary_id: vocabulary_id
+        _list:         { query_string: { vocabulary_id: vocabulary_id} }
         _save:         { credentials: [[administrator, vocabularymaintainer]] }
         _delete:       { credentials: [administrator] }
         _create:       { credentials: [[administrator, vocabularymaintainer]] }
         _save_and_add: { credentials: [[administrator, vocabularymaintainer]] }
-
-    create:
-      fields:
-        vocabulary_id: { type: input_hidden_tag }
-      display:         
-        "Detail":      [vocabulary_id, pref_label, uri, is_top_concept, status_id]
-        "Properties":  [_listproperties]
 
     show:
       fields:
@@ -76,8 +68,6 @@ generator:
         "Properties":  [_listproperties]
       actions:
         _edit:         { credentials: [[administrator, vocabularymaintainer]] }
-        _list:
-          query_string:
-            vocabulary_id: vocabulary_id
-        rdf:            { name: Get RDF, icon: /sf/sf_admin/images/rdf_icon.png }
+        _list:         { query_string: { vocabulary_id: vocabulary_id} }
+        rdf:           { name: Get RDF, icon: %SF_ADMIN_WEB_DIR%/images/rdf_icon.png, route: rdf_concept }
             

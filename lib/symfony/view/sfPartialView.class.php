@@ -13,14 +13,20 @@
  * @package    symfony
  * @subpackage view
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
- * @version    SVN: $Id: sfPartialView.class.php 2056 2006-09-13 06:52:27Z fabien $
+ * @version    SVN: $Id: sfPartialView.class.php 3232 2007-01-11 20:51:54Z fabien $
  */
 class sfPartialView extends sfPHPView
 {
+  /**
+   * Executes any presentation logic for this view.
+   */
   public function execute()
   {
   }
 
+  /**
+   * Configures template for this view.
+   */
   public function configure()
   {
     $this->setDecorator(false);
@@ -36,10 +42,16 @@ class sfPartialView extends sfPHPView
     }
   }
 
+  /**
+   * Renders the presentation.
+   *
+   * @param array Template attributes
+   *
+   * @return string Current template content
+   */
   public function render($templateVars = array())
   {
-    $sf_logging_active = sfConfig::get('sf_logging_active');
-    if (sfConfig::get('sf_debug') && $sf_logging_active)
+    if (sfConfig::get('sf_debug') && sfConfig::get('sf_logging_enabled'))
     {
       $timer = sfTimerManager::getTimer(sprintf('Partial "%s/%s"', $this->moduleName, $this->actionName));
     }
@@ -48,13 +60,13 @@ class sfPartialView extends sfPHPView
     $this->preRenderCheck();
 
     // assigns some variables to the template
-    $this->attribute_holder->add($this->getGlobalVars());
-    $this->attribute_holder->add($templateVars);
+    $this->attributeHolder->add($this->getGlobalVars());
+    $this->attributeHolder->add($templateVars);
 
     // render template
     $retval = $this->renderFile($this->getDirectory().'/'.$this->getTemplate());
 
-    if (sfConfig::get('sf_debug') && $sf_logging_active)
+    if (sfConfig::get('sf_debug') && sfConfig::get('sf_logging_enabled'))
     {
       $timer->addTime();
     }

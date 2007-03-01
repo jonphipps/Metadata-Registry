@@ -10,9 +10,7 @@
  */
 
 /**
- *
- * sfActionStackEntry represents information relating to a single Action request
- * during a single HTTP request.
+ * sfActionStackEntry represents information relating to a single sfAction request during a single HTTP request.
  *
  * @package    symfony
  * @subpackage action
@@ -22,7 +20,7 @@
  */
 class sfActionStackEntry
 {
-  private
+  protected
     $actionInstance = null,
     $actionName     = null,
     $moduleName     = null,
@@ -32,13 +30,11 @@ class sfActionStackEntry
   /**
    * Class constructor.
    *
-   * @param string A module name.
-   * @param string An action name.
-   * @param sfAction An action implementation instance.
-   *
-   * @return void
+   * @param string A module name
+   * @param string An action name
+   * @param sfAction An sfAction implementation instance
    */
-  public function __construct ($moduleName, $actionName, $actionInstance)
+  public function __construct($moduleName, $actionName, $actionInstance)
   {
     $this->actionName     = $actionName;
     $this->actionInstance = $actionInstance;
@@ -46,78 +42,73 @@ class sfActionStackEntry
   }
 
   /**
-   * Retrieve this entry's action name.
+   * Retrieves this entry's action name.
    *
-   * @return string An action name.
+   * @return string An action name
    */
-  public function getActionName ()
+  public function getActionName()
   {
     return $this->actionName;
   }
 
   /**
-   * Retrieve this entry's action instance.
+   * Retrieves this entry's action instance.
    *
-   * @return sfAction An action implementation instance.
+   * @return sfAction An sfAction implementation instance
    */
-  public function getActionInstance ()
+  public function getActionInstance()
   {
     return $this->actionInstance;
   }
 
   /**
-   * Retrieve this entry's view instance.
+   * Retrieves this entry's view instance.
    *
-   * @return sfView A view implementation instance.
+   * @return sfView A sfView implementation instance.
    */
-  public function getViewInstance ()
+  public function getViewInstance()
   {
     return $this->viewInstance;
   }
 
   /**
-   * set this entry's view instance.
+   * Sets this entry's view instance.
    *
-   * @param sfView A view implementation instance.
-   *
-   * @return void
+   * @param sfView A sfView implementation instance.
    */
-  public function setViewInstance ($viewInstance)
+  public function setViewInstance($viewInstance)
   {
     $this->viewInstance = $viewInstance;
   }
 
   /**
-   * Retrieve this entry's module name.
+   * Retrieves this entry's module name.
    *
-   * @return string A module name.
+   * @return string A module name
    */
-  public function getModuleName ()
+  public function getModuleName()
   {
     return $this->moduleName;
   }
 
   /**
-   * Retrieve this entry's rendered view presentation.
+   * Retrieves this entry's rendered view presentation.
    *
-   * This will only exist if the view has processed and the render mode
-   * is set to sfView::RENDER_VAR.
+   * This will only exist if the view has processed and the render mode is set to sfView::RENDER_VAR.
    *
-   * @return string An action name.
+   * @return string Rendered view presentation
    */
-  public function & getPresentation ()
+  public function & getPresentation()
   {
     return $this->presentation;
   }
 
   /**
-   * Set the rendered presentation for this action.
+   * Sets the rendered presentation for this action.
    *
    * @param string A rendered presentation.
-   *
-   * @return void
    */
-  public function setPresentation (&$presentation)
+  public function setPresentation(&$presentation)
   {
     $this->presentation =& $presentation;
   }

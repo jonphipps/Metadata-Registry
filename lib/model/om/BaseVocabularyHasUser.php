@@ -28,10 +28,10 @@ abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
 	protected $is_admin_for = true;
 
 	
-	protected $aUser;
+	protected $aVocabulary;
 
 	
-	protected $aVocabulary;
+	protected $aUser;
 
 	
 	protected $alreadyInSave = false;
@@ -209,18 +209,18 @@ abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
 
 
 												
-			if ($this->aUser !== null) {
-				if ($this->aUser->isModified()) {
-					$affectedRows += $this->aUser->save($con);
-				}
-				$this->setUser($this->aUser);
-			}
-
 			if ($this->aVocabulary !== null) {
 				if ($this->aVocabulary->isModified()) {
 					$affectedRows += $this->aVocabulary->save($con);
 				}
 				$this->setVocabulary($this->aVocabulary);
+			}
+
+			if ($this->aUser !== null) {
+				if ($this->aUser->isModified()) {
+					$affectedRows += $this->aUser->save($con);
+				}
+				$this->setUser($this->aUser);
 			}
 
 
@@ -271,15 +271,15 @@ abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
 
 
 												
-			if ($this->aUser !== null) {
-				if (!$this->aUser->validate($columns)) {
-					$failureMap = array_merge($failureMap, $this->aUser->getValidationFailures());
-				}
-			}
-
 			if ($this->aVocabulary !== null) {
 				if (!$this->aVocabulary->validate($columns)) {
 					$failureMap = array_merge($failureMap, $this->aVocabulary->getValidationFailures());
+				}
+			}
+
+			if ($this->aUser !== null) {
+				if (!$this->aUser->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aUser->getValidationFailures());
 				}
 			}
 
@@ -441,8 +441,8 @@ abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
 
 		$copyObj->setNew(true);
 
-		$copyObj->setVocabularyId(''); 
-		$copyObj->setUserId(''); 
+		$copyObj->setVocabularyId('null'); 
+		$copyObj->setUserId('null'); 
 	}
 
 	
@@ -464,42 +464,12 @@ abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
 	}
 
 	
-	public function setUser($v)
-	{
-
-
-		if ($v === null) {
-			$this->setUserId('');
-		} else {
-			$this->setUserId($v->getId());
-		}
-
-
-		$this->aUser = $v;
-	}
-
-
-	
-	public function getUser($con = null)
-	{
-				include_once 'lib/model/om/BaseUserPeer.php';
-
-		if ($this->aUser === null && ($this->user_id !== null)) {
-
-			$this->aUser = UserPeer::retrieveByPK($this->user_id, $con);
-
-			
-		}
-		return $this->aUser;
-	}
-
-	
 	public function setVocabulary($v)
 	{
 
 
 		if ($v === null) {
-			$this->setVocabularyId('');
+			$this->setVocabularyId('null');
 		} else {
 			$this->setVocabularyId($v->getId());
 		}
@@ -521,6 +491,36 @@ abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
 			
 		}
 		return $this->aVocabulary;
+	}
+
+	
+	public function setUser($v)
+	{
+
+
+		if ($v === null) {
+			$this->setUserId('null');
+		} else {
+			$this->setUserId($v->getId());
+		}
+
+
+		$this->aUser = $v;
+	}
+
+
+	
+	public function getUser($con = null)
+	{
+				include_once 'lib/model/om/BaseUserPeer.php';
+
+		if ($this->aUser === null && ($this->user_id !== null)) {
+
+			$this->aUser = UserPeer::retrieveByPK($this->user_id, $con);
+
+			
+		}
+		return $this->aUser;
 	}
 
 } 

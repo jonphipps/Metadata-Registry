@@ -15,44 +15,49 @@
  *
  * @package    pake
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
- * @version    SVN: $Id: pakeException.class.php 1868 2006-08-30 09:24:47Z fabien $
+ * @version    SVN: $Id: pakeException.class.php 2795 2006-11-23 19:51:21Z fabien $
  */
 class pakeException extends Exception
 {
+  public static function strlen($string)
+  {
+      return function_exists('mb_strlen') ? mb_strlen($string) : strlen($string);
+  }
+
   function render($e)
   {
     $title = '  ['.get_class($e).']  ';
-    $len = strlen($title);
+    $len = self::strlen($title);
     $lines = array();
     foreach (explode("\n", $e->getMessage()) as $line)
     {
       $lines[] = '  '.$line.'  ';
-      $len = max(strlen($line) + 4, $len);
+      $len = max(self::strlen($line) + 4, $len);
     }
     $messages = array(
       str_repeat(' ', $len),
-      $title.str_repeat(' ', $len - strlen($title)),
+      $title.str_repeat(' ', $len - self::strlen($title)),
     );
 
     foreach ($lines as $line)
     {
-      $messages[] = $line.str_repeat(' ', $len - strlen($line));
+      $messages[] = $line.str_repeat(' ', $len - self::strlen($line));
     }
 
     $messages[] = str_repeat(' ', $len);
 
-    echo "\n";
+    fwrite(STDERR, "\n");
     foreach ($messages as $message)
     {
-      echo pakeColor::colorize($message, 'ERROR')."\n";
+      fwrite(STDERR, pakeColor::colorize($message, 'ERROR', STDERR)."\n");
     }
-    echo "\n";
+    fwrite(STDERR, "\n");
 
     $pake = pakeApp::get_instance();
 
     if ($pake->get_trace())
     {
-      echo "exception trace:\n";
+      fwrite(STDERR, "exception trace:\n");
 
       $trace = $this->trace($e);
       for ($i = 0, $count = count($trace); $i < $count; $i++)
@@ -63,11 +68,11 @@ class pakeException extends Exception
         $file = isset($trace[$i]['file']) ? $trace[$i]['file'] : 'n/a';
         $line = isset($trace[$i]['line']) ? $trace[$i]['line'] : 'n/a';
 
-        echo sprintf(" %s%s%s at %s:%s\n", $class, $type, $function, pakeColor::colorize($file, 'INFO'), pakeColor::colorize($line, 'INFO'));
+        fwrite(STDERR, sprintf(" %s%s%s at %s:%s\n", $class, $type, $function, pakeColor::colorize($file, 'INFO', STDERR), pakeColor::colorize($line, 'INFO', STDERR)));
       }
     }
 
-    echo "\n";
+    fwrite(STDERR, "\n");
   }
 
   function trace($exception)

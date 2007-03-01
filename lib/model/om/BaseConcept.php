@@ -21,11 +21,11 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 
 
 	
-	protected $uri = '';
+	protected $uri = 'null';
 
 
 	
-	protected $pref_label = '';
+	protected $pref_label = 'null';
 
 
 	
@@ -37,13 +37,13 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 
 
 	
-	protected $status_id;
-
-	
-	protected $aStatus;
+	protected $status_id = 1;
 
 	
 	protected $aVocabulary;
+
+	
+	protected $aStatus;
 
 	
 	protected $collConceptPropertysRelatedByConceptId;
@@ -197,7 +197,7 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	public function setUri($v)
 	{
 
-		if ($this->uri !== $v || $v === '') {
+		if ($this->uri !== $v || $v === 'null') {
 			$this->uri = $v;
 			$this->modifiedColumns[] = ConceptPeer::URI;
 		}
@@ -207,7 +207,7 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	public function setPrefLabel($v)
 	{
 
-		if ($this->pref_label !== $v || $v === '') {
+		if ($this->pref_label !== $v || $v === 'null') {
 			$this->pref_label = $v;
 			$this->modifiedColumns[] = ConceptPeer::PREF_LABEL;
 		}
@@ -241,7 +241,7 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	public function setStatusId($v)
 	{
 
-		if ($this->status_id !== $v) {
+		if ($this->status_id !== $v || $v === 1) {
 			$this->status_id = $v;
 			$this->modifiedColumns[] = ConceptPeer::STATUS_ID;
 		}
@@ -307,7 +307,7 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	
 	public function save($con = null)
 	{
-    if ($this->isNew() && !$this->isColumnModified('created_at'))
+    if ($this->isNew() && !$this->isColumnModified(ConceptPeer::CREATED_AT))
     {
       $this->setCreatedAt(time());
     }
@@ -339,18 +339,18 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 
 
 												
-			if ($this->aStatus !== null) {
-				if ($this->aStatus->isModified()) {
-					$affectedRows += $this->aStatus->save($con);
-				}
-				$this->setStatus($this->aStatus);
-			}
-
 			if ($this->aVocabulary !== null) {
 				if ($this->aVocabulary->isModified()) {
 					$affectedRows += $this->aVocabulary->save($con);
 				}
 				$this->setVocabulary($this->aVocabulary);
+			}
+
+			if ($this->aStatus !== null) {
+				if ($this->aStatus->isModified()) {
+					$affectedRows += $this->aStatus->save($con);
+				}
+				$this->setStatus($this->aStatus);
 			}
 
 
@@ -418,15 +418,15 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 
 
 												
-			if ($this->aStatus !== null) {
-				if (!$this->aStatus->validate($columns)) {
-					$failureMap = array_merge($failureMap, $this->aStatus->getValidationFailures());
-				}
-			}
-
 			if ($this->aVocabulary !== null) {
 				if (!$this->aVocabulary->validate($columns)) {
 					$failureMap = array_merge($failureMap, $this->aVocabulary->getValidationFailures());
+				}
+			}
+
+			if ($this->aStatus !== null) {
+				if (!$this->aStatus->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aStatus->getValidationFailures());
 				}
 			}
 
@@ -663,36 +663,6 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	}
 
 	
-	public function setStatus($v)
-	{
-
-
-		if ($v === null) {
-			$this->setStatusId(NULL);
-		} else {
-			$this->setStatusId($v->getId());
-		}
-
-
-		$this->aStatus = $v;
-	}
-
-
-	
-	public function getStatus($con = null)
-	{
-				include_once 'lib/model/om/BaseStatusPeer.php';
-
-		if ($this->aStatus === null && ($this->status_id !== null)) {
-
-			$this->aStatus = StatusPeer::retrieveByPK($this->status_id, $con);
-
-			
-		}
-		return $this->aStatus;
-	}
-
-	
 	public function setVocabulary($v)
 	{
 
@@ -720,6 +690,36 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 			
 		}
 		return $this->aVocabulary;
+	}
+
+	
+	public function setStatus($v)
+	{
+
+
+		if ($v === null) {
+			$this->setStatusId('1');
+		} else {
+			$this->setStatusId($v->getId());
+		}
+
+
+		$this->aStatus = $v;
+	}
+
+
+	
+	public function getStatus($con = null)
+	{
+				include_once 'lib/model/om/BaseStatusPeer.php';
+
+		if ($this->aStatus === null && ($this->status_id !== null)) {
+
+			$this->aStatus = StatusPeer::retrieveByPK($this->status_id, $con);
+
+			
+		}
+		return $this->aStatus;
 	}
 
 	

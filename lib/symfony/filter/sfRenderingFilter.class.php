@@ -20,20 +20,21 @@
 class sfRenderingFilter extends sfFilter
 {
   /**
-   * Execute this filter.
+   * Executes this filter.
    *
    * @param sfFilterChain The filter chain.
    *
-   * @return void
-   *
-   * @throws <b>sfInitializeException</b> If an error occurs during view initialization.
-   * @throws <b>sfViewException</b>       If an error occurs while executing the view.
+   * @throws <b>sfInitializeException</b> If an error occurs during view initialization
+   * @throws <b>sfViewException</b>       If an error occurs while executing the view
    */
-  public function execute ($filterChain)
+  public function execute($filterChain)
   {
-    if (sfConfig::get('sf_logging_active'))
+    // execute next filter
+    $filterChain->execute();
+
+    if (sfConfig::get('sf_logging_enabled'))
     {
-      $this->getContext()->getLogger()->info('{sfRenderingFilter} render to client');
+      $this->getContext()->getLogger()->info('{sfFilter} render to client');
     }
 
     // get response object
@@ -46,7 +47,7 @@ class sfRenderingFilter extends sfFilter
     $response->sendContent();
 
     // log timers information
-    if (sfConfig::get('sf_debug') && sfConfig::get('sf_logging_active'))
+    if (sfConfig::get('sf_debug') && sfConfig::get('sf_logging_enabled'))
     {
       $logger = $this->getContext()->getLogger();
       foreach (sfTimerManager::getTimers() as $name => $timer)

@@ -33,6 +33,7 @@ class conceptActions extends autoconceptActions
     $this->concept = new Concept();
     $this->concept->setVocabularyId($vocabId);
     $this->concept->setUri($newURI);
+    parent::executeCreate();
 
   }
   /**
@@ -116,7 +117,7 @@ class conceptActions extends autoconceptActions
     $this->redirect('/conceptprop/list?concept_id=' . $this->getRequestParameter('id') );
   }
   
-  public function executegetConceptList() 
+  public function executeGetConceptList()
   {
      $vocabId = $this->getRequestParameter('selectedVocabularyId');
      $conceptId = sfContext::getInstance()->getUser()->getAttribute('concept')->getId();

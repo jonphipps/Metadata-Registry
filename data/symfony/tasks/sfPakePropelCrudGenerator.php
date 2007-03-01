@@ -1,5 +1,13 @@
 <?php
 
+/*
+ * This file is part of the symfony package.
+ * (c) 2004-2006 Fabien Potencier <fabien.potencier@symfony-project.com>
+ * 
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 pake_desc('initialize a new propel CRUD module');
 pake_task('propel-init-crud', 'app_exists');
 
@@ -22,11 +30,21 @@ function run_propel_init_crud($task, $args)
   $module      = $args[1];
   $model_class = $args[2];
 
+  try
+  {
+    $author_name = $task->get_property('author', 'symfony');
+  }
+  catch (pakeException $e)
+  {
+    $author_name = 'Your name here';
+  }
+
   $constants = array(
     'PROJECT_NAME' => $task->get_property('name', 'symfony'),
     'APP_NAME'     => $app,
     'MODULE_NAME'  => $module,
     'MODEL_CLASS'  => $model_class,
+    'AUTHOR_NAME'  => $author_name,
   );
 
   $sf_root_dir = sfConfig::get('sf_root_dir');
@@ -34,13 +52,13 @@ function run_propel_init_crud($task, $args)
 
   // create basic application structure
   $finder = pakeFinder::type('any')->ignore_version_control()->discard('.sf');
-  pake_mirror($finder, sfConfig::get('sf_symfony_data_dir').'/generator/sfPropelCrud/default/skeleton/', $moduleDir);
+  pake_mirror($finder, sfConfig::get('sf_symfony_data_dir').'/generator/sfPropelCrud/default/skeleton', $moduleDir);
 
   // create basic test
-  pake_copy(sfConfig::get('sf_symfony_data_dir').'/skeleton/module/test/actionsTest.php', $sf_root_dir.'/test/'.$app.'/'.$module.'ActionsTest.php');
+  pake_copy(sfConfig::get('sf_symfony_data_dir').'/skeleton/module/test/actionsTest.php', $sf_root_dir.'/test/functional/'.$app.'/'.$module.'ActionsTest.php');
 
   // customize test file
-  pake_replace_tokens($module.'ActionsTest.php', $sf_root_dir.'/test/'.$app, '##', '##', $constants);
+  pake_replace_tokens($module.'ActionsTest.php', $sf_root_dir.'/test/functional/'.$app, '##', '##', $constants);
 
   // customize php and yml files
   $finder = pakeFinder::type('file')->name('*.php', '*.yml');
@@ -65,34 +83,11 @@ function run_propel_generate_crud($task, $args)
   $module      = $args[1];
   $model_class = $args[2];
 
-  // model class exists?
-  if (!is_readable('lib/model/'.$model_class.'.php'))
-  {
-    $error = sprintf('The model class "%s" does not exist.', $model_class);
-    throw new Exception($error);
-  }
-
   $sf_root_dir = sfConfig::get('sf_root_dir');
 
   // generate module
   $tmp_dir = $sf_root_dir.DIRECTORY_SEPARATOR.'cache'.DIRECTORY_SEPARATOR.'tmp'.DIRECTORY_SEPARATOR.md5(uniqid(rand(), true));
   sfConfig::set('sf_module_cache_dir', $tmp_dir);
-  $sf_symfony_lib_dir = sfConfig::get('sf_symfony_lib_dir');
-  require_once($sf_symfony_lib_dir.'/config/sfConfig.class.php');
-  require_once($sf_symfony_lib_dir.'/exception/sfException.class.php');
-  require_once($sf_symfony_lib_dir.'/exception/sfInitializationException.class.php');
-  require_once($sf_symfony_lib_dir.'/exception/sfParseException.class.php');
-  require_once($sf_symfony_lib_dir.'/exception/sfConfigurationException.class.php');
-  require_once($sf_symfony_lib_dir.'/cache/sfCache.class.php');
-  require_once($sf_symfony_lib_dir.'/cache/sfFileCache.class.php');
-  require_once($sf_symfony_lib_dir.'/generator/sfGenerator.class.php');
-  require_once($sf_symfony_lib_dir.'/generator/sfGeneratorManager.class.php');
-  require_once($sf_symfony_lib_dir.'/generator/sfPropelCrudGenerator.class.php');
-  require_once($sf_symfony_lib_dir.'/util/sfToolkit.class.php');
-  require_once($sf_symfony_lib_dir.'/util/sfFinder.class.php');
-  require_once($sf_symfony_lib_dir.'/util/sfInflector.class.php');
-  require_once($sf_symfony_lib_dir.'/vendor/propel/Propel.php');
-  require_once('lib/model/'.$model_class.'.php');
   $generator_manager = new sfGeneratorManager();
   $generator_manager->initialize();
   $generator_manager->generate('sfPropelCrudGenerator', array('model_class' => $model_class, 'moduleName' => $module, 'theme' => $theme));
@@ -105,6 +100,33 @@ function run_propel_generate_crud($task, $args)
 
   // change module name
   pake_replace_tokens($moduleDir.'/actions/actions.class.php', getcwd(), '', '', array('auto'.ucfirst($module) => $module));
+
+  try
+  {
+    $author_name = $task->get_property('author', 'symfony');
+  }
+  catch (pakeException $e)
+  {
+    $author_name = 'Your name here';
+  }
+
+  $constants = array(
+    'PROJECT_NAME' => $task->get_property('name', 'symfony'),
+    'APP_NAME'     => $app,
+    'MODULE_NAME'  => $module,
+    'MODEL_CLASS'  => $model_class,
+    'AUTHOR_NAME'  => $author_name,
+  );
+
+  // customize php and yml files
+  $finder = pakeFinder::type('file')->name('*.php', '*.yml');
+  pake_replace_tokens($finder, $moduleDir, '##', '##', $constants);
+
+  // create basic test
+  pake_copy(sfConfig::get('sf_symfony_data_dir').'/skeleton/module/test/actionsTest.php', $sf_root_dir.'/test/functional/'.$app.'/'.$module.'ActionsTest.php');
+
+  // customize test file
+  pake_replace_tokens($module.'ActionsTest.php', $sf_root_dir.'/test/functional/'.$app, '##', '##', $constants);
 
   // delete temp files
   $finder = pakeFinder::type('any');

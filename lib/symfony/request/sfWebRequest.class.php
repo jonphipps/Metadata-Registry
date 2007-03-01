@@ -35,26 +35,31 @@ class sfWebRequest extends sfRequest
    */
   protected $charsets = null;
 
+  /**
+   * @var array  List of content types accepted by the client.
+   */
+  protected $acceptableContentTypes = null;
+
   protected $pathInfoArray = null;
 
   protected $relativeUrlRoot = null;
 
   /**
-   * Retrieve an array of file information.
+   * Retrieves an array of file information.
    *
    * @param string A file name
    *
-   * @return array An associative array of file information, if the file exists, otherwise null.
+   * @return array An associative array of file information, if the file exists, otherwise null
    */
-  public function getFile ($name)
+  public function getFile($name)
   {
     return ($this->hasFile($name) ? $this->getFileValues($name) : null);
   }
 
   /**
-   * Retrieve a file error.
+   * Retrieves a file error.
    *
-   * @param string A file name.
+   * @param string A file name
    *
    * @return int One of the following error codes:
    *
@@ -69,51 +74,51 @@ class sfWebRequest extends sfRequest
    *                                           partially uploaded)
    *             - <b>UPLOAD_ERR_NO_FILE</b>   (no file was uploaded)
    */
-  public function getFileError ($name)
+  public function getFileError($name)
   {
     return ($this->hasFile($name) ? $this->getFileValue($name, 'error') : UPLOAD_ERR_NO_FILE);
   }
 
   /**
-   * Retrieve a file name.
+   * Retrieves a file name.
    *
-   * @param string A file name.
+   * @param string A file nam.
    *
-   * @return string A file name, if the file exists, otherwise null.
+   * @return string A file name, if the file exists, otherwise null
    */
-  public function getFileName ($name)
+  public function getFileName($name)
   {
     return ($this->hasFile($name) ? $this->getFileValue($name, 'name') : null);
   }
 
   /**
-   * Retrieve an array of file names.
+   * Retrieves an array of file names.
    *
-   * @return array An indexed array of file names.
+   * @return array An indexed array of file names
    */
-  public function getFileNames ()
+  public function getFileNames()
   {
     return array_keys($_FILES);
   }
 
   /**
-   * Retrieve an array of files.
+   * Retrieves an array of files.
    *
-   * @return array An associative array of files.
+   * @return array An associative array of files
    */
-  public function getFiles ()
+  public function getFiles()
   {
     return $_FILES;
   }
 
   /**
-   * Retrieve a file path.
+   * Retrieves a file path.
    *
-   * @param string A file name.
+   * @param string A file name
    *
-   * @return string A file path, if the file exists, otherwise null.
+   * @return string A file path, if the file exists, otherwise null
    */
-  public function getFilePath ($name)
+  public function getFilePath($name)
   {
     return ($this->hasFile($name) ? $this->getFileValue($name, 'tmp_name') : null);
   }
@@ -121,26 +126,26 @@ class sfWebRequest extends sfRequest
   /**
    * Retrieve a file size.
    *
-   * @param string A file name.
+   * @param string A file name
    *
-   * @return int A file size, if the file exists, otherwise null.
+   * @return int A file size, if the file exists, otherwise null
    */
-  public function getFileSize ($name)
+  public function getFileSize($name)
   {
     return ($this->hasFile($name) ? $this->getFileValue($name, 'size') : null);
   }
 
   /**
-   * Retrieve a file type.
+   * Retrieves a file type.
    *
    * This may not be accurate. This is the mime-type sent by the browser
    * during the upload.
    *
-   * @param string A file name.
+   * @param string A file name
    *
-   * @return string A file type, if the file exists, otherwise null.
+   * @return string A file type, if the file exists, otherwise null
    */
-  public function getFileType ($name)
+  public function getFileType($name)
   {
     return ($this->hasFile($name) ? $this->getFileValue($name, 'type') : null);
   }
@@ -148,11 +153,11 @@ class sfWebRequest extends sfRequest
   /**
    * Indicates whether or not a file exists.
    *
-   * @param string A file name.
+   * @param string A file name
    *
-   * @return bool true, if the file exists, otherwise false.
+   * @return boolean true, if the file exists, otherwise false
    */
-  public function hasFile ($name)
+  public function hasFile($name)
   {
     if (preg_match('/^(.+?)\[(.+?)\]$/', $name, $match))
     {
@@ -167,11 +172,11 @@ class sfWebRequest extends sfRequest
   /**
    * Indicates whether or not a file error exists.
    *
-   * @param string A file name.
+   * @param string A file name
    *
-   * @return bool true, if the file error exists, otherwise false.
+   * @return boolean true, if the file error exists, otherwise false
    */
-  public function hasFileError ($name)
+  public function hasFileError($name)
   {
     return ($this->hasFile($name) ? ($this->getFileValue($name, 'error') != UPLOAD_ERR_OK) : false);
   }
@@ -179,9 +184,9 @@ class sfWebRequest extends sfRequest
   /**
    * Indicates whether or not any file errors occured.
    *
-   * @return bool true, if any file errors occured, otherwise false.
+   * @return boolean true, if any file errors occured, otherwise false
    */
-  public function hasFileErrors ()
+  public function hasFileErrors()
   {
     foreach ($this->getFileNames() as $name)
     {
@@ -197,14 +202,22 @@ class sfWebRequest extends sfRequest
   /**
    * Indicates whether or not any files exist.
    *
-   * @return bool true, if any files exist, otherwise false.
+   * @return boolean true, if any files exist, otherwise false
    */
-  public function hasFiles ()
+  public function hasFiles()
   {
     return (count($_FILES) > 0);
   }
 
-  public function getFileValue ($name, $key)
+  /**
+   * Retrieves a file value.
+   *
+   * @param string A file name
+   * @param string Value to search in the file
+   * 
+   * @return string File value
+   */
+  public function getFileValue($name, $key)
   {
     if (preg_match('/^(.+?)\[(.+?)\]$/', $name, $match))
     {
@@ -216,7 +229,14 @@ class sfWebRequest extends sfRequest
     }
   }
 
-  public function getFileValues ($name)
+  /**
+   * Retrieves all the values from a file.
+   *
+   * @param string A file name
+   *
+   * @return array Associative list of the file values
+   */
+  public function getFileValues($name)
   {
     if (preg_match('/^(.+?)\[(.+?)\]$/', $name, $match))
     {
@@ -234,7 +254,14 @@ class sfWebRequest extends sfRequest
     }
   }
 
-  public function getFileExtension ($name)
+  /**
+   * Retrieves an extension for a given file.
+   *
+   * @param string A file name
+   *
+   * @return string Extension for the file
+   */
+  public function getFileExtension($name)
   {
     $fileType = $this->getFileType($name);
 
@@ -249,18 +276,19 @@ class sfWebRequest extends sfRequest
   }
 
   /**
-   * Initialize this Request.
+   * Initializes this sfRequest.
    *
-   * @param Context A Context instance.
-   * @param array   An associative array of initialization parameters.
+   * @param sfContext A sfContext instance
+   * @param array   An associative array of initialization parameters
+   * @param array   An associative array of initialization attributes
    *
-   * @return bool true, if initialization completes successfully, otherwise false.
+   * @return boolean true, if initialization completes successfully, otherwise false
    *
-   * @throws <b>sfInitializationException</b> If an error occurs while initializing this Request.
+   * @throws <b>sfInitializationException</b> If an error occurs while initializing this Request
    */
-  public function initialize ($context, $parameters = null)
+  public function initialize($context, $parameters = array(), $attributes = array())
   {
-    parent::initialize ($context, $parameters);
+    parent::initialize($context, $parameters, $attributes);
 
     if (isset($_SERVER['REQUEST_METHOD']))
     {
@@ -272,6 +300,18 @@ class sfWebRequest extends sfRequest
 
         case 'POST':
           $this->setMethod(self::POST);
+          break;
+
+        case 'PUT':
+          $this->setMethod(self::PUT);
+          break;
+
+        case 'DELETE':
+          $this->setMethod(self::DELETE);
+          break;
+
+        case 'HEAD':
+          $this->setMethod(self::HEAD);
           break;
 
         default:
@@ -293,9 +333,9 @@ class sfWebRequest extends sfRequest
    *
    * This information is stored in the [sf_path_info_array] constant.
    *
-   * @return  array
+   * @return  array Path information
    */
-  private function getPathInfoArray()
+  protected function getPathInfoArray()
   {
     if (!$this->pathInfoArray)
     {
@@ -315,6 +355,11 @@ class sfWebRequest extends sfRequest
     return $this->pathInfoArray;
   }
 
+  /**
+   * Retrieves the uniform resource identifier for the current web request.
+   *
+   * @return string Unified resource identifier
+   */
   public function getUri()
   {
     $pathArray = $this->getPathInfoArray();
@@ -330,7 +375,7 @@ class sfWebRequest extends sfRequest
   /**
    * See if the client is using absolute uri
    *
-   * @return boolean
+   * @return boolean true, if is absolute uri otherwise false
    */
   public function isAbsUri()
   {
@@ -340,9 +385,9 @@ class sfWebRequest extends sfRequest
   }
 
   /**
-   * Uri prefix,including protocol,hostname and server port
+   * Returns Uri prefix, including protocol, hostname and server port.
    *
-   * @return string
+   * @return string Uniform resource identifier prefix
    */
   public function getUriPrefix()
   {
@@ -360,10 +405,15 @@ class sfWebRequest extends sfRequest
 
     $port = $pathArray['SERVER_PORT'] == $standardPort || !$pathArray['SERVER_PORT'] ? '' : ':'.$pathArray['SERVER_PORT'];
 
-    return $proto.'://'.$pathArray['HTTP_HOST'].$port;
+    return $proto.'://'.$pathArray['SERVER_NAME'].$port;
   }
 
-  public function getPathInfo ()
+  /**
+   * Retrieves the path info for the current web request.
+   *
+   * @return string Path info
+   */
+  public function getPathInfo()
   {
     $pathInfo = '';
 
@@ -410,11 +460,14 @@ class sfWebRequest extends sfRequest
   /**
    * Loads GET, PATH_INFO and POST data into the parameter list.
    *
-   * @return void
    */
-  private function loadParameters ()
+  protected function loadParameters()
   {
     // merge GET parameters
+    if (get_magic_quotes_gpc())
+    {
+      $_GET = sfToolkit::stripslashesDeep($_GET);
+    }
     $this->getParameterHolder()->addByRef($_GET);
 
     $pathInfo = $this->getPathInfo();
@@ -453,12 +506,16 @@ class sfWebRequest extends sfRequest
     }
 
     // merge POST parameters
+    if (get_magic_quotes_gpc())
+    {
+      $_POST = sfToolkit::stripslashesDeep((array) $_POST);
+    }
     $this->getParameterHolder()->addByRef($_POST);
 
     // move symfony parameters in a protected namespace (parameters prefixed with _sf_)
     foreach ($this->getParameterHolder()->getAll() as $key => $value)
     {
-      if (stripos($key, '_sf_') !== false)
+      if (0 === stripos($key, '_sf_'))
       {
         $this->getParameterHolder()->remove($key);
         $this->setParameter($key, $value, 'symfony/request/sfWebRequest');
@@ -466,28 +523,28 @@ class sfWebRequest extends sfRequest
       }
     }
 
-    if (sfConfig::get('sf_logging_active'))
+    if (sfConfig::get('sf_logging_enabled'))
     {
-      $this->getContext()->getLogger()->info(sprintf('{sfWebRequest} request parameters %s', str_replace("\n", '', var_export($this->getParameterHolder()->getAll(), true))));
+      $this->getContext()->getLogger()->info(sprintf('{sfRequest} request parameters %s', str_replace("\n", '', var_export($this->getParameterHolder()->getAll(), true))));
     }
   }
 
   /**
-   * Move an uploaded file.
+   * Moves an uploaded file.
    *
-   * @param string A file name.
+   * @param string A file name
    * @param string An absolute filesystem path to where you would like the
    *               file moved. This includes the new filename as well, since
-   *               uploaded files are stored with random names.
-   * @param int    The octal mode to use for the new file.
-   * @param bool   Indicates that we should make the directory before moving the file.
-   * @param int    The octal mode to use when creating the directory.
+   *               uploaded files are stored with random names
+   * @param int    The octal mode to use for the new file
+   * @param boolean   Indicates that we should make the directory before moving the file
+   * @param int    The octal mode to use when creating the directory
    *
-   * @return bool true, if the file was moved, otherwise false.
+   * @return boolean true, if the file was moved, otherwise false
    *
-   * @throws sfFileException If a major error occurs while attempting to move the file.
+   * @throws <b>sfFileException</b> If a major error occurs while attempting to move the file
    */
-  public function moveFile ($name, $file, $fileMode = 0666, $create = true, $dirMode = 0777)
+  public function moveFile($name, $file, $fileMode = 0666, $create = true, $dirMode = 0777)
   {
     if ($this->hasFile($name) && $this->getFileValue($name, 'error') == UPLOAD_ERR_OK && $this->getFileValue($name, 'size') > 0)
     {
@@ -581,7 +638,7 @@ class sfWebRequest extends sfRequest
    *
    * @return  string
    */
-  public function getRequestMethod()
+  public function getMethodName()
   {
     $pathArray = $this->getPathInfoArray();
 
@@ -589,9 +646,9 @@ class sfWebRequest extends sfRequest
   }
 
   /**
-   * Get a list of languages acceptable by the client browser
+   * Gets a list of languages acceptable by the client browser
    *
-   * @return array languages ordered in the user browser preferences.
+   * @return array Languages ordered in the user browser preferences
    */
   public function getLanguages()
   {
@@ -600,21 +657,14 @@ class sfWebRequest extends sfRequest
       return $this->languages;
     }
 
-    $this->languages = array();
-
     if (!isset($_SERVER['HTTP_ACCEPT_LANGUAGE']))
     {
-      return $this->languages;
+      return array();
     }
 
-    foreach (explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']) as $lang)
+    $languages = $this->splitHttpAcceptHeader($_SERVER['HTTP_ACCEPT_LANGUAGE']);
+    foreach ($languages as $lang)
     {
-      // Cut off any q-value that might come after a semi-colon
-      if ($pos = strpos($lang, ';'))
-      {
-        $lang = trim(substr($lang, 0, $pos));
-      }
-
       if (strstr($lang, '-'))
       {
         $codes = explode('-', $lang);
@@ -644,7 +694,6 @@ class sfWebRequest extends sfRequest
         }
       }
 
-//      if(CultureInfo::validCulture($lang))
       $this->languages[] = $lang;
     }
 
@@ -652,80 +701,85 @@ class sfWebRequest extends sfRequest
   }
 
   /**
-   * Get a list of charsets acceptable by the client browser.
+   * Gets a list of charsets acceptable by the client browser.
    *
-   * @return array list of charsets in preferable order.
+   * @return array List of charsets in preferable order
    */
   public function getCharsets()
   {
     if ($this->charsets)
-      return $this->charsets;
-
-    $this->charsets = array();
-
-    if (!isset($_SERVER['HTTP_ACCEPT_CHARSET']))
     {
       return $this->charsets;
     }
 
-    $this->charsets = preg_replace('/;.*/', '', explode(',', $_SERVER['HTTP_ACCEPT_CHARSET']));
+    if (!isset($_SERVER['HTTP_ACCEPT_CHARSET']))
+    {
+      return array();
+    }
+
+    $this->charsets = $this->splitHttpAcceptHeader($_SERVER['HTTP_ACCEPT_CHARSET']);
 
     return $this->charsets;
   }
 
   /**
-   * Return true id the request is a XMLHttpRequest (via prototype 'HTTP_X_REQUESTED_WITH' header).
+   * Gets a list of content types acceptable by the client browser
+   *
+   * @return array Languages ordered in the user browser preferences
+   */
+  public function getAcceptableContentTypes()
+  {
+    if ($this->acceptableContentTypes)
+    {
+      return $this->acceptableContentTypes;
+    }
+
+    if (!isset($_SERVER['HTTP_ACCEPT']))
+    {
+      return array();
+    }
+
+    $this->acceptableContentTypes = $this->splitHttpAcceptHeader($_SERVER['HTTP_ACCEPT']);
+
+    return $this->acceptableContentTypes;
+  }
+
+  /**
+   * Returns true id the request is a XMLHttpRequest (via prototype 'HTTP_X_REQUESTED_WITH' header).
    *
    * @return boolean
    */
-  public function isXmlHttpRequest ()
+  public function isXmlHttpRequest()
   {
     return ($this->getHttpHeader('X_REQUESTED_WITH') == 'XMLHttpRequest');
   }
 
-  public function getHttpHeader ($name, $prefix = 'http')
+  public function getHttpHeader($name, $prefix = 'http')
   {
-    $name = strtoupper($prefix).'_'.strtoupper(strtr($name, '-', '_'));
+    if ($prefix)
+    {
+      $prefix = strtoupper($prefix).'_';
+    }
+
+    $name = $prefix.strtoupper(strtr($name, '-', '_'));
 
     $pathArray = $this->getPathInfoArray();
 
     return isset($pathArray[$name]) ? stripslashes($pathArray[$name]) : null;
   }
 
-  public function __call ($name, $arguments)
-  {
-    if (0 === stripos($name, 'getHttp'))
-    {
-      $header = sfInflector::underscore(substr($name, 7));
-
-      return $this->getHttpHeader($header);
-    }
-    else if (0 === stripos($name, 'getSsl'))
-    {
-      $header = sfInflector::underscore(substr($name, 6));
-
-      return $this->getHttpHeader($header, 'ssl');
-    }
-
-    if (substr($name, 0, 2) != '__')
-    {
-      $error = sprintf('Call to undefined function: %s::%s().', get_class($this), $name);
-      trigger_error($error, E_USER_ERROR);
-    }
-  }
-
   /**
-   * Get cookie value.
+   * Gets a cookie value.
    *
    * @return mixed
    */
-  public function getCookie ($name, $defaultValue = null)
+  public function getCookie($name, $defaultValue = null)
   {
     $retval = $defaultValue;
 
     if (isset($_COOKIE[$name]))
     {
-      $retval = $_COOKIE[$name];
+      $retval = get_magic_quotes_gpc() ? stripslashes($_COOKIE[$name]) : $_COOKIE[$name];
     }
 
     return $retval;
@@ -747,6 +801,11 @@ class sfWebRequest extends sfRequest
     );
   }
 
+  /**
+   * Retrieves relative root url.
+   *
+   * @return string URL
+   */
   public function getRelativeUrlRoot()
   {
     if ($this->relativeUrlRoot === null)
@@ -757,17 +816,50 @@ class sfWebRequest extends sfRequest
     return $this->relativeUrlRoot;
   }
 
+  /**
+   * Sets the relative root url for the current web request.
+   *
+   * @param string Value for the url
+   */
   public function setRelativeUrlRoot($value)
   {
     $this->relativeUrlRoot = $value;
   }
 
   /**
-   * Execute the shutdown procedure.
+   * Executes the shutdown procedure.
    *
-   * @return void
    */
-  public function shutdown ()
+  public function shutdown()
   {
+  }
+
+  /**
+   * Splits an HTTP header for the current web request.
+   *
+   * @param string Header to split
+   */
+  public function splitHttpAcceptHeader($header)
+  {
+    $values = array();
+    foreach (array_filter(explode(',', $header)) as $value)
+    {
+      // Cut off any q-value that might come after a semi-colon
+      if ($pos = strpos($value, ';'))
+      {
+        $q     = (float) trim(substr($value, $pos + 3));
+        $value = trim(substr($value, 0, $pos));
+      }
+      else
+      {
+        $q = 1;
+      }
+
+      $values[$value] = $q;
+    }
+
+    arsort($values);
+
+    return array_keys($values);
   }
 }

@@ -38,11 +38,11 @@
 class sfMySQLDatabase extends sfDatabase
 {
   /**
-   * Connect to the database.
+   * Connects to the database.
    *
-   * @throws <b>sfDatabaseException</b> If a connection could not be created.
+   * @throws <b>sfDatabaseException</b> If a connection could not be created
    */
-  public function connect ()
+  public function connect()
   {
 
     // determine how to get our
@@ -128,11 +128,11 @@ class sfMySQLDatabase extends sfDatabase
   }
 
   /**
-   * Load connection parameters from an existing array.
+   * Loads connection parameters from an existing array.
    *
-   * @return array An associative array of connection parameters.
+   * @return array An associative array of connection parameters
    */
-  private function & loadParameters (&$array)
+  protected function & loadParameters(&$array)
   {
     // list of available parameters
     $available = array('database', 'host', 'password', 'user');
@@ -150,13 +150,13 @@ class sfMySQLDatabase extends sfDatabase
   }
 
   /**
-   * Execute the shutdown procedure.
+   * Execute the shutdown procedure
    *
    * @return void
    *
-   * @throws <b>sfDatabaseException</b> If an error occurs while shutting down this database.
+   * @throws <b>sfDatabaseException</b> If an error occurs while shutting down this database
    */
-  public function shutdown ()
+  public function shutdown()
   {
     if ($this->connection != null)
     {

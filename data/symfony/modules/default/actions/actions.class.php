@@ -18,27 +18,59 @@
  */
 class defaultActions extends sfActions
 {
-  public function executeUnavailable()
-  {
-  }
-
+  /**
+   * Congratulations page for creating an application
+   *
+   */
   public function executeIndex()
   {
   }
 
+  /**
+   * Congratulations page for creating a module
+   *
+   */
+  public function executeModule()
+  {
+  }
+
+  /**
+   * Error page for page not found (404) error
+   *
+   */
   public function executeError404()
   {
   }
 
+  /**
+   * Warning page for restricted area - requires login
+   *
+   */
+  public function executeSecure()
+  {
+  }
+
+  /**
+   * Warning page for restricted area - requires credentials
+   *
+   */
   public function executeLogin()
   {
   }
 
-  public function executeDisabled()
+  /**
+   * Website temporarily unavailable
+   *
+   */
+  public function executeUnavailable()
   {
   }
 
-  public function executeSecure()
-  {   
+  /**
+   * Website disabled by the site administrator (in settings.yml)
+   *
+   */
+  public function executeDisabled()
+  {
   }
 }

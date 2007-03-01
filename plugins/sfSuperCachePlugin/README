@@ -1,0 +1,68 @@
+= sfSuperCache plugin =
+
+The `sfSuperCachePlugin` writes your page cache somewhere under your root directory to allow your web server to serve them as fast as possible.
+
+It supports caching by domain name.
+
+Please read the limitations at the end.
+
+== Installation ==
+
+  * Install the plugin
+  
+  {{{
+    symfony plugin-install http://plugins.symfony-project.com/sfSuperCachePlugin
+  }}}
+
+  * Choose a directory to store the cache under your web root
+
+    {{{
+      mkdir web/cache
+      chown apache.apache web/cache
+    }}}
+
+  * Add `sfSuperCacheFilter` to your filters
+  
+  {{{
+    supercache:
+      class: sfSuperCacheFilter
+      param:
+        cache_dir: cache
+  }}}
+
+  * Replace the 2 following lines in `.htaccess`
+
+  {{{
+    RewriteRule ^$ index.html [QSA]
+    RewriteRule ^([^.]+)$ $1.html [QSA]
+  }}}
+  
+  by
+
+  {{{
+    # if the request starts with /cache
+    RewriteCond %{REQUEST_URI} ^/cache
+    # and it's not the user that requested this in his browser
+    RewriteCond %{THE_REQUEST} !/cache/
+    # go
+    RewriteRule .* - [L]
+
+    # check the page in the "super" cache
+    RewriteRule ^$ index.html
+    RewriteRule ^(.+)/$ $1/index.html
+    RewriteRule ^(.*)$ cache/%{HTTP_HOST}/$1
+  }}}
+
+  * Clear you cache
+
+  {{{
+    symfony cc
+  }}}
+
+  * You're done.
+
+== Known limitations ==
+
+ * your page must ends with the right extension: .html, .xml, ... Because Apache will server these pages, it must be able to guess the content type
+ * symfony cc won't clear the "super" cache. It is important to clear both cache at the same time.
+ * no vary support

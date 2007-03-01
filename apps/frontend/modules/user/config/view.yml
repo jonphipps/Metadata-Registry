@@ -1,17 +1,17 @@
 loginSuccess:
-  javascripts: [setfocus]
+  javascripts: [setfocus: { position: last }]
 
 passwordRequestSuccess:
-  javascripts: [setfocus]
+  javascripts: [setfocus: { position: last }]
 
 showSuccess:
-  javascripts: [setfocus]
+  javascripts: [setfocus: { position: last }]
 
 showSubscriberSuccess:
-  javascripts: [setfocus]
+  javascripts: [setfocus: { position: last }]
 
 all:
-  stylesheets: [-*, /sf/sf_admin/css/main, main, layout]
+  stylesheets: [-*, %SF_ADMIN_WEB_DIR%/main, main, layout]
   stylesheets: [user/layout]
 
   components:

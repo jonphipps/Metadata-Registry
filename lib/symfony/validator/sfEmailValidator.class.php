@@ -22,14 +22,14 @@
 class sfEmailValidator extends sfValidator
 {
   /**
-   * Execute this validator.
+   * Executes this validator.
    *
-   * @param mixed A file or parameter value/array.
-   * @param error An error message reference.
+   * @param mixed A file or parameter value/array
+   * @param error An error message reference
    *
-   * @return bool true, if this validator executes successfully, otherwise false.
+   * @return bool true, if this validator executes successfully, otherwise false
    */
-  public function execute (&$value, &$error)
+  public function execute(&$value, &$error)
   {
     $strict = $this->getParameterHolder()->get('strict');
     if ($strict == true)
@@ -76,17 +76,38 @@ class sfEmailValidator extends sfValidator
       return false;
     }
 
+    $checkDomain = $this->getParameterHolder()->get('check_domain');
+    if ($checkDomain && function_exists('checkdnsrr'))
+    {
+      $tokens = explode('@', $value);
+      if (!checkdnsrr($tokens[1], 'MX') && !checkdnsrr($tokens[1], 'A'))
+      {
+        $error = $this->getParameterHolder()->get('email_error');
+
+        return false;
+      }
+    }
+
     return true;
   }
 
-  public function initialize ($context, $parameters = null)
+  /**
+   * Initializes this validator.
+   *
+   * @param sfContext The current application context
+   * @param array   An associative array of initialization parameters
+   *
+   * @return bool true, if initialization completes successfully, otherwise false
+   */
+  public function initialize($context, $parameters = null)
   {
     // initialize parent
     parent::initialize($context);
 
     // set defaults
-    $this->getParameterHolder()->set('strict',      true);
-    $this->getParameterHolder()->set('email_error', 'Invalid input');
+    $this->getParameterHolder()->set('strict',       true);
+    $this->getParameterHolder()->set('check_domain', false);
+    $this->getParameterHolder()->set('email_error',  'Invalid input');
 
     $this->getParameterHolder()->add($parameters);
 

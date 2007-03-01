@@ -18,16 +18,14 @@
 class sfWebDebugFilter extends sfFilter
 {
   /**
-   * Execute this filter.
+   * Executes this filter.
    *
-   * @param FilterChain A FilterChain instance.
-   *
-   * @return void
+   * @param sfFilterChain A sfFilterChain instance
    */
-  public function execute ($filterChain)
+  public function execute($filterChain)
   {
     // execute this filter only once
-    if ($this->isFirstCall() && sfConfig::get('sf_web_debug'))
+    if ($this->isFirstCall())
     {
       // register sfWebDebug assets
       sfWebDebug::getInstance()->registerAssets();
@@ -35,48 +33,37 @@ class sfWebDebugFilter extends sfFilter
 
     // execute next filter
     $filterChain->execute();
-  }
 
-  /**
-   * Execute this filter.
-   *
-   * @param FilterChain A FilterChain instance.
-   *
-   * @return void
-   */
-  public function executeBeforeRendering ($filterChain)
-  {
-    // execute this filter only once
-    if ($this->isFirstCallBeforeRendering() && sfConfig::get('sf_web_debug'))
+    $context    = $this->getContext();
+    $response   = $context->getResponse();
+    $controller = $context->getController();
+
+    // don't add debug toolbar:
+    // * for XHR requests
+    // * if 304
+    // * if not rendering to the client
+    // * if HTTP headers only
+    if (
+      $this->getContext()->getRequest()->isXmlHttpRequest() ||
+      strpos($response->getContentType(), 'html') === false ||
+      $response->getStatusCode() == 304 ||
+      $controller->getRenderMode() != sfView::RENDER_CLIENT ||
+      $response->isHeaderOnly()
+    )
     {
-      $response = $this->getContext()->getResponse();
-
-      // don't add debug toolbar on XHR requests
-      // don't add debug if 304
-      if (
-          $this->getContext()->getRequest()->isXmlHttpRequest() || 
-          strpos($response->getContentType(), 'html') === false ||
-          $response->getStatusCode() == 304
-      )
-      {
-        $filterChain->execute();
-        return;
-      }
-
-      $content  = $response->getContent();
-      $webDebug = sfWebDebug::getInstance()->getResults();
-
-      // add web debug information to response content
-      $newContent = str_ireplace('</body>', $webDebug.'</body>', $content);
-      if ($content == $newContent)
-      {
-        $newContent .= $webDebug;
-      }
-
-      $response->setContent($newContent);
+      return;
     }
 
-    // execute next filter
-    $filterChain->execute();
+    $content  = $response->getContent();
+    $webDebug = sfWebDebug::getInstance()->getResults();
+
+    // add web debug information to response content
+    $newContent = str_ireplace('</body>', $webDebug.'</body>', $content);
+    if ($content == $newContent)
+    {
+      $newContent .= $webDebug;
+    }
+
+    $response->setContent($newContent);
   }
 }

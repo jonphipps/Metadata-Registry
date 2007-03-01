@@ -11,7 +11,7 @@
 
 /**
  * sfBasicSecurityFilter checks security by calling the getCredential() method
- * of the action. Once the credential has been acquired, BasicSecurityFilter
+ * of the action. Once the credential has been acquired, sfBasicSecurityFilter
  * verifies the user has the same credential by calling the hasCredential()
  * method of SecurityUser.
  *
@@ -23,13 +23,11 @@
 class sfBasicSecurityFilter extends sfSecurityFilter
 {
   /**
-   * Execute this filter.
+   * Executes this filter.
    *
-   * @param FilterChain A FilterChain instance.
-   *
-   * @return void
+   * @param sfFilterChain A sfFilterChain instance
    */
-  public function execute ($filterChain)
+  public function execute($filterChain)
   {
     // get the cool stuff
     $context    = $this->getContext();
@@ -70,12 +68,16 @@ class sfBasicSecurityFilter extends sfSecurityFilter
       {
         // the user doesn't have access, exit stage left
         $controller->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
+
+        throw new sfStopException();
       }
     }
     else
     {
       // the user is not authenticated
       $controller->forward(sfConfig::get('sf_login_module'), sfConfig::get('sf_login_action'));
+
+      throw new sfStopException();
     }
   }
 }

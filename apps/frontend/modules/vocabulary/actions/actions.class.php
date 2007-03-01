@@ -21,6 +21,8 @@ class vocabularyActions extends autovocabularyActions
   {
     $this->vocabulary = new Vocabulary();
     $this->vocabulary->setBaseDomain('http://metadataregistry.org/uri/');
+    $this->createMode = true;
+    parent::executeCreate();
   }
 
   public function executeList ()

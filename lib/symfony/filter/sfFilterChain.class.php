@@ -20,69 +20,37 @@
  */
 class sfFilterChain
 {
-  private
-    $chain           = array(),
-    $index           = -1,
-    $execution       = false,
-    $executionFilter = null,
-    $renderingFilter = null;
+  protected
+    $chain = array(),
+    $index = -1;
 
   /**
-   * Execute the next filter in this chain.
-   *
-   * @return void
+   * Executes the next filter in this chain.
    */
-  public function execute ()
+  public function execute()
   {
+    // skip to the next filter
     ++$this->index;
 
-    $max = count($this->chain);
-    $filter = null;
-    $method = null;
-    if ($this->index < $max)
+    if ($this->index < count($this->chain))
     {
-      $filter = $this->chain[$this->execution ? ($max - $this->index - 1) : $this->index];
-
-      // method to execute?
-      $method = '';
-      if ($this->execution)
+      if (sfConfig::get('sf_logging_enabled'))
       {
-        $method = method_exists($filter, 'executeBeforeRendering') ? 'executeBeforeRendering' : '';
+        sfContext::getInstance()->getLogger()->info(sprintf('{sfFilter} executing filter "%s"', get_class($this->chain[$this->index])));
       }
-      else
-      {
-        $method = method_exists($filter, 'executeBeforeExecution') ? 'executeBeforeExecution' : (method_exists($filter, 'execute') ? 'execute' : '');
-      }
-    }
-    else if ($this->index == $max)
-    {
-      $filter = $this->execution ? $this->renderingFilter : $this->executionFilter;
-      $method = 'execute';
-    }
 
-    if (sfConfig::get('sf_logging_active'))
-    {
-      sfContext::getInstance()->getLogger()->info(sprintf('{sfFilterChain} executing filter "%s"', get_class($filter)));
-    }
-
-    if (!$method)
-    {
-      // execute next filter
-      $this->execute();
-    }
-    else
-    {
-      // execute filter
-      $filter->$method($this);
+      // execute the next filter
+      $this->chain[$this->index]->execute($this);
     }
   }
 
-  public function executionFilterDone ()
-  {
-    $this->execution = true;
-    $this->index     = -1;
-  }
-
+  /**
+   * Returns true if the filter chain contains a filter of a given class.
+   *
+   * @param string The class name of the filter
+   *
+   * @return boolean true if the filter exists, false otherwise
+   */
   public function hasFilter($class)
   {
     foreach ($this->chain as $filter)
@@ -97,24 +65,12 @@ class sfFilterChain
   }
 
   /**
-   * Register a filter with this chain.
+   * Registers a filter with this chain.
    *
-   * @param Filter A Filter implementation instance.
-   *
-   * @return void
+   * @param sfFilter A sfFilter implementation instance.
    */
-  public function register ($filter)
+  public function register($filter)
   {
     $this->chain[] = $filter;
-  }
-
-  public function registerExecution ($filter)
-  {
-    $this->executionFilter = $filter;
-  }
-
-  public function registerRendering ($filter)
-  {
-    $this->renderingFilter = $filter;
   }
 }

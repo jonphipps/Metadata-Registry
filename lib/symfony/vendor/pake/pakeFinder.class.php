@@ -5,7 +5,7 @@
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
  * @copyright  2004-2005 Fabien Potencier <fabien.potencier@symfony-project.com>
  * @license    see the LICENSE file included in the distribution
- * @version    SVN: $Id: pakeFinder.class.php 1901 2006-08-31 10:26:33Z fabien $
+ * @version    SVN: $Id: pakeFinder.class.php 3268 2007-01-13 20:19:33Z fabien $
  */
 
 require_once dirname(__FILE__).'/pakeGlobToRegex.class.php';
@@ -34,7 +34,7 @@ if (class_exists('pakeFinder'))
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
  * @copyright  2004-2005 Fabien Potencier <fabien.potencier@symfony-project.com>
  * @license    see the LICENSE file included in the distribution
- * @version    SVN: $Id: pakeFinder.class.php 1901 2006-08-31 10:26:33Z fabien $
+ * @version    SVN: $Id: pakeFinder.class.php 3268 2007-01-13 20:19:33Z fabien $
  */
 class pakeFinder
 {
@@ -320,9 +320,18 @@ class pakeFinder
       $numargs  = count($arg_list);
     }
 
+    $dirs = array();
     for ($i = 0; $i < $numargs; $i++)
     {
-      $real_dir = realpath($arg_list[$i]);
+      if ($argDirs = glob($arg_list[$i]))
+      {
+        $dirs = array_merge($dirs, $argDirs);
+      }
+    }
+
+    foreach ($dirs as $dir)
+    {
+      $real_dir = realpath($dir);
 
       // absolute path?
       if (!self::isPathAbsolute($real_dir))
@@ -336,7 +345,7 @@ class pakeFinder
 
       if (!is_dir($real_dir))
       {
-        throw new pakeException(sprintf('Directory "%s" does not exist', $arg_list[$i]));
+        continue;
       }
 
       $this->search_dir = $dir;

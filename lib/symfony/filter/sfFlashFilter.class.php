@@ -9,6 +9,7 @@
  */
 
 /**
+ * sfFlashFilter removes flash attributes from the session.
  *
  * @package    symfony
  * @subpackage filter
@@ -18,26 +19,25 @@
 class sfFlashFilter extends sfFilter
 {
   /**
-   * Execute this filter.
+   * Executes this filter.
    *
-   * @param FilterChain A FilterChain instance.
-   *
-   * @return void
+   * @param sfFilterChain A sfFilterChain instance.
    */
-  public function execute ($filterChain)
+  public function execute($filterChain)
   {
+    $context = $this->getContext();
+    $userAttributeHolder = $context->getUser()->getAttributeHolder();
+
     // execute this filter only once
     if ($this->isFirstCall())
     {
       // flag current flash to be removed after the execution filter
-      $context = $this->getContext();
-      $userAttributeHolder = $context->getUser()->getAttributeHolder();
       $names = $userAttributeHolder->getNames('symfony/flash');
       if ($names)
       {
-        if (sfConfig::get('sf_logging_active'))
+        if (sfConfig::get('sf_logging_enabled'))
         {
-          $context->getLogger()->info('{sfController} flag old flash messages ("'.implode('", "', $names).'")');
+          $context->getLogger()->info('{sfFilter} flag old flash messages ("'.implode('", "', $names).'")');
         }
         foreach ($names as $name)
         {
@@ -48,39 +48,20 @@ class sfFlashFilter extends sfFilter
 
     // execute next filter
     $filterChain->execute();
-  }
 
-  /**
-   * Execute this filter.
-   *
-   * @param FilterChain A FilterChain instance.
-   *
-   * @return void
-   */
-  public function executeBeforeRendering ($filterChain)
-  {
-    // execute this filter only once
-    if ($this->isFirstCallBeforeRendering())
+    // remove flash that are tagged to be removed
+    $names = $userAttributeHolder->getNames('symfony/flash/remove');
+    if ($names)
     {
-      // remove flash that are tagged to be removed
-      $context = $this->getContext();
-      $userAttributeHolder = $context->getUser()->getAttributeHolder();
-      $names = $userAttributeHolder->getNames('symfony/flash/remove');
-      if ($names)
+      if (sfConfig::get('sf_logging_enabled'))
       {
-        if (sfConfig::get('sf_logging_active'))
-        {
-          $context->getLogger()->info('{sfController} remove old flash messages ("'.implode('", "', $names).'")');
-        }
-        foreach ($names as $name)
-        {
-          $userAttributeHolder->remove($name, 'symfony/flash');
-          $userAttributeHolder->remove($name, 'symfony/flash/remove');
-        }
+        $context->getLogger()->info('{sfFilter} remove old flash messages ("'.implode('", "', $names).'")');
+      }
+      foreach ($names as $name)
+      {
+        $userAttributeHolder->remove($name, 'symfony/flash');
+        $userAttributeHolder->remove($name, 'symfony/flash/remove');
       }
     }
-
-    // execute next filter
-    $filterChain->execute();
   }
 }

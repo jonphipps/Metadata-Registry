@@ -1,3 +1,2 @@
 all:
-  javascripts: [setfocus]
   stylesheets: [agent/layout]

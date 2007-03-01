@@ -1,4 +1,6 @@
+<?php $hides = $this->getParameterValue('list.hide', array()) ?>
 <?php foreach ($this->getColumns('list.display') as $column): ?>
+<?php if (in_array($column->getName(), $hides)) continue ?>
 <?php $credentials = $this->getParameterValue('list.fields.'.$column->getName().'.credentials') ?>
 <?php if ($credentials): $credentials = str_replace("\n", ' ', var_export($credentials, true)) ?>
     [?php if ($sf_user->hasCredential(<?php echo $credentials ?>)): ?]
@@ -7,11 +9,7 @@
     <?php if ($column->isReal()): ?>
       [?php if ($sf_user->getAttribute('sort', null, 'sf_admin/<?php echo $this->getSingularName() ?>/sort') == '<?php echo $column->getName() ?>'): ?]
       [?php echo link_to(__('<?php echo str_replace("'", "\\'", $this->getParameterValue('list.fields.'.$column->getName().'.name')) ?>'), '<?php echo $this->getModuleName() ?>/list?sort=<?php echo $column->getName() ?>&type='.($sf_user->getAttribute('type', 'asc', 'sf_admin/<?php echo $this->getSingularName() ?>/sort') == 'asc' ? 'desc' : 'asc')) ?]
-      [?php if ($sf_user->getAttribute('type', null, 'sf_admin/<?php echo $this->getSingularName() ?>/sort') == 'asc'): ?]
-      [?php echo image_tag(sfConfig::get('sf_admin_web_dir').'/images/s_asc.png', array('align' => 'absmiddle', 'alt' => __('Ascending Order'), 'title' => __('List has been sorted in ascending order'))) ?]
-      [?php elseif ($sf_user->getAttribute('type', null, 'sf_admin/<?php echo $this->getSingularName() ?>/sort') == 'desc'): ?]
-      [?php echo image_tag(sfConfig::get('sf_admin_web_dir').'/images/s_desc.png', array('align' => 'absmiddle', 'alt' => __('Descending Order'), 'title' => __('List has been sorted in descending order'))) ?]
-      [?php endif; ?]
+      ([?php echo __($sf_user->getAttribute('type', 'asc', 'sf_admin/<?php echo $this->getSingularName() ?>/sort')) ?])
       [?php else: ?]
       [?php echo link_to(__('<?php echo str_replace("'", "\\'", $this->getParameterValue('list.fields.'.$column->getName().'.name')) ?>'), '<?php echo $this->getModuleName() ?>/list?sort=<?php echo $column->getName() ?>&type=asc') ?]
       [?php endif; ?]

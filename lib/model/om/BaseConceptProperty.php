@@ -33,11 +33,11 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 
 
 	
-	protected $scheme_id = 0;
+	protected $scheme_id;
 
 
 	
-	protected $related_concept_id = 0;
+	protected $related_concept_id;
 
 
 	
@@ -57,10 +57,10 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 	protected $aVocabulary;
 
 	
-	protected $aLookup;
+	protected $aConceptRelatedByRelatedConceptId;
 
 	
-	protected $aConceptRelatedByRelatedConceptId;
+	protected $aLookup;
 
 	
 	protected $collConceptHistorys;
@@ -260,7 +260,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 	public function setSchemeId($v)
 	{
 
-		if ($this->scheme_id !== $v || $v === 0) {
+		if ($this->scheme_id !== $v) {
 			$this->scheme_id = $v;
 			$this->modifiedColumns[] = ConceptPropertyPeer::SCHEME_ID;
 		}
@@ -274,7 +274,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 	public function setRelatedConceptId($v)
 	{
 
-		if ($this->related_concept_id !== $v || $v === 0) {
+		if ($this->related_concept_id !== $v) {
 			$this->related_concept_id = $v;
 			$this->modifiedColumns[] = ConceptPropertyPeer::RELATED_CONCEPT_ID;
 		}
@@ -368,7 +368,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 	
 	public function save($con = null)
 	{
-    if ($this->isNew() && !$this->isColumnModified('created_at'))
+    if ($this->isNew() && !$this->isColumnModified(ConceptPropertyPeer::CREATED_AT))
     {
       $this->setCreatedAt(time());
     }
@@ -421,18 +421,18 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 				$this->setVocabulary($this->aVocabulary);
 			}
 
-			if ($this->aLookup !== null) {
-				if ($this->aLookup->isModified()) {
-					$affectedRows += $this->aLookup->save($con);
-				}
-				$this->setLookup($this->aLookup);
-			}
-
 			if ($this->aConceptRelatedByRelatedConceptId !== null) {
 				if ($this->aConceptRelatedByRelatedConceptId->isModified()) {
 					$affectedRows += $this->aConceptRelatedByRelatedConceptId->save($con);
 				}
 				$this->setConceptRelatedByRelatedConceptId($this->aConceptRelatedByRelatedConceptId);
+			}
+
+			if ($this->aLookup !== null) {
+				if ($this->aLookup->isModified()) {
+					$affectedRows += $this->aLookup->save($con);
+				}
+				$this->setLookup($this->aLookup);
 			}
 
 
@@ -510,15 +510,15 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 				}
 			}
 
-			if ($this->aLookup !== null) {
-				if (!$this->aLookup->validate($columns)) {
-					$failureMap = array_merge($failureMap, $this->aLookup->getValidationFailures());
-				}
-			}
-
 			if ($this->aConceptRelatedByRelatedConceptId !== null) {
 				if (!$this->aConceptRelatedByRelatedConceptId->validate($columns)) {
 					$failureMap = array_merge($failureMap, $this->aConceptRelatedByRelatedConceptId->getValidationFailures());
+				}
+			}
+
+			if ($this->aLookup !== null) {
+				if (!$this->aLookup->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aLookup->getValidationFailures());
 				}
 			}
 
@@ -770,7 +770,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 
 
 		if ($v === null) {
-			$this->setConceptId('');
+			$this->setConceptId('null');
 		} else {
 			$this->setConceptId($v->getId());
 		}
@@ -800,7 +800,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 
 
 		if ($v === null) {
-			$this->setSkosPropertyId('');
+			$this->setSkosPropertyId('null');
 		} else {
 			$this->setSkosPropertyId($v->getId());
 		}
@@ -830,7 +830,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 
 
 		if ($v === null) {
-			$this->setSchemeId('');
+			$this->setSchemeId(NULL);
 		} else {
 			$this->setSchemeId($v->getId());
 		}
@@ -852,6 +852,36 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 			
 		}
 		return $this->aVocabulary;
+	}
+
+	
+	public function setConceptRelatedByRelatedConceptId($v)
+	{
+
+
+		if ($v === null) {
+			$this->setRelatedConceptId(NULL);
+		} else {
+			$this->setRelatedConceptId($v->getId());
+		}
+
+
+		$this->aConceptRelatedByRelatedConceptId = $v;
+	}
+
+
+	
+	public function getConceptRelatedByRelatedConceptId($con = null)
+	{
+				include_once 'lib/model/om/BaseConceptPeer.php';
+
+		if ($this->aConceptRelatedByRelatedConceptId === null && ($this->related_concept_id !== null)) {
+
+			$this->aConceptRelatedByRelatedConceptId = ConceptPeer::retrieveByPK($this->related_concept_id, $con);
+
+			
+		}
+		return $this->aConceptRelatedByRelatedConceptId;
 	}
 
 	
@@ -882,36 +912,6 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 			
 		}
 		return $this->aLookup;
-	}
-
-	
-	public function setConceptRelatedByRelatedConceptId($v)
-	{
-
-
-		if ($v === null) {
-			$this->setRelatedConceptId('');
-		} else {
-			$this->setRelatedConceptId($v->getId());
-		}
-
-
-		$this->aConceptRelatedByRelatedConceptId = $v;
-	}
-
-
-	
-	public function getConceptRelatedByRelatedConceptId($con = null)
-	{
-				include_once 'lib/model/om/BaseConceptPeer.php';
-
-		if ($this->aConceptRelatedByRelatedConceptId === null && ($this->related_concept_id !== null)) {
-
-			$this->aConceptRelatedByRelatedConceptId = ConceptPeer::retrieveByPK($this->related_concept_id, $con);
-
-			
-		}
-		return $this->aConceptRelatedByRelatedConceptId;
 	}
 
 	

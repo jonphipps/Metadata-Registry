@@ -25,28 +25,36 @@ abstract class sfGenerator
     $theme               = 'default',
     $moduleName          = '';
 
+  /**
+   * Initializes the current sfGenerator instance.
+   *
+   * @param sfGeneratorManager A sfGeneratorManager instance
+   */
   public function initialize($generatorManager)
   {
     $this->generatorManager = $generatorManager;
   }
 
+  /**
+   * Generates classes and templates.
+   *
+   * @param array An array of parameters
+   *
+   * @return string The cache for the configuration file
+   */
   abstract public function generate($params = array());
 
-  protected function generatePhpFiles($generatedModuleName, $templateFiles = array())
+  /**
+   * Generates PHP files for a given module name.
+   *
+   * @param string The name of module name to generate
+   * @param array  A list of template files to generate
+   * @param array  A list of configuration files to generate
+   */
+  protected function generatePhpFiles($generatedModuleName, $templateFiles = array(), $configFiles = array())
   {
-    // template directory
-    $template_dir = sfConfig::get('sf_symfony_data_dir').'/generator/'.$this->getGeneratorClass().'/'.$this->getTheme().'/template';
-
-    // default template directory
-    $default_template_dir = sfConfig::get('sf_symfony_data_dir').'/generator/'.$this->getGeneratorClass().'/default/template';
-
     // eval actions file
-    $action_template = $template_dir.'/actions/actions.class.php';
-    if (!is_readable($action_template))
-    {
-      $action_template = $default_template_dir.'/actions/actions.class.php';
-    }
-    $retval = $this->evalTemplate($action_template);
+    $retval = $this->evalTemplate('actions/actions.class.php');
 
     // save actions class
     $this->getGeneratorManager()->getCache()->set('actions.class.php', $generatedModuleName.DIRECTORY_SEPARATOR.'actions', $retval);
@@ -55,28 +63,37 @@ abstract class sfGenerator
     foreach ($templateFiles as $template)
     {
       // eval template file
-      $template_template = $template_dir.'/templates/'.$template;
-      if (!is_readable($template_template))
-      {
-        $template_template = $default_template_dir.'/templates/'.$template;
-        if (!is_readable($template_template))
-        {
-          // this template does not exist for this generator
-          continue;
-        }
-      }
-      $retval = $this->evalTemplate($template_template);
+      $retval = $this->evalTemplate('templates/'.$template);
 
-      // save actions class
+      // save template file
       $this->getGeneratorManager()->getCache()->set($template, $generatedModuleName.DIRECTORY_SEPARATOR.'templates', $retval);
+    }
+
+    // generate config files
+    foreach ($configFiles as $config)
+    {
+      // eval config file
+      $retval = $this->evalTemplate('config/'.$config);
+
+      // save config file
+      $this->getGeneratorManager()->getCache()->set($config, $generatedModuleName.DIRECTORY_SEPARATOR.'config', $retval);
     }
   }
 
-  protected function evalTemplate($template_file)
+  /**
+   * Evaluates a template file.
+   *
+   * @param string The template file path
+   *
+   * @return string The evaluated template
+   */
+  protected function evalTemplate($templateFile)
   {
-    // eval template template file
+    $templateFile = sfLoader::getGeneratorTemplate($this->getGeneratorClass(), $this->getTheme(), $templateFile);
+
+    // eval template file
     ob_start();
-    require($template_file);
+    require($templateFile);
     $content = ob_get_clean();
 
     // replace [?php and ?]
@@ -90,63 +107,128 @@ abstract class sfGenerator
     return $retval;
   }
 
+  /**
+   * Replaces PHP marks by <?php ?>.
+   *
+   * @param string The PHP code
+   *
+   * @return string The converted PHP code
+   */
   protected function replacePhpMarks($text)
   {
     // replace [?php and ?]
-    $text = str_replace('[?php', '<?php',      $text);
-    $text = str_replace('[?=',   '<?php echo', $text);
-    $text = str_replace('?]',    '?>',         $text);
-
-    return $text;
+    return str_replace(array('[?php', '[?=', '?]'), array('<?php', '<?php echo', '?>'), $text);
   }
 
+  /**
+   * Gets the generator class.
+   *
+   * @return string The generator class
+   */
   public function getGeneratorClass()
   {
     return $this->generatorClass;
   }
 
+  /**
+   * Sets the generator class.
+   *
+   * @param string The generator class
+   */
   public function setGeneratorClass($generator_class)
   {
     $this->generatorClass = $generator_class;
   }
 
+  /**
+   * Gets the sfGeneratorManager instance.
+   *
+   * @return string The sfGeneratorManager instance
+   */
   protected function getGeneratorManager()
   {
     return $this->generatorManager;
   }
 
+  /**
+   * Gets the module name of the generated module.
+   *
+   * @return string The module name
+   */
   public function getGeneratedModuleName()
   {
     return $this->generatedModuleName;
   }
 
+  /**
+   * Sets the module name of the generated module.
+   *
+   * @param string The module name
+   */
   public function setGeneratedModuleName($module_name)
   {
     $this->generatedModuleName = $module_name;
   }
 
+  /**
+   * Gets the module name.
+   *
+   * @return string The module name
+   */
   public function getModuleName()
   {
     return $this->moduleName;
   }
 
+  /**
+   * Sets the module name.
+   *
+   * @param string The module name
+   */
   public function setModuleName($module_name)
   {
     $this->moduleName = $module_name;
   }
 
+  /**
+   * Gets the theme name.
+   *
+   * @return string The theme name
+   */
   public function getTheme()
   {
     return $this->theme;
   }
 
+  /**
+   * Sets the theme name.
+   *
+   * @param string The theme name
+   */
   public function setTheme($theme)
   {
     $this->theme = $theme;
   }
 
+  /**
+   * Calls methods defined via the sfMixer class.
+   *
+   * @param string The method name
+   * @param array  The method arguments
+   *
+   * @return mixed The returned value of the called method
+   *
+   * @see sfMixer
+   */
   public function __call($method, $arguments)
   {
-    return sfMixer::callMixins();
+    if (!$callable = sfMixer::getCallable('sfGenerator:'.$method))
+    {
+      throw new sfException(sprintf('Call to undefined method sfGenerator::%s', $method));
+    }
+
+    array_unshift($arguments, $this);
+
+    return call_user_func_array($callable, $arguments);
   }
 }

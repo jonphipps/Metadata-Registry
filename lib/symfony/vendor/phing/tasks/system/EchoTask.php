@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id: EchoTask.php 82 2006-07-07 18:15:35Z mrook $
+ *  $Id: EchoTask.php 3076 2006-12-18 08:52:12Z fabien $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -26,7 +26,7 @@ include_once 'phing/Task.php';
  *
  *  @author   Michiel Rook <michiel.rook@gmail.com>
  *  @author   Andreas Aderhold, andi@binarycloud.com
- *  @version  $Revision: 1.5 $ $Date: 2006-07-07 14:15:35 -0400 (Fri, 07 Jul 2006) $
+ *  @version  $Revision: 1.5 $ $Date: 2006-07-07 20:15:35 +0200 (Fri, 07 Jul 2006) $
  *  @package  phing.tasks.system
  */
 

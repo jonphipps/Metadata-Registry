@@ -20,35 +20,15 @@
  */
 abstract class sfAction extends sfComponent
 {
-  private
+  protected
     $security = array();
 
   /**
-   * Gets current module name
-   *
-   * @return string
-   */
-  public function getModuleName()
-  {
-    return $this->getContext()->getModuleName();
-  }
-
-  /**
-   * Gets current action name
-   *
-   * @return string
-   */
-  public function getActionName()
-  {
-    return $this->getContext()->getActionName();
-  }
-
-  /**
-   * Initialize this action.
+   * Initializes this action.
    *
    * @param sfContext The current application context.
    *
-   * @return bool true, if initialization completes successfully, otherwise false.
+   * @return bool true, if initialization completes successfully, otherwise false
    */
   public function initialize($context)
   {
@@ -61,68 +41,45 @@ abstract class sfAction extends sfComponent
   }
 
   /**
-   * Execute an application defined process prior to execution of this Action.
+   * Executes an application defined process prior to execution of this sfAction object.
    *
-   * By Default, this method is empty.
+   * By default, this method is empty.
    */
-  public function preExecute ()
+  public function preExecute()
   {
   }
 
   /**
-   * Execute an application defined process immediately after execution of this Action.
+   * Execute an application defined process immediately after execution of this sfAction object.
    *
-   * By Default, this method is empty.
+   * By default, this method is empty.
    */
-  public function postExecute ()
+  public function postExecute()
   {
   }
 
   /**
-   * DEPRECATED: Returns true if current action template will be executed by the view.
+   * Forwards current action to the default 404 error action.
    *
-   * This is the case if:
-   * - cache is off;
-   * - action is not available;
-   * - cache is not fresh enough.
+   * @param  string Message of the generated exception
    *
-   * Use this method to know if you have to populate parameters for the template.
-   *
-   * @return boolean
-   */
-  public function mustExecute()
-  {
-    if (sfConfig::get('sf_logging_active'))
-    {
-      $this->getContext()->getLogger()->err('This method is deprecated.');
-    }
-
-    if (!sfConfig::get('sf_cache'))
-    {
-      return 1;
-    }
-
-    $cache = $this->getContext()->getViewCacheManager();
-
-    return (!$cache->has(sfRouting::getInstance()->getCurrentInternalUri()));
-  }
-
-  /**
-   * Forwards current action to the default 404 error action
+   * @throws sfError404Exception
    *
    */
-  public function forward404 ($message = '')
+  public function forward404($message = '')
   {
     throw new sfError404Exception($message);
   }
 
   /**
-   * Forwards current action to the default 404 error action
-   * unless the specified condition is true.
+   * Forwards current action to the default 404 error action unless the specified condition is true.
    *
-   * @param bool A condition that evaluates to true or false.
+   * @param bool A condition that evaluates to true or false
+   * @param  string Message of the generated exception
+   *
+   * @throws sfError404Exception
    */
-  public function forward404Unless ($condition, $message = '')
+  public function forward404Unless($condition, $message = '')
   {
     if (!$condition)
     {
@@ -131,12 +88,14 @@ abstract class sfAction extends sfComponent
   }
 
   /**
-   * Forwards current action to the default 404 error action
-   * if the specified condition is true.
+   * Forwards current action to the default 404 error action if the specified condition is true.
    *
-   * @param bool A condition that evaluates to true or false.
+   * @param bool A condition that evaluates to true or false
+   * @param  string Message of the generated exception
+   *
+   * @throws sfError404Exception
    */
-  public function forward404If ($condition, $message = '')
+  public function forward404If($condition, $message = '')
   {
     if ($condition)
     {
@@ -145,10 +104,12 @@ abstract class sfAction extends sfComponent
   }
 
   /**
-   * Redirects current action to the default 404 error action (with browser redirection)
+   * Redirects current action to the default 404 error action (with browser redirection).
+   *
+   * This method stops the current code flow.
    *
    */
-  public function redirect404 ()
+  public function redirect404()
   {
     return $this->redirect('/'.sfConfig::get('sf_error_404_module').'/'.sfConfig::get('sf_error_404_action'));
   }
@@ -156,39 +117,37 @@ abstract class sfAction extends sfComponent
   /**
    * Forwards current action to a new one (without browser redirection).
    *
-   * This method must be called as with a return:
+   * This method stops the action. So, no code is executed after a call to this method.
    *
-   * <code>return $this->forward('module', 'action')</code>
+   * @param  string A module name
+   * @param  string An action name
    *
-   * @param  string module name
-   * @param  string action name
-   * @throws sfActionStopException always
+   * @throws sfStopException
    */
-  public function forward ($module, $action)
+  public function forward($module, $action)
   {
-    if (sfConfig::get('sf_logging_active')) $this->getContext()->getLogger()->info('{sfAction} forward to action "'.$module.'/'.$action.'"');
+    if (sfConfig::get('sf_logging_enabled'))
+    {
+      $this->getContext()->getLogger()->info('{sfAction} forward to action "'.$module.'/'.$action.'"');
+    }
 
     $this->getController()->forward($module, $action);
 
-    throw new sfActionStopException();
+    throw new sfStopException();
   }
 
   /**
    * If the condition is true, forwards current action to a new one (without browser redirection).
    *
-   * This method must be called as with a return:
+   * This method stops the action. So, no code is executed after a call to this method.
    *
-   * <code>
-   *  $condition = true
-   *  return $this->forwardIf($condition, 'module', 'action')
-   * </code>
+   * @param  bool   A condition that evaluates to true or false
+   * @param  string A module name
+   * @param  string An action name
    *
-   * @param  bool   A condition that evaluates to true or false.
-   * @param  string module name
-   * @param  string action name
-   * @throws sfActionStopException always
+   * @throws sfStopException
    */
-  public function forwardIf ($condition, $module, $action)
+  public function forwardIf($condition, $module, $action)
   {
     if ($condition)
     {
@@ -199,19 +158,15 @@ abstract class sfAction extends sfComponent
   /**
    * Unless the condition is true, forwards current action to a new one (without browser redirection).
    *
-   * This method must be called as with a return:
+   * This method stops the action. So, no code is executed after a call to this method.
    *
-   * <code>
-   *  $condition = false
-   *  return $this->forwardUnless($condition, 'module', 'action')
-   * </code>
+   * @param  bool   A condition that evaluates to true or false
+   * @param  string A module name
+   * @param  string An action name
    *
-   * @param  bool   A condition that evaluates to true or false.
-   * @param  string module name
-   * @param  string action name
-   * @throws sfActionStopException always
+   * @throws sfStopException
    */
-  public function forwardUnless ($condition, $module, $action)
+  public function forwardUnless($condition, $module, $action)
   {
     if (!$condition)
     {
@@ -219,115 +174,47 @@ abstract class sfAction extends sfComponent
     }
   }
 
-  public function sendEmail($module, $action)
-  {
-    return $this->getPresentationFor($module, $action, 'sfMail');
-  }
-
-  public function getPresentationFor($module, $action, $viewName = null)
-  {
-    if (sfConfig::get('sf_logging_active')) $this->getContext()->getLogger()->info('{sfAction} get presentation for action "'.$module.'/'.$action.'" (view class: "'.$viewName.'")');
-
-    $controller = $this->getController();
-
-    // get original render mode
-    $renderMode = $controller->getRenderMode();
-
-    // set render mode to var
-    $controller->setRenderMode(sfView::RENDER_VAR);
-
-    // grab the action stack
-    $actionStack = $controller->getActionStack();
-
-    // grab this next forward's action stack index
-    $index = $actionStack->getSize();
-
-    // set viewName if needed
-    if ($viewName)
-    {
-      $this->getRequest()->setAttribute($module.'_'.$action.'_view_name', $viewName, 'symfony/action/view');
-    }
-
-    // forward to the mail action
-    $controller->forward($module, $action);
-
-    // grab the action entry from this forward
-    $actionEntry = $actionStack->getEntry($index);
-
-    // get raw email content
-    $presentation =& $actionEntry->getPresentation();
-
-    // put render mode back
-    $controller->setRenderMode($renderMode);
-
-    // remove the action entry
-    $nb = $actionStack->getSize() - $index;
-    while ($nb-- > 0)
-    {
-      $actionEntry = $actionStack->popEntry();
-
-      if ($actionEntry->getModuleName() == sfConfig::get('sf_login_module') && $actionEntry->getActionName() == sfConfig::get('sf_login_action'))
-      {
-        $error = 'Your mail action is secured but the user is not authenticated.';
-
-        throw new sfException($error);
-      }
-      else if ($actionEntry->getModuleName() == sfConfig::get('sf_secure_module') && $actionEntry->getActionName() == sfConfig::get('sf_secure_action'))
-      {
-        $error = 'Your mail action is secured but the user does not have access.';
-
-        throw new sfException($error);
-      }
-    }
-
-    // remove viewName
-    if ($viewName)
-    {
-      $this->getRequest()->getAttributeHolder()->remove($module.'_'.$action.'_view_name', 'symfony/action/view');
-    }
-
-    return $presentation;
-  }
-
   /**
    * Redirects current request to a new URL.
    *
    * 2 URL formats are accepted :
-   * - a full URL: http://www.google.com/
-   * - an internal URL (url_for() format): 'ModuleName/ActionName'
+   *  - a full URL: http://www.google.com/
+   *  - an internal URL (url_for() format): module/action
    *
-   * This method must be called as with a return:
+   * This method stops the action. So, no code is executed after a call to this method.
    *
-   * <code>return $this->redirect('/ModuleName/ActionName')</code>
+   * @param  string Url
+   * @param  string Status code (default to 302)
    *
-   * @param  string url
-   * @throws sfActionStopException always
+   * @throws sfStopException
    */
-  public function redirect($url)
+  public function redirect($url, $statusCode = 302)
   {
     $url = $this->getController()->genUrl($url, true);
 
-    if (sfConfig::get('sf_logging_active')) $this->getContext()->getLogger()->info('{sfAction} redirect to "'.$url.'"');
+    if (sfConfig::get('sf_logging_enabled'))
+    {
+      $this->getContext()->getLogger()->info('{sfAction} redirect to "'.$url.'"');
+    }
 
-    $this->getController()->redirect($url);
+    $this->getController()->redirect($url, 0, $statusCode);
 
-    throw new sfActionStopException();
+    throw new sfStopException();
   }
 
   /**
    * Redirects current request to a new URL, only if specified condition is true.
    *
-   * @see redirect
+   * This method stops the action. So, no code is executed after a call to this method.
    *
-   * This method must be called as with a return:
-   *
-   * <code>return $this->redirectIf($condition, '/ModuleName/ActionName')</code>
-   *
-   * @param  bool   A condition that evaluates to true or false.
+   * @param  bool   A condition that evaluates to true or false
    * @param  string url
-   * @throws sfActionStopException always
+   *
+   * @throws sfStopException
+   *
+   * @see redirect
    */
-  public function redirectIf ($condition, $url)
+  public function redirectIf($condition, $url)
   {
     if ($condition)
     {
@@ -338,17 +225,16 @@ abstract class sfAction extends sfComponent
   /**
    * Redirects current request to a new URL, unless specified condition is true.
    *
+   * This method stops the action. So, no code is executed after a call to this method.
+   *
+   * @param  bool   A condition that evaluates to true or false
+   * @param  string Url
+   *
+   * @throws sfStopException
+   *
    * @see redirect
-   *
-   * This method must be called as with a return:
-   *
-   * <code>return $this->redirectUnless($condition, '/ModuleName/ActionName')</code>
-   *
-   * @param  bool   A condition that evaluates to true or false.
-   * @param  string url
-   * @throws sfActionStopException always
    */
-  public function redirectUnless ($condition, $url)
+  public function redirectUnless($condition, $url)
   {
     if (!$condition)
     {
@@ -357,87 +243,95 @@ abstract class sfAction extends sfComponent
   }
 
   /**
-   * Renders text to the browser, bypassing templating system.
+   * Appends the given text to the response content and bypasses the built-in view system.
    *
-   * @param  string text to render to the browser
+   * This method must be called as with a return:
+   *
+   * <code>return $this->renderText('some text')</code>
+   *
+   * @param  string Text to append to the response
+   *
    * @return sfView::NONE
    */
   public function renderText($text)
   {
-    echo $text;
+    $this->getResponse()->setContent($this->getResponse()->getContent().$text);
 
     return sfView::NONE;
   }
 
   /**
-   * Retrieve the default view to be executed when a given request is not
-   * served by this action.
+   * Retrieves the default view to be executed when a given request is not served by this action.
    *
-   * @return mixed A string containing the view name associated with this
-   *               action.
-   *
-   *               Or an array with the following indices:
-   *
-   *               - The parent module of the view that will be executed.
-   *               - The view that will be executed.
+   * @return string A string containing the view name associated with this action
    */
-  public function getDefaultView ()
+  public function getDefaultView()
   {
     return sfView::INPUT;
   }
 
   /**
-   * Retrieve the request methods on which this action will process
-   * validation and execution.
+   * Retrieves the request methods on which this action will process validation and execution.
    *
    * @return int One of the following values:
    *
-   *             - sfRequest::GET
-   *             - sfRequest::POST
-   *             - sfRequest::NONE
+   * - sfRequest::GET
+   * - sfRequest::POST
+   * - sfRequest::PUT
+   * - sfRequest::DELETE
+   * - sfRequest::HEAD
+   * - sfRequest::NONE
    *
    * @see sfRequest
    */
-  public function getRequestMethods ()
+  public function getRequestMethods()
   {
-    return sfRequest::GET | sfRequest::POST | sfRequest::NONE;
+    return sfRequest::GET
+           | sfRequest::POST
+           | sfRequest::PUT
+           | sfRequest::DELETE
+           | sfRequest::HEAD 
+           | sfRequest::NONE;
   }
 
   /**
-   * Execute any post-validation error application logic.
+   * Executes any post-validation error application logic.
    *
-   * @return mixed A string containing the view name associated with this
-   *               action.
-   *
-   *               Or an array with the following indices:
-   *
-   *               - The parent module of the view that will be executed.
-   *               - The view that will be executed.
+   * @return string A string containing the view name associated with this action
    */
-  public function handleError ()
+  public function handleError()
   {
     return sfView::ERROR;
   }
 
   /**
-   * Manually register validators for this action.
-   *
-   * @param sfValidatorManager A sfValidatorManager instance.
-   *
-   * @return void
-   */
-  public function registerValidators ($validatorManager)
-  {
-  }
-
-  /**
-   * Manually validate files and parameters.
+   * Validates manually files and parameters.
    *
    * @return bool true, if validation completes successfully, otherwise false.
    */
-  public function validate ()
+  public function validate()
   {
     return true;
+  }
+
+  /**
+   * Returns the security configuration for this module.
+   *
+   * @return string Current security configuration as an array
+   */
+  public function getSecurityConfiguration()
+  {
+    return $this->security;
+  }
+
+  /**
+   * Overrides the current security configuration for this module.
+   *
+   * @param array The new security configuration
+   */
+  public function setSecurityConfiguration($security)
+  {
+    $this->security = $security;
   }
 
   /**
@@ -463,7 +357,7 @@ abstract class sfAction extends sfComponent
   /**
    * Gets credentials the user must have to access this action.
    *
-   * @return mixed
+   * @return mixed An array or a string describing the credentials the user must have to access this action
    */
   public function getCredential()
   {
@@ -484,15 +378,15 @@ abstract class sfAction extends sfComponent
   }
 
   /**
-   * Sets an alternate template for this Action.
+   * Sets an alternate template for this sfAction.
    *
    * See 'Naming Conventions' in the 'Symfony View' documentation.
    *
-   * @param string template name
+   * @param string Template name
    */
   public function setTemplate($name)
   {
-    if (sfConfig::get('sf_logging_active'))
+    if (sfConfig::get('sf_logging_enabled'))
     {
       $this->getContext()->getLogger()->info('{sfAction} change template to "'.$name.'"');
     }
@@ -501,14 +395,14 @@ abstract class sfAction extends sfComponent
   }
 
   /**
-   * Gets the name of the alternate template for this Action.
+   * Gets the name of the alternate template for this sfAction.
    *
    * WARNING: It only returns the template you set with the setTemplate() method,
    *          and does not return the template that you configured in your view.yml.
    *
    * See 'Naming Conventions' in the 'Symfony View' documentation.
    *
-   * @return string
+   * @return string Template name. Returns null if no template has been set within the action
    */
   public function getTemplate()
   {
@@ -516,17 +410,17 @@ abstract class sfAction extends sfComponent
   }
 
   /**
-   * Sets an alternate layout for this Component.
+   * Sets an alternate layout for this sfAction.
    *
    * To de-activate the layout, set the layout name to false.
    *
    * To revert the layout to the one configured in the view.yml, set the template name to null.
    *
-   * @param string layout name
+   * @param mixed Layout name or false to de-activate the layout
    */
   public function setLayout($name)
   {
-    if (sfConfig::get('sf_logging_active'))
+    if (sfConfig::get('sf_logging_enabled'))
     {
       $this->getContext()->getLogger()->info('{sfAction} change layout to "'.$name.'"');
     }
@@ -535,15 +429,25 @@ abstract class sfAction extends sfComponent
   }
 
   /**
-   * Gets the name of the alternate layout for this Component.
+   * Gets the name of the alternate layout for this sfAction.
    *
    * WARNING: It only returns the layout you set with the setLayout() method,
    *          and does not return the layout that you configured in your view.yml.
    *
-   * @return string
+   * @return mixed Layout name. Returns null if no layout has been set within the action
    */
   public function getLayout()
   {
     return $this->getResponse()->getParameter($this->getModuleName().'_'.$this->getActionName().'_layout', null, 'symfony/action/view');
+  }
+
+  /**
+   * Changes the default view class used for rendering the template associated with the current action.
+   *
+   * @param string View class name
+   */
+  public function setViewClass($class)
+  {
+    sfConfig::set('mod_'.strtolower($this->getModuleName()).'_view_class', $class);
   }
 }

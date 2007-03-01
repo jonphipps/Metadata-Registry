@@ -407,7 +407,7 @@ abstract class BaseAgentHasUser extends BaseObject  implements Persistent {
 
 		$copyObj->setNew(true);
 
-		$copyObj->setUserId(''); 
+		$copyObj->setUserId('null'); 
 		$copyObj->setAgentId('0'); 
 	}
 
@@ -435,7 +435,7 @@ abstract class BaseAgentHasUser extends BaseObject  implements Persistent {
 
 
 		if ($v === null) {
-			$this->setUserId('');
+			$this->setUserId('null');
 		} else {
 			$this->setUserId($v->getId());
 		}

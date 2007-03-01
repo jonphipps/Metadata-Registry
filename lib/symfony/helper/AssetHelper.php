@@ -190,6 +190,24 @@ function use_javascript($js, $position = '')
 }
 
 /**
+ * Decorates the current template with a given layout.
+ *
+ * @param mixed The layout name or path or false to disable the layout
+ */
+function decorate_with($layout)
+{
+  $view = sfContext::getInstance()->getActionStack()->getLastEntry()->getViewInstance();
+  if (false === $layout)
+  {
+    $view->setDecorator(false);
+  }
+  else
+  {
+    $view->setDecoratorTemplate($layout);
+  }
+}
+
+/**
  * Returns the path to an image asset.
  *
  * <b>Example:</b>
@@ -301,12 +319,12 @@ function _compute_public_path($source, $dir, $ext, $absolute = false)
 }
 
 /**
- * Returns a set of <meta> tags according to the response attributes,
+ * Prints a set of <meta> tags according to the response attributes,
  * to be included in the <head> section of a HTML document.
  *
  * <b>Examples:</b>
  * <code>
- *  echo include_metas();
+ *  include_metas();
  *    => <meta name="title" content="symfony - open-source PHP5 web framework" />
  *       <meta name="robots" content="index, follow" />
  *       <meta name="description" content="symfony - open-source PHP5 web framework" />
@@ -333,7 +351,7 @@ function include_metas()
  *
  * <b>Examples:</b>
  * <code>
- *  echo include_http_metas();
+ *  include_http_metas();
  *    => <meta http-equiv="content-type" content="text/html; charset=utf-8" />
  * </code>
  *
@@ -363,4 +381,106 @@ function include_title()
   $title = sfContext::getInstance()->getResponse()->getTitle();
 
   echo content_tag('title', $title)."\n";
+}
+
+/**
+ * Returns <script> tags for all javascripts configured in view.yml or added to the response object.
+ *
+ * You can use this helper to decide the location of javascripts in pages.
+ * By default, if you don't call this helper, symfony will automatically include javascripts before </head>.
+ * Calling this helper disables this behavior.
+ *
+ * @return string <script> tags
+ */
+function get_javascripts()
+{
+  $response = sfContext::getInstance()->getResponse();
+  $response->setParameter('javascripts_included', true, 'symfony/view/asset');
+
+  $already_seen = array();
+  $html = '';
+
+  foreach (array('first', '', 'last') as $position)
+  {
+    foreach ($response->getJavascripts($position) as $files)
+    {
+      if (!is_array($files))
+      {
+        $files = array($files);
+      }
+
+      foreach ($files as $file)
+      {
+        $file = javascript_path($file);
+
+        if (isset($already_seen[$file])) continue;
+
+        $already_seen[$file] = 1;
+        $html .= javascript_include_tag($file);
+      }
+    }
+  }
+
+  return $html;
+}
+
+/**
+ * Prints <script> tags for all javascripts configured in view.yml or added to the response object.
+ *
+ * @see get_javascripts()
+ */
+function include_javascripts()
+{
+  echo get_javascripts();
+}
+
+/**
+ * Returns <link> tags for all stylesheets configured in view.yml or added to the response object.
+ *
+ * You can use this helper to decide the location of stylesheets in pages.
+ * By default, if you don't call this helper, symfony will automatically include stylesheets before </head>.
+ * Calling this helper disables this behavior.
+ *
+ * @return string <link> tags
+ */
+function get_stylesheets()
+{
+  $response = sfContext::getInstance()->getResponse();
+  $response->setParameter('stylesheets_included', true, 'symfony/view/asset');
+
+  $already_seen = array();
+  $html = '';
+
+  foreach (array('first', '', 'last') as $position)
+  {
+    foreach ($response->getStylesheets($position) as $files => $options)
+    {
+      if (!is_array($files))
+      {
+        $files = array($files);
+      }
+
+      foreach ($files as $file)
+      {
+        $file = stylesheet_path($file);
+
+        if (isset($already_seen[$file])) continue;
+
+        $already_seen[$file] = 1;
+        $html .= stylesheet_tag($file, $options);
+      }
+    }
+  }
+
+  return $html;
+}
+
+/**
+ * Prints <link> tags for all stylesheets configured in view.yml or added to the response object.
+ *
+ * @see get_stylesheets()
+ */
+function include_stylesheets()
+{
+  echo get_stylesheets();
 }

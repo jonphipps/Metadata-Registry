@@ -1,5 +1,13 @@
 <?php
 
+/*
+ * This file is part of the symfony package.
+ * (c) 2004-2006 Fabien Potencier <fabien.potencier@symfony-project.com>
+ * 
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 pake_desc('initialize a new symfony project');
 pake_task('init-project');
 pake_alias('new', 'init-project');
@@ -22,7 +30,7 @@ pake_alias('controller', 'init-controller');
 
 function run_init_project($task, $args)
 {
-  if (file_exists('SYMFONY'))
+  if (file_exists('symfony'))
   {
     throw new Exception('A symfony project already exists in this directory.');
   }
@@ -46,12 +54,11 @@ function run_init_project($task, $args)
   $finder = pakeFinder::type('file')->name('propel.ini');
   pake_replace_tokens($finder, $sf_root_dir, '##', '##', array('PROJECT_DIR' => $sf_root_dir));
 
-  // create symlink if needed
-  if (sfConfig::get('sf_symfony_symlink') && function_exists('symlink'))
-  {
-    pake_symlink(sfConfig::get('sf_symfony_lib_dir'),  $sf_root_dir.'/lib/symfony');
-    pake_symlink(sfConfig::get('sf_symfony_data_dir'), $sf_root_dir.'/data/symfony');
-  }
+  // update config/config.php
+  pake_replace_tokens('config.php', sfConfig::get('sf_config_dir'), '##', '##', array(
+    'SYMFONY_LIB_DIR'  => sfConfig::get('sf_symfony_lib_dir'),
+    'SYMFONY_DATA_DIR' => sfConfig::get('sf_symfony_data_dir'),
+  ));
 
   run_fix_perms($task, $args);
 }
@@ -98,7 +105,7 @@ function run_init_app($task, $args)
   run_fix_perms($task, $args);
 
   // create test dir
-  pake_mkdirs($sf_root_dir.'/test/'.$app);
+  pake_mkdirs($sf_root_dir.'/test/functional/'.$app);
 }
 
 function run_init_module($task, $args)
@@ -145,13 +152,13 @@ function run_init_module($task, $args)
 
   // create basic application structure
   $finder = pakeFinder::type('any')->ignore_version_control()->discard('.sf');
-  pake_mirror($finder, $sf_skeleton_dir.'/module/', $module_dir);
+  pake_mirror($finder, $sf_skeleton_dir.'/module', $module_dir);
 
   // create basic test
-  pake_copy($sf_skeleton_dir.'/test/actionsTest.php', $sf_root_dir.'/test/'.$app.'/'.$module.'ActionsTest.php');
+  pake_copy($sf_skeleton_dir.'/test/actionsTest.php', $sf_root_dir.'/test/functional/'.$app.'/'.$module.'ActionsTest.php');
 
   // customize test file
-  pake_replace_tokens($module.'ActionsTest.php', $sf_root_dir.'/test/'.$app, '##', '##', $constants);
+  pake_replace_tokens($module.'ActionsTest.php', $sf_root_dir.'/test/functional/'.$app, '##', '##', $constants);
 
   // customize php and yml files
   $finder = pakeFinder::type('file')->name('*.php', '*.yml');
@@ -166,8 +173,14 @@ function run_init_batch($task, $args)
     throw new Exception('You must provide the batch skeleton name');
   }
 
-  // TODO: ADD FINDER HERE TO LOCATE BATCH SKELTON LOCALLY OR IN SYMFONY DIRS, AND SEND PATH TO SKELETONS FUNCTION
+  // TODO: add finder here to locate batch skeleton locally or in symfony dirs, and send path to skeletons function
   $batch = '_batch_'.$args[0];
+
+  if (!function_exists($batch))
+  {
+    throw new Exception(sprintf('The specified batch "%s" does not exist.', $args[0]));
+  }
+
   $batch($task, $args);
 
   if (!file_exists(sfConfig::get('sf_symfony_data_dir').'/skeleton/batch/'.$args[0].'.php'))
@@ -191,15 +204,15 @@ function _batch_default($task, $args)
   $app   = $args[2];
 
   // handling two optional arguments (environment and debug)
-  $env   = isset($args[3]) && in_array($args[3], array('prod', 'dev')) ? $args[3] : 'dev';
-  $debug = isset($args[4]) && in_array($args[4], array(true, false)) ? $args[4] : true;
+  $env   = isset($args[3]) ? $args[3] : 'dev';
+  $debug = isset($args[4]) ? $args[4] : true;
 
   $constants = array(
     'PROJECT_NAME' => $task->get_property('name', 'symfony'),
     'APP_NAME'     => $app,
     'BATCH_NAME'   => $batch,
     'ENV_NAME'     => $env,
-    'DEBUG'        => $debug,
+    'DEBUG'        => (boolean) $debug,
   );
 
   $sf_bin_dir = sfConfig::get('sf_bin_dir');
@@ -218,26 +231,27 @@ function _batch_rotate_log($task, $args)
   {
     throw new Exception('You must provide the environment');
   }
-	
+
   $app = $args[1];
-	$env = $args[2];
-	$batch = 'rotate_log_'.$app.'_'.$env;
-	
+  $env = $args[2];
+  $batch = 'rotate_log_'.$app.'_'.$env;
+
   // handling two optional arguments (environment and debug)
-  $debug = isset($args[4]) && in_array($args[4], array(true, false)) ? $args[4] : true;
+  $env   = isset($args[3]) ? $args[3] : 'dev';
+  $debug = isset($args[4]) ? $args[4] : true;
 
   $constants = array(
     'PROJECT_NAME' => $task->get_property('name', 'symfony'),
     'APP_NAME'     => $app,
     'BATCH_NAME'   => $batch,
     'ENV_NAME'     => $env,
-    'DEBUG'        => $debug,
+    'DEBUG'        => (boolean) $debug,
   );
 
   $sf_bin_dir = sfConfig::get('sf_bin_dir');
 
   pake_copy(sfConfig::get('sf_symfony_data_dir').'/skeleton/batch/rotate_log.php', $sf_bin_dir.'/'.$batch.'.php');
-  pake_replace_tokens($batch.'.php', $sf_bin_dir, '##', '##', $constants);		
+  pake_replace_tokens($batch.'.php', $sf_bin_dir, '##', '##', $constants);
 }
 
 function run_init_controller($task, $args)
@@ -253,14 +267,14 @@ function run_init_controller($task, $args)
 
   // handling two optional arguments (environment and debug)
   $controller   = isset($args[2]) ? $args[2] : $app.'_'.$env;
-  $debug        = isset($args[3]) && in_array($args[3], array(true, false)) ? $args[3] : true;
+  $debug        = isset($args[3]) ? $args[3] : true;
 
   $constants = array(
     'PROJECT_NAME'    => $task->get_property('name', 'symfony'),
     'APP_NAME'        => $app,
     'CONTROLLER_NAME' => $controller,
     'ENV_NAME'        => $env,
-    'DEBUG'           => $debug,
+    'DEBUG'           => (boolean) $debug,
   );
 
   $sf_web_dir = sfConfig::get('sf_web_dir');

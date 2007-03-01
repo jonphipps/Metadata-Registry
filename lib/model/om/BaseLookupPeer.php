@@ -26,13 +26,13 @@ abstract class BaseLookupPeer {
 	const TYPE_ID = 'reg_lookup.TYPE_ID';
 
 	
-	const DISPLAY_ORDER = 'reg_lookup.DISPLAY_ORDER';
-
-	
 	const SHORT_VALUE = 'reg_lookup.SHORT_VALUE';
 
 	
 	const LONG_VALUE = 'reg_lookup.LONG_VALUE';
+
+	
+	const DISPLAY_ORDER = 'reg_lookup.DISPLAY_ORDER';
 
 	
 	private static $phpNameMap = null;
@@ -40,17 +40,17 @@ abstract class BaseLookupPeer {
 
 	
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'TypeId', 'DisplayOrder', 'ShortValue', 'LongValue', ),
-		BasePeer::TYPE_COLNAME => array (LookupPeer::ID, LookupPeer::TYPE_ID, LookupPeer::DISPLAY_ORDER, LookupPeer::SHORT_VALUE, LookupPeer::LONG_VALUE, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'type_id', 'display_order', 'short_value', 'long_value', ),
+		BasePeer::TYPE_PHPNAME => array ('Id', 'TypeId', 'ShortValue', 'LongValue', 'DisplayOrder', ),
+		BasePeer::TYPE_COLNAME => array (LookupPeer::ID, LookupPeer::TYPE_ID, LookupPeer::SHORT_VALUE, LookupPeer::LONG_VALUE, LookupPeer::DISPLAY_ORDER, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'type_id', 'short_value', 'long_value', 'display_order', ),
 		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, )
 	);
 
 	
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'TypeId' => 1, 'DisplayOrder' => 2, 'ShortValue' => 3, 'LongValue' => 4, ),
-		BasePeer::TYPE_COLNAME => array (LookupPeer::ID => 0, LookupPeer::TYPE_ID => 1, LookupPeer::DISPLAY_ORDER => 2, LookupPeer::SHORT_VALUE => 3, LookupPeer::LONG_VALUE => 4, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'type_id' => 1, 'display_order' => 2, 'short_value' => 3, 'long_value' => 4, ),
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'TypeId' => 1, 'ShortValue' => 2, 'LongValue' => 3, 'DisplayOrder' => 4, ),
+		BasePeer::TYPE_COLNAME => array (LookupPeer::ID => 0, LookupPeer::TYPE_ID => 1, LookupPeer::SHORT_VALUE => 2, LookupPeer::LONG_VALUE => 3, LookupPeer::DISPLAY_ORDER => 4, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'type_id' => 1, 'short_value' => 2, 'long_value' => 3, 'display_order' => 4, ),
 		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, )
 	);
 
@@ -109,11 +109,11 @@ abstract class BaseLookupPeer {
 
 		$criteria->addSelectColumn(LookupPeer::TYPE_ID);
 
-		$criteria->addSelectColumn(LookupPeer::DISPLAY_ORDER);
-
 		$criteria->addSelectColumn(LookupPeer::SHORT_VALUE);
 
 		$criteria->addSelectColumn(LookupPeer::LONG_VALUE);
+
+		$criteria->addSelectColumn(LookupPeer::DISPLAY_ORDER);
 
 	}
 

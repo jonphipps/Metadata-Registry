@@ -20,14 +20,14 @@
 class sfRootConfigHandler extends sfYamlConfigHandler
 {
   /**
-   * Execute this configuration handler.
+   * Executes this configuration handler
    *
-   * @param array An array of absolute filesystem path to a configuration file.
+   * @param array An array of absolute filesystem path to a configuration file
    *
-   * @return string Data to be written to a cache file.
+   * @return string Data to be written to a cache file
    *
-   * @throws sfConfigurationException If a requested configuration file does not exist or is not readable.
-   * @throws sfParseException If a requested configuration file is improperly formatted.
+   * @throws sfConfigurationException If a requested configuration file does not exist or is not readable
+   * @throws sfParseException If a requested configuration file is improperly formatted
    */
   public function execute($configFiles)
   {
@@ -89,11 +89,8 @@ class sfRootConfigHandler extends sfYamlConfigHandler
       // append new data
       $data[] = sprintf("\$this->handlers['%s'] = new %s();", $category, $class);
 
-      if ($parameters !== null)
-      {
-        // since we have parameters we will need to init the handler
-        $data[] = sprintf("\$this->handlers['%s']->initialize(%s);", $category, $parameters);
-      }
+      // initialize the handler with parameters
+      $data[] = sprintf("\$this->handlers['%s']->initialize(%s);", $category, $parameters);
     }
 
     // compile data

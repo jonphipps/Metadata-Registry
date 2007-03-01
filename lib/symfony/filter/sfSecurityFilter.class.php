@@ -10,8 +10,7 @@
  */
 
 /**
- * sfSecurityFilter provides a base class that classifies a filter as one that
- * handles security.
+ * sfSecurityFilter provides a base class that classifies a filter as one that handles security.
  *
  * @package    symfony
  * @subpackage filter
@@ -22,19 +21,13 @@
 abstract class sfSecurityFilter extends sfFilter
 {
   /**
-   * Retrieve a new Controller implementation instance.
+   * Returns a new instance of a sfSecurityFilter.
    *
-   * @param string A Controller implementation name.
+   * @param string The security class name
    *
-   * @return Controller A Controller implementation instance.
-   *
-   * @throws <b>sfFactoryException</b> If a security filter implementation
-   *                                 instance cannot be created.
-   *
-   * @author Sean Kerr (skerr@mojavi.org)
-   * @since  3.0.0
+   * @return sfSecurityFilter A sfSecurityFilter implementation instance
    */
-  public static function newInstance ($class)
+  public static function newInstance($class)
   {
     // the class exists
     $object = new $class();

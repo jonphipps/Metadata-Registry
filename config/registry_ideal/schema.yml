@@ -1,0 +1,588 @@
+---
+propel: 
+  agent: 
+    _attributes: 
+      idMethod: native
+    id: 
+      type: INTEGER
+      required: true
+      autoIncrement: true
+      primaryKey: true
+    created_at: 
+      type: TIMESTAMP
+    updated_at: 
+      type: TIMESTAMP
+    org_email: 
+      type: VARCHAR
+      size: 100
+      required: true
+      default: 
+    org_name: 
+      type: VARCHAR
+      size: 255
+      required: true
+      default: 
+    ind_affiliation: 
+      type: VARCHAR
+      size: 255
+    ind_role: 
+      type: VARCHAR
+      size: 45
+    address1: 
+      type: VARCHAR
+      size: 255
+    address2: 
+      type: VARCHAR
+      size: 255
+    city: 
+      type: VARCHAR
+      size: 45
+    state: 
+      type: CHAR
+      size: 2
+    postal_code: 
+      type: VARCHAR
+      size: 15
+    country: 
+      type: CHAR
+      size: 3
+    phone: 
+      type: VARCHAR
+      size: 45
+    web_address: 
+      type: VARCHAR
+      size: 255
+    type: 
+      type: CHAR
+      size: 15
+  agent_user: 
+    user_id: 
+      type: INTEGER
+      required: true
+      primaryKey: true
+      default: 
+      foreignTable: user
+      foreignReference: id
+      onDelete: CASCADE
+      onUpdate: RESTRICT
+    agent_id: 
+      type: INTEGER
+      required: true
+      primaryKey: true
+      default: 
+      foreignTable: agent
+      foreignReference: id
+      onDelete: CASCADE
+      onUpdate: RESTRICT
+    is_registrar_for: 
+      type: TINYINT
+      size: 1
+      default: 1
+    is_admin_for: 
+      type: TINYINT
+      size: 1
+      default: 1
+    _indexes: 
+      user_id: 
+        - user_id
+      agent_id: 
+        - agent_id
+  concept: 
+    _attributes: 
+      idMethod: native
+    id: 
+      type: INTEGER
+      required: true
+      autoIncrement: true
+      primaryKey: true
+    created_at: 
+      type: TIMESTAMP
+      default: CURRENT_TIMESTAMP
+    updated_at: 
+      type: TIMESTAMP
+      default: 0000-00-00 00:00:00
+    uri: 
+      type: VARCHAR
+      size: 255
+      required: true
+      default: 
+    pref_label: 
+      type: VARCHAR
+      size: 255
+      required: true
+      default: 
+    scheme_id: 
+      type: INTEGER
+      foreignTable: scheme
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
+    is_top_concept: 
+      type: TINYINT
+    status_id: 
+      type: INTEGER
+      default: 1
+      foreignTable: lookup
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
+    user_id: 
+      type: INTEGER
+      required: true
+      default: 
+      foreignTable: user
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
+    _indexes: 
+      vocabulary_id: 
+        - scheme_id
+      pref_label: 
+        - pref_label
+      status_id: 
+        - status_id
+      concept_FI_3: 
+        - user_id
+    _uniques: 
+      vocabulary_id_pref_label: 
+        - scheme_id
+        - pref_label
+  concept_property: 
+    _attributes: 
+      idMethod: native
+    id: 
+      type: INTEGER
+      required: true
+      autoIncrement: true
+      primaryKey: true
+    created_at: 
+      type: TIMESTAMP
+      required: true
+      default: 
+    updated_at: 
+      type: TIMESTAMP
+      required: true
+      default: 
+    concept_id: 
+      type: INTEGER
+      required: true
+      default: 
+      foreignTable: concept
+      foreignReference: id
+      onDelete: CASCADE
+      onUpdate: RESTRICT
+    ontology_id: 
+      type: INTEGER
+      required: true
+      default: 
+      foreignTable: ontology
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
+    object: 
+      type: LONGVARCHAR
+      required: true
+    language: 
+      type: CHAR
+      size: 6
+    related_scheme_id: 
+      type: INTEGER
+      foreignTable: scheme
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
+    related_concept_id: 
+      type: INTEGER
+      foreignTable: concept
+      foreignReference: id
+      onDelete: CASCADE
+      onUpdate: RESTRICT
+    createdby_user_id: 
+      type: INTEGER
+      required: true
+      default: 
+      foreignTable: user
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
+    updatedby_user_id: 
+      type: INTEGER
+      required: true
+      default: 
+      foreignTable: user
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
+    status_id: 
+      type: INTEGER
+      required: true
+      default: 
+      foreignTable: lookup
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
+    _indexes: 
+      concept_id: 
+        - concept_id
+      property_id: 
+        - ontology_id
+      scheme_id: 
+        - related_scheme_id
+      related_concept_id: 
+        - related_concept_id
+      status_id: 
+        - status_id
+      User_property_FK1: 
+        - createdby_user_id
+      User_property_FK2: 
+        - updatedby_user_id
+    _uniques: 
+      id: 
+        - id
+  concept_scheme: 
+    created_at: 
+      type: TIMESTAMP
+      default: CURRENT_TIMESTAMP
+    concept_id: 
+      type: INTEGER
+      foreignTable: concept
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
+    scheme_id: 
+      type: INTEGER
+      foreignTable: scheme
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
+    user_id: 
+      type: INTEGER
+      foreignTable: user
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
+    _indexes: 
+      concept_id: 
+        - concept_id
+      scheme_id: 
+        - scheme_id
+      user_id: 
+        - user_id
+  lookup: 
+    _attributes: 
+      idMethod: native
+    id: 
+      type: INTEGER
+      required: true
+      autoIncrement: true
+      primaryKey: true
+    type_id: 
+      type: INTEGER
+    short_value: 
+      type: CHAR
+      size: 20
+    long_value: 
+      type: VARCHAR
+      size: 255
+    display_order: 
+      type: INTEGER
+    _indexes: 
+      display_order: 
+        - type_id
+        - display_order
+    _uniques: 
+      id: 
+        - id
+  namespace: 
+    _attributes: 
+      idMethod: native
+    id: 
+      type: INTEGER
+      required: true
+      autoIncrement: true
+    qname: 
+      type: VARCHAR
+      size: 20
+    uri: 
+      type: VARCHAR
+      size: 255
+    _uniques: 
+      id: 
+        - id
+  ontology: 
+    _attributes: 
+      idMethod: native
+    id: 
+      type: INTEGER
+      required: true
+      autoIncrement: true
+      primaryKey: true
+    parent_id: 
+      type: INTEGER
+    inverse_id: 
+      type: INTEGER
+    name: 
+      type: VARCHAR
+      size: 255
+      required: true
+      default: 
+    uri: 
+      type: VARCHAR
+      size: 255
+      required: true
+      default: 
+    object_type: 
+      type: CHAR
+      size: 1
+      required: true
+      default: 
+    display_order: 
+      type: INTEGER
+    picklist_order: 
+      type: INTEGER
+    label: 
+      type: VARCHAR
+      size: 255
+    definition: 
+      type: LONGVARCHAR
+    comment: 
+      type: LONGVARCHAR
+    examples: 
+      type: VARCHAR
+      size: 255
+    is_required: 
+      type: TINYINT
+      required: true
+      default: 0
+    is_reciprocal: 
+      type: TINYINT
+      required: true
+      default: 0
+    is_singleton: 
+      type: TINYINT
+      required: true
+      default: 0
+    is_scheme: 
+      type: TINYINT
+      required: true
+      default: 0
+    is_in_picklist: 
+      type: TINYINT
+      required: true
+      default: 1
+    namespace_id: 
+      type: INTEGER
+      required: true
+      default: 
+      foreignTable: namespace
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
+    _indexes: 
+      namespace_id: 
+        - namespace_id
+    _uniques: 
+      id: 
+        - id
+      name: 
+        - name
+      uri: 
+        - uri
+  scheme: 
+    _attributes: 
+      idMethod: native
+    id: 
+      type: INTEGER
+      required: true
+      autoIncrement: true
+      primaryKey: true
+    created_at: 
+      type: TIMESTAMP
+      default: CURRENT_TIMESTAMP
+    updated_at: 
+      type: TIMESTAMP
+      default: 0000-00-00 00:00:00
+    agent_id: 
+      type: INTEGER
+      foreignTable: agent
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
+    name: 
+      type: VARCHAR
+      size: 255
+    note: 
+      type: LONGVARCHAR
+    uri: 
+      type: VARCHAR
+      size: 255
+    url: 
+      type: VARCHAR
+      size: 255
+    base_domain: 
+      type: VARCHAR
+      size: 255
+    token: 
+      type: VARCHAR
+      size: 45
+    community: 
+      type: VARCHAR
+      size: 45
+    last_uri_id: 
+      type: INTEGER
+      default: 1000
+    default_language: 
+      type: CHAR
+      size: 10
+    default_status_id: 
+      type: INTEGER
+      foreignTable: lookup
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
+    _indexes: 
+      agent_id: 
+        - agent_id
+      default_status_id: 
+        - default_status_id
+  scheme_user: 
+    scheme_id: 
+      type: INTEGER
+      required: true
+      primaryKey: true
+      default: 
+    user_id: 
+      type: INTEGER
+      required: true
+      primaryKey: true
+      default: 
+      foreignTable: user
+      foreignReference: id
+      onDelete: CASCADE
+      onUpdate: RESTRICT
+    is_maintainer_for: 
+      type: TINYINT
+      default: 1
+    is_registrar_for: 
+      type: TINYINT
+      default: 1
+    is_admin_for: 
+      type: TINYINT
+      default: 1
+    _indexes: 
+      resource_id: 
+        - scheme_id
+      user_id: 
+        - user_id
+  schemeversion: 
+    id: 
+      type: INTEGER
+      required: true
+      primaryKey: true
+      default: 
+    created_at: 
+      type: TIMESTAMP
+      default: CURRENT_TIMESTAMP
+    scheme_id: 
+      type: INTEGER
+      required: true
+      default: 
+      foreignTable: scheme
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
+    user_id: 
+      type: INTEGER
+      required: true
+      default: 
+      foreignTable: user
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
+    version_label: 
+      type: CHAR
+      size: 255
+    _indexes: 
+      concept_ConceptVersion_FK1: 
+        - scheme_id
+      User_ConceptVersion_FK1: 
+        - user_id
+    _uniques: 
+      ConceptVersion_AK2: 
+        - created_at
+      ConceptVersion_AK2_uc6: 
+        - created_at
+      created_at: 
+        - created_at
+      ConceptVersion_AK3: 
+        - version_label
+      ConceptVersion_AK3_uc7: 
+        - version_label
+  schemeversion_concept: 
+    schemeversion_id: 
+      type: INTEGER
+      foreignTable: schemeversion
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
+    concept_id: 
+      type: INTEGER
+      foreignTable: concept
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
+    _indexes: 
+      schemeversion_id: 
+        - schemeversion_id
+      concept_id: 
+        - concept_id
+  user: 
+    _attributes: 
+      idMethod: native
+    id: 
+      type: INTEGER
+      required: true
+      autoIncrement: true
+      primaryKey: true
+    created_at: 
+      type: TIMESTAMP
+      default: CURRENT_TIMESTAMP
+    updated_at: 
+      type: TIMESTAMP
+      default: 0000-00-00 00:00:00
+    nickname: 
+      type: VARCHAR
+      size: 50
+    salutation: 
+      type: VARCHAR
+      size: 5
+    first_name: 
+      type: VARCHAR
+      size: 100
+    last_name: 
+      type: VARCHAR
+      size: 100
+    email: 
+      type: VARCHAR
+      size: 100
+    password: 
+      type: VARCHAR
+      size: 40
+    sha1_password: 
+      type: VARCHAR
+      size: 40
+    salt: 
+      type: VARCHAR
+      size: 32
+    want_to_be_moderator: 
+      type: TINYINT
+      default: 0
+    is_moderator: 
+      type: TINYINT
+      default: 0
+    is_administrator: 
+      type: TINYINT
+      default: 0
+    deletions: 
+      type: INTEGER
+      default: 0

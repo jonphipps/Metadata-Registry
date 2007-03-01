@@ -168,7 +168,7 @@ class userActions extends autouserActions
     //return array('user', 'showSuccess');
   }
 
-  private function updateUserFromRequest()
+  protected function updateUserFromRequest()
   {
     $this->subscriber->setFirstName($this->getRequestParameter('first_name'));
     $this->subscriber->setLastName($this->getRequestParameter('last_name'));

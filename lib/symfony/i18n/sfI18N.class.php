@@ -17,17 +17,29 @@
  */
 class sfI18N
 {
-  private
+  protected
     $context             = null,
     $globalMessageSource = null,
     $messageSource       = null,
     $messageFormat       = null;
 
+  static protected
+    $instance            = null;
+
+  static public function getInstance()
+  {
+    if (!isset(self::$instance))
+    {
+      $class = __CLASS__;
+      self::$instance = new $class();
+    }
+
+    return self::$instance;
+  }
+
   public function initialize($context)
   {
     $this->context = $context;
-
-    include(sfConfigCache::getInstance()->checkConfig(sfConfig::get('sf_app_config_dir_name').'/i18n.yml'));
 
     $this->globalMessageSource = $this->createMessageSource(sfConfig::get('sf_app_i18n_dir'));
 
@@ -55,20 +67,16 @@ class sfI18N
 
     if (sfConfig::get('sf_i18n_cache'))
     {
-      $subdir = preg_replace('|'.preg_quote(sfConfig::get('sf_app_dir')).'(.*)[\/\\\\]'.sfConfig::get('sf_app_i18n_dir_name').'|', '\\1', $dir);
+      $subdir   = str_replace(str_replace('/', DIRECTORY_SEPARATOR, sfConfig::get('sf_root_dir')), '', $dir);
+      $cacheDir = str_replace('/', DIRECTORY_SEPARATOR, sfConfig::get('sf_i18n_cache_dir').$subdir);
 
-      $cache_dir = sfConfig::get('sf_i18n_cache_dir').$subdir;
+      $cache = new sfMessageCache();
+      $cache->initialize(array(
+        'cacheDir' => $cacheDir,
+        'lifeTime' => 86400,
+      ));
 
-      // create cache dir if needed
-      if (!is_dir($cache_dir))
-      {
-        $cache_dir = str_replace('/', DIRECTORY_SEPARATOR, $cache_dir);
-        $current_umask = umask(0000);
-        @mkdir($cache_dir, 0777, true);
-        umask($current_umask);
-      }
-
-      $messageSource->setCache(new sfMessageCache($cache_dir));
+      $messageSource->setCache($cache);
     }
 
     return $messageSource;

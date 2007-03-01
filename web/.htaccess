@@ -3,10 +3,13 @@ Options +FollowSymLinks +ExecCGI
 <IfModule mod_rewrite.c>
   RewriteEngine On
 
+  # uncomment the following line, if you are having trouble
+  # getting no_script_name to work
+  #RewriteBase /
+
   # we skip selenium
   RewriteCond %{REQUEST_URI} /selenium/.+$
   RewriteRule .* - [L]
-
   # we skip all files with .something
   RewriteCond %{REQUEST_URI} \..+$
   RewriteCond %{REQUEST_URI} !\.html$
@@ -17,7 +20,6 @@ Options +FollowSymLinks +ExecCGI
   # check for the sandbox
   RewriteCond %{HTTP_HOST} ^sandbox.registry.*
   RewriteRule ^(.*)$ frontend_sand.php [QSA,L]
-
   # we check if the .html version is here (caching)
   RewriteRule ^$ index.html [QSA]
   RewriteRule ^([^.]+)$ $1.html [QSA]

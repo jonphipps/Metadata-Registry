@@ -21,24 +21,33 @@
 class sfValidatorConfigHandler extends sfYamlConfigHandler
 {
   /**
-   * Execute this configuration handler.
+   * Executes this configuration handler.
    *
-   * @param array An array of absolute filesystem path to a configuration file.
+   * @param array An array of absolute filesystem path to a configuration file
    *
-   * @return string Data to be written to a cache file.
+   * @return string Data to be written to a cache file
    *
-   * @throws sfConfigurationException If a requested configuration file does not exist or is not readable.
-   * @throws sfParseException If a requested configuration file is improperly formatted.
+   * @throws sfConfigurationException If a requested configuration file does not exist or is not readable
+   * @throws sfParseException If a requested configuration file is improperly formatted
    */
   public function execute($configFiles)
   {
-    // set our required categories list and initialize our handler
-    $categories = array('required_categories' => array('methods', 'names'));
-
-    $this->initialize($categories);
-
     // parse the yaml
     $config = $this->parseYamls($configFiles);
+
+    // alternate format?
+    if (isset($config['fields']))
+    {
+      $this->convertAlternate2Standard($config);
+    }
+
+    foreach (array('methods', 'names') as $category)
+    {
+      if (!isset($config[$category]))
+      {
+        throw new sfParseException(sprintf('Configuration file "%s" is missing "%s" category', $configFiles[0], $category));
+      }
+    }
 
     // init our data, includes, methods, names and validators arrays
     $data       = array();
@@ -60,7 +69,7 @@ class sfValidatorConfigHandler extends sfYamlConfigHandler
           // unsupported request method
           $error = sprintf('Configuration file "%s" specifies unsupported request method "%s"', $configFiles[0], $method);
 
-          throw new sfParseException($method);
+          throw new sfParseException($error);
         }
 
         // create our method
@@ -84,6 +93,7 @@ class sfValidatorConfigHandler extends sfYamlConfigHandler
     $fillin = var_export(isset($config['fillin']) ? $config['fillin'] : array(), true);
 
     // generate GET file/parameter data
+
     $data[] = "if (\$_SERVER['REQUEST_METHOD'] == 'GET')";
     $data[] = "{";
 
@@ -119,17 +129,17 @@ class sfValidatorConfigHandler extends sfYamlConfigHandler
   }
 
   /**
-   * Generate raw cache data.
+   * Generates raw cache data.
    *
-   * @param string A request method.
-   * @param array  The data array where our cache code will be appended.
-   * @param array  An associative array of request method data.
-   * @param array  An associative array of file/parameter data.
-   * @param array  A validators array.
-   * 
+   * @param string A request method
+   * @param array  The data array where our cache code will be appended
+   * @param array  An associative array of request method data
+   * @param array  An associative array of file/parameter data
+   * @param array  A validators array
+   *
    * @return boolean Returns true if there is some validators for this file/parameter
    */
-  private function generateRegistration($method, &$data, &$methods, &$names, &$validators)
+  protected function generateRegistration($method, &$data, &$methods, &$names, &$validators)
   {
     // setup validator array
     $data[] = "  \$validators = array();";
@@ -198,8 +208,8 @@ class sfValidatorConfigHandler extends sfYamlConfigHandler
 
       // register file/parameter
       $data[] = sprintf("  \$validatorManager->registerName('%s', %s, %s, %s, %s, %s);",
-                        $name, $attributes['required'],
-                        $attributes['required_msg'],
+                        $name, $attributes['required'] ? 1 : 0,
+                        isset($attributes['required_msg']) ? $attributes['required_msg'] : "''",
                         $attributes['parent'], $attributes['group'],
                         $attributes['file']);
 
@@ -216,20 +226,16 @@ class sfValidatorConfigHandler extends sfYamlConfigHandler
   }
 
   /**
-   * Load the linear list of attributes from the [names] category.
+   * Loads the linear list of attributes from the [names] category.
    *
-   * @param string The configuration file name (for exception usage).
-   * @param array  An associative array of request method data.
-   * @param array  An associative array of file/parameter names in which to
-   *               store loaded information.
-   * @param array  An associative array of validator data.
-   * @param array  The loaded ini configuration that we'll use for
-   *               verification purposes.
-   * @param string A comma delimited list of file/parameter names.
-   *
-   * @return void
+   * @param string The configuration file name (for exception usage)
+   * @param array  An associative array of request method data
+   * @param array  An associative array of file/parameter names in which to store loaded information
+   * @param array  An associative array of validator data
+   * @param array  The loaded ini configuration that we'll use for verification purposes
+   * @param string A comma delimited list of file/parameter names
    */
-  private function loadAttributes(&$configFiles, &$methods, &$names, &$validators, &$config, &$list)
+  protected function loadAttributes(&$configFiles, &$methods, &$names, &$validators, &$config, &$list)
   {
     foreach ($config['names'] as $name => $attributes)
     {
@@ -278,28 +284,24 @@ class sfValidatorConfigHandler extends sfYamlConfigHandler
         else
         {
           // just a normal attribute
-          $entry[$attribute] = $this->literalize($value);
+          $entry[$attribute] = sfToolkit::literalize($value, true);
         }
       }
     }
   }
 
   /**
-   * Load all request methods and the file/parameter names that will be
+   * Loads all request methods and the file/parameter names that will be
    * validated from the [methods] category.
    *
-   * @param string The configuration file name (for exception usage).
-   * @param string A request method.
-   * @param array  An associative array of request method data.
-   * @param array  An associative array of file/parameter names in which to
-   *               store loaded information.
-   * @param array  The loaded ini configuration that we'll use for
-   *               verification purposes.
-   * @param string A comma delimited list of file/parameter names.
-   *
-   * @return void
+   * @param string The configuration file name (for exception usage)
+   * @param string A request method
+   * @param array  An associative array of request method data
+   * @param array  An associative array of file/parameter names in which to store loaded information
+   * @param array  The loaded ini configuration that we'll use for verification purposes
+   * @param string A comma delimited list of file/parameter names
    */
-  private function loadNames(&$configFiles, &$method, &$methods, &$names, &$config, &$list)
+  protected function loadNames(&$configFiles, &$method, &$methods, &$names, &$config, &$list)
   {
     // explode the list of names
     $array = $list;
@@ -376,17 +378,15 @@ class sfValidatorConfigHandler extends sfYamlConfigHandler
   }
 
   /**
-   * Load a list of validators.
+   * Loads a list of validators.
    *
-   * @param string The configuration file name (for exception usage).
-   * @param array  An associative array of validator data.
-   * @param array  The loaded ini configuration that we'll use for
-   *               verification purposes.
-   * @param string A comma delimited list of validator names.
-   * @return void
-   * @param array  A file/parameter name entry.
+   * @param string The configuration file name (for exception usage)
+   * @param array  An associative array of validator data
+   * @param array  The loaded ini configuration that we'll use for verification purposes
+   * @param string A comma delimited list of validator names
+   * @param array  A file/parameter name entry
    */
-  private function loadValidators(&$configFiles, &$validators, &$config, &$list, &$entry)
+  protected function loadValidators(&$configFiles, &$validators, &$config, &$list, &$entry)
   {
     // create our empty entry validator array
     $entry['validators'] = array();
@@ -457,6 +457,99 @@ class sfValidatorConfigHandler extends sfYamlConfigHandler
       $parameters = (isset($config[$validator]['param']) ? var_export($config[$validator]['param'], true) : 'null');
 
       $validators[$validator]['parameters'] = $parameters;
+    }
+  }
+
+  /**
+   * Converts alternate format to standard format.
+   *
+   * @param array  Configuration data
+   */
+  protected function convertAlternate2Standard(&$config)
+  {
+    $defaultMethods = isset($config['methods']) ? $config['methods'] : array('post');
+    $config['methods'] = array();
+
+    // validators
+    if (isset($config['validators']))
+    {
+      foreach ((array) $config['validators'] as $validator => $params)
+      {
+        $config[$validator] = $params;
+      }
+
+      unset($config['validators']);
+    }
+
+    // names
+    $config['names'] = $config['fields'];
+    unset($config['fields']);
+
+    foreach ($config['names'] as $name => $values)
+    {
+      // validators
+      $validators = array();
+      foreach ($values as $validator => $params)
+      {
+        if (in_array($validator, array('required', 'group', 'group_msg', 'parent', 'file', 'methods')))
+        {
+          continue;
+        }
+
+        // class or validator
+        if (!isset($config[$validator]))
+        {
+          $config[$validator] = array('class' => $validator);
+        }
+
+        $validatorName = $validator;
+        if ($params)
+        {
+          // create a new validator
+          $validatorName = $validator.'_'.$name;
+          $config[$validatorName] = $config[$validator];
+          $config[$validatorName]['param'] = array_merge(isset($config[$validator]['param']) ? (array) $config[$validator]['param'] : array(), $params);
+        }
+
+        $validators[] = $validatorName;
+
+        unset($values[$validator]);
+      }
+      $values['validators'] = $validators;
+
+      // group
+      if (isset($values['group']) && isset($values['group_msg']))
+      {
+        $values['required_msg'] = $values['group_msg'];
+      }
+
+      // required
+      if (isset($values['required']))
+      {
+        $values['required_msg'] = $values['required']['msg'];
+        $values['required'] = true;
+      }
+      else
+      {
+        $values['required'] = false;
+      }
+
+      // methods
+      if (isset($values['methods']))
+      {
+        $methods = (array) $values['methods'];
+        unset($values['methods']);
+      }
+      else
+      {
+        $methods = $defaultMethods;
+      }
+      foreach ($methods as $method)
+      {
+        $config['methods'][$method][] = $name;
+      }
+
+      $config['names'][$name] = $values;
     }
   }
 }

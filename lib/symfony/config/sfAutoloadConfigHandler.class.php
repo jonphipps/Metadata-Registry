@@ -20,14 +20,14 @@
 class sfAutoloadConfigHandler extends sfYamlConfigHandler
 {
   /**
-   * Execute this configuration handler.
+   * Executes this configuration handler.
    *
-   * @param array An array of absolute filesystem path to a configuration file.
+   * @param array An array of absolute filesystem path to a configuration file
    *
-   * @return string Data to be written to a cache file.
+   * @return string Data to be written to a cache file
    *
-   * @throws sfConfigurationException If a requested configuration file does not exist or is not readable.
-   * @throws sfParseException If a requested configuration file is improperly formatted.
+   * @throws sfConfigurationException If a requested configuration file does not exist or is not readable
+   * @throws sfParseException If a requested configuration file is improperly formatted
    */
   public function execute($configFiles)
   {
@@ -87,14 +87,33 @@ class sfAutoloadConfigHandler extends sfYamlConfigHandler
           $finder->prune($entry['exclude'])->discard($entry['exclude']);
         }
 
-        $files = $finder->in(glob($path));
+        if ($matches = glob($path))
+        {
+          $files = $finder->in($matches);
+        }
+        else
+        {
+          $files = array();
+        }
+
         $regex = '~^\s*(?:abstract\s+|final\s+)?(?:class|interface)\s+(\w+)~mi';
         foreach ($files as $file)
         {
           preg_match_all($regex, file_get_contents($file), $classes);
           foreach ($classes[1] as $class)
           {
-            $data[] = sprintf("'%s' => '%s',", $class, $file);
+            $prefix = '';
+            if (isset($entry['prefix']))
+            {
+              // FIXME: does not work for plugins installed with a symlink
+              preg_match('~^'.str_replace('\*', '(.+?)', preg_quote(str_replace('/', DIRECTORY_SEPARATOR, $path), '~')).'~', $file, $match);
+              if (isset($match[$entry['prefix']]))
+              {
+                $prefix = $match[$entry['prefix']].'/';
+              }
+            }
+
+            $data[] = sprintf("'%s%s' => '%s',", $prefix, $class, $file);
           }
         }
       }

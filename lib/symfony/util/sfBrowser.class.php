@@ -3,7 +3,7 @@
 /*
  * This file is part of the symfony package.
  * (c) 2004-2006 Fabien Potencier <fabien.potencier@symfony-project.com>
- * 
+ *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
@@ -14,23 +14,31 @@
  * @package    symfony
  * @subpackage util
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
- * @version    SVN: $Id: sfBrowser.class.php 2069 2006-09-13 21:10:46Z fabien $
+ * @version    SVN: $Id: sfBrowser.class.php 3334 2007-01-23 15:46:08Z fabien $
  */
 class sfBrowser
 {
   protected
-    $context       = null,
-    $dom           = null,
-    $stack         = array(),
-    $stackPosition = -1,
-    $cookieJar     = array();
+    $context            = null,
+    $hostname           = null,
+    $remote             = null,
+    $dom                = null,
+    $stack              = array(),
+    $stackPosition      = -1,
+    $cookieJar          = array(),
+    $fields             = array(),
+    $vars               = array(),
+    $defaultServerArray = array(),
+    $currentException   = null;
 
-  public function initialize ($hostname = null, $remote = null)
+  public function initialize($hostname = null, $remote = null, $options = array())
   {
+    unset($_SERVER['argv']);
+    unset($_SERVER['argc']);
+
     // setup our fake environment
-    $_SERVER['HTTP_HOST'] = $hostname ? $hostname : sfConfig::get('sf_app').'-'.sfConfig::get('sf_environment');
-    $_SERVER['HTTP_USER_AGENT'] = 'PHP5/CLI';
-    $_SERVER['REMOTE_ADDR'] = $remote ? $remote : '127.0.0.1';
+    $this->hostname = $hostname;
+    $this->remote   = $remote;
 
     sfConfig::set('sf_path_info_array', 'SERVER');
     sfConfig::set('sf_test', true);
@@ -38,8 +46,26 @@ class sfBrowser
     // we set a session id (fake cookie / persistence)
     $this->newSession();
 
+    // store default global $_SERVER array
+    $this->defaultServerArray = $_SERVER;
+
     // register our shutdown function
     register_shutdown_function(array($this, 'shutdown'));
+  }
+
+  public function setVar($name, $value)
+  {
+    $this->vars[$name] = $value;
+
+    return $this;
+  }
+
+  public function setAuth($login, $password)
+  {
+    $this->vars['PHP_AUTH_USER'] = $login;
+    $this->vars['PHP_AUTH_PW']   = $password;
+
+    return $this;
   }
 
   public function get($uri, $parameters = array())
@@ -74,14 +100,26 @@ class sfBrowser
     // remove anchor
     $path = preg_replace('/#.*/', '', $path);
 
+    // removes all fields from previous request
+    $this->fields = array();
+
     // prepare the request object
-    unset($_SERVER['argv']);
+    $_SERVER = $this->defaultServerArray;
+    $_SERVER['HTTP_HOST']       = $this->hostname ? $this->hostname : sfConfig::get('sf_app').'-'.sfConfig::get('sf_environment');
+    $_SERVER['SERVER_NAME']     = $_SERVER['HTTP_HOST'];
+    $_SERVER['SERVER_PORT']     = 80;
+    $_SERVER['HTTP_USER_AGENT'] = 'PHP5/CLI';
+    $_SERVER['REMOTE_ADDR']     = $this->remote ? $this->remote : '127.0.0.1';
     $_SERVER['REQUEST_METHOD']  = strtoupper($method);
     $_SERVER['PATH_INFO']       = $path;
     $_SERVER['REQUEST_URI']     = '/index.php'.$uri;
     $_SERVER['SCRIPT_NAME']     = '/index.php';
     $_SERVER['SCRIPT_FILENAME'] = '/index.php';
     $_SERVER['QUERY_STRING']    = $query_string;
+    foreach ($this->vars as $key => $value)
+    {
+      $_SERVER[strtoupper($key)] = $value;
+    }
 
     // request parameters
     $_GET = $_POST = array();
@@ -113,35 +151,60 @@ class sfBrowser
     // launch request via controller
     $controller = $this->context->getController();
     $request    = $this->context->getRequest();
+    $response   = $this->context->getResponse();
 
     // we register a fake rendering filter
-    $controller->setRenderingFilterClassName('sfFakeRenderingFilter');
+    sfConfig::set('sf_rendering_filter', array('sfFakeRenderingFilter', null));
 
-    // dispatch our request and ignore output
+    $this->currentException = null;
+
+    // dispatch our request
     ob_start();
-    $controller->dispatch();
+    try
+    {
+      $controller->dispatch();
+    }
+    catch (sfException $e)
+    {
+      $this->currentException = $e;
+
+      $e->printStackTrace();
+    }
+    catch (Exception $e)
+    {
+      $this->currentException = $e;
+
+      $sfException = new sfException();
+      $sfException->printStackTrace($e);
+    }
     $retval = ob_get_clean();
 
+    if ($this->currentException instanceof sfStopException)
+    {
+      $this->currentException = null;
+    }
+
     // append retval to the response content
-    $this->getResponse()->setContent($this->getResponse()->getContent().$retval);
+    $response->setContent($retval);
 
     // manually shutdown user to save current session data
     $this->context->getUser()->shutdown();
+    $this->context->getStorage()->shutdown();
 
     // save cookies
     $this->cookieJar = array();
-    foreach ($this->getResponse()->getCookies() as $name => $cookie)
+    foreach ($response->getCookies() as $name => $cookie)
     {
       // FIXME: deal with expire, path, secure, ...
       $this->cookieJar[$name] = $cookie;
     }
 
     // for HTML/XML content, create a DOM and sfDomCssSelector objects for the response content
-    if (preg_match('/(x|ht)ml/i', $this->getResponse()->getContentType()))
+    if (preg_match('/(x|ht)ml/i', $response->getContentType()))
     {
       $this->dom = new DomDocument('1.0', sfConfig::get('sf_charset'));
       $this->dom->validateOnParse = true;
-      @$this->dom->loadHTML($this->getResponse()->getContent());
+      @$this->dom->loadHTML($response->getContent());
       $this->domCssSelector = new sfDomCssSelector($this->dom);
     }
 
@@ -205,112 +268,188 @@ class sfBrowser
     return $this->context->getRequest();
   }
 
+  public function getCurrentException()
+  {
+    return $this->currentException;
+  }
+
   public function followRedirect()
   {
-    $locations = $this->getContext()->getResponse()->getHttpHeader('location');
+    if (null === $this->getContext()->getResponse()->getHttpHeader('Location'))
+    {
+      throw new sfException('The request was not redirected');
+    }
 
-    return $this->get($locations[0]);
+    return $this->get($this->getContext()->getResponse()->getHttpHeader('Location'));
+  }
+
+  public function setField($name, $value)
+  {
+    // as we don't know yet the form, just store name/value pairs
+    $this->parseArgumentAsArray($name, $value, $this->fields);
+
+    return $this;
   }
 
   // link or button
   public function click($name, $arguments = array())
   {
+    if (!$this->dom)
+    {
+      throw new sfException('Cannot click because there is no current page in the browser');
+    }
+
     $xpath = new DomXpath($this->dom);
     $dom   = $this->dom;
 
-    if ($link = $xpath->query('//a[.="'.$name.'"]')->item(0))
+    // text link
+    if ($link = $xpath->query(sprintf('//a[.="%s"]', $name))->item(0))
     {
-      // link
-      return $this->call($link->getAttribute('href'));
+      return $this->get($link->getAttribute('href'));
     }
-    else
+
+    // image link
+    if ($link = $xpath->query(sprintf('//a/img[@alt="%s"]/ancestor::a', $name))->item(0))
     {
-      $forms = $xpath->query('//form');
-      foreach ($forms as $form)
+      return $this->get($link->getAttribute('href'));
+    }
+
+    // form
+    if (!$form = $xpath->query(sprintf('//input[((@type="submit" or @type="button") and @value="%s") or (@type="image" and @alt="%s")]/ancestor::form', $name, $name))->item(0))
+    {
+      throw new sfException(sprintf('Cannot find the "%s" link or button.', $name));
+    }
+
+    // form attributes
+    $url = $form->getAttribute('action');
+    $method = $form->getAttribute('method') ? strtolower($form->getAttribute('method')) : 'get';
+
+    // merge form default values and arguments
+    $defaults = array();
+    foreach ($xpath->query('descendant::input | descendant::textarea | descendant::select', $form) as $element)
+    {
+      $elementName = $element->getAttribute('name');
+      $nodeName    = $element->nodeName;
+      $value       = null;
+      if ($nodeName == 'input' && ($element->getAttribute('type') == 'checkbox' || $element->getAttribute('type') == 'radio'))
       {
-        if ($button = $xpath->query('//input[(@type="submit" or @type="button") and @value="'.$name.'"]', $form)->item(0))
+        if ($element->getAttribute('checked'))
         {
-          // button
-          $url = $form->getAttribute('action');
-          if ($form->getAttribute('method'))
-          {
-            $method = strtolower($form->getAttribute('method'));
-          }
-          else
-          {
-            $method = 'get';
-          }
+          $value = $element->getAttribute('value');
+        }
+      }
+      else if (
+        $nodeName == 'input'
+        &&
+        (($element->getAttribute('type') != 'submit' && $element->getAttribute('type') != 'button') || $element->getAttribute('value') == $name)
+        &&
+        ($element->getAttribute('type') != 'image' || $element->getAttribute('alt') == $name)
+      )
+      {
+        $value = $element->getAttribute('value');
+      }
+      else if ($nodeName == 'textarea')
+      {
+        $value = '';
+        foreach ($element->childNodes as $el)
+        {
+          $value .= $dom->saveXML($el);
+        }
+      }
+      else if ($nodeName == 'select')
+      {
+        if ($multiple = $element->hasAttribute('multiple'))
+        {
+          $elementName = str_replace('[]', '', $elementName);
+          $value = array();
+        }
+        else
+        {
+          $value = null;
+        }
 
-          // merge form default values and arguments
-          $defaults = array();
-          foreach($xpath->query('descendant::input | descendant::textarea | descendant::select', $form) as $element)
+        $found = false;
+        foreach ($xpath->query('descendant::option', $element) as $option)
+        {
+          if ($option->getAttribute('selected'))
           {
-            $name = $element->getAttribute('name');
-            if ($element->nodeName == 'input')
+            $found = true;
+            if ($multiple)
             {
-              $defaults[$name] = $element->getAttribute('value');
+              $value[] = $option->getAttribute('value');
             }
-            else if ($element->nodeName == 'textarea')
+            else
             {
-              $defaults[$name] = '';
-              foreach ($element->childNodes as $el)
-              {
-                $defaults[$name] .= $dom->saveXML($el);
-              }
+              $value = $option->getAttribute('value');
             }
-            else if ($element->nodeName == 'select')
-            {
-              if ($multiple = $element->hasAttribute('multiple'))
-              {
-                $name = str_replace('[]', '', $name);
-                $defaults[$name] = array();
-              }
-              else
-              {
-                $defaults[$name] = null;
-              }
-              foreach ($xpath->query('descendant::option', $element) as $option)
-              {
-                if ($option->getAttribute('selected'))
-                {
-                  if ($multiple)
-                  {
-                    $defaults[$name][] = $option->getAttribute('value');
-                  }
-                  else
-                  {
-                    $defaults[$name] = $option->getAttribute('value');
-                  }
-                }
-              }
-            }
-          }
-
-          // create query_string
-          $arguments = array_merge($defaults, $arguments);
-          $query_string = http_build_query($arguments);
-          $sep = false === strpos($url, '?') ? '?' : '&';
-
-          if ('post' === $method)
-          {
-            return $this->call($url, $method, $arguments);
-          }
-          else
-          {
-            return $this->call($url.($query_string ? $sep.$query_string : ''), $method);
           }
         }
+
+        // if no option is selected and if it is a simple select box, take the first option as the value
+        if (!$found && !$multiple)
+        {
+          $value = $xpath->query('descendant::option', $element)->item(0)->getAttribute('value');
+        }
+      }
+
+      if (null !== $value)
+      {
+        $this->parseArgumentAsArray($elementName, $value, $defaults);
       }
     }
 
-    throw new sfException(sprintf('Cannot find the "%s" link or button.', $name));
+    // create request parameters
+    $arguments = sfToolkit::arrayDeepMerge($defaults, $this->fields, $arguments);
+    if ('post' == $method)
+    {
+      return $this->post($url, $arguments);
+    }
+    else
+    {
+      $query_string = http_build_query($arguments);
+      $sep = false === strpos($url, '?') ? '?' : '&';
+
+      return $this->get($url.($query_string ? $sep.$query_string : ''));
+    }
+  }
+
+  protected function parseArgumentAsArray($name, $value, &$vars)
+  {
+    if (false !== $pos = strpos($name, '['))
+    {
+      $var = &$vars;
+      $tmps = array_filter(preg_split('/(\[ | \[\] | \])/x', $name));
+      foreach ($tmps as $tmp)
+      {
+        $var = &$var[$tmp];
+      }
+      if ($var)
+      {
+        if (!is_array($var))
+        {
+          $var = array($var);
+        }
+        $var[] = $value;
+      }
+      else
+      {
+        $var = $value;
+      }
+    }
+    else
+    {
+      $vars[$name] = $value;
+    }
   }
 
   public function restart()
   {
     $this->newSession();
-    $this->cookieJar = array();
-    $this->stack = array();
+    $this->cookieJar     = array();
+    $this->stack         = array();
+    $this->fields        = array();
+    $this->vars          = array();
+    $this->dom           = null;
     $this->stackPosition = -1;
 
     return $this;
@@ -327,12 +466,22 @@ class sfBrowser
     // remove absolute information if needed (to be able to do follow redirects, click on links, ...)
     if (0 === strpos($uri, 'http'))
     {
+      // detect secure request
+      if (0 === strpos($uri, 'https'))
+      {
+        $this->defaultServerArray['HTTPS'] = 'on';
+      }
+      else
+      {
+        unset($this->defaultServerArray['HTTPS']);
+      }
+
       $uri = substr($uri, strpos($uri, 'index.php') + strlen('index.php'));
     }
     $uri = str_replace('/index.php', '', $uri);
 
     // # as a uri
-    if ('#' == $uri[0])
+    if ($uri && '#' == $uri[0])
     {
       $uri = $this->stack[$this->stackPosition]['uri'].$uri;
     }
@@ -348,7 +497,10 @@ class sfBrowser
 
 class sfFakeRenderingFilter extends sfFilter
 {
-  public function execute ($filterChain)
+  public function execute($filterChain)
   {
+    $filterChain->execute();
+
+    $this->getContext()->getResponse()->sendContent();
   }
 }

@@ -398,7 +398,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	
 	public function save($con = null)
 	{
-    if ($this->isNew() && !$this->isColumnModified('created_at'))
+    if ($this->isNew() && !$this->isColumnModified(VocabularyPeer::CREATED_AT))
     {
       $this->setCreatedAt(time());
     }
@@ -1081,41 +1081,6 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 
 
 	
-	public function getConceptPropertysJoinLookup($criteria = null, $con = null)
-	{
-				include_once 'lib/model/om/BaseConceptPropertyPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collConceptPropertys === null) {
-			if ($this->isNew()) {
-				$this->collConceptPropertys = array();
-			} else {
-
-				$criteria->add(ConceptPropertyPeer::SCHEME_ID, $this->getId());
-
-				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinLookup($criteria, $con);
-			}
-		} else {
-									
-			$criteria->add(ConceptPropertyPeer::SCHEME_ID, $this->getId());
-
-			if (!isset($this->lastConceptPropertyCriteria) || !$this->lastConceptPropertyCriteria->equals($criteria)) {
-				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinLookup($criteria, $con);
-			}
-		}
-		$this->lastConceptPropertyCriteria = $criteria;
-
-		return $this->collConceptPropertys;
-	}
-
-
-	
 	public function getConceptPropertysJoinConceptRelatedByRelatedConceptId($criteria = null, $con = null)
 	{
 				include_once 'lib/model/om/BaseConceptPropertyPeer.php';
@@ -1142,6 +1107,41 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 
 			if (!isset($this->lastConceptPropertyCriteria) || !$this->lastConceptPropertyCriteria->equals($criteria)) {
 				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinConceptRelatedByRelatedConceptId($criteria, $con);
+			}
+		}
+		$this->lastConceptPropertyCriteria = $criteria;
+
+		return $this->collConceptPropertys;
+	}
+
+
+	
+	public function getConceptPropertysJoinLookup($criteria = null, $con = null)
+	{
+				include_once 'lib/model/om/BaseConceptPropertyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collConceptPropertys === null) {
+			if ($this->isNew()) {
+				$this->collConceptPropertys = array();
+			} else {
+
+				$criteria->add(ConceptPropertyPeer::SCHEME_ID, $this->getId());
+
+				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinLookup($criteria, $con);
+			}
+		} else {
+									
+			$criteria->add(ConceptPropertyPeer::SCHEME_ID, $this->getId());
+
+			if (!isset($this->lastConceptPropertyCriteria) || !$this->lastConceptPropertyCriteria->equals($criteria)) {
+				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinLookup($criteria, $con);
 			}
 		}
 		$this->lastConceptPropertyCriteria = $criteria;

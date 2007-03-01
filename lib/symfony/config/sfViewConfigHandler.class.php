@@ -19,15 +19,15 @@
 class sfViewConfigHandler extends sfYamlConfigHandler
 {
   /**
-   * Execute this configuration handler.
+   * Executes this configuration handler.
    *
-   * @param array An array of absolute filesystem path to a configuration file.
+   * @param array An array of absolute filesystem path to a configuration file
    *
-   * @return string Data to be written to a cache file.
+   * @return string Data to be written to a cache file
    *
-   * @throws <b>sfConfigurationException</b> If a requested configuration file does not exist or is not readable.
-   * @throws <b>sfParseException</b> If a requested configuration file is improperly formatted.
-   * @throws <b>sfInitializationException</b> If a view.yml key check fails.
+   * @throws <b>sfConfigurationException</b> If a requested configuration file does not exist or is not readable
+   * @throws <b>sfParseException</b> If a requested configuration file is improperly formatted
+   * @throws <b>sfInitializationException</b> If a view.yml key check fails
    */
   public function execute($configFiles)
   {
@@ -36,27 +36,15 @@ class sfViewConfigHandler extends sfYamlConfigHandler
     $this->initialize($categories);
 
     // parse the yaml
-    $myConfig = $this->parseYamls($configFiles);
-
-    $myConfig['all'] = sfToolkit::arrayDeepMerge(
-      isset($myConfig['default']) && is_array($myConfig['default']) ? $myConfig['default'] : array(),
-      isset($myConfig['all']) && is_array($myConfig['all']) ? $myConfig['all'] : array()
-    );
-
-    // merge javascripts and stylesheets
-    $myConfig['all']['stylesheets'] = array_merge(isset($myConfig['default']['stylesheets']) && is_array($myConfig['default']['stylesheets']) ? $myConfig['default']['stylesheets'] : array(), isset($myConfig['all']['stylesheets']) && is_array($myConfig['all']['stylesheets']) ? $myConfig['all']['stylesheets'] : array());
-    $myConfig['all']['javascripts'] = array_merge(isset($myConfig['default']['javascripts']) && is_array($myConfig['default']['javascripts']) ? $myConfig['default']['javascripts'] : array(), isset($myConfig['all']['javascripts']) && is_array($myConfig['all']['javascripts']) ? $myConfig['all']['javascripts'] : array());
-
-    unset($myConfig['default']);
-
-    $this->yamlConfig = $myConfig;
+    $this->mergeConfig($this->parseYamls($configFiles));
 
     // init our data array
     $data = array();
 
-    $data[] = "\$response = \$context->getResponse();\n";
+    $data[] = "\$context  = \$this->getContext();\n";
+    $data[] = "\$response = \$context->getResponse();\n\n";
 
-    // iterate through all view names
+    // first pass: iterate through all view names to determine the real view name
     $first = true;
     foreach ($this->yamlConfig as $viewName => $values)
     {
@@ -67,8 +55,29 @@ class sfViewConfigHandler extends sfYamlConfigHandler
 
       $data[] = ($first ? '' : 'else ')."if (\$this->actionName.\$this->viewName == '$viewName')\n".
                 "{\n";
-
       $data[] = $this->addTemplate($viewName);
+      $data[] = "}\n";
+
+      $first = false;
+    }
+
+    // general view configuration
+    $data[] = ($first ? '' : "else\n{")."\n";
+    $data[] = $this->addTemplate($viewName);
+    $data[] = ($first ? '' : "}")."\n\n";
+
+    // second pass: iterate through all real view names
+    $first = true;
+    foreach ($this->yamlConfig as $viewName => $values)
+    {
+      if ($viewName == 'all')
+      {
+        continue;
+      }
+
+      $data[] = ($first ? '' : 'else ')."if (\$templateName.\$this->viewName == '$viewName')\n".
+                "{\n";
+
       $data[] = $this->addLayout($viewName);
       $data[] = $this->addComponentSlots($viewName);
       $data[] = $this->addHtmlHead($viewName);
@@ -84,7 +93,6 @@ class sfViewConfigHandler extends sfYamlConfigHandler
     // general view configuration
     $data[] = ($first ? '' : "else\n{")."\n";
 
-    $data[] = $this->addTemplate();
     $data[] = $this->addLayout();
     $data[] = $this->addComponentSlots();
     $data[] = $this->addHtmlHead();
@@ -102,7 +110,39 @@ class sfViewConfigHandler extends sfYamlConfigHandler
     return $retval;
   }
 
-  private function addComponentSlots($viewName = '')
+  /**
+   * Merges assets and environement configuration.
+   *
+   * @param array A configuration array
+   */
+  protected function mergeConfig($myConfig)
+  {
+    // merge javascripts and stylesheets
+    $myConfig['all']['stylesheets'] = array_merge(isset($myConfig['default']['stylesheets']) && is_array($myConfig['default']['stylesheets']) ? $myConfig['default']['stylesheets'] : array(), isset($myConfig['all']['stylesheets']) && is_array($myConfig['all']['stylesheets']) ? $myConfig['all']['stylesheets'] : array());
+    unset($myConfig['default']['stylesheets']);
+
+    $myConfig['all']['javascripts'] = array_merge(isset($myConfig['default']['javascripts']) && is_array($myConfig['default']['javascripts']) ? $myConfig['default']['javascripts'] : array(), isset($myConfig['all']['javascripts']) && is_array($myConfig['all']['javascripts']) ? $myConfig['all']['javascripts'] : array());
+    unset($myConfig['default']['javascripts']);
+
+    // merge default and all
+    $myConfig['all'] = sfToolkit::arrayDeepMerge(
+      isset($myConfig['default']) && is_array($myConfig['default']) ? $myConfig['default'] : array(),
+      isset($myConfig['all']) && is_array($myConfig['all']) ? $myConfig['all'] : array()
+    );
+
+    unset($myConfig['default']);
+
+    $this->yamlConfig = $myConfig;
+  }
+
+  /**
+   * Adds a component slot statement to the data.
+   *
+   * @param string The view name
+   *
+   * @return string The PHP statement
+   */
+  protected function addComponentSlots($viewName = '')
   {
     $data = '';
 
@@ -115,13 +155,20 @@ class sfViewConfigHandler extends sfYamlConfigHandler
       }
 
       $data .= "  \$this->setComponentSlot('$name', '{$component[0]}', '{$component[1]}');\n";
-      $data .= "  if (sfConfig::get('sf_logging_active')) \$context->getLogger()->info('{sfViewConfig} set component \"$name\" ({$component[0]}/{$component[1]})');\n";
+      $data .= "  if (sfConfig::get('sf_logging_enabled')) \$context->getLogger()->info('{sfViewConfig} set component \"$name\" ({$component[0]}/{$component[1]})');\n";
     }
 
     return $data;
   }
 
-  private function addTemplate($viewName = '')
+  /**
+   * Adds a template setting statement to the data.
+   *
+   * @param string The view name
+   *
+   * @return string The PHP statement
+   */
+  protected function addTemplate($viewName = '')
   {
     $data = '';
 
@@ -134,7 +181,14 @@ class sfViewConfigHandler extends sfYamlConfigHandler
     return $data;
   }
 
-  private function addLayout($viewName = '')
+  /**
+   * Adds a layour statement statement to the data.
+   *
+   * @param string The view name
+   *
+   * @return string The PHP statement
+   */
+  protected function addLayout($viewName = '')
   {
     $data = '';
 
@@ -154,7 +208,14 @@ class sfViewConfigHandler extends sfYamlConfigHandler
     return $data;
   }
 
-  private function addHtmlHead($viewName = '')
+  /**
+   * Adds http metas and metas statements to the data.
+   *
+   * @param string The view name
+   *
+   * @return string The PHP statement
+   */
+  protected function addHtmlHead($viewName = '')
   {
     $data = array();
 
@@ -165,173 +226,114 @@ class sfViewConfigHandler extends sfYamlConfigHandler
 
     foreach ($this->mergeConfigValue('metas', $viewName) as $name => $content)
     {
-      $data[] = sprintf("  \$response->addMeta('%s', '%s', false, true);", $name, str_replace('\'', '\\\'', preg_replace('/&amp;(?=\w+;)/', '&', htmlentities($content, ENT_QUOTES, sfConfig::get('sf_charset')))));
+      $data[] = sprintf("  \$response->addMeta('%s', '%s', false, false);", $name, str_replace('\'', '\\\'', preg_replace('/&amp;(?=\w+;)/', '&', htmlentities($content, ENT_QUOTES, sfConfig::get('sf_charset')))));
     }
 
     return implode("\n", $data)."\n";
   }
 
-  private function addHtmlAsset($viewName = '')
+  /**
+   * Adds stylesheets and javascripts statements to the data.
+   *
+   * @param string The view name
+   *
+   * @return string The PHP statement
+   */
+  protected function addHtmlAsset($viewName = '')
   {
     $data = array();
     $omit = array();
     $delete = array();
     $delete_all = false;
 
-    // Populate $stylesheets with the values from ONLY the current view
-    $stylesheets = $this->getConfigValue('stylesheets', $viewName);
-
-    // If we find results from the view, check to see if there is a '-*'
-    // This indicates that we will remove ALL stylesheets EXCEPT for those passed in the current view
-    if (is_array($stylesheets) AND in_array('-*', $stylesheets))
-    {
-      $delete_all = true;
-      foreach ($stylesheets as $stylesheet)
-      {
-        $key = is_array($stylesheet) ? key($stylesheet) : $stylesheet;
-
-        if ($key != '-*')
-        {
-          $omit[] = $key;
-        }
-      }
-    }
-    else
-    {
-      // If '-*' is not found and there are items in the current view's stylesheet array
-      // loop through each one and see if there are any values that start with '-'.
-      // If so, we add store the actual stylesheet name to the $delete array to be used below
-      foreach ($stylesheets as $stylesheet)
-      {
-        if (!is_array($stylesheet))
-        {
-          if (substr($stylesheet, 0, 1) == '-')
-          {
-          $delete[] = substr($stylesheet, 1);
-          }
-        }
-      }
-    }
-
     // Merge the current view's stylesheets with the app's default stylesheets
     $stylesheets = $this->mergeConfigValue('stylesheets', $viewName);
-    if (is_array($stylesheets))
+    $tmp = array();
+    foreach ((array) $stylesheets as $css)
     {
-      // Loop through each stylesheet in the merged array
-      foreach ($stylesheets as $index => $stylesheet)
+      $position = '';
+      if (is_array($css))
       {
-        $key = is_array($stylesheet) ? key($stylesheet) : $stylesheet;
-
-        // If $delete_all is true, a '-*' was found above.
-        // We remove all stylesheets from the array EXCEPT those specified in the $omit array
-        if ($delete_all == true)
+        $key = key($css);
+        $options = $css[$key];
+        if (isset($options['position']))
         {
-          if (!in_array($key, $omit))
-          {
-            unset($stylesheets[$index]);
-          }
-        }
-        else
-        {
-          // Loop through the $delete array and see if the stylesheet name is in the array
-          // We check for both the stylesheet and the -stylesheet. If found, we remove them.
-          foreach ($delete as $value)
-          {
-            if ($key == $value OR substr($key, 1) == $value)
-            {
-              unset($stylesheets[$index]);
-            }
-          }
+          $position = $options['position'];
+          unset($options['position']);
         }
       }
-
-      foreach ($stylesheets as $css)
+      else
       {
-        $position = '';
-        if (is_array($css))
-        {
-          $key = key($css);
-          $options = $css[$key];
-          if (isset($options['position']))
-          {
-            $position = $options['position'];
-            unset($options['position']);
-          }
-        }
-        else
-        {
-          $key = $css;
-          $options = array();
-        }
+        $key = $css;
+        $options = array();
+      }
 
-        if ($key)
-        {
-          $data[] = sprintf("  \$response->addStylesheet('%s', '%s', %s);", $this->replaceConstants($key), $position, str_replace("\n", '', var_export($options, true)));
-        }
+      $key = $this->replaceConstants($key);
+
+      if ('-*' == $key)
+      {
+        $tmp = array();
+      }
+      else if ('-' == $key[0])
+      {
+        unset($tmp[substr($key, 1)]);
+      }
+      else
+      {
+        $tmp[$key] = sprintf("  \$response->addStylesheet('%s', '%s', %s);", $key, $position, str_replace("\n", '', var_export($options, true)));
       }
     }
+
+    $data = array_merge($data, array_values($tmp));
 
     $omit = array();
     $delete_all = false;
 
     // Populate $javascripts with the values from ONLY the current view
-    $javascripts = $this->getConfigValue('javascripts', $viewName);
-
-    // If we find results from the view, check to see if there is a '-*'
-    // This indicates that we will remove ALL javascripts EXCEPT for those passed in the current view
-    if (is_array($javascripts) AND in_array('-*', $javascripts))
-    {
-      $delete_all = true;
-      foreach ($javascripts as $javascript)
-      {     
-        if (substr($javascript, 0, 1) != '-')
-        {
-          $omit[] = $javascript;
-        }
-      }
-    }
-
     $javascripts = $this->mergeConfigValue('javascripts', $viewName);
-    if (is_array($javascripts))
+    $tmp = array();
+    foreach ((array) $javascripts as $js)
     {
-      // remove javascripts marked with a beginning '-'
-      // We exclude any javascripts that were omitted above
-      $delete = array();
+      $js = $this->replaceConstants($js);
 
-      foreach ($javascripts as $javascript)
+      if ('-*' == $js)
       {
-        if (!in_array($javascript, $omit) && (substr($javascript, 0, 1) == '-' || $delete_all == true))
-        {
-          $delete[] = $javascript;
-          $delete[] = substr($javascript, 1);
-        }
+        $tmp = array();
       }
-      $javascripts = array_diff($javascripts, $delete);
-
-      foreach ($javascripts as $js)
+      else if ('-' == $js[0])
       {
-        if ($js)
-        {
-          $data[] = sprintf("  \$response->addJavascript('%s');", $this->replaceConstants($js));
-        }
+        unset($tmp[substr($js, 1)]);
+      }
+      else
+      {
+        $tmp[$js] = sprintf("  \$response->addJavascript('%s');", $js);
       }
     }
+
+    $data = array_merge($data, array_values($tmp));
 
     return implode("\n", $data)."\n";
   }
 
-  private function addEscaping($viewName = '')
+  /**
+   * Adds an escaping statement to the data.
+   *
+   * @param string The view name
+   *
+   * @return string The PHP statement
+   */
+  protected function addEscaping($viewName = '')
   {
     $data = array();
 
     $escaping = $this->getConfigValue('escaping', $viewName);
 
-    if(isset($escaping['strategy']))
+    if (isset($escaping['strategy']))
     {
       $data[] = sprintf("  \$this->setEscaping(%s);", var_export($escaping['strategy'], true));
     }
 
-    if(isset($escaping['method']))
+    if (isset($escaping['method']))
     {
       $data[] = sprintf("  \$this->setEscapingMethod(%s);", var_export($escaping['method'], true));
     }

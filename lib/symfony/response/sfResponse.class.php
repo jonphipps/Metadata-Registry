@@ -20,47 +20,57 @@
 abstract class sfResponse
 {
   protected
-    $parameter_holder = null,
-    $context = null,
-    $content = '';
+    $parameterHolder = null,
+    $context         = null,
+    $content         = '';
 
   /**
-   * Initialize this sfResponse.
+   * Initializes this sfResponse.
    *
-   * @param sfContext A sfContext instance.
+   * @param sfContext A sfContext instance
    *
-   * @return bool true, if initialization completes successfully, otherwise false.
+   * @return boolean true, if initialization completes successfully, otherwise false
    *
-   * @throws <b>sfInitializationException</b> If an error occurs while initializing this Response.
+   * @throws <b>sfInitializationException</b> If an error occurs while initializing this Response
    */
-  public function initialize ($context, $parameters = array())
+  public function initialize($context, $parameters = array())
   {
     $this->context = $context;
 
-    $this->parameter_holder = new sfParameterHolder();
-    $this->parameter_holder->add($parameters);
+    $this->parameterHolder = new sfParameterHolder();
+    $this->parameterHolder->add($parameters);
   }
 
-  public function setContext ($context)
+  /**
+   * Sets the context for the current response.
+   *
+   * @param sfContext  A sfContext instance
+   */
+  public function setContext($context)
   {
     $this->context = $context;
   }
 
-  public function getContext ()
+  /**
+   * Retrieves the current application context.
+   *
+   * @return sfContext The application context
+   */
+  public function getContext()
   {
     return $this->context;
   }
 
   /**
-   * Retrieve a new sfResponse implementation instance.
+   * Retrieves a new sfResponse implementation instance.
    *
-   * @param string A sfResponse implementation name.
+   * @param string A sfResponse implementation name
    *
-   * @return sfResponse A sfResponse implementation instance.
+   * @return sfResponse A sfResponse implementation instance
    *
-   * @throws <b>sfFactoryException</b> If a request implementation instance cannot be created.
+   * @throws <b>sfFactoryException</b> If a request implementation instance cannot be created
    */
-  public static function newInstance ($class)
+  public static function newInstance($class)
   {
     // the class exists
     $object = new $class();
@@ -78,35 +88,31 @@ abstract class sfResponse
   }
 
   /**
-   * Set the content.
+   * Sets the response content
    *
-   * @param string content
-   *
-   * @return void
+   * @param string Content
    */
-  public function setContent ($content)
+  public function setContent($content)
   {
     $this->content = $content;
   }
 
   /**
-   * get the content.
+   * Gets the current response content
    *
-   * @return string
+   * @return string Content
    */
-  public function getContent ()
+  public function getContent()
   {
     return $this->content;
   }
 
   /**
-   * echo the content.
-   *
-   * @return string
+   * Outputs the response content
    */
-  public function sendContent ()
+  public function sendContent()
   {
-    if (sfConfig::get('sf_logging_active'))
+    if (sfConfig::get('sf_logging_enabled'))
     {
       $this->getContext()->getLogger()->info('{sfResponse} send content ('.strlen($this->content).' o)');
     }
@@ -114,35 +120,80 @@ abstract class sfResponse
     echo $this->content;
   }
 
+  /**
+   * Retrieves the parameters from the current response.
+   *
+   * @return sfParameterHolder List of parameters
+   */
   public function getParameterHolder()
   {
-    return $this->parameter_holder;
-  }
-
-  public function getParameter($name, $default = null, $ns = null)
-  {
-    return $this->parameter_holder->get($name, $default, $ns);
-  }
-
-  public function hasParameter($name, $ns = null)
-  {
-    return $this->parameter_holder->has($name, $ns);
-  }
-
-  public function setParameter($name, $value, $ns = null)
-  {
-    return $this->parameter_holder->set($name, $value, $ns);
+    return $this->parameterHolder;
   }
 
   /**
-   * Execute the shutdown procedure.
+   * Retrieves a parameter from the current response.
    *
-   * @return void
+   * @param string A parameter name
+   * @param string A default paramter value
+   * @param string Namespace for the current response
+   *
+   * @return mixed A parameter value
    */
-  abstract function shutdown ();
+  public function getParameter($name, $default = null, $ns = null)
+  {
+    return $this->parameterHolder->get($name, $default, $ns);
+  }
 
+  /**
+   * Indicates whether or not a parameter exist for the current response.
+   *
+   * @param string A parameter name
+   * @param string Namespace for the current response
+   *
+   * @return boolean true, if the parameter exists otherwise false
+   */
+  public function hasParameter($name, $ns = null)
+  {
+    return $this->parameterHolder->has($name, $ns);
+  }
+
+  /**
+   * Sets a parameter for the current response.
+   *
+   * @param string A parameter name
+   * @param string The parameter value to be set
+   * @param string Namespace for the current response
+   */
+  public function setParameter($name, $value, $ns = null)
+  {
+    $this->parameterHolder->set($name, $value, $ns);
+  }
+
+  /**
+   * Executes the shutdown procedure.
+   *
+   */
+  abstract function shutdown();
+
+  /**
+   * Overloads a given method.
+   *
+   * @param string Method name
+   * @param string Method arguments
+   *
+   * @return mixed User function callback
+   *
+   * @throws <b>sfException</b> If the calls fails
+   */
   public function __call($method, $arguments)
   {
-    return sfMixer::callMixins();
+    if (!$callable = sfMixer::getCallable('sfResponse:'.$method))
+    {
+      throw new sfException(sprintf('Call to undefined method sfResponse::%s', $method));
+    }
+
+    array_unshift($arguments, $this);
+
+    return call_user_func_array($callable, $arguments);
   }
 }

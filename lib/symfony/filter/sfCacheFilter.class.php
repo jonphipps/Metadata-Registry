@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the symfony package.
  * (c) 2004-2006 Fabien Potencier <fabien.potencier@symfony-project.com>
@@ -8,6 +9,7 @@
  */
 
 /**
+ * sfCacheFilter deals with page caching and action caching.
  *
  * @package    symfony
  * @subpackage filter
@@ -16,12 +18,22 @@
  */
 class sfCacheFilter extends sfFilter
 {
-  private
+  protected
     $cacheManager = null,
     $request      = null,
     $response     = null,
-    $cache       = array();
+    $cache        = array();
 
+  /**
+   * Initializes this Filter.
+   *
+   * @param sfContext The current application context
+   * @param array   An associative array of initialization parameters
+   *
+   * @return bool true, if initialization completes successfully, otherwise false
+   *
+   * @throws <b>sfInitializationException</b> If an error occurs while initializing this Filter
+   */
   public function initialize($context, $parameters = array())
   {
     parent::initialize($context, $parameters);
@@ -32,22 +44,30 @@ class sfCacheFilter extends sfFilter
   }
 
   /**
-   * Execute this filter.
+   * Executes this filter.
    *
-   * @param FilterChain A FilterChain instance.
-   *
-   * @return void
+   * @param sfFilterChain A sfFilterChain instance
    */
-  public function execute ($filterChain)
+  public function execute($filterChain)
   {
     // execute this filter only once, if cache is set and no GET or POST parameters
-    if (!$this->isFirstCall() || !sfConfig::get('sf_cache') || count($_GET) || count($_POST))
+    if (!sfConfig::get('sf_cache') || count($_GET) || count($_POST))
     {
       $filterChain->execute();
 
       return;
     }
 
+    if ($this->executeBeforeExecution())
+    {
+      $filterChain->execute();
+    }
+
+    $this->executeBeforeRendering();
+  }
+
+  public function executeBeforeExecution()
+  {
     // register our cache configuration
     $this->cacheManager->registerConfiguration($this->getContext()->getModuleName());
 
@@ -66,7 +86,7 @@ class sfCacheFilter extends sfFilter
         if ($inCache)
         {
           // page is in cache, so no need to run execution filter
-          $filterChain->executionFilterDone();
+          return false;
         }
       }
       else
@@ -76,26 +96,16 @@ class sfCacheFilter extends sfFilter
       }
     }
 
-    $filterChain->execute();
+    return true;
   }
 
   /**
-   * Execute this filter.
+   * Executes this filter.
    *
-   * @param FilterChain A FilterChain instance.
-   *
-   * @return void
+   * @param sfFilterChain A sfFilterChain instance.
    */
-  public function executeBeforeRendering ($filterChain)
+  public function executeBeforeRendering()
   {
-    // execute this filter only once, if cache is set and no GET or POST parameters
-    if (!$this->isFirstCallBeforeRendering() || !sfConfig::get('sf_cache') || count($_GET) || count($_POST))
-    {
-      $filterChain->execute();
-
-      return;
-    }
-
     // cache only 200 HTTP status
     if ($this->response->getStatusCode() == 200)
     {
@@ -128,6 +138,7 @@ class sfCacheFilter extends sfFilter
     // remove PHP automatic Cache-Control and Expires headers if not overwritten by application or cache
     if ($this->response->hasHttpHeader('Last-Modified') || sfConfig::get('sf_etag'))
     {
+      // FIXME: these headers are set by PHP sessions (see session_cache_limiter())
       $this->response->setHttpHeader('Cache-Control', null, false);
       $this->response->setHttpHeader('Expires', null, false);
       $this->response->setHttpHeader('Pragma', null, false);
@@ -142,11 +153,11 @@ class sfCacheFilter extends sfFilter
       if ($this->request->getHttpHeader('IF_NONE_MATCH') == $etag)
       {
         $this->response->setStatusCode(304);
-        $this->response->setContent('');
+        $this->response->setHeaderOnly(true);
 
-        if (sfConfig::get('sf_logging_active'))
+        if (sfConfig::get('sf_logging_enabled'))
         {
-          $this->getContext()->getLogger()->info('{sfCacheFilter} ETag matches If-None-Match (send 304)');
+          $this->getContext()->getLogger()->info('{sfFilter} ETag matches If-None-Match (send 304)');
         }
       }
     }
@@ -160,20 +171,22 @@ class sfCacheFilter extends sfFilter
       if ($this->request->getHttpHeader('IF_MODIFIED_SINCE') == $last_modified)
       {
         $this->response->setStatusCode(304);
-        $this->response->setContent('');
+        $this->response->setHeaderOnly(true);
 
-        if (sfConfig::get('sf_logging_active'))
+        if (sfConfig::get('sf_logging_enabled'))
         {
-          $this->getContext()->getLogger()->info('{sfCacheFilter} Last-Modified matches If-Modified-Since (send 304)');
+          $this->getContext()->getLogger()->info('{sfFilter} Last-Modified matches If-Modified-Since (send 304)');
         }
       }
     }
-
-    // execute next filter
-    $filterChain->execute();
   }
 
-  private function setPageCache($uri)
+  /**
+   * Sets a page template in the cache.
+   *
+   * @param string The internal URI
+   */
+  protected function setPageCache($uri)
   {
     if ($this->getContext()->getController()->getRenderMode() != sfView::RENDER_CLIENT)
     {
@@ -190,7 +203,12 @@ class sfCacheFilter extends sfFilter
     }
   }
 
-  private function getPageCache($uri)
+  /**
+   * Gets a page template from the cache.
+   *
+   * @param string The internal URI
+   */
+  protected function getPageCache($uri)
   {
     $context = $this->getContext();
 
@@ -229,7 +247,12 @@ class sfCacheFilter extends sfFilter
     return true;
   }
 
-  private function setActionCache($uri)
+  /**
+   * Sets an action template in the cache.
+   *
+   * @param string The internal URI
+   */
+  protected function setActionCache($uri)
   {
     $content = $this->response->getParameter($uri.'_action', null, 'symfony/cache');
 
@@ -239,21 +262,27 @@ class sfCacheFilter extends sfFilter
     }
   }
 
-  private function getActionCache($uri)
+  /**
+   * Gets an action template from the cache.
+   *
+   * @param string The internal URI
+   */
+  protected function getActionCache($uri)
   {
     // retrieve content from cache
     $retval = $this->cacheManager->get($uri);
 
-    if (sfConfig::get('sf_web_debug'))
+    if ($retval && sfConfig::get('sf_web_debug'))
     {
-      $tmp = unserialize($retval);
-      $tmp['content'] = sfWebDebug::getInstance()->decorateContentWithDebug($uri, $tmp['content'], false);
-      $retval = serialize($tmp);
+      $cache = unserialize($retval);
+      $this->response->mergeProperties($cache['response']);
+      $cache['content'] = sfWebDebug::getInstance()->decorateContentWithDebug($uri, $cache['content'], false);
+      $retval = serialize($cache);
     }
 
     $this->response->setParameter('current_key', $uri.'_action', 'symfony/cache/current');
     $this->response->setParameter($uri.'_action', $retval, 'symfony/cache');
 
-    return ($retval ? true : false);
+    return $retval ? true : false;
   }
 }

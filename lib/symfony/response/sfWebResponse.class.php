@@ -20,25 +20,30 @@
  */
 class sfWebResponse extends sfResponse
 {
-  private
-    $cookies    = array(),
-    $headers    = array(),
-    $statusCode = 200,
-    $statusText = 'OK',
-    $statusTexts = array();
+  protected
+    $cookies     = array(),
+    $statusCode  = 200,
+    $statusText  = 'OK',
+    $statusTexts = array(),
+    $headerOnly  = false;
 
   /**
-   * Initialize this sfWebResponse.
+   * Initializes this sfWebResponse.
    *
-   * @param sfContext A sfContext instance.
+   * @param sfContext A sfContext instance
    *
-   * @return bool true, if initialization completes successfully, otherwise false.
+   * @return boolean true, if initialization completes successfully, otherwise false
    *
-   * @throws <b>sfInitializationException</b> If an error occurs while initializing this Response.
+   * @throws <b>sfInitializationException</b> If an error occurs while initializing this Response
    */
-  public function initialize ($context, $parameters = array())
+  public function initialize($context, $parameters = array())
   {
     parent::initialize($context, $parameters);
+
+    if ('HEAD' == $context->getRequest()->getMethodName())
+    {
+      $this->setHeaderOnly(true);
+    }
 
     $this->statusTexts = array(
       '100' => 'Continue',
@@ -86,14 +91,39 @@ class sfWebResponse extends sfResponse
   }
 
   /**
-   * Set a cookie.
+   * Sets if the response consist of just HTTP headers.
+   *
+   * @param boolean
+   */
+  public function setHeaderOnly($value = true)
+  {
+    $this->headerOnly = (boolean) $value;
+  }
+
+  /**
+   * Returns if the response must only consist of HTTP headers.
+   *
+   * @return boolean returns true if, false otherwise
+   */
+  public function isHeaderOnly()
+  {
+    return $this->headerOnly;
+  }
+
+  /**
+   * Sets a cookie.
    *
    * @param string HTTP header name
-   * @param string value
+   * @param string Value for the cookie
+   * @param string Cookie expiration period
+   * @param string Path
+   * @param string Domain name
+   * @param boolean If secure
+   * @param boolean If uses only HTTP
    *
-   * @return void
+   * @throws <b>sfException</b> If fails to set the cookie
    */
-  public function setCookie ($name, $value, $expire = null, $path = '/', $domain = '', $secure = false, $httpOnly = false)
+  public function setCookie($name, $value, $expire = null, $path = '/', $domain = '', $secure = false, $httpOnly = false)
   {
     if ($expire !== null)
     {
@@ -123,108 +153,67 @@ class sfWebResponse extends sfResponse
   }
 
   /**
-   * Set response status code.
+   * Sets response status code.
    *
    * @param string HTTP status code
    * @param string HTTP status text
    *
-   * @return void
    */
-  public function setStatusCode ($code, $name = null)
+  public function setStatusCode($code, $name = null)
   {
     $this->statusCode = $code;
-    $this->statusText = $name ? $name : $this->statusTexts[$code];
+    $this->statusText = null !== $name ? $name : $this->statusTexts[$code];
   }
 
-  public function getStatusCode ()
+  /**
+   * Retrieves status code for the current web response.
+   *
+   * @return string Status code
+   */
+  public function getStatusCode()
   {
     return $this->statusCode;
   }
 
   /**
-   * Set a HTTP header.
+   * Sets a HTTP header.
    *
    * @param string HTTP header name
-   * @param string value
+   * @param string Value
+   * @param boolean Replace for the value
    *
-   * @return void
    */
-  public function setHttpHeader ($name, $value, $replace = true)
+  public function setHttpHeader($name, $value, $replace = true)
   {
     $name = $this->normalizeHeaderName($name);
 
     if ('Content-Type' == $name)
     {
-      $this->setContentType($value);
+      if ($replace || !$this->getHttpHeader('Content-Type', null))
+      {
+        $this->setContentType($value);
+      }
 
       return;
     }
 
-    $exists = isset($this->headers[$name]);
-
-    if ($exists && !$replace)
+    if (!$replace)
     {
-      return;
+      $current = $this->getParameter($name, '', 'symfony/response/http/headers');
+      $value = ($current ? $current.', ' : '').$value;
     }
 
-    if (!$exists || $replace)
-    {
-      $this->headers[$name] = array();
-    }
-
-    $this->headers[$name][] = $value;
+    $this->setParameter($name, $value, 'symfony/response/http/headers');
   }
 
   /**
-   * Get HTTP header current value.
+   * Gets HTTP header current value.
    *
    * @return array
    */
-  public function getHttpHeader ($name, $defaultValue = null)
+  public function getHttpHeader($name, $default = null)
   {
-    $retval = array($defaultValue);
-
-    if (isset($this->headers[$this->normalizeHeaderName($name)]))
-    {
-      $retval = $this->headers[$this->normalizeHeaderName($name)];
-    }
-
-    return $retval;
-  }
-
-  /**
-   * Set response content type.
-   *
-   * @param string value
-   *
-   * @return void
-   */
-  public function setContentType ($value)
-  {
-    // add charset if needed
-    if (false === stripos($value, 'charset'))
-    {
-      $value .= '; charset='.sfConfig::get('sf_charset');
-    }
-
-    if (isset($this->headers['Content-Type']))
-    {
-      $this->headers['Content-Type'] = array();
-    }
-
-    $this->headers['Content-Type'][] = $value;
-  }
-
-  /**
-   * Get response content type.
-   *
-   * @return array
-   */
-  public function getContentType ()
-  {
-    $ct = $this->getHttpHeader('Content-Type', 'text/html');
-
-    return $ct[0];
+    return $this->getParameter($this->normalizeHeaderName($name), $default, 'symfony/response/http/headers');
   }
 
   /**
@@ -232,47 +221,61 @@ class sfWebResponse extends sfResponse
    *
    * @return boolean
    */
-  public function hasHttpHeader ($name)
+  public function hasHttpHeader($name)
   {
-    return isset($this->headers[$this->normalizeHeaderName($name)]);
+    return $this->hasParameter($this->normalizeHeaderName($name), 'symfony/response/http/headers');
+  }
+
+  /**
+   * Sets response content type.
+   *
+   * @param string Content type
+   *
+   */
+  public function setContentType($value)
+  {
+    // add charset if needed
+    if (false === stripos($value, 'charset'))
+    {
+      $value .= '; charset='.sfConfig::get('sf_charset');
+    }
+
+    $this->setParameter('Content-Type', $value, 'symfony/response/http/headers');
+  }
+
+  /**
+   * Gets response content type.
+   *
+   * @return array
+   */
+  public function getContentType()
+  {
+    return $this->getHttpHeader('Content-Type', 'text/html; charset='.sfConfig::get('sf_charset'));
   }
 
   /**
    * Send HTTP headers and cookies.
    *
-   * @return void
    */
-  public function sendHttpHeaders ()
+  public function sendHttpHeaders()
   {
     // status
-    if (substr(php_sapi_name(), 0, 3) == 'cgi' && isset($_SERVER['SERVER_SOFTWARE']) && false !== stripos($_SERVER['SERVER_SOFTWARE'], 'apache/2'))
-    {
-      // fix bug http://www.symfony-project.com/trac/ticket/669 for apache2/mod_fastcgi
-      $status = 'Status: '.$this->statusCode.' '.$this->statusText;
-    }
-    else
-    {
-      $status = 'HTTP/1.0 '.$this->statusCode.' '.$this->statusText;
-    }
-
+    $status = 'HTTP/1.0 '.$this->statusCode.' '.$this->statusText;
     header($status);
 
-    if (sfConfig::get('sf_logging_active'))
+    if (sfConfig::get('sf_logging_enabled'))
     {
-      $this->getContext()->getLogger()->info('{sfWebResponse} send status "'.$status.'"');
+      $this->getContext()->getLogger()->info('{sfResponse} send status "'.$status.'"');
     }
 
     // headers
-    foreach ($this->headers as $name => $values)
+    foreach ($this->getParameterHolder()->getAll('symfony/response/http/headers') as $name => $value)
     {
-      foreach ($values as $value)
-      {
-        header($name.': '.$value);
+      header($name.': '.$value);
 
-        if (sfConfig::get('sf_logging_active') && $value != '')
-        {
-          $this->getContext()->getLogger()->info('{sfWebResponse} send header "'.$name.'": "'.$value.'"');
-        }
+      if (sfConfig::get('sf_logging_enabled') && $value != '')
+      {
+        $this->getContext()->getLogger()->info('{sfResponse} send header "'.$name.'": "'.$value.'"');
       }
     }
 
@@ -288,23 +291,45 @@ class sfWebResponse extends sfResponse
         setrawcookie($cookie['name'], $cookie['value'], $cookie['expire'], $cookie['path'], $cookie['domain'], $cookie['secure']);
       }
 
-      if (sfConfig::get('sf_logging_active'))
+      if (sfConfig::get('sf_logging_enabled'))
       {
-        $this->getContext()->getLogger()->info('{sfWebResponse} send cookie "'.$cookie['name'].'": "'.$cookie['value'].'"');
+        $this->getContext()->getLogger()->info('{sfResponse} send cookie "'.$cookie['name'].'": "'.$cookie['value'].'"');
       }
     }
   }
 
-  private function normalizeHeaderName($name)
+  /**
+   * Send content for the current web response.
+   *
+   */
+  public function sendContent()
   {
-    if (strtolower($name) == 'etag')
+    if (!$this->headerOnly)
     {
-      return 'ETag';
+      parent::sendContent();
     }
+  }
 
+  /**
+   * Retrieves a normalized Header.
+   *
+   * @param string Header name
+   *
+   * @return string Normalized header
+   */
+  protected function normalizeHeaderName($name)
+  {
     return preg_replace('/\-(.)/e', "'-'.strtoupper('\\1')", strtr(ucfirst(strtolower($name)), '_', '-'));
   }
 
+  /**
+   * Retrieves a formated date.
+   *
+   * @param string Timestamp
+   * @param string Format type
+   *
+   * @return string Formated date
+   */
   public function getDate($timestamp, $type = 'rfc1123')
   {
     $type = strtolower($type);
@@ -329,13 +354,18 @@ class sfWebResponse extends sfResponse
     }
   }
 
+  /**
+   * Adds vary to a http header.
+   *
+   * @param string HTTP header
+   */
   public function addVaryHttpHeader($header)
   {
     $vary = $this->getHttpHeader('Vary');
     $currentHeaders = array();
-    if ($vary[0])
+    if ($vary)
     {
-      $currentHeaders = split('/\s*,\s*/', $vary[0]);
+      $currentHeaders = split('/\s*,\s*/', $vary);
     }
     $header = $this->normalizeHeaderName($header);
 
@@ -346,129 +376,184 @@ class sfWebResponse extends sfResponse
     }
   }
 
+  /**
+   * Adds an control cache http header.
+   *
+   * @param string HTTP header
+   * @param string Value for the http header
+   */
   public function addCacheControlHttpHeader($name, $value = null)
   {
     $cacheControl = $this->getHttpHeader('Cache-Control');
     $currentHeaders = array();
-    if ($cacheControl[0])
+    if ($cacheControl)
     {
-      $currentHeaders = split('/\s*,\s*/', $cacheControl[0]);
+      foreach (split('/\s*,\s*/', $cacheControl) as $tmp)
+      {
+        $tmp = explode('=', $tmp);
+        $currentHeaders[$tmp[0]] = isset($tmp[1]) ? $tmp[1] : null;
+      }
     }
-    $name = strtr(strtolower($name), '_', '-');
+    $currentHeaders[strtr(strtolower($name), '_', '-')] = $value;
 
-    if (!in_array($name, $currentHeaders))
+    $headers = array();
+    foreach ($currentHeaders as $key => $value)
     {
-      $currentHeaders[] = $name.($value !== null ? '='.$value : '');
-      $this->setHttpHeader('Cache-Control', implode(', ', $currentHeaders));
+      $headers[] = $key.(null !== $value ? '='.$value : '');
     }
+
+    $this->setHttpHeader('Cache-Control', implode(', ', $headers));
   }
 
+  /**
+   * Retrieves meta headers for the current web response.
+   *
+   * @return string Meta headers
+   */
   public function getHttpMetas()
   {
-    return $this->parameter_holder->getAll('helper/asset/auto/httpmeta');
+    return $this->getParameterHolder()->getAll('helper/asset/auto/httpmeta');
   }
 
-  public function addHttpMeta($key, $value, $override = true)
+  /**
+   * Adds meta headers to the current web response.
+   *
+   * @param string Key to replace
+   * @param string Value for the replacement
+   * @param boolean Replace or not
+   */
+  public function addHttpMeta($key, $value, $replace = true)
   {
-    if ($override || !$this->hasParameter($key, 'helper/asset/auto/httpmeta'))
+    $key = $this->normalizeHeaderName($key);
+
+    // set HTTP header
+    $this->setHttpHeader($key, $value, $replace);
+
+    if ('Content-Type' == $key)
     {
-      // set HTTP header
-      $this->setHttpHeader($key, $value, false);
-
-      if ('Content-Type' == $this->normalizeHeaderName($key))
-      {
-        $value = $this->getContentType();
-      }
-
-      $this->setParameter($key, $value, 'helper/asset/auto/httpmeta');
+      $value = $this->getContentType();
     }
+
+    if (!$replace)
+    {
+      $current = $this->getParameter($key, '', 'helper/asset/auto/httpmeta');
+      $value = ($current ? $current.', ' : '').$value;
+    }
+
+    $this->setParameter($key, $value, 'helper/asset/auto/httpmeta');
   }
 
+  /**
+   * Retrieves all meta headers for the current web response.
+   *
+   * @return array List of meta headers
+   */
   public function getMetas()
   {
-    return $this->parameter_holder->getAll('helper/asset/auto/meta');
+    return $this->getParameterHolder()->getAll('helper/asset/auto/meta');
   }
 
-  public function addMeta($key, $value, $override = true, $doNotEscape = false)
+  /**
+   * Adds a meta header to the current web response.
+   *
+   * @param string Name of the header
+   * @param string Meta header to be set
+   * @param boolean true if it's replaceable
+   * @param boolean true for escaping the header
+   */
+  public function addMeta($key, $value, $replace = true, $escape = true)
   {
-    if ($override || !$this->hasParameter($key, 'helper/asset/auto/meta'))
+    $key = strtolower($key);
+
+    if (sfConfig::get('sf_i18n'))
     {
-      if (sfConfig::get('sf_i18n'))
-      {
-        $value = sfConfig::get('sf_i18n_instance')->__($value);
-      }
+      $value = $this->getContext()->getI18N()->__($value);
+    }
 
-      if (!$doNotEscape)
-      {
-        $value = htmlentities($value, ENT_QUOTES, sfConfig::get('sf_charset'));
-      }
+    if ($escape)
+    {
+      $value = htmlentities($value, ENT_QUOTES, sfConfig::get('sf_charset'));
+    }
 
+    if ($replace || !$this->getParameter($key, null, 'helper/asset/auto/meta'))
+    {
       $this->setParameter($key, $value, 'helper/asset/auto/meta');
     }
   }
 
+  /**
+   * Retrieves title for the current web response.
+   *
+   * @return string Title
+   */
   public function getTitle()
   {
-    $metas = $this->parameter_holder->getAll('helper/asset/auto/meta');
-	
-    return (array_key_exists('title', $metas)) ? $metas['title'] : false;
+    return $this->getParameter('title', '', 'helper/asset/auto/meta');
   }
 
-  public function setTitle($title, $doNotEscape = false)
+  /**
+   * Sets title for the current web response.
+   *
+   * @param string Title name
+   * @param boolean true, for escaping the title
+   */
+  public function setTitle($title, $escape = true)
   {
-    if (!$doNotEscape)
-    {
-      if (sfConfig::get('sf_i18n'))
-      {
-        $title = sfConfig::get('sf_i18n_instance')->__($title);
-      }
-
-      $title = htmlentities($title, ENT_QUOTES, sfConfig::get('sf_charset'));
-    }
-
-    $this->setParameter('title', $title, 'helper/asset/auto/meta');
+    $this->addMeta('title', $title, true, $escape);
   }
 
+  /**
+   * Retrieves stylesheets for the current web response.
+   *
+   * @param string Direcotry delimiter
+   *
+   * @return string Stylesheets
+   */
   public function getStylesheets($position = '')
   {
-    if ($position)
-    {
-      $position = '/'.$position;
-    }
-
-    return $this->parameter_holder->getAll('helper/asset/auto/stylesheet'.$position);
+    return $this->getParameterHolder()->getAll('helper/asset/auto/stylesheet'.($position ? '/'.$position : ''));
   }
 
+  /**
+   * Adds an stylesheet to the current web response.
+   *
+   * @param string Stylesheet
+   * @param string Direcotry delimiter
+   * @param string Stylesheet options
+   */
   public function addStylesheet($css, $position = '', $options = array())
   {
-    if ($position)
-    {
-      $position = '/'.$position;
-    }
-
-    $this->setParameter($css, $options, 'helper/asset/auto/stylesheet'.$position);
+    $this->setParameter($css, $options, 'helper/asset/auto/stylesheet'.($position ? '/'.$position : ''));
   }
 
+  /**
+   * Retrieves javascript code from the current web response.
+   *
+   * @param string Directory delimiter
+   *
+   * @return string Javascript code
+   */
   public function getJavascripts($position = '')
   {
-    if ($position)
-    {
-      $position = '/'.$position;
-    }
-
-    return $this->parameter_holder->getAll('helper/asset/auto/javascript'.$position);
+    return $this->getParameterHolder()->getAll('helper/asset/auto/javascript'.($position ? '/'.$position : ''));
   }
 
+  /**
+   * Adds javascript code to the current web response.
+   *
+   * @param string Javascript code
+   * @param string Directory delimiter
+   */
   public function addJavascript($js, $position = '')
   {
-    if ($position)
-    {
-      $position = '/'.$position;
-    }
-
-    $this->setParameter($js, $js, 'helper/asset/auto/javascript'.$position);
+    $this->setParameter($js, $js, 'helper/asset/auto/javascript'.($position ? '/'.$position : ''));
   }
 
+  /**
+   * Retrieves cookies from the current web response.
+   *
+   * @return array Cookies
+   */
   public function getCookies()
   {
     $cookies = array();
@@ -480,49 +565,55 @@ class sfWebResponse extends sfResponse
     return $cookies;
   }
 
+  /**
+   * Retrieves HTTP headers from the current web response.
+   *
+   * @return string HTTP headers
+   */
   public function getHttpHeaders()
   {
-    return $this->headers;
-  }
-
-  public function mergeProperties($response)
-  {
-    // view configuration
-    $this->getParameterHolder()->add($response->getParameterHolder()->getAll('symfony/action/view'), 'symfony/action/view');
-
-    // add stylesheets
-    foreach (array('first', '', 'last') as $position)
-    {
-      $this->getParameterHolder()->add($response->getStylesheets($position), 'helper/asset/auto/stylesheet'.$position);
-    }
-
-    // add javascripts
-    foreach (array('first', '', 'last') as $position)
-    {
-      $this->getParameterHolder()->add($response->getJavascripts($position), 'helper/asset/auto/javascript'.$position);
-    }
-
-    // add headers
-    foreach ($response->getHttpHeaders() as $name => $values)
-    {
-      foreach ($values as $value)
-      {
-        $this->setHttpHeader($name, $value);
-      }
-    }
-  }
-
-  public function __sleep()
-  {
-    return array('content', 'headers', 'statusCode', 'statusText', 'parameter_holder');
+    return $this->getParameterHolder()->getAll('symfony/response/http/headers');
   }
 
   /**
-   * Execute the shutdown procedure.
-   *
-   * @return void
+   * Cleans HTTP headers from the current web response.
    */
-  public function shutdown ()
+  public function clearHttpHeaders()
+  {
+    $this->getParameterHolder()->removeNamespace('symfony/response/http/headers');
+  }
+
+  /**
+   * Copies a propertie to a new one.
+   *
+   * @param sfResponse Response instance
+   */
+  public function mergeProperties($response)
+  {
+    $this->parameterHolder = clone $response->getParameterHolder();
+  }
+
+  /**
+   * Retrieves all objects handlers for the current web response.
+   *
+   * @return array Objects instance
+   */
+  public function __sleep()
+  {
+    return array('content', 'statusCode', 'statusText', 'parameterHolder');
+  }
+
+  /**
+   * Reconstructs any result that web response instance needs.
+   */
+  public function __wakeup()
+  {
+  }
+
+  /**
+   * Executes the shutdown procedure.
+   */
+  public function shutdown()
   {
   }
 }

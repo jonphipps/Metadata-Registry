@@ -1,0 +1,9 @@
+all:
+  .settings:
+    admin_web_dir:       /jpAdminPlugin
+  .admin_defaults:
+    admin_char_min:      20
+    admin_char_max:      60
+    admin_text_size:     55x3
+    admin_int_size:      7
+    admin_float_size:    7

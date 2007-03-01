@@ -1,5 +1,13 @@
 <?php
 
+/*
+ * This file is part of the symfony package.
+ * (c) 2004-2006 Fabien Potencier <fabien.potencier@symfony-project.com>
+ * 
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 pake_desc('synchronise project with another machine');
 pake_task('sync', 'project_exists');
 
@@ -20,8 +28,15 @@ function run_sync($task, $args)
   }
 
   $host = $task->get_property('host', $env);
-  $user = $task->get_property('user', $env);
-  $dir = $task->get_property('dir', $env);
+  $dir  = $task->get_property('dir', $env);
+  try
+  {
+    $user = $task->get_property('user', $env).'@';
+  }
+  catch (pakeException $e)
+  {
+    $user = '';
+  }
 
   if (substr($dir, -1) != '/')
   {
@@ -43,11 +58,25 @@ function run_sync($task, $args)
   }
   catch (pakeException $e)
   {
-    $parameters = '-azC --exclude-from=config/rsync_exclude.txt --force --delete';
+    $parameters = '-azC --force --delete';
+    if (file_exists('config/rsync_exclude.txt'))
+    {
+      $parameters .= ' --exclude-from=config/rsync_exclude.txt';
+    }
+
+    if (file_exists('config/rsync_include.txt'))
+    {
+      $parameters .= ' --include-from=config/rsync_include.txt';
+    }
+
+    if (file_exists('config/rsync.txt'))
+    {
+      $parameters .= ' --files-from=config/rsync.txt';
+    }
   }
 
   $dry_run = ($dryrun == 'go' || $dryrun == 'ok') ? '' : '--dry-run';
-  $cmd = "rsync --progress $dry_run $parameters -e $ssh ./ $user@$host:$dir";
+  $cmd = "rsync --progress $dry_run $parameters -e $ssh ./ $user$host:$dir";
 
   echo pake_sh($cmd);
 }

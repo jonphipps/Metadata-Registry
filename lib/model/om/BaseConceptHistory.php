@@ -9,7 +9,7 @@ abstract class BaseConceptHistory extends BaseObject  implements Persistent {
 
 
 	
-	protected $sid = '';
+	protected $sid = 'null';
 
 
 	
@@ -32,10 +32,10 @@ abstract class BaseConceptHistory extends BaseObject  implements Persistent {
 	protected $new_values;
 
 	
-	protected $aUser;
+	protected $aConceptProperty;
 
 	
-	protected $aConceptProperty;
+	protected $aUser;
 
 	
 	protected $alreadyInSave = false;
@@ -104,7 +104,7 @@ abstract class BaseConceptHistory extends BaseObject  implements Persistent {
 	public function setSid($v)
 	{
 
-		if ($this->sid !== $v || $v === '') {
+		if ($this->sid !== $v || $v === 'null') {
 			$this->sid = $v;
 			$this->modifiedColumns[] = ConceptHistoryPeer::SID;
 		}
@@ -254,18 +254,18 @@ abstract class BaseConceptHistory extends BaseObject  implements Persistent {
 
 
 												
-			if ($this->aUser !== null) {
-				if ($this->aUser->isModified()) {
-					$affectedRows += $this->aUser->save($con);
-				}
-				$this->setUser($this->aUser);
-			}
-
 			if ($this->aConceptProperty !== null) {
 				if ($this->aConceptProperty->isModified()) {
 					$affectedRows += $this->aConceptProperty->save($con);
 				}
 				$this->setConceptProperty($this->aConceptProperty);
+			}
+
+			if ($this->aUser !== null) {
+				if ($this->aUser->isModified()) {
+					$affectedRows += $this->aUser->save($con);
+				}
+				$this->setUser($this->aUser);
 			}
 
 
@@ -316,15 +316,15 @@ abstract class BaseConceptHistory extends BaseObject  implements Persistent {
 
 
 												
-			if ($this->aUser !== null) {
-				if (!$this->aUser->validate($columns)) {
-					$failureMap = array_merge($failureMap, $this->aUser->getValidationFailures());
-				}
-			}
-
 			if ($this->aConceptProperty !== null) {
 				if (!$this->aConceptProperty->validate($columns)) {
 					$failureMap = array_merge($failureMap, $this->aConceptProperty->getValidationFailures());
+				}
+			}
+
+			if ($this->aUser !== null) {
+				if (!$this->aUser->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aUser->getValidationFailures());
 				}
 			}
 
@@ -497,8 +497,8 @@ abstract class BaseConceptHistory extends BaseObject  implements Persistent {
 
 		$copyObj->setNew(true);
 
-		$copyObj->setSid(''); 
-		$copyObj->setConceptPropertyId(''); 
+		$copyObj->setSid('null'); 
+		$copyObj->setConceptPropertyId('null'); 
 	}
 
 	
@@ -520,42 +520,12 @@ abstract class BaseConceptHistory extends BaseObject  implements Persistent {
 	}
 
 	
-	public function setUser($v)
-	{
-
-
-		if ($v === null) {
-			$this->setUserId('');
-		} else {
-			$this->setUserId($v->getId());
-		}
-
-
-		$this->aUser = $v;
-	}
-
-
-	
-	public function getUser($con = null)
-	{
-				include_once 'lib/model/om/BaseUserPeer.php';
-
-		if ($this->aUser === null && ($this->user_id !== null)) {
-
-			$this->aUser = UserPeer::retrieveByPK($this->user_id, $con);
-
-			
-		}
-		return $this->aUser;
-	}
-
-	
 	public function setConceptProperty($v)
 	{
 
 
 		if ($v === null) {
-			$this->setConceptPropertyId('');
+			$this->setConceptPropertyId('null');
 		} else {
 			$this->setConceptPropertyId($v->getId());
 		}
@@ -577,6 +547,36 @@ abstract class BaseConceptHistory extends BaseObject  implements Persistent {
 			
 		}
 		return $this->aConceptProperty;
+	}
+
+	
+	public function setUser($v)
+	{
+
+
+		if ($v === null) {
+			$this->setUserId('null');
+		} else {
+			$this->setUserId($v->getId());
+		}
+
+
+		$this->aUser = $v;
+	}
+
+
+	
+	public function getUser($con = null)
+	{
+				include_once 'lib/model/om/BaseUserPeer.php';
+
+		if ($this->aUser === null && ($this->user_id !== null)) {
+
+			$this->aUser = UserPeer::retrieveByPK($this->user_id, $con);
+
+			
+		}
+		return $this->aUser;
 	}
 
 } 

@@ -14,21 +14,31 @@
  * @package    symfony
  * @subpackage debug
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
- * @version    SVN: $Id: sfDebug.class.php 1415 2006-06-11 08:33:51Z fabien $
+ * @version    SVN: $Id: sfDebug.class.php 3492 2007-02-18 09:10:54Z fabien $
  */
 class sfDebug
 {
+  /**
+   * Returns PHP information as an array.
+   *
+   * @return array An array of php information
+   */
   public static function phpInfoAsArray()
   {
     $values = array(
-      'php' => phpversion(),
-      'os' => php_uname(),
+      'php'        => phpversion(),
+      'os'         => php_uname(),
       'extensions' => get_loaded_extensions(),
     );
 
     return $values;
   }
 
+  /**
+   * Returns PHP globals variables as a sorted array.
+   *
+   * @return array PHP globals
+   */
   public static function globalsAsArray()
   {
     $values = array();
@@ -52,6 +62,11 @@ class sfDebug
     return $values;
   }
 
+  /**
+   * Returns sfConfig variables as a sorted array.
+   *
+   * @return array sfConfig variables
+   */
   public static function settingsAsArray()
   {
     $config = sfConfig::getAll();
@@ -61,37 +76,75 @@ class sfDebug
     return $config;
   }
 
+  /**
+   * Returns request parameter holders as an array.
+   *
+   * @param sfRequest A sfRequest instance
+   *
+   * @return array The request parameter holders
+   */
   public static function requestAsArray($request)
   {
-    $values = array(
-      'parameter_holder' => self::flattenParameterHolder($request->getParameterHolder()),
-      'attribute_holder' => self::flattenParameterHolder($request->getAttributeHolder()),
-    );
+    if ($request)
+    {
+      $values = array(
+        'parameterHolder' => self::flattenParameterHolder($request->getParameterHolder()),
+        'attributeHolder' => self::flattenParameterHolder($request->getAttributeHolder()),
+      );
+    }
+    else
+    {
+      $values = array('parameterHolder' => array(), 'attributeHolder' => array());
+    }
 
     return $values;
   }
 
+  /**
+   * Returns response parameters as an array.
+   *
+   * @param sfResponse A sfResponse instance
+   *
+   * @return array The response parameters
+   */
   public static function responseAsArray($response)
   {
-    $values = array(
-      'cookies'          => array(),
-      'http_headers'     => array(),
-      'parameter_holder' => self::flattenParameterHolder($response->getParameterHolder()),
-    );
-    foreach ($response->getHttpHeaders() as $key => $value)
+    if ($response)
     {
-      $values['http_headers'][$key] = $value;
-    }
+      $values = array(
+        'cookies'         => array(),
+        'httpHeaders'     => array(),
+        'parameterHolder' => self::flattenParameterHolder($response->getParameterHolder()),
+      );
+      if (method_exists($response, 'getHttpHeaders'))
+      {
+        foreach ($response->getHttpHeaders() as $key => $value)
+        {
+          $values['httpHeaders'][$key] = $value;
+        }
+      }
 
-    $cookies = array();
-    foreach ($response->getCookies() as $key => $value)
+      $cookies = array();
+      foreach ($response->getCookies() as $key => $value)
+      {
+        $values['cookies'][$key] = $value;
+      }
+    }
+    else
     {
-      $values['cookies'][$key] = $value;
+      $values = array('cookies' => array(), 'httpHeaders' => array(), 'parameterHolder' => array());
     }
 
     return $values;
   }
 
+  /**
+   * Returns a parameter holder as an array.
+   *
+   * @param sfParameterHolder A sfParameterHolder instance
+   *
+   * @return array The parameter holder as an array
+   */
   public static function flattenParameterHolder($parameterHolder)
   {
     $values = array();

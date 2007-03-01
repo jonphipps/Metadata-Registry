@@ -21,15 +21,15 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 
 
 	
-	protected $name = '';
+	protected $name = 'null';
 
 
 	
-	protected $uri = '';
+	protected $uri = 'null';
 
 
 	
-	protected $object_type = '';
+	protected $object_type = 'null';
 
 
 	
@@ -240,7 +240,7 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 	public function setName($v)
 	{
 
-		if ($this->name !== $v || $v === '') {
+		if ($this->name !== $v || $v === 'null') {
 			$this->name = $v;
 			$this->modifiedColumns[] = SkosPropertyPeer::NAME;
 		}
@@ -250,7 +250,7 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 	public function setUri($v)
 	{
 
-		if ($this->uri !== $v || $v === '') {
+		if ($this->uri !== $v || $v === 'null') {
 			$this->uri = $v;
 			$this->modifiedColumns[] = SkosPropertyPeer::URI;
 		}
@@ -260,7 +260,7 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 	public function setObjectType($v)
 	{
 
-		if ($this->object_type !== $v || $v === '') {
+		if ($this->object_type !== $v || $v === 'null') {
 			$this->object_type = $v;
 			$this->modifiedColumns[] = SkosPropertyPeer::OBJECT_TYPE;
 		}
@@ -991,41 +991,6 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 
 
 	
-	public function getConceptPropertysJoinLookup($criteria = null, $con = null)
-	{
-				include_once 'lib/model/om/BaseConceptPropertyPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collConceptPropertys === null) {
-			if ($this->isNew()) {
-				$this->collConceptPropertys = array();
-			} else {
-
-				$criteria->add(ConceptPropertyPeer::SKOS_PROPERTY_ID, $this->getId());
-
-				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinLookup($criteria, $con);
-			}
-		} else {
-									
-			$criteria->add(ConceptPropertyPeer::SKOS_PROPERTY_ID, $this->getId());
-
-			if (!isset($this->lastConceptPropertyCriteria) || !$this->lastConceptPropertyCriteria->equals($criteria)) {
-				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinLookup($criteria, $con);
-			}
-		}
-		$this->lastConceptPropertyCriteria = $criteria;
-
-		return $this->collConceptPropertys;
-	}
-
-
-	
 	public function getConceptPropertysJoinConceptRelatedByRelatedConceptId($criteria = null, $con = null)
 	{
 				include_once 'lib/model/om/BaseConceptPropertyPeer.php';
@@ -1052,6 +1017,41 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 
 			if (!isset($this->lastConceptPropertyCriteria) || !$this->lastConceptPropertyCriteria->equals($criteria)) {
 				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinConceptRelatedByRelatedConceptId($criteria, $con);
+			}
+		}
+		$this->lastConceptPropertyCriteria = $criteria;
+
+		return $this->collConceptPropertys;
+	}
+
+
+	
+	public function getConceptPropertysJoinLookup($criteria = null, $con = null)
+	{
+				include_once 'lib/model/om/BaseConceptPropertyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collConceptPropertys === null) {
+			if ($this->isNew()) {
+				$this->collConceptPropertys = array();
+			} else {
+
+				$criteria->add(ConceptPropertyPeer::SKOS_PROPERTY_ID, $this->getId());
+
+				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinLookup($criteria, $con);
+			}
+		} else {
+									
+			$criteria->add(ConceptPropertyPeer::SKOS_PROPERTY_ID, $this->getId());
+
+			if (!isset($this->lastConceptPropertyCriteria) || !$this->lastConceptPropertyCriteria->equals($criteria)) {
+				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinLookup($criteria, $con);
 			}
 		}
 		$this->lastConceptPropertyCriteria = $criteria;

@@ -10,8 +10,7 @@
  */
 
 /**
- * sfFilter provides a way for you to intercept incoming requests or outgoing
- * responses.
+ * sfFilter provides a way for you to intercept incoming requests or outgoing responses.
  *
  * @package    symfony
  * @subpackage filter
@@ -21,85 +20,127 @@
  */
 abstract class sfFilter
 {
-  private
-    $parameter_holder = null,
-    $filterCalled     = array();
-
   protected
-    $context          = null;
+    $parameterHolder = null,
+    $context         = null;
 
-  protected function isFirstCallBeforeExecution ()
-  {
-    return $this->isFirstCall('beforeExecution');
-  }
+  public static
+    $filterCalled    = array();
 
-  protected function isFirstCallBeforeRendering ()
-  {
-    return $this->isFirstCall('beforeRendering');
-  }
-
-  protected function isFirstCall ($type = 'beforeExecution')
+  /**
+   * Returns true if this is the first call to the sfFilter instance.
+   *
+   * @return boolean true if this is the first call to the sfFilter instance, false otherwise
+   */
+  protected function isFirstCall()
   {
     $class = get_class($this);
-    if (isset($this->filterCalled[$class][$type]))
+    if (isset(self::$filterCalled[$class]))
     {
       return false;
     }
     else
     {
-      $this->filterCalled[$class][$type] = true;
+      self::$filterCalled[$class] = true;
 
       return true;
     }
   }
 
   /**
-   * Retrieve the current application context.
+   * Retrieves the current application context.
    *
-   * @return Context The current Context instance.
+   * @return sfContext The current sfContext instance
    */
-  public final function getContext ()
+  public final function getContext()
   {
     return $this->context;
   }
 
   /**
-   * Initialize this Filter.
+   * Initializes this Filter.
    *
-   * @param Context The current application context.
-   * @param array   An associative array of initialization parameters.
+   * @param sfContext The current application context
+   * @param array   An associative array of initialization parameters
    *
-   * @return bool true, if initialization completes successfully, otherwise false.
+   * @return boolean true, if initialization completes successfully, otherwise false
    *
-   * @throws <b>sfInitializationException</b> If an error occurs while initializing this Filter.
+   * @throws <b>sfInitializationException</b> If an error occurs while initializing this Filter
    */
-  public function initialize ($context, $parameters = array())
+  public function initialize($context, $parameters = array())
   {
     $this->context = $context;
 
-    $this->parameter_holder = new sfParameterHolder();
-    $this->parameter_holder->add($parameters);
+    $this->parameterHolder = new sfParameterHolder();
+    $this->parameterHolder->add($parameters);
 
     return true;
   }
 
+  /**
+   * Gets the parameter holder for this object.
+   *
+   * @return sfParameterHolder A sfParameterHolder instance
+   */
   public function getParameterHolder()
   {
-    return $this->parameter_holder;
+    return $this->parameterHolder;
   }
 
+  /**
+   * Gets the parameter associated with the given key.
+   *
+   * This is a shortcut for:
+   *
+   * <code>$this->getParameterHolder()->get()</code>
+   *
+   * @param string The key name
+   * @param string The default value
+   * @param string The namespace to use
+   *
+   * @return string The value associated with the key
+   *
+   * @see sfParameterHolder
+   */
   public function getParameter($name, $default = null, $ns = null)
   {
-    return $this->parameter_holder->get($name, $default, $ns);
+    return $this->parameterHolder->get($name, $default, $ns);
   }
 
+  /**
+   * Returns true if the given key exists in the parameter holder.
+   *
+   * This is a shortcut for:
+   *
+   * <code>$this->getParameterHolder()->has()</code>
+   *
+   * @param string The key name
+   * @param string The namespace to use
+   *
+   * @return boolean true if the given key exists, false otherwise
+   *
+   * @see sfParameterHolder
+   */
   public function hasParameter($name, $ns = null)
   {
-    return $this->parameter_holder->has($name, $ns);
+    return $this->parameterHolder->has($name, $ns);
   }
 
+  /**
+   * Sets the value for the given key.
+   *
+   * This is a shortcut for:
+   *
+   * <code>$this->getParameterHolder()->set()</code>
+   *
+   * @param string The key name
+   * @param string The value
+   * @param string The namespace to use
+   *
+   * @see sfParameterHolder
+   */
   public function setParameter($name, $value, $ns = null)
   {
-    return $this->parameter_holder->set($name, $value, $ns);
+    return $this->parameterHolder->set($name, $value, $ns);
   }
 }

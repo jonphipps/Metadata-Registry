@@ -17,11 +17,18 @@
  * @version    SVN: $Id$
  */
 
-function __($text, $args = array(), $culture = null, $catalogue = 'messages')
+function __($text, $args = array(), $catalogue = 'messages')
 {
+  static $i18n;
+
   if (sfConfig::get('sf_i18n'))
   {
-    return sfConfig::get('sf_i18n_instance')->__($text, $args, $catalogue);
+    if (!isset($i18n))
+    {
+      $i18n = sfContext::getInstance()->getI18N();
+    }
+
+    return $i18n->__($text, $args, $catalogue);
   }
   else
   {
@@ -38,9 +45,9 @@ function __($text, $args = array(), $culture = null, $catalogue = 'messages')
   }
 }
 
-function format_number_choice($text, $args = array(), $number, $culture = null, $catalogue = 'messages')
+function format_number_choice($text, $args = array(), $number, $catalogue = 'messages')
 {
-  $translated = __($text, $args, $culture, $catalogue);
+  $translated = __($text, $args, $catalogue);
 
   $choice = new sfChoiceFormat();
 

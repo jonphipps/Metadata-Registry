@@ -40,11 +40,11 @@
 class sfPostgreSQLDatabase extends sfDatabase
 {
   /**
-   * Connect to the database.
+   * Connects to the database.
    *
-   * @throws <b>sfDatabaseException</b> If a connection could not be created.
+   * @throws <b>sfDatabaseException</b> If a connection could not be created
    */
-  public function connect ()
+  public function connect()
   {
     // determine how to get our parameters
     $method = $this->getParameter('method', 'normal');
@@ -61,11 +61,11 @@ class sfPostgreSQLDatabase extends sfDatabase
         $username = $this->getParameter('username');
 
         // construct connection string
-        $string = (($database != null) ? (' dbname='   .$database) : '').
-                  (($host != null)     ? (' host='     .$host)     : '').
-                  (($password != null) ? (' password=' .$password) : '').
-                  (($port != null)     ? (' port='     .$port)     : '').
-                  (($username != null) ? (' user='     .$username) : '');
+        $string = ($database != null ? (' dbname='   .$database) : '').
+                  ($host != null     ? (' host='     .$host)     : '').
+                  ($password != null ? (' password=' .$password) : '').
+                  ($port != null     ? (' port='     .$port)     : '').
+                  ($username != null ? (' user='     .$username) : '');
 
         break;
 
@@ -91,7 +91,7 @@ class sfPostgreSQLDatabase extends sfDatabase
 
     // let's see if we need a persistent connection
     $persistent = $this->getParameter('persistent', false);
-    $connect    = ($persistent) ? 'pg_pconnect' : 'pg_connect';
+    $connect    = $persistent ? 'pg_pconnect' : 'pg_connect';
 
     $this->connection = @$connect($string);
 
@@ -110,11 +110,11 @@ class sfPostgreSQLDatabase extends sfDatabase
   }
 
   /**
-   * Load connection parameters from an existing array.
+   * Loads connection parameters from an existing array.
    *
-   * @return string A connection string.
+   * @return string A connection string
    */
-  private function loadParameters (&$array)
+  protected function loadParameters(&$array)
   {
     $database = $this->getParameter('database');
     $host     = $this->getParameter('host');
@@ -123,23 +123,21 @@ class sfPostgreSQLDatabase extends sfDatabase
     $username = $this->getParameter('username');
 
     // construct connection string
-    $string = (($database != null) ? (' dbname='   .$array[$database]) : '') .
-              (($host != null)     ? (' host='     .$array[$host])     : '') .
-              (($password != null) ? (' password=' .$array[$password]) : '') .
-              (($port != null)     ? (' port='     .$array[$port])     : '') .
-              (($username != null) ? (' user='     .$array[$username]) : '');
+    $string = ($database != null ? (' dbname='  .$array[$database]) : '').
+              ($host != null     ? (' host='    .$array[$host])     : '').
+              ($password != null ? (' password='.$array[$password]) : '').
+              ($port != null     ? (' port='    .$array[$port])     : '').
+              ($username != null ? (' user='    .$array[$username]) : '');
 
     return $string;
   }
 
   /**
-   * Execute the shutdown procedure.
+   * Executes the shutdown procedure.
    *
-   * @return void
-   *
-   * @throws <b>sfDatabaseException</b> If an error occurs while shutting down this database.
+   * @throws <b>sfDatabaseException</b> If an error occurs while shutting down this database
    */
-  public function shutdown ()
+  public function shutdown()
   {
     if ($this->connection != null)
     {

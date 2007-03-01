@@ -1,21 +1,14 @@
 <?php
 
-require_once 'model/om/BaseConceptProperty.php';
-
-
 /**
- * Skeleton subclass for representing a row from the 'reg_concept_property' table.
+ * Subclass for representing a row from the 'reg_concept_property' table.
  *
  * 
  *
- * You should add additional methods to this class to meet the
- * application requirements.  This class will only be generated as
- * long as it does not already exist in the output directory.
- *
- * @package model
- */	
-class ConceptProperty extends BaseConceptProperty {
-
+ * @package lib.model
+ */ 
+class ConceptProperty extends BaseConceptProperty
+{
 	/**
 	 * The value for the vocabulary_id field.
 	 * @var int

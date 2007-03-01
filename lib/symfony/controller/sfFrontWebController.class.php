@@ -23,21 +23,21 @@
 class sfFrontWebController extends sfWebController
 {
   /**
-   * Dispatch a request.
+   * Dispatches a request.
    *
-   * This will determine which module and action to use by request parameters
-   * specified by the user.
-   *
-   * @return void
+   * This will determine which module and action to use by request parameters specified by the user.
    */
-  public function dispatch ()
+  public function dispatch()
   {
     try
     {
-      if (sfConfig::get('sf_logging_active'))
+      if (sfConfig::get('sf_logging_enabled'))
       {
-        $this->getContext()->getLogger()->info('{sfFrontWebController} dispatch request');
+        $this->getContext()->getLogger()->info('{sfController} dispatch request');
       }
+
+      // reinitialize filters (needed for unit and functional tests)
+      sfFilter::$filterCalled = array();
 
       // determine our module and action
       $request    = $this->getContext()->getRequest();
@@ -49,13 +49,30 @@ class sfFrontWebController extends sfWebController
     }
     catch (sfException $e)
     {
+      if (sfConfig::get('sf_test'))
+      {
+        throw $e;
+      }
+
       $e->printStackTrace();
     }
     catch (Exception $e)
     {
-      // wrap non symfony exceptions
-      $sfException = new sfException();
-      $sfException->printStackTrace($e);
+      if (sfConfig::get('sf_test'))
+      {
+        throw $e;
+      }
+
+      try
+      {
+        // wrap non symfony exceptions
+        $sfException = new sfException();
+        $sfException->printStackTrace($e);
+      }
+      catch (Exception $e)
+      {
+        header('HTTP/1.0 500 Internal Server Error');
+      }
     }
   }
 }

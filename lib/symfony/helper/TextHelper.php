@@ -25,14 +25,18 @@
  */
 function truncate_text($text, $length = 30, $truncate_string = '...', $truncate_lastspace = false)
 {
-  if ($text == '') return '';
+  if ($text == '')
+  {
+    return '';
+  }
+
   if (strlen($text) > $length)
   {
     $truncate_text = substr($text, 0, $length - strlen($truncate_string));
-    if($truncate_lastspace)
+    if ($truncate_lastspace)
     {
       $truncate_text = preg_replace('/\s+?(\S+)?$/', '', $truncate_text);
-    } 
+    }
 
     return $truncate_text.$truncate_string;
   }
@@ -54,14 +58,13 @@ function highlight_text($text, $phrase, $highlighter = '<strong class="highlight
   {
     return '';
   }
-  else if ($phrase != '')
-  {
-    return preg_replace('/('.preg_quote($phrase).')/i', $highlighter, $text);
-  }
-  else
+
+  if ($phrase == '')
   {
     return $text;
   }
+
+  return preg_replace('/('.preg_quote($phrase).')/i', $highlighter, $text);
 }
 
 /**
@@ -71,29 +74,23 @@ function highlight_text($text, $phrase, $highlighter = '<strong class="highlight
  */
 function excerpt_text($text, $phrase, $radius = 100, $excerpt_string = '...')
 {
-  if ($text == '')
+  if ($text == '' || $phrase == '')
   {
     return '';
   }
-  else if ($phrase != '')
+
+  $phrase = preg_quote($phrase);
+
+  $found_pos = strpos(strtolower($text), strtolower($phrase));
+  if ($found_pos !== false)
   {
-    $phrase = preg_quote($phrase);
+    $start_pos = max($found_pos - $radius, 0);
+    $end_pos = min($found_pos + strlen($phrase) + $radius, strlen($text));
 
-    $found_pos = strpos(strtolower($text), strtolower($phrase));
-    if ($found_pos !== false)
-    {
-      $start_pos = max($found_pos - $radius, 0);
-      $end_pos = min($found_pos + strlen($phrase) + $radius, strlen($text));
+    $prefix = ($start_pos > 0) ? $excerpt_string : '';
+    $postfix = $end_pos < strlen($text) ? $excerpt_string : '';
 
-      $prefix = ($start_pos > 0) ? $excerpt_string : '';
-      $postfix = $end_pos < strlen($text) ? $excerpt_string : '';
-
-      return $prefix.substr($text, $start_pos, $end_pos - $start_pos).$postfix;
-    }
-  }
-  else
-  {
-    return '';
+    return $prefix.substr($text, $start_pos, $end_pos - $start_pos).$postfix;
   }
 }
 
@@ -158,23 +155,26 @@ function strip_links_text($text)
 
 if (!defined('SF_AUTO_LINK_RE'))
 {
-  define('SF_AUTO_LINK_RE', '/
+  define('SF_AUTO_LINK_RE', '~
     (                       # leading text
       <\w+.*?>|             #   leading HTML tag, or
-      [^=!:\'"\/]|          #   leading punctuation, or
+      [^=!:\'"/]|           #   leading punctuation, or
       ^                     #   beginning of line
     )
     (
-      (?:http[s]?:\/\/)|    # protocol spec, or
+      (?:https?://)|        # protocol spec, or
       (?:www\.)             # www.*
-    ) 
+    )
     (
-      ([\w]+:?[=?&\/.-]?)*  # url segment
-      \w+[\/]?              # url tail
-      (?:\#\w*)?            # trailing anchor
+      [-\w]+                   # subdomain or domain
+      (?:\.[-\w]+)*            # remaining subdomains or domain
+      (?::\d+)?                # port
+      (?:/(?:(?:[\~\w\+%-]|(?:[,.;:][^\s$]))+)?)* # path
+      (?:\?[\w\+%&=.;-]+)?     # query string
+      (?:\#[\w\-]*)?           # trailing anchor
     )
     ([[:punct:]]|\s|<|$)    # trailing text
-   /x');
+   ~x');
 }
 
 /**
@@ -192,7 +192,7 @@ function _auto_link_urls($text, $href_options = array())
       }
       else
       {
-        return $matches[1].\'<a href="\'.($matches[2] == "www." ? "http://www." : $matches[2]).$matches[3].\'"'.$href_options.'>\'.$matches[2].$matches[3].\'</a>\'.$matches[5];
+        return $matches[1].\'<a href="\'.($matches[2] == "www." ? "http://www." : $matches[2]).$matches[3].\'"'.$href_options.'>\'.$matches[2].$matches[3].\'</a>\'.$matches[4];
       }
     ')
   , $text);
@@ -204,12 +204,4 @@ function _auto_link_urls($text, $href_options = array())
 function _auto_link_email_addresses($text)
 {
   return preg_replace('/([\w\.!#\$%\-+.]+@[A-Za-z0-9\-]+(\.[A-Za-z0-9\-]+)+)/', '<a href="mailto:\\1">\\1</a>', $text);
-}
-
-/**
- * Wraps echo to automatically provide a newline
- */
-function echoln($string)
-{
-  echo $string."\n";
 }

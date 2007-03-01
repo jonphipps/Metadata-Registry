@@ -1,5 +1,13 @@
 <?php
 
+/*
+ * This file is part of the symfony package.
+ * (c) 2004-2006 Fabien Potencier <fabien.potencier@symfony-project.com>
+ * 
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 pake_desc('clear cached information');
 pake_task('clear-cache', 'project_exists');
 pake_alias('cc', 'clear-cache');
@@ -11,16 +19,16 @@ pake_desc('fix directories permissions');
 pake_task('fix-perms', 'project_exists');
 
 pake_desc('rotates an applications log files');
-pake_task('rotate-log', 'app_exists');
+pake_task('log-rotate', 'app_exists');
 
 pake_desc('purges an applications log files');
-pake_task('purge-logs', 'project_exists');
+pake_task('log-purge', 'project_exists');
 
 pake_desc('enables an application in a given environment');
-pake_task('enable', 'app_exists'); 
+pake_task('enable', 'app_exists');
 
 pake_desc('disables an application in a given environment');
-pake_task('disable', 'app_exists'); 
+pake_task('disable', 'app_exists');
 
 /**
  * fixes permissions in a symfony project
@@ -36,14 +44,16 @@ function run_fix_perms($task, $args)
 
   pake_chmod(sfConfig::get('sf_cache_dir_name'), $sf_root_dir, 0777);
   pake_chmod(sfConfig::get('sf_log_dir_name'), $sf_root_dir, 0777);
+  pake_chmod(sfConfig::get('sf_web_dir_name').DIRECTORY_SEPARATOR.sfConfig::get('sf_upload_dir_name'), $sf_root_dir, 0777);
+  pake_chmod('symfony', $sf_root_dir, 0777);
 
-  $dirs = array('cache', 'upload', 'log');
+  $dirs = array(sfConfig::get('sf_cache_dir_name'), sfConfig::get('sf_web_dir_name').DIRECTORY_SEPARATOR.sfConfig::get('sf_upload_dir_name'), sfConfig::get('sf_log_dir_name'));
   $dir_finder = pakeFinder::type('dir')->ignore_version_control();
   $file_finder = pakeFinder::type('file')->ignore_version_control();
   foreach ($dirs as $dir)
   {
-    pake_chmod($dir_finder, sfConfig::get('sf_'.$dir.'_dir'), 0777);
-    pake_chmod($file_finder, sfConfig::get('sf_'.$dir.'_dir'), 0666);
+    pake_chmod($dir_finder, $dir, 0777);
+    pake_chmod($file_finder, $dir, 0666);
   }
 }
 
@@ -209,7 +219,7 @@ function _safe_cache_remove($finder, $sub_dir, $lock_name)
  * @param object $task
  * @param array $args
  */
-function run_rotate_log($task, $args)
+function run_log_rotate($task, $args)
 {
   // handling two required arguments (application and environment)
   if (count($args) < 2)
@@ -234,30 +244,26 @@ function run_rotate_log($task, $args)
 /**
  * purges the application log directory as per settings in logging.yml
  *
- * @example symfony log-rotate
+ * @example symfony log-purge
  *
  * @param object $task
  * @param array $args
  */
-function run_purge_logs($task, $args)
+function run_log_purge($task, $args)
 {
   $sf_symfony_data_dir = sfConfig::get('sf_symfony_data_dir');
-  $sf_symfony_lib_dir = sfConfig::get('sf_symfony_lib_dir');
-  require_once($sf_symfony_lib_dir.'/util/Spyc.class.php');
-  require_once($sf_symfony_lib_dir.'/util/sfYaml.class.php');
-  require_once($sf_symfony_lib_dir.'/util/sfToolkit.class.php');
 
   $default_logging = sfYaml::load($sf_symfony_data_dir.'/config/logging.yml');
   $app_dir = sfConfig::get('sf_app_dir');
   $apps = pakeFinder::type('dir')->maxdepth(0)->relative()->ignore_version_control()->in('apps');
   $ignore = array('all', 'default');
 
-  foreach($apps as $app)
+  foreach ($apps as $app)
   {
     $logging = sfYaml::load($app_dir.'/'.$app.'/config/logging.yml');
     $logging = array_merge($default_logging, $logging);
 
-    foreach($logging as $env => $config)
+    foreach ($logging as $env => $config)
     {
       if (in_array($env, $ignore))
       {
@@ -271,7 +277,7 @@ function run_purge_logs($task, $args)
         $filename = sfConfig::get('sf_log_dir').'/'.$app.'_'.$env.'.log';
         if (file_exists($filename))
         {
-          pake_remove($filename);
+          pake_remove($filename, '');
         }
       }
     }
@@ -317,7 +323,7 @@ function run_disable($task, $args)
 
   $lockFile = $app.'_'.$env.'.clilock';
 
-  if(!file_exists(sfConfig::get('sf_root_dir').'/'.$lockFile))
+  if (!file_exists(sfConfig::get('sf_root_dir').'/'.$lockFile))
   {
     pake_touch(sfConfig::get('sf_root_dir').'/'.$lockFile, '777');
 

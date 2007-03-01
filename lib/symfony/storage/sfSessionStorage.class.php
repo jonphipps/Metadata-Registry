@@ -26,16 +26,16 @@
 class sfSessionStorage extends sfStorage
 {
   /**
-   * Initialize this Storage.
+   * Initializes this Storage instance.
    *
-   * @param Context A Context instance.
-   * @param array   An associative array of initialization parameters.
+   * @param sfContext A sfContext instance
+   * @param array   An associative array of initialization parameters
    *
-   * @return bool true, if initialization completes successfully, otherwise false.
+   * @return boolean true, if initialization completes successfully, otherwise false
    *
-   * @throws <b>sfInitializationException</b> If an error occurs while initializing this Storage.
+   * @throws <b>sfInitializationException</b> If an error occurs while initializing this Storage
    */
-  public function initialize ($context, $parameters = null)
+  public function initialize($context, $parameters = null)
   {
     // initialize parent
     parent::initialize($context, $parameters);
@@ -79,15 +79,15 @@ class sfSessionStorage extends sfStorage
   }
 
   /**
-   * Read data from this storage.
+   * Reads data from this storage.
    *
    * The preferred format for a key is directory style so naming conflicts can be avoided.
    *
-   * @param string A unique key identifying your data.
+   * @param string A unique key identifying your data
    *
-   * @return mixed Data associated with the key.
+   * @return mixed Data associated with the key
    */
-  public function & read ($key)
+  public function & read($key)
   {
     $retval = null;
 
@@ -100,15 +100,15 @@ class sfSessionStorage extends sfStorage
   }
 
   /**
-   * Remove data from this storage.
+   * Removes data from this storage.
    *
    * The preferred format for a key is directory style so naming conflicts can be avoided.
    *
-   * @param string A unique key identifying your data.
+   * @param string A unique key identifying your data
    *
-   * @return mixed Data associated with the key.
+   * @return mixed Data associated with the key
    */
-  public function & remove ($key)
+  public function & remove($key)
   {
     $retval = null;
 
@@ -122,28 +122,25 @@ class sfSessionStorage extends sfStorage
   }
 
   /**
-   * Execute the shutdown procedure.
+   * Writes data to this storage.
    *
-   * @return void
+   * The preferred format for a key is directory style so naming conflicts can be avoided.
+   *
+   * @param string A unique key identifying your data
+   * @param mixed  Data associated with your key
+   *
    */
-  public function shutdown ()
+  public function write($key, &$data)
   {
-    // don't need a shutdown procedure because read/write do it in real-time
+    $_SESSION[$key] =& $data;
   }
 
   /**
-   * Write data to this storage.
+   * Executes the shutdown procedure.
    *
-   * The preferred format for a key is directory style so naming conflicts can
-   * be avoided.
-   *
-   * @param string A unique key identifying your data.
-   * @param mixed  Data associated with your key.
-   *
-   * @return void
    */
-  public function write ($key, &$data)
+  public function shutdown()
   {
-    $_SESSION[$key] =& $data;
+    // don't need a shutdown procedure because read/write do it in real-time
   }
 }

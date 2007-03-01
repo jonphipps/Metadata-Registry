@@ -34,9 +34,9 @@ class AgentMapBuilder {
 
 		$tMap->addPrimaryKey('ID', 'Id', 'int', CreoleTypes::INTEGER, true, null);
 
-		$tMap->addColumn('CREATED_AT', 'CreatedAt', 'int', CreoleTypes::TIMESTAMP, false, null);
+		$tMap->addColumn('CREATED_AT', 'CreatedAt', 'int', CreoleTypes::TIMESTAMP, false);
 
-		$tMap->addColumn('LAST_UPDATED', 'LastUpdated', 'int', CreoleTypes::TIMESTAMP, false, null);
+		$tMap->addColumn('LAST_UPDATED', 'LastUpdated', 'int', CreoleTypes::TIMESTAMP, false);
 
 		$tMap->addColumn('ORG_EMAIL', 'OrgEmail', 'string', CreoleTypes::VARCHAR, true, 100);
 
@@ -52,18 +52,17 @@ class AgentMapBuilder {
 
 		$tMap->addColumn('CITY', 'City', 'string', CreoleTypes::VARCHAR, false, 45);
 
-		$tMap->addColumn('STATE', 'State', 'string', CreoleTypes::CHAR, false, 2);
+		$tMap->addColumn('STATE', 'State', 'string', CreoleTypes::CHAR, false);
 
 		$tMap->addColumn('POSTAL_CODE', 'PostalCode', 'string', CreoleTypes::VARCHAR, false, 15);
 
-		$tMap->addColumn('COUNTRY', 'Country', 'string', CreoleTypes::CHAR, false, 3);
+		$tMap->addColumn('COUNTRY', 'Country', 'string', CreoleTypes::CHAR, false);
 
 		$tMap->addColumn('PHONE', 'Phone', 'string', CreoleTypes::VARCHAR, false, 45);
 
 		$tMap->addColumn('WEB_ADDRESS', 'WebAddress', 'string', CreoleTypes::VARCHAR, false, 255);
 
-		$tMap->addColumn('TYPE', 'Type', 'string', CreoleTypes::CHAR, false, 15);
+		$tMap->addColumn('TYPE', 'Type', 'string', CreoleTypes::CHAR, false);
 				
     } 
-
 } 

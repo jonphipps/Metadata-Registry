@@ -22,11 +22,11 @@
 class sfPDODatabase extends sfDatabase
 {
   /**
-   * Connect to the database.
+   * Connects to the database.
    *
-   * @throws <b>sfDatabaseException</b> If a connection could not be created.
+   * @throws <b>sfDatabaseException</b> If a connection could not be created
    */
-  public function connect ()
+  public function connect()
   {
     // determine how to get our parameters
     $method = $this->getParameter('method', 'dsn');
@@ -52,6 +52,7 @@ class sfPDODatabase extends sfDatabase
     {
       $pdo_username = $this->getParameter('username');
       $pdo_password = $this->getParameter('password');
+
       $this->connection = new PDO($dsn, $pdo_username, $pdo_password);
     }
     catch (PDOException $e)
@@ -71,17 +72,17 @@ class sfPDODatabase extends sfDatabase
   }
 
   /**
-   * Execute the shutdown procedure.
+   * Executes the shutdown procedure.
    *
    * @return void
    *
-   * @throws <b>sfDatabaseException</b> If an error occurs while shutting down this database.
+   * @throws <b>sfDatabaseException</b> If an error occurs while shutting down this database
    */
-  public function shutdown ()
+  public function shutdown()
   {
     if ($this->connection !== null)
     {
-      @$this->connection = null;
+      $this->connection = null;
     }
   }
 }

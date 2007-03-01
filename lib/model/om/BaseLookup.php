@@ -17,15 +17,15 @@ abstract class BaseLookup extends BaseObject  implements Persistent {
 
 
 	
-	protected $display_order;
-
-
-	
 	protected $short_value;
 
 
 	
 	protected $long_value;
+
+
+	
+	protected $display_order;
 
 	
 	protected $collConceptPropertys;
@@ -54,13 +54,6 @@ abstract class BaseLookup extends BaseObject  implements Persistent {
 	}
 
 	
-	public function getDisplayOrder()
-	{
-
-		return $this->display_order;
-	}
-
-	
 	public function getShortValue()
 	{
 
@@ -72,6 +65,13 @@ abstract class BaseLookup extends BaseObject  implements Persistent {
 	{
 
 		return $this->long_value;
+	}
+
+	
+	public function getDisplayOrder()
+	{
+
+		return $this->display_order;
 	}
 
 	
@@ -91,16 +91,6 @@ abstract class BaseLookup extends BaseObject  implements Persistent {
 		if ($this->type_id !== $v) {
 			$this->type_id = $v;
 			$this->modifiedColumns[] = LookupPeer::TYPE_ID;
-		}
-
-	} 
-	
-	public function setDisplayOrder($v)
-	{
-
-		if ($this->display_order !== $v) {
-			$this->display_order = $v;
-			$this->modifiedColumns[] = LookupPeer::DISPLAY_ORDER;
 		}
 
 	} 
@@ -125,6 +115,16 @@ abstract class BaseLookup extends BaseObject  implements Persistent {
 
 	} 
 	
+	public function setDisplayOrder($v)
+	{
+
+		if ($this->display_order !== $v) {
+			$this->display_order = $v;
+			$this->modifiedColumns[] = LookupPeer::DISPLAY_ORDER;
+		}
+
+	} 
+	
 	public function hydrate(ResultSet $rs, $startcol = 1)
 	{
 		try {
@@ -133,11 +133,11 @@ abstract class BaseLookup extends BaseObject  implements Persistent {
 
 			$this->type_id = $rs->getInt($startcol + 1);
 
-			$this->display_order = $rs->getInt($startcol + 2);
+			$this->short_value = $rs->getString($startcol + 2);
 
-			$this->short_value = $rs->getString($startcol + 3);
+			$this->long_value = $rs->getString($startcol + 3);
 
-			$this->long_value = $rs->getString($startcol + 4);
+			$this->display_order = $rs->getInt($startcol + 4);
 
 			$this->resetModified();
 
@@ -293,13 +293,13 @@ abstract class BaseLookup extends BaseObject  implements Persistent {
 				return $this->getTypeId();
 				break;
 			case 2:
-				return $this->getDisplayOrder();
-				break;
-			case 3:
 				return $this->getShortValue();
 				break;
-			case 4:
+			case 3:
 				return $this->getLongValue();
+				break;
+			case 4:
+				return $this->getDisplayOrder();
 				break;
 			default:
 				return null;
@@ -313,9 +313,9 @@ abstract class BaseLookup extends BaseObject  implements Persistent {
 		$result = array(
 			$keys[0] => $this->getId(),
 			$keys[1] => $this->getTypeId(),
-			$keys[2] => $this->getDisplayOrder(),
-			$keys[3] => $this->getShortValue(),
-			$keys[4] => $this->getLongValue(),
+			$keys[2] => $this->getShortValue(),
+			$keys[3] => $this->getLongValue(),
+			$keys[4] => $this->getDisplayOrder(),
 		);
 		return $result;
 	}
@@ -338,13 +338,13 @@ abstract class BaseLookup extends BaseObject  implements Persistent {
 				$this->setTypeId($value);
 				break;
 			case 2:
-				$this->setDisplayOrder($value);
-				break;
-			case 3:
 				$this->setShortValue($value);
 				break;
-			case 4:
+			case 3:
 				$this->setLongValue($value);
+				break;
+			case 4:
+				$this->setDisplayOrder($value);
 				break;
 		} 	}
 
@@ -355,9 +355,9 @@ abstract class BaseLookup extends BaseObject  implements Persistent {
 
 		if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
 		if (array_key_exists($keys[1], $arr)) $this->setTypeId($arr[$keys[1]]);
-		if (array_key_exists($keys[2], $arr)) $this->setDisplayOrder($arr[$keys[2]]);
-		if (array_key_exists($keys[3], $arr)) $this->setShortValue($arr[$keys[3]]);
-		if (array_key_exists($keys[4], $arr)) $this->setLongValue($arr[$keys[4]]);
+		if (array_key_exists($keys[2], $arr)) $this->setShortValue($arr[$keys[2]]);
+		if (array_key_exists($keys[3], $arr)) $this->setLongValue($arr[$keys[3]]);
+		if (array_key_exists($keys[4], $arr)) $this->setDisplayOrder($arr[$keys[4]]);
 	}
 
 	
@@ -367,9 +367,9 @@ abstract class BaseLookup extends BaseObject  implements Persistent {
 
 		if ($this->isColumnModified(LookupPeer::ID)) $criteria->add(LookupPeer::ID, $this->id);
 		if ($this->isColumnModified(LookupPeer::TYPE_ID)) $criteria->add(LookupPeer::TYPE_ID, $this->type_id);
-		if ($this->isColumnModified(LookupPeer::DISPLAY_ORDER)) $criteria->add(LookupPeer::DISPLAY_ORDER, $this->display_order);
 		if ($this->isColumnModified(LookupPeer::SHORT_VALUE)) $criteria->add(LookupPeer::SHORT_VALUE, $this->short_value);
 		if ($this->isColumnModified(LookupPeer::LONG_VALUE)) $criteria->add(LookupPeer::LONG_VALUE, $this->long_value);
+		if ($this->isColumnModified(LookupPeer::DISPLAY_ORDER)) $criteria->add(LookupPeer::DISPLAY_ORDER, $this->display_order);
 
 		return $criteria;
 	}
@@ -402,11 +402,11 @@ abstract class BaseLookup extends BaseObject  implements Persistent {
 
 		$copyObj->setTypeId($this->type_id);
 
-		$copyObj->setDisplayOrder($this->display_order);
-
 		$copyObj->setShortValue($this->short_value);
 
 		$copyObj->setLongValue($this->long_value);
+
+		$copyObj->setDisplayOrder($this->display_order);
 
 
 		if ($deepCopy) {

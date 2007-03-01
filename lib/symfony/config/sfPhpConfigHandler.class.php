@@ -19,15 +19,15 @@
 class sfPhpConfigHandler extends sfYamlConfigHandler
 {
   /**
-   * Execute this configuration handler.
+   * Executes this configuration handler
    *
-   * @param array An array of absolute filesystem path to a configuration file.
+   * @param array An array of absolute filesystem path to a configuration file
    *
-   * @return string Data to be written to a cache file.
+   * @return string Data to be written to a cache file
    *
-   * @throws <b>sfConfigurationException</b> If a requested configuration file does not exist or is not readable.
-   * @throws <b>sfParseException</b> If a requested configuration file is improperly formatted.
-   * @throws <b>sfInitializationException</b> If a php.yml key check fails.
+   * @throws <b>sfConfigurationException</b> If a requested configuration file does not exist or is not readable
+   * @throws <b>sfParseException</b> If a requested configuration file is improperly formatted
+   * @throws <b>sfInitializationException</b> If a php.yml key check fails
    */
   public function execute($configFiles)
   {
@@ -42,7 +42,7 @@ class sfPhpConfigHandler extends sfYamlConfigHandler
     // get all php.ini configuration
     $configs = ini_get_all();
 
-    // let's do our fancy work
+    // set some php.ini keys
     if (isset($config['set']))
     {
       foreach ($config['set'] as $key => $value)
@@ -70,6 +70,7 @@ class sfPhpConfigHandler extends sfYamlConfigHandler
       }
     }
 
+    // check some php.ini settings
     if (isset($config['check']))
     {
       foreach ($config['check'] as $key => $value)
@@ -85,13 +86,32 @@ class sfPhpConfigHandler extends sfYamlConfigHandler
 
         if (ini_get($key) != $value)
         {
-          $error = sprintf('Configuration file "%s" specifies that php.ini "%s" key must be set to "%s". The current value is "%s" (%s). [err0001]', $configFiles[0], $key, $value, ini_get($key), $this->get_ini_path());
+          $error = sprintf('Configuration file "%s" specifies that php.ini "%s" key must be set to "%s". The current value is "%s" (%s). [err0001]', $configFiles[0], $key, var_export($value, true), var_export(ini_get($key), true), $this->get_ini_path());
           throw new sfInitializationException($error);
         }
       }
     }
 
-    // Check for some extensions
+    // warn about some php.ini settings
+    if (isset($config['warn']))
+    {
+      foreach ($config['warn'] as $key => $value)
+      {
+        $key = strtolower($key);
+
+        // key exists?
+        if (!array_key_exists($key, $configs))
+        {
+          $error = sprintf('Configuration file "%s" specifies key "%s" which is not a php.ini directive [err0002]', $configFiles[0], $key);
+          throw new sfParseException($error);
+        }
+
+        $warning = sprintf('{sfPhpConfigHandler} php.ini "%s" key is better set to "%s" (current value is "%s" - %s)', $key, var_export($value, true), var_export(ini_get($key), true), $this->get_ini_path());
+        $data[] = sprintf("if (ini_get('%s') != %s)\n{\n  sfLogger::getInstance()->warning('%s');\n}\n", $key, var_export($value, true), str_replace("'", "\\'", $warning));
+      }
+    }
+
+    // check for some extensions
     if (isset($config['extensions']))
     {
       foreach ($config['extensions'] as $extension_name)
@@ -112,7 +132,12 @@ class sfPhpConfigHandler extends sfYamlConfigHandler
     return $retval;
   }
 
-  private function get_ini_path()
+  /**
+   * Gets the php.ini path used by PHP.
+   *
+   * @return string the php.ini path
+   */
+  protected function get_ini_path()
   {
     $cfg_path = get_cfg_var('cfg_file_path');
     if ($cfg_path == '')
@@ -121,8 +146,7 @@ class sfPhpConfigHandler extends sfYamlConfigHandler
     }
     else
     {
-      $ini_path = 'php.ini location: "%s"';
-      $ini_path = sprintf($ini_path, $cfg_path);
+      $ini_path = sprintf('php.ini location: "%s"', $cfg_path);
     }
 
     return $ini_path;

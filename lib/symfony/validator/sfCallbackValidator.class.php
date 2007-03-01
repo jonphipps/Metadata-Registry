@@ -26,19 +26,19 @@
  * @package    symfony
  * @subpackage validator
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
- * @version    SVN: $Id: sfCallbackValidator.class.php 1831 2006-08-25 06:01:37Z fabien $
+ * @version    SVN: $Id: sfCallbackValidator.class.php 3329 2007-01-23 08:29:34Z fabien $
  */
 class sfCallbackValidator extends sfValidator
 {
   /**
-   * Execute this validator.
+   * Executes this validator.
    *
-   * @param string A parameter value.
-   * @param string An error message reference.
+   * @param string A parameter value
+   * @param string An error message reference
    *
-   * @return bool true, if this validator executes successfully, otherwise false.
+   * @return boolean true, if this validator executes successfully, otherwise false
    */
-  public function execute (&$value, &$error)
+  public function execute(&$value, &$error)
   {
     $callback = $this->getParameterHolder()->get('callback');
 
@@ -53,14 +53,14 @@ class sfCallbackValidator extends sfValidator
   }
 
   /**
-   * Initialize this validator.
+   * Initializes this validator.
    *
-   * @param Context The current application context.
-   * @param array   An associative array of initialization parameters.
+   * @param sfContext The current application context
+   * @param array   An associative array of initialization parameters
    *
-   * @return bool true, if initialization completes successfully, otherwise false.
+   * @return boolean true, if initialization completes successfully, otherwise false
    */
-  public function initialize ($context, $parameters = null)
+  public function initialize($context, $parameters = null)
   {
     // initialize parent
     parent::initialize($context);

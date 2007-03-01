@@ -31,20 +31,18 @@ class sfUser
 
   const CULTURE_NAMESPACE = 'symfony/user/sfUser/culture';
 
-  private
-    $parameter_holder = null,
-    $attribute_holder = null,
-    $culture = null;
-
   protected
-    $context          = null;
+    $parameterHolder = null,
+    $attributeHolder = null,
+    $culture         = null,
+    $context         = null;
 
   /**
    * Retrieve the current application context.
    *
    * @return Context A Context instance.
    */
-  public function getContext ()
+  public function getContext()
   {
     return $this->context;
   }
@@ -60,29 +58,35 @@ class sfUser
    *
    * @throws <b>sfInitializationException</b> If an error occurs while initializing this User.
    */
-  public function initialize ($context, $parameters = array())
+  public function initialize($context, $parameters = array())
   {
     $this->context = $context;
 
-    $this->parameter_holder = new sfParameterHolder();
-    $this->parameter_holder->add($parameters);
+    $this->parameterHolder = new sfParameterHolder();
+    $this->parameterHolder->add($parameters);
 
-    $this->attribute_holder = new sfParameterHolder(self::ATTRIBUTE_NAMESPACE);
+    $this->attributeHolder = new sfParameterHolder(self::ATTRIBUTE_NAMESPACE);
 
     // read attributes from storage
-    $attributes = $this->getContext()->getStorage()->read(self::ATTRIBUTE_NAMESPACE);
+    $attributes = $context->getStorage()->read(self::ATTRIBUTE_NAMESPACE);
     if (is_array($attributes))
     {
       foreach ($attributes as $namespace => $values)
       {
-        $this->attribute_holder->add($values, $namespace);
+        $this->attributeHolder->add($values, $namespace);
       }
     }
 
-    $culture = $this->getContext()->getStorage()->read(self::CULTURE_NAMESPACE);
-    if ($culture === null)
+    // set the user culture to sf_culture parameter if present in the request
+    // otherwise
+    //  - use the culture defined in the user session
+    //  - use the default culture set in i18n.yml
+    if (!($culture = $context->getRequest()->getParameter('sf_culture')))
     {
-      $culture = sfConfig::get('sf_i18n_default_culture') ? sfConfig::get('sf_i18n_default_culture') : 'en';
+      if (null === ($culture = $context->getStorage()->read(self::CULTURE_NAMESPACE)))
+      {
+        $culture = sfConfig::get('sf_i18n_default_culture', 'en');
+      }
     }
 
     $this->setCulture($culture);
@@ -97,7 +101,7 @@ class sfUser
    *
    * @throws <b>sfFactoryException</b> If a user implementation instance cannot
    */
-  public static function newInstance ($class)
+  public static function newInstance($class)
   {
     // the class exists
     $object = new $class();
@@ -119,7 +123,7 @@ class sfUser
    *
    * @param  string culture
    */
-  public function setCulture ($culture)
+  public function setCulture($culture)
   {
     if ($this->culture != $culture)
     {
@@ -130,6 +134,9 @@ class sfUser
       {
         $this->context->getI18N()->setCulture($culture);
       }
+
+      // add the culture in the routing default parameters
+      sfConfig::set('sf_routing_defaults', array_merge((array) sfConfig::get('sf_routing_defaults'), array('sf_culture' => $culture)));
     }
   }
 
@@ -145,42 +152,42 @@ class sfUser
 
   public function getParameterHolder()
   {
-    return $this->parameter_holder;
+    return $this->parameterHolder;
   }
 
   public function getAttributeHolder()
   {
-    return $this->attribute_holder;
+    return $this->attributeHolder;
   }
 
   public function getAttribute($name, $default = null, $ns = null)
   {
-    return $this->attribute_holder->get($name, $default, $ns);
+    return $this->attributeHolder->get($name, $default, $ns);
   }
 
   public function hasAttribute($name, $ns = null)
   {
-    return $this->attribute_holder->has($name, $ns);
+    return $this->attributeHolder->has($name, $ns);
   }
 
   public function setAttribute($name, $value, $ns = null)
   {
-    return $this->attribute_holder->set($name, $value, $ns);
+    return $this->attributeHolder->set($name, $value, $ns);
   }
 
   public function getParameter($name, $default = null, $ns = null)
   {
-    return $this->parameter_holder->get($name, $default, $ns);
+    return $this->parameterHolder->get($name, $default, $ns);
   }
 
   public function hasParameter($name, $ns = null)
   {
-    return $this->parameter_holder->has($name, $ns);
+    return $this->parameterHolder->has($name, $ns);
   }
 
   public function setParameter($name, $value, $ns = null)
   {
-    return $this->parameter_holder->set($name, $value, $ns);
+    return $this->parameterHolder->set($name, $value, $ns);
   }
 
   /**
@@ -188,14 +195,14 @@ class sfUser
    *
    * @return void
    */
-  public function shutdown ()
+  public function shutdown()
   {
     $storage = $this->getContext()->getStorage();
 
     $attributes = array();
-    foreach ($this->attribute_holder->getNamespaces() as $namespace)
+    foreach ($this->attributeHolder->getNamespaces() as $namespace)
     {
-      $attributes[$namespace] = $this->attribute_holder->getAll($namespace);
+      $attributes[$namespace] = $this->attributeHolder->getAll($namespace);
     }
 
     // write attributes to the storage
@@ -209,6 +216,13 @@ class sfUser
 
   public function __call($method, $arguments)
   {
-    return sfMixer::callMixins();
+    if (!$callable = sfMixer::getCallable('sfUser:'.$method))
+    {
+      throw new sfException(sprintf('Call to undefined method sfUser::%s', $method));
+    }
+
+    array_unshift($arguments, $this);
+
+    return call_user_func_array($callable, $arguments);
   }
 }

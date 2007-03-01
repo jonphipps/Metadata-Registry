@@ -18,17 +18,20 @@
 class sfMailView extends sfPHPView
 {
   /**
-   * Retrieve the template engine associated with this view.
+   * Retrieves the template engine associated with this view.
    *
-   * Note: This will return null because PHP itself has no engine reference.
-   *
-   * @return null
+   * @return string sfMail
    */
   public function getEngine()
   {
     return 'sfMail';
   }
 
+  /**
+   * Configures template for this view.
+   *
+   * @throws <b>sfActionException</b> If the configure fails
+   */
   public function configure()
   {
     // view.yml configure
@@ -40,8 +43,9 @@ class sfMailView extends sfPHPView
   }
 
   /**
-   * Render the presentation and send the email to the client.
+   * Renders the presentation and send the email to the client.
    *
+   * @return mixed Raw data of the mail
    */
   public function render($templateVars = null)
   {
@@ -54,9 +58,9 @@ class sfMailView extends sfPHPView
     // execute pre-render check
     $this->preRenderCheck();
 
-    if ($sf_logging_active = sfConfig::get('sf_logging_active'))
+    if (sfConfig::get('sf_logging_enabled'))
     {
-      $this->getContext()->getLogger()->info('{sfMailView} render "'.$template.'"');
+      $this->getContext()->getLogger()->info('{sfView} render "'.$template.'"');
     }
 
     // get sfMail object from action
@@ -68,8 +72,8 @@ class sfMailView extends sfPHPView
     }
 
     // assigns some variables to the template
-    $this->attribute_holder->add($this->getGlobalVars());
-    $this->attribute_holder->add($actionInstance->getVarHolder()->getAll());
+    $this->attributeHolder->add($this->getGlobalVars());
+    $this->attributeHolder->add($actionInstance->getVarHolder()->getAll());
 
     // render main template
     $retval = $this->renderFile($template);
@@ -88,9 +92,9 @@ class sfMailView extends sfPHPView
     }
 
     // send email
-    if ($sf_logging_active)
+    if (sfConfig::get('sf_logging_enabled'))
     {
-      $this->getContext()->getLogger()->info('{sfMailView} send email to client');
+      $this->getContext()->getLogger()->info('{sfView} send email to client');
     }
 
     // configuration prefix
@@ -101,11 +105,13 @@ class sfMailView extends sfPHPView
       'priority', 'content_type', 'charset', 'encoding', 'wordwrap',
       'hostname', 'port', 'domain', 'username', 'password'
     );
+    $defaultMail = new sfMail();
+
     foreach ($vars as $var)
     {
       $setter = 'set'.sfInflector::camelize($var);
       $getter = 'get'.sfInflector::camelize($var);
-      $value  = $mail->$getter() !== null ? $mail->$getter() : sfConfig::get($config_prefix.strtolower($var));
+      $value  = $mail->$getter() !== $defaultMail->$getter() ? $mail->$getter() : sfConfig::get($config_prefix.strtolower($var));
       $mail->$setter($value);
     }
 

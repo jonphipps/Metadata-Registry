@@ -97,11 +97,11 @@ class TGettext
      * @param   string  $format MO or PO
      * @param   string  $file   path to GNU gettext file
      */
-    function factory($format, $file = '')
+    static function factory($format, $file = '')
     {
         $format = strToUpper($format);
         $filename = dirname(__FILE__).'/'.$format.'.php';
-        if(is_file($filename) == false)
+        if (is_file($filename) == false)
         	throw new Exception ("Class file $file not found");
         	
         include_once $filename;

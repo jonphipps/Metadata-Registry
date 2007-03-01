@@ -14,7 +14,7 @@ require_once 'propel/engine/builder/om/php5/PHP5ExtensionPeerBuilder.php';
  * @package    symfony
  * @subpackage addon
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
- * @version    SVN: $Id: SfExtensionPeerBuilder.php 1919 2006-09-01 14:41:22Z fabien $
+ * @version    SVN: $Id: SfExtensionPeerBuilder.php 2624 2006-11-07 09:34:59Z fabien $
  */
 class SfExtensionPeerBuilder extends PHP5ExtensionPeerBuilder
 {
@@ -26,5 +26,40 @@ class SfExtensionPeerBuilder extends PHP5ExtensionPeerBuilder
     }
 
     parent::addIncludes($script);
+  }
+
+  /**
+   * Adds class phpdoc comment and openning of class.
+   * @param string &$script The script will be modified in this method.
+   */
+  protected function addClassOpen(&$script)
+  {
+    $table = $this->getTable();
+    $tableName = $table->getName();
+    $tableDesc = $table->getDescription();
+
+    $baseClassname = $this->getPeerBuilder()->getClassname();
+
+    $script .= "
+/**
+ * Subclass for performing query and update operations on the '$tableName' table.
+ *
+ * $tableDesc
+ *
+ * @package ".$this->getPackage()."
+ */ 
+class ".$this->getClassname()." extends $baseClassname
+{";
+  }
+
+  /**
+   * Closes class.
+   * @param string &$script The script will be modified in this method.
+   */ 
+  protected function addClassClose(&$script)
+  {
+    $script .= "
+}
+";
   }
 }

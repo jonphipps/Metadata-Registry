@@ -1,6 +1,6 @@
 <?php
 
-use_helper('Form', 'Javascript');
+use_helper('Form', 'Javascript', 'Helper');
 
 /*
  * This file is part of the symfony package.
@@ -26,30 +26,28 @@ function object_admin_input_file_tag($object, $method, $options = array())
 
   $html = '';
 
-  if ($object->$method())
+  $value = _get_object_value($object, $method);
+
+  if ($value)
   {
-    if (isset($options['include_link']) && $options['include_link'])
+    if ($include_link = _get_option($options, 'include_link'))
     {
-      $image_path = image_path('/'.sfConfig::get('sf_upload_dir_name').'/'.$options['include_link'].'/'.$object->$method());
-      $image_text = isset($options['include_text']) ? __($options['include_text']) : __('[show file]');
+      $image_path = image_path('/'.sfConfig::get('sf_upload_dir_name').'/'.$include_link.'/'.$value);
+      $image_text = ($include_text = _get_option($options, 'include_text')) ? __($include_text) : __('[show file]');
 
       $html .= sprintf('<a onclick="window.open(this.href);return false;" href="%s">%s</a>', $image_path, $image_text)."\n";
     }
 
-    if (isset($options['include_remove']) && $options['include_remove'])
+    if ($include_remove = _get_option($options, 'include_remove'))
     {
-      $html .= checkbox_tag(strpos($name, ']') !== false ? substr($name, 0, -1).'_remove]' : $name).' '.($options['include_remove'] != true ? __($options['include_remove']) : __('remove file'))."\n";
+      $html .= checkbox_tag(strpos($name, ']') !== false ? substr($name, 0, -1).'_remove]' : $name).' '.($include_remove != true ? __($include_remove) : __('remove file'))."\n";
     }
   }
-
-  unset($options['include_link']);
-  unset($options['include_text']);
-  unset($options['include_remove']);
 
   return input_file_tag($name, $options)."\n<br />".$html;
 }
 
-function object_admin_double_list($object, $method, $options = array())
+function object_admin_double_list($object, $method, $options = array(), $callback = null)
 {
   $options = _parse_attributes($options);
 
@@ -59,18 +57,13 @@ function object_admin_double_list($object, $method, $options = array())
   {
     $options['size'] = 10;
   }
-  $label_all   = isset($options['unassociated_label']) ? $options['unassociated_label'] : 'Unassociated';
-  $label_assoc = isset($options['associated_label'])   ? $options['associated_label']   : 'Associated';
+  $label_all   = __(isset($options['unassociated_label']) ? $options['unassociated_label'] : 'Unassociated');
+  $label_assoc = __(isset($options['associated_label'])   ? $options['associated_label']   : 'Associated');
 
   // get the lists of objects
-  $through_class = _get_option($options, 'through_class');
-  $sort         = _get_option($options, 'sort');
-  unset($options['through_class']);
-  unset($options['sort']);
-  $objects_associated = sfPropelManyToMany::getRelatedObjects($object, $through_class);
-  $all_objects = sfPropelManyToMany::getAllObjects($object, $through_class);
+  list($all_objects, $objects_associated, $associated_ids) = _get_object_list($object, $method, $options, $callback);
+  
   $objects_unassociated = array();
-  $associated_ids = array_map(create_function('$o', 'return $o->getPrimaryKey();'), $objects_associated);
   foreach ($all_objects as $object)
   {
     if (!in_array($object->getPrimaryKey(), $associated_ids))
@@ -106,6 +99,10 @@ function object_admin_double_list($object, $method, $options = array())
 </div>
 ';
 
+  $response = sfContext::getInstance()->getResponse();
+  $response->addJavascript(sfConfig::get('sf_prototype_web_dir').'/js/prototype');
+  $response->addJavascript(sfConfig::get('sf_admin_web_dir').'/js/double_list');
+
   return sprintf($html,
     $label_all,
     $select1,
@@ -116,23 +113,19 @@ function object_admin_double_list($object, $method, $options = array())
   );
 }
 
-function object_admin_select_list($object, $method, $options = array())
+function object_admin_select_list($object, $method, $options = array(), $callback = null)
 {
   $options = _parse_attributes($options);
 
   $options['multiple'] = true;
   $options['class'] = 'sf_admin_multiple';
-  if (!isset($options['size']))  $options['size'] = 10;
+  if (!isset($options['size']))
+  {
+    $options['size'] = 10;
+  }
 
   // get the lists of objects
-  $through_class = _get_option($options, 'through_class');
-  $sort          = _get_option($options, 'sort');
-  $objects = sfPropelManyToMany::getAllObjects($object, $through_class);
-  $objects_associated = sfPropelManyToMany::getRelatedObjects($object, $through_class);
-  $ids = array_map(create_function('$o', 'return $o->getPrimaryKey();'), $objects_associated);
-  unset($options['through_class']);
-  unset($options['sort']);
-
+  list($objects, $objects_associated, $ids) = _get_object_list($object, $method, $options, $callback);
   // override field name
   unset($options['control_name']);
   $name = 'associated_'._convert_method_to_name($method, $options);
@@ -140,18 +133,12 @@ function object_admin_select_list($object, $method, $options = array())
   return select_tag($name, options_for_select(_get_options_from_objects($objects), $ids, $options), $options);
 }
 
-function object_admin_check_list($object, $method, $options = array())
+function object_admin_check_list($object, $method, $options = array(), $callback = null)
 {
   $options = _parse_attributes($options);
 
   // get the lists of objects
-  $through_class = _get_option($options, 'through_class');
-  $sort          = _get_option($options, 'sort');
-  unset($options['through_class']);
-  unset($options['sort']);
-  $objects = sfPropelManyToMany::getAllObjects($object, $through_class);
-  $objects_associated = sfPropelManyToMany::getRelatedObjects($object, $through_class);
-  $assoc_ids = array_map(create_function('$o', 'return $o->getPrimaryKey();'), $objects_associated);
+  list($objects, $objects_associated, $assoc_ids) = _get_object_list($object, $method, $options, $callback);
 
   // override field name
   unset($options['control_name']);
@@ -161,10 +148,10 @@ function object_admin_check_list($object, $method, $options = array())
   if (!empty($objects))
   {
     // which method to call?
-    $methodToCall = '';
-    foreach (array('toString', '__toString', 'getPrimaryKey') as $method)
+    $methodToCall = '__toString';
+    foreach (array('__toString', 'toString', 'getPrimaryKey') as $method)
     {
-      if (is_callable(array($objects[0], $method)))
+      if (method_exists($objects[0], $method))
       {
         $methodToCall = $method;
         break;
@@ -174,10 +161,46 @@ function object_admin_check_list($object, $method, $options = array())
     $html .= "<ul class=\"sf_admin_checklist\">\n";
     foreach ($objects as $related_object)
     {
-      $html .= '<li>'.checkbox_tag($name, $related_object->getPrimaryKey(), in_array($related_object->getPrimaryKey(), $assoc_ids)).' '.$related_object->$methodToCall()."</li>\n";
+      $relatedPrimaryKey = $related_object->getPrimaryKey();
+
+      // multi primary key handling
+      if (is_array($relatedPrimaryKey))
+      {
+        $relatedPrimaryKeyHtmlId = implode('/', $relatedPrimaryKey);
+      }
+      else
+      {
+        $relatedPrimaryKeyHtmlId = $relatedPrimaryKey;
+      }
+
+      $html .= '<li>'.checkbox_tag($name, $relatedPrimaryKeyHtmlId, in_array($relatedPrimaryKey, $assoc_ids)).' <label for="'.get_id_from_name($name, $relatedPrimaryKeyHtmlId).'">'.$related_object->$methodToCall()."</label></li>\n";
     }
     $html .= "</ul>\n";
   }
 
   return $html;
+}
+
+function _get_propel_object_list($object, $method, $options)
+{
+  // get the lists of objects
+  $through_class = _get_option($options, 'through_class');
+
+  $objects = sfPropelManyToMany::getAllObjects($object, $through_class);
+  $objects_associated = sfPropelManyToMany::getRelatedObjects($object, $through_class);
+  $ids = array_map(create_function('$o', 'return $o->getPrimaryKey();'), $objects_associated);
+
+  return array($objects, $objects_associated, $ids);
+}
+
+function _get_object_list($object, $method, $options, $callback)
+{
+  $object = get_class($object) == 'sfOutputEscaperObjectDecorator' ? $object->getRawValue() : $object;
+  // the default callback is the propel one
+  if (!$callback)
+  {
+    $callback = '_get_propel_object_list';
+  }
+
+  return call_user_func($callback, $object, $method, $options);
 }

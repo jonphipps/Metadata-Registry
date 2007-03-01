@@ -5,18 +5,17 @@ default:
 
   metas:
     title:        The Registry Project
-    robots:       index, follow
+    robots:       index,follow
     description:  The Metadata Registry Project
     keywords:     semantic web, registry, rdf, skos, metadata
     language:     en
 
   stylesheets:    [main, layout]
 
-  javascripts:    [/sf/prototype/js/prototype.js]
+  javascripts:    []
 
   has_layout:     on
   layout:         layout
-
   components:          {}
     sidebar:      [sidebar, default]
 

@@ -27,17 +27,21 @@ class sfToolkit
    *
    * @return string A class or interface name, if one can be extracted, otherwise null.
    */
-  public static function extractClassName ($filename)
+  public static function extractClassName($filename)
   {
     $retval = null;
 
     if (self::isPathAbsolute($filename))
+    {
       $filename = basename($filename);
+    }
 
     $pattern = '/(.*?)\.(class|interface)\.php/i';
 
     if (preg_match($pattern, $filename, $match))
+    {
       $retval = $match[1];
+    }
 
     return $retval;
   }
@@ -49,7 +53,7 @@ class sfToolkit
    *
    * @return void
    */
-  public static function clearDirectory ($directory)
+  public static function clearDirectory($directory)
   {
     if (!is_dir($directory))
     {
@@ -92,13 +96,42 @@ class sfToolkit
   }
 
   /**
+   * Clear all files and directories corresponding to a glob pattern.
+   *
+   * @param  string An absolute filesystem pattern.
+   *
+   * @return void
+   */
+  public static function clearGlob($pattern)
+  {
+    $files = glob($pattern);
+
+    // order is important when removing directories
+    sort($files);
+
+    foreach ($files as $file)
+    {
+      if (is_dir($file))
+      {
+        // delete directory
+        self::clearDirectory($file);
+      }
+      else
+      {
+        // delete file
+        unlink($file);
+      }
+    }
+  }
+
+  /**
    * Determine if a filesystem path is absolute.
    *
    * @param path A filesystem path.
    *
    * @return bool true, if the path is absolute, otherwise false.
    */
-  public static function isPathAbsolute ($path)
+  public static function isPathAbsolute($path)
   {
     if ($path[0] == '/' || $path[0] == '\\' ||
         (strlen($path) > 3 && ctype_alpha($path[0]) &&
@@ -141,7 +174,7 @@ class sfToolkit
     return $isLocked;
   }
 
-  public static function stripComments ($source)
+  public static function stripComments($source)
   {
     if (!sfConfig::get('sf_strip_comments', true))
     {
@@ -189,6 +222,11 @@ class sfToolkit
     return $output;
   }
 
+  public static function stripslashesDeep($value)
+  {
+    return is_array($value) ? array_map(array('sfToolkit', 'stripslashesDeep'), $value) : stripslashes($value);
+  }
+
   // code from php at moechofe dot com (array_merge comment on php.net)
   /*
    * array arrayDeepMerge ( array array1 [, array array2 [, array ...]] )
@@ -225,33 +263,13 @@ class sfToolkit
           {
             $isKey0 = array_key_exists($key, $args[0]);
             $isKey1 = array_key_exists($key, $args[1]);
-            if (is_string($key) && $isKey0 && $isKey1 && is_array($args[0][$key]) && is_array($args[1][$key]))
+            if ($isKey0 && $isKey1 && is_array($args[0][$key]) && is_array($args[1][$key]))
             {
               $args[2][$key] = self::arrayDeepMerge($args[0][$key], $args[1][$key]);
             }
-            else if (is_string($key) && $isKey0 && $isKey1)
+            else if ($isKey0 && $isKey1)
             {
               $args[2][$key] = $args[1][$key];
-            }
-            else if (is_integer($key) && $isKey0 && $isKey1)
-            {
-              if ($isKey0 == $isKey1)
-              {
-                $args[2][] = $args[1][$key];
-              }
-              else
-              {
-                $args[2][] = $args[0][$key];
-                $args[2][] = $args[1][$key];
-              }
-            }
-            else if (is_integer($key) && $isKey0)
-            {
-              $args[2][] = $args[0][$key];
-            }
-            else if (is_integer($key) && $isKey1)
-            {
-              $args[2][] = $args[1][$key];
             }
             else if (!$isKey1)
             {
@@ -293,7 +311,7 @@ class sfToolkit
     $attributes = array();
     foreach ($matches as $val)
     {
-      $attributes[$val[1]] = self::toType($val[3]);
+      $attributes[$val[1]] = self::literalize($val[3]);
     }
 
     return $attributes;
@@ -305,7 +323,7 @@ class sfToolkit
    * @param  string
    * @return mixed
    */
-  protected static function toType($value)
+  public static function literalize($value, $quoted = false)
   {
     // lowercase our value for comparison
     $value  = trim($value);
@@ -331,8 +349,27 @@ class sfToolkit
     {
       $value = (float) $value;
     }
+    else
+    {
+      $value = self::replaceConstants($value);
+      if ($quoted)
+      {
+        $value = '\''.str_replace('\'', '\\\'', $value).'\'';
+      }
+    }
 
     return $value;
+  }
+
+  /**
+   * Replaces constant identifiers in a scalar value.
+   *
+   * @param string the value to perform the replacement on
+   * @return string the value with substitutions made
+   */
+  public static function replaceConstants($value)
+  {
+    return is_string($value) ? preg_replace('/%(.+?)%/e', 'sfConfig::has(strtolower("\\1")) ? sfConfig::get(strtolower("\\1")) : "%\\1%"', $value) : $value;
   }
 
   /**
@@ -349,12 +386,132 @@ class sfToolkit
   public static function isArrayValuesEmpty($array)
   {
     static $isEmpty = true;
-    foreach($array as $value)
+    foreach ($array as $value)
     {
       $isEmpty = (is_array($value)) ? self::isArrayValuesEmpty($value) : (strlen($value) == 0);
-      if (!$isEmpty) break;
+      if (!$isEmpty)
+      {
+        break;
+      }
     }
-  
+
     return $isEmpty;
+  }
+
+  /**
+   * Check if a string is an utf8 using a W3C regular expression
+   * http://fr3.php.net/manual/en/function.mb-detect-encoding.php#50087
+   *
+   * @param string
+   *
+   * @return bool true if $string is valid UTF-8 and false otherwise.
+   */
+  public static function isUTF8($string)
+  {
+    // from http://w3.org/International/questions/qa-forms-utf-8.html
+    return preg_match('%^(?:
+             [\x09\x0A\x0D\x20-\x7E]            # ASCII
+           | [\xC2-\xDF][\x80-\xBF]             # non-overlong 2-byte
+           |  \xE0[\xA0-\xBF][\x80-\xBF]        # excluding overlongs
+           | [\xE1-\xEC\xEE\xEF][\x80-\xBF]{2}  # straight 3-byte
+           |  \xED[\x80-\x9F][\x80-\xBF]        # excluding surrogates
+           |  \xF0[\x90-\xBF][\x80-\xBF]{2}     # planes 1-3
+           | [\xF1-\xF3][\x80-\xBF]{3}          # planes 4-15
+           |  \xF4[\x80-\x8F][\x80-\xBF]{2}     # plane 16
+       )*$%xs', $string);
+  }
+
+  public static function getArrayValueForPath($values, $name, $default = null)
+  {
+    if (false !== ($offset = strpos($name, '[')))
+    {
+      if (isset($values[substr($name, 0, $offset)]))
+      {
+        $array = $values[substr($name, 0, $offset)];
+
+        while ($pos = strpos($name, '[', $offset))
+        {
+          $end = strpos($name, ']', $pos);
+          if ($end == $pos + 1)
+          {
+            // reached a []
+            break;
+          }
+          else if (!isset($array[substr($name, $pos + 1, $end - $pos - 1)]))
+          {
+            return $default;
+          }
+          $array = $array[substr($name, $pos + 1, $end - $pos - 1)];
+          $offset = $end;
+        }
+
+        return $array;
+      }
+    }
+
+    return $default;
+  }
+
+  public static function getPhpCli()
+  {
+    $path = getenv('PATH') ? getenv('PATH') : getenv('Path');
+    $suffixes = DIRECTORY_SEPARATOR == '\\' ? (getenv('PATHEXT') ? explode(PATH_SEPARATOR, getenv('PATHEXT')) : array('.exe', '.bat', '.cmd', '.com')) : array('');
+    foreach (array('php5', 'php') as $phpCli)
+    {
+      foreach ($suffixes as $suffix)
+      {
+        foreach (explode(PATH_SEPARATOR, $path) as $dir)
+        {
+          $file = $dir.DIRECTORY_SEPARATOR.$phpCli.$suffix;
+          if (is_executable($file))
+          {
+            return $file;
+          }
+        }
+      }
+    }
+
+    throw new sfException('Unable to find PHP executable');
+  }
+
+  /**
+   * From PEAR System.php
+   *
+   * LICENSE: This source file is subject to version 3.0 of the PHP license
+   * that is available through the world-wide-web at the following URI:
+   * http://www.php.net/license/3_0.txt.  If you did not receive a copy of
+   * the PHP License and are unable to obtain it through the web, please
+   * send a note to license@php.net so we can mail you a copy immediately.
+   *
+   * @author     Tomas V.V.Cox <cox@idecnet.com>
+   * @copyright  1997-2006 The PHP Group
+   * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
+   */
+  public static function getTmpDir()
+  {
+    if (DIRECTORY_SEPARATOR == '\\')
+    {
+      if ($var = isset($_ENV['TEMP']) ? $_ENV['TEMP'] : getenv('TEMP'))
+      {
+        return $var;
+      }
+      if ($var = isset($_ENV['TMP']) ? $_ENV['TMP'] : getenv('TMP'))
+      {
+        return $var;
+      }
+      if ($var = isset($_ENV['windir']) ? $_ENV['windir'] : getenv('windir'))
+      {
+        return $var;
+      }
+
+      return getenv('SystemRoot').'\temp';
+    }
+
+    if ($var = isset($_ENV['TMPDIR']) ? $_ENV['TMPDIR'] : getenv('TMPDIR'))
+    {
+      return $var;
+    }
+
+    return '/tmp';
   }
 }

@@ -199,34 +199,6 @@ abstract class BaseConceptHistoryPeer {
 	}
 
 	
-	public static function doCountJoinUser(Criteria $criteria, $distinct = false, $con = null)
-	{
-				$criteria = clone $criteria;
-		
-				$criteria->clearSelectColumns()->clearOrderByColumns();
-		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
-			$criteria->addSelectColumn(ConceptHistoryPeer::COUNT_DISTINCT);
-		} else {
-			$criteria->addSelectColumn(ConceptHistoryPeer::COUNT);
-		}
-		
-				foreach($criteria->getGroupByColumns() as $column)
-		{
-			$criteria->addSelectColumn($column);
-		}
-
-		$criteria->addJoin(ConceptHistoryPeer::USER_ID, UserPeer::ID);
-
-		$rs = ConceptHistoryPeer::doSelectRS($criteria, $con);
-		if ($rs->next()) {
-			return $rs->getInt(1);
-		} else {
-						return 0;
-		}
-	}
-
-
-	
 	public static function doCountJoinConceptProperty(Criteria $criteria, $distinct = false, $con = null)
 	{
 				$criteria = clone $criteria;
@@ -255,49 +227,30 @@ abstract class BaseConceptHistoryPeer {
 
 
 	
-	public static function doSelectJoinUser(Criteria $c, $con = null)
+	public static function doCountJoinUser(Criteria $criteria, $distinct = false, $con = null)
 	{
-		$c = clone $c;
-
-				if ($c->getDbName() == Propel::getDefaultDB()) {
-			$c->setDbName(self::DATABASE_NAME);
+				$criteria = clone $criteria;
+		
+				$criteria->clearSelectColumns()->clearOrderByColumns();
+		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->addSelectColumn(ConceptHistoryPeer::COUNT_DISTINCT);
+		} else {
+			$criteria->addSelectColumn(ConceptHistoryPeer::COUNT);
+		}
+		
+				foreach($criteria->getGroupByColumns() as $column)
+		{
+			$criteria->addSelectColumn($column);
 		}
 
-		ConceptHistoryPeer::addSelectColumns($c);
-		$startcol = (ConceptHistoryPeer::NUM_COLUMNS - ConceptHistoryPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
-		UserPeer::addSelectColumns($c);
+		$criteria->addJoin(ConceptHistoryPeer::USER_ID, UserPeer::ID);
 
-		$c->addJoin(ConceptHistoryPeer::USER_ID, UserPeer::ID);
-		$rs = BasePeer::doSelect($c, $con);
-		$results = array();
-
-		while($rs->next()) {
-
-			$omClass = ConceptHistoryPeer::getOMClass();
-
-			$cls = Propel::import($omClass);
-			$obj1 = new $cls();
-			$obj1->hydrate($rs);
-
-			$omClass = UserPeer::getOMClass();
-
-			$cls = Propel::import($omClass);
-			$obj2 = new $cls();
-			$obj2->hydrate($rs, $startcol);
-
-			$newObject = true;
-			foreach($results as $temp_obj1) {
-				$temp_obj2 = $temp_obj1->getUser(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
-					$newObject = false;
-										$temp_obj2->addConceptHistory($obj1); 					break;
-				}
-			}
-			if ($newObject) {
-				$obj2->initConceptHistorys();
-				$obj2->addConceptHistory($obj1); 			}
-			$results[] = $obj1;
+		$rs = ConceptHistoryPeer::doSelectRS($criteria, $con);
+		if ($rs->next()) {
+			return $rs->getInt(1);
+		} else {
+						return 0;
 		}
-		return $results;
 	}
 
 
@@ -349,6 +302,53 @@ abstract class BaseConceptHistoryPeer {
 
 
 	
+	public static function doSelectJoinUser(Criteria $c, $con = null)
+	{
+		$c = clone $c;
+
+				if ($c->getDbName() == Propel::getDefaultDB()) {
+			$c->setDbName(self::DATABASE_NAME);
+		}
+
+		ConceptHistoryPeer::addSelectColumns($c);
+		$startcol = (ConceptHistoryPeer::NUM_COLUMNS - ConceptHistoryPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+		UserPeer::addSelectColumns($c);
+
+		$c->addJoin(ConceptHistoryPeer::USER_ID, UserPeer::ID);
+		$rs = BasePeer::doSelect($c, $con);
+		$results = array();
+
+		while($rs->next()) {
+
+			$omClass = ConceptHistoryPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj1 = new $cls();
+			$obj1->hydrate($rs);
+
+			$omClass = UserPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj2 = new $cls();
+			$obj2->hydrate($rs, $startcol);
+
+			$newObject = true;
+			foreach($results as $temp_obj1) {
+				$temp_obj2 = $temp_obj1->getUser(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+					$newObject = false;
+										$temp_obj2->addConceptHistory($obj1); 					break;
+				}
+			}
+			if ($newObject) {
+				$obj2->initConceptHistorys();
+				$obj2->addConceptHistory($obj1); 			}
+			$results[] = $obj1;
+		}
+		return $results;
+	}
+
+
+	
 	public static function doCountJoinAll(Criteria $criteria, $distinct = false, $con = null)
 	{
 		$criteria = clone $criteria;
@@ -365,9 +365,9 @@ abstract class BaseConceptHistoryPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(ConceptHistoryPeer::USER_ID, UserPeer::ID);
-
 		$criteria->addJoin(ConceptHistoryPeer::CONCEPT_PROPERTY_ID, ConceptPropertyPeer::ID);
+
+		$criteria->addJoin(ConceptHistoryPeer::USER_ID, UserPeer::ID);
 
 		$rs = ConceptHistoryPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
@@ -390,15 +390,15 @@ abstract class BaseConceptHistoryPeer {
 		ConceptHistoryPeer::addSelectColumns($c);
 		$startcol2 = (ConceptHistoryPeer::NUM_COLUMNS - ConceptHistoryPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 
-		UserPeer::addSelectColumns($c);
-		$startcol3 = $startcol2 + UserPeer::NUM_COLUMNS;
-
 		ConceptPropertyPeer::addSelectColumns($c);
-		$startcol4 = $startcol3 + ConceptPropertyPeer::NUM_COLUMNS;
+		$startcol3 = $startcol2 + ConceptPropertyPeer::NUM_COLUMNS;
 
-		$c->addJoin(ConceptHistoryPeer::USER_ID, UserPeer::ID);
+		UserPeer::addSelectColumns($c);
+		$startcol4 = $startcol3 + UserPeer::NUM_COLUMNS;
 
 		$c->addJoin(ConceptHistoryPeer::CONCEPT_PROPERTY_ID, ConceptPropertyPeer::ID);
+
+		$c->addJoin(ConceptHistoryPeer::USER_ID, UserPeer::ID);
 
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
@@ -414,7 +414,7 @@ abstract class BaseConceptHistoryPeer {
 
 				
 					
-			$omClass = UserPeer::getOMClass();
+			$omClass = ConceptPropertyPeer::getOMClass();
 
 	
 			$cls = Propel::import($omClass);
@@ -424,7 +424,7 @@ abstract class BaseConceptHistoryPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj2 = $temp_obj1->getUser(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+				$temp_obj2 = $temp_obj1->getConceptProperty(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj2->addConceptHistory($obj1); 					break;
 				}
@@ -437,7 +437,7 @@ abstract class BaseConceptHistoryPeer {
 
 				
 					
-			$omClass = ConceptPropertyPeer::getOMClass();
+			$omClass = UserPeer::getOMClass();
 
 	
 			$cls = Propel::import($omClass);
@@ -447,7 +447,7 @@ abstract class BaseConceptHistoryPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj3 = $temp_obj1->getConceptProperty(); 				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
+				$temp_obj3 = $temp_obj1->getUser(); 				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj3->addConceptHistory($obj1); 					break;
 				}
@@ -461,34 +461,6 @@ abstract class BaseConceptHistoryPeer {
 			$results[] = $obj1;
 		}
 		return $results;
-	}
-
-
-	
-	public static function doCountJoinAllExceptUser(Criteria $criteria, $distinct = false, $con = null)
-	{
-				$criteria = clone $criteria;
-		
-				$criteria->clearSelectColumns()->clearOrderByColumns();
-		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
-			$criteria->addSelectColumn(ConceptHistoryPeer::COUNT_DISTINCT);
-		} else {
-			$criteria->addSelectColumn(ConceptHistoryPeer::COUNT);
-		}
-		
-				foreach($criteria->getGroupByColumns() as $column)
-		{
-			$criteria->addSelectColumn($column);
-		}
-
-		$criteria->addJoin(ConceptHistoryPeer::CONCEPT_PROPERTY_ID, ConceptPropertyPeer::ID);
-
-		$rs = ConceptHistoryPeer::doSelectRS($criteria, $con);
-		if ($rs->next()) {
-			return $rs->getInt(1);
-		} else {
-						return 0;
-		}
 	}
 
 
@@ -521,59 +493,30 @@ abstract class BaseConceptHistoryPeer {
 
 
 	
-	public static function doSelectJoinAllExceptUser(Criteria $c, $con = null)
+	public static function doCountJoinAllExceptUser(Criteria $criteria, $distinct = false, $con = null)
 	{
-		$c = clone $c;
-
-								if ($c->getDbName() == Propel::getDefaultDB()) {
-			$c->setDbName(self::DATABASE_NAME);
-		}
-
-		ConceptHistoryPeer::addSelectColumns($c);
-		$startcol2 = (ConceptHistoryPeer::NUM_COLUMNS - ConceptHistoryPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
-
-		ConceptPropertyPeer::addSelectColumns($c);
-		$startcol3 = $startcol2 + ConceptPropertyPeer::NUM_COLUMNS;
-
-		$c->addJoin(ConceptHistoryPeer::CONCEPT_PROPERTY_ID, ConceptPropertyPeer::ID);
-
-
-		$rs = BasePeer::doSelect($c, $con);
-		$results = array();
+				$criteria = clone $criteria;
 		
-		while($rs->next()) {
-
-			$omClass = ConceptHistoryPeer::getOMClass();
-
-			$cls = Propel::import($omClass);
-			$obj1 = new $cls();
-			$obj1->hydrate($rs);		
-
-			$omClass = ConceptPropertyPeer::getOMClass();
-
-	
-			$cls = Propel::import($omClass);
-			$obj2  = new $cls();
-			$obj2->hydrate($rs, $startcol2);
-			
-			$newObject = true;
-			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
-				$temp_obj1 = $results[$j];
-				$temp_obj2 = $temp_obj1->getConceptProperty(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
-					$newObject = false;
-					$temp_obj2->addConceptHistory($obj1);
-					break;
-				}
-			}
-			
-			if ($newObject) {
-				$obj2->initConceptHistorys();
-				$obj2->addConceptHistory($obj1);
-			}
-
-			$results[] = $obj1;
+				$criteria->clearSelectColumns()->clearOrderByColumns();
+		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->addSelectColumn(ConceptHistoryPeer::COUNT_DISTINCT);
+		} else {
+			$criteria->addSelectColumn(ConceptHistoryPeer::COUNT);
 		}
-		return $results;
+		
+				foreach($criteria->getGroupByColumns() as $column)
+		{
+			$criteria->addSelectColumn($column);
+		}
+
+		$criteria->addJoin(ConceptHistoryPeer::CONCEPT_PROPERTY_ID, ConceptPropertyPeer::ID);
+
+		$rs = ConceptHistoryPeer::doSelectRS($criteria, $con);
+		if ($rs->next()) {
+			return $rs->getInt(1);
+		} else {
+						return 0;
+		}
 	}
 
 
@@ -617,6 +560,63 @@ abstract class BaseConceptHistoryPeer {
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
 				$temp_obj2 = $temp_obj1->getUser(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj2->addConceptHistory($obj1);
+					break;
+				}
+			}
+			
+			if ($newObject) {
+				$obj2->initConceptHistorys();
+				$obj2->addConceptHistory($obj1);
+			}
+
+			$results[] = $obj1;
+		}
+		return $results;
+	}
+
+
+	
+	public static function doSelectJoinAllExceptUser(Criteria $c, $con = null)
+	{
+		$c = clone $c;
+
+								if ($c->getDbName() == Propel::getDefaultDB()) {
+			$c->setDbName(self::DATABASE_NAME);
+		}
+
+		ConceptHistoryPeer::addSelectColumns($c);
+		$startcol2 = (ConceptHistoryPeer::NUM_COLUMNS - ConceptHistoryPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+
+		ConceptPropertyPeer::addSelectColumns($c);
+		$startcol3 = $startcol2 + ConceptPropertyPeer::NUM_COLUMNS;
+
+		$c->addJoin(ConceptHistoryPeer::CONCEPT_PROPERTY_ID, ConceptPropertyPeer::ID);
+
+
+		$rs = BasePeer::doSelect($c, $con);
+		$results = array();
+		
+		while($rs->next()) {
+
+			$omClass = ConceptHistoryPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj1 = new $cls();
+			$obj1->hydrate($rs);		
+
+			$omClass = ConceptPropertyPeer::getOMClass();
+
+	
+			$cls = Propel::import($omClass);
+			$obj2  = new $cls();
+			$obj2->hydrate($rs, $startcol2);
+			
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj2 = $temp_obj1->getConceptProperty(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj2->addConceptHistory($obj1);
 					break;

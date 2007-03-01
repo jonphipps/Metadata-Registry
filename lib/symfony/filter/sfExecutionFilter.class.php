@@ -22,16 +22,14 @@
 class sfExecutionFilter extends sfFilter
 {
   /**
-   * Execute this filter.
+   * Executes this filter.
    *
-   * @param sfFilterChain The filter chain.
-   *
-   * @return void
+   * @param sfFilterChain The filter chain
    *
    * @throws <b>sfInitializeException</b> If an error occurs during view initialization.
    * @throws <b>sfViewException</b>       If an error occurs while executing the view.
    */
-  public function execute ($filterChain)
+  public function execute($filterChain)
   {
     // get the context and controller
     $context    = $this->getContext();
@@ -50,7 +48,7 @@ class sfExecutionFilter extends sfFilter
 
     $viewName = null;
 
-    if (sfConfig::get('sf_cache') && !sfConfig::get('sf_cache_always_execute_action', false))
+    if (sfConfig::get('sf_cache'))
     {
       $uri = sfRouting::getInstance()->getCurrentInternalUri();
       if (null !== $context->getResponse()->getParameter($uri.'_action', null, 'symfony/cache'))
@@ -62,10 +60,6 @@ class sfExecutionFilter extends sfFilter
 
     if (!$viewName)
     {
-      // create validator manager
-      $validatorManager = new sfValidatorManager();
-      $validatorManager->initialize($context);
-
       if (($actionInstance->getRequestMethods() & $method) != $method)
       {
         // this action will skip validation/execution for this method
@@ -84,14 +78,15 @@ class sfExecutionFilter extends sfFilter
         // do NOT use require_once
         if (null !== $validateFile = sfConfigCache::getInstance()->checkConfig(sfConfig::get('sf_app_module_dir_name').'/'.$validationConfig, true))
         {
+          // create validator manager
+          $validatorManager = new sfValidatorManager();
+          $validatorManager->initialize($context);
+
           require($validateFile);
+
+          // process validators
+          $validated = $validatorManager->execute();
         }
-
-        // manually load validators
-        $actionInstance->registerValidators($validatorManager);
-
-        // process validators
-        $validated = $validatorManager->execute();
 
         // process manual validation
         $validateToRun = 'validate'.ucfirst($actionName);
@@ -102,10 +97,15 @@ class sfExecutionFilter extends sfFilter
         // - or automatic validation returns false but errors have been 'removed' by manual validation
         $validated = ($manualValidated && $validated) || ($manualValidated && !$validated && !$context->getRequest()->hasErrors());
 
-        $sf_logging_active = sfConfig::get('sf_logging_active');
+        // register fill-in filter
+        if (null !== ($parameters = $context->getRequest()->getAttribute('fillin', null, 'symfony/filter')))
+        {
+          $this->registerFillInFilter($filterChain, $parameters);
+        }
+
         if ($validated)
         {
-          if (sfConfig::get('sf_debug') && $sf_logging_active)
+          if (sfConfig::get('sf_debug') && sfConfig::get('sf_logging_enabled'))
           {
             $timer = sfTimerManager::getTimer(sprintf('Action "%s/%s"', $moduleName, $actionName));
           }
@@ -119,41 +119,39 @@ class sfExecutionFilter extends sfFilter
           }
           $actionInstance->postExecute();
 
-          if (sfConfig::get('sf_debug') && $sf_logging_active)
+          if (sfConfig::get('sf_debug') && sfConfig::get('sf_logging_enabled'))
           {
             $timer->addTime();
           }
         }
         else
         {
-          if ($sf_logging_active)
+          if (sfConfig::get('sf_logging_enabled'))
           {
-            $this->context->getLogger()->info('{sfExecutionFilter} action validation failed');
+            $this->context->getLogger()->info('{sfFilter} action validation failed');
           }
 
           // validation failed
           $handleErrorToRun = 'handleError'.ucfirst($actionName);
           $viewName = method_exists($actionInstance, $handleErrorToRun) ? $actionInstance->$handleErrorToRun() : $actionInstance->handleError();
-        }
-
-        // register fill-in filter
-        if (null !== ($parameters = $context->getRequest()->getAttribute('fillin', null, 'symfony/filter')))
-        {
-          $this->registerFillInFilter($filterChain, $parameters);
+          if ($viewName == '')
+          {
+            $viewName = sfView::ERROR;
+          }
         }
       }
     }
 
     if ($viewName == sfView::HEADER_ONLY)
     {
-      $filterChain->executionFilterDone();
+      $context->getResponse()->setHeaderOnly(true);
 
       // execute next filter
       $filterChain->execute();
     }
     else if ($viewName != sfView::NONE)
     {
-      if (sfConfig::get('sf_debug') && sfConfig::get('sf_logging_active'))
+      if (sfConfig::get('sf_debug') && sfConfig::get('sf_logging_enabled'))
       {
         $timer = sfTimerManager::getTimer(sprintf('View "%s" for "%s/%s"', $viewName, $moduleName, $actionName));
       }
@@ -169,7 +167,7 @@ class sfExecutionFilter extends sfFilter
       // action entry which was retrieved from the execution chain
       $viewData = $viewInstance->render();
 
-      if (sfConfig::get('sf_debug') && sfConfig::get('sf_logging_active'))
+      if (sfConfig::get('sf_debug') && sfConfig::get('sf_logging_enabled'))
       {
         $timer->addTime();
       }
@@ -180,18 +178,22 @@ class sfExecutionFilter extends sfFilter
       }
       else
       {
-        $filterChain->executionFilterDone();
-
         // execute next filter
         $filterChain->execute();
       }
     }
   }
 
-  private function registerFillInFilter($filterChain, $parameters)
+  /**
+   * Registers the fill in filter in the filter chain.
+   *
+   * @param sfFilterChain A sfFilterChain implementation instance
+   * @param array An array of parameters to pass to the fill in filter.
+   */
+  protected function registerFillInFilter($filterChain, $parameters)
   {
     // automatically register the fill in filter if it is not already loaded in the chain
-    if (isset($parameters['activate']) && $parameters['activate'] && !$filterChain->hasFilter('sfFillInFormFilter'))
+    if (isset($parameters['enabled']) && $parameters['enabled'] && !$filterChain->hasFilter('sfFillInFormFilter'))
     {
       // register the fill in form filter
       $fillInFormFilter = new sfFillInFormFilter();

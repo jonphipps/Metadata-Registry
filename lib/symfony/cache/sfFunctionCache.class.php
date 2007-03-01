@@ -24,17 +24,15 @@
 class sfFunctionCache extends sfFileCache
 {
   /**
-   * Calls a cacheable function or method (or not if there is already a cache for it)
+   * Calls a cacheable function or method (or not if there is already a cache for it).
    *
-   * Arguments of this method are read with func_get_args. So it doesn't appear
-   * in the function definition. Synopsis : 
+   * Arguments of this method are read with func_get_args. So it doesn't appear in the function definition. Synopsis : 
    * call('functionName', $arg1, $arg2, ...)
    * (arg1, arg2... are arguments of 'functionName')
    *
-   * @return mixed result of the function/method
-   * @access public
+   * @return mixed The result of the function/method
    */
-  public function call ()
+  public function call()
   {
     $arguments = func_get_args();
 
@@ -53,11 +51,12 @@ class sfFunctionCache extends sfFileCache
       $target = array_shift($arguments);
       ob_start();
       ob_implicit_flush(false);
-      if (strstr($target, '::'))
+      if (is_string($target) && strstr($target, '::'))
       {
         // classname::staticMethod
         list($class, $method) = explode('::', $target);
-        try {
+        try
+        {
           $result = call_user_func_array(array($class, $method), $arguments);
         }
         catch (Exception $e)
@@ -66,14 +65,15 @@ class sfFunctionCache extends sfFileCache
           throw $e;
         }
       }
-      else if (strstr($target, '->'))
+      else if (is_string($target) && strstr($target, '->'))
       {
         // object->method
         // use a stupid name ($objet_123456789 because) of problems when the object
         // name is the same as this var name
         list($object_123456789, $method) = explode('->', $target);
         global $$object_123456789;
-        try {
+        try
+        {
           $result = call_user_func_array(array($$object_123456789, $method), $arguments);
         }
         catch (Exception $e)

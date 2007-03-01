@@ -21,17 +21,15 @@
  */
 class sfValidatorManager
 {
-  private
+  protected
     $groups  = array(),
     $names   = array(),
     $request = null;
 
   /**
-   * Clear this validator manager so it can be reused.
-   *
-   * @return void
+   * Clears this validator manager so it can be reused.
    */
-  public function clear ()
+  public function clear()
   {
     $this->groups = null;
     $this->groups = array();
@@ -40,12 +38,17 @@ class sfValidatorManager
   }
 
   /**
-   * Execute all validators and determine the validation status.
+   * Executes all validators and determine the validation status.
    *
-   * @return bool true, if validation completed successfully, otherwise false.
+   * @return bool true, if validation completed successfully, otherwise false
    */
-  public function execute ()
+  public function execute()
   {
+    if (sfConfig::get('sf_logging_enabled'))
+    {
+      sfContext::getInstance()->getLogger()->info('{sfValidator} validation execution');
+    }
+
     $retval = true;
 
     // loop through the names and start our validation
@@ -86,7 +89,9 @@ class sfValidatorManager
       }
 
       if (count($this->groups) == 0 || $pass == 2)
+      {
         break;
+      }
 
       // increase our pass indicator
       ++$pass;
@@ -96,27 +101,25 @@ class sfValidatorManager
   }
 
   /**
-   * Initialize this validator manager.
+   * Initializes this validator manager.
    *
-   * @param Context A context instance.
-   *
-   * @return void
+   * @param sfContext A sfContext instance
    */
-  public function initialize ($context)
+  public function initialize($context)
   {
     $this->request = $context->getRequest();
   }
 
   /**
-   * Register a file or parameter.
+   * Registers a file or parameter.
    *
-   * @param string  A file or parameter name.
-   * @param bool    The required status.
-   * @param string  A required error message.
-   * @param string  A group name.
-   * @param string  A parent array.
+   * @param string  A file or parameter name
+   * @param bool    The required status
+   * @param string  A required error message
+   * @param string  A group name
+   * @param string  A parent array
    */
-  public function registerName ($name, $required = true, $message = 'Required', $parent = null, $group = null, $isFile = false)
+  public function registerName($name, $required = true, $message = 'Required', $parent = null, $group = null, $isFile = false)
   {
     // create the entry
     $entry                      = array();
@@ -165,15 +168,13 @@ class sfValidatorManager
   }
 
   /**
-   * Register a validator for a file or parameter.
+   * Registers a validator for a file or parameter.
    *
-   * @param string    A file or parameter name.
-   * @param Validator A validator implementation instance.
-   * @param string    A parent array name.
-   *
-   * @return void
+   * @param string    A file or parameter name
+   * @param Validator A validator implementation instance
+   * @param string    A parent array name
    */
-  public function registerValidator ($name, $validator, $parent = null)
+  public function registerValidator($name, $validator, $parent = null)
   {
     if ($parent != null)
     {
@@ -188,20 +189,20 @@ class sfValidatorManager
   }
 
   /**
-   * Validate a file or parameter.
+   * Validates a file or parameter.
    *
-   * @param string A file or parameter name.
-   * @param array  Data associated with the file or parameter.
-   * @param string A parent name.
+   * @param string A file or parameter name
+   * @param array  Data associated with the file or parameter
+   * @param string A parent name
    *
-   * @return bool true, if validation completes successfully, otherwise false.
+   * @return bool true, if validation completes successfully, otherwise false
    */
-  private function validate (&$name, &$data, $parent)
+  protected function validate(&$name, &$data, $parent)
   {
     // get defaults
     $error     = null;
     $errorName = null;
-    $force     = ($data['group'] != null) ? $data['group']['_force'] : false;
+    $force     = null !== $data['group'] ? $data['group']['_force'] : false;
     $retval    = true;
     $value     = null;
 
