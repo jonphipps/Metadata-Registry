@@ -242,75 +242,48 @@ class sfViewConfigHandler extends sfYamlConfigHandler
   protected function addHtmlAsset($viewName = '')
   {
     $data = array();
-    $omit = array();
-    $delete = array();
-    $delete_all = false;
-
-    // Merge the current view's stylesheets with the app's default stylesheets
-    $stylesheets = $this->mergeConfigValue('stylesheets', $viewName);
-    $tmp = array();
-    foreach ((array) $stylesheets as $css)
+    $assetTypes = array('stylesheets' => 'addStylesheet','javascripts' => 'addJavascript');
+    foreach ($assetTypes as $assetType => $insertValue)
     {
-      $position = '';
-      if (is_array($css))
-      {
-        $key = key($css);
-        $options = $css[$key];
-        if (isset($options['position']))
-        {
-          $position = $options['position'];
-          unset($options['position']);
-        }
-      }
-      else
-      {
-        $key = $css;
-        $options = array();
-      }
+       $assets = $this->mergeConfigValue($assetType, $viewName);
+       $tmp = array();
+       foreach ((array) $assets as $asset)
+       {
+         $position = '';
+         if (is_array($asset))
+         {
+           $key = key($asset);
+           $options = $asset[$key];
+           if (isset($options['position']))
+           {
+             $position = $options['position'];
+             unset($options['position']);
+           }
+         }
+         else
+         {
+           $key = $asset;
+           $options = array();
+         }
 
-      $key = $this->replaceConstants($key);
+         $key = $this->replaceConstants($key);
 
-      if ('-*' == $key)
-      {
-        $tmp = array();
-      }
-      else if ('-' == $key[0])
-      {
-        unset($tmp[substr($key, 1)]);
-      }
-      else
-      {
-        $tmp[$key] = sprintf("  \$response->addStylesheet('%s', '%s', %s);", $key, $position, str_replace("\n", '', var_export($options, true)));
-      }
+         if ('-*' == $key)
+         {
+           $tmp = array();
+         }
+         else if ('-' == $key[0])
+         {
+           unset($tmp[substr($key, 1)]);
+         }
+         else
+         {
+            $tmp[$key] = sprintf("  \$response->$insertValue('%s', '%s', %s);", $key, $position, str_replace("\n", '', var_export($options, true)));
+         }
+       }
+       // Merge the current view's stylesheets and javascripts with the app's default stylesheets
+       $data = array_merge($data, array_values($tmp));
     }
-
-    $data = array_merge($data, array_values($tmp));
-
-    $omit = array();
-    $delete_all = false;
-
-    // Populate $javascripts with the values from ONLY the current view
-    $javascripts = $this->mergeConfigValue('javascripts', $viewName);
-    $tmp = array();
-    foreach ((array) $javascripts as $js)
-    {
-      $js = $this->replaceConstants($js);
-
-      if ('-*' == $js)
-      {
-        $tmp = array();
-      }
-      else if ('-' == $js[0])
-      {
-        unset($tmp[substr($js, 1)]);
-      }
-      else
-      {
-        $tmp[$js] = sprintf("  \$response->addJavascript('%s');", $js);
-      }
-    }
-
-    $data = array_merge($data, array_values($tmp));
 
     return implode("\n", $data)."\n";
   }

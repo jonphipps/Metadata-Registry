@@ -238,6 +238,13 @@ function button_to($name, $internal_uri, $options = array())
   $html_options = _convert_options($options);
   $html_options['value'] = $name;
 
+  $query_string = '';
+  if (isset($html_options['query_string']))
+  {
+    $query_string = '?'.$html_options['query_string'];
+    unset($html_options['query_string']);
+  }
+
   if (isset($html_options['post']) && $html_options['post'])
   {
     if (isset($html_options['popup']))
@@ -260,7 +267,7 @@ function button_to($name, $internal_uri, $options = array())
   else
   {
     $html_options['type']    = 'button';
-    $html_options['onclick'] = "document.location.href='".url_for($internal_uri)."';";
+    $html_options['onclick'] = "document.location.href='".url_for($internal_uri).$query_string."';";
     $html_options = _convert_options_to_javascript($html_options);
 
     return tag('input', $html_options);
