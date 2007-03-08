@@ -17,9 +17,9 @@
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
  * @version    SVN: $Id$
  */
-require_once(dirname(__FILE__).'/../../lib/vendor/pake/pakeFunction.php');
-require_once(dirname(__FILE__).'/../../lib/vendor/pake/pakeGetopt.class.php');
-require_once(dirname(__FILE__).'/../../lib/vendor/lime/lime.php');
+require_once(dirname(__FILE__).'/../../lib/symfony/vendor/pake/pakeFunction.php');
+require_once(dirname(__FILE__).'/../../lib/symfony/vendor/pake/pakeGetopt.class.php');
+require_once(dirname(__FILE__).'/../../lib/symfony/vendor/lime/lime.php');
 
 if (!isset($argv[1]))
 {
