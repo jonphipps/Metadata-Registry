@@ -28,7 +28,6 @@ if (file_exists('config/config.php') && !isset($sf_symfony_lib_dir))
     exit();
   }
 }
-
 require_once($sf_symfony_lib_dir.'/vendor/pake/pakeFunction.php');
 require_once($sf_symfony_lib_dir.'/vendor/pake/pakeGetopt.class.php');
 

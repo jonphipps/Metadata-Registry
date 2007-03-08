@@ -75,12 +75,13 @@ function run_test_unit($task, $args)
 {
   if (isset($args[0]))
   {
+    $php_cli = sfToolkit::getPhpCli();
     foreach ($args as $path)
     {
       $files = pakeFinder::type('file')->ignore_version_control()->follow_link()->name(basename($path).'Test.php')->in(sfConfig::get('sf_test_dir').DIRECTORY_SEPARATOR.'unit'.DIRECTORY_SEPARATOR.dirname($path));
       foreach ($files as $file)
       {
-        include($file);
+        passthru(sprintf('%s -d html_errors=off -d open_basedir= -q "%s" 2>&1', $php_cli, $file), $return);
       }
     }
   }
