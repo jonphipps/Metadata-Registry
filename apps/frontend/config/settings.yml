@@ -22,6 +22,8 @@ test:
     web_debug:              off
     no_script_name:         off
     etag:                   off
+  .settings:
+    suffix:                .
 
 all:
   .actions:
