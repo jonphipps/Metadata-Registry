@@ -231,7 +231,7 @@ function select_country_tag($name, $selected = null, $options = array())
 
   foreach ($options as $key => $value)
   {
-    if ($value = 'include_custom' || $value = 'include_blank')
+    if ('include_custom' == $value || 'include_blank' == $value)
     {
       unset($options[$key]);
     }
@@ -286,7 +286,7 @@ function select_language_tag($name, $selected = null, $options = array())
 
   foreach ($options as $key => $value)
   {
-    if ($value = 'include_custom' || $value = 'include_blank')
+    if ('include_custom' == $value || 'include_blank' == $value)
     {
       unset($options[$key]);
     }
