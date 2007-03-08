@@ -1,0 +1,4141 @@
+---
+Agent: 
+  Agent_46: 
+    created_at: 2006-04-12 18:27:05
+    last_updated: 2006-09-14 12:48:41
+    org_email: dih1@cornell.edu
+    org_name: Diane Hillmann
+    ind_affiliation: Cornell University
+    ind_role: 
+    address1: 
+    address2: 
+    city: 
+    state: 
+    postal_code: 
+    country: 
+    phone: 
+    web_address: 
+    type: Individual
+  Agent_52: 
+    created_at: 2006-04-13 11:49:15
+    last_updated: 2006-09-16 12:24:30
+    org_email: 
+    org_name: GEM Exchange
+    ind_affiliation: 
+    ind_role: 
+    address1: 
+    address2: 
+    city: 
+    state: 
+    postal_code: 
+    country: AF
+    phone: 
+    web_address: 
+    type: Organization
+  Agent_53: 
+    created_at: 2006-04-13 11:54:11
+    last_updated: 2006-09-14 12:48:49
+    org_email: 
+    org_name: National Science Digital Library
+    ind_affiliation: 
+    ind_role: 
+    address1: 
+    address2: 
+    city: 
+    state: 
+    postal_code: 
+    country: 
+    phone: 
+    web_address: 
+    type: Organization
+Lookup: 
+  Lookup_1: 
+    type_id: 1
+    short_value: Published
+    long_value: Published
+    display_order: 7
+  Lookup_2: 
+    type_id: 1
+    short_value: New-Proposed
+    long_value: New-Proposed
+    display_order: 1
+  Lookup_3: 
+    type_id: 1
+    short_value: Change-Proposed
+    long_value: Change-Proposed
+    display_order: 2
+  Lookup_4: 
+    type_id: 1
+    short_value: Deprecate-Proposed
+    long_value: Deprecate-Proposed
+    display_order: 3
+  Lookup_5: 
+    type_id: 1
+    short_value: New-Under Review
+    long_value: New-Under Review
+    display_order: 4
+  Lookup_6: 
+    type_id: 1
+    short_value: Change-Under Review
+    long_value: Change-Under Review
+    display_order: 5
+  Lookup_7: 
+    type_id: 1
+    short_value: Deprecate-Under Revi
+    long_value: Deprecate-Under Review
+    display_order: 6
+  Lookup_8: 
+    type_id: 1
+    short_value: Deprecated
+    long_value: Deprecated
+    display_order: 8
+  Lookup_9: 
+    type_id: 1
+    short_value: Not Approved
+    long_value: Not Approved
+    display_order: 9
+SkosProperty: 
+  SkosProperty_1: 
+    parent_id: 27
+    inverse_id: 
+    name: altLabel
+    uri: >
+      http://www.w3.org/2004/02/skos/core#altLabel
+    object_type: literal
+    display_order: 1
+    picklist_order: 3
+    label: alternative label
+    definition: >
+      An alternative lexical label for a
+      resource.
+    comment: >
+      Acronyms, abbreviations, spelling
+      variants, and irregular plural/singular
+      forms may be included among the
+      alternative labels for a concept.
+      Mis-spelled terms are normally included
+      as hidden labels (see skos:hiddenLabel).
+    examples: >
+      http://www.w3.org/2004/02/skos/core/examples/altLabel.rdf.xml
+    is_required: 0
+    is_reciprocal: 0
+    is_singleton: 0
+    is_scheme: 0
+    is_in_picklist: 1
+  SkosProperty_2: 
+    parent_id: 26
+    inverse_id: 
+    name: altSymbol
+    uri: >
+      http://www.w3.org/2004/02/skos/core#altSymbol
+    object_type: literal
+    display_order: 2
+    picklist_order: 
+    label: alternative symbolic label
+    definition: >
+      An alternative symbolic label for a
+      resource.
+    comment: 
+    examples: >
+      http://www.w3.org/2004/02/skos/core/examples/altSymbol.rdf.xml
+    is_required: 0
+    is_reciprocal: 0
+    is_singleton: 0
+    is_scheme: 0
+    is_in_picklist: 0
+  SkosProperty_3: 
+    parent_id: 
+    inverse_id: 16
+    name: broader
+    uri: >
+      http://www.w3.org/2004/02/skos/core#broader
+    object_type: resource
+    display_order: 3
+    picklist_order: 4
+    label: has broader
+    definition: >
+      A concept that is more general in
+      meaning.
+    comment: >
+      Broader concepts are typically rendered
+      as parents in a concept hierarchy
+      (tree).
+    examples: >
+      http://www.w3.org/2004/02/skos/core/examples/broader.rdf.xml
+    is_required: 0
+    is_reciprocal: 0
+    is_singleton: 0
+    is_scheme: 0
+    is_in_picklist: 1
+  SkosProperty_4: 
+    parent_id: 17
+    inverse_id: 
+    name: changeNote
+    uri: >
+      http://www.w3.org/2004/02/skos/core#changeNote
+    object_type: literal
+    display_order: 4
+    picklist_order: 8
+    label: change note
+    definition: >
+      A note about a modification to a
+      concept.
+    comment: 
+    examples: >
+      http://www.w3.org/2004/02/skos/core/examples/changeNote.rdf.xml
+    is_required: 0
+    is_reciprocal: 0
+    is_singleton: 0
+    is_scheme: 0
+    is_in_picklist: 1
+  SkosProperty_5: 
+    parent_id: 17
+    inverse_id: 
+    name: definition
+    uri: >
+      http://www.w3.org/2004/02/skos/core#definition
+    object_type: literal
+    display_order: 
+    picklist_order: 2
+    label: definition
+    definition: >
+      A statement or formal explanation of the
+      meaning of a concept.
+    comment: 
+    examples: >
+      http://www.w3.org/2004/02/skos/core/examples/definition.rdf.xml
+    is_required: 0
+    is_reciprocal: 0
+    is_singleton: 0
+    is_scheme: 0
+    is_in_picklist: 1
+  SkosProperty_6: 
+    parent_id: 17
+    inverse_id: 
+    name: editorialNote
+    uri: >
+      http://www.w3.org/2004/02/skos/core#editorialNote
+    object_type: literal
+    display_order: 
+    picklist_order: 9
+    label: editorial note
+    definition: >
+      A note for an editor, translator or
+      maintainer of the vocabulary.
+    comment: 
+    examples: >
+      http://www.w3.org/2004/02/skos/core/examples/editorialNote.rdf.xml
+    is_required: 0
+    is_reciprocal: 0
+    is_singleton: 0
+    is_scheme: 0
+    is_in_picklist: 1
+  SkosProperty_7: 
+    parent_id: 17
+    inverse_id: 
+    name: example
+    uri: >
+      http://www.w3.org/2004/02/skos/core#example
+    object_type: literal
+    display_order: 
+    picklist_order: 10
+    label: example
+    definition: An example of the use of a concept.
+    comment: 
+    examples: >
+      http://www.w3.org/2004/02/skos/core/examples/example.rdf.xml
+    is_required: 0
+    is_reciprocal: 0
+    is_singleton: 0
+    is_scheme: 0
+    is_in_picklist: 1
+  SkosProperty_9: 
+    parent_id: 27
+    inverse_id: 
+    name: hiddenLabel
+    uri: >
+      http://www.w3.org/2004/02/skos/core#hiddenLabel
+    object_type: literal
+    display_order: 
+    picklist_order: 12
+    label: hidden label
+    definition: >
+      A lexical label for a resource that
+      should be hidden when generating visual
+      displays of the resource, but should
+      still be accessible to free text search
+      operations.
+    comment: 
+    examples: >
+      http://www.w3.org/2004/02/skos/core/examples/hiddenLabel.rdf.xml
+    is_required: 0
+    is_reciprocal: 0
+    is_singleton: 0
+    is_scheme: 0
+    is_in_picklist: 1
+  SkosProperty_10: 
+    parent_id: 
+    inverse_id: 
+    name: historyNote
+    uri: >
+      http://www.w3.org/2004/02/skos/core#historyNote
+    object_type: literal
+    display_order: 
+    picklist_order: 11
+    label: history note
+    definition: 
+    comment: >
+      A note about the past state/use/meaning
+      of a concept.
+    examples: >
+      http://www.w3.org/2004/02/skos/core/examples/historyNote.rdf.xml
+    is_required: 0
+    is_reciprocal: 0
+    is_singleton: 0
+    is_scheme: 0
+    is_in_picklist: 1
+  SkosProperty_11: 
+    parent_id: 
+    inverse_id: 
+    name: inScheme
+    uri: >
+      http://www.w3.org/2004/02/skos/core#inScheme
+    object_type: resource
+    display_order: 
+    picklist_order: 14
+    label: in scheme
+    definition: >
+      A concept scheme in which the concept is
+      included.
+    comment: >
+      A concept may be a member of more than
+      one concept scheme.
+    examples: >
+      http://www.w3.org/2004/02/skos/core/examples/inScheme.rdf.xml
+    is_required: 1
+    is_reciprocal: 0
+    is_singleton: 0
+    is_scheme: 0
+    is_in_picklist: 1
+  SkosProperty_12: 
+    parent_id: 
+    inverse_id: 24
+    name: isSubjectOf
+    uri: >
+      http://www.w3.org/2004/02/skos/core#isSubjectOf
+    object_type: resource
+    display_order: 
+    picklist_order: 
+    label: is subject of
+    definition: >
+      A resource for which the concept is a
+      subject.
+    comment: 
+    examples: >
+      http://www.w3.org/2004/02/skos/core/examples/isSubjectOf.rdf.xml
+    is_required: 0
+    is_reciprocal: 0
+    is_singleton: 0
+    is_scheme: 0
+    is_in_picklist: 0
+  SkosProperty_13: 
+    parent_id: 12
+    inverse_id: 20
+    name: isPrimarySubjectOf
+    uri: >
+      http://www.w3.org/2004/02/skos/core#isPrimarySubjectOf
+    object_type: resource
+    display_order: 
+    picklist_order: 
+    label: is primary subject of
+    definition: >
+      A resource for which the concept is the
+      primary subject.
+    comment: 
+    examples: 
+    is_required: 0
+    is_reciprocal: 0
+    is_singleton: 0
+    is_scheme: 0
+    is_in_picklist: 0
+  SkosProperty_16: 
+    parent_id: 
+    inverse_id: 3
+    name: narrower
+    uri: >
+      http://www.w3.org/2004/02/skos/core#narrower
+    object_type: resource
+    display_order: 
+    picklist_order: 5
+    label: has narrower
+    definition: >
+      A concept that is more specific in
+      meaning.
+    comment: >
+      Narrower concepts are typically rendered
+      as children in a concept hierarchy
+      (tree).
+    examples: >
+      http://www.w3.org/2004/02/skos/core/examples/narrower.rdf.xml
+    is_required: 0
+    is_reciprocal: 0
+    is_singleton: 0
+    is_scheme: 0
+    is_in_picklist: 1
+  SkosProperty_17: 
+    parent_id: 
+    inverse_id: 
+    name: note
+    uri: http://www.w3.org/2004/02/skos/core#note
+    object_type: literal
+    display_order: 
+    picklist_order: 13
+    label: note
+    definition: A general note, for any purpose.
+    comment: >
+      This property may be used directly, or
+      as a super-property for more specific
+      note types.
+    examples: >
+      http://www.w3.org/2004/02/skos/core/examples/note.rdf.xml
+    is_required: 0
+    is_reciprocal: 0
+    is_singleton: 0
+    is_scheme: 0
+    is_in_picklist: 1
+  SkosProperty_18: 
+    parent_id: 26
+    inverse_id: 
+    name: prefSymbol
+    uri: >
+      http://www.w3.org/2004/02/skos/core#prefSymbol
+    object_type: literal
+    display_order: 
+    picklist_order: 
+    label: preferred symbolic label
+    definition: >
+      The preferred symbolic label for a
+      resource.
+    comment: >
+      No two concepts in the same concept
+      scheme may have the same value for
+      skos:prefSymbol.
+    examples: >
+      http://www.w3.org/2004/02/skos/core/examples/prefSymbol.rdf.xml
+    is_required: 0
+    is_reciprocal: 0
+    is_singleton: 0
+    is_scheme: 0
+    is_in_picklist: 0
+  SkosProperty_19: 
+    parent_id: 27
+    inverse_id: 
+    name: prefLabel
+    uri: >
+      http://www.w3.org/2004/02/skos/core#prefLabel
+    object_type: literal
+    display_order: 
+    picklist_order: 1
+    label: preferred label
+    definition: >
+      The preferred lexical label for a
+      resource, in a given language.
+    comment: >
+      No two concepts in the same concept
+      scheme may have the same value for
+      skos:prefLabel in a given language.
+    examples: >
+      http://www.w3.org/2004/02/skos/core/examples/prefLabel.rdf.xml
+    is_required: 1
+    is_reciprocal: 0
+    is_singleton: 0
+    is_scheme: 0
+    is_in_picklist: 1
+  SkosProperty_20: 
+    parent_id: 24
+    inverse_id: 
+    name: primarySubject
+    uri: >
+      http://www.w3.org/2004/02/skos/core#primarySubject
+    object_type: literal
+    display_order: 
+    picklist_order: 
+    label: has primary subject
+    definition: >
+      A concept that is the primary subject of
+      the resource.
+    comment: >
+      A resource may have only one primary
+      subject per concept scheme.
+    examples: >
+      http://www.w3.org/2004/02/skos/core/examples/primarySubject.rdf.xml
+    is_required: 0
+    is_reciprocal: 0
+    is_singleton: 0
+    is_scheme: 0
+    is_in_picklist: 0
+  SkosProperty_21: 
+    parent_id: 
+    inverse_id: 21
+    name: related
+    uri: >
+      http://www.w3.org/2004/02/skos/core#related
+    object_type: resource
+    display_order: 
+    picklist_order: 6
+    label: related to
+    definition: >
+      A concept with which there is an
+      associative semantic relationship.
+    comment: 
+    examples: >
+      http://www.w3.org/2004/02/skos/core/examples/related.rdf.xml
+    is_required: 0
+    is_reciprocal: 1
+    is_singleton: 0
+    is_scheme: 0
+    is_in_picklist: 1
+  SkosProperty_22: 
+    parent_id: 17
+    inverse_id: 
+    name: scopeNote
+    uri: >
+      http://www.w3.org/2004/02/skos/core#scopeNote
+    object_type: literal
+    display_order: 
+    picklist_order: 7
+    label: scope note
+    definition: >
+      A note that helps to clarify the meaning
+      of a concept.
+    comment: 
+    examples: >
+      http://www.w3.org/2004/02/skos/core/examples/scopeNote.rdf.xml
+    is_required: 0
+    is_reciprocal: 0
+    is_singleton: 0
+    is_scheme: 0
+    is_in_picklist: 1
+  SkosProperty_24: 
+    parent_id: 
+    inverse_id: 12
+    name: subject
+    uri: >
+      http://www.w3.org/2004/02/skos/core#subject
+    object_type: resource
+    display_order: 
+    picklist_order: 
+    label: has subject
+    definition: >
+      A concept that is a subject of the
+      resource.
+    comment: >
+      The following rule may be applied for
+      this property: [(?d skos:subject ?x)(?x
+      skos:broader ?y) implies (?d
+      skos:subject ?y)]
+    examples: >
+      http://www.w3.org/2004/02/skos/core/examples/subject.rdf.xml
+    is_required: 0
+    is_reciprocal: 0
+    is_singleton: 0
+    is_scheme: 0
+    is_in_picklist: 0
+  SkosProperty_25: 
+    parent_id: 
+    inverse_id: 
+    name: subjectIndicator
+    uri: >
+      http://www.w3.org/2004/02/skos/core#subjectIndicator
+    object_type: resource
+    display_order: 
+    picklist_order: 
+    label: subject indicator
+    definition: >
+      A subject indicator for a concept. [The
+      notion of 'subject indicator' is defined
+      here with reference to the latest
+      definition endorsed by the OASIS
+      Published Subjects Technical Committee.]
+    comment: >
+      This property allows subject indicators
+      to be used for concept identification in
+      place of or in addition to directly
+      assigned URIs.
+    examples: >
+      http://www.w3.org/2004/02/skos/core/examples/subjectIndicator.rdf.xml
+    is_required: 0
+    is_reciprocal: 0
+    is_singleton: 0
+    is_scheme: 0
+    is_in_picklist: 0
+  SkosProperty_26: 
+    parent_id: 
+    inverse_id: 
+    name: symbol
+    uri: >
+      http://www.w3.org/2004/02/skos/core#symbol
+    object_type: literal
+    display_order: 
+    picklist_order: 
+    label: symbolic label
+    definition: >
+      An image that is a symbolic label for
+      the resource.
+    comment: >
+      This property is roughly analagous to
+      rdfs:label, but for labelling resources
+      with images that have retrievable
+      representations, rather than RDF
+      literals.
+    examples: >
+      http://www.w3.org/2004/02/skos/core/examples/symbol.rdf.xml
+    is_required: 0
+    is_reciprocal: 0
+    is_singleton: 0
+    is_scheme: 0
+    is_in_picklist: 0
+  SkosProperty_27: 
+    parent_id: 
+    inverse_id: 
+    name: label
+    uri: >
+      http://www.w3.org/2000/01/rdf-schema#label
+    object_type: literal
+    display_order: 
+    picklist_order: 15
+    label: label
+    definition: A human-readable name for the subject.
+    comment: 
+    examples: 
+    is_required: 0
+    is_reciprocal: 0
+    is_singleton: 0
+    is_scheme: 0
+    is_in_picklist: 1
+Status: 
+  Status_1: 
+    display_order: 7
+    display_name: Published
+  Status_2: 
+    display_order: 1
+    display_name: New-Proposed
+  Status_3: 
+    display_order: 2
+    display_name: Change-Proposed
+  Status_4: 
+    display_order: 3
+    display_name: Deprecate-Proposed
+  Status_5: 
+    display_order: 4
+    display_name: New-Under Review
+  Status_6: 
+    display_order: 5
+    display_name: Change-Under Review
+  Status_7: 
+    display_order: 6
+    display_name: Deprecate-Under Review
+  Status_8: 
+    display_order: 8
+    display_name: Deprecated
+  Status_9: 
+    display_order: 9
+    display_name: Not Approved
+User: 
+  User_35: 
+    created_at: 2006-03-24 15:16:33
+    last_updated: 2007-03-05 18:24:31
+    nickname: nickname
+    salutation: Salut
+    first_name: userFirstName
+    last_name: userLastName
+    email: useremail@nowhere.com
+    sha1_password: d34c30813aa5568a1d4e940d2405cf508887a799
+    salt: e1e1be54a7818611c83b919fd5be0847
+    want_to_be_moderator: 0
+    is_moderator: 0
+    is_administrator: 0
+    deletions: 0
+    password: 
+  User_36: 
+    created_at: 2006-03-24 17:29:24
+    last_updated: 2006-09-08 14:50:56
+    nickname: jonphipps
+    salutation: 
+    first_name: Jon
+    last_name: Phipps
+    email: jphipps@madcreek.com
+    sha1_password: f4521d500ef2f3e2ea857eacb42679f549a13c40
+    salt: 70a6e9945d591c5347f7d65100bd8a18
+    want_to_be_moderator: 
+    is_moderator: 0
+    is_administrator: 1
+    deletions: 0
+    password: 
+  User_37: 
+    created_at: 2006-04-07 15:53:03
+    last_updated: 2006-04-07 15:53:03
+    nickname: dih1
+    salutation: 
+    first_name: 
+    last_name: 
+    email: dih1@cornell.edu
+    sha1_password: a7294c358591a15d9bcb0a8cfd707335c2b9d222
+    salt: 88f61322d3c9f042b442ca255a4a567e
+    want_to_be_moderator: 0
+    is_moderator: 0
+    is_administrator: 0
+    deletions: 0
+    password: 
+  User_38: 
+    created_at: 2006-04-07 15:53:36
+    last_updated: 2006-04-07 15:53:36
+    nickname: sas1
+    salutation: 
+    first_name: 
+    last_name: 
+    email: sasutton@u.washington.edu
+    sha1_password: f01d10ee8880f4417ec1185579f49d87f798271d
+    salt: 704a68f4da0b09ae1090ec52363a80cc
+    want_to_be_moderator: 0
+    is_moderator: 0
+    is_administrator: 0
+    deletions: 0
+    password: 
+  User_41: 
+    created_at: 2006-09-21 11:07:11
+    last_updated: 2006-09-21 11:07:11
+    nickname: vadmin
+    salutation: 
+    first_name: 
+    last_name: 
+    email: vadmin@vadmin.com
+    sha1_password: 1c2b85d7b8f9d216761dd1fb88960c499bc819bf
+    salt: 78dcb50e9e681b91fc5ac2e104ec0c0b
+    want_to_be_moderator: 0
+    is_moderator: 0
+    is_administrator: 0
+    deletions: 0
+    password: 
+  User_43: 
+    created_at: 2007-02-28 18:22:13
+    last_updated: 2007-02-28 18:22:13
+    nickname: vocabowner
+    salutation: 
+    first_name: 
+    last_name: 
+    email: vocabowner@jonphipps.com
+    sha1_password: ea209e975bcc394664ce42b03c0e345c2d0146c2
+    salt: c6b0f0fb89531da792853cfa4968c9ea
+    want_to_be_moderator: 0
+    is_moderator: 0
+    is_administrator: 0
+    deletions: 0
+    password: 
+  User_44: 
+    created_at: 2007-03-03 18:14:51
+    last_updated: 2007-03-03 18:39:27
+    nickname: admin
+    salutation: 
+    first_name: 
+    last_name: 
+    email: admin@example.com
+    sha1_password: bf772da2ec13e3884cc80b4745f65c6fe88c64ba
+    salt: 445cf98776808291e6f1e8bc819a2cf2
+    want_to_be_moderator: 0
+    is_moderator: 0
+    is_administrator: 1
+    deletions: 0
+    password: 
+  User_45: 
+    created_at: 2007-03-05 18:21:49
+    last_updated: 2007-03-05 18:21:49
+    nickname: agentadmin
+    salutation: 
+    first_name: 
+    last_name: 
+    email: agentadmin@example.com
+    sha1_password: 631e1e33866a78776596a12960a02083050bad6d
+    salt: 5a5d9ff756b88b3095c8df8755cba9c3
+    want_to_be_moderator: 0
+    is_moderator: 0
+    is_administrator: 0
+    deletions: 0
+    password: 
+Vocabulary: 
+  Vocabulary_7: 
+    agent_id: Agent_46
+    created_at: 2006-04-12 19:13:39
+    last_updated: 2006-05-31 18:47:17
+    name: Diane's New Vocabulary
+    note: 
+    uri: http://smartbroad/newvocabulary
+    url: 
+    base_domain: http://smartbroad
+    token: dihNeww
+    community: 
+    last_uri_id: 100005
+  Vocabulary_8: 
+    agent_id: Agent_52
+    created_at: 2006-04-13 11:51:57
+    last_updated: 2006-06-14 12:11:15
+    name: Level Element GEM Controlled Vocabulary
+    note: 
+    uri: http://purl.org/gem/instance/level/
+    url: http://thegateway.org
+    base_domain: http://purl.org/gem/
+    token: GemLevel
+    community: Education
+    last_uri_id: 100012
+  Vocabulary_10: 
+    agent_id: Agent_53
+    created_at: 2006-04-13 13:58:01
+    last_updated: 2007-02-26 10:18:49
+    name: NSDL Education Level Vocabulary
+    note: test comment6
+    uri: http://metadataregistry.org/NSDLEdLvl
+    url: >
+      http://metamanagement.comm.nsdl.org/cgi-bin/wiki.pl?VocabDevel
+    base_domain: http://metadataregistry.org/
+    token: NSDLEdLvl
+    community: >
+      Science, Mathematics, Engineering,
+      Technology
+    last_uri_id: 1026
+  Vocabulary_11: 
+    agent_id: Agent_53
+    created_at: 2006-04-24 08:37:30
+    last_updated: 2006-10-04 10:12:05
+    name: NSDL Learning Resource Type Vocabulary
+    note: 
+    uri: >
+      http://metadataregistry.org/uri/NSDLResType/
+    url: >
+      http://metamanagement.comm.nsdl.org/cgi-bin/wiki.pl?LRT_Wiki_Version2
+    base_domain: http://metadataregistry.org
+    token: NSDLResType
+    community: Education
+    last_uri_id: 1042
+VocabularyHasUser: 
+  VocabularyHasUser_8_36: 
+    is_maintainer_for: 1
+    is_registrar_for: 0
+    is_admin_for: 1
+  VocabularyHasUser_10_36: 
+    is_maintainer_for: 1
+    is_registrar_for: 1
+    is_admin_for: 1
+  VocabularyHasUser_11_36: 
+    is_maintainer_for: 1
+    is_registrar_for: 1
+    is_admin_for: 1
+  VocabularyHasUser_7_37: 
+    is_maintainer_for: 1
+    is_registrar_for: 1
+    is_admin_for: 1
+  VocabularyHasUser_10_37: 
+    is_maintainer_for: 1
+    is_registrar_for: 0
+    is_admin_for: 0
+  VocabularyHasUser_8_38: 
+    is_maintainer_for: 1
+    is_registrar_for: 1
+    is_admin_for: 1
+AgentHasUser: 
+  AgentHasUser_36_46: 
+    is_registrar_for: 0
+    is_admin_for: 0
+  AgentHasUser_37_46: 
+    is_registrar_for: 0
+    is_admin_for: 0
+  AgentHasUser_44_46: 
+    is_registrar_for: 1
+    is_admin_for: 1
+  AgentHasUser_36_52: 
+    is_registrar_for: 0
+    is_admin_for: 0
+  AgentHasUser_38_52: 
+    is_registrar_for: 0
+    is_admin_for: 0
+  AgentHasUser_36_53: 
+    is_registrar_for: 0
+    is_admin_for: 0
+  AgentHasUser_37_53: 
+    is_registrar_for: 0
+    is_admin_for: 0
+Concept: 
+  Concept_4: 
+    created_at: 
+    last_updated: 0000-00-00 00:00:00
+    uri: >
+      http://metadataregistry.org/uri/NSDLEdLvl#1000
+    pref_label: Grades Pre-K to 12
+    vocabulary_id: Vocabulary_10
+    is_top_concept: 1
+    status_id: Status_1
+  Concept_5: 
+    created_at: 
+    last_updated: 0000-00-00 00:00:00
+    uri: >
+      http://metadataregistry.org/uri/NSDLEdLvl#1001
+    pref_label: Elementary School
+    vocabulary_id: Vocabulary_10
+    is_top_concept: 0
+    status_id: Status_3
+  Concept_6: 
+    created_at: 
+    last_updated: 0000-00-00 00:00:00
+    uri: >
+      http://metadataregistry.org/uri/NSDLEdLvl#1002
+    pref_label: Pre-Kindergarten
+    vocabulary_id: Vocabulary_10
+    is_top_concept: 
+    status_id: Status_1
+  Concept_11: 
+    created_at: 2006-04-20 17:52:41
+    last_updated: 2006-04-20 17:52:42
+    uri: URI
+    pref_label: Middle School
+    vocabulary_id: Vocabulary_10
+    is_top_concept: 0
+    status_id: Status_1
+  Concept_16: 
+    created_at: 2006-04-21 09:41:10
+    last_updated: 2006-04-21 09:41:10
+    uri: >
+      http://metadataregistry.org/uri/NSDLEdLvl/1010
+    pref_label: Grade 6
+    vocabulary_id: Vocabulary_10
+    is_top_concept: 0
+    status_id: Status_1
+  Concept_17: 
+    created_at: 2006-04-21 09:43:12
+    last_updated: 2006-04-21 09:43:13
+    uri: >
+      http://metadataregistry.org/uri/NSDLEdLvl/1011
+    pref_label: Grade 7
+    vocabulary_id: Vocabulary_10
+    is_top_concept: 0
+    status_id: Status_1
+  Concept_18: 
+    created_at: 2006-04-21 09:43:34
+    last_updated: 2006-04-21 09:43:34
+    uri: >
+      http://metadataregistry.org/uri/NSDLEdLvl/1012
+    pref_label: Grade 8
+    vocabulary_id: Vocabulary_10
+    is_top_concept: 0
+    status_id: Status_1
+  Concept_19: 
+    created_at: 2006-04-21 10:01:48
+    last_updated: 2006-04-21 10:01:48
+    uri: >
+      http://metadataregistry.org/uri/NSDLEdLvl/1018
+    pref_label: Postsecondary
+    vocabulary_id: Vocabulary_10
+    is_top_concept: 1
+    status_id: Status_1
+  Concept_20: 
+    created_at: 2006-04-21 10:02:25
+    last_updated: 2006-04-21 10:02:25
+    uri: >
+      http://metadataregistry.org/uri/NSDLEdLvl/1019
+    pref_label: Higher Education
+    vocabulary_id: Vocabulary_10
+    is_top_concept: 0
+    status_id: Status_1
+  Concept_21: 
+    created_at: 2006-04-21 10:03:18
+    last_updated: 2006-04-21 10:03:18
+    uri: >
+      http://metadataregistry.org/uri/NSDLEdLvl/1020
+    pref_label: Undergraduate (Lower Divison)
+    vocabulary_id: Vocabulary_10
+    is_top_concept: 0
+    status_id: Status_1
+  Concept_22: 
+    created_at: 2006-04-21 10:04:04
+    last_updated: 2006-04-21 10:04:04
+    uri: >
+      http://metadataregistry.org/uri/NSDLEdLvl/1021
+    pref_label: Undergraduate (Upper Divison)
+    vocabulary_id: Vocabulary_10
+    is_top_concept: 0
+    status_id: Status_1
+  Concept_23: 
+    created_at: 2006-04-21 10:04:40
+    last_updated: 2006-04-21 10:04:40
+    uri: >
+      http://metadataregistry.org/uri/NSDLEdLvl/1022
+    pref_label: Graduate
+    vocabulary_id: Vocabulary_10
+    is_top_concept: 0
+    status_id: Status_1
+  Concept_24: 
+    created_at: 2006-04-21 10:07:39
+    last_updated: 2006-04-21 10:07:39
+    uri: >
+      http://metadataregistry.org/uri/NSDLEdLvl/1003
+    pref_label: Kindergarten
+    vocabulary_id: Vocabulary_10
+    is_top_concept: 0
+    status_id: Status_1
+  Concept_25: 
+    created_at: 2006-04-21 10:07:55
+    last_updated: 2006-04-21 10:07:55
+    uri: >
+      http://metadataregistry.org/uri/NSDLEdLvl/1004
+    pref_label: Grade 1
+    vocabulary_id: Vocabulary_10
+    is_top_concept: 0
+    status_id: Status_1
+  Concept_26: 
+    created_at: 2006-04-21 10:08:16
+    last_updated: 2006-04-21 10:08:16
+    uri: >
+      http://metadataregistry.org/uri/NSDLEdLvl/1005
+    pref_label: Grade 2
+    vocabulary_id: Vocabulary_10
+    is_top_concept: 0
+    status_id: Status_1
+  Concept_27: 
+    created_at: 2006-04-21 10:08:36
+    last_updated: 2006-04-21 10:08:37
+    uri: >
+      http://metadataregistry.org/uri/NSDLEdLvl/1006
+    pref_label: Grade 3
+    vocabulary_id: Vocabulary_10
+    is_top_concept: 0
+    status_id: Status_1
+  Concept_28: 
+    created_at: 2006-04-21 10:08:56
+    last_updated: 2006-04-21 10:08:56
+    uri: >
+      http://metadataregistry.org/uri/NSDLEdLvl/1007
+    pref_label: Grade 4
+    vocabulary_id: Vocabulary_10
+    is_top_concept: 0
+    status_id: Status_1
+  Concept_29: 
+    created_at: 2006-04-21 10:09:13
+    last_updated: 2006-04-21 10:09:13
+    uri: >
+      http://metadataregistry.org/uri/NSDLEdLvl/1008
+    pref_label: Grade 5
+    vocabulary_id: Vocabulary_10
+    is_top_concept: 0
+    status_id: Status_1
+  Concept_30: 
+    created_at: 2006-04-21 10:10:30
+    last_updated: 2006-04-21 10:10:30
+    uri: >
+      http://metadataregistry.org/uri/NSDLEdLvl/1013
+    pref_label: High School
+    vocabulary_id: Vocabulary_10
+    is_top_concept: 0
+    status_id: Status_1
+  Concept_31: 
+    created_at: 2006-04-21 10:11:06
+    last_updated: 2006-04-21 10:11:06
+    uri: >
+      http://metadataregistry.org/uri/NSDLEdLvl/1014
+    pref_label: Grade 9
+    vocabulary_id: Vocabulary_10
+    is_top_concept: 0
+    status_id: Status_1
+  Concept_32: 
+    created_at: 2006-04-21 10:11:23
+    last_updated: 2006-04-21 10:11:23
+    uri: >
+      http://metadataregistry.org/uri/NSDLEdLvl/1015
+    pref_label: Grade 10
+    vocabulary_id: Vocabulary_10
+    is_top_concept: 0
+    status_id: Status_1
+  Concept_33: 
+    created_at: 2006-04-21 10:11:46
+    last_updated: 2006-04-21 10:11:46
+    uri: >
+      http://metadataregistry.org/uri/NSDLEdLvl/1016
+    pref_label: Grade 11
+    vocabulary_id: Vocabulary_10
+    is_top_concept: 0
+    status_id: Status_1
+  Concept_34: 
+    created_at: 2006-04-21 10:12:17
+    last_updated: 2006-04-21 10:12:17
+    uri: >
+      http://metadataregistry.org/uri/NSDLEdLvl/1017
+    pref_label: Grade 12
+    vocabulary_id: Vocabulary_10
+    is_top_concept: 0
+    status_id: Status_1
+  Concept_35: 
+    created_at: 2006-04-24 08:42:49
+    last_updated: 2006-04-24 08:42:49
+    uri: >
+      http://metadataregistry.org/uri/NSDLResType/1000
+    pref_label: Abstract
+    vocabulary_id: Vocabulary_11
+    is_top_concept: 0
+    status_id: Status_
+  Concept_36: 
+    created_at: 2006-04-24 08:43:13
+    last_updated: 2006-04-24 08:43:13
+    uri: >
+      http://metadataregistry.org/uri/NSDLResType/1001
+    pref_label: Annotation
+    vocabulary_id: Vocabulary_11
+    is_top_concept: 0
+    status_id: Status_
+  Concept_37: 
+    created_at: 2006-04-24 08:43:40
+    last_updated: 2006-04-24 08:43:40
+    uri: >
+      http://metadataregistry.org/uri/NSDLResType/1002
+    pref_label: Article
+    vocabulary_id: Vocabulary_11
+    is_top_concept: 0
+    status_id: Status_
+  Concept_38: 
+    created_at: 2006-04-24 08:43:54
+    last_updated: 2006-04-24 08:43:54
+    uri: >
+      http://metadataregistry.org/uri/NSDLResType/1003
+    pref_label: Artifact
+    vocabulary_id: Vocabulary_11
+    is_top_concept: 0
+    status_id: Status_
+  Concept_39: 
+    created_at: 2006-04-24 08:44:33
+    last_updated: 2006-04-24 08:44:33
+    uri: >
+      http://metadataregistry.org/uri/NSDLResType/1004
+    pref_label: Ask-an-Expert
+    vocabulary_id: Vocabulary_11
+    is_top_concept: 0
+    status_id: Status_
+  Concept_40: 
+    created_at: 2006-04-24 08:44:47
+    last_updated: 2006-04-24 08:44:47
+    uri: >
+      http://metadataregistry.org/uri/NSDLResType/1005
+    pref_label: Assessment
+    vocabulary_id: Vocabulary_11
+    is_top_concept: 0
+    status_id: Status_
+  Concept_41: 
+    created_at: 2006-04-24 08:45:16
+    last_updated: 2006-04-24 08:45:16
+    uri: >
+      http://metadataregistry.org/uri/NSDLResType/1006
+    pref_label: Bibliography
+    vocabulary_id: Vocabulary_11
+    is_top_concept: 0
+    status_id: Status_
+  Concept_42: 
+    created_at: 2006-04-24 08:45:44
+    last_updated: 2006-04-24 08:45:44
+    uri: >
+      http://metadataregistry.org/uri/NSDLResType/1007
+    pref_label: Broadcast
+    vocabulary_id: Vocabulary_11
+    is_top_concept: 0
+    status_id: Status_
+  Concept_43: 
+    created_at: 2006-04-24 08:46:10
+    last_updated: 2006-04-24 08:46:10
+    uri: >
+      http://metadataregistry.org/uri/NSDLResType/1008
+    pref_label: Case Study
+    vocabulary_id: Vocabulary_11
+    is_top_concept: 0
+    status_id: Status_
+  Concept_44: 
+    created_at: 2006-04-24 08:46:27
+    last_updated: 2006-04-24 08:46:27
+    uri: >
+      http://metadataregistry.org/uri/NSDLResType/1009
+    pref_label: Clearinghouse
+    vocabulary_id: Vocabulary_11
+    is_top_concept: 0
+    status_id: Status_
+  Concept_45: 
+    created_at: 2006-04-24 08:46:54
+    last_updated: 2006-04-24 08:46:54
+    uri: >
+      http://metadataregistry.org/uri/NSDLResType/1010
+    pref_label: Course
+    vocabulary_id: Vocabulary_11
+    is_top_concept: 0
+    status_id: Status_
+  Concept_46: 
+    created_at: 2006-04-24 08:47:07
+    last_updated: 2006-04-24 08:47:07
+    uri: >
+      http://metadataregistry.org/uri/NSDLResType/1011
+    pref_label: Curriculum
+    vocabulary_id: Vocabulary_11
+    is_top_concept: 0
+    status_id: Status_
+  Concept_47: 
+    created_at: 2006-04-24 08:47:27
+    last_updated: 2006-04-24 08:47:27
+    uri: >
+      http://metadataregistry.org/uri/NSDLResType/1012
+    pref_label: Data Set
+    vocabulary_id: Vocabulary_11
+    is_top_concept: 0
+    status_id: Status_
+  Concept_48: 
+    created_at: 2006-04-24 08:47:49
+    last_updated: 2006-04-24 08:47:49
+    uri: >
+      http://metadataregistry.org/uri/NSDLResType/1013
+    pref_label: Demonstration
+    vocabulary_id: Vocabulary_11
+    is_top_concept: 0
+    status_id: Status_
+  Concept_49: 
+    created_at: 2006-04-24 08:48:20
+    last_updated: 2006-04-24 08:48:20
+    uri: >
+      http://metadataregistry.org/uri/NSDLResType/1014
+    pref_label: Experiment
+    vocabulary_id: Vocabulary_11
+    is_top_concept: 0
+    status_id: Status_
+  Concept_50: 
+    created_at: 2006-04-24 08:48:31
+    last_updated: 2006-04-24 08:48:31
+    uri: >
+      http://metadataregistry.org/uri/NSDLResType/1015
+    pref_label: Fiction
+    vocabulary_id: Vocabulary_11
+    is_top_concept: 0
+    status_id: Status_
+  Concept_51: 
+    created_at: 2006-04-24 08:48:58
+    last_updated: 2006-04-24 08:48:58
+    uri: >
+      http://metadataregistry.org/uri/NSDLResType/1016
+    pref_label: Form
+    vocabulary_id: Vocabulary_11
+    is_top_concept: 0
+    status_id: Status_
+  Concept_52: 
+    created_at: 2006-04-24 08:49:23
+    last_updated: 2006-04-24 08:49:23
+    uri: >
+      http://metadataregistry.org/uri/NSDLResType/1017
+    pref_label: Forum
+    vocabulary_id: Vocabulary_11
+    is_top_concept: 0
+    status_id: Status_
+  Concept_53: 
+    created_at: 2006-04-24 08:49:46
+    last_updated: 2006-04-24 08:49:46
+    uri: >
+      http://metadataregistry.org/uri/NSDLResType/1018
+    pref_label: Game
+    vocabulary_id: Vocabulary_11
+    is_top_concept: 0
+    status_id: Status_
+  Concept_54: 
+    created_at: 2006-04-24 08:49:59
+    last_updated: 2006-04-24 08:49:59
+    uri: >
+      http://metadataregistry.org/uri/NSDLResType/1019
+    pref_label: Glossary
+    vocabulary_id: Vocabulary_11
+    is_top_concept: 0
+    status_id: Status_
+  Concept_55: 
+    created_at: 2006-04-24 08:50:26
+    last_updated: 2006-04-24 08:50:27
+    uri: >
+      http://metadataregistry.org/uri/NSDLResType/1020
+    pref_label: Illustration
+    vocabulary_id: Vocabulary_11
+    is_top_concept: 0
+    status_id: Status_
+  Concept_56: 
+    created_at: 2006-04-24 08:50:40
+    last_updated: 2006-04-24 08:50:40
+    uri: >
+      http://metadataregistry.org/uri/NSDLResType/1021
+    pref_label: Instructor Guide
+    vocabulary_id: Vocabulary_11
+    is_top_concept: 0
+    status_id: Status_
+  Concept_57: 
+    created_at: 2006-04-24 08:51:29
+    last_updated: 2006-04-24 08:51:29
+    uri: >
+      http://metadataregistry.org/uri/NSDLResType/1022
+    pref_label: Lesson
+    vocabulary_id: Vocabulary_11
+    is_top_concept: 0
+    status_id: Status_
+  Concept_58: 
+    created_at: 2006-04-24 08:51:41
+    last_updated: 2006-04-24 08:51:41
+    uri: >
+      http://metadataregistry.org/uri/NSDLResType/1023
+    pref_label: Map
+    vocabulary_id: Vocabulary_11
+    is_top_concept: 0
+    status_id: Status_
+  Concept_59: 
+    created_at: 2006-04-24 08:52:06
+    last_updated: 2006-04-24 08:52:06
+    uri: >
+      http://metadataregistry.org/uri/NSDLResType/1024
+    pref_label: Music
+    vocabulary_id: Vocabulary_11
+    is_top_concept: 0
+    status_id: Status_
+  Concept_60: 
+    created_at: 2006-04-24 08:52:39
+    last_updated: 2006-04-24 08:52:39
+    uri: >
+      http://metadataregistry.org/uri/NSDLResType/1025
+    pref_label: Oral History
+    vocabulary_id: Vocabulary_11
+    is_top_concept: 0
+    status_id: Status_
+  Concept_61: 
+    created_at: 2006-04-24 08:53:07
+    last_updated: 2006-04-24 08:53:07
+    uri: >
+      http://metadataregistry.org/uri/NSDLResType/1026
+    pref_label: Periodical
+    vocabulary_id: Vocabulary_11
+    is_top_concept: 0
+    status_id: Status_
+  Concept_62: 
+    created_at: 2006-04-24 08:53:56
+    last_updated: 2006-04-24 08:53:56
+    uri: >
+      http://metadataregistry.org/uri/NSDLResType/1027
+    pref_label: Photograph
+    vocabulary_id: Vocabulary_11
+    is_top_concept: 0
+    status_id: Status_
+  Concept_63: 
+    created_at: 2006-04-24 08:54:59
+    last_updated: 2006-04-24 08:54:59
+    uri: >
+      http://metadataregistry.org/uri/NSDLResType/1028
+    pref_label: Portal
+    vocabulary_id: Vocabulary_11
+    is_top_concept: 0
+    status_id: Status_
+  Concept_64: 
+    created_at: 2006-04-24 08:55:14
+    last_updated: 2006-04-24 08:55:14
+    uri: >
+      http://metadataregistry.org/uri/NSDLResType/1029
+    pref_label: Presentation
+    vocabulary_id: Vocabulary_11
+    is_top_concept: 0
+    status_id: Status_
+  Concept_65: 
+    created_at: 2006-04-24 08:55:39
+    last_updated: 2006-04-24 08:55:39
+    uri: >
+      http://metadataregistry.org/uri/NSDLResType/1030
+    pref_label: Problem Set
+    vocabulary_id: Vocabulary_11
+    is_top_concept: 0
+    status_id: Status_
+  Concept_66: 
+    created_at: 2006-04-24 08:55:52
+    last_updated: 2006-04-24 08:55:52
+    uri: >
+      http://metadataregistry.org/uri/NSDLResType/1031
+    pref_label: Project
+    vocabulary_id: Vocabulary_11
+    is_top_concept: 0
+    status_id: Status_
+  Concept_67: 
+    created_at: 2006-04-24 08:56:16
+    last_updated: 2006-04-24 08:56:16
+    uri: >
+      http://metadataregistry.org/uri/NSDLResType/1032
+    pref_label: Reference
+    vocabulary_id: Vocabulary_11
+    is_top_concept: 0
+    status_id: Status_
+  Concept_68: 
+    created_at: 2006-04-24 08:56:36
+    last_updated: 2006-04-24 08:56:37
+    uri: >
+      http://metadataregistry.org/uri/NSDLResType/1033
+    pref_label: Remotely Sensed Imagery
+    vocabulary_id: Vocabulary_11
+    is_top_concept: 0
+    status_id: Status_
+  Concept_69: 
+    created_at: 2006-04-24 08:57:48
+    last_updated: 2006-04-24 08:57:48
+    uri: >
+      http://metadataregistry.org/uri/NSDLResType/1034
+    pref_label: Report
+    vocabulary_id: Vocabulary_11
+    is_top_concept: 0
+    status_id: Status_
+  Concept_70: 
+    created_at: 2006-04-24 08:58:02
+    last_updated: 2006-04-24 08:58:02
+    uri: >
+      http://metadataregistry.org/uri/NSDLResType/1035
+    pref_label: Simulation
+    vocabulary_id: Vocabulary_11
+    is_top_concept: 0
+    status_id: Status_
+  Concept_71: 
+    created_at: 2006-04-24 08:58:32
+    last_updated: 2006-04-24 08:58:32
+    uri: >
+      http://metadataregistry.org/uri/NSDLResType/1036
+    pref_label: Study Guide
+    vocabulary_id: Vocabulary_11
+    is_top_concept: 0
+    status_id: Status_
+  Concept_72: 
+    created_at: 2006-04-24 08:58:52
+    last_updated: 2006-04-24 08:58:52
+    uri: >
+      http://metadataregistry.org/uri/NSDLResType/1037
+    pref_label: Syllabus
+    vocabulary_id: Vocabulary_11
+    is_top_concept: 0
+    status_id: Status_
+  Concept_73: 
+    created_at: 2006-04-24 08:59:24
+    last_updated: 2006-04-24 08:59:24
+    uri: >
+      http://metadataregistry.org/uri/NSDLResType/1038
+    pref_label: Textbook
+    vocabulary_id: Vocabulary_11
+    is_top_concept: 0
+    status_id: Status_
+  Concept_74: 
+    created_at: 2006-04-24 08:59:37
+    last_updated: 2006-04-24 08:59:37
+    uri: >
+      http://metadataregistry.org/uri/NSDLResType/1039
+    pref_label: Thesis
+    vocabulary_id: Vocabulary_11
+    is_top_concept: 0
+    status_id: Status_
+  Concept_75: 
+    created_at: 2006-04-24 09:00:07
+    last_updated: 2006-04-24 09:00:07
+    uri: >
+      http://metadataregistry.org/uri/NSDLResType/1040
+    pref_label: Tutorial
+    vocabulary_id: Vocabulary_11
+    is_top_concept: 0
+    status_id: Status_
+  Concept_76: 
+    created_at: 2006-04-24 09:00:21
+    last_updated: 2006-04-24 09:00:21
+    uri: >
+      http://metadataregistry.org/uri/NSDLResType/1041
+    pref_label: Field Trip
+    vocabulary_id: Vocabulary_11
+    is_top_concept: 0
+    status_id: Status_
+  Concept_77: 
+    created_at: 2006-04-24 09:00:42
+    last_updated: 2006-04-24 09:00:42
+    uri: >
+      http://metadataregistry.org/uri/NSDLResType/1042
+    pref_label: Weblog
+    vocabulary_id: Vocabulary_11
+    is_top_concept: 0
+    status_id: Status_
+  Concept_78: 
+    created_at: 2006-04-24 14:22:52
+    last_updated: 2006-04-24 14:22:52
+    uri: http://smartbroad/dihNeww/100000
+    pref_label: test concept
+    vocabulary_id: Vocabulary_7
+    is_top_concept: 0
+    status_id: Status_
+  Concept_79: 
+    created_at: 2006-04-24 14:24:19
+    last_updated: 2006-04-24 14:24:20
+    uri: http://smartbroad/dihNeww/100000
+    pref_label: another test
+    vocabulary_id: Vocabulary_7
+    is_top_concept: 0
+    status_id: Status_
+  Concept_80: 
+    created_at: 2006-04-24 14:26:50
+    last_updated: 2006-04-24 14:26:50
+    uri: http://smartbroad/dihNeww/100001
+    pref_label: better test
+    vocabulary_id: Vocabulary_7
+    is_top_concept: 0
+    status_id: Status_
+  Concept_81: 
+    created_at: 2006-04-24 14:27:03
+    last_updated: 2006-04-24 14:27:03
+    uri: http://smartbroad/dihNeww/100002
+    pref_label: even better test
+    vocabulary_id: Vocabulary_7
+    is_top_concept: 0
+    status_id: Status_
+  Concept_82: 
+    created_at: 2006-05-31 18:47:41
+    last_updated: 2006-05-31 18:47:42
+    uri: http://smartbroad/dihNeww/100005
+    pref_label: testy
+    vocabulary_id: Vocabulary_7
+    is_top_concept: 0
+    status_id: Status_
+ConceptHistory: 
+ConceptProperty: 
+  ConceptProperty_4: 
+    created_at: 
+    last_updated: 2006-04-14 19:11:49
+    concept_id: Concept_4
+    skos_property_id: SkosProperty_19
+    object: Grades Pre-K to 12
+    scheme_id: Vocabulary_
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_5: 
+    created_at: 
+    last_updated: 2006-04-14 19:12:41
+    concept_id: Concept_5
+    skos_property_id: SkosProperty_19
+    object: Elementary School
+    scheme_id: Vocabulary_7
+    related_concept_id: Concept_
+    language: en
+    status_id: Lookup_
+  ConceptProperty_6: 
+    created_at: 
+    last_updated: 2006-04-14 19:13:56
+    concept_id: Concept_6
+    skos_property_id: SkosProperty_19
+    object: Pre-Kindergarten
+    scheme_id: Vocabulary_
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_13: 
+    created_at: 
+    last_updated: 2006-04-17 11:36:14
+    concept_id: Concept_6
+    skos_property_id: SkosProperty_1
+    object: Nursery School
+    scheme_id: Vocabulary_
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_14: 
+    created_at: 
+    last_updated: 2006-04-17 11:36:36
+    concept_id: Concept_6
+    skos_property_id: SkosProperty_1
+    object: Pre-K
+    scheme_id: Vocabulary_
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_15: 
+    created_at: 
+    last_updated: 2006-04-17 11:36:50
+    concept_id: Concept_6
+    skos_property_id: SkosProperty_1
+    object: Preschool
+    scheme_id: Vocabulary_
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_16: 
+    created_at: 
+    last_updated: 2006-04-17 11:37:31
+    concept_id: Concept_6
+    skos_property_id: SkosProperty_3
+    object: >
+      http://metadataregistry.org/NSDLEdLvl#1001
+    scheme_id: Vocabulary_
+    related_concept_id: Concept_5
+    language: 
+    status_id: Lookup_
+  ConceptProperty_17: 
+    created_at: 
+    last_updated: 2006-04-17 11:38:10
+    concept_id: Concept_6
+    skos_property_id: SkosProperty_5
+    object: >
+      Activities and/or experiences that are
+      intended to effect developmental changes
+      in children, from birth to entrance in
+      kindergarten (or grade 1 when
+      kindergarten is not attended) [ERIC]
+    scheme_id: Vocabulary_
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_18: 
+    created_at: 
+    last_updated: 2006-04-17 11:38:56
+    concept_id: Concept_6
+    skos_property_id: SkosProperty_10
+    object: >
+      Term source:
+      http://www.ed.gov</skos:historyNote
+    scheme_id: Vocabulary_
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_35: 
+    created_at: 2006-04-21 09:27:21
+    last_updated: 2006-04-21 09:27:21
+    concept_id: Concept_11
+    skos_property_id: SkosProperty_1
+    object: Junior High School
+    scheme_id: Vocabulary_10
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_36: 
+    created_at: 2006-04-21 09:28:14
+    last_updated: 2006-04-21 09:28:14
+    concept_id: Concept_11
+    skos_property_id: SkosProperty_10
+    object: Term Source: http://www.ed.gov
+    scheme_id: Vocabulary_10
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_38: 
+    created_at: 2006-04-21 09:34:22
+    last_updated: 2006-04-21 09:34:22
+    concept_id: Concept_11
+    skos_property_id: SkosProperty_3
+    object: >
+      http://metadataregistry.org/NSDLEdLvl#1000
+    scheme_id: Vocabulary_10
+    related_concept_id: Concept_4
+    language: 
+    status_id: Lookup_
+  ConceptProperty_39: 
+    created_at: 2006-04-21 09:41:10
+    last_updated: 2006-04-21 09:41:10
+    concept_id: Concept_16
+    skos_property_id: SkosProperty_19
+    object: Grade 6
+    scheme_id: Vocabulary_
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_40: 
+    created_at: 2006-04-21 09:43:13
+    last_updated: 2006-04-21 09:43:13
+    concept_id: Concept_17
+    skos_property_id: SkosProperty_19
+    object: Grade 7
+    scheme_id: Vocabulary_
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_41: 
+    created_at: 2006-04-21 09:43:34
+    last_updated: 2006-04-21 09:43:34
+    concept_id: Concept_18
+    skos_property_id: SkosProperty_19
+    object: Grade 8
+    scheme_id: Vocabulary_
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_42: 
+    created_at: 2006-04-21 09:47:31
+    last_updated: 2006-04-21 09:47:31
+    concept_id: Concept_16
+    skos_property_id: SkosProperty_1
+    object: Sixth Grade
+    scheme_id: Vocabulary_10
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_44: 
+    created_at: 2006-04-21 09:47:50
+    last_updated: 2006-04-21 09:47:50
+    concept_id: Concept_16
+    skos_property_id: SkosProperty_3
+    object: URI
+    scheme_id: Vocabulary_10
+    related_concept_id: Concept_11
+    language: 
+    status_id: Lookup_
+  ConceptProperty_45: 
+    created_at: 2006-04-21 09:55:40
+    last_updated: 2006-04-21 09:55:40
+    concept_id: Concept_17
+    skos_property_id: SkosProperty_1
+    object: Seventh Grade
+    scheme_id: Vocabulary_10
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_47: 
+    created_at: 2006-04-21 09:55:59
+    last_updated: 2006-04-21 09:55:59
+    concept_id: Concept_17
+    skos_property_id: SkosProperty_3
+    object: URI
+    scheme_id: Vocabulary_10
+    related_concept_id: Concept_11
+    language: 
+    status_id: Lookup_
+  ConceptProperty_48: 
+    created_at: 2006-04-21 09:58:22
+    last_updated: 2006-04-21 09:58:22
+    concept_id: Concept_17
+    skos_property_id: SkosProperty_10
+    object: Term Source: http://www.ed.gov
+    scheme_id: Vocabulary_10
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_49: 
+    created_at: 2006-04-21 09:59:29
+    last_updated: 2006-04-21 09:59:29
+    concept_id: Concept_16
+    skos_property_id: SkosProperty_10
+    object: Term Source: http://www.ed.gov
+    scheme_id: Vocabulary_10
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_50: 
+    created_at: 2006-04-21 10:01:48
+    last_updated: 2006-04-21 10:01:48
+    concept_id: Concept_19
+    skos_property_id: SkosProperty_19
+    object: Postsecondary
+    scheme_id: Vocabulary_
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_51: 
+    created_at: 2006-04-21 10:02:25
+    last_updated: 2006-04-21 10:02:25
+    concept_id: Concept_20
+    skos_property_id: SkosProperty_19
+    object: Higher Education
+    scheme_id: Vocabulary_
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_52: 
+    created_at: 2006-04-21 10:03:18
+    last_updated: 2006-04-21 10:03:18
+    concept_id: Concept_21
+    skos_property_id: SkosProperty_19
+    object: Undergraduate (Lower Divison)
+    scheme_id: Vocabulary_
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_53: 
+    created_at: 2006-04-21 10:04:04
+    last_updated: 2006-04-21 10:04:04
+    concept_id: Concept_22
+    skos_property_id: SkosProperty_19
+    object: Undergraduate (Upper Divison)
+    scheme_id: Vocabulary_
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_54: 
+    created_at: 2006-04-21 10:04:40
+    last_updated: 2006-04-21 10:04:40
+    concept_id: Concept_23
+    skos_property_id: SkosProperty_19
+    object: Graduate
+    scheme_id: Vocabulary_
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_55: 
+    created_at: 2006-04-21 10:07:39
+    last_updated: 2006-04-21 10:07:39
+    concept_id: Concept_24
+    skos_property_id: SkosProperty_19
+    object: Kindergarten
+    scheme_id: Vocabulary_
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_56: 
+    created_at: 2006-04-21 10:07:55
+    last_updated: 2006-04-21 10:07:55
+    concept_id: Concept_25
+    skos_property_id: SkosProperty_19
+    object: Grade 1
+    scheme_id: Vocabulary_
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_57: 
+    created_at: 2006-04-21 10:08:16
+    last_updated: 2006-04-21 10:08:16
+    concept_id: Concept_26
+    skos_property_id: SkosProperty_19
+    object: Grade 2
+    scheme_id: Vocabulary_
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_58: 
+    created_at: 2006-04-21 10:08:37
+    last_updated: 2006-04-21 10:08:37
+    concept_id: Concept_27
+    skos_property_id: SkosProperty_19
+    object: Grade 3
+    scheme_id: Vocabulary_
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_59: 
+    created_at: 2006-04-21 10:08:56
+    last_updated: 2006-04-21 10:08:56
+    concept_id: Concept_28
+    skos_property_id: SkosProperty_19
+    object: Grade 4
+    scheme_id: Vocabulary_
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_60: 
+    created_at: 2006-04-21 10:09:13
+    last_updated: 2006-04-21 10:09:13
+    concept_id: Concept_29
+    skos_property_id: SkosProperty_19
+    object: Grade 5
+    scheme_id: Vocabulary_
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_61: 
+    created_at: 2006-04-21 10:10:30
+    last_updated: 2006-04-21 10:10:30
+    concept_id: Concept_30
+    skos_property_id: SkosProperty_19
+    object: High School
+    scheme_id: Vocabulary_
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_62: 
+    created_at: 2006-04-21 10:11:06
+    last_updated: 2006-04-21 10:11:06
+    concept_id: Concept_31
+    skos_property_id: SkosProperty_19
+    object: Grade 9
+    scheme_id: Vocabulary_
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_63: 
+    created_at: 2006-04-21 10:11:23
+    last_updated: 2006-04-21 10:11:23
+    concept_id: Concept_32
+    skos_property_id: SkosProperty_19
+    object: Grade 10
+    scheme_id: Vocabulary_
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_64: 
+    created_at: 2006-04-21 10:11:46
+    last_updated: 2006-04-21 10:11:46
+    concept_id: Concept_33
+    skos_property_id: SkosProperty_19
+    object: Grade 11
+    scheme_id: Vocabulary_
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_65: 
+    created_at: 2006-04-21 10:12:17
+    last_updated: 2006-04-21 10:12:17
+    concept_id: Concept_34
+    skos_property_id: SkosProperty_19
+    object: Grade 12
+    scheme_id: Vocabulary_
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_67: 
+    created_at: 2006-04-21 10:13:32
+    last_updated: 2006-04-21 10:13:32
+    concept_id: Concept_11
+    skos_property_id: SkosProperty_16
+    object: >
+      http://metadataregistry.org/NSDLEdLvl/1010
+    scheme_id: Vocabulary_10
+    related_concept_id: Concept_16
+    language: 
+    status_id: Lookup_
+  ConceptProperty_69: 
+    created_at: 2006-04-21 10:17:25
+    last_updated: 2006-04-21 10:17:25
+    concept_id: Concept_11
+    skos_property_id: SkosProperty_16
+    object: >
+      http://metadataregistry.org/NSDLEdLvl/1011
+    scheme_id: Vocabulary_10
+    related_concept_id: Concept_17
+    language: 
+    status_id: Lookup_
+  ConceptProperty_70: 
+    created_at: 2006-04-21 10:21:22
+    last_updated: 2006-04-21 10:21:22
+    concept_id: Concept_4
+    skos_property_id: SkosProperty_16
+    object: >
+      http://metadataregistry.org/NSDLEdLvl#1001
+    scheme_id: Vocabulary_10
+    related_concept_id: Concept_5
+    language: 
+    status_id: Lookup_
+  ConceptProperty_71: 
+    created_at: 2006-04-21 10:21:22
+    last_updated: 2006-04-21 10:21:22
+    concept_id: Concept_5
+    skos_property_id: SkosProperty_3
+    object: >
+      http://metadataregistry.org/NSDLEdLvl#1000
+    scheme_id: Vocabulary_10
+    related_concept_id: Concept_4
+    language: 
+    status_id: Lookup_
+  ConceptProperty_72: 
+    created_at: 2006-04-21 10:21:51
+    last_updated: 2006-04-21 10:21:51
+    concept_id: Concept_25
+    skos_property_id: SkosProperty_3
+    object: >
+      http://metadataregistry.org/NSDLEdLvl#1001
+    scheme_id: Vocabulary_10
+    related_concept_id: Concept_5
+    language: 
+    status_id: Lookup_
+  ConceptProperty_73: 
+    created_at: 2006-04-21 10:21:51
+    last_updated: 2006-04-21 10:21:51
+    concept_id: Concept_5
+    skos_property_id: SkosProperty_16
+    object: >
+      http://metadataregistry.org/NSDLEdLvl/1004
+    scheme_id: Vocabulary_10
+    related_concept_id: Concept_25
+    language: 
+    status_id: Lookup_
+  ConceptProperty_74: 
+    created_at: 2006-04-21 10:22:10
+    last_updated: 2006-04-21 10:22:10
+    concept_id: Concept_26
+    skos_property_id: SkosProperty_3
+    object: >
+      http://metadataregistry.org/NSDLEdLvl#1001
+    scheme_id: Vocabulary_10
+    related_concept_id: Concept_5
+    language: 
+    status_id: Lookup_
+  ConceptProperty_75: 
+    created_at: 2006-04-21 10:22:10
+    last_updated: 2006-04-21 10:22:10
+    concept_id: Concept_5
+    skos_property_id: SkosProperty_16
+    object: >
+      http://metadataregistry.org/NSDLEdLvl/1005
+    scheme_id: Vocabulary_10
+    related_concept_id: Concept_26
+    language: 
+    status_id: Lookup_
+  ConceptProperty_76: 
+    created_at: 2006-04-21 10:22:24
+    last_updated: 2006-04-21 10:22:24
+    concept_id: Concept_27
+    skos_property_id: SkosProperty_3
+    object: >
+      http://metadataregistry.org/NSDLEdLvl#1001
+    scheme_id: Vocabulary_10
+    related_concept_id: Concept_5
+    language: 
+    status_id: Lookup_
+  ConceptProperty_77: 
+    created_at: 2006-04-21 10:22:24
+    last_updated: 2006-04-21 10:22:24
+    concept_id: Concept_5
+    skos_property_id: SkosProperty_16
+    object: >
+      http://metadataregistry.org/NSDLEdLvl/1006
+    scheme_id: Vocabulary_10
+    related_concept_id: Concept_27
+    language: 
+    status_id: Lookup_
+  ConceptProperty_78: 
+    created_at: 2006-04-21 10:22:43
+    last_updated: 2006-04-21 10:22:43
+    concept_id: Concept_28
+    skos_property_id: SkosProperty_3
+    object: >
+      http://metadataregistry.org/NSDLEdLvl#1001
+    scheme_id: Vocabulary_10
+    related_concept_id: Concept_5
+    language: 
+    status_id: Lookup_
+  ConceptProperty_79: 
+    created_at: 2006-04-21 10:22:43
+    last_updated: 2006-04-21 10:22:43
+    concept_id: Concept_5
+    skos_property_id: SkosProperty_16
+    object: >
+      http://metadataregistry.org/NSDLEdLvl/1007
+    scheme_id: Vocabulary_10
+    related_concept_id: Concept_28
+    language: 
+    status_id: Lookup_
+  ConceptProperty_80: 
+    created_at: 2006-04-21 10:23:00
+    last_updated: 2006-04-21 10:23:00
+    concept_id: Concept_29
+    skos_property_id: SkosProperty_3
+    object: >
+      http://metadataregistry.org/NSDLEdLvl#1001
+    scheme_id: Vocabulary_10
+    related_concept_id: Concept_5
+    language: 
+    status_id: Lookup_
+  ConceptProperty_81: 
+    created_at: 2006-04-21 10:23:00
+    last_updated: 2006-04-21 10:23:00
+    concept_id: Concept_5
+    skos_property_id: SkosProperty_16
+    object: >
+      http://metadataregistry.org/NSDLEdLvl/1008
+    scheme_id: Vocabulary_10
+    related_concept_id: Concept_29
+    language: 
+    status_id: Lookup_
+  ConceptProperty_82: 
+    created_at: 2006-04-21 10:23:21
+    last_updated: 2006-04-21 10:23:21
+    concept_id: Concept_24
+    skos_property_id: SkosProperty_3
+    object: >
+      http://metadataregistry.org/NSDLEdLvl#1001
+    scheme_id: Vocabulary_10
+    related_concept_id: Concept_5
+    language: 
+    status_id: Lookup_
+  ConceptProperty_83: 
+    created_at: 2006-04-21 10:23:21
+    last_updated: 2006-04-21 10:23:21
+    concept_id: Concept_5
+    skos_property_id: SkosProperty_16
+    object: >
+      http://metadataregistry.org/NSDLEdLvl/1003
+    scheme_id: Vocabulary_10
+    related_concept_id: Concept_24
+    language: 
+    status_id: Lookup_
+  ConceptProperty_84: 
+    created_at: 2006-04-21 10:25:25
+    last_updated: 2006-04-21 10:25:25
+    concept_id: Concept_6
+    skos_property_id: SkosProperty_3
+    object: >
+      http://metadataregistry.org/NSDLEdLvl#1001
+    scheme_id: Vocabulary_10
+    related_concept_id: Concept_5
+    language: 
+    status_id: Lookup_
+  ConceptProperty_85: 
+    created_at: 2006-04-21 10:25:25
+    last_updated: 2006-04-21 10:25:25
+    concept_id: Concept_5
+    skos_property_id: SkosProperty_16
+    object: >
+      http://metadataregistry.org/NSDLEdLvl#1002
+    scheme_id: Vocabulary_10
+    related_concept_id: Concept_6
+    language: 
+    status_id: Lookup_
+  ConceptProperty_89: 
+    created_at: 2006-04-21 10:30:29
+    last_updated: 2006-04-21 10:30:29
+    concept_id: Concept_30
+    skos_property_id: SkosProperty_16
+    object: >
+      http://metadataregistry.org/NSDLEdLvl/1015
+    scheme_id: Vocabulary_10
+    related_concept_id: Concept_32
+    language: 
+    status_id: Lookup_
+  ConceptProperty_90: 
+    created_at: 2006-04-21 10:30:44
+    last_updated: 2006-04-21 10:30:44
+    concept_id: Concept_33
+    skos_property_id: SkosProperty_3
+    object: >
+      http://metadataregistry.org/NSDLEdLvl/1013
+    scheme_id: Vocabulary_10
+    related_concept_id: Concept_30
+    language: 
+    status_id: Lookup_
+  ConceptProperty_92: 
+    created_at: 2006-04-21 10:31:00
+    last_updated: 2006-04-21 10:31:00
+    concept_id: Concept_34
+    skos_property_id: SkosProperty_3
+    object: >
+      http://metadataregistry.org/NSDLEdLvl/1013
+    scheme_id: Vocabulary_10
+    related_concept_id: Concept_30
+    language: 
+    status_id: Lookup_
+  ConceptProperty_93: 
+    created_at: 2006-04-21 10:31:00
+    last_updated: 2006-04-21 10:31:00
+    concept_id: Concept_30
+    skos_property_id: SkosProperty_16
+    object: >
+      http://metadataregistry.org/NSDLEdLvl/1017
+    scheme_id: Vocabulary_10
+    related_concept_id: Concept_34
+    language: 
+    status_id: Lookup_
+  ConceptProperty_94: 
+    created_at: 2006-04-21 10:31:59
+    last_updated: 2006-04-21 10:31:59
+    concept_id: Concept_30
+    skos_property_id: SkosProperty_10
+    object: Term Source: http://www.ed.gov
+    scheme_id: Vocabulary_10
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_95: 
+    created_at: 2006-04-21 10:32:25
+    last_updated: 2006-04-21 10:32:25
+    concept_id: Concept_30
+    skos_property_id: SkosProperty_1
+    object: Secondary School
+    scheme_id: Vocabulary_10
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_96: 
+    created_at: 2006-04-21 10:39:30
+    last_updated: 2006-04-21 10:39:30
+    concept_id: Concept_30
+    skos_property_id: SkosProperty_3
+    object: >
+      http://metadataregistry.org/NSDLEdLvl#1000
+    scheme_id: Vocabulary_10
+    related_concept_id: Concept_4
+    language: 
+    status_id: Lookup_
+  ConceptProperty_97: 
+    created_at: 2006-04-21 10:39:30
+    last_updated: 2006-04-21 10:39:30
+    concept_id: Concept_4
+    skos_property_id: SkosProperty_16
+    object: >
+      http://metadataregistry.org/NSDLEdLvl/1013
+    scheme_id: Vocabulary_10
+    related_concept_id: Concept_30
+    language: 
+    status_id: Lookup_
+  ConceptProperty_99: 
+    created_at: 2006-04-21 10:39:53
+    last_updated: 2006-04-21 10:39:53
+    concept_id: Concept_4
+    skos_property_id: SkosProperty_16
+    object: URI
+    scheme_id: Vocabulary_10
+    related_concept_id: Concept_11
+    language: 
+    status_id: Lookup_
+  ConceptProperty_100: 
+    created_at: 2006-04-21 10:42:37
+    last_updated: 2006-04-21 10:42:37
+    concept_id: Concept_24
+    skos_property_id: SkosProperty_5
+    object: >
+      A program or class for four-year-old to
+      six-year-old children that serves as an
+      introduction to school [American
+      Heritage Dictionary of the English
+      Language]
+    scheme_id: Vocabulary_10
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_101: 
+    created_at: 2006-04-21 10:43:14
+    last_updated: 2006-04-21 10:43:14
+    concept_id: Concept_24
+    skos_property_id: SkosProperty_10
+    object: Term Source: http://www.ed.gov
+    scheme_id: Vocabulary_10
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_102: 
+    created_at: 2006-04-21 10:44:09
+    last_updated: 2006-04-21 10:44:09
+    concept_id: Concept_25
+    skos_property_id: SkosProperty_1
+    object: First Grade
+    scheme_id: Vocabulary_10
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_103: 
+    created_at: 2006-04-21 10:44:23
+    last_updated: 2006-04-21 10:44:23
+    concept_id: Concept_25
+    skos_property_id: SkosProperty_10
+    object: Term Source: http://www.ed.gov
+    scheme_id: Vocabulary_10
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_104: 
+    created_at: 2006-04-21 10:45:20
+    last_updated: 2006-04-21 10:45:20
+    concept_id: Concept_26
+    skos_property_id: SkosProperty_1
+    object: Second Grade
+    scheme_id: Vocabulary_10
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_105: 
+    created_at: 2006-04-21 10:45:34
+    last_updated: 2006-04-21 10:45:34
+    concept_id: Concept_26
+    skos_property_id: SkosProperty_10
+    object: Term Source: http://www.ed.gov
+    scheme_id: Vocabulary_10
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_106: 
+    created_at: 2006-04-21 10:46:27
+    last_updated: 2006-04-21 10:46:27
+    concept_id: Concept_27
+    skos_property_id: SkosProperty_1
+    object: Third Grade
+    scheme_id: Vocabulary_10
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_107: 
+    created_at: 2006-04-21 10:46:40
+    last_updated: 2006-04-21 10:46:40
+    concept_id: Concept_27
+    skos_property_id: SkosProperty_10
+    object: Term Source: http://www.ed.gov
+    scheme_id: Vocabulary_10
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_108: 
+    created_at: 2006-04-21 10:48:42
+    last_updated: 2006-04-21 10:48:42
+    concept_id: Concept_28
+    skos_property_id: SkosProperty_1
+    object: Fourth Grade
+    scheme_id: Vocabulary_10
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_109: 
+    created_at: 2006-04-21 10:48:56
+    last_updated: 2006-04-21 10:48:56
+    concept_id: Concept_28
+    skos_property_id: SkosProperty_10
+    object: Term Source: http://www.ed.gov
+    scheme_id: Vocabulary_10
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_110: 
+    created_at: 2006-04-21 10:50:18
+    last_updated: 2006-04-21 10:50:18
+    concept_id: Concept_29
+    skos_property_id: SkosProperty_1
+    object: Fifth Grade
+    scheme_id: Vocabulary_10
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_111: 
+    created_at: 2006-04-21 10:50:32
+    last_updated: 2006-04-21 10:50:33
+    concept_id: Concept_29
+    skos_property_id: SkosProperty_10
+    object: Term Source: http://www.ed.gov
+    scheme_id: Vocabulary_10
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_112: 
+    created_at: 2006-04-21 10:52:57
+    last_updated: 2006-04-21 10:52:57
+    concept_id: Concept_11
+    skos_property_id: SkosProperty_16
+    object: >
+      http://metadataregistry.org/NSDLEdLvl/1012
+    scheme_id: Vocabulary_10
+    related_concept_id: Concept_18
+    language: 
+    status_id: Lookup_
+  ConceptProperty_113: 
+    created_at: 2006-04-21 10:52:57
+    last_updated: 2006-04-21 10:52:57
+    concept_id: Concept_18
+    skos_property_id: SkosProperty_3
+    object: URI
+    scheme_id: Vocabulary_10
+    related_concept_id: Concept_11
+    language: 
+    status_id: Lookup_
+  ConceptProperty_114: 
+    created_at: 2006-04-21 10:53:14
+    last_updated: 2006-04-21 10:53:14
+    concept_id: Concept_18
+    skos_property_id: SkosProperty_1
+    object: Eighth Grade
+    scheme_id: Vocabulary_10
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_115: 
+    created_at: 2006-04-21 10:53:26
+    last_updated: 2006-04-21 10:53:26
+    concept_id: Concept_18
+    skos_property_id: SkosProperty_10
+    object: Term Source: http://www.ed.gov
+    scheme_id: Vocabulary_10
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_116: 
+    created_at: 2006-04-21 10:54:17
+    last_updated: 2006-04-21 10:54:17
+    concept_id: Concept_31
+    skos_property_id: SkosProperty_1
+    object: Ninth Grade
+    scheme_id: Vocabulary_10
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_117: 
+    created_at: 2006-04-21 10:54:35
+    last_updated: 2006-04-21 10:54:35
+    concept_id: Concept_31
+    skos_property_id: SkosProperty_10
+    object: Term Source: http://www.ed.gov
+    scheme_id: Vocabulary_10
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_118: 
+    created_at: 2006-04-22 19:45:29
+    last_updated: 2006-04-22 19:45:30
+    concept_id: Concept_32
+    skos_property_id: SkosProperty_1
+    object: Tenth Grade
+    scheme_id: Vocabulary_10
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_119: 
+    created_at: 2006-04-22 19:47:00
+    last_updated: 2006-04-22 19:47:00
+    concept_id: Concept_32
+    skos_property_id: SkosProperty_10
+    object: Term Source: http://www.ed.gov
+    scheme_id: Vocabulary_10
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_120: 
+    created_at: 2006-04-22 19:47:41
+    last_updated: 2006-04-22 19:47:41
+    concept_id: Concept_33
+    skos_property_id: SkosProperty_1
+    object: Eleventh Grade
+    scheme_id: Vocabulary_10
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_121: 
+    created_at: 2006-04-22 19:47:54
+    last_updated: 2006-04-22 19:47:54
+    concept_id: Concept_33
+    skos_property_id: SkosProperty_10
+    object: Term Source: http://www.ed.gov
+    scheme_id: Vocabulary_10
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_122: 
+    created_at: 2006-04-22 19:48:30
+    last_updated: 2006-04-22 19:48:30
+    concept_id: Concept_34
+    skos_property_id: SkosProperty_1
+    object: Twelfth Grade
+    scheme_id: Vocabulary_10
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_123: 
+    created_at: 2006-04-22 19:48:44
+    last_updated: 2006-04-22 19:48:44
+    concept_id: Concept_34
+    skos_property_id: SkosProperty_10
+    object: Term Source: http://www.ed.gov
+    scheme_id: Vocabulary_10
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_124: 
+    created_at: 2006-04-22 19:51:09
+    last_updated: 2006-04-22 19:51:09
+    concept_id: Concept_23
+    skos_property_id: SkosProperty_22
+    object: >
+      Provided in graduate and professional
+      schools that generally require a
+      university diploma as a minimum
+      condition for admission. [ISCED]
+    scheme_id: Vocabulary_10
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_125: 
+    created_at: 2006-04-22 19:51:44
+    last_updated: 2006-04-22 19:51:44
+    concept_id: Concept_23
+    skos_property_id: SkosProperty_1
+    object: Post-Graduate Education
+    scheme_id: Vocabulary_10
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_126: 
+    created_at: 2006-04-22 19:51:57
+    last_updated: 2006-04-22 19:51:57
+    concept_id: Concept_23
+    skos_property_id: SkosProperty_1
+    object: Professional Education
+    scheme_id: Vocabulary_10
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_127: 
+    created_at: 2006-04-22 19:52:52
+    last_updated: 2006-04-22 19:52:52
+    concept_id: Concept_20
+    skos_property_id: SkosProperty_16
+    object: >
+      http://metadataregistry.org/NSDLEdLvl/1022
+    scheme_id: Vocabulary_10
+    related_concept_id: Concept_23
+    language: 
+    status_id: Lookup_
+  ConceptProperty_128: 
+    created_at: 2006-04-22 19:52:52
+    last_updated: 2006-04-22 19:52:52
+    concept_id: Concept_23
+    skos_property_id: SkosProperty_3
+    object: >
+      http://metadataregistry.org/NSDLEdLvl/1019
+    scheme_id: Vocabulary_10
+    related_concept_id: Concept_20
+    language: 
+    status_id: Lookup_
+  ConceptProperty_129: 
+    created_at: 2006-04-22 19:54:20
+    last_updated: 2006-04-22 19:54:20
+    concept_id: Concept_21
+    skos_property_id: SkosProperty_3
+    object: >
+      http://metadataregistry.org/NSDLEdLvl/1019
+    scheme_id: Vocabulary_10
+    related_concept_id: Concept_20
+    language: 
+    status_id: Lookup_
+  ConceptProperty_130: 
+    created_at: 2006-04-22 19:54:20
+    last_updated: 2006-04-22 19:54:20
+    concept_id: Concept_20
+    skos_property_id: SkosProperty_16
+    object: >
+      http://metadataregistry.org/NSDLEdLvl/1020
+    scheme_id: Vocabulary_10
+    related_concept_id: Concept_21
+    language: 
+    status_id: Lookup_
+  ConceptProperty_131: 
+    created_at: 2006-04-22 19:54:38
+    last_updated: 2006-04-22 19:54:38
+    concept_id: Concept_22
+    skos_property_id: SkosProperty_3
+    object: >
+      http://metadataregistry.org/NSDLEdLvl/1019
+    scheme_id: Vocabulary_10
+    related_concept_id: Concept_20
+    language: 
+    status_id: Lookup_
+  ConceptProperty_132: 
+    created_at: 2006-04-22 19:54:38
+    last_updated: 2006-04-22 19:54:38
+    concept_id: Concept_20
+    skos_property_id: SkosProperty_16
+    object: >
+      http://metadataregistry.org/NSDLEdLvl/1021
+    scheme_id: Vocabulary_10
+    related_concept_id: Concept_22
+    language: 
+    status_id: Lookup_
+  ConceptProperty_133: 
+    created_at: 2006-04-22 19:55:12
+    last_updated: 2006-04-22 19:55:12
+    concept_id: Concept_19
+    skos_property_id: SkosProperty_16
+    object: >
+      http://metadataregistry.org/NSDLEdLvl/1019
+    scheme_id: Vocabulary_10
+    related_concept_id: Concept_20
+    language: 
+    status_id: Lookup_
+  ConceptProperty_134: 
+    created_at: 2006-04-22 19:55:13
+    last_updated: 2006-04-22 19:55:13
+    concept_id: Concept_20
+    skos_property_id: SkosProperty_3
+    object: >
+      http://metadataregistry.org/NSDLEdLvl/1018
+    scheme_id: Vocabulary_10
+    related_concept_id: Concept_19
+    language: 
+    status_id: Lookup_
+  ConceptProperty_135: 
+    created_at: 2006-04-22 19:55:50
+    last_updated: 2006-04-22 19:55:50
+    concept_id: Concept_20
+    skos_property_id: SkosProperty_5
+    object: >
+      Education beyond the secondary level,
+      especially education at the college or
+      university level. [American Heritage
+      Dictionary of the English Language, 4th
+      ed., 2000]
+    scheme_id: Vocabulary_10
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_136: 
+    created_at: 2006-04-22 19:56:04
+    last_updated: 2006-04-22 19:56:04
+    concept_id: Concept_20
+    skos_property_id: SkosProperty_1
+    object: College
+    scheme_id: Vocabulary_10
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_137: 
+    created_at: 2006-04-22 19:56:26
+    last_updated: 2006-04-22 19:56:26
+    concept_id: Concept_20
+    skos_property_id: SkosProperty_10
+    object: Term Source: http://www.ed.gov
+    scheme_id: Vocabulary_10
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_138: 
+    created_at: 2006-04-22 19:59:04
+    last_updated: 2006-04-22 19:59:04
+    concept_id: Concept_23
+    skos_property_id: SkosProperty_3
+    object: >
+      http://metadataregistry.org/NSDLEdLvl/1018
+    scheme_id: Vocabulary_10
+    related_concept_id: Concept_19
+    language: 
+    status_id: Lookup_
+  ConceptProperty_139: 
+    created_at: 2006-04-22 19:59:04
+    last_updated: 2006-04-22 19:59:04
+    concept_id: Concept_19
+    skos_property_id: SkosProperty_16
+    object: >
+      http://metadataregistry.org/NSDLEdLvl/1022
+    scheme_id: Vocabulary_10
+    related_concept_id: Concept_23
+    language: 
+    status_id: Lookup_
+  ConceptProperty_140: 
+    created_at: 2006-04-22 20:00:02
+    last_updated: 2006-04-22 20:00:03
+    concept_id: Concept_19
+    skos_property_id: SkosProperty_5
+    object: >
+      All education beyond the secondary level
+      -- includes learning activities and
+      experiences beyond the compulsory school
+      attendance age with the exception of
+      adult basic education and high school
+      equivalency programs.
+    scheme_id: Vocabulary_10
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_141: 
+    created_at: 2006-04-22 20:00:35
+    last_updated: 2006-04-22 20:00:35
+    concept_id: Concept_19
+    skos_property_id: SkosProperty_10
+    object: Term Source: http://www.ed.gov
+    scheme_id: Vocabulary_10
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_142: 
+    created_at: 2006-04-24 08:42:50
+    last_updated: 2006-04-24 08:42:50
+    concept_id: Concept_35
+    skos_property_id: SkosProperty_19
+    object: Abstract
+    scheme_id: Vocabulary_
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_143: 
+    created_at: 2006-04-24 08:43:13
+    last_updated: 2006-04-24 08:43:13
+    concept_id: Concept_36
+    skos_property_id: SkosProperty_19
+    object: Annotation
+    scheme_id: Vocabulary_
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_144: 
+    created_at: 2006-04-24 08:43:40
+    last_updated: 2006-04-24 08:43:40
+    concept_id: Concept_37
+    skos_property_id: SkosProperty_19
+    object: Article
+    scheme_id: Vocabulary_
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_145: 
+    created_at: 2006-04-24 08:43:54
+    last_updated: 2006-04-24 08:43:54
+    concept_id: Concept_38
+    skos_property_id: SkosProperty_19
+    object: Artifact
+    scheme_id: Vocabulary_
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_146: 
+    created_at: 2006-04-24 08:44:33
+    last_updated: 2006-04-24 08:44:33
+    concept_id: Concept_39
+    skos_property_id: SkosProperty_19
+    object: Ask-an-Expert
+    scheme_id: Vocabulary_
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_147: 
+    created_at: 2006-04-24 08:44:47
+    last_updated: 2006-04-24 08:44:47
+    concept_id: Concept_40
+    skos_property_id: SkosProperty_19
+    object: Assessment
+    scheme_id: Vocabulary_
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_148: 
+    created_at: 2006-04-24 08:45:16
+    last_updated: 2006-04-24 08:45:16
+    concept_id: Concept_41
+    skos_property_id: SkosProperty_19
+    object: Bibliography
+    scheme_id: Vocabulary_
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_149: 
+    created_at: 2006-04-24 08:45:44
+    last_updated: 2006-04-24 08:45:44
+    concept_id: Concept_42
+    skos_property_id: SkosProperty_19
+    object: Broadcast
+    scheme_id: Vocabulary_
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_150: 
+    created_at: 2006-04-24 08:46:10
+    last_updated: 2006-04-24 08:46:10
+    concept_id: Concept_43
+    skos_property_id: SkosProperty_19
+    object: Case Study
+    scheme_id: Vocabulary_
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_151: 
+    created_at: 2006-04-24 08:46:27
+    last_updated: 2006-04-24 08:46:27
+    concept_id: Concept_44
+    skos_property_id: SkosProperty_19
+    object: Clearinghouse
+    scheme_id: Vocabulary_
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_152: 
+    created_at: 2006-04-24 08:46:54
+    last_updated: 2006-04-24 08:46:54
+    concept_id: Concept_45
+    skos_property_id: SkosProperty_19
+    object: Course
+    scheme_id: Vocabulary_
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_153: 
+    created_at: 2006-04-24 08:47:07
+    last_updated: 2006-04-24 08:47:07
+    concept_id: Concept_46
+    skos_property_id: SkosProperty_19
+    object: Curriculum
+    scheme_id: Vocabulary_
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_154: 
+    created_at: 2006-04-24 08:47:27
+    last_updated: 2006-04-24 08:47:27
+    concept_id: Concept_47
+    skos_property_id: SkosProperty_19
+    object: Data Set
+    scheme_id: Vocabulary_
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_155: 
+    created_at: 2006-04-24 08:47:49
+    last_updated: 2006-04-24 08:47:49
+    concept_id: Concept_48
+    skos_property_id: SkosProperty_19
+    object: Demonstration
+    scheme_id: Vocabulary_
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_156: 
+    created_at: 2006-04-24 08:48:20
+    last_updated: 2006-04-24 08:48:20
+    concept_id: Concept_49
+    skos_property_id: SkosProperty_19
+    object: Experiment
+    scheme_id: Vocabulary_
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_157: 
+    created_at: 2006-04-24 08:48:31
+    last_updated: 2006-04-24 08:48:31
+    concept_id: Concept_50
+    skos_property_id: SkosProperty_19
+    object: Fiction
+    scheme_id: Vocabulary_
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_158: 
+    created_at: 2006-04-24 08:48:58
+    last_updated: 2006-04-24 08:48:58
+    concept_id: Concept_51
+    skos_property_id: SkosProperty_19
+    object: Form
+    scheme_id: Vocabulary_
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_159: 
+    created_at: 2006-04-24 08:49:23
+    last_updated: 2006-04-24 08:49:23
+    concept_id: Concept_52
+    skos_property_id: SkosProperty_19
+    object: Forum
+    scheme_id: Vocabulary_
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_160: 
+    created_at: 2006-04-24 08:49:46
+    last_updated: 2006-04-24 08:49:46
+    concept_id: Concept_53
+    skos_property_id: SkosProperty_19
+    object: Game
+    scheme_id: Vocabulary_
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_161: 
+    created_at: 2006-04-24 08:49:59
+    last_updated: 2006-04-24 08:49:59
+    concept_id: Concept_54
+    skos_property_id: SkosProperty_19
+    object: Glossary
+    scheme_id: Vocabulary_
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_162: 
+    created_at: 2006-04-24 08:50:27
+    last_updated: 2006-04-24 08:50:27
+    concept_id: Concept_55
+    skos_property_id: SkosProperty_19
+    object: Illustration
+    scheme_id: Vocabulary_
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_163: 
+    created_at: 2006-04-24 08:50:40
+    last_updated: 2006-04-24 08:50:40
+    concept_id: Concept_56
+    skos_property_id: SkosProperty_19
+    object: Instructor Guide
+    scheme_id: Vocabulary_
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_164: 
+    created_at: 2006-04-24 08:51:29
+    last_updated: 2006-04-24 08:51:29
+    concept_id: Concept_57
+    skos_property_id: SkosProperty_19
+    object: Lesson
+    scheme_id: Vocabulary_
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_165: 
+    created_at: 2006-04-24 08:51:41
+    last_updated: 2006-04-24 08:51:41
+    concept_id: Concept_58
+    skos_property_id: SkosProperty_19
+    object: Map
+    scheme_id: Vocabulary_
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_166: 
+    created_at: 2006-04-24 08:52:06
+    last_updated: 2006-04-24 08:52:06
+    concept_id: Concept_59
+    skos_property_id: SkosProperty_19
+    object: Music
+    scheme_id: Vocabulary_
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_167: 
+    created_at: 2006-04-24 08:52:39
+    last_updated: 2006-04-24 08:52:39
+    concept_id: Concept_60
+    skos_property_id: SkosProperty_19
+    object: Oral History
+    scheme_id: Vocabulary_
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_168: 
+    created_at: 2006-04-24 08:53:07
+    last_updated: 2006-04-24 08:53:07
+    concept_id: Concept_61
+    skos_property_id: SkosProperty_19
+    object: Periodical
+    scheme_id: Vocabulary_
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_169: 
+    created_at: 2006-04-24 08:53:56
+    last_updated: 2006-04-24 08:53:56
+    concept_id: Concept_62
+    skos_property_id: SkosProperty_19
+    object: Photograph
+    scheme_id: Vocabulary_
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_170: 
+    created_at: 2006-04-24 08:54:59
+    last_updated: 2006-04-24 08:54:59
+    concept_id: Concept_63
+    skos_property_id: SkosProperty_19
+    object: Portal
+    scheme_id: Vocabulary_
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_171: 
+    created_at: 2006-04-24 08:55:14
+    last_updated: 2006-04-24 08:55:15
+    concept_id: Concept_64
+    skos_property_id: SkosProperty_19
+    object: Presentation
+    scheme_id: Vocabulary_
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_172: 
+    created_at: 2006-04-24 08:55:39
+    last_updated: 2006-04-24 08:55:39
+    concept_id: Concept_65
+    skos_property_id: SkosProperty_19
+    object: Problem Set
+    scheme_id: Vocabulary_
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_173: 
+    created_at: 2006-04-24 08:55:52
+    last_updated: 2006-04-24 08:55:52
+    concept_id: Concept_66
+    skos_property_id: SkosProperty_19
+    object: Project
+    scheme_id: Vocabulary_
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_174: 
+    created_at: 2006-04-24 08:56:16
+    last_updated: 2006-04-24 08:56:16
+    concept_id: Concept_67
+    skos_property_id: SkosProperty_19
+    object: Reference
+    scheme_id: Vocabulary_
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_175: 
+    created_at: 2006-04-24 08:56:37
+    last_updated: 2006-04-24 08:56:37
+    concept_id: Concept_68
+    skos_property_id: SkosProperty_19
+    object: Remotely Sensed Imagery
+    scheme_id: Vocabulary_
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_176: 
+    created_at: 2006-04-24 08:57:48
+    last_updated: 2006-04-24 08:57:48
+    concept_id: Concept_69
+    skos_property_id: SkosProperty_19
+    object: Report
+    scheme_id: Vocabulary_
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_177: 
+    created_at: 2006-04-24 08:58:02
+    last_updated: 2006-04-24 08:58:02
+    concept_id: Concept_70
+    skos_property_id: SkosProperty_19
+    object: Simulation
+    scheme_id: Vocabulary_
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_178: 
+    created_at: 2006-04-24 08:58:32
+    last_updated: 2006-04-24 08:58:32
+    concept_id: Concept_71
+    skos_property_id: SkosProperty_19
+    object: Study Guide
+    scheme_id: Vocabulary_
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_179: 
+    created_at: 2006-04-24 08:58:52
+    last_updated: 2006-04-24 08:58:52
+    concept_id: Concept_72
+    skos_property_id: SkosProperty_19
+    object: Syllabus
+    scheme_id: Vocabulary_
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_180: 
+    created_at: 2006-04-24 08:59:24
+    last_updated: 2006-04-24 08:59:24
+    concept_id: Concept_73
+    skos_property_id: SkosProperty_19
+    object: Textbook
+    scheme_id: Vocabulary_
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_181: 
+    created_at: 2006-04-24 08:59:37
+    last_updated: 2006-04-24 08:59:37
+    concept_id: Concept_74
+    skos_property_id: SkosProperty_19
+    object: Thesis
+    scheme_id: Vocabulary_
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_182: 
+    created_at: 2006-04-24 09:00:07
+    last_updated: 2006-04-24 09:00:07
+    concept_id: Concept_75
+    skos_property_id: SkosProperty_19
+    object: Tutorial
+    scheme_id: Vocabulary_
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_183: 
+    created_at: 2006-04-24 09:00:21
+    last_updated: 2006-04-24 09:00:21
+    concept_id: Concept_76
+    skos_property_id: SkosProperty_19
+    object: Field Trip
+    scheme_id: Vocabulary_
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_184: 
+    created_at: 2006-04-24 09:00:42
+    last_updated: 2006-04-24 09:00:42
+    concept_id: Concept_77
+    skos_property_id: SkosProperty_19
+    object: Weblog
+    scheme_id: Vocabulary_
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_185: 
+    created_at: 2006-04-24 09:04:27
+    last_updated: 2006-04-24 09:04:27
+    concept_id: Concept_35
+    skos_property_id: SkosProperty_1
+    object: Summary
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_186: 
+    created_at: 2006-04-24 09:04:37
+    last_updated: 2006-04-24 09:04:37
+    concept_id: Concept_35
+    skos_property_id: SkosProperty_5
+    object: >
+      A condensed version of a larger piece of
+      work outlining the major points and
+      conclusions.
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_187: 
+    created_at: 2006-04-24 09:05:10
+    last_updated: 2006-04-24 09:05:10
+    concept_id: Concept_35
+    skos_property_id: SkosProperty_10
+    object: >
+      Term source:
+      http://www.dlese.org/Metadata/index.htm
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_188: 
+    created_at: 2006-04-24 09:11:18
+    last_updated: 2006-04-24 09:11:18
+    concept_id: Concept_36
+    skos_property_id: SkosProperty_1
+    object: Review
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_189: 
+    created_at: 2006-04-24 09:11:31
+    last_updated: 2006-04-24 09:11:31
+    concept_id: Concept_36
+    skos_property_id: SkosProperty_1
+    object: Comment
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_190: 
+    created_at: 2006-04-24 09:11:44
+    last_updated: 2006-04-24 09:11:44
+    concept_id: Concept_36
+    skos_property_id: SkosProperty_5
+    object: >
+      A comment (usually added to a text)
+      [Hyperdictionary]
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_191: 
+    created_at: 2006-04-24 09:13:48
+    last_updated: 2006-04-24 09:13:48
+    concept_id: Concept_37
+    skos_property_id: SkosProperty_5
+    object: >
+      In publishing, an article is a piece of
+      nonfictional prose that is an
+      independent part of a publication (such
+      as a book, journal, magazine, or
+      newspaper). This sense of article
+      overlaps with the usage of the word
+      essay. In an encyclopedia or other
+      reference work, an article is a primary
+      division of content. [Wikipedia]
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_192: 
+    created_at: 2006-04-24 09:14:08
+    last_updated: 2006-04-24 09:14:08
+    concept_id: Concept_37
+    skos_property_id: SkosProperty_1
+    object: Research Paper
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_193: 
+    created_at: 2006-04-24 09:14:30
+    last_updated: 2006-04-24 09:14:30
+    concept_id: Concept_37
+    skos_property_id: SkosProperty_1
+    object: Research Article
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_194: 
+    created_at: 2006-04-24 09:14:50
+    last_updated: 2006-04-24 09:14:50
+    concept_id: Concept_37
+    skos_property_id: SkosProperty_1
+    object: Scholarly Publication
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_195: 
+    created_at: 2006-04-24 09:15:43
+    last_updated: 2006-04-24 09:15:43
+    concept_id: Concept_37
+    skos_property_id: SkosProperty_1
+    object: Peer Reviewed Article
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_196: 
+    created_at: 2006-04-24 09:15:55
+    last_updated: 2006-04-24 09:15:55
+    concept_id: Concept_37
+    skos_property_id: SkosProperty_1
+    object: Newspaper Article
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_197: 
+    created_at: 2006-04-24 09:16:32
+    last_updated: 2006-04-24 09:16:32
+    concept_id: Concept_61
+    skos_property_id: SkosProperty_16
+    object: >
+      http://metadataregistry.org/NSDLResType/1002
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_37
+    language: 
+    status_id: Lookup_
+  ConceptProperty_198: 
+    created_at: 2006-04-24 09:16:32
+    last_updated: 2006-04-24 09:16:32
+    concept_id: Concept_37
+    skos_property_id: SkosProperty_3
+    object: >
+      http://metadataregistry.org/NSDLResType/1026
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_61
+    language: 
+    status_id: Lookup_
+  ConceptProperty_199: 
+    created_at: 2006-04-24 09:16:46
+    last_updated: 2006-04-24 09:16:46
+    concept_id: Concept_67
+    skos_property_id: SkosProperty_16
+    object: >
+      http://metadataregistry.org/NSDLResType/1002
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_37
+    language: 
+    status_id: Lookup_
+  ConceptProperty_200: 
+    created_at: 2006-04-24 09:16:46
+    last_updated: 2006-04-24 09:16:46
+    concept_id: Concept_37
+    skos_property_id: SkosProperty_3
+    object: >
+      http://metadataregistry.org/NSDLResType/1032
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_67
+    language: 
+    status_id: Lookup_
+  ConceptProperty_201: 
+    created_at: 2006-04-24 09:18:29
+    last_updated: 2006-04-24 09:18:29
+    concept_id: Concept_38
+    skos_property_id: SkosProperty_5
+    object: |
+      Anything made by human art and workmanship; an artificial product. [Oxford
+      English Dictionary]
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_202: 
+    created_at: 2006-04-24 09:18:41
+    last_updated: 2006-04-24 09:18:41
+    concept_id: Concept_38
+    skos_property_id: SkosProperty_1
+    object: Physical Object
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_203: 
+    created_at: 2006-04-24 09:19:01
+    last_updated: 2006-04-24 09:19:01
+    concept_id: Concept_38
+    skos_property_id: SkosProperty_10
+    object: Term source: http://www.thegateway.org
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_204: 
+    created_at: 2006-04-24 09:25:00
+    last_updated: 2006-04-24 09:25:00
+    concept_id: Concept_39
+    skos_property_id: SkosProperty_1
+    object: Virtual Reference
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_205: 
+    created_at: 2006-04-24 09:25:13
+    last_updated: 2006-04-24 09:25:13
+    concept_id: Concept_39
+    skos_property_id: SkosProperty_5
+    object: >
+      Service where one can submit questions
+      for personal response to either an
+      individual or group of people who have
+      specific expertise in the area of
+      interest.
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_206: 
+    created_at: 2006-04-24 09:25:42
+    last_updated: 2006-04-24 09:25:42
+    concept_id: Concept_39
+    skos_property_id: SkosProperty_10
+    object: >
+      Term source:
+      http://www.dlese.org/Metadata/index.htm
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_207: 
+    created_at: 2006-04-24 09:34:01
+    last_updated: 2006-04-24 09:34:01
+    concept_id: Concept_40
+    skos_property_id: SkosProperty_5
+    object: >
+      Resource used to evaluate or measure
+      progress, development, ability, skill,
+      understanding, knowledge, or
+      achievement. [iLumina]
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_208: 
+    created_at: 2006-04-24 09:34:19
+    last_updated: 2006-04-24 09:34:19
+    concept_id: Concept_40
+    skos_property_id: SkosProperty_1
+    object: Self-Assessment
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_209: 
+    created_at: 2006-04-24 09:34:28
+    last_updated: 2006-04-24 09:34:28
+    concept_id: Concept_40
+    skos_property_id: SkosProperty_1
+    object: Test
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_210: 
+    created_at: 2006-04-24 09:34:53
+    last_updated: 2006-04-24 09:34:54
+    concept_id: Concept_40
+    skos_property_id: SkosProperty_10
+    object: >
+      Term source:
+      http://www.ilumina-dlib.org/documents/learning_resource_type.htm
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_211: 
+    created_at: 2006-04-24 09:36:00
+    last_updated: 2006-04-24 09:36:00
+    concept_id: Concept_41
+    skos_property_id: SkosProperty_1
+    object: References
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_212: 
+    created_at: 2006-04-24 09:36:20
+    last_updated: 2006-04-24 09:36:21
+    concept_id: Concept_41
+    skos_property_id: SkosProperty_5
+    object: >
+      A list often with descriptive or
+      critical notes of writings relating to a
+      particular subject, period, or author.
+      [Merriam-Webster]
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_213: 
+    created_at: 2006-04-24 09:36:39
+    last_updated: 2006-04-24 09:36:39
+    concept_id: Concept_41
+    skos_property_id: SkosProperty_10
+    object: >
+      Term source:
+      http://www.edna.edu.au/edna/go/pid/333
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_214: 
+    created_at: 2006-04-24 09:40:05
+    last_updated: 2006-04-24 09:40:05
+    concept_id: Concept_42
+    skos_property_id: SkosProperty_5
+    object: >
+      Recording of a newscast, talk show, or
+      other audio or audio/visual presentation
+      originally generated via the radio,
+      television or the Internet. 
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_215: 
+    created_at: 2006-04-24 09:40:26
+    last_updated: 2006-04-24 09:40:27
+    concept_id: Concept_42
+    skos_property_id: SkosProperty_1
+    object: Radio Broadcast
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_216: 
+    created_at: 2006-04-24 09:40:38
+    last_updated: 2006-04-24 09:40:38
+    concept_id: Concept_42
+    skos_property_id: SkosProperty_1
+    object: Telecast
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_217: 
+    created_at: 2006-04-24 09:40:49
+    last_updated: 2006-04-24 09:40:49
+    concept_id: Concept_42
+    skos_property_id: SkosProperty_1
+    object: Webcast
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_218: 
+    created_at: 2006-04-24 09:40:59
+    last_updated: 2006-04-24 09:40:59
+    concept_id: Concept_42
+    skos_property_id: SkosProperty_1
+    object: Screencast
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_219: 
+    created_at: 2006-04-24 09:41:19
+    last_updated: 2006-04-24 09:41:19
+    concept_id: Concept_42
+    skos_property_id: SkosProperty_1
+    object: Kinescope
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_220: 
+    created_at: 2006-04-24 09:41:31
+    last_updated: 2006-04-24 09:41:31
+    concept_id: Concept_42
+    skos_property_id: SkosProperty_1
+    object: Video
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_221: 
+    created_at: 2006-04-24 09:41:59
+    last_updated: 2006-04-24 09:41:59
+    concept_id: Concept_42
+    skos_property_id: SkosProperty_10
+    object: >
+      Term source:
+      http://www.dlese.org/Metadata/index.htm
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_222: 
+    created_at: 2006-04-24 14:22:52
+    last_updated: 2006-04-24 14:22:52
+    concept_id: Concept_78
+    skos_property_id: SkosProperty_19
+    object: test concept
+    scheme_id: Vocabulary_
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_223: 
+    created_at: 2006-04-24 14:24:20
+    last_updated: 2006-04-24 14:24:20
+    concept_id: Concept_79
+    skos_property_id: SkosProperty_19
+    object: another test
+    scheme_id: Vocabulary_
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_224: 
+    created_at: 2006-04-24 14:26:50
+    last_updated: 2006-04-24 14:26:50
+    concept_id: Concept_80
+    skos_property_id: SkosProperty_19
+    object: better test
+    scheme_id: Vocabulary_
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_225: 
+    created_at: 2006-04-24 14:27:03
+    last_updated: 2006-04-24 14:27:03
+    concept_id: Concept_81
+    skos_property_id: SkosProperty_19
+    object: even better test
+    scheme_id: Vocabulary_
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_226: 
+    created_at: 2006-04-24 16:10:58
+    last_updated: 2006-04-24 16:10:58
+    concept_id: Concept_43
+    skos_property_id: SkosProperty_5
+    object: >
+      Resource offering intensive analysis of
+      an individual unit (as a person or
+      community) stressing developmental
+      factors in relation to environment or a
+      scientific study of a specific location
+      or region.
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_227: 
+    created_at: 2006-04-24 16:11:39
+    last_updated: 2006-04-24 16:11:39
+    concept_id: Concept_43
+    skos_property_id: SkosProperty_5
+    object: |
+      A detailed study of the development of a particular person, group, or situation
+      over a period of time; a particular instance used to illustrate a thesis or principle. [Compact Oxford English Dictionary]
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_228: 
+    created_at: 2006-04-24 16:12:05
+    last_updated: 2006-04-24 16:12:05
+    concept_id: Concept_43
+    skos_property_id: SkosProperty_10
+    object: >
+      Term source:
+      http://www.dlese.org/Metadata/index.htm
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_229: 
+    created_at: 2006-04-24 16:14:09
+    last_updated: 2006-04-24 16:14:09
+    concept_id: Concept_44
+    skos_property_id: SkosProperty_5
+    object: |
+      A central agency for the collection, classification, and distribution especially
+      of information; broadly : an informal channel for distributing information or assistance. [Merriam-Webster Online]
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_230: 
+    created_at: 2006-04-24 16:14:27
+    last_updated: 2006-04-24 16:14:27
+    concept_id: Concept_63
+    skos_property_id: SkosProperty_21
+    object: >
+      http://metadataregistry.org/NSDLResType/1009
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_44
+    language: 
+    status_id: Lookup_
+  ConceptProperty_231: 
+    created_at: 2006-04-24 16:14:27
+    last_updated: 2006-04-24 16:14:27
+    concept_id: Concept_44
+    skos_property_id: SkosProperty_21
+    object: >
+      http://metadataregistry.org/NSDLResType/1028
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_63
+    language: 
+    status_id: Lookup_
+  ConceptProperty_232: 
+    created_at: 2006-04-24 16:15:36
+    last_updated: 2006-04-24 16:15:36
+    concept_id: Concept_44
+    skos_property_id: SkosProperty_5
+    object: >
+      Resource with links to other sites
+      organized around a topic or topics.
+      [DLESE]
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_233: 
+    created_at: 2006-04-24 16:16:04
+    last_updated: 2006-04-24 16:16:04
+    concept_id: Concept_44
+    skos_property_id: SkosProperty_6
+    object: >
+      Second sentence of DLESE definition
+      deleted.
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_234: 
+    created_at: 2006-04-24 16:16:26
+    last_updated: 2006-04-24 16:16:26
+    concept_id: Concept_44
+    skos_property_id: SkosProperty_10
+    object: >
+      Term source:
+      http://www.dlese.org/Metadata/index.htm
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_235: 
+    created_at: 2006-04-24 16:25:39
+    last_updated: 2006-04-24 16:25:39
+    concept_id: Concept_72
+    skos_property_id: SkosProperty_3
+    object: >
+      http://metadataregistry.org/NSDLResType/1010
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_45
+    language: 
+    status_id: Lookup_
+  ConceptProperty_236: 
+    created_at: 2006-04-24 16:25:39
+    last_updated: 2006-04-24 16:25:39
+    concept_id: Concept_45
+    skos_property_id: SkosProperty_16
+    object: >
+      http://metadataregistry.org/NSDLResType/1037
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_72
+    language: 
+    status_id: Lookup_
+  ConceptProperty_237: 
+    created_at: 2006-04-24 16:26:11
+    last_updated: 2006-04-24 16:26:11
+    concept_id: Concept_57
+    skos_property_id: SkosProperty_3
+    object: >
+      http://metadataregistry.org/NSDLResType/1010
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_45
+    language: 
+    status_id: Lookup_
+  ConceptProperty_238: 
+    created_at: 2006-04-24 16:26:11
+    last_updated: 2006-04-24 16:26:11
+    concept_id: Concept_45
+    skos_property_id: SkosProperty_16
+    object: >
+      http://metadataregistry.org/NSDLResType/1022
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_57
+    language: 
+    status_id: Lookup_
+  ConceptProperty_239: 
+    created_at: 2006-04-24 16:26:51
+    last_updated: 2006-04-24 16:26:51
+    concept_id: Concept_64
+    skos_property_id: SkosProperty_3
+    object: >
+      http://metadataregistry.org/NSDLResType/1010
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_45
+    language: 
+    status_id: Lookup_
+  ConceptProperty_240: 
+    created_at: 2006-04-24 16:26:51
+    last_updated: 2006-04-24 16:26:51
+    concept_id: Concept_45
+    skos_property_id: SkosProperty_16
+    object: >
+      http://metadataregistry.org/NSDLResType/1029
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_64
+    language: 
+    status_id: Lookup_
+  ConceptProperty_241: 
+    created_at: 2006-04-24 16:27:10
+    last_updated: 2006-04-24 16:27:10
+    concept_id: Concept_46
+    skos_property_id: SkosProperty_16
+    object: >
+      http://metadataregistry.org/NSDLResType/1010
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_45
+    language: 
+    status_id: Lookup_
+  ConceptProperty_242: 
+    created_at: 2006-04-24 16:27:10
+    last_updated: 2006-04-24 16:27:10
+    concept_id: Concept_45
+    skos_property_id: SkosProperty_3
+    object: >
+      http://metadataregistry.org/NSDLResType/1011
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_46
+    language: 
+    status_id: Lookup_
+  ConceptProperty_243: 
+    created_at: 2006-04-24 16:29:03
+    last_updated: 2006-04-24 16:29:03
+    concept_id: Concept_66
+    skos_property_id: SkosProperty_3
+    object: >
+      http://metadataregistry.org/NSDLResType/1010
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_45
+    language: 
+    status_id: Lookup_
+  ConceptProperty_244: 
+    created_at: 2006-04-24 16:29:03
+    last_updated: 2006-04-24 16:29:03
+    concept_id: Concept_45
+    skos_property_id: SkosProperty_16
+    object: >
+      http://metadataregistry.org/NSDLResType/1031
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_66
+    language: 
+    status_id: Lookup_
+  ConceptProperty_245: 
+    created_at: 2006-04-24 16:29:35
+    last_updated: 2006-04-24 16:29:35
+    concept_id: Concept_73
+    skos_property_id: SkosProperty_21
+    object: >
+      http://metadataregistry.org/NSDLResType/1010
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_45
+    language: 
+    status_id: Lookup_
+  ConceptProperty_246: 
+    created_at: 2006-04-24 16:29:35
+    last_updated: 2006-04-24 16:29:35
+    concept_id: Concept_45
+    skos_property_id: SkosProperty_21
+    object: >
+      http://metadataregistry.org/NSDLResType/1038
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_73
+    language: 
+    status_id: Lookup_
+  ConceptProperty_247: 
+    created_at: 2006-04-24 16:30:08
+    last_updated: 2006-04-24 16:30:08
+    concept_id: Concept_45
+    skos_property_id: SkosProperty_5
+    object: >
+      A set of teaching and learning materials
+      intended to achieve a wide range of
+      objectives over an extended period of
+      time.
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_248: 
+    created_at: 2006-04-24 16:30:42
+    last_updated: 2006-04-24 16:30:42
+    concept_id: Concept_45
+    skos_property_id: SkosProperty_10
+    object: >
+      Term source:
+      http://www.ilumina-dlib.org/documents/learning_resource_type.htm
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_249: 
+    created_at: 2006-04-24 16:32:12
+    last_updated: 2006-04-24 16:32:12
+    concept_id: Concept_46
+    skos_property_id: SkosProperty_5
+    object: A program of study.
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_250: 
+    created_at: 2006-04-24 16:32:36
+    last_updated: 2006-04-24 16:32:36
+    concept_id: Concept_46
+    skos_property_id: SkosProperty_10
+    object: >
+      Term source:
+      http://www.dlese.org/Metadata/index.htm
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_251: 
+    created_at: 2006-04-24 16:32:58
+    last_updated: 2006-04-24 16:32:58
+    concept_id: Concept_46
+    skos_property_id: SkosProperty_10
+    object: Term source: http://www.thegateway.org/
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_252: 
+    created_at: 2006-04-24 16:33:49
+    last_updated: 2006-04-24 16:33:49
+    concept_id: Concept_47
+    skos_property_id: SkosProperty_1
+    object: Dataset
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_253: 
+    created_at: 2006-04-24 16:34:20
+    last_updated: 2006-04-24 16:34:20
+    concept_id: Concept_47
+    skos_property_id: SkosProperty_5
+    object: >
+      A collection of data elements in the
+      form of a list, table, or database
+      intended for use with another learning
+      resource. [iLumina]
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_254: 
+    created_at: 2006-04-24 16:34:48
+    last_updated: 2006-04-24 16:34:48
+    concept_id: Concept_47
+    skos_property_id: SkosProperty_5
+    object: >
+      An organized collection of data with a
+      common theme. [GIS Dictionary]
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_255: 
+    created_at: 2006-04-24 16:35:40
+    last_updated: 2006-04-24 16:35:40
+    concept_id: Concept_47
+    skos_property_id: SkosProperty_10
+    object: >
+      Term source:
+      http://www.ilumina-dlib.org/documents/learning_resource_type.htm
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_256: 
+    created_at: 2006-04-24 16:37:11
+    last_updated: 2006-04-24 16:37:11
+    concept_id: Concept_49
+    skos_property_id: SkosProperty_21
+    object: >
+      http://metadataregistry.org/NSDLResType/1013
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_48
+    language: 
+    status_id: Lookup_
+  ConceptProperty_257: 
+    created_at: 2006-04-24 16:37:11
+    last_updated: 2006-04-24 16:37:11
+    concept_id: Concept_48
+    skos_property_id: SkosProperty_21
+    object: >
+      http://metadataregistry.org/NSDLResType/1014
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_49
+    language: 
+    status_id: Lookup_
+  ConceptProperty_258: 
+    created_at: 2006-04-24 16:37:25
+    last_updated: 2006-04-24 16:37:25
+    concept_id: Concept_70
+    skos_property_id: SkosProperty_21
+    object: >
+      http://metadataregistry.org/NSDLResType/1013
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_48
+    language: 
+    status_id: Lookup_
+  ConceptProperty_259: 
+    created_at: 2006-04-24 16:37:26
+    last_updated: 2006-04-24 16:37:26
+    concept_id: Concept_48
+    skos_property_id: SkosProperty_21
+    object: >
+      http://metadataregistry.org/NSDLResType/1035
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_70
+    language: 
+    status_id: Lookup_
+  ConceptProperty_260: 
+    created_at: 2006-04-24 16:38:19
+    last_updated: 2006-04-24 16:38:19
+    concept_id: Concept_48
+    skos_property_id: SkosProperty_5
+    object: >
+      Resource that uses a video or audio
+      recording to show or explain a
+      procedure, process, or principle. Note a
+      verbal explanation is not required, the
+      explanation may be implied through an
+      action. This is distinct from
+      simulations in that demonstrations have
+      real objects in them as opposed to
+      representations.
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_261: 
+    created_at: 2006-04-24 16:38:56
+    last_updated: 2006-04-24 16:38:56
+    concept_id: Concept_48
+    skos_property_id: SkosProperty_5
+    object: >
+      An illustration or explanation, as of a
+      theory or product, by exemplification or
+      practical application. [American
+      Heritage Dictionary, 4th ed.]
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_262: 
+    created_at: 2006-04-24 16:40:17
+    last_updated: 2006-04-24 16:40:18
+    concept_id: Concept_49
+    skos_property_id: SkosProperty_5
+    object: >
+      A scientific procedure undertaken to
+      make a discovery, test a hypothesis, or
+      demonstrate a known fact. [Compact
+      Oxford English Dictionary]
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_263: 
+    created_at: 2006-04-24 16:40:33
+    last_updated: 2006-04-24 16:40:33
+    concept_id: Concept_49
+    skos_property_id: SkosProperty_1
+    object: Laboratory Experiment
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_264: 
+    created_at: 2006-04-24 16:53:01
+    last_updated: 2006-04-24 16:53:01
+    concept_id: Concept_50
+    skos_property_id: SkosProperty_5
+    object: >
+      Prose literature, especially novels,
+      describing imaginary events and people.
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_265: 
+    created_at: 2006-04-24 16:54:11
+    last_updated: 2006-04-24 16:54:11
+    concept_id: Concept_50
+    skos_property_id: SkosProperty_22
+    object: >
+      Do not use for technical documentation
+      and guides, or field and instructor's
+      guides.
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_266: 
+    created_at: 2006-04-24 16:54:51
+    last_updated: 2006-04-24 16:54:52
+    concept_id: Concept_50
+    skos_property_id: SkosProperty_6
+    object: >
+      Eliminated 'book" from the term, moved
+      former definition exclusions to scope
+      note.
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_267: 
+    created_at: 2006-04-24 16:55:59
+    last_updated: 2006-04-24 16:56:00
+    concept_id: Concept_76
+    skos_property_id: SkosProperty_1
+    object: Virtual Field Trip
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_268: 
+    created_at: 2006-04-24 16:56:45
+    last_updated: 2006-04-24 16:56:46
+    concept_id: Concept_76
+    skos_property_id: SkosProperty_5
+    object: |
+      A trip or excursion to a place, often by a group of students or the like, to gain
+      firsthand information, knowledge, or experience. Includes descriptions or plans for actual field trips as well as virtual field trips. [Wordsmyth]
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_269: 
+    created_at: 2006-04-24 16:57:12
+    last_updated: 2006-04-24 16:57:12
+    concept_id: Concept_76
+    skos_property_id: SkosProperty_10
+    object: >
+      Term source:
+      http://www.dlese.org/Metadata/index.htm
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_270: 
+    created_at: 2006-04-24 16:58:08
+    last_updated: 2006-04-24 16:58:08
+    concept_id: Concept_51
+    skos_property_id: SkosProperty_1
+    object: Web Form
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_271: 
+    created_at: 2006-04-24 16:58:22
+    last_updated: 2006-04-24 16:58:23
+    concept_id: Concept_51
+    skos_property_id: SkosProperty_5
+    object: >
+      A formatted document containing blank
+      fields that users can fill in with data.
+      [Webopedia]
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_272: 
+    created_at: 2006-04-24 16:59:45
+    last_updated: 2006-04-24 16:59:45
+    concept_id: Concept_52
+    skos_property_id: SkosProperty_1
+    object: Discussion
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_273: 
+    created_at: 2006-04-24 16:59:57
+    last_updated: 2006-04-24 16:59:57
+    concept_id: Concept_52
+    skos_property_id: SkosProperty_1
+    object: Listserv
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_274: 
+    created_at: 2006-04-24 17:00:15
+    last_updated: 2006-04-24 17:00:15
+    concept_id: Concept_52
+    skos_property_id: SkosProperty_1
+    object: Message Board
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_275: 
+    created_at: 2006-04-24 17:00:26
+    last_updated: 2006-04-24 17:00:26
+    concept_id: Concept_52
+    skos_property_id: SkosProperty_5
+    object: >
+      A meeting or medium for an exchange of
+      views. [Compact Oxford English
+      Dictionary]
+    scheme_id: Vocabulary_11
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_276: 
+    created_at: 2006-04-26 17:13:37
+    last_updated: 2006-04-26 17:13:37
+    concept_id: Concept_81
+    skos_property_id: SkosProperty_16
+    object: http://smartbroad/dihNeww/100000
+    scheme_id: Vocabulary_7
+    related_concept_id: Concept_78
+    language: 
+    status_id: Lookup_
+  ConceptProperty_277: 
+    created_at: 2006-04-26 17:13:37
+    last_updated: 2006-04-26 17:13:37
+    concept_id: Concept_78
+    skos_property_id: SkosProperty_3
+    object: http://smartbroad/dihNeww/100002
+    scheme_id: Vocabulary_7
+    related_concept_id: Concept_81
+    language: 
+    status_id: Lookup_
+  ConceptProperty_278: 
+    created_at: 2006-05-31 18:47:42
+    last_updated: 2006-05-31 18:47:43
+    concept_id: Concept_82
+    skos_property_id: SkosProperty_19
+    object: testy
+    scheme_id: Vocabulary_
+    related_concept_id: Concept_
+    language: 
+    status_id: Lookup_
+  ConceptProperty_279: 
+    created_at: 2006-06-07 12:29:34
+    last_updated: 2006-06-07 12:29:34
+    concept_id: Concept_27
+    skos_property_id: SkosProperty_16
+    object: >
+      http://metadataregistry.org/NSDLEdLvl#1001
+    scheme_id: Vocabulary_10
+    related_concept_id: Concept_5
+    language: en
+    status_id: Lookup_
