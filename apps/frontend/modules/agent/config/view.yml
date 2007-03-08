@@ -1,2 +1,6 @@
 all:
   stylesheets: [agent/layout]
+
+listSuccess:
+  metas:
+    title: "Registry :: Owners"

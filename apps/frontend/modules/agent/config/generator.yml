@@ -47,7 +47,7 @@ generator:
       title:           Detail for %%org_name%%
       fields:
         id:           { type: plain }
-        created_at:   { type: plain] }
+        created_at:   { type: plain }
         last_updated: { type: plain }
         org_email:    { type: plain, credentials: [[administrator, agentadmin]] }
       display:
