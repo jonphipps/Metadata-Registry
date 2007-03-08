@@ -4,7 +4,7 @@
  * sfControlPanel actions.
  *
  * @package    sfControlPanelPlugin
- * @author     François Zaninotto
+ * @author     Fran?ois Zaninotto
  */
 class sfControlPanelActions extends sfActions
 {
@@ -43,7 +43,7 @@ class sfControlPanelActions extends sfActions
       $custom_configuration = sfYaml::load(SF_ROOT_DIR.'/config/sfControlPanel_generator.yml');
       if(isset($custom_configuration[$class]))
       {
-        $generator_configuration = sfToolkit::arrayDeepMerge($generator_configuration, $custom_configuration[$class]); 
+        $generator_configuration = sfToolkit::arrayDeepMerge($generator_configuration, $custom_configuration[$class]);
       }
     }
     $generatorManager = new sfGeneratorManager();
