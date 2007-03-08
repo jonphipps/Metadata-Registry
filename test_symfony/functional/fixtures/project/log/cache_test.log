@@ -1,0 +1,8 @@
+Mar 02 12:55:23 symfony [info] {sfRouting} connect "/"
+Mar 02 12:55:23 symfony [info] {sfRouting} connect "/symfony/:action/*"
+Mar 02 12:55:23 symfony [info] {sfRouting} connect "/:module"
+Mar 02 12:55:23 symfony [info] {sfRouting} connect "/:module/:action/*"
+Mar 02 13:08:34 symfony [info] {sfRouting} connect "/"
+Mar 02 13:08:34 symfony [info] {sfRouting} connect "/symfony/:action/*"
+Mar 02 13:08:34 symfony [info] {sfRouting} connect "/:module"
+Mar 02 13:08:34 symfony [info] {sfRouting} connect "/:module/:action/*"
