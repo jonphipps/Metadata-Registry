@@ -336,15 +336,19 @@ class sfPropelDatabaseSchema
             $attributes_string .= " $key=\"".htmlspecialchars($this->getCorrectValueFor($key, $value))."\"";
           }
         }
-        else
+        else if('inheritance' == substr($key, 0, 11))
         {
-          $inheritance = $value;
-          $inheritance_string .= '  <inheritance ';
-          foreach ($inheritance as $key => $value)
+          //add inheritance single if it was left out of the yml file
+          if (false === strpos($attributes_string, 'inheritance'))
           {
-            if (in_array($key, array('key', 'class', 'extends')))
+            $attributes_string .= ' inheritance="single"';
+          }
+          $inheritance_string .= '  <inheritance ';
+          foreach ($value as $ikey => $ivalue)
+          {
+            if (in_array($ikey, array('key', 'class', 'extends')))
             {
-              $inheritance_string .= " $key=\"".htmlspecialchars($this->getCorrectValueFor($key, $value))."\"";
+              $inheritance_string .= " $ikey=\"" . htmlspecialchars($this->getCorrectValueFor($ikey, $ivalue)) . '"';
             }
           }
           $inheritance_string .= " />\n";
