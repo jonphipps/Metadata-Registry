@@ -324,16 +324,40 @@ class sfPropelDatabaseSchema
   protected function getAttributesForColumn($tb_name, $col_name, $column)
   {
     $attributes_string = '';
+    $inheritance_string = '';
     if (is_array($column))
     {
       foreach ($column as $key => $value)
       {
-        if (!in_array($key, array('foreignTable', 'foreignReference', 'onDelete', 'onUpdate', 'index', 'unique')))
+        if (!is_array($value))
         {
-          $attributes_string .= " $key=\"".htmlspecialchars($this->getCorrectValueFor($key, $value))."\"";
+          if (!in_array($key, array('foreignTable', 'foreignReference', 'onDelete', 'onUpdate', 'index', 'unique')))
+          {
+            $attributes_string .= " $key=\"".htmlspecialchars($this->getCorrectValueFor($key, $value))."\"";
+          }
+        }
+        else
+        {
+          $inheritance = $value;
+          $inheritance_string .= '  <inheritance ';
+          foreach ($inheritance as $key => $value)
+          {
+            if (in_array($key, array('key', 'class', 'extends')))
+            {
+              $inheritance_string .= " $key=\"".htmlspecialchars($this->getCorrectValueFor($key, $value))."\"";
+            }
+          }
+          $inheritance_string .= " />\n";
         }
       }
-      $attributes_string .= " />\n";
+      if (strlen($inheritance_string))
+      {
+        $attributes_string .= " >\n" . $inheritance_string . "</column>\n";
+      }
+      else
+      {
+        $attributes_string .= " />\n";
+      }
     }
     else
     {
@@ -376,7 +400,7 @@ class sfPropelDatabaseSchema
 
     // conventions for sequence name attributes
     // required for databases using sequences for auto-increment columns (e.g. PostgreSQL or Oracle)
-    if (is_array($column) && isset($column['sequence'])) 
+    if (is_array($column) && isset($column['sequence']))
     {
       $attributes_string .= "    <id-method-parameter value=\"$column[sequence]\" />\n";
     }
