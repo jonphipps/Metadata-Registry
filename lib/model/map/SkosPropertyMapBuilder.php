@@ -67,4 +67,5 @@ class SkosPropertyMapBuilder {
 		$tMap->addColumn('IS_IN_PICKLIST', 'IsInPicklist', 'boolean', CreoleTypes::BOOLEAN, true);
 				
     } 
+
 } 

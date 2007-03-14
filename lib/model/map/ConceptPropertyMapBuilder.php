@@ -53,4 +53,5 @@ class ConceptPropertyMapBuilder {
 		$tMap->addForeignKey('STATUS_ID', 'StatusId', 'int', CreoleTypes::INTEGER, 'reg_lookup', 'ID', false, null);
 				
     } 
+
 } 

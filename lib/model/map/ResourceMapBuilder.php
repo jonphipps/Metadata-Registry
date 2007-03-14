@@ -2,10 +2,10 @@
 
 
 	
-class VocabularyMapBuilder {
+class ResourceMapBuilder {
 
 	
-	const CLASS_NAME = 'lib.model.map.VocabularyMapBuilder';	
+	const CLASS_NAME = 'lib.model.map.ResourceMapBuilder';	
 
     
     private $dbMap;
@@ -27,18 +27,20 @@ class VocabularyMapBuilder {
     {
 		$this->dbMap = Propel::getDatabaseMap('propel');
 		
-		$tMap = $this->dbMap->addTable('reg_vocabulary');
-		$tMap->setPhpName('Vocabulary');
+		$tMap = $this->dbMap->addTable('reg_resource');
+		$tMap->setPhpName('Resource');
 
 		$tMap->setUseIdGenerator(true);
 
 		$tMap->addPrimaryKey('ID', 'Id', 'int', CreoleTypes::INTEGER, true, null);
 
+		$tMap->addColumn('TYPE', 'Type', 'int', CreoleTypes::INTEGER, false);
+
 		$tMap->addForeignKey('AGENT_ID', 'AgentId', 'int', CreoleTypes::INTEGER, 'reg_agent', 'ID', true, null);
 
-		$tMap->addColumn('CREATED_AT', 'CreatedAt', 'int', CreoleTypes::TIMESTAMP, true);
+		$tMap->addColumn('CREATED_AT', 'CreatedAt', 'int', CreoleTypes::TIMESTAMP, false);
 
-		$tMap->addColumn('LAST_UPDATED', 'LastUpdated', 'int', CreoleTypes::TIMESTAMP, false);
+		$tMap->addColumn('UPDATE_AT', 'UpdateAt', 'int', CreoleTypes::TIMESTAMP, false);
 
 		$tMap->addColumn('NAME', 'Name', 'string', CreoleTypes::VARCHAR, true, 255);
 

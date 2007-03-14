@@ -63,4 +63,5 @@ class UserMapBuilder {
 		$tMap->addColumn('PASSWORD', 'Password', 'string', CreoleTypes::VARCHAR, false, 40);
 				
     } 
+
 } 

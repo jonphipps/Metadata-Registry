@@ -45,4 +45,5 @@ class ConceptHistoryMapBuilder {
 		$tMap->addColumn('NEW_VALUES', 'NewValues', 'string', CreoleTypes::LONGVARCHAR, true);
 				
     } 
+
 } 

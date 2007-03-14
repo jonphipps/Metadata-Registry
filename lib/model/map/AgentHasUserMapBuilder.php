@@ -41,4 +41,5 @@ class AgentHasUserMapBuilder {
 		$tMap->addColumn('IS_ADMIN_FOR', 'IsAdminFor', 'boolean', CreoleTypes::BOOLEAN, false);
 				
     } 
+
 } 

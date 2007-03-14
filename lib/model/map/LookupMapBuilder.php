@@ -43,4 +43,5 @@ class LookupMapBuilder {
 		$tMap->addColumn('DISPLAY_ORDER', 'DisplayOrder', 'int', CreoleTypes::INTEGER, false);
 				
     } 
+
 } 

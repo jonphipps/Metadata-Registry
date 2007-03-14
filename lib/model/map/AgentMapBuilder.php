@@ -65,4 +65,5 @@ class AgentMapBuilder {
 		$tMap->addColumn('TYPE', 'Type', 'string', CreoleTypes::CHAR, false);
 				
     } 
+
 } 

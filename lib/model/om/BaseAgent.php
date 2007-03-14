@@ -84,6 +84,12 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	protected $lastVocabularyCriteria = null;
 
 	
+	protected $collResources;
+
+	
+	protected $lastResourceCriteria = null;
+
+	
 	protected $alreadyInSave = false;
 
 	
@@ -535,6 +541,14 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 				}
 			}
 
+			if ($this->collResources !== null) {
+				foreach($this->collResources as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
+			}
+
 			$this->alreadyInSave = false;
 		}
 		return $affectedRows;
@@ -586,6 +600,14 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 
 				if ($this->collVocabularys !== null) {
 					foreach($this->collVocabularys as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
+
+				if ($this->collResources !== null) {
+					foreach($this->collResources as $referrerFK) {
 						if (!$referrerFK->validate($columns)) {
 							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
 						}
@@ -865,6 +887,10 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 				$copyObj->addVocabulary($relObj->copy($deepCopy));
 			}
 
+			foreach($this->getResources() as $relObj) {
+				$copyObj->addResource($relObj->copy($deepCopy));
+			}
+
 		} 
 
 		$copyObj->setNew(true);
@@ -1062,6 +1088,76 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	public function addVocabulary(Vocabulary $l)
 	{
 		$this->collVocabularys[] = $l;
+		$l->setAgent($this);
+	}
+
+	
+	public function initResources()
+	{
+		if ($this->collResources === null) {
+			$this->collResources = array();
+		}
+	}
+
+	
+	public function getResources($criteria = null, $con = null)
+	{
+				include_once 'lib/model/om/BaseResourcePeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collResources === null) {
+			if ($this->isNew()) {
+			   $this->collResources = array();
+			} else {
+
+				$criteria->add(ResourcePeer::AGENT_ID, $this->getId());
+
+				ResourcePeer::addSelectColumns($criteria);
+				$this->collResources = ResourcePeer::doSelect($criteria, $con);
+			}
+		} else {
+						if (!$this->isNew()) {
+												
+
+				$criteria->add(ResourcePeer::AGENT_ID, $this->getId());
+
+				ResourcePeer::addSelectColumns($criteria);
+				if (!isset($this->lastResourceCriteria) || !$this->lastResourceCriteria->equals($criteria)) {
+					$this->collResources = ResourcePeer::doSelect($criteria, $con);
+				}
+			}
+		}
+		$this->lastResourceCriteria = $criteria;
+		return $this->collResources;
+	}
+
+	
+	public function countResources($criteria = null, $distinct = false, $con = null)
+	{
+				include_once 'lib/model/om/BaseResourcePeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		$criteria->add(ResourcePeer::AGENT_ID, $this->getId());
+
+		return ResourcePeer::doCount($criteria, $distinct, $con);
+	}
+
+	
+	public function addResource(Resource $l)
+	{
+		$this->collResources[] = $l;
 		$l->setAgent($this);
 	}
 
