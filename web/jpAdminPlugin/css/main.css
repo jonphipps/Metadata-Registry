@@ -191,7 +191,8 @@ body,
 
 #sf_admin_container fieldset.collapse h2 a.collapse-toggle
 {
-  color:#ffc;
+  color:#ED1F23;
+	letter-spacing: -1px;
 }
 
 #sf_admin_container fieldset.collapse h2 a.collapse-toggle:hover

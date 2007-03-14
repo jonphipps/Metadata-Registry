@@ -6,7 +6,7 @@
 
 function findForm(node) {
   // returns the node of the form containing the given node
-  if (node.tagName.toLowerCase() != 'form') {
+  if (node.tagName && node.tagName.toLowerCase() != 'form') {
     return findForm(node.parentNode);
   }
   return node;
@@ -16,6 +16,7 @@ var CollapsedFieldsets = {
   collapse_re: /\bcollapse\b/,   // Class of fieldsets that should be dealt with.
   collapsed_re: /\bcollapsed\b/, // Class that fieldsets get when they're hidden.
   collapsed_class: 'collapsed',
+  collapsed_state: true,
   init: function() {
     var fieldsets = document.getElementsByTagName('fieldset');
     var collapsed_seen = false;
@@ -27,17 +28,18 @@ var CollapsedFieldsets = {
         collapsed_seen = true;
         // Give it an additional class, used by CSS to hide it.
         fs.className += ' ' + CollapsedFieldsets.collapsed_class;
-        // (<a id="fieldsetcollapser3" class="collapse-toggle" href="#">show</a>)
+        // (<a id="fieldsetcollapser3" class="collapse-toggle" href="#">+</a>)
         var collapse_link = document.createElement('a');
         collapse_link.className = 'collapse-toggle';
+        collapse_link.title = 'click "+" to expand this section';
         collapse_link.id = 'fieldsetcollapser' + i;
         collapse_link.onclick = new Function('CollapsedFieldsets.show('+i+'); return false;');
         collapse_link.href = '#';
-        collapse_link.innerHTML = 'show';
+        collapse_link.innerHTML = '+';
         var h2 = fs.getElementsByTagName('h2')[0];
-        h2.appendChild(document.createTextNode(' ['));
+        h2.appendChild(document.createTextNode(' '));
         h2.appendChild(collapse_link);
-        h2.appendChild(document.createTextNode(']'));
+        h2.appendChild(document.createTextNode(''));
       }
     }
     if (collapsed_seen) {
@@ -45,6 +47,7 @@ var CollapsedFieldsets = {
       Event.observe(findForm(document.getElementsByTagName('fieldset')[0]), 'submit', function() { CollapsedFieldsets.uncollapse_all(); }, false);
     }
   },
+
   fieldset_has_errors: function(fs) {
     // Returns true if any fields in the fieldset have validation errors.
     var divs = fs.getElementsByTagName('div');
@@ -55,6 +58,7 @@ var CollapsedFieldsets = {
     }
     return false;
   },
+
   show: function(fieldset_index) {
     var fs = document.getElementsByTagName('fieldset')[fieldset_index];
     // Remove the class name that causes the "display: none".
@@ -62,24 +66,54 @@ var CollapsedFieldsets = {
     // Toggle the "show" link to a "hide" link
     var collapse_link = document.getElementById('fieldsetcollapser' + fieldset_index);
     collapse_link.onclick = new Function('CollapsedFieldsets.hide('+fieldset_index+'); return false;');
-    collapse_link.innerHTML = 'hide';
+    collapse_link.title = 'click "-" to collapse this section';
+    collapse_link.innerHTML = '--';
   },
+
   hide: function(fieldset_index) {
     var fs = document.getElementsByTagName('fieldset')[fieldset_index];
     // Add the class name that causes the "display: none".
     fs.className += ' ' + CollapsedFieldsets.collapsed_class;
     // Toggle the "hide" link to a "show" link
     var collapse_link = document.getElementById('fieldsetcollapser' + fieldset_index);
-        collapse_link.onclick = new Function('CollapsedFieldsets.show('+fieldset_index+'); return false;');
-    collapse_link.innerHTML = 'show';
+    collapse_link.onclick = new Function('CollapsedFieldsets.show('+fieldset_index+'); return false;');
+    collapse_link.title = 'click "+" to expand this section';
+    collapse_link.innerHTML = '+';
   },
-  
+
   uncollapse_all: function() {
     var fieldsets = document.getElementsByTagName('fieldset');
     for (var i=0; i<fieldsets.length; i++) {
       if (fieldsets[i].className.match(CollapsedFieldsets.collapsed_re)) {
         CollapsedFieldsets.show(i);
       }
+    }
+  },
+
+  collapse_all: function() {
+    var fieldsets = document.getElementsByTagName('fieldset');
+    for (var i=0; i<fieldsets.length; i++) {
+      if (fieldsets[i].className.match(CollapsedFieldsets.collapse_re)) {
+        CollapsedFieldsets.hide(i);
+      }
+    }
+  },
+
+  toggle_collapse: function() {
+    var toggle_link = document.getElementById('showhide_link');
+    if(this.collapsed_state)
+    {
+      this.collapsed_state = false;
+      toggle_link.title = 'Collapse all expanded sections';
+      toggle_link.innerHTML = 'Collapse all';
+      this.uncollapse_all();
+    }
+    else
+    {
+      this.collapsed_state = true;
+      toggle_link.title = 'Expand all sections';
+      toggle_link.innerHTML = 'Expand all';
+      this.collapse_all();
     }
   }
 }
