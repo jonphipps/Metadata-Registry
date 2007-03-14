@@ -415,59 +415,120 @@ propel:
       type: VARCHAR
       size: 40
 
-  reg_vocabulary: 
-    _attributes: 
+  reg_vocabulary:
+    _attributes:
       idMethod: native
       phpName: Vocabulary
-    id: 
+    id:
       type: INTEGER
       required: true
       autoIncrement: true
       primaryKey: true
-    agent_id: 
+    agent_id:
       type: INTEGER
       required: true
       foreignTable: reg_agent
       foreignReference: id
       onDelete: RESTRICT
       onUpdate: RESTRICT
-    created_at: 
+    created_at:
       type: TIMESTAMP
       required: true
-    last_updated: 
+    last_updated:
       type: TIMESTAMP
-    name: 
+    name:
       type: VARCHAR
       size: 255
       required: true
-    note: 
+    note:
       type: LONGVARCHAR
-    uri: 
+    uri:
       type: VARCHAR
       size: 255
       required: true
-    url: 
+    url:
       type: VARCHAR
       size: 255
       required: true
-    base_domain: 
+    base_domain:
       type: VARCHAR
       size: 255
-    token: 
+    token:
       type: VARCHAR
       size: 45
       required: true
-    community: 
+    community:
       type: VARCHAR
       size: 45
-    last_uri_id: 
+    last_uri_id:
       type: INTEGER
       default: 1000
-    _indexes: 
-      agent_id: 
+    _indexes:
+      agent_id:
         - agent_id
 
-  reg_vocabulary_has_user: 
+  reg_resource:
+    _attributes:
+      idMethod: native
+      phpName: Resource
+    id:
+      type: INTEGER
+      required: true
+      autoIncrement: true
+      primaryKey: true
+    type:
+      type: INTEGER
+      inheritance_1:
+        key: 1
+        class: Schema
+        extends: lib.model.Resource
+      inheritance_2:
+        key: 2
+        class: Profile
+        extends: lib.model.Resource
+    agent_id:
+      type: INTEGER
+      required: true
+      foreignTable: reg_agent
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
+    created_at:
+      type: TIMESTAMP
+    update_at:
+      type: TIMESTAMP
+    name:
+      type: VARCHAR
+      size: 255
+      required: true
+    note:
+      type: LONGVARCHAR
+    uri:
+      type: VARCHAR
+      size: 255
+      required: true
+    url:
+      type: VARCHAR
+      size: 255
+      required: true
+    base_domain:
+      type: VARCHAR
+      size: 255
+    token:
+      type: VARCHAR
+      size: 45
+      required: true
+    community:
+      type: VARCHAR
+      size: 45
+    last_uri_id:
+      type: INTEGER
+      default: 1000
+    _indexes:
+      agent_id:
+        - agent_id
+
+  reg_vocabulary_has_user:
     _attributes: 
       idMethod: native
       phpName: VocabularyHasUser
