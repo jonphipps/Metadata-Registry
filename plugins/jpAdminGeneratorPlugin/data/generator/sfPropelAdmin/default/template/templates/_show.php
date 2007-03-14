@@ -1,3 +1,4 @@
+<?php $first = true ?>
 <?php foreach ($this->getColumnCategories('show.display') as $category): ?>
 <?php
   if ($category[0] == '-')
@@ -8,7 +9,7 @@
     if ($first)
     {
       $first = false;
-      echo "[?php use_javascript(sfConfig::get('sf_admin_web_dir').'/js/collapse') ?]\n";
+      echo "[?php use_javascript(sfConfig::get('sf_admin_web_dir').'/js/collapse', 'last') ?]\n";
     }
   }
   else
