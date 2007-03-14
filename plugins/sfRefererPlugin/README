@@ -1,0 +1,3 @@
+= sfRefererPlugin =
+
+  * filter must be added to your application's filters.yml
