@@ -175,7 +175,7 @@ actions:
         save_and_add:    'input[value="Save and add"]'
     contents:
       selectors:
-        header:         ["h1", '/Detail for new owner/']
+        header:         ["h1", '/Creating new owner/']
         country:        ['option[selected="selected"]', '/United States/']
     roles:
       guest:
