@@ -32,9 +32,12 @@ generator:
         _edit:         { credentials: [[administrator, agentadmin]] }
 
     edit:
-      title:           Detail for %%org_name%%
+      title:           
+        mode:
+          edit:        Detail for %%org_name%%
+          create:      Creating new owner
       display:
-        "Detail":     [_type, org_name, org_email, ind_affiliation, address1, address2, city, state, postal_code, country, phone, web_address]
+        "Detail":      [_type, org_name, org_email, ind_affiliation, address1, address2, city, state, postal_code, country, phone, web_address]
       fields:
         country:       { type: select_country_tag, params: include_blank=true }
       actions:
@@ -51,7 +54,7 @@ generator:
         last_updated: { type: plain }
         org_email:    { type: plain, credentials: [[administrator, agentadmin]] }
       display:
-        "Metadata":   { fields: [id, created_at, last_updated], credentials: [[administrator, agentadmin]] }
+        "-Metadata":   { fields: [id, created_at, last_updated], credentials: [[administrator, agentadmin]] }
         "Detail":     [type, org_name, org_email, ind_affiliation, address1, address2, city, state, postal_code, country_name, phone, web_address]
       actions:
         _list:        { params: title=Go back to the Owner list }
