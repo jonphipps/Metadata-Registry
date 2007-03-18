@@ -141,4 +141,5 @@ class sfPropelCrudGenerator extends sfAdminGenerator
 
     return $relatedTable->getPhpName();
   }
+
 }

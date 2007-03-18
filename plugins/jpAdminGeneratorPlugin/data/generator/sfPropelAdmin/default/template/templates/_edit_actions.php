@@ -12,11 +12,11 @@
       {
         $params['only_for'] = 'edit';
         $params['action'] = 'show';
-echo $this->addCredentialCondition($this->getButtonToAction($actionName, $params, true), $params);
+echo $this->addCredentialCondition($this->getButtonToAction($actionName, $params, true), $params, false, true);
         $params['only_for'] = 'create';
         $params['action'] = 'list';
       }
-echo $this->addCredentialCondition($this->getButtonToAction($actionName, $params, false), $params);
+echo $this->addCredentialCondition($this->getButtonToAction($actionName, $params, false), $params, false, true);
     }
   }
   else

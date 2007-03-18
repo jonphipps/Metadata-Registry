@@ -353,20 +353,40 @@ abstract class sfAdminGenerator extends sfCrudGenerator
   /**
    * Wraps content with a credential condition.
    *
+   * This overrides the same function in sfAdminGenerator
+   *
    * @param string  The content
    * @param array   The parameters
    *
    * @return string HTML code
    */
-  public function addCredentialCondition($content, $params = array(), $inRow = false)
+  public function addCredentialCondition($content, $params = array(), $inRow = false, $useObjects = false)
   {
     if (isset($params['credentials']))
     {
+      if ($useObjects)
+      {
+        //get the object params from the generator.yml
+        $objectCreds = $this->getParameterValue('object_credentials');
+        //for each param either get the param or set the default
+        $model = (isset($objectCreds['model_class'])) ? $objectCreds['model_class'] : $this->getParameterValue('model_class');
+        //only supports non-segmented keys at the moment
+        //if no key is specified then we use the primary key from this module's model
+        $key = (isset($objectCreds['model_key'])) ? '$' . $this->getSingularName() . '->' . $this->replaceConstants($objectCreds['model_key'], false) . '()' : $this->getPrimaryKeyIsSet() ;
+
+        $insert = "hasObjectCredential('$model', $key,";
+      }
+      else
+      {
+        $insert = 'hasCredential(';
+      }
+
       $credentials = str_replace("\n", ' ', var_export($params['credentials'], true));
+
       if ($inRow)
       {
          return <<<EOF
-[?php if (\$sf_user->hasCredential($credentials)): ?]
+[?php if (\$sf_user->$insert $credentials)): ?]
 $content
 [?php else: ?]
 &nbsp;
@@ -376,7 +396,7 @@ EOF;
       else
       {
       return <<<EOF
-[?php if (\$sf_user->hasCredential($credentials)): ?]
+[?php if (\$sf_user->$insert $credentials)): ?]
 $content [?php endif; ?]
 
 EOF;
@@ -609,7 +629,7 @@ EOF;
    *
    * @return string
    */
-  public function replaceConstants($value)
+  public function replaceConstants($value, $developed = true)
   {
     // find %%xx%% strings
     preg_match_all('/%%([^%]+)%%/', $value, $matches, PREG_PATTERN_ORDER);
@@ -621,7 +641,7 @@ EOF;
 
     foreach ($this->getColumns('tmp.display') as $column)
     {
-      $value = str_replace('%%'.$column->getName().'%%', '{'.$this->getColumnGetter($column, true, 'this->').'}', $value);
+      $value = str_replace('%%'.$column->getName().'%%', (($developed) ? '{' : '').$this->getColumnGetter($column, $developed, 'this->').(($developed) ? '}' : ''), $value);
     }
 
     return $value;

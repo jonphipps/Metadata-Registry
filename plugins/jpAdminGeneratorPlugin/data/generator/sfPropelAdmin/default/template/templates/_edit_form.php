@@ -115,6 +115,6 @@
  $editActions = $this->getParameterValue('edit.actions');
 ?>
   <?php if (null === $editActions || (null !== $editActions && array_key_exists('_delete', $editActions))): ?>
-    <?php echo $this->addCredentialCondition($this->getButtonToAction('_delete', $editActions['_delete'], true), $editActions['_delete']) ?>
+    <?php echo $this->addCredentialCondition($this->getButtonToAction('_delete', $editActions['_delete'], true), $editActions['_delete'], false, true) ?>
   <?php endif; ?>
 </ul>

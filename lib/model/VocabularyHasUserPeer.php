@@ -15,23 +15,23 @@ class VocabularyHasUserPeer extends BaseVocabularyHasUserPeer
   * @return return_type
   * @param  var_type $var
   */
-  public static function doSelectForUser()
+  public static function doSelectForCurrentUser()
   {
       $con = Propel::getConnection(self::DATABASE_NAME);
-      $criteria = self::getUserCriteria();
+      $criteria = self::getCurrentUserCriteria();
       $result = self::doSelectJoinAll($criteria, $con);
       return $result;
   }
-  
+
   /**
   * description
   *
   * @return return_type
   * @param  var_type $var
   */
-  public static function doCountForUser()
+  public static function doCountForCurrentUser()
   {
-      $criteria = self::getUserCriteria();
+      $criteria = self::getCurrentUserCriteria();
       $result = self::doCountJoinAll($criteria);
       return $result;
   }
@@ -41,16 +41,16 @@ class VocabularyHasUserPeer extends BaseVocabularyHasUserPeer
   *
   * @return criteria object
   */
-  public static function getUserCriteria()
+  public static function getCurrentUserCriteria()
   {
-      $criteria = new Criteria(VocabularyPeer::DATABASE_NAME);
+      $criteria = new Criteria(self::DATABASE_NAME);
       $user = sfContext::getInstance()->getUser();
       $userId = $user->getSubscriberId();
       $isAdmin = $user->hasCredential(array (0 => 'administrator' ));
       if (!$isAdmin)
       {
          $criteria->add(self::USER_ID, $userId);
-         $criteria->add(self::IS_ADMIN_FOR, true);
+//         $criteria->add(self::IS_ADMIN_FOR, true);
       }
     return $criteria;
   }

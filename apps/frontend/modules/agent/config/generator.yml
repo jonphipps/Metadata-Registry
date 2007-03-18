@@ -4,6 +4,10 @@ generator:
     model_class:      Agent
     theme:            default
 
+    object_credentials:                    #optional
+      model_class:    Agent                #defaults to model_class
+      model_key:      %%id%%               #defaults to model primary key
+
     fields:
       id:             { name: ID }
       created_at:     { name: Date Created }
@@ -29,7 +33,7 @@ generator:
       actions:
         _create:       { credentials: [subscriber] }
       object_actions:
-        _edit:         { credentials: [[administrator, agentadmin]] }
+        _edit:         { credentials: [[administrator, Agentadmin]] }
 
     edit:
       title:           
@@ -42,7 +46,7 @@ generator:
         country:       { type: select_country_tag, params: include_blank=true }
       actions:
         _list:         -
-        _save:         { credentials: [[administrator, agentadmin]] }
+        _save:         { credentials: [[administrator, Agentadmin]] } #for a single object, object and general credentials are merged
         _delete:       { credentials: [administrator] }
         _save_and_add: { credentials: [administrator] }
 
@@ -52,10 +56,10 @@ generator:
         id:           { type: plain }
         created_at:   { type: plain }
         last_updated: { type: plain }
-        org_email:    { type: plain, credentials: [[administrator, agentadmin]] }
+        org_email:    { type: plain, credentials: [[administrator, Agentadmin]] }
       display:
-        "-Metadata":   { fields: [id, created_at, last_updated], credentials: [[administrator, agentadmin]] }
+        "-Metadata":   { fields: [id, created_at, last_updated], credentials: [[administrator, Agentadmin]] }
         "Detail":     [type, org_name, org_email, ind_affiliation, address1, address2, city, state, postal_code, country_name, phone, web_address]
       actions:
         _list:        { params: title=Go back to the Owner list }
-        _edit:        { credentials: [[administrator, agentadmin]] }
+        _edit:        { credentials: [[administrator, Agentadmin]] }
