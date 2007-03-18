@@ -30,6 +30,7 @@ all:
     login_module:           user
     login_action:           login
   .settings:
+    user_object:            on
     standard_helpers:       [Partial, Cache, Form, I18N]
     timeout:                43200
     suffix:                .html

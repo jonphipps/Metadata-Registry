@@ -6,6 +6,8 @@ create:
   credentials: [subscriber]
 
 edit:
-  is_secure:   on
-  credentials: [[administrator, agentadmin]]
-
+  is_secure:          on
+  credentials:        [[administrator, Agentadmin]]
+  object_credentials:
+    model_class:      Agent                #defaults to model_class
+    model_key:        %%id%%               #defaults to model primary key
