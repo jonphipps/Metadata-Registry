@@ -104,7 +104,7 @@ class userActions extends autouserActions
       $this->getRequest()->setAttribute('nickname', $user->getNickname());
 
       $raw_email = $this->sendEmail('mail', 'sendPassword');
-      $this->getLogger()->debug($raw_email);
+      //$this->getLogger()->debug($raw_email);
 
       // save new password
       $user->save();
