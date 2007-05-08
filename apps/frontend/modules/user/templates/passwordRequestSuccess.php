@@ -3,7 +3,7 @@
 <?php echo javascript_tag("formUtil.focusOnFirst('email_password');") ?>
 
 <div id="sf_admin_container">
-   <h1><?php echo __('receive your login details by email') ?></h1>
+   <h1><?php echo __('Receive a new password by email') ?></h1>
 
    <div style="padding:10px 0px 10px 6px;">
       <?php echo __('Did you forget your password?') ?>
