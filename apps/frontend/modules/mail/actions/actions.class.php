@@ -14,12 +14,12 @@ class mailActions extends sfActions
   {
     $mail = new sfMail();
     $mail->addAddress($this->getRequestParameter('email'));
-    $mail->setFrom('Registry <registry@metadataregistry.com>');
+    $mail->setFrom('MetadataRegistry sysadmin <sysadmin@metadataregistry.org>');
     $mail->setSubject('Registry password recovery');
 
     $mail->setPriority(1);
 
-    $mail->addEmbeddedImage(sfConfig::get('sf_web_dir').'/images/Registry_logo.gif', 'CID1', 'Registry Logo', 'base64', 'image/gif');
+    //$mail->addEmbeddedImage(sfConfig::get('sf_web_dir').'/images/Registry_logo.gif', 'CID1', 'Registry Logo', 'base64', 'image/gif');
 
     $this->mail = $mail;
 
