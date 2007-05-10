@@ -213,7 +213,7 @@ body,
 #sf_admin_container div#sf_admin_header
 {
   background-color: #ffc;
-  border: 1px solid silver;
+  border: 1px solid white;
   border-bottom:0;
 }
 
@@ -345,11 +345,6 @@ body,
   border: 1px solid #ddd;
   border-bottom: 0px;
   border-right: 0px;
-}
-
-div#sf_admin_container.sf_admin_list
-{
-  width: 100%;
 }
 
 #sf_admin_container .sf_admin_list th
