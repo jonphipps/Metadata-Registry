@@ -17,8 +17,9 @@ class myUser extends sfBasicSecurityUser
    */
   const OBJECT_CREDENTIAL_NAMESPACE = 'object_credentials';
   const SUBSCRIBER_NAMESPACE = 'subscriber';
+  const DATA_NAMESPACE = 'data_cache';
 
-  protected $tmpCredentials = null;
+  public $modCredentials = null;
 
   public function signIn($user)
   {
@@ -38,21 +39,58 @@ class myUser extends sfBasicSecurityUser
       $this->addCredential('administrator');
     }
 
-    //foreach vocbulary and agent (expand as necessary) as object
-    //get array of object credentials from model
-    //if there are results,
-      //set global credential
-      //set vocabulary credentials
-
     $this->setHasAgents();
+    $this->setHasVocabulary();
   }
 
   public function signOut()
   {
     $this->getAttributeHolder()->removeNamespace(self::SUBSCRIBER_NAMESPACE);
+    $this->getAttributeHolder()->removeNamespace(self::OBJECT_CREDENTIAL_NAMESPACE);
 
     $this->setAuthenticated(false);
     $this->clearCredentials();
+  }
+
+  /**
+  * gets a temporaray credential
+  *
+  * Used to make a user an object admin for the duration of a transaction
+  *
+  * @return  string The credential
+  */
+  public function getTmpCredential()
+  {
+    return $this->getAttribute('tmpCredential', '', self::SUBSCRIBER_NAMESPACE);
+  }
+
+  /**
+  * sets a temporaray credential
+  *
+  * Used to make a user an object admin for the duration of a transaction
+  *
+  * @param  string $credential
+  */
+  public function setTmpCredential($credential)
+  {
+    $this->setAttribute('tmpCredential', $credential, self::SUBSCRIBER_NAMESPACE);
+  }
+
+  /**
+  * clears a temporaray credential
+  *
+  */
+  public function clearTmpCredential()
+  {
+    $this->setAttribute('tmpCredential', '', self::SUBSCRIBER_NAMESPACE);
+  }
+
+  /**
+   * returns an array containing the credentials
+   */
+  public function listModCredentials()
+  {
+    return $this->modCredentials;
   }
 
   /**
@@ -67,16 +105,17 @@ class myUser extends sfBasicSecurityUser
   */
   public function setAgentCredentials()
   {
-    $credentials = AgentHasUserPeer::doSelectForCurrentUser();
+    $credentials = AgentHasUserPeer::doSelectForUser($this->getSubscriberId());
     foreach ($credentials as $credential)
     {
       $agentId = $credential->getAgentId();
       //build the  array
       $credArray[$agentId]['registrar'] = $credential->getIsRegistrarFor();
       $credArray[$agentId]['admin']     = $credential->getIsAdminFor();
+      $credArray[$agentId]['contact']   = true;
     }
 
-    $this->addObjectCredentials('Agent', $credArray);
+    $this->addObjectCredentials('agent', $credArray);
 
     return count($credentials);
   }
@@ -93,7 +132,7 @@ class myUser extends sfBasicSecurityUser
   */
   public function setVocabularyCredentials()
   {
-    $credentials = VocabularyHasUserPeer::doSelectForCurrentUser();
+    $credentials = VocabularyHasUserPeer::doSelectForUser($this->getSubscriberId());
     foreach ($credentials as $credential)
     {
       $vocabId = $credential->getVocabularyId();
@@ -101,9 +140,12 @@ class myUser extends sfBasicSecurityUser
       $credArray[$vocabId]['maintainer'] = $credential->getIsMaintainerFor();
       $credArray[$vocabId]['registrar']  = $credential->getIsRegistrarFor();
       $credArray[$vocabId]['admin']      = $credential->getIsAdminFor();
+      $credArray[$vocabId]['contact']    = true;
     }
-
-    $this->addObjectCredentials('Vocabulary', $credArray);
+    if ($credArray)
+    {
+      $this->addObjectCredentials('vocabulary', $credArray);
+    }
 
     return count($credentials);
   }
@@ -113,14 +155,14 @@ class myUser extends sfBasicSecurityUser
   *
   * @param  string $model The model to clear
   */
-  public function clearObjectCredentials($model)
+  public function clearObjectCredentials($module)
   {
     if (sfConfig::get('sf_logging_enabled'))
     {
       $this->getContext()->getLogger()->info('{sfUser} clear object credentials  "'.$model.'"');
     }
 
-    $this->addObjectCredentials($model, array());
+    $this->addObjectCredentials($module, array());
   }
 
   /**
@@ -145,14 +187,14 @@ class myUser extends sfBasicSecurityUser
   * @param  string $model The model class name
   * @param  array  $credentialsArray an array containing the credentials
   */
-  public function addObjectCredentials($model, $credentialsArray)
+  public function addObjectCredentials($module, $credentialsArray)
   {
     if (sfConfig::get('sf_logging_enabled'))
     {
       $this->getContext()->getLogger()->info('{sfUser} add object credential(s) "'. print_r($credentialsArray, true)).'"';
     }
 
-    $this->setAttribute($model, $credentialsArray, self::OBJECT_CREDENTIAL_NAMESPACE);
+    $this->setAttribute($module, $credentialsArray, self::OBJECT_CREDENTIAL_NAMESPACE);
   }
 
   public function getSubscriberId()
@@ -287,7 +329,6 @@ class myUser extends sfBasicSecurityUser
     {
       return;
     }
-
     $CredentialCount = $this->setAgentCredentials();
     if ($CredentialCount)
     {
@@ -308,6 +349,30 @@ class myUser extends sfBasicSecurityUser
       //$this->addCredential('hasAgents');
     //}
     return ;
+  }
+
+    /**
+  * Is this user related to any vocabularies?
+  *
+  * @return boolean
+  */
+  public function setHasVocabulary()
+  {
+    //we don't bother if the user is an administrator
+    if ($this->hasCredential('administrator'))
+    {
+      return;
+    }
+
+    $CredentialCount = $this->setVocabularyCredentials();
+    if ($CredentialCount)
+    {
+      $this->setAttribute('vocabularyCount', $CredentialCount, self::SUBSCRIBER_NAMESPACE);
+      $this->addCredential('hasVocabulary');
+
+    }
+
+    return;
   }
 
   /**
@@ -358,16 +423,17 @@ class myUser extends sfBasicSecurityUser
   * looks for the correct credential in the id array in the model array for the requested object
   *
   * @return boolean
-  * @param string  $model       The model to match the objcte against
-  * @param string  $objectId    The object key to match against
-  * @param mixed   $credentials An array of credentials
-  * @param boolean $useAnd      specify the mode, either AND or OR
+  * @param string  $key         The object key to match against
   */
-  public function hasObjectCredential($model, $key, $credentials)
+  public function buildModCredentials($key, $module = null)
   {
+    if (!$module)
+    {
+      $module = $this->getContext()->getModuleName();
+    }
     //check if there are object credentials at all for this model
-    $objCredentialsArray = $this->getAttribute($model, array(), self::OBJECT_CREDENTIAL_NAMESPACE);
-    $tmpCredentials = array();
+    $objCredentialsArray = $this->getAttribute($module, array(), self::OBJECT_CREDENTIAL_NAMESPACE);
+    $modCredentials = array();
 
     if (isset($objCredentialsArray[$key]))
     {
@@ -375,21 +441,30 @@ class myUser extends sfBasicSecurityUser
       {
         if ($value)
         {
-          $tmpCredentials[] = $model . $objCredential;
+          $modCredentials[] = $module . $objCredential;
         }
       }
-
-      $this->tmpCredentials = array_merge($this->credentials, $tmpCredentials);
-
-      return $this->hasObjCredential($credentials);
-
     }
-    else
-    {
-      return $this->hasCredential($credentials);
-    }
+
+    $this->modCredentials = array_merge($this->credentials, $modCredentials);
   }
 
+  /**
+  * gets the object credentials
+  *
+  * looks for the correct credential in the id array in the model array for the requested object
+  *
+  * @return boolean
+  * @param string  $key         The object key to match against
+  * @param mixed   $credentials An array of credentials
+  */
+  public function hasObjectCredential($key, $module, $credentials)
+  {
+
+    $this->buildModCredentials($key, $module);
+
+    return $this->hasCredential($credentials);
+  }
 
   /**
    * Returns true if user has credential.
@@ -403,11 +478,15 @@ class myUser extends sfBasicSecurityUser
    *
    * @author Olivier Verdier <Olivier.Verdier@free.fr>
    */
-  public function hasObjCredential($credentials, $useAnd = true)
+  public function hasCredential($credentials, $useAnd = true)
   {
+    if (!isset($this->modCredentials))
+    {
+      return false;
+    }
     if (!is_array($credentials))
     {
-      return in_array($credentials, $this->tmpCredentials);
+      return in_array($credentials, $this->modCredentials);
     }
 
     // now we assume that $credentials is an array
@@ -416,7 +495,7 @@ class myUser extends sfBasicSecurityUser
     foreach ($credentials as $credential)
     {
       // recursively check the credential with a switched AND/OR mode
-      $test = $this->hasObjCredential($credential, $useAnd ? false : true);
+      $test = $this->hasCredential($credential, $useAnd ? false : true);
 
       if ($useAnd)
       {
@@ -435,6 +514,30 @@ class myUser extends sfBasicSecurityUser
     }
 
     return $test;
+  }
+
+  /**
+  * parse a set of credentials from security.yml
+  *
+  * @return array The parsed credentials
+  * @param  array $securityArray The array of values from security.yml
+  * @param  string $action The current action to extract parameters for
+  */
+  public static function parseSecurity($securityArray, $action)
+  {
+    $objectCredArray = null;
+    //get the object security information
+    if (isset($securityArray['all']['object_credentials']))
+    {
+      $objectCredArray = $securityArray['all']['object_credentials'];
+    }
+
+    if ($action && isset($securityArray[$action]['object_credentials']))
+    {
+      $objectCredArray = $securityArray[$action]['object_credentials'];
+    }
+
+    return $objectCredArray;
   }
 
 }

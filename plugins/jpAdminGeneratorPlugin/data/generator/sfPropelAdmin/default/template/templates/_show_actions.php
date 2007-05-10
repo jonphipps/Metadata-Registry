@@ -3,9 +3,9 @@
 <?php if ($showActions): ?>
    <?php foreach ($showActions as $actionName => $params): ?>
      <?php if ($actionName == '_delete') continue ?>
-     <?php echo $this->addCredentialCondition($this->getButtonToAction($actionName, $params, true), $params, false, true) ?>
+     <?php echo $this->addCredentialCondition($this->getButtonToAction($actionName, $params, true), $params, false, true, "show") ?>
    <?php endforeach; ?>
 <?php else: ?>
-  <?php echo $this->getButtonToAction('_list', array(), true) ?>
+  <?php echo $this->getButtonToAction('_list', array(), false) ?>
 <?php endif; ?>
 </ul>

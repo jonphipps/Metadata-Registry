@@ -5,23 +5,9 @@ generator:
     theme:            default
 
     fields:
-      id:             
-         name: ID
-         type: plain
-         credentials: [administrator]
-         mode:        edit
-      created_at:     
-         name: Date Created
-         type: plain
-         params: date_format='s'
-         help: This is the date the Vocabulary was created
-         credentials: [[administrator, vocabularymaintainer]] 
-      last_updated:   
-         name: Last Updated
-         type: plain
-         params: date_format='s'
-         help: This is the date the Vocabulary was last updated 
-         credentials: [[administrator, vocabularymaintainer]]
+      id:             { name: ID, type: plain}
+      created_at:     { name: Date Created, type: plain, params: date_format='s', help: This is the date the Vocabulary was created }
+      last_updated:   { name: Last Updated, type: plain, params: date_format='s', help: This is the date the Vocabulary was last updated }
       agent:          { name: Owner, help: The individual or organization that registered the vocabulary }
       agent_id:       { name: Owner, help: The individual or organization that registered the vocabulary }
       name:           { name: Name, help: A descriptive name for the vocabulary. This will be displayed in lists of vocabularies. }
@@ -38,46 +24,48 @@ generator:
         last_updated: { params: date_format='yyyy-MM-dd' }
       display:        [=name, _agent, last_updated]
       sort:           name
+      object_actions:
+        _edit:        { credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
       actions:
-        _create:      { credentials: [[administrator, hasAgents]] }
+        _create:      { name: Add Vocabulary,  credentials: [[administrator, hasAgents]] }
       filters:        [agent_id]
 
     edit:
       title:          Detail for %%name%%
       helptype:       icon
       fields:
-        created_at:     { params: date_format='F' }
-        last_updated:   { params: date_format='F' }
-        agent_id:       { params: peer_method=getAgentsForCurrentUser }
-        token:          { params: onblur=updateUri() }
+        id:           { name: ID, type: plain, credentials: [administrator], mode: edit }
+        agent_id:     { params: peer_method=getAgentsForCurrentUser}
+        token:        { params: onblur=updateUri() }
       display:
-        "Metadata":   { fields: [id, created_at, last_updated], mode: edit, credentials: [[administrator, vocabularymaintainer]] }
+        "-Metadata":  { fields: [id, created_at, last_updated], mode: edit, credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
         "Detail":     [agent_id, name, url, note, community]
         "URI":        [base_domain, token, uri]
       actions:
         _list:         -
-        _save:         { credentials: [[administrator, hasAgents, vocabularymaintainer]] }
+        _save:         { credentials: [[administrator, hasAgents, vocabularymaintainer, vocabularyadmin]] }
         _delete:       { credentials: [administrator] }
         _create:       { credentials: [[administrator, hasAgents]], mode: edit }
         _save_and_add: { credentials: [administrator] }
-        _cancel:       { credentials: [[administrator, hasAgents, vocabularymaintainer]] }
+        _cancel:       { credentials: [[administrator, hasAgents, vocabularymaintainer, vocabularyadmin]] }
 
     show:
+      title:          Detail for %%name%%
       fields:
+        id:            { name: ID, type: plain, credentials: [administrator], mode: edit }
         uri:           { helper: auto_link_text }
         url:           { helper: auto_link_text }
         created_at:    { params: date_format='F' }
         last_updated:  { params: date_format='F' }
         list_users:    { name: - }
       display:
-        "Metadata":   [id, created_at, last_updated]
-        "Detail":     [_agent, name, url, note, community]
-        "URI":        [base_domain, token, uri]
-        "Users":      [_list_users]
-
+        "-Metadata":   { fields: [id, created_at, last_updated], credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
+        "Detail":      [_agent, name, url, note, community]
+        "URI":         [base_domain, token, uri]
+        "-Users":      [_list_users]
       actions:
         _list:
-        _edit:       { credentials: [[administrator, vocabularymaintainer]] }
+        _edit:       { credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
         rdf:
           name:      Get RDF
           icon:      %SF_ADMIN_WEB_DIR%/images/rdf_icon.png

@@ -42,7 +42,7 @@ class ConceptPeer extends BaseConceptPeer
     }
     return $results;
   }
-  
+
   /**
   * description
   *
@@ -133,5 +133,20 @@ class ConceptPeer extends BaseConceptPeer
 
       return $results;
    }
+
+  /**
+  * retrieves the vocabulary id for a concept
+  *
+  * @return integer the vocabulary Id
+  * @param  integer $conceptId The concept to lookup
+  */
+  public static function getVocabularyIdForConcept($conceptId)
+  {
+    $concept = self::retrieveByPK($conceptId);
+    /** @var Concept **/
+    $vocabularyId = $concept->getVocabularyId();
+
+    return $vocabularyId;
+  }
 
 } // ConceptPeer

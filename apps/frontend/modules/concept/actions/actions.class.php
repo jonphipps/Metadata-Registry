@@ -25,7 +25,9 @@ class conceptActions extends autoconceptActions
     //get the next id
     $nextUriId = VocabularyPeer::getNextConceptId($vocabId);
     //URI looks like: agent(base_domain) / vocabulary(token) / vocabulary(next_concept_id) / skos_property_id # concept(next_property_id)
-    $newURI = $vocabDomain . '/' . $vocabToken . '/' . $nextUriId;
+    $vSlash = preg_match('@(/$)@i', $vocabDomain) ? '' : '/';
+    $tSlash = preg_match('@(/$)@i', $vocabToken ) ? '' : '/';
+    $newURI = $vocabDomain . $vSlash . $vocabToken . $tSlash . $nextUriId;
     //registry base domain is http://metadataregistry.org/registry/
     //next_concept_id is always initialized to 100000, allowing for 999,999 concepts
     //vocabulary carries denormalized base_domain from agent
@@ -62,7 +64,6 @@ class conceptActions extends autoconceptActions
   {
     //check if there's a request parameter     
     $vocabId = $this->getRequestParameter('vocabulary_id');
-    $vocabObj = $this->getUser()->getCurrentVocabulary();
 
     //vocabulary_id's in the query string
     if ($vocabId)
@@ -75,6 +76,9 @@ class conceptActions extends autoconceptActions
     {
       $vocabId = $this->filters['vocabulary_id'];
     }
+
+    $vocabObj = $this->getUser()->getCurrentVocabulary();
+
     //there's a vocabulary_id but no vocabulary object
     if ($vocabId && !$vocabObj)
     {
@@ -90,7 +94,8 @@ class conceptActions extends autoconceptActions
       }
       $vocabId = $this->getUser()->getCurrentVocabulary()->getId();
     }
-    $this->getUser()->getVocabularyCredentials($vocabId);
+
+    //$this->getUser()->getVocabularyCredentials($vocabId);
 
     //current vocabulary can't be retrieved, so we send back to the list
     //TODO: forward to an intermediate error page

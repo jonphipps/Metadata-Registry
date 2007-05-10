@@ -10,19 +10,11 @@
  */
 class vocabularyActions extends autovocabularyActions
 {
-  public function preExecute()
-  {
-    parent::preExecute();
-    $this->getUser()->getVocabularyCredentials($this->getRequestParameter('id'));
-    return;
-  }
 
-  public function executeCreate ()
+  public function setDefaults($vocabulary)
   {
-    $this->vocabulary = new Vocabulary();
-    $this->vocabulary->setBaseDomain('http://metadataregistry.org/uri/');
-    $this->createMode = true;
-    parent::executeCreate();
+    $vocabulary->setBaseDomain('http://metadataregistry.org/uri/');
+    parent::setDefaults($vocabulary);
   }
 
   public function executeList ()

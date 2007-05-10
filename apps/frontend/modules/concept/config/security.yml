@@ -1,5 +1,12 @@
 all:
-  is_secure:  off
+  is_secure:   off
+
+  object_credentials:
+    module:            vocabulary                 #object_credential array that holds the key to match against
+    request_param:     id                         #request paramter to pass to the key class::method or to lookup
+    key:
+      class:           ConceptPeer                #class that contains the method to retrieve the key
+      method:          getVocabularyIdForConcept  #method that returns the key
 
 create:
   is_secure:   on
@@ -8,4 +15,9 @@ create:
 edit:
   is_secure:   on
   credentials: [[administrator, vocabularymaintainer]]
+
+list:
+  object_credentials:
+    module:            vocabulary                #object_credential array that holds the key to match against
+    request_param:     vocabulary_id             #request paramter to pass to the key class::method or to lookup
 

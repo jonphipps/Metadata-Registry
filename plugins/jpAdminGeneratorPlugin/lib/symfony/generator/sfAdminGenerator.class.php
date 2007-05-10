@@ -116,6 +116,15 @@ abstract class sfAdminGenerator extends sfCrudGenerator
 
         $only_for = 'edit';
       }
+
+      if ($actionName == 'list')
+      {
+        $pk_link = false;
+        if (!isset($options['title']))
+        {
+          $options['title'] = 'Show ' . $this->getSingularName() . ' list';
+        }
+      }
     }
     else
     {
@@ -360,21 +369,49 @@ abstract class sfAdminGenerator extends sfCrudGenerator
    *
    * @return string HTML code
    */
-  public function addCredentialCondition($content, $params = array(), $inRow = false, $useObjects = false)
+  public function addCredentialCondition($content, $params = array(), $inRow = false, $useObjects = false, $actionName = null)
   {
     if (isset($params['credentials']))
     {
       if ($useObjects)
       {
-        //get the object params from the generator.yml
-        $objectCreds = $this->getParameterValue('object_credentials');
-        //for each param either get the param or set the default
-        $model = (isset($objectCreds['model_class'])) ? $objectCreds['model_class'] : $this->getParameterValue('model_class');
-        //only supports non-segmented keys at the moment
-        //if no key is specified then we use the primary key from this module's model
-        $key = (isset($objectCreds['model_key'])) ? '$' . $this->getSingularName() . '->' . $this->replaceConstants($objectCreds['model_key'], false) . '()' : $this->getPrimaryKeyIsSet() ;
+        if ($actionName[0] == '_')
+        {
+          $actionName = substr($actionName, 1);
+        }
+        //check the security for some more configuration
+        if ($actionName)
+        {
+          $objectCredArray = myUser::parseSecurity($this->security, $actionName);
+        }
+        if (isset($objectCredArray['key']))
+        {
+          $class = $objectCredArray['key']['class'];
+          $method = $objectCredArray['key']['method'];
+          $requestParam = $objectCredArray['request_param'];
+          $key = "call_user_func(array('$class', '$method'), \$sf_request->getParameter('$requestParam'))";
+        }
+        else if (isset($objectCredArray['request_param']))
+        {
+          $requestParam = $objectCredArray['request_param'];
+          $key = "\$sf_request->getParameter('$requestParam')";
+        }
+        else
+        {
+          //only supports non-segmented keys at the moment
+          $key = $this->getPrimaryKeyIsSet() ;
+        }
 
-        $insert = "hasObjectCredential('$model', $key,";
+        if (isset($objectCredArray['module']))
+        {
+          $module = $objectCredArray['module'];
+        }
+        else
+        {
+          $module = $this->moduleName;
+        }
+
+        $insert = "hasObjectCredential($key, '$module', ";
       }
       else
       {

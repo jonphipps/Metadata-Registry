@@ -5,12 +5,14 @@
 <?php if ($credentials): $credentials = str_replace("\n", ' ', var_export($credentials, true)) ?>
     [?php if ($sf_user->hasCredential(<?php echo $credentials ?>)): ?]
 <?php endif; ?>
-  <?php if ($column->isLink()): ?>
+<?php if ($column->isLink()): ?>
   <td>[?php echo link_to(<?php echo $this->getColumnListTag($column) ?> ? <?php echo $this->getColumnListTag($column) ?> : __('-'), '<?php echo $this->getModuleName() ?>/show?<?php echo $this->getPrimaryKeyUrlParams() ?>) ?]</td>
 <?php else: ?>
   <td>[?php $value = <?php echo $this->getColumnListTag($column) ?>; echo ($value) ? $value : '&nbsp;' ?]</td>
-  <?php endif; ?>
+<?php endif; ?>
 <?php if ($credentials): ?>
+    [?php else: ?]
+    <td>&nbsp;</td>
     [?php endif; ?]
 <?php endif; ?>
 <?php endforeach; ?>

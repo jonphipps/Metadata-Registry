@@ -107,7 +107,6 @@
 
 </form>
 
-<ul class="sf_admin_actions">
 <?php
 /*
  * WARNING: delete is a form, it must be outside the main form
@@ -115,6 +114,7 @@
  $editActions = $this->getParameterValue('edit.actions');
 ?>
   <?php if (null === $editActions || (null !== $editActions && array_key_exists('_delete', $editActions))): ?>
+<ul class="sf_admin_actions">
     <?php echo $this->addCredentialCondition($this->getButtonToAction('_delete', $editActions['_delete'], true), $editActions['_delete'], false, true) ?>
-  <?php endif; ?>
 </ul>
+  <?php endif; ?>

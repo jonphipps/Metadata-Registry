@@ -23,6 +23,8 @@ class <?php echo $this->getGeneratedModuleName() ?>Actions extends sfActions
 
   public function executeList()
   {
+    $this->getUser()->clearTmpCredential();
+
     $this->processSort();
 
     $this->processFilters();
@@ -56,6 +58,10 @@ class <?php echo $this->getGeneratedModuleName() ?>Actions extends sfActions
   }
   public function executeCreate()
   {
+    if('create' == $this->getRequest()->getParameter('action'))
+    {
+      $this->getUser()->setTmpCredential('<?php echo $this->getModuleName() ?>admin');
+    }
     return $this->forward('<?php echo $this->getModuleName() ?>', 'edit');
   }
 

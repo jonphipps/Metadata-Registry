@@ -30,6 +30,21 @@ class AgentHasUserPeer extends BaseAgentHasUserPeer
       return $result;
   }
 
+   /**
+  * description
+  *
+  * @return return_type
+  * @param  var_type $var
+  */
+  public static function doSelectForUser($userId)
+  {
+      $criteria = new Criteria(self::DATABASE_NAME);
+      $criteria->add(self::USER_ID, $userId);
+      $con = Propel::getConnection(self::DATABASE_NAME);
+      $result = self::doSelect($criteria, $con);
+      return $result;
+  }
+
   /**
   * description
   *
