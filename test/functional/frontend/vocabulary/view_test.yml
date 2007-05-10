@@ -1,0 +1,202 @@
+---
+# names of the database tables we're getting fields from
+# Directly imported from schema.yml
+tables:
+  reg_vocabulary:
+    selectors:
+      id:
+      agent_id:
+      created_at:
+      last_updated:
+      name:
+      note:
+      uri:
+      url:
+      base_domain:
+      token:
+      community:
+      last_uri_id:
+
+objects:
+  selectors:
+    register_owner:      'a[href$="/agent/create"]'
+    register_vocabulary: 'a[href$="/vocabulary/create"]'
+
+roles:
+  guest:
+  subscriber:
+    login:    nickname
+    password: password
+  administrator:
+    login:    admin
+    password: admin
+  vocabadmin:
+    login:    vocabadmin
+    password: vocabadmin
+
+actions:
+  list:
+    url:                '/vocabulary/list'
+    tables:
+      reg_vocabulary:
+        selectors:
+          vocab_name_head:   'th#sf_admin_list_th_name'
+          vocab_agent_head:  'th#sf_admin_list_th_agent'
+          vocab_update_head: 'th#sf_admin_list_th_last_updated'
+#          vocab_sort_asc:    'th#sf_admin_list_th_name > a > img'
+          vocab_sort_link:   'th#sf_admin_list_th_name a[href*="/vocabulary/list/sort/name/type/desc"]'
+          vocab_name_link:   'tr.sf_admin_row_0 > td > a[href*="/vocabulary/show/id/7"]'
+          vocab_name:        ['tr.sf_admin_row_0 > td > a', 'Diane's New Vocabulary']
+          vocab_owner_link:  'tr.sf_admin_row_0 > td > a[href*="/agent/show/id/46"]'
+    objects:
+      selectors:
+        row_edit_7:     'tr.sf_admin_row_0 td ul.sf_admin_td_actions li a img[title="edit"]'
+        row_edit_10:    'tr.sf_admin_row_1 td ul.sf_admin_td_actions li a img[title="edit"]'
+        create:         'ul.sf_admin_actions > li > input[value="Create"]'
+    roles:
+      guest:
+        hide:
+          objects:        [create, row_edit_7, row_edit_10, register_owner, register_vocabulary]
+      subscriber:
+        hide:
+          objects:        [row_edit_7, row_edit_10, register_vocabulary, create]
+      vocabadmin:
+        hide:
+          objects:        [row_edit_10]
+      administrator:
+        show:             []
+        hide:             []
+
+  show:
+    url:
+      valid:             '/vocabulary/show/id/7'
+      invalid:           '/vocabulary/show/id/10'
+    tables:
+      reg_vocabulary:
+        selectors:
+          id:              'div#show_row_vocabulary_id'
+          created_at:      'div#show_row_vocabulary_created_at'
+          last_updated:    'div#show_row_vocabulary_last_updated'
+          agent:           'div#show_row_vocabulary_agent'
+          name:            'div#show_row_vocabulary_name'
+          url:             'div#show_row_vocabulary_url'
+          note:            'div#show_row_vocabulary_note'
+          community:       'div#show_row_vocabulary_community'
+          base_domain:     'div#show_row_vocabulary_base_domain'
+          token:           'div#show_row_vocabulary_token'
+          uri:             'div#show_row_vocabulary_uri'
+          list_users:      'div#show_row_vocabulary_list_users'
+    objects:
+      selectors:
+        list:            'input[value="List"]'
+        edit:            'input[value="Edit"]'
+    roles:
+      guest:
+        valid:
+          hide:
+            tables:
+              reg_vocabulary:   [id, created_at, last_updated]
+            objects:       [edit, register_owner, register_vocabulary]
+      subscriber:
+        valid:
+          hide:
+            tables:
+              reg_vocabulary:   [id, created_at, last_updated]
+            objects:       [edit, register_vocabulary]
+      vocabadmin:
+        valid:
+          hide:
+            tables:
+              reg_vocabulary:   [id]
+        invalid:
+          hide:
+            tables:
+              reg_vocabulary:   [id, created_at, last_updated]
+            objects:       [edit]
+      administrator:
+        valid:
+          show: []
+          hide: []
+
+  edit:
+    url:
+      valid:             '/vocabulary/edit/id/7'
+      invalid:           '/vocabulary/edit/id/10'
+    tables:
+      reg_vocabulary:
+        selectors:
+          id:              'div#form_row_vocabulary_id'
+          created_at:      'div#form_row_vocabulary_created_at'
+          last_updated:    'div#form_row_vocabulary_last_updated'
+          agent_id:        'div#form_row_vocabulary_agent_id'
+          name:            'div#form_row_vocabulary_name'
+          url:             'div#form_row_vocabulary_url'
+          note:            'div#form_row_vocabulary_note'
+          community:       'div#form_row_vocabulary_community'
+          base_domain:     'div#form_row_vocabulary_base_domain'
+          token:           'div#form_row_vocabulary_token'
+          uri:             'div#form_row_vocabulary_uri'
+          list_users:      'div#form_row_vocabulary_list_users'
+    objects:
+      selectors:
+        list:            'input[value="List"]'
+        save:            'input[value="Save"]'
+        save_and_add:    'input[value="Save and add"]'
+        delete:          'input[value="Delete"]'
+    roles:
+      guest:
+        valid:
+          forwardTo:       ['user', 'login']
+      subscriber:
+        valid:
+          forwardTo:       ['default', 'secure']
+      vocabadmin:
+        valid:
+          hide:
+            tables:
+              reg_vocabulary: [list_users, id]
+            objects:          [delete, save_and_add]
+        invalid:
+          forwardTo:          ['default', 'secure']
+      administrator:
+        valid:
+          hide:
+            tables:
+              reg_vocabulary: [list_users]
+
+  create:
+    url:                 '/vocabulary/create'
+    tables:
+      reg_vocabulary:
+        selectors:
+          agent_id:        'div#form_row_vocabulary_agent_id'
+          name:            'div#form_row_vocabulary_name'
+          url:             'div#form_row_vocabulary_url'
+          note:            'div#form_row_vocabulary_note'
+          community:       'div#form_row_vocabulary_community'
+          base_domain:     'div#form_row_vocabulary_base_domain'
+          token:           'div#form_row_vocabulary_token'
+          uri:             'div#form_row_vocabulary_uri'
+          list_users:      'div#form_row_vocabulary_list_users'
+    objects:
+      selectors:
+        list:            'input[value="List"]'
+        save:            'input[value="Save"]'
+        save_and_add:    'input[value="Save and add"]'
+    contents:
+      selectors:
+        header:          ["h1", '/Creating new vocabulary/']
+    roles:
+      guest:
+        forwardTo:       ['user', 'login']
+      subscriber:
+        forwardTo:       ['default', 'secure']
+      vocabadmin:
+        hide:
+          tables:
+            reg_vocabulary: [id, list_users]
+          objects:          [delete, save_and_add]
+      administrator:
+        hide:
+          tables:
+            reg_vocabulary: [id, list_users]
