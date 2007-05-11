@@ -58,7 +58,6 @@ class sfBasicSecurityFilter extends sfSecurityFilter
     //       used to retrieve such data and should never have to be altered
     if ($user->isAuthenticated())
     {
-//if('46' == $user->getSubscriberId()) debugbreak();
       // the user is authenticated
       if ($credential === null || $user->hasCredential($credential))
       {
