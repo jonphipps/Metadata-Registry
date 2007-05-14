@@ -13,34 +13,14 @@ if (!extension_loaded('SQLite'))
 {
   return false;
 }
-//debugbreak();
 
 define('SF_ROOT_DIR',    realpath(dirname(__FILE__).sprintf('/../%s/fixtures/project', isset($type) ? $type : 'functional')));
 define('SF_APP',         $app);
 define('SF_ENVIRONMENT', 'test');
 define('SF_DEBUG',       isset($debug) ? $debug : true);
 
-debugbreak();
-
 // initialize symfony
-$_test_dir = realpath(dirname(__FILE__).DIRECTORY_SEPARATOR.'..');
-include($_test_dir.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'config.php');
-
-// include project configuration
-include(SF_ROOT_DIR.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'config.php');
-
-if (SF_APP)
-{
-  // include application configuration
-  include(SF_ROOT_DIR.DIRECTORY_SEPARATOR.'apps'.DIRECTORY_SEPARATOR.SF_APP.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'config.php');
-}
-else
-{
-  // symfony bootstraping
-  require_once($sf_symfony_lib_dir.'/util/sfCore.class.php');
-  sfCore::bootstrap($sf_symfony_lib_dir, $sf_symfony_data_dir);
-}
-
+require_once(SF_ROOT_DIR.DIRECTORY_SEPARATOR.'apps'.DIRECTORY_SEPARATOR.SF_APP.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'config.php');
 
 // remove all cache
 sfToolkit::clearDirectory(sfConfig::get('sf_cache_dir'));

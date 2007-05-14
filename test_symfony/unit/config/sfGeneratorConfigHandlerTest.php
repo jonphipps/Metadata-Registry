@@ -10,6 +10,7 @@
 
 require_once(dirname(__FILE__).'/../../bootstrap/unit.php');
 
+sfConfig::set('sf_symfony_lib_dir', realpath(dirname(__FILE__).'/../../../lib'));
 $t = new lime_test(5, new lime_output_color());
 
 $handler = new sfGeneratorConfigHandler();
