@@ -121,7 +121,7 @@ class myUser extends sfBasicSecurityUser
   }
 
   /**
-  * set Agent object-level credentials
+  * set Vocabulary object-level credentials
   *
   * @TODO: this should maybe be in the model?
   * @TODO The models should be defined in an array in this class,
@@ -142,7 +142,7 @@ class myUser extends sfBasicSecurityUser
       $credArray[$vocabId]['admin']      = $credential->getIsAdminFor();
       $credArray[$vocabId]['contact']    = true;
     }
-    if ($credArray)
+    if (isset($credArray))
     {
       $this->addObjectCredentials('vocabulary', $credArray);
     }
@@ -327,6 +327,7 @@ class myUser extends sfBasicSecurityUser
     //we don't bother if the user is an administrator
     if ($this->hasCredential('administrator'))
     {
+      $this->addCredential('hasAgents');
       return;
     }
     $CredentialCount = $this->setAgentCredentials();
@@ -361,6 +362,7 @@ class myUser extends sfBasicSecurityUser
     //we don't bother if the user is an administrator
     if ($this->hasCredential('administrator'))
     {
+      $this->addCredential('hasVocabulary');
       return;
     }
 
