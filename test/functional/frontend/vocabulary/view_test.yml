@@ -52,7 +52,7 @@ actions:
       selectors:
         row_edit_7:     'tr.sf_admin_row_0 td ul.sf_admin_td_actions li a img[title="edit"]'
         row_edit_10:    'tr.sf_admin_row_1 td ul.sf_admin_td_actions li a img[title="edit"]'
-        create:         'ul.sf_admin_actions > li > input[value="Create"]'
+        create:         'ul.sf_admin_actions > li > input[value="Add Vocabulary"]'
     roles:
       guest:
         hide:
