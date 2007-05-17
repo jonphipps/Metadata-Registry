@@ -26,10 +26,8 @@ uniqueUriValidator:
     column:       uri
     unique_error: This Concept URI has already been registered.
 uniqueLabelValidator:
-  class:          sfPropelUniqueValidator
+  class:          myPropelUniqueConceptValidator
   param:
-    class:        Concept
-    column:       pref_label
     unique_error: This Concept has already been registered.
 fillin:
   activate: on

@@ -58,7 +58,7 @@ generator:
         _list:         { query_string: { vocabulary_id: vocabulary_id} }
         _save:         { credentials: [[administrator, vocabularymaintainer]] }
         _delete:       { credentials: [administrator] }
-        _create:       { credentials: [[administrator, vocabularymaintainer]] }
+        _create:       { credentials: [[administrator, vocabularymaintainer]], mode: edit  }
         _save_and_add: { credentials: [[administrator, vocabularymaintainer]] }
 
     show:
@@ -71,6 +71,7 @@ generator:
         "Properties":  [_listproperties]
       actions:
         _edit:         { credentials: [[administrator, vocabularymaintainer]] }
+        _create:       { credentials: [[administrator, vocabularymaintainer]], mode: edit  }
         _list:         { query_string: { vocabulary_id: vocabulary_id} }
         rdf:           { name: Get RDF, icon: %SF_ADMIN_WEB_DIR%/images/rdf_icon.png, route: rdf_concept }
             
