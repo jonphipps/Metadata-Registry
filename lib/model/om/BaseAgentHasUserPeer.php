@@ -118,16 +118,19 @@ abstract class BaseAgentHasUserPeer {
 	
 	public static function doCount(Criteria $criteria, $distinct = false, $con = null)
 	{
-				$criteria = clone $criteria;
+		
+		$criteria = clone $criteria;
 
-				$criteria->clearSelectColumns()->clearOrderByColumns();
+		
+		$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
 			$criteria->addSelectColumn(AgentHasUserPeer::COUNT_DISTINCT);
 		} else {
 			$criteria->addSelectColumn(AgentHasUserPeer::COUNT);
 		}
 
-				foreach($criteria->getGroupByColumns() as $column)
+		
+		foreach($criteria->getGroupByColumns() as $column)
 		{
 			$criteria->addSelectColumn($column);
 		}
@@ -136,7 +139,8 @@ abstract class BaseAgentHasUserPeer {
 		if ($rs->next()) {
 			return $rs->getInt(1);
 		} else {
-						return 0;
+			
+			return 0;
 		}
 	}
 	
@@ -167,18 +171,23 @@ abstract class BaseAgentHasUserPeer {
 			AgentHasUserPeer::addSelectColumns($criteria);
 		}
 
-				$criteria->setDbName(self::DATABASE_NAME);
+		
+		$criteria->setDbName(self::DATABASE_NAME);
 
-						return BasePeer::doSelect($criteria, $con);
+		
+		
+		return BasePeer::doSelect($criteria, $con);
 	}
 	
 	public static function populateObjects(ResultSet $rs)
 	{
 		$results = array();
 	
-				$cls = AgentHasUserPeer::getOMClass();
+		
+		$cls = AgentHasUserPeer::getOMClass();
 		$cls = Propel::import($cls);
-				while($rs->next()) {
+		
+		while($rs->next()) {
 		
 			$obj = new $cls();
 			$obj->hydrate($rs);
@@ -643,14 +652,19 @@ abstract class BaseAgentHasUserPeer {
 		}
 
 		if ($values instanceof Criteria) {
-			$criteria = clone $values; 		} else {
-			$criteria = $values->buildCriteria(); 		}
+			$criteria = clone $values; 
+		} else {
+			$criteria = $values->buildCriteria(); 
+		}
 
 
-				$criteria->setDbName(self::DATABASE_NAME);
+		
+		$criteria->setDbName(self::DATABASE_NAME);
 
 		try {
-									$con->begin();
+			
+			
+			$con->begin();
 			$pk = BasePeer::doInsert($criteria, $con);
 			$con->commit();
 		} catch(PropelException $e) {
@@ -672,15 +686,20 @@ abstract class BaseAgentHasUserPeer {
 
 		if ($values instanceof Criteria) {
 			$criteria = clone $values; 
+
 			$comparison = $criteria->getComparison(AgentHasUserPeer::USER_ID);
 			$selectCriteria->add(AgentHasUserPeer::USER_ID, $criteria->remove(AgentHasUserPeer::USER_ID), $comparison);
 
 			$comparison = $criteria->getComparison(AgentHasUserPeer::AGENT_ID);
 			$selectCriteria->add(AgentHasUserPeer::AGENT_ID, $criteria->remove(AgentHasUserPeer::AGENT_ID), $comparison);
 
-		} else { 			$criteria = $values->buildCriteria(); 			$selectCriteria = $values->buildPkeyCriteria(); 		}
+		} else { 
+			$criteria = $values->buildCriteria(); 
+			$selectCriteria = $values->buildPkeyCriteria(); 
+		}
 
-				$criteria->setDbName(self::DATABASE_NAME);
+		
+		$criteria->setDbName(self::DATABASE_NAME);
 
 		return BasePeer::doUpdate($selectCriteria, $criteria, $con);
 	}
@@ -691,8 +710,11 @@ abstract class BaseAgentHasUserPeer {
 		if ($con === null) {
 			$con = Propel::getConnection(self::DATABASE_NAME);
 		}
-		$affectedRows = 0; 		try {
-									$con->begin();
+		$affectedRows = 0; 
+		try {
+			
+			
+			$con->begin();
 			$affectedRows += BasePeer::doDeleteAll(AgentHasUserPeer::TABLE_NAME, $con);
 			$con->commit();
 			return $affectedRows;
@@ -710,14 +732,20 @@ abstract class BaseAgentHasUserPeer {
 		}
 
 		if ($values instanceof Criteria) {
-			$criteria = clone $values; 		} elseif ($values instanceof AgentHasUser) {
+			$criteria = clone $values; 
+		} elseif ($values instanceof AgentHasUser) {
 
 			$criteria = $values->buildPkeyCriteria();
 		} else {
-						$criteria = new Criteria(self::DATABASE_NAME);
-												if(count($values) == count($values, COUNT_RECURSIVE))
+			
+			$criteria = new Criteria(self::DATABASE_NAME);
+			
+			
+			
+			if(count($values) == count($values, COUNT_RECURSIVE))
 			{
-								$values = array($values);
+				
+				$values = array($values);
 			}
 			$vals = array();
 			foreach($values as $value)
@@ -731,11 +759,15 @@ abstract class BaseAgentHasUserPeer {
 			$criteria->add(AgentHasUserPeer::AGENT_ID, $vals[1], Criteria::IN);
 		}
 
-				$criteria->setDbName(self::DATABASE_NAME);
+		
+		$criteria->setDbName(self::DATABASE_NAME);
 
 		$affectedRows = 0; 
+
 		try {
-									$con->begin();
+			
+			
+			$con->begin();
 			
 			$affectedRows += BasePeer::doDelete($criteria, $con);
 			$con->commit();
@@ -769,16 +801,7 @@ abstract class BaseAgentHasUserPeer {
 
 		}
 
-		$res =  BasePeer::doValidate(AgentHasUserPeer::DATABASE_NAME, AgentHasUserPeer::TABLE_NAME, $columns);
-    if ($res !== true) {
-        $request = sfContext::getInstance()->getRequest();
-        foreach ($res as $failed) {
-            $col = AgentHasUserPeer::translateFieldname($failed->getColumn(), BasePeer::TYPE_COLNAME, BasePeer::TYPE_PHPNAME);
-            $request->setError($col, $failed->getMessage());
-        }
-    }
-
-    return $res;
+		return BasePeer::doValidate(AgentHasUserPeer::DATABASE_NAME, AgentHasUserPeer::TABLE_NAME, $columns);
 	}
 
 	
@@ -794,13 +817,19 @@ abstract class BaseAgentHasUserPeer {
 		return !empty($v) ? $v[0] : null;
 	}
 } 
+
+
 if (Propel::isInit()) {
-			try {
+	
+	
+	try {
 		BaseAgentHasUserPeer::getMapBuilder();
 	} catch (Exception $e) {
 		Propel::log('Could not initialize Peer: ' . $e->getMessage(), Propel::LOG_ERR);
 	}
 } else {
-			require_once 'lib/model/map/AgentHasUserMapBuilder.php';
+	
+	
+	require_once 'lib/model/map/AgentHasUserMapBuilder.php';
 	Propel::registerMapBuilder('lib.model.map.AgentHasUserMapBuilder');
 }

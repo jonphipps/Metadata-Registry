@@ -1,32 +1,32 @@
 <?php
 
 
-	
+
 class StatusMapBuilder {
 
 	
-	const CLASS_NAME = 'lib.model.map.StatusMapBuilder';	
-
-    
-    private $dbMap;
+	const CLASS_NAME = 'lib.model.map.StatusMapBuilder';
 
 	
-    public function isBuilt()
-    {
-        return ($this->dbMap !== null);
-    }
+	private $dbMap;
 
 	
-    public function getDatabaseMap()
-    {
-        return $this->dbMap;
-    }
+	public function isBuilt()
+	{
+		return ($this->dbMap !== null);
+	}
 
-    
-    public function doBuild()
-    {
+	
+	public function getDatabaseMap()
+	{
+		return $this->dbMap;
+	}
+
+	
+	public function doBuild()
+	{
 		$this->dbMap = Propel::getDatabaseMap('propel');
-		
+
 		$tMap = $this->dbMap->addTable('reg_status');
 		$tMap->setPhpName('Status');
 
@@ -34,10 +34,10 @@ class StatusMapBuilder {
 
 		$tMap->addPrimaryKey('ID', 'Id', 'int', CreoleTypes::INTEGER, true, null);
 
-		$tMap->addColumn('DISPLAY_ORDER', 'DisplayOrder', 'int', CreoleTypes::INTEGER, false);
+		$tMap->addColumn('DISPLAY_ORDER', 'DisplayOrder', 'int', CreoleTypes::INTEGER, false, null);
 
 		$tMap->addColumn('DISPLAY_NAME', 'DisplayName', 'string', CreoleTypes::VARCHAR, false, 255);
-				
-    } 
+
+	} 
 
 } 

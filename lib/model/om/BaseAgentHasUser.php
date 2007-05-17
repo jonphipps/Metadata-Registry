@@ -67,6 +67,12 @@ abstract class BaseAgentHasUser extends BaseObject  implements Persistent {
 	public function setUserId($v)
 	{
 
+		
+		
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
 		if ($this->user_id !== $v || $v === 0) {
 			$this->user_id = $v;
 			$this->modifiedColumns[] = AgentHasUserPeer::USER_ID;
@@ -80,6 +86,12 @@ abstract class BaseAgentHasUser extends BaseObject  implements Persistent {
 	
 	public function setAgentId($v)
 	{
+
+		
+		
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
 
 		if ($this->agent_id !== $v || $v === 0) {
 			$this->agent_id = $v;
@@ -128,7 +140,9 @@ abstract class BaseAgentHasUser extends BaseObject  implements Persistent {
 
 			$this->setNew(false);
 
-						return $startcol + 4; 
+			
+			return $startcol + 4; 
+
 		} catch (Exception $e) {
 			throw new PropelException("Error populating AgentHasUser object", $e);
 		}
@@ -299,7 +313,8 @@ abstract class BaseAgentHasUser extends BaseObject  implements Persistent {
 			default:
 				return null;
 				break;
-		} 	}
+		} 
+	}
 
 	
 	public function toArray($keyType = BasePeer::TYPE_PHPNAME)
@@ -337,7 +352,8 @@ abstract class BaseAgentHasUser extends BaseObject  implements Persistent {
 			case 3:
 				$this->setIsAdminFor($value);
 				break;
-		} 	}
+		} 
+	}
 
 	
 	public function fromArray($arr, $keyType = BasePeer::TYPE_PHPNAME)

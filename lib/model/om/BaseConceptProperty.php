@@ -88,8 +88,10 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 		if ($this->created_at === null || $this->created_at === '') {
 			return null;
 		} elseif (!is_int($this->created_at)) {
-						$ts = strtotime($this->created_at);
-			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse value of [created_at] as date/time value: " . var_export($this->created_at, true));
+			
+			$ts = strtotime($this->created_at);
+			if ($ts === -1 || $ts === false) { 
+				throw new PropelException("Unable to parse value of [created_at] as date/time value: " . var_export($this->created_at, true));
 			}
 		} else {
 			$ts = $this->created_at;
@@ -110,8 +112,10 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 		if ($this->last_updated === null || $this->last_updated === '') {
 			return null;
 		} elseif (!is_int($this->last_updated)) {
-						$ts = strtotime($this->last_updated);
-			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse value of [last_updated] as date/time value: " . var_export($this->last_updated, true));
+			
+			$ts = strtotime($this->last_updated);
+			if ($ts === -1 || $ts === false) { 
+				throw new PropelException("Unable to parse value of [last_updated] as date/time value: " . var_export($this->last_updated, true));
 			}
 		} else {
 			$ts = $this->last_updated;
@@ -178,6 +182,12 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 	public function setId($v)
 	{
 
+		
+		
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
 		if ($this->id !== $v) {
 			$this->id = $v;
 			$this->modifiedColumns[] = ConceptPropertyPeer::ID;
@@ -190,7 +200,8 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 
 		if ($v !== null && !is_int($v)) {
 			$ts = strtotime($v);
-			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse date/time value for [created_at] from input: " . var_export($v, true));
+			if ($ts === -1 || $ts === false) { 
+				throw new PropelException("Unable to parse date/time value for [created_at] from input: " . var_export($v, true));
 			}
 		} else {
 			$ts = $v;
@@ -207,7 +218,8 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 
 		if ($v !== null && !is_int($v)) {
 			$ts = strtotime($v);
-			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse date/time value for [last_updated] from input: " . var_export($v, true));
+			if ($ts === -1 || $ts === false) { 
+				throw new PropelException("Unable to parse date/time value for [last_updated] from input: " . var_export($v, true));
 			}
 		} else {
 			$ts = $v;
@@ -221,6 +233,12 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 	
 	public function setConceptId($v)
 	{
+
+		
+		
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
 
 		if ($this->concept_id !== $v || $v === 0) {
 			$this->concept_id = $v;
@@ -236,6 +254,12 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 	public function setSkosPropertyId($v)
 	{
 
+		
+		
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
 		if ($this->skos_property_id !== $v || $v === 0) {
 			$this->skos_property_id = $v;
 			$this->modifiedColumns[] = ConceptPropertyPeer::SKOS_PROPERTY_ID;
@@ -250,6 +274,12 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 	public function setObject($v)
 	{
 
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
 		if ($this->object !== $v) {
 			$this->object = $v;
 			$this->modifiedColumns[] = ConceptPropertyPeer::OBJECT;
@@ -259,6 +289,12 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 	
 	public function setSchemeId($v)
 	{
+
+		
+		
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
 
 		if ($this->scheme_id !== $v) {
 			$this->scheme_id = $v;
@@ -274,6 +310,12 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 	public function setRelatedConceptId($v)
 	{
 
+		
+		
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
 		if ($this->related_concept_id !== $v) {
 			$this->related_concept_id = $v;
 			$this->modifiedColumns[] = ConceptPropertyPeer::RELATED_CONCEPT_ID;
@@ -288,6 +330,12 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 	public function setLanguage($v)
 	{
 
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
 		if ($this->language !== $v) {
 			$this->language = $v;
 			$this->modifiedColumns[] = ConceptPropertyPeer::LANGUAGE;
@@ -297,6 +345,12 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 	
 	public function setStatusId($v)
 	{
+
+		
+		
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
 
 		if ($this->status_id !== $v) {
 			$this->status_id = $v;
@@ -337,7 +391,9 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 
 			$this->setNew(false);
 
-						return $startcol + 10; 
+			
+			return $startcol + 10; 
+
 		} catch (Exception $e) {
 			throw new PropelException("Error populating ConceptProperty object", $e);
 		}
@@ -587,7 +643,8 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 			default:
 				return null;
 				break;
-		} 	}
+		} 
+	}
 
 	
 	public function toArray($keyType = BasePeer::TYPE_PHPNAME)
@@ -649,7 +706,8 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 			case 9:
 				$this->setStatusId($value);
 				break;
-		} 	}
+		} 
+	}
 
 	
 	public function fromArray($arr, $keyType = BasePeer::TYPE_PHPNAME)

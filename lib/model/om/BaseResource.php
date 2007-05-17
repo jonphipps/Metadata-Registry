@@ -96,8 +96,10 @@ abstract class BaseResource extends BaseObject  implements Persistent {
 		if ($this->created_at === null || $this->created_at === '') {
 			return null;
 		} elseif (!is_int($this->created_at)) {
-						$ts = strtotime($this->created_at);
-			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse value of [created_at] as date/time value: " . var_export($this->created_at, true));
+			
+			$ts = strtotime($this->created_at);
+			if ($ts === -1 || $ts === false) { 
+				throw new PropelException("Unable to parse value of [created_at] as date/time value: " . var_export($this->created_at, true));
 			}
 		} else {
 			$ts = $this->created_at;
@@ -118,8 +120,10 @@ abstract class BaseResource extends BaseObject  implements Persistent {
 		if ($this->update_at === null || $this->update_at === '') {
 			return null;
 		} elseif (!is_int($this->update_at)) {
-						$ts = strtotime($this->update_at);
-			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse value of [update_at] as date/time value: " . var_export($this->update_at, true));
+			
+			$ts = strtotime($this->update_at);
+			if ($ts === -1 || $ts === false) { 
+				throw new PropelException("Unable to parse value of [update_at] as date/time value: " . var_export($this->update_at, true));
 			}
 		} else {
 			$ts = $this->update_at;
@@ -193,6 +197,12 @@ abstract class BaseResource extends BaseObject  implements Persistent {
 	public function setId($v)
 	{
 
+		
+		
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
 		if ($this->id !== $v) {
 			$this->id = $v;
 			$this->modifiedColumns[] = ResourcePeer::ID;
@@ -203,6 +213,12 @@ abstract class BaseResource extends BaseObject  implements Persistent {
 	public function setType($v)
 	{
 
+		
+		
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
 		if ($this->type !== $v) {
 			$this->type = $v;
 			$this->modifiedColumns[] = ResourcePeer::TYPE;
@@ -212,6 +228,12 @@ abstract class BaseResource extends BaseObject  implements Persistent {
 	
 	public function setAgentId($v)
 	{
+
+		
+		
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
 
 		if ($this->agent_id !== $v) {
 			$this->agent_id = $v;
@@ -229,7 +251,8 @@ abstract class BaseResource extends BaseObject  implements Persistent {
 
 		if ($v !== null && !is_int($v)) {
 			$ts = strtotime($v);
-			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse date/time value for [created_at] from input: " . var_export($v, true));
+			if ($ts === -1 || $ts === false) { 
+				throw new PropelException("Unable to parse date/time value for [created_at] from input: " . var_export($v, true));
 			}
 		} else {
 			$ts = $v;
@@ -246,7 +269,8 @@ abstract class BaseResource extends BaseObject  implements Persistent {
 
 		if ($v !== null && !is_int($v)) {
 			$ts = strtotime($v);
-			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse date/time value for [update_at] from input: " . var_export($v, true));
+			if ($ts === -1 || $ts === false) { 
+				throw new PropelException("Unable to parse date/time value for [update_at] from input: " . var_export($v, true));
 			}
 		} else {
 			$ts = $v;
@@ -261,6 +285,12 @@ abstract class BaseResource extends BaseObject  implements Persistent {
 	public function setName($v)
 	{
 
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
 		if ($this->name !== $v) {
 			$this->name = $v;
 			$this->modifiedColumns[] = ResourcePeer::NAME;
@@ -270,6 +300,12 @@ abstract class BaseResource extends BaseObject  implements Persistent {
 	
 	public function setNote($v)
 	{
+
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
 
 		if ($this->note !== $v) {
 			$this->note = $v;
@@ -281,6 +317,12 @@ abstract class BaseResource extends BaseObject  implements Persistent {
 	public function setUri($v)
 	{
 
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
 		if ($this->uri !== $v) {
 			$this->uri = $v;
 			$this->modifiedColumns[] = ResourcePeer::URI;
@@ -290,6 +332,12 @@ abstract class BaseResource extends BaseObject  implements Persistent {
 	
 	public function setUrl($v)
 	{
+
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
 
 		if ($this->url !== $v) {
 			$this->url = $v;
@@ -301,6 +349,12 @@ abstract class BaseResource extends BaseObject  implements Persistent {
 	public function setBaseDomain($v)
 	{
 
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
 		if ($this->base_domain !== $v) {
 			$this->base_domain = $v;
 			$this->modifiedColumns[] = ResourcePeer::BASE_DOMAIN;
@@ -310,6 +364,12 @@ abstract class BaseResource extends BaseObject  implements Persistent {
 	
 	public function setToken($v)
 	{
+
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
 
 		if ($this->token !== $v) {
 			$this->token = $v;
@@ -321,6 +381,12 @@ abstract class BaseResource extends BaseObject  implements Persistent {
 	public function setCommunity($v)
 	{
 
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
 		if ($this->community !== $v) {
 			$this->community = $v;
 			$this->modifiedColumns[] = ResourcePeer::COMMUNITY;
@@ -330,6 +396,12 @@ abstract class BaseResource extends BaseObject  implements Persistent {
 	
 	public function setLastUriId($v)
 	{
+
+		
+		
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
 
 		if ($this->last_uri_id !== $v || $v === 1000) {
 			$this->last_uri_id = $v;
@@ -372,7 +444,9 @@ abstract class BaseResource extends BaseObject  implements Persistent {
 
 			$this->setNew(false);
 
-						return $startcol + 13; 
+			
+			return $startcol + 13; 
+
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Resource object", $e);
 		}
@@ -563,7 +637,8 @@ abstract class BaseResource extends BaseObject  implements Persistent {
 			default:
 				return null;
 				break;
-		} 	}
+		} 
+	}
 
 	
 	public function toArray($keyType = BasePeer::TYPE_PHPNAME)
@@ -637,7 +712,8 @@ abstract class BaseResource extends BaseObject  implements Persistent {
 			case 12:
 				$this->setLastUriId($value);
 				break;
-		} 	}
+		} 
+	}
 
 	
 	public function fromArray($arr, $keyType = BasePeer::TYPE_PHPNAME)

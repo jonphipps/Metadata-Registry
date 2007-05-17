@@ -77,8 +77,10 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 		if ($this->created_at === null || $this->created_at === '') {
 			return null;
 		} elseif (!is_int($this->created_at)) {
-						$ts = strtotime($this->created_at);
-			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse value of [created_at] as date/time value: " . var_export($this->created_at, true));
+			
+			$ts = strtotime($this->created_at);
+			if ($ts === -1 || $ts === false) { 
+				throw new PropelException("Unable to parse value of [created_at] as date/time value: " . var_export($this->created_at, true));
 			}
 		} else {
 			$ts = $this->created_at;
@@ -99,8 +101,10 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 		if ($this->last_updated === null || $this->last_updated === '') {
 			return null;
 		} elseif (!is_int($this->last_updated)) {
-						$ts = strtotime($this->last_updated);
-			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse value of [last_updated] as date/time value: " . var_export($this->last_updated, true));
+			
+			$ts = strtotime($this->last_updated);
+			if ($ts === -1 || $ts === false) { 
+				throw new PropelException("Unable to parse value of [last_updated] as date/time value: " . var_export($this->last_updated, true));
 			}
 		} else {
 			$ts = $this->last_updated;
@@ -153,6 +157,12 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	public function setId($v)
 	{
 
+		
+		
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
 		if ($this->id !== $v) {
 			$this->id = $v;
 			$this->modifiedColumns[] = ConceptPeer::ID;
@@ -165,7 +175,8 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 
 		if ($v !== null && !is_int($v)) {
 			$ts = strtotime($v);
-			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse date/time value for [created_at] from input: " . var_export($v, true));
+			if ($ts === -1 || $ts === false) { 
+				throw new PropelException("Unable to parse date/time value for [created_at] from input: " . var_export($v, true));
 			}
 		} else {
 			$ts = $v;
@@ -182,7 +193,8 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 
 		if ($v !== null && !is_int($v)) {
 			$ts = strtotime($v);
-			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse date/time value for [last_updated] from input: " . var_export($v, true));
+			if ($ts === -1 || $ts === false) { 
+				throw new PropelException("Unable to parse date/time value for [last_updated] from input: " . var_export($v, true));
 			}
 		} else {
 			$ts = $v;
@@ -197,6 +209,12 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	public function setUri($v)
 	{
 
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
 		if ($this->uri !== $v || $v === 'null') {
 			$this->uri = $v;
 			$this->modifiedColumns[] = ConceptPeer::URI;
@@ -207,6 +225,12 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	public function setPrefLabel($v)
 	{
 
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
 		if ($this->pref_label !== $v || $v === 'null') {
 			$this->pref_label = $v;
 			$this->modifiedColumns[] = ConceptPeer::PREF_LABEL;
@@ -216,6 +240,12 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	
 	public function setVocabularyId($v)
 	{
+
+		
+		
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
 
 		if ($this->vocabulary_id !== $v) {
 			$this->vocabulary_id = $v;
@@ -240,6 +270,12 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	
 	public function setStatusId($v)
 	{
+
+		
+		
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
 
 		if ($this->status_id !== $v || $v === 1) {
 			$this->status_id = $v;
@@ -276,7 +312,9 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 
 			$this->setNew(false);
 
-						return $startcol + 8; 
+			
+			return $startcol + 8; 
+
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Concept object", $e);
 		}
@@ -497,7 +535,8 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 			default:
 				return null;
 				break;
-		} 	}
+		} 
+	}
 
 	
 	public function toArray($keyType = BasePeer::TYPE_PHPNAME)
@@ -551,7 +590,8 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 			case 7:
 				$this->setStatusId($value);
 				break;
-		} 	}
+		} 
+	}
 
 	
 	public function fromArray($arr, $keyType = BasePeer::TYPE_PHPNAME)

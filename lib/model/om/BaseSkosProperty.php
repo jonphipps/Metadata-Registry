@@ -210,6 +210,12 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 	public function setId($v)
 	{
 
+		
+		
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
 		if ($this->id !== $v) {
 			$this->id = $v;
 			$this->modifiedColumns[] = SkosPropertyPeer::ID;
@@ -219,6 +225,12 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 	
 	public function setParentId($v)
 	{
+
+		
+		
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
 
 		if ($this->parent_id !== $v) {
 			$this->parent_id = $v;
@@ -230,6 +242,12 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 	public function setInverseId($v)
 	{
 
+		
+		
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
 		if ($this->inverse_id !== $v) {
 			$this->inverse_id = $v;
 			$this->modifiedColumns[] = SkosPropertyPeer::INVERSE_ID;
@@ -239,6 +257,12 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 	
 	public function setName($v)
 	{
+
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
 
 		if ($this->name !== $v || $v === 'null') {
 			$this->name = $v;
@@ -250,6 +274,12 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 	public function setUri($v)
 	{
 
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
 		if ($this->uri !== $v || $v === 'null') {
 			$this->uri = $v;
 			$this->modifiedColumns[] = SkosPropertyPeer::URI;
@@ -259,6 +289,12 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 	
 	public function setObjectType($v)
 	{
+
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
 
 		if ($this->object_type !== $v || $v === 'null') {
 			$this->object_type = $v;
@@ -270,6 +306,12 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 	public function setDisplayOrder($v)
 	{
 
+		
+		
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
 		if ($this->display_order !== $v) {
 			$this->display_order = $v;
 			$this->modifiedColumns[] = SkosPropertyPeer::DISPLAY_ORDER;
@@ -279,6 +321,12 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 	
 	public function setPicklistOrder($v)
 	{
+
+		
+		
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
 
 		if ($this->picklist_order !== $v) {
 			$this->picklist_order = $v;
@@ -290,6 +338,12 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 	public function setLabel($v)
 	{
 
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
 		if ($this->label !== $v) {
 			$this->label = $v;
 			$this->modifiedColumns[] = SkosPropertyPeer::LABEL;
@@ -299,6 +353,12 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 	
 	public function setDefinition($v)
 	{
+
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
 
 		if ($this->definition !== $v) {
 			$this->definition = $v;
@@ -310,6 +370,12 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 	public function setComment($v)
 	{
 
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
 		if ($this->comment !== $v) {
 			$this->comment = $v;
 			$this->modifiedColumns[] = SkosPropertyPeer::COMMENT;
@@ -319,6 +385,12 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 	
 	public function setExamples($v)
 	{
+
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
 
 		if ($this->examples !== $v) {
 			$this->examples = $v;
@@ -419,7 +491,9 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 
 			$this->setNew(false);
 
-						return $startcol + 17; 
+			
+			return $startcol + 17; 
+
 		} catch (Exception $e) {
 			throw new PropelException("Error populating SkosProperty object", $e);
 		}
@@ -616,7 +690,8 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 			default:
 				return null;
 				break;
-		} 	}
+		} 
+	}
 
 	
 	public function toArray($keyType = BasePeer::TYPE_PHPNAME)
@@ -706,7 +781,8 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 			case 16:
 				$this->setIsInPicklist($value);
 				break;
-		} 	}
+		} 
+	}
 
 	
 	public function fromArray($arr, $keyType = BasePeer::TYPE_PHPNAME)

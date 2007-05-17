@@ -78,6 +78,12 @@ abstract class BaseLookup extends BaseObject  implements Persistent {
 	public function setId($v)
 	{
 
+		
+		
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
 		if ($this->id !== $v) {
 			$this->id = $v;
 			$this->modifiedColumns[] = LookupPeer::ID;
@@ -87,6 +93,12 @@ abstract class BaseLookup extends BaseObject  implements Persistent {
 	
 	public function setTypeId($v)
 	{
+
+		
+		
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
 
 		if ($this->type_id !== $v) {
 			$this->type_id = $v;
@@ -98,6 +110,12 @@ abstract class BaseLookup extends BaseObject  implements Persistent {
 	public function setShortValue($v)
 	{
 
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
 		if ($this->short_value !== $v) {
 			$this->short_value = $v;
 			$this->modifiedColumns[] = LookupPeer::SHORT_VALUE;
@@ -108,6 +126,12 @@ abstract class BaseLookup extends BaseObject  implements Persistent {
 	public function setLongValue($v)
 	{
 
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
 		if ($this->long_value !== $v) {
 			$this->long_value = $v;
 			$this->modifiedColumns[] = LookupPeer::LONG_VALUE;
@@ -117,6 +141,12 @@ abstract class BaseLookup extends BaseObject  implements Persistent {
 	
 	public function setDisplayOrder($v)
 	{
+
+		
+		
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
 
 		if ($this->display_order !== $v) {
 			$this->display_order = $v;
@@ -143,7 +173,9 @@ abstract class BaseLookup extends BaseObject  implements Persistent {
 
 			$this->setNew(false);
 
-						return $startcol + 5; 
+			
+			return $startcol + 5; 
+
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Lookup object", $e);
 		}
@@ -304,7 +336,8 @@ abstract class BaseLookup extends BaseObject  implements Persistent {
 			default:
 				return null;
 				break;
-		} 	}
+		} 
+	}
 
 	
 	public function toArray($keyType = BasePeer::TYPE_PHPNAME)
@@ -346,7 +379,8 @@ abstract class BaseLookup extends BaseObject  implements Persistent {
 			case 4:
 				$this->setDisplayOrder($value);
 				break;
-		} 	}
+		} 
+	}
 
 	
 	public function fromArray($arr, $keyType = BasePeer::TYPE_PHPNAME)

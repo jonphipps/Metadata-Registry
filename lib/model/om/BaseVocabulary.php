@@ -103,8 +103,10 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 		if ($this->created_at === null || $this->created_at === '') {
 			return null;
 		} elseif (!is_int($this->created_at)) {
-						$ts = strtotime($this->created_at);
-			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse value of [created_at] as date/time value: " . var_export($this->created_at, true));
+			
+			$ts = strtotime($this->created_at);
+			if ($ts === -1 || $ts === false) { 
+				throw new PropelException("Unable to parse value of [created_at] as date/time value: " . var_export($this->created_at, true));
 			}
 		} else {
 			$ts = $this->created_at;
@@ -125,8 +127,10 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 		if ($this->last_updated === null || $this->last_updated === '') {
 			return null;
 		} elseif (!is_int($this->last_updated)) {
-						$ts = strtotime($this->last_updated);
-			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse value of [last_updated] as date/time value: " . var_export($this->last_updated, true));
+			
+			$ts = strtotime($this->last_updated);
+			if ($ts === -1 || $ts === false) { 
+				throw new PropelException("Unable to parse value of [last_updated] as date/time value: " . var_export($this->last_updated, true));
 			}
 		} else {
 			$ts = $this->last_updated;
@@ -200,6 +204,12 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	public function setId($v)
 	{
 
+		
+		
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
 		if ($this->id !== $v) {
 			$this->id = $v;
 			$this->modifiedColumns[] = VocabularyPeer::ID;
@@ -209,6 +219,12 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	
 	public function setAgentId($v)
 	{
+
+		
+		
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
 
 		if ($this->agent_id !== $v) {
 			$this->agent_id = $v;
@@ -226,7 +242,8 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 
 		if ($v !== null && !is_int($v)) {
 			$ts = strtotime($v);
-			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse date/time value for [created_at] from input: " . var_export($v, true));
+			if ($ts === -1 || $ts === false) { 
+				throw new PropelException("Unable to parse date/time value for [created_at] from input: " . var_export($v, true));
 			}
 		} else {
 			$ts = $v;
@@ -243,7 +260,8 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 
 		if ($v !== null && !is_int($v)) {
 			$ts = strtotime($v);
-			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse date/time value for [last_updated] from input: " . var_export($v, true));
+			if ($ts === -1 || $ts === false) { 
+				throw new PropelException("Unable to parse date/time value for [last_updated] from input: " . var_export($v, true));
 			}
 		} else {
 			$ts = $v;
@@ -258,6 +276,12 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	public function setName($v)
 	{
 
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
 		if ($this->name !== $v) {
 			$this->name = $v;
 			$this->modifiedColumns[] = VocabularyPeer::NAME;
@@ -267,6 +291,12 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	
 	public function setNote($v)
 	{
+
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
 
 		if ($this->note !== $v) {
 			$this->note = $v;
@@ -278,6 +308,12 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	public function setUri($v)
 	{
 
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
 		if ($this->uri !== $v) {
 			$this->uri = $v;
 			$this->modifiedColumns[] = VocabularyPeer::URI;
@@ -287,6 +323,12 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	
 	public function setUrl($v)
 	{
+
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
 
 		if ($this->url !== $v) {
 			$this->url = $v;
@@ -298,6 +340,12 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	public function setBaseDomain($v)
 	{
 
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
 		if ($this->base_domain !== $v) {
 			$this->base_domain = $v;
 			$this->modifiedColumns[] = VocabularyPeer::BASE_DOMAIN;
@@ -307,6 +355,12 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	
 	public function setToken($v)
 	{
+
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
 
 		if ($this->token !== $v) {
 			$this->token = $v;
@@ -318,6 +372,12 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	public function setCommunity($v)
 	{
 
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
 		if ($this->community !== $v) {
 			$this->community = $v;
 			$this->modifiedColumns[] = VocabularyPeer::COMMUNITY;
@@ -327,6 +387,12 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	
 	public function setLastUriId($v)
 	{
+
+		
+		
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
 
 		if ($this->last_uri_id !== $v || $v === 1000) {
 			$this->last_uri_id = $v;
@@ -367,7 +433,9 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 
 			$this->setNew(false);
 
-						return $startcol + 12; 
+			
+			return $startcol + 12; 
+
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Vocabulary object", $e);
 		}
@@ -603,7 +671,8 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 			default:
 				return null;
 				break;
-		} 	}
+		} 
+	}
 
 	
 	public function toArray($keyType = BasePeer::TYPE_PHPNAME)
@@ -673,7 +742,8 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 			case 11:
 				$this->setLastUriId($value);
 				break;
-		} 	}
+		} 
+	}
 
 	
 	public function fromArray($arr, $keyType = BasePeer::TYPE_PHPNAME)

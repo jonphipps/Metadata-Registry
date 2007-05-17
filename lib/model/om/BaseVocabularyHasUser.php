@@ -78,6 +78,12 @@ abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
 	public function setVocabularyId($v)
 	{
 
+		
+		
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
 		if ($this->vocabulary_id !== $v || $v === 0) {
 			$this->vocabulary_id = $v;
 			$this->modifiedColumns[] = VocabularyHasUserPeer::VOCABULARY_ID;
@@ -91,6 +97,12 @@ abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
 	
 	public function setUserId($v)
 	{
+
+		
+		
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
 
 		if ($this->user_id !== $v || $v === 0) {
 			$this->user_id = $v;
@@ -151,7 +163,9 @@ abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
 
 			$this->setNew(false);
 
-						return $startcol + 5; 
+			
+			return $startcol + 5; 
+
 		} catch (Exception $e) {
 			throw new PropelException("Error populating VocabularyHasUser object", $e);
 		}
@@ -325,7 +339,8 @@ abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
 			default:
 				return null;
 				break;
-		} 	}
+		} 
+	}
 
 	
 	public function toArray($keyType = BasePeer::TYPE_PHPNAME)
@@ -367,7 +382,8 @@ abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
 			case 4:
 				$this->setIsAdminFor($value);
 				break;
-		} 	}
+		} 
+	}
 
 	
 	public function fromArray($arr, $keyType = BasePeer::TYPE_PHPNAME)

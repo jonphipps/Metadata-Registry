@@ -71,8 +71,10 @@ abstract class BaseConceptHistory extends BaseObject  implements Persistent {
 		if ($this->changed_at === null || $this->changed_at === '') {
 			return null;
 		} elseif (!is_int($this->changed_at)) {
-						$ts = strtotime($this->changed_at);
-			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse value of [changed_at] as date/time value: " . var_export($this->changed_at, true));
+			
+			$ts = strtotime($this->changed_at);
+			if ($ts === -1 || $ts === false) { 
+				throw new PropelException("Unable to parse value of [changed_at] as date/time value: " . var_export($this->changed_at, true));
 			}
 		} else {
 			$ts = $this->changed_at;
@@ -104,6 +106,12 @@ abstract class BaseConceptHistory extends BaseObject  implements Persistent {
 	public function setSid($v)
 	{
 
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
 		if ($this->sid !== $v || $v === 'null') {
 			$this->sid = $v;
 			$this->modifiedColumns[] = ConceptHistoryPeer::SID;
@@ -113,6 +121,12 @@ abstract class BaseConceptHistory extends BaseObject  implements Persistent {
 	
 	public function setConceptPropertyId($v)
 	{
+
+		
+		
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
 
 		if ($this->concept_property_id !== $v || $v === 0) {
 			$this->concept_property_id = $v;
@@ -127,6 +141,12 @@ abstract class BaseConceptHistory extends BaseObject  implements Persistent {
 	
 	public function setUserId($v)
 	{
+
+		
+		
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
 
 		if ($this->user_id !== $v || $v === 0) {
 			$this->user_id = $v;
@@ -144,7 +164,8 @@ abstract class BaseConceptHistory extends BaseObject  implements Persistent {
 
 		if ($v !== null && !is_int($v)) {
 			$ts = strtotime($v);
-			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse date/time value for [changed_at] from input: " . var_export($v, true));
+			if ($ts === -1 || $ts === false) { 
+				throw new PropelException("Unable to parse date/time value for [changed_at] from input: " . var_export($v, true));
 			}
 		} else {
 			$ts = $v;
@@ -159,6 +180,12 @@ abstract class BaseConceptHistory extends BaseObject  implements Persistent {
 	public function setOldValues($v)
 	{
 
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
 		if ($this->old_values !== $v) {
 			$this->old_values = $v;
 			$this->modifiedColumns[] = ConceptHistoryPeer::OLD_VALUES;
@@ -168,6 +195,12 @@ abstract class BaseConceptHistory extends BaseObject  implements Persistent {
 	
 	public function setNewValues($v)
 	{
+
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
 
 		if ($this->new_values !== $v) {
 			$this->new_values = $v;
@@ -196,7 +229,9 @@ abstract class BaseConceptHistory extends BaseObject  implements Persistent {
 
 			$this->setNew(false);
 
-						return $startcol + 6; 
+			
+			return $startcol + 6; 
+
 		} catch (Exception $e) {
 			throw new PropelException("Error populating ConceptHistory object", $e);
 		}
@@ -373,7 +408,8 @@ abstract class BaseConceptHistory extends BaseObject  implements Persistent {
 			default:
 				return null;
 				break;
-		} 	}
+		} 
+	}
 
 	
 	public function toArray($keyType = BasePeer::TYPE_PHPNAME)
@@ -419,7 +455,8 @@ abstract class BaseConceptHistory extends BaseObject  implements Persistent {
 			case 5:
 				$this->setNewValues($value);
 				break;
-		} 	}
+		} 
+	}
 
 	
 	public function fromArray($arr, $keyType = BasePeer::TYPE_PHPNAME)

@@ -105,8 +105,10 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		if ($this->created_at === null || $this->created_at === '') {
 			return null;
 		} elseif (!is_int($this->created_at)) {
-						$ts = strtotime($this->created_at);
-			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse value of [created_at] as date/time value: " . var_export($this->created_at, true));
+			
+			$ts = strtotime($this->created_at);
+			if ($ts === -1 || $ts === false) { 
+				throw new PropelException("Unable to parse value of [created_at] as date/time value: " . var_export($this->created_at, true));
 			}
 		} else {
 			$ts = $this->created_at;
@@ -127,8 +129,10 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		if ($this->last_updated === null || $this->last_updated === '') {
 			return null;
 		} elseif (!is_int($this->last_updated)) {
-						$ts = strtotime($this->last_updated);
-			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse value of [last_updated] as date/time value: " . var_export($this->last_updated, true));
+			
+			$ts = strtotime($this->last_updated);
+			if ($ts === -1 || $ts === false) { 
+				throw new PropelException("Unable to parse value of [last_updated] as date/time value: " . var_export($this->last_updated, true));
 			}
 		} else {
 			$ts = $this->last_updated;
@@ -230,6 +234,12 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	public function setId($v)
 	{
 
+		
+		
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
 		if ($this->id !== $v) {
 			$this->id = $v;
 			$this->modifiedColumns[] = UserPeer::ID;
@@ -242,7 +252,8 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 		if ($v !== null && !is_int($v)) {
 			$ts = strtotime($v);
-			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse date/time value for [created_at] from input: " . var_export($v, true));
+			if ($ts === -1 || $ts === false) { 
+				throw new PropelException("Unable to parse date/time value for [created_at] from input: " . var_export($v, true));
 			}
 		} else {
 			$ts = $v;
@@ -259,7 +270,8 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 		if ($v !== null && !is_int($v)) {
 			$ts = strtotime($v);
-			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse date/time value for [last_updated] from input: " . var_export($v, true));
+			if ($ts === -1 || $ts === false) { 
+				throw new PropelException("Unable to parse date/time value for [last_updated] from input: " . var_export($v, true));
 			}
 		} else {
 			$ts = $v;
@@ -274,6 +286,12 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	public function setNickname($v)
 	{
 
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
 		if ($this->nickname !== $v) {
 			$this->nickname = $v;
 			$this->modifiedColumns[] = UserPeer::NICKNAME;
@@ -283,6 +301,12 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	
 	public function setSalutation($v)
 	{
+
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
 
 		if ($this->salutation !== $v) {
 			$this->salutation = $v;
@@ -294,6 +318,12 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	public function setFirstName($v)
 	{
 
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
 		if ($this->first_name !== $v) {
 			$this->first_name = $v;
 			$this->modifiedColumns[] = UserPeer::FIRST_NAME;
@@ -303,6 +333,12 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	
 	public function setLastName($v)
 	{
+
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
 
 		if ($this->last_name !== $v) {
 			$this->last_name = $v;
@@ -314,6 +350,12 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	public function setEmail($v)
 	{
 
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
 		if ($this->email !== $v) {
 			$this->email = $v;
 			$this->modifiedColumns[] = UserPeer::EMAIL;
@@ -324,6 +366,12 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	public function setSha1Password($v)
 	{
 
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
 		if ($this->sha1_password !== $v) {
 			$this->sha1_password = $v;
 			$this->modifiedColumns[] = UserPeer::SHA1_PASSWORD;
@@ -333,6 +381,12 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	
 	public function setSalt($v)
 	{
+
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
 
 		if ($this->salt !== $v) {
 			$this->salt = $v;
@@ -374,6 +428,12 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	public function setDeletions($v)
 	{
 
+		
+		
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
 		if ($this->deletions !== $v || $v === 0) {
 			$this->deletions = $v;
 			$this->modifiedColumns[] = UserPeer::DELETIONS;
@@ -383,6 +443,12 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	
 	public function setPassword($v)
 	{
+
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
 
 		if ($this->password !== $v) {
 			$this->password = $v;
@@ -429,7 +495,9 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 			$this->setNew(false);
 
-						return $startcol + 15; 
+			
+			return $startcol + 15; 
+
 		} catch (Exception $e) {
 			throw new PropelException("Error populating User object", $e);
 		}
@@ -657,7 +725,8 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 			default:
 				return null;
 				break;
-		} 	}
+		} 
+	}
 
 	
 	public function toArray($keyType = BasePeer::TYPE_PHPNAME)
@@ -739,7 +808,8 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 			case 14:
 				$this->setPassword($value);
 				break;
-		} 	}
+		} 
+	}
 
 	
 	public function fromArray($arr, $keyType = BasePeer::TYPE_PHPNAME)

@@ -109,8 +109,10 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 		if ($this->created_at === null || $this->created_at === '') {
 			return null;
 		} elseif (!is_int($this->created_at)) {
-						$ts = strtotime($this->created_at);
-			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse value of [created_at] as date/time value: " . var_export($this->created_at, true));
+			
+			$ts = strtotime($this->created_at);
+			if ($ts === -1 || $ts === false) { 
+				throw new PropelException("Unable to parse value of [created_at] as date/time value: " . var_export($this->created_at, true));
 			}
 		} else {
 			$ts = $this->created_at;
@@ -131,8 +133,10 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 		if ($this->last_updated === null || $this->last_updated === '') {
 			return null;
 		} elseif (!is_int($this->last_updated)) {
-						$ts = strtotime($this->last_updated);
-			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse value of [last_updated] as date/time value: " . var_export($this->last_updated, true));
+			
+			$ts = strtotime($this->last_updated);
+			if ($ts === -1 || $ts === false) { 
+				throw new PropelException("Unable to parse value of [last_updated] as date/time value: " . var_export($this->last_updated, true));
 			}
 		} else {
 			$ts = $this->last_updated;
@@ -241,6 +245,12 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	public function setId($v)
 	{
 
+		
+		
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
 		if ($this->id !== $v) {
 			$this->id = $v;
 			$this->modifiedColumns[] = AgentPeer::ID;
@@ -253,7 +263,8 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 
 		if ($v !== null && !is_int($v)) {
 			$ts = strtotime($v);
-			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse date/time value for [created_at] from input: " . var_export($v, true));
+			if ($ts === -1 || $ts === false) { 
+				throw new PropelException("Unable to parse date/time value for [created_at] from input: " . var_export($v, true));
 			}
 		} else {
 			$ts = $v;
@@ -270,7 +281,8 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 
 		if ($v !== null && !is_int($v)) {
 			$ts = strtotime($v);
-			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse date/time value for [last_updated] from input: " . var_export($v, true));
+			if ($ts === -1 || $ts === false) { 
+				throw new PropelException("Unable to parse date/time value for [last_updated] from input: " . var_export($v, true));
 			}
 		} else {
 			$ts = $v;
@@ -285,6 +297,12 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	public function setOrgEmail($v)
 	{
 
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
 		if ($this->org_email !== $v || $v === '') {
 			$this->org_email = $v;
 			$this->modifiedColumns[] = AgentPeer::ORG_EMAIL;
@@ -294,6 +312,12 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	
 	public function setOrgName($v)
 	{
+
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
 
 		if ($this->org_name !== $v || $v === '') {
 			$this->org_name = $v;
@@ -305,6 +329,12 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	public function setIndAffiliation($v)
 	{
 
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
 		if ($this->ind_affiliation !== $v) {
 			$this->ind_affiliation = $v;
 			$this->modifiedColumns[] = AgentPeer::IND_AFFILIATION;
@@ -314,6 +344,12 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	
 	public function setIndRole($v)
 	{
+
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
 
 		if ($this->ind_role !== $v) {
 			$this->ind_role = $v;
@@ -325,6 +361,12 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	public function setAddress1($v)
 	{
 
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
 		if ($this->address1 !== $v) {
 			$this->address1 = $v;
 			$this->modifiedColumns[] = AgentPeer::ADDRESS1;
@@ -334,6 +376,12 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	
 	public function setAddress2($v)
 	{
+
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
 
 		if ($this->address2 !== $v) {
 			$this->address2 = $v;
@@ -345,6 +393,12 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	public function setCity($v)
 	{
 
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
 		if ($this->city !== $v) {
 			$this->city = $v;
 			$this->modifiedColumns[] = AgentPeer::CITY;
@@ -354,6 +408,12 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	
 	public function setState($v)
 	{
+
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
 
 		if ($this->state !== $v) {
 			$this->state = $v;
@@ -365,6 +425,12 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	public function setPostalCode($v)
 	{
 
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
 		if ($this->postal_code !== $v) {
 			$this->postal_code = $v;
 			$this->modifiedColumns[] = AgentPeer::POSTAL_CODE;
@@ -374,6 +440,12 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	
 	public function setCountry($v)
 	{
+
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
 
 		if ($this->country !== $v) {
 			$this->country = $v;
@@ -385,6 +457,12 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	public function setPhone($v)
 	{
 
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
 		if ($this->phone !== $v) {
 			$this->phone = $v;
 			$this->modifiedColumns[] = AgentPeer::PHONE;
@@ -395,6 +473,12 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	public function setWebAddress($v)
 	{
 
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
 		if ($this->web_address !== $v) {
 			$this->web_address = $v;
 			$this->modifiedColumns[] = AgentPeer::WEB_ADDRESS;
@@ -404,6 +488,12 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	
 	public function setType($v)
 	{
+
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
 
 		if ($this->type !== $v) {
 			$this->type = $v;
@@ -452,7 +542,9 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 
 			$this->setNew(false);
 
-						return $startcol + 16; 
+			
+			return $startcol + 16; 
+
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Agent object", $e);
 		}
@@ -683,7 +775,8 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 			default:
 				return null;
 				break;
-		} 	}
+		} 
+	}
 
 	
 	public function toArray($keyType = BasePeer::TYPE_PHPNAME)
@@ -769,7 +862,8 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 			case 15:
 				$this->setType($value);
 				break;
-		} 	}
+		} 
+	}
 
 	
 	public function fromArray($arr, $keyType = BasePeer::TYPE_PHPNAME)

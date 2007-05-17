@@ -1,32 +1,32 @@
 <?php
 
 
-	
+
 class AgentHasUserMapBuilder {
 
 	
-	const CLASS_NAME = 'lib.model.map.AgentHasUserMapBuilder';	
-
-    
-    private $dbMap;
+	const CLASS_NAME = 'lib.model.map.AgentHasUserMapBuilder';
 
 	
-    public function isBuilt()
-    {
-        return ($this->dbMap !== null);
-    }
+	private $dbMap;
 
 	
-    public function getDatabaseMap()
-    {
-        return $this->dbMap;
-    }
+	public function isBuilt()
+	{
+		return ($this->dbMap !== null);
+	}
 
-    
-    public function doBuild()
-    {
+	
+	public function getDatabaseMap()
+	{
+		return $this->dbMap;
+	}
+
+	
+	public function doBuild()
+	{
 		$this->dbMap = Propel::getDatabaseMap('propel');
-		
+
 		$tMap = $this->dbMap->addTable('reg_agent_has_user');
 		$tMap->setPhpName('AgentHasUser');
 
@@ -36,10 +36,10 @@ class AgentHasUserMapBuilder {
 
 		$tMap->addForeignPrimaryKey('AGENT_ID', 'AgentId', 'int' , CreoleTypes::INTEGER, 'reg_agent', 'ID', true, null);
 
-		$tMap->addColumn('IS_REGISTRAR_FOR', 'IsRegistrarFor', 'boolean', CreoleTypes::BOOLEAN, false);
+		$tMap->addColumn('IS_REGISTRAR_FOR', 'IsRegistrarFor', 'boolean', CreoleTypes::BOOLEAN, false, null);
 
-		$tMap->addColumn('IS_ADMIN_FOR', 'IsAdminFor', 'boolean', CreoleTypes::BOOLEAN, false);
-				
-    } 
+		$tMap->addColumn('IS_ADMIN_FOR', 'IsAdminFor', 'boolean', CreoleTypes::BOOLEAN, false, null);
+
+	} 
 
 } 

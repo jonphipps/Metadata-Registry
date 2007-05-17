@@ -56,6 +56,12 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 	public function setId($v)
 	{
 
+		
+		
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
 		if ($this->id !== $v) {
 			$this->id = $v;
 			$this->modifiedColumns[] = StatusPeer::ID;
@@ -66,6 +72,12 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 	public function setDisplayOrder($v)
 	{
 
+		
+		
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
 		if ($this->display_order !== $v) {
 			$this->display_order = $v;
 			$this->modifiedColumns[] = StatusPeer::DISPLAY_ORDER;
@@ -75,6 +87,12 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 	
 	public function setDisplayName($v)
 	{
+
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
 
 		if ($this->display_name !== $v) {
 			$this->display_name = $v;
@@ -97,7 +115,9 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 
 			$this->setNew(false);
 
-						return $startcol + 3; 
+			
+			return $startcol + 3; 
+
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Status object", $e);
 		}
@@ -252,7 +272,8 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 			default:
 				return null;
 				break;
-		} 	}
+		} 
+	}
 
 	
 	public function toArray($keyType = BasePeer::TYPE_PHPNAME)
@@ -286,7 +307,8 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 			case 2:
 				$this->setDisplayName($value);
 				break;
-		} 	}
+		} 
+	}
 
 	
 	public function fromArray($arr, $keyType = BasePeer::TYPE_PHPNAME)
