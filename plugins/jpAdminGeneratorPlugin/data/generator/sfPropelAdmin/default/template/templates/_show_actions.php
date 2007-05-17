@@ -1,11 +1,18 @@
 <ul class="sf_admin_actions">
-<?php $showActions = $this->getParameterValue('show.actions'); ?>
-<?php if ($showActions): ?>
-   <?php foreach ($showActions as $actionName => $params): ?>
-     <?php if ($actionName == '_delete') continue ?>
-     <?php echo $this->addCredentialCondition($this->getButtonToAction($actionName, $params, true), $params, false, true, "show") ?>
-   <?php endforeach; ?>
-<?php else: ?>
-  <?php echo $this->getButtonToAction('_list', array(), false) ?>
-<?php endif; ?>
+<?php
+  $showActions = $this->getParameterValue('show.actions');
+  if (null !== $showActions)
+  {
+    foreach ($showActions as $actionName => $params)
+    {
+      if ($actionName == '_delete') continue;
+      $params['only_for'] = $this->getParameterValue('edit.actions.'.$actionName.'.mode');
+  echo $this->addCredentialCondition($this->getButtonToAction($actionName, $params, (strtolower($actionName) != '_create')), $params, false, true, "show");
+    }
+  }
+  else
+  {
+  echo $this->getButtonToAction('_list', array(), false);
+  }
+?>
 </ul>
