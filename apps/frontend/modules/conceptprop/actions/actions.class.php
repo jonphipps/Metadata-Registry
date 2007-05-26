@@ -62,9 +62,9 @@ class conceptpropActions extends autoconceptpropActions
          $concept_property['related_concept_id'] = null;
          $concept_property['scheme_id'] = null;
          //save the array back to the request parameter
-         $this->request_parameter_holder->set('concept_property', $concept_property);
+         $this->requestParameterHolder->set('concept_property', $concept_property);
       }
-      
+
       $conceptPropertyId = $this->getRequestParameter('id');
       if (isset($conceptPropertyId))
       {

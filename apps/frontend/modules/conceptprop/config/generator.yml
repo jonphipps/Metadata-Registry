@@ -30,10 +30,10 @@ generator:
       display:       [=skos_property, _show_object, last_updated]
       displayfilter: false
       object_actions:
-        _edit:       { credentials: [[administrator, vocabularymaintainer]] }
-        _delete:     { credentials: [[administrator, vocabularymaintainer]] }
+        _edit:       { credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
+        _delete:     { credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
       actions:
-        _create:     { name: Add Property, credentials: [[administrator, vocabularymaintainer]] }
+        _create:     { name: Add Property, credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
       filters:       [concept_id, skos_property_id, last_updated, object]
       # urlfilter form is [field to filter on]: [value passed from routing.yml]
       # multiple filters can be set but they're currently mutually exclusive (any of the list can be used but only one per url)
@@ -50,26 +50,27 @@ generator:
         language:           { type: select_language_tag }
       title:           Edit
       display:
-        "Metadata":    { fields: [id, created_at, last_updated], mode: edit, credentials: [[administrator, vocabularymaintainer]] }
+        "-Metadata":   { fields: [id, created_at, last_updated], mode: edit, credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
         "Detail":      [skos_property_id, _scheme_id, related_concept_id, object, language]
         "Properties":  [_listproperties]
       actions:
         # You can add a string literal to the query string like this: foo: "'bar'" which will add foo=bar
         _list:         { query_string: {concept_id: concept_id} }
-        _save:         { credentials: [[administrator, vocabularymaintainer]] }
-        _delete:       { credentials: [[administrator, vocabularymaintainer]] }
-        _create:       { credentials: [[administrator, vocabularymaintainer]] }
-        _save_and_add: { credentials: [[administrator, vocabularymaintainer]] }
+        _save:         { credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
+        _delete:       { credentials: [[administrator, vocabularyadmin]] }
+        _create:       { name: Add Property, credentials: [[administrator, vocabularymaintainer, vocabularyadmin]], mode: edit }
+        _save_and_add: { credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
 
     show:
       fields:
-        id:           { name: ID, credentials: [administrator] }
+        id:           { credentials: [administrator] }
         object:       { helper: auto_link_text }
       display:
-        "Metadata":   [id, created_at, last_updated]
+        "-Metadata":   { fields: [id, created_at, last_updated], credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
         "Detail":     [skos_property, related_scheme, related_concept, object, _language]
         "Properties": [_listproperties]
       actions:
-        _edit:        { credentials: [[administrator, vocabularymaintainer]] }
+        _edit:        { credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
+        _create:      { name: Add Property, credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
         _list:        { query_string: {concept_id: concept_id} }
 
