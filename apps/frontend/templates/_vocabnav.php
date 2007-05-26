@@ -1,4 +1,3 @@
-<?php echo stylesheet_tag('tabs') ?>
 <?php
   $topnav = array();
   $topnav['Detail']['link']  = '/vocabulary/show?id=';
@@ -6,7 +5,7 @@
   $topnav['History']['link'] = '#';;
   $topnav['Versions']['link'] = '#';;
 ?>
-<ul id="topnav" style="height:1.9em; position:relative">
+<ul id="topnav" style="height:1.85em; position:relative;" class="single" >
 <?php $i = 0;
   foreach ($topnav as $key => $value):
     $here = false;

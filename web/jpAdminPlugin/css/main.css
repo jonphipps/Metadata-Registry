@@ -213,7 +213,7 @@ body,
 #sf_admin_container div#sf_admin_header
 {
   background-color: #ffc;
-  border: 1px solid white;
+  border: 1px solid #DDDDDD;
   border-bottom:0;
 }
 

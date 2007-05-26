@@ -1,4 +1,4 @@
 all:
-  stylesheets: [vocabulary/layout]
+  stylesheets: [vocabulary/layout, tabs]
 editSuccess:
   javascripts: [vocabulary]

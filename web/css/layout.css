@@ -125,3 +125,15 @@ and 5.5, hence the child selector hack */
   position: relative;
   z-index: 1000;
 }
+
+div.form-errors dl
+{
+  padding:4px;
+  margin:0
+}
+
+div.form-errors dd
+{
+  padding:0 15px;
+  margin:0;
+}
