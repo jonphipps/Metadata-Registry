@@ -1,15 +1,27 @@
 <h1>
-<?php if ($sf_params->get('id')): ?>
-   <?php $vocabulary = $sf_user->getCurrentVocabulary() ?>
-   <?php echo link_to('Vocabulary:', 'vocabulary/list') ?>
-   <?php if ($vocabulary): ?>
-      <?php echo link_to($vocabulary->getName(), 'vocabulary/show?id=' . $vocabulary->getId()) ?>
-      <br />&nbsp;&nbsp;<?php echo link_to('Concepts: ', '/concept/list?vocabulary_id=' . $vocabulary->getID()) ?>
-   <?php endif; ?>
-   <?php $concept = $sf_user->getCurrentConcept() ?>
-   <?php if ($concept): ?>
-      <?php echo link_to($concept->getPrefLabel(), '/concept/show?id=' . $concept->getID()) ?>
-   <?php endif; ?>
-   <br />&nbsp;&nbsp;&nbsp;&nbsp;<?php echo link_to('Properties: ', '/conceptprop/list?concept_id=' . $concept->getID()) . "Editing " .  $concept_property->getSkosPropertyName() ?>
-<?php endif; ?>
+<?php
+  $vocabulary = $sf_user->getCurrentVocabulary();
+  echo link_to('Vocabulary:', 'vocabulary/list');
+  if ($vocabulary)
+  {
+    echo link_to($vocabulary->getName(), 'vocabulary/show?id=' . $vocabulary->getId());
+    echo "<br />&nbsp;&nbsp;" . link_to('Concepts: ', '/concept/list?vocabulary_id=' . $vocabulary->getID());
+  }
+  $concept = $sf_user->getCurrentConcept();
+  if ($concept)
+  {
+    echo link_to($concept->getPrefLabel(), '/concept/show?id=' . $concept->getID());
+  }
+
+  echo "<br />&nbsp;&nbsp;&nbsp;&nbsp;" . link_to('Properties:', '/conceptprop/list?concept_id=' . $concept->getID()) . "&nbsp;";
+
+  if ($sf_params->get('id'))
+  {
+    echo "Editing&nbsp;" .  $concept_property->getSkosPropertyName();
+  }
+  else
+  {
+    echo "Creating New Property";
+  }
+?>
 </h1>

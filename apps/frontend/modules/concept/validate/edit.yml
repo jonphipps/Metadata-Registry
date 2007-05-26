@@ -1,33 +1,29 @@
-methods:
-  post:
-    - "concept{pref_label}"
-    - "concept{uri}"
-
-names:
-  concept{pref_label}:
-    required:     Yes
-    required_msg: Concept label cannot be blank
-    validators:   uniqueLabelValidator
-  concept{uri}:
-    required:     Yes
-    required_msg: Concept URI cannot be blank
-    validators:   uniqueUriValidator
-
-uriValidator:
-  class:          sfRegexValidator
-  param:
-    match:        Yes
-    match_error:  "Please enter a valid uri (for example: http://example.com/)"
-    pattern:      /^(http):\/\/(([A-Z0-9][A-Z0-9_-]*)(\.[A-Z0-9][A-Z0-9_-]*)+)(:(\d+))?\//i
-uniqueUriValidator:
-  class:          sfPropelUniqueValidator
-  param:
-    class:        Concept
-    column:       uri
-    unique_error: This Concept URI has already been registered.
-uniqueLabelValidator:
-  class:          myPropelUniqueConceptValidator
-  param:
-    unique_error: This Concept has already been registered.
 fillin:
-  activate: on
+  enabled:      true
+
+fields:
+  concept{pref_label}:
+    required:
+      msg: Concept label cannot be blank
+    uniqueLabelValidator:
+  concept{uri}:
+    required:
+      msg: Concept URI cannot be blank
+    uniqueUriValidator:
+
+validators:
+# We're not using the URI validator at the moment because we're not sure that all URIs will validate as URLs
+  uriValidator:
+    class:         sfUrlValidator
+    param:
+      url_error:  "Please enter a valid uri (for example: http://example.com/)"
+
+  uniqueUriValidator:
+    class:          myPropelUniqueUriValidator
+    param:
+      unique_error: This Concept URI has already been registered.
+
+  uniqueLabelValidator:
+    class:          myPropelUniqueConceptValidator
+    param:
+      unique_error: This prefLabel has already been registered in this scheme.

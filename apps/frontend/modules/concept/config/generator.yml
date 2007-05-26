@@ -34,44 +34,40 @@ generator:
       display:          [is_top_concept, =prefLabel, uri, status, last_updated]
       displayfilter:    false
       object_actions:
-        _edit:          { credentials: [[administrator, vocabularymaintainer]] }
+        _edit:          { credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
       actions:
-        _create:        { name: Add Concept, credentials: [[administrator, vocabularymaintainer]] }
+        _create:        { name: Add Concept, credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
       filters:          [vocabulary_id, pref_label, last_updated, is_top_concept, status]
       urlfilters:
         vocabulary_id:  vocabulary_id
 
     edit:
-      id:
-         credentials: [administrator]
-      created_at:
-        credentials:  [[administrator, vocabularymaintainer]]
-      last_updated:
-        credentials:  [[administrator, vocabularymaintainer]]
+      fields:
+        id:            { credentials: [administrator], mode: edit }
       title:           Detail for %%pref_label%%
       hide:            [vocabulary_id]
       display:
-        "Metadata":    { fields: [id, created_at, last_updated], mode: edit, credentials: [[administrator, vocabularymaintainer]] }
+        "-Metadata":   { fields: [id, created_at, last_updated], mode: edit, credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
         "Detail":      [pref_label, uri, is_top_concept, status_id]
         "Properties":  [_listproperties]
       actions:
         _list:         { query_string: { vocabulary_id: vocabulary_id} }
-        _save:         { credentials: [[administrator, vocabularymaintainer]] }
-        _delete:       { credentials: [administrator] }
-        _create:       { credentials: [[administrator, vocabularymaintainer]], mode: edit  }
-        _save_and_add: { credentials: [[administrator, vocabularymaintainer]] }
+        _save:         { credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
+        _delete:       { credentials: [[administrator, vocabularyadmin]] }
+        _create:       { name: Add Concept, credentials: [[administrator, vocabularymaintainer, vocabularyadmin]], mode: edit  }
+        _save_and_add: { credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
 
     show:
       fields:
-        id:            { name: ID, credentials: [administrator] }
+        id:            { credentials: [administrator] }
         uri:           { helper: auto_link_text }
       display:
-        "Metadata":    [id, created_at, last_updated]
+        "-Metadata":   { fields: [id, created_at, last_updated], credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
         "Detail":      [pref_label, uri, is_top_concept, status]
         "Properties":  [_listproperties]
       actions:
         _edit:         { credentials: [[administrator, vocabularymaintainer]] }
-        _create:       { credentials: [[administrator, vocabularymaintainer]], mode: edit  }
+        _create:       { name: Add Concept, credentials: [[administrator, vocabularymaintainer]] }
         _list:         { query_string: { vocabulary_id: vocabulary_id} }
         rdf:           { name: Get RDF, icon: %SF_ADMIN_WEB_DIR%/images/rdf_icon.png, route: rdf_concept }
             

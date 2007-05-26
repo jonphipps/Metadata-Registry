@@ -21,7 +21,8 @@ class myPropelUniqueConceptValidator extends sfValidator
 {
   public function execute(&$value, &$error)
   {
-    $vocabId    = $this->getContext()->getRequest()->getParameter('vocabulary_id');
+    $vocabId   = $this->getContext()->getRequest()->getParameter('vocabulary_id');
+    $conceptId = $this->getContext()->getRequest()->getParameter('id');
 
     $c = new Criteria();
     $c->add(ConceptPeer::PREF_LABEL, $value);
@@ -31,9 +32,17 @@ class myPropelUniqueConceptValidator extends sfValidator
 
     if ($object)
     {
-       $error = $this->getParameter('unique_error');
+       //check to see if the retrieved object has the same id
+       if ($conceptId && ($object->getId() == $conceptId))
+       {
+         return true;
+       }
+       else
+       {
+         $error = $this->getParameter('unique_error');
 
-       return false;
+         return false;
+       }
     }
 
     return true;
