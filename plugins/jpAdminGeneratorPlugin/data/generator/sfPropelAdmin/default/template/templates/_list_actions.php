@@ -6,7 +6,6 @@
     foreach ((array) $listActions as $actionName => $params)
     {
   echo $this->addCredentialCondition($this->getButtonToAction($actionName, $params, false), $params, false, false);
-      $counter++;
     }
   }
   else

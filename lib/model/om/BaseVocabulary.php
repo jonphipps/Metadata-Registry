@@ -55,8 +55,19 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	
 	protected $last_uri_id = 1000;
 
+
+	
+	protected $language;
+
+
+	
+	protected $status_id = 1;
+
 	
 	protected $aAgent;
+
+	
+	protected $aStatus;
 
 	
 	protected $collConcepts;
@@ -198,6 +209,20 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	{
 
 		return $this->last_uri_id;
+	}
+
+	
+	public function getLanguage()
+	{
+
+		return $this->language;
+	}
+
+	
+	public function getStatusId()
+	{
+
+		return $this->status_id;
 	}
 
 	
@@ -401,6 +426,42 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 
 	} 
 	
+	public function setLanguage($v)
+	{
+
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->language !== $v) {
+			$this->language = $v;
+			$this->modifiedColumns[] = VocabularyPeer::LANGUAGE;
+		}
+
+	} 
+	
+	public function setStatusId($v)
+	{
+
+		
+		
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->status_id !== $v || $v === 1) {
+			$this->status_id = $v;
+			$this->modifiedColumns[] = VocabularyPeer::STATUS_ID;
+		}
+
+		if ($this->aStatus !== null && $this->aStatus->getId() !== $v) {
+			$this->aStatus = null;
+		}
+
+	} 
+	
 	public function hydrate(ResultSet $rs, $startcol = 1)
 	{
 		try {
@@ -429,12 +490,16 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 
 			$this->last_uri_id = $rs->getInt($startcol + 11);
 
+			$this->language = $rs->getString($startcol + 12);
+
+			$this->status_id = $rs->getInt($startcol + 13);
+
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			
-			return $startcol + 12; 
+			return $startcol + 14; 
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Vocabulary object", $e);
@@ -503,6 +568,13 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 					$affectedRows += $this->aAgent->save($con);
 				}
 				$this->setAgent($this->aAgent);
+			}
+
+			if ($this->aStatus !== null) {
+				if ($this->aStatus->isModified()) {
+					$affectedRows += $this->aStatus->save($con);
+				}
+				$this->setStatus($this->aStatus);
 			}
 
 
@@ -581,6 +653,12 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 			if ($this->aAgent !== null) {
 				if (!$this->aAgent->validate($columns)) {
 					$failureMap = array_merge($failureMap, $this->aAgent->getValidationFailures());
+				}
+			}
+
+			if ($this->aStatus !== null) {
+				if (!$this->aStatus->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aStatus->getValidationFailures());
 				}
 			}
 
@@ -668,6 +746,12 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 			case 11:
 				return $this->getLastUriId();
 				break;
+			case 12:
+				return $this->getLanguage();
+				break;
+			case 13:
+				return $this->getStatusId();
+				break;
 			default:
 				return null;
 				break;
@@ -691,6 +775,8 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 			$keys[9] => $this->getToken(),
 			$keys[10] => $this->getCommunity(),
 			$keys[11] => $this->getLastUriId(),
+			$keys[12] => $this->getLanguage(),
+			$keys[13] => $this->getStatusId(),
 		);
 		return $result;
 	}
@@ -742,6 +828,12 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 			case 11:
 				$this->setLastUriId($value);
 				break;
+			case 12:
+				$this->setLanguage($value);
+				break;
+			case 13:
+				$this->setStatusId($value);
+				break;
 		} 
 	}
 
@@ -762,6 +854,8 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[9], $arr)) $this->setToken($arr[$keys[9]]);
 		if (array_key_exists($keys[10], $arr)) $this->setCommunity($arr[$keys[10]]);
 		if (array_key_exists($keys[11], $arr)) $this->setLastUriId($arr[$keys[11]]);
+		if (array_key_exists($keys[12], $arr)) $this->setLanguage($arr[$keys[12]]);
+		if (array_key_exists($keys[13], $arr)) $this->setStatusId($arr[$keys[13]]);
 	}
 
 	
@@ -781,6 +875,8 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(VocabularyPeer::TOKEN)) $criteria->add(VocabularyPeer::TOKEN, $this->token);
 		if ($this->isColumnModified(VocabularyPeer::COMMUNITY)) $criteria->add(VocabularyPeer::COMMUNITY, $this->community);
 		if ($this->isColumnModified(VocabularyPeer::LAST_URI_ID)) $criteria->add(VocabularyPeer::LAST_URI_ID, $this->last_uri_id);
+		if ($this->isColumnModified(VocabularyPeer::LANGUAGE)) $criteria->add(VocabularyPeer::LANGUAGE, $this->language);
+		if ($this->isColumnModified(VocabularyPeer::STATUS_ID)) $criteria->add(VocabularyPeer::STATUS_ID, $this->status_id);
 
 		return $criteria;
 	}
@@ -832,6 +928,10 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 		$copyObj->setCommunity($this->community);
 
 		$copyObj->setLastUriId($this->last_uri_id);
+
+		$copyObj->setLanguage($this->language);
+
+		$copyObj->setStatusId($this->status_id);
 
 
 		if ($deepCopy) {
@@ -902,6 +1002,36 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 			
 		}
 		return $this->aAgent;
+	}
+
+	
+	public function setStatus($v)
+	{
+
+
+		if ($v === null) {
+			$this->setStatusId('1');
+		} else {
+			$this->setStatusId($v->getId());
+		}
+
+
+		$this->aStatus = $v;
+	}
+
+
+	
+	public function getStatus($con = null)
+	{
+				include_once 'lib/model/om/BaseStatusPeer.php';
+
+		if ($this->aStatus === null && ($this->status_id !== null)) {
+
+			$this->aStatus = StatusPeer::retrieveByPK($this->status_id, $con);
+
+			
+		}
+		return $this->aStatus;
 	}
 
 	

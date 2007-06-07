@@ -14,6 +14,7 @@ class vocabularyActions extends autovocabularyActions
   public function setDefaults($vocabulary)
   {
     $vocabulary->setBaseDomain('http://metadataregistry.org/uri/');
+    $vocabulary->setLanguage('en');
     parent::setDefaults($vocabulary);
   }
 

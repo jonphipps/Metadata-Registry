@@ -224,16 +224,16 @@ propel:
       foreignReference: id
       onDelete: CASCADE
       onUpdate: RESTRICT
-    language: 
+    language:
       type: CHAR
       size: 6
-    status_id: 
+    status_id:
       type: INTEGER
       foreignTable: reg_lookup
       foreignReference: id
       onDelete: RESTRICT
       onUpdate: RESTRICT
-    _indexes: 
+    _indexes:
       concept_id: 
         - concept_id
       skos_property_id: 
@@ -463,9 +463,21 @@ propel:
     last_uri_id:
       type: INTEGER
       default: 1000
+    language:
+      type: CHAR
+      size: 6
+    status_id:
+      type: INTEGER
+      default: 1
+      foreignTable: reg_status
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
     _indexes:
       agent_id:
         - agent_id
+      status_id:
+        - status_id
 
   reg_resource:
     _attributes:
@@ -541,7 +553,7 @@ propel:
       foreignReference: id
       onDelete: CASCADE
       onUpdate: RESTRICT
-    user_id: 
+    user_id:
       type: INTEGER
       required: true
       primaryKey: true

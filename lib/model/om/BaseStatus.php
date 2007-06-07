@@ -26,6 +26,12 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 	protected $lastConceptCriteria = null;
 
 	
+	protected $collVocabularys;
+
+	
+	protected $lastVocabularyCriteria = null;
+
+	
 	protected $alreadyInSave = false;
 
 	
@@ -193,6 +199,14 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 				}
 			}
 
+			if ($this->collVocabularys !== null) {
+				foreach($this->collVocabularys as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
+			}
+
 			$this->alreadyInSave = false;
 		}
 		return $affectedRows;
@@ -236,6 +250,14 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 
 				if ($this->collConcepts !== null) {
 					foreach($this->collConcepts as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
+
+				if ($this->collVocabularys !== null) {
+					foreach($this->collVocabularys as $referrerFK) {
 						if (!$referrerFK->validate($columns)) {
 							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
 						}
@@ -370,6 +392,10 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 				$copyObj->addConcept($relObj->copy($deepCopy));
 			}
 
+			foreach($this->getVocabularys() as $relObj) {
+				$copyObj->addVocabulary($relObj->copy($deepCopy));
+			}
+
 		} 
 
 		$copyObj->setNew(true);
@@ -498,6 +524,111 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 		$this->lastConceptCriteria = $criteria;
 
 		return $this->collConcepts;
+	}
+
+	
+	public function initVocabularys()
+	{
+		if ($this->collVocabularys === null) {
+			$this->collVocabularys = array();
+		}
+	}
+
+	
+	public function getVocabularys($criteria = null, $con = null)
+	{
+				include_once 'lib/model/om/BaseVocabularyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collVocabularys === null) {
+			if ($this->isNew()) {
+			   $this->collVocabularys = array();
+			} else {
+
+				$criteria->add(VocabularyPeer::STATUS_ID, $this->getId());
+
+				VocabularyPeer::addSelectColumns($criteria);
+				$this->collVocabularys = VocabularyPeer::doSelect($criteria, $con);
+			}
+		} else {
+						if (!$this->isNew()) {
+												
+
+				$criteria->add(VocabularyPeer::STATUS_ID, $this->getId());
+
+				VocabularyPeer::addSelectColumns($criteria);
+				if (!isset($this->lastVocabularyCriteria) || !$this->lastVocabularyCriteria->equals($criteria)) {
+					$this->collVocabularys = VocabularyPeer::doSelect($criteria, $con);
+				}
+			}
+		}
+		$this->lastVocabularyCriteria = $criteria;
+		return $this->collVocabularys;
+	}
+
+	
+	public function countVocabularys($criteria = null, $distinct = false, $con = null)
+	{
+				include_once 'lib/model/om/BaseVocabularyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		$criteria->add(VocabularyPeer::STATUS_ID, $this->getId());
+
+		return VocabularyPeer::doCount($criteria, $distinct, $con);
+	}
+
+	
+	public function addVocabulary(Vocabulary $l)
+	{
+		$this->collVocabularys[] = $l;
+		$l->setStatus($this);
+	}
+
+
+	
+	public function getVocabularysJoinAgent($criteria = null, $con = null)
+	{
+				include_once 'lib/model/om/BaseVocabularyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collVocabularys === null) {
+			if ($this->isNew()) {
+				$this->collVocabularys = array();
+			} else {
+
+				$criteria->add(VocabularyPeer::STATUS_ID, $this->getId());
+
+				$this->collVocabularys = VocabularyPeer::doSelectJoinAgent($criteria, $con);
+			}
+		} else {
+									
+			$criteria->add(VocabularyPeer::STATUS_ID, $this->getId());
+
+			if (!isset($this->lastVocabularyCriteria) || !$this->lastVocabularyCriteria->equals($criteria)) {
+				$this->collVocabularys = VocabularyPeer::doSelectJoinAgent($criteria, $con);
+			}
+		}
+		$this->lastVocabularyCriteria = $criteria;
+
+		return $this->collVocabularys;
 	}
 
 } 
