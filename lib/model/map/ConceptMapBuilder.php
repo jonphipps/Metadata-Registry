@@ -46,6 +46,8 @@ class ConceptMapBuilder {
 
 		$tMap->addColumn('IS_TOP_CONCEPT', 'IsTopConcept', 'boolean', CreoleTypes::BOOLEAN, false, null);
 
+		$tMap->addColumn('LANGUAGE', 'Language', 'string', CreoleTypes::CHAR, false, 6);
+
 		$tMap->addForeignKey('STATUS_ID', 'StatusId', 'int', CreoleTypes::INTEGER, 'reg_status', 'ID', false, null);
 
 	} 

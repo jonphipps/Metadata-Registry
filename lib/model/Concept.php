@@ -118,37 +118,4 @@ class Concept extends BaseConcept
     return $this->getPrefLabel();
   }
 
-  /**
-  * description
-  *
-  * @return return_type
-  * @param  var_type $var
-  */
-  public function setprefLabel($v)
-  {
-    //check for an existing preflabel property
-    $conceptProperty = '';
-    if ($this->getId())
-    {
-      $c = new Criteria();
-      $c->add(ConceptPeer::ID, $this->getId());
-      $c->add(ConceptPropertyPeer::SKOS_PROPERTY_ID, SkosProperty::getPrefLabelId());
-      $conceptPropertyColl = $this->getConceptPropertysRelatedByConceptId($c);
-      if (isset($conceptPropertyColl[0]))
-      {
-        $conceptProperty = $conceptPropertyColl[0];
-      }
-      /* @var ConceptPropertyPeer $conceptProperty  */
-    }
-    if (!$conceptProperty)
-    {
-      $conceptProperty = new ConceptProperty();
-      $conceptProperty->setSkosPropertyId(SkosProperty::getPrefLabelId());
-    }
-    $conceptProperty->setObject($v);
-    $this->addConceptPropertyRelatedByConceptId($conceptProperty);
-    parent::setPrefLabel($v);
-    return;
-  }
-
 } // Concept

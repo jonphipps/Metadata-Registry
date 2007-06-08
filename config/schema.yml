@@ -121,7 +121,11 @@ propel:
       onUpdate: RESTRICT
     is_top_concept:
       type: BOOLEAN
-    status_id: 
+    language:
+      type: CHAR
+      size: 6
+      default: en
+    status_id:
       type: INTEGER
       default: 1
       foreignTable: reg_status

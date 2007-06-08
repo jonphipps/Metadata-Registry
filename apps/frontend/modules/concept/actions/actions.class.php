@@ -45,6 +45,9 @@ class conceptActions extends autoconceptActions
 
       $concept->setUri($newURI);
       $concept->setprefLabel('');
+      //set to the vocabulary defaults
+      $concept->setLanguage($vocabObj->getLanguage());
+      $concept->setStatusId($vocabObj->getStatusId());
     }
 
     parent::setDefaults($concept);
@@ -141,6 +144,74 @@ class conceptActions extends autoconceptActions
      }
      $this->concepts = $options;
   }
+
+  public function updateConceptFromRequest()
+  {
+    parent::updateConceptFromRequest();
+
+    //bail if there are errors
+    if ($this->getRequest()->hasErrors())
+    {
+      return;
+    }
+
+    $concept = $this->getRequestParameter('concept');
+    $id = $this->getRequestParameter('id');
+
+    //check for an existing preflabel property
+    $conceptProperty = '';
+    if ($id)
+    {
+      $c = new Criteria();
+      $c->add(ConceptPropertyPeer::CONCEPT_ID, $id);
+      $c->add(ConceptPropertyPeer::SKOS_PROPERTY_ID, SkosProperty::getPrefLabelId());
+      $c->add(ConceptPropertyPeer::LANGUAGE, $concept['language']);
+
+      /* @var ConceptPropertyPeer $conceptProperty  */
+      $conceptProperty = ConceptPropertyPeer::doSelectOne($c);
+    }
+
+    if (!$conceptProperty)
+    {
+      $conceptProperty = new ConceptProperty();
+      $conceptProperty->setSkosPropertyId(SkosProperty::getPrefLabelId());
+    }
+
+    if (isset($concept['pref_label']))
+    {
+      $conceptProperty->setObject($concept['pref_label']);
+    }
+    if (isset($concept['language']))
+    {
+      $conceptProperty->setLanguage($concept['language']);
+    }
+    if (isset($concept['status_id']))
+    {
+      $conceptProperty->setStatusId($concept['status_id']);
+    }
+
+    //update the pref_label concept property
+    $conceptProperty->save();
+
+  }
+
+  protected function getConceptOrCreate($id = 'id')
+  {
+    if (!$this->getRequestParameter($id))
+    {
+      $concept = new Concept();
+      $this->setDefaults($concept);
+    }
+    else
+    {
+      $concept = ConceptPeer::retrieveByPk($this->getRequestParameter($id));
+
+      $this->forward404Unless($concept);
+    }
+
+    return $concept;
+  }
+
 
 }
 

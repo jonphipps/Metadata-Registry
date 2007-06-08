@@ -13,7 +13,7 @@ abstract class BaseConceptPeer {
 	const CLASS_DEFAULT = 'lib.model.Concept';
 
 	
-	const NUM_COLUMNS = 8;
+	const NUM_COLUMNS = 9;
 
 	
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -41,6 +41,9 @@ abstract class BaseConceptPeer {
 	const IS_TOP_CONCEPT = 'reg_concept.IS_TOP_CONCEPT';
 
 	
+	const LANGUAGE = 'reg_concept.LANGUAGE';
+
+	
 	const STATUS_ID = 'reg_concept.STATUS_ID';
 
 	
@@ -49,18 +52,18 @@ abstract class BaseConceptPeer {
 
 	
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'CreatedAt', 'LastUpdated', 'Uri', 'PrefLabel', 'VocabularyId', 'IsTopConcept', 'StatusId', ),
-		BasePeer::TYPE_COLNAME => array (ConceptPeer::ID, ConceptPeer::CREATED_AT, ConceptPeer::LAST_UPDATED, ConceptPeer::URI, ConceptPeer::PREF_LABEL, ConceptPeer::VOCABULARY_ID, ConceptPeer::IS_TOP_CONCEPT, ConceptPeer::STATUS_ID, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'created_at', 'last_updated', 'uri', 'pref_label', 'vocabulary_id', 'is_top_concept', 'status_id', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'CreatedAt', 'LastUpdated', 'Uri', 'PrefLabel', 'VocabularyId', 'IsTopConcept', 'Language', 'StatusId', ),
+		BasePeer::TYPE_COLNAME => array (ConceptPeer::ID, ConceptPeer::CREATED_AT, ConceptPeer::LAST_UPDATED, ConceptPeer::URI, ConceptPeer::PREF_LABEL, ConceptPeer::VOCABULARY_ID, ConceptPeer::IS_TOP_CONCEPT, ConceptPeer::LANGUAGE, ConceptPeer::STATUS_ID, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'created_at', 'last_updated', 'uri', 'pref_label', 'vocabulary_id', 'is_top_concept', 'language', 'status_id', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, )
 	);
 
 	
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'CreatedAt' => 1, 'LastUpdated' => 2, 'Uri' => 3, 'PrefLabel' => 4, 'VocabularyId' => 5, 'IsTopConcept' => 6, 'StatusId' => 7, ),
-		BasePeer::TYPE_COLNAME => array (ConceptPeer::ID => 0, ConceptPeer::CREATED_AT => 1, ConceptPeer::LAST_UPDATED => 2, ConceptPeer::URI => 3, ConceptPeer::PREF_LABEL => 4, ConceptPeer::VOCABULARY_ID => 5, ConceptPeer::IS_TOP_CONCEPT => 6, ConceptPeer::STATUS_ID => 7, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'created_at' => 1, 'last_updated' => 2, 'uri' => 3, 'pref_label' => 4, 'vocabulary_id' => 5, 'is_top_concept' => 6, 'status_id' => 7, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'CreatedAt' => 1, 'LastUpdated' => 2, 'Uri' => 3, 'PrefLabel' => 4, 'VocabularyId' => 5, 'IsTopConcept' => 6, 'Language' => 7, 'StatusId' => 8, ),
+		BasePeer::TYPE_COLNAME => array (ConceptPeer::ID => 0, ConceptPeer::CREATED_AT => 1, ConceptPeer::LAST_UPDATED => 2, ConceptPeer::URI => 3, ConceptPeer::PREF_LABEL => 4, ConceptPeer::VOCABULARY_ID => 5, ConceptPeer::IS_TOP_CONCEPT => 6, ConceptPeer::LANGUAGE => 7, ConceptPeer::STATUS_ID => 8, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'created_at' => 1, 'last_updated' => 2, 'uri' => 3, 'pref_label' => 4, 'vocabulary_id' => 5, 'is_top_concept' => 6, 'language' => 7, 'status_id' => 8, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, )
 	);
 
 	
@@ -127,6 +130,8 @@ abstract class BaseConceptPeer {
 		$criteria->addSelectColumn(ConceptPeer::VOCABULARY_ID);
 
 		$criteria->addSelectColumn(ConceptPeer::IS_TOP_CONCEPT);
+
+		$criteria->addSelectColumn(ConceptPeer::LANGUAGE);
 
 		$criteria->addSelectColumn(ConceptPeer::STATUS_ID);
 

@@ -11,6 +11,11 @@
 class vocabularyActions extends autovocabularyActions
 {
 
+/**
+* Set defaults
+*
+* @param  Vocabulary $vocabulary
+*/
   public function setDefaults($vocabulary)
   {
     $vocabulary->setBaseDomain('http://metadataregistry.org/uri/');
