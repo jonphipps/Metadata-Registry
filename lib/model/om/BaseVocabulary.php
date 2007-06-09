@@ -1316,7 +1316,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 
 
 	
-	public function getConceptPropertysJoinLookup($criteria = null, $con = null)
+	public function getConceptPropertysJoinStatus($criteria = null, $con = null)
 	{
 				include_once 'lib/model/om/BaseConceptPropertyPeer.php';
 		if ($criteria === null) {
@@ -1334,14 +1334,14 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 
 				$criteria->add(ConceptPropertyPeer::SCHEME_ID, $this->getId());
 
-				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinLookup($criteria, $con);
+				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinStatus($criteria, $con);
 			}
 		} else {
 									
 			$criteria->add(ConceptPropertyPeer::SCHEME_ID, $this->getId());
 
 			if (!isset($this->lastConceptPropertyCriteria) || !$this->lastConceptPropertyCriteria->equals($criteria)) {
-				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinLookup($criteria, $con);
+				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinStatus($criteria, $con);
 			}
 		}
 		$this->lastConceptPropertyCriteria = $criteria;

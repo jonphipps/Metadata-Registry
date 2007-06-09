@@ -24,17 +24,21 @@ generator:
       object:           { name: Value }
       show_object:      { name: Value }
       listproperties:   { name: "" }
+      status_id:        ( name: Status }
 
     list:
       title:         Concept Property List
-      display:       [=skos_property, _show_object, last_updated]
-      displayfilter: false
+      fields:
+        language:     { name: Lang }
+        last_updated: { name: Updated }
+      display:        [=skos_property, _show_object, language, status, last_updated]
+      displayfilter:  false
       object_actions:
-        _edit:       { credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
-        _delete:     { credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
+        _edit:        { credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
+        _delete:      { credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
       actions:
-        _create:     { name: Add Property, credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
-      filters:       [concept_id, skos_property_id, last_updated, object]
+        _create:      { name: Add Property, credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
+      filters:        [concept_id, skos_property_id, last_updated, object]
       # urlfilter form is [field to filter on]: [value passed from routing.yml]
       # multiple filters can be set but they're currently mutually exclusive (any of the list can be used but only one per url)
       urlfilters:
@@ -51,7 +55,7 @@ generator:
       title:           Edit
       display:
         "-Metadata":   { fields: [id, created_at, last_updated], mode: edit, credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
-        "Detail":      [skos_property_id, _scheme_id, related_concept_id, object, language]
+        "Detail":      [skos_property_id, _scheme_id, related_concept_id, object, language, status_id]
         "Properties":  [_listproperties]
       actions:
         # You can add a string literal to the query string like this: foo: "'bar'" which will add foo=bar
@@ -67,7 +71,7 @@ generator:
         object:       { helper: auto_link_text }
       display:
         "-Metadata":   { fields: [id, created_at, last_updated], credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
-        "Detail":     [skos_property, related_scheme, related_concept, object, _language]
+        "Detail":     [skos_property, related_scheme, related_concept, object, _language, status]
         "Properties": [_listproperties]
       actions:
         _edit:        { credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }

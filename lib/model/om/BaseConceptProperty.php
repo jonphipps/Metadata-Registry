@@ -60,7 +60,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 	protected $aConceptRelatedByRelatedConceptId;
 
 	
-	protected $aLookup;
+	protected $aStatus;
 
 	
 	protected $collConceptHistorys;
@@ -357,8 +357,8 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 			$this->modifiedColumns[] = ConceptPropertyPeer::STATUS_ID;
 		}
 
-		if ($this->aLookup !== null && $this->aLookup->getId() !== $v) {
-			$this->aLookup = null;
+		if ($this->aStatus !== null && $this->aStatus->getId() !== $v) {
+			$this->aStatus = null;
 		}
 
 	} 
@@ -484,11 +484,11 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 				$this->setConceptRelatedByRelatedConceptId($this->aConceptRelatedByRelatedConceptId);
 			}
 
-			if ($this->aLookup !== null) {
-				if ($this->aLookup->isModified()) {
-					$affectedRows += $this->aLookup->save($con);
+			if ($this->aStatus !== null) {
+				if ($this->aStatus->isModified()) {
+					$affectedRows += $this->aStatus->save($con);
 				}
-				$this->setLookup($this->aLookup);
+				$this->setStatus($this->aStatus);
 			}
 
 
@@ -572,9 +572,9 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 				}
 			}
 
-			if ($this->aLookup !== null) {
-				if (!$this->aLookup->validate($columns)) {
-					$failureMap = array_merge($failureMap, $this->aLookup->getValidationFailures());
+			if ($this->aStatus !== null) {
+				if (!$this->aStatus->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aStatus->getValidationFailures());
 				}
 			}
 
@@ -943,7 +943,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 	}
 
 	
-	public function setLookup($v)
+	public function setStatus($v)
 	{
 
 
@@ -954,22 +954,22 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 		}
 
 
-		$this->aLookup = $v;
+		$this->aStatus = $v;
 	}
 
 
 	
-	public function getLookup($con = null)
+	public function getStatus($con = null)
 	{
-				include_once 'lib/model/om/BaseLookupPeer.php';
+				include_once 'lib/model/om/BaseStatusPeer.php';
 
-		if ($this->aLookup === null && ($this->status_id !== null)) {
+		if ($this->aStatus === null && ($this->status_id !== null)) {
 
-			$this->aLookup = LookupPeer::retrieveByPK($this->status_id, $con);
+			$this->aStatus = StatusPeer::retrieveByPK($this->status_id, $con);
 
 			
 		}
-		return $this->aLookup;
+		return $this->aStatus;
 	}
 
 	

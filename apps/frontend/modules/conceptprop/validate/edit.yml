@@ -1,0 +1,15 @@
+fillin:
+  enabled:      true
+
+fields:
+  concept_property{object}:
+    required:
+      msg: Value cannot be blank
+    uniqueLabelValidator:
+
+validators:
+  uniqueLabelValidator:
+    class:          myPropelUniquePrefLabelValidator
+    param:
+      unique_pref_error: This Concept already has a prefLabel with this status and language.
+      unique_error: This Concept already has this exact property.

@@ -340,7 +340,7 @@ abstract class BaseConceptPropertyPeer {
 
 
 	
-	public static function doCountJoinLookup(Criteria $criteria, $distinct = false, $con = null)
+	public static function doCountJoinStatus(Criteria $criteria, $distinct = false, $con = null)
 	{
 				$criteria = clone $criteria;
 		
@@ -356,7 +356,7 @@ abstract class BaseConceptPropertyPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(ConceptPropertyPeer::STATUS_ID, LookupPeer::ID);
+		$criteria->addJoin(ConceptPropertyPeer::STATUS_ID, StatusPeer::ID);
 
 		$rs = ConceptPropertyPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
@@ -556,7 +556,7 @@ abstract class BaseConceptPropertyPeer {
 
 
 	
-	public static function doSelectJoinLookup(Criteria $c, $con = null)
+	public static function doSelectJoinStatus(Criteria $c, $con = null)
 	{
 		$c = clone $c;
 
@@ -566,9 +566,9 @@ abstract class BaseConceptPropertyPeer {
 
 		ConceptPropertyPeer::addSelectColumns($c);
 		$startcol = (ConceptPropertyPeer::NUM_COLUMNS - ConceptPropertyPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
-		LookupPeer::addSelectColumns($c);
+		StatusPeer::addSelectColumns($c);
 
-		$c->addJoin(ConceptPropertyPeer::STATUS_ID, LookupPeer::ID);
+		$c->addJoin(ConceptPropertyPeer::STATUS_ID, StatusPeer::ID);
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
 
@@ -580,7 +580,7 @@ abstract class BaseConceptPropertyPeer {
 			$obj1 = new $cls();
 			$obj1->hydrate($rs);
 
-			$omClass = LookupPeer::getOMClass();
+			$omClass = StatusPeer::getOMClass();
 
 			$cls = Propel::import($omClass);
 			$obj2 = new $cls();
@@ -588,7 +588,7 @@ abstract class BaseConceptPropertyPeer {
 
 			$newObject = true;
 			foreach($results as $temp_obj1) {
-				$temp_obj2 = $temp_obj1->getLookup(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+				$temp_obj2 = $temp_obj1->getStatus(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
 										$temp_obj2->addConceptProperty($obj1); 					break;
 				}
@@ -627,7 +627,7 @@ abstract class BaseConceptPropertyPeer {
 
 		$criteria->addJoin(ConceptPropertyPeer::RELATED_CONCEPT_ID, ConceptPeer::ID);
 
-		$criteria->addJoin(ConceptPropertyPeer::STATUS_ID, LookupPeer::ID);
+		$criteria->addJoin(ConceptPropertyPeer::STATUS_ID, StatusPeer::ID);
 
 		$rs = ConceptPropertyPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
@@ -662,8 +662,8 @@ abstract class BaseConceptPropertyPeer {
 		ConceptPeer::addSelectColumns($c);
 		$startcol6 = $startcol5 + ConceptPeer::NUM_COLUMNS;
 
-		LookupPeer::addSelectColumns($c);
-		$startcol7 = $startcol6 + LookupPeer::NUM_COLUMNS;
+		StatusPeer::addSelectColumns($c);
+		$startcol7 = $startcol6 + StatusPeer::NUM_COLUMNS;
 
 		$c->addJoin(ConceptPropertyPeer::CONCEPT_ID, ConceptPeer::ID);
 
@@ -673,7 +673,7 @@ abstract class BaseConceptPropertyPeer {
 
 		$c->addJoin(ConceptPropertyPeer::RELATED_CONCEPT_ID, ConceptPeer::ID);
 
-		$c->addJoin(ConceptPropertyPeer::STATUS_ID, LookupPeer::ID);
+		$c->addJoin(ConceptPropertyPeer::STATUS_ID, StatusPeer::ID);
 
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
@@ -781,7 +781,7 @@ abstract class BaseConceptPropertyPeer {
 
 				
 					
-			$omClass = LookupPeer::getOMClass();
+			$omClass = StatusPeer::getOMClass();
 
 	
 			$cls = Propel::import($omClass);
@@ -791,7 +791,7 @@ abstract class BaseConceptPropertyPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj6 = $temp_obj1->getLookup(); 				if ($temp_obj6->getPrimaryKey() === $obj6->getPrimaryKey()) {
+				$temp_obj6 = $temp_obj1->getStatus(); 				if ($temp_obj6->getPrimaryKey() === $obj6->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj6->addConceptProperty($obj1); 					break;
 				}
@@ -829,7 +829,7 @@ abstract class BaseConceptPropertyPeer {
 
 		$criteria->addJoin(ConceptPropertyPeer::SCHEME_ID, VocabularyPeer::ID);
 
-		$criteria->addJoin(ConceptPropertyPeer::STATUS_ID, LookupPeer::ID);
+		$criteria->addJoin(ConceptPropertyPeer::STATUS_ID, StatusPeer::ID);
 
 		$rs = ConceptPropertyPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
@@ -863,7 +863,7 @@ abstract class BaseConceptPropertyPeer {
 
 		$criteria->addJoin(ConceptPropertyPeer::RELATED_CONCEPT_ID, ConceptPeer::ID);
 
-		$criteria->addJoin(ConceptPropertyPeer::STATUS_ID, LookupPeer::ID);
+		$criteria->addJoin(ConceptPropertyPeer::STATUS_ID, StatusPeer::ID);
 
 		$rs = ConceptPropertyPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
@@ -897,7 +897,7 @@ abstract class BaseConceptPropertyPeer {
 
 		$criteria->addJoin(ConceptPropertyPeer::RELATED_CONCEPT_ID, ConceptPeer::ID);
 
-		$criteria->addJoin(ConceptPropertyPeer::STATUS_ID, LookupPeer::ID);
+		$criteria->addJoin(ConceptPropertyPeer::STATUS_ID, StatusPeer::ID);
 
 		$rs = ConceptPropertyPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
@@ -929,7 +929,7 @@ abstract class BaseConceptPropertyPeer {
 
 		$criteria->addJoin(ConceptPropertyPeer::SCHEME_ID, VocabularyPeer::ID);
 
-		$criteria->addJoin(ConceptPropertyPeer::STATUS_ID, LookupPeer::ID);
+		$criteria->addJoin(ConceptPropertyPeer::STATUS_ID, StatusPeer::ID);
 
 		$rs = ConceptPropertyPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
@@ -941,7 +941,7 @@ abstract class BaseConceptPropertyPeer {
 
 
 	
-	public static function doCountJoinAllExceptLookup(Criteria $criteria, $distinct = false, $con = null)
+	public static function doCountJoinAllExceptStatus(Criteria $criteria, $distinct = false, $con = null)
 	{
 				$criteria = clone $criteria;
 		
@@ -992,14 +992,14 @@ abstract class BaseConceptPropertyPeer {
 		VocabularyPeer::addSelectColumns($c);
 		$startcol4 = $startcol3 + VocabularyPeer::NUM_COLUMNS;
 
-		LookupPeer::addSelectColumns($c);
-		$startcol5 = $startcol4 + LookupPeer::NUM_COLUMNS;
+		StatusPeer::addSelectColumns($c);
+		$startcol5 = $startcol4 + StatusPeer::NUM_COLUMNS;
 
 		$c->addJoin(ConceptPropertyPeer::SKOS_PROPERTY_ID, SkosPropertyPeer::ID);
 
 		$c->addJoin(ConceptPropertyPeer::SCHEME_ID, VocabularyPeer::ID);
 
-		$c->addJoin(ConceptPropertyPeer::STATUS_ID, LookupPeer::ID);
+		$c->addJoin(ConceptPropertyPeer::STATUS_ID, StatusPeer::ID);
 
 
 		$rs = BasePeer::doSelect($c, $con);
@@ -1057,7 +1057,7 @@ abstract class BaseConceptPropertyPeer {
 				$obj3->addConceptProperty($obj1);
 			}
 
-			$omClass = LookupPeer::getOMClass();
+			$omClass = StatusPeer::getOMClass();
 
 	
 			$cls = Propel::import($omClass);
@@ -1067,7 +1067,7 @@ abstract class BaseConceptPropertyPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj4 = $temp_obj1->getLookup(); 				if ($temp_obj4->getPrimaryKey() === $obj4->getPrimaryKey()) {
+				$temp_obj4 = $temp_obj1->getStatus(); 				if ($temp_obj4->getPrimaryKey() === $obj4->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj4->addConceptProperty($obj1);
 					break;
@@ -1106,8 +1106,8 @@ abstract class BaseConceptPropertyPeer {
 		ConceptPeer::addSelectColumns($c);
 		$startcol5 = $startcol4 + ConceptPeer::NUM_COLUMNS;
 
-		LookupPeer::addSelectColumns($c);
-		$startcol6 = $startcol5 + LookupPeer::NUM_COLUMNS;
+		StatusPeer::addSelectColumns($c);
+		$startcol6 = $startcol5 + StatusPeer::NUM_COLUMNS;
 
 		$c->addJoin(ConceptPropertyPeer::CONCEPT_ID, ConceptPeer::ID);
 
@@ -1115,7 +1115,7 @@ abstract class BaseConceptPropertyPeer {
 
 		$c->addJoin(ConceptPropertyPeer::RELATED_CONCEPT_ID, ConceptPeer::ID);
 
-		$c->addJoin(ConceptPropertyPeer::STATUS_ID, LookupPeer::ID);
+		$c->addJoin(ConceptPropertyPeer::STATUS_ID, StatusPeer::ID);
 
 
 		$rs = BasePeer::doSelect($c, $con);
@@ -1195,7 +1195,7 @@ abstract class BaseConceptPropertyPeer {
 				$obj4->addConceptPropertyRelatedByRelatedConceptId($obj1);
 			}
 
-			$omClass = LookupPeer::getOMClass();
+			$omClass = StatusPeer::getOMClass();
 
 	
 			$cls = Propel::import($omClass);
@@ -1205,7 +1205,7 @@ abstract class BaseConceptPropertyPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj5 = $temp_obj1->getLookup(); 				if ($temp_obj5->getPrimaryKey() === $obj5->getPrimaryKey()) {
+				$temp_obj5 = $temp_obj1->getStatus(); 				if ($temp_obj5->getPrimaryKey() === $obj5->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj5->addConceptProperty($obj1);
 					break;
@@ -1244,8 +1244,8 @@ abstract class BaseConceptPropertyPeer {
 		ConceptPeer::addSelectColumns($c);
 		$startcol5 = $startcol4 + ConceptPeer::NUM_COLUMNS;
 
-		LookupPeer::addSelectColumns($c);
-		$startcol6 = $startcol5 + LookupPeer::NUM_COLUMNS;
+		StatusPeer::addSelectColumns($c);
+		$startcol6 = $startcol5 + StatusPeer::NUM_COLUMNS;
 
 		$c->addJoin(ConceptPropertyPeer::CONCEPT_ID, ConceptPeer::ID);
 
@@ -1253,7 +1253,7 @@ abstract class BaseConceptPropertyPeer {
 
 		$c->addJoin(ConceptPropertyPeer::RELATED_CONCEPT_ID, ConceptPeer::ID);
 
-		$c->addJoin(ConceptPropertyPeer::STATUS_ID, LookupPeer::ID);
+		$c->addJoin(ConceptPropertyPeer::STATUS_ID, StatusPeer::ID);
 
 
 		$rs = BasePeer::doSelect($c, $con);
@@ -1333,7 +1333,7 @@ abstract class BaseConceptPropertyPeer {
 				$obj4->addConceptPropertyRelatedByRelatedConceptId($obj1);
 			}
 
-			$omClass = LookupPeer::getOMClass();
+			$omClass = StatusPeer::getOMClass();
 
 	
 			$cls = Propel::import($omClass);
@@ -1343,7 +1343,7 @@ abstract class BaseConceptPropertyPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj5 = $temp_obj1->getLookup(); 				if ($temp_obj5->getPrimaryKey() === $obj5->getPrimaryKey()) {
+				$temp_obj5 = $temp_obj1->getStatus(); 				if ($temp_obj5->getPrimaryKey() === $obj5->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj5->addConceptProperty($obj1);
 					break;
@@ -1379,14 +1379,14 @@ abstract class BaseConceptPropertyPeer {
 		VocabularyPeer::addSelectColumns($c);
 		$startcol4 = $startcol3 + VocabularyPeer::NUM_COLUMNS;
 
-		LookupPeer::addSelectColumns($c);
-		$startcol5 = $startcol4 + LookupPeer::NUM_COLUMNS;
+		StatusPeer::addSelectColumns($c);
+		$startcol5 = $startcol4 + StatusPeer::NUM_COLUMNS;
 
 		$c->addJoin(ConceptPropertyPeer::SKOS_PROPERTY_ID, SkosPropertyPeer::ID);
 
 		$c->addJoin(ConceptPropertyPeer::SCHEME_ID, VocabularyPeer::ID);
 
-		$c->addJoin(ConceptPropertyPeer::STATUS_ID, LookupPeer::ID);
+		$c->addJoin(ConceptPropertyPeer::STATUS_ID, StatusPeer::ID);
 
 
 		$rs = BasePeer::doSelect($c, $con);
@@ -1444,7 +1444,7 @@ abstract class BaseConceptPropertyPeer {
 				$obj3->addConceptProperty($obj1);
 			}
 
-			$omClass = LookupPeer::getOMClass();
+			$omClass = StatusPeer::getOMClass();
 
 	
 			$cls = Propel::import($omClass);
@@ -1454,7 +1454,7 @@ abstract class BaseConceptPropertyPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj4 = $temp_obj1->getLookup(); 				if ($temp_obj4->getPrimaryKey() === $obj4->getPrimaryKey()) {
+				$temp_obj4 = $temp_obj1->getStatus(); 				if ($temp_obj4->getPrimaryKey() === $obj4->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj4->addConceptProperty($obj1);
 					break;
@@ -1473,7 +1473,7 @@ abstract class BaseConceptPropertyPeer {
 
 
 	
-	public static function doSelectJoinAllExceptLookup(Criteria $c, $con = null)
+	public static function doSelectJoinAllExceptStatus(Criteria $c, $con = null)
 	{
 		$c = clone $c;
 

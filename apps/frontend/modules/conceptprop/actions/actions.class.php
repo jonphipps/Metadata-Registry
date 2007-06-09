@@ -20,16 +20,23 @@ class conceptpropActions extends autoconceptpropActions
     parent::preExecute();
   }
 
+/**
+* Set the defaults
+*
+* @param  ConceptProperty $concept_property
+*/
   public function setDefaults ($concept_property)
   {
     $conceptId = $this->concept->getId();
+    $conceptStatus = $this->concept->getStatusID();
+    $conceptLanguage = $this->concept->getLanguage();
     $vocabId = $this->concept->getVocabularyId();
 
     $concept_property->setConceptId($conceptId);
+    $concept_property->setStatusId($conceptStatus);
+    $concept_property->setLanguage($conceptLanguage);
     $concept_property->setSchemeId($vocabId);
 
-    //TODO: set this more dynamically based on the user's default language
-    $concept_property->setLanguage('en');
     parent::setDefaults($concept_property);
   }
 

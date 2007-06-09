@@ -233,7 +233,7 @@ propel:
       size: 6
     status_id:
       type: INTEGER
-      foreignTable: reg_lookup
+      foreignTable: reg_status
       foreignReference: id
       onDelete: RESTRICT
       onUpdate: RESTRICT
