@@ -1,0 +1,91 @@
+= sfPropelParanoidBehaviorPlugin plugin =
+
+The `sfPropelParanoidBehaviorPlugin` is a symfony plugin that provides a new Propel behavior.
+
+If you enable this behavior for one of your model class, deletion of any object of this class is disabled
+and replaced with the updating of the `deleted_at` column of the object.
+
+The plugin also adds a new method `forceDelete` to force object deletion.
+
+== Installation ==
+
+  * Install the plugin
+  
+    {{{
+      symfony plugin-install http://plugins.symfony-project.com/sfPropelParanoidBehaviorPlugin
+    }}}
+
+  * Enable Propel behavior support in `propel.ini`:
+
+    {{{
+      propel.builder.AddBehaviors = true
+    }}}
+  
+    If you have to enable the behavior support, rebuild your model:
+
+    {{{
+      symfony propel-build-model
+    }}}
+
+  * Activate the behavior for one of your Propel model:
+
+    {{{
+      // lib/model/Article.php
+      class Article
+      {
+      }
+
+      sfPropelBehavior::add('Article', array('paranoid'));
+    }}}
+
+    By default, the plugin will update the `deleted_at` column for this model. You can also specify another column:
+
+    {{{
+      sfPropelBehavior::add('Article', array('paranoid' => array('column' => 'deleted_at')));
+    }}}
+
+== Usage ==
+
+Here are some examples of Propel calls and the generated SQL:
+
+{{{
+  $article = Article::retrieveByPK(1);
+
+  // SELECT blog_article.ID, blog_article.AUTHOR_ID, blog_article.CREATED_AT, blog_article.DELETED_AT FROM blog_article
+  // WHERE blog_article.ID=1 AND blog_article.DELETED_AT IS NULL
+
+  $article->delete();
+
+  // UPDATE blog_article SET DELETED_AT = '2006-10-21 10:58:56' WHERE blog_article.ID=1
+
+  $article->forceDelete();
+
+  // DELETE FROM blog_article WHERE blog_article.ID=1
+
+  $articles = ArticlePeer::doCount(new Criteria());
+
+  // SELECT COUNT(blog_article.ID) FROM blog_article WHERE blog_article.DELETED_AT IS NULL 
+}}}
+
+You can also disable the behavior with:
+
+{{{
+  sfPropelParanoidBehavior::disable();
+}}}
+
+The paranoid behavior will be disabled for the very next request.
+
+{{{
+  $article->delete();
+  
+  // UPDATE blog_article SET DELETED_AT = '2006-10-21 10:58:56' WHERE blog_article.ID=1
+
+  sfPropelParanoidBehavior::disable();
+  $article->delete();
+
+  // DELETE FROM blog_article WHERE blog_article.ID=1
+
+  $article->delete();
+  
+  // UPDATE blog_article SET DELETED_AT = '2006-10-21 10:58:56' WHERE blog_article.ID=1
+}}}
