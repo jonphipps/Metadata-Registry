@@ -202,6 +202,13 @@ abstract class BaseConceptPropertyPeer {
 	
 	public static function doSelectRS(Criteria $criteria, $con = null)
 	{
+
+    foreach (sfMixer::getCallables('BaseConceptPropertyPeer:addDoSelectRS:addDoSelectRS') as $callable)
+    {
+      call_user_func($callable, 'BaseConceptPropertyPeer', $criteria, $con);
+    }
+
+
 		if ($con === null) {
 			$con = Propel::getConnection(self::DATABASE_NAME);
 		}
@@ -2536,6 +2543,17 @@ abstract class BaseConceptPropertyPeer {
 	
 	public static function doInsert($values, $con = null)
 	{
+
+    foreach (sfMixer::getCallables('BaseConceptPropertyPeer:doInsert:pre') as $callable)
+    {
+      $ret = call_user_func($callable, 'BaseConceptPropertyPeer', $values, $con);
+      if (false !== $ret)
+      {
+        return $ret;
+      }
+    }
+
+
 		if ($con === null) {
 			$con = Propel::getConnection(self::DATABASE_NAME);
 		}
@@ -2563,12 +2581,29 @@ abstract class BaseConceptPropertyPeer {
 			throw $e;
 		}
 
-		return $pk;
+		
+    foreach (sfMixer::getCallables('BaseConceptPropertyPeer:doInsert:post') as $callable)
+    {
+      call_user_func($callable, 'BaseConceptPropertyPeer', $values, $con, $pk);
+    }
+
+    return $pk;
 	}
 
 	
 	public static function doUpdate($values, $con = null)
 	{
+
+    foreach (sfMixer::getCallables('BaseConceptPropertyPeer:doUpdate:pre') as $callable)
+    {
+      $ret = call_user_func($callable, 'BaseConceptPropertyPeer', $values, $con);
+      if (false !== $ret)
+      {
+        return $ret;
+      }
+    }
+
+
 		if ($con === null) {
 			$con = Propel::getConnection(self::DATABASE_NAME);
 		}
@@ -2589,8 +2624,16 @@ abstract class BaseConceptPropertyPeer {
 		
 		$criteria->setDbName(self::DATABASE_NAME);
 
-		return BasePeer::doUpdate($selectCriteria, $criteria, $con);
-	}
+		$ret = BasePeer::doUpdate($selectCriteria, $criteria, $con);
+	
+
+    foreach (sfMixer::getCallables('BaseConceptPropertyPeer:doUpdate:post') as $callable)
+    {
+      call_user_func($callable, 'BaseConceptPropertyPeer', $values, $con, $ret);
+    }
+
+    return $ret;
+  }
 
 	
 	public static function doDeleteAll($con = null)

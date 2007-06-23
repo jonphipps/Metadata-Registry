@@ -192,6 +192,13 @@ abstract class BaseConceptPeer {
 	
 	public static function doSelectRS(Criteria $criteria, $con = null)
 	{
+
+    foreach (sfMixer::getCallables('BaseConceptPeer:addDoSelectRS:addDoSelectRS') as $callable)
+    {
+      call_user_func($callable, 'BaseConceptPeer', $criteria, $con);
+    }
+
+
 		if ($con === null) {
 			$con = Propel::getConnection(self::DATABASE_NAME);
 		}
@@ -954,6 +961,17 @@ abstract class BaseConceptPeer {
 	
 	public static function doInsert($values, $con = null)
 	{
+
+    foreach (sfMixer::getCallables('BaseConceptPeer:doInsert:pre') as $callable)
+    {
+      $ret = call_user_func($callable, 'BaseConceptPeer', $values, $con);
+      if (false !== $ret)
+      {
+        return $ret;
+      }
+    }
+
+
 		if ($con === null) {
 			$con = Propel::getConnection(self::DATABASE_NAME);
 		}
@@ -981,12 +999,29 @@ abstract class BaseConceptPeer {
 			throw $e;
 		}
 
-		return $pk;
+		
+    foreach (sfMixer::getCallables('BaseConceptPeer:doInsert:post') as $callable)
+    {
+      call_user_func($callable, 'BaseConceptPeer', $values, $con, $pk);
+    }
+
+    return $pk;
 	}
 
 	
 	public static function doUpdate($values, $con = null)
 	{
+
+    foreach (sfMixer::getCallables('BaseConceptPeer:doUpdate:pre') as $callable)
+    {
+      $ret = call_user_func($callable, 'BaseConceptPeer', $values, $con);
+      if (false !== $ret)
+      {
+        return $ret;
+      }
+    }
+
+
 		if ($con === null) {
 			$con = Propel::getConnection(self::DATABASE_NAME);
 		}
@@ -1007,8 +1042,16 @@ abstract class BaseConceptPeer {
 		
 		$criteria->setDbName(self::DATABASE_NAME);
 
-		return BasePeer::doUpdate($selectCriteria, $criteria, $con);
-	}
+		$ret = BasePeer::doUpdate($selectCriteria, $criteria, $con);
+	
+
+    foreach (sfMixer::getCallables('BaseConceptPeer:doUpdate:post') as $callable)
+    {
+      call_user_func($callable, 'BaseConceptPeer', $values, $con, $ret);
+    }
+
+    return $ret;
+  }
 
 	
 	public static function doDeleteAll($con = null)

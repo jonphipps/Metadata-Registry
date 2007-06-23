@@ -553,6 +553,17 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	
 	public function delete($con = null)
 	{
+
+    foreach (sfMixer::getCallables('BaseAgent:delete:pre') as $callable)
+    {
+      $ret = call_user_func($callable, $this, $con);
+      if ($ret)
+      {
+        return;
+      }
+    }
+
+
 		if ($this->isDeleted()) {
 			throw new PropelException("This object has already been deleted.");
 		}
@@ -570,11 +581,28 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 			$con->rollback();
 			throw $e;
 		}
-	}
+	
 
+    foreach (sfMixer::getCallables('BaseAgent:delete:post') as $callable)
+    {
+      call_user_func($callable, $this, $con);
+    }
+
+  }
 	
 	public function save($con = null)
 	{
+
+    foreach (sfMixer::getCallables('BaseAgent:save:pre') as $callable)
+    {
+      $affectedRows = call_user_func($callable, $this, $con);
+      if (is_int($affectedRows))
+      {
+        return $affectedRows;
+      }
+    }
+
+
     if ($this->isNew() && !$this->isColumnModified(AgentPeer::CREATED_AT))
     {
       $this->setCreatedAt(time());
@@ -592,6 +620,11 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 			$con->begin();
 			$affectedRows = $this->doSave($con);
 			$con->commit();
+    foreach (sfMixer::getCallables('BaseAgent:save:post') as $callable)
+    {
+      call_user_func($callable, $this, $con, $affectedRows);
+    }
+
 			return $affectedRows;
 		} catch (PropelException $e) {
 			$con->rollback();
@@ -1289,5 +1322,19 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 		$this->collResources[] = $l;
 		$l->setAgent($this);
 	}
+
+
+  public function __call($method, $arguments)
+  {
+    if (!$callable = sfMixer::getCallable('BaseAgent:'.$method))
+    {
+      throw new sfException(sprintf('Call to undefined method BaseAgent::%s', $method));
+    }
+
+    array_unshift($arguments, $this);
+
+    return call_user_func_array($callable, $arguments);
+  }
+
 
 } 

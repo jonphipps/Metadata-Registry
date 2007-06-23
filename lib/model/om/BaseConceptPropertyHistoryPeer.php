@@ -207,6 +207,13 @@ abstract class BaseConceptPropertyHistoryPeer {
 	
 	public static function doSelectRS(Criteria $criteria, $con = null)
 	{
+
+    foreach (sfMixer::getCallables('BaseConceptPropertyHistoryPeer:addDoSelectRS:addDoSelectRS') as $callable)
+    {
+      call_user_func($callable, 'BaseConceptPropertyHistoryPeer', $criteria, $con);
+    }
+
+
 		if ($con === null) {
 			$con = Propel::getConnection(self::DATABASE_NAME);
 		}
@@ -3108,6 +3115,17 @@ abstract class BaseConceptPropertyHistoryPeer {
 	
 	public static function doInsert($values, $con = null)
 	{
+
+    foreach (sfMixer::getCallables('BaseConceptPropertyHistoryPeer:doInsert:pre') as $callable)
+    {
+      $ret = call_user_func($callable, 'BaseConceptPropertyHistoryPeer', $values, $con);
+      if (false !== $ret)
+      {
+        return $ret;
+      }
+    }
+
+
 		if ($con === null) {
 			$con = Propel::getConnection(self::DATABASE_NAME);
 		}
@@ -3135,12 +3153,29 @@ abstract class BaseConceptPropertyHistoryPeer {
 			throw $e;
 		}
 
-		return $pk;
+		
+    foreach (sfMixer::getCallables('BaseConceptPropertyHistoryPeer:doInsert:post') as $callable)
+    {
+      call_user_func($callable, 'BaseConceptPropertyHistoryPeer', $values, $con, $pk);
+    }
+
+    return $pk;
 	}
 
 	
 	public static function doUpdate($values, $con = null)
 	{
+
+    foreach (sfMixer::getCallables('BaseConceptPropertyHistoryPeer:doUpdate:pre') as $callable)
+    {
+      $ret = call_user_func($callable, 'BaseConceptPropertyHistoryPeer', $values, $con);
+      if (false !== $ret)
+      {
+        return $ret;
+      }
+    }
+
+
 		if ($con === null) {
 			$con = Propel::getConnection(self::DATABASE_NAME);
 		}
@@ -3161,8 +3196,16 @@ abstract class BaseConceptPropertyHistoryPeer {
 		
 		$criteria->setDbName(self::DATABASE_NAME);
 
-		return BasePeer::doUpdate($selectCriteria, $criteria, $con);
-	}
+		$ret = BasePeer::doUpdate($selectCriteria, $criteria, $con);
+	
+
+    foreach (sfMixer::getCallables('BaseConceptPropertyHistoryPeer:doUpdate:post') as $callable)
+    {
+      call_user_func($callable, 'BaseConceptPropertyHistoryPeer', $values, $con, $ret);
+    }
+
+    return $ret;
+  }
 
 	
 	public static function doDeleteAll($con = null)

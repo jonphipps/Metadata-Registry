@@ -162,6 +162,13 @@ abstract class BaseAgentHasUserPeer {
 	
 	public static function doSelectRS(Criteria $criteria, $con = null)
 	{
+
+    foreach (sfMixer::getCallables('BaseAgentHasUserPeer:addDoSelectRS:addDoSelectRS') as $callable)
+    {
+      call_user_func($callable, 'BaseAgentHasUserPeer', $criteria, $con);
+    }
+
+
 		if ($con === null) {
 			$con = Propel::getConnection(self::DATABASE_NAME);
 		}
@@ -647,6 +654,17 @@ abstract class BaseAgentHasUserPeer {
 	
 	public static function doInsert($values, $con = null)
 	{
+
+    foreach (sfMixer::getCallables('BaseAgentHasUserPeer:doInsert:pre') as $callable)
+    {
+      $ret = call_user_func($callable, 'BaseAgentHasUserPeer', $values, $con);
+      if (false !== $ret)
+      {
+        return $ret;
+      }
+    }
+
+
 		if ($con === null) {
 			$con = Propel::getConnection(self::DATABASE_NAME);
 		}
@@ -672,12 +690,29 @@ abstract class BaseAgentHasUserPeer {
 			throw $e;
 		}
 
-		return $pk;
+		
+    foreach (sfMixer::getCallables('BaseAgentHasUserPeer:doInsert:post') as $callable)
+    {
+      call_user_func($callable, 'BaseAgentHasUserPeer', $values, $con, $pk);
+    }
+
+    return $pk;
 	}
 
 	
 	public static function doUpdate($values, $con = null)
 	{
+
+    foreach (sfMixer::getCallables('BaseAgentHasUserPeer:doUpdate:pre') as $callable)
+    {
+      $ret = call_user_func($callable, 'BaseAgentHasUserPeer', $values, $con);
+      if (false !== $ret)
+      {
+        return $ret;
+      }
+    }
+
+
 		if ($con === null) {
 			$con = Propel::getConnection(self::DATABASE_NAME);
 		}
@@ -701,8 +736,16 @@ abstract class BaseAgentHasUserPeer {
 		
 		$criteria->setDbName(self::DATABASE_NAME);
 
-		return BasePeer::doUpdate($selectCriteria, $criteria, $con);
-	}
+		$ret = BasePeer::doUpdate($selectCriteria, $criteria, $con);
+	
+
+    foreach (sfMixer::getCallables('BaseAgentHasUserPeer:doUpdate:post') as $callable)
+    {
+      call_user_func($callable, 'BaseAgentHasUserPeer', $values, $con, $ret);
+    }
+
+    return $ret;
+  }
 
 	
 	public static function doDeleteAll($con = null)

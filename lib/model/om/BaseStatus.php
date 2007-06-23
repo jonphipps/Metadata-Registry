@@ -144,6 +144,17 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 	
 	public function delete($con = null)
 	{
+
+    foreach (sfMixer::getCallables('BaseStatus:delete:pre') as $callable)
+    {
+      $ret = call_user_func($callable, $this, $con);
+      if ($ret)
+      {
+        return;
+      }
+    }
+
+
 		if ($this->isDeleted()) {
 			throw new PropelException("This object has already been deleted.");
 		}
@@ -161,11 +172,28 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 			$con->rollback();
 			throw $e;
 		}
-	}
+	
 
+    foreach (sfMixer::getCallables('BaseStatus:delete:post') as $callable)
+    {
+      call_user_func($callable, $this, $con);
+    }
+
+  }
 	
 	public function save($con = null)
 	{
+
+    foreach (sfMixer::getCallables('BaseStatus:save:pre') as $callable)
+    {
+      $affectedRows = call_user_func($callable, $this, $con);
+      if (is_int($affectedRows))
+      {
+        return $affectedRows;
+      }
+    }
+
+
 		if ($this->isDeleted()) {
 			throw new PropelException("You cannot save an object that has been deleted.");
 		}
@@ -178,6 +206,11 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 			$con->begin();
 			$affectedRows = $this->doSave($con);
 			$con->commit();
+    foreach (sfMixer::getCallables('BaseStatus:save:post') as $callable)
+    {
+      call_user_func($callable, $this, $con, $affectedRows);
+    }
+
 			return $affectedRows;
 		} catch (PropelException $e) {
 			$con->rollback();
@@ -1312,5 +1345,19 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 
 		return $this->collVocabularys;
 	}
+
+
+  public function __call($method, $arguments)
+  {
+    if (!$callable = sfMixer::getCallable('BaseStatus:'.$method))
+    {
+      throw new sfException(sprintf('Call to undefined method BaseStatus::%s', $method));
+    }
+
+    array_unshift($arguments, $this);
+
+    return call_user_func_array($callable, $arguments);
+  }
+
 
 } 

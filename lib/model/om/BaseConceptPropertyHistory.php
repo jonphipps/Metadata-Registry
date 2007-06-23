@@ -485,6 +485,17 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 	
 	public function delete($con = null)
 	{
+
+    foreach (sfMixer::getCallables('BaseConceptPropertyHistory:delete:pre') as $callable)
+    {
+      $ret = call_user_func($callable, $this, $con);
+      if ($ret)
+      {
+        return;
+      }
+    }
+
+
 		if ($this->isDeleted()) {
 			throw new PropelException("This object has already been deleted.");
 		}
@@ -502,11 +513,28 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 			$con->rollback();
 			throw $e;
 		}
-	}
+	
 
+    foreach (sfMixer::getCallables('BaseConceptPropertyHistory:delete:post') as $callable)
+    {
+      call_user_func($callable, $this, $con);
+    }
+
+  }
 	
 	public function save($con = null)
 	{
+
+    foreach (sfMixer::getCallables('BaseConceptPropertyHistory:save:pre') as $callable)
+    {
+      $affectedRows = call_user_func($callable, $this, $con);
+      if (is_int($affectedRows))
+      {
+        return $affectedRows;
+      }
+    }
+
+
     if ($this->isNew() && !$this->isColumnModified(ConceptPropertyHistoryPeer::CREATED_AT))
     {
       $this->setCreatedAt(time());
@@ -524,6 +552,11 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 			$con->begin();
 			$affectedRows = $this->doSave($con);
 			$con->commit();
+    foreach (sfMixer::getCallables('BaseConceptPropertyHistory:save:post') as $callable)
+    {
+      call_user_func($callable, $this, $con, $affectedRows);
+    }
+
 			return $affectedRows;
 		} catch (PropelException $e) {
 			$con->rollback();
@@ -1191,5 +1224,19 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 		}
 		return $this->aUserRelatedByUpdatedUserId;
 	}
+
+
+  public function __call($method, $arguments)
+  {
+    if (!$callable = sfMixer::getCallable('BaseConceptPropertyHistory:'.$method))
+    {
+      throw new sfException(sprintf('Call to undefined method BaseConceptPropertyHistory::%s', $method));
+    }
+
+    array_unshift($arguments, $this);
+
+    return call_user_func_array($callable, $arguments);
+  }
+
 
 } 

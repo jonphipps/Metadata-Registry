@@ -455,6 +455,17 @@ abstract class BaseResource extends BaseObject  implements Persistent {
 	
 	public function delete($con = null)
 	{
+
+    foreach (sfMixer::getCallables('BaseResource:delete:pre') as $callable)
+    {
+      $ret = call_user_func($callable, $this, $con);
+      if ($ret)
+      {
+        return;
+      }
+    }
+
+
 		if ($this->isDeleted()) {
 			throw new PropelException("This object has already been deleted.");
 		}
@@ -472,11 +483,28 @@ abstract class BaseResource extends BaseObject  implements Persistent {
 			$con->rollback();
 			throw $e;
 		}
-	}
+	
 
+    foreach (sfMixer::getCallables('BaseResource:delete:post') as $callable)
+    {
+      call_user_func($callable, $this, $con);
+    }
+
+  }
 	
 	public function save($con = null)
 	{
+
+    foreach (sfMixer::getCallables('BaseResource:save:pre') as $callable)
+    {
+      $affectedRows = call_user_func($callable, $this, $con);
+      if (is_int($affectedRows))
+      {
+        return $affectedRows;
+      }
+    }
+
+
     if ($this->isNew() && !$this->isColumnModified(ResourcePeer::CREATED_AT))
     {
       $this->setCreatedAt(time());
@@ -494,6 +522,11 @@ abstract class BaseResource extends BaseObject  implements Persistent {
 			$con->begin();
 			$affectedRows = $this->doSave($con);
 			$con->commit();
+    foreach (sfMixer::getCallables('BaseResource:save:post') as $callable)
+    {
+      call_user_func($callable, $this, $con, $affectedRows);
+    }
+
 			return $affectedRows;
 		} catch (PropelException $e) {
 			$con->rollback();
@@ -860,5 +893,19 @@ abstract class BaseResource extends BaseObject  implements Persistent {
 		}
 		return $this->aAgent;
 	}
+
+
+  public function __call($method, $arguments)
+  {
+    if (!$callable = sfMixer::getCallable('BaseResource:'.$method))
+    {
+      throw new sfException(sprintf('Call to undefined method BaseResource::%s', $method));
+    }
+
+    array_unshift($arguments, $this);
+
+    return call_user_func_array($callable, $arguments);
+  }
+
 
 } 
