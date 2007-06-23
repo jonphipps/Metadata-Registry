@@ -41,11 +41,19 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 
 
 	
-	protected $language;
+	protected $language = 'en';
 
 
 	
-	protected $status_id;
+	protected $status_id = 1;
+
+
+	
+	protected $created_user_id;
+
+
+	
+	protected $updated_user_id;
 
 	
 	protected $aConceptRelatedByConceptId;
@@ -63,10 +71,22 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 	protected $aStatus;
 
 	
-	protected $collConceptHistorys;
+	protected $aUserRelatedByCreatedUserId;
 
 	
-	protected $lastConceptHistoryCriteria = null;
+	protected $aUserRelatedByUpdatedUserId;
+
+	
+	protected $collConcepts;
+
+	
+	protected $lastConceptCriteria = null;
+
+	
+	protected $collConceptPropertyHistorys;
+
+	
+	protected $lastConceptPropertyHistoryCriteria = null;
 
 	
 	protected $alreadyInSave = false;
@@ -176,6 +196,20 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 	{
 
 		return $this->status_id;
+	}
+
+	
+	public function getCreatedUserId()
+	{
+
+		return $this->created_user_id;
+	}
+
+	
+	public function getUpdatedUserId()
+	{
+
+		return $this->updated_user_id;
 	}
 
 	
@@ -336,7 +370,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 			$v = (string) $v; 
 		}
 
-		if ($this->language !== $v) {
+		if ($this->language !== $v || $v === 'en') {
 			$this->language = $v;
 			$this->modifiedColumns[] = ConceptPropertyPeer::LANGUAGE;
 		}
@@ -352,13 +386,53 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 			$v = (int) $v;
 		}
 
-		if ($this->status_id !== $v) {
+		if ($this->status_id !== $v || $v === 1) {
 			$this->status_id = $v;
 			$this->modifiedColumns[] = ConceptPropertyPeer::STATUS_ID;
 		}
 
 		if ($this->aStatus !== null && $this->aStatus->getId() !== $v) {
 			$this->aStatus = null;
+		}
+
+	} 
+	
+	public function setCreatedUserId($v)
+	{
+
+		
+		
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->created_user_id !== $v) {
+			$this->created_user_id = $v;
+			$this->modifiedColumns[] = ConceptPropertyPeer::CREATED_USER_ID;
+		}
+
+		if ($this->aUserRelatedByCreatedUserId !== null && $this->aUserRelatedByCreatedUserId->getId() !== $v) {
+			$this->aUserRelatedByCreatedUserId = null;
+		}
+
+	} 
+	
+	public function setUpdatedUserId($v)
+	{
+
+		
+		
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->updated_user_id !== $v) {
+			$this->updated_user_id = $v;
+			$this->modifiedColumns[] = ConceptPropertyPeer::UPDATED_USER_ID;
+		}
+
+		if ($this->aUserRelatedByUpdatedUserId !== null && $this->aUserRelatedByUpdatedUserId->getId() !== $v) {
+			$this->aUserRelatedByUpdatedUserId = null;
 		}
 
 	} 
@@ -387,12 +461,16 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 
 			$this->status_id = $rs->getInt($startcol + 9);
 
+			$this->created_user_id = $rs->getInt($startcol + 10);
+
+			$this->updated_user_id = $rs->getInt($startcol + 11);
+
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			
-			return $startcol + 10; 
+			return $startcol + 12; 
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating ConceptProperty object", $e);
@@ -491,6 +569,20 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 				$this->setStatus($this->aStatus);
 			}
 
+			if ($this->aUserRelatedByCreatedUserId !== null) {
+				if ($this->aUserRelatedByCreatedUserId->isModified()) {
+					$affectedRows += $this->aUserRelatedByCreatedUserId->save($con);
+				}
+				$this->setUserRelatedByCreatedUserId($this->aUserRelatedByCreatedUserId);
+			}
+
+			if ($this->aUserRelatedByUpdatedUserId !== null) {
+				if ($this->aUserRelatedByUpdatedUserId->isModified()) {
+					$affectedRows += $this->aUserRelatedByUpdatedUserId->save($con);
+				}
+				$this->setUserRelatedByUpdatedUserId($this->aUserRelatedByUpdatedUserId);
+			}
+
 
 						if ($this->isModified()) {
 				if ($this->isNew()) {
@@ -503,8 +595,16 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 				}
 				$this->resetModified(); 			}
 
-			if ($this->collConceptHistorys !== null) {
-				foreach($this->collConceptHistorys as $referrerFK) {
+			if ($this->collConcepts !== null) {
+				foreach($this->collConcepts as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
+			}
+
+			if ($this->collConceptPropertyHistorys !== null) {
+				foreach($this->collConceptPropertyHistorys as $referrerFK) {
 					if (!$referrerFK->isDeleted()) {
 						$affectedRows += $referrerFK->save($con);
 					}
@@ -578,14 +678,34 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 				}
 			}
 
+			if ($this->aUserRelatedByCreatedUserId !== null) {
+				if (!$this->aUserRelatedByCreatedUserId->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aUserRelatedByCreatedUserId->getValidationFailures());
+				}
+			}
+
+			if ($this->aUserRelatedByUpdatedUserId !== null) {
+				if (!$this->aUserRelatedByUpdatedUserId->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aUserRelatedByUpdatedUserId->getValidationFailures());
+				}
+			}
+
 
 			if (($retval = ConceptPropertyPeer::doValidate($this, $columns)) !== true) {
 				$failureMap = array_merge($failureMap, $retval);
 			}
 
 
-				if ($this->collConceptHistorys !== null) {
-					foreach($this->collConceptHistorys as $referrerFK) {
+				if ($this->collConcepts !== null) {
+					foreach($this->collConcepts as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
+
+				if ($this->collConceptPropertyHistorys !== null) {
+					foreach($this->collConceptPropertyHistorys as $referrerFK) {
 						if (!$referrerFK->validate($columns)) {
 							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
 						}
@@ -640,6 +760,12 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 			case 9:
 				return $this->getStatusId();
 				break;
+			case 10:
+				return $this->getCreatedUserId();
+				break;
+			case 11:
+				return $this->getUpdatedUserId();
+				break;
 			default:
 				return null;
 				break;
@@ -661,6 +787,8 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 			$keys[7] => $this->getRelatedConceptId(),
 			$keys[8] => $this->getLanguage(),
 			$keys[9] => $this->getStatusId(),
+			$keys[10] => $this->getCreatedUserId(),
+			$keys[11] => $this->getUpdatedUserId(),
 		);
 		return $result;
 	}
@@ -706,6 +834,12 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 			case 9:
 				$this->setStatusId($value);
 				break;
+			case 10:
+				$this->setCreatedUserId($value);
+				break;
+			case 11:
+				$this->setUpdatedUserId($value);
+				break;
 		} 
 	}
 
@@ -724,6 +858,8 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[7], $arr)) $this->setRelatedConceptId($arr[$keys[7]]);
 		if (array_key_exists($keys[8], $arr)) $this->setLanguage($arr[$keys[8]]);
 		if (array_key_exists($keys[9], $arr)) $this->setStatusId($arr[$keys[9]]);
+		if (array_key_exists($keys[10], $arr)) $this->setCreatedUserId($arr[$keys[10]]);
+		if (array_key_exists($keys[11], $arr)) $this->setUpdatedUserId($arr[$keys[11]]);
 	}
 
 	
@@ -741,6 +877,8 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(ConceptPropertyPeer::RELATED_CONCEPT_ID)) $criteria->add(ConceptPropertyPeer::RELATED_CONCEPT_ID, $this->related_concept_id);
 		if ($this->isColumnModified(ConceptPropertyPeer::LANGUAGE)) $criteria->add(ConceptPropertyPeer::LANGUAGE, $this->language);
 		if ($this->isColumnModified(ConceptPropertyPeer::STATUS_ID)) $criteria->add(ConceptPropertyPeer::STATUS_ID, $this->status_id);
+		if ($this->isColumnModified(ConceptPropertyPeer::CREATED_USER_ID)) $criteria->add(ConceptPropertyPeer::CREATED_USER_ID, $this->created_user_id);
+		if ($this->isColumnModified(ConceptPropertyPeer::UPDATED_USER_ID)) $criteria->add(ConceptPropertyPeer::UPDATED_USER_ID, $this->updated_user_id);
 
 		return $criteria;
 	}
@@ -789,12 +927,20 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 
 		$copyObj->setStatusId($this->status_id);
 
+		$copyObj->setCreatedUserId($this->created_user_id);
+
+		$copyObj->setUpdatedUserId($this->updated_user_id);
+
 
 		if ($deepCopy) {
 									$copyObj->setNew(false);
 
-			foreach($this->getConceptHistorys() as $relObj) {
-				$copyObj->addConceptHistory($relObj->copy($deepCopy));
+			foreach($this->getConcepts() as $relObj) {
+				$copyObj->addConcept($relObj->copy($deepCopy));
+			}
+
+			foreach($this->getConceptPropertyHistorys() as $relObj) {
+				$copyObj->addConceptPropertyHistory($relObj->copy($deepCopy));
 			}
 
 		} 
@@ -948,7 +1094,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 
 
 		if ($v === null) {
-			$this->setStatusId(NULL);
+			$this->setStatusId('1');
 		} else {
 			$this->setStatusId($v->getId());
 		}
@@ -973,17 +1119,77 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 	}
 
 	
-	public function initConceptHistorys()
+	public function setUserRelatedByCreatedUserId($v)
 	{
-		if ($this->collConceptHistorys === null) {
-			$this->collConceptHistorys = array();
+
+
+		if ($v === null) {
+			$this->setCreatedUserId(NULL);
+		} else {
+			$this->setCreatedUserId($v->getId());
+		}
+
+
+		$this->aUserRelatedByCreatedUserId = $v;
+	}
+
+
+	
+	public function getUserRelatedByCreatedUserId($con = null)
+	{
+				include_once 'lib/model/om/BaseUserPeer.php';
+
+		if ($this->aUserRelatedByCreatedUserId === null && ($this->created_user_id !== null)) {
+
+			$this->aUserRelatedByCreatedUserId = UserPeer::retrieveByPK($this->created_user_id, $con);
+
+			
+		}
+		return $this->aUserRelatedByCreatedUserId;
+	}
+
+	
+	public function setUserRelatedByUpdatedUserId($v)
+	{
+
+
+		if ($v === null) {
+			$this->setUpdatedUserId(NULL);
+		} else {
+			$this->setUpdatedUserId($v->getId());
+		}
+
+
+		$this->aUserRelatedByUpdatedUserId = $v;
+	}
+
+
+	
+	public function getUserRelatedByUpdatedUserId($con = null)
+	{
+				include_once 'lib/model/om/BaseUserPeer.php';
+
+		if ($this->aUserRelatedByUpdatedUserId === null && ($this->updated_user_id !== null)) {
+
+			$this->aUserRelatedByUpdatedUserId = UserPeer::retrieveByPK($this->updated_user_id, $con);
+
+			
+		}
+		return $this->aUserRelatedByUpdatedUserId;
+	}
+
+	
+	public function initConcepts()
+	{
+		if ($this->collConcepts === null) {
+			$this->collConcepts = array();
 		}
 	}
 
 	
-	public function getConceptHistorys($criteria = null, $con = null)
+	public function getConcepts($criteria = null, $con = null)
 	{
-				include_once 'lib/model/om/BaseConceptHistoryPeer.php';
+				include_once 'lib/model/om/BaseConceptPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -992,36 +1198,36 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 			$criteria = clone $criteria;
 		}
 
-		if ($this->collConceptHistorys === null) {
+		if ($this->collConcepts === null) {
 			if ($this->isNew()) {
-			   $this->collConceptHistorys = array();
+			   $this->collConcepts = array();
 			} else {
 
-				$criteria->add(ConceptHistoryPeer::CONCEPT_PROPERTY_ID, $this->getId());
+				$criteria->add(ConceptPeer::PREF_LABEL_ID, $this->getId());
 
-				ConceptHistoryPeer::addSelectColumns($criteria);
-				$this->collConceptHistorys = ConceptHistoryPeer::doSelect($criteria, $con);
+				ConceptPeer::addSelectColumns($criteria);
+				$this->collConcepts = ConceptPeer::doSelect($criteria, $con);
 			}
 		} else {
 						if (!$this->isNew()) {
 												
 
-				$criteria->add(ConceptHistoryPeer::CONCEPT_PROPERTY_ID, $this->getId());
+				$criteria->add(ConceptPeer::PREF_LABEL_ID, $this->getId());
 
-				ConceptHistoryPeer::addSelectColumns($criteria);
-				if (!isset($this->lastConceptHistoryCriteria) || !$this->lastConceptHistoryCriteria->equals($criteria)) {
-					$this->collConceptHistorys = ConceptHistoryPeer::doSelect($criteria, $con);
+				ConceptPeer::addSelectColumns($criteria);
+				if (!isset($this->lastConceptCriteria) || !$this->lastConceptCriteria->equals($criteria)) {
+					$this->collConcepts = ConceptPeer::doSelect($criteria, $con);
 				}
 			}
 		}
-		$this->lastConceptHistoryCriteria = $criteria;
-		return $this->collConceptHistorys;
+		$this->lastConceptCriteria = $criteria;
+		return $this->collConcepts;
 	}
 
 	
-	public function countConceptHistorys($criteria = null, $distinct = false, $con = null)
+	public function countConcepts($criteria = null, $distinct = false, $con = null)
 	{
-				include_once 'lib/model/om/BaseConceptHistoryPeer.php';
+				include_once 'lib/model/om/BaseConceptPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -1030,23 +1236,23 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 			$criteria = clone $criteria;
 		}
 
-		$criteria->add(ConceptHistoryPeer::CONCEPT_PROPERTY_ID, $this->getId());
+		$criteria->add(ConceptPeer::PREF_LABEL_ID, $this->getId());
 
-		return ConceptHistoryPeer::doCount($criteria, $distinct, $con);
+		return ConceptPeer::doCount($criteria, $distinct, $con);
 	}
 
 	
-	public function addConceptHistory(ConceptHistory $l)
+	public function addConcept(Concept $l)
 	{
-		$this->collConceptHistorys[] = $l;
+		$this->collConcepts[] = $l;
 		$l->setConceptProperty($this);
 	}
 
 
 	
-	public function getConceptHistorysJoinUser($criteria = null, $con = null)
+	public function getConceptsJoinVocabulary($criteria = null, $con = null)
 	{
-				include_once 'lib/model/om/BaseConceptHistoryPeer.php';
+				include_once 'lib/model/om/BaseConceptPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -1055,26 +1261,376 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 			$criteria = clone $criteria;
 		}
 
-		if ($this->collConceptHistorys === null) {
+		if ($this->collConcepts === null) {
 			if ($this->isNew()) {
-				$this->collConceptHistorys = array();
+				$this->collConcepts = array();
 			} else {
 
-				$criteria->add(ConceptHistoryPeer::CONCEPT_PROPERTY_ID, $this->getId());
+				$criteria->add(ConceptPeer::PREF_LABEL_ID, $this->getId());
 
-				$this->collConceptHistorys = ConceptHistoryPeer::doSelectJoinUser($criteria, $con);
+				$this->collConcepts = ConceptPeer::doSelectJoinVocabulary($criteria, $con);
 			}
 		} else {
 									
-			$criteria->add(ConceptHistoryPeer::CONCEPT_PROPERTY_ID, $this->getId());
+			$criteria->add(ConceptPeer::PREF_LABEL_ID, $this->getId());
 
-			if (!isset($this->lastConceptHistoryCriteria) || !$this->lastConceptHistoryCriteria->equals($criteria)) {
-				$this->collConceptHistorys = ConceptHistoryPeer::doSelectJoinUser($criteria, $con);
+			if (!isset($this->lastConceptCriteria) || !$this->lastConceptCriteria->equals($criteria)) {
+				$this->collConcepts = ConceptPeer::doSelectJoinVocabulary($criteria, $con);
 			}
 		}
-		$this->lastConceptHistoryCriteria = $criteria;
+		$this->lastConceptCriteria = $criteria;
 
-		return $this->collConceptHistorys;
+		return $this->collConcepts;
+	}
+
+
+	
+	public function getConceptsJoinStatus($criteria = null, $con = null)
+	{
+				include_once 'lib/model/om/BaseConceptPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collConcepts === null) {
+			if ($this->isNew()) {
+				$this->collConcepts = array();
+			} else {
+
+				$criteria->add(ConceptPeer::PREF_LABEL_ID, $this->getId());
+
+				$this->collConcepts = ConceptPeer::doSelectJoinStatus($criteria, $con);
+			}
+		} else {
+									
+			$criteria->add(ConceptPeer::PREF_LABEL_ID, $this->getId());
+
+			if (!isset($this->lastConceptCriteria) || !$this->lastConceptCriteria->equals($criteria)) {
+				$this->collConcepts = ConceptPeer::doSelectJoinStatus($criteria, $con);
+			}
+		}
+		$this->lastConceptCriteria = $criteria;
+
+		return $this->collConcepts;
+	}
+
+	
+	public function initConceptPropertyHistorys()
+	{
+		if ($this->collConceptPropertyHistorys === null) {
+			$this->collConceptPropertyHistorys = array();
+		}
+	}
+
+	
+	public function getConceptPropertyHistorys($criteria = null, $con = null)
+	{
+				include_once 'lib/model/om/BaseConceptPropertyHistoryPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collConceptPropertyHistorys === null) {
+			if ($this->isNew()) {
+			   $this->collConceptPropertyHistorys = array();
+			} else {
+
+				$criteria->add(ConceptPropertyHistoryPeer::CONCEPT_PROPERTY_ID, $this->getId());
+
+				ConceptPropertyHistoryPeer::addSelectColumns($criteria);
+				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelect($criteria, $con);
+			}
+		} else {
+						if (!$this->isNew()) {
+												
+
+				$criteria->add(ConceptPropertyHistoryPeer::CONCEPT_PROPERTY_ID, $this->getId());
+
+				ConceptPropertyHistoryPeer::addSelectColumns($criteria);
+				if (!isset($this->lastConceptPropertyHistoryCriteria) || !$this->lastConceptPropertyHistoryCriteria->equals($criteria)) {
+					$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelect($criteria, $con);
+				}
+			}
+		}
+		$this->lastConceptPropertyHistoryCriteria = $criteria;
+		return $this->collConceptPropertyHistorys;
+	}
+
+	
+	public function countConceptPropertyHistorys($criteria = null, $distinct = false, $con = null)
+	{
+				include_once 'lib/model/om/BaseConceptPropertyHistoryPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		$criteria->add(ConceptPropertyHistoryPeer::CONCEPT_PROPERTY_ID, $this->getId());
+
+		return ConceptPropertyHistoryPeer::doCount($criteria, $distinct, $con);
+	}
+
+	
+	public function addConceptPropertyHistory(ConceptPropertyHistory $l)
+	{
+		$this->collConceptPropertyHistorys[] = $l;
+		$l->setConceptProperty($this);
+	}
+
+
+	
+	public function getConceptPropertyHistorysJoinConceptRelatedByConceptId($criteria = null, $con = null)
+	{
+				include_once 'lib/model/om/BaseConceptPropertyHistoryPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collConceptPropertyHistorys === null) {
+			if ($this->isNew()) {
+				$this->collConceptPropertyHistorys = array();
+			} else {
+
+				$criteria->add(ConceptPropertyHistoryPeer::CONCEPT_PROPERTY_ID, $this->getId());
+
+				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelectJoinConceptRelatedByConceptId($criteria, $con);
+			}
+		} else {
+									
+			$criteria->add(ConceptPropertyHistoryPeer::CONCEPT_PROPERTY_ID, $this->getId());
+
+			if (!isset($this->lastConceptPropertyHistoryCriteria) || !$this->lastConceptPropertyHistoryCriteria->equals($criteria)) {
+				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelectJoinConceptRelatedByConceptId($criteria, $con);
+			}
+		}
+		$this->lastConceptPropertyHistoryCriteria = $criteria;
+
+		return $this->collConceptPropertyHistorys;
+	}
+
+
+	
+	public function getConceptPropertyHistorysJoinSkosProperty($criteria = null, $con = null)
+	{
+				include_once 'lib/model/om/BaseConceptPropertyHistoryPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collConceptPropertyHistorys === null) {
+			if ($this->isNew()) {
+				$this->collConceptPropertyHistorys = array();
+			} else {
+
+				$criteria->add(ConceptPropertyHistoryPeer::CONCEPT_PROPERTY_ID, $this->getId());
+
+				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelectJoinSkosProperty($criteria, $con);
+			}
+		} else {
+									
+			$criteria->add(ConceptPropertyHistoryPeer::CONCEPT_PROPERTY_ID, $this->getId());
+
+			if (!isset($this->lastConceptPropertyHistoryCriteria) || !$this->lastConceptPropertyHistoryCriteria->equals($criteria)) {
+				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelectJoinSkosProperty($criteria, $con);
+			}
+		}
+		$this->lastConceptPropertyHistoryCriteria = $criteria;
+
+		return $this->collConceptPropertyHistorys;
+	}
+
+
+	
+	public function getConceptPropertyHistorysJoinVocabulary($criteria = null, $con = null)
+	{
+				include_once 'lib/model/om/BaseConceptPropertyHistoryPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collConceptPropertyHistorys === null) {
+			if ($this->isNew()) {
+				$this->collConceptPropertyHistorys = array();
+			} else {
+
+				$criteria->add(ConceptPropertyHistoryPeer::CONCEPT_PROPERTY_ID, $this->getId());
+
+				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelectJoinVocabulary($criteria, $con);
+			}
+		} else {
+									
+			$criteria->add(ConceptPropertyHistoryPeer::CONCEPT_PROPERTY_ID, $this->getId());
+
+			if (!isset($this->lastConceptPropertyHistoryCriteria) || !$this->lastConceptPropertyHistoryCriteria->equals($criteria)) {
+				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelectJoinVocabulary($criteria, $con);
+			}
+		}
+		$this->lastConceptPropertyHistoryCriteria = $criteria;
+
+		return $this->collConceptPropertyHistorys;
+	}
+
+
+	
+	public function getConceptPropertyHistorysJoinConceptRelatedByRelatedConceptId($criteria = null, $con = null)
+	{
+				include_once 'lib/model/om/BaseConceptPropertyHistoryPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collConceptPropertyHistorys === null) {
+			if ($this->isNew()) {
+				$this->collConceptPropertyHistorys = array();
+			} else {
+
+				$criteria->add(ConceptPropertyHistoryPeer::CONCEPT_PROPERTY_ID, $this->getId());
+
+				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelectJoinConceptRelatedByRelatedConceptId($criteria, $con);
+			}
+		} else {
+									
+			$criteria->add(ConceptPropertyHistoryPeer::CONCEPT_PROPERTY_ID, $this->getId());
+
+			if (!isset($this->lastConceptPropertyHistoryCriteria) || !$this->lastConceptPropertyHistoryCriteria->equals($criteria)) {
+				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelectJoinConceptRelatedByRelatedConceptId($criteria, $con);
+			}
+		}
+		$this->lastConceptPropertyHistoryCriteria = $criteria;
+
+		return $this->collConceptPropertyHistorys;
+	}
+
+
+	
+	public function getConceptPropertyHistorysJoinStatus($criteria = null, $con = null)
+	{
+				include_once 'lib/model/om/BaseConceptPropertyHistoryPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collConceptPropertyHistorys === null) {
+			if ($this->isNew()) {
+				$this->collConceptPropertyHistorys = array();
+			} else {
+
+				$criteria->add(ConceptPropertyHistoryPeer::CONCEPT_PROPERTY_ID, $this->getId());
+
+				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelectJoinStatus($criteria, $con);
+			}
+		} else {
+									
+			$criteria->add(ConceptPropertyHistoryPeer::CONCEPT_PROPERTY_ID, $this->getId());
+
+			if (!isset($this->lastConceptPropertyHistoryCriteria) || !$this->lastConceptPropertyHistoryCriteria->equals($criteria)) {
+				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelectJoinStatus($criteria, $con);
+			}
+		}
+		$this->lastConceptPropertyHistoryCriteria = $criteria;
+
+		return $this->collConceptPropertyHistorys;
+	}
+
+
+	
+	public function getConceptPropertyHistorysJoinUserRelatedByCreatedUserId($criteria = null, $con = null)
+	{
+				include_once 'lib/model/om/BaseConceptPropertyHistoryPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collConceptPropertyHistorys === null) {
+			if ($this->isNew()) {
+				$this->collConceptPropertyHistorys = array();
+			} else {
+
+				$criteria->add(ConceptPropertyHistoryPeer::CONCEPT_PROPERTY_ID, $this->getId());
+
+				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelectJoinUserRelatedByCreatedUserId($criteria, $con);
+			}
+		} else {
+									
+			$criteria->add(ConceptPropertyHistoryPeer::CONCEPT_PROPERTY_ID, $this->getId());
+
+			if (!isset($this->lastConceptPropertyHistoryCriteria) || !$this->lastConceptPropertyHistoryCriteria->equals($criteria)) {
+				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelectJoinUserRelatedByCreatedUserId($criteria, $con);
+			}
+		}
+		$this->lastConceptPropertyHistoryCriteria = $criteria;
+
+		return $this->collConceptPropertyHistorys;
+	}
+
+
+	
+	public function getConceptPropertyHistorysJoinUserRelatedByUpdatedUserId($criteria = null, $con = null)
+	{
+				include_once 'lib/model/om/BaseConceptPropertyHistoryPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collConceptPropertyHistorys === null) {
+			if ($this->isNew()) {
+				$this->collConceptPropertyHistorys = array();
+			} else {
+
+				$criteria->add(ConceptPropertyHistoryPeer::CONCEPT_PROPERTY_ID, $this->getId());
+
+				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelectJoinUserRelatedByUpdatedUserId($criteria, $con);
+			}
+		} else {
+									
+			$criteria->add(ConceptPropertyHistoryPeer::CONCEPT_PROPERTY_ID, $this->getId());
+
+			if (!isset($this->lastConceptPropertyHistoryCriteria) || !$this->lastConceptPropertyHistoryCriteria->equals($criteria)) {
+				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelectJoinUserRelatedByUpdatedUserId($criteria, $con);
+			}
+		}
+		$this->lastConceptPropertyHistoryCriteria = $criteria;
+
+		return $this->collConceptPropertyHistorys;
 	}
 
 } 

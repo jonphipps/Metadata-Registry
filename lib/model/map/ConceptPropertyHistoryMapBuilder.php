@@ -2,10 +2,10 @@
 
 
 
-class ConceptPropertyMapBuilder {
+class ConceptPropertyHistoryMapBuilder {
 
 	
-	const CLASS_NAME = 'lib.model.map.ConceptPropertyMapBuilder';
+	const CLASS_NAME = 'lib.model.map.ConceptPropertyHistoryMapBuilder';
 
 	
 	private $dbMap;
@@ -27,8 +27,8 @@ class ConceptPropertyMapBuilder {
 	{
 		$this->dbMap = Propel::getDatabaseMap('propel');
 
-		$tMap = $this->dbMap->addTable('reg_concept_property');
-		$tMap->setPhpName('ConceptProperty');
+		$tMap = $this->dbMap->addTable('reg_concept_property_history');
+		$tMap->setPhpName('ConceptPropertyHistory');
 
 		$tMap->setUseIdGenerator(true);
 
@@ -36,7 +36,9 @@ class ConceptPropertyMapBuilder {
 
 		$tMap->addColumn('CREATED_AT', 'CreatedAt', 'int', CreoleTypes::TIMESTAMP, false, null);
 
-		$tMap->addColumn('LAST_UPDATED', 'LastUpdated', 'int', CreoleTypes::TIMESTAMP, false, null);
+		$tMap->addColumn('ACTION', 'Action', 'string', CreoleTypes::CHAR, false, null);
+
+		$tMap->addForeignKey('CONCEPT_PROPERTY_ID', 'ConceptPropertyId', 'int', CreoleTypes::INTEGER, 'reg_concept_property', 'ID', false, null);
 
 		$tMap->addForeignKey('CONCEPT_ID', 'ConceptId', 'int', CreoleTypes::INTEGER, 'reg_concept', 'ID', true, null);
 

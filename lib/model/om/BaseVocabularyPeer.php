@@ -56,10 +56,10 @@ abstract class BaseVocabularyPeer {
 	const LAST_URI_ID = 'reg_vocabulary.LAST_URI_ID';
 
 	
-	const LANGUAGE = 'reg_vocabulary.LANGUAGE';
+	const STATUS_ID = 'reg_vocabulary.STATUS_ID';
 
 	
-	const STATUS_ID = 'reg_vocabulary.STATUS_ID';
+	const LANGUAGE = 'reg_vocabulary.LANGUAGE';
 
 	
 	private static $phpNameMap = null;
@@ -67,17 +67,17 @@ abstract class BaseVocabularyPeer {
 
 	
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'AgentId', 'CreatedAt', 'LastUpdated', 'Name', 'Note', 'Uri', 'Url', 'BaseDomain', 'Token', 'Community', 'LastUriId', 'Language', 'StatusId', ),
-		BasePeer::TYPE_COLNAME => array (VocabularyPeer::ID, VocabularyPeer::AGENT_ID, VocabularyPeer::CREATED_AT, VocabularyPeer::LAST_UPDATED, VocabularyPeer::NAME, VocabularyPeer::NOTE, VocabularyPeer::URI, VocabularyPeer::URL, VocabularyPeer::BASE_DOMAIN, VocabularyPeer::TOKEN, VocabularyPeer::COMMUNITY, VocabularyPeer::LAST_URI_ID, VocabularyPeer::LANGUAGE, VocabularyPeer::STATUS_ID, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'agent_id', 'created_at', 'last_updated', 'name', 'note', 'uri', 'url', 'base_domain', 'token', 'community', 'last_uri_id', 'language', 'status_id', ),
+		BasePeer::TYPE_PHPNAME => array ('Id', 'AgentId', 'CreatedAt', 'LastUpdated', 'Name', 'Note', 'Uri', 'Url', 'BaseDomain', 'Token', 'Community', 'LastUriId', 'StatusId', 'Language', ),
+		BasePeer::TYPE_COLNAME => array (VocabularyPeer::ID, VocabularyPeer::AGENT_ID, VocabularyPeer::CREATED_AT, VocabularyPeer::LAST_UPDATED, VocabularyPeer::NAME, VocabularyPeer::NOTE, VocabularyPeer::URI, VocabularyPeer::URL, VocabularyPeer::BASE_DOMAIN, VocabularyPeer::TOKEN, VocabularyPeer::COMMUNITY, VocabularyPeer::LAST_URI_ID, VocabularyPeer::STATUS_ID, VocabularyPeer::LANGUAGE, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'agent_id', 'created_at', 'last_updated', 'name', 'note', 'uri', 'url', 'base_domain', 'token', 'community', 'last_uri_id', 'status_id', 'language', ),
 		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, )
 	);
 
 	
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'AgentId' => 1, 'CreatedAt' => 2, 'LastUpdated' => 3, 'Name' => 4, 'Note' => 5, 'Uri' => 6, 'Url' => 7, 'BaseDomain' => 8, 'Token' => 9, 'Community' => 10, 'LastUriId' => 11, 'Language' => 12, 'StatusId' => 13, ),
-		BasePeer::TYPE_COLNAME => array (VocabularyPeer::ID => 0, VocabularyPeer::AGENT_ID => 1, VocabularyPeer::CREATED_AT => 2, VocabularyPeer::LAST_UPDATED => 3, VocabularyPeer::NAME => 4, VocabularyPeer::NOTE => 5, VocabularyPeer::URI => 6, VocabularyPeer::URL => 7, VocabularyPeer::BASE_DOMAIN => 8, VocabularyPeer::TOKEN => 9, VocabularyPeer::COMMUNITY => 10, VocabularyPeer::LAST_URI_ID => 11, VocabularyPeer::LANGUAGE => 12, VocabularyPeer::STATUS_ID => 13, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'agent_id' => 1, 'created_at' => 2, 'last_updated' => 3, 'name' => 4, 'note' => 5, 'uri' => 6, 'url' => 7, 'base_domain' => 8, 'token' => 9, 'community' => 10, 'last_uri_id' => 11, 'language' => 12, 'status_id' => 13, ),
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'AgentId' => 1, 'CreatedAt' => 2, 'LastUpdated' => 3, 'Name' => 4, 'Note' => 5, 'Uri' => 6, 'Url' => 7, 'BaseDomain' => 8, 'Token' => 9, 'Community' => 10, 'LastUriId' => 11, 'StatusId' => 12, 'Language' => 13, ),
+		BasePeer::TYPE_COLNAME => array (VocabularyPeer::ID => 0, VocabularyPeer::AGENT_ID => 1, VocabularyPeer::CREATED_AT => 2, VocabularyPeer::LAST_UPDATED => 3, VocabularyPeer::NAME => 4, VocabularyPeer::NOTE => 5, VocabularyPeer::URI => 6, VocabularyPeer::URL => 7, VocabularyPeer::BASE_DOMAIN => 8, VocabularyPeer::TOKEN => 9, VocabularyPeer::COMMUNITY => 10, VocabularyPeer::LAST_URI_ID => 11, VocabularyPeer::STATUS_ID => 12, VocabularyPeer::LANGUAGE => 13, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'agent_id' => 1, 'created_at' => 2, 'last_updated' => 3, 'name' => 4, 'note' => 5, 'uri' => 6, 'url' => 7, 'base_domain' => 8, 'token' => 9, 'community' => 10, 'last_uri_id' => 11, 'status_id' => 12, 'language' => 13, ),
 		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, )
 	);
 
@@ -156,9 +156,9 @@ abstract class BaseVocabularyPeer {
 
 		$criteria->addSelectColumn(VocabularyPeer::LAST_URI_ID);
 
-		$criteria->addSelectColumn(VocabularyPeer::LANGUAGE);
-
 		$criteria->addSelectColumn(VocabularyPeer::STATUS_ID);
+
+		$criteria->addSelectColumn(VocabularyPeer::LANGUAGE);
 
 	}
 

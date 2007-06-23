@@ -1,6 +1,6 @@
 ---
 propel: 
-  reg_agent:
+  reg_agent: 
     _attributes: 
       idMethod: native
       phpName: Agent
@@ -56,7 +56,6 @@ propel:
     type: 
       type: CHAR
       size: 15
-
   reg_agent_has_user: 
     _attributes: 
       phpName: AgentHasUser
@@ -89,7 +88,6 @@ propel:
         - user_id
       agent_id: 
         - agent_id
-
   reg_concept: 
     _attributes: 
       idMethod: native
@@ -108,30 +106,38 @@ propel:
       size: 255
       required: true
       default: 
-    pref_label: 
-      type: VARCHAR
-      size: 255
-      required: true
-      default: 
     vocabulary_id: 
       type: INTEGER
       foreignTable: reg_vocabulary
       foreignReference: id
       onDelete: CASCADE
       onUpdate: RESTRICT
-    is_top_concept:
+    is_top_concept: 
       type: BOOLEAN
-    language:
-      type: CHAR
-      size: 6
-      default: en
-    status_id:
+    pref_label_id: 
       type: INTEGER
+      foreignTable: reg_concept_property
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: CASCADE
+    pref_label: 
+      type: VARCHAR
+      size: 255
+      required: true
+      default: 
+    status_id: 
+      type: INTEGER
+      required: true
       default: 1
       foreignTable: reg_status
       foreignReference: id
       onDelete: RESTRICT
       onUpdate: RESTRICT
+    language: 
+      type: CHAR
+      size: 6
+      required: true
+      default: en
     _indexes: 
       vocabulary_id: 
         - vocabulary_id
@@ -139,52 +145,13 @@ propel:
         - pref_label
       status_id: 
         - status_id
+      pref_label_id: 
+        - pref_label_id
     _uniques: 
       vocabulary_id_pref_label: 
         - vocabulary_id
         - pref_label
-
-  reg_concept_history: 
-    _attributes: 
-      phpName: ConceptHistory
-    sid: 
-      type: CHAR
-      size: 32
-      required: true
-      primaryKey: true
-      default: 
-    concept_property_id: 
-      type: INTEGER
-      required: true
-      primaryKey: true
-      default: 
-      foreignTable: reg_concept_property
-      foreignReference: id
-      onDelete: RESTRICT
-      onUpdate: RESTRICT
-    user_id: 
-      type: INTEGER
-      required: true
-      default: 
-      foreignTable: reg_user
-      foreignReference: id
-      onDelete: RESTRICT
-      onUpdate: RESTRICT
-    changed_at: 
-      type: TIMESTAMP
-    old_values: 
-      type: LONGVARCHAR
-      required: true
-    new_values: 
-      type: LONGVARCHAR
-      required: true
-    _indexes: 
-      user_id: 
-        - user_id
-      concept_property_id: 
-        - concept_property_id
-
-  reg_concept_property: 
+  reg_concept_property:
     _attributes: 
       idMethod: native
       phpName: ConceptProperty
@@ -228,16 +195,30 @@ propel:
       foreignReference: id
       onDelete: CASCADE
       onUpdate: RESTRICT
-    language:
+    language: 
       type: CHAR
       size: 6
-    status_id:
+      default: en
+    status_id: 
       type: INTEGER
+      default: 1
       foreignTable: reg_status
       foreignReference: id
       onDelete: RESTRICT
       onUpdate: RESTRICT
-    _indexes:
+    created_user_id: 
+      type: INTEGER
+      foreignTable: reg_user
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
+    updated_user_id: 
+      type: INTEGER
+      foreignTable: reg_user
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
+    _indexes: 
       concept_id: 
         - concept_id
       skos_property_id: 
@@ -248,10 +229,106 @@ propel:
         - related_concept_id
       status_id: 
         - status_id
+      created_user_id: 
+        - created_user_id
+      updated_user_id: 
+        - updated_user_id
     _uniques: 
       id: 
         - id
-
+  reg_concept_property_history:
+    _attributes: 
+      idMethod: native
+      phpName: ConceptPropertyHistory
+    id: 
+      type: INTEGER
+      required: true
+      autoIncrement: true
+      primaryKey: true
+    created_at: 
+      type: TIMESTAMP
+    action:
+      type: CHAR
+    concept_property_id:
+      type: INTEGER
+      foreignTable: reg_concept_property
+      foreignReference: id
+      onDelete: CASCADE
+      onUpdate: RESTRICT
+    concept_id: 
+      type: INTEGER
+      required: true
+      default: 
+      foreignTable: reg_concept
+      foreignReference: id
+      onDelete: CASCADE
+      onUpdate: RESTRICT
+    skos_property_id: 
+      type: INTEGER
+      required: true
+      default: 
+      foreignTable: reg_skos_property
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
+    object: 
+      type: LONGVARCHAR
+      required: true
+    scheme_id: 
+      type: INTEGER
+      foreignTable: reg_vocabulary
+      foreignReference: id
+      onDelete: CASCADE
+      onUpdate: RESTRICT
+    related_concept_id: 
+      type: INTEGER
+      foreignTable: reg_concept
+      foreignReference: id
+      onDelete: CASCADE
+      onUpdate: RESTRICT
+    language: 
+      type: CHAR
+      size: 6
+      default: en
+    status_id: 
+      type: INTEGER
+      default: 1
+      foreignTable: reg_status
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
+    created_user_id: 
+      type: INTEGER
+      foreignTable: reg_user
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
+    updated_user_id: 
+      type: INTEGER
+      foreignTable: reg_user
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
+    _indexes: 
+      concept_id: 
+        - concept_id
+      skos_property_id: 
+        - skos_property_id
+      scheme_id: 
+        - scheme_id
+      related_concept_id: 
+        - related_concept_id
+      status_id: 
+        - status_id
+      concept_property_id:
+        - concept_property_id
+      created_user_id: 
+        - created_user_id
+      updated_user_id: 
+        - updated_user_id
+    _uniques: 
+      id: 
+        - id
   reg_lookup: 
     _attributes: 
       idMethod: native
@@ -278,7 +355,6 @@ propel:
     _uniques: 
       id: 
         - id
-
   reg_skos_property: 
     _attributes: 
       idMethod: native
@@ -347,7 +423,6 @@ propel:
         - name
       uri: 
         - uri
-
   reg_status: 
     _attributes: 
       idMethod: native
@@ -368,7 +443,6 @@ propel:
     _uniques: 
       id: 
         - id
-
   reg_user: 
     _attributes: 
       idMethod: native
@@ -418,71 +492,77 @@ propel:
     password: 
       type: VARCHAR
       size: 40
-
-  reg_vocabulary:
-    _attributes:
+  reg_vocabulary: 
+    _attributes: 
       idMethod: native
       phpName: Vocabulary
-    id:
+    id: 
       type: INTEGER
       required: true
       autoIncrement: true
       primaryKey: true
-    agent_id:
+    agent_id: 
       type: INTEGER
       required: true
+      default: ''
       foreignTable: reg_agent
       foreignReference: id
       onDelete: RESTRICT
       onUpdate: RESTRICT
-    created_at:
+    created_at: 
       type: TIMESTAMP
       required: true
     last_updated:
       type: TIMESTAMP
-    name:
+    name: 
       type: VARCHAR
       size: 255
       required: true
-    note:
+      default: ''
+    note: 
       type: LONGVARCHAR
-    uri:
+    uri: 
       type: VARCHAR
       size: 255
       required: true
-    url:
+      default: ''
+    url: 
+      type: VARCHAR
+      size: 255
+    base_domain: 
       type: VARCHAR
       size: 255
       required: true
-    base_domain:
-      type: VARCHAR
-      size: 255
-    token:
+      default: ''
+    token: 
       type: VARCHAR
       size: 45
       required: true
-    community:
+      default: ''
+    community: 
       type: VARCHAR
       size: 45
-    last_uri_id:
+    last_uri_id: 
       type: INTEGER
       default: 1000
-    language:
-      type: CHAR
-      size: 6
-    status_id:
+    status_id: 
       type: INTEGER
+      required: true
       default: 1
       foreignTable: reg_status
       foreignReference: id
       onDelete: RESTRICT
       onUpdate: RESTRICT
-    _indexes:
-      agent_id:
+    language: 
+      type: CHAR
+      size: 6
+      required: true
+      default: en
+    _indexes: 
+      agent_id: 
         - agent_id
-      status_id:
+      status_id: 
         - status_id
-
   reg_resource:
     _attributes:
       idMethod: native
@@ -543,8 +623,7 @@ propel:
     _indexes:
       agent_id:
         - agent_id
-
-  reg_vocabulary_has_user:
+  reg_vocabulary_has_user: 
     _attributes: 
       idMethod: native
       phpName: VocabularyHasUser
@@ -557,7 +636,7 @@ propel:
       foreignReference: id
       onDelete: CASCADE
       onUpdate: RESTRICT
-    user_id:
+    user_id: 
       type: INTEGER
       required: true
       primaryKey: true
