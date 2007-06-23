@@ -13,6 +13,8 @@ dev:
     cache:                  off
     no_script_name:         off
     etag:                   off
+    # Activated modules from plugins or from the symfony core
+    enabled_modules:        [default, sfControlPanel]
 
 test:
   .settings:
@@ -22,7 +24,6 @@ test:
     web_debug:              off
     no_script_name:         off
     etag:                   off
-  .settings:
     suffix:                .
 
 all:
@@ -95,9 +96,6 @@ all:
 #
 #    # Helpers included in all templates by default
 #    standard_helpers:       [Partial, Cache, Form]
-#
-#    # Activated modules from plugins or from the symfony core
-#    enabled_modules:        [default]
 #
 #    # Charset used for the response
 #    charset:                utf-8
