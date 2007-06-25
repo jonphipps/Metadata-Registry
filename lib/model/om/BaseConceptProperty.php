@@ -21,6 +21,10 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 
 
 	
+	protected $deleted_at;
+
+
+	
 	protected $concept_id = 0;
 
 
@@ -150,6 +154,30 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 	}
 
 	
+	public function getDeletedAt($format = 'Y-m-d H:i:s')
+	{
+
+		if ($this->deleted_at === null || $this->deleted_at === '') {
+			return null;
+		} elseif (!is_int($this->deleted_at)) {
+			
+			$ts = strtotime($this->deleted_at);
+			if ($ts === -1 || $ts === false) { 
+				throw new PropelException("Unable to parse value of [deleted_at] as date/time value: " . var_export($this->deleted_at, true));
+			}
+		} else {
+			$ts = $this->deleted_at;
+		}
+		if ($format === null) {
+			return $ts;
+		} elseif (strpos($format, '%') !== false) {
+			return strftime($format, $ts);
+		} else {
+			return date($format, $ts);
+		}
+	}
+
+	
 	public function getConceptId()
 	{
 
@@ -261,6 +289,24 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 		if ($this->last_updated !== $ts) {
 			$this->last_updated = $ts;
 			$this->modifiedColumns[] = ConceptPropertyPeer::LAST_UPDATED;
+		}
+
+	} 
+	
+	public function setDeletedAt($v)
+	{
+
+		if ($v !== null && !is_int($v)) {
+			$ts = strtotime($v);
+			if ($ts === -1 || $ts === false) { 
+				throw new PropelException("Unable to parse date/time value for [deleted_at] from input: " . var_export($v, true));
+			}
+		} else {
+			$ts = $v;
+		}
+		if ($this->deleted_at !== $ts) {
+			$this->deleted_at = $ts;
+			$this->modifiedColumns[] = ConceptPropertyPeer::DELETED_AT;
 		}
 
 	} 
@@ -447,30 +493,32 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 
 			$this->last_updated = $rs->getTimestamp($startcol + 2, null);
 
-			$this->concept_id = $rs->getInt($startcol + 3);
+			$this->deleted_at = $rs->getTimestamp($startcol + 3, null);
 
-			$this->skos_property_id = $rs->getInt($startcol + 4);
+			$this->concept_id = $rs->getInt($startcol + 4);
 
-			$this->object = $rs->getString($startcol + 5);
+			$this->skos_property_id = $rs->getInt($startcol + 5);
 
-			$this->scheme_id = $rs->getInt($startcol + 6);
+			$this->object = $rs->getString($startcol + 6);
 
-			$this->related_concept_id = $rs->getInt($startcol + 7);
+			$this->scheme_id = $rs->getInt($startcol + 7);
 
-			$this->language = $rs->getString($startcol + 8);
+			$this->related_concept_id = $rs->getInt($startcol + 8);
 
-			$this->status_id = $rs->getInt($startcol + 9);
+			$this->language = $rs->getString($startcol + 9);
 
-			$this->created_user_id = $rs->getInt($startcol + 10);
+			$this->status_id = $rs->getInt($startcol + 10);
 
-			$this->updated_user_id = $rs->getInt($startcol + 11);
+			$this->created_user_id = $rs->getInt($startcol + 11);
+
+			$this->updated_user_id = $rs->getInt($startcol + 12);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			
-			return $startcol + 12; 
+			return $startcol + 13; 
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating ConceptProperty object", $e);
@@ -773,30 +821,33 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 				return $this->getLastUpdated();
 				break;
 			case 3:
-				return $this->getConceptId();
+				return $this->getDeletedAt();
 				break;
 			case 4:
-				return $this->getSkosPropertyId();
+				return $this->getConceptId();
 				break;
 			case 5:
-				return $this->getObject();
+				return $this->getSkosPropertyId();
 				break;
 			case 6:
-				return $this->getSchemeId();
+				return $this->getObject();
 				break;
 			case 7:
-				return $this->getRelatedConceptId();
+				return $this->getSchemeId();
 				break;
 			case 8:
-				return $this->getLanguage();
+				return $this->getRelatedConceptId();
 				break;
 			case 9:
-				return $this->getStatusId();
+				return $this->getLanguage();
 				break;
 			case 10:
-				return $this->getCreatedUserId();
+				return $this->getStatusId();
 				break;
 			case 11:
+				return $this->getCreatedUserId();
+				break;
+			case 12:
 				return $this->getUpdatedUserId();
 				break;
 			default:
@@ -813,15 +864,16 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 			$keys[0] => $this->getId(),
 			$keys[1] => $this->getCreatedAt(),
 			$keys[2] => $this->getLastUpdated(),
-			$keys[3] => $this->getConceptId(),
-			$keys[4] => $this->getSkosPropertyId(),
-			$keys[5] => $this->getObject(),
-			$keys[6] => $this->getSchemeId(),
-			$keys[7] => $this->getRelatedConceptId(),
-			$keys[8] => $this->getLanguage(),
-			$keys[9] => $this->getStatusId(),
-			$keys[10] => $this->getCreatedUserId(),
-			$keys[11] => $this->getUpdatedUserId(),
+			$keys[3] => $this->getDeletedAt(),
+			$keys[4] => $this->getConceptId(),
+			$keys[5] => $this->getSkosPropertyId(),
+			$keys[6] => $this->getObject(),
+			$keys[7] => $this->getSchemeId(),
+			$keys[8] => $this->getRelatedConceptId(),
+			$keys[9] => $this->getLanguage(),
+			$keys[10] => $this->getStatusId(),
+			$keys[11] => $this->getCreatedUserId(),
+			$keys[12] => $this->getUpdatedUserId(),
 		);
 		return $result;
 	}
@@ -847,30 +899,33 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 				$this->setLastUpdated($value);
 				break;
 			case 3:
-				$this->setConceptId($value);
+				$this->setDeletedAt($value);
 				break;
 			case 4:
-				$this->setSkosPropertyId($value);
+				$this->setConceptId($value);
 				break;
 			case 5:
-				$this->setObject($value);
+				$this->setSkosPropertyId($value);
 				break;
 			case 6:
-				$this->setSchemeId($value);
+				$this->setObject($value);
 				break;
 			case 7:
-				$this->setRelatedConceptId($value);
+				$this->setSchemeId($value);
 				break;
 			case 8:
-				$this->setLanguage($value);
+				$this->setRelatedConceptId($value);
 				break;
 			case 9:
-				$this->setStatusId($value);
+				$this->setLanguage($value);
 				break;
 			case 10:
-				$this->setCreatedUserId($value);
+				$this->setStatusId($value);
 				break;
 			case 11:
+				$this->setCreatedUserId($value);
+				break;
+			case 12:
 				$this->setUpdatedUserId($value);
 				break;
 		} 
@@ -884,15 +939,16 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
 		if (array_key_exists($keys[1], $arr)) $this->setCreatedAt($arr[$keys[1]]);
 		if (array_key_exists($keys[2], $arr)) $this->setLastUpdated($arr[$keys[2]]);
-		if (array_key_exists($keys[3], $arr)) $this->setConceptId($arr[$keys[3]]);
-		if (array_key_exists($keys[4], $arr)) $this->setSkosPropertyId($arr[$keys[4]]);
-		if (array_key_exists($keys[5], $arr)) $this->setObject($arr[$keys[5]]);
-		if (array_key_exists($keys[6], $arr)) $this->setSchemeId($arr[$keys[6]]);
-		if (array_key_exists($keys[7], $arr)) $this->setRelatedConceptId($arr[$keys[7]]);
-		if (array_key_exists($keys[8], $arr)) $this->setLanguage($arr[$keys[8]]);
-		if (array_key_exists($keys[9], $arr)) $this->setStatusId($arr[$keys[9]]);
-		if (array_key_exists($keys[10], $arr)) $this->setCreatedUserId($arr[$keys[10]]);
-		if (array_key_exists($keys[11], $arr)) $this->setUpdatedUserId($arr[$keys[11]]);
+		if (array_key_exists($keys[3], $arr)) $this->setDeletedAt($arr[$keys[3]]);
+		if (array_key_exists($keys[4], $arr)) $this->setConceptId($arr[$keys[4]]);
+		if (array_key_exists($keys[5], $arr)) $this->setSkosPropertyId($arr[$keys[5]]);
+		if (array_key_exists($keys[6], $arr)) $this->setObject($arr[$keys[6]]);
+		if (array_key_exists($keys[7], $arr)) $this->setSchemeId($arr[$keys[7]]);
+		if (array_key_exists($keys[8], $arr)) $this->setRelatedConceptId($arr[$keys[8]]);
+		if (array_key_exists($keys[9], $arr)) $this->setLanguage($arr[$keys[9]]);
+		if (array_key_exists($keys[10], $arr)) $this->setStatusId($arr[$keys[10]]);
+		if (array_key_exists($keys[11], $arr)) $this->setCreatedUserId($arr[$keys[11]]);
+		if (array_key_exists($keys[12], $arr)) $this->setUpdatedUserId($arr[$keys[12]]);
 	}
 
 	
@@ -903,6 +959,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(ConceptPropertyPeer::ID)) $criteria->add(ConceptPropertyPeer::ID, $this->id);
 		if ($this->isColumnModified(ConceptPropertyPeer::CREATED_AT)) $criteria->add(ConceptPropertyPeer::CREATED_AT, $this->created_at);
 		if ($this->isColumnModified(ConceptPropertyPeer::LAST_UPDATED)) $criteria->add(ConceptPropertyPeer::LAST_UPDATED, $this->last_updated);
+		if ($this->isColumnModified(ConceptPropertyPeer::DELETED_AT)) $criteria->add(ConceptPropertyPeer::DELETED_AT, $this->deleted_at);
 		if ($this->isColumnModified(ConceptPropertyPeer::CONCEPT_ID)) $criteria->add(ConceptPropertyPeer::CONCEPT_ID, $this->concept_id);
 		if ($this->isColumnModified(ConceptPropertyPeer::SKOS_PROPERTY_ID)) $criteria->add(ConceptPropertyPeer::SKOS_PROPERTY_ID, $this->skos_property_id);
 		if ($this->isColumnModified(ConceptPropertyPeer::OBJECT)) $criteria->add(ConceptPropertyPeer::OBJECT, $this->object);
@@ -945,6 +1002,8 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 		$copyObj->setCreatedAt($this->created_at);
 
 		$copyObj->setLastUpdated($this->last_updated);
+
+		$copyObj->setDeletedAt($this->deleted_at);
 
 		$copyObj->setConceptId($this->concept_id);
 

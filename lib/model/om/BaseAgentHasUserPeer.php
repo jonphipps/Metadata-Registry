@@ -13,11 +13,20 @@ abstract class BaseAgentHasUserPeer {
 	const CLASS_DEFAULT = 'lib.model.AgentHasUser';
 
 	
-	const NUM_COLUMNS = 4;
+	const NUM_COLUMNS = 7;
 
 	
 	const NUM_LAZY_LOAD_COLUMNS = 0;
 
+
+	
+	const CREATED_AT = 'reg_agent_has_user.CREATED_AT';
+
+	
+	const UPDATED_AT = 'reg_agent_has_user.UPDATED_AT';
+
+	
+	const DELETED_AT = 'reg_agent_has_user.DELETED_AT';
 
 	
 	const USER_ID = 'reg_agent_has_user.USER_ID';
@@ -37,18 +46,18 @@ abstract class BaseAgentHasUserPeer {
 
 	
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('UserId', 'AgentId', 'IsRegistrarFor', 'IsAdminFor', ),
-		BasePeer::TYPE_COLNAME => array (AgentHasUserPeer::USER_ID, AgentHasUserPeer::AGENT_ID, AgentHasUserPeer::IS_REGISTRAR_FOR, AgentHasUserPeer::IS_ADMIN_FOR, ),
-		BasePeer::TYPE_FIELDNAME => array ('user_id', 'agent_id', 'is_registrar_for', 'is_admin_for', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, )
+		BasePeer::TYPE_PHPNAME => array ('CreatedAt', 'UpdatedAt', 'DeletedAt', 'UserId', 'AgentId', 'IsRegistrarFor', 'IsAdminFor', ),
+		BasePeer::TYPE_COLNAME => array (AgentHasUserPeer::CREATED_AT, AgentHasUserPeer::UPDATED_AT, AgentHasUserPeer::DELETED_AT, AgentHasUserPeer::USER_ID, AgentHasUserPeer::AGENT_ID, AgentHasUserPeer::IS_REGISTRAR_FOR, AgentHasUserPeer::IS_ADMIN_FOR, ),
+		BasePeer::TYPE_FIELDNAME => array ('created_at', 'updated_at', 'deleted_at', 'user_id', 'agent_id', 'is_registrar_for', 'is_admin_for', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, )
 	);
 
 	
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('UserId' => 0, 'AgentId' => 1, 'IsRegistrarFor' => 2, 'IsAdminFor' => 3, ),
-		BasePeer::TYPE_COLNAME => array (AgentHasUserPeer::USER_ID => 0, AgentHasUserPeer::AGENT_ID => 1, AgentHasUserPeer::IS_REGISTRAR_FOR => 2, AgentHasUserPeer::IS_ADMIN_FOR => 3, ),
-		BasePeer::TYPE_FIELDNAME => array ('user_id' => 0, 'agent_id' => 1, 'is_registrar_for' => 2, 'is_admin_for' => 3, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, )
+		BasePeer::TYPE_PHPNAME => array ('CreatedAt' => 0, 'UpdatedAt' => 1, 'DeletedAt' => 2, 'UserId' => 3, 'AgentId' => 4, 'IsRegistrarFor' => 5, 'IsAdminFor' => 6, ),
+		BasePeer::TYPE_COLNAME => array (AgentHasUserPeer::CREATED_AT => 0, AgentHasUserPeer::UPDATED_AT => 1, AgentHasUserPeer::DELETED_AT => 2, AgentHasUserPeer::USER_ID => 3, AgentHasUserPeer::AGENT_ID => 4, AgentHasUserPeer::IS_REGISTRAR_FOR => 5, AgentHasUserPeer::IS_ADMIN_FOR => 6, ),
+		BasePeer::TYPE_FIELDNAME => array ('created_at' => 0, 'updated_at' => 1, 'deleted_at' => 2, 'user_id' => 3, 'agent_id' => 4, 'is_registrar_for' => 5, 'is_admin_for' => 6, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, )
 	);
 
 	
@@ -101,6 +110,12 @@ abstract class BaseAgentHasUserPeer {
 	
 	public static function addSelectColumns(Criteria $criteria)
 	{
+
+		$criteria->addSelectColumn(AgentHasUserPeer::CREATED_AT);
+
+		$criteria->addSelectColumn(AgentHasUserPeer::UPDATED_AT);
+
+		$criteria->addSelectColumn(AgentHasUserPeer::DELETED_AT);
 
 		$criteria->addSelectColumn(AgentHasUserPeer::USER_ID);
 

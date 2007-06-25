@@ -32,6 +32,12 @@ class VocabularyHasUserMapBuilder {
 
 		$tMap->setUseIdGenerator(false);
 
+		$tMap->addColumn('CREATED_AT', 'CreatedAt', 'int', CreoleTypes::TIMESTAMP, false, null);
+
+		$tMap->addColumn('UPDATED_AT', 'UpdatedAt', 'int', CreoleTypes::TIMESTAMP, false, null);
+
+		$tMap->addColumn('DELETED_AT', 'DeletedAt', 'int', CreoleTypes::TIMESTAMP, false, null);
+
 		$tMap->addForeignPrimaryKey('VOCABULARY_ID', 'VocabularyId', 'int' , CreoleTypes::INTEGER, 'reg_vocabulary', 'ID', true, null);
 
 		$tMap->addForeignPrimaryKey('USER_ID', 'UserId', 'int' , CreoleTypes::INTEGER, 'reg_user', 'ID', true, null);

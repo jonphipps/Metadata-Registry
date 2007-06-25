@@ -21,6 +21,10 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 
 
 	
+	protected $deleted_at;
+
+
+	
 	protected $uri = 'null';
 
 
@@ -142,6 +146,30 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	}
 
 	
+	public function getDeletedAt($format = 'Y-m-d H:i:s')
+	{
+
+		if ($this->deleted_at === null || $this->deleted_at === '') {
+			return null;
+		} elseif (!is_int($this->deleted_at)) {
+			
+			$ts = strtotime($this->deleted_at);
+			if ($ts === -1 || $ts === false) { 
+				throw new PropelException("Unable to parse value of [deleted_at] as date/time value: " . var_export($this->deleted_at, true));
+			}
+		} else {
+			$ts = $this->deleted_at;
+		}
+		if ($format === null) {
+			return $ts;
+		} elseif (strpos($format, '%') !== false) {
+			return strftime($format, $ts);
+		} else {
+			return date($format, $ts);
+		}
+	}
+
+	
 	public function getUri()
 	{
 
@@ -239,6 +267,24 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 		if ($this->last_updated !== $ts) {
 			$this->last_updated = $ts;
 			$this->modifiedColumns[] = ConceptPeer::LAST_UPDATED;
+		}
+
+	} 
+	
+	public function setDeletedAt($v)
+	{
+
+		if ($v !== null && !is_int($v)) {
+			$ts = strtotime($v);
+			if ($ts === -1 || $ts === false) { 
+				throw new PropelException("Unable to parse date/time value for [deleted_at] from input: " . var_export($v, true));
+			}
+		} else {
+			$ts = $v;
+		}
+		if ($this->deleted_at !== $ts) {
+			$this->deleted_at = $ts;
+			$this->modifiedColumns[] = ConceptPeer::DELETED_AT;
 		}
 
 	} 
@@ -371,26 +417,28 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 
 			$this->last_updated = $rs->getTimestamp($startcol + 2, null);
 
-			$this->uri = $rs->getString($startcol + 3);
+			$this->deleted_at = $rs->getTimestamp($startcol + 3, null);
 
-			$this->vocabulary_id = $rs->getInt($startcol + 4);
+			$this->uri = $rs->getString($startcol + 4);
 
-			$this->is_top_concept = $rs->getBoolean($startcol + 5);
+			$this->vocabulary_id = $rs->getInt($startcol + 5);
 
-			$this->pref_label_id = $rs->getInt($startcol + 6);
+			$this->is_top_concept = $rs->getBoolean($startcol + 6);
 
-			$this->pref_label = $rs->getString($startcol + 7);
+			$this->pref_label_id = $rs->getInt($startcol + 7);
 
-			$this->status_id = $rs->getInt($startcol + 8);
+			$this->pref_label = $rs->getString($startcol + 8);
 
-			$this->language = $rs->getString($startcol + 9);
+			$this->status_id = $rs->getInt($startcol + 9);
+
+			$this->language = $rs->getString($startcol + 10);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			
-			return $startcol + 10; 
+			return $startcol + 11; 
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Concept object", $e);
@@ -673,24 +721,27 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 				return $this->getLastUpdated();
 				break;
 			case 3:
-				return $this->getUri();
+				return $this->getDeletedAt();
 				break;
 			case 4:
-				return $this->getVocabularyId();
+				return $this->getUri();
 				break;
 			case 5:
-				return $this->getIsTopConcept();
+				return $this->getVocabularyId();
 				break;
 			case 6:
-				return $this->getPrefLabelId();
+				return $this->getIsTopConcept();
 				break;
 			case 7:
-				return $this->getPrefLabel();
+				return $this->getPrefLabelId();
 				break;
 			case 8:
-				return $this->getStatusId();
+				return $this->getPrefLabel();
 				break;
 			case 9:
+				return $this->getStatusId();
+				break;
+			case 10:
 				return $this->getLanguage();
 				break;
 			default:
@@ -707,13 +758,14 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 			$keys[0] => $this->getId(),
 			$keys[1] => $this->getCreatedAt(),
 			$keys[2] => $this->getLastUpdated(),
-			$keys[3] => $this->getUri(),
-			$keys[4] => $this->getVocabularyId(),
-			$keys[5] => $this->getIsTopConcept(),
-			$keys[6] => $this->getPrefLabelId(),
-			$keys[7] => $this->getPrefLabel(),
-			$keys[8] => $this->getStatusId(),
-			$keys[9] => $this->getLanguage(),
+			$keys[3] => $this->getDeletedAt(),
+			$keys[4] => $this->getUri(),
+			$keys[5] => $this->getVocabularyId(),
+			$keys[6] => $this->getIsTopConcept(),
+			$keys[7] => $this->getPrefLabelId(),
+			$keys[8] => $this->getPrefLabel(),
+			$keys[9] => $this->getStatusId(),
+			$keys[10] => $this->getLanguage(),
 		);
 		return $result;
 	}
@@ -739,24 +791,27 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 				$this->setLastUpdated($value);
 				break;
 			case 3:
-				$this->setUri($value);
+				$this->setDeletedAt($value);
 				break;
 			case 4:
-				$this->setVocabularyId($value);
+				$this->setUri($value);
 				break;
 			case 5:
-				$this->setIsTopConcept($value);
+				$this->setVocabularyId($value);
 				break;
 			case 6:
-				$this->setPrefLabelId($value);
+				$this->setIsTopConcept($value);
 				break;
 			case 7:
-				$this->setPrefLabel($value);
+				$this->setPrefLabelId($value);
 				break;
 			case 8:
-				$this->setStatusId($value);
+				$this->setPrefLabel($value);
 				break;
 			case 9:
+				$this->setStatusId($value);
+				break;
+			case 10:
 				$this->setLanguage($value);
 				break;
 		} 
@@ -770,13 +825,14 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
 		if (array_key_exists($keys[1], $arr)) $this->setCreatedAt($arr[$keys[1]]);
 		if (array_key_exists($keys[2], $arr)) $this->setLastUpdated($arr[$keys[2]]);
-		if (array_key_exists($keys[3], $arr)) $this->setUri($arr[$keys[3]]);
-		if (array_key_exists($keys[4], $arr)) $this->setVocabularyId($arr[$keys[4]]);
-		if (array_key_exists($keys[5], $arr)) $this->setIsTopConcept($arr[$keys[5]]);
-		if (array_key_exists($keys[6], $arr)) $this->setPrefLabelId($arr[$keys[6]]);
-		if (array_key_exists($keys[7], $arr)) $this->setPrefLabel($arr[$keys[7]]);
-		if (array_key_exists($keys[8], $arr)) $this->setStatusId($arr[$keys[8]]);
-		if (array_key_exists($keys[9], $arr)) $this->setLanguage($arr[$keys[9]]);
+		if (array_key_exists($keys[3], $arr)) $this->setDeletedAt($arr[$keys[3]]);
+		if (array_key_exists($keys[4], $arr)) $this->setUri($arr[$keys[4]]);
+		if (array_key_exists($keys[5], $arr)) $this->setVocabularyId($arr[$keys[5]]);
+		if (array_key_exists($keys[6], $arr)) $this->setIsTopConcept($arr[$keys[6]]);
+		if (array_key_exists($keys[7], $arr)) $this->setPrefLabelId($arr[$keys[7]]);
+		if (array_key_exists($keys[8], $arr)) $this->setPrefLabel($arr[$keys[8]]);
+		if (array_key_exists($keys[9], $arr)) $this->setStatusId($arr[$keys[9]]);
+		if (array_key_exists($keys[10], $arr)) $this->setLanguage($arr[$keys[10]]);
 	}
 
 	
@@ -787,6 +843,7 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(ConceptPeer::ID)) $criteria->add(ConceptPeer::ID, $this->id);
 		if ($this->isColumnModified(ConceptPeer::CREATED_AT)) $criteria->add(ConceptPeer::CREATED_AT, $this->created_at);
 		if ($this->isColumnModified(ConceptPeer::LAST_UPDATED)) $criteria->add(ConceptPeer::LAST_UPDATED, $this->last_updated);
+		if ($this->isColumnModified(ConceptPeer::DELETED_AT)) $criteria->add(ConceptPeer::DELETED_AT, $this->deleted_at);
 		if ($this->isColumnModified(ConceptPeer::URI)) $criteria->add(ConceptPeer::URI, $this->uri);
 		if ($this->isColumnModified(ConceptPeer::VOCABULARY_ID)) $criteria->add(ConceptPeer::VOCABULARY_ID, $this->vocabulary_id);
 		if ($this->isColumnModified(ConceptPeer::IS_TOP_CONCEPT)) $criteria->add(ConceptPeer::IS_TOP_CONCEPT, $this->is_top_concept);
@@ -827,6 +884,8 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 		$copyObj->setCreatedAt($this->created_at);
 
 		$copyObj->setLastUpdated($this->last_updated);
+
+		$copyObj->setDeletedAt($this->deleted_at);
 
 		$copyObj->setUri($this->uri);
 

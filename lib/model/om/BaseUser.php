@@ -21,6 +21,10 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 
 	
+	protected $deleted_at;
+
+
+	
 	protected $nickname;
 
 
@@ -165,6 +169,30 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	}
 
 	
+	public function getDeletedAt($format = 'Y-m-d H:i:s')
+	{
+
+		if ($this->deleted_at === null || $this->deleted_at === '') {
+			return null;
+		} elseif (!is_int($this->deleted_at)) {
+			
+			$ts = strtotime($this->deleted_at);
+			if ($ts === -1 || $ts === false) { 
+				throw new PropelException("Unable to parse value of [deleted_at] as date/time value: " . var_export($this->deleted_at, true));
+			}
+		} else {
+			$ts = $this->deleted_at;
+		}
+		if ($format === null) {
+			return $ts;
+		} elseif (strpos($format, '%') !== false) {
+			return strftime($format, $ts);
+		} else {
+			return date($format, $ts);
+		}
+	}
+
+	
 	public function getNickname()
 	{
 
@@ -297,6 +325,24 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		if ($this->last_updated !== $ts) {
 			$this->last_updated = $ts;
 			$this->modifiedColumns[] = UserPeer::LAST_UPDATED;
+		}
+
+	} 
+	
+	public function setDeletedAt($v)
+	{
+
+		if ($v !== null && !is_int($v)) {
+			$ts = strtotime($v);
+			if ($ts === -1 || $ts === false) { 
+				throw new PropelException("Unable to parse date/time value for [deleted_at] from input: " . var_export($v, true));
+			}
+		} else {
+			$ts = $v;
+		}
+		if ($this->deleted_at !== $ts) {
+			$this->deleted_at = $ts;
+			$this->modifiedColumns[] = UserPeer::DELETED_AT;
 		}
 
 	} 
@@ -485,36 +531,38 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 			$this->last_updated = $rs->getTimestamp($startcol + 2, null);
 
-			$this->nickname = $rs->getString($startcol + 3);
+			$this->deleted_at = $rs->getTimestamp($startcol + 3, null);
 
-			$this->salutation = $rs->getString($startcol + 4);
+			$this->nickname = $rs->getString($startcol + 4);
 
-			$this->first_name = $rs->getString($startcol + 5);
+			$this->salutation = $rs->getString($startcol + 5);
 
-			$this->last_name = $rs->getString($startcol + 6);
+			$this->first_name = $rs->getString($startcol + 6);
 
-			$this->email = $rs->getString($startcol + 7);
+			$this->last_name = $rs->getString($startcol + 7);
 
-			$this->sha1_password = $rs->getString($startcol + 8);
+			$this->email = $rs->getString($startcol + 8);
 
-			$this->salt = $rs->getString($startcol + 9);
+			$this->sha1_password = $rs->getString($startcol + 9);
 
-			$this->want_to_be_moderator = $rs->getBoolean($startcol + 10);
+			$this->salt = $rs->getString($startcol + 10);
 
-			$this->is_moderator = $rs->getBoolean($startcol + 11);
+			$this->want_to_be_moderator = $rs->getBoolean($startcol + 11);
 
-			$this->is_administrator = $rs->getBoolean($startcol + 12);
+			$this->is_moderator = $rs->getBoolean($startcol + 12);
 
-			$this->deletions = $rs->getInt($startcol + 13);
+			$this->is_administrator = $rs->getBoolean($startcol + 13);
 
-			$this->password = $rs->getString($startcol + 14);
+			$this->deletions = $rs->getInt($startcol + 14);
+
+			$this->password = $rs->getString($startcol + 15);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			
-			return $startcol + 15; 
+			return $startcol + 16; 
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating User object", $e);
@@ -786,39 +834,42 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 				return $this->getLastUpdated();
 				break;
 			case 3:
-				return $this->getNickname();
+				return $this->getDeletedAt();
 				break;
 			case 4:
-				return $this->getSalutation();
+				return $this->getNickname();
 				break;
 			case 5:
-				return $this->getFirstName();
+				return $this->getSalutation();
 				break;
 			case 6:
-				return $this->getLastName();
+				return $this->getFirstName();
 				break;
 			case 7:
-				return $this->getEmail();
+				return $this->getLastName();
 				break;
 			case 8:
-				return $this->getSha1Password();
+				return $this->getEmail();
 				break;
 			case 9:
-				return $this->getSalt();
+				return $this->getSha1Password();
 				break;
 			case 10:
-				return $this->getWantToBeModerator();
+				return $this->getSalt();
 				break;
 			case 11:
-				return $this->getIsModerator();
+				return $this->getWantToBeModerator();
 				break;
 			case 12:
-				return $this->getIsAdministrator();
+				return $this->getIsModerator();
 				break;
 			case 13:
-				return $this->getDeletions();
+				return $this->getIsAdministrator();
 				break;
 			case 14:
+				return $this->getDeletions();
+				break;
+			case 15:
 				return $this->getPassword();
 				break;
 			default:
@@ -835,18 +886,19 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 			$keys[0] => $this->getId(),
 			$keys[1] => $this->getCreatedAt(),
 			$keys[2] => $this->getLastUpdated(),
-			$keys[3] => $this->getNickname(),
-			$keys[4] => $this->getSalutation(),
-			$keys[5] => $this->getFirstName(),
-			$keys[6] => $this->getLastName(),
-			$keys[7] => $this->getEmail(),
-			$keys[8] => $this->getSha1Password(),
-			$keys[9] => $this->getSalt(),
-			$keys[10] => $this->getWantToBeModerator(),
-			$keys[11] => $this->getIsModerator(),
-			$keys[12] => $this->getIsAdministrator(),
-			$keys[13] => $this->getDeletions(),
-			$keys[14] => $this->getPassword(),
+			$keys[3] => $this->getDeletedAt(),
+			$keys[4] => $this->getNickname(),
+			$keys[5] => $this->getSalutation(),
+			$keys[6] => $this->getFirstName(),
+			$keys[7] => $this->getLastName(),
+			$keys[8] => $this->getEmail(),
+			$keys[9] => $this->getSha1Password(),
+			$keys[10] => $this->getSalt(),
+			$keys[11] => $this->getWantToBeModerator(),
+			$keys[12] => $this->getIsModerator(),
+			$keys[13] => $this->getIsAdministrator(),
+			$keys[14] => $this->getDeletions(),
+			$keys[15] => $this->getPassword(),
 		);
 		return $result;
 	}
@@ -872,39 +924,42 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 				$this->setLastUpdated($value);
 				break;
 			case 3:
-				$this->setNickname($value);
+				$this->setDeletedAt($value);
 				break;
 			case 4:
-				$this->setSalutation($value);
+				$this->setNickname($value);
 				break;
 			case 5:
-				$this->setFirstName($value);
+				$this->setSalutation($value);
 				break;
 			case 6:
-				$this->setLastName($value);
+				$this->setFirstName($value);
 				break;
 			case 7:
-				$this->setEmail($value);
+				$this->setLastName($value);
 				break;
 			case 8:
-				$this->setSha1Password($value);
+				$this->setEmail($value);
 				break;
 			case 9:
-				$this->setSalt($value);
+				$this->setSha1Password($value);
 				break;
 			case 10:
-				$this->setWantToBeModerator($value);
+				$this->setSalt($value);
 				break;
 			case 11:
-				$this->setIsModerator($value);
+				$this->setWantToBeModerator($value);
 				break;
 			case 12:
-				$this->setIsAdministrator($value);
+				$this->setIsModerator($value);
 				break;
 			case 13:
-				$this->setDeletions($value);
+				$this->setIsAdministrator($value);
 				break;
 			case 14:
+				$this->setDeletions($value);
+				break;
+			case 15:
 				$this->setPassword($value);
 				break;
 		} 
@@ -918,18 +973,19 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
 		if (array_key_exists($keys[1], $arr)) $this->setCreatedAt($arr[$keys[1]]);
 		if (array_key_exists($keys[2], $arr)) $this->setLastUpdated($arr[$keys[2]]);
-		if (array_key_exists($keys[3], $arr)) $this->setNickname($arr[$keys[3]]);
-		if (array_key_exists($keys[4], $arr)) $this->setSalutation($arr[$keys[4]]);
-		if (array_key_exists($keys[5], $arr)) $this->setFirstName($arr[$keys[5]]);
-		if (array_key_exists($keys[6], $arr)) $this->setLastName($arr[$keys[6]]);
-		if (array_key_exists($keys[7], $arr)) $this->setEmail($arr[$keys[7]]);
-		if (array_key_exists($keys[8], $arr)) $this->setSha1Password($arr[$keys[8]]);
-		if (array_key_exists($keys[9], $arr)) $this->setSalt($arr[$keys[9]]);
-		if (array_key_exists($keys[10], $arr)) $this->setWantToBeModerator($arr[$keys[10]]);
-		if (array_key_exists($keys[11], $arr)) $this->setIsModerator($arr[$keys[11]]);
-		if (array_key_exists($keys[12], $arr)) $this->setIsAdministrator($arr[$keys[12]]);
-		if (array_key_exists($keys[13], $arr)) $this->setDeletions($arr[$keys[13]]);
-		if (array_key_exists($keys[14], $arr)) $this->setPassword($arr[$keys[14]]);
+		if (array_key_exists($keys[3], $arr)) $this->setDeletedAt($arr[$keys[3]]);
+		if (array_key_exists($keys[4], $arr)) $this->setNickname($arr[$keys[4]]);
+		if (array_key_exists($keys[5], $arr)) $this->setSalutation($arr[$keys[5]]);
+		if (array_key_exists($keys[6], $arr)) $this->setFirstName($arr[$keys[6]]);
+		if (array_key_exists($keys[7], $arr)) $this->setLastName($arr[$keys[7]]);
+		if (array_key_exists($keys[8], $arr)) $this->setEmail($arr[$keys[8]]);
+		if (array_key_exists($keys[9], $arr)) $this->setSha1Password($arr[$keys[9]]);
+		if (array_key_exists($keys[10], $arr)) $this->setSalt($arr[$keys[10]]);
+		if (array_key_exists($keys[11], $arr)) $this->setWantToBeModerator($arr[$keys[11]]);
+		if (array_key_exists($keys[12], $arr)) $this->setIsModerator($arr[$keys[12]]);
+		if (array_key_exists($keys[13], $arr)) $this->setIsAdministrator($arr[$keys[13]]);
+		if (array_key_exists($keys[14], $arr)) $this->setDeletions($arr[$keys[14]]);
+		if (array_key_exists($keys[15], $arr)) $this->setPassword($arr[$keys[15]]);
 	}
 
 	
@@ -940,6 +996,7 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(UserPeer::ID)) $criteria->add(UserPeer::ID, $this->id);
 		if ($this->isColumnModified(UserPeer::CREATED_AT)) $criteria->add(UserPeer::CREATED_AT, $this->created_at);
 		if ($this->isColumnModified(UserPeer::LAST_UPDATED)) $criteria->add(UserPeer::LAST_UPDATED, $this->last_updated);
+		if ($this->isColumnModified(UserPeer::DELETED_AT)) $criteria->add(UserPeer::DELETED_AT, $this->deleted_at);
 		if ($this->isColumnModified(UserPeer::NICKNAME)) $criteria->add(UserPeer::NICKNAME, $this->nickname);
 		if ($this->isColumnModified(UserPeer::SALUTATION)) $criteria->add(UserPeer::SALUTATION, $this->salutation);
 		if ($this->isColumnModified(UserPeer::FIRST_NAME)) $criteria->add(UserPeer::FIRST_NAME, $this->first_name);
@@ -985,6 +1042,8 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		$copyObj->setCreatedAt($this->created_at);
 
 		$copyObj->setLastUpdated($this->last_updated);
+
+		$copyObj->setDeletedAt($this->deleted_at);
 
 		$copyObj->setNickname($this->nickname);
 

@@ -13,7 +13,7 @@ abstract class BaseUserPeer {
 	const CLASS_DEFAULT = 'lib.model.User';
 
 	
-	const NUM_COLUMNS = 15;
+	const NUM_COLUMNS = 16;
 
 	
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -27,6 +27,9 @@ abstract class BaseUserPeer {
 
 	
 	const LAST_UPDATED = 'reg_user.LAST_UPDATED';
+
+	
+	const DELETED_AT = 'reg_user.DELETED_AT';
 
 	
 	const NICKNAME = 'reg_user.NICKNAME';
@@ -70,18 +73,18 @@ abstract class BaseUserPeer {
 
 	
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'CreatedAt', 'LastUpdated', 'Nickname', 'Salutation', 'FirstName', 'LastName', 'Email', 'Sha1Password', 'Salt', 'WantToBeModerator', 'IsModerator', 'IsAdministrator', 'Deletions', 'Password', ),
-		BasePeer::TYPE_COLNAME => array (UserPeer::ID, UserPeer::CREATED_AT, UserPeer::LAST_UPDATED, UserPeer::NICKNAME, UserPeer::SALUTATION, UserPeer::FIRST_NAME, UserPeer::LAST_NAME, UserPeer::EMAIL, UserPeer::SHA1_PASSWORD, UserPeer::SALT, UserPeer::WANT_TO_BE_MODERATOR, UserPeer::IS_MODERATOR, UserPeer::IS_ADMINISTRATOR, UserPeer::DELETIONS, UserPeer::PASSWORD, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'created_at', 'last_updated', 'nickname', 'salutation', 'first_name', 'last_name', 'email', 'sha1_password', 'salt', 'want_to_be_moderator', 'is_moderator', 'is_administrator', 'deletions', 'password', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'CreatedAt', 'LastUpdated', 'DeletedAt', 'Nickname', 'Salutation', 'FirstName', 'LastName', 'Email', 'Sha1Password', 'Salt', 'WantToBeModerator', 'IsModerator', 'IsAdministrator', 'Deletions', 'Password', ),
+		BasePeer::TYPE_COLNAME => array (UserPeer::ID, UserPeer::CREATED_AT, UserPeer::LAST_UPDATED, UserPeer::DELETED_AT, UserPeer::NICKNAME, UserPeer::SALUTATION, UserPeer::FIRST_NAME, UserPeer::LAST_NAME, UserPeer::EMAIL, UserPeer::SHA1_PASSWORD, UserPeer::SALT, UserPeer::WANT_TO_BE_MODERATOR, UserPeer::IS_MODERATOR, UserPeer::IS_ADMINISTRATOR, UserPeer::DELETIONS, UserPeer::PASSWORD, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'created_at', 'last_updated', 'deleted_at', 'nickname', 'salutation', 'first_name', 'last_name', 'email', 'sha1_password', 'salt', 'want_to_be_moderator', 'is_moderator', 'is_administrator', 'deletions', 'password', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, )
 	);
 
 	
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'CreatedAt' => 1, 'LastUpdated' => 2, 'Nickname' => 3, 'Salutation' => 4, 'FirstName' => 5, 'LastName' => 6, 'Email' => 7, 'Sha1Password' => 8, 'Salt' => 9, 'WantToBeModerator' => 10, 'IsModerator' => 11, 'IsAdministrator' => 12, 'Deletions' => 13, 'Password' => 14, ),
-		BasePeer::TYPE_COLNAME => array (UserPeer::ID => 0, UserPeer::CREATED_AT => 1, UserPeer::LAST_UPDATED => 2, UserPeer::NICKNAME => 3, UserPeer::SALUTATION => 4, UserPeer::FIRST_NAME => 5, UserPeer::LAST_NAME => 6, UserPeer::EMAIL => 7, UserPeer::SHA1_PASSWORD => 8, UserPeer::SALT => 9, UserPeer::WANT_TO_BE_MODERATOR => 10, UserPeer::IS_MODERATOR => 11, UserPeer::IS_ADMINISTRATOR => 12, UserPeer::DELETIONS => 13, UserPeer::PASSWORD => 14, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'created_at' => 1, 'last_updated' => 2, 'nickname' => 3, 'salutation' => 4, 'first_name' => 5, 'last_name' => 6, 'email' => 7, 'sha1_password' => 8, 'salt' => 9, 'want_to_be_moderator' => 10, 'is_moderator' => 11, 'is_administrator' => 12, 'deletions' => 13, 'password' => 14, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'CreatedAt' => 1, 'LastUpdated' => 2, 'DeletedAt' => 3, 'Nickname' => 4, 'Salutation' => 5, 'FirstName' => 6, 'LastName' => 7, 'Email' => 8, 'Sha1Password' => 9, 'Salt' => 10, 'WantToBeModerator' => 11, 'IsModerator' => 12, 'IsAdministrator' => 13, 'Deletions' => 14, 'Password' => 15, ),
+		BasePeer::TYPE_COLNAME => array (UserPeer::ID => 0, UserPeer::CREATED_AT => 1, UserPeer::LAST_UPDATED => 2, UserPeer::DELETED_AT => 3, UserPeer::NICKNAME => 4, UserPeer::SALUTATION => 5, UserPeer::FIRST_NAME => 6, UserPeer::LAST_NAME => 7, UserPeer::EMAIL => 8, UserPeer::SHA1_PASSWORD => 9, UserPeer::SALT => 10, UserPeer::WANT_TO_BE_MODERATOR => 11, UserPeer::IS_MODERATOR => 12, UserPeer::IS_ADMINISTRATOR => 13, UserPeer::DELETIONS => 14, UserPeer::PASSWORD => 15, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'created_at' => 1, 'last_updated' => 2, 'deleted_at' => 3, 'nickname' => 4, 'salutation' => 5, 'first_name' => 6, 'last_name' => 7, 'email' => 8, 'sha1_password' => 9, 'salt' => 10, 'want_to_be_moderator' => 11, 'is_moderator' => 12, 'is_administrator' => 13, 'deletions' => 14, 'password' => 15, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, )
 	);
 
 	
@@ -140,6 +143,8 @@ abstract class BaseUserPeer {
 		$criteria->addSelectColumn(UserPeer::CREATED_AT);
 
 		$criteria->addSelectColumn(UserPeer::LAST_UPDATED);
+
+		$criteria->addSelectColumn(UserPeer::DELETED_AT);
 
 		$criteria->addSelectColumn(UserPeer::NICKNAME);
 

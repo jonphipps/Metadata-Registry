@@ -13,7 +13,9 @@ propel:
       type: TIMESTAMP
     last_updated: 
       type: TIMESTAMP
-    org_email: 
+    deleted_at:
+      type: TIMESTAMP
+    org_email:
       type: VARCHAR
       size: 100
       required: true
@@ -56,10 +58,17 @@ propel:
     type: 
       type: CHAR
       size: 15
-  reg_agent_has_user: 
-    _attributes: 
+
+  reg_agent_has_user:
+    _attributes:
       phpName: AgentHasUser
-    user_id: 
+    created_at:
+      type: TIMESTAMP
+    updated_at:
+      type: TIMESTAMP
+    deleted_at:
+      type: TIMESTAMP
+    user_id:
       type: INTEGER
       required: true
       primaryKey: true
@@ -88,6 +97,7 @@ propel:
         - user_id
       agent_id: 
         - agent_id
+
   reg_concept: 
     _attributes: 
       idMethod: native
@@ -97,11 +107,13 @@ propel:
       required: true
       autoIncrement: true
       primaryKey: true
-    created_at: 
+    created_at:
       type: TIMESTAMP
-    last_updated: 
+    last_updated:
       type: TIMESTAMP
-    uri: 
+    deleted_at:
+      type: TIMESTAMP
+    uri:
       type: VARCHAR
       size: 255
       required: true
@@ -151,6 +163,7 @@ propel:
       vocabulary_id_pref_label: 
         - vocabulary_id
         - pref_label
+
   reg_concept_property:
     _attributes: 
       idMethod: native
@@ -164,7 +177,9 @@ propel:
       type: TIMESTAMP
     last_updated: 
       type: TIMESTAMP
-    concept_id: 
+    deleted_at:
+      type: TIMESTAMP
+    concept_id:
       type: INTEGER
       required: true
       default: 
@@ -236,6 +251,7 @@ propel:
     _uniques: 
       id: 
         - id
+
   reg_concept_property_history:
     _attributes: 
       idMethod: native
@@ -329,7 +345,8 @@ propel:
     _uniques: 
       id: 
         - id
-  reg_lookup: 
+
+  reg_lookup:
     _attributes: 
       idMethod: native
       phpName: Lookup
@@ -355,6 +372,7 @@ propel:
     _uniques: 
       id: 
         - id
+
   reg_skos_property: 
     _attributes: 
       idMethod: native
@@ -423,6 +441,7 @@ propel:
         - name
       uri: 
         - uri
+
   reg_status: 
     _attributes: 
       idMethod: native
@@ -443,6 +462,7 @@ propel:
     _uniques: 
       id: 
         - id
+
   reg_user: 
     _attributes: 
       idMethod: native
@@ -456,7 +476,9 @@ propel:
       type: TIMESTAMP
     last_updated: 
       type: TIMESTAMP
-    nickname: 
+    deleted_at:
+      type: TIMESTAMP
+    nickname:
       type: VARCHAR
       size: 50
     salutation: 
@@ -492,6 +514,7 @@ propel:
     password: 
       type: VARCHAR
       size: 40
+
   reg_vocabulary: 
     _attributes: 
       idMethod: native
@@ -511,10 +534,11 @@ propel:
       onUpdate: RESTRICT
     created_at: 
       type: TIMESTAMP
-      required: true
     last_updated:
       type: TIMESTAMP
-    name: 
+    deleted_at:
+      type: TIMESTAMP
+    name:
       type: VARCHAR
       size: 255
       required: true
@@ -563,6 +587,7 @@ propel:
         - agent_id
       status_id: 
         - status_id
+
   reg_resource:
     _attributes:
       idMethod: native
@@ -592,6 +617,8 @@ propel:
     created_at:
       type: TIMESTAMP
     update_at:
+      type: TIMESTAMP
+    deleted_at:
       type: TIMESTAMP
     name:
       type: VARCHAR
@@ -623,11 +650,18 @@ propel:
     _indexes:
       agent_id:
         - agent_id
+
   reg_vocabulary_has_user: 
     _attributes: 
       idMethod: native
       phpName: VocabularyHasUser
-    vocabulary_id: 
+    created_at:
+      type: TIMESTAMP
+    updated_at:
+      type: TIMESTAMP
+    deleted_at:
+      type: TIMESTAMP
+    vocabulary_id:
       type: INTEGER
       required: true
       primaryKey: true

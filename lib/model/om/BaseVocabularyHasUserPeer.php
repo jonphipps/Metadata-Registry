@@ -13,11 +13,20 @@ abstract class BaseVocabularyHasUserPeer {
 	const CLASS_DEFAULT = 'lib.model.VocabularyHasUser';
 
 	
-	const NUM_COLUMNS = 5;
+	const NUM_COLUMNS = 8;
 
 	
 	const NUM_LAZY_LOAD_COLUMNS = 0;
 
+
+	
+	const CREATED_AT = 'reg_vocabulary_has_user.CREATED_AT';
+
+	
+	const UPDATED_AT = 'reg_vocabulary_has_user.UPDATED_AT';
+
+	
+	const DELETED_AT = 'reg_vocabulary_has_user.DELETED_AT';
 
 	
 	const VOCABULARY_ID = 'reg_vocabulary_has_user.VOCABULARY_ID';
@@ -40,18 +49,18 @@ abstract class BaseVocabularyHasUserPeer {
 
 	
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('VocabularyId', 'UserId', 'IsMaintainerFor', 'IsRegistrarFor', 'IsAdminFor', ),
-		BasePeer::TYPE_COLNAME => array (VocabularyHasUserPeer::VOCABULARY_ID, VocabularyHasUserPeer::USER_ID, VocabularyHasUserPeer::IS_MAINTAINER_FOR, VocabularyHasUserPeer::IS_REGISTRAR_FOR, VocabularyHasUserPeer::IS_ADMIN_FOR, ),
-		BasePeer::TYPE_FIELDNAME => array ('vocabulary_id', 'user_id', 'is_maintainer_for', 'is_registrar_for', 'is_admin_for', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, )
+		BasePeer::TYPE_PHPNAME => array ('CreatedAt', 'UpdatedAt', 'DeletedAt', 'VocabularyId', 'UserId', 'IsMaintainerFor', 'IsRegistrarFor', 'IsAdminFor', ),
+		BasePeer::TYPE_COLNAME => array (VocabularyHasUserPeer::CREATED_AT, VocabularyHasUserPeer::UPDATED_AT, VocabularyHasUserPeer::DELETED_AT, VocabularyHasUserPeer::VOCABULARY_ID, VocabularyHasUserPeer::USER_ID, VocabularyHasUserPeer::IS_MAINTAINER_FOR, VocabularyHasUserPeer::IS_REGISTRAR_FOR, VocabularyHasUserPeer::IS_ADMIN_FOR, ),
+		BasePeer::TYPE_FIELDNAME => array ('created_at', 'updated_at', 'deleted_at', 'vocabulary_id', 'user_id', 'is_maintainer_for', 'is_registrar_for', 'is_admin_for', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, )
 	);
 
 	
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('VocabularyId' => 0, 'UserId' => 1, 'IsMaintainerFor' => 2, 'IsRegistrarFor' => 3, 'IsAdminFor' => 4, ),
-		BasePeer::TYPE_COLNAME => array (VocabularyHasUserPeer::VOCABULARY_ID => 0, VocabularyHasUserPeer::USER_ID => 1, VocabularyHasUserPeer::IS_MAINTAINER_FOR => 2, VocabularyHasUserPeer::IS_REGISTRAR_FOR => 3, VocabularyHasUserPeer::IS_ADMIN_FOR => 4, ),
-		BasePeer::TYPE_FIELDNAME => array ('vocabulary_id' => 0, 'user_id' => 1, 'is_maintainer_for' => 2, 'is_registrar_for' => 3, 'is_admin_for' => 4, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, )
+		BasePeer::TYPE_PHPNAME => array ('CreatedAt' => 0, 'UpdatedAt' => 1, 'DeletedAt' => 2, 'VocabularyId' => 3, 'UserId' => 4, 'IsMaintainerFor' => 5, 'IsRegistrarFor' => 6, 'IsAdminFor' => 7, ),
+		BasePeer::TYPE_COLNAME => array (VocabularyHasUserPeer::CREATED_AT => 0, VocabularyHasUserPeer::UPDATED_AT => 1, VocabularyHasUserPeer::DELETED_AT => 2, VocabularyHasUserPeer::VOCABULARY_ID => 3, VocabularyHasUserPeer::USER_ID => 4, VocabularyHasUserPeer::IS_MAINTAINER_FOR => 5, VocabularyHasUserPeer::IS_REGISTRAR_FOR => 6, VocabularyHasUserPeer::IS_ADMIN_FOR => 7, ),
+		BasePeer::TYPE_FIELDNAME => array ('created_at' => 0, 'updated_at' => 1, 'deleted_at' => 2, 'vocabulary_id' => 3, 'user_id' => 4, 'is_maintainer_for' => 5, 'is_registrar_for' => 6, 'is_admin_for' => 7, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, )
 	);
 
 	
@@ -104,6 +113,12 @@ abstract class BaseVocabularyHasUserPeer {
 	
 	public static function addSelectColumns(Criteria $criteria)
 	{
+
+		$criteria->addSelectColumn(VocabularyHasUserPeer::CREATED_AT);
+
+		$criteria->addSelectColumn(VocabularyHasUserPeer::UPDATED_AT);
+
+		$criteria->addSelectColumn(VocabularyHasUserPeer::DELETED_AT);
 
 		$criteria->addSelectColumn(VocabularyHasUserPeer::VOCABULARY_ID);
 

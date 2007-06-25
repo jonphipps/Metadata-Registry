@@ -42,6 +42,8 @@ class ResourceMapBuilder {
 
 		$tMap->addColumn('UPDATE_AT', 'UpdateAt', 'int', CreoleTypes::TIMESTAMP, false, null);
 
+		$tMap->addColumn('DELETED_AT', 'DeletedAt', 'int', CreoleTypes::TIMESTAMP, false, null);
+
 		$tMap->addColumn('NAME', 'Name', 'string', CreoleTypes::VARCHAR, true, 255);
 
 		$tMap->addColumn('NOTE', 'Note', 'string', CreoleTypes::LONGVARCHAR, false, null);

@@ -13,7 +13,7 @@ abstract class BaseResourcePeer {
 	const CLASS_DEFAULT = 'lib.model.Resource';
 
 	
-	const NUM_COLUMNS = 13;
+	const NUM_COLUMNS = 14;
 
 	
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -33,6 +33,9 @@ abstract class BaseResourcePeer {
 
 	
 	const UPDATE_AT = 'reg_resource.UPDATE_AT';
+
+	
+	const DELETED_AT = 'reg_resource.DELETED_AT';
 
 	
 	const NAME = 'reg_resource.NAME';
@@ -82,18 +85,18 @@ abstract class BaseResourcePeer {
 
 	
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'Type', 'AgentId', 'CreatedAt', 'UpdateAt', 'Name', 'Note', 'Uri', 'Url', 'BaseDomain', 'Token', 'Community', 'LastUriId', ),
-		BasePeer::TYPE_COLNAME => array (ResourcePeer::ID, ResourcePeer::TYPE, ResourcePeer::AGENT_ID, ResourcePeer::CREATED_AT, ResourcePeer::UPDATE_AT, ResourcePeer::NAME, ResourcePeer::NOTE, ResourcePeer::URI, ResourcePeer::URL, ResourcePeer::BASE_DOMAIN, ResourcePeer::TOKEN, ResourcePeer::COMMUNITY, ResourcePeer::LAST_URI_ID, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'type', 'agent_id', 'created_at', 'update_at', 'name', 'note', 'uri', 'url', 'base_domain', 'token', 'community', 'last_uri_id', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'Type', 'AgentId', 'CreatedAt', 'UpdateAt', 'DeletedAt', 'Name', 'Note', 'Uri', 'Url', 'BaseDomain', 'Token', 'Community', 'LastUriId', ),
+		BasePeer::TYPE_COLNAME => array (ResourcePeer::ID, ResourcePeer::TYPE, ResourcePeer::AGENT_ID, ResourcePeer::CREATED_AT, ResourcePeer::UPDATE_AT, ResourcePeer::DELETED_AT, ResourcePeer::NAME, ResourcePeer::NOTE, ResourcePeer::URI, ResourcePeer::URL, ResourcePeer::BASE_DOMAIN, ResourcePeer::TOKEN, ResourcePeer::COMMUNITY, ResourcePeer::LAST_URI_ID, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'type', 'agent_id', 'created_at', 'update_at', 'deleted_at', 'name', 'note', 'uri', 'url', 'base_domain', 'token', 'community', 'last_uri_id', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, )
 	);
 
 	
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Type' => 1, 'AgentId' => 2, 'CreatedAt' => 3, 'UpdateAt' => 4, 'Name' => 5, 'Note' => 6, 'Uri' => 7, 'Url' => 8, 'BaseDomain' => 9, 'Token' => 10, 'Community' => 11, 'LastUriId' => 12, ),
-		BasePeer::TYPE_COLNAME => array (ResourcePeer::ID => 0, ResourcePeer::TYPE => 1, ResourcePeer::AGENT_ID => 2, ResourcePeer::CREATED_AT => 3, ResourcePeer::UPDATE_AT => 4, ResourcePeer::NAME => 5, ResourcePeer::NOTE => 6, ResourcePeer::URI => 7, ResourcePeer::URL => 8, ResourcePeer::BASE_DOMAIN => 9, ResourcePeer::TOKEN => 10, ResourcePeer::COMMUNITY => 11, ResourcePeer::LAST_URI_ID => 12, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'type' => 1, 'agent_id' => 2, 'created_at' => 3, 'update_at' => 4, 'name' => 5, 'note' => 6, 'uri' => 7, 'url' => 8, 'base_domain' => 9, 'token' => 10, 'community' => 11, 'last_uri_id' => 12, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Type' => 1, 'AgentId' => 2, 'CreatedAt' => 3, 'UpdateAt' => 4, 'DeletedAt' => 5, 'Name' => 6, 'Note' => 7, 'Uri' => 8, 'Url' => 9, 'BaseDomain' => 10, 'Token' => 11, 'Community' => 12, 'LastUriId' => 13, ),
+		BasePeer::TYPE_COLNAME => array (ResourcePeer::ID => 0, ResourcePeer::TYPE => 1, ResourcePeer::AGENT_ID => 2, ResourcePeer::CREATED_AT => 3, ResourcePeer::UPDATE_AT => 4, ResourcePeer::DELETED_AT => 5, ResourcePeer::NAME => 6, ResourcePeer::NOTE => 7, ResourcePeer::URI => 8, ResourcePeer::URL => 9, ResourcePeer::BASE_DOMAIN => 10, ResourcePeer::TOKEN => 11, ResourcePeer::COMMUNITY => 12, ResourcePeer::LAST_URI_ID => 13, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'type' => 1, 'agent_id' => 2, 'created_at' => 3, 'update_at' => 4, 'deleted_at' => 5, 'name' => 6, 'note' => 7, 'uri' => 8, 'url' => 9, 'base_domain' => 10, 'token' => 11, 'community' => 12, 'last_uri_id' => 13, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, )
 	);
 
 	
@@ -156,6 +159,8 @@ abstract class BaseResourcePeer {
 		$criteria->addSelectColumn(ResourcePeer::CREATED_AT);
 
 		$criteria->addSelectColumn(ResourcePeer::UPDATE_AT);
+
+		$criteria->addSelectColumn(ResourcePeer::DELETED_AT);
 
 		$criteria->addSelectColumn(ResourcePeer::NAME);
 

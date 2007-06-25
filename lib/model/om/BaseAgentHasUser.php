@@ -9,6 +9,18 @@ abstract class BaseAgentHasUser extends BaseObject  implements Persistent {
 
 
 	
+	protected $created_at;
+
+
+	
+	protected $updated_at;
+
+
+	
+	protected $deleted_at;
+
+
+	
 	protected $user_id = 0;
 
 
@@ -34,6 +46,78 @@ abstract class BaseAgentHasUser extends BaseObject  implements Persistent {
 
 	
 	protected $alreadyInValidation = false;
+
+	
+	public function getCreatedAt($format = 'Y-m-d H:i:s')
+	{
+
+		if ($this->created_at === null || $this->created_at === '') {
+			return null;
+		} elseif (!is_int($this->created_at)) {
+			
+			$ts = strtotime($this->created_at);
+			if ($ts === -1 || $ts === false) { 
+				throw new PropelException("Unable to parse value of [created_at] as date/time value: " . var_export($this->created_at, true));
+			}
+		} else {
+			$ts = $this->created_at;
+		}
+		if ($format === null) {
+			return $ts;
+		} elseif (strpos($format, '%') !== false) {
+			return strftime($format, $ts);
+		} else {
+			return date($format, $ts);
+		}
+	}
+
+	
+	public function getUpdatedAt($format = 'Y-m-d H:i:s')
+	{
+
+		if ($this->updated_at === null || $this->updated_at === '') {
+			return null;
+		} elseif (!is_int($this->updated_at)) {
+			
+			$ts = strtotime($this->updated_at);
+			if ($ts === -1 || $ts === false) { 
+				throw new PropelException("Unable to parse value of [updated_at] as date/time value: " . var_export($this->updated_at, true));
+			}
+		} else {
+			$ts = $this->updated_at;
+		}
+		if ($format === null) {
+			return $ts;
+		} elseif (strpos($format, '%') !== false) {
+			return strftime($format, $ts);
+		} else {
+			return date($format, $ts);
+		}
+	}
+
+	
+	public function getDeletedAt($format = 'Y-m-d H:i:s')
+	{
+
+		if ($this->deleted_at === null || $this->deleted_at === '') {
+			return null;
+		} elseif (!is_int($this->deleted_at)) {
+			
+			$ts = strtotime($this->deleted_at);
+			if ($ts === -1 || $ts === false) { 
+				throw new PropelException("Unable to parse value of [deleted_at] as date/time value: " . var_export($this->deleted_at, true));
+			}
+		} else {
+			$ts = $this->deleted_at;
+		}
+		if ($format === null) {
+			return $ts;
+		} elseif (strpos($format, '%') !== false) {
+			return strftime($format, $ts);
+		} else {
+			return date($format, $ts);
+		}
+	}
 
 	
 	public function getUserId()
@@ -63,6 +147,60 @@ abstract class BaseAgentHasUser extends BaseObject  implements Persistent {
 		return $this->is_admin_for;
 	}
 
+	
+	public function setCreatedAt($v)
+	{
+
+		if ($v !== null && !is_int($v)) {
+			$ts = strtotime($v);
+			if ($ts === -1 || $ts === false) { 
+				throw new PropelException("Unable to parse date/time value for [created_at] from input: " . var_export($v, true));
+			}
+		} else {
+			$ts = $v;
+		}
+		if ($this->created_at !== $ts) {
+			$this->created_at = $ts;
+			$this->modifiedColumns[] = AgentHasUserPeer::CREATED_AT;
+		}
+
+	} 
+	
+	public function setUpdatedAt($v)
+	{
+
+		if ($v !== null && !is_int($v)) {
+			$ts = strtotime($v);
+			if ($ts === -1 || $ts === false) { 
+				throw new PropelException("Unable to parse date/time value for [updated_at] from input: " . var_export($v, true));
+			}
+		} else {
+			$ts = $v;
+		}
+		if ($this->updated_at !== $ts) {
+			$this->updated_at = $ts;
+			$this->modifiedColumns[] = AgentHasUserPeer::UPDATED_AT;
+		}
+
+	} 
+	
+	public function setDeletedAt($v)
+	{
+
+		if ($v !== null && !is_int($v)) {
+			$ts = strtotime($v);
+			if ($ts === -1 || $ts === false) { 
+				throw new PropelException("Unable to parse date/time value for [deleted_at] from input: " . var_export($v, true));
+			}
+		} else {
+			$ts = $v;
+		}
+		if ($this->deleted_at !== $ts) {
+			$this->deleted_at = $ts;
+			$this->modifiedColumns[] = AgentHasUserPeer::DELETED_AT;
+		}
+
+	} 
 	
 	public function setUserId($v)
 	{
@@ -128,20 +266,26 @@ abstract class BaseAgentHasUser extends BaseObject  implements Persistent {
 	{
 		try {
 
-			$this->user_id = $rs->getInt($startcol + 0);
+			$this->created_at = $rs->getTimestamp($startcol + 0, null);
 
-			$this->agent_id = $rs->getInt($startcol + 1);
+			$this->updated_at = $rs->getTimestamp($startcol + 1, null);
 
-			$this->is_registrar_for = $rs->getBoolean($startcol + 2);
+			$this->deleted_at = $rs->getTimestamp($startcol + 2, null);
 
-			$this->is_admin_for = $rs->getBoolean($startcol + 3);
+			$this->user_id = $rs->getInt($startcol + 3);
+
+			$this->agent_id = $rs->getInt($startcol + 4);
+
+			$this->is_registrar_for = $rs->getBoolean($startcol + 5);
+
+			$this->is_admin_for = $rs->getBoolean($startcol + 6);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			
-			return $startcol + 4; 
+			return $startcol + 7; 
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating AgentHasUser object", $e);
@@ -200,6 +344,16 @@ abstract class BaseAgentHasUser extends BaseObject  implements Persistent {
       }
     }
 
+
+    if ($this->isNew() && !$this->isColumnModified(AgentHasUserPeer::CREATED_AT))
+    {
+      $this->setCreatedAt(time());
+    }
+
+    if ($this->isModified() && !$this->isColumnModified(AgentHasUserPeer::UPDATED_AT))
+    {
+      $this->setUpdatedAt(time());
+    }
 
 		if ($this->isDeleted()) {
 			throw new PropelException("You cannot save an object that has been deleted.");
@@ -332,15 +486,24 @@ abstract class BaseAgentHasUser extends BaseObject  implements Persistent {
 	{
 		switch($pos) {
 			case 0:
-				return $this->getUserId();
+				return $this->getCreatedAt();
 				break;
 			case 1:
-				return $this->getAgentId();
+				return $this->getUpdatedAt();
 				break;
 			case 2:
-				return $this->getIsRegistrarFor();
+				return $this->getDeletedAt();
 				break;
 			case 3:
+				return $this->getUserId();
+				break;
+			case 4:
+				return $this->getAgentId();
+				break;
+			case 5:
+				return $this->getIsRegistrarFor();
+				break;
+			case 6:
 				return $this->getIsAdminFor();
 				break;
 			default:
@@ -354,10 +517,13 @@ abstract class BaseAgentHasUser extends BaseObject  implements Persistent {
 	{
 		$keys = AgentHasUserPeer::getFieldNames($keyType);
 		$result = array(
-			$keys[0] => $this->getUserId(),
-			$keys[1] => $this->getAgentId(),
-			$keys[2] => $this->getIsRegistrarFor(),
-			$keys[3] => $this->getIsAdminFor(),
+			$keys[0] => $this->getCreatedAt(),
+			$keys[1] => $this->getUpdatedAt(),
+			$keys[2] => $this->getDeletedAt(),
+			$keys[3] => $this->getUserId(),
+			$keys[4] => $this->getAgentId(),
+			$keys[5] => $this->getIsRegistrarFor(),
+			$keys[6] => $this->getIsAdminFor(),
 		);
 		return $result;
 	}
@@ -374,15 +540,24 @@ abstract class BaseAgentHasUser extends BaseObject  implements Persistent {
 	{
 		switch($pos) {
 			case 0:
-				$this->setUserId($value);
+				$this->setCreatedAt($value);
 				break;
 			case 1:
-				$this->setAgentId($value);
+				$this->setUpdatedAt($value);
 				break;
 			case 2:
-				$this->setIsRegistrarFor($value);
+				$this->setDeletedAt($value);
 				break;
 			case 3:
+				$this->setUserId($value);
+				break;
+			case 4:
+				$this->setAgentId($value);
+				break;
+			case 5:
+				$this->setIsRegistrarFor($value);
+				break;
+			case 6:
 				$this->setIsAdminFor($value);
 				break;
 		} 
@@ -393,10 +568,13 @@ abstract class BaseAgentHasUser extends BaseObject  implements Persistent {
 	{
 		$keys = AgentHasUserPeer::getFieldNames($keyType);
 
-		if (array_key_exists($keys[0], $arr)) $this->setUserId($arr[$keys[0]]);
-		if (array_key_exists($keys[1], $arr)) $this->setAgentId($arr[$keys[1]]);
-		if (array_key_exists($keys[2], $arr)) $this->setIsRegistrarFor($arr[$keys[2]]);
-		if (array_key_exists($keys[3], $arr)) $this->setIsAdminFor($arr[$keys[3]]);
+		if (array_key_exists($keys[0], $arr)) $this->setCreatedAt($arr[$keys[0]]);
+		if (array_key_exists($keys[1], $arr)) $this->setUpdatedAt($arr[$keys[1]]);
+		if (array_key_exists($keys[2], $arr)) $this->setDeletedAt($arr[$keys[2]]);
+		if (array_key_exists($keys[3], $arr)) $this->setUserId($arr[$keys[3]]);
+		if (array_key_exists($keys[4], $arr)) $this->setAgentId($arr[$keys[4]]);
+		if (array_key_exists($keys[5], $arr)) $this->setIsRegistrarFor($arr[$keys[5]]);
+		if (array_key_exists($keys[6], $arr)) $this->setIsAdminFor($arr[$keys[6]]);
 	}
 
 	
@@ -404,6 +582,9 @@ abstract class BaseAgentHasUser extends BaseObject  implements Persistent {
 	{
 		$criteria = new Criteria(AgentHasUserPeer::DATABASE_NAME);
 
+		if ($this->isColumnModified(AgentHasUserPeer::CREATED_AT)) $criteria->add(AgentHasUserPeer::CREATED_AT, $this->created_at);
+		if ($this->isColumnModified(AgentHasUserPeer::UPDATED_AT)) $criteria->add(AgentHasUserPeer::UPDATED_AT, $this->updated_at);
+		if ($this->isColumnModified(AgentHasUserPeer::DELETED_AT)) $criteria->add(AgentHasUserPeer::DELETED_AT, $this->deleted_at);
 		if ($this->isColumnModified(AgentHasUserPeer::USER_ID)) $criteria->add(AgentHasUserPeer::USER_ID, $this->user_id);
 		if ($this->isColumnModified(AgentHasUserPeer::AGENT_ID)) $criteria->add(AgentHasUserPeer::AGENT_ID, $this->agent_id);
 		if ($this->isColumnModified(AgentHasUserPeer::IS_REGISTRAR_FOR)) $criteria->add(AgentHasUserPeer::IS_REGISTRAR_FOR, $this->is_registrar_for);
@@ -448,6 +629,12 @@ abstract class BaseAgentHasUser extends BaseObject  implements Persistent {
 	
 	public function copyInto($copyObj, $deepCopy = false)
 	{
+
+		$copyObj->setCreatedAt($this->created_at);
+
+		$copyObj->setUpdatedAt($this->updated_at);
+
+		$copyObj->setDeletedAt($this->deleted_at);
 
 		$copyObj->setIsRegistrarFor($this->is_registrar_for);
 

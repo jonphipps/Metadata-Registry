@@ -213,3 +213,5 @@ class ConceptProperty extends BaseConceptProperty
   }
 
 } // ConceptProperty
+
+sfPropelBehavior::add('ConceptProperty', array('paranoid'));

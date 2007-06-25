@@ -29,6 +29,10 @@ abstract class BaseResource extends BaseObject  implements Persistent {
 
 
 	
+	protected $deleted_at;
+
+
+	
 	protected $name;
 
 
@@ -127,6 +131,30 @@ abstract class BaseResource extends BaseObject  implements Persistent {
 			}
 		} else {
 			$ts = $this->update_at;
+		}
+		if ($format === null) {
+			return $ts;
+		} elseif (strpos($format, '%') !== false) {
+			return strftime($format, $ts);
+		} else {
+			return date($format, $ts);
+		}
+	}
+
+	
+	public function getDeletedAt($format = 'Y-m-d H:i:s')
+	{
+
+		if ($this->deleted_at === null || $this->deleted_at === '') {
+			return null;
+		} elseif (!is_int($this->deleted_at)) {
+			
+			$ts = strtotime($this->deleted_at);
+			if ($ts === -1 || $ts === false) { 
+				throw new PropelException("Unable to parse value of [deleted_at] as date/time value: " . var_export($this->deleted_at, true));
+			}
+		} else {
+			$ts = $this->deleted_at;
 		}
 		if ($format === null) {
 			return $ts;
@@ -282,6 +310,24 @@ abstract class BaseResource extends BaseObject  implements Persistent {
 
 	} 
 	
+	public function setDeletedAt($v)
+	{
+
+		if ($v !== null && !is_int($v)) {
+			$ts = strtotime($v);
+			if ($ts === -1 || $ts === false) { 
+				throw new PropelException("Unable to parse date/time value for [deleted_at] from input: " . var_export($v, true));
+			}
+		} else {
+			$ts = $v;
+		}
+		if ($this->deleted_at !== $ts) {
+			$this->deleted_at = $ts;
+			$this->modifiedColumns[] = ResourcePeer::DELETED_AT;
+		}
+
+	} 
+	
 	public function setName($v)
 	{
 
@@ -424,28 +470,30 @@ abstract class BaseResource extends BaseObject  implements Persistent {
 
 			$this->update_at = $rs->getTimestamp($startcol + 4, null);
 
-			$this->name = $rs->getString($startcol + 5);
+			$this->deleted_at = $rs->getTimestamp($startcol + 5, null);
 
-			$this->note = $rs->getString($startcol + 6);
+			$this->name = $rs->getString($startcol + 6);
 
-			$this->uri = $rs->getString($startcol + 7);
+			$this->note = $rs->getString($startcol + 7);
 
-			$this->url = $rs->getString($startcol + 8);
+			$this->uri = $rs->getString($startcol + 8);
 
-			$this->base_domain = $rs->getString($startcol + 9);
+			$this->url = $rs->getString($startcol + 9);
 
-			$this->token = $rs->getString($startcol + 10);
+			$this->base_domain = $rs->getString($startcol + 10);
 
-			$this->community = $rs->getString($startcol + 11);
+			$this->token = $rs->getString($startcol + 11);
 
-			$this->last_uri_id = $rs->getInt($startcol + 12);
+			$this->community = $rs->getString($startcol + 12);
+
+			$this->last_uri_id = $rs->getInt($startcol + 13);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			
-			return $startcol + 13; 
+			return $startcol + 14; 
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Resource object", $e);
@@ -644,27 +692,30 @@ abstract class BaseResource extends BaseObject  implements Persistent {
 				return $this->getUpdateAt();
 				break;
 			case 5:
-				return $this->getName();
+				return $this->getDeletedAt();
 				break;
 			case 6:
-				return $this->getNote();
+				return $this->getName();
 				break;
 			case 7:
-				return $this->getUri();
+				return $this->getNote();
 				break;
 			case 8:
-				return $this->getUrl();
+				return $this->getUri();
 				break;
 			case 9:
-				return $this->getBaseDomain();
+				return $this->getUrl();
 				break;
 			case 10:
-				return $this->getToken();
+				return $this->getBaseDomain();
 				break;
 			case 11:
-				return $this->getCommunity();
+				return $this->getToken();
 				break;
 			case 12:
+				return $this->getCommunity();
+				break;
+			case 13:
 				return $this->getLastUriId();
 				break;
 			default:
@@ -683,14 +734,15 @@ abstract class BaseResource extends BaseObject  implements Persistent {
 			$keys[2] => $this->getAgentId(),
 			$keys[3] => $this->getCreatedAt(),
 			$keys[4] => $this->getUpdateAt(),
-			$keys[5] => $this->getName(),
-			$keys[6] => $this->getNote(),
-			$keys[7] => $this->getUri(),
-			$keys[8] => $this->getUrl(),
-			$keys[9] => $this->getBaseDomain(),
-			$keys[10] => $this->getToken(),
-			$keys[11] => $this->getCommunity(),
-			$keys[12] => $this->getLastUriId(),
+			$keys[5] => $this->getDeletedAt(),
+			$keys[6] => $this->getName(),
+			$keys[7] => $this->getNote(),
+			$keys[8] => $this->getUri(),
+			$keys[9] => $this->getUrl(),
+			$keys[10] => $this->getBaseDomain(),
+			$keys[11] => $this->getToken(),
+			$keys[12] => $this->getCommunity(),
+			$keys[13] => $this->getLastUriId(),
 		);
 		return $result;
 	}
@@ -722,27 +774,30 @@ abstract class BaseResource extends BaseObject  implements Persistent {
 				$this->setUpdateAt($value);
 				break;
 			case 5:
-				$this->setName($value);
+				$this->setDeletedAt($value);
 				break;
 			case 6:
-				$this->setNote($value);
+				$this->setName($value);
 				break;
 			case 7:
-				$this->setUri($value);
+				$this->setNote($value);
 				break;
 			case 8:
-				$this->setUrl($value);
+				$this->setUri($value);
 				break;
 			case 9:
-				$this->setBaseDomain($value);
+				$this->setUrl($value);
 				break;
 			case 10:
-				$this->setToken($value);
+				$this->setBaseDomain($value);
 				break;
 			case 11:
-				$this->setCommunity($value);
+				$this->setToken($value);
 				break;
 			case 12:
+				$this->setCommunity($value);
+				break;
+			case 13:
 				$this->setLastUriId($value);
 				break;
 		} 
@@ -758,14 +813,15 @@ abstract class BaseResource extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[2], $arr)) $this->setAgentId($arr[$keys[2]]);
 		if (array_key_exists($keys[3], $arr)) $this->setCreatedAt($arr[$keys[3]]);
 		if (array_key_exists($keys[4], $arr)) $this->setUpdateAt($arr[$keys[4]]);
-		if (array_key_exists($keys[5], $arr)) $this->setName($arr[$keys[5]]);
-		if (array_key_exists($keys[6], $arr)) $this->setNote($arr[$keys[6]]);
-		if (array_key_exists($keys[7], $arr)) $this->setUri($arr[$keys[7]]);
-		if (array_key_exists($keys[8], $arr)) $this->setUrl($arr[$keys[8]]);
-		if (array_key_exists($keys[9], $arr)) $this->setBaseDomain($arr[$keys[9]]);
-		if (array_key_exists($keys[10], $arr)) $this->setToken($arr[$keys[10]]);
-		if (array_key_exists($keys[11], $arr)) $this->setCommunity($arr[$keys[11]]);
-		if (array_key_exists($keys[12], $arr)) $this->setLastUriId($arr[$keys[12]]);
+		if (array_key_exists($keys[5], $arr)) $this->setDeletedAt($arr[$keys[5]]);
+		if (array_key_exists($keys[6], $arr)) $this->setName($arr[$keys[6]]);
+		if (array_key_exists($keys[7], $arr)) $this->setNote($arr[$keys[7]]);
+		if (array_key_exists($keys[8], $arr)) $this->setUri($arr[$keys[8]]);
+		if (array_key_exists($keys[9], $arr)) $this->setUrl($arr[$keys[9]]);
+		if (array_key_exists($keys[10], $arr)) $this->setBaseDomain($arr[$keys[10]]);
+		if (array_key_exists($keys[11], $arr)) $this->setToken($arr[$keys[11]]);
+		if (array_key_exists($keys[12], $arr)) $this->setCommunity($arr[$keys[12]]);
+		if (array_key_exists($keys[13], $arr)) $this->setLastUriId($arr[$keys[13]]);
 	}
 
 	
@@ -778,6 +834,7 @@ abstract class BaseResource extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(ResourcePeer::AGENT_ID)) $criteria->add(ResourcePeer::AGENT_ID, $this->agent_id);
 		if ($this->isColumnModified(ResourcePeer::CREATED_AT)) $criteria->add(ResourcePeer::CREATED_AT, $this->created_at);
 		if ($this->isColumnModified(ResourcePeer::UPDATE_AT)) $criteria->add(ResourcePeer::UPDATE_AT, $this->update_at);
+		if ($this->isColumnModified(ResourcePeer::DELETED_AT)) $criteria->add(ResourcePeer::DELETED_AT, $this->deleted_at);
 		if ($this->isColumnModified(ResourcePeer::NAME)) $criteria->add(ResourcePeer::NAME, $this->name);
 		if ($this->isColumnModified(ResourcePeer::NOTE)) $criteria->add(ResourcePeer::NOTE, $this->note);
 		if ($this->isColumnModified(ResourcePeer::URI)) $criteria->add(ResourcePeer::URI, $this->uri);
@@ -823,6 +880,8 @@ abstract class BaseResource extends BaseObject  implements Persistent {
 		$copyObj->setCreatedAt($this->created_at);
 
 		$copyObj->setUpdateAt($this->update_at);
+
+		$copyObj->setDeletedAt($this->deleted_at);
 
 		$copyObj->setName($this->name);
 
