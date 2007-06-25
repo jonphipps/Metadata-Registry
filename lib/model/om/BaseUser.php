@@ -1278,7 +1278,7 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 			   $this->collConcepts = array();
 			} else {
 
-				$criteria->add(ConceptPeer::LAST_UPDATED_BY_USER_ID, $this->getId());
+				$criteria->add(ConceptPeer::LAST_UPDATED_USER_ID, $this->getId());
 
 				ConceptPeer::addSelectColumns($criteria);
 				$this->collConcepts = ConceptPeer::doSelect($criteria, $con);
@@ -1287,7 +1287,7 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 						if (!$this->isNew()) {
 												
 
-				$criteria->add(ConceptPeer::LAST_UPDATED_BY_USER_ID, $this->getId());
+				$criteria->add(ConceptPeer::LAST_UPDATED_USER_ID, $this->getId());
 
 				ConceptPeer::addSelectColumns($criteria);
 				if (!isset($this->lastConceptCriteria) || !$this->lastConceptCriteria->equals($criteria)) {
@@ -1311,7 +1311,7 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 			$criteria = clone $criteria;
 		}
 
-		$criteria->add(ConceptPeer::LAST_UPDATED_BY_USER_ID, $this->getId());
+		$criteria->add(ConceptPeer::LAST_UPDATED_USER_ID, $this->getId());
 
 		return ConceptPeer::doCount($criteria, $distinct, $con);
 	}
@@ -1341,13 +1341,13 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 				$this->collConcepts = array();
 			} else {
 
-				$criteria->add(ConceptPeer::LAST_UPDATED_BY_USER_ID, $this->getId());
+				$criteria->add(ConceptPeer::LAST_UPDATED_USER_ID, $this->getId());
 
 				$this->collConcepts = ConceptPeer::doSelectJoinVocabulary($criteria, $con);
 			}
 		} else {
 									
-			$criteria->add(ConceptPeer::LAST_UPDATED_BY_USER_ID, $this->getId());
+			$criteria->add(ConceptPeer::LAST_UPDATED_USER_ID, $this->getId());
 
 			if (!isset($this->lastConceptCriteria) || !$this->lastConceptCriteria->equals($criteria)) {
 				$this->collConcepts = ConceptPeer::doSelectJoinVocabulary($criteria, $con);
@@ -1376,13 +1376,13 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 				$this->collConcepts = array();
 			} else {
 
-				$criteria->add(ConceptPeer::LAST_UPDATED_BY_USER_ID, $this->getId());
+				$criteria->add(ConceptPeer::LAST_UPDATED_USER_ID, $this->getId());
 
 				$this->collConcepts = ConceptPeer::doSelectJoinConceptProperty($criteria, $con);
 			}
 		} else {
 									
-			$criteria->add(ConceptPeer::LAST_UPDATED_BY_USER_ID, $this->getId());
+			$criteria->add(ConceptPeer::LAST_UPDATED_USER_ID, $this->getId());
 
 			if (!isset($this->lastConceptCriteria) || !$this->lastConceptCriteria->equals($criteria)) {
 				$this->collConcepts = ConceptPeer::doSelectJoinConceptProperty($criteria, $con);
@@ -1411,13 +1411,13 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 				$this->collConcepts = array();
 			} else {
 
-				$criteria->add(ConceptPeer::LAST_UPDATED_BY_USER_ID, $this->getId());
+				$criteria->add(ConceptPeer::LAST_UPDATED_USER_ID, $this->getId());
 
 				$this->collConcepts = ConceptPeer::doSelectJoinStatus($criteria, $con);
 			}
 		} else {
 									
-			$criteria->add(ConceptPeer::LAST_UPDATED_BY_USER_ID, $this->getId());
+			$criteria->add(ConceptPeer::LAST_UPDATED_USER_ID, $this->getId());
 
 			if (!isset($this->lastConceptCriteria) || !$this->lastConceptCriteria->equals($criteria)) {
 				$this->collConcepts = ConceptPeer::doSelectJoinStatus($criteria, $con);
@@ -2223,7 +2223,7 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 			   $this->collVocabularys = array();
 			} else {
 
-				$criteria->add(VocabularyPeer::LAST_UPDATED_BY_USER_ID, $this->getId());
+				$criteria->add(VocabularyPeer::LAST_UPDATED_USER_ID, $this->getId());
 
 				VocabularyPeer::addSelectColumns($criteria);
 				$this->collVocabularys = VocabularyPeer::doSelect($criteria, $con);
@@ -2232,7 +2232,7 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 						if (!$this->isNew()) {
 												
 
-				$criteria->add(VocabularyPeer::LAST_UPDATED_BY_USER_ID, $this->getId());
+				$criteria->add(VocabularyPeer::LAST_UPDATED_USER_ID, $this->getId());
 
 				VocabularyPeer::addSelectColumns($criteria);
 				if (!isset($this->lastVocabularyCriteria) || !$this->lastVocabularyCriteria->equals($criteria)) {
@@ -2256,7 +2256,7 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 			$criteria = clone $criteria;
 		}
 
-		$criteria->add(VocabularyPeer::LAST_UPDATED_BY_USER_ID, $this->getId());
+		$criteria->add(VocabularyPeer::LAST_UPDATED_USER_ID, $this->getId());
 
 		return VocabularyPeer::doCount($criteria, $distinct, $con);
 	}
@@ -2286,13 +2286,13 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 				$this->collVocabularys = array();
 			} else {
 
-				$criteria->add(VocabularyPeer::LAST_UPDATED_BY_USER_ID, $this->getId());
+				$criteria->add(VocabularyPeer::LAST_UPDATED_USER_ID, $this->getId());
 
 				$this->collVocabularys = VocabularyPeer::doSelectJoinAgent($criteria, $con);
 			}
 		} else {
 									
-			$criteria->add(VocabularyPeer::LAST_UPDATED_BY_USER_ID, $this->getId());
+			$criteria->add(VocabularyPeer::LAST_UPDATED_USER_ID, $this->getId());
 
 			if (!isset($this->lastVocabularyCriteria) || !$this->lastVocabularyCriteria->equals($criteria)) {
 				$this->collVocabularys = VocabularyPeer::doSelectJoinAgent($criteria, $con);
@@ -2321,13 +2321,13 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 				$this->collVocabularys = array();
 			} else {
 
-				$criteria->add(VocabularyPeer::LAST_UPDATED_BY_USER_ID, $this->getId());
+				$criteria->add(VocabularyPeer::LAST_UPDATED_USER_ID, $this->getId());
 
 				$this->collVocabularys = VocabularyPeer::doSelectJoinStatus($criteria, $con);
 			}
 		} else {
 									
-			$criteria->add(VocabularyPeer::LAST_UPDATED_BY_USER_ID, $this->getId());
+			$criteria->add(VocabularyPeer::LAST_UPDATED_USER_ID, $this->getId());
 
 			if (!isset($this->lastVocabularyCriteria) || !$this->lastVocabularyCriteria->equals($criteria)) {
 				$this->collVocabularys = VocabularyPeer::doSelectJoinStatus($criteria, $con);

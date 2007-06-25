@@ -29,7 +29,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 
 
 	
-	protected $last_updated_by_user_id;
+	protected $last_updated_user_id;
 
 
 	
@@ -201,10 +201,10 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	}
 
 	
-	public function getLastUpdatedByUserId()
+	public function getLastUpdatedUserId()
 	{
 
-		return $this->last_updated_by_user_id;
+		return $this->last_updated_user_id;
 	}
 
 	
@@ -392,7 +392,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 
 	} 
 	
-	public function setLastUpdatedByUserId($v)
+	public function setLastUpdatedUserId($v)
 	{
 
 		
@@ -401,9 +401,9 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 			$v = (int) $v;
 		}
 
-		if ($this->last_updated_by_user_id !== $v) {
-			$this->last_updated_by_user_id = $v;
-			$this->modifiedColumns[] = VocabularyPeer::LAST_UPDATED_BY_USER_ID;
+		if ($this->last_updated_user_id !== $v) {
+			$this->last_updated_user_id = $v;
+			$this->modifiedColumns[] = VocabularyPeer::LAST_UPDATED_USER_ID;
 		}
 
 		if ($this->aUser !== null && $this->aUser->getId() !== $v) {
@@ -608,7 +608,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 
 			$this->last_updated = $rs->getTimestamp($startcol + 4, null);
 
-			$this->last_updated_by_user_id = $rs->getInt($startcol + 5);
+			$this->last_updated_user_id = $rs->getInt($startcol + 5);
 
 			$this->deleted_at = $rs->getTimestamp($startcol + 6, null);
 
@@ -931,7 +931,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 				return $this->getLastUpdated();
 				break;
 			case 5:
-				return $this->getLastUpdatedByUserId();
+				return $this->getLastUpdatedUserId();
 				break;
 			case 6:
 				return $this->getDeletedAt();
@@ -982,7 +982,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 			$keys[2] => $this->getCreatedAt(),
 			$keys[3] => $this->getUpdatedAt(),
 			$keys[4] => $this->getLastUpdated(),
-			$keys[5] => $this->getLastUpdatedByUserId(),
+			$keys[5] => $this->getLastUpdatedUserId(),
 			$keys[6] => $this->getDeletedAt(),
 			$keys[7] => $this->getName(),
 			$keys[8] => $this->getNote(),
@@ -1025,7 +1025,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 				$this->setLastUpdated($value);
 				break;
 			case 5:
-				$this->setLastUpdatedByUserId($value);
+				$this->setLastUpdatedUserId($value);
 				break;
 			case 6:
 				$this->setDeletedAt($value);
@@ -1073,7 +1073,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[2], $arr)) $this->setCreatedAt($arr[$keys[2]]);
 		if (array_key_exists($keys[3], $arr)) $this->setUpdatedAt($arr[$keys[3]]);
 		if (array_key_exists($keys[4], $arr)) $this->setLastUpdated($arr[$keys[4]]);
-		if (array_key_exists($keys[5], $arr)) $this->setLastUpdatedByUserId($arr[$keys[5]]);
+		if (array_key_exists($keys[5], $arr)) $this->setLastUpdatedUserId($arr[$keys[5]]);
 		if (array_key_exists($keys[6], $arr)) $this->setDeletedAt($arr[$keys[6]]);
 		if (array_key_exists($keys[7], $arr)) $this->setName($arr[$keys[7]]);
 		if (array_key_exists($keys[8], $arr)) $this->setNote($arr[$keys[8]]);
@@ -1097,7 +1097,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(VocabularyPeer::CREATED_AT)) $criteria->add(VocabularyPeer::CREATED_AT, $this->created_at);
 		if ($this->isColumnModified(VocabularyPeer::UPDATED_AT)) $criteria->add(VocabularyPeer::UPDATED_AT, $this->updated_at);
 		if ($this->isColumnModified(VocabularyPeer::LAST_UPDATED)) $criteria->add(VocabularyPeer::LAST_UPDATED, $this->last_updated);
-		if ($this->isColumnModified(VocabularyPeer::LAST_UPDATED_BY_USER_ID)) $criteria->add(VocabularyPeer::LAST_UPDATED_BY_USER_ID, $this->last_updated_by_user_id);
+		if ($this->isColumnModified(VocabularyPeer::LAST_UPDATED_USER_ID)) $criteria->add(VocabularyPeer::LAST_UPDATED_USER_ID, $this->last_updated_user_id);
 		if ($this->isColumnModified(VocabularyPeer::DELETED_AT)) $criteria->add(VocabularyPeer::DELETED_AT, $this->deleted_at);
 		if ($this->isColumnModified(VocabularyPeer::NAME)) $criteria->add(VocabularyPeer::NAME, $this->name);
 		if ($this->isColumnModified(VocabularyPeer::NOTE)) $criteria->add(VocabularyPeer::NOTE, $this->note);
@@ -1147,7 +1147,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 
 		$copyObj->setLastUpdated($this->last_updated);
 
-		$copyObj->setLastUpdatedByUserId($this->last_updated_by_user_id);
+		$copyObj->setLastUpdatedUserId($this->last_updated_user_id);
 
 		$copyObj->setDeletedAt($this->deleted_at);
 
@@ -1252,9 +1252,9 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 
 
 		if ($v === null) {
-			$this->setLastUpdatedByUserId(NULL);
+			$this->setLastUpdatedUserId(NULL);
 		} else {
-			$this->setLastUpdatedByUserId($v->getId());
+			$this->setLastUpdatedUserId($v->getId());
 		}
 
 
@@ -1267,9 +1267,9 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	{
 				include_once 'lib/model/om/BaseUserPeer.php';
 
-		if ($this->aUser === null && ($this->last_updated_by_user_id !== null)) {
+		if ($this->aUser === null && ($this->last_updated_user_id !== null)) {
 
-			$this->aUser = UserPeer::retrieveByPK($this->last_updated_by_user_id, $con);
+			$this->aUser = UserPeer::retrieveByPK($this->last_updated_user_id, $con);
 
 			
 		}

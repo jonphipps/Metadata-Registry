@@ -25,7 +25,7 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 
 
 	
-	protected $last_updated_by_user_id;
+	protected $last_updated_user_id;
 
 
 	
@@ -181,10 +181,10 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	}
 
 	
-	public function getLastUpdatedByUserId()
+	public function getLastUpdatedUserId()
 	{
 
-		return $this->last_updated_by_user_id;
+		return $this->last_updated_user_id;
 	}
 
 	
@@ -331,7 +331,7 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 
 	} 
 	
-	public function setLastUpdatedByUserId($v)
+	public function setLastUpdatedUserId($v)
 	{
 
 		
@@ -340,9 +340,9 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 			$v = (int) $v;
 		}
 
-		if ($this->last_updated_by_user_id !== $v) {
-			$this->last_updated_by_user_id = $v;
-			$this->modifiedColumns[] = ConceptPeer::LAST_UPDATED_BY_USER_ID;
+		if ($this->last_updated_user_id !== $v) {
+			$this->last_updated_user_id = $v;
+			$this->modifiedColumns[] = ConceptPeer::LAST_UPDATED_USER_ID;
 		}
 
 		if ($this->aUser !== null && $this->aUser->getId() !== $v) {
@@ -499,7 +499,7 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 
 			$this->last_updated = $rs->getTimestamp($startcol + 3, null);
 
-			$this->last_updated_by_user_id = $rs->getInt($startcol + 4);
+			$this->last_updated_user_id = $rs->getInt($startcol + 4);
 
 			$this->deleted_at = $rs->getTimestamp($startcol + 5, null);
 
@@ -826,7 +826,7 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 				return $this->getLastUpdated();
 				break;
 			case 4:
-				return $this->getLastUpdatedByUserId();
+				return $this->getLastUpdatedUserId();
 				break;
 			case 5:
 				return $this->getDeletedAt();
@@ -867,7 +867,7 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 			$keys[1] => $this->getCreatedAt(),
 			$keys[2] => $this->getUpdatedAt(),
 			$keys[3] => $this->getLastUpdated(),
-			$keys[4] => $this->getLastUpdatedByUserId(),
+			$keys[4] => $this->getLastUpdatedUserId(),
 			$keys[5] => $this->getDeletedAt(),
 			$keys[6] => $this->getUri(),
 			$keys[7] => $this->getVocabularyId(),
@@ -904,7 +904,7 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 				$this->setLastUpdated($value);
 				break;
 			case 4:
-				$this->setLastUpdatedByUserId($value);
+				$this->setLastUpdatedUserId($value);
 				break;
 			case 5:
 				$this->setDeletedAt($value);
@@ -942,7 +942,7 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[1], $arr)) $this->setCreatedAt($arr[$keys[1]]);
 		if (array_key_exists($keys[2], $arr)) $this->setUpdatedAt($arr[$keys[2]]);
 		if (array_key_exists($keys[3], $arr)) $this->setLastUpdated($arr[$keys[3]]);
-		if (array_key_exists($keys[4], $arr)) $this->setLastUpdatedByUserId($arr[$keys[4]]);
+		if (array_key_exists($keys[4], $arr)) $this->setLastUpdatedUserId($arr[$keys[4]]);
 		if (array_key_exists($keys[5], $arr)) $this->setDeletedAt($arr[$keys[5]]);
 		if (array_key_exists($keys[6], $arr)) $this->setUri($arr[$keys[6]]);
 		if (array_key_exists($keys[7], $arr)) $this->setVocabularyId($arr[$keys[7]]);
@@ -962,7 +962,7 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(ConceptPeer::CREATED_AT)) $criteria->add(ConceptPeer::CREATED_AT, $this->created_at);
 		if ($this->isColumnModified(ConceptPeer::UPDATED_AT)) $criteria->add(ConceptPeer::UPDATED_AT, $this->updated_at);
 		if ($this->isColumnModified(ConceptPeer::LAST_UPDATED)) $criteria->add(ConceptPeer::LAST_UPDATED, $this->last_updated);
-		if ($this->isColumnModified(ConceptPeer::LAST_UPDATED_BY_USER_ID)) $criteria->add(ConceptPeer::LAST_UPDATED_BY_USER_ID, $this->last_updated_by_user_id);
+		if ($this->isColumnModified(ConceptPeer::LAST_UPDATED_USER_ID)) $criteria->add(ConceptPeer::LAST_UPDATED_USER_ID, $this->last_updated_user_id);
 		if ($this->isColumnModified(ConceptPeer::DELETED_AT)) $criteria->add(ConceptPeer::DELETED_AT, $this->deleted_at);
 		if ($this->isColumnModified(ConceptPeer::URI)) $criteria->add(ConceptPeer::URI, $this->uri);
 		if ($this->isColumnModified(ConceptPeer::VOCABULARY_ID)) $criteria->add(ConceptPeer::VOCABULARY_ID, $this->vocabulary_id);
@@ -1007,7 +1007,7 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 
 		$copyObj->setLastUpdated($this->last_updated);
 
-		$copyObj->setLastUpdatedByUserId($this->last_updated_by_user_id);
+		$copyObj->setLastUpdatedUserId($this->last_updated_user_id);
 
 		$copyObj->setDeletedAt($this->deleted_at);
 
@@ -1076,9 +1076,9 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 
 
 		if ($v === null) {
-			$this->setLastUpdatedByUserId(NULL);
+			$this->setLastUpdatedUserId(NULL);
 		} else {
-			$this->setLastUpdatedByUserId($v->getId());
+			$this->setLastUpdatedUserId($v->getId());
 		}
 
 
@@ -1091,9 +1091,9 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	{
 				include_once 'lib/model/om/BaseUserPeer.php';
 
-		if ($this->aUser === null && ($this->last_updated_by_user_id !== null)) {
+		if ($this->aUser === null && ($this->last_updated_user_id !== null)) {
 
-			$this->aUser = UserPeer::retrieveByPK($this->last_updated_by_user_id, $con);
+			$this->aUser = UserPeer::retrieveByPK($this->last_updated_user_id, $con);
 
 			
 		}
