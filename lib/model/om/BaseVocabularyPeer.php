@@ -13,7 +13,7 @@ abstract class BaseVocabularyPeer {
 	const CLASS_DEFAULT = 'lib.model.Vocabulary';
 
 	
-	const NUM_COLUMNS = 15;
+	const NUM_COLUMNS = 17;
 
 	
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -29,7 +29,13 @@ abstract class BaseVocabularyPeer {
 	const CREATED_AT = 'reg_vocabulary.CREATED_AT';
 
 	
+	const UPDATED_AT = 'reg_vocabulary.UPDATED_AT';
+
+	
 	const LAST_UPDATED = 'reg_vocabulary.LAST_UPDATED';
+
+	
+	const LAST_UPDATED_BY_USER_ID = 'reg_vocabulary.LAST_UPDATED_BY_USER_ID';
 
 	
 	const DELETED_AT = 'reg_vocabulary.DELETED_AT';
@@ -70,18 +76,18 @@ abstract class BaseVocabularyPeer {
 
 	
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'AgentId', 'CreatedAt', 'LastUpdated', 'DeletedAt', 'Name', 'Note', 'Uri', 'Url', 'BaseDomain', 'Token', 'Community', 'LastUriId', 'StatusId', 'Language', ),
-		BasePeer::TYPE_COLNAME => array (VocabularyPeer::ID, VocabularyPeer::AGENT_ID, VocabularyPeer::CREATED_AT, VocabularyPeer::LAST_UPDATED, VocabularyPeer::DELETED_AT, VocabularyPeer::NAME, VocabularyPeer::NOTE, VocabularyPeer::URI, VocabularyPeer::URL, VocabularyPeer::BASE_DOMAIN, VocabularyPeer::TOKEN, VocabularyPeer::COMMUNITY, VocabularyPeer::LAST_URI_ID, VocabularyPeer::STATUS_ID, VocabularyPeer::LANGUAGE, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'agent_id', 'created_at', 'last_updated', 'deleted_at', 'name', 'note', 'uri', 'url', 'base_domain', 'token', 'community', 'last_uri_id', 'status_id', 'language', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'AgentId', 'CreatedAt', 'UpdatedAt', 'LastUpdated', 'LastUpdatedByUserId', 'DeletedAt', 'Name', 'Note', 'Uri', 'Url', 'BaseDomain', 'Token', 'Community', 'LastUriId', 'StatusId', 'Language', ),
+		BasePeer::TYPE_COLNAME => array (VocabularyPeer::ID, VocabularyPeer::AGENT_ID, VocabularyPeer::CREATED_AT, VocabularyPeer::UPDATED_AT, VocabularyPeer::LAST_UPDATED, VocabularyPeer::LAST_UPDATED_BY_USER_ID, VocabularyPeer::DELETED_AT, VocabularyPeer::NAME, VocabularyPeer::NOTE, VocabularyPeer::URI, VocabularyPeer::URL, VocabularyPeer::BASE_DOMAIN, VocabularyPeer::TOKEN, VocabularyPeer::COMMUNITY, VocabularyPeer::LAST_URI_ID, VocabularyPeer::STATUS_ID, VocabularyPeer::LANGUAGE, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'agent_id', 'created_at', 'updated_at', 'last_updated', 'last_updated_by_user_id', 'deleted_at', 'name', 'note', 'uri', 'url', 'base_domain', 'token', 'community', 'last_uri_id', 'status_id', 'language', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, )
 	);
 
 	
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'AgentId' => 1, 'CreatedAt' => 2, 'LastUpdated' => 3, 'DeletedAt' => 4, 'Name' => 5, 'Note' => 6, 'Uri' => 7, 'Url' => 8, 'BaseDomain' => 9, 'Token' => 10, 'Community' => 11, 'LastUriId' => 12, 'StatusId' => 13, 'Language' => 14, ),
-		BasePeer::TYPE_COLNAME => array (VocabularyPeer::ID => 0, VocabularyPeer::AGENT_ID => 1, VocabularyPeer::CREATED_AT => 2, VocabularyPeer::LAST_UPDATED => 3, VocabularyPeer::DELETED_AT => 4, VocabularyPeer::NAME => 5, VocabularyPeer::NOTE => 6, VocabularyPeer::URI => 7, VocabularyPeer::URL => 8, VocabularyPeer::BASE_DOMAIN => 9, VocabularyPeer::TOKEN => 10, VocabularyPeer::COMMUNITY => 11, VocabularyPeer::LAST_URI_ID => 12, VocabularyPeer::STATUS_ID => 13, VocabularyPeer::LANGUAGE => 14, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'agent_id' => 1, 'created_at' => 2, 'last_updated' => 3, 'deleted_at' => 4, 'name' => 5, 'note' => 6, 'uri' => 7, 'url' => 8, 'base_domain' => 9, 'token' => 10, 'community' => 11, 'last_uri_id' => 12, 'status_id' => 13, 'language' => 14, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'AgentId' => 1, 'CreatedAt' => 2, 'UpdatedAt' => 3, 'LastUpdated' => 4, 'LastUpdatedByUserId' => 5, 'DeletedAt' => 6, 'Name' => 7, 'Note' => 8, 'Uri' => 9, 'Url' => 10, 'BaseDomain' => 11, 'Token' => 12, 'Community' => 13, 'LastUriId' => 14, 'StatusId' => 15, 'Language' => 16, ),
+		BasePeer::TYPE_COLNAME => array (VocabularyPeer::ID => 0, VocabularyPeer::AGENT_ID => 1, VocabularyPeer::CREATED_AT => 2, VocabularyPeer::UPDATED_AT => 3, VocabularyPeer::LAST_UPDATED => 4, VocabularyPeer::LAST_UPDATED_BY_USER_ID => 5, VocabularyPeer::DELETED_AT => 6, VocabularyPeer::NAME => 7, VocabularyPeer::NOTE => 8, VocabularyPeer::URI => 9, VocabularyPeer::URL => 10, VocabularyPeer::BASE_DOMAIN => 11, VocabularyPeer::TOKEN => 12, VocabularyPeer::COMMUNITY => 13, VocabularyPeer::LAST_URI_ID => 14, VocabularyPeer::STATUS_ID => 15, VocabularyPeer::LANGUAGE => 16, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'agent_id' => 1, 'created_at' => 2, 'updated_at' => 3, 'last_updated' => 4, 'last_updated_by_user_id' => 5, 'deleted_at' => 6, 'name' => 7, 'note' => 8, 'uri' => 9, 'url' => 10, 'base_domain' => 11, 'token' => 12, 'community' => 13, 'last_uri_id' => 14, 'status_id' => 15, 'language' => 16, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, )
 	);
 
 	
@@ -141,7 +147,11 @@ abstract class BaseVocabularyPeer {
 
 		$criteria->addSelectColumn(VocabularyPeer::CREATED_AT);
 
+		$criteria->addSelectColumn(VocabularyPeer::UPDATED_AT);
+
 		$criteria->addSelectColumn(VocabularyPeer::LAST_UPDATED);
+
+		$criteria->addSelectColumn(VocabularyPeer::LAST_UPDATED_BY_USER_ID);
 
 		$criteria->addSelectColumn(VocabularyPeer::DELETED_AT);
 
@@ -288,6 +298,34 @@ abstract class BaseVocabularyPeer {
 
 
 	
+	public static function doCountJoinUser(Criteria $criteria, $distinct = false, $con = null)
+	{
+				$criteria = clone $criteria;
+		
+				$criteria->clearSelectColumns()->clearOrderByColumns();
+		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->addSelectColumn(VocabularyPeer::COUNT_DISTINCT);
+		} else {
+			$criteria->addSelectColumn(VocabularyPeer::COUNT);
+		}
+		
+				foreach($criteria->getGroupByColumns() as $column)
+		{
+			$criteria->addSelectColumn($column);
+		}
+
+		$criteria->addJoin(VocabularyPeer::LAST_UPDATED_BY_USER_ID, UserPeer::ID);
+
+		$rs = VocabularyPeer::doSelectRS($criteria, $con);
+		if ($rs->next()) {
+			return $rs->getInt(1);
+		} else {
+						return 0;
+		}
+	}
+
+
+	
 	public static function doCountJoinStatus(Criteria $criteria, $distinct = false, $con = null)
 	{
 				$criteria = clone $criteria;
@@ -349,6 +387,53 @@ abstract class BaseVocabularyPeer {
 			$newObject = true;
 			foreach($results as $temp_obj1) {
 				$temp_obj2 = $temp_obj1->getAgent(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+					$newObject = false;
+										$temp_obj2->addVocabulary($obj1); 					break;
+				}
+			}
+			if ($newObject) {
+				$obj2->initVocabularys();
+				$obj2->addVocabulary($obj1); 			}
+			$results[] = $obj1;
+		}
+		return $results;
+	}
+
+
+	
+	public static function doSelectJoinUser(Criteria $c, $con = null)
+	{
+		$c = clone $c;
+
+				if ($c->getDbName() == Propel::getDefaultDB()) {
+			$c->setDbName(self::DATABASE_NAME);
+		}
+
+		VocabularyPeer::addSelectColumns($c);
+		$startcol = (VocabularyPeer::NUM_COLUMNS - VocabularyPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+		UserPeer::addSelectColumns($c);
+
+		$c->addJoin(VocabularyPeer::LAST_UPDATED_BY_USER_ID, UserPeer::ID);
+		$rs = BasePeer::doSelect($c, $con);
+		$results = array();
+
+		while($rs->next()) {
+
+			$omClass = VocabularyPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj1 = new $cls();
+			$obj1->hydrate($rs);
+
+			$omClass = UserPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj2 = new $cls();
+			$obj2->hydrate($rs, $startcol);
+
+			$newObject = true;
+			foreach($results as $temp_obj1) {
+				$temp_obj2 = $temp_obj1->getUser(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
 										$temp_obj2->addVocabulary($obj1); 					break;
 				}
@@ -428,6 +513,8 @@ abstract class BaseVocabularyPeer {
 
 		$criteria->addJoin(VocabularyPeer::AGENT_ID, AgentPeer::ID);
 
+		$criteria->addJoin(VocabularyPeer::LAST_UPDATED_BY_USER_ID, UserPeer::ID);
+
 		$criteria->addJoin(VocabularyPeer::STATUS_ID, StatusPeer::ID);
 
 		$rs = VocabularyPeer::doSelectRS($criteria, $con);
@@ -454,10 +541,15 @@ abstract class BaseVocabularyPeer {
 		AgentPeer::addSelectColumns($c);
 		$startcol3 = $startcol2 + AgentPeer::NUM_COLUMNS;
 
+		UserPeer::addSelectColumns($c);
+		$startcol4 = $startcol3 + UserPeer::NUM_COLUMNS;
+
 		StatusPeer::addSelectColumns($c);
-		$startcol4 = $startcol3 + StatusPeer::NUM_COLUMNS;
+		$startcol5 = $startcol4 + StatusPeer::NUM_COLUMNS;
 
 		$c->addJoin(VocabularyPeer::AGENT_ID, AgentPeer::ID);
+
+		$c->addJoin(VocabularyPeer::LAST_UPDATED_BY_USER_ID, UserPeer::ID);
 
 		$c->addJoin(VocabularyPeer::STATUS_ID, StatusPeer::ID);
 
@@ -498,7 +590,7 @@ abstract class BaseVocabularyPeer {
 
 				
 					
-			$omClass = StatusPeer::getOMClass();
+			$omClass = UserPeer::getOMClass();
 
 	
 			$cls = Propel::import($omClass);
@@ -508,7 +600,7 @@ abstract class BaseVocabularyPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj3 = $temp_obj1->getStatus(); 				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
+				$temp_obj3 = $temp_obj1->getUser(); 				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj3->addVocabulary($obj1); 					break;
 				}
@@ -517,6 +609,29 @@ abstract class BaseVocabularyPeer {
 			if ($newObject) {
 				$obj3->initVocabularys();
 				$obj3->addVocabulary($obj1);
+			}
+
+				
+					
+			$omClass = StatusPeer::getOMClass();
+
+	
+			$cls = Propel::import($omClass);
+			$obj4 = new $cls();
+			$obj4->hydrate($rs, $startcol4);
+			
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj4 = $temp_obj1->getStatus(); 				if ($temp_obj4->getPrimaryKey() === $obj4->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj4->addVocabulary($obj1); 					break;
+				}
+			}
+			
+			if ($newObject) {
+				$obj4->initVocabularys();
+				$obj4->addVocabulary($obj1);
 			}
 
 			$results[] = $obj1;
@@ -541,6 +656,38 @@ abstract class BaseVocabularyPeer {
 		{
 			$criteria->addSelectColumn($column);
 		}
+
+		$criteria->addJoin(VocabularyPeer::LAST_UPDATED_BY_USER_ID, UserPeer::ID);
+
+		$criteria->addJoin(VocabularyPeer::STATUS_ID, StatusPeer::ID);
+
+		$rs = VocabularyPeer::doSelectRS($criteria, $con);
+		if ($rs->next()) {
+			return $rs->getInt(1);
+		} else {
+						return 0;
+		}
+	}
+
+
+	
+	public static function doCountJoinAllExceptUser(Criteria $criteria, $distinct = false, $con = null)
+	{
+				$criteria = clone $criteria;
+		
+				$criteria->clearSelectColumns()->clearOrderByColumns();
+		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->addSelectColumn(VocabularyPeer::COUNT_DISTINCT);
+		} else {
+			$criteria->addSelectColumn(VocabularyPeer::COUNT);
+		}
+		
+				foreach($criteria->getGroupByColumns() as $column)
+		{
+			$criteria->addSelectColumn($column);
+		}
+
+		$criteria->addJoin(VocabularyPeer::AGENT_ID, AgentPeer::ID);
 
 		$criteria->addJoin(VocabularyPeer::STATUS_ID, StatusPeer::ID);
 
@@ -572,6 +719,8 @@ abstract class BaseVocabularyPeer {
 
 		$criteria->addJoin(VocabularyPeer::AGENT_ID, AgentPeer::ID);
 
+		$criteria->addJoin(VocabularyPeer::LAST_UPDATED_BY_USER_ID, UserPeer::ID);
+
 		$rs = VocabularyPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
 			return $rs->getInt(1);
@@ -593,8 +742,13 @@ abstract class BaseVocabularyPeer {
 		VocabularyPeer::addSelectColumns($c);
 		$startcol2 = (VocabularyPeer::NUM_COLUMNS - VocabularyPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 
+		UserPeer::addSelectColumns($c);
+		$startcol3 = $startcol2 + UserPeer::NUM_COLUMNS;
+
 		StatusPeer::addSelectColumns($c);
-		$startcol3 = $startcol2 + StatusPeer::NUM_COLUMNS;
+		$startcol4 = $startcol3 + StatusPeer::NUM_COLUMNS;
+
+		$c->addJoin(VocabularyPeer::LAST_UPDATED_BY_USER_ID, UserPeer::ID);
 
 		$c->addJoin(VocabularyPeer::STATUS_ID, StatusPeer::ID);
 
@@ -610,7 +764,7 @@ abstract class BaseVocabularyPeer {
 			$obj1 = new $cls();
 			$obj1->hydrate($rs);		
 
-			$omClass = StatusPeer::getOMClass();
+			$omClass = UserPeer::getOMClass();
 
 	
 			$cls = Propel::import($omClass);
@@ -620,7 +774,7 @@ abstract class BaseVocabularyPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj2 = $temp_obj1->getStatus(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+				$temp_obj2 = $temp_obj1->getUser(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj2->addVocabulary($obj1);
 					break;
@@ -632,6 +786,28 @@ abstract class BaseVocabularyPeer {
 				$obj2->addVocabulary($obj1);
 			}
 
+			$omClass = StatusPeer::getOMClass();
+
+	
+			$cls = Propel::import($omClass);
+			$obj3  = new $cls();
+			$obj3->hydrate($rs, $startcol3);
+			
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj3 = $temp_obj1->getStatus(); 				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj3->addVocabulary($obj1);
+					break;
+				}
+			}
+			
+			if ($newObject) {
+				$obj3->initVocabularys();
+				$obj3->addVocabulary($obj1);
+			}
+
 			$results[] = $obj1;
 		}
 		return $results;
@@ -639,7 +815,7 @@ abstract class BaseVocabularyPeer {
 
 
 	
-	public static function doSelectJoinAllExceptStatus(Criteria $c, $con = null)
+	public static function doSelectJoinAllExceptUser(Criteria $c, $con = null)
 	{
 		$c = clone $c;
 
@@ -653,7 +829,12 @@ abstract class BaseVocabularyPeer {
 		AgentPeer::addSelectColumns($c);
 		$startcol3 = $startcol2 + AgentPeer::NUM_COLUMNS;
 
+		StatusPeer::addSelectColumns($c);
+		$startcol4 = $startcol3 + StatusPeer::NUM_COLUMNS;
+
 		$c->addJoin(VocabularyPeer::AGENT_ID, AgentPeer::ID);
+
+		$c->addJoin(VocabularyPeer::STATUS_ID, StatusPeer::ID);
 
 
 		$rs = BasePeer::doSelect($c, $con);
@@ -687,6 +868,112 @@ abstract class BaseVocabularyPeer {
 			if ($newObject) {
 				$obj2->initVocabularys();
 				$obj2->addVocabulary($obj1);
+			}
+
+			$omClass = StatusPeer::getOMClass();
+
+	
+			$cls = Propel::import($omClass);
+			$obj3  = new $cls();
+			$obj3->hydrate($rs, $startcol3);
+			
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj3 = $temp_obj1->getStatus(); 				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj3->addVocabulary($obj1);
+					break;
+				}
+			}
+			
+			if ($newObject) {
+				$obj3->initVocabularys();
+				$obj3->addVocabulary($obj1);
+			}
+
+			$results[] = $obj1;
+		}
+		return $results;
+	}
+
+
+	
+	public static function doSelectJoinAllExceptStatus(Criteria $c, $con = null)
+	{
+		$c = clone $c;
+
+								if ($c->getDbName() == Propel::getDefaultDB()) {
+			$c->setDbName(self::DATABASE_NAME);
+		}
+
+		VocabularyPeer::addSelectColumns($c);
+		$startcol2 = (VocabularyPeer::NUM_COLUMNS - VocabularyPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+
+		AgentPeer::addSelectColumns($c);
+		$startcol3 = $startcol2 + AgentPeer::NUM_COLUMNS;
+
+		UserPeer::addSelectColumns($c);
+		$startcol4 = $startcol3 + UserPeer::NUM_COLUMNS;
+
+		$c->addJoin(VocabularyPeer::AGENT_ID, AgentPeer::ID);
+
+		$c->addJoin(VocabularyPeer::LAST_UPDATED_BY_USER_ID, UserPeer::ID);
+
+
+		$rs = BasePeer::doSelect($c, $con);
+		$results = array();
+		
+		while($rs->next()) {
+
+			$omClass = VocabularyPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj1 = new $cls();
+			$obj1->hydrate($rs);		
+
+			$omClass = AgentPeer::getOMClass();
+
+	
+			$cls = Propel::import($omClass);
+			$obj2  = new $cls();
+			$obj2->hydrate($rs, $startcol2);
+			
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj2 = $temp_obj1->getAgent(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj2->addVocabulary($obj1);
+					break;
+				}
+			}
+			
+			if ($newObject) {
+				$obj2->initVocabularys();
+				$obj2->addVocabulary($obj1);
+			}
+
+			$omClass = UserPeer::getOMClass();
+
+	
+			$cls = Propel::import($omClass);
+			$obj3  = new $cls();
+			$obj3->hydrate($rs, $startcol3);
+			
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj3 = $temp_obj1->getUser(); 				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj3->addVocabulary($obj1);
+					break;
+				}
+			}
+			
+			if ($newObject) {
+				$obj3->initVocabularys();
+				$obj3->addVocabulary($obj1);
 			}
 
 			$results[] = $obj1;

@@ -107,8 +107,16 @@ propel:
       primaryKey: true
     created_at: 
       type: TIMESTAMP
+    updated_at: 
+      type: TIMESTAMP
     last_updated: 
       type: TIMESTAMP
+    last_updated_by_user_id: 
+      type: INTEGER
+      foreignTable: reg_user
+      foreignReference: id
+      onDelete: SET NULL
+      onUpdate: RESTRICT
     deleted_at: 
       type: TIMESTAMP
     uri: 
@@ -157,6 +165,8 @@ propel:
         - status_id
       pref_label_id: 
         - pref_label_id
+      last_updated_by_user_id: 
+        - last_updated_by_user_id
     _uniques: 
       vocabulary_id_pref_label: 
         - vocabulary_id
@@ -514,8 +524,16 @@ propel:
       onUpdate: RESTRICT
     created_at: 
       type: TIMESTAMP
+    updated_at: 
+      type: TIMESTAMP
     last_updated: 
       type: TIMESTAMP
+    last_updated_by_user_id: 
+      type: INTEGER
+      foreignTable: reg_user
+      foreignReference: id
+      onDelete: SET NULL
+      onUpdate: RESTRICT
     deleted_at: 
       type: TIMESTAMP
     name: 
@@ -567,6 +585,8 @@ propel:
         - agent_id
       status_id: 
         - status_id
+      last_updated_by_user_id: 
+        - last_updated_by_user_id
   reg_resource:
     _attributes:
       idMethod: native

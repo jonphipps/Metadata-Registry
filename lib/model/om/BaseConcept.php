@@ -17,7 +17,15 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 
 
 	
+	protected $updated_at;
+
+
+	
 	protected $last_updated;
+
+
+	
+	protected $last_updated_by_user_id;
 
 
 	
@@ -50,6 +58,9 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 
 	
 	protected $language = 'en';
+
+	
+	protected $aUser;
 
 	
 	protected $aVocabulary;
@@ -122,6 +133,30 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	}
 
 	
+	public function getUpdatedAt($format = 'Y-m-d H:i:s')
+	{
+
+		if ($this->updated_at === null || $this->updated_at === '') {
+			return null;
+		} elseif (!is_int($this->updated_at)) {
+			
+			$ts = strtotime($this->updated_at);
+			if ($ts === -1 || $ts === false) { 
+				throw new PropelException("Unable to parse value of [updated_at] as date/time value: " . var_export($this->updated_at, true));
+			}
+		} else {
+			$ts = $this->updated_at;
+		}
+		if ($format === null) {
+			return $ts;
+		} elseif (strpos($format, '%') !== false) {
+			return strftime($format, $ts);
+		} else {
+			return date($format, $ts);
+		}
+	}
+
+	
 	public function getLastUpdated($format = 'Y-m-d H:i:s')
 	{
 
@@ -143,6 +178,13 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 		} else {
 			return date($format, $ts);
 		}
+	}
+
+	
+	public function getLastUpdatedByUserId()
+	{
+
+		return $this->last_updated_by_user_id;
 	}
 
 	
@@ -253,6 +295,24 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 
 	} 
 	
+	public function setUpdatedAt($v)
+	{
+
+		if ($v !== null && !is_int($v)) {
+			$ts = strtotime($v);
+			if ($ts === -1 || $ts === false) { 
+				throw new PropelException("Unable to parse date/time value for [updated_at] from input: " . var_export($v, true));
+			}
+		} else {
+			$ts = $v;
+		}
+		if ($this->updated_at !== $ts) {
+			$this->updated_at = $ts;
+			$this->modifiedColumns[] = ConceptPeer::UPDATED_AT;
+		}
+
+	} 
+	
 	public function setLastUpdated($v)
 	{
 
@@ -267,6 +327,26 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 		if ($this->last_updated !== $ts) {
 			$this->last_updated = $ts;
 			$this->modifiedColumns[] = ConceptPeer::LAST_UPDATED;
+		}
+
+	} 
+	
+	public function setLastUpdatedByUserId($v)
+	{
+
+		
+		
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->last_updated_by_user_id !== $v) {
+			$this->last_updated_by_user_id = $v;
+			$this->modifiedColumns[] = ConceptPeer::LAST_UPDATED_BY_USER_ID;
+		}
+
+		if ($this->aUser !== null && $this->aUser->getId() !== $v) {
+			$this->aUser = null;
 		}
 
 	} 
@@ -415,30 +495,34 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 
 			$this->created_at = $rs->getTimestamp($startcol + 1, null);
 
-			$this->last_updated = $rs->getTimestamp($startcol + 2, null);
+			$this->updated_at = $rs->getTimestamp($startcol + 2, null);
 
-			$this->deleted_at = $rs->getTimestamp($startcol + 3, null);
+			$this->last_updated = $rs->getTimestamp($startcol + 3, null);
 
-			$this->uri = $rs->getString($startcol + 4);
+			$this->last_updated_by_user_id = $rs->getInt($startcol + 4);
 
-			$this->vocabulary_id = $rs->getInt($startcol + 5);
+			$this->deleted_at = $rs->getTimestamp($startcol + 5, null);
 
-			$this->is_top_concept = $rs->getBoolean($startcol + 6);
+			$this->uri = $rs->getString($startcol + 6);
 
-			$this->pref_label_id = $rs->getInt($startcol + 7);
+			$this->vocabulary_id = $rs->getInt($startcol + 7);
 
-			$this->pref_label = $rs->getString($startcol + 8);
+			$this->is_top_concept = $rs->getBoolean($startcol + 8);
 
-			$this->status_id = $rs->getInt($startcol + 9);
+			$this->pref_label_id = $rs->getInt($startcol + 9);
 
-			$this->language = $rs->getString($startcol + 10);
+			$this->pref_label = $rs->getString($startcol + 10);
+
+			$this->status_id = $rs->getInt($startcol + 11);
+
+			$this->language = $rs->getString($startcol + 12);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			
-			return $startcol + 11; 
+			return $startcol + 13; 
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Concept object", $e);
@@ -503,6 +587,11 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
       $this->setCreatedAt(time());
     }
 
+    if ($this->isModified() && !$this->isColumnModified(ConceptPeer::UPDATED_AT))
+    {
+      $this->setUpdatedAt(time());
+    }
+
 		if ($this->isDeleted()) {
 			throw new PropelException("You cannot save an object that has been deleted.");
 		}
@@ -535,6 +624,13 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 
 
 												
+			if ($this->aUser !== null) {
+				if ($this->aUser->isModified()) {
+					$affectedRows += $this->aUser->save($con);
+				}
+				$this->setUser($this->aUser);
+			}
+
 			if ($this->aVocabulary !== null) {
 				if ($this->aVocabulary->isModified()) {
 					$affectedRows += $this->aVocabulary->save($con);
@@ -637,6 +733,12 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 
 
 												
+			if ($this->aUser !== null) {
+				if (!$this->aUser->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aUser->getValidationFailures());
+				}
+			}
+
 			if ($this->aVocabulary !== null) {
 				if (!$this->aVocabulary->validate($columns)) {
 					$failureMap = array_merge($failureMap, $this->aVocabulary->getValidationFailures());
@@ -718,30 +820,36 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 				return $this->getCreatedAt();
 				break;
 			case 2:
-				return $this->getLastUpdated();
+				return $this->getUpdatedAt();
 				break;
 			case 3:
-				return $this->getDeletedAt();
+				return $this->getLastUpdated();
 				break;
 			case 4:
-				return $this->getUri();
+				return $this->getLastUpdatedByUserId();
 				break;
 			case 5:
-				return $this->getVocabularyId();
+				return $this->getDeletedAt();
 				break;
 			case 6:
-				return $this->getIsTopConcept();
+				return $this->getUri();
 				break;
 			case 7:
-				return $this->getPrefLabelId();
+				return $this->getVocabularyId();
 				break;
 			case 8:
-				return $this->getPrefLabel();
+				return $this->getIsTopConcept();
 				break;
 			case 9:
-				return $this->getStatusId();
+				return $this->getPrefLabelId();
 				break;
 			case 10:
+				return $this->getPrefLabel();
+				break;
+			case 11:
+				return $this->getStatusId();
+				break;
+			case 12:
 				return $this->getLanguage();
 				break;
 			default:
@@ -757,15 +865,17 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 		$result = array(
 			$keys[0] => $this->getId(),
 			$keys[1] => $this->getCreatedAt(),
-			$keys[2] => $this->getLastUpdated(),
-			$keys[3] => $this->getDeletedAt(),
-			$keys[4] => $this->getUri(),
-			$keys[5] => $this->getVocabularyId(),
-			$keys[6] => $this->getIsTopConcept(),
-			$keys[7] => $this->getPrefLabelId(),
-			$keys[8] => $this->getPrefLabel(),
-			$keys[9] => $this->getStatusId(),
-			$keys[10] => $this->getLanguage(),
+			$keys[2] => $this->getUpdatedAt(),
+			$keys[3] => $this->getLastUpdated(),
+			$keys[4] => $this->getLastUpdatedByUserId(),
+			$keys[5] => $this->getDeletedAt(),
+			$keys[6] => $this->getUri(),
+			$keys[7] => $this->getVocabularyId(),
+			$keys[8] => $this->getIsTopConcept(),
+			$keys[9] => $this->getPrefLabelId(),
+			$keys[10] => $this->getPrefLabel(),
+			$keys[11] => $this->getStatusId(),
+			$keys[12] => $this->getLanguage(),
 		);
 		return $result;
 	}
@@ -788,30 +898,36 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 				$this->setCreatedAt($value);
 				break;
 			case 2:
-				$this->setLastUpdated($value);
+				$this->setUpdatedAt($value);
 				break;
 			case 3:
-				$this->setDeletedAt($value);
+				$this->setLastUpdated($value);
 				break;
 			case 4:
-				$this->setUri($value);
+				$this->setLastUpdatedByUserId($value);
 				break;
 			case 5:
-				$this->setVocabularyId($value);
+				$this->setDeletedAt($value);
 				break;
 			case 6:
-				$this->setIsTopConcept($value);
+				$this->setUri($value);
 				break;
 			case 7:
-				$this->setPrefLabelId($value);
+				$this->setVocabularyId($value);
 				break;
 			case 8:
-				$this->setPrefLabel($value);
+				$this->setIsTopConcept($value);
 				break;
 			case 9:
-				$this->setStatusId($value);
+				$this->setPrefLabelId($value);
 				break;
 			case 10:
+				$this->setPrefLabel($value);
+				break;
+			case 11:
+				$this->setStatusId($value);
+				break;
+			case 12:
 				$this->setLanguage($value);
 				break;
 		} 
@@ -824,15 +940,17 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 
 		if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
 		if (array_key_exists($keys[1], $arr)) $this->setCreatedAt($arr[$keys[1]]);
-		if (array_key_exists($keys[2], $arr)) $this->setLastUpdated($arr[$keys[2]]);
-		if (array_key_exists($keys[3], $arr)) $this->setDeletedAt($arr[$keys[3]]);
-		if (array_key_exists($keys[4], $arr)) $this->setUri($arr[$keys[4]]);
-		if (array_key_exists($keys[5], $arr)) $this->setVocabularyId($arr[$keys[5]]);
-		if (array_key_exists($keys[6], $arr)) $this->setIsTopConcept($arr[$keys[6]]);
-		if (array_key_exists($keys[7], $arr)) $this->setPrefLabelId($arr[$keys[7]]);
-		if (array_key_exists($keys[8], $arr)) $this->setPrefLabel($arr[$keys[8]]);
-		if (array_key_exists($keys[9], $arr)) $this->setStatusId($arr[$keys[9]]);
-		if (array_key_exists($keys[10], $arr)) $this->setLanguage($arr[$keys[10]]);
+		if (array_key_exists($keys[2], $arr)) $this->setUpdatedAt($arr[$keys[2]]);
+		if (array_key_exists($keys[3], $arr)) $this->setLastUpdated($arr[$keys[3]]);
+		if (array_key_exists($keys[4], $arr)) $this->setLastUpdatedByUserId($arr[$keys[4]]);
+		if (array_key_exists($keys[5], $arr)) $this->setDeletedAt($arr[$keys[5]]);
+		if (array_key_exists($keys[6], $arr)) $this->setUri($arr[$keys[6]]);
+		if (array_key_exists($keys[7], $arr)) $this->setVocabularyId($arr[$keys[7]]);
+		if (array_key_exists($keys[8], $arr)) $this->setIsTopConcept($arr[$keys[8]]);
+		if (array_key_exists($keys[9], $arr)) $this->setPrefLabelId($arr[$keys[9]]);
+		if (array_key_exists($keys[10], $arr)) $this->setPrefLabel($arr[$keys[10]]);
+		if (array_key_exists($keys[11], $arr)) $this->setStatusId($arr[$keys[11]]);
+		if (array_key_exists($keys[12], $arr)) $this->setLanguage($arr[$keys[12]]);
 	}
 
 	
@@ -842,7 +960,9 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 
 		if ($this->isColumnModified(ConceptPeer::ID)) $criteria->add(ConceptPeer::ID, $this->id);
 		if ($this->isColumnModified(ConceptPeer::CREATED_AT)) $criteria->add(ConceptPeer::CREATED_AT, $this->created_at);
+		if ($this->isColumnModified(ConceptPeer::UPDATED_AT)) $criteria->add(ConceptPeer::UPDATED_AT, $this->updated_at);
 		if ($this->isColumnModified(ConceptPeer::LAST_UPDATED)) $criteria->add(ConceptPeer::LAST_UPDATED, $this->last_updated);
+		if ($this->isColumnModified(ConceptPeer::LAST_UPDATED_BY_USER_ID)) $criteria->add(ConceptPeer::LAST_UPDATED_BY_USER_ID, $this->last_updated_by_user_id);
 		if ($this->isColumnModified(ConceptPeer::DELETED_AT)) $criteria->add(ConceptPeer::DELETED_AT, $this->deleted_at);
 		if ($this->isColumnModified(ConceptPeer::URI)) $criteria->add(ConceptPeer::URI, $this->uri);
 		if ($this->isColumnModified(ConceptPeer::VOCABULARY_ID)) $criteria->add(ConceptPeer::VOCABULARY_ID, $this->vocabulary_id);
@@ -883,7 +1003,11 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 
 		$copyObj->setCreatedAt($this->created_at);
 
+		$copyObj->setUpdatedAt($this->updated_at);
+
 		$copyObj->setLastUpdated($this->last_updated);
+
+		$copyObj->setLastUpdatedByUserId($this->last_updated_by_user_id);
 
 		$copyObj->setDeletedAt($this->deleted_at);
 
@@ -944,6 +1068,36 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 			self::$peer = new ConceptPeer();
 		}
 		return self::$peer;
+	}
+
+	
+	public function setUser($v)
+	{
+
+
+		if ($v === null) {
+			$this->setLastUpdatedByUserId(NULL);
+		} else {
+			$this->setLastUpdatedByUserId($v->getId());
+		}
+
+
+		$this->aUser = $v;
+	}
+
+
+	
+	public function getUser($con = null)
+	{
+				include_once 'lib/model/om/BaseUserPeer.php';
+
+		if ($this->aUser === null && ($this->last_updated_by_user_id !== null)) {
+
+			$this->aUser = UserPeer::retrieveByPK($this->last_updated_by_user_id, $con);
+
+			
+		}
+		return $this->aUser;
 	}
 
 	
@@ -1738,7 +1892,7 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 
 
 	
-	public function getConceptPropertyHistorysRelatedByConceptIdJoinUserRelatedByCreatedUserId($criteria = null, $con = null)
+	public function getConceptPropertyHistorysRelatedByConceptIdJoinUser($criteria = null, $con = null)
 	{
 				include_once 'lib/model/om/BaseConceptPropertyHistoryPeer.php';
 		if ($criteria === null) {
@@ -1756,49 +1910,14 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 
 				$criteria->add(ConceptPropertyHistoryPeer::CONCEPT_ID, $this->getId());
 
-				$this->collConceptPropertyHistorysRelatedByConceptId = ConceptPropertyHistoryPeer::doSelectJoinUserRelatedByCreatedUserId($criteria, $con);
+				$this->collConceptPropertyHistorysRelatedByConceptId = ConceptPropertyHistoryPeer::doSelectJoinUser($criteria, $con);
 			}
 		} else {
 									
 			$criteria->add(ConceptPropertyHistoryPeer::CONCEPT_ID, $this->getId());
 
 			if (!isset($this->lastConceptPropertyHistoryRelatedByConceptIdCriteria) || !$this->lastConceptPropertyHistoryRelatedByConceptIdCriteria->equals($criteria)) {
-				$this->collConceptPropertyHistorysRelatedByConceptId = ConceptPropertyHistoryPeer::doSelectJoinUserRelatedByCreatedUserId($criteria, $con);
-			}
-		}
-		$this->lastConceptPropertyHistoryRelatedByConceptIdCriteria = $criteria;
-
-		return $this->collConceptPropertyHistorysRelatedByConceptId;
-	}
-
-
-	
-	public function getConceptPropertyHistorysRelatedByConceptIdJoinUserRelatedByUpdatedUserId($criteria = null, $con = null)
-	{
-				include_once 'lib/model/om/BaseConceptPropertyHistoryPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collConceptPropertyHistorysRelatedByConceptId === null) {
-			if ($this->isNew()) {
-				$this->collConceptPropertyHistorysRelatedByConceptId = array();
-			} else {
-
-				$criteria->add(ConceptPropertyHistoryPeer::CONCEPT_ID, $this->getId());
-
-				$this->collConceptPropertyHistorysRelatedByConceptId = ConceptPropertyHistoryPeer::doSelectJoinUserRelatedByUpdatedUserId($criteria, $con);
-			}
-		} else {
-									
-			$criteria->add(ConceptPropertyHistoryPeer::CONCEPT_ID, $this->getId());
-
-			if (!isset($this->lastConceptPropertyHistoryRelatedByConceptIdCriteria) || !$this->lastConceptPropertyHistoryRelatedByConceptIdCriteria->equals($criteria)) {
-				$this->collConceptPropertyHistorysRelatedByConceptId = ConceptPropertyHistoryPeer::doSelectJoinUserRelatedByUpdatedUserId($criteria, $con);
+				$this->collConceptPropertyHistorysRelatedByConceptId = ConceptPropertyHistoryPeer::doSelectJoinUser($criteria, $con);
 			}
 		}
 		$this->lastConceptPropertyHistoryRelatedByConceptIdCriteria = $criteria;
@@ -2018,7 +2137,7 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 
 
 	
-	public function getConceptPropertyHistorysRelatedByRelatedConceptIdJoinUserRelatedByCreatedUserId($criteria = null, $con = null)
+	public function getConceptPropertyHistorysRelatedByRelatedConceptIdJoinUser($criteria = null, $con = null)
 	{
 				include_once 'lib/model/om/BaseConceptPropertyHistoryPeer.php';
 		if ($criteria === null) {
@@ -2036,49 +2155,14 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 
 				$criteria->add(ConceptPropertyHistoryPeer::RELATED_CONCEPT_ID, $this->getId());
 
-				$this->collConceptPropertyHistorysRelatedByRelatedConceptId = ConceptPropertyHistoryPeer::doSelectJoinUserRelatedByCreatedUserId($criteria, $con);
+				$this->collConceptPropertyHistorysRelatedByRelatedConceptId = ConceptPropertyHistoryPeer::doSelectJoinUser($criteria, $con);
 			}
 		} else {
 									
 			$criteria->add(ConceptPropertyHistoryPeer::RELATED_CONCEPT_ID, $this->getId());
 
 			if (!isset($this->lastConceptPropertyHistoryRelatedByRelatedConceptIdCriteria) || !$this->lastConceptPropertyHistoryRelatedByRelatedConceptIdCriteria->equals($criteria)) {
-				$this->collConceptPropertyHistorysRelatedByRelatedConceptId = ConceptPropertyHistoryPeer::doSelectJoinUserRelatedByCreatedUserId($criteria, $con);
-			}
-		}
-		$this->lastConceptPropertyHistoryRelatedByRelatedConceptIdCriteria = $criteria;
-
-		return $this->collConceptPropertyHistorysRelatedByRelatedConceptId;
-	}
-
-
-	
-	public function getConceptPropertyHistorysRelatedByRelatedConceptIdJoinUserRelatedByUpdatedUserId($criteria = null, $con = null)
-	{
-				include_once 'lib/model/om/BaseConceptPropertyHistoryPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collConceptPropertyHistorysRelatedByRelatedConceptId === null) {
-			if ($this->isNew()) {
-				$this->collConceptPropertyHistorysRelatedByRelatedConceptId = array();
-			} else {
-
-				$criteria->add(ConceptPropertyHistoryPeer::RELATED_CONCEPT_ID, $this->getId());
-
-				$this->collConceptPropertyHistorysRelatedByRelatedConceptId = ConceptPropertyHistoryPeer::doSelectJoinUserRelatedByUpdatedUserId($criteria, $con);
-			}
-		} else {
-									
-			$criteria->add(ConceptPropertyHistoryPeer::RELATED_CONCEPT_ID, $this->getId());
-
-			if (!isset($this->lastConceptPropertyHistoryRelatedByRelatedConceptIdCriteria) || !$this->lastConceptPropertyHistoryRelatedByRelatedConceptIdCriteria->equals($criteria)) {
-				$this->collConceptPropertyHistorysRelatedByRelatedConceptId = ConceptPropertyHistoryPeer::doSelectJoinUserRelatedByUpdatedUserId($criteria, $con);
+				$this->collConceptPropertyHistorysRelatedByRelatedConceptId = ConceptPropertyHistoryPeer::doSelectJoinUser($criteria, $con);
 			}
 		}
 		$this->lastConceptPropertyHistoryRelatedByRelatedConceptIdCriteria = $criteria;

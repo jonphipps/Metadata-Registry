@@ -42,6 +42,8 @@ class ConceptPropertyMapBuilder {
 
 		$tMap->addForeignKey('CONCEPT_ID', 'ConceptId', 'int', CreoleTypes::INTEGER, 'reg_concept', 'ID', true, null);
 
+		$tMap->addColumn('PRIMARY_PREF_LABEL', 'PrimaryPrefLabel', 'boolean', CreoleTypes::BOOLEAN, false, null);
+
 		$tMap->addForeignKey('SKOS_PROPERTY_ID', 'SkosPropertyId', 'int', CreoleTypes::INTEGER, 'reg_skos_property', 'ID', true, null);
 
 		$tMap->addColumn('OBJECT', 'Object', 'string', CreoleTypes::LONGVARCHAR, true, null);

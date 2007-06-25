@@ -38,7 +38,11 @@ class VocabularyMapBuilder {
 
 		$tMap->addColumn('CREATED_AT', 'CreatedAt', 'int', CreoleTypes::TIMESTAMP, false, null);
 
+		$tMap->addColumn('UPDATED_AT', 'UpdatedAt', 'int', CreoleTypes::TIMESTAMP, false, null);
+
 		$tMap->addColumn('LAST_UPDATED', 'LastUpdated', 'int', CreoleTypes::TIMESTAMP, false, null);
+
+		$tMap->addForeignKey('LAST_UPDATED_BY_USER_ID', 'LastUpdatedByUserId', 'int', CreoleTypes::INTEGER, 'reg_user', 'ID', false, null);
 
 		$tMap->addColumn('DELETED_AT', 'DeletedAt', 'int', CreoleTypes::TIMESTAMP, false, null);
 

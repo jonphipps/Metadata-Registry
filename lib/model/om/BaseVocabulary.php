@@ -21,7 +21,15 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 
 
 	
+	protected $updated_at;
+
+
+	
 	protected $last_updated;
+
+
+	
+	protected $last_updated_by_user_id;
 
 
 	
@@ -69,6 +77,9 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 
 	
 	protected $aAgent;
+
+	
+	protected $aUser;
 
 	
 	protected $aStatus;
@@ -142,6 +153,30 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	}
 
 	
+	public function getUpdatedAt($format = 'Y-m-d H:i:s')
+	{
+
+		if ($this->updated_at === null || $this->updated_at === '') {
+			return null;
+		} elseif (!is_int($this->updated_at)) {
+			
+			$ts = strtotime($this->updated_at);
+			if ($ts === -1 || $ts === false) { 
+				throw new PropelException("Unable to parse value of [updated_at] as date/time value: " . var_export($this->updated_at, true));
+			}
+		} else {
+			$ts = $this->updated_at;
+		}
+		if ($format === null) {
+			return $ts;
+		} elseif (strpos($format, '%') !== false) {
+			return strftime($format, $ts);
+		} else {
+			return date($format, $ts);
+		}
+	}
+
+	
 	public function getLastUpdated($format = 'Y-m-d H:i:s')
 	{
 
@@ -163,6 +198,13 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 		} else {
 			return date($format, $ts);
 		}
+	}
+
+	
+	public function getLastUpdatedByUserId()
+	{
+
+		return $this->last_updated_by_user_id;
 	}
 
 	
@@ -314,6 +356,24 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 
 	} 
 	
+	public function setUpdatedAt($v)
+	{
+
+		if ($v !== null && !is_int($v)) {
+			$ts = strtotime($v);
+			if ($ts === -1 || $ts === false) { 
+				throw new PropelException("Unable to parse date/time value for [updated_at] from input: " . var_export($v, true));
+			}
+		} else {
+			$ts = $v;
+		}
+		if ($this->updated_at !== $ts) {
+			$this->updated_at = $ts;
+			$this->modifiedColumns[] = VocabularyPeer::UPDATED_AT;
+		}
+
+	} 
+	
 	public function setLastUpdated($v)
 	{
 
@@ -328,6 +388,26 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 		if ($this->last_updated !== $ts) {
 			$this->last_updated = $ts;
 			$this->modifiedColumns[] = VocabularyPeer::LAST_UPDATED;
+		}
+
+	} 
+	
+	public function setLastUpdatedByUserId($v)
+	{
+
+		
+		
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->last_updated_by_user_id !== $v) {
+			$this->last_updated_by_user_id = $v;
+			$this->modifiedColumns[] = VocabularyPeer::LAST_UPDATED_BY_USER_ID;
+		}
+
+		if ($this->aUser !== null && $this->aUser->getId() !== $v) {
+			$this->aUser = null;
 		}
 
 	} 
@@ -524,36 +604,40 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 
 			$this->created_at = $rs->getTimestamp($startcol + 2, null);
 
-			$this->last_updated = $rs->getTimestamp($startcol + 3, null);
+			$this->updated_at = $rs->getTimestamp($startcol + 3, null);
 
-			$this->deleted_at = $rs->getTimestamp($startcol + 4, null);
+			$this->last_updated = $rs->getTimestamp($startcol + 4, null);
 
-			$this->name = $rs->getString($startcol + 5);
+			$this->last_updated_by_user_id = $rs->getInt($startcol + 5);
 
-			$this->note = $rs->getString($startcol + 6);
+			$this->deleted_at = $rs->getTimestamp($startcol + 6, null);
 
-			$this->uri = $rs->getString($startcol + 7);
+			$this->name = $rs->getString($startcol + 7);
 
-			$this->url = $rs->getString($startcol + 8);
+			$this->note = $rs->getString($startcol + 8);
 
-			$this->base_domain = $rs->getString($startcol + 9);
+			$this->uri = $rs->getString($startcol + 9);
 
-			$this->token = $rs->getString($startcol + 10);
+			$this->url = $rs->getString($startcol + 10);
 
-			$this->community = $rs->getString($startcol + 11);
+			$this->base_domain = $rs->getString($startcol + 11);
 
-			$this->last_uri_id = $rs->getInt($startcol + 12);
+			$this->token = $rs->getString($startcol + 12);
 
-			$this->status_id = $rs->getInt($startcol + 13);
+			$this->community = $rs->getString($startcol + 13);
 
-			$this->language = $rs->getString($startcol + 14);
+			$this->last_uri_id = $rs->getInt($startcol + 14);
+
+			$this->status_id = $rs->getInt($startcol + 15);
+
+			$this->language = $rs->getString($startcol + 16);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			
-			return $startcol + 15; 
+			return $startcol + 17; 
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Vocabulary object", $e);
@@ -618,6 +702,11 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
       $this->setCreatedAt(time());
     }
 
+    if ($this->isModified() && !$this->isColumnModified(VocabularyPeer::UPDATED_AT))
+    {
+      $this->setUpdatedAt(time());
+    }
+
 		if ($this->isDeleted()) {
 			throw new PropelException("You cannot save an object that has been deleted.");
 		}
@@ -655,6 +744,13 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 					$affectedRows += $this->aAgent->save($con);
 				}
 				$this->setAgent($this->aAgent);
+			}
+
+			if ($this->aUser !== null) {
+				if ($this->aUser->isModified()) {
+					$affectedRows += $this->aUser->save($con);
+				}
+				$this->setUser($this->aUser);
 			}
 
 			if ($this->aStatus !== null) {
@@ -751,6 +847,12 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 				}
 			}
 
+			if ($this->aUser !== null) {
+				if (!$this->aUser->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aUser->getValidationFailures());
+				}
+			}
+
 			if ($this->aStatus !== null) {
 				if (!$this->aStatus->validate($columns)) {
 					$failureMap = array_merge($failureMap, $this->aStatus->getValidationFailures());
@@ -823,39 +925,45 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 				return $this->getCreatedAt();
 				break;
 			case 3:
-				return $this->getLastUpdated();
+				return $this->getUpdatedAt();
 				break;
 			case 4:
-				return $this->getDeletedAt();
+				return $this->getLastUpdated();
 				break;
 			case 5:
-				return $this->getName();
+				return $this->getLastUpdatedByUserId();
 				break;
 			case 6:
-				return $this->getNote();
+				return $this->getDeletedAt();
 				break;
 			case 7:
-				return $this->getUri();
+				return $this->getName();
 				break;
 			case 8:
-				return $this->getUrl();
+				return $this->getNote();
 				break;
 			case 9:
-				return $this->getBaseDomain();
+				return $this->getUri();
 				break;
 			case 10:
-				return $this->getToken();
+				return $this->getUrl();
 				break;
 			case 11:
-				return $this->getCommunity();
+				return $this->getBaseDomain();
 				break;
 			case 12:
-				return $this->getLastUriId();
+				return $this->getToken();
 				break;
 			case 13:
-				return $this->getStatusId();
+				return $this->getCommunity();
 				break;
 			case 14:
+				return $this->getLastUriId();
+				break;
+			case 15:
+				return $this->getStatusId();
+				break;
+			case 16:
 				return $this->getLanguage();
 				break;
 			default:
@@ -872,18 +980,20 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 			$keys[0] => $this->getId(),
 			$keys[1] => $this->getAgentId(),
 			$keys[2] => $this->getCreatedAt(),
-			$keys[3] => $this->getLastUpdated(),
-			$keys[4] => $this->getDeletedAt(),
-			$keys[5] => $this->getName(),
-			$keys[6] => $this->getNote(),
-			$keys[7] => $this->getUri(),
-			$keys[8] => $this->getUrl(),
-			$keys[9] => $this->getBaseDomain(),
-			$keys[10] => $this->getToken(),
-			$keys[11] => $this->getCommunity(),
-			$keys[12] => $this->getLastUriId(),
-			$keys[13] => $this->getStatusId(),
-			$keys[14] => $this->getLanguage(),
+			$keys[3] => $this->getUpdatedAt(),
+			$keys[4] => $this->getLastUpdated(),
+			$keys[5] => $this->getLastUpdatedByUserId(),
+			$keys[6] => $this->getDeletedAt(),
+			$keys[7] => $this->getName(),
+			$keys[8] => $this->getNote(),
+			$keys[9] => $this->getUri(),
+			$keys[10] => $this->getUrl(),
+			$keys[11] => $this->getBaseDomain(),
+			$keys[12] => $this->getToken(),
+			$keys[13] => $this->getCommunity(),
+			$keys[14] => $this->getLastUriId(),
+			$keys[15] => $this->getStatusId(),
+			$keys[16] => $this->getLanguage(),
 		);
 		return $result;
 	}
@@ -909,39 +1019,45 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 				$this->setCreatedAt($value);
 				break;
 			case 3:
-				$this->setLastUpdated($value);
+				$this->setUpdatedAt($value);
 				break;
 			case 4:
-				$this->setDeletedAt($value);
+				$this->setLastUpdated($value);
 				break;
 			case 5:
-				$this->setName($value);
+				$this->setLastUpdatedByUserId($value);
 				break;
 			case 6:
-				$this->setNote($value);
+				$this->setDeletedAt($value);
 				break;
 			case 7:
-				$this->setUri($value);
+				$this->setName($value);
 				break;
 			case 8:
-				$this->setUrl($value);
+				$this->setNote($value);
 				break;
 			case 9:
-				$this->setBaseDomain($value);
+				$this->setUri($value);
 				break;
 			case 10:
-				$this->setToken($value);
+				$this->setUrl($value);
 				break;
 			case 11:
-				$this->setCommunity($value);
+				$this->setBaseDomain($value);
 				break;
 			case 12:
-				$this->setLastUriId($value);
+				$this->setToken($value);
 				break;
 			case 13:
-				$this->setStatusId($value);
+				$this->setCommunity($value);
 				break;
 			case 14:
+				$this->setLastUriId($value);
+				break;
+			case 15:
+				$this->setStatusId($value);
+				break;
+			case 16:
 				$this->setLanguage($value);
 				break;
 		} 
@@ -955,18 +1071,20 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
 		if (array_key_exists($keys[1], $arr)) $this->setAgentId($arr[$keys[1]]);
 		if (array_key_exists($keys[2], $arr)) $this->setCreatedAt($arr[$keys[2]]);
-		if (array_key_exists($keys[3], $arr)) $this->setLastUpdated($arr[$keys[3]]);
-		if (array_key_exists($keys[4], $arr)) $this->setDeletedAt($arr[$keys[4]]);
-		if (array_key_exists($keys[5], $arr)) $this->setName($arr[$keys[5]]);
-		if (array_key_exists($keys[6], $arr)) $this->setNote($arr[$keys[6]]);
-		if (array_key_exists($keys[7], $arr)) $this->setUri($arr[$keys[7]]);
-		if (array_key_exists($keys[8], $arr)) $this->setUrl($arr[$keys[8]]);
-		if (array_key_exists($keys[9], $arr)) $this->setBaseDomain($arr[$keys[9]]);
-		if (array_key_exists($keys[10], $arr)) $this->setToken($arr[$keys[10]]);
-		if (array_key_exists($keys[11], $arr)) $this->setCommunity($arr[$keys[11]]);
-		if (array_key_exists($keys[12], $arr)) $this->setLastUriId($arr[$keys[12]]);
-		if (array_key_exists($keys[13], $arr)) $this->setStatusId($arr[$keys[13]]);
-		if (array_key_exists($keys[14], $arr)) $this->setLanguage($arr[$keys[14]]);
+		if (array_key_exists($keys[3], $arr)) $this->setUpdatedAt($arr[$keys[3]]);
+		if (array_key_exists($keys[4], $arr)) $this->setLastUpdated($arr[$keys[4]]);
+		if (array_key_exists($keys[5], $arr)) $this->setLastUpdatedByUserId($arr[$keys[5]]);
+		if (array_key_exists($keys[6], $arr)) $this->setDeletedAt($arr[$keys[6]]);
+		if (array_key_exists($keys[7], $arr)) $this->setName($arr[$keys[7]]);
+		if (array_key_exists($keys[8], $arr)) $this->setNote($arr[$keys[8]]);
+		if (array_key_exists($keys[9], $arr)) $this->setUri($arr[$keys[9]]);
+		if (array_key_exists($keys[10], $arr)) $this->setUrl($arr[$keys[10]]);
+		if (array_key_exists($keys[11], $arr)) $this->setBaseDomain($arr[$keys[11]]);
+		if (array_key_exists($keys[12], $arr)) $this->setToken($arr[$keys[12]]);
+		if (array_key_exists($keys[13], $arr)) $this->setCommunity($arr[$keys[13]]);
+		if (array_key_exists($keys[14], $arr)) $this->setLastUriId($arr[$keys[14]]);
+		if (array_key_exists($keys[15], $arr)) $this->setStatusId($arr[$keys[15]]);
+		if (array_key_exists($keys[16], $arr)) $this->setLanguage($arr[$keys[16]]);
 	}
 
 	
@@ -977,7 +1095,9 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(VocabularyPeer::ID)) $criteria->add(VocabularyPeer::ID, $this->id);
 		if ($this->isColumnModified(VocabularyPeer::AGENT_ID)) $criteria->add(VocabularyPeer::AGENT_ID, $this->agent_id);
 		if ($this->isColumnModified(VocabularyPeer::CREATED_AT)) $criteria->add(VocabularyPeer::CREATED_AT, $this->created_at);
+		if ($this->isColumnModified(VocabularyPeer::UPDATED_AT)) $criteria->add(VocabularyPeer::UPDATED_AT, $this->updated_at);
 		if ($this->isColumnModified(VocabularyPeer::LAST_UPDATED)) $criteria->add(VocabularyPeer::LAST_UPDATED, $this->last_updated);
+		if ($this->isColumnModified(VocabularyPeer::LAST_UPDATED_BY_USER_ID)) $criteria->add(VocabularyPeer::LAST_UPDATED_BY_USER_ID, $this->last_updated_by_user_id);
 		if ($this->isColumnModified(VocabularyPeer::DELETED_AT)) $criteria->add(VocabularyPeer::DELETED_AT, $this->deleted_at);
 		if ($this->isColumnModified(VocabularyPeer::NAME)) $criteria->add(VocabularyPeer::NAME, $this->name);
 		if ($this->isColumnModified(VocabularyPeer::NOTE)) $criteria->add(VocabularyPeer::NOTE, $this->note);
@@ -1023,7 +1143,11 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 
 		$copyObj->setCreatedAt($this->created_at);
 
+		$copyObj->setUpdatedAt($this->updated_at);
+
 		$copyObj->setLastUpdated($this->last_updated);
+
+		$copyObj->setLastUpdatedByUserId($this->last_updated_by_user_id);
 
 		$copyObj->setDeletedAt($this->deleted_at);
 
@@ -1120,6 +1244,36 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 			
 		}
 		return $this->aAgent;
+	}
+
+	
+	public function setUser($v)
+	{
+
+
+		if ($v === null) {
+			$this->setLastUpdatedByUserId(NULL);
+		} else {
+			$this->setLastUpdatedByUserId($v->getId());
+		}
+
+
+		$this->aUser = $v;
+	}
+
+
+	
+	public function getUser($con = null)
+	{
+				include_once 'lib/model/om/BaseUserPeer.php';
+
+		if ($this->aUser === null && ($this->last_updated_by_user_id !== null)) {
+
+			$this->aUser = UserPeer::retrieveByPK($this->last_updated_by_user_id, $con);
+
+			
+		}
+		return $this->aUser;
 	}
 
 	
@@ -1220,6 +1374,41 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	{
 		$this->collConcepts[] = $l;
 		$l->setVocabulary($this);
+	}
+
+
+	
+	public function getConceptsJoinUser($criteria = null, $con = null)
+	{
+				include_once 'lib/model/om/BaseConceptPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collConcepts === null) {
+			if ($this->isNew()) {
+				$this->collConcepts = array();
+			} else {
+
+				$criteria->add(ConceptPeer::VOCABULARY_ID, $this->getId());
+
+				$this->collConcepts = ConceptPeer::doSelectJoinUser($criteria, $con);
+			}
+		} else {
+									
+			$criteria->add(ConceptPeer::VOCABULARY_ID, $this->getId());
+
+			if (!isset($this->lastConceptCriteria) || !$this->lastConceptCriteria->equals($criteria)) {
+				$this->collConcepts = ConceptPeer::doSelectJoinUser($criteria, $con);
+			}
+		}
+		$this->lastConceptCriteria = $criteria;
+
+		return $this->collConcepts;
 	}
 
 
@@ -1819,7 +2008,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 
 
 	
-	public function getConceptPropertyHistorysJoinUserRelatedByCreatedUserId($criteria = null, $con = null)
+	public function getConceptPropertyHistorysJoinUser($criteria = null, $con = null)
 	{
 				include_once 'lib/model/om/BaseConceptPropertyHistoryPeer.php';
 		if ($criteria === null) {
@@ -1837,49 +2026,14 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 
 				$criteria->add(ConceptPropertyHistoryPeer::SCHEME_ID, $this->getId());
 
-				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelectJoinUserRelatedByCreatedUserId($criteria, $con);
+				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelectJoinUser($criteria, $con);
 			}
 		} else {
 									
 			$criteria->add(ConceptPropertyHistoryPeer::SCHEME_ID, $this->getId());
 
 			if (!isset($this->lastConceptPropertyHistoryCriteria) || !$this->lastConceptPropertyHistoryCriteria->equals($criteria)) {
-				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelectJoinUserRelatedByCreatedUserId($criteria, $con);
-			}
-		}
-		$this->lastConceptPropertyHistoryCriteria = $criteria;
-
-		return $this->collConceptPropertyHistorys;
-	}
-
-
-	
-	public function getConceptPropertyHistorysJoinUserRelatedByUpdatedUserId($criteria = null, $con = null)
-	{
-				include_once 'lib/model/om/BaseConceptPropertyHistoryPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collConceptPropertyHistorys === null) {
-			if ($this->isNew()) {
-				$this->collConceptPropertyHistorys = array();
-			} else {
-
-				$criteria->add(ConceptPropertyHistoryPeer::SCHEME_ID, $this->getId());
-
-				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelectJoinUserRelatedByUpdatedUserId($criteria, $con);
-			}
-		} else {
-									
-			$criteria->add(ConceptPropertyHistoryPeer::SCHEME_ID, $this->getId());
-
-			if (!isset($this->lastConceptPropertyHistoryCriteria) || !$this->lastConceptPropertyHistoryCriteria->equals($criteria)) {
-				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelectJoinUserRelatedByUpdatedUserId($criteria, $con);
+				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelectJoinUser($criteria, $con);
 			}
 		}
 		$this->lastConceptPropertyHistoryCriteria = $criteria;

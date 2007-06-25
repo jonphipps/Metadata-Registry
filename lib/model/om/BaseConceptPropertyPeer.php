@@ -13,7 +13,7 @@ abstract class BaseConceptPropertyPeer {
 	const CLASS_DEFAULT = 'lib.model.ConceptProperty';
 
 	
-	const NUM_COLUMNS = 13;
+	const NUM_COLUMNS = 14;
 
 	
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -33,6 +33,9 @@ abstract class BaseConceptPropertyPeer {
 
 	
 	const CONCEPT_ID = 'reg_concept_property.CONCEPT_ID';
+
+	
+	const PRIMARY_PREF_LABEL = 'reg_concept_property.PRIMARY_PREF_LABEL';
 
 	
 	const SKOS_PROPERTY_ID = 'reg_concept_property.SKOS_PROPERTY_ID';
@@ -64,18 +67,18 @@ abstract class BaseConceptPropertyPeer {
 
 	
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'CreatedAt', 'LastUpdated', 'DeletedAt', 'ConceptId', 'SkosPropertyId', 'Object', 'SchemeId', 'RelatedConceptId', 'Language', 'StatusId', 'CreatedUserId', 'UpdatedUserId', ),
-		BasePeer::TYPE_COLNAME => array (ConceptPropertyPeer::ID, ConceptPropertyPeer::CREATED_AT, ConceptPropertyPeer::LAST_UPDATED, ConceptPropertyPeer::DELETED_AT, ConceptPropertyPeer::CONCEPT_ID, ConceptPropertyPeer::SKOS_PROPERTY_ID, ConceptPropertyPeer::OBJECT, ConceptPropertyPeer::SCHEME_ID, ConceptPropertyPeer::RELATED_CONCEPT_ID, ConceptPropertyPeer::LANGUAGE, ConceptPropertyPeer::STATUS_ID, ConceptPropertyPeer::CREATED_USER_ID, ConceptPropertyPeer::UPDATED_USER_ID, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'created_at', 'last_updated', 'deleted_at', 'concept_id', 'skos_property_id', 'object', 'scheme_id', 'related_concept_id', 'language', 'status_id', 'created_user_id', 'updated_user_id', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'CreatedAt', 'LastUpdated', 'DeletedAt', 'ConceptId', 'PrimaryPrefLabel', 'SkosPropertyId', 'Object', 'SchemeId', 'RelatedConceptId', 'Language', 'StatusId', 'CreatedUserId', 'UpdatedUserId', ),
+		BasePeer::TYPE_COLNAME => array (ConceptPropertyPeer::ID, ConceptPropertyPeer::CREATED_AT, ConceptPropertyPeer::LAST_UPDATED, ConceptPropertyPeer::DELETED_AT, ConceptPropertyPeer::CONCEPT_ID, ConceptPropertyPeer::PRIMARY_PREF_LABEL, ConceptPropertyPeer::SKOS_PROPERTY_ID, ConceptPropertyPeer::OBJECT, ConceptPropertyPeer::SCHEME_ID, ConceptPropertyPeer::RELATED_CONCEPT_ID, ConceptPropertyPeer::LANGUAGE, ConceptPropertyPeer::STATUS_ID, ConceptPropertyPeer::CREATED_USER_ID, ConceptPropertyPeer::UPDATED_USER_ID, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'created_at', 'last_updated', 'deleted_at', 'concept_id', 'primary_pref_label', 'skos_property_id', 'object', 'scheme_id', 'related_concept_id', 'language', 'status_id', 'created_user_id', 'updated_user_id', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, )
 	);
 
 	
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'CreatedAt' => 1, 'LastUpdated' => 2, 'DeletedAt' => 3, 'ConceptId' => 4, 'SkosPropertyId' => 5, 'Object' => 6, 'SchemeId' => 7, 'RelatedConceptId' => 8, 'Language' => 9, 'StatusId' => 10, 'CreatedUserId' => 11, 'UpdatedUserId' => 12, ),
-		BasePeer::TYPE_COLNAME => array (ConceptPropertyPeer::ID => 0, ConceptPropertyPeer::CREATED_AT => 1, ConceptPropertyPeer::LAST_UPDATED => 2, ConceptPropertyPeer::DELETED_AT => 3, ConceptPropertyPeer::CONCEPT_ID => 4, ConceptPropertyPeer::SKOS_PROPERTY_ID => 5, ConceptPropertyPeer::OBJECT => 6, ConceptPropertyPeer::SCHEME_ID => 7, ConceptPropertyPeer::RELATED_CONCEPT_ID => 8, ConceptPropertyPeer::LANGUAGE => 9, ConceptPropertyPeer::STATUS_ID => 10, ConceptPropertyPeer::CREATED_USER_ID => 11, ConceptPropertyPeer::UPDATED_USER_ID => 12, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'created_at' => 1, 'last_updated' => 2, 'deleted_at' => 3, 'concept_id' => 4, 'skos_property_id' => 5, 'object' => 6, 'scheme_id' => 7, 'related_concept_id' => 8, 'language' => 9, 'status_id' => 10, 'created_user_id' => 11, 'updated_user_id' => 12, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'CreatedAt' => 1, 'LastUpdated' => 2, 'DeletedAt' => 3, 'ConceptId' => 4, 'PrimaryPrefLabel' => 5, 'SkosPropertyId' => 6, 'Object' => 7, 'SchemeId' => 8, 'RelatedConceptId' => 9, 'Language' => 10, 'StatusId' => 11, 'CreatedUserId' => 12, 'UpdatedUserId' => 13, ),
+		BasePeer::TYPE_COLNAME => array (ConceptPropertyPeer::ID => 0, ConceptPropertyPeer::CREATED_AT => 1, ConceptPropertyPeer::LAST_UPDATED => 2, ConceptPropertyPeer::DELETED_AT => 3, ConceptPropertyPeer::CONCEPT_ID => 4, ConceptPropertyPeer::PRIMARY_PREF_LABEL => 5, ConceptPropertyPeer::SKOS_PROPERTY_ID => 6, ConceptPropertyPeer::OBJECT => 7, ConceptPropertyPeer::SCHEME_ID => 8, ConceptPropertyPeer::RELATED_CONCEPT_ID => 9, ConceptPropertyPeer::LANGUAGE => 10, ConceptPropertyPeer::STATUS_ID => 11, ConceptPropertyPeer::CREATED_USER_ID => 12, ConceptPropertyPeer::UPDATED_USER_ID => 13, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'created_at' => 1, 'last_updated' => 2, 'deleted_at' => 3, 'concept_id' => 4, 'primary_pref_label' => 5, 'skos_property_id' => 6, 'object' => 7, 'scheme_id' => 8, 'related_concept_id' => 9, 'language' => 10, 'status_id' => 11, 'created_user_id' => 12, 'updated_user_id' => 13, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, )
 	);
 
 	
@@ -138,6 +141,8 @@ abstract class BaseConceptPropertyPeer {
 		$criteria->addSelectColumn(ConceptPropertyPeer::DELETED_AT);
 
 		$criteria->addSelectColumn(ConceptPropertyPeer::CONCEPT_ID);
+
+		$criteria->addSelectColumn(ConceptPropertyPeer::PRIMARY_PREF_LABEL);
 
 		$criteria->addSelectColumn(ConceptPropertyPeer::SKOS_PROPERTY_ID);
 

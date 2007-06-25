@@ -1511,7 +1511,7 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 
 
 	
-	public function getConceptPropertyHistorysJoinUserRelatedByCreatedUserId($criteria = null, $con = null)
+	public function getConceptPropertyHistorysJoinUser($criteria = null, $con = null)
 	{
 				include_once 'lib/model/om/BaseConceptPropertyHistoryPeer.php';
 		if ($criteria === null) {
@@ -1529,49 +1529,14 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 
 				$criteria->add(ConceptPropertyHistoryPeer::SKOS_PROPERTY_ID, $this->getId());
 
-				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelectJoinUserRelatedByCreatedUserId($criteria, $con);
+				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelectJoinUser($criteria, $con);
 			}
 		} else {
 									
 			$criteria->add(ConceptPropertyHistoryPeer::SKOS_PROPERTY_ID, $this->getId());
 
 			if (!isset($this->lastConceptPropertyHistoryCriteria) || !$this->lastConceptPropertyHistoryCriteria->equals($criteria)) {
-				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelectJoinUserRelatedByCreatedUserId($criteria, $con);
-			}
-		}
-		$this->lastConceptPropertyHistoryCriteria = $criteria;
-
-		return $this->collConceptPropertyHistorys;
-	}
-
-
-	
-	public function getConceptPropertyHistorysJoinUserRelatedByUpdatedUserId($criteria = null, $con = null)
-	{
-				include_once 'lib/model/om/BaseConceptPropertyHistoryPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collConceptPropertyHistorys === null) {
-			if ($this->isNew()) {
-				$this->collConceptPropertyHistorys = array();
-			} else {
-
-				$criteria->add(ConceptPropertyHistoryPeer::SKOS_PROPERTY_ID, $this->getId());
-
-				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelectJoinUserRelatedByUpdatedUserId($criteria, $con);
-			}
-		} else {
-									
-			$criteria->add(ConceptPropertyHistoryPeer::SKOS_PROPERTY_ID, $this->getId());
-
-			if (!isset($this->lastConceptPropertyHistoryCriteria) || !$this->lastConceptPropertyHistoryCriteria->equals($criteria)) {
-				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelectJoinUserRelatedByUpdatedUserId($criteria, $con);
+				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelectJoinUser($criteria, $con);
 			}
 		}
 		$this->lastConceptPropertyHistoryCriteria = $criteria;

@@ -25,11 +25,11 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 
 
 	
-	protected $concept_id = 0;
+	protected $concept_id;
 
 
 	
-	protected $skos_property_id = 0;
+	protected $skos_property_id;
 
 
 	
@@ -55,10 +55,6 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 	
 	protected $created_user_id;
 
-
-	
-	protected $updated_user_id;
-
 	
 	protected $aConceptProperty;
 
@@ -78,10 +74,7 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 	protected $aStatus;
 
 	
-	protected $aUserRelatedByCreatedUserId;
-
-	
-	protected $aUserRelatedByUpdatedUserId;
+	protected $aUser;
 
 	
 	protected $alreadyInSave = false;
@@ -191,13 +184,6 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 	}
 
 	
-	public function getUpdatedUserId()
-	{
-
-		return $this->updated_user_id;
-	}
-
-	
 	public function setId($v)
 	{
 
@@ -277,7 +263,7 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 			$v = (int) $v;
 		}
 
-		if ($this->concept_id !== $v || $v === 0) {
+		if ($this->concept_id !== $v) {
 			$this->concept_id = $v;
 			$this->modifiedColumns[] = ConceptPropertyHistoryPeer::CONCEPT_ID;
 		}
@@ -297,7 +283,7 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 			$v = (int) $v;
 		}
 
-		if ($this->skos_property_id !== $v || $v === 0) {
+		if ($this->skos_property_id !== $v) {
 			$this->skos_property_id = $v;
 			$this->modifiedColumns[] = ConceptPropertyHistoryPeer::SKOS_PROPERTY_ID;
 		}
@@ -414,28 +400,8 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 			$this->modifiedColumns[] = ConceptPropertyHistoryPeer::CREATED_USER_ID;
 		}
 
-		if ($this->aUserRelatedByCreatedUserId !== null && $this->aUserRelatedByCreatedUserId->getId() !== $v) {
-			$this->aUserRelatedByCreatedUserId = null;
-		}
-
-	} 
-	
-	public function setUpdatedUserId($v)
-	{
-
-		
-		
-		if ($v !== null && !is_int($v) && is_numeric($v)) {
-			$v = (int) $v;
-		}
-
-		if ($this->updated_user_id !== $v) {
-			$this->updated_user_id = $v;
-			$this->modifiedColumns[] = ConceptPropertyHistoryPeer::UPDATED_USER_ID;
-		}
-
-		if ($this->aUserRelatedByUpdatedUserId !== null && $this->aUserRelatedByUpdatedUserId->getId() !== $v) {
-			$this->aUserRelatedByUpdatedUserId = null;
+		if ($this->aUser !== null && $this->aUser->getId() !== $v) {
+			$this->aUser = null;
 		}
 
 	} 
@@ -468,14 +434,12 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 
 			$this->created_user_id = $rs->getInt($startcol + 11);
 
-			$this->updated_user_id = $rs->getInt($startcol + 12);
-
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			
-			return $startcol + 13; 
+			return $startcol + 12; 
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating ConceptPropertyHistory object", $e);
@@ -614,18 +578,11 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 				$this->setStatus($this->aStatus);
 			}
 
-			if ($this->aUserRelatedByCreatedUserId !== null) {
-				if ($this->aUserRelatedByCreatedUserId->isModified()) {
-					$affectedRows += $this->aUserRelatedByCreatedUserId->save($con);
+			if ($this->aUser !== null) {
+				if ($this->aUser->isModified()) {
+					$affectedRows += $this->aUser->save($con);
 				}
-				$this->setUserRelatedByCreatedUserId($this->aUserRelatedByCreatedUserId);
-			}
-
-			if ($this->aUserRelatedByUpdatedUserId !== null) {
-				if ($this->aUserRelatedByUpdatedUserId->isModified()) {
-					$affectedRows += $this->aUserRelatedByUpdatedUserId->save($con);
-				}
-				$this->setUserRelatedByUpdatedUserId($this->aUserRelatedByUpdatedUserId);
+				$this->setUser($this->aUser);
 			}
 
 
@@ -713,15 +670,9 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 				}
 			}
 
-			if ($this->aUserRelatedByCreatedUserId !== null) {
-				if (!$this->aUserRelatedByCreatedUserId->validate($columns)) {
-					$failureMap = array_merge($failureMap, $this->aUserRelatedByCreatedUserId->getValidationFailures());
-				}
-			}
-
-			if ($this->aUserRelatedByUpdatedUserId !== null) {
-				if (!$this->aUserRelatedByUpdatedUserId->validate($columns)) {
-					$failureMap = array_merge($failureMap, $this->aUserRelatedByUpdatedUserId->getValidationFailures());
+			if ($this->aUser !== null) {
+				if (!$this->aUser->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aUser->getValidationFailures());
 				}
 			}
 
@@ -785,9 +736,6 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 			case 11:
 				return $this->getCreatedUserId();
 				break;
-			case 12:
-				return $this->getUpdatedUserId();
-				break;
 			default:
 				return null;
 				break;
@@ -811,7 +759,6 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 			$keys[9] => $this->getLanguage(),
 			$keys[10] => $this->getStatusId(),
 			$keys[11] => $this->getCreatedUserId(),
-			$keys[12] => $this->getUpdatedUserId(),
 		);
 		return $result;
 	}
@@ -863,9 +810,6 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 			case 11:
 				$this->setCreatedUserId($value);
 				break;
-			case 12:
-				$this->setUpdatedUserId($value);
-				break;
 		} 
 	}
 
@@ -886,7 +830,6 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 		if (array_key_exists($keys[9], $arr)) $this->setLanguage($arr[$keys[9]]);
 		if (array_key_exists($keys[10], $arr)) $this->setStatusId($arr[$keys[10]]);
 		if (array_key_exists($keys[11], $arr)) $this->setCreatedUserId($arr[$keys[11]]);
-		if (array_key_exists($keys[12], $arr)) $this->setUpdatedUserId($arr[$keys[12]]);
 	}
 
 	
@@ -906,7 +849,6 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 		if ($this->isColumnModified(ConceptPropertyHistoryPeer::LANGUAGE)) $criteria->add(ConceptPropertyHistoryPeer::LANGUAGE, $this->language);
 		if ($this->isColumnModified(ConceptPropertyHistoryPeer::STATUS_ID)) $criteria->add(ConceptPropertyHistoryPeer::STATUS_ID, $this->status_id);
 		if ($this->isColumnModified(ConceptPropertyHistoryPeer::CREATED_USER_ID)) $criteria->add(ConceptPropertyHistoryPeer::CREATED_USER_ID, $this->created_user_id);
-		if ($this->isColumnModified(ConceptPropertyHistoryPeer::UPDATED_USER_ID)) $criteria->add(ConceptPropertyHistoryPeer::UPDATED_USER_ID, $this->updated_user_id);
 
 		return $criteria;
 	}
@@ -958,8 +900,6 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 		$copyObj->setStatusId($this->status_id);
 
 		$copyObj->setCreatedUserId($this->created_user_id);
-
-		$copyObj->setUpdatedUserId($this->updated_user_id);
 
 
 		$copyObj->setNew(true);
@@ -1021,7 +961,7 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 
 
 		if ($v === null) {
-			$this->setConceptId('null');
+			$this->setConceptId(NULL);
 		} else {
 			$this->setConceptId($v->getId());
 		}
@@ -1051,7 +991,7 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 
 
 		if ($v === null) {
-			$this->setSkosPropertyId('null');
+			$this->setSkosPropertyId(NULL);
 		} else {
 			$this->setSkosPropertyId($v->getId());
 		}
@@ -1166,7 +1106,7 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 	}
 
 	
-	public function setUserRelatedByCreatedUserId($v)
+	public function setUser($v)
 	{
 
 
@@ -1177,52 +1117,22 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 		}
 
 
-		$this->aUserRelatedByCreatedUserId = $v;
+		$this->aUser = $v;
 	}
 
 
 	
-	public function getUserRelatedByCreatedUserId($con = null)
+	public function getUser($con = null)
 	{
 				include_once 'lib/model/om/BaseUserPeer.php';
 
-		if ($this->aUserRelatedByCreatedUserId === null && ($this->created_user_id !== null)) {
+		if ($this->aUser === null && ($this->created_user_id !== null)) {
 
-			$this->aUserRelatedByCreatedUserId = UserPeer::retrieveByPK($this->created_user_id, $con);
-
-			
-		}
-		return $this->aUserRelatedByCreatedUserId;
-	}
-
-	
-	public function setUserRelatedByUpdatedUserId($v)
-	{
-
-
-		if ($v === null) {
-			$this->setUpdatedUserId(NULL);
-		} else {
-			$this->setUpdatedUserId($v->getId());
-		}
-
-
-		$this->aUserRelatedByUpdatedUserId = $v;
-	}
-
-
-	
-	public function getUserRelatedByUpdatedUserId($con = null)
-	{
-				include_once 'lib/model/om/BaseUserPeer.php';
-
-		if ($this->aUserRelatedByUpdatedUserId === null && ($this->updated_user_id !== null)) {
-
-			$this->aUserRelatedByUpdatedUserId = UserPeer::retrieveByPK($this->updated_user_id, $con);
+			$this->aUser = UserPeer::retrieveByPK($this->created_user_id, $con);
 
 			
 		}
-		return $this->aUserRelatedByUpdatedUserId;
+		return $this->aUser;
 	}
 
 

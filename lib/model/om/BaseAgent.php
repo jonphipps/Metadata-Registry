@@ -1279,6 +1279,41 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 
 
 	
+	public function getVocabularysJoinUser($criteria = null, $con = null)
+	{
+				include_once 'lib/model/om/BaseVocabularyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collVocabularys === null) {
+			if ($this->isNew()) {
+				$this->collVocabularys = array();
+			} else {
+
+				$criteria->add(VocabularyPeer::AGENT_ID, $this->getId());
+
+				$this->collVocabularys = VocabularyPeer::doSelectJoinUser($criteria, $con);
+			}
+		} else {
+									
+			$criteria->add(VocabularyPeer::AGENT_ID, $this->getId());
+
+			if (!isset($this->lastVocabularyCriteria) || !$this->lastVocabularyCriteria->equals($criteria)) {
+				$this->collVocabularys = VocabularyPeer::doSelectJoinUser($criteria, $con);
+			}
+		}
+		$this->lastVocabularyCriteria = $criteria;
+
+		return $this->collVocabularys;
+	}
+
+
+	
 	public function getVocabularysJoinStatus($criteria = null, $con = null)
 	{
 				include_once 'lib/model/om/BaseVocabularyPeer.php';
