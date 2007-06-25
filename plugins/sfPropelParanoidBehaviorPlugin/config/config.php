@@ -6,5 +6,5 @@ sfPropelBehavior::registerMethods('paranoid', array(
 
 sfPropelBehavior::registerHooks('paranoid', array(
   ':delete:pre' => array('sfPropelParanoidBehavior', 'preDelete'),
-  'Peer:doSelectRS' => array('sfPropelParanoidBehavior', 'doSelectRS'),
+  'Peer:addDoSelectRS' => array('sfPropelParanoidBehavior', 'doSelectRS'),
 ));

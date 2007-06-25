@@ -84,3 +84,6 @@ class ConceptPropertyPeer extends BaseConceptPropertyPeer
    }
 
 } // ConceptPropertyPeer
+
+sfPropelBehavior::add('ConceptProperty', array('paranoid'));
+
