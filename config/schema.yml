@@ -109,17 +109,21 @@ propel:
       type: TIMESTAMP
     updated_at: 
       type: TIMESTAMP
-    last_updated: 
+    deleted_at: 
       type: TIMESTAMP
-    last_updated_user_id:
+    created_user_id:
       type: INTEGER
       foreignTable: reg_user
       foreignReference: id
       onDelete: SET NULL
       onUpdate: RESTRICT
-    deleted_at: 
-      type: TIMESTAMP
-    uri: 
+    updated_user_id: 
+      type: INTEGER
+      foreignTable: reg_user
+      foreignReference: id
+      onDelete: SET NULL
+      onUpdate: RESTRICT
+    uri:
       type: VARCHAR
       size: 255
       required: true
@@ -165,8 +169,12 @@ propel:
         - status_id
       pref_label_id: 
         - pref_label_id
-      last_updated_user_id:
-        - last_updated_user_id
+      last_updated_by_user_id: 
+        - updated_user_id
+      created_user_id: 
+        - created_user_id
+      child_updated_user_id: 
+        - child_updated_user_id
     _uniques: 
       vocabulary_id_pref_label: 
         - vocabulary_id
@@ -180,12 +188,24 @@ propel:
       required: true
       autoIncrement: true
       primaryKey: true
-    created_at: 
+    created_at:
       type: TIMESTAMP
-    last_updated: 
+    updated_at:
       type: TIMESTAMP
-    deleted_at: 
+    deleted_at:
       type: TIMESTAMP
+    created_user_id:
+      type: INTEGER
+      foreignTable: reg_user
+      foreignReference: id
+      onDelete: SET NULL
+      onUpdate: RESTRICT
+    updated_user_id: 
+      type: INTEGER
+      foreignTable: reg_user
+      foreignReference: id
+      onDelete: SET NULL
+      onUpdate: RESTRICT
     concept_id: 
       type: INTEGER
       required: true
@@ -229,18 +249,6 @@ propel:
       foreignTable: reg_status
       foreignReference: id
       onDelete: RESTRICT
-      onUpdate: RESTRICT
-    created_user_id: 
-      type: INTEGER
-      foreignTable: reg_user
-      foreignReference: id
-      onDelete: SET NULL
-      onUpdate: RESTRICT
-    updated_user_id: 
-      type: INTEGER
-      foreignTable: reg_user
-      foreignReference: id
-      onDelete: SET NULL
       onUpdate: RESTRICT
     _indexes: 
       concept_id: 
@@ -505,6 +513,10 @@ propel:
     password: 
       type: VARCHAR
       size: 40
+    _indexes: 
+      id: 
+        - id
+        - created_at
   reg_vocabulary: 
     _attributes: 
       idMethod: native
@@ -524,18 +536,30 @@ propel:
       onUpdate: RESTRICT
     created_at: 
       type: TIMESTAMP
-    updated_at: 
+    deleted_at: 
       type: TIMESTAMP
     last_updated: 
       type: TIMESTAMP
-    last_updated_user_id:
+    created_user_id: 
       type: INTEGER
       foreignTable: reg_user
       foreignReference: id
       onDelete: SET NULL
       onUpdate: RESTRICT
-    deleted_at: 
+    updated_user_id: 
+      type: INTEGER
+      foreignTable: reg_user
+      foreignReference: id
+      onDelete: SET NULL
+      onUpdate: RESTRICT
+    child_updated_at: 
       type: TIMESTAMP
+    child_updated_user_id: 
+      type: INTEGER
+      foreignTable: reg_user
+      foreignReference: id
+      onDelete: SET NULL
+      onUpdate: RESTRICT
     name: 
       type: VARCHAR
       size: 255
@@ -585,8 +609,12 @@ propel:
         - agent_id
       status_id: 
         - status_id
-      last_updated_user_id:
-        - last_updated_user_id
+      last_updated_by_user_id: 
+        - updated_user_id
+      created_user_id: 
+        - created_user_id
+      child_updated_user_id: 
+        - child_updated_user_id
   reg_resource:
     _attributes:
       idMethod: native
