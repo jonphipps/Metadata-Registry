@@ -1,5 +1,5 @@
 <ul class="sf_admin_actions">
-<?php debugbreak();
+<?php
   $listActions = $this->getParameterValue('list.actions');
   if (false !== $listActions)
   {
