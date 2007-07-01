@@ -1,16 +1,19 @@
 <ul class="sf_admin_actions">
-<?php
+<?php debugbreak();
   $listActions = $this->getParameterValue('list.actions');
-  if (null !== $listActions)
+  if (false !== $listActions)
   {
-    foreach ((array) $listActions as $actionName => $params)
+    if (null !== $listActions)
     {
-  echo $this->addCredentialCondition($this->getButtonToAction($actionName, $params, false), $params, false, false);
+      foreach ((array) $listActions as $actionName => $params)
+      {
+    echo $this->addCredentialCondition($this->getButtonToAction($actionName, $params, false), $params, false, false);
+      }
     }
-  }
-  else
-  {
-  echo $this->getButtonToAction('_create', array(), false);
+    else
+    {
+    echo $this->getButtonToAction('_create', array(), false);
+    }
   }
 ?>
 </ul>
