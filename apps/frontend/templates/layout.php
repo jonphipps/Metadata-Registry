@@ -73,11 +73,23 @@
   </div>
 
    <?php //Google analytics ?>
-   <script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
-   </script>
-   <script type="text/javascript">
-   _uacct = "UA-840150-1";
-   urchinTracker();
-   </script>
+   <script src="http://www.google-analytics.com/urchin.js" type="text/javascript"></script>
+<?php
+  if ($_SERVER['HTTP_HOST'] == 'sandbox.metadataregistry.org')
+  {
+    echo javascript_tag('
+      _uacct = "UA-840150-2";
+      urchinTracker();
+    ');
+  }
+  else
+  {
+    echo javascript_tag('
+      _uacct = "UA-840150-1";
+      urchinTracker();
+    ');
+  }
+?>
+<script type="text/javascript" src="http://cetrk.com/pages/scripts/0005/6031.js"> </script>
 </body>
 </html>
