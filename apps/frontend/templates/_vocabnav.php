@@ -2,8 +2,9 @@
   $topnav = array();
   $topnav['Detail']['link']  = '/vocabulary/show?id=';
   $topnav['Concepts']['link'] = '/concept/list?vocabulary_id=';
-  $topnav['History']['link'] = '#';;
+  $topnav['History']['link'] = '/history/list?vocabulary_id=';
   $topnav['Versions']['link'] = '#';;
+  $topnav['Users']['link'] = 'vocabuser/list?vocabulary_id=';
 ?>
 <ul id="topnav" style="height:1.85em; position:relative;" class="single" >
 <?php $i = 0;

@@ -1,8 +1,7 @@
 <?php
   $topnav = array();
-  $topnav['Detail']['link']  = '/concept/show?id=';
-  $topnav['Properties']['link'] = '/conceptprop/list?concept_id=';
-  $topnav['History']['link'] = '/history/list?concept_id=';;
+  $topnav['Detail']['link']  = '/conceptprop/show?id=';
+  $topnav['History']['link'] = '/history/list?property_id=';;
   $topnav['Versions']['link'] = '#';;
 ?>
 <ul id="topnav" style="height:1.85em; position:relative;" class="single" >
@@ -23,7 +22,7 @@
       $options['class'] = 'here';
     }
 
-    echo '<li>' . link_to(__($key), $value['link'] . $concept->getID(), $options) . '</li>';
+    echo '<li>' . link_to(__($key), $value['link'] . $concept_property->getID(), $options) . '</li>';
 
   endforeach;
 ?>
