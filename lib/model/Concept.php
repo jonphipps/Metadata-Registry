@@ -118,4 +118,26 @@ class Concept extends BaseConcept
     return $this->getPrefLabel();
   }
 
+  /**
+  * Get the created by user
+  *
+  * @return User
+  */
+  public function getCreatedBy()
+  {
+    return $this->getUserRelatedByCreatedUserId();
+
+  } // getCreatedUser()
+
+  /**
+  * Get the updated by user
+  *
+  * @return User
+  */
+  public function getUpdatedBy()
+  {
+    return $this->getUserRelatedByUpdatedUserId();
+
+  } // getUpdatedUser()
+
 } // Concept

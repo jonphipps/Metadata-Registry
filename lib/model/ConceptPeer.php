@@ -96,7 +96,7 @@ class ConceptPeer extends BaseConceptPeer
 
       $c->addSelectColumn(ConceptPeer::ID);
       $c->addSelectColumn(ConceptPeer::PREF_LABEL);
-      $c->addSelectColumn(ConceptPeer::LAST_UPDATED);
+      $c->addSelectColumn(ConceptPeer::UPDATED_AT);
       $c->addSelectColumn(ConceptPeer::VOCABULARY_ID);
       $c->addSelectColumn(VocabularyPeer::NAME);
       $c->addSelectColumn(AgentPeer::ID);
