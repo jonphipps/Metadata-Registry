@@ -12,3 +12,4 @@
 chdir(dirname(__FILE__));
 include('config/config.php');
 include($sf_symfony_data_dir.'/bin/symfony.php');
+
