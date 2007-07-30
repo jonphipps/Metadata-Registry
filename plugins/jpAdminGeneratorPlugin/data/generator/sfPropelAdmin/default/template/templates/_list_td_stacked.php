@@ -8,9 +8,14 @@
   <?php if ($column->isLink()): ?>
   [?php echo link_to(<?php echo $this->getColumnListTag($column) ?> ? <?php echo $this->getColumnListTag($column) ?> : __('-'), '<?php echo $this->getModuleName() ?>/edit?<?php echo $this->getPrimaryKeyUrlParams() ?>) ?]
   <?php else: ?>
-  [?php echo <?php echo $this->getColumnListTag($column) ?> ?]
+<?php $helper = $this->getParameterValue('list.fields.'.$column->getName().'.helper') ?>
+<?php if ($helper): ?>
+  [?php $value = <?php echo $helper ?>(<?php echo $this->getColumnListTag($column) ?>); echo ($value) ? $value : '&nbsp;' ?]
+<?php else: ?>
+  [?php $value = <?php echo $this->getColumnListTag($column) ?>; echo ($value) ? $value : '&nbsp;' ?]
+<?php endif; ?>
   <?php endif; ?>
-   - 
+   -
 <?php endforeach; ?>
 <?php endif; ?>
 </td>
