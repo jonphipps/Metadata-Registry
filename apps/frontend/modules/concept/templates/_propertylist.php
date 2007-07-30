@@ -3,7 +3,7 @@
 <?php foreach($properties as $property): ?>
   <tr>
     <td>
-      <?php echo link_to($property->getSkosProperty()->getLabel(), 'conceptprop/edit?id=' . $property->getId()) ?>
+      <?php echo link_to($property->getSkosProperty()->getLabel(), 'conceptprop/show?id=' . $property->getId()) ?>
     </td>
     <td>
 <?php $skos = $property->getSkosPropertyId(); ?>

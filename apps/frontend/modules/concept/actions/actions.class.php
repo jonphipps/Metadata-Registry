@@ -155,44 +155,72 @@ class conceptActions extends autoconceptActions
       return;
     }
 
-    $concept = $this->getRequestParameter('concept');
-    $id = $this->getRequestParameter('id');
+    $conceptParam = $this->getRequestParameter('concept');
+    $userId =  $this->getUser()->getAttribute('subscriber_id','','subscriber');
 
-    //check for an existing preflabel property
-    $conceptProperty = '';
-    if ($id)
-    {
-      $c = new Criteria();
-      $c->add(ConceptPropertyPeer::CONCEPT_ID, $id);
-      $c->add(ConceptPropertyPeer::SKOS_PROPERTY_ID, SkosProperty::getPrefLabelId());
-      $c->add(ConceptPropertyPeer::LANGUAGE, $concept['language']);
-
-      /* @var ConceptPropertyPeer $conceptProperty  */
-      $conceptProperty = ConceptPropertyPeer::doSelectOne($c);
-    }
+    /** @var ConceptProperty **/
+    $conceptProperty = $this->concept->getConceptProperty();
 
     if (!$conceptProperty)
     {
       $conceptProperty = new ConceptProperty();
       $conceptProperty->setSkosPropertyId(SkosProperty::getPrefLabelId());
+      $conceptProperty->setCreatedUserId($userId);
+      $conceptProperty->setPrimaryPrefLabel(1);
+
+      $this->concept->setCreatedUserId($userId);
     }
 
-    if (isset($concept['pref_label']))
+    $conceptProperty->setUpdatedUserId($userId);
+
+    if (isset($conceptParam['pref_label']))
     {
-      $conceptProperty->setObject($concept['pref_label']);
+      $conceptProperty->setObject($conceptParam['pref_label']);
     }
-    if (isset($concept['language']))
+
+    if (isset($conceptParam['language']))
     {
-      $conceptProperty->setLanguage($concept['language']);
+      $conceptProperty->setLanguage($conceptParam['language']);
     }
-    if (isset($concept['status_id']))
+
+    if (isset($conceptParam['status_id']))
     {
-      $conceptProperty->setStatusId($concept['status_id']);
+      $conceptProperty->setStatusId($conceptParam['status_id']);
+    }
+
+    /** @var Concept $concept **/
+    $concept = $this->concept;
+
+    $updatedAt = time();
+    $concept->setUpdatedAt($updatedAt);
+    $conceptProperty->setUpdatedAt($updatedAt);
+
+    //if we're in create mode...
+    if ($concept->isNew())
+    {
+      $concept->save();
+
+      $conceptProperty->setConceptRelatedByConceptId($concept);
+      $conceptProperty->save();
+    }
+    else
+    {
+      $conceptProperty->setConceptRelatedByConceptId($concept);
     }
 
     //update the pref_label concept property
-    $conceptProperty->save();
+    $concept->setUpdatedUserId($userId);
+    $concept->setConceptProperty($conceptProperty);
+    $concept->save();
 
+  }
+
+/**
+* disable the saveConcept function
+*/
+  protected function saveConcept($concept)
+  {
+    return;
   }
 
   protected function getConceptOrCreate($id = 'id')

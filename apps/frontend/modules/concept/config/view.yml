@@ -1,2 +1,2 @@
 all:
-  stylesheets: [concept/layout]
+  stylesheets: [concept/layout, tabs]
