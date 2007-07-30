@@ -319,9 +319,23 @@ $column = sfPropelManyToMany::getColumn($class, $through_class);
 
   protected function processFilters()
   {
+  $hasFilter = false;
+<?php $urlFilters = $this->getParameterValue('list.urlfilters'); if($urlFilters): ?>
+  <?php foreach ($urlFilters as $key => $param):  ?>
+  if ($this->hasRequestParameter('<?php echo $param ?>'))
+    {
+      $hasFilter = true;
+      //cancels all other filters
+      $this->getUser()->getAttributeHolder()->removeNamespace('sf_admin/<?php echo $this->getSingularName() ?>/filters');
+      $this->getUser()->getAttributeHolder()->set('<?php echo $key ?>', $this->getRequestParameter('<?php echo $param ?>'),'sf_admin/<?php echo $this->getSingularName() ?>/filters');
+    }
+  <?php endforeach ?>
+<?php endif ?>
+
 <?php if ($this->getParameterValue('list.filters')): ?>
     if ($this->getRequest()->hasParameter('filter'))
     {
+      $hasFilter = true;
       $filters = $this->getRequestParameter('filters');
 <?php foreach ($this->getColumns('list.filters') as $column): $type = $column->getCreoleType() ?>
 <?php if ($type == CreoleTypes::DATE || $type == CreoleTypes::TIMESTAMP): ?>
@@ -338,6 +352,11 @@ $column = sfPropelManyToMany::getColumn($class, $through_class);
 
       $this->getUser()->getAttributeHolder()->removeNamespace('sf_admin/<?php echo $this->getSingularName() ?>/filters');
       $this->getUser()->getAttributeHolder()->add($filters, 'sf_admin/<?php echo $this->getSingularName() ?>/filters');
+    }
+    if (!$hasFilter)
+    {
+      //cancels all filters
+      $this->getUser()->getAttributeHolder()->removeNamespace('sf_admin/<?php echo $this->getSingularName() ?>/filters');
     }
 <?php endif; ?>
   }
