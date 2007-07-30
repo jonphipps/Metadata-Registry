@@ -1,5 +1,5 @@
 all:
-  stylesheets: [conceptprop/layout]
+  stylesheets: [conceptprop/layout, tabs]
 
 editSuccess:
   javascripts: [conceptprop/swapoptions: { position: last }]

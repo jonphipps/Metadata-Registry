@@ -4,12 +4,12 @@
    <?php echo link_to('Vocabulary:', 'vocabulary/list') ?>
    <?php if ($concept): ?>
       <?php echo link_to($concept->getVocabulary()->getName(), 'vocabulary/show?id=' . $concept->getVocabularyId()) ?>
-      <br /><?php echo link_to('Concepts: ', '/concept/list?vocabulary_id=' . $concept->getVocabularyId()) ?>
+      <br />&nbsp;&nbsp;<?php echo link_to('Concepts: ', '/concept/list?vocabulary_id=' . $concept->getVocabularyId()) ?>
    <?php endif; ?>
    <?php if ($concept): ?>
       <?php echo link_to($concept->getPrefLabel(), '/concept/show?id=' . $concept->getID()) ?>
    <?php endif; ?>
-<br />Properties   
+<br />&nbsp;&nbsp;&nbsp;&nbsp;Properties   
 <?php else: ?>
 List of all properties
 <?php endif; ?>

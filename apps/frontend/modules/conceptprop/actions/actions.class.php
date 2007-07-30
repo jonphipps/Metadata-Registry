@@ -97,8 +97,12 @@ class conceptpropActions extends autoconceptpropActions
         $newProp->setSchemeId($this->concept->getVocabularyId());
         $newProp->setRelatedConceptId($this->concept->GetId());
         $newProp->setObject($this->concept->getUri());
-        //TODO: make this the user's default language
-        $newProp->setLanguage('en');
+        $newProp->setUpdatedUserId($this->getUser()->getSubscriberId());
+
+        //TODO: make this the user's default language (actually the language is not relevant when defining relationships)
+        //$newProp->setLanguage($this->concept->getLanguage());
+        $newProp->setLanguage('');
+
         $newProp->save();
       }
     }

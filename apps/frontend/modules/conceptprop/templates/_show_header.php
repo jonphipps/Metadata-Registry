@@ -13,3 +13,4 @@
    <br />&nbsp;&nbsp;&nbsp;&nbsp;<?php echo link_to('Properties: ', '/conceptprop/list?concept_id=' . $concept->getID()) . "Showing " . $concept_property->getSkosPropertyName() ?>
 <?php endif; ?>
 </h1>
+<?php include_partial('global/propertynav', array('concept_property' => $concept_property)) ?>
