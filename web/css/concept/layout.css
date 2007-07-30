@@ -10,18 +10,18 @@ div#sf_admin_container.sf_admin_list div#sf_admin_header
 #sf_admin_container .show-row .content
 
 {
-  padding-left: 11em !important;
+  padding-left: 11em;
 }
 
 fieldset#sf_fieldset_properties .form-row .content,
 fieldset#sf_fieldset_properties .show-row .content
 { 
-  padding-left: 20px !important;
+  padding-left: 20px;
 }
 
-fieldset#sf_fieldset_properties .form-row label,
-fieldset#sf_fieldset_properties .show-row label
-{ 
+div#show_row_concept_listproperties label,
+div#form_row_concept_listproperties label
+{
   display: none !important;
 }
 
@@ -29,4 +29,11 @@ fieldset#sf_fieldset_properties .form-row ul,
 fieldset#sf_fieldset_properties .show-row ul
 {
   list-style: none !important;
+}
+
+div#show_row_content_concept_listproperties,
+div#form_row_content_concept_listproperties
+{
+  padding:0 !important;
+
 }
