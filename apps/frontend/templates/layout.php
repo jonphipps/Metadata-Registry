@@ -72,24 +72,26 @@
   <?php echo __('%1%', array('%1%' => link_to(image_tag('poweredby.png', 'align=middle'), 'http://www.redhat.com/'))) ?>
   </div>
 
-   <?php //Google analytics ?>
-   <script src="http://www.google-analytics.com/urchin.js" type="text/javascript"></script>
 <?php
+  //Google analytics
   if ($_SERVER['HTTP_HOST'] == 'sandbox.metadataregistry.org')
   {
+    echo '<script src="http://www.google-analytics.com/urchin.js" type="text/javascript"></script>';
     echo javascript_tag('
       _uacct = "UA-840150-2";
       urchinTracker();
     ');
   }
-  else
+
+  if ($_SERVER['HTTP_HOST'] == 'metadataregistry.org')
   {
+    echo '<script src="http://www.google-analytics.com/urchin.js" type="text/javascript"></script>';
     echo javascript_tag('
       _uacct = "UA-840150-1";
       urchinTracker();
     ');
   }
 ?>
-<script type="text/javascript" src="http://cetrk.com/pages/scripts/0005/6031.js"> </script>
+<?php //<script type="text/javascript" src="http://cetrk.com/pages/scripts/0005/6031.js"> </script> ?>
 </body>
 </html>
