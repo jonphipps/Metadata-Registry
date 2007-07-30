@@ -111,7 +111,7 @@ propel:
       type: TIMESTAMP
     deleted_at: 
       type: TIMESTAMP
-    created_user_id:
+    created_user_id: 
       type: INTEGER
       foreignTable: reg_user
       foreignReference: id
@@ -123,7 +123,7 @@ propel:
       foreignReference: id
       onDelete: SET NULL
       onUpdate: RESTRICT
-    uri:
+    uri: 
       type: VARCHAR
       size: 255
       required: true
@@ -173,8 +173,6 @@ propel:
         - updated_user_id
       created_user_id: 
         - created_user_id
-      child_updated_user_id: 
-        - child_updated_user_id
     _uniques: 
       vocabulary_id_pref_label: 
         - vocabulary_id
@@ -188,13 +186,13 @@ propel:
       required: true
       autoIncrement: true
       primaryKey: true
-    created_at:
+    created_at: 
       type: TIMESTAMP
-    updated_at:
+    updated_at: 
       type: TIMESTAMP
-    deleted_at:
+    deleted_at: 
       type: TIMESTAMP
-    created_user_id:
+    created_user_id: 
       type: INTEGER
       foreignTable: reg_user
       foreignReference: id
@@ -293,6 +291,12 @@ propel:
       foreignReference: id
       onDelete: SET NULL
       onUpdate: RESTRICT
+    vocabulary_id: 
+      type: INTEGER
+      foreignTable: reg_vocabulary
+      foreignReference: id
+      onDelete: SET NULL
+      onUpdate: RESTRICT
     skos_property_id: 
       type: INTEGER
       foreignTable: reg_skos_property
@@ -345,6 +349,8 @@ propel:
         - concept_property_id
       created_user_id: 
         - created_user_id
+      vocabulary_id: 
+        - vocabulary_id
     _uniques: 
       id: 
         - id
