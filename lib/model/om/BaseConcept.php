@@ -48,6 +48,13 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 
 
 	/**
+	 * The value for the last_updated field.
+	 * @var        int
+	 */
+	protected $last_updated;
+
+
+	/**
 	 * The value for the created_user_id field.
 	 * @var        int
 	 */
@@ -301,6 +308,37 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	}
 
 	/**
+	 * Get the [optionally formatted] [last_updated] column value.
+	 * 
+	 * @param      string $format The date/time format string (either date()-style or strftime()-style).
+	 *							If format is NULL, then the integer unix timestamp will be returned.
+	 * @return     mixed Formatted date/time value as string or integer unix timestamp (if format is NULL).
+	 * @throws     PropelException - if unable to convert the date/time to timestamp.
+	 */
+	public function getLastUpdated($format = 'Y-m-d H:i:s')
+	{
+
+		if ($this->last_updated === null || $this->last_updated === '') {
+			return null;
+		} elseif (!is_int($this->last_updated)) {
+			// a non-timestamp value was set externally, so we convert it
+			$ts = strtotime($this->last_updated);
+			if ($ts === -1 || $ts === false) { // in PHP 5.1 return value changes to FALSE
+				throw new PropelException("Unable to parse value of [last_updated] as date/time value: " . var_export($this->last_updated, true));
+			}
+		} else {
+			$ts = $this->last_updated;
+		}
+		if ($format === null) {
+			return $ts;
+		} elseif (strpos($format, '%') !== false) {
+			return strftime($format, $ts);
+		} else {
+			return date($format, $ts);
+		}
+	}
+
+	/**
 	 * Get the [created_user_id] column value.
 	 * 
 	 * @return     int
@@ -492,6 +530,30 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 		}
 
 	} // setDeletedAt()
+
+	/**
+	 * Set the value of [last_updated] column.
+	 * 
+	 * @param      int $v new value
+	 * @return     void
+	 */
+	public function setLastUpdated($v)
+	{
+
+		if ($v !== null && !is_int($v)) {
+			$ts = strtotime($v);
+			if ($ts === -1 || $ts === false) { // in PHP 5.1 return value changes to FALSE
+				throw new PropelException("Unable to parse date/time value for [last_updated] from input: " . var_export($v, true));
+			}
+		} else {
+			$ts = $v;
+		}
+		if ($this->last_updated !== $ts) {
+			$this->last_updated = $ts;
+			$this->modifiedColumns[] = ConceptPeer::LAST_UPDATED;
+		}
+
+	} // setLastUpdated()
 
 	/**
 	 * Set the value of [created_user_id] column.
@@ -730,30 +792,32 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 
 			$this->deleted_at = $rs->getTimestamp($startcol + 3, null);
 
-			$this->created_user_id = $rs->getInt($startcol + 4);
+			$this->last_updated = $rs->getTimestamp($startcol + 4, null);
 
-			$this->updated_user_id = $rs->getInt($startcol + 5);
+			$this->created_user_id = $rs->getInt($startcol + 5);
 
-			$this->uri = $rs->getString($startcol + 6);
+			$this->updated_user_id = $rs->getInt($startcol + 6);
 
-			$this->vocabulary_id = $rs->getInt($startcol + 7);
+			$this->uri = $rs->getString($startcol + 7);
 
-			$this->is_top_concept = $rs->getBoolean($startcol + 8);
+			$this->vocabulary_id = $rs->getInt($startcol + 8);
 
-			$this->pref_label_id = $rs->getInt($startcol + 9);
+			$this->is_top_concept = $rs->getBoolean($startcol + 9);
 
-			$this->pref_label = $rs->getString($startcol + 10);
+			$this->pref_label_id = $rs->getInt($startcol + 10);
 
-			$this->status_id = $rs->getInt($startcol + 11);
+			$this->pref_label = $rs->getString($startcol + 11);
 
-			$this->language = $rs->getString($startcol + 12);
+			$this->status_id = $rs->getInt($startcol + 12);
+
+			$this->language = $rs->getString($startcol + 13);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 13; // 13 = ConceptPeer::NUM_COLUMNS - ConceptPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 14; // 14 = ConceptPeer::NUM_COLUMNS - ConceptPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Concept object", $e);
@@ -1155,30 +1219,33 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 				return $this->getDeletedAt();
 				break;
 			case 4:
-				return $this->getCreatedUserId();
+				return $this->getLastUpdated();
 				break;
 			case 5:
-				return $this->getUpdatedUserId();
+				return $this->getCreatedUserId();
 				break;
 			case 6:
-				return $this->getUri();
+				return $this->getUpdatedUserId();
 				break;
 			case 7:
-				return $this->getVocabularyId();
+				return $this->getUri();
 				break;
 			case 8:
-				return $this->getIsTopConcept();
+				return $this->getVocabularyId();
 				break;
 			case 9:
-				return $this->getPrefLabelId();
+				return $this->getIsTopConcept();
 				break;
 			case 10:
-				return $this->getPrefLabel();
+				return $this->getPrefLabelId();
 				break;
 			case 11:
-				return $this->getStatusId();
+				return $this->getPrefLabel();
 				break;
 			case 12:
+				return $this->getStatusId();
+				break;
+			case 13:
 				return $this->getLanguage();
 				break;
 			default:
@@ -1205,15 +1272,16 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 			$keys[1] => $this->getCreatedAt(),
 			$keys[2] => $this->getUpdatedAt(),
 			$keys[3] => $this->getDeletedAt(),
-			$keys[4] => $this->getCreatedUserId(),
-			$keys[5] => $this->getUpdatedUserId(),
-			$keys[6] => $this->getUri(),
-			$keys[7] => $this->getVocabularyId(),
-			$keys[8] => $this->getIsTopConcept(),
-			$keys[9] => $this->getPrefLabelId(),
-			$keys[10] => $this->getPrefLabel(),
-			$keys[11] => $this->getStatusId(),
-			$keys[12] => $this->getLanguage(),
+			$keys[4] => $this->getLastUpdated(),
+			$keys[5] => $this->getCreatedUserId(),
+			$keys[6] => $this->getUpdatedUserId(),
+			$keys[7] => $this->getUri(),
+			$keys[8] => $this->getVocabularyId(),
+			$keys[9] => $this->getIsTopConcept(),
+			$keys[10] => $this->getPrefLabelId(),
+			$keys[11] => $this->getPrefLabel(),
+			$keys[12] => $this->getStatusId(),
+			$keys[13] => $this->getLanguage(),
 		);
 		return $result;
 	}
@@ -1258,30 +1326,33 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 				$this->setDeletedAt($value);
 				break;
 			case 4:
-				$this->setCreatedUserId($value);
+				$this->setLastUpdated($value);
 				break;
 			case 5:
-				$this->setUpdatedUserId($value);
+				$this->setCreatedUserId($value);
 				break;
 			case 6:
-				$this->setUri($value);
+				$this->setUpdatedUserId($value);
 				break;
 			case 7:
-				$this->setVocabularyId($value);
+				$this->setUri($value);
 				break;
 			case 8:
-				$this->setIsTopConcept($value);
+				$this->setVocabularyId($value);
 				break;
 			case 9:
-				$this->setPrefLabelId($value);
+				$this->setIsTopConcept($value);
 				break;
 			case 10:
-				$this->setPrefLabel($value);
+				$this->setPrefLabelId($value);
 				break;
 			case 11:
-				$this->setStatusId($value);
+				$this->setPrefLabel($value);
 				break;
 			case 12:
+				$this->setStatusId($value);
+				break;
+			case 13:
 				$this->setLanguage($value);
 				break;
 		} // switch()
@@ -1311,15 +1382,16 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[1], $arr)) $this->setCreatedAt($arr[$keys[1]]);
 		if (array_key_exists($keys[2], $arr)) $this->setUpdatedAt($arr[$keys[2]]);
 		if (array_key_exists($keys[3], $arr)) $this->setDeletedAt($arr[$keys[3]]);
-		if (array_key_exists($keys[4], $arr)) $this->setCreatedUserId($arr[$keys[4]]);
-		if (array_key_exists($keys[5], $arr)) $this->setUpdatedUserId($arr[$keys[5]]);
-		if (array_key_exists($keys[6], $arr)) $this->setUri($arr[$keys[6]]);
-		if (array_key_exists($keys[7], $arr)) $this->setVocabularyId($arr[$keys[7]]);
-		if (array_key_exists($keys[8], $arr)) $this->setIsTopConcept($arr[$keys[8]]);
-		if (array_key_exists($keys[9], $arr)) $this->setPrefLabelId($arr[$keys[9]]);
-		if (array_key_exists($keys[10], $arr)) $this->setPrefLabel($arr[$keys[10]]);
-		if (array_key_exists($keys[11], $arr)) $this->setStatusId($arr[$keys[11]]);
-		if (array_key_exists($keys[12], $arr)) $this->setLanguage($arr[$keys[12]]);
+		if (array_key_exists($keys[4], $arr)) $this->setLastUpdated($arr[$keys[4]]);
+		if (array_key_exists($keys[5], $arr)) $this->setCreatedUserId($arr[$keys[5]]);
+		if (array_key_exists($keys[6], $arr)) $this->setUpdatedUserId($arr[$keys[6]]);
+		if (array_key_exists($keys[7], $arr)) $this->setUri($arr[$keys[7]]);
+		if (array_key_exists($keys[8], $arr)) $this->setVocabularyId($arr[$keys[8]]);
+		if (array_key_exists($keys[9], $arr)) $this->setIsTopConcept($arr[$keys[9]]);
+		if (array_key_exists($keys[10], $arr)) $this->setPrefLabelId($arr[$keys[10]]);
+		if (array_key_exists($keys[11], $arr)) $this->setPrefLabel($arr[$keys[11]]);
+		if (array_key_exists($keys[12], $arr)) $this->setStatusId($arr[$keys[12]]);
+		if (array_key_exists($keys[13], $arr)) $this->setLanguage($arr[$keys[13]]);
 	}
 
 	/**
@@ -1335,6 +1407,7 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(ConceptPeer::CREATED_AT)) $criteria->add(ConceptPeer::CREATED_AT, $this->created_at);
 		if ($this->isColumnModified(ConceptPeer::UPDATED_AT)) $criteria->add(ConceptPeer::UPDATED_AT, $this->updated_at);
 		if ($this->isColumnModified(ConceptPeer::DELETED_AT)) $criteria->add(ConceptPeer::DELETED_AT, $this->deleted_at);
+		if ($this->isColumnModified(ConceptPeer::LAST_UPDATED)) $criteria->add(ConceptPeer::LAST_UPDATED, $this->last_updated);
 		if ($this->isColumnModified(ConceptPeer::CREATED_USER_ID)) $criteria->add(ConceptPeer::CREATED_USER_ID, $this->created_user_id);
 		if ($this->isColumnModified(ConceptPeer::UPDATED_USER_ID)) $criteria->add(ConceptPeer::UPDATED_USER_ID, $this->updated_user_id);
 		if ($this->isColumnModified(ConceptPeer::URI)) $criteria->add(ConceptPeer::URI, $this->uri);
@@ -1403,6 +1476,8 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 		$copyObj->setUpdatedAt($this->updated_at);
 
 		$copyObj->setDeletedAt($this->deleted_at);
+
+		$copyObj->setLastUpdated($this->last_updated);
 
 		$copyObj->setCreatedUserId($this->created_user_id);
 

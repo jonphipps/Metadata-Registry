@@ -350,8 +350,8 @@ abstract class PreparedStatementCommon {
 		unset ( $params );
 
         if($this->resultSet) $this->resultSet->close();
-        $this->resultSet = null; // reset                
-        $sql = $this->replaceParams();        
+        $this->resultSet = null; // reset
+        $sql = $this->replaceParams();
         $this->updateCount = $this->conn->executeUpdate($sql);
         return $this->updateCount;
     }    

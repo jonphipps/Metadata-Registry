@@ -11,9 +11,9 @@ propel:
       primaryKey: true
     created_at: 
       type: TIMESTAMP
-    last_updated: 
+    last_updated:
       type: TIMESTAMP
-    deleted_at: 
+    deleted_at:
       type: TIMESTAMP
     org_email: 
       type: VARCHAR
@@ -96,7 +96,7 @@ propel:
         - user_id
       agent_id: 
         - agent_id
-  reg_concept: 
+  reg_concept:
     _attributes: 
       idMethod: native
       phpName: Concept
@@ -111,7 +111,9 @@ propel:
       type: TIMESTAMP
     deleted_at: 
       type: TIMESTAMP
-    created_user_id: 
+    last_updated:
+      type: TIMESTAMP
+    created_user_id:
       type: INTEGER
       foreignTable: reg_user
       foreignReference: id
@@ -134,7 +136,7 @@ propel:
       foreignReference: id
       onDelete: CASCADE
       onUpdate: RESTRICT
-    is_top_concept: 
+    is_top_concept:
       type: BOOLEAN
     pref_label_id: 
       type: INTEGER
@@ -177,7 +179,7 @@ propel:
       vocabulary_id_pref_label: 
         - vocabulary_id
         - pref_label
-  reg_concept_property: 
+  reg_concept_property:
     _attributes: 
       idMethod: native
       phpName: ConceptProperty
@@ -190,9 +192,11 @@ propel:
       type: TIMESTAMP
     updated_at: 
       type: TIMESTAMP
-    deleted_at: 
+    deleted_at:
       type: TIMESTAMP
-    created_user_id: 
+    last_updated:
+      type: TIMESTAMP
+    created_user_id:
       type: INTEGER
       foreignTable: reg_user
       foreignReference: id
