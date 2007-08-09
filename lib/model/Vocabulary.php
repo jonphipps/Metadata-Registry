@@ -40,20 +40,24 @@ class Vocabulary extends BaseVocabulary
       $userId = sfContext::getInstance()->getUser()->getSubscriberId();
       $vocabularyId = $this->getId();
       $mode = sfContext::getInstance()->getRequest()->getParameter('action');
-
-      //see if there's already an entry in the table and if not, add it
-      $criteria = new Criteria();
-		$criteria->add(VocabularyHasUserPeer::USER_ID, $userId);
-      $VocabularyHasUsersColl = $this->getVocabularyHasUsers($criteria, $con);
-      if (!count($VocabularyHasUsersColl))
+      if ($userId && $vocabularyId)
       {
-        $vocabularyUser = new VocabularyHasUser();
-        $vocabularyUser->setVocabularyId($vocabularyId);
-        $vocabularyUser->setUserId($userId);
-        $vocabularyUser->setIsRegistrarFor(true);
-        $vocabularyUser->setIsAdminFor(true);
-        $vocabularyUser->setIsMaintainerFor(true);
-        $vocabularyUser->save($con);
+        //see if there's already an entry in the table and if not, add it
+        $criteria = new Criteria();
+		    $criteria->add(VocabularyHasUserPeer::USER_ID, $userId);
+        $VocabularyHasUsersColl = $this->getVocabularyHasUsers($criteria, $con);
+
+        if (!count($VocabularyHasUsersColl))
+        {
+          $vocabularyUser = new VocabularyHasUser();
+          $vocabularyUser->setVocabularyId($vocabularyId);
+          $vocabularyUser->setUserId($userId);
+          $vocabularyUser->setIsRegistrarFor(true);
+          $vocabularyUser->setIsAdminFor(true);
+          $vocabularyUser->setIsMaintainerFor(true);
+          $vocabularyUser->save($con);
+        }
+
       }
 
       $con->commit();
