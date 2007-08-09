@@ -260,11 +260,18 @@ class ConceptProperty extends BaseConceptProperty
     $concept = $this->getConceptRelatedByConceptId();
     $userId = sfContext::getInstance()->getUser()->getSubscriberId();
 
-    $this->setUpdatedUserId($userId);
+    if ($userId)
+    {
+      $this->setUpdatedUserId($userId);
+    }
+
 
     if ($concept)
     {
-      $concept->setUpdatedUserId($userId);
+      if ($userId)
+      {
+        $concept->setUpdatedUserId($userId);
+      }
 
       //check to see if the primary pref label flag is set
       if ($this->primary_pref_label)
@@ -293,6 +300,10 @@ class ConceptProperty extends BaseConceptProperty
       {
         $action = 'updated';
       }
+    }
+    Else
+    {
+      $action = 'added';
     }
 
     //continue with save
