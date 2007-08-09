@@ -9,7 +9,7 @@
 
 <?php if ($_SERVER['HTTP_HOST'] == 'registry'): ?>
    <link rel="shortcut icon" href="/registry_favicon_dev.ico" />
-<?php elseif ($_SERVER['HTTP_HOST'] == 'beta.metadataregistry.org'): ?>
+<?php elseif ($_SERVER['HTTP_HOST'] == 'beta.metadataregistry.org' || $_SERVER['HTTP_HOST'] == 'betas.metadataregistry.org'): ?>
    <link rel="shortcut icon" href="/registry_favicon_beta.ico" />
 <?php elseif ($_SERVER['HTTP_HOST'] == 'sandbox.metadataregistry.org'): ?>
    <link rel="shortcut icon" href="/registry_favicon_sand.ico" />
