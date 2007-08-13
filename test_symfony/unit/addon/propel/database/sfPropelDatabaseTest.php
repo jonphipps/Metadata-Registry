@@ -9,7 +9,7 @@
  */
 
 require_once(dirname(__FILE__).'/../../../../bootstrap/unit.php');
-set_include_path(sfConfig::get('sf_symfony_lib_dir').PATH_SEPARATOR.'vendor'.PATH_SEPARATOR.get_include_path());
+set_include_path(sfConfig::get('sf_symfony_lib_dir').'/vendor'.PATH_SEPARATOR.get_include_path());
 
 $t = new lime_test(4, new lime_output_color());
 

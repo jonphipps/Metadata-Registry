@@ -8,8 +8,8 @@
  * file that was distributed with this source code.
  */
 
-require_once(dirname(__FILE__).'/../../lib/symfony/vendor/pake/pakeFinder.class.php');
-require_once(dirname(__FILE__).'/../../lib/symfony/util/sfToolkit.class.php');
+require_once(dirname(__FILE__).'/../../lib/vendor/pake/pakeFinder.class.php');
+require_once(dirname(__FILE__).'/../../lib/util/sfToolkit.class.php');
 
 class testAutoloader
 {

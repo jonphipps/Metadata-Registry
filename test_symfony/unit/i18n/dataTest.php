@@ -13,7 +13,7 @@ require_once(dirname(__FILE__).'/../../bootstrap/unit.php');
 $t = new lime_test(90, new lime_output_color());
 
 $t->diag('i18n data');
-$en = unserialize(file_get_contents($sf_symfony_data_dir.DIRECTORY_SEPARATOR.'i18n'.DIRECTORY_SEPARATOR.'en.dat'));
+$en = unserialize(file_get_contents(dirname(__FILE__).'/../../../data/i18n/en.dat'));
 
 // check main keys
 foreach (array('Countries', 'Currencies', 'Keys', 'Languages', 'LocaleScript', 'NumberPatterns', 'Scripts', 'Types', 'Variants', 'Version', 'calendar', 'zoneStrings') as $entry)

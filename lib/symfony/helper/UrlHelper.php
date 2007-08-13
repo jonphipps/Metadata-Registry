@@ -169,6 +169,11 @@ function link_to_if($condition, $name = '', $internal_uri = '', $options = array
   else
   {
     $html_options = _parse_attributes($options);
+
+    unset($html_options['query_string']);
+    unset($html_options['absolute_url']);
+    unset($html_options['absolute']);
+
     $tag = _get_option($html_options, 'tag', 'span');
 
     return content_tag($tag, $name, $html_options);
@@ -238,13 +243,6 @@ function button_to($name, $internal_uri, $options = array())
   $html_options = _convert_options($options);
   $html_options['value'] = $name;
 
-  $query_string = '';
-  if (isset($html_options['query_string']))
-  {
-    $query_string = '?'.$html_options['query_string'];
-    unset($html_options['query_string']);
-  }
-
   if (isset($html_options['post']) && $html_options['post'])
   {
     if (isset($html_options['popup']))
@@ -267,7 +265,7 @@ function button_to($name, $internal_uri, $options = array())
   else
   {
     $html_options['type']    = 'button';
-    $html_options['onclick'] = "document.location.href='".url_for($internal_uri).$query_string."';";
+    $html_options['onclick'] = "document.location.href='".url_for($internal_uri)."';";
     $html_options = _convert_options_to_javascript($html_options);
 
     return tag('input', $html_options);

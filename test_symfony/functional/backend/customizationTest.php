@@ -87,10 +87,10 @@ $b->
   checkResponseElement('label[for="article_category_id"]', false)->
   checkResponseElement('label[for="article_created_at"]', false)->
   checkResponseElement('fieldset#sf_fieldset_none', true)->
-  checkResponseElement('fieldset#sf_fieldset_none + h2', false)->
+  checkResponseElement('fieldset#sf_fieldset_none h2', false)->
   checkResponseElement('fieldset#sf_fieldset_none textarea[name="article[body]"]', true)->
   checkResponseElement('fieldset#sf_fieldset_another', true)->
-  checkResponseElement('fieldset#sf_fieldset_another + h2', 'Another')->
+  checkResponseElement('fieldset#sf_fieldset_another h2', 'Another')->
   checkResponseElement('fieldset#sf_fieldset_another input[name="article[title]"]', true)->
 
   // edit buttons
@@ -130,5 +130,18 @@ $b->
   checkResponseElement('label[for="article_title"]', false)->
   checkResponseElement('label[for="article_id"]', false)->
   checkResponseElement('label[for="article_category_id"]', true)->
-  checkResponseElement('label[for="article_created_at"]', true)
+  checkResponseElement('label[for="article_created_at"]', true)->
+
+  // check foreign key select box customization
+  checkEditCustomization('foreign key select customization', array())->
+  checkResponseElement('#article_book_id > option[value=""]', true)->
+
+  checkEditCustomization('foreign key select customization', array('fields' => array('book_id' => array('params' => 'include_blank=false'))))->
+  checkResponseElement('#article_book_id > option[value=""]', false)->
+
+  checkEditCustomization('foreign key select customization', array('fields' => array('book_id' => array('params' => 'include_blank=true'))))->
+  checkResponseElement('#article_book_id > option[value=""]', true)->
+
+  checkEditCustomization('foreign key select customization', array('fields' => array('book_id' => array('params' => 'include_custom=--custom-- include_blank=false'))))->
+  checkResponseElement('#article_book_id > option[value=""]', 1)
 ;

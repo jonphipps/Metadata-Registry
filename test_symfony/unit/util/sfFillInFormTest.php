@@ -9,7 +9,7 @@
  */
 
 require_once(dirname(__FILE__).'/../../bootstrap/unit.php');
-require_once($_test_dir.'/../lib/symfony/util/sfFillInForm.class.php');
+require_once($_test_dir.'/../lib/util/sfFillInForm.class.php');
 
 $t = new lime_test(46, new lime_output_color());
 

@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-require_once(dirname(__FILE__).'/../../lib/symfony/vendor/lime/lime.php');
+require_once(dirname(__FILE__).'/../../lib/vendor/lime/lime.php');
 
 $h = new lime_harness(new lime_output_color());
 

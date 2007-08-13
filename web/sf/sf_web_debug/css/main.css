@@ -90,6 +90,11 @@
   margin-right: 7px;
 }
 
+#sfWebDebugDetails .menu
+{
+display: none;
+}
+
 #sfWebDebug pre
 {
   line-height: 1.3;
@@ -116,7 +121,7 @@
   background: none;
 }
 
-#sfWebDebug .top
+#sfWebDebug .sfWebDebugTop
 {
   position: absolute;
   left: 0px;

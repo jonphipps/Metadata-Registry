@@ -1,8 +1,8 @@
 <?php
 
 $_test_dir = realpath(dirname(__FILE__).'/..');
-require_once($_test_dir.'/../lib/symfony/vendor/lime/lime.php');
-require_once($_test_dir.'/../lib/symfony/util/sfToolkit.class.php');
+require_once($_test_dir.'/../lib/vendor/lime/lime.php');
+require_once($_test_dir.'/../lib/util/sfToolkit.class.php');
 
 define('DS', DIRECTORY_SEPARATOR);
 
@@ -42,7 +42,7 @@ class symfony_cmd
 
   protected function clearTmpDir()
   {
-    require_once(dirname(__FILE__).'/../../lib/symfony/util/sfToolkit.class.php');
+    require_once(dirname(__FILE__).'/../../lib/util/sfToolkit.class.php');
     sfToolkit::clearDirectory($this->tmp_dir);
   }
 

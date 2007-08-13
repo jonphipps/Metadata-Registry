@@ -188,7 +188,7 @@ function select_tag($name, $option_tags = null, $options = array())
 /**
  * Returns a <select> tag populated with all the countries in the world.
  *
- * The select_country_tag builds off the traditional select_tag function, and is conveniently populated with
+ * The select_country_tag builds off the traditional select_tag function, and is conveniently populated with 
  * all the countries in the world (sorted alphabetically). Each option in the list has a two-character country 
  * code for its value and the country's name as its display title.  The country data is retrieved via the sfCultureInfo
  * class, which stores a wide variety of i18n and i10n settings for various countries and cultures throughout the world.
@@ -228,14 +228,6 @@ function select_country_tag($name, $selected = null, $options = array())
   asort($countries);
 
   $option_tags = options_for_select($countries, $selected, $options);
-
-  foreach ($options as $key => $value)
-  {
-    if ('include_custom' == $value || 'include_blank' == $value)
-    {
-      unset($options[$key]);
-    }
-  }
 
   return select_tag($name, $option_tags, $options);
 }
@@ -284,14 +276,6 @@ function select_language_tag($name, $selected = null, $options = array())
 
   $option_tags = options_for_select($languages, $selected, $options);
 
-  foreach ($options as $key => $value)
-  {
-    if ('include_custom' == $value || 'include_blank' == $value)
-    {
-      unset($options[$key]);
-    }
-  }
-
   return select_tag($name, $option_tags, $options);
 }
 
@@ -317,7 +301,7 @@ function select_language_tag($name, $selected = null, $options = array())
  */
 function input_tag($name, $value = null, $options = array())
 {
-  return tag('input', array_merge(array('type' => 'text', 'name' => $name, 'id' => get_id_from_name($name), 'value' => $value), _convert_options($options)));
+  return tag('input', array_merge(array('type' => 'text', 'name' => $name, 'id' => get_id_from_name($name, $value), 'value' => $value), _convert_options($options)));
 }
 
 /**
@@ -519,7 +503,7 @@ function textarea_tag($name, $content = null, $options = array())
  */
 function checkbox_tag($name, $value = '1', $checked = false, $options = array())
 {
-  $html_options = array_merge(array('type' => 'checkbox', 'name' => $name, 'id' => get_id_from_name($name), 'value' => $value), _convert_options($options));
+  $html_options = array_merge(array('type' => 'checkbox', 'name' => $name, 'id' => get_id_from_name($name, $value), 'value' => $value), _convert_options($options));
 
   if ($checked)
   {
@@ -595,11 +579,15 @@ function input_date_range_tag($name, $value, $options = array())
 {
   $options = _parse_attributes($options);
 
-  return _get_option($options, 'before', '').
+  $before = _get_option($options, 'before', '');
+  $middle = _get_option($options, 'middle', '');
+  $after  = _get_option($options, 'after', '');
+
+  return $before.
          input_date_tag($name.'[from]', $value['from'], $options).
-         _get_option($options, 'middle', '').
+         $middle.
          input_date_tag($name.'[to]', $value['to'], $options).
-         _get_option($options, 'after', '');
+         $after;
 }
 
 /**
@@ -697,8 +685,8 @@ function input_date_tag($name, $value = null, $options = array())
 
   $calendar_date_format = preg_replace('/([mdyhklspe])+/i', '%\\1', $calendar_date_format);
 
-  $id_inputField = (isset($options['id']))? $options['id'] : get_id_from_name($name);
-  $id_calendarButton = 'trigger_'.get_id_from_name($name);
+  $id_inputField = isset($options['id']) ? $options['id'] : get_id_from_name($name);
+  $id_calendarButton = 'trigger_'.$id_inputField;
   $js = '
     document.getElementById("'.$id_calendarButton.'").disabled = false;
     Calendar.setup({
@@ -894,7 +882,7 @@ function get_id_from_name($name, $value = null)
   // check to see if we have an array variable for a field name
   if (strstr($name, '['))
   {
-    $name = str_replace(array('[]', '][', '[', ']'), array((($value != null) ? '_'.$value : ''), '_', '_', ($value != null) ? '_'.$value : ''), $name);
+    $name = str_replace(array('[]', '][', '[', ']'), array((($value != null) ? '_'.$value : ''), '_', '_', ''), $name);
   }
 
   return $name;

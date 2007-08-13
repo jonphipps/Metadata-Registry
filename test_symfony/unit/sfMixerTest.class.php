@@ -1,6 +1,6 @@
 <?php
 
-require_once($_test_dir.'/../lib/symfony/util/sfMixer.class.php');
+require_once($_test_dir.'/../lib/util/sfMixer.class.php');
 
 /*
  * This file is part of the symfony package.

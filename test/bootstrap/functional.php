@@ -7,13 +7,14 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-//debugbreak();
+debugbreak();
 // guess current application
 if (!isset($app))
 {
   $traces = debug_backtrace();
   $caller = $traces[0];
-  $app = array_pop(explode(DIRECTORY_SEPARATOR, dirname($caller['file'])));
+  $dir = explode(DIRECTORY_SEPARATOR, dirname($caller['file']));
+  $app = array_pop($dir);
 }
 
 // define symfony constant

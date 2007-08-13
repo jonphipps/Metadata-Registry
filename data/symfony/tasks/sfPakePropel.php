@@ -230,19 +230,31 @@ function run_propel_build_schema($task, $args)
  */
 function run_propel_dump_data($task, $args)
 {
-  $args = _parse_args($args, 'dump');
+  if (!count($args))
+  {
+    throw new Exception('You must provide the app.');
+  }
 
-  if (!count($args['dirs_or_files']))
+  $app = $args[0];
+
+  if (!is_dir(sfConfig::get('sf_app_dir').DIRECTORY_SEPARATOR.$app))
+  {
+    throw new Exception('The app "'.$app.'" does not exist.');
+  }
+
+  if (!isset($args[1]))
   {
     throw new Exception('You must provide a filename.');
   }
 
-  $filename = $args['dirs_or_files'][0];
+  $filename = $args[1];
+
+  $env = empty($args[2]) ? 'dev' : $args[2];
 
   // define constants
   define('SF_ROOT_DIR',    sfConfig::get('sf_root_dir'));
-  define('SF_APP',         $args['app']);
-  define('SF_ENVIRONMENT', $args['env']);
+  define('SF_APP',         $app);
+  define('SF_ENVIRONMENT', $env);
   define('SF_DEBUG',       true);
 
   // get configuration
@@ -277,17 +289,51 @@ function run_propel_dump_data($task, $args)
  */
 function run_propel_load_data($task, $args)
 {
-  $args = _parse_args($args, 'load');
-  $delete = $args['delete'];
+  if (!count($args))
+  {
+    throw new Exception('You must provide the app.');
+  }
+
+  $app = $args[0];
+
+  if (!is_dir(sfConfig::get('sf_app_dir').DIRECTORY_SEPARATOR.$app))
+  {
+    throw new Exception('The app "'.$app.'" does not exist.');
+  }
+
+  if (count($args) > 1 && $args[count($args) - 1] == 'append')
+  {
+    array_pop($args);
+    $delete = false;
+  }
+  else
+  {
+    $delete = true;
+  }
+
+  $env = empty($args[1]) ? 'dev' : $args[1];
 
   // define constants
   define('SF_ROOT_DIR',    sfConfig::get('sf_root_dir'));
-  define('SF_APP',         $args['app']);
-  define('SF_ENVIRONMENT', $args['env']);
+  define('SF_APP',         $app);
+  define('SF_ENVIRONMENT', $env);
   define('SF_DEBUG',       true);
 
   // get configuration
   require_once SF_ROOT_DIR.DIRECTORY_SEPARATOR.'apps'.DIRECTORY_SEPARATOR.SF_APP.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'config.php';
+
+  if (count($args) == 1)
+  {
+    if (!$pluginDirs = glob(sfConfig::get('sf_root_dir').'/plugins/*/data'))
+    {
+      $pluginDirs = array();
+    }
+    $fixtures_dirs = pakeFinder::type('dir')->name('fixtures')->in(array_merge($pluginDirs, array(sfConfig::get('sf_data_dir'))));
+  }
+  else
+  {
+    $fixtures_dirs = array_slice($args, 1);
+  }
 
   $databaseManager = new sfDatabaseManager();
   $databaseManager->initialize();
@@ -295,97 +341,16 @@ function run_propel_load_data($task, $args)
   $data = new sfPropelData();
   $data->setDeleteCurrentData($delete);
 
-  foreach ($args['dirs_or_files'] as $file)
+  foreach ($fixtures_dirs as $fixtures_dir)
   {
-    pake_echo_action('propel', sprintf('load data from "%s"', $file));
-    $data->loadData($file);
-  }
-}
-
-/**
-* parses the arguments list for the load and dump tasks
-*
-* @return array associative array version of supplied $args
-* @param array $args the args grom the command line
-* @param string $task the calling task -- always 'load' or 'dump'
-*/
-function _parse_args($args, $task = 'load')
-{
-  $hashArgs = array(
-   'app'           => '',
-   'env'           => 'dev',
-   'delete'        => false,
-   'dirs_or_files' => array()
-   );
-
-  if (!count($args))
-  {
-    throw new Exception('You must provide the app.');
-  }
-
-  $hashArgs['app'] = $args[0];
-
-  if (!is_dir(sfConfig::get('sf_app_dir').$hashArgs['app']))
-  {
-    throw new Exception('The app "'.$hashArgs['app'].'" does not exist.');
-  }
-
-  if (count($args) > 1 && $args[count($args) - 1] == 'append')
-  {
-    array_pop($args);
-    $hashArgs['delete'] = false;
-  }
-  else
-  {
-    $hashArgs['delete'] = true;
-  }
-
-  //check to see if the second arg is a valid environment
-  if (!empty($args[1]) && in_array($args[1], array_keys(sfYaml::load(sfConfig::get('sf_root_dir').DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'databases.yml'))))
-  {
-    $hashArgs['env'] = $args[1];
-    unset($args[1]);
-  }
-
-  if ('dump' == $task)
-  {
-    $hashArgs['dirs_or_files'][] = sfConfig::get('sf_data_dir').DIRECTORY_SEPARATOR.'fixtures'.DIRECTORY_SEPARATOR.$args[1];
-  }
-  else
-  {
-    if (!$pluginDirs = glob(sfConfig::get('sf_root_dir').'/plugins/*/data'))
+    if (!is_readable($fixtures_dir))
     {
-      $pluginDirs = array();
+      continue;
     }
-    $fixtures_dirs = pakeFinder::type('dir')->name('fixtures')->in(array_merge($pluginDirs, array(sfConfig::get('sf_data_dir'))));
-    //check the remaining args to see if they're fully qualified directories
-    if (count($args) > 1)
-    {
-      foreach ($args as $arg)
-      {
-        foreach ($fixtures_dirs as $dir)
-        {
-          //check the remaining args to see if they're files
-          if (is_readable($dir.DIRECTORY_SEPARATOR.$arg))
-          {
-            $hashArgs['dirs_or_files'][] = $dir.DIRECTORY_SEPARATOR.$arg;
-          }
-          //check the remaining args to see if they're fully qualified directories
-          else if (is_dir($dir.DIRECTORY_SEPARATOR.$arg))
-          {
-            $hashArgs['dirs_or_files'][] = $dir.DIRECTORY_SEPARATOR.$arg;
-          }
-        }
-      }
-    }
-    //if no dir args, set dirs to all fixture dirs
-    else
-    {
-      $hashArgs['dirs_or_files'] = $fixtures_dirs;
-    }
-  }
 
-  return $hashArgs;
+    pake_echo_action('propel', sprintf('load data from "%s"', $fixtures_dir));
+    $data->loadData($fixtures_dir);
+  }
 }
 
 function _call_phing($task, $task_name, $check_schema = true)

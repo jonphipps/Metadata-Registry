@@ -30,6 +30,65 @@ require_once(dirname(__FILE__).'/util.php');
  *
  * See the MessageSource::factory() method to instantiate this class.
  *
+ * MySQL schema:
+ *
+ * CREATE TABLE `catalogue` (
+ *   `cat_id` int(11) NOT NULL auto_increment,
+ *   `name` varchar(100) NOT NULL default '',
+ *   `source_lang` varchar(100) NOT NULL default '',
+ *   `target_lang` varchar(100) NOT NULL default '',
+ *   `date_created` int(11) NOT NULL default '0',
+ *   `date_modified` int(11) NOT NULL default '0',
+ *   `author` varchar(255) NOT NULL default '',
+ *   PRIMARY KEY  (`cat_id`)
+ * ) TYPE=InnoDB;
+ *
+ * CREATE TABLE `trans_unit` (
+ *   `msg_id` int(11) NOT NULL auto_increment,
+ *   `cat_id` int(11) NOT NULL default '1',
+ *   `id` varchar(255) NOT NULL default '',
+ *   `source` text NOT NULL,
+ *   `target` text NOT NULL,
+ *   `comments` text NOT NULL,
+ *   `date_added` int(11) NOT NULL default '0',
+ *   `date_modified` int(11) NOT NULL default '0',
+ *   `author` varchar(255) NOT NULL default '',
+ *   `translated` tinyint(1) NOT NULL default '0',
+ *   PRIMARY KEY  (`msg_id`)
+ * ) TYPE=InnoDB;
+ *
+ * Propel schema (in .xml format):
+ *
+ *  <database ...>
+ *    ...
+ *    <table name="catalogue">
+ *     <column name="cat_id" type="integer" required="true" primaryKey="true" autoincrement="true" />
+ *     <column name="name" type="varchar" size="100" />
+ *     <column name="source_lang" type="varchar" size="100" />
+ *     <column name="target_lang" type="varchar" size="100" />
+ *     <column name="date_created" type="timestamp" />
+ *     <column name="date_modified" type="timestamp" />
+ *     <column name="author" type="varchar" size="255" />
+ *    </table>
+ *
+ *    <table name="trans_unit">
+ *     <column name="msg_id" type="integer" required="true" primaryKey="true" autoincrement="true" />
+ *     <column name="cat_id" type="integer" />
+ *       <foreign-key foreignTable="catalogue" onDelete="cascade">
+ *         <reference local="cat_id" foreign="cat_id"/>
+ *       </foreign-key>
+ *     <column name="id" type="varchar" size="255" />
+ *     <column name="source" type="longvarchar" />
+ *     <column name="target" type="longvarchar" />
+ *     <column name="comments" type="longvarchar" />
+ *     <column name="date_created" type="timestamp" />
+ *     <column name="date_modified" type="timestamp" />
+ *     <column name="author" type="varchar" size="255" />
+ *     <column name="translated" type="integer" />
+ *    </table>
+ *    ...
+ *  </database>
+ *
  * @author Xiang Wei Zhuo <weizhuo[at]gmail[dot]com>
  * @version v1.0, last update on Fri Dec 24 16:58:58 EST 2004
  * @package System.I18N.core
@@ -46,7 +105,7 @@ class sfMessageSource_MySQL extends sfMessageSource
    * The DSN array property, parsed by PEAR's DB DSN parser.
    * @var array 
    */
-  protected $dns;
+  protected $dsn;
 
   /**
    * A resource link to the database
@@ -56,20 +115,20 @@ class sfMessageSource_MySQL extends sfMessageSource
 
   /**
    * Constructor.
-   * Create a new message source using MySQL.
+   * Creates a new message source using MySQL.
    *
    * @param string MySQL datasource, in PEAR's DB DSN format.
    * @see MessageSource::factory();
    */
   function __construct($source)
   {
-    $this->source = (string)$source;
-    $this->dns = parseDSN($this->source);
+    $this->source = (string) $source;
+    $this->dsn = parseDSN($this->source);
     $this->db = $this->connect();
   }
 
   /**
-   * Destructor, close the database connection.
+   * Destructor, closes the database connection.
    */
   function __destruct()
   {
@@ -77,14 +136,14 @@ class sfMessageSource_MySQL extends sfMessageSource
   }
 
   /**
-   * Connect to the MySQL datasource
+   * Connects to the MySQL datasource
    *
    * @return resource MySQL connection.
    * @throws sfException, connection and database errors.
    */
   protected function connect()
   {
-    $dsninfo = $this->dns;
+    $dsninfo = $this->dsn;
 
     if (isset($dsninfo['protocol']) && $dsninfo['protocol'] == 'unix')
     {
@@ -122,14 +181,14 @@ class sfMessageSource_MySQL extends sfMessageSource
 
     if (empty($conn))
     {
-      throw new sfException('Error in connecting to '.$dsninfo);
+      throw new sfException(sprintf('Error in connecting to %s.', $dsninfo));
     }
 
     if ($dsninfo['database'])
     {
       if (!@mysql_select_db($dsninfo['database'], $conn))
       {
-        throw new sfException('Error in connecting database, dns:'.$dsninfo);
+        throw new sfException(sprintf('Error in connecting database, dsn: %s.', $dsninfo));
       }
     }
     else
@@ -141,7 +200,7 @@ class sfMessageSource_MySQL extends sfMessageSource
   }
 
   /**
-   * Get the database connection.
+   * Gets the database connection.
    *
    * @return db database connection. 
    */
@@ -151,24 +210,23 @@ class sfMessageSource_MySQL extends sfMessageSource
   }
 
   /**
-   * Get an array of messages for a particular catalogue and cultural 
-   * variant.
+   * Gets an array of messages for a particular catalogue and cultural variant.
    *
    * @param string the catalogue name + variant
    * @return array translation messages.
    */
   protected function &loadData($variant)
   {
-    $variant = mysql_escape_string($variant);
+    $variant = mysql_real_escape_string($variant, $this->db);
 
-    $statement = 
+    $statement =
       "SELECT t.id, t.source, t.target, t.comments
         FROM trans_unit t, catalogue c
         WHERE c.cat_id =  t.cat_id
-          AND c.name = '{$variant}' 
+          AND c.name = '{$variant}'
         ORDER BY id ASC";
 
-    $rs = mysql_query($statement,$this->db);
+    $rs = mysql_query($statement, $this->db);
 
     $result = array();
 
@@ -184,7 +242,7 @@ class sfMessageSource_MySQL extends sfMessageSource
   }
 
   /**
-   * Get the last modified unix-time for this particular catalogue+variant.
+   * Gets the last modified unix-time for this particular catalogue+variant.
    * We need to query the database to get the date_modified.
    *
    * @param string catalogue+variant
@@ -192,7 +250,7 @@ class sfMessageSource_MySQL extends sfMessageSource
    */
   protected function getLastModified($source)
   {
-    $source = mysql_escape_string($source);
+    $source = mysql_real_escape_string($source, $this->db);
 
     $rs = mysql_query("SELECT date_modified FROM catalogue WHERE name = '{$source}'", $this->db);
 
@@ -202,18 +260,18 @@ class sfMessageSource_MySQL extends sfMessageSource
   }
 
   /**
-   * Check if a particular catalogue+variant exists in the database.
+   * Checks if a particular catalogue+variant exists in the database.
    *
    * @param string catalogue+variant
    * @return boolean true if the catalogue+variant is in the database, false otherwise.
    */ 
   protected function isValidSource($variant)
   {
-    $variant = mysql_escape_string ($variant);
+    $variant = mysql_real_escape_string ($variant, $this->db);
 
     $rs = mysql_query("SELECT COUNT(*) FROM catalogue WHERE name = '{$variant}'", $this->db);
 
-    $row = mysql_fetch_array($rs,MYSQL_NUM);
+    $row = mysql_fetch_array($rs, MYSQL_NUM);
 
     $result = $row && $row[0] == '1';
 
@@ -221,7 +279,7 @@ class sfMessageSource_MySQL extends sfMessageSource
   }
 
   /**
-   * Get all the variants of a particular catalogue.
+   * Gets all the variants of a particular catalogue.
    *
    * @param string catalogue name
    * @return array list of all variants for this catalogue. 
@@ -247,7 +305,7 @@ class sfMessageSource_MySQL extends sfMessageSource
   }
 
   /**
-   * Retrieve catalogue details, array($cat_id, $variant, $count).
+   * Retrieves catalogue details, array($cat_id, $variant, $count).
    *
    * @param string catalogue
    * @return array catalogue details, array($cat_id, $variant, $count). 
@@ -261,7 +319,7 @@ class sfMessageSource_MySQL extends sfMessageSource
 
     $variant = $catalogue.'.'.$this->culture;
 
-    $name = mysql_escape_string($this->getSource($variant));
+    $name = mysql_real_escape_string($this->getSource($variant), $this->db);
 
     $rs = mysql_query("SELECT cat_id FROM catalogue WHERE name = '{$name}'", $this->db);
 
@@ -273,7 +331,7 @@ class sfMessageSource_MySQL extends sfMessageSource
     $cat_id = intval(mysql_result($rs, 0));
 
     // first get the catalogue ID
-    $rs = mysql_query("SELECT count(msg_id) FROM trans_unit WHERE cat_id = {$cat_id}", $this->db);
+    $rs = mysql_query("SELECT COUNT(*) FROM trans_unit WHERE cat_id = {$cat_id}", $this->db);
 
     $count = intval(mysql_result($rs, 0));
 
@@ -281,7 +339,7 @@ class sfMessageSource_MySQL extends sfMessageSource
   }
 
   /**
-   * Update the catalogue last modified time.
+   * Updates the catalogue last modified time.
    *
    * @return boolean true if updated, false otherwise. 
    */
@@ -300,7 +358,7 @@ class sfMessageSource_MySQL extends sfMessageSource
   }
 
   /**
-   * Save the list of untranslated blocks to the translation source. 
+   * Saves the list of untranslated blocks to the translation source. 
    * If the translation was not found, you should add those
    * strings to the translation source via the <b>append()</b> method.
    *
@@ -339,7 +397,7 @@ class sfMessageSource_MySQL extends sfMessageSource
     {
       $count++;
       $inserted++;
-      $message = mysql_escape_string($message);
+      $message = mysql_real_escape_string($message, $this->db);
       $statement = "INSERT INTO trans_unit
         (cat_id,id,source,date_added) VALUES
         ({$cat_id}, {$count},'{$message}',$time)";
@@ -354,7 +412,7 @@ class sfMessageSource_MySQL extends sfMessageSource
   }
 
   /**
-   * Delete a particular message from the specified catalogue.
+   * Deletes a particular message from the specified catalogue.
    *
    * @param string the source message to delete.
    * @param string the catalogue to delete from.
@@ -372,7 +430,7 @@ class sfMessageSource_MySQL extends sfMessageSource
       return false;
     }
 
-    $text = mysql_escape_string($message);
+    $text = mysql_real_escape_string($message, $this->db);
 
     $statement = "DELETE FROM trans_unit WHERE cat_id = {$cat_id} AND source = '{$message}'";
     $deleted = false;
@@ -388,7 +446,7 @@ class sfMessageSource_MySQL extends sfMessageSource
   }
 
   /**
-   * Update the translation.
+   * Updates the translation.
    *
    * @param string the source string.
    * @param string the new translation string.
@@ -408,9 +466,9 @@ class sfMessageSource_MySQL extends sfMessageSource
       return false;
     }
 
-    $comments = mysql_escape_string($comments);
-    $target = mysql_escape_string($target);
-    $text = mysql_escape_string($text);
+    $comments = mysql_real_escape_string($comments, $this->db);
+    $target = mysql_real_escape_string($target, $this->db);
+    $text = mysql_real_escape_string($text, $this->db);
 
     $time = time();
 

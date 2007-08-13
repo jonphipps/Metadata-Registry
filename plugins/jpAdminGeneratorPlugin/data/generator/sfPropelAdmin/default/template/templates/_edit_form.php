@@ -1,10 +1,10 @@
-[?php echo form_tag('<?php echo $this->getModuleName() ?>/edit', array(
+[?php echo form_tag('<?php echo $this->getModuleName() ?>/save', array(
   'id'        => 'sf_admin_edit_form',
   'name'      => 'sf_admin_edit_form',
   'multipart' => true,
 <?php foreach ($this->getColumnCategories('edit.display') as $category): ?>
 <?php foreach ($this->getColumns('edit.display', $category) as $name => $column): ?>
-<?php if ('admin_double_list' == $this->getParameterValue('edit.fields.'.$column->getName().'.type')): ?>
+<?php if (false !== strpos($this->getParameterValue('edit.fields.'.$column->getName().'.type'), 'admin_double_list')): ?>
   'onsubmit'  => 'double_list_submit(); return true;'
 <?php break 2; ?>
 <?php endif; ?>
