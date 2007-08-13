@@ -11,9 +11,9 @@ propel:
       primaryKey: true
     created_at: 
       type: TIMESTAMP
-    last_updated:
+    last_updated: 
       type: TIMESTAMP
-    deleted_at:
+    deleted_at: 
       type: TIMESTAMP
     org_email: 
       type: VARCHAR
@@ -91,12 +91,11 @@ propel:
     is_admin_for: 
       type: BOOLEAN
       default: 1
-    _indexes: 
-      user_id: 
+    _uniques: 
+      user_agent_id: 
         - user_id
-      agent_id: 
         - agent_id
-  reg_concept:
+  reg_concept: 
     _attributes: 
       idMethod: native
       phpName: Concept
@@ -111,9 +110,9 @@ propel:
       type: TIMESTAMP
     deleted_at: 
       type: TIMESTAMP
-    last_updated:
+    last_updated: 
       type: TIMESTAMP
-    created_user_id:
+    created_user_id: 
       type: INTEGER
       foreignTable: reg_user
       foreignReference: id
@@ -136,7 +135,7 @@ propel:
       foreignReference: id
       onDelete: CASCADE
       onUpdate: RESTRICT
-    is_top_concept:
+    is_top_concept: 
       type: BOOLEAN
     pref_label_id: 
       type: INTEGER
@@ -179,7 +178,7 @@ propel:
       vocabulary_id_pref_label: 
         - vocabulary_id
         - pref_label
-  reg_concept_property:
+  reg_concept_property: 
     _attributes: 
       idMethod: native
       phpName: ConceptProperty
@@ -192,11 +191,11 @@ propel:
       type: TIMESTAMP
     updated_at: 
       type: TIMESTAMP
-    deleted_at:
+    deleted_at: 
       type: TIMESTAMP
-    last_updated:
+    last_updated: 
       type: TIMESTAMP
-    created_user_id:
+    created_user_id: 
       type: INTEGER
       foreignTable: reg_user
       foreignReference: id
@@ -625,68 +624,6 @@ propel:
         - created_user_id
       child_updated_user_id: 
         - child_updated_user_id
-  reg_resource:
-    _attributes:
-      idMethod: native
-      phpName: Resource
-    id:
-      type: INTEGER
-      required: true
-      autoIncrement: true
-      primaryKey: true
-    type:
-      type: INTEGER
-      inheritance_1:
-        key: 1
-        class: Schema
-        extends: lib.model.Resource
-      inheritance_2:
-        key: 2
-        class: Profile
-        extends: lib.model.Resource
-    agent_id:
-      type: INTEGER
-      required: true
-      foreignTable: reg_agent
-      foreignReference: id
-      onDelete: RESTRICT
-      onUpdate: RESTRICT
-    created_at:
-      type: TIMESTAMP
-    update_at:
-      type: TIMESTAMP
-    deleted_at:
-      type: TIMESTAMP
-    name:
-      type: VARCHAR
-      size: 255
-      required: true
-    note:
-      type: LONGVARCHAR
-    uri:
-      type: VARCHAR
-      size: 255
-      required: true
-    url:
-      type: VARCHAR
-      size: 255
-      required: true
-    base_domain:
-      type: VARCHAR
-      size: 255
-    token:
-      type: VARCHAR
-      size: 45
-      required: true
-    community:
-      type: VARCHAR
-      size: 45
-    last_uri_id:
-      type: INTEGER
-      default: 1000
-    _indexes:
-      agent_id:
-        - agent_id
   reg_vocabulary_has_user: 
     _attributes: 
       idMethod: native
@@ -701,7 +638,7 @@ propel:
       type: INTEGER
       required: true
       primaryKey: true
-      default: 
+      default: 0
       foreignTable: reg_vocabulary
       foreignReference: id
       onDelete: CASCADE
@@ -710,7 +647,7 @@ propel:
       type: INTEGER
       required: true
       primaryKey: true
-      default: 
+      default: 0
       foreignTable: reg_user
       foreignReference: id
       onDelete: CASCADE
@@ -724,8 +661,52 @@ propel:
     is_admin_for: 
       type: BOOLEAN
       default: 1
-    _indexes: 
-      resource_id: 
+    _uniques: 
+      resource_user_id: 
         - vocabulary_id
-      user_id: 
         - user_id
+  reg_vocabulary_has_version: 
+    _attributes: 
+      idMethod: native
+      phpName: VocabularyHasVersion
+    id: 
+      type: INTEGER
+      required: true
+      primaryKey: true
+      default: 
+    name: 
+      type: VARCHAR
+      size: 255
+      required: true
+      default: 
+    created_at: 
+      type: TIMESTAMP
+    deleted_at: 
+      type: TIMESTAMP
+    updated_at: 
+      type: TIMESTAMP
+    created_user_id: 
+      type: INTEGER
+      foreignTable: reg_user
+      foreignReference: id
+      onDelete: SET NULL
+      onUpdate: RESTRICT
+    vocabulary_id: 
+      type: INTEGER
+      foreignTable: reg_vocabulary
+      foreignReference: id
+      onDelete: CASCADE
+      onUpdate: RESTRICT
+    concept_property_history_id: 
+      type: INTEGER
+      foreignTable: reg_concept_property_history
+      foreignReference: id
+      onDelete: CASCADE
+      onUpdate: RESTRICT
+    _indexes: 
+      created_user_id: 
+        - created_user_id
+      vocabulary_id: 
+        - vocabulary_id
+      concept_property_history_id: 
+        - concept_property_history_id

@@ -162,18 +162,6 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	protected $lastVocabularyCriteria = null;
 
 	/**
-	 * Collection to store aggregation of collResources.
-	 * @var array
-	 */
-	protected $collResources;
-
-	/**
-	 * The criteria used to select the current contents of collResources.
-	 * @var Criteria
-	 */
-	protected $lastResourceCriteria = null;
-
-	/**
 	 * Flag to prevent endless save loop, if this object is referenced
 	 * by another object which falls in this transaction.
 	 * @var boolean
@@ -1027,14 +1015,6 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 				}
 			}
 
-			if ($this->collResources !== null) {
-				foreach($this->collResources as $referrerFK) {
-					if (!$referrerFK->isDeleted()) {
-						$affectedRows += $referrerFK->save($con);
-					}
-				}
-			}
-
 			$this->alreadyInSave = false;
 		}
 		return $affectedRows;
@@ -1115,14 +1095,6 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 
 				if ($this->collVocabularys !== null) {
 					foreach($this->collVocabularys as $referrerFK) {
-						if (!$referrerFK->validate($columns)) {
-							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
-						}
-					}
-				}
-
-				if ($this->collResources !== null) {
-					foreach($this->collResources as $referrerFK) {
 						if (!$referrerFK->validate($columns)) {
 							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
 						}
@@ -1497,10 +1469,6 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 
 			foreach($this->getVocabularys() as $relObj) {
 				$copyObj->addVocabulary($relObj->copy($deepCopy));
-			}
-
-			foreach($this->getResources() as $relObj) {
-				$copyObj->addResource($relObj->copy($deepCopy));
 			}
 
 		} // if ($deepCopy)
@@ -2007,113 +1975,6 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 		$this->lastVocabularyCriteria = $criteria;
 
 		return $this->collVocabularys;
-	}
-
-	/**
-	 * Temporary storage of collResources to save a possible db hit in
-	 * the event objects are add to the collection, but the
-	 * complete collection is never requested.
-	 * @return void
-	 */
-	public function initResources()
-	{
-		if ($this->collResources === null) {
-			$this->collResources = array();
-		}
-	}
-
-	/**
-	 * If this collection has already been initialized with
-	 * an identical criteria, it returns the collection.
-	 * Otherwise if this Agent has previously
-	 * been saved, it will retrieve related Resources from storage.
-	 * If this Agent is new, it will return
-	 * an empty collection or the current collection, the criteria
-	 * is ignored on a new object.
-	 *
-	 * @param Connection $con
-	 * @param Criteria $criteria
-	 * @throws PropelException
-	 */
-	public function getResources($criteria = null, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseResourcePeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collResources === null) {
-			if ($this->isNew()) {
-			   $this->collResources = array();
-			} else {
-
-				$criteria->add(ResourcePeer::AGENT_ID, $this->getId());
-
-				ResourcePeer::addSelectColumns($criteria);
-				$this->collResources = ResourcePeer::doSelect($criteria, $con);
-			}
-		} else {
-			// criteria has no effect for a new object
-			if (!$this->isNew()) {
-				// the following code is to determine if a new query is
-				// called for.  If the criteria is the same as the last
-				// one, just return the collection.
-
-
-				$criteria->add(ResourcePeer::AGENT_ID, $this->getId());
-
-				ResourcePeer::addSelectColumns($criteria);
-				if (!isset($this->lastResourceCriteria) || !$this->lastResourceCriteria->equals($criteria)) {
-					$this->collResources = ResourcePeer::doSelect($criteria, $con);
-				}
-			}
-		}
-		$this->lastResourceCriteria = $criteria;
-		return $this->collResources;
-	}
-
-	/**
-	 * Returns the number of related Resources.
-	 *
-	 * @param Criteria $criteria
-	 * @param boolean $distinct
-	 * @param Connection $con
-	 * @throws PropelException
-	 */
-	public function countResources($criteria = null, $distinct = false, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseResourcePeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		$criteria->add(ResourcePeer::AGENT_ID, $this->getId());
-
-		return ResourcePeer::doCount($criteria, $distinct, $con);
-	}
-
-	/**
-	 * Method called to associate a Resource object to this object
-	 * through the Resource foreign key attribute
-	 *
-	 * @param Resource $l Resource
-	 * @return void
-	 * @throws PropelException
-	 */
-	public function addResource(Resource $l)
-	{
-		$this->collResources[] = $l;
-		$l->setAgent($this);
 	}
 
 

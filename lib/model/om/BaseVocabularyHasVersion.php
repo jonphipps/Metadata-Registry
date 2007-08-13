@@ -1,22 +1,36 @@
 <?php
 
 /**
- * Base class that represents a row from the 'reg_vocabulary_has_user' table.
+ * Base class that represents a row from the 'reg_vocabulary_has_version' table.
  *
  * 
  *
  * @package    lib.model.om
  */
-abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
+abstract class BaseVocabularyHasVersion extends BaseObject  implements Persistent {
 
 
 	/**
 	 * The Peer class.
 	 * Instance provides a convenient way of calling static methods on a class
 	 * that calling code may not be able to identify.
-	 * @var        VocabularyHasUserPeer
+	 * @var        VocabularyHasVersionPeer
 	 */
 	protected static $peer;
+
+
+	/**
+	 * The value for the id field.
+	 * @var        int
+	 */
+	protected $id = 0;
+
+
+	/**
+	 * The value for the name field.
+	 * @var        string
+	 */
+	protected $name = 'null';
 
 
 	/**
@@ -27,13 +41,6 @@ abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
 
 
 	/**
-	 * The value for the updated_at field.
-	 * @var        int
-	 */
-	protected $updated_at;
-
-
-	/**
 	 * The value for the deleted_at field.
 	 * @var        int
 	 */
@@ -41,38 +48,36 @@ abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
 
 
 	/**
+	 * The value for the updated_at field.
+	 * @var        int
+	 */
+	protected $updated_at;
+
+
+	/**
+	 * The value for the created_user_id field.
+	 * @var        int
+	 */
+	protected $created_user_id;
+
+
+	/**
 	 * The value for the vocabulary_id field.
 	 * @var        int
 	 */
-	protected $vocabulary_id = 0;
+	protected $vocabulary_id;
 
 
 	/**
-	 * The value for the user_id field.
+	 * The value for the concept_property_history_id field.
 	 * @var        int
 	 */
-	protected $user_id = 0;
-
-
-	/**
-	 * The value for the is_maintainer_for field.
-	 * @var        boolean
-	 */
-	protected $is_maintainer_for = true;
-
+	protected $concept_property_history_id;
 
 	/**
-	 * The value for the is_registrar_for field.
-	 * @var        boolean
+	 * @var User
 	 */
-	protected $is_registrar_for = true;
-
-
-	/**
-	 * The value for the is_admin_for field.
-	 * @var        boolean
-	 */
-	protected $is_admin_for = true;
+	protected $aUser;
 
 	/**
 	 * @var Vocabulary
@@ -80,9 +85,9 @@ abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
 	protected $aVocabulary;
 
 	/**
-	 * @var User
+	 * @var ConceptPropertyHistory
 	 */
-	protected $aUser;
+	protected $aConceptPropertyHistory;
 
 	/**
 	 * Flag to prevent endless save loop, if this object is referenced
@@ -97,6 +102,28 @@ abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
 	 * @var boolean
 	 */
 	protected $alreadyInValidation = false;
+
+	/**
+	 * Get the [id] column value.
+	 * 
+	 * @return     int
+	 */
+	public function getId()
+	{
+
+		return $this->id;
+	}
+
+	/**
+	 * Get the [name] column value.
+	 * 
+	 * @return     string
+	 */
+	public function getName()
+	{
+
+		return $this->name;
+	}
 
 	/**
 	 * Get the [optionally formatted] [created_at] column value.
@@ -119,37 +146,6 @@ abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
 			}
 		} else {
 			$ts = $this->created_at;
-		}
-		if ($format === null) {
-			return $ts;
-		} elseif (strpos($format, '%') !== false) {
-			return strftime($format, $ts);
-		} else {
-			return date($format, $ts);
-		}
-	}
-
-	/**
-	 * Get the [optionally formatted] [updated_at] column value.
-	 * 
-	 * @param      string $format The date/time format string (either date()-style or strftime()-style).
-	 *							If format is NULL, then the integer unix timestamp will be returned.
-	 * @return     mixed Formatted date/time value as string or integer unix timestamp (if format is NULL).
-	 * @throws     PropelException - if unable to convert the date/time to timestamp.
-	 */
-	public function getUpdatedAt($format = 'Y-m-d H:i:s')
-	{
-
-		if ($this->updated_at === null || $this->updated_at === '') {
-			return null;
-		} elseif (!is_int($this->updated_at)) {
-			// a non-timestamp value was set externally, so we convert it
-			$ts = strtotime($this->updated_at);
-			if ($ts === -1 || $ts === false) { // in PHP 5.1 return value changes to FALSE
-				throw new PropelException("Unable to parse value of [updated_at] as date/time value: " . var_export($this->updated_at, true));
-			}
-		} else {
-			$ts = $this->updated_at;
 		}
 		if ($format === null) {
 			return $ts;
@@ -192,6 +188,48 @@ abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
 	}
 
 	/**
+	 * Get the [optionally formatted] [updated_at] column value.
+	 * 
+	 * @param      string $format The date/time format string (either date()-style or strftime()-style).
+	 *							If format is NULL, then the integer unix timestamp will be returned.
+	 * @return     mixed Formatted date/time value as string or integer unix timestamp (if format is NULL).
+	 * @throws     PropelException - if unable to convert the date/time to timestamp.
+	 */
+	public function getUpdatedAt($format = 'Y-m-d H:i:s')
+	{
+
+		if ($this->updated_at === null || $this->updated_at === '') {
+			return null;
+		} elseif (!is_int($this->updated_at)) {
+			// a non-timestamp value was set externally, so we convert it
+			$ts = strtotime($this->updated_at);
+			if ($ts === -1 || $ts === false) { // in PHP 5.1 return value changes to FALSE
+				throw new PropelException("Unable to parse value of [updated_at] as date/time value: " . var_export($this->updated_at, true));
+			}
+		} else {
+			$ts = $this->updated_at;
+		}
+		if ($format === null) {
+			return $ts;
+		} elseif (strpos($format, '%') !== false) {
+			return strftime($format, $ts);
+		} else {
+			return date($format, $ts);
+		}
+	}
+
+	/**
+	 * Get the [created_user_id] column value.
+	 * 
+	 * @return     int
+	 */
+	public function getCreatedUserId()
+	{
+
+		return $this->created_user_id;
+	}
+
+	/**
 	 * Get the [vocabulary_id] column value.
 	 * 
 	 * @return     int
@@ -203,48 +241,59 @@ abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
 	}
 
 	/**
-	 * Get the [user_id] column value.
+	 * Get the [concept_property_history_id] column value.
 	 * 
 	 * @return     int
 	 */
-	public function getUserId()
+	public function getConceptPropertyHistoryId()
 	{
 
-		return $this->user_id;
+		return $this->concept_property_history_id;
 	}
 
 	/**
-	 * Get the [is_maintainer_for] column value.
+	 * Set the value of [id] column.
 	 * 
-	 * @return     boolean
+	 * @param      int $v new value
+	 * @return     void
 	 */
-	public function getIsMaintainerFor()
+	public function setId($v)
 	{
 
-		return $this->is_maintainer_for;
-	}
+		// Since the native PHP type for this column is integer,
+		// we will cast the input value to an int (if it is not).
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->id !== $v || $v === 0) {
+			$this->id = $v;
+			$this->modifiedColumns[] = VocabularyHasVersionPeer::ID;
+		}
+
+	} // setId()
 
 	/**
-	 * Get the [is_registrar_for] column value.
+	 * Set the value of [name] column.
 	 * 
-	 * @return     boolean
+	 * @param      string $v new value
+	 * @return     void
 	 */
-	public function getIsRegistrarFor()
+	public function setName($v)
 	{
 
-		return $this->is_registrar_for;
-	}
+		// Since the native PHP type for this column is string,
+		// we will cast the input to a string (if it is not).
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
 
-	/**
-	 * Get the [is_admin_for] column value.
-	 * 
-	 * @return     boolean
-	 */
-	public function getIsAdminFor()
-	{
+		if ($this->name !== $v || $v === 'null') {
+			$this->name = $v;
+			$this->modifiedColumns[] = VocabularyHasVersionPeer::NAME;
+		}
 
-		return $this->is_admin_for;
-	}
+	} // setName()
 
 	/**
 	 * Set the value of [created_at] column.
@@ -265,34 +314,10 @@ abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
 		}
 		if ($this->created_at !== $ts) {
 			$this->created_at = $ts;
-			$this->modifiedColumns[] = VocabularyHasUserPeer::CREATED_AT;
+			$this->modifiedColumns[] = VocabularyHasVersionPeer::CREATED_AT;
 		}
 
 	} // setCreatedAt()
-
-	/**
-	 * Set the value of [updated_at] column.
-	 * 
-	 * @param      int $v new value
-	 * @return     void
-	 */
-	public function setUpdatedAt($v)
-	{
-
-		if ($v !== null && !is_int($v)) {
-			$ts = strtotime($v);
-			if ($ts === -1 || $ts === false) { // in PHP 5.1 return value changes to FALSE
-				throw new PropelException("Unable to parse date/time value for [updated_at] from input: " . var_export($v, true));
-			}
-		} else {
-			$ts = $v;
-		}
-		if ($this->updated_at !== $ts) {
-			$this->updated_at = $ts;
-			$this->modifiedColumns[] = VocabularyHasUserPeer::UPDATED_AT;
-		}
-
-	} // setUpdatedAt()
 
 	/**
 	 * Set the value of [deleted_at] column.
@@ -313,10 +338,60 @@ abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
 		}
 		if ($this->deleted_at !== $ts) {
 			$this->deleted_at = $ts;
-			$this->modifiedColumns[] = VocabularyHasUserPeer::DELETED_AT;
+			$this->modifiedColumns[] = VocabularyHasVersionPeer::DELETED_AT;
 		}
 
 	} // setDeletedAt()
+
+	/**
+	 * Set the value of [updated_at] column.
+	 * 
+	 * @param      int $v new value
+	 * @return     void
+	 */
+	public function setUpdatedAt($v)
+	{
+
+		if ($v !== null && !is_int($v)) {
+			$ts = strtotime($v);
+			if ($ts === -1 || $ts === false) { // in PHP 5.1 return value changes to FALSE
+				throw new PropelException("Unable to parse date/time value for [updated_at] from input: " . var_export($v, true));
+			}
+		} else {
+			$ts = $v;
+		}
+		if ($this->updated_at !== $ts) {
+			$this->updated_at = $ts;
+			$this->modifiedColumns[] = VocabularyHasVersionPeer::UPDATED_AT;
+		}
+
+	} // setUpdatedAt()
+
+	/**
+	 * Set the value of [created_user_id] column.
+	 * 
+	 * @param      int $v new value
+	 * @return     void
+	 */
+	public function setCreatedUserId($v)
+	{
+
+		// Since the native PHP type for this column is integer,
+		// we will cast the input value to an int (if it is not).
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->created_user_id !== $v) {
+			$this->created_user_id = $v;
+			$this->modifiedColumns[] = VocabularyHasVersionPeer::CREATED_USER_ID;
+		}
+
+		if ($this->aUser !== null && $this->aUser->getId() !== $v) {
+			$this->aUser = null;
+		}
+
+	} // setCreatedUserId()
 
 	/**
 	 * Set the value of [vocabulary_id] column.
@@ -333,9 +408,9 @@ abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
 			$v = (int) $v;
 		}
 
-		if ($this->vocabulary_id !== $v || $v === 0) {
+		if ($this->vocabulary_id !== $v) {
 			$this->vocabulary_id = $v;
-			$this->modifiedColumns[] = VocabularyHasUserPeer::VOCABULARY_ID;
+			$this->modifiedColumns[] = VocabularyHasVersionPeer::VOCABULARY_ID;
 		}
 
 		if ($this->aVocabulary !== null && $this->aVocabulary->getId() !== $v) {
@@ -345,12 +420,12 @@ abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
 	} // setVocabularyId()
 
 	/**
-	 * Set the value of [user_id] column.
+	 * Set the value of [concept_property_history_id] column.
 	 * 
 	 * @param      int $v new value
 	 * @return     void
 	 */
-	public function setUserId($v)
+	public function setConceptPropertyHistoryId($v)
 	{
 
 		// Since the native PHP type for this column is integer,
@@ -359,64 +434,16 @@ abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
 			$v = (int) $v;
 		}
 
-		if ($this->user_id !== $v || $v === 0) {
-			$this->user_id = $v;
-			$this->modifiedColumns[] = VocabularyHasUserPeer::USER_ID;
+		if ($this->concept_property_history_id !== $v) {
+			$this->concept_property_history_id = $v;
+			$this->modifiedColumns[] = VocabularyHasVersionPeer::CONCEPT_PROPERTY_HISTORY_ID;
 		}
 
-		if ($this->aUser !== null && $this->aUser->getId() !== $v) {
-			$this->aUser = null;
+		if ($this->aConceptPropertyHistory !== null && $this->aConceptPropertyHistory->getId() !== $v) {
+			$this->aConceptPropertyHistory = null;
 		}
 
-	} // setUserId()
-
-	/**
-	 * Set the value of [is_maintainer_for] column.
-	 * 
-	 * @param      boolean $v new value
-	 * @return     void
-	 */
-	public function setIsMaintainerFor($v)
-	{
-
-		if ($this->is_maintainer_for !== $v || $v === true) {
-			$this->is_maintainer_for = $v;
-			$this->modifiedColumns[] = VocabularyHasUserPeer::IS_MAINTAINER_FOR;
-		}
-
-	} // setIsMaintainerFor()
-
-	/**
-	 * Set the value of [is_registrar_for] column.
-	 * 
-	 * @param      boolean $v new value
-	 * @return     void
-	 */
-	public function setIsRegistrarFor($v)
-	{
-
-		if ($this->is_registrar_for !== $v || $v === true) {
-			$this->is_registrar_for = $v;
-			$this->modifiedColumns[] = VocabularyHasUserPeer::IS_REGISTRAR_FOR;
-		}
-
-	} // setIsRegistrarFor()
-
-	/**
-	 * Set the value of [is_admin_for] column.
-	 * 
-	 * @param      boolean $v new value
-	 * @return     void
-	 */
-	public function setIsAdminFor($v)
-	{
-
-		if ($this->is_admin_for !== $v || $v === true) {
-			$this->is_admin_for = $v;
-			$this->modifiedColumns[] = VocabularyHasUserPeer::IS_ADMIN_FOR;
-		}
-
-	} // setIsAdminFor()
+	} // setConceptPropertyHistoryId()
 
 	/**
 	 * Hydrates (populates) the object variables with values from the database resultset.
@@ -435,31 +462,31 @@ abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
 	{
 		try {
 
-			$this->created_at = $rs->getTimestamp($startcol + 0, null);
+			$this->id = $rs->getInt($startcol + 0);
 
-			$this->updated_at = $rs->getTimestamp($startcol + 1, null);
+			$this->name = $rs->getString($startcol + 1);
 
-			$this->deleted_at = $rs->getTimestamp($startcol + 2, null);
+			$this->created_at = $rs->getTimestamp($startcol + 2, null);
 
-			$this->vocabulary_id = $rs->getInt($startcol + 3);
+			$this->deleted_at = $rs->getTimestamp($startcol + 3, null);
 
-			$this->user_id = $rs->getInt($startcol + 4);
+			$this->updated_at = $rs->getTimestamp($startcol + 4, null);
 
-			$this->is_maintainer_for = $rs->getBoolean($startcol + 5);
+			$this->created_user_id = $rs->getInt($startcol + 5);
 
-			$this->is_registrar_for = $rs->getBoolean($startcol + 6);
+			$this->vocabulary_id = $rs->getInt($startcol + 6);
 
-			$this->is_admin_for = $rs->getBoolean($startcol + 7);
+			$this->concept_property_history_id = $rs->getInt($startcol + 7);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 8; // 8 = VocabularyHasUserPeer::NUM_COLUMNS - VocabularyHasUserPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 8; // 8 = VocabularyHasVersionPeer::NUM_COLUMNS - VocabularyHasVersionPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
-			throw new PropelException("Error populating VocabularyHasUser object", $e);
+			throw new PropelException("Error populating VocabularyHasVersion object", $e);
 		}
 	}
 
@@ -475,7 +502,7 @@ abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
 	public function delete($con = null)
 	{
 
-    foreach (sfMixer::getCallables('BaseVocabularyHasUser:delete:pre') as $callable)
+    foreach (sfMixer::getCallables('BaseVocabularyHasVersion:delete:pre') as $callable)
     {
       $ret = call_user_func($callable, $this, $con);
       if ($ret)
@@ -490,12 +517,12 @@ abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
 		}
 
 		if ($con === null) {
-			$con = Propel::getConnection(VocabularyHasUserPeer::DATABASE_NAME);
+			$con = Propel::getConnection(VocabularyHasVersionPeer::DATABASE_NAME);
 		}
 
 		try {
 			$con->begin();
-			VocabularyHasUserPeer::doDelete($this, $con);
+			VocabularyHasVersionPeer::doDelete($this, $con);
 			$this->setDeleted(true);
 			$con->commit();
 		} catch (PropelException $e) {
@@ -504,7 +531,7 @@ abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
 		}
 	
 
-    foreach (sfMixer::getCallables('BaseVocabularyHasUser:delete:post') as $callable)
+    foreach (sfMixer::getCallables('BaseVocabularyHasVersion:delete:post') as $callable)
     {
       call_user_func($callable, $this, $con);
     }
@@ -523,7 +550,7 @@ abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
 	public function save($con = null)
 	{
 
-    foreach (sfMixer::getCallables('BaseVocabularyHasUser:save:pre') as $callable)
+    foreach (sfMixer::getCallables('BaseVocabularyHasVersion:save:pre') as $callable)
     {
       $affectedRows = call_user_func($callable, $this, $con);
       if (is_int($affectedRows))
@@ -533,12 +560,12 @@ abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
     }
 
 
-    if ($this->isNew() && !$this->isColumnModified(VocabularyHasUserPeer::CREATED_AT))
+    if ($this->isNew() && !$this->isColumnModified(VocabularyHasVersionPeer::CREATED_AT))
     {
       $this->setCreatedAt(time());
     }
 
-    if ($this->isModified() && !$this->isColumnModified(VocabularyHasUserPeer::UPDATED_AT))
+    if ($this->isModified() && !$this->isColumnModified(VocabularyHasVersionPeer::UPDATED_AT))
     {
       $this->setUpdatedAt(time());
     }
@@ -548,14 +575,14 @@ abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
 		}
 
 		if ($con === null) {
-			$con = Propel::getConnection(VocabularyHasUserPeer::DATABASE_NAME);
+			$con = Propel::getConnection(VocabularyHasVersionPeer::DATABASE_NAME);
 		}
 
 		try {
 			$con->begin();
 			$affectedRows = $this->doSave($con);
 			$con->commit();
-    foreach (sfMixer::getCallables('BaseVocabularyHasUser:save:post') as $callable)
+    foreach (sfMixer::getCallables('BaseVocabularyHasVersion:save:post') as $callable)
     {
       call_user_func($callable, $this, $con, $affectedRows);
     }
@@ -590,13 +617,6 @@ abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
 			// method.  This object relates to these object(s) by a
 			// foreign key reference.
 
-			if ($this->aVocabulary !== null) {
-				if ($this->aVocabulary->isModified()) {
-					$affectedRows += $this->aVocabulary->save($con);
-				}
-				$this->setVocabulary($this->aVocabulary);
-			}
-
 			if ($this->aUser !== null) {
 				if ($this->aUser->isModified()) {
 					$affectedRows += $this->aUser->save($con);
@@ -604,18 +624,32 @@ abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
 				$this->setUser($this->aUser);
 			}
 
+			if ($this->aVocabulary !== null) {
+				if ($this->aVocabulary->isModified()) {
+					$affectedRows += $this->aVocabulary->save($con);
+				}
+				$this->setVocabulary($this->aVocabulary);
+			}
+
+			if ($this->aConceptPropertyHistory !== null) {
+				if ($this->aConceptPropertyHistory->isModified()) {
+					$affectedRows += $this->aConceptPropertyHistory->save($con);
+				}
+				$this->setConceptPropertyHistory($this->aConceptPropertyHistory);
+			}
+
 
 			// If this object has been modified, then save it to the database.
 			if ($this->isModified()) {
 				if ($this->isNew()) {
-					$pk = VocabularyHasUserPeer::doInsert($this, $con);
+					$pk = VocabularyHasVersionPeer::doInsert($this, $con);
 					$affectedRows += 1; // we are assuming that there is only 1 row per doInsert() which
 										 // should always be true here (even though technically
 										 // BasePeer::doInsert() can insert multiple rows).
 
 					$this->setNew(false);
 				} else {
-					$affectedRows += VocabularyHasUserPeer::doUpdate($this, $con);
+					$affectedRows += VocabularyHasVersionPeer::doUpdate($this, $con);
 				}
 				$this->resetModified(); // [HL] After being saved an object is no longer 'modified'
 			}
@@ -690,20 +724,26 @@ abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
 			// method.  This object relates to these object(s) by a
 			// foreign key reference.
 
-			if ($this->aVocabulary !== null) {
-				if (!$this->aVocabulary->validate($columns)) {
-					$failureMap = array_merge($failureMap, $this->aVocabulary->getValidationFailures());
-				}
-			}
-
 			if ($this->aUser !== null) {
 				if (!$this->aUser->validate($columns)) {
 					$failureMap = array_merge($failureMap, $this->aUser->getValidationFailures());
 				}
 			}
 
+			if ($this->aVocabulary !== null) {
+				if (!$this->aVocabulary->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aVocabulary->getValidationFailures());
+				}
+			}
 
-			if (($retval = VocabularyHasUserPeer::doValidate($this, $columns)) !== true) {
+			if ($this->aConceptPropertyHistory !== null) {
+				if (!$this->aConceptPropertyHistory->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aConceptPropertyHistory->getValidationFailures());
+				}
+			}
+
+
+			if (($retval = VocabularyHasVersionPeer::doValidate($this, $columns)) !== true) {
 				$failureMap = array_merge($failureMap, $retval);
 			}
 
@@ -726,7 +766,7 @@ abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
 	 */
 	public function getByName($name, $type = BasePeer::TYPE_PHPNAME)
 	{
-		$pos = VocabularyHasUserPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
+		$pos = VocabularyHasVersionPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
 		return $this->getByPosition($pos);
 	}
 
@@ -741,28 +781,28 @@ abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
 	{
 		switch($pos) {
 			case 0:
-				return $this->getCreatedAt();
+				return $this->getId();
 				break;
 			case 1:
-				return $this->getUpdatedAt();
+				return $this->getName();
 				break;
 			case 2:
-				return $this->getDeletedAt();
+				return $this->getCreatedAt();
 				break;
 			case 3:
-				return $this->getVocabularyId();
+				return $this->getDeletedAt();
 				break;
 			case 4:
-				return $this->getUserId();
+				return $this->getUpdatedAt();
 				break;
 			case 5:
-				return $this->getIsMaintainerFor();
+				return $this->getCreatedUserId();
 				break;
 			case 6:
-				return $this->getIsRegistrarFor();
+				return $this->getVocabularyId();
 				break;
 			case 7:
-				return $this->getIsAdminFor();
+				return $this->getConceptPropertyHistoryId();
 				break;
 			default:
 				return null;
@@ -782,16 +822,16 @@ abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
 	 */
 	public function toArray($keyType = BasePeer::TYPE_PHPNAME)
 	{
-		$keys = VocabularyHasUserPeer::getFieldNames($keyType);
+		$keys = VocabularyHasVersionPeer::getFieldNames($keyType);
 		$result = array(
-			$keys[0] => $this->getCreatedAt(),
-			$keys[1] => $this->getUpdatedAt(),
-			$keys[2] => $this->getDeletedAt(),
-			$keys[3] => $this->getVocabularyId(),
-			$keys[4] => $this->getUserId(),
-			$keys[5] => $this->getIsMaintainerFor(),
-			$keys[6] => $this->getIsRegistrarFor(),
-			$keys[7] => $this->getIsAdminFor(),
+			$keys[0] => $this->getId(),
+			$keys[1] => $this->getName(),
+			$keys[2] => $this->getCreatedAt(),
+			$keys[3] => $this->getDeletedAt(),
+			$keys[4] => $this->getUpdatedAt(),
+			$keys[5] => $this->getCreatedUserId(),
+			$keys[6] => $this->getVocabularyId(),
+			$keys[7] => $this->getConceptPropertyHistoryId(),
 		);
 		return $result;
 	}
@@ -808,7 +848,7 @@ abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
 	 */
 	public function setByName($name, $value, $type = BasePeer::TYPE_PHPNAME)
 	{
-		$pos = VocabularyHasUserPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
+		$pos = VocabularyHasVersionPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
 		return $this->setByPosition($pos, $value);
 	}
 
@@ -824,28 +864,28 @@ abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
 	{
 		switch($pos) {
 			case 0:
-				$this->setCreatedAt($value);
+				$this->setId($value);
 				break;
 			case 1:
-				$this->setUpdatedAt($value);
+				$this->setName($value);
 				break;
 			case 2:
-				$this->setDeletedAt($value);
+				$this->setCreatedAt($value);
 				break;
 			case 3:
-				$this->setVocabularyId($value);
+				$this->setDeletedAt($value);
 				break;
 			case 4:
-				$this->setUserId($value);
+				$this->setUpdatedAt($value);
 				break;
 			case 5:
-				$this->setIsMaintainerFor($value);
+				$this->setCreatedUserId($value);
 				break;
 			case 6:
-				$this->setIsRegistrarFor($value);
+				$this->setVocabularyId($value);
 				break;
 			case 7:
-				$this->setIsAdminFor($value);
+				$this->setConceptPropertyHistoryId($value);
 				break;
 		} // switch()
 	}
@@ -868,16 +908,16 @@ abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
 	 */
 	public function fromArray($arr, $keyType = BasePeer::TYPE_PHPNAME)
 	{
-		$keys = VocabularyHasUserPeer::getFieldNames($keyType);
+		$keys = VocabularyHasVersionPeer::getFieldNames($keyType);
 
-		if (array_key_exists($keys[0], $arr)) $this->setCreatedAt($arr[$keys[0]]);
-		if (array_key_exists($keys[1], $arr)) $this->setUpdatedAt($arr[$keys[1]]);
-		if (array_key_exists($keys[2], $arr)) $this->setDeletedAt($arr[$keys[2]]);
-		if (array_key_exists($keys[3], $arr)) $this->setVocabularyId($arr[$keys[3]]);
-		if (array_key_exists($keys[4], $arr)) $this->setUserId($arr[$keys[4]]);
-		if (array_key_exists($keys[5], $arr)) $this->setIsMaintainerFor($arr[$keys[5]]);
-		if (array_key_exists($keys[6], $arr)) $this->setIsRegistrarFor($arr[$keys[6]]);
-		if (array_key_exists($keys[7], $arr)) $this->setIsAdminFor($arr[$keys[7]]);
+		if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
+		if (array_key_exists($keys[1], $arr)) $this->setName($arr[$keys[1]]);
+		if (array_key_exists($keys[2], $arr)) $this->setCreatedAt($arr[$keys[2]]);
+		if (array_key_exists($keys[3], $arr)) $this->setDeletedAt($arr[$keys[3]]);
+		if (array_key_exists($keys[4], $arr)) $this->setUpdatedAt($arr[$keys[4]]);
+		if (array_key_exists($keys[5], $arr)) $this->setCreatedUserId($arr[$keys[5]]);
+		if (array_key_exists($keys[6], $arr)) $this->setVocabularyId($arr[$keys[6]]);
+		if (array_key_exists($keys[7], $arr)) $this->setConceptPropertyHistoryId($arr[$keys[7]]);
 	}
 
 	/**
@@ -887,16 +927,16 @@ abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
 	 */
 	public function buildCriteria()
 	{
-		$criteria = new Criteria(VocabularyHasUserPeer::DATABASE_NAME);
+		$criteria = new Criteria(VocabularyHasVersionPeer::DATABASE_NAME);
 
-		if ($this->isColumnModified(VocabularyHasUserPeer::CREATED_AT)) $criteria->add(VocabularyHasUserPeer::CREATED_AT, $this->created_at);
-		if ($this->isColumnModified(VocabularyHasUserPeer::UPDATED_AT)) $criteria->add(VocabularyHasUserPeer::UPDATED_AT, $this->updated_at);
-		if ($this->isColumnModified(VocabularyHasUserPeer::DELETED_AT)) $criteria->add(VocabularyHasUserPeer::DELETED_AT, $this->deleted_at);
-		if ($this->isColumnModified(VocabularyHasUserPeer::VOCABULARY_ID)) $criteria->add(VocabularyHasUserPeer::VOCABULARY_ID, $this->vocabulary_id);
-		if ($this->isColumnModified(VocabularyHasUserPeer::USER_ID)) $criteria->add(VocabularyHasUserPeer::USER_ID, $this->user_id);
-		if ($this->isColumnModified(VocabularyHasUserPeer::IS_MAINTAINER_FOR)) $criteria->add(VocabularyHasUserPeer::IS_MAINTAINER_FOR, $this->is_maintainer_for);
-		if ($this->isColumnModified(VocabularyHasUserPeer::IS_REGISTRAR_FOR)) $criteria->add(VocabularyHasUserPeer::IS_REGISTRAR_FOR, $this->is_registrar_for);
-		if ($this->isColumnModified(VocabularyHasUserPeer::IS_ADMIN_FOR)) $criteria->add(VocabularyHasUserPeer::IS_ADMIN_FOR, $this->is_admin_for);
+		if ($this->isColumnModified(VocabularyHasVersionPeer::ID)) $criteria->add(VocabularyHasVersionPeer::ID, $this->id);
+		if ($this->isColumnModified(VocabularyHasVersionPeer::NAME)) $criteria->add(VocabularyHasVersionPeer::NAME, $this->name);
+		if ($this->isColumnModified(VocabularyHasVersionPeer::CREATED_AT)) $criteria->add(VocabularyHasVersionPeer::CREATED_AT, $this->created_at);
+		if ($this->isColumnModified(VocabularyHasVersionPeer::DELETED_AT)) $criteria->add(VocabularyHasVersionPeer::DELETED_AT, $this->deleted_at);
+		if ($this->isColumnModified(VocabularyHasVersionPeer::UPDATED_AT)) $criteria->add(VocabularyHasVersionPeer::UPDATED_AT, $this->updated_at);
+		if ($this->isColumnModified(VocabularyHasVersionPeer::CREATED_USER_ID)) $criteria->add(VocabularyHasVersionPeer::CREATED_USER_ID, $this->created_user_id);
+		if ($this->isColumnModified(VocabularyHasVersionPeer::VOCABULARY_ID)) $criteria->add(VocabularyHasVersionPeer::VOCABULARY_ID, $this->vocabulary_id);
+		if ($this->isColumnModified(VocabularyHasVersionPeer::CONCEPT_PROPERTY_HISTORY_ID)) $criteria->add(VocabularyHasVersionPeer::CONCEPT_PROPERTY_HISTORY_ID, $this->concept_property_history_id);
 
 		return $criteria;
 	}
@@ -911,43 +951,31 @@ abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
 	 */
 	public function buildPkeyCriteria()
 	{
-		$criteria = new Criteria(VocabularyHasUserPeer::DATABASE_NAME);
+		$criteria = new Criteria(VocabularyHasVersionPeer::DATABASE_NAME);
 
-		$criteria->add(VocabularyHasUserPeer::VOCABULARY_ID, $this->vocabulary_id);
-		$criteria->add(VocabularyHasUserPeer::USER_ID, $this->user_id);
+		$criteria->add(VocabularyHasVersionPeer::ID, $this->id);
 
 		return $criteria;
 	}
 
 	/**
-	 * Returns the composite primary key for this object.
-	 * The array elements will be in same order as specified in XML.
-	 * @return     array
+	 * Returns the primary key for this object (row).
+	 * @return     int
 	 */
 	public function getPrimaryKey()
 	{
-		$pks = array();
-
-		$pks[0] = $this->getVocabularyId();
-
-		$pks[1] = $this->getUserId();
-
-		return $pks;
+		return $this->getId();
 	}
 
 	/**
-	 * Set the [composite] primary key.
+	 * Generic method to set the primary key (id column).
 	 *
-	 * @param      array $keys The elements of the composite key (order must match the order in XML file).
+	 * @param      int $key Primary key.
 	 * @return     void
 	 */
-	public function setPrimaryKey($keys)
+	public function setPrimaryKey($key)
 	{
-
-		$this->setVocabularyId($keys[0]);
-
-		$this->setUserId($keys[1]);
-
+		$this->setId($key);
 	}
 
 	/**
@@ -956,31 +984,31 @@ abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
 	 * If desired, this method can also make copies of all associated (fkey referrers)
 	 * objects.
 	 *
-	 * @param object $copyObj An object of VocabularyHasUser (or compatible) type.
+	 * @param object $copyObj An object of VocabularyHasVersion (or compatible) type.
 	 * @param boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
 	 * @throws PropelException
 	 */
 	public function copyInto($copyObj, $deepCopy = false)
 	{
 
-		$copyObj->setCreatedAt($this->created_at);
+		$copyObj->setName($this->name);
 
-		$copyObj->setUpdatedAt($this->updated_at);
+		$copyObj->setCreatedAt($this->created_at);
 
 		$copyObj->setDeletedAt($this->deleted_at);
 
-		$copyObj->setIsMaintainerFor($this->is_maintainer_for);
+		$copyObj->setUpdatedAt($this->updated_at);
 
-		$copyObj->setIsRegistrarFor($this->is_registrar_for);
+		$copyObj->setCreatedUserId($this->created_user_id);
 
-		$copyObj->setIsAdminFor($this->is_admin_for);
+		$copyObj->setVocabularyId($this->vocabulary_id);
+
+		$copyObj->setConceptPropertyHistoryId($this->concept_property_history_id);
 
 
 		$copyObj->setNew(true);
 
-		$copyObj->setVocabularyId('0'); // this is a pkey column, so set to default value
-
-		$copyObj->setUserId('0'); // this is a pkey column, so set to default value
+		$copyObj->setId('null'); // this is a pkey column, so set to default value
 
 	}
 
@@ -993,7 +1021,7 @@ abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
 	 * objects.
 	 *
 	 * @param boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-	 * @return VocabularyHasUser Clone of current object.
+	 * @return VocabularyHasVersion Clone of current object.
 	 * @throws PropelException
 	 */
 	public function copy($deepCopy = false)
@@ -1012,14 +1040,65 @@ abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
 	 * same instance for all member of this class. The method could therefore
 	 * be static, but this would prevent one from overriding the behavior.
 	 *
-	 * @return     VocabularyHasUserPeer
+	 * @return     VocabularyHasVersionPeer
 	 */
 	public function getPeer()
 	{
 		if (self::$peer === null) {
-			self::$peer = new VocabularyHasUserPeer();
+			self::$peer = new VocabularyHasVersionPeer();
 		}
 		return self::$peer;
+	}
+
+	/**
+	 * Declares an association between this object and a User object.
+	 *
+	 * @param User $v
+	 * @return void
+	 * @throws PropelException
+	 */
+	public function setUser($v)
+	{
+
+
+		if ($v === null) {
+			$this->setCreatedUserId(NULL);
+		} else {
+			$this->setCreatedUserId($v->getId());
+		}
+
+
+		$this->aUser = $v;
+	}
+
+
+	/**
+	 * Get the associated User object
+	 *
+	 * @param Connection Optional Connection object.
+	 * @return User The associated User object.
+	 * @throws PropelException
+	 */
+	public function getUser($con = null)
+	{
+		// include the related Peer class
+		include_once 'lib/model/om/BaseUserPeer.php';
+
+		if ($this->aUser === null && ($this->created_user_id !== null)) {
+
+			$this->aUser = UserPeer::retrieveByPK($this->created_user_id, $con);
+
+			/* The following can be used instead of the line above to
+			   guarantee the related object contains a reference
+			   to this object, but this level of coupling
+			   may be undesirable in many circumstances.
+			   As it can lead to a db query with many results that may
+			   never be used.
+			   $obj = UserPeer::retrieveByPK($this->created_user_id, $con);
+			   $obj->addUsers($this);
+			 */
+		}
+		return $this->aUser;
 	}
 
 	/**
@@ -1034,7 +1113,7 @@ abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
 
 
 		if ($v === null) {
-			$this->setVocabularyId('0');
+			$this->setVocabularyId(NULL);
 		} else {
 			$this->setVocabularyId($v->getId());
 		}
@@ -1074,42 +1153,42 @@ abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
 	}
 
 	/**
-	 * Declares an association between this object and a User object.
+	 * Declares an association between this object and a ConceptPropertyHistory object.
 	 *
-	 * @param User $v
+	 * @param ConceptPropertyHistory $v
 	 * @return void
 	 * @throws PropelException
 	 */
-	public function setUser($v)
+	public function setConceptPropertyHistory($v)
 	{
 
 
 		if ($v === null) {
-			$this->setUserId('0');
+			$this->setConceptPropertyHistoryId(NULL);
 		} else {
-			$this->setUserId($v->getId());
+			$this->setConceptPropertyHistoryId($v->getId());
 		}
 
 
-		$this->aUser = $v;
+		$this->aConceptPropertyHistory = $v;
 	}
 
 
 	/**
-	 * Get the associated User object
+	 * Get the associated ConceptPropertyHistory object
 	 *
 	 * @param Connection Optional Connection object.
-	 * @return User The associated User object.
+	 * @return ConceptPropertyHistory The associated ConceptPropertyHistory object.
 	 * @throws PropelException
 	 */
-	public function getUser($con = null)
+	public function getConceptPropertyHistory($con = null)
 	{
 		// include the related Peer class
-		include_once 'lib/model/om/BaseUserPeer.php';
+		include_once 'lib/model/om/BaseConceptPropertyHistoryPeer.php';
 
-		if ($this->aUser === null && ($this->user_id !== null)) {
+		if ($this->aConceptPropertyHistory === null && ($this->concept_property_history_id !== null)) {
 
-			$this->aUser = UserPeer::retrieveByPK($this->user_id, $con);
+			$this->aConceptPropertyHistory = ConceptPropertyHistoryPeer::retrieveByPK($this->concept_property_history_id, $con);
 
 			/* The following can be used instead of the line above to
 			   guarantee the related object contains a reference
@@ -1117,19 +1196,19 @@ abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
 			   may be undesirable in many circumstances.
 			   As it can lead to a db query with many results that may
 			   never be used.
-			   $obj = UserPeer::retrieveByPK($this->user_id, $con);
-			   $obj->addUsers($this);
+			   $obj = ConceptPropertyHistoryPeer::retrieveByPK($this->concept_property_history_id, $con);
+			   $obj->addConceptPropertyHistorys($this);
 			 */
 		}
-		return $this->aUser;
+		return $this->aConceptPropertyHistory;
 	}
 
 
   public function __call($method, $arguments)
   {
-    if (!$callable = sfMixer::getCallable('BaseVocabularyHasUser:'.$method))
+    if (!$callable = sfMixer::getCallable('BaseVocabularyHasVersion:'.$method))
     {
-      throw new sfException(sprintf('Call to undefined method BaseVocabularyHasUser::%s', $method));
+      throw new sfException(sprintf('Call to undefined method BaseVocabularyHasVersion::%s', $method));
     }
 
     array_unshift($arguments, $this);
@@ -1138,4 +1217,4 @@ abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
   }
 
 
-} // BaseVocabularyHasUser
+} // BaseVocabularyHasVersion
