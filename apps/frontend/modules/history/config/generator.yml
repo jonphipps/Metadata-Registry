@@ -10,15 +10,15 @@ generator:
       title:         Concept History List
       fields:
         language:     { name: Lang }
-        created_at:   { name: Changed at }
+        created_at:   { name: Changed at, params: date_format='g'  }
         uri:          { name: Concept URI, helper: truncate_uri }
-        pref_label:   { name: Concept, helper: truncate_text }
+        pref_label:   { name: Concept}
         property:     { name: Property }
         user          { name: User }
         object:       { helper: truncate_text }
         language:     { name: Lang }
       #params:         =%%_created_at%%  %%uri%%  <strong> %%pref_label%% </strong><br />%%_property%%, %%action%%, %%user%% <br />%%object%%, %%_language%%, %%status%%
-      display:        [=_created_at, uri, prefLabel, _property, action, user, object, _language, status]
+      display:        [=created_at, uri, _pref_label, _property, _action, user]
       sort:           [created_at, desc]
       displayfilter:  false
       filters:        [vocabulary_id, concept_property_id, concept_id, skos_property_id, updated_at, object, status, user]

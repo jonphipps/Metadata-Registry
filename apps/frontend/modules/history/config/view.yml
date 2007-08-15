@@ -1,0 +1,4 @@
+all:
+  stylesheets: [history/layout, jquery.cluetip]
+  javascripts: [jquery: { position: last }, jquery.dimensions: { position: last }, jquery.cluetip: { position: last }, jquery.cluetip: { position: last }, history/cluetip: { position: last }]
+

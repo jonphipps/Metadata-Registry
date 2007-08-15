@@ -42,14 +42,14 @@
 
   if (isset($conceptId))
   {
-    echo '<br />&nbsp;&nbsp;' . link_to('Concept: ', '/concept/list?vocabulary_id=' . $vocabId);
+    echo '<br />&nbsp;&nbsp;' . link_to('Concepts: ', '/concept/list?vocabulary_id=' . $vocabId);
     echo link_to($concept->getPrefLabel(), '/concept/show?id=' . $conceptId);
     $spaceCount++;
   }
 
   if (isset($propertyId))
   {
-    echo '<br />&nbsp;&nbsp;&nbsp;&nbsp;' . link_to('Property: ', '/conceptprop/list?concept_id=' . $conceptId);
+    echo '<br />&nbsp;&nbsp;&nbsp;&nbsp;' . link_to('Properties: ', '/conceptprop/list?concept_id=' . $conceptId);
     echo link_to($property->getSkosProperty()->getName(), '/conceptprop/show?id=' . $propertyId);
     $spaceCount++;
   }
