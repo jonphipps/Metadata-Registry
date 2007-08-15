@@ -1,0 +1,80 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+	"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+		<title>Body testing</title>
+		<!-- load latest build of jquery.js -->
+		<script type="text/javascript" src="../../../../jquery/dist/jquery.js"></script>
+		<!-- load testrunner from jquery project -->
+		<script type="text/javascript" src="testrunner.js"></script>
+		<!-- load dimensions.js (this is what we're testing! -->
+		<script type="text/javascript" src="../../jquery.dimensions.js"></script>
+		<style type="text/css" media="screen">
+			body{ margin:10px; border:2px solid #000; padding:5px; }
+			h1,h2,p,#tests{display:none;position:absolute;}
+			.safari_bug_avoidance { width:0; height:0; overflow: hidden; }
+		</style>
+		
+		<script type="text/javascript" charset="utf-8">
+			$(window).bind('load', function() {
+				runTest(function() {
+					window.parent.done($('#tests').html());
+				});
+			});
+			test('offset(): Body tag', function() {
+				var offset  = {};
+				var options = {};
+				
+				$('body').offset(options, offset);
+				equals( 10, offset.top, "$('body').offset().top" );
+				equals( 10, offset.left, "$('body').offset().left" );
+				
+				// yes padding
+				options = { padding: true };
+				
+				$('body').offset(options, offset);
+				equals( 15, offset.top, "$('body').offset({padding:true}).top" );
+				equals( 15, offset.left, "$('body').offset({padding:true}).left" );
+				
+				// yes border
+				options = { border: true };
+				
+				$('body').offset(options, offset);
+				equals( 12, offset.top, "$('body').offset({border:false}).top" );
+				equals( 12, offset.left, "$('body').offset({border:false}).left" );
+				
+				// no margin
+				options = { margin: false };
+				
+				$('body').offset(options, offset);
+				equals( 0, offset.top, "$('body').offset({margin:false}).top" );
+				equals( 0, offset.left, "$('body').offset({margin:false}).left" );
+				
+				// no margin, yes border
+				options = { margin: false, border: true };
+				
+				$('body').offset(options, offset);
+				equals( 2, offset.top, "$('body').offset({margin:false,border:false}).top" );
+				equals( 2, offset.left, "$('body').offset({margin:false,border:false}).left" );
+				
+				// set margin, border and padding to 0
+				$('body').css({
+					margin: 0,
+					border: 0,
+					padding: 0
+				});
+				$('body').offset({}, offset);
+				equals( 0, offset.top, "$('body').offset().top" );
+				equals( 0, offset.left, "$('body').offset().left" );
+			});
+
+		</script>
+	</head>
+	<body>
+		<div id="main">
+			
+		</div>
+		<ol id="tests"></ol>
+	</body>
+</html>
