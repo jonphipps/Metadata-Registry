@@ -73,7 +73,7 @@ class conceptpropActions extends autoconceptpropActions
       }
 
       $conceptPropertyId = $this->getRequestParameter('id');
-      if (isset($conceptPropertyId))
+      if (isset($conceptPropertyId) && $conceptPropertyId)
       {
          $this->deleteReciprocalProperty($conceptPropertyId, $concept_property['related_concept_id']);
       }

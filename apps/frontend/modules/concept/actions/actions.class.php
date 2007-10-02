@@ -100,9 +100,9 @@ class conceptActions extends autoconceptActions
       }
 
       $vocabId = $this->getUser()->getCurrentVocabulary()->getId();
+      $this->getUser()->getVocabularyCredentials($vocabId);
     }
 
-    //$this->getUser()->getVocabularyCredentials($vocabId);
 
     //current vocabulary can't be retrieved, so we send back to the list
     //TODO: forward to an intermediate error page

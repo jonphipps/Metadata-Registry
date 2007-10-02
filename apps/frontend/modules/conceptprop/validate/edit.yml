@@ -3,8 +3,6 @@ fillin:
 
 fields:
   concept_property{object}:
-    required:
-      msg: Value cannot be blank
     uniqueLabelValidator:
 
 validators:
@@ -13,3 +11,4 @@ validators:
     param:
       unique_pref_error: This Concept already has a prefLabel with this status and language.
       unique_error: This Concept already has this exact property.
+      require_error: Value cannot be empty

@@ -62,6 +62,11 @@ class Vocabulary extends BaseVocabulary
 
       $con->commit();
 
+      if ($vocabularyId)
+      {
+        sfContext::getInstance()->getUser()->getVocabularyCredentials($vocabularyId);
+      }
+
       return $ret;
 
     }

@@ -4,27 +4,30 @@ generator:
     model_class:      VocabularyHasUser
     theme:            default
 
-    fields:
-      vocabulary_id:  { params: peer_method=getVocabulariesForCurrentUser include_blank=true }
-      user_id:        { params: peer_method=getUsersForAgentUsers include_blank=true }
-
     list:
-      peer_method:       doSelectForUser
-      peer_count_method: doCountForUser
-      title:             Resource Owner and User Relationships
+      #peer_method:       doSelectForUser
+      #peer_count_method: doCountForUser
+      title:             Vocabulary and User Relationships
       display:           [_user, _vocabulary, isRegistrarFor, isAdminFor, isMaintainerFor]
       object_actions:
         _edit:           { credentials: [administrator] }
         _delete:         { credentials: [administrator] }
       actions:
         _create:         { credentials: [administrator] }
-  
+      displayfilter:    false
+      filters:          [vocabulary_id, user_id]
+      urlfilters:
+        vocabulary_id:   vocabulary_id
+        user_id:         user_id
+
     edit:
       helptype:       icon
       fields:
+        vocabulary_id:  { params: peer_method=getVocabulariesForCurrentUser include_blank=true }
+        user_id:        { params: peer_method=getUsersForAgentUsers include_blank=true }
         user:          { type: plain }
         vocabulary:    { type: plain }
-      display:         [user, vocabulary, isAdminFor, isMaintainerFor]
+      display:         [user_id, vocabulary_id, isAdminFor, isRegistrarFor, isMaintainerFor]
       actions:
         _list:      -
         _save:         { credentials: [[administrator, hasAgents, vocabularymaintainer]] }
@@ -32,11 +35,3 @@ generator:
         _create:       { credentials: [[administrator, hasAgents]] }
         _save_and_add: { credentials: [administrator] }
         _cancel:       { credentials: [[administrator, hasAgents, vocabularymaintainer]] }
-
-    create:
-      helptype:       icon
-      display:          [user_id, vocabulary_id, isAdminFor, isMaintainerFor]
-      actions:
-        _list:      -
-        _save:         { credentials: [[administrator, hasAgents]] }
-        _save_and_add: { credentials: [administrator] }

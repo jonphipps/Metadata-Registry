@@ -51,6 +51,17 @@ class myPropelUniquePrefLabelValidator extends sfValidator
            return false;
          }
       }
+      /** we check to see if it's ok to be blank
+      * @todo the list of skos property types that require a related concept should be in a master configuration array
+      * this applies to the template too
+      **/
+      else if (!in_array($property['skos_property_id'], array('3','16','21') ))
+      {
+         $property['related_concept_id'] = null;
+         $property['scheme_id'] = null;
+         //save the array back to the request parameter
+         $this->requestParameterHolder->set('concept_property', $concept_property);
+      }
     }
     else
     {
