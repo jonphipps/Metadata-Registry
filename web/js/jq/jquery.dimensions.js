@@ -2,10 +2,12 @@
  * Dual licensed under the MIT (http://www.opensource.org/licenses/mit-license.php)
  * and GPL (http://www.opensource.org/licenses/gpl-license.php) licenses.
  *
- * $LastChangedDate: 2007-07-25 23:06:52 -0400 (Wed, 25 Jul 2007) $
- * $Rev: 2490 $
+ * $LastChangedDate: 2007-08-17 14:14:11 -0400 (Fri, 17 Aug 2007) $
+ * $Rev: 2759 $
  *
- * Version: 1.0.1
+ * Version: 1.1.2
+ *
+ * Requires: jQuery 1.1.3+
  */
 
 (function($){
@@ -34,18 +36,18 @@ $.fn.extend({
 	 * @cat Plugins/Dimensions
 	 */
 	height: function() {
-		if (!this[0]) error();
+		if ( !this[0] ) error();
 		if ( this[0] == window )
-			if ( ($.browser.mozilla || $.browser.opera) && $(document).width() > self.innerWidth)
-				// mozilla and opera both return width + scrollbar width
-				return self.innerHeight - getScrollbarWidth();
+			if ( $.browser.opera || ($.browser.safari && parseInt($.browser.version) > 520) )
+				return self.innerHeight - (($(document).height() > self.innerHeight) ? getScrollbarWidth() : 0);
+
+			else if ( $.browser.safari )
+				return self.innerHeight;
 			else
-				return self.innerHeight ||
-					$.boxModel && document.documentElement.clientHeight || 
-					document.body.clientHeight;
-		
-		if ( this[0] == document )
-			return Math.max( document.body.scrollHeight, document.body.offsetHeight );
+          //return $.boxModel && Math.min(document.documentElement.clientHeight,document.body.clientHeight);
+      		return $.boxModel && document.documentElement.clientHeight || document.body.clientHeight;
+		if ( this[0] == document ) 
+			return Math.max( ($.boxModel && document.documentElement.scrollHeight || document.body.scrollHeight), document.body.offsetHeight );
 		
 		return height.apply(this, arguments);
 	},
@@ -71,13 +73,12 @@ $.fn.extend({
 	width: function() {
 		if (!this[0]) error();
 		if ( this[0] == window )
-			if (($.browser.mozilla || $.browser.opera) && $(document).height() > self.innerHeight)
-				// mozilla and opera both return width + scrollbar width
-				return self.innerWidth - getScrollbarWidth();
+			if ( $.browser.opera || ($.browser.safari && parseInt($.browser.version) > 520) )
+				return self.innerWidth - (($(document).width() > self.innerWidth) ? getScrollbarWidth() : 0);
+			else if ( $.browser.safari )
+				return self.innerWidth;
 			else
-				return self.innerWidth ||
-					$.boxModel && document.documentElement.clientWidth ||
-					document.body.clientWidth;
+                return $.boxModel && document.documentElement.clientWidth || document.body.clientWidth;
 
 		if ( this[0] == document )
 			if ($.browser.mozilla) {
@@ -89,7 +90,7 @@ $.fn.extend({
 				return document.body.offsetWidth + scrollWidth;
 			}
 			else 
-				return Math.max( document.body.scrollWidth, document.body.offsetWidth );
+				return Math.max( (($.boxModel && !$.browser.safari) && document.documentElement.scrollWidth || document.body.scrollWidth), document.body.offsetWidth );
 
 		return width.apply(this, arguments);
 	},
@@ -141,20 +142,31 @@ $.fn.extend({
 	 * If used on document, returns the document's height (innerHeight).
 	 * If used on window, returns the viewport's (window) height.
 	 *
+	 * The margin can be included in the calculation by passing an options map with margin
+	 * set to true.
+	 *
 	 * @example $("#testdiv").outerHeight()
 	 * @result 220
 	 *
+	 * @example $("#testdiv").outerHeight({ margin: true })
+	 * @result 240
+	 *
 	 * @name outerHeight
 	 * @type Number
+	 * @param Map options Optional settings to configure the way the outer height is calculated.
 	 * @cat Plugins/Dimensions
 	 */
-	outerHeight: function() {
+	outerHeight: function(options) {
 		if (!this[0]) error();
+		options = $.extend({ margin: false }, options || {});
 		return this[0] == window || this[0] == document ?
 			this.height() :
 			this.is(':visible') ?
-				this[0].offsetHeight :
-				this.height() + num(this,'borderTopWidth') + num(this, 'borderBottomWidth') + num(this, 'paddingTop') + num(this, 'paddingBottom');
+				this[0].offsetHeight + (options.margin ? (num(this, 'marginTop') + num(this, 'marginBottom')) : 0) :
+				this.height() 
+					+ num(this,'borderTopWidth') + num(this, 'borderBottomWidth') 
+					+ num(this, 'paddingTop') + num(this, 'paddingBottom')
+					+ (options.margin ? (num(this, 'marginTop') + num(this, 'marginBottom')) : 0);
 	},
 	
 	/**
@@ -162,20 +174,31 @@ $.fn.extend({
 	 * If used on document, returns the document's width (innerWidth).
 	 * If used on window, returns the viewport's (window) width.
 	 *
-	 * @example $("#testdiv").outerHeight()
+	 * The margin can be included in the calculation by passing an options map with margin
+	 * set to true.
+	 *
+	 * @example $("#testdiv").outerWidth()
 	 * @result 1000
 	 *
+	 * @example $("#testdiv").outerWidth({ margin: true })
+	 * @result 1020
+	 * 
 	 * @name outerHeight
 	 * @type Number
+	 * @param Map options Optional settings to configure the way the outer width is calculated.
 	 * @cat Plugins/Dimensions
 	 */
-	outerWidth: function() {
+	outerWidth: function(options) {
 		if (!this[0]) error();
+		options = $.extend({ margin: false }, options || {});
 		return this[0] == window || this[0] == document ?
 			this.width() :
 			this.is(':visible') ?
-				this[0].offsetWidth :
-				this.width() + num(this, 'borderLeftWidth') + num(this, 'borderRightWidth') + num(this, 'paddingLeft') + num(this, 'paddingRight');
+				this[0].offsetWidth + (options.margin ? (num(this, 'marginLeft') + num(this, 'marginRight')) : 0) :
+				this.width() 
+					+ num(this, 'borderLeftWidth') + num(this, 'borderRightWidth') 
+					+ num(this, 'paddingLeft') + num(this, 'paddingRight')
+					+ (options.margin ? (num(this, 'marginLeft') + num(this, 'marginRight')) : 0);
 	},
 	
 	/**
@@ -358,7 +381,8 @@ $.fn.extend({
 		if (!this[0]) error();
 		var x = 0, y = 0, sl = 0, st = 0,
 		    elem = this[0], parent = this[0], op, parPos, elemPos = $.css(elem, 'position'),
-		    mo = $.browser.mozilla, ie = $.browser.msie, sf = $.browser.safari, oa = $.browser.opera,
+		    mo = $.browser.mozilla, ie = $.browser.msie, oa = $.browser.opera,
+		    sf = $.browser.safari, sf3 = $.browser.safari && parseInt($.browser.version) > 520,
 		    absparent = false, relparent = false, 
 		    options = $.extend({ margin: true, border: false, padding: false, scroll: true, lite: false, relativeTo: document.body }, options || {});
 		
@@ -368,7 +392,7 @@ $.fn.extend({
 		if (options.relativeTo.jquery) options.relativeTo = options.relativeTo[0];
 		
 		if (elem.tagName == 'BODY') {
-			// Safari is the only one to get offsetLeft and offsetTop properties of the body "correct"
+			// Safari 2 is the only one to get offsetLeft and offsetTop properties of the body "correct"
 			// Except they all mess up when the body is positioned absolute or relative
 			x = elem.offsetLeft;
 			y = elem.offsetTop;
@@ -383,9 +407,14 @@ $.fn.extend({
 				y += num(elem, 'marginTop');
 			} else
 			// IE does not add the border in Standards Mode
-			if (ie && jQuery.boxModel) {
+			if ((ie && jQuery.boxModel)) {
 				x += num(elem, 'borderLeftWidth');
 				y += num(elem, 'borderTopWidth');
+			} else
+			// Safari 3 doesn't not include border or margin
+			if (sf3) {
+				x += num(elem, 'marginLeft') + num(elem, 'borderLeftWidth');
+				y += num(elem, 'marginTop')  + num(elem, 'borderTopWidth');
 			}
 		} else {
 			do {
@@ -395,7 +424,8 @@ $.fn.extend({
 				y += parent.offsetTop;
 
 				// Mozilla and IE do not add the border
-				if (mo || ie) {
+				// Mozilla adds the border for table cells
+				if ((mo && !parent.tagName.match(/^t[d|h]$/i)) || ie || sf3) {
 					// add borders to offset
 					x += num(parent, 'borderLeftWidth');
 					y += num(parent, 'borderTopWidth');
@@ -439,22 +469,23 @@ $.fn.extend({
 						x += num(parent, 'borderLeftWidth');
 						y += num(parent, 'borderTopWidth');
 					}
-					// Safari and opera includes border on positioned parents
-					if (($.browser.safari || $.browser.opera) && $.css(op, 'position') != 'static') {
+					// Safari 2 and opera includes border on positioned parents
+					if ( ((sf && !sf3) || oa) && parPos != 'static' ) {
 						x -= num(op, 'borderLeftWidth');
 						y -= num(op, 'borderTopWidth');
 					}
 					break;
 				}
 				if (parent.tagName == 'BODY' || parent.tagName == 'HTML') {
-					// Safari and IE Standards Mode doesn't add the body margin for elments positioned with static or relative
-					if ((sf || (ie && $.boxModel)) && elemPos != 'absolute' && elemPos != 'fixed') {
+					// Safari 2 and IE Standards Mode doesn't add the body margin for elments positioned with static or relative
+					if (((sf && !sf3) || (ie && $.boxModel)) && elemPos != 'absolute' && elemPos != 'fixed') {
 						x += num(parent, 'marginLeft');
 						y += num(parent, 'marginTop');
 					}
+					// Safari 3 does not include the border on body
 					// Mozilla does not include the border on body if an element isn't positioned absolute and is without an absolute parent
 					// IE does not include the border on the body if an element is positioned static and without an absolute or relative parent
-					if ( (mo && !absparent && elemPos != 'fixed') || 
+					if ( sf3 || (mo && !absparent && elemPos != 'fixed') || 
 					     (ie && elemPos == 'static' && !relparent) ) {
 						x += num(parent, 'borderLeftWidth');
 						y += num(parent, 'borderTopWidth');
@@ -569,10 +600,10 @@ var handleOffsetReturn = function(elem, options, x, y, sl, st) {
 	}
 
 	// Safari and Opera do not add the border for the element
-	if ( options.border && ($.browser.safari || $.browser.opera) ) {
+	if ( options.border && (($.browser.safari && parseInt($.browser.version) < 520) || $.browser.opera) ) {
 		x += num(elem, 'borderLeftWidth');
 		y += num(elem, 'borderTopWidth');
-	} else if ( !options.border && !($.browser.safari || $.browser.opera) ) {
+	} else if ( !options.border && !(($.browser.safari && parseInt($.browser.version) < 520) || $.browser.opera) ) {
 		x -= num(elem, 'borderLeftWidth');
 		y -= num(elem, 'borderTopWidth');
 	}
@@ -583,7 +614,7 @@ var handleOffsetReturn = function(elem, options, x, y, sl, st) {
 	}
 	
 	// do not include scroll offset on the element ... opera sometimes reports scroll offset as actual offset
-	if ( options.scroll && ($.browser.opera && elem.offsetLeft != elem.scrollLeft && elem.offsetTop != elem.scrollLeft) ) {
+	if ( options.scroll && (!$.browser.opera || elem.offsetLeft != elem.scrollLeft && elem.offsetTop != elem.scrollLeft) ) {
 		sl -= elem.scrollLeft;
 		st -= elem.scrollTop;
 	}

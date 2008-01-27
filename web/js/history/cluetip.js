@@ -1,5 +1,4 @@
-/*
 $(document).ready(function()  {
-   $('a.load-local').cluetip({local:true, arrows:true, sticky: true, dropShadow: false});
+   $('a.load-local').cluetip({local:true, arrows:true, showTitle: true});
   });
-*/
+  

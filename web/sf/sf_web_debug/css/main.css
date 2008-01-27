@@ -45,9 +45,10 @@
 }
 
 #sfWebDebugBar .menu
+# JP changed 'display: inline;' on 01/23/2008
 {
   padding: 5px;
-  display: inline;
+  display: none;
 }
 
 #sfWebDebugBar .menu li
