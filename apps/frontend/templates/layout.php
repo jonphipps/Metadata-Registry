@@ -43,18 +43,6 @@
     </div>
   </div>
 
-  <div id="login" style="display: none">
-    <h2><?php echo __('please sign-in first') ?></h2>
-    <?php echo form_tag('@login', 'id=loginform') ?>
-      <label for="nickname"><?php echo __('nickname:') ?></label><?php echo input_tag('nickname') ?>
-      <label for="password"><?php echo __('password:') ?></label><?php echo input_password_tag('password') ?>
-      <?php echo input_hidden_tag('referer', $sf_params->get('referer') ? $sf_params->get('referer') : $sf_request->getUri()) ?>
-      <?php echo submit_tag(__('login')) ?>
-      <?php echo link_to_function(__('cancel'), visual_effect('blind_up', 'login', array('duration' => 0.5))) ?>
-    </form>
-  </div>
-
-
   <div id="content">
     <div id="content_main">
       <?php echo $sf_data->getRaw('sf_content') ?>
