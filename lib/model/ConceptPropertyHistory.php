@@ -61,4 +61,40 @@ class ConceptPropertyHistory extends BaseConceptPropertyHistory
   {
     return $this->getConceptRelatedByConceptId()->getUri();    
   }
+  
+  /**
+  * gets the previous change if the action is 'modified'
+  *
+  * @return ConceptPropertyHistory object
+  * @param  string $historyTimestamp
+  * @param  string $propertyId
+  */
+  function getPrevious()
+  {
+    $propertyId = $this->getConceptPropertyId();
+    $timestamp = $this->getCreatedAt();
+
+    //build the query string
+    $c = new Criteria();
+    $crit0 = $c->getNewCriterion(ConceptPropertyHistoryPeer::CONCEPT_PROPERTY_ID, $propertyId);
+    $crit1 = $c->getNewCriterion(ConceptPropertyHistoryPeer::CREATED_AT, $timestamp, Criteria::LESS_THAN);
+
+    // Perform AND at level 0 ($crit0 $crit1 )
+    $crit0->addAnd($crit1);
+    $c->add($crit0);
+    
+    //set order and limits
+    $c->setLimit(1);
+    $c->addDescendingOrderByColumn(ConceptPropertyHistoryPeer::CREATED_AT);
+    
+    $result = ConceptPropertyHistoryPeer::doSelect($c);
+    
+    //return the resulting object
+    if (count($result))
+    {
+        $result = $result[0];
+    }
+    
+    return $result;
+  }
 }
