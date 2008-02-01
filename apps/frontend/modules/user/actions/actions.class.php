@@ -50,18 +50,14 @@ class userActions extends autouserActions
 
   public function executeLogin()
   {
-      $request = $this->getRequest();
-      $request->setAttribute('newaccount', false);
-      $post = sfRequest::POST;
+    $request = $this->getRequest();
+    $request->setAttribute('newaccount', false);
 
     if ($request->getMethod() != sfRequest::POST)
     {
       // display the form
-      $response = $this->getResponse();
-      $response->setTitle('The Registry! :: sign in / register');
-      $AttributeHolder = $request->getAttributeHolder();
-      $referrer = $request->getReferer();
-      $AttributeHolder->set('referer', $referrer);
+      $this->getResponse()->setTitle('The Registry! :: sign in / register');
+      $this->setSigninReferer();
 
       return sfView::SUCCESS;
     }
@@ -69,7 +65,9 @@ class userActions extends autouserActions
     {
       // handle the form submission
       // redirect to last page
-      return $this->redirect($this->getRequestParameter('referer', '@homepage'));
+      $referer = $this->getUser()->getAttribute('referer', '@homepage');
+      $this->getUser()->getAttributeHolder()->remove('referer');
+      $this->redirect($referer);
     }
   }
 
@@ -180,5 +178,30 @@ class userActions extends autouserActions
   {
     $response = $this->getResponse();
     $response->setTitle('Registry! :: '.$this->subscriber->__toString().'\'s profile');
+  }
+  
+  private function setSigninReferer()
+  {
+      $default_referer = '@homepage';
+  
+      if ($this->getContext()->getActionStack()->getSize() > 0) {
+          $action = $this->getContext()->getActionStack()->getFirstEntry()->getActionInstance();
+          $security = $action->getSecurityConfiguration(); 
+          $action_name = $this->getContext()->getActionStack()->getFirstEntry()->getActionName();
+
+          // module/config/security.yml action setting takes priority
+          if (isset($security[$action_name]['is_secure']) && $security[$action_name]['is_secure']) {
+              $referer = $this->getRequest()->getUri();   
+          } elseif (isset($security['all']['is_secure']) && $security['all']['is_secure']) {
+              $referer = $this->getRequest()->getUri();         
+          } else {
+              $referer = $default_referer;
+          }
+
+      } else {
+          $referer = $default_referer;
+      }
+      
+      $this->getUser()->setAttribute('referer', $referer);
   }
 }
