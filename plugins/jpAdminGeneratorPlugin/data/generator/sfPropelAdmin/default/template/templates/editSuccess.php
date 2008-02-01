@@ -1,4 +1,4 @@
-[?php ($sf_request->hasParameter('id')) ? $mode = 'edit' : $mode = 'create' ?]
+[?php (strlen($sf_request->getParameter('id'))) ? $mode = 'edit' : $mode = 'create' ?]
 [?php use_helper('Object', 'Validation', 'ObjectAdmin', 'I18N', 'Date') ?]
 [?php use_javascript(sfConfig::get('sf_prototype_web_dir').'/js/prototype', 'first') ?]
 [?php use_javascript(sfConfig::get('sf_admin_web_dir').'/js/setfocus', 'last') ?]
