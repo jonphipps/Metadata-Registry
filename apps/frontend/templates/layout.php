@@ -37,9 +37,14 @@
     <div style="padding-top: 10px;">
       <?php echo link_to(image_tag('logo.gif.jpg', 'alt=registry align=left'), '@homepage') ?>
     </div>
-    
+
     <div id="search">
       <?php include_partial('conceptprop/search', array('searchTerm' => $sf_params->get('term'))) ?>
+<?php if ($_SERVER['HTTP_HOST'] == 'registry'): ?>
+      <br />
+      <a href="http://registry/load_test_db.php">Load test database</a>
+<?php endif; ?>
+
     </div>
   </div>
 
