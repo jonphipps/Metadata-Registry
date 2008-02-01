@@ -1,0 +1,205 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>agentEditNotLoggedInTest</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">agentEditNotLoggedInTest</td></tr>
+</thead><tbody>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=sign out</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: home</td>
+	<td></td>
+</tr>
+<!--test trying to edit not logged in-->
+<tr>
+	<td>open</td>
+	<td>/agent/edit/id/64.html</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: sign in / register</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>nickname</td>
+	<td>newtestuser</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>password</td>
+	<td>foobar</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>document.forms[1].commit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: Editing newTestAgent</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//label</td>
+	<td>exact:Type:</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//div[2]/label</td>
+	<td>Owner Name:</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//div[3]/label</td>
+	<td>Owner Email:</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//div[4]/label</td>
+	<td>Affiliation (Individual):</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//div[5]/label</td>
+	<td>Address Line 1:</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//div[6]/label</td>
+	<td>Address Line 2:</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//div[7]/label</td>
+	<td>exact:City:</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//div[8]/label</td>
+	<td>exact:State:</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//div[9]/label</td>
+	<td>Postal code:</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//div[10]/label</td>
+	<td>exact:Country:</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//div[11]/label</td>
+	<td>exact:Phone:</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//div[12]/label</td>
+	<td>Web address:</td>
+</tr>
+<tr>
+	<td>verifyValue</td>
+	<td>agent_type_Individual</td>
+	<td>on</td>
+</tr>
+<tr>
+	<td>verifyValue</td>
+	<td>agent_org_name</td>
+	<td>newTestAgent</td>
+</tr>
+<tr>
+	<td>verifyValue</td>
+	<td>agent_org_email</td>
+	<td>jphipps@madcreek.com</td>
+</tr>
+<tr>
+	<td>verifyValue</td>
+	<td>agent_ind_affiliation</td>
+	<td>Cornell</td>
+</tr>
+<tr>
+	<td>verifyValue</td>
+	<td>agent_address1</td>
+	<td>Cornell address 1</td>
+</tr>
+<tr>
+	<td>verifyValue</td>
+	<td>agent_address2</td>
+	<td>Cornell address 2</td>
+</tr>
+<tr>
+	<td>verifyValue</td>
+	<td>agent_city</td>
+	<td>Ithaca</td>
+</tr>
+<tr>
+	<td>verifyValue</td>
+	<td>agent_state</td>
+	<td>NY</td>
+</tr>
+<tr>
+	<td>verifyValue</td>
+	<td>agent_postal_code</td>
+	<td>14853</td>
+</tr>
+<tr>
+	<td>verifySelectedLabel</td>
+	<td>agent_country</td>
+	<td>United States</td>
+</tr>
+<tr>
+	<td>verifyValue</td>
+	<td>agent_phone</td>
+	<td>607-785-3224</td>
+</tr>
+<tr>
+	<td>verifyValue</td>
+	<td>agent_web_address</td>
+	<td>exact:http://madcreek.com</td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Editing newTestAgent</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>agent_postal_code</td>
+	<td>14853</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>save</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: Show detail for newTestAgent</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//h2</td>
+	<td>Your modifications have been saved</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>show_row_content_agent_postal_code</td>
+	<td>14853</td>
+</tr>
+
+</tbody></table>
+</body>
+</html>
