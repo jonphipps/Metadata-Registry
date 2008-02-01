@@ -1,2 +1,3 @@
 # default values
-#all:
+all:
+  title_prefix: "The Registry! :: "
