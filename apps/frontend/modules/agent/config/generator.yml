@@ -32,9 +32,9 @@ generator:
         _edit:         { credentials: [[administrator, agentadmin]] }
 
     edit:
-      title:           
+      title:
         mode:
-          edit:        Detail for %%org_name%%
+          edit:        Editing %%org_name%%
           create:      Creating new owner
       display:
         "Detail":      [_type, org_name, org_email, ind_affiliation, address1, address2, city, state, postal_code, country, phone, web_address]
@@ -48,7 +48,7 @@ generator:
         _cancel:       { credentials: [[administrator, agentadmin]] }
 
     show:
-      title:           Detail for %%org_name%%
+      title:           Show detail for %%org_name%%
       fields:
         id:           { type: plain, credentials: [administrator] }
         created_at:   { type: plain }
