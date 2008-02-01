@@ -185,7 +185,7 @@ foreach ($config['roles'] as $role => $roleArray)
         $browser->get($actionArray['url'][$key]);
 
         //if it's forbidden
-        $forwardTo = $actionArray['roles'][$role][$key]['forwardTo'];
+        $forwardTo = isset($actionArray['roles'][$role][$key]['forwardTo']) ? $actionArray['roles'][$role][$key]['forwardTo'] : '';
         if (is_array($forwardTo))
         {
           //we should get forwarded to login
