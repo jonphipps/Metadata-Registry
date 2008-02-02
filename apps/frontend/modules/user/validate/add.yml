@@ -30,7 +30,7 @@ nicknameValidator:
 newAccountValidator:
     class: myNewAccountValidator
     param:
-      newaccount_error:  an account with this nickname already exists
+      newaccount_error:  an account with this login name already exists
 
 passwordValidator:
     class: sfStringValidator

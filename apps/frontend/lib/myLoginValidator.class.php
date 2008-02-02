@@ -9,9 +9,10 @@
  * @version    SVN: $Id: myLoginValidator.class.php 2 2006-04-03 21:07:20Z jphipps $
  */
  class myLoginValidator extends sfValidator
- {    
+ {
    public function initialize ($context, $parameters = null)
    {
+
      // initialize parent
      parent::initialize($context);
 
@@ -34,6 +35,24 @@
     */
    public function execute (&$value, &$error)
    {
+     $actionName = $this->getContext()->getActionStack()->getFirstEntry()->getActionName();
+
+     if (isset ($actionName) and 'add' == $actionName)
+     {
+       $addError = $this->getContext()->getRequest()->getError('nickname');
+       if(isset($addError)) //a nickname error has already been generated so we grab it
+       {
+         $error = $addError;
+         return false;
+       }
+       //see if there are other errors
+       if (count($this->getContext()->getRequest()->getErrorNames()))
+       {
+         $error = null;
+         return false;
+       }
+     }
+
      $password_param = $this->getParameterHolder()->get('password');
      $password = $this->getContext()->getRequest()->getParameter($password_param);
 

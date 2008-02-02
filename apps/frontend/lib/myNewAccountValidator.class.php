@@ -45,7 +45,7 @@ class myNewAccountValidator extends sfValidator
     parent::initialize($context);
 
     // set defaults
-    $this->getParameterHolder()->set('newaccount_error', 'Invalid input');
+    $this->setParameter('unique_error', 'Uniqueness error');
 
     $this->getParameterHolder()->add($parameters);
 

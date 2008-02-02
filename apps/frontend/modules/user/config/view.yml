@@ -11,8 +11,7 @@ showSubscriberSuccess:
   javascripts: [setfocus: { position: last }]
 
 all:
-  stylesheets: [-*, %SF_ADMIN_WEB_DIR%/main, main, layout]
-  stylesheets: [user/layout]
+  stylesheets: [-*, %SF_ADMIN_WEB_DIR%/css/main, main, layout, user/layout]
 
   components:
     menubar:      []

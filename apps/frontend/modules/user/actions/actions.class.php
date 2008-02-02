@@ -51,7 +51,7 @@ class userActions extends autouserActions
   public function executeLogin()
   {
     $request = $this->getRequest();
-    $request->setAttribute('newaccount', false);
+    //$request->setAttribute('newaccount', false);
 
     if ($request->getMethod() != sfRequest::POST)
     {
@@ -179,21 +179,21 @@ class userActions extends autouserActions
     $response = $this->getResponse();
     $response->setTitle('Registry! :: '.$this->subscriber->__toString().'\'s profile');
   }
-  
+
   private function setSigninReferer()
   {
       $default_referer = '@homepage';
-  
+
       if ($this->getContext()->getActionStack()->getSize() > 0) {
           $action = $this->getContext()->getActionStack()->getFirstEntry()->getActionInstance();
-          $security = $action->getSecurityConfiguration(); 
+          $security = $action->getSecurityConfiguration();
           $action_name = $this->getContext()->getActionStack()->getFirstEntry()->getActionName();
 
           // module/config/security.yml action setting takes priority
           if (isset($security[$action_name]['is_secure']) && $security[$action_name]['is_secure']) {
-              $referer = $this->getRequest()->getUri();   
+              $referer = $this->getRequest()->getUri();
           } elseif (isset($security['all']['is_secure']) && $security['all']['is_secure']) {
-              $referer = $this->getRequest()->getUri();         
+              $referer = $this->getRequest()->getUri();
           } else {
               $referer = $default_referer;
           }
@@ -201,7 +201,7 @@ class userActions extends autouserActions
       } else {
           $referer = $default_referer;
       }
-      
+
       $this->getUser()->setAttribute('referer', $referer);
   }
 }

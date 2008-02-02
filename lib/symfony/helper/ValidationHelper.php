@@ -31,7 +31,8 @@ function form_error($param, $options = array(), $catalogue = 'messages')
 
   $request = sfContext::getInstance()->getRequest();
 
-  $style = $request->hasError($param_for_sf) ? '' : 'display:none;';
+  //following line changed to prevent displaying zero length errors
+  $style = $request->hasError($param_for_sf) && 0 != strlen(trim($request->getError($param_for_sf, $catalogue))) ? '' : 'display:none;';
   $options['style'] = $style.(isset($options['style']) ? $options['style']:'');
 
   if (!isset($options['class']))
