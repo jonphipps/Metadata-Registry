@@ -49,20 +49,25 @@
   </div>
 
   <div id="content">
-    <div id="content_main">
-      <?php echo $sf_data->getRaw('sf_content') ?>
-      <div class="verticalalign"></div>
-    </div>
-
-    <div id="content_bar">
-      <?php include_component_slot('sidebar') ?>
-      <div class="verticalalign"></div>
-    </div>
-    </div>
+    <table class="layout">
+      <tr>
+        <td class="left">
+          <div id="content_main" class="Left">
+            <?php echo $sf_data->getRaw('sf_content') ?>
+          </div>
+        </td>
+        <td class="right">
+          <div id="content_bar" class="main-subcontent">
+            <?php include_component_slot('sidebar') ?>
+            <div class="verticalalign"></div>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
 
   <div id="footer">
   <?php echo __('powered by %1%', array('%1%' => link_to(image_tag('symfony.gif', 'align=middle'), 'http://www.symfony-project.com/'))) ?>
-  <?php echo __('%1%', array('%1%' => link_to(image_tag('poweredby.png', 'align=middle'), 'http://www.redhat.com/'))) ?>
   </div>
 
 <?php

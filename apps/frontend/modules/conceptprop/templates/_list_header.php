@@ -9,8 +9,8 @@
    <?php if ($concept): ?>
       <?php echo link_to($concept->getPrefLabel(), '/concept/show?id=' . $concept->getID()) ?>
    <?php endif; ?>
-<br />&nbsp;&nbsp;&nbsp;&nbsp;Properties   
 <?php else: ?>
 List of all properties
 <?php endif; ?>
 </h1>
+<?php include_partial('global/conceptnav', array('concept' => $concept)) ?>

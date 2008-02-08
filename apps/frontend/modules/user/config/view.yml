@@ -1,17 +1,9 @@
-loginSuccess:
-  javascripts: [setfocus: { position: last }]
-
-passwordRequestSuccess:
-  javascripts: [setfocus: { position: last }]
-
-showSuccess:
-  javascripts: [setfocus: { position: last }]
-
-showSubscriberSuccess:
-  javascripts: [setfocus: { position: last }]
+passwordRequestMailSent:
+  javascripts: [-*]
 
 all:
   stylesheets: [-*, %SF_ADMIN_WEB_DIR%/css/main, main, layout, user/layout]
+  javascripts: [%SF_PROTOTYPE_WEB_DIR%/js/prototype: { position: last }]
 
-  components:
-    menubar:      []
+editSuccess:
+  javascripts: [setfocus: { position: last }]

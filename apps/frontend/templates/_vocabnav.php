@@ -1,4 +1,5 @@
 <?php
+  $sf_context->getResponse()->addStylesheet('ui');
   $topnav = array();
   $topnav['Detail']['link']  = '/vocabulary/show?id=';
   $topnav['Concepts']['link'] = '/concept/list?vocabulary_id=';
@@ -6,21 +7,29 @@
   $topnav['Versions']['link'] = '#';;
   $topnav['Users']['link'] = 'vocabuser/list?vocabulary_id=';
 ?>
-<ul id="topnav" style="height:1.85em; position:relative;" class="single" >
-<?php $i = 0;
+<div id="tab_container">
+<ul class="ui-tabs-nav" >
+<?php
+  //debugbreak();
+  $i = 0;
+  $module = $sf_params->get('module');
+  $action = $sf_params->get('action');
+
   foreach ($topnav as $key => $value):
     $here = false;
-    $module = $sf_params->get('module');
-    $action = $sf_params->get('action');
     $options = array();
     $options['id'] = 'a' . $i;
     $i++;
 
-    if (false !== strpoS($value['link'], $module . '/' . $action))
+    if (false !== strpos($value['link'], $module . '/' . $action))
     {
-      $options['class'] = 'here';
+      echo '<li class = "ui-tabs-selected">' . link_to('<span>' . __($key) . '</span>', $value['link'] . $vocabulary->getID(), $options) . '</li>';
     }
+    else
+    {
+      echo '<li>' . link_to('<span>' . __($key) . '</span>', $value['link'] . $vocabulary->getID(), $options) . '</li>';
+    }
+  endforeach;
 ?>
-  <li><?php echo link_to(__($key), $value['link'] . $vocabulary->getID(), $options) ?></li>
-<?php endforeach; ?>
 </ul>
+</div>

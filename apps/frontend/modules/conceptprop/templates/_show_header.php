@@ -10,7 +10,7 @@
    <?php if ($concept): ?>
       <?php echo link_to($concept->getPrefLabel(), '/concept/show?id=' . $concept->getID()) ?>
    <?php endif; ?>
-   <br />&nbsp;&nbsp;&nbsp;&nbsp;<?php echo link_to('Properties: ', '/conceptprop/list?concept_id=' . $concept->getID()) . "Showing " . $concept_property->getSkosPropertyName() ?>
+   <br />&nbsp;&nbsp;&nbsp;&nbsp;<?php echo link_to('Properties: ', '/conceptprop/list?concept_id=' . $concept->getID()) . $concept_property->getSkosPropertyName() ?>
 <?php endif; ?>
 </h1>
 <?php include_partial('global/propertynav', array('concept_property' => $concept_property)) ?>

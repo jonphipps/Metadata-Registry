@@ -1,8 +1,10 @@
 <?php use_helper('Validation', 'Javascript') ?>
+<?php use_javascript(sfConfig::get('sf_prototype_web_dir').'/js/prototype', 'first') ?>
 
 <?php echo javascript_tag("formUtil.focusOnFirst('email_password');") ?>
 
 <div id="sf_admin_container">
+<div id="login_div">
    <h1><?php echo __('Receive a new password by email') ?></h1>
 
    <div style="padding:10px 0px 10px 6px;">
@@ -28,4 +30,5 @@
       </ul>
 
    </form>
+</div>
 </div>

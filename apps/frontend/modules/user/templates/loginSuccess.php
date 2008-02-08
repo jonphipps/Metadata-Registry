@@ -1,6 +1,8 @@
 <?php use_helper('Validation', 'Javascript') ?>
 
 <div id="sf_admin_container">
+<div id="login_div">
+<?php use_javascript(sfConfig::get('sf_admin_web_dir').'/js/setfocus', 'last') ?>
 <?php echo javascript_tag("formUtil.focusOnFirst('login_form');") ?>
 
 <h1><?php echo __('sign in / register') ?></h1>
@@ -75,7 +77,7 @@ if ($sf_request->hasErrors()):
             <?php echo form_error('email') ?>
             <label for="email" class="required"><?php echo __('your email:') ?></label>
             <div class="content">
-               <?php echo input_tag('email', $sf_params->get('email')) ?>
+               <?php echo input_tag('email', $sf_params->get('email'), 'size=65') ?>
                <div style="padding:10px 0px 10px 0px;"><?php echo __('The Registry will never disclose this address to a third party') ?></div>
             </div>
          </div>
@@ -116,4 +118,5 @@ if ($sf_request->hasErrors()):
 
   return false;
 }") ?>
+</div>
 </div>

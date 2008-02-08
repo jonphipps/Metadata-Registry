@@ -38,6 +38,9 @@
     echo link_to('Vocabulary: ', 'vocabulary/list');
     echo link_to($vocabName, 'vocabulary/show?id=' . $vocabId);
     $spaceCount++;
+    $metaTitle = __('History of %%vocabulary%%',
+    array('%%vocabulary%%' => $vocabulary->getName()));
+    $sf_context->getResponse()->setTitle(sfConfig::get('app_title_prefix') . $metaTitle);
   }
 
   if (isset($conceptId))
@@ -45,13 +48,19 @@
     echo '<br />&nbsp;&nbsp;' . link_to('Concepts: ', '/concept/list?vocabulary_id=' . $vocabId);
     echo link_to($concept->getPrefLabel(), '/concept/show?id=' . $conceptId);
     $spaceCount++;
+    $metaTitle = __('%%vocabulary%% :: History of %%pref_label%%',
+    array('%%vocabulary%%' => $vocabulary->getName(), '%%pref_label%%' => $concept->getPrefLabel()));
+    $sf_context->getResponse()->setTitle(sfConfig::get('app_title_prefix') . $metaTitle);
   }
 
   if (isset($propertyId))
   {
     echo '<br />&nbsp;&nbsp;&nbsp;&nbsp;' . link_to('Properties: ', '/conceptprop/list?concept_id=' . $conceptId);
-    echo link_to($property->getSkosProperty()->getName(), '/conceptprop/show?id=' . $propertyId);
+    echo $property->getSkosProperty()->getName();
     $spaceCount++;
+    $metaTitle = __('%%vocabulary%% :: %%pref_label%% :: History of %%__%% property',
+    array('%%vocabulary%%' => $vocabulary->getName(), '%%pref_label%%' => $concept->getPrefLabel()));
+    $sf_context->getResponse()->setTitle(sfConfig::get('app_title_prefix') . $metaTitle);
   }
 
   if ($spaceCount)
@@ -62,7 +71,7 @@
       $spaces .= "&nbsp;&nbsp;";
     }
 
-    echo "<br />" . $spaces . 'History of Changes';
+//    echo "<br />" . $spaces . 'History of Changes';
   }
   else
   {
@@ -70,3 +79,16 @@
   }
 ?>
 </h1>
+<?php
+  if (isset($propertyId))
+  {
+    include_partial('global/propertynav', array('concept_property' => $property));
+  }
+  elseif (isset($conceptId))
+  {
+    include_partial('global/conceptnav', array('concept' => $concept));
+  }
+  elseif (isset($vocabId))
+  {
+    include_partial('global/vocabnav', array('vocabulary' => $vocabulary));
+  }

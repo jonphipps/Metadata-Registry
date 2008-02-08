@@ -2,19 +2,14 @@ div#sf_admin_container,
 div#sf_admin_container.sf_admin_list div#sf_admin_content,
 div#sf_admin_container.sf_admin_list div#sf_admin_header
 {
-  width: 50em !important;
+/*  width: 50em !important;*/
   margin-left: auto;
   margin-right: auto;
 }
 
-fieldset#sf_fieldset_users .show-row .content
+div#show_row_content_vocabulary_list_users .sf_admin_list
 {
-  padding-left: 11em !important;
-}
-
-fieldset#sf_fieldset_users .show-row .content
-{ 
-  padding-left: 20px !important;
+	width:40%;
 }
 
 fieldset#sf_fieldset_users .show-row label

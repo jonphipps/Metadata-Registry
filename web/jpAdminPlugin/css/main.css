@@ -18,8 +18,8 @@ body,
 {
   margin: 0;
   padding: 20px;
-  font-family: Arial, sans-serif;
-  font-size: 11px;
+/*  font-family: Arial, sans-serif;
+  font-size: 11px;*/
   background-color: #fff;
 }
 
@@ -123,7 +123,7 @@ body,
 #sf_admin_container .form-row .content,
 #sf_admin_container .show-row .content
 {
-  padding-left: 9em;
+  padding-left: 11em;
 }
 
 #sf_admin_container .form-errors
@@ -236,7 +236,7 @@ body,
 
 #sf_admin_container ul.sf_admin_actions
 {
-  margin: 10px 0;
+  padding: 0px 5px 5px 0px;
   list-style-type: none;
   text-align: right;
 }
@@ -255,7 +255,7 @@ body,
 #sf_admin_container ul.sf_admin_actions li.float-left
 {
   float:left;
-  margin-top:-30px;
+  margin-top:-25px;
 }
 
 #sf_admin_container ul.sf_admin_actions input
@@ -407,7 +407,7 @@ div #sf_admin_container
   margin-bottom:10px;
   margin-top:10px;
   background-color:white;
-  width:480px;
+/*  width:480px;*/
 }
 
 #sf_admin_container form#sf_admin_edit_form fieldset

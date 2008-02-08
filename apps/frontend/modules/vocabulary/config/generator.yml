@@ -21,7 +21,7 @@ generator:
       status_id:      { name: Default Status, help: Default status for the concept properties of this vocabulary }
 
     list:
-      title:           Registry vocabulary list
+      title:          Vocabularies
       fields:
         last_updated: { params: date_format='yyyy-MM-dd' }
       display:        [=name, _agent, last_updated]
@@ -33,7 +33,10 @@ generator:
       filters:        [agent_id]
 
     edit:
-      title:          Detail for %%name%%
+      title:
+        mode:
+          edit:       Editing %%name%%
+          create:     Creating new vocabulary
       helptype:       icon
       fields:
         id:           { name: ID, type: plain, credentials: [administrator], mode: edit }
@@ -53,7 +56,7 @@ generator:
         _cancel:       { credentials: [[administrator, hasAgents, vocabularymaintainer, vocabularyadmin]] }
 
     show:
-      title:          Detail for %%name%%
+      title:           Show detail for %%name%%
       fields:
         id:            { name: ID, type: plain, credentials: [administrator], mode: edit }
         uri:           { helper: auto_link_text }

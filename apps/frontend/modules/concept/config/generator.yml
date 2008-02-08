@@ -4,6 +4,9 @@ generator:
     model_class:      Concept
     theme:            default
 
+    pager:
+      no_results:     No Concepts have been defined for this Vocabulary
+
     fields:
       id:
          name:        ID
@@ -52,6 +55,10 @@ generator:
         vocabulary_id:  vocabulary_id
 
     edit:
+      title:
+        mode:
+          edit:        Editing %%pref_label%%
+          create:      Creating new concept
       fields:
         id:            { credentials: [administrator], mode: edit }
         language:      { params: disabled=true }
@@ -81,4 +88,4 @@ generator:
         _create:       { name: Add Concept, credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
         _list:         { query_string: { vocabulary_id: vocabulary_id} }
         rdf:           { name: Get RDF, icon: %SF_ADMIN_WEB_DIR%/images/rdf_icon.png, route: rdf_concept }
-            
+

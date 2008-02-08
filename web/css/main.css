@@ -17,25 +17,25 @@ body, td
 {
   margin: 0;
   padding: 0;
-  font-family: Arial, sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 12px;
-  background: #F2ECF2;
+/*  background: #F2ECF2;*/
 }
 
 body
 {
-  text-align: center;
+  text-align: left;
 }
 
 div#header
 {
   margin-left: auto;
   margin-right: auto;
-  margin-bottom: 10px;
+/*  margin-bottom: 10px;*/
   text-align: left;
   width: 100%;
   height: 82px;
-  background: white url(/images/header_bar.gif) repeat-x top left;
+  background: white url(../images/header_bar.gif) repeat-x top left;
 }
 
 div#header h1
@@ -59,7 +59,7 @@ div#header ul, div#footer ul
   display:inline;
   float:right;
   padding: 5px 5px;
-  background: #d8732f url(/images/menu_left.gif) no-repeat left bottom;
+  background: #d8732f url(../images/menu_left.gif) no-repeat left bottom;
   font-size: 11px;
 }
 
@@ -107,21 +107,21 @@ div#content
 
 div#content_main
 {
-  background: white;
-  padding:5px;
-  margin-right:250px;
+/*  background: white;*/
+/*  padding:5px;*/
+/*  margin-right:250px;*/
   margin-left:10px;
   top:0;
 }
 
 div#content_bar
 {
-  position:absolute;
+/*  position:absolute;*/
   background-color: white;
-  top:0;
-  right:0;
-  width: 220px;
-  margin-right:10px;
+/*  top:0;
+  right:0;*/
+/*  width: 220px;*/
+  margin:10px;
   padding:5px;
 }
 
@@ -273,7 +273,7 @@ div#content_bar div.topbar
 
 div#content_bar li
 {
-  padding: 0 0 5px 5px;
+  padding: 0 0 0px 5px;
   list-style:none;
 }
 
@@ -318,7 +318,7 @@ input.searchterm
 
 .form_error
 {
-  padding-left: 85px;
+  padding: 0 0 4px 11em;
   color: #d8732f;
 }
 
@@ -330,7 +330,7 @@ div#indicator
   left: 10px;
   top: 10px;
   z-index: 900;
-  background: url(/images/indicator.gif) no-repeat 0 0;
+  background: url(../images/indicator.gif) no-repeat 0 0;
 }
 
 .subtitle
@@ -438,7 +438,7 @@ ul#tag_cloud li.tag_popularity_4
   text-align: center;
   font-size: 16px;
   font-weight: bold;
-  background: url(/images/add_background.gif) no-repeat left 7px;
+  background: url(../images/add_background.gif) no-repeat left 7px;
 }
 
 #add_question :link, #add_question :visited
@@ -493,7 +493,7 @@ margin-left:-6px;
 
 div#home {
 background-color:#FFFFCC;
-width:90% !important;
+/*width:90% !important;*/
 padding:6px;
 margin-bottom:6px
 }
@@ -531,4 +531,22 @@ padding-right: 6px !important;
 
 table.rowDetail tr {
 padding: 3px !important; 
+}
+
+div.form-errors dl
+{
+  padding:4px;
+  margin:0
+}
+
+div.form-errors dd
+{
+  padding:0 15px;
+  margin:0;
+}
+
+div#login_div {
+	margin:auto;
+	width:520px;
+
 }

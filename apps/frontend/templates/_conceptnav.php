@@ -1,11 +1,13 @@
 <?php
+  $sf_context->getResponse()->addStylesheet('ui');
   $topnav = array();
   $topnav['Detail']['link']  = '/concept/show?id=';
   $topnav['Properties']['link'] = '/conceptprop/list?concept_id=';
   $topnav['History']['link'] = '/history/list?concept_id=';;
   $topnav['Versions']['link'] = '#';;
 ?>
-<ul id="topnav" style="height:1.85em; position:relative;" class="single" >
+<div id="tab_container">
+<ul class="ui-tabs-nav" >
 <?php
   //debugbreak();
   $i = 0;
@@ -20,11 +22,13 @@
 
     if (false !== strpos($value['link'], $module . '/' . $action))
     {
-      $options['class'] = 'here';
+      echo '<li class = "ui-tabs-selected">' . link_to('<span>' . __($key) . '</span>', $value['link'] . $concept->getID(), $options) . '</li>';
     }
-
-    echo '<li>' . link_to(__($key), $value['link'] . $concept->getID(), $options) . '</li>';
-
+    else
+    {
+      echo '<li>' . link_to('<span>' . __($key) . '</span>', $value['link'] . $concept->getID(), $options) . '</li>';
+    }
   endforeach;
 ?>
 </ul>
+</div>
