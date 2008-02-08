@@ -8,6 +8,7 @@
 <thead>
 <tr><td rowspan="1" colspan="3">agentCreateTest</td></tr>
 </thead><tbody>
+<!--initial state should be logged in as 'newtestuser'-->
 <tr>
 	<td>open</td>
 	<td>/</td>
@@ -411,6 +412,21 @@
 <tr>
 	<td>assertTitle</td>
 	<td>Registry :: Owners</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>link=newTestAgent</td>
+	<td>newTestAgent</td>
+</tr>
+<tr>
+	<td>verifyElementPresent</td>
+	<td>//img[@alt='edit']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyElementPresent</td>
+	<td>link=Vocabulary</td>
 	<td></td>
 </tr>
 
