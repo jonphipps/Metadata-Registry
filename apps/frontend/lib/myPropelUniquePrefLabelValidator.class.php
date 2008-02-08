@@ -24,7 +24,7 @@ class myPropelUniquePrefLabelValidator extends sfValidator
     $property   = $this->getContext()->getRequest()->getParameter('concept_property');
     $propertyId = $this->getContext()->getRequest()->getParameter('id');
     $conceptId = $this->getContext()->getRequest()->getParameter('concept_id');
-    $vocabId = $this->getContext()->getUser()->getAttribute('vocabulary')->getId();
+    //$vocabId = $this->getContext()->getUser()->getAttribute('vocabulary')->getId();
 
     //if it's not a prefLabel then we just check for uniqueness in the context of the Concept
     if ((int) $property['skos_property_id'] !== 19)
