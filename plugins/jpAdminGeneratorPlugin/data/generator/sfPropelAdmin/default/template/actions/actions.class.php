@@ -51,7 +51,10 @@ class <?php echo $this->getGeneratedModuleName() ?>Actions extends sfActions
 
   public function executeShow ()
   {
-    $this-><?php echo $this->getSingularName() ?> = <?php echo $this->getClassName() ?>Peer::retrieveByPk(<?php echo $this->getRetrieveByPkParamsForAction(49) ?>);
+    if (!$this-><?php echo $this->getSingularName() ?>)
+    {
+      $this-><?php echo $this->getSingularName() ?> = <?php echo $this->getClassName() ?>Peer::retrieveByPk(<?php echo $this->getRetrieveByPkParamsForAction(49) ?>);
+    }
     $this->labels = $this->getLabels('show');
 
     $this->forward404Unless($this-><?php echo $this->getSingularName() ?>);
@@ -103,7 +106,10 @@ class <?php echo $this->getGeneratedModuleName() ?>Actions extends sfActions
 
   public function executeDelete()
   {
-    $this-><?php echo $this->getSingularName() ?> = <?php echo $this->getClassName() ?>Peer::retrieveByPk(<?php echo $this->getRetrieveByPkParamsForAction(40) ?>);
+    if (!$this-><?php echo $this->getSingularName() ?>)
+    {
+      $this-><?php echo $this->getSingularName() ?> = <?php echo $this->getClassName() ?>Peer::retrieveByPk(<?php echo $this->getRetrieveByPkParamsForAction(40) ?>);
+    }
     $this->forward404Unless($this-><?php echo $this->getSingularName() ?>);
 
     try
