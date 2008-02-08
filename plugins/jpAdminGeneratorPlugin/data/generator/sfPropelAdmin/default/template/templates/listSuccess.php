@@ -9,7 +9,7 @@
 
 <div id="sf_admin_content">
 [?php if (!$pager->getNbResults()): ?]
-[?php echo __('no result') ?]
+<br />[?php echo __('<?php echo $this->getParameterValue('pager.no_results', 'No ressults') ?>') ?]
 [?php else: ?]
 [?php include_partial('<?php echo $this->getModuleName() ?>/list', array('pager' => $pager)) ?]
 [?php endif; ?]
