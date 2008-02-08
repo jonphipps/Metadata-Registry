@@ -384,7 +384,13 @@ class myUser extends sfBasicSecurityUser
   */
   public function getCurrentVocabulary()
   {
-    return $this->getAttribute('vocabulary');
+    /** @var Vocabulary **/
+    $vocabulary = $this->getAttribute('vocabulary');
+    if ($vocabulary)
+    {
+      $this->buildModCredentials($vocabulary->getId(),'vocabulary');
+    }
+    return $vocabulary;
   }
 
   /**
@@ -433,9 +439,25 @@ class myUser extends sfBasicSecurityUser
     {
       $module = $this->getContext()->getModuleName();
     }
+
+    //make sure it's lower case
+    $module = strtolower($module);
+
     //check if there are object credentials at all for this model
     $objCredentialsArray = $this->getAttribute($module, array(), self::OBJECT_CREDENTIAL_NAMESPACE);
     $modCredentials = array();
+
+    //revoke the curent credentials
+    //NOTE: this relies heavily on the convention that the credential starts with the lowercase module name
+    $credentials = $this->credentials;
+    $match = "/^$module/";
+    foreach ($credentials as $credKey => $credential)
+    {
+      if (preg_match($match, $credential))
+      {
+        unset($this->credentials[$credKey]);
+      }
+    }
 
     if (isset($objCredentialsArray[$key]))
     {
@@ -462,6 +484,12 @@ class myUser extends sfBasicSecurityUser
   */
   public function hasObjectCredential($key, $module, $credentials)
   {
+    //map some other objects
+    if ('conceptprop' == $module || 'concept' == $module)
+    {
+        $module = 'vocabulary';
+        $key = $this->getCurrentVocabulary()->getId();
+    }
 
     $this->buildModCredentials($key, $module);
 
