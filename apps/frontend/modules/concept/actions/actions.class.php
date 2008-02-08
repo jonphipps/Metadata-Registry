@@ -67,49 +67,59 @@ class conceptActions extends autoconceptActions
   */
   public function getCurrentVocabulary()
   {
-    //check if there's a request parameter     
-    $vocabId = $this->getRequestParameter('vocabulary_id');
+    //check if there's a request parameter
+    $vocabularyId = $this->getRequestParameter('vocabulary_id');
 
     //vocabulary_id's in the query string
-    if ($vocabId)
+    if ($vocabularyId)
     {
       $attributeHolder = $this->getUser()->getAttributeHolder();
-      myActionTools::updateAdminFilters($attributeHolder, 'vocabulary_id', $vocabId, 'concept');
+      myActionTools::updateAdminFilters($attributeHolder, 'vocabulary_id', $vocabularyId, 'concept');
     }
     //vocabulary_id's not in the query string, but it's in a filter
     elseif (isset($this->filters['vocabulary_id']) && $this->filters['vocabulary_id'] !== '')
     {
-      $vocabId = $this->filters['vocabulary_id'];
+      $vocabularyId = $this->filters['vocabulary_id'];
     }
 
-    $vocabObj = $this->getUser()->getCurrentVocabulary();
+    $vocabulary = $this->getUser()->getCurrentVocabulary();
 
     //there's a vocabulary_id but no vocabulary object
-    if ($vocabId && !$vocabObj)
+    if ($vocabularyId && !$vocabulary)
     {
-      $vocabObj = $this->setLatestVocabulary($vocabId);
+      $vocabulary = $this->setLatestVocabulary($vocabularyId);
     }
 
-    if ($vocabObj)
+    if ($vocabulary)
     {
       $currentId = $this->getUser()->getCurrentVocabulary()->getId();
 
-      if (isset($vocabId) and $vocabId and $currentId != $vocabId)
+      if (isset($vocabularyId) and $vocabularyId and $currentId != $vocabularyId)
       {
-        $vocabObj = $this->setLatestVocabulary($vocabId);
+        $vocabulary = $this->setLatestVocabulary($vocabularyId);
       }
-
-      $vocabId = $this->getUser()->getCurrentVocabulary()->getId();
-      $this->getUser()->getVocabularyCredentials($vocabId);
     }
+    //we have to do it the hard way
+    Else
+    {
+      $this->concept = ConceptPeer::retrieveByPk($this->getRequestParameter('id'));
+      $vocabulary = $this->concept->getVocabulary();
+    }
+    $this->vocabulary = $vocabulary;
+    $this->vocabularyID = $vocabulary->getId();
+
+      //$vocabularyId = $this->getUser()->getCurrentVocabulary()->getId();
+      //$this->getUser()->getVocabularyCredentials($vocabularyId);
+      //$this->getUser()->buildModCredentials($vocabularyId,'vocabulary');
+
 
 
     //current vocabulary can't be retrieved, so we send back to the list
     //TODO: forward to an intermediate error page
     //TODO: This shouldn't happen here
-    //$this->forwardUnless($vocabId,'vocabulary','list');
+    //$this->forwardUnless($vocabularyId,'vocabulary','list');
 
-    return $vocabObj;
+    return $vocabulary;
   }
   /**
   * description
@@ -128,7 +138,7 @@ class conceptActions extends autoconceptActions
   {
     $this->redirect('/conceptprop/list?concept_id=' . $this->getRequestParameter('id') );
   }
-  
+
   public function executeGetConceptList()
   {
      $vocabId = $this->getRequestParameter('selectedVocabularyId');
