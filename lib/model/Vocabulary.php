@@ -3,10 +3,10 @@
 /**
  * Subclass for representing a row from the 'reg_vocabulary' table.
  *
- * 
+ *
  *
  * @package lib.model
- */ 
+ */
 class Vocabulary extends BaseVocabulary
 {
   public function __toString() {
@@ -64,7 +64,7 @@ class Vocabulary extends BaseVocabulary
 
       if ($vocabularyId)
       {
-        sfContext::getInstance()->getUser()->getVocabularyCredentials($vocabularyId);
+        sfContext::getInstance()->getUser()->buildModCredentials($vocabularyId,'vocabulary');
       }
 
       return $ret;
