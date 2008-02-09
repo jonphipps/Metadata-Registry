@@ -10,12 +10,12 @@ test:
   storage:
     class: sfSessionTestStorage
 
-#all:
+all:
 #  controller:
 #    class: sfFrontWebController
 #
-#  request:
-#    class: sfWebRequest
+   request:
+     class: myWebRequest
 #
 #  response:
 #    class: sfWebResponse
