@@ -31,7 +31,7 @@ generator:
         user_id:        { params: peer_method=getUsersForAgentUsers include_blank=true }
         user:          { type: plain }
         vocabulary:    { type: plain }
-      display:         [user_id, vocabulary_id, isAdminFor, isMaintainerFor]
+      display:         [user_id, isAdminFor, isMaintainerFor]
       actions:
         _list:      -
         _save:         { credentials: [[administrator, vocabularyadmin]] }
@@ -45,7 +45,7 @@ generator:
       fields:
         user:          { type: plain }
         vocabulary:    { type: plain }
-      display:         [user, vocabulary,isRegistrarFor, isAdminFor,  isMaintainerFor]
+      display:         [user, vocabulary, isRegistrarFor, isAdminFor, isMaintainerFor]
       actions:
         _edit:         { credentials: [[administrator, vocabularyadmin]] }
         _create:       { name: Add Maintainer, credentials: [[administrator, vocabularyadmin]] }

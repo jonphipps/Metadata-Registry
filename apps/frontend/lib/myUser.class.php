@@ -401,7 +401,8 @@ class myUser extends sfBasicSecurityUser
   */
   public function setCurrentVocabulary(Vocabulary $vocabulary)
   {
-    return $this->setAttribute('vocabulary', $vocabulary);
+    $this->setAttribute('vocabulary', $vocabulary);
+    $this->getCurrentVocabulary();
   }
 
   /**

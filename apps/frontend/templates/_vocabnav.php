@@ -15,6 +15,11 @@
   $module = $sf_params->get('module');
   $action = $sf_params->get('action');
 
+  if($vocabulary)
+  {
+    $vocabulary_id = $vocabulary->getID();
+  }
+
   foreach ($topnav as $key => $value):
     $here = false;
     $options = array();
@@ -23,11 +28,11 @@
 
     if (false !== strpos($value['link'], $module . '/' . $action))
     {
-      echo '<li class = "ui-tabs-selected">' . link_to('<span>' . __($key) . '</span>', $value['link'] . $vocabulary->getID(), $options) . '</li>';
+      echo '<li class = "ui-tabs-selected">' . link_to('<span>' . __($key) . '</span>', $value['link'] . $vocabulary_id, $options) . '</li>';
     }
     else
     {
-      echo '<li>' . link_to('<span>' . __($key) . '</span>', $value['link'] . $vocabulary->getID(), $options) . '</li>';
+      echo '<li>' . link_to('<span>' . __($key) . '</span>', $value['link'] . $vocabulary_id, $options) . '</li>';
     }
   endforeach;
 ?>

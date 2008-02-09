@@ -3,10 +3,10 @@
 /**
  * Subclass for performing query and update operations on the 'reg_user' table.
  *
- * 
+ *
  *
  * @package lib.model
- */ 
+ */
 class UserPeer extends BaseUserPeer
 {
   public static function getUserFromNickname($nickname)
@@ -86,7 +86,7 @@ class UserPeer extends BaseUserPeer
 
     return self::doSelect($c);
   }
-  
+
   public static function getUsersCount()
   {
     $c = new Criteria();
@@ -95,29 +95,37 @@ class UserPeer extends BaseUserPeer
   }
 
   /**
-  * 
   * gets an array of User objects related to a group of Agents
-  * The user group is defined by the agents for which the user is an admin
-  * or all users if the user is a sysem admin
   *
-  * @return Agent
+  * The user group is defined by the agents for which the supplied userID is an admin
+  * or all users if the ShowAll flag is set
+  *
+  * @param integer $userId The ID of the Agent Admin
+  * @param boolean $showAll Show all users in the system if set to true
+  * @return array An array of User objects
   */
-  public static function getUsersForAgentUsers()
+  public static function getUsersForAgentUsers($userId = null, $showAll = false)
   {
-   $con = Propel::getConnection(self::DATABASE_NAME);  
-   $isAdmin = sfContext::getInstance()->getUser()->hasCredential(array (0 => 'administrator' ));
-   $sql = "SELECT DISTINCT * FROM " . UserPeer::TABLE_NAME;
-   if (!$isAdmin)
+   $con = Propel::getConnection(self::DATABASE_NAME);
+
+   //retrieve the current UserId if none is supplied
+   if (!$userId)
    {
-      $userId = sfContext::getInstance()->getUser()->getSubscriberId();
+     $userId = sfContext::getInstance()->getUser()->getSubscriberId();
+   }
+
+   $sql = "SELECT DISTINCT reg_user.* FROM " . UserPeer::TABLE_NAME;
+
+   if (!$showAll) //we add criteria to select only users attached to the supplied $userId
+   {
       $sql .= " INNER JOIN " . AgentHasUserPeer::TABLE_NAME . " ON " .  UserPeer::ID . " = " . AgentHasUserPeer::USER_ID .
               " WHERE " . AgentHasUserPeer::USER_ID . " = " . $userId;
    }
-    
+
    $stmt = $con->createStatement();
    $rs = $stmt->executeQuery($sql, ResultSet::FETCHMODE_NUM);
-    
-   $result =  parent::populateObjects($rs);   
+
+   $result = parent::populateObjects($rs);
    return $result;
   }
 

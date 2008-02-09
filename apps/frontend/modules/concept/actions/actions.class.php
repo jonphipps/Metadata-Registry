@@ -55,6 +55,9 @@ class conceptActions extends autoconceptActions
 
   public function executeList ()
   {
+    //a current vocabulary is required to be in the request URL
+    myActionTools::requireVocabulary('concept', 'list');
+
     //clear any existing detail filters
     $this->getUser()->getAttributeHolder()->removeNamespace('sf_admin/concept_property/filters');
     parent::executeList();
@@ -67,71 +70,20 @@ class conceptActions extends autoconceptActions
   */
   public function getCurrentVocabulary()
   {
-    //check if there's a request parameter
-    $vocabularyId = $this->getRequestParameter('vocabulary_id');
+    $vocabulary = VocabularyPeer::findCurrentVocabulary();
 
-    //vocabulary_id's in the query string
-    if ($vocabularyId)
-    {
-      $attributeHolder = $this->getUser()->getAttributeHolder();
-      myActionTools::updateAdminFilters($attributeHolder, 'vocabulary_id', $vocabularyId, 'concept');
-    }
-    //vocabulary_id's not in the query string, but it's in a filter
-    elseif (isset($this->filters['vocabulary_id']) && $this->filters['vocabulary_id'] !== '')
-    {
-      $vocabularyId = $this->filters['vocabulary_id'];
-    }
-
-    $vocabulary = $this->getUser()->getCurrentVocabulary();
-
-    //there's a vocabulary_id but no vocabulary object
-    if ($vocabularyId && !$vocabulary)
-    {
-      $vocabulary = $this->setLatestVocabulary($vocabularyId);
-    }
-
-    if ($vocabulary)
-    {
-      $currentId = $this->getUser()->getCurrentVocabulary()->getId();
-
-      if (isset($vocabularyId) and $vocabularyId and $currentId != $vocabularyId)
-      {
-        $vocabulary = $this->setLatestVocabulary($vocabularyId);
-      }
-    }
-    //we have to do it the hard way
-    Else
+    if (!$vocabulary) //we have to do it the hard way
     {
       $this->concept = ConceptPeer::retrieveByPk($this->getRequestParameter('id'));
       $vocabulary = $this->concept->getVocabulary();
     }
+
+    $this->forward404Unless($vocabulary,'No vocabulary has been selected.');
+
     $this->vocabulary = $vocabulary;
     $this->vocabularyID = $vocabulary->getId();
 
-      //$vocabularyId = $this->getUser()->getCurrentVocabulary()->getId();
-      //$this->getUser()->getVocabularyCredentials($vocabularyId);
-      //$this->getUser()->buildModCredentials($vocabularyId,'vocabulary');
-
-
-
-    //current vocabulary can't be retrieved, so we send back to the list
-    //TODO: forward to an intermediate error page
-    //TODO: This shouldn't happen here
-    //$this->forwardUnless($vocabularyId,'vocabulary','list');
-
     return $vocabulary;
-  }
-  /**
-  * description
-  *
-  * @return vocabulary current vocabulary object
-  * @param  integer $vocabId
-  */
-  public function setLatestVocabulary($vocabId)
-  {
-    $vocabObj = VocabularyPeer::retrieveByPK($vocabId);
-    $this->getUser()->setCurrentVocabulary($vocabObj);
-    return $vocabObj;
   }
 
   public function executeProperties()
