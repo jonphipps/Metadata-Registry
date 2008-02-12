@@ -1,0 +1,7 @@
+generator:
+  class:              sfPropelAdminGenerator
+  param:
+    model_class:      VocabularyHasVersion
+    theme:            default
+    pager:
+      no_results:     No Versions have been defined for this Vocabulary
