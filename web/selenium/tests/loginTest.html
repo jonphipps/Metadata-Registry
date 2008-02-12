@@ -253,14 +253,24 @@
 	<td></td>
 </tr>
 <tr>
-	<td>assertElementPresent</td>
-	<td>link=Resource Owner</td>
+	<td>selectWindow</td>
+	<td>null</td>
 	<td></td>
 </tr>
-<!--//This is succesful and should display 'Register New'-->
+<tr>
+	<td>verifyElementPresent</td>
+	<td>link=Resource Owners</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyElementPresent</td>
+	<td>link=Vocabularies</td>
+	<td></td>
+</tr>
+<!--//This is succesful and should display 'Add'-->
 <tr>
 	<td>assertElementPresent</td>
-	<td>link=Resource Owner</td>
+	<td>link=(Add)</td>
 	<td></td>
 </tr>
 <tr>
@@ -377,6 +387,22 @@
 	<td>The Registry! :: home</td>
 	<td></td>
 </tr>
+<!--test forgot password-->
+<tr>
+	<td>clickAndWait</td>
+	<td>link=sign out</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: home</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=sign in / register</td>
+	<td></td>
+</tr>
 <tr>
 	<td>clickAndWait</td>
 	<td>forgot</td>
@@ -400,27 +426,6 @@
 <tr>
 	<td>assertTitle</td>
 	<td>The Registry Project</td>
-	<td></td>
-</tr>
-<!--test forgot password-->
-<tr>
-	<td>clickAndWait</td>
-	<td>link=sign out</td>
-	<td></td>
-</tr>
-<tr>
-	<td>assertTitle</td>
-	<td>The Registry! :: home</td>
-	<td></td>
-</tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>link=sign in / register</td>
-	<td></td>
-</tr>
-<tr>
-	<td>assertTitle</td>
-	<td>The Registry! :: sign in / register</td>
 	<td></td>
 </tr>
 <tr>

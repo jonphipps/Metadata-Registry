@@ -1,0 +1,344 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>runThroughTest</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">runThroughTest</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=sign out</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: home</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Load test database</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: home</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=sign in / register</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: sign in / register</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>nickname</td>
+	<td>newtestuser</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>password</td>
+	<td>foobar</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>new</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>password_bis</td>
+	<td>foobar</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>email</td>
+	<td>jphipps@madcreek.com</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>document.forms[1].commit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: home</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=(Add)</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: Creating new owner</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>agent_org_name</td>
+	<td>newTestOwner</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>agent_org_email</td>
+	<td>jphipps@madcreek.com</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>save</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: newTestOwner :: Show Detail</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//a[contains(@href, '/vocabulary/create.html')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: Creating new vocabulary</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>vocabulary_name</td>
+	<td>newTestVocabulary</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>vocabulary_token</td>
+	<td>NewTest</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>vocabulary_uri</td>
+	<td>http://metadataregistry.org/uri/NewTest</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>save</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: newTestVocabulary :: Show Detail</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//li[2]/a/span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: newTestVocabulary :: List Concepts</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@value='Add Concept']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: Creating new concept</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>concept_pref_label</td>
+	<td>newtestlabel</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>save_and_add</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: Creating new concept</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>concept_pref_label</td>
+	<td>newtestlabel2</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>save</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: newTestVocabulary :: newtestlabel2 :: Show Detail</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//li[2]/a/span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: newTestVocabulary :: newtestlabel2 :: List Properties</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@value='Add Property']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>concept_property_object</td>
+	<td>foolabel</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>save_and_add</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: Creating new concept_property</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>concept_property_skos_property_id</td>
+	<td>label=broader</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>concept_property_scheme_id</td>
+	<td>label=GEM Education Level Vocabulary</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>concept_property_scheme_id</td>
+	<td>label=NSDL Learning Resource Type Vocabulary</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>concept_property_skos_property_id</td>
+	<td>label=historyNote</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>concept_property_object</td>
+	<td>history note</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>concept_property_language</td>
+	<td>label=Aleut</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>concept_property_status_id</td>
+	<td>label=New-Proposed</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>save</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: newTestVocabulary :: newtestlabel2 :: historyNote :: Show Detail</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=newtestlabel2</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: newTestVocabulary :: newtestlabel2 :: Show Detail</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@value='Add Concept']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: Creating new concept</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>concept_pref_label</td>
+	<td>testlabel2</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>save</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: newTestVocabulary :: testlabel2 :: Show Detail</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=preferred label</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: newTestVocabulary :: testlabel2 :: prefLabel :: Show Detail</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@value='Edit']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: Edit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>concept_property_object</td>
+	<td>testlabel2 edited</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>save</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: newTestVocabulary :: Show Detail</td>
+	<td></td>
+</tr>
+
+</tbody></table>
+</body>
+</html>

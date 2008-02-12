@@ -15,18 +15,63 @@
 	<td></td>
 </tr>
 <tr>
+	<td>clickAndWait</td>
+	<td>link=sign in / register</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: sign in / register</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>nickname</td>
+	<td>newtestuser</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>password</td>
+	<td>foobar</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>document.forms[1].commit</td>
+	<td></td>
+</tr>
+<tr>
 	<td>assertTitle</td>
 	<td>The Registry! :: home</td>
 	<td></td>
 </tr>
 <tr>
+	<td>click</td>
+	<td>link=Resource Owners</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: Owners :: List Owners</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: home</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyElementPresent</td>
+	<td>//input[@value='Add Owner']</td>
+	<td></td>
+</tr>
+<tr>
 	<td>assertElementPresent</td>
-	<td>link=Resource Owner</td>
+	<td>link=(Add)</td>
 	<td></td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>link=Resource Owner</td>
+	<td>link=(Add)</td>
 	<td></td>
 </tr>
 <tr>
@@ -118,13 +163,13 @@
 </tr>
 <tr>
 	<td>assertTitle</td>
-	<td>The Registry! :: Show detail for newTestAgent</td>
+	<td>The Registry! :: newTestAgent :: Show Detail</td>
 	<td></td>
 </tr>
 <tr>
 	<td>verifyText</td>
 	<td>//h1</td>
-	<td>Show detail for newTestAgent</td>
+	<td>exact:Owners: Show detail for newTestAgent</td>
 </tr>
 <tr>
 	<td>verifyText</td>
@@ -142,9 +187,9 @@
 	<td>jphipps@madcreek.com</td>
 </tr>
 <tr>
-	<td>verifyText</td>
-	<td>link=Vocabulary</td>
-	<td>Vocabulary</td>
+	<td>assertElementPresent</td>
+	<td>//a[contains(@href, '/frontend_dev.php/vocabulary/create.html')]</td>
+	<td></td>
 </tr>
 <tr>
 	<td>verifyElementPresent</td>
@@ -269,7 +314,7 @@
 </tr>
 <tr>
 	<td>assertTitle</td>
-	<td>The Registry! :: Show detail for newTestAgent</td>
+	<td>The Registry! :: newTestAgent :: Show Detail</td>
 	<td></td>
 </tr>
 <tr>
@@ -335,7 +380,7 @@
 <tr>
 	<td>verifyText</td>
 	<td>//h1</td>
-	<td>Show detail for newTestAgent</td>
+	<td>exact:Owners: Show detail for newTestAgent</td>
 </tr>
 <tr>
 	<td>click</td>
@@ -356,7 +401,7 @@
 <!--need a test for registering a duplicate agent-->
 <tr>
 	<td>clickAndWait</td>
-	<td>link=Resource Owner</td>
+	<td>link=(Add)</td>
 	<td></td>
 </tr>
 <tr>
@@ -411,7 +456,7 @@
 </tr>
 <tr>
 	<td>assertTitle</td>
-	<td>Registry :: Owners</td>
+	<td>The Registry! :: Owners :: List Owners</td>
 	<td></td>
 </tr>
 <tr>
@@ -425,8 +470,18 @@
 	<td></td>
 </tr>
 <tr>
-	<td>verifyElementPresent</td>
-	<td>link=Vocabulary</td>
+	<td>assertElementPresent</td>
+	<td>//a[contains(@href, '/frontend_dev.php/vocabulary/create.html')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=sign out</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: home</td>
 	<td></td>
 </tr>
 
