@@ -548,5 +548,9 @@ div.form-errors dd
 div#login_div {
 	margin:auto;
 	width:520px;
+}
 
+div#tab_container
+{
+	background-color: #FFFFCC;
 }

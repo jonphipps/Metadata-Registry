@@ -1,1 +1,1 @@
-<?php $agent = $agent_has_user->getAgent(); echo link_to($agent, 'agent/show?id='.$agent->getId()) ?></td>
+<?php $agent = $agent_has_user->getAgent(); echo link_to($agent, 'agent/show?id='.$agent->getId()) ?>

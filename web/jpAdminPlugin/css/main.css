@@ -48,6 +48,8 @@ body,
 
 #sf_admin_container #sf_admin_content
 {
+	padding: 5px;
+	border-top:1px solid #DDDDDD;
 }
 
 #sf_admin_container h1
@@ -210,11 +212,10 @@ body,
   float: right;
 }
 
-#sf_admin_container div#sf_admin_header
+#sf_admin_container 
 {
   background-color: #ffc;
   border: 1px solid #DDDDDD;
-  border-bottom:0;
 }
 
 #sf_admin_container div#sf_admin_header h2
@@ -345,6 +346,7 @@ body,
   border: 1px solid #ddd;
   border-bottom: 0px;
   border-right: 0px;
+  padding-bottom: 5px
 }
 
 #sf_admin_container .sf_admin_list th

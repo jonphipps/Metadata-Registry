@@ -14,6 +14,8 @@ class userObjectFilter extends sfFilter
       /** @var sfRequest **/
       $request    = $context->getRequest();
 
+      $key = false;
+
       // get the current action instance
       /** @var sfActionStackEntry **/
       $actionEntry    = $controller->getActionStack()->getLastEntry();
@@ -44,7 +46,7 @@ class userObjectFilter extends sfFilter
         $module = $context->getModuleName();
       }
 
-      //Does the request parameter exist?
+       //Does the request parameter exist?
       if (isset($objectCredArray))
       {
         $requestParam = $request->getParameter($objectCredArray['request_param']);
@@ -80,11 +82,23 @@ class userObjectFilter extends sfFilter
         }
       }
       //no security request param set
-      else
+      elseif ($module == $context->getModuleName())
       {
         //we do the default
         $key = $request->getParameter('id');
       }
+
+      //still no key?
+      //ok, so this is definitely a hack...
+      if (!$key && 'vocabulary' == $module && ('edit' == $action || 'show' == $action || 'list' == $action))
+      {
+        $vocabulary = VocabularyPeer::findCurrentVocabulary();
+        if ($vocabulary)
+        {
+          $key = $vocabulary->getId();
+        }
+      }
+
 
       if ($key)
       {
@@ -99,6 +113,7 @@ class userObjectFilter extends sfFilter
         {
           $user->modCredentials[] = $cred;
         }
+
       }
 
       if ($request->getCookie('MyWebSite'))

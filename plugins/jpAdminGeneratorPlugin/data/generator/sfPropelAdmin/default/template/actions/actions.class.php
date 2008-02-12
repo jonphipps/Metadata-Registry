@@ -70,6 +70,7 @@ class <?php echo $this->getGeneratedModuleName() ?>Actions extends sfActions
 
   public function executeSave()
   {
+    $this->getUser()->setTmpCredential('<?php echo $this->getModuleName() ?>admin');
     return $this->forward('<?php echo $this->getModuleName() ?>', 'edit');
   }
 

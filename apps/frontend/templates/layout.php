@@ -59,7 +59,6 @@
         <td class="right">
           <div id="content_bar" class="main-subcontent">
             <?php include_component_slot('sidebar') ?>
-            <div class="verticalalign"></div>
           </div>
         </td>
       </tr>

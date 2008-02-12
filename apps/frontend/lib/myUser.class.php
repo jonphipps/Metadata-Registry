@@ -20,6 +20,8 @@ class myUser extends sfBasicSecurityUser
   const DATA_NAMESPACE = 'data_cache';
 
   public $modCredentials = null;
+  private $objectsecurity = array();
+  private $security = null;
 
   public function signIn($user)
   {
@@ -181,6 +183,41 @@ class myUser extends sfBasicSecurityUser
     $this->clearObjectCredentials('Vocabulary');
     $this->clearObjectCredentials('Agent');
   }
+
+  /**
+  * adds object credentials for a single key
+  * and then rebuilds modCredentials
+  *
+  * @param  integer $key The model primary key for this object
+  * @param  string $model The model class name
+  * @param  array  $credentialsArray an array containing the credentials
+  */
+  public function updateObjectCredential($key, $module, $credentialsArray)
+  {
+    if (sfConfig::get('sf_logging_enabled'))
+    {
+      $this->getContext()->getLogger()->info('{sfUser} add object credential(s) "'. print_r(array($key => $credentialsArray), true)).'"';
+    }
+
+    //see if there are existing credentials
+    $objCredentialsArray = $this->getAttribute($module, array(), self::OBJECT_CREDENTIAL_NAMESPACE);
+    //let's see if we have one already
+    if (isset($objCredentialsArray[$key]))
+    {
+      //let's update the we got
+      $objCredentialsArray[$key] = $credentialsArray;
+      $newArray = $objCredentialsArray;
+    }
+    else
+    {
+      //we append the new one
+      $newArray = $objCredentialsArray + array($key => $credentialsArray);
+    }
+    $this->setAttribute($module, $newArray, self::OBJECT_CREDENTIAL_NAMESPACE);
+    $this->buildModCredentials($key, $module);
+    $this->credentials = $this->modCredentials;
+  }
+
   /**
   * adds all object credentials for a model for this user
   *
@@ -386,10 +423,11 @@ class myUser extends sfBasicSecurityUser
   {
     /** @var Vocabulary **/
     $vocabulary = $this->getAttribute('vocabulary');
-    if ($vocabulary)
+/*    if ($vocabulary)
     {
       $this->buildModCredentials($vocabulary->getId(),'vocabulary');
     }
+*/
     return $vocabulary;
   }
 
@@ -408,7 +446,7 @@ class myUser extends sfBasicSecurityUser
   /**
   * get the current concept
   *
-  * @return concept
+  * @return Concept
   */
   public function getCurrentConcept()
   {
@@ -426,8 +464,29 @@ class myUser extends sfBasicSecurityUser
     return $this->setAttribute('concept', $concept);
   }
 
+    /**
+  * get the current concept property
+  *
+  * @return ConceptProperty
+  */
+  public function getCurrentConceptProperty()
+  {
+    return $this->getAttribute('concept_property');
+  }
+
+ /**
+  * set the current concept property
+  *
+  * @return boolean the currently set concept object
+  * @param  ConceptProperty $concept_propertry
+  */
+  public function setCurrentConceptProperty(ConceptProperty $concept_property)
+  {
+    return $this->setAttribute('concept_property', $concept_property);
+  }
+
   /**
-  * gets the object credentials
+  * build the module-level credentials
   *
   * looks for the correct credential in the id array in the model array for the requested object
   *
@@ -435,6 +494,21 @@ class myUser extends sfBasicSecurityUser
   * @param string  $key         The object key to match against
   */
   public function buildModCredentials($key, $module = null)
+  {
+    $modCredentials = $this->buildObjectCredentials($key, $module);
+    $this->modCredentials = array_merge($this->credentials, $modCredentials);
+  }
+
+  /**
+  * builds the credentials for an object
+  *
+  * looks for the correct credential in the id array in the model array for the requested object
+  *
+  * @return array           The array of credentials
+  * @param string  $key     The object key to match against
+  * @param string  $module  (optional) The module to match against. If null it uses the current module
+  */
+  public function buildObjectCredentials($key, $module = null)
   {
     if (!$module)
     {
@@ -470,9 +544,9 @@ class myUser extends sfBasicSecurityUser
         }
       }
     }
-
-    $this->modCredentials = array_merge($this->credentials, $modCredentials);
+    return $modCredentials;
   }
+
 
   /**
   * gets the object credentials
@@ -480,21 +554,25 @@ class myUser extends sfBasicSecurityUser
   * looks for the correct credential in the id array in the model array for the requested object
   *
   * @return boolean
-  * @param string  $key         The object key to match against
+  * @param mixed   $object      The object to get credentials for
+  * @param string  $module      The module to use for security
+  * @param string  $action      The action to check for credential
   * @param mixed   $credentials An array of credentials
   */
   public function hasObjectCredential($key, $module, $credentials)
   {
-    //map some other objects
-    if ('conceptprop' == $module || 'concept' == $module)
+    //store the current module-level credentials
+    $modCredentials = $this->modCredentials;
+    if ($key)
     {
-        $module = 'vocabulary';
-        $key = $this->getCurrentVocabulary()->getId();
+      //build the credentials for this object
+      $this->buildModCredentials($key, $module);
     }
-
-    $this->buildModCredentials($key, $module);
-
-    return $this->hasCredential($credentials);
+    //get the credentials
+    $hasCredential = $this->hasCredential($credentials);
+    //reset the current module-level credentials
+    $this->modCredentials = $modCredentials;
+    return $hasCredential;
   }
 
   /**

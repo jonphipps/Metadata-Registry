@@ -31,7 +31,7 @@ class contentActions extends sfActions
   * @return string
   * @param $file Base name of file to parse
   */
-  public function outputFile($file)
+  public function outputFile($infile)
   {
     require_once('markdown.php');
 
@@ -42,7 +42,7 @@ class contentActions extends sfActions
       $hostPrefix .= 'sandbox_' ;
     }
 
-    $fileRoot = sfConfig::get('sf_data_dir') . $hostPrefix . $file . '_';
+    $fileRoot = sfConfig::get('sf_data_dir') . $hostPrefix . $infile . '_';
     $file = $fileRoot . $this->getUser()->getCulture() . '.txt';
 
     if (!is_readable($file))
@@ -52,7 +52,7 @@ class contentActions extends sfActions
 
     $this->html = markdown(file_get_contents($file));
 
-    $this->getContext()->getResponse()->setTitle(sfConfig::get('app_title_prefix') . $file);
+    $this->getContext()->getResponse()->setTitle(sfConfig::get('app_title_prefix') . $infile);
   }
 
 }

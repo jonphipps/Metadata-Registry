@@ -16,8 +16,12 @@ class vocabuserActions extends autovocabuserActions
   */
   public function executeList()
   {
-    //a current vocabulary is required
-    myActionTools::requireVocabulary('vocabuser', 'list');
+    if (!$this->hasRequestParameter('user_id'))
+    {
+      //a current vocabulary is required
+      myActionTools::requireVocabulary('vocabuser', 'list');
+    }
+
     parent::executeList();
   }
 }

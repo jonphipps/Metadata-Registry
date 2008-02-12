@@ -60,7 +60,7 @@ class myPropelUniquePrefLabelValidator extends sfValidator
          $property['related_concept_id'] = null;
          $property['scheme_id'] = null;
          //save the array back to the request parameter
-         $this->requestParameterHolder->set('concept_property', $concept_property);
+//         $this->requestParameterHolder->set('concept_property', $concept_property);
       }
     }
     else

@@ -66,10 +66,10 @@ generator:
       actions:
         # You can add a string literal to the query string like this: foo: "'bar'" which will add foo=bar
         _list:         { query_string: {concept_id: concept_id} }
-        _save:         { credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
+        _save:         { credentials: [[administrator, vocabularymaintainer, vocabularyadmin, conceptpropadmin]] }
         _delete:       { credentials: [[administrator, vocabularyadmin]] }
-        _create:       { name: Add Property, credentials: [[administrator, vocabularymaintainer, vocabularyadmin]], mode: edit }
-        _save_and_add: { credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
+        _create:       { name: Add Property, credentials: [[administrator, vocabularymaintainer, vocabularyadmin, conceptpropadmin]], mode: edit }
+        _save_and_add: { credentials: [[administrator, vocabularymaintainer, vocabularyadmin, conceptpropadmin]] }
 
     show:
       fields:
@@ -78,7 +78,7 @@ generator:
       display:
         "-Metadata":   { fields: [id, created_at, created_user, updated_at, updated_user], credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
         "Detail":     [skos_property, related_scheme, related_concept, object, _language, status]
-        "Other Properties": [_listproperties]
+        "-Other Properties": [_listproperties]
       actions:
         _edit:        { credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
         _create:      { name: Add Property, credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }

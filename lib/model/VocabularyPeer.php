@@ -19,14 +19,17 @@ class VocabularyPeer extends BaseVocabularyPeer
   {
     //lookup the vocabulary
     $vocabulary = VocabularyPeer::retrieveByPK($v);
-    //get the last id
-    $lastId = $vocabulary->getLastUriId();
-    //increment it by one and set the last_id
-    $nextId = ($lastId) ? ++$lastId : 100000;
-    //we should theoretically set this when we save the concept, but it doesn't matter
-    $vocabulary->setLastUriId($nextId);
-    $vocabulary->save();
-    return $nextId;
+    if ($vocabulary)
+    {
+      //get the last id
+      $lastId = $vocabulary->getLastUriId();
+      //increment it by one and set the last_id
+      $nextId = ($lastId) ? ++$lastId : 100000;
+      //we should theoretically set this when we save the concept, but it doesn't matter
+      $vocabulary->setLastUriId($nextId);
+      $vocabulary->save();
+      return $nextId;
+    }
   }
 
   /**
@@ -76,7 +79,7 @@ class VocabularyPeer extends BaseVocabularyPeer
   /**
   * gets the current vocabulary object
   *
-  * @return mixes current vocabulary object or false
+  * @return mixed current vocabulary object, or false
   */
   public static function findCurrentVocabulary()
   {

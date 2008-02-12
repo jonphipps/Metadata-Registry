@@ -20,9 +20,11 @@ generator:
 
     list:
       title:           Users
-      display:         [=user, nickname, last_name, first_name]
+      fields:
+        user:          { credentials: [administrator] }
+      display:         [user, =nickname, last_name, first_name]
       object_actions:
-         _edit:        { credentials: [[administrator, agentadmin]] }
+         _edit:        { credentials: [administrator] }
       actions:
         _create:       { credentials: [administrator] }
 

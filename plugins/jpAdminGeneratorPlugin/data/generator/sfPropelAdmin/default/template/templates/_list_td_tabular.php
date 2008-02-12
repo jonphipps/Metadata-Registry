@@ -16,8 +16,6 @@
   <?php endif; ?>
 <?php endif; ?>
 <?php if ($credentials): ?>
-    [?php else: ?]
-    <td>&nbsp;</td>
     [?php endif; ?]
 <?php endif; ?>
 <?php endforeach; ?>

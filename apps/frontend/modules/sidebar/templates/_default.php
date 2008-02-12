@@ -5,8 +5,18 @@
   <div class="round-border-topright"></div>
   <h1 class="orange"><?php echo __('Browse...') ?></h1>
   <ul>
-    <li><?php echo link_to(__('Resource Owners'), 'agent/list') ?></li>
-    <li><?php echo link_to(__('Vocabularies'), 'vocabulary/list') ?></li>
+    <li><?php echo link_to(__('Resource&nbsp;Owners'), 'agent/list') ?>
+<?php if ($sf_user->isAuthenticated())
+{
+  echo '&nbsp;&nbsp;' .  link_to(__('(Add)'), 'agent/create', array('title' => 'Register a new owner'));
+}
+?>
+</li>
+    <li><?php echo link_to(__('Vocabularies'), 'vocabulary/list') ;
+if ($sf_user->getAttribute('agentCount','0','subscriber'))
+{
+  echo '&nbsp;&nbsp;' .  link_to(__('(Add)'), 'vocabulary/create', array('title' => 'Register a new vocabulary'));
+} ?></li>
   </ul>
 </div>
 
@@ -24,8 +34,5 @@
   </ul>
 </div>
 <?php endif ?>
-</div>
 -->
-<?php if ($sf_user->hasCredential(array (0 => 'administrator' ))): ?>
-<?php echo include_partial('sidebar/administration') ?>
-<?php endif ?>
+</div>

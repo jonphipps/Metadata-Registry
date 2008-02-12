@@ -70,10 +70,10 @@ generator:
         "Properties":  [_listproperties]
       actions:
         _list:         { query_string: { vocabulary_id: vocabulary_id} }
-        _save:         { credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
+        _save:         { credentials: [[administrator, vocabularymaintainer, vocabularyadmin, conceptadmin]] }
         _delete:       { credentials: [[administrator, vocabularyadmin]] }
-        _create:       { name: Add Concept, credentials: [[administrator, vocabularymaintainer, vocabularyadmin]], mode: edit  }
-        _save_and_add: { credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
+        _create:       { name: Add Concept, credentials: [[administrator, vocabularymaintainer, vocabularyadmin, conceptadmin]], mode: edit  }
+        _save_and_add: { credentials: [[administrator, vocabularymaintainer, vocabularyadmin, conceptadmin]] }
 
     show:
       fields:
