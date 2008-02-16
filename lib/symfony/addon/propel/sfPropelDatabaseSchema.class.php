@@ -179,7 +179,7 @@ class sfPropelDatabaseSchema
           // set id and culture columns for i18n table
           $this->setIfNotSet($this->database[$i18n_table], 'id', array(
             'type'             => 'integer',
-            'required'         => true, 
+            'required'         => true,
             'primaryKey'       => true,
             'foreignTable'     => $main_table,
             'foreignReference' => 'id',
@@ -206,7 +206,7 @@ class sfPropelDatabaseSchema
     foreach ($this->getTables() as $table => $columns)
     {
       $has_primary_key = false;
-      
+
       foreach ($columns as $column => $attributes)
       {
         if ($attributes == null)
@@ -229,7 +229,7 @@ class sfPropelDatabaseSchema
             );
             $has_primary_key = true;
           }
-          
+
           $pos = strpos($column, '_id');
           if ($pos > 0 && $pos == strlen($column) - 3)
           {
@@ -248,7 +248,7 @@ class sfPropelDatabaseSchema
               throw new sfException(sprintf('Unable to resolve foreign table for column "%s"', $column));
             }
           }
-          
+
         }
         else
         {
@@ -376,7 +376,7 @@ class sfPropelDatabaseSchema
 
     // conventions for sequence name attributes
     // required for databases using sequences for auto-increment columns (e.g. PostgreSQL or Oracle)
-    if (is_array($column) && isset($column['sequence'])) 
+    if (is_array($column) && isset($column['sequence']))
     {
       $attributes_string .= "    <id-method-parameter value=\"$column[sequence]\" />\n";
     }
@@ -497,7 +497,7 @@ class sfPropelDatabaseSchema
         else
         {
           throw new sfException('A foreign key misses the foreignTable attribute');
-        } 
+        }
         if (isset($foreign_key['onDelete']))
         {
           $foreign_key_table['on_delete'] = (string) $foreign_key['onDelete'];
@@ -558,7 +558,7 @@ class sfPropelDatabaseSchema
       $this->removeEmptyKey($database[$table_name], '_uniques');
     }
     $this->database = $database;
-    
+
     $this->fixXML();
   }
 
@@ -625,7 +625,7 @@ class sfPropelDatabaseSchema
             // remove complex index
             unset($this->database[$table]['_indexes'][$index]);
           }
-          
+
           $this->removeEmptyKey($this->database[$table], '_indexes');
         }
       }
@@ -635,7 +635,11 @@ class sfPropelDatabaseSchema
         foreach ($uniques as $index => $references)
         {
           // Only single unique indexes can be simplified
+/**
+* @todo This was 'fixed' by JP because it was throwing an error
           if (count($references) == 1 && array_key_exists(substr($index, 0, strlen($index) - 7), $columns))
+**/
+          if (count($references) == 1 && array_key_exists(substr($index, 0, strlen($index)), $columns))
           {
             $reference = $references[0];
 

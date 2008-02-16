@@ -29,18 +29,18 @@ require_once 'propel/engine/builder/om/php5/PHP5BasicObjectBuilder.php';
  * logic related to relationships to methods like the setters, and save method. Also,
  * new get*Join*() methods are added to fetch related rows.
  *
- * @author Hans Lellelid <hans@xmpl.org>
- * @package propel.engine.builder.om.php5
+ * @author     Hans Lellelid <hans@xmpl.org>
+ * @package    propel.engine.builder.om.php5
  */
 class PHP5ComplexObjectBuilder extends PHP5BasicObjectBuilder {
 
 	/**
 	 * Adds additional attributes used for complex object model.
-	 * @param string &$script The script will be modified in this method.
-	 * @see addFKAttributes()
-	 * @see addRefFKAttributes()
-	 * @see addAlreadyInSaveAttribute()
-	 * @see addAlreadyInValidationAttribute()
+	 * @param      string &$script The script will be modified in this method.
+	 * @see        addFKAttributes()
+	 * @see        addRefFKAttributes()
+	 * @see        addAlreadyInSaveAttribute()
+	 * @see        addAlreadyInValidationAttribute()
 	 */
 	protected function addAttributes(&$script)
 	{
@@ -64,8 +64,8 @@ class PHP5ComplexObjectBuilder extends PHP5BasicObjectBuilder {
 	/**
 	 * Specifies the methods that are added as part of the basic OM class.
 	 * This can be overridden by subclasses that wish to add more methods.
-	 * @param string &$script The script will be modified in this method.
-	 * @see PHP5BasicObjectBuilder::addClassBody()
+	 * @param      string &$script The script will be modified in this method.
+	 * @see        PHP5BasicObjectBuilder::addClassBody()
 	 */
 	protected function addClassBody(&$script)
 	{
@@ -82,9 +82,9 @@ class PHP5ComplexObjectBuilder extends PHP5BasicObjectBuilder {
 	 * Adds the close of mutator (setter) method for a column.
 	 * This method overrides the method from PHP5BasicObjectBuilder in order to
 	 * account for updating related objects.
-	 * @param string &$script The script will be modified in this method.
-	 * @param Column $col The current column.
-	 * @see PHP5BasicObjectBuilder::addMutatorClose()
+	 * @param      string &$script The script will be modified in this method.
+	 * @param      Column $col The current column.
+	 * @see        PHP5BasicObjectBuilder::addMutatorClose()
 	 */
 	protected function addMutatorClose(&$script, Column $col)
 	{
@@ -136,7 +136,7 @@ class PHP5ComplexObjectBuilder extends PHP5BasicObjectBuilder {
 
 	/**
 	 * Adds the methods related to validating, saving and deleting the object.
-	 * @param string &$script The script will be modified in this method.
+	 * @param      string &$script The script will be modified in this method.
 	 */
 	protected function addManipulationMethods(&$script)
 	{
@@ -147,7 +147,7 @@ class PHP5ComplexObjectBuilder extends PHP5BasicObjectBuilder {
 
 	/**
 	 * Adds the methods related to validationg the object.
-	 * @param string &$script The script will be modified in this method.
+	 * @param      string &$script The script will be modified in this method.
 	 */
 	protected function addValidationMethods(&$script)
 	{
@@ -157,7 +157,7 @@ class PHP5ComplexObjectBuilder extends PHP5BasicObjectBuilder {
 
 	/**
 	 * Convenience method to get the foreign Table object for an fkey.
-	 * @return Table
+	 * @return     Table
 	 */
 	protected function getForeignTable(ForeignKey $fk)
 	{
@@ -170,9 +170,9 @@ class PHP5ComplexObjectBuilder extends PHP5BasicObjectBuilder {
 	 * The difference between this method and the getRefFKPhpNameAffix() method is that in this method the
 	 * classname in the affix is the foreign table classname.
 	 *
-	 * @param ForeignKey $fk The local FK that we need a name for.
-	 * @param boolean $plural Whether the php name should be plural (e.g. initRelatedObjs() vs. addRelatedObj()
-	 * @return string
+	 * @param      ForeignKey $fk The local FK that we need a name for.
+	 * @param      boolean $plural Whether the php name should be plural (e.g. initRelatedObjs() vs. addRelatedObj()
+	 * @return     string
 	 */
 	public function getFKPhpNameAffix(ForeignKey $fk, $plural = false)
 	{
@@ -186,9 +186,9 @@ class PHP5ComplexObjectBuilder extends PHP5BasicObjectBuilder {
 	 * The difference between this method and the getFKPhpNameAffix() method is that in this method the
 	 * classname in the affix is the classname of the local fkey table.
 	 *
-	 * @param ForeignKey $fk The referrer FK that we need a name for.
-	 * @param boolean $plural Whether the php name should be plural (e.g. initRelatedObjs() vs. addRelatedObj()
-	 * @return string
+	 * @param      ForeignKey $fk The referrer FK that we need a name for.
+	 * @param      boolean $plural Whether the php name should be plural (e.g. initRelatedObjs() vs. addRelatedObj()
+	 * @return     string
 	 */
 	public function getRefFKPhpNameAffix(ForeignKey $fk, $plural = false)
 	{
@@ -203,7 +203,7 @@ class PHP5ComplexObjectBuilder extends PHP5BasicObjectBuilder {
 	 * one column in a table that points to the same foreign table, then a 'RelatedByLocalColName' suffix
 	 * will be appended.
 	 *
-	 * @return string
+	 * @return     string
 	 */
 	protected function getRelatedBySuffix(ForeignKey $fk)
 	{
@@ -211,7 +211,7 @@ class PHP5ComplexObjectBuilder extends PHP5BasicObjectBuilder {
 		foreach ($fk->getLocalColumns() as $columnName) {
 			$column = $fk->getTable()->getColumn($columnName);
 			if (!$column) {
-			    $e = new Exception("Could not fetch column: $columnName in table " . $fk->getTable()->getName());
+				$e = new Exception("Could not fetch column: $columnName in table " . $fk->getTable()->getName());
 				print $e;
 				throw $e;
 			}
@@ -254,7 +254,7 @@ class PHP5ComplexObjectBuilder extends PHP5BasicObjectBuilder {
 
 	/**
 	 * Adds the methods that get & set objects related by foreign key to the current object.
-	 * @param string &$script The script will be modified in this method.
+	 * @param      string &$script The script will be modified in this method.
 	 */
 	protected function addFKMethods(&$script)
 	{
@@ -266,7 +266,7 @@ class PHP5ComplexObjectBuilder extends PHP5BasicObjectBuilder {
 
 	/**
 	 * Adds the class attributes that are needed to store fkey related objects.
-	 * @param string &$script The script will be modified in this method.
+	 * @param      string &$script The script will be modified in this method.
 	 */
 	protected function addFKAttributes(&$script, ForeignKey $fk)
 	{
@@ -275,7 +275,7 @@ class PHP5ComplexObjectBuilder extends PHP5BasicObjectBuilder {
 
 		$script .= "
 	/**
-	 * @var $className
+	 * @var        $className
 	 */
 	protected $".$varName.";
 ";
@@ -283,7 +283,7 @@ class PHP5ComplexObjectBuilder extends PHP5BasicObjectBuilder {
 
 	/**
 	 * Adds the mutator (setter) method for setting an fkey related object.
-	 * @param string &$script The script will be modified in this method.
+	 * @param      string &$script The script will be modified in this method.
 	 */
 	protected function addFKMutator(&$script, ForeignKey $fk)
 	{
@@ -296,9 +296,9 @@ class PHP5ComplexObjectBuilder extends PHP5BasicObjectBuilder {
 	/**
 	 * Declares an association between this object and a $className object.
 	 *
-	 * @param $className \$v
-	 * @return void
-	 * @throws PropelException
+	 * @param      $className \$v
+	 * @return     void
+	 * @throws     PropelException
 	 */
 	public function set".$this->getFKPhpNameAffix($fk, $plural = false)."(\$v)
 	{
@@ -328,7 +328,7 @@ class PHP5ComplexObjectBuilder extends PHP5BasicObjectBuilder {
 
 	/**
 	 * Adds the accessor (getter) method for getting an fkey related object.
-	 * @param string &$script The script will be modified in this method.
+	 * @param      string &$script The script will be modified in this method.
 	 */
 	protected function addFKAccessor(&$script, ForeignKey $fk)
 	{
@@ -370,16 +370,15 @@ class PHP5ComplexObjectBuilder extends PHP5BasicObjectBuilder {
 	/**
 	 * Get the associated $className object
 	 *
-	 * @param Connection Optional Connection object.
-	 * @return $className The associated $className object.
-	 * @throws PropelException
+	 * @param      Connection Optional Connection object.
+	 * @return     $className The associated $className object.
+	 * @throws     PropelException
 	 */
 	public function get".$this->getFKPhpNameAffix($fk, $plural = false)."(\$con = null)
 	{
-		// include the related Peer class
-		include_once '".$fkPeerBuilder->getClassFilePath()."';
-
 		if (\$this->$varName === null && ($conditional)) {
+			// include the related Peer class
+			include_once '".$fkPeerBuilder->getClassFilePath()."';
 ";
 		$script .= "
 			\$this->$varName = ".$fkPeerBuilder->getPeerClassname()."::".$fkPeerBuilder->getRetrieveMethodName()."($arglist, \$con);
@@ -404,7 +403,7 @@ class PHP5ComplexObjectBuilder extends PHP5BasicObjectBuilder {
 	 * Adds a convenience method for setting a related object by specifying the primary key.
 	 * This can be used in conjunction with the getPrimaryKey() for systems where nothing is known
 	 * about the actual objects being related.
-	 * @param string &$script The script will be modified in this method.
+	 * @param      string &$script The script will be modified in this method.
 	 */
 	protected function addFKByKeyMutator(&$script, ForeignKey $fk)
 	{
@@ -429,8 +428,8 @@ class PHP5ComplexObjectBuilder extends PHP5BasicObjectBuilder {
 	 * overridden in <code>".$table->getPhpName()."</code>.";
 		}
 		$script .= "
-	 * @return void
-	 * @throws PropelException
+	 * @return     void
+	 * @throws     PropelException
 	 */
 	public function set".$methodAffix."Key(\$key)
 	{
@@ -461,7 +460,7 @@ class PHP5ComplexObjectBuilder extends PHP5BasicObjectBuilder {
 
 	/**
 	 * Adds the method that fetches fkey-related (referencing) objects but also joins in data from another table.
-	 * @param string &$script The script will be modified in this method.
+	 * @param      string &$script The script will be modified in this method.
 	 */
 	protected function addRefFKGetJoinMethods(&$script, ForeignKey $refFK)
 	{
@@ -546,7 +545,7 @@ class PHP5ComplexObjectBuilder extends PHP5BasicObjectBuilder {
 					$colFKName = $flMap[$columnName];
 					$colFK = $tblFK->getColumn($colFKName);
 					if ($colFK === null) {
-					    $e = new Exception("Column $colFKName not found in " . $tblFK->getName());
+						$e = new Exception("Column $colFKName not found in " . $tblFK->getName());
 						print $e;
 						throw $e;
 					}
@@ -600,7 +599,7 @@ class PHP5ComplexObjectBuilder extends PHP5BasicObjectBuilder {
 	 * Adds the attributes used to store objects that have referrer fkey relationships to this object.
 	 * <code>protected collVarName;</code>
 	 * <code>private lastVarNameCriteria = null;</code>
-	 * @param string &$script The script will be modified in this method.
+	 * @param      string &$script The script will be modified in this method.
 	 */
 	protected function addRefFKAttributes(&$script, ForeignKey $refFK)
 	{
@@ -610,13 +609,13 @@ class PHP5ComplexObjectBuilder extends PHP5BasicObjectBuilder {
 		$script .= "
 	/**
 	 * Collection to store aggregation of $collName.
-	 * @var array
+	 * @var        array
 	 */
 	protected $".$collName.";
 
 	/**
 	 * The criteria used to select the current contents of $collName.
-	 * @var Criteria
+	 * @var        Criteria
 	 */
 	protected \$".$lastCriteriaName." = null;
 ";
@@ -624,7 +623,7 @@ class PHP5ComplexObjectBuilder extends PHP5BasicObjectBuilder {
 
 	/**
 	 * Adds the methods for retrieving, initializing, adding objects that are related to this one by foreign keys.
-	 * @param string &$script The script will be modified in this method.
+	 * @param      string &$script The script will be modified in this method.
 	 */
 	protected function addRefFKMethods(&$script)
 	{
@@ -641,7 +640,7 @@ class PHP5ComplexObjectBuilder extends PHP5BasicObjectBuilder {
 
 	/**
 	 * Adds the method that initializes the referrer fkey collection.
-	 * @param string &$script The script will be modified in this method.
+	 * @param      string &$script The script will be modified in this method.
 	 */
 	protected function addRefFKInit(&$script, ForeignKey $refFK) {
 
@@ -653,7 +652,7 @@ class PHP5ComplexObjectBuilder extends PHP5BasicObjectBuilder {
 	 * Temporary storage of $collName to save a possible db hit in
 	 * the event objects are add to the collection, but the
 	 * complete collection is never requested.
-	 * @return void
+	 * @return     void
 	 */
 	public function init$relCol()
 	{
@@ -666,7 +665,7 @@ class PHP5ComplexObjectBuilder extends PHP5BasicObjectBuilder {
 
 	/**
 	 * Adds the method that adds an object into the referrer fkey collection.
-	 * @param string &$script The script will be modified in this method.
+	 * @param      string &$script The script will be modified in this method.
 	 */
 	protected function addRefFKAdd(&$script, ForeignKey $refFK)
 	{
@@ -680,9 +679,9 @@ class PHP5ComplexObjectBuilder extends PHP5BasicObjectBuilder {
 	 * Method called to associate a ".$tblFK->getPhpName()." object to this object
 	 * through the $className foreign key attribute
 	 *
-	 * @param $className \$l $className
-	 * @return void
-	 * @throws PropelException
+	 * @param      $className \$l $className
+	 * @return     void
+	 * @throws     PropelException
 	 */
 	public function add".$this->getRefFKPhpNameAffix($refFK, $plural = false)."($className \$l)
 	{
@@ -694,7 +693,7 @@ class PHP5ComplexObjectBuilder extends PHP5BasicObjectBuilder {
 
 	/**
 	 * Adds the method that returns the size of the referrer fkey collection.
-	 * @param string &$script The script will be modified in this method.
+	 * @param      string &$script The script will be modified in this method.
 	 */
 	protected function addRefFKCount(&$script, ForeignKey $refFK)
 	{
@@ -706,10 +705,10 @@ class PHP5ComplexObjectBuilder extends PHP5BasicObjectBuilder {
 	/**
 	 * Returns the number of related $relCol.
 	 *
-	 * @param Criteria \$criteria
-	 * @param boolean \$distinct
-	 * @param Connection \$con
-	 * @throws PropelException
+	 * @param      Criteria \$criteria
+	 * @param      boolean \$distinct
+	 * @param      Connection \$con
+	 * @throws     PropelException
 	 */
 	public function count$relCol(\$criteria = null, \$distinct = false, \$con = null)
 	{
@@ -740,7 +739,7 @@ class PHP5ComplexObjectBuilder extends PHP5BasicObjectBuilder {
 
 	/**
 	 * Adds the method that returns the referrer fkey collection.
-	 * @param string &$script The script will be modified in this method.
+	 * @param      string &$script The script will be modified in this method.
 	 */
 	protected function addRefFKGet(&$script, ForeignKey $refFK)
 	{
@@ -763,9 +762,9 @@ class PHP5ComplexObjectBuilder extends PHP5BasicObjectBuilder {
 	 * an empty collection or the current collection, the criteria
 	 * is ignored on a new object.
 	 *
-	 * @param Connection \$con
-	 * @param Criteria \$criteria
-	 * @throws PropelException
+	 * @param      Connection \$con
+	 * @param      Criteria \$criteria
+	 * @throws     PropelException
 	 */
 	public function get$relCol(\$criteria = null, \$con = null)
 	{
@@ -839,7 +838,7 @@ $script .= "
 
 	/**
 	 * Adds the workhourse doSave() method.
-	 * @param string &$script The script will be modified in this method.
+	 * @param      string &$script The script will be modified in this method.
 	 */
 	protected function addDoSave(&$script)
 	{
@@ -852,10 +851,10 @@ $script .= "
 	 * If the object is new, it inserts it; otherwise an update is performed.
 	 * All related objects are also updated in this method.
 	 *
-	 * @param Connection \$con
-	 * @return int The number of rows affected by this insert/update and any referring fk objects' save() operations.
-	 * @throws PropelException
-	 * @see save()
+	 * @param      Connection \$con
+	 * @return     int The number of rows affected by this insert/update and any referring fk objects' save() operations.
+	 * @throws     PropelException
+	 * @see        save()
 	 */
 	protected function doSave(\$con)
 	{
@@ -959,7 +958,7 @@ $script .= "
 
 	/**
 	 * Adds the $alreadyInSave attribute, which prevents attempting to re-save the same object.
-	 * @param string &$script The script will be modified in this method.
+	 * @param      string &$script The script will be modified in this method.
 	 */
 	protected function addAlreadyInSaveAttribute(&$script)
 	{
@@ -967,7 +966,7 @@ $script .= "
 	/**
 	 * Flag to prevent endless save loop, if this object is referenced
 	 * by another object which falls in this transaction.
-	 * @var boolean
+	 * @var        boolean
 	 */
 	protected \$alreadyInSave = false;
 ";
@@ -975,7 +974,7 @@ $script .= "
 
 	/**
 	 * Adds the save() method.
-	 * @param string &$script The script will be modified in this method.
+	 * @param      string &$script The script will be modified in this method.
 	 */
 	protected function addSave(&$script)
 	{
@@ -985,10 +984,10 @@ $script .= "
 	 * it inserts it; otherwise an update is performed.  This method
 	 * wraps the doSave() worker method in a transaction.
 	 *
-	 * @param Connection \$con
-	 * @return int The number of rows affected by this insert/update and any referring fk objects' save() operations.
-	 * @throws PropelException
-	 * @see doSave()
+	 * @param      Connection \$con
+	 * @return     int The number of rows affected by this insert/update and any referring fk objects' save() operations.
+	 * @throws     PropelException
+	 * @see        doSave()
 	 */
 	public function save(\$con = null)
 	{
@@ -1016,7 +1015,7 @@ $script .= "
 
 	/**
 	 * Adds the $alreadyInValidation attribute, which prevents attempting to re-validate the same object.
-	 * @param string &$script The script will be modified in this method.
+	 * @param      string &$script The script will be modified in this method.
 	 */
 	protected function addAlreadyInValidationAttribute(&$script)
 	{
@@ -1024,7 +1023,7 @@ $script .= "
 	/**
 	 * Flag to prevent endless validation loop, if this object is referenced
 	 * by another object which falls in this transaction.
-	 * @var boolean
+	 * @var        boolean
 	 */
 	protected \$alreadyInValidation = false;
 ";
@@ -1032,7 +1031,7 @@ $script .= "
 
 	/**
 	 * Adds the validate() method.
-	 * @param string &$script The script will be modified in this method.
+	 * @param      string &$script The script will be modified in this method.
 	 */
 	protected function addValidate(&$script)
 	{
@@ -1043,10 +1042,10 @@ $script .= "
 	 * If \$columns is either a column name or an array of column names
 	 * only those columns are validated.
 	 *
-	 * @param mixed \$columns Column name or an array of column names.
-	 * @return boolean Whether all columns pass validation.
-	 * @see doValidate()
-	 * @see getValidationFailures()
+	 * @param      mixed \$columns Column name or an array of column names.
+	 * @return     boolean Whether all columns pass validation.
+	 * @see        doValidate()
+	 * @see        getValidationFailures()
 	 */
 	public function validate(\$columns = null)
 	{
@@ -1064,7 +1063,7 @@ $script .= "
 
 	/**
 	 * Adds the workhourse doValidate() method.
-	 * @param string &$script The script will be modified in this method.
+	 * @param      string &$script The script will be modified in this method.
 	 */
 	protected function addDoValidate(&$script)
 	{
@@ -1078,8 +1077,8 @@ $script .= "
 	 * also be validated.  If all pass then <code>true</code> is returned; otherwise
 	 * an aggreagated array of ValidationFailed objects will be returned.
 	 *
-	 * @param array \$columns Array of column names to validate.
-	 * @return mixed <code>true</code> if all validations pass; array of <code>ValidationFailed</code> objets otherwise.
+	 * @param      array \$columns Array of column names to validate.
+	 * @return     mixed <code>true</code> if all validations pass; array of <code>ValidationFailed</code> objets otherwise.
 	 */
 	protected function doValidate(\$columns = null)
 	{
@@ -1145,7 +1144,7 @@ $script .= "
 
 	/**
 	 * Adds the copy() method, which (in complex OM) includes the $deepCopy param for making copies of related objects.
-	 * @param string &$script The script will be modified in this method.
+	 * @param      string &$script The script will be modified in this method.
 	 */
 	protected function addCopy(&$script)
 	{
@@ -1162,9 +1161,9 @@ $script .= "
 	 * If desired, this method can also make copies of all associated (fkey referrers)
 	 * objects.
 	 *
-	 * @param boolean \$deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-	 * @return ".$table->getPhpName()." Clone of current object.
-	 * @throws PropelException
+	 * @param      boolean \$deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
+	 * @return     ".$table->getPhpName()." Clone of current object.
+	 * @throws     PropelException
 	 */
 	public function copy(\$deepCopy = false)
 	{
@@ -1180,7 +1179,7 @@ $script .= "
 	/**
 	 * Adds the copyInto() method, which takes an object and sets contents to match current object.
 	 * In complex OM this method includes the $deepCopy param for making copies of related objects.
-	 * @param string &$script The script will be modified in this method.
+	 * @param      string &$script The script will be modified in this method.
 	 */
 	protected function addCopyInto(&$script)
 	{
@@ -1193,9 +1192,9 @@ $script .= "
 	 * If desired, this method can also make copies of all associated (fkey referrers)
 	 * objects.
 	 *
-	 * @param object \$copyObj An object of ".$table->getPhpName()." (or compatible) type.
-	 * @param boolean \$deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-	 * @throws PropelException
+	 * @param      object \$copyObj An object of ".$table->getPhpName()." (or compatible) type.
+	 * @param      boolean \$deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
+	 * @throws     PropelException
 	 */
 	public function copyInto(\$copyObj, \$deepCopy = false)
 	{
