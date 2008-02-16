@@ -1,8 +1,10 @@
-Askeet: Site maintenance
+Metadata Registry: Site maintenance
 ========================
 
 The Registry website is currently being updated.
 
-Please try again in a few minutes.
+Please try again later today.
 
-_The askeet team_
+Yes, that means we don't really know how long it's going to take to do this.
+
+_The Registry team_

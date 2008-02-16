@@ -42,16 +42,22 @@ class conceptpropActions extends autoconceptpropActions
 
   public function executeDelete()
   {
-     $id = $this->getRequestParameter('id'); 
+     $id = $this->getRequestParameter('id');
      $this->deleteReciprocalProperty($id);
 
       //check and correct filter if necessary
-      $concept = $this->getUser()->getAttributeHolder()->get('concept');
-      $this->getUser()->getAttributeHolder()->add(array('concept_id' => $concept->getId()), 'sf_admin/concept_property/filters');
-      
+      $concept = $this->getUser()->getAttribute('concept');
+      if($concept)
+      {
+        //this one won't do anything unless '&filter' is in the redirect URL (a possibility)
+        $this->getUser()->getAttributeHolder()->add(array('concept_id' => strval($concept->getId())), 'sf_admin/concept_property/filters');
+        //this adds the filter to the URL
+        $this->redirectFilter = '?concept_id='. strval($concept->getId());
+      }
+
       parent::executeDelete();
   }
-  
+
   public function executeEdit ()
   {
     if ($this->getRequest()->getMethod() == sfRequest::POST)
@@ -77,7 +83,7 @@ class conceptpropActions extends autoconceptpropActions
       {
          $this->deleteReciprocalProperty($conceptPropertyId, $concept_property['related_concept_id']);
       }
-      
+
       if (isset($concept_property['related_concept_id']) and $concept_property['related_concept_id'])
       {
         //we want to lookup the URI of the related term
@@ -110,6 +116,15 @@ class conceptpropActions extends autoconceptpropActions
 
   }
 
+  public function executeList ()
+  {
+    //a current concept is required to be in the request URL
+    myActionTools::requireConceptFilter();
+
+    parent::executeList();
+  }
+
+
   /**
   * gets the name of the parent vocabulary
   *
@@ -139,68 +154,28 @@ class conceptpropActions extends autoconceptpropActions
   */
   public function getCurrentConcept()
   {
-    //check if there's a request parameter
-    $conceptId = $this->getRequestParameter('concept_id');
-    $conceptObj = $this->getUser()->getCurrentConcept();
+    $concept = myActionTools::findCurrentConcept();
 
-    if ($conceptId)
+    if (!$concept) //we have to do it the hard way
     {
-      $attributeHolder = $this->getUser()->getAttributeHolder();
-      myActionTools::updateAdminFilters($attributeHolder, 'concept_id', $conceptId, 'concept_property');
-    }
-	 //concept_id's not in the query string, but it's in a filter
-    elseif (isset($this->filters['concept_id']) && $this->filters['concept_id'] !== '')
-    {
-      $conceptId = $this->filters['concept_id'];
-    }
-    //there's no concept_id anywhere, so we get it by retrieving the conceptproperty object
-    else
-    {
-      $conceptPropertyId = $this->getRequestParameter('id');
-      if ($conceptPropertyId)
-      {
-         $conceptPropertyObj = ConceptPropertyPeer::retrieveByPK($conceptPropertyId);
-         if ($conceptPropertyObj)
-         {
-            $conceptId = $conceptPropertyObj->getConceptId();
-         }
-      }
-    }
-    //there's a concept_id but no vocabulary object
-    if ($conceptId && !$conceptObj)
-    {
-      $conceptObj = $this->setLatestConcept($conceptId);
+      $this->conceptProperty = ConceptPropertyPeer::retrieveByPk($this->getRequestParameter('id'));
+      /* @var Concept */
+      $concept = $this->conceptProperty->getConceptRelatedByConceptId();
     }
 
-    if ($conceptObj)
+    //and let's just do the vocabulary while we're at it
+    if ($concept && !isset($this->vocabulary))
     {
-      $currentId = $this->getUser()->getCurrentConcept()->getId();
-      if (isset($conceptId) and $currentId != $conceptId)
-      {
-        $conceptObj = $this->setLatestConcept($conceptId);
-      }
-      $conceptId = $this->getUser()->getCurrentConcept()->getId();
+      $vocabulary = $concept->getVocabulary();
+      $this->vocabulary = $vocabulary;
     }
+    $this->forward404Unless($concept,'No concept has been selected.');
+    $this->forward404Unless($vocabulary,'No concept has been selected.');
 
-    //current Concept can't be retrieved, so we send back to the vocabulary list
-    //TODO: make this smarter and check for a vocabulary. If there is, go back to the concepts for it instead
-    //TODO: forward to an intermediate error page
-    //TODO: This shouldn't happen here
-    //$this->forwardUnless($conceptId,'vocabulary','list');
+    $this->concept = $concept;
+    $this->conceptID = $concept->getId();
 
-    return $conceptObj;
-  }
-  /**
-  * description
-  *
-  * @return Concept current Concept object
-  * @param  integer $conceptId
-  */
-  public function setLatestConcept($conceptId)
-  {
-    $conceptObj = ConceptPeer::retrieveByPK($conceptId);
-    $this->getUser()->setCurrentConcept($conceptObj);
-    return $conceptObj;
+    return $concept;
   }
 
   public function executeSearch ()
@@ -269,7 +244,7 @@ class conceptpropActions extends autoconceptpropActions
     $this->pager->setPage($this->getRequestParameter('page', 1));
     $this->pager->init();
   } //executeSearch
-  
+
   /**
   * checks for replated property and deletes if found
   *
@@ -310,7 +285,7 @@ class conceptpropActions extends autoconceptpropActions
                {
                   $this->getRequest()->setError('delete', 'Could not delete the related Concept Property.');
                }
-            }      
+            }
          }
       }
      return;

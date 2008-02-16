@@ -1,6 +1,8 @@
 <?php use_helper('Validation', 'Javascript','Date', 'Text', 'Object') ?>
+<?php use_javascript(sfConfig::get('sf_prototype_web_dir').'/js/prototype', 'first') ?>
+<?php use_javascript(sfConfig::get('sf_admin_web_dir').'/js/setfocus', 'last') ?>
 
-<?php echo javascript_tag("formUtil.focusOnFirst('user_edit');") ?>
+<?php echo javascript_tag("formUtil.focusOnFirst('sf_admin_edit_form');") ?>
 
 <div id="sf_admin_container">
    <h1><?php echo __('%1%\'s profile', array('%1%' => $subscriber->__toString())) ?>
@@ -11,7 +13,11 @@
    <?php echo include_partial('administrator/user_options', array('subscriber' => $subscriber)) ?>
 
    <?php if ($subscriber->getId() == $sf_user->getSubscriberId()): ?>
-      <?php echo form_tag('user/update', 'user_edit') ?>
+      <?php echo form_tag('user/update', array(
+            'id'        => 'sf_admin_edit_form',
+            'name'      => 'sf_admin_edit_form',
+            'multipart' => true,
+          )) ?>
          <fieldset>
 
             <div class="form-row">
@@ -69,6 +75,36 @@
       </form>
    <?php endif ?>
 
-   <h3><?php echo __('Registered Vocabularies') ?></h3>
-   <?php include_partial('vocabulary_list', array('user' => $subscriber)) ?>
+<fieldset id="sf_fieldset_vocabularies">
+  <h2><?php echo __('Vocabularies') ?></h2>
+<div id="show_row_user_vocabulary_list" class="show-row">
+  <label><?php echo __($labels['user{vocabulary_list}']) ?></label>
+  <div id="show_row_content_user_vocabulary_list" class="content">
+<?php $showValue = get_partial('vocabulary_list', array('type' => 'list', 'user' => $subscriber)) ?>
+<?php if ($showValue): ?>
+    <?php echo get_partial('vocabulary_list', array('type' => 'list', 'user' => $subscriber)) ?>
+<?php else: ?>
+    &nbsp;
+<?php endif; ?>
+
+  </div>
+</div>
+
+</fieldset>
+<fieldset id="sf_fieldset_agents">
+  <h2><?php echo __('Agents') ?></h2>
+<div id="show_row_user_agent_list" class="show-row">
+  <label><?php echo __($labels['user{agent_list}']) ?></label>
+  <div id="show_row_content_user_agent_list" class="content">
+<?php $showValue = get_partial('agent_list', array('type' => 'list', 'user' => $subscriber)) ?>
+<?php if ($showValue): ?>
+    <?php echo get_partial('agent_list', array('type' => 'list', 'user' => $subscriber)) ?>
+<?php else: ?>
+    &nbsp;
+<?php endif; ?>
+
+  </div>
+</div>
+
+</fieldset>
 </div>

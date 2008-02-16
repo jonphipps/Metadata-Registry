@@ -5,3 +5,9 @@ generator:
     theme:            default
     pager:
       no_results:     No Versions have been defined for this Vocabulary
+
+    list:
+      actions:       -
+
+    show:
+      actions:       -

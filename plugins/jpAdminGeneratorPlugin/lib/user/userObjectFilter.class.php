@@ -92,7 +92,7 @@ class userObjectFilter extends sfFilter
       //ok, so this is definitely a hack...
       if (!$key && 'vocabulary' == $module && ('edit' == $action || 'show' == $action || 'list' == $action))
       {
-        $vocabulary = VocabularyPeer::findCurrentVocabulary();
+        $vocabulary = myActionTools::findCurrentVocabulary();
         if ($vocabulary)
         {
           $key = $vocabulary->getId();

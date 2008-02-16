@@ -24,11 +24,9 @@
   $topnav['concept']    ['Detail']     ['link'] = '/concept/show?id=';
   $topnav['concept']    ['Properties'] ['link'] = '/conceptprop/list?concept_id=';
   $topnav['concept']    ['History']    ['link'] = '/history/list?concept_id=';
-  $topnav['concept']    ['Versions']   ['link'] = '/version/list?concept_id=';
   //properties
   $topnav['conceptprop']['Detail']     ['link'] = '/conceptprop/show?id=';
   $topnav['conceptprop']['History']    ['link'] = '/history/list?property_id=';
-  $topnav['conceptprop']['Versions']   ['link'] = '/version/list?property_id=';
 
 //this section determines what tab will be shown (or not) by each module/action combination
 

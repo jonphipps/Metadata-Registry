@@ -28,6 +28,7 @@ class vocabularyActions extends autovocabularyActions
     //clear any detail filters
     $this->getUser()->getAttributeHolder()->removeNamespace('sf_admin/concept/filters');
     $this->getUser()->getAttributeHolder()->removeNamespace('sf_admin/concept_property/filters');
+    $this->getUser()->getAttributeHolder()->removeNamespace('sf_admin/concept_property_history/filters');
     parent::executeList();
   }
 

@@ -220,7 +220,7 @@
 </tr>
 <tr>
 	<td>assertTitle</td>
-	<td>The Registry! :: Creating new concept_property</td>
+	<td>The Registry! :: Creating new property</td>
 	<td></td>
 </tr>
 <tr>
@@ -320,7 +320,7 @@
 </tr>
 <tr>
 	<td>assertTitle</td>
-	<td>The Registry! :: Edit</td>
+	<td>The Registry! :: Editing prefLabel</td>
 	<td></td>
 </tr>
 <tr>
@@ -335,8 +335,193 @@
 </tr>
 <tr>
 	<td>assertTitle</td>
+	<td>The Registry! :: newTestVocabulary :: testlabel2 edited :: prefLabel :: Show Detail</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=testlabel2 edited</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: newTestVocabulary :: testlabel2 edited :: Show Detail</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//li[3]/a/span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: newTestVocabulary :: testlabel2 edited :: History of Changes</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertElementPresent</td>
+	<td>//tr[2]/td[3]/a</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertElementPresent</td>
+	<td>link=testlabel2 edited</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertElementPresent</td>
+	<td>link=updated...</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertElementPresent</td>
+	<td>//tr[2]/td[5]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//li[2]/a/span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: newTestVocabulary :: testlabel2 edited :: List Properties</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@value='Add Property']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: Creating new property</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>concept_property_object</td>
+	<td>foobar</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>save_and_add</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: Creating new property</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>concept_property_object</td>
+	<td>foobar2</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>save_and_add</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: Creating new property</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@value='List']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: newTestVocabulary :: testlabel2 edited :: List Properties</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//a[contains(@href, '/conceptprop/show/id/1116.html')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: newTestVocabulary :: testlabel2 edited :: altLabel :: Show Detail</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//li[2]/a/span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: newTestVocabulary :: testlabel2 edited :: altLabel :: History of Changes</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Action</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: newTestVocabulary :: testlabel2 edited :: altLabel :: History of Changes</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=newTestVocabulary</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
 	<td>The Registry! :: newTestVocabulary :: Show Detail</td>
 	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//li[3]/a/span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: newTestVocabulary :: History of Changes</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertElementPresent</td>
+	<td>//tr[8]/td[3]/a</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertElementPresent</td>
+	<td>link=updated...</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Changed at</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: newTestVocabulary :: History of Changes</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Changed at</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: newTestVocabulary :: History of Changes</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTable</td>
+	<td>//div[2]/table.3.4</td>
+	<td>updated...&nbsp;&nbsp;&nbsp;Previous Action: "added" Object: New testlabel2 edited Old testlabel2 Language: New en Old en Status: New Published Old Published</td>
 </tr>
 
 </tbody></table>

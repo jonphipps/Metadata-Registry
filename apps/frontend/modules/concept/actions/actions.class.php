@@ -56,10 +56,11 @@ class conceptActions extends autoconceptActions
   public function executeList ()
   {
     //a current vocabulary is required to be in the request URL
-    myActionTools::requireVocabulary('concept', 'list');
+    myActionTools::requireVocabularyFilter();
 
-    //clear any existing detail filters
+    //clear any existing property filters since they don't apply now
     $this->getUser()->getAttributeHolder()->removeNamespace('sf_admin/concept_property/filters');
+    $this->getUser()->getAttributeHolder()->removeNamespace('sf_admin/concept_property_history/filters');
     parent::executeList();
   }
 
@@ -70,7 +71,7 @@ class conceptActions extends autoconceptActions
   */
   public function getCurrentVocabulary()
   {
-    $vocabulary = VocabularyPeer::findCurrentVocabulary();
+    $vocabulary = myActionTools::findCurrentVocabulary();
 
     if (!$vocabulary) //we have to do it the hard way
     {

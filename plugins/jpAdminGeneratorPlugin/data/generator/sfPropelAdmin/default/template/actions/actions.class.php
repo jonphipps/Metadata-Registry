@@ -137,7 +137,8 @@ class <?php echo $this->getGeneratedModuleName() ?>Actions extends sfActions
 <?php endif; ?>
 <?php endforeach; ?>
 <?php endforeach; ?>
-    return $this->redirect('<?php echo $this->getModuleName() ?>/list');
+    $url = (isset($this->redirectFilter)) ? '<?php echo $this->getModuleName() ?>/list' . $this->redirectFilter : '<?php echo $this->getModuleName() ?>/list';
+    return $this->redirect($url);
   }
 
   public function handleErrorEdit()

@@ -27,7 +27,7 @@
  *   param:
  *     check:          password2
  *     operator:       ==
- *     compare_error:  The passwords you entered do not match.
+ *     compare_error:  The passwords you entered do not match. Please try again.
  *
  * @package    symfony
  * @subpackage validator

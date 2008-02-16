@@ -16,10 +16,10 @@ class vocabuserActions extends autovocabuserActions
   */
   public function executeList()
   {
-    if (!$this->hasRequestParameter('user_id'))
+    if (!$this->hasRequestParameter('user_id')) //we're not filtering by user
     {
       //a current vocabulary is required
-      myActionTools::requireVocabulary('vocabuser', 'list');
+      myActionTools::requireVocabularyFilter();
     }
 
     parent::executeList();
