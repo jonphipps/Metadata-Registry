@@ -2,7 +2,7 @@
 <xs:schema
     xmlns:xs="http://www.w3.org/2001/XMLSchema"
     xmlns="<?php echo $vocabulary->getUri(); ?>"
-    targetNamespace="<?php echo $vocabulary->getUri(); ?>">
+    targetNamespace="<?php echo $vocabulary->getUri(); ?>"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     elementFormDefault="qualified"
     attributeFormDefault="unqualified"
