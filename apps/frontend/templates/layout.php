@@ -17,6 +17,10 @@
    <link rel="shortcut icon" href="/registry_favicon_prod.ico" />
 <?php endif; ?>
 
+<?php if (has_slot('feeds')): ?>
+  <?php include_slot('feeds') ?>
+<?php endif; ?>
+
 </head>
 <body>
 
