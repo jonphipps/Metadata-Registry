@@ -4,12 +4,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
 <meta http-equiv="Content-Style-Type" content="text/css" />
-<meta name="title" content="The Registry Project" />
+<meta name="title" content="The Registry! :: Test Schema :: Editing Test Property" />
 <meta name="robots" content="index,follow" />
 <meta name="description" content="The Metadata Registry Project" />
 <meta name="keywords" content="semantic web, registry, rdf, skos, metadata" />
 <meta name="language" content="en" />
-<title>The Registry Project</title>
+<title>The Registry! :: Test Schema :: Editing Test Property</title>
 <link rel="shortcut icon" href="/registry_favicon_dev.ico" />
 <script type="text/javascript" src="/sf/prototype/js/prototype.js">
 </script>
@@ -116,14 +116,14 @@ This is a definition of this property
             <label for="vocabulary_uri" class="required">Is Subproperty of :</label>
             <div class="content">
               <input type="text" name="vocabulary[uri]" value="http://example.com/someuri#bar" size="60" />
-              <div class="sf_admin_edit_help">Only displayed if Type of Term is 'refinement'. This will be a reciprocal reference to the URI of the term being refined</div>
+              <div class="sf_admin_edit_help">Only displayed if Type of Term is 'subproperty'. This will be a reciprocal reference to the URI of the term being refined</div>
             </div>
           </div>
           <div class="form-row">
             <label for="vocabulary_uri" class="required">Has Subproperty :</label>
             <div class="content">
               <input type="text" name="vocabulary[uri]" value="http://example.com/someuri#foo" size="60" />
-              <div class="sf_admin_edit_help">Only displayed if Type of Term is 'element'. This will be a reciprocal reference to the URI of the resource refining this term. May not be editable here, but displayed only as a link</div>
+              <div class="sf_admin_edit_help">Only displayed if Type of Term is 'property'. This will be a reciprocal reference to the URI of the resource refining this term. May not be editable here, but displayed only as a link</div>
             </div>
           </div>
           <div id="form_row_vocabulary_uri" class="form-row">
