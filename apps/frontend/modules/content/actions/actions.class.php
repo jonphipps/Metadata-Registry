@@ -12,6 +12,7 @@ class contentActions extends sfActions
 {
   public function executeHome()
   {
+    $this->getRss();
     $this->outputFile('home');
   }
 
@@ -53,6 +54,17 @@ class contentActions extends sfActions
     $this->html = markdown(file_get_contents($file));
 
     $this->getContext()->getResponse()->setTitle(sfConfig::get('app_title_prefix') . $infile);
+  }
+
+  /**
+  * loads the rss for the home page
+  *
+  */
+  function getRss()
+  {
+    $RSS_PHP = new rss_php();
+    $RSS_PHP->load('http://metadataregistry.org/blog/category/registry-development/the-registry/feed');
+    $this->rssItems = $RSS_PHP->getItems();
   }
 
 }
