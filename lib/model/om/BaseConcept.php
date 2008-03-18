@@ -72,7 +72,7 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	 * The value for the uri field.
 	 * @var        string
 	 */
-	protected $uri = 'null';
+	protected $uri = '';
 
 
 	/**
@@ -100,7 +100,7 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	 * The value for the pref_label field.
 	 * @var        string
 	 */
-	protected $pref_label = 'null';
+	protected $pref_label = '';
 
 
 	/**
@@ -117,89 +117,89 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	protected $language = 'en';
 
 	/**
-	 * @var User
+	 * @var        User
 	 */
 	protected $aUserRelatedByCreatedUserId;
 
 	/**
-	 * @var User
+	 * @var        User
 	 */
 	protected $aUserRelatedByUpdatedUserId;
 
 	/**
-	 * @var Vocabulary
+	 * @var        Vocabulary
 	 */
 	protected $aVocabulary;
 
 	/**
-	 * @var ConceptProperty
+	 * @var        ConceptProperty
 	 */
 	protected $aConceptProperty;
 
 	/**
-	 * @var Status
+	 * @var        Status
 	 */
 	protected $aStatus;
 
 	/**
 	 * Collection to store aggregation of collConceptPropertysRelatedByConceptId.
-	 * @var array
+	 * @var        array
 	 */
 	protected $collConceptPropertysRelatedByConceptId;
 
 	/**
 	 * The criteria used to select the current contents of collConceptPropertysRelatedByConceptId.
-	 * @var Criteria
+	 * @var        Criteria
 	 */
 	protected $lastConceptPropertyRelatedByConceptIdCriteria = null;
 
 	/**
 	 * Collection to store aggregation of collConceptPropertysRelatedByRelatedConceptId.
-	 * @var array
+	 * @var        array
 	 */
 	protected $collConceptPropertysRelatedByRelatedConceptId;
 
 	/**
 	 * The criteria used to select the current contents of collConceptPropertysRelatedByRelatedConceptId.
-	 * @var Criteria
+	 * @var        Criteria
 	 */
 	protected $lastConceptPropertyRelatedByRelatedConceptIdCriteria = null;
 
 	/**
 	 * Collection to store aggregation of collConceptPropertyHistorysRelatedByConceptId.
-	 * @var array
+	 * @var        array
 	 */
 	protected $collConceptPropertyHistorysRelatedByConceptId;
 
 	/**
 	 * The criteria used to select the current contents of collConceptPropertyHistorysRelatedByConceptId.
-	 * @var Criteria
+	 * @var        Criteria
 	 */
 	protected $lastConceptPropertyHistoryRelatedByConceptIdCriteria = null;
 
 	/**
 	 * Collection to store aggregation of collConceptPropertyHistorysRelatedByRelatedConceptId.
-	 * @var array
+	 * @var        array
 	 */
 	protected $collConceptPropertyHistorysRelatedByRelatedConceptId;
 
 	/**
 	 * The criteria used to select the current contents of collConceptPropertyHistorysRelatedByRelatedConceptId.
-	 * @var Criteria
+	 * @var        Criteria
 	 */
 	protected $lastConceptPropertyHistoryRelatedByRelatedConceptIdCriteria = null;
 
 	/**
 	 * Flag to prevent endless save loop, if this object is referenced
 	 * by another object which falls in this transaction.
-	 * @var boolean
+	 * @var        boolean
 	 */
 	protected $alreadyInSave = false;
 
 	/**
 	 * Flag to prevent endless validation loop, if this object is referenced
 	 * by another object which falls in this transaction.
-	 * @var boolean
+	 * @var        boolean
 	 */
 	protected $alreadyInValidation = false;
 
@@ -622,7 +622,7 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 			$v = (string) $v; 
 		}
 
-		if ($this->uri !== $v || $v === 'null') {
+		if ($this->uri !== $v || $v === '') {
 			$this->uri = $v;
 			$this->modifiedColumns[] = ConceptPeer::URI;
 		}
@@ -712,7 +712,7 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 			$v = (string) $v; 
 		}
 
-		if ($this->pref_label !== $v || $v === 'null') {
+		if ($this->pref_label !== $v || $v === '') {
 			$this->pref_label = $v;
 			$this->modifiedColumns[] = ConceptPeer::PREF_LABEL;
 		}
@@ -876,10 +876,10 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	 * it inserts it; otherwise an update is performed.  This method
 	 * wraps the doSave() worker method in a transaction.
 	 *
-	 * @param Connection $con
-	 * @return int The number of rows affected by this insert/update and any referring fk objects' save() operations.
-	 * @throws PropelException
-	 * @see doSave()
+	 * @param      Connection $con
+	 * @return     int The number of rows affected by this insert/update and any referring fk objects' save() operations.
+	 * @throws     PropelException
+	 * @see        doSave()
 	 */
 	public function save($con = null)
 	{
@@ -934,10 +934,10 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	 * If the object is new, it inserts it; otherwise an update is performed.
 	 * All related objects are also updated in this method.
 	 *
-	 * @param Connection $con
-	 * @return int The number of rows affected by this insert/update and any referring fk objects' save() operations.
-	 * @throws PropelException
-	 * @see save()
+	 * @param      Connection $con
+	 * @return     int The number of rows affected by this insert/update and any referring fk objects' save() operations.
+	 * @throws     PropelException
+	 * @see        save()
 	 */
 	protected function doSave($con)
 	{
@@ -1065,10 +1065,10 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	 * If $columns is either a column name or an array of column names
 	 * only those columns are validated.
 	 *
-	 * @param mixed $columns Column name or an array of column names.
-	 * @return boolean Whether all columns pass validation.
-	 * @see doValidate()
-	 * @see getValidationFailures()
+	 * @param      mixed $columns Column name or an array of column names.
+	 * @return     boolean Whether all columns pass validation.
+	 * @see        doValidate()
+	 * @see        getValidationFailures()
 	 */
 	public function validate($columns = null)
 	{
@@ -1089,8 +1089,8 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	 * also be validated.  If all pass then <code>true</code> is returned; otherwise
 	 * an aggreagated array of ValidationFailed objects will be returned.
 	 *
-	 * @param array $columns Array of column names to validate.
-	 * @return mixed <code>true</code> if all validations pass; array of <code>ValidationFailed</code> objets otherwise.
+	 * @param      array $columns Array of column names to validate.
+	 * @return     mixed <code>true</code> if all validations pass; array of <code>ValidationFailed</code> objets otherwise.
 	 */
 	protected function doValidate($columns = null)
 	{
@@ -1464,9 +1464,9 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	 * If desired, this method can also make copies of all associated (fkey referrers)
 	 * objects.
 	 *
-	 * @param object $copyObj An object of Concept (or compatible) type.
-	 * @param boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-	 * @throws PropelException
+	 * @param      object $copyObj An object of Concept (or compatible) type.
+	 * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
+	 * @throws     PropelException
 	 */
 	public function copyInto($copyObj, $deepCopy = false)
 	{
@@ -1536,9 +1536,9 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	 * If desired, this method can also make copies of all associated (fkey referrers)
 	 * objects.
 	 *
-	 * @param boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-	 * @return Concept Clone of current object.
-	 * @throws PropelException
+	 * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
+	 * @return     Concept Clone of current object.
+	 * @throws     PropelException
 	 */
 	public function copy($deepCopy = false)
 	{
@@ -1569,9 +1569,9 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	/**
 	 * Declares an association between this object and a User object.
 	 *
-	 * @param User $v
-	 * @return void
-	 * @throws PropelException
+	 * @param      User $v
+	 * @return     void
+	 * @throws     PropelException
 	 */
 	public function setUserRelatedByCreatedUserId($v)
 	{
@@ -1591,16 +1591,15 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	/**
 	 * Get the associated User object
 	 *
-	 * @param Connection Optional Connection object.
-	 * @return User The associated User object.
-	 * @throws PropelException
+	 * @param      Connection Optional Connection object.
+	 * @return     User The associated User object.
+	 * @throws     PropelException
 	 */
 	public function getUserRelatedByCreatedUserId($con = null)
 	{
-		// include the related Peer class
-		include_once 'lib/model/om/BaseUserPeer.php';
-
 		if ($this->aUserRelatedByCreatedUserId === null && ($this->created_user_id !== null)) {
+			// include the related Peer class
+			include_once 'lib/model/om/BaseUserPeer.php';
 
 			$this->aUserRelatedByCreatedUserId = UserPeer::retrieveByPK($this->created_user_id, $con);
 
@@ -1620,9 +1619,9 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	/**
 	 * Declares an association between this object and a User object.
 	 *
-	 * @param User $v
-	 * @return void
-	 * @throws PropelException
+	 * @param      User $v
+	 * @return     void
+	 * @throws     PropelException
 	 */
 	public function setUserRelatedByUpdatedUserId($v)
 	{
@@ -1642,16 +1641,15 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	/**
 	 * Get the associated User object
 	 *
-	 * @param Connection Optional Connection object.
-	 * @return User The associated User object.
-	 * @throws PropelException
+	 * @param      Connection Optional Connection object.
+	 * @return     User The associated User object.
+	 * @throws     PropelException
 	 */
 	public function getUserRelatedByUpdatedUserId($con = null)
 	{
-		// include the related Peer class
-		include_once 'lib/model/om/BaseUserPeer.php';
-
 		if ($this->aUserRelatedByUpdatedUserId === null && ($this->updated_user_id !== null)) {
+			// include the related Peer class
+			include_once 'lib/model/om/BaseUserPeer.php';
 
 			$this->aUserRelatedByUpdatedUserId = UserPeer::retrieveByPK($this->updated_user_id, $con);
 
@@ -1671,9 +1669,9 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	/**
 	 * Declares an association between this object and a Vocabulary object.
 	 *
-	 * @param Vocabulary $v
-	 * @return void
-	 * @throws PropelException
+	 * @param      Vocabulary $v
+	 * @return     void
+	 * @throws     PropelException
 	 */
 	public function setVocabulary($v)
 	{
@@ -1693,16 +1691,15 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	/**
 	 * Get the associated Vocabulary object
 	 *
-	 * @param Connection Optional Connection object.
-	 * @return Vocabulary The associated Vocabulary object.
-	 * @throws PropelException
+	 * @param      Connection Optional Connection object.
+	 * @return     Vocabulary The associated Vocabulary object.
+	 * @throws     PropelException
 	 */
 	public function getVocabulary($con = null)
 	{
-		// include the related Peer class
-		include_once 'lib/model/om/BaseVocabularyPeer.php';
-
 		if ($this->aVocabulary === null && ($this->vocabulary_id !== null)) {
+			// include the related Peer class
+			include_once 'lib/model/om/BaseVocabularyPeer.php';
 
 			$this->aVocabulary = VocabularyPeer::retrieveByPK($this->vocabulary_id, $con);
 
@@ -1722,9 +1719,9 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	/**
 	 * Declares an association between this object and a ConceptProperty object.
 	 *
-	 * @param ConceptProperty $v
-	 * @return void
-	 * @throws PropelException
+	 * @param      ConceptProperty $v
+	 * @return     void
+	 * @throws     PropelException
 	 */
 	public function setConceptProperty($v)
 	{
@@ -1744,16 +1741,15 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	/**
 	 * Get the associated ConceptProperty object
 	 *
-	 * @param Connection Optional Connection object.
-	 * @return ConceptProperty The associated ConceptProperty object.
-	 * @throws PropelException
+	 * @param      Connection Optional Connection object.
+	 * @return     ConceptProperty The associated ConceptProperty object.
+	 * @throws     PropelException
 	 */
 	public function getConceptProperty($con = null)
 	{
-		// include the related Peer class
-		include_once 'lib/model/om/BaseConceptPropertyPeer.php';
-
 		if ($this->aConceptProperty === null && ($this->pref_label_id !== null)) {
+			// include the related Peer class
+			include_once 'lib/model/om/BaseConceptPropertyPeer.php';
 
 			$this->aConceptProperty = ConceptPropertyPeer::retrieveByPK($this->pref_label_id, $con);
 
@@ -1773,9 +1769,9 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	/**
 	 * Declares an association between this object and a Status object.
 	 *
-	 * @param Status $v
-	 * @return void
-	 * @throws PropelException
+	 * @param      Status $v
+	 * @return     void
+	 * @throws     PropelException
 	 */
 	public function setStatus($v)
 	{
@@ -1795,16 +1791,15 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	/**
 	 * Get the associated Status object
 	 *
-	 * @param Connection Optional Connection object.
-	 * @return Status The associated Status object.
-	 * @throws PropelException
+	 * @param      Connection Optional Connection object.
+	 * @return     Status The associated Status object.
+	 * @throws     PropelException
 	 */
 	public function getStatus($con = null)
 	{
-		// include the related Peer class
-		include_once 'lib/model/om/BaseStatusPeer.php';
-
 		if ($this->aStatus === null && ($this->status_id !== null)) {
+			// include the related Peer class
+			include_once 'lib/model/om/BaseStatusPeer.php';
 
 			$this->aStatus = StatusPeer::retrieveByPK($this->status_id, $con);
 
@@ -1825,7 +1820,7 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	 * Temporary storage of collConceptPropertysRelatedByConceptId to save a possible db hit in
 	 * the event objects are add to the collection, but the
 	 * complete collection is never requested.
-	 * @return void
+	 * @return     void
 	 */
 	public function initConceptPropertysRelatedByConceptId()
 	{
@@ -1843,9 +1838,9 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	 * an empty collection or the current collection, the criteria
 	 * is ignored on a new object.
 	 *
-	 * @param Connection $con
-	 * @param Criteria $criteria
-	 * @throws PropelException
+	 * @param      Connection $con
+	 * @param      Criteria $criteria
+	 * @throws     PropelException
 	 */
 	public function getConceptPropertysRelatedByConceptId($criteria = null, $con = null)
 	{
@@ -1892,10 +1887,10 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	/**
 	 * Returns the number of related ConceptPropertysRelatedByConceptId.
 	 *
-	 * @param Criteria $criteria
-	 * @param boolean $distinct
-	 * @param Connection $con
-	 * @throws PropelException
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct
+	 * @param      Connection $con
+	 * @throws     PropelException
 	 */
 	public function countConceptPropertysRelatedByConceptId($criteria = null, $distinct = false, $con = null)
 	{
@@ -1918,9 +1913,9 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	 * Method called to associate a ConceptProperty object to this object
 	 * through the ConceptProperty foreign key attribute
 	 *
-	 * @param ConceptProperty $l ConceptProperty
-	 * @return void
-	 * @throws PropelException
+	 * @param      ConceptProperty $l ConceptProperty
+	 * @return     void
+	 * @throws     PropelException
 	 */
 	public function addConceptPropertyRelatedByConceptId(ConceptProperty $l)
 	{
@@ -2177,7 +2172,7 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	 * Temporary storage of collConceptPropertysRelatedByRelatedConceptId to save a possible db hit in
 	 * the event objects are add to the collection, but the
 	 * complete collection is never requested.
-	 * @return void
+	 * @return     void
 	 */
 	public function initConceptPropertysRelatedByRelatedConceptId()
 	{
@@ -2195,9 +2190,9 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	 * an empty collection or the current collection, the criteria
 	 * is ignored on a new object.
 	 *
-	 * @param Connection $con
-	 * @param Criteria $criteria
-	 * @throws PropelException
+	 * @param      Connection $con
+	 * @param      Criteria $criteria
+	 * @throws     PropelException
 	 */
 	public function getConceptPropertysRelatedByRelatedConceptId($criteria = null, $con = null)
 	{
@@ -2244,10 +2239,10 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	/**
 	 * Returns the number of related ConceptPropertysRelatedByRelatedConceptId.
 	 *
-	 * @param Criteria $criteria
-	 * @param boolean $distinct
-	 * @param Connection $con
-	 * @throws PropelException
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct
+	 * @param      Connection $con
+	 * @throws     PropelException
 	 */
 	public function countConceptPropertysRelatedByRelatedConceptId($criteria = null, $distinct = false, $con = null)
 	{
@@ -2270,9 +2265,9 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	 * Method called to associate a ConceptProperty object to this object
 	 * through the ConceptProperty foreign key attribute
 	 *
-	 * @param ConceptProperty $l ConceptProperty
-	 * @return void
-	 * @throws PropelException
+	 * @param      ConceptProperty $l ConceptProperty
+	 * @return     void
+	 * @throws     PropelException
 	 */
 	public function addConceptPropertyRelatedByRelatedConceptId(ConceptProperty $l)
 	{
@@ -2529,7 +2524,7 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	 * Temporary storage of collConceptPropertyHistorysRelatedByConceptId to save a possible db hit in
 	 * the event objects are add to the collection, but the
 	 * complete collection is never requested.
-	 * @return void
+	 * @return     void
 	 */
 	public function initConceptPropertyHistorysRelatedByConceptId()
 	{
@@ -2547,9 +2542,9 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	 * an empty collection or the current collection, the criteria
 	 * is ignored on a new object.
 	 *
-	 * @param Connection $con
-	 * @param Criteria $criteria
-	 * @throws PropelException
+	 * @param      Connection $con
+	 * @param      Criteria $criteria
+	 * @throws     PropelException
 	 */
 	public function getConceptPropertyHistorysRelatedByConceptId($criteria = null, $con = null)
 	{
@@ -2596,10 +2591,10 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	/**
 	 * Returns the number of related ConceptPropertyHistorysRelatedByConceptId.
 	 *
-	 * @param Criteria $criteria
-	 * @param boolean $distinct
-	 * @param Connection $con
-	 * @throws PropelException
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct
+	 * @param      Connection $con
+	 * @throws     PropelException
 	 */
 	public function countConceptPropertyHistorysRelatedByConceptId($criteria = null, $distinct = false, $con = null)
 	{
@@ -2622,9 +2617,9 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	 * Method called to associate a ConceptPropertyHistory object to this object
 	 * through the ConceptPropertyHistory foreign key attribute
 	 *
-	 * @param ConceptPropertyHistory $l ConceptPropertyHistory
-	 * @return void
-	 * @throws PropelException
+	 * @param      ConceptPropertyHistory $l ConceptPropertyHistory
+	 * @return     void
+	 * @throws     PropelException
 	 */
 	public function addConceptPropertyHistoryRelatedByConceptId(ConceptPropertyHistory $l)
 	{
@@ -2930,7 +2925,7 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	 * Temporary storage of collConceptPropertyHistorysRelatedByRelatedConceptId to save a possible db hit in
 	 * the event objects are add to the collection, but the
 	 * complete collection is never requested.
-	 * @return void
+	 * @return     void
 	 */
 	public function initConceptPropertyHistorysRelatedByRelatedConceptId()
 	{
@@ -2948,9 +2943,9 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	 * an empty collection or the current collection, the criteria
 	 * is ignored on a new object.
 	 *
-	 * @param Connection $con
-	 * @param Criteria $criteria
-	 * @throws PropelException
+	 * @param      Connection $con
+	 * @param      Criteria $criteria
+	 * @throws     PropelException
 	 */
 	public function getConceptPropertyHistorysRelatedByRelatedConceptId($criteria = null, $con = null)
 	{
@@ -2997,10 +2992,10 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	/**
 	 * Returns the number of related ConceptPropertyHistorysRelatedByRelatedConceptId.
 	 *
-	 * @param Criteria $criteria
-	 * @param boolean $distinct
-	 * @param Connection $con
-	 * @throws PropelException
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct
+	 * @param      Connection $con
+	 * @throws     PropelException
 	 */
 	public function countConceptPropertyHistorysRelatedByRelatedConceptId($criteria = null, $distinct = false, $con = null)
 	{
@@ -3023,9 +3018,9 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	 * Method called to associate a ConceptPropertyHistory object to this object
 	 * through the ConceptPropertyHistory foreign key attribute
 	 *
-	 * @param ConceptPropertyHistory $l ConceptPropertyHistory
-	 * @return void
-	 * @throws PropelException
+	 * @param      ConceptPropertyHistory $l ConceptPropertyHistory
+	 * @return     void
+	 * @throws     PropelException
 	 */
 	public function addConceptPropertyHistoryRelatedByRelatedConceptId(ConceptPropertyHistory $l)
 	{

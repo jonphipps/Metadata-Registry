@@ -59,19 +59,24 @@ propel:
       type: CHAR
       size: 15
   reg_agent_has_user: 
-    _attributes:
+    _attributes: 
+      idMethod: native
       phpName: AgentHasUser
-    created_at: 
-      type: TIMESTAMP
+    id: 
+      type: INTEGER
+      required: true
+      autoIncrement: true
+      primaryKey: true
     updated_at: 
       type: TIMESTAMP
     deleted_at: 
       type: TIMESTAMP
+    created_at: 
+      type: TIMESTAMP
     user_id: 
       type: INTEGER
       required: true
-      primaryKey: true
-      default: 
+      default: 0
       foreignTable: reg_user
       foreignReference: id
       onDelete: CASCADE
@@ -79,7 +84,6 @@ propel:
     agent_id: 
       type: INTEGER
       required: true
-      primaryKey: true
       default: 0
       foreignTable: reg_agent
       foreignReference: id
@@ -95,6 +99,9 @@ propel:
       user_agent_id: 
         - user_id
         - agent_id
+      agent_user_id: 
+        - agent_id
+        - user_id
   reg_concept: 
     _attributes: 
       idMethod: native
@@ -128,7 +135,7 @@ propel:
       type: VARCHAR
       size: 255
       required: true
-      default: 
+      default: ''
     vocabulary_id: 
       type: INTEGER
       foreignTable: reg_vocabulary
@@ -147,7 +154,7 @@ propel:
       type: VARCHAR
       size: 255
       required: true
-      default: 
+      default: ''
     status_id: 
       type: INTEGER
       required: true
@@ -187,6 +194,7 @@ propel:
       required: true
       autoIncrement: true
       primaryKey: true
+      index: unique
     created_at: 
       type: TIMESTAMP
     updated_at: 
@@ -210,7 +218,7 @@ propel:
     concept_id: 
       type: INTEGER
       required: true
-      default: 
+      default: ''
       foreignTable: reg_concept
       foreignReference: id
       onDelete: CASCADE
@@ -220,7 +228,7 @@ propel:
     skos_property_id: 
       type: INTEGER
       required: true
-      default: 
+      default: ''
       foreignTable: reg_skos_property
       foreignReference: id
       onDelete: RESTRICT
@@ -266,9 +274,6 @@ propel:
         - created_user_id
       updated_user_id: 
         - updated_user_id
-    _uniques: 
-      id: 
-        - id
   reg_concept_property_history: 
     _attributes: 
       idMethod: native
@@ -278,6 +283,7 @@ propel:
       required: true
       autoIncrement: true
       primaryKey: true
+      index: unique
     created_at: 
       type: TIMESTAMP
     action: 
@@ -354,9 +360,6 @@ propel:
         - created_user_id
       vocabulary_id: 
         - vocabulary_id
-    _uniques: 
-      id: 
-        - id
   reg_lookup: 
     _attributes: 
       idMethod: native
@@ -366,6 +369,7 @@ propel:
       required: true
       autoIncrement: true
       primaryKey: true
+      index: unique
     type_id: 
       type: INTEGER
     short_value: 
@@ -380,9 +384,6 @@ propel:
       display_order: 
         - type_id
         - display_order
-    _uniques: 
-      id: 
-        - id
   reg_skos_property: 
     _attributes: 
       idMethod: native
@@ -392,6 +393,7 @@ propel:
       required: true
       autoIncrement: true
       primaryKey: true
+      index: unique
     parent_id: 
       type: INTEGER
     inverse_id: 
@@ -400,16 +402,18 @@ propel:
       type: VARCHAR
       size: 255
       required: true
-      default: 
+      default: ''
+      index: unique
     uri: 
       type: VARCHAR
       size: 255
       required: true
-      default: 
+      default: ''
+      index: unique
     object_type: 
       type: CHAR
       required: true
-      default: 
+      default: ''
     display_order: 
       type: INTEGER
     picklist_order: 
@@ -444,13 +448,6 @@ propel:
       type: BOOLEAN
       required: true
       default: 1
-    _uniques: 
-      id: 
-        - id
-      name: 
-        - name
-      uri: 
-        - uri
   reg_status: 
     _attributes: 
       idMethod: native
@@ -460,6 +457,7 @@ propel:
       required: true
       autoIncrement: true
       primaryKey: true
+      index: unique
     display_order: 
       type: INTEGER
     display_name: 
@@ -468,9 +466,6 @@ propel:
     _indexes: 
       display_order: 
         - display_order
-    _uniques: 
-      id: 
-        - id
   reg_user: 
     _attributes: 
       idMethod: native
@@ -538,7 +533,7 @@ propel:
     agent_id: 
       type: INTEGER
       required: true
-      default: ''
+      default: 0
       foreignTable: reg_agent
       foreignReference: id
       onDelete: RESTRICT
@@ -628,6 +623,11 @@ propel:
     _attributes: 
       idMethod: native
       phpName: VocabularyHasUser
+    id: 
+      type: INTEGER
+      required: true
+      autoIncrement: true
+      primaryKey: true
     created_at: 
       type: TIMESTAMP
     updated_at: 
@@ -637,7 +637,6 @@ propel:
     vocabulary_id: 
       type: INTEGER
       required: true
-      primaryKey: true
       default: 0
       foreignTable: reg_vocabulary
       foreignReference: id
@@ -646,7 +645,6 @@ propel:
     user_id: 
       type: INTEGER
       required: true
-      primaryKey: true
       default: 0
       foreignTable: reg_user
       foreignReference: id
@@ -665,6 +663,9 @@ propel:
       resource_user_id: 
         - vocabulary_id
         - user_id
+      user_resource_id: 
+        - user_id
+        - vocabulary_id
   reg_vocabulary_has_version: 
     _attributes: 
       idMethod: native
@@ -673,7 +674,6 @@ propel:
       type: INTEGER
       required: true
       primaryKey: true
-      default: 
     name: 
       type: VARCHAR
       size: 255

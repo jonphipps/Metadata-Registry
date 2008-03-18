@@ -44,21 +44,21 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 	 * The value for the name field.
 	 * @var        string
 	 */
-	protected $name = 'null';
+	protected $name = '';
 
 
 	/**
 	 * The value for the uri field.
 	 * @var        string
 	 */
-	protected $uri = 'null';
+	protected $uri = '';
 
 
 	/**
 	 * The value for the object_type field.
 	 * @var        string
 	 */
-	protected $object_type = 'null';
+	protected $object_type = '';
 
 
 	/**
@@ -139,39 +139,39 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 
 	/**
 	 * Collection to store aggregation of collConceptPropertys.
-	 * @var array
+	 * @var        array
 	 */
 	protected $collConceptPropertys;
 
 	/**
 	 * The criteria used to select the current contents of collConceptPropertys.
-	 * @var Criteria
+	 * @var        Criteria
 	 */
 	protected $lastConceptPropertyCriteria = null;
 
 	/**
 	 * Collection to store aggregation of collConceptPropertyHistorys.
-	 * @var array
+	 * @var        array
 	 */
 	protected $collConceptPropertyHistorys;
 
 	/**
 	 * The criteria used to select the current contents of collConceptPropertyHistorys.
-	 * @var Criteria
+	 * @var        Criteria
 	 */
 	protected $lastConceptPropertyHistoryCriteria = null;
 
 	/**
 	 * Flag to prevent endless save loop, if this object is referenced
 	 * by another object which falls in this transaction.
-	 * @var boolean
+	 * @var        boolean
 	 */
 	protected $alreadyInSave = false;
 
 	/**
 	 * Flag to prevent endless validation loop, if this object is referenced
 	 * by another object which falls in this transaction.
-	 * @var boolean
+	 * @var        boolean
 	 */
 	protected $alreadyInValidation = false;
 
@@ -443,7 +443,7 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 			$v = (string) $v; 
 		}
 
-		if ($this->name !== $v || $v === 'null') {
+		if ($this->name !== $v || $v === '') {
 			$this->name = $v;
 			$this->modifiedColumns[] = SkosPropertyPeer::NAME;
 		}
@@ -465,7 +465,7 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 			$v = (string) $v; 
 		}
 
-		if ($this->uri !== $v || $v === 'null') {
+		if ($this->uri !== $v || $v === '') {
 			$this->uri = $v;
 			$this->modifiedColumns[] = SkosPropertyPeer::URI;
 		}
@@ -487,7 +487,7 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 			$v = (string) $v; 
 		}
 
-		if ($this->object_type !== $v || $v === 'null') {
+		if ($this->object_type !== $v || $v === '') {
 			$this->object_type = $v;
 			$this->modifiedColumns[] = SkosPropertyPeer::OBJECT_TYPE;
 		}
@@ -821,10 +821,10 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 	 * it inserts it; otherwise an update is performed.  This method
 	 * wraps the doSave() worker method in a transaction.
 	 *
-	 * @param Connection $con
-	 * @return int The number of rows affected by this insert/update and any referring fk objects' save() operations.
-	 * @throws PropelException
-	 * @see doSave()
+	 * @param      Connection $con
+	 * @return     int The number of rows affected by this insert/update and any referring fk objects' save() operations.
+	 * @throws     PropelException
+	 * @see        doSave()
 	 */
 	public function save($con = null)
 	{
@@ -869,10 +869,10 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 	 * If the object is new, it inserts it; otherwise an update is performed.
 	 * All related objects are also updated in this method.
 	 *
-	 * @param Connection $con
-	 * @return int The number of rows affected by this insert/update and any referring fk objects' save() operations.
-	 * @throws PropelException
-	 * @see save()
+	 * @param      Connection $con
+	 * @return     int The number of rows affected by this insert/update and any referring fk objects' save() operations.
+	 * @throws     PropelException
+	 * @see        save()
 	 */
 	protected function doSave($con)
 	{
@@ -943,10 +943,10 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 	 * If $columns is either a column name or an array of column names
 	 * only those columns are validated.
 	 *
-	 * @param mixed $columns Column name or an array of column names.
-	 * @return boolean Whether all columns pass validation.
-	 * @see doValidate()
-	 * @see getValidationFailures()
+	 * @param      mixed $columns Column name or an array of column names.
+	 * @return     boolean Whether all columns pass validation.
+	 * @see        doValidate()
+	 * @see        getValidationFailures()
 	 */
 	public function validate($columns = null)
 	{
@@ -967,8 +967,8 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 	 * also be validated.  If all pass then <code>true</code> is returned; otherwise
 	 * an aggreagated array of ValidationFailed objects will be returned.
 	 *
-	 * @param array $columns Array of column names to validate.
-	 * @return mixed <code>true</code> if all validations pass; array of <code>ValidationFailed</code> objets otherwise.
+	 * @param      array $columns Array of column names to validate.
+	 * @return     mixed <code>true</code> if all validations pass; array of <code>ValidationFailed</code> objets otherwise.
 	 */
 	protected function doValidate($columns = null)
 	{
@@ -1317,9 +1317,9 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 	 * If desired, this method can also make copies of all associated (fkey referrers)
 	 * objects.
 	 *
-	 * @param object $copyObj An object of SkosProperty (or compatible) type.
-	 * @param boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-	 * @throws PropelException
+	 * @param      object $copyObj An object of SkosProperty (or compatible) type.
+	 * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
+	 * @throws     PropelException
 	 */
 	public function copyInto($copyObj, $deepCopy = false)
 	{
@@ -1387,9 +1387,9 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 	 * If desired, this method can also make copies of all associated (fkey referrers)
 	 * objects.
 	 *
-	 * @param boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-	 * @return SkosProperty Clone of current object.
-	 * @throws PropelException
+	 * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
+	 * @return     SkosProperty Clone of current object.
+	 * @throws     PropelException
 	 */
 	public function copy($deepCopy = false)
 	{
@@ -1421,7 +1421,7 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 	 * Temporary storage of collConceptPropertys to save a possible db hit in
 	 * the event objects are add to the collection, but the
 	 * complete collection is never requested.
-	 * @return void
+	 * @return     void
 	 */
 	public function initConceptPropertys()
 	{
@@ -1439,9 +1439,9 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 	 * an empty collection or the current collection, the criteria
 	 * is ignored on a new object.
 	 *
-	 * @param Connection $con
-	 * @param Criteria $criteria
-	 * @throws PropelException
+	 * @param      Connection $con
+	 * @param      Criteria $criteria
+	 * @throws     PropelException
 	 */
 	public function getConceptPropertys($criteria = null, $con = null)
 	{
@@ -1488,10 +1488,10 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 	/**
 	 * Returns the number of related ConceptPropertys.
 	 *
-	 * @param Criteria $criteria
-	 * @param boolean $distinct
-	 * @param Connection $con
-	 * @throws PropelException
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct
+	 * @param      Connection $con
+	 * @throws     PropelException
 	 */
 	public function countConceptPropertys($criteria = null, $distinct = false, $con = null)
 	{
@@ -1514,9 +1514,9 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 	 * Method called to associate a ConceptProperty object to this object
 	 * through the ConceptProperty foreign key attribute
 	 *
-	 * @param ConceptProperty $l ConceptProperty
-	 * @return void
-	 * @throws PropelException
+	 * @param      ConceptProperty $l ConceptProperty
+	 * @return     void
+	 * @throws     PropelException
 	 */
 	public function addConceptProperty(ConceptProperty $l)
 	{
@@ -1822,7 +1822,7 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 	 * Temporary storage of collConceptPropertyHistorys to save a possible db hit in
 	 * the event objects are add to the collection, but the
 	 * complete collection is never requested.
-	 * @return void
+	 * @return     void
 	 */
 	public function initConceptPropertyHistorys()
 	{
@@ -1840,9 +1840,9 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 	 * an empty collection or the current collection, the criteria
 	 * is ignored on a new object.
 	 *
-	 * @param Connection $con
-	 * @param Criteria $criteria
-	 * @throws PropelException
+	 * @param      Connection $con
+	 * @param      Criteria $criteria
+	 * @throws     PropelException
 	 */
 	public function getConceptPropertyHistorys($criteria = null, $con = null)
 	{
@@ -1889,10 +1889,10 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 	/**
 	 * Returns the number of related ConceptPropertyHistorys.
 	 *
-	 * @param Criteria $criteria
-	 * @param boolean $distinct
-	 * @param Connection $con
-	 * @throws PropelException
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct
+	 * @param      Connection $con
+	 * @throws     PropelException
 	 */
 	public function countConceptPropertyHistorys($criteria = null, $distinct = false, $con = null)
 	{
@@ -1915,9 +1915,9 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 	 * Method called to associate a ConceptPropertyHistory object to this object
 	 * through the ConceptPropertyHistory foreign key attribute
 	 *
-	 * @param ConceptPropertyHistory $l ConceptPropertyHistory
-	 * @return void
-	 * @throws PropelException
+	 * @param      ConceptPropertyHistory $l ConceptPropertyHistory
+	 * @return     void
+	 * @throws     PropelException
 	 */
 	public function addConceptPropertyHistory(ConceptPropertyHistory $l)
 	{
