@@ -16,7 +16,10 @@ class conceptpropActions extends autoconceptpropActions
   */
   public function preExecute ()
   {
-    $this->concept = $this->getCurrentConcept();
+    if ('search' != $this->getRequestParameter('action'))
+    {
+      $this->concept = $this->getCurrentConcept();
+    }
     parent::preExecute();
   }
 
