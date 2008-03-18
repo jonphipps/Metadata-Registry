@@ -17,15 +17,16 @@ class VocabularyHasUser extends BaseVocabularyHasUser
   {
     $saved = parent::save();
 
-    if ($saved)
-    {
-      //make the credential array
-      $credentials = array(
-      registrar  => $this->getIsRegistrarFor(),
-      admin      => $this->getIsAdminFor(),
-      maintainer => $this->getIsMaintainerFor());
+    //update the credentials
+    $user = sfContext::getInstance()->getUser();
+    $userId = $user->getAttribute('subscriber_id','','subscriber');
+    $vocabUser = $this->getUserId();
 
-      sfContext::getInstance()->getUser()-> updateObjectCredential($this->getVocabularyId(),'vocabulary', $credentials);
+    if ($saved && $vocabUser == $userId)
+    {
+      $user->setVocabularyCredentials();
     }
+
+    return $saved;
   }
 } // VocabularyHasUser

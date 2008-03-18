@@ -19,11 +19,14 @@ abstract class BaseVocabularyHasUserPeer {
 	const CLASS_DEFAULT = 'lib.model.VocabularyHasUser';
 
 	/** The total number of columns. */
-	const NUM_COLUMNS = 8;
+	const NUM_COLUMNS = 9;
 
 	/** The number of lazy-loaded columns. */
 	const NUM_LAZY_LOAD_COLUMNS = 0;
 
+
+	/** the column name for the ID field */
+	const ID = 'reg_vocabulary_has_user.ID';
 
 	/** the column name for the CREATED_AT field */
 	const CREATED_AT = 'reg_vocabulary_has_user.CREATED_AT';
@@ -60,10 +63,10 @@ abstract class BaseVocabularyHasUserPeer {
 	 * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
 	 */
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('CreatedAt', 'UpdatedAt', 'DeletedAt', 'VocabularyId', 'UserId', 'IsMaintainerFor', 'IsRegistrarFor', 'IsAdminFor', ),
-		BasePeer::TYPE_COLNAME => array (VocabularyHasUserPeer::CREATED_AT, VocabularyHasUserPeer::UPDATED_AT, VocabularyHasUserPeer::DELETED_AT, VocabularyHasUserPeer::VOCABULARY_ID, VocabularyHasUserPeer::USER_ID, VocabularyHasUserPeer::IS_MAINTAINER_FOR, VocabularyHasUserPeer::IS_REGISTRAR_FOR, VocabularyHasUserPeer::IS_ADMIN_FOR, ),
-		BasePeer::TYPE_FIELDNAME => array ('created_at', 'updated_at', 'deleted_at', 'vocabulary_id', 'user_id', 'is_maintainer_for', 'is_registrar_for', 'is_admin_for', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'CreatedAt', 'UpdatedAt', 'DeletedAt', 'VocabularyId', 'UserId', 'IsMaintainerFor', 'IsRegistrarFor', 'IsAdminFor', ),
+		BasePeer::TYPE_COLNAME => array (VocabularyHasUserPeer::ID, VocabularyHasUserPeer::CREATED_AT, VocabularyHasUserPeer::UPDATED_AT, VocabularyHasUserPeer::DELETED_AT, VocabularyHasUserPeer::VOCABULARY_ID, VocabularyHasUserPeer::USER_ID, VocabularyHasUserPeer::IS_MAINTAINER_FOR, VocabularyHasUserPeer::IS_REGISTRAR_FOR, VocabularyHasUserPeer::IS_ADMIN_FOR, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'created_at', 'updated_at', 'deleted_at', 'vocabulary_id', 'user_id', 'is_maintainer_for', 'is_registrar_for', 'is_admin_for', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, )
 	);
 
 	/**
@@ -73,10 +76,10 @@ abstract class BaseVocabularyHasUserPeer {
 	 * e.g. self::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
 	 */
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('CreatedAt' => 0, 'UpdatedAt' => 1, 'DeletedAt' => 2, 'VocabularyId' => 3, 'UserId' => 4, 'IsMaintainerFor' => 5, 'IsRegistrarFor' => 6, 'IsAdminFor' => 7, ),
-		BasePeer::TYPE_COLNAME => array (VocabularyHasUserPeer::CREATED_AT => 0, VocabularyHasUserPeer::UPDATED_AT => 1, VocabularyHasUserPeer::DELETED_AT => 2, VocabularyHasUserPeer::VOCABULARY_ID => 3, VocabularyHasUserPeer::USER_ID => 4, VocabularyHasUserPeer::IS_MAINTAINER_FOR => 5, VocabularyHasUserPeer::IS_REGISTRAR_FOR => 6, VocabularyHasUserPeer::IS_ADMIN_FOR => 7, ),
-		BasePeer::TYPE_FIELDNAME => array ('created_at' => 0, 'updated_at' => 1, 'deleted_at' => 2, 'vocabulary_id' => 3, 'user_id' => 4, 'is_maintainer_for' => 5, 'is_registrar_for' => 6, 'is_admin_for' => 7, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'CreatedAt' => 1, 'UpdatedAt' => 2, 'DeletedAt' => 3, 'VocabularyId' => 4, 'UserId' => 5, 'IsMaintainerFor' => 6, 'IsRegistrarFor' => 7, 'IsAdminFor' => 8, ),
+		BasePeer::TYPE_COLNAME => array (VocabularyHasUserPeer::ID => 0, VocabularyHasUserPeer::CREATED_AT => 1, VocabularyHasUserPeer::UPDATED_AT => 2, VocabularyHasUserPeer::DELETED_AT => 3, VocabularyHasUserPeer::VOCABULARY_ID => 4, VocabularyHasUserPeer::USER_ID => 5, VocabularyHasUserPeer::IS_MAINTAINER_FOR => 6, VocabularyHasUserPeer::IS_REGISTRAR_FOR => 7, VocabularyHasUserPeer::IS_ADMIN_FOR => 8, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'created_at' => 1, 'updated_at' => 2, 'deleted_at' => 3, 'vocabulary_id' => 4, 'user_id' => 5, 'is_maintainer_for' => 6, 'is_registrar_for' => 7, 'is_admin_for' => 8, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, )
 	);
 
 	/**
@@ -177,6 +180,8 @@ abstract class BaseVocabularyHasUserPeer {
 	public static function addSelectColumns(Criteria $criteria)
 	{
 
+		$criteria->addSelectColumn(VocabularyHasUserPeer::ID);
+
 		$criteria->addSelectColumn(VocabularyHasUserPeer::CREATED_AT);
 
 		$criteria->addSelectColumn(VocabularyHasUserPeer::UPDATED_AT);
@@ -195,8 +200,8 @@ abstract class BaseVocabularyHasUserPeer {
 
 	}
 
-	const COUNT = 'COUNT(reg_vocabulary_has_user.VOCABULARY_ID)';
-	const COUNT_DISTINCT = 'COUNT(DISTINCT reg_vocabulary_has_user.VOCABULARY_ID)';
+	const COUNT = 'COUNT(reg_vocabulary_has_user.ID)';
+	const COUNT_DISTINCT = 'COUNT(DISTINCT reg_vocabulary_has_user.ID)';
 
 	/**
 	 * Returns the number of rows matching criteria.
@@ -931,6 +936,8 @@ abstract class BaseVocabularyHasUserPeer {
 			$criteria = $values->buildCriteria(); // build Criteria from VocabularyHasUser object
 		}
 
+		$criteria->remove(VocabularyHasUserPeer::ID); // remove pkey col since this table uses auto-increment
+
 
 		// Set the correct dbName
 		$criteria->setDbName(self::DATABASE_NAME);
@@ -986,11 +993,8 @@ abstract class BaseVocabularyHasUserPeer {
 		if ($values instanceof Criteria) {
 			$criteria = clone $values; // rename for clarity
 
-			$comparison = $criteria->getComparison(VocabularyHasUserPeer::VOCABULARY_ID);
-			$selectCriteria->add(VocabularyHasUserPeer::VOCABULARY_ID, $criteria->remove(VocabularyHasUserPeer::VOCABULARY_ID), $comparison);
-
-			$comparison = $criteria->getComparison(VocabularyHasUserPeer::USER_ID);
-			$selectCriteria->add(VocabularyHasUserPeer::USER_ID, $criteria->remove(VocabularyHasUserPeer::USER_ID), $comparison);
+			$comparison = $criteria->getComparison(VocabularyHasUserPeer::ID);
+			$selectCriteria->add(VocabularyHasUserPeer::ID, $criteria->remove(VocabularyHasUserPeer::ID), $comparison);
 
 		} else { // $values is VocabularyHasUser object
 			$criteria = $values->buildCriteria(); // gets full criteria
@@ -1060,24 +1064,7 @@ abstract class BaseVocabularyHasUserPeer {
 		} else {
 			// it must be the primary key
 			$criteria = new Criteria(self::DATABASE_NAME);
-			// primary key is composite; we therefore, expect
-			// the primary key passed to be an array of pkey
-			// values
-			if(count($values) == count($values, COUNT_RECURSIVE))
-			{
-				// array is not multi-dimensional
-				$values = array($values);
-			}
-			$vals = array();
-			foreach($values as $value)
-			{
-
-				$vals[0][] = $value[0];
-				$vals[1][] = $value[1];
-			}
-
-			$criteria->add(VocabularyHasUserPeer::VOCABULARY_ID, $vals[0], Criteria::IN);
-			$criteria->add(VocabularyHasUserPeer::USER_ID, $vals[1], Criteria::IN);
+			$criteria->add(VocabularyHasUserPeer::ID, (array) $values, Criteria::IN);
 		}
 
 		// Set the correct dbName
@@ -1137,24 +1124,53 @@ abstract class BaseVocabularyHasUserPeer {
 	}
 
 	/**
-	 * Retrieve object using using composite pkey values.
-	 * @param int $vocabulary_id
-	   @param int $user_id
-	   
-	 * @param      Connection $con
+	 * Retrieve a single object by pkey.
+	 *
+	 * @param      mixed $pk the primary key.
+	 * @param      Connection $con the connection to use
 	 * @return     VocabularyHasUser
 	 */
-	public static function retrieveByPK( $vocabulary_id, $user_id, $con = null) {
+	public static function retrieveByPK($pk, $con = null)
+	{
 		if ($con === null) {
 			$con = Propel::getConnection(self::DATABASE_NAME);
 		}
-		$criteria = new Criteria();
-		$criteria->add(VocabularyHasUserPeer::VOCABULARY_ID, $vocabulary_id);
-		$criteria->add(VocabularyHasUserPeer::USER_ID, $user_id);
+
+		$criteria = new Criteria(VocabularyHasUserPeer::DATABASE_NAME);
+
+		$criteria->add(VocabularyHasUserPeer::ID, $pk);
+
+
 		$v = VocabularyHasUserPeer::doSelect($criteria, $con);
 
-		return !empty($v) ? $v[0] : null;
+		return !empty($v) > 0 ? $v[0] : null;
 	}
+
+	/**
+	 * Retrieve multiple objects by pkey.
+	 *
+	 * @param      array $pks List of primary keys
+	 * @param      Connection $con the connection to use
+	 * @throws     PropelException Any exceptions caught during processing will be
+	 *		 rethrown wrapped into a PropelException.
+	 */
+	public static function retrieveByPKs($pks, $con = null)
+	{
+		if ($con === null) {
+			$con = Propel::getConnection(self::DATABASE_NAME);
+		}
+
+		$objs = null;
+		if (empty($pks)) {
+			$objs = array();
+		} else {
+			$criteria = new Criteria();
+			$criteria->add(VocabularyHasUserPeer::ID, $pks, Criteria::IN);
+			$objs = VocabularyHasUserPeer::doSelect($criteria, $con);
+		}
+		return $objs;
+	}
+
 } // BaseVocabularyHasUserPeer
 
 // static code to register the map builder for this Peer with the main Propel class

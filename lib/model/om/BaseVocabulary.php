@@ -86,7 +86,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	 * The value for the name field.
 	 * @var        string
 	 */
-	protected $name = '';
+	protected $name = 'null';
 
 
 	/**
@@ -100,7 +100,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	 * The value for the uri field.
 	 * @var        string
 	 */
-	protected $uri = '';
+	protected $uri = 'null';
 
 
 	/**
@@ -114,14 +114,14 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	 * The value for the base_domain field.
 	 * @var        string
 	 */
-	protected $base_domain = '';
+	protected $base_domain = 'null';
 
 
 	/**
 	 * The value for the token field.
 	 * @var        string
 	 */
-	protected $token = '';
+	protected $token = 'null';
 
 
 	/**
@@ -152,113 +152,113 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	protected $language = 'en';
 
 	/**
-	 * @var Agent
+	 * @var        Agent
 	 */
 	protected $aAgent;
 
 	/**
-	 * @var User
+	 * @var        User
 	 */
 	protected $aUserRelatedByCreatedUserId;
 
 	/**
-	 * @var User
+	 * @var        User
 	 */
 	protected $aUserRelatedByUpdatedUserId;
 
 	/**
-	 * @var User
+	 * @var        User
 	 */
 	protected $aUserRelatedByChildUpdatedUserId;
 
 	/**
-	 * @var Status
+	 * @var        Status
 	 */
 	protected $aStatus;
 
 	/**
 	 * Collection to store aggregation of collConcepts.
-	 * @var array
+	 * @var        array
 	 */
 	protected $collConcepts;
 
 	/**
 	 * The criteria used to select the current contents of collConcepts.
-	 * @var Criteria
+	 * @var        Criteria
 	 */
 	protected $lastConceptCriteria = null;
 
 	/**
 	 * Collection to store aggregation of collConceptPropertys.
-	 * @var array
+	 * @var        array
 	 */
 	protected $collConceptPropertys;
 
 	/**
 	 * The criteria used to select the current contents of collConceptPropertys.
-	 * @var Criteria
+	 * @var        Criteria
 	 */
 	protected $lastConceptPropertyCriteria = null;
 
 	/**
 	 * Collection to store aggregation of collConceptPropertyHistorysRelatedByVocabularyId.
-	 * @var array
+	 * @var        array
 	 */
 	protected $collConceptPropertyHistorysRelatedByVocabularyId;
 
 	/**
 	 * The criteria used to select the current contents of collConceptPropertyHistorysRelatedByVocabularyId.
-	 * @var Criteria
+	 * @var        Criteria
 	 */
 	protected $lastConceptPropertyHistoryRelatedByVocabularyIdCriteria = null;
 
 	/**
 	 * Collection to store aggregation of collConceptPropertyHistorysRelatedBySchemeId.
-	 * @var array
+	 * @var        array
 	 */
 	protected $collConceptPropertyHistorysRelatedBySchemeId;
 
 	/**
 	 * The criteria used to select the current contents of collConceptPropertyHistorysRelatedBySchemeId.
-	 * @var Criteria
+	 * @var        Criteria
 	 */
 	protected $lastConceptPropertyHistoryRelatedBySchemeIdCriteria = null;
 
 	/**
 	 * Collection to store aggregation of collVocabularyHasUsers.
-	 * @var array
+	 * @var        array
 	 */
 	protected $collVocabularyHasUsers;
 
 	/**
 	 * The criteria used to select the current contents of collVocabularyHasUsers.
-	 * @var Criteria
+	 * @var        Criteria
 	 */
 	protected $lastVocabularyHasUserCriteria = null;
 
 	/**
 	 * Collection to store aggregation of collVocabularyHasVersions.
-	 * @var array
+	 * @var        array
 	 */
 	protected $collVocabularyHasVersions;
 
 	/**
 	 * The criteria used to select the current contents of collVocabularyHasVersions.
-	 * @var Criteria
+	 * @var        Criteria
 	 */
 	protected $lastVocabularyHasVersionCriteria = null;
 
 	/**
 	 * Flag to prevent endless save loop, if this object is referenced
 	 * by another object which falls in this transaction.
-	 * @var boolean
+	 * @var        boolean
 	 */
 	protected $alreadyInSave = false;
 
 	/**
 	 * Flag to prevent endless validation loop, if this object is referenced
 	 * by another object which falls in this transaction.
-	 * @var boolean
+	 * @var        boolean
 	 */
 	protected $alreadyInValidation = false;
 
@@ -788,7 +788,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 			$v = (string) $v; 
 		}
 
-		if ($this->name !== $v || $v === '') {
+		if ($this->name !== $v || $v === 'null') {
 			$this->name = $v;
 			$this->modifiedColumns[] = VocabularyPeer::NAME;
 		}
@@ -832,7 +832,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 			$v = (string) $v; 
 		}
 
-		if ($this->uri !== $v || $v === '') {
+		if ($this->uri !== $v || $v === 'null') {
 			$this->uri = $v;
 			$this->modifiedColumns[] = VocabularyPeer::URI;
 		}
@@ -876,7 +876,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 			$v = (string) $v; 
 		}
 
-		if ($this->base_domain !== $v || $v === '') {
+		if ($this->base_domain !== $v || $v === 'null') {
 			$this->base_domain = $v;
 			$this->modifiedColumns[] = VocabularyPeer::BASE_DOMAIN;
 		}
@@ -898,7 +898,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 			$v = (string) $v; 
 		}
 
-		if ($this->token !== $v || $v === '') {
+		if ($this->token !== $v || $v === 'null') {
 			$this->token = $v;
 			$this->modifiedColumns[] = VocabularyPeer::TOKEN;
 		}
@@ -1116,10 +1116,10 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	 * it inserts it; otherwise an update is performed.  This method
 	 * wraps the doSave() worker method in a transaction.
 	 *
-	 * @param Connection $con
-	 * @return int The number of rows affected by this insert/update and any referring fk objects' save() operations.
-	 * @throws PropelException
-	 * @see doSave()
+	 * @param      Connection $con
+	 * @return     int The number of rows affected by this insert/update and any referring fk objects' save() operations.
+	 * @throws     PropelException
+	 * @see        doSave()
 	 */
 	public function save($con = null)
 	{
@@ -1169,10 +1169,10 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	 * If the object is new, it inserts it; otherwise an update is performed.
 	 * All related objects are also updated in this method.
 	 *
-	 * @param Connection $con
-	 * @return int The number of rows affected by this insert/update and any referring fk objects' save() operations.
-	 * @throws PropelException
-	 * @see save()
+	 * @param      Connection $con
+	 * @return     int The number of rows affected by this insert/update and any referring fk objects' save() operations.
+	 * @throws     PropelException
+	 * @see        save()
 	 */
 	protected function doSave($con)
 	{
@@ -1316,10 +1316,10 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	 * If $columns is either a column name or an array of column names
 	 * only those columns are validated.
 	 *
-	 * @param mixed $columns Column name or an array of column names.
-	 * @return boolean Whether all columns pass validation.
-	 * @see doValidate()
-	 * @see getValidationFailures()
+	 * @param      mixed $columns Column name or an array of column names.
+	 * @return     boolean Whether all columns pass validation.
+	 * @see        doValidate()
+	 * @see        getValidationFailures()
 	 */
 	public function validate($columns = null)
 	{
@@ -1340,8 +1340,8 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	 * also be validated.  If all pass then <code>true</code> is returned; otherwise
 	 * an aggreagated array of ValidationFailed objects will be returned.
 	 *
-	 * @param array $columns Array of column names to validate.
-	 * @return mixed <code>true</code> if all validations pass; array of <code>ValidationFailed</code> objets otherwise.
+	 * @param      array $columns Array of column names to validate.
+	 * @return     mixed <code>true</code> if all validations pass; array of <code>ValidationFailed</code> objets otherwise.
 	 */
 	protected function doValidate($columns = null)
 	{
@@ -1776,9 +1776,9 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	 * If desired, this method can also make copies of all associated (fkey referrers)
 	 * objects.
 	 *
-	 * @param object $copyObj An object of Vocabulary (or compatible) type.
-	 * @param boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-	 * @throws PropelException
+	 * @param      object $copyObj An object of Vocabulary (or compatible) type.
+	 * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
+	 * @throws     PropelException
 	 */
 	public function copyInto($copyObj, $deepCopy = false)
 	{
@@ -1866,9 +1866,9 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	 * If desired, this method can also make copies of all associated (fkey referrers)
 	 * objects.
 	 *
-	 * @param boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-	 * @return Vocabulary Clone of current object.
-	 * @throws PropelException
+	 * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
+	 * @return     Vocabulary Clone of current object.
+	 * @throws     PropelException
 	 */
 	public function copy($deepCopy = false)
 	{
@@ -1899,16 +1899,16 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	/**
 	 * Declares an association between this object and a Agent object.
 	 *
-	 * @param Agent $v
-	 * @return void
-	 * @throws PropelException
+	 * @param      Agent $v
+	 * @return     void
+	 * @throws     PropelException
 	 */
 	public function setAgent($v)
 	{
 
 
 		if ($v === null) {
-			$this->setAgentId('');
+			$this->setAgentId('0');
 		} else {
 			$this->setAgentId($v->getId());
 		}
@@ -1921,16 +1921,15 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	/**
 	 * Get the associated Agent object
 	 *
-	 * @param Connection Optional Connection object.
-	 * @return Agent The associated Agent object.
-	 * @throws PropelException
+	 * @param      Connection Optional Connection object.
+	 * @return     Agent The associated Agent object.
+	 * @throws     PropelException
 	 */
 	public function getAgent($con = null)
 	{
-		// include the related Peer class
-		include_once 'lib/model/om/BaseAgentPeer.php';
-
 		if ($this->aAgent === null && ($this->agent_id !== null)) {
+			// include the related Peer class
+			include_once 'lib/model/om/BaseAgentPeer.php';
 
 			$this->aAgent = AgentPeer::retrieveByPK($this->agent_id, $con);
 
@@ -1950,9 +1949,9 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	/**
 	 * Declares an association between this object and a User object.
 	 *
-	 * @param User $v
-	 * @return void
-	 * @throws PropelException
+	 * @param      User $v
+	 * @return     void
+	 * @throws     PropelException
 	 */
 	public function setUserRelatedByCreatedUserId($v)
 	{
@@ -1972,16 +1971,15 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	/**
 	 * Get the associated User object
 	 *
-	 * @param Connection Optional Connection object.
-	 * @return User The associated User object.
-	 * @throws PropelException
+	 * @param      Connection Optional Connection object.
+	 * @return     User The associated User object.
+	 * @throws     PropelException
 	 */
 	public function getUserRelatedByCreatedUserId($con = null)
 	{
-		// include the related Peer class
-		include_once 'lib/model/om/BaseUserPeer.php';
-
 		if ($this->aUserRelatedByCreatedUserId === null && ($this->created_user_id !== null)) {
+			// include the related Peer class
+			include_once 'lib/model/om/BaseUserPeer.php';
 
 			$this->aUserRelatedByCreatedUserId = UserPeer::retrieveByPK($this->created_user_id, $con);
 
@@ -2001,9 +1999,9 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	/**
 	 * Declares an association between this object and a User object.
 	 *
-	 * @param User $v
-	 * @return void
-	 * @throws PropelException
+	 * @param      User $v
+	 * @return     void
+	 * @throws     PropelException
 	 */
 	public function setUserRelatedByUpdatedUserId($v)
 	{
@@ -2023,16 +2021,15 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	/**
 	 * Get the associated User object
 	 *
-	 * @param Connection Optional Connection object.
-	 * @return User The associated User object.
-	 * @throws PropelException
+	 * @param      Connection Optional Connection object.
+	 * @return     User The associated User object.
+	 * @throws     PropelException
 	 */
 	public function getUserRelatedByUpdatedUserId($con = null)
 	{
-		// include the related Peer class
-		include_once 'lib/model/om/BaseUserPeer.php';
-
 		if ($this->aUserRelatedByUpdatedUserId === null && ($this->updated_user_id !== null)) {
+			// include the related Peer class
+			include_once 'lib/model/om/BaseUserPeer.php';
 
 			$this->aUserRelatedByUpdatedUserId = UserPeer::retrieveByPK($this->updated_user_id, $con);
 
@@ -2052,9 +2049,9 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	/**
 	 * Declares an association between this object and a User object.
 	 *
-	 * @param User $v
-	 * @return void
-	 * @throws PropelException
+	 * @param      User $v
+	 * @return     void
+	 * @throws     PropelException
 	 */
 	public function setUserRelatedByChildUpdatedUserId($v)
 	{
@@ -2074,16 +2071,15 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	/**
 	 * Get the associated User object
 	 *
-	 * @param Connection Optional Connection object.
-	 * @return User The associated User object.
-	 * @throws PropelException
+	 * @param      Connection Optional Connection object.
+	 * @return     User The associated User object.
+	 * @throws     PropelException
 	 */
 	public function getUserRelatedByChildUpdatedUserId($con = null)
 	{
-		// include the related Peer class
-		include_once 'lib/model/om/BaseUserPeer.php';
-
 		if ($this->aUserRelatedByChildUpdatedUserId === null && ($this->child_updated_user_id !== null)) {
+			// include the related Peer class
+			include_once 'lib/model/om/BaseUserPeer.php';
 
 			$this->aUserRelatedByChildUpdatedUserId = UserPeer::retrieveByPK($this->child_updated_user_id, $con);
 
@@ -2103,9 +2099,9 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	/**
 	 * Declares an association between this object and a Status object.
 	 *
-	 * @param Status $v
-	 * @return void
-	 * @throws PropelException
+	 * @param      Status $v
+	 * @return     void
+	 * @throws     PropelException
 	 */
 	public function setStatus($v)
 	{
@@ -2125,16 +2121,15 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	/**
 	 * Get the associated Status object
 	 *
-	 * @param Connection Optional Connection object.
-	 * @return Status The associated Status object.
-	 * @throws PropelException
+	 * @param      Connection Optional Connection object.
+	 * @return     Status The associated Status object.
+	 * @throws     PropelException
 	 */
 	public function getStatus($con = null)
 	{
-		// include the related Peer class
-		include_once 'lib/model/om/BaseStatusPeer.php';
-
 		if ($this->aStatus === null && ($this->status_id !== null)) {
+			// include the related Peer class
+			include_once 'lib/model/om/BaseStatusPeer.php';
 
 			$this->aStatus = StatusPeer::retrieveByPK($this->status_id, $con);
 
@@ -2155,7 +2150,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	 * Temporary storage of collConcepts to save a possible db hit in
 	 * the event objects are add to the collection, but the
 	 * complete collection is never requested.
-	 * @return void
+	 * @return     void
 	 */
 	public function initConcepts()
 	{
@@ -2173,9 +2168,9 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	 * an empty collection or the current collection, the criteria
 	 * is ignored on a new object.
 	 *
-	 * @param Connection $con
-	 * @param Criteria $criteria
-	 * @throws PropelException
+	 * @param      Connection $con
+	 * @param      Criteria $criteria
+	 * @throws     PropelException
 	 */
 	public function getConcepts($criteria = null, $con = null)
 	{
@@ -2222,10 +2217,10 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	/**
 	 * Returns the number of related Concepts.
 	 *
-	 * @param Criteria $criteria
-	 * @param boolean $distinct
-	 * @param Connection $con
-	 * @throws PropelException
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct
+	 * @param      Connection $con
+	 * @throws     PropelException
 	 */
 	public function countConcepts($criteria = null, $distinct = false, $con = null)
 	{
@@ -2248,9 +2243,9 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	 * Method called to associate a Concept object to this object
 	 * through the Concept foreign key attribute
 	 *
-	 * @param Concept $l Concept
-	 * @return void
-	 * @throws PropelException
+	 * @param      Concept $l Concept
+	 * @return     void
+	 * @throws     PropelException
 	 */
 	public function addConcept(Concept $l)
 	{
@@ -2458,7 +2453,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	 * Temporary storage of collConceptPropertys to save a possible db hit in
 	 * the event objects are add to the collection, but the
 	 * complete collection is never requested.
-	 * @return void
+	 * @return     void
 	 */
 	public function initConceptPropertys()
 	{
@@ -2476,9 +2471,9 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	 * an empty collection or the current collection, the criteria
 	 * is ignored on a new object.
 	 *
-	 * @param Connection $con
-	 * @param Criteria $criteria
-	 * @throws PropelException
+	 * @param      Connection $con
+	 * @param      Criteria $criteria
+	 * @throws     PropelException
 	 */
 	public function getConceptPropertys($criteria = null, $con = null)
 	{
@@ -2525,10 +2520,10 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	/**
 	 * Returns the number of related ConceptPropertys.
 	 *
-	 * @param Criteria $criteria
-	 * @param boolean $distinct
-	 * @param Connection $con
-	 * @throws PropelException
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct
+	 * @param      Connection $con
+	 * @throws     PropelException
 	 */
 	public function countConceptPropertys($criteria = null, $distinct = false, $con = null)
 	{
@@ -2551,9 +2546,9 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	 * Method called to associate a ConceptProperty object to this object
 	 * through the ConceptProperty foreign key attribute
 	 *
-	 * @param ConceptProperty $l ConceptProperty
-	 * @return void
-	 * @throws PropelException
+	 * @param      ConceptProperty $l ConceptProperty
+	 * @return     void
+	 * @throws     PropelException
 	 */
 	public function addConceptProperty(ConceptProperty $l)
 	{
@@ -2859,7 +2854,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	 * Temporary storage of collConceptPropertyHistorysRelatedByVocabularyId to save a possible db hit in
 	 * the event objects are add to the collection, but the
 	 * complete collection is never requested.
-	 * @return void
+	 * @return     void
 	 */
 	public function initConceptPropertyHistorysRelatedByVocabularyId()
 	{
@@ -2877,9 +2872,9 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	 * an empty collection or the current collection, the criteria
 	 * is ignored on a new object.
 	 *
-	 * @param Connection $con
-	 * @param Criteria $criteria
-	 * @throws PropelException
+	 * @param      Connection $con
+	 * @param      Criteria $criteria
+	 * @throws     PropelException
 	 */
 	public function getConceptPropertyHistorysRelatedByVocabularyId($criteria = null, $con = null)
 	{
@@ -2926,10 +2921,10 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	/**
 	 * Returns the number of related ConceptPropertyHistorysRelatedByVocabularyId.
 	 *
-	 * @param Criteria $criteria
-	 * @param boolean $distinct
-	 * @param Connection $con
-	 * @throws PropelException
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct
+	 * @param      Connection $con
+	 * @throws     PropelException
 	 */
 	public function countConceptPropertyHistorysRelatedByVocabularyId($criteria = null, $distinct = false, $con = null)
 	{
@@ -2952,9 +2947,9 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	 * Method called to associate a ConceptPropertyHistory object to this object
 	 * through the ConceptPropertyHistory foreign key attribute
 	 *
-	 * @param ConceptPropertyHistory $l ConceptPropertyHistory
-	 * @return void
-	 * @throws PropelException
+	 * @param      ConceptPropertyHistory $l ConceptPropertyHistory
+	 * @return     void
+	 * @throws     PropelException
 	 */
 	public function addConceptPropertyHistoryRelatedByVocabularyId(ConceptPropertyHistory $l)
 	{
@@ -3260,7 +3255,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	 * Temporary storage of collConceptPropertyHistorysRelatedBySchemeId to save a possible db hit in
 	 * the event objects are add to the collection, but the
 	 * complete collection is never requested.
-	 * @return void
+	 * @return     void
 	 */
 	public function initConceptPropertyHistorysRelatedBySchemeId()
 	{
@@ -3278,9 +3273,9 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	 * an empty collection or the current collection, the criteria
 	 * is ignored on a new object.
 	 *
-	 * @param Connection $con
-	 * @param Criteria $criteria
-	 * @throws PropelException
+	 * @param      Connection $con
+	 * @param      Criteria $criteria
+	 * @throws     PropelException
 	 */
 	public function getConceptPropertyHistorysRelatedBySchemeId($criteria = null, $con = null)
 	{
@@ -3327,10 +3322,10 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	/**
 	 * Returns the number of related ConceptPropertyHistorysRelatedBySchemeId.
 	 *
-	 * @param Criteria $criteria
-	 * @param boolean $distinct
-	 * @param Connection $con
-	 * @throws PropelException
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct
+	 * @param      Connection $con
+	 * @throws     PropelException
 	 */
 	public function countConceptPropertyHistorysRelatedBySchemeId($criteria = null, $distinct = false, $con = null)
 	{
@@ -3353,9 +3348,9 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	 * Method called to associate a ConceptPropertyHistory object to this object
 	 * through the ConceptPropertyHistory foreign key attribute
 	 *
-	 * @param ConceptPropertyHistory $l ConceptPropertyHistory
-	 * @return void
-	 * @throws PropelException
+	 * @param      ConceptPropertyHistory $l ConceptPropertyHistory
+	 * @return     void
+	 * @throws     PropelException
 	 */
 	public function addConceptPropertyHistoryRelatedBySchemeId(ConceptPropertyHistory $l)
 	{
@@ -3661,7 +3656,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	 * Temporary storage of collVocabularyHasUsers to save a possible db hit in
 	 * the event objects are add to the collection, but the
 	 * complete collection is never requested.
-	 * @return void
+	 * @return     void
 	 */
 	public function initVocabularyHasUsers()
 	{
@@ -3679,9 +3674,9 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	 * an empty collection or the current collection, the criteria
 	 * is ignored on a new object.
 	 *
-	 * @param Connection $con
-	 * @param Criteria $criteria
-	 * @throws PropelException
+	 * @param      Connection $con
+	 * @param      Criteria $criteria
+	 * @throws     PropelException
 	 */
 	public function getVocabularyHasUsers($criteria = null, $con = null)
 	{
@@ -3728,10 +3723,10 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	/**
 	 * Returns the number of related VocabularyHasUsers.
 	 *
-	 * @param Criteria $criteria
-	 * @param boolean $distinct
-	 * @param Connection $con
-	 * @throws PropelException
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct
+	 * @param      Connection $con
+	 * @throws     PropelException
 	 */
 	public function countVocabularyHasUsers($criteria = null, $distinct = false, $con = null)
 	{
@@ -3754,9 +3749,9 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	 * Method called to associate a VocabularyHasUser object to this object
 	 * through the VocabularyHasUser foreign key attribute
 	 *
-	 * @param VocabularyHasUser $l VocabularyHasUser
-	 * @return void
-	 * @throws PropelException
+	 * @param      VocabularyHasUser $l VocabularyHasUser
+	 * @return     void
+	 * @throws     PropelException
 	 */
 	public function addVocabularyHasUser(VocabularyHasUser $l)
 	{
@@ -3817,7 +3812,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	 * Temporary storage of collVocabularyHasVersions to save a possible db hit in
 	 * the event objects are add to the collection, but the
 	 * complete collection is never requested.
-	 * @return void
+	 * @return     void
 	 */
 	public function initVocabularyHasVersions()
 	{
@@ -3835,9 +3830,9 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	 * an empty collection or the current collection, the criteria
 	 * is ignored on a new object.
 	 *
-	 * @param Connection $con
-	 * @param Criteria $criteria
-	 * @throws PropelException
+	 * @param      Connection $con
+	 * @param      Criteria $criteria
+	 * @throws     PropelException
 	 */
 	public function getVocabularyHasVersions($criteria = null, $con = null)
 	{
@@ -3884,10 +3879,10 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	/**
 	 * Returns the number of related VocabularyHasVersions.
 	 *
-	 * @param Criteria $criteria
-	 * @param boolean $distinct
-	 * @param Connection $con
-	 * @throws PropelException
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct
+	 * @param      Connection $con
+	 * @throws     PropelException
 	 */
 	public function countVocabularyHasVersions($criteria = null, $distinct = false, $con = null)
 	{
@@ -3910,9 +3905,9 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	 * Method called to associate a VocabularyHasVersion object to this object
 	 * through the VocabularyHasVersion foreign key attribute
 	 *
-	 * @param VocabularyHasVersion $l VocabularyHasVersion
-	 * @return void
-	 * @throws PropelException
+	 * @param      VocabularyHasVersion $l VocabularyHasVersion
+	 * @return     void
+	 * @throws     PropelException
 	 */
 	public function addVocabularyHasVersion(VocabularyHasVersion $l)
 	{

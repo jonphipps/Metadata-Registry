@@ -59,7 +59,9 @@ class VocabularyHasUserMapBuilder {
 		$tMap = $this->dbMap->addTable('reg_vocabulary_has_user');
 		$tMap->setPhpName('VocabularyHasUser');
 
-		$tMap->setUseIdGenerator(false);
+		$tMap->setUseIdGenerator(true);
+
+		$tMap->addPrimaryKey('ID', 'Id', 'int', CreoleTypes::INTEGER, true, null);
 
 		$tMap->addColumn('CREATED_AT', 'CreatedAt', 'int', CreoleTypes::TIMESTAMP, false, null);
 
@@ -67,9 +69,9 @@ class VocabularyHasUserMapBuilder {
 
 		$tMap->addColumn('DELETED_AT', 'DeletedAt', 'int', CreoleTypes::TIMESTAMP, false, null);
 
-		$tMap->addForeignPrimaryKey('VOCABULARY_ID', 'VocabularyId', 'int' , CreoleTypes::INTEGER, 'reg_vocabulary', 'ID', true, null);
+		$tMap->addForeignKey('VOCABULARY_ID', 'VocabularyId', 'int', CreoleTypes::INTEGER, 'reg_vocabulary', 'ID', true, null);
 
-		$tMap->addForeignPrimaryKey('USER_ID', 'UserId', 'int' , CreoleTypes::INTEGER, 'reg_user', 'ID', true, null);
+		$tMap->addForeignKey('USER_ID', 'UserId', 'int', CreoleTypes::INTEGER, 'reg_user', 'ID', true, null);
 
 		$tMap->addColumn('IS_MAINTAINER_FOR', 'IsMaintainerFor', 'boolean', CreoleTypes::BOOLEAN, false, null);
 

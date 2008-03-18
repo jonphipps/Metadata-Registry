@@ -3,13 +3,21 @@ generator:
   param:
     model_class:      VocabularyHasUser
     theme:            default
+    fields:
+      id:                { name: ID, type: plain, credentials: [administrator] }
+      created_at:        { name: Date Created, type: plain, credentials: [administrator] }
+      updated_at:        { name: Last Updated, type: plain, credentials: [administrator] }
+      is_admin_for:      { name: Administrator }
+      is_registrar_for:  { name: Registrar }
+      is_maintainer_for: { name: Maintainer }
 
     list:
-      #peer_method:       doSelectForUser
+      #peer_method:       doSelectJoinAll
       #peer_count_method: doCountForUser
       title:              Maintainers for %%vocabulary%%
       display:            [_user, _vocabulary, isRegistrarFor, isAdminFor, isMaintainerFor]
       object_actions:
+        _show:
         _edit:            { credentials: [[administrator, vocabularyadmin]] }
         _delete:          { credentials: [[administrator, vocabularyadmin]] }
       actions:
@@ -27,16 +35,13 @@ generator:
           create:     Adding maintainer to %%vocabulary%%
       helptype:       icon
       fields:
-        vocabulary_id:  { params: peer_method=getVocabulariesForCurrentUser include_blank=true }
-        user_id:        { params: peer_method=getUsersForAgentUsers include_blank=true }
-        user:          { type: plain }
-        vocabulary:    { type: plain }
-      display:         [user_id, isAdminFor, isMaintainerFor]
+        user_id:       { params: peer_method=getNewUsersForVocabulary include_blank=false, mode: create }
+        user:          { type: plain, mode: edit }
+      display:         [user, user_id, isAdminFor, isMaintainerFor]
       actions:
-        _list:      -
         _save:         { credentials: [[administrator, vocabularyadmin]] }
         _delete:       { credentials: [[administrator, vocabularyadmin]] }
-        _create:       { name: Add Maintainer, credentials: [[administrator, vocabularyadmin]] }
+        _create:       { name: Add Maintainer, credentials: [[administrator, vocabularyadmin]], mode: edit  }
         _save_and_add: { credentials: [[administrator, vocabularyadmin]] }
         _cancel:       { credentials: [[administrator, vocabularyadmin]] }
 
@@ -44,16 +49,8 @@ generator:
       title:           %%vocabulary%% permissions for %%user%%
       fields:
         user:          { type: plain }
-        vocabulary:    { type: plain }
-      display:         [user, vocabulary, isRegistrarFor, isAdminFor, isMaintainerFor]
+      display:         [user, isRegistrarFor, isAdminFor, isMaintainerFor]
       actions:
+        _delete:       { credentials: [[administrator, vocabularyadmin]] }
         _edit:         { credentials: [[administrator, vocabularyadmin]] }
         _create:       { name: Add Maintainer, credentials: [[administrator, vocabularyadmin]] }
-        rdf:
-          name:      Get RDF
-          icon:      %SF_ADMIN_WEB_DIR%/images/rdf_icon.png
-          route:     rdf_vocabulary
-        xml:
-          name:      Get XML Schema
-          icon:      %SF_ADMIN_WEB_DIR%/images/xmlschema_icon.png
-          route:     xml_schema_vocabulary

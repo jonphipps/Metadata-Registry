@@ -23,7 +23,7 @@ abstract class BaseVocabularyHasVersion extends BaseObject  implements Persisten
 	 * The value for the id field.
 	 * @var        int
 	 */
-	protected $id = 0;
+	protected $id;
 
 
 	/**
@@ -75,31 +75,31 @@ abstract class BaseVocabularyHasVersion extends BaseObject  implements Persisten
 	protected $concept_property_history_id;
 
 	/**
-	 * @var User
+	 * @var        User
 	 */
 	protected $aUser;
 
 	/**
-	 * @var Vocabulary
+	 * @var        Vocabulary
 	 */
 	protected $aVocabulary;
 
 	/**
-	 * @var ConceptPropertyHistory
+	 * @var        ConceptPropertyHistory
 	 */
 	protected $aConceptPropertyHistory;
 
 	/**
 	 * Flag to prevent endless save loop, if this object is referenced
 	 * by another object which falls in this transaction.
-	 * @var boolean
+	 * @var        boolean
 	 */
 	protected $alreadyInSave = false;
 
 	/**
 	 * Flag to prevent endless validation loop, if this object is referenced
 	 * by another object which falls in this transaction.
-	 * @var boolean
+	 * @var        boolean
 	 */
 	protected $alreadyInValidation = false;
 
@@ -266,7 +266,7 @@ abstract class BaseVocabularyHasVersion extends BaseObject  implements Persisten
 			$v = (int) $v;
 		}
 
-		if ($this->id !== $v || $v === 0) {
+		if ($this->id !== $v) {
 			$this->id = $v;
 			$this->modifiedColumns[] = VocabularyHasVersionPeer::ID;
 		}
@@ -542,10 +542,10 @@ abstract class BaseVocabularyHasVersion extends BaseObject  implements Persisten
 	 * it inserts it; otherwise an update is performed.  This method
 	 * wraps the doSave() worker method in a transaction.
 	 *
-	 * @param Connection $con
-	 * @return int The number of rows affected by this insert/update and any referring fk objects' save() operations.
-	 * @throws PropelException
-	 * @see doSave()
+	 * @param      Connection $con
+	 * @return     int The number of rows affected by this insert/update and any referring fk objects' save() operations.
+	 * @throws     PropelException
+	 * @see        doSave()
 	 */
 	public function save($con = null)
 	{
@@ -600,10 +600,10 @@ abstract class BaseVocabularyHasVersion extends BaseObject  implements Persisten
 	 * If the object is new, it inserts it; otherwise an update is performed.
 	 * All related objects are also updated in this method.
 	 *
-	 * @param Connection $con
-	 * @return int The number of rows affected by this insert/update and any referring fk objects' save() operations.
-	 * @throws PropelException
-	 * @see save()
+	 * @param      Connection $con
+	 * @return     int The number of rows affected by this insert/update and any referring fk objects' save() operations.
+	 * @throws     PropelException
+	 * @see        save()
 	 */
 	protected function doSave($con)
 	{
@@ -683,10 +683,10 @@ abstract class BaseVocabularyHasVersion extends BaseObject  implements Persisten
 	 * If $columns is either a column name or an array of column names
 	 * only those columns are validated.
 	 *
-	 * @param mixed $columns Column name or an array of column names.
-	 * @return boolean Whether all columns pass validation.
-	 * @see doValidate()
-	 * @see getValidationFailures()
+	 * @param      mixed $columns Column name or an array of column names.
+	 * @return     boolean Whether all columns pass validation.
+	 * @see        doValidate()
+	 * @see        getValidationFailures()
 	 */
 	public function validate($columns = null)
 	{
@@ -707,8 +707,8 @@ abstract class BaseVocabularyHasVersion extends BaseObject  implements Persisten
 	 * also be validated.  If all pass then <code>true</code> is returned; otherwise
 	 * an aggreagated array of ValidationFailed objects will be returned.
 	 *
-	 * @param array $columns Array of column names to validate.
-	 * @return mixed <code>true</code> if all validations pass; array of <code>ValidationFailed</code> objets otherwise.
+	 * @param      array $columns Array of column names to validate.
+	 * @return     mixed <code>true</code> if all validations pass; array of <code>ValidationFailed</code> objets otherwise.
 	 */
 	protected function doValidate($columns = null)
 	{
@@ -984,9 +984,9 @@ abstract class BaseVocabularyHasVersion extends BaseObject  implements Persisten
 	 * If desired, this method can also make copies of all associated (fkey referrers)
 	 * objects.
 	 *
-	 * @param object $copyObj An object of VocabularyHasVersion (or compatible) type.
-	 * @param boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-	 * @throws PropelException
+	 * @param      object $copyObj An object of VocabularyHasVersion (or compatible) type.
+	 * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
+	 * @throws     PropelException
 	 */
 	public function copyInto($copyObj, $deepCopy = false)
 	{
@@ -1008,7 +1008,7 @@ abstract class BaseVocabularyHasVersion extends BaseObject  implements Persisten
 
 		$copyObj->setNew(true);
 
-		$copyObj->setId('null'); // this is a pkey column, so set to default value
+		$copyObj->setId(NULL); // this is a pkey column, so set to default value
 
 	}
 
@@ -1020,9 +1020,9 @@ abstract class BaseVocabularyHasVersion extends BaseObject  implements Persisten
 	 * If desired, this method can also make copies of all associated (fkey referrers)
 	 * objects.
 	 *
-	 * @param boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-	 * @return VocabularyHasVersion Clone of current object.
-	 * @throws PropelException
+	 * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
+	 * @return     VocabularyHasVersion Clone of current object.
+	 * @throws     PropelException
 	 */
 	public function copy($deepCopy = false)
 	{
@@ -1053,9 +1053,9 @@ abstract class BaseVocabularyHasVersion extends BaseObject  implements Persisten
 	/**
 	 * Declares an association between this object and a User object.
 	 *
-	 * @param User $v
-	 * @return void
-	 * @throws PropelException
+	 * @param      User $v
+	 * @return     void
+	 * @throws     PropelException
 	 */
 	public function setUser($v)
 	{
@@ -1075,16 +1075,15 @@ abstract class BaseVocabularyHasVersion extends BaseObject  implements Persisten
 	/**
 	 * Get the associated User object
 	 *
-	 * @param Connection Optional Connection object.
-	 * @return User The associated User object.
-	 * @throws PropelException
+	 * @param      Connection Optional Connection object.
+	 * @return     User The associated User object.
+	 * @throws     PropelException
 	 */
 	public function getUser($con = null)
 	{
-		// include the related Peer class
-		include_once 'lib/model/om/BaseUserPeer.php';
-
 		if ($this->aUser === null && ($this->created_user_id !== null)) {
+			// include the related Peer class
+			include_once 'lib/model/om/BaseUserPeer.php';
 
 			$this->aUser = UserPeer::retrieveByPK($this->created_user_id, $con);
 
@@ -1104,9 +1103,9 @@ abstract class BaseVocabularyHasVersion extends BaseObject  implements Persisten
 	/**
 	 * Declares an association between this object and a Vocabulary object.
 	 *
-	 * @param Vocabulary $v
-	 * @return void
-	 * @throws PropelException
+	 * @param      Vocabulary $v
+	 * @return     void
+	 * @throws     PropelException
 	 */
 	public function setVocabulary($v)
 	{
@@ -1126,16 +1125,15 @@ abstract class BaseVocabularyHasVersion extends BaseObject  implements Persisten
 	/**
 	 * Get the associated Vocabulary object
 	 *
-	 * @param Connection Optional Connection object.
-	 * @return Vocabulary The associated Vocabulary object.
-	 * @throws PropelException
+	 * @param      Connection Optional Connection object.
+	 * @return     Vocabulary The associated Vocabulary object.
+	 * @throws     PropelException
 	 */
 	public function getVocabulary($con = null)
 	{
-		// include the related Peer class
-		include_once 'lib/model/om/BaseVocabularyPeer.php';
-
 		if ($this->aVocabulary === null && ($this->vocabulary_id !== null)) {
+			// include the related Peer class
+			include_once 'lib/model/om/BaseVocabularyPeer.php';
 
 			$this->aVocabulary = VocabularyPeer::retrieveByPK($this->vocabulary_id, $con);
 
@@ -1155,9 +1153,9 @@ abstract class BaseVocabularyHasVersion extends BaseObject  implements Persisten
 	/**
 	 * Declares an association between this object and a ConceptPropertyHistory object.
 	 *
-	 * @param ConceptPropertyHistory $v
-	 * @return void
-	 * @throws PropelException
+	 * @param      ConceptPropertyHistory $v
+	 * @return     void
+	 * @throws     PropelException
 	 */
 	public function setConceptPropertyHistory($v)
 	{
@@ -1177,16 +1175,15 @@ abstract class BaseVocabularyHasVersion extends BaseObject  implements Persisten
 	/**
 	 * Get the associated ConceptPropertyHistory object
 	 *
-	 * @param Connection Optional Connection object.
-	 * @return ConceptPropertyHistory The associated ConceptPropertyHistory object.
-	 * @throws PropelException
+	 * @param      Connection Optional Connection object.
+	 * @return     ConceptPropertyHistory The associated ConceptPropertyHistory object.
+	 * @throws     PropelException
 	 */
 	public function getConceptPropertyHistory($con = null)
 	{
-		// include the related Peer class
-		include_once 'lib/model/om/BaseConceptPropertyHistoryPeer.php';
-
 		if ($this->aConceptPropertyHistory === null && ($this->concept_property_history_id !== null)) {
+			// include the related Peer class
+			include_once 'lib/model/om/BaseConceptPropertyHistoryPeer.php';
 
 			$this->aConceptPropertyHistory = ConceptPropertyHistoryPeer::retrieveByPK($this->concept_property_history_id, $con);
 
