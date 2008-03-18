@@ -115,6 +115,6 @@
 ?>
   <?php if (null === $editActions || (null !== $editActions && array_key_exists('_delete', $editActions))): ?>
 <ul class="sf_admin_actions">
-    <?php echo $this->addCredentialCondition($this->getButtonToAction('_delete', $editActions['_delete'], true), $editActions['_delete'], false, true) ?>
+    <?php echo $this->addCredentialCondition($this->getButtonToAction('_delete', $editActions['_delete'], true,'edit'), $editActions['_delete'], false, true) ?>
 </ul>
   <?php endif; ?>

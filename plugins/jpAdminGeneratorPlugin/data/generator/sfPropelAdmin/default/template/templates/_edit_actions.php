@@ -7,18 +7,15 @@
     {
       foreach ((array) $editActions as $actionName => $params)
       {
+        $pkLink = false;
         if ($actionName == '_delete') continue;
         $params['only_for'] = $this->getParameterValue('edit.actions.'.$actionName.'.mode');
 
         if ($actionName == '_cancel')
         {
-          $params['only_for'] = 'edit';
-          $params['action'] = 'show';
-  echo $this->addCredentialCondition($this->getButtonToAction($actionName, $params, true), $params, false, false);
-          $params['only_for'] = 'create';
-          $params['action'] = 'list';
+          $pkLink = true;
         }
-  echo $this->addCredentialCondition($this->getButtonToAction($actionName, $params, false), $params, false, false);
+  echo $this->addCredentialCondition($this->getButtonToAction($actionName, $params, $pkLink), $params, false, false);
       }
     }
     else

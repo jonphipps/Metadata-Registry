@@ -3,94 +3,78 @@ class userObjectFilter extends sfFilter
 {
   public function execute($filterChain)
   {
+    // get the cool stuff
+    /** @var sfContext **/
+    $context    = $this->getContext();
+    /** @var sfController **/
+    $controller = $context->getController();
+    /** @var sfUser **/
+    $user       = $context->getUser();
+    /** @var sfRequest **/
+    $request    = $context->getRequest();
+
+    if ($request->getCookie('MyWebSite'))
     {
-      // get the cool stuff
-      /** @var sfContext **/
-      $context    = $this->getContext();
-      /** @var sfController **/
-      $controller = $context->getController();
-      /** @var sfUser **/
-      $user       = $context->getUser();
-      /** @var sfRequest **/
-      $request    = $context->getRequest();
+      // sign in
+      $user->setAuthenticated(true);
+    }
 
-      $key = false;
+    if (!$user->isAuthenticated())
+    {
+      //this will make sure we are really signed out
+      $user->signOut();
+      // we bail
+      $filterChain->execute();
+    }
 
-      // get the current action instance
-      /** @var sfActionStackEntry **/
-      $actionEntry    = $controller->getActionStack()->getLastEntry();
-      $actionInstance = $actionEntry->getActionInstance();
+    $key = false;
 
-      //get the object security information
-      $securityArray = $actionInstance->getSecurityConfiguration();
-//      if (isset($securityArray['all']['object_credentials']))
-//      {
-//        $objectCredArray = $securityArray['all']['object_credentials'];
-//      }
+    // get the current action instance
+    /** @var sfActionStackEntry **/
+    $actionEntry    = $controller->getActionStack()->getLastEntry();
+    $actionInstance = $actionEntry->getActionInstance();
+    $action = $request->getParameter('action');
 
-      $action = $request->getParameter('action');
-//      if ($action && isset($securityArray[$action]['object_credentials']))
-//      {
-//        $objectCredArray = $securityArray[$request->getParameter('action')]['object_credentials'];
-//      }
+    //get the object security information
+    $securityArray = $actionInstance->getSecurityConfiguration();
+    $objectCredArray = myUser::parseSecurity($securityArray, $action);
 
-      $objectCredArray = myUser::parseSecurity($securityArray, $action);
+    //The module is either the current module or the parent module.
+    if (isset($objectCredArray['module']))
+    {
+      $module = $objectCredArray['module'];
+    }
+    else
+    {
+      $module = $context->getModuleName();
+    }
 
-      //set the module to the supplied credential module or the current module
-      if (isset($objectCredArray['module']))
-      {
-        $module = $objectCredArray['module'];
-      }
-      else
-      {
-        $module = $context->getModuleName();
-      }
+    //object credentials are stored in
+    //  $user->getAttribute($module,'','object_credentials')
+    //the key for the object credentials comes from:
+    //  request param
+    //  the key of a stored parent object (need to know the parent object)
 
-       //Does the request parameter exist?
-      if (isset($objectCredArray))
-      {
-        $requestParam = $request->getParameter($objectCredArray['request_param']);
-      }
+    //so next we need to know the key...
 
-      if (isset($requestParam))
-      {
-        //get the correct id to check against, but only if we haven't already checked it in this request
-        if (isset($objectCredArray['key']))
-        {
-          //look to see if we already have the attribute
-          if (isset($objectCredArray['key']['class']))
-          {
-            $class = $objectCredArray['key']['class'];
-            $method = $objectCredArray['key']['method'];
-          }
-          $key = $user->getAttribute($requestParam, null, myUser::DATA_NAMESPACE . '/' . $class);
-          if (null == $key)
-          {
-            /*
-            *@TODO There should be more error handling here
-            */
-            //lookup the key
-            $key = call_user_func(array($class, $method), $requestParam);
-            //add it to the attributes
-            $user->setAttribute($requestParam, $key, myUser::DATA_NAMESPACE . '/' . $class);
-          }
-        }
-        //we set the requestparam to lookup, but we didn't set a key
-        else
-        {
-          $key = $requestParam;
-        }
-      }
-      //no security request param set
-      elseif ($module == $context->getModuleName())
-      {
-        //we do the default
-        $key = $request->getParameter('id');
-      }
+    //Does the request parameter exist?
+    if (isset($objectCredArray['request_param']))
+    {
+      $key = $request->getParameter($objectCredArray['request_param'],'');
+      //get the correct id to check against, but only if we haven't already checked it in this request
+    }
+    //use the default only if we're using the current request
+    elseif ($module == $context->getModuleName())
+    {
+      //we do the default
+      $key = $request->getParameter('id');
+    }
 
-      //still no key?
-      //ok, so this is definitely a hack...
-      if (!$key && 'vocabulary' == $module && ('edit' == $action || 'show' == $action || 'list' == $action))
+    //still no key?
+    //ok, so this is definitely a hack...
+    if (!$key && (('edit' == $action || 'show' == $action || 'list' == $action) || $module != $context->getModuleName()))
+    {
+      if ('vocabulary' == $module)
       {
         $vocabulary = myActionTools::findCurrentVocabulary();
         if ($vocabulary)
@@ -99,32 +83,38 @@ class userObjectFilter extends sfFilter
         }
       }
 
-
-      if ($key)
+      if ('agent' == $module)
       {
-        $user->buildModCredentials($key, $module);
-      }
-      //skip re-setting the modcredentials if the action == create
-      else
-      {
-        $user->modCredentials = $user->listCredentials();
-        $cred = $user->getTmpCredential();
-        if ($cred)
+        $agent = myActionTools::findCurrentAgent();
+        if ($agent)
         {
-          $user->modCredentials[] = $cred;
+          $key = $agent->getId();
         }
-
       }
+    }
 
-      if ($request->getCookie('MyWebSite'))
-      {
-        // sign in
-        $user->setAuthenticated(true);
-      }
+    if ($key)
+    {
+      $user->buildModCredentials($key, $module);
+    }
+    //skip re-setting the modcredentials if the action == create
+    else
+    {
+      $this->setdefaultCred($user);
     }
 
     // Execute next filter
     $filterChain->execute();
+  }
+
+  private function setdefaultCred($user)
+  {
+    $user->modCredentials = $user->listCredentials();
+    $cred = $user->getTmpCredential();
+    if ($cred)
+    {
+      $user->modCredentials[] = $cred;
+    }
   }
 }
 

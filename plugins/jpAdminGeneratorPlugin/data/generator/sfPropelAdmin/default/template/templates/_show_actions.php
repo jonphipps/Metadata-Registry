@@ -7,9 +7,8 @@
     {
       foreach ($showActions as $actionName => $params)
       {
-        if ($actionName == '_delete') continue;
         $params['only_for'] = $this->getParameterValue('edit.actions.'.$actionName.'.mode');
-    echo $this->addCredentialCondition($this->getButtonToAction($actionName, $params, (strtolower($actionName) != '_create')), $params, false, false, "show");
+        echo $this->addCredentialCondition($this->getButtonToAction($actionName, $params, (strtolower($actionName) != '_create'), 'show'), $params, false, true, "show");
       }
     }
     else
