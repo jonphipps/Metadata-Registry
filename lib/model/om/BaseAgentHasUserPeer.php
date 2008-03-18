@@ -19,20 +19,23 @@ abstract class BaseAgentHasUserPeer {
 	const CLASS_DEFAULT = 'lib.model.AgentHasUser';
 
 	/** The total number of columns. */
-	const NUM_COLUMNS = 7;
+	const NUM_COLUMNS = 8;
 
 	/** The number of lazy-loaded columns. */
 	const NUM_LAZY_LOAD_COLUMNS = 0;
 
 
-	/** the column name for the CREATED_AT field */
-	const CREATED_AT = 'reg_agent_has_user.CREATED_AT';
+	/** the column name for the ID field */
+	const ID = 'reg_agent_has_user.ID';
 
 	/** the column name for the UPDATED_AT field */
 	const UPDATED_AT = 'reg_agent_has_user.UPDATED_AT';
 
 	/** the column name for the DELETED_AT field */
 	const DELETED_AT = 'reg_agent_has_user.DELETED_AT';
+
+	/** the column name for the CREATED_AT field */
+	const CREATED_AT = 'reg_agent_has_user.CREATED_AT';
 
 	/** the column name for the USER_ID field */
 	const USER_ID = 'reg_agent_has_user.USER_ID';
@@ -57,10 +60,10 @@ abstract class BaseAgentHasUserPeer {
 	 * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
 	 */
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('CreatedAt', 'UpdatedAt', 'DeletedAt', 'UserId', 'AgentId', 'IsRegistrarFor', 'IsAdminFor', ),
-		BasePeer::TYPE_COLNAME => array (AgentHasUserPeer::CREATED_AT, AgentHasUserPeer::UPDATED_AT, AgentHasUserPeer::DELETED_AT, AgentHasUserPeer::USER_ID, AgentHasUserPeer::AGENT_ID, AgentHasUserPeer::IS_REGISTRAR_FOR, AgentHasUserPeer::IS_ADMIN_FOR, ),
-		BasePeer::TYPE_FIELDNAME => array ('created_at', 'updated_at', 'deleted_at', 'user_id', 'agent_id', 'is_registrar_for', 'is_admin_for', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'UpdatedAt', 'DeletedAt', 'CreatedAt', 'UserId', 'AgentId', 'IsRegistrarFor', 'IsAdminFor', ),
+		BasePeer::TYPE_COLNAME => array (AgentHasUserPeer::ID, AgentHasUserPeer::UPDATED_AT, AgentHasUserPeer::DELETED_AT, AgentHasUserPeer::CREATED_AT, AgentHasUserPeer::USER_ID, AgentHasUserPeer::AGENT_ID, AgentHasUserPeer::IS_REGISTRAR_FOR, AgentHasUserPeer::IS_ADMIN_FOR, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'updated_at', 'deleted_at', 'created_at', 'user_id', 'agent_id', 'is_registrar_for', 'is_admin_for', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, )
 	);
 
 	/**
@@ -70,10 +73,10 @@ abstract class BaseAgentHasUserPeer {
 	 * e.g. self::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
 	 */
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('CreatedAt' => 0, 'UpdatedAt' => 1, 'DeletedAt' => 2, 'UserId' => 3, 'AgentId' => 4, 'IsRegistrarFor' => 5, 'IsAdminFor' => 6, ),
-		BasePeer::TYPE_COLNAME => array (AgentHasUserPeer::CREATED_AT => 0, AgentHasUserPeer::UPDATED_AT => 1, AgentHasUserPeer::DELETED_AT => 2, AgentHasUserPeer::USER_ID => 3, AgentHasUserPeer::AGENT_ID => 4, AgentHasUserPeer::IS_REGISTRAR_FOR => 5, AgentHasUserPeer::IS_ADMIN_FOR => 6, ),
-		BasePeer::TYPE_FIELDNAME => array ('created_at' => 0, 'updated_at' => 1, 'deleted_at' => 2, 'user_id' => 3, 'agent_id' => 4, 'is_registrar_for' => 5, 'is_admin_for' => 6, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'UpdatedAt' => 1, 'DeletedAt' => 2, 'CreatedAt' => 3, 'UserId' => 4, 'AgentId' => 5, 'IsRegistrarFor' => 6, 'IsAdminFor' => 7, ),
+		BasePeer::TYPE_COLNAME => array (AgentHasUserPeer::ID => 0, AgentHasUserPeer::UPDATED_AT => 1, AgentHasUserPeer::DELETED_AT => 2, AgentHasUserPeer::CREATED_AT => 3, AgentHasUserPeer::USER_ID => 4, AgentHasUserPeer::AGENT_ID => 5, AgentHasUserPeer::IS_REGISTRAR_FOR => 6, AgentHasUserPeer::IS_ADMIN_FOR => 7, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'updated_at' => 1, 'deleted_at' => 2, 'created_at' => 3, 'user_id' => 4, 'agent_id' => 5, 'is_registrar_for' => 6, 'is_admin_for' => 7, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, )
 	);
 
 	/**
@@ -174,11 +177,13 @@ abstract class BaseAgentHasUserPeer {
 	public static function addSelectColumns(Criteria $criteria)
 	{
 
-		$criteria->addSelectColumn(AgentHasUserPeer::CREATED_AT);
+		$criteria->addSelectColumn(AgentHasUserPeer::ID);
 
 		$criteria->addSelectColumn(AgentHasUserPeer::UPDATED_AT);
 
 		$criteria->addSelectColumn(AgentHasUserPeer::DELETED_AT);
+
+		$criteria->addSelectColumn(AgentHasUserPeer::CREATED_AT);
 
 		$criteria->addSelectColumn(AgentHasUserPeer::USER_ID);
 
@@ -190,8 +195,8 @@ abstract class BaseAgentHasUserPeer {
 
 	}
 
-	const COUNT = 'COUNT(reg_agent_has_user.USER_ID)';
-	const COUNT_DISTINCT = 'COUNT(DISTINCT reg_agent_has_user.USER_ID)';
+	const COUNT = 'COUNT(reg_agent_has_user.ID)';
+	const COUNT_DISTINCT = 'COUNT(DISTINCT reg_agent_has_user.ID)';
 
 	/**
 	 * Returns the number of rows matching criteria.
@@ -926,6 +931,8 @@ abstract class BaseAgentHasUserPeer {
 			$criteria = $values->buildCriteria(); // build Criteria from AgentHasUser object
 		}
 
+		$criteria->remove(AgentHasUserPeer::ID); // remove pkey col since this table uses auto-increment
+
 
 		// Set the correct dbName
 		$criteria->setDbName(self::DATABASE_NAME);
@@ -981,11 +988,8 @@ abstract class BaseAgentHasUserPeer {
 		if ($values instanceof Criteria) {
 			$criteria = clone $values; // rename for clarity
 
-			$comparison = $criteria->getComparison(AgentHasUserPeer::USER_ID);
-			$selectCriteria->add(AgentHasUserPeer::USER_ID, $criteria->remove(AgentHasUserPeer::USER_ID), $comparison);
-
-			$comparison = $criteria->getComparison(AgentHasUserPeer::AGENT_ID);
-			$selectCriteria->add(AgentHasUserPeer::AGENT_ID, $criteria->remove(AgentHasUserPeer::AGENT_ID), $comparison);
+			$comparison = $criteria->getComparison(AgentHasUserPeer::ID);
+			$selectCriteria->add(AgentHasUserPeer::ID, $criteria->remove(AgentHasUserPeer::ID), $comparison);
 
 		} else { // $values is AgentHasUser object
 			$criteria = $values->buildCriteria(); // gets full criteria
@@ -1055,24 +1059,7 @@ abstract class BaseAgentHasUserPeer {
 		} else {
 			// it must be the primary key
 			$criteria = new Criteria(self::DATABASE_NAME);
-			// primary key is composite; we therefore, expect
-			// the primary key passed to be an array of pkey
-			// values
-			if(count($values) == count($values, COUNT_RECURSIVE))
-			{
-				// array is not multi-dimensional
-				$values = array($values);
-			}
-			$vals = array();
-			foreach($values as $value)
-			{
-
-				$vals[0][] = $value[0];
-				$vals[1][] = $value[1];
-			}
-
-			$criteria->add(AgentHasUserPeer::USER_ID, $vals[0], Criteria::IN);
-			$criteria->add(AgentHasUserPeer::AGENT_ID, $vals[1], Criteria::IN);
+			$criteria->add(AgentHasUserPeer::ID, (array) $values, Criteria::IN);
 		}
 
 		// Set the correct dbName
@@ -1132,24 +1119,53 @@ abstract class BaseAgentHasUserPeer {
 	}
 
 	/**
-	 * Retrieve object using using composite pkey values.
-	 * @param int $user_id
-	   @param int $agent_id
-	   
-	 * @param      Connection $con
+	 * Retrieve a single object by pkey.
+	 *
+	 * @param      mixed $pk the primary key.
+	 * @param      Connection $con the connection to use
 	 * @return     AgentHasUser
 	 */
-	public static function retrieveByPK( $user_id, $agent_id, $con = null) {
+	public static function retrieveByPK($pk, $con = null)
+	{
 		if ($con === null) {
 			$con = Propel::getConnection(self::DATABASE_NAME);
 		}
-		$criteria = new Criteria();
-		$criteria->add(AgentHasUserPeer::USER_ID, $user_id);
-		$criteria->add(AgentHasUserPeer::AGENT_ID, $agent_id);
+
+		$criteria = new Criteria(AgentHasUserPeer::DATABASE_NAME);
+
+		$criteria->add(AgentHasUserPeer::ID, $pk);
+
+
 		$v = AgentHasUserPeer::doSelect($criteria, $con);
 
-		return !empty($v) ? $v[0] : null;
+		return !empty($v) > 0 ? $v[0] : null;
 	}
+
+	/**
+	 * Retrieve multiple objects by pkey.
+	 *
+	 * @param      array $pks List of primary keys
+	 * @param      Connection $con the connection to use
+	 * @throws     PropelException Any exceptions caught during processing will be
+	 *		 rethrown wrapped into a PropelException.
+	 */
+	public static function retrieveByPKs($pks, $con = null)
+	{
+		if ($con === null) {
+			$con = Propel::getConnection(self::DATABASE_NAME);
+		}
+
+		$objs = null;
+		if (empty($pks)) {
+			$objs = array();
+		} else {
+			$criteria = new Criteria();
+			$criteria->add(AgentHasUserPeer::ID, $pks, Criteria::IN);
+			$objs = AgentHasUserPeer::doSelect($criteria, $con);
+		}
+		return $objs;
+	}
+
 } // BaseAgentHasUserPeer
 
 // static code to register the map builder for this Peer with the main Propel class

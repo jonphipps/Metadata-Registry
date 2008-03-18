@@ -20,10 +20,10 @@ abstract class BaseAgentHasUser extends BaseObject  implements Persistent {
 
 
 	/**
-	 * The value for the created_at field.
+	 * The value for the id field.
 	 * @var        int
 	 */
-	protected $created_at;
+	protected $id;
 
 
 	/**
@@ -38,6 +38,13 @@ abstract class BaseAgentHasUser extends BaseObject  implements Persistent {
 	 * @var        int
 	 */
 	protected $deleted_at;
+
+
+	/**
+	 * The value for the created_at field.
+	 * @var        int
+	 */
+	protected $created_at;
 
 
 	/**
@@ -68,58 +75,38 @@ abstract class BaseAgentHasUser extends BaseObject  implements Persistent {
 	protected $is_admin_for = true;
 
 	/**
-	 * @var User
+	 * @var        User
 	 */
 	protected $aUser;
 
 	/**
-	 * @var Agent
+	 * @var        Agent
 	 */
 	protected $aAgent;
 
 	/**
 	 * Flag to prevent endless save loop, if this object is referenced
 	 * by another object which falls in this transaction.
-	 * @var boolean
+	 * @var        boolean
 	 */
 	protected $alreadyInSave = false;
 
 	/**
 	 * Flag to prevent endless validation loop, if this object is referenced
 	 * by another object which falls in this transaction.
-	 * @var boolean
+	 * @var        boolean
 	 */
 	protected $alreadyInValidation = false;
 
 	/**
-	 * Get the [optionally formatted] [created_at] column value.
+	 * Get the [id] column value.
 	 * 
-	 * @param      string $format The date/time format string (either date()-style or strftime()-style).
-	 *							If format is NULL, then the integer unix timestamp will be returned.
-	 * @return     mixed Formatted date/time value as string or integer unix timestamp (if format is NULL).
-	 * @throws     PropelException - if unable to convert the date/time to timestamp.
+	 * @return     int
 	 */
-	public function getCreatedAt($format = 'Y-m-d H:i:s')
+	public function getId()
 	{
 
-		if ($this->created_at === null || $this->created_at === '') {
-			return null;
-		} elseif (!is_int($this->created_at)) {
-			// a non-timestamp value was set externally, so we convert it
-			$ts = strtotime($this->created_at);
-			if ($ts === -1 || $ts === false) { // in PHP 5.1 return value changes to FALSE
-				throw new PropelException("Unable to parse value of [created_at] as date/time value: " . var_export($this->created_at, true));
-			}
-		} else {
-			$ts = $this->created_at;
-		}
-		if ($format === null) {
-			return $ts;
-		} elseif (strpos($format, '%') !== false) {
-			return strftime($format, $ts);
-		} else {
-			return date($format, $ts);
-		}
+		return $this->id;
 	}
 
 	/**
@@ -185,6 +172,37 @@ abstract class BaseAgentHasUser extends BaseObject  implements Persistent {
 	}
 
 	/**
+	 * Get the [optionally formatted] [created_at] column value.
+	 * 
+	 * @param      string $format The date/time format string (either date()-style or strftime()-style).
+	 *							If format is NULL, then the integer unix timestamp will be returned.
+	 * @return     mixed Formatted date/time value as string or integer unix timestamp (if format is NULL).
+	 * @throws     PropelException - if unable to convert the date/time to timestamp.
+	 */
+	public function getCreatedAt($format = 'Y-m-d H:i:s')
+	{
+
+		if ($this->created_at === null || $this->created_at === '') {
+			return null;
+		} elseif (!is_int($this->created_at)) {
+			// a non-timestamp value was set externally, so we convert it
+			$ts = strtotime($this->created_at);
+			if ($ts === -1 || $ts === false) { // in PHP 5.1 return value changes to FALSE
+				throw new PropelException("Unable to parse value of [created_at] as date/time value: " . var_export($this->created_at, true));
+			}
+		} else {
+			$ts = $this->created_at;
+		}
+		if ($format === null) {
+			return $ts;
+		} elseif (strpos($format, '%') !== false) {
+			return strftime($format, $ts);
+		} else {
+			return date($format, $ts);
+		}
+	}
+
+	/**
 	 * Get the [user_id] column value.
 	 * 
 	 * @return     int
@@ -229,28 +247,26 @@ abstract class BaseAgentHasUser extends BaseObject  implements Persistent {
 	}
 
 	/**
-	 * Set the value of [created_at] column.
+	 * Set the value of [id] column.
 	 * 
 	 * @param      int $v new value
 	 * @return     void
 	 */
-	public function setCreatedAt($v)
+	public function setId($v)
 	{
 
-		if ($v !== null && !is_int($v)) {
-			$ts = strtotime($v);
-			if ($ts === -1 || $ts === false) { // in PHP 5.1 return value changes to FALSE
-				throw new PropelException("Unable to parse date/time value for [created_at] from input: " . var_export($v, true));
-			}
-		} else {
-			$ts = $v;
-		}
-		if ($this->created_at !== $ts) {
-			$this->created_at = $ts;
-			$this->modifiedColumns[] = AgentHasUserPeer::CREATED_AT;
+		// Since the native PHP type for this column is integer,
+		// we will cast the input value to an int (if it is not).
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
 		}
 
-	} // setCreatedAt()
+		if ($this->id !== $v) {
+			$this->id = $v;
+			$this->modifiedColumns[] = AgentHasUserPeer::ID;
+		}
+
+	} // setId()
 
 	/**
 	 * Set the value of [updated_at] column.
@@ -299,6 +315,30 @@ abstract class BaseAgentHasUser extends BaseObject  implements Persistent {
 		}
 
 	} // setDeletedAt()
+
+	/**
+	 * Set the value of [created_at] column.
+	 * 
+	 * @param      int $v new value
+	 * @return     void
+	 */
+	public function setCreatedAt($v)
+	{
+
+		if ($v !== null && !is_int($v)) {
+			$ts = strtotime($v);
+			if ($ts === -1 || $ts === false) { // in PHP 5.1 return value changes to FALSE
+				throw new PropelException("Unable to parse date/time value for [created_at] from input: " . var_export($v, true));
+			}
+		} else {
+			$ts = $v;
+		}
+		if ($this->created_at !== $ts) {
+			$this->created_at = $ts;
+			$this->modifiedColumns[] = AgentHasUserPeer::CREATED_AT;
+		}
+
+	} // setCreatedAt()
 
 	/**
 	 * Set the value of [user_id] column.
@@ -401,26 +441,28 @@ abstract class BaseAgentHasUser extends BaseObject  implements Persistent {
 	{
 		try {
 
-			$this->created_at = $rs->getTimestamp($startcol + 0, null);
+			$this->id = $rs->getInt($startcol + 0);
 
 			$this->updated_at = $rs->getTimestamp($startcol + 1, null);
 
 			$this->deleted_at = $rs->getTimestamp($startcol + 2, null);
 
-			$this->user_id = $rs->getInt($startcol + 3);
+			$this->created_at = $rs->getTimestamp($startcol + 3, null);
 
-			$this->agent_id = $rs->getInt($startcol + 4);
+			$this->user_id = $rs->getInt($startcol + 4);
 
-			$this->is_registrar_for = $rs->getBoolean($startcol + 5);
+			$this->agent_id = $rs->getInt($startcol + 5);
 
-			$this->is_admin_for = $rs->getBoolean($startcol + 6);
+			$this->is_registrar_for = $rs->getBoolean($startcol + 6);
+
+			$this->is_admin_for = $rs->getBoolean($startcol + 7);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 7; // 7 = AgentHasUserPeer::NUM_COLUMNS - AgentHasUserPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 8; // 8 = AgentHasUserPeer::NUM_COLUMNS - AgentHasUserPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating AgentHasUser object", $e);
@@ -479,10 +521,10 @@ abstract class BaseAgentHasUser extends BaseObject  implements Persistent {
 	 * it inserts it; otherwise an update is performed.  This method
 	 * wraps the doSave() worker method in a transaction.
 	 *
-	 * @param Connection $con
-	 * @return int The number of rows affected by this insert/update and any referring fk objects' save() operations.
-	 * @throws PropelException
-	 * @see doSave()
+	 * @param      Connection $con
+	 * @return     int The number of rows affected by this insert/update and any referring fk objects' save() operations.
+	 * @throws     PropelException
+	 * @see        doSave()
 	 */
 	public function save($con = null)
 	{
@@ -497,14 +539,14 @@ abstract class BaseAgentHasUser extends BaseObject  implements Persistent {
     }
 
 
-    if ($this->isNew() && !$this->isColumnModified(AgentHasUserPeer::CREATED_AT))
-    {
-      $this->setCreatedAt(time());
-    }
-
     if ($this->isModified() && !$this->isColumnModified(AgentHasUserPeer::UPDATED_AT))
     {
       $this->setUpdatedAt(time());
+    }
+
+    if ($this->isNew() && !$this->isColumnModified(AgentHasUserPeer::CREATED_AT))
+    {
+      $this->setCreatedAt(time());
     }
 
 		if ($this->isDeleted()) {
@@ -537,10 +579,10 @@ abstract class BaseAgentHasUser extends BaseObject  implements Persistent {
 	 * If the object is new, it inserts it; otherwise an update is performed.
 	 * All related objects are also updated in this method.
 	 *
-	 * @param Connection $con
-	 * @return int The number of rows affected by this insert/update and any referring fk objects' save() operations.
-	 * @throws PropelException
-	 * @see save()
+	 * @param      Connection $con
+	 * @return     int The number of rows affected by this insert/update and any referring fk objects' save() operations.
+	 * @throws     PropelException
+	 * @see        save()
 	 */
 	protected function doSave($con)
 	{
@@ -576,6 +618,8 @@ abstract class BaseAgentHasUser extends BaseObject  implements Persistent {
 					$affectedRows += 1; // we are assuming that there is only 1 row per doInsert() which
 										 // should always be true here (even though technically
 										 // BasePeer::doInsert() can insert multiple rows).
+
+					$this->setId($pk);  //[IMV] update autoincrement primary key
 
 					$this->setNew(false);
 				} else {
@@ -613,10 +657,10 @@ abstract class BaseAgentHasUser extends BaseObject  implements Persistent {
 	 * If $columns is either a column name or an array of column names
 	 * only those columns are validated.
 	 *
-	 * @param mixed $columns Column name or an array of column names.
-	 * @return boolean Whether all columns pass validation.
-	 * @see doValidate()
-	 * @see getValidationFailures()
+	 * @param      mixed $columns Column name or an array of column names.
+	 * @return     boolean Whether all columns pass validation.
+	 * @see        doValidate()
+	 * @see        getValidationFailures()
 	 */
 	public function validate($columns = null)
 	{
@@ -637,8 +681,8 @@ abstract class BaseAgentHasUser extends BaseObject  implements Persistent {
 	 * also be validated.  If all pass then <code>true</code> is returned; otherwise
 	 * an aggreagated array of ValidationFailed objects will be returned.
 	 *
-	 * @param array $columns Array of column names to validate.
-	 * @return mixed <code>true</code> if all validations pass; array of <code>ValidationFailed</code> objets otherwise.
+	 * @param      array $columns Array of column names to validate.
+	 * @return     mixed <code>true</code> if all validations pass; array of <code>ValidationFailed</code> objets otherwise.
 	 */
 	protected function doValidate($columns = null)
 	{
@@ -705,7 +749,7 @@ abstract class BaseAgentHasUser extends BaseObject  implements Persistent {
 	{
 		switch($pos) {
 			case 0:
-				return $this->getCreatedAt();
+				return $this->getId();
 				break;
 			case 1:
 				return $this->getUpdatedAt();
@@ -714,15 +758,18 @@ abstract class BaseAgentHasUser extends BaseObject  implements Persistent {
 				return $this->getDeletedAt();
 				break;
 			case 3:
-				return $this->getUserId();
+				return $this->getCreatedAt();
 				break;
 			case 4:
-				return $this->getAgentId();
+				return $this->getUserId();
 				break;
 			case 5:
-				return $this->getIsRegistrarFor();
+				return $this->getAgentId();
 				break;
 			case 6:
+				return $this->getIsRegistrarFor();
+				break;
+			case 7:
 				return $this->getIsAdminFor();
 				break;
 			default:
@@ -745,13 +792,14 @@ abstract class BaseAgentHasUser extends BaseObject  implements Persistent {
 	{
 		$keys = AgentHasUserPeer::getFieldNames($keyType);
 		$result = array(
-			$keys[0] => $this->getCreatedAt(),
+			$keys[0] => $this->getId(),
 			$keys[1] => $this->getUpdatedAt(),
 			$keys[2] => $this->getDeletedAt(),
-			$keys[3] => $this->getUserId(),
-			$keys[4] => $this->getAgentId(),
-			$keys[5] => $this->getIsRegistrarFor(),
-			$keys[6] => $this->getIsAdminFor(),
+			$keys[3] => $this->getCreatedAt(),
+			$keys[4] => $this->getUserId(),
+			$keys[5] => $this->getAgentId(),
+			$keys[6] => $this->getIsRegistrarFor(),
+			$keys[7] => $this->getIsAdminFor(),
 		);
 		return $result;
 	}
@@ -784,7 +832,7 @@ abstract class BaseAgentHasUser extends BaseObject  implements Persistent {
 	{
 		switch($pos) {
 			case 0:
-				$this->setCreatedAt($value);
+				$this->setId($value);
 				break;
 			case 1:
 				$this->setUpdatedAt($value);
@@ -793,15 +841,18 @@ abstract class BaseAgentHasUser extends BaseObject  implements Persistent {
 				$this->setDeletedAt($value);
 				break;
 			case 3:
-				$this->setUserId($value);
+				$this->setCreatedAt($value);
 				break;
 			case 4:
-				$this->setAgentId($value);
+				$this->setUserId($value);
 				break;
 			case 5:
-				$this->setIsRegistrarFor($value);
+				$this->setAgentId($value);
 				break;
 			case 6:
+				$this->setIsRegistrarFor($value);
+				break;
+			case 7:
 				$this->setIsAdminFor($value);
 				break;
 		} // switch()
@@ -827,13 +878,14 @@ abstract class BaseAgentHasUser extends BaseObject  implements Persistent {
 	{
 		$keys = AgentHasUserPeer::getFieldNames($keyType);
 
-		if (array_key_exists($keys[0], $arr)) $this->setCreatedAt($arr[$keys[0]]);
+		if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
 		if (array_key_exists($keys[1], $arr)) $this->setUpdatedAt($arr[$keys[1]]);
 		if (array_key_exists($keys[2], $arr)) $this->setDeletedAt($arr[$keys[2]]);
-		if (array_key_exists($keys[3], $arr)) $this->setUserId($arr[$keys[3]]);
-		if (array_key_exists($keys[4], $arr)) $this->setAgentId($arr[$keys[4]]);
-		if (array_key_exists($keys[5], $arr)) $this->setIsRegistrarFor($arr[$keys[5]]);
-		if (array_key_exists($keys[6], $arr)) $this->setIsAdminFor($arr[$keys[6]]);
+		if (array_key_exists($keys[3], $arr)) $this->setCreatedAt($arr[$keys[3]]);
+		if (array_key_exists($keys[4], $arr)) $this->setUserId($arr[$keys[4]]);
+		if (array_key_exists($keys[5], $arr)) $this->setAgentId($arr[$keys[5]]);
+		if (array_key_exists($keys[6], $arr)) $this->setIsRegistrarFor($arr[$keys[6]]);
+		if (array_key_exists($keys[7], $arr)) $this->setIsAdminFor($arr[$keys[7]]);
 	}
 
 	/**
@@ -845,9 +897,10 @@ abstract class BaseAgentHasUser extends BaseObject  implements Persistent {
 	{
 		$criteria = new Criteria(AgentHasUserPeer::DATABASE_NAME);
 
-		if ($this->isColumnModified(AgentHasUserPeer::CREATED_AT)) $criteria->add(AgentHasUserPeer::CREATED_AT, $this->created_at);
+		if ($this->isColumnModified(AgentHasUserPeer::ID)) $criteria->add(AgentHasUserPeer::ID, $this->id);
 		if ($this->isColumnModified(AgentHasUserPeer::UPDATED_AT)) $criteria->add(AgentHasUserPeer::UPDATED_AT, $this->updated_at);
 		if ($this->isColumnModified(AgentHasUserPeer::DELETED_AT)) $criteria->add(AgentHasUserPeer::DELETED_AT, $this->deleted_at);
+		if ($this->isColumnModified(AgentHasUserPeer::CREATED_AT)) $criteria->add(AgentHasUserPeer::CREATED_AT, $this->created_at);
 		if ($this->isColumnModified(AgentHasUserPeer::USER_ID)) $criteria->add(AgentHasUserPeer::USER_ID, $this->user_id);
 		if ($this->isColumnModified(AgentHasUserPeer::AGENT_ID)) $criteria->add(AgentHasUserPeer::AGENT_ID, $this->agent_id);
 		if ($this->isColumnModified(AgentHasUserPeer::IS_REGISTRAR_FOR)) $criteria->add(AgentHasUserPeer::IS_REGISTRAR_FOR, $this->is_registrar_for);
@@ -868,41 +921,29 @@ abstract class BaseAgentHasUser extends BaseObject  implements Persistent {
 	{
 		$criteria = new Criteria(AgentHasUserPeer::DATABASE_NAME);
 
-		$criteria->add(AgentHasUserPeer::USER_ID, $this->user_id);
-		$criteria->add(AgentHasUserPeer::AGENT_ID, $this->agent_id);
+		$criteria->add(AgentHasUserPeer::ID, $this->id);
 
 		return $criteria;
 	}
 
 	/**
-	 * Returns the composite primary key for this object.
-	 * The array elements will be in same order as specified in XML.
-	 * @return     array
+	 * Returns the primary key for this object (row).
+	 * @return     int
 	 */
 	public function getPrimaryKey()
 	{
-		$pks = array();
-
-		$pks[0] = $this->getUserId();
-
-		$pks[1] = $this->getAgentId();
-
-		return $pks;
+		return $this->getId();
 	}
 
 	/**
-	 * Set the [composite] primary key.
+	 * Generic method to set the primary key (id column).
 	 *
-	 * @param      array $keys The elements of the composite key (order must match the order in XML file).
+	 * @param      int $key Primary key.
 	 * @return     void
 	 */
-	public function setPrimaryKey($keys)
+	public function setPrimaryKey($key)
 	{
-
-		$this->setUserId($keys[0]);
-
-		$this->setAgentId($keys[1]);
-
+		$this->setId($key);
 	}
 
 	/**
@@ -911,18 +952,22 @@ abstract class BaseAgentHasUser extends BaseObject  implements Persistent {
 	 * If desired, this method can also make copies of all associated (fkey referrers)
 	 * objects.
 	 *
-	 * @param object $copyObj An object of AgentHasUser (or compatible) type.
-	 * @param boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-	 * @throws PropelException
+	 * @param      object $copyObj An object of AgentHasUser (or compatible) type.
+	 * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
+	 * @throws     PropelException
 	 */
 	public function copyInto($copyObj, $deepCopy = false)
 	{
 
-		$copyObj->setCreatedAt($this->created_at);
-
 		$copyObj->setUpdatedAt($this->updated_at);
 
 		$copyObj->setDeletedAt($this->deleted_at);
+
+		$copyObj->setCreatedAt($this->created_at);
+
+		$copyObj->setUserId($this->user_id);
+
+		$copyObj->setAgentId($this->agent_id);
 
 		$copyObj->setIsRegistrarFor($this->is_registrar_for);
 
@@ -931,9 +976,7 @@ abstract class BaseAgentHasUser extends BaseObject  implements Persistent {
 
 		$copyObj->setNew(true);
 
-		$copyObj->setUserId('null'); // this is a pkey column, so set to default value
-
-		$copyObj->setAgentId('0'); // this is a pkey column, so set to default value
+		$copyObj->setId(NULL); // this is a pkey column, so set to default value
 
 	}
 
@@ -945,9 +988,9 @@ abstract class BaseAgentHasUser extends BaseObject  implements Persistent {
 	 * If desired, this method can also make copies of all associated (fkey referrers)
 	 * objects.
 	 *
-	 * @param boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-	 * @return AgentHasUser Clone of current object.
-	 * @throws PropelException
+	 * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
+	 * @return     AgentHasUser Clone of current object.
+	 * @throws     PropelException
 	 */
 	public function copy($deepCopy = false)
 	{
@@ -978,16 +1021,16 @@ abstract class BaseAgentHasUser extends BaseObject  implements Persistent {
 	/**
 	 * Declares an association between this object and a User object.
 	 *
-	 * @param User $v
-	 * @return void
-	 * @throws PropelException
+	 * @param      User $v
+	 * @return     void
+	 * @throws     PropelException
 	 */
 	public function setUser($v)
 	{
 
 
 		if ($v === null) {
-			$this->setUserId('null');
+			$this->setUserId('0');
 		} else {
 			$this->setUserId($v->getId());
 		}
@@ -1000,16 +1043,15 @@ abstract class BaseAgentHasUser extends BaseObject  implements Persistent {
 	/**
 	 * Get the associated User object
 	 *
-	 * @param Connection Optional Connection object.
-	 * @return User The associated User object.
-	 * @throws PropelException
+	 * @param      Connection Optional Connection object.
+	 * @return     User The associated User object.
+	 * @throws     PropelException
 	 */
 	public function getUser($con = null)
 	{
-		// include the related Peer class
-		include_once 'lib/model/om/BaseUserPeer.php';
-
 		if ($this->aUser === null && ($this->user_id !== null)) {
+			// include the related Peer class
+			include_once 'lib/model/om/BaseUserPeer.php';
 
 			$this->aUser = UserPeer::retrieveByPK($this->user_id, $con);
 
@@ -1029,9 +1071,9 @@ abstract class BaseAgentHasUser extends BaseObject  implements Persistent {
 	/**
 	 * Declares an association between this object and a Agent object.
 	 *
-	 * @param Agent $v
-	 * @return void
-	 * @throws PropelException
+	 * @param      Agent $v
+	 * @return     void
+	 * @throws     PropelException
 	 */
 	public function setAgent($v)
 	{
@@ -1051,16 +1093,15 @@ abstract class BaseAgentHasUser extends BaseObject  implements Persistent {
 	/**
 	 * Get the associated Agent object
 	 *
-	 * @param Connection Optional Connection object.
-	 * @return Agent The associated Agent object.
-	 * @throws PropelException
+	 * @param      Connection Optional Connection object.
+	 * @return     Agent The associated Agent object.
+	 * @throws     PropelException
 	 */
 	public function getAgent($con = null)
 	{
-		// include the related Peer class
-		include_once 'lib/model/om/BaseAgentPeer.php';
-
 		if ($this->aAgent === null && ($this->agent_id !== null)) {
+			// include the related Peer class
+			include_once 'lib/model/om/BaseAgentPeer.php';
 
 			$this->aAgent = AgentPeer::retrieveByPK($this->agent_id, $con);
 

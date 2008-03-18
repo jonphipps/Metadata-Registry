@@ -3,14 +3,22 @@ generator:
   param:
     model_class:      AgentHasUser
     theme:            default
+    fields:
+      id:                { name: ID, type: plain, credentials: [administrator] }
+      created_at:        { name: Date Created, type: plain, credentials: [administrator] }
+      updated_at:      { name: Last Updated, type: plain, credentials: [administrator] }
+      is_admin_for:      { name: Administrator }
+      is_registrar_for:  { name: Registrar }
 
     list:
       peer_method:     doSelectJoinAll
       title:           Members of %%agent%%
       fields:
         agent:         { name: Owner }
+        user:          { name: Member }
       display:         [_user, _agent, isRegistrarFor, isAdminFor]
       object_actions:
+        _show:
         _edit:         { credentials: [[administrator, agentadmin]] }
         _delete:       { credentials: [[administrator, agentadmin]] }
       actions:
@@ -20,3 +28,30 @@ generator:
       urlfilters:
         agent_id:      agent_id
         user_id:       user_id
+
+    edit:
+      title:
+        mode:
+          edit:       Editing %%agent%% permissions for %%user%%
+          create:     Adding member to %%agent%%
+      helptype:       icon
+      fields:
+        user_id:        { params: peer_method=getNewUsersForAgent include_blank=false, mode: create }
+        user:          { type: plain, mode: edit }
+      display:         [user, user_id, isAdminFor]
+      actions:
+        _save:         { credentials: [[administrator, agentadmin]] }
+        _delete:       { credentials: [[administrator, agentadmin]] }
+        _create:       { name: Add Member, credentials: [[administrator, agentadmin]], mode: edit }
+        _save_and_add: { credentials: [[administrator, agentadmin]] }
+        _cancel:       { credentials: [[administrator, agentadmin]] }
+
+    show:
+      title:           %%agent%% permissions for %%user%%
+      fields:
+        user:          { type: plain }
+      display:         [_user, isRegistrarFor, isAdminFor]
+      actions:
+        _delete:       { credentials: [[administrator, agentadmin]] }
+        _edit:         { credentials: [[administrator, vocabularyadmin]] }
+        _create:       { name: Add Member, credentials: [[administrator, agentadmin]] }
