@@ -95,6 +95,8 @@
     $tabMap['history']    ['list'] = array('tab' => 'conceptprop',         'title' => 'History of Changes');
     $tabMap['version']    ['list'] = array('tab' => 'conceptprop',         'title' => 'List Versions');
   }
+  $tabMap['agentuser']  ['show'] = array('tab' => 'agentuser',                'title' => 'Show Detail');
+  $tabMap['vocabuser']  ['show'] = array('tab' => 'vocabuser',                'title' => 'Show Detail');
 
   //get the current module/action
   $module = $sf_params->get('module');
@@ -113,9 +115,11 @@
 
   //setup the variables determining which breadcrumb to display
   $showVocabularyBc = false;
+  $showVocabUserBc = false;
   $showConceptBc = false;
   $showconceptpropBc = false;
   $showAgentBc = false;
+  $showAgentUserBc = false;
   $showUserBc = false;
   $showHistoryBc = false;
   $showBc = false;
@@ -178,6 +182,25 @@
       }
       $objectId = $agent->getID();
       break;
+    case 'agentuser':
+      $showBc = true;
+      $showAgentBc = true;
+      $showAgentUserBc = true;
+      if (!isset($agent_has_user))
+      {
+        $id = ('show' == $action) ? $sf_params->get('id') : $paramId;
+        if ($id)
+        {
+          $agent_has_user = AgentHasUserPeer::retrieveByPK($id);
+        }
+      }
+      $objectId = $agent_has_user->getID();
+      if (!isset($agent))
+      {
+        $agent = $agent_has_user->getAgent();
+      }
+      $tab = false;
+      break;
     case 'vocabulary':
       $showBc = true;
       $showVocabularyBc = true;
@@ -190,6 +213,25 @@
         }
       }
       $objectId = $vocabulary->getID();
+      break;
+    case 'vocabuser':
+      $showBc = true;
+      $showVocabularyBc = true;
+      $showVocabUserBc = true;
+      if (!isset($vocabulary_has_user))
+      {
+        $id = ('show' == $action) ? $sf_params->get('id') : $paramId;
+        if ($id)
+        {
+          $vocabulary_has_user = VocabularyHasUserPeer::retrieveByPK($id);
+        }
+      }
+      $objectId = $vocabulary_has_user->getID();
+      if (!isset($vocabulary))
+      {
+        $vocabulary = $vocabulary_has_user->getVocabulary();
+      }
+      $tab = false;
       break;
     case 'concept':
       $showBc = true;
@@ -322,7 +364,7 @@
 
       if ($vocabulary)
       {
-        if ($showConceptBc || $showHistoryBc)
+        if ($showConceptBc || $showHistoryBc || $showVocabUserBc)
         {
           echo link_to($vocabulary->getName(), 'vocabulary/show?id=' . $vocabulary->getId());
         }
@@ -378,7 +420,14 @@
       if (isset($agent))
       {
         echo link_to('Owners:', '/agent/list') . '&nbsp;';
-        echo __('Show detail for ') . $agent->getOrgName();
+        if ($showAgentUserBc)
+        {
+          echo link_to($agent->getOrgName(), 'agent/show?id=' . $agent->getId());
+        }
+        else
+        {
+          echo __('Show detail for ') . $agent->getOrgName();
+        }
 
         $title = ' :: ' . __('%%owner%%', array('%%owner%%' => $agent->getOrgName()));
       }
@@ -388,12 +437,14 @@
     {
       if (isset($user))
       {
+        $nickname = getUserName($user);
         echo link_to('Users:', '/user/list') . '&nbsp;';
-        echo $user->getNickname();
+        echo $nickname;
 
-        $title = ' :: ' . __('%%user%%', array('%%user%%' => $user->getNickname()));
+        $title = ' :: ' . __('%%user%%', array('%%user%%' => $nickname));
       }
     }
+
     if ($showHistoryBc)
     {
       $spaces = '';
@@ -407,6 +458,32 @@
       }
      echo "<br />$spaces" . link_to('History:', '/history/list?vocabulary_id=' . $id) . '&nbsp;';
      echo 'History detail';
+    }
+
+    if ($showAgentUserBc)
+    {
+      $spaceCount++;
+      echo '<br />&nbsp;&nbsp;' . link_to('Members:', '/agentuser/list?agent_id=' . $agent->getId()) . '&nbsp;&nbsp;';
+      if ($agent_has_user)
+      {
+        $user = $agent_has_user->getUser();
+        $nickname = $user->getNickname();
+        echo link_to($nickname, 'user/show?id='.$user->getId());
+        $title .= ' :: ' . __('%%name%%', array('%%name%%' => $nickname));
+      }
+    }
+
+    if ($showVocabUserBc)
+    {
+      $spaceCount++;
+      echo '<br />&nbsp;&nbsp;' . link_to('Maintainers:', '/vocabuser/list?vocabulary_id=' . $vocabulary->getId()) . '&nbsp;&nbsp;';
+      if ($vocabulary_has_user)
+      {
+        $user = $vocabulary_has_user->getUser();
+        $nickname = getUserName($user);
+        echo link_to($nickname, 'user/show?id='.$user->getId());
+        $title .= ' :: ' . __('%%name%%', array('%%name%%' => $nickname));
+      }
     }
   }
   else //there's no breadcrumb so we show the title
@@ -449,4 +526,19 @@
   $title = ltrim($title,': ');
   $metaAction = rtrim ($metaAction);
   $sf_context->getResponse()->setTitle(sfConfig::get('app_title_prefix') . $title . $metaAction);
+
+  function getUserName($user)
+  {
+    $nickname = $user->getNickname();
+    $username = strval($user);
+    if ($username != $nickname)
+    {
+      return $user . " (" . $nickname . ")";
+    }
+    else
+    {
+      return $username;
+    }
+  }
+
  ?>
