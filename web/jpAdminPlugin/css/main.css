@@ -212,7 +212,7 @@ body,
   float: right;
 }
 
-#sf_admin_container 
+#sf_admin_container
 {
   background-color: #ffc;
   border: 1px solid #DDDDDD;
@@ -257,6 +257,11 @@ body,
 {
   float:left;
   margin-top:-25px;
+}
+
+#sf_admin_container ul.sf_admin_actions li.float-left-show
+{
+  float:left;
 }
 
 #sf_admin_container ul.sf_admin_actions input
@@ -375,14 +380,14 @@ body,
 
 #sf_admin_container .sf_admin_filters label
 {
- background-color: white; 
+ background-color: white;
 margin-right: 0px;
 padding-right: 0px;
 }
 
 #sf_admin_container .sf_admin_filters .content
 {
- background-color: white; 
+ background-color: white;
 margin-left: 0px;
 padding-left: 0px;
 }
