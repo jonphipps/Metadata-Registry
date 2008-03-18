@@ -61,6 +61,7 @@ generator:
       fields:
         vocabulary_list: { name: " " }
         agent_list:      { name: " " }
+        email:           { credentials: [administrator]}
       display:
         "-Metadata":    [id, created_at, last_updated]
         "Detail":       [nickname, salutation, first_name, last_name, email]
