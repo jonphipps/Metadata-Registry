@@ -415,6 +415,30 @@ class myUser extends sfBasicSecurityUser
   }
 
   /**
+  * get the current agent
+  *
+  * @return agent
+  */
+  public function getCurrentagent()
+  {
+    /** @var agent **/
+    $agent = $this->getAttribute('agent');
+    return $agent;
+  }
+
+  /**
+  * set the current agent
+  *
+  * @return boolean the currently set agent object
+  * @param  agent $agent
+  */
+  public function setCurrentagent(agent $agent)
+  {
+    $this->setAttribute('agent', $agent);
+    $this->getCurrentagent();
+  }
+
+  /**
   * get the current vocabulary
   *
   * @return vocabulary
