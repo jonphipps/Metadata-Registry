@@ -21,6 +21,23 @@ class <?php echo $this->getGeneratedModuleName() ?>Actions extends sfActions
     return $this->forward('<?php echo $this->getModuleName() ?>', 'list');
   }
 
+  public function executeCancel()
+  {
+    <?php echo $this->getMethodParamsForGetOrCreate() ?>;
+    if (<?php echo $this->getTestPksForGetOrCreate() ?>)
+    {
+      return $this->redirect('<?php echo $this->getModuleName() ?>/list' . $this->redirectFilter);
+    }
+    else
+    {
+      if (!$this-><?php echo $this->getSingularName() ?>)
+      {
+        $this-><?php echo $this->getSingularName() ?> = <?php echo $this->getClassName() ?>Peer::retrieveByPk(<?php echo $this->getRetrieveByPkParamsForAction(49) ?>);
+      }
+      return $this->redirect('<?php echo $this->getModuleName() ?>/show?<?php echo $this->getPrimaryKeyUrlParams('this->') ?>);
+    }
+  }
+
   public function executeList()
   {
     $this->getUser()->clearTmpCredential();
