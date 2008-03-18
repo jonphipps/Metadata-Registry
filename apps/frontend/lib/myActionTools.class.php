@@ -91,6 +91,74 @@ class myActionTools
   }
 
   /**
+  * gets the current agent object
+  *
+  * @return mixed current agent object, or false
+  */
+  public static function findCurrentAgent()
+  {
+    $instance = sfContext::getInstance();
+    $user = $instance->getUser();
+    $request = $instance->getRequest();
+    $action = $instance->getActionStack()->getLastEntry()->getActionInstance();
+    $attributeHolder = $user->getAttributeHolder();
+
+    //check if there's a request parameter
+    $agentId = $request->getParameter('agent_id','');
+
+    //agent_id's in the query string
+    if ($agentId)
+    {
+      self::updateAdminFilters($attributeHolder, 'agent_id', $agentId, 'concept');
+    }
+
+    //agent_id's not in the query string, but it's in a filter
+    //note: this will still return the correct value if it's in the query string
+    $agentId = $attributeHolder->get('agent_id','','sf_admin/agent_has_user/filters');
+
+    $agent = $user->getCurrentagent();
+
+    //We got here and there's a agent_id but we didn't get the stored agent object
+    if ($agentId && !$agent)
+    {
+      //we get it from the database
+      $agent = self::setLatestagent($agentId);
+    }
+
+    //we got here and there's a agent and a agentid (yay)
+    if ($agent and $agentId)
+    {
+      //let's check the id of the stored agent
+      $currentId = $agent->getId();
+
+      //but what if the id of that agent doesn't match the one we have
+      if ($currentId != $agentId)
+      {
+        //we set the stored object to be the one we know
+        $agent = self::setLatestagent($agentId);
+      }
+    }
+
+    //if we get here and there's still no agent then we return false
+    $agent = (isset($agent)) ? $agent : false;
+
+    return $agent;
+  }
+
+  /**
+  * description
+  *
+  * @return agent Current agent object
+  * @param  integer $agentId
+  */
+  public static function setLatestagent($agentId)
+  {
+    $agentObj = AgentPeer::retrieveByPK($agentId);
+    sfContext::getInstance()->getUser()->setCurrentagent($agentObj);
+    return $agentObj;
+  }
+
+  /**
   * gets the current vocabulary object
   *
   * @return mixed current vocabulary object, or false
