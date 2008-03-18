@@ -7,6 +7,11 @@ Options +FollowSymLinks +ExecCGI
   # getting no_script_name to work
   #RewriteBase /
 
+  #we skip the blog
+  #RewriteCond %{REQUEST_URI} /blog/.*$
+  #RewriteRule .* - [L]
+  RewriteRule ^blog/(.*)$ - [L,QSA]
+  RewriteRule ^wordpress/(.*)$ - [L,QSA]
   # we skip selenium
   RewriteCond %{REQUEST_URI} /selenium/.+$
   RewriteRule .* - [L]
