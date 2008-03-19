@@ -1,5 +1,13 @@
 <?php echo include_partial('rdf/rdfHead') ?>
 
+<!--
+NOTICE: This is a TimeSlice of this Vocabulary as of:
+  <?php echo date(DATE_W3C, $timestamp) ?>.
+
+The most current complete Vocabulary may be retrieved from:
+  <?php echo $vocabulary->getUri() ?>
+-->
+
 <?php echo include_partial('rdf/scheme', array(
       'vocabulary' => $vocabulary,
       'topConcepts' => $topConcepts)); ?>
@@ -10,7 +18,8 @@
       'concept' => $concept,
       'vocabulary' => $vocabulary,
       'properties' => $properties,
-      'skosProps' => $skosProps)); ?>
+      'skosProps' => $skosProps,
+      'timestamp' => $timestamp)); ?>
 
 <?php endforeach; ?>
 </rdf:RDF>

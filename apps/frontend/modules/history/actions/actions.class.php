@@ -46,6 +46,8 @@ class historyActions extends autohistoryActions
       myActionTools::requireVocabularyFilter();
     }
 
+    $this->vocabulary = myActionTools::findCurrentVocabulary();
+
     parent::executeList();
   }
 

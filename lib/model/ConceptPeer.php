@@ -3,10 +3,10 @@
 /**
  * Subclass for performing query and update operations on the 'reg_concept' table.
  *
- * 
+ *
  *
  * @package lib.model
- */ 
+ */
 class ConceptPeer extends BaseConceptPeer
 {
 	/** the column name for the VOCABULARY_NAME field */
@@ -63,7 +63,7 @@ class ConceptPeer extends BaseConceptPeer
      $conceptId = sfContext::getInstance()->getUser()->getAttribute('concept')->getId();
      return self::getConceptsByVocabID($vocabId, $conceptId);
   }
-  
+
   /**
   * gets concept by concept URI
   *
@@ -148,5 +148,30 @@ class ConceptPeer extends BaseConceptPeer
 
     return $vocabularyId;
   }
+
+  /**
+   * Selects a collection of Concept objects filtered by history timestamp.
+   *
+   * @param integer $vocabularyId
+   * @param date    $ts The timestamp
+   * @return array Array of Concept objects.
+   * @throws PropelException Any exceptions caught during processing will be
+   *     rethrown wrapped into a PropelException.
+   */
+  public static function doSelectConceptByHistoryTimestamp($vocabularyId, $ts)
+  {
+    $c = new Criteria();
+    $c->addJoin(ConceptPeer::ID, ConceptPropertyHistoryPeer::CONCEPT_ID);
+    $c->setDistinct();
+
+    $c->add(ConceptPeer::VOCABULARY_ID, $vocabularyId);
+    $c->add(ConceptPropertyHistoryPeer::CREATED_AT, $ts, Criteria::LESS_EQUAL);
+    $c->add(ConceptPropertyHistoryPeer::ACTION, 'deleted', Criteria::NOT_EQUAL);
+
+    $results = ConceptPeer::populateObjects(ConceptPeer::doSelectRS($c));
+
+    return $results;
+  }
+
 
 } // ConceptPeer

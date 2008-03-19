@@ -3,10 +3,10 @@
 /**
  * Subclass for representing a row from the 'reg_concept_property' table.
  *
- * 
+ *
  *
  * @package lib.model
- */ 
+ */
 class ConceptProperty extends BaseConceptProperty
 {
 	/**
@@ -158,11 +158,11 @@ class ConceptProperty extends BaseConceptProperty
 		}
 
 	} // setPrefLabel()
-   
+
    public function setSchemeId($v)
    {
       if ($this->scheme_id !== $v || $v === 0) {
-         if ($v == 0 || $v == '') 
+         if ($v == 0 || $v == '')
          {
             $v = null;
          }
@@ -174,12 +174,12 @@ class ConceptProperty extends BaseConceptProperty
          $this->aVocabulary = null;
       }
 
-   } 
+   }
 
    public function setRelatedConceptId($v)
    {
       if ($this->related_concept_id !== $v || $v === 0) {
-         if ($v == 0 || $v == '') 
+         if ($v == 0 || $v == '')
          {
             $v = null;
          }
@@ -190,8 +190,8 @@ class ConceptProperty extends BaseConceptProperty
       if ($this->aConceptRelatedByRelatedConceptId !== null && $this->aConceptRelatedByRelatedConceptId->getId() !== $v) {
          $this->aConceptRelatedByRelatedConceptId = null;
       }
-   } 
-   
+   }
+
   /**
   * Gets the related vocabulary object
   *
@@ -330,9 +330,35 @@ class ConceptProperty extends BaseConceptProperty
     $history->setCreatedUserId($this->getUpdatedUserId());
     $history->setCreatedAt($this->getUpdatedAt());
 
-
     $history->save();
   }
+
+  /**
+  * returns the last property history older than the supplied timestamp
+  *
+  * @return ConceptPropertyHistory
+  * @param  date $ts (optional) If null returns the latest
+  */
+  public function getLastHistoryByTimestamp($ts = null)
+  {
+    $c = new Criteria();
+    $c->add(ConceptPropertyHistoryPeer::CONCEPT_PROPERTY_ID, $this->getId());
+
+    if ($ts)
+    {
+      $c->add(ConceptPropertyHistoryPeer::CREATED_AT, $ts, Criteria::LESS_EQUAL);
+    }
+
+    $c->addDescendingOrderByColumn(ConceptPropertyHistoryPeer::CREATED_AT);
+    $c->setLimit(1);
+
+    $result = ConceptPropertyHistoryPeer::doSelect($c);
+    $result = (count($result) == 1) ? $result[0] : false;
+
+    return $result;
+
+  } //getLastHistoryByTimestamp
+
 
 
 } // ConceptProperty

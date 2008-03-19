@@ -20,6 +20,8 @@ class rdfActions extends sfActions
      $rootUri = 'http://'.$_SERVER['SERVER_NAME'].'/';
      $schemeUri = $rootUri . 'uri/' . $this->getRequestParameter('scheme','');
      $type = $this->getRequestParameter('type');
+     $ts = strtotime($this->getRequestParameter('ts'));
+     $this->timestamp = $ts;
 
      //$_SERVER['HTTP_ACCEPT'] = '';
      //$_SERVER['HTTP_USER_AGENT'] = '';
@@ -79,16 +81,22 @@ class rdfActions extends sfActions
 
     $this->forward404Unless($vocabulary);
 
-    $concepts = $vocabulary->getConcepts();
-
     $this->vocabulary = $vocabulary;
-    $this->concepts = $concepts;
+
+    if (!$ts)
+    {
+      $this->concepts = $vocabulary->getConcepts();
+    }
+    else
+    {
+      $this->concepts = ConceptPeer::doSelectConceptByHistoryTimestamp($vocabulary->getid(), $ts);
+    }
 
     // get the list of skos properties that reference resources
     $this->skosProps = SkosPropertyPeer::getResourceProperties();
 
     //get top concepts for vocabulary
-    $this->getTopConcepts($vocabulary);
+    $this->getTopConcepts($vocabulary, $ts);
   }
 
   public function executeShowConcept()
@@ -179,7 +187,7 @@ class rdfActions extends sfActions
   * @return void
   * @param  Vocabulary $vocabulary
   */
-  function getTopConcepts($vocabulary)
+  function getTopConcepts($vocabulary, $ts = null)
   {
     //get top concepts for vocabulary
     $c = new Criteria();

@@ -11,6 +11,10 @@ uri_concept:
   url:  /uri/:scheme/:concept.rdf
   param: { module: rdf, action: showConcept, type: uri }
 
+uri_scheme_timeslice:
+  url:  /uri/:scheme/ts/:ts.rdf
+  param: { module: rdf, action: showScheme, type: uri }
+
 uri_scheme:
   url:  /uri/:scheme.rdf
   param: { module: rdf, action: showScheme, type: uri }
@@ -31,14 +35,18 @@ rdf_concept:
   url:  /concept/show/id/:id.rdf
   param: { module: rdf, action: showConcept, type: rdf }
 
+rdf_vocabulary_timeslice:
+  url:  /vocabulary/show/id/:id/ts/:ts.rdf
+  param: { module: rdf, action: showScheme, type: rdf }
+
 rdf_vocabulary:
   url:  /vocabulary/show/id/:id.rdf
   param: { module: rdf, action: showScheme, type: rdf }
-  
+
 xml_schema_vocabulary:
   url:  /vocabulary/show/id/:id.xsd
   param: { module: xml, action: showScheme, type: xmlschema }
-  
+
 # concepts
 concept_search:
   url:   /search.
