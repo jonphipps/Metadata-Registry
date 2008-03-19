@@ -32,6 +32,12 @@ class vocabularyActions extends autovocabularyActions
     parent::executeList();
   }
 
+  public function executeSave()
+  {
+    $this->getUser()->getAttributeHolder()->remove('vocabulary');
+    parent::executeSave();
+  }
+
   public function executeRdf ()
   {
      $this->forward('rdf','ShowScheme');
