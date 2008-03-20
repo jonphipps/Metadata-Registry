@@ -2,7 +2,7 @@
 $ts = ($timestamp) ? '/ts/' . date('YmdHis',$timestamp) : ''; ?>
 <xs:schema
     xmlns:xs="http://www.w3.org/2001/XMLSchema"
-    xmlns="<?php echo $vocabulary->getUri(); ?>"
+    xmlns="<?php echo $vocabulary->getUri() . $ts; ?>"
     targetNamespace="<?php echo $vocabulary->getUri(); ?>"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     elementFormDefault="qualified"
