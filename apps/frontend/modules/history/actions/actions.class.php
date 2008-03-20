@@ -47,9 +47,11 @@ class historyActions extends autohistoryActions
     }
 
     $this->vocabulary = myActionTools::findCurrentVocabulary();
+
     if (isset($params['concept_id']) || isset($params['property_id']))
     {
       $this->concept = myActionTools::findCurrentConcept();
+      $this->setFlash('hasConcept', true);
     }
 
     parent::executeList();

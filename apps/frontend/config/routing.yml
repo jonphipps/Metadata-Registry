@@ -23,6 +23,10 @@ uri_scheme:
   url:  /uri/:scheme.rdf
   param: { module: rdf, action: showScheme, type: uri }
 
+uri_scheme_xml_schema_timeslice:
+  url:  /uri/:scheme/ts/:ts.xsd
+  param: { module: xml, action: showScheme, type: uri }
+
 uri_scheme_xml_schema:
   url:  /uri/:scheme.xsd
   param: { module: xml, action: showScheme, type: uri }
@@ -50,6 +54,10 @@ rdf_vocabulary_timeslice:
 rdf_vocabulary:
   url:  /vocabulary/show/id/:id.rdf
   param: { module: rdf, action: showScheme, type: rdf }
+
+xml_schema_vocabulary_timeslice:
+  url:  /vocabulary/show/id/:id/ts/:ts.xsd
+  param: { module: xml, action: showScheme, type: xmlschema }
 
 xml_schema_vocabulary:
   url:  /vocabulary/show/id/:id.xsd
