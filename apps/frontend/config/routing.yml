@@ -7,6 +7,10 @@ uri_scheme_html:
   url:  /uri/:scheme.html
   param: { module: rdf, action: showScheme, type: html }
 
+uri_concept_timeslice:
+  url:  /uri/:scheme/:concept/ts/:ts.rdf
+  param: { module: rdf, action: showConcept, type: uri }
+
 uri_concept:
   url:  /uri/:scheme/:concept.rdf
   param: { module: rdf, action: showConcept, type: uri }
@@ -30,6 +34,10 @@ uri_concept_unknown:
 uri_scheme_unknown:
   url:  /uri/:scheme.
   param: { module: rdf, action: showScheme, type: unknown }
+
+rdf_concept_timeslice:
+  url:  /concept/show/id/:id/ts/:ts.rdf
+  param: { module: rdf, action: showConcept, type: rdf }
 
 rdf_concept:
   url:  /concept/show/id/:id.rdf

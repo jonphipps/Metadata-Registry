@@ -13,7 +13,8 @@ The most current complete Vocabulary may be retrieved from:
 
 <?php echo include_partial('rdf/scheme', array(
       'vocabulary' => $vocabulary,
-      'topConcepts' => $topConcepts)); ?>
+      'topConcepts' => $topConcepts,
+      'timestamp' => $timestamp)); ?>
 
 <?php foreach ($concepts as $concept): ?>
 <?php $properties = $concept->getConceptPropertysRelatedByConceptId();

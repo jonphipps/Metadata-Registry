@@ -1,6 +1,7 @@
 <!-- Concept: <?php echo $concept->getPrefLabel(); ?>  -->
-    <skos:Concept rdf:about="<?php echo $concept->getUri(); ?>">
-        <skos:inScheme rdf:resource="<?php echo $vocabulary->getUri(); ?>"/>
+<?php $ts = ($timestamp) ? '/ts/' . date('YmdHis',$timestamp) : '';?>
+    <skos:Concept rdf:about="<?php echo $concept->getUri() . $ts; ?>">
+        <skos:inScheme rdf:resource="<?php echo $vocabulary->getUri() . $ts; ?>"/>
 <?php
  foreach ($properties as $property): ?>
 <?php

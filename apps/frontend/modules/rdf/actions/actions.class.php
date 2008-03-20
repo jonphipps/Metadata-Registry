@@ -105,6 +105,8 @@ class rdfActions extends sfActions
      $rootUri = 'http://'.$_SERVER['HTTP_HOST'].'/';
      $conceptUri = $rootUri . 'uri/' . $this->getRequestParameter('scheme','') . '/' . $this->getRequestParameter('concept','');
      $type = $this->getRequestParameter('type');
+     $ts = strtotime($this->getRequestParameter('ts'));
+     $this->timestamp = $ts;
 
      //$_SERVER['HTTP_ACCEPT'] = '';
      //$_SERVER['HTTP_USER_AGENT'] = '';
