@@ -286,7 +286,7 @@ $column = sfPropelManyToMany::getColumn($class, $through_class);
         try
         {
           $dateFormat = new sfDateFormat($this->getUser()->getCulture());
-          <?php $inputPattern  = $type == CreoleTypes::DATE ? 'd' : 'g'; ?>
+          <?php $inputPattern  = $type == CreoleTypes::DATE ? 'd' : 'I'; ?>
           <?php $outputPattern = $type == CreoleTypes::DATE ? 'i' : 'I'; ?>
           if (!is_array($<?php echo $this->getSingularName() ?>['<?php echo $name ?>']))
           {
