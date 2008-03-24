@@ -22,6 +22,7 @@ class rdfActions extends sfActions
      $type = $this->getRequestParameter('type');
      $ts = strtotime($this->getRequestParameter('ts'));
      $this->timestamp = $ts;
+     $version = $this->getRequestParameter('version');
 
      //$_SERVER['HTTP_ACCEPT'] = '';
      //$_SERVER['HTTP_USER_AGENT'] = '';
@@ -82,6 +83,18 @@ class rdfActions extends sfActions
     $this->forward404Unless($vocabulary);
 
     $this->vocabulary = $vocabulary;
+
+    //forward to the timeslice if there's a version
+    if($version && !$ts)
+    {
+      $c = new Criteria();
+      $c->add(VocabularyHasVersionPeer::NAME, $version);
+      $version = VocabularyHasVersionPeer::doSelectOne($c);
+      $this->forward404Unless($version, 'Unknown version!');
+      $ts = $version->getTimeslice('YmdHis');
+      $this->getRequest()->getParameterHolder()->set('ts', $ts);
+      $this->forward('rdf','showScheme');
+    }
 
     if (!$ts)
     {

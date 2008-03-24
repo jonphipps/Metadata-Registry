@@ -19,7 +19,7 @@ generator:
         language:     { name: Lang }
         ts:           { name: TimeSlice}
       #params:         =%%_created_at%%  %%uri%%  <strong> %%pref_label%% </strong><br />%%_property%%, %%action%%, %%user%% <br />%%object%%, %%_language%%, %%status%%
-      display:        [=created_at, _ts, uri, _pref_label, _property, _action, user]
+      display:        [=created_at, uri, _pref_label, _property, _action, user, _ts]
       sort:           [created_at, desc]
       displayfilter:  false
       filters:        [vocabulary_id, concept_property_id, concept_id, skos_property_id, updated_at, object, status, user]

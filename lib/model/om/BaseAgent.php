@@ -139,39 +139,39 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 
 	/**
 	 * Collection to store aggregation of collAgentHasUsers.
-	 * @var array
+	 * @var        array
 	 */
 	protected $collAgentHasUsers;
 
 	/**
 	 * The criteria used to select the current contents of collAgentHasUsers.
-	 * @var Criteria
+	 * @var        Criteria
 	 */
 	protected $lastAgentHasUserCriteria = null;
 
 	/**
 	 * Collection to store aggregation of collVocabularys.
-	 * @var array
+	 * @var        array
 	 */
 	protected $collVocabularys;
 
 	/**
 	 * The criteria used to select the current contents of collVocabularys.
-	 * @var Criteria
+	 * @var        Criteria
 	 */
 	protected $lastVocabularyCriteria = null;
 
 	/**
 	 * Flag to prevent endless save loop, if this object is referenced
 	 * by another object which falls in this transaction.
-	 * @var boolean
+	 * @var        boolean
 	 */
 	protected $alreadyInSave = false;
 
 	/**
 	 * Flag to prevent endless validation loop, if this object is referenced
 	 * by another object which falls in this transaction.
-	 * @var boolean
+	 * @var        boolean
 	 */
 	protected $alreadyInValidation = false;
 
@@ -917,10 +917,10 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	 * it inserts it; otherwise an update is performed.  This method
 	 * wraps the doSave() worker method in a transaction.
 	 *
-	 * @param Connection $con
-	 * @return int The number of rows affected by this insert/update and any referring fk objects' save() operations.
-	 * @throws PropelException
-	 * @see doSave()
+	 * @param      Connection $con
+	 * @return     int The number of rows affected by this insert/update and any referring fk objects' save() operations.
+	 * @throws     PropelException
+	 * @see        doSave()
 	 */
 	public function save($con = null)
 	{
@@ -970,10 +970,10 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	 * If the object is new, it inserts it; otherwise an update is performed.
 	 * All related objects are also updated in this method.
 	 *
-	 * @param Connection $con
-	 * @return int The number of rows affected by this insert/update and any referring fk objects' save() operations.
-	 * @throws PropelException
-	 * @see save()
+	 * @param      Connection $con
+	 * @return     int The number of rows affected by this insert/update and any referring fk objects' save() operations.
+	 * @throws     PropelException
+	 * @see        save()
 	 */
 	protected function doSave($con)
 	{
@@ -1044,10 +1044,10 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	 * If $columns is either a column name or an array of column names
 	 * only those columns are validated.
 	 *
-	 * @param mixed $columns Column name or an array of column names.
-	 * @return boolean Whether all columns pass validation.
-	 * @see doValidate()
-	 * @see getValidationFailures()
+	 * @param      mixed $columns Column name or an array of column names.
+	 * @return     boolean Whether all columns pass validation.
+	 * @see        doValidate()
+	 * @see        getValidationFailures()
 	 */
 	public function validate($columns = null)
 	{
@@ -1068,8 +1068,8 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	 * also be validated.  If all pass then <code>true</code> is returned; otherwise
 	 * an aggreagated array of ValidationFailed objects will be returned.
 	 *
-	 * @param array $columns Array of column names to validate.
-	 * @return mixed <code>true</code> if all validations pass; array of <code>ValidationFailed</code> objets otherwise.
+	 * @param      array $columns Array of column names to validate.
+	 * @return     mixed <code>true</code> if all validations pass; array of <code>ValidationFailed</code> objets otherwise.
 	 */
 	protected function doValidate($columns = null)
 	{
@@ -1418,9 +1418,9 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	 * If desired, this method can also make copies of all associated (fkey referrers)
 	 * objects.
 	 *
-	 * @param object $copyObj An object of Agent (or compatible) type.
-	 * @param boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-	 * @throws PropelException
+	 * @param      object $copyObj An object of Agent (or compatible) type.
+	 * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
+	 * @throws     PropelException
 	 */
 	public function copyInto($copyObj, $deepCopy = false)
 	{
@@ -1488,9 +1488,9 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	 * If desired, this method can also make copies of all associated (fkey referrers)
 	 * objects.
 	 *
-	 * @param boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-	 * @return Agent Clone of current object.
-	 * @throws PropelException
+	 * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
+	 * @return     Agent Clone of current object.
+	 * @throws     PropelException
 	 */
 	public function copy($deepCopy = false)
 	{
@@ -1522,7 +1522,7 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	 * Temporary storage of collAgentHasUsers to save a possible db hit in
 	 * the event objects are add to the collection, but the
 	 * complete collection is never requested.
-	 * @return void
+	 * @return     void
 	 */
 	public function initAgentHasUsers()
 	{
@@ -1540,9 +1540,9 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	 * an empty collection or the current collection, the criteria
 	 * is ignored on a new object.
 	 *
-	 * @param Connection $con
-	 * @param Criteria $criteria
-	 * @throws PropelException
+	 * @param      Connection $con
+	 * @param      Criteria $criteria
+	 * @throws     PropelException
 	 */
 	public function getAgentHasUsers($criteria = null, $con = null)
 	{
@@ -1589,10 +1589,10 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	/**
 	 * Returns the number of related AgentHasUsers.
 	 *
-	 * @param Criteria $criteria
-	 * @param boolean $distinct
-	 * @param Connection $con
-	 * @throws PropelException
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct
+	 * @param      Connection $con
+	 * @throws     PropelException
 	 */
 	public function countAgentHasUsers($criteria = null, $distinct = false, $con = null)
 	{
@@ -1615,9 +1615,9 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	 * Method called to associate a AgentHasUser object to this object
 	 * through the AgentHasUser foreign key attribute
 	 *
-	 * @param AgentHasUser $l AgentHasUser
-	 * @return void
-	 * @throws PropelException
+	 * @param      AgentHasUser $l AgentHasUser
+	 * @return     void
+	 * @throws     PropelException
 	 */
 	public function addAgentHasUser(AgentHasUser $l)
 	{
@@ -1678,7 +1678,7 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	 * Temporary storage of collVocabularys to save a possible db hit in
 	 * the event objects are add to the collection, but the
 	 * complete collection is never requested.
-	 * @return void
+	 * @return     void
 	 */
 	public function initVocabularys()
 	{
@@ -1696,9 +1696,9 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	 * an empty collection or the current collection, the criteria
 	 * is ignored on a new object.
 	 *
-	 * @param Connection $con
-	 * @param Criteria $criteria
-	 * @throws PropelException
+	 * @param      Connection $con
+	 * @param      Criteria $criteria
+	 * @throws     PropelException
 	 */
 	public function getVocabularys($criteria = null, $con = null)
 	{
@@ -1745,10 +1745,10 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	/**
 	 * Returns the number of related Vocabularys.
 	 *
-	 * @param Criteria $criteria
-	 * @param boolean $distinct
-	 * @param Connection $con
-	 * @throws PropelException
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct
+	 * @param      Connection $con
+	 * @throws     PropelException
 	 */
 	public function countVocabularys($criteria = null, $distinct = false, $con = null)
 	{
@@ -1771,9 +1771,9 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	 * Method called to associate a Vocabulary object to this object
 	 * through the Vocabulary foreign key attribute
 	 *
-	 * @param Vocabulary $l Vocabulary
-	 * @return void
-	 * @throws PropelException
+	 * @param      Vocabulary $l Vocabulary
+	 * @return     void
+	 * @throws     PropelException
 	 */
 	public function addVocabulary(Vocabulary $l)
 	{

@@ -150,18 +150,6 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 	protected $aUser;
 
 	/**
-	 * Collection to store aggregation of collVocabularyHasVersions.
-	 * @var        array
-	 */
-	protected $collVocabularyHasVersions;
-
-	/**
-	 * The criteria used to select the current contents of collVocabularyHasVersions.
-	 * @var        Criteria
-	 */
-	protected $lastVocabularyHasVersionCriteria = null;
-
-	/**
 	 * Flag to prevent endless save loop, if this object is referenced
 	 * by another object which falls in this transaction.
 	 * @var        boolean
@@ -909,14 +897,6 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 				$this->resetModified(); // [HL] After being saved an object is no longer 'modified'
 			}
 
-			if ($this->collVocabularyHasVersions !== null) {
-				foreach($this->collVocabularyHasVersions as $referrerFK) {
-					if (!$referrerFK->isDeleted()) {
-						$affectedRows += $referrerFK->save($con);
-					}
-				}
-			}
-
 			$this->alreadyInSave = false;
 		}
 		return $affectedRows;
@@ -1040,14 +1020,6 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 				$failureMap = array_merge($failureMap, $retval);
 			}
 
-
-				if ($this->collVocabularyHasVersions !== null) {
-					foreach($this->collVocabularyHasVersions as $referrerFK) {
-						if (!$referrerFK->validate($columns)) {
-							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
-						}
-					}
-				}
 
 
 			$this->alreadyInValidation = false;
@@ -1360,18 +1332,6 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 		$copyObj->setStatusId($this->status_id);
 
 		$copyObj->setCreatedUserId($this->created_user_id);
-
-
-		if ($deepCopy) {
-			// important: temporarily setNew(false) because this affects the behavior of
-			// the getter/setter methods for fkey referrer objects.
-			$copyObj->setNew(false);
-
-			foreach($this->getVocabularyHasVersions() as $relObj) {
-				$copyObj->addVocabularyHasVersion($relObj->copy($deepCopy));
-			}
-
-		} // if ($deepCopy)
 
 
 		$copyObj->setNew(true);
@@ -1816,211 +1776,6 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 			 */
 		}
 		return $this->aUser;
-	}
-
-	/**
-	 * Temporary storage of collVocabularyHasVersions to save a possible db hit in
-	 * the event objects are add to the collection, but the
-	 * complete collection is never requested.
-	 * @return     void
-	 */
-	public function initVocabularyHasVersions()
-	{
-		if ($this->collVocabularyHasVersions === null) {
-			$this->collVocabularyHasVersions = array();
-		}
-	}
-
-	/**
-	 * If this collection has already been initialized with
-	 * an identical criteria, it returns the collection.
-	 * Otherwise if this ConceptPropertyHistory has previously
-	 * been saved, it will retrieve related VocabularyHasVersions from storage.
-	 * If this ConceptPropertyHistory is new, it will return
-	 * an empty collection or the current collection, the criteria
-	 * is ignored on a new object.
-	 *
-	 * @param      Connection $con
-	 * @param      Criteria $criteria
-	 * @throws     PropelException
-	 */
-	public function getVocabularyHasVersions($criteria = null, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseVocabularyHasVersionPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collVocabularyHasVersions === null) {
-			if ($this->isNew()) {
-			   $this->collVocabularyHasVersions = array();
-			} else {
-
-				$criteria->add(VocabularyHasVersionPeer::CONCEPT_PROPERTY_HISTORY_ID, $this->getId());
-
-				VocabularyHasVersionPeer::addSelectColumns($criteria);
-				$this->collVocabularyHasVersions = VocabularyHasVersionPeer::doSelect($criteria, $con);
-			}
-		} else {
-			// criteria has no effect for a new object
-			if (!$this->isNew()) {
-				// the following code is to determine if a new query is
-				// called for.  If the criteria is the same as the last
-				// one, just return the collection.
-
-
-				$criteria->add(VocabularyHasVersionPeer::CONCEPT_PROPERTY_HISTORY_ID, $this->getId());
-
-				VocabularyHasVersionPeer::addSelectColumns($criteria);
-				if (!isset($this->lastVocabularyHasVersionCriteria) || !$this->lastVocabularyHasVersionCriteria->equals($criteria)) {
-					$this->collVocabularyHasVersions = VocabularyHasVersionPeer::doSelect($criteria, $con);
-				}
-			}
-		}
-		$this->lastVocabularyHasVersionCriteria = $criteria;
-		return $this->collVocabularyHasVersions;
-	}
-
-	/**
-	 * Returns the number of related VocabularyHasVersions.
-	 *
-	 * @param      Criteria $criteria
-	 * @param      boolean $distinct
-	 * @param      Connection $con
-	 * @throws     PropelException
-	 */
-	public function countVocabularyHasVersions($criteria = null, $distinct = false, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseVocabularyHasVersionPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		$criteria->add(VocabularyHasVersionPeer::CONCEPT_PROPERTY_HISTORY_ID, $this->getId());
-
-		return VocabularyHasVersionPeer::doCount($criteria, $distinct, $con);
-	}
-
-	/**
-	 * Method called to associate a VocabularyHasVersion object to this object
-	 * through the VocabularyHasVersion foreign key attribute
-	 *
-	 * @param      VocabularyHasVersion $l VocabularyHasVersion
-	 * @return     void
-	 * @throws     PropelException
-	 */
-	public function addVocabularyHasVersion(VocabularyHasVersion $l)
-	{
-		$this->collVocabularyHasVersions[] = $l;
-		$l->setConceptPropertyHistory($this);
-	}
-
-
-	/**
-	 * If this collection has already been initialized with
-	 * an identical criteria, it returns the collection.
-	 * Otherwise if this ConceptPropertyHistory is new, it will return
-	 * an empty collection; or if this ConceptPropertyHistory has previously
-	 * been saved, it will retrieve related VocabularyHasVersions from storage.
-	 *
-	 * This method is protected by default in order to keep the public
-	 * api reasonable.  You can provide public methods for those you
-	 * actually need in ConceptPropertyHistory.
-	 */
-	public function getVocabularyHasVersionsJoinUser($criteria = null, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseVocabularyHasVersionPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collVocabularyHasVersions === null) {
-			if ($this->isNew()) {
-				$this->collVocabularyHasVersions = array();
-			} else {
-
-				$criteria->add(VocabularyHasVersionPeer::CONCEPT_PROPERTY_HISTORY_ID, $this->getId());
-
-				$this->collVocabularyHasVersions = VocabularyHasVersionPeer::doSelectJoinUser($criteria, $con);
-			}
-		} else {
-			// the following code is to determine if a new query is
-			// called for.  If the criteria is the same as the last
-			// one, just return the collection.
-
-			$criteria->add(VocabularyHasVersionPeer::CONCEPT_PROPERTY_HISTORY_ID, $this->getId());
-
-			if (!isset($this->lastVocabularyHasVersionCriteria) || !$this->lastVocabularyHasVersionCriteria->equals($criteria)) {
-				$this->collVocabularyHasVersions = VocabularyHasVersionPeer::doSelectJoinUser($criteria, $con);
-			}
-		}
-		$this->lastVocabularyHasVersionCriteria = $criteria;
-
-		return $this->collVocabularyHasVersions;
-	}
-
-
-	/**
-	 * If this collection has already been initialized with
-	 * an identical criteria, it returns the collection.
-	 * Otherwise if this ConceptPropertyHistory is new, it will return
-	 * an empty collection; or if this ConceptPropertyHistory has previously
-	 * been saved, it will retrieve related VocabularyHasVersions from storage.
-	 *
-	 * This method is protected by default in order to keep the public
-	 * api reasonable.  You can provide public methods for those you
-	 * actually need in ConceptPropertyHistory.
-	 */
-	public function getVocabularyHasVersionsJoinVocabulary($criteria = null, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseVocabularyHasVersionPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collVocabularyHasVersions === null) {
-			if ($this->isNew()) {
-				$this->collVocabularyHasVersions = array();
-			} else {
-
-				$criteria->add(VocabularyHasVersionPeer::CONCEPT_PROPERTY_HISTORY_ID, $this->getId());
-
-				$this->collVocabularyHasVersions = VocabularyHasVersionPeer::doSelectJoinVocabulary($criteria, $con);
-			}
-		} else {
-			// the following code is to determine if a new query is
-			// called for.  If the criteria is the same as the last
-			// one, just return the collection.
-
-			$criteria->add(VocabularyHasVersionPeer::CONCEPT_PROPERTY_HISTORY_ID, $this->getId());
-
-			if (!isset($this->lastVocabularyHasVersionCriteria) || !$this->lastVocabularyHasVersionCriteria->equals($criteria)) {
-				$this->collVocabularyHasVersions = VocabularyHasVersionPeer::doSelectJoinVocabulary($criteria, $con);
-			}
-		}
-		$this->lastVocabularyHasVersionCriteria = $criteria;
-
-		return $this->collVocabularyHasVersions;
 	}
 
 

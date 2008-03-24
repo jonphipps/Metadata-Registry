@@ -34,7 +34,7 @@ function object_input_date_tag($object, $method, $options = array(), $default_va
 {
   $options = _parse_attributes($options);
 
-  $value = _get_object_value($object, $method, $default_value, $param = 'Y-m-d G:i');
+  $value = _get_object_value($object, $method, $default_value);
 
   return input_date_tag(_convert_method_to_name($method, $options), $value, $options);
 }
@@ -289,7 +289,7 @@ function _get_object_value($object, $method, $default_value = null, $param = nul
     $param = ($param == null ? array() : array($param));
     $method = array($method, $param);
   }
-  
+
   // method exists?
   if (!is_callable(array($object, $method[0])))
   {

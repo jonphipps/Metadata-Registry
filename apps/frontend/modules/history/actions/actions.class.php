@@ -46,13 +46,20 @@ class historyActions extends autohistoryActions
       myActionTools::requireVocabularyFilter();
     }
 
-    $this->vocabulary = myActionTools::findCurrentVocabulary();
+    $vocabulary = myActionTools::findCurrentVocabulary();
+    $this->vocabulary = $vocabulary;
 
     if (isset($params['concept_id']) || isset($params['property_id']))
     {
       $this->concept = myActionTools::findCurrentConcept();
       $this->setFlash('hasConcept', true);
     }
+
+    //get the versions array
+    $c = new Criteria();
+    $c->add(VocabularyHasVersionPeer::VOCABULARY_ID, $vocabulary->getId());
+    $versions = VocabularyHasVersionPeer::doSelect($c);
+    $this->setFlash('versions', $versions);
 
     parent::executeList();
   }

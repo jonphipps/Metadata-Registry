@@ -76,9 +76,9 @@
   $tabMap['vocabulary']   ['show'] = array('tab' => 'vocabulary',     'title' => 'Show Detail');
   if ('vocabulary' == $filter)
   {
-    $tabMap['history']    ['list'] = array('tab' => 'vocabulary',         'title' => 'History of Changes');
-    $tabMap['version']    ['list'] = array('tab' => 'vocabulary',         'title' => 'List Versions');
-    $tabMap['vocabuser']  ['list'] = array('tab' => 'vocabulary',         'title' => 'List Maintainers');
+    $tabMap['history']    ['list'] = array('tab' => 'vocabulary',     'title' => 'History of Changes');
+    $tabMap['version']    ['list'] = array('tab' => 'vocabulary',     'title' => 'List Versions');
+    $tabMap['vocabuser']  ['list'] = array('tab' => '$vocabulary_has_version',     'title' => 'List Maintainers');
   }
 
   $tabMap['concept']      ['show'] = array('tab' => 'concept',        'title' => 'Show Detail');
@@ -95,8 +95,10 @@
     $tabMap['history']    ['list'] = array('tab' => 'conceptprop',         'title' => 'History of Changes');
     $tabMap['version']    ['list'] = array('tab' => 'conceptprop',         'title' => 'List Versions');
   }
+
   $tabMap['agentuser']  ['show'] = array('tab' => 'agentuser',                'title' => 'Show Detail');
   $tabMap['vocabuser']  ['show'] = array('tab' => 'vocabuser',                'title' => 'Show Detail');
+  $tabMap['version']    ['show'] = array('tab' => 'version',                'title' => 'Show Detail');
 
   //get the current module/action
   $module = $sf_params->get('module');
@@ -122,6 +124,7 @@
   $showAgentUserBc = false;
   $showUserBc = false;
   $showHistoryBc = false;
+  $showVersionBc = false;
   $showBc = false;
   $tabTitle = false;
 
@@ -334,6 +337,26 @@
       $objectId = $user->getID();
       break;
 
+    case 'version':
+      $showBc = true;
+      $showVocabularyBc = true;
+      $showVersionBc = true;
+      if (!isset($vocabulary_has_version))
+      {
+        $id = ('show' == $action) ? $sf_params->get('id') : $paramId;
+        if ($id)
+        {
+          $vocabulary_has_version = VocabularyHasVersionPeer::retrieveByPK($id);
+        }
+      }
+      $objectId = $vocabulary_has_version->getID();
+      if (!isset($vocabulary))
+      {
+        $vocabulary = $vocabulary_has_version->getVocabulary();
+      }
+      $tab = false;
+      break;
+
     //these top-level 'list tabs' don't show any breadcrumb or tab
     //setting $tab to false at this point turns off tab display
     case 'vocabularylist':
@@ -364,7 +387,7 @@
 
       if ($vocabulary)
       {
-        if ($showConceptBc || $showHistoryBc || $showVocabUserBc)
+        if ($showConceptBc || $showHistoryBc || $showVocabUserBc || $showVersionBc)
         {
           echo link_to($vocabulary->getName(), 'vocabulary/show?id=' . $vocabulary->getId());
         }
@@ -483,6 +506,18 @@
         $nickname = getUserName($user);
         echo link_to($nickname, 'user/show?id='.$user->getId());
         $title .= ' :: ' . __('%%name%%', array('%%name%%' => $nickname));
+      }
+    }
+
+    if ($showVersionBc)
+    {
+      $spaceCount++;
+      if ($vocabulary_has_version)
+      {
+        echo '<br />&nbsp;&nbsp;' . link_to('Versions:', '/version/list?vocabulary_id=' . $vocabulary_has_version->getVocabularyId()) . '&nbsp;&nbsp;';
+        $version = $vocabulary_has_version->getName();
+        echo $version;
+        $title .= ' :: ' . __('%%name%%', array('%%name%%' => $version));
       }
     }
   }

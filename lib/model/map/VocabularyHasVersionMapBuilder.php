@@ -59,7 +59,7 @@ class VocabularyHasVersionMapBuilder {
 		$tMap = $this->dbMap->addTable('reg_vocabulary_has_version');
 		$tMap->setPhpName('VocabularyHasVersion');
 
-		$tMap->setUseIdGenerator(false);
+		$tMap->setUseIdGenerator(true);
 
 		$tMap->addPrimaryKey('ID', 'Id', 'int', CreoleTypes::INTEGER, true, null);
 
@@ -75,7 +75,7 @@ class VocabularyHasVersionMapBuilder {
 
 		$tMap->addForeignKey('VOCABULARY_ID', 'VocabularyId', 'int', CreoleTypes::INTEGER, 'reg_vocabulary', 'ID', false, null);
 
-		$tMap->addForeignKey('CONCEPT_PROPERTY_HISTORY_ID', 'ConceptPropertyHistoryId', 'int', CreoleTypes::INTEGER, 'reg_concept_property_history', 'ID', false, null);
+		$tMap->addColumn('TIMESLICE', 'Timeslice', 'int', CreoleTypes::TIMESTAMP, false, null);
 
 	} // doBuild()
 

@@ -86,7 +86,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	 * The value for the name field.
 	 * @var        string
 	 */
-	protected $name = 'null';
+	protected $name = '';
 
 
 	/**
@@ -100,7 +100,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	 * The value for the uri field.
 	 * @var        string
 	 */
-	protected $uri = 'null';
+	protected $uri = '';
 
 
 	/**
@@ -114,14 +114,14 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	 * The value for the base_domain field.
 	 * @var        string
 	 */
-	protected $base_domain = 'null';
+	protected $base_domain = '';
 
 
 	/**
 	 * The value for the token field.
 	 * @var        string
 	 */
-	protected $token = 'null';
+	protected $token = '';
 
 
 	/**
@@ -788,7 +788,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 			$v = (string) $v; 
 		}
 
-		if ($this->name !== $v || $v === 'null') {
+		if ($this->name !== $v || $v === '') {
 			$this->name = $v;
 			$this->modifiedColumns[] = VocabularyPeer::NAME;
 		}
@@ -832,7 +832,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 			$v = (string) $v; 
 		}
 
-		if ($this->uri !== $v || $v === 'null') {
+		if ($this->uri !== $v || $v === '') {
 			$this->uri = $v;
 			$this->modifiedColumns[] = VocabularyPeer::URI;
 		}
@@ -876,7 +876,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 			$v = (string) $v; 
 		}
 
-		if ($this->base_domain !== $v || $v === 'null') {
+		if ($this->base_domain !== $v || $v === '') {
 			$this->base_domain = $v;
 			$this->modifiedColumns[] = VocabularyPeer::BASE_DOMAIN;
 		}
@@ -898,7 +898,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 			$v = (string) $v; 
 		}
 
-		if ($this->token !== $v || $v === 'null') {
+		if ($this->token !== $v || $v === '') {
 			$this->token = $v;
 			$this->modifiedColumns[] = VocabularyPeer::TOKEN;
 		}
@@ -3957,55 +3957,6 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 
 			if (!isset($this->lastVocabularyHasVersionCriteria) || !$this->lastVocabularyHasVersionCriteria->equals($criteria)) {
 				$this->collVocabularyHasVersions = VocabularyHasVersionPeer::doSelectJoinUser($criteria, $con);
-			}
-		}
-		$this->lastVocabularyHasVersionCriteria = $criteria;
-
-		return $this->collVocabularyHasVersions;
-	}
-
-
-	/**
-	 * If this collection has already been initialized with
-	 * an identical criteria, it returns the collection.
-	 * Otherwise if this Vocabulary is new, it will return
-	 * an empty collection; or if this Vocabulary has previously
-	 * been saved, it will retrieve related VocabularyHasVersions from storage.
-	 *
-	 * This method is protected by default in order to keep the public
-	 * api reasonable.  You can provide public methods for those you
-	 * actually need in Vocabulary.
-	 */
-	public function getVocabularyHasVersionsJoinConceptPropertyHistory($criteria = null, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseVocabularyHasVersionPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collVocabularyHasVersions === null) {
-			if ($this->isNew()) {
-				$this->collVocabularyHasVersions = array();
-			} else {
-
-				$criteria->add(VocabularyHasVersionPeer::VOCABULARY_ID, $this->getId());
-
-				$this->collVocabularyHasVersions = VocabularyHasVersionPeer::doSelectJoinConceptPropertyHistory($criteria, $con);
-			}
-		} else {
-			// the following code is to determine if a new query is
-			// called for.  If the criteria is the same as the last
-			// one, just return the collection.
-
-			$criteria->add(VocabularyHasVersionPeer::VOCABULARY_ID, $this->getId());
-
-			if (!isset($this->lastVocabularyHasVersionCriteria) || !$this->lastVocabularyHasVersionCriteria->equals($criteria)) {
-				$this->collVocabularyHasVersions = VocabularyHasVersionPeer::doSelectJoinConceptPropertyHistory($criteria, $con);
 			}
 		}
 		$this->lastVocabularyHasVersionCriteria = $criteria;

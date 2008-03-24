@@ -30,7 +30,7 @@ abstract class BaseVocabularyHasVersion extends BaseObject  implements Persisten
 	 * The value for the name field.
 	 * @var        string
 	 */
-	protected $name = 'null';
+	protected $name = '';
 
 
 	/**
@@ -69,10 +69,10 @@ abstract class BaseVocabularyHasVersion extends BaseObject  implements Persisten
 
 
 	/**
-	 * The value for the concept_property_history_id field.
+	 * The value for the timeslice field.
 	 * @var        int
 	 */
-	protected $concept_property_history_id;
+	protected $timeslice;
 
 	/**
 	 * @var        User
@@ -83,11 +83,6 @@ abstract class BaseVocabularyHasVersion extends BaseObject  implements Persisten
 	 * @var        Vocabulary
 	 */
 	protected $aVocabulary;
-
-	/**
-	 * @var        ConceptPropertyHistory
-	 */
-	protected $aConceptPropertyHistory;
 
 	/**
 	 * Flag to prevent endless save loop, if this object is referenced
@@ -241,14 +236,34 @@ abstract class BaseVocabularyHasVersion extends BaseObject  implements Persisten
 	}
 
 	/**
-	 * Get the [concept_property_history_id] column value.
+	 * Get the [optionally formatted] [timeslice] column value.
 	 * 
-	 * @return     int
+	 * @param      string $format The date/time format string (either date()-style or strftime()-style).
+	 *							If format is NULL, then the integer unix timestamp will be returned.
+	 * @return     mixed Formatted date/time value as string or integer unix timestamp (if format is NULL).
+	 * @throws     PropelException - if unable to convert the date/time to timestamp.
 	 */
-	public function getConceptPropertyHistoryId()
+	public function getTimeslice($format = 'Y-m-d H:i:s')
 	{
 
-		return $this->concept_property_history_id;
+		if ($this->timeslice === null || $this->timeslice === '') {
+			return null;
+		} elseif (!is_int($this->timeslice)) {
+			// a non-timestamp value was set externally, so we convert it
+			$ts = strtotime($this->timeslice);
+			if ($ts === -1 || $ts === false) { // in PHP 5.1 return value changes to FALSE
+				throw new PropelException("Unable to parse value of [timeslice] as date/time value: " . var_export($this->timeslice, true));
+			}
+		} else {
+			$ts = $this->timeslice;
+		}
+		if ($format === null) {
+			return $ts;
+		} elseif (strpos($format, '%') !== false) {
+			return strftime($format, $ts);
+		} else {
+			return date($format, $ts);
+		}
 	}
 
 	/**
@@ -288,7 +303,7 @@ abstract class BaseVocabularyHasVersion extends BaseObject  implements Persisten
 			$v = (string) $v; 
 		}
 
-		if ($this->name !== $v || $v === 'null') {
+		if ($this->name !== $v || $v === '') {
 			$this->name = $v;
 			$this->modifiedColumns[] = VocabularyHasVersionPeer::NAME;
 		}
@@ -420,30 +435,28 @@ abstract class BaseVocabularyHasVersion extends BaseObject  implements Persisten
 	} // setVocabularyId()
 
 	/**
-	 * Set the value of [concept_property_history_id] column.
+	 * Set the value of [timeslice] column.
 	 * 
 	 * @param      int $v new value
 	 * @return     void
 	 */
-	public function setConceptPropertyHistoryId($v)
+	public function setTimeslice($v)
 	{
 
-		// Since the native PHP type for this column is integer,
-		// we will cast the input value to an int (if it is not).
-		if ($v !== null && !is_int($v) && is_numeric($v)) {
-			$v = (int) $v;
+		if ($v !== null && !is_int($v)) {
+			$ts = strtotime($v);
+			if ($ts === -1 || $ts === false) { // in PHP 5.1 return value changes to FALSE
+				throw new PropelException("Unable to parse date/time value for [timeslice] from input: " . var_export($v, true));
+			}
+		} else {
+			$ts = $v;
+		}
+		if ($this->timeslice !== $ts) {
+			$this->timeslice = $ts;
+			$this->modifiedColumns[] = VocabularyHasVersionPeer::TIMESLICE;
 		}
 
-		if ($this->concept_property_history_id !== $v) {
-			$this->concept_property_history_id = $v;
-			$this->modifiedColumns[] = VocabularyHasVersionPeer::CONCEPT_PROPERTY_HISTORY_ID;
-		}
-
-		if ($this->aConceptPropertyHistory !== null && $this->aConceptPropertyHistory->getId() !== $v) {
-			$this->aConceptPropertyHistory = null;
-		}
-
-	} // setConceptPropertyHistoryId()
+	} // setTimeslice()
 
 	/**
 	 * Hydrates (populates) the object variables with values from the database resultset.
@@ -476,7 +489,7 @@ abstract class BaseVocabularyHasVersion extends BaseObject  implements Persisten
 
 			$this->vocabulary_id = $rs->getInt($startcol + 6);
 
-			$this->concept_property_history_id = $rs->getInt($startcol + 7);
+			$this->timeslice = $rs->getTimestamp($startcol + 7, null);
 
 			$this->resetModified();
 
@@ -631,13 +644,6 @@ abstract class BaseVocabularyHasVersion extends BaseObject  implements Persisten
 				$this->setVocabulary($this->aVocabulary);
 			}
 
-			if ($this->aConceptPropertyHistory !== null) {
-				if ($this->aConceptPropertyHistory->isModified()) {
-					$affectedRows += $this->aConceptPropertyHistory->save($con);
-				}
-				$this->setConceptPropertyHistory($this->aConceptPropertyHistory);
-			}
-
 
 			// If this object has been modified, then save it to the database.
 			if ($this->isModified()) {
@@ -646,6 +652,8 @@ abstract class BaseVocabularyHasVersion extends BaseObject  implements Persisten
 					$affectedRows += 1; // we are assuming that there is only 1 row per doInsert() which
 										 // should always be true here (even though technically
 										 // BasePeer::doInsert() can insert multiple rows).
+
+					$this->setId($pk);  //[IMV] update autoincrement primary key
 
 					$this->setNew(false);
 				} else {
@@ -736,12 +744,6 @@ abstract class BaseVocabularyHasVersion extends BaseObject  implements Persisten
 				}
 			}
 
-			if ($this->aConceptPropertyHistory !== null) {
-				if (!$this->aConceptPropertyHistory->validate($columns)) {
-					$failureMap = array_merge($failureMap, $this->aConceptPropertyHistory->getValidationFailures());
-				}
-			}
-
 
 			if (($retval = VocabularyHasVersionPeer::doValidate($this, $columns)) !== true) {
 				$failureMap = array_merge($failureMap, $retval);
@@ -802,7 +804,7 @@ abstract class BaseVocabularyHasVersion extends BaseObject  implements Persisten
 				return $this->getVocabularyId();
 				break;
 			case 7:
-				return $this->getConceptPropertyHistoryId();
+				return $this->getTimeslice();
 				break;
 			default:
 				return null;
@@ -831,7 +833,7 @@ abstract class BaseVocabularyHasVersion extends BaseObject  implements Persisten
 			$keys[4] => $this->getUpdatedAt(),
 			$keys[5] => $this->getCreatedUserId(),
 			$keys[6] => $this->getVocabularyId(),
-			$keys[7] => $this->getConceptPropertyHistoryId(),
+			$keys[7] => $this->getTimeslice(),
 		);
 		return $result;
 	}
@@ -885,7 +887,7 @@ abstract class BaseVocabularyHasVersion extends BaseObject  implements Persisten
 				$this->setVocabularyId($value);
 				break;
 			case 7:
-				$this->setConceptPropertyHistoryId($value);
+				$this->setTimeslice($value);
 				break;
 		} // switch()
 	}
@@ -917,7 +919,7 @@ abstract class BaseVocabularyHasVersion extends BaseObject  implements Persisten
 		if (array_key_exists($keys[4], $arr)) $this->setUpdatedAt($arr[$keys[4]]);
 		if (array_key_exists($keys[5], $arr)) $this->setCreatedUserId($arr[$keys[5]]);
 		if (array_key_exists($keys[6], $arr)) $this->setVocabularyId($arr[$keys[6]]);
-		if (array_key_exists($keys[7], $arr)) $this->setConceptPropertyHistoryId($arr[$keys[7]]);
+		if (array_key_exists($keys[7], $arr)) $this->setTimeslice($arr[$keys[7]]);
 	}
 
 	/**
@@ -936,7 +938,7 @@ abstract class BaseVocabularyHasVersion extends BaseObject  implements Persisten
 		if ($this->isColumnModified(VocabularyHasVersionPeer::UPDATED_AT)) $criteria->add(VocabularyHasVersionPeer::UPDATED_AT, $this->updated_at);
 		if ($this->isColumnModified(VocabularyHasVersionPeer::CREATED_USER_ID)) $criteria->add(VocabularyHasVersionPeer::CREATED_USER_ID, $this->created_user_id);
 		if ($this->isColumnModified(VocabularyHasVersionPeer::VOCABULARY_ID)) $criteria->add(VocabularyHasVersionPeer::VOCABULARY_ID, $this->vocabulary_id);
-		if ($this->isColumnModified(VocabularyHasVersionPeer::CONCEPT_PROPERTY_HISTORY_ID)) $criteria->add(VocabularyHasVersionPeer::CONCEPT_PROPERTY_HISTORY_ID, $this->concept_property_history_id);
+		if ($this->isColumnModified(VocabularyHasVersionPeer::TIMESLICE)) $criteria->add(VocabularyHasVersionPeer::TIMESLICE, $this->timeslice);
 
 		return $criteria;
 	}
@@ -1003,7 +1005,7 @@ abstract class BaseVocabularyHasVersion extends BaseObject  implements Persisten
 
 		$copyObj->setVocabularyId($this->vocabulary_id);
 
-		$copyObj->setConceptPropertyHistoryId($this->concept_property_history_id);
+		$copyObj->setTimeslice($this->timeslice);
 
 
 		$copyObj->setNew(true);
@@ -1148,56 +1150,6 @@ abstract class BaseVocabularyHasVersion extends BaseObject  implements Persisten
 			 */
 		}
 		return $this->aVocabulary;
-	}
-
-	/**
-	 * Declares an association between this object and a ConceptPropertyHistory object.
-	 *
-	 * @param      ConceptPropertyHistory $v
-	 * @return     void
-	 * @throws     PropelException
-	 */
-	public function setConceptPropertyHistory($v)
-	{
-
-
-		if ($v === null) {
-			$this->setConceptPropertyHistoryId(NULL);
-		} else {
-			$this->setConceptPropertyHistoryId($v->getId());
-		}
-
-
-		$this->aConceptPropertyHistory = $v;
-	}
-
-
-	/**
-	 * Get the associated ConceptPropertyHistory object
-	 *
-	 * @param      Connection Optional Connection object.
-	 * @return     ConceptPropertyHistory The associated ConceptPropertyHistory object.
-	 * @throws     PropelException
-	 */
-	public function getConceptPropertyHistory($con = null)
-	{
-		if ($this->aConceptPropertyHistory === null && ($this->concept_property_history_id !== null)) {
-			// include the related Peer class
-			include_once 'lib/model/om/BaseConceptPropertyHistoryPeer.php';
-
-			$this->aConceptPropertyHistory = ConceptPropertyHistoryPeer::retrieveByPK($this->concept_property_history_id, $con);
-
-			/* The following can be used instead of the line above to
-			   guarantee the related object contains a reference
-			   to this object, but this level of coupling
-			   may be undesirable in many circumstances.
-			   As it can lead to a db query with many results that may
-			   never be used.
-			   $obj = ConceptPropertyHistoryPeer::retrieveByPK($this->concept_property_history_id, $con);
-			   $obj->addConceptPropertyHistorys($this);
-			 */
-		}
-		return $this->aConceptPropertyHistory;
 	}
 
 

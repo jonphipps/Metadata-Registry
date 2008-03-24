@@ -46,8 +46,8 @@ abstract class BaseVocabularyHasVersionPeer {
 	/** the column name for the VOCABULARY_ID field */
 	const VOCABULARY_ID = 'reg_vocabulary_has_version.VOCABULARY_ID';
 
-	/** the column name for the CONCEPT_PROPERTY_HISTORY_ID field */
-	const CONCEPT_PROPERTY_HISTORY_ID = 'reg_vocabulary_has_version.CONCEPT_PROPERTY_HISTORY_ID';
+	/** the column name for the TIMESLICE field */
+	const TIMESLICE = 'reg_vocabulary_has_version.TIMESLICE';
 
 	/** The PHP to DB Name Mapping */
 	private static $phpNameMap = null;
@@ -60,9 +60,9 @@ abstract class BaseVocabularyHasVersionPeer {
 	 * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
 	 */
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'Name', 'CreatedAt', 'DeletedAt', 'UpdatedAt', 'CreatedUserId', 'VocabularyId', 'ConceptPropertyHistoryId', ),
-		BasePeer::TYPE_COLNAME => array (VocabularyHasVersionPeer::ID, VocabularyHasVersionPeer::NAME, VocabularyHasVersionPeer::CREATED_AT, VocabularyHasVersionPeer::DELETED_AT, VocabularyHasVersionPeer::UPDATED_AT, VocabularyHasVersionPeer::CREATED_USER_ID, VocabularyHasVersionPeer::VOCABULARY_ID, VocabularyHasVersionPeer::CONCEPT_PROPERTY_HISTORY_ID, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'name', 'created_at', 'deleted_at', 'updated_at', 'created_user_id', 'vocabulary_id', 'concept_property_history_id', ),
+		BasePeer::TYPE_PHPNAME => array ('Id', 'Name', 'CreatedAt', 'DeletedAt', 'UpdatedAt', 'CreatedUserId', 'VocabularyId', 'Timeslice', ),
+		BasePeer::TYPE_COLNAME => array (VocabularyHasVersionPeer::ID, VocabularyHasVersionPeer::NAME, VocabularyHasVersionPeer::CREATED_AT, VocabularyHasVersionPeer::DELETED_AT, VocabularyHasVersionPeer::UPDATED_AT, VocabularyHasVersionPeer::CREATED_USER_ID, VocabularyHasVersionPeer::VOCABULARY_ID, VocabularyHasVersionPeer::TIMESLICE, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'name', 'created_at', 'deleted_at', 'updated_at', 'created_user_id', 'vocabulary_id', 'timeslice', ),
 		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, )
 	);
 
@@ -73,9 +73,9 @@ abstract class BaseVocabularyHasVersionPeer {
 	 * e.g. self::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
 	 */
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Name' => 1, 'CreatedAt' => 2, 'DeletedAt' => 3, 'UpdatedAt' => 4, 'CreatedUserId' => 5, 'VocabularyId' => 6, 'ConceptPropertyHistoryId' => 7, ),
-		BasePeer::TYPE_COLNAME => array (VocabularyHasVersionPeer::ID => 0, VocabularyHasVersionPeer::NAME => 1, VocabularyHasVersionPeer::CREATED_AT => 2, VocabularyHasVersionPeer::DELETED_AT => 3, VocabularyHasVersionPeer::UPDATED_AT => 4, VocabularyHasVersionPeer::CREATED_USER_ID => 5, VocabularyHasVersionPeer::VOCABULARY_ID => 6, VocabularyHasVersionPeer::CONCEPT_PROPERTY_HISTORY_ID => 7, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'name' => 1, 'created_at' => 2, 'deleted_at' => 3, 'updated_at' => 4, 'created_user_id' => 5, 'vocabulary_id' => 6, 'concept_property_history_id' => 7, ),
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Name' => 1, 'CreatedAt' => 2, 'DeletedAt' => 3, 'UpdatedAt' => 4, 'CreatedUserId' => 5, 'VocabularyId' => 6, 'Timeslice' => 7, ),
+		BasePeer::TYPE_COLNAME => array (VocabularyHasVersionPeer::ID => 0, VocabularyHasVersionPeer::NAME => 1, VocabularyHasVersionPeer::CREATED_AT => 2, VocabularyHasVersionPeer::DELETED_AT => 3, VocabularyHasVersionPeer::UPDATED_AT => 4, VocabularyHasVersionPeer::CREATED_USER_ID => 5, VocabularyHasVersionPeer::VOCABULARY_ID => 6, VocabularyHasVersionPeer::TIMESLICE => 7, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'name' => 1, 'created_at' => 2, 'deleted_at' => 3, 'updated_at' => 4, 'created_user_id' => 5, 'vocabulary_id' => 6, 'timeslice' => 7, ),
 		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, )
 	);
 
@@ -191,7 +191,7 @@ abstract class BaseVocabularyHasVersionPeer {
 
 		$criteria->addSelectColumn(VocabularyHasVersionPeer::VOCABULARY_ID);
 
-		$criteria->addSelectColumn(VocabularyHasVersionPeer::CONCEPT_PROPERTY_HISTORY_ID);
+		$criteria->addSelectColumn(VocabularyHasVersionPeer::TIMESLICE);
 
 	}
 
@@ -408,45 +408,6 @@ abstract class BaseVocabularyHasVersionPeer {
 
 
 	/**
-	 * Returns the number of rows matching criteria, joining the related ConceptPropertyHistory table
-	 *
-	 * @param Criteria $c
-	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
-	 * @param Connection $con
-	 * @return int Number of matching rows.
-	 */
-	public static function doCountJoinConceptPropertyHistory(Criteria $criteria, $distinct = false, $con = null)
-	{
-		// we're going to modify criteria, so copy it first
-		$criteria = clone $criteria;
-		
-		// clear out anything that might confuse the ORDER BY clause
-		$criteria->clearSelectColumns()->clearOrderByColumns();
-		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
-			$criteria->addSelectColumn(VocabularyHasVersionPeer::COUNT_DISTINCT);
-		} else {
-			$criteria->addSelectColumn(VocabularyHasVersionPeer::COUNT);
-		}
-		
-		// just in case we're grouping: add those columns to the select statement
-		foreach($criteria->getGroupByColumns() as $column)
-		{
-			$criteria->addSelectColumn($column);
-		}
-
-		$criteria->addJoin(VocabularyHasVersionPeer::CONCEPT_PROPERTY_HISTORY_ID, ConceptPropertyHistoryPeer::ID);
-
-		$rs = VocabularyHasVersionPeer::doSelectRS($criteria, $con);
-		if ($rs->next()) {
-			return $rs->getInt(1);
-		} else {
-			// no rows returned; we infer that means 0 matches.
-			return 0;
-		}
-	}
-
-
-	/**
 	 * Selects a collection of VocabularyHasVersion objects pre-filled with their User objects.
 	 *
 	 * @return array Array of VocabularyHasVersion objects.
@@ -563,64 +524,6 @@ abstract class BaseVocabularyHasVersionPeer {
 
 
 	/**
-	 * Selects a collection of VocabularyHasVersion objects pre-filled with their ConceptPropertyHistory objects.
-	 *
-	 * @return array Array of VocabularyHasVersion objects.
-	 * @throws PropelException Any exceptions caught during processing will be
-	 *		 rethrown wrapped into a PropelException.
-	 */
-	public static function doSelectJoinConceptPropertyHistory(Criteria $c, $con = null)
-	{
-		$c = clone $c;
-
-		// Set the correct dbName if it has not been overridden
-		if ($c->getDbName() == Propel::getDefaultDB()) {
-			$c->setDbName(self::DATABASE_NAME);
-		}
-
-		VocabularyHasVersionPeer::addSelectColumns($c);
-		$startcol = (VocabularyHasVersionPeer::NUM_COLUMNS - VocabularyHasVersionPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
-		ConceptPropertyHistoryPeer::addSelectColumns($c);
-
-		$c->addJoin(VocabularyHasVersionPeer::CONCEPT_PROPERTY_HISTORY_ID, ConceptPropertyHistoryPeer::ID);
-		$rs = BasePeer::doSelect($c, $con);
-		$results = array();
-
-		while($rs->next()) {
-
-			$omClass = VocabularyHasVersionPeer::getOMClass();
-
-			$cls = Propel::import($omClass);
-			$obj1 = new $cls();
-			$obj1->hydrate($rs);
-
-			$omClass = ConceptPropertyHistoryPeer::getOMClass();
-
-			$cls = Propel::import($omClass);
-			$obj2 = new $cls();
-			$obj2->hydrate($rs, $startcol);
-
-			$newObject = true;
-			foreach($results as $temp_obj1) {
-				$temp_obj2 = $temp_obj1->getConceptPropertyHistory(); //CHECKME
-				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
-					$newObject = false;
-					// e.g. $author->addBookRelatedByBookId()
-					$temp_obj2->addVocabularyHasVersion($obj1); //CHECKME
-					break;
-				}
-			}
-			if ($newObject) {
-				$obj2->initVocabularyHasVersions();
-				$obj2->addVocabularyHasVersion($obj1); //CHECKME
-			}
-			$results[] = $obj1;
-		}
-		return $results;
-	}
-
-
-	/**
 	 * Returns the number of rows matching criteria, joining all related tables
 	 *
 	 * @param Criteria $c
@@ -649,8 +552,6 @@ abstract class BaseVocabularyHasVersionPeer {
 		$criteria->addJoin(VocabularyHasVersionPeer::CREATED_USER_ID, UserPeer::ID);
 
 		$criteria->addJoin(VocabularyHasVersionPeer::VOCABULARY_ID, VocabularyPeer::ID);
-
-		$criteria->addJoin(VocabularyHasVersionPeer::CONCEPT_PROPERTY_HISTORY_ID, ConceptPropertyHistoryPeer::ID);
 
 		$rs = VocabularyHasVersionPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
@@ -687,14 +588,9 @@ abstract class BaseVocabularyHasVersionPeer {
 		VocabularyPeer::addSelectColumns($c);
 		$startcol4 = $startcol3 + VocabularyPeer::NUM_COLUMNS;
 
-		ConceptPropertyHistoryPeer::addSelectColumns($c);
-		$startcol5 = $startcol4 + ConceptPropertyHistoryPeer::NUM_COLUMNS;
-
 		$c->addJoin(VocabularyHasVersionPeer::CREATED_USER_ID, UserPeer::ID);
 
 		$c->addJoin(VocabularyHasVersionPeer::VOCABULARY_ID, VocabularyPeer::ID);
-
-		$c->addJoin(VocabularyHasVersionPeer::CONCEPT_PROPERTY_HISTORY_ID, ConceptPropertyHistoryPeer::ID);
 
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
@@ -760,32 +656,6 @@ abstract class BaseVocabularyHasVersionPeer {
 				$obj3->addVocabularyHasVersion($obj1);
 			}
 
-				
-				// Add objects for joined ConceptPropertyHistory rows
-	
-			$omClass = ConceptPropertyHistoryPeer::getOMClass();
-
-	
-			$cls = Propel::import($omClass);
-			$obj4 = new $cls();
-			$obj4->hydrate($rs, $startcol4);
-			
-			$newObject = true;
-			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
-				$temp_obj1 = $results[$j];
-				$temp_obj4 = $temp_obj1->getConceptPropertyHistory(); // CHECKME
-				if ($temp_obj4->getPrimaryKey() === $obj4->getPrimaryKey()) {
-					$newObject = false;
-					$temp_obj4->addVocabularyHasVersion($obj1); // CHECKME
-					break;
-				}
-			}
-			
-			if ($newObject) {
-				$obj4->initVocabularyHasVersions();
-				$obj4->addVocabularyHasVersion($obj1);
-			}
-
 			$results[] = $obj1;
 		}
 		return $results;
@@ -820,8 +690,6 @@ abstract class BaseVocabularyHasVersionPeer {
 		}
 
 		$criteria->addJoin(VocabularyHasVersionPeer::VOCABULARY_ID, VocabularyPeer::ID);
-
-		$criteria->addJoin(VocabularyHasVersionPeer::CONCEPT_PROPERTY_HISTORY_ID, ConceptPropertyHistoryPeer::ID);
 
 		$rs = VocabularyHasVersionPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
@@ -862,49 +730,6 @@ abstract class BaseVocabularyHasVersionPeer {
 
 		$criteria->addJoin(VocabularyHasVersionPeer::CREATED_USER_ID, UserPeer::ID);
 
-		$criteria->addJoin(VocabularyHasVersionPeer::CONCEPT_PROPERTY_HISTORY_ID, ConceptPropertyHistoryPeer::ID);
-
-		$rs = VocabularyHasVersionPeer::doSelectRS($criteria, $con);
-		if ($rs->next()) {
-			return $rs->getInt(1);
-		} else {
-			// no rows returned; we infer that means 0 matches.
-			return 0;
-		}
-	}
-
-
-	/**
-	 * Returns the number of rows matching criteria, joining the related ConceptPropertyHistory table
-	 *
-	 * @param Criteria $c
-	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
-	 * @param Connection $con
-	 * @return int Number of matching rows.
-	 */
-	public static function doCountJoinAllExceptConceptPropertyHistory(Criteria $criteria, $distinct = false, $con = null)
-	{
-		// we're going to modify criteria, so copy it first
-		$criteria = clone $criteria;
-		
-		// clear out anything that might confuse the ORDER BY clause
-		$criteria->clearSelectColumns()->clearOrderByColumns();
-		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
-			$criteria->addSelectColumn(VocabularyHasVersionPeer::COUNT_DISTINCT);
-		} else {
-			$criteria->addSelectColumn(VocabularyHasVersionPeer::COUNT);
-		}
-		
-		// just in case we're grouping: add those columns to the select statement
-		foreach($criteria->getGroupByColumns() as $column)
-		{
-			$criteria->addSelectColumn($column);
-		}
-
-		$criteria->addJoin(VocabularyHasVersionPeer::CREATED_USER_ID, UserPeer::ID);
-
-		$criteria->addJoin(VocabularyHasVersionPeer::VOCABULARY_ID, VocabularyPeer::ID);
-
 		$rs = VocabularyHasVersionPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
 			return $rs->getInt(1);
@@ -939,12 +764,7 @@ abstract class BaseVocabularyHasVersionPeer {
 		VocabularyPeer::addSelectColumns($c);
 		$startcol3 = $startcol2 + VocabularyPeer::NUM_COLUMNS;
 
-		ConceptPropertyHistoryPeer::addSelectColumns($c);
-		$startcol4 = $startcol3 + ConceptPropertyHistoryPeer::NUM_COLUMNS;
-
 		$c->addJoin(VocabularyHasVersionPeer::VOCABULARY_ID, VocabularyPeer::ID);
-
-		$c->addJoin(VocabularyHasVersionPeer::CONCEPT_PROPERTY_HISTORY_ID, ConceptPropertyHistoryPeer::ID);
 
 
 		$rs = BasePeer::doSelect($c, $con);
@@ -981,29 +801,6 @@ abstract class BaseVocabularyHasVersionPeer {
 				$obj2->addVocabularyHasVersion($obj1);
 			}
 
-			$omClass = ConceptPropertyHistoryPeer::getOMClass();
-
-	
-			$cls = Propel::import($omClass);
-			$obj3  = new $cls();
-			$obj3->hydrate($rs, $startcol3);
-			
-			$newObject = true;
-			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
-				$temp_obj1 = $results[$j];
-				$temp_obj3 = $temp_obj1->getConceptPropertyHistory(); //CHECKME
-				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
-					$newObject = false;
-					$temp_obj3->addVocabularyHasVersion($obj1);
-					break;
-				}
-			}
-			
-			if ($newObject) {
-				$obj3->initVocabularyHasVersions();
-				$obj3->addVocabularyHasVersion($obj1);
-			}
-
 			$results[] = $obj1;
 		}
 		return $results;
@@ -1034,12 +831,7 @@ abstract class BaseVocabularyHasVersionPeer {
 		UserPeer::addSelectColumns($c);
 		$startcol3 = $startcol2 + UserPeer::NUM_COLUMNS;
 
-		ConceptPropertyHistoryPeer::addSelectColumns($c);
-		$startcol4 = $startcol3 + ConceptPropertyHistoryPeer::NUM_COLUMNS;
-
 		$c->addJoin(VocabularyHasVersionPeer::CREATED_USER_ID, UserPeer::ID);
-
-		$c->addJoin(VocabularyHasVersionPeer::CONCEPT_PROPERTY_HISTORY_ID, ConceptPropertyHistoryPeer::ID);
 
 
 		$rs = BasePeer::doSelect($c, $con);
@@ -1074,124 +866,6 @@ abstract class BaseVocabularyHasVersionPeer {
 			if ($newObject) {
 				$obj2->initVocabularyHasVersions();
 				$obj2->addVocabularyHasVersion($obj1);
-			}
-
-			$omClass = ConceptPropertyHistoryPeer::getOMClass();
-
-	
-			$cls = Propel::import($omClass);
-			$obj3  = new $cls();
-			$obj3->hydrate($rs, $startcol3);
-			
-			$newObject = true;
-			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
-				$temp_obj1 = $results[$j];
-				$temp_obj3 = $temp_obj1->getConceptPropertyHistory(); //CHECKME
-				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
-					$newObject = false;
-					$temp_obj3->addVocabularyHasVersion($obj1);
-					break;
-				}
-			}
-			
-			if ($newObject) {
-				$obj3->initVocabularyHasVersions();
-				$obj3->addVocabularyHasVersion($obj1);
-			}
-
-			$results[] = $obj1;
-		}
-		return $results;
-	}
-
-
-	/**
-	 * Selects a collection of VocabularyHasVersion objects pre-filled with all related objects except ConceptPropertyHistory.
-	 *
-	 * @return array Array of VocabularyHasVersion objects.
-	 * @throws PropelException Any exceptions caught during processing will be
-	 *		 rethrown wrapped into a PropelException.
-	 */
-	public static function doSelectJoinAllExceptConceptPropertyHistory(Criteria $c, $con = null)
-	{
-		$c = clone $c;
-
-		// Set the correct dbName if it has not been overridden
-		// $c->getDbName() will return the same object if not set to another value
-		// so == check is okay and faster
-		if ($c->getDbName() == Propel::getDefaultDB()) {
-			$c->setDbName(self::DATABASE_NAME);
-		}
-
-		VocabularyHasVersionPeer::addSelectColumns($c);
-		$startcol2 = (VocabularyHasVersionPeer::NUM_COLUMNS - VocabularyHasVersionPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
-
-		UserPeer::addSelectColumns($c);
-		$startcol3 = $startcol2 + UserPeer::NUM_COLUMNS;
-
-		VocabularyPeer::addSelectColumns($c);
-		$startcol4 = $startcol3 + VocabularyPeer::NUM_COLUMNS;
-
-		$c->addJoin(VocabularyHasVersionPeer::CREATED_USER_ID, UserPeer::ID);
-
-		$c->addJoin(VocabularyHasVersionPeer::VOCABULARY_ID, VocabularyPeer::ID);
-
-
-		$rs = BasePeer::doSelect($c, $con);
-		$results = array();
-		
-		while($rs->next()) {
-
-			$omClass = VocabularyHasVersionPeer::getOMClass();
-
-			$cls = Propel::import($omClass);
-			$obj1 = new $cls();
-			$obj1->hydrate($rs);		
-
-			$omClass = UserPeer::getOMClass();
-
-	
-			$cls = Propel::import($omClass);
-			$obj2  = new $cls();
-			$obj2->hydrate($rs, $startcol2);
-			
-			$newObject = true;
-			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
-				$temp_obj1 = $results[$j];
-				$temp_obj2 = $temp_obj1->getUser(); //CHECKME
-				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
-					$newObject = false;
-					$temp_obj2->addVocabularyHasVersion($obj1);
-					break;
-				}
-			}
-			
-			if ($newObject) {
-				$obj2->initVocabularyHasVersions();
-				$obj2->addVocabularyHasVersion($obj1);
-			}
-
-			$omClass = VocabularyPeer::getOMClass();
-
-	
-			$cls = Propel::import($omClass);
-			$obj3  = new $cls();
-			$obj3->hydrate($rs, $startcol3);
-			
-			$newObject = true;
-			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
-				$temp_obj1 = $results[$j];
-				$temp_obj3 = $temp_obj1->getVocabulary(); //CHECKME
-				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
-					$newObject = false;
-					$temp_obj3->addVocabularyHasVersion($obj1);
-					break;
-				}
-			}
-			
-			if ($newObject) {
-				$obj3->initVocabularyHasVersions();
-				$obj3->addVocabularyHasVersion($obj1);
 			}
 
 			$results[] = $obj1;
@@ -1256,6 +930,8 @@ abstract class BaseVocabularyHasVersionPeer {
 		} else {
 			$criteria = $values->buildCriteria(); // build Criteria from VocabularyHasVersion object
 		}
+
+		$criteria->remove(VocabularyHasVersionPeer::ID); // remove pkey col since this table uses auto-increment
 
 
 		// Set the correct dbName
