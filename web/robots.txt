@@ -1,2 +1,6 @@
-#User-agent: *
-#Disallow:
+User-agent: *
+Disallow: /trac/
+Disallow: /css/
+Disallow: /images/
+Disallow: /js/
+Disallow: /sf/
