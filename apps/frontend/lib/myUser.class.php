@@ -47,11 +47,16 @@ class myUser extends sfBasicSecurityUser
 
   public function signOut()
   {
-    $this->getAttributeHolder()->removeNamespace(self::SUBSCRIBER_NAMESPACE);
-    $this->getAttributeHolder()->removeNamespace(self::OBJECT_CREDENTIAL_NAMESPACE);
+    if($this->authenticated)
+    {
+      $attributes = $this->getAttributeHolder();
+      $attributes->removeNamespace(self::SUBSCRIBER_NAMESPACE);
+      $attributes->removeNamespace(self::OBJECT_CREDENTIAL_NAMESPACE);
+      $attributes->removeNamespace(self::ATTRIBUTE_NAMESPACE);
 
-    $this->setAuthenticated(false);
-    $this->clearCredentials();
+      $this->setAuthenticated(false);
+      $this->clearCredentials();
+    }
   }
 
   /**
