@@ -125,13 +125,18 @@
 </tr>
 <tr>
 	<td>type</td>
+	<td>vocabulary_base_domain</td>
+	<td>http://registry/uri</td>
+</tr>
+<tr>
+	<td>type</td>
 	<td>vocabulary_token</td>
 	<td>NewTest</td>
 </tr>
 <tr>
 	<td>type</td>
 	<td>vocabulary_uri</td>
-	<td>http://metadataregistry.org/uri/NewTest</td>
+	<td>http://registry/uri/NewTest</td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
@@ -1102,6 +1107,246 @@
 	<td>clickAndWait</td>
 	<td>//input[@value='Edit']</td>
 	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@value='Cancel']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: newTestVocabulary :: Show Detail</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//li[3]/a/span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: newTestVocabulary :: History of Changes</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//body/div[@id='content']/table/tbody/tr/td[1]/div[@id='content_main']/div[@id='sf_admin_container']/div[@id='sf_admin_content']/table/tbody/tr[3]/td[7]/a[1]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertElementPresent</td>
+	<td>//rdf</td>
+	<td></td>
+</tr>
+<tr>
+	<td>goBackAndWait</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: newTestVocabulary :: History of Changes</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//body/div[@id='content']/table/tbody/tr/td[1]/div[@id='content_main']/div[@id='sf_admin_container']/div[@id='sf_admin_content']/table/tbody/tr[3]/td[7]/a[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>goBackAndWait</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//body/div[@id='content']/table/tbody/tr/td[1]/div[@id='content_main']/div[@id='sf_admin_container']/div[@id='sf_admin_content']/table/tbody/tr[3]/td[7]/a[3]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>vocabulary_has_version_name</td>
+	<td>newVersion</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>save</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: newTestVocabulary :: newVersion :: Show Detail</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>show_row_content_vocabulary_has_version_created_user</td>
+	<td>newtestuser</td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>show_row_content_vocabulary_has_version_name</td>
+	<td>newVersion</td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//input[@value='Delete']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@value='Edit']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: Editing version newVersion</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>vocabulary_has_version_name</td>
+	<td>newVersionOne</td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//input[@value='Create']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//input[@value='Cancel']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//input[@value='Delete']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>save</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: newTestVocabulary :: newVersionOne :: Show Detail</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=exact:Versions:</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: newTestVocabulary :: List Versions</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>link=newVersionOne</td>
+	<td>newVersionOne</td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//td[3]</td>
+	<td>newtestuser</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@value='Add Version']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: Creating new version</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>vocabulary_has_version_name</td>
+	<td>tobdeleted</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>vocabulary_has_version_timeslice</td>
+	<td>2008-03-25 15:58:20`</td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//input[@value='Cancel']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>save</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: newTestVocabulary :: tobdeleted :: Show Detail</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=exact:Versions:</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: newTestVocabulary :: List Versions</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//tr[2]/td[4]/ul/li[2]/a/img</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertConfirmation</td>
+	<td>Are you sure?</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: newTestVocabulary :: List Versions</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//li[3]/a/span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: newTestVocabulary :: History of Changes</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTable</td>
+	<td>//div[2]/table.3.0</td>
+	<td>exact:Version:</td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//tr[3]/td[2]</td>
+	<td>newVersionOne</td>
+</tr>
+<tr>
+	<td>assertTable</td>
+	<td>//div[2]/table.3.2</td>
+	<td>RDF XSD</td>
 </tr>
 
 </tbody></table>
