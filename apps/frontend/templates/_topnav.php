@@ -78,7 +78,7 @@
   {
     $tabMap['history']    ['list'] = array('tab' => 'vocabulary',     'title' => 'History of Changes');
     $tabMap['version']    ['list'] = array('tab' => 'vocabulary',     'title' => 'List Versions');
-    $tabMap['vocabuser']  ['list'] = array('tab' => '$vocabulary_has_version',     'title' => 'List Maintainers');
+    $tabMap['vocabuser']  ['list'] = array('tab' => 'vocabulary',         'title' => 'List Maintainers');
   }
 
   $tabMap['concept']      ['show'] = array('tab' => 'concept',        'title' => 'Show Detail');
