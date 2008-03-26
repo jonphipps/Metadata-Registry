@@ -2,9 +2,10 @@ all:
   is_secure:   off
   object_credentials:
     key:
-      class:     vocabulary_has_user    #object class that holds the key to match against
-      method:    getVocabularyId        #object method to use to retrieve property to pass to the key class::method or to lookup
-    module:      vocabulary             #object_credential array that holds the key to match against
+      class:       vocabulary_has_user    #object class that holds the key to match against
+      method:      getVocabularyId        #object method to use to retrieve property to pass to the key class::method or to lookup
+    module:        vocabulary             #object_credential array that holds the key to match against
+    request_param: vocabulary_id
 
 create:
   is_secure:   on
