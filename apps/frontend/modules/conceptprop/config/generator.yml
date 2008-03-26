@@ -43,7 +43,7 @@ generator:
         _edit:        { credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
         _delete:      { credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
       actions:
-        _create:      { name: Add Property, credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
+        _create:      {query_string: {concept_id: concept_id}, name: Add Property, credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
       filters:        [concept_id, skos_property_id, updated_at, object]
       # urlfilter form is [field to filter on]: [value passed from routing.yml]
       # multiple filters can be set but they're currently mutually exclusive (any of the list can be used but only one per url)
@@ -72,8 +72,8 @@ generator:
         _list:         { query_string: {concept_id: concept_id} }
         _save:         { credentials: [[administrator, vocabularymaintainer, vocabularyadmin, conceptpropadmin]] }
         _delete:       { credentials: [[administrator, vocabularyadmin]] }
-        _create:       { name: Add Property, credentials: [[administrator, vocabularymaintainer, vocabularyadmin, conceptpropadmin]], mode: edit }
-        _save_and_add: { credentials: [[administrator, vocabularymaintainer, vocabularyadmin, conceptpropadmin]] }
+        _create:       { query_string: {concept_id: concept_id}, name: Add Property, credentials: [[administrator, vocabularymaintainer, vocabularyadmin, conceptpropadmin]], mode: edit }
+        _save_and_add: { query_string: {concept_id: concept_id}, credentials: [[administrator, vocabularymaintainer, vocabularyadmin, conceptpropadmin]] }
         _cancel:       { credentials: [[administrator, vocabularymaintainer, vocabularyadmin, conceptpropadmin]], query_string: {concept_id: concept_id} }
 
     show:
@@ -87,5 +87,5 @@ generator:
       actions:
         _list:        { query_string: {concept_id: concept_id} }
         _edit:        { credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
-        _create:      { name: Add Property, credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
+        _create:      { query_string: {concept_id: concept_id}, name: Add Property, credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
 

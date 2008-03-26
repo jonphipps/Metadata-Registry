@@ -18,7 +18,7 @@ class conceptpropActions extends autoconceptpropActions
   {
     if ('search' != $this->getRequestParameter('action'))
     {
-      $this->concept = $this->getCurrentConcept();
+      $this->getCurrentConcept();
     }
     parent::preExecute();
   }
@@ -163,7 +163,10 @@ class conceptpropActions extends autoconceptpropActions
     {
       $this->conceptProperty = ConceptPropertyPeer::retrieveByPk($this->getRequestParameter('id'));
       /* @var Concept */
-      $concept = $this->conceptProperty->getConceptRelatedByConceptId();
+      if (isset($this->conceptProperty))
+      {
+        $concept = $this->conceptProperty->getConceptRelatedByConceptId();
+      }
     }
 
     //and let's just do the vocabulary while we're at it
@@ -173,7 +176,7 @@ class conceptpropActions extends autoconceptpropActions
       $this->vocabulary = $vocabulary;
     }
     $this->forward404Unless($concept,'No concept has been selected.');
-    $this->forward404Unless($vocabulary,'No concept has been selected.');
+    $this->forward404Unless($vocabulary,'No vocabulary has been selected.');
 
     $this->concept = $concept;
     $this->conceptID = $concept->getId();
