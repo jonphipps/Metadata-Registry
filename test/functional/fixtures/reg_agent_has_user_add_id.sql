@@ -1,4 +1,4 @@
-ALTER TABLE `swregistry2`.`reg_agent_has_user` 
+﻿ALTER TABLE `reg_agent_has_user` 
 DROP PRIMARY KEY,
 ADD COLUMN `id` INT NOT NULL AUTO_INCREMENT FIRST,
 ADD PRIMARY KEY(`id`),
