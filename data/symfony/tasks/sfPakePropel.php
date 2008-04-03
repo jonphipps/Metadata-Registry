@@ -3,11 +3,11 @@
 /*
  * This file is part of the symfony package.
  * (c) 2004-2006 Fabien Potencier <fabien.potencier@symfony-project.com>
- * 
+ *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
+//debugbreak();
 pake_desc('create classes for current model');
 pake_task('propel-build-model', 'project_exists');
 
@@ -84,7 +84,7 @@ function _propel_convert_yml_schema($check_schema = true, $prefix = '')
     $xml_file_name = str_replace('.yml', '.xml', basename($schema));
 
     $file = str_replace(basename($schema), $localprefix.$xml_file_name,  $schema);
-    pake_echo_action('schema', 'putting '.$file);    
+    pake_echo_action('schema', 'putting '.$file);
     file_put_contents($file, $db_schema->asXML());
   }
 }
@@ -114,9 +114,9 @@ function _propel_convert_xml_schema($check_schema = true, $prefix = '')
 
     // save converted xml files in original directories
     $yml_file_name = str_replace('.xml', '.yml', basename($schema));
-    
+
     $file = str_replace(basename($schema), $prefix.$yml_file_name,  $schema);
-    pake_echo_action('schema', 'putting '.$file);    
+    pake_echo_action('schema', 'putting '.$file);
     file_put_contents($file, $db_schema->asYAML());
   }
 }
