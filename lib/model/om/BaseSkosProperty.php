@@ -1683,7 +1683,7 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in SkosProperty.
 	 */
-	public function getConceptPropertysJoinVocabulary($criteria = null, $con = null)
+	public function getConceptPropertysJoinRegVocabulary($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseConceptPropertyPeer.php';
@@ -1702,7 +1702,7 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 
 				$criteria->add(ConceptPropertyPeer::SKOS_PROPERTY_ID, $this->getId());
 
-				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinVocabulary($criteria, $con);
+				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinRegVocabulary($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -1712,7 +1712,7 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 			$criteria->add(ConceptPropertyPeer::SKOS_PROPERTY_ID, $this->getId());
 
 			if (!isset($this->lastConceptPropertyCriteria) || !$this->lastConceptPropertyCriteria->equals($criteria)) {
-				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinVocabulary($criteria, $con);
+				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinRegVocabulary($criteria, $con);
 			}
 		}
 		$this->lastConceptPropertyCriteria = $criteria;
@@ -1781,7 +1781,7 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in SkosProperty.
 	 */
-	public function getConceptPropertysJoinStatus($criteria = null, $con = null)
+	public function getConceptPropertysJoinLookup($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseConceptPropertyPeer.php';
@@ -1800,7 +1800,7 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 
 				$criteria->add(ConceptPropertyPeer::SKOS_PROPERTY_ID, $this->getId());
 
-				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinStatus($criteria, $con);
+				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinLookup($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -1810,7 +1810,7 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 			$criteria->add(ConceptPropertyPeer::SKOS_PROPERTY_ID, $this->getId());
 
 			if (!isset($this->lastConceptPropertyCriteria) || !$this->lastConceptPropertyCriteria->equals($criteria)) {
-				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinStatus($criteria, $con);
+				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinLookup($criteria, $con);
 			}
 		}
 		$this->lastConceptPropertyCriteria = $criteria;
@@ -2035,7 +2035,7 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in SkosProperty.
 	 */
-	public function getConceptPropertyHistorysJoinVocabularyRelatedByVocabularyId($criteria = null, $con = null)
+	public function getConceptPropertyHistorysJoinRegVocabularyRelatedByVocabularyId($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseConceptPropertyHistoryPeer.php';
@@ -2054,7 +2054,7 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 
 				$criteria->add(ConceptPropertyHistoryPeer::SKOS_PROPERTY_ID, $this->getId());
 
-				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelectJoinVocabularyRelatedByVocabularyId($criteria, $con);
+				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelectJoinRegVocabularyRelatedByVocabularyId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -2064,7 +2064,7 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 			$criteria->add(ConceptPropertyHistoryPeer::SKOS_PROPERTY_ID, $this->getId());
 
 			if (!isset($this->lastConceptPropertyHistoryCriteria) || !$this->lastConceptPropertyHistoryCriteria->equals($criteria)) {
-				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelectJoinVocabularyRelatedByVocabularyId($criteria, $con);
+				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelectJoinRegVocabularyRelatedByVocabularyId($criteria, $con);
 			}
 		}
 		$this->lastConceptPropertyHistoryCriteria = $criteria;
@@ -2084,7 +2084,7 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in SkosProperty.
 	 */
-	public function getConceptPropertyHistorysJoinVocabularyRelatedBySchemeId($criteria = null, $con = null)
+	public function getConceptPropertyHistorysJoinRegVocabularyRelatedBySchemeId($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseConceptPropertyHistoryPeer.php';
@@ -2103,7 +2103,7 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 
 				$criteria->add(ConceptPropertyHistoryPeer::SKOS_PROPERTY_ID, $this->getId());
 
-				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelectJoinVocabularyRelatedBySchemeId($criteria, $con);
+				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelectJoinRegVocabularyRelatedBySchemeId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -2113,7 +2113,7 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 			$criteria->add(ConceptPropertyHistoryPeer::SKOS_PROPERTY_ID, $this->getId());
 
 			if (!isset($this->lastConceptPropertyHistoryCriteria) || !$this->lastConceptPropertyHistoryCriteria->equals($criteria)) {
-				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelectJoinVocabularyRelatedBySchemeId($criteria, $con);
+				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelectJoinRegVocabularyRelatedBySchemeId($criteria, $con);
 			}
 		}
 		$this->lastConceptPropertyHistoryCriteria = $criteria;

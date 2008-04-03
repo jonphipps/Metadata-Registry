@@ -2,7 +2,7 @@
 
 
 /**
- * This class adds structure of 'reg_user' table to 'propel' DatabaseMap object.
+ * This class adds structure of 'reg_vocabulary_has_user' table to 'propel' DatabaseMap object.
  *
  *
  *
@@ -13,12 +13,12 @@
  *
  * @package    lib.model.map
  */
-class UserMapBuilder {
+class RegVocabularyHasUserMapBuilder {
 
 	/**
 	 * The (dot-path) name of this class
 	 */
-	const CLASS_NAME = 'lib.model.map.UserMapBuilder';
+	const CLASS_NAME = 'lib.model.map.RegVocabularyHasUserMapBuilder';
 
 	/**
 	 * The database map.
@@ -56,8 +56,8 @@ class UserMapBuilder {
 	{
 		$this->dbMap = Propel::getDatabaseMap('propel');
 
-		$tMap = $this->dbMap->addTable('reg_user');
-		$tMap->setPhpName('User');
+		$tMap = $this->dbMap->addTable('reg_vocabulary_has_user');
+		$tMap->setPhpName('RegVocabularyHasUser');
 
 		$tMap->setUseIdGenerator(true);
 
@@ -65,34 +65,20 @@ class UserMapBuilder {
 
 		$tMap->addColumn('CREATED_AT', 'CreatedAt', 'int', CreoleTypes::TIMESTAMP, false, null);
 
-		$tMap->addColumn('LAST_UPDATED', 'LastUpdated', 'int', CreoleTypes::TIMESTAMP, true, null);
+		$tMap->addColumn('UPDATED_AT', 'UpdatedAt', 'int', CreoleTypes::TIMESTAMP, true, null);
 
 		$tMap->addColumn('DELETED_AT', 'DeletedAt', 'int', CreoleTypes::TIMESTAMP, false, null);
 
-		$tMap->addColumn('NICKNAME', 'Nickname', 'string', CreoleTypes::VARCHAR, false, 50);
+		$tMap->addForeignKey('VOCABULARY_ID', 'VocabularyId', 'int', CreoleTypes::INTEGER, 'reg_vocabulary', 'ID', true, null);
 
-		$tMap->addColumn('SALUTATION', 'Salutation', 'string', CreoleTypes::VARCHAR, false, 5);
+		$tMap->addForeignKey('USER_ID', 'UserId', 'int', CreoleTypes::INTEGER, 'reg_user', 'ID', true, null);
 
-		$tMap->addColumn('FIRST_NAME', 'FirstName', 'string', CreoleTypes::VARCHAR, false, 100);
+		$tMap->addColumn('IS_MAINTAINER_FOR', 'IsMaintainerFor', 'boolean', CreoleTypes::BOOLEAN, false, null);
 
-		$tMap->addColumn('LAST_NAME', 'LastName', 'string', CreoleTypes::VARCHAR, false, 100);
+		$tMap->addColumn('IS_REGISTRAR_FOR', 'IsRegistrarFor', 'boolean', CreoleTypes::BOOLEAN, false, null);
 
-		$tMap->addColumn('EMAIL', 'Email', 'string', CreoleTypes::VARCHAR, false, 100);
-
-		$tMap->addColumn('SHA1_PASSWORD', 'Sha1Password', 'string', CreoleTypes::VARCHAR, false, 40);
-
-		$tMap->addColumn('SALT', 'Salt', 'string', CreoleTypes::VARCHAR, false, 32);
-
-		$tMap->addColumn('WANT_TO_BE_MODERATOR', 'WantToBeModerator', 'boolean', CreoleTypes::BOOLEAN, false, null);
-
-		$tMap->addColumn('IS_MODERATOR', 'IsModerator', 'boolean', CreoleTypes::BOOLEAN, false, null);
-
-		$tMap->addColumn('IS_ADMINISTRATOR', 'IsAdministrator', 'boolean', CreoleTypes::BOOLEAN, false, null);
-
-		$tMap->addColumn('DELETIONS', 'Deletions', 'int', CreoleTypes::INTEGER, false, null);
-
-		$tMap->addColumn('PASSWORD', 'Password', 'string', CreoleTypes::VARCHAR, false, 40);
+		$tMap->addColumn('IS_ADMIN_FOR', 'IsAdminFor', 'boolean', CreoleTypes::BOOLEAN, false, null);
 
 	} // doBuild()
 
-} // UserMapBuilder
+} // RegVocabularyHasUserMapBuilder

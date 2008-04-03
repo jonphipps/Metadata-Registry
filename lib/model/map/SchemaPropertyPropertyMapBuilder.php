@@ -2,7 +2,7 @@
 
 
 /**
- * This class adds structure of 'reg_user' table to 'propel' DatabaseMap object.
+ * This class adds structure of 'reg_schema_property_property' table to 'propel' DatabaseMap object.
  *
  *
  *
@@ -13,12 +13,12 @@
  *
  * @package    lib.model.map
  */
-class UserMapBuilder {
+class SchemaPropertyPropertyMapBuilder {
 
 	/**
 	 * The (dot-path) name of this class
 	 */
-	const CLASS_NAME = 'lib.model.map.UserMapBuilder';
+	const CLASS_NAME = 'lib.model.map.SchemaPropertyPropertyMapBuilder';
 
 	/**
 	 * The database map.
@@ -56,8 +56,8 @@ class UserMapBuilder {
 	{
 		$this->dbMap = Propel::getDatabaseMap('propel');
 
-		$tMap = $this->dbMap->addTable('reg_user');
-		$tMap->setPhpName('User');
+		$tMap = $this->dbMap->addTable('reg_schema_property_property');
+		$tMap->setPhpName('SchemaPropertyProperty');
 
 		$tMap->setUseIdGenerator(true);
 
@@ -65,34 +65,26 @@ class UserMapBuilder {
 
 		$tMap->addColumn('CREATED_AT', 'CreatedAt', 'int', CreoleTypes::TIMESTAMP, false, null);
 
-		$tMap->addColumn('LAST_UPDATED', 'LastUpdated', 'int', CreoleTypes::TIMESTAMP, true, null);
+		$tMap->addColumn('UPDATED_AT', 'UpdatedAt', 'int', CreoleTypes::TIMESTAMP, true, null);
 
 		$tMap->addColumn('DELETED_AT', 'DeletedAt', 'int', CreoleTypes::TIMESTAMP, false, null);
 
-		$tMap->addColumn('NICKNAME', 'Nickname', 'string', CreoleTypes::VARCHAR, false, 50);
+		$tMap->addForeignKey('CREATED_USER_ID', 'CreatedUserId', 'int', CreoleTypes::INTEGER, 'reg_vocabulary', 'ID', false, null);
 
-		$tMap->addColumn('SALUTATION', 'Salutation', 'string', CreoleTypes::VARCHAR, false, 5);
+		$tMap->addForeignKey('UPDATED_USER_ID', 'UpdatedUserId', 'int', CreoleTypes::INTEGER, 'reg_user', 'ID', false, null);
 
-		$tMap->addColumn('FIRST_NAME', 'FirstName', 'string', CreoleTypes::VARCHAR, false, 100);
+		$tMap->addForeignKey('SCHEMA_PROPERTY_ID', 'SchemaPropertyId', 'int', CreoleTypes::INTEGER, 'reg_schema_property', 'ID', true, null);
 
-		$tMap->addColumn('LAST_NAME', 'LastName', 'string', CreoleTypes::VARCHAR, false, 100);
+		$tMap->addColumn('PROFILE_PROPERTY_ID', 'ProfilePropertyId', 'int', CreoleTypes::INTEGER, true, null);
 
-		$tMap->addColumn('EMAIL', 'Email', 'string', CreoleTypes::VARCHAR, false, 100);
+		$tMap->addColumn('OBJECT', 'Object', 'string', CreoleTypes::LONGVARCHAR, true, null);
 
-		$tMap->addColumn('SHA1_PASSWORD', 'Sha1Password', 'string', CreoleTypes::VARCHAR, false, 40);
+		$tMap->addForeignKey('RELATED_SCHEMA_PROPERTY_ID', 'RelatedSchemaPropertyId', 'int', CreoleTypes::INTEGER, 'reg_schema_property_property', 'ID', false, null);
 
-		$tMap->addColumn('SALT', 'Salt', 'string', CreoleTypes::VARCHAR, false, 32);
+		$tMap->addColumn('LANGUAGE', 'Language', 'string', CreoleTypes::CHAR, false, 6);
 
-		$tMap->addColumn('WANT_TO_BE_MODERATOR', 'WantToBeModerator', 'boolean', CreoleTypes::BOOLEAN, false, null);
-
-		$tMap->addColumn('IS_MODERATOR', 'IsModerator', 'boolean', CreoleTypes::BOOLEAN, false, null);
-
-		$tMap->addColumn('IS_ADMINISTRATOR', 'IsAdministrator', 'boolean', CreoleTypes::BOOLEAN, false, null);
-
-		$tMap->addColumn('DELETIONS', 'Deletions', 'int', CreoleTypes::INTEGER, false, null);
-
-		$tMap->addColumn('PASSWORD', 'Password', 'string', CreoleTypes::VARCHAR, false, 40);
+		$tMap->addForeignKey('STATUS_ID', 'StatusId', 'int', CreoleTypes::INTEGER, 'reg_status', 'ID', false, null);
 
 	} // doBuild()
 
-} // UserMapBuilder
+} // SchemaPropertyPropertyMapBuilder

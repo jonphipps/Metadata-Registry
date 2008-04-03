@@ -2,7 +2,7 @@
 
 
 /**
- * This class adds structure of 'reg_concept' table to 'propel' DatabaseMap object.
+ * This class adds structure of 'reg_vocabulary' table to 'propel' DatabaseMap object.
  *
  *
  *
@@ -13,12 +13,12 @@
  *
  * @package    lib.model.map
  */
-class ConceptMapBuilder {
+class RegVocabularyMapBuilder {
 
 	/**
 	 * The (dot-path) name of this class
 	 */
-	const CLASS_NAME = 'lib.model.map.ConceptMapBuilder';
+	const CLASS_NAME = 'lib.model.map.RegVocabularyMapBuilder';
 
 	/**
 	 * The database map.
@@ -56,34 +56,44 @@ class ConceptMapBuilder {
 	{
 		$this->dbMap = Propel::getDatabaseMap('propel');
 
-		$tMap = $this->dbMap->addTable('reg_concept');
-		$tMap->setPhpName('Concept');
+		$tMap = $this->dbMap->addTable('reg_vocabulary');
+		$tMap->setPhpName('RegVocabulary');
 
 		$tMap->setUseIdGenerator(true);
 
 		$tMap->addPrimaryKey('ID', 'Id', 'int', CreoleTypes::INTEGER, true, null);
 
-		$tMap->addColumn('CREATED_AT', 'CreatedAt', 'int', CreoleTypes::TIMESTAMP, false, null);
+		$tMap->addForeignKey('AGENT_ID', 'AgentId', 'int', CreoleTypes::INTEGER, 'reg_agent', 'ID', true, null);
 
-		$tMap->addColumn('UPDATED_AT', 'UpdatedAt', 'int', CreoleTypes::TIMESTAMP, true, null);
+		$tMap->addColumn('CREATED_AT', 'CreatedAt', 'int', CreoleTypes::TIMESTAMP, false, null);
 
 		$tMap->addColumn('DELETED_AT', 'DeletedAt', 'int', CreoleTypes::TIMESTAMP, false, null);
 
-		$tMap->addColumn('LAST_UPDATED', 'LastUpdated', 'int', CreoleTypes::TIMESTAMP, false, null);
+		$tMap->addColumn('LAST_UPDATED', 'LastUpdated', 'int', CreoleTypes::TIMESTAMP, true, null);
 
 		$tMap->addForeignKey('CREATED_USER_ID', 'CreatedUserId', 'int', CreoleTypes::INTEGER, 'reg_user', 'ID', false, null);
 
 		$tMap->addForeignKey('UPDATED_USER_ID', 'UpdatedUserId', 'int', CreoleTypes::INTEGER, 'reg_user', 'ID', false, null);
 
+		$tMap->addColumn('CHILD_UPDATED_AT', 'ChildUpdatedAt', 'int', CreoleTypes::TIMESTAMP, false, null);
+
+		$tMap->addForeignKey('CHILD_UPDATED_USER_ID', 'ChildUpdatedUserId', 'int', CreoleTypes::INTEGER, 'reg_user', 'ID', false, null);
+
+		$tMap->addColumn('NAME', 'Name', 'string', CreoleTypes::VARCHAR, true, 255);
+
+		$tMap->addColumn('NOTE', 'Note', 'string', CreoleTypes::LONGVARCHAR, false, null);
+
 		$tMap->addColumn('URI', 'Uri', 'string', CreoleTypes::VARCHAR, true, 255);
 
-		$tMap->addForeignKey('VOCABULARY_ID', 'VocabularyId', 'int', CreoleTypes::INTEGER, 'reg_vocabulary', 'ID', false, null);
+		$tMap->addColumn('URL', 'Url', 'string', CreoleTypes::VARCHAR, false, 255);
 
-		$tMap->addColumn('IS_TOP_CONCEPT', 'IsTopConcept', 'boolean', CreoleTypes::BOOLEAN, false, null);
+		$tMap->addColumn('BASE_DOMAIN', 'BaseDomain', 'string', CreoleTypes::VARCHAR, true, 255);
 
-		$tMap->addForeignKey('PREF_LABEL_ID', 'PrefLabelId', 'int', CreoleTypes::INTEGER, 'reg_concept_property', 'ID', false, null);
+		$tMap->addColumn('TOKEN', 'Token', 'string', CreoleTypes::VARCHAR, true, 45);
 
-		$tMap->addColumn('PREF_LABEL', 'PrefLabel', 'string', CreoleTypes::VARCHAR, true, 255);
+		$tMap->addColumn('COMMUNITY', 'Community', 'string', CreoleTypes::VARCHAR, false, 45);
+
+		$tMap->addColumn('LAST_URI_ID', 'LastUriId', 'int', CreoleTypes::INTEGER, false, null);
 
 		$tMap->addForeignKey('STATUS_ID', 'StatusId', 'int', CreoleTypes::INTEGER, 'reg_status', 'ID', true, null);
 
@@ -91,4 +101,4 @@ class ConceptMapBuilder {
 
 	} // doBuild()
 
-} // ConceptMapBuilder
+} // RegVocabularyMapBuilder

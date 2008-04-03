@@ -144,9 +144,9 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 	protected $aSkosProperty;
 
 	/**
-	 * @var        Vocabulary
+	 * @var        RegVocabulary
 	 */
-	protected $aVocabulary;
+	protected $aRegVocabulary;
 
 	/**
 	 * @var        Concept
@@ -154,9 +154,9 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 	protected $aConceptRelatedByRelatedConceptId;
 
 	/**
-	 * @var        Status
+	 * @var        Lookup
 	 */
-	protected $aStatus;
+	protected $aLookup;
 
 	/**
 	 * Collection to store aggregation of collConcepts.
@@ -721,8 +721,8 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 			$this->modifiedColumns[] = ConceptPropertyPeer::SCHEME_ID;
 		}
 
-		if ($this->aVocabulary !== null && $this->aVocabulary->getId() !== $v) {
-			$this->aVocabulary = null;
+		if ($this->aRegVocabulary !== null && $this->aRegVocabulary->getId() !== $v) {
+			$this->aRegVocabulary = null;
 		}
 
 	} // setSchemeId()
@@ -795,8 +795,8 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 			$this->modifiedColumns[] = ConceptPropertyPeer::STATUS_ID;
 		}
 
-		if ($this->aStatus !== null && $this->aStatus->getId() !== $v) {
-			$this->aStatus = null;
+		if ($this->aLookup !== null && $this->aLookup->getId() !== $v) {
+			$this->aLookup = null;
 		}
 
 	} // setStatusId()
@@ -1015,11 +1015,11 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 				$this->setSkosProperty($this->aSkosProperty);
 			}
 
-			if ($this->aVocabulary !== null) {
-				if ($this->aVocabulary->isModified()) {
-					$affectedRows += $this->aVocabulary->save($con);
+			if ($this->aRegVocabulary !== null) {
+				if ($this->aRegVocabulary->isModified()) {
+					$affectedRows += $this->aRegVocabulary->save($con);
 				}
-				$this->setVocabulary($this->aVocabulary);
+				$this->setRegVocabulary($this->aRegVocabulary);
 			}
 
 			if ($this->aConceptRelatedByRelatedConceptId !== null) {
@@ -1029,11 +1029,11 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 				$this->setConceptRelatedByRelatedConceptId($this->aConceptRelatedByRelatedConceptId);
 			}
 
-			if ($this->aStatus !== null) {
-				if ($this->aStatus->isModified()) {
-					$affectedRows += $this->aStatus->save($con);
+			if ($this->aLookup !== null) {
+				if ($this->aLookup->isModified()) {
+					$affectedRows += $this->aLookup->save($con);
 				}
-				$this->setStatus($this->aStatus);
+				$this->setLookup($this->aLookup);
 			}
 
 
@@ -1164,9 +1164,9 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 				}
 			}
 
-			if ($this->aVocabulary !== null) {
-				if (!$this->aVocabulary->validate($columns)) {
-					$failureMap = array_merge($failureMap, $this->aVocabulary->getValidationFailures());
+			if ($this->aRegVocabulary !== null) {
+				if (!$this->aRegVocabulary->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aRegVocabulary->getValidationFailures());
 				}
 			}
 
@@ -1176,9 +1176,9 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 				}
 			}
 
-			if ($this->aStatus !== null) {
-				if (!$this->aStatus->validate($columns)) {
-					$failureMap = array_merge($failureMap, $this->aStatus->getValidationFailures());
+			if ($this->aLookup !== null) {
+				if (!$this->aLookup->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aLookup->getValidationFailures());
 				}
 			}
 
@@ -1800,13 +1800,13 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 	}
 
 	/**
-	 * Declares an association between this object and a Vocabulary object.
+	 * Declares an association between this object and a RegVocabulary object.
 	 *
-	 * @param      Vocabulary $v
+	 * @param      RegVocabulary $v
 	 * @return     void
 	 * @throws     PropelException
 	 */
-	public function setVocabulary($v)
+	public function setRegVocabulary($v)
 	{
 
 
@@ -1817,24 +1817,24 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 		}
 
 
-		$this->aVocabulary = $v;
+		$this->aRegVocabulary = $v;
 	}
 
 
 	/**
-	 * Get the associated Vocabulary object
+	 * Get the associated RegVocabulary object
 	 *
 	 * @param      Connection Optional Connection object.
-	 * @return     Vocabulary The associated Vocabulary object.
+	 * @return     RegVocabulary The associated RegVocabulary object.
 	 * @throws     PropelException
 	 */
-	public function getVocabulary($con = null)
+	public function getRegVocabulary($con = null)
 	{
-		if ($this->aVocabulary === null && ($this->scheme_id !== null)) {
+		if ($this->aRegVocabulary === null && ($this->scheme_id !== null)) {
 			// include the related Peer class
-			include_once 'lib/model/om/BaseVocabularyPeer.php';
+			include_once 'lib/model/om/BaseRegVocabularyPeer.php';
 
-			$this->aVocabulary = VocabularyPeer::retrieveByPK($this->scheme_id, $con);
+			$this->aRegVocabulary = RegVocabularyPeer::retrieveByPK($this->scheme_id, $con);
 
 			/* The following can be used instead of the line above to
 			   guarantee the related object contains a reference
@@ -1842,11 +1842,11 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 			   may be undesirable in many circumstances.
 			   As it can lead to a db query with many results that may
 			   never be used.
-			   $obj = VocabularyPeer::retrieveByPK($this->scheme_id, $con);
-			   $obj->addVocabularys($this);
+			   $obj = RegVocabularyPeer::retrieveByPK($this->scheme_id, $con);
+			   $obj->addRegVocabularys($this);
 			 */
 		}
-		return $this->aVocabulary;
+		return $this->aRegVocabulary;
 	}
 
 	/**
@@ -1900,13 +1900,13 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 	}
 
 	/**
-	 * Declares an association between this object and a Status object.
+	 * Declares an association between this object and a Lookup object.
 	 *
-	 * @param      Status $v
+	 * @param      Lookup $v
 	 * @return     void
 	 * @throws     PropelException
 	 */
-	public function setStatus($v)
+	public function setLookup($v)
 	{
 
 
@@ -1917,24 +1917,24 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 		}
 
 
-		$this->aStatus = $v;
+		$this->aLookup = $v;
 	}
 
 
 	/**
-	 * Get the associated Status object
+	 * Get the associated Lookup object
 	 *
 	 * @param      Connection Optional Connection object.
-	 * @return     Status The associated Status object.
+	 * @return     Lookup The associated Lookup object.
 	 * @throws     PropelException
 	 */
-	public function getStatus($con = null)
+	public function getLookup($con = null)
 	{
-		if ($this->aStatus === null && ($this->status_id !== null)) {
+		if ($this->aLookup === null && ($this->status_id !== null)) {
 			// include the related Peer class
-			include_once 'lib/model/om/BaseStatusPeer.php';
+			include_once 'lib/model/om/BaseLookupPeer.php';
 
-			$this->aStatus = StatusPeer::retrieveByPK($this->status_id, $con);
+			$this->aLookup = LookupPeer::retrieveByPK($this->status_id, $con);
 
 			/* The following can be used instead of the line above to
 			   guarantee the related object contains a reference
@@ -1942,11 +1942,11 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 			   may be undesirable in many circumstances.
 			   As it can lead to a db query with many results that may
 			   never be used.
-			   $obj = StatusPeer::retrieveByPK($this->status_id, $con);
-			   $obj->addStatuss($this);
+			   $obj = LookupPeer::retrieveByPK($this->status_id, $con);
+			   $obj->addLookups($this);
 			 */
 		}
-		return $this->aStatus;
+		return $this->aLookup;
 	}
 
 	/**
@@ -2166,7 +2166,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in ConceptProperty.
 	 */
-	public function getConceptsJoinVocabulary($criteria = null, $con = null)
+	public function getConceptsJoinRegVocabulary($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseConceptPeer.php';
@@ -2185,7 +2185,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 
 				$criteria->add(ConceptPeer::PREF_LABEL_ID, $this->getId());
 
-				$this->collConcepts = ConceptPeer::doSelectJoinVocabulary($criteria, $con);
+				$this->collConcepts = ConceptPeer::doSelectJoinRegVocabulary($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -2195,7 +2195,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 			$criteria->add(ConceptPeer::PREF_LABEL_ID, $this->getId());
 
 			if (!isset($this->lastConceptCriteria) || !$this->lastConceptCriteria->equals($criteria)) {
-				$this->collConcepts = ConceptPeer::doSelectJoinVocabulary($criteria, $con);
+				$this->collConcepts = ConceptPeer::doSelectJoinRegVocabulary($criteria, $con);
 			}
 		}
 		$this->lastConceptCriteria = $criteria;
@@ -2420,7 +2420,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in ConceptProperty.
 	 */
-	public function getConceptPropertyHistorysJoinVocabularyRelatedByVocabularyId($criteria = null, $con = null)
+	public function getConceptPropertyHistorysJoinRegVocabularyRelatedByVocabularyId($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseConceptPropertyHistoryPeer.php';
@@ -2439,7 +2439,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 
 				$criteria->add(ConceptPropertyHistoryPeer::CONCEPT_PROPERTY_ID, $this->getId());
 
-				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelectJoinVocabularyRelatedByVocabularyId($criteria, $con);
+				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelectJoinRegVocabularyRelatedByVocabularyId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -2449,7 +2449,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 			$criteria->add(ConceptPropertyHistoryPeer::CONCEPT_PROPERTY_ID, $this->getId());
 
 			if (!isset($this->lastConceptPropertyHistoryCriteria) || !$this->lastConceptPropertyHistoryCriteria->equals($criteria)) {
-				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelectJoinVocabularyRelatedByVocabularyId($criteria, $con);
+				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelectJoinRegVocabularyRelatedByVocabularyId($criteria, $con);
 			}
 		}
 		$this->lastConceptPropertyHistoryCriteria = $criteria;
@@ -2518,7 +2518,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in ConceptProperty.
 	 */
-	public function getConceptPropertyHistorysJoinVocabularyRelatedBySchemeId($criteria = null, $con = null)
+	public function getConceptPropertyHistorysJoinRegVocabularyRelatedBySchemeId($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseConceptPropertyHistoryPeer.php';
@@ -2537,7 +2537,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 
 				$criteria->add(ConceptPropertyHistoryPeer::CONCEPT_PROPERTY_ID, $this->getId());
 
-				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelectJoinVocabularyRelatedBySchemeId($criteria, $con);
+				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelectJoinRegVocabularyRelatedBySchemeId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -2547,7 +2547,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 			$criteria->add(ConceptPropertyHistoryPeer::CONCEPT_PROPERTY_ID, $this->getId());
 
 			if (!isset($this->lastConceptPropertyHistoryCriteria) || !$this->lastConceptPropertyHistoryCriteria->equals($criteria)) {
-				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelectJoinVocabularyRelatedBySchemeId($criteria, $con);
+				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelectJoinRegVocabularyRelatedBySchemeId($criteria, $con);
 			}
 		}
 		$this->lastConceptPropertyHistoryCriteria = $criteria;

@@ -2,7 +2,7 @@
 
 
 /**
- * This class adds structure of 'reg_agent_has_user' table to 'propel' DatabaseMap object.
+ * This class adds structure of 'reg_namespace' table to 'propel' DatabaseMap object.
  *
  *
  *
@@ -13,12 +13,12 @@
  *
  * @package    lib.model.map
  */
-class AgentHasUserMapBuilder {
+class NamespaceMapBuilder {
 
 	/**
 	 * The (dot-path) name of this class
 	 */
-	const CLASS_NAME = 'lib.model.map.AgentHasUserMapBuilder';
+	const CLASS_NAME = 'lib.model.map.NamespaceMapBuilder';
 
 	/**
 	 * The database map.
@@ -56,27 +56,31 @@ class AgentHasUserMapBuilder {
 	{
 		$this->dbMap = Propel::getDatabaseMap('propel');
 
-		$tMap = $this->dbMap->addTable('reg_agent_has_user');
-		$tMap->setPhpName('AgentHasUser');
+		$tMap = $this->dbMap->addTable('reg_namespace');
+		$tMap->setPhpName('Namespace');
 
 		$tMap->setUseIdGenerator(true);
 
 		$tMap->addPrimaryKey('ID', 'Id', 'int', CreoleTypes::INTEGER, true, null);
 
-		$tMap->addColumn('UPDATED_AT', 'UpdatedAt', 'int', CreoleTypes::TIMESTAMP, true, null);
-
-		$tMap->addColumn('DELETED_AT', 'DeletedAt', 'int', CreoleTypes::TIMESTAMP, false, null);
+		$tMap->addForeignKey('SCHEMA_ID', 'SchemaId', 'int', CreoleTypes::INTEGER, 'reg_schema', 'ID', true, null);
 
 		$tMap->addColumn('CREATED_AT', 'CreatedAt', 'int', CreoleTypes::TIMESTAMP, false, null);
 
-		$tMap->addForeignKey('USER_ID', 'UserId', 'int', CreoleTypes::INTEGER, 'reg_user', 'ID', true, null);
+		$tMap->addColumn('DELETED_AT', 'DeletedAt', 'int', CreoleTypes::TIMESTAMP, false, null);
 
-		$tMap->addForeignKey('AGENT_ID', 'AgentId', 'int', CreoleTypes::INTEGER, 'reg_agent', 'ID', true, null);
+		$tMap->addColumn('CREATED_USER_ID', 'CreatedUserId', 'int', CreoleTypes::INTEGER, false, null);
 
-		$tMap->addColumn('IS_REGISTRAR_FOR', 'IsRegistrarFor', 'boolean', CreoleTypes::BOOLEAN, false, null);
+		$tMap->addColumn('UPDATED_USER_ID', 'UpdatedUserId', 'int', CreoleTypes::INTEGER, false, null);
 
-		$tMap->addColumn('IS_ADMIN_FOR', 'IsAdminFor', 'boolean', CreoleTypes::BOOLEAN, false, null);
+		$tMap->addColumn('TOKEN', 'Token', 'string', CreoleTypes::VARCHAR, true, 255);
+
+		$tMap->addColumn('NOTE', 'Note', 'string', CreoleTypes::LONGVARCHAR, false, null);
+
+		$tMap->addColumn('URI', 'Uri', 'string', CreoleTypes::VARCHAR, true, 255);
+
+		$tMap->addColumn('SCHEMA_LOCATION', 'SchemaLocation', 'string', CreoleTypes::VARCHAR, false, 255);
 
 	} // doBuild()
 
-} // AgentHasUserMapBuilder
+} // NamespaceMapBuilder

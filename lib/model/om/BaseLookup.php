@@ -54,6 +54,18 @@ abstract class BaseLookup extends BaseObject  implements Persistent {
 	protected $display_order;
 
 	/**
+	 * Collection to store aggregation of collConceptPropertys.
+	 * @var        array
+	 */
+	protected $collConceptPropertys;
+
+	/**
+	 * The criteria used to select the current contents of collConceptPropertys.
+	 * @var        Criteria
+	 */
+	protected $lastConceptPropertyCriteria = null;
+
+	/**
 	 * Flag to prevent endless save loop, if this object is referenced
 	 * by another object which falls in this transaction.
 	 * @var        boolean
@@ -400,6 +412,14 @@ abstract class BaseLookup extends BaseObject  implements Persistent {
 				$this->resetModified(); // [HL] After being saved an object is no longer 'modified'
 			}
 
+			if ($this->collConceptPropertys !== null) {
+				foreach($this->collConceptPropertys as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
+			}
+
 			$this->alreadyInSave = false;
 		}
 		return $affectedRows;
@@ -469,6 +489,14 @@ abstract class BaseLookup extends BaseObject  implements Persistent {
 				$failureMap = array_merge($failureMap, $retval);
 			}
 
+
+				if ($this->collConceptPropertys !== null) {
+					foreach($this->collConceptPropertys as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
 
 
 			$this->alreadyInValidation = false;
@@ -695,6 +723,18 @@ abstract class BaseLookup extends BaseObject  implements Persistent {
 		$copyObj->setDisplayOrder($this->display_order);
 
 
+		if ($deepCopy) {
+			// important: temporarily setNew(false) because this affects the behavior of
+			// the getter/setter methods for fkey referrer objects.
+			$copyObj->setNew(false);
+
+			foreach($this->getConceptPropertys() as $relObj) {
+				$copyObj->addConceptProperty($relObj->copy($deepCopy));
+			}
+
+		} // if ($deepCopy)
+
+
 		$copyObj->setNew(true);
 
 		$copyObj->setId(NULL); // this is a pkey column, so set to default value
@@ -737,6 +777,407 @@ abstract class BaseLookup extends BaseObject  implements Persistent {
 			self::$peer = new LookupPeer();
 		}
 		return self::$peer;
+	}
+
+	/**
+	 * Temporary storage of collConceptPropertys to save a possible db hit in
+	 * the event objects are add to the collection, but the
+	 * complete collection is never requested.
+	 * @return     void
+	 */
+	public function initConceptPropertys()
+	{
+		if ($this->collConceptPropertys === null) {
+			$this->collConceptPropertys = array();
+		}
+	}
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Lookup has previously
+	 * been saved, it will retrieve related ConceptPropertys from storage.
+	 * If this Lookup is new, it will return
+	 * an empty collection or the current collection, the criteria
+	 * is ignored on a new object.
+	 *
+	 * @param      Connection $con
+	 * @param      Criteria $criteria
+	 * @throws     PropelException
+	 */
+	public function getConceptPropertys($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseConceptPropertyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collConceptPropertys === null) {
+			if ($this->isNew()) {
+			   $this->collConceptPropertys = array();
+			} else {
+
+				$criteria->add(ConceptPropertyPeer::STATUS_ID, $this->getId());
+
+				ConceptPropertyPeer::addSelectColumns($criteria);
+				$this->collConceptPropertys = ConceptPropertyPeer::doSelect($criteria, $con);
+			}
+		} else {
+			// criteria has no effect for a new object
+			if (!$this->isNew()) {
+				// the following code is to determine if a new query is
+				// called for.  If the criteria is the same as the last
+				// one, just return the collection.
+
+
+				$criteria->add(ConceptPropertyPeer::STATUS_ID, $this->getId());
+
+				ConceptPropertyPeer::addSelectColumns($criteria);
+				if (!isset($this->lastConceptPropertyCriteria) || !$this->lastConceptPropertyCriteria->equals($criteria)) {
+					$this->collConceptPropertys = ConceptPropertyPeer::doSelect($criteria, $con);
+				}
+			}
+		}
+		$this->lastConceptPropertyCriteria = $criteria;
+		return $this->collConceptPropertys;
+	}
+
+	/**
+	 * Returns the number of related ConceptPropertys.
+	 *
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct
+	 * @param      Connection $con
+	 * @throws     PropelException
+	 */
+	public function countConceptPropertys($criteria = null, $distinct = false, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseConceptPropertyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		$criteria->add(ConceptPropertyPeer::STATUS_ID, $this->getId());
+
+		return ConceptPropertyPeer::doCount($criteria, $distinct, $con);
+	}
+
+	/**
+	 * Method called to associate a ConceptProperty object to this object
+	 * through the ConceptProperty foreign key attribute
+	 *
+	 * @param      ConceptProperty $l ConceptProperty
+	 * @return     void
+	 * @throws     PropelException
+	 */
+	public function addConceptProperty(ConceptProperty $l)
+	{
+		$this->collConceptPropertys[] = $l;
+		$l->setLookup($this);
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Lookup is new, it will return
+	 * an empty collection; or if this Lookup has previously
+	 * been saved, it will retrieve related ConceptPropertys from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Lookup.
+	 */
+	public function getConceptPropertysJoinUserRelatedByCreatedUserId($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseConceptPropertyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collConceptPropertys === null) {
+			if ($this->isNew()) {
+				$this->collConceptPropertys = array();
+			} else {
+
+				$criteria->add(ConceptPropertyPeer::STATUS_ID, $this->getId());
+
+				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinUserRelatedByCreatedUserId($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(ConceptPropertyPeer::STATUS_ID, $this->getId());
+
+			if (!isset($this->lastConceptPropertyCriteria) || !$this->lastConceptPropertyCriteria->equals($criteria)) {
+				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinUserRelatedByCreatedUserId($criteria, $con);
+			}
+		}
+		$this->lastConceptPropertyCriteria = $criteria;
+
+		return $this->collConceptPropertys;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Lookup is new, it will return
+	 * an empty collection; or if this Lookup has previously
+	 * been saved, it will retrieve related ConceptPropertys from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Lookup.
+	 */
+	public function getConceptPropertysJoinUserRelatedByUpdatedUserId($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseConceptPropertyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collConceptPropertys === null) {
+			if ($this->isNew()) {
+				$this->collConceptPropertys = array();
+			} else {
+
+				$criteria->add(ConceptPropertyPeer::STATUS_ID, $this->getId());
+
+				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinUserRelatedByUpdatedUserId($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(ConceptPropertyPeer::STATUS_ID, $this->getId());
+
+			if (!isset($this->lastConceptPropertyCriteria) || !$this->lastConceptPropertyCriteria->equals($criteria)) {
+				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinUserRelatedByUpdatedUserId($criteria, $con);
+			}
+		}
+		$this->lastConceptPropertyCriteria = $criteria;
+
+		return $this->collConceptPropertys;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Lookup is new, it will return
+	 * an empty collection; or if this Lookup has previously
+	 * been saved, it will retrieve related ConceptPropertys from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Lookup.
+	 */
+	public function getConceptPropertysJoinConceptRelatedByConceptId($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseConceptPropertyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collConceptPropertys === null) {
+			if ($this->isNew()) {
+				$this->collConceptPropertys = array();
+			} else {
+
+				$criteria->add(ConceptPropertyPeer::STATUS_ID, $this->getId());
+
+				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinConceptRelatedByConceptId($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(ConceptPropertyPeer::STATUS_ID, $this->getId());
+
+			if (!isset($this->lastConceptPropertyCriteria) || !$this->lastConceptPropertyCriteria->equals($criteria)) {
+				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinConceptRelatedByConceptId($criteria, $con);
+			}
+		}
+		$this->lastConceptPropertyCriteria = $criteria;
+
+		return $this->collConceptPropertys;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Lookup is new, it will return
+	 * an empty collection; or if this Lookup has previously
+	 * been saved, it will retrieve related ConceptPropertys from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Lookup.
+	 */
+	public function getConceptPropertysJoinSkosProperty($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseConceptPropertyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collConceptPropertys === null) {
+			if ($this->isNew()) {
+				$this->collConceptPropertys = array();
+			} else {
+
+				$criteria->add(ConceptPropertyPeer::STATUS_ID, $this->getId());
+
+				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinSkosProperty($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(ConceptPropertyPeer::STATUS_ID, $this->getId());
+
+			if (!isset($this->lastConceptPropertyCriteria) || !$this->lastConceptPropertyCriteria->equals($criteria)) {
+				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinSkosProperty($criteria, $con);
+			}
+		}
+		$this->lastConceptPropertyCriteria = $criteria;
+
+		return $this->collConceptPropertys;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Lookup is new, it will return
+	 * an empty collection; or if this Lookup has previously
+	 * been saved, it will retrieve related ConceptPropertys from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Lookup.
+	 */
+	public function getConceptPropertysJoinRegVocabulary($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseConceptPropertyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collConceptPropertys === null) {
+			if ($this->isNew()) {
+				$this->collConceptPropertys = array();
+			} else {
+
+				$criteria->add(ConceptPropertyPeer::STATUS_ID, $this->getId());
+
+				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinRegVocabulary($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(ConceptPropertyPeer::STATUS_ID, $this->getId());
+
+			if (!isset($this->lastConceptPropertyCriteria) || !$this->lastConceptPropertyCriteria->equals($criteria)) {
+				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinRegVocabulary($criteria, $con);
+			}
+		}
+		$this->lastConceptPropertyCriteria = $criteria;
+
+		return $this->collConceptPropertys;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Lookup is new, it will return
+	 * an empty collection; or if this Lookup has previously
+	 * been saved, it will retrieve related ConceptPropertys from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Lookup.
+	 */
+	public function getConceptPropertysJoinConceptRelatedByRelatedConceptId($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseConceptPropertyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collConceptPropertys === null) {
+			if ($this->isNew()) {
+				$this->collConceptPropertys = array();
+			} else {
+
+				$criteria->add(ConceptPropertyPeer::STATUS_ID, $this->getId());
+
+				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinConceptRelatedByRelatedConceptId($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(ConceptPropertyPeer::STATUS_ID, $this->getId());
+
+			if (!isset($this->lastConceptPropertyCriteria) || !$this->lastConceptPropertyCriteria->equals($criteria)) {
+				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinConceptRelatedByRelatedConceptId($criteria, $con);
+			}
+		}
+		$this->lastConceptPropertyCriteria = $criteria;
+
+		return $this->collConceptPropertys;
 	}
 
 

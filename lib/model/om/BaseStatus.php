@@ -52,18 +52,6 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 	protected $lastConceptCriteria = null;
 
 	/**
-	 * Collection to store aggregation of collConceptPropertys.
-	 * @var        array
-	 */
-	protected $collConceptPropertys;
-
-	/**
-	 * The criteria used to select the current contents of collConceptPropertys.
-	 * @var        Criteria
-	 */
-	protected $lastConceptPropertyCriteria = null;
-
-	/**
 	 * Collection to store aggregation of collConceptPropertyHistorys.
 	 * @var        array
 	 */
@@ -76,16 +64,40 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 	protected $lastConceptPropertyHistoryCriteria = null;
 
 	/**
-	 * Collection to store aggregation of collVocabularys.
+	 * Collection to store aggregation of collRegSchemas.
 	 * @var        array
 	 */
-	protected $collVocabularys;
+	protected $collRegSchemas;
 
 	/**
-	 * The criteria used to select the current contents of collVocabularys.
+	 * The criteria used to select the current contents of collRegSchemas.
 	 * @var        Criteria
 	 */
-	protected $lastVocabularyCriteria = null;
+	protected $lastRegSchemaCriteria = null;
+
+	/**
+	 * Collection to store aggregation of collSchemaPropertyPropertys.
+	 * @var        array
+	 */
+	protected $collSchemaPropertyPropertys;
+
+	/**
+	 * The criteria used to select the current contents of collSchemaPropertyPropertys.
+	 * @var        Criteria
+	 */
+	protected $lastSchemaPropertyPropertyCriteria = null;
+
+	/**
+	 * Collection to store aggregation of collRegVocabularys.
+	 * @var        array
+	 */
+	protected $collRegVocabularys;
+
+	/**
+	 * The criteria used to select the current contents of collRegVocabularys.
+	 * @var        Criteria
+	 */
+	protected $lastRegVocabularyCriteria = null;
 
 	/**
 	 * Flag to prevent endless save loop, if this object is referenced
@@ -372,14 +384,6 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 				}
 			}
 
-			if ($this->collConceptPropertys !== null) {
-				foreach($this->collConceptPropertys as $referrerFK) {
-					if (!$referrerFK->isDeleted()) {
-						$affectedRows += $referrerFK->save($con);
-					}
-				}
-			}
-
 			if ($this->collConceptPropertyHistorys !== null) {
 				foreach($this->collConceptPropertyHistorys as $referrerFK) {
 					if (!$referrerFK->isDeleted()) {
@@ -388,8 +392,24 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 				}
 			}
 
-			if ($this->collVocabularys !== null) {
-				foreach($this->collVocabularys as $referrerFK) {
+			if ($this->collRegSchemas !== null) {
+				foreach($this->collRegSchemas as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
+			}
+
+			if ($this->collSchemaPropertyPropertys !== null) {
+				foreach($this->collSchemaPropertyPropertys as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
+			}
+
+			if ($this->collRegVocabularys !== null) {
+				foreach($this->collRegVocabularys as $referrerFK) {
 					if (!$referrerFK->isDeleted()) {
 						$affectedRows += $referrerFK->save($con);
 					}
@@ -474,14 +494,6 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 					}
 				}
 
-				if ($this->collConceptPropertys !== null) {
-					foreach($this->collConceptPropertys as $referrerFK) {
-						if (!$referrerFK->validate($columns)) {
-							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
-						}
-					}
-				}
-
 				if ($this->collConceptPropertyHistorys !== null) {
 					foreach($this->collConceptPropertyHistorys as $referrerFK) {
 						if (!$referrerFK->validate($columns)) {
@@ -490,8 +502,24 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 					}
 				}
 
-				if ($this->collVocabularys !== null) {
-					foreach($this->collVocabularys as $referrerFK) {
+				if ($this->collRegSchemas !== null) {
+					foreach($this->collRegSchemas as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
+
+				if ($this->collSchemaPropertyPropertys !== null) {
+					foreach($this->collSchemaPropertyPropertys as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
+
+				if ($this->collRegVocabularys !== null) {
+					foreach($this->collRegVocabularys as $referrerFK) {
 						if (!$referrerFK->validate($columns)) {
 							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
 						}
@@ -710,16 +738,20 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 				$copyObj->addConcept($relObj->copy($deepCopy));
 			}
 
-			foreach($this->getConceptPropertys() as $relObj) {
-				$copyObj->addConceptProperty($relObj->copy($deepCopy));
-			}
-
 			foreach($this->getConceptPropertyHistorys() as $relObj) {
 				$copyObj->addConceptPropertyHistory($relObj->copy($deepCopy));
 			}
 
-			foreach($this->getVocabularys() as $relObj) {
-				$copyObj->addVocabulary($relObj->copy($deepCopy));
+			foreach($this->getRegSchemas() as $relObj) {
+				$copyObj->addRegSchema($relObj->copy($deepCopy));
+			}
+
+			foreach($this->getSchemaPropertyPropertys() as $relObj) {
+				$copyObj->addSchemaPropertyProperty($relObj->copy($deepCopy));
+			}
+
+			foreach($this->getRegVocabularys() as $relObj) {
+				$copyObj->addRegVocabulary($relObj->copy($deepCopy));
 			}
 
 		} // if ($deepCopy)
@@ -986,7 +1018,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in Status.
 	 */
-	public function getConceptsJoinVocabulary($criteria = null, $con = null)
+	public function getConceptsJoinRegVocabulary($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseConceptPeer.php';
@@ -1005,7 +1037,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 
 				$criteria->add(ConceptPeer::STATUS_ID, $this->getId());
 
-				$this->collConcepts = ConceptPeer::doSelectJoinVocabulary($criteria, $con);
+				$this->collConcepts = ConceptPeer::doSelectJoinRegVocabulary($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -1015,7 +1047,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 			$criteria->add(ConceptPeer::STATUS_ID, $this->getId());
 
 			if (!isset($this->lastConceptCriteria) || !$this->lastConceptCriteria->equals($criteria)) {
-				$this->collConcepts = ConceptPeer::doSelectJoinVocabulary($criteria, $con);
+				$this->collConcepts = ConceptPeer::doSelectJoinRegVocabulary($criteria, $con);
 			}
 		}
 		$this->lastConceptCriteria = $criteria;
@@ -1070,407 +1102,6 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 		$this->lastConceptCriteria = $criteria;
 
 		return $this->collConcepts;
-	}
-
-	/**
-	 * Temporary storage of collConceptPropertys to save a possible db hit in
-	 * the event objects are add to the collection, but the
-	 * complete collection is never requested.
-	 * @return     void
-	 */
-	public function initConceptPropertys()
-	{
-		if ($this->collConceptPropertys === null) {
-			$this->collConceptPropertys = array();
-		}
-	}
-
-	/**
-	 * If this collection has already been initialized with
-	 * an identical criteria, it returns the collection.
-	 * Otherwise if this Status has previously
-	 * been saved, it will retrieve related ConceptPropertys from storage.
-	 * If this Status is new, it will return
-	 * an empty collection or the current collection, the criteria
-	 * is ignored on a new object.
-	 *
-	 * @param      Connection $con
-	 * @param      Criteria $criteria
-	 * @throws     PropelException
-	 */
-	public function getConceptPropertys($criteria = null, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseConceptPropertyPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collConceptPropertys === null) {
-			if ($this->isNew()) {
-			   $this->collConceptPropertys = array();
-			} else {
-
-				$criteria->add(ConceptPropertyPeer::STATUS_ID, $this->getId());
-
-				ConceptPropertyPeer::addSelectColumns($criteria);
-				$this->collConceptPropertys = ConceptPropertyPeer::doSelect($criteria, $con);
-			}
-		} else {
-			// criteria has no effect for a new object
-			if (!$this->isNew()) {
-				// the following code is to determine if a new query is
-				// called for.  If the criteria is the same as the last
-				// one, just return the collection.
-
-
-				$criteria->add(ConceptPropertyPeer::STATUS_ID, $this->getId());
-
-				ConceptPropertyPeer::addSelectColumns($criteria);
-				if (!isset($this->lastConceptPropertyCriteria) || !$this->lastConceptPropertyCriteria->equals($criteria)) {
-					$this->collConceptPropertys = ConceptPropertyPeer::doSelect($criteria, $con);
-				}
-			}
-		}
-		$this->lastConceptPropertyCriteria = $criteria;
-		return $this->collConceptPropertys;
-	}
-
-	/**
-	 * Returns the number of related ConceptPropertys.
-	 *
-	 * @param      Criteria $criteria
-	 * @param      boolean $distinct
-	 * @param      Connection $con
-	 * @throws     PropelException
-	 */
-	public function countConceptPropertys($criteria = null, $distinct = false, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseConceptPropertyPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		$criteria->add(ConceptPropertyPeer::STATUS_ID, $this->getId());
-
-		return ConceptPropertyPeer::doCount($criteria, $distinct, $con);
-	}
-
-	/**
-	 * Method called to associate a ConceptProperty object to this object
-	 * through the ConceptProperty foreign key attribute
-	 *
-	 * @param      ConceptProperty $l ConceptProperty
-	 * @return     void
-	 * @throws     PropelException
-	 */
-	public function addConceptProperty(ConceptProperty $l)
-	{
-		$this->collConceptPropertys[] = $l;
-		$l->setStatus($this);
-	}
-
-
-	/**
-	 * If this collection has already been initialized with
-	 * an identical criteria, it returns the collection.
-	 * Otherwise if this Status is new, it will return
-	 * an empty collection; or if this Status has previously
-	 * been saved, it will retrieve related ConceptPropertys from storage.
-	 *
-	 * This method is protected by default in order to keep the public
-	 * api reasonable.  You can provide public methods for those you
-	 * actually need in Status.
-	 */
-	public function getConceptPropertysJoinUserRelatedByCreatedUserId($criteria = null, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseConceptPropertyPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collConceptPropertys === null) {
-			if ($this->isNew()) {
-				$this->collConceptPropertys = array();
-			} else {
-
-				$criteria->add(ConceptPropertyPeer::STATUS_ID, $this->getId());
-
-				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinUserRelatedByCreatedUserId($criteria, $con);
-			}
-		} else {
-			// the following code is to determine if a new query is
-			// called for.  If the criteria is the same as the last
-			// one, just return the collection.
-
-			$criteria->add(ConceptPropertyPeer::STATUS_ID, $this->getId());
-
-			if (!isset($this->lastConceptPropertyCriteria) || !$this->lastConceptPropertyCriteria->equals($criteria)) {
-				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinUserRelatedByCreatedUserId($criteria, $con);
-			}
-		}
-		$this->lastConceptPropertyCriteria = $criteria;
-
-		return $this->collConceptPropertys;
-	}
-
-
-	/**
-	 * If this collection has already been initialized with
-	 * an identical criteria, it returns the collection.
-	 * Otherwise if this Status is new, it will return
-	 * an empty collection; or if this Status has previously
-	 * been saved, it will retrieve related ConceptPropertys from storage.
-	 *
-	 * This method is protected by default in order to keep the public
-	 * api reasonable.  You can provide public methods for those you
-	 * actually need in Status.
-	 */
-	public function getConceptPropertysJoinUserRelatedByUpdatedUserId($criteria = null, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseConceptPropertyPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collConceptPropertys === null) {
-			if ($this->isNew()) {
-				$this->collConceptPropertys = array();
-			} else {
-
-				$criteria->add(ConceptPropertyPeer::STATUS_ID, $this->getId());
-
-				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinUserRelatedByUpdatedUserId($criteria, $con);
-			}
-		} else {
-			// the following code is to determine if a new query is
-			// called for.  If the criteria is the same as the last
-			// one, just return the collection.
-
-			$criteria->add(ConceptPropertyPeer::STATUS_ID, $this->getId());
-
-			if (!isset($this->lastConceptPropertyCriteria) || !$this->lastConceptPropertyCriteria->equals($criteria)) {
-				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinUserRelatedByUpdatedUserId($criteria, $con);
-			}
-		}
-		$this->lastConceptPropertyCriteria = $criteria;
-
-		return $this->collConceptPropertys;
-	}
-
-
-	/**
-	 * If this collection has already been initialized with
-	 * an identical criteria, it returns the collection.
-	 * Otherwise if this Status is new, it will return
-	 * an empty collection; or if this Status has previously
-	 * been saved, it will retrieve related ConceptPropertys from storage.
-	 *
-	 * This method is protected by default in order to keep the public
-	 * api reasonable.  You can provide public methods for those you
-	 * actually need in Status.
-	 */
-	public function getConceptPropertysJoinConceptRelatedByConceptId($criteria = null, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseConceptPropertyPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collConceptPropertys === null) {
-			if ($this->isNew()) {
-				$this->collConceptPropertys = array();
-			} else {
-
-				$criteria->add(ConceptPropertyPeer::STATUS_ID, $this->getId());
-
-				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinConceptRelatedByConceptId($criteria, $con);
-			}
-		} else {
-			// the following code is to determine if a new query is
-			// called for.  If the criteria is the same as the last
-			// one, just return the collection.
-
-			$criteria->add(ConceptPropertyPeer::STATUS_ID, $this->getId());
-
-			if (!isset($this->lastConceptPropertyCriteria) || !$this->lastConceptPropertyCriteria->equals($criteria)) {
-				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinConceptRelatedByConceptId($criteria, $con);
-			}
-		}
-		$this->lastConceptPropertyCriteria = $criteria;
-
-		return $this->collConceptPropertys;
-	}
-
-
-	/**
-	 * If this collection has already been initialized with
-	 * an identical criteria, it returns the collection.
-	 * Otherwise if this Status is new, it will return
-	 * an empty collection; or if this Status has previously
-	 * been saved, it will retrieve related ConceptPropertys from storage.
-	 *
-	 * This method is protected by default in order to keep the public
-	 * api reasonable.  You can provide public methods for those you
-	 * actually need in Status.
-	 */
-	public function getConceptPropertysJoinSkosProperty($criteria = null, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseConceptPropertyPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collConceptPropertys === null) {
-			if ($this->isNew()) {
-				$this->collConceptPropertys = array();
-			} else {
-
-				$criteria->add(ConceptPropertyPeer::STATUS_ID, $this->getId());
-
-				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinSkosProperty($criteria, $con);
-			}
-		} else {
-			// the following code is to determine if a new query is
-			// called for.  If the criteria is the same as the last
-			// one, just return the collection.
-
-			$criteria->add(ConceptPropertyPeer::STATUS_ID, $this->getId());
-
-			if (!isset($this->lastConceptPropertyCriteria) || !$this->lastConceptPropertyCriteria->equals($criteria)) {
-				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinSkosProperty($criteria, $con);
-			}
-		}
-		$this->lastConceptPropertyCriteria = $criteria;
-
-		return $this->collConceptPropertys;
-	}
-
-
-	/**
-	 * If this collection has already been initialized with
-	 * an identical criteria, it returns the collection.
-	 * Otherwise if this Status is new, it will return
-	 * an empty collection; or if this Status has previously
-	 * been saved, it will retrieve related ConceptPropertys from storage.
-	 *
-	 * This method is protected by default in order to keep the public
-	 * api reasonable.  You can provide public methods for those you
-	 * actually need in Status.
-	 */
-	public function getConceptPropertysJoinVocabulary($criteria = null, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseConceptPropertyPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collConceptPropertys === null) {
-			if ($this->isNew()) {
-				$this->collConceptPropertys = array();
-			} else {
-
-				$criteria->add(ConceptPropertyPeer::STATUS_ID, $this->getId());
-
-				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinVocabulary($criteria, $con);
-			}
-		} else {
-			// the following code is to determine if a new query is
-			// called for.  If the criteria is the same as the last
-			// one, just return the collection.
-
-			$criteria->add(ConceptPropertyPeer::STATUS_ID, $this->getId());
-
-			if (!isset($this->lastConceptPropertyCriteria) || !$this->lastConceptPropertyCriteria->equals($criteria)) {
-				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinVocabulary($criteria, $con);
-			}
-		}
-		$this->lastConceptPropertyCriteria = $criteria;
-
-		return $this->collConceptPropertys;
-	}
-
-
-	/**
-	 * If this collection has already been initialized with
-	 * an identical criteria, it returns the collection.
-	 * Otherwise if this Status is new, it will return
-	 * an empty collection; or if this Status has previously
-	 * been saved, it will retrieve related ConceptPropertys from storage.
-	 *
-	 * This method is protected by default in order to keep the public
-	 * api reasonable.  You can provide public methods for those you
-	 * actually need in Status.
-	 */
-	public function getConceptPropertysJoinConceptRelatedByRelatedConceptId($criteria = null, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseConceptPropertyPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collConceptPropertys === null) {
-			if ($this->isNew()) {
-				$this->collConceptPropertys = array();
-			} else {
-
-				$criteria->add(ConceptPropertyPeer::STATUS_ID, $this->getId());
-
-				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinConceptRelatedByRelatedConceptId($criteria, $con);
-			}
-		} else {
-			// the following code is to determine if a new query is
-			// called for.  If the criteria is the same as the last
-			// one, just return the collection.
-
-			$criteria->add(ConceptPropertyPeer::STATUS_ID, $this->getId());
-
-			if (!isset($this->lastConceptPropertyCriteria) || !$this->lastConceptPropertyCriteria->equals($criteria)) {
-				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinConceptRelatedByRelatedConceptId($criteria, $con);
-			}
-		}
-		$this->lastConceptPropertyCriteria = $criteria;
-
-		return $this->collConceptPropertys;
 	}
 
 	/**
@@ -1690,7 +1321,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in Status.
 	 */
-	public function getConceptPropertyHistorysJoinVocabularyRelatedByVocabularyId($criteria = null, $con = null)
+	public function getConceptPropertyHistorysJoinRegVocabularyRelatedByVocabularyId($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseConceptPropertyHistoryPeer.php';
@@ -1709,7 +1340,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 
 				$criteria->add(ConceptPropertyHistoryPeer::STATUS_ID, $this->getId());
 
-				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelectJoinVocabularyRelatedByVocabularyId($criteria, $con);
+				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelectJoinRegVocabularyRelatedByVocabularyId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -1719,7 +1350,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 			$criteria->add(ConceptPropertyHistoryPeer::STATUS_ID, $this->getId());
 
 			if (!isset($this->lastConceptPropertyHistoryCriteria) || !$this->lastConceptPropertyHistoryCriteria->equals($criteria)) {
-				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelectJoinVocabularyRelatedByVocabularyId($criteria, $con);
+				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelectJoinRegVocabularyRelatedByVocabularyId($criteria, $con);
 			}
 		}
 		$this->lastConceptPropertyHistoryCriteria = $criteria;
@@ -1788,7 +1419,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in Status.
 	 */
-	public function getConceptPropertyHistorysJoinVocabularyRelatedBySchemeId($criteria = null, $con = null)
+	public function getConceptPropertyHistorysJoinRegVocabularyRelatedBySchemeId($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseConceptPropertyHistoryPeer.php';
@@ -1807,7 +1438,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 
 				$criteria->add(ConceptPropertyHistoryPeer::STATUS_ID, $this->getId());
 
-				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelectJoinVocabularyRelatedBySchemeId($criteria, $con);
+				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelectJoinRegVocabularyRelatedBySchemeId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -1817,7 +1448,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 			$criteria->add(ConceptPropertyHistoryPeer::STATUS_ID, $this->getId());
 
 			if (!isset($this->lastConceptPropertyHistoryCriteria) || !$this->lastConceptPropertyHistoryCriteria->equals($criteria)) {
-				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelectJoinVocabularyRelatedBySchemeId($criteria, $con);
+				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelectJoinRegVocabularyRelatedBySchemeId($criteria, $con);
 			}
 		}
 		$this->lastConceptPropertyHistoryCriteria = $criteria;
@@ -1924,15 +1555,15 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 	}
 
 	/**
-	 * Temporary storage of collVocabularys to save a possible db hit in
+	 * Temporary storage of collRegSchemas to save a possible db hit in
 	 * the event objects are add to the collection, but the
 	 * complete collection is never requested.
 	 * @return     void
 	 */
-	public function initVocabularys()
+	public function initRegSchemas()
 	{
-		if ($this->collVocabularys === null) {
-			$this->collVocabularys = array();
+		if ($this->collRegSchemas === null) {
+			$this->collRegSchemas = array();
 		}
 	}
 
@@ -1940,7 +1571,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 	 * If this collection has already been initialized with
 	 * an identical criteria, it returns the collection.
 	 * Otherwise if this Status has previously
-	 * been saved, it will retrieve related Vocabularys from storage.
+	 * been saved, it will retrieve related RegSchemas from storage.
 	 * If this Status is new, it will return
 	 * an empty collection or the current collection, the criteria
 	 * is ignored on a new object.
@@ -1949,10 +1580,10 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 	 * @param      Criteria $criteria
 	 * @throws     PropelException
 	 */
-	public function getVocabularys($criteria = null, $con = null)
+	public function getRegSchemas($criteria = null, $con = null)
 	{
 		// include the Peer class
-		include_once 'lib/model/om/BaseVocabularyPeer.php';
+		include_once 'lib/model/om/BaseRegSchemaPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -1961,15 +1592,15 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 			$criteria = clone $criteria;
 		}
 
-		if ($this->collVocabularys === null) {
+		if ($this->collRegSchemas === null) {
 			if ($this->isNew()) {
-			   $this->collVocabularys = array();
+			   $this->collRegSchemas = array();
 			} else {
 
-				$criteria->add(VocabularyPeer::STATUS_ID, $this->getId());
+				$criteria->add(RegSchemaPeer::STATUS_ID, $this->getId());
 
-				VocabularyPeer::addSelectColumns($criteria);
-				$this->collVocabularys = VocabularyPeer::doSelect($criteria, $con);
+				RegSchemaPeer::addSelectColumns($criteria);
+				$this->collRegSchemas = RegSchemaPeer::doSelect($criteria, $con);
 			}
 		} else {
 			// criteria has no effect for a new object
@@ -1979,30 +1610,30 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 				// one, just return the collection.
 
 
-				$criteria->add(VocabularyPeer::STATUS_ID, $this->getId());
+				$criteria->add(RegSchemaPeer::STATUS_ID, $this->getId());
 
-				VocabularyPeer::addSelectColumns($criteria);
-				if (!isset($this->lastVocabularyCriteria) || !$this->lastVocabularyCriteria->equals($criteria)) {
-					$this->collVocabularys = VocabularyPeer::doSelect($criteria, $con);
+				RegSchemaPeer::addSelectColumns($criteria);
+				if (!isset($this->lastRegSchemaCriteria) || !$this->lastRegSchemaCriteria->equals($criteria)) {
+					$this->collRegSchemas = RegSchemaPeer::doSelect($criteria, $con);
 				}
 			}
 		}
-		$this->lastVocabularyCriteria = $criteria;
-		return $this->collVocabularys;
+		$this->lastRegSchemaCriteria = $criteria;
+		return $this->collRegSchemas;
 	}
 
 	/**
-	 * Returns the number of related Vocabularys.
+	 * Returns the number of related RegSchemas.
 	 *
 	 * @param      Criteria $criteria
 	 * @param      boolean $distinct
 	 * @param      Connection $con
 	 * @throws     PropelException
 	 */
-	public function countVocabularys($criteria = null, $distinct = false, $con = null)
+	public function countRegSchemas($criteria = null, $distinct = false, $con = null)
 	{
 		// include the Peer class
-		include_once 'lib/model/om/BaseVocabularyPeer.php';
+		include_once 'lib/model/om/BaseRegSchemaPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -2011,22 +1642,22 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 			$criteria = clone $criteria;
 		}
 
-		$criteria->add(VocabularyPeer::STATUS_ID, $this->getId());
+		$criteria->add(RegSchemaPeer::STATUS_ID, $this->getId());
 
-		return VocabularyPeer::doCount($criteria, $distinct, $con);
+		return RegSchemaPeer::doCount($criteria, $distinct, $con);
 	}
 
 	/**
-	 * Method called to associate a Vocabulary object to this object
-	 * through the Vocabulary foreign key attribute
+	 * Method called to associate a RegSchema object to this object
+	 * through the RegSchema foreign key attribute
 	 *
-	 * @param      Vocabulary $l Vocabulary
+	 * @param      RegSchema $l RegSchema
 	 * @return     void
 	 * @throws     PropelException
 	 */
-	public function addVocabulary(Vocabulary $l)
+	public function addRegSchema(RegSchema $l)
 	{
-		$this->collVocabularys[] = $l;
+		$this->collRegSchemas[] = $l;
 		$l->setStatus($this);
 	}
 
@@ -2036,16 +1667,16 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 	 * an identical criteria, it returns the collection.
 	 * Otherwise if this Status is new, it will return
 	 * an empty collection; or if this Status has previously
-	 * been saved, it will retrieve related Vocabularys from storage.
+	 * been saved, it will retrieve related RegSchemas from storage.
 	 *
 	 * This method is protected by default in order to keep the public
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in Status.
 	 */
-	public function getVocabularysJoinAgent($criteria = null, $con = null)
+	public function getRegSchemasJoinAgent($criteria = null, $con = null)
 	{
 		// include the Peer class
-		include_once 'lib/model/om/BaseVocabularyPeer.php';
+		include_once 'lib/model/om/BaseRegSchemaPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -2054,29 +1685,29 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 			$criteria = clone $criteria;
 		}
 
-		if ($this->collVocabularys === null) {
+		if ($this->collRegSchemas === null) {
 			if ($this->isNew()) {
-				$this->collVocabularys = array();
+				$this->collRegSchemas = array();
 			} else {
 
-				$criteria->add(VocabularyPeer::STATUS_ID, $this->getId());
+				$criteria->add(RegSchemaPeer::STATUS_ID, $this->getId());
 
-				$this->collVocabularys = VocabularyPeer::doSelectJoinAgent($criteria, $con);
+				$this->collRegSchemas = RegSchemaPeer::doSelectJoinAgent($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
 			// called for.  If the criteria is the same as the last
 			// one, just return the collection.
 
-			$criteria->add(VocabularyPeer::STATUS_ID, $this->getId());
+			$criteria->add(RegSchemaPeer::STATUS_ID, $this->getId());
 
-			if (!isset($this->lastVocabularyCriteria) || !$this->lastVocabularyCriteria->equals($criteria)) {
-				$this->collVocabularys = VocabularyPeer::doSelectJoinAgent($criteria, $con);
+			if (!isset($this->lastRegSchemaCriteria) || !$this->lastRegSchemaCriteria->equals($criteria)) {
+				$this->collRegSchemas = RegSchemaPeer::doSelectJoinAgent($criteria, $con);
 			}
 		}
-		$this->lastVocabularyCriteria = $criteria;
+		$this->lastRegSchemaCriteria = $criteria;
 
-		return $this->collVocabularys;
+		return $this->collRegSchemas;
 	}
 
 
@@ -2085,16 +1716,16 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 	 * an identical criteria, it returns the collection.
 	 * Otherwise if this Status is new, it will return
 	 * an empty collection; or if this Status has previously
-	 * been saved, it will retrieve related Vocabularys from storage.
+	 * been saved, it will retrieve related RegSchemas from storage.
 	 *
 	 * This method is protected by default in order to keep the public
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in Status.
 	 */
-	public function getVocabularysJoinUserRelatedByCreatedUserId($criteria = null, $con = null)
+	public function getRegSchemasJoinUserRelatedByCreatedUserId($criteria = null, $con = null)
 	{
 		// include the Peer class
-		include_once 'lib/model/om/BaseVocabularyPeer.php';
+		include_once 'lib/model/om/BaseRegSchemaPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -2103,29 +1734,29 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 			$criteria = clone $criteria;
 		}
 
-		if ($this->collVocabularys === null) {
+		if ($this->collRegSchemas === null) {
 			if ($this->isNew()) {
-				$this->collVocabularys = array();
+				$this->collRegSchemas = array();
 			} else {
 
-				$criteria->add(VocabularyPeer::STATUS_ID, $this->getId());
+				$criteria->add(RegSchemaPeer::STATUS_ID, $this->getId());
 
-				$this->collVocabularys = VocabularyPeer::doSelectJoinUserRelatedByCreatedUserId($criteria, $con);
+				$this->collRegSchemas = RegSchemaPeer::doSelectJoinUserRelatedByCreatedUserId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
 			// called for.  If the criteria is the same as the last
 			// one, just return the collection.
 
-			$criteria->add(VocabularyPeer::STATUS_ID, $this->getId());
+			$criteria->add(RegSchemaPeer::STATUS_ID, $this->getId());
 
-			if (!isset($this->lastVocabularyCriteria) || !$this->lastVocabularyCriteria->equals($criteria)) {
-				$this->collVocabularys = VocabularyPeer::doSelectJoinUserRelatedByCreatedUserId($criteria, $con);
+			if (!isset($this->lastRegSchemaCriteria) || !$this->lastRegSchemaCriteria->equals($criteria)) {
+				$this->collRegSchemas = RegSchemaPeer::doSelectJoinUserRelatedByCreatedUserId($criteria, $con);
 			}
 		}
-		$this->lastVocabularyCriteria = $criteria;
+		$this->lastRegSchemaCriteria = $criteria;
 
-		return $this->collVocabularys;
+		return $this->collRegSchemas;
 	}
 
 
@@ -2134,16 +1765,16 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 	 * an identical criteria, it returns the collection.
 	 * Otherwise if this Status is new, it will return
 	 * an empty collection; or if this Status has previously
-	 * been saved, it will retrieve related Vocabularys from storage.
+	 * been saved, it will retrieve related RegSchemas from storage.
 	 *
 	 * This method is protected by default in order to keep the public
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in Status.
 	 */
-	public function getVocabularysJoinUserRelatedByUpdatedUserId($criteria = null, $con = null)
+	public function getRegSchemasJoinUserRelatedByUpdatedUserId($criteria = null, $con = null)
 	{
 		// include the Peer class
-		include_once 'lib/model/om/BaseVocabularyPeer.php';
+		include_once 'lib/model/om/BaseRegSchemaPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -2152,29 +1783,136 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 			$criteria = clone $criteria;
 		}
 
-		if ($this->collVocabularys === null) {
+		if ($this->collRegSchemas === null) {
 			if ($this->isNew()) {
-				$this->collVocabularys = array();
+				$this->collRegSchemas = array();
 			} else {
 
-				$criteria->add(VocabularyPeer::STATUS_ID, $this->getId());
+				$criteria->add(RegSchemaPeer::STATUS_ID, $this->getId());
 
-				$this->collVocabularys = VocabularyPeer::doSelectJoinUserRelatedByUpdatedUserId($criteria, $con);
+				$this->collRegSchemas = RegSchemaPeer::doSelectJoinUserRelatedByUpdatedUserId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
 			// called for.  If the criteria is the same as the last
 			// one, just return the collection.
 
-			$criteria->add(VocabularyPeer::STATUS_ID, $this->getId());
+			$criteria->add(RegSchemaPeer::STATUS_ID, $this->getId());
 
-			if (!isset($this->lastVocabularyCriteria) || !$this->lastVocabularyCriteria->equals($criteria)) {
-				$this->collVocabularys = VocabularyPeer::doSelectJoinUserRelatedByUpdatedUserId($criteria, $con);
+			if (!isset($this->lastRegSchemaCriteria) || !$this->lastRegSchemaCriteria->equals($criteria)) {
+				$this->collRegSchemas = RegSchemaPeer::doSelectJoinUserRelatedByUpdatedUserId($criteria, $con);
 			}
 		}
-		$this->lastVocabularyCriteria = $criteria;
+		$this->lastRegSchemaCriteria = $criteria;
 
-		return $this->collVocabularys;
+		return $this->collRegSchemas;
+	}
+
+	/**
+	 * Temporary storage of collSchemaPropertyPropertys to save a possible db hit in
+	 * the event objects are add to the collection, but the
+	 * complete collection is never requested.
+	 * @return     void
+	 */
+	public function initSchemaPropertyPropertys()
+	{
+		if ($this->collSchemaPropertyPropertys === null) {
+			$this->collSchemaPropertyPropertys = array();
+		}
+	}
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Status has previously
+	 * been saved, it will retrieve related SchemaPropertyPropertys from storage.
+	 * If this Status is new, it will return
+	 * an empty collection or the current collection, the criteria
+	 * is ignored on a new object.
+	 *
+	 * @param      Connection $con
+	 * @param      Criteria $criteria
+	 * @throws     PropelException
+	 */
+	public function getSchemaPropertyPropertys($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseSchemaPropertyPropertyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collSchemaPropertyPropertys === null) {
+			if ($this->isNew()) {
+			   $this->collSchemaPropertyPropertys = array();
+			} else {
+
+				$criteria->add(SchemaPropertyPropertyPeer::STATUS_ID, $this->getId());
+
+				SchemaPropertyPropertyPeer::addSelectColumns($criteria);
+				$this->collSchemaPropertyPropertys = SchemaPropertyPropertyPeer::doSelect($criteria, $con);
+			}
+		} else {
+			// criteria has no effect for a new object
+			if (!$this->isNew()) {
+				// the following code is to determine if a new query is
+				// called for.  If the criteria is the same as the last
+				// one, just return the collection.
+
+
+				$criteria->add(SchemaPropertyPropertyPeer::STATUS_ID, $this->getId());
+
+				SchemaPropertyPropertyPeer::addSelectColumns($criteria);
+				if (!isset($this->lastSchemaPropertyPropertyCriteria) || !$this->lastSchemaPropertyPropertyCriteria->equals($criteria)) {
+					$this->collSchemaPropertyPropertys = SchemaPropertyPropertyPeer::doSelect($criteria, $con);
+				}
+			}
+		}
+		$this->lastSchemaPropertyPropertyCriteria = $criteria;
+		return $this->collSchemaPropertyPropertys;
+	}
+
+	/**
+	 * Returns the number of related SchemaPropertyPropertys.
+	 *
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct
+	 * @param      Connection $con
+	 * @throws     PropelException
+	 */
+	public function countSchemaPropertyPropertys($criteria = null, $distinct = false, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseSchemaPropertyPropertyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		$criteria->add(SchemaPropertyPropertyPeer::STATUS_ID, $this->getId());
+
+		return SchemaPropertyPropertyPeer::doCount($criteria, $distinct, $con);
+	}
+
+	/**
+	 * Method called to associate a SchemaPropertyProperty object to this object
+	 * through the SchemaPropertyProperty foreign key attribute
+	 *
+	 * @param      SchemaPropertyProperty $l SchemaPropertyProperty
+	 * @return     void
+	 * @throws     PropelException
+	 */
+	public function addSchemaPropertyProperty(SchemaPropertyProperty $l)
+	{
+		$this->collSchemaPropertyPropertys[] = $l;
+		$l->setStatus($this);
 	}
 
 
@@ -2183,16 +1921,16 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 	 * an identical criteria, it returns the collection.
 	 * Otherwise if this Status is new, it will return
 	 * an empty collection; or if this Status has previously
-	 * been saved, it will retrieve related Vocabularys from storage.
+	 * been saved, it will retrieve related SchemaPropertyPropertys from storage.
 	 *
 	 * This method is protected by default in order to keep the public
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in Status.
 	 */
-	public function getVocabularysJoinUserRelatedByChildUpdatedUserId($criteria = null, $con = null)
+	public function getSchemaPropertyPropertysJoinRegVocabulary($criteria = null, $con = null)
 	{
 		// include the Peer class
-		include_once 'lib/model/om/BaseVocabularyPeer.php';
+		include_once 'lib/model/om/BaseSchemaPropertyPropertyPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -2201,29 +1939,479 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 			$criteria = clone $criteria;
 		}
 
-		if ($this->collVocabularys === null) {
+		if ($this->collSchemaPropertyPropertys === null) {
 			if ($this->isNew()) {
-				$this->collVocabularys = array();
+				$this->collSchemaPropertyPropertys = array();
 			} else {
 
-				$criteria->add(VocabularyPeer::STATUS_ID, $this->getId());
+				$criteria->add(SchemaPropertyPropertyPeer::STATUS_ID, $this->getId());
 
-				$this->collVocabularys = VocabularyPeer::doSelectJoinUserRelatedByChildUpdatedUserId($criteria, $con);
+				$this->collSchemaPropertyPropertys = SchemaPropertyPropertyPeer::doSelectJoinRegVocabulary($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
 			// called for.  If the criteria is the same as the last
 			// one, just return the collection.
 
-			$criteria->add(VocabularyPeer::STATUS_ID, $this->getId());
+			$criteria->add(SchemaPropertyPropertyPeer::STATUS_ID, $this->getId());
 
-			if (!isset($this->lastVocabularyCriteria) || !$this->lastVocabularyCriteria->equals($criteria)) {
-				$this->collVocabularys = VocabularyPeer::doSelectJoinUserRelatedByChildUpdatedUserId($criteria, $con);
+			if (!isset($this->lastSchemaPropertyPropertyCriteria) || !$this->lastSchemaPropertyPropertyCriteria->equals($criteria)) {
+				$this->collSchemaPropertyPropertys = SchemaPropertyPropertyPeer::doSelectJoinRegVocabulary($criteria, $con);
 			}
 		}
-		$this->lastVocabularyCriteria = $criteria;
+		$this->lastSchemaPropertyPropertyCriteria = $criteria;
 
-		return $this->collVocabularys;
+		return $this->collSchemaPropertyPropertys;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Status is new, it will return
+	 * an empty collection; or if this Status has previously
+	 * been saved, it will retrieve related SchemaPropertyPropertys from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Status.
+	 */
+	public function getSchemaPropertyPropertysJoinUser($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseSchemaPropertyPropertyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collSchemaPropertyPropertys === null) {
+			if ($this->isNew()) {
+				$this->collSchemaPropertyPropertys = array();
+			} else {
+
+				$criteria->add(SchemaPropertyPropertyPeer::STATUS_ID, $this->getId());
+
+				$this->collSchemaPropertyPropertys = SchemaPropertyPropertyPeer::doSelectJoinUser($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(SchemaPropertyPropertyPeer::STATUS_ID, $this->getId());
+
+			if (!isset($this->lastSchemaPropertyPropertyCriteria) || !$this->lastSchemaPropertyPropertyCriteria->equals($criteria)) {
+				$this->collSchemaPropertyPropertys = SchemaPropertyPropertyPeer::doSelectJoinUser($criteria, $con);
+			}
+		}
+		$this->lastSchemaPropertyPropertyCriteria = $criteria;
+
+		return $this->collSchemaPropertyPropertys;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Status is new, it will return
+	 * an empty collection; or if this Status has previously
+	 * been saved, it will retrieve related SchemaPropertyPropertys from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Status.
+	 */
+	public function getSchemaPropertyPropertysJoinSchemaProperty($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseSchemaPropertyPropertyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collSchemaPropertyPropertys === null) {
+			if ($this->isNew()) {
+				$this->collSchemaPropertyPropertys = array();
+			} else {
+
+				$criteria->add(SchemaPropertyPropertyPeer::STATUS_ID, $this->getId());
+
+				$this->collSchemaPropertyPropertys = SchemaPropertyPropertyPeer::doSelectJoinSchemaProperty($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(SchemaPropertyPropertyPeer::STATUS_ID, $this->getId());
+
+			if (!isset($this->lastSchemaPropertyPropertyCriteria) || !$this->lastSchemaPropertyPropertyCriteria->equals($criteria)) {
+				$this->collSchemaPropertyPropertys = SchemaPropertyPropertyPeer::doSelectJoinSchemaProperty($criteria, $con);
+			}
+		}
+		$this->lastSchemaPropertyPropertyCriteria = $criteria;
+
+		return $this->collSchemaPropertyPropertys;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Status is new, it will return
+	 * an empty collection; or if this Status has previously
+	 * been saved, it will retrieve related SchemaPropertyPropertys from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Status.
+	 */
+	public function getSchemaPropertyPropertysJoinSchemaPropertyPropertyRelatedByRelatedSchemaPropertyId($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseSchemaPropertyPropertyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collSchemaPropertyPropertys === null) {
+			if ($this->isNew()) {
+				$this->collSchemaPropertyPropertys = array();
+			} else {
+
+				$criteria->add(SchemaPropertyPropertyPeer::STATUS_ID, $this->getId());
+
+				$this->collSchemaPropertyPropertys = SchemaPropertyPropertyPeer::doSelectJoinSchemaPropertyPropertyRelatedByRelatedSchemaPropertyId($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(SchemaPropertyPropertyPeer::STATUS_ID, $this->getId());
+
+			if (!isset($this->lastSchemaPropertyPropertyCriteria) || !$this->lastSchemaPropertyPropertyCriteria->equals($criteria)) {
+				$this->collSchemaPropertyPropertys = SchemaPropertyPropertyPeer::doSelectJoinSchemaPropertyPropertyRelatedByRelatedSchemaPropertyId($criteria, $con);
+			}
+		}
+		$this->lastSchemaPropertyPropertyCriteria = $criteria;
+
+		return $this->collSchemaPropertyPropertys;
+	}
+
+	/**
+	 * Temporary storage of collRegVocabularys to save a possible db hit in
+	 * the event objects are add to the collection, but the
+	 * complete collection is never requested.
+	 * @return     void
+	 */
+	public function initRegVocabularys()
+	{
+		if ($this->collRegVocabularys === null) {
+			$this->collRegVocabularys = array();
+		}
+	}
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Status has previously
+	 * been saved, it will retrieve related RegVocabularys from storage.
+	 * If this Status is new, it will return
+	 * an empty collection or the current collection, the criteria
+	 * is ignored on a new object.
+	 *
+	 * @param      Connection $con
+	 * @param      Criteria $criteria
+	 * @throws     PropelException
+	 */
+	public function getRegVocabularys($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseRegVocabularyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collRegVocabularys === null) {
+			if ($this->isNew()) {
+			   $this->collRegVocabularys = array();
+			} else {
+
+				$criteria->add(RegVocabularyPeer::STATUS_ID, $this->getId());
+
+				RegVocabularyPeer::addSelectColumns($criteria);
+				$this->collRegVocabularys = RegVocabularyPeer::doSelect($criteria, $con);
+			}
+		} else {
+			// criteria has no effect for a new object
+			if (!$this->isNew()) {
+				// the following code is to determine if a new query is
+				// called for.  If the criteria is the same as the last
+				// one, just return the collection.
+
+
+				$criteria->add(RegVocabularyPeer::STATUS_ID, $this->getId());
+
+				RegVocabularyPeer::addSelectColumns($criteria);
+				if (!isset($this->lastRegVocabularyCriteria) || !$this->lastRegVocabularyCriteria->equals($criteria)) {
+					$this->collRegVocabularys = RegVocabularyPeer::doSelect($criteria, $con);
+				}
+			}
+		}
+		$this->lastRegVocabularyCriteria = $criteria;
+		return $this->collRegVocabularys;
+	}
+
+	/**
+	 * Returns the number of related RegVocabularys.
+	 *
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct
+	 * @param      Connection $con
+	 * @throws     PropelException
+	 */
+	public function countRegVocabularys($criteria = null, $distinct = false, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseRegVocabularyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		$criteria->add(RegVocabularyPeer::STATUS_ID, $this->getId());
+
+		return RegVocabularyPeer::doCount($criteria, $distinct, $con);
+	}
+
+	/**
+	 * Method called to associate a RegVocabulary object to this object
+	 * through the RegVocabulary foreign key attribute
+	 *
+	 * @param      RegVocabulary $l RegVocabulary
+	 * @return     void
+	 * @throws     PropelException
+	 */
+	public function addRegVocabulary(RegVocabulary $l)
+	{
+		$this->collRegVocabularys[] = $l;
+		$l->setStatus($this);
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Status is new, it will return
+	 * an empty collection; or if this Status has previously
+	 * been saved, it will retrieve related RegVocabularys from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Status.
+	 */
+	public function getRegVocabularysJoinAgent($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseRegVocabularyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collRegVocabularys === null) {
+			if ($this->isNew()) {
+				$this->collRegVocabularys = array();
+			} else {
+
+				$criteria->add(RegVocabularyPeer::STATUS_ID, $this->getId());
+
+				$this->collRegVocabularys = RegVocabularyPeer::doSelectJoinAgent($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(RegVocabularyPeer::STATUS_ID, $this->getId());
+
+			if (!isset($this->lastRegVocabularyCriteria) || !$this->lastRegVocabularyCriteria->equals($criteria)) {
+				$this->collRegVocabularys = RegVocabularyPeer::doSelectJoinAgent($criteria, $con);
+			}
+		}
+		$this->lastRegVocabularyCriteria = $criteria;
+
+		return $this->collRegVocabularys;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Status is new, it will return
+	 * an empty collection; or if this Status has previously
+	 * been saved, it will retrieve related RegVocabularys from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Status.
+	 */
+	public function getRegVocabularysJoinUserRelatedByCreatedUserId($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseRegVocabularyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collRegVocabularys === null) {
+			if ($this->isNew()) {
+				$this->collRegVocabularys = array();
+			} else {
+
+				$criteria->add(RegVocabularyPeer::STATUS_ID, $this->getId());
+
+				$this->collRegVocabularys = RegVocabularyPeer::doSelectJoinUserRelatedByCreatedUserId($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(RegVocabularyPeer::STATUS_ID, $this->getId());
+
+			if (!isset($this->lastRegVocabularyCriteria) || !$this->lastRegVocabularyCriteria->equals($criteria)) {
+				$this->collRegVocabularys = RegVocabularyPeer::doSelectJoinUserRelatedByCreatedUserId($criteria, $con);
+			}
+		}
+		$this->lastRegVocabularyCriteria = $criteria;
+
+		return $this->collRegVocabularys;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Status is new, it will return
+	 * an empty collection; or if this Status has previously
+	 * been saved, it will retrieve related RegVocabularys from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Status.
+	 */
+	public function getRegVocabularysJoinUserRelatedByUpdatedUserId($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseRegVocabularyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collRegVocabularys === null) {
+			if ($this->isNew()) {
+				$this->collRegVocabularys = array();
+			} else {
+
+				$criteria->add(RegVocabularyPeer::STATUS_ID, $this->getId());
+
+				$this->collRegVocabularys = RegVocabularyPeer::doSelectJoinUserRelatedByUpdatedUserId($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(RegVocabularyPeer::STATUS_ID, $this->getId());
+
+			if (!isset($this->lastRegVocabularyCriteria) || !$this->lastRegVocabularyCriteria->equals($criteria)) {
+				$this->collRegVocabularys = RegVocabularyPeer::doSelectJoinUserRelatedByUpdatedUserId($criteria, $con);
+			}
+		}
+		$this->lastRegVocabularyCriteria = $criteria;
+
+		return $this->collRegVocabularys;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Status is new, it will return
+	 * an empty collection; or if this Status has previously
+	 * been saved, it will retrieve related RegVocabularys from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Status.
+	 */
+	public function getRegVocabularysJoinUserRelatedByChildUpdatedUserId($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseRegVocabularyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collRegVocabularys === null) {
+			if ($this->isNew()) {
+				$this->collRegVocabularys = array();
+			} else {
+
+				$criteria->add(RegVocabularyPeer::STATUS_ID, $this->getId());
+
+				$this->collRegVocabularys = RegVocabularyPeer::doSelectJoinUserRelatedByChildUpdatedUserId($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(RegVocabularyPeer::STATUS_ID, $this->getId());
+
+			if (!isset($this->lastRegVocabularyCriteria) || !$this->lastRegVocabularyCriteria->equals($criteria)) {
+				$this->collRegVocabularys = RegVocabularyPeer::doSelectJoinUserRelatedByChildUpdatedUserId($criteria, $con);
+			}
+		}
+		$this->lastRegVocabularyCriteria = $criteria;
+
+		return $this->collRegVocabularys;
 	}
 
 

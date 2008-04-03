@@ -2,7 +2,7 @@
 
 
 /**
- * This class adds structure of 'reg_concept' table to 'propel' DatabaseMap object.
+ * This class adds structure of 'reg_vocabulary_has_version' table to 'propel' DatabaseMap object.
  *
  *
  *
@@ -13,12 +13,12 @@
  *
  * @package    lib.model.map
  */
-class ConceptMapBuilder {
+class RegVocabularyHasVersionMapBuilder {
 
 	/**
 	 * The (dot-path) name of this class
 	 */
-	const CLASS_NAME = 'lib.model.map.ConceptMapBuilder';
+	const CLASS_NAME = 'lib.model.map.RegVocabularyHasVersionMapBuilder';
 
 	/**
 	 * The database map.
@@ -56,39 +56,27 @@ class ConceptMapBuilder {
 	{
 		$this->dbMap = Propel::getDatabaseMap('propel');
 
-		$tMap = $this->dbMap->addTable('reg_concept');
-		$tMap->setPhpName('Concept');
+		$tMap = $this->dbMap->addTable('reg_vocabulary_has_version');
+		$tMap->setPhpName('RegVocabularyHasVersion');
 
 		$tMap->setUseIdGenerator(true);
 
 		$tMap->addPrimaryKey('ID', 'Id', 'int', CreoleTypes::INTEGER, true, null);
 
-		$tMap->addColumn('CREATED_AT', 'CreatedAt', 'int', CreoleTypes::TIMESTAMP, false, null);
+		$tMap->addColumn('NAME', 'Name', 'string', CreoleTypes::VARCHAR, true, 255);
 
-		$tMap->addColumn('UPDATED_AT', 'UpdatedAt', 'int', CreoleTypes::TIMESTAMP, true, null);
+		$tMap->addColumn('CREATED_AT', 'CreatedAt', 'int', CreoleTypes::TIMESTAMP, false, null);
 
 		$tMap->addColumn('DELETED_AT', 'DeletedAt', 'int', CreoleTypes::TIMESTAMP, false, null);
 
-		$tMap->addColumn('LAST_UPDATED', 'LastUpdated', 'int', CreoleTypes::TIMESTAMP, false, null);
+		$tMap->addColumn('UPDATED_AT', 'UpdatedAt', 'int', CreoleTypes::TIMESTAMP, false, null);
 
 		$tMap->addForeignKey('CREATED_USER_ID', 'CreatedUserId', 'int', CreoleTypes::INTEGER, 'reg_user', 'ID', false, null);
 
-		$tMap->addForeignKey('UPDATED_USER_ID', 'UpdatedUserId', 'int', CreoleTypes::INTEGER, 'reg_user', 'ID', false, null);
-
-		$tMap->addColumn('URI', 'Uri', 'string', CreoleTypes::VARCHAR, true, 255);
-
 		$tMap->addForeignKey('VOCABULARY_ID', 'VocabularyId', 'int', CreoleTypes::INTEGER, 'reg_vocabulary', 'ID', false, null);
 
-		$tMap->addColumn('IS_TOP_CONCEPT', 'IsTopConcept', 'boolean', CreoleTypes::BOOLEAN, false, null);
-
-		$tMap->addForeignKey('PREF_LABEL_ID', 'PrefLabelId', 'int', CreoleTypes::INTEGER, 'reg_concept_property', 'ID', false, null);
-
-		$tMap->addColumn('PREF_LABEL', 'PrefLabel', 'string', CreoleTypes::VARCHAR, true, 255);
-
-		$tMap->addForeignKey('STATUS_ID', 'StatusId', 'int', CreoleTypes::INTEGER, 'reg_status', 'ID', true, null);
-
-		$tMap->addColumn('LANGUAGE', 'Language', 'string', CreoleTypes::CHAR, true, 6);
+		$tMap->addColumn('TIMESLICE', 'Timeslice', 'int', CreoleTypes::TIMESTAMP, false, null);
 
 	} // doBuild()
 
-} // ConceptMapBuilder
+} // RegVocabularyHasVersionMapBuilder
