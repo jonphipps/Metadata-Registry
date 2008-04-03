@@ -33,7 +33,7 @@ class MySQLTypes extends CreoleTypes {
 
     /** Map MySQL native types to Creole (JDBC) types. */
     private static $typeMap = array(
-                                'tinyint' => CreoleTypes::TINYINT,
+                                'tinyint' => CreoleTypes::BOOLEAN,
                                 'smallint' => CreoleTypes::SMALLINT,
                                 'mediumint' => CreoleTypes::SMALLINT,
                                 'int' => CreoleTypes::INTEGER,
