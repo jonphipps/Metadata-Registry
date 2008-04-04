@@ -68,7 +68,8 @@
  *
  * @author Xiang Wei Zhuo <weizhuo[at]gmail[dot]com>
  * @version v1.0, last update on Fri Dec 03 22:30:31 EST 2004
- * @package System.I18N.core
+ * @package    symfony
+ * @subpackage i18n
  */
 class sfDateTimeFormatInfo
 {
@@ -158,10 +159,10 @@ class sfDateTimeFormatInfo
   static function getInvariantInfo()
   {
     static $invariant;
+
     if (is_null($invariant))
     {
-      $culture = sfCultureInfo::getInvariantCulture();
-      $invariant = $culture->DateTimeFormat;
+      $invariant = sfCultureInfo::getInvariantCulture()->DateTimeFormat;
     }
 
     return $invariant;
@@ -182,15 +183,11 @@ class sfDateTimeFormatInfo
     }
     else if (is_string($culture))
     {
-      $cultureInfo = new sfCultureInfo($culture);
-
-      return $cultureInfo->DateTimeFormat;
+      return sfCultureInfo::getInstance($culture)->DateTimeFormat;
     }
     else
     {
-      $cultureInfo = sfCultureInfo::getInvariantCulture();
-
-      return $cultureInfo->DateTimeFormat;
+      return sfCultureInfo::getInvariantCulture()->DateTimeFormat;
     }
   }
 

@@ -3,7 +3,7 @@
 /*
  * This file is part of the symfony package.
  * (c) 2004-2006 Fabien Potencier <fabien.potencier@symfony-project.com>
- * (c) 2004-2006 Sean Kerr.
+ * (c) 2004-2006 Sean Kerr <sean@code-box.org>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,7 +15,7 @@
  * @package    symfony
  * @subpackage controller
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
- * @author     Sean Kerr <skerr@mojavi.org>
+ * @author     Sean Kerr <sean@code-box.org>
  * @version    SVN: $Id$
  */
 abstract class sfController
@@ -198,7 +198,7 @@ abstract class sfController
       // the requested action doesn't exist
       if (sfConfig::get('sf_logging_enabled'))
       {
-        $this->getContext()->getLogger()->info('{sfController} action does not exist');
+        $this->getContext()->getLogger()->info(sprintf('{sfController} action "%s/%s" does not exist', $moduleName, $actionName));
       }
 
       // track the requested module so we have access to the data in the error 404 page
@@ -533,8 +533,24 @@ abstract class sfController
       $this->getContext()->getRequest()->setAttribute($module.'_'.$action.'_view_name', $viewName, 'symfony/action/view');
     }
 
-    // forward to the mail action
-    $this->forward($module, $action);
+    try
+    {
+      // forward to the mail action
+      $this->forward($module, $action);
+    }
+    catch (Exception $e)
+    {
+      // put render mode back
+      $this->setRenderMode($renderMode);
+
+      // remove viewName
+      if ($viewName)
+      {
+        $this->getContext()->getRequest()->getAttributeHolder()->remove($module.'_'.$action.'_view_name', 'symfony/action/view');
+      }
+
+      throw $e;
+    }
 
     // grab the action entry from this forward
     $actionEntry = $actionStack->getEntry($index);
@@ -553,13 +569,13 @@ abstract class sfController
 
       if ($actionEntry->getModuleName() == sfConfig::get('sf_login_module') && $actionEntry->getActionName() == sfConfig::get('sf_login_action'))
       {
-        $error = 'Your mail action is secured but the user is not authenticated.';
+        $error = 'Your action is secured but the user is not authenticated.';
 
         throw new sfException($error);
       }
       else if ($actionEntry->getModuleName() == sfConfig::get('sf_secure_module') && $actionEntry->getActionName() == sfConfig::get('sf_secure_action'))
       {
-        $error = 'Your mail action is secured but the user does not have access.';
+        $error = 'Your action is secured but the user does not have access.';
 
         throw new sfException($error);
       }

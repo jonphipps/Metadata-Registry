@@ -14,7 +14,7 @@
  * @package    symfony
  * @subpackage exception
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
- * @author     Sean Kerr <skerr@mojavi.org>
+ * @author     Sean Kerr <sean@code-box.org>
  * @version    SVN: $Id$
  */
 class sfContextException extends sfException

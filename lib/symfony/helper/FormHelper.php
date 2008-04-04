@@ -228,6 +228,7 @@ function select_country_tag($name, $selected = null, $options = array())
   asort($countries);
 
   $option_tags = options_for_select($countries, $selected, $options);
+  unset($options['include_blank'], $options['include_custom']);
 
   return select_tag($name, $option_tags, $options);
 }
@@ -275,6 +276,7 @@ function select_language_tag($name, $selected = null, $options = array())
   asort($languages);
 
   $option_tags = options_for_select($languages, $selected, $options);
+  unset($options['include_blank'], $options['include_custom']);
 
   return select_tag($name, $option_tags, $options);
 }
@@ -530,7 +532,7 @@ function checkbox_tag($name, $value = '1', $checked = false, $options = array())
  */
 function radiobutton_tag($name, $value, $checked = false, $options = array())
 {
-  $html_options = array_merge(array('type' => 'radio', 'name' => $name, 'id' => get_id_from_name($name, $value), 'value' => $value), _convert_options($options));
+  $html_options = array_merge(array('type' => 'radio', 'name' => $name, 'id' => get_id_from_name($name.'[]', $value), 'value' => $value), _convert_options($options));
 
   if ($checked)
   {

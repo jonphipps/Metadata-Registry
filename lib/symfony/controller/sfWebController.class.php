@@ -3,7 +3,7 @@
 /*
  * This file is part of the symfony package.
  * (c) 2004-2006 Fabien Potencier <fabien.potencier@symfony-project.com>
- * (c) 2004-2006 Sean Kerr.
+ * (c) 2004-2006 Sean Kerr <sean@code-box.org>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,7 +15,7 @@
  * @package    symfony
  * @subpackage controller
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
- * @author     Sean Kerr <skerr@mojavi.org>
+ * @author     Sean Kerr <sean@code-box.org>
  * @version    SVN: $Id$
  */
 abstract class sfWebController extends sfController
@@ -42,11 +42,11 @@ abstract class sfWebController extends sfController
     }
 
     $url = '';
-    if (!($sf_no_script_name = sfConfig::get('sf_no_script_name')))
+    if (!sfConfig::get('sf_no_script_name'))
     {
       $url = $this->getContext()->getRequest()->getScriptName();
     }
-    else if (($sf_relative_url_root = $this->getContext()->getRequest()->getRelativeUrlRoot()) && $sf_no_script_name)
+    else if ($sf_relative_url_root = $this->getContext()->getRequest()->getRelativeUrlRoot())
     {
       $url = $sf_relative_url_root;
     }

@@ -338,7 +338,13 @@ class sfFileCache extends sfCache
   {
     $namespace = str_replace('/', DIRECTORY_SEPARATOR, $namespace);
 
-    return $this->cleanDir($this->cacheDir.DIRECTORY_SEPARATOR.$namespace, $mode);
+    $dir = $this->cacheDir.DIRECTORY_SEPARATOR.$namespace;
+    if (!file_exists($dir))
+    {
+      return true;
+    }
+
+    return $this->cleanDir($dir, $mode);
   }
 
   /**

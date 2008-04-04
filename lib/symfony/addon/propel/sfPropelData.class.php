@@ -20,7 +20,9 @@
 class sfPropelData extends sfData
 {
   protected
-    $maps = array();
+    $maps           = array(),
+    $deletedClasses = array(),
+    $con            = null;
 
   // symfony load-data (file|dir)
   /**
@@ -36,20 +38,20 @@ class sfPropelData extends sfData
     $fixture_files = $this->getFiles($directory_or_file);
 
     // wrap all database operations in a single transaction
-    $con = Propel::getConnection($connectionName);
+    $this->con = Propel::getConnection($connectionName);
     try
     {
-      $con->begin();
+      $this->con->begin();
 
       $this->doDeleteCurrentData($fixture_files);
 
       $this->doLoadData($fixture_files);
 
-      $con->commit();
+      $this->con->commit();
     }
     catch (Exception $e)
     {
-      $con->rollback();
+      $this->con->rollback();
       throw $e;
     }
   }
@@ -88,7 +90,7 @@ class sfPropelData extends sfData
       // might have been empty just for force a table to be emptied on import
       if (!is_array($datas))
       {
-        return;
+        continue;
       }
 
       foreach ($datas as $key => $data)
@@ -96,40 +98,49 @@ class sfPropelData extends sfData
         // create a new entry in the database
         $obj = new $class();
 
+        if (!$obj instanceof BaseObject)
+        {
+          throw new Exception(sprintf('The class "%s" is not a Propel class. This probably means there is already a class named "%s" somewhere in symfony or in your project.', $class, $class));
+        }
+
         if (!is_array($data))
         {
-          throw new Exception('You must give a name for each fixture data entry');
+          throw new Exception(sprintf('You must give a name for each fixture data entry (class %s)', $class));
         }
 
         foreach ($data as $name => $value)
         {
-          // foreign key?
+          $isARealColumn = true;
           try
           {
             $column = $tableMap->getColumn($name);
-            if ($column->isForeignKey() && !is_null($value))
-            {
-              $relatedTable = $this->maps[$class]->getDatabaseMap()->getTable($column->getRelatedTableName());
-              if (!isset($this->object_references[$relatedTable->getPhpName().'_'.$value]))
-              {
-                $error = 'The object "%s" from class "%s" is not defined in your data file.';
-                $error = sprintf($error, $value, $relatedTable->getPhpName());
-                throw new sfException($error);
-              }
-              $value = $this->object_references[$relatedTable->getPhpName().'_'.$value];
-            }
           }
           catch (PropelException $e)
           {
+            $isARealColumn = false;
           }
 
-          $pos = array_search($name, $column_names);
-          $method = 'set'.sfInflector::camelize($name);
-          if ($pos)
+          // foreign key?
+          if ($isARealColumn)
+          {
+            if ($column->isForeignKey() && !is_null($value))
+            {
+              $relatedTable = $this->maps[$class]->getDatabaseMap()->getTable($column->getRelatedTableName());
+
+              if (!isset($this->object_references[$relatedTable->getPhpName().'_'.$value]))
+              {
+                throw new sfException(sprintf('The object "%s" from class "%s" is not defined in your data file.', $value, $relatedTable->getPhpName()));
+              }
+
+              $value = $this->object_references[$relatedTable->getPhpName().'_'.$value];
+            }
+          }
+
+          if (false !== $pos = array_search($name, $column_names))
           {
             $obj->setByPosition($pos, $value);
           }
-          else if (is_callable(array($obj, $method)))
+          else if (is_callable(array($obj, $method = 'set'.sfInflector::camelize($name))))
           {
             $obj->$method($value);
           }
@@ -140,7 +151,7 @@ class sfPropelData extends sfData
             throw new sfException($error);
           }
         }
-        $obj->save();
+        $obj->save($this->con);
 
         // save the id for future reference
         if (method_exists($obj, 'getPrimaryKey'))
@@ -183,7 +194,13 @@ class sfPropelData extends sfData
       krsort($classes);
       foreach ($classes as $class)
       {
-        $peer_class = trim($class.'Peer');
+        $class = trim($class);
+        if (in_array($class, $this->deletedClasses))
+        {
+          continue;
+        }
+
+        $peer_class = $class.'Peer';
 
         if (!$classPath = sfCore::getClassPath($peer_class))
         {
@@ -192,7 +209,9 @@ class sfPropelData extends sfData
 
         require_once($classPath);
 
-        call_user_func(array($peer_class, 'doDeleteAll'));
+        call_user_func(array($peer_class, 'doDeleteAll'), $this->con);
+
+        $this->deletedClasses[] = $class;
       }
     }
   }
@@ -200,31 +219,31 @@ class sfPropelData extends sfData
   /**
    * Loads the mappings for the classes
    *
-   * @param string The name of a data object
+   * @param string The model class name
    *
    * @throws sfException If the class cannot be found
    */
   protected function loadMapBuilder($class)
   {
-    $class_map_builder = $class.'MapBuilder';
+    $mapBuilderClass = $class.'MapBuilder';
     if (!isset($this->maps[$class]))
     {
-      if (!$classPath = sfCore::getClassPath($class_map_builder))
+      if (!$classPath = sfCore::getClassPath($mapBuilderClass))
       {
-        throw new sfException(sprintf('Unable to find path for class "%s".', $class_map_builder));
+        throw new sfException(sprintf('Unable to find path for class "%s".', $mapBuilderClass));
       }
 
       require_once($classPath);
-      $this->maps[$class] = new $class_map_builder();
+      $this->maps[$class] = new $mapBuilderClass();
       $this->maps[$class]->doBuild();
     }
   }
 
   /**
-   * Dumps data to fixture from 1 or more tables.
+   * Dumps data to fixture from one or more tables.
    *
    * @param string directory or file to dump to
-   * @param mixed name or names of tables to dump
+   * @param mixed  name or names of tables to dump (or all to dump all tables)
    * @param string connection name
    */
   public function dumpData($directory_or_file = null, $tables = 'all', $connectionName = 'propel')
@@ -241,15 +260,25 @@ class sfPropelData extends sfData
       // delete file
     }
 
-    $con = Propel::getConnection($connectionName);
+    $this->con = Propel::getConnection($connectionName);
 
     // get tables
-    if ('all' === $tables || null === $tables)
+    if ('all' === $tables || is_null($tables))
     {
-      $tables = sfFinder::type('file')->name('/(?<!Peer)\.php$/')->maxdepth(0)->in(sfConfig::get('sf_model_lib_dir'));
-      foreach ($tables as &$table)
+      // load all map builder classes
+      $files = sfFinder::type('file')->name('*MapBuilder.php')->in(sfLoader::getModelDirs());
+      foreach ($files as $file)
       {
-        $table = basename($table, '.php');
+        $mapBuilderClass = basename($file, '.php');
+        $map = new $mapBuilderClass();
+        $map->doBuild();
+      }
+
+      $dbMap = Propel::getDatabaseMap($connectionName);
+      $tables = array();
+      foreach ($dbMap->getTables() as $table)
+      {
+        $tables[] = $table->getPhpName();
       }
     }
     else if (!is_array($tables))
@@ -262,82 +291,191 @@ class sfPropelData extends sfData
     // load map classes
     array_walk($tables, array($this, 'loadMapBuilder'));
 
-    // reordering tables to take foreign keys into account
-    $move = true;
-    while ($move)
-    {
-      foreach ($tables as $i => $tableName)
-      {
-        $tableMap = $this->maps[$tableName]->getDatabaseMap()->getTable(constant($tableName.'Peer::TABLE_NAME'));
-
-        foreach ($tableMap->getColumns() as $column)
-        {
-          if ($column->isForeignKey())
-          {
-            $relatedTable = $this->maps[$tableName]->getDatabaseMap()->getTable($column->getRelatedTableName());
-            if (array_search($relatedTable->getPhpName(), $tables) > $i)
-            {
-              unset($tables[$i]);
-              $tables[] = $tableName;
-              $move = true;
-              continue 2;
-            }
-          }
-        }
-
-        $move = false;
-      }
-    }
-
+    $tables = $this->fixOrderingOfForeignKeyData($tables);
     foreach ($tables as $tableName)
     {
       $tableMap = $this->maps[$tableName]->getDatabaseMap()->getTable(constant($tableName.'Peer::TABLE_NAME'));
-
-      // get db info
-      $rs = $con->executeQuery('SELECT * FROM '.constant($tableName.'Peer::TABLE_NAME'));
-
-      $dumpData[$tableName] = array();
-
-      while ($rs->next())
+      $hasParent = false;
+      $haveParents = false;
+      $fixColumn = null;
+      foreach ($tableMap->getColumns() as $column)
       {
-        $pk = $tableName;
-        $values = array();
-        foreach ($tableMap->getColumns() as $column)
+        $col = strtolower($column->getColumnName());
+        if ($column->isForeignKey())
         {
-          $col = strtolower($column->getColumnName());
-          if ($column->isPrimaryKey())
+          $relatedTable = $this->maps[$tableName]->getDatabaseMap()->getTable($column->getRelatedTableName());
+          if ($tableName === $relatedTable->getPhpName())
           {
-            $pk .= '_'.$rs->get($col);
-          }
-          else if ($column->isForeignKey())
-          {
-            $relatedTable = $this->maps[$tableName]->getDatabaseMap()->getTable($column->getRelatedTableName());
-
-            $values[$col] = $relatedTable->getPhpName().'_'.$rs->get($col);
-          }
-          else
-          {
-            $values[$col] = $rs->get($col);
+            if ($hasParent)
+            {
+              $haveParents = true;
+            }
+            else
+            {
+              $fixColumn = $column;
+              $hasParent = true;
+            }
           }
         }
+      }
 
-        $dumpData[$tableName][$pk] = $values;
+      if ($haveParents)
+      {
+        // unable to dump tables having multi-recursive references
+        continue;
+      }
+
+      // get db info
+      $resultsSets = array();
+      if ($hasParent)
+      {
+        $resultsSets = $this->fixOrderingOfForeignKeyDataInSameTable($resultsSets, $tableName, $fixColumn);
+      }
+      else
+      {
+        $resultsSets[] = $this->con->executeQuery('SELECT * FROM '.constant($tableName.'Peer::TABLE_NAME'));
+      }
+
+      foreach ($resultsSets as $rs)
+      {
+        if($rs->getRecordCount() > 0 && !isset($dumpData[$tableName])){
+          $dumpData[$tableName] = array();
+        }
+
+        while ($rs->next())
+        {
+          $pk = $tableName;
+          $values = array();
+          $primaryKeys = array();
+          $foreignKeys = array();
+
+          foreach ($tableMap->getColumns() as $column)
+          {
+            $col = strtolower($column->getColumnName());
+            $isPrimaryKey = $column->isPrimaryKey();
+
+            if (is_null($rs->get($col)))
+            {
+              continue;
+            }
+
+            if ($isPrimaryKey)
+            {
+              $value = $rs->get($col);
+              $pk .= '_'.$value;
+              $primaryKeys[$col] = $value;
+            }
+
+            if ($column->isForeignKey())
+            {
+              $relatedTable = $this->maps[$tableName]->getDatabaseMap()->getTable($column->getRelatedTableName());
+              if ($isPrimaryKey)
+              {
+                $foreignKeys[$col] = $rs->get($col);
+                $primaryKeys[$col] = $relatedTable->getPhpName().'_'.$rs->get($col);
+              }
+              else
+              {
+                $values[$col] = $relatedTable->getPhpName().'_'.$rs->get($col);
+              }
+            }
+            elseif (!$isPrimaryKey || ($isPrimaryKey && !$tableMap->isUseIdGenerator()))
+            {
+              // We did not want auto incremented primary keys
+              $values[$col] = $rs->get($col);
+            }
+          }
+
+          if (count($primaryKeys) > 1 || (count($primaryKeys) > 0 && count($foreignKeys) > 0))
+          {
+            $values = array_merge($primaryKeys, $values);
+          }
+
+          $dumpData[$tableName][$pk] = $values;
+        }
       }
     }
 
     // save to file(s)
     if ($sameFile)
     {
-      $yaml = Spyc::YAMLDump($dumpData);
-      file_put_contents($directory_or_file, $yaml);
+      file_put_contents($directory_or_file, Spyc::YAMLDump($dumpData));
     }
     else
     {
-      foreach ($dumpData as $table => $data)
+      $i = 0;
+      foreach ($tables as $tableName)
       {
-        $yaml = Spyc::YAMLDump($data);
-        file_put_contents($directory_or_file."/$table.yml", $yaml);
+        if (!isset($dumpData[$tableName]))
+        {
+          continue;
+        }
+
+        file_put_contents(sprintf("%s/%03d-%s.yml", $directory_or_file, ++$i, $tableName), Spyc::YAMLDump(array($tableName => $dumpData[$tableName])));
       }
     }
+  }
+
+  /**
+   * Fixes the ordering of foreign key data, by outputting data a foreign key depends on before the table with the foreign key.
+   *
+   * @param array The array with the class names.
+   */
+  public function fixOrderingOfForeignKeyData($classes)
+  {
+    // reordering classes to take foreign keys into account
+    for ($i = 0, $count = count($classes); $i < $count; $i++)
+    {
+      $class = $classes[$i];
+      $tableMap = $this->maps[$class]->getDatabaseMap()->getTable(constant($class.'Peer::TABLE_NAME'));
+      foreach ($tableMap->getColumns() as $column)
+      {
+        if ($column->isForeignKey())
+        {
+          $relatedTable = $this->maps[$class]->getDatabaseMap()->getTable($column->getRelatedTableName());
+          $relatedTablePos = array_search($relatedTable->getPhpName(), $classes);
+
+          // check if relatedTable is after the current table
+          if ($relatedTablePos > $i)
+          {
+            // move related table 1 position before current table
+            $classes = array_merge(
+              array_slice($classes, 0, $i),
+              array($classes[$relatedTablePos]),
+              array_slice($classes, $i, $relatedTablePos - $i),
+              array_slice($classes, $relatedTablePos + 1)
+            );
+
+            // we have moved a table, so let's see if we are done
+            return $this->fixOrderingOfForeignKeyData($classes);
+          }
+        }
+      }
+    }
+
+    return $classes;
+  }
+  
+  protected function fixOrderingOfForeignKeyDataInSameTable($resultsSets, $tableName, $column, $in = null)
+  {
+    $rs = $this->con->executeQuery(sprintf('SELECT * FROM %s WHERE %s %s',
+      constant($tableName.'Peer::TABLE_NAME'),
+      strtolower($column->getColumnName()),
+      is_null($in) ? 'IS NULL' : 'IN ('.$in.')'
+    ));
+    $in = array();
+    while ($rs->next())
+    {
+      $in[] = "'".$rs->get(strtolower($column->getRelatedColumnName()))."'";
+    }
+
+    if ($in = implode(', ', $in))
+    {
+      $rs->seek(0);
+      $resultsSets[] = $rs;
+      $resultsSets = $this->fixOrderingOfForeignKeyDataInSameTable($resultsSets, $tableName, $column, $in);
+    }
+
+    return $resultsSets;
   }
 }

@@ -41,7 +41,10 @@ class sfRenderingFilter extends sfFilter
     $response = $this->getContext()->getResponse();
 
     // send headers
-    $response->sendHttpHeaders();
+    if (method_exists($response, 'sendHttpHeaders'))
+    {
+      $response->sendHttpHeaders();
+    }
 
     // send content
     $response->sendContent();

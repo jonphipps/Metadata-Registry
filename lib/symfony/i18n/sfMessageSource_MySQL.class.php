@@ -91,7 +91,8 @@ require_once(dirname(__FILE__).'/util.php');
  *
  * @author Xiang Wei Zhuo <weizhuo[at]gmail[dot]com>
  * @version v1.0, last update on Fri Dec 24 16:58:58 EST 2004
- * @package System.I18N.core
+ * @package    symfony
+ * @subpackage i18n
  */
 class sfMessageSource_MySQL extends sfMessageSource
 {
@@ -154,7 +155,7 @@ class sfMessageSource_MySQL extends sfMessageSource
       $dbhost = $dsninfo['hostspec'] ? $dsninfo['hostspec'] : 'localhost';
       if (!empty($dsninfo['port']))
       {
-        $dbhost = ':' . $dsninfo['socket'];
+        $dbhost .= ':'.$dsninfo['port'];
       }
     }
     $user = $dsninfo['username'];

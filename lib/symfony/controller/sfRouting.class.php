@@ -449,13 +449,13 @@ class sfRouting
       if (!$found)
       {
         $error = 'Unable to find a matching routing rule to generate url for params "%s".';
-        $error = sprintf($error, var_export($params));
+        $error = sprintf($error, var_export($params, true));
 
         throw new sfConfigurationException($error);
       }
     }
 
-    $params = array_merge($defaults, $params);
+    $params = sfToolkit::arrayDeepMerge($defaults, $params);
 
     $real_url = preg_replace('/\:([^\/]+)/e', 'urlencode($params["\\1"])', $url);
 
@@ -580,7 +580,14 @@ class sfRouting
 
               $found .= $pass[$i].'='.$pass[$i + 1].'&';
             }
+
             parse_str($found, $pass);
+
+            if (get_magic_quotes_gpc())
+            {
+              $pass = sfToolkit::stripslashesDeep((array) $pass);
+            }
+            
             foreach ($pass as $key => $value)
             {
               // we add this parameters if not in conflict with named url element (i.e. ':action')

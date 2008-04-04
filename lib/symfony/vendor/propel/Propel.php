@@ -90,7 +90,7 @@ class Propel {
 	/**
 	 * The Propel version.
 	 */
-	const VERSION = '1.2.1';
+	const VERSION = '1.2.1-dev';
 
 	/**
 	 * The db name that is specified as the default in the property file

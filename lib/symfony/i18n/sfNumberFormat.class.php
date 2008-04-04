@@ -63,7 +63,8 @@ require_once(dirname(__FILE__).'/util.php');
  * 
  * @author Xiang Wei Zhuo <weizhuo[at]gmail[dot]com>
  * @version v1.0, last update on Fri Dec 10 18:10:20 EST 2004
- * @package System.I18N.core
+ * @package    symfony
+ * @subpackage i18n
  */
 class sfNumberFormat
 {
@@ -204,7 +205,7 @@ class sfNumberFormat
         }
         else if ($multiGroup && $count >= 1)
         {
-          if ($i != 0 && ($i-$groupSize[0])%$groupSize[1] == 0)
+          if ($i != 0 && ($i - $groupSize[0]) % $groupSize[1] == 0)
           {
             $integer = $groupSeparator.$integer;
             $count++;

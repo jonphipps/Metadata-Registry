@@ -78,7 +78,7 @@ class sfProcessCache
    *
    * @param string The key name
    * @param string The content to put in cache
-   * @param int The life time to keep the content in the cache
+   * @param int The life time to keep the content in the cache in seconds
    *
    * @return boolean true if ok
    */
@@ -161,9 +161,24 @@ class sfProcessCache
             return false;
           }
         }
+
         return true;
       case 'eaccelerator':
-        eaccelerator_clean();
+        $infos = eaccelerator_list_keys();
+        if (is_array($infos))
+        {
+          foreach ($infos as $info)
+          {
+            // eaccelerator bug (http://eaccelerator.net/ticket/287)
+            $key = 0 === strpos($info['name'], ':') ? substr($info['name'], 1) : $info['name'];
+            if (!eaccelerator_rm($key))
+            {
+              return false;
+            }
+          }
+        }
+
+        return true;
     }
 
     return false;

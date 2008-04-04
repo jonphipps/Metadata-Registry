@@ -3,7 +3,7 @@
 /*
  * This file is part of the symfony package.
  * (c) 2004-2006 Fabien Potencier <fabien.potencier@symfony-project.com>
- * (c) 2004-2006 Sean Kerr.
+ * (c) 2004-2006 Sean Kerr <sean@code-box.org>
  * 
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,7 +15,7 @@
  * @package    symfony
  * @subpackage user
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
- * @author     Sean Kerr <skerr@mojavi.org>
+ * @author     Sean Kerr <sean@code-box.org>
  * @version    SVN: $Id$
  */
 class sfBasicSecurityUser extends sfUser implements sfSecurityUser
@@ -224,17 +224,18 @@ class sfBasicSecurityUser extends sfUser implements sfSecurityUser
       $this->authenticated = false;
       $this->credentials   = array();
     }
-
-    // Automatic logout if no request for more than [sf_timeout]
-    if (null !== $this->lastRequest && (time() - $this->lastRequest) > sfConfig::get('sf_timeout'))
+    else
     {
-      if (sfConfig::get('sf_logging_enabled'))
+      // Automatic logout logged in user if no request within [sf_timeout] setting
+      if (null !== $this->lastRequest && (time() - $this->lastRequest) > sfConfig::get('sf_timeout'))
       {
-        $this->getContext()->getLogger()->info('{sfUser} automatic user logout');
+        if (sfConfig::get('sf_logging_enabled'))
+        {
+          $this->getContext()->getLogger()->info('{sfUser} automatic user logout due to timeout');
+        }
+        $this->setTimedOut();
+        $this->setAuthenticated(false);
       }
-      $this->setTimedOut();
-      $this->clearCredentials();
-      $this->setAuthenticated(false);
     }
 
     $this->lastRequest = time();

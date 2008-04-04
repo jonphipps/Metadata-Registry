@@ -21,8 +21,9 @@
  * The next call to Creole::getConnection() will return an instance of
  * DebugConnection.
  *
- * @author Michael Sims
- * @package creole.drivers.debug
+ * @package    symfony
+ * @subpackage creole
+ * @author     Michael Sims
  */
 class sfDebugConnection implements Connection
 {
@@ -78,7 +79,7 @@ class sfDebugConnection implements Connection
   {
     if (!($driver = Creole::getDriver($dsninfo['phptype'])))
     {
-      throw new SQLException("No driver has been registered to handle connection type: $type");
+      throw new SQLException(sprintf("No driver has been registered to handle connection type: %s", $dsninfo['phptype']));
     }
     $connectionClass = Creole::import($driver);
     $this->childConnection = new $connectionClass();

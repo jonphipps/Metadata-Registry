@@ -400,7 +400,7 @@ class sfWebDebug
     $id = ucfirst(strtolower($id));
     $content = '
     <h2>'.$id.' <a href="#" onclick="sfWebDebugToggle(\'sfWebDebug'.$id.'\'); return false;">'.image_tag(sfConfig::get('sf_web_debug_web_dir').'/images/toggle.gif').'</a></h2>
-    <div id="sfWebDebug'.$id.'" style="display: none"><pre>'.htmlentities(@sfYaml::Dump($values), ENT_QUOTES, sfConfig::get('sf_charset')).'</pre></div>
+    <div id="sfWebDebug'.$id.'" style="display: none"><pre>'.htmlentities(@sfYaml::dump($values), ENT_QUOTES, sfConfig::get('sf_charset')).'</pre></div>
     ';
 
     return $content;
@@ -435,8 +435,8 @@ class sfWebDebug
       <div id="main_'.$id.'" class="sfWebDebugActionCache" style="border: 1px solid #f00">
       <div id="sub_main_'.$id.'" class="sfWebDebugCache" style="background-color: '.$bg_color.'; border-right: 1px solid #f00; border-bottom: 1px solid #f00;">
       <div style="height: 16px; padding: 2px"><a href="#" onclick="sfWebDebugToggle(\''.$id.'\'); return false;"><strong>cache information</strong></a>&nbsp;<a href="#" onclick="sfWebDebugToggle(\'sub_main_'.$id.'\'); document.getElementById(\'main_'.$id.'\').style.border = \'none\'; return false;">'.image_tag(sfConfig::get('sf_web_debug_web_dir').'/images/close.png').'</a>&nbsp;</div>
-        <div style="padding: 2px; display: none" id="'.$id.'">
-        [uri]&nbsp;'.$internalUri.'<br />
+        <div style="padding: 2px; display: none" id="sub_main_info_'.$id.'">
+        [uri]&nbsp;'.htmlentities($internalUri, ENT_QUOTES, sfConfig::get('sf_charset')).'<br />
         [life&nbsp;time]&nbsp;'.$cache->getLifeTime($internalUri).'&nbsp;seconds<br />
         [last&nbsp;modified]&nbsp;'.(time() - $last_modified).'&nbsp;seconds<br />
         &nbsp;<br />&nbsp;
@@ -450,7 +450,7 @@ class sfWebDebug
   }
 
   /**
-   * Converts a proprity value to a string.
+   * Converts a priority value to a string.
    *
    * @param integer The priority value
    *

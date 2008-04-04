@@ -39,7 +39,7 @@ function cache($name, $lifeTime = 86400)
   $request = $context->getRequest();
   $cache   = $context->getViewCacheManager();
 
-  if ($request->getAttribute('cache_started') !== null)
+  if (!is_null($request->getAttribute('started', null, 'symfony/action/sfAction/cache')))
   {
     throw new sfCacheException('Cache already started');
   }
@@ -72,7 +72,7 @@ function cache_save()
 
   $request = $context->getRequest();
 
-  if ($request->getAttribute('started', null, 'symfony/action/sfAction/cache') === null)
+  if (is_null($request->getAttribute('started', null, 'symfony/action/sfAction/cache')))
   {
     throw new sfCacheException('Cache not started');
   }

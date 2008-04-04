@@ -3,7 +3,7 @@
 /*
  * This file is part of the symfony package.
  * (c) 2004-2006 Fabien Potencier <fabien.potencier@symfony-project.com>
- * (c) 2004-2006 Sean Kerr.
+ * (c) 2004-2006 Sean Kerr <sean@code-box.org>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,7 +15,7 @@
  * @package    symfony
  * @subpackage util
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
- * @author     Sean Kerr <skerr@mojavi.org>
+ * @author     Sean Kerr <sean@code-box.org>
  * @version    SVN: $Id$
  */
 class sfToolkit
@@ -176,17 +176,8 @@ class sfToolkit
 
   public static function stripComments($source)
   {
-    if (!sfConfig::get('sf_strip_comments', true))
+    if (!sfConfig::get('sf_strip_comments', true) || !function_exists('token_get_all'))
     {
-      return $source;
-    }
-
-    // tokenizer available?
-    if (!function_exists('token_get_all'))
-    {
-      $source = sfToolkit::pregtr($source, array('#/\*((?!\*/)[\d\D\s])*\*/#' => '',   // remove /* ... */
-                                                 '#^\s*//.*$#m'               => '')); // remove // ...
-
       return $source;
     }
 

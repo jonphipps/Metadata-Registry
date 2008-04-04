@@ -234,8 +234,8 @@ class sfWebResponse extends sfResponse
    */
   public function setContentType($value)
   {
-    // add charset if needed
-    if (false === stripos($value, 'charset'))
+    // add charset if needed (only on text content)
+    if (false === stripos($value, 'charset') && (0 === stripos($value, 'text/') || strlen($value) - 3 === strripos($value, 'xml')))
     {
       $value .= '; charset='.sfConfig::get('sf_charset');
     }
@@ -433,8 +433,7 @@ class sfWebResponse extends sfResponse
     {
       $value = $this->getContentType();
     }
-
-    if (!$replace)
+    else if (!$replace)
     {
       $current = $this->getParameter($key, '', 'helper/asset/auto/httpmeta');
       $value = ($current ? $current.', ' : '').$value;
@@ -505,7 +504,7 @@ class sfWebResponse extends sfResponse
   /**
    * Retrieves stylesheets for the current web response.
    *
-   * @param string Direcotry delimiter
+   * @param string Position
    *
    * @return string Stylesheets
    */
@@ -518,7 +517,7 @@ class sfWebResponse extends sfResponse
    * Adds an stylesheet to the current web response.
    *
    * @param string Stylesheet
-   * @param string Direcotry delimiter
+   * @param string Position
    * @param string Stylesheet options
    */
   public function addStylesheet($css, $position = '', $options = array())

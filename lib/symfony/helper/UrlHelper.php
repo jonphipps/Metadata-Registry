@@ -162,14 +162,14 @@ function link_to($name = '', $internal_uri = '', $options = array())
  */
 function link_to_if($condition, $name = '', $internal_uri = '', $options = array())
 {
+  $html_options = _parse_attributes($options);
   if ($condition)
   {
-    return link_to($name, $internal_uri, $options);
+    unset($html_options['tag']);
+    return link_to($name, $internal_uri, $html_options);
   }
   else
   {
-    $html_options = _parse_attributes($options);
-
     unset($html_options['query_string']);
     unset($html_options['absolute_url']);
     unset($html_options['absolute']);
@@ -253,7 +253,7 @@ function button_to($name, $internal_uri, $options = array())
     unset($html_options['post']);
     $html_options = _convert_options_to_javascript($html_options);
 
-    return form_tag($internal_uri, array('method' => 'post', 'class' => 'button_to')).tag('input', $html_options).'</form>';
+    return form_tag($internal_uri, array('method' => 'post', 'class' => 'button_to')).content_tag('div', tag('input', $html_options)).'</form>';
   }
   else if (isset($html_options['popup']))
   {

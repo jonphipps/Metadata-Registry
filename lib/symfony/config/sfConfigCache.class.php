@@ -3,7 +3,7 @@
 /*
  * This file is part of the symfony package.
  * (c) 2004-2006 Fabien Potencier <fabien.potencier@symfony-project.com>
- * (c) 2004-2006 Sean Kerr.
+ * (c) 2004-2006 Sean Kerr <sean@code-box.org>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -17,7 +17,7 @@
  * @package    symfony
  * @subpackage config
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
- * @author     Sean Kerr <skerr@mojavi.org>
+ * @author     Sean Kerr <sean@code-box.org>
  * @version    SVN: $Id$
  */
 class sfConfigCache
@@ -190,7 +190,7 @@ class sfConfigCache
       $this->callHandler($configPath, $files, $cache);
 
       // clear process cache
-      if ('config/config_handlers.yml' != $configPath && sfConfig::has('sf_use_process_cache') && !$process_cache_cleared)
+      if ('config/config_handlers.yml' != $configPath && sfConfig::get('sf_use_process_cache') && !$process_cache_cleared)
       {
         sfProcessCache::clear();
         $process_cache_cleared = true;
@@ -336,7 +336,14 @@ class sfConfigCache
   protected function writeCacheFile($config, $cache, &$data)
   {
     $fileCache = new sfFileCache(dirname($cache));
+    $fileCache->setWriteControl(true);
     $fileCache->setSuffix('');
-    $fileCache->set(basename($cache), '', $data);
+
+    if (!$fileCache->set(basename($cache), '', $data))
+    {
+      $fileCache->remove(basename($cache), '');
+
+      throw new sfConfigurationException(sprintf('Unable to write config cache for "%s".', $config));
+    }
   }
 }

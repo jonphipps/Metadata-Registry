@@ -46,7 +46,8 @@
  *
  * @author Xiang Wei Zhuo <weizhuo[at]gmail[dot]com>
  * @version v1.0, last update on Sat Dec 04 13:41:46 EST 2004
- * @package System.I18N.core
+ * @package    symfony
+ * @subpackage i18n
  */
 class sfCultureInfo
 {
@@ -119,6 +120,23 @@ class sfCultureInfo
    * @var int
    */
   const SPECIFIC = 2;
+
+  /**
+   * Gets the sfCultureInfo that for this culture string.
+   *
+   * @return sfCultureInfo Invariant culture info is "en"
+   */
+  public static function getInstance($culture)
+  {
+    static $instances = array();
+
+    if (!isset($instances[$culture]))
+    {
+      $instances[$culture] = new sfCultureInfo($culture);
+    }
+
+    return $instances[$culture];
+  }
 
   /**
    * Displays the culture name.
@@ -615,16 +633,14 @@ class sfCultureInfo
    * @param array with single elements arrays
    * @return array simplified array.
    */
-  protected function simplify($array)
+  static protected function simplify($array)
   {
-    for ($i = 0, $max = count($array); $i < $max; $i++)
+    foreach ($array as &$item)
     {
-      $key = key($array);
-      if (is_array($array[$key]) && count($array[$key]) == 1)
+      if (is_array($item) && count($item) == 1)
       {
-        $array[$key] = $array[$key][0];
+        $item = $item[0];
       }
-      next($array);
     }
 
     return $array;

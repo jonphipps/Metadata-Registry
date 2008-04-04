@@ -39,7 +39,8 @@
  *
  * @author Xiang Wei Zhuo <weizhuo[at]gmail[dot]com>
  * @version v1.0, last update on Sun Dec 05 14:48:26 EST 2004
- * @package System.I18N.core
+ * @package    symfony
+ * @subpackage i18n
  */
 class sfNumberFormatInfo
 {
@@ -159,7 +160,7 @@ class sfNumberFormatInfo
    *
    * @return sfNumberFormatInfo default sfNumberFormatInfo. 
    */
-  public function getInvariantInfo($type = sfNumberFormatInfo::DECIMAL)
+  static public function getInvariantInfo($type = sfNumberFormatInfo::DECIMAL)
   {
     static $invariant;
     if (is_null($invariant))
