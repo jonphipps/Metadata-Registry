@@ -5,7 +5,7 @@
  *
  * @package    registry
  * @subpackage vocabulary
- * @author     Your name here
+ * @author     Jon Phipps <jonphipps@gmail.com>
  * @version    SVN: $Id: actions.class.php 14 2006-04-13 13:08:36Z jphipps $
  */
 class vocabularyActions extends autovocabularyActions

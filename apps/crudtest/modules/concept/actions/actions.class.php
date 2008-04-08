@@ -9,7 +9,7 @@
  *
  * @package    registry
  * @subpackage concept
- * @author     Your name here
+ * @author     Jon Phipps <jonphipps@gmail.com>
  * @version    SVN: $Id: actions.class.php 3335 2007-01-23 16:19:56Z fabien $
  */
 class conceptActions extends sfActions

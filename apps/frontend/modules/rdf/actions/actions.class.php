@@ -5,7 +5,7 @@
  *
  * @package    registry
  * @subpackage rdf
- * @author     Your name here
+ * @author     Jon Phipps <jonphipps@gmail.com>
  * @version    SVN: $Id: actions.class.php 1139 2006-04-07 08:46:23Z fabien $
  */
 class rdfActions extends sfActions

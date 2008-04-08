@@ -5,7 +5,7 @@
  *
  * @package    Registry
  * @subpackage user
- * @author     Your name here
+ * @author     Jon Phipps <jonphipps@gmail.com>
  * @version    SVN: $Id: myTagFilter.class.php 2 2006-04-03 21:07:20Z jphipps $
  */
 class myTagFilter extends sfFilter
