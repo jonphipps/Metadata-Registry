@@ -150,16 +150,16 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	protected $lastAgentHasUserCriteria = null;
 
 	/**
-	 * Collection to store aggregation of collRegSchemas.
+	 * Collection to store aggregation of collSchemas.
 	 * @var        array
 	 */
-	protected $collRegSchemas;
+	protected $collSchemas;
 
 	/**
-	 * The criteria used to select the current contents of collRegSchemas.
+	 * The criteria used to select the current contents of collSchemas.
 	 * @var        Criteria
 	 */
-	protected $lastRegSchemaCriteria = null;
+	protected $lastSchemaCriteria = null;
 
 	/**
 	 * Collection to store aggregation of collVocabularys.
@@ -1019,8 +1019,8 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 				}
 			}
 
-			if ($this->collRegSchemas !== null) {
-				foreach($this->collRegSchemas as $referrerFK) {
+			if ($this->collSchemas !== null) {
+				foreach($this->collSchemas as $referrerFK) {
 					if (!$referrerFK->isDeleted()) {
 						$affectedRows += $referrerFK->save($con);
 					}
@@ -1113,8 +1113,8 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 					}
 				}
 
-				if ($this->collRegSchemas !== null) {
-					foreach($this->collRegSchemas as $referrerFK) {
+				if ($this->collSchemas !== null) {
+					foreach($this->collSchemas as $referrerFK) {
 						if (!$referrerFK->validate($columns)) {
 							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
 						}
@@ -1495,8 +1495,8 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 				$copyObj->addAgentHasUser($relObj->copy($deepCopy));
 			}
 
-			foreach($this->getRegSchemas() as $relObj) {
-				$copyObj->addRegSchema($relObj->copy($deepCopy));
+			foreach($this->getSchemas() as $relObj) {
+				$copyObj->addSchema($relObj->copy($deepCopy));
 			}
 
 			foreach($this->getVocabularys() as $relObj) {
@@ -1707,15 +1707,15 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	}
 
 	/**
-	 * Temporary storage of collRegSchemas to save a possible db hit in
+	 * Temporary storage of collSchemas to save a possible db hit in
 	 * the event objects are add to the collection, but the
 	 * complete collection is never requested.
 	 * @return     void
 	 */
-	public function initRegSchemas()
+	public function initSchemas()
 	{
-		if ($this->collRegSchemas === null) {
-			$this->collRegSchemas = array();
+		if ($this->collSchemas === null) {
+			$this->collSchemas = array();
 		}
 	}
 
@@ -1723,7 +1723,7 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	 * If this collection has already been initialized with
 	 * an identical criteria, it returns the collection.
 	 * Otherwise if this Agent has previously
-	 * been saved, it will retrieve related RegSchemas from storage.
+	 * been saved, it will retrieve related Schemas from storage.
 	 * If this Agent is new, it will return
 	 * an empty collection or the current collection, the criteria
 	 * is ignored on a new object.
@@ -1732,10 +1732,10 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	 * @param      Criteria $criteria
 	 * @throws     PropelException
 	 */
-	public function getRegSchemas($criteria = null, $con = null)
+	public function getSchemas($criteria = null, $con = null)
 	{
 		// include the Peer class
-		include_once 'lib/model/om/BaseRegSchemaPeer.php';
+		include_once 'lib/model/om/BaseSchemaPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -1744,15 +1744,15 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 			$criteria = clone $criteria;
 		}
 
-		if ($this->collRegSchemas === null) {
+		if ($this->collSchemas === null) {
 			if ($this->isNew()) {
-			   $this->collRegSchemas = array();
+			   $this->collSchemas = array();
 			} else {
 
-				$criteria->add(RegSchemaPeer::AGENT_ID, $this->getId());
+				$criteria->add(SchemaPeer::AGENT_ID, $this->getId());
 
-				RegSchemaPeer::addSelectColumns($criteria);
-				$this->collRegSchemas = RegSchemaPeer::doSelect($criteria, $con);
+				SchemaPeer::addSelectColumns($criteria);
+				$this->collSchemas = SchemaPeer::doSelect($criteria, $con);
 			}
 		} else {
 			// criteria has no effect for a new object
@@ -1762,30 +1762,30 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 				// one, just return the collection.
 
 
-				$criteria->add(RegSchemaPeer::AGENT_ID, $this->getId());
+				$criteria->add(SchemaPeer::AGENT_ID, $this->getId());
 
-				RegSchemaPeer::addSelectColumns($criteria);
-				if (!isset($this->lastRegSchemaCriteria) || !$this->lastRegSchemaCriteria->equals($criteria)) {
-					$this->collRegSchemas = RegSchemaPeer::doSelect($criteria, $con);
+				SchemaPeer::addSelectColumns($criteria);
+				if (!isset($this->lastSchemaCriteria) || !$this->lastSchemaCriteria->equals($criteria)) {
+					$this->collSchemas = SchemaPeer::doSelect($criteria, $con);
 				}
 			}
 		}
-		$this->lastRegSchemaCriteria = $criteria;
-		return $this->collRegSchemas;
+		$this->lastSchemaCriteria = $criteria;
+		return $this->collSchemas;
 	}
 
 	/**
-	 * Returns the number of related RegSchemas.
+	 * Returns the number of related Schemas.
 	 *
 	 * @param      Criteria $criteria
 	 * @param      boolean $distinct
 	 * @param      Connection $con
 	 * @throws     PropelException
 	 */
-	public function countRegSchemas($criteria = null, $distinct = false, $con = null)
+	public function countSchemas($criteria = null, $distinct = false, $con = null)
 	{
 		// include the Peer class
-		include_once 'lib/model/om/BaseRegSchemaPeer.php';
+		include_once 'lib/model/om/BaseSchemaPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -1794,22 +1794,22 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 			$criteria = clone $criteria;
 		}
 
-		$criteria->add(RegSchemaPeer::AGENT_ID, $this->getId());
+		$criteria->add(SchemaPeer::AGENT_ID, $this->getId());
 
-		return RegSchemaPeer::doCount($criteria, $distinct, $con);
+		return SchemaPeer::doCount($criteria, $distinct, $con);
 	}
 
 	/**
-	 * Method called to associate a RegSchema object to this object
-	 * through the RegSchema foreign key attribute
+	 * Method called to associate a Schema object to this object
+	 * through the Schema foreign key attribute
 	 *
-	 * @param      RegSchema $l RegSchema
+	 * @param      Schema $l Schema
 	 * @return     void
 	 * @throws     PropelException
 	 */
-	public function addRegSchema(RegSchema $l)
+	public function addSchema(Schema $l)
 	{
-		$this->collRegSchemas[] = $l;
+		$this->collSchemas[] = $l;
 		$l->setAgent($this);
 	}
 
@@ -1819,16 +1819,16 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	 * an identical criteria, it returns the collection.
 	 * Otherwise if this Agent is new, it will return
 	 * an empty collection; or if this Agent has previously
-	 * been saved, it will retrieve related RegSchemas from storage.
+	 * been saved, it will retrieve related Schemas from storage.
 	 *
 	 * This method is protected by default in order to keep the public
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in Agent.
 	 */
-	public function getRegSchemasJoinUserRelatedByCreatedUserId($criteria = null, $con = null)
+	public function getSchemasJoinUserRelatedByCreatedUserId($criteria = null, $con = null)
 	{
 		// include the Peer class
-		include_once 'lib/model/om/BaseRegSchemaPeer.php';
+		include_once 'lib/model/om/BaseSchemaPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -1837,29 +1837,29 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 			$criteria = clone $criteria;
 		}
 
-		if ($this->collRegSchemas === null) {
+		if ($this->collSchemas === null) {
 			if ($this->isNew()) {
-				$this->collRegSchemas = array();
+				$this->collSchemas = array();
 			} else {
 
-				$criteria->add(RegSchemaPeer::AGENT_ID, $this->getId());
+				$criteria->add(SchemaPeer::AGENT_ID, $this->getId());
 
-				$this->collRegSchemas = RegSchemaPeer::doSelectJoinUserRelatedByCreatedUserId($criteria, $con);
+				$this->collSchemas = SchemaPeer::doSelectJoinUserRelatedByCreatedUserId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
 			// called for.  If the criteria is the same as the last
 			// one, just return the collection.
 
-			$criteria->add(RegSchemaPeer::AGENT_ID, $this->getId());
+			$criteria->add(SchemaPeer::AGENT_ID, $this->getId());
 
-			if (!isset($this->lastRegSchemaCriteria) || !$this->lastRegSchemaCriteria->equals($criteria)) {
-				$this->collRegSchemas = RegSchemaPeer::doSelectJoinUserRelatedByCreatedUserId($criteria, $con);
+			if (!isset($this->lastSchemaCriteria) || !$this->lastSchemaCriteria->equals($criteria)) {
+				$this->collSchemas = SchemaPeer::doSelectJoinUserRelatedByCreatedUserId($criteria, $con);
 			}
 		}
-		$this->lastRegSchemaCriteria = $criteria;
+		$this->lastSchemaCriteria = $criteria;
 
-		return $this->collRegSchemas;
+		return $this->collSchemas;
 	}
 
 
@@ -1868,16 +1868,16 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	 * an identical criteria, it returns the collection.
 	 * Otherwise if this Agent is new, it will return
 	 * an empty collection; or if this Agent has previously
-	 * been saved, it will retrieve related RegSchemas from storage.
+	 * been saved, it will retrieve related Schemas from storage.
 	 *
 	 * This method is protected by default in order to keep the public
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in Agent.
 	 */
-	public function getRegSchemasJoinUserRelatedByUpdatedUserId($criteria = null, $con = null)
+	public function getSchemasJoinUserRelatedByUpdatedUserId($criteria = null, $con = null)
 	{
 		// include the Peer class
-		include_once 'lib/model/om/BaseRegSchemaPeer.php';
+		include_once 'lib/model/om/BaseSchemaPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -1886,29 +1886,29 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 			$criteria = clone $criteria;
 		}
 
-		if ($this->collRegSchemas === null) {
+		if ($this->collSchemas === null) {
 			if ($this->isNew()) {
-				$this->collRegSchemas = array();
+				$this->collSchemas = array();
 			} else {
 
-				$criteria->add(RegSchemaPeer::AGENT_ID, $this->getId());
+				$criteria->add(SchemaPeer::AGENT_ID, $this->getId());
 
-				$this->collRegSchemas = RegSchemaPeer::doSelectJoinUserRelatedByUpdatedUserId($criteria, $con);
+				$this->collSchemas = SchemaPeer::doSelectJoinUserRelatedByUpdatedUserId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
 			// called for.  If the criteria is the same as the last
 			// one, just return the collection.
 
-			$criteria->add(RegSchemaPeer::AGENT_ID, $this->getId());
+			$criteria->add(SchemaPeer::AGENT_ID, $this->getId());
 
-			if (!isset($this->lastRegSchemaCriteria) || !$this->lastRegSchemaCriteria->equals($criteria)) {
-				$this->collRegSchemas = RegSchemaPeer::doSelectJoinUserRelatedByUpdatedUserId($criteria, $con);
+			if (!isset($this->lastSchemaCriteria) || !$this->lastSchemaCriteria->equals($criteria)) {
+				$this->collSchemas = SchemaPeer::doSelectJoinUserRelatedByUpdatedUserId($criteria, $con);
 			}
 		}
-		$this->lastRegSchemaCriteria = $criteria;
+		$this->lastSchemaCriteria = $criteria;
 
-		return $this->collRegSchemas;
+		return $this->collSchemas;
 	}
 
 
@@ -1917,16 +1917,16 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	 * an identical criteria, it returns the collection.
 	 * Otherwise if this Agent is new, it will return
 	 * an empty collection; or if this Agent has previously
-	 * been saved, it will retrieve related RegSchemas from storage.
+	 * been saved, it will retrieve related Schemas from storage.
 	 *
 	 * This method is protected by default in order to keep the public
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in Agent.
 	 */
-	public function getRegSchemasJoinStatus($criteria = null, $con = null)
+	public function getSchemasJoinStatus($criteria = null, $con = null)
 	{
 		// include the Peer class
-		include_once 'lib/model/om/BaseRegSchemaPeer.php';
+		include_once 'lib/model/om/BaseSchemaPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -1935,29 +1935,29 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 			$criteria = clone $criteria;
 		}
 
-		if ($this->collRegSchemas === null) {
+		if ($this->collSchemas === null) {
 			if ($this->isNew()) {
-				$this->collRegSchemas = array();
+				$this->collSchemas = array();
 			} else {
 
-				$criteria->add(RegSchemaPeer::AGENT_ID, $this->getId());
+				$criteria->add(SchemaPeer::AGENT_ID, $this->getId());
 
-				$this->collRegSchemas = RegSchemaPeer::doSelectJoinStatus($criteria, $con);
+				$this->collSchemas = SchemaPeer::doSelectJoinStatus($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
 			// called for.  If the criteria is the same as the last
 			// one, just return the collection.
 
-			$criteria->add(RegSchemaPeer::AGENT_ID, $this->getId());
+			$criteria->add(SchemaPeer::AGENT_ID, $this->getId());
 
-			if (!isset($this->lastRegSchemaCriteria) || !$this->lastRegSchemaCriteria->equals($criteria)) {
-				$this->collRegSchemas = RegSchemaPeer::doSelectJoinStatus($criteria, $con);
+			if (!isset($this->lastSchemaCriteria) || !$this->lastSchemaCriteria->equals($criteria)) {
+				$this->collSchemas = SchemaPeer::doSelectJoinStatus($criteria, $con);
 			}
 		}
-		$this->lastRegSchemaCriteria = $criteria;
+		$this->lastSchemaCriteria = $criteria;
 
-		return $this->collRegSchemas;
+		return $this->collSchemas;
 	}
 
 	/**

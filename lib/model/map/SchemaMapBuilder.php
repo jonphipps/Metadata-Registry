@@ -13,12 +13,12 @@
  *
  * @package    lib.model.map
  */
-class RegSchemaMapBuilder {
+class SchemaMapBuilder {
 
 	/**
 	 * The (dot-path) name of this class
 	 */
-	const CLASS_NAME = 'lib.model.map.RegSchemaMapBuilder';
+	const CLASS_NAME = 'lib.model.map.SchemaMapBuilder';
 
 	/**
 	 * The database map.
@@ -57,7 +57,7 @@ class RegSchemaMapBuilder {
 		$this->dbMap = Propel::getDatabaseMap('propel');
 
 		$tMap = $this->dbMap->addTable('reg_schema');
-		$tMap->setPhpName('RegSchema');
+		$tMap->setPhpName('Schema');
 
 		$tMap->setUseIdGenerator(true);
 
@@ -99,4 +99,4 @@ class RegSchemaMapBuilder {
 
 	} // doBuild()
 
-} // RegSchemaMapBuilder
+} // SchemaMapBuilder

@@ -203,28 +203,28 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	protected $lastConceptPropertyHistoryCriteria = null;
 
 	/**
-	 * Collection to store aggregation of collRegSchemasRelatedByCreatedUserId.
+	 * Collection to store aggregation of collSchemasRelatedByCreatedUserId.
 	 * @var        array
 	 */
-	protected $collRegSchemasRelatedByCreatedUserId;
+	protected $collSchemasRelatedByCreatedUserId;
 
 	/**
-	 * The criteria used to select the current contents of collRegSchemasRelatedByCreatedUserId.
+	 * The criteria used to select the current contents of collSchemasRelatedByCreatedUserId.
 	 * @var        Criteria
 	 */
-	protected $lastRegSchemaRelatedByCreatedUserIdCriteria = null;
+	protected $lastSchemaRelatedByCreatedUserIdCriteria = null;
 
 	/**
-	 * Collection to store aggregation of collRegSchemasRelatedByUpdatedUserId.
+	 * Collection to store aggregation of collSchemasRelatedByUpdatedUserId.
 	 * @var        array
 	 */
-	protected $collRegSchemasRelatedByUpdatedUserId;
+	protected $collSchemasRelatedByUpdatedUserId;
 
 	/**
-	 * The criteria used to select the current contents of collRegSchemasRelatedByUpdatedUserId.
+	 * The criteria used to select the current contents of collSchemasRelatedByUpdatedUserId.
 	 * @var        Criteria
 	 */
-	protected $lastRegSchemaRelatedByUpdatedUserIdCriteria = null;
+	protected $lastSchemaRelatedByUpdatedUserIdCriteria = null;
 
 	/**
 	 * Collection to store aggregation of collSchemaPropertyPropertys.
@@ -1131,16 +1131,16 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 				}
 			}
 
-			if ($this->collRegSchemasRelatedByCreatedUserId !== null) {
-				foreach($this->collRegSchemasRelatedByCreatedUserId as $referrerFK) {
+			if ($this->collSchemasRelatedByCreatedUserId !== null) {
+				foreach($this->collSchemasRelatedByCreatedUserId as $referrerFK) {
 					if (!$referrerFK->isDeleted()) {
 						$affectedRows += $referrerFK->save($con);
 					}
 				}
 			}
 
-			if ($this->collRegSchemasRelatedByUpdatedUserId !== null) {
-				foreach($this->collRegSchemasRelatedByUpdatedUserId as $referrerFK) {
+			if ($this->collSchemasRelatedByUpdatedUserId !== null) {
+				foreach($this->collSchemasRelatedByUpdatedUserId as $referrerFK) {
 					if (!$referrerFK->isDeleted()) {
 						$affectedRows += $referrerFK->save($con);
 					}
@@ -1313,16 +1313,16 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 					}
 				}
 
-				if ($this->collRegSchemasRelatedByCreatedUserId !== null) {
-					foreach($this->collRegSchemasRelatedByCreatedUserId as $referrerFK) {
+				if ($this->collSchemasRelatedByCreatedUserId !== null) {
+					foreach($this->collSchemasRelatedByCreatedUserId as $referrerFK) {
 						if (!$referrerFK->validate($columns)) {
 							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
 						}
 					}
 				}
 
-				if ($this->collRegSchemasRelatedByUpdatedUserId !== null) {
-					foreach($this->collRegSchemasRelatedByUpdatedUserId as $referrerFK) {
+				if ($this->collSchemasRelatedByUpdatedUserId !== null) {
+					foreach($this->collSchemasRelatedByUpdatedUserId as $referrerFK) {
 						if (!$referrerFK->validate($columns)) {
 							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
 						}
@@ -1752,12 +1752,12 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 				$copyObj->addConceptPropertyHistory($relObj->copy($deepCopy));
 			}
 
-			foreach($this->getRegSchemasRelatedByCreatedUserId() as $relObj) {
-				$copyObj->addRegSchemaRelatedByCreatedUserId($relObj->copy($deepCopy));
+			foreach($this->getSchemasRelatedByCreatedUserId() as $relObj) {
+				$copyObj->addSchemaRelatedByCreatedUserId($relObj->copy($deepCopy));
 			}
 
-			foreach($this->getRegSchemasRelatedByUpdatedUserId() as $relObj) {
-				$copyObj->addRegSchemaRelatedByUpdatedUserId($relObj->copy($deepCopy));
+			foreach($this->getSchemasRelatedByUpdatedUserId() as $relObj) {
+				$copyObj->addSchemaRelatedByUpdatedUserId($relObj->copy($deepCopy));
 			}
 
 			foreach($this->getSchemaPropertyPropertys() as $relObj) {
@@ -3650,15 +3650,15 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	}
 
 	/**
-	 * Temporary storage of collRegSchemasRelatedByCreatedUserId to save a possible db hit in
+	 * Temporary storage of collSchemasRelatedByCreatedUserId to save a possible db hit in
 	 * the event objects are add to the collection, but the
 	 * complete collection is never requested.
 	 * @return     void
 	 */
-	public function initRegSchemasRelatedByCreatedUserId()
+	public function initSchemasRelatedByCreatedUserId()
 	{
-		if ($this->collRegSchemasRelatedByCreatedUserId === null) {
-			$this->collRegSchemasRelatedByCreatedUserId = array();
+		if ($this->collSchemasRelatedByCreatedUserId === null) {
+			$this->collSchemasRelatedByCreatedUserId = array();
 		}
 	}
 
@@ -3666,7 +3666,7 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	 * If this collection has already been initialized with
 	 * an identical criteria, it returns the collection.
 	 * Otherwise if this User has previously
-	 * been saved, it will retrieve related RegSchemasRelatedByCreatedUserId from storage.
+	 * been saved, it will retrieve related SchemasRelatedByCreatedUserId from storage.
 	 * If this User is new, it will return
 	 * an empty collection or the current collection, the criteria
 	 * is ignored on a new object.
@@ -3675,10 +3675,10 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	 * @param      Criteria $criteria
 	 * @throws     PropelException
 	 */
-	public function getRegSchemasRelatedByCreatedUserId($criteria = null, $con = null)
+	public function getSchemasRelatedByCreatedUserId($criteria = null, $con = null)
 	{
 		// include the Peer class
-		include_once 'lib/model/om/BaseRegSchemaPeer.php';
+		include_once 'lib/model/om/BaseSchemaPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -3687,15 +3687,15 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 			$criteria = clone $criteria;
 		}
 
-		if ($this->collRegSchemasRelatedByCreatedUserId === null) {
+		if ($this->collSchemasRelatedByCreatedUserId === null) {
 			if ($this->isNew()) {
-			   $this->collRegSchemasRelatedByCreatedUserId = array();
+			   $this->collSchemasRelatedByCreatedUserId = array();
 			} else {
 
-				$criteria->add(RegSchemaPeer::CREATED_USER_ID, $this->getId());
+				$criteria->add(SchemaPeer::CREATED_USER_ID, $this->getId());
 
-				RegSchemaPeer::addSelectColumns($criteria);
-				$this->collRegSchemasRelatedByCreatedUserId = RegSchemaPeer::doSelect($criteria, $con);
+				SchemaPeer::addSelectColumns($criteria);
+				$this->collSchemasRelatedByCreatedUserId = SchemaPeer::doSelect($criteria, $con);
 			}
 		} else {
 			// criteria has no effect for a new object
@@ -3705,30 +3705,30 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 				// one, just return the collection.
 
 
-				$criteria->add(RegSchemaPeer::CREATED_USER_ID, $this->getId());
+				$criteria->add(SchemaPeer::CREATED_USER_ID, $this->getId());
 
-				RegSchemaPeer::addSelectColumns($criteria);
-				if (!isset($this->lastRegSchemaRelatedByCreatedUserIdCriteria) || !$this->lastRegSchemaRelatedByCreatedUserIdCriteria->equals($criteria)) {
-					$this->collRegSchemasRelatedByCreatedUserId = RegSchemaPeer::doSelect($criteria, $con);
+				SchemaPeer::addSelectColumns($criteria);
+				if (!isset($this->lastSchemaRelatedByCreatedUserIdCriteria) || !$this->lastSchemaRelatedByCreatedUserIdCriteria->equals($criteria)) {
+					$this->collSchemasRelatedByCreatedUserId = SchemaPeer::doSelect($criteria, $con);
 				}
 			}
 		}
-		$this->lastRegSchemaRelatedByCreatedUserIdCriteria = $criteria;
-		return $this->collRegSchemasRelatedByCreatedUserId;
+		$this->lastSchemaRelatedByCreatedUserIdCriteria = $criteria;
+		return $this->collSchemasRelatedByCreatedUserId;
 	}
 
 	/**
-	 * Returns the number of related RegSchemasRelatedByCreatedUserId.
+	 * Returns the number of related SchemasRelatedByCreatedUserId.
 	 *
 	 * @param      Criteria $criteria
 	 * @param      boolean $distinct
 	 * @param      Connection $con
 	 * @throws     PropelException
 	 */
-	public function countRegSchemasRelatedByCreatedUserId($criteria = null, $distinct = false, $con = null)
+	public function countSchemasRelatedByCreatedUserId($criteria = null, $distinct = false, $con = null)
 	{
 		// include the Peer class
-		include_once 'lib/model/om/BaseRegSchemaPeer.php';
+		include_once 'lib/model/om/BaseSchemaPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -3737,22 +3737,22 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 			$criteria = clone $criteria;
 		}
 
-		$criteria->add(RegSchemaPeer::CREATED_USER_ID, $this->getId());
+		$criteria->add(SchemaPeer::CREATED_USER_ID, $this->getId());
 
-		return RegSchemaPeer::doCount($criteria, $distinct, $con);
+		return SchemaPeer::doCount($criteria, $distinct, $con);
 	}
 
 	/**
-	 * Method called to associate a RegSchema object to this object
-	 * through the RegSchema foreign key attribute
+	 * Method called to associate a Schema object to this object
+	 * through the Schema foreign key attribute
 	 *
-	 * @param      RegSchema $l RegSchema
+	 * @param      Schema $l Schema
 	 * @return     void
 	 * @throws     PropelException
 	 */
-	public function addRegSchemaRelatedByCreatedUserId(RegSchema $l)
+	public function addSchemaRelatedByCreatedUserId(Schema $l)
 	{
-		$this->collRegSchemasRelatedByCreatedUserId[] = $l;
+		$this->collSchemasRelatedByCreatedUserId[] = $l;
 		$l->setUserRelatedByCreatedUserId($this);
 	}
 
@@ -3762,16 +3762,16 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	 * an identical criteria, it returns the collection.
 	 * Otherwise if this User is new, it will return
 	 * an empty collection; or if this User has previously
-	 * been saved, it will retrieve related RegSchemasRelatedByCreatedUserId from storage.
+	 * been saved, it will retrieve related SchemasRelatedByCreatedUserId from storage.
 	 *
 	 * This method is protected by default in order to keep the public
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in User.
 	 */
-	public function getRegSchemasRelatedByCreatedUserIdJoinAgent($criteria = null, $con = null)
+	public function getSchemasRelatedByCreatedUserIdJoinAgent($criteria = null, $con = null)
 	{
 		// include the Peer class
-		include_once 'lib/model/om/BaseRegSchemaPeer.php';
+		include_once 'lib/model/om/BaseSchemaPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -3780,29 +3780,29 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 			$criteria = clone $criteria;
 		}
 
-		if ($this->collRegSchemasRelatedByCreatedUserId === null) {
+		if ($this->collSchemasRelatedByCreatedUserId === null) {
 			if ($this->isNew()) {
-				$this->collRegSchemasRelatedByCreatedUserId = array();
+				$this->collSchemasRelatedByCreatedUserId = array();
 			} else {
 
-				$criteria->add(RegSchemaPeer::CREATED_USER_ID, $this->getId());
+				$criteria->add(SchemaPeer::CREATED_USER_ID, $this->getId());
 
-				$this->collRegSchemasRelatedByCreatedUserId = RegSchemaPeer::doSelectJoinAgent($criteria, $con);
+				$this->collSchemasRelatedByCreatedUserId = SchemaPeer::doSelectJoinAgent($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
 			// called for.  If the criteria is the same as the last
 			// one, just return the collection.
 
-			$criteria->add(RegSchemaPeer::CREATED_USER_ID, $this->getId());
+			$criteria->add(SchemaPeer::CREATED_USER_ID, $this->getId());
 
-			if (!isset($this->lastRegSchemaRelatedByCreatedUserIdCriteria) || !$this->lastRegSchemaRelatedByCreatedUserIdCriteria->equals($criteria)) {
-				$this->collRegSchemasRelatedByCreatedUserId = RegSchemaPeer::doSelectJoinAgent($criteria, $con);
+			if (!isset($this->lastSchemaRelatedByCreatedUserIdCriteria) || !$this->lastSchemaRelatedByCreatedUserIdCriteria->equals($criteria)) {
+				$this->collSchemasRelatedByCreatedUserId = SchemaPeer::doSelectJoinAgent($criteria, $con);
 			}
 		}
-		$this->lastRegSchemaRelatedByCreatedUserIdCriteria = $criteria;
+		$this->lastSchemaRelatedByCreatedUserIdCriteria = $criteria;
 
-		return $this->collRegSchemasRelatedByCreatedUserId;
+		return $this->collSchemasRelatedByCreatedUserId;
 	}
 
 
@@ -3811,16 +3811,16 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	 * an identical criteria, it returns the collection.
 	 * Otherwise if this User is new, it will return
 	 * an empty collection; or if this User has previously
-	 * been saved, it will retrieve related RegSchemasRelatedByCreatedUserId from storage.
+	 * been saved, it will retrieve related SchemasRelatedByCreatedUserId from storage.
 	 *
 	 * This method is protected by default in order to keep the public
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in User.
 	 */
-	public function getRegSchemasRelatedByCreatedUserIdJoinStatus($criteria = null, $con = null)
+	public function getSchemasRelatedByCreatedUserIdJoinStatus($criteria = null, $con = null)
 	{
 		// include the Peer class
-		include_once 'lib/model/om/BaseRegSchemaPeer.php';
+		include_once 'lib/model/om/BaseSchemaPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -3829,41 +3829,41 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 			$criteria = clone $criteria;
 		}
 
-		if ($this->collRegSchemasRelatedByCreatedUserId === null) {
+		if ($this->collSchemasRelatedByCreatedUserId === null) {
 			if ($this->isNew()) {
-				$this->collRegSchemasRelatedByCreatedUserId = array();
+				$this->collSchemasRelatedByCreatedUserId = array();
 			} else {
 
-				$criteria->add(RegSchemaPeer::CREATED_USER_ID, $this->getId());
+				$criteria->add(SchemaPeer::CREATED_USER_ID, $this->getId());
 
-				$this->collRegSchemasRelatedByCreatedUserId = RegSchemaPeer::doSelectJoinStatus($criteria, $con);
+				$this->collSchemasRelatedByCreatedUserId = SchemaPeer::doSelectJoinStatus($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
 			// called for.  If the criteria is the same as the last
 			// one, just return the collection.
 
-			$criteria->add(RegSchemaPeer::CREATED_USER_ID, $this->getId());
+			$criteria->add(SchemaPeer::CREATED_USER_ID, $this->getId());
 
-			if (!isset($this->lastRegSchemaRelatedByCreatedUserIdCriteria) || !$this->lastRegSchemaRelatedByCreatedUserIdCriteria->equals($criteria)) {
-				$this->collRegSchemasRelatedByCreatedUserId = RegSchemaPeer::doSelectJoinStatus($criteria, $con);
+			if (!isset($this->lastSchemaRelatedByCreatedUserIdCriteria) || !$this->lastSchemaRelatedByCreatedUserIdCriteria->equals($criteria)) {
+				$this->collSchemasRelatedByCreatedUserId = SchemaPeer::doSelectJoinStatus($criteria, $con);
 			}
 		}
-		$this->lastRegSchemaRelatedByCreatedUserIdCriteria = $criteria;
+		$this->lastSchemaRelatedByCreatedUserIdCriteria = $criteria;
 
-		return $this->collRegSchemasRelatedByCreatedUserId;
+		return $this->collSchemasRelatedByCreatedUserId;
 	}
 
 	/**
-	 * Temporary storage of collRegSchemasRelatedByUpdatedUserId to save a possible db hit in
+	 * Temporary storage of collSchemasRelatedByUpdatedUserId to save a possible db hit in
 	 * the event objects are add to the collection, but the
 	 * complete collection is never requested.
 	 * @return     void
 	 */
-	public function initRegSchemasRelatedByUpdatedUserId()
+	public function initSchemasRelatedByUpdatedUserId()
 	{
-		if ($this->collRegSchemasRelatedByUpdatedUserId === null) {
-			$this->collRegSchemasRelatedByUpdatedUserId = array();
+		if ($this->collSchemasRelatedByUpdatedUserId === null) {
+			$this->collSchemasRelatedByUpdatedUserId = array();
 		}
 	}
 
@@ -3871,7 +3871,7 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	 * If this collection has already been initialized with
 	 * an identical criteria, it returns the collection.
 	 * Otherwise if this User has previously
-	 * been saved, it will retrieve related RegSchemasRelatedByUpdatedUserId from storage.
+	 * been saved, it will retrieve related SchemasRelatedByUpdatedUserId from storage.
 	 * If this User is new, it will return
 	 * an empty collection or the current collection, the criteria
 	 * is ignored on a new object.
@@ -3880,10 +3880,10 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	 * @param      Criteria $criteria
 	 * @throws     PropelException
 	 */
-	public function getRegSchemasRelatedByUpdatedUserId($criteria = null, $con = null)
+	public function getSchemasRelatedByUpdatedUserId($criteria = null, $con = null)
 	{
 		// include the Peer class
-		include_once 'lib/model/om/BaseRegSchemaPeer.php';
+		include_once 'lib/model/om/BaseSchemaPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -3892,15 +3892,15 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 			$criteria = clone $criteria;
 		}
 
-		if ($this->collRegSchemasRelatedByUpdatedUserId === null) {
+		if ($this->collSchemasRelatedByUpdatedUserId === null) {
 			if ($this->isNew()) {
-			   $this->collRegSchemasRelatedByUpdatedUserId = array();
+			   $this->collSchemasRelatedByUpdatedUserId = array();
 			} else {
 
-				$criteria->add(RegSchemaPeer::UPDATED_USER_ID, $this->getId());
+				$criteria->add(SchemaPeer::UPDATED_USER_ID, $this->getId());
 
-				RegSchemaPeer::addSelectColumns($criteria);
-				$this->collRegSchemasRelatedByUpdatedUserId = RegSchemaPeer::doSelect($criteria, $con);
+				SchemaPeer::addSelectColumns($criteria);
+				$this->collSchemasRelatedByUpdatedUserId = SchemaPeer::doSelect($criteria, $con);
 			}
 		} else {
 			// criteria has no effect for a new object
@@ -3910,30 +3910,30 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 				// one, just return the collection.
 
 
-				$criteria->add(RegSchemaPeer::UPDATED_USER_ID, $this->getId());
+				$criteria->add(SchemaPeer::UPDATED_USER_ID, $this->getId());
 
-				RegSchemaPeer::addSelectColumns($criteria);
-				if (!isset($this->lastRegSchemaRelatedByUpdatedUserIdCriteria) || !$this->lastRegSchemaRelatedByUpdatedUserIdCriteria->equals($criteria)) {
-					$this->collRegSchemasRelatedByUpdatedUserId = RegSchemaPeer::doSelect($criteria, $con);
+				SchemaPeer::addSelectColumns($criteria);
+				if (!isset($this->lastSchemaRelatedByUpdatedUserIdCriteria) || !$this->lastSchemaRelatedByUpdatedUserIdCriteria->equals($criteria)) {
+					$this->collSchemasRelatedByUpdatedUserId = SchemaPeer::doSelect($criteria, $con);
 				}
 			}
 		}
-		$this->lastRegSchemaRelatedByUpdatedUserIdCriteria = $criteria;
-		return $this->collRegSchemasRelatedByUpdatedUserId;
+		$this->lastSchemaRelatedByUpdatedUserIdCriteria = $criteria;
+		return $this->collSchemasRelatedByUpdatedUserId;
 	}
 
 	/**
-	 * Returns the number of related RegSchemasRelatedByUpdatedUserId.
+	 * Returns the number of related SchemasRelatedByUpdatedUserId.
 	 *
 	 * @param      Criteria $criteria
 	 * @param      boolean $distinct
 	 * @param      Connection $con
 	 * @throws     PropelException
 	 */
-	public function countRegSchemasRelatedByUpdatedUserId($criteria = null, $distinct = false, $con = null)
+	public function countSchemasRelatedByUpdatedUserId($criteria = null, $distinct = false, $con = null)
 	{
 		// include the Peer class
-		include_once 'lib/model/om/BaseRegSchemaPeer.php';
+		include_once 'lib/model/om/BaseSchemaPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -3942,22 +3942,22 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 			$criteria = clone $criteria;
 		}
 
-		$criteria->add(RegSchemaPeer::UPDATED_USER_ID, $this->getId());
+		$criteria->add(SchemaPeer::UPDATED_USER_ID, $this->getId());
 
-		return RegSchemaPeer::doCount($criteria, $distinct, $con);
+		return SchemaPeer::doCount($criteria, $distinct, $con);
 	}
 
 	/**
-	 * Method called to associate a RegSchema object to this object
-	 * through the RegSchema foreign key attribute
+	 * Method called to associate a Schema object to this object
+	 * through the Schema foreign key attribute
 	 *
-	 * @param      RegSchema $l RegSchema
+	 * @param      Schema $l Schema
 	 * @return     void
 	 * @throws     PropelException
 	 */
-	public function addRegSchemaRelatedByUpdatedUserId(RegSchema $l)
+	public function addSchemaRelatedByUpdatedUserId(Schema $l)
 	{
-		$this->collRegSchemasRelatedByUpdatedUserId[] = $l;
+		$this->collSchemasRelatedByUpdatedUserId[] = $l;
 		$l->setUserRelatedByUpdatedUserId($this);
 	}
 
@@ -3967,16 +3967,16 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	 * an identical criteria, it returns the collection.
 	 * Otherwise if this User is new, it will return
 	 * an empty collection; or if this User has previously
-	 * been saved, it will retrieve related RegSchemasRelatedByUpdatedUserId from storage.
+	 * been saved, it will retrieve related SchemasRelatedByUpdatedUserId from storage.
 	 *
 	 * This method is protected by default in order to keep the public
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in User.
 	 */
-	public function getRegSchemasRelatedByUpdatedUserIdJoinAgent($criteria = null, $con = null)
+	public function getSchemasRelatedByUpdatedUserIdJoinAgent($criteria = null, $con = null)
 	{
 		// include the Peer class
-		include_once 'lib/model/om/BaseRegSchemaPeer.php';
+		include_once 'lib/model/om/BaseSchemaPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -3985,29 +3985,29 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 			$criteria = clone $criteria;
 		}
 
-		if ($this->collRegSchemasRelatedByUpdatedUserId === null) {
+		if ($this->collSchemasRelatedByUpdatedUserId === null) {
 			if ($this->isNew()) {
-				$this->collRegSchemasRelatedByUpdatedUserId = array();
+				$this->collSchemasRelatedByUpdatedUserId = array();
 			} else {
 
-				$criteria->add(RegSchemaPeer::UPDATED_USER_ID, $this->getId());
+				$criteria->add(SchemaPeer::UPDATED_USER_ID, $this->getId());
 
-				$this->collRegSchemasRelatedByUpdatedUserId = RegSchemaPeer::doSelectJoinAgent($criteria, $con);
+				$this->collSchemasRelatedByUpdatedUserId = SchemaPeer::doSelectJoinAgent($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
 			// called for.  If the criteria is the same as the last
 			// one, just return the collection.
 
-			$criteria->add(RegSchemaPeer::UPDATED_USER_ID, $this->getId());
+			$criteria->add(SchemaPeer::UPDATED_USER_ID, $this->getId());
 
-			if (!isset($this->lastRegSchemaRelatedByUpdatedUserIdCriteria) || !$this->lastRegSchemaRelatedByUpdatedUserIdCriteria->equals($criteria)) {
-				$this->collRegSchemasRelatedByUpdatedUserId = RegSchemaPeer::doSelectJoinAgent($criteria, $con);
+			if (!isset($this->lastSchemaRelatedByUpdatedUserIdCriteria) || !$this->lastSchemaRelatedByUpdatedUserIdCriteria->equals($criteria)) {
+				$this->collSchemasRelatedByUpdatedUserId = SchemaPeer::doSelectJoinAgent($criteria, $con);
 			}
 		}
-		$this->lastRegSchemaRelatedByUpdatedUserIdCriteria = $criteria;
+		$this->lastSchemaRelatedByUpdatedUserIdCriteria = $criteria;
 
-		return $this->collRegSchemasRelatedByUpdatedUserId;
+		return $this->collSchemasRelatedByUpdatedUserId;
 	}
 
 
@@ -4016,16 +4016,16 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	 * an identical criteria, it returns the collection.
 	 * Otherwise if this User is new, it will return
 	 * an empty collection; or if this User has previously
-	 * been saved, it will retrieve related RegSchemasRelatedByUpdatedUserId from storage.
+	 * been saved, it will retrieve related SchemasRelatedByUpdatedUserId from storage.
 	 *
 	 * This method is protected by default in order to keep the public
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in User.
 	 */
-	public function getRegSchemasRelatedByUpdatedUserIdJoinStatus($criteria = null, $con = null)
+	public function getSchemasRelatedByUpdatedUserIdJoinStatus($criteria = null, $con = null)
 	{
 		// include the Peer class
-		include_once 'lib/model/om/BaseRegSchemaPeer.php';
+		include_once 'lib/model/om/BaseSchemaPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -4034,29 +4034,29 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 			$criteria = clone $criteria;
 		}
 
-		if ($this->collRegSchemasRelatedByUpdatedUserId === null) {
+		if ($this->collSchemasRelatedByUpdatedUserId === null) {
 			if ($this->isNew()) {
-				$this->collRegSchemasRelatedByUpdatedUserId = array();
+				$this->collSchemasRelatedByUpdatedUserId = array();
 			} else {
 
-				$criteria->add(RegSchemaPeer::UPDATED_USER_ID, $this->getId());
+				$criteria->add(SchemaPeer::UPDATED_USER_ID, $this->getId());
 
-				$this->collRegSchemasRelatedByUpdatedUserId = RegSchemaPeer::doSelectJoinStatus($criteria, $con);
+				$this->collSchemasRelatedByUpdatedUserId = SchemaPeer::doSelectJoinStatus($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
 			// called for.  If the criteria is the same as the last
 			// one, just return the collection.
 
-			$criteria->add(RegSchemaPeer::UPDATED_USER_ID, $this->getId());
+			$criteria->add(SchemaPeer::UPDATED_USER_ID, $this->getId());
 
-			if (!isset($this->lastRegSchemaRelatedByUpdatedUserIdCriteria) || !$this->lastRegSchemaRelatedByUpdatedUserIdCriteria->equals($criteria)) {
-				$this->collRegSchemasRelatedByUpdatedUserId = RegSchemaPeer::doSelectJoinStatus($criteria, $con);
+			if (!isset($this->lastSchemaRelatedByUpdatedUserIdCriteria) || !$this->lastSchemaRelatedByUpdatedUserIdCriteria->equals($criteria)) {
+				$this->collSchemasRelatedByUpdatedUserId = SchemaPeer::doSelectJoinStatus($criteria, $con);
 			}
 		}
-		$this->lastRegSchemaRelatedByUpdatedUserIdCriteria = $criteria;
+		$this->lastSchemaRelatedByUpdatedUserIdCriteria = $criteria;
 
-		return $this->collRegSchemasRelatedByUpdatedUserId;
+		return $this->collSchemasRelatedByUpdatedUserId;
 	}
 
 	/**

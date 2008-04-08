@@ -3,7 +3,7 @@
 /*
  * This file is part of the symfony package.
  * (c) 2004-2006 Fabien Potencier <fabien.potencier@symfony-project.com>
- * 
+ *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
@@ -27,7 +27,7 @@ function run_propel_init_admin($task, $args)
   $module      = $args[1];
   $model_class = $args[2];
   $theme       = isset($args[3]) ? $args[3] : 'default';
-
+debugbreak();
   try
   {
     $author_name = $task->get_property('author', 'symfony');
@@ -43,7 +43,7 @@ function run_propel_init_admin($task, $args)
     'MODULE_NAME'  => $module,
     'MODEL_CLASS'  => $model_class,
     'AUTHOR_NAME'  => $author_name,
-    'THEME'        => $theme, 
+    'THEME'        => $theme,
   );
 
   $moduleDir = sfConfig::get('sf_root_dir').'/'.sfConfig::get('sf_apps_dir_name').'/'.$app.'/'.sfConfig::get('sf_app_module_dir_name').'/'.$module;

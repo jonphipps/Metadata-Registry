@@ -7,14 +7,14 @@
  *
  * @package    lib.model.om
  */
-abstract class BaseRegSchema extends BaseObject  implements Persistent {
+abstract class BaseSchema extends BaseObject  implements Persistent {
 
 
 	/**
 	 * The Peer class.
 	 * Instance provides a convenient way of calling static methods on a class
 	 * that calling code may not be able to identify.
-	 * @var        RegSchemaPeer
+	 * @var        SchemaPeer
 	 */
 	protected static $peer;
 
@@ -465,7 +465,7 @@ abstract class BaseRegSchema extends BaseObject  implements Persistent {
 
 		if ($this->id !== $v) {
 			$this->id = $v;
-			$this->modifiedColumns[] = RegSchemaPeer::ID;
+			$this->modifiedColumns[] = SchemaPeer::ID;
 		}
 
 	} // setId()
@@ -487,7 +487,7 @@ abstract class BaseRegSchema extends BaseObject  implements Persistent {
 
 		if ($this->agent_id !== $v || $v === 0) {
 			$this->agent_id = $v;
-			$this->modifiedColumns[] = RegSchemaPeer::AGENT_ID;
+			$this->modifiedColumns[] = SchemaPeer::AGENT_ID;
 		}
 
 		if ($this->aAgent !== null && $this->aAgent->getId() !== $v) {
@@ -515,7 +515,7 @@ abstract class BaseRegSchema extends BaseObject  implements Persistent {
 		}
 		if ($this->created_at !== $ts) {
 			$this->created_at = $ts;
-			$this->modifiedColumns[] = RegSchemaPeer::CREATED_AT;
+			$this->modifiedColumns[] = SchemaPeer::CREATED_AT;
 		}
 
 	} // setCreatedAt()
@@ -539,7 +539,7 @@ abstract class BaseRegSchema extends BaseObject  implements Persistent {
 		}
 		if ($this->deleted_at !== $ts) {
 			$this->deleted_at = $ts;
-			$this->modifiedColumns[] = RegSchemaPeer::DELETED_AT;
+			$this->modifiedColumns[] = SchemaPeer::DELETED_AT;
 		}
 
 	} // setDeletedAt()
@@ -561,7 +561,7 @@ abstract class BaseRegSchema extends BaseObject  implements Persistent {
 
 		if ($this->created_user_id !== $v) {
 			$this->created_user_id = $v;
-			$this->modifiedColumns[] = RegSchemaPeer::CREATED_USER_ID;
+			$this->modifiedColumns[] = SchemaPeer::CREATED_USER_ID;
 		}
 
 		if ($this->aUserRelatedByCreatedUserId !== null && $this->aUserRelatedByCreatedUserId->getId() !== $v) {
@@ -587,7 +587,7 @@ abstract class BaseRegSchema extends BaseObject  implements Persistent {
 
 		if ($this->updated_user_id !== $v) {
 			$this->updated_user_id = $v;
-			$this->modifiedColumns[] = RegSchemaPeer::UPDATED_USER_ID;
+			$this->modifiedColumns[] = SchemaPeer::UPDATED_USER_ID;
 		}
 
 		if ($this->aUserRelatedByUpdatedUserId !== null && $this->aUserRelatedByUpdatedUserId->getId() !== $v) {
@@ -615,7 +615,7 @@ abstract class BaseRegSchema extends BaseObject  implements Persistent {
 		}
 		if ($this->child_updated_at !== $ts) {
 			$this->child_updated_at = $ts;
-			$this->modifiedColumns[] = RegSchemaPeer::CHILD_UPDATED_AT;
+			$this->modifiedColumns[] = SchemaPeer::CHILD_UPDATED_AT;
 		}
 
 	} // setChildUpdatedAt()
@@ -637,7 +637,7 @@ abstract class BaseRegSchema extends BaseObject  implements Persistent {
 
 		if ($this->child_updated_user_id !== $v) {
 			$this->child_updated_user_id = $v;
-			$this->modifiedColumns[] = RegSchemaPeer::CHILD_UPDATED_USER_ID;
+			$this->modifiedColumns[] = SchemaPeer::CHILD_UPDATED_USER_ID;
 		}
 
 	} // setChildUpdatedUserId()
@@ -659,7 +659,7 @@ abstract class BaseRegSchema extends BaseObject  implements Persistent {
 
 		if ($this->name !== $v || $v === '') {
 			$this->name = $v;
-			$this->modifiedColumns[] = RegSchemaPeer::NAME;
+			$this->modifiedColumns[] = SchemaPeer::NAME;
 		}
 
 	} // setName()
@@ -681,7 +681,7 @@ abstract class BaseRegSchema extends BaseObject  implements Persistent {
 
 		if ($this->note !== $v) {
 			$this->note = $v;
-			$this->modifiedColumns[] = RegSchemaPeer::NOTE;
+			$this->modifiedColumns[] = SchemaPeer::NOTE;
 		}
 
 	} // setNote()
@@ -703,7 +703,7 @@ abstract class BaseRegSchema extends BaseObject  implements Persistent {
 
 		if ($this->uri !== $v || $v === '') {
 			$this->uri = $v;
-			$this->modifiedColumns[] = RegSchemaPeer::URI;
+			$this->modifiedColumns[] = SchemaPeer::URI;
 		}
 
 	} // setUri()
@@ -725,7 +725,7 @@ abstract class BaseRegSchema extends BaseObject  implements Persistent {
 
 		if ($this->url !== $v) {
 			$this->url = $v;
-			$this->modifiedColumns[] = RegSchemaPeer::URL;
+			$this->modifiedColumns[] = SchemaPeer::URL;
 		}
 
 	} // setUrl()
@@ -747,7 +747,7 @@ abstract class BaseRegSchema extends BaseObject  implements Persistent {
 
 		if ($this->base_domain !== $v || $v === '') {
 			$this->base_domain = $v;
-			$this->modifiedColumns[] = RegSchemaPeer::BASE_DOMAIN;
+			$this->modifiedColumns[] = SchemaPeer::BASE_DOMAIN;
 		}
 
 	} // setBaseDomain()
@@ -769,7 +769,7 @@ abstract class BaseRegSchema extends BaseObject  implements Persistent {
 
 		if ($this->token !== $v || $v === '') {
 			$this->token = $v;
-			$this->modifiedColumns[] = RegSchemaPeer::TOKEN;
+			$this->modifiedColumns[] = SchemaPeer::TOKEN;
 		}
 
 	} // setToken()
@@ -791,7 +791,7 @@ abstract class BaseRegSchema extends BaseObject  implements Persistent {
 
 		if ($this->community !== $v) {
 			$this->community = $v;
-			$this->modifiedColumns[] = RegSchemaPeer::COMMUNITY;
+			$this->modifiedColumns[] = SchemaPeer::COMMUNITY;
 		}
 
 	} // setCommunity()
@@ -813,7 +813,7 @@ abstract class BaseRegSchema extends BaseObject  implements Persistent {
 
 		if ($this->last_uri_id !== $v || $v === 1000) {
 			$this->last_uri_id = $v;
-			$this->modifiedColumns[] = RegSchemaPeer::LAST_URI_ID;
+			$this->modifiedColumns[] = SchemaPeer::LAST_URI_ID;
 		}
 
 	} // setLastUriId()
@@ -835,7 +835,7 @@ abstract class BaseRegSchema extends BaseObject  implements Persistent {
 
 		if ($this->status_id !== $v || $v === 1) {
 			$this->status_id = $v;
-			$this->modifiedColumns[] = RegSchemaPeer::STATUS_ID;
+			$this->modifiedColumns[] = SchemaPeer::STATUS_ID;
 		}
 
 		if ($this->aStatus !== null && $this->aStatus->getId() !== $v) {
@@ -861,7 +861,7 @@ abstract class BaseRegSchema extends BaseObject  implements Persistent {
 
 		if ($this->language !== $v || $v === 'en') {
 			$this->language = $v;
-			$this->modifiedColumns[] = RegSchemaPeer::LANGUAGE;
+			$this->modifiedColumns[] = SchemaPeer::LANGUAGE;
 		}
 
 	} // setLanguage()
@@ -924,10 +924,10 @@ abstract class BaseRegSchema extends BaseObject  implements Persistent {
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 18; // 18 = RegSchemaPeer::NUM_COLUMNS - RegSchemaPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 18; // 18 = SchemaPeer::NUM_COLUMNS - SchemaPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
-			throw new PropelException("Error populating RegSchema object", $e);
+			throw new PropelException("Error populating Schema object", $e);
 		}
 	}
 
@@ -943,7 +943,7 @@ abstract class BaseRegSchema extends BaseObject  implements Persistent {
 	public function delete($con = null)
 	{
 
-    foreach (sfMixer::getCallables('BaseRegSchema:delete:pre') as $callable)
+    foreach (sfMixer::getCallables('BaseSchema:delete:pre') as $callable)
     {
       $ret = call_user_func($callable, $this, $con);
       if ($ret)
@@ -958,12 +958,12 @@ abstract class BaseRegSchema extends BaseObject  implements Persistent {
 		}
 
 		if ($con === null) {
-			$con = Propel::getConnection(RegSchemaPeer::DATABASE_NAME);
+			$con = Propel::getConnection(SchemaPeer::DATABASE_NAME);
 		}
 
 		try {
 			$con->begin();
-			RegSchemaPeer::doDelete($this, $con);
+			SchemaPeer::doDelete($this, $con);
 			$this->setDeleted(true);
 			$con->commit();
 		} catch (PropelException $e) {
@@ -972,7 +972,7 @@ abstract class BaseRegSchema extends BaseObject  implements Persistent {
 		}
 	
 
-    foreach (sfMixer::getCallables('BaseRegSchema:delete:post') as $callable)
+    foreach (sfMixer::getCallables('BaseSchema:delete:post') as $callable)
     {
       call_user_func($callable, $this, $con);
     }
@@ -991,7 +991,7 @@ abstract class BaseRegSchema extends BaseObject  implements Persistent {
 	public function save($con = null)
 	{
 
-    foreach (sfMixer::getCallables('BaseRegSchema:save:pre') as $callable)
+    foreach (sfMixer::getCallables('BaseSchema:save:pre') as $callable)
     {
       $affectedRows = call_user_func($callable, $this, $con);
       if (is_int($affectedRows))
@@ -1001,7 +1001,7 @@ abstract class BaseRegSchema extends BaseObject  implements Persistent {
     }
 
 
-    if ($this->isNew() && !$this->isColumnModified(RegSchemaPeer::CREATED_AT))
+    if ($this->isNew() && !$this->isColumnModified(SchemaPeer::CREATED_AT))
     {
       $this->setCreatedAt(time());
     }
@@ -1011,14 +1011,14 @@ abstract class BaseRegSchema extends BaseObject  implements Persistent {
 		}
 
 		if ($con === null) {
-			$con = Propel::getConnection(RegSchemaPeer::DATABASE_NAME);
+			$con = Propel::getConnection(SchemaPeer::DATABASE_NAME);
 		}
 
 		try {
 			$con->begin();
 			$affectedRows = $this->doSave($con);
 			$con->commit();
-    foreach (sfMixer::getCallables('BaseRegSchema:save:post') as $callable)
+    foreach (sfMixer::getCallables('BaseSchema:save:post') as $callable)
     {
       call_user_func($callable, $this, $con, $affectedRows);
     }
@@ -1085,7 +1085,7 @@ abstract class BaseRegSchema extends BaseObject  implements Persistent {
 			// If this object has been modified, then save it to the database.
 			if ($this->isModified()) {
 				if ($this->isNew()) {
-					$pk = RegSchemaPeer::doInsert($this, $con);
+					$pk = SchemaPeer::doInsert($this, $con);
 					$affectedRows += 1; // we are assuming that there is only 1 row per doInsert() which
 										 // should always be true here (even though technically
 										 // BasePeer::doInsert() can insert multiple rows).
@@ -1094,7 +1094,7 @@ abstract class BaseRegSchema extends BaseObject  implements Persistent {
 
 					$this->setNew(false);
 				} else {
-					$affectedRows += RegSchemaPeer::doUpdate($this, $con);
+					$affectedRows += SchemaPeer::doUpdate($this, $con);
 				}
 				$this->resetModified(); // [HL] After being saved an object is no longer 'modified'
 			}
@@ -1202,7 +1202,7 @@ abstract class BaseRegSchema extends BaseObject  implements Persistent {
 			}
 
 
-			if (($retval = RegSchemaPeer::doValidate($this, $columns)) !== true) {
+			if (($retval = SchemaPeer::doValidate($this, $columns)) !== true) {
 				$failureMap = array_merge($failureMap, $retval);
 			}
 
@@ -1233,7 +1233,7 @@ abstract class BaseRegSchema extends BaseObject  implements Persistent {
 	 */
 	public function getByName($name, $type = BasePeer::TYPE_PHPNAME)
 	{
-		$pos = RegSchemaPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
+		$pos = SchemaPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
 		return $this->getByPosition($pos);
 	}
 
@@ -1319,7 +1319,7 @@ abstract class BaseRegSchema extends BaseObject  implements Persistent {
 	 */
 	public function toArray($keyType = BasePeer::TYPE_PHPNAME)
 	{
-		$keys = RegSchemaPeer::getFieldNames($keyType);
+		$keys = SchemaPeer::getFieldNames($keyType);
 		$result = array(
 			$keys[0] => $this->getId(),
 			$keys[1] => $this->getAgentId(),
@@ -1355,7 +1355,7 @@ abstract class BaseRegSchema extends BaseObject  implements Persistent {
 	 */
 	public function setByName($name, $value, $type = BasePeer::TYPE_PHPNAME)
 	{
-		$pos = RegSchemaPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
+		$pos = SchemaPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
 		return $this->setByPosition($pos, $value);
 	}
 
@@ -1445,7 +1445,7 @@ abstract class BaseRegSchema extends BaseObject  implements Persistent {
 	 */
 	public function fromArray($arr, $keyType = BasePeer::TYPE_PHPNAME)
 	{
-		$keys = RegSchemaPeer::getFieldNames($keyType);
+		$keys = SchemaPeer::getFieldNames($keyType);
 
 		if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
 		if (array_key_exists($keys[1], $arr)) $this->setAgentId($arr[$keys[1]]);
@@ -1474,26 +1474,26 @@ abstract class BaseRegSchema extends BaseObject  implements Persistent {
 	 */
 	public function buildCriteria()
 	{
-		$criteria = new Criteria(RegSchemaPeer::DATABASE_NAME);
+		$criteria = new Criteria(SchemaPeer::DATABASE_NAME);
 
-		if ($this->isColumnModified(RegSchemaPeer::ID)) $criteria->add(RegSchemaPeer::ID, $this->id);
-		if ($this->isColumnModified(RegSchemaPeer::AGENT_ID)) $criteria->add(RegSchemaPeer::AGENT_ID, $this->agent_id);
-		if ($this->isColumnModified(RegSchemaPeer::CREATED_AT)) $criteria->add(RegSchemaPeer::CREATED_AT, $this->created_at);
-		if ($this->isColumnModified(RegSchemaPeer::DELETED_AT)) $criteria->add(RegSchemaPeer::DELETED_AT, $this->deleted_at);
-		if ($this->isColumnModified(RegSchemaPeer::CREATED_USER_ID)) $criteria->add(RegSchemaPeer::CREATED_USER_ID, $this->created_user_id);
-		if ($this->isColumnModified(RegSchemaPeer::UPDATED_USER_ID)) $criteria->add(RegSchemaPeer::UPDATED_USER_ID, $this->updated_user_id);
-		if ($this->isColumnModified(RegSchemaPeer::CHILD_UPDATED_AT)) $criteria->add(RegSchemaPeer::CHILD_UPDATED_AT, $this->child_updated_at);
-		if ($this->isColumnModified(RegSchemaPeer::CHILD_UPDATED_USER_ID)) $criteria->add(RegSchemaPeer::CHILD_UPDATED_USER_ID, $this->child_updated_user_id);
-		if ($this->isColumnModified(RegSchemaPeer::NAME)) $criteria->add(RegSchemaPeer::NAME, $this->name);
-		if ($this->isColumnModified(RegSchemaPeer::NOTE)) $criteria->add(RegSchemaPeer::NOTE, $this->note);
-		if ($this->isColumnModified(RegSchemaPeer::URI)) $criteria->add(RegSchemaPeer::URI, $this->uri);
-		if ($this->isColumnModified(RegSchemaPeer::URL)) $criteria->add(RegSchemaPeer::URL, $this->url);
-		if ($this->isColumnModified(RegSchemaPeer::BASE_DOMAIN)) $criteria->add(RegSchemaPeer::BASE_DOMAIN, $this->base_domain);
-		if ($this->isColumnModified(RegSchemaPeer::TOKEN)) $criteria->add(RegSchemaPeer::TOKEN, $this->token);
-		if ($this->isColumnModified(RegSchemaPeer::COMMUNITY)) $criteria->add(RegSchemaPeer::COMMUNITY, $this->community);
-		if ($this->isColumnModified(RegSchemaPeer::LAST_URI_ID)) $criteria->add(RegSchemaPeer::LAST_URI_ID, $this->last_uri_id);
-		if ($this->isColumnModified(RegSchemaPeer::STATUS_ID)) $criteria->add(RegSchemaPeer::STATUS_ID, $this->status_id);
-		if ($this->isColumnModified(RegSchemaPeer::LANGUAGE)) $criteria->add(RegSchemaPeer::LANGUAGE, $this->language);
+		if ($this->isColumnModified(SchemaPeer::ID)) $criteria->add(SchemaPeer::ID, $this->id);
+		if ($this->isColumnModified(SchemaPeer::AGENT_ID)) $criteria->add(SchemaPeer::AGENT_ID, $this->agent_id);
+		if ($this->isColumnModified(SchemaPeer::CREATED_AT)) $criteria->add(SchemaPeer::CREATED_AT, $this->created_at);
+		if ($this->isColumnModified(SchemaPeer::DELETED_AT)) $criteria->add(SchemaPeer::DELETED_AT, $this->deleted_at);
+		if ($this->isColumnModified(SchemaPeer::CREATED_USER_ID)) $criteria->add(SchemaPeer::CREATED_USER_ID, $this->created_user_id);
+		if ($this->isColumnModified(SchemaPeer::UPDATED_USER_ID)) $criteria->add(SchemaPeer::UPDATED_USER_ID, $this->updated_user_id);
+		if ($this->isColumnModified(SchemaPeer::CHILD_UPDATED_AT)) $criteria->add(SchemaPeer::CHILD_UPDATED_AT, $this->child_updated_at);
+		if ($this->isColumnModified(SchemaPeer::CHILD_UPDATED_USER_ID)) $criteria->add(SchemaPeer::CHILD_UPDATED_USER_ID, $this->child_updated_user_id);
+		if ($this->isColumnModified(SchemaPeer::NAME)) $criteria->add(SchemaPeer::NAME, $this->name);
+		if ($this->isColumnModified(SchemaPeer::NOTE)) $criteria->add(SchemaPeer::NOTE, $this->note);
+		if ($this->isColumnModified(SchemaPeer::URI)) $criteria->add(SchemaPeer::URI, $this->uri);
+		if ($this->isColumnModified(SchemaPeer::URL)) $criteria->add(SchemaPeer::URL, $this->url);
+		if ($this->isColumnModified(SchemaPeer::BASE_DOMAIN)) $criteria->add(SchemaPeer::BASE_DOMAIN, $this->base_domain);
+		if ($this->isColumnModified(SchemaPeer::TOKEN)) $criteria->add(SchemaPeer::TOKEN, $this->token);
+		if ($this->isColumnModified(SchemaPeer::COMMUNITY)) $criteria->add(SchemaPeer::COMMUNITY, $this->community);
+		if ($this->isColumnModified(SchemaPeer::LAST_URI_ID)) $criteria->add(SchemaPeer::LAST_URI_ID, $this->last_uri_id);
+		if ($this->isColumnModified(SchemaPeer::STATUS_ID)) $criteria->add(SchemaPeer::STATUS_ID, $this->status_id);
+		if ($this->isColumnModified(SchemaPeer::LANGUAGE)) $criteria->add(SchemaPeer::LANGUAGE, $this->language);
 
 		return $criteria;
 	}
@@ -1508,9 +1508,9 @@ abstract class BaseRegSchema extends BaseObject  implements Persistent {
 	 */
 	public function buildPkeyCriteria()
 	{
-		$criteria = new Criteria(RegSchemaPeer::DATABASE_NAME);
+		$criteria = new Criteria(SchemaPeer::DATABASE_NAME);
 
-		$criteria->add(RegSchemaPeer::ID, $this->id);
+		$criteria->add(SchemaPeer::ID, $this->id);
 
 		return $criteria;
 	}
@@ -1541,7 +1541,7 @@ abstract class BaseRegSchema extends BaseObject  implements Persistent {
 	 * If desired, this method can also make copies of all associated (fkey referrers)
 	 * objects.
 	 *
-	 * @param      object $copyObj An object of RegSchema (or compatible) type.
+	 * @param      object $copyObj An object of Schema (or compatible) type.
 	 * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
 	 * @throws     PropelException
 	 */
@@ -1610,7 +1610,7 @@ abstract class BaseRegSchema extends BaseObject  implements Persistent {
 	 * objects.
 	 *
 	 * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-	 * @return     RegSchema Clone of current object.
+	 * @return     Schema Clone of current object.
 	 * @throws     PropelException
 	 */
 	public function copy($deepCopy = false)
@@ -1629,12 +1629,12 @@ abstract class BaseRegSchema extends BaseObject  implements Persistent {
 	 * same instance for all member of this class. The method could therefore
 	 * be static, but this would prevent one from overriding the behavior.
 	 *
-	 * @return     RegSchemaPeer
+	 * @return     SchemaPeer
 	 */
 	public function getPeer()
 	{
 		if (self::$peer === null) {
-			self::$peer = new RegSchemaPeer();
+			self::$peer = new SchemaPeer();
 		}
 		return self::$peer;
 	}
@@ -1855,9 +1855,9 @@ abstract class BaseRegSchema extends BaseObject  implements Persistent {
 	/**
 	 * If this collection has already been initialized with
 	 * an identical criteria, it returns the collection.
-	 * Otherwise if this RegSchema has previously
+	 * Otherwise if this Schema has previously
 	 * been saved, it will retrieve related Namespaces from storage.
-	 * If this RegSchema is new, it will return
+	 * If this Schema is new, it will return
 	 * an empty collection or the current collection, the criteria
 	 * is ignored on a new object.
 	 *
@@ -1943,15 +1943,15 @@ abstract class BaseRegSchema extends BaseObject  implements Persistent {
 	public function addNamespace(Namespace $l)
 	{
 		$this->collNamespaces[] = $l;
-		$l->setRegSchema($this);
+		$l->setSchema($this);
 	}
 
 
   public function __call($method, $arguments)
   {
-    if (!$callable = sfMixer::getCallable('BaseRegSchema:'.$method))
+    if (!$callable = sfMixer::getCallable('BaseSchema:'.$method))
     {
-      throw new sfException(sprintf('Call to undefined method BaseRegSchema::%s', $method));
+      throw new sfException(sprintf('Call to undefined method BaseSchema::%s', $method));
     }
 
     array_unshift($arguments, $this);
@@ -1960,4 +1960,4 @@ abstract class BaseRegSchema extends BaseObject  implements Persistent {
   }
 
 
-} // BaseRegSchema
+} // BaseSchema

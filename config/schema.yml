@@ -1,5 +1,6 @@
 ---
 propel:
+
   reg_agent:
     _attributes:
       idMethod: native
@@ -59,6 +60,7 @@ propel:
     type:
       type: CHAR
       size: 15
+
   reg_agent_has_user:
     _attributes:
       idMethod: native
@@ -104,6 +106,7 @@ propel:
       agent_user_id:
         - agent_id
         - user_id
+
   reg_concept:
     _attributes:
       idMethod: native
@@ -188,6 +191,7 @@ propel:
       vocabulary_id_pref_label:
         - vocabulary_id
         - pref_label
+
   reg_concept_property:
     _attributes:
       idMethod: native
@@ -278,6 +282,7 @@ propel:
         - created_user_id
       updated_user_id:
         - updated_user_id
+
   reg_concept_property_history:
     _attributes:
       idMethod: native
@@ -365,6 +370,7 @@ propel:
         - created_user_id
       vocabulary_id:
         - vocabulary_id
+
   reg_lookup:
     _attributes:
       idMethod: native
@@ -389,6 +395,7 @@ propel:
       display_order:
         - type_id
         - display_order
+
   reg_namespace:
     _attributes:
       idMethod: native
@@ -432,9 +439,11 @@ propel:
     _indexes:
       schema_id:
         - schema_id
+
   reg_schema:
     _attributes:
       idMethod: native
+      phpName: Schema
     id:
       type: INTEGER
       required: true
@@ -523,6 +532,7 @@ propel:
         - created_user_id
       child_updated_user_id:
         - child_updated_user_id
+
   reg_schema_property:
     _attributes:
       idMethod: native
@@ -578,6 +588,7 @@ propel:
     uri:
       type: VARCHAR
       size: 255
+
   reg_schema_property_property:
     _attributes:
       idMethod: native
@@ -649,6 +660,7 @@ propel:
         - related_schema_property_id
       status_id:
         - status_id
+
   reg_schema_property_property_history:
     _attributes:
       idMethod: native
@@ -684,6 +696,7 @@ propel:
     status_id:
       type: INTEGER
       default: 1
+
   reg_skos_property:
     _attributes:
       idMethod: native
@@ -748,6 +761,7 @@ propel:
       type: BOOLEAN
       required: true
       default: 1
+
   reg_status:
     _attributes:
       idMethod: native
@@ -766,6 +780,7 @@ propel:
     _indexes:
       display_order:
         - display_order
+
   reg_user:
     _attributes:
       idMethod: native
@@ -822,6 +837,7 @@ propel:
       id:
         - id
         - created_at
+
   reg_vocabulary:
     _attributes:
       idMethod: native
@@ -921,6 +937,7 @@ propel:
         - created_user_id
       child_updated_user_id:
         - child_updated_user_id
+
   reg_vocabulary_has_user:
     _attributes:
       idMethod: native
@@ -969,6 +986,7 @@ propel:
       user_resource_id:
         - user_id
         - vocabulary_id
+
   reg_vocabulary_has_version:
     _attributes:
       idMethod: native

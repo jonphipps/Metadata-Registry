@@ -7,6 +7,6 @@
  *
  * @package lib.model
  */ 
-class RegSchemaPeer extends BaseRegSchemaPeer
+class SchemaPeer extends BaseSchemaPeer
 {
 }

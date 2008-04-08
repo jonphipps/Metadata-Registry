@@ -340,14 +340,14 @@ abstract class BaseNamespacePeer {
 	}
 
 	/**
-	 * Returns the number of rows matching criteria, joining the related RegSchema table
+	 * Returns the number of rows matching criteria, joining the related Schema table
 	 *
 	 * @param Criteria $c
 	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
 	 * @param Connection $con
 	 * @return int Number of matching rows.
 	 */
-	public static function doCountJoinRegSchema(Criteria $criteria, $distinct = false, $con = null)
+	public static function doCountJoinSchema(Criteria $criteria, $distinct = false, $con = null)
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
@@ -366,7 +366,7 @@ abstract class BaseNamespacePeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(NamespacePeer::SCHEMA_ID, RegSchemaPeer::ID);
+		$criteria->addJoin(NamespacePeer::SCHEMA_ID, SchemaPeer::ID);
 
 		$rs = NamespacePeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
@@ -379,13 +379,13 @@ abstract class BaseNamespacePeer {
 
 
 	/**
-	 * Selects a collection of Namespace objects pre-filled with their RegSchema objects.
+	 * Selects a collection of Namespace objects pre-filled with their Schema objects.
 	 *
 	 * @return array Array of Namespace objects.
 	 * @throws PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
-	public static function doSelectJoinRegSchema(Criteria $c, $con = null)
+	public static function doSelectJoinSchema(Criteria $c, $con = null)
 	{
 		$c = clone $c;
 
@@ -396,9 +396,9 @@ abstract class BaseNamespacePeer {
 
 		NamespacePeer::addSelectColumns($c);
 		$startcol = (NamespacePeer::NUM_COLUMNS - NamespacePeer::NUM_LAZY_LOAD_COLUMNS) + 1;
-		RegSchemaPeer::addSelectColumns($c);
+		SchemaPeer::addSelectColumns($c);
 
-		$c->addJoin(NamespacePeer::SCHEMA_ID, RegSchemaPeer::ID);
+		$c->addJoin(NamespacePeer::SCHEMA_ID, SchemaPeer::ID);
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
 
@@ -410,7 +410,7 @@ abstract class BaseNamespacePeer {
 			$obj1 = new $cls();
 			$obj1->hydrate($rs);
 
-			$omClass = RegSchemaPeer::getOMClass();
+			$omClass = SchemaPeer::getOMClass();
 
 			$cls = Propel::import($omClass);
 			$obj2 = new $cls();
@@ -418,7 +418,7 @@ abstract class BaseNamespacePeer {
 
 			$newObject = true;
 			foreach($results as $temp_obj1) {
-				$temp_obj2 = $temp_obj1->getRegSchema(); //CHECKME
+				$temp_obj2 = $temp_obj1->getSchema(); //CHECKME
 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
 					// e.g. $author->addBookRelatedByBookId()
@@ -462,7 +462,7 @@ abstract class BaseNamespacePeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(NamespacePeer::SCHEMA_ID, RegSchemaPeer::ID);
+		$criteria->addJoin(NamespacePeer::SCHEMA_ID, SchemaPeer::ID);
 
 		$rs = NamespacePeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
@@ -493,10 +493,10 @@ abstract class BaseNamespacePeer {
 		NamespacePeer::addSelectColumns($c);
 		$startcol2 = (NamespacePeer::NUM_COLUMNS - NamespacePeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 
-		RegSchemaPeer::addSelectColumns($c);
-		$startcol3 = $startcol2 + RegSchemaPeer::NUM_COLUMNS;
+		SchemaPeer::addSelectColumns($c);
+		$startcol3 = $startcol2 + SchemaPeer::NUM_COLUMNS;
 
-		$c->addJoin(NamespacePeer::SCHEMA_ID, RegSchemaPeer::ID);
+		$c->addJoin(NamespacePeer::SCHEMA_ID, SchemaPeer::ID);
 
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
@@ -511,9 +511,9 @@ abstract class BaseNamespacePeer {
 			$obj1->hydrate($rs);
 
 				
-				// Add objects for joined RegSchema rows
+				// Add objects for joined Schema rows
 	
-			$omClass = RegSchemaPeer::getOMClass();
+			$omClass = SchemaPeer::getOMClass();
 
 	
 			$cls = Propel::import($omClass);
@@ -523,7 +523,7 @@ abstract class BaseNamespacePeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj2 = $temp_obj1->getRegSchema(); // CHECKME
+				$temp_obj2 = $temp_obj1->getSchema(); // CHECKME
 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj2->addNamespace($obj1); // CHECKME

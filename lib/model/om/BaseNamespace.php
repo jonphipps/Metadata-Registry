@@ -89,9 +89,9 @@ abstract class BaseNamespace extends BaseObject  implements Persistent {
 	protected $schema_location;
 
 	/**
-	 * @var        RegSchema
+	 * @var        Schema
 	 */
-	protected $aRegSchema;
+	protected $aSchema;
 
 	/**
 	 * Flag to prevent endless save loop, if this object is referenced
@@ -299,8 +299,8 @@ abstract class BaseNamespace extends BaseObject  implements Persistent {
 			$this->modifiedColumns[] = NamespacePeer::SCHEMA_ID;
 		}
 
-		if ($this->aRegSchema !== null && $this->aRegSchema->getId() !== $v) {
-			$this->aRegSchema = null;
+		if ($this->aSchema !== null && $this->aSchema->getId() !== $v) {
+			$this->aSchema = null;
 		}
 
 	} // setSchemaId()
@@ -656,11 +656,11 @@ abstract class BaseNamespace extends BaseObject  implements Persistent {
 			// method.  This object relates to these object(s) by a
 			// foreign key reference.
 
-			if ($this->aRegSchema !== null) {
-				if ($this->aRegSchema->isModified()) {
-					$affectedRows += $this->aRegSchema->save($con);
+			if ($this->aSchema !== null) {
+				if ($this->aSchema->isModified()) {
+					$affectedRows += $this->aSchema->save($con);
 				}
-				$this->setRegSchema($this->aRegSchema);
+				$this->setSchema($this->aSchema);
 			}
 
 
@@ -751,9 +751,9 @@ abstract class BaseNamespace extends BaseObject  implements Persistent {
 			// method.  This object relates to these object(s) by a
 			// foreign key reference.
 
-			if ($this->aRegSchema !== null) {
-				if (!$this->aRegSchema->validate($columns)) {
-					$failureMap = array_merge($failureMap, $this->aRegSchema->getValidationFailures());
+			if ($this->aSchema !== null) {
+				if (!$this->aSchema->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aSchema->getValidationFailures());
 				}
 			}
 
@@ -1088,13 +1088,13 @@ abstract class BaseNamespace extends BaseObject  implements Persistent {
 	}
 
 	/**
-	 * Declares an association between this object and a RegSchema object.
+	 * Declares an association between this object and a Schema object.
 	 *
-	 * @param      RegSchema $v
+	 * @param      Schema $v
 	 * @return     void
 	 * @throws     PropelException
 	 */
-	public function setRegSchema($v)
+	public function setSchema($v)
 	{
 
 
@@ -1105,24 +1105,24 @@ abstract class BaseNamespace extends BaseObject  implements Persistent {
 		}
 
 
-		$this->aRegSchema = $v;
+		$this->aSchema = $v;
 	}
 
 
 	/**
-	 * Get the associated RegSchema object
+	 * Get the associated Schema object
 	 *
 	 * @param      Connection Optional Connection object.
-	 * @return     RegSchema The associated RegSchema object.
+	 * @return     Schema The associated Schema object.
 	 * @throws     PropelException
 	 */
-	public function getRegSchema($con = null)
+	public function getSchema($con = null)
 	{
-		if ($this->aRegSchema === null && ($this->schema_id !== null)) {
+		if ($this->aSchema === null && ($this->schema_id !== null)) {
 			// include the related Peer class
-			include_once 'lib/model/om/BaseRegSchemaPeer.php';
+			include_once 'lib/model/om/BaseSchemaPeer.php';
 
-			$this->aRegSchema = RegSchemaPeer::retrieveByPK($this->schema_id, $con);
+			$this->aSchema = SchemaPeer::retrieveByPK($this->schema_id, $con);
 
 			/* The following can be used instead of the line above to
 			   guarantee the related object contains a reference
@@ -1130,11 +1130,11 @@ abstract class BaseNamespace extends BaseObject  implements Persistent {
 			   may be undesirable in many circumstances.
 			   As it can lead to a db query with many results that may
 			   never be used.
-			   $obj = RegSchemaPeer::retrieveByPK($this->schema_id, $con);
-			   $obj->addRegSchemas($this);
+			   $obj = SchemaPeer::retrieveByPK($this->schema_id, $con);
+			   $obj->addSchemas($this);
 			 */
 		}
-		return $this->aRegSchema;
+		return $this->aSchema;
 	}
 
 
