@@ -350,14 +350,14 @@ abstract class BaseSchemaPropertyPropertyPeer {
 	}
 
 	/**
-	 * Returns the number of rows matching criteria, joining the related RegVocabulary table
+	 * Returns the number of rows matching criteria, joining the related Vocabulary table
 	 *
 	 * @param Criteria $c
 	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
 	 * @param Connection $con
 	 * @return int Number of matching rows.
 	 */
-	public static function doCountJoinRegVocabulary(Criteria $criteria, $distinct = false, $con = null)
+	public static function doCountJoinVocabulary(Criteria $criteria, $distinct = false, $con = null)
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
@@ -376,7 +376,7 @@ abstract class BaseSchemaPropertyPropertyPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(SchemaPropertyPropertyPeer::CREATED_USER_ID, RegVocabularyPeer::ID);
+		$criteria->addJoin(SchemaPropertyPropertyPeer::CREATED_USER_ID, VocabularyPeer::ID);
 
 		$rs = SchemaPropertyPropertyPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
@@ -506,13 +506,13 @@ abstract class BaseSchemaPropertyPropertyPeer {
 
 
 	/**
-	 * Selects a collection of SchemaPropertyProperty objects pre-filled with their RegVocabulary objects.
+	 * Selects a collection of SchemaPropertyProperty objects pre-filled with their Vocabulary objects.
 	 *
 	 * @return array Array of SchemaPropertyProperty objects.
 	 * @throws PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
-	public static function doSelectJoinRegVocabulary(Criteria $c, $con = null)
+	public static function doSelectJoinVocabulary(Criteria $c, $con = null)
 	{
 		$c = clone $c;
 
@@ -523,9 +523,9 @@ abstract class BaseSchemaPropertyPropertyPeer {
 
 		SchemaPropertyPropertyPeer::addSelectColumns($c);
 		$startcol = (SchemaPropertyPropertyPeer::NUM_COLUMNS - SchemaPropertyPropertyPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
-		RegVocabularyPeer::addSelectColumns($c);
+		VocabularyPeer::addSelectColumns($c);
 
-		$c->addJoin(SchemaPropertyPropertyPeer::CREATED_USER_ID, RegVocabularyPeer::ID);
+		$c->addJoin(SchemaPropertyPropertyPeer::CREATED_USER_ID, VocabularyPeer::ID);
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
 
@@ -537,7 +537,7 @@ abstract class BaseSchemaPropertyPropertyPeer {
 			$obj1 = new $cls();
 			$obj1->hydrate($rs);
 
-			$omClass = RegVocabularyPeer::getOMClass();
+			$omClass = VocabularyPeer::getOMClass();
 
 			$cls = Propel::import($omClass);
 			$obj2 = new $cls();
@@ -545,7 +545,7 @@ abstract class BaseSchemaPropertyPropertyPeer {
 
 			$newObject = true;
 			foreach($results as $temp_obj1) {
-				$temp_obj2 = $temp_obj1->getRegVocabulary(); //CHECKME
+				$temp_obj2 = $temp_obj1->getVocabulary(); //CHECKME
 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
 					// e.g. $author->addBookRelatedByBookId()
@@ -763,7 +763,7 @@ abstract class BaseSchemaPropertyPropertyPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(SchemaPropertyPropertyPeer::CREATED_USER_ID, RegVocabularyPeer::ID);
+		$criteria->addJoin(SchemaPropertyPropertyPeer::CREATED_USER_ID, VocabularyPeer::ID);
 
 		$criteria->addJoin(SchemaPropertyPropertyPeer::UPDATED_USER_ID, UserPeer::ID);
 
@@ -800,8 +800,8 @@ abstract class BaseSchemaPropertyPropertyPeer {
 		SchemaPropertyPropertyPeer::addSelectColumns($c);
 		$startcol2 = (SchemaPropertyPropertyPeer::NUM_COLUMNS - SchemaPropertyPropertyPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 
-		RegVocabularyPeer::addSelectColumns($c);
-		$startcol3 = $startcol2 + RegVocabularyPeer::NUM_COLUMNS;
+		VocabularyPeer::addSelectColumns($c);
+		$startcol3 = $startcol2 + VocabularyPeer::NUM_COLUMNS;
 
 		UserPeer::addSelectColumns($c);
 		$startcol4 = $startcol3 + UserPeer::NUM_COLUMNS;
@@ -812,7 +812,7 @@ abstract class BaseSchemaPropertyPropertyPeer {
 		StatusPeer::addSelectColumns($c);
 		$startcol6 = $startcol5 + StatusPeer::NUM_COLUMNS;
 
-		$c->addJoin(SchemaPropertyPropertyPeer::CREATED_USER_ID, RegVocabularyPeer::ID);
+		$c->addJoin(SchemaPropertyPropertyPeer::CREATED_USER_ID, VocabularyPeer::ID);
 
 		$c->addJoin(SchemaPropertyPropertyPeer::UPDATED_USER_ID, UserPeer::ID);
 
@@ -833,9 +833,9 @@ abstract class BaseSchemaPropertyPropertyPeer {
 			$obj1->hydrate($rs);
 
 				
-				// Add objects for joined RegVocabulary rows
+				// Add objects for joined Vocabulary rows
 	
-			$omClass = RegVocabularyPeer::getOMClass();
+			$omClass = VocabularyPeer::getOMClass();
 
 	
 			$cls = Propel::import($omClass);
@@ -845,7 +845,7 @@ abstract class BaseSchemaPropertyPropertyPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj2 = $temp_obj1->getRegVocabulary(); // CHECKME
+				$temp_obj2 = $temp_obj1->getVocabulary(); // CHECKME
 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj2->addSchemaPropertyProperty($obj1); // CHECKME
@@ -943,14 +943,14 @@ abstract class BaseSchemaPropertyPropertyPeer {
 
 
 	/**
-	 * Returns the number of rows matching criteria, joining the related RegVocabulary table
+	 * Returns the number of rows matching criteria, joining the related Vocabulary table
 	 *
 	 * @param Criteria $c
 	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
 	 * @param Connection $con
 	 * @return int Number of matching rows.
 	 */
-	public static function doCountJoinAllExceptRegVocabulary(Criteria $criteria, $distinct = false, $con = null)
+	public static function doCountJoinAllExceptVocabulary(Criteria $criteria, $distinct = false, $con = null)
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
@@ -1012,7 +1012,7 @@ abstract class BaseSchemaPropertyPropertyPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(SchemaPropertyPropertyPeer::CREATED_USER_ID, RegVocabularyPeer::ID);
+		$criteria->addJoin(SchemaPropertyPropertyPeer::CREATED_USER_ID, VocabularyPeer::ID);
 
 		$criteria->addJoin(SchemaPropertyPropertyPeer::SCHEMA_PROPERTY_ID, SchemaPropertyPeer::ID);
 
@@ -1055,7 +1055,7 @@ abstract class BaseSchemaPropertyPropertyPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(SchemaPropertyPropertyPeer::CREATED_USER_ID, RegVocabularyPeer::ID);
+		$criteria->addJoin(SchemaPropertyPropertyPeer::CREATED_USER_ID, VocabularyPeer::ID);
 
 		$criteria->addJoin(SchemaPropertyPropertyPeer::UPDATED_USER_ID, UserPeer::ID);
 
@@ -1098,7 +1098,7 @@ abstract class BaseSchemaPropertyPropertyPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(SchemaPropertyPropertyPeer::CREATED_USER_ID, RegVocabularyPeer::ID);
+		$criteria->addJoin(SchemaPropertyPropertyPeer::CREATED_USER_ID, VocabularyPeer::ID);
 
 		$criteria->addJoin(SchemaPropertyPropertyPeer::UPDATED_USER_ID, UserPeer::ID);
 
@@ -1143,7 +1143,7 @@ abstract class BaseSchemaPropertyPropertyPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(SchemaPropertyPropertyPeer::CREATED_USER_ID, RegVocabularyPeer::ID);
+		$criteria->addJoin(SchemaPropertyPropertyPeer::CREATED_USER_ID, VocabularyPeer::ID);
 
 		$criteria->addJoin(SchemaPropertyPropertyPeer::UPDATED_USER_ID, UserPeer::ID);
 
@@ -1160,13 +1160,13 @@ abstract class BaseSchemaPropertyPropertyPeer {
 
 
 	/**
-	 * Selects a collection of SchemaPropertyProperty objects pre-filled with all related objects except RegVocabulary.
+	 * Selects a collection of SchemaPropertyProperty objects pre-filled with all related objects except Vocabulary.
 	 *
 	 * @return array Array of SchemaPropertyProperty objects.
 	 * @throws PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
-	public static function doSelectJoinAllExceptRegVocabulary(Criteria $c, $con = null)
+	public static function doSelectJoinAllExceptVocabulary(Criteria $c, $con = null)
 	{
 		$c = clone $c;
 
@@ -1303,8 +1303,8 @@ abstract class BaseSchemaPropertyPropertyPeer {
 		SchemaPropertyPropertyPeer::addSelectColumns($c);
 		$startcol2 = (SchemaPropertyPropertyPeer::NUM_COLUMNS - SchemaPropertyPropertyPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 
-		RegVocabularyPeer::addSelectColumns($c);
-		$startcol3 = $startcol2 + RegVocabularyPeer::NUM_COLUMNS;
+		VocabularyPeer::addSelectColumns($c);
+		$startcol3 = $startcol2 + VocabularyPeer::NUM_COLUMNS;
 
 		SchemaPropertyPeer::addSelectColumns($c);
 		$startcol4 = $startcol3 + SchemaPropertyPeer::NUM_COLUMNS;
@@ -1312,7 +1312,7 @@ abstract class BaseSchemaPropertyPropertyPeer {
 		StatusPeer::addSelectColumns($c);
 		$startcol5 = $startcol4 + StatusPeer::NUM_COLUMNS;
 
-		$c->addJoin(SchemaPropertyPropertyPeer::CREATED_USER_ID, RegVocabularyPeer::ID);
+		$c->addJoin(SchemaPropertyPropertyPeer::CREATED_USER_ID, VocabularyPeer::ID);
 
 		$c->addJoin(SchemaPropertyPropertyPeer::SCHEMA_PROPERTY_ID, SchemaPropertyPeer::ID);
 
@@ -1330,7 +1330,7 @@ abstract class BaseSchemaPropertyPropertyPeer {
 			$obj1 = new $cls();
 			$obj1->hydrate($rs);		
 
-			$omClass = RegVocabularyPeer::getOMClass();
+			$omClass = VocabularyPeer::getOMClass();
 
 	
 			$cls = Propel::import($omClass);
@@ -1340,7 +1340,7 @@ abstract class BaseSchemaPropertyPropertyPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj2 = $temp_obj1->getRegVocabulary(); //CHECKME
+				$temp_obj2 = $temp_obj1->getVocabulary(); //CHECKME
 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj2->addSchemaPropertyProperty($obj1);
@@ -1426,8 +1426,8 @@ abstract class BaseSchemaPropertyPropertyPeer {
 		SchemaPropertyPropertyPeer::addSelectColumns($c);
 		$startcol2 = (SchemaPropertyPropertyPeer::NUM_COLUMNS - SchemaPropertyPropertyPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 
-		RegVocabularyPeer::addSelectColumns($c);
-		$startcol3 = $startcol2 + RegVocabularyPeer::NUM_COLUMNS;
+		VocabularyPeer::addSelectColumns($c);
+		$startcol3 = $startcol2 + VocabularyPeer::NUM_COLUMNS;
 
 		UserPeer::addSelectColumns($c);
 		$startcol4 = $startcol3 + UserPeer::NUM_COLUMNS;
@@ -1435,7 +1435,7 @@ abstract class BaseSchemaPropertyPropertyPeer {
 		StatusPeer::addSelectColumns($c);
 		$startcol5 = $startcol4 + StatusPeer::NUM_COLUMNS;
 
-		$c->addJoin(SchemaPropertyPropertyPeer::CREATED_USER_ID, RegVocabularyPeer::ID);
+		$c->addJoin(SchemaPropertyPropertyPeer::CREATED_USER_ID, VocabularyPeer::ID);
 
 		$c->addJoin(SchemaPropertyPropertyPeer::UPDATED_USER_ID, UserPeer::ID);
 
@@ -1453,7 +1453,7 @@ abstract class BaseSchemaPropertyPropertyPeer {
 			$obj1 = new $cls();
 			$obj1->hydrate($rs);		
 
-			$omClass = RegVocabularyPeer::getOMClass();
+			$omClass = VocabularyPeer::getOMClass();
 
 	
 			$cls = Propel::import($omClass);
@@ -1463,7 +1463,7 @@ abstract class BaseSchemaPropertyPropertyPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj2 = $temp_obj1->getRegVocabulary(); //CHECKME
+				$temp_obj2 = $temp_obj1->getVocabulary(); //CHECKME
 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj2->addSchemaPropertyProperty($obj1);
@@ -1549,8 +1549,8 @@ abstract class BaseSchemaPropertyPropertyPeer {
 		SchemaPropertyPropertyPeer::addSelectColumns($c);
 		$startcol2 = (SchemaPropertyPropertyPeer::NUM_COLUMNS - SchemaPropertyPropertyPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 
-		RegVocabularyPeer::addSelectColumns($c);
-		$startcol3 = $startcol2 + RegVocabularyPeer::NUM_COLUMNS;
+		VocabularyPeer::addSelectColumns($c);
+		$startcol3 = $startcol2 + VocabularyPeer::NUM_COLUMNS;
 
 		UserPeer::addSelectColumns($c);
 		$startcol4 = $startcol3 + UserPeer::NUM_COLUMNS;
@@ -1561,7 +1561,7 @@ abstract class BaseSchemaPropertyPropertyPeer {
 		StatusPeer::addSelectColumns($c);
 		$startcol6 = $startcol5 + StatusPeer::NUM_COLUMNS;
 
-		$c->addJoin(SchemaPropertyPropertyPeer::CREATED_USER_ID, RegVocabularyPeer::ID);
+		$c->addJoin(SchemaPropertyPropertyPeer::CREATED_USER_ID, VocabularyPeer::ID);
 
 		$c->addJoin(SchemaPropertyPropertyPeer::UPDATED_USER_ID, UserPeer::ID);
 
@@ -1581,7 +1581,7 @@ abstract class BaseSchemaPropertyPropertyPeer {
 			$obj1 = new $cls();
 			$obj1->hydrate($rs);		
 
-			$omClass = RegVocabularyPeer::getOMClass();
+			$omClass = VocabularyPeer::getOMClass();
 
 	
 			$cls = Propel::import($omClass);
@@ -1591,7 +1591,7 @@ abstract class BaseSchemaPropertyPropertyPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj2 = $temp_obj1->getRegVocabulary(); //CHECKME
+				$temp_obj2 = $temp_obj1->getVocabulary(); //CHECKME
 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj2->addSchemaPropertyProperty($obj1);
@@ -1700,8 +1700,8 @@ abstract class BaseSchemaPropertyPropertyPeer {
 		SchemaPropertyPropertyPeer::addSelectColumns($c);
 		$startcol2 = (SchemaPropertyPropertyPeer::NUM_COLUMNS - SchemaPropertyPropertyPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 
-		RegVocabularyPeer::addSelectColumns($c);
-		$startcol3 = $startcol2 + RegVocabularyPeer::NUM_COLUMNS;
+		VocabularyPeer::addSelectColumns($c);
+		$startcol3 = $startcol2 + VocabularyPeer::NUM_COLUMNS;
 
 		UserPeer::addSelectColumns($c);
 		$startcol4 = $startcol3 + UserPeer::NUM_COLUMNS;
@@ -1709,7 +1709,7 @@ abstract class BaseSchemaPropertyPropertyPeer {
 		SchemaPropertyPeer::addSelectColumns($c);
 		$startcol5 = $startcol4 + SchemaPropertyPeer::NUM_COLUMNS;
 
-		$c->addJoin(SchemaPropertyPropertyPeer::CREATED_USER_ID, RegVocabularyPeer::ID);
+		$c->addJoin(SchemaPropertyPropertyPeer::CREATED_USER_ID, VocabularyPeer::ID);
 
 		$c->addJoin(SchemaPropertyPropertyPeer::UPDATED_USER_ID, UserPeer::ID);
 
@@ -1727,7 +1727,7 @@ abstract class BaseSchemaPropertyPropertyPeer {
 			$obj1 = new $cls();
 			$obj1->hydrate($rs);		
 
-			$omClass = RegVocabularyPeer::getOMClass();
+			$omClass = VocabularyPeer::getOMClass();
 
 	
 			$cls = Propel::import($omClass);
@@ -1737,7 +1737,7 @@ abstract class BaseSchemaPropertyPropertyPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj2 = $temp_obj1->getRegVocabulary(); //CHECKME
+				$temp_obj2 = $temp_obj1->getVocabulary(); //CHECKME
 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj2->addSchemaPropertyProperty($obj1);

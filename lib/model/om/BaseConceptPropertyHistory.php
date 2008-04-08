@@ -120,9 +120,9 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 	protected $aConceptRelatedByConceptId;
 
 	/**
-	 * @var        RegVocabulary
+	 * @var        Vocabulary
 	 */
-	protected $aRegVocabularyRelatedByVocabularyId;
+	protected $aVocabularyRelatedByVocabularyId;
 
 	/**
 	 * @var        SkosProperty
@@ -130,9 +130,9 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 	protected $aSkosProperty;
 
 	/**
-	 * @var        RegVocabulary
+	 * @var        Vocabulary
 	 */
-	protected $aRegVocabularyRelatedBySchemeId;
+	protected $aVocabularyRelatedBySchemeId;
 
 	/**
 	 * @var        Concept
@@ -466,8 +466,8 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 			$this->modifiedColumns[] = ConceptPropertyHistoryPeer::VOCABULARY_ID;
 		}
 
-		if ($this->aRegVocabularyRelatedByVocabularyId !== null && $this->aRegVocabularyRelatedByVocabularyId->getId() !== $v) {
-			$this->aRegVocabularyRelatedByVocabularyId = null;
+		if ($this->aVocabularyRelatedByVocabularyId !== null && $this->aVocabularyRelatedByVocabularyId->getId() !== $v) {
+			$this->aVocabularyRelatedByVocabularyId = null;
 		}
 
 	} // setVocabularyId()
@@ -540,8 +540,8 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 			$this->modifiedColumns[] = ConceptPropertyHistoryPeer::SCHEME_ID;
 		}
 
-		if ($this->aRegVocabularyRelatedBySchemeId !== null && $this->aRegVocabularyRelatedBySchemeId->getId() !== $v) {
-			$this->aRegVocabularyRelatedBySchemeId = null;
+		if ($this->aVocabularyRelatedBySchemeId !== null && $this->aVocabularyRelatedBySchemeId->getId() !== $v) {
+			$this->aVocabularyRelatedBySchemeId = null;
 		}
 
 	} // setSchemeId()
@@ -837,11 +837,11 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 				$this->setConceptRelatedByConceptId($this->aConceptRelatedByConceptId);
 			}
 
-			if ($this->aRegVocabularyRelatedByVocabularyId !== null) {
-				if ($this->aRegVocabularyRelatedByVocabularyId->isModified()) {
-					$affectedRows += $this->aRegVocabularyRelatedByVocabularyId->save($con);
+			if ($this->aVocabularyRelatedByVocabularyId !== null) {
+				if ($this->aVocabularyRelatedByVocabularyId->isModified()) {
+					$affectedRows += $this->aVocabularyRelatedByVocabularyId->save($con);
 				}
-				$this->setRegVocabularyRelatedByVocabularyId($this->aRegVocabularyRelatedByVocabularyId);
+				$this->setVocabularyRelatedByVocabularyId($this->aVocabularyRelatedByVocabularyId);
 			}
 
 			if ($this->aSkosProperty !== null) {
@@ -851,11 +851,11 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 				$this->setSkosProperty($this->aSkosProperty);
 			}
 
-			if ($this->aRegVocabularyRelatedBySchemeId !== null) {
-				if ($this->aRegVocabularyRelatedBySchemeId->isModified()) {
-					$affectedRows += $this->aRegVocabularyRelatedBySchemeId->save($con);
+			if ($this->aVocabularyRelatedBySchemeId !== null) {
+				if ($this->aVocabularyRelatedBySchemeId->isModified()) {
+					$affectedRows += $this->aVocabularyRelatedBySchemeId->save($con);
 				}
-				$this->setRegVocabularyRelatedBySchemeId($this->aRegVocabularyRelatedBySchemeId);
+				$this->setVocabularyRelatedBySchemeId($this->aVocabularyRelatedBySchemeId);
 			}
 
 			if ($this->aConceptRelatedByRelatedConceptId !== null) {
@@ -979,9 +979,9 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 				}
 			}
 
-			if ($this->aRegVocabularyRelatedByVocabularyId !== null) {
-				if (!$this->aRegVocabularyRelatedByVocabularyId->validate($columns)) {
-					$failureMap = array_merge($failureMap, $this->aRegVocabularyRelatedByVocabularyId->getValidationFailures());
+			if ($this->aVocabularyRelatedByVocabularyId !== null) {
+				if (!$this->aVocabularyRelatedByVocabularyId->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aVocabularyRelatedByVocabularyId->getValidationFailures());
 				}
 			}
 
@@ -991,9 +991,9 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 				}
 			}
 
-			if ($this->aRegVocabularyRelatedBySchemeId !== null) {
-				if (!$this->aRegVocabularyRelatedBySchemeId->validate($columns)) {
-					$failureMap = array_merge($failureMap, $this->aRegVocabularyRelatedBySchemeId->getValidationFailures());
+			if ($this->aVocabularyRelatedBySchemeId !== null) {
+				if (!$this->aVocabularyRelatedBySchemeId->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aVocabularyRelatedBySchemeId->getValidationFailures());
 				}
 			}
 
@@ -1479,13 +1479,13 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 	}
 
 	/**
-	 * Declares an association between this object and a RegVocabulary object.
+	 * Declares an association between this object and a Vocabulary object.
 	 *
-	 * @param      RegVocabulary $v
+	 * @param      Vocabulary $v
 	 * @return     void
 	 * @throws     PropelException
 	 */
-	public function setRegVocabularyRelatedByVocabularyId($v)
+	public function setVocabularyRelatedByVocabularyId($v)
 	{
 
 
@@ -1496,24 +1496,24 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 		}
 
 
-		$this->aRegVocabularyRelatedByVocabularyId = $v;
+		$this->aVocabularyRelatedByVocabularyId = $v;
 	}
 
 
 	/**
-	 * Get the associated RegVocabulary object
+	 * Get the associated Vocabulary object
 	 *
 	 * @param      Connection Optional Connection object.
-	 * @return     RegVocabulary The associated RegVocabulary object.
+	 * @return     Vocabulary The associated Vocabulary object.
 	 * @throws     PropelException
 	 */
-	public function getRegVocabularyRelatedByVocabularyId($con = null)
+	public function getVocabularyRelatedByVocabularyId($con = null)
 	{
-		if ($this->aRegVocabularyRelatedByVocabularyId === null && ($this->vocabulary_id !== null)) {
+		if ($this->aVocabularyRelatedByVocabularyId === null && ($this->vocabulary_id !== null)) {
 			// include the related Peer class
-			include_once 'lib/model/om/BaseRegVocabularyPeer.php';
+			include_once 'lib/model/om/BaseVocabularyPeer.php';
 
-			$this->aRegVocabularyRelatedByVocabularyId = RegVocabularyPeer::retrieveByPK($this->vocabulary_id, $con);
+			$this->aVocabularyRelatedByVocabularyId = VocabularyPeer::retrieveByPK($this->vocabulary_id, $con);
 
 			/* The following can be used instead of the line above to
 			   guarantee the related object contains a reference
@@ -1521,11 +1521,11 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 			   may be undesirable in many circumstances.
 			   As it can lead to a db query with many results that may
 			   never be used.
-			   $obj = RegVocabularyPeer::retrieveByPK($this->vocabulary_id, $con);
-			   $obj->addRegVocabularysRelatedByVocabularyId($this);
+			   $obj = VocabularyPeer::retrieveByPK($this->vocabulary_id, $con);
+			   $obj->addVocabularysRelatedByVocabularyId($this);
 			 */
 		}
-		return $this->aRegVocabularyRelatedByVocabularyId;
+		return $this->aVocabularyRelatedByVocabularyId;
 	}
 
 	/**
@@ -1579,13 +1579,13 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 	}
 
 	/**
-	 * Declares an association between this object and a RegVocabulary object.
+	 * Declares an association between this object and a Vocabulary object.
 	 *
-	 * @param      RegVocabulary $v
+	 * @param      Vocabulary $v
 	 * @return     void
 	 * @throws     PropelException
 	 */
-	public function setRegVocabularyRelatedBySchemeId($v)
+	public function setVocabularyRelatedBySchemeId($v)
 	{
 
 
@@ -1596,24 +1596,24 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 		}
 
 
-		$this->aRegVocabularyRelatedBySchemeId = $v;
+		$this->aVocabularyRelatedBySchemeId = $v;
 	}
 
 
 	/**
-	 * Get the associated RegVocabulary object
+	 * Get the associated Vocabulary object
 	 *
 	 * @param      Connection Optional Connection object.
-	 * @return     RegVocabulary The associated RegVocabulary object.
+	 * @return     Vocabulary The associated Vocabulary object.
 	 * @throws     PropelException
 	 */
-	public function getRegVocabularyRelatedBySchemeId($con = null)
+	public function getVocabularyRelatedBySchemeId($con = null)
 	{
-		if ($this->aRegVocabularyRelatedBySchemeId === null && ($this->scheme_id !== null)) {
+		if ($this->aVocabularyRelatedBySchemeId === null && ($this->scheme_id !== null)) {
 			// include the related Peer class
-			include_once 'lib/model/om/BaseRegVocabularyPeer.php';
+			include_once 'lib/model/om/BaseVocabularyPeer.php';
 
-			$this->aRegVocabularyRelatedBySchemeId = RegVocabularyPeer::retrieveByPK($this->scheme_id, $con);
+			$this->aVocabularyRelatedBySchemeId = VocabularyPeer::retrieveByPK($this->scheme_id, $con);
 
 			/* The following can be used instead of the line above to
 			   guarantee the related object contains a reference
@@ -1621,11 +1621,11 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 			   may be undesirable in many circumstances.
 			   As it can lead to a db query with many results that may
 			   never be used.
-			   $obj = RegVocabularyPeer::retrieveByPK($this->scheme_id, $con);
-			   $obj->addRegVocabularysRelatedBySchemeId($this);
+			   $obj = VocabularyPeer::retrieveByPK($this->scheme_id, $con);
+			   $obj->addVocabularysRelatedBySchemeId($this);
 			 */
 		}
-		return $this->aRegVocabularyRelatedBySchemeId;
+		return $this->aVocabularyRelatedBySchemeId;
 	}
 
 	/**

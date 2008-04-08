@@ -162,16 +162,16 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	protected $lastRegSchemaCriteria = null;
 
 	/**
-	 * Collection to store aggregation of collRegVocabularys.
+	 * Collection to store aggregation of collVocabularys.
 	 * @var        array
 	 */
-	protected $collRegVocabularys;
+	protected $collVocabularys;
 
 	/**
-	 * The criteria used to select the current contents of collRegVocabularys.
+	 * The criteria used to select the current contents of collVocabularys.
 	 * @var        Criteria
 	 */
-	protected $lastRegVocabularyCriteria = null;
+	protected $lastVocabularyCriteria = null;
 
 	/**
 	 * Flag to prevent endless save loop, if this object is referenced
@@ -1027,8 +1027,8 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 				}
 			}
 
-			if ($this->collRegVocabularys !== null) {
-				foreach($this->collRegVocabularys as $referrerFK) {
+			if ($this->collVocabularys !== null) {
+				foreach($this->collVocabularys as $referrerFK) {
 					if (!$referrerFK->isDeleted()) {
 						$affectedRows += $referrerFK->save($con);
 					}
@@ -1121,8 +1121,8 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 					}
 				}
 
-				if ($this->collRegVocabularys !== null) {
-					foreach($this->collRegVocabularys as $referrerFK) {
+				if ($this->collVocabularys !== null) {
+					foreach($this->collVocabularys as $referrerFK) {
 						if (!$referrerFK->validate($columns)) {
 							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
 						}
@@ -1499,8 +1499,8 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 				$copyObj->addRegSchema($relObj->copy($deepCopy));
 			}
 
-			foreach($this->getRegVocabularys() as $relObj) {
-				$copyObj->addRegVocabulary($relObj->copy($deepCopy));
+			foreach($this->getVocabularys() as $relObj) {
+				$copyObj->addVocabulary($relObj->copy($deepCopy));
 			}
 
 		} // if ($deepCopy)
@@ -1961,15 +1961,15 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	}
 
 	/**
-	 * Temporary storage of collRegVocabularys to save a possible db hit in
+	 * Temporary storage of collVocabularys to save a possible db hit in
 	 * the event objects are add to the collection, but the
 	 * complete collection is never requested.
 	 * @return     void
 	 */
-	public function initRegVocabularys()
+	public function initVocabularys()
 	{
-		if ($this->collRegVocabularys === null) {
-			$this->collRegVocabularys = array();
+		if ($this->collVocabularys === null) {
+			$this->collVocabularys = array();
 		}
 	}
 
@@ -1977,7 +1977,7 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	 * If this collection has already been initialized with
 	 * an identical criteria, it returns the collection.
 	 * Otherwise if this Agent has previously
-	 * been saved, it will retrieve related RegVocabularys from storage.
+	 * been saved, it will retrieve related Vocabularys from storage.
 	 * If this Agent is new, it will return
 	 * an empty collection or the current collection, the criteria
 	 * is ignored on a new object.
@@ -1986,10 +1986,10 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	 * @param      Criteria $criteria
 	 * @throws     PropelException
 	 */
-	public function getRegVocabularys($criteria = null, $con = null)
+	public function getVocabularys($criteria = null, $con = null)
 	{
 		// include the Peer class
-		include_once 'lib/model/om/BaseRegVocabularyPeer.php';
+		include_once 'lib/model/om/BaseVocabularyPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -1998,15 +1998,15 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 			$criteria = clone $criteria;
 		}
 
-		if ($this->collRegVocabularys === null) {
+		if ($this->collVocabularys === null) {
 			if ($this->isNew()) {
-			   $this->collRegVocabularys = array();
+			   $this->collVocabularys = array();
 			} else {
 
-				$criteria->add(RegVocabularyPeer::AGENT_ID, $this->getId());
+				$criteria->add(VocabularyPeer::AGENT_ID, $this->getId());
 
-				RegVocabularyPeer::addSelectColumns($criteria);
-				$this->collRegVocabularys = RegVocabularyPeer::doSelect($criteria, $con);
+				VocabularyPeer::addSelectColumns($criteria);
+				$this->collVocabularys = VocabularyPeer::doSelect($criteria, $con);
 			}
 		} else {
 			// criteria has no effect for a new object
@@ -2016,30 +2016,30 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 				// one, just return the collection.
 
 
-				$criteria->add(RegVocabularyPeer::AGENT_ID, $this->getId());
+				$criteria->add(VocabularyPeer::AGENT_ID, $this->getId());
 
-				RegVocabularyPeer::addSelectColumns($criteria);
-				if (!isset($this->lastRegVocabularyCriteria) || !$this->lastRegVocabularyCriteria->equals($criteria)) {
-					$this->collRegVocabularys = RegVocabularyPeer::doSelect($criteria, $con);
+				VocabularyPeer::addSelectColumns($criteria);
+				if (!isset($this->lastVocabularyCriteria) || !$this->lastVocabularyCriteria->equals($criteria)) {
+					$this->collVocabularys = VocabularyPeer::doSelect($criteria, $con);
 				}
 			}
 		}
-		$this->lastRegVocabularyCriteria = $criteria;
-		return $this->collRegVocabularys;
+		$this->lastVocabularyCriteria = $criteria;
+		return $this->collVocabularys;
 	}
 
 	/**
-	 * Returns the number of related RegVocabularys.
+	 * Returns the number of related Vocabularys.
 	 *
 	 * @param      Criteria $criteria
 	 * @param      boolean $distinct
 	 * @param      Connection $con
 	 * @throws     PropelException
 	 */
-	public function countRegVocabularys($criteria = null, $distinct = false, $con = null)
+	public function countVocabularys($criteria = null, $distinct = false, $con = null)
 	{
 		// include the Peer class
-		include_once 'lib/model/om/BaseRegVocabularyPeer.php';
+		include_once 'lib/model/om/BaseVocabularyPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -2048,22 +2048,22 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 			$criteria = clone $criteria;
 		}
 
-		$criteria->add(RegVocabularyPeer::AGENT_ID, $this->getId());
+		$criteria->add(VocabularyPeer::AGENT_ID, $this->getId());
 
-		return RegVocabularyPeer::doCount($criteria, $distinct, $con);
+		return VocabularyPeer::doCount($criteria, $distinct, $con);
 	}
 
 	/**
-	 * Method called to associate a RegVocabulary object to this object
-	 * through the RegVocabulary foreign key attribute
+	 * Method called to associate a Vocabulary object to this object
+	 * through the Vocabulary foreign key attribute
 	 *
-	 * @param      RegVocabulary $l RegVocabulary
+	 * @param      Vocabulary $l Vocabulary
 	 * @return     void
 	 * @throws     PropelException
 	 */
-	public function addRegVocabulary(RegVocabulary $l)
+	public function addVocabulary(Vocabulary $l)
 	{
-		$this->collRegVocabularys[] = $l;
+		$this->collVocabularys[] = $l;
 		$l->setAgent($this);
 	}
 
@@ -2073,16 +2073,16 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	 * an identical criteria, it returns the collection.
 	 * Otherwise if this Agent is new, it will return
 	 * an empty collection; or if this Agent has previously
-	 * been saved, it will retrieve related RegVocabularys from storage.
+	 * been saved, it will retrieve related Vocabularys from storage.
 	 *
 	 * This method is protected by default in order to keep the public
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in Agent.
 	 */
-	public function getRegVocabularysJoinUserRelatedByCreatedUserId($criteria = null, $con = null)
+	public function getVocabularysJoinUserRelatedByCreatedUserId($criteria = null, $con = null)
 	{
 		// include the Peer class
-		include_once 'lib/model/om/BaseRegVocabularyPeer.php';
+		include_once 'lib/model/om/BaseVocabularyPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -2091,29 +2091,29 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 			$criteria = clone $criteria;
 		}
 
-		if ($this->collRegVocabularys === null) {
+		if ($this->collVocabularys === null) {
 			if ($this->isNew()) {
-				$this->collRegVocabularys = array();
+				$this->collVocabularys = array();
 			} else {
 
-				$criteria->add(RegVocabularyPeer::AGENT_ID, $this->getId());
+				$criteria->add(VocabularyPeer::AGENT_ID, $this->getId());
 
-				$this->collRegVocabularys = RegVocabularyPeer::doSelectJoinUserRelatedByCreatedUserId($criteria, $con);
+				$this->collVocabularys = VocabularyPeer::doSelectJoinUserRelatedByCreatedUserId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
 			// called for.  If the criteria is the same as the last
 			// one, just return the collection.
 
-			$criteria->add(RegVocabularyPeer::AGENT_ID, $this->getId());
+			$criteria->add(VocabularyPeer::AGENT_ID, $this->getId());
 
-			if (!isset($this->lastRegVocabularyCriteria) || !$this->lastRegVocabularyCriteria->equals($criteria)) {
-				$this->collRegVocabularys = RegVocabularyPeer::doSelectJoinUserRelatedByCreatedUserId($criteria, $con);
+			if (!isset($this->lastVocabularyCriteria) || !$this->lastVocabularyCriteria->equals($criteria)) {
+				$this->collVocabularys = VocabularyPeer::doSelectJoinUserRelatedByCreatedUserId($criteria, $con);
 			}
 		}
-		$this->lastRegVocabularyCriteria = $criteria;
+		$this->lastVocabularyCriteria = $criteria;
 
-		return $this->collRegVocabularys;
+		return $this->collVocabularys;
 	}
 
 
@@ -2122,16 +2122,16 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	 * an identical criteria, it returns the collection.
 	 * Otherwise if this Agent is new, it will return
 	 * an empty collection; or if this Agent has previously
-	 * been saved, it will retrieve related RegVocabularys from storage.
+	 * been saved, it will retrieve related Vocabularys from storage.
 	 *
 	 * This method is protected by default in order to keep the public
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in Agent.
 	 */
-	public function getRegVocabularysJoinUserRelatedByUpdatedUserId($criteria = null, $con = null)
+	public function getVocabularysJoinUserRelatedByUpdatedUserId($criteria = null, $con = null)
 	{
 		// include the Peer class
-		include_once 'lib/model/om/BaseRegVocabularyPeer.php';
+		include_once 'lib/model/om/BaseVocabularyPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -2140,29 +2140,29 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 			$criteria = clone $criteria;
 		}
 
-		if ($this->collRegVocabularys === null) {
+		if ($this->collVocabularys === null) {
 			if ($this->isNew()) {
-				$this->collRegVocabularys = array();
+				$this->collVocabularys = array();
 			} else {
 
-				$criteria->add(RegVocabularyPeer::AGENT_ID, $this->getId());
+				$criteria->add(VocabularyPeer::AGENT_ID, $this->getId());
 
-				$this->collRegVocabularys = RegVocabularyPeer::doSelectJoinUserRelatedByUpdatedUserId($criteria, $con);
+				$this->collVocabularys = VocabularyPeer::doSelectJoinUserRelatedByUpdatedUserId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
 			// called for.  If the criteria is the same as the last
 			// one, just return the collection.
 
-			$criteria->add(RegVocabularyPeer::AGENT_ID, $this->getId());
+			$criteria->add(VocabularyPeer::AGENT_ID, $this->getId());
 
-			if (!isset($this->lastRegVocabularyCriteria) || !$this->lastRegVocabularyCriteria->equals($criteria)) {
-				$this->collRegVocabularys = RegVocabularyPeer::doSelectJoinUserRelatedByUpdatedUserId($criteria, $con);
+			if (!isset($this->lastVocabularyCriteria) || !$this->lastVocabularyCriteria->equals($criteria)) {
+				$this->collVocabularys = VocabularyPeer::doSelectJoinUserRelatedByUpdatedUserId($criteria, $con);
 			}
 		}
-		$this->lastRegVocabularyCriteria = $criteria;
+		$this->lastVocabularyCriteria = $criteria;
 
-		return $this->collRegVocabularys;
+		return $this->collVocabularys;
 	}
 
 
@@ -2171,16 +2171,16 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	 * an identical criteria, it returns the collection.
 	 * Otherwise if this Agent is new, it will return
 	 * an empty collection; or if this Agent has previously
-	 * been saved, it will retrieve related RegVocabularys from storage.
+	 * been saved, it will retrieve related Vocabularys from storage.
 	 *
 	 * This method is protected by default in order to keep the public
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in Agent.
 	 */
-	public function getRegVocabularysJoinUserRelatedByChildUpdatedUserId($criteria = null, $con = null)
+	public function getVocabularysJoinUserRelatedByChildUpdatedUserId($criteria = null, $con = null)
 	{
 		// include the Peer class
-		include_once 'lib/model/om/BaseRegVocabularyPeer.php';
+		include_once 'lib/model/om/BaseVocabularyPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -2189,29 +2189,29 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 			$criteria = clone $criteria;
 		}
 
-		if ($this->collRegVocabularys === null) {
+		if ($this->collVocabularys === null) {
 			if ($this->isNew()) {
-				$this->collRegVocabularys = array();
+				$this->collVocabularys = array();
 			} else {
 
-				$criteria->add(RegVocabularyPeer::AGENT_ID, $this->getId());
+				$criteria->add(VocabularyPeer::AGENT_ID, $this->getId());
 
-				$this->collRegVocabularys = RegVocabularyPeer::doSelectJoinUserRelatedByChildUpdatedUserId($criteria, $con);
+				$this->collVocabularys = VocabularyPeer::doSelectJoinUserRelatedByChildUpdatedUserId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
 			// called for.  If the criteria is the same as the last
 			// one, just return the collection.
 
-			$criteria->add(RegVocabularyPeer::AGENT_ID, $this->getId());
+			$criteria->add(VocabularyPeer::AGENT_ID, $this->getId());
 
-			if (!isset($this->lastRegVocabularyCriteria) || !$this->lastRegVocabularyCriteria->equals($criteria)) {
-				$this->collRegVocabularys = RegVocabularyPeer::doSelectJoinUserRelatedByChildUpdatedUserId($criteria, $con);
+			if (!isset($this->lastVocabularyCriteria) || !$this->lastVocabularyCriteria->equals($criteria)) {
+				$this->collVocabularys = VocabularyPeer::doSelectJoinUserRelatedByChildUpdatedUserId($criteria, $con);
 			}
 		}
-		$this->lastRegVocabularyCriteria = $criteria;
+		$this->lastVocabularyCriteria = $criteria;
 
-		return $this->collRegVocabularys;
+		return $this->collVocabularys;
 	}
 
 
@@ -2220,16 +2220,16 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	 * an identical criteria, it returns the collection.
 	 * Otherwise if this Agent is new, it will return
 	 * an empty collection; or if this Agent has previously
-	 * been saved, it will retrieve related RegVocabularys from storage.
+	 * been saved, it will retrieve related Vocabularys from storage.
 	 *
 	 * This method is protected by default in order to keep the public
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in Agent.
 	 */
-	public function getRegVocabularysJoinStatus($criteria = null, $con = null)
+	public function getVocabularysJoinStatus($criteria = null, $con = null)
 	{
 		// include the Peer class
-		include_once 'lib/model/om/BaseRegVocabularyPeer.php';
+		include_once 'lib/model/om/BaseVocabularyPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -2238,29 +2238,29 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 			$criteria = clone $criteria;
 		}
 
-		if ($this->collRegVocabularys === null) {
+		if ($this->collVocabularys === null) {
 			if ($this->isNew()) {
-				$this->collRegVocabularys = array();
+				$this->collVocabularys = array();
 			} else {
 
-				$criteria->add(RegVocabularyPeer::AGENT_ID, $this->getId());
+				$criteria->add(VocabularyPeer::AGENT_ID, $this->getId());
 
-				$this->collRegVocabularys = RegVocabularyPeer::doSelectJoinStatus($criteria, $con);
+				$this->collVocabularys = VocabularyPeer::doSelectJoinStatus($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
 			// called for.  If the criteria is the same as the last
 			// one, just return the collection.
 
-			$criteria->add(RegVocabularyPeer::AGENT_ID, $this->getId());
+			$criteria->add(VocabularyPeer::AGENT_ID, $this->getId());
 
-			if (!isset($this->lastRegVocabularyCriteria) || !$this->lastRegVocabularyCriteria->equals($criteria)) {
-				$this->collRegVocabularys = RegVocabularyPeer::doSelectJoinStatus($criteria, $con);
+			if (!isset($this->lastVocabularyCriteria) || !$this->lastVocabularyCriteria->equals($criteria)) {
+				$this->collVocabularys = VocabularyPeer::doSelectJoinStatus($criteria, $con);
 			}
 		}
-		$this->lastRegVocabularyCriteria = $criteria;
+		$this->lastVocabularyCriteria = $criteria;
 
-		return $this->collRegVocabularys;
+		return $this->collVocabularys;
 	}
 
 

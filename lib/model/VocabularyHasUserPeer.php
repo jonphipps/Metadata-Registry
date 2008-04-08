@@ -3,10 +3,10 @@
 /**
  * Subclass for performing query and update operations on the 'reg_vocabulary_has_user' table.
  *
- * 
+ *
  *
  * @package lib.model
- */ 
+ */
 class VocabularyHasUserPeer extends BaseVocabularyHasUserPeer
 {
    /**
@@ -31,6 +31,7 @@ class VocabularyHasUserPeer extends BaseVocabularyHasUserPeer
   */
   public static function doSelectForUser($userId)
   {
+
       $criteria = new Criteria(self::DATABASE_NAME);
       $criteria->add(self::USER_ID, $userId);
       $con = Propel::getConnection(self::DATABASE_NAME);
@@ -50,7 +51,7 @@ class VocabularyHasUserPeer extends BaseVocabularyHasUserPeer
       $result = self::doCountJoinAll($criteria);
       return $result;
   }
-  
+
   /**
   * gets the criteria for select based on whether the user is an admin
   *

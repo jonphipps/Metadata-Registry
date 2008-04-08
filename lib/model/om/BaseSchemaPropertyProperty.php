@@ -103,9 +103,9 @@ abstract class BaseSchemaPropertyProperty extends BaseObject  implements Persist
 	protected $status_id = 1;
 
 	/**
-	 * @var        RegVocabulary
+	 * @var        Vocabulary
 	 */
-	protected $aRegVocabulary;
+	protected $aVocabulary;
 
 	/**
 	 * @var        User
@@ -459,8 +459,8 @@ abstract class BaseSchemaPropertyProperty extends BaseObject  implements Persist
 			$this->modifiedColumns[] = SchemaPropertyPropertyPeer::CREATED_USER_ID;
 		}
 
-		if ($this->aRegVocabulary !== null && $this->aRegVocabulary->getId() !== $v) {
-			$this->aRegVocabulary = null;
+		if ($this->aVocabulary !== null && $this->aVocabulary->getId() !== $v) {
+			$this->aVocabulary = null;
 		}
 
 	} // setCreatedUserId()
@@ -815,11 +815,11 @@ abstract class BaseSchemaPropertyProperty extends BaseObject  implements Persist
 			// method.  This object relates to these object(s) by a
 			// foreign key reference.
 
-			if ($this->aRegVocabulary !== null) {
-				if ($this->aRegVocabulary->isModified()) {
-					$affectedRows += $this->aRegVocabulary->save($con);
+			if ($this->aVocabulary !== null) {
+				if ($this->aVocabulary->isModified()) {
+					$affectedRows += $this->aVocabulary->save($con);
 				}
-				$this->setRegVocabulary($this->aRegVocabulary);
+				$this->setVocabulary($this->aVocabulary);
 			}
 
 			if ($this->aUser !== null) {
@@ -946,9 +946,9 @@ abstract class BaseSchemaPropertyProperty extends BaseObject  implements Persist
 			// method.  This object relates to these object(s) by a
 			// foreign key reference.
 
-			if ($this->aRegVocabulary !== null) {
-				if (!$this->aRegVocabulary->validate($columns)) {
-					$failureMap = array_merge($failureMap, $this->aRegVocabulary->getValidationFailures());
+			if ($this->aVocabulary !== null) {
+				if (!$this->aVocabulary->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aVocabulary->getValidationFailures());
 				}
 			}
 
@@ -1345,13 +1345,13 @@ abstract class BaseSchemaPropertyProperty extends BaseObject  implements Persist
 	}
 
 	/**
-	 * Declares an association between this object and a RegVocabulary object.
+	 * Declares an association between this object and a Vocabulary object.
 	 *
-	 * @param      RegVocabulary $v
+	 * @param      Vocabulary $v
 	 * @return     void
 	 * @throws     PropelException
 	 */
-	public function setRegVocabulary($v)
+	public function setVocabulary($v)
 	{
 
 
@@ -1362,24 +1362,24 @@ abstract class BaseSchemaPropertyProperty extends BaseObject  implements Persist
 		}
 
 
-		$this->aRegVocabulary = $v;
+		$this->aVocabulary = $v;
 	}
 
 
 	/**
-	 * Get the associated RegVocabulary object
+	 * Get the associated Vocabulary object
 	 *
 	 * @param      Connection Optional Connection object.
-	 * @return     RegVocabulary The associated RegVocabulary object.
+	 * @return     Vocabulary The associated Vocabulary object.
 	 * @throws     PropelException
 	 */
-	public function getRegVocabulary($con = null)
+	public function getVocabulary($con = null)
 	{
-		if ($this->aRegVocabulary === null && ($this->created_user_id !== null)) {
+		if ($this->aVocabulary === null && ($this->created_user_id !== null)) {
 			// include the related Peer class
-			include_once 'lib/model/om/BaseRegVocabularyPeer.php';
+			include_once 'lib/model/om/BaseVocabularyPeer.php';
 
-			$this->aRegVocabulary = RegVocabularyPeer::retrieveByPK($this->created_user_id, $con);
+			$this->aVocabulary = VocabularyPeer::retrieveByPK($this->created_user_id, $con);
 
 			/* The following can be used instead of the line above to
 			   guarantee the related object contains a reference
@@ -1387,11 +1387,11 @@ abstract class BaseSchemaPropertyProperty extends BaseObject  implements Persist
 			   may be undesirable in many circumstances.
 			   As it can lead to a db query with many results that may
 			   never be used.
-			   $obj = RegVocabularyPeer::retrieveByPK($this->created_user_id, $con);
-			   $obj->addRegVocabularys($this);
+			   $obj = VocabularyPeer::retrieveByPK($this->created_user_id, $con);
+			   $obj->addVocabularys($this);
 			 */
 		}
-		return $this->aRegVocabulary;
+		return $this->aVocabulary;
 	}
 
 	/**
@@ -1713,7 +1713,7 @@ abstract class BaseSchemaPropertyProperty extends BaseObject  implements Persist
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in SchemaPropertyProperty.
 	 */
-	public function getSchemaPropertyPropertysRelatedByRelatedSchemaPropertyIdJoinRegVocabulary($criteria = null, $con = null)
+	public function getSchemaPropertyPropertysRelatedByRelatedSchemaPropertyIdJoinVocabulary($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseSchemaPropertyPropertyPeer.php';
@@ -1732,7 +1732,7 @@ abstract class BaseSchemaPropertyProperty extends BaseObject  implements Persist
 
 				$criteria->add(SchemaPropertyPropertyPeer::RELATED_SCHEMA_PROPERTY_ID, $this->getId());
 
-				$this->collSchemaPropertyPropertysRelatedByRelatedSchemaPropertyId = SchemaPropertyPropertyPeer::doSelectJoinRegVocabulary($criteria, $con);
+				$this->collSchemaPropertyPropertysRelatedByRelatedSchemaPropertyId = SchemaPropertyPropertyPeer::doSelectJoinVocabulary($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -1742,7 +1742,7 @@ abstract class BaseSchemaPropertyProperty extends BaseObject  implements Persist
 			$criteria->add(SchemaPropertyPropertyPeer::RELATED_SCHEMA_PROPERTY_ID, $this->getId());
 
 			if (!isset($this->lastSchemaPropertyPropertyRelatedByRelatedSchemaPropertyIdCriteria) || !$this->lastSchemaPropertyPropertyRelatedByRelatedSchemaPropertyIdCriteria->equals($criteria)) {
-				$this->collSchemaPropertyPropertysRelatedByRelatedSchemaPropertyId = SchemaPropertyPropertyPeer::doSelectJoinRegVocabulary($criteria, $con);
+				$this->collSchemaPropertyPropertysRelatedByRelatedSchemaPropertyId = SchemaPropertyPropertyPeer::doSelectJoinVocabulary($criteria, $con);
 			}
 		}
 		$this->lastSchemaPropertyPropertyRelatedByRelatedSchemaPropertyIdCriteria = $criteria;

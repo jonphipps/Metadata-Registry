@@ -1610,7 +1610,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in SchemaProperty.
 	 */
-	public function getSchemaPropertyPropertysJoinRegVocabulary($criteria = null, $con = null)
+	public function getSchemaPropertyPropertysJoinVocabulary($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseSchemaPropertyPropertyPeer.php';
@@ -1629,7 +1629,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 				$criteria->add(SchemaPropertyPropertyPeer::SCHEMA_PROPERTY_ID, $this->getId());
 
-				$this->collSchemaPropertyPropertys = SchemaPropertyPropertyPeer::doSelectJoinRegVocabulary($criteria, $con);
+				$this->collSchemaPropertyPropertys = SchemaPropertyPropertyPeer::doSelectJoinVocabulary($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -1639,7 +1639,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 			$criteria->add(SchemaPropertyPropertyPeer::SCHEMA_PROPERTY_ID, $this->getId());
 
 			if (!isset($this->lastSchemaPropertyPropertyCriteria) || !$this->lastSchemaPropertyPropertyCriteria->equals($criteria)) {
-				$this->collSchemaPropertyPropertys = SchemaPropertyPropertyPeer::doSelectJoinRegVocabulary($criteria, $con);
+				$this->collSchemaPropertyPropertys = SchemaPropertyPropertyPeer::doSelectJoinVocabulary($criteria, $con);
 			}
 		}
 		$this->lastSchemaPropertyPropertyCriteria = $criteria;
