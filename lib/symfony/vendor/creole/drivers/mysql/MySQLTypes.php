@@ -32,6 +32,7 @@ require_once 'creole/CreoleTypes.php';
 class MySQLTypes extends CreoleTypes {
 
     /** Map MySQL native types to Creole (JDBC) types. */
+//following changed to replace TINYINT with BOOLEAN 
     private static $typeMap = array(
                                 'tinyint' => CreoleTypes::BOOLEAN,
                                 'smallint' => CreoleTypes::SMALLINT,
