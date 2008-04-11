@@ -43,6 +43,7 @@ class myUser extends sfBasicSecurityUser
 
     $this->setHasAgents();
     $this->setHasVocabulary();
+    $this->setHasSchema();
   }
 
   public function signOut()
@@ -185,6 +186,7 @@ class myUser extends sfBasicSecurityUser
       $this->getContext()->getLogger()->info('{sfUser} clear all object credentials');
     }
 
+    $this->clearObjectCredentials('Schema');
     $this->clearObjectCredentials('Vocabulary');
     $this->clearObjectCredentials('Agent');
   }
@@ -676,6 +678,133 @@ class myUser extends sfBasicSecurityUser
     }
 
     return $objectCredArray;
+  }
+
+  public function getSchemaCredentials($schemaId = false)
+  {
+    //$schemaId = sfContext::getInstance()->getRequest()->getParameter('id');
+    if ($this->isAuthenticated())
+    {
+      if (!$this->hasCredential(array (0 => 'hasAgents' )))
+      {
+        $this->setHasAgents();
+      }
+      if ($schemaId)
+      {
+         //make sure we've revoked the credentials -- we revoke, then set them every time the schema is accessed
+         $this->removeCredential('schemacontact');
+         $this->removeCredential('schemaregistrar');
+         $this->removeCredential('schemamaintainer');
+         $this->removeCredential('schemaadmin');
+
+         /* @var SchemaHasUserPeer */
+         $schemaContact = SchemaHasUserPeer::retrieveByPK($schemaId, $this->getSubscriberId());
+         if (isset($schemaContact))
+         {
+            $this->addCredential('schemacontact');
+            if ($schemaContact->getIsRegistrarFor())
+            {
+               $this->addCredential('schemaregistrar');
+            }
+            if ($schemaContact->getIsMaintainerFor())
+            {
+               $this->addCredential('schemamaintainer');
+            }
+            if ($schemaContact->getIsAdminFor())
+            {
+               $this->addCredential('schemaadmin');
+            }
+         }
+      }
+      //we're doing this here on the assumption that if the user has been able to get to create, she must be authorized.
+      elseif ('create' == sfContext::getInstance()->getRequest()->getParameter('action'))
+      {
+         $this->addCredential('schemacontact');
+         $this->addCredential('schemaregistrar');
+         $this->addCredential('schemaadmin');
+      }
+    }
+    return;
+  }
+
+  /**
+  * set Schema object-level credentials
+  *
+  * @TODO: this should maybe be in the model?
+  * @TODO The models should be defined in an array in this class,
+  * along with the methods to call for each. Then we can make it more generic,
+  * and much easier to add new objects to
+  *
+  * @return integer count of agents retrieved
+  */
+  public function setSchemaCredentials()
+  {
+    $credentials = SchemaHasUserPeer::doSelectForUser($this->getSubscriberId());
+    foreach ($credentials as $credential)
+    {
+      $schemaId = $credential->getSchemaId();
+      //build the  array
+      $credArray[$schemaId]['maintainer'] = $credential->getIsMaintainerFor();
+      $credArray[$schemaId]['registrar']  = $credential->getIsRegistrarFor();
+      $credArray[$schemaId]['admin']      = $credential->getIsAdminFor();
+      $credArray[$schemaId]['contact']    = true;
+    }
+    if (isset($credArray))
+    {
+      $this->addObjectCredentials('schema', $credArray);
+    }
+
+    return count($credentials);
+  }
+
+  /**
+  * Is this user related to any schemaularies?
+  *
+  * @return boolean
+  */
+  public function setHasSchema()
+  {
+    //we don't bother if the user is an administrator
+    if ($this->hasCredential('administrator'))
+    {
+      $this->addCredential('hasSchema');
+      return;
+    }
+
+    $CredentialCount = $this->setSchemaCredentials();
+    if ($CredentialCount)
+    {
+      $this->setAttribute('schemaCount', $CredentialCount, self::SUBSCRIBER_NAMESPACE);
+      $this->addCredential('hasSchema');
+
+    }
+
+    return;
+  }
+
+  /**
+  * get the current schema
+  *
+  * @return schema
+  */
+  public function getCurrentSchema()
+  {
+    /** @var Schema **/
+    $schema = $this->getAttribute('schema');
+
+    return $schema;
+  }
+
+  /**
+  * set the current schema
+  *
+  * @return boolean the currently set schema object
+  * @param  Schema $schema
+  */
+  public function setCurrentSchema(Schema $schema)
+  {
+    $this->setAttribute('schema', $schema);
+    $this->getCurrentSchema();
   }
 
 }

@@ -27,7 +27,7 @@ function run_propel_init_admin($task, $args)
   $module      = $args[1];
   $model_class = $args[2];
   $theme       = isset($args[3]) ? $args[3] : 'default';
-debugbreak();
+
   try
   {
     $author_name = $task->get_property('author', 'symfony');

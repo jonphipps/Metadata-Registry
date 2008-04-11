@@ -280,7 +280,6 @@ class myActionTools
     return $concept;
   }
 
-
   /**
   * description
   *
@@ -292,6 +291,74 @@ class myActionTools
     $vocabObj = ConceptPeer::retrieveByPK($vocabId);
     sfContext::getInstance()->getUser()->setCurrentConcept($vocabObj);
     return $vocabObj;
+  }
+
+    /**
+  * gets the current schema object
+  *
+  * @return mixed current schema object, or false
+  */
+  public static function findCurrentSchema()
+  {
+    $instance = sfContext::getInstance();
+    $user = $instance->getUser();
+    $request = $instance->getRequest();
+    $action = $instance->getActionStack()->getLastEntry()->getActionInstance();
+    $attributeHolder = $user->getAttributeHolder();
+
+    //check if there's a request parameter
+    $schemaId = $request->getParameter('schema_id','');
+
+    //schema_id's in the query string
+    if ($schemaId)
+    {
+      self::updateAdminFilters($attributeHolder, 'schema_id', $schemaId, 'concept');
+    }
+
+    //schema_id's not in the query string, but it's in a filter
+    //note: this will still return the correct value if it's in the query string
+    $schemaId = $attributeHolder->get('schema_id','','sf_admin/concept/filters');
+
+    $schema = $user->getCurrentSchema();
+
+    //We got here and there's a schema_id but we didn't get the stored schema object
+    if ($schemaId && !$schema)
+    {
+      //we get it from the database
+      $schema = self::setLatestSchema($schemaId);
+    }
+
+    //we got here and there's a schema and a schemaid (yay)
+    if ($schema and $schemaId)
+    {
+      //let's check the id of the stored schema
+      $currentId = $schema->getId();
+
+      //but what if the id of that schema doesn't match the one we have
+      if ($currentId != $schemaId)
+      {
+        //we set the stored object to be the one we know
+        $schema = self::setLatestSchema($schemaId);
+      }
+    }
+
+    //if we get here and there's still no schema then we return false
+    $schema = (isset($schema)) ? $schema : false;
+
+    return $schema;
+  }
+
+  /**
+  * description
+  *
+  * @return Schema Current schema object
+  * @param  integer $schemaId
+  */
+  public static function setLatestSchema($schemaId)
+  {
+    $schemaObj = SchemaPeer::retrieveByPK($schemaId);
+    sfContext::getInstance()->getUser()->setCurrentSchema($schemaObj);
+    return $schemaObj;
   }
 
 }

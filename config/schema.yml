@@ -453,6 +453,8 @@ propel:
       onUpdate: RESTRICT
     created_at: 
       type: TIMESTAMP
+    updated_at: 
+      type: TIMESTAMP
     deleted_at: 
       type: TIMESTAMP
     created_user_id: 
@@ -1014,3 +1016,87 @@ propel:
         - vocabulary_id
       name: 
         - name
+  schema_has_user: 
+    _attributes: 
+      idMethod: native
+    id: 
+      type: INTEGER
+      required: true
+      autoIncrement: true
+      primaryKey: true
+      index: unique
+    created_at: 
+      type: TIMESTAMP
+    updated_at: 
+      type: TIMESTAMP
+    deleted_at: 
+      type: TIMESTAMP
+    schema_id: 
+      type: INTEGER
+      required: true
+      default: 0
+      foreignTable: reg_schema
+      foreignReference: id
+      onDelete: CASCADE
+      onUpdate: RESTRICT
+    user_id: 
+      type: INTEGER
+      required: true
+      default: 0
+      foreignTable: reg_user
+      foreignReference: id
+      onDelete: CASCADE
+      onUpdate: RESTRICT
+    is_maintainer_for: 
+      type: BOOLEAN
+      default: 1
+    is_registrar_for: 
+      type: BOOLEAN
+      default: 1
+    is_admin_for: 
+      type: BOOLEAN
+      default: 1
+    _indexes: 
+      schema_id: 
+        - schema_id
+      user_id: 
+        - user_id
+  schema_has_version: 
+    _attributes: 
+      idMethod: native
+    id: 
+      type: INTEGER
+      required: true
+      autoIncrement: true
+      primaryKey: true
+      index: unique
+    name: 
+      type: VARCHAR
+      size: 255
+      required: true
+      default: ''
+    created_at: 
+      type: TIMESTAMP
+    deleted_at: 
+      type: TIMESTAMP
+    updated_at: 
+      type: TIMESTAMP
+    created_user_id: 
+      type: INTEGER
+      foreignTable: reg_user
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
+    schema_id: 
+      type: INTEGER
+      foreignTable: reg_schema
+      foreignReference: id
+      onDelete: CASCADE
+      onUpdate: RESTRICT
+    timeslice: 
+      type: TIMESTAMP
+    _indexes: 
+      created_user_id: 
+        - created_user_id
+      schema_id: 
+        - schema_id

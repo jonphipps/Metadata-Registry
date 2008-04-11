@@ -27,13 +27,27 @@
   //properties
   $topnav['conceptprop']['Detail']     ['link'] = '/conceptprop/show?id=';
   $topnav['conceptprop']['History']    ['link'] = '/history/list?property_id=';
+  //schemas
+  $topnav['schema']     ['Detail']     ['link'] = '/schema/show?id=';
+  $topnav['schema']     ['Properties'] ['link'] = '/schemaprop/list?schema_id=';
+  $topnav['schema']     ['Namespaces'] ['link'] = '/namespace/list?schema_id=';
+  $topnav['schema']     ['History']    ['link'] = '/schemahistory/list?schema_id=';
+  $topnav['schema']     ['Versions']   ['link'] = '/schemaversion/list?schema_id=';
+  $topnav['schema']     ['Maintainers']['link'] = '/schemauser/list?schema_id=';
+  //schema properties
+  $topnav['schemaprop'] ['Detail']     ['link'] = '/schemaprop/show?id=';
+  $topnav['schemaprop'] ['Properties'] ['link'] = '/schemapprop/list?schema_property_id=';
+  $topnav['schemaprop'] ['History']    ['link'] = '/history/list?schema_property_id=';
+  //properties
+  $topnav['schemapprop']['Detail']     ['link'] = '/schemapprop/show?id=';
+  $topnav['schemapprop']['History']    ['link'] = '/history/list?schema_property_property_id=';
 
 //this section determines what tab will be shown (or not) by each module/action combination
 
   //refine which tab is shown based on the id presented with the action
   //this could probably be improved by adding another node to the tabmap array
   $filter = '';
-  foreach (array('agent','vocabulary','concept','property','user') as $value)
+  foreach (array('agent','vocabulary','concept','property','user','schema','schema_property','schema_property_property') as $value)
   {
     $paramId = $sf_params->get($value . "_id");
     if ($paramId)
@@ -60,45 +74,56 @@
   $tabMap['user']         ['show'] = array('tab' => 'user',           'title' => 'Show Detail');
   if ('user' == $filter)
   {
-    $tabMap['agentuser']  ['list'] = array('tab' => 'user',         'title' => 'List Owners');
-    $tabMap['vocabuser']  ['list'] = array('tab' => 'user',         'title' => 'List Vocabularies');
+    $tabMap['agentuser']  ['list'] = array('tab' => 'user',           'title' => 'List Owners');
+    $tabMap['vocabuser']  ['list'] = array('tab' => 'user',           'title' => 'List Vocabularies');
   }
 
   $tabMap['agent']        ['list'] = array('tab' => 'agentlist',      'title' => 'List Owners');
   $tabMap['agent']        ['show'] = array('tab' => 'agent',          'title' => 'Show Detail');
   if ('agent' == $filter)
   {
-    $tabMap['agentuser']  ['list'] = array('tab' => 'agent',         'title' => 'List Members');
+    $tabMap['agentuser']  ['list'] = array('tab' => 'agent',          'title' => 'List Members');
   }
 
   $tabMap['vocabulary']   ['list'] = array('tab' => 'vocabularylist', 'title' => 'List');
   $tabMap['concept']      ['list'] = array('tab' => 'vocabulary',     'title' => 'List Concepts');
+
   $tabMap['vocabulary']   ['show'] = array('tab' => 'vocabulary',     'title' => 'Show Detail');
   if ('vocabulary' == $filter)
   {
     $tabMap['history']    ['list'] = array('tab' => 'vocabulary',     'title' => 'History of Changes');
     $tabMap['version']    ['list'] = array('tab' => 'vocabulary',     'title' => 'List Versions');
-    $tabMap['vocabuser']  ['list'] = array('tab' => 'vocabulary',         'title' => 'List Maintainers');
+    $tabMap['vocabuser']  ['list'] = array('tab' => 'vocabulary',     'title' => 'List Maintainers');
   }
 
   $tabMap['concept']      ['show'] = array('tab' => 'concept',        'title' => 'Show Detail');
   if ('concept' == $filter)
   {
-    $tabMap['conceptprop']['list'] = array('tab' => 'concept',         'title' => 'List Properties');
-    $tabMap['history']    ['list'] = array('tab' => 'concept',         'title' => 'History of Changes');
-    $tabMap['version']    ['list'] = array('tab' => 'concept',         'title' => 'List Versions');
+    $tabMap['conceptprop']['list'] = array('tab' => 'concept',        'title' => 'List Properties');
+    $tabMap['history']    ['list'] = array('tab' => 'concept',        'title' => 'History of Changes');
+    $tabMap['version']    ['list'] = array('tab' => 'concept',        'title' => 'List Versions');
   }
 
   $tabMap['conceptprop']['show'] = array('tab' => 'conceptprop',      'title' => 'Show Detail');
   if ('conceptprop' == $filter)
   {
-    $tabMap['history']    ['list'] = array('tab' => 'conceptprop',         'title' => 'History of Changes');
-    $tabMap['version']    ['list'] = array('tab' => 'conceptprop',         'title' => 'List Versions');
+    $tabMap['history']    ['list'] = array('tab' => 'conceptprop',    'title' => 'History of Changes');
+    $tabMap['version']    ['list'] = array('tab' => 'conceptprop',    'title' => 'List Versions');
   }
 
-  $tabMap['agentuser']  ['show'] = array('tab' => 'agentuser',                'title' => 'Show Detail');
-  $tabMap['vocabuser']  ['show'] = array('tab' => 'vocabuser',                'title' => 'Show Detail');
-  $tabMap['version']    ['show'] = array('tab' => 'version',                'title' => 'Show Detail');
+  $tabMap['schema']       ['list'] = array('tab' => 'schemalist',     'title' => 'List');
+  $tabMap['schema']       ['show'] = array('tab' => 'schema',         'title' => 'Show Detail');
+  if ('schema' == $filter)
+  {
+    $tabMap['history']    ['list'] = array('tab' => 'schema',         'title' => 'History of Changes');
+    $tabMap['version']    ['list'] = array('tab' => 'schema',         'title' => 'List Versions');
+    $tabMap['schemauser'] ['list'] = array('tab' => 'schema',         'title' => 'List Maintainers');
+  }
+
+  $tabMap['agentuser']  ['show'] = array('tab' => 'agentuser',        'title' => 'Show Detail');
+  $tabMap['vocabuser']  ['show'] = array('tab' => 'vocabuser',        'title' => 'Show Detail');
+  $tabMap['version']    ['show'] = array('tab' => 'version',          'title' => 'Show Detail');
+  $tabMap['schemauser'] ['show'] = array('tab' => 'schemauser',       'title' => 'Show Detail');
 
   //get the current module/action
   $module = $sf_params->get('module');
@@ -118,6 +143,8 @@
   //setup the variables determining which breadcrumb to display
   $showVocabularyBc = false;
   $showVocabUserBc = false;
+  $showSchemaBc = false;
+  $showSchemaUserBc = false;
   $showConceptBc = false;
   $showconceptpropBc = false;
   $showAgentBc = false;
@@ -216,6 +243,19 @@
         }
       }
       $objectId = $vocabulary->getID();
+      break;
+    case 'schema':
+      $showBc = true;
+      $showSchemaBc = true;
+      if (!isset($schema))
+      {
+        $id = ('show' == $action) ? $sf_params->get('id') : $paramId;
+        if ($id)
+        {
+          $schema = SchemaPeer::retrieveByPK($id);
+        }
+      }
+      $objectId = $schema->getID();
       break;
     case 'vocabuser':
       $showBc = true;
@@ -363,6 +403,10 @@
       $title = __('Vocabularies');
       $tab = false;
       break;
+    case 'schemalist':
+      $title = __('Schemas');
+      $tab = false;
+      break;
     case 'agentlist':
       $title = __('Owners');
       $tab = false;
@@ -435,6 +479,26 @@
         }
 
         $title .= ' :: ' . __('%%property%%',array('%%property%%' => $concept_property->getSkosPropertyName()));
+      }
+    }
+
+    if ($showSchemaBc)
+    {
+      $spaceCount++;
+      echo link_to('Schema:', 'schema/list') . '&nbsp;';
+
+      if ($schema)
+      {
+        if ($showConceptBc || $showHistoryBc || $showVocabUserBc || $showVersionBc)
+        {
+          echo link_to($schema->getName(), 'schema/show?id=' . $schema->getId());
+        }
+        else
+        {
+          echo __('Show detail for ') . $schema->getName();
+        }
+
+        $title = __('%%schema%%', array('%%schema%%' => $schema->getName()));
       }
     }
 

@@ -74,6 +74,15 @@ class userObjectFilter extends sfFilter
     //ok, so this is definitely a hack...
     if (!$key && (('edit' == $action || 'show' == $action || 'list' == $action) || $module != $context->getModuleName()))
     {
+      if ('schema' == $module)
+      {
+        $schema = myActionTools::findCurrentSchema();
+        if ($schema)
+        {
+          $key = $schema->getId();
+        }
+      }
+
       if ('vocabulary' == $module)
       {
         $vocabulary = myActionTools::findCurrentVocabulary();
