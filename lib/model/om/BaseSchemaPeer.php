@@ -19,7 +19,7 @@ abstract class BaseSchemaPeer {
 	const CLASS_DEFAULT = 'lib.model.Schema';
 
 	/** The total number of columns. */
-	const NUM_COLUMNS = 18;
+	const NUM_COLUMNS = 19;
 
 	/** The number of lazy-loaded columns. */
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -33,6 +33,9 @@ abstract class BaseSchemaPeer {
 
 	/** the column name for the CREATED_AT field */
 	const CREATED_AT = 'reg_schema.CREATED_AT';
+
+	/** the column name for the UPDATED_AT field */
+	const UPDATED_AT = 'reg_schema.UPDATED_AT';
 
 	/** the column name for the DELETED_AT field */
 	const DELETED_AT = 'reg_schema.DELETED_AT';
@@ -90,10 +93,10 @@ abstract class BaseSchemaPeer {
 	 * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
 	 */
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'AgentId', 'CreatedAt', 'DeletedAt', 'CreatedUserId', 'UpdatedUserId', 'ChildUpdatedAt', 'ChildUpdatedUserId', 'Name', 'Note', 'Uri', 'Url', 'BaseDomain', 'Token', 'Community', 'LastUriId', 'StatusId', 'Language', ),
-		BasePeer::TYPE_COLNAME => array (SchemaPeer::ID, SchemaPeer::AGENT_ID, SchemaPeer::CREATED_AT, SchemaPeer::DELETED_AT, SchemaPeer::CREATED_USER_ID, SchemaPeer::UPDATED_USER_ID, SchemaPeer::CHILD_UPDATED_AT, SchemaPeer::CHILD_UPDATED_USER_ID, SchemaPeer::NAME, SchemaPeer::NOTE, SchemaPeer::URI, SchemaPeer::URL, SchemaPeer::BASE_DOMAIN, SchemaPeer::TOKEN, SchemaPeer::COMMUNITY, SchemaPeer::LAST_URI_ID, SchemaPeer::STATUS_ID, SchemaPeer::LANGUAGE, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'agent_id', 'created_at', 'deleted_at', 'created_user_id', 'updated_user_id', 'child_updated_at', 'child_updated_user_id', 'name', 'note', 'uri', 'url', 'base_domain', 'token', 'community', 'last_uri_id', 'status_id', 'language', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'AgentId', 'CreatedAt', 'UpdatedAt', 'DeletedAt', 'CreatedUserId', 'UpdatedUserId', 'ChildUpdatedAt', 'ChildUpdatedUserId', 'Name', 'Note', 'Uri', 'Url', 'BaseDomain', 'Token', 'Community', 'LastUriId', 'StatusId', 'Language', ),
+		BasePeer::TYPE_COLNAME => array (SchemaPeer::ID, SchemaPeer::AGENT_ID, SchemaPeer::CREATED_AT, SchemaPeer::UPDATED_AT, SchemaPeer::DELETED_AT, SchemaPeer::CREATED_USER_ID, SchemaPeer::UPDATED_USER_ID, SchemaPeer::CHILD_UPDATED_AT, SchemaPeer::CHILD_UPDATED_USER_ID, SchemaPeer::NAME, SchemaPeer::NOTE, SchemaPeer::URI, SchemaPeer::URL, SchemaPeer::BASE_DOMAIN, SchemaPeer::TOKEN, SchemaPeer::COMMUNITY, SchemaPeer::LAST_URI_ID, SchemaPeer::STATUS_ID, SchemaPeer::LANGUAGE, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'agent_id', 'created_at', 'updated_at', 'deleted_at', 'created_user_id', 'updated_user_id', 'child_updated_at', 'child_updated_user_id', 'name', 'note', 'uri', 'url', 'base_domain', 'token', 'community', 'last_uri_id', 'status_id', 'language', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, )
 	);
 
 	/**
@@ -103,10 +106,10 @@ abstract class BaseSchemaPeer {
 	 * e.g. self::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
 	 */
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'AgentId' => 1, 'CreatedAt' => 2, 'DeletedAt' => 3, 'CreatedUserId' => 4, 'UpdatedUserId' => 5, 'ChildUpdatedAt' => 6, 'ChildUpdatedUserId' => 7, 'Name' => 8, 'Note' => 9, 'Uri' => 10, 'Url' => 11, 'BaseDomain' => 12, 'Token' => 13, 'Community' => 14, 'LastUriId' => 15, 'StatusId' => 16, 'Language' => 17, ),
-		BasePeer::TYPE_COLNAME => array (SchemaPeer::ID => 0, SchemaPeer::AGENT_ID => 1, SchemaPeer::CREATED_AT => 2, SchemaPeer::DELETED_AT => 3, SchemaPeer::CREATED_USER_ID => 4, SchemaPeer::UPDATED_USER_ID => 5, SchemaPeer::CHILD_UPDATED_AT => 6, SchemaPeer::CHILD_UPDATED_USER_ID => 7, SchemaPeer::NAME => 8, SchemaPeer::NOTE => 9, SchemaPeer::URI => 10, SchemaPeer::URL => 11, SchemaPeer::BASE_DOMAIN => 12, SchemaPeer::TOKEN => 13, SchemaPeer::COMMUNITY => 14, SchemaPeer::LAST_URI_ID => 15, SchemaPeer::STATUS_ID => 16, SchemaPeer::LANGUAGE => 17, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'agent_id' => 1, 'created_at' => 2, 'deleted_at' => 3, 'created_user_id' => 4, 'updated_user_id' => 5, 'child_updated_at' => 6, 'child_updated_user_id' => 7, 'name' => 8, 'note' => 9, 'uri' => 10, 'url' => 11, 'base_domain' => 12, 'token' => 13, 'community' => 14, 'last_uri_id' => 15, 'status_id' => 16, 'language' => 17, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'AgentId' => 1, 'CreatedAt' => 2, 'UpdatedAt' => 3, 'DeletedAt' => 4, 'CreatedUserId' => 5, 'UpdatedUserId' => 6, 'ChildUpdatedAt' => 7, 'ChildUpdatedUserId' => 8, 'Name' => 9, 'Note' => 10, 'Uri' => 11, 'Url' => 12, 'BaseDomain' => 13, 'Token' => 14, 'Community' => 15, 'LastUriId' => 16, 'StatusId' => 17, 'Language' => 18, ),
+		BasePeer::TYPE_COLNAME => array (SchemaPeer::ID => 0, SchemaPeer::AGENT_ID => 1, SchemaPeer::CREATED_AT => 2, SchemaPeer::UPDATED_AT => 3, SchemaPeer::DELETED_AT => 4, SchemaPeer::CREATED_USER_ID => 5, SchemaPeer::UPDATED_USER_ID => 6, SchemaPeer::CHILD_UPDATED_AT => 7, SchemaPeer::CHILD_UPDATED_USER_ID => 8, SchemaPeer::NAME => 9, SchemaPeer::NOTE => 10, SchemaPeer::URI => 11, SchemaPeer::URL => 12, SchemaPeer::BASE_DOMAIN => 13, SchemaPeer::TOKEN => 14, SchemaPeer::COMMUNITY => 15, SchemaPeer::LAST_URI_ID => 16, SchemaPeer::STATUS_ID => 17, SchemaPeer::LANGUAGE => 18, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'agent_id' => 1, 'created_at' => 2, 'updated_at' => 3, 'deleted_at' => 4, 'created_user_id' => 5, 'updated_user_id' => 6, 'child_updated_at' => 7, 'child_updated_user_id' => 8, 'name' => 9, 'note' => 10, 'uri' => 11, 'url' => 12, 'base_domain' => 13, 'token' => 14, 'community' => 15, 'last_uri_id' => 16, 'status_id' => 17, 'language' => 18, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, )
 	);
 
 	/**
@@ -212,6 +215,8 @@ abstract class BaseSchemaPeer {
 		$criteria->addSelectColumn(SchemaPeer::AGENT_ID);
 
 		$criteria->addSelectColumn(SchemaPeer::CREATED_AT);
+
+		$criteria->addSelectColumn(SchemaPeer::UPDATED_AT);
 
 		$criteria->addSelectColumn(SchemaPeer::DELETED_AT);
 

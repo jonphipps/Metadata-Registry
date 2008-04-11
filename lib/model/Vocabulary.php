@@ -72,4 +72,34 @@ class Vocabulary extends BaseVocabulary
     }
   }
 
+  /**
+  * Gets the created_by_user
+  *
+  * @return User
+  */
+  public function getCreatedUser()
+  {
+    $user = $this->getUserRelatedByCreatedUserId();
+    if ($user)
+    {
+      return $user->getUser();
+    }
+
+  } // getCreatedUser
+
+  /**
+  * Gets the updated_by_user
+  *
+  * @return User
+  */
+  public function getUpdatedUser()
+  {
+    $user = $this->getUserRelatedByUpdatedUserId();
+    if ($user)
+    {
+      return $user->getUser();
+    }
+
+  } // getUpdatedUser
+
 }

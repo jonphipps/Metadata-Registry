@@ -41,6 +41,13 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 
 
 	/**
+	 * The value for the updated_at field.
+	 * @var        int
+	 */
+	protected $updated_at;
+
+
+	/**
 	 * The value for the deleted_at field.
 	 * @var        int
 	 */
@@ -177,6 +184,30 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 	protected $lastNamespaceCriteria = null;
 
 	/**
+	 * Collection to store aggregation of collSchemaHasUsers.
+	 * @var        array
+	 */
+	protected $collSchemaHasUsers;
+
+	/**
+	 * The criteria used to select the current contents of collSchemaHasUsers.
+	 * @var        Criteria
+	 */
+	protected $lastSchemaHasUserCriteria = null;
+
+	/**
+	 * Collection to store aggregation of collSchemaHasVersions.
+	 * @var        array
+	 */
+	protected $collSchemaHasVersions;
+
+	/**
+	 * The criteria used to select the current contents of collSchemaHasVersions.
+	 * @var        Criteria
+	 */
+	protected $lastSchemaHasVersionCriteria = null;
+
+	/**
 	 * Flag to prevent endless save loop, if this object is referenced
 	 * by another object which falls in this transaction.
 	 * @var        boolean
@@ -233,6 +264,37 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 			}
 		} else {
 			$ts = $this->created_at;
+		}
+		if ($format === null) {
+			return $ts;
+		} elseif (strpos($format, '%') !== false) {
+			return strftime($format, $ts);
+		} else {
+			return date($format, $ts);
+		}
+	}
+
+	/**
+	 * Get the [optionally formatted] [updated_at] column value.
+	 * 
+	 * @param      string $format The date/time format string (either date()-style or strftime()-style).
+	 *							If format is NULL, then the integer unix timestamp will be returned.
+	 * @return     mixed Formatted date/time value as string or integer unix timestamp (if format is NULL).
+	 * @throws     PropelException - if unable to convert the date/time to timestamp.
+	 */
+	public function getUpdatedAt($format = 'Y-m-d H:i:s')
+	{
+
+		if ($this->updated_at === null || $this->updated_at === '') {
+			return null;
+		} elseif (!is_int($this->updated_at)) {
+			// a non-timestamp value was set externally, so we convert it
+			$ts = strtotime($this->updated_at);
+			if ($ts === -1 || $ts === false) { // in PHP 5.1 return value changes to FALSE
+				throw new PropelException("Unable to parse value of [updated_at] as date/time value: " . var_export($this->updated_at, true));
+			}
+		} else {
+			$ts = $this->updated_at;
 		}
 		if ($format === null) {
 			return $ts;
@@ -519,6 +581,30 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 		}
 
 	} // setCreatedAt()
+
+	/**
+	 * Set the value of [updated_at] column.
+	 * 
+	 * @param      int $v new value
+	 * @return     void
+	 */
+	public function setUpdatedAt($v)
+	{
+
+		if ($v !== null && !is_int($v)) {
+			$ts = strtotime($v);
+			if ($ts === -1 || $ts === false) { // in PHP 5.1 return value changes to FALSE
+				throw new PropelException("Unable to parse date/time value for [updated_at] from input: " . var_export($v, true));
+			}
+		} else {
+			$ts = $v;
+		}
+		if ($this->updated_at !== $ts) {
+			$this->updated_at = $ts;
+			$this->modifiedColumns[] = SchemaPeer::UPDATED_AT;
+		}
+
+	} // setUpdatedAt()
 
 	/**
 	 * Set the value of [deleted_at] column.
@@ -889,42 +975,44 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 
 			$this->created_at = $rs->getTimestamp($startcol + 2, null);
 
-			$this->deleted_at = $rs->getTimestamp($startcol + 3, null);
+			$this->updated_at = $rs->getTimestamp($startcol + 3, null);
 
-			$this->created_user_id = $rs->getInt($startcol + 4);
+			$this->deleted_at = $rs->getTimestamp($startcol + 4, null);
 
-			$this->updated_user_id = $rs->getInt($startcol + 5);
+			$this->created_user_id = $rs->getInt($startcol + 5);
 
-			$this->child_updated_at = $rs->getTimestamp($startcol + 6, null);
+			$this->updated_user_id = $rs->getInt($startcol + 6);
 
-			$this->child_updated_user_id = $rs->getInt($startcol + 7);
+			$this->child_updated_at = $rs->getTimestamp($startcol + 7, null);
 
-			$this->name = $rs->getString($startcol + 8);
+			$this->child_updated_user_id = $rs->getInt($startcol + 8);
 
-			$this->note = $rs->getString($startcol + 9);
+			$this->name = $rs->getString($startcol + 9);
 
-			$this->uri = $rs->getString($startcol + 10);
+			$this->note = $rs->getString($startcol + 10);
 
-			$this->url = $rs->getString($startcol + 11);
+			$this->uri = $rs->getString($startcol + 11);
 
-			$this->base_domain = $rs->getString($startcol + 12);
+			$this->url = $rs->getString($startcol + 12);
 
-			$this->token = $rs->getString($startcol + 13);
+			$this->base_domain = $rs->getString($startcol + 13);
 
-			$this->community = $rs->getString($startcol + 14);
+			$this->token = $rs->getString($startcol + 14);
 
-			$this->last_uri_id = $rs->getInt($startcol + 15);
+			$this->community = $rs->getString($startcol + 15);
 
-			$this->status_id = $rs->getInt($startcol + 16);
+			$this->last_uri_id = $rs->getInt($startcol + 16);
 
-			$this->language = $rs->getString($startcol + 17);
+			$this->status_id = $rs->getInt($startcol + 17);
+
+			$this->language = $rs->getString($startcol + 18);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 18; // 18 = SchemaPeer::NUM_COLUMNS - SchemaPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 19; // 19 = SchemaPeer::NUM_COLUMNS - SchemaPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Schema object", $e);
@@ -1004,6 +1092,11 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
     if ($this->isNew() && !$this->isColumnModified(SchemaPeer::CREATED_AT))
     {
       $this->setCreatedAt(time());
+    }
+
+    if ($this->isModified() && !$this->isColumnModified(SchemaPeer::UPDATED_AT))
+    {
+      $this->setUpdatedAt(time());
     }
 
 		if ($this->isDeleted()) {
@@ -1101,6 +1194,22 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 
 			if ($this->collNamespaces !== null) {
 				foreach($this->collNamespaces as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
+			}
+
+			if ($this->collSchemaHasUsers !== null) {
+				foreach($this->collSchemaHasUsers as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
+			}
+
+			if ($this->collSchemaHasVersions !== null) {
+				foreach($this->collSchemaHasVersions as $referrerFK) {
 					if (!$referrerFK->isDeleted()) {
 						$affectedRows += $referrerFK->save($con);
 					}
@@ -1215,6 +1324,22 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 					}
 				}
 
+				if ($this->collSchemaHasUsers !== null) {
+					foreach($this->collSchemaHasUsers as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
+
+				if ($this->collSchemaHasVersions !== null) {
+					foreach($this->collSchemaHasVersions as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
+
 
 			$this->alreadyInValidation = false;
 		}
@@ -1257,48 +1382,51 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 				return $this->getCreatedAt();
 				break;
 			case 3:
-				return $this->getDeletedAt();
+				return $this->getUpdatedAt();
 				break;
 			case 4:
-				return $this->getCreatedUserId();
+				return $this->getDeletedAt();
 				break;
 			case 5:
-				return $this->getUpdatedUserId();
+				return $this->getCreatedUserId();
 				break;
 			case 6:
-				return $this->getChildUpdatedAt();
+				return $this->getUpdatedUserId();
 				break;
 			case 7:
-				return $this->getChildUpdatedUserId();
+				return $this->getChildUpdatedAt();
 				break;
 			case 8:
-				return $this->getName();
+				return $this->getChildUpdatedUserId();
 				break;
 			case 9:
-				return $this->getNote();
+				return $this->getName();
 				break;
 			case 10:
-				return $this->getUri();
+				return $this->getNote();
 				break;
 			case 11:
-				return $this->getUrl();
+				return $this->getUri();
 				break;
 			case 12:
-				return $this->getBaseDomain();
+				return $this->getUrl();
 				break;
 			case 13:
-				return $this->getToken();
+				return $this->getBaseDomain();
 				break;
 			case 14:
-				return $this->getCommunity();
+				return $this->getToken();
 				break;
 			case 15:
-				return $this->getLastUriId();
+				return $this->getCommunity();
 				break;
 			case 16:
-				return $this->getStatusId();
+				return $this->getLastUriId();
 				break;
 			case 17:
+				return $this->getStatusId();
+				break;
+			case 18:
 				return $this->getLanguage();
 				break;
 			default:
@@ -1324,21 +1452,22 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 			$keys[0] => $this->getId(),
 			$keys[1] => $this->getAgentId(),
 			$keys[2] => $this->getCreatedAt(),
-			$keys[3] => $this->getDeletedAt(),
-			$keys[4] => $this->getCreatedUserId(),
-			$keys[5] => $this->getUpdatedUserId(),
-			$keys[6] => $this->getChildUpdatedAt(),
-			$keys[7] => $this->getChildUpdatedUserId(),
-			$keys[8] => $this->getName(),
-			$keys[9] => $this->getNote(),
-			$keys[10] => $this->getUri(),
-			$keys[11] => $this->getUrl(),
-			$keys[12] => $this->getBaseDomain(),
-			$keys[13] => $this->getToken(),
-			$keys[14] => $this->getCommunity(),
-			$keys[15] => $this->getLastUriId(),
-			$keys[16] => $this->getStatusId(),
-			$keys[17] => $this->getLanguage(),
+			$keys[3] => $this->getUpdatedAt(),
+			$keys[4] => $this->getDeletedAt(),
+			$keys[5] => $this->getCreatedUserId(),
+			$keys[6] => $this->getUpdatedUserId(),
+			$keys[7] => $this->getChildUpdatedAt(),
+			$keys[8] => $this->getChildUpdatedUserId(),
+			$keys[9] => $this->getName(),
+			$keys[10] => $this->getNote(),
+			$keys[11] => $this->getUri(),
+			$keys[12] => $this->getUrl(),
+			$keys[13] => $this->getBaseDomain(),
+			$keys[14] => $this->getToken(),
+			$keys[15] => $this->getCommunity(),
+			$keys[16] => $this->getLastUriId(),
+			$keys[17] => $this->getStatusId(),
+			$keys[18] => $this->getLanguage(),
 		);
 		return $result;
 	}
@@ -1380,48 +1509,51 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 				$this->setCreatedAt($value);
 				break;
 			case 3:
-				$this->setDeletedAt($value);
+				$this->setUpdatedAt($value);
 				break;
 			case 4:
-				$this->setCreatedUserId($value);
+				$this->setDeletedAt($value);
 				break;
 			case 5:
-				$this->setUpdatedUserId($value);
+				$this->setCreatedUserId($value);
 				break;
 			case 6:
-				$this->setChildUpdatedAt($value);
+				$this->setUpdatedUserId($value);
 				break;
 			case 7:
-				$this->setChildUpdatedUserId($value);
+				$this->setChildUpdatedAt($value);
 				break;
 			case 8:
-				$this->setName($value);
+				$this->setChildUpdatedUserId($value);
 				break;
 			case 9:
-				$this->setNote($value);
+				$this->setName($value);
 				break;
 			case 10:
-				$this->setUri($value);
+				$this->setNote($value);
 				break;
 			case 11:
-				$this->setUrl($value);
+				$this->setUri($value);
 				break;
 			case 12:
-				$this->setBaseDomain($value);
+				$this->setUrl($value);
 				break;
 			case 13:
-				$this->setToken($value);
+				$this->setBaseDomain($value);
 				break;
 			case 14:
-				$this->setCommunity($value);
+				$this->setToken($value);
 				break;
 			case 15:
-				$this->setLastUriId($value);
+				$this->setCommunity($value);
 				break;
 			case 16:
-				$this->setStatusId($value);
+				$this->setLastUriId($value);
 				break;
 			case 17:
+				$this->setStatusId($value);
+				break;
+			case 18:
 				$this->setLanguage($value);
 				break;
 		} // switch()
@@ -1450,21 +1582,22 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
 		if (array_key_exists($keys[1], $arr)) $this->setAgentId($arr[$keys[1]]);
 		if (array_key_exists($keys[2], $arr)) $this->setCreatedAt($arr[$keys[2]]);
-		if (array_key_exists($keys[3], $arr)) $this->setDeletedAt($arr[$keys[3]]);
-		if (array_key_exists($keys[4], $arr)) $this->setCreatedUserId($arr[$keys[4]]);
-		if (array_key_exists($keys[5], $arr)) $this->setUpdatedUserId($arr[$keys[5]]);
-		if (array_key_exists($keys[6], $arr)) $this->setChildUpdatedAt($arr[$keys[6]]);
-		if (array_key_exists($keys[7], $arr)) $this->setChildUpdatedUserId($arr[$keys[7]]);
-		if (array_key_exists($keys[8], $arr)) $this->setName($arr[$keys[8]]);
-		if (array_key_exists($keys[9], $arr)) $this->setNote($arr[$keys[9]]);
-		if (array_key_exists($keys[10], $arr)) $this->setUri($arr[$keys[10]]);
-		if (array_key_exists($keys[11], $arr)) $this->setUrl($arr[$keys[11]]);
-		if (array_key_exists($keys[12], $arr)) $this->setBaseDomain($arr[$keys[12]]);
-		if (array_key_exists($keys[13], $arr)) $this->setToken($arr[$keys[13]]);
-		if (array_key_exists($keys[14], $arr)) $this->setCommunity($arr[$keys[14]]);
-		if (array_key_exists($keys[15], $arr)) $this->setLastUriId($arr[$keys[15]]);
-		if (array_key_exists($keys[16], $arr)) $this->setStatusId($arr[$keys[16]]);
-		if (array_key_exists($keys[17], $arr)) $this->setLanguage($arr[$keys[17]]);
+		if (array_key_exists($keys[3], $arr)) $this->setUpdatedAt($arr[$keys[3]]);
+		if (array_key_exists($keys[4], $arr)) $this->setDeletedAt($arr[$keys[4]]);
+		if (array_key_exists($keys[5], $arr)) $this->setCreatedUserId($arr[$keys[5]]);
+		if (array_key_exists($keys[6], $arr)) $this->setUpdatedUserId($arr[$keys[6]]);
+		if (array_key_exists($keys[7], $arr)) $this->setChildUpdatedAt($arr[$keys[7]]);
+		if (array_key_exists($keys[8], $arr)) $this->setChildUpdatedUserId($arr[$keys[8]]);
+		if (array_key_exists($keys[9], $arr)) $this->setName($arr[$keys[9]]);
+		if (array_key_exists($keys[10], $arr)) $this->setNote($arr[$keys[10]]);
+		if (array_key_exists($keys[11], $arr)) $this->setUri($arr[$keys[11]]);
+		if (array_key_exists($keys[12], $arr)) $this->setUrl($arr[$keys[12]]);
+		if (array_key_exists($keys[13], $arr)) $this->setBaseDomain($arr[$keys[13]]);
+		if (array_key_exists($keys[14], $arr)) $this->setToken($arr[$keys[14]]);
+		if (array_key_exists($keys[15], $arr)) $this->setCommunity($arr[$keys[15]]);
+		if (array_key_exists($keys[16], $arr)) $this->setLastUriId($arr[$keys[16]]);
+		if (array_key_exists($keys[17], $arr)) $this->setStatusId($arr[$keys[17]]);
+		if (array_key_exists($keys[18], $arr)) $this->setLanguage($arr[$keys[18]]);
 	}
 
 	/**
@@ -1479,6 +1612,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(SchemaPeer::ID)) $criteria->add(SchemaPeer::ID, $this->id);
 		if ($this->isColumnModified(SchemaPeer::AGENT_ID)) $criteria->add(SchemaPeer::AGENT_ID, $this->agent_id);
 		if ($this->isColumnModified(SchemaPeer::CREATED_AT)) $criteria->add(SchemaPeer::CREATED_AT, $this->created_at);
+		if ($this->isColumnModified(SchemaPeer::UPDATED_AT)) $criteria->add(SchemaPeer::UPDATED_AT, $this->updated_at);
 		if ($this->isColumnModified(SchemaPeer::DELETED_AT)) $criteria->add(SchemaPeer::DELETED_AT, $this->deleted_at);
 		if ($this->isColumnModified(SchemaPeer::CREATED_USER_ID)) $criteria->add(SchemaPeer::CREATED_USER_ID, $this->created_user_id);
 		if ($this->isColumnModified(SchemaPeer::UPDATED_USER_ID)) $criteria->add(SchemaPeer::UPDATED_USER_ID, $this->updated_user_id);
@@ -1552,6 +1686,8 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 
 		$copyObj->setCreatedAt($this->created_at);
 
+		$copyObj->setUpdatedAt($this->updated_at);
+
 		$copyObj->setDeletedAt($this->deleted_at);
 
 		$copyObj->setCreatedUserId($this->created_user_id);
@@ -1590,6 +1726,14 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 
 			foreach($this->getNamespaces() as $relObj) {
 				$copyObj->addNamespace($relObj->copy($deepCopy));
+			}
+
+			foreach($this->getSchemaHasUsers() as $relObj) {
+				$copyObj->addSchemaHasUser($relObj->copy($deepCopy));
+			}
+
+			foreach($this->getSchemaHasVersions() as $relObj) {
+				$copyObj->addSchemaHasVersion($relObj->copy($deepCopy));
 			}
 
 		} // if ($deepCopy)
@@ -1944,6 +2088,318 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 	{
 		$this->collNamespaces[] = $l;
 		$l->setSchema($this);
+	}
+
+	/**
+	 * Temporary storage of collSchemaHasUsers to save a possible db hit in
+	 * the event objects are add to the collection, but the
+	 * complete collection is never requested.
+	 * @return     void
+	 */
+	public function initSchemaHasUsers()
+	{
+		if ($this->collSchemaHasUsers === null) {
+			$this->collSchemaHasUsers = array();
+		}
+	}
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Schema has previously
+	 * been saved, it will retrieve related SchemaHasUsers from storage.
+	 * If this Schema is new, it will return
+	 * an empty collection or the current collection, the criteria
+	 * is ignored on a new object.
+	 *
+	 * @param      Connection $con
+	 * @param      Criteria $criteria
+	 * @throws     PropelException
+	 */
+	public function getSchemaHasUsers($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseSchemaHasUserPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collSchemaHasUsers === null) {
+			if ($this->isNew()) {
+			   $this->collSchemaHasUsers = array();
+			} else {
+
+				$criteria->add(SchemaHasUserPeer::SCHEMA_ID, $this->getId());
+
+				SchemaHasUserPeer::addSelectColumns($criteria);
+				$this->collSchemaHasUsers = SchemaHasUserPeer::doSelect($criteria, $con);
+			}
+		} else {
+			// criteria has no effect for a new object
+			if (!$this->isNew()) {
+				// the following code is to determine if a new query is
+				// called for.  If the criteria is the same as the last
+				// one, just return the collection.
+
+
+				$criteria->add(SchemaHasUserPeer::SCHEMA_ID, $this->getId());
+
+				SchemaHasUserPeer::addSelectColumns($criteria);
+				if (!isset($this->lastSchemaHasUserCriteria) || !$this->lastSchemaHasUserCriteria->equals($criteria)) {
+					$this->collSchemaHasUsers = SchemaHasUserPeer::doSelect($criteria, $con);
+				}
+			}
+		}
+		$this->lastSchemaHasUserCriteria = $criteria;
+		return $this->collSchemaHasUsers;
+	}
+
+	/**
+	 * Returns the number of related SchemaHasUsers.
+	 *
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct
+	 * @param      Connection $con
+	 * @throws     PropelException
+	 */
+	public function countSchemaHasUsers($criteria = null, $distinct = false, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseSchemaHasUserPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		$criteria->add(SchemaHasUserPeer::SCHEMA_ID, $this->getId());
+
+		return SchemaHasUserPeer::doCount($criteria, $distinct, $con);
+	}
+
+	/**
+	 * Method called to associate a SchemaHasUser object to this object
+	 * through the SchemaHasUser foreign key attribute
+	 *
+	 * @param      SchemaHasUser $l SchemaHasUser
+	 * @return     void
+	 * @throws     PropelException
+	 */
+	public function addSchemaHasUser(SchemaHasUser $l)
+	{
+		$this->collSchemaHasUsers[] = $l;
+		$l->setSchema($this);
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Schema is new, it will return
+	 * an empty collection; or if this Schema has previously
+	 * been saved, it will retrieve related SchemaHasUsers from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Schema.
+	 */
+	public function getSchemaHasUsersJoinUser($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseSchemaHasUserPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collSchemaHasUsers === null) {
+			if ($this->isNew()) {
+				$this->collSchemaHasUsers = array();
+			} else {
+
+				$criteria->add(SchemaHasUserPeer::SCHEMA_ID, $this->getId());
+
+				$this->collSchemaHasUsers = SchemaHasUserPeer::doSelectJoinUser($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(SchemaHasUserPeer::SCHEMA_ID, $this->getId());
+
+			if (!isset($this->lastSchemaHasUserCriteria) || !$this->lastSchemaHasUserCriteria->equals($criteria)) {
+				$this->collSchemaHasUsers = SchemaHasUserPeer::doSelectJoinUser($criteria, $con);
+			}
+		}
+		$this->lastSchemaHasUserCriteria = $criteria;
+
+		return $this->collSchemaHasUsers;
+	}
+
+	/**
+	 * Temporary storage of collSchemaHasVersions to save a possible db hit in
+	 * the event objects are add to the collection, but the
+	 * complete collection is never requested.
+	 * @return     void
+	 */
+	public function initSchemaHasVersions()
+	{
+		if ($this->collSchemaHasVersions === null) {
+			$this->collSchemaHasVersions = array();
+		}
+	}
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Schema has previously
+	 * been saved, it will retrieve related SchemaHasVersions from storage.
+	 * If this Schema is new, it will return
+	 * an empty collection or the current collection, the criteria
+	 * is ignored on a new object.
+	 *
+	 * @param      Connection $con
+	 * @param      Criteria $criteria
+	 * @throws     PropelException
+	 */
+	public function getSchemaHasVersions($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseSchemaHasVersionPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collSchemaHasVersions === null) {
+			if ($this->isNew()) {
+			   $this->collSchemaHasVersions = array();
+			} else {
+
+				$criteria->add(SchemaHasVersionPeer::SCHEMA_ID, $this->getId());
+
+				SchemaHasVersionPeer::addSelectColumns($criteria);
+				$this->collSchemaHasVersions = SchemaHasVersionPeer::doSelect($criteria, $con);
+			}
+		} else {
+			// criteria has no effect for a new object
+			if (!$this->isNew()) {
+				// the following code is to determine if a new query is
+				// called for.  If the criteria is the same as the last
+				// one, just return the collection.
+
+
+				$criteria->add(SchemaHasVersionPeer::SCHEMA_ID, $this->getId());
+
+				SchemaHasVersionPeer::addSelectColumns($criteria);
+				if (!isset($this->lastSchemaHasVersionCriteria) || !$this->lastSchemaHasVersionCriteria->equals($criteria)) {
+					$this->collSchemaHasVersions = SchemaHasVersionPeer::doSelect($criteria, $con);
+				}
+			}
+		}
+		$this->lastSchemaHasVersionCriteria = $criteria;
+		return $this->collSchemaHasVersions;
+	}
+
+	/**
+	 * Returns the number of related SchemaHasVersions.
+	 *
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct
+	 * @param      Connection $con
+	 * @throws     PropelException
+	 */
+	public function countSchemaHasVersions($criteria = null, $distinct = false, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseSchemaHasVersionPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		$criteria->add(SchemaHasVersionPeer::SCHEMA_ID, $this->getId());
+
+		return SchemaHasVersionPeer::doCount($criteria, $distinct, $con);
+	}
+
+	/**
+	 * Method called to associate a SchemaHasVersion object to this object
+	 * through the SchemaHasVersion foreign key attribute
+	 *
+	 * @param      SchemaHasVersion $l SchemaHasVersion
+	 * @return     void
+	 * @throws     PropelException
+	 */
+	public function addSchemaHasVersion(SchemaHasVersion $l)
+	{
+		$this->collSchemaHasVersions[] = $l;
+		$l->setSchema($this);
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Schema is new, it will return
+	 * an empty collection; or if this Schema has previously
+	 * been saved, it will retrieve related SchemaHasVersions from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Schema.
+	 */
+	public function getSchemaHasVersionsJoinUser($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseSchemaHasVersionPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collSchemaHasVersions === null) {
+			if ($this->isNew()) {
+				$this->collSchemaHasVersions = array();
+			} else {
+
+				$criteria->add(SchemaHasVersionPeer::SCHEMA_ID, $this->getId());
+
+				$this->collSchemaHasVersions = SchemaHasVersionPeer::doSelectJoinUser($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(SchemaHasVersionPeer::SCHEMA_ID, $this->getId());
+
+			if (!isset($this->lastSchemaHasVersionCriteria) || !$this->lastSchemaHasVersionCriteria->equals($criteria)) {
+				$this->collSchemaHasVersions = SchemaHasVersionPeer::doSelectJoinUser($criteria, $con);
+			}
+		}
+		$this->lastSchemaHasVersionCriteria = $criteria;
+
+		return $this->collSchemaHasVersions;
 	}
 
 

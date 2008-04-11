@@ -299,6 +299,30 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	protected $lastVocabularyHasVersionCriteria = null;
 
 	/**
+	 * Collection to store aggregation of collSchemaHasUsers.
+	 * @var        array
+	 */
+	protected $collSchemaHasUsers;
+
+	/**
+	 * The criteria used to select the current contents of collSchemaHasUsers.
+	 * @var        Criteria
+	 */
+	protected $lastSchemaHasUserCriteria = null;
+
+	/**
+	 * Collection to store aggregation of collSchemaHasVersions.
+	 * @var        array
+	 */
+	protected $collSchemaHasVersions;
+
+	/**
+	 * The criteria used to select the current contents of collSchemaHasVersions.
+	 * @var        Criteria
+	 */
+	protected $lastSchemaHasVersionCriteria = null;
+
+	/**
 	 * Flag to prevent endless save loop, if this object is referenced
 	 * by another object which falls in this transaction.
 	 * @var        boolean
@@ -1195,6 +1219,22 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 				}
 			}
 
+			if ($this->collSchemaHasUsers !== null) {
+				foreach($this->collSchemaHasUsers as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
+			}
+
+			if ($this->collSchemaHasVersions !== null) {
+				foreach($this->collSchemaHasVersions as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
+			}
+
 			$this->alreadyInSave = false;
 		}
 		return $affectedRows;
@@ -1371,6 +1411,22 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 				if ($this->collVocabularyHasVersions !== null) {
 					foreach($this->collVocabularyHasVersions as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
+
+				if ($this->collSchemaHasUsers !== null) {
+					foreach($this->collSchemaHasUsers as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
+
+				if ($this->collSchemaHasVersions !== null) {
+					foreach($this->collSchemaHasVersions as $referrerFK) {
 						if (!$referrerFK->validate($columns)) {
 							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
 						}
@@ -1782,6 +1838,14 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 			foreach($this->getVocabularyHasVersions() as $relObj) {
 				$copyObj->addVocabularyHasVersion($relObj->copy($deepCopy));
+			}
+
+			foreach($this->getSchemaHasUsers() as $relObj) {
+				$copyObj->addSchemaHasUser($relObj->copy($deepCopy));
+			}
+
+			foreach($this->getSchemaHasVersions() as $relObj) {
+				$copyObj->addSchemaHasVersion($relObj->copy($deepCopy));
 			}
 
 		} // if ($deepCopy)
@@ -5287,6 +5351,318 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		$this->lastVocabularyHasVersionCriteria = $criteria;
 
 		return $this->collVocabularyHasVersions;
+	}
+
+	/**
+	 * Temporary storage of collSchemaHasUsers to save a possible db hit in
+	 * the event objects are add to the collection, but the
+	 * complete collection is never requested.
+	 * @return     void
+	 */
+	public function initSchemaHasUsers()
+	{
+		if ($this->collSchemaHasUsers === null) {
+			$this->collSchemaHasUsers = array();
+		}
+	}
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this User has previously
+	 * been saved, it will retrieve related SchemaHasUsers from storage.
+	 * If this User is new, it will return
+	 * an empty collection or the current collection, the criteria
+	 * is ignored on a new object.
+	 *
+	 * @param      Connection $con
+	 * @param      Criteria $criteria
+	 * @throws     PropelException
+	 */
+	public function getSchemaHasUsers($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseSchemaHasUserPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collSchemaHasUsers === null) {
+			if ($this->isNew()) {
+			   $this->collSchemaHasUsers = array();
+			} else {
+
+				$criteria->add(SchemaHasUserPeer::USER_ID, $this->getId());
+
+				SchemaHasUserPeer::addSelectColumns($criteria);
+				$this->collSchemaHasUsers = SchemaHasUserPeer::doSelect($criteria, $con);
+			}
+		} else {
+			// criteria has no effect for a new object
+			if (!$this->isNew()) {
+				// the following code is to determine if a new query is
+				// called for.  If the criteria is the same as the last
+				// one, just return the collection.
+
+
+				$criteria->add(SchemaHasUserPeer::USER_ID, $this->getId());
+
+				SchemaHasUserPeer::addSelectColumns($criteria);
+				if (!isset($this->lastSchemaHasUserCriteria) || !$this->lastSchemaHasUserCriteria->equals($criteria)) {
+					$this->collSchemaHasUsers = SchemaHasUserPeer::doSelect($criteria, $con);
+				}
+			}
+		}
+		$this->lastSchemaHasUserCriteria = $criteria;
+		return $this->collSchemaHasUsers;
+	}
+
+	/**
+	 * Returns the number of related SchemaHasUsers.
+	 *
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct
+	 * @param      Connection $con
+	 * @throws     PropelException
+	 */
+	public function countSchemaHasUsers($criteria = null, $distinct = false, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseSchemaHasUserPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		$criteria->add(SchemaHasUserPeer::USER_ID, $this->getId());
+
+		return SchemaHasUserPeer::doCount($criteria, $distinct, $con);
+	}
+
+	/**
+	 * Method called to associate a SchemaHasUser object to this object
+	 * through the SchemaHasUser foreign key attribute
+	 *
+	 * @param      SchemaHasUser $l SchemaHasUser
+	 * @return     void
+	 * @throws     PropelException
+	 */
+	public function addSchemaHasUser(SchemaHasUser $l)
+	{
+		$this->collSchemaHasUsers[] = $l;
+		$l->setUser($this);
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this User is new, it will return
+	 * an empty collection; or if this User has previously
+	 * been saved, it will retrieve related SchemaHasUsers from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in User.
+	 */
+	public function getSchemaHasUsersJoinSchema($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseSchemaHasUserPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collSchemaHasUsers === null) {
+			if ($this->isNew()) {
+				$this->collSchemaHasUsers = array();
+			} else {
+
+				$criteria->add(SchemaHasUserPeer::USER_ID, $this->getId());
+
+				$this->collSchemaHasUsers = SchemaHasUserPeer::doSelectJoinSchema($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(SchemaHasUserPeer::USER_ID, $this->getId());
+
+			if (!isset($this->lastSchemaHasUserCriteria) || !$this->lastSchemaHasUserCriteria->equals($criteria)) {
+				$this->collSchemaHasUsers = SchemaHasUserPeer::doSelectJoinSchema($criteria, $con);
+			}
+		}
+		$this->lastSchemaHasUserCriteria = $criteria;
+
+		return $this->collSchemaHasUsers;
+	}
+
+	/**
+	 * Temporary storage of collSchemaHasVersions to save a possible db hit in
+	 * the event objects are add to the collection, but the
+	 * complete collection is never requested.
+	 * @return     void
+	 */
+	public function initSchemaHasVersions()
+	{
+		if ($this->collSchemaHasVersions === null) {
+			$this->collSchemaHasVersions = array();
+		}
+	}
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this User has previously
+	 * been saved, it will retrieve related SchemaHasVersions from storage.
+	 * If this User is new, it will return
+	 * an empty collection or the current collection, the criteria
+	 * is ignored on a new object.
+	 *
+	 * @param      Connection $con
+	 * @param      Criteria $criteria
+	 * @throws     PropelException
+	 */
+	public function getSchemaHasVersions($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseSchemaHasVersionPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collSchemaHasVersions === null) {
+			if ($this->isNew()) {
+			   $this->collSchemaHasVersions = array();
+			} else {
+
+				$criteria->add(SchemaHasVersionPeer::CREATED_USER_ID, $this->getId());
+
+				SchemaHasVersionPeer::addSelectColumns($criteria);
+				$this->collSchemaHasVersions = SchemaHasVersionPeer::doSelect($criteria, $con);
+			}
+		} else {
+			// criteria has no effect for a new object
+			if (!$this->isNew()) {
+				// the following code is to determine if a new query is
+				// called for.  If the criteria is the same as the last
+				// one, just return the collection.
+
+
+				$criteria->add(SchemaHasVersionPeer::CREATED_USER_ID, $this->getId());
+
+				SchemaHasVersionPeer::addSelectColumns($criteria);
+				if (!isset($this->lastSchemaHasVersionCriteria) || !$this->lastSchemaHasVersionCriteria->equals($criteria)) {
+					$this->collSchemaHasVersions = SchemaHasVersionPeer::doSelect($criteria, $con);
+				}
+			}
+		}
+		$this->lastSchemaHasVersionCriteria = $criteria;
+		return $this->collSchemaHasVersions;
+	}
+
+	/**
+	 * Returns the number of related SchemaHasVersions.
+	 *
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct
+	 * @param      Connection $con
+	 * @throws     PropelException
+	 */
+	public function countSchemaHasVersions($criteria = null, $distinct = false, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseSchemaHasVersionPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		$criteria->add(SchemaHasVersionPeer::CREATED_USER_ID, $this->getId());
+
+		return SchemaHasVersionPeer::doCount($criteria, $distinct, $con);
+	}
+
+	/**
+	 * Method called to associate a SchemaHasVersion object to this object
+	 * through the SchemaHasVersion foreign key attribute
+	 *
+	 * @param      SchemaHasVersion $l SchemaHasVersion
+	 * @return     void
+	 * @throws     PropelException
+	 */
+	public function addSchemaHasVersion(SchemaHasVersion $l)
+	{
+		$this->collSchemaHasVersions[] = $l;
+		$l->setUser($this);
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this User is new, it will return
+	 * an empty collection; or if this User has previously
+	 * been saved, it will retrieve related SchemaHasVersions from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in User.
+	 */
+	public function getSchemaHasVersionsJoinSchema($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseSchemaHasVersionPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collSchemaHasVersions === null) {
+			if ($this->isNew()) {
+				$this->collSchemaHasVersions = array();
+			} else {
+
+				$criteria->add(SchemaHasVersionPeer::CREATED_USER_ID, $this->getId());
+
+				$this->collSchemaHasVersions = SchemaHasVersionPeer::doSelectJoinSchema($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(SchemaHasVersionPeer::CREATED_USER_ID, $this->getId());
+
+			if (!isset($this->lastSchemaHasVersionCriteria) || !$this->lastSchemaHasVersionCriteria->equals($criteria)) {
+				$this->collSchemaHasVersions = SchemaHasVersionPeer::doSelectJoinSchema($criteria, $con);
+			}
+		}
+		$this->lastSchemaHasVersionCriteria = $criteria;
+
+		return $this->collSchemaHasVersions;
 	}
 
 
