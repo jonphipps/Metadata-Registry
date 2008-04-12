@@ -74,4 +74,27 @@ class SchemaPeer extends BaseSchemaPeer
     }
     return $results;
   }
+
+  /**
+  * description
+  *
+  * @return return_type
+  * @param  integer $v Schema Id to lookup
+  */
+  public static function getNextSchemaPropertyId($v)
+  {
+    //lookup the schema
+    $schema = SchemaPeer::retrieveByPK($v);
+    if ($schema)
+    {
+      //get the last id
+      $lastId = $schema->getLastUriId();
+      //increment it by one and set the last_id
+      $nextId = ($lastId) ? ++$lastId : 100000;
+      //we should theoretically set this when we save the property, but it doesn't matter
+      $schema->setLastUriId($nextId);
+      $schema->save();
+      return $nextId;
+    }
+  }
 }

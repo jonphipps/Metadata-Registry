@@ -69,13 +69,13 @@ class SchemaPropertyMapBuilder {
 
 		$tMap->addColumn('DELETED_AT', 'DeletedAt', 'int', CreoleTypes::TIMESTAMP, false, null);
 
-		$tMap->addColumn('CREATED_USER_ID', 'CreatedUserId', 'int', CreoleTypes::INTEGER, false, null);
+		$tMap->addForeignKey('CREATED_USER_ID', 'CreatedUserId', 'int', CreoleTypes::INTEGER, 'reg_user', 'ID', false, null);
 
-		$tMap->addColumn('UPDATED_USER_ID', 'UpdatedUserId', 'int', CreoleTypes::INTEGER, false, null);
+		$tMap->addForeignKey('UPDATED_USER_ID', 'UpdatedUserId', 'int', CreoleTypes::INTEGER, 'reg_user', 'ID', false, null);
 
-		$tMap->addColumn('SCHEMA_ID', 'SchemaId', 'int', CreoleTypes::INTEGER, true, null);
+		$tMap->addForeignKey('SCHEMA_ID', 'SchemaId', 'int', CreoleTypes::INTEGER, 'reg_schema', 'ID', true, null);
 
-		$tMap->addColumn('TOKEN', 'Token', 'string', CreoleTypes::VARCHAR, true, 255);
+		$tMap->addColumn('NAME', 'Name', 'string', CreoleTypes::VARCHAR, true, 255);
 
 		$tMap->addColumn('LABEL', 'Label', 'string', CreoleTypes::VARCHAR, true, 255);
 
@@ -85,15 +85,17 @@ class SchemaPropertyMapBuilder {
 
 		$tMap->addColumn('TYPE', 'Type', 'string', CreoleTypes::CHAR, true, null);
 
-		$tMap->addColumn('IS_SUBPROPERTY_ID', 'IsSubpropertyId', 'int', CreoleTypes::INTEGER, false, null);
+		$tMap->addForeignKey('RELATED_PROPERTY_ID', 'RelatedPropertyId', 'int', CreoleTypes::INTEGER, 'reg_schema_property', 'ID', false, null);
 
-		$tMap->addColumn('IS_SUBPROPERTY', 'IsSubproperty', 'string', CreoleTypes::VARCHAR, false, 255);
-
-		$tMap->addColumn('HAS_SUBPROPERTY_ID', 'HasSubpropertyId', 'int', CreoleTypes::INTEGER, false, null);
-
-		$tMap->addColumn('HAS_SUBPROPERTY', 'HasSubproperty', 'string', CreoleTypes::VARCHAR, false, 255);
+		$tMap->addColumn('RELATED_PROPERTY', 'RelatedProperty', 'string', CreoleTypes::VARCHAR, false, 255);
 
 		$tMap->addColumn('URI', 'Uri', 'string', CreoleTypes::VARCHAR, false, 255);
+
+		$tMap->addForeignKey('STATUS_ID', 'StatusId', 'int', CreoleTypes::INTEGER, 'reg_status', 'ID', true, null);
+
+		$tMap->addColumn('LANGUAGE', 'Language', 'string', CreoleTypes::VARCHAR, true, 6);
+
+		$tMap->addColumn('NOTE', 'Note', 'string', CreoleTypes::LONGVARCHAR, false, null);
 
 	} // doBuild()
 

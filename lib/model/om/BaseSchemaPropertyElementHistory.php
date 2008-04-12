@@ -1,20 +1,20 @@
 <?php
 
 /**
- * Base class that represents a row from the 'reg_schema_property_property_history' table.
+ * Base class that represents a row from the 'reg_schema_property_element_history' table.
  *
  * 
  *
  * @package    lib.model.om
  */
-abstract class BaseSchemaPropertyPropertyHistory extends BaseObject  implements Persistent {
+abstract class BaseSchemaPropertyElementHistory extends BaseObject  implements Persistent {
 
 
 	/**
 	 * The Peer class.
 	 * Instance provides a convenient way of calling static methods on a class
 	 * that calling code may not be able to identify.
-	 * @var        SchemaPropertyPropertyHistoryPeer
+	 * @var        SchemaPropertyElementHistoryPeer
 	 */
 	protected static $peer;
 
@@ -48,10 +48,10 @@ abstract class BaseSchemaPropertyPropertyHistory extends BaseObject  implements 
 
 
 	/**
-	 * The value for the schema_property_property_id field.
+	 * The value for the schema_property_element_id field.
 	 * @var        int
 	 */
-	protected $schema_property_property_id;
+	protected $schema_property_element_id;
 
 
 	/**
@@ -101,6 +101,36 @@ abstract class BaseSchemaPropertyPropertyHistory extends BaseObject  implements 
 	 * @var        int
 	 */
 	protected $status_id = 1;
+
+	/**
+	 * @var        User
+	 */
+	protected $aUser;
+
+	/**
+	 * @var        SchemaPropertyElement
+	 */
+	protected $aSchemaPropertyElement;
+
+	/**
+	 * @var        SchemaProperty
+	 */
+	protected $aSchemaPropertyRelatedBySchemaPropertyId;
+
+	/**
+	 * @var        Schema
+	 */
+	protected $aSchema;
+
+	/**
+	 * @var        SchemaProperty
+	 */
+	protected $aSchemaPropertyRelatedByRelatedSchemaPropertyId;
+
+	/**
+	 * @var        Status
+	 */
+	protected $aStatus;
 
 	/**
 	 * Flag to prevent endless save loop, if this object is referenced
@@ -181,14 +211,14 @@ abstract class BaseSchemaPropertyPropertyHistory extends BaseObject  implements 
 	}
 
 	/**
-	 * Get the [schema_property_property_id] column value.
+	 * Get the [schema_property_element_id] column value.
 	 * 
 	 * @return     int
 	 */
-	public function getSchemaPropertyPropertyId()
+	public function getSchemaPropertyElementId()
 	{
 
-		return $this->schema_property_property_id;
+		return $this->schema_property_element_id;
 	}
 
 	/**
@@ -285,7 +315,7 @@ abstract class BaseSchemaPropertyPropertyHistory extends BaseObject  implements 
 
 		if ($this->id !== $v) {
 			$this->id = $v;
-			$this->modifiedColumns[] = SchemaPropertyPropertyHistoryPeer::ID;
+			$this->modifiedColumns[] = SchemaPropertyElementHistoryPeer::ID;
 		}
 
 	} // setId()
@@ -309,7 +339,7 @@ abstract class BaseSchemaPropertyPropertyHistory extends BaseObject  implements 
 		}
 		if ($this->created_at !== $ts) {
 			$this->created_at = $ts;
-			$this->modifiedColumns[] = SchemaPropertyPropertyHistoryPeer::CREATED_AT;
+			$this->modifiedColumns[] = SchemaPropertyElementHistoryPeer::CREATED_AT;
 		}
 
 	} // setCreatedAt()
@@ -331,7 +361,11 @@ abstract class BaseSchemaPropertyPropertyHistory extends BaseObject  implements 
 
 		if ($this->created_user_id !== $v) {
 			$this->created_user_id = $v;
-			$this->modifiedColumns[] = SchemaPropertyPropertyHistoryPeer::CREATED_USER_ID;
+			$this->modifiedColumns[] = SchemaPropertyElementHistoryPeer::CREATED_USER_ID;
+		}
+
+		if ($this->aUser !== null && $this->aUser->getId() !== $v) {
+			$this->aUser = null;
 		}
 
 	} // setCreatedUserId()
@@ -353,18 +387,18 @@ abstract class BaseSchemaPropertyPropertyHistory extends BaseObject  implements 
 
 		if ($this->action !== $v) {
 			$this->action = $v;
-			$this->modifiedColumns[] = SchemaPropertyPropertyHistoryPeer::ACTION;
+			$this->modifiedColumns[] = SchemaPropertyElementHistoryPeer::ACTION;
 		}
 
 	} // setAction()
 
 	/**
-	 * Set the value of [schema_property_property_id] column.
+	 * Set the value of [schema_property_element_id] column.
 	 * 
 	 * @param      int $v new value
 	 * @return     void
 	 */
-	public function setSchemaPropertyPropertyId($v)
+	public function setSchemaPropertyElementId($v)
 	{
 
 		// Since the native PHP type for this column is integer,
@@ -373,12 +407,16 @@ abstract class BaseSchemaPropertyPropertyHistory extends BaseObject  implements 
 			$v = (int) $v;
 		}
 
-		if ($this->schema_property_property_id !== $v) {
-			$this->schema_property_property_id = $v;
-			$this->modifiedColumns[] = SchemaPropertyPropertyHistoryPeer::SCHEMA_PROPERTY_PROPERTY_ID;
+		if ($this->schema_property_element_id !== $v) {
+			$this->schema_property_element_id = $v;
+			$this->modifiedColumns[] = SchemaPropertyElementHistoryPeer::SCHEMA_PROPERTY_ELEMENT_ID;
 		}
 
-	} // setSchemaPropertyPropertyId()
+		if ($this->aSchemaPropertyElement !== null && $this->aSchemaPropertyElement->getId() !== $v) {
+			$this->aSchemaPropertyElement = null;
+		}
+
+	} // setSchemaPropertyElementId()
 
 	/**
 	 * Set the value of [schema_property_id] column.
@@ -397,7 +435,11 @@ abstract class BaseSchemaPropertyPropertyHistory extends BaseObject  implements 
 
 		if ($this->schema_property_id !== $v) {
 			$this->schema_property_id = $v;
-			$this->modifiedColumns[] = SchemaPropertyPropertyHistoryPeer::SCHEMA_PROPERTY_ID;
+			$this->modifiedColumns[] = SchemaPropertyElementHistoryPeer::SCHEMA_PROPERTY_ID;
+		}
+
+		if ($this->aSchemaPropertyRelatedBySchemaPropertyId !== null && $this->aSchemaPropertyRelatedBySchemaPropertyId->getId() !== $v) {
+			$this->aSchemaPropertyRelatedBySchemaPropertyId = null;
 		}
 
 	} // setSchemaPropertyId()
@@ -419,7 +461,11 @@ abstract class BaseSchemaPropertyPropertyHistory extends BaseObject  implements 
 
 		if ($this->schema_id !== $v) {
 			$this->schema_id = $v;
-			$this->modifiedColumns[] = SchemaPropertyPropertyHistoryPeer::SCHEMA_ID;
+			$this->modifiedColumns[] = SchemaPropertyElementHistoryPeer::SCHEMA_ID;
+		}
+
+		if ($this->aSchema !== null && $this->aSchema->getId() !== $v) {
+			$this->aSchema = null;
 		}
 
 	} // setSchemaId()
@@ -441,7 +487,7 @@ abstract class BaseSchemaPropertyPropertyHistory extends BaseObject  implements 
 
 		if ($this->profile_property_id !== $v) {
 			$this->profile_property_id = $v;
-			$this->modifiedColumns[] = SchemaPropertyPropertyHistoryPeer::PROFILE_PROPERTY_ID;
+			$this->modifiedColumns[] = SchemaPropertyElementHistoryPeer::PROFILE_PROPERTY_ID;
 		}
 
 	} // setProfilePropertyId()
@@ -463,7 +509,7 @@ abstract class BaseSchemaPropertyPropertyHistory extends BaseObject  implements 
 
 		if ($this->object !== $v) {
 			$this->object = $v;
-			$this->modifiedColumns[] = SchemaPropertyPropertyHistoryPeer::OBJECT;
+			$this->modifiedColumns[] = SchemaPropertyElementHistoryPeer::OBJECT;
 		}
 
 	} // setObject()
@@ -485,7 +531,11 @@ abstract class BaseSchemaPropertyPropertyHistory extends BaseObject  implements 
 
 		if ($this->related_schema_property_id !== $v) {
 			$this->related_schema_property_id = $v;
-			$this->modifiedColumns[] = SchemaPropertyPropertyHistoryPeer::RELATED_SCHEMA_PROPERTY_ID;
+			$this->modifiedColumns[] = SchemaPropertyElementHistoryPeer::RELATED_SCHEMA_PROPERTY_ID;
+		}
+
+		if ($this->aSchemaPropertyRelatedByRelatedSchemaPropertyId !== null && $this->aSchemaPropertyRelatedByRelatedSchemaPropertyId->getId() !== $v) {
+			$this->aSchemaPropertyRelatedByRelatedSchemaPropertyId = null;
 		}
 
 	} // setRelatedSchemaPropertyId()
@@ -507,7 +557,7 @@ abstract class BaseSchemaPropertyPropertyHistory extends BaseObject  implements 
 
 		if ($this->language !== $v || $v === 'en') {
 			$this->language = $v;
-			$this->modifiedColumns[] = SchemaPropertyPropertyHistoryPeer::LANGUAGE;
+			$this->modifiedColumns[] = SchemaPropertyElementHistoryPeer::LANGUAGE;
 		}
 
 	} // setLanguage()
@@ -529,7 +579,11 @@ abstract class BaseSchemaPropertyPropertyHistory extends BaseObject  implements 
 
 		if ($this->status_id !== $v || $v === 1) {
 			$this->status_id = $v;
-			$this->modifiedColumns[] = SchemaPropertyPropertyHistoryPeer::STATUS_ID;
+			$this->modifiedColumns[] = SchemaPropertyElementHistoryPeer::STATUS_ID;
+		}
+
+		if ($this->aStatus !== null && $this->aStatus->getId() !== $v) {
+			$this->aStatus = null;
 		}
 
 	} // setStatusId()
@@ -559,7 +613,7 @@ abstract class BaseSchemaPropertyPropertyHistory extends BaseObject  implements 
 
 			$this->action = $rs->getString($startcol + 3);
 
-			$this->schema_property_property_id = $rs->getInt($startcol + 4);
+			$this->schema_property_element_id = $rs->getInt($startcol + 4);
 
 			$this->schema_property_id = $rs->getInt($startcol + 5);
 
@@ -580,10 +634,10 @@ abstract class BaseSchemaPropertyPropertyHistory extends BaseObject  implements 
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 12; // 12 = SchemaPropertyPropertyHistoryPeer::NUM_COLUMNS - SchemaPropertyPropertyHistoryPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 12; // 12 = SchemaPropertyElementHistoryPeer::NUM_COLUMNS - SchemaPropertyElementHistoryPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
-			throw new PropelException("Error populating SchemaPropertyPropertyHistory object", $e);
+			throw new PropelException("Error populating SchemaPropertyElementHistory object", $e);
 		}
 	}
 
@@ -599,7 +653,7 @@ abstract class BaseSchemaPropertyPropertyHistory extends BaseObject  implements 
 	public function delete($con = null)
 	{
 
-    foreach (sfMixer::getCallables('BaseSchemaPropertyPropertyHistory:delete:pre') as $callable)
+    foreach (sfMixer::getCallables('BaseSchemaPropertyElementHistory:delete:pre') as $callable)
     {
       $ret = call_user_func($callable, $this, $con);
       if ($ret)
@@ -614,12 +668,12 @@ abstract class BaseSchemaPropertyPropertyHistory extends BaseObject  implements 
 		}
 
 		if ($con === null) {
-			$con = Propel::getConnection(SchemaPropertyPropertyHistoryPeer::DATABASE_NAME);
+			$con = Propel::getConnection(SchemaPropertyElementHistoryPeer::DATABASE_NAME);
 		}
 
 		try {
 			$con->begin();
-			SchemaPropertyPropertyHistoryPeer::doDelete($this, $con);
+			SchemaPropertyElementHistoryPeer::doDelete($this, $con);
 			$this->setDeleted(true);
 			$con->commit();
 		} catch (PropelException $e) {
@@ -628,7 +682,7 @@ abstract class BaseSchemaPropertyPropertyHistory extends BaseObject  implements 
 		}
 	
 
-    foreach (sfMixer::getCallables('BaseSchemaPropertyPropertyHistory:delete:post') as $callable)
+    foreach (sfMixer::getCallables('BaseSchemaPropertyElementHistory:delete:post') as $callable)
     {
       call_user_func($callable, $this, $con);
     }
@@ -647,7 +701,7 @@ abstract class BaseSchemaPropertyPropertyHistory extends BaseObject  implements 
 	public function save($con = null)
 	{
 
-    foreach (sfMixer::getCallables('BaseSchemaPropertyPropertyHistory:save:pre') as $callable)
+    foreach (sfMixer::getCallables('BaseSchemaPropertyElementHistory:save:pre') as $callable)
     {
       $affectedRows = call_user_func($callable, $this, $con);
       if (is_int($affectedRows))
@@ -657,7 +711,7 @@ abstract class BaseSchemaPropertyPropertyHistory extends BaseObject  implements 
     }
 
 
-    if ($this->isNew() && !$this->isColumnModified(SchemaPropertyPropertyHistoryPeer::CREATED_AT))
+    if ($this->isNew() && !$this->isColumnModified(SchemaPropertyElementHistoryPeer::CREATED_AT))
     {
       $this->setCreatedAt(time());
     }
@@ -667,14 +721,14 @@ abstract class BaseSchemaPropertyPropertyHistory extends BaseObject  implements 
 		}
 
 		if ($con === null) {
-			$con = Propel::getConnection(SchemaPropertyPropertyHistoryPeer::DATABASE_NAME);
+			$con = Propel::getConnection(SchemaPropertyElementHistoryPeer::DATABASE_NAME);
 		}
 
 		try {
 			$con->begin();
 			$affectedRows = $this->doSave($con);
 			$con->commit();
-    foreach (sfMixer::getCallables('BaseSchemaPropertyPropertyHistory:save:post') as $callable)
+    foreach (sfMixer::getCallables('BaseSchemaPropertyElementHistory:save:post') as $callable)
     {
       call_user_func($callable, $this, $con, $affectedRows);
     }
@@ -704,10 +758,58 @@ abstract class BaseSchemaPropertyPropertyHistory extends BaseObject  implements 
 			$this->alreadyInSave = true;
 
 
+			// We call the save method on the following object(s) if they
+			// were passed to this object by their coresponding set
+			// method.  This object relates to these object(s) by a
+			// foreign key reference.
+
+			if ($this->aUser !== null) {
+				if ($this->aUser->isModified()) {
+					$affectedRows += $this->aUser->save($con);
+				}
+				$this->setUser($this->aUser);
+			}
+
+			if ($this->aSchemaPropertyElement !== null) {
+				if ($this->aSchemaPropertyElement->isModified()) {
+					$affectedRows += $this->aSchemaPropertyElement->save($con);
+				}
+				$this->setSchemaPropertyElement($this->aSchemaPropertyElement);
+			}
+
+			if ($this->aSchemaPropertyRelatedBySchemaPropertyId !== null) {
+				if ($this->aSchemaPropertyRelatedBySchemaPropertyId->isModified()) {
+					$affectedRows += $this->aSchemaPropertyRelatedBySchemaPropertyId->save($con);
+				}
+				$this->setSchemaPropertyRelatedBySchemaPropertyId($this->aSchemaPropertyRelatedBySchemaPropertyId);
+			}
+
+			if ($this->aSchema !== null) {
+				if ($this->aSchema->isModified()) {
+					$affectedRows += $this->aSchema->save($con);
+				}
+				$this->setSchema($this->aSchema);
+			}
+
+			if ($this->aSchemaPropertyRelatedByRelatedSchemaPropertyId !== null) {
+				if ($this->aSchemaPropertyRelatedByRelatedSchemaPropertyId->isModified()) {
+					$affectedRows += $this->aSchemaPropertyRelatedByRelatedSchemaPropertyId->save($con);
+				}
+				$this->setSchemaPropertyRelatedByRelatedSchemaPropertyId($this->aSchemaPropertyRelatedByRelatedSchemaPropertyId);
+			}
+
+			if ($this->aStatus !== null) {
+				if ($this->aStatus->isModified()) {
+					$affectedRows += $this->aStatus->save($con);
+				}
+				$this->setStatus($this->aStatus);
+			}
+
+
 			// If this object has been modified, then save it to the database.
 			if ($this->isModified()) {
 				if ($this->isNew()) {
-					$pk = SchemaPropertyPropertyHistoryPeer::doInsert($this, $con);
+					$pk = SchemaPropertyElementHistoryPeer::doInsert($this, $con);
 					$affectedRows += 1; // we are assuming that there is only 1 row per doInsert() which
 										 // should always be true here (even though technically
 										 // BasePeer::doInsert() can insert multiple rows).
@@ -716,7 +818,7 @@ abstract class BaseSchemaPropertyPropertyHistory extends BaseObject  implements 
 
 					$this->setNew(false);
 				} else {
-					$affectedRows += SchemaPropertyPropertyHistoryPeer::doUpdate($this, $con);
+					$affectedRows += SchemaPropertyElementHistoryPeer::doUpdate($this, $con);
 				}
 				$this->resetModified(); // [HL] After being saved an object is no longer 'modified'
 			}
@@ -786,7 +888,49 @@ abstract class BaseSchemaPropertyPropertyHistory extends BaseObject  implements 
 			$failureMap = array();
 
 
-			if (($retval = SchemaPropertyPropertyHistoryPeer::doValidate($this, $columns)) !== true) {
+			// We call the validate method on the following object(s) if they
+			// were passed to this object by their coresponding set
+			// method.  This object relates to these object(s) by a
+			// foreign key reference.
+
+			if ($this->aUser !== null) {
+				if (!$this->aUser->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aUser->getValidationFailures());
+				}
+			}
+
+			if ($this->aSchemaPropertyElement !== null) {
+				if (!$this->aSchemaPropertyElement->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aSchemaPropertyElement->getValidationFailures());
+				}
+			}
+
+			if ($this->aSchemaPropertyRelatedBySchemaPropertyId !== null) {
+				if (!$this->aSchemaPropertyRelatedBySchemaPropertyId->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aSchemaPropertyRelatedBySchemaPropertyId->getValidationFailures());
+				}
+			}
+
+			if ($this->aSchema !== null) {
+				if (!$this->aSchema->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aSchema->getValidationFailures());
+				}
+			}
+
+			if ($this->aSchemaPropertyRelatedByRelatedSchemaPropertyId !== null) {
+				if (!$this->aSchemaPropertyRelatedByRelatedSchemaPropertyId->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aSchemaPropertyRelatedByRelatedSchemaPropertyId->getValidationFailures());
+				}
+			}
+
+			if ($this->aStatus !== null) {
+				if (!$this->aStatus->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aStatus->getValidationFailures());
+				}
+			}
+
+
+			if (($retval = SchemaPropertyElementHistoryPeer::doValidate($this, $columns)) !== true) {
 				$failureMap = array_merge($failureMap, $retval);
 			}
 
@@ -809,7 +953,7 @@ abstract class BaseSchemaPropertyPropertyHistory extends BaseObject  implements 
 	 */
 	public function getByName($name, $type = BasePeer::TYPE_PHPNAME)
 	{
-		$pos = SchemaPropertyPropertyHistoryPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
+		$pos = SchemaPropertyElementHistoryPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
 		return $this->getByPosition($pos);
 	}
 
@@ -836,7 +980,7 @@ abstract class BaseSchemaPropertyPropertyHistory extends BaseObject  implements 
 				return $this->getAction();
 				break;
 			case 4:
-				return $this->getSchemaPropertyPropertyId();
+				return $this->getSchemaPropertyElementId();
 				break;
 			case 5:
 				return $this->getSchemaPropertyId();
@@ -877,13 +1021,13 @@ abstract class BaseSchemaPropertyPropertyHistory extends BaseObject  implements 
 	 */
 	public function toArray($keyType = BasePeer::TYPE_PHPNAME)
 	{
-		$keys = SchemaPropertyPropertyHistoryPeer::getFieldNames($keyType);
+		$keys = SchemaPropertyElementHistoryPeer::getFieldNames($keyType);
 		$result = array(
 			$keys[0] => $this->getId(),
 			$keys[1] => $this->getCreatedAt(),
 			$keys[2] => $this->getCreatedUserId(),
 			$keys[3] => $this->getAction(),
-			$keys[4] => $this->getSchemaPropertyPropertyId(),
+			$keys[4] => $this->getSchemaPropertyElementId(),
 			$keys[5] => $this->getSchemaPropertyId(),
 			$keys[6] => $this->getSchemaId(),
 			$keys[7] => $this->getProfilePropertyId(),
@@ -907,7 +1051,7 @@ abstract class BaseSchemaPropertyPropertyHistory extends BaseObject  implements 
 	 */
 	public function setByName($name, $value, $type = BasePeer::TYPE_PHPNAME)
 	{
-		$pos = SchemaPropertyPropertyHistoryPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
+		$pos = SchemaPropertyElementHistoryPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
 		return $this->setByPosition($pos, $value);
 	}
 
@@ -935,7 +1079,7 @@ abstract class BaseSchemaPropertyPropertyHistory extends BaseObject  implements 
 				$this->setAction($value);
 				break;
 			case 4:
-				$this->setSchemaPropertyPropertyId($value);
+				$this->setSchemaPropertyElementId($value);
 				break;
 			case 5:
 				$this->setSchemaPropertyId($value);
@@ -979,13 +1123,13 @@ abstract class BaseSchemaPropertyPropertyHistory extends BaseObject  implements 
 	 */
 	public function fromArray($arr, $keyType = BasePeer::TYPE_PHPNAME)
 	{
-		$keys = SchemaPropertyPropertyHistoryPeer::getFieldNames($keyType);
+		$keys = SchemaPropertyElementHistoryPeer::getFieldNames($keyType);
 
 		if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
 		if (array_key_exists($keys[1], $arr)) $this->setCreatedAt($arr[$keys[1]]);
 		if (array_key_exists($keys[2], $arr)) $this->setCreatedUserId($arr[$keys[2]]);
 		if (array_key_exists($keys[3], $arr)) $this->setAction($arr[$keys[3]]);
-		if (array_key_exists($keys[4], $arr)) $this->setSchemaPropertyPropertyId($arr[$keys[4]]);
+		if (array_key_exists($keys[4], $arr)) $this->setSchemaPropertyElementId($arr[$keys[4]]);
 		if (array_key_exists($keys[5], $arr)) $this->setSchemaPropertyId($arr[$keys[5]]);
 		if (array_key_exists($keys[6], $arr)) $this->setSchemaId($arr[$keys[6]]);
 		if (array_key_exists($keys[7], $arr)) $this->setProfilePropertyId($arr[$keys[7]]);
@@ -1002,20 +1146,20 @@ abstract class BaseSchemaPropertyPropertyHistory extends BaseObject  implements 
 	 */
 	public function buildCriteria()
 	{
-		$criteria = new Criteria(SchemaPropertyPropertyHistoryPeer::DATABASE_NAME);
+		$criteria = new Criteria(SchemaPropertyElementHistoryPeer::DATABASE_NAME);
 
-		if ($this->isColumnModified(SchemaPropertyPropertyHistoryPeer::ID)) $criteria->add(SchemaPropertyPropertyHistoryPeer::ID, $this->id);
-		if ($this->isColumnModified(SchemaPropertyPropertyHistoryPeer::CREATED_AT)) $criteria->add(SchemaPropertyPropertyHistoryPeer::CREATED_AT, $this->created_at);
-		if ($this->isColumnModified(SchemaPropertyPropertyHistoryPeer::CREATED_USER_ID)) $criteria->add(SchemaPropertyPropertyHistoryPeer::CREATED_USER_ID, $this->created_user_id);
-		if ($this->isColumnModified(SchemaPropertyPropertyHistoryPeer::ACTION)) $criteria->add(SchemaPropertyPropertyHistoryPeer::ACTION, $this->action);
-		if ($this->isColumnModified(SchemaPropertyPropertyHistoryPeer::SCHEMA_PROPERTY_PROPERTY_ID)) $criteria->add(SchemaPropertyPropertyHistoryPeer::SCHEMA_PROPERTY_PROPERTY_ID, $this->schema_property_property_id);
-		if ($this->isColumnModified(SchemaPropertyPropertyHistoryPeer::SCHEMA_PROPERTY_ID)) $criteria->add(SchemaPropertyPropertyHistoryPeer::SCHEMA_PROPERTY_ID, $this->schema_property_id);
-		if ($this->isColumnModified(SchemaPropertyPropertyHistoryPeer::SCHEMA_ID)) $criteria->add(SchemaPropertyPropertyHistoryPeer::SCHEMA_ID, $this->schema_id);
-		if ($this->isColumnModified(SchemaPropertyPropertyHistoryPeer::PROFILE_PROPERTY_ID)) $criteria->add(SchemaPropertyPropertyHistoryPeer::PROFILE_PROPERTY_ID, $this->profile_property_id);
-		if ($this->isColumnModified(SchemaPropertyPropertyHistoryPeer::OBJECT)) $criteria->add(SchemaPropertyPropertyHistoryPeer::OBJECT, $this->object);
-		if ($this->isColumnModified(SchemaPropertyPropertyHistoryPeer::RELATED_SCHEMA_PROPERTY_ID)) $criteria->add(SchemaPropertyPropertyHistoryPeer::RELATED_SCHEMA_PROPERTY_ID, $this->related_schema_property_id);
-		if ($this->isColumnModified(SchemaPropertyPropertyHistoryPeer::LANGUAGE)) $criteria->add(SchemaPropertyPropertyHistoryPeer::LANGUAGE, $this->language);
-		if ($this->isColumnModified(SchemaPropertyPropertyHistoryPeer::STATUS_ID)) $criteria->add(SchemaPropertyPropertyHistoryPeer::STATUS_ID, $this->status_id);
+		if ($this->isColumnModified(SchemaPropertyElementHistoryPeer::ID)) $criteria->add(SchemaPropertyElementHistoryPeer::ID, $this->id);
+		if ($this->isColumnModified(SchemaPropertyElementHistoryPeer::CREATED_AT)) $criteria->add(SchemaPropertyElementHistoryPeer::CREATED_AT, $this->created_at);
+		if ($this->isColumnModified(SchemaPropertyElementHistoryPeer::CREATED_USER_ID)) $criteria->add(SchemaPropertyElementHistoryPeer::CREATED_USER_ID, $this->created_user_id);
+		if ($this->isColumnModified(SchemaPropertyElementHistoryPeer::ACTION)) $criteria->add(SchemaPropertyElementHistoryPeer::ACTION, $this->action);
+		if ($this->isColumnModified(SchemaPropertyElementHistoryPeer::SCHEMA_PROPERTY_ELEMENT_ID)) $criteria->add(SchemaPropertyElementHistoryPeer::SCHEMA_PROPERTY_ELEMENT_ID, $this->schema_property_element_id);
+		if ($this->isColumnModified(SchemaPropertyElementHistoryPeer::SCHEMA_PROPERTY_ID)) $criteria->add(SchemaPropertyElementHistoryPeer::SCHEMA_PROPERTY_ID, $this->schema_property_id);
+		if ($this->isColumnModified(SchemaPropertyElementHistoryPeer::SCHEMA_ID)) $criteria->add(SchemaPropertyElementHistoryPeer::SCHEMA_ID, $this->schema_id);
+		if ($this->isColumnModified(SchemaPropertyElementHistoryPeer::PROFILE_PROPERTY_ID)) $criteria->add(SchemaPropertyElementHistoryPeer::PROFILE_PROPERTY_ID, $this->profile_property_id);
+		if ($this->isColumnModified(SchemaPropertyElementHistoryPeer::OBJECT)) $criteria->add(SchemaPropertyElementHistoryPeer::OBJECT, $this->object);
+		if ($this->isColumnModified(SchemaPropertyElementHistoryPeer::RELATED_SCHEMA_PROPERTY_ID)) $criteria->add(SchemaPropertyElementHistoryPeer::RELATED_SCHEMA_PROPERTY_ID, $this->related_schema_property_id);
+		if ($this->isColumnModified(SchemaPropertyElementHistoryPeer::LANGUAGE)) $criteria->add(SchemaPropertyElementHistoryPeer::LANGUAGE, $this->language);
+		if ($this->isColumnModified(SchemaPropertyElementHistoryPeer::STATUS_ID)) $criteria->add(SchemaPropertyElementHistoryPeer::STATUS_ID, $this->status_id);
 
 		return $criteria;
 	}
@@ -1030,9 +1174,9 @@ abstract class BaseSchemaPropertyPropertyHistory extends BaseObject  implements 
 	 */
 	public function buildPkeyCriteria()
 	{
-		$criteria = new Criteria(SchemaPropertyPropertyHistoryPeer::DATABASE_NAME);
+		$criteria = new Criteria(SchemaPropertyElementHistoryPeer::DATABASE_NAME);
 
-		$criteria->add(SchemaPropertyPropertyHistoryPeer::ID, $this->id);
+		$criteria->add(SchemaPropertyElementHistoryPeer::ID, $this->id);
 
 		return $criteria;
 	}
@@ -1063,7 +1207,7 @@ abstract class BaseSchemaPropertyPropertyHistory extends BaseObject  implements 
 	 * If desired, this method can also make copies of all associated (fkey referrers)
 	 * objects.
 	 *
-	 * @param      object $copyObj An object of SchemaPropertyPropertyHistory (or compatible) type.
+	 * @param      object $copyObj An object of SchemaPropertyElementHistory (or compatible) type.
 	 * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
 	 * @throws     PropelException
 	 */
@@ -1076,7 +1220,7 @@ abstract class BaseSchemaPropertyPropertyHistory extends BaseObject  implements 
 
 		$copyObj->setAction($this->action);
 
-		$copyObj->setSchemaPropertyPropertyId($this->schema_property_property_id);
+		$copyObj->setSchemaPropertyElementId($this->schema_property_element_id);
 
 		$copyObj->setSchemaPropertyId($this->schema_property_id);
 
@@ -1108,7 +1252,7 @@ abstract class BaseSchemaPropertyPropertyHistory extends BaseObject  implements 
 	 * objects.
 	 *
 	 * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-	 * @return     SchemaPropertyPropertyHistory Clone of current object.
+	 * @return     SchemaPropertyElementHistory Clone of current object.
 	 * @throws     PropelException
 	 */
 	public function copy($deepCopy = false)
@@ -1127,22 +1271,322 @@ abstract class BaseSchemaPropertyPropertyHistory extends BaseObject  implements 
 	 * same instance for all member of this class. The method could therefore
 	 * be static, but this would prevent one from overriding the behavior.
 	 *
-	 * @return     SchemaPropertyPropertyHistoryPeer
+	 * @return     SchemaPropertyElementHistoryPeer
 	 */
 	public function getPeer()
 	{
 		if (self::$peer === null) {
-			self::$peer = new SchemaPropertyPropertyHistoryPeer();
+			self::$peer = new SchemaPropertyElementHistoryPeer();
 		}
 		return self::$peer;
+	}
+
+	/**
+	 * Declares an association between this object and a User object.
+	 *
+	 * @param      User $v
+	 * @return     void
+	 * @throws     PropelException
+	 */
+	public function setUser($v)
+	{
+
+
+		if ($v === null) {
+			$this->setCreatedUserId(NULL);
+		} else {
+			$this->setCreatedUserId($v->getId());
+		}
+
+
+		$this->aUser = $v;
+	}
+
+
+	/**
+	 * Get the associated User object
+	 *
+	 * @param      Connection Optional Connection object.
+	 * @return     User The associated User object.
+	 * @throws     PropelException
+	 */
+	public function getUser($con = null)
+	{
+		if ($this->aUser === null && ($this->created_user_id !== null)) {
+			// include the related Peer class
+			include_once 'lib/model/om/BaseUserPeer.php';
+
+			$this->aUser = UserPeer::retrieveByPK($this->created_user_id, $con);
+
+			/* The following can be used instead of the line above to
+			   guarantee the related object contains a reference
+			   to this object, but this level of coupling
+			   may be undesirable in many circumstances.
+			   As it can lead to a db query with many results that may
+			   never be used.
+			   $obj = UserPeer::retrieveByPK($this->created_user_id, $con);
+			   $obj->addUsers($this);
+			 */
+		}
+		return $this->aUser;
+	}
+
+	/**
+	 * Declares an association between this object and a SchemaPropertyElement object.
+	 *
+	 * @param      SchemaPropertyElement $v
+	 * @return     void
+	 * @throws     PropelException
+	 */
+	public function setSchemaPropertyElement($v)
+	{
+
+
+		if ($v === null) {
+			$this->setSchemaPropertyElementId(NULL);
+		} else {
+			$this->setSchemaPropertyElementId($v->getId());
+		}
+
+
+		$this->aSchemaPropertyElement = $v;
+	}
+
+
+	/**
+	 * Get the associated SchemaPropertyElement object
+	 *
+	 * @param      Connection Optional Connection object.
+	 * @return     SchemaPropertyElement The associated SchemaPropertyElement object.
+	 * @throws     PropelException
+	 */
+	public function getSchemaPropertyElement($con = null)
+	{
+		if ($this->aSchemaPropertyElement === null && ($this->schema_property_element_id !== null)) {
+			// include the related Peer class
+			include_once 'lib/model/om/BaseSchemaPropertyElementPeer.php';
+
+			$this->aSchemaPropertyElement = SchemaPropertyElementPeer::retrieveByPK($this->schema_property_element_id, $con);
+
+			/* The following can be used instead of the line above to
+			   guarantee the related object contains a reference
+			   to this object, but this level of coupling
+			   may be undesirable in many circumstances.
+			   As it can lead to a db query with many results that may
+			   never be used.
+			   $obj = SchemaPropertyElementPeer::retrieveByPK($this->schema_property_element_id, $con);
+			   $obj->addSchemaPropertyElements($this);
+			 */
+		}
+		return $this->aSchemaPropertyElement;
+	}
+
+	/**
+	 * Declares an association between this object and a SchemaProperty object.
+	 *
+	 * @param      SchemaProperty $v
+	 * @return     void
+	 * @throws     PropelException
+	 */
+	public function setSchemaPropertyRelatedBySchemaPropertyId($v)
+	{
+
+
+		if ($v === null) {
+			$this->setSchemaPropertyId(NULL);
+		} else {
+			$this->setSchemaPropertyId($v->getId());
+		}
+
+
+		$this->aSchemaPropertyRelatedBySchemaPropertyId = $v;
+	}
+
+
+	/**
+	 * Get the associated SchemaProperty object
+	 *
+	 * @param      Connection Optional Connection object.
+	 * @return     SchemaProperty The associated SchemaProperty object.
+	 * @throws     PropelException
+	 */
+	public function getSchemaPropertyRelatedBySchemaPropertyId($con = null)
+	{
+		if ($this->aSchemaPropertyRelatedBySchemaPropertyId === null && ($this->schema_property_id !== null)) {
+			// include the related Peer class
+			include_once 'lib/model/om/BaseSchemaPropertyPeer.php';
+
+			$this->aSchemaPropertyRelatedBySchemaPropertyId = SchemaPropertyPeer::retrieveByPK($this->schema_property_id, $con);
+
+			/* The following can be used instead of the line above to
+			   guarantee the related object contains a reference
+			   to this object, but this level of coupling
+			   may be undesirable in many circumstances.
+			   As it can lead to a db query with many results that may
+			   never be used.
+			   $obj = SchemaPropertyPeer::retrieveByPK($this->schema_property_id, $con);
+			   $obj->addSchemaPropertysRelatedBySchemaPropertyId($this);
+			 */
+		}
+		return $this->aSchemaPropertyRelatedBySchemaPropertyId;
+	}
+
+	/**
+	 * Declares an association between this object and a Schema object.
+	 *
+	 * @param      Schema $v
+	 * @return     void
+	 * @throws     PropelException
+	 */
+	public function setSchema($v)
+	{
+
+
+		if ($v === null) {
+			$this->setSchemaId(NULL);
+		} else {
+			$this->setSchemaId($v->getId());
+		}
+
+
+		$this->aSchema = $v;
+	}
+
+
+	/**
+	 * Get the associated Schema object
+	 *
+	 * @param      Connection Optional Connection object.
+	 * @return     Schema The associated Schema object.
+	 * @throws     PropelException
+	 */
+	public function getSchema($con = null)
+	{
+		if ($this->aSchema === null && ($this->schema_id !== null)) {
+			// include the related Peer class
+			include_once 'lib/model/om/BaseSchemaPeer.php';
+
+			$this->aSchema = SchemaPeer::retrieveByPK($this->schema_id, $con);
+
+			/* The following can be used instead of the line above to
+			   guarantee the related object contains a reference
+			   to this object, but this level of coupling
+			   may be undesirable in many circumstances.
+			   As it can lead to a db query with many results that may
+			   never be used.
+			   $obj = SchemaPeer::retrieveByPK($this->schema_id, $con);
+			   $obj->addSchemas($this);
+			 */
+		}
+		return $this->aSchema;
+	}
+
+	/**
+	 * Declares an association between this object and a SchemaProperty object.
+	 *
+	 * @param      SchemaProperty $v
+	 * @return     void
+	 * @throws     PropelException
+	 */
+	public function setSchemaPropertyRelatedByRelatedSchemaPropertyId($v)
+	{
+
+
+		if ($v === null) {
+			$this->setRelatedSchemaPropertyId(NULL);
+		} else {
+			$this->setRelatedSchemaPropertyId($v->getId());
+		}
+
+
+		$this->aSchemaPropertyRelatedByRelatedSchemaPropertyId = $v;
+	}
+
+
+	/**
+	 * Get the associated SchemaProperty object
+	 *
+	 * @param      Connection Optional Connection object.
+	 * @return     SchemaProperty The associated SchemaProperty object.
+	 * @throws     PropelException
+	 */
+	public function getSchemaPropertyRelatedByRelatedSchemaPropertyId($con = null)
+	{
+		if ($this->aSchemaPropertyRelatedByRelatedSchemaPropertyId === null && ($this->related_schema_property_id !== null)) {
+			// include the related Peer class
+			include_once 'lib/model/om/BaseSchemaPropertyPeer.php';
+
+			$this->aSchemaPropertyRelatedByRelatedSchemaPropertyId = SchemaPropertyPeer::retrieveByPK($this->related_schema_property_id, $con);
+
+			/* The following can be used instead of the line above to
+			   guarantee the related object contains a reference
+			   to this object, but this level of coupling
+			   may be undesirable in many circumstances.
+			   As it can lead to a db query with many results that may
+			   never be used.
+			   $obj = SchemaPropertyPeer::retrieveByPK($this->related_schema_property_id, $con);
+			   $obj->addSchemaPropertysRelatedByRelatedSchemaPropertyId($this);
+			 */
+		}
+		return $this->aSchemaPropertyRelatedByRelatedSchemaPropertyId;
+	}
+
+	/**
+	 * Declares an association between this object and a Status object.
+	 *
+	 * @param      Status $v
+	 * @return     void
+	 * @throws     PropelException
+	 */
+	public function setStatus($v)
+	{
+
+
+		if ($v === null) {
+			$this->setStatusId('1');
+		} else {
+			$this->setStatusId($v->getId());
+		}
+
+
+		$this->aStatus = $v;
+	}
+
+
+	/**
+	 * Get the associated Status object
+	 *
+	 * @param      Connection Optional Connection object.
+	 * @return     Status The associated Status object.
+	 * @throws     PropelException
+	 */
+	public function getStatus($con = null)
+	{
+		if ($this->aStatus === null && ($this->status_id !== null)) {
+			// include the related Peer class
+			include_once 'lib/model/om/BaseStatusPeer.php';
+
+			$this->aStatus = StatusPeer::retrieveByPK($this->status_id, $con);
+
+			/* The following can be used instead of the line above to
+			   guarantee the related object contains a reference
+			   to this object, but this level of coupling
+			   may be undesirable in many circumstances.
+			   As it can lead to a db query with many results that may
+			   never be used.
+			   $obj = StatusPeer::retrieveByPK($this->status_id, $con);
+			   $obj->addStatuss($this);
+			 */
+		}
+		return $this->aStatus;
 	}
 
 
   public function __call($method, $arguments)
   {
-    if (!$callable = sfMixer::getCallable('BaseSchemaPropertyPropertyHistory:'.$method))
+    if (!$callable = sfMixer::getCallable('BaseSchemaPropertyElementHistory:'.$method))
     {
-      throw new sfException(sprintf('Call to undefined method BaseSchemaPropertyPropertyHistory::%s', $method));
+      throw new sfException(sprintf('Call to undefined method BaseSchemaPropertyElementHistory::%s', $method));
     }
 
     array_unshift($arguments, $this);
@@ -1151,4 +1595,4 @@ abstract class BaseSchemaPropertyPropertyHistory extends BaseObject  implements 
   }
 
 
-} // BaseSchemaPropertyPropertyHistory
+} // BaseSchemaPropertyElementHistory

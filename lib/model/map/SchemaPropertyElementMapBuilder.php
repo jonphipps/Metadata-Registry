@@ -2,7 +2,7 @@
 
 
 /**
- * This class adds structure of 'reg_schema_property_property' table to 'propel' DatabaseMap object.
+ * This class adds structure of 'reg_schema_property_element' table to 'propel' DatabaseMap object.
  *
  *
  *
@@ -13,12 +13,12 @@
  *
  * @package    lib.model.map
  */
-class SchemaPropertyPropertyMapBuilder {
+class SchemaPropertyElementMapBuilder {
 
 	/**
 	 * The (dot-path) name of this class
 	 */
-	const CLASS_NAME = 'lib.model.map.SchemaPropertyPropertyMapBuilder';
+	const CLASS_NAME = 'lib.model.map.SchemaPropertyElementMapBuilder';
 
 	/**
 	 * The database map.
@@ -56,8 +56,8 @@ class SchemaPropertyPropertyMapBuilder {
 	{
 		$this->dbMap = Propel::getDatabaseMap('propel');
 
-		$tMap = $this->dbMap->addTable('reg_schema_property_property');
-		$tMap->setPhpName('SchemaPropertyProperty');
+		$tMap = $this->dbMap->addTable('reg_schema_property_element');
+		$tMap->setPhpName('SchemaPropertyElement');
 
 		$tMap->setUseIdGenerator(true);
 
@@ -69,7 +69,7 @@ class SchemaPropertyPropertyMapBuilder {
 
 		$tMap->addColumn('DELETED_AT', 'DeletedAt', 'int', CreoleTypes::TIMESTAMP, false, null);
 
-		$tMap->addForeignKey('CREATED_USER_ID', 'CreatedUserId', 'int', CreoleTypes::INTEGER, 'reg_vocabulary', 'ID', false, null);
+		$tMap->addForeignKey('CREATED_USER_ID', 'CreatedUserId', 'int', CreoleTypes::INTEGER, 'reg_user', 'ID', false, null);
 
 		$tMap->addForeignKey('UPDATED_USER_ID', 'UpdatedUserId', 'int', CreoleTypes::INTEGER, 'reg_user', 'ID', false, null);
 
@@ -77,9 +77,11 @@ class SchemaPropertyPropertyMapBuilder {
 
 		$tMap->addColumn('PROFILE_PROPERTY_ID', 'ProfilePropertyId', 'int', CreoleTypes::INTEGER, true, null);
 
+		$tMap->addColumn('IS_SCHEMA_PROPERTY', 'IsSchemaProperty', 'boolean', CreoleTypes::BOOLEAN, false, null);
+
 		$tMap->addColumn('OBJECT', 'Object', 'string', CreoleTypes::LONGVARCHAR, true, null);
 
-		$tMap->addForeignKey('RELATED_SCHEMA_PROPERTY_ID', 'RelatedSchemaPropertyId', 'int', CreoleTypes::INTEGER, 'reg_schema_property_property', 'ID', false, null);
+		$tMap->addForeignKey('RELATED_SCHEMA_PROPERTY_ID', 'RelatedSchemaPropertyId', 'int', CreoleTypes::INTEGER, 'reg_schema_property_element', 'ID', false, null);
 
 		$tMap->addColumn('LANGUAGE', 'Language', 'string', CreoleTypes::CHAR, false, 6);
 
@@ -87,4 +89,4 @@ class SchemaPropertyPropertyMapBuilder {
 
 	} // doBuild()
 
-} // SchemaPropertyPropertyMapBuilder
+} // SchemaPropertyElementMapBuilder
