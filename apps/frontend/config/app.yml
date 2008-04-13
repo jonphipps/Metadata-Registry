@@ -3,3 +3,4 @@ all:
   title_prefix:     "The Registry! :: "
   base_domain:      "http://metadataregistry.org/uri/"
   default_language: en
+  default_status_id: 1
