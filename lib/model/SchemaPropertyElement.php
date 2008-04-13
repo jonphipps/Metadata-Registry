@@ -15,6 +15,28 @@ class SchemaPropertyElement extends BaseSchemaPropertyElement
   * @return return_type
   * @param  var_type $var
   */
+  public function __toString()
+  {
+    /**
+    * @todo $fields needs to come from an application profile for schemas, or the vocabulary
+    **/
+    $fields = array(
+    1 => 'name',
+    2 => 'label',
+    3 => 'definition',
+    4 => 'type',
+    5 => 'comment',
+    6 => 'related_property',
+    7 => 'note');
+
+    return $fields[$this->getProfilePropertyId()];
+  }
+  /**
+  * description
+  *
+  * @return return_type
+  * @param  var_type $var
+  */
   public function save($con = null)
   {
     if ($this->isModified())
