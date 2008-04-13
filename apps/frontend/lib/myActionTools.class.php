@@ -17,6 +17,44 @@ class myActionTools
   }
 
   /**
+  * require that there be a schema
+  *
+  * returns a 404 if no schema has already been selected
+  * Peforms a redirect if one has but the param has not been added to the request
+  *
+  * @param  string $module The calling module
+  * @param  string $action The calling action
+  */
+  public static function requireSchemaFilter()
+  {
+    $actionInstance = sfContext::getInstance()->getActionStack()->getLastEntry()->getActionInstance();
+    /** @var Schema **/
+    $schema = self::findCurrentSchema();
+    /* @var sfAction */
+    $actionInstance->forward404Unless($schema,'No schema has been selected.');
+
+    //check to see if there's the correct request parameter
+    $schemaId = $schema->getId();
+    $requestId = $actionInstance->getRequestParameter('schema_id','');
+
+    if ($schemaId && !strlen($requestId))
+    {
+      //let's add the correct parameter
+      //and add in any other params and redirect
+      $params = sfContext::getInstance()->getRequest()->getParameterHolder()->getAll() + array('schema_id' => $schemaId);
+      $actionInstance->redirect($params);
+    }
+    elseif ($schemaId != $requestId)
+    {
+      /**
+      * @todo We really should reset the schema here if the request ID and the stored ID don't match
+      **/
+    }
+
+    return;
+  }
+
+  /**
   * require that there be a vocabulary
   *
   * returns a 404 if no vocabulary has already been selected
@@ -312,12 +350,12 @@ class myActionTools
     //schema_id's in the query string
     if ($schemaId)
     {
-      self::updateAdminFilters($attributeHolder, 'schema_id', $schemaId, 'concept');
+      self::updateAdminFilters($attributeHolder, 'schema_id', $schemaId, 'schema');
     }
 
     //schema_id's not in the query string, but it's in a filter
     //note: this will still return the correct value if it's in the query string
-    $schemaId = $attributeHolder->get('schema_id','','sf_admin/concept/filters');
+    $schemaId = $attributeHolder->get('schema_id','','sf_admin/schema/filters');
 
     $schema = $user->getCurrentSchema();
 
