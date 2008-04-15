@@ -70,7 +70,22 @@ class <?php echo $this->getGeneratedModuleName() ?>Actions extends sfActions
   {
     if (!$this-><?php echo $this->getSingularName() ?>)
     {
+<?php $showPeer = $this->getParameterValue('show.peer_method'); ?>
+<?php if ($showPeer): ?>
+      $c = new Criteria();
+      $c->add(<?php echo $this->getClassName() ?>Peer::ID, <?php echo $this->getRetrieveByPkParamsForAction(49) ?>);
+      $<?php echo $this->getSingularName() ?> = <?php echo $this->getClassName() ?>Peer::<?php echo $showPeer ?>($c);
+      if (is_array($<?php echo $this->getSingularName() ?>))
+      {
+        $this-><?php echo $this->getSingularName() ?> = $<?php echo $this->getSingularName() ?>[0];
+      }
+      else
+      {
+        $this-><?php echo $this->getSingularName() ?> = $<?php echo $this->getSingularName() ?>;
+      }
+<?php else: ?>
       $this-><?php echo $this->getSingularName() ?> = <?php echo $this->getClassName() ?>Peer::retrieveByPk(<?php echo $this->getRetrieveByPkParamsForAction(49) ?>);
+<?php endif ?>
     }
     $this->labels = $this->getLabels('show');
 
