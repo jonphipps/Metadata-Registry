@@ -98,4 +98,26 @@ class Schema extends BaseSchema
 
   } // getUpdatedUser
 
+  /**
+  * get the schema fields array (field_id => field name)
+  *
+  * @return array The fields
+  */
+  public static function getProfileFields()
+  {
+    /**
+    * @todo $fields needs to come from an application profile for schemas, or the vocabulary
+    **/
+    $fields = array(
+    1 => 'name',
+    2 => 'label',
+    3 => 'definition',
+    4 => 'type',
+    5 => 'comment',
+    6 => 'related_property',
+    7 => 'note');
+
+    return $fields;
+  }
+
 }
