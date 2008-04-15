@@ -1,0 +1,1 @@
+<?php echo format_language($schema_property_element_history->getLanguage()) ?>

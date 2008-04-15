@@ -47,7 +47,7 @@
   //refine which tab is shown based on the id presented with the action
   //this could probably be improved by adding another node to the tabmap array
   $filter = '';
-  foreach (array('agent','vocabulary','concept','property','user','schema','schema_property','schema_property_element') as $value)
+  foreach (array('agent','vocabulary','concept','property','user','schema_property_element','schema_property','schema') as $value)
   {
     $paramId = $sf_params->get($value . "_id");
     if ($paramId)
@@ -69,6 +69,7 @@
   $tabMap = array();
 
   $tabMap['history']      ['show'] = array('tab' => 'historydetail',  'title' => 'Show History Detail');
+  $tabMap['schemahistory']['show'] = array('tab' => 'schemahistorydetail', 'title' => 'Show History Detail');
 
   $tabMap['user']         ['list'] = array('tab' => 'userlist',       'title' => 'List Members');
   $tabMap['user']         ['show'] = array('tab' => 'user',           'title' => 'Show Detail');
@@ -115,8 +116,8 @@
   $tabMap['schema']       ['show'] = array('tab' => 'schema',         'title' => 'Show Detail');
   if ('schema' == $filter)
   {
-    $tabMap['history']    ['list'] = array('tab' => 'schema',         'title' => 'History of Changes');
-    $tabMap['version']    ['list'] = array('tab' => 'schema',         'title' => 'List Versions');
+    $tabMap['schemahistory']    ['list'] = array('tab' => 'schema',   'title' => 'History of Changes');
+    $tabMap['schemaversion']    ['list'] = array('tab' => 'schema',   'title' => 'List Versions');
     $tabMap['schemauser'] ['list'] = array('tab' => 'schema',         'title' => 'List Maintainers');
   }
 
@@ -125,15 +126,15 @@
   if ('schema_property' == $filter)
   {
     $tabMap['schemapropel']['list'] = array('tab' => 'schemaprop',    'title' => 'List Properties');
-    $tabMap['history']     ['list'] = array('tab' => 'schemaprop',    'title' => 'History of Changes');
-    $tabMap['version']     ['list'] = array('tab' => 'schemaprop',    'title' => 'List Versions');
+    $tabMap['schemahistory']     ['list'] = array('tab' => 'schemaprop', 'title' => 'History of Changes');
+    $tabMap['schemaversion']     ['list'] = array('tab' => 'schemaprop', 'title' => 'List Versions');
   }
 
   $tabMap['schemapropel']['show'] = array('tab' => 'schemapropel',      'title' => 'Show Detail');
-  if ('schemapropel' == $filter)
+  if ('schema_property_element' == $filter)
   {
-    $tabMap['history']    ['list'] = array('tab' => 'schemapropel',    'title' => 'History of Changes');
-    $tabMap['version']    ['list'] = array('tab' => 'schemapropel',    'title' => 'List Versions');
+    $tabMap['schemahistory']    ['list'] = array('tab' => 'schemapropel',    'title' => 'History of Changes');
+    $tabMap['schemaversion']    ['list'] = array('tab' => 'schemapropel',    'title' => 'List Versions');
   }
 
   $tabMap['agentuser']  ['show'] = array('tab' => 'agentuser',        'title' => 'Show Detail');
@@ -163,6 +164,7 @@
   $showSchemaUserBc = false;
   $showSchemaPropBc = false;
   $showSchemaPropelBc = false;
+  $showSchemaHistoryBc = false;
   $showConceptBc = false;
   $showconceptpropBc = false;
   $showAgentBc = false;
@@ -306,7 +308,7 @@
         $id = ('show' == $action) ? $sf_params->get('id') : $paramId;
         if ($id)
         {
-          $schema_property_element = SchemaPropertyElement::retrieveByPK($id);
+          $schema_property_element = SchemaPropertyElementPeer::retrieveByPK($id);
         }
       }
       if (!isset($schema_property))
@@ -324,6 +326,43 @@
         }
       }
       $objectId = $schema_property_element->getId();
+      break;
+    case 'schemahistorydetail':
+      $showBc = true;
+      $showSchemaBc = true;
+      $showSchemaPropBc = true;
+      $showSchemaPropelBc = true;
+      $showSchemaHistoryBc = true;
+      if (!isset($history))
+      {
+        $id = $sf_params->get('id');
+        if ($id)
+        {
+          $history = SchemaPropertyElementHistoryPeer::retrieveByPK($id);
+        }
+      }
+      if (!isset($schema_property_element))
+      {
+        if ($history)
+        {
+          $schema_property_element = $history->getSchemaPropertyElement();
+        }
+      }
+      if (!isset($schema_property))
+      {
+        if ($schema_property_element)
+        {
+          $schema_property = $schema_property_element->getSchemaProperty();
+        }
+      }
+      if (!isset($schema))
+      {
+        if ($schema_property)
+        {
+          $schema = $schema_property->getSchema();
+        }
+      }
+      $tab = false;
       break;
     case 'vocabuser':
       $showBc = true;
@@ -557,7 +596,7 @@
 
       if ($schema)
       {
-        if ($showSchemaPropBc || $showHistoryBc || $showVocabUserBc || $showVersionBc)
+        if ($showSchemaPropBc || $showSchemaHistoryBc || $showVocabUserBc || $showVersionBc)
         {
           echo link_to($schema->getName(), 'schema/show?id=' . $schema->getId());
         }
@@ -576,7 +615,7 @@
       if ($schema_property)
       {
         echo '<br />&nbsp;&nbsp;' . link_to('Properties:', '/schemaprop/list?schema_id=' . $schema_property->getSchemaId()) . '&nbsp;&nbsp;';
-        if ($showSchemaPropelBc || $showHistoryBc)
+        if ($showSchemaPropelBc || $showSchemaHistoryBc)
         {
           echo link_to($schema_property, '/schemaprop/show?id=' . $schema_property->getId());
         }
@@ -595,7 +634,7 @@
       if (isset($schema_property_element))
       {
         echo "<br />&nbsp;&nbsp;&nbsp;&nbsp;" . link_to('Elements:', '/schemapropel/list?schema_property_id=' . $schema_property->getId()) . '&nbsp;';
-        if ($showHistoryBc)
+        if ($showSchemaHistoryBc)
         {
           echo link_to($schema_property_element, '/schemapropel/show?id=' . $schema_property_element->getId());
         }
@@ -606,6 +645,21 @@
 
         $title .= ' :: ' . __('%%schemapropel%%',array('%%schemapropel%%' => $schema_property_element));
       }
+    }
+
+    if ($showSchemaHistoryBc)
+    {
+      $spaces = '';
+      for($i=1; $i<=$spaceCount; $i++)
+      {
+        $spaces .= "&nbsp;&nbsp;";
+      }
+      if ($schema)
+      {
+        $id = $schema->getId();
+      }
+     echo "<br />$spaces" . link_to('History:', '/schemahistory/list?schema_id=' . $id) . '&nbsp;';
+     echo 'History detail';
     }
 
     if ($showAgentBc)
