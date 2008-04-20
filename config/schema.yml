@@ -667,7 +667,7 @@ propel:
       required: true
     related_schema_property_id:
       type: INTEGER
-      foreignTable: reg_schema_property_element
+      foreignTable: reg_schema_property
       foreignReference: id
       onDelete: RESTRICT
       onUpdate: RESTRICT
