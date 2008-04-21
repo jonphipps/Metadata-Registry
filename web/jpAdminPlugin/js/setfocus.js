@@ -1,7 +1,7 @@
 var formUtil = new Object;
 formUtil.focusOnFirst = function(formId)
 {
-   Event.observe(window, 'load', function() 
+   Event.observe(window, 'load', function()
    {
       var theForm = (typeof formId == "undefined") ? "sf_admin_edit_form" : formId;
       var f = $(theForm);
@@ -11,13 +11,13 @@ formUtil.focusOnFirst = function(formId)
          {
             var e = f.elements[i];
             var tag = e.tagName;
-            if (e.type != "hidden" && tag != "FIELDSET")
+            if (e.type != "hidden" && !e.disabled && tag != "FIELDSET")
             {
                e.focus();
                return;
             }
          }
-      }  
+      }
    });
 }
 
