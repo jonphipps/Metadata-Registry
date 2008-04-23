@@ -32,7 +32,7 @@
 <?php if (in_array($column->getName(), $hides)) continue ?>
 <?php $condition = $this->getParameterValue('show.fields.'.$column->getName().'.condition') ?>
 <?php if ($condition): ?>
-    [?php if (<?php echo $condition ?>): ?]
+[?php if (<?php echo $condition ?>): ?]
 <?php endif; ?>
 <?php $credentials = $this->getParameterValue('show.fields.'.$column->getName().'.credentials') ?>
 <?php if ($credentials): $credentials = str_replace("\n", ' ', var_export($credentials, true)) ?>
@@ -57,10 +57,10 @@
   </div>
 </div>
 <?php if ($credentials): ?>
-    [?php endif; ?]
+[?php endif; ?]
 <?php endif; ?>
 <?php if ($condition): ?>
-    [?php endif; ?]
+[?php endif; ?]
 <?php endif; ?>
 
 <?php endforeach; ?>
