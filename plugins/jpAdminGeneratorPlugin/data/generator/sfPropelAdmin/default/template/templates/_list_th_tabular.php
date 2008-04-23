@@ -1,6 +1,10 @@
 <?php $hides = $this->getParameterValue('list.hide', array()) ?>
 <?php foreach ($this->getColumns('list.display') as $column): ?>
 <?php if (in_array($column->getName(), $hides)) continue ?>
+<?php $condition = $this->getParameterValue('list.fields.'.$column->getName().'.condition') ?>
+<?php if ($condition): ?>
+    [?php if (<?php echo $condition ?>): ?]
+<?php endif; ?>
 <?php $credentials = $this->getParameterValue('list.fields.'.$column->getName().'.credentials') ?>
 <?php if ($credentials): $credentials = str_replace("\n", ' ', var_export($credentials, true)) ?>
     [?php if ($sf_user->hasCredential(<?php echo $credentials ?>)): ?]
@@ -23,6 +27,9 @@
     <?php echo $this->getHelpAsIcon($column, 'list') ?>
   </th>
 <?php if ($credentials): ?>
+    [?php endif; ?]
+<?php endif; ?>
+<?php if ($condition): ?>
     [?php endif; ?]
 <?php endif; ?>
 <?php endforeach; ?>
