@@ -87,6 +87,8 @@ class ConceptPropertyHistoryMapBuilder {
 
 		$tMap->addForeignKey('CREATED_USER_ID', 'CreatedUserId', 'int', CreoleTypes::INTEGER, 'reg_user', 'ID', false, null);
 
+		$tMap->addColumn('CHANGE_NOTE', 'ChangeNote', 'string', CreoleTypes::LONGVARCHAR, false, null);
+
 	} // doBuild()
 
 } // ConceptPropertyHistoryMapBuilder
