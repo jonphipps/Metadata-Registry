@@ -109,6 +109,13 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 	 */
 	protected $created_user_id;
 
+
+	/**
+	 * The value for the change_note field.
+	 * @var        string
+	 */
+	protected $change_note;
+
 	/**
 	 * @var        ConceptProperty
 	 */
@@ -324,6 +331,17 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 	{
 
 		return $this->created_user_id;
+	}
+
+	/**
+	 * Get the [change_note] column value.
+	 * 
+	 * @return     string
+	 */
+	public function getChangeNote()
+	{
+
+		return $this->change_note;
 	}
 
 	/**
@@ -647,6 +665,28 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 	} // setCreatedUserId()
 
 	/**
+	 * Set the value of [change_note] column.
+	 * 
+	 * @param      string $v new value
+	 * @return     void
+	 */
+	public function setChangeNote($v)
+	{
+
+		// Since the native PHP type for this column is string,
+		// we will cast the input to a string (if it is not).
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->change_note !== $v) {
+			$this->change_note = $v;
+			$this->modifiedColumns[] = ConceptPropertyHistoryPeer::CHANGE_NOTE;
+		}
+
+	} // setChangeNote()
+
+	/**
 	 * Hydrates (populates) the object variables with values from the database resultset.
 	 *
 	 * An offset (1-based "start column") is specified so that objects can be hydrated
@@ -689,12 +729,14 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 
 			$this->created_user_id = $rs->getInt($startcol + 12);
 
+			$this->change_note = $rs->getString($startcol + 13);
+
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 13; // 13 = ConceptPropertyHistoryPeer::NUM_COLUMNS - ConceptPropertyHistoryPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 14; // 14 = ConceptPropertyHistoryPeer::NUM_COLUMNS - ConceptPropertyHistoryPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating ConceptPropertyHistory object", $e);
@@ -1092,6 +1134,9 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 			case 12:
 				return $this->getCreatedUserId();
 				break;
+			case 13:
+				return $this->getChangeNote();
+				break;
 			default:
 				return null;
 				break;
@@ -1125,6 +1170,7 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 			$keys[10] => $this->getLanguage(),
 			$keys[11] => $this->getStatusId(),
 			$keys[12] => $this->getCreatedUserId(),
+			$keys[13] => $this->getChangeNote(),
 		);
 		return $result;
 	}
@@ -1195,6 +1241,9 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 			case 12:
 				$this->setCreatedUserId($value);
 				break;
+			case 13:
+				$this->setChangeNote($value);
+				break;
 		} // switch()
 	}
 
@@ -1231,6 +1280,7 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 		if (array_key_exists($keys[10], $arr)) $this->setLanguage($arr[$keys[10]]);
 		if (array_key_exists($keys[11], $arr)) $this->setStatusId($arr[$keys[11]]);
 		if (array_key_exists($keys[12], $arr)) $this->setCreatedUserId($arr[$keys[12]]);
+		if (array_key_exists($keys[13], $arr)) $this->setChangeNote($arr[$keys[13]]);
 	}
 
 	/**
@@ -1255,6 +1305,7 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 		if ($this->isColumnModified(ConceptPropertyHistoryPeer::LANGUAGE)) $criteria->add(ConceptPropertyHistoryPeer::LANGUAGE, $this->language);
 		if ($this->isColumnModified(ConceptPropertyHistoryPeer::STATUS_ID)) $criteria->add(ConceptPropertyHistoryPeer::STATUS_ID, $this->status_id);
 		if ($this->isColumnModified(ConceptPropertyHistoryPeer::CREATED_USER_ID)) $criteria->add(ConceptPropertyHistoryPeer::CREATED_USER_ID, $this->created_user_id);
+		if ($this->isColumnModified(ConceptPropertyHistoryPeer::CHANGE_NOTE)) $criteria->add(ConceptPropertyHistoryPeer::CHANGE_NOTE, $this->change_note);
 
 		return $criteria;
 	}
@@ -1332,6 +1383,8 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 		$copyObj->setStatusId($this->status_id);
 
 		$copyObj->setCreatedUserId($this->created_user_id);
+
+		$copyObj->setChangeNote($this->change_note);
 
 
 		$copyObj->setNew(true);

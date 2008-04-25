@@ -807,4 +807,25 @@ class myUser extends sfBasicSecurityUser
     $this->getCurrentSchema();
   }
 
+ /**
+  * get the current schema property
+  *
+  * @return SchemaProperty
+  */
+  public function getCurrentSchemaProperty()
+  {
+    return $this->getAttribute('schema_property');
+  }
+
+   /**
+  * set the current schema property
+  *
+  * @return boolean the currently set schema property object
+  * @param  SchemaProperty $schema_property
+  */
+  public function setCurrentSchemaProperty(SchemaProperty $schema_property)
+  {
+    return $this->setAttribute('schema_property', $schema_property);
+  }
+
 }

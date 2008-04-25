@@ -1,6 +1,6 @@
 # default values
 all:
   title_prefix:     "The Registry! :: "
-  base_domain:      "http://metadataregistry.org/uri/"
+  base_domain:      "http://registry/uri/"
   default_language: en
   default_status_id: 1

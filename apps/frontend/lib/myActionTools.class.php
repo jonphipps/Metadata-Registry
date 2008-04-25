@@ -54,6 +54,42 @@ class myActionTools
     return;
   }
 
+   /**
+  * require that there be a property
+  *
+  * returns a 404 if no vocabulary has already been selected
+  * Peforms a redirect if one has but the param has not been added to the request
+  *
+  */
+  public static function requireSchemaPropertyFilter()
+  {
+    $actionInstance = sfContext::getInstance()->getActionStack()->getLastEntry()->getActionInstance();
+    /** @var SchemaProperty **/
+    $property = self::findCurrentSchemaProperty();
+    /* @var sfAction */
+    $actionInstance->forward404Unless($property,'No schema property has been selected.');
+
+    //check to see if there's the correct request parameter
+    $propertyId = $property->getId();
+    $requestId = $actionInstance->getRequestParameter('schema_property_id','');
+
+    if ($propertyId && !strlen($requestId))
+    {
+      //let's add the correct parameter
+      //and add in any other params and redirect
+      $params = sfContext::getInstance()->getRequest()->getParameterHolder()->getAll() + array('schema_property_id' => $propertyId);
+      $actionInstance->redirect($params);
+    }
+    elseif ($propertyId != $requestId)
+    {
+      /**
+      * @todo We really should reset the property here if the request ID and the stored ID don't match
+      **/
+    }
+
+    return;
+  }
+
   /**
   * require that there be a vocabulary
   *
@@ -397,6 +433,73 @@ class myActionTools
     $schemaObj = SchemaPeer::retrieveByPK($schemaId);
     sfContext::getInstance()->getUser()->setCurrentSchema($schemaObj);
     return $schemaObj;
+  }
+
+  /**
+  * gets the current schema property object
+  *
+  * @return mixed current property object, or false
+  */
+  public static function findCurrentSchemaProperty()
+  {
+    $instance = sfContext::getInstance();
+    $user = $instance->getUser();
+    $request = $instance->getRequest();
+    $action = $instance->getActionStack()->getLastEntry()->getActionInstance();
+    $attributeHolder = $user->getAttributeHolder();
+
+    //check if there's a request parameter
+    $propertyId = $request->getParameter('schema_property_id','');
+
+    //schema_property_id's in the query string
+    if ($propertyId)
+    {
+      self::updateAdminFilters($attributeHolder, 'schema_property_id', $propertyId, 'schema_property_element');
+    }
+
+    //schema_property_id's not in the query string, but it's in a filter
+    //note: this will still return the correct value if it's in the query string
+    $propertyId = $attributeHolder->get('schema_property_id','','sf_admin/schema_property_element/filters');
+
+    $property = $user->getCurrentSchemaProperty();
+
+    //We got here and there's a schema_property_id but we didn't get the stored property object
+    if ($propertyId && !$property)
+    {
+      //we get it from the database
+      $property = self::setLatestSchemaProperty($propertyId);
+    }
+
+    //we got here and there's a property and a propertyid (yay)
+    if ($property and $propertyId)
+    {
+      //let's check the id of the stored property
+      $currentId = $property->getId();
+
+      //but what if the id of that property doesn't match the one we have
+      if ($currentId != $propertyId)
+      {
+        //we set the stored object to be the one we know
+        $property = self::setLatestSchemaProperty($propertyId);
+      }
+    }
+    //if we get here and there's still no vocabulary then we return false
+    $property = (isset($property)) ? $property : false;
+
+    return $property;
+  }
+
+  /**
+  * description
+  *
+  * @return SchemaProperty Current property property object
+  * @param  integer $propertyId
+  */
+  public static function setLatestSchemaProperty($propertyId)
+  {
+    $propertyObj = SchemaPropertyPeer::retrieveByPK($propertyId);
+    sfContext::getInstance()->getUser()->setCurrentSchemaProperty($propertyObj);
+    return $propertyObj;
   }
 
 }

@@ -85,11 +85,9 @@ class SchemaPropertyMapBuilder {
 
 		$tMap->addColumn('TYPE', 'Type', 'string', CreoleTypes::CHAR, true, null);
 
-		$tMap->addForeignKey('RELATED_PROPERTY_ID', 'RelatedPropertyId', 'int', CreoleTypes::INTEGER, 'reg_schema_property', 'ID', false, null);
+		$tMap->addForeignKey('IS_SUBPROPERTY_OF', 'IsSubpropertyOf', 'int', CreoleTypes::INTEGER, 'reg_schema_property', 'ID', false, null);
 
-		$tMap->addColumn('RELATED_PROPERTY', 'RelatedProperty', 'string', CreoleTypes::VARCHAR, false, 255);
-
-		$tMap->addColumn('URI', 'Uri', 'string', CreoleTypes::VARCHAR, false, 255);
+		$tMap->addColumn('URI', 'Uri', 'string', CreoleTypes::VARCHAR, true, 255);
 
 		$tMap->addForeignKey('STATUS_ID', 'StatusId', 'int', CreoleTypes::INTEGER, 'reg_status', 'ID', true, null);
 

@@ -151,6 +151,13 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 	 */
 	protected $language = 'en';
 
+
+	/**
+	 * The value for the profile_id field.
+	 * @var        int
+	 */
+	protected $profile_id;
+
 	/**
 	 * @var        Agent
 	 */
@@ -170,6 +177,11 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 	 * @var        Status
 	 */
 	protected $aStatus;
+
+	/**
+	 * @var        Profile
+	 */
+	protected $aProfile;
 
 	/**
 	 * Collection to store aggregation of collNamespaces.
@@ -532,6 +544,17 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 	{
 
 		return $this->language;
+	}
+
+	/**
+	 * Get the [profile_id] column value.
+	 * 
+	 * @return     int
+	 */
+	public function getProfileId()
+	{
+
+		return $this->profile_id;
 	}
 
 	/**
@@ -977,6 +1000,32 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 	} // setLanguage()
 
 	/**
+	 * Set the value of [profile_id] column.
+	 * 
+	 * @param      int $v new value
+	 * @return     void
+	 */
+	public function setProfileId($v)
+	{
+
+		// Since the native PHP type for this column is integer,
+		// we will cast the input value to an int (if it is not).
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->profile_id !== $v) {
+			$this->profile_id = $v;
+			$this->modifiedColumns[] = SchemaPeer::PROFILE_ID;
+		}
+
+		if ($this->aProfile !== null && $this->aProfile->getId() !== $v) {
+			$this->aProfile = null;
+		}
+
+	} // setProfileId()
+
+	/**
 	 * Hydrates (populates) the object variables with values from the database resultset.
 	 *
 	 * An offset (1-based "start column") is specified so that objects can be hydrated
@@ -1031,12 +1080,14 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 
 			$this->language = $rs->getString($startcol + 18);
 
+			$this->profile_id = $rs->getInt($startcol + 19);
+
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 19; // 19 = SchemaPeer::NUM_COLUMNS - SchemaPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 20; // 20 = SchemaPeer::NUM_COLUMNS - SchemaPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Schema object", $e);
@@ -1198,6 +1249,13 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 				$this->setStatus($this->aStatus);
 			}
 
+			if ($this->aProfile !== null) {
+				if ($this->aProfile->isModified()) {
+					$affectedRows += $this->aProfile->save($con);
+				}
+				$this->setProfile($this->aProfile);
+			}
+
 
 			// If this object has been modified, then save it to the database.
 			if ($this->isModified()) {
@@ -1350,6 +1408,12 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 				}
 			}
 
+			if ($this->aProfile !== null) {
+				if (!$this->aProfile->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aProfile->getValidationFailures());
+				}
+			}
+
 
 			if (($retval = SchemaPeer::doValidate($this, $columns)) !== true) {
 				$failureMap = array_merge($failureMap, $retval);
@@ -1485,6 +1549,9 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 			case 18:
 				return $this->getLanguage();
 				break;
+			case 19:
+				return $this->getProfileId();
+				break;
 			default:
 				return null;
 				break;
@@ -1524,6 +1591,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 			$keys[16] => $this->getLastUriId(),
 			$keys[17] => $this->getStatusId(),
 			$keys[18] => $this->getLanguage(),
+			$keys[19] => $this->getProfileId(),
 		);
 		return $result;
 	}
@@ -1612,6 +1680,9 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 			case 18:
 				$this->setLanguage($value);
 				break;
+			case 19:
+				$this->setProfileId($value);
+				break;
 		} // switch()
 	}
 
@@ -1654,6 +1725,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[16], $arr)) $this->setLastUriId($arr[$keys[16]]);
 		if (array_key_exists($keys[17], $arr)) $this->setStatusId($arr[$keys[17]]);
 		if (array_key_exists($keys[18], $arr)) $this->setLanguage($arr[$keys[18]]);
+		if (array_key_exists($keys[19], $arr)) $this->setProfileId($arr[$keys[19]]);
 	}
 
 	/**
@@ -1684,6 +1756,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(SchemaPeer::LAST_URI_ID)) $criteria->add(SchemaPeer::LAST_URI_ID, $this->last_uri_id);
 		if ($this->isColumnModified(SchemaPeer::STATUS_ID)) $criteria->add(SchemaPeer::STATUS_ID, $this->status_id);
 		if ($this->isColumnModified(SchemaPeer::LANGUAGE)) $criteria->add(SchemaPeer::LANGUAGE, $this->language);
+		if ($this->isColumnModified(SchemaPeer::PROFILE_ID)) $criteria->add(SchemaPeer::PROFILE_ID, $this->profile_id);
 
 		return $criteria;
 	}
@@ -1773,6 +1846,8 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 		$copyObj->setStatusId($this->status_id);
 
 		$copyObj->setLanguage($this->language);
+
+		$copyObj->setProfileId($this->profile_id);
 
 
 		if ($deepCopy) {
@@ -2045,6 +2120,56 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 			 */
 		}
 		return $this->aStatus;
+	}
+
+	/**
+	 * Declares an association between this object and a Profile object.
+	 *
+	 * @param      Profile $v
+	 * @return     void
+	 * @throws     PropelException
+	 */
+	public function setProfile($v)
+	{
+
+
+		if ($v === null) {
+			$this->setProfileId(NULL);
+		} else {
+			$this->setProfileId($v->getId());
+		}
+
+
+		$this->aProfile = $v;
+	}
+
+
+	/**
+	 * Get the associated Profile object
+	 *
+	 * @param      Connection Optional Connection object.
+	 * @return     Profile The associated Profile object.
+	 * @throws     PropelException
+	 */
+	public function getProfile($con = null)
+	{
+		if ($this->aProfile === null && ($this->profile_id !== null)) {
+			// include the related Peer class
+			include_once 'lib/model/om/BaseProfilePeer.php';
+
+			$this->aProfile = ProfilePeer::retrieveByPK($this->profile_id, $con);
+
+			/* The following can be used instead of the line above to
+			   guarantee the related object contains a reference
+			   to this object, but this level of coupling
+			   may be undesirable in many circumstances.
+			   As it can lead to a db query with many results that may
+			   never be used.
+			   $obj = ProfilePeer::retrieveByPK($this->profile_id, $con);
+			   $obj->addProfiles($this);
+			 */
+		}
+		return $this->aProfile;
 	}
 
 	/**
@@ -2371,7 +2496,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in Schema.
 	 */
-	public function getSchemaPropertysJoinSchemaPropertyRelatedByRelatedPropertyId($criteria = null, $con = null)
+	public function getSchemaPropertysJoinSchemaPropertyRelatedByIsSubpropertyOf($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseSchemaPropertyPeer.php';
@@ -2390,7 +2515,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 
 				$criteria->add(SchemaPropertyPeer::SCHEMA_ID, $this->getId());
 
-				$this->collSchemaPropertys = SchemaPropertyPeer::doSelectJoinSchemaPropertyRelatedByRelatedPropertyId($criteria, $con);
+				$this->collSchemaPropertys = SchemaPropertyPeer::doSelectJoinSchemaPropertyRelatedByIsSubpropertyOf($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -2400,7 +2525,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 			$criteria->add(SchemaPropertyPeer::SCHEMA_ID, $this->getId());
 
 			if (!isset($this->lastSchemaPropertyCriteria) || !$this->lastSchemaPropertyCriteria->equals($criteria)) {
-				$this->collSchemaPropertys = SchemaPropertyPeer::doSelectJoinSchemaPropertyRelatedByRelatedPropertyId($criteria, $con);
+				$this->collSchemaPropertys = SchemaPropertyPeer::doSelectJoinSchemaPropertyRelatedByIsSubpropertyOf($criteria, $con);
 			}
 		}
 		$this->lastSchemaPropertyCriteria = $criteria;
@@ -2704,6 +2829,55 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 
 			if (!isset($this->lastSchemaPropertyElementHistoryCriteria) || !$this->lastSchemaPropertyElementHistoryCriteria->equals($criteria)) {
 				$this->collSchemaPropertyElementHistorys = SchemaPropertyElementHistoryPeer::doSelectJoinSchemaPropertyRelatedBySchemaPropertyId($criteria, $con);
+			}
+		}
+		$this->lastSchemaPropertyElementHistoryCriteria = $criteria;
+
+		return $this->collSchemaPropertyElementHistorys;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Schema is new, it will return
+	 * an empty collection; or if this Schema has previously
+	 * been saved, it will retrieve related SchemaPropertyElementHistorys from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Schema.
+	 */
+	public function getSchemaPropertyElementHistorysJoinProfileProperty($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseSchemaPropertyElementHistoryPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collSchemaPropertyElementHistorys === null) {
+			if ($this->isNew()) {
+				$this->collSchemaPropertyElementHistorys = array();
+			} else {
+
+				$criteria->add(SchemaPropertyElementHistoryPeer::SCHEMA_ID, $this->getId());
+
+				$this->collSchemaPropertyElementHistorys = SchemaPropertyElementHistoryPeer::doSelectJoinProfileProperty($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(SchemaPropertyElementHistoryPeer::SCHEMA_ID, $this->getId());
+
+			if (!isset($this->lastSchemaPropertyElementHistoryCriteria) || !$this->lastSchemaPropertyElementHistoryCriteria->equals($criteria)) {
+				$this->collSchemaPropertyElementHistorys = SchemaPropertyElementHistoryPeer::doSelectJoinProfileProperty($criteria, $con);
 			}
 		}
 		$this->lastSchemaPropertyElementHistoryCriteria = $criteria;

@@ -11,17 +11,6 @@ class SchemaPropertyElementHistory extends BaseSchemaPropertyElementHistory
 {
 
   /**
-  * gets the Element name (profile property)
-  *
-  * @return string
-  */
-  public function getProfileProperty()
-  {
-    $fields = Schema::getProfileFields();
-    return $fields[$this->getProfilePropertyId()];
-  }
-
-  /**
   * Gets the created_by_user
   *
   * @return User

@@ -19,7 +19,7 @@ abstract class BaseConceptPropertyHistoryPeer {
 	const CLASS_DEFAULT = 'lib.model.ConceptPropertyHistory';
 
 	/** The total number of columns. */
-	const NUM_COLUMNS = 13;
+	const NUM_COLUMNS = 14;
 
 	/** The number of lazy-loaded columns. */
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -64,6 +64,9 @@ abstract class BaseConceptPropertyHistoryPeer {
 	/** the column name for the CREATED_USER_ID field */
 	const CREATED_USER_ID = 'reg_concept_property_history.CREATED_USER_ID';
 
+	/** the column name for the CHANGE_NOTE field */
+	const CHANGE_NOTE = 'reg_concept_property_history.CHANGE_NOTE';
+
 	/** The PHP to DB Name Mapping */
 	private static $phpNameMap = null;
 
@@ -75,10 +78,10 @@ abstract class BaseConceptPropertyHistoryPeer {
 	 * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
 	 */
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'CreatedAt', 'Action', 'ConceptPropertyId', 'ConceptId', 'VocabularyId', 'SkosPropertyId', 'Object', 'SchemeId', 'RelatedConceptId', 'Language', 'StatusId', 'CreatedUserId', ),
-		BasePeer::TYPE_COLNAME => array (ConceptPropertyHistoryPeer::ID, ConceptPropertyHistoryPeer::CREATED_AT, ConceptPropertyHistoryPeer::ACTION, ConceptPropertyHistoryPeer::CONCEPT_PROPERTY_ID, ConceptPropertyHistoryPeer::CONCEPT_ID, ConceptPropertyHistoryPeer::VOCABULARY_ID, ConceptPropertyHistoryPeer::SKOS_PROPERTY_ID, ConceptPropertyHistoryPeer::OBJECT, ConceptPropertyHistoryPeer::SCHEME_ID, ConceptPropertyHistoryPeer::RELATED_CONCEPT_ID, ConceptPropertyHistoryPeer::LANGUAGE, ConceptPropertyHistoryPeer::STATUS_ID, ConceptPropertyHistoryPeer::CREATED_USER_ID, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'created_at', 'action', 'concept_property_id', 'concept_id', 'vocabulary_id', 'skos_property_id', 'object', 'scheme_id', 'related_concept_id', 'language', 'status_id', 'created_user_id', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'CreatedAt', 'Action', 'ConceptPropertyId', 'ConceptId', 'VocabularyId', 'SkosPropertyId', 'Object', 'SchemeId', 'RelatedConceptId', 'Language', 'StatusId', 'CreatedUserId', 'ChangeNote', ),
+		BasePeer::TYPE_COLNAME => array (ConceptPropertyHistoryPeer::ID, ConceptPropertyHistoryPeer::CREATED_AT, ConceptPropertyHistoryPeer::ACTION, ConceptPropertyHistoryPeer::CONCEPT_PROPERTY_ID, ConceptPropertyHistoryPeer::CONCEPT_ID, ConceptPropertyHistoryPeer::VOCABULARY_ID, ConceptPropertyHistoryPeer::SKOS_PROPERTY_ID, ConceptPropertyHistoryPeer::OBJECT, ConceptPropertyHistoryPeer::SCHEME_ID, ConceptPropertyHistoryPeer::RELATED_CONCEPT_ID, ConceptPropertyHistoryPeer::LANGUAGE, ConceptPropertyHistoryPeer::STATUS_ID, ConceptPropertyHistoryPeer::CREATED_USER_ID, ConceptPropertyHistoryPeer::CHANGE_NOTE, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'created_at', 'action', 'concept_property_id', 'concept_id', 'vocabulary_id', 'skos_property_id', 'object', 'scheme_id', 'related_concept_id', 'language', 'status_id', 'created_user_id', 'change_note', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, )
 	);
 
 	/**
@@ -88,10 +91,10 @@ abstract class BaseConceptPropertyHistoryPeer {
 	 * e.g. self::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
 	 */
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'CreatedAt' => 1, 'Action' => 2, 'ConceptPropertyId' => 3, 'ConceptId' => 4, 'VocabularyId' => 5, 'SkosPropertyId' => 6, 'Object' => 7, 'SchemeId' => 8, 'RelatedConceptId' => 9, 'Language' => 10, 'StatusId' => 11, 'CreatedUserId' => 12, ),
-		BasePeer::TYPE_COLNAME => array (ConceptPropertyHistoryPeer::ID => 0, ConceptPropertyHistoryPeer::CREATED_AT => 1, ConceptPropertyHistoryPeer::ACTION => 2, ConceptPropertyHistoryPeer::CONCEPT_PROPERTY_ID => 3, ConceptPropertyHistoryPeer::CONCEPT_ID => 4, ConceptPropertyHistoryPeer::VOCABULARY_ID => 5, ConceptPropertyHistoryPeer::SKOS_PROPERTY_ID => 6, ConceptPropertyHistoryPeer::OBJECT => 7, ConceptPropertyHistoryPeer::SCHEME_ID => 8, ConceptPropertyHistoryPeer::RELATED_CONCEPT_ID => 9, ConceptPropertyHistoryPeer::LANGUAGE => 10, ConceptPropertyHistoryPeer::STATUS_ID => 11, ConceptPropertyHistoryPeer::CREATED_USER_ID => 12, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'created_at' => 1, 'action' => 2, 'concept_property_id' => 3, 'concept_id' => 4, 'vocabulary_id' => 5, 'skos_property_id' => 6, 'object' => 7, 'scheme_id' => 8, 'related_concept_id' => 9, 'language' => 10, 'status_id' => 11, 'created_user_id' => 12, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'CreatedAt' => 1, 'Action' => 2, 'ConceptPropertyId' => 3, 'ConceptId' => 4, 'VocabularyId' => 5, 'SkosPropertyId' => 6, 'Object' => 7, 'SchemeId' => 8, 'RelatedConceptId' => 9, 'Language' => 10, 'StatusId' => 11, 'CreatedUserId' => 12, 'ChangeNote' => 13, ),
+		BasePeer::TYPE_COLNAME => array (ConceptPropertyHistoryPeer::ID => 0, ConceptPropertyHistoryPeer::CREATED_AT => 1, ConceptPropertyHistoryPeer::ACTION => 2, ConceptPropertyHistoryPeer::CONCEPT_PROPERTY_ID => 3, ConceptPropertyHistoryPeer::CONCEPT_ID => 4, ConceptPropertyHistoryPeer::VOCABULARY_ID => 5, ConceptPropertyHistoryPeer::SKOS_PROPERTY_ID => 6, ConceptPropertyHistoryPeer::OBJECT => 7, ConceptPropertyHistoryPeer::SCHEME_ID => 8, ConceptPropertyHistoryPeer::RELATED_CONCEPT_ID => 9, ConceptPropertyHistoryPeer::LANGUAGE => 10, ConceptPropertyHistoryPeer::STATUS_ID => 11, ConceptPropertyHistoryPeer::CREATED_USER_ID => 12, ConceptPropertyHistoryPeer::CHANGE_NOTE => 13, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'created_at' => 1, 'action' => 2, 'concept_property_id' => 3, 'concept_id' => 4, 'vocabulary_id' => 5, 'skos_property_id' => 6, 'object' => 7, 'scheme_id' => 8, 'related_concept_id' => 9, 'language' => 10, 'status_id' => 11, 'created_user_id' => 12, 'change_note' => 13, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, )
 	);
 
 	/**
@@ -217,6 +220,8 @@ abstract class BaseConceptPropertyHistoryPeer {
 		$criteria->addSelectColumn(ConceptPropertyHistoryPeer::STATUS_ID);
 
 		$criteria->addSelectColumn(ConceptPropertyHistoryPeer::CREATED_USER_ID);
+
+		$criteria->addSelectColumn(ConceptPropertyHistoryPeer::CHANGE_NOTE);
 
 	}
 

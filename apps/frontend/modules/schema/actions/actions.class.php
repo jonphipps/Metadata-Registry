@@ -26,9 +26,9 @@ class schemaActions extends autoschemaActions
   public function executeList ()
   {
     //clear any detail filters
-//    $this->getUser()->getAttributeHolder()->removeNamespace('sf_admin/concept/filters');
-//    $this->getUser()->getAttributeHolder()->removeNamespace('sf_admin/concept_property/filters');
-//    $this->getUser()->getAttributeHolder()->removeNamespace('sf_admin/concept_property_history/filters');
+    $this->getUser()->getAttributeHolder()->removeNamespace('sf_admin/schema_property/filters');
+    $this->getUser()->getAttributeHolder()->removeNamespace('sf_admin/schema_property_element/filters');
+    $this->getUser()->getAttributeHolder()->removeNamespace('sf_admin/schema_property_element_history/filters');
     parent::executeList();
   }
 

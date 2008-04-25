@@ -19,7 +19,7 @@ abstract class BaseSchemaPropertyPeer {
 	const CLASS_DEFAULT = 'lib.model.SchemaProperty';
 
 	/** The total number of columns. */
-	const NUM_COLUMNS = 18;
+	const NUM_COLUMNS = 17;
 
 	/** The number of lazy-loaded columns. */
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -61,11 +61,8 @@ abstract class BaseSchemaPropertyPeer {
 	/** the column name for the TYPE field */
 	const TYPE = 'reg_schema_property.TYPE';
 
-	/** the column name for the RELATED_PROPERTY_ID field */
-	const RELATED_PROPERTY_ID = 'reg_schema_property.RELATED_PROPERTY_ID';
-
-	/** the column name for the RELATED_PROPERTY field */
-	const RELATED_PROPERTY = 'reg_schema_property.RELATED_PROPERTY';
+	/** the column name for the IS_SUBPROPERTY_OF field */
+	const IS_SUBPROPERTY_OF = 'reg_schema_property.IS_SUBPROPERTY_OF';
 
 	/** the column name for the URI field */
 	const URI = 'reg_schema_property.URI';
@@ -90,10 +87,10 @@ abstract class BaseSchemaPropertyPeer {
 	 * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
 	 */
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'CreatedAt', 'UpdatedAt', 'DeletedAt', 'CreatedUserId', 'UpdatedUserId', 'SchemaId', 'Name', 'Label', 'Definition', 'Comment', 'Type', 'RelatedPropertyId', 'RelatedProperty', 'Uri', 'StatusId', 'Language', 'Note', ),
-		BasePeer::TYPE_COLNAME => array (SchemaPropertyPeer::ID, SchemaPropertyPeer::CREATED_AT, SchemaPropertyPeer::UPDATED_AT, SchemaPropertyPeer::DELETED_AT, SchemaPropertyPeer::CREATED_USER_ID, SchemaPropertyPeer::UPDATED_USER_ID, SchemaPropertyPeer::SCHEMA_ID, SchemaPropertyPeer::NAME, SchemaPropertyPeer::LABEL, SchemaPropertyPeer::DEFINITION, SchemaPropertyPeer::COMMENT, SchemaPropertyPeer::TYPE, SchemaPropertyPeer::RELATED_PROPERTY_ID, SchemaPropertyPeer::RELATED_PROPERTY, SchemaPropertyPeer::URI, SchemaPropertyPeer::STATUS_ID, SchemaPropertyPeer::LANGUAGE, SchemaPropertyPeer::NOTE, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'created_at', 'updated_at', 'deleted_at', 'created_user_id', 'updated_user_id', 'schema_id', 'name', 'label', 'definition', 'comment', 'type', 'related_property_id', 'related_property', 'uri', 'status_id', 'language', 'note', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'CreatedAt', 'UpdatedAt', 'DeletedAt', 'CreatedUserId', 'UpdatedUserId', 'SchemaId', 'Name', 'Label', 'Definition', 'Comment', 'Type', 'IsSubpropertyOf', 'Uri', 'StatusId', 'Language', 'Note', ),
+		BasePeer::TYPE_COLNAME => array (SchemaPropertyPeer::ID, SchemaPropertyPeer::CREATED_AT, SchemaPropertyPeer::UPDATED_AT, SchemaPropertyPeer::DELETED_AT, SchemaPropertyPeer::CREATED_USER_ID, SchemaPropertyPeer::UPDATED_USER_ID, SchemaPropertyPeer::SCHEMA_ID, SchemaPropertyPeer::NAME, SchemaPropertyPeer::LABEL, SchemaPropertyPeer::DEFINITION, SchemaPropertyPeer::COMMENT, SchemaPropertyPeer::TYPE, SchemaPropertyPeer::IS_SUBPROPERTY_OF, SchemaPropertyPeer::URI, SchemaPropertyPeer::STATUS_ID, SchemaPropertyPeer::LANGUAGE, SchemaPropertyPeer::NOTE, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'created_at', 'updated_at', 'deleted_at', 'created_user_id', 'updated_user_id', 'schema_id', 'name', 'label', 'definition', 'comment', 'type', 'is_subproperty_of', 'uri', 'status_id', 'language', 'note', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, )
 	);
 
 	/**
@@ -103,10 +100,10 @@ abstract class BaseSchemaPropertyPeer {
 	 * e.g. self::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
 	 */
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'CreatedAt' => 1, 'UpdatedAt' => 2, 'DeletedAt' => 3, 'CreatedUserId' => 4, 'UpdatedUserId' => 5, 'SchemaId' => 6, 'Name' => 7, 'Label' => 8, 'Definition' => 9, 'Comment' => 10, 'Type' => 11, 'RelatedPropertyId' => 12, 'RelatedProperty' => 13, 'Uri' => 14, 'StatusId' => 15, 'Language' => 16, 'Note' => 17, ),
-		BasePeer::TYPE_COLNAME => array (SchemaPropertyPeer::ID => 0, SchemaPropertyPeer::CREATED_AT => 1, SchemaPropertyPeer::UPDATED_AT => 2, SchemaPropertyPeer::DELETED_AT => 3, SchemaPropertyPeer::CREATED_USER_ID => 4, SchemaPropertyPeer::UPDATED_USER_ID => 5, SchemaPropertyPeer::SCHEMA_ID => 6, SchemaPropertyPeer::NAME => 7, SchemaPropertyPeer::LABEL => 8, SchemaPropertyPeer::DEFINITION => 9, SchemaPropertyPeer::COMMENT => 10, SchemaPropertyPeer::TYPE => 11, SchemaPropertyPeer::RELATED_PROPERTY_ID => 12, SchemaPropertyPeer::RELATED_PROPERTY => 13, SchemaPropertyPeer::URI => 14, SchemaPropertyPeer::STATUS_ID => 15, SchemaPropertyPeer::LANGUAGE => 16, SchemaPropertyPeer::NOTE => 17, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'created_at' => 1, 'updated_at' => 2, 'deleted_at' => 3, 'created_user_id' => 4, 'updated_user_id' => 5, 'schema_id' => 6, 'name' => 7, 'label' => 8, 'definition' => 9, 'comment' => 10, 'type' => 11, 'related_property_id' => 12, 'related_property' => 13, 'uri' => 14, 'status_id' => 15, 'language' => 16, 'note' => 17, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'CreatedAt' => 1, 'UpdatedAt' => 2, 'DeletedAt' => 3, 'CreatedUserId' => 4, 'UpdatedUserId' => 5, 'SchemaId' => 6, 'Name' => 7, 'Label' => 8, 'Definition' => 9, 'Comment' => 10, 'Type' => 11, 'IsSubpropertyOf' => 12, 'Uri' => 13, 'StatusId' => 14, 'Language' => 15, 'Note' => 16, ),
+		BasePeer::TYPE_COLNAME => array (SchemaPropertyPeer::ID => 0, SchemaPropertyPeer::CREATED_AT => 1, SchemaPropertyPeer::UPDATED_AT => 2, SchemaPropertyPeer::DELETED_AT => 3, SchemaPropertyPeer::CREATED_USER_ID => 4, SchemaPropertyPeer::UPDATED_USER_ID => 5, SchemaPropertyPeer::SCHEMA_ID => 6, SchemaPropertyPeer::NAME => 7, SchemaPropertyPeer::LABEL => 8, SchemaPropertyPeer::DEFINITION => 9, SchemaPropertyPeer::COMMENT => 10, SchemaPropertyPeer::TYPE => 11, SchemaPropertyPeer::IS_SUBPROPERTY_OF => 12, SchemaPropertyPeer::URI => 13, SchemaPropertyPeer::STATUS_ID => 14, SchemaPropertyPeer::LANGUAGE => 15, SchemaPropertyPeer::NOTE => 16, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'created_at' => 1, 'updated_at' => 2, 'deleted_at' => 3, 'created_user_id' => 4, 'updated_user_id' => 5, 'schema_id' => 6, 'name' => 7, 'label' => 8, 'definition' => 9, 'comment' => 10, 'type' => 11, 'is_subproperty_of' => 12, 'uri' => 13, 'status_id' => 14, 'language' => 15, 'note' => 16, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, )
 	);
 
 	/**
@@ -231,9 +228,7 @@ abstract class BaseSchemaPropertyPeer {
 
 		$criteria->addSelectColumn(SchemaPropertyPeer::TYPE);
 
-		$criteria->addSelectColumn(SchemaPropertyPeer::RELATED_PROPERTY_ID);
-
-		$criteria->addSelectColumn(SchemaPropertyPeer::RELATED_PROPERTY);
+		$criteria->addSelectColumn(SchemaPropertyPeer::IS_SUBPROPERTY_OF);
 
 		$criteria->addSelectColumn(SchemaPropertyPeer::URI);
 
@@ -1098,14 +1093,14 @@ abstract class BaseSchemaPropertyPeer {
 
 
 	/**
-	 * Returns the number of rows matching criteria, joining the related SchemaPropertyRelatedByRelatedPropertyId table
+	 * Returns the number of rows matching criteria, joining the related SchemaPropertyRelatedByIsSubpropertyOf table
 	 *
 	 * @param Criteria $c
 	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
 	 * @param Connection $con
 	 * @return int Number of matching rows.
 	 */
-	public static function doCountJoinAllExceptSchemaPropertyRelatedByRelatedPropertyId(Criteria $criteria, $distinct = false, $con = null)
+	public static function doCountJoinAllExceptSchemaPropertyRelatedByIsSubpropertyOf(Criteria $criteria, $distinct = false, $con = null)
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
@@ -1499,13 +1494,13 @@ abstract class BaseSchemaPropertyPeer {
 
 
 	/**
-	 * Selects a collection of SchemaProperty objects pre-filled with all related objects except SchemaPropertyRelatedByRelatedPropertyId.
+	 * Selects a collection of SchemaProperty objects pre-filled with all related objects except SchemaPropertyRelatedByIsSubpropertyOf.
 	 *
 	 * @return array Array of SchemaProperty objects.
 	 * @throws PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
-	public static function doSelectJoinAllExceptSchemaPropertyRelatedByRelatedPropertyId(Criteria $c, $con = null)
+	public static function doSelectJoinAllExceptSchemaPropertyRelatedByIsSubpropertyOf(Criteria $c, $con = null)
 	{
 		$c = clone $c;
 

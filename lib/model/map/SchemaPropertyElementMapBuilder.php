@@ -75,13 +75,13 @@ class SchemaPropertyElementMapBuilder {
 
 		$tMap->addForeignKey('SCHEMA_PROPERTY_ID', 'SchemaPropertyId', 'int', CreoleTypes::INTEGER, 'reg_schema_property', 'ID', true, null);
 
-		$tMap->addColumn('PROFILE_PROPERTY_ID', 'ProfilePropertyId', 'int', CreoleTypes::INTEGER, true, null);
+		$tMap->addForeignKey('PROFILE_PROPERTY_ID', 'ProfilePropertyId', 'int', CreoleTypes::INTEGER, 'profile_property', 'ID', true, null);
 
 		$tMap->addColumn('IS_SCHEMA_PROPERTY', 'IsSchemaProperty', 'boolean', CreoleTypes::BOOLEAN, false, null);
 
 		$tMap->addColumn('OBJECT', 'Object', 'string', CreoleTypes::LONGVARCHAR, true, null);
 
-		$tMap->addForeignKey('RELATED_SCHEMA_PROPERTY_ID', 'RelatedSchemaPropertyId', 'int', CreoleTypes::INTEGER, 'reg_schema_property_element', 'ID', false, null);
+		$tMap->addForeignKey('RELATED_SCHEMA_PROPERTY_ID', 'RelatedSchemaPropertyId', 'int', CreoleTypes::INTEGER, 'reg_schema_property', 'ID', false, null);
 
 		$tMap->addColumn('LANGUAGE', 'Language', 'string', CreoleTypes::CHAR, false, 6);
 

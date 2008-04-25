@@ -110,4 +110,149 @@ class schemapropActions extends autoschemapropActions
      $this->schemaprops = $options;
   }
 
+  protected function saveSchemaProperty($schema_property)
+  {
+    //if the property is modified then
+    if ($schema_property->isModified() || $schema_property->isNew())
+    {
+      $userId = sfContext::getInstance()->getUser()->getSubscriberId();
+      $schema_property->setUpdatedUserId($userId);
+
+      $fields = Schema::getProfileFields();
+      $con = Propel::getConnection(SchemaPropertyPeer::DATABASE_NAME);
+
+      try
+      {
+        //start a transaction
+        $con->begin();
+
+        //if the property is new then
+        if ($schema_property->isNew())
+        {
+          //set the created user
+          $schema_property->setCreatedUserId($userId);
+
+          //save it first
+          $affectedRows = $schema_property->save($con);
+
+          if ($affectedRows)
+          {
+            //create new elements for each part
+            foreach ($fields as $id => $field)
+            {
+              $fieldTest = $this->getFieldValue($schema_property, $field);
+
+              if ($fieldTest)
+              {
+                $schema_property->createElement($userId, $id, $field, $con);
+              }
+            }
+          }
+        }
+        else
+        {
+          //FIXME if the language is modified we have to update all of the existing old languages
+          //FIXME if the status is modified we have to update all of the existing old statuses
+
+          //get all of the existing elements
+          $elements =  $schema_property->getSchemaPropertyElementsRelatedBySchemaPropertyId();
+          foreach ($fields as $id => $field)
+          {
+            try
+            {
+              $column = SchemaPropertyPeer::translateFieldname($field, BasePeer::TYPE_FIELDNAME,BasePeer::TYPE_COLNAME);
+            }
+            catch (PropelException $e)
+            {
+              $column = false;
+            }
+
+            $object = $this->getFieldValue($schema_property, $field);
+
+            //see if they've been updated
+            if ($column && $schema_property->isColumnModified($column))
+            {
+              //find the element
+              $foundOne = false;
+              foreach ($elements as $element)
+              {
+                if ($id == $element->getProfilePropertyId())
+                {
+                  //did we make it null?
+                  if (0 === strlen(trim($object)))
+                  {
+                    //delete the element
+                    $element->delete($con);
+                    $element = false;
+                  }
+                  $foundOne = true;
+                  break;
+                }
+              }
+
+              if (!$foundOne)
+              {
+                //we have to create one
+                $element = SchemaPropertyElementPeer::createElement($schema_property, $userId, $id);
+              }
+
+              if ($element)
+              {
+                $element->setIsSchemaProperty(true);
+                $element->setUpdatedUserId($userId);
+                //SchemaPropertyElementPeer::updateElement($schema_property, $element, $userId, $field, $con);
+
+                if ('is_subproperty_of' == $field)
+                {
+                  $element->setRelatedSchemaPropertyId($schema_property->getIsSubpropertyOf());
+                  $element->setObject('');
+                }
+                else
+                {
+                  $element->setObject($object ? $object : '');
+                }
+
+                $element->save($con);
+              }
+            }
+          }
+
+          //save it last
+          $affectedRows = $schema_property->save($con);
+
+        }
+
+        //commit the transaction
+        $con->commit();
+
+        return $affectedRows;
+      }
+      catch (PropelException $e)
+      {
+        $con->rollback();
+        throw $e;
+      }
+    }
+  } //saveSchemaProperty
+
+  /**
+  * gets the value of a field by name
+  *
+  * @return mixed
+  * @param  SchemaProperty $schema_property
+  * @param  string $field name to fetch
+  */
+  public function getFieldValue(SchemaProperty $schema_property, $field)
+  {
+    try
+    {
+      $fieldTest = $schema_property->getByName($field, BasePeer::TYPE_FIELDNAME);
+    }
+    catch (PropelException $e)
+    {
+      $fieldTest = false;
+    }
+    return $fieldTest;
+  }
+
 }

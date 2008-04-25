@@ -102,6 +102,13 @@ abstract class BaseSchemaPropertyElementHistory extends BaseObject  implements P
 	 */
 	protected $status_id = 1;
 
+
+	/**
+	 * The value for the change_note field.
+	 * @var        string
+	 */
+	protected $change_note;
+
 	/**
 	 * @var        User
 	 */
@@ -121,6 +128,11 @@ abstract class BaseSchemaPropertyElementHistory extends BaseObject  implements P
 	 * @var        Schema
 	 */
 	protected $aSchema;
+
+	/**
+	 * @var        ProfileProperty
+	 */
+	protected $aProfileProperty;
 
 	/**
 	 * @var        SchemaProperty
@@ -296,6 +308,17 @@ abstract class BaseSchemaPropertyElementHistory extends BaseObject  implements P
 	{
 
 		return $this->status_id;
+	}
+
+	/**
+	 * Get the [change_note] column value.
+	 * 
+	 * @return     string
+	 */
+	public function getChangeNote()
+	{
+
+		return $this->change_note;
 	}
 
 	/**
@@ -490,6 +513,10 @@ abstract class BaseSchemaPropertyElementHistory extends BaseObject  implements P
 			$this->modifiedColumns[] = SchemaPropertyElementHistoryPeer::PROFILE_PROPERTY_ID;
 		}
 
+		if ($this->aProfileProperty !== null && $this->aProfileProperty->getId() !== $v) {
+			$this->aProfileProperty = null;
+		}
+
 	} // setProfilePropertyId()
 
 	/**
@@ -589,6 +616,28 @@ abstract class BaseSchemaPropertyElementHistory extends BaseObject  implements P
 	} // setStatusId()
 
 	/**
+	 * Set the value of [change_note] column.
+	 * 
+	 * @param      string $v new value
+	 * @return     void
+	 */
+	public function setChangeNote($v)
+	{
+
+		// Since the native PHP type for this column is string,
+		// we will cast the input to a string (if it is not).
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->change_note !== $v) {
+			$this->change_note = $v;
+			$this->modifiedColumns[] = SchemaPropertyElementHistoryPeer::CHANGE_NOTE;
+		}
+
+	} // setChangeNote()
+
+	/**
 	 * Hydrates (populates) the object variables with values from the database resultset.
 	 *
 	 * An offset (1-based "start column") is specified so that objects can be hydrated
@@ -629,12 +678,14 @@ abstract class BaseSchemaPropertyElementHistory extends BaseObject  implements P
 
 			$this->status_id = $rs->getInt($startcol + 11);
 
+			$this->change_note = $rs->getString($startcol + 12);
+
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 12; // 12 = SchemaPropertyElementHistoryPeer::NUM_COLUMNS - SchemaPropertyElementHistoryPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 13; // 13 = SchemaPropertyElementHistoryPeer::NUM_COLUMNS - SchemaPropertyElementHistoryPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating SchemaPropertyElementHistory object", $e);
@@ -791,6 +842,13 @@ abstract class BaseSchemaPropertyElementHistory extends BaseObject  implements P
 				$this->setSchema($this->aSchema);
 			}
 
+			if ($this->aProfileProperty !== null) {
+				if ($this->aProfileProperty->isModified()) {
+					$affectedRows += $this->aProfileProperty->save($con);
+				}
+				$this->setProfileProperty($this->aProfileProperty);
+			}
+
 			if ($this->aSchemaPropertyRelatedByRelatedSchemaPropertyId !== null) {
 				if ($this->aSchemaPropertyRelatedByRelatedSchemaPropertyId->isModified()) {
 					$affectedRows += $this->aSchemaPropertyRelatedByRelatedSchemaPropertyId->save($con);
@@ -917,6 +975,12 @@ abstract class BaseSchemaPropertyElementHistory extends BaseObject  implements P
 				}
 			}
 
+			if ($this->aProfileProperty !== null) {
+				if (!$this->aProfileProperty->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aProfileProperty->getValidationFailures());
+				}
+			}
+
 			if ($this->aSchemaPropertyRelatedByRelatedSchemaPropertyId !== null) {
 				if (!$this->aSchemaPropertyRelatedByRelatedSchemaPropertyId->validate($columns)) {
 					$failureMap = array_merge($failureMap, $this->aSchemaPropertyRelatedByRelatedSchemaPropertyId->getValidationFailures());
@@ -1003,6 +1067,9 @@ abstract class BaseSchemaPropertyElementHistory extends BaseObject  implements P
 			case 11:
 				return $this->getStatusId();
 				break;
+			case 12:
+				return $this->getChangeNote();
+				break;
 			default:
 				return null;
 				break;
@@ -1035,6 +1102,7 @@ abstract class BaseSchemaPropertyElementHistory extends BaseObject  implements P
 			$keys[9] => $this->getRelatedSchemaPropertyId(),
 			$keys[10] => $this->getLanguage(),
 			$keys[11] => $this->getStatusId(),
+			$keys[12] => $this->getChangeNote(),
 		);
 		return $result;
 	}
@@ -1102,6 +1170,9 @@ abstract class BaseSchemaPropertyElementHistory extends BaseObject  implements P
 			case 11:
 				$this->setStatusId($value);
 				break;
+			case 12:
+				$this->setChangeNote($value);
+				break;
 		} // switch()
 	}
 
@@ -1137,6 +1208,7 @@ abstract class BaseSchemaPropertyElementHistory extends BaseObject  implements P
 		if (array_key_exists($keys[9], $arr)) $this->setRelatedSchemaPropertyId($arr[$keys[9]]);
 		if (array_key_exists($keys[10], $arr)) $this->setLanguage($arr[$keys[10]]);
 		if (array_key_exists($keys[11], $arr)) $this->setStatusId($arr[$keys[11]]);
+		if (array_key_exists($keys[12], $arr)) $this->setChangeNote($arr[$keys[12]]);
 	}
 
 	/**
@@ -1160,6 +1232,7 @@ abstract class BaseSchemaPropertyElementHistory extends BaseObject  implements P
 		if ($this->isColumnModified(SchemaPropertyElementHistoryPeer::RELATED_SCHEMA_PROPERTY_ID)) $criteria->add(SchemaPropertyElementHistoryPeer::RELATED_SCHEMA_PROPERTY_ID, $this->related_schema_property_id);
 		if ($this->isColumnModified(SchemaPropertyElementHistoryPeer::LANGUAGE)) $criteria->add(SchemaPropertyElementHistoryPeer::LANGUAGE, $this->language);
 		if ($this->isColumnModified(SchemaPropertyElementHistoryPeer::STATUS_ID)) $criteria->add(SchemaPropertyElementHistoryPeer::STATUS_ID, $this->status_id);
+		if ($this->isColumnModified(SchemaPropertyElementHistoryPeer::CHANGE_NOTE)) $criteria->add(SchemaPropertyElementHistoryPeer::CHANGE_NOTE, $this->change_note);
 
 		return $criteria;
 	}
@@ -1235,6 +1308,8 @@ abstract class BaseSchemaPropertyElementHistory extends BaseObject  implements P
 		$copyObj->setLanguage($this->language);
 
 		$copyObj->setStatusId($this->status_id);
+
+		$copyObj->setChangeNote($this->change_note);
 
 
 		$copyObj->setNew(true);
@@ -1479,6 +1554,56 @@ abstract class BaseSchemaPropertyElementHistory extends BaseObject  implements P
 			 */
 		}
 		return $this->aSchema;
+	}
+
+	/**
+	 * Declares an association between this object and a ProfileProperty object.
+	 *
+	 * @param      ProfileProperty $v
+	 * @return     void
+	 * @throws     PropelException
+	 */
+	public function setProfileProperty($v)
+	{
+
+
+		if ($v === null) {
+			$this->setProfilePropertyId(NULL);
+		} else {
+			$this->setProfilePropertyId($v->getId());
+		}
+
+
+		$this->aProfileProperty = $v;
+	}
+
+
+	/**
+	 * Get the associated ProfileProperty object
+	 *
+	 * @param      Connection Optional Connection object.
+	 * @return     ProfileProperty The associated ProfileProperty object.
+	 * @throws     PropelException
+	 */
+	public function getProfileProperty($con = null)
+	{
+		if ($this->aProfileProperty === null && ($this->profile_property_id !== null)) {
+			// include the related Peer class
+			include_once 'lib/model/om/BaseProfilePropertyPeer.php';
+
+			$this->aProfileProperty = ProfilePropertyPeer::retrieveByPK($this->profile_property_id, $con);
+
+			/* The following can be used instead of the line above to
+			   guarantee the related object contains a reference
+			   to this object, but this level of coupling
+			   may be undesirable in many circumstances.
+			   As it can lead to a db query with many results that may
+			   never be used.
+			   $obj = ProfilePropertyPeer::retrieveByPK($this->profile_property_id, $con);
+			   $obj->addProfilePropertys($this);
+			 */
+		}
+		return $this->aProfileProperty;
 	}
 
 	/**

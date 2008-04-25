@@ -1,0 +1,7 @@
+all:
+  stylesheets: [schemapropel/layout]
+  javascripts: [%SF_PROTOTYPE_WEB_DIR%/js/prototype: { position: last }]
+
+editSuccess:
+  javascripts: [schemapropel/swapoptions: { position: last }]
+

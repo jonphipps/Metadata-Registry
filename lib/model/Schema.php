@@ -105,6 +105,14 @@ class Schema extends BaseSchema
   */
   public static function getProfileFields()
   {
+    $c = new Criteria();
+    $c->add(ProfilePropertyPeer::PROFILE_ID,1);
+    $properties = ProfilePropertyPeer::doSelect($c);
+    $fieldsNew = array();
+    foreach ($properties as $property)
+    {
+      $fieldsNew[$property->getId()] = sfInflector::underscore($property->getName());
+    }
     /**
     * @todo $fields needs to come from an application profile for schemas, or the vocabulary
     **/
@@ -117,7 +125,7 @@ class Schema extends BaseSchema
     6 => 'related_property',
     7 => 'note');
 
-    return $fields;
+    return $fieldsNew;
   }
 
 }

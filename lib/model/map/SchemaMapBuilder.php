@@ -99,6 +99,8 @@ class SchemaMapBuilder {
 
 		$tMap->addColumn('LANGUAGE', 'Language', 'string', CreoleTypes::CHAR, true, 6);
 
+		$tMap->addForeignKey('PROFILE_ID', 'ProfileId', 'int', CreoleTypes::INTEGER, 'profile', 'ID', false, null);
+
 	} // doBuild()
 
 } // SchemaMapBuilder

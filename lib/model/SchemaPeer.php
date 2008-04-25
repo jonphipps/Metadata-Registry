@@ -97,4 +97,15 @@ class SchemaPeer extends BaseSchemaPeer
       return $nextId;
     }
   }
+
+  /**
+  * alias for profile fields
+  *
+  * @return array The fields
+  */
+  public static function getProfileFields()
+  {
+    return Schema::getProfileFields();
+  }
+
 }

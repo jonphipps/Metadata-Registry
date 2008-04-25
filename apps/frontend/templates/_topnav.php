@@ -315,7 +315,7 @@
       {
         if ($schema_property_element)
         {
-          $schema_property = $schema_property_element->getSchemaProperty();
+          $schema_property = $schema_property_element->getSchemaPropertyRelatedBySchemaPropertyId();
         }
       }
       if (!isset($schema))
@@ -352,7 +352,7 @@
       {
         if ($schema_property_element)
         {
-          $schema_property = $schema_property_element->getSchemaProperty();
+          $schema_property = $schema_property_element->getSchemaPropertyRelatedBySchemaPropertyId();
         }
       }
       if (!isset($schema))

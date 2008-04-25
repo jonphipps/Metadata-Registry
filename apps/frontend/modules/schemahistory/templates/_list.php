@@ -9,28 +9,28 @@
 </tr>
 </thead>
 <tfoot>
-<tr><th colspan="7">
+<tr><th colspan="6">
 <div class="float-right">
 <?php if ($pager->haveToPaginate()): ?>
   <?php $filterParam = ''; ?>
-<?php if ($sf_params->has('concept_id')): ?>
-    <?php $filterParam .= '&concept_id=' . $sf_params->get('concept_id'); ?>
+<?php if ($sf_params->has('schema_id')): ?>
+    <?php $filterParam .= '&schema_id=' . $sf_params->get('schema_id'); ?>
 <?php endif; ?>
-<?php if ($sf_params->has('property_id')): ?>
-    <?php $filterParam .= '&property_id=' . $sf_params->get('property_id'); ?>
+<?php if ($sf_params->has('schema_property_id')): ?>
+    <?php $filterParam .= '&schema_property_id=' . $sf_params->get('schema_property_id'); ?>
 <?php endif; ?>
-<?php if ($sf_params->has('vocabulary_id')): ?>
-    <?php $filterParam .= '&vocabulary_id=' . $sf_params->get('vocabulary_id'); ?>
+<?php if ($sf_params->has('schema_property_element_id')): ?>
+    <?php $filterParam .= '&schema_property_element_id=' . $sf_params->get('schema_property_element_id'); ?>
 <?php endif; ?>
-  <?php echo link_to(image_tag(sfConfig::get('sf_admin_web_dir').'/images/first.png', array('align' => 'absmiddle', 'alt' => __('First'), 'title' => __('First'))), 'history/list?page=1' . $filterParam) ?>
-  <?php echo link_to(image_tag(sfConfig::get('sf_admin_web_dir').'/images/previous.png', array('align' => 'absmiddle', 'alt' => __('Previous'), 'title' => __('Previous'))), 'history/list?page='.$pager->getPreviousPage() . $filterParam) ?>
+  <?php echo link_to(image_tag(sfConfig::get('sf_admin_web_dir').'/images/first.png', array('align' => 'absmiddle', 'alt' => __('First'), 'title' => __('First'))), 'schemahistory/list?page=1' . $filterParam) ?>
+  <?php echo link_to(image_tag(sfConfig::get('sf_admin_web_dir').'/images/previous.png', array('align' => 'absmiddle', 'alt' => __('Previous'), 'title' => __('Previous'))), 'schemahistory/list?page='.$pager->getPreviousPage() . $filterParam) ?>
 
   <?php foreach ($pager->getLinks() as $page): ?>
-    <?php echo link_to_unless($page == $pager->getPage(), $page, 'history/list?page='.$page . $filterParam) ?>
+    <?php echo link_to_unless($page == $pager->getPage(), $page, 'schemahistory/list?page='.$page . $filterParam) ?>
   <?php endforeach; ?>
 
-  <?php echo link_to(image_tag(sfConfig::get('sf_admin_web_dir').'/images/next.png', array('align' => 'absmiddle', 'alt' => __('Next'), 'title' => __('Next'))), 'history/list?page='.$pager->getNextPage() . $filterParam) ?>
-  <?php echo link_to(image_tag(sfConfig::get('sf_admin_web_dir').'/images/last.png', array('align' => 'absmiddle', 'alt' => __('Last'), 'title' => __('Last'))), 'history/list?page='.$pager->getLastPage() . $filterParam) ?>
+  <?php echo link_to(image_tag(sfConfig::get('sf_admin_web_dir').'/images/next.png', array('align' => 'absmiddle', 'alt' => __('Next'), 'title' => __('Next'))), 'schemahistory/list?page='.$pager->getNextPage() . $filterParam) ?>
+  <?php echo link_to(image_tag(sfConfig::get('sf_admin_web_dir').'/images/last.png', array('align' => 'absmiddle', 'alt' => __('Last'), 'title' => __('Last'))), 'schemahistory/list?page='.$pager->getLastPage() . $filterParam) ?>
 <?php endif; ?>
 </div>
 <?php echo format_number_choice('[0] no result|[1] 1 result|(1,+Inf] %1% results', array('%1%' => $pager->getNbResults()), $pager->getNbResults()) ?>
@@ -38,8 +38,8 @@
 </tfoot>
 <tbody>
 <?php $i = 1; $tsLast = 1925009940; $versions = $sf_flash->get('versions'); ?>
-<?php foreach ($pager->getResults() as $concept_property_history): $odd = fmod(++$i, 2) ?>
-<?php $tsNew = strtotime($concept_property_history->getCreatedAt()); ?>
+<?php foreach ($pager->getResults() as $schema_property_element_history): $odd = fmod(++$i, 2) ?>
+<?php $tsNew = strtotime($schema_property_element_history->getCreatedAt()); ?>
 <?php foreach ($versions as $version):
   $ts = strtotime($version->getTimeslice());?>
 <?php if ($ts < $tsLast && $ts >= $tsNew): ?>
@@ -50,15 +50,15 @@
         'ts',
         array(
           'type' => 'list',
-          'concept_property_history' => $concept_property_history,
+          'schema_property_element_history' => $schema_property_element_history,
           'version' => $version));
           echo ($value) ? $value : '&nbsp;' ?>
 </td></tr><?php //debugbreak(); ?>
 <?php endif; ?>
 <?php endforeach; $tsLast = $tsNew ?>
 <tr class="sf_admin_row_<?php echo $odd ?>">
-<?php include_partial('list_td_tabular', array('concept_property_history' => $concept_property_history)) ?>
-<?php include_partial('list_td_actions', array('concept_property_history' => $concept_property_history)) ?>
+<?php include_partial('list_td_tabular', array('schema_property_element_history' => $schema_property_element_history)) ?>
+<?php include_partial('list_td_actions', array('schema_property_element_history' => $schema_property_element_history)) ?>
 </tr>
 <?php endforeach; ?>
 </tbody>
