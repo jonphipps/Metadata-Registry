@@ -25,13 +25,15 @@ generator:
       title:          Schema
       fields:
         updated_at:   { params: date_format='yyyy-MM-dd' }
-      display:        [=name, _agent, updated_at]
+      display:        [=name, _agent, updated_at, updated_user]
       sort:           name
       object_actions:
         _edit:        { credentials: [[administrator, schemamaintainer, schemaadmin]] }
       actions:
         _create:      { name: Add schema,  credentials: [[administrator, hasAgents]] }
-      filters:        [agent_id]
+      filters:
+#        agent_id:     { name: agent_id, params: peer_method=getSchemaAgents related_class=Schema }
+        agent_id:     agent_id
 
     edit:
       title:

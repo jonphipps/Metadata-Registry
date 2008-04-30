@@ -783,6 +783,10 @@ EOF;
       return "get_partial('".$column->getName()."', array('type' => 'filter', 'filters' => \$filters))";
     }
 
+    $related_class = isset($params['related_class']) ? $params['related_class'] : $this->getRelatedClassName($column);
+    $peer_method = isset($params['peer_method']) ? $params['peer_method'] : false;
+    $text_method = isset($params['text_method']) ? $params['text_method'] : '__toString' ;
+
     $type = $column->getCreoleType();
 
     $default_value = "isset(\$filters['".$column->getName()."']) ? \$filters['".$column->getName()."'] : null";
@@ -791,7 +795,13 @@ EOF;
 
     if ($column->isForeignKey())
     {
-      $params = $this->getObjectTagParams($params, array('include_blank' => true, 'related_class'=>$this->getRelatedClassName($column), 'text_method'=>'__toString', 'control_name'=>$unquotedName));
+
+      $paramArray = array('include_blank' => true, 'related_class'=>$related_class, 'text_method'=>$text_method, 'control_name'=>$unquotedName);
+      if ($peer_method)
+      {
+        $paramArray['peer_method'] = $peer_method;
+      }
+      $params = $this->getObjectTagParams($params, $paramArray);
       return "object_select_tag($default_value, null, $params)";
 
     }
