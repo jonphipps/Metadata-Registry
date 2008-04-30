@@ -431,8 +431,15 @@ class myActionTools
   public static function setLatestSchema($schemaId)
   {
     $schemaObj = SchemaPeer::retrieveByPK($schemaId);
-    sfContext::getInstance()->getUser()->setCurrentSchema($schemaObj);
-    return $schemaObj;
+    if ($schemaObj)
+    {
+      sfContext::getInstance()->getUser()->setCurrentSchema($schemaObj);
+      return $schemaObj;
+    }
+    else
+    {
+      return false;
+    }
   }
 
   /**
