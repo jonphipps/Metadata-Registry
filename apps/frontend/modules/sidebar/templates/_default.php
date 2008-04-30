@@ -14,14 +14,14 @@
   </li>
   <li>
 <?php echo link_to(__('Vocabularies'), 'vocabulary/list') ;
-if ($sf_user->getAttribute('agentCount','0','subscriber'))
+if ($sf_user->isAuthenticated() && $sf_user->getAttribute('agentCount','0','subscriber'))
 {
   echo '&nbsp;&nbsp;' .  link_to(__('(Add)'), 'vocabulary/create', array('title' => 'Register a new vocabulary'));
 } ?>
   </li>
   <li>
 <?php echo link_to(__('Schemas'), 'schema/list') ;
-if ($sf_user->getAttribute('agentCount','0','subscriber'))
+if ($sf_user->isAuthenticated() && $sf_user->getAttribute('agentCount','0','subscriber'))
 {
   echo '&nbsp;&nbsp;' .  link_to(__('(Add)'), 'schema/create', array('title' => 'Register a new schema'));
 } ?>
