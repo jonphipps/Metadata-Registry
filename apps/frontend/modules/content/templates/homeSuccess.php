@@ -13,6 +13,7 @@
             <td valign="baseline" align="right" style="white-space:nowrap; padding-right:10px; width:100%;" ><a href="http://metadataregistry.org/blog/category/registry-development/the-registry/feed">rss 2.0</a>&nbsp;&nbsp;<a href="http://metadataregistry.org/blog/category/registry-development/the-registry/feed/rdf">rss 1.0</a>&nbsp;&nbsp;<a href="http://metadataregistry.org/blog/category/registry-development/the-registry/feed/atom">atom 1.0</a>&nbsp;&nbsp;<?php echo image_tag('feed-icon.gif',array('align' => "middle")); ?></td>
           </tr>
         </table>
+<?php if (isset($rssItems)): ?>
     <div id="home_news_feed" > <!-- http://metadataregistry.org/blog/category/registry-development/feed -->
 <?php foreach ($rssItems as $key => $item): ?>
         <div style="padding-top:10px; border-bottom:#F2A430 1px solid; margin-bottom:2px;">
@@ -24,4 +25,5 @@
         </div>
 <?php endforeach; ?>
     </div>
+<?php endif; ?>
   </div>

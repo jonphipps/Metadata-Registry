@@ -1,7 +1,7 @@
 <?php
 /**
  * RSS-PHP
- * 
+ *
  * PHP DOM based XML (RSS) Parser Thing
  * Fri Feb 08 21:00:31 GMT 2008
  *
@@ -19,9 +19,9 @@
 //	should rss-php use HTTP_TRANSPORT
 	define('RSS_PHP_HTTP_TRANSPORT', TRUE);
 
-	
+
 /*
-DO NOT MODIFY ANYTHING BELOW 
+DO NOT MODIFY ANYTHING BELOW
 #######################################################*/
 
 #INTERNAL PATH DEFINITIONS
@@ -140,7 +140,8 @@ class rss_php {
 						if(file_exists($urlparts['path'])) {
 							$returnValue = $this->loadParser(file_get_contents($url));
 						} else {
-							die('RSS_PHP ERROR : can not find the specified file ['.$url.']');
+              throw new Exception('RSS_PHP ERROR : can not find the specified file ['.$url.']');
+							//die('RSS_PHP ERROR : can not find the specified file ['.$url.']');
 						}
 					} else {
 						#remote file
@@ -153,21 +154,24 @@ class rss_php {
 							if($http_handler->executeRequest()) {
 								$returnValue = $this->loadParser($http_handler->getSingleResponse($url));
 							} else {
-								die($http_handler->HTTPErrorMsg);
+                throw new Exception($http_handler->HTTPErrorMsg);
+								//die($http_handler->HTTPErrorMsg);
 							}
 						} else {
 							$returnValue = $this->loadParser(file_get_contents($url));
 						}
 					}
 				} else {
-					die('RSS_PHP ERROR : PHP cannot parse the given path / url ['.$url.']');
+          throw new Exception('RSS_PHP ERROR : PHP cannot parse the given path / url ['.$url.']');
+					//die('RSS_PHP ERROR : PHP cannot parse the given path / url ['.$url.']');
 				}
 			} else {
-				die('RSS_PHP ERROR : Parameter 1 [path/url] cannot be null');
+        throw new Exception('RSS_PHP ERROR : Parameter 1 [path/url] cannot be null');
+				//die('RSS_PHP ERROR : Parameter 1 [path/url] cannot be null');
 			}
 			return $returnValue;
 		}
-		
+
 /**
  * load raw xml into rss_php
  *
@@ -187,7 +191,7 @@ class rss_php {
  * @deprecated this is included for backwards compatibility only, please use method loadXML()
  * @param string $rawxml raw xml in a string
  * @return boolean success
- */		
+ */
 		public function loadRSS($rawxml) {
 			return $this->loadXML($rawxml);
 		}
@@ -209,7 +213,7 @@ class rss_php {
 			$this->convertArray($array);
 			return $this->gdoc();
 		}
-		
+
 /**
  * return a referenced array to document
  *
@@ -233,7 +237,7 @@ class rss_php {
 	public function &getRSS($includeAttributes=false) {
 		return $this->getValues($includeAttributes);
 	}
-	
+
 	# return rss items
 	public function &getItems($includeAttributes=false,$limit=false,$offset=false) {
 		if($includeAttributes) {
@@ -321,7 +325,7 @@ class rss_php {
 			$this->DOMDocument->formatOutput = true;
 			$this->DOMDocument->preserveWhiteSpace = false;
 			@$this->DOMDocument->loadXML($xml);
-			
+
 			return $this->gdoc();
 		}
 		return false;
@@ -362,7 +366,7 @@ class rss_php {
 /**
  * @internal parses DOMNodeList objects into an associative array for return from public functions
  *
- * @param DOMNodeList/DOMNode $nodeList 
+ * @param DOMNodeList/DOMNode $nodeList
  * @param array $valueBlock current array level
  * @return array final name/value pairs for return from methods
  */
@@ -464,7 +468,7 @@ class rss_php {
 				if($values->attributes) {
 					for($i=0;$values->attributes->item($i);$i++) {
 						$values->attributeNodes[$values->attributes->item($i)->nodeName] = &$values->attributes->item($i)->nodeValue;
-					}	
+					}
 				}
 				$values->children = $this->extractDOM($values->childNodes);
 				$tempNode[$nodeName] = $values;
@@ -476,11 +480,11 @@ class rss_php {
 			}
 			# other wise we ignore as all that's left is DOMComment
 			# note DOMComment Will only output in XML format they are not saved!
-			
+
 		}
 		return $tempNode;
 	}
-	
+
 /**
  * @internal internal array parser, turns any array into a DOMDocument
  *
