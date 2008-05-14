@@ -20,6 +20,7 @@ class schemaActions extends autoschemaActions
     $baseDomain = rtrim(sfConfig::get('app_base_domain') ," /");
     $schema->setBaseDomain($baseDomain . "/schema/");
     $schema->setLanguage(sfConfig::get('app_default_language'));
+    $schema->setProfileId(sfConfig::get('app_schema_profile_id'));
     parent::setDefaults($schema);
   }
 

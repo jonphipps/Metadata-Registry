@@ -4,3 +4,4 @@ all:
   base_domain:      "http://registry/uri/"
   default_language: en
   default_status_id: 1
+  schema_profile_id: 1
