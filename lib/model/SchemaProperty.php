@@ -45,4 +45,25 @@ class SchemaProperty extends BaseSchemaProperty
   {
     return $this->getSchemaPropertyRelatedByIsSubpropertyOf();
   }
+
+  /**
+  * clear the properties of the stored schema
+  *
+  * @return return_type
+  * @param  var_type $var
+  */
+  public function save($con = null)
+  {
+    $affectedRows = parent::save($con);
+
+    $schema = sfContext::getInstance()->getUser()->getCurrentSchema();
+    if ($schema)
+    {
+      /** @var Schema **/
+      $schema->clearProperties();
+      $schema->getSchemaPropertys();
+    }
+
+    return $affectedRows;
+  }
 }
