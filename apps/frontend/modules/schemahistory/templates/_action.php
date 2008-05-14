@@ -13,11 +13,13 @@
 
     /** @var ConceptPropertyHistory **/
     $previous = $schema_property_element_history->getPrevious();
-    $oldAction = $previous->getAction();
-    $oldObject = $previous->getObject();
-    $oldStatus = $previous->getStatus();
-    $oldLanguage = $previous->getLanguage();
-    $str = <<<EOD
+    if ($previous)
+    {
+      $oldAction = $previous->getAction();
+      $oldObject = $previous->getObject();
+      $oldStatus = $previous->getStatus();
+      $oldLanguage = $previous->getLanguage();
+      $str = <<<EOD
 <a class="load-local" href="#detail_$id" rel="#detail_$id" title="Change Detail">updated...</a>
 <div id="detail_$id">
   <table cellpadding="0" cellspacing="0" class="rowDetail">
@@ -55,7 +57,12 @@
   </table>
 </div>
 EOD;
-    echo $str;
+      echo $str;
+    }
+    else
+    {
+      echo $action;
+    }
   }
   else
   {
