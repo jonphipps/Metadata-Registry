@@ -144,7 +144,9 @@ class schemapropActions extends autoschemapropActions
 
               if ($fieldTest)
               {
-                $schema_property->createElement($userId, $id, $field, $con);
+                $object = $this->getFieldValue($schema_property, $field);
+                $element = SchemaPropertyElementPeer::createElement($schema_property, $userId, $id);
+                $element = $this->updateElement($element, $schema_property, $userId, $field, $object, $con);
               }
             }
           }
@@ -196,24 +198,8 @@ class schemapropActions extends autoschemapropActions
                 $element = SchemaPropertyElementPeer::createElement($schema_property, $userId, $id);
               }
 
-              if ($element)
-              {
-                $element->setIsSchemaProperty(true);
-                $element->setUpdatedUserId($userId);
-                //SchemaPropertyElementPeer::updateElement($schema_property, $element, $userId, $field, $con);
+              $element = $this->updateElement($element, $schema_property, $userId, $field, $object, $con);
 
-                if ('is_subproperty_of' == $field)
-                {
-                  $element->setRelatedSchemaPropertyId($schema_property->getIsSubpropertyOf());
-                  $element->setObject('');
-                }
-                else
-                {
-                  $element->setObject($object ? $object : '');
-                }
-
-                $element->save($con);
-              }
             }
           }
 
@@ -255,4 +241,34 @@ class schemapropActions extends autoschemapropActions
     return $fieldTest;
   }
 
+  /**
+  * create a new element
+  *
+  * @return SchemaPropertyElement
+  * @param  SchemaPropertyElement $element
+  * @param  Connection $con
+  */
+  public function updateElement(SchemaPropertyElement $element, $schema_property, $userId, $field, $object, $con)
+  {
+    if ($element)
+    {
+      $element->setIsSchemaProperty(true);
+      $element->setUpdatedUserId($userId);
+      //SchemaPropertyElementPeer::updateElement($schema_property, $element, $userId, $field, $con);
+
+      if ('is_subproperty_of' == $field)
+      {
+        $element->setRelatedSchemaPropertyId($schema_property->getIsSubpropertyOf());
+        $element->setObject('');
+      }
+      else
+      {
+        $element->setObject($object ? $object : '');
+      }
+
+      $element->save($con);
+    }
+
+    return $element;
+  }
 }

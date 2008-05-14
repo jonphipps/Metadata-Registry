@@ -51,7 +51,9 @@ class schemapropelActions extends autoschemapropelActions
     **/
     if (!isset($this->requiredProperties))
     {
-      $properties = $this->schema_property->getSchema()->getProfile()->getRequiredProperties();
+      $schema = $this->schema_property->getSchema();
+      $profile = $schema->getProfile();
+      $properties = $profile->getRequiredProperties();
       $required = array();
 
       foreach ($properties as $value)
