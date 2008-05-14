@@ -71,7 +71,7 @@ generator:
       hide:                [schema_id]
       display:
         "-Metadata":   { fields: [id, created_at, created_user, updated_at, updated_user], mode: edit}
-        "Detail":      [name, label, uri, definition, comment, type, is_subproperty_of, status_id, language, note]
+        "Detail":      [name, label, definition, comment, type, is_subproperty_of, status_id, language, note, uri]
 #        "Properties":  [_listproperties]
       actions:
         _list:         { query_string: { schema_id: schema_id} }
