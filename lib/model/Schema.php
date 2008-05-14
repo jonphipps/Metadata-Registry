@@ -128,4 +128,12 @@ class Schema extends BaseSchema
     return $fieldsNew;
   }
 
+  /**
+  * clears the properties
+  *
+  */
+  public function clearProperties()
+  {
+    $this->collSchemaPropertys = null;
+  }
 }
