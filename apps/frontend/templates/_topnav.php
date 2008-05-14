@@ -30,10 +30,10 @@
   //schemas
   $topnav['schema']     ['Detail']     ['link'] = '/schema/show?id=';
   $topnav['schema']     ['Properties'] ['link'] = '/schemaprop/list?schema_id=';
-  $topnav['schema']     ['Namespaces'] ['link'] = '/namespace/list?schema_id=';
+//  $topnav['schema']     ['Namespaces'] ['link'] = '/namespace/list?schema_id=';
   $topnav['schema']     ['History']    ['link'] = '/schemahistory/list?schema_id=';
-  $topnav['schema']     ['Versions']   ['link'] = '/schemaversion/list?schema_id=';
-  $topnav['schema']     ['Maintainers']['link'] = '/schemauser/list?schema_id=';
+//  $topnav['schema']     ['Versions']   ['link'] = '/schemaversion/list?schema_id=';
+//  $topnav['schema']     ['Maintainers']['link'] = '/schemauser/list?schema_id=';
   //schema properties
   $topnav['schemaprop'] ['Detail']     ['link'] = '/schemaprop/show?id=';
   $topnav['schemaprop'] ['Elements']   ['link'] = '/schemapropel/list?schema_property_id=';
