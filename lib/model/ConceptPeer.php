@@ -60,7 +60,13 @@ class ConceptPeer extends BaseConceptPeer
      {
          $vocabId = sfContext::getInstance()->getUser()->getAttribute('vocabulary')->getId();
      }
-     $conceptId = sfContext::getInstance()->getUser()->getAttribute('concept')->getId();
+
+     $concept = myActionTools::findCurrentConcept();
+     if ($concept)
+     {
+       $conceptId = $concept->getId();
+     }
+
      return self::getConceptsByVocabID($vocabId, $conceptId);
   }
 
