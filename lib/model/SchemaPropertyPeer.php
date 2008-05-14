@@ -17,7 +17,22 @@ class SchemaPropertyPeer extends BaseSchemaPropertyPeer
   public static function getPropertiesByCurrentSchemaID()
   {
     $schema = myActionTools::findCurrentSchema();
-    return $schema->getSchemaPropertys();
+    $properties = $schema->getSchemaPropertys();
+
+    $request = sfContext::getInstance()->getRequest();
+    $currentPropertyId = $request->getParameter('id');
+    if ("schemaprop" == $request->getParameter('module') && "edit" == $request->getParameter('action'))
+    {
+      foreach ($properties as $id => $property)
+      {
+        if ($property->getId() == $currentPropertyId)
+        {
+          unset($properties[$id]);
+          break;
+        }
+      }
+    }
+    return $properties;
   }
 
 }
