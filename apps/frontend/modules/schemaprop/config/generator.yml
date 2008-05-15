@@ -58,6 +58,7 @@ generator:
           create:      Creating new property
       fields:
         id:            { credentials: [administrator], mode: edit }
+        name:          { params: onblur=updateUri() }
         type:
           type: select_tag
           params:
@@ -68,10 +69,10 @@ generator:
         language:          { type: select_language_tag }
         is_subproperty_of: { params: related_class=SchemaProperty peer_method=getPropertiesByCurrentSchemaID }
       title:               Detail for %%label%%
-      hide:                [schema_id]
+      hide:                [schema_id, schema_uri]
       display:
         "-Metadata":   { fields: [id, created_at, created_user, updated_at, updated_user], mode: edit}
-        "Detail":      [name, label, definition, comment, type, is_subproperty_of, status_id, language, note, uri]
+        "Detail":      [name, uri, label, definition, comment, type, is_subproperty_of, status_id, language, note]
 #        "Properties":  [_listproperties]
       actions:
         _list:         { query_string: { schema_id: schema_id} }

@@ -3,4 +3,4 @@ all:
   javascripts: [%SF_PROTOTYPE_WEB_DIR%/js/prototype: { position: last }]
 
 editSuccess:
-  javascripts: [schemaprop/swapoptions: { position: last }]
+  javascripts: [schemaprop/swapoptions: { position: last }, schemaprop: { position: last }]

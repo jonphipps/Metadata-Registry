@@ -32,17 +32,15 @@ class schemapropActions extends autoschemapropActions
     {
       $schemaDomain = $schemaObj->getBaseDomain();
       $schemaToken = $schemaObj->getToken();
-      //get the next id
-      $nextUriId = SchemaPeer::getNextSchemaPropertyId($schemaId);
       //URI looks like: agent(base_domain) / schema(token) / schema(next_schemaprop_id) / skos_property_id # schemaprop(next_property_id)
       $vSlash = preg_match('@(/$)@i', $schemaDomain) ? '' : '/';
       $tSlash = preg_match('@(/$)@i', $schemaToken ) ? '' : '/';
-      $newURI = $schemaDomain . $vSlash . $schemaToken . $tSlash . $nextUriId;
+      $newURI = $schemaDomain . $vSlash . $schemaToken . $tSlash;
       //registry base domain is http://metadataregistry.org/uri/
       //next_schemaprop_id is always initialized to 100000, allowing for 999,999 schemaprops
       //schema carries denormalized base_domain from agent
 
-      $schemaprop->setUri($newURI);
+      $schemaprop->setSchemaUri($newURI);
       $schemaprop->setLabel('');
       //set to the schema defaults
       $schemaprop->setLanguage($schemaObj->getLanguage());

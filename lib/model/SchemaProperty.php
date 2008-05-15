@@ -9,6 +9,12 @@
  */
 class SchemaProperty extends BaseSchemaProperty
 {
+  /**
+   * The value for the base schema uri field.
+   * @var        string
+   */
+  protected $schemaUri = '';
+
   public function __toString()
   {
     return $this->getLabel();
@@ -66,4 +72,33 @@ class SchemaProperty extends BaseSchemaProperty
 
     return $affectedRows;
   }
+
+  /**
+  * get the base schema uri
+  *
+  * @return string The uri of the schema
+  */
+  public function getSchemaUri()
+  {
+    return $this->schemaUri;
+  }
+
+  /**
+  * set the property base schema uri
+  *
+  * @return string The uri of the schema
+  */
+  public function setSchemaUri($v)
+  {
+    // Since the native PHP type for this column is string,
+    // we will cast the input to a string (if it is not).
+    if ($v !== null && !is_string($v)) {
+      $v = (string) $v;
+    }
+
+    if ($this->schemaUri !== $v || $v === '') {
+      $this->schemaUri = $v;
+    }
+  }
+
 }
