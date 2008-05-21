@@ -1,7 +1,8 @@
 # default values
 all:
-  title_prefix:     "The Registry! :: "
-  base_domain:      "http://registry/uri/"
-  default_language: en
+  title_prefix:      "The Registry! :: "
+  base_domain:       "http://registry/uri/"
+  default_language:  en
   default_status_id: 1
   schema_profile_id: 1
+  admin_email:       sysadmin@metadataregistry.org

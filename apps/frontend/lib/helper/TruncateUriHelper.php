@@ -34,9 +34,10 @@ function truncate_uri($text, $length = 30, $truncate_string = '...')
   $fullText = $text;
 
   //check for a registry URI and strip it before checking the length
-  if (false !== strpos($text,'http://metadataregistry.org/uri'))
+  $baseDomain = rtrim(sfConfig::get('app_base_domain') ," /");
+  if (false !== strpos($text, $baseDomain))
   {
-    $text = str_replace('http://metadataregistry.org/uri', '', $text);
+    $text = str_replace($baseDomain, '', $text);
   }
 
   if (strlen($text) > $length)
@@ -45,7 +46,7 @@ function truncate_uri($text, $length = 30, $truncate_string = '...')
     if (preg_match('/([-A-Z0-9.]+)(\/[-A-Z0-9+&@#\/%=~_|!:,.;?]*)/i', $text, $regs))
     {
       $truncate_text = $regs[2];
-      
+
       //this will keep lopping off pieces of the URI at the '/' until we can't do it any more or it's shorter
       while (strlen($truncate_text) > $length)
       {

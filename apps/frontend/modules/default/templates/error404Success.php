@@ -1,6 +1,6 @@
 <?php decorate_with(sfLoader::getTemplatePath('default', 'defaultLayout.php')) ?>
 
-<div class="sfTMessageContainer sfTAlert"> 
+<div class="sfTMessageContainer sfTAlert">
   <?php echo image_tag('/sf/sf_default/images/icons/cancel48.png', array('alt' => 'page not found', 'class' => 'sfTMessageIcon', 'size' => '48x48')) ?>
   <div class="sfTMessageWrap">
     <h1>Oops! Page Not Found</h1>
@@ -12,10 +12,10 @@
   <dd>You may have typed the address (URL) incorrectly. Check it to make sure you've got the exact right spelling, capitalization, etc.</dd>
 
   <dt>Did you follow a link from somewhere else at this site?</dt>
-  <dd>If you reached this page from another part of this site, please email us at <?php echo mail_to('sysadmin@metadataregistry.org') ?> so we can correct our mistake.</dd>
+  <dd>If you reached this page from another part of this site, please email us at <?php echo mail_to(sfConfig::get('app_admin_email')) ?> so we can correct our mistake.</dd>
 
   <dt>Did you follow a link from another site?</dt>
-  <dd>Links from other sites can sometimes be outdated or misspelled. Please email us at <?php echo mail_to('sysadmin@metadataregistry.org') ?> and tell us where you came from and we can try to contact the other site in order to fix the problem.</dd>
+  <dd>Links from other sites can sometimes be outdated or misspelled. Please email us at <?php echo mail_to(sfConfig::get('app_admin_email')) ?> and tell us where you came from and we can try to contact the other site in order to fix the problem.</dd>
 
   <dt>What's next</dt>
   <dd>

@@ -37,8 +37,8 @@ class contentActions extends sfActions
     require_once('markdown.php');
 
     $hostPrefix = '/content/';
-
-    if ('sandbox.metadataregistry.org' == $this->getRequest()->getHost())
+    $hostName = str_replace('http://', '', rtrim(sfConfig::get('app_base_domain') ," /"));
+    if ('sandbox.' . $hostName == $this->getRequest()->getHost())
     {
       $hostPrefix .= 'sandbox_' ;
     }

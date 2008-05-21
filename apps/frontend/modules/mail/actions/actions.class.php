@@ -14,7 +14,7 @@ class mailActions extends sfActions
   {
     $mail = new sfMail();
     $mail->addAddress($this->getRequestParameter('email'));
-    $mail->setFrom('MetadataRegistry sysadmin <sysadmin@metadataregistry.org>');
+    $mail->setFrom('MetadataRegistry sysadmin <' . sfConfig::get('app_admin_email') . '>');
     $mail->setSubject('Registry password recovery');
 
     $mail->setPriority(1);

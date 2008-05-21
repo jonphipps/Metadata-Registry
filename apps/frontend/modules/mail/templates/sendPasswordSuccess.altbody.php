@@ -1,17 +1,17 @@
 Dear Registry user,
- 
+
 A request for <?php echo $mail->getSubject() ?> was sent to this address.
- 
+
 For safety reasons, the Registry website does not store unencrypted passwords.
 When you forget your password, the Registry assigns you a new one..
- 
+
 You can now connect to your Registry profile with:
- 
+
 login name: <?php echo $nickname ?>
   password: <?php echo $password ?>
- 
-To get connected, go to the login page (http://metadataregistry.org/login.html).
- 
+
+To get connected, go to the login page (<?php echo rtrim(sfConfig::get('app_base_domain') ," /") ?>/login.html).
+
 We hope to see you soon on The Registry!
- 
+
 The Registry email robot
