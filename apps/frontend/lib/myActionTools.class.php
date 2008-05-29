@@ -295,7 +295,10 @@ class myActionTools
   public static function setLatestVocabulary($vocabId)
   {
     $vocabObj = VocabularyPeer::retrieveByPK($vocabId);
-    sfContext::getInstance()->getUser()->setCurrentVocabulary($vocabObj);
+    if ($vocabObj)
+    {
+      sfContext::getInstance()->getUser()->setCurrentVocabulary($vocabObj);
+    }
     return $vocabObj;
   }
 

@@ -111,7 +111,7 @@ class userObjectFilter extends sfFilter
         if ($vocabulary)
         {
           $agentId = $vocabulary->getAgentId();
-          $user->buildModCredentials($agentId,'agent');
+          $user->buildModCredentials($agentId, 'agent', true);
         }
       }
     }

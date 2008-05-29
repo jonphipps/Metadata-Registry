@@ -523,10 +523,16 @@ class myUser extends sfBasicSecurityUser
   *
   * @return boolean
   * @param string  $key         The object key to match against
+  * @param string  $module      The module to check against
+  * @param boolean $merge       If true, merges the credentials with existing credentials
   */
-  public function buildModCredentials($key, $module = null)
+  public function buildModCredentials($key, $module = null, $merge = false)
   {
     $modCredentials = $this->buildObjectCredentials($key, $module);
+    if ($merge)
+    {
+      $modCredentials = array_merge($this->modCredentials, $modCredentials);
+    }
     $this->modCredentials = array_merge($this->credentials, $modCredentials);
   }
 
