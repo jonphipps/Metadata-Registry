@@ -105,6 +105,15 @@ class userObjectFilter extends sfFilter
     if ($key)
     {
       $user->buildModCredentials($key, $module);
+      if ('vocabulary' == $module)
+      {
+        $vocabulary = myActionTools::findCurrentVocabulary();
+        if ($vocabulary)
+        {
+          $agentId = $vocabulary->getAgentId();
+          $user->buildModCredentials($agentId,'agent');
+        }
+      }
     }
     //skip re-setting the modcredentials if the action == create
     else

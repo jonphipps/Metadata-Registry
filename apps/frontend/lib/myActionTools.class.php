@@ -96,8 +96,7 @@ class myActionTools
   * returns a 404 if no vocabulary has already been selected
   * Peforms a redirect if one has but the param has not been added to the request
   *
-  * @param  string $module The calling module
-  * @param  string $action The calling action
+  * @return  Vocabulary The current vocabulary object
   */
   public static function requireVocabularyFilter()
   {
@@ -125,7 +124,7 @@ class myActionTools
       **/
     }
 
-    return;
+    return $vocabulary;
   }
 
    /**

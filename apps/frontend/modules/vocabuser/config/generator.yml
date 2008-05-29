@@ -18,10 +18,10 @@ generator:
       display:            [_user, _vocabulary, isRegistrarFor, isAdminFor, isMaintainerFor]
       object_actions:
         _show:
-        _edit:            { credentials: [[administrator, vocabularyadmin]] }
-        _delete:          { credentials: [[administrator, vocabularyadmin]] }
+        _edit:            { credentials: [[administrator, vocabularyadmin, agentadmin]] }
+        _delete:          { credentials: [[administrator, vocabularyadmin, agentadmin]] }
       actions:
-        _create:          { name: Add Maintainer, credentials: [[administrator, vocabularyadmin]] }
+        _create:          {query_string: {vocabulary_id: vocabulary_id}, name: Add Maintainer, credentials: [[administrator, vocabularyadmin, agentadmin]] }
       displayfilter:      false
       filters:            [vocabulary_id, user_id]
       urlfilters:
@@ -39,11 +39,11 @@ generator:
         user:          { type: plain, mode: edit }
       display:         [user, user_id, isAdminFor, isMaintainerFor]
       actions:
-        _save:         { credentials: [[administrator, vocabularyadmin]] }
-        _delete:       { credentials: [[administrator, vocabularyadmin]] }
-        _create:       { name: Add Maintainer, credentials: [[administrator, vocabularyadmin]], mode: edit  }
-        _save_and_add: { credentials: [[administrator, vocabularyadmin]] }
-        _cancel:       { credentials: [[administrator, vocabularyadmin]] }
+        _save:         { credentials: [[administrator, vocabularyadmin, agentadmin]] }
+        _delete:       { credentials: [[administrator, vocabularyadmin, agentadmin]] }
+        _create:       { name: Add Maintainer, credentials: [[administrator, vocabularyadmin, agentadmin]], mode: edit  }
+        _save_and_add: { credentials: [[administrator, vocabularyadmin, agentadmin]] }
+        _cancel:       { credentials: [[administrator, vocabularyadmin, agentadmin]] }
 
     show:
       title:           %%vocabulary%% permissions for %%user%%
@@ -51,6 +51,6 @@ generator:
         user:          { type: plain }
       display:         [user, isRegistrarFor, isAdminFor, isMaintainerFor]
       actions:
-        _delete:       { credentials: [[administrator, vocabularyadmin]] }
-        _edit:         { credentials: [[administrator, vocabularyadmin]] }
-        _create:       { name: Add Maintainer, credentials: [[administrator, vocabularyadmin]] }
+        _delete:       { credentials: [[administrator, vocabularyadmin, agentadmin]] }
+        _edit:         { credentials: [[administrator, vocabularyadmin, agentadmin]] }
+        _create:       { name: Add Maintainer, credentials: [[administrator, vocabularyadmin, agentadmin]] }

@@ -39,7 +39,7 @@ class schemaActions extends autoschemaActions
     parent::executeSave();
   }
 
-  public function executeRdf ()
+  public function executeShowRdf ()
   {
      $this->forward('rdf','ShowSchema');
   }

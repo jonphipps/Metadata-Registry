@@ -1,4 +1,4 @@
-  
+
 <?php
 
 /**
@@ -24,10 +24,13 @@ class vocabuserActions extends autovocabuserActions
   */
   public function setDefaults($VocabularyHasUser)
   {
-    $vocabulary = myActionTools::findCurrentVocabulary();
-    if ($vocabulary)
+    if (!isset($this->vocabulary))
     {
-      $VocabularyHasUser->setVocabularyId($vocabulary->getId());
+      $this->vocabulary = myActionTools::findCurrentVocabulary();
+    }
+    if ($this->vocabulary)
+    {
+      $VocabularyHasUser->setVocabularyId($this->vocabulary->getId());
     }
 
     $VocabularyHasUser->setIsRegistrarFor(false);
@@ -70,7 +73,7 @@ class vocabuserActions extends autovocabuserActions
     if (!$this->hasRequestParameter('user_id')) //we're not filtering by user
     {
       //a current vocabulary is required
-      myActionTools::requireVocabularyFilter();
+      $vocabulary = myActionTools::requireVocabularyFilter();
     }
 
     parent::executeList();

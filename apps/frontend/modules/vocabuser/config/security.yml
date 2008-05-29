@@ -9,8 +9,8 @@ all:
 
 create:
   is_secure:   on
-  credentials: [[administrator, vocabularyadmin, vocabuseradmin]]
+  credentials: [[administrator, vocabularyadmin, vocabuseradmin, agentadmin]]
 
 edit:
   is_secure:   on
-  credentials: [[administrator, vocabularyadmin, vocabuseradmin]]
+  credentials: [[administrator, vocabularyadmin, vocabuseradmin, agentadmin]]
