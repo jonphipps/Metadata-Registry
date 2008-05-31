@@ -136,4 +136,35 @@ class Schema extends BaseSchema
   {
     $this->collSchemaPropertys = null;
   }
+
+  /**
+  * gets just the properties, ordered by name
+  *
+  * @return array SchemaProperty
+  */
+  public function getProperties()
+  {
+    $c = new Criteria();
+    $c->add(SchemaPropertyPeer::TYPE,'property');
+    $c->addOr(SchemaPropertyPeer::TYPE,'subproperty');
+    $c->addDescendingOrderByColumn(SchemaPropertyPeer::NAME);
+
+    return $this->getSchemaPropertysJoinStatus($c);
+  }
+
+  /**
+  * gets just the classes, ordered by name
+  *
+  * @return array SchemaProperty
+  */
+  public function getClasses()
+  {
+    $c = new Criteria();
+    $c->add(SchemaPropertyPeer::TYPE,'class');
+    $c->addOr(SchemaPropertyPeer::TYPE,'subclass');
+    $c->addDescendingOrderByColumn(SchemaPropertyPeer::NAME);
+
+    return $this->getSchemaPropertysJoinStatus($c);
+  }
+
 }

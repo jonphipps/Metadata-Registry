@@ -1,4 +1,11 @@
 all:
   javascripts: [%SF_PROTOTYPE_WEB_DIR%/js/prototype: { position: last }]
+
 editSuccess:
   javascripts: [schema: { position: last }]
+
+showRdfSuccess:
+  has_layout: off
+  http_metas:
+#    content-type: application/rdf+xml
+    content-type: application/xml; charset="utf-8"

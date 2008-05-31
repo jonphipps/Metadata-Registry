@@ -41,6 +41,18 @@ class schemaActions extends autoschemaActions
 
   public function executeShowRdf ()
   {
-     $this->forward('rdf','ShowSchema');
+    $ts = strtotime($this->getRequestParameter('ts'));
+    $this->timestamp = $ts;
+    if (!$this->schema)
+    {
+      $this->schema = SchemaPeer::retrieveByPk($this->getRequestParameter('id'));
+    }
+    $this->labels = $this->getLabels('show');
+
+    $this->forward404Unless($this->schema);
+    $this->properties = $this->schema->getProperties();
+    $this->classes = $this->schema->getClasses();
+
+     //$this->forward('rdf','ShowSchema');
   }
 }
