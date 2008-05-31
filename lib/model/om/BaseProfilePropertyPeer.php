@@ -19,7 +19,7 @@ abstract class BaseProfilePropertyPeer {
 	const CLASS_DEFAULT = 'lib.model.ProfileProperty';
 
 	/** The total number of columns. */
-	const NUM_COLUMNS = 25;
+	const NUM_COLUMNS = 27;
 
 	/** The number of lazy-loaded columns. */
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -48,6 +48,12 @@ abstract class BaseProfilePropertyPeer {
 
 	/** the column name for the PROFILE_ID field */
 	const PROFILE_ID = 'profile_property.PROFILE_ID';
+
+	/** the column name for the SCHEMA_ID field */
+	const SCHEMA_ID = 'profile_property.SCHEMA_ID';
+
+	/** the column name for the SCHEMA_PROPERTY_ID field */
+	const SCHEMA_PROPERTY_ID = 'profile_property.SCHEMA_PROPERTY_ID';
 
 	/** the column name for the NAME field */
 	const NAME = 'profile_property.NAME';
@@ -111,10 +117,10 @@ abstract class BaseProfilePropertyPeer {
 	 * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
 	 */
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'CreatedAt', 'UpdatedAt', 'DeletedAt', 'CreatedBy', 'UpdatedBy', 'DeletedBy', 'ProfileId', 'Name', 'Label', 'Definition', 'Comment', 'Type', 'Uri', 'StatusId', 'Language', 'Note', 'DisplayOrder', 'PicklistOrder', 'Examples', 'IsRequired', 'IsReciprocal', 'IsSingleton', 'IsInPicklist', 'InverseProfilePropertyId', ),
-		BasePeer::TYPE_COLNAME => array (ProfilePropertyPeer::ID, ProfilePropertyPeer::CREATED_AT, ProfilePropertyPeer::UPDATED_AT, ProfilePropertyPeer::DELETED_AT, ProfilePropertyPeer::CREATED_BY, ProfilePropertyPeer::UPDATED_BY, ProfilePropertyPeer::DELETED_BY, ProfilePropertyPeer::PROFILE_ID, ProfilePropertyPeer::NAME, ProfilePropertyPeer::LABEL, ProfilePropertyPeer::DEFINITION, ProfilePropertyPeer::COMMENT, ProfilePropertyPeer::TYPE, ProfilePropertyPeer::URI, ProfilePropertyPeer::STATUS_ID, ProfilePropertyPeer::LANGUAGE, ProfilePropertyPeer::NOTE, ProfilePropertyPeer::DISPLAY_ORDER, ProfilePropertyPeer::PICKLIST_ORDER, ProfilePropertyPeer::EXAMPLES, ProfilePropertyPeer::IS_REQUIRED, ProfilePropertyPeer::IS_RECIPROCAL, ProfilePropertyPeer::IS_SINGLETON, ProfilePropertyPeer::IS_IN_PICKLIST, ProfilePropertyPeer::INVERSE_PROFILE_PROPERTY_ID, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'created_at', 'updated_at', 'deleted_at', 'created_by', 'updated_by', 'deleted_by', 'profile_id', 'name', 'label', 'definition', 'comment', 'type', 'uri', 'status_id', 'language', 'note', 'display_order', 'picklist_order', 'examples', 'is_required', 'is_reciprocal', 'is_singleton', 'is_in_picklist', 'inverse_profile_property_id', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'CreatedAt', 'UpdatedAt', 'DeletedAt', 'CreatedBy', 'UpdatedBy', 'DeletedBy', 'ProfileId', 'SchemaId', 'SchemaPropertyId', 'Name', 'Label', 'Definition', 'Comment', 'Type', 'Uri', 'StatusId', 'Language', 'Note', 'DisplayOrder', 'PicklistOrder', 'Examples', 'IsRequired', 'IsReciprocal', 'IsSingleton', 'IsInPicklist', 'InverseProfilePropertyId', ),
+		BasePeer::TYPE_COLNAME => array (ProfilePropertyPeer::ID, ProfilePropertyPeer::CREATED_AT, ProfilePropertyPeer::UPDATED_AT, ProfilePropertyPeer::DELETED_AT, ProfilePropertyPeer::CREATED_BY, ProfilePropertyPeer::UPDATED_BY, ProfilePropertyPeer::DELETED_BY, ProfilePropertyPeer::PROFILE_ID, ProfilePropertyPeer::SCHEMA_ID, ProfilePropertyPeer::SCHEMA_PROPERTY_ID, ProfilePropertyPeer::NAME, ProfilePropertyPeer::LABEL, ProfilePropertyPeer::DEFINITION, ProfilePropertyPeer::COMMENT, ProfilePropertyPeer::TYPE, ProfilePropertyPeer::URI, ProfilePropertyPeer::STATUS_ID, ProfilePropertyPeer::LANGUAGE, ProfilePropertyPeer::NOTE, ProfilePropertyPeer::DISPLAY_ORDER, ProfilePropertyPeer::PICKLIST_ORDER, ProfilePropertyPeer::EXAMPLES, ProfilePropertyPeer::IS_REQUIRED, ProfilePropertyPeer::IS_RECIPROCAL, ProfilePropertyPeer::IS_SINGLETON, ProfilePropertyPeer::IS_IN_PICKLIST, ProfilePropertyPeer::INVERSE_PROFILE_PROPERTY_ID, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'created_at', 'updated_at', 'deleted_at', 'created_by', 'updated_by', 'deleted_by', 'profile_id', 'schema_id', 'schema_property_id', 'name', 'label', 'definition', 'comment', 'type', 'uri', 'status_id', 'language', 'note', 'display_order', 'picklist_order', 'examples', 'is_required', 'is_reciprocal', 'is_singleton', 'is_in_picklist', 'inverse_profile_property_id', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, )
 	);
 
 	/**
@@ -124,10 +130,10 @@ abstract class BaseProfilePropertyPeer {
 	 * e.g. self::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
 	 */
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'CreatedAt' => 1, 'UpdatedAt' => 2, 'DeletedAt' => 3, 'CreatedBy' => 4, 'UpdatedBy' => 5, 'DeletedBy' => 6, 'ProfileId' => 7, 'Name' => 8, 'Label' => 9, 'Definition' => 10, 'Comment' => 11, 'Type' => 12, 'Uri' => 13, 'StatusId' => 14, 'Language' => 15, 'Note' => 16, 'DisplayOrder' => 17, 'PicklistOrder' => 18, 'Examples' => 19, 'IsRequired' => 20, 'IsReciprocal' => 21, 'IsSingleton' => 22, 'IsInPicklist' => 23, 'InverseProfilePropertyId' => 24, ),
-		BasePeer::TYPE_COLNAME => array (ProfilePropertyPeer::ID => 0, ProfilePropertyPeer::CREATED_AT => 1, ProfilePropertyPeer::UPDATED_AT => 2, ProfilePropertyPeer::DELETED_AT => 3, ProfilePropertyPeer::CREATED_BY => 4, ProfilePropertyPeer::UPDATED_BY => 5, ProfilePropertyPeer::DELETED_BY => 6, ProfilePropertyPeer::PROFILE_ID => 7, ProfilePropertyPeer::NAME => 8, ProfilePropertyPeer::LABEL => 9, ProfilePropertyPeer::DEFINITION => 10, ProfilePropertyPeer::COMMENT => 11, ProfilePropertyPeer::TYPE => 12, ProfilePropertyPeer::URI => 13, ProfilePropertyPeer::STATUS_ID => 14, ProfilePropertyPeer::LANGUAGE => 15, ProfilePropertyPeer::NOTE => 16, ProfilePropertyPeer::DISPLAY_ORDER => 17, ProfilePropertyPeer::PICKLIST_ORDER => 18, ProfilePropertyPeer::EXAMPLES => 19, ProfilePropertyPeer::IS_REQUIRED => 20, ProfilePropertyPeer::IS_RECIPROCAL => 21, ProfilePropertyPeer::IS_SINGLETON => 22, ProfilePropertyPeer::IS_IN_PICKLIST => 23, ProfilePropertyPeer::INVERSE_PROFILE_PROPERTY_ID => 24, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'created_at' => 1, 'updated_at' => 2, 'deleted_at' => 3, 'created_by' => 4, 'updated_by' => 5, 'deleted_by' => 6, 'profile_id' => 7, 'name' => 8, 'label' => 9, 'definition' => 10, 'comment' => 11, 'type' => 12, 'uri' => 13, 'status_id' => 14, 'language' => 15, 'note' => 16, 'display_order' => 17, 'picklist_order' => 18, 'examples' => 19, 'is_required' => 20, 'is_reciprocal' => 21, 'is_singleton' => 22, 'is_in_picklist' => 23, 'inverse_profile_property_id' => 24, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'CreatedAt' => 1, 'UpdatedAt' => 2, 'DeletedAt' => 3, 'CreatedBy' => 4, 'UpdatedBy' => 5, 'DeletedBy' => 6, 'ProfileId' => 7, 'SchemaId' => 8, 'SchemaPropertyId' => 9, 'Name' => 10, 'Label' => 11, 'Definition' => 12, 'Comment' => 13, 'Type' => 14, 'Uri' => 15, 'StatusId' => 16, 'Language' => 17, 'Note' => 18, 'DisplayOrder' => 19, 'PicklistOrder' => 20, 'Examples' => 21, 'IsRequired' => 22, 'IsReciprocal' => 23, 'IsSingleton' => 24, 'IsInPicklist' => 25, 'InverseProfilePropertyId' => 26, ),
+		BasePeer::TYPE_COLNAME => array (ProfilePropertyPeer::ID => 0, ProfilePropertyPeer::CREATED_AT => 1, ProfilePropertyPeer::UPDATED_AT => 2, ProfilePropertyPeer::DELETED_AT => 3, ProfilePropertyPeer::CREATED_BY => 4, ProfilePropertyPeer::UPDATED_BY => 5, ProfilePropertyPeer::DELETED_BY => 6, ProfilePropertyPeer::PROFILE_ID => 7, ProfilePropertyPeer::SCHEMA_ID => 8, ProfilePropertyPeer::SCHEMA_PROPERTY_ID => 9, ProfilePropertyPeer::NAME => 10, ProfilePropertyPeer::LABEL => 11, ProfilePropertyPeer::DEFINITION => 12, ProfilePropertyPeer::COMMENT => 13, ProfilePropertyPeer::TYPE => 14, ProfilePropertyPeer::URI => 15, ProfilePropertyPeer::STATUS_ID => 16, ProfilePropertyPeer::LANGUAGE => 17, ProfilePropertyPeer::NOTE => 18, ProfilePropertyPeer::DISPLAY_ORDER => 19, ProfilePropertyPeer::PICKLIST_ORDER => 20, ProfilePropertyPeer::EXAMPLES => 21, ProfilePropertyPeer::IS_REQUIRED => 22, ProfilePropertyPeer::IS_RECIPROCAL => 23, ProfilePropertyPeer::IS_SINGLETON => 24, ProfilePropertyPeer::IS_IN_PICKLIST => 25, ProfilePropertyPeer::INVERSE_PROFILE_PROPERTY_ID => 26, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'created_at' => 1, 'updated_at' => 2, 'deleted_at' => 3, 'created_by' => 4, 'updated_by' => 5, 'deleted_by' => 6, 'profile_id' => 7, 'schema_id' => 8, 'schema_property_id' => 9, 'name' => 10, 'label' => 11, 'definition' => 12, 'comment' => 13, 'type' => 14, 'uri' => 15, 'status_id' => 16, 'language' => 17, 'note' => 18, 'display_order' => 19, 'picklist_order' => 20, 'examples' => 21, 'is_required' => 22, 'is_reciprocal' => 23, 'is_singleton' => 24, 'is_in_picklist' => 25, 'inverse_profile_property_id' => 26, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, )
 	);
 
 	/**
@@ -243,6 +249,10 @@ abstract class BaseProfilePropertyPeer {
 		$criteria->addSelectColumn(ProfilePropertyPeer::DELETED_BY);
 
 		$criteria->addSelectColumn(ProfilePropertyPeer::PROFILE_ID);
+
+		$criteria->addSelectColumn(ProfilePropertyPeer::SCHEMA_ID);
+
+		$criteria->addSelectColumn(ProfilePropertyPeer::SCHEMA_PROPERTY_ID);
 
 		$criteria->addSelectColumn(ProfilePropertyPeer::NAME);
 
@@ -571,6 +581,84 @@ abstract class BaseProfilePropertyPeer {
 
 
 	/**
+	 * Returns the number of rows matching criteria, joining the related Schema table
+	 *
+	 * @param Criteria $c
+	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
+	 * @param Connection $con
+	 * @return int Number of matching rows.
+	 */
+	public static function doCountJoinSchema(Criteria $criteria, $distinct = false, $con = null)
+	{
+		// we're going to modify criteria, so copy it first
+		$criteria = clone $criteria;
+		
+		// clear out anything that might confuse the ORDER BY clause
+		$criteria->clearSelectColumns()->clearOrderByColumns();
+		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->addSelectColumn(ProfilePropertyPeer::COUNT_DISTINCT);
+		} else {
+			$criteria->addSelectColumn(ProfilePropertyPeer::COUNT);
+		}
+		
+		// just in case we're grouping: add those columns to the select statement
+		foreach($criteria->getGroupByColumns() as $column)
+		{
+			$criteria->addSelectColumn($column);
+		}
+
+		$criteria->addJoin(ProfilePropertyPeer::SCHEMA_ID, SchemaPeer::ID);
+
+		$rs = ProfilePropertyPeer::doSelectRS($criteria, $con);
+		if ($rs->next()) {
+			return $rs->getInt(1);
+		} else {
+			// no rows returned; we infer that means 0 matches.
+			return 0;
+		}
+	}
+
+
+	/**
+	 * Returns the number of rows matching criteria, joining the related SchemaProperty table
+	 *
+	 * @param Criteria $c
+	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
+	 * @param Connection $con
+	 * @return int Number of matching rows.
+	 */
+	public static function doCountJoinSchemaProperty(Criteria $criteria, $distinct = false, $con = null)
+	{
+		// we're going to modify criteria, so copy it first
+		$criteria = clone $criteria;
+		
+		// clear out anything that might confuse the ORDER BY clause
+		$criteria->clearSelectColumns()->clearOrderByColumns();
+		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->addSelectColumn(ProfilePropertyPeer::COUNT_DISTINCT);
+		} else {
+			$criteria->addSelectColumn(ProfilePropertyPeer::COUNT);
+		}
+		
+		// just in case we're grouping: add those columns to the select statement
+		foreach($criteria->getGroupByColumns() as $column)
+		{
+			$criteria->addSelectColumn($column);
+		}
+
+		$criteria->addJoin(ProfilePropertyPeer::SCHEMA_PROPERTY_ID, SchemaPropertyPeer::ID);
+
+		$rs = ProfilePropertyPeer::doSelectRS($criteria, $con);
+		if ($rs->next()) {
+			return $rs->getInt(1);
+		} else {
+			// no rows returned; we infer that means 0 matches.
+			return 0;
+		}
+	}
+
+
+	/**
 	 * Returns the number of rows matching criteria, joining the related Status table
 	 *
 	 * @param Criteria $c
@@ -842,6 +930,122 @@ abstract class BaseProfilePropertyPeer {
 
 
 	/**
+	 * Selects a collection of ProfileProperty objects pre-filled with their Schema objects.
+	 *
+	 * @return array Array of ProfileProperty objects.
+	 * @throws PropelException Any exceptions caught during processing will be
+	 *		 rethrown wrapped into a PropelException.
+	 */
+	public static function doSelectJoinSchema(Criteria $c, $con = null)
+	{
+		$c = clone $c;
+
+		// Set the correct dbName if it has not been overridden
+		if ($c->getDbName() == Propel::getDefaultDB()) {
+			$c->setDbName(self::DATABASE_NAME);
+		}
+
+		ProfilePropertyPeer::addSelectColumns($c);
+		$startcol = (ProfilePropertyPeer::NUM_COLUMNS - ProfilePropertyPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+		SchemaPeer::addSelectColumns($c);
+
+		$c->addJoin(ProfilePropertyPeer::SCHEMA_ID, SchemaPeer::ID);
+		$rs = BasePeer::doSelect($c, $con);
+		$results = array();
+
+		while($rs->next()) {
+
+			$omClass = ProfilePropertyPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj1 = new $cls();
+			$obj1->hydrate($rs);
+
+			$omClass = SchemaPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj2 = new $cls();
+			$obj2->hydrate($rs, $startcol);
+
+			$newObject = true;
+			foreach($results as $temp_obj1) {
+				$temp_obj2 = $temp_obj1->getSchema(); //CHECKME
+				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+					$newObject = false;
+					// e.g. $author->addBookRelatedByBookId()
+					$temp_obj2->addProfileProperty($obj1); //CHECKME
+					break;
+				}
+			}
+			if ($newObject) {
+				$obj2->initProfilePropertys();
+				$obj2->addProfileProperty($obj1); //CHECKME
+			}
+			$results[] = $obj1;
+		}
+		return $results;
+	}
+
+
+	/**
+	 * Selects a collection of ProfileProperty objects pre-filled with their SchemaProperty objects.
+	 *
+	 * @return array Array of ProfileProperty objects.
+	 * @throws PropelException Any exceptions caught during processing will be
+	 *		 rethrown wrapped into a PropelException.
+	 */
+	public static function doSelectJoinSchemaProperty(Criteria $c, $con = null)
+	{
+		$c = clone $c;
+
+		// Set the correct dbName if it has not been overridden
+		if ($c->getDbName() == Propel::getDefaultDB()) {
+			$c->setDbName(self::DATABASE_NAME);
+		}
+
+		ProfilePropertyPeer::addSelectColumns($c);
+		$startcol = (ProfilePropertyPeer::NUM_COLUMNS - ProfilePropertyPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+		SchemaPropertyPeer::addSelectColumns($c);
+
+		$c->addJoin(ProfilePropertyPeer::SCHEMA_PROPERTY_ID, SchemaPropertyPeer::ID);
+		$rs = BasePeer::doSelect($c, $con);
+		$results = array();
+
+		while($rs->next()) {
+
+			$omClass = ProfilePropertyPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj1 = new $cls();
+			$obj1->hydrate($rs);
+
+			$omClass = SchemaPropertyPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj2 = new $cls();
+			$obj2->hydrate($rs, $startcol);
+
+			$newObject = true;
+			foreach($results as $temp_obj1) {
+				$temp_obj2 = $temp_obj1->getSchemaProperty(); //CHECKME
+				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+					$newObject = false;
+					// e.g. $author->addBookRelatedByBookId()
+					$temp_obj2->addProfileProperty($obj1); //CHECKME
+					break;
+				}
+			}
+			if ($newObject) {
+				$obj2->initProfilePropertys();
+				$obj2->addProfileProperty($obj1); //CHECKME
+			}
+			$results[] = $obj1;
+		}
+		return $results;
+	}
+
+
+	/**
 	 * Selects a collection of ProfileProperty objects pre-filled with their Status objects.
 	 *
 	 * @return array Array of ProfileProperty objects.
@@ -933,6 +1137,10 @@ abstract class BaseProfilePropertyPeer {
 
 		$criteria->addJoin(ProfilePropertyPeer::PROFILE_ID, ProfilePeer::ID);
 
+		$criteria->addJoin(ProfilePropertyPeer::SCHEMA_ID, SchemaPeer::ID);
+
+		$criteria->addJoin(ProfilePropertyPeer::SCHEMA_PROPERTY_ID, SchemaPropertyPeer::ID);
+
 		$criteria->addJoin(ProfilePropertyPeer::STATUS_ID, StatusPeer::ID);
 
 		$rs = ProfilePropertyPeer::doSelectRS($criteria, $con);
@@ -976,8 +1184,14 @@ abstract class BaseProfilePropertyPeer {
 		ProfilePeer::addSelectColumns($c);
 		$startcol6 = $startcol5 + ProfilePeer::NUM_COLUMNS;
 
+		SchemaPeer::addSelectColumns($c);
+		$startcol7 = $startcol6 + SchemaPeer::NUM_COLUMNS;
+
+		SchemaPropertyPeer::addSelectColumns($c);
+		$startcol8 = $startcol7 + SchemaPropertyPeer::NUM_COLUMNS;
+
 		StatusPeer::addSelectColumns($c);
-		$startcol7 = $startcol6 + StatusPeer::NUM_COLUMNS;
+		$startcol9 = $startcol8 + StatusPeer::NUM_COLUMNS;
 
 		$c->addJoin(ProfilePropertyPeer::CREATED_BY, UserPeer::ID);
 
@@ -986,6 +1200,10 @@ abstract class BaseProfilePropertyPeer {
 		$c->addJoin(ProfilePropertyPeer::DELETED_BY, UserPeer::ID);
 
 		$c->addJoin(ProfilePropertyPeer::PROFILE_ID, ProfilePeer::ID);
+
+		$c->addJoin(ProfilePropertyPeer::SCHEMA_ID, SchemaPeer::ID);
+
+		$c->addJoin(ProfilePropertyPeer::SCHEMA_PROPERTY_ID, SchemaPropertyPeer::ID);
 
 		$c->addJoin(ProfilePropertyPeer::STATUS_ID, StatusPeer::ID);
 
@@ -1106,9 +1324,9 @@ abstract class BaseProfilePropertyPeer {
 			}
 
 				
-				// Add objects for joined Status rows
+				// Add objects for joined Schema rows
 	
-			$omClass = StatusPeer::getOMClass();
+			$omClass = SchemaPeer::getOMClass();
 
 	
 			$cls = Propel::import($omClass);
@@ -1118,7 +1336,7 @@ abstract class BaseProfilePropertyPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj6 = $temp_obj1->getStatus(); // CHECKME
+				$temp_obj6 = $temp_obj1->getSchema(); // CHECKME
 				if ($temp_obj6->getPrimaryKey() === $obj6->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj6->addProfileProperty($obj1); // CHECKME
@@ -1129,6 +1347,58 @@ abstract class BaseProfilePropertyPeer {
 			if ($newObject) {
 				$obj6->initProfilePropertys();
 				$obj6->addProfileProperty($obj1);
+			}
+
+				
+				// Add objects for joined SchemaProperty rows
+	
+			$omClass = SchemaPropertyPeer::getOMClass();
+
+	
+			$cls = Propel::import($omClass);
+			$obj7 = new $cls();
+			$obj7->hydrate($rs, $startcol7);
+			
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj7 = $temp_obj1->getSchemaProperty(); // CHECKME
+				if ($temp_obj7->getPrimaryKey() === $obj7->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj7->addProfileProperty($obj1); // CHECKME
+					break;
+				}
+			}
+			
+			if ($newObject) {
+				$obj7->initProfilePropertys();
+				$obj7->addProfileProperty($obj1);
+			}
+
+				
+				// Add objects for joined Status rows
+	
+			$omClass = StatusPeer::getOMClass();
+
+	
+			$cls = Propel::import($omClass);
+			$obj8 = new $cls();
+			$obj8->hydrate($rs, $startcol8);
+			
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj8 = $temp_obj1->getStatus(); // CHECKME
+				if ($temp_obj8->getPrimaryKey() === $obj8->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj8->addProfileProperty($obj1); // CHECKME
+					break;
+				}
+			}
+			
+			if ($newObject) {
+				$obj8->initProfilePropertys();
+				$obj8->addProfileProperty($obj1);
 			}
 
 			$results[] = $obj1;
@@ -1165,6 +1435,10 @@ abstract class BaseProfilePropertyPeer {
 		}
 
 		$criteria->addJoin(ProfilePropertyPeer::PROFILE_ID, ProfilePeer::ID);
+
+		$criteria->addJoin(ProfilePropertyPeer::SCHEMA_ID, SchemaPeer::ID);
+
+		$criteria->addJoin(ProfilePropertyPeer::SCHEMA_PROPERTY_ID, SchemaPropertyPeer::ID);
 
 		$criteria->addJoin(ProfilePropertyPeer::STATUS_ID, StatusPeer::ID);
 
@@ -1207,6 +1481,10 @@ abstract class BaseProfilePropertyPeer {
 
 		$criteria->addJoin(ProfilePropertyPeer::PROFILE_ID, ProfilePeer::ID);
 
+		$criteria->addJoin(ProfilePropertyPeer::SCHEMA_ID, SchemaPeer::ID);
+
+		$criteria->addJoin(ProfilePropertyPeer::SCHEMA_PROPERTY_ID, SchemaPropertyPeer::ID);
+
 		$criteria->addJoin(ProfilePropertyPeer::STATUS_ID, StatusPeer::ID);
 
 		$rs = ProfilePropertyPeer::doSelectRS($criteria, $con);
@@ -1247,6 +1525,10 @@ abstract class BaseProfilePropertyPeer {
 		}
 
 		$criteria->addJoin(ProfilePropertyPeer::PROFILE_ID, ProfilePeer::ID);
+
+		$criteria->addJoin(ProfilePropertyPeer::SCHEMA_ID, SchemaPeer::ID);
+
+		$criteria->addJoin(ProfilePropertyPeer::SCHEMA_PROPERTY_ID, SchemaPropertyPeer::ID);
 
 		$criteria->addJoin(ProfilePropertyPeer::STATUS_ID, StatusPeer::ID);
 
@@ -1292,6 +1574,108 @@ abstract class BaseProfilePropertyPeer {
 		$criteria->addJoin(ProfilePropertyPeer::UPDATED_BY, UserPeer::ID);
 
 		$criteria->addJoin(ProfilePropertyPeer::DELETED_BY, UserPeer::ID);
+
+		$criteria->addJoin(ProfilePropertyPeer::SCHEMA_ID, SchemaPeer::ID);
+
+		$criteria->addJoin(ProfilePropertyPeer::SCHEMA_PROPERTY_ID, SchemaPropertyPeer::ID);
+
+		$criteria->addJoin(ProfilePropertyPeer::STATUS_ID, StatusPeer::ID);
+
+		$rs = ProfilePropertyPeer::doSelectRS($criteria, $con);
+		if ($rs->next()) {
+			return $rs->getInt(1);
+		} else {
+			// no rows returned; we infer that means 0 matches.
+			return 0;
+		}
+	}
+
+
+	/**
+	 * Returns the number of rows matching criteria, joining the related Schema table
+	 *
+	 * @param Criteria $c
+	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
+	 * @param Connection $con
+	 * @return int Number of matching rows.
+	 */
+	public static function doCountJoinAllExceptSchema(Criteria $criteria, $distinct = false, $con = null)
+	{
+		// we're going to modify criteria, so copy it first
+		$criteria = clone $criteria;
+		
+		// clear out anything that might confuse the ORDER BY clause
+		$criteria->clearSelectColumns()->clearOrderByColumns();
+		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->addSelectColumn(ProfilePropertyPeer::COUNT_DISTINCT);
+		} else {
+			$criteria->addSelectColumn(ProfilePropertyPeer::COUNT);
+		}
+		
+		// just in case we're grouping: add those columns to the select statement
+		foreach($criteria->getGroupByColumns() as $column)
+		{
+			$criteria->addSelectColumn($column);
+		}
+
+		$criteria->addJoin(ProfilePropertyPeer::CREATED_BY, UserPeer::ID);
+
+		$criteria->addJoin(ProfilePropertyPeer::UPDATED_BY, UserPeer::ID);
+
+		$criteria->addJoin(ProfilePropertyPeer::DELETED_BY, UserPeer::ID);
+
+		$criteria->addJoin(ProfilePropertyPeer::PROFILE_ID, ProfilePeer::ID);
+
+		$criteria->addJoin(ProfilePropertyPeer::SCHEMA_PROPERTY_ID, SchemaPropertyPeer::ID);
+
+		$criteria->addJoin(ProfilePropertyPeer::STATUS_ID, StatusPeer::ID);
+
+		$rs = ProfilePropertyPeer::doSelectRS($criteria, $con);
+		if ($rs->next()) {
+			return $rs->getInt(1);
+		} else {
+			// no rows returned; we infer that means 0 matches.
+			return 0;
+		}
+	}
+
+
+	/**
+	 * Returns the number of rows matching criteria, joining the related SchemaProperty table
+	 *
+	 * @param Criteria $c
+	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
+	 * @param Connection $con
+	 * @return int Number of matching rows.
+	 */
+	public static function doCountJoinAllExceptSchemaProperty(Criteria $criteria, $distinct = false, $con = null)
+	{
+		// we're going to modify criteria, so copy it first
+		$criteria = clone $criteria;
+		
+		// clear out anything that might confuse the ORDER BY clause
+		$criteria->clearSelectColumns()->clearOrderByColumns();
+		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->addSelectColumn(ProfilePropertyPeer::COUNT_DISTINCT);
+		} else {
+			$criteria->addSelectColumn(ProfilePropertyPeer::COUNT);
+		}
+		
+		// just in case we're grouping: add those columns to the select statement
+		foreach($criteria->getGroupByColumns() as $column)
+		{
+			$criteria->addSelectColumn($column);
+		}
+
+		$criteria->addJoin(ProfilePropertyPeer::CREATED_BY, UserPeer::ID);
+
+		$criteria->addJoin(ProfilePropertyPeer::UPDATED_BY, UserPeer::ID);
+
+		$criteria->addJoin(ProfilePropertyPeer::DELETED_BY, UserPeer::ID);
+
+		$criteria->addJoin(ProfilePropertyPeer::PROFILE_ID, ProfilePeer::ID);
+
+		$criteria->addJoin(ProfilePropertyPeer::SCHEMA_ID, SchemaPeer::ID);
 
 		$criteria->addJoin(ProfilePropertyPeer::STATUS_ID, StatusPeer::ID);
 
@@ -1340,6 +1724,10 @@ abstract class BaseProfilePropertyPeer {
 
 		$criteria->addJoin(ProfilePropertyPeer::PROFILE_ID, ProfilePeer::ID);
 
+		$criteria->addJoin(ProfilePropertyPeer::SCHEMA_ID, SchemaPeer::ID);
+
+		$criteria->addJoin(ProfilePropertyPeer::SCHEMA_PROPERTY_ID, SchemaPropertyPeer::ID);
+
 		$rs = ProfilePropertyPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
 			return $rs->getInt(1);
@@ -1385,6 +1773,10 @@ abstract class BaseProfilePropertyPeer {
 
 		$criteria->addJoin(ProfilePropertyPeer::PROFILE_ID, ProfilePeer::ID);
 
+		$criteria->addJoin(ProfilePropertyPeer::SCHEMA_ID, SchemaPeer::ID);
+
+		$criteria->addJoin(ProfilePropertyPeer::SCHEMA_PROPERTY_ID, SchemaPropertyPeer::ID);
+
 		$criteria->addJoin(ProfilePropertyPeer::STATUS_ID, StatusPeer::ID);
 
 		$rs = ProfilePropertyPeer::doSelectRS($criteria, $con);
@@ -1421,10 +1813,20 @@ abstract class BaseProfilePropertyPeer {
 		ProfilePeer::addSelectColumns($c);
 		$startcol3 = $startcol2 + ProfilePeer::NUM_COLUMNS;
 
+		SchemaPeer::addSelectColumns($c);
+		$startcol4 = $startcol3 + SchemaPeer::NUM_COLUMNS;
+
+		SchemaPropertyPeer::addSelectColumns($c);
+		$startcol5 = $startcol4 + SchemaPropertyPeer::NUM_COLUMNS;
+
 		StatusPeer::addSelectColumns($c);
-		$startcol4 = $startcol3 + StatusPeer::NUM_COLUMNS;
+		$startcol6 = $startcol5 + StatusPeer::NUM_COLUMNS;
 
 		$c->addJoin(ProfilePropertyPeer::PROFILE_ID, ProfilePeer::ID);
+
+		$c->addJoin(ProfilePropertyPeer::SCHEMA_ID, SchemaPeer::ID);
+
+		$c->addJoin(ProfilePropertyPeer::SCHEMA_PROPERTY_ID, SchemaPropertyPeer::ID);
 
 		$c->addJoin(ProfilePropertyPeer::STATUS_ID, StatusPeer::ID);
 
@@ -1463,7 +1865,7 @@ abstract class BaseProfilePropertyPeer {
 				$obj2->addProfileProperty($obj1);
 			}
 
-			$omClass = StatusPeer::getOMClass();
+			$omClass = SchemaPeer::getOMClass();
 
 	
 			$cls = Propel::import($omClass);
@@ -1473,7 +1875,7 @@ abstract class BaseProfilePropertyPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj3 = $temp_obj1->getStatus(); //CHECKME
+				$temp_obj3 = $temp_obj1->getSchema(); //CHECKME
 				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj3->addProfileProperty($obj1);
@@ -1484,6 +1886,52 @@ abstract class BaseProfilePropertyPeer {
 			if ($newObject) {
 				$obj3->initProfilePropertys();
 				$obj3->addProfileProperty($obj1);
+			}
+
+			$omClass = SchemaPropertyPeer::getOMClass();
+
+	
+			$cls = Propel::import($omClass);
+			$obj4  = new $cls();
+			$obj4->hydrate($rs, $startcol4);
+			
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj4 = $temp_obj1->getSchemaProperty(); //CHECKME
+				if ($temp_obj4->getPrimaryKey() === $obj4->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj4->addProfileProperty($obj1);
+					break;
+				}
+			}
+			
+			if ($newObject) {
+				$obj4->initProfilePropertys();
+				$obj4->addProfileProperty($obj1);
+			}
+
+			$omClass = StatusPeer::getOMClass();
+
+	
+			$cls = Propel::import($omClass);
+			$obj5  = new $cls();
+			$obj5->hydrate($rs, $startcol5);
+			
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj5 = $temp_obj1->getStatus(); //CHECKME
+				if ($temp_obj5->getPrimaryKey() === $obj5->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj5->addProfileProperty($obj1);
+					break;
+				}
+			}
+			
+			if ($newObject) {
+				$obj5->initProfilePropertys();
+				$obj5->addProfileProperty($obj1);
 			}
 
 			$results[] = $obj1;
@@ -1516,10 +1964,20 @@ abstract class BaseProfilePropertyPeer {
 		ProfilePeer::addSelectColumns($c);
 		$startcol3 = $startcol2 + ProfilePeer::NUM_COLUMNS;
 
+		SchemaPeer::addSelectColumns($c);
+		$startcol4 = $startcol3 + SchemaPeer::NUM_COLUMNS;
+
+		SchemaPropertyPeer::addSelectColumns($c);
+		$startcol5 = $startcol4 + SchemaPropertyPeer::NUM_COLUMNS;
+
 		StatusPeer::addSelectColumns($c);
-		$startcol4 = $startcol3 + StatusPeer::NUM_COLUMNS;
+		$startcol6 = $startcol5 + StatusPeer::NUM_COLUMNS;
 
 		$c->addJoin(ProfilePropertyPeer::PROFILE_ID, ProfilePeer::ID);
+
+		$c->addJoin(ProfilePropertyPeer::SCHEMA_ID, SchemaPeer::ID);
+
+		$c->addJoin(ProfilePropertyPeer::SCHEMA_PROPERTY_ID, SchemaPropertyPeer::ID);
 
 		$c->addJoin(ProfilePropertyPeer::STATUS_ID, StatusPeer::ID);
 
@@ -1558,7 +2016,7 @@ abstract class BaseProfilePropertyPeer {
 				$obj2->addProfileProperty($obj1);
 			}
 
-			$omClass = StatusPeer::getOMClass();
+			$omClass = SchemaPeer::getOMClass();
 
 	
 			$cls = Propel::import($omClass);
@@ -1568,7 +2026,7 @@ abstract class BaseProfilePropertyPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj3 = $temp_obj1->getStatus(); //CHECKME
+				$temp_obj3 = $temp_obj1->getSchema(); //CHECKME
 				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj3->addProfileProperty($obj1);
@@ -1579,6 +2037,52 @@ abstract class BaseProfilePropertyPeer {
 			if ($newObject) {
 				$obj3->initProfilePropertys();
 				$obj3->addProfileProperty($obj1);
+			}
+
+			$omClass = SchemaPropertyPeer::getOMClass();
+
+	
+			$cls = Propel::import($omClass);
+			$obj4  = new $cls();
+			$obj4->hydrate($rs, $startcol4);
+			
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj4 = $temp_obj1->getSchemaProperty(); //CHECKME
+				if ($temp_obj4->getPrimaryKey() === $obj4->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj4->addProfileProperty($obj1);
+					break;
+				}
+			}
+			
+			if ($newObject) {
+				$obj4->initProfilePropertys();
+				$obj4->addProfileProperty($obj1);
+			}
+
+			$omClass = StatusPeer::getOMClass();
+
+	
+			$cls = Propel::import($omClass);
+			$obj5  = new $cls();
+			$obj5->hydrate($rs, $startcol5);
+			
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj5 = $temp_obj1->getStatus(); //CHECKME
+				if ($temp_obj5->getPrimaryKey() === $obj5->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj5->addProfileProperty($obj1);
+					break;
+				}
+			}
+			
+			if ($newObject) {
+				$obj5->initProfilePropertys();
+				$obj5->addProfileProperty($obj1);
 			}
 
 			$results[] = $obj1;
@@ -1611,10 +2115,20 @@ abstract class BaseProfilePropertyPeer {
 		ProfilePeer::addSelectColumns($c);
 		$startcol3 = $startcol2 + ProfilePeer::NUM_COLUMNS;
 
+		SchemaPeer::addSelectColumns($c);
+		$startcol4 = $startcol3 + SchemaPeer::NUM_COLUMNS;
+
+		SchemaPropertyPeer::addSelectColumns($c);
+		$startcol5 = $startcol4 + SchemaPropertyPeer::NUM_COLUMNS;
+
 		StatusPeer::addSelectColumns($c);
-		$startcol4 = $startcol3 + StatusPeer::NUM_COLUMNS;
+		$startcol6 = $startcol5 + StatusPeer::NUM_COLUMNS;
 
 		$c->addJoin(ProfilePropertyPeer::PROFILE_ID, ProfilePeer::ID);
+
+		$c->addJoin(ProfilePropertyPeer::SCHEMA_ID, SchemaPeer::ID);
+
+		$c->addJoin(ProfilePropertyPeer::SCHEMA_PROPERTY_ID, SchemaPropertyPeer::ID);
 
 		$c->addJoin(ProfilePropertyPeer::STATUS_ID, StatusPeer::ID);
 
@@ -1653,7 +2167,7 @@ abstract class BaseProfilePropertyPeer {
 				$obj2->addProfileProperty($obj1);
 			}
 
-			$omClass = StatusPeer::getOMClass();
+			$omClass = SchemaPeer::getOMClass();
 
 	
 			$cls = Propel::import($omClass);
@@ -1663,7 +2177,7 @@ abstract class BaseProfilePropertyPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj3 = $temp_obj1->getStatus(); //CHECKME
+				$temp_obj3 = $temp_obj1->getSchema(); //CHECKME
 				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj3->addProfileProperty($obj1);
@@ -1674,6 +2188,52 @@ abstract class BaseProfilePropertyPeer {
 			if ($newObject) {
 				$obj3->initProfilePropertys();
 				$obj3->addProfileProperty($obj1);
+			}
+
+			$omClass = SchemaPropertyPeer::getOMClass();
+
+	
+			$cls = Propel::import($omClass);
+			$obj4  = new $cls();
+			$obj4->hydrate($rs, $startcol4);
+			
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj4 = $temp_obj1->getSchemaProperty(); //CHECKME
+				if ($temp_obj4->getPrimaryKey() === $obj4->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj4->addProfileProperty($obj1);
+					break;
+				}
+			}
+			
+			if ($newObject) {
+				$obj4->initProfilePropertys();
+				$obj4->addProfileProperty($obj1);
+			}
+
+			$omClass = StatusPeer::getOMClass();
+
+	
+			$cls = Propel::import($omClass);
+			$obj5  = new $cls();
+			$obj5->hydrate($rs, $startcol5);
+			
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj5 = $temp_obj1->getStatus(); //CHECKME
+				if ($temp_obj5->getPrimaryKey() === $obj5->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj5->addProfileProperty($obj1);
+					break;
+				}
+			}
+			
+			if ($newObject) {
+				$obj5->initProfilePropertys();
+				$obj5->addProfileProperty($obj1);
 			}
 
 			$results[] = $obj1;
@@ -1712,14 +2272,24 @@ abstract class BaseProfilePropertyPeer {
 		UserPeer::addSelectColumns($c);
 		$startcol5 = $startcol4 + UserPeer::NUM_COLUMNS;
 
+		SchemaPeer::addSelectColumns($c);
+		$startcol6 = $startcol5 + SchemaPeer::NUM_COLUMNS;
+
+		SchemaPropertyPeer::addSelectColumns($c);
+		$startcol7 = $startcol6 + SchemaPropertyPeer::NUM_COLUMNS;
+
 		StatusPeer::addSelectColumns($c);
-		$startcol6 = $startcol5 + StatusPeer::NUM_COLUMNS;
+		$startcol8 = $startcol7 + StatusPeer::NUM_COLUMNS;
 
 		$c->addJoin(ProfilePropertyPeer::CREATED_BY, UserPeer::ID);
 
 		$c->addJoin(ProfilePropertyPeer::UPDATED_BY, UserPeer::ID);
 
 		$c->addJoin(ProfilePropertyPeer::DELETED_BY, UserPeer::ID);
+
+		$c->addJoin(ProfilePropertyPeer::SCHEMA_ID, SchemaPeer::ID);
+
+		$c->addJoin(ProfilePropertyPeer::SCHEMA_PROPERTY_ID, SchemaPropertyPeer::ID);
 
 		$c->addJoin(ProfilePropertyPeer::STATUS_ID, StatusPeer::ID);
 
@@ -1804,7 +2374,7 @@ abstract class BaseProfilePropertyPeer {
 				$obj4->addProfilePropertyRelatedByDeletedBy($obj1);
 			}
 
-			$omClass = StatusPeer::getOMClass();
+			$omClass = SchemaPeer::getOMClass();
 
 	
 			$cls = Propel::import($omClass);
@@ -1814,7 +2384,7 @@ abstract class BaseProfilePropertyPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj5 = $temp_obj1->getStatus(); //CHECKME
+				$temp_obj5 = $temp_obj1->getSchema(); //CHECKME
 				if ($temp_obj5->getPrimaryKey() === $obj5->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj5->addProfileProperty($obj1);
@@ -1825,6 +2395,466 @@ abstract class BaseProfilePropertyPeer {
 			if ($newObject) {
 				$obj5->initProfilePropertys();
 				$obj5->addProfileProperty($obj1);
+			}
+
+			$omClass = SchemaPropertyPeer::getOMClass();
+
+	
+			$cls = Propel::import($omClass);
+			$obj6  = new $cls();
+			$obj6->hydrate($rs, $startcol6);
+			
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj6 = $temp_obj1->getSchemaProperty(); //CHECKME
+				if ($temp_obj6->getPrimaryKey() === $obj6->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj6->addProfileProperty($obj1);
+					break;
+				}
+			}
+			
+			if ($newObject) {
+				$obj6->initProfilePropertys();
+				$obj6->addProfileProperty($obj1);
+			}
+
+			$omClass = StatusPeer::getOMClass();
+
+	
+			$cls = Propel::import($omClass);
+			$obj7  = new $cls();
+			$obj7->hydrate($rs, $startcol7);
+			
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj7 = $temp_obj1->getStatus(); //CHECKME
+				if ($temp_obj7->getPrimaryKey() === $obj7->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj7->addProfileProperty($obj1);
+					break;
+				}
+			}
+			
+			if ($newObject) {
+				$obj7->initProfilePropertys();
+				$obj7->addProfileProperty($obj1);
+			}
+
+			$results[] = $obj1;
+		}
+		return $results;
+	}
+
+
+	/**
+	 * Selects a collection of ProfileProperty objects pre-filled with all related objects except Schema.
+	 *
+	 * @return array Array of ProfileProperty objects.
+	 * @throws PropelException Any exceptions caught during processing will be
+	 *		 rethrown wrapped into a PropelException.
+	 */
+	public static function doSelectJoinAllExceptSchema(Criteria $c, $con = null)
+	{
+		$c = clone $c;
+
+		// Set the correct dbName if it has not been overridden
+		// $c->getDbName() will return the same object if not set to another value
+		// so == check is okay and faster
+		if ($c->getDbName() == Propel::getDefaultDB()) {
+			$c->setDbName(self::DATABASE_NAME);
+		}
+
+		ProfilePropertyPeer::addSelectColumns($c);
+		$startcol2 = (ProfilePropertyPeer::NUM_COLUMNS - ProfilePropertyPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+
+		UserPeer::addSelectColumns($c);
+		$startcol3 = $startcol2 + UserPeer::NUM_COLUMNS;
+
+		UserPeer::addSelectColumns($c);
+		$startcol4 = $startcol3 + UserPeer::NUM_COLUMNS;
+
+		UserPeer::addSelectColumns($c);
+		$startcol5 = $startcol4 + UserPeer::NUM_COLUMNS;
+
+		ProfilePeer::addSelectColumns($c);
+		$startcol6 = $startcol5 + ProfilePeer::NUM_COLUMNS;
+
+		SchemaPropertyPeer::addSelectColumns($c);
+		$startcol7 = $startcol6 + SchemaPropertyPeer::NUM_COLUMNS;
+
+		StatusPeer::addSelectColumns($c);
+		$startcol8 = $startcol7 + StatusPeer::NUM_COLUMNS;
+
+		$c->addJoin(ProfilePropertyPeer::CREATED_BY, UserPeer::ID);
+
+		$c->addJoin(ProfilePropertyPeer::UPDATED_BY, UserPeer::ID);
+
+		$c->addJoin(ProfilePropertyPeer::DELETED_BY, UserPeer::ID);
+
+		$c->addJoin(ProfilePropertyPeer::PROFILE_ID, ProfilePeer::ID);
+
+		$c->addJoin(ProfilePropertyPeer::SCHEMA_PROPERTY_ID, SchemaPropertyPeer::ID);
+
+		$c->addJoin(ProfilePropertyPeer::STATUS_ID, StatusPeer::ID);
+
+
+		$rs = BasePeer::doSelect($c, $con);
+		$results = array();
+		
+		while($rs->next()) {
+
+			$omClass = ProfilePropertyPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj1 = new $cls();
+			$obj1->hydrate($rs);		
+
+			$omClass = UserPeer::getOMClass();
+
+	
+			$cls = Propel::import($omClass);
+			$obj2  = new $cls();
+			$obj2->hydrate($rs, $startcol2);
+			
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj2 = $temp_obj1->getUserRelatedByCreatedBy(); //CHECKME
+				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj2->addProfilePropertyRelatedByCreatedBy($obj1);
+					break;
+				}
+			}
+			
+			if ($newObject) {
+				$obj2->initProfilePropertysRelatedByCreatedBy();
+				$obj2->addProfilePropertyRelatedByCreatedBy($obj1);
+			}
+
+			$omClass = UserPeer::getOMClass();
+
+	
+			$cls = Propel::import($omClass);
+			$obj3  = new $cls();
+			$obj3->hydrate($rs, $startcol3);
+			
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj3 = $temp_obj1->getUserRelatedByUpdatedBy(); //CHECKME
+				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj3->addProfilePropertyRelatedByUpdatedBy($obj1);
+					break;
+				}
+			}
+			
+			if ($newObject) {
+				$obj3->initProfilePropertysRelatedByUpdatedBy();
+				$obj3->addProfilePropertyRelatedByUpdatedBy($obj1);
+			}
+
+			$omClass = UserPeer::getOMClass();
+
+	
+			$cls = Propel::import($omClass);
+			$obj4  = new $cls();
+			$obj4->hydrate($rs, $startcol4);
+			
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj4 = $temp_obj1->getUserRelatedByDeletedBy(); //CHECKME
+				if ($temp_obj4->getPrimaryKey() === $obj4->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj4->addProfilePropertyRelatedByDeletedBy($obj1);
+					break;
+				}
+			}
+			
+			if ($newObject) {
+				$obj4->initProfilePropertysRelatedByDeletedBy();
+				$obj4->addProfilePropertyRelatedByDeletedBy($obj1);
+			}
+
+			$omClass = ProfilePeer::getOMClass();
+
+	
+			$cls = Propel::import($omClass);
+			$obj5  = new $cls();
+			$obj5->hydrate($rs, $startcol5);
+			
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj5 = $temp_obj1->getProfile(); //CHECKME
+				if ($temp_obj5->getPrimaryKey() === $obj5->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj5->addProfileProperty($obj1);
+					break;
+				}
+			}
+			
+			if ($newObject) {
+				$obj5->initProfilePropertys();
+				$obj5->addProfileProperty($obj1);
+			}
+
+			$omClass = SchemaPropertyPeer::getOMClass();
+
+	
+			$cls = Propel::import($omClass);
+			$obj6  = new $cls();
+			$obj6->hydrate($rs, $startcol6);
+			
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj6 = $temp_obj1->getSchemaProperty(); //CHECKME
+				if ($temp_obj6->getPrimaryKey() === $obj6->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj6->addProfileProperty($obj1);
+					break;
+				}
+			}
+			
+			if ($newObject) {
+				$obj6->initProfilePropertys();
+				$obj6->addProfileProperty($obj1);
+			}
+
+			$omClass = StatusPeer::getOMClass();
+
+	
+			$cls = Propel::import($omClass);
+			$obj7  = new $cls();
+			$obj7->hydrate($rs, $startcol7);
+			
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj7 = $temp_obj1->getStatus(); //CHECKME
+				if ($temp_obj7->getPrimaryKey() === $obj7->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj7->addProfileProperty($obj1);
+					break;
+				}
+			}
+			
+			if ($newObject) {
+				$obj7->initProfilePropertys();
+				$obj7->addProfileProperty($obj1);
+			}
+
+			$results[] = $obj1;
+		}
+		return $results;
+	}
+
+
+	/**
+	 * Selects a collection of ProfileProperty objects pre-filled with all related objects except SchemaProperty.
+	 *
+	 * @return array Array of ProfileProperty objects.
+	 * @throws PropelException Any exceptions caught during processing will be
+	 *		 rethrown wrapped into a PropelException.
+	 */
+	public static function doSelectJoinAllExceptSchemaProperty(Criteria $c, $con = null)
+	{
+		$c = clone $c;
+
+		// Set the correct dbName if it has not been overridden
+		// $c->getDbName() will return the same object if not set to another value
+		// so == check is okay and faster
+		if ($c->getDbName() == Propel::getDefaultDB()) {
+			$c->setDbName(self::DATABASE_NAME);
+		}
+
+		ProfilePropertyPeer::addSelectColumns($c);
+		$startcol2 = (ProfilePropertyPeer::NUM_COLUMNS - ProfilePropertyPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+
+		UserPeer::addSelectColumns($c);
+		$startcol3 = $startcol2 + UserPeer::NUM_COLUMNS;
+
+		UserPeer::addSelectColumns($c);
+		$startcol4 = $startcol3 + UserPeer::NUM_COLUMNS;
+
+		UserPeer::addSelectColumns($c);
+		$startcol5 = $startcol4 + UserPeer::NUM_COLUMNS;
+
+		ProfilePeer::addSelectColumns($c);
+		$startcol6 = $startcol5 + ProfilePeer::NUM_COLUMNS;
+
+		SchemaPeer::addSelectColumns($c);
+		$startcol7 = $startcol6 + SchemaPeer::NUM_COLUMNS;
+
+		StatusPeer::addSelectColumns($c);
+		$startcol8 = $startcol7 + StatusPeer::NUM_COLUMNS;
+
+		$c->addJoin(ProfilePropertyPeer::CREATED_BY, UserPeer::ID);
+
+		$c->addJoin(ProfilePropertyPeer::UPDATED_BY, UserPeer::ID);
+
+		$c->addJoin(ProfilePropertyPeer::DELETED_BY, UserPeer::ID);
+
+		$c->addJoin(ProfilePropertyPeer::PROFILE_ID, ProfilePeer::ID);
+
+		$c->addJoin(ProfilePropertyPeer::SCHEMA_ID, SchemaPeer::ID);
+
+		$c->addJoin(ProfilePropertyPeer::STATUS_ID, StatusPeer::ID);
+
+
+		$rs = BasePeer::doSelect($c, $con);
+		$results = array();
+		
+		while($rs->next()) {
+
+			$omClass = ProfilePropertyPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj1 = new $cls();
+			$obj1->hydrate($rs);		
+
+			$omClass = UserPeer::getOMClass();
+
+	
+			$cls = Propel::import($omClass);
+			$obj2  = new $cls();
+			$obj2->hydrate($rs, $startcol2);
+			
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj2 = $temp_obj1->getUserRelatedByCreatedBy(); //CHECKME
+				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj2->addProfilePropertyRelatedByCreatedBy($obj1);
+					break;
+				}
+			}
+			
+			if ($newObject) {
+				$obj2->initProfilePropertysRelatedByCreatedBy();
+				$obj2->addProfilePropertyRelatedByCreatedBy($obj1);
+			}
+
+			$omClass = UserPeer::getOMClass();
+
+	
+			$cls = Propel::import($omClass);
+			$obj3  = new $cls();
+			$obj3->hydrate($rs, $startcol3);
+			
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj3 = $temp_obj1->getUserRelatedByUpdatedBy(); //CHECKME
+				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj3->addProfilePropertyRelatedByUpdatedBy($obj1);
+					break;
+				}
+			}
+			
+			if ($newObject) {
+				$obj3->initProfilePropertysRelatedByUpdatedBy();
+				$obj3->addProfilePropertyRelatedByUpdatedBy($obj1);
+			}
+
+			$omClass = UserPeer::getOMClass();
+
+	
+			$cls = Propel::import($omClass);
+			$obj4  = new $cls();
+			$obj4->hydrate($rs, $startcol4);
+			
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj4 = $temp_obj1->getUserRelatedByDeletedBy(); //CHECKME
+				if ($temp_obj4->getPrimaryKey() === $obj4->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj4->addProfilePropertyRelatedByDeletedBy($obj1);
+					break;
+				}
+			}
+			
+			if ($newObject) {
+				$obj4->initProfilePropertysRelatedByDeletedBy();
+				$obj4->addProfilePropertyRelatedByDeletedBy($obj1);
+			}
+
+			$omClass = ProfilePeer::getOMClass();
+
+	
+			$cls = Propel::import($omClass);
+			$obj5  = new $cls();
+			$obj5->hydrate($rs, $startcol5);
+			
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj5 = $temp_obj1->getProfile(); //CHECKME
+				if ($temp_obj5->getPrimaryKey() === $obj5->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj5->addProfileProperty($obj1);
+					break;
+				}
+			}
+			
+			if ($newObject) {
+				$obj5->initProfilePropertys();
+				$obj5->addProfileProperty($obj1);
+			}
+
+			$omClass = SchemaPeer::getOMClass();
+
+	
+			$cls = Propel::import($omClass);
+			$obj6  = new $cls();
+			$obj6->hydrate($rs, $startcol6);
+			
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj6 = $temp_obj1->getSchema(); //CHECKME
+				if ($temp_obj6->getPrimaryKey() === $obj6->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj6->addProfileProperty($obj1);
+					break;
+				}
+			}
+			
+			if ($newObject) {
+				$obj6->initProfilePropertys();
+				$obj6->addProfileProperty($obj1);
+			}
+
+			$omClass = StatusPeer::getOMClass();
+
+	
+			$cls = Propel::import($omClass);
+			$obj7  = new $cls();
+			$obj7->hydrate($rs, $startcol7);
+			
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj7 = $temp_obj1->getStatus(); //CHECKME
+				if ($temp_obj7->getPrimaryKey() === $obj7->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj7->addProfileProperty($obj1);
+					break;
+				}
+			}
+			
+			if ($newObject) {
+				$obj7->initProfilePropertys();
+				$obj7->addProfileProperty($obj1);
 			}
 
 			$results[] = $obj1;
@@ -1866,6 +2896,12 @@ abstract class BaseProfilePropertyPeer {
 		ProfilePeer::addSelectColumns($c);
 		$startcol6 = $startcol5 + ProfilePeer::NUM_COLUMNS;
 
+		SchemaPeer::addSelectColumns($c);
+		$startcol7 = $startcol6 + SchemaPeer::NUM_COLUMNS;
+
+		SchemaPropertyPeer::addSelectColumns($c);
+		$startcol8 = $startcol7 + SchemaPropertyPeer::NUM_COLUMNS;
+
 		$c->addJoin(ProfilePropertyPeer::CREATED_BY, UserPeer::ID);
 
 		$c->addJoin(ProfilePropertyPeer::UPDATED_BY, UserPeer::ID);
@@ -1873,6 +2909,10 @@ abstract class BaseProfilePropertyPeer {
 		$c->addJoin(ProfilePropertyPeer::DELETED_BY, UserPeer::ID);
 
 		$c->addJoin(ProfilePropertyPeer::PROFILE_ID, ProfilePeer::ID);
+
+		$c->addJoin(ProfilePropertyPeer::SCHEMA_ID, SchemaPeer::ID);
+
+		$c->addJoin(ProfilePropertyPeer::SCHEMA_PROPERTY_ID, SchemaPropertyPeer::ID);
 
 
 		$rs = BasePeer::doSelect($c, $con);
@@ -1978,6 +3018,52 @@ abstract class BaseProfilePropertyPeer {
 				$obj5->addProfileProperty($obj1);
 			}
 
+			$omClass = SchemaPeer::getOMClass();
+
+	
+			$cls = Propel::import($omClass);
+			$obj6  = new $cls();
+			$obj6->hydrate($rs, $startcol6);
+			
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj6 = $temp_obj1->getSchema(); //CHECKME
+				if ($temp_obj6->getPrimaryKey() === $obj6->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj6->addProfileProperty($obj1);
+					break;
+				}
+			}
+			
+			if ($newObject) {
+				$obj6->initProfilePropertys();
+				$obj6->addProfileProperty($obj1);
+			}
+
+			$omClass = SchemaPropertyPeer::getOMClass();
+
+	
+			$cls = Propel::import($omClass);
+			$obj7  = new $cls();
+			$obj7->hydrate($rs, $startcol7);
+			
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj7 = $temp_obj1->getSchemaProperty(); //CHECKME
+				if ($temp_obj7->getPrimaryKey() === $obj7->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj7->addProfileProperty($obj1);
+					break;
+				}
+			}
+			
+			if ($newObject) {
+				$obj7->initProfilePropertys();
+				$obj7->addProfileProperty($obj1);
+			}
+
 			$results[] = $obj1;
 		}
 		return $results;
@@ -2017,8 +3103,14 @@ abstract class BaseProfilePropertyPeer {
 		ProfilePeer::addSelectColumns($c);
 		$startcol6 = $startcol5 + ProfilePeer::NUM_COLUMNS;
 
+		SchemaPeer::addSelectColumns($c);
+		$startcol7 = $startcol6 + SchemaPeer::NUM_COLUMNS;
+
+		SchemaPropertyPeer::addSelectColumns($c);
+		$startcol8 = $startcol7 + SchemaPropertyPeer::NUM_COLUMNS;
+
 		StatusPeer::addSelectColumns($c);
-		$startcol7 = $startcol6 + StatusPeer::NUM_COLUMNS;
+		$startcol9 = $startcol8 + StatusPeer::NUM_COLUMNS;
 
 		$c->addJoin(ProfilePropertyPeer::CREATED_BY, UserPeer::ID);
 
@@ -2027,6 +3119,10 @@ abstract class BaseProfilePropertyPeer {
 		$c->addJoin(ProfilePropertyPeer::DELETED_BY, UserPeer::ID);
 
 		$c->addJoin(ProfilePropertyPeer::PROFILE_ID, ProfilePeer::ID);
+
+		$c->addJoin(ProfilePropertyPeer::SCHEMA_ID, SchemaPeer::ID);
+
+		$c->addJoin(ProfilePropertyPeer::SCHEMA_PROPERTY_ID, SchemaPropertyPeer::ID);
 
 		$c->addJoin(ProfilePropertyPeer::STATUS_ID, StatusPeer::ID);
 
@@ -2134,7 +3230,7 @@ abstract class BaseProfilePropertyPeer {
 				$obj5->addProfileProperty($obj1);
 			}
 
-			$omClass = StatusPeer::getOMClass();
+			$omClass = SchemaPeer::getOMClass();
 
 	
 			$cls = Propel::import($omClass);
@@ -2144,7 +3240,7 @@ abstract class BaseProfilePropertyPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj6 = $temp_obj1->getStatus(); //CHECKME
+				$temp_obj6 = $temp_obj1->getSchema(); //CHECKME
 				if ($temp_obj6->getPrimaryKey() === $obj6->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj6->addProfileProperty($obj1);
@@ -2155,6 +3251,52 @@ abstract class BaseProfilePropertyPeer {
 			if ($newObject) {
 				$obj6->initProfilePropertys();
 				$obj6->addProfileProperty($obj1);
+			}
+
+			$omClass = SchemaPropertyPeer::getOMClass();
+
+	
+			$cls = Propel::import($omClass);
+			$obj7  = new $cls();
+			$obj7->hydrate($rs, $startcol7);
+			
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj7 = $temp_obj1->getSchemaProperty(); //CHECKME
+				if ($temp_obj7->getPrimaryKey() === $obj7->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj7->addProfileProperty($obj1);
+					break;
+				}
+			}
+			
+			if ($newObject) {
+				$obj7->initProfilePropertys();
+				$obj7->addProfileProperty($obj1);
+			}
+
+			$omClass = StatusPeer::getOMClass();
+
+	
+			$cls = Propel::import($omClass);
+			$obj8  = new $cls();
+			$obj8->hydrate($rs, $startcol8);
+			
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj8 = $temp_obj1->getStatus(); //CHECKME
+				if ($temp_obj8->getPrimaryKey() === $obj8->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj8->addProfileProperty($obj1);
+					break;
+				}
+			}
+			
+			if ($newObject) {
+				$obj8->initProfilePropertys();
+				$obj8->addProfileProperty($obj1);
 			}
 
 			$results[] = $obj1;

@@ -76,6 +76,20 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 
 
 	/**
+	 * The value for the schema_id field.
+	 * @var        int
+	 */
+	protected $schema_id;
+
+
+	/**
+	 * The value for the schema_property_id field.
+	 * @var        int
+	 */
+	protected $schema_property_id;
+
+
+	/**
 	 * The value for the name field.
 	 * @var        string
 	 */
@@ -212,6 +226,16 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 	 * @var        Profile
 	 */
 	protected $aProfile;
+
+	/**
+	 * @var        Schema
+	 */
+	protected $aSchema;
+
+	/**
+	 * @var        SchemaProperty
+	 */
+	protected $aSchemaProperty;
 
 	/**
 	 * @var        Status
@@ -419,6 +443,28 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 	{
 
 		return $this->profile_id;
+	}
+
+	/**
+	 * Get the [schema_id] column value.
+	 * 
+	 * @return     int
+	 */
+	public function getSchemaId()
+	{
+
+		return $this->schema_id;
+	}
+
+	/**
+	 * Get the [schema_property_id] column value.
+	 * 
+	 * @return     int
+	 */
+	public function getSchemaPropertyId()
+	{
+
+		return $this->schema_property_id;
 	}
 
 	/**
@@ -805,6 +851,58 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 		}
 
 	} // setProfileId()
+
+	/**
+	 * Set the value of [schema_id] column.
+	 * 
+	 * @param      int $v new value
+	 * @return     void
+	 */
+	public function setSchemaId($v)
+	{
+
+		// Since the native PHP type for this column is integer,
+		// we will cast the input value to an int (if it is not).
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->schema_id !== $v) {
+			$this->schema_id = $v;
+			$this->modifiedColumns[] = ProfilePropertyPeer::SCHEMA_ID;
+		}
+
+		if ($this->aSchema !== null && $this->aSchema->getId() !== $v) {
+			$this->aSchema = null;
+		}
+
+	} // setSchemaId()
+
+	/**
+	 * Set the value of [schema_property_id] column.
+	 * 
+	 * @param      int $v new value
+	 * @return     void
+	 */
+	public function setSchemaPropertyId($v)
+	{
+
+		// Since the native PHP type for this column is integer,
+		// we will cast the input value to an int (if it is not).
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->schema_property_id !== $v) {
+			$this->schema_property_id = $v;
+			$this->modifiedColumns[] = ProfilePropertyPeer::SCHEMA_PROPERTY_ID;
+		}
+
+		if ($this->aSchemaProperty !== null && $this->aSchemaProperty->getId() !== $v) {
+			$this->aSchemaProperty = null;
+		}
+
+	} // setSchemaPropertyId()
 
 	/**
 	 * Set the value of [name] column.
@@ -1197,46 +1295,50 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 
 			$this->profile_id = $rs->getInt($startcol + 7);
 
-			$this->name = $rs->getString($startcol + 8);
+			$this->schema_id = $rs->getInt($startcol + 8);
 
-			$this->label = $rs->getString($startcol + 9);
+			$this->schema_property_id = $rs->getInt($startcol + 9);
 
-			$this->definition = $rs->getString($startcol + 10);
+			$this->name = $rs->getString($startcol + 10);
 
-			$this->comment = $rs->getString($startcol + 11);
+			$this->label = $rs->getString($startcol + 11);
 
-			$this->type = $rs->getString($startcol + 12);
+			$this->definition = $rs->getString($startcol + 12);
 
-			$this->uri = $rs->getString($startcol + 13);
+			$this->comment = $rs->getString($startcol + 13);
 
-			$this->status_id = $rs->getInt($startcol + 14);
+			$this->type = $rs->getString($startcol + 14);
 
-			$this->language = $rs->getString($startcol + 15);
+			$this->uri = $rs->getString($startcol + 15);
 
-			$this->note = $rs->getString($startcol + 16);
+			$this->status_id = $rs->getInt($startcol + 16);
 
-			$this->display_order = $rs->getInt($startcol + 17);
+			$this->language = $rs->getString($startcol + 17);
 
-			$this->picklist_order = $rs->getInt($startcol + 18);
+			$this->note = $rs->getString($startcol + 18);
 
-			$this->examples = $rs->getString($startcol + 19);
+			$this->display_order = $rs->getInt($startcol + 19);
 
-			$this->is_required = $rs->getBoolean($startcol + 20);
+			$this->picklist_order = $rs->getInt($startcol + 20);
 
-			$this->is_reciprocal = $rs->getBoolean($startcol + 21);
+			$this->examples = $rs->getString($startcol + 21);
 
-			$this->is_singleton = $rs->getBoolean($startcol + 22);
+			$this->is_required = $rs->getBoolean($startcol + 22);
 
-			$this->is_in_picklist = $rs->getBoolean($startcol + 23);
+			$this->is_reciprocal = $rs->getBoolean($startcol + 23);
 
-			$this->inverse_profile_property_id = $rs->getInt($startcol + 24);
+			$this->is_singleton = $rs->getBoolean($startcol + 24);
+
+			$this->is_in_picklist = $rs->getBoolean($startcol + 25);
+
+			$this->inverse_profile_property_id = $rs->getInt($startcol + 26);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 25; // 25 = ProfilePropertyPeer::NUM_COLUMNS - ProfilePropertyPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 27; // 27 = ProfilePropertyPeer::NUM_COLUMNS - ProfilePropertyPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating ProfileProperty object", $e);
@@ -1398,6 +1500,20 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 				$this->setProfile($this->aProfile);
 			}
 
+			if ($this->aSchema !== null) {
+				if ($this->aSchema->isModified()) {
+					$affectedRows += $this->aSchema->save($con);
+				}
+				$this->setSchema($this->aSchema);
+			}
+
+			if ($this->aSchemaProperty !== null) {
+				if ($this->aSchemaProperty->isModified()) {
+					$affectedRows += $this->aSchemaProperty->save($con);
+				}
+				$this->setSchemaProperty($this->aSchemaProperty);
+			}
+
 			if ($this->aStatus !== null) {
 				if ($this->aStatus->isModified()) {
 					$affectedRows += $this->aStatus->save($con);
@@ -1548,6 +1664,18 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 				}
 			}
 
+			if ($this->aSchema !== null) {
+				if (!$this->aSchema->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aSchema->getValidationFailures());
+				}
+			}
+
+			if ($this->aSchemaProperty !== null) {
+				if (!$this->aSchemaProperty->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aSchemaProperty->getValidationFailures());
+				}
+			}
+
 			if ($this->aStatus !== null) {
 				if (!$this->aStatus->validate($columns)) {
 					$failureMap = array_merge($failureMap, $this->aStatus->getValidationFailures());
@@ -1639,54 +1767,60 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 				return $this->getProfileId();
 				break;
 			case 8:
-				return $this->getName();
+				return $this->getSchemaId();
 				break;
 			case 9:
-				return $this->getLabel();
+				return $this->getSchemaPropertyId();
 				break;
 			case 10:
-				return $this->getDefinition();
+				return $this->getName();
 				break;
 			case 11:
-				return $this->getComment();
+				return $this->getLabel();
 				break;
 			case 12:
-				return $this->getType();
+				return $this->getDefinition();
 				break;
 			case 13:
-				return $this->getUri();
+				return $this->getComment();
 				break;
 			case 14:
-				return $this->getStatusId();
+				return $this->getType();
 				break;
 			case 15:
-				return $this->getLanguage();
+				return $this->getUri();
 				break;
 			case 16:
-				return $this->getNote();
+				return $this->getStatusId();
 				break;
 			case 17:
-				return $this->getDisplayOrder();
+				return $this->getLanguage();
 				break;
 			case 18:
-				return $this->getPicklistOrder();
+				return $this->getNote();
 				break;
 			case 19:
-				return $this->getExamples();
+				return $this->getDisplayOrder();
 				break;
 			case 20:
-				return $this->getIsRequired();
+				return $this->getPicklistOrder();
 				break;
 			case 21:
-				return $this->getIsReciprocal();
+				return $this->getExamples();
 				break;
 			case 22:
-				return $this->getIsSingleton();
+				return $this->getIsRequired();
 				break;
 			case 23:
-				return $this->getIsInPicklist();
+				return $this->getIsReciprocal();
 				break;
 			case 24:
+				return $this->getIsSingleton();
+				break;
+			case 25:
+				return $this->getIsInPicklist();
+				break;
+			case 26:
 				return $this->getInverseProfilePropertyId();
 				break;
 			default:
@@ -1717,23 +1851,25 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 			$keys[5] => $this->getUpdatedBy(),
 			$keys[6] => $this->getDeletedBy(),
 			$keys[7] => $this->getProfileId(),
-			$keys[8] => $this->getName(),
-			$keys[9] => $this->getLabel(),
-			$keys[10] => $this->getDefinition(),
-			$keys[11] => $this->getComment(),
-			$keys[12] => $this->getType(),
-			$keys[13] => $this->getUri(),
-			$keys[14] => $this->getStatusId(),
-			$keys[15] => $this->getLanguage(),
-			$keys[16] => $this->getNote(),
-			$keys[17] => $this->getDisplayOrder(),
-			$keys[18] => $this->getPicklistOrder(),
-			$keys[19] => $this->getExamples(),
-			$keys[20] => $this->getIsRequired(),
-			$keys[21] => $this->getIsReciprocal(),
-			$keys[22] => $this->getIsSingleton(),
-			$keys[23] => $this->getIsInPicklist(),
-			$keys[24] => $this->getInverseProfilePropertyId(),
+			$keys[8] => $this->getSchemaId(),
+			$keys[9] => $this->getSchemaPropertyId(),
+			$keys[10] => $this->getName(),
+			$keys[11] => $this->getLabel(),
+			$keys[12] => $this->getDefinition(),
+			$keys[13] => $this->getComment(),
+			$keys[14] => $this->getType(),
+			$keys[15] => $this->getUri(),
+			$keys[16] => $this->getStatusId(),
+			$keys[17] => $this->getLanguage(),
+			$keys[18] => $this->getNote(),
+			$keys[19] => $this->getDisplayOrder(),
+			$keys[20] => $this->getPicklistOrder(),
+			$keys[21] => $this->getExamples(),
+			$keys[22] => $this->getIsRequired(),
+			$keys[23] => $this->getIsReciprocal(),
+			$keys[24] => $this->getIsSingleton(),
+			$keys[25] => $this->getIsInPicklist(),
+			$keys[26] => $this->getInverseProfilePropertyId(),
 		);
 		return $result;
 	}
@@ -1790,54 +1926,60 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 				$this->setProfileId($value);
 				break;
 			case 8:
-				$this->setName($value);
+				$this->setSchemaId($value);
 				break;
 			case 9:
-				$this->setLabel($value);
+				$this->setSchemaPropertyId($value);
 				break;
 			case 10:
-				$this->setDefinition($value);
+				$this->setName($value);
 				break;
 			case 11:
-				$this->setComment($value);
+				$this->setLabel($value);
 				break;
 			case 12:
-				$this->setType($value);
+				$this->setDefinition($value);
 				break;
 			case 13:
-				$this->setUri($value);
+				$this->setComment($value);
 				break;
 			case 14:
-				$this->setStatusId($value);
+				$this->setType($value);
 				break;
 			case 15:
-				$this->setLanguage($value);
+				$this->setUri($value);
 				break;
 			case 16:
-				$this->setNote($value);
+				$this->setStatusId($value);
 				break;
 			case 17:
-				$this->setDisplayOrder($value);
+				$this->setLanguage($value);
 				break;
 			case 18:
-				$this->setPicklistOrder($value);
+				$this->setNote($value);
 				break;
 			case 19:
-				$this->setExamples($value);
+				$this->setDisplayOrder($value);
 				break;
 			case 20:
-				$this->setIsRequired($value);
+				$this->setPicklistOrder($value);
 				break;
 			case 21:
-				$this->setIsReciprocal($value);
+				$this->setExamples($value);
 				break;
 			case 22:
-				$this->setIsSingleton($value);
+				$this->setIsRequired($value);
 				break;
 			case 23:
-				$this->setIsInPicklist($value);
+				$this->setIsReciprocal($value);
 				break;
 			case 24:
+				$this->setIsSingleton($value);
+				break;
+			case 25:
+				$this->setIsInPicklist($value);
+				break;
+			case 26:
 				$this->setInverseProfilePropertyId($value);
 				break;
 		} // switch()
@@ -1871,23 +2013,25 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[5], $arr)) $this->setUpdatedBy($arr[$keys[5]]);
 		if (array_key_exists($keys[6], $arr)) $this->setDeletedBy($arr[$keys[6]]);
 		if (array_key_exists($keys[7], $arr)) $this->setProfileId($arr[$keys[7]]);
-		if (array_key_exists($keys[8], $arr)) $this->setName($arr[$keys[8]]);
-		if (array_key_exists($keys[9], $arr)) $this->setLabel($arr[$keys[9]]);
-		if (array_key_exists($keys[10], $arr)) $this->setDefinition($arr[$keys[10]]);
-		if (array_key_exists($keys[11], $arr)) $this->setComment($arr[$keys[11]]);
-		if (array_key_exists($keys[12], $arr)) $this->setType($arr[$keys[12]]);
-		if (array_key_exists($keys[13], $arr)) $this->setUri($arr[$keys[13]]);
-		if (array_key_exists($keys[14], $arr)) $this->setStatusId($arr[$keys[14]]);
-		if (array_key_exists($keys[15], $arr)) $this->setLanguage($arr[$keys[15]]);
-		if (array_key_exists($keys[16], $arr)) $this->setNote($arr[$keys[16]]);
-		if (array_key_exists($keys[17], $arr)) $this->setDisplayOrder($arr[$keys[17]]);
-		if (array_key_exists($keys[18], $arr)) $this->setPicklistOrder($arr[$keys[18]]);
-		if (array_key_exists($keys[19], $arr)) $this->setExamples($arr[$keys[19]]);
-		if (array_key_exists($keys[20], $arr)) $this->setIsRequired($arr[$keys[20]]);
-		if (array_key_exists($keys[21], $arr)) $this->setIsReciprocal($arr[$keys[21]]);
-		if (array_key_exists($keys[22], $arr)) $this->setIsSingleton($arr[$keys[22]]);
-		if (array_key_exists($keys[23], $arr)) $this->setIsInPicklist($arr[$keys[23]]);
-		if (array_key_exists($keys[24], $arr)) $this->setInverseProfilePropertyId($arr[$keys[24]]);
+		if (array_key_exists($keys[8], $arr)) $this->setSchemaId($arr[$keys[8]]);
+		if (array_key_exists($keys[9], $arr)) $this->setSchemaPropertyId($arr[$keys[9]]);
+		if (array_key_exists($keys[10], $arr)) $this->setName($arr[$keys[10]]);
+		if (array_key_exists($keys[11], $arr)) $this->setLabel($arr[$keys[11]]);
+		if (array_key_exists($keys[12], $arr)) $this->setDefinition($arr[$keys[12]]);
+		if (array_key_exists($keys[13], $arr)) $this->setComment($arr[$keys[13]]);
+		if (array_key_exists($keys[14], $arr)) $this->setType($arr[$keys[14]]);
+		if (array_key_exists($keys[15], $arr)) $this->setUri($arr[$keys[15]]);
+		if (array_key_exists($keys[16], $arr)) $this->setStatusId($arr[$keys[16]]);
+		if (array_key_exists($keys[17], $arr)) $this->setLanguage($arr[$keys[17]]);
+		if (array_key_exists($keys[18], $arr)) $this->setNote($arr[$keys[18]]);
+		if (array_key_exists($keys[19], $arr)) $this->setDisplayOrder($arr[$keys[19]]);
+		if (array_key_exists($keys[20], $arr)) $this->setPicklistOrder($arr[$keys[20]]);
+		if (array_key_exists($keys[21], $arr)) $this->setExamples($arr[$keys[21]]);
+		if (array_key_exists($keys[22], $arr)) $this->setIsRequired($arr[$keys[22]]);
+		if (array_key_exists($keys[23], $arr)) $this->setIsReciprocal($arr[$keys[23]]);
+		if (array_key_exists($keys[24], $arr)) $this->setIsSingleton($arr[$keys[24]]);
+		if (array_key_exists($keys[25], $arr)) $this->setIsInPicklist($arr[$keys[25]]);
+		if (array_key_exists($keys[26], $arr)) $this->setInverseProfilePropertyId($arr[$keys[26]]);
 	}
 
 	/**
@@ -1907,6 +2051,8 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(ProfilePropertyPeer::UPDATED_BY)) $criteria->add(ProfilePropertyPeer::UPDATED_BY, $this->updated_by);
 		if ($this->isColumnModified(ProfilePropertyPeer::DELETED_BY)) $criteria->add(ProfilePropertyPeer::DELETED_BY, $this->deleted_by);
 		if ($this->isColumnModified(ProfilePropertyPeer::PROFILE_ID)) $criteria->add(ProfilePropertyPeer::PROFILE_ID, $this->profile_id);
+		if ($this->isColumnModified(ProfilePropertyPeer::SCHEMA_ID)) $criteria->add(ProfilePropertyPeer::SCHEMA_ID, $this->schema_id);
+		if ($this->isColumnModified(ProfilePropertyPeer::SCHEMA_PROPERTY_ID)) $criteria->add(ProfilePropertyPeer::SCHEMA_PROPERTY_ID, $this->schema_property_id);
 		if ($this->isColumnModified(ProfilePropertyPeer::NAME)) $criteria->add(ProfilePropertyPeer::NAME, $this->name);
 		if ($this->isColumnModified(ProfilePropertyPeer::LABEL)) $criteria->add(ProfilePropertyPeer::LABEL, $this->label);
 		if ($this->isColumnModified(ProfilePropertyPeer::DEFINITION)) $criteria->add(ProfilePropertyPeer::DEFINITION, $this->definition);
@@ -1991,6 +2137,10 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 		$copyObj->setDeletedBy($this->deleted_by);
 
 		$copyObj->setProfileId($this->profile_id);
+
+		$copyObj->setSchemaId($this->schema_id);
+
+		$copyObj->setSchemaPropertyId($this->schema_property_id);
 
 		$copyObj->setName($this->name);
 
@@ -2293,6 +2443,106 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 			 */
 		}
 		return $this->aProfile;
+	}
+
+	/**
+	 * Declares an association between this object and a Schema object.
+	 *
+	 * @param      Schema $v
+	 * @return     void
+	 * @throws     PropelException
+	 */
+	public function setSchema($v)
+	{
+
+
+		if ($v === null) {
+			$this->setSchemaId(NULL);
+		} else {
+			$this->setSchemaId($v->getId());
+		}
+
+
+		$this->aSchema = $v;
+	}
+
+
+	/**
+	 * Get the associated Schema object
+	 *
+	 * @param      Connection Optional Connection object.
+	 * @return     Schema The associated Schema object.
+	 * @throws     PropelException
+	 */
+	public function getSchema($con = null)
+	{
+		if ($this->aSchema === null && ($this->schema_id !== null)) {
+			// include the related Peer class
+			include_once 'lib/model/om/BaseSchemaPeer.php';
+
+			$this->aSchema = SchemaPeer::retrieveByPK($this->schema_id, $con);
+
+			/* The following can be used instead of the line above to
+			   guarantee the related object contains a reference
+			   to this object, but this level of coupling
+			   may be undesirable in many circumstances.
+			   As it can lead to a db query with many results that may
+			   never be used.
+			   $obj = SchemaPeer::retrieveByPK($this->schema_id, $con);
+			   $obj->addSchemas($this);
+			 */
+		}
+		return $this->aSchema;
+	}
+
+	/**
+	 * Declares an association between this object and a SchemaProperty object.
+	 *
+	 * @param      SchemaProperty $v
+	 * @return     void
+	 * @throws     PropelException
+	 */
+	public function setSchemaProperty($v)
+	{
+
+
+		if ($v === null) {
+			$this->setSchemaPropertyId(NULL);
+		} else {
+			$this->setSchemaPropertyId($v->getId());
+		}
+
+
+		$this->aSchemaProperty = $v;
+	}
+
+
+	/**
+	 * Get the associated SchemaProperty object
+	 *
+	 * @param      Connection Optional Connection object.
+	 * @return     SchemaProperty The associated SchemaProperty object.
+	 * @throws     PropelException
+	 */
+	public function getSchemaProperty($con = null)
+	{
+		if ($this->aSchemaProperty === null && ($this->schema_property_id !== null)) {
+			// include the related Peer class
+			include_once 'lib/model/om/BaseSchemaPropertyPeer.php';
+
+			$this->aSchemaProperty = SchemaPropertyPeer::retrieveByPK($this->schema_property_id, $con);
+
+			/* The following can be used instead of the line above to
+			   guarantee the related object contains a reference
+			   to this object, but this level of coupling
+			   may be undesirable in many circumstances.
+			   As it can lead to a db query with many results that may
+			   never be used.
+			   $obj = SchemaPropertyPeer::retrieveByPK($this->schema_property_id, $con);
+			   $obj->addSchemaPropertys($this);
+			 */
+		}
+		return $this->aSchemaProperty;
 	}
 
 	/**
@@ -2691,6 +2941,104 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 
 			if (!isset($this->lastProfilePropertyRelatedByInverseProfilePropertyIdCriteria) || !$this->lastProfilePropertyRelatedByInverseProfilePropertyIdCriteria->equals($criteria)) {
 				$this->collProfilePropertysRelatedByInverseProfilePropertyId = ProfilePropertyPeer::doSelectJoinProfile($criteria, $con);
+			}
+		}
+		$this->lastProfilePropertyRelatedByInverseProfilePropertyIdCriteria = $criteria;
+
+		return $this->collProfilePropertysRelatedByInverseProfilePropertyId;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this ProfileProperty is new, it will return
+	 * an empty collection; or if this ProfileProperty has previously
+	 * been saved, it will retrieve related ProfilePropertysRelatedByInverseProfilePropertyId from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in ProfileProperty.
+	 */
+	public function getProfilePropertysRelatedByInverseProfilePropertyIdJoinSchema($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseProfilePropertyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collProfilePropertysRelatedByInverseProfilePropertyId === null) {
+			if ($this->isNew()) {
+				$this->collProfilePropertysRelatedByInverseProfilePropertyId = array();
+			} else {
+
+				$criteria->add(ProfilePropertyPeer::INVERSE_PROFILE_PROPERTY_ID, $this->getId());
+
+				$this->collProfilePropertysRelatedByInverseProfilePropertyId = ProfilePropertyPeer::doSelectJoinSchema($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(ProfilePropertyPeer::INVERSE_PROFILE_PROPERTY_ID, $this->getId());
+
+			if (!isset($this->lastProfilePropertyRelatedByInverseProfilePropertyIdCriteria) || !$this->lastProfilePropertyRelatedByInverseProfilePropertyIdCriteria->equals($criteria)) {
+				$this->collProfilePropertysRelatedByInverseProfilePropertyId = ProfilePropertyPeer::doSelectJoinSchema($criteria, $con);
+			}
+		}
+		$this->lastProfilePropertyRelatedByInverseProfilePropertyIdCriteria = $criteria;
+
+		return $this->collProfilePropertysRelatedByInverseProfilePropertyId;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this ProfileProperty is new, it will return
+	 * an empty collection; or if this ProfileProperty has previously
+	 * been saved, it will retrieve related ProfilePropertysRelatedByInverseProfilePropertyId from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in ProfileProperty.
+	 */
+	public function getProfilePropertysRelatedByInverseProfilePropertyIdJoinSchemaProperty($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseProfilePropertyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collProfilePropertysRelatedByInverseProfilePropertyId === null) {
+			if ($this->isNew()) {
+				$this->collProfilePropertysRelatedByInverseProfilePropertyId = array();
+			} else {
+
+				$criteria->add(ProfilePropertyPeer::INVERSE_PROFILE_PROPERTY_ID, $this->getId());
+
+				$this->collProfilePropertysRelatedByInverseProfilePropertyId = ProfilePropertyPeer::doSelectJoinSchemaProperty($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(ProfilePropertyPeer::INVERSE_PROFILE_PROPERTY_ID, $this->getId());
+
+			if (!isset($this->lastProfilePropertyRelatedByInverseProfilePropertyIdCriteria) || !$this->lastProfilePropertyRelatedByInverseProfilePropertyIdCriteria->equals($criteria)) {
+				$this->collProfilePropertysRelatedByInverseProfilePropertyId = ProfilePropertyPeer::doSelectJoinSchemaProperty($criteria, $con);
 			}
 		}
 		$this->lastProfilePropertyRelatedByInverseProfilePropertyIdCriteria = $criteria;

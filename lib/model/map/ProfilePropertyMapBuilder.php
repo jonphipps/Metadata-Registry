@@ -77,6 +77,10 @@ class ProfilePropertyMapBuilder {
 
 		$tMap->addForeignKey('PROFILE_ID', 'ProfileId', 'int', CreoleTypes::INTEGER, 'profile', 'ID', true, null);
 
+		$tMap->addForeignKey('SCHEMA_ID', 'SchemaId', 'int', CreoleTypes::INTEGER, 'reg_schema', 'ID', false, null);
+
+		$tMap->addForeignKey('SCHEMA_PROPERTY_ID', 'SchemaPropertyId', 'int', CreoleTypes::INTEGER, 'reg_schema_property', 'ID', false, null);
+
 		$tMap->addColumn('NAME', 'Name', 'string', CreoleTypes::VARCHAR, true, 255);
 
 		$tMap->addColumn('LABEL', 'Label', 'string', CreoleTypes::VARCHAR, true, 255);

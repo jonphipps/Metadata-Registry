@@ -150,6 +150,18 @@ propel:
       foreignReference: id
       onDelete: RESTRICT
       onUpdate: RESTRICT
+    schema_id: 
+      type: INTEGER
+      foreignTable: reg_schema
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
+    schema_property_id: 
+      type: INTEGER
+      foreignTable: reg_schema_property
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
     name: 
       type: VARCHAR
       size: 255
@@ -228,6 +240,10 @@ propel:
         - deleted_by
       inverse_profile_property_id: 
         - inverse_profile_property_id
+      schema_id: 
+        - schema_id
+      schema_property_id: 
+        - schema_property_id
   reg_agent: 
     _attributes: 
       idMethod: native
