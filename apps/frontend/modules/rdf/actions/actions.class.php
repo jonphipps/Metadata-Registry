@@ -53,6 +53,11 @@ class rdfActions extends sfActions
           //$this->getContext()->getResponse()->setStatusCode(303);
           $vocabulary = VocabularyPeer::retrieveByUri($schemeUri);
           break;
+       case 'api_uri':
+          //this URI does NOT have an 'id', does NOT have an 'rdf' suffix, and comes from the API
+          $uri = $this->getRequestParameter('uri','');
+          $vocabulary = VocabularyPeer::retrieveByUri($uri);
+          break;
        default: //covers case of 'unknown' too
           //this URI does NOT have an 'id', does NOT have a suffix, and HAS a 'uri' action
           //do content negotiation

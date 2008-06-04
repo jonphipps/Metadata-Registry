@@ -18,15 +18,11 @@ class SchemaPeer extends BaseSchemaPeer
   */
   public static function  retrieveByUri($uri)
   {
-		$con = Propel::getConnection(self::DATABASE_NAME);
+		$criteria = new Criteria();
+		$criteria->add(self::URI, $uri);
 
-		$criteria = new Criteria(SchemaPeer::DATABASE_NAME);
+		return self::doSelectOne($criteria);
 
-		$criteria->add(SchemaPeer::URI, $uri);
-
-		$v = SchemaPeer::doSelect($criteria, $con);
-
-      return !empty($v) > 0 ? $v[0] : null;
   }
 
   /**

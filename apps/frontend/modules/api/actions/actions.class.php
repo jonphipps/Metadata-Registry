@@ -15,59 +15,55 @@ class apiActions extends sfActions
     sfConfig::set('sf_web_debug', false);
   }
 
-  public function executeQuestion()
+  public function executeGet()
   {
-    $user = $this->authenticateUser();
-    if (!$user)
+    debugbreak();
+    $uri = $this->getRequestParameter('uri');
+    $module = $this->getRequestParameter('type');
+    $class = strtolower($this->getRequestParameter('class'));
+    switch ($class)
     {
-      $this->error_code    = 1;
-      $this->error_message = 'login failed';
-
-      return array('api', 'errorSuccess');
+      case 'concept':
+        $this->forwardIf($uri, $module, 'showConcept');
+        break;
+      case 'concept_scheme':
+      case 'conceptscheme':
+        switch ($module)
+        {
+          case 'html':
+            /** @var Vocabulary **/
+            $vocabulary = VocabularyPeer::retrieveByUri($uri);
+            $this->forward404Unless($vocabulary);
+            //forward
+            $this->getRequest()->setParameter('vocabulary_id', $vocabulary->getId());
+            $this->forward('concept','list');
+            break;
+          case 'rdf':
+            $this->getRequest()->setParameter('type', 'api_uri');
+            $this->forwardIf($uri, 'rdf', 'showScheme');
+            break;
+          case 'xsd':
+            //reset the type
+            $this->getRequest()->setParameter('type', 'api_uri');
+            $this->forwardIf($uri, 'xml', 'showScheme');
+            break;
+        }
+        break;
+      case 'schema':
+        /** @var Vocabulary **/
+        $schema = SchemaPeer::retrieveByUri($uri);
+        $this->forward404Unless($schema);
+        //forward
+        $this->getRequest()->setParameter('id', $schema->getId());
+        $this->forwardIf($uri, 'schema', 'showRdf');
+        break;
+      case 'schema_property':
+      case 'schemaproperty':
+        $this->forwardIf($uri, 'schemaprop', 'showRdf');
+        break;
+      default:
+        $this->forward404();
     }
-
-    if (!$this->getRequestParameter('stripped_title'))
-    {
-      $this->error_code    = 2;
-      $this->error_message = 'the API returns answers to a specific question. Please provide a stripped_title parameter';
-
-      return array('api', 'errorSuccess');
-    }
-    else
-    {
-      // get the question
-      $question = QuestionPeer::getQuestionFromTitle($this->getRequestParameter('stripped_title'));
-
-      if ($question->getUserId() != $user->getId())
-      {
-        $this->error_code    = 3;
-        $this->error_message = 'You can only use the API for the questions you asked';
-
-        return array('api', 'errorSuccess');
-      }
-      else
-      {
-        // get the answers
-        $this->answers  = $question->getAnswers();
-        $this->question = $question;
-      }
-    }
-  }
-
-  private function authenticateUser()
-  {
-    if (isset($_SERVER['PHP_AUTH_USER']))
-    {
-      if ($user = UserPeer::getAuthenticatedUser($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW']))
-      {
-        $this->getContext()->getUser()->signIn($user);
-
-        return $user;
-      }
-    }
-
-    header('WWW-Authenticate: Basic realm="Registry API"');
-    header('HTTP/1.0 401 Unauthorized');
   }
 
   public function executeError()

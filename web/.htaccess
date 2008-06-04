@@ -35,4 +35,4 @@ Options +FollowSymLinks +ExecCGI
 </IfModule>
 
 # big crash from our front web controller
-ErrorDocument 500 "<h2>Application error</h2>symfony application failed to start properly"
+ErrorDocument 500 "<h2>Application error</h2>The Registry failed to start properly"

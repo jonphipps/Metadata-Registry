@@ -33,9 +33,6 @@ The most current complete Vocabulary may be retrieved from:
 
 -->
 <?php endif; ?>
-
-
-
 <!-- Schema: <?php echo htmlspecialchars($schema->getName(), ENT_NOQUOTES, 'UTF-8'); ?> -->
 <rdf:Description rdf:about="">
   <dc:title xml:lang="<?php echo $schema->getLanguage();?>"><?php echo htmlspecialchars($schema->getName(), ENT_NOQUOTES, 'UTF-8'); ?></dc:title>

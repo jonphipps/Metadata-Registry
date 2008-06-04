@@ -1,5 +1,5 @@
-<!--<?php echo $type; ?>: <?php echo $property->getLabel();?>-->
 
+<!--<?php echo $type; ?>: <?php echo $property->getLabel();?>-->
 <?php $ts = ($timestamp) ? '/ts/' . date('YmdHis',$timestamp) : '';
       $language = $property->getLanguage();
       $status = $property->getStatus();
