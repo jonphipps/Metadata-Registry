@@ -17,14 +17,31 @@ class apiActions extends sfActions
 
   public function executeGet()
   {
-    debugbreak();
+    //debugbreak();
     $uri = $this->getRequestParameter('uri');
     $module = $this->getRequestParameter('type');
     $class = strtolower($this->getRequestParameter('class'));
     switch ($class)
     {
       case 'concept':
-        $this->forwardIf($uri, $module, 'showConcept');
+        switch ($module)
+        {
+          case 'html':
+            /** @var Concept **/
+            $concept = ConceptPeer::getConceptByUri($uri);
+            $this->forward404Unless($concept);
+            //redirect
+            $host = $this->getRequest()->getPathInfoParam('HTTP_HOST');
+            return $this->renderText("http://" . $host . "/concept/show/id/". $concept->getId() . ".html");
+            //forward
+            //$this->getRequest()->setParameter('vocabulary_id', $vocabulary->getId());
+            //$this->forward('concept','list');
+            break;
+          case 'rdf':
+            $this->getRequest()->setParameter('type', 'api_uri');
+            $this->forwardIf($uri, 'rdf', 'showConcept');
+            break;
+        }
         break;
       case 'concept_scheme':
       case 'conceptscheme':
@@ -34,9 +51,12 @@ class apiActions extends sfActions
             /** @var Vocabulary **/
             $vocabulary = VocabularyPeer::retrieveByUri($uri);
             $this->forward404Unless($vocabulary);
+            //redirect
+            $host = $this->getRequest()->getPathInfoParam('HTTP_HOST');
+            return $this->renderText("http://" . $host . "/vocabulary/show/id/". $vocabulary->getId() . ".html");
             //forward
-            $this->getRequest()->setParameter('vocabulary_id', $vocabulary->getId());
-            $this->forward('concept','list');
+            //$this->getRequest()->setParameter('vocabulary_id', $vocabulary->getId());
+            //$this->forward('concept','list');
             break;
           case 'rdf':
             $this->getRequest()->setParameter('type', 'api_uri');

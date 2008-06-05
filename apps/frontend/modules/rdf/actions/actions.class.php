@@ -153,6 +153,11 @@ class rdfActions extends sfActions
           //this URI does NOT have an 'id', HAS an 'rdf' suffix, and HAS a 'uri' action
           $concept = ConceptPeer::getConceptByUri($conceptUri);
           break;
+       case 'api_uri':
+          //this URI does NOT have an 'id', does NOT have an 'rdf' suffix, and comes from the API
+          $uri = $this->getRequestParameter('uri','');
+          $concept = ConceptPeer::getConceptByUri($uri);
+          break;
        default: //covers case of 'unknown' too
           //this URI does NOT have an 'id', does NOT have a suffix, and HAS a 'uri' action
           //do content negotiation
