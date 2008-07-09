@@ -1,0 +1,37 @@
+# See instructions at:
+# http://www.symfony-project.org/book/1_0/08-Inside-the-Model-Layer#Database%20Connections
+
+prod:
+  propel:
+    param:
+      database:           swregistry
+
+dev:
+  propel:
+    param:
+      database:           swregistry
+
+test:
+  propel:
+    param:
+      database:           swregistry_test
+
+sandbox:
+  propel:
+    param:
+      database:           swregistry
+
+all:
+  propel:
+    class:          sfPropelDatabase
+    param:
+#      dsn:                mysql://root:@localhost/dbname
+      host:               localhost
+      phptype:            mysql
+      username:           LOGIN
+      password:           PASSWORD
+      compat_assoc_lower: true
+      datasource:         propel
+      encoding:           utf8
+      persistent:         true
+
