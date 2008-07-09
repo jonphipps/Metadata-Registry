@@ -3,7 +3,33 @@ api_get:
   url:   /api/get/*.
   param: { module: api, action: get }
 
-# rdf
+# uri schema
+uri_schema_html:
+  url:  /uri/schema/:schema.html
+  param: { module: api, action: get, class: schema, type: html, redir: true }
+
+uri_schema_rdf:
+  url:  /uri/schema/:schema.rdf
+  param: { module: api, action: get, class: schema, type: rdf }
+
+uri_schema_default:
+  url:  /uri/schema/:schema.
+  param: { module: api, action: get, class: schema, type: unknown, redir: true }
+
+# uri schema property
+uri_schemaprop_html:
+  url:  /uri/schema/:schema/:property.html
+  param: { module: api, action: get, class: schemaproperty, type: html, redir: true }
+
+uri_schemaprop_rdf:
+  url:  /uri/schema/:schema/:property.rdf
+  param: { module: api, action: get, class: schemaproperty, type: rdf }
+
+uri_schemaprop_default:
+  url:  /uri/schema/:schema/:property.
+  param: { module: api, action: get, class: schemaproperty, type: unknown, redir: true }
+
+  # rdf
 uri_concept_html:
   url:  /uri/:scheme/:concept.html
   param: { module: rdf, action: showConcept, type: html }

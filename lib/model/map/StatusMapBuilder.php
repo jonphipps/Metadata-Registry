@@ -67,6 +67,8 @@ class StatusMapBuilder {
 
 		$tMap->addColumn('DISPLAY_NAME', 'DisplayName', 'string', CreoleTypes::VARCHAR, false, 255);
 
+		$tMap->addColumn('URI', 'Uri', 'string', CreoleTypes::VARCHAR, false, 255);
+
 	} // doBuild()
 
 } // StatusMapBuilder

@@ -29,60 +29,13 @@ The most current complete Vocabulary may be retrieved from:
 <?php if ($schema->getUrl()): ?>
   <foaf:homepage rdf:resource="<?php echo htmlspecialchars($schema->getUrl()); ?>"/>
 <?php endif; ?>
-<?php /*  <dc:creator>Alistair Miles</dc:creator>
-  <dc:creator>Nikki Rogers</dc:creator>
-  <dc:creator>Dave Beckett</dc:creator>
-  <dc:contributor>Members of the public-esw-thes@w3.org mailing list.</dc:contributor>
-  <dct:modified>2006-04-18</dct:modified>
-  <dct:hasVersion rdf:resource="http://www.w3.org/2004/02/skos/core/history/2006-04-18"/>
-  <foaf:homepage rdf:resource="http://www.w3.org/2004/02/skos/core/"/>
-  <rdfs:seeAlso>
-    <rdf:Description rdf:about="http://www.w3.org/2004/02/skos/core_de">
-      <dc:description xml:lang="en">Gives labels, comments and definitions in German.</dc:description>
-    </rdf:Description>
-  </rdfs:seeAlso>
-  <rdfs:seeAlso>
-    <rdf:Description rdf:about="http://www.w3.org/2004/02/skos/core_fr">
-      <dc:description xml:lang="en">Gives labels, comments and definitions in French.</dc:description>
-    </rdf:Description>
-  </rdfs:seeAlso>
-  <rdfs:seeAlso>
-    <rdf:Description rdf:about="http://www.w3.org/2004/02/skos/core_nl">
-      <dc:description xml:lang="en">Gives labels, comments and definitions in Dutch.</dc:description>
-    </rdf:Description>
-  </rdfs:seeAlso>
-  <rdfs:seeAlso>
-    <rdf:Description rdf:about="http://www.w3.org/2004/02/skos/core_pt">
-      <dc:description xml:lang="en">Gives labels, comments and definitions in Portuguese.</dc:description>
-    </rdf:Description>
-  </rdfs:seeAlso>
-*/ ?>
 </rdf:Description>
-<?php if ($classes): ?>
-
-<!-- Classes -->
-<?php foreach ($classes as $property): ?>
 <?php $elements = $property->getSchemaPropertyElementsRelatedBySchemaPropertyId();
-      echo include_partial('schemaprop/rdf', array(
-      'property' => $property,
-      'schema' => $schema,
-      'elements' => $elements,
-      'timestamp' => $timestamp,
-      'type' => 'Class')); ?>
-<?php endforeach; ?>
-<?php endif; ?>
-<?php if ($properties): ?>
-
-<!-- Properties -->
-<?php foreach ($properties as $property): ?>
-<?php $elements = $property->getSchemaPropertyElementsRelatedBySchemaPropertyId();
-      echo include_partial('schemaprop/rdf', array(
+      echo include_partial('rdf', array(
       'property' => $property,
       'schema' => $schema,
       'elements' => $elements,
       'timestamp' => $timestamp,
       'type' => 'Property')); ?>
-<?php endforeach; ?>
-<?php endif; ?>
 
 </rdf:RDF>

@@ -19,7 +19,7 @@ abstract class BaseStatusPeer {
 	const CLASS_DEFAULT = 'lib.model.Status';
 
 	/** The total number of columns. */
-	const NUM_COLUMNS = 3;
+	const NUM_COLUMNS = 4;
 
 	/** The number of lazy-loaded columns. */
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -34,6 +34,9 @@ abstract class BaseStatusPeer {
 	/** the column name for the DISPLAY_NAME field */
 	const DISPLAY_NAME = 'reg_status.DISPLAY_NAME';
 
+	/** the column name for the URI field */
+	const URI = 'reg_status.URI';
+
 	/** The PHP to DB Name Mapping */
 	private static $phpNameMap = null;
 
@@ -45,10 +48,10 @@ abstract class BaseStatusPeer {
 	 * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
 	 */
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'DisplayOrder', 'DisplayName', ),
-		BasePeer::TYPE_COLNAME => array (StatusPeer::ID, StatusPeer::DISPLAY_ORDER, StatusPeer::DISPLAY_NAME, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'display_order', 'display_name', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'DisplayOrder', 'DisplayName', 'Uri', ),
+		BasePeer::TYPE_COLNAME => array (StatusPeer::ID, StatusPeer::DISPLAY_ORDER, StatusPeer::DISPLAY_NAME, StatusPeer::URI, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'display_order', 'display_name', 'uri', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, )
 	);
 
 	/**
@@ -58,10 +61,10 @@ abstract class BaseStatusPeer {
 	 * e.g. self::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
 	 */
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'DisplayOrder' => 1, 'DisplayName' => 2, ),
-		BasePeer::TYPE_COLNAME => array (StatusPeer::ID => 0, StatusPeer::DISPLAY_ORDER => 1, StatusPeer::DISPLAY_NAME => 2, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'display_order' => 1, 'display_name' => 2, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'DisplayOrder' => 1, 'DisplayName' => 2, 'Uri' => 3, ),
+		BasePeer::TYPE_COLNAME => array (StatusPeer::ID => 0, StatusPeer::DISPLAY_ORDER => 1, StatusPeer::DISPLAY_NAME => 2, StatusPeer::URI => 3, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'display_order' => 1, 'display_name' => 2, 'uri' => 3, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, )
 	);
 
 	/**
@@ -167,6 +170,8 @@ abstract class BaseStatusPeer {
 		$criteria->addSelectColumn(StatusPeer::DISPLAY_ORDER);
 
 		$criteria->addSelectColumn(StatusPeer::DISPLAY_NAME);
+
+		$criteria->addSelectColumn(StatusPeer::URI);
 
 	}
 

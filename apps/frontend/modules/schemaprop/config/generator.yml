@@ -96,3 +96,7 @@ generator:
         _list:         { query_string: { schema_id: schema_id} }
         _edit:         { credentials: [[administrator, schemamaintainer, schemaadmin]] }
         _create:       { name: Add Property, credentials: [[administrator, schemamaintainer, schemaadmin]] }
+        showRdf:
+          name:      Get RDF
+          icon:      %SF_ADMIN_WEB_DIR%/images/rdf_icon.png
+          route:     uri_schemaprop_rdf

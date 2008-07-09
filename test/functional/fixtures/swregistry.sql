@@ -15,11 +15,11 @@
 
 
 --
--- Create schema swregistry2
+-- Create schema swregistry
 --
 
-CREATE DATABASE IF NOT EXISTS swregistry2;
-USE swregistry2;
+CREATE DATABASE IF NOT EXISTS swregistry;
+USE swregistry;
 --
 -- Definition of table `profile`
 --
@@ -85,8 +85,6 @@ CREATE TABLE `profile_property` (
   `updated_by` int(11) default NULL,
   `deleted_by` int(11) default NULL,
   `profile_id` int(11) NOT NULL,
-  `schema_id` int(11) default NULL,
-  `schema_property_id` int(11) default NULL,
   `name` varchar(255) NOT NULL default '',
   `label` varchar(255) NOT NULL default '',
   `definition` text,
@@ -111,12 +109,8 @@ CREATE TABLE `profile_property` (
   KEY `profile_property_created_by` (`created_by`),
   KEY `profile_property_deleted_by` (`deleted_by`),
   KEY `inverse_profile_property_id` (`inverse_profile_property_id`),
-  KEY `schema_id` (`schema_id`),
-  KEY `schema_property_id` (`schema_property_id`),
-  CONSTRAINT `profile_property_schema_property` FOREIGN KEY (`schema_property_id`) REFERENCES `reg_schema_property` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `profile_property_agent_FK` FOREIGN KEY (`profile_id`) REFERENCES `profile` (`id`) ON UPDATE NO ACTION,
   CONSTRAINT `profile_property_fk` FOREIGN KEY (`inverse_profile_property_id`) REFERENCES `profile_property` (`id`),
-  CONSTRAINT `profile_property_schema` FOREIGN KEY (`schema_id`) REFERENCES `reg_schema` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `profile_property_status_FK` FOREIGN KEY (`status_id`) REFERENCES `reg_status` (`id`),
   CONSTRAINT `profile_property_user_FK_1` FOREIGN KEY (`updated_by`) REFERENCES `reg_user` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
   CONSTRAINT `profile_property_user_FK_2` FOREIGN KEY (`created_by`) REFERENCES `reg_user` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
@@ -690,8 +684,8 @@ CREATE TABLE `reg_user` (
 --
 
 /*!40000 ALTER TABLE `reg_user` DISABLE KEYS */;
-INSERT INTO `reg_user` VALUES
- (1,'2006-03-24 17:29:24','2007-06-04 11:04:28',NULL,'joeadmin',NULL,'Joe','Admin','admin@example.com','ad595c0e9bc6b0a9be194ad5bbcb2cd82eaee6ce','1d4c1324f5cacadf382702601d32c107',NULL,0,1,0,NULL);
+INSERT INTO `reg_user` (`id`, `created_at`, `last_updated`, `deleted_at`, `nickname`, `salutation`, `first_name`, `last_name`, `email`, `sha1_password`, `salt`, `want_to_be_moderator`, `is_moderator`, `is_administrator`, `deletions`, `password`) VALUES
+ (1,'2006-03-24 17:29:24','2008-05-21 18:40:27',NULL,'joeadmin',NULL,'Joe','Admin','admin@example.com','71584caa21e4c0d60d1e08458be83b94f830bf4b','e9158727940f07e9dfede78c7065f434',NULL,0,1,0,NULL);
 /*!40000 ALTER TABLE `reg_user` ENABLE KEYS */;
 
 

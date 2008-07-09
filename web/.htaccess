@@ -7,41 +7,16 @@ Options +FollowSymLinks +ExecCGI
   # getting no_script_name to work
   #RewriteBase /
 
-RewriteCond %{REQUEST_URI} /rdtest/.*$
-RewriteRule ^(.*).html$ rdtest.php?type=html&uri=$1 [QSA,L]
-RewriteRule ^(.*).rdf$ rdtest.php?type=rdf&uri=$1 [QSA,L]
-RewriteRule ^(.*).xsd$ rdtest.php?type=xsd&uri=$1 [QSA,L]
-
-# Rewrite rule to serve HTML content from class or prop URIs if requested
-RewriteCond %{REQUEST_URI} /rdtest/.*$
-RewriteCond %{HTTP_ACCEPT} !application/rdf\+xml.*(text/html|application/xhtml\+xml)
-RewriteCond %{HTTP_ACCEPT} text/html [OR]
-RewriteCond %{HTTP_ACCEPT} application/xhtml\+xml [OR]
-RewriteCond %{HTTP_USER_AGENT} ^Mozilla/.*
-#RewriteRule ^example5/(.+) example5-content/2005-10-31-docs/$1.html [R=303]
-RewriteRule ^(.*)$ rdtest.php?type=html&uri=$1 [QSA,L]
-
-# Rewrite rule to serve RDF content is requested
-RewriteCond %{REQUEST_URI} /rdtest/.*$
-RewriteCond %{HTTP_ACCEPT} application/rdf\+xml
-#RewriteRule ^/Elements http://metadataregistry.org/api/get?class=schema&type=rdf&uri=http%3A%2F%2FRDVocab.info%2FElements
-RewriteRule ^(.*)$ rdtest.php?type=rdf&uri=$1 [QSA,L]
-
-RewriteCond %{REQUEST_URI} /rdtest/.*$
-# Rewrite rule to serve RDF/XML content by default
-#RewriteRule ^example5/ example5-content/2005-10-31.rdf [R=303]
-RewriteRule ^(.*)$ rdtest.php?type=rdf&uri=$1 [QSA,L]
-
-
-
   #we skip the blog
   #RewriteCond %{REQUEST_URI} /blog/.*$
   #RewriteRule .* - [L]
   RewriteRule ^blog/(.*)$ - [L,QSA]
   RewriteRule ^wordpress/(.*)$ - [L,QSA]
+
   # we skip selenium
   RewriteCond %{REQUEST_URI} /selenium/.+$
   RewriteRule .* - [L]
+
   # we skip all files with .something
   RewriteCond %{REQUEST_URI} \..+$
   RewriteCond %{REQUEST_URI} !\.html$

@@ -75,3 +75,7 @@ generator:
       actions:
         _list:
         _edit:       { credentials: [[administrator, schemamaintainer, schemaadmin]] }
+        showRdf:
+          name:      Get RDF
+          icon:      %SF_ADMIN_WEB_DIR%/images/rdf_icon.png
+          route:     uri_schema_rdf

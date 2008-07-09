@@ -39,6 +39,13 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 	 */
 	protected $display_name;
 
+
+	/**
+	 * The value for the uri field.
+	 * @var        string
+	 */
+	protected $uri;
+
 	/**
 	 * Collection to store aggregation of collProfiles.
 	 * @var        array
@@ -207,6 +214,17 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 	}
 
 	/**
+	 * Get the [uri] column value.
+	 * 
+	 * @return     string
+	 */
+	public function getUri()
+	{
+
+		return $this->uri;
+	}
+
+	/**
 	 * Set the value of [id] column.
 	 * 
 	 * @param      int $v new value
@@ -273,6 +291,28 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 	} // setDisplayName()
 
 	/**
+	 * Set the value of [uri] column.
+	 * 
+	 * @param      string $v new value
+	 * @return     void
+	 */
+	public function setUri($v)
+	{
+
+		// Since the native PHP type for this column is string,
+		// we will cast the input to a string (if it is not).
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->uri !== $v) {
+			$this->uri = $v;
+			$this->modifiedColumns[] = StatusPeer::URI;
+		}
+
+	} // setUri()
+
+	/**
 	 * Hydrates (populates) the object variables with values from the database resultset.
 	 *
 	 * An offset (1-based "start column") is specified so that objects can be hydrated
@@ -295,12 +335,14 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 
 			$this->display_name = $rs->getString($startcol + 2);
 
+			$this->uri = $rs->getString($startcol + 3);
+
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 3; // 3 = StatusPeer::NUM_COLUMNS - StatusPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 4; // 4 = StatusPeer::NUM_COLUMNS - StatusPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Status object", $e);
@@ -707,6 +749,9 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 			case 2:
 				return $this->getDisplayName();
 				break;
+			case 3:
+				return $this->getUri();
+				break;
 			default:
 				return null;
 				break;
@@ -730,6 +775,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 			$keys[0] => $this->getId(),
 			$keys[1] => $this->getDisplayOrder(),
 			$keys[2] => $this->getDisplayName(),
+			$keys[3] => $this->getUri(),
 		);
 		return $result;
 	}
@@ -770,6 +816,9 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 			case 2:
 				$this->setDisplayName($value);
 				break;
+			case 3:
+				$this->setUri($value);
+				break;
 		} // switch()
 	}
 
@@ -796,6 +845,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
 		if (array_key_exists($keys[1], $arr)) $this->setDisplayOrder($arr[$keys[1]]);
 		if (array_key_exists($keys[2], $arr)) $this->setDisplayName($arr[$keys[2]]);
+		if (array_key_exists($keys[3], $arr)) $this->setUri($arr[$keys[3]]);
 	}
 
 	/**
@@ -810,6 +860,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(StatusPeer::ID)) $criteria->add(StatusPeer::ID, $this->id);
 		if ($this->isColumnModified(StatusPeer::DISPLAY_ORDER)) $criteria->add(StatusPeer::DISPLAY_ORDER, $this->display_order);
 		if ($this->isColumnModified(StatusPeer::DISPLAY_NAME)) $criteria->add(StatusPeer::DISPLAY_NAME, $this->display_name);
+		if ($this->isColumnModified(StatusPeer::URI)) $criteria->add(StatusPeer::URI, $this->uri);
 
 		return $criteria;
 	}
@@ -867,6 +918,8 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 		$copyObj->setDisplayOrder($this->display_order);
 
 		$copyObj->setDisplayName($this->display_name);
+
+		$copyObj->setUri($this->uri);
 
 
 		if ($deepCopy) {

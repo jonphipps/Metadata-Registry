@@ -61,6 +61,21 @@ class schemapropActions extends autoschemapropActions
     parent::executeList();
   }
 
+  public function executeShowRdf ()
+  {
+    $ts = strtotime($this->getRequestParameter('ts'));
+    $this->timestamp = $ts;
+    /** @var SchemaProperty **/
+    if (!$this->property)
+    {
+      $this->property = SchemaPropertyPeer::retrieveByPk($this->getRequestParameter('id'));
+    }
+    $this->labels = $this->getLabels('show');
+
+    $this->forward404Unless($this->property);
+    $this->schema = $this->property->getSchema();
+  }
+
   /**
   * gets the current schema object
   *

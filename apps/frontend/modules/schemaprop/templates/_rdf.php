@@ -38,10 +38,10 @@
   </skos:definition>
 <?php endif; ?>
   <rdfs:isDefinedBy rdf:resource="<?php echo $schema->getUri() ?>"/>
-  <reg:status rdf:resource=""><?php echo $status ?></reg:status>
+  <reg:status rdf:resource="<?php echo $status->getUri() ?>" />
 <?php if ($property->getNote()): ?>
   <skos:note xml:lang="<?php echo $language ?>">
-    <?php echo $property->getNote() ?>
+    <?php echo $property->getNote() . "\n" ?>
   </skos:note>
 <?php endif; ?>
 <?php if ('Class' == $type): ?>

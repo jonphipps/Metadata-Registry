@@ -35,4 +35,19 @@ class SchemaPropertyPeer extends BaseSchemaPropertyPeer
     return $properties;
   }
 
+  /**
+  * description
+  *
+  * @return return_type
+  * @param  var_type $var
+  */
+  public static function  retrieveByUri($uri)
+  {
+    $criteria = new Criteria();
+    $criteria->add(self::URI, $uri);
+
+    return self::doSelectOne($criteria);
+
+  }
+
 }

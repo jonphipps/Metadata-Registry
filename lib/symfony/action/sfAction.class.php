@@ -4,7 +4,7 @@
  * This file is part of the symfony package.
  * (c) 2004-2006 Fabien Potencier <fabien.potencier@symfony-project.com>
  * (c) 2004-2006 Sean Kerr <sean@code-box.org>
- * 
+ *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
@@ -217,11 +217,11 @@ abstract class sfAction extends sfComponent
    *
    * @see redirect
    */
-  public function redirectIf($condition, $url)
+  public function redirectIf($condition, $url, $statusCode = 302)
   {
     if ($condition)
     {
-      $this->redirect($url);
+      $this->redirect($url, $statusCode);
     }
   }
 
@@ -237,11 +237,11 @@ abstract class sfAction extends sfComponent
    *
    * @see redirect
    */
-  public function redirectUnless($condition, $url)
+  public function redirectUnless($condition, $url, $statusCode = 302)
   {
     if (!$condition)
     {
-      $this->redirect($url);
+      $this->redirect($url, $statusCode);
     }
   }
 
@@ -293,7 +293,7 @@ abstract class sfAction extends sfComponent
            | sfRequest::POST
            | sfRequest::PUT
            | sfRequest::DELETE
-           | sfRequest::HEAD 
+           | sfRequest::HEAD
            | sfRequest::NONE;
   }
 

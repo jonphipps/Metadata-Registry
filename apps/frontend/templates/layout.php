@@ -64,7 +64,26 @@
           <div id="content_bar" class="main-subcontent">
             <?php include_component_slot('sidebar') ?>
           </div>
-        </td>
+<!-- Meebo chat (experiment)
+          <div style="width: 200px">
+            <style>
+          .mcrmeebo {
+            display: block;
+            background: url("http://widget.meebo.com/r.gif") no-repeat top right;
+          }
+          .mcrmeebo:hover {
+            background: url("http://widget.meebo.com/ro.gif") no-repeat top right;
+          }
+          </style>
+            <object width="210" height="350">
+              <param name="movie" value="http://widget.meebo.com/mcr.swf?id=erniYUkfWS">
+              </param>
+              <embed src="http://widget.meebo.com/mcr.swf?id=erniYUkfWS" type="application/x-shockwave-flash" width="210" height="350" />
+            </object>
+            <a href="http://www.meebo.com/rooms/" class="mcrmeebo">
+            <img alt="Create a Meebo Chat Room" src="http://widget.meebo.com/b.gif" width="210" height="45" style="border: 0px" /></a>
+          </div>
+-->        </td>
       </tr>
     </table>
   </div>
