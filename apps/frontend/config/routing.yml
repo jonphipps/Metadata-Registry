@@ -124,6 +124,10 @@ user_list:
   url:   /user/list
   param: { module: user, action: list }
 
+user_save:
+  url:   /user/save
+  param: { module: user, action: save }
+
 user_profile:
   url:   /user/:nickname
   param: { module: user, action: showSubscriber }
