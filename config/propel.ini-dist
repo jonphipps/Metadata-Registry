@@ -3,7 +3,7 @@ propel.packageObjectModel  = true
 propel.project             = registry
 propel.database            = mysql
 propel.database.createUrl  = mysql://localhost/
-propel.database.url        = mysql://localhost/swregistry
+propel.database.url        = mysql://login:password@localhost/swregistry
 
 propel.mysql.tableType     = InnoDB
 propel.addGenericAccessors = true
