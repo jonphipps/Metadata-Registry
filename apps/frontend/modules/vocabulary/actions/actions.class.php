@@ -18,7 +18,7 @@ class vocabularyActions extends autovocabularyActions
 */
   public function setDefaults($vocabulary)
   {
-    $vocabulary->setBaseDomain(rtrim(sfConfig::get('app_base_domain') ," /") . '/uri/');
+    $vocabulary->setBaseDomain(rtrim(sfConfig::get('app_base_domain') ," /") . '/');
     $vocabulary->setLanguage('en');
     parent::setDefaults($vocabulary);
   }
