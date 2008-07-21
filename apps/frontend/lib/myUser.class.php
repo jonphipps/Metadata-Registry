@@ -18,6 +18,7 @@ class myUser extends sfBasicSecurityUser
   const OBJECT_CREDENTIAL_NAMESPACE = 'object_credentials';
   const SUBSCRIBER_NAMESPACE = 'subscriber';
   const DATA_NAMESPACE = 'data_cache';
+  const ADMIN_NAMESPACE = 'sf_admin';
 
   public $modCredentials = null;
   private $objectsecurity = array();
@@ -51,12 +52,11 @@ class myUser extends sfBasicSecurityUser
     if($this->authenticated)
     {
       $attributes = $this->getAttributeHolder();
-      $attributes->removeNamespace(self::SUBSCRIBER_NAMESPACE);
-      $attributes->removeNamespace(self::OBJECT_CREDENTIAL_NAMESPACE);
-      $attributes->removeNamespace(self::ATTRIBUTE_NAMESPACE);
+      $attributes->clear();
 
       $this->setAuthenticated(false);
       $this->clearCredentials();
+      $this->clearAllObjectCredentials();
     }
   }
 
@@ -189,6 +189,9 @@ class myUser extends sfBasicSecurityUser
     $this->clearObjectCredentials('Schema');
     $this->clearObjectCredentials('Vocabulary');
     $this->clearObjectCredentials('Agent');
+
+    $this->modCredentials = null;
+    $this->modCredentials = array();
   }
 
   /**

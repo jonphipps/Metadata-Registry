@@ -56,7 +56,7 @@ class <?php echo $this->getGeneratedModuleName() ?>Actions extends sfActions
     $this->addSortCriteria($c);
     $this->addFiltersCriteria($c);
     $this->pager->setCriteria($c);
-    $this->pager->setPage($this->getRequestParameter('page', 1));
+    $this->pager->setPage($this->getRequestParameter('page', $this->getUser()->getAttribute('page', 1, 'sf_admin/<?php echo $this->getSingularName() ?>')));
 <?php if ($this->getParameterValue('list.peer_method')): ?>
     $this->pager->setPeerMethod('<?php echo $this->getParameterValue('list.peer_method') ?>');
 <?php endif ?>
@@ -64,13 +64,31 @@ class <?php echo $this->getGeneratedModuleName() ?>Actions extends sfActions
     $this->pager->setPeerCountMethod('<?php echo $this->getParameterValue('list.peer_count_method') ?>');
 <?php endif ?>
     $this->pager->init();
+    // save page
+    if ($this->getRequestParameter('page')) {
+        $this->getUser()->setAttribute('page', $this->getRequestParameter('page'), 'sf_admin/<?php echo $this->getSingularName() ?>');
   }
 
   public function executeShow ()
   {
     if (!$this-><?php echo $this->getSingularName() ?>)
     {
+<?php $showPeer = $this->getParameterValue('show.peer_method'); ?>
+<?php if ($showPeer): ?>
+      $c = new Criteria();
+      $c->add(<?php echo $this->getClassName() ?>Peer::ID, <?php echo $this->getRetrieveByPkParamsForAction(49) ?>);
+      $<?php echo $this->getSingularName() ?> = <?php echo $this->getClassName() ?>Peer::<?php echo $showPeer ?>($c);
+      if (is_array($<?php echo $this->getSingularName() ?>))
+      {
+        $this-><?php echo $this->getSingularName() ?> = $<?php echo $this->getSingularName() ?>[0];
+      }
+      else
+      {
+        $this-><?php echo $this->getSingularName() ?> = $<?php echo $this->getSingularName() ?>;
+      }
+<?php else: ?>
       $this-><?php echo $this->getSingularName() ?> = <?php echo $this->getClassName() ?>Peer::retrieveByPk(<?php echo $this->getRetrieveByPkParamsForAction(49) ?>);
+<?php endif ?>
     }
     $this->labels = $this->getLabels('show');
 
@@ -242,9 +260,9 @@ $column = sfPropelManyToMany::getColumn($class, $through_class);
 <?php foreach ($this->getColumnCategories('edit.display') as $category): ?>
 <?php foreach ($this->getColumns('edit.display', $category) as $name => $column): $type = $column->getCreoleType(); ?>
 <?php $name = $column->getName() ?>
-<?php if ($column->isPrimaryKey()) continue ?>
-<?php $credentials = $this->getParameterValue('edit.fields.'.$column->getName().'.credentials') ?>
 <?php $input_type = $this->getParameterValue('edit.fields.'.$column->getName().'.type') ?>
+<?php if ($column->isPrimaryKey() || $input_type == 'plain') continue ?>
+<?php $credentials = $this->getParameterValue('edit.fields.'.$column->getName().'.credentials') ?>
 <?php if ($credentials): $credentials = str_replace("\n", ' ', var_export($credentials, true)) ?>
     if ($this->getUser()->hasCredential(<?php echo $credentials ?>))
     {
@@ -375,6 +393,7 @@ $column = sfPropelManyToMany::getColumn($class, $through_class);
 <?php endif; ?>
 <?php endforeach; ?>
 
+      $this->getUser()->getAttributeHolder()->removeNamespace('sf_admin/<?php echo $this->getSingularName() ?>');
       $this->getUser()->getAttributeHolder()->removeNamespace('sf_admin/<?php echo $this->getSingularName() ?>/filters');
       $this->getUser()->getAttributeHolder()->add($filters, 'sf_admin/<?php echo $this->getSingularName() ?>/filters');
     }
