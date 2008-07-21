@@ -12,7 +12,7 @@ class schemapropActions extends autoschemapropActions
 {
   public function preExecute ()
   {
-    //$this->getCurrentSchema();
+    $this->getCurrentSchema();
     parent::preExecute();
   }
 
@@ -30,17 +30,7 @@ class schemapropActions extends autoschemapropActions
     $schemapropParam = $this->getContext()->getRequest()->getParameter('schemaprop');
     if (!$this->getContext()->getRequest()->getErrors() and !isset($schemapropParam['uri']))
     {
-      $schemaDomain = $schemaObj->getBaseDomain();
-      $schemaToken = $schemaObj->getToken();
-      //URI looks like: agent(base_domain) / schema(token) / schema(next_schemaprop_id) / skos_property_id # schemaprop(next_property_id)
-      $vSlash = preg_match('@(/$)@i', $schemaDomain) ? '' : '/';
-      $tSlash = preg_match('@(/$)@i', $schemaToken ) ? '' : '/';
-      $newURI = $schemaDomain . $vSlash . $schemaToken . $tSlash;
-      //registry base domain is http://metadataregistry.org/uri/
-      //next_schemaprop_id is always initialized to 100000, allowing for 999,999 schemaprops
-      //schema carries denormalized base_domain from agent
-
-      $schemaprop->setSchemaUri($newURI);
+      $this->setDefaultUri($schemaprop, $schemaObj);
       $schemaprop->setLabel('');
       //set to the schema defaults
       $schemaprop->setLanguage($schemaObj->getLanguage());
@@ -48,6 +38,29 @@ class schemapropActions extends autoschemapropActions
     }
 
     parent::setDefaults($schemaprop);
+  }
+
+  public function setDefaultUri($schemaprop, $schemaObj)
+  {
+    $schemaDomain = $schemaObj->getBaseDomain();
+    $schemaToken = $schemaObj->getToken();
+    //URI looks like: agent(base_domain) / schema(token) / schema(next_schemaprop_id) / skos_property_id # schemaprop(next_property_id)
+    $vSlash = preg_match('@(/$)@i', $schemaDomain) ? '' : '/';
+    $tSlash = preg_match('@(/$)@i', $schemaToken ) ? '' : '/';
+    $newURI = $schemaDomain . $vSlash . $schemaToken . $tSlash;
+    //registry base domain is http://metadataregistry.org/uri/
+    //next_schemaprop_id is always initialized to 100000, allowing for 999,999 schemaprops
+    //schema carries denormalized base_domain from agent
+
+    $schemaprop->setSchemaUri($newURI);
+  }
+
+  public function executeEdit()
+  {
+    parent::executeEdit();
+    $schemaObj = $this->getCurrentSchema();
+    $schemaprop = $this->schema_property;
+    $this->setDefaultUri($schemaprop, $schemaObj);;
   }
 
   public function executeList ()
