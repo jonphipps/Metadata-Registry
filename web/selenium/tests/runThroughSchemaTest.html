@@ -70,7 +70,12 @@
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>document.forms[1].commit</td>
+	<td>//input[@name='commit' and @value='sign in']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: home</td>
 	<td></td>
 </tr>
 <tr>
@@ -149,9 +154,9 @@
 	<td>testSchema</td>
 </tr>
 <tr>
-	<td>//assertConfirmation</td>
-	<td>Automatically update the URI based on your changes?</td>
-	<td></td>
+	<td>type</td>
+	<td>schema_uri</td>
+	<td>http://registry/uri/schema/testToken</td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
@@ -196,7 +201,7 @@
 <tr>
 	<td>type</td>
 	<td>schema_property_label</td>
-	<td>Tes Property 1</td>
+	<td>Test Property 1</td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
@@ -301,6 +306,66 @@
 <tr>
 	<td>assertTitle</td>
 	<td>The Registry! :: Test Schema :: test Subproperty :: List Properties</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTable</td>
+	<td>//div[@id='sf_admin_content']/table.1.1</td>
+	<td>testSubProperty</td>
+</tr>
+<tr>
+	<td>assertTable</td>
+	<td>//div[@id='sf_admin_content']/table.2.1</td>
+	<td>test Subproperty</td>
+</tr>
+<tr>
+	<td>assertTable</td>
+	<td>//div[@id='sf_admin_content']/table.3.1</td>
+	<td>subproperty</td>
+</tr>
+<tr>
+	<td>assertTable</td>
+	<td>//div[@id='sf_admin_content']/table.4.1</td>
+	<td>Test Property 1</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//a[@id='a0']/span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: Test Schema :: test Subproperty :: Show Detail</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@value='Edit']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: Detail for test Subproperty</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>schema_property_definition</td>
+	<td>definition</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>schema_property_comment</td>
+	<td>this is a test comment</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>save</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: Test Schema :: test Subproperty :: Show Detail</td>
 	<td></td>
 </tr>
 
