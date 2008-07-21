@@ -174,24 +174,24 @@ abstract class BaseSchemaHasVersionPeer {
 	 * @throws     PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
-	public static function addSelectColumns(Criteria $criteria)
+	public static function addSelectColumns(Criteria $criteria, $tableAlias = null)
 	{
 
-		$criteria->addSelectColumn(SchemaHasVersionPeer::ID);
+    $criteria->addSelectColumn(($tableAlias) ? SchemaHasVersionPeer::alias($tableAlias, SchemaHasVersionPeer::ID) : SchemaHasVersionPeer::ID);
 
-		$criteria->addSelectColumn(SchemaHasVersionPeer::NAME);
+    $criteria->addSelectColumn(($tableAlias) ? SchemaHasVersionPeer::alias($tableAlias, SchemaHasVersionPeer::NAME) : SchemaHasVersionPeer::NAME);
 
-		$criteria->addSelectColumn(SchemaHasVersionPeer::CREATED_AT);
+    $criteria->addSelectColumn(($tableAlias) ? SchemaHasVersionPeer::alias($tableAlias, SchemaHasVersionPeer::CREATED_AT) : SchemaHasVersionPeer::CREATED_AT);
 
-		$criteria->addSelectColumn(SchemaHasVersionPeer::DELETED_AT);
+    $criteria->addSelectColumn(($tableAlias) ? SchemaHasVersionPeer::alias($tableAlias, SchemaHasVersionPeer::DELETED_AT) : SchemaHasVersionPeer::DELETED_AT);
 
-		$criteria->addSelectColumn(SchemaHasVersionPeer::UPDATED_AT);
+    $criteria->addSelectColumn(($tableAlias) ? SchemaHasVersionPeer::alias($tableAlias, SchemaHasVersionPeer::UPDATED_AT) : SchemaHasVersionPeer::UPDATED_AT);
 
-		$criteria->addSelectColumn(SchemaHasVersionPeer::CREATED_USER_ID);
+    $criteria->addSelectColumn(($tableAlias) ? SchemaHasVersionPeer::alias($tableAlias, SchemaHasVersionPeer::CREATED_USER_ID) : SchemaHasVersionPeer::CREATED_USER_ID);
 
-		$criteria->addSelectColumn(SchemaHasVersionPeer::SCHEMA_ID);
+    $criteria->addSelectColumn(($tableAlias) ? SchemaHasVersionPeer::alias($tableAlias, SchemaHasVersionPeer::SCHEMA_ID) : SchemaHasVersionPeer::SCHEMA_ID);
 
-		$criteria->addSelectColumn(SchemaHasVersionPeer::TIMESLICE);
+    $criteria->addSelectColumn(($tableAlias) ? SchemaHasVersionPeer::alias($tableAlias, SchemaHasVersionPeer::TIMESLICE) : SchemaHasVersionPeer::TIMESLICE);
 
 	}
 
@@ -341,7 +341,7 @@ abstract class BaseSchemaHasVersionPeer {
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
-		
+
 		// clear out anything that might confuse the ORDER BY clause
 		$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
@@ -349,7 +349,7 @@ abstract class BaseSchemaHasVersionPeer {
 		} else {
 			$criteria->addSelectColumn(SchemaHasVersionPeer::COUNT);
 		}
-		
+
 		// just in case we're grouping: add those columns to the select statement
 		foreach($criteria->getGroupByColumns() as $column)
 		{
@@ -380,7 +380,7 @@ abstract class BaseSchemaHasVersionPeer {
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
-		
+
 		// clear out anything that might confuse the ORDER BY clause
 		$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
@@ -388,7 +388,7 @@ abstract class BaseSchemaHasVersionPeer {
 		} else {
 			$criteria->addSelectColumn(SchemaHasVersionPeer::COUNT);
 		}
-		
+
 		// just in case we're grouping: add those columns to the select statement
 		foreach($criteria->getGroupByColumns() as $column)
 		{
@@ -542,7 +542,7 @@ abstract class BaseSchemaHasVersionPeer {
 		} else {
 			$criteria->addSelectColumn(SchemaHasVersionPeer::COUNT);
 		}
-		
+
 		// just in case we're grouping: add those columns to the select statement
 		foreach($criteria->getGroupByColumns() as $column)
 		{
@@ -582,38 +582,40 @@ abstract class BaseSchemaHasVersionPeer {
 		SchemaHasVersionPeer::addSelectColumns($c);
 		$startcol2 = (SchemaHasVersionPeer::NUM_COLUMNS - SchemaHasVersionPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 
-		UserPeer::addSelectColumns($c);
+		UserPeer::addSelectColumns($c, 'a1');
 		$startcol3 = $startcol2 + UserPeer::NUM_COLUMNS;
 
-		SchemaPeer::addSelectColumns($c);
+    $c->addJoin(SchemaHasVersionPeer::CREATED_USER_ID, UserPeer::alias('a1', UserPeer::ID));
+    $c->addAlias('a1', UserPeer::TABLE_NAME);
+
+		SchemaPeer::addSelectColumns($c, 'a2');
 		$startcol4 = $startcol3 + SchemaPeer::NUM_COLUMNS;
 
-		$c->addJoin(SchemaHasVersionPeer::CREATED_USER_ID, UserPeer::ID);
-
-		$c->addJoin(SchemaHasVersionPeer::SCHEMA_ID, SchemaPeer::ID);
+    $c->addJoin(SchemaHasVersionPeer::SCHEMA_ID, SchemaPeer::alias('a2', SchemaPeer::ID));
+    $c->addAlias('a2', SchemaPeer::TABLE_NAME);
 
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
-		
+
 		while($rs->next()) {
 
 			$omClass = SchemaHasVersionPeer::getOMClass();
 
-			
+
 			$cls = Propel::import($omClass);
 			$obj1 = new $cls();
 			$obj1->hydrate($rs);
 
-				
+
 				// Add objects for joined User rows
 	
 			$omClass = UserPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj2 = new $cls();
 			$obj2->hydrate($rs, $startcol2);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -624,22 +626,22 @@ abstract class BaseSchemaHasVersionPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj2->initSchemaHasVersions();
 				$obj2->addSchemaHasVersion($obj1);
 			}
 
-				
+
 				// Add objects for joined Schema rows
 	
 			$omClass = SchemaPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj3 = new $cls();
 			$obj3->hydrate($rs, $startcol3);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -650,7 +652,7 @@ abstract class BaseSchemaHasVersionPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj3->initSchemaHasVersions();
 				$obj3->addSchemaHasVersion($obj1);
@@ -674,7 +676,7 @@ abstract class BaseSchemaHasVersionPeer {
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
-		
+
 		// clear out anything that might confuse the ORDER BY clause
 		$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
@@ -682,7 +684,7 @@ abstract class BaseSchemaHasVersionPeer {
 		} else {
 			$criteria->addSelectColumn(SchemaHasVersionPeer::COUNT);
 		}
-		
+
 		// just in case we're grouping: add those columns to the select statement
 		foreach($criteria->getGroupByColumns() as $column)
 		{
@@ -713,7 +715,7 @@ abstract class BaseSchemaHasVersionPeer {
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
-		
+
 		// clear out anything that might confuse the ORDER BY clause
 		$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
@@ -721,7 +723,7 @@ abstract class BaseSchemaHasVersionPeer {
 		} else {
 			$criteria->addSelectColumn(SchemaHasVersionPeer::COUNT);
 		}
-		
+
 		// just in case we're grouping: add those columns to the select statement
 		foreach($criteria->getGroupByColumns() as $column)
 		{
@@ -769,22 +771,22 @@ abstract class BaseSchemaHasVersionPeer {
 
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
-		
+
 		while($rs->next()) {
 
 			$omClass = SchemaHasVersionPeer::getOMClass();
 
 			$cls = Propel::import($omClass);
 			$obj1 = new $cls();
-			$obj1->hydrate($rs);		
+			$obj1->hydrate($rs);
 
 			$omClass = SchemaPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj2  = new $cls();
 			$obj2->hydrate($rs, $startcol2);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -795,7 +797,7 @@ abstract class BaseSchemaHasVersionPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj2->initSchemaHasVersions();
 				$obj2->addSchemaHasVersion($obj1);
@@ -836,22 +838,22 @@ abstract class BaseSchemaHasVersionPeer {
 
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
-		
+
 		while($rs->next()) {
 
 			$omClass = SchemaHasVersionPeer::getOMClass();
 
 			$cls = Propel::import($omClass);
 			$obj1 = new $cls();
-			$obj1->hydrate($rs);		
+			$obj1->hydrate($rs);
 
 			$omClass = UserPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj2  = new $cls();
 			$obj2->hydrate($rs, $startcol2);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -862,7 +864,7 @@ abstract class BaseSchemaHasVersionPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj2->initSchemaHasVersions();
 				$obj2->addSchemaHasVersion($obj1);

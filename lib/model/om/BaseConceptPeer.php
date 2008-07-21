@@ -192,36 +192,36 @@ abstract class BaseConceptPeer {
 	 * @throws     PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
-	public static function addSelectColumns(Criteria $criteria)
+	public static function addSelectColumns(Criteria $criteria, $tableAlias = null)
 	{
 
-		$criteria->addSelectColumn(ConceptPeer::ID);
+    $criteria->addSelectColumn(($tableAlias) ? ConceptPeer::alias($tableAlias, ConceptPeer::ID) : ConceptPeer::ID);
 
-		$criteria->addSelectColumn(ConceptPeer::CREATED_AT);
+    $criteria->addSelectColumn(($tableAlias) ? ConceptPeer::alias($tableAlias, ConceptPeer::CREATED_AT) : ConceptPeer::CREATED_AT);
 
-		$criteria->addSelectColumn(ConceptPeer::UPDATED_AT);
+    $criteria->addSelectColumn(($tableAlias) ? ConceptPeer::alias($tableAlias, ConceptPeer::UPDATED_AT) : ConceptPeer::UPDATED_AT);
 
-		$criteria->addSelectColumn(ConceptPeer::DELETED_AT);
+    $criteria->addSelectColumn(($tableAlias) ? ConceptPeer::alias($tableAlias, ConceptPeer::DELETED_AT) : ConceptPeer::DELETED_AT);
 
-		$criteria->addSelectColumn(ConceptPeer::LAST_UPDATED);
+    $criteria->addSelectColumn(($tableAlias) ? ConceptPeer::alias($tableAlias, ConceptPeer::LAST_UPDATED) : ConceptPeer::LAST_UPDATED);
 
-		$criteria->addSelectColumn(ConceptPeer::CREATED_USER_ID);
+    $criteria->addSelectColumn(($tableAlias) ? ConceptPeer::alias($tableAlias, ConceptPeer::CREATED_USER_ID) : ConceptPeer::CREATED_USER_ID);
 
-		$criteria->addSelectColumn(ConceptPeer::UPDATED_USER_ID);
+    $criteria->addSelectColumn(($tableAlias) ? ConceptPeer::alias($tableAlias, ConceptPeer::UPDATED_USER_ID) : ConceptPeer::UPDATED_USER_ID);
 
-		$criteria->addSelectColumn(ConceptPeer::URI);
+    $criteria->addSelectColumn(($tableAlias) ? ConceptPeer::alias($tableAlias, ConceptPeer::URI) : ConceptPeer::URI);
 
-		$criteria->addSelectColumn(ConceptPeer::VOCABULARY_ID);
+    $criteria->addSelectColumn(($tableAlias) ? ConceptPeer::alias($tableAlias, ConceptPeer::VOCABULARY_ID) : ConceptPeer::VOCABULARY_ID);
 
-		$criteria->addSelectColumn(ConceptPeer::IS_TOP_CONCEPT);
+    $criteria->addSelectColumn(($tableAlias) ? ConceptPeer::alias($tableAlias, ConceptPeer::IS_TOP_CONCEPT) : ConceptPeer::IS_TOP_CONCEPT);
 
-		$criteria->addSelectColumn(ConceptPeer::PREF_LABEL_ID);
+    $criteria->addSelectColumn(($tableAlias) ? ConceptPeer::alias($tableAlias, ConceptPeer::PREF_LABEL_ID) : ConceptPeer::PREF_LABEL_ID);
 
-		$criteria->addSelectColumn(ConceptPeer::PREF_LABEL);
+    $criteria->addSelectColumn(($tableAlias) ? ConceptPeer::alias($tableAlias, ConceptPeer::PREF_LABEL) : ConceptPeer::PREF_LABEL);
 
-		$criteria->addSelectColumn(ConceptPeer::STATUS_ID);
+    $criteria->addSelectColumn(($tableAlias) ? ConceptPeer::alias($tableAlias, ConceptPeer::STATUS_ID) : ConceptPeer::STATUS_ID);
 
-		$criteria->addSelectColumn(ConceptPeer::LANGUAGE);
+    $criteria->addSelectColumn(($tableAlias) ? ConceptPeer::alias($tableAlias, ConceptPeer::LANGUAGE) : ConceptPeer::LANGUAGE);
 
 	}
 
@@ -371,7 +371,7 @@ abstract class BaseConceptPeer {
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
-		
+
 		// clear out anything that might confuse the ORDER BY clause
 		$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
@@ -379,7 +379,7 @@ abstract class BaseConceptPeer {
 		} else {
 			$criteria->addSelectColumn(ConceptPeer::COUNT);
 		}
-		
+
 		// just in case we're grouping: add those columns to the select statement
 		foreach($criteria->getGroupByColumns() as $column)
 		{
@@ -410,7 +410,7 @@ abstract class BaseConceptPeer {
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
-		
+
 		// clear out anything that might confuse the ORDER BY clause
 		$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
@@ -418,7 +418,7 @@ abstract class BaseConceptPeer {
 		} else {
 			$criteria->addSelectColumn(ConceptPeer::COUNT);
 		}
-		
+
 		// just in case we're grouping: add those columns to the select statement
 		foreach($criteria->getGroupByColumns() as $column)
 		{
@@ -449,7 +449,7 @@ abstract class BaseConceptPeer {
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
-		
+
 		// clear out anything that might confuse the ORDER BY clause
 		$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
@@ -457,7 +457,7 @@ abstract class BaseConceptPeer {
 		} else {
 			$criteria->addSelectColumn(ConceptPeer::COUNT);
 		}
-		
+
 		// just in case we're grouping: add those columns to the select statement
 		foreach($criteria->getGroupByColumns() as $column)
 		{
@@ -488,7 +488,7 @@ abstract class BaseConceptPeer {
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
-		
+
 		// clear out anything that might confuse the ORDER BY clause
 		$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
@@ -496,7 +496,7 @@ abstract class BaseConceptPeer {
 		} else {
 			$criteria->addSelectColumn(ConceptPeer::COUNT);
 		}
-		
+
 		// just in case we're grouping: add those columns to the select statement
 		foreach($criteria->getGroupByColumns() as $column)
 		{
@@ -527,7 +527,7 @@ abstract class BaseConceptPeer {
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
-		
+
 		// clear out anything that might confuse the ORDER BY clause
 		$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
@@ -535,7 +535,7 @@ abstract class BaseConceptPeer {
 		} else {
 			$criteria->addSelectColumn(ConceptPeer::COUNT);
 		}
-		
+
 		// just in case we're grouping: add those columns to the select statement
 		foreach($criteria->getGroupByColumns() as $column)
 		{
@@ -863,7 +863,7 @@ abstract class BaseConceptPeer {
 		} else {
 			$criteria->addSelectColumn(ConceptPeer::COUNT);
 		}
-		
+
 		// just in case we're grouping: add those columns to the select statement
 		foreach($criteria->getGroupByColumns() as $column)
 		{
@@ -909,53 +909,58 @@ abstract class BaseConceptPeer {
 		ConceptPeer::addSelectColumns($c);
 		$startcol2 = (ConceptPeer::NUM_COLUMNS - ConceptPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 
-		UserPeer::addSelectColumns($c);
+		UserPeer::addSelectColumns($c, 'a1');
 		$startcol3 = $startcol2 + UserPeer::NUM_COLUMNS;
 
-		UserPeer::addSelectColumns($c);
+    $c->addJoin(ConceptPeer::CREATED_USER_ID, UserPeer::alias('a1', UserPeer::ID));
+    $c->addAlias('a1', UserPeer::TABLE_NAME);
+
+		UserPeer::addSelectColumns($c, 'a2');
 		$startcol4 = $startcol3 + UserPeer::NUM_COLUMNS;
 
-		VocabularyPeer::addSelectColumns($c);
+    $c->addJoin(ConceptPeer::UPDATED_USER_ID, UserPeer::alias('a2', UserPeer::ID));
+    $c->addAlias('a2', UserPeer::TABLE_NAME);
+
+		VocabularyPeer::addSelectColumns($c, 'a3');
 		$startcol5 = $startcol4 + VocabularyPeer::NUM_COLUMNS;
 
-		ConceptPropertyPeer::addSelectColumns($c);
+    $c->addJoin(ConceptPeer::VOCABULARY_ID, VocabularyPeer::alias('a3', VocabularyPeer::ID));
+    $c->addAlias('a3', VocabularyPeer::TABLE_NAME);
+
+		ConceptPropertyPeer::addSelectColumns($c, 'a4');
 		$startcol6 = $startcol5 + ConceptPropertyPeer::NUM_COLUMNS;
 
-		StatusPeer::addSelectColumns($c);
+    $c->addJoin(ConceptPeer::PREF_LABEL_ID, ConceptPropertyPeer::alias('a4', ConceptPropertyPeer::ID));
+    $c->addAlias('a4', ConceptPropertyPeer::TABLE_NAME);
+
+		StatusPeer::addSelectColumns($c, 'a5');
 		$startcol7 = $startcol6 + StatusPeer::NUM_COLUMNS;
 
-		$c->addJoin(ConceptPeer::CREATED_USER_ID, UserPeer::ID);
-
-		$c->addJoin(ConceptPeer::UPDATED_USER_ID, UserPeer::ID);
-
-		$c->addJoin(ConceptPeer::VOCABULARY_ID, VocabularyPeer::ID);
-
-		$c->addJoin(ConceptPeer::PREF_LABEL_ID, ConceptPropertyPeer::ID);
-
-		$c->addJoin(ConceptPeer::STATUS_ID, StatusPeer::ID);
+    $c->addJoin(ConceptPeer::STATUS_ID, StatusPeer::alias('a5', StatusPeer::ID));
+    $c->addAlias('a5', StatusPeer::TABLE_NAME);
 
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
-		
+
 		while($rs->next()) {
 
 			$omClass = ConceptPeer::getOMClass();
 
-			
+
 			$cls = Propel::import($omClass);
 			$obj1 = new $cls();
 			$obj1->hydrate($rs);
 
-				
+
 				// Add objects for joined User rows
 	
 			$omClass = UserPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj2 = new $cls();
 			$obj2->hydrate($rs, $startcol2);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -966,22 +971,22 @@ abstract class BaseConceptPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj2->initConceptsRelatedByCreatedUserId();
 				$obj2->addConceptRelatedByCreatedUserId($obj1);
 			}
 
-				
+
 				// Add objects for joined User rows
 	
 			$omClass = UserPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj3 = new $cls();
 			$obj3->hydrate($rs, $startcol3);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -992,22 +997,22 @@ abstract class BaseConceptPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj3->initConceptsRelatedByUpdatedUserId();
 				$obj3->addConceptRelatedByUpdatedUserId($obj1);
 			}
 
-				
+
 				// Add objects for joined Vocabulary rows
 	
 			$omClass = VocabularyPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj4 = new $cls();
 			$obj4->hydrate($rs, $startcol4);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -1018,22 +1023,22 @@ abstract class BaseConceptPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj4->initConcepts();
 				$obj4->addConcept($obj1);
 			}
 
-				
+
 				// Add objects for joined ConceptProperty rows
 	
 			$omClass = ConceptPropertyPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj5 = new $cls();
 			$obj5->hydrate($rs, $startcol5);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -1044,22 +1049,22 @@ abstract class BaseConceptPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj5->initConcepts();
 				$obj5->addConcept($obj1);
 			}
 
-				
+
 				// Add objects for joined Status rows
 	
 			$omClass = StatusPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj6 = new $cls();
 			$obj6->hydrate($rs, $startcol6);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -1070,7 +1075,7 @@ abstract class BaseConceptPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj6->initConcepts();
 				$obj6->addConcept($obj1);
@@ -1094,7 +1099,7 @@ abstract class BaseConceptPeer {
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
-		
+
 		// clear out anything that might confuse the ORDER BY clause
 		$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
@@ -1102,7 +1107,7 @@ abstract class BaseConceptPeer {
 		} else {
 			$criteria->addSelectColumn(ConceptPeer::COUNT);
 		}
-		
+
 		// just in case we're grouping: add those columns to the select statement
 		foreach($criteria->getGroupByColumns() as $column)
 		{
@@ -1137,7 +1142,7 @@ abstract class BaseConceptPeer {
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
-		
+
 		// clear out anything that might confuse the ORDER BY clause
 		$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
@@ -1145,7 +1150,7 @@ abstract class BaseConceptPeer {
 		} else {
 			$criteria->addSelectColumn(ConceptPeer::COUNT);
 		}
-		
+
 		// just in case we're grouping: add those columns to the select statement
 		foreach($criteria->getGroupByColumns() as $column)
 		{
@@ -1180,7 +1185,7 @@ abstract class BaseConceptPeer {
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
-		
+
 		// clear out anything that might confuse the ORDER BY clause
 		$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
@@ -1188,7 +1193,7 @@ abstract class BaseConceptPeer {
 		} else {
 			$criteria->addSelectColumn(ConceptPeer::COUNT);
 		}
-		
+
 		// just in case we're grouping: add those columns to the select statement
 		foreach($criteria->getGroupByColumns() as $column)
 		{
@@ -1225,7 +1230,7 @@ abstract class BaseConceptPeer {
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
-		
+
 		// clear out anything that might confuse the ORDER BY clause
 		$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
@@ -1233,7 +1238,7 @@ abstract class BaseConceptPeer {
 		} else {
 			$criteria->addSelectColumn(ConceptPeer::COUNT);
 		}
-		
+
 		// just in case we're grouping: add those columns to the select statement
 		foreach($criteria->getGroupByColumns() as $column)
 		{
@@ -1270,7 +1275,7 @@ abstract class BaseConceptPeer {
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
-		
+
 		// clear out anything that might confuse the ORDER BY clause
 		$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
@@ -1278,7 +1283,7 @@ abstract class BaseConceptPeer {
 		} else {
 			$criteria->addSelectColumn(ConceptPeer::COUNT);
 		}
-		
+
 		// just in case we're grouping: add those columns to the select statement
 		foreach($criteria->getGroupByColumns() as $column)
 		{
@@ -1342,22 +1347,22 @@ abstract class BaseConceptPeer {
 
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
-		
+
 		while($rs->next()) {
 
 			$omClass = ConceptPeer::getOMClass();
 
 			$cls = Propel::import($omClass);
 			$obj1 = new $cls();
-			$obj1->hydrate($rs);		
+			$obj1->hydrate($rs);
 
 			$omClass = VocabularyPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj2  = new $cls();
 			$obj2->hydrate($rs, $startcol2);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -1368,7 +1373,7 @@ abstract class BaseConceptPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj2->initConcepts();
 				$obj2->addConcept($obj1);
@@ -1376,11 +1381,11 @@ abstract class BaseConceptPeer {
 
 			$omClass = ConceptPropertyPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj3  = new $cls();
 			$obj3->hydrate($rs, $startcol3);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -1391,7 +1396,7 @@ abstract class BaseConceptPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj3->initConcepts();
 				$obj3->addConcept($obj1);
@@ -1399,11 +1404,11 @@ abstract class BaseConceptPeer {
 
 			$omClass = StatusPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj4  = new $cls();
 			$obj4->hydrate($rs, $startcol4);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -1414,7 +1419,7 @@ abstract class BaseConceptPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj4->initConcepts();
 				$obj4->addConcept($obj1);
@@ -1465,22 +1470,22 @@ abstract class BaseConceptPeer {
 
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
-		
+
 		while($rs->next()) {
 
 			$omClass = ConceptPeer::getOMClass();
 
 			$cls = Propel::import($omClass);
 			$obj1 = new $cls();
-			$obj1->hydrate($rs);		
+			$obj1->hydrate($rs);
 
 			$omClass = VocabularyPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj2  = new $cls();
 			$obj2->hydrate($rs, $startcol2);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -1491,7 +1496,7 @@ abstract class BaseConceptPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj2->initConcepts();
 				$obj2->addConcept($obj1);
@@ -1499,11 +1504,11 @@ abstract class BaseConceptPeer {
 
 			$omClass = ConceptPropertyPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj3  = new $cls();
 			$obj3->hydrate($rs, $startcol3);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -1514,7 +1519,7 @@ abstract class BaseConceptPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj3->initConcepts();
 				$obj3->addConcept($obj1);
@@ -1522,11 +1527,11 @@ abstract class BaseConceptPeer {
 
 			$omClass = StatusPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj4  = new $cls();
 			$obj4->hydrate($rs, $startcol4);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -1537,7 +1542,7 @@ abstract class BaseConceptPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj4->initConcepts();
 				$obj4->addConcept($obj1);
@@ -1593,22 +1598,22 @@ abstract class BaseConceptPeer {
 
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
-		
+
 		while($rs->next()) {
 
 			$omClass = ConceptPeer::getOMClass();
 
 			$cls = Propel::import($omClass);
 			$obj1 = new $cls();
-			$obj1->hydrate($rs);		
+			$obj1->hydrate($rs);
 
 			$omClass = UserPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj2  = new $cls();
 			$obj2->hydrate($rs, $startcol2);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -1619,7 +1624,7 @@ abstract class BaseConceptPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj2->initConceptsRelatedByCreatedUserId();
 				$obj2->addConceptRelatedByCreatedUserId($obj1);
@@ -1627,11 +1632,11 @@ abstract class BaseConceptPeer {
 
 			$omClass = UserPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj3  = new $cls();
 			$obj3->hydrate($rs, $startcol3);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -1642,7 +1647,7 @@ abstract class BaseConceptPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj3->initConceptsRelatedByUpdatedUserId();
 				$obj3->addConceptRelatedByUpdatedUserId($obj1);
@@ -1650,11 +1655,11 @@ abstract class BaseConceptPeer {
 
 			$omClass = ConceptPropertyPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj4  = new $cls();
 			$obj4->hydrate($rs, $startcol4);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -1665,7 +1670,7 @@ abstract class BaseConceptPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj4->initConcepts();
 				$obj4->addConcept($obj1);
@@ -1673,11 +1678,11 @@ abstract class BaseConceptPeer {
 
 			$omClass = StatusPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj5  = new $cls();
 			$obj5->hydrate($rs, $startcol5);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -1688,7 +1693,7 @@ abstract class BaseConceptPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj5->initConcepts();
 				$obj5->addConcept($obj1);
@@ -1744,22 +1749,22 @@ abstract class BaseConceptPeer {
 
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
-		
+
 		while($rs->next()) {
 
 			$omClass = ConceptPeer::getOMClass();
 
 			$cls = Propel::import($omClass);
 			$obj1 = new $cls();
-			$obj1->hydrate($rs);		
+			$obj1->hydrate($rs);
 
 			$omClass = UserPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj2  = new $cls();
 			$obj2->hydrate($rs, $startcol2);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -1770,7 +1775,7 @@ abstract class BaseConceptPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj2->initConceptsRelatedByCreatedUserId();
 				$obj2->addConceptRelatedByCreatedUserId($obj1);
@@ -1778,11 +1783,11 @@ abstract class BaseConceptPeer {
 
 			$omClass = UserPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj3  = new $cls();
 			$obj3->hydrate($rs, $startcol3);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -1793,7 +1798,7 @@ abstract class BaseConceptPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj3->initConceptsRelatedByUpdatedUserId();
 				$obj3->addConceptRelatedByUpdatedUserId($obj1);
@@ -1801,11 +1806,11 @@ abstract class BaseConceptPeer {
 
 			$omClass = VocabularyPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj4  = new $cls();
 			$obj4->hydrate($rs, $startcol4);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -1816,7 +1821,7 @@ abstract class BaseConceptPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj4->initConcepts();
 				$obj4->addConcept($obj1);
@@ -1824,11 +1829,11 @@ abstract class BaseConceptPeer {
 
 			$omClass = StatusPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj5  = new $cls();
 			$obj5->hydrate($rs, $startcol5);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -1839,7 +1844,7 @@ abstract class BaseConceptPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj5->initConcepts();
 				$obj5->addConcept($obj1);
@@ -1895,22 +1900,22 @@ abstract class BaseConceptPeer {
 
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
-		
+
 		while($rs->next()) {
 
 			$omClass = ConceptPeer::getOMClass();
 
 			$cls = Propel::import($omClass);
 			$obj1 = new $cls();
-			$obj1->hydrate($rs);		
+			$obj1->hydrate($rs);
 
 			$omClass = UserPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj2  = new $cls();
 			$obj2->hydrate($rs, $startcol2);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -1921,7 +1926,7 @@ abstract class BaseConceptPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj2->initConceptsRelatedByCreatedUserId();
 				$obj2->addConceptRelatedByCreatedUserId($obj1);
@@ -1929,11 +1934,11 @@ abstract class BaseConceptPeer {
 
 			$omClass = UserPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj3  = new $cls();
 			$obj3->hydrate($rs, $startcol3);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -1944,7 +1949,7 @@ abstract class BaseConceptPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj3->initConceptsRelatedByUpdatedUserId();
 				$obj3->addConceptRelatedByUpdatedUserId($obj1);
@@ -1952,11 +1957,11 @@ abstract class BaseConceptPeer {
 
 			$omClass = VocabularyPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj4  = new $cls();
 			$obj4->hydrate($rs, $startcol4);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -1967,7 +1972,7 @@ abstract class BaseConceptPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj4->initConcepts();
 				$obj4->addConcept($obj1);
@@ -1975,11 +1980,11 @@ abstract class BaseConceptPeer {
 
 			$omClass = ConceptPropertyPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj5  = new $cls();
 			$obj5->hydrate($rs, $startcol5);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -1990,7 +1995,7 @@ abstract class BaseConceptPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj5->initConcepts();
 				$obj5->addConcept($obj1);

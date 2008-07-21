@@ -177,26 +177,26 @@ abstract class BaseSchemaHasUserPeer {
 	 * @throws     PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
-	public static function addSelectColumns(Criteria $criteria)
+	public static function addSelectColumns(Criteria $criteria, $tableAlias = null)
 	{
 
-		$criteria->addSelectColumn(SchemaHasUserPeer::ID);
+    $criteria->addSelectColumn(($tableAlias) ? SchemaHasUserPeer::alias($tableAlias, SchemaHasUserPeer::ID) : SchemaHasUserPeer::ID);
 
-		$criteria->addSelectColumn(SchemaHasUserPeer::CREATED_AT);
+    $criteria->addSelectColumn(($tableAlias) ? SchemaHasUserPeer::alias($tableAlias, SchemaHasUserPeer::CREATED_AT) : SchemaHasUserPeer::CREATED_AT);
 
-		$criteria->addSelectColumn(SchemaHasUserPeer::UPDATED_AT);
+    $criteria->addSelectColumn(($tableAlias) ? SchemaHasUserPeer::alias($tableAlias, SchemaHasUserPeer::UPDATED_AT) : SchemaHasUserPeer::UPDATED_AT);
 
-		$criteria->addSelectColumn(SchemaHasUserPeer::DELETED_AT);
+    $criteria->addSelectColumn(($tableAlias) ? SchemaHasUserPeer::alias($tableAlias, SchemaHasUserPeer::DELETED_AT) : SchemaHasUserPeer::DELETED_AT);
 
-		$criteria->addSelectColumn(SchemaHasUserPeer::SCHEMA_ID);
+    $criteria->addSelectColumn(($tableAlias) ? SchemaHasUserPeer::alias($tableAlias, SchemaHasUserPeer::SCHEMA_ID) : SchemaHasUserPeer::SCHEMA_ID);
 
-		$criteria->addSelectColumn(SchemaHasUserPeer::USER_ID);
+    $criteria->addSelectColumn(($tableAlias) ? SchemaHasUserPeer::alias($tableAlias, SchemaHasUserPeer::USER_ID) : SchemaHasUserPeer::USER_ID);
 
-		$criteria->addSelectColumn(SchemaHasUserPeer::IS_MAINTAINER_FOR);
+    $criteria->addSelectColumn(($tableAlias) ? SchemaHasUserPeer::alias($tableAlias, SchemaHasUserPeer::IS_MAINTAINER_FOR) : SchemaHasUserPeer::IS_MAINTAINER_FOR);
 
-		$criteria->addSelectColumn(SchemaHasUserPeer::IS_REGISTRAR_FOR);
+    $criteria->addSelectColumn(($tableAlias) ? SchemaHasUserPeer::alias($tableAlias, SchemaHasUserPeer::IS_REGISTRAR_FOR) : SchemaHasUserPeer::IS_REGISTRAR_FOR);
 
-		$criteria->addSelectColumn(SchemaHasUserPeer::IS_ADMIN_FOR);
+    $criteria->addSelectColumn(($tableAlias) ? SchemaHasUserPeer::alias($tableAlias, SchemaHasUserPeer::IS_ADMIN_FOR) : SchemaHasUserPeer::IS_ADMIN_FOR);
 
 	}
 
@@ -346,7 +346,7 @@ abstract class BaseSchemaHasUserPeer {
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
-		
+
 		// clear out anything that might confuse the ORDER BY clause
 		$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
@@ -354,7 +354,7 @@ abstract class BaseSchemaHasUserPeer {
 		} else {
 			$criteria->addSelectColumn(SchemaHasUserPeer::COUNT);
 		}
-		
+
 		// just in case we're grouping: add those columns to the select statement
 		foreach($criteria->getGroupByColumns() as $column)
 		{
@@ -385,7 +385,7 @@ abstract class BaseSchemaHasUserPeer {
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
-		
+
 		// clear out anything that might confuse the ORDER BY clause
 		$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
@@ -393,7 +393,7 @@ abstract class BaseSchemaHasUserPeer {
 		} else {
 			$criteria->addSelectColumn(SchemaHasUserPeer::COUNT);
 		}
-		
+
 		// just in case we're grouping: add those columns to the select statement
 		foreach($criteria->getGroupByColumns() as $column)
 		{
@@ -547,7 +547,7 @@ abstract class BaseSchemaHasUserPeer {
 		} else {
 			$criteria->addSelectColumn(SchemaHasUserPeer::COUNT);
 		}
-		
+
 		// just in case we're grouping: add those columns to the select statement
 		foreach($criteria->getGroupByColumns() as $column)
 		{
@@ -587,38 +587,40 @@ abstract class BaseSchemaHasUserPeer {
 		SchemaHasUserPeer::addSelectColumns($c);
 		$startcol2 = (SchemaHasUserPeer::NUM_COLUMNS - SchemaHasUserPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 
-		SchemaPeer::addSelectColumns($c);
+		SchemaPeer::addSelectColumns($c, 'a1');
 		$startcol3 = $startcol2 + SchemaPeer::NUM_COLUMNS;
 
-		UserPeer::addSelectColumns($c);
+    $c->addJoin(SchemaHasUserPeer::SCHEMA_ID, SchemaPeer::alias('a1', SchemaPeer::ID));
+    $c->addAlias('a1', SchemaPeer::TABLE_NAME);
+
+		UserPeer::addSelectColumns($c, 'a2');
 		$startcol4 = $startcol3 + UserPeer::NUM_COLUMNS;
 
-		$c->addJoin(SchemaHasUserPeer::SCHEMA_ID, SchemaPeer::ID);
-
-		$c->addJoin(SchemaHasUserPeer::USER_ID, UserPeer::ID);
+    $c->addJoin(SchemaHasUserPeer::USER_ID, UserPeer::alias('a2', UserPeer::ID));
+    $c->addAlias('a2', UserPeer::TABLE_NAME);
 
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
-		
+
 		while($rs->next()) {
 
 			$omClass = SchemaHasUserPeer::getOMClass();
 
-			
+
 			$cls = Propel::import($omClass);
 			$obj1 = new $cls();
 			$obj1->hydrate($rs);
 
-				
+
 				// Add objects for joined Schema rows
 	
 			$omClass = SchemaPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj2 = new $cls();
 			$obj2->hydrate($rs, $startcol2);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -629,22 +631,22 @@ abstract class BaseSchemaHasUserPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj2->initSchemaHasUsers();
 				$obj2->addSchemaHasUser($obj1);
 			}
 
-				
+
 				// Add objects for joined User rows
 	
 			$omClass = UserPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj3 = new $cls();
 			$obj3->hydrate($rs, $startcol3);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -655,7 +657,7 @@ abstract class BaseSchemaHasUserPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj3->initSchemaHasUsers();
 				$obj3->addSchemaHasUser($obj1);
@@ -679,7 +681,7 @@ abstract class BaseSchemaHasUserPeer {
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
-		
+
 		// clear out anything that might confuse the ORDER BY clause
 		$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
@@ -687,7 +689,7 @@ abstract class BaseSchemaHasUserPeer {
 		} else {
 			$criteria->addSelectColumn(SchemaHasUserPeer::COUNT);
 		}
-		
+
 		// just in case we're grouping: add those columns to the select statement
 		foreach($criteria->getGroupByColumns() as $column)
 		{
@@ -718,7 +720,7 @@ abstract class BaseSchemaHasUserPeer {
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
-		
+
 		// clear out anything that might confuse the ORDER BY clause
 		$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
@@ -726,7 +728,7 @@ abstract class BaseSchemaHasUserPeer {
 		} else {
 			$criteria->addSelectColumn(SchemaHasUserPeer::COUNT);
 		}
-		
+
 		// just in case we're grouping: add those columns to the select statement
 		foreach($criteria->getGroupByColumns() as $column)
 		{
@@ -774,22 +776,22 @@ abstract class BaseSchemaHasUserPeer {
 
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
-		
+
 		while($rs->next()) {
 
 			$omClass = SchemaHasUserPeer::getOMClass();
 
 			$cls = Propel::import($omClass);
 			$obj1 = new $cls();
-			$obj1->hydrate($rs);		
+			$obj1->hydrate($rs);
 
 			$omClass = UserPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj2  = new $cls();
 			$obj2->hydrate($rs, $startcol2);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -800,7 +802,7 @@ abstract class BaseSchemaHasUserPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj2->initSchemaHasUsers();
 				$obj2->addSchemaHasUser($obj1);
@@ -841,22 +843,22 @@ abstract class BaseSchemaHasUserPeer {
 
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
-		
+
 		while($rs->next()) {
 
 			$omClass = SchemaHasUserPeer::getOMClass();
 
 			$cls = Propel::import($omClass);
 			$obj1 = new $cls();
-			$obj1->hydrate($rs);		
+			$obj1->hydrate($rs);
 
 			$omClass = SchemaPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj2  = new $cls();
 			$obj2->hydrate($rs, $startcol2);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -867,7 +869,7 @@ abstract class BaseSchemaHasUserPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj2->initSchemaHasUsers();
 				$obj2->addSchemaHasUser($obj1);

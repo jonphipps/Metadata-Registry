@@ -198,40 +198,40 @@ abstract class BaseUserPeer {
 	 * @throws     PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
-	public static function addSelectColumns(Criteria $criteria)
+	public static function addSelectColumns(Criteria $criteria, $tableAlias = null)
 	{
 
-		$criteria->addSelectColumn(UserPeer::ID);
+    $criteria->addSelectColumn(($tableAlias) ? UserPeer::alias($tableAlias, UserPeer::ID) : UserPeer::ID);
 
-		$criteria->addSelectColumn(UserPeer::CREATED_AT);
+    $criteria->addSelectColumn(($tableAlias) ? UserPeer::alias($tableAlias, UserPeer::CREATED_AT) : UserPeer::CREATED_AT);
 
-		$criteria->addSelectColumn(UserPeer::LAST_UPDATED);
+    $criteria->addSelectColumn(($tableAlias) ? UserPeer::alias($tableAlias, UserPeer::LAST_UPDATED) : UserPeer::LAST_UPDATED);
 
-		$criteria->addSelectColumn(UserPeer::DELETED_AT);
+    $criteria->addSelectColumn(($tableAlias) ? UserPeer::alias($tableAlias, UserPeer::DELETED_AT) : UserPeer::DELETED_AT);
 
-		$criteria->addSelectColumn(UserPeer::NICKNAME);
+    $criteria->addSelectColumn(($tableAlias) ? UserPeer::alias($tableAlias, UserPeer::NICKNAME) : UserPeer::NICKNAME);
 
-		$criteria->addSelectColumn(UserPeer::SALUTATION);
+    $criteria->addSelectColumn(($tableAlias) ? UserPeer::alias($tableAlias, UserPeer::SALUTATION) : UserPeer::SALUTATION);
 
-		$criteria->addSelectColumn(UserPeer::FIRST_NAME);
+    $criteria->addSelectColumn(($tableAlias) ? UserPeer::alias($tableAlias, UserPeer::FIRST_NAME) : UserPeer::FIRST_NAME);
 
-		$criteria->addSelectColumn(UserPeer::LAST_NAME);
+    $criteria->addSelectColumn(($tableAlias) ? UserPeer::alias($tableAlias, UserPeer::LAST_NAME) : UserPeer::LAST_NAME);
 
-		$criteria->addSelectColumn(UserPeer::EMAIL);
+    $criteria->addSelectColumn(($tableAlias) ? UserPeer::alias($tableAlias, UserPeer::EMAIL) : UserPeer::EMAIL);
 
-		$criteria->addSelectColumn(UserPeer::SHA1_PASSWORD);
+    $criteria->addSelectColumn(($tableAlias) ? UserPeer::alias($tableAlias, UserPeer::SHA1_PASSWORD) : UserPeer::SHA1_PASSWORD);
 
-		$criteria->addSelectColumn(UserPeer::SALT);
+    $criteria->addSelectColumn(($tableAlias) ? UserPeer::alias($tableAlias, UserPeer::SALT) : UserPeer::SALT);
 
-		$criteria->addSelectColumn(UserPeer::WANT_TO_BE_MODERATOR);
+    $criteria->addSelectColumn(($tableAlias) ? UserPeer::alias($tableAlias, UserPeer::WANT_TO_BE_MODERATOR) : UserPeer::WANT_TO_BE_MODERATOR);
 
-		$criteria->addSelectColumn(UserPeer::IS_MODERATOR);
+    $criteria->addSelectColumn(($tableAlias) ? UserPeer::alias($tableAlias, UserPeer::IS_MODERATOR) : UserPeer::IS_MODERATOR);
 
-		$criteria->addSelectColumn(UserPeer::IS_ADMINISTRATOR);
+    $criteria->addSelectColumn(($tableAlias) ? UserPeer::alias($tableAlias, UserPeer::IS_ADMINISTRATOR) : UserPeer::IS_ADMINISTRATOR);
 
-		$criteria->addSelectColumn(UserPeer::DELETIONS);
+    $criteria->addSelectColumn(($tableAlias) ? UserPeer::alias($tableAlias, UserPeer::DELETIONS) : UserPeer::DELETIONS);
 
-		$criteria->addSelectColumn(UserPeer::PASSWORD);
+    $criteria->addSelectColumn(($tableAlias) ? UserPeer::alias($tableAlias, UserPeer::PASSWORD) : UserPeer::PASSWORD);
 
 	}
 

@@ -201,42 +201,42 @@ abstract class BaseSkosPropertyPeer {
 	 * @throws     PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
-	public static function addSelectColumns(Criteria $criteria)
+	public static function addSelectColumns(Criteria $criteria, $tableAlias = null)
 	{
 
-		$criteria->addSelectColumn(SkosPropertyPeer::ID);
+    $criteria->addSelectColumn(($tableAlias) ? SkosPropertyPeer::alias($tableAlias, SkosPropertyPeer::ID) : SkosPropertyPeer::ID);
 
-		$criteria->addSelectColumn(SkosPropertyPeer::PARENT_ID);
+    $criteria->addSelectColumn(($tableAlias) ? SkosPropertyPeer::alias($tableAlias, SkosPropertyPeer::PARENT_ID) : SkosPropertyPeer::PARENT_ID);
 
-		$criteria->addSelectColumn(SkosPropertyPeer::INVERSE_ID);
+    $criteria->addSelectColumn(($tableAlias) ? SkosPropertyPeer::alias($tableAlias, SkosPropertyPeer::INVERSE_ID) : SkosPropertyPeer::INVERSE_ID);
 
-		$criteria->addSelectColumn(SkosPropertyPeer::NAME);
+    $criteria->addSelectColumn(($tableAlias) ? SkosPropertyPeer::alias($tableAlias, SkosPropertyPeer::NAME) : SkosPropertyPeer::NAME);
 
-		$criteria->addSelectColumn(SkosPropertyPeer::URI);
+    $criteria->addSelectColumn(($tableAlias) ? SkosPropertyPeer::alias($tableAlias, SkosPropertyPeer::URI) : SkosPropertyPeer::URI);
 
-		$criteria->addSelectColumn(SkosPropertyPeer::OBJECT_TYPE);
+    $criteria->addSelectColumn(($tableAlias) ? SkosPropertyPeer::alias($tableAlias, SkosPropertyPeer::OBJECT_TYPE) : SkosPropertyPeer::OBJECT_TYPE);
 
-		$criteria->addSelectColumn(SkosPropertyPeer::DISPLAY_ORDER);
+    $criteria->addSelectColumn(($tableAlias) ? SkosPropertyPeer::alias($tableAlias, SkosPropertyPeer::DISPLAY_ORDER) : SkosPropertyPeer::DISPLAY_ORDER);
 
-		$criteria->addSelectColumn(SkosPropertyPeer::PICKLIST_ORDER);
+    $criteria->addSelectColumn(($tableAlias) ? SkosPropertyPeer::alias($tableAlias, SkosPropertyPeer::PICKLIST_ORDER) : SkosPropertyPeer::PICKLIST_ORDER);
 
-		$criteria->addSelectColumn(SkosPropertyPeer::LABEL);
+    $criteria->addSelectColumn(($tableAlias) ? SkosPropertyPeer::alias($tableAlias, SkosPropertyPeer::LABEL) : SkosPropertyPeer::LABEL);
 
-		$criteria->addSelectColumn(SkosPropertyPeer::DEFINITION);
+    $criteria->addSelectColumn(($tableAlias) ? SkosPropertyPeer::alias($tableAlias, SkosPropertyPeer::DEFINITION) : SkosPropertyPeer::DEFINITION);
 
-		$criteria->addSelectColumn(SkosPropertyPeer::COMMENT);
+    $criteria->addSelectColumn(($tableAlias) ? SkosPropertyPeer::alias($tableAlias, SkosPropertyPeer::COMMENT) : SkosPropertyPeer::COMMENT);
 
-		$criteria->addSelectColumn(SkosPropertyPeer::EXAMPLES);
+    $criteria->addSelectColumn(($tableAlias) ? SkosPropertyPeer::alias($tableAlias, SkosPropertyPeer::EXAMPLES) : SkosPropertyPeer::EXAMPLES);
 
-		$criteria->addSelectColumn(SkosPropertyPeer::IS_REQUIRED);
+    $criteria->addSelectColumn(($tableAlias) ? SkosPropertyPeer::alias($tableAlias, SkosPropertyPeer::IS_REQUIRED) : SkosPropertyPeer::IS_REQUIRED);
 
-		$criteria->addSelectColumn(SkosPropertyPeer::IS_RECIPROCAL);
+    $criteria->addSelectColumn(($tableAlias) ? SkosPropertyPeer::alias($tableAlias, SkosPropertyPeer::IS_RECIPROCAL) : SkosPropertyPeer::IS_RECIPROCAL);
 
-		$criteria->addSelectColumn(SkosPropertyPeer::IS_SINGLETON);
+    $criteria->addSelectColumn(($tableAlias) ? SkosPropertyPeer::alias($tableAlias, SkosPropertyPeer::IS_SINGLETON) : SkosPropertyPeer::IS_SINGLETON);
 
-		$criteria->addSelectColumn(SkosPropertyPeer::IS_SCHEME);
+    $criteria->addSelectColumn(($tableAlias) ? SkosPropertyPeer::alias($tableAlias, SkosPropertyPeer::IS_SCHEME) : SkosPropertyPeer::IS_SCHEME);
 
-		$criteria->addSelectColumn(SkosPropertyPeer::IS_IN_PICKLIST);
+    $criteria->addSelectColumn(($tableAlias) ? SkosPropertyPeer::alias($tableAlias, SkosPropertyPeer::IS_IN_PICKLIST) : SkosPropertyPeer::IS_IN_PICKLIST);
 
 	}
 

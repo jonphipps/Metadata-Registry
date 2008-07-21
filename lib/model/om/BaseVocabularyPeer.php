@@ -207,46 +207,46 @@ abstract class BaseVocabularyPeer {
 	 * @throws     PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
-	public static function addSelectColumns(Criteria $criteria)
+	public static function addSelectColumns(Criteria $criteria, $tableAlias = null)
 	{
 
-		$criteria->addSelectColumn(VocabularyPeer::ID);
+    $criteria->addSelectColumn(($tableAlias) ? VocabularyPeer::alias($tableAlias, VocabularyPeer::ID) : VocabularyPeer::ID);
 
-		$criteria->addSelectColumn(VocabularyPeer::AGENT_ID);
+    $criteria->addSelectColumn(($tableAlias) ? VocabularyPeer::alias($tableAlias, VocabularyPeer::AGENT_ID) : VocabularyPeer::AGENT_ID);
 
-		$criteria->addSelectColumn(VocabularyPeer::CREATED_AT);
+    $criteria->addSelectColumn(($tableAlias) ? VocabularyPeer::alias($tableAlias, VocabularyPeer::CREATED_AT) : VocabularyPeer::CREATED_AT);
 
-		$criteria->addSelectColumn(VocabularyPeer::DELETED_AT);
+    $criteria->addSelectColumn(($tableAlias) ? VocabularyPeer::alias($tableAlias, VocabularyPeer::DELETED_AT) : VocabularyPeer::DELETED_AT);
 
-		$criteria->addSelectColumn(VocabularyPeer::LAST_UPDATED);
+    $criteria->addSelectColumn(($tableAlias) ? VocabularyPeer::alias($tableAlias, VocabularyPeer::LAST_UPDATED) : VocabularyPeer::LAST_UPDATED);
 
-		$criteria->addSelectColumn(VocabularyPeer::CREATED_USER_ID);
+    $criteria->addSelectColumn(($tableAlias) ? VocabularyPeer::alias($tableAlias, VocabularyPeer::CREATED_USER_ID) : VocabularyPeer::CREATED_USER_ID);
 
-		$criteria->addSelectColumn(VocabularyPeer::UPDATED_USER_ID);
+    $criteria->addSelectColumn(($tableAlias) ? VocabularyPeer::alias($tableAlias, VocabularyPeer::UPDATED_USER_ID) : VocabularyPeer::UPDATED_USER_ID);
 
-		$criteria->addSelectColumn(VocabularyPeer::CHILD_UPDATED_AT);
+    $criteria->addSelectColumn(($tableAlias) ? VocabularyPeer::alias($tableAlias, VocabularyPeer::CHILD_UPDATED_AT) : VocabularyPeer::CHILD_UPDATED_AT);
 
-		$criteria->addSelectColumn(VocabularyPeer::CHILD_UPDATED_USER_ID);
+    $criteria->addSelectColumn(($tableAlias) ? VocabularyPeer::alias($tableAlias, VocabularyPeer::CHILD_UPDATED_USER_ID) : VocabularyPeer::CHILD_UPDATED_USER_ID);
 
-		$criteria->addSelectColumn(VocabularyPeer::NAME);
+    $criteria->addSelectColumn(($tableAlias) ? VocabularyPeer::alias($tableAlias, VocabularyPeer::NAME) : VocabularyPeer::NAME);
 
-		$criteria->addSelectColumn(VocabularyPeer::NOTE);
+    $criteria->addSelectColumn(($tableAlias) ? VocabularyPeer::alias($tableAlias, VocabularyPeer::NOTE) : VocabularyPeer::NOTE);
 
-		$criteria->addSelectColumn(VocabularyPeer::URI);
+    $criteria->addSelectColumn(($tableAlias) ? VocabularyPeer::alias($tableAlias, VocabularyPeer::URI) : VocabularyPeer::URI);
 
-		$criteria->addSelectColumn(VocabularyPeer::URL);
+    $criteria->addSelectColumn(($tableAlias) ? VocabularyPeer::alias($tableAlias, VocabularyPeer::URL) : VocabularyPeer::URL);
 
-		$criteria->addSelectColumn(VocabularyPeer::BASE_DOMAIN);
+    $criteria->addSelectColumn(($tableAlias) ? VocabularyPeer::alias($tableAlias, VocabularyPeer::BASE_DOMAIN) : VocabularyPeer::BASE_DOMAIN);
 
-		$criteria->addSelectColumn(VocabularyPeer::TOKEN);
+    $criteria->addSelectColumn(($tableAlias) ? VocabularyPeer::alias($tableAlias, VocabularyPeer::TOKEN) : VocabularyPeer::TOKEN);
 
-		$criteria->addSelectColumn(VocabularyPeer::COMMUNITY);
+    $criteria->addSelectColumn(($tableAlias) ? VocabularyPeer::alias($tableAlias, VocabularyPeer::COMMUNITY) : VocabularyPeer::COMMUNITY);
 
-		$criteria->addSelectColumn(VocabularyPeer::LAST_URI_ID);
+    $criteria->addSelectColumn(($tableAlias) ? VocabularyPeer::alias($tableAlias, VocabularyPeer::LAST_URI_ID) : VocabularyPeer::LAST_URI_ID);
 
-		$criteria->addSelectColumn(VocabularyPeer::STATUS_ID);
+    $criteria->addSelectColumn(($tableAlias) ? VocabularyPeer::alias($tableAlias, VocabularyPeer::STATUS_ID) : VocabularyPeer::STATUS_ID);
 
-		$criteria->addSelectColumn(VocabularyPeer::LANGUAGE);
+    $criteria->addSelectColumn(($tableAlias) ? VocabularyPeer::alias($tableAlias, VocabularyPeer::LANGUAGE) : VocabularyPeer::LANGUAGE);
 
 	}
 
@@ -396,7 +396,7 @@ abstract class BaseVocabularyPeer {
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
-		
+
 		// clear out anything that might confuse the ORDER BY clause
 		$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
@@ -404,7 +404,7 @@ abstract class BaseVocabularyPeer {
 		} else {
 			$criteria->addSelectColumn(VocabularyPeer::COUNT);
 		}
-		
+
 		// just in case we're grouping: add those columns to the select statement
 		foreach($criteria->getGroupByColumns() as $column)
 		{
@@ -435,7 +435,7 @@ abstract class BaseVocabularyPeer {
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
-		
+
 		// clear out anything that might confuse the ORDER BY clause
 		$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
@@ -443,7 +443,7 @@ abstract class BaseVocabularyPeer {
 		} else {
 			$criteria->addSelectColumn(VocabularyPeer::COUNT);
 		}
-		
+
 		// just in case we're grouping: add those columns to the select statement
 		foreach($criteria->getGroupByColumns() as $column)
 		{
@@ -474,7 +474,7 @@ abstract class BaseVocabularyPeer {
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
-		
+
 		// clear out anything that might confuse the ORDER BY clause
 		$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
@@ -482,7 +482,7 @@ abstract class BaseVocabularyPeer {
 		} else {
 			$criteria->addSelectColumn(VocabularyPeer::COUNT);
 		}
-		
+
 		// just in case we're grouping: add those columns to the select statement
 		foreach($criteria->getGroupByColumns() as $column)
 		{
@@ -513,7 +513,7 @@ abstract class BaseVocabularyPeer {
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
-		
+
 		// clear out anything that might confuse the ORDER BY clause
 		$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
@@ -521,7 +521,7 @@ abstract class BaseVocabularyPeer {
 		} else {
 			$criteria->addSelectColumn(VocabularyPeer::COUNT);
 		}
-		
+
 		// just in case we're grouping: add those columns to the select statement
 		foreach($criteria->getGroupByColumns() as $column)
 		{
@@ -552,7 +552,7 @@ abstract class BaseVocabularyPeer {
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
-		
+
 		// clear out anything that might confuse the ORDER BY clause
 		$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
@@ -560,7 +560,7 @@ abstract class BaseVocabularyPeer {
 		} else {
 			$criteria->addSelectColumn(VocabularyPeer::COUNT);
 		}
-		
+
 		// just in case we're grouping: add those columns to the select statement
 		foreach($criteria->getGroupByColumns() as $column)
 		{
@@ -888,7 +888,7 @@ abstract class BaseVocabularyPeer {
 		} else {
 			$criteria->addSelectColumn(VocabularyPeer::COUNT);
 		}
-		
+
 		// just in case we're grouping: add those columns to the select statement
 		foreach($criteria->getGroupByColumns() as $column)
 		{
@@ -934,53 +934,58 @@ abstract class BaseVocabularyPeer {
 		VocabularyPeer::addSelectColumns($c);
 		$startcol2 = (VocabularyPeer::NUM_COLUMNS - VocabularyPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 
-		AgentPeer::addSelectColumns($c);
+		AgentPeer::addSelectColumns($c, 'a1');
 		$startcol3 = $startcol2 + AgentPeer::NUM_COLUMNS;
 
-		UserPeer::addSelectColumns($c);
+    $c->addJoin(VocabularyPeer::AGENT_ID, AgentPeer::alias('a1', AgentPeer::ID));
+    $c->addAlias('a1', AgentPeer::TABLE_NAME);
+
+		UserPeer::addSelectColumns($c, 'a2');
 		$startcol4 = $startcol3 + UserPeer::NUM_COLUMNS;
 
-		UserPeer::addSelectColumns($c);
+    $c->addJoin(VocabularyPeer::CREATED_USER_ID, UserPeer::alias('a2', UserPeer::ID));
+    $c->addAlias('a2', UserPeer::TABLE_NAME);
+
+		UserPeer::addSelectColumns($c, 'a3');
 		$startcol5 = $startcol4 + UserPeer::NUM_COLUMNS;
 
-		UserPeer::addSelectColumns($c);
+    $c->addJoin(VocabularyPeer::UPDATED_USER_ID, UserPeer::alias('a3', UserPeer::ID));
+    $c->addAlias('a3', UserPeer::TABLE_NAME);
+
+		UserPeer::addSelectColumns($c, 'a4');
 		$startcol6 = $startcol5 + UserPeer::NUM_COLUMNS;
 
-		StatusPeer::addSelectColumns($c);
+    $c->addJoin(VocabularyPeer::CHILD_UPDATED_USER_ID, UserPeer::alias('a4', UserPeer::ID));
+    $c->addAlias('a4', UserPeer::TABLE_NAME);
+
+		StatusPeer::addSelectColumns($c, 'a5');
 		$startcol7 = $startcol6 + StatusPeer::NUM_COLUMNS;
 
-		$c->addJoin(VocabularyPeer::AGENT_ID, AgentPeer::ID);
-
-		$c->addJoin(VocabularyPeer::CREATED_USER_ID, UserPeer::ID);
-
-		$c->addJoin(VocabularyPeer::UPDATED_USER_ID, UserPeer::ID);
-
-		$c->addJoin(VocabularyPeer::CHILD_UPDATED_USER_ID, UserPeer::ID);
-
-		$c->addJoin(VocabularyPeer::STATUS_ID, StatusPeer::ID);
+    $c->addJoin(VocabularyPeer::STATUS_ID, StatusPeer::alias('a5', StatusPeer::ID));
+    $c->addAlias('a5', StatusPeer::TABLE_NAME);
 
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
-		
+
 		while($rs->next()) {
 
 			$omClass = VocabularyPeer::getOMClass();
 
-			
+
 			$cls = Propel::import($omClass);
 			$obj1 = new $cls();
 			$obj1->hydrate($rs);
 
-				
+
 				// Add objects for joined Agent rows
 	
 			$omClass = AgentPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj2 = new $cls();
 			$obj2->hydrate($rs, $startcol2);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -991,22 +996,22 @@ abstract class BaseVocabularyPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj2->initVocabularys();
 				$obj2->addVocabulary($obj1);
 			}
 
-				
+
 				// Add objects for joined User rows
 	
 			$omClass = UserPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj3 = new $cls();
 			$obj3->hydrate($rs, $startcol3);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -1017,22 +1022,22 @@ abstract class BaseVocabularyPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj3->initVocabularysRelatedByCreatedUserId();
 				$obj3->addVocabularyRelatedByCreatedUserId($obj1);
 			}
 
-				
+
 				// Add objects for joined User rows
 	
 			$omClass = UserPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj4 = new $cls();
 			$obj4->hydrate($rs, $startcol4);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -1043,22 +1048,22 @@ abstract class BaseVocabularyPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj4->initVocabularysRelatedByUpdatedUserId();
 				$obj4->addVocabularyRelatedByUpdatedUserId($obj1);
 			}
 
-				
+
 				// Add objects for joined User rows
 	
 			$omClass = UserPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj5 = new $cls();
 			$obj5->hydrate($rs, $startcol5);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -1069,22 +1074,22 @@ abstract class BaseVocabularyPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj5->initVocabularysRelatedByChildUpdatedUserId();
 				$obj5->addVocabularyRelatedByChildUpdatedUserId($obj1);
 			}
 
-				
+
 				// Add objects for joined Status rows
 	
 			$omClass = StatusPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj6 = new $cls();
 			$obj6->hydrate($rs, $startcol6);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -1095,7 +1100,7 @@ abstract class BaseVocabularyPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj6->initVocabularys();
 				$obj6->addVocabulary($obj1);
@@ -1119,7 +1124,7 @@ abstract class BaseVocabularyPeer {
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
-		
+
 		// clear out anything that might confuse the ORDER BY clause
 		$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
@@ -1127,7 +1132,7 @@ abstract class BaseVocabularyPeer {
 		} else {
 			$criteria->addSelectColumn(VocabularyPeer::COUNT);
 		}
-		
+
 		// just in case we're grouping: add those columns to the select statement
 		foreach($criteria->getGroupByColumns() as $column)
 		{
@@ -1164,7 +1169,7 @@ abstract class BaseVocabularyPeer {
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
-		
+
 		// clear out anything that might confuse the ORDER BY clause
 		$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
@@ -1172,7 +1177,7 @@ abstract class BaseVocabularyPeer {
 		} else {
 			$criteria->addSelectColumn(VocabularyPeer::COUNT);
 		}
-		
+
 		// just in case we're grouping: add those columns to the select statement
 		foreach($criteria->getGroupByColumns() as $column)
 		{
@@ -1205,7 +1210,7 @@ abstract class BaseVocabularyPeer {
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
-		
+
 		// clear out anything that might confuse the ORDER BY clause
 		$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
@@ -1213,7 +1218,7 @@ abstract class BaseVocabularyPeer {
 		} else {
 			$criteria->addSelectColumn(VocabularyPeer::COUNT);
 		}
-		
+
 		// just in case we're grouping: add those columns to the select statement
 		foreach($criteria->getGroupByColumns() as $column)
 		{
@@ -1246,7 +1251,7 @@ abstract class BaseVocabularyPeer {
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
-		
+
 		// clear out anything that might confuse the ORDER BY clause
 		$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
@@ -1254,7 +1259,7 @@ abstract class BaseVocabularyPeer {
 		} else {
 			$criteria->addSelectColumn(VocabularyPeer::COUNT);
 		}
-		
+
 		// just in case we're grouping: add those columns to the select statement
 		foreach($criteria->getGroupByColumns() as $column)
 		{
@@ -1287,7 +1292,7 @@ abstract class BaseVocabularyPeer {
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
-		
+
 		// clear out anything that might confuse the ORDER BY clause
 		$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
@@ -1295,7 +1300,7 @@ abstract class BaseVocabularyPeer {
 		} else {
 			$criteria->addSelectColumn(VocabularyPeer::COUNT);
 		}
-		
+
 		// just in case we're grouping: add those columns to the select statement
 		foreach($criteria->getGroupByColumns() as $column)
 		{
@@ -1364,22 +1369,22 @@ abstract class BaseVocabularyPeer {
 
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
-		
+
 		while($rs->next()) {
 
 			$omClass = VocabularyPeer::getOMClass();
 
 			$cls = Propel::import($omClass);
 			$obj1 = new $cls();
-			$obj1->hydrate($rs);		
+			$obj1->hydrate($rs);
 
 			$omClass = UserPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj2  = new $cls();
 			$obj2->hydrate($rs, $startcol2);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -1390,7 +1395,7 @@ abstract class BaseVocabularyPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj2->initVocabularysRelatedByCreatedUserId();
 				$obj2->addVocabularyRelatedByCreatedUserId($obj1);
@@ -1398,11 +1403,11 @@ abstract class BaseVocabularyPeer {
 
 			$omClass = UserPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj3  = new $cls();
 			$obj3->hydrate($rs, $startcol3);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -1413,7 +1418,7 @@ abstract class BaseVocabularyPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj3->initVocabularysRelatedByUpdatedUserId();
 				$obj3->addVocabularyRelatedByUpdatedUserId($obj1);
@@ -1421,11 +1426,11 @@ abstract class BaseVocabularyPeer {
 
 			$omClass = UserPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj4  = new $cls();
 			$obj4->hydrate($rs, $startcol4);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -1436,7 +1441,7 @@ abstract class BaseVocabularyPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj4->initVocabularysRelatedByChildUpdatedUserId();
 				$obj4->addVocabularyRelatedByChildUpdatedUserId($obj1);
@@ -1444,11 +1449,11 @@ abstract class BaseVocabularyPeer {
 
 			$omClass = StatusPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj5  = new $cls();
 			$obj5->hydrate($rs, $startcol5);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -1459,7 +1464,7 @@ abstract class BaseVocabularyPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj5->initVocabularys();
 				$obj5->addVocabulary($obj1);
@@ -1505,22 +1510,22 @@ abstract class BaseVocabularyPeer {
 
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
-		
+
 		while($rs->next()) {
 
 			$omClass = VocabularyPeer::getOMClass();
 
 			$cls = Propel::import($omClass);
 			$obj1 = new $cls();
-			$obj1->hydrate($rs);		
+			$obj1->hydrate($rs);
 
 			$omClass = AgentPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj2  = new $cls();
 			$obj2->hydrate($rs, $startcol2);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -1531,7 +1536,7 @@ abstract class BaseVocabularyPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj2->initVocabularys();
 				$obj2->addVocabulary($obj1);
@@ -1539,11 +1544,11 @@ abstract class BaseVocabularyPeer {
 
 			$omClass = StatusPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj3  = new $cls();
 			$obj3->hydrate($rs, $startcol3);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -1554,7 +1559,7 @@ abstract class BaseVocabularyPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj3->initVocabularys();
 				$obj3->addVocabulary($obj1);
@@ -1600,22 +1605,22 @@ abstract class BaseVocabularyPeer {
 
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
-		
+
 		while($rs->next()) {
 
 			$omClass = VocabularyPeer::getOMClass();
 
 			$cls = Propel::import($omClass);
 			$obj1 = new $cls();
-			$obj1->hydrate($rs);		
+			$obj1->hydrate($rs);
 
 			$omClass = AgentPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj2  = new $cls();
 			$obj2->hydrate($rs, $startcol2);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -1626,7 +1631,7 @@ abstract class BaseVocabularyPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj2->initVocabularys();
 				$obj2->addVocabulary($obj1);
@@ -1634,11 +1639,11 @@ abstract class BaseVocabularyPeer {
 
 			$omClass = StatusPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj3  = new $cls();
 			$obj3->hydrate($rs, $startcol3);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -1649,7 +1654,7 @@ abstract class BaseVocabularyPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj3->initVocabularys();
 				$obj3->addVocabulary($obj1);
@@ -1695,22 +1700,22 @@ abstract class BaseVocabularyPeer {
 
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
-		
+
 		while($rs->next()) {
 
 			$omClass = VocabularyPeer::getOMClass();
 
 			$cls = Propel::import($omClass);
 			$obj1 = new $cls();
-			$obj1->hydrate($rs);		
+			$obj1->hydrate($rs);
 
 			$omClass = AgentPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj2  = new $cls();
 			$obj2->hydrate($rs, $startcol2);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -1721,7 +1726,7 @@ abstract class BaseVocabularyPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj2->initVocabularys();
 				$obj2->addVocabulary($obj1);
@@ -1729,11 +1734,11 @@ abstract class BaseVocabularyPeer {
 
 			$omClass = StatusPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj3  = new $cls();
 			$obj3->hydrate($rs, $startcol3);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -1744,7 +1749,7 @@ abstract class BaseVocabularyPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj3->initVocabularys();
 				$obj3->addVocabulary($obj1);
@@ -1800,22 +1805,22 @@ abstract class BaseVocabularyPeer {
 
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
-		
+
 		while($rs->next()) {
 
 			$omClass = VocabularyPeer::getOMClass();
 
 			$cls = Propel::import($omClass);
 			$obj1 = new $cls();
-			$obj1->hydrate($rs);		
+			$obj1->hydrate($rs);
 
 			$omClass = AgentPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj2  = new $cls();
 			$obj2->hydrate($rs, $startcol2);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -1826,7 +1831,7 @@ abstract class BaseVocabularyPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj2->initVocabularys();
 				$obj2->addVocabulary($obj1);
@@ -1834,11 +1839,11 @@ abstract class BaseVocabularyPeer {
 
 			$omClass = UserPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj3  = new $cls();
 			$obj3->hydrate($rs, $startcol3);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -1849,7 +1854,7 @@ abstract class BaseVocabularyPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj3->initVocabularysRelatedByCreatedUserId();
 				$obj3->addVocabularyRelatedByCreatedUserId($obj1);
@@ -1857,11 +1862,11 @@ abstract class BaseVocabularyPeer {
 
 			$omClass = UserPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj4  = new $cls();
 			$obj4->hydrate($rs, $startcol4);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -1872,7 +1877,7 @@ abstract class BaseVocabularyPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj4->initVocabularysRelatedByUpdatedUserId();
 				$obj4->addVocabularyRelatedByUpdatedUserId($obj1);
@@ -1880,11 +1885,11 @@ abstract class BaseVocabularyPeer {
 
 			$omClass = UserPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj5  = new $cls();
 			$obj5->hydrate($rs, $startcol5);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -1895,7 +1900,7 @@ abstract class BaseVocabularyPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj5->initVocabularysRelatedByChildUpdatedUserId();
 				$obj5->addVocabularyRelatedByChildUpdatedUserId($obj1);

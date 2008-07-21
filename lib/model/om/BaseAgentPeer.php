@@ -201,42 +201,42 @@ abstract class BaseAgentPeer {
 	 * @throws     PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
-	public static function addSelectColumns(Criteria $criteria)
+	public static function addSelectColumns(Criteria $criteria, $tableAlias = null)
 	{
 
-		$criteria->addSelectColumn(AgentPeer::ID);
+    $criteria->addSelectColumn(($tableAlias) ? AgentPeer::alias($tableAlias, AgentPeer::ID) : AgentPeer::ID);
 
-		$criteria->addSelectColumn(AgentPeer::CREATED_AT);
+    $criteria->addSelectColumn(($tableAlias) ? AgentPeer::alias($tableAlias, AgentPeer::CREATED_AT) : AgentPeer::CREATED_AT);
 
-		$criteria->addSelectColumn(AgentPeer::LAST_UPDATED);
+    $criteria->addSelectColumn(($tableAlias) ? AgentPeer::alias($tableAlias, AgentPeer::LAST_UPDATED) : AgentPeer::LAST_UPDATED);
 
-		$criteria->addSelectColumn(AgentPeer::DELETED_AT);
+    $criteria->addSelectColumn(($tableAlias) ? AgentPeer::alias($tableAlias, AgentPeer::DELETED_AT) : AgentPeer::DELETED_AT);
 
-		$criteria->addSelectColumn(AgentPeer::ORG_EMAIL);
+    $criteria->addSelectColumn(($tableAlias) ? AgentPeer::alias($tableAlias, AgentPeer::ORG_EMAIL) : AgentPeer::ORG_EMAIL);
 
-		$criteria->addSelectColumn(AgentPeer::ORG_NAME);
+    $criteria->addSelectColumn(($tableAlias) ? AgentPeer::alias($tableAlias, AgentPeer::ORG_NAME) : AgentPeer::ORG_NAME);
 
-		$criteria->addSelectColumn(AgentPeer::IND_AFFILIATION);
+    $criteria->addSelectColumn(($tableAlias) ? AgentPeer::alias($tableAlias, AgentPeer::IND_AFFILIATION) : AgentPeer::IND_AFFILIATION);
 
-		$criteria->addSelectColumn(AgentPeer::IND_ROLE);
+    $criteria->addSelectColumn(($tableAlias) ? AgentPeer::alias($tableAlias, AgentPeer::IND_ROLE) : AgentPeer::IND_ROLE);
 
-		$criteria->addSelectColumn(AgentPeer::ADDRESS1);
+    $criteria->addSelectColumn(($tableAlias) ? AgentPeer::alias($tableAlias, AgentPeer::ADDRESS1) : AgentPeer::ADDRESS1);
 
-		$criteria->addSelectColumn(AgentPeer::ADDRESS2);
+    $criteria->addSelectColumn(($tableAlias) ? AgentPeer::alias($tableAlias, AgentPeer::ADDRESS2) : AgentPeer::ADDRESS2);
 
-		$criteria->addSelectColumn(AgentPeer::CITY);
+    $criteria->addSelectColumn(($tableAlias) ? AgentPeer::alias($tableAlias, AgentPeer::CITY) : AgentPeer::CITY);
 
-		$criteria->addSelectColumn(AgentPeer::STATE);
+    $criteria->addSelectColumn(($tableAlias) ? AgentPeer::alias($tableAlias, AgentPeer::STATE) : AgentPeer::STATE);
 
-		$criteria->addSelectColumn(AgentPeer::POSTAL_CODE);
+    $criteria->addSelectColumn(($tableAlias) ? AgentPeer::alias($tableAlias, AgentPeer::POSTAL_CODE) : AgentPeer::POSTAL_CODE);
 
-		$criteria->addSelectColumn(AgentPeer::COUNTRY);
+    $criteria->addSelectColumn(($tableAlias) ? AgentPeer::alias($tableAlias, AgentPeer::COUNTRY) : AgentPeer::COUNTRY);
 
-		$criteria->addSelectColumn(AgentPeer::PHONE);
+    $criteria->addSelectColumn(($tableAlias) ? AgentPeer::alias($tableAlias, AgentPeer::PHONE) : AgentPeer::PHONE);
 
-		$criteria->addSelectColumn(AgentPeer::WEB_ADDRESS);
+    $criteria->addSelectColumn(($tableAlias) ? AgentPeer::alias($tableAlias, AgentPeer::WEB_ADDRESS) : AgentPeer::WEB_ADDRESS);
 
-		$criteria->addSelectColumn(AgentPeer::TYPE);
+    $criteria->addSelectColumn(($tableAlias) ? AgentPeer::alias($tableAlias, AgentPeer::TYPE) : AgentPeer::TYPE);
 
 	}
 

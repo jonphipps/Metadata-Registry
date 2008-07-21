@@ -189,34 +189,34 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 	 * @throws     PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
-	public static function addSelectColumns(Criteria $criteria)
+	public static function addSelectColumns(Criteria $criteria, $tableAlias = null)
 	{
 
-		$criteria->addSelectColumn(SchemaPropertyElementHistoryPeer::ID);
+    $criteria->addSelectColumn(($tableAlias) ? SchemaPropertyElementHistoryPeer::alias($tableAlias, SchemaPropertyElementHistoryPeer::ID) : SchemaPropertyElementHistoryPeer::ID);
 
-		$criteria->addSelectColumn(SchemaPropertyElementHistoryPeer::CREATED_AT);
+    $criteria->addSelectColumn(($tableAlias) ? SchemaPropertyElementHistoryPeer::alias($tableAlias, SchemaPropertyElementHistoryPeer::CREATED_AT) : SchemaPropertyElementHistoryPeer::CREATED_AT);
 
-		$criteria->addSelectColumn(SchemaPropertyElementHistoryPeer::CREATED_USER_ID);
+    $criteria->addSelectColumn(($tableAlias) ? SchemaPropertyElementHistoryPeer::alias($tableAlias, SchemaPropertyElementHistoryPeer::CREATED_USER_ID) : SchemaPropertyElementHistoryPeer::CREATED_USER_ID);
 
-		$criteria->addSelectColumn(SchemaPropertyElementHistoryPeer::ACTION);
+    $criteria->addSelectColumn(($tableAlias) ? SchemaPropertyElementHistoryPeer::alias($tableAlias, SchemaPropertyElementHistoryPeer::ACTION) : SchemaPropertyElementHistoryPeer::ACTION);
 
-		$criteria->addSelectColumn(SchemaPropertyElementHistoryPeer::SCHEMA_PROPERTY_ELEMENT_ID);
+    $criteria->addSelectColumn(($tableAlias) ? SchemaPropertyElementHistoryPeer::alias($tableAlias, SchemaPropertyElementHistoryPeer::SCHEMA_PROPERTY_ELEMENT_ID) : SchemaPropertyElementHistoryPeer::SCHEMA_PROPERTY_ELEMENT_ID);
 
-		$criteria->addSelectColumn(SchemaPropertyElementHistoryPeer::SCHEMA_PROPERTY_ID);
+    $criteria->addSelectColumn(($tableAlias) ? SchemaPropertyElementHistoryPeer::alias($tableAlias, SchemaPropertyElementHistoryPeer::SCHEMA_PROPERTY_ID) : SchemaPropertyElementHistoryPeer::SCHEMA_PROPERTY_ID);
 
-		$criteria->addSelectColumn(SchemaPropertyElementHistoryPeer::SCHEMA_ID);
+    $criteria->addSelectColumn(($tableAlias) ? SchemaPropertyElementHistoryPeer::alias($tableAlias, SchemaPropertyElementHistoryPeer::SCHEMA_ID) : SchemaPropertyElementHistoryPeer::SCHEMA_ID);
 
-		$criteria->addSelectColumn(SchemaPropertyElementHistoryPeer::PROFILE_PROPERTY_ID);
+    $criteria->addSelectColumn(($tableAlias) ? SchemaPropertyElementHistoryPeer::alias($tableAlias, SchemaPropertyElementHistoryPeer::PROFILE_PROPERTY_ID) : SchemaPropertyElementHistoryPeer::PROFILE_PROPERTY_ID);
 
-		$criteria->addSelectColumn(SchemaPropertyElementHistoryPeer::OBJECT);
+    $criteria->addSelectColumn(($tableAlias) ? SchemaPropertyElementHistoryPeer::alias($tableAlias, SchemaPropertyElementHistoryPeer::OBJECT) : SchemaPropertyElementHistoryPeer::OBJECT);
 
-		$criteria->addSelectColumn(SchemaPropertyElementHistoryPeer::RELATED_SCHEMA_PROPERTY_ID);
+    $criteria->addSelectColumn(($tableAlias) ? SchemaPropertyElementHistoryPeer::alias($tableAlias, SchemaPropertyElementHistoryPeer::RELATED_SCHEMA_PROPERTY_ID) : SchemaPropertyElementHistoryPeer::RELATED_SCHEMA_PROPERTY_ID);
 
-		$criteria->addSelectColumn(SchemaPropertyElementHistoryPeer::LANGUAGE);
+    $criteria->addSelectColumn(($tableAlias) ? SchemaPropertyElementHistoryPeer::alias($tableAlias, SchemaPropertyElementHistoryPeer::LANGUAGE) : SchemaPropertyElementHistoryPeer::LANGUAGE);
 
-		$criteria->addSelectColumn(SchemaPropertyElementHistoryPeer::STATUS_ID);
+    $criteria->addSelectColumn(($tableAlias) ? SchemaPropertyElementHistoryPeer::alias($tableAlias, SchemaPropertyElementHistoryPeer::STATUS_ID) : SchemaPropertyElementHistoryPeer::STATUS_ID);
 
-		$criteria->addSelectColumn(SchemaPropertyElementHistoryPeer::CHANGE_NOTE);
+    $criteria->addSelectColumn(($tableAlias) ? SchemaPropertyElementHistoryPeer::alias($tableAlias, SchemaPropertyElementHistoryPeer::CHANGE_NOTE) : SchemaPropertyElementHistoryPeer::CHANGE_NOTE);
 
 	}
 
@@ -366,7 +366,7 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
-		
+
 		// clear out anything that might confuse the ORDER BY clause
 		$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
@@ -374,7 +374,7 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 		} else {
 			$criteria->addSelectColumn(SchemaPropertyElementHistoryPeer::COUNT);
 		}
-		
+
 		// just in case we're grouping: add those columns to the select statement
 		foreach($criteria->getGroupByColumns() as $column)
 		{
@@ -405,7 +405,7 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
-		
+
 		// clear out anything that might confuse the ORDER BY clause
 		$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
@@ -413,7 +413,7 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 		} else {
 			$criteria->addSelectColumn(SchemaPropertyElementHistoryPeer::COUNT);
 		}
-		
+
 		// just in case we're grouping: add those columns to the select statement
 		foreach($criteria->getGroupByColumns() as $column)
 		{
@@ -444,7 +444,7 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
-		
+
 		// clear out anything that might confuse the ORDER BY clause
 		$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
@@ -452,7 +452,7 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 		} else {
 			$criteria->addSelectColumn(SchemaPropertyElementHistoryPeer::COUNT);
 		}
-		
+
 		// just in case we're grouping: add those columns to the select statement
 		foreach($criteria->getGroupByColumns() as $column)
 		{
@@ -483,7 +483,7 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
-		
+
 		// clear out anything that might confuse the ORDER BY clause
 		$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
@@ -491,7 +491,7 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 		} else {
 			$criteria->addSelectColumn(SchemaPropertyElementHistoryPeer::COUNT);
 		}
-		
+
 		// just in case we're grouping: add those columns to the select statement
 		foreach($criteria->getGroupByColumns() as $column)
 		{
@@ -522,7 +522,7 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
-		
+
 		// clear out anything that might confuse the ORDER BY clause
 		$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
@@ -530,7 +530,7 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 		} else {
 			$criteria->addSelectColumn(SchemaPropertyElementHistoryPeer::COUNT);
 		}
-		
+
 		// just in case we're grouping: add those columns to the select statement
 		foreach($criteria->getGroupByColumns() as $column)
 		{
@@ -561,7 +561,7 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
-		
+
 		// clear out anything that might confuse the ORDER BY clause
 		$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
@@ -569,7 +569,7 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 		} else {
 			$criteria->addSelectColumn(SchemaPropertyElementHistoryPeer::COUNT);
 		}
-		
+
 		// just in case we're grouping: add those columns to the select statement
 		foreach($criteria->getGroupByColumns() as $column)
 		{
@@ -600,7 +600,7 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
-		
+
 		// clear out anything that might confuse the ORDER BY clause
 		$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
@@ -608,7 +608,7 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 		} else {
 			$criteria->addSelectColumn(SchemaPropertyElementHistoryPeer::COUNT);
 		}
-		
+
 		// just in case we're grouping: add those columns to the select statement
 		foreach($criteria->getGroupByColumns() as $column)
 		{
@@ -1052,7 +1052,7 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 		} else {
 			$criteria->addSelectColumn(SchemaPropertyElementHistoryPeer::COUNT);
 		}
-		
+
 		// just in case we're grouping: add those columns to the select statement
 		foreach($criteria->getGroupByColumns() as $column)
 		{
@@ -1102,63 +1102,70 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 		SchemaPropertyElementHistoryPeer::addSelectColumns($c);
 		$startcol2 = (SchemaPropertyElementHistoryPeer::NUM_COLUMNS - SchemaPropertyElementHistoryPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 
-		UserPeer::addSelectColumns($c);
+		UserPeer::addSelectColumns($c, 'a1');
 		$startcol3 = $startcol2 + UserPeer::NUM_COLUMNS;
 
-		SchemaPropertyElementPeer::addSelectColumns($c);
+    $c->addJoin(SchemaPropertyElementHistoryPeer::CREATED_USER_ID, UserPeer::alias('a1', UserPeer::ID));
+    $c->addAlias('a1', UserPeer::TABLE_NAME);
+
+		SchemaPropertyElementPeer::addSelectColumns($c, 'a2');
 		$startcol4 = $startcol3 + SchemaPropertyElementPeer::NUM_COLUMNS;
 
-		SchemaPropertyPeer::addSelectColumns($c);
+    $c->addJoin(SchemaPropertyElementHistoryPeer::SCHEMA_PROPERTY_ELEMENT_ID, SchemaPropertyElementPeer::alias('a2', SchemaPropertyElementPeer::ID));
+    $c->addAlias('a2', SchemaPropertyElementPeer::TABLE_NAME);
+
+		SchemaPropertyPeer::addSelectColumns($c, 'a3');
 		$startcol5 = $startcol4 + SchemaPropertyPeer::NUM_COLUMNS;
 
-		SchemaPeer::addSelectColumns($c);
+    $c->addJoin(SchemaPropertyElementHistoryPeer::SCHEMA_PROPERTY_ID, SchemaPropertyPeer::alias('a3', SchemaPropertyPeer::ID));
+    $c->addAlias('a3', SchemaPropertyPeer::TABLE_NAME);
+
+		SchemaPeer::addSelectColumns($c, 'a4');
 		$startcol6 = $startcol5 + SchemaPeer::NUM_COLUMNS;
 
-		ProfilePropertyPeer::addSelectColumns($c);
+    $c->addJoin(SchemaPropertyElementHistoryPeer::SCHEMA_ID, SchemaPeer::alias('a4', SchemaPeer::ID));
+    $c->addAlias('a4', SchemaPeer::TABLE_NAME);
+
+		ProfilePropertyPeer::addSelectColumns($c, 'a5');
 		$startcol7 = $startcol6 + ProfilePropertyPeer::NUM_COLUMNS;
 
-		SchemaPropertyPeer::addSelectColumns($c);
+    $c->addJoin(SchemaPropertyElementHistoryPeer::PROFILE_PROPERTY_ID, ProfilePropertyPeer::alias('a5', ProfilePropertyPeer::ID));
+    $c->addAlias('a5', ProfilePropertyPeer::TABLE_NAME);
+
+		SchemaPropertyPeer::addSelectColumns($c, 'a6');
 		$startcol8 = $startcol7 + SchemaPropertyPeer::NUM_COLUMNS;
 
-		StatusPeer::addSelectColumns($c);
+    $c->addJoin(SchemaPropertyElementHistoryPeer::RELATED_SCHEMA_PROPERTY_ID, SchemaPropertyPeer::alias('a6', SchemaPropertyPeer::ID));
+    $c->addAlias('a6', SchemaPropertyPeer::TABLE_NAME);
+
+		StatusPeer::addSelectColumns($c, 'a7');
 		$startcol9 = $startcol8 + StatusPeer::NUM_COLUMNS;
 
-		$c->addJoin(SchemaPropertyElementHistoryPeer::CREATED_USER_ID, UserPeer::ID);
-
-		$c->addJoin(SchemaPropertyElementHistoryPeer::SCHEMA_PROPERTY_ELEMENT_ID, SchemaPropertyElementPeer::ID);
-
-		$c->addJoin(SchemaPropertyElementHistoryPeer::SCHEMA_PROPERTY_ID, SchemaPropertyPeer::ID);
-
-		$c->addJoin(SchemaPropertyElementHistoryPeer::SCHEMA_ID, SchemaPeer::ID);
-
-		$c->addJoin(SchemaPropertyElementHistoryPeer::PROFILE_PROPERTY_ID, ProfilePropertyPeer::ID);
-
-		$c->addJoin(SchemaPropertyElementHistoryPeer::RELATED_SCHEMA_PROPERTY_ID, SchemaPropertyPeer::ID);
-
-		$c->addJoin(SchemaPropertyElementHistoryPeer::STATUS_ID, StatusPeer::ID);
+    $c->addJoin(SchemaPropertyElementHistoryPeer::STATUS_ID, StatusPeer::alias('a7', StatusPeer::ID));
+    $c->addAlias('a7', StatusPeer::TABLE_NAME);
 
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
-		
+
 		while($rs->next()) {
 
 			$omClass = SchemaPropertyElementHistoryPeer::getOMClass();
 
-			
+
 			$cls = Propel::import($omClass);
 			$obj1 = new $cls();
 			$obj1->hydrate($rs);
 
-				
+
 				// Add objects for joined User rows
 	
 			$omClass = UserPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj2 = new $cls();
 			$obj2->hydrate($rs, $startcol2);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -1169,22 +1176,22 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj2->initSchemaPropertyElementHistorys();
 				$obj2->addSchemaPropertyElementHistory($obj1);
 			}
 
-				
+
 				// Add objects for joined SchemaPropertyElement rows
 	
 			$omClass = SchemaPropertyElementPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj3 = new $cls();
 			$obj3->hydrate($rs, $startcol3);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -1195,22 +1202,22 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj3->initSchemaPropertyElementHistorys();
 				$obj3->addSchemaPropertyElementHistory($obj1);
 			}
 
-				
+
 				// Add objects for joined SchemaProperty rows
 	
 			$omClass = SchemaPropertyPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj4 = new $cls();
 			$obj4->hydrate($rs, $startcol4);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -1221,22 +1228,22 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj4->initSchemaPropertyElementHistorysRelatedBySchemaPropertyId();
 				$obj4->addSchemaPropertyElementHistoryRelatedBySchemaPropertyId($obj1);
 			}
 
-				
+
 				// Add objects for joined Schema rows
 	
 			$omClass = SchemaPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj5 = new $cls();
 			$obj5->hydrate($rs, $startcol5);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -1247,22 +1254,22 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj5->initSchemaPropertyElementHistorys();
 				$obj5->addSchemaPropertyElementHistory($obj1);
 			}
 
-				
+
 				// Add objects for joined ProfileProperty rows
 	
 			$omClass = ProfilePropertyPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj6 = new $cls();
 			$obj6->hydrate($rs, $startcol6);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -1273,22 +1280,22 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj6->initSchemaPropertyElementHistorys();
 				$obj6->addSchemaPropertyElementHistory($obj1);
 			}
 
-				
+
 				// Add objects for joined SchemaProperty rows
 	
 			$omClass = SchemaPropertyPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj7 = new $cls();
 			$obj7->hydrate($rs, $startcol7);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -1299,22 +1306,22 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj7->initSchemaPropertyElementHistorysRelatedByRelatedSchemaPropertyId();
 				$obj7->addSchemaPropertyElementHistoryRelatedByRelatedSchemaPropertyId($obj1);
 			}
 
-				
+
 				// Add objects for joined Status rows
 	
 			$omClass = StatusPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj8 = new $cls();
 			$obj8->hydrate($rs, $startcol8);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -1325,7 +1332,7 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj8->initSchemaPropertyElementHistorys();
 				$obj8->addSchemaPropertyElementHistory($obj1);
@@ -1349,7 +1356,7 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
-		
+
 		// clear out anything that might confuse the ORDER BY clause
 		$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
@@ -1357,7 +1364,7 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 		} else {
 			$criteria->addSelectColumn(SchemaPropertyElementHistoryPeer::COUNT);
 		}
-		
+
 		// just in case we're grouping: add those columns to the select statement
 		foreach($criteria->getGroupByColumns() as $column)
 		{
@@ -1398,7 +1405,7 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
-		
+
 		// clear out anything that might confuse the ORDER BY clause
 		$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
@@ -1406,7 +1413,7 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 		} else {
 			$criteria->addSelectColumn(SchemaPropertyElementHistoryPeer::COUNT);
 		}
-		
+
 		// just in case we're grouping: add those columns to the select statement
 		foreach($criteria->getGroupByColumns() as $column)
 		{
@@ -1447,7 +1454,7 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
-		
+
 		// clear out anything that might confuse the ORDER BY clause
 		$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
@@ -1455,7 +1462,7 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 		} else {
 			$criteria->addSelectColumn(SchemaPropertyElementHistoryPeer::COUNT);
 		}
-		
+
 		// just in case we're grouping: add those columns to the select statement
 		foreach($criteria->getGroupByColumns() as $column)
 		{
@@ -1494,7 +1501,7 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
-		
+
 		// clear out anything that might confuse the ORDER BY clause
 		$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
@@ -1502,7 +1509,7 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 		} else {
 			$criteria->addSelectColumn(SchemaPropertyElementHistoryPeer::COUNT);
 		}
-		
+
 		// just in case we're grouping: add those columns to the select statement
 		foreach($criteria->getGroupByColumns() as $column)
 		{
@@ -1543,7 +1550,7 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
-		
+
 		// clear out anything that might confuse the ORDER BY clause
 		$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
@@ -1551,7 +1558,7 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 		} else {
 			$criteria->addSelectColumn(SchemaPropertyElementHistoryPeer::COUNT);
 		}
-		
+
 		// just in case we're grouping: add those columns to the select statement
 		foreach($criteria->getGroupByColumns() as $column)
 		{
@@ -1592,7 +1599,7 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
-		
+
 		// clear out anything that might confuse the ORDER BY clause
 		$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
@@ -1600,7 +1607,7 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 		} else {
 			$criteria->addSelectColumn(SchemaPropertyElementHistoryPeer::COUNT);
 		}
-		
+
 		// just in case we're grouping: add those columns to the select statement
 		foreach($criteria->getGroupByColumns() as $column)
 		{
@@ -1639,7 +1646,7 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
-		
+
 		// clear out anything that might confuse the ORDER BY clause
 		$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
@@ -1647,7 +1654,7 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 		} else {
 			$criteria->addSelectColumn(SchemaPropertyElementHistoryPeer::COUNT);
 		}
-		
+
 		// just in case we're grouping: add those columns to the select statement
 		foreach($criteria->getGroupByColumns() as $column)
 		{
@@ -1730,22 +1737,22 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
-		
+
 		while($rs->next()) {
 
 			$omClass = SchemaPropertyElementHistoryPeer::getOMClass();
 
 			$cls = Propel::import($omClass);
 			$obj1 = new $cls();
-			$obj1->hydrate($rs);		
+			$obj1->hydrate($rs);
 
 			$omClass = SchemaPropertyElementPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj2  = new $cls();
 			$obj2->hydrate($rs, $startcol2);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -1756,7 +1763,7 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj2->initSchemaPropertyElementHistorys();
 				$obj2->addSchemaPropertyElementHistory($obj1);
@@ -1764,11 +1771,11 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 
 			$omClass = SchemaPropertyPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj3  = new $cls();
 			$obj3->hydrate($rs, $startcol3);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -1779,7 +1786,7 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj3->initSchemaPropertyElementHistorysRelatedBySchemaPropertyId();
 				$obj3->addSchemaPropertyElementHistoryRelatedBySchemaPropertyId($obj1);
@@ -1787,11 +1794,11 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 
 			$omClass = SchemaPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj4  = new $cls();
 			$obj4->hydrate($rs, $startcol4);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -1802,7 +1809,7 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj4->initSchemaPropertyElementHistorys();
 				$obj4->addSchemaPropertyElementHistory($obj1);
@@ -1810,11 +1817,11 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 
 			$omClass = ProfilePropertyPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj5  = new $cls();
 			$obj5->hydrate($rs, $startcol5);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -1825,7 +1832,7 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj5->initSchemaPropertyElementHistorys();
 				$obj5->addSchemaPropertyElementHistory($obj1);
@@ -1833,11 +1840,11 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 
 			$omClass = SchemaPropertyPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj6  = new $cls();
 			$obj6->hydrate($rs, $startcol6);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -1848,7 +1855,7 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj6->initSchemaPropertyElementHistorysRelatedByRelatedSchemaPropertyId();
 				$obj6->addSchemaPropertyElementHistoryRelatedByRelatedSchemaPropertyId($obj1);
@@ -1856,11 +1863,11 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 
 			$omClass = StatusPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj7  = new $cls();
 			$obj7->hydrate($rs, $startcol7);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -1871,7 +1878,7 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj7->initSchemaPropertyElementHistorys();
 				$obj7->addSchemaPropertyElementHistory($obj1);
@@ -1937,22 +1944,22 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
-		
+
 		while($rs->next()) {
 
 			$omClass = SchemaPropertyElementHistoryPeer::getOMClass();
 
 			$cls = Propel::import($omClass);
 			$obj1 = new $cls();
-			$obj1->hydrate($rs);		
+			$obj1->hydrate($rs);
 
 			$omClass = UserPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj2  = new $cls();
 			$obj2->hydrate($rs, $startcol2);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -1963,7 +1970,7 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj2->initSchemaPropertyElementHistorys();
 				$obj2->addSchemaPropertyElementHistory($obj1);
@@ -1971,11 +1978,11 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 
 			$omClass = SchemaPropertyPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj3  = new $cls();
 			$obj3->hydrate($rs, $startcol3);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -1986,7 +1993,7 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj3->initSchemaPropertyElementHistorysRelatedBySchemaPropertyId();
 				$obj3->addSchemaPropertyElementHistoryRelatedBySchemaPropertyId($obj1);
@@ -1994,11 +2001,11 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 
 			$omClass = SchemaPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj4  = new $cls();
 			$obj4->hydrate($rs, $startcol4);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -2009,7 +2016,7 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj4->initSchemaPropertyElementHistorys();
 				$obj4->addSchemaPropertyElementHistory($obj1);
@@ -2017,11 +2024,11 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 
 			$omClass = ProfilePropertyPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj5  = new $cls();
 			$obj5->hydrate($rs, $startcol5);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -2032,7 +2039,7 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj5->initSchemaPropertyElementHistorys();
 				$obj5->addSchemaPropertyElementHistory($obj1);
@@ -2040,11 +2047,11 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 
 			$omClass = SchemaPropertyPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj6  = new $cls();
 			$obj6->hydrate($rs, $startcol6);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -2055,7 +2062,7 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj6->initSchemaPropertyElementHistorysRelatedByRelatedSchemaPropertyId();
 				$obj6->addSchemaPropertyElementHistoryRelatedByRelatedSchemaPropertyId($obj1);
@@ -2063,11 +2070,11 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 
 			$omClass = StatusPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj7  = new $cls();
 			$obj7->hydrate($rs, $startcol7);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -2078,7 +2085,7 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj7->initSchemaPropertyElementHistorys();
 				$obj7->addSchemaPropertyElementHistory($obj1);
@@ -2139,22 +2146,22 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
-		
+
 		while($rs->next()) {
 
 			$omClass = SchemaPropertyElementHistoryPeer::getOMClass();
 
 			$cls = Propel::import($omClass);
 			$obj1 = new $cls();
-			$obj1->hydrate($rs);		
+			$obj1->hydrate($rs);
 
 			$omClass = UserPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj2  = new $cls();
 			$obj2->hydrate($rs, $startcol2);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -2165,7 +2172,7 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj2->initSchemaPropertyElementHistorys();
 				$obj2->addSchemaPropertyElementHistory($obj1);
@@ -2173,11 +2180,11 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 
 			$omClass = SchemaPropertyElementPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj3  = new $cls();
 			$obj3->hydrate($rs, $startcol3);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -2188,7 +2195,7 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj3->initSchemaPropertyElementHistorys();
 				$obj3->addSchemaPropertyElementHistory($obj1);
@@ -2196,11 +2203,11 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 
 			$omClass = SchemaPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj4  = new $cls();
 			$obj4->hydrate($rs, $startcol4);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -2211,7 +2218,7 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj4->initSchemaPropertyElementHistorys();
 				$obj4->addSchemaPropertyElementHistory($obj1);
@@ -2219,11 +2226,11 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 
 			$omClass = ProfilePropertyPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj5  = new $cls();
 			$obj5->hydrate($rs, $startcol5);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -2234,7 +2241,7 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj5->initSchemaPropertyElementHistorys();
 				$obj5->addSchemaPropertyElementHistory($obj1);
@@ -2242,11 +2249,11 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 
 			$omClass = StatusPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj6  = new $cls();
 			$obj6->hydrate($rs, $startcol6);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -2257,7 +2264,7 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj6->initSchemaPropertyElementHistorys();
 				$obj6->addSchemaPropertyElementHistory($obj1);
@@ -2323,22 +2330,22 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
-		
+
 		while($rs->next()) {
 
 			$omClass = SchemaPropertyElementHistoryPeer::getOMClass();
 
 			$cls = Propel::import($omClass);
 			$obj1 = new $cls();
-			$obj1->hydrate($rs);		
+			$obj1->hydrate($rs);
 
 			$omClass = UserPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj2  = new $cls();
 			$obj2->hydrate($rs, $startcol2);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -2349,7 +2356,7 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj2->initSchemaPropertyElementHistorys();
 				$obj2->addSchemaPropertyElementHistory($obj1);
@@ -2357,11 +2364,11 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 
 			$omClass = SchemaPropertyElementPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj3  = new $cls();
 			$obj3->hydrate($rs, $startcol3);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -2372,7 +2379,7 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj3->initSchemaPropertyElementHistorys();
 				$obj3->addSchemaPropertyElementHistory($obj1);
@@ -2380,11 +2387,11 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 
 			$omClass = SchemaPropertyPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj4  = new $cls();
 			$obj4->hydrate($rs, $startcol4);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -2395,7 +2402,7 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj4->initSchemaPropertyElementHistorysRelatedBySchemaPropertyId();
 				$obj4->addSchemaPropertyElementHistoryRelatedBySchemaPropertyId($obj1);
@@ -2403,11 +2410,11 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 
 			$omClass = ProfilePropertyPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj5  = new $cls();
 			$obj5->hydrate($rs, $startcol5);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -2418,7 +2425,7 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj5->initSchemaPropertyElementHistorys();
 				$obj5->addSchemaPropertyElementHistory($obj1);
@@ -2426,11 +2433,11 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 
 			$omClass = SchemaPropertyPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj6  = new $cls();
 			$obj6->hydrate($rs, $startcol6);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -2441,7 +2448,7 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj6->initSchemaPropertyElementHistorysRelatedByRelatedSchemaPropertyId();
 				$obj6->addSchemaPropertyElementHistoryRelatedByRelatedSchemaPropertyId($obj1);
@@ -2449,11 +2456,11 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 
 			$omClass = StatusPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj7  = new $cls();
 			$obj7->hydrate($rs, $startcol7);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -2464,7 +2471,7 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj7->initSchemaPropertyElementHistorys();
 				$obj7->addSchemaPropertyElementHistory($obj1);
@@ -2530,22 +2537,22 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
-		
+
 		while($rs->next()) {
 
 			$omClass = SchemaPropertyElementHistoryPeer::getOMClass();
 
 			$cls = Propel::import($omClass);
 			$obj1 = new $cls();
-			$obj1->hydrate($rs);		
+			$obj1->hydrate($rs);
 
 			$omClass = UserPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj2  = new $cls();
 			$obj2->hydrate($rs, $startcol2);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -2556,7 +2563,7 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj2->initSchemaPropertyElementHistorys();
 				$obj2->addSchemaPropertyElementHistory($obj1);
@@ -2564,11 +2571,11 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 
 			$omClass = SchemaPropertyElementPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj3  = new $cls();
 			$obj3->hydrate($rs, $startcol3);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -2579,7 +2586,7 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj3->initSchemaPropertyElementHistorys();
 				$obj3->addSchemaPropertyElementHistory($obj1);
@@ -2587,11 +2594,11 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 
 			$omClass = SchemaPropertyPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj4  = new $cls();
 			$obj4->hydrate($rs, $startcol4);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -2602,7 +2609,7 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj4->initSchemaPropertyElementHistorysRelatedBySchemaPropertyId();
 				$obj4->addSchemaPropertyElementHistoryRelatedBySchemaPropertyId($obj1);
@@ -2610,11 +2617,11 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 
 			$omClass = SchemaPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj5  = new $cls();
 			$obj5->hydrate($rs, $startcol5);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -2625,7 +2632,7 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj5->initSchemaPropertyElementHistorys();
 				$obj5->addSchemaPropertyElementHistory($obj1);
@@ -2633,11 +2640,11 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 
 			$omClass = SchemaPropertyPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj6  = new $cls();
 			$obj6->hydrate($rs, $startcol6);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -2648,7 +2655,7 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj6->initSchemaPropertyElementHistorysRelatedByRelatedSchemaPropertyId();
 				$obj6->addSchemaPropertyElementHistoryRelatedByRelatedSchemaPropertyId($obj1);
@@ -2656,11 +2663,11 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 
 			$omClass = StatusPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj7  = new $cls();
 			$obj7->hydrate($rs, $startcol7);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -2671,7 +2678,7 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj7->initSchemaPropertyElementHistorys();
 				$obj7->addSchemaPropertyElementHistory($obj1);
@@ -2732,22 +2739,22 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
-		
+
 		while($rs->next()) {
 
 			$omClass = SchemaPropertyElementHistoryPeer::getOMClass();
 
 			$cls = Propel::import($omClass);
 			$obj1 = new $cls();
-			$obj1->hydrate($rs);		
+			$obj1->hydrate($rs);
 
 			$omClass = UserPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj2  = new $cls();
 			$obj2->hydrate($rs, $startcol2);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -2758,7 +2765,7 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj2->initSchemaPropertyElementHistorys();
 				$obj2->addSchemaPropertyElementHistory($obj1);
@@ -2766,11 +2773,11 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 
 			$omClass = SchemaPropertyElementPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj3  = new $cls();
 			$obj3->hydrate($rs, $startcol3);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -2781,7 +2788,7 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj3->initSchemaPropertyElementHistorys();
 				$obj3->addSchemaPropertyElementHistory($obj1);
@@ -2789,11 +2796,11 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 
 			$omClass = SchemaPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj4  = new $cls();
 			$obj4->hydrate($rs, $startcol4);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -2804,7 +2811,7 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj4->initSchemaPropertyElementHistorys();
 				$obj4->addSchemaPropertyElementHistory($obj1);
@@ -2812,11 +2819,11 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 
 			$omClass = ProfilePropertyPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj5  = new $cls();
 			$obj5->hydrate($rs, $startcol5);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -2827,7 +2834,7 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj5->initSchemaPropertyElementHistorys();
 				$obj5->addSchemaPropertyElementHistory($obj1);
@@ -2835,11 +2842,11 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 
 			$omClass = StatusPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj6  = new $cls();
 			$obj6->hydrate($rs, $startcol6);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -2850,7 +2857,7 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj6->initSchemaPropertyElementHistorys();
 				$obj6->addSchemaPropertyElementHistory($obj1);
@@ -2916,22 +2923,22 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
-		
+
 		while($rs->next()) {
 
 			$omClass = SchemaPropertyElementHistoryPeer::getOMClass();
 
 			$cls = Propel::import($omClass);
 			$obj1 = new $cls();
-			$obj1->hydrate($rs);		
+			$obj1->hydrate($rs);
 
 			$omClass = UserPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj2  = new $cls();
 			$obj2->hydrate($rs, $startcol2);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -2942,7 +2949,7 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj2->initSchemaPropertyElementHistorys();
 				$obj2->addSchemaPropertyElementHistory($obj1);
@@ -2950,11 +2957,11 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 
 			$omClass = SchemaPropertyElementPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj3  = new $cls();
 			$obj3->hydrate($rs, $startcol3);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -2965,7 +2972,7 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj3->initSchemaPropertyElementHistorys();
 				$obj3->addSchemaPropertyElementHistory($obj1);
@@ -2973,11 +2980,11 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 
 			$omClass = SchemaPropertyPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj4  = new $cls();
 			$obj4->hydrate($rs, $startcol4);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -2988,7 +2995,7 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj4->initSchemaPropertyElementHistorysRelatedBySchemaPropertyId();
 				$obj4->addSchemaPropertyElementHistoryRelatedBySchemaPropertyId($obj1);
@@ -2996,11 +3003,11 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 
 			$omClass = SchemaPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj5  = new $cls();
 			$obj5->hydrate($rs, $startcol5);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -3011,7 +3018,7 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj5->initSchemaPropertyElementHistorys();
 				$obj5->addSchemaPropertyElementHistory($obj1);
@@ -3019,11 +3026,11 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 
 			$omClass = ProfilePropertyPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj6  = new $cls();
 			$obj6->hydrate($rs, $startcol6);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -3034,7 +3041,7 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj6->initSchemaPropertyElementHistorys();
 				$obj6->addSchemaPropertyElementHistory($obj1);
@@ -3042,11 +3049,11 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 
 			$omClass = SchemaPropertyPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj7  = new $cls();
 			$obj7->hydrate($rs, $startcol7);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -3057,7 +3064,7 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj7->initSchemaPropertyElementHistorysRelatedByRelatedSchemaPropertyId();
 				$obj7->addSchemaPropertyElementHistoryRelatedByRelatedSchemaPropertyId($obj1);

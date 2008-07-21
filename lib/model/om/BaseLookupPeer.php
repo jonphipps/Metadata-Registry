@@ -165,18 +165,18 @@ abstract class BaseLookupPeer {
 	 * @throws     PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
-	public static function addSelectColumns(Criteria $criteria)
+	public static function addSelectColumns(Criteria $criteria, $tableAlias = null)
 	{
 
-		$criteria->addSelectColumn(LookupPeer::ID);
+    $criteria->addSelectColumn(($tableAlias) ? LookupPeer::alias($tableAlias, LookupPeer::ID) : LookupPeer::ID);
 
-		$criteria->addSelectColumn(LookupPeer::TYPE_ID);
+    $criteria->addSelectColumn(($tableAlias) ? LookupPeer::alias($tableAlias, LookupPeer::TYPE_ID) : LookupPeer::TYPE_ID);
 
-		$criteria->addSelectColumn(LookupPeer::SHORT_VALUE);
+    $criteria->addSelectColumn(($tableAlias) ? LookupPeer::alias($tableAlias, LookupPeer::SHORT_VALUE) : LookupPeer::SHORT_VALUE);
 
-		$criteria->addSelectColumn(LookupPeer::LONG_VALUE);
+    $criteria->addSelectColumn(($tableAlias) ? LookupPeer::alias($tableAlias, LookupPeer::LONG_VALUE) : LookupPeer::LONG_VALUE);
 
-		$criteria->addSelectColumn(LookupPeer::DISPLAY_ORDER);
+    $criteria->addSelectColumn(($tableAlias) ? LookupPeer::alias($tableAlias, LookupPeer::DISPLAY_ORDER) : LookupPeer::DISPLAY_ORDER);
 
 	}
 

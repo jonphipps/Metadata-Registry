@@ -174,24 +174,24 @@ abstract class BaseAgentHasUserPeer {
 	 * @throws     PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
-	public static function addSelectColumns(Criteria $criteria)
+	public static function addSelectColumns(Criteria $criteria, $tableAlias = null)
 	{
 
-		$criteria->addSelectColumn(AgentHasUserPeer::ID);
+    $criteria->addSelectColumn(($tableAlias) ? AgentHasUserPeer::alias($tableAlias, AgentHasUserPeer::ID) : AgentHasUserPeer::ID);
 
-		$criteria->addSelectColumn(AgentHasUserPeer::UPDATED_AT);
+    $criteria->addSelectColumn(($tableAlias) ? AgentHasUserPeer::alias($tableAlias, AgentHasUserPeer::UPDATED_AT) : AgentHasUserPeer::UPDATED_AT);
 
-		$criteria->addSelectColumn(AgentHasUserPeer::DELETED_AT);
+    $criteria->addSelectColumn(($tableAlias) ? AgentHasUserPeer::alias($tableAlias, AgentHasUserPeer::DELETED_AT) : AgentHasUserPeer::DELETED_AT);
 
-		$criteria->addSelectColumn(AgentHasUserPeer::CREATED_AT);
+    $criteria->addSelectColumn(($tableAlias) ? AgentHasUserPeer::alias($tableAlias, AgentHasUserPeer::CREATED_AT) : AgentHasUserPeer::CREATED_AT);
 
-		$criteria->addSelectColumn(AgentHasUserPeer::USER_ID);
+    $criteria->addSelectColumn(($tableAlias) ? AgentHasUserPeer::alias($tableAlias, AgentHasUserPeer::USER_ID) : AgentHasUserPeer::USER_ID);
 
-		$criteria->addSelectColumn(AgentHasUserPeer::AGENT_ID);
+    $criteria->addSelectColumn(($tableAlias) ? AgentHasUserPeer::alias($tableAlias, AgentHasUserPeer::AGENT_ID) : AgentHasUserPeer::AGENT_ID);
 
-		$criteria->addSelectColumn(AgentHasUserPeer::IS_REGISTRAR_FOR);
+    $criteria->addSelectColumn(($tableAlias) ? AgentHasUserPeer::alias($tableAlias, AgentHasUserPeer::IS_REGISTRAR_FOR) : AgentHasUserPeer::IS_REGISTRAR_FOR);
 
-		$criteria->addSelectColumn(AgentHasUserPeer::IS_ADMIN_FOR);
+    $criteria->addSelectColumn(($tableAlias) ? AgentHasUserPeer::alias($tableAlias, AgentHasUserPeer::IS_ADMIN_FOR) : AgentHasUserPeer::IS_ADMIN_FOR);
 
 	}
 
@@ -341,7 +341,7 @@ abstract class BaseAgentHasUserPeer {
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
-		
+
 		// clear out anything that might confuse the ORDER BY clause
 		$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
@@ -349,7 +349,7 @@ abstract class BaseAgentHasUserPeer {
 		} else {
 			$criteria->addSelectColumn(AgentHasUserPeer::COUNT);
 		}
-		
+
 		// just in case we're grouping: add those columns to the select statement
 		foreach($criteria->getGroupByColumns() as $column)
 		{
@@ -380,7 +380,7 @@ abstract class BaseAgentHasUserPeer {
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
-		
+
 		// clear out anything that might confuse the ORDER BY clause
 		$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
@@ -388,7 +388,7 @@ abstract class BaseAgentHasUserPeer {
 		} else {
 			$criteria->addSelectColumn(AgentHasUserPeer::COUNT);
 		}
-		
+
 		// just in case we're grouping: add those columns to the select statement
 		foreach($criteria->getGroupByColumns() as $column)
 		{
@@ -542,7 +542,7 @@ abstract class BaseAgentHasUserPeer {
 		} else {
 			$criteria->addSelectColumn(AgentHasUserPeer::COUNT);
 		}
-		
+
 		// just in case we're grouping: add those columns to the select statement
 		foreach($criteria->getGroupByColumns() as $column)
 		{
@@ -582,38 +582,40 @@ abstract class BaseAgentHasUserPeer {
 		AgentHasUserPeer::addSelectColumns($c);
 		$startcol2 = (AgentHasUserPeer::NUM_COLUMNS - AgentHasUserPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 
-		UserPeer::addSelectColumns($c);
+		UserPeer::addSelectColumns($c, 'a1');
 		$startcol3 = $startcol2 + UserPeer::NUM_COLUMNS;
 
-		AgentPeer::addSelectColumns($c);
+    $c->addJoin(AgentHasUserPeer::USER_ID, UserPeer::alias('a1', UserPeer::ID));
+    $c->addAlias('a1', UserPeer::TABLE_NAME);
+
+		AgentPeer::addSelectColumns($c, 'a2');
 		$startcol4 = $startcol3 + AgentPeer::NUM_COLUMNS;
 
-		$c->addJoin(AgentHasUserPeer::USER_ID, UserPeer::ID);
-
-		$c->addJoin(AgentHasUserPeer::AGENT_ID, AgentPeer::ID);
+    $c->addJoin(AgentHasUserPeer::AGENT_ID, AgentPeer::alias('a2', AgentPeer::ID));
+    $c->addAlias('a2', AgentPeer::TABLE_NAME);
 
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
-		
+
 		while($rs->next()) {
 
 			$omClass = AgentHasUserPeer::getOMClass();
 
-			
+
 			$cls = Propel::import($omClass);
 			$obj1 = new $cls();
 			$obj1->hydrate($rs);
 
-				
+
 				// Add objects for joined User rows
 	
 			$omClass = UserPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj2 = new $cls();
 			$obj2->hydrate($rs, $startcol2);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -624,22 +626,22 @@ abstract class BaseAgentHasUserPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj2->initAgentHasUsers();
 				$obj2->addAgentHasUser($obj1);
 			}
 
-				
+
 				// Add objects for joined Agent rows
 	
 			$omClass = AgentPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj3 = new $cls();
 			$obj3->hydrate($rs, $startcol3);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -650,7 +652,7 @@ abstract class BaseAgentHasUserPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj3->initAgentHasUsers();
 				$obj3->addAgentHasUser($obj1);
@@ -674,7 +676,7 @@ abstract class BaseAgentHasUserPeer {
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
-		
+
 		// clear out anything that might confuse the ORDER BY clause
 		$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
@@ -682,7 +684,7 @@ abstract class BaseAgentHasUserPeer {
 		} else {
 			$criteria->addSelectColumn(AgentHasUserPeer::COUNT);
 		}
-		
+
 		// just in case we're grouping: add those columns to the select statement
 		foreach($criteria->getGroupByColumns() as $column)
 		{
@@ -713,7 +715,7 @@ abstract class BaseAgentHasUserPeer {
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
-		
+
 		// clear out anything that might confuse the ORDER BY clause
 		$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
@@ -721,7 +723,7 @@ abstract class BaseAgentHasUserPeer {
 		} else {
 			$criteria->addSelectColumn(AgentHasUserPeer::COUNT);
 		}
-		
+
 		// just in case we're grouping: add those columns to the select statement
 		foreach($criteria->getGroupByColumns() as $column)
 		{
@@ -769,22 +771,22 @@ abstract class BaseAgentHasUserPeer {
 
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
-		
+
 		while($rs->next()) {
 
 			$omClass = AgentHasUserPeer::getOMClass();
 
 			$cls = Propel::import($omClass);
 			$obj1 = new $cls();
-			$obj1->hydrate($rs);		
+			$obj1->hydrate($rs);
 
 			$omClass = AgentPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj2  = new $cls();
 			$obj2->hydrate($rs, $startcol2);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -795,7 +797,7 @@ abstract class BaseAgentHasUserPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj2->initAgentHasUsers();
 				$obj2->addAgentHasUser($obj1);
@@ -836,22 +838,22 @@ abstract class BaseAgentHasUserPeer {
 
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
-		
+
 		while($rs->next()) {
 
 			$omClass = AgentHasUserPeer::getOMClass();
 
 			$cls = Propel::import($omClass);
 			$obj1 = new $cls();
-			$obj1->hydrate($rs);		
+			$obj1->hydrate($rs);
 
 			$omClass = UserPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj2  = new $cls();
 			$obj2->hydrate($rs, $startcol2);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -862,7 +864,7 @@ abstract class BaseAgentHasUserPeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj2->initAgentHasUsers();
 				$obj2->addAgentHasUser($obj1);

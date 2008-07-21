@@ -180,28 +180,28 @@ abstract class BaseNamespacePeer {
 	 * @throws     PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
-	public static function addSelectColumns(Criteria $criteria)
+	public static function addSelectColumns(Criteria $criteria, $tableAlias = null)
 	{
 
-		$criteria->addSelectColumn(NamespacePeer::ID);
+    $criteria->addSelectColumn(($tableAlias) ? NamespacePeer::alias($tableAlias, NamespacePeer::ID) : NamespacePeer::ID);
 
-		$criteria->addSelectColumn(NamespacePeer::SCHEMA_ID);
+    $criteria->addSelectColumn(($tableAlias) ? NamespacePeer::alias($tableAlias, NamespacePeer::SCHEMA_ID) : NamespacePeer::SCHEMA_ID);
 
-		$criteria->addSelectColumn(NamespacePeer::CREATED_AT);
+    $criteria->addSelectColumn(($tableAlias) ? NamespacePeer::alias($tableAlias, NamespacePeer::CREATED_AT) : NamespacePeer::CREATED_AT);
 
-		$criteria->addSelectColumn(NamespacePeer::DELETED_AT);
+    $criteria->addSelectColumn(($tableAlias) ? NamespacePeer::alias($tableAlias, NamespacePeer::DELETED_AT) : NamespacePeer::DELETED_AT);
 
-		$criteria->addSelectColumn(NamespacePeer::CREATED_USER_ID);
+    $criteria->addSelectColumn(($tableAlias) ? NamespacePeer::alias($tableAlias, NamespacePeer::CREATED_USER_ID) : NamespacePeer::CREATED_USER_ID);
 
-		$criteria->addSelectColumn(NamespacePeer::UPDATED_USER_ID);
+    $criteria->addSelectColumn(($tableAlias) ? NamespacePeer::alias($tableAlias, NamespacePeer::UPDATED_USER_ID) : NamespacePeer::UPDATED_USER_ID);
 
-		$criteria->addSelectColumn(NamespacePeer::TOKEN);
+    $criteria->addSelectColumn(($tableAlias) ? NamespacePeer::alias($tableAlias, NamespacePeer::TOKEN) : NamespacePeer::TOKEN);
 
-		$criteria->addSelectColumn(NamespacePeer::NOTE);
+    $criteria->addSelectColumn(($tableAlias) ? NamespacePeer::alias($tableAlias, NamespacePeer::NOTE) : NamespacePeer::NOTE);
 
-		$criteria->addSelectColumn(NamespacePeer::URI);
+    $criteria->addSelectColumn(($tableAlias) ? NamespacePeer::alias($tableAlias, NamespacePeer::URI) : NamespacePeer::URI);
 
-		$criteria->addSelectColumn(NamespacePeer::SCHEMA_LOCATION);
+    $criteria->addSelectColumn(($tableAlias) ? NamespacePeer::alias($tableAlias, NamespacePeer::SCHEMA_LOCATION) : NamespacePeer::SCHEMA_LOCATION);
 
 	}
 
@@ -351,7 +351,7 @@ abstract class BaseNamespacePeer {
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
-		
+
 		// clear out anything that might confuse the ORDER BY clause
 		$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
@@ -359,7 +359,7 @@ abstract class BaseNamespacePeer {
 		} else {
 			$criteria->addSelectColumn(NamespacePeer::COUNT);
 		}
-		
+
 		// just in case we're grouping: add those columns to the select statement
 		foreach($criteria->getGroupByColumns() as $column)
 		{
@@ -455,7 +455,7 @@ abstract class BaseNamespacePeer {
 		} else {
 			$criteria->addSelectColumn(NamespacePeer::COUNT);
 		}
-		
+
 		// just in case we're grouping: add those columns to the select statement
 		foreach($criteria->getGroupByColumns() as $column)
 		{
@@ -493,33 +493,34 @@ abstract class BaseNamespacePeer {
 		NamespacePeer::addSelectColumns($c);
 		$startcol2 = (NamespacePeer::NUM_COLUMNS - NamespacePeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 
-		SchemaPeer::addSelectColumns($c);
+		SchemaPeer::addSelectColumns($c, 'a1');
 		$startcol3 = $startcol2 + SchemaPeer::NUM_COLUMNS;
 
-		$c->addJoin(NamespacePeer::SCHEMA_ID, SchemaPeer::ID);
+    $c->addJoin(NamespacePeer::SCHEMA_ID, SchemaPeer::alias('a1', SchemaPeer::ID));
+    $c->addAlias('a1', SchemaPeer::TABLE_NAME);
 
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
-		
+
 		while($rs->next()) {
 
 			$omClass = NamespacePeer::getOMClass();
 
-			
+
 			$cls = Propel::import($omClass);
 			$obj1 = new $cls();
 			$obj1->hydrate($rs);
 
-				
+
 				// Add objects for joined Schema rows
 	
 			$omClass = SchemaPeer::getOMClass();
 
-	
+
 			$cls = Propel::import($omClass);
 			$obj2 = new $cls();
 			$obj2->hydrate($rs, $startcol2);
-			
+
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
@@ -530,7 +531,7 @@ abstract class BaseNamespacePeer {
 					break;
 				}
 			}
-			
+
 			if ($newObject) {
 				$obj2->initNamespaces();
 				$obj2->addNamespace($obj1);
