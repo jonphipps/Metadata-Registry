@@ -72,7 +72,7 @@ generator:
       hide:                [schema_id, schema_uri]
       display:
         "-Metadata":   { fields: [id, created_at, created_user, updated_at, updated_user], mode: edit}
-        "Detail":      [name, uri, label, definition, comment, type, is_subproperty_of, status_id, language, note]
+        "Detail":      [label, name, uri, definition, comment, type, is_subproperty_of, status_id, language, note]
 #        "Properties":  [_listproperties]
       actions:
         _list:         { query_string: { schema_id: schema_id} }
@@ -90,7 +90,7 @@ generator:
       is_subproperty_of: { condition: "'subproperty' == $schema_property->getType()" }
       display:
         "-Metadata":   { fields: [id, created_at, created_user, updated_at, updated_user] }
-        "Detail":      [name, label, uri, definition, comment, type, parent_property, status, _language, note]
+        "Detail":      [label, name, uri, definition, comment, type, parent_property, status, _language, note]
 #        "Properties":  [_listproperties]
       actions:
         _list:         { query_string: { schema_id: schema_id} }
