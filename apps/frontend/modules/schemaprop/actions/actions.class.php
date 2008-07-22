@@ -223,8 +223,10 @@ class schemapropActions extends autoschemapropActions
                 //we have to create one
                 $element = SchemaPropertyElementPeer::createElement($schema_property, $userId, $id);
               }
-
-              $element = $this->updateElement($element, $schema_property, $userId, $field, $object, $con);
+              if ($element)
+              {
+                $element = $this->updateElement($element, $schema_property, $userId, $field, $object, $con);
+              }
 
             }
           }
