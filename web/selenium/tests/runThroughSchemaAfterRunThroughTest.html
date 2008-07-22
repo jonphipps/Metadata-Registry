@@ -1,118 +1,13 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>runThroughSchemaTest</title>
+<title>runThroughSchemaAfterRunThroughTest</title>
 </head>
 <body>
 <table cellpadding="1" cellspacing="1" border="1">
 <thead>
-<tr><td rowspan="1" colspan="3">runThroughSchemaTest</td></tr>
+<tr><td rowspan="1" colspan="3">runThroughSchemaAfterRunThroughTest</td></tr>
 </thead><tbody>
-<tr>
-	<td>open</td>
-	<td>/</td>
-	<td></td>
-</tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>link=sign out</td>
-	<td></td>
-</tr>
-<tr>
-	<td>assertTitle</td>
-	<td>The Registry! :: home</td>
-	<td></td>
-</tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>link=Load test database</td>
-	<td></td>
-</tr>
-<tr>
-	<td>assertTitle</td>
-	<td>The Registry! :: home</td>
-	<td></td>
-</tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>link=sign in / register</td>
-	<td></td>
-</tr>
-<tr>
-	<td>assertTitle</td>
-	<td>The Registry! :: sign in / register</td>
-	<td></td>
-</tr>
-<tr>
-	<td>type</td>
-	<td>nickname</td>
-	<td>newtestuser</td>
-</tr>
-<tr>
-	<td>type</td>
-	<td>password</td>
-	<td>foobar</td>
-</tr>
-<tr>
-	<td>click</td>
-	<td>new</td>
-	<td></td>
-</tr>
-<tr>
-	<td>type</td>
-	<td>password_bis</td>
-	<td>foobar</td>
-</tr>
-<tr>
-	<td>type</td>
-	<td>email</td>
-	<td>jphipps@madcreek.com</td>
-</tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>//input[@name='commit' and @value='sign in']</td>
-	<td></td>
-</tr>
-<tr>
-	<td>assertTitle</td>
-	<td>The Registry! :: home</td>
-	<td></td>
-</tr>
-<tr>
-	<td>assertTitle</td>
-	<td>The Registry! :: home</td>
-	<td></td>
-</tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>link=(Add)</td>
-	<td></td>
-</tr>
-<tr>
-	<td>assertTitle</td>
-	<td>The Registry! :: Creating new owner</td>
-	<td></td>
-</tr>
-<tr>
-	<td>type</td>
-	<td>agent_org_name</td>
-	<td>newTestOwner</td>
-</tr>
-<tr>
-	<td>type</td>
-	<td>agent_org_email</td>
-	<td>jphipps@madcreek.com</td>
-</tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>save</td>
-	<td></td>
-</tr>
-<tr>
-	<td>assertTitle</td>
-	<td>The Registry! :: newTestOwner :: Show Detail</td>
-	<td></td>
-</tr>
 <tr>
 	<td>clickAndWait</td>
 	<td>//a[contains(@href, '/schema/create.html')]</td>
