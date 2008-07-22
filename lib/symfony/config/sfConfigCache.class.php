@@ -336,6 +336,7 @@ class sfConfigCache
   protected function writeCacheFile($config, $cache, &$data)
   {
     $fileCache = new sfFileCache(dirname($cache));
+    $fileCache->initialize(array('lifeTime' => 86400 * 365 * 10, 'automaticCleaningFactor' => 0));
     $fileCache->setWriteControl(true);
     $fileCache->setSuffix('');
 

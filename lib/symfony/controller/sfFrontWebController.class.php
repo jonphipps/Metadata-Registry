@@ -66,7 +66,7 @@ class sfFrontWebController extends sfWebController
       try
       {
         // wrap non symfony exceptions
-        $sfException = new sfException($e->getMessage());
+        $sfException = new sfException($e->getMessage().' in '.$e->getFile().' line '.$e->getLine());
         $sfException->printStackTrace($e);
       }
       catch (Exception $e)

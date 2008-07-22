@@ -3,7 +3,7 @@
 /*
  * This file is part of the symfony package.
  * (c) 2004-2006 Fabien Potencier <fabien.potencier@symfony-project.com>
- * 
+ *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
@@ -199,16 +199,17 @@ function _safe_cache_remove($finder, $sub_dir, $lock_name)
   $sf_root_dir = sfConfig::get('sf_root_dir');
 
   // create a lock file
-  pake_touch($sf_root_dir.'/'.$lock_name.'.lck', '');
+  $lock_file = $sf_root_dir.'/'.$lock_name.'-cli.lck';
+  pake_touch($lock_file, '');
 
   // change mode so the web user can remove it if we die
-  pake_chmod($lock_name.'.lck', $sf_root_dir, 0777);
+  pake_chmod($lock_file, '', 0777);
 
   // remove cache files
   pake_remove($finder, $sf_root_dir.'/'.$sub_dir);
 
   // release lock
-  pake_remove($sf_root_dir.'/'.$lock_name.'.lck', '');
+  pake_remove($lock_file, '');
 }
 
 /**
@@ -295,13 +296,13 @@ function run_enable($task, $args)
   $app = $args[0];
   $env = $args[1];
 
-  $lockFile = $app.'_'.$env.'.clilock';
-  $locks = pakeFinder::type('file')->prune('.svn')->discard('.svn')->maxdepth(0)->name($lockFile)->relative()->in('./');
+  $lockFile = $app.'_'.$env.'.lck';
+  $locks = pakeFinder::type('file')->ignore_version_control()->prune('.svn')->discard('.svn')->maxdepth(0)->name($lockFile)->relative()->in('./');
 
   if (file_exists(sfConfig::get('sf_root_dir').'/'.$lockFile))
   {
     pake_remove($lockFile, '');
-    run_clear_cache($task, array()); 
+    run_clear_cache($task, array());
     pake_echo_action('enable', "$app [$env] has been ENABLED");
 
     return;
@@ -321,11 +322,11 @@ function run_disable($task, $args)
   $app = $args[0];
   $env = $args[1];
 
-  $lockFile = $app.'_'.$env.'.clilock';
+  $lockFile = $app.'_'.$env.'.lck';
 
   if (!file_exists(sfConfig::get('sf_root_dir').'/'.$lockFile))
   {
-    pake_touch(sfConfig::get('sf_root_dir').'/'.$lockFile, '777');
+    pake_touch(sfConfig::get('sf_root_dir').'/'.$lockFile, '');
 
     pake_echo_action('enable', "$app [$env] has been DISABLED");
 

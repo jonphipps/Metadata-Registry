@@ -12,7 +12,7 @@
  * @package    symfony
  * @subpackage addon
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
- * @version    SVN: $Id: sfPager.class.php 6763 2007-12-27 16:09:11Z fabien $
+ * @version    SVN: $Id: sfPager.class.php 9182 2008-05-22 09:40:05Z FabianLange $
  */
 
 /**
@@ -22,7 +22,7 @@
  * @package    symfony
  * @subpackage addon
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
- * @version    SVN: $Id: sfPager.class.php 6763 2007-12-27 16:09:11Z fabien $
+ * @version    SVN: $Id: sfPager.class.php 9182 2008-05-22 09:40:05Z FabianLange $
  */
 abstract class sfPager
 {
@@ -44,7 +44,6 @@ abstract class sfPager
   {
     $this->setClass($class);
     $this->setMaxPerPage($maxPerPage);
-    $this->setPage(1);
     $this->parameterHolder = new sfParameterHolder();
   }
 
@@ -250,9 +249,12 @@ abstract class sfPager
 
   public function setPage($page)
   {
-    $page = intval($page);
-
-    $this->page = ($page <= 0) ? 1 : $page;
+    $this->page = intval($page);
+    if ($this->page <= 0)
+    {
+      //set first page, which depends on a maximum set
+      $this->page = $this->getMaxPerPage() ? 1 : 0;
+    }
   }
 
   public function getMaxPerPage()

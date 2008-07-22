@@ -266,7 +266,7 @@ class sfPropelData extends sfData
     if ('all' === $tables || is_null($tables))
     {
       // load all map builder classes
-      $files = sfFinder::type('file')->name('*MapBuilder.php')->in(sfLoader::getModelDirs());
+      $files = sfFinder::type('file')->ignore_version_control()->name('*MapBuilder.php')->in(sfLoader::getModelDirs());
       foreach ($files as $file)
       {
         $mapBuilderClass = basename($file, '.php');
@@ -455,7 +455,7 @@ class sfPropelData extends sfData
 
     return $classes;
   }
-  
+
   protected function fixOrderingOfForeignKeyDataInSameTable($resultsSets, $tableName, $column, $in = null)
   {
     $rs = $this->con->executeQuery(sprintf('SELECT * FROM %s WHERE %s %s',

@@ -265,7 +265,7 @@
 
     $options['form'] = true;
 
-    $options_html['onsubmit'] = remote_function($options).'; return false;';
+    $options_html['onsubmit'] = remote_function($options).' return false;';
     $options_html['action'] = isset($options_html['action']) ? $options_html['action'] : url_for($options['url']);
     $options_html['method'] = isset($options_html['method']) ? $options_html['method'] : 'post';
 
@@ -287,7 +287,7 @@
     }
 
     $options_html['type'] = 'button';
-    $options_html['onclick'] = remote_function($options).'; return false;';
+    $options_html['onclick'] = remote_function($options).' return false;';
     $options_html['name'] = $name;
     $options_html['value'] = $value;
 
@@ -446,7 +446,7 @@
       }
     }
 
-    return $function;
+    return $function.';';
   }
 
   /**
@@ -900,7 +900,7 @@
     }
     if (isset ($options['with']))
     {
-      $js_options['callback'] = "function(element, value) { return".$options['with']."}";
+      $js_options['callback'] = "function(element, value) { return ".$options['with']."}";
     }
     if (isset($options['indicator']))
     {
@@ -929,6 +929,10 @@
     if (isset($options['after_update_element']))
     {
       $js_options['afterUpdateElement'] = $options['after_update_element'];
+    }
+    if (isset($options['param_name'])) 
+    {
+      $js_options['paramName'] = "'".$options['param_name']."'";
     }
 
     $javascript .= ', '._options_for_javascript($js_options).');';

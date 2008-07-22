@@ -276,20 +276,6 @@ class Criteria implements IteratorAggregate {
 		$this->aliases[$alias] = $table;
 	}
 
-  /**
-   * Returns the alias associated with a table name.
-   *
-   * @param      string $table
-   * @return     string $string
-   */
-  public function getAliasForTable($table)
-  {
-    $key = array_search($table, $this->aliases);
-    if ($key !== false) {
-      return $this->aliases[$key];
-    }
-  }
-
 	/**
 	 * Returns the table name associated with an alias.
 	 *

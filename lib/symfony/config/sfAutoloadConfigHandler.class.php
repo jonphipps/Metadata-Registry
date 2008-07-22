@@ -113,7 +113,7 @@ class sfAutoloadConfigHandler extends sfYamlConfigHandler
               }
             }
 
-            $data[] = sprintf("'%s%s' => '%s',", $prefix, $class, $file);
+            $data[] = sprintf("'%s%s' => '%s',", $prefix, $class, str_replace('\\', '\\\\', $file));
           }
         }
       }

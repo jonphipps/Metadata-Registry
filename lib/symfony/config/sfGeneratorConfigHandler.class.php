@@ -40,21 +40,21 @@ class sfGeneratorConfigHandler extends sfYamlConfigHandler
 
     if (!isset($config['generator']))
     {
-      throw new sfParseException(sprintf('Configuration file "%s" must specify a generator section', $configFiles[1] ? $configFiles[1] : $configFiles[0]));
+      throw new sfParseException(sprintf('Configuration file "%s" must specify a generator section', isset($configFiles[1]) ? $configFiles[1] : $configFiles[0]));
     }
 
     $config = $config['generator'];
 
     if (!isset($config['class']))
     {
-      throw new sfParseException(sprintf('Configuration file "%s" must specify a generator class section under the generator section', $configFiles[1] ? $configFiles[1] : $configFiles[0]));
+      throw new sfParseException(sprintf('Configuration file "%s" must specify a generator class section under the generator section', isset($configFiles[1]) ? $configFiles[1] : $configFiles[0]));
     }
 
     foreach (array('fields', 'list', 'edit') as $section)
     {
       if (isset($config[$section]))
       {
-        throw new sfParseException(sprintf('Configuration file "%s" can specify a "%s" section but only under the param section', $configFiles[1] ? $configFiles[1] : $configFiles[0], $section));
+        throw new sfParseException(sprintf('Configuration file "%s" can specify a "%s" section but only under the param section', isset($configFiles[1]) ? $configFiles[1] : $configFiles[0], $section));
       }
     }
 
@@ -65,8 +65,8 @@ class sfGeneratorConfigHandler extends sfYamlConfigHandler
     // generator parameters
     $generatorParam = (isset($config['param']) ? $config['param'] : array());
 
-    // hack to find the module name
-    preg_match('#'.sfConfig::get('sf_app_module_dir_name').'/([^/]+)/#', $configFiles[1], $match);
+    // hack to find the module name (look for the last /modules/ in path)
+    preg_match('#.*/'.sfConfig::get('sf_app_module_dir_name').'/([^/]+)/#', $configFiles[0], $match);
     $generatorParam['moduleName'] = $match[1];
 
     $data = $generatorManager->generate($config['class'], $generatorParam);

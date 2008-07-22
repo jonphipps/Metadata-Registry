@@ -27,6 +27,7 @@ class sfGeneratorManager
   {
     // create cache instance
     $this->cache = new sfFileCache(sfConfig::get('sf_module_cache_dir'));
+    $this->cache->initialize(array('lifeTime' => 86400 * 365 * 10, 'automaticCleaningFactor' => 0));
     $this->cache->setSuffix('');
   }
 

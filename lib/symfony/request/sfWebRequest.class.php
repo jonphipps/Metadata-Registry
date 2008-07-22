@@ -254,7 +254,7 @@ class sfWebRequest extends sfRequest
    *
    * @return array An array of re-ordered uploaded file information
    */
-  protected function convertFileInformation(array $taintedFiles)
+  protected function convertFileInformation($taintedFiles)
   {
     return $this->pathsToArray(preg_replace('#^(/[^/]+)?(/name|/type|/tmp_name|/error|/size)([^\s]*)( = [^\n]*)#m', '$1$3$2$4', $this->arrayToPaths($taintedFiles)));
   }
@@ -405,17 +405,26 @@ class sfWebRequest extends sfRequest
     if ($this->isSecure())
     {
       $standardPort = '443';
-      $proto = 'https';
+      $protocol = 'https';
     }
     else
     {
       $standardPort = '80';
-      $proto = 'http';
+      $protocol = 'http';
     }
 
-    $port = $pathArray['SERVER_PORT'] == $standardPort || !$pathArray['SERVER_PORT'] ? '' : ':'.$pathArray['SERVER_PORT'];
+    $host = explode(":", $pathArray['HTTP_HOST']);
+    if (count($host) == 1)
+    {
+      $host[] = $pathArray['SERVER_PORT'];
+    }
 
-    return $proto.'://'.$pathArray['SERVER_NAME'].$port;
+    if ($host[1] == $standardPort || empty($host[1]))
+    {
+      unset($host[1]);
+    }
+
+    return $protocol.'://'.implode(':', $host);;
   }
 
   /**
@@ -757,9 +766,12 @@ class sfWebRequest extends sfRequest
   }
 
   /**
-   * Returns true id the request is a XMLHttpRequest (via prototype 'HTTP_X_REQUESTED_WITH' header).
+   * Returns true if the request is a XMLHttpRequest.
    *
-   * @return boolean
+   * It works if your JavaScript library set an X-Requested-With HTTP header.
+   * Works with Prototype, Mootools, jQuery, and perhaps others.
+   *
+   * @return Boolean true if the request is an XMLHttpRequest, false otherwise
    */
   public function isXmlHttpRequest()
   {
@@ -777,7 +789,7 @@ class sfWebRequest extends sfRequest
 
     $pathArray = $this->getPathInfoArray();
 
-    return isset($pathArray[$name]) ? stripslashes($pathArray[$name]) : null;
+    return isset($pathArray[$name]) ? sfToolkit::stripslashesDeep($pathArray[$name]) : null;
   }
 
   /**
@@ -791,7 +803,7 @@ class sfWebRequest extends sfRequest
 
     if (isset($_COOKIE[$name]))
     {
-      $retval = get_magic_quotes_gpc() ? stripslashes($_COOKIE[$name]) : $_COOKIE[$name];
+      $retval = get_magic_quotes_gpc() ? sfToolkit::stripslashesDeep($_COOKIE[$name]) : $_COOKIE[$name];
     }
 
     return $retval;

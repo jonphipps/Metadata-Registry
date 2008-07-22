@@ -61,6 +61,6 @@ function run_propel_init_admin($task, $args)
   }
 
   // customize php and yml files
-  $finder = pakeFinder::type('file')->name('*.php', '*.yml');
+  $finder = pakeFinder::type('file')->ignore_version_control()->name('*.php', '*.yml');
   pake_replace_tokens($finder, $moduleDir, '##', '##', $constants);
 }

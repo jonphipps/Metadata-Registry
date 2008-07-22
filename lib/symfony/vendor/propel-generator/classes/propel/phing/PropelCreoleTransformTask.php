@@ -503,17 +503,8 @@ class PropelCreoleTransformTask extends Task {
 			$node->setAttribute("primaryKey", "true");
 		}
 
-//following changed to insert '' instead of blank if default is empty but not null. And to not insert CURRENT_TIMESTAMP since creole can't handle it. 
-    $defValue = $column->getDefaultValue();
-		if (null !== $defValue  && 'CURRENT_TIMESTAMP' != $defValue) {
-      if ('' === $defValue)
-      {
-        $node->setAttribute("default", "''");
-      }
-      else
-      {
-        $node->setAttribute("default", iconv($this->dbEncoding, 'utf-8', $defValue));
-      }
+		if (($defValue = $column->getDefaultValue()) !== null) {
+			$node->setAttribute("default", iconv($this->dbEncoding, 'utf-8', $defValue));
 		}
 
 		if ($vendorNode = $this->createVendorInfoNode($column->getVendorSpecificInfo())) {

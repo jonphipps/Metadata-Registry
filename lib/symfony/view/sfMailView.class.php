@@ -81,7 +81,7 @@ class sfMailView extends sfPHPView
     // render main and alternate templates
     $all_template_dir  = dirname($template);
     $all_template_regex = preg_replace('/\\.php$/', '\..+\.php', basename($template));
-    $all_templates = sfFinder::type('file')->name('/^'.$all_template_regex.'$/')->in($all_template_dir);
+    $all_templates = sfFinder::type('file')->ignore_version_control()->name('/^'.$all_template_regex.'$/')->in($all_template_dir);
     $all_retvals = array();
     foreach ($all_templates as $templateFile)
     {

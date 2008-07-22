@@ -471,7 +471,7 @@ class sfWebResponse extends sfResponse
 
     if ($escape)
     {
-      $value = htmlentities($value, ENT_QUOTES, sfConfig::get('sf_charset'));
+      $value = htmlspecialchars($value, ENT_QUOTES, sfConfig::get('sf_charset'));
     }
 
     if ($replace || !$this->getParameter($key, null, 'helper/asset/auto/meta'))
