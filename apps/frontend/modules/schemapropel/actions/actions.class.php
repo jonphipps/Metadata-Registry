@@ -69,6 +69,15 @@ class schemapropelActions extends autoschemapropelActions
     parent::executeList();
   }
 
+  public function executeEdit()
+  {
+    parent::executeEdit();
+    /**
+    * @todo this is too hardwired. Ultimately it will need to access a property of the profile
+    **/
+    $this->setFlash('showList', 6 == $this->schema_property_element->getProfilePropertyId());
+  }
+
   public function executeCreate()
   {
     //make sure we have the id in the URL
