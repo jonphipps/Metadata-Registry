@@ -197,6 +197,7 @@ class <?php echo $this->getGeneratedModuleName() ?>Actions extends sfActions
 <?php $name = $column->getName() ?>
 <?php if ($column->isPrimaryKey()) continue ?>
 <?php $credentials = $this->getParameterValue('edit.fields.'.$column->getName().'.credentials') ?>
+<?php $condition = $this->getParameterValue('edit.fields.'.$column->getName().'.condition') ?>
 <?php $input_type = $this->getParameterValue('edit.fields.'.$column->getName().'.type') ?>
 <?php
 
@@ -223,23 +224,29 @@ $column = sfPropelManyToMany::getColumn($class, $through_class);
     if ($this->getUser()->hasCredential(<?php echo $credentials ?>))
     {
 <?php endif; ?>
-      // Update many-to-many for "<?php echo $name ?>"
-      $c = new Criteria();
-      $c->add(<?php echo $through_class ?>Peer::<?php echo strtoupper($column->getColumnName()) ?>, $<?php echo $this->getSingularName() ?>->getPrimaryKey());
-      <?php echo $through_class ?>Peer::doDelete($c);
-
-      $ids = $this->getRequestParameter('associated_<?php echo $name ?>');
-      if (is_array($ids))
+<?php if ($condition):  ?>
+      if (<?php echo $condition ?>))
       {
-        foreach ($ids as $id)
-        {
-          $<?php echo ucfirst($through_class) ?> = new <?php echo $through_class ?>();
-          $<?php echo ucfirst($through_class) ?>->set<?php echo $column->getPhpName() ?>($<?php echo $this->getSingularName() ?>->getPrimaryKey());
-          $<?php echo ucfirst($through_class) ?>->set<?php echo $related_column->getPhpName() ?>($id);
-          $<?php echo ucfirst($through_class) ?>->save();
-        }
-      }
+<?php endif; ?>
+        // Update many-to-many for "<?php echo $name ?>"
+        $c = new Criteria();
+        $c->add(<?php echo $through_class ?>Peer::<?php echo strtoupper($column->getColumnName()) ?>, $<?php echo $this->getSingularName() ?>->getPrimaryKey());
+        <?php echo $through_class ?>Peer::doDelete($c);
 
+        $ids = $this->getRequestParameter('associated_<?php echo $name ?>');
+        if (is_array($ids))
+        {
+          foreach ($ids as $id)
+          {
+            $<?php echo ucfirst($through_class) ?> = new <?php echo $through_class ?>();
+            $<?php echo ucfirst($through_class) ?>->set<?php echo $column->getPhpName() ?>($<?php echo $this->getSingularName() ?>->getPrimaryKey());
+            $<?php echo ucfirst($through_class) ?>->set<?php echo $related_column->getPhpName() ?>($id);
+            $<?php echo ucfirst($through_class) ?>->save();
+          }
+        }
+<?php if ($condition): ?>
+      }
+<?php endif; ?>
 <?php if ($credentials): ?>
     }
 <?php endif; ?>
@@ -266,6 +273,10 @@ $column = sfPropelManyToMany::getColumn($class, $through_class);
 <?php $credentials = $this->getParameterValue('edit.fields.'.$column->getName().'.credentials') ?>
 <?php if ($credentials): $credentials = str_replace("\n", ' ', var_export($credentials, true)) ?>
     if ($this->getUser()->hasCredential(<?php echo $credentials ?>))
+    {
+<?php endif; ?>
+<?php if ($condition):  ?>
+    if (<?php echo $condition ?>))
     {
 <?php endif; ?>
 <?php if ($input_type == 'admin_input_file_tag'): ?>
@@ -337,8 +348,11 @@ $column = sfPropelManyToMany::getColumn($class, $through_class);
 <?php if ($type != CreoleTypes::BOOLEAN): ?>
     }
 <?php endif; ?>
+<?php if ($condition):  ?>
+    }
+<?php endif; ?>
 <?php if ($credentials): ?>
-      }
+    }
 <?php endif; ?>
 <?php endforeach; ?>
 <?php endforeach; ?>

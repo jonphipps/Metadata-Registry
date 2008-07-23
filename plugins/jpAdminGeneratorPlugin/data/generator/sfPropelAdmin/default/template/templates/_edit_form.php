@@ -66,6 +66,10 @@
 <?php endif; ?>
 <?php foreach ($this->getColumns('edit.display', $category) as $name => $column): ?>
 <?php if (in_array($column->getName(), $hides)) continue ?>
+<?php $condition = $this->getParameterValue('edit.fields.'.$column->getName().'.condition') ?>
+<?php if ($condition): ?>
+[?php if (<?php echo $condition ?>): ?]
+<?php endif; ?>
 <?php $credentials = $this->getParameterValue('edit.fields.'.$column->getName().'.credentials') ?>
 <?php if ($credentials): $credentials = str_replace("\n", ' ', var_export($credentials, true)) ?>
 [?php if ($sf_user->hasCredential(<?php echo $credentials ?>)): ?]
@@ -91,6 +95,9 @@
 [?php endif; ?]
 <?php endif; ?>
 <?php if ($credentials): ?>
+[?php endif; ?]
+<?php endif; ?>
+<?php if ($condition): ?>
 [?php endif; ?]
 <?php endif; ?>
 <?php endforeach; ?>
