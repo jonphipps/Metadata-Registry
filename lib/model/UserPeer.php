@@ -222,4 +222,44 @@ class UserPeer extends BaseUserPeer
     return $results;
   }
 
+  /**
+  * gets a list of users for the selected agent that have not been assigned to the current schema
+  *
+  * @return array an array for select
+  * @param  var_type $var
+  */
+  public static function getNewUsersForSchema()
+  {
+    $schema = myActionTools::findCurrentSchema();
+    if ($schema)
+    {
+      //get the users for the agent
+      $c = new Criteria();
+      $c->addJoin(self::ID, AgentHasUserPeer::USER_ID, Criteria::LEFT_JOIN);
+      $c->add(AgentHasUserPeer::AGENT_ID, $schema->getAgentId(), Criteria::EQUAL);
+      $c->addAscendingOrderByColumn(self::NICKNAME);
+      $results = self::doSelect($c);
+
+      //remove the current maintainers of the vocabulary
+      $c = new Criteria();
+      $c->add(SchemaHasUserPeer::SCHEMA_ID, $schema->getId(), Criteria::EQUAL);
+      $schemaUsers = SchemaHasUserPeer::doSelect($c);
+      foreach ($schemaUsers as $schemaUser)
+      {
+        $curId = $schemaUser->getUserId();
+        foreach ($results as $key => $result)
+        {
+          if ($result->getId() == $curId)
+            {
+              unset($results[$key]);
+              break;
+            }
+        }
+      }
+      $results = array_merge($results);
+    }
+
+    return $results;
+  }
+
 } // UserPeer

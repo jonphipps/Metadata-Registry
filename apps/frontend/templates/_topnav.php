@@ -11,6 +11,7 @@
   $topnav['user']      ['Detail']      ['link'] = 'user/show?id=';
   $topnav['user']      ['Owners']      ['link'] = '/agentuser/list?user_id=';
   $topnav['user']      ['Vocabularies']['link'] = '/vocabuser/list?user_id=';
+  $topnav['user']      ['Schema']      ['link'] = '/schemauser/list?user_id=';
   //owners
   $topnav['agent']      ['Detail']     ['link'] = 'agent/show?id=';
   $topnav['agent']      ['Members']    ['link'] = '/agentuser/list?agent_id=';
@@ -33,7 +34,7 @@
 //  $topnav['schema']     ['Namespaces'] ['link'] = '/namespace/list?schema_id=';
   $topnav['schema']     ['History']    ['link'] = '/schemahistory/list?schema_id=';
 //  $topnav['schema']     ['Versions']   ['link'] = '/schemaversion/list?schema_id=';
-//  $topnav['schema']     ['Maintainers']['link'] = '/schemauser/list?schema_id=';
+  $topnav['schema']     ['Maintainers']['link'] = '/schemauser/list?schema_id=';
   //schema properties
   $topnav['schemaprop'] ['Detail']     ['link'] = '/schemaprop/show?id=';
   $topnav['schemaprop'] ['Elements']   ['link'] = '/schemapropel/list?schema_property_id=';
@@ -77,6 +78,7 @@
   {
     $tabMap['agentuser']  ['list'] = array('tab' => 'user',           'title' => 'List Owners');
     $tabMap['vocabuser']  ['list'] = array('tab' => 'user',           'title' => 'List Vocabularies');
+    $tabMap['schemauser'] ['list'] = array('tab' => 'user',           'title' => 'List Schema');
   }
 
   $tabMap['agent']        ['list'] = array('tab' => 'agentlist',      'title' => 'List Owners');
@@ -116,9 +118,9 @@
   $tabMap['schema']       ['show'] = array('tab' => 'schema',         'title' => 'Show Detail');
   if ('schema' == $filter)
   {
-    $tabMap['schemahistory']    ['list'] = array('tab' => 'schema',   'title' => 'History of Changes');
-    $tabMap['schemaversion']    ['list'] = array('tab' => 'schema',   'title' => 'List Versions');
-    $tabMap['schemauser'] ['list'] = array('tab' => 'schema',         'title' => 'List Maintainers');
+    $tabMap['schemahistory'] ['list'] = array('tab' => 'schema',      'title' => 'History of Changes');
+    $tabMap['schemaversion'] ['list'] = array('tab' => 'schema',      'title' => 'List Versions');
+    $tabMap['schemauser']    ['list'] = array('tab' => 'schema',      'title' => 'List Maintainers');
   }
 
   $tabMap['schemaprop']      ['list'] = array('tab' => 'schema',      'title' => 'List Properties');
@@ -361,6 +363,25 @@
         {
           $schema = $schema_property->getSchema();
         }
+      }
+      $tab = false;
+      break;
+    case 'schemauser':
+      $showBc = true;
+      $showSchemaBc = true;
+      $showSchemaUserBc = true;
+      if (!isset($schema_has_user))
+      {
+        $id = ('show' == $action) ? $sf_params->get('id') : $paramId;
+        if ($id)
+        {
+          $schema_has_user = SchemaHasUserPeer::retrieveByPK($id);
+        }
+      }
+      $objectId = $schema_has_user->getID();
+      if (!isset($schema))
+      {
+        $schema = $schema_has_user->getSchema();
       }
       $tab = false;
       break;
@@ -727,6 +748,19 @@
       if ($vocabulary_has_user)
       {
         $user = $vocabulary_has_user->getUser();
+        $nickname = getUserName($user);
+        echo link_to($nickname, 'user/show?id='.$user->getId());
+        $title .= ' :: ' . __('%%name%%', array('%%name%%' => $nickname));
+      }
+    }
+
+    if ($showSchemaUserBc)
+    {
+      $spaceCount++;
+      echo '<br />&nbsp;&nbsp;' . link_to('Maintainers:', '/schemauser/list?schema_id=' . $schema->getId()) . '&nbsp;&nbsp;';
+      if ($schema_has_user)
+      {
+        $user = $schema_has_user->getUser();
         $nickname = getUserName($user);
         echo link_to($nickname, 'user/show?id='.$user->getId());
         $title .= ' :: ' . __('%%name%%', array('%%name%%' => $nickname));
