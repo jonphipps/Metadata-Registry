@@ -17,7 +17,7 @@
 NOTICE: This is a TimeSlice of this Schema as of:
   <?php echo date(DATE_W3C, $timestamp) ?>.
 
-The most current complete Vocabulary may be retrieved from:
+The most current complete Schema may be retrieved from:
   <?php echo $schema->getUri() ?>
 
 -->
@@ -25,7 +25,9 @@ The most current complete Vocabulary may be retrieved from:
 <!-- Schema: <?php echo htmlspecialchars($schema->getName(), ENT_NOQUOTES, 'UTF-8'); ?> -->
 <rdf:Description rdf:about="<?php echo $schema->getUri() ?>">
   <dc:title xml:lang="<?php echo $schema->getLanguage();?>"><?php echo htmlspecialchars($schema->getName(), ENT_NOQUOTES, 'UTF-8'); ?></dc:title>
-  <dc:description xml:lang="<?php echo $schema->getLanguage();?>">An RDF vocabulary for describing the basic structure and content of concept schemes such as thesauri, classification schemes, subject heading lists, taxonomies, 'folksonomies', other types of controlled vocabulary, and also concept schemes embedded in glossaries and terminologies.</dc:description>
+<?php if ($schema->getNote()): ?>
+  <skos:note rdf:resource="<?php echo htmlspecialchars($schema->getNote()); ?>"/>
+<?php endif; ?>
 <?php if ($schema->getUrl()): ?>
   <foaf:homepage rdf:resource="<?php echo htmlspecialchars($schema->getUrl()); ?>"/>
 <?php endif; ?>

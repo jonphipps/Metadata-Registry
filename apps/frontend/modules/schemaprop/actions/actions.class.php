@@ -181,6 +181,11 @@ class schemapropActions extends autoschemapropActions
         {
           //FIXME if the language is modified we have to update all of the existing old languages
           //FIXME if the status is modified we have to update all of the existing old statuses
+          //So what really needs to happen is that we leave the language and status blank
+          //  and walk up the dependency tree until we find a value:
+          //  element language == null
+          //    property language = null
+          //      schema language == en-us <== this is what we use
 
           //get all of the existing elements
           $elements =  $schema_property->getSchemaPropertyElementsRelatedBySchemaPropertyId();
