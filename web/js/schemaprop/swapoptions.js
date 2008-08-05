@@ -2,7 +2,7 @@ function swapOptions()
 {
   var the_div = $('form_row_concept_property_object');
   var selectedType = $F('schema_property_type');
-  if(selectedType == 'subproperty')
+  if(selectedType == 'subproperty' || selectedType == 'subclass')
   {
     Element.show('form_row_schema_property_is_subproperty_of');
     if(selectedType.onfocus)

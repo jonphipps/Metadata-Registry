@@ -103,15 +103,15 @@ class schemapropelActions extends autoschemapropelActions
         //update the property page
         if ($schema_property_element->getIsSchemaProperty())
         {
-          $fieldName = $schema_property_element->getProfileProperty($con)->getName();
-          $fields = SchemaPropertyPeer::getFieldNames(BasePeer::TYPE_FIELDNAME);
+          $fieldName = sfInflector::underscore($schema_property_element->getProfileProperty($con)->getName());
+          //$fields = SchemaPropertyPeer::getFieldNames(BasePeer::TYPE_FIELDNAME);
           //get the property page
           $property = $schema_property_element->getSchemaPropertyRelatedBySchemaPropertyId($con);
           $property->setByName($fieldName, $schema_property_element->getObject(), BasePeer::TYPE_FIELDNAME);
           $property->setUpdatedUserId($schema_property_element->getUpdatedUserId());
           if ('is_subproperty_of' == $fieldName)
           {
-            $property->setRelatedPropertyId($schema_property_element->getRelatedSchemaPropertyId());
+            $property->setIsSubpropertyOf($schema_property_element->getRelatedSchemaPropertyId());
           }
 
           $property->save($con);

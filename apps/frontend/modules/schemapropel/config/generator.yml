@@ -72,7 +72,7 @@ generator:
         profile_property:           { name: Profile property, mode: edit }
         related_schema_property_id:
           params:                   related_class=SchemaProperty peer_method=getPropertiesByCurrentSchemaID
-          condition:                "$sf_flash->get('showList')"
+          condition:                "$sf_flash->get('showList') || 'create' == $mode"
         language:                   { type: select_language_tag }
       display:
         "-Metadata":        { mode: edit, fields: [id, created_at, created_user, updated_at, updated_user] }
