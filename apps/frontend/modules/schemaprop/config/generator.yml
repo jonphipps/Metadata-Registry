@@ -65,6 +65,8 @@ generator:
             select_options:
               property:    property
               subproperty: subproperty
+              class:       class
+              subclass:    subclass
             onchange: swapOptions()
         language:          { type: select_language_tag }
         is_subproperty_of: { params: related_class=SchemaProperty peer_method=getPropertiesByCurrentSchemaID }
