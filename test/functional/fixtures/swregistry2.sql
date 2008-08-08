@@ -67,7 +67,7 @@ CREATE TABLE `profile` (
 --
 
 /*!40000 ALTER TABLE `profile` DISABLE KEYS */;
-INSERT INTO `profile` (`id`,`agent_id`,`created_at`,`updated_at`,`deleted_at`,`created_by`,`updated_by`,`deleted_by`,`child_updated_at`,`child_updated_by`,`name`,`note`,`uri`,`url`,`base_domain`,`token`,`community`,`last_uri_id`,`status_id`,`language`) VALUES 
+INSERT INTO `profile` (`id`,`agent_id`,`created_at`,`updated_at`,`deleted_at`,`created_by`,`updated_by`,`deleted_by`,`child_updated_at`,`child_updated_by`,`name`,`note`,`uri`,`url`,`base_domain`,`token`,`community`,`last_uri_id`,`status_id`,`language`) VALUES
  (1,58,'2008-04-20 11:52:00','2008-04-20 11:52:00',NULL,36,36,NULL,NULL,NULL,'NSDL Registry Schema',NULL,'http://registry/uri/profile/registryschema',NULL,'http://registry/uri/profile/registryschema','registryschema','100000',100000,1,'en');
 /*!40000 ALTER TABLE `profile` ENABLE KEYS */;
 
@@ -129,7 +129,7 @@ CREATE TABLE `profile_property` (
 --
 
 /*!40000 ALTER TABLE `profile_property` DISABLE KEYS */;
-INSERT INTO `profile_property` (`id`,`created_at`,`updated_at`,`deleted_at`,`created_by`,`updated_by`,`deleted_by`,`profile_id`,`schema_id`,`schema_property_id`,`name`,`label`,`definition`,`comment`,`type`,`uri`,`status_id`,`language`,`note`,`display_order`,`picklist_order`,`examples`,`is_required`,`is_reciprocal`,`is_singleton`,`is_in_picklist`,`inverse_profile_property_id`) VALUES 
+INSERT INTO `profile_property` (`id`,`created_at`,`updated_at`,`deleted_at`,`created_by`,`updated_by`,`deleted_by`,`profile_id`,`schema_id`,`schema_property_id`,`name`,`label`,`definition`,`comment`,`type`,`uri`,`status_id`,`language`,`note`,`display_order`,`picklist_order`,`examples`,`is_required`,`is_reciprocal`,`is_singleton`,`is_in_picklist`,`inverse_profile_property_id`) VALUES
  (1,'2008-04-20 12:00:00','2008-04-20 12:00:00',NULL,36,36,NULL,1,NULL,NULL,'name','name',NULL,NULL,'property','http://registry/uri/profile/registryschema',1,'en',NULL,1,1,NULL,1,0,1,1,NULL),
  (2,'2008-04-20 12:00:00','2008-04-20 12:00:00',NULL,36,36,NULL,1,NULL,NULL,'label','label',NULL,NULL,'property','http://registry/uri/profile/registryschema/100002',1,'en',NULL,2,2,NULL,1,0,-1,1,NULL),
  (3,'2008-04-20 12:01:00','2008-04-20 12:01:01',NULL,36,36,NULL,1,NULL,NULL,'definition','definition',NULL,NULL,'property','http://registry/uri/profile/registryschema/100003',1,'en',NULL,3,3,NULL,0,0,0,1,NULL),
@@ -172,7 +172,7 @@ CREATE TABLE `reg_agent` (
 --
 
 /*!40000 ALTER TABLE `reg_agent` DISABLE KEYS */;
-INSERT INTO `reg_agent` (`id`,`created_at`,`last_updated`,`deleted_at`,`org_email`,`org_name`,`ind_affiliation`,`ind_role`,`address1`,`address2`,`city`,`state`,`postal_code`,`country`,`phone`,`web_address`,`type`) VALUES 
+INSERT INTO `reg_agent` (`id`,`created_at`,`last_updated`,`deleted_at`,`org_email`,`org_name`,`ind_affiliation`,`ind_role`,`address1`,`address2`,`city`,`state`,`postal_code`,`country`,`phone`,`web_address`,`type`) VALUES
  (46,'2006-04-12 18:27:05','2006-07-06 19:14:01',NULL,'dih1@cornell.edu','Diane Hillmann','Cornell University',NULL,'','','','NY','','','','','INDIVIDUAL'),
  (52,'2006-04-13 11:49:15','2006-04-25 12:10:43',NULL,'','GEM Exchange','',NULL,'','','','','','','','','ORGANIZATION'),
  (53,'2006-04-13 11:54:11','2006-04-25 12:10:49',NULL,'','National Science Digital Library','',NULL,'','','','','','','','','ORGANIZATION'),
@@ -210,7 +210,7 @@ CREATE TABLE `reg_agent_has_user` (
 --
 
 /*!40000 ALTER TABLE `reg_agent_has_user` DISABLE KEYS */;
-INSERT INTO `reg_agent_has_user` (`id`,`updated_at`,`deleted_at`,`created_at`,`user_id`,`agent_id`,`is_registrar_for`,`is_admin_for`) VALUES 
+INSERT INTO `reg_agent_has_user` (`id`,`updated_at`,`deleted_at`,`created_at`,`user_id`,`agent_id`,`is_registrar_for`,`is_admin_for`) VALUES
  (1,'2008-01-23 16:09:28',NULL,'2008-01-23 16:09:28',37,46,1,1),
  (2,'2008-01-23 16:09:28',NULL,'2008-01-23 16:09:28',38,52,1,1),
  (3,'2008-01-23 16:09:28',NULL,'2008-01-23 16:09:28',37,53,1,1),
@@ -265,7 +265,7 @@ CREATE TABLE `reg_concept` (
 --
 
 /*!40000 ALTER TABLE `reg_concept` DISABLE KEYS */;
-INSERT INTO `reg_concept` (`id`,`created_at`,`updated_at`,`deleted_at`,`last_updated`,`created_user_id`,`updated_user_id`,`uri`,`vocabulary_id`,`is_top_concept`,`pref_label_id`,`pref_label`,`status_id`,`language`) VALUES 
+INSERT INTO `reg_concept` (`id`,`created_at`,`updated_at`,`deleted_at`,`last_updated`,`created_user_id`,`updated_user_id`,`uri`,`vocabulary_id`,`is_top_concept`,`pref_label_id`,`pref_label`,`status_id`,`language`) VALUES
  (4,'2006-04-21 10:07:39','2007-08-09 13:23:16',NULL,'2006-04-21 10:07:39',39,39,'http://metadataregistry.org/uri/NSDLEdLvl/1000',10,1,4,'Grades Pre-K to 12',1,'en'),
  (5,'2006-04-21 10:07:39','2007-08-09 13:22:54',NULL,'2006-04-21 10:07:39',39,39,'http://metadataregistry.org/uri/NSDLEdLvl/1001',10,0,5,'Elementary School',1,'en'),
  (6,'2006-04-21 10:07:39','2007-08-09 13:23:33',NULL,'2006-04-21 10:07:39',39,39,'http://metadataregistry.org/uri/NSDLEdLvl/1002',10,0,6,'Pre-Kindergarten',1,'en'),
@@ -644,7 +644,7 @@ CREATE TABLE `reg_concept_property` (
 --
 
 /*!40000 ALTER TABLE `reg_concept_property` DISABLE KEYS */;
-INSERT INTO `reg_concept_property` (`id`,`created_at`,`updated_at`,`deleted_at`,`last_updated`,`created_user_id`,`updated_user_id`,`concept_id`,`primary_pref_label`,`skos_property_id`,`object`,`scheme_id`,`related_concept_id`,`language`,`status_id`) VALUES 
+INSERT INTO `reg_concept_property` (`id`,`created_at`,`updated_at`,`deleted_at`,`last_updated`,`created_user_id`,`updated_user_id`,`concept_id`,`primary_pref_label`,`skos_property_id`,`object`,`scheme_id`,`related_concept_id`,`language`,`status_id`) VALUES
  (4,NULL,'2006-04-14 19:11:49',NULL,'2006-04-14 19:11:49',39,39,4,1,19,'Grades Pre-K to 12',NULL,NULL,'en',1),
  (5,NULL,'2006-04-14 19:12:41',NULL,'2006-04-14 19:12:41',39,39,5,1,19,'Elementary School',NULL,NULL,'en',1),
  (6,NULL,'2006-04-14 19:13:56',NULL,'2006-04-14 19:13:56',39,39,6,1,19,'Pre-Kindergarten',NULL,NULL,'en',1),
@@ -1052,7 +1052,7 @@ INSERT INTO `reg_concept_property` (`id`,`created_at`,`updated_at`,`deleted_at`,
  (461,'2006-07-02 14:57:30','2006-07-02 14:57:30',NULL,'2006-07-02 14:57:30',38,38,119,1,19,'12',NULL,NULL,'en',1),
  (462,'2006-07-02 14:59:48','2006-07-02 14:59:48',NULL,'2006-07-02 14:59:48',38,38,120,1,19,'Adult/Continuing education',NULL,NULL,'en',1),
  (463,'2006-07-02 15:00:21','2006-07-02 15:00:21',NULL,'2006-07-02 15:00:21',38,38,121,1,19,'Community college',NULL,NULL,'en',1);
-INSERT INTO `reg_concept_property` (`id`,`created_at`,`updated_at`,`deleted_at`,`last_updated`,`created_user_id`,`updated_user_id`,`concept_id`,`primary_pref_label`,`skos_property_id`,`object`,`scheme_id`,`related_concept_id`,`language`,`status_id`) VALUES 
+INSERT INTO `reg_concept_property` (`id`,`created_at`,`updated_at`,`deleted_at`,`last_updated`,`created_user_id`,`updated_user_id`,`concept_id`,`primary_pref_label`,`skos_property_id`,`object`,`scheme_id`,`related_concept_id`,`language`,`status_id`) VALUES
  (464,'2006-07-02 15:00:52','2006-07-02 15:00:52',NULL,'2006-07-02 15:00:52',38,38,122,1,19,'Higher education',NULL,NULL,'en',1),
  (465,'2006-07-02 15:02:27','2006-07-02 15:02:27',NULL,'2006-07-02 15:02:27',38,38,123,1,19,'Preschool education',NULL,NULL,'en',1),
  (466,'2006-07-02 15:03:01','2006-07-02 15:03:01',NULL,'2006-07-02 15:03:01',38,38,124,1,19,'Vocational education',NULL,NULL,'en',1),
@@ -1433,7 +1433,7 @@ INSERT INTO `reg_concept_property` (`id`,`created_at`,`updated_at`,`deleted_at`,
  (866,'2006-10-02 11:04:29','2006-10-02 11:04:29',NULL,'2006-10-02 11:04:29',38,38,237,NULL,16,'http://metadataregistry.org/uri//InstMethod/1033',24,261,'en',1),
  (867,'2006-10-02 11:04:43','2006-10-02 11:04:43',NULL,'2006-10-02 11:04:43',38,38,262,NULL,3,'http://metadataregistry.org/uri//InstMethod/1003',24,237,'en',1),
  (868,'2006-10-02 11:04:43','2006-10-02 11:04:43',NULL,'2006-10-02 11:04:43',38,38,237,NULL,16,'http://metadataregistry.org/uri//InstMethod/1034',24,262,'en',1);
-INSERT INTO `reg_concept_property` (`id`,`created_at`,`updated_at`,`deleted_at`,`last_updated`,`created_user_id`,`updated_user_id`,`concept_id`,`primary_pref_label`,`skos_property_id`,`object`,`scheme_id`,`related_concept_id`,`language`,`status_id`) VALUES 
+INSERT INTO `reg_concept_property` (`id`,`created_at`,`updated_at`,`deleted_at`,`last_updated`,`created_user_id`,`updated_user_id`,`concept_id`,`primary_pref_label`,`skos_property_id`,`object`,`scheme_id`,`related_concept_id`,`language`,`status_id`) VALUES
  (869,'2006-10-02 11:05:08','2006-10-02 11:05:08',NULL,'2006-10-02 11:05:08',38,38,263,NULL,3,'http://metadataregistry.org/uri//InstMethod/1003',24,237,'en',1),
  (870,'2006-10-02 11:05:08','2006-10-02 11:05:08',NULL,'2006-10-02 11:05:08',38,38,237,NULL,16,'http://metadataregistry.org/uri//InstMethod/1035',24,263,'en',1),
  (871,'2006-10-02 11:05:34','2006-10-02 11:05:34',NULL,'2006-10-02 11:05:34',38,38,264,NULL,3,'http://metadataregistry.org/uri//InstMethod/1003',24,237,'en',1),
@@ -1723,7 +1723,7 @@ CREATE TABLE `reg_concept_property_history` (
 --
 
 /*!40000 ALTER TABLE `reg_concept_property_history` DISABLE KEYS */;
-INSERT INTO `reg_concept_property_history` (`id`,`created_at`,`action`,`concept_property_id`,`concept_id`,`vocabulary_id`,`skos_property_id`,`object`,`scheme_id`,`related_concept_id`,`language`,`status_id`,`created_user_id`,`change_note`) VALUES 
+INSERT INTO `reg_concept_property_history` (`id`,`created_at`,`action`,`concept_property_id`,`concept_id`,`vocabulary_id`,`skos_property_id`,`object`,`scheme_id`,`related_concept_id`,`language`,`status_id`,`created_user_id`,`change_note`) VALUES
  (2,'2006-07-02 14:50:24','added',450,108,8,19,'1',NULL,NULL,'en',1,38,NULL),
  (4,'2006-07-02 14:56:33','added',459,117,8,19,'10',NULL,NULL,'en',1,38,NULL),
  (6,'2006-07-02 14:57:03','added',460,118,8,19,'11',NULL,NULL,'en',1,38,NULL),
@@ -2224,7 +2224,7 @@ INSERT INTO `reg_concept_property_history` (`id`,`created_at`,`action`,`concept_
  (997,'2006-07-10 17:02:52','added',557,160,19,16,'http://purl.org/ASN/scheme/P21/concepts#Communication_Skills',19,164,'en',1,38,NULL),
  (998,'2006-07-10 18:19:42','added',635,160,19,5,'Information and Media Literacy: Analyzing, accessing, managing, integrating, evaluating and creating information in a variety of forms and media. Understanding the role of media in society. Communication Skills: Understanding, managing and creating effective oral, written and multimedia communication in a variety of forms and contexts.',19,NULL,'en',1,38,NULL),
  (1001,'2006-07-10 16:58:58','added',552,163,19,19,'Information and Media Literacy Skills',NULL,NULL,'en',1,38,NULL);
-INSERT INTO `reg_concept_property_history` (`id`,`created_at`,`action`,`concept_property_id`,`concept_id`,`vocabulary_id`,`skos_property_id`,`object`,`scheme_id`,`related_concept_id`,`language`,`status_id`,`created_user_id`,`change_note`) VALUES 
+INSERT INTO `reg_concept_property_history` (`id`,`created_at`,`action`,`concept_property_id`,`concept_id`,`vocabulary_id`,`skos_property_id`,`object`,`scheme_id`,`related_concept_id`,`language`,`status_id`,`created_user_id`,`change_note`) VALUES
  (1002,'2006-07-10 17:01:30','added',554,163,19,3,'http://purl.org/ASN/scheme/P21/concepts#Information_and_Communication_Skills',19,160,'en',1,38,NULL),
  (1006,'2006-07-10 17:39:17','added',586,179,19,19,'Infrastructure and System Integration',NULL,NULL,'en',1,38,NULL),
  (1007,'2006-07-10 17:43:34','added',596,179,19,3,'http://purl.org/ASN/scheme/P21/concepts#Leading_and_Managing',19,138,'en',1,38,NULL),
@@ -2755,7 +2755,7 @@ INSERT INTO `reg_concept_property_history` (`id`,`created_at`,`action`,`concept_
  (2047,'2007-09-04 19:37:17','added',1107,355,26,1,'',26,NULL,'en',1,36,NULL),
  (2048,'2007-09-07 07:56:02','updated',1101,353,26,19,'top 1a',NULL,NULL,'en',1,61,NULL),
  (2049,'2007-09-07 10:24:14','added',1108,355,26,3,'http://metadataregistry.org/uri/booboo/1001',26,353,'',1,61,NULL);
-INSERT INTO `reg_concept_property_history` (`id`,`created_at`,`action`,`concept_property_id`,`concept_id`,`vocabulary_id`,`skos_property_id`,`object`,`scheme_id`,`related_concept_id`,`language`,`status_id`,`created_user_id`,`change_note`) VALUES 
+INSERT INTO `reg_concept_property_history` (`id`,`created_at`,`action`,`concept_property_id`,`concept_id`,`vocabulary_id`,`skos_property_id`,`object`,`scheme_id`,`related_concept_id`,`language`,`status_id`,`created_user_id`,`change_note`) VALUES
  (2050,'2007-09-07 10:24:15','added',1109,353,26,16,'http://metadataregistry.org/uri/booboo/1003',26,355,'en',1,61,NULL);
 /*!40000 ALTER TABLE `reg_concept_property_history` ENABLE KEYS */;
 
@@ -2781,7 +2781,7 @@ CREATE TABLE `reg_lookup` (
 --
 
 /*!40000 ALTER TABLE `reg_lookup` DISABLE KEYS */;
-INSERT INTO `reg_lookup` (`id`,`type_id`,`short_value`,`long_value`,`display_order`) VALUES 
+INSERT INTO `reg_lookup` (`id`,`type_id`,`short_value`,`long_value`,`display_order`) VALUES
  (1,1,'Published','Published',7),
  (2,1,'New-Proposed','New-Proposed',1),
  (3,1,'Change-Proposed','Change-Proposed',2),
@@ -2890,6 +2890,7 @@ CREATE TABLE `reg_schema_property` (
   `comment` text,
   `type` enum('property','subproperty','class','subclass') NOT NULL,
   `is_subproperty_of` int(11) default NULL,
+  `parent_uri` varchar(255),
   `uri` varchar(255) NOT NULL,
   `status_id` int(11) NOT NULL default '0',
   `language` varchar(6) NOT NULL default '',
@@ -3035,7 +3036,7 @@ CREATE TABLE `reg_skos_property` (
 --
 
 /*!40000 ALTER TABLE `reg_skos_property` DISABLE KEYS */;
-INSERT INTO `reg_skos_property` (`id`,`parent_id`,`inverse_id`,`name`,`uri`,`object_type`,`display_order`,`picklist_order`,`label`,`definition`,`comment`,`examples`,`is_required`,`is_reciprocal`,`is_singleton`,`is_scheme`,`is_in_picklist`) VALUES 
+INSERT INTO `reg_skos_property` (`id`,`parent_id`,`inverse_id`,`name`,`uri`,`object_type`,`display_order`,`picklist_order`,`label`,`definition`,`comment`,`examples`,`is_required`,`is_reciprocal`,`is_singleton`,`is_scheme`,`is_in_picklist`) VALUES
  (1,27,NULL,'altLabel','http://www.w3.org/2004/02/skos/core#altLabel','literal',1,3,'alternative label','An alternative lexical label for a resource.','Acronyms, abbreviations, spelling variants, and irregular plural/singular forms may be included among the alternative labels for a concept. Mis-spelled terms are normally included as hidden labels (see skos:hiddenLabel).','http://www.w3.org/2004/02/skos/core/examples/altLabel.rdf.xml',0,0,0,0,1),
  (2,26,NULL,'altSymbol','http://www.w3.org/2004/02/skos/core#altSymbol','literal',2,NULL,'alternative symbolic label','An alternative symbolic label for a resource.',NULL,'http://www.w3.org/2004/02/skos/core/examples/altSymbol.rdf.xml',0,0,0,0,0),
  (3,NULL,16,'broader','http://www.w3.org/2004/02/skos/core#broader','resource',3,4,'has broader','A concept that is more general in meaning.','Broader concepts are typically rendered as parents in a concept hierarchy (tree).','http://www.w3.org/2004/02/skos/core/examples/broader.rdf.xml',0,0,0,0,1),
@@ -3082,7 +3083,7 @@ CREATE TABLE `reg_status` (
 --
 
 /*!40000 ALTER TABLE `reg_status` DISABLE KEYS */;
-INSERT INTO `reg_status` (`id`,`display_order`,`display_name`,`uri`) VALUES 
+INSERT INTO `reg_status` (`id`,`display_order`,`display_name`,`uri`) VALUES
  (1,7,'Published','http://metadataregistry.org/uri/RegStatus/1001'),
  (2,1,'New-Proposed','http://metadataregistry.org/uri/RegStatus/1002'),
  (3,2,'Change-Proposed','http://metadataregistry.org/uri/RegStatus/1003'),
@@ -3126,7 +3127,7 @@ CREATE TABLE `reg_user` (
 --
 
 /*!40000 ALTER TABLE `reg_user` DISABLE KEYS */;
-INSERT INTO `reg_user` (`id`,`created_at`,`last_updated`,`deleted_at`,`nickname`,`salutation`,`first_name`,`last_name`,`email`,`sha1_password`,`salt`,`want_to_be_moderator`,`is_moderator`,`is_administrator`,`deletions`,`password`) VALUES 
+INSERT INTO `reg_user` (`id`,`created_at`,`last_updated`,`deleted_at`,`nickname`,`salutation`,`first_name`,`last_name`,`email`,`sha1_password`,`salt`,`want_to_be_moderator`,`is_moderator`,`is_administrator`,`deletions`,`password`) VALUES
  (36,'2006-03-24 17:29:24','2007-06-04 11:04:28',NULL,'jonphipps',NULL,'Jon','Phipps','jphipps@madcreek.com','ad595c0e9bc6b0a9be194ad5bbcb2cd82eaee6ce','1d4c1324f5cacadf382702601d32c107',NULL,0,1,0,NULL),
  (37,'2006-04-07 15:53:03','2006-04-07 15:53:03',NULL,'dih1',NULL,NULL,NULL,'dih1@cornell.edu','a7294c358591a15d9bcb0a8cfd707335c2b9d222','88f61322d3c9f042b442ca255a4a567e',0,0,0,0,NULL),
  (38,'2006-04-07 15:53:36','2006-06-05 22:15:06',NULL,'sas1',NULL,NULL,NULL,'sasutton@u.washington.edu','f01d10ee8880f4417ec1185579f49d87f798271d','704a68f4da0b09ae1090ec52363a80cc',0,0,1,0,NULL),
@@ -3199,7 +3200,7 @@ CREATE TABLE `reg_vocabulary` (
 --
 
 /*!40000 ALTER TABLE `reg_vocabulary` DISABLE KEYS */;
-INSERT INTO `reg_vocabulary` (`id`,`agent_id`,`created_at`,`deleted_at`,`last_updated`,`created_user_id`,`updated_user_id`,`child_updated_at`,`child_updated_user_id`,`name`,`note`,`uri`,`url`,`base_domain`,`token`,`community`,`last_uri_id`,`status_id`,`language`) VALUES 
+INSERT INTO `reg_vocabulary` (`id`,`agent_id`,`created_at`,`deleted_at`,`last_updated`,`created_user_id`,`updated_user_id`,`child_updated_at`,`child_updated_user_id`,`name`,`note`,`uri`,`url`,`base_domain`,`token`,`community`,`last_uri_id`,`status_id`,`language`) VALUES
  (8,52,'2006-04-13 11:51:57',NULL,'2006-10-03 16:56:05',38,38,NULL,NULL,'GEM Education Level Vocabulary','','http://purl.org/gem/instance/level','http://thegateway.org','http://purl.org/gem','level','Education',100028,1,'en'),
  (10,53,'2006-04-13 13:58:01',NULL,'2006-10-03 17:11:56',39,39,NULL,NULL,'NSDL Education Level Vocabulary','','http://metadataregistry.org/uri/NSDLEdLvl','http://metamanagement.comm.nsdl.org/cgi-bin/wiki.pl?VocabDevel','http://metadataregistry.org/uri','NSDLEdLvl','Science, Mathematics, Engineering, Technology',1025,1,'en'),
  (11,53,'2006-04-24 08:37:30',NULL,'2006-10-03 17:11:51',39,39,NULL,NULL,'NSDL Learning Resource Type Vocabulary','','http://metadataregistry.org/uri/NSDLResType','http://metamanagement.comm.nsdl.org/cgi-bin/wiki.pl?LRT_Wiki_Version2','http://metadataregistry.org/uri','NSDLResType','Education',1042,1,'en'),
@@ -3245,7 +3246,7 @@ CREATE TABLE `reg_vocabulary_has_user` (
 --
 
 /*!40000 ALTER TABLE `reg_vocabulary_has_user` DISABLE KEYS */;
-INSERT INTO `reg_vocabulary_has_user` (`id`,`created_at`,`updated_at`,`deleted_at`,`vocabulary_id`,`user_id`,`is_maintainer_for`,`is_registrar_for`,`is_admin_for`) VALUES 
+INSERT INTO `reg_vocabulary_has_user` (`id`,`created_at`,`updated_at`,`deleted_at`,`vocabulary_id`,`user_id`,`is_maintainer_for`,`is_registrar_for`,`is_admin_for`) VALUES
  (1,'2007-09-04 19:03:11','2008-01-23 16:09:28',NULL,8,36,1,0,0),
  (2,'2007-09-04 19:03:11','2008-01-23 16:09:28',NULL,10,36,1,0,0),
  (3,'2007-09-04 19:03:11','2008-01-23 16:09:28',NULL,16,36,1,0,1),
