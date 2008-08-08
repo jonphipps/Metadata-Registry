@@ -111,6 +111,13 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 
 	/**
+	 * The value for the parent_uri field.
+	 * @var        string
+	 */
+	protected $parent_uri;
+
+
+	/**
 	 * The value for the uri field.
 	 * @var        string
 	 */
@@ -449,6 +456,17 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 	{
 
 		return $this->is_subproperty_of;
+	}
+
+	/**
+	 * Get the [parent_uri] column value.
+	 * 
+	 * @return     string
+	 */
+	public function getParentUri()
+	{
+
+		return $this->parent_uri;
 	}
 
 	/**
@@ -804,6 +822,28 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 	} // setIsSubpropertyOf()
 
 	/**
+	 * Set the value of [parent_uri] column.
+	 * 
+	 * @param      string $v new value
+	 * @return     void
+	 */
+	public function setParentUri($v)
+	{
+
+		// Since the native PHP type for this column is string,
+		// we will cast the input to a string (if it is not).
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->parent_uri !== $v) {
+			$this->parent_uri = $v;
+			$this->modifiedColumns[] = SchemaPropertyPeer::PARENT_URI;
+		}
+
+	} // setParentUri()
+
+	/**
 	 * Set the value of [uri] column.
 	 * 
 	 * @param      string $v new value
@@ -938,20 +978,22 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 			$this->is_subproperty_of = $rs->getInt($startcol + 12);
 
-			$this->uri = $rs->getString($startcol + 13);
+			$this->parent_uri = $rs->getString($startcol + 13);
 
-			$this->status_id = $rs->getInt($startcol + 14);
+			$this->uri = $rs->getString($startcol + 14);
 
-			$this->language = $rs->getString($startcol + 15);
+			$this->status_id = $rs->getInt($startcol + 15);
 
-			$this->note = $rs->getString($startcol + 16);
+			$this->language = $rs->getString($startcol + 16);
+
+			$this->note = $rs->getString($startcol + 17);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 17; // 17 = SchemaPropertyPeer::NUM_COLUMNS - SchemaPropertyPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 18; // 18 = SchemaPropertyPeer::NUM_COLUMNS - SchemaPropertyPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating SchemaProperty object", $e);
@@ -1404,15 +1446,18 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 				return $this->getIsSubpropertyOf();
 				break;
 			case 13:
-				return $this->getUri();
+				return $this->getParentUri();
 				break;
 			case 14:
-				return $this->getStatusId();
+				return $this->getUri();
 				break;
 			case 15:
-				return $this->getLanguage();
+				return $this->getStatusId();
 				break;
 			case 16:
+				return $this->getLanguage();
+				break;
+			case 17:
 				return $this->getNote();
 				break;
 			default:
@@ -1448,10 +1493,11 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 			$keys[10] => $this->getComment(),
 			$keys[11] => $this->getType(),
 			$keys[12] => $this->getIsSubpropertyOf(),
-			$keys[13] => $this->getUri(),
-			$keys[14] => $this->getStatusId(),
-			$keys[15] => $this->getLanguage(),
-			$keys[16] => $this->getNote(),
+			$keys[13] => $this->getParentUri(),
+			$keys[14] => $this->getUri(),
+			$keys[15] => $this->getStatusId(),
+			$keys[16] => $this->getLanguage(),
+			$keys[17] => $this->getNote(),
 		);
 		return $result;
 	}
@@ -1523,15 +1569,18 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 				$this->setIsSubpropertyOf($value);
 				break;
 			case 13:
-				$this->setUri($value);
+				$this->setParentUri($value);
 				break;
 			case 14:
-				$this->setStatusId($value);
+				$this->setUri($value);
 				break;
 			case 15:
-				$this->setLanguage($value);
+				$this->setStatusId($value);
 				break;
 			case 16:
+				$this->setLanguage($value);
+				break;
+			case 17:
 				$this->setNote($value);
 				break;
 		} // switch()
@@ -1570,10 +1619,11 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[10], $arr)) $this->setComment($arr[$keys[10]]);
 		if (array_key_exists($keys[11], $arr)) $this->setType($arr[$keys[11]]);
 		if (array_key_exists($keys[12], $arr)) $this->setIsSubpropertyOf($arr[$keys[12]]);
-		if (array_key_exists($keys[13], $arr)) $this->setUri($arr[$keys[13]]);
-		if (array_key_exists($keys[14], $arr)) $this->setStatusId($arr[$keys[14]]);
-		if (array_key_exists($keys[15], $arr)) $this->setLanguage($arr[$keys[15]]);
-		if (array_key_exists($keys[16], $arr)) $this->setNote($arr[$keys[16]]);
+		if (array_key_exists($keys[13], $arr)) $this->setParentUri($arr[$keys[13]]);
+		if (array_key_exists($keys[14], $arr)) $this->setUri($arr[$keys[14]]);
+		if (array_key_exists($keys[15], $arr)) $this->setStatusId($arr[$keys[15]]);
+		if (array_key_exists($keys[16], $arr)) $this->setLanguage($arr[$keys[16]]);
+		if (array_key_exists($keys[17], $arr)) $this->setNote($arr[$keys[17]]);
 	}
 
 	/**
@@ -1598,6 +1648,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(SchemaPropertyPeer::COMMENT)) $criteria->add(SchemaPropertyPeer::COMMENT, $this->comment);
 		if ($this->isColumnModified(SchemaPropertyPeer::TYPE)) $criteria->add(SchemaPropertyPeer::TYPE, $this->type);
 		if ($this->isColumnModified(SchemaPropertyPeer::IS_SUBPROPERTY_OF)) $criteria->add(SchemaPropertyPeer::IS_SUBPROPERTY_OF, $this->is_subproperty_of);
+		if ($this->isColumnModified(SchemaPropertyPeer::PARENT_URI)) $criteria->add(SchemaPropertyPeer::PARENT_URI, $this->parent_uri);
 		if ($this->isColumnModified(SchemaPropertyPeer::URI)) $criteria->add(SchemaPropertyPeer::URI, $this->uri);
 		if ($this->isColumnModified(SchemaPropertyPeer::STATUS_ID)) $criteria->add(SchemaPropertyPeer::STATUS_ID, $this->status_id);
 		if ($this->isColumnModified(SchemaPropertyPeer::LANGUAGE)) $criteria->add(SchemaPropertyPeer::LANGUAGE, $this->language);
@@ -1679,6 +1730,8 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 		$copyObj->setType($this->type);
 
 		$copyObj->setIsSubpropertyOf($this->is_subproperty_of);
+
+		$copyObj->setParentUri($this->parent_uri);
 
 		$copyObj->setUri($this->uri);
 

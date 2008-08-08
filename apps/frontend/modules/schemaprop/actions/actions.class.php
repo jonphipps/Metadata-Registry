@@ -42,14 +42,11 @@ class schemapropActions extends autoschemapropActions
 
   public function setDefaultUri($schemaprop, $schemaObj)
   {
-    $schemaDomain = $schemaObj->getBaseDomain();
-    $schemaToken = $schemaObj->getToken();
+    $schemaDomain = $schemaObj->getUri();
     //URI looks like: agent(base_domain) / schema(token) / schema(next_schemaprop_id) / skos_property_id # schemaprop(next_property_id)
-    $vSlash = preg_match('@(/$)@i', $schemaDomain) ? '' : '/';
-    $tSlash = preg_match('@(/$)@i', $schemaToken ) ? '' : '/';
-    $newURI = $schemaDomain . $vSlash . $schemaToken . $tSlash;
+    $trailer = preg_match('%(/|#)$%im', $schemaDomain) ? '' : '/';
+    $newURI = $schemaDomain . $trailer;
     //registry base domain is http://metadataregistry.org/uri/
-    //next_schemaprop_id is always initialized to 100000, allowing for 999,999 schemaprops
     //schema carries denormalized base_domain from agent
 
     $schemaprop->setSchemaUri($newURI);
@@ -147,6 +144,17 @@ class schemapropActions extends autoschemapropActions
       $fields = Schema::getProfileFields();
       $con = Propel::getConnection(SchemaPropertyPeer::DATABASE_NAME);
 
+      //get the URI for the related property or class
+      $relatedId = $schema_property->getIsSubpropertyOf();
+      if ($relatedId)
+      {
+        $related = SchemaPropertyPeer::retrieveByPK($relatedId);
+        if ($related)
+        {
+          $schema_property->setParentUri($related->getUri());
+        }
+      }
+
       try
       {
         //start a transaction
@@ -166,11 +174,10 @@ class schemapropActions extends autoschemapropActions
             //create new elements for each part
             foreach ($fields as $id => $field)
             {
-              $fieldTest = $this->getFieldValue($schema_property, $field);
+              $object = $this->getFieldValue($schema_property, $field);
 
-              if ($fieldTest)
+              if ($object)
               {
-                $object = $this->getFieldValue($schema_property, $field);
                 $element = SchemaPropertyElementPeer::createElement($schema_property, $userId, $id);
                 $element = $this->updateElement($element, $schema_property, $userId, $field, $object, $con);
               }
@@ -292,7 +299,7 @@ class schemapropActions extends autoschemapropActions
       if ('is_subproperty_of' == $field)
       {
         $element->setRelatedSchemaPropertyId($schema_property->getIsSubpropertyOf());
-        $element->setObject('');
+        $element->setObject($schema_property->getParentUri());
       }
       else
       {

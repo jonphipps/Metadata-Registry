@@ -840,6 +840,9 @@ propel:
       foreignReference: id
       onDelete: RESTRICT
       onUpdate: RESTRICT
+    parent_uri:
+      type: VARCHAR
+      size: 255
     uri:
       type: VARCHAR
       size: 255

@@ -9,15 +9,19 @@
  */
 class SchemaPropertyPeer extends BaseSchemaPropertyPeer
 {
-   /**
-  * returns properties for the curren schema
+  /**
+  * returns properties for the current schema
   *
   * @return array of schema_property
   */
   public static function getPropertiesByCurrentSchemaID()
   {
     $schema = myActionTools::findCurrentSchema();
-    $properties = $schema->getSchemaPropertys();
+    $c = new Criteria();
+    $c->add(SchemaPropertyPeer::TYPE,'property');
+    $c->addOr(SchemaPropertyPeer::TYPE,'subproperty');
+    $c->addAscendingOrderByColumn(SchemaPropertyPeer::NAME);
+    $properties = $schema->getSchemaPropertys($c);
 
     $request = sfContext::getInstance()->getRequest();
     $currentPropertyId = $request->getParameter('id');
@@ -33,6 +37,36 @@ class SchemaPropertyPeer extends BaseSchemaPropertyPeer
       }
     }
     return $properties;
+  }
+
+  /**
+  * returns classes for the current schema
+  *
+  * @return array of schema_property
+  */
+  public static function getClassesByCurrentSchemaID()
+  {
+    $schema = myActionTools::findCurrentSchema();
+    $c = new Criteria();
+    $c->add(SchemaPropertyPeer::TYPE,'class');
+    $c->addOr(SchemaPropertyPeer::TYPE,'subclass');
+    $c->addAscendingOrderByColumn(SchemaPropertyPeer::NAME);
+    $classes = $schema->getSchemaPropertys($c);
+
+    $request = sfContext::getInstance()->getRequest();
+    $currentPropertyId = $request->getParameter('id');
+    if ("schemaprop" == $request->getParameter('module') && "edit" == $request->getParameter('action'))
+    {
+      foreach ($classes as $id => $property)
+      {
+        if ($property->getId() == $currentPropertyId)
+        {
+          unset($classes[$id]);
+          break;
+        }
+      }
+    }
+    return $classes;
   }
 
   /**

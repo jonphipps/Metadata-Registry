@@ -101,4 +101,25 @@ class SchemaProperty extends BaseSchemaProperty
     }
   }
 
+  /**
+  * Gets the subclass id
+  *
+  * @return string
+  */
+  public function getIsSubclassOf()
+  {
+    return $this->getIsSubpropertyOf();
+  }
+
+  /**
+  * Sets the subclass id
+  *
+  * @param      string $v new value
+  * @return     void
+  */
+  public function SetIsSubclassOf($v)
+  {
+    $this->setIsSubpropertyOf($v);
+  }
+
 }
