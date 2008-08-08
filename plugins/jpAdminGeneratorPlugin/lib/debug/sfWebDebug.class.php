@@ -345,7 +345,7 @@ class sfWebDebug
       </div>
     ';
     //added by JP on 3/4/2008 to make sure the bar was collapsed
-    $result .= '<script language="JavaScript">sfWebDebugToggleMenu();</script>
+    $result .= '<script  type="text/javascript"  language="JavaScript">sfWebDebugToggleMenu();</script>
     ';
 
     return $result;
