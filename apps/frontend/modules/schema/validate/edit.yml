@@ -2,20 +2,16 @@ methods:
   post:
     -"schema{name}"
     -"schema{uri}"
-    -"schema{base_domain}"
     -"schema{token}"
 
 names:
   "schema{name}":
     required:       Yes
-    required_msg:   The Name cannot be left blank
+    required_msg:   The Label cannot be left blank
   "schema{uri}":
     required:       Yes
     required_msg:   The URI cannot be left blank
     validators:     uniqueUriValidator
-  "schema{base_domain}":
-    required:       Yes
-    required_msg:   The Base Domain cannot be left blank
   "schema{token}":
     required:       Yes
     required_msg:   The Token cannot be left blank
@@ -25,15 +21,15 @@ nameValidator:
   class:          sfStringValidator
   param:
     min:          2
-    min_error:    You didn't enter a valid name (at least 2 characters). Please try again.
+    min_error:    You didn't enter a valid label (at least 2 characters). Please try again.
     max:          100
-    max_error:    You didn't enter a valid name (less than 100 characters). Please try again.
+    max_error:    You didn't enter a valid label (less than 100 characters). Please try again.
 uniqueNameValidator:
   class:          sfPropelUniqueValidator
   param:
     class:        Schema
     column:       name
-    unique_error: This schema has already been registered.
+    unique_error: This schema label has already been registered.
 uniqueUriValidator:
   class:          sfPropelUniqueValidator
   param:

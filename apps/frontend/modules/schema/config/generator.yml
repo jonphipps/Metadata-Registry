@@ -11,15 +11,15 @@ generator:
       agent_id:       { name: Owner, help: The individual or organization that registered the schema }
       created_user:   { name: Created by, type: plain, help: The user who created this schema}
       updated_user:   { name: Updated by, type: plain, help: The user who last updated this schema}
-      name:           { name: Name, help: A descriptive name for the schema. This will be displayed in lists of schema. }
+      name:           { name: Label, help: A human-readable descriptive label for the schema. This will be displayed in lists of schema. }
       note:           { name: Note, help: A note about this schema }
       url:            { name: URL, help: A non-Registry URL that contains more information about this schema }
       base_domain:    { name: Base Domain, help: The root of all URIs for this schema and its terms. Defaults to the Base Domain set by the Owner of this schema. }
-      token:          { name: Token, help: A unique token representing this schema. This can be used as the RDF container class or to identify an encoding scheme in XML}
-      uri:            { name: URI, help: The URI of this schema. By default this will be a concatenation of the Base Domain and the Token. }
+      token:          { name: Name, help: A unique token representing this schema. This can be used as the the short form of this URI in RDF or a qname in XML}
+      uri:            { name: URI, help: The Namespace URI of this schema. By default this will be a concatenation of the Base Domain and the Token. }
       community:      { name: Tags, help: Tags identifying communities of practice that this schema addresses }
       language:       { name: Language, help: Default language for the properties of this schema }
-      status_id:      { name: Default Status, help: Default status for the properties of this schema }
+      status_id:      { name: Status, help: Default status for the properties of this schema }
 
     list:
       title:          Schema
@@ -46,10 +46,13 @@ generator:
         agent_id:     { params: peer_method=getAgentsForCurrentUser}
         token:        { params: onblur=updateUri() }
         language:     { type: select_language_tag }
+      hide:           [base_domain]
       display:
         "-Metadata":  { fields: [id, created_at, created_user, updated_at, updated_user], mode: edit }
-        "Detail":     [agent_id, name, url, note, community, status_id, language]
-        "URI":        [base_domain, token, uri]
+        "Detail":     [agent_id, name]
+        "Namespace":  [token, uri]
+        "Documentation": [url, note, community]
+        "Defaults":   [status_id, language]
       actions:
         _list:         -
         _save:         { credentials: [[administrator, hasAgents, schemamaintainer, schemaadmin]] }
@@ -69,8 +72,10 @@ generator:
         list_users:    { name: - }
       display:
         "-Metadata":   { fields: [id, created_at, created_user, updated_at, updated_user], credentials: [[administrator, schemamaintainer, schemaadmin]] }
-        "Detail":      [_agent, name, url, note, community, status, _language]
-        "URI":         [base_domain, token, uri]
+        "Detail":      [_agent, name]
+        "Namespace":   [token, uri]
+        "Documentation": [url, note, community]
+        "Defaults":    [status, _language]
         "-Users":      [_list_users]
       actions:
         _list:
