@@ -201,37 +201,37 @@ abstract class BaseUserPeer {
 	public static function addSelectColumns(Criteria $criteria, $tableAlias = null)
 	{
 
-    $criteria->addSelectColumn(($tableAlias) ? UserPeer::alias($tableAlias, UserPeer::ID) : UserPeer::ID);
+        $criteria->addSelectColumn(($tableAlias) ? UserPeer::alias($tableAlias, UserPeer::ID) : UserPeer::ID);
 
-    $criteria->addSelectColumn(($tableAlias) ? UserPeer::alias($tableAlias, UserPeer::CREATED_AT) : UserPeer::CREATED_AT);
+        $criteria->addSelectColumn(($tableAlias) ? UserPeer::alias($tableAlias, UserPeer::CREATED_AT) : UserPeer::CREATED_AT);
 
-    $criteria->addSelectColumn(($tableAlias) ? UserPeer::alias($tableAlias, UserPeer::LAST_UPDATED) : UserPeer::LAST_UPDATED);
+        $criteria->addSelectColumn(($tableAlias) ? UserPeer::alias($tableAlias, UserPeer::LAST_UPDATED) : UserPeer::LAST_UPDATED);
 
-    $criteria->addSelectColumn(($tableAlias) ? UserPeer::alias($tableAlias, UserPeer::DELETED_AT) : UserPeer::DELETED_AT);
+        $criteria->addSelectColumn(($tableAlias) ? UserPeer::alias($tableAlias, UserPeer::DELETED_AT) : UserPeer::DELETED_AT);
 
-    $criteria->addSelectColumn(($tableAlias) ? UserPeer::alias($tableAlias, UserPeer::NICKNAME) : UserPeer::NICKNAME);
+        $criteria->addSelectColumn(($tableAlias) ? UserPeer::alias($tableAlias, UserPeer::NICKNAME) : UserPeer::NICKNAME);
 
-    $criteria->addSelectColumn(($tableAlias) ? UserPeer::alias($tableAlias, UserPeer::SALUTATION) : UserPeer::SALUTATION);
+        $criteria->addSelectColumn(($tableAlias) ? UserPeer::alias($tableAlias, UserPeer::SALUTATION) : UserPeer::SALUTATION);
 
-    $criteria->addSelectColumn(($tableAlias) ? UserPeer::alias($tableAlias, UserPeer::FIRST_NAME) : UserPeer::FIRST_NAME);
+        $criteria->addSelectColumn(($tableAlias) ? UserPeer::alias($tableAlias, UserPeer::FIRST_NAME) : UserPeer::FIRST_NAME);
 
-    $criteria->addSelectColumn(($tableAlias) ? UserPeer::alias($tableAlias, UserPeer::LAST_NAME) : UserPeer::LAST_NAME);
+        $criteria->addSelectColumn(($tableAlias) ? UserPeer::alias($tableAlias, UserPeer::LAST_NAME) : UserPeer::LAST_NAME);
 
-    $criteria->addSelectColumn(($tableAlias) ? UserPeer::alias($tableAlias, UserPeer::EMAIL) : UserPeer::EMAIL);
+        $criteria->addSelectColumn(($tableAlias) ? UserPeer::alias($tableAlias, UserPeer::EMAIL) : UserPeer::EMAIL);
 
-    $criteria->addSelectColumn(($tableAlias) ? UserPeer::alias($tableAlias, UserPeer::SHA1_PASSWORD) : UserPeer::SHA1_PASSWORD);
+        $criteria->addSelectColumn(($tableAlias) ? UserPeer::alias($tableAlias, UserPeer::SHA1_PASSWORD) : UserPeer::SHA1_PASSWORD);
 
-    $criteria->addSelectColumn(($tableAlias) ? UserPeer::alias($tableAlias, UserPeer::SALT) : UserPeer::SALT);
+        $criteria->addSelectColumn(($tableAlias) ? UserPeer::alias($tableAlias, UserPeer::SALT) : UserPeer::SALT);
 
-    $criteria->addSelectColumn(($tableAlias) ? UserPeer::alias($tableAlias, UserPeer::WANT_TO_BE_MODERATOR) : UserPeer::WANT_TO_BE_MODERATOR);
+        $criteria->addSelectColumn(($tableAlias) ? UserPeer::alias($tableAlias, UserPeer::WANT_TO_BE_MODERATOR) : UserPeer::WANT_TO_BE_MODERATOR);
 
-    $criteria->addSelectColumn(($tableAlias) ? UserPeer::alias($tableAlias, UserPeer::IS_MODERATOR) : UserPeer::IS_MODERATOR);
+        $criteria->addSelectColumn(($tableAlias) ? UserPeer::alias($tableAlias, UserPeer::IS_MODERATOR) : UserPeer::IS_MODERATOR);
 
-    $criteria->addSelectColumn(($tableAlias) ? UserPeer::alias($tableAlias, UserPeer::IS_ADMINISTRATOR) : UserPeer::IS_ADMINISTRATOR);
+        $criteria->addSelectColumn(($tableAlias) ? UserPeer::alias($tableAlias, UserPeer::IS_ADMINISTRATOR) : UserPeer::IS_ADMINISTRATOR);
 
-    $criteria->addSelectColumn(($tableAlias) ? UserPeer::alias($tableAlias, UserPeer::DELETIONS) : UserPeer::DELETIONS);
+        $criteria->addSelectColumn(($tableAlias) ? UserPeer::alias($tableAlias, UserPeer::DELETIONS) : UserPeer::DELETIONS);
 
-    $criteria->addSelectColumn(($tableAlias) ? UserPeer::alias($tableAlias, UserPeer::PASSWORD) : UserPeer::PASSWORD);
+        $criteria->addSelectColumn(($tableAlias) ? UserPeer::alias($tableAlias, UserPeer::PASSWORD) : UserPeer::PASSWORD);
 
 	}
 

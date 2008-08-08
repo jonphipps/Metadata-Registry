@@ -192,31 +192,31 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 	public static function addSelectColumns(Criteria $criteria, $tableAlias = null)
 	{
 
-    $criteria->addSelectColumn(($tableAlias) ? SchemaPropertyElementHistoryPeer::alias($tableAlias, SchemaPropertyElementHistoryPeer::ID) : SchemaPropertyElementHistoryPeer::ID);
+        $criteria->addSelectColumn(($tableAlias) ? SchemaPropertyElementHistoryPeer::alias($tableAlias, SchemaPropertyElementHistoryPeer::ID) : SchemaPropertyElementHistoryPeer::ID);
 
-    $criteria->addSelectColumn(($tableAlias) ? SchemaPropertyElementHistoryPeer::alias($tableAlias, SchemaPropertyElementHistoryPeer::CREATED_AT) : SchemaPropertyElementHistoryPeer::CREATED_AT);
+        $criteria->addSelectColumn(($tableAlias) ? SchemaPropertyElementHistoryPeer::alias($tableAlias, SchemaPropertyElementHistoryPeer::CREATED_AT) : SchemaPropertyElementHistoryPeer::CREATED_AT);
 
-    $criteria->addSelectColumn(($tableAlias) ? SchemaPropertyElementHistoryPeer::alias($tableAlias, SchemaPropertyElementHistoryPeer::CREATED_USER_ID) : SchemaPropertyElementHistoryPeer::CREATED_USER_ID);
+        $criteria->addSelectColumn(($tableAlias) ? SchemaPropertyElementHistoryPeer::alias($tableAlias, SchemaPropertyElementHistoryPeer::CREATED_USER_ID) : SchemaPropertyElementHistoryPeer::CREATED_USER_ID);
 
-    $criteria->addSelectColumn(($tableAlias) ? SchemaPropertyElementHistoryPeer::alias($tableAlias, SchemaPropertyElementHistoryPeer::ACTION) : SchemaPropertyElementHistoryPeer::ACTION);
+        $criteria->addSelectColumn(($tableAlias) ? SchemaPropertyElementHistoryPeer::alias($tableAlias, SchemaPropertyElementHistoryPeer::ACTION) : SchemaPropertyElementHistoryPeer::ACTION);
 
-    $criteria->addSelectColumn(($tableAlias) ? SchemaPropertyElementHistoryPeer::alias($tableAlias, SchemaPropertyElementHistoryPeer::SCHEMA_PROPERTY_ELEMENT_ID) : SchemaPropertyElementHistoryPeer::SCHEMA_PROPERTY_ELEMENT_ID);
+        $criteria->addSelectColumn(($tableAlias) ? SchemaPropertyElementHistoryPeer::alias($tableAlias, SchemaPropertyElementHistoryPeer::SCHEMA_PROPERTY_ELEMENT_ID) : SchemaPropertyElementHistoryPeer::SCHEMA_PROPERTY_ELEMENT_ID);
 
-    $criteria->addSelectColumn(($tableAlias) ? SchemaPropertyElementHistoryPeer::alias($tableAlias, SchemaPropertyElementHistoryPeer::SCHEMA_PROPERTY_ID) : SchemaPropertyElementHistoryPeer::SCHEMA_PROPERTY_ID);
+        $criteria->addSelectColumn(($tableAlias) ? SchemaPropertyElementHistoryPeer::alias($tableAlias, SchemaPropertyElementHistoryPeer::SCHEMA_PROPERTY_ID) : SchemaPropertyElementHistoryPeer::SCHEMA_PROPERTY_ID);
 
-    $criteria->addSelectColumn(($tableAlias) ? SchemaPropertyElementHistoryPeer::alias($tableAlias, SchemaPropertyElementHistoryPeer::SCHEMA_ID) : SchemaPropertyElementHistoryPeer::SCHEMA_ID);
+        $criteria->addSelectColumn(($tableAlias) ? SchemaPropertyElementHistoryPeer::alias($tableAlias, SchemaPropertyElementHistoryPeer::SCHEMA_ID) : SchemaPropertyElementHistoryPeer::SCHEMA_ID);
 
-    $criteria->addSelectColumn(($tableAlias) ? SchemaPropertyElementHistoryPeer::alias($tableAlias, SchemaPropertyElementHistoryPeer::PROFILE_PROPERTY_ID) : SchemaPropertyElementHistoryPeer::PROFILE_PROPERTY_ID);
+        $criteria->addSelectColumn(($tableAlias) ? SchemaPropertyElementHistoryPeer::alias($tableAlias, SchemaPropertyElementHistoryPeer::PROFILE_PROPERTY_ID) : SchemaPropertyElementHistoryPeer::PROFILE_PROPERTY_ID);
 
-    $criteria->addSelectColumn(($tableAlias) ? SchemaPropertyElementHistoryPeer::alias($tableAlias, SchemaPropertyElementHistoryPeer::OBJECT) : SchemaPropertyElementHistoryPeer::OBJECT);
+        $criteria->addSelectColumn(($tableAlias) ? SchemaPropertyElementHistoryPeer::alias($tableAlias, SchemaPropertyElementHistoryPeer::OBJECT) : SchemaPropertyElementHistoryPeer::OBJECT);
 
-    $criteria->addSelectColumn(($tableAlias) ? SchemaPropertyElementHistoryPeer::alias($tableAlias, SchemaPropertyElementHistoryPeer::RELATED_SCHEMA_PROPERTY_ID) : SchemaPropertyElementHistoryPeer::RELATED_SCHEMA_PROPERTY_ID);
+        $criteria->addSelectColumn(($tableAlias) ? SchemaPropertyElementHistoryPeer::alias($tableAlias, SchemaPropertyElementHistoryPeer::RELATED_SCHEMA_PROPERTY_ID) : SchemaPropertyElementHistoryPeer::RELATED_SCHEMA_PROPERTY_ID);
 
-    $criteria->addSelectColumn(($tableAlias) ? SchemaPropertyElementHistoryPeer::alias($tableAlias, SchemaPropertyElementHistoryPeer::LANGUAGE) : SchemaPropertyElementHistoryPeer::LANGUAGE);
+        $criteria->addSelectColumn(($tableAlias) ? SchemaPropertyElementHistoryPeer::alias($tableAlias, SchemaPropertyElementHistoryPeer::LANGUAGE) : SchemaPropertyElementHistoryPeer::LANGUAGE);
 
-    $criteria->addSelectColumn(($tableAlias) ? SchemaPropertyElementHistoryPeer::alias($tableAlias, SchemaPropertyElementHistoryPeer::STATUS_ID) : SchemaPropertyElementHistoryPeer::STATUS_ID);
+        $criteria->addSelectColumn(($tableAlias) ? SchemaPropertyElementHistoryPeer::alias($tableAlias, SchemaPropertyElementHistoryPeer::STATUS_ID) : SchemaPropertyElementHistoryPeer::STATUS_ID);
 
-    $criteria->addSelectColumn(($tableAlias) ? SchemaPropertyElementHistoryPeer::alias($tableAlias, SchemaPropertyElementHistoryPeer::CHANGE_NOTE) : SchemaPropertyElementHistoryPeer::CHANGE_NOTE);
+        $criteria->addSelectColumn(($tableAlias) ? SchemaPropertyElementHistoryPeer::alias($tableAlias, SchemaPropertyElementHistoryPeer::CHANGE_NOTE) : SchemaPropertyElementHistoryPeer::CHANGE_NOTE);
 
 	}
 
@@ -1105,44 +1105,44 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 		UserPeer::addSelectColumns($c, 'a1');
 		$startcol3 = $startcol2 + UserPeer::NUM_COLUMNS;
 
-    $c->addJoin(SchemaPropertyElementHistoryPeer::CREATED_USER_ID, UserPeer::alias('a1', UserPeer::ID));
-    $c->addAlias('a1', UserPeer::TABLE_NAME);
+        $c->addJoin(SchemaPropertyElementHistoryPeer::CREATED_USER_ID, UserPeer::alias('a1', UserPeer::ID));
+        $c->addAlias('a1', UserPeer::TABLE_NAME);
 
 		SchemaPropertyElementPeer::addSelectColumns($c, 'a2');
 		$startcol4 = $startcol3 + SchemaPropertyElementPeer::NUM_COLUMNS;
 
-    $c->addJoin(SchemaPropertyElementHistoryPeer::SCHEMA_PROPERTY_ELEMENT_ID, SchemaPropertyElementPeer::alias('a2', SchemaPropertyElementPeer::ID));
-    $c->addAlias('a2', SchemaPropertyElementPeer::TABLE_NAME);
+        $c->addJoin(SchemaPropertyElementHistoryPeer::SCHEMA_PROPERTY_ELEMENT_ID, SchemaPropertyElementPeer::alias('a2', SchemaPropertyElementPeer::ID));
+        $c->addAlias('a2', SchemaPropertyElementPeer::TABLE_NAME);
 
 		SchemaPropertyPeer::addSelectColumns($c, 'a3');
 		$startcol5 = $startcol4 + SchemaPropertyPeer::NUM_COLUMNS;
 
-    $c->addJoin(SchemaPropertyElementHistoryPeer::SCHEMA_PROPERTY_ID, SchemaPropertyPeer::alias('a3', SchemaPropertyPeer::ID));
-    $c->addAlias('a3', SchemaPropertyPeer::TABLE_NAME);
+        $c->addJoin(SchemaPropertyElementHistoryPeer::SCHEMA_PROPERTY_ID, SchemaPropertyPeer::alias('a3', SchemaPropertyPeer::ID));
+        $c->addAlias('a3', SchemaPropertyPeer::TABLE_NAME);
 
 		SchemaPeer::addSelectColumns($c, 'a4');
 		$startcol6 = $startcol5 + SchemaPeer::NUM_COLUMNS;
 
-    $c->addJoin(SchemaPropertyElementHistoryPeer::SCHEMA_ID, SchemaPeer::alias('a4', SchemaPeer::ID));
-    $c->addAlias('a4', SchemaPeer::TABLE_NAME);
+        $c->addJoin(SchemaPropertyElementHistoryPeer::SCHEMA_ID, SchemaPeer::alias('a4', SchemaPeer::ID));
+        $c->addAlias('a4', SchemaPeer::TABLE_NAME);
 
 		ProfilePropertyPeer::addSelectColumns($c, 'a5');
 		$startcol7 = $startcol6 + ProfilePropertyPeer::NUM_COLUMNS;
 
-    $c->addJoin(SchemaPropertyElementHistoryPeer::PROFILE_PROPERTY_ID, ProfilePropertyPeer::alias('a5', ProfilePropertyPeer::ID));
-    $c->addAlias('a5', ProfilePropertyPeer::TABLE_NAME);
+        $c->addJoin(SchemaPropertyElementHistoryPeer::PROFILE_PROPERTY_ID, ProfilePropertyPeer::alias('a5', ProfilePropertyPeer::ID));
+        $c->addAlias('a5', ProfilePropertyPeer::TABLE_NAME);
 
 		SchemaPropertyPeer::addSelectColumns($c, 'a6');
 		$startcol8 = $startcol7 + SchemaPropertyPeer::NUM_COLUMNS;
 
-    $c->addJoin(SchemaPropertyElementHistoryPeer::RELATED_SCHEMA_PROPERTY_ID, SchemaPropertyPeer::alias('a6', SchemaPropertyPeer::ID));
-    $c->addAlias('a6', SchemaPropertyPeer::TABLE_NAME);
+        $c->addJoin(SchemaPropertyElementHistoryPeer::RELATED_SCHEMA_PROPERTY_ID, SchemaPropertyPeer::alias('a6', SchemaPropertyPeer::ID));
+        $c->addAlias('a6', SchemaPropertyPeer::TABLE_NAME);
 
 		StatusPeer::addSelectColumns($c, 'a7');
 		$startcol9 = $startcol8 + StatusPeer::NUM_COLUMNS;
 
-    $c->addJoin(SchemaPropertyElementHistoryPeer::STATUS_ID, StatusPeer::alias('a7', StatusPeer::ID));
-    $c->addAlias('a7', StatusPeer::TABLE_NAME);
+        $c->addJoin(SchemaPropertyElementHistoryPeer::STATUS_ID, StatusPeer::alias('a7', StatusPeer::ID));
+        $c->addAlias('a7', StatusPeer::TABLE_NAME);
 
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();

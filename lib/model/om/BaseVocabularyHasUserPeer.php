@@ -180,23 +180,23 @@ abstract class BaseVocabularyHasUserPeer {
 	public static function addSelectColumns(Criteria $criteria, $tableAlias = null)
 	{
 
-    $criteria->addSelectColumn(($tableAlias) ? VocabularyHasUserPeer::alias($tableAlias, VocabularyHasUserPeer::ID) : VocabularyHasUserPeer::ID);
+        $criteria->addSelectColumn(($tableAlias) ? VocabularyHasUserPeer::alias($tableAlias, VocabularyHasUserPeer::ID) : VocabularyHasUserPeer::ID);
 
-    $criteria->addSelectColumn(($tableAlias) ? VocabularyHasUserPeer::alias($tableAlias, VocabularyHasUserPeer::CREATED_AT) : VocabularyHasUserPeer::CREATED_AT);
+        $criteria->addSelectColumn(($tableAlias) ? VocabularyHasUserPeer::alias($tableAlias, VocabularyHasUserPeer::CREATED_AT) : VocabularyHasUserPeer::CREATED_AT);
 
-    $criteria->addSelectColumn(($tableAlias) ? VocabularyHasUserPeer::alias($tableAlias, VocabularyHasUserPeer::UPDATED_AT) : VocabularyHasUserPeer::UPDATED_AT);
+        $criteria->addSelectColumn(($tableAlias) ? VocabularyHasUserPeer::alias($tableAlias, VocabularyHasUserPeer::UPDATED_AT) : VocabularyHasUserPeer::UPDATED_AT);
 
-    $criteria->addSelectColumn(($tableAlias) ? VocabularyHasUserPeer::alias($tableAlias, VocabularyHasUserPeer::DELETED_AT) : VocabularyHasUserPeer::DELETED_AT);
+        $criteria->addSelectColumn(($tableAlias) ? VocabularyHasUserPeer::alias($tableAlias, VocabularyHasUserPeer::DELETED_AT) : VocabularyHasUserPeer::DELETED_AT);
 
-    $criteria->addSelectColumn(($tableAlias) ? VocabularyHasUserPeer::alias($tableAlias, VocabularyHasUserPeer::VOCABULARY_ID) : VocabularyHasUserPeer::VOCABULARY_ID);
+        $criteria->addSelectColumn(($tableAlias) ? VocabularyHasUserPeer::alias($tableAlias, VocabularyHasUserPeer::VOCABULARY_ID) : VocabularyHasUserPeer::VOCABULARY_ID);
 
-    $criteria->addSelectColumn(($tableAlias) ? VocabularyHasUserPeer::alias($tableAlias, VocabularyHasUserPeer::USER_ID) : VocabularyHasUserPeer::USER_ID);
+        $criteria->addSelectColumn(($tableAlias) ? VocabularyHasUserPeer::alias($tableAlias, VocabularyHasUserPeer::USER_ID) : VocabularyHasUserPeer::USER_ID);
 
-    $criteria->addSelectColumn(($tableAlias) ? VocabularyHasUserPeer::alias($tableAlias, VocabularyHasUserPeer::IS_MAINTAINER_FOR) : VocabularyHasUserPeer::IS_MAINTAINER_FOR);
+        $criteria->addSelectColumn(($tableAlias) ? VocabularyHasUserPeer::alias($tableAlias, VocabularyHasUserPeer::IS_MAINTAINER_FOR) : VocabularyHasUserPeer::IS_MAINTAINER_FOR);
 
-    $criteria->addSelectColumn(($tableAlias) ? VocabularyHasUserPeer::alias($tableAlias, VocabularyHasUserPeer::IS_REGISTRAR_FOR) : VocabularyHasUserPeer::IS_REGISTRAR_FOR);
+        $criteria->addSelectColumn(($tableAlias) ? VocabularyHasUserPeer::alias($tableAlias, VocabularyHasUserPeer::IS_REGISTRAR_FOR) : VocabularyHasUserPeer::IS_REGISTRAR_FOR);
 
-    $criteria->addSelectColumn(($tableAlias) ? VocabularyHasUserPeer::alias($tableAlias, VocabularyHasUserPeer::IS_ADMIN_FOR) : VocabularyHasUserPeer::IS_ADMIN_FOR);
+        $criteria->addSelectColumn(($tableAlias) ? VocabularyHasUserPeer::alias($tableAlias, VocabularyHasUserPeer::IS_ADMIN_FOR) : VocabularyHasUserPeer::IS_ADMIN_FOR);
 
 	}
 
@@ -590,14 +590,14 @@ abstract class BaseVocabularyHasUserPeer {
 		VocabularyPeer::addSelectColumns($c, 'a1');
 		$startcol3 = $startcol2 + VocabularyPeer::NUM_COLUMNS;
 
-    $c->addJoin(VocabularyHasUserPeer::VOCABULARY_ID, VocabularyPeer::alias('a1', VocabularyPeer::ID));
-    $c->addAlias('a1', VocabularyPeer::TABLE_NAME);
+        $c->addJoin(VocabularyHasUserPeer::VOCABULARY_ID, VocabularyPeer::alias('a1', VocabularyPeer::ID));
+        $c->addAlias('a1', VocabularyPeer::TABLE_NAME);
 
 		UserPeer::addSelectColumns($c, 'a2');
 		$startcol4 = $startcol3 + UserPeer::NUM_COLUMNS;
 
-    $c->addJoin(VocabularyHasUserPeer::USER_ID, UserPeer::alias('a2', UserPeer::ID));
-    $c->addAlias('a2', UserPeer::TABLE_NAME);
+        $c->addJoin(VocabularyHasUserPeer::USER_ID, UserPeer::alias('a2', UserPeer::ID));
+        $c->addAlias('a2', UserPeer::TABLE_NAME);
 
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();

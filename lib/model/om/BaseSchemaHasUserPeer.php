@@ -180,23 +180,23 @@ abstract class BaseSchemaHasUserPeer {
 	public static function addSelectColumns(Criteria $criteria, $tableAlias = null)
 	{
 
-    $criteria->addSelectColumn(($tableAlias) ? SchemaHasUserPeer::alias($tableAlias, SchemaHasUserPeer::ID) : SchemaHasUserPeer::ID);
+        $criteria->addSelectColumn(($tableAlias) ? SchemaHasUserPeer::alias($tableAlias, SchemaHasUserPeer::ID) : SchemaHasUserPeer::ID);
 
-    $criteria->addSelectColumn(($tableAlias) ? SchemaHasUserPeer::alias($tableAlias, SchemaHasUserPeer::CREATED_AT) : SchemaHasUserPeer::CREATED_AT);
+        $criteria->addSelectColumn(($tableAlias) ? SchemaHasUserPeer::alias($tableAlias, SchemaHasUserPeer::CREATED_AT) : SchemaHasUserPeer::CREATED_AT);
 
-    $criteria->addSelectColumn(($tableAlias) ? SchemaHasUserPeer::alias($tableAlias, SchemaHasUserPeer::UPDATED_AT) : SchemaHasUserPeer::UPDATED_AT);
+        $criteria->addSelectColumn(($tableAlias) ? SchemaHasUserPeer::alias($tableAlias, SchemaHasUserPeer::UPDATED_AT) : SchemaHasUserPeer::UPDATED_AT);
 
-    $criteria->addSelectColumn(($tableAlias) ? SchemaHasUserPeer::alias($tableAlias, SchemaHasUserPeer::DELETED_AT) : SchemaHasUserPeer::DELETED_AT);
+        $criteria->addSelectColumn(($tableAlias) ? SchemaHasUserPeer::alias($tableAlias, SchemaHasUserPeer::DELETED_AT) : SchemaHasUserPeer::DELETED_AT);
 
-    $criteria->addSelectColumn(($tableAlias) ? SchemaHasUserPeer::alias($tableAlias, SchemaHasUserPeer::SCHEMA_ID) : SchemaHasUserPeer::SCHEMA_ID);
+        $criteria->addSelectColumn(($tableAlias) ? SchemaHasUserPeer::alias($tableAlias, SchemaHasUserPeer::SCHEMA_ID) : SchemaHasUserPeer::SCHEMA_ID);
 
-    $criteria->addSelectColumn(($tableAlias) ? SchemaHasUserPeer::alias($tableAlias, SchemaHasUserPeer::USER_ID) : SchemaHasUserPeer::USER_ID);
+        $criteria->addSelectColumn(($tableAlias) ? SchemaHasUserPeer::alias($tableAlias, SchemaHasUserPeer::USER_ID) : SchemaHasUserPeer::USER_ID);
 
-    $criteria->addSelectColumn(($tableAlias) ? SchemaHasUserPeer::alias($tableAlias, SchemaHasUserPeer::IS_MAINTAINER_FOR) : SchemaHasUserPeer::IS_MAINTAINER_FOR);
+        $criteria->addSelectColumn(($tableAlias) ? SchemaHasUserPeer::alias($tableAlias, SchemaHasUserPeer::IS_MAINTAINER_FOR) : SchemaHasUserPeer::IS_MAINTAINER_FOR);
 
-    $criteria->addSelectColumn(($tableAlias) ? SchemaHasUserPeer::alias($tableAlias, SchemaHasUserPeer::IS_REGISTRAR_FOR) : SchemaHasUserPeer::IS_REGISTRAR_FOR);
+        $criteria->addSelectColumn(($tableAlias) ? SchemaHasUserPeer::alias($tableAlias, SchemaHasUserPeer::IS_REGISTRAR_FOR) : SchemaHasUserPeer::IS_REGISTRAR_FOR);
 
-    $criteria->addSelectColumn(($tableAlias) ? SchemaHasUserPeer::alias($tableAlias, SchemaHasUserPeer::IS_ADMIN_FOR) : SchemaHasUserPeer::IS_ADMIN_FOR);
+        $criteria->addSelectColumn(($tableAlias) ? SchemaHasUserPeer::alias($tableAlias, SchemaHasUserPeer::IS_ADMIN_FOR) : SchemaHasUserPeer::IS_ADMIN_FOR);
 
 	}
 
@@ -590,14 +590,14 @@ abstract class BaseSchemaHasUserPeer {
 		SchemaPeer::addSelectColumns($c, 'a1');
 		$startcol3 = $startcol2 + SchemaPeer::NUM_COLUMNS;
 
-    $c->addJoin(SchemaHasUserPeer::SCHEMA_ID, SchemaPeer::alias('a1', SchemaPeer::ID));
-    $c->addAlias('a1', SchemaPeer::TABLE_NAME);
+        $c->addJoin(SchemaHasUserPeer::SCHEMA_ID, SchemaPeer::alias('a1', SchemaPeer::ID));
+        $c->addAlias('a1', SchemaPeer::TABLE_NAME);
 
 		UserPeer::addSelectColumns($c, 'a2');
 		$startcol4 = $startcol3 + UserPeer::NUM_COLUMNS;
 
-    $c->addJoin(SchemaHasUserPeer::USER_ID, UserPeer::alias('a2', UserPeer::ID));
-    $c->addAlias('a2', UserPeer::TABLE_NAME);
+        $c->addJoin(SchemaHasUserPeer::USER_ID, UserPeer::alias('a2', UserPeer::ID));
+        $c->addAlias('a2', UserPeer::TABLE_NAME);
 
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();

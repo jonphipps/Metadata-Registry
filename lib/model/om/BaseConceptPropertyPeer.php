@@ -198,35 +198,35 @@ abstract class BaseConceptPropertyPeer {
 	public static function addSelectColumns(Criteria $criteria, $tableAlias = null)
 	{
 
-    $criteria->addSelectColumn(($tableAlias) ? ConceptPropertyPeer::alias($tableAlias, ConceptPropertyPeer::ID) : ConceptPropertyPeer::ID);
+        $criteria->addSelectColumn(($tableAlias) ? ConceptPropertyPeer::alias($tableAlias, ConceptPropertyPeer::ID) : ConceptPropertyPeer::ID);
 
-    $criteria->addSelectColumn(($tableAlias) ? ConceptPropertyPeer::alias($tableAlias, ConceptPropertyPeer::CREATED_AT) : ConceptPropertyPeer::CREATED_AT);
+        $criteria->addSelectColumn(($tableAlias) ? ConceptPropertyPeer::alias($tableAlias, ConceptPropertyPeer::CREATED_AT) : ConceptPropertyPeer::CREATED_AT);
 
-    $criteria->addSelectColumn(($tableAlias) ? ConceptPropertyPeer::alias($tableAlias, ConceptPropertyPeer::UPDATED_AT) : ConceptPropertyPeer::UPDATED_AT);
+        $criteria->addSelectColumn(($tableAlias) ? ConceptPropertyPeer::alias($tableAlias, ConceptPropertyPeer::UPDATED_AT) : ConceptPropertyPeer::UPDATED_AT);
 
-    $criteria->addSelectColumn(($tableAlias) ? ConceptPropertyPeer::alias($tableAlias, ConceptPropertyPeer::DELETED_AT) : ConceptPropertyPeer::DELETED_AT);
+        $criteria->addSelectColumn(($tableAlias) ? ConceptPropertyPeer::alias($tableAlias, ConceptPropertyPeer::DELETED_AT) : ConceptPropertyPeer::DELETED_AT);
 
-    $criteria->addSelectColumn(($tableAlias) ? ConceptPropertyPeer::alias($tableAlias, ConceptPropertyPeer::LAST_UPDATED) : ConceptPropertyPeer::LAST_UPDATED);
+        $criteria->addSelectColumn(($tableAlias) ? ConceptPropertyPeer::alias($tableAlias, ConceptPropertyPeer::LAST_UPDATED) : ConceptPropertyPeer::LAST_UPDATED);
 
-    $criteria->addSelectColumn(($tableAlias) ? ConceptPropertyPeer::alias($tableAlias, ConceptPropertyPeer::CREATED_USER_ID) : ConceptPropertyPeer::CREATED_USER_ID);
+        $criteria->addSelectColumn(($tableAlias) ? ConceptPropertyPeer::alias($tableAlias, ConceptPropertyPeer::CREATED_USER_ID) : ConceptPropertyPeer::CREATED_USER_ID);
 
-    $criteria->addSelectColumn(($tableAlias) ? ConceptPropertyPeer::alias($tableAlias, ConceptPropertyPeer::UPDATED_USER_ID) : ConceptPropertyPeer::UPDATED_USER_ID);
+        $criteria->addSelectColumn(($tableAlias) ? ConceptPropertyPeer::alias($tableAlias, ConceptPropertyPeer::UPDATED_USER_ID) : ConceptPropertyPeer::UPDATED_USER_ID);
 
-    $criteria->addSelectColumn(($tableAlias) ? ConceptPropertyPeer::alias($tableAlias, ConceptPropertyPeer::CONCEPT_ID) : ConceptPropertyPeer::CONCEPT_ID);
+        $criteria->addSelectColumn(($tableAlias) ? ConceptPropertyPeer::alias($tableAlias, ConceptPropertyPeer::CONCEPT_ID) : ConceptPropertyPeer::CONCEPT_ID);
 
-    $criteria->addSelectColumn(($tableAlias) ? ConceptPropertyPeer::alias($tableAlias, ConceptPropertyPeer::PRIMARY_PREF_LABEL) : ConceptPropertyPeer::PRIMARY_PREF_LABEL);
+        $criteria->addSelectColumn(($tableAlias) ? ConceptPropertyPeer::alias($tableAlias, ConceptPropertyPeer::PRIMARY_PREF_LABEL) : ConceptPropertyPeer::PRIMARY_PREF_LABEL);
 
-    $criteria->addSelectColumn(($tableAlias) ? ConceptPropertyPeer::alias($tableAlias, ConceptPropertyPeer::SKOS_PROPERTY_ID) : ConceptPropertyPeer::SKOS_PROPERTY_ID);
+        $criteria->addSelectColumn(($tableAlias) ? ConceptPropertyPeer::alias($tableAlias, ConceptPropertyPeer::SKOS_PROPERTY_ID) : ConceptPropertyPeer::SKOS_PROPERTY_ID);
 
-    $criteria->addSelectColumn(($tableAlias) ? ConceptPropertyPeer::alias($tableAlias, ConceptPropertyPeer::OBJECT) : ConceptPropertyPeer::OBJECT);
+        $criteria->addSelectColumn(($tableAlias) ? ConceptPropertyPeer::alias($tableAlias, ConceptPropertyPeer::OBJECT) : ConceptPropertyPeer::OBJECT);
 
-    $criteria->addSelectColumn(($tableAlias) ? ConceptPropertyPeer::alias($tableAlias, ConceptPropertyPeer::SCHEME_ID) : ConceptPropertyPeer::SCHEME_ID);
+        $criteria->addSelectColumn(($tableAlias) ? ConceptPropertyPeer::alias($tableAlias, ConceptPropertyPeer::SCHEME_ID) : ConceptPropertyPeer::SCHEME_ID);
 
-    $criteria->addSelectColumn(($tableAlias) ? ConceptPropertyPeer::alias($tableAlias, ConceptPropertyPeer::RELATED_CONCEPT_ID) : ConceptPropertyPeer::RELATED_CONCEPT_ID);
+        $criteria->addSelectColumn(($tableAlias) ? ConceptPropertyPeer::alias($tableAlias, ConceptPropertyPeer::RELATED_CONCEPT_ID) : ConceptPropertyPeer::RELATED_CONCEPT_ID);
 
-    $criteria->addSelectColumn(($tableAlias) ? ConceptPropertyPeer::alias($tableAlias, ConceptPropertyPeer::LANGUAGE) : ConceptPropertyPeer::LANGUAGE);
+        $criteria->addSelectColumn(($tableAlias) ? ConceptPropertyPeer::alias($tableAlias, ConceptPropertyPeer::LANGUAGE) : ConceptPropertyPeer::LANGUAGE);
 
-    $criteria->addSelectColumn(($tableAlias) ? ConceptPropertyPeer::alias($tableAlias, ConceptPropertyPeer::STATUS_ID) : ConceptPropertyPeer::STATUS_ID);
+        $criteria->addSelectColumn(($tableAlias) ? ConceptPropertyPeer::alias($tableAlias, ConceptPropertyPeer::STATUS_ID) : ConceptPropertyPeer::STATUS_ID);
 
 	}
 
@@ -1115,44 +1115,44 @@ abstract class BaseConceptPropertyPeer {
 		UserPeer::addSelectColumns($c, 'a1');
 		$startcol3 = $startcol2 + UserPeer::NUM_COLUMNS;
 
-    $c->addJoin(ConceptPropertyPeer::CREATED_USER_ID, UserPeer::alias('a1', UserPeer::ID));
-    $c->addAlias('a1', UserPeer::TABLE_NAME);
+        $c->addJoin(ConceptPropertyPeer::CREATED_USER_ID, UserPeer::alias('a1', UserPeer::ID));
+        $c->addAlias('a1', UserPeer::TABLE_NAME);
 
 		UserPeer::addSelectColumns($c, 'a2');
 		$startcol4 = $startcol3 + UserPeer::NUM_COLUMNS;
 
-    $c->addJoin(ConceptPropertyPeer::UPDATED_USER_ID, UserPeer::alias('a2', UserPeer::ID));
-    $c->addAlias('a2', UserPeer::TABLE_NAME);
+        $c->addJoin(ConceptPropertyPeer::UPDATED_USER_ID, UserPeer::alias('a2', UserPeer::ID));
+        $c->addAlias('a2', UserPeer::TABLE_NAME);
 
 		ConceptPeer::addSelectColumns($c, 'a3');
 		$startcol5 = $startcol4 + ConceptPeer::NUM_COLUMNS;
 
-    $c->addJoin(ConceptPropertyPeer::CONCEPT_ID, ConceptPeer::alias('a3', ConceptPeer::ID));
-    $c->addAlias('a3', ConceptPeer::TABLE_NAME);
+        $c->addJoin(ConceptPropertyPeer::CONCEPT_ID, ConceptPeer::alias('a3', ConceptPeer::ID));
+        $c->addAlias('a3', ConceptPeer::TABLE_NAME);
 
 		SkosPropertyPeer::addSelectColumns($c, 'a4');
 		$startcol6 = $startcol5 + SkosPropertyPeer::NUM_COLUMNS;
 
-    $c->addJoin(ConceptPropertyPeer::SKOS_PROPERTY_ID, SkosPropertyPeer::alias('a4', SkosPropertyPeer::ID));
-    $c->addAlias('a4', SkosPropertyPeer::TABLE_NAME);
+        $c->addJoin(ConceptPropertyPeer::SKOS_PROPERTY_ID, SkosPropertyPeer::alias('a4', SkosPropertyPeer::ID));
+        $c->addAlias('a4', SkosPropertyPeer::TABLE_NAME);
 
 		VocabularyPeer::addSelectColumns($c, 'a5');
 		$startcol7 = $startcol6 + VocabularyPeer::NUM_COLUMNS;
 
-    $c->addJoin(ConceptPropertyPeer::SCHEME_ID, VocabularyPeer::alias('a5', VocabularyPeer::ID));
-    $c->addAlias('a5', VocabularyPeer::TABLE_NAME);
+        $c->addJoin(ConceptPropertyPeer::SCHEME_ID, VocabularyPeer::alias('a5', VocabularyPeer::ID));
+        $c->addAlias('a5', VocabularyPeer::TABLE_NAME);
 
 		ConceptPeer::addSelectColumns($c, 'a6');
 		$startcol8 = $startcol7 + ConceptPeer::NUM_COLUMNS;
 
-    $c->addJoin(ConceptPropertyPeer::RELATED_CONCEPT_ID, ConceptPeer::alias('a6', ConceptPeer::ID));
-    $c->addAlias('a6', ConceptPeer::TABLE_NAME);
+        $c->addJoin(ConceptPropertyPeer::RELATED_CONCEPT_ID, ConceptPeer::alias('a6', ConceptPeer::ID));
+        $c->addAlias('a6', ConceptPeer::TABLE_NAME);
 
 		StatusPeer::addSelectColumns($c, 'a7');
 		$startcol9 = $startcol8 + StatusPeer::NUM_COLUMNS;
 
-    $c->addJoin(ConceptPropertyPeer::STATUS_ID, StatusPeer::alias('a7', StatusPeer::ID));
-    $c->addAlias('a7', StatusPeer::TABLE_NAME);
+        $c->addJoin(ConceptPropertyPeer::STATUS_ID, StatusPeer::alias('a7', StatusPeer::ID));
+        $c->addAlias('a7', StatusPeer::TABLE_NAME);
 
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();

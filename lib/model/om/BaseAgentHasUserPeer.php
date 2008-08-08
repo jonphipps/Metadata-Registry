@@ -177,21 +177,21 @@ abstract class BaseAgentHasUserPeer {
 	public static function addSelectColumns(Criteria $criteria, $tableAlias = null)
 	{
 
-    $criteria->addSelectColumn(($tableAlias) ? AgentHasUserPeer::alias($tableAlias, AgentHasUserPeer::ID) : AgentHasUserPeer::ID);
+        $criteria->addSelectColumn(($tableAlias) ? AgentHasUserPeer::alias($tableAlias, AgentHasUserPeer::ID) : AgentHasUserPeer::ID);
 
-    $criteria->addSelectColumn(($tableAlias) ? AgentHasUserPeer::alias($tableAlias, AgentHasUserPeer::UPDATED_AT) : AgentHasUserPeer::UPDATED_AT);
+        $criteria->addSelectColumn(($tableAlias) ? AgentHasUserPeer::alias($tableAlias, AgentHasUserPeer::UPDATED_AT) : AgentHasUserPeer::UPDATED_AT);
 
-    $criteria->addSelectColumn(($tableAlias) ? AgentHasUserPeer::alias($tableAlias, AgentHasUserPeer::DELETED_AT) : AgentHasUserPeer::DELETED_AT);
+        $criteria->addSelectColumn(($tableAlias) ? AgentHasUserPeer::alias($tableAlias, AgentHasUserPeer::DELETED_AT) : AgentHasUserPeer::DELETED_AT);
 
-    $criteria->addSelectColumn(($tableAlias) ? AgentHasUserPeer::alias($tableAlias, AgentHasUserPeer::CREATED_AT) : AgentHasUserPeer::CREATED_AT);
+        $criteria->addSelectColumn(($tableAlias) ? AgentHasUserPeer::alias($tableAlias, AgentHasUserPeer::CREATED_AT) : AgentHasUserPeer::CREATED_AT);
 
-    $criteria->addSelectColumn(($tableAlias) ? AgentHasUserPeer::alias($tableAlias, AgentHasUserPeer::USER_ID) : AgentHasUserPeer::USER_ID);
+        $criteria->addSelectColumn(($tableAlias) ? AgentHasUserPeer::alias($tableAlias, AgentHasUserPeer::USER_ID) : AgentHasUserPeer::USER_ID);
 
-    $criteria->addSelectColumn(($tableAlias) ? AgentHasUserPeer::alias($tableAlias, AgentHasUserPeer::AGENT_ID) : AgentHasUserPeer::AGENT_ID);
+        $criteria->addSelectColumn(($tableAlias) ? AgentHasUserPeer::alias($tableAlias, AgentHasUserPeer::AGENT_ID) : AgentHasUserPeer::AGENT_ID);
 
-    $criteria->addSelectColumn(($tableAlias) ? AgentHasUserPeer::alias($tableAlias, AgentHasUserPeer::IS_REGISTRAR_FOR) : AgentHasUserPeer::IS_REGISTRAR_FOR);
+        $criteria->addSelectColumn(($tableAlias) ? AgentHasUserPeer::alias($tableAlias, AgentHasUserPeer::IS_REGISTRAR_FOR) : AgentHasUserPeer::IS_REGISTRAR_FOR);
 
-    $criteria->addSelectColumn(($tableAlias) ? AgentHasUserPeer::alias($tableAlias, AgentHasUserPeer::IS_ADMIN_FOR) : AgentHasUserPeer::IS_ADMIN_FOR);
+        $criteria->addSelectColumn(($tableAlias) ? AgentHasUserPeer::alias($tableAlias, AgentHasUserPeer::IS_ADMIN_FOR) : AgentHasUserPeer::IS_ADMIN_FOR);
 
 	}
 
@@ -585,14 +585,14 @@ abstract class BaseAgentHasUserPeer {
 		UserPeer::addSelectColumns($c, 'a1');
 		$startcol3 = $startcol2 + UserPeer::NUM_COLUMNS;
 
-    $c->addJoin(AgentHasUserPeer::USER_ID, UserPeer::alias('a1', UserPeer::ID));
-    $c->addAlias('a1', UserPeer::TABLE_NAME);
+        $c->addJoin(AgentHasUserPeer::USER_ID, UserPeer::alias('a1', UserPeer::ID));
+        $c->addAlias('a1', UserPeer::TABLE_NAME);
 
 		AgentPeer::addSelectColumns($c, 'a2');
 		$startcol4 = $startcol3 + AgentPeer::NUM_COLUMNS;
 
-    $c->addJoin(AgentHasUserPeer::AGENT_ID, AgentPeer::alias('a2', AgentPeer::ID));
-    $c->addAlias('a2', AgentPeer::TABLE_NAME);
+        $c->addJoin(AgentHasUserPeer::AGENT_ID, AgentPeer::alias('a2', AgentPeer::ID));
+        $c->addAlias('a2', AgentPeer::TABLE_NAME);
 
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();

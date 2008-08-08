@@ -177,21 +177,21 @@ abstract class BaseVocabularyHasVersionPeer {
 	public static function addSelectColumns(Criteria $criteria, $tableAlias = null)
 	{
 
-    $criteria->addSelectColumn(($tableAlias) ? VocabularyHasVersionPeer::alias($tableAlias, VocabularyHasVersionPeer::ID) : VocabularyHasVersionPeer::ID);
+        $criteria->addSelectColumn(($tableAlias) ? VocabularyHasVersionPeer::alias($tableAlias, VocabularyHasVersionPeer::ID) : VocabularyHasVersionPeer::ID);
 
-    $criteria->addSelectColumn(($tableAlias) ? VocabularyHasVersionPeer::alias($tableAlias, VocabularyHasVersionPeer::NAME) : VocabularyHasVersionPeer::NAME);
+        $criteria->addSelectColumn(($tableAlias) ? VocabularyHasVersionPeer::alias($tableAlias, VocabularyHasVersionPeer::NAME) : VocabularyHasVersionPeer::NAME);
 
-    $criteria->addSelectColumn(($tableAlias) ? VocabularyHasVersionPeer::alias($tableAlias, VocabularyHasVersionPeer::CREATED_AT) : VocabularyHasVersionPeer::CREATED_AT);
+        $criteria->addSelectColumn(($tableAlias) ? VocabularyHasVersionPeer::alias($tableAlias, VocabularyHasVersionPeer::CREATED_AT) : VocabularyHasVersionPeer::CREATED_AT);
 
-    $criteria->addSelectColumn(($tableAlias) ? VocabularyHasVersionPeer::alias($tableAlias, VocabularyHasVersionPeer::DELETED_AT) : VocabularyHasVersionPeer::DELETED_AT);
+        $criteria->addSelectColumn(($tableAlias) ? VocabularyHasVersionPeer::alias($tableAlias, VocabularyHasVersionPeer::DELETED_AT) : VocabularyHasVersionPeer::DELETED_AT);
 
-    $criteria->addSelectColumn(($tableAlias) ? VocabularyHasVersionPeer::alias($tableAlias, VocabularyHasVersionPeer::UPDATED_AT) : VocabularyHasVersionPeer::UPDATED_AT);
+        $criteria->addSelectColumn(($tableAlias) ? VocabularyHasVersionPeer::alias($tableAlias, VocabularyHasVersionPeer::UPDATED_AT) : VocabularyHasVersionPeer::UPDATED_AT);
 
-    $criteria->addSelectColumn(($tableAlias) ? VocabularyHasVersionPeer::alias($tableAlias, VocabularyHasVersionPeer::CREATED_USER_ID) : VocabularyHasVersionPeer::CREATED_USER_ID);
+        $criteria->addSelectColumn(($tableAlias) ? VocabularyHasVersionPeer::alias($tableAlias, VocabularyHasVersionPeer::CREATED_USER_ID) : VocabularyHasVersionPeer::CREATED_USER_ID);
 
-    $criteria->addSelectColumn(($tableAlias) ? VocabularyHasVersionPeer::alias($tableAlias, VocabularyHasVersionPeer::VOCABULARY_ID) : VocabularyHasVersionPeer::VOCABULARY_ID);
+        $criteria->addSelectColumn(($tableAlias) ? VocabularyHasVersionPeer::alias($tableAlias, VocabularyHasVersionPeer::VOCABULARY_ID) : VocabularyHasVersionPeer::VOCABULARY_ID);
 
-    $criteria->addSelectColumn(($tableAlias) ? VocabularyHasVersionPeer::alias($tableAlias, VocabularyHasVersionPeer::TIMESLICE) : VocabularyHasVersionPeer::TIMESLICE);
+        $criteria->addSelectColumn(($tableAlias) ? VocabularyHasVersionPeer::alias($tableAlias, VocabularyHasVersionPeer::TIMESLICE) : VocabularyHasVersionPeer::TIMESLICE);
 
 	}
 
@@ -585,14 +585,14 @@ abstract class BaseVocabularyHasVersionPeer {
 		UserPeer::addSelectColumns($c, 'a1');
 		$startcol3 = $startcol2 + UserPeer::NUM_COLUMNS;
 
-    $c->addJoin(VocabularyHasVersionPeer::CREATED_USER_ID, UserPeer::alias('a1', UserPeer::ID));
-    $c->addAlias('a1', UserPeer::TABLE_NAME);
+        $c->addJoin(VocabularyHasVersionPeer::CREATED_USER_ID, UserPeer::alias('a1', UserPeer::ID));
+        $c->addAlias('a1', UserPeer::TABLE_NAME);
 
 		VocabularyPeer::addSelectColumns($c, 'a2');
 		$startcol4 = $startcol3 + VocabularyPeer::NUM_COLUMNS;
 
-    $c->addJoin(VocabularyHasVersionPeer::VOCABULARY_ID, VocabularyPeer::alias('a2', VocabularyPeer::ID));
-    $c->addAlias('a2', VocabularyPeer::TABLE_NAME);
+        $c->addJoin(VocabularyHasVersionPeer::VOCABULARY_ID, VocabularyPeer::alias('a2', VocabularyPeer::ID));
+        $c->addAlias('a2', VocabularyPeer::TABLE_NAME);
 
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();

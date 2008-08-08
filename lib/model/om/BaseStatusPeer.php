@@ -165,13 +165,13 @@ abstract class BaseStatusPeer {
 	public static function addSelectColumns(Criteria $criteria, $tableAlias = null)
 	{
 
-    $criteria->addSelectColumn(($tableAlias) ? StatusPeer::alias($tableAlias, StatusPeer::ID) : StatusPeer::ID);
+        $criteria->addSelectColumn(($tableAlias) ? StatusPeer::alias($tableAlias, StatusPeer::ID) : StatusPeer::ID);
 
-    $criteria->addSelectColumn(($tableAlias) ? StatusPeer::alias($tableAlias, StatusPeer::DISPLAY_ORDER) : StatusPeer::DISPLAY_ORDER);
+        $criteria->addSelectColumn(($tableAlias) ? StatusPeer::alias($tableAlias, StatusPeer::DISPLAY_ORDER) : StatusPeer::DISPLAY_ORDER);
 
-    $criteria->addSelectColumn(($tableAlias) ? StatusPeer::alias($tableAlias, StatusPeer::DISPLAY_NAME) : StatusPeer::DISPLAY_NAME);
+        $criteria->addSelectColumn(($tableAlias) ? StatusPeer::alias($tableAlias, StatusPeer::DISPLAY_NAME) : StatusPeer::DISPLAY_NAME);
 
-    $criteria->addSelectColumn(($tableAlias) ? StatusPeer::alias($tableAlias, StatusPeer::URI) : StatusPeer::URI);
+        $criteria->addSelectColumn(($tableAlias) ? StatusPeer::alias($tableAlias, StatusPeer::URI) : StatusPeer::URI);
 
 	}
 

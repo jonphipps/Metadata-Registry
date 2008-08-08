@@ -183,25 +183,25 @@ abstract class BaseNamespacePeer {
 	public static function addSelectColumns(Criteria $criteria, $tableAlias = null)
 	{
 
-    $criteria->addSelectColumn(($tableAlias) ? NamespacePeer::alias($tableAlias, NamespacePeer::ID) : NamespacePeer::ID);
+        $criteria->addSelectColumn(($tableAlias) ? NamespacePeer::alias($tableAlias, NamespacePeer::ID) : NamespacePeer::ID);
 
-    $criteria->addSelectColumn(($tableAlias) ? NamespacePeer::alias($tableAlias, NamespacePeer::SCHEMA_ID) : NamespacePeer::SCHEMA_ID);
+        $criteria->addSelectColumn(($tableAlias) ? NamespacePeer::alias($tableAlias, NamespacePeer::SCHEMA_ID) : NamespacePeer::SCHEMA_ID);
 
-    $criteria->addSelectColumn(($tableAlias) ? NamespacePeer::alias($tableAlias, NamespacePeer::CREATED_AT) : NamespacePeer::CREATED_AT);
+        $criteria->addSelectColumn(($tableAlias) ? NamespacePeer::alias($tableAlias, NamespacePeer::CREATED_AT) : NamespacePeer::CREATED_AT);
 
-    $criteria->addSelectColumn(($tableAlias) ? NamespacePeer::alias($tableAlias, NamespacePeer::DELETED_AT) : NamespacePeer::DELETED_AT);
+        $criteria->addSelectColumn(($tableAlias) ? NamespacePeer::alias($tableAlias, NamespacePeer::DELETED_AT) : NamespacePeer::DELETED_AT);
 
-    $criteria->addSelectColumn(($tableAlias) ? NamespacePeer::alias($tableAlias, NamespacePeer::CREATED_USER_ID) : NamespacePeer::CREATED_USER_ID);
+        $criteria->addSelectColumn(($tableAlias) ? NamespacePeer::alias($tableAlias, NamespacePeer::CREATED_USER_ID) : NamespacePeer::CREATED_USER_ID);
 
-    $criteria->addSelectColumn(($tableAlias) ? NamespacePeer::alias($tableAlias, NamespacePeer::UPDATED_USER_ID) : NamespacePeer::UPDATED_USER_ID);
+        $criteria->addSelectColumn(($tableAlias) ? NamespacePeer::alias($tableAlias, NamespacePeer::UPDATED_USER_ID) : NamespacePeer::UPDATED_USER_ID);
 
-    $criteria->addSelectColumn(($tableAlias) ? NamespacePeer::alias($tableAlias, NamespacePeer::TOKEN) : NamespacePeer::TOKEN);
+        $criteria->addSelectColumn(($tableAlias) ? NamespacePeer::alias($tableAlias, NamespacePeer::TOKEN) : NamespacePeer::TOKEN);
 
-    $criteria->addSelectColumn(($tableAlias) ? NamespacePeer::alias($tableAlias, NamespacePeer::NOTE) : NamespacePeer::NOTE);
+        $criteria->addSelectColumn(($tableAlias) ? NamespacePeer::alias($tableAlias, NamespacePeer::NOTE) : NamespacePeer::NOTE);
 
-    $criteria->addSelectColumn(($tableAlias) ? NamespacePeer::alias($tableAlias, NamespacePeer::URI) : NamespacePeer::URI);
+        $criteria->addSelectColumn(($tableAlias) ? NamespacePeer::alias($tableAlias, NamespacePeer::URI) : NamespacePeer::URI);
 
-    $criteria->addSelectColumn(($tableAlias) ? NamespacePeer::alias($tableAlias, NamespacePeer::SCHEMA_LOCATION) : NamespacePeer::SCHEMA_LOCATION);
+        $criteria->addSelectColumn(($tableAlias) ? NamespacePeer::alias($tableAlias, NamespacePeer::SCHEMA_LOCATION) : NamespacePeer::SCHEMA_LOCATION);
 
 	}
 
@@ -496,8 +496,8 @@ abstract class BaseNamespacePeer {
 		SchemaPeer::addSelectColumns($c, 'a1');
 		$startcol3 = $startcol2 + SchemaPeer::NUM_COLUMNS;
 
-    $c->addJoin(NamespacePeer::SCHEMA_ID, SchemaPeer::alias('a1', SchemaPeer::ID));
-    $c->addAlias('a1', SchemaPeer::TABLE_NAME);
+        $c->addJoin(NamespacePeer::SCHEMA_ID, SchemaPeer::alias('a1', SchemaPeer::ID));
+        $c->addAlias('a1', SchemaPeer::TABLE_NAME);
 
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();

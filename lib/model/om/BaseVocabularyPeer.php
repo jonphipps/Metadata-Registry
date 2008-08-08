@@ -210,43 +210,43 @@ abstract class BaseVocabularyPeer {
 	public static function addSelectColumns(Criteria $criteria, $tableAlias = null)
 	{
 
-    $criteria->addSelectColumn(($tableAlias) ? VocabularyPeer::alias($tableAlias, VocabularyPeer::ID) : VocabularyPeer::ID);
+        $criteria->addSelectColumn(($tableAlias) ? VocabularyPeer::alias($tableAlias, VocabularyPeer::ID) : VocabularyPeer::ID);
 
-    $criteria->addSelectColumn(($tableAlias) ? VocabularyPeer::alias($tableAlias, VocabularyPeer::AGENT_ID) : VocabularyPeer::AGENT_ID);
+        $criteria->addSelectColumn(($tableAlias) ? VocabularyPeer::alias($tableAlias, VocabularyPeer::AGENT_ID) : VocabularyPeer::AGENT_ID);
 
-    $criteria->addSelectColumn(($tableAlias) ? VocabularyPeer::alias($tableAlias, VocabularyPeer::CREATED_AT) : VocabularyPeer::CREATED_AT);
+        $criteria->addSelectColumn(($tableAlias) ? VocabularyPeer::alias($tableAlias, VocabularyPeer::CREATED_AT) : VocabularyPeer::CREATED_AT);
 
-    $criteria->addSelectColumn(($tableAlias) ? VocabularyPeer::alias($tableAlias, VocabularyPeer::DELETED_AT) : VocabularyPeer::DELETED_AT);
+        $criteria->addSelectColumn(($tableAlias) ? VocabularyPeer::alias($tableAlias, VocabularyPeer::DELETED_AT) : VocabularyPeer::DELETED_AT);
 
-    $criteria->addSelectColumn(($tableAlias) ? VocabularyPeer::alias($tableAlias, VocabularyPeer::LAST_UPDATED) : VocabularyPeer::LAST_UPDATED);
+        $criteria->addSelectColumn(($tableAlias) ? VocabularyPeer::alias($tableAlias, VocabularyPeer::LAST_UPDATED) : VocabularyPeer::LAST_UPDATED);
 
-    $criteria->addSelectColumn(($tableAlias) ? VocabularyPeer::alias($tableAlias, VocabularyPeer::CREATED_USER_ID) : VocabularyPeer::CREATED_USER_ID);
+        $criteria->addSelectColumn(($tableAlias) ? VocabularyPeer::alias($tableAlias, VocabularyPeer::CREATED_USER_ID) : VocabularyPeer::CREATED_USER_ID);
 
-    $criteria->addSelectColumn(($tableAlias) ? VocabularyPeer::alias($tableAlias, VocabularyPeer::UPDATED_USER_ID) : VocabularyPeer::UPDATED_USER_ID);
+        $criteria->addSelectColumn(($tableAlias) ? VocabularyPeer::alias($tableAlias, VocabularyPeer::UPDATED_USER_ID) : VocabularyPeer::UPDATED_USER_ID);
 
-    $criteria->addSelectColumn(($tableAlias) ? VocabularyPeer::alias($tableAlias, VocabularyPeer::CHILD_UPDATED_AT) : VocabularyPeer::CHILD_UPDATED_AT);
+        $criteria->addSelectColumn(($tableAlias) ? VocabularyPeer::alias($tableAlias, VocabularyPeer::CHILD_UPDATED_AT) : VocabularyPeer::CHILD_UPDATED_AT);
 
-    $criteria->addSelectColumn(($tableAlias) ? VocabularyPeer::alias($tableAlias, VocabularyPeer::CHILD_UPDATED_USER_ID) : VocabularyPeer::CHILD_UPDATED_USER_ID);
+        $criteria->addSelectColumn(($tableAlias) ? VocabularyPeer::alias($tableAlias, VocabularyPeer::CHILD_UPDATED_USER_ID) : VocabularyPeer::CHILD_UPDATED_USER_ID);
 
-    $criteria->addSelectColumn(($tableAlias) ? VocabularyPeer::alias($tableAlias, VocabularyPeer::NAME) : VocabularyPeer::NAME);
+        $criteria->addSelectColumn(($tableAlias) ? VocabularyPeer::alias($tableAlias, VocabularyPeer::NAME) : VocabularyPeer::NAME);
 
-    $criteria->addSelectColumn(($tableAlias) ? VocabularyPeer::alias($tableAlias, VocabularyPeer::NOTE) : VocabularyPeer::NOTE);
+        $criteria->addSelectColumn(($tableAlias) ? VocabularyPeer::alias($tableAlias, VocabularyPeer::NOTE) : VocabularyPeer::NOTE);
 
-    $criteria->addSelectColumn(($tableAlias) ? VocabularyPeer::alias($tableAlias, VocabularyPeer::URI) : VocabularyPeer::URI);
+        $criteria->addSelectColumn(($tableAlias) ? VocabularyPeer::alias($tableAlias, VocabularyPeer::URI) : VocabularyPeer::URI);
 
-    $criteria->addSelectColumn(($tableAlias) ? VocabularyPeer::alias($tableAlias, VocabularyPeer::URL) : VocabularyPeer::URL);
+        $criteria->addSelectColumn(($tableAlias) ? VocabularyPeer::alias($tableAlias, VocabularyPeer::URL) : VocabularyPeer::URL);
 
-    $criteria->addSelectColumn(($tableAlias) ? VocabularyPeer::alias($tableAlias, VocabularyPeer::BASE_DOMAIN) : VocabularyPeer::BASE_DOMAIN);
+        $criteria->addSelectColumn(($tableAlias) ? VocabularyPeer::alias($tableAlias, VocabularyPeer::BASE_DOMAIN) : VocabularyPeer::BASE_DOMAIN);
 
-    $criteria->addSelectColumn(($tableAlias) ? VocabularyPeer::alias($tableAlias, VocabularyPeer::TOKEN) : VocabularyPeer::TOKEN);
+        $criteria->addSelectColumn(($tableAlias) ? VocabularyPeer::alias($tableAlias, VocabularyPeer::TOKEN) : VocabularyPeer::TOKEN);
 
-    $criteria->addSelectColumn(($tableAlias) ? VocabularyPeer::alias($tableAlias, VocabularyPeer::COMMUNITY) : VocabularyPeer::COMMUNITY);
+        $criteria->addSelectColumn(($tableAlias) ? VocabularyPeer::alias($tableAlias, VocabularyPeer::COMMUNITY) : VocabularyPeer::COMMUNITY);
 
-    $criteria->addSelectColumn(($tableAlias) ? VocabularyPeer::alias($tableAlias, VocabularyPeer::LAST_URI_ID) : VocabularyPeer::LAST_URI_ID);
+        $criteria->addSelectColumn(($tableAlias) ? VocabularyPeer::alias($tableAlias, VocabularyPeer::LAST_URI_ID) : VocabularyPeer::LAST_URI_ID);
 
-    $criteria->addSelectColumn(($tableAlias) ? VocabularyPeer::alias($tableAlias, VocabularyPeer::STATUS_ID) : VocabularyPeer::STATUS_ID);
+        $criteria->addSelectColumn(($tableAlias) ? VocabularyPeer::alias($tableAlias, VocabularyPeer::STATUS_ID) : VocabularyPeer::STATUS_ID);
 
-    $criteria->addSelectColumn(($tableAlias) ? VocabularyPeer::alias($tableAlias, VocabularyPeer::LANGUAGE) : VocabularyPeer::LANGUAGE);
+        $criteria->addSelectColumn(($tableAlias) ? VocabularyPeer::alias($tableAlias, VocabularyPeer::LANGUAGE) : VocabularyPeer::LANGUAGE);
 
 	}
 
@@ -937,32 +937,32 @@ abstract class BaseVocabularyPeer {
 		AgentPeer::addSelectColumns($c, 'a1');
 		$startcol3 = $startcol2 + AgentPeer::NUM_COLUMNS;
 
-    $c->addJoin(VocabularyPeer::AGENT_ID, AgentPeer::alias('a1', AgentPeer::ID));
-    $c->addAlias('a1', AgentPeer::TABLE_NAME);
+        $c->addJoin(VocabularyPeer::AGENT_ID, AgentPeer::alias('a1', AgentPeer::ID));
+        $c->addAlias('a1', AgentPeer::TABLE_NAME);
 
 		UserPeer::addSelectColumns($c, 'a2');
 		$startcol4 = $startcol3 + UserPeer::NUM_COLUMNS;
 
-    $c->addJoin(VocabularyPeer::CREATED_USER_ID, UserPeer::alias('a2', UserPeer::ID));
-    $c->addAlias('a2', UserPeer::TABLE_NAME);
+        $c->addJoin(VocabularyPeer::CREATED_USER_ID, UserPeer::alias('a2', UserPeer::ID));
+        $c->addAlias('a2', UserPeer::TABLE_NAME);
 
 		UserPeer::addSelectColumns($c, 'a3');
 		$startcol5 = $startcol4 + UserPeer::NUM_COLUMNS;
 
-    $c->addJoin(VocabularyPeer::UPDATED_USER_ID, UserPeer::alias('a3', UserPeer::ID));
-    $c->addAlias('a3', UserPeer::TABLE_NAME);
+        $c->addJoin(VocabularyPeer::UPDATED_USER_ID, UserPeer::alias('a3', UserPeer::ID));
+        $c->addAlias('a3', UserPeer::TABLE_NAME);
 
 		UserPeer::addSelectColumns($c, 'a4');
 		$startcol6 = $startcol5 + UserPeer::NUM_COLUMNS;
 
-    $c->addJoin(VocabularyPeer::CHILD_UPDATED_USER_ID, UserPeer::alias('a4', UserPeer::ID));
-    $c->addAlias('a4', UserPeer::TABLE_NAME);
+        $c->addJoin(VocabularyPeer::CHILD_UPDATED_USER_ID, UserPeer::alias('a4', UserPeer::ID));
+        $c->addAlias('a4', UserPeer::TABLE_NAME);
 
 		StatusPeer::addSelectColumns($c, 'a5');
 		$startcol7 = $startcol6 + StatusPeer::NUM_COLUMNS;
 
-    $c->addJoin(VocabularyPeer::STATUS_ID, StatusPeer::alias('a5', StatusPeer::ID));
-    $c->addAlias('a5', StatusPeer::TABLE_NAME);
+        $c->addJoin(VocabularyPeer::STATUS_ID, StatusPeer::alias('a5', StatusPeer::ID));
+        $c->addAlias('a5', StatusPeer::TABLE_NAME);
 
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();

@@ -234,59 +234,59 @@ abstract class BaseProfilePropertyPeer {
 	public static function addSelectColumns(Criteria $criteria, $tableAlias = null)
 	{
 
-    $criteria->addSelectColumn(($tableAlias) ? ProfilePropertyPeer::alias($tableAlias, ProfilePropertyPeer::ID) : ProfilePropertyPeer::ID);
+        $criteria->addSelectColumn(($tableAlias) ? ProfilePropertyPeer::alias($tableAlias, ProfilePropertyPeer::ID) : ProfilePropertyPeer::ID);
 
-    $criteria->addSelectColumn(($tableAlias) ? ProfilePropertyPeer::alias($tableAlias, ProfilePropertyPeer::CREATED_AT) : ProfilePropertyPeer::CREATED_AT);
+        $criteria->addSelectColumn(($tableAlias) ? ProfilePropertyPeer::alias($tableAlias, ProfilePropertyPeer::CREATED_AT) : ProfilePropertyPeer::CREATED_AT);
 
-    $criteria->addSelectColumn(($tableAlias) ? ProfilePropertyPeer::alias($tableAlias, ProfilePropertyPeer::UPDATED_AT) : ProfilePropertyPeer::UPDATED_AT);
+        $criteria->addSelectColumn(($tableAlias) ? ProfilePropertyPeer::alias($tableAlias, ProfilePropertyPeer::UPDATED_AT) : ProfilePropertyPeer::UPDATED_AT);
 
-    $criteria->addSelectColumn(($tableAlias) ? ProfilePropertyPeer::alias($tableAlias, ProfilePropertyPeer::DELETED_AT) : ProfilePropertyPeer::DELETED_AT);
+        $criteria->addSelectColumn(($tableAlias) ? ProfilePropertyPeer::alias($tableAlias, ProfilePropertyPeer::DELETED_AT) : ProfilePropertyPeer::DELETED_AT);
 
-    $criteria->addSelectColumn(($tableAlias) ? ProfilePropertyPeer::alias($tableAlias, ProfilePropertyPeer::CREATED_BY) : ProfilePropertyPeer::CREATED_BY);
+        $criteria->addSelectColumn(($tableAlias) ? ProfilePropertyPeer::alias($tableAlias, ProfilePropertyPeer::CREATED_BY) : ProfilePropertyPeer::CREATED_BY);
 
-    $criteria->addSelectColumn(($tableAlias) ? ProfilePropertyPeer::alias($tableAlias, ProfilePropertyPeer::UPDATED_BY) : ProfilePropertyPeer::UPDATED_BY);
+        $criteria->addSelectColumn(($tableAlias) ? ProfilePropertyPeer::alias($tableAlias, ProfilePropertyPeer::UPDATED_BY) : ProfilePropertyPeer::UPDATED_BY);
 
-    $criteria->addSelectColumn(($tableAlias) ? ProfilePropertyPeer::alias($tableAlias, ProfilePropertyPeer::DELETED_BY) : ProfilePropertyPeer::DELETED_BY);
+        $criteria->addSelectColumn(($tableAlias) ? ProfilePropertyPeer::alias($tableAlias, ProfilePropertyPeer::DELETED_BY) : ProfilePropertyPeer::DELETED_BY);
 
-    $criteria->addSelectColumn(($tableAlias) ? ProfilePropertyPeer::alias($tableAlias, ProfilePropertyPeer::PROFILE_ID) : ProfilePropertyPeer::PROFILE_ID);
+        $criteria->addSelectColumn(($tableAlias) ? ProfilePropertyPeer::alias($tableAlias, ProfilePropertyPeer::PROFILE_ID) : ProfilePropertyPeer::PROFILE_ID);
 
-    $criteria->addSelectColumn(($tableAlias) ? ProfilePropertyPeer::alias($tableAlias, ProfilePropertyPeer::SCHEMA_ID) : ProfilePropertyPeer::SCHEMA_ID);
+        $criteria->addSelectColumn(($tableAlias) ? ProfilePropertyPeer::alias($tableAlias, ProfilePropertyPeer::SCHEMA_ID) : ProfilePropertyPeer::SCHEMA_ID);
 
-    $criteria->addSelectColumn(($tableAlias) ? ProfilePropertyPeer::alias($tableAlias, ProfilePropertyPeer::SCHEMA_PROPERTY_ID) : ProfilePropertyPeer::SCHEMA_PROPERTY_ID);
+        $criteria->addSelectColumn(($tableAlias) ? ProfilePropertyPeer::alias($tableAlias, ProfilePropertyPeer::SCHEMA_PROPERTY_ID) : ProfilePropertyPeer::SCHEMA_PROPERTY_ID);
 
-    $criteria->addSelectColumn(($tableAlias) ? ProfilePropertyPeer::alias($tableAlias, ProfilePropertyPeer::NAME) : ProfilePropertyPeer::NAME);
+        $criteria->addSelectColumn(($tableAlias) ? ProfilePropertyPeer::alias($tableAlias, ProfilePropertyPeer::NAME) : ProfilePropertyPeer::NAME);
 
-    $criteria->addSelectColumn(($tableAlias) ? ProfilePropertyPeer::alias($tableAlias, ProfilePropertyPeer::LABEL) : ProfilePropertyPeer::LABEL);
+        $criteria->addSelectColumn(($tableAlias) ? ProfilePropertyPeer::alias($tableAlias, ProfilePropertyPeer::LABEL) : ProfilePropertyPeer::LABEL);
 
-    $criteria->addSelectColumn(($tableAlias) ? ProfilePropertyPeer::alias($tableAlias, ProfilePropertyPeer::DEFINITION) : ProfilePropertyPeer::DEFINITION);
+        $criteria->addSelectColumn(($tableAlias) ? ProfilePropertyPeer::alias($tableAlias, ProfilePropertyPeer::DEFINITION) : ProfilePropertyPeer::DEFINITION);
 
-    $criteria->addSelectColumn(($tableAlias) ? ProfilePropertyPeer::alias($tableAlias, ProfilePropertyPeer::COMMENT) : ProfilePropertyPeer::COMMENT);
+        $criteria->addSelectColumn(($tableAlias) ? ProfilePropertyPeer::alias($tableAlias, ProfilePropertyPeer::COMMENT) : ProfilePropertyPeer::COMMENT);
 
-    $criteria->addSelectColumn(($tableAlias) ? ProfilePropertyPeer::alias($tableAlias, ProfilePropertyPeer::TYPE) : ProfilePropertyPeer::TYPE);
+        $criteria->addSelectColumn(($tableAlias) ? ProfilePropertyPeer::alias($tableAlias, ProfilePropertyPeer::TYPE) : ProfilePropertyPeer::TYPE);
 
-    $criteria->addSelectColumn(($tableAlias) ? ProfilePropertyPeer::alias($tableAlias, ProfilePropertyPeer::URI) : ProfilePropertyPeer::URI);
+        $criteria->addSelectColumn(($tableAlias) ? ProfilePropertyPeer::alias($tableAlias, ProfilePropertyPeer::URI) : ProfilePropertyPeer::URI);
 
-    $criteria->addSelectColumn(($tableAlias) ? ProfilePropertyPeer::alias($tableAlias, ProfilePropertyPeer::STATUS_ID) : ProfilePropertyPeer::STATUS_ID);
+        $criteria->addSelectColumn(($tableAlias) ? ProfilePropertyPeer::alias($tableAlias, ProfilePropertyPeer::STATUS_ID) : ProfilePropertyPeer::STATUS_ID);
 
-    $criteria->addSelectColumn(($tableAlias) ? ProfilePropertyPeer::alias($tableAlias, ProfilePropertyPeer::LANGUAGE) : ProfilePropertyPeer::LANGUAGE);
+        $criteria->addSelectColumn(($tableAlias) ? ProfilePropertyPeer::alias($tableAlias, ProfilePropertyPeer::LANGUAGE) : ProfilePropertyPeer::LANGUAGE);
 
-    $criteria->addSelectColumn(($tableAlias) ? ProfilePropertyPeer::alias($tableAlias, ProfilePropertyPeer::NOTE) : ProfilePropertyPeer::NOTE);
+        $criteria->addSelectColumn(($tableAlias) ? ProfilePropertyPeer::alias($tableAlias, ProfilePropertyPeer::NOTE) : ProfilePropertyPeer::NOTE);
 
-    $criteria->addSelectColumn(($tableAlias) ? ProfilePropertyPeer::alias($tableAlias, ProfilePropertyPeer::DISPLAY_ORDER) : ProfilePropertyPeer::DISPLAY_ORDER);
+        $criteria->addSelectColumn(($tableAlias) ? ProfilePropertyPeer::alias($tableAlias, ProfilePropertyPeer::DISPLAY_ORDER) : ProfilePropertyPeer::DISPLAY_ORDER);
 
-    $criteria->addSelectColumn(($tableAlias) ? ProfilePropertyPeer::alias($tableAlias, ProfilePropertyPeer::PICKLIST_ORDER) : ProfilePropertyPeer::PICKLIST_ORDER);
+        $criteria->addSelectColumn(($tableAlias) ? ProfilePropertyPeer::alias($tableAlias, ProfilePropertyPeer::PICKLIST_ORDER) : ProfilePropertyPeer::PICKLIST_ORDER);
 
-    $criteria->addSelectColumn(($tableAlias) ? ProfilePropertyPeer::alias($tableAlias, ProfilePropertyPeer::EXAMPLES) : ProfilePropertyPeer::EXAMPLES);
+        $criteria->addSelectColumn(($tableAlias) ? ProfilePropertyPeer::alias($tableAlias, ProfilePropertyPeer::EXAMPLES) : ProfilePropertyPeer::EXAMPLES);
 
-    $criteria->addSelectColumn(($tableAlias) ? ProfilePropertyPeer::alias($tableAlias, ProfilePropertyPeer::IS_REQUIRED) : ProfilePropertyPeer::IS_REQUIRED);
+        $criteria->addSelectColumn(($tableAlias) ? ProfilePropertyPeer::alias($tableAlias, ProfilePropertyPeer::IS_REQUIRED) : ProfilePropertyPeer::IS_REQUIRED);
 
-    $criteria->addSelectColumn(($tableAlias) ? ProfilePropertyPeer::alias($tableAlias, ProfilePropertyPeer::IS_RECIPROCAL) : ProfilePropertyPeer::IS_RECIPROCAL);
+        $criteria->addSelectColumn(($tableAlias) ? ProfilePropertyPeer::alias($tableAlias, ProfilePropertyPeer::IS_RECIPROCAL) : ProfilePropertyPeer::IS_RECIPROCAL);
 
-    $criteria->addSelectColumn(($tableAlias) ? ProfilePropertyPeer::alias($tableAlias, ProfilePropertyPeer::IS_SINGLETON) : ProfilePropertyPeer::IS_SINGLETON);
+        $criteria->addSelectColumn(($tableAlias) ? ProfilePropertyPeer::alias($tableAlias, ProfilePropertyPeer::IS_SINGLETON) : ProfilePropertyPeer::IS_SINGLETON);
 
-    $criteria->addSelectColumn(($tableAlias) ? ProfilePropertyPeer::alias($tableAlias, ProfilePropertyPeer::IS_IN_PICKLIST) : ProfilePropertyPeer::IS_IN_PICKLIST);
+        $criteria->addSelectColumn(($tableAlias) ? ProfilePropertyPeer::alias($tableAlias, ProfilePropertyPeer::IS_IN_PICKLIST) : ProfilePropertyPeer::IS_IN_PICKLIST);
 
-    $criteria->addSelectColumn(($tableAlias) ? ProfilePropertyPeer::alias($tableAlias, ProfilePropertyPeer::INVERSE_PROFILE_PROPERTY_ID) : ProfilePropertyPeer::INVERSE_PROFILE_PROPERTY_ID);
+        $criteria->addSelectColumn(($tableAlias) ? ProfilePropertyPeer::alias($tableAlias, ProfilePropertyPeer::INVERSE_PROFILE_PROPERTY_ID) : ProfilePropertyPeer::INVERSE_PROFILE_PROPERTY_ID);
 
 	}
 
@@ -1175,44 +1175,44 @@ abstract class BaseProfilePropertyPeer {
 		UserPeer::addSelectColumns($c, 'a1');
 		$startcol3 = $startcol2 + UserPeer::NUM_COLUMNS;
 
-    $c->addJoin(ProfilePropertyPeer::CREATED_BY, UserPeer::alias('a1', UserPeer::ID));
-    $c->addAlias('a1', UserPeer::TABLE_NAME);
+        $c->addJoin(ProfilePropertyPeer::CREATED_BY, UserPeer::alias('a1', UserPeer::ID));
+        $c->addAlias('a1', UserPeer::TABLE_NAME);
 
 		UserPeer::addSelectColumns($c, 'a2');
 		$startcol4 = $startcol3 + UserPeer::NUM_COLUMNS;
 
-    $c->addJoin(ProfilePropertyPeer::UPDATED_BY, UserPeer::alias('a2', UserPeer::ID));
-    $c->addAlias('a2', UserPeer::TABLE_NAME);
+        $c->addJoin(ProfilePropertyPeer::UPDATED_BY, UserPeer::alias('a2', UserPeer::ID));
+        $c->addAlias('a2', UserPeer::TABLE_NAME);
 
 		UserPeer::addSelectColumns($c, 'a3');
 		$startcol5 = $startcol4 + UserPeer::NUM_COLUMNS;
 
-    $c->addJoin(ProfilePropertyPeer::DELETED_BY, UserPeer::alias('a3', UserPeer::ID));
-    $c->addAlias('a3', UserPeer::TABLE_NAME);
+        $c->addJoin(ProfilePropertyPeer::DELETED_BY, UserPeer::alias('a3', UserPeer::ID));
+        $c->addAlias('a3', UserPeer::TABLE_NAME);
 
 		ProfilePeer::addSelectColumns($c, 'a4');
 		$startcol6 = $startcol5 + ProfilePeer::NUM_COLUMNS;
 
-    $c->addJoin(ProfilePropertyPeer::PROFILE_ID, ProfilePeer::alias('a4', ProfilePeer::ID));
-    $c->addAlias('a4', ProfilePeer::TABLE_NAME);
+        $c->addJoin(ProfilePropertyPeer::PROFILE_ID, ProfilePeer::alias('a4', ProfilePeer::ID));
+        $c->addAlias('a4', ProfilePeer::TABLE_NAME);
 
 		SchemaPeer::addSelectColumns($c, 'a5');
 		$startcol7 = $startcol6 + SchemaPeer::NUM_COLUMNS;
 
-    $c->addJoin(ProfilePropertyPeer::SCHEMA_ID, SchemaPeer::alias('a5', SchemaPeer::ID));
-    $c->addAlias('a5', SchemaPeer::TABLE_NAME);
+        $c->addJoin(ProfilePropertyPeer::SCHEMA_ID, SchemaPeer::alias('a5', SchemaPeer::ID));
+        $c->addAlias('a5', SchemaPeer::TABLE_NAME);
 
 		SchemaPropertyPeer::addSelectColumns($c, 'a6');
 		$startcol8 = $startcol7 + SchemaPropertyPeer::NUM_COLUMNS;
 
-    $c->addJoin(ProfilePropertyPeer::SCHEMA_PROPERTY_ID, SchemaPropertyPeer::alias('a6', SchemaPropertyPeer::ID));
-    $c->addAlias('a6', SchemaPropertyPeer::TABLE_NAME);
+        $c->addJoin(ProfilePropertyPeer::SCHEMA_PROPERTY_ID, SchemaPropertyPeer::alias('a6', SchemaPropertyPeer::ID));
+        $c->addAlias('a6', SchemaPropertyPeer::TABLE_NAME);
 
 		StatusPeer::addSelectColumns($c, 'a7');
 		$startcol9 = $startcol8 + StatusPeer::NUM_COLUMNS;
 
-    $c->addJoin(ProfilePropertyPeer::STATUS_ID, StatusPeer::alias('a7', StatusPeer::ID));
-    $c->addAlias('a7', StatusPeer::TABLE_NAME);
+        $c->addJoin(ProfilePropertyPeer::STATUS_ID, StatusPeer::alias('a7', StatusPeer::ID));
+        $c->addAlias('a7', StatusPeer::TABLE_NAME);
 
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();

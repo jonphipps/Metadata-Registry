@@ -177,21 +177,21 @@ abstract class BaseSchemaHasVersionPeer {
 	public static function addSelectColumns(Criteria $criteria, $tableAlias = null)
 	{
 
-    $criteria->addSelectColumn(($tableAlias) ? SchemaHasVersionPeer::alias($tableAlias, SchemaHasVersionPeer::ID) : SchemaHasVersionPeer::ID);
+        $criteria->addSelectColumn(($tableAlias) ? SchemaHasVersionPeer::alias($tableAlias, SchemaHasVersionPeer::ID) : SchemaHasVersionPeer::ID);
 
-    $criteria->addSelectColumn(($tableAlias) ? SchemaHasVersionPeer::alias($tableAlias, SchemaHasVersionPeer::NAME) : SchemaHasVersionPeer::NAME);
+        $criteria->addSelectColumn(($tableAlias) ? SchemaHasVersionPeer::alias($tableAlias, SchemaHasVersionPeer::NAME) : SchemaHasVersionPeer::NAME);
 
-    $criteria->addSelectColumn(($tableAlias) ? SchemaHasVersionPeer::alias($tableAlias, SchemaHasVersionPeer::CREATED_AT) : SchemaHasVersionPeer::CREATED_AT);
+        $criteria->addSelectColumn(($tableAlias) ? SchemaHasVersionPeer::alias($tableAlias, SchemaHasVersionPeer::CREATED_AT) : SchemaHasVersionPeer::CREATED_AT);
 
-    $criteria->addSelectColumn(($tableAlias) ? SchemaHasVersionPeer::alias($tableAlias, SchemaHasVersionPeer::DELETED_AT) : SchemaHasVersionPeer::DELETED_AT);
+        $criteria->addSelectColumn(($tableAlias) ? SchemaHasVersionPeer::alias($tableAlias, SchemaHasVersionPeer::DELETED_AT) : SchemaHasVersionPeer::DELETED_AT);
 
-    $criteria->addSelectColumn(($tableAlias) ? SchemaHasVersionPeer::alias($tableAlias, SchemaHasVersionPeer::UPDATED_AT) : SchemaHasVersionPeer::UPDATED_AT);
+        $criteria->addSelectColumn(($tableAlias) ? SchemaHasVersionPeer::alias($tableAlias, SchemaHasVersionPeer::UPDATED_AT) : SchemaHasVersionPeer::UPDATED_AT);
 
-    $criteria->addSelectColumn(($tableAlias) ? SchemaHasVersionPeer::alias($tableAlias, SchemaHasVersionPeer::CREATED_USER_ID) : SchemaHasVersionPeer::CREATED_USER_ID);
+        $criteria->addSelectColumn(($tableAlias) ? SchemaHasVersionPeer::alias($tableAlias, SchemaHasVersionPeer::CREATED_USER_ID) : SchemaHasVersionPeer::CREATED_USER_ID);
 
-    $criteria->addSelectColumn(($tableAlias) ? SchemaHasVersionPeer::alias($tableAlias, SchemaHasVersionPeer::SCHEMA_ID) : SchemaHasVersionPeer::SCHEMA_ID);
+        $criteria->addSelectColumn(($tableAlias) ? SchemaHasVersionPeer::alias($tableAlias, SchemaHasVersionPeer::SCHEMA_ID) : SchemaHasVersionPeer::SCHEMA_ID);
 
-    $criteria->addSelectColumn(($tableAlias) ? SchemaHasVersionPeer::alias($tableAlias, SchemaHasVersionPeer::TIMESLICE) : SchemaHasVersionPeer::TIMESLICE);
+        $criteria->addSelectColumn(($tableAlias) ? SchemaHasVersionPeer::alias($tableAlias, SchemaHasVersionPeer::TIMESLICE) : SchemaHasVersionPeer::TIMESLICE);
 
 	}
 
@@ -585,14 +585,14 @@ abstract class BaseSchemaHasVersionPeer {
 		UserPeer::addSelectColumns($c, 'a1');
 		$startcol3 = $startcol2 + UserPeer::NUM_COLUMNS;
 
-    $c->addJoin(SchemaHasVersionPeer::CREATED_USER_ID, UserPeer::alias('a1', UserPeer::ID));
-    $c->addAlias('a1', UserPeer::TABLE_NAME);
+        $c->addJoin(SchemaHasVersionPeer::CREATED_USER_ID, UserPeer::alias('a1', UserPeer::ID));
+        $c->addAlias('a1', UserPeer::TABLE_NAME);
 
 		SchemaPeer::addSelectColumns($c, 'a2');
 		$startcol4 = $startcol3 + SchemaPeer::NUM_COLUMNS;
 
-    $c->addJoin(SchemaHasVersionPeer::SCHEMA_ID, SchemaPeer::alias('a2', SchemaPeer::ID));
-    $c->addAlias('a2', SchemaPeer::TABLE_NAME);
+        $c->addJoin(SchemaHasVersionPeer::SCHEMA_ID, SchemaPeer::alias('a2', SchemaPeer::ID));
+        $c->addAlias('a2', SchemaPeer::TABLE_NAME);
 
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
