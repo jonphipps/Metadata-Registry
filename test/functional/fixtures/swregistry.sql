@@ -171,8 +171,9 @@ CREATE TABLE `reg_schema_property` (
   `label` varchar(255) NOT NULL,
   `definition` text,
   `comment` text,
-  `type` enum('property','subproperty') NOT NULL,
+  `type` enum('property','subproperty','class','subclass') NOT NULL,
   `is_subproperty_of` int(11) default NULL,
+  `parent_uri` varchar(255),
   `uri` varchar(255) NOT NULL,
   `status_id` int(11) NOT NULL default '0',
   `language` varchar(6) NOT NULL default '',
@@ -185,8 +186,8 @@ CREATE TABLE `reg_schema_property` (
   KEY `status_id` (`status_id`),
   CONSTRAINT `reg_schema_property_fk` FOREIGN KEY (`created_user_id`) REFERENCES `reg_user` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
   CONSTRAINT `reg_schema_property_fk1` FOREIGN KEY (`updated_user_id`) REFERENCES `reg_user` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
-  CONSTRAINT `reg_schema_property_fk2` FOREIGN KEY (`schema_id`) REFERENCES `reg_schema` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `reg_schema_property_fk3` FOREIGN KEY (`is_subproperty_of`) REFERENCES `reg_schema_property` (`id`),
+  CONSTRAINT `reg_schema_property_fk2` FOREIGN KEY (`schema_id`) REFERENCES `reg_schema` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `reg_schema_property_fk3` FOREIGN KEY (`is_subproperty_of`) REFERENCES `reg_schema_property` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `reg_schema_property_fk4` FOREIGN KEY (`status_id`) REFERENCES `reg_status` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -709,7 +710,7 @@ COMMIT;
 INSERT INTO `profile_property` (`id`, `created_at`, `updated_at`, `deleted_at`, `created_by`, `updated_by`, `deleted_by`, `profile_id`, `name`, `label`, `definition`, `comment`, `type`, `uri`, `status_id`, `language`, `note`, `display_order`, `picklist_order`, `examples`, `is_required`, `is_reciprocal`, `is_singleton`, `is_in_picklist`, `inverse_profile_property_id`) VALUES 
   (1,'2008-04-20 12:00:00','2008-04-20 12:00:00',NULL,1,1,NULL,1,'name','name',NULL,NULL,'property','http://registry/uri/profile/registryschema',1,'en',NULL,1,1,NULL,1,0,1,1,NULL),
   (2,'2008-04-20 12:00:00','2008-04-20 12:00:00',NULL,1,1,NULL,1,'label','label',NULL,NULL,'property','http://registry/uri/profile/registryschema/100002',1,'en',NULL,2,2,NULL,1,0,-1,1,NULL),
-  (3,'2008-04-20 12:01:00','2008-04-20 12:01:01',NULL,1,1,NULL,1,'definition','definition',NULL,NULL,'property','http://registry/uri/profile/registryschema/100003',1,'en',NULL,3,3,NULL,0,0,0,1,NULL),
+  (3,'2008-04-20 12:01:00','2008-04-20 12:01:01',NULL,1,1,NULL,1,'definition','description',NULL,NULL,'property','http://registry/uri/profile/registryschema/100003',1,'en',NULL,3,3,NULL,0,0,0,1,NULL),
   (4,'2008-04-20 12:02:00','2008-04-20 12:02:00',NULL,1,1,NULL,1,'type','type',NULL,NULL,'property','http://registry/uri/profile/registryschema/100004',1,'en',NULL,5,5,NULL,1,0,1,1,NULL),
   (5,'2008-04-20 00:02:00','2008-04-20 00:02:02',NULL,1,1,NULL,1,'comment','comment',NULL,NULL,'property','http://registry/uri/profile/registryschema/10005',1,'en',NULL,4,4,NULL,0,0,0,1,NULL),
   (6,'2008-04-20 00:03:00','2008-04-20 12:03:00',NULL,1,1,NULL,1,'isSubpropertyOf','isSubpropertyOf',NULL,NULL,'property','http://registry/uri/profile/registryschema/100006',1,'en',NULL,6,6,NULL,0,1,0,1,NULL),
