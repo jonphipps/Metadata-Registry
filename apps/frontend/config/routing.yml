@@ -29,7 +29,7 @@ uri_schemaprop_default:
   url:  /uri/schema/:schema/:property.
   param: { module: api, action: get, class: schemaproperty, type: unknown, redir: true }
 
-  # rdf
+# uri concept scheme
 uri_concept_html:
   url:  /uri/:scheme/:concept.html
   param: { module: rdf, action: showConcept, type: html }
@@ -38,6 +38,7 @@ uri_scheme_html:
   url:  /uri/:scheme.html
   param: { module: rdf, action: showScheme, type: html }
 
+#uri concept
 uri_concept_timeslice:
   url:  /uri/:scheme/:concept/ts/:ts.rdf
   param: { module: rdf, action: showConcept, type: uri }
@@ -81,6 +82,10 @@ uri_scheme_unknown:
 rdf_concept_timeslice:
   url:  /concept/show/id/:id/ts/:ts.rdf
   param: { module: rdf, action: showConcept, type: rdf }
+
+rdf_schema:
+  url:  /schema/show/id/:id.rdf
+  param: { module: schema, action: showRdf}
 
 rdf_concept:
   url:  /concept/show/id/:id.rdf
