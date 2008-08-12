@@ -37,7 +37,7 @@ generator:
         _edit:        { credentials: [[administrator, schemamaintainer, schemaadmin]] }
         _delete:      { credentials: [[administrator, schemamaintainer, schemaadmin]] }
       actions:
-        _create:      {query_string: {schema_property_id: schema_property_id}, name: Add Property Element, credentials: [[administrator, schemamaintainer, schemaadmin]] }
+        _create:      {query_string: {schema_property_id: schema_property_id}, name: Add Property/Class Element, credentials: [[administrator, schemamaintainer, schemaadmin]] }
       filters:        [schema_property_id, profile_property_id, updated_at, object]
       # urlfilter form is [field to filter on]: [value passed from routing.yml]
       # multiple filters can be set but they're currently mutually exclusive (any of the list can be used but only one per url)
@@ -56,7 +56,7 @@ generator:
       actions:
         _list:        { query_string: {schema_property_id: schema_property_id} }
         _edit:        { credentials: [[administrator, schemamaintainer, schemaadmin]] }
-        _create:      { query_string: {schema_property_id: schema_property_id}, name: Add Property Element, credentials: [[administrator, schemamaintainer, schemaadmin]] }
+        _create:      { query_string: {schema_property_id: schema_property_id}, name: Add Property/Class Element, credentials: [[administrator, schemamaintainer, schemaadmin]] }
 
     edit:
       title:
@@ -83,6 +83,6 @@ generator:
         _list:         { query_string: {schema_property_id: schema_property_id} }
         _save:         { credentials: [[administrator, schemamaintainer, schemaadmin, schema_property_elementadmin]] }
         _delete:       { credentials: [[administrator, schemaadmin]] }
-        _create:       { query_string: {schema_property_id: schema_property_id}, name: Add Property Element, credentials: [[administrator, schemamaintainer, schemaadmin, schema_property_elementadmin]], mode: edit }
+        _create:       { query_string: {schema_property_id: schema_property_id}, name: Add Property/Class Element, credentials: [[administrator, schemamaintainer, schemaadmin, schema_property_elementadmin]], mode: edit }
         _save_and_add: { query_string: {schema_property_id: schema_property_id}, credentials: [[administrator, schemamaintainer, schemaadmin, schema_property_elementadmin]] }
         _cancel:       { credentials: [[administrator, schemamaintainer, schemaadmin, schema_property_elementadmin]], query_string: {schema_property_id: schema_property_id} }

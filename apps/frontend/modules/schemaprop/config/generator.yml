@@ -48,7 +48,7 @@ generator:
       object_actions:
         _edit:          { credentials: [[administrator, schemamaintainer, schemaadmin]] }
       actions:
-        _create:        { name: Add Property, credentials: [[administrator, schemamaintainer, schemaadmin]] }
+        _create:        { name: Add Property/Class, credentials: [[administrator, schemamaintainer, schemaadmin]] }
       filters:          [schema_id, label, updated_at, status]
       urlfilters:
         schema_id:  schema_id
@@ -83,7 +83,7 @@ generator:
         _list:         { query_string: { schema_id: schema_id} }
         _save:         { credentials: [[administrator, schemamaintainer, schemaadmin, schemapropadmin]] }
         _delete:       { credentials: [[administrator, schemaadmin]] }
-        _create:       { name: Add Property, credentials: [[administrator, schemamaintainer, schemaadmin, schemapropadmin]], mode: edit  }
+        _create:       { name: Add Property/Class, credentials: [[administrator, schemamaintainer, schemaadmin, schemapropadmin]], mode: edit  }
         _save_and_add: { credentials: [[administrator, schemamaintainer, schemaadmin, schemapropadmin]] }
         _cancel:       { credentials: [[administrator, schemamaintainer, schemaadmin, schemapropadmin]], query_string: { schema_id: schema_id} }
 
@@ -100,7 +100,7 @@ generator:
       actions:
         _list:         { query_string: { schema_id: schema_id} }
         _edit:         { credentials: [[administrator, schemamaintainer, schemaadmin]] }
-        _create:       { name: Add Property, credentials: [[administrator, schemamaintainer, schemaadmin]] }
+        _create:       { name: Add Property/Class, credentials: [[administrator, schemamaintainer, schemaadmin]] }
         showRdf:
           name:      Get RDF
           icon:      %SF_ADMIN_WEB_DIR%/images/rdf_icon.png

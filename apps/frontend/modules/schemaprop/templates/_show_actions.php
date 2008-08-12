@@ -15,7 +15,7 @@
  <?php endif; ?>
 <?php if ($sf_user->hasObjectCredential($sf_request->getParameter('schema_id'), 'schema',  array (   0 =>    array (     0 => 'administrator',     1 => 'schemamaintainer',     2 => 'schemaadmin',   ), ))): ?>
 <li><?php if ($schema_property->getId()): ?>
-<?php echo button_to(__('Add Property'), 'schemaprop/create', array (
+<?php echo button_to(__('Add Property/Class'), 'schemaprop/create', array (
   'title' => 'Create',
   'class' => 'sf_admin_action_create',
 )) ?><?php endif; ?>

@@ -9,6 +9,16 @@
  */
 class Profile extends BaseProfile
 {
+  /**
+  * default string
+  *
+  * @return string
+  */
+  public function __toString()
+  {
+    return $this->getName();
+  }
+
     /**
   * get the required properties for this profile
   *
