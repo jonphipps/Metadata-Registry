@@ -8,6 +8,8 @@
 
   //here we have a uri map
   $uriMap = array(
+    "roles/.*"    => "schema_property",
+    "roles"       => "schema",
     "Elements/.*"    => "schema_property",
     "Elements"       => "schema",
     "termLIst/.*/.*" => "concept",
