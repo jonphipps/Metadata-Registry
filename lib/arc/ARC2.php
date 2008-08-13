@@ -45,44 +45,44 @@ version:  2008-08-04 (Addition: ARC2_JSONParser
 
 class ARC2 {
 
-  function getVersion() {
+  public static function getVersion() {
     return '2008-08-04';
   }
 
   /*  */
-  
-  function setStatic($val) {
+
+  public static function setStatic($val) {
     static $arc_static = '';
     if ($val) $arc_static = $val;
     if (!$val) return $arc_static;
   }
-  
-  function getStatic() {
+
+  public static function getStatic() {
     return ARC2::setStatic('');
   }
-  
+
   /*  */
-  
-  function getIncPath($f = '') {
-    $r = realpath(dirname(__FILE__)) . '/';
+
+  public static function getIncPath($f = '') {
+    $r = realpath(dirname(__FILE__)) . DIRECTORY_SEPARATOR;
     $dirs = array(
       'plugin' => 'plugins',
       'trigger' => 'triggers',
-      'store' => 'store', 
-      'serializer' => 'serializers', 
-      'extractor' => 'extractors', 
-      'sparqlscript' => 'sparqlscript', 
-      'parser' => 'parsers', 
+      'store' => 'store',
+      'serializer' => 'serializers',
+      'extractor' => 'extractors',
+      'sparqlscript' => 'sparqlscript',
+      'parser' => 'parsers',
     );
     foreach ($dirs as $k => $dir) {
       if (preg_match('/' . $k . '/i', $f)) {
-        return $r .= $dir . '/';
+        return $r .= $dir . DIRECTORY_SEPARATOR;
       }
     }
     return $r;
   }
-  
-  function getScriptURI() {
+
+  public static function getScriptURI() {
     if (isset($_SERVER) && isset($_SERVER['SERVER_NAME'])) {
       return preg_replace('/^([a-z]+)\/.*$/', '\\1', strtolower($_SERVER['SERVER_PROTOCOL'])) . '://' . $_SERVER['SERVER_NAME'] . $_SERVER['SCRIPT_NAME'];
     }
@@ -91,8 +91,8 @@ class ARC2 {
     }
     return 'http://localhost/unknown_path';
   }
-  
-  function inc($f) {
+
+  public static function inc($f) {
     $prefix = 'ARC2';
     if (preg_match('/^([^\_]+)\_(.*)$/', $f, $m)) {
       $prefix = $m[1];
@@ -105,7 +105,7 @@ class ARC2 {
       return 1;
     }
     if ($prefix != 'ARC2') {
-      $path = $inc_path . strtolower($prefix) . '/' . $prefix . '_' . urlencode($f) . '.php';
+      $path = $inc_path . strtolower($prefix) . DIRECTORY_SEPARATOR . $prefix . '_' . urlencode($f) . '.php';
       if (file_exists($path)) {
         include_once($path);
         return 1;
@@ -113,33 +113,33 @@ class ARC2 {
     }
     return 0;
   }
-  
+
   /*  */
 
-  function mtime(){
+  public static function mtime(){
     list($msec, $sec) = explode(" ", microtime());
     return ((float)$msec + (float)$sec);
   }
-  
-  function x($re, $v, $options = 'si') {
+
+  public static function x($re, $v, $options = 'si') {
     return preg_match("/^\s*" . $re . "(.*)$/" . $options, $v, $m) ? $m : false;
   }
 
   /*  */
 
-  function getFormat($val, $mtype = '', $ext = '') {
+  public static function getFormat($val, $mtype = '', $ext = '') {
     ARC2::inc('getFormat');
     return ARC2_getFormat($val, $mtype, $ext);
   }
-  
-  function getPreferredFormat($default = 'plain') {
+
+  public static function getPreferredFormat($default = 'plain') {
     ARC2::inc('getPreferredFormat');
     return ARC2_getPreferredFormat($default);
   }
-  
+
   /*  */
-  
-  function toUTF8($v) {
+
+  public static function toUTF8($v) {
     if (utf8_decode($v) == $v) return $v;
 		$v = (strpos(utf8_decode(str_replace('?', '', $v)), '?') === false) ? utf8_decode($v) : $v;
     return utf8_encode($v);
@@ -147,7 +147,7 @@ class ARC2 {
 
   /*  */
 
-  function splitURI($v) {
+  public static function splitURI($v) {
     $parts = preg_match('/^(.*[\/\#])([^\/\#]+)$/', $v, $m) ? array($m[1], $m[2]) : array($v);
     $specials = array(
       'http://www.w3.org/XML/1998/namespace',
@@ -162,10 +162,10 @@ class ARC2 {
     }
     return $parts;
   }
-  
+
   /*  */
 
-  function getSimpleIndex($triples, $flatten_objects = 1, $vals = '') {
+  public static function getSimpleIndex($triples, $flatten_objects = 1, $vals = '') {
     $r = array();
     foreach ($triples as $t) {
       $skip_t = 0;
@@ -212,8 +212,8 @@ class ARC2 {
     }
     return $r;
   }
-  
-  function getTriplesFromIndex($index) {
+
+  public static function getTriplesFromIndex($index) {
     $r = array();
     foreach ($index as $s => $ps) {
       foreach ($ps as $p => $os) {
@@ -232,8 +232,8 @@ class ARC2 {
     }
     return $r;
   }
-  
-  function getMergedIndex() {
+
+  public static function getMergedIndex() {
     $r = array();
     foreach (func_get_args() as $index) {
       foreach ($index as $s => $ps) {
@@ -250,8 +250,8 @@ class ARC2 {
     }
     return $r;
   }
-  
-  function getCleanedIndex() {/* removes triples from a given index */
+
+  public static function getCleanedIndex() {/* removes triples from a given index */
     $indexes = func_get_args();
     $r = $indexes[0];
     for ($i = 1, $i_max = count($indexes); $i < $i_max; $i++) {
@@ -295,10 +295,10 @@ class ARC2 {
     }
     return $has_data ? $r : array();
   }
-  
+
   /*  */
 
-  function getStructType($v) {
+  public static function getStructType($v) {
     /* string */
     if (is_string($v)) return 'string';
     /* triples */
@@ -317,7 +317,7 @@ class ARC2 {
 
   /*  */
 
-  function getComponent($name, $a = '') {
+  public static function getComponent($name, $a = '') {
     ARC2::inc($name);
     $prefix = 'ARC2';
     if (preg_match('/^([^\_]+)\_(.+)$/', $name, $m)) {
@@ -327,103 +327,103 @@ class ARC2 {
     $cls = $prefix . '_' . $name;
     return new $cls($a, new stdClass());
   }
-  
+
   /* parsers */
-  
-  function getParser($prefix, $a = '') {
+
+  public static function getParser($prefix, $a = '') {
     return ARC2::getComponent($prefix . 'Parser', $a);
   }
 
-  function getRDFParser($a = '') {
+  public static function getRDFParser($a = '') {
     return ARC2::getParser('RDF', $a);
   }
 
-  function getRDFXMLParser($a = '') {
+  public static function getRDFXMLParser($a = '') {
     return ARC2::getParser('RDFXML', $a);
   }
 
-  function getTurtleParser($a = '') {
+  public static function getTurtleParser($a = '') {
     return ARC2::getParser('Turtle', $a);
   }
 
-  function getRSSParser($a = '') {
+  public static function getRSSParser($a = '') {
     return ARC2::getParser('RSS', $a);
   }
 
-  function getSemHTMLParser($a = '') {
+  public static function getSemHTMLParser($a = '') {
     return ARC2::getParser('SemHTML', $a);
   }
 
-  function getSPARQLParser($a = '') {
+  public static function getSPARQLParser($a = '') {
     return ARC2::getComponent('SPARQLParser', $a);
   }
 
-  function getSPARQLPlusParser($a = '') {
+  public static function getSPARQLPlusParser($a = '') {
     return ARC2::getParser('SPARQLPlus', $a);
   }
 
-  function getSPARQLXMLResultParser($a = '') {
+  public static function getSPARQLXMLResultParser($a = '') {
     return ARC2::getParser('SPARQLXMLResult', $a);
   }
 
-  function getSGAJSONParser($a = '') {
+  public static function getSGAJSONParser($a = '') {
     return ARC2::getParser('SGAJSON', $a);
   }
 
-  function getCBJSONParser($a = '') {
+  public static function getCBJSONParser($a = '') {
     return ARC2::getParser('CBJSON', $a);
   }
 
-  function getSPARQLScriptParser($a = '') {
+  public static function getSPARQLScriptParser($a = '') {
     return ARC2::getParser('SPARQLScript', $a);
   }
 
   /* store */
 
-  function getStore($a = '') {
+  public static function getStore($a = '') {
     return ARC2::getComponent('Store', $a);
   }
 
-  function getRemoteStore($a = '') {
+  public static function getRemoteStore($a = '') {
     return ARC2::getComponent('RemoteStore', $a);
   }
 
-  function getStoreEndpoint($a = '') {
+  public static function getStoreEndpoint($a = '') {
     return ARC2::getComponent('StoreEndpoint', $a);
   }
-  
+
   /* serializers */
 
-  function getSer($prefix, $a = '') {
+  public static function getSer($prefix, $a = '') {
     return ARC2::getComponent($prefix . 'Serializer', $a);
   }
 
-  function getTurtleSerializer($a = '') {
+  public static function getTurtleSerializer($a = '') {
     return ARC2::getSer('Turtle', $a);
   }
 
-  function getRDFXMLSerializer($a = '') {
+  public static function getRDFXMLSerializer($a = '') {
     return ARC2::getSer('RDFXML', $a);
   }
 
-  function getNTriplesSerializer($a = '') {
+  public static function getNTriplesSerializer($a = '') {
     return ARC2::getSer('NTriples', $a);
   }
 
-  function getRDFJSONSerializer($a = '') {
+  public static function getRDFJSONSerializer($a = '') {
     return ARC2::getSer('RDFJSON', $a);
   }
 
-  function getPOSHRDFSerializer($a = '') {
+  public static function getPOSHRDFSerializer($a = '') {
     return ARC2::getSer('POSHRDF', $a);
   }
 
   /* sparqlscript */
 
-  function getSPARQLScriptProcessor($a = '') {
+  public static function getSPARQLScriptProcessor($a = '') {
     return ARC2::getComponent('SPARQLScriptProcessor', $a);
   }
 
   /*  */
-  
+
 }
