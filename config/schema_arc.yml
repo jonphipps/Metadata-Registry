@@ -1,0 +1,191 @@
+---
+propel:
+  _attributes:
+    package: lib.model
+  arc_g2t:
+    _attributes:
+      phpName: ArcG2t
+    g:
+      type: SMALLINT
+      required: true
+      default: ''
+      foreignTable: arc_id2val
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
+      index: true
+    t:
+      type: SMALLINT
+      required: true
+      default: ''
+      foreignTable: arc_triple
+      foreignReference: t
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
+      index: true
+    _indexes:
+      tg:
+        - t
+        - g
+    _uniques:
+      gt:
+        - g
+        - t
+  arc_id2val:
+    _attributes:
+      phpName: ArcId2val
+    id:
+      type: SMALLINT
+      required: true
+      default: ''
+    misc:
+      type: BOOLEAN
+      required: true
+      default: 0
+    val:
+      type: LONGVARCHAR
+      required: true
+    val_type:
+      type: BOOLEAN
+      required: true
+      default: 0
+    _indexes:
+      v:
+        - val
+      id_2:
+        - id
+    _uniques:
+      id:
+        - id
+        - val_type
+  arc_o2val:
+    _attributes:
+      phpName: ArcO2val
+    id:
+      type: SMALLINT
+      required: true
+      default: ''
+      index: unique
+    cid:
+      type: SMALLINT
+      required: true
+      default: ''
+      index: true
+    misc:
+      type: BOOLEAN
+      required: true
+      default: 0
+    val:
+      type: LONGVARCHAR
+      required: true
+    _indexes:
+      v:
+        - val
+  arc_s2val:
+    _attributes:
+      phpName: ArcS2val
+    id:
+      type: SMALLINT
+      required: true
+      default: ''
+      index: unique
+    cid:
+      type: SMALLINT
+      required: true
+      default: ''
+      index: true
+    misc:
+      type: BOOLEAN
+      required: true
+      default: 0
+    val:
+      type: LONGVARCHAR
+      required: true
+    _indexes:
+      v:
+        - val
+  arc_setting:
+    _attributes:
+      phpName: ArcSetting
+    k:
+      type: CHAR
+      size: 32
+      required: true
+      default: ''
+      index: unique
+    val:
+      type: LONGVARCHAR
+      required: true
+  arc_triple:
+    _attributes:
+      phpName: ArcTriple
+    t:
+      type: SMALLINT
+      required: true
+      default: ''
+      index: unique
+    s:
+      type: SMALLINT
+      required: true
+      default: ''
+      foreignTable: arc_s2val
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
+      index: true
+    p:
+      type: SMALLINT
+      required: true
+      default: ''
+      foreignTable: arc_id2val
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
+      index: true
+    o:
+      type: SMALLINT
+      required: true
+      default: ''
+      foreignTable: arc_o2val
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
+      index: true
+    o_lang_dt:
+      type: SMALLINT
+      required: true
+      default: ''
+      foreignTable: arc_id2val
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
+      index: true
+    o_comp:
+      type: CHAR
+      size: 35
+      required: true
+      default: ''
+    s_type:
+      type: BOOLEAN
+      required: true
+      default: 0
+    o_type:
+      type: BOOLEAN
+      required: true
+      default: 0
+    misc:
+      type: BOOLEAN
+      required: true
+      default: 0
+      index: true
+    _indexes:
+      spo:
+        - s
+        - p
+        - o
+      os:
+        - o
+        - s
+      po:
+        - p
+        - o
