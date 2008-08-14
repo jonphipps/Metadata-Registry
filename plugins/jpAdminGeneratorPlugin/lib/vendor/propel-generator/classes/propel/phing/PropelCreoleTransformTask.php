@@ -1,7 +1,7 @@
 <?php
 
 /*
- *  $Id: PropelCreoleTransformTask.php 419 2008-04-08 13:51:12Z jphipps $
+ *  $Id: PropelCreoleTransformTask.php 513 2008-08-08 23:26:55Z jphipps $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -30,7 +30,7 @@ require_once 'phing/Task.php';
  * @author     Hans Lellelid <hans@xmpl.org> (Propel)
  * @author     Jason van Zyl <jvanzyl@periapt.com> (Torque)
  * @author     Fedor Karpelevitch <fedor.karpelevitch@barra.com> (Torque)
- * @version    $Revision: 419 $
+ * @version    $Revision: 513 $
  * @package    propel.phing
  */
 class PropelCreoleTransformTask extends Task {
@@ -370,9 +370,17 @@ class PropelCreoleTransformTask extends Task {
 
 		$node = $this->doc->createElement("table");
 		$node->setAttribute("name", $table->getName());
+    $tablePrefix = $this->getProject()->getProperty('propel.builder.tablePrefix');
 		if ($this->isSamePhpName()) {
 			$node->setAttribute("phpName", $table->getName());
 		}
+    elseif ($tablePrefix)
+    {
+      $prefix = '/^' . $tablePrefix . '/im';
+      $tmp = sfInflector::classify(preg_replace($prefix, '', $table->getName()));
+      $node->setAttribute("phpName", $tmp);
+    }
+
 		if ($vendorNode = $this->createVendorInfoNode($table->getVendorSpecificInfo())) {
 			$node->appendChild($vendorNode);
 		}
@@ -503,7 +511,7 @@ class PropelCreoleTransformTask extends Task {
 			$node->setAttribute("primaryKey", "true");
 		}
 
-//following changed to insert '' instead of blank if default is empty but not null. And to not insert CURRENT_TIMESTAMP since creole can't handle it. 
+//following changed to insert '' instead of blank if default is empty but not null. And to not insert CURRENT_TIMESTAMP since creole can't handle it.
     $defValue = $column->getDefaultValue();
 		if (null !== $defValue  && 'CURRENT_TIMESTAMP' != $defValue) {
       if ('' === $defValue)

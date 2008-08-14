@@ -370,9 +370,17 @@ class PropelCreoleTransformTask extends Task {
 
 		$node = $this->doc->createElement("table");
 		$node->setAttribute("name", $table->getName());
+    $tablePrefix = $this->getProject()->getProperty('propel.builder.tablePrefix');
 		if ($this->isSamePhpName()) {
 			$node->setAttribute("phpName", $table->getName());
 		}
+    elseif ($tablePrefix)
+    {
+      $prefix = '/^' . $tablePrefix . '/im';
+      $tmp = sfInflector::classify(preg_replace($prefix, '', $table->getName()));
+      $node->setAttribute("phpName", $tmp);
+    }
+
 		if ($vendorNode = $this->createVendorInfoNode($table->getVendorSpecificInfo())) {
 			$node->appendChild($vendorNode);
 		}
@@ -503,7 +511,7 @@ class PropelCreoleTransformTask extends Task {
 			$node->setAttribute("primaryKey", "true");
 		}
 
-//following changed to insert '' instead of blank if default is empty but not null. And to not insert CURRENT_TIMESTAMP since creole can't handle it. 
+//following changed to insert '' instead of blank if default is empty but not null. And to not insert CURRENT_TIMESTAMP since creole can't handle it.
     $defValue = $column->getDefaultValue();
 		if (null !== $defValue  && 'CURRENT_TIMESTAMP' != $defValue) {
       if ('' === $defValue)
