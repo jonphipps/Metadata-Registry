@@ -631,7 +631,11 @@ class sfPropelDatabaseSchema
         foreach ($indexes as $index => $references)
         {
           // Only single indexes can be simplified
+/**
+* @todo This was 'fixed' by JP because it was throwing an error
           if (count($references) == 1 && array_key_exists(substr($index, 0, strlen($index) - 6), $columns))
+**/
+          if (count($references) == 1 && array_key_exists(substr($index, 0, strlen($index)), $columns))
           {
             $reference = $references[0];
 
