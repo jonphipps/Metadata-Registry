@@ -34,6 +34,10 @@ class vocabularyActions extends autovocabularyActions
 
   public function executeSave()
   {
+    //strip trailing blanks and tokens from URI
+    $vocabulary = $this->getRequestParameter('vocabulary');
+    $vocabulary['uri'] = rtrim($vocabulary['uri'], " /");
+    $this->requestParameterHolder->set('vocabulary', $vocabulary);
     $this->getUser()->getAttributeHolder()->remove('vocabulary');
     parent::executeSave();
   }
