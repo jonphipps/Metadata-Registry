@@ -160,20 +160,26 @@ class conceptpropActions extends autoconceptpropActions
   */
   public function getCurrentConcept()
   {
-    $concept = myActionTools::findCurrentConcept();
+    //TODO: Redo this temporary fix to retrieving the current concept and vocabulary
+    //$concept = myActionTools::findCurrentConcept();
 
-    if (!$concept) //we have to do it the hard way
-    {
+    //if (!$concept) //we have to do it the hard way
+    //{
       $this->conceptProperty = ConceptPropertyPeer::retrieveByPk($this->getRequestParameter('id'));
       /* @var Concept */
       if (isset($this->conceptProperty))
       {
         $concept = $this->conceptProperty->getConceptRelatedByConceptId();
       }
-    }
+      else
+      {
+        $concept = myActionTools::findCurrentConcept();
+      }
+    //}
 
     //and let's just do the vocabulary while we're at it
-    if ($concept && !isset($this->vocabulary))
+    //if ($concept && !isset($this->vocabulary))
+    if ($concept)
     {
       $vocabulary = $concept->getVocabulary();
       $this->vocabulary = $vocabulary;

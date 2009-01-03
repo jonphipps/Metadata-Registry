@@ -61,7 +61,7 @@ generator:
         _scheme_id:         { name: Vocabulary }
         object:             { name: Value }
         skos_property_id:   { name: skos:property, params: onchange=swapOptions() }
-        related_concept_id: { params: related_class=Concept peer_method=getConceptsByCurrentVocabID }
+        related_concept_id: { params: related_class=Concept peer_method=getConceptsByRelatedVocabID }
         language:           { type: select_language_tag }
       display:
         "-Metadata":        { fields: [id, created_at, created_user, updated_at, updated_user], mode: edit, credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }

@@ -71,6 +71,29 @@ class ConceptPeer extends BaseConceptPeer
   }
 
   /**
+  * description
+  *
+  * @return return_type
+  * @param  var_type $var
+  */
+  public static function getConceptsByRelatedVocabID()
+  {
+     $conceptProperty = sfContext::getInstance()->getActionStack()->getLastEntry()->getActionInstance()->concept_property;
+     if ($conceptProperty)
+     {
+         $vocabId = $conceptProperty->getSchemeId();
+         $concept = $conceptProperty->getConceptRelatedByRelatedConceptId();
+     }
+
+     if ($concept)
+     {
+       $conceptId = $concept->getId();
+     }
+
+     return self::getConceptsByVocabID($vocabId);
+  }
+
+  /**
   * gets concept by concept URI
   *
   * @return Concept
