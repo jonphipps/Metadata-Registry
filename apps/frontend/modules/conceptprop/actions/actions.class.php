@@ -77,8 +77,6 @@ class conceptpropActions extends autoconceptpropActions
       {
          $concept_property['related_concept_id'] = null;
          $concept_property['scheme_id'] = null;
-         //save the array back to the request parameter
-         $this->requestParameterHolder->set('concept_property', $concept_property);
       }
 
       $conceptPropertyId = $this->getRequestParameter('id');
@@ -106,14 +104,19 @@ class conceptpropActions extends autoconceptpropActions
         $newProp->setSchemeId($this->concept->getVocabularyId());
         $newProp->setRelatedConceptId($this->concept->GetId());
         $newProp->setObject($this->concept->getUri());
+        $newProp->setStatusId($concept_property['status_id']);
         $newProp->setUpdatedUserId($this->getUser()->getSubscriberId());
 
         //TODO: make this the user's default language (actually the language is not relevant when defining relationships)
         //$newProp->setLanguage($this->concept->getLanguage());
         $newProp->setLanguage('');
+        $concept_property['language'] = '';
 
         $newProp->save();
       }
+
+      //save the array back to the request parameter
+      $this->requestParameterHolder->set('concept_property', $concept_property);
     }
     parent::executeEdit();
 
