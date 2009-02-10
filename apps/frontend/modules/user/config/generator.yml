@@ -44,18 +44,6 @@ generator:
         _create:       { credentials: [administrator] }
         _save_and_add: { credentials: [administrator] }
 
-    create:
-      title:           Add new user
-      display:
-        "Detail":      [nickname, password, salutation, first_name, last_name, email]
-        "Permissions": [want_to_be_moderator, is_moderator, is_administrator]
-      actions:
-        _list:      -
-        _save:         { credentials: [administrator, useradmin] }
-        _delete:       { credentials: [administrator] }
-        _create:       { credentials: [administrator] }
-        _save_and_add: { credentials: [administrator] }
-
     show:
       title:           Detail for %%user%%
       fields:

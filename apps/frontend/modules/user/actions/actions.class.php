@@ -36,13 +36,6 @@ class userActions extends autouserActions
     $this->forward404Unless($this->subscriber);
 
     $this->updateUserFromRequest();
-
-    // password update
-    if ($this->getRequestParameter('password'))
-    {
-      $this->subscriber->setPassword($this->getRequestParameter('password'));
-    }
-
     $this->subscriber->save();
 
     $this->redirect('@user_profile?nickname='.$this->subscriber->getNickname());
@@ -162,8 +155,50 @@ class userActions extends autouserActions
     $this->updateUserFromRequest();
     $this->setShowVars();
 
-    $this->forward('user', 'show');
-    //return array('user', 'showSuccess');
+    $this->labels = $this->getLabels();
+
+    $this->forward('user', 'showSubscriber');
+  }
+
+  public function updateUserFromRequest()
+  {
+    $user['nickname'] = $this->getRequestParameter('nickname');
+    $user['salutation'] = $this->getRequestParameter('salutation');
+    $user['first_name'] = $this->getRequestParameter('first_name');
+    $user['last_name'] = $this->getRequestParameter('last_name');
+    $user['email'] = $this->getRequestParameter('email');
+    $user['password'] = $this->getRequestParameter('password');
+    $user['want_to_be_moderator'] = $this->getRequestParameter('want_to_be_moderator');
+    $user['is_moderator'] = $this->getRequestParameter('is_moderator');
+    $user['is_administrator'] = $this->getRequestParameter('is_administrator');
+
+    if ($user['nickname'])
+    {
+      $this->subscriber->setNickname($user['nickname']);
+    }
+    if ($user['salutation'])
+    {
+      $this->subscriber->setSalutation($user['salutation']);
+    }
+    if ($user['first_name'])
+    {
+      $this->subscriber->setFirstName($user['first_name']);
+    }
+    if ($user['last_name'])
+    {
+      $this->subscriber->setLastName($user['last_name']);
+    }
+    if ($user['email'])
+    {
+      $this->subscriber->setEmail($this->getRequestParameter('email'));
+    }
+    if ($user['password'])
+    {
+      $this->subscriber->setPassword($user['password']);
+    }
+    $this->subscriber->setWantToBeModerator(isset($user['want_to_be_moderator']) ? $user['want_to_be_moderator'] : 0);
+    $this->subscriber->setIsModerator(isset($user['is_moderator']) ? $user['is_moderator'] : 0);
+    $this->subscriber->setIsAdministrator(isset($user['is_administrator']) ? $user['is_administrator'] : 0);
   }
 
   private function setShowVars()

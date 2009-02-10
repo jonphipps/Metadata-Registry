@@ -78,7 +78,6 @@
 <fieldset id="sf_fieldset_vocabularies">
   <h2><?php echo __('Vocabularies') ?></h2>
 <div id="show_row_user_vocabulary_list" class="show-row">
-  <label><?php echo __($labels['user{vocabulary_list}']) ?></label>
   <div id="show_row_content_user_vocabulary_list" class="content">
 <?php $showValue = get_partial('vocabulary_list', array('type' => 'list', 'user' => $subscriber)) ?>
 <?php if ($showValue): ?>
@@ -94,7 +93,6 @@
 <fieldset id="sf_fieldset_agents">
   <h2><?php echo __('Agents') ?></h2>
 <div id="show_row_user_agent_list" class="show-row">
-  <label><?php echo __($labels['user{agent_list}']) ?></label>
   <div id="show_row_content_user_agent_list" class="content">
 <?php $showValue = get_partial('agent_list', array('type' => 'list', 'user' => $subscriber)) ?>
 <?php if ($showValue): ?>

@@ -29,3 +29,5 @@ emailValidator:
     class: sfEmailValidator
     param:
       email_error:  email is invalid
+fillin:
+  activate: on
