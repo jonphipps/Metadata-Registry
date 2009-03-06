@@ -65,8 +65,11 @@ class contentActions extends sfActions
     $RSS_PHP = new rss_php();
     try
     {
-      $RSS_PHP->load('http://metadataregistry.org/blog/category/registry-development/the-registry/feed');
-      $this->rssItems = $RSS_PHP->getItems();
+      $feed = $RSS_PHP->load('http://metadataregistry.org/blog/category/registry-development/the-registry/feed');
+      if ($feed)
+      {
+        $this->rssItems = $RSS_PHP->getItems();
+      }
     }
     catch (Exception $e)
     {
