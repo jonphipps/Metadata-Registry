@@ -4,7 +4,7 @@ generator:
     model_class:      SchemaProperty
     theme:            default
     pager:
-      no_results:     No Properties have been defined for this Schema
+      no_results:     No Classes or Properties have been defined for this Schema
 
     fields:
       id:
@@ -69,6 +69,7 @@ generator:
               subproperty: subproperty
               class:       class
               subclass:    subclass
+            include_blank: true
             onchange: swapOptions()
         language:          { type: select_language_tag }
         is_subproperty_of: { params: related_class=SchemaProperty peer_method=getPropertiesByCurrentSchemaID }
@@ -77,7 +78,7 @@ generator:
       hide:                [schema_id, schema_uri]
       display:
         "-Metadata":   { fields: [id, created_at, created_user, updated_at, updated_user], mode: edit}
-        "Detail":      [label, name, uri, definition, comment, type, is_subproperty_of, is_subclass_of, parent_uri, status_id, language, note]
+        "Detail":      [type, label, name, uri, definition, comment, is_subproperty_of, is_subclass_of, parent_uri, domain, range, status_id, language, note]
 #        "Properties":  [_listproperties]
       actions:
         _list:         { query_string: { schema_id: schema_id} }
@@ -93,9 +94,11 @@ generator:
         id:            { credentials: [administrator] }
         uri:           { helper: auto_link_text }
         parent_property: { condition: "'subproperty' == $schema_property->getType() || 'subclass' == $schema_property->getType()" }
+        domain:          { condition: "'subproperty' == $schema_property->getType() || 'property' == $schema_property->getType()" }
+        range:           { condition: "'subproperty' == $schema_property->getType() || 'property' == $schema_property->getType()" }
       display:
         "-Metadata":   { fields: [id, created_at, created_user, updated_at, updated_user] }
-        "Detail":      [label, name, uri, definition, comment, type, parent_property, status, _language, note]
+        "Detail":      [label, name, uri, definition, comment, type, parent_property, domain, range, status, _language, note]
 #        "Properties":  [_listproperties]
       actions:
         _list:         { query_string: { schema_id: schema_id} }
