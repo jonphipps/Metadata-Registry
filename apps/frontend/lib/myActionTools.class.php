@@ -435,7 +435,7 @@ class myActionTools
   {
     if (is_object($schemaId))
     {
-      $schemaObj == $schemaId;
+      $schemaObj = $schemaId;
     }
     else
     {
