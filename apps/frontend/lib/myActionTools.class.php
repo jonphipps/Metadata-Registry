@@ -429,10 +429,18 @@ class myActionTools
   *
   * @return Schema Current schema object
   * @param  integer $schemaId
+  * @param  object $schemaId
   */
   public static function setLatestSchema($schemaId)
   {
-    $schemaObj = SchemaPeer::retrieveByPK($schemaId);
+    if (is_object($schemaId))
+    {
+      $schemaObj == $schemaId;
+    }
+    else
+    {
+      $schemaObj = SchemaPeer::retrieveByPK($schemaId);
+    }
     if ($schemaObj)
     {
       sfContext::getInstance()->getUser()->setCurrentSchema($schemaObj);

@@ -101,6 +101,10 @@ class schemapropActions extends autoschemapropActions
       if (isset($this->schemaprop))
       {
         $schema = $this->schemaprop->getSchema();
+        if ($schema)
+        {
+          myActionTools::setLatestSchema($schema);
+        }
       }
     }
 
