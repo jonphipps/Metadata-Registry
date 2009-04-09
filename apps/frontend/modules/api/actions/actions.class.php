@@ -26,7 +26,10 @@ class apiActions extends sfActions
     if (!$uri) //then build it
     {
       $uri = "http://" . $request->getPathInfoParam('HTTP_HOST') . $request->getPathInfoParam('REQUEST_URI');
-      $uri = preg_replace('/\..*$/', '', $uri);
+      //strip trailing type
+      $uri = preg_replace('/\.\w+$/U', '', $uri);
+      //strip _dev script if it's part of the URI'
+      $uri = preg_replace('%\w+\_dev.php/%', '', $uri);
     }
 
     $module = $this->getRequestParameter('type');
@@ -79,8 +82,7 @@ class apiActions extends sfActions
             /** @var Concept **/
             $concept = ConceptPeer::getConceptByUri($uri);
             $this->forward404Unless($concept);
-            $host = $this->getRequest()->getPathInfoParam('HTTP_HOST');
-            $uri = "http://" . $host . "/concept/show/id/". $concept->getId() . ".html";
+            $uri = $this->getRequest()->getUriPrefix() . "/concept/show/id/". $concept->getId() . ".html";
             //redirect
             $this->redirectIf($redir, $uri, 303);
             //return the url
@@ -106,8 +108,7 @@ class apiActions extends sfActions
             /** @var Vocabulary **/
             $vocabulary = VocabularyPeer::retrieveByUri($uri);
             $this->forward404Unless($vocabulary);
-            $host = $this->getRequest()->getPathInfoParam('HTTP_HOST');
-            $uri = "http://" . $host . "/vocabulary/show/id/". $vocabulary->getId() . ".html";
+            $uri = $this->getRequest()->getUriPrefix() . "/vocabulary/show/id/". $vocabulary->getId() . ".html";
             //redirect
             $this->redirectIf($redir, $uri, 303);
             //return the url
@@ -137,8 +138,7 @@ class apiActions extends sfActions
         switch ($module)
         {
           case 'html':
-            $host = $this->getRequest()->getPathInfoParam('HTTP_HOST');
-            $uri = "http://" . $host . "/schema/show/id/". $schema->getId() . ".html";
+            $uri = $this->getRequest()->getUriPrefix() . "/schema/show/id/". $schema->getId() . ".html";
             //redirect
             $this->redirectIf($redir, $uri, 303);
             //return the url
@@ -161,8 +161,7 @@ class apiActions extends sfActions
         switch ($module)
         {
           case 'html':
-            $host = $this->getRequest()->getPathInfoParam('HTTP_HOST');
-            $uri = "http://" . $host . "/schemaprop/show/id/". $property->getId() . ".html";
+            $uri = $this->getRequest()->getUriPrefix() . "/schemaprop/show/id/". $property->getId() . ".html";
             //redirect
             $this->redirectIf($redir, $uri, 303);
             //return the url
