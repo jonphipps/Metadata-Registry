@@ -1,0 +1,91 @@
+generator:
+  class:              sfPropelAdminGenerator
+  param:
+    model_class:      ConceptProperty
+    theme:            default
+
+    fields:
+      id:
+        name: ID
+        type: plain
+      created_at:
+        name: Date Created
+        type: plain
+      updated_at:
+        name: Last Updated
+        help: This is the date the property was last updated
+        type: plain
+      created_user:
+        name: Created by
+        help: This is the user who created the property
+        type: plain
+      updated_user:
+        name: Last Updated by
+        help: This is the user who updated the property last
+        type: plain
+      concept_id:       { name: Parent Concept }
+      related_concept_id:
+      scheme_id:
+      skos_property:    { name: skos:property }
+      object:           { name: Value }
+      show_object:      { name: Value }
+      listproperties:   { name: "" }
+      status_id:        ( name: Status }
+
+    list:
+      title:         Concept Property List
+      fields:
+        language:     { name: Lang }
+        updated_at: { name: Updated }
+      display:        [=skos_property, _show_object, language, status, updated_at]
+      displayfilter:  false
+      object_actions:
+        _edit:        { credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
+        _delete:      { credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
+      actions:
+        _create:      {query_string: {concept_id: concept_id}, name: Add Property, credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
+      filters:        [concept_id, skos_property_id, updated_at, object]
+      # urlfilter form is [field to filter on]: [value passed from routing.yml]
+      # multiple filters can be set but they're currently mutually exclusive (any of the list can be used but only one per url)
+      urlfilters:
+        concept_id: concept_id
+
+    edit:
+      title:
+        mode:
+          edit:        Editing %%skos_property%%
+          create:      Creating new property
+      hide:                 [concept_id]
+      fields:
+        id:                 { credentials: [administrator], mode: edit }
+        _scheme_id:         { name: Vocabulary }
+        object:             { name: Value }
+        skos_property_id:   { name: skos:property, params: onchange=swapOptions() }
+        related_concept_id: { params: related_class=Concept peer_method=getConceptsByRelatedVocabID }
+        language:           { type: select_language_tag }
+      display:
+        "-Metadata":        { fields: [id, created_at, created_user, updated_at, updated_user], mode: edit, credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
+        "Detail":            [skos_property_id, _scheme_id, related_concept_id, object, language, status_id]
+        "Other Properties":  [_listproperties]
+      actions:
+        # You can add a string literal to the query string like this: foo: "'bar'" which will add foo=bar
+        _list:         { query_string: {concept_id: concept_id} }
+        _save:         { credentials: [[administrator, vocabularymaintainer, vocabularyadmin, conceptpropadmin]] }
+        _delete:       { credentials: [[administrator, vocabularyadmin]] }
+        _create:       { query_string: {concept_id: concept_id}, name: Add Property, credentials: [[administrator, vocabularymaintainer, vocabularyadmin, conceptpropadmin]], mode: edit }
+        _save_and_add: { query_string: {concept_id: concept_id}, credentials: [[administrator, vocabularymaintainer, vocabularyadmin, conceptpropadmin]] }
+        _cancel:       { credentials: [[administrator, vocabularymaintainer, vocabularyadmin, conceptpropadmin]], query_string: {concept_id: concept_id} }
+
+    show:
+      fields:
+        id:           { credentials: [administrator] }
+        object:       { helper: auto_link_text }
+      display:
+        "-Metadata":   { fields: [id, created_at, created_user, updated_at, updated_user], credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
+        "Detail":     [skos_property, related_scheme, related_concept, object, _language, status]
+        "-Other Properties": [_listproperties]
+      actions:
+        _list:        { query_string: {concept_id: concept_id} }
+        _edit:        { credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
+        _create:      { query_string: {concept_id: concept_id}, name: Add Property, credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
+

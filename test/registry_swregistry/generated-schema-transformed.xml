@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database defaultPhpNamingMethod="underscore" heavyIndexing="false" name="propel" defaultIdMethod="native" noXsd="true" package="lib.model">
+    <table skipSql="false" abstract="false" name="reg_agent" idMethod="native">
+        <column lazyLoad="false" name="id" type="INTEGER" required="true" autoIncrement="true" primaryKey="true"/>
+        <column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="created_at" type="TIMESTAMP"/>
+        <column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="last_updated" type="TIMESTAMP" default="CURRENT_TIMESTAMP"/>
+        <column primaryKey="false" autoIncrement="false" lazyLoad="false" name="org_email" type="VARCHAR" size="100" required="true" default="null"/>
+        <column primaryKey="false" autoIncrement="false" lazyLoad="false" name="org_name" type="VARCHAR" size="255" required="true" default="null"/>
+        <column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="ind_affiliation" type="VARCHAR" size="255"/>
+        <column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="ind_role" type="VARCHAR" size="45"/>
+        <column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="address1" type="VARCHAR" size="255"/>
+        <column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="address2" type="VARCHAR" size="255"/>
+        <column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="city" type="VARCHAR" size="45"/>
+        <column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="state" type="CHAR" size="2"/>
+        <column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="postal_code" type="VARCHAR" size="15"/>
+        <column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="country" type="CHAR" size="3"/>
+        <column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="phone" type="VARCHAR" size="45"/>
+        <column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="web_address" type="VARCHAR" size="255"/>
+        <column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="type" type="CHAR" size="15"/>
+    </table>
+    <table skipSql="false" abstract="false" name="reg_agent_has_user">
+        <column autoIncrement="false" lazyLoad="false" name="user_id" type="INTEGER" required="true" primaryKey="true" default="null"/>
+        <column autoIncrement="false" lazyLoad="false" name="agent_id" type="INTEGER" required="true" primaryKey="true" default="0"/>
+        <column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="is_registrar_for" type="TINYINT" default="1"/>
+        <column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="is_admin_for" type="TINYINT" default="1"/>
+        <foreign-key foreignTable="reg_user" onDelete="cascade" onUpdate="restrict">
+            <reference local="user_id" foreign="id"/>
+        </foreign-key>
+        <foreign-key foreignTable="reg_agent" onDelete="cascade" onUpdate="restrict">
+            <reference local="agent_id" foreign="id"/>
+        </foreign-key>
+        <index name="user_id">
+            <index-column name="user_id"/>
+        </index>
+        <index name="agent_id">
+            <index-column name="agent_id"/>
+        </index>
+    </table>
+    <table skipSql="false" abstract="false" name="reg_concept" idMethod="native">
+        <column lazyLoad="false" name="id" type="INTEGER" required="true" autoIncrement="true" primaryKey="true"/>
+        <column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="created_at" type="TIMESTAMP"/>
+        <column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="last_updated" type="TIMESTAMP" default="CURRENT_TIMESTAMP"/>
+        <column primaryKey="false" autoIncrement="false" lazyLoad="false" name="uri" type="VARCHAR" size="255" required="true" default="null"/>
+        <column primaryKey="false" autoIncrement="false" lazyLoad="false" name="pref_label" type="VARCHAR" size="255" required="true" default="null"/>
+        <column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="vocabulary_id" type="INTEGER"/>
+        <column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="is_top_concept" type="INTEGER"/>
+        <column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="status_id" type="INTEGER" default="1"/>
+        <foreign-key foreignTable="reg_vocabulary" onDelete="cascade" onUpdate="restrict">
+            <reference local="vocabulary_id" foreign="id"/>
+        </foreign-key>
+        <foreign-key foreignTable="reg_status" onDelete="restrict" onUpdate="restrict">
+            <reference local="status_id" foreign="id"/>
+        </foreign-key>
+        <index name="vocabulary_id">
+            <index-column name="vocabulary_id"/>
+        </index>
+        <index name="pref_label">
+            <index-column name="pref_label"/>
+        </index>
+        <index name="status_id">
+            <index-column name="status_id"/>
+        </index>
+        <unique name="vocabulary_id_pref_label">
+            <unique-column name="vocabulary_id"/>
+            <unique-column name="pref_label"/>
+        </unique>
+    </table>
+    <table skipSql="false" abstract="false" name="reg_concept_history">
+        <column autoIncrement="false" lazyLoad="false" name="sid" type="CHAR" size="32" required="true" primaryKey="true" default="null"/>
+        <column autoIncrement="false" lazyLoad="false" name="concept_property_id" type="INTEGER" required="true" primaryKey="true" default="null"/>
+        <column primaryKey="false" autoIncrement="false" lazyLoad="false" name="user_id" type="INTEGER" required="true" default="null"/>
+        <column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="changed_at" type="TIMESTAMP" default="CURRENT_TIMESTAMP"/>
+        <column primaryKey="false" autoIncrement="false" lazyLoad="false" name="old_values" type="LONGVARCHAR" required="true"/>
+        <column primaryKey="false" autoIncrement="false" lazyLoad="false" name="new_values" type="LONGVARCHAR" required="true"/>
+        <foreign-key foreignTable="reg_concept_property" onDelete="restrict" onUpdate="restrict">
+            <reference local="concept_property_id" foreign="id"/>
+        </foreign-key>
+        <foreign-key foreignTable="reg_user" onDelete="restrict" onUpdate="restrict">
+            <reference local="user_id" foreign="id"/>
+        </foreign-key>
+        <index name="user_id">
+            <index-column name="user_id"/>
+        </index>
+        <index name="concept_property_id">
+            <index-column name="concept_property_id"/>
+        </index>
+    </table>
+    <table skipSql="false" abstract="false" name="reg_concept_property" idMethod="native">
+        <column lazyLoad="false" name="id" type="INTEGER" required="true" autoIncrement="true" primaryKey="true"/>
+        <column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="created_at" type="TIMESTAMP"/>
+        <column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="last_updated" type="TIMESTAMP" default="CURRENT_TIMESTAMP"/>
+        <column primaryKey="false" autoIncrement="false" lazyLoad="false" name="concept_id" type="INTEGER" required="true" default="null"/>
+        <column primaryKey="false" autoIncrement="false" lazyLoad="false" name="skos_property_id" type="INTEGER" required="true" default="null"/>
+        <column primaryKey="false" autoIncrement="false" lazyLoad="false" name="object" type="LONGVARCHAR" required="true"/>
+        <column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="scheme_id" type="INTEGER"/>
+        <column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="related_concept_id" type="INTEGER"/>
+        <column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="language" type="CHAR" size="6"/>
+        <column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="status_id" type="INTEGER"/>
+        <foreign-key foreignTable="reg_concept" onDelete="cascade" onUpdate="restrict">
+            <reference local="concept_id" foreign="id"/>
+        </foreign-key>
+        <foreign-key foreignTable="reg_skos_property" onDelete="restrict" onUpdate="restrict">
+            <reference local="skos_property_id" foreign="id"/>
+        </foreign-key>
+        <foreign-key foreignTable="reg_vocabulary" onDelete="cascade" onUpdate="restrict">
+            <reference local="scheme_id" foreign="id"/>
+        </foreign-key>
+        <foreign-key foreignTable="reg_concept" onDelete="cascade" onUpdate="restrict">
+            <reference local="related_concept_id" foreign="id"/>
+        </foreign-key>
+        <foreign-key foreignTable="reg_lookup" onDelete="restrict" onUpdate="restrict">
+            <reference local="status_id" foreign="id"/>
+        </foreign-key>
+        <index name="concept_id">
+            <index-column name="concept_id"/>
+        </index>
+        <index name="skos_property_id">
+            <index-column name="skos_property_id"/>
+        </index>
+        <index name="scheme_id">
+            <index-column name="scheme_id"/>
+        </index>
+        <index name="related_concept_id">
+            <index-column name="related_concept_id"/>
+        </index>
+        <index name="status_id">
+            <index-column name="status_id"/>
+        </index>
+        <unique name="id">
+            <unique-column name="id"/>
+        </unique>
+    </table>
+    <table skipSql="false" abstract="false" name="reg_lookup" idMethod="native">
+        <column lazyLoad="false" name="id" type="INTEGER" required="true" autoIncrement="true" primaryKey="true"/>
+        <column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="type_id" type="INTEGER"/>
+        <column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="short_value" type="CHAR" size="20"/>
+        <column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="long_value" type="VARCHAR" size="255"/>
+        <column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="display_order" type="INTEGER"/>
+        <index name="display_order">
+            <index-column name="type_id"/>
+            <index-column name="display_order"/>
+        </index>
+        <unique name="id">
+            <unique-column name="id"/>
+        </unique>
+    </table>
+    <table skipSql="false" abstract="false" name="reg_skos_property" idMethod="native">
+        <column lazyLoad="false" name="id" type="INTEGER" required="true" autoIncrement="true" primaryKey="true"/>
+        <column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="parent_id" type="INTEGER"/>
+        <column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="inverse_id" type="INTEGER"/>
+        <column primaryKey="false" autoIncrement="false" lazyLoad="false" name="name" type="VARCHAR" size="255" required="true" default="null"/>
+        <column primaryKey="false" autoIncrement="false" lazyLoad="false" name="uri" type="VARCHAR" size="255" required="true" default="null"/>
+        <column primaryKey="false" autoIncrement="false" lazyLoad="false" name="object_type" type="CHAR" required="true" default="null"/>
+        <column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="display_order" type="INTEGER"/>
+        <column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="picklist_order" type="INTEGER"/>
+        <column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="label" type="VARCHAR" size="255"/>
+        <column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="definition" type="LONGVARCHAR"/>
+        <column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="comment" type="LONGVARCHAR"/>
+        <column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="examples" type="VARCHAR" size="255"/>
+        <column primaryKey="false" autoIncrement="false" lazyLoad="false" name="is_required" type="TINYINT" required="true" default="0"/>
+        <column primaryKey="false" autoIncrement="false" lazyLoad="false" name="is_reciprocal" type="TINYINT" required="true" default="0"/>
+        <column primaryKey="false" autoIncrement="false" lazyLoad="false" name="is_singleton" type="TINYINT" required="true" default="0"/>
+        <column primaryKey="false" autoIncrement="false" lazyLoad="false" name="is_scheme" type="TINYINT" required="true" default="0"/>
+        <column primaryKey="false" autoIncrement="false" lazyLoad="false" name="is_in_picklist" type="TINYINT" required="true" default="1"/>
+        <unique name="id">
+            <unique-column name="id"/>
+        </unique>
+        <unique name="name">
+            <unique-column name="name"/>
+        </unique>
+        <unique name="uri">
+            <unique-column name="uri"/>
+        </unique>
+    </table>
+    <table skipSql="false" abstract="false" name="reg_status" idMethod="native">
+        <column lazyLoad="false" name="id" type="INTEGER" required="true" autoIncrement="true" primaryKey="true"/>
+        <column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="display_order" type="INTEGER"/>
+        <column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="display_name" type="VARCHAR" size="255"/>
+        <index name="display_order">
+            <index-column name="display_order"/>
+        </index>
+        <unique name="id">
+            <unique-column name="id"/>
+        </unique>
+    </table>
+    <table skipSql="false" abstract="false" name="reg_user" idMethod="native">
+        <column lazyLoad="false" name="id" type="INTEGER" required="true" autoIncrement="true" primaryKey="true"/>
+        <column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="created_at" type="TIMESTAMP"/>
+        <column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="last_updated" type="TIMESTAMP" default="CURRENT_TIMESTAMP"/>
+        <column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="nickname" type="VARCHAR" size="50"/>
+        <column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="salutation" type="VARCHAR" size="5"/>
+        <column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="first_name" type="VARCHAR" size="100"/>
+        <column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="last_name" type="VARCHAR" size="100"/>
+        <column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="email" type="VARCHAR" size="100"/>
+        <column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="sha1_password" type="VARCHAR" size="40"/>
+        <column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="salt" type="VARCHAR" size="32"/>
+        <column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="want_to_be_moderator" type="TINYINT" default="0"/>
+        <column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="is_moderator" type="TINYINT" default="0"/>
+        <column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="is_administrator" type="TINYINT" default="0"/>
+        <column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="deletions" type="INTEGER" default="0"/>
+        <column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="password" type="VARCHAR" size="40"/>
+    </table>
+    <table skipSql="false" abstract="false" name="reg_vocabulary" idMethod="native">
+        <column lazyLoad="false" name="id" type="INTEGER" required="true" autoIncrement="true" primaryKey="true"/>
+        <column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="agent_id" type="INTEGER"/>
+        <column primaryKey="false" autoIncrement="false" lazyLoad="false" name="created_at" type="TIMESTAMP" required="true" default="null"/>
+        <column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="last_updated" type="TIMESTAMP" default="CURRENT_TIMESTAMP"/>
+        <column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="name" type="VARCHAR" size="255"/>
+        <column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="note" type="LONGVARCHAR"/>
+        <column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="uri" type="VARCHAR" size="255"/>
+        <column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="url" type="VARCHAR" size="255"/>
+        <column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="base_domain" type="VARCHAR" size="255"/>
+        <column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="token" type="VARCHAR" size="45"/>
+        <column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="community" type="VARCHAR" size="45"/>
+        <column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="last_uri_id" type="INTEGER" default="1000"/>
+        <foreign-key foreignTable="reg_agent" onDelete="restrict" onUpdate="restrict">
+            <reference local="agent_id" foreign="id"/>
+        </foreign-key>
+        <index name="agent_id">
+            <index-column name="agent_id"/>
+        </index>
+    </table>
+    <table skipSql="false" abstract="false" name="reg_vocabulary_has_user">
+        <column autoIncrement="false" lazyLoad="false" name="vocabulary_id" type="INTEGER" required="true" primaryKey="true" default="null"/>
+        <column autoIncrement="false" lazyLoad="false" name="user_id" type="INTEGER" required="true" primaryKey="true" default="null"/>
+        <column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="is_maintainer_for" type="TINYINT" default="1"/>
+        <column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="is_registrar_for" type="TINYINT" default="1"/>
+        <column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="is_admin_for" type="TINYINT" default="1"/>
+        <foreign-key foreignTable="reg_vocabulary" onDelete="cascade" onUpdate="restrict">
+            <reference local="vocabulary_id" foreign="id"/>
+        </foreign-key>
+        <foreign-key foreignTable="reg_user" onDelete="cascade" onUpdate="restrict">
+            <reference local="user_id" foreign="id"/>
+        </foreign-key>
+        <index name="resource_id">
+            <index-column name="vocabulary_id"/>
+        </index>
+        <index name="user_id">
+            <index-column name="user_id"/>
+        </index>
+    </table>
+</database>

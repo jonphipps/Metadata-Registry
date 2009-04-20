@@ -1,0 +1,146 @@
+CREATE TABLE `reg_schema` (
+  `id` INTEGER(11) NOT NULL AUTO_INCREMENT,
+  `agent_id` INTEGER(11) NOT NULL,
+  `created_at` DATETIME DEFAULT NULL,
+  `updated_at` DATETIME DEFAULT NULL,
+  `deleted_at` DATETIME DEFAULT NULL,
+  `created_user_id` INTEGER(11) DEFAULT NULL,
+  `updated_user_id` INTEGER(11) DEFAULT NULL,
+  `child_updated_at` DATETIME DEFAULT NULL,
+  `child_updated_user_id` INTEGER(11) DEFAULT NULL,
+  `name` VARCHAR(255) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `note` TEXT COLLATE utf8_general_ci,
+  `uri` VARCHAR(255) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `url` VARCHAR(255) COLLATE utf8_general_ci DEFAULT NULL,
+  `base_domain` VARCHAR(255) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `token` VARCHAR(45) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `community` VARCHAR(45) COLLATE utf8_general_ci DEFAULT NULL,
+  `last_uri_id` INTEGER(11) DEFAULT '1000',
+  `status_id` INTEGER(11) NOT NULL DEFAULT '1',
+  `language` CHAR(6) COLLATE utf8_general_ci NOT NULL DEFAULT 'en',
+  UNIQUE KEY `id` (`id`),
+  KEY `agent_id` (`agent_id`),
+  KEY `status_id` (`status_id`),
+  KEY `last_updated_by_user_id` (`updated_user_id`),
+  KEY `created_user_id` (`created_user_id`),
+  KEY `child_updated_user_id` (`child_updated_user_id`),
+  CONSTRAINT `reg_vocabulary_FK_1_new` FOREIGN KEY (`updated_user_id`) REFERENCES `reg_user` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
+  CONSTRAINT `reg_vocabulary_FK__new` FOREIGN KEY (`created_user_id`) REFERENCES `reg_user` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
+  CONSTRAINT `vocabulary_agent_fk_new` FOREIGN KEY (`agent_id`) REFERENCES `reg_agent` (`id`) ON UPDATE NO ACTION,
+  CONSTRAINT `vocabulary_status_fk_new` FOREIGN KEY (`status_id`) REFERENCES `reg_status` (`id`)) ENGINE=InnoDB COMMENT='InnoDB free: 11264 kB; (`updated_user_id`) REFER `swregistry2/reg_user`(`id`) ON' CHECKSUM=0 DELAY_KEY_WRITE=0 PACK_KEYS=0 MIN_ROWS=0 MAX_ROWS=0 ROW_FORMAT=COMPACT CHARACTER SET 'utf8'
+COLLATE 'utf8_general_ci' INSERT_METHOD=NO;
+
+CREATE TABLE `reg_schema_property` (
+  `id` INTEGER(11) NOT NULL AUTO_INCREMENT,
+  `created_at` DATETIME DEFAULT NULL,
+  `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `deleted_at` DATETIME DEFAULT NULL,
+  `created_user_id` INTEGER(11) DEFAULT NULL,
+  `updated_user_id` INTEGER(11) DEFAULT NULL,
+  `schema_id` INTEGER(11) NOT NULL,
+  `token` VARCHAR(255) COLLATE utf8_general_ci NOT NULL,
+  `label` VARCHAR(255) COLLATE utf8_general_ci NOT NULL,
+  `definition` TEXT COLLATE utf8_general_ci,
+  `comment` TEXT COLLATE utf8_general_ci,
+  `type` ENUM('property','subproperty') NOT NULL,
+  `is_subproperty_id` INTEGER(11) DEFAULT NULL,
+  `is_subproperty` VARCHAR(255) COLLATE utf8_general_ci DEFAULT NULL,
+  `has_subproperty_id` INTEGER(11) DEFAULT NULL,
+  `has_subproperty` VARCHAR(255) COLLATE utf8_general_ci DEFAULT NULL,
+  `uri` VARCHAR(255) COLLATE utf8_general_ci DEFAULT NULL,
+  UNIQUE KEY `id` (`id`)) ENGINE=InnoDB COMMENT='InnoDB free: 11264 kB' CHECKSUM=0 DELAY_KEY_WRITE=0 PACK_KEYS=0 MIN_ROWS=0 MAX_ROWS=0 ROW_FORMAT=COMPACT CHARACTER SET 'utf8'
+COLLATE 'utf8_general_ci' INSERT_METHOD=NO;
+
+CREATE TABLE `reg_schema_property_property` (
+  `id` INTEGER(11) NOT NULL AUTO_INCREMENT,
+  `created_at` DATETIME DEFAULT NULL,
+  `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `deleted_at` DATETIME DEFAULT NULL,
+  `created_user_id` INTEGER(11) DEFAULT NULL,
+  `updated_user_id` INTEGER(11) DEFAULT NULL,
+  `schema_property_id` INTEGER(11) NOT NULL,
+  `profile_property_id` INTEGER(11) NOT NULL,
+  `object` TEXT COLLATE utf8_general_ci NOT NULL,
+  `related_schema_property_id` INTEGER(11) DEFAULT NULL,
+  `language` CHAR(6) COLLATE utf8_general_ci DEFAULT 'en',
+  `status_id` INTEGER(11) DEFAULT '1',
+  UNIQUE KEY `id` (`id`),
+  KEY `created_user_id` (`created_user_id`),
+  KEY `updated_user_id` (`updated_user_id`),
+  KEY `schema_property_id` (`schema_property_id`),
+  KEY `related_property_id` (`related_schema_property_id`),
+  KEY `status_id` (`status_id`),
+  CONSTRAINT `reg_schema_property_property_fk` FOREIGN KEY (`created_user_id`) REFERENCES `reg_vocabulary` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `reg_schema_property_property_fk1` FOREIGN KEY (`updated_user_id`) REFERENCES `reg_user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `reg_schema_property_property_fk2` FOREIGN KEY (`schema_property_id`) REFERENCES `reg_schema_property` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `reg_schema_property_property_fk3` FOREIGN KEY (`related_schema_property_id`) REFERENCES `reg_schema_property_property` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `reg_schema_property_property_fk4` FOREIGN KEY (`status_id`) REFERENCES `reg_status` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION) ENGINE=InnoDB COMMENT='InnoDB free: 11264 kB; (`created_user_id`) REFER `swregistry2/reg_vocabulary`(`i' CHECKSUM=0 DELAY_KEY_WRITE=0 PACK_KEYS=0 MIN_ROWS=0 MAX_ROWS=0 ROW_FORMAT=COMPACT CHARACTER SET 'utf8'
+COLLATE 'utf8_general_ci' INSERT_METHOD=NO;
+
+CREATE TABLE `schema_has_version` (
+  `id` INTEGER(11) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `created_at` DATETIME DEFAULT NULL,
+  `deleted_at` DATETIME DEFAULT NULL,
+  `updated_at` DATETIME DEFAULT NULL,
+  `created_user_id` INTEGER(11) DEFAULT NULL,
+  `schema_id` INTEGER(11) DEFAULT NULL,
+  `timeslice` DATETIME DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`),
+  KEY `created_user_id` (`created_user_id`),
+  KEY `schema_id` (`schema_id`),
+  CONSTRAINT `schema_has_version_fk` FOREIGN KEY (`created_user_id`) REFERENCES `reg_user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `schema_has_version_fk1` FOREIGN KEY (`schema_id`) REFERENCES `reg_schema` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION) ENGINE=InnoDB COMMENT='InnoDB free: 11264 kB; (`created_user_id`) REFER `swregistry2/reg_user`(`id`) ON' CHECKSUM=0 DELAY_KEY_WRITE=0 PACK_KEYS=0 MIN_ROWS=0 MAX_ROWS=0 ROW_FORMAT=COMPACT CHARACTER SET 'utf8'
+COLLATE 'utf8_general_ci' INSERT_METHOD=NO;
+
+CREATE TABLE `reg_schema_property_property_history` (
+  `id` INTEGER(11) NOT NULL AUTO_INCREMENT,
+  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_user_id` INTEGER(11) DEFAULT NULL,
+  `action` ENUM('updated','added','deleted','force_deleted') DEFAULT NULL,
+  `schema_property_property_id` INTEGER(11) DEFAULT NULL,
+  `schema_property_id` INTEGER(11) DEFAULT NULL,
+  `schema_id` INTEGER(11) DEFAULT NULL,
+  `profile_property_id` INTEGER(11) DEFAULT NULL,
+  `object` TEXT COLLATE utf8_general_ci,
+  `related_schema_property_id` INTEGER(11) DEFAULT NULL,
+  `language` CHAR(6) COLLATE utf8_general_ci DEFAULT 'en',
+  `status_id` INTEGER(11) DEFAULT '1',
+  UNIQUE KEY `id` (`id`)) ENGINE=InnoDB COMMENT='InnoDB free: 11264 kB' CHECKSUM=0 DELAY_KEY_WRITE=0 PACK_KEYS=0 MIN_ROWS=0 MAX_ROWS=0 ROW_FORMAT=COMPACT CHARACTER SET 'utf8'
+COLLATE 'utf8_general_ci' INSERT_METHOD=NO;
+
+CREATE TABLE `schema_has_user` (
+  `id` INTEGER(11) NOT NULL AUTO_INCREMENT,
+  `created_at` DATETIME DEFAULT NULL,
+  `updated_at` DATETIME DEFAULT NULL,
+  `deleted_at` DATETIME DEFAULT NULL,
+  `schema_id` INTEGER(11) NOT NULL DEFAULT '0',
+  `user_id` INTEGER(11) NOT NULL DEFAULT '0',
+  `is_maintainer_for` TINYINT(1) DEFAULT '1',
+  `is_registrar_for` TINYINT(1) DEFAULT '1',
+  `is_admin_for` TINYINT(1) DEFAULT '1',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`),
+  KEY `schema_id` (`schema_id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `schema_has_user_fk` FOREIGN KEY (`schema_id`) REFERENCES `reg_schema` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `schema_has_user_fk1` FOREIGN KEY (`user_id`) REFERENCES `reg_user` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION) ENGINE=InnoDB COMMENT='InnoDB free: 11264 kB; (`schema_id`) REFER `swregistry2/reg_schema`(`id`) ON UPD' CHECKSUM=0 DELAY_KEY_WRITE=0 PACK_KEYS=0 MIN_ROWS=0 MAX_ROWS=0 ROW_FORMAT=COMPACT CHARACTER SET 'utf8'
+COLLATE 'utf8_general_ci' INSERT_METHOD=NO;
+
+CREATE TABLE `reg_namespace` (
+  `id` INTEGER(11) NOT NULL AUTO_INCREMENT,
+  `schema_id` INTEGER(11) NOT NULL,
+  `created_at` DATETIME DEFAULT NULL,
+  `deleted_at` DATETIME DEFAULT NULL,
+  `created_user_id` INTEGER(11) DEFAULT NULL,
+  `updated_user_id` INTEGER(11) DEFAULT NULL,
+  `token` VARCHAR(255) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `note` TEXT COLLATE utf8_general_ci,
+  `uri` VARCHAR(255) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `schema_location` VARCHAR(255) COLLATE utf8_general_ci DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `schema_id` (`schema_id`),
+  CONSTRAINT `reg_namespace_fk` FOREIGN KEY (`schema_id`) REFERENCES `reg_schema` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION) ENGINE=InnoDB COMMENT='InnoDB free: 11264 kB; (`schema_id`) REFER `swregistry2/reg_schema`(`id`) ON UPD' CHECKSUM=0 DELAY_KEY_WRITE=0 PACK_KEYS=0 MIN_ROWS=0 MAX_ROWS=0 ROW_FORMAT=COMPACT CHARACTER SET 'utf8'
+COLLATE 'utf8_general_ci' INSERT_METHOD=NO;
+

@@ -1,0 +1,467 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>conceptCreateTest</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">conceptCreateTest</td></tr>
+</thead><tbody>
+<!--must be logged in as newtestuser-->
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Vocabularies</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: Vocabularies</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=newTestVocabulary</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: Show detail for newTestVocabulary</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>a1</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: Concepts for newTestVocabulary</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>sf_admin_content</td>
+	<td>No Concepts have been defined for this Vocabulary</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@value='Add Concept']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: newTestVocabulary :: Creating new concept</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>link=exact:Vocabulary:</td>
+	<td>exact:Vocabulary:</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>link=newTestVocabulary</td>
+	<td>newTestVocabulary</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>link=exact:Concepts:</td>
+	<td>exact:Concepts:</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//h1</td>
+	<td>exact:Vocabulary: newTestVocabulary <br />Concepts: Creating new concept</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>form_row_content_concept_language</td>
+	<td>English This is the default language for this vocabulary and can't be edited here. To change the language of the prefLabel for this concept you must edit the property directly</td>
+</tr>
+<tr>
+	<td>verifySelectedLabel</td>
+	<td>concept_status_id</td>
+	<td>Published</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>concept_status_id</td>
+	<td>Published New-Proposed Change-Proposed Deprecate-Proposed New-Under Review Change-Under Review Deprecate-Under Review Deprecated Not Approved</td>
+</tr>
+<tr>
+	<td>verifyElementPresent</td>
+	<td>save</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyElementPresent</td>
+	<td>save_and_add</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyValue</td>
+	<td>concept_uri</td>
+	<td>exact:http://metadataregistry.org/uri/newtest/1001</td>
+</tr>
+<!--test immediate save-->
+<tr>
+	<td>clickAndWait</td>
+	<td>save</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: newTestVocabulary :: Creating new concept</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//h2</td>
+	<td>Please correct the following errors...</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//dt</td>
+	<td>Preferred Label:</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//dd</td>
+	<td>Concept label cannot be blank</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>error_for_concept_pref_label</td>
+	<td>↓ Concept label cannot be blank&nbsp;&nbsp;↓</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>concept_uri</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>save</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: newTestVocabulary :: Creating new concept</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//h2</td>
+	<td>Please correct the following errors...</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//dt[1]</td>
+	<td>Preferred Label:</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//dd[1]</td>
+	<td>Concept label cannot be blank</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//dt[2]</td>
+	<td>exact:URI:</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//dd[2]</td>
+	<td>Concept URI cannot be blank</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>error_for_concept_pref_label</td>
+	<td>↓ Concept label cannot be blank&nbsp;&nbsp;↓</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>error_for_concept_uri</td>
+	<td>↓ Concept URI cannot be blank&nbsp;&nbsp;↓</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>concept_pref_label</td>
+	<td>fubar</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>concept_uri</td>
+	<td>http://metadataregistry.org/uri/newtest/1001</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>concept_is_top_concept</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>concept_status_id</td>
+	<td>label=Change-Proposed</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>concept_status_id</td>
+	<td>label=New-Proposed</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>save</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry Project</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//h2</td>
+	<td>Your modifications have been saved</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>show_row_content_concept_pref_label</td>
+	<td>fubar</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>show_row_content_concept_language</td>
+	<td>English</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>link=exact:http://metadataregistry.org/uri/newtest/1001</td>
+	<td>exact:http://metadataregistry.org/uri/newtest/1001</td>
+</tr>
+<tr>
+	<td>verifyElementPresent</td>
+	<td>//img[@alt='Tick']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>show_row_content_concept_status</td>
+	<td>New-Proposed</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>link=preferred label</td>
+	<td>preferred label</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//td[2]</td>
+	<td>fubar</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//td[3]</td>
+	<td>English</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//td[4]</td>
+	<td>New-Proposed</td>
+</tr>
+<tr>
+	<td>verifyElementPresent</td>
+	<td>//input[@value='Get RDF']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyElementPresent</td>
+	<td>fieldsetcollapser0</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyNotVisible</td>
+	<td>show_row_content_concept_created_at</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyNotVisible</td>
+	<td>show_row_content_concept_created_by</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyNotVisible</td>
+	<td>show_row_content_concept_updated_at</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyNotVisible</td>
+	<td>show_row_content_concept_updated_by</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>fieldsetcollapser0</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyVisible</td>
+	<td>show_row_content_concept_created_at</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyVisible</td>
+	<td>show_row_content_concept_created_by</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyVisible</td>
+	<td>show_row_content_concept_updated_at</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyVisible</td>
+	<td>show_row_content_concept_updated_by</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>a1</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry Project</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>link=exact:Vocabulary:</td>
+	<td>exact:Vocabulary:</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>link=newTestVocabulary</td>
+	<td>newTestVocabulary</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>link=exact:Concepts:</td>
+	<td>exact:Concepts:</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>link=fubar</td>
+	<td>fubar</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//h1</td>
+	<td>exact:Vocabulary: newTestVocabulary <br />&nbsp;&nbsp;Concepts: fubar <br />&nbsp;&nbsp;&nbsp;&nbsp;Properties</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>link=prefLabel</td>
+	<td>prefLabel</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//td[2]</td>
+	<td>fubar</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//td[3]</td>
+	<td>en</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//td[4]</td>
+	<td>New-Proposed</td>
+</tr>
+<tr>
+	<td>verifyElementPresent</td>
+	<td>//td[5]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry Project</td>
+	<td></td>
+</tr>
+<!--click on history-->
+<tr>
+	<td>clickAndWait</td>
+	<td>a2</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry Project</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>link=exact:Vocabulary:</td>
+	<td>exact:Vocabulary:</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>link=newTestVocabulary</td>
+	<td>newTestVocabulary</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>link=exact:Concepts:</td>
+	<td>exact:Concepts:</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>link=fubar</td>
+	<td>fubar</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//h1</td>
+	<td>exact:Vocabulary: newTestVocabulary<br />&nbsp;&nbsp;Concepts: fubar<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;History of Changes</td>
+</tr>
+<tr>
+	<td>verifyElementPresent</td>
+	<td>//img[@alt='Descending Order']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>link=2008-02-05 21:47</td>
+	<td>2008-02-05 21:47</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>link=.../newtest/1001</td>
+	<td>.../newtest/1001</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//td[3]/a</td>
+	<td>fubar</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>link=prefLabel</td>
+	<td>prefLabel</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//td[5]</td>
+	<td>added</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//td[6]</td>
+	<td>newtestuser</td>
+</tr>
+
+</tbody></table>
+</body>
+</html>

@@ -1,0 +1,6 @@
+all:
+  has_layout: off
+
+  http_metas:
+    content-type: application/rdf+xml; charset="utf-8"
+#    content-type: application/xml; charset="utf-8"

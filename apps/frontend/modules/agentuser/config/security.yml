@@ -1,0 +1,16 @@
+all:
+  is_secure:                off
+  object_credentials:
+    key:
+      class:       agent_has_user    #object class that holds the key to match against
+      method:      getAgentId        #object method to use to retrieve property to pass to the key class::method or to lookup
+    module:        agent             #object_credential array that holds the key to match against
+    request_param: agent_id
+
+create:
+  is_secure:   on
+  credentials: [[administrator, agentadmin]]
+
+edit:
+  is_secure:   on
+  credentials: [[administrator, agentadmin]]

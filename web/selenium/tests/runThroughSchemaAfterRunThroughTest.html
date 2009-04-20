@@ -1,0 +1,349 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>runThroughSchemaAfterRunThroughTest</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">runThroughSchemaAfterRunThroughTest</td></tr>
+</thead><tbody>
+<tr>
+	<td>clickAndWait</td>
+	<td>//a[contains(@href, '/schema/create.html')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: Creating new schema</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>schema_name</td>
+	<td>Test schema</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@value='Cancel']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@value='Add schema']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: Creating new schema</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>schema_name</td>
+	<td>Test Schema</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>schema_token</td>
+	<td>testSchema</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>schema_uri</td>
+	<td>http://registry/uri/schema/testToken</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>save</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: Test Schema :: Show Detail</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//li[2]/a/span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: Test Schema :: List Properties</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@value='Add Property']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: Creating new schema_property</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>schema_property_name</td>
+	<td>testProperty1</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>schema_property_uri</td>
+	<td>http://registry/uri/schema/testSchema/testProperty1</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>schema_property_label</td>
+	<td>Test Property 1</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>save_and_add</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: Creating new schema_property</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>schema_property_name</td>
+	<td>testProperty2</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>schema_property_uri</td>
+	<td>http://registry/uri/schema/testSchema/testProperty2</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>schema_property_label</td>
+	<td>Test Property 2</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>save</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: Test Schema :: Test Property 2 :: Show Detail</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@value='Edit']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: Detail for Test Property 2</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>schema_property_label</td>
+	<td>Test Property 2 edited</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>save_and_add</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: Creating new schema_property</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>schema_property_name</td>
+	<td>testSubProperty</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>schema_property_uri</td>
+	<td>http://registry/uri/schema/testSchema/testSubProperty</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>schema_property_label</td>
+	<td>test Subproperty</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>schema_property_type</td>
+	<td>label=subproperty</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>schema_property_is_subproperty_of</td>
+	<td>label=Test Property 1</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>save</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: Test Schema :: test Subproperty :: Show Detail</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//li[2]/a/span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: Test Schema :: test Subproperty :: List Properties</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTable</td>
+	<td>//div[@id='sf_admin_content']/table.1.1</td>
+	<td>testSubProperty</td>
+</tr>
+<tr>
+	<td>assertTable</td>
+	<td>//div[@id='sf_admin_content']/table.2.1</td>
+	<td>test Subproperty</td>
+</tr>
+<tr>
+	<td>assertTable</td>
+	<td>//div[@id='sf_admin_content']/table.3.1</td>
+	<td>subproperty</td>
+</tr>
+<tr>
+	<td>assertTable</td>
+	<td>//div[@id='sf_admin_content']/table.4.1</td>
+	<td>Test Property 1</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//a[@id='a0']/span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: Test Schema :: test Subproperty :: Show Detail</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@value='Edit']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: Detail for test Subproperty</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>schema_property_definition</td>
+	<td>definition</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>schema_property_comment</td>
+	<td>this is a test comment</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>save</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: Test Schema :: test Subproperty :: Show Detail</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@value='Edit']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: Detail for test Subproperty</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>schema_property_type</td>
+	<td>label=property</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>schema_property_definition</td>
+	<td>definition after edit</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>schema_property_note</td>
+	<td>Changed to property from subproperty</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>save</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: Test Schema :: test Subproperty :: Show Detail</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//a[@id='a1']/span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: Test Schema :: test Subproperty :: List Properties</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//div[@id='sf_admin_content']/table/tbody/tr[7]/td[2]</td>
+	<td>Changed to property from su...</td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//div[@id='sf_admin_content']/table/tbody/tr[3]/td[2]</td>
+	<td>property</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//a[@id='a2']/span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: Test Schema :: test Subproperty :: History of Changes</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//div[@id='sf_admin_content']/table/tbody/tr[8]/td[4]</td>
+	<td>isSubpropertyOf</td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>link=type</td>
+	<td>type</td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//div[@id='sf_admin_content']/table/tbody/tr[2]/td[5]/a</td>
+	<td>updated...</td>
+</tr>
+
+</tbody></table>
+</body>
+</html>

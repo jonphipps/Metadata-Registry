@@ -1,0 +1,41 @@
+generator:
+  class:              sfPropelAdminGenerator
+  param:
+    model_class:      ConceptPropertyHistory
+    theme:            default
+
+    list:
+      peer_method:   doSelectJoinConceptRelatedByConceptId
+      #layout:        stacked
+      title:         Concept History List
+      fields:
+        language:     { name: Lang }
+        created_at:   { name: Changed at, params: date_format='g'  }
+        uri:          { name: Concept URI, helper: truncate_uri }
+        pref_label:   { name: Concept}
+        property:     { name: Property }
+        user          { name: User }
+        object:       { helper: truncate_text }
+        language:     { name: Lang }
+        ts:           { name: TimeSlice}
+      #params:         =%%_created_at%%  %%uri%%  <strong> %%pref_label%% </strong><br />%%_property%%, %%action%%, %%user%% <br />%%object%%, %%_language%%, %%status%%
+      display:        [=created_at, uri, _pref_label, _property, _action, user, _ts]
+      sort:           [created_at, desc]
+      displayfilter:  false
+      filters:        [vocabulary_id, concept_property_id, concept_id, skos_property_id, updated_at, object, status, user]
+      # urlfilter form is [field to filter on]: [value passed from routing.yml]
+      # multiple filters can be set but they're currently mutually exclusive (any of the list can be used but only one per url)
+      urlfilters:
+        concept_id:          concept_id
+        concept_property_id: property_id
+        vocabulary_id:       vocabulary_id
+      actions:       -
+
+    show:
+      fields:
+        id:           { credentials: [administrator] }
+        object:       { helper: auto_link_text }
+        created_at:   { name: Changed at }
+        user:         { name: Changed by }
+      display:        [id, created_at, user, action, scheme, related_concept, object, _language, status]
+      actions:       -

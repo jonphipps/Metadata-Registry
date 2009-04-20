@@ -1,0 +1,9 @@
+all:
+  is_secure:   off
+  object_credentials:
+    module:            schema                 #object_credential array that holds the key to match against
+    request_param:     schema_id              #request paramter to pass to the key class::method or to lookup
+
+edit:
+  is_secure:   on
+  credentials: [[administrator, schemamaintainer, schemaadmin, schemapropadmin]]

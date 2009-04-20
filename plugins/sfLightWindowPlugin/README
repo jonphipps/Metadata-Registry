@@ -1,0 +1,124 @@
+= sfLightWindow plugin =
+
+`sfLightWindowPlugin` provides great helper functions for [http://stickmanlabs.com/lightwindow LightWindow v2.0]. !LightWindow is a great improvement over the original Lightbox 2 script, and includes handlers for virtually all media types, including flash, quicktime, you tube videos, images, remote content, inline content, and more. Using this plugin, it's amazingly simple to add these great effects to your site.
+
+A [http://symfony.stereodevelopment.com/sfLightWindow full demo is available] and is also included in the plugin to help you get familiar with all of the capabilities of the helper.
+
+== Features ==
+ * Tested in Windows Firefox/IE6/IE7/Safari3/Opera & Mac Firefox/Safari/Opera/Netscape
+ * Supports nearly every media type
+ * Smooth animations
+ * Gallery support (including mixed media galleries)
+ * Automatically detects media and source
+ * Window will fit content fetched! Excludes i-frame content!
+ * The window is perfectly centered on the screen by default or you can set its position!
+ * You can set a title with the title attribute.
+ * The caption and details are dynamically sized to fit the content.
+ * Multiple Galleries are allowed with a Menu on the Galleries.
+ * All windows will shrink to fit the screen including Image Sizes (Though in some cases its not recommended, i.e. fixed sized windows)
+ * Submit Forms via the window.
+ * author, caption, title, and params (Added for this library) attributes are supported
+ * Click anywhere on the overlay to close the window or the ESC key. Optionally you can create your own close links or enable the title bar and use that close link.
+ * Instantiate a window on the fly instead of on page load.
+ * Create a window on the fly
+ * Flash is resized to fit window (even if lightwindow_width and lightwindow_height are passed).
+ * Control or launch windows from an iframe
+
+== Installation ==
+
+{{{
+#!sh
+symfony plugin-install http://plugins.symfony-project.com/sfLightWindowPlugin
+}}}
+
+=== Changes from original !LightWindow v2.0 ===
+The `sfLightWindowPlugin` uses a slightly altered lightwindow.js source. The only changes made were to the path of the image files, and the option of using an improved inline form handler, found in the last two methods _lwUpdateWithResponse and _lwSingleFormCall.
+
+=== Requirements ===
+!LightWindow v2.0 requires at least prototype 1.5.1.1 and scriptaculous > v1.7.1. These are included with the plugin, but you can customize the location of these files in sfLightWindowPlugin/config/config.php.
+
+== Usage == 
+lw_link(), lw_image(), lw_media() and more...
+
+The plugin is very easy to use, and supports all the page and media types of !LightWindow. After installing the plugin, just include the helper in your template file and you are off to the races.
+
+{{{
+<?php use_helper('LightWindow') ?>
+<?php echo lw_link('My LightWindow', 'module/action') ?>
+<?php echo lw_media('My Media File', '/gallery/my_movie.mov', 'width=19 height=240') ?>
+<?php echo lw_image(image_tag('pic_thumb.jpg'), '/gallery/pic.jpg') ?>
+<?php echo lw_button('click to open!', '/images/yourimage.png', array(
+  'title'   => "Great Pic",
+  'author'  => "Stereo",
+  'caption' => "Your caption",
+  'left'    => 300,
+)) ?>
+}}}
+
+
+You can also add any of the the following options in the third parameter:
+{{{
+title         // title of window
+author        // author of window
+caption       // the caption for the window
+width         // Width of window
+height        // Height of window
+show_images   // Number of images to show at once in a gallery
+top           // Set as an Integer to be spaced from the Top
+left          // Set as an Integer to be spaced from the Left
+type          // Specify the type of content served: page, external, image, media, inline
+loading_animation // Set to false to opt to not fade out the Loading Cover
+iframe_embed  // To embed media into a media into an iframe rather than just into a div
+form          // The name of the form
+}}}
+
+To create a gallery, you use the lw_gallery() function with an array of image attributes.
+{{{
+<?php 
+  $media = array();
+
+  $media[] = array(
+    'link'    => '<strong>Image Gallery</strong> - Everyone needs a killer gallery!',
+    'src'     => '/sfLightWindowPlugin/gallery/0.jpg',
+    'options' => array(
+      'class' => 'page-options',
+      'title' => 'High 5 Dood!',
+      'caption'=> 'Snow people know how to have fun...',
+    ),
+  );
+
+  $media[] = array(
+    'link'  => 'Header #3',
+    'src'   => '/sfLightWindowPlugin/gallery/header3.swf?scale=noscale&amp;tag1=Sooth Your Mind &amp; Body&amp;tag2=Justice Through Integrity&amp;tag3=Helping Injured Victims&amp;tag4=Experience You Can Trust',
+    'options' => array(
+      'width' => '769',
+      'height'=> '209',
+      'title' => "Oh My! Flash and Images Mixed!",
+      'author'=> false,
+      'caption'=> false,
+    ),
+  );
+    
+  $gallery_options = array(
+    'hide' => true,
+    'title' => 'default title',
+    'caption' => 'default caption',
+    'author' => 'Unknown',
+  );
+
+  echo lw_gallery($media, 'Random[Sample Images]', $gallery_options);
+?>
+}}}
+
+There are plenty of examples in the demo. View the PHP source found in /sfLightWindowPlugin/modules/sfLightWindowPlugin/templates/indexSuccess.php to find out more about galleries of images and other types of web media.
+
+
+== Changelog ==
+
+=== 2007-08-16 | 0.0.1 beta ===
+
+Initial public release.
+
+=== 2007-08-17 | 0.0.2 beta ====
+
+Added code to lightwindow.js to enhance remote post form functionality. 

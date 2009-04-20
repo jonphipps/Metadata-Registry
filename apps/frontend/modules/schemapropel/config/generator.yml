@@ -1,0 +1,88 @@
+generator:
+  class:              sfPropelAdminGenerator
+  param:
+    model_class:      SchemaPropertyElement
+    theme:            default
+
+    fields:
+      id:
+         name:        ID
+         type:        plain
+      created_at:
+        name:         Date Created
+        help:         This is the date the Property was created
+        type:         plain
+      updated_at:
+        name:         Last Updated
+        help:         This is the date the Property was last updated
+        type:         plain
+      created_user:
+        name:         Created by
+        help:         This is the user who created this Property
+        type:         plain
+      updated_user:
+        name:         Last Updated by
+        help:         This is the user who updated the Property last
+        type:         plain
+
+    list:
+      title:         Schema Property Element List
+      fields:
+        format_language: { name: Lang }
+        updated_at:   { name: Updated }
+        updated_user: { name: Updated by }
+      display:        [=profile_property, _show_object, format_language, status, updated_at, updated_user]
+      displayfilter:  false
+      object_actions:
+        _edit:        { credentials: [[administrator, schemamaintainer, schemaadmin]] }
+        _delete:      { credentials: [[administrator, schemamaintainer, schemaadmin]] }
+      actions:
+        _create:      {query_string: {schema_property_id: schema_property_id}, name: Add Property/Class Element, credentials: [[administrator, schemamaintainer, schemaadmin]] }
+      filters:        [schema_property_id, profile_property_id, updated_at, object]
+      # urlfilter form is [field to filter on]: [value passed from routing.yml]
+      # multiple filters can be set but they're currently mutually exclusive (any of the list can be used but only one per url)
+      urlfilters:
+        schema_property_id: schema_property_id
+
+    show:
+      fields:
+        id:               { credentials: [administrator] }
+        profile_property: { name: Profile Property }
+        show_object:      { name: Value }
+      display:
+        "-Metadata":   { fields: [id, created_at, created_user, updated_at, updated_user] }
+        "Detail":     [profile_property, _show_object, format_language, status]
+#        "-Other Properties": [_listproperties]
+      actions:
+        _list:        { query_string: {schema_property_id: schema_property_id} }
+        _edit:        { credentials: [[administrator, schemamaintainer, schemaadmin]] }
+        _create:      { query_string: {schema_property_id: schema_property_id}, name: Add Property/Class Element, credentials: [[administrator, schemamaintainer, schemaadmin]] }
+
+    edit:
+      title:
+        mode:
+          edit:        Editing %%profile_property%%
+          create:      Creating new property element
+#      hide: [profile_property_id]
+#      hide:                 [schema_id, schema_property_id, is_schema_property]
+      fields:
+        id:                         { credentials: [administrator], mode: edit }
+        object:                     { name: Value }
+        profile_property_id:        { name: Profile property, mode: create, params: peer_method=getProfilePropertiesForCreate include_blank=false onchange=swapOptions() }
+        profile_property:           { name: Profile property, mode: edit }
+        related_schema_property_id:
+          params:                   related_class=SchemaProperty peer_method=getPropertiesByCurrentSchemaID
+          condition:                "$sf_flash->get('showList') || 'create' == $mode"
+        language:                   { type: select_language_tag }
+      display:
+        "-Metadata":        { mode: edit, fields: [id, created_at, created_user, updated_at, updated_user] }
+        "Detail":            [profile_property_id, profile_property, related_schema_property_id, object, language, status_id]
+#        "Other Properties":  [_listproperties]
+      actions:
+        # You can add a string literal to the query string like this: foo: "'bar'" which will add foo=bar
+        _list:         { query_string: {schema_property_id: schema_property_id} }
+        _save:         { credentials: [[administrator, schemamaintainer, schemaadmin, schema_property_elementadmin]] }
+        _delete:       { credentials: [[administrator, schemaadmin]] }
+        _create:       { query_string: {schema_property_id: schema_property_id}, name: Add Property/Class Element, credentials: [[administrator, schemamaintainer, schemaadmin, schema_property_elementadmin]], mode: edit }
+        _save_and_add: { query_string: {schema_property_id: schema_property_id}, credentials: [[administrator, schemamaintainer, schemaadmin, schema_property_elementadmin]] }
+        _cancel:       { credentials: [[administrator, schemamaintainer, schemaadmin, schema_property_elementadmin]], query_string: {schema_property_id: schema_property_id} }

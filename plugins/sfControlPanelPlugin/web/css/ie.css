@@ -1,0 +1,35 @@
+#main
+{
+  width: 630px;
+}
+
+#header
+{
+  width: 810px;
+}
+
+#sidebar ul ul li
+{
+  margin-left: -10px;
+}
+
+#sidebar li.task
+{
+  font-weight: normal;
+  margin-left: -20px;
+}
+
+#sidebar li.file
+{
+  font-weight: normal;
+}
+
+#sidebar li.unfortunate
+{
+  margin-left: 0;
+}
+
+#main #sf_admin_content 
+{
+   width:100%; 
+}

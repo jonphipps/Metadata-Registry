@@ -1,0 +1,1 @@
+<?php echo format_language($concept_property_history->getLanguage()) ?>

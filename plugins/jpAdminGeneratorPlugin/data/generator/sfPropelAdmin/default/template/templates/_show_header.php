@@ -1,0 +1,1 @@
+[?php include_partial('global/topnav', array('<?php echo $this->getSingularName() ?>' => $<?php echo $this->getSingularName() ?>)) ?]

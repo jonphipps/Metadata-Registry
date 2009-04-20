@@ -1,0 +1,19 @@
+
+div#show_row_concept_listproperties label,
+div#form_row_concept_listproperties label
+{
+  display: none !important;
+}
+
+fieldset#sf_fieldset_properties .form-row ul,
+fieldset#sf_fieldset_properties .show-row ul
+{
+  list-style: none !important;
+}
+
+div#show_row_content_concept_listproperties,
+div#form_row_content_concept_listproperties
+{
+  padding:0 !important;
+
+}

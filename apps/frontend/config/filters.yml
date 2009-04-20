@@ -1,0 +1,16 @@
+rendering: ~
+web_debug: ~
+
+userObject:
+  class: userObjectFilter
+  param:
+    condition:   %APP_USER_OBJECT%
+
+security:  ~
+
+# generally, you will want to insert your own filters here
+
+cache:     ~
+common:    ~
+flash:     ~
+execution: ~

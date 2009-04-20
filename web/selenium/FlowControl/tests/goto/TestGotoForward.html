@@ -1,0 +1,48 @@
+<html>
+<head>
+    <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+    <meta http-equiv="Pragma" content="no-cache">
+  <title>Test GoTo Forward</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+  <tbody>
+    <tr>
+      <td rowspan="1" colspan="3">Test gotolabel / Forward<br>
+      </td>
+    </tr>
+    <tr>
+      <td>open</td>
+      <td>./tests/html/test_click_page1.html</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>verifyText</td>
+      <td>link</td>
+      <td>Click here for next page</td>
+    </tr>
+    <tr>
+      <td>gotolabel</td>
+      <td>testlabel1</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>verifyTitle</td>
+      <td>It shouldn't run, so it shouldn't fail</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td><B>label</B></td>
+      <td>testlabel1</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>verifyText</td>
+      <td>link</td>
+      <td>Click here for next page</td>
+    </tr>
+
+  </tbody>
+</table>
+</body>
+</html>

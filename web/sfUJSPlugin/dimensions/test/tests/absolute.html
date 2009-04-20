@@ -1,0 +1,365 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+	"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+		<title>Absolute testing</title>
+		<!-- load latest build of jquery.js -->
+		<script type="text/javascript" src="../../../../jquery/dist/jquery.js"></script>
+		<!-- load testrunner from jquery project -->
+		<script type="text/javascript" src="testrunner.js"></script>
+		<!-- load dimensions.js (this is what we're testing! -->
+		<script type="text/javascript" src="../../jquery.dimensions.js"></script>
+		<style type="text/css" media="screen">
+			body{ margin:0; border:0; padding:0; }
+			h1,h2,p,#tests{display:none;position:absolute;}
+			#abs1,#abs2,#abs3,#abs4 { position:absolute; margin:10px; border:2px solid #000; padding:5px; width:50px; height: 50px; }
+			#abs1, #abs2, #abs3 { top:0; left:0; }
+			#abs2 { overflow: auto; }
+			#abs4 { right: 0; bottom: 0; }
+		</style>
+		
+		<script type="text/javascript" charset="utf-8">
+			$(window).bind('load', function() {
+				runTest(function() {
+					window.parent.done($('#tests').html());
+				});
+			});
+			test('offset(): Absolute positioning', function() {
+				var offset  = {};
+				var options = {};
+				
+				$('#abs1').offset(options, offset);
+				equals( 10, offset.top, "$('#abs1').offset().top" );
+				equals( 10, offset.left, "$('#abs1').offset().left" );
+				
+				$('#abs2').offset(options, offset);
+				equals( 22, offset.top, "$('#abs2').offset().top" );
+				equals( 22, offset.left, "$('#abs2').offset().left" );
+				
+				$('#abs3').offset(options, offset);
+				equals( 34, offset.top, "$('#abs3').offset().top" );
+				equals( 34, offset.left, "$('#abs3').offset().left" );
+				
+				$('#abs4').offset(options, offset);
+				equals( 426, offset.top, "$('#abs4').offset().top" );
+				equals( 426, offset.left, "$('#abs4').offset().left" );
+				
+				// yes padding and border
+				options = { padding: true };
+				
+				$('#abs1').offset(options, offset);
+				equals( 15, offset.top, "$('#abs1').offset({padding:true}).top" );
+				equals( 15, offset.left, "$('#abs1').offset({padding:true}).left" );
+				
+				$('#abs2').offset(options, offset);
+				equals( 27, offset.top, "$('#abs2').offset({padding:true}).top" );
+				equals( 27, offset.left, "$('#abs2').offset({padding:true}).left" );
+				
+				$('#abs3').offset(options, offset);
+				equals( 39, offset.top, "$('#abs3').offset({padding:true}).top" );
+				equals( 39, offset.left, "$('#abs3').offset({padding:true}).left" );
+				
+				$('#abs4').offset(options, offset);
+				equals( 431, offset.top, "$('#abs4').offset({padding:true}).top" );
+				equals( 431, offset.left, "$('#abs4').offset({padding:true}).left" );
+				
+				// yes border
+				options = { border: true };
+				
+				$('#abs1').offset(options, offset);
+				equals( 12, offset.top, "$('#abs1').offset({border:false}).top" );
+				equals( 12, offset.left, "$('#abs1').offset({border:false}).left" );
+				
+				$('#abs2').offset(options, offset);
+				equals( 24, offset.top, "$('#abs2').offset({border:false}).top" );
+				equals( 24, offset.left, "$('#abs2').offset({border:false}).left" );
+				
+				$('#abs3').offset(options, offset);
+				equals( 36, offset.top, "$('#abs3').offset({border:false}).top" );
+				equals( 36, offset.left, "$('#abs3').offset({border:false}).left" );
+				
+				$('#abs4').offset(options, offset);
+				equals( 428, offset.top, "$('#abs4').offset({border:false}).top" );
+				equals( 428, offset.left, "$('#abs4').offset({border:false}).left" );
+				
+				// no margin
+				options = { margin: false };
+				
+				$('#abs1').offset(options, offset);
+				equals( 0, offset.top, "$('#abs1').offset({margin:false}).top" );
+				equals( 0, offset.left, "$('#abs1').offset({margin:false}).left" );
+				
+				$('#abs2').offset(options, offset);
+				equals( 12, offset.top, "$('#abs2').offset({margin:false}).top" );
+				equals( 12, offset.left, "$('#abs2').offset({margin:false}).left" );
+				
+				$('#abs3').offset(options, offset);
+				equals( 24, offset.top, "$('#abs3').offset({margin:false}).top" );
+				equals( 24, offset.left, "$('#abs3').offset({margin:false}).left" );
+				
+				$('#abs4').offset(options, offset);
+				equals( 416, offset.top, "$('#abs4').offset({margin:false}).top" );
+				equals( 416, offset.left, "$('#abs4').offset({margin:false}).left" );
+				
+				// no margin, yes border
+				options = { margin: false, border: true };
+				
+				$('#abs1').offset(options, offset);
+				equals( 2, offset.top, "$('#abs1').offset({margin:false,border:false}).top" );
+				equals( 2, offset.left, "$('#abs1').offset({margin:false,border:false}).left" );
+				
+				$('#abs2').offset(options, offset);
+				equals( 14, offset.top, "$('#abs2').offset({margin:false,border:false}).top" );
+				equals( 14, offset.left, "$('#abs2').offset({margin:false,border:false}).left" );
+				
+				$('#abs3').offset(options, offset);
+				equals( 26, offset.top, "$('#abs3').offset({margin:false,border:false}).top" );
+				equals( 26, offset.left, "$('#abs3').offset({margin:false,border:false}).left" );
+				
+				$('#abs4').offset(options, offset);
+				equals( 418, offset.top, "$('#abs4').offset({margin:false,border:false}).top" );
+				equals( 418, offset.left, "$('#abs4').offset({margin:false,border:false}).left" );
+				
+				// testing scroll offset
+				$('#abs2')[0].scrollTop  = 10;
+				$('#abs2')[0].scrollLeft = 10;
+				$('#abs3').offset({}, offset);
+				equals( 24, offset.top, "Scroll offset of parent by 10 => $('#abs3').offset().top" );
+				equals( 24, offset.left, "Scroll offset of parent by 10 => $('#abs3').offset().left" );
+				$('#abs2')[0].scrollTop  = 0;
+				$('#abs2')[0].scrollLeft = 0;
+			});
+			test('offset(): Absolute positioning with body margin', function() {
+				var offset  = {};
+				var options = {};
+				
+				$('body').css('margin', 10);
+				
+				$('#abs1').offset(options, offset);
+				equals( 10, offset.top, "$('#abs1').offset().top" );
+				equals( 10, offset.left, "$('#abs1').offset().left" );
+				
+				$('#abs2').offset(options, offset);
+				equals( 22, offset.top, "$('#abs2').offset().top" );
+				equals( 22, offset.left, "$('#abs2').offset().left" );
+				
+				$('#abs3').offset(options, offset);
+				equals( 34, offset.top, "$('#abs3').offset().top" );
+				equals( 34, offset.left, "$('#abs3').offset().left" );
+				
+				$('#abs4').offset(options, offset);
+				equals( 426, offset.top, "$('#abs4').offset().top" );
+				equals( 426, offset.left, "$('#abs4').offset().left" );
+				
+				// yes padding and border
+				options = { padding: true };
+				
+				$('#abs1').offset(options, offset);
+				equals( 15, offset.top, "$('#abs1').offset({padding:true}).top" );
+				equals( 15, offset.left, "$('#abs1').offset({padding:true}).left" );
+				
+				$('#abs2').offset(options, offset);
+				equals( 27, offset.top, "$('#abs2').offset({padding:true}).top" );
+				equals( 27, offset.left, "$('#abs2').offset({padding:true}).left" );
+				
+				$('#abs3').offset(options, offset);
+				equals( 39, offset.top, "$('#abs3').offset({padding:true}).top" );
+				equals( 39, offset.left, "$('#abs3').offset({padding:true}).left" );
+				
+				$('#abs4').offset(options, offset);
+				equals( 431, offset.top, "$('#abs4').offset({padding:true}).top" );
+				equals( 431, offset.left, "$('#abs4').offset({padding:true}).left" );
+				
+				// yes border
+				options = { border: true };
+				
+				$('#abs1').offset(options, offset);
+				equals( 12, offset.top, "$('#abs1').offset({border:false}).top" );
+				equals( 12, offset.left, "$('#abs1').offset({border:false}).left" );
+				
+				$('#abs2').offset(options, offset);
+				equals( 24, offset.top, "$('#abs2').offset({border:false}).top" );
+				equals( 24, offset.left, "$('#abs2').offset({border:false}).left" );
+				
+				$('#abs3').offset(options, offset);
+				equals( 36, offset.top, "$('#abs3').offset({border:false}).top" );
+				equals( 36, offset.left, "$('#abs3').offset({border:false}).left" );
+				
+				$('#abs4').offset(options, offset);
+				equals( 428, offset.top, "$('#abs4').offset({border:false}).top" );
+				equals( 428, offset.left, "$('#abs4').offset({border:false}).left" );
+				
+				// no margin
+				options = { margin: false };
+				
+				$('#abs1').offset(options, offset);
+				equals( 0, offset.top, "$('#abs1').offset({margin:false}).top" );
+				equals( 0, offset.left, "$('#abs1').offset({margin:false}).left" );
+				
+				$('#abs2').offset(options, offset);
+				equals( 12, offset.top, "$('#abs2').offset({margin:false}).top" );
+				equals( 12, offset.left, "$('#abs2').offset({margin:false}).left" );
+				
+				$('#abs3').offset(options, offset);
+				equals( 24, offset.top, "$('#abs3').offset({margin:false}).top" );
+				equals( 24, offset.left, "$('#abs3').offset({margin:false}).left" );
+				
+				$('#abs4').offset(options, offset);
+				equals( 416, offset.top, "$('#abs4').offset({margin:false}).top" );
+				equals( 416, offset.left, "$('#abs4').offset({margin:false}).left" );
+				
+				// no margin, yes border
+				options = { margin: false, border: true };
+				
+				$('#abs1').offset(options, offset);
+				equals( 2, offset.top, "$('#abs1').offset({margin:false,border:false}).top" );
+				equals( 2, offset.left, "$('#abs1').offset({margin:false,border:false}).left" );
+				
+				$('#abs2').offset(options, offset);
+				equals( 14, offset.top, "$('#abs2').offset({margin:false,border:false}).top" );
+				equals( 14, offset.left, "$('#abs2').offset({margin:false,border:false}).left" );
+				
+				$('#abs3').offset(options, offset);
+				equals( 26, offset.top, "$('#abs3').offset({margin:false,border:false}).top" );
+				equals( 26, offset.left, "$('#abs3').offset({margin:false,border:false}).left" );
+				
+				$('#abs4').offset(options, offset);
+				equals( 418, offset.top, "$('#abs4').offset({margin:false,border:false}).top" );
+				equals( 418, offset.left, "$('#abs4').offset({margin:false,border:false}).left" );
+				
+				// testing scroll offset
+				$('#abs2')[0].scrollTop  = 10;
+				$('#abs2')[0].scrollLeft = 10;
+				$('#abs3').offset({}, offset);
+				equals( 24, offset.top, "Scroll offset of parent by 10 => $('#abs3').offset().top" );
+				equals( 24, offset.left, "Scroll offset of parent by 10 => $('#abs3').offset().left" );
+				$('#abs2')[0].scrollTop  = 0;
+				$('#abs2')[0].scrollLeft = 0;
+				
+				$('body').css('margin', 0);
+			});
+			test('offset(): Absolute positioning with body border', function() {
+				var offset  = {};
+				var options = {};
+				
+				$('body').css('border', '10px solid #000');
+				
+				$('#abs1').offset(options, offset);
+				equals( 10, offset.top, "$('#abs1').offset().top" );
+				equals( 10, offset.left, "$('#abs1').offset().left" );
+				
+				$('#abs2').offset(options, offset);
+				equals( 22, offset.top, "$('#abs2').offset().top" );
+				equals( 22, offset.left, "$('#abs2').offset().left" );
+				
+				$('#abs3').offset(options, offset);
+				equals( 34, offset.top, "$('#abs3').offset().top" );
+				equals( 34, offset.left, "$('#abs3').offset().left" );
+				
+				$('#abs4').offset(options, offset);
+				equals( 426, offset.top, "$('#abs4').offset().top" );
+				equals( 426, offset.left, "$('#abs4').offset().left" );
+				
+				// yes padding and border
+				options = { padding: true };
+				
+				$('#abs1').offset(options, offset);
+				equals( 15, offset.top, "$('#abs1').offset({padding:true}).top" );
+				equals( 15, offset.left, "$('#abs1').offset({padding:true}).left" );
+				
+				$('#abs2').offset(options, offset);
+				equals( 27, offset.top, "$('#abs2').offset({padding:true}).top" );
+				equals( 27, offset.left, "$('#abs2').offset({padding:true}).left" );
+				
+				$('#abs3').offset(options, offset);
+				equals( 39, offset.top, "$('#abs3').offset({padding:true}).top" );
+				equals( 39, offset.left, "$('#abs3').offset({padding:true}).left" );
+				
+				$('#abs4').offset(options, offset);
+				equals( 431, offset.top, "$('#abs4').offset({padding:true}).top" );
+				equals( 431, offset.left, "$('#abs4').offset({padding:true}).left" );
+				
+				// yes border
+				options = { border: true };
+				
+				$('#abs1').offset(options, offset);
+				equals( 12, offset.top, "$('#abs1').offset({border:false}).top" );
+				equals( 12, offset.left, "$('#abs1').offset({border:false}).left" );
+				
+				$('#abs2').offset(options, offset);
+				equals( 24, offset.top, "$('#abs2').offset({border:false}).top" );
+				equals( 24, offset.left, "$('#abs2').offset({border:false}).left" );
+				
+				$('#abs3').offset(options, offset);
+				equals( 36, offset.top, "$('#abs3').offset({border:false}).top" );
+				equals( 36, offset.left, "$('#abs3').offset({border:false}).left" );
+				
+				$('#abs4').offset(options, offset);
+				equals( 428, offset.top, "$('#abs4').offset({border:false}).top" );
+				equals( 428, offset.left, "$('#abs4').offset({border:false}).left" );
+				
+				// no margin
+				options = { margin: false };
+				
+				$('#abs1').offset(options, offset);
+				equals( 0, offset.top, "$('#abs1').offset({margin:false}).top" );
+				equals( 0, offset.left, "$('#abs1').offset({margin:false}).left" );
+				
+				$('#abs2').offset(options, offset);
+				equals( 12, offset.top, "$('#abs2').offset({margin:false}).top" );
+				equals( 12, offset.left, "$('#abs2').offset({margin:false}).left" );
+				
+				$('#abs3').offset(options, offset);
+				equals( 24, offset.top, "$('#abs3').offset({margin:false}).top" );
+				equals( 24, offset.left, "$('#abs3').offset({margin:false}).left" );
+				
+				$('#abs4').offset(options, offset);
+				equals( 416, offset.top, "$('#abs4').offset({margin:false}).top" );
+				equals( 416, offset.left, "$('#abs4').offset({margin:false}).left" );
+				
+				// no margin, yes border
+				options = { margin: false, border: true };
+				
+				$('#abs1').offset(options, offset);
+				equals( 2, offset.top, "$('#abs1').offset({margin:false,border:false}).top" );
+				equals( 2, offset.left, "$('#abs1').offset({margin:false,border:false}).left" );
+				
+				$('#abs2').offset(options, offset);
+				equals( 14, offset.top, "$('#abs2').offset({margin:false,border:false}).top" );
+				equals( 14, offset.left, "$('#abs2').offset({margin:false,border:false}).left" );
+				
+				$('#abs3').offset(options, offset);
+				equals( 26, offset.top, "$('#abs3').offset({margin:false,border:false}).top" );
+				equals( 26, offset.left, "$('#abs3').offset({margin:false,border:false}).left" );
+				
+				$('#abs4').offset(options, offset);
+				equals( 418, offset.top, "$('#abs4').offset({margin:false,border:false}).top" );
+				equals( 418, offset.left, "$('#abs4').offset({margin:false,border:false}).left" );
+				
+				// testing scroll offset
+				$('#abs2')[0].scrollTop  = 10;
+				$('#abs2')[0].scrollLeft = 10;
+				$('#abs3').offset({}, offset);
+				equals( 24, offset.top, "Scroll offset of parent by 10 => $('#abs3').offset().top" );
+				equals( 24, offset.left, "Scroll offset of parent by 10 => $('#abs3').offset().left" );
+				$('#abs2')[0].scrollTop  = 0;
+				$('#abs2')[0].scrollLeft = 0;
+				
+				$('body').css('border', 0);
+			});
+			
+		</script>
+	</head>
+	<body>
+		<div id="main">
+			<div id="abs1">
+				<div id="abs2">
+					<div id="abs3"></div>
+				</div>
+			</div>
+			<div id="abs4"></div>
+		</div>
+		<ol id="tests"></ol>
+	</body>
+</html>

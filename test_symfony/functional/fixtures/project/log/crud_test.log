@@ -1,0 +1,1332 @@
+Mar 02 12:56:04 symfony [info] {sfRouting} connect "/"
+Mar 02 12:56:04 symfony [info] {sfRouting} connect "/symfony/:action/*"
+Mar 02 12:56:04 symfony [info] {sfRouting} connect "/:module"
+Mar 02 12:56:04 symfony [info] {sfRouting} connect "/:module/:action/*"
+Mar 02 12:56:04 symfony [info] {sfCreole} connect(): DSN: array (   'database' => 'C:\\web\\registry\\test\\functional\\fixtures\\project\\data/database.sqlite',   'encoding' => NULL,   'hostspec' => NULL,   'password' => NULL,   'persistent' => NULL,   'phptype' => 'sqlite',   'port' => NULL,   'protocol' => NULL,   'username' => NULL, ), FLAGS: 0
+Mar 02 12:56:04 symfony [info] {sfCreole} connect(): DSN: array (   'database' => 'C:\\web\\registry\\test\\functional\\fixtures\\project\\data/database.sqlite',   'encoding' => NULL,   'hostspec' => NULL,   'password' => NULL,   'persistent' => NULL,   'phptype' => 'sqlite',   'port' => NULL,   'protocol' => NULL,   'username' => NULL, ), FLAGS: 0
+Mar 02 12:56:04 symfony [info] {sfCreole} executeQuery(): [87.89 ms] CREATE TABLE [article] ( 	[id] INTEGER  NOT NULL PRIMARY KEY, 	[title] VARCHAR(255), 	[body] MEDIUMTEXT, 	[online] INTEGER, 	[category_id] INTEGER  NOT NULL, 	[created_at] TIMESTAMP, 	[end_date] TIMESTAMP, 	[book_id] INTEGER );
+Mar 02 12:56:04 symfony [info] {sfCreole} executeQuery(): [87.89 ms] CREATE TABLE [article] ( 	[id] INTEGER  NOT NULL PRIMARY KEY, 	[title] VARCHAR(255), 	[body] MEDIUMTEXT, 	[online] INTEGER, 	[category_id] INTEGER  NOT NULL, 	[created_at] TIMESTAMP, 	[end_date] TIMESTAMP, 	[book_id] INTEGER );
+Mar 02 12:56:04 symfony [info] {sfCreole} executeQuery(): [79.31 ms] CREATE TABLE [category] ( 	[id] INTEGER  NOT NULL PRIMARY KEY, 	[name] VARCHAR(255) );
+Mar 02 12:56:04 symfony [info] {sfCreole} executeQuery(): [79.31 ms] CREATE TABLE [category] ( 	[id] INTEGER  NOT NULL PRIMARY KEY, 	[name] VARCHAR(255) );
+Mar 02 12:56:04 symfony [info] {sfCreole} executeQuery(): [68.36 ms] CREATE TABLE [book] ( 	[id] INTEGER  NOT NULL PRIMARY KEY, 	[name] VARCHAR(255) );
+Mar 02 12:56:04 symfony [info] {sfCreole} executeQuery(): [68.36 ms] CREATE TABLE [book] ( 	[id] INTEGER  NOT NULL PRIMARY KEY, 	[name] VARCHAR(255) );
+Mar 02 12:56:04 symfony [info] {sfCreole} executeQuery(): [84.00 ms] CREATE TABLE [author] ( 	[id] INTEGER  NOT NULL PRIMARY KEY, 	[name] VARCHAR(255) );
+Mar 02 12:56:04 symfony [info] {sfCreole} executeQuery(): [84.00 ms] CREATE TABLE [author] ( 	[id] INTEGER  NOT NULL PRIMARY KEY, 	[name] VARCHAR(255) );
+Mar 02 12:56:04 symfony [info] {sfCreole} executeQuery(): [87.88 ms] CREATE TABLE [author_article] ( 	[author_id] INTEGER, 	[article_id] INTEGER, 	[id] INTEGER  NOT NULL PRIMARY KEY );
+Mar 02 12:56:04 symfony [info] {sfCreole} executeQuery(): [87.88 ms] CREATE TABLE [author_article] ( 	[author_id] INTEGER, 	[article_id] INTEGER, 	[id] INTEGER  NOT NULL PRIMARY KEY );
+Mar 02 12:56:04 symfony [info] {sfCreole} beginning transaction.
+Mar 02 12:56:04 symfony [info] {sfCreole} beginning transaction.
+Mar 02 12:56:04 symfony [info] {sfCreole} beginning transaction.
+Mar 02 12:56:04 symfony [info] {sfCreole} beginning transaction.
+Mar 02 12:56:04 symfony [info] {sfCreole} prepareStatement(): DELETE FROM author_article
+Mar 02 12:56:04 symfony [info] {sfCreole} prepareStatement(): DELETE FROM author_article
+Mar 02 12:56:04 symfony [info] {sfCreole} executeUpdate(): DELETE FROM author_article
+Mar 02 12:56:04 symfony [info] {sfCreole} executeUpdate(): DELETE FROM author_article
+Mar 02 12:56:04 symfony [info] {sfCreole} committing transaction.
+Mar 02 12:56:04 symfony [info] {sfCreole} committing transaction.
+Mar 02 12:56:04 symfony [info] {sfCreole} beginning transaction.
+Mar 02 12:56:04 symfony [info] {sfCreole} beginning transaction.
+Mar 02 12:56:04 symfony [info] {sfCreole} prepareStatement(): DELETE FROM author
+Mar 02 12:56:04 symfony [info] {sfCreole} prepareStatement(): DELETE FROM author
+Mar 02 12:56:04 symfony [info] {sfCreole} executeUpdate(): DELETE FROM author
+Mar 02 12:56:04 symfony [info] {sfCreole} executeUpdate(): DELETE FROM author
+Mar 02 12:56:04 symfony [info] {sfCreole} committing transaction.
+Mar 02 12:56:04 symfony [info] {sfCreole} committing transaction.
+Mar 02 12:56:04 symfony [info] {sfCreole} beginning transaction.
+Mar 02 12:56:04 symfony [info] {sfCreole} beginning transaction.
+Mar 02 12:56:04 symfony [info] {sfCreole} prepareStatement(): DELETE FROM article
+Mar 02 12:56:04 symfony [info] {sfCreole} prepareStatement(): DELETE FROM article
+Mar 02 12:56:04 symfony [info] {sfCreole} executeUpdate(): DELETE FROM article
+Mar 02 12:56:04 symfony [info] {sfCreole} executeUpdate(): DELETE FROM article
+Mar 02 12:56:04 symfony [info] {sfCreole} committing transaction.
+Mar 02 12:56:04 symfony [info] {sfCreole} committing transaction.
+Mar 02 12:56:04 symfony [info] {sfCreole} beginning transaction.
+Mar 02 12:56:04 symfony [info] {sfCreole} beginning transaction.
+Mar 02 12:56:04 symfony [info] {sfCreole} prepareStatement(): DELETE FROM category
+Mar 02 12:56:04 symfony [info] {sfCreole} prepareStatement(): DELETE FROM category
+Mar 02 12:56:04 symfony [info] {sfCreole} executeUpdate(): DELETE FROM category
+Mar 02 12:56:04 symfony [info] {sfCreole} executeUpdate(): DELETE FROM category
+Mar 02 12:56:04 symfony [info] {sfCreole} committing transaction.
+Mar 02 12:56:04 symfony [info] {sfCreole} committing transaction.
+Mar 02 12:56:04 symfony [info] {sfCreole} beginning transaction.
+Mar 02 12:56:04 symfony [info] {sfCreole} beginning transaction.
+Mar 02 12:56:04 symfony [info] {sfCreole} prepareStatement(): DELETE FROM book
+Mar 02 12:56:04 symfony [info] {sfCreole} prepareStatement(): DELETE FROM book
+Mar 02 12:56:04 symfony [info] {sfCreole} executeUpdate(): DELETE FROM book
+Mar 02 12:56:04 symfony [info] {sfCreole} executeUpdate(): DELETE FROM book
+Mar 02 12:56:04 symfony [info] {sfCreole} committing transaction.
+Mar 02 12:56:04 symfony [info] {sfCreole} committing transaction.
+Mar 02 12:56:04 symfony [info] {sfCreole} beginning transaction.
+Mar 02 12:56:04 symfony [info] {sfCreole} beginning transaction.
+Mar 02 12:56:04 symfony [info] {sfCreole} beginning transaction.
+Mar 02 12:56:04 symfony [info] {sfCreole} beginning transaction.
+Mar 02 12:56:04 symfony [info] {sfCreole} prepareStatement(): INSERT INTO book (NAME) VALUES (?)
+Mar 02 12:56:04 symfony [info] {sfCreole} prepareStatement(): INSERT INTO book (NAME) VALUES (?)
+Mar 02 12:56:04 symfony [info] {sfCreole} executeUpdate(): INSERT INTO book (NAME) VALUES ('The definitive guide to symfony')
+Mar 02 12:56:04 symfony [info] {sfCreole} executeUpdate(): INSERT INTO book (NAME) VALUES ('The definitive guide to symfony')
+Mar 02 12:56:04 symfony [info] {sfCreole} committing transaction.
+Mar 02 12:56:04 symfony [info] {sfCreole} committing transaction.
+Mar 02 12:56:04 symfony [info] {sfCreole} committing transaction.
+Mar 02 12:56:04 symfony [info] {sfCreole} committing transaction.
+Mar 02 12:56:04 symfony [info] {sfCreole} beginning transaction.
+Mar 02 12:56:04 symfony [info] {sfCreole} beginning transaction.
+Mar 02 12:56:04 symfony [info] {sfCreole} beginning transaction.
+Mar 02 12:56:04 symfony [info] {sfCreole} beginning transaction.
+Mar 02 12:56:04 symfony [info] {sfCreole} prepareStatement(): INSERT INTO category (NAME) VALUES (?)
+Mar 02 12:56:04 symfony [info] {sfCreole} prepareStatement(): INSERT INTO category (NAME) VALUES (?)
+Mar 02 12:56:04 symfony [info] {sfCreole} executeUpdate(): INSERT INTO category (NAME) VALUES ('Category 1')
+Mar 02 12:56:04 symfony [info] {sfCreole} executeUpdate(): INSERT INTO category (NAME) VALUES ('Category 1')
+Mar 02 12:56:04 symfony [info] {sfCreole} committing transaction.
+Mar 02 12:56:04 symfony [info] {sfCreole} committing transaction.
+Mar 02 12:56:04 symfony [info] {sfCreole} committing transaction.
+Mar 02 12:56:04 symfony [info] {sfCreole} committing transaction.
+Mar 02 12:56:04 symfony [info] {sfCreole} beginning transaction.
+Mar 02 12:56:04 symfony [info] {sfCreole} beginning transaction.
+Mar 02 12:56:04 symfony [info] {sfCreole} beginning transaction.
+Mar 02 12:56:04 symfony [info] {sfCreole} beginning transaction.
+Mar 02 12:56:05 symfony [info] {sfCreole} prepareStatement(): INSERT INTO category (NAME) VALUES (?)
+Mar 02 12:56:05 symfony [info] {sfCreole} prepareStatement(): INSERT INTO category (NAME) VALUES (?)
+Mar 02 12:56:05 symfony [info] {sfCreole} executeUpdate(): INSERT INTO category (NAME) VALUES ('Category 2')
+Mar 02 12:56:05 symfony [info] {sfCreole} executeUpdate(): INSERT INTO category (NAME) VALUES ('Category 2')
+Mar 02 12:56:05 symfony [info] {sfCreole} committing transaction.
+Mar 02 12:56:05 symfony [info] {sfCreole} committing transaction.
+Mar 02 12:56:05 symfony [info] {sfCreole} committing transaction.
+Mar 02 12:56:05 symfony [info] {sfCreole} committing transaction.
+Mar 02 12:56:05 symfony [info] {sfCreole} beginning transaction.
+Mar 02 12:56:05 symfony [info] {sfCreole} beginning transaction.
+Mar 02 12:56:05 symfony [info] {sfCreole} beginning transaction.
+Mar 02 12:56:05 symfony [info] {sfCreole} beginning transaction.
+Mar 02 12:56:05 symfony [info] {sfCreole} prepareStatement(): INSERT INTO article (TITLE,BODY,ONLINE,CATEGORY_ID,CREATED_AT) VALUES (?,?,?,?,?)
+Mar 02 12:56:05 symfony [info] {sfCreole} prepareStatement(): INSERT INTO article (TITLE,BODY,ONLINE,CATEGORY_ID,CREATED_AT) VALUES (?,?,?,?,?)
+Mar 02 12:56:05 symfony [info] {sfCreole} executeUpdate(): INSERT INTO article (TITLE,BODY,ONLINE,CATEGORY_ID,CREATED_AT) VALUES ('foo title','bar body',1,1,'2007-03-02 12:56:04')
+Mar 02 12:56:05 symfony [info] {sfCreole} executeUpdate(): INSERT INTO article (TITLE,BODY,ONLINE,CATEGORY_ID,CREATED_AT) VALUES ('foo title','bar body',1,1,'2007-03-02 12:56:04')
+Mar 02 12:56:05 symfony [info] {sfCreole} committing transaction.
+Mar 02 12:56:05 symfony [info] {sfCreole} committing transaction.
+Mar 02 12:56:05 symfony [info] {sfCreole} committing transaction.
+Mar 02 12:56:05 symfony [info] {sfCreole} committing transaction.
+Mar 02 12:56:05 symfony [info] {sfCreole} beginning transaction.
+Mar 02 12:56:05 symfony [info] {sfCreole} beginning transaction.
+Mar 02 12:56:05 symfony [info] {sfCreole} beginning transaction.
+Mar 02 12:56:05 symfony [info] {sfCreole} beginning transaction.
+Mar 02 12:56:05 symfony [info] {sfCreole} prepareStatement(): INSERT INTO article (TITLE,BODY,ONLINE,CATEGORY_ID,CREATED_AT) VALUES (?,?,?,?,?)
+Mar 02 12:56:05 symfony [info] {sfCreole} prepareStatement(): INSERT INTO article (TITLE,BODY,ONLINE,CATEGORY_ID,CREATED_AT) VALUES (?,?,?,?,?)
+Mar 02 12:56:05 symfony [info] {sfCreole} executeUpdate(): INSERT INTO article (TITLE,BODY,ONLINE,CATEGORY_ID,CREATED_AT) VALUES ('foo foo title','bar bar body',0,2,'2007-03-02 12:56:04')
+Mar 02 12:56:05 symfony [info] {sfCreole} executeUpdate(): INSERT INTO article (TITLE,BODY,ONLINE,CATEGORY_ID,CREATED_AT) VALUES ('foo foo title','bar bar body',0,2,'2007-03-02 12:56:04')
+Mar 02 12:56:05 symfony [info] {sfCreole} committing transaction.
+Mar 02 12:56:05 symfony [info] {sfCreole} committing transaction.
+Mar 02 12:56:05 symfony [info] {sfCreole} committing transaction.
+Mar 02 12:56:05 symfony [info] {sfCreole} committing transaction.
+Mar 02 12:56:05 symfony [info] {sfCreole} beginning transaction.
+Mar 02 12:56:05 symfony [info] {sfCreole} beginning transaction.
+Mar 02 12:56:05 symfony [info] {sfCreole} beginning transaction.
+Mar 02 12:56:05 symfony [info] {sfCreole} beginning transaction.
+Mar 02 12:56:05 symfony [info] {sfCreole} prepareStatement(): INSERT INTO author (NAME) VALUES (?)
+Mar 02 12:56:05 symfony [info] {sfCreole} prepareStatement(): INSERT INTO author (NAME) VALUES (?)
+Mar 02 12:56:05 symfony [info] {sfCreole} executeUpdate(): INSERT INTO author (NAME) VALUES ('Fabien')
+Mar 02 12:56:05 symfony [info] {sfCreole} executeUpdate(): INSERT INTO author (NAME) VALUES ('Fabien')
+Mar 02 12:56:05 symfony [info] {sfCreole} committing transaction.
+Mar 02 12:56:05 symfony [info] {sfCreole} committing transaction.
+Mar 02 12:56:05 symfony [info] {sfCreole} committing transaction.
+Mar 02 12:56:05 symfony [info] {sfCreole} committing transaction.
+Mar 02 12:56:05 symfony [info] {sfCreole} beginning transaction.
+Mar 02 12:56:05 symfony [info] {sfCreole} beginning transaction.
+Mar 02 12:56:05 symfony [info] {sfCreole} beginning transaction.
+Mar 02 12:56:05 symfony [info] {sfCreole} beginning transaction.
+Mar 02 12:56:05 symfony [info] {sfCreole} prepareStatement(): INSERT INTO author (NAME) VALUES (?)
+Mar 02 12:56:05 symfony [info] {sfCreole} prepareStatement(): INSERT INTO author (NAME) VALUES (?)
+Mar 02 12:56:05 symfony [info] {sfCreole} executeUpdate(): INSERT INTO author (NAME) VALUES ('Thomas')
+Mar 02 12:56:05 symfony [info] {sfCreole} executeUpdate(): INSERT INTO author (NAME) VALUES ('Thomas')
+Mar 02 12:56:05 symfony [info] {sfCreole} committing transaction.
+Mar 02 12:56:05 symfony [info] {sfCreole} committing transaction.
+Mar 02 12:56:05 symfony [info] {sfCreole} committing transaction.
+Mar 02 12:56:05 symfony [info] {sfCreole} committing transaction.
+Mar 02 12:56:05 symfony [info] {sfCreole} beginning transaction.
+Mar 02 12:56:05 symfony [info] {sfCreole} beginning transaction.
+Mar 02 12:56:05 symfony [info] {sfCreole} beginning transaction.
+Mar 02 12:56:05 symfony [info] {sfCreole} beginning transaction.
+Mar 02 12:56:05 symfony [info] {sfCreole} prepareStatement(): INSERT INTO author (NAME) VALUES (?)
+Mar 02 12:56:05 symfony [info] {sfCreole} prepareStatement(): INSERT INTO author (NAME) VALUES (?)
+Mar 02 12:56:05 symfony [info] {sfCreole} executeUpdate(): INSERT INTO author (NAME) VALUES ('Hélène')
+Mar 02 12:56:05 symfony [info] {sfCreole} executeUpdate(): INSERT INTO author (NAME) VALUES ('Hélène')
+Mar 02 12:56:05 symfony [info] {sfCreole} committing transaction.
+Mar 02 12:56:05 symfony [info] {sfCreole} committing transaction.
+Mar 02 12:56:05 symfony [info] {sfCreole} committing transaction.
+Mar 02 12:56:05 symfony [info] {sfCreole} committing transaction.
+Mar 02 12:56:05 symfony [info] {sfCreole} beginning transaction.
+Mar 02 12:56:05 symfony [info] {sfCreole} beginning transaction.
+Mar 02 12:56:05 symfony [info] {sfCreole} beginning transaction.
+Mar 02 12:56:05 symfony [info] {sfCreole} beginning transaction.
+Mar 02 12:56:05 symfony [info] {sfCreole} prepareStatement(): INSERT INTO author_article (AUTHOR_ID,ARTICLE_ID) VALUES (?,?)
+Mar 02 12:56:05 symfony [info] {sfCreole} prepareStatement(): INSERT INTO author_article (AUTHOR_ID,ARTICLE_ID) VALUES (?,?)
+Mar 02 12:56:05 symfony [info] {sfCreole} executeUpdate(): INSERT INTO author_article (AUTHOR_ID,ARTICLE_ID) VALUES (1,1)
+Mar 02 12:56:05 symfony [info] {sfCreole} executeUpdate(): INSERT INTO author_article (AUTHOR_ID,ARTICLE_ID) VALUES (1,1)
+Mar 02 12:56:05 symfony [info] {sfCreole} committing transaction.
+Mar 02 12:56:05 symfony [info] {sfCreole} committing transaction.
+Mar 02 12:56:05 symfony [info] {sfCreole} committing transaction.
+Mar 02 12:56:05 symfony [info] {sfCreole} committing transaction.
+Mar 02 12:56:05 symfony [info] {sfCreole} beginning transaction.
+Mar 02 12:56:05 symfony [info] {sfCreole} beginning transaction.
+Mar 02 12:56:05 symfony [info] {sfCreole} beginning transaction.
+Mar 02 12:56:05 symfony [info] {sfCreole} beginning transaction.
+Mar 02 12:56:05 symfony [info] {sfCreole} prepareStatement(): INSERT INTO author_article (AUTHOR_ID,ARTICLE_ID) VALUES (?,?)
+Mar 02 12:56:05 symfony [info] {sfCreole} prepareStatement(): INSERT INTO author_article (AUTHOR_ID,ARTICLE_ID) VALUES (?,?)
+Mar 02 12:56:05 symfony [info] {sfCreole} executeUpdate(): INSERT INTO author_article (AUTHOR_ID,ARTICLE_ID) VALUES (2,1)
+Mar 02 12:56:05 symfony [info] {sfCreole} executeUpdate(): INSERT INTO author_article (AUTHOR_ID,ARTICLE_ID) VALUES (2,1)
+Mar 02 12:56:05 symfony [info] {sfCreole} committing transaction.
+Mar 02 12:56:05 symfony [info] {sfCreole} committing transaction.
+Mar 02 12:56:05 symfony [info] {sfCreole} committing transaction.
+Mar 02 12:56:05 symfony [info] {sfCreole} committing transaction.
+Mar 02 12:56:05 symfony [info] {sfCreole} beginning transaction.
+Mar 02 12:56:05 symfony [info] {sfCreole} beginning transaction.
+Mar 02 12:56:05 symfony [info] {sfCreole} beginning transaction.
+Mar 02 12:56:05 symfony [info] {sfCreole} beginning transaction.
+Mar 02 12:56:05 symfony [info] {sfCreole} prepareStatement(): INSERT INTO author_article (AUTHOR_ID,ARTICLE_ID) VALUES (?,?)
+Mar 02 12:56:05 symfony [info] {sfCreole} prepareStatement(): INSERT INTO author_article (AUTHOR_ID,ARTICLE_ID) VALUES (?,?)
+Mar 02 12:56:05 symfony [info] {sfCreole} executeUpdate(): INSERT INTO author_article (AUTHOR_ID,ARTICLE_ID) VALUES (1,2)
+Mar 02 12:56:05 symfony [info] {sfCreole} executeUpdate(): INSERT INTO author_article (AUTHOR_ID,ARTICLE_ID) VALUES (1,2)
+Mar 02 12:56:05 symfony [info] {sfCreole} committing transaction.
+Mar 02 12:56:05 symfony [info] {sfCreole} committing transaction.
+Mar 02 12:56:05 symfony [info] {sfCreole} committing transaction.
+Mar 02 12:56:05 symfony [info] {sfCreole} committing transaction.
+Mar 02 12:56:05 symfony [info] {sfCreole} committing transaction.
+Mar 02 12:56:05 symfony [info] {sfCreole} committing transaction.
+Mar 02 12:56:05 symfony [info] {sfContext} initialization
+Mar 02 12:56:05 symfony [info] {sfContext} initialization
+Mar 02 12:56:05 symfony [info] {sfController} initialization
+Mar 02 12:56:05 symfony [info] {sfController} initialization
+Mar 02 12:56:05 symfony [info] {sfRouting} match route [default_index] "/:module"
+Mar 02 12:56:05 symfony [info] {sfRouting} match route [default_index] "/:module"
+Mar 02 12:56:05 symfony [info] {sfRequest} request parameters array (  'module' => 'error',  'action' => 'index',)
+Mar 02 12:56:05 symfony [info] {sfRequest} request parameters array (  'module' => 'error',  'action' => 'index',)
+Mar 02 12:56:05 symfony [info] {sfController} dispatch request
+Mar 02 12:56:05 symfony [info] {sfController} dispatch request
+Mar 02 12:56:05 symfony [err] {sfInitializationException} Unable to scaffold unexistant model "FakeClass"
+Mar 02 12:56:05 symfony [err] {sfInitializationException} Unable to scaffold unexistant model "FakeClass"
+Mar 02 12:56:05 symfony [info] {sfContext} initialization
+Mar 02 12:56:05 symfony [info] {sfContext} initialization
+Mar 02 12:56:05 symfony [info] {sfController} initialization
+Mar 02 12:56:05 symfony [info] {sfController} initialization
+Mar 02 12:56:05 symfony [info] {sfRouting} match route [default_index] "/:module"
+Mar 02 12:56:05 symfony [info] {sfRouting} match route [default_index] "/:module"
+Mar 02 12:56:05 symfony [info] {sfRequest} request parameters array (  'module' => 'simple',  'action' => 'index',)
+Mar 02 12:56:05 symfony [info] {sfRequest} request parameters array (  'module' => 'simple',  'action' => 'index',)
+Mar 02 12:56:05 symfony [info] {sfController} dispatch request
+Mar 02 12:56:05 symfony [info] {sfController} dispatch request
+Mar 02 12:56:05 symfony [info] {sfFilter} executing filter "sfFakeRenderingFilter"
+Mar 02 12:56:05 symfony [info] {sfFilter} executing filter "sfFakeRenderingFilter"
+Mar 02 12:56:05 symfony [info] {sfFilter} executing filter "sfCommonFilter"
+Mar 02 12:56:05 symfony [info] {sfFilter} executing filter "sfCommonFilter"
+Mar 02 12:56:05 symfony [info] {sfFilter} executing filter "sfFlashFilter"
+Mar 02 12:56:05 symfony [info] {sfFilter} executing filter "sfFlashFilter"
+Mar 02 12:56:05 symfony [info] {sfFilter} executing filter "sfExecutionFilter"
+Mar 02 12:56:05 symfony [info] {sfFilter} executing filter "sfExecutionFilter"
+Mar 02 12:56:05 symfony [info] {sfAction} call "simpleActions->executeIndex()"
+Mar 02 12:56:05 symfony [info] {sfAction} call "simpleActions->executeIndex()"
+Mar 02 12:56:05 symfony [info] {sfAction} forward to action "simple/list"
+Mar 02 12:56:05 symfony [info] {sfAction} forward to action "simple/list"
+Mar 02 12:56:06 symfony [info] {sfFilter} executing filter "sfFakeRenderingFilter"
+Mar 02 12:56:06 symfony [info] {sfFilter} executing filter "sfFakeRenderingFilter"
+Mar 02 12:56:06 symfony [info] {sfFilter} executing filter "sfCommonFilter"
+Mar 02 12:56:06 symfony [info] {sfFilter} executing filter "sfCommonFilter"
+Mar 02 12:56:06 symfony [info] {sfFilter} executing filter "sfFlashFilter"
+Mar 02 12:56:06 symfony [info] {sfFilter} executing filter "sfFlashFilter"
+Mar 02 12:56:06 symfony [info] {sfFilter} executing filter "sfExecutionFilter"
+Mar 02 12:56:06 symfony [info] {sfFilter} executing filter "sfExecutionFilter"
+Mar 02 12:56:06 symfony [info] {sfAction} call "simpleActions->executeList()"
+Mar 02 12:56:06 symfony [info] {sfAction} call "simpleActions->executeList()"
+Mar 02 12:56:06 symfony [info] {sfCreole} prepareStatement(): SELECT article.ID, article.TITLE, article.BODY, article.ONLINE, article.CATEGORY_ID, article.CREATED_AT, article.END_DATE, article.BOOK_ID FROM article
+Mar 02 12:56:06 symfony [info] {sfCreole} prepareStatement(): SELECT article.ID, article.TITLE, article.BODY, article.ONLINE, article.CATEGORY_ID, article.CREATED_AT, article.END_DATE, article.BOOK_ID FROM article
+Mar 02 12:56:06 symfony [info] {sfCreole} executeQuery(): [4.63 ms] SELECT article.ID, article.TITLE, article.BODY, article.ONLINE, article.CATEGORY_ID, article.CREATED_AT, article.END_DATE, article.BOOK_ID FROM article
+Mar 02 12:56:06 symfony [info] {sfCreole} executeQuery(): [4.63 ms] SELECT article.ID, article.TITLE, article.BODY, article.ONLINE, article.CATEGORY_ID, article.CREATED_AT, article.END_DATE, article.BOOK_ID FROM article
+Mar 02 12:56:06 symfony [info] {sfView} initialize view for "simple/list"
+Mar 02 12:56:06 symfony [info] {sfView} initialize view for "simple/list"
+Mar 02 12:56:06 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\cache\crud\test\modules/autoSimple/templates/listSuccess.php"
+Mar 02 12:56:06 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\cache\crud\test\modules/autoSimple/templates/listSuccess.php"
+Mar 02 12:56:06 symfony [info] {sfView} decorate content with "C:\web\registry\test\functional\fixtures\project\apps\crud\templates/layout.php"
+Mar 02 12:56:06 symfony [info] {sfView} decorate content with "C:\web\registry\test\functional\fixtures\project\apps\crud\templates/layout.php"
+Mar 02 12:56:06 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\apps\crud\templates/layout.php"
+Mar 02 12:56:06 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\apps\crud\templates/layout.php"
+Mar 02 12:56:06 symfony [info] {sfResponse} send content (1469 o)
+Mar 02 12:56:06 symfony [info] {sfResponse} send content (1469 o)
+Mar 02 12:56:06 symfony [info] {sfContext} initialization
+Mar 02 12:56:06 symfony [info] {sfContext} initialization
+Mar 02 12:56:06 symfony [info] {sfController} initialization
+Mar 02 12:56:06 symfony [info] {sfController} initialization
+Mar 02 12:56:06 symfony [info] {sfRouting} match route [default] "/:module/:action/*"
+Mar 02 12:56:06 symfony [info] {sfRouting} match route [default] "/:module/:action/*"
+Mar 02 12:56:06 symfony [info] {sfRequest} request parameters array (  'module' => 'simple',  'action' => 'list',)
+Mar 02 12:56:06 symfony [info] {sfRequest} request parameters array (  'module' => 'simple',  'action' => 'list',)
+Mar 02 12:56:06 symfony [info] {sfController} dispatch request
+Mar 02 12:56:06 symfony [info] {sfController} dispatch request
+Mar 02 12:56:06 symfony [info] {sfFilter} executing filter "sfFakeRenderingFilter"
+Mar 02 12:56:06 symfony [info] {sfFilter} executing filter "sfFakeRenderingFilter"
+Mar 02 12:56:06 symfony [info] {sfFilter} executing filter "sfCommonFilter"
+Mar 02 12:56:06 symfony [info] {sfFilter} executing filter "sfCommonFilter"
+Mar 02 12:56:06 symfony [info] {sfFilter} executing filter "sfFlashFilter"
+Mar 02 12:56:06 symfony [info] {sfFilter} executing filter "sfFlashFilter"
+Mar 02 12:56:06 symfony [info] {sfFilter} executing filter "sfExecutionFilter"
+Mar 02 12:56:06 symfony [info] {sfFilter} executing filter "sfExecutionFilter"
+Mar 02 12:56:06 symfony [info] {sfAction} call "simpleActions->executeList()"
+Mar 02 12:56:06 symfony [info] {sfAction} call "simpleActions->executeList()"
+Mar 02 12:56:06 symfony [info] {sfCreole} prepareStatement(): SELECT article.ID, article.TITLE, article.BODY, article.ONLINE, article.CATEGORY_ID, article.CREATED_AT, article.END_DATE, article.BOOK_ID FROM article
+Mar 02 12:56:06 symfony [info] {sfCreole} prepareStatement(): SELECT article.ID, article.TITLE, article.BODY, article.ONLINE, article.CATEGORY_ID, article.CREATED_AT, article.END_DATE, article.BOOK_ID FROM article
+Mar 02 12:56:06 symfony [info] {sfCreole} executeQuery(): [4.36 ms] SELECT article.ID, article.TITLE, article.BODY, article.ONLINE, article.CATEGORY_ID, article.CREATED_AT, article.END_DATE, article.BOOK_ID FROM article
+Mar 02 12:56:06 symfony [info] {sfCreole} executeQuery(): [4.36 ms] SELECT article.ID, article.TITLE, article.BODY, article.ONLINE, article.CATEGORY_ID, article.CREATED_AT, article.END_DATE, article.BOOK_ID FROM article
+Mar 02 12:56:06 symfony [info] {sfView} initialize view for "simple/list"
+Mar 02 12:56:06 symfony [info] {sfView} initialize view for "simple/list"
+Mar 02 12:56:06 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\cache\crud\test\modules/autoSimple/templates/listSuccess.php"
+Mar 02 12:56:06 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\cache\crud\test\modules/autoSimple/templates/listSuccess.php"
+Mar 02 12:56:06 symfony [info] {sfView} decorate content with "C:\web\registry\test\functional\fixtures\project\apps\crud\templates/layout.php"
+Mar 02 12:56:06 symfony [info] {sfView} decorate content with "C:\web\registry\test\functional\fixtures\project\apps\crud\templates/layout.php"
+Mar 02 12:56:06 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\apps\crud\templates/layout.php"
+Mar 02 12:56:06 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\apps\crud\templates/layout.php"
+Mar 02 12:56:06 symfony [info] {sfResponse} send content (1469 o)
+Mar 02 12:56:06 symfony [info] {sfResponse} send content (1469 o)
+Mar 02 12:56:06 symfony [info] {sfContext} initialization
+Mar 02 12:56:06 symfony [info] {sfContext} initialization
+Mar 02 12:56:06 symfony [info] {sfController} initialization
+Mar 02 12:56:06 symfony [info] {sfController} initialization
+Mar 02 12:56:06 symfony [info] {sfRouting} match route [default] "/:module/:action/*"
+Mar 02 12:56:06 symfony [info] {sfRouting} match route [default] "/:module/:action/*"
+Mar 02 12:56:06 symfony [info] {sfRequest} request parameters array (  'module' => 'simple',  'action' => 'show',  'id' => '1',)
+Mar 02 12:56:06 symfony [info] {sfRequest} request parameters array (  'module' => 'simple',  'action' => 'show',  'id' => '1',)
+Mar 02 12:56:06 symfony [info] {sfController} dispatch request
+Mar 02 12:56:06 symfony [info] {sfController} dispatch request
+Mar 02 12:56:06 symfony [info] {sfFilter} executing filter "sfFakeRenderingFilter"
+Mar 02 12:56:06 symfony [info] {sfFilter} executing filter "sfFakeRenderingFilter"
+Mar 02 12:56:06 symfony [info] {sfFilter} executing filter "sfCommonFilter"
+Mar 02 12:56:06 symfony [info] {sfFilter} executing filter "sfCommonFilter"
+Mar 02 12:56:06 symfony [info] {sfFilter} executing filter "sfFlashFilter"
+Mar 02 12:56:06 symfony [info] {sfFilter} executing filter "sfFlashFilter"
+Mar 02 12:56:06 symfony [info] {sfFilter} executing filter "sfExecutionFilter"
+Mar 02 12:56:06 symfony [info] {sfFilter} executing filter "sfExecutionFilter"
+Mar 02 12:56:06 symfony [info] {sfAction} call "simpleActions->executeShow()"
+Mar 02 12:56:06 symfony [info] {sfAction} call "simpleActions->executeShow()"
+Mar 02 12:56:06 symfony [info] {sfCreole} prepareStatement(): SELECT article.ID, article.TITLE, article.BODY, article.ONLINE, article.CATEGORY_ID, article.CREATED_AT, article.END_DATE, article.BOOK_ID FROM article WHERE article.ID=?
+Mar 02 12:56:06 symfony [info] {sfCreole} prepareStatement(): SELECT article.ID, article.TITLE, article.BODY, article.ONLINE, article.CATEGORY_ID, article.CREATED_AT, article.END_DATE, article.BOOK_ID FROM article WHERE article.ID=?
+Mar 02 12:56:06 symfony [info] {sfCreole} executeQuery(): [4.30 ms] SELECT article.ID, article.TITLE, article.BODY, article.ONLINE, article.CATEGORY_ID, article.CREATED_AT, article.END_DATE, article.BOOK_ID FROM article WHERE article.ID=1
+Mar 02 12:56:06 symfony [info] {sfCreole} executeQuery(): [4.30 ms] SELECT article.ID, article.TITLE, article.BODY, article.ONLINE, article.CATEGORY_ID, article.CREATED_AT, article.END_DATE, article.BOOK_ID FROM article WHERE article.ID=1
+Mar 02 12:56:06 symfony [info] {sfView} initialize view for "simple/show"
+Mar 02 12:56:06 symfony [info] {sfView} initialize view for "simple/show"
+Mar 02 12:56:06 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\cache\crud\test\modules/autoSimple/templates/showSuccess.php"
+Mar 02 12:56:06 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\cache\crud\test\modules/autoSimple/templates/showSuccess.php"
+Mar 02 12:56:06 symfony [info] {sfView} decorate content with "C:\web\registry\test\functional\fixtures\project\apps\crud\templates/layout.php"
+Mar 02 12:56:06 symfony [info] {sfView} decorate content with "C:\web\registry\test\functional\fixtures\project\apps\crud\templates/layout.php"
+Mar 02 12:56:06 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\apps\crud\templates/layout.php"
+Mar 02 12:56:06 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\apps\crud\templates/layout.php"
+Mar 02 12:56:06 symfony [info] {sfResponse} send content (1236 o)
+Mar 02 12:56:06 symfony [info] {sfResponse} send content (1236 o)
+Mar 02 12:56:06 symfony [info] {sfContext} initialization
+Mar 02 12:56:06 symfony [info] {sfContext} initialization
+Mar 02 12:56:06 symfony [info] {sfController} initialization
+Mar 02 12:56:06 symfony [info] {sfController} initialization
+Mar 02 12:56:06 symfony [info] {sfRouting} match route [default] "/:module/:action/*"
+Mar 02 12:56:06 symfony [info] {sfRouting} match route [default] "/:module/:action/*"
+Mar 02 12:56:06 symfony [info] {sfRequest} request parameters array (  'module' => 'simple',  'action' => 'edit',  'id' => '1',)
+Mar 02 12:56:06 symfony [info] {sfRequest} request parameters array (  'module' => 'simple',  'action' => 'edit',  'id' => '1',)
+Mar 02 12:56:06 symfony [info] {sfController} dispatch request
+Mar 02 12:56:06 symfony [info] {sfController} dispatch request
+Mar 02 12:56:06 symfony [info] {sfFilter} executing filter "sfFakeRenderingFilter"
+Mar 02 12:56:06 symfony [info] {sfFilter} executing filter "sfFakeRenderingFilter"
+Mar 02 12:56:06 symfony [info] {sfFilter} executing filter "sfCommonFilter"
+Mar 02 12:56:06 symfony [info] {sfFilter} executing filter "sfCommonFilter"
+Mar 02 12:56:06 symfony [info] {sfFilter} executing filter "sfFlashFilter"
+Mar 02 12:56:06 symfony [info] {sfFilter} executing filter "sfFlashFilter"
+Mar 02 12:56:06 symfony [info] {sfFilter} executing filter "sfExecutionFilter"
+Mar 02 12:56:06 symfony [info] {sfFilter} executing filter "sfExecutionFilter"
+Mar 02 12:56:06 symfony [info] {sfAction} call "simpleActions->executeEdit()"
+Mar 02 12:56:06 symfony [info] {sfAction} call "simpleActions->executeEdit()"
+Mar 02 12:56:06 symfony [info] {sfCreole} prepareStatement(): SELECT article.ID, article.TITLE, article.BODY, article.ONLINE, article.CATEGORY_ID, article.CREATED_AT, article.END_DATE, article.BOOK_ID FROM article WHERE article.ID=?
+Mar 02 12:56:06 symfony [info] {sfCreole} prepareStatement(): SELECT article.ID, article.TITLE, article.BODY, article.ONLINE, article.CATEGORY_ID, article.CREATED_AT, article.END_DATE, article.BOOK_ID FROM article WHERE article.ID=?
+Mar 02 12:56:06 symfony [info] {sfCreole} executeQuery(): [5.44 ms] SELECT article.ID, article.TITLE, article.BODY, article.ONLINE, article.CATEGORY_ID, article.CREATED_AT, article.END_DATE, article.BOOK_ID FROM article WHERE article.ID=1
+Mar 02 12:56:06 symfony [info] {sfCreole} executeQuery(): [5.44 ms] SELECT article.ID, article.TITLE, article.BODY, article.ONLINE, article.CATEGORY_ID, article.CREATED_AT, article.END_DATE, article.BOOK_ID FROM article WHERE article.ID=1
+Mar 02 12:56:06 symfony [info] {sfView} initialize view for "simple/edit"
+Mar 02 12:56:06 symfony [info] {sfView} initialize view for "simple/edit"
+Mar 02 12:56:06 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\cache\crud\test\modules/autoSimple/templates/editSuccess.php"
+Mar 02 12:56:06 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\cache\crud\test\modules/autoSimple/templates/editSuccess.php"
+Mar 02 12:56:06 symfony [info] {sfCreole} prepareStatement(): SELECT category.ID, category.NAME FROM category
+Mar 02 12:56:06 symfony [info] {sfCreole} prepareStatement(): SELECT category.ID, category.NAME FROM category
+Mar 02 12:56:06 symfony [info] {sfCreole} executeQuery(): [4.12 ms] SELECT category.ID, category.NAME FROM category
+Mar 02 12:56:06 symfony [info] {sfCreole} executeQuery(): [4.12 ms] SELECT category.ID, category.NAME FROM category
+Mar 02 12:56:06 symfony [info] {sfCreole} prepareStatement(): SELECT book.ID, book.NAME FROM book
+Mar 02 12:56:06 symfony [info] {sfCreole} prepareStatement(): SELECT book.ID, book.NAME FROM book
+Mar 02 12:56:06 symfony [info] {sfCreole} executeQuery(): [3.77 ms] SELECT book.ID, book.NAME FROM book
+Mar 02 12:56:06 symfony [info] {sfCreole} executeQuery(): [3.77 ms] SELECT book.ID, book.NAME FROM book
+Mar 02 12:56:06 symfony [info] {sfView} decorate content with "C:\web\registry\test\functional\fixtures\project\apps\crud\templates/layout.php"
+Mar 02 12:56:06 symfony [info] {sfView} decorate content with "C:\web\registry\test\functional\fixtures\project\apps\crud\templates/layout.php"
+Mar 02 12:56:06 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\apps\crud\templates/layout.php"
+Mar 02 12:56:06 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\apps\crud\templates/layout.php"
+Mar 02 12:56:06 symfony [info] {sfResponse} send content (2769 o)
+Mar 02 12:56:06 symfony [info] {sfResponse} send content (2769 o)
+Mar 02 12:56:07 symfony [info] {sfContext} initialization
+Mar 02 12:56:07 symfony [info] {sfContext} initialization
+Mar 02 12:56:07 symfony [info] {sfController} initialization
+Mar 02 12:56:07 symfony [info] {sfController} initialization
+Mar 02 12:56:07 symfony [info] {sfRouting} match route [default] "/:module/:action/*"
+Mar 02 12:56:07 symfony [info] {sfRouting} match route [default] "/:module/:action/*"
+Mar 02 12:56:07 symfony [info] {sfRequest} request parameters array (  'module' => 'simple',  'action' => 'create',)
+Mar 02 12:56:07 symfony [info] {sfRequest} request parameters array (  'module' => 'simple',  'action' => 'create',)
+Mar 02 12:56:07 symfony [info] {sfController} dispatch request
+Mar 02 12:56:07 symfony [info] {sfController} dispatch request
+Mar 02 12:56:07 symfony [info] {sfFilter} executing filter "sfFakeRenderingFilter"
+Mar 02 12:56:07 symfony [info] {sfFilter} executing filter "sfFakeRenderingFilter"
+Mar 02 12:56:07 symfony [info] {sfFilter} executing filter "sfCommonFilter"
+Mar 02 12:56:07 symfony [info] {sfFilter} executing filter "sfCommonFilter"
+Mar 02 12:56:07 symfony [info] {sfFilter} executing filter "sfFlashFilter"
+Mar 02 12:56:07 symfony [info] {sfFilter} executing filter "sfFlashFilter"
+Mar 02 12:56:07 symfony [info] {sfFilter} executing filter "sfExecutionFilter"
+Mar 02 12:56:07 symfony [info] {sfFilter} executing filter "sfExecutionFilter"
+Mar 02 12:56:07 symfony [info] {sfAction} call "simpleActions->executeCreate()"
+Mar 02 12:56:07 symfony [info] {sfAction} call "simpleActions->executeCreate()"
+Mar 02 12:56:07 symfony [info] {sfAction} change template to "edit"
+Mar 02 12:56:07 symfony [info] {sfAction} change template to "edit"
+Mar 02 12:56:07 symfony [info] {sfView} initialize view for "simple/create"
+Mar 02 12:56:07 symfony [info] {sfView} initialize view for "simple/create"
+Mar 02 12:56:07 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\cache\crud\test\modules/autoSimple/templates/editSuccess.php"
+Mar 02 12:56:07 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\cache\crud\test\modules/autoSimple/templates/editSuccess.php"
+Mar 02 12:56:07 symfony [info] {sfCreole} prepareStatement(): SELECT category.ID, category.NAME FROM category
+Mar 02 12:56:07 symfony [info] {sfCreole} prepareStatement(): SELECT category.ID, category.NAME FROM category
+Mar 02 12:56:07 symfony [info] {sfCreole} executeQuery(): [3.66 ms] SELECT category.ID, category.NAME FROM category
+Mar 02 12:56:07 symfony [info] {sfCreole} executeQuery(): [3.66 ms] SELECT category.ID, category.NAME FROM category
+Mar 02 12:56:07 symfony [info] {sfCreole} prepareStatement(): SELECT book.ID, book.NAME FROM book
+Mar 02 12:56:07 symfony [info] {sfCreole} prepareStatement(): SELECT book.ID, book.NAME FROM book
+Mar 02 12:56:07 symfony [info] {sfCreole} executeQuery(): [5.14 ms] SELECT book.ID, book.NAME FROM book
+Mar 02 12:56:07 symfony [info] {sfCreole} executeQuery(): [5.14 ms] SELECT book.ID, book.NAME FROM book
+Mar 02 12:56:07 symfony [info] {sfView} decorate content with "C:\web\registry\test\functional\fixtures\project\apps\crud\templates/layout.php"
+Mar 02 12:56:07 symfony [info] {sfView} decorate content with "C:\web\registry\test\functional\fixtures\project\apps\crud\templates/layout.php"
+Mar 02 12:56:07 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\apps\crud\templates/layout.php"
+Mar 02 12:56:07 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\apps\crud\templates/layout.php"
+Mar 02 12:56:07 symfony [info] {sfResponse} send content (2473 o)
+Mar 02 12:56:07 symfony [info] {sfResponse} send content (2473 o)
+Mar 02 12:56:07 symfony [info] {sfContext} initialization
+Mar 02 12:56:07 symfony [info] {sfContext} initialization
+Mar 02 12:56:07 symfony [info] {sfController} initialization
+Mar 02 12:56:07 symfony [info] {sfController} initialization
+Mar 02 12:56:07 symfony [info] {sfRouting} match route [default] "/:module/:action/*"
+Mar 02 12:56:07 symfony [info] {sfRouting} match route [default] "/:module/:action/*"
+Mar 02 12:56:07 symfony [info] {sfRequest} request parameters array (  'module' => 'simple',  'action' => 'update',  'id' => '',  'title' => 'my title',  'body' => 'my body',  'category_id' => 2,  'end_date' => '',  'book_id' => '',  'commit' => 'save',  'online' => true,)
+Mar 02 12:56:07 symfony [info] {sfRequest} request parameters array (  'module' => 'simple',  'action' => 'update',  'id' => '',  'title' => 'my title',  'body' => 'my body',  'category_id' => 2,  'end_date' => '',  'book_id' => '',  'commit' => 'save',  'online' => true,)
+Mar 02 12:56:07 symfony [info] {sfController} dispatch request
+Mar 02 12:56:07 symfony [info] {sfController} dispatch request
+Mar 02 12:56:07 symfony [info] {sfFilter} executing filter "sfFakeRenderingFilter"
+Mar 02 12:56:07 symfony [info] {sfFilter} executing filter "sfFakeRenderingFilter"
+Mar 02 12:56:07 symfony [info] {sfFilter} executing filter "sfCommonFilter"
+Mar 02 12:56:07 symfony [info] {sfFilter} executing filter "sfCommonFilter"
+Mar 02 12:56:07 symfony [info] {sfFilter} executing filter "sfFlashFilter"
+Mar 02 12:56:07 symfony [info] {sfFilter} executing filter "sfFlashFilter"
+Mar 02 12:56:07 symfony [info] {sfFilter} executing filter "sfExecutionFilter"
+Mar 02 12:56:07 symfony [info] {sfFilter} executing filter "sfExecutionFilter"
+Mar 02 12:56:07 symfony [info] {sfAction} call "simpleActions->executeUpdate()"
+Mar 02 12:56:07 symfony [info] {sfAction} call "simpleActions->executeUpdate()"
+Mar 02 12:56:07 symfony [info] {sfCreole} beginning transaction.
+Mar 02 12:56:07 symfony [info] {sfCreole} beginning transaction.
+Mar 02 12:56:07 symfony [info] {sfCreole} beginning transaction.
+Mar 02 12:56:07 symfony [info] {sfCreole} beginning transaction.
+Mar 02 12:56:07 symfony [info] {sfCreole} prepareStatement(): INSERT INTO article (TITLE,BODY,ONLINE,CATEGORY_ID,CREATED_AT) VALUES (?,?,?,?,?)
+Mar 02 12:56:07 symfony [info] {sfCreole} prepareStatement(): INSERT INTO article (TITLE,BODY,ONLINE,CATEGORY_ID,CREATED_AT) VALUES (?,?,?,?,?)
+Mar 02 12:56:07 symfony [info] {sfCreole} executeUpdate(): INSERT INTO article (TITLE,BODY,ONLINE,CATEGORY_ID,CREATED_AT) VALUES ('my title','my body',1,2,'2007-03-02 12:56:07')
+Mar 02 12:56:07 symfony [info] {sfCreole} executeUpdate(): INSERT INTO article (TITLE,BODY,ONLINE,CATEGORY_ID,CREATED_AT) VALUES ('my title','my body',1,2,'2007-03-02 12:56:07')
+Mar 02 12:56:07 symfony [info] {sfCreole} committing transaction.
+Mar 02 12:56:07 symfony [info] {sfCreole} committing transaction.
+Mar 02 12:56:07 symfony [info] {sfCreole} committing transaction.
+Mar 02 12:56:07 symfony [info] {sfCreole} committing transaction.
+Mar 02 12:56:07 symfony [info] {sfAction} redirect to "http://crud-test/index.php/simple/show/id/3"
+Mar 02 12:56:07 symfony [info] {sfAction} redirect to "http://crud-test/index.php/simple/show/id/3"
+Mar 02 12:56:07 symfony [info] {sfResponse} send content (114 o)
+Mar 02 12:56:07 symfony [info] {sfResponse} send content (114 o)
+Mar 02 12:56:07 symfony [info] {sfContext} initialization
+Mar 02 12:56:07 symfony [info] {sfContext} initialization
+Mar 02 12:56:07 symfony [info] {sfController} initialization
+Mar 02 12:56:07 symfony [info] {sfController} initialization
+Mar 02 12:56:07 symfony [info] {sfRouting} match route [default] "/:module/:action/*"
+Mar 02 12:56:07 symfony [info] {sfRouting} match route [default] "/:module/:action/*"
+Mar 02 12:56:07 symfony [info] {sfRequest} request parameters array (  'module' => 'simple',  'action' => 'show',  'id' => '3',)
+Mar 02 12:56:07 symfony [info] {sfRequest} request parameters array (  'module' => 'simple',  'action' => 'show',  'id' => '3',)
+Mar 02 12:56:07 symfony [info] {sfController} dispatch request
+Mar 02 12:56:07 symfony [info] {sfController} dispatch request
+Mar 02 12:56:07 symfony [info] {sfFilter} executing filter "sfFakeRenderingFilter"
+Mar 02 12:56:07 symfony [info] {sfFilter} executing filter "sfFakeRenderingFilter"
+Mar 02 12:56:07 symfony [info] {sfFilter} executing filter "sfCommonFilter"
+Mar 02 12:56:07 symfony [info] {sfFilter} executing filter "sfCommonFilter"
+Mar 02 12:56:07 symfony [info] {sfFilter} executing filter "sfFlashFilter"
+Mar 02 12:56:07 symfony [info] {sfFilter} executing filter "sfFlashFilter"
+Mar 02 12:56:07 symfony [info] {sfFilter} executing filter "sfExecutionFilter"
+Mar 02 12:56:07 symfony [info] {sfFilter} executing filter "sfExecutionFilter"
+Mar 02 12:56:07 symfony [info] {sfAction} call "simpleActions->executeShow()"
+Mar 02 12:56:07 symfony [info] {sfAction} call "simpleActions->executeShow()"
+Mar 02 12:56:07 symfony [info] {sfCreole} prepareStatement(): SELECT article.ID, article.TITLE, article.BODY, article.ONLINE, article.CATEGORY_ID, article.CREATED_AT, article.END_DATE, article.BOOK_ID FROM article WHERE article.ID=?
+Mar 02 12:56:07 symfony [info] {sfCreole} prepareStatement(): SELECT article.ID, article.TITLE, article.BODY, article.ONLINE, article.CATEGORY_ID, article.CREATED_AT, article.END_DATE, article.BOOK_ID FROM article WHERE article.ID=?
+Mar 02 12:56:07 symfony [info] {sfCreole} executeQuery(): [3.63 ms] SELECT article.ID, article.TITLE, article.BODY, article.ONLINE, article.CATEGORY_ID, article.CREATED_AT, article.END_DATE, article.BOOK_ID FROM article WHERE article.ID=3
+Mar 02 12:56:07 symfony [info] {sfCreole} executeQuery(): [3.63 ms] SELECT article.ID, article.TITLE, article.BODY, article.ONLINE, article.CATEGORY_ID, article.CREATED_AT, article.END_DATE, article.BOOK_ID FROM article WHERE article.ID=3
+Mar 02 12:56:07 symfony [info] {sfView} initialize view for "simple/show"
+Mar 02 12:56:07 symfony [info] {sfView} initialize view for "simple/show"
+Mar 02 12:56:07 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\cache\crud\test\modules/autoSimple/templates/showSuccess.php"
+Mar 02 12:56:07 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\cache\crud\test\modules/autoSimple/templates/showSuccess.php"
+Mar 02 12:56:07 symfony [info] {sfView} decorate content with "C:\web\registry\test\functional\fixtures\project\apps\crud\templates/layout.php"
+Mar 02 12:56:07 symfony [info] {sfView} decorate content with "C:\web\registry\test\functional\fixtures\project\apps\crud\templates/layout.php"
+Mar 02 12:56:07 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\apps\crud\templates/layout.php"
+Mar 02 12:56:07 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\apps\crud\templates/layout.php"
+Mar 02 12:56:07 symfony [info] {sfResponse} send content (1234 o)
+Mar 02 12:56:07 symfony [info] {sfResponse} send content (1234 o)
+Mar 02 12:56:07 symfony [info] {sfContext} initialization
+Mar 02 12:56:07 symfony [info] {sfContext} initialization
+Mar 02 12:56:07 symfony [info] {sfController} initialization
+Mar 02 12:56:07 symfony [info] {sfController} initialization
+Mar 02 12:56:07 symfony [info] {sfRouting} match route [default] "/:module/:action/*"
+Mar 02 12:56:07 symfony [info] {sfRouting} match route [default] "/:module/:action/*"
+Mar 02 12:56:07 symfony [info] {sfRequest} request parameters array (  'module' => 'simple',  'action' => 'list',)
+Mar 02 12:56:07 symfony [info] {sfRequest} request parameters array (  'module' => 'simple',  'action' => 'list',)
+Mar 02 12:56:07 symfony [info] {sfController} dispatch request
+Mar 02 12:56:07 symfony [info] {sfController} dispatch request
+Mar 02 12:56:07 symfony [info] {sfFilter} executing filter "sfFakeRenderingFilter"
+Mar 02 12:56:07 symfony [info] {sfFilter} executing filter "sfFakeRenderingFilter"
+Mar 02 12:56:07 symfony [info] {sfFilter} executing filter "sfCommonFilter"
+Mar 02 12:56:07 symfony [info] {sfFilter} executing filter "sfCommonFilter"
+Mar 02 12:56:07 symfony [info] {sfFilter} executing filter "sfFlashFilter"
+Mar 02 12:56:07 symfony [info] {sfFilter} executing filter "sfFlashFilter"
+Mar 02 12:56:07 symfony [info] {sfFilter} executing filter "sfExecutionFilter"
+Mar 02 12:56:07 symfony [info] {sfFilter} executing filter "sfExecutionFilter"
+Mar 02 12:56:07 symfony [info] {sfAction} call "simpleActions->executeList()"
+Mar 02 12:56:07 symfony [info] {sfAction} call "simpleActions->executeList()"
+Mar 02 12:56:07 symfony [info] {sfCreole} prepareStatement(): SELECT article.ID, article.TITLE, article.BODY, article.ONLINE, article.CATEGORY_ID, article.CREATED_AT, article.END_DATE, article.BOOK_ID FROM article
+Mar 02 12:56:07 symfony [info] {sfCreole} prepareStatement(): SELECT article.ID, article.TITLE, article.BODY, article.ONLINE, article.CATEGORY_ID, article.CREATED_AT, article.END_DATE, article.BOOK_ID FROM article
+Mar 02 12:56:07 symfony [info] {sfCreole} executeQuery(): [3.90 ms] SELECT article.ID, article.TITLE, article.BODY, article.ONLINE, article.CATEGORY_ID, article.CREATED_AT, article.END_DATE, article.BOOK_ID FROM article
+Mar 02 12:56:07 symfony [info] {sfCreole} executeQuery(): [3.90 ms] SELECT article.ID, article.TITLE, article.BODY, article.ONLINE, article.CATEGORY_ID, article.CREATED_AT, article.END_DATE, article.BOOK_ID FROM article
+Mar 02 12:56:07 symfony [info] {sfView} initialize view for "simple/list"
+Mar 02 12:56:07 symfony [info] {sfView} initialize view for "simple/list"
+Mar 02 12:56:07 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\cache\crud\test\modules/autoSimple/templates/listSuccess.php"
+Mar 02 12:56:07 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\cache\crud\test\modules/autoSimple/templates/listSuccess.php"
+Mar 02 12:56:07 symfony [info] {sfView} decorate content with "C:\web\registry\test\functional\fixtures\project\apps\crud\templates/layout.php"
+Mar 02 12:56:07 symfony [info] {sfView} decorate content with "C:\web\registry\test\functional\fixtures\project\apps\crud\templates/layout.php"
+Mar 02 12:56:07 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\apps\crud\templates/layout.php"
+Mar 02 12:56:07 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\apps\crud\templates/layout.php"
+Mar 02 12:56:07 symfony [info] {sfResponse} send content (1697 o)
+Mar 02 12:56:07 symfony [info] {sfResponse} send content (1697 o)
+Mar 02 12:56:07 symfony [info] {sfContext} initialization
+Mar 02 12:56:07 symfony [info] {sfContext} initialization
+Mar 02 12:56:07 symfony [info] {sfController} initialization
+Mar 02 12:56:07 symfony [info] {sfController} initialization
+Mar 02 12:56:07 symfony [info] {sfRouting} match route [default] "/:module/:action/*"
+Mar 02 12:56:07 symfony [info] {sfRouting} match route [default] "/:module/:action/*"
+Mar 02 12:56:07 symfony [info] {sfRequest} request parameters array (  'module' => 'simple',  'action' => 'edit',  'id' => '3',)
+Mar 02 12:56:07 symfony [info] {sfRequest} request parameters array (  'module' => 'simple',  'action' => 'edit',  'id' => '3',)
+Mar 02 12:56:07 symfony [info] {sfController} dispatch request
+Mar 02 12:56:07 symfony [info] {sfController} dispatch request
+Mar 02 12:56:07 symfony [info] {sfFilter} executing filter "sfFakeRenderingFilter"
+Mar 02 12:56:07 symfony [info] {sfFilter} executing filter "sfFakeRenderingFilter"
+Mar 02 12:56:07 symfony [info] {sfFilter} executing filter "sfCommonFilter"
+Mar 02 12:56:07 symfony [info] {sfFilter} executing filter "sfCommonFilter"
+Mar 02 12:56:07 symfony [info] {sfFilter} executing filter "sfFlashFilter"
+Mar 02 12:56:07 symfony [info] {sfFilter} executing filter "sfFlashFilter"
+Mar 02 12:56:07 symfony [info] {sfFilter} executing filter "sfExecutionFilter"
+Mar 02 12:56:07 symfony [info] {sfFilter} executing filter "sfExecutionFilter"
+Mar 02 12:56:07 symfony [info] {sfAction} call "simpleActions->executeEdit()"
+Mar 02 12:56:07 symfony [info] {sfAction} call "simpleActions->executeEdit()"
+Mar 02 12:56:07 symfony [info] {sfCreole} prepareStatement(): SELECT article.ID, article.TITLE, article.BODY, article.ONLINE, article.CATEGORY_ID, article.CREATED_AT, article.END_DATE, article.BOOK_ID FROM article WHERE article.ID=?
+Mar 02 12:56:07 symfony [info] {sfCreole} prepareStatement(): SELECT article.ID, article.TITLE, article.BODY, article.ONLINE, article.CATEGORY_ID, article.CREATED_AT, article.END_DATE, article.BOOK_ID FROM article WHERE article.ID=?
+Mar 02 12:56:07 symfony [info] {sfCreole} executeQuery(): [4.11 ms] SELECT article.ID, article.TITLE, article.BODY, article.ONLINE, article.CATEGORY_ID, article.CREATED_AT, article.END_DATE, article.BOOK_ID FROM article WHERE article.ID=3
+Mar 02 12:56:07 symfony [info] {sfCreole} executeQuery(): [4.11 ms] SELECT article.ID, article.TITLE, article.BODY, article.ONLINE, article.CATEGORY_ID, article.CREATED_AT, article.END_DATE, article.BOOK_ID FROM article WHERE article.ID=3
+Mar 02 12:56:07 symfony [info] {sfView} initialize view for "simple/edit"
+Mar 02 12:56:07 symfony [info] {sfView} initialize view for "simple/edit"
+Mar 02 12:56:07 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\cache\crud\test\modules/autoSimple/templates/editSuccess.php"
+Mar 02 12:56:07 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\cache\crud\test\modules/autoSimple/templates/editSuccess.php"
+Mar 02 12:56:07 symfony [info] {sfCreole} prepareStatement(): SELECT category.ID, category.NAME FROM category
+Mar 02 12:56:07 symfony [info] {sfCreole} prepareStatement(): SELECT category.ID, category.NAME FROM category
+Mar 02 12:56:07 symfony [info] {sfCreole} executeQuery(): [2.71 ms] SELECT category.ID, category.NAME FROM category
+Mar 02 12:56:07 symfony [info] {sfCreole} executeQuery(): [2.71 ms] SELECT category.ID, category.NAME FROM category
+Mar 02 12:56:07 symfony [info] {sfCreole} prepareStatement(): SELECT book.ID, book.NAME FROM book
+Mar 02 12:56:07 symfony [info] {sfCreole} prepareStatement(): SELECT book.ID, book.NAME FROM book
+Mar 02 12:56:07 symfony [info] {sfCreole} executeQuery(): [2.72 ms] SELECT book.ID, book.NAME FROM book
+Mar 02 12:56:07 symfony [info] {sfCreole} executeQuery(): [2.72 ms] SELECT book.ID, book.NAME FROM book
+Mar 02 12:56:07 symfony [info] {sfView} decorate content with "C:\web\registry\test\functional\fixtures\project\apps\crud\templates/layout.php"
+Mar 02 12:56:07 symfony [info] {sfView} decorate content with "C:\web\registry\test\functional\fixtures\project\apps\crud\templates/layout.php"
+Mar 02 12:56:07 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\apps\crud\templates/layout.php"
+Mar 02 12:56:07 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\apps\crud\templates/layout.php"
+Mar 02 12:56:07 symfony [info] {sfResponse} send content (2767 o)
+Mar 02 12:56:07 symfony [info] {sfResponse} send content (2767 o)
+Mar 02 12:56:07 symfony [info] {sfContext} initialization
+Mar 02 12:56:07 symfony [info] {sfContext} initialization
+Mar 02 12:56:08 symfony [info] {sfController} initialization
+Mar 02 12:56:08 symfony [info] {sfController} initialization
+Mar 02 12:56:08 symfony [info] {sfRouting} match route [default] "/:module/:action/*"
+Mar 02 12:56:08 symfony [info] {sfRouting} match route [default] "/:module/:action/*"
+Mar 02 12:56:08 symfony [info] {sfRequest} request parameters array (  'module' => 'simple',  'action' => 'delete',  'id' => '3',)
+Mar 02 12:56:08 symfony [info] {sfRequest} request parameters array (  'module' => 'simple',  'action' => 'delete',  'id' => '3',)
+Mar 02 12:56:08 symfony [info] {sfController} dispatch request
+Mar 02 12:56:08 symfony [info] {sfController} dispatch request
+Mar 02 12:56:08 symfony [info] {sfFilter} executing filter "sfFakeRenderingFilter"
+Mar 02 12:56:08 symfony [info] {sfFilter} executing filter "sfFakeRenderingFilter"
+Mar 02 12:56:08 symfony [info] {sfFilter} executing filter "sfCommonFilter"
+Mar 02 12:56:08 symfony [info] {sfFilter} executing filter "sfCommonFilter"
+Mar 02 12:56:08 symfony [info] {sfFilter} executing filter "sfFlashFilter"
+Mar 02 12:56:08 symfony [info] {sfFilter} executing filter "sfFlashFilter"
+Mar 02 12:56:08 symfony [info] {sfFilter} executing filter "sfExecutionFilter"
+Mar 02 12:56:08 symfony [info] {sfFilter} executing filter "sfExecutionFilter"
+Mar 02 12:56:08 symfony [info] {sfAction} call "simpleActions->executeDelete()"
+Mar 02 12:56:08 symfony [info] {sfAction} call "simpleActions->executeDelete()"
+Mar 02 12:56:08 symfony [info] {sfCreole} prepareStatement(): SELECT article.ID, article.TITLE, article.BODY, article.ONLINE, article.CATEGORY_ID, article.CREATED_AT, article.END_DATE, article.BOOK_ID FROM article WHERE article.ID=?
+Mar 02 12:56:08 symfony [info] {sfCreole} prepareStatement(): SELECT article.ID, article.TITLE, article.BODY, article.ONLINE, article.CATEGORY_ID, article.CREATED_AT, article.END_DATE, article.BOOK_ID FROM article WHERE article.ID=?
+Mar 02 12:56:08 symfony [info] {sfCreole} executeQuery(): [3.62 ms] SELECT article.ID, article.TITLE, article.BODY, article.ONLINE, article.CATEGORY_ID, article.CREATED_AT, article.END_DATE, article.BOOK_ID FROM article WHERE article.ID=3
+Mar 02 12:56:08 symfony [info] {sfCreole} executeQuery(): [3.62 ms] SELECT article.ID, article.TITLE, article.BODY, article.ONLINE, article.CATEGORY_ID, article.CREATED_AT, article.END_DATE, article.BOOK_ID FROM article WHERE article.ID=3
+Mar 02 12:56:08 symfony [info] {sfCreole} beginning transaction.
+Mar 02 12:56:08 symfony [info] {sfCreole} beginning transaction.
+Mar 02 12:56:08 symfony [info] {sfCreole} beginning transaction.
+Mar 02 12:56:08 symfony [info] {sfCreole} beginning transaction.
+Mar 02 12:56:08 symfony [info] {sfCreole} prepareStatement(): DELETE FROM article WHERE article.ID=?
+Mar 02 12:56:08 symfony [info] {sfCreole} prepareStatement(): DELETE FROM article WHERE article.ID=?
+Mar 02 12:56:08 symfony [info] {sfCreole} executeUpdate(): DELETE FROM article WHERE article.ID=3
+Mar 02 12:56:08 symfony [info] {sfCreole} executeUpdate(): DELETE FROM article WHERE article.ID=3
+Mar 02 12:56:08 symfony [info] {sfCreole} committing transaction.
+Mar 02 12:56:08 symfony [info] {sfCreole} committing transaction.
+Mar 02 12:56:08 symfony [info] {sfCreole} committing transaction.
+Mar 02 12:56:08 symfony [info] {sfCreole} committing transaction.
+Mar 02 12:56:08 symfony [info] {sfAction} redirect to "http://crud-test/index.php/simple/list"
+Mar 02 12:56:08 symfony [info] {sfAction} redirect to "http://crud-test/index.php/simple/list"
+Mar 02 12:56:08 symfony [info] {sfResponse} send content (109 o)
+Mar 02 12:56:08 symfony [info] {sfResponse} send content (109 o)
+Mar 02 12:56:08 symfony [info] {sfContext} initialization
+Mar 02 12:56:08 symfony [info] {sfContext} initialization
+Mar 02 12:56:08 symfony [info] {sfController} initialization
+Mar 02 12:56:08 symfony [info] {sfController} initialization
+Mar 02 12:56:08 symfony [info] {sfRouting} match route [default] "/:module/:action/*"
+Mar 02 12:56:08 symfony [info] {sfRouting} match route [default] "/:module/:action/*"
+Mar 02 12:56:08 symfony [info] {sfRequest} request parameters array (  'module' => 'simple',  'action' => 'list',)
+Mar 02 12:56:08 symfony [info] {sfRequest} request parameters array (  'module' => 'simple',  'action' => 'list',)
+Mar 02 12:56:08 symfony [info] {sfController} dispatch request
+Mar 02 12:56:08 symfony [info] {sfController} dispatch request
+Mar 02 12:56:08 symfony [info] {sfFilter} executing filter "sfFakeRenderingFilter"
+Mar 02 12:56:08 symfony [info] {sfFilter} executing filter "sfFakeRenderingFilter"
+Mar 02 12:56:08 symfony [info] {sfFilter} executing filter "sfCommonFilter"
+Mar 02 12:56:08 symfony [info] {sfFilter} executing filter "sfCommonFilter"
+Mar 02 12:56:08 symfony [info] {sfFilter} executing filter "sfFlashFilter"
+Mar 02 12:56:08 symfony [info] {sfFilter} executing filter "sfFlashFilter"
+Mar 02 12:56:08 symfony [info] {sfFilter} executing filter "sfExecutionFilter"
+Mar 02 12:56:08 symfony [info] {sfFilter} executing filter "sfExecutionFilter"
+Mar 02 12:56:08 symfony [info] {sfAction} call "simpleActions->executeList()"
+Mar 02 12:56:08 symfony [info] {sfAction} call "simpleActions->executeList()"
+Mar 02 12:56:08 symfony [info] {sfCreole} prepareStatement(): SELECT article.ID, article.TITLE, article.BODY, article.ONLINE, article.CATEGORY_ID, article.CREATED_AT, article.END_DATE, article.BOOK_ID FROM article
+Mar 02 12:56:08 symfony [info] {sfCreole} prepareStatement(): SELECT article.ID, article.TITLE, article.BODY, article.ONLINE, article.CATEGORY_ID, article.CREATED_AT, article.END_DATE, article.BOOK_ID FROM article
+Mar 02 12:56:08 symfony [info] {sfCreole} executeQuery(): [2.87 ms] SELECT article.ID, article.TITLE, article.BODY, article.ONLINE, article.CATEGORY_ID, article.CREATED_AT, article.END_DATE, article.BOOK_ID FROM article
+Mar 02 12:56:08 symfony [info] {sfCreole} executeQuery(): [2.87 ms] SELECT article.ID, article.TITLE, article.BODY, article.ONLINE, article.CATEGORY_ID, article.CREATED_AT, article.END_DATE, article.BOOK_ID FROM article
+Mar 02 12:56:08 symfony [info] {sfView} initialize view for "simple/list"
+Mar 02 12:56:08 symfony [info] {sfView} initialize view for "simple/list"
+Mar 02 12:56:08 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\cache\crud\test\modules/autoSimple/templates/listSuccess.php"
+Mar 02 12:56:08 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\cache\crud\test\modules/autoSimple/templates/listSuccess.php"
+Mar 02 12:56:08 symfony [info] {sfView} decorate content with "C:\web\registry\test\functional\fixtures\project\apps\crud\templates/layout.php"
+Mar 02 12:56:08 symfony [info] {sfView} decorate content with "C:\web\registry\test\functional\fixtures\project\apps\crud\templates/layout.php"
+Mar 02 12:56:08 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\apps\crud\templates/layout.php"
+Mar 02 12:56:08 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\apps\crud\templates/layout.php"
+Mar 02 12:56:08 symfony [info] {sfResponse} send content (1469 o)
+Mar 02 12:56:08 symfony [info] {sfResponse} send content (1469 o)
+Mar 02 12:56:08 symfony [info] {sfContext} initialization
+Mar 02 12:56:08 symfony [info] {sfContext} initialization
+Mar 02 12:56:08 symfony [info] {sfController} initialization
+Mar 02 12:56:08 symfony [info] {sfController} initialization
+Mar 02 12:56:08 symfony [info] {sfRouting} match route [default] "/:module/:action/*"
+Mar 02 12:56:08 symfony [info] {sfRouting} match route [default] "/:module/:action/*"
+Mar 02 12:56:08 symfony [info] {sfRequest} request parameters array (  'module' => 'simple',  'action' => 'edit',  'id' => '3',)
+Mar 02 12:56:08 symfony [info] {sfRequest} request parameters array (  'module' => 'simple',  'action' => 'edit',  'id' => '3',)
+Mar 02 12:56:08 symfony [info] {sfController} dispatch request
+Mar 02 12:56:08 symfony [info] {sfController} dispatch request
+Mar 02 12:56:08 symfony [info] {sfFilter} executing filter "sfFakeRenderingFilter"
+Mar 02 12:56:08 symfony [info] {sfFilter} executing filter "sfFakeRenderingFilter"
+Mar 02 12:56:08 symfony [info] {sfFilter} executing filter "sfCommonFilter"
+Mar 02 12:56:08 symfony [info] {sfFilter} executing filter "sfCommonFilter"
+Mar 02 12:56:08 symfony [info] {sfFilter} executing filter "sfFlashFilter"
+Mar 02 12:56:08 symfony [info] {sfFilter} executing filter "sfFlashFilter"
+Mar 02 12:56:08 symfony [info] {sfFilter} executing filter "sfExecutionFilter"
+Mar 02 12:56:08 symfony [info] {sfFilter} executing filter "sfExecutionFilter"
+Mar 02 12:56:08 symfony [info] {sfAction} call "simpleActions->executeEdit()"
+Mar 02 12:56:08 symfony [info] {sfAction} call "simpleActions->executeEdit()"
+Mar 02 12:56:08 symfony [info] {sfCreole} prepareStatement(): SELECT article.ID, article.TITLE, article.BODY, article.ONLINE, article.CATEGORY_ID, article.CREATED_AT, article.END_DATE, article.BOOK_ID FROM article WHERE article.ID=?
+Mar 02 12:56:08 symfony [info] {sfCreole} prepareStatement(): SELECT article.ID, article.TITLE, article.BODY, article.ONLINE, article.CATEGORY_ID, article.CREATED_AT, article.END_DATE, article.BOOK_ID FROM article WHERE article.ID=?
+Mar 02 12:56:08 symfony [info] {sfCreole} executeQuery(): [3.58 ms] SELECT article.ID, article.TITLE, article.BODY, article.ONLINE, article.CATEGORY_ID, article.CREATED_AT, article.END_DATE, article.BOOK_ID FROM article WHERE article.ID=3
+Mar 02 12:56:08 symfony [info] {sfCreole} executeQuery(): [3.58 ms] SELECT article.ID, article.TITLE, article.BODY, article.ONLINE, article.CATEGORY_ID, article.CREATED_AT, article.END_DATE, article.BOOK_ID FROM article WHERE article.ID=3
+Mar 02 12:56:08 symfony [err] {sfError404Exception} 
+Mar 02 12:56:08 symfony [err] {sfError404Exception} 
+Mar 02 12:56:08 symfony [info] {sfFilter} executing filter "sfFakeRenderingFilter"
+Mar 02 12:56:08 symfony [info] {sfFilter} executing filter "sfFakeRenderingFilter"
+Mar 02 12:56:08 symfony [info] {sfFilter} executing filter "sfCommonFilter"
+Mar 02 12:56:08 symfony [info] {sfFilter} executing filter "sfCommonFilter"
+Mar 02 12:56:08 symfony [info] {sfFilter} executing filter "sfFlashFilter"
+Mar 02 12:56:08 symfony [info] {sfFilter} executing filter "sfFlashFilter"
+Mar 02 12:56:08 symfony [info] {sfFilter} executing filter "sfExecutionFilter"
+Mar 02 12:56:08 symfony [info] {sfFilter} executing filter "sfExecutionFilter"
+Mar 02 12:56:08 symfony [info] {sfAction} call "defaultActions->executeError404()"
+Mar 02 12:56:08 symfony [info] {sfAction} call "defaultActions->executeError404()"
+Mar 02 12:56:08 symfony [info] {sfView} initialize view for "default/error404"
+Mar 02 12:56:08 symfony [info] {sfView} initialize view for "default/error404"
+Mar 02 12:56:08 symfony [info] {sfView} render "C:\web\registry\config/../data/symfony/modules/default/templates/error404Success.php"
+Mar 02 12:56:08 symfony [info] {sfView} render "C:\web\registry\config/../data/symfony/modules/default/templates/error404Success.php"
+Mar 02 12:56:08 symfony [info] {sfView} decorate content with "C:\web\registry\config/../data/symfony/modules/default/templates/defaultLayout.php"
+Mar 02 12:56:08 symfony [info] {sfView} decorate content with "C:\web\registry\config/../data/symfony/modules/default/templates/defaultLayout.php"
+Mar 02 12:56:08 symfony [info] {sfView} render "C:\web\registry\config/../data/symfony/modules/default/templates/defaultLayout.php"
+Mar 02 12:56:08 symfony [info] {sfView} render "C:\web\registry\config/../data/symfony/modules/default/templates/defaultLayout.php"
+Mar 02 12:56:08 symfony [info] {sfResponse} send content (2393 o)
+Mar 02 12:56:08 symfony [info] {sfResponse} send content (2393 o)
+Mar 02 13:09:09 symfony [info] {sfRouting} connect "/"
+Mar 02 13:09:09 symfony [info] {sfRouting} connect "/symfony/:action/*"
+Mar 02 13:09:09 symfony [info] {sfRouting} connect "/:module"
+Mar 02 13:09:09 symfony [info] {sfRouting} connect "/:module/:action/*"
+Mar 02 13:09:09 symfony [info] {sfCreole} connect(): DSN: array (   'database' => 'C:\\web\\registry\\test\\functional\\fixtures\\project\\data/database.sqlite',   'encoding' => NULL,   'hostspec' => NULL,   'password' => NULL,   'persistent' => NULL,   'phptype' => 'sqlite',   'port' => NULL,   'protocol' => NULL,   'username' => NULL, ), FLAGS: 0
+Mar 02 13:09:09 symfony [info] {sfCreole} connect(): DSN: array (   'database' => 'C:\\web\\registry\\test\\functional\\fixtures\\project\\data/database.sqlite',   'encoding' => NULL,   'hostspec' => NULL,   'password' => NULL,   'persistent' => NULL,   'phptype' => 'sqlite',   'port' => NULL,   'protocol' => NULL,   'username' => NULL, ), FLAGS: 0
+Mar 02 13:09:09 symfony [info] {sfCreole} executeQuery(): [50.67 ms] CREATE TABLE [article] ( 	[id] INTEGER  NOT NULL PRIMARY KEY, 	[title] VARCHAR(255), 	[body] MEDIUMTEXT, 	[online] INTEGER, 	[category_id] INTEGER  NOT NULL, 	[created_at] TIMESTAMP, 	[end_date] TIMESTAMP, 	[book_id] INTEGER );
+Mar 02 13:09:09 symfony [info] {sfCreole} executeQuery(): [50.67 ms] CREATE TABLE [article] ( 	[id] INTEGER  NOT NULL PRIMARY KEY, 	[title] VARCHAR(255), 	[body] MEDIUMTEXT, 	[online] INTEGER, 	[category_id] INTEGER  NOT NULL, 	[created_at] TIMESTAMP, 	[end_date] TIMESTAMP, 	[book_id] INTEGER );
+Mar 02 13:09:09 symfony [info] {sfCreole} executeQuery(): [87.59 ms] CREATE TABLE [category] ( 	[id] INTEGER  NOT NULL PRIMARY KEY, 	[name] VARCHAR(255) );
+Mar 02 13:09:09 symfony [info] {sfCreole} executeQuery(): [87.59 ms] CREATE TABLE [category] ( 	[id] INTEGER  NOT NULL PRIMARY KEY, 	[name] VARCHAR(255) );
+Mar 02 13:09:09 symfony [info] {sfCreole} executeQuery(): [75.34 ms] CREATE TABLE [book] ( 	[id] INTEGER  NOT NULL PRIMARY KEY, 	[name] VARCHAR(255) );
+Mar 02 13:09:09 symfony [info] {sfCreole} executeQuery(): [75.34 ms] CREATE TABLE [book] ( 	[id] INTEGER  NOT NULL PRIMARY KEY, 	[name] VARCHAR(255) );
+Mar 02 13:09:09 symfony [info] {sfCreole} executeQuery(): [87.18 ms] CREATE TABLE [author] ( 	[id] INTEGER  NOT NULL PRIMARY KEY, 	[name] VARCHAR(255) );
+Mar 02 13:09:09 symfony [info] {sfCreole} executeQuery(): [87.18 ms] CREATE TABLE [author] ( 	[id] INTEGER  NOT NULL PRIMARY KEY, 	[name] VARCHAR(255) );
+Mar 02 13:09:09 symfony [info] {sfCreole} executeQuery(): [97.32 ms] CREATE TABLE [author_article] ( 	[author_id] INTEGER, 	[article_id] INTEGER, 	[id] INTEGER  NOT NULL PRIMARY KEY );
+Mar 02 13:09:09 symfony [info] {sfCreole} executeQuery(): [97.32 ms] CREATE TABLE [author_article] ( 	[author_id] INTEGER, 	[article_id] INTEGER, 	[id] INTEGER  NOT NULL PRIMARY KEY );
+Mar 02 13:09:09 symfony [info] {sfCreole} beginning transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} beginning transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} beginning transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} beginning transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} prepareStatement(): DELETE FROM author_article
+Mar 02 13:09:09 symfony [info] {sfCreole} prepareStatement(): DELETE FROM author_article
+Mar 02 13:09:09 symfony [info] {sfCreole} executeUpdate(): DELETE FROM author_article
+Mar 02 13:09:09 symfony [info] {sfCreole} executeUpdate(): DELETE FROM author_article
+Mar 02 13:09:09 symfony [info] {sfCreole} committing transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} committing transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} beginning transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} beginning transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} prepareStatement(): DELETE FROM author
+Mar 02 13:09:09 symfony [info] {sfCreole} prepareStatement(): DELETE FROM author
+Mar 02 13:09:09 symfony [info] {sfCreole} executeUpdate(): DELETE FROM author
+Mar 02 13:09:09 symfony [info] {sfCreole} executeUpdate(): DELETE FROM author
+Mar 02 13:09:09 symfony [info] {sfCreole} committing transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} committing transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} beginning transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} beginning transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} prepareStatement(): DELETE FROM article
+Mar 02 13:09:09 symfony [info] {sfCreole} prepareStatement(): DELETE FROM article
+Mar 02 13:09:09 symfony [info] {sfCreole} executeUpdate(): DELETE FROM article
+Mar 02 13:09:09 symfony [info] {sfCreole} executeUpdate(): DELETE FROM article
+Mar 02 13:09:09 symfony [info] {sfCreole} committing transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} committing transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} beginning transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} beginning transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} prepareStatement(): DELETE FROM category
+Mar 02 13:09:09 symfony [info] {sfCreole} prepareStatement(): DELETE FROM category
+Mar 02 13:09:09 symfony [info] {sfCreole} executeUpdate(): DELETE FROM category
+Mar 02 13:09:09 symfony [info] {sfCreole} executeUpdate(): DELETE FROM category
+Mar 02 13:09:09 symfony [info] {sfCreole} committing transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} committing transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} beginning transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} beginning transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} prepareStatement(): DELETE FROM book
+Mar 02 13:09:09 symfony [info] {sfCreole} prepareStatement(): DELETE FROM book
+Mar 02 13:09:09 symfony [info] {sfCreole} executeUpdate(): DELETE FROM book
+Mar 02 13:09:09 symfony [info] {sfCreole} executeUpdate(): DELETE FROM book
+Mar 02 13:09:09 symfony [info] {sfCreole} committing transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} committing transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} beginning transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} beginning transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} beginning transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} beginning transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} prepareStatement(): INSERT INTO book (NAME) VALUES (?)
+Mar 02 13:09:09 symfony [info] {sfCreole} prepareStatement(): INSERT INTO book (NAME) VALUES (?)
+Mar 02 13:09:09 symfony [info] {sfCreole} executeUpdate(): INSERT INTO book (NAME) VALUES ('The definitive guide to symfony')
+Mar 02 13:09:09 symfony [info] {sfCreole} executeUpdate(): INSERT INTO book (NAME) VALUES ('The definitive guide to symfony')
+Mar 02 13:09:09 symfony [info] {sfCreole} committing transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} committing transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} committing transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} committing transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} beginning transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} beginning transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} beginning transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} beginning transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} prepareStatement(): INSERT INTO category (NAME) VALUES (?)
+Mar 02 13:09:09 symfony [info] {sfCreole} prepareStatement(): INSERT INTO category (NAME) VALUES (?)
+Mar 02 13:09:09 symfony [info] {sfCreole} executeUpdate(): INSERT INTO category (NAME) VALUES ('Category 1')
+Mar 02 13:09:09 symfony [info] {sfCreole} executeUpdate(): INSERT INTO category (NAME) VALUES ('Category 1')
+Mar 02 13:09:09 symfony [info] {sfCreole} committing transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} committing transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} committing transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} committing transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} beginning transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} beginning transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} beginning transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} beginning transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} prepareStatement(): INSERT INTO category (NAME) VALUES (?)
+Mar 02 13:09:09 symfony [info] {sfCreole} prepareStatement(): INSERT INTO category (NAME) VALUES (?)
+Mar 02 13:09:09 symfony [info] {sfCreole} executeUpdate(): INSERT INTO category (NAME) VALUES ('Category 2')
+Mar 02 13:09:09 symfony [info] {sfCreole} executeUpdate(): INSERT INTO category (NAME) VALUES ('Category 2')
+Mar 02 13:09:09 symfony [info] {sfCreole} committing transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} committing transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} committing transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} committing transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} beginning transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} beginning transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} beginning transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} beginning transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} prepareStatement(): INSERT INTO article (TITLE,BODY,ONLINE,CATEGORY_ID,CREATED_AT) VALUES (?,?,?,?,?)
+Mar 02 13:09:09 symfony [info] {sfCreole} prepareStatement(): INSERT INTO article (TITLE,BODY,ONLINE,CATEGORY_ID,CREATED_AT) VALUES (?,?,?,?,?)
+Mar 02 13:09:09 symfony [info] {sfCreole} executeUpdate(): INSERT INTO article (TITLE,BODY,ONLINE,CATEGORY_ID,CREATED_AT) VALUES ('foo title','bar body',1,1,'2007-03-02 13:09:09')
+Mar 02 13:09:09 symfony [info] {sfCreole} executeUpdate(): INSERT INTO article (TITLE,BODY,ONLINE,CATEGORY_ID,CREATED_AT) VALUES ('foo title','bar body',1,1,'2007-03-02 13:09:09')
+Mar 02 13:09:09 symfony [info] {sfCreole} committing transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} committing transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} committing transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} committing transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} beginning transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} beginning transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} beginning transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} beginning transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} prepareStatement(): INSERT INTO article (TITLE,BODY,ONLINE,CATEGORY_ID,CREATED_AT) VALUES (?,?,?,?,?)
+Mar 02 13:09:09 symfony [info] {sfCreole} prepareStatement(): INSERT INTO article (TITLE,BODY,ONLINE,CATEGORY_ID,CREATED_AT) VALUES (?,?,?,?,?)
+Mar 02 13:09:09 symfony [info] {sfCreole} executeUpdate(): INSERT INTO article (TITLE,BODY,ONLINE,CATEGORY_ID,CREATED_AT) VALUES ('foo foo title','bar bar body',0,2,'2007-03-02 13:09:09')
+Mar 02 13:09:09 symfony [info] {sfCreole} executeUpdate(): INSERT INTO article (TITLE,BODY,ONLINE,CATEGORY_ID,CREATED_AT) VALUES ('foo foo title','bar bar body',0,2,'2007-03-02 13:09:09')
+Mar 02 13:09:09 symfony [info] {sfCreole} committing transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} committing transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} committing transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} committing transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} beginning transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} beginning transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} beginning transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} beginning transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} prepareStatement(): INSERT INTO author (NAME) VALUES (?)
+Mar 02 13:09:09 symfony [info] {sfCreole} prepareStatement(): INSERT INTO author (NAME) VALUES (?)
+Mar 02 13:09:09 symfony [info] {sfCreole} executeUpdate(): INSERT INTO author (NAME) VALUES ('Fabien')
+Mar 02 13:09:09 symfony [info] {sfCreole} executeUpdate(): INSERT INTO author (NAME) VALUES ('Fabien')
+Mar 02 13:09:09 symfony [info] {sfCreole} committing transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} committing transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} committing transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} committing transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} beginning transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} beginning transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} beginning transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} beginning transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} prepareStatement(): INSERT INTO author (NAME) VALUES (?)
+Mar 02 13:09:09 symfony [info] {sfCreole} prepareStatement(): INSERT INTO author (NAME) VALUES (?)
+Mar 02 13:09:09 symfony [info] {sfCreole} executeUpdate(): INSERT INTO author (NAME) VALUES ('Thomas')
+Mar 02 13:09:09 symfony [info] {sfCreole} executeUpdate(): INSERT INTO author (NAME) VALUES ('Thomas')
+Mar 02 13:09:09 symfony [info] {sfCreole} committing transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} committing transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} committing transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} committing transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} beginning transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} beginning transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} beginning transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} beginning transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} prepareStatement(): INSERT INTO author (NAME) VALUES (?)
+Mar 02 13:09:09 symfony [info] {sfCreole} prepareStatement(): INSERT INTO author (NAME) VALUES (?)
+Mar 02 13:09:09 symfony [info] {sfCreole} executeUpdate(): INSERT INTO author (NAME) VALUES ('Hélène')
+Mar 02 13:09:09 symfony [info] {sfCreole} executeUpdate(): INSERT INTO author (NAME) VALUES ('Hélène')
+Mar 02 13:09:09 symfony [info] {sfCreole} committing transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} committing transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} committing transaction.
+Mar 02 13:09:09 symfony [info] {sfCreole} committing transaction.
+Mar 02 13:09:10 symfony [info] {sfCreole} beginning transaction.
+Mar 02 13:09:10 symfony [info] {sfCreole} beginning transaction.
+Mar 02 13:09:10 symfony [info] {sfCreole} beginning transaction.
+Mar 02 13:09:10 symfony [info] {sfCreole} beginning transaction.
+Mar 02 13:09:10 symfony [info] {sfCreole} prepareStatement(): INSERT INTO author_article (AUTHOR_ID,ARTICLE_ID) VALUES (?,?)
+Mar 02 13:09:10 symfony [info] {sfCreole} prepareStatement(): INSERT INTO author_article (AUTHOR_ID,ARTICLE_ID) VALUES (?,?)
+Mar 02 13:09:10 symfony [info] {sfCreole} executeUpdate(): INSERT INTO author_article (AUTHOR_ID,ARTICLE_ID) VALUES (1,1)
+Mar 02 13:09:10 symfony [info] {sfCreole} executeUpdate(): INSERT INTO author_article (AUTHOR_ID,ARTICLE_ID) VALUES (1,1)
+Mar 02 13:09:10 symfony [info] {sfCreole} committing transaction.
+Mar 02 13:09:10 symfony [info] {sfCreole} committing transaction.
+Mar 02 13:09:10 symfony [info] {sfCreole} committing transaction.
+Mar 02 13:09:10 symfony [info] {sfCreole} committing transaction.
+Mar 02 13:09:10 symfony [info] {sfCreole} beginning transaction.
+Mar 02 13:09:10 symfony [info] {sfCreole} beginning transaction.
+Mar 02 13:09:10 symfony [info] {sfCreole} beginning transaction.
+Mar 02 13:09:10 symfony [info] {sfCreole} beginning transaction.
+Mar 02 13:09:10 symfony [info] {sfCreole} prepareStatement(): INSERT INTO author_article (AUTHOR_ID,ARTICLE_ID) VALUES (?,?)
+Mar 02 13:09:10 symfony [info] {sfCreole} prepareStatement(): INSERT INTO author_article (AUTHOR_ID,ARTICLE_ID) VALUES (?,?)
+Mar 02 13:09:10 symfony [info] {sfCreole} executeUpdate(): INSERT INTO author_article (AUTHOR_ID,ARTICLE_ID) VALUES (2,1)
+Mar 02 13:09:10 symfony [info] {sfCreole} executeUpdate(): INSERT INTO author_article (AUTHOR_ID,ARTICLE_ID) VALUES (2,1)
+Mar 02 13:09:10 symfony [info] {sfCreole} committing transaction.
+Mar 02 13:09:10 symfony [info] {sfCreole} committing transaction.
+Mar 02 13:09:10 symfony [info] {sfCreole} committing transaction.
+Mar 02 13:09:10 symfony [info] {sfCreole} committing transaction.
+Mar 02 13:09:10 symfony [info] {sfCreole} beginning transaction.
+Mar 02 13:09:10 symfony [info] {sfCreole} beginning transaction.
+Mar 02 13:09:10 symfony [info] {sfCreole} beginning transaction.
+Mar 02 13:09:10 symfony [info] {sfCreole} beginning transaction.
+Mar 02 13:09:10 symfony [info] {sfCreole} prepareStatement(): INSERT INTO author_article (AUTHOR_ID,ARTICLE_ID) VALUES (?,?)
+Mar 02 13:09:10 symfony [info] {sfCreole} prepareStatement(): INSERT INTO author_article (AUTHOR_ID,ARTICLE_ID) VALUES (?,?)
+Mar 02 13:09:10 symfony [info] {sfCreole} executeUpdate(): INSERT INTO author_article (AUTHOR_ID,ARTICLE_ID) VALUES (1,2)
+Mar 02 13:09:10 symfony [info] {sfCreole} executeUpdate(): INSERT INTO author_article (AUTHOR_ID,ARTICLE_ID) VALUES (1,2)
+Mar 02 13:09:10 symfony [info] {sfCreole} committing transaction.
+Mar 02 13:09:10 symfony [info] {sfCreole} committing transaction.
+Mar 02 13:09:10 symfony [info] {sfCreole} committing transaction.
+Mar 02 13:09:10 symfony [info] {sfCreole} committing transaction.
+Mar 02 13:09:10 symfony [info] {sfCreole} committing transaction.
+Mar 02 13:09:10 symfony [info] {sfCreole} committing transaction.
+Mar 02 13:09:10 symfony [info] {sfContext} initialization
+Mar 02 13:09:10 symfony [info] {sfContext} initialization
+Mar 02 13:09:10 symfony [info] {sfController} initialization
+Mar 02 13:09:10 symfony [info] {sfController} initialization
+Mar 02 13:09:10 symfony [info] {sfRouting} match route [default_index] "/:module"
+Mar 02 13:09:10 symfony [info] {sfRouting} match route [default_index] "/:module"
+Mar 02 13:09:10 symfony [info] {sfRequest} request parameters array (  'module' => 'error',  'action' => 'index',)
+Mar 02 13:09:10 symfony [info] {sfRequest} request parameters array (  'module' => 'error',  'action' => 'index',)
+Mar 02 13:09:10 symfony [info] {sfController} dispatch request
+Mar 02 13:09:10 symfony [info] {sfController} dispatch request
+Mar 02 13:09:10 symfony [err] {sfInitializationException} Unable to scaffold unexistant model "FakeClass"
+Mar 02 13:09:10 symfony [err] {sfInitializationException} Unable to scaffold unexistant model "FakeClass"
+Mar 02 13:09:10 symfony [info] {sfContext} initialization
+Mar 02 13:09:10 symfony [info] {sfContext} initialization
+Mar 02 13:09:10 symfony [info] {sfController} initialization
+Mar 02 13:09:10 symfony [info] {sfController} initialization
+Mar 02 13:09:10 symfony [info] {sfRouting} match route [default_index] "/:module"
+Mar 02 13:09:10 symfony [info] {sfRouting} match route [default_index] "/:module"
+Mar 02 13:09:10 symfony [info] {sfRequest} request parameters array (  'module' => 'simple',  'action' => 'index',)
+Mar 02 13:09:10 symfony [info] {sfRequest} request parameters array (  'module' => 'simple',  'action' => 'index',)
+Mar 02 13:09:10 symfony [info] {sfController} dispatch request
+Mar 02 13:09:10 symfony [info] {sfController} dispatch request
+Mar 02 13:09:10 symfony [info] {sfFilter} executing filter "sfFakeRenderingFilter"
+Mar 02 13:09:10 symfony [info] {sfFilter} executing filter "sfFakeRenderingFilter"
+Mar 02 13:09:10 symfony [info] {sfFilter} executing filter "sfCommonFilter"
+Mar 02 13:09:10 symfony [info] {sfFilter} executing filter "sfCommonFilter"
+Mar 02 13:09:10 symfony [info] {sfFilter} executing filter "sfFlashFilter"
+Mar 02 13:09:10 symfony [info] {sfFilter} executing filter "sfFlashFilter"
+Mar 02 13:09:10 symfony [info] {sfFilter} executing filter "sfExecutionFilter"
+Mar 02 13:09:10 symfony [info] {sfFilter} executing filter "sfExecutionFilter"
+Mar 02 13:09:10 symfony [info] {sfAction} call "simpleActions->executeIndex()"
+Mar 02 13:09:10 symfony [info] {sfAction} call "simpleActions->executeIndex()"
+Mar 02 13:09:10 symfony [info] {sfAction} forward to action "simple/list"
+Mar 02 13:09:10 symfony [info] {sfAction} forward to action "simple/list"
+Mar 02 13:09:10 symfony [info] {sfFilter} executing filter "sfFakeRenderingFilter"
+Mar 02 13:09:10 symfony [info] {sfFilter} executing filter "sfFakeRenderingFilter"
+Mar 02 13:09:10 symfony [info] {sfFilter} executing filter "sfCommonFilter"
+Mar 02 13:09:10 symfony [info] {sfFilter} executing filter "sfCommonFilter"
+Mar 02 13:09:10 symfony [info] {sfFilter} executing filter "sfFlashFilter"
+Mar 02 13:09:10 symfony [info] {sfFilter} executing filter "sfFlashFilter"
+Mar 02 13:09:10 symfony [info] {sfFilter} executing filter "sfExecutionFilter"
+Mar 02 13:09:10 symfony [info] {sfFilter} executing filter "sfExecutionFilter"
+Mar 02 13:09:10 symfony [info] {sfAction} call "simpleActions->executeList()"
+Mar 02 13:09:10 symfony [info] {sfAction} call "simpleActions->executeList()"
+Mar 02 13:09:10 symfony [info] {sfCreole} prepareStatement(): SELECT article.ID, article.TITLE, article.BODY, article.ONLINE, article.CATEGORY_ID, article.CREATED_AT, article.END_DATE, article.BOOK_ID FROM article
+Mar 02 13:09:10 symfony [info] {sfCreole} prepareStatement(): SELECT article.ID, article.TITLE, article.BODY, article.ONLINE, article.CATEGORY_ID, article.CREATED_AT, article.END_DATE, article.BOOK_ID FROM article
+Mar 02 13:09:10 symfony [info] {sfCreole} executeQuery(): [9.75 ms] SELECT article.ID, article.TITLE, article.BODY, article.ONLINE, article.CATEGORY_ID, article.CREATED_AT, article.END_DATE, article.BOOK_ID FROM article
+Mar 02 13:09:10 symfony [info] {sfCreole} executeQuery(): [9.75 ms] SELECT article.ID, article.TITLE, article.BODY, article.ONLINE, article.CATEGORY_ID, article.CREATED_AT, article.END_DATE, article.BOOK_ID FROM article
+Mar 02 13:09:10 symfony [info] {sfView} initialize view for "simple/list"
+Mar 02 13:09:10 symfony [info] {sfView} initialize view for "simple/list"
+Mar 02 13:09:10 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\cache\crud\test\modules/autoSimple/templates/listSuccess.php"
+Mar 02 13:09:10 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\cache\crud\test\modules/autoSimple/templates/listSuccess.php"
+Mar 02 13:09:11 symfony [info] {sfView} decorate content with "C:\web\registry\test\functional\fixtures\project\apps\crud\templates/layout.php"
+Mar 02 13:09:11 symfony [info] {sfView} decorate content with "C:\web\registry\test\functional\fixtures\project\apps\crud\templates/layout.php"
+Mar 02 13:09:11 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\apps\crud\templates/layout.php"
+Mar 02 13:09:11 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\apps\crud\templates/layout.php"
+Mar 02 13:09:11 symfony [info] {sfResponse} send content (1469 o)
+Mar 02 13:09:11 symfony [info] {sfResponse} send content (1469 o)
+Mar 02 13:09:11 symfony [info] {sfContext} initialization
+Mar 02 13:09:11 symfony [info] {sfContext} initialization
+Mar 02 13:09:11 symfony [info] {sfController} initialization
+Mar 02 13:09:11 symfony [info] {sfController} initialization
+Mar 02 13:09:11 symfony [info] {sfRouting} match route [default] "/:module/:action/*"
+Mar 02 13:09:11 symfony [info] {sfRouting} match route [default] "/:module/:action/*"
+Mar 02 13:09:11 symfony [info] {sfRequest} request parameters array (  'module' => 'simple',  'action' => 'list',)
+Mar 02 13:09:11 symfony [info] {sfRequest} request parameters array (  'module' => 'simple',  'action' => 'list',)
+Mar 02 13:09:11 symfony [info] {sfController} dispatch request
+Mar 02 13:09:11 symfony [info] {sfController} dispatch request
+Mar 02 13:09:11 symfony [info] {sfFilter} executing filter "sfFakeRenderingFilter"
+Mar 02 13:09:11 symfony [info] {sfFilter} executing filter "sfFakeRenderingFilter"
+Mar 02 13:09:11 symfony [info] {sfFilter} executing filter "sfCommonFilter"
+Mar 02 13:09:11 symfony [info] {sfFilter} executing filter "sfCommonFilter"
+Mar 02 13:09:11 symfony [info] {sfFilter} executing filter "sfFlashFilter"
+Mar 02 13:09:11 symfony [info] {sfFilter} executing filter "sfFlashFilter"
+Mar 02 13:09:11 symfony [info] {sfFilter} executing filter "sfExecutionFilter"
+Mar 02 13:09:11 symfony [info] {sfFilter} executing filter "sfExecutionFilter"
+Mar 02 13:09:11 symfony [info] {sfAction} call "simpleActions->executeList()"
+Mar 02 13:09:11 symfony [info] {sfAction} call "simpleActions->executeList()"
+Mar 02 13:09:11 symfony [info] {sfCreole} prepareStatement(): SELECT article.ID, article.TITLE, article.BODY, article.ONLINE, article.CATEGORY_ID, article.CREATED_AT, article.END_DATE, article.BOOK_ID FROM article
+Mar 02 13:09:11 symfony [info] {sfCreole} prepareStatement(): SELECT article.ID, article.TITLE, article.BODY, article.ONLINE, article.CATEGORY_ID, article.CREATED_AT, article.END_DATE, article.BOOK_ID FROM article
+Mar 02 13:09:11 symfony [info] {sfCreole} executeQuery(): [3.61 ms] SELECT article.ID, article.TITLE, article.BODY, article.ONLINE, article.CATEGORY_ID, article.CREATED_AT, article.END_DATE, article.BOOK_ID FROM article
+Mar 02 13:09:11 symfony [info] {sfCreole} executeQuery(): [3.61 ms] SELECT article.ID, article.TITLE, article.BODY, article.ONLINE, article.CATEGORY_ID, article.CREATED_AT, article.END_DATE, article.BOOK_ID FROM article
+Mar 02 13:09:11 symfony [info] {sfView} initialize view for "simple/list"
+Mar 02 13:09:11 symfony [info] {sfView} initialize view for "simple/list"
+Mar 02 13:09:11 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\cache\crud\test\modules/autoSimple/templates/listSuccess.php"
+Mar 02 13:09:11 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\cache\crud\test\modules/autoSimple/templates/listSuccess.php"
+Mar 02 13:09:11 symfony [info] {sfView} decorate content with "C:\web\registry\test\functional\fixtures\project\apps\crud\templates/layout.php"
+Mar 02 13:09:11 symfony [info] {sfView} decorate content with "C:\web\registry\test\functional\fixtures\project\apps\crud\templates/layout.php"
+Mar 02 13:09:11 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\apps\crud\templates/layout.php"
+Mar 02 13:09:11 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\apps\crud\templates/layout.php"
+Mar 02 13:09:11 symfony [info] {sfResponse} send content (1469 o)
+Mar 02 13:09:11 symfony [info] {sfResponse} send content (1469 o)
+Mar 02 13:09:11 symfony [info] {sfContext} initialization
+Mar 02 13:09:11 symfony [info] {sfContext} initialization
+Mar 02 13:09:11 symfony [info] {sfController} initialization
+Mar 02 13:09:11 symfony [info] {sfController} initialization
+Mar 02 13:09:11 symfony [info] {sfRouting} match route [default] "/:module/:action/*"
+Mar 02 13:09:11 symfony [info] {sfRouting} match route [default] "/:module/:action/*"
+Mar 02 13:09:11 symfony [info] {sfRequest} request parameters array (  'module' => 'simple',  'action' => 'show',  'id' => '1',)
+Mar 02 13:09:11 symfony [info] {sfRequest} request parameters array (  'module' => 'simple',  'action' => 'show',  'id' => '1',)
+Mar 02 13:09:11 symfony [info] {sfController} dispatch request
+Mar 02 13:09:11 symfony [info] {sfController} dispatch request
+Mar 02 13:09:11 symfony [info] {sfFilter} executing filter "sfFakeRenderingFilter"
+Mar 02 13:09:11 symfony [info] {sfFilter} executing filter "sfFakeRenderingFilter"
+Mar 02 13:09:11 symfony [info] {sfFilter} executing filter "sfCommonFilter"
+Mar 02 13:09:11 symfony [info] {sfFilter} executing filter "sfCommonFilter"
+Mar 02 13:09:11 symfony [info] {sfFilter} executing filter "sfFlashFilter"
+Mar 02 13:09:11 symfony [info] {sfFilter} executing filter "sfFlashFilter"
+Mar 02 13:09:11 symfony [info] {sfFilter} executing filter "sfExecutionFilter"
+Mar 02 13:09:11 symfony [info] {sfFilter} executing filter "sfExecutionFilter"
+Mar 02 13:09:11 symfony [info] {sfAction} call "simpleActions->executeShow()"
+Mar 02 13:09:11 symfony [info] {sfAction} call "simpleActions->executeShow()"
+Mar 02 13:09:11 symfony [info] {sfCreole} prepareStatement(): SELECT article.ID, article.TITLE, article.BODY, article.ONLINE, article.CATEGORY_ID, article.CREATED_AT, article.END_DATE, article.BOOK_ID FROM article WHERE article.ID=?
+Mar 02 13:09:11 symfony [info] {sfCreole} prepareStatement(): SELECT article.ID, article.TITLE, article.BODY, article.ONLINE, article.CATEGORY_ID, article.CREATED_AT, article.END_DATE, article.BOOK_ID FROM article WHERE article.ID=?
+Mar 02 13:09:11 symfony [info] {sfCreole} executeQuery(): [4.25 ms] SELECT article.ID, article.TITLE, article.BODY, article.ONLINE, article.CATEGORY_ID, article.CREATED_AT, article.END_DATE, article.BOOK_ID FROM article WHERE article.ID=1
+Mar 02 13:09:11 symfony [info] {sfCreole} executeQuery(): [4.25 ms] SELECT article.ID, article.TITLE, article.BODY, article.ONLINE, article.CATEGORY_ID, article.CREATED_AT, article.END_DATE, article.BOOK_ID FROM article WHERE article.ID=1
+Mar 02 13:09:11 symfony [info] {sfView} initialize view for "simple/show"
+Mar 02 13:09:11 symfony [info] {sfView} initialize view for "simple/show"
+Mar 02 13:09:11 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\cache\crud\test\modules/autoSimple/templates/showSuccess.php"
+Mar 02 13:09:11 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\cache\crud\test\modules/autoSimple/templates/showSuccess.php"
+Mar 02 13:09:11 symfony [info] {sfView} decorate content with "C:\web\registry\test\functional\fixtures\project\apps\crud\templates/layout.php"
+Mar 02 13:09:11 symfony [info] {sfView} decorate content with "C:\web\registry\test\functional\fixtures\project\apps\crud\templates/layout.php"
+Mar 02 13:09:11 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\apps\crud\templates/layout.php"
+Mar 02 13:09:11 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\apps\crud\templates/layout.php"
+Mar 02 13:09:11 symfony [info] {sfResponse} send content (1236 o)
+Mar 02 13:09:11 symfony [info] {sfResponse} send content (1236 o)
+Mar 02 13:09:11 symfony [info] {sfContext} initialization
+Mar 02 13:09:11 symfony [info] {sfContext} initialization
+Mar 02 13:09:11 symfony [info] {sfController} initialization
+Mar 02 13:09:11 symfony [info] {sfController} initialization
+Mar 02 13:09:11 symfony [info] {sfRouting} match route [default] "/:module/:action/*"
+Mar 02 13:09:11 symfony [info] {sfRouting} match route [default] "/:module/:action/*"
+Mar 02 13:09:11 symfony [info] {sfRequest} request parameters array (  'module' => 'simple',  'action' => 'edit',  'id' => '1',)
+Mar 02 13:09:11 symfony [info] {sfRequest} request parameters array (  'module' => 'simple',  'action' => 'edit',  'id' => '1',)
+Mar 02 13:09:11 symfony [info] {sfController} dispatch request
+Mar 02 13:09:11 symfony [info] {sfController} dispatch request
+Mar 02 13:09:11 symfony [info] {sfFilter} executing filter "sfFakeRenderingFilter"
+Mar 02 13:09:11 symfony [info] {sfFilter} executing filter "sfFakeRenderingFilter"
+Mar 02 13:09:11 symfony [info] {sfFilter} executing filter "sfCommonFilter"
+Mar 02 13:09:11 symfony [info] {sfFilter} executing filter "sfCommonFilter"
+Mar 02 13:09:11 symfony [info] {sfFilter} executing filter "sfFlashFilter"
+Mar 02 13:09:11 symfony [info] {sfFilter} executing filter "sfFlashFilter"
+Mar 02 13:09:11 symfony [info] {sfFilter} executing filter "sfExecutionFilter"
+Mar 02 13:09:11 symfony [info] {sfFilter} executing filter "sfExecutionFilter"
+Mar 02 13:09:11 symfony [info] {sfAction} call "simpleActions->executeEdit()"
+Mar 02 13:09:11 symfony [info] {sfAction} call "simpleActions->executeEdit()"
+Mar 02 13:09:11 symfony [info] {sfCreole} prepareStatement(): SELECT article.ID, article.TITLE, article.BODY, article.ONLINE, article.CATEGORY_ID, article.CREATED_AT, article.END_DATE, article.BOOK_ID FROM article WHERE article.ID=?
+Mar 02 13:09:11 symfony [info] {sfCreole} prepareStatement(): SELECT article.ID, article.TITLE, article.BODY, article.ONLINE, article.CATEGORY_ID, article.CREATED_AT, article.END_DATE, article.BOOK_ID FROM article WHERE article.ID=?
+Mar 02 13:09:11 symfony [info] {sfCreole} executeQuery(): [4.20 ms] SELECT article.ID, article.TITLE, article.BODY, article.ONLINE, article.CATEGORY_ID, article.CREATED_AT, article.END_DATE, article.BOOK_ID FROM article WHERE article.ID=1
+Mar 02 13:09:11 symfony [info] {sfCreole} executeQuery(): [4.20 ms] SELECT article.ID, article.TITLE, article.BODY, article.ONLINE, article.CATEGORY_ID, article.CREATED_AT, article.END_DATE, article.BOOK_ID FROM article WHERE article.ID=1
+Mar 02 13:09:11 symfony [info] {sfView} initialize view for "simple/edit"
+Mar 02 13:09:11 symfony [info] {sfView} initialize view for "simple/edit"
+Mar 02 13:09:11 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\cache\crud\test\modules/autoSimple/templates/editSuccess.php"
+Mar 02 13:09:11 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\cache\crud\test\modules/autoSimple/templates/editSuccess.php"
+Mar 02 13:09:11 symfony [info] {sfCreole} prepareStatement(): SELECT category.ID, category.NAME FROM category
+Mar 02 13:09:11 symfony [info] {sfCreole} prepareStatement(): SELECT category.ID, category.NAME FROM category
+Mar 02 13:09:11 symfony [info] {sfCreole} executeQuery(): [3.93 ms] SELECT category.ID, category.NAME FROM category
+Mar 02 13:09:11 symfony [info] {sfCreole} executeQuery(): [3.93 ms] SELECT category.ID, category.NAME FROM category
+Mar 02 13:09:11 symfony [info] {sfCreole} prepareStatement(): SELECT book.ID, book.NAME FROM book
+Mar 02 13:09:11 symfony [info] {sfCreole} prepareStatement(): SELECT book.ID, book.NAME FROM book
+Mar 02 13:09:11 symfony [info] {sfCreole} executeQuery(): [5.79 ms] SELECT book.ID, book.NAME FROM book
+Mar 02 13:09:11 symfony [info] {sfCreole} executeQuery(): [5.79 ms] SELECT book.ID, book.NAME FROM book
+Mar 02 13:09:11 symfony [info] {sfView} decorate content with "C:\web\registry\test\functional\fixtures\project\apps\crud\templates/layout.php"
+Mar 02 13:09:11 symfony [info] {sfView} decorate content with "C:\web\registry\test\functional\fixtures\project\apps\crud\templates/layout.php"
+Mar 02 13:09:11 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\apps\crud\templates/layout.php"
+Mar 02 13:09:11 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\apps\crud\templates/layout.php"
+Mar 02 13:09:11 symfony [info] {sfResponse} send content (2769 o)
+Mar 02 13:09:11 symfony [info] {sfResponse} send content (2769 o)
+Mar 02 13:09:11 symfony [info] {sfContext} initialization
+Mar 02 13:09:11 symfony [info] {sfContext} initialization
+Mar 02 13:09:11 symfony [info] {sfController} initialization
+Mar 02 13:09:11 symfony [info] {sfController} initialization
+Mar 02 13:09:11 symfony [info] {sfRouting} match route [default] "/:module/:action/*"
+Mar 02 13:09:11 symfony [info] {sfRouting} match route [default] "/:module/:action/*"
+Mar 02 13:09:11 symfony [info] {sfRequest} request parameters array (  'module' => 'simple',  'action' => 'create',)
+Mar 02 13:09:11 symfony [info] {sfRequest} request parameters array (  'module' => 'simple',  'action' => 'create',)
+Mar 02 13:09:11 symfony [info] {sfController} dispatch request
+Mar 02 13:09:11 symfony [info] {sfController} dispatch request
+Mar 02 13:09:11 symfony [info] {sfFilter} executing filter "sfFakeRenderingFilter"
+Mar 02 13:09:11 symfony [info] {sfFilter} executing filter "sfFakeRenderingFilter"
+Mar 02 13:09:11 symfony [info] {sfFilter} executing filter "sfCommonFilter"
+Mar 02 13:09:11 symfony [info] {sfFilter} executing filter "sfCommonFilter"
+Mar 02 13:09:11 symfony [info] {sfFilter} executing filter "sfFlashFilter"
+Mar 02 13:09:11 symfony [info] {sfFilter} executing filter "sfFlashFilter"
+Mar 02 13:09:11 symfony [info] {sfFilter} executing filter "sfExecutionFilter"
+Mar 02 13:09:11 symfony [info] {sfFilter} executing filter "sfExecutionFilter"
+Mar 02 13:09:11 symfony [info] {sfAction} call "simpleActions->executeCreate()"
+Mar 02 13:09:11 symfony [info] {sfAction} call "simpleActions->executeCreate()"
+Mar 02 13:09:11 symfony [info] {sfAction} change template to "edit"
+Mar 02 13:09:11 symfony [info] {sfAction} change template to "edit"
+Mar 02 13:09:11 symfony [info] {sfView} initialize view for "simple/create"
+Mar 02 13:09:11 symfony [info] {sfView} initialize view for "simple/create"
+Mar 02 13:09:11 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\cache\crud\test\modules/autoSimple/templates/editSuccess.php"
+Mar 02 13:09:11 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\cache\crud\test\modules/autoSimple/templates/editSuccess.php"
+Mar 02 13:09:11 symfony [info] {sfCreole} prepareStatement(): SELECT category.ID, category.NAME FROM category
+Mar 02 13:09:11 symfony [info] {sfCreole} prepareStatement(): SELECT category.ID, category.NAME FROM category
+Mar 02 13:09:11 symfony [info] {sfCreole} executeQuery(): [4.60 ms] SELECT category.ID, category.NAME FROM category
+Mar 02 13:09:11 symfony [info] {sfCreole} executeQuery(): [4.60 ms] SELECT category.ID, category.NAME FROM category
+Mar 02 13:09:11 symfony [info] {sfCreole} prepareStatement(): SELECT book.ID, book.NAME FROM book
+Mar 02 13:09:11 symfony [info] {sfCreole} prepareStatement(): SELECT book.ID, book.NAME FROM book
+Mar 02 13:09:11 symfony [info] {sfCreole} executeQuery(): [3.99 ms] SELECT book.ID, book.NAME FROM book
+Mar 02 13:09:11 symfony [info] {sfCreole} executeQuery(): [3.99 ms] SELECT book.ID, book.NAME FROM book
+Mar 02 13:09:11 symfony [info] {sfView} decorate content with "C:\web\registry\test\functional\fixtures\project\apps\crud\templates/layout.php"
+Mar 02 13:09:11 symfony [info] {sfView} decorate content with "C:\web\registry\test\functional\fixtures\project\apps\crud\templates/layout.php"
+Mar 02 13:09:11 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\apps\crud\templates/layout.php"
+Mar 02 13:09:11 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\apps\crud\templates/layout.php"
+Mar 02 13:09:11 symfony [info] {sfResponse} send content (2473 o)
+Mar 02 13:09:11 symfony [info] {sfResponse} send content (2473 o)
+Mar 02 13:09:11 symfony [info] {sfContext} initialization
+Mar 02 13:09:11 symfony [info] {sfContext} initialization
+Mar 02 13:09:11 symfony [info] {sfController} initialization
+Mar 02 13:09:11 symfony [info] {sfController} initialization
+Mar 02 13:09:11 symfony [info] {sfRouting} match route [default] "/:module/:action/*"
+Mar 02 13:09:11 symfony [info] {sfRouting} match route [default] "/:module/:action/*"
+Mar 02 13:09:11 symfony [info] {sfRequest} request parameters array (  'module' => 'simple',  'action' => 'update',  'id' => '',  'title' => 'my title',  'body' => 'my body',  'category_id' => 2,  'end_date' => '',  'book_id' => '',  'commit' => 'save',  'online' => true,)
+Mar 02 13:09:11 symfony [info] {sfRequest} request parameters array (  'module' => 'simple',  'action' => 'update',  'id' => '',  'title' => 'my title',  'body' => 'my body',  'category_id' => 2,  'end_date' => '',  'book_id' => '',  'commit' => 'save',  'online' => true,)
+Mar 02 13:09:11 symfony [info] {sfController} dispatch request
+Mar 02 13:09:11 symfony [info] {sfController} dispatch request
+Mar 02 13:09:12 symfony [info] {sfFilter} executing filter "sfFakeRenderingFilter"
+Mar 02 13:09:12 symfony [info] {sfFilter} executing filter "sfFakeRenderingFilter"
+Mar 02 13:09:12 symfony [info] {sfFilter} executing filter "sfCommonFilter"
+Mar 02 13:09:12 symfony [info] {sfFilter} executing filter "sfCommonFilter"
+Mar 02 13:09:12 symfony [info] {sfFilter} executing filter "sfFlashFilter"
+Mar 02 13:09:12 symfony [info] {sfFilter} executing filter "sfFlashFilter"
+Mar 02 13:09:12 symfony [info] {sfFilter} executing filter "sfExecutionFilter"
+Mar 02 13:09:12 symfony [info] {sfFilter} executing filter "sfExecutionFilter"
+Mar 02 13:09:12 symfony [info] {sfAction} call "simpleActions->executeUpdate()"
+Mar 02 13:09:12 symfony [info] {sfAction} call "simpleActions->executeUpdate()"
+Mar 02 13:09:12 symfony [info] {sfCreole} beginning transaction.
+Mar 02 13:09:12 symfony [info] {sfCreole} beginning transaction.
+Mar 02 13:09:12 symfony [info] {sfCreole} beginning transaction.
+Mar 02 13:09:12 symfony [info] {sfCreole} beginning transaction.
+Mar 02 13:09:12 symfony [info] {sfCreole} prepareStatement(): INSERT INTO article (TITLE,BODY,ONLINE,CATEGORY_ID,CREATED_AT) VALUES (?,?,?,?,?)
+Mar 02 13:09:12 symfony [info] {sfCreole} prepareStatement(): INSERT INTO article (TITLE,BODY,ONLINE,CATEGORY_ID,CREATED_AT) VALUES (?,?,?,?,?)
+Mar 02 13:09:12 symfony [info] {sfCreole} executeUpdate(): INSERT INTO article (TITLE,BODY,ONLINE,CATEGORY_ID,CREATED_AT) VALUES ('my title','my body',1,2,'2007-03-02 13:09:12')
+Mar 02 13:09:12 symfony [info] {sfCreole} executeUpdate(): INSERT INTO article (TITLE,BODY,ONLINE,CATEGORY_ID,CREATED_AT) VALUES ('my title','my body',1,2,'2007-03-02 13:09:12')
+Mar 02 13:09:12 symfony [info] {sfCreole} committing transaction.
+Mar 02 13:09:12 symfony [info] {sfCreole} committing transaction.
+Mar 02 13:09:12 symfony [info] {sfCreole} committing transaction.
+Mar 02 13:09:12 symfony [info] {sfCreole} committing transaction.
+Mar 02 13:09:12 symfony [info] {sfAction} redirect to "http://crud-test/index.php/simple/show/id/3"
+Mar 02 13:09:12 symfony [info] {sfAction} redirect to "http://crud-test/index.php/simple/show/id/3"
+Mar 02 13:09:12 symfony [info] {sfResponse} send content (114 o)
+Mar 02 13:09:12 symfony [info] {sfResponse} send content (114 o)
+Mar 02 13:09:12 symfony [info] {sfContext} initialization
+Mar 02 13:09:12 symfony [info] {sfContext} initialization
+Mar 02 13:09:12 symfony [info] {sfController} initialization
+Mar 02 13:09:12 symfony [info] {sfController} initialization
+Mar 02 13:09:12 symfony [info] {sfRouting} match route [default] "/:module/:action/*"
+Mar 02 13:09:12 symfony [info] {sfRouting} match route [default] "/:module/:action/*"
+Mar 02 13:09:12 symfony [info] {sfRequest} request parameters array (  'module' => 'simple',  'action' => 'show',  'id' => '3',)
+Mar 02 13:09:12 symfony [info] {sfRequest} request parameters array (  'module' => 'simple',  'action' => 'show',  'id' => '3',)
+Mar 02 13:09:12 symfony [info] {sfController} dispatch request
+Mar 02 13:09:12 symfony [info] {sfController} dispatch request
+Mar 02 13:09:12 symfony [info] {sfFilter} executing filter "sfFakeRenderingFilter"
+Mar 02 13:09:12 symfony [info] {sfFilter} executing filter "sfFakeRenderingFilter"
+Mar 02 13:09:12 symfony [info] {sfFilter} executing filter "sfCommonFilter"
+Mar 02 13:09:12 symfony [info] {sfFilter} executing filter "sfCommonFilter"
+Mar 02 13:09:12 symfony [info] {sfFilter} executing filter "sfFlashFilter"
+Mar 02 13:09:12 symfony [info] {sfFilter} executing filter "sfFlashFilter"
+Mar 02 13:09:12 symfony [info] {sfFilter} executing filter "sfExecutionFilter"
+Mar 02 13:09:12 symfony [info] {sfFilter} executing filter "sfExecutionFilter"
+Mar 02 13:09:12 symfony [info] {sfAction} call "simpleActions->executeShow()"
+Mar 02 13:09:12 symfony [info] {sfAction} call "simpleActions->executeShow()"
+Mar 02 13:09:12 symfony [info] {sfCreole} prepareStatement(): SELECT article.ID, article.TITLE, article.BODY, article.ONLINE, article.CATEGORY_ID, article.CREATED_AT, article.END_DATE, article.BOOK_ID FROM article WHERE article.ID=?
+Mar 02 13:09:12 symfony [info] {sfCreole} prepareStatement(): SELECT article.ID, article.TITLE, article.BODY, article.ONLINE, article.CATEGORY_ID, article.CREATED_AT, article.END_DATE, article.BOOK_ID FROM article WHERE article.ID=?
+Mar 02 13:09:12 symfony [info] {sfCreole} executeQuery(): [4.36 ms] SELECT article.ID, article.TITLE, article.BODY, article.ONLINE, article.CATEGORY_ID, article.CREATED_AT, article.END_DATE, article.BOOK_ID FROM article WHERE article.ID=3
+Mar 02 13:09:12 symfony [info] {sfCreole} executeQuery(): [4.36 ms] SELECT article.ID, article.TITLE, article.BODY, article.ONLINE, article.CATEGORY_ID, article.CREATED_AT, article.END_DATE, article.BOOK_ID FROM article WHERE article.ID=3
+Mar 02 13:09:12 symfony [info] {sfView} initialize view for "simple/show"
+Mar 02 13:09:12 symfony [info] {sfView} initialize view for "simple/show"
+Mar 02 13:09:12 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\cache\crud\test\modules/autoSimple/templates/showSuccess.php"
+Mar 02 13:09:12 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\cache\crud\test\modules/autoSimple/templates/showSuccess.php"
+Mar 02 13:09:12 symfony [info] {sfView} decorate content with "C:\web\registry\test\functional\fixtures\project\apps\crud\templates/layout.php"
+Mar 02 13:09:12 symfony [info] {sfView} decorate content with "C:\web\registry\test\functional\fixtures\project\apps\crud\templates/layout.php"
+Mar 02 13:09:12 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\apps\crud\templates/layout.php"
+Mar 02 13:09:12 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\apps\crud\templates/layout.php"
+Mar 02 13:09:12 symfony [info] {sfResponse} send content (1234 o)
+Mar 02 13:09:12 symfony [info] {sfResponse} send content (1234 o)
+Mar 02 13:09:12 symfony [info] {sfContext} initialization
+Mar 02 13:09:12 symfony [info] {sfContext} initialization
+Mar 02 13:09:12 symfony [info] {sfController} initialization
+Mar 02 13:09:12 symfony [info] {sfController} initialization
+Mar 02 13:09:12 symfony [info] {sfRouting} match route [default] "/:module/:action/*"
+Mar 02 13:09:12 symfony [info] {sfRouting} match route [default] "/:module/:action/*"
+Mar 02 13:09:12 symfony [info] {sfRequest} request parameters array (  'module' => 'simple',  'action' => 'list',)
+Mar 02 13:09:12 symfony [info] {sfRequest} request parameters array (  'module' => 'simple',  'action' => 'list',)
+Mar 02 13:09:12 symfony [info] {sfController} dispatch request
+Mar 02 13:09:12 symfony [info] {sfController} dispatch request
+Mar 02 13:09:12 symfony [info] {sfFilter} executing filter "sfFakeRenderingFilter"
+Mar 02 13:09:12 symfony [info] {sfFilter} executing filter "sfFakeRenderingFilter"
+Mar 02 13:09:12 symfony [info] {sfFilter} executing filter "sfCommonFilter"
+Mar 02 13:09:12 symfony [info] {sfFilter} executing filter "sfCommonFilter"
+Mar 02 13:09:12 symfony [info] {sfFilter} executing filter "sfFlashFilter"
+Mar 02 13:09:12 symfony [info] {sfFilter} executing filter "sfFlashFilter"
+Mar 02 13:09:12 symfony [info] {sfFilter} executing filter "sfExecutionFilter"
+Mar 02 13:09:12 symfony [info] {sfFilter} executing filter "sfExecutionFilter"
+Mar 02 13:09:12 symfony [info] {sfAction} call "simpleActions->executeList()"
+Mar 02 13:09:12 symfony [info] {sfAction} call "simpleActions->executeList()"
+Mar 02 13:09:12 symfony [info] {sfCreole} prepareStatement(): SELECT article.ID, article.TITLE, article.BODY, article.ONLINE, article.CATEGORY_ID, article.CREATED_AT, article.END_DATE, article.BOOK_ID FROM article
+Mar 02 13:09:12 symfony [info] {sfCreole} prepareStatement(): SELECT article.ID, article.TITLE, article.BODY, article.ONLINE, article.CATEGORY_ID, article.CREATED_AT, article.END_DATE, article.BOOK_ID FROM article
+Mar 02 13:09:12 symfony [info] {sfCreole} executeQuery(): [4.64 ms] SELECT article.ID, article.TITLE, article.BODY, article.ONLINE, article.CATEGORY_ID, article.CREATED_AT, article.END_DATE, article.BOOK_ID FROM article
+Mar 02 13:09:12 symfony [info] {sfCreole} executeQuery(): [4.64 ms] SELECT article.ID, article.TITLE, article.BODY, article.ONLINE, article.CATEGORY_ID, article.CREATED_AT, article.END_DATE, article.BOOK_ID FROM article
+Mar 02 13:09:12 symfony [info] {sfView} initialize view for "simple/list"
+Mar 02 13:09:12 symfony [info] {sfView} initialize view for "simple/list"
+Mar 02 13:09:12 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\cache\crud\test\modules/autoSimple/templates/listSuccess.php"
+Mar 02 13:09:12 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\cache\crud\test\modules/autoSimple/templates/listSuccess.php"
+Mar 02 13:09:12 symfony [info] {sfView} decorate content with "C:\web\registry\test\functional\fixtures\project\apps\crud\templates/layout.php"
+Mar 02 13:09:12 symfony [info] {sfView} decorate content with "C:\web\registry\test\functional\fixtures\project\apps\crud\templates/layout.php"
+Mar 02 13:09:12 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\apps\crud\templates/layout.php"
+Mar 02 13:09:12 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\apps\crud\templates/layout.php"
+Mar 02 13:09:12 symfony [info] {sfResponse} send content (1697 o)
+Mar 02 13:09:12 symfony [info] {sfResponse} send content (1697 o)
+Mar 02 13:09:12 symfony [info] {sfContext} initialization
+Mar 02 13:09:12 symfony [info] {sfContext} initialization
+Mar 02 13:09:12 symfony [info] {sfController} initialization
+Mar 02 13:09:12 symfony [info] {sfController} initialization
+Mar 02 13:09:12 symfony [info] {sfRouting} match route [default] "/:module/:action/*"
+Mar 02 13:09:12 symfony [info] {sfRouting} match route [default] "/:module/:action/*"
+Mar 02 13:09:12 symfony [info] {sfRequest} request parameters array (  'module' => 'simple',  'action' => 'edit',  'id' => '3',)
+Mar 02 13:09:12 symfony [info] {sfRequest} request parameters array (  'module' => 'simple',  'action' => 'edit',  'id' => '3',)
+Mar 02 13:09:12 symfony [info] {sfController} dispatch request
+Mar 02 13:09:12 symfony [info] {sfController} dispatch request
+Mar 02 13:09:12 symfony [info] {sfFilter} executing filter "sfFakeRenderingFilter"
+Mar 02 13:09:12 symfony [info] {sfFilter} executing filter "sfFakeRenderingFilter"
+Mar 02 13:09:12 symfony [info] {sfFilter} executing filter "sfCommonFilter"
+Mar 02 13:09:12 symfony [info] {sfFilter} executing filter "sfCommonFilter"
+Mar 02 13:09:12 symfony [info] {sfFilter} executing filter "sfFlashFilter"
+Mar 02 13:09:12 symfony [info] {sfFilter} executing filter "sfFlashFilter"
+Mar 02 13:09:12 symfony [info] {sfFilter} executing filter "sfExecutionFilter"
+Mar 02 13:09:12 symfony [info] {sfFilter} executing filter "sfExecutionFilter"
+Mar 02 13:09:12 symfony [info] {sfAction} call "simpleActions->executeEdit()"
+Mar 02 13:09:12 symfony [info] {sfAction} call "simpleActions->executeEdit()"
+Mar 02 13:09:12 symfony [info] {sfCreole} prepareStatement(): SELECT article.ID, article.TITLE, article.BODY, article.ONLINE, article.CATEGORY_ID, article.CREATED_AT, article.END_DATE, article.BOOK_ID FROM article WHERE article.ID=?
+Mar 02 13:09:12 symfony [info] {sfCreole} prepareStatement(): SELECT article.ID, article.TITLE, article.BODY, article.ONLINE, article.CATEGORY_ID, article.CREATED_AT, article.END_DATE, article.BOOK_ID FROM article WHERE article.ID=?
+Mar 02 13:09:12 symfony [info] {sfCreole} executeQuery(): [2.71 ms] SELECT article.ID, article.TITLE, article.BODY, article.ONLINE, article.CATEGORY_ID, article.CREATED_AT, article.END_DATE, article.BOOK_ID FROM article WHERE article.ID=3
+Mar 02 13:09:12 symfony [info] {sfCreole} executeQuery(): [2.71 ms] SELECT article.ID, article.TITLE, article.BODY, article.ONLINE, article.CATEGORY_ID, article.CREATED_AT, article.END_DATE, article.BOOK_ID FROM article WHERE article.ID=3
+Mar 02 13:09:12 symfony [info] {sfView} initialize view for "simple/edit"
+Mar 02 13:09:12 symfony [info] {sfView} initialize view for "simple/edit"
+Mar 02 13:09:12 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\cache\crud\test\modules/autoSimple/templates/editSuccess.php"
+Mar 02 13:09:12 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\cache\crud\test\modules/autoSimple/templates/editSuccess.php"
+Mar 02 13:09:12 symfony [info] {sfCreole} prepareStatement(): SELECT category.ID, category.NAME FROM category
+Mar 02 13:09:12 symfony [info] {sfCreole} prepareStatement(): SELECT category.ID, category.NAME FROM category
+Mar 02 13:09:12 symfony [info] {sfCreole} executeQuery(): [2.53 ms] SELECT category.ID, category.NAME FROM category
+Mar 02 13:09:12 symfony [info] {sfCreole} executeQuery(): [2.53 ms] SELECT category.ID, category.NAME FROM category
+Mar 02 13:09:12 symfony [info] {sfCreole} prepareStatement(): SELECT book.ID, book.NAME FROM book
+Mar 02 13:09:12 symfony [info] {sfCreole} prepareStatement(): SELECT book.ID, book.NAME FROM book
+Mar 02 13:09:12 symfony [info] {sfCreole} executeQuery(): [3.43 ms] SELECT book.ID, book.NAME FROM book
+Mar 02 13:09:12 symfony [info] {sfCreole} executeQuery(): [3.43 ms] SELECT book.ID, book.NAME FROM book
+Mar 02 13:09:12 symfony [info] {sfView} decorate content with "C:\web\registry\test\functional\fixtures\project\apps\crud\templates/layout.php"
+Mar 02 13:09:12 symfony [info] {sfView} decorate content with "C:\web\registry\test\functional\fixtures\project\apps\crud\templates/layout.php"
+Mar 02 13:09:12 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\apps\crud\templates/layout.php"
+Mar 02 13:09:12 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\apps\crud\templates/layout.php"
+Mar 02 13:09:12 symfony [info] {sfResponse} send content (2767 o)
+Mar 02 13:09:12 symfony [info] {sfResponse} send content (2767 o)
+Mar 02 13:09:12 symfony [info] {sfContext} initialization
+Mar 02 13:09:12 symfony [info] {sfContext} initialization
+Mar 02 13:09:12 symfony [info] {sfController} initialization
+Mar 02 13:09:12 symfony [info] {sfController} initialization
+Mar 02 13:09:12 symfony [info] {sfRouting} match route [default] "/:module/:action/*"
+Mar 02 13:09:12 symfony [info] {sfRouting} match route [default] "/:module/:action/*"
+Mar 02 13:09:12 symfony [info] {sfRequest} request parameters array (  'module' => 'simple',  'action' => 'delete',  'id' => '3',)
+Mar 02 13:09:12 symfony [info] {sfRequest} request parameters array (  'module' => 'simple',  'action' => 'delete',  'id' => '3',)
+Mar 02 13:09:12 symfony [info] {sfController} dispatch request
+Mar 02 13:09:12 symfony [info] {sfController} dispatch request
+Mar 02 13:09:12 symfony [info] {sfFilter} executing filter "sfFakeRenderingFilter"
+Mar 02 13:09:12 symfony [info] {sfFilter} executing filter "sfFakeRenderingFilter"
+Mar 02 13:09:12 symfony [info] {sfFilter} executing filter "sfCommonFilter"
+Mar 02 13:09:12 symfony [info] {sfFilter} executing filter "sfCommonFilter"
+Mar 02 13:09:12 symfony [info] {sfFilter} executing filter "sfFlashFilter"
+Mar 02 13:09:12 symfony [info] {sfFilter} executing filter "sfFlashFilter"
+Mar 02 13:09:12 symfony [info] {sfFilter} executing filter "sfExecutionFilter"
+Mar 02 13:09:12 symfony [info] {sfFilter} executing filter "sfExecutionFilter"
+Mar 02 13:09:12 symfony [info] {sfAction} call "simpleActions->executeDelete()"
+Mar 02 13:09:12 symfony [info] {sfAction} call "simpleActions->executeDelete()"
+Mar 02 13:09:12 symfony [info] {sfCreole} prepareStatement(): SELECT article.ID, article.TITLE, article.BODY, article.ONLINE, article.CATEGORY_ID, article.CREATED_AT, article.END_DATE, article.BOOK_ID FROM article WHERE article.ID=?
+Mar 02 13:09:12 symfony [info] {sfCreole} prepareStatement(): SELECT article.ID, article.TITLE, article.BODY, article.ONLINE, article.CATEGORY_ID, article.CREATED_AT, article.END_DATE, article.BOOK_ID FROM article WHERE article.ID=?
+Mar 02 13:09:12 symfony [info] {sfCreole} executeQuery(): [9.74 ms] SELECT article.ID, article.TITLE, article.BODY, article.ONLINE, article.CATEGORY_ID, article.CREATED_AT, article.END_DATE, article.BOOK_ID FROM article WHERE article.ID=3
+Mar 02 13:09:12 symfony [info] {sfCreole} executeQuery(): [9.74 ms] SELECT article.ID, article.TITLE, article.BODY, article.ONLINE, article.CATEGORY_ID, article.CREATED_AT, article.END_DATE, article.BOOK_ID FROM article WHERE article.ID=3
+Mar 02 13:09:12 symfony [info] {sfCreole} beginning transaction.
+Mar 02 13:09:12 symfony [info] {sfCreole} beginning transaction.
+Mar 02 13:09:12 symfony [info] {sfCreole} beginning transaction.
+Mar 02 13:09:12 symfony [info] {sfCreole} beginning transaction.
+Mar 02 13:09:12 symfony [info] {sfCreole} prepareStatement(): DELETE FROM article WHERE article.ID=?
+Mar 02 13:09:12 symfony [info] {sfCreole} prepareStatement(): DELETE FROM article WHERE article.ID=?
+Mar 02 13:09:12 symfony [info] {sfCreole} executeUpdate(): DELETE FROM article WHERE article.ID=3
+Mar 02 13:09:12 symfony [info] {sfCreole} executeUpdate(): DELETE FROM article WHERE article.ID=3
+Mar 02 13:09:12 symfony [info] {sfCreole} committing transaction.
+Mar 02 13:09:12 symfony [info] {sfCreole} committing transaction.
+Mar 02 13:09:12 symfony [info] {sfCreole} committing transaction.
+Mar 02 13:09:12 symfony [info] {sfCreole} committing transaction.
+Mar 02 13:09:12 symfony [info] {sfAction} redirect to "http://crud-test/index.php/simple/list"
+Mar 02 13:09:12 symfony [info] {sfAction} redirect to "http://crud-test/index.php/simple/list"
+Mar 02 13:09:12 symfony [info] {sfResponse} send content (109 o)
+Mar 02 13:09:12 symfony [info] {sfResponse} send content (109 o)
+Mar 02 13:09:12 symfony [info] {sfContext} initialization
+Mar 02 13:09:12 symfony [info] {sfContext} initialization
+Mar 02 13:09:12 symfony [info] {sfController} initialization
+Mar 02 13:09:12 symfony [info] {sfController} initialization
+Mar 02 13:09:12 symfony [info] {sfRouting} match route [default] "/:module/:action/*"
+Mar 02 13:09:12 symfony [info] {sfRouting} match route [default] "/:module/:action/*"
+Mar 02 13:09:12 symfony [info] {sfRequest} request parameters array (  'module' => 'simple',  'action' => 'list',)
+Mar 02 13:09:12 symfony [info] {sfRequest} request parameters array (  'module' => 'simple',  'action' => 'list',)
+Mar 02 13:09:12 symfony [info] {sfController} dispatch request
+Mar 02 13:09:12 symfony [info] {sfController} dispatch request
+Mar 02 13:09:12 symfony [info] {sfFilter} executing filter "sfFakeRenderingFilter"
+Mar 02 13:09:12 symfony [info] {sfFilter} executing filter "sfFakeRenderingFilter"
+Mar 02 13:09:12 symfony [info] {sfFilter} executing filter "sfCommonFilter"
+Mar 02 13:09:12 symfony [info] {sfFilter} executing filter "sfCommonFilter"
+Mar 02 13:09:12 symfony [info] {sfFilter} executing filter "sfFlashFilter"
+Mar 02 13:09:12 symfony [info] {sfFilter} executing filter "sfFlashFilter"
+Mar 02 13:09:12 symfony [info] {sfFilter} executing filter "sfExecutionFilter"
+Mar 02 13:09:12 symfony [info] {sfFilter} executing filter "sfExecutionFilter"
+Mar 02 13:09:12 symfony [info] {sfAction} call "simpleActions->executeList()"
+Mar 02 13:09:12 symfony [info] {sfAction} call "simpleActions->executeList()"
+Mar 02 13:09:12 symfony [info] {sfCreole} prepareStatement(): SELECT article.ID, article.TITLE, article.BODY, article.ONLINE, article.CATEGORY_ID, article.CREATED_AT, article.END_DATE, article.BOOK_ID FROM article
+Mar 02 13:09:12 symfony [info] {sfCreole} prepareStatement(): SELECT article.ID, article.TITLE, article.BODY, article.ONLINE, article.CATEGORY_ID, article.CREATED_AT, article.END_DATE, article.BOOK_ID FROM article
+Mar 02 13:09:12 symfony [info] {sfCreole} executeQuery(): [4.46 ms] SELECT article.ID, article.TITLE, article.BODY, article.ONLINE, article.CATEGORY_ID, article.CREATED_AT, article.END_DATE, article.BOOK_ID FROM article
+Mar 02 13:09:12 symfony [info] {sfCreole} executeQuery(): [4.46 ms] SELECT article.ID, article.TITLE, article.BODY, article.ONLINE, article.CATEGORY_ID, article.CREATED_AT, article.END_DATE, article.BOOK_ID FROM article
+Mar 02 13:09:12 symfony [info] {sfView} initialize view for "simple/list"
+Mar 02 13:09:12 symfony [info] {sfView} initialize view for "simple/list"
+Mar 02 13:09:12 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\cache\crud\test\modules/autoSimple/templates/listSuccess.php"
+Mar 02 13:09:12 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\cache\crud\test\modules/autoSimple/templates/listSuccess.php"
+Mar 02 13:09:12 symfony [info] {sfView} decorate content with "C:\web\registry\test\functional\fixtures\project\apps\crud\templates/layout.php"
+Mar 02 13:09:12 symfony [info] {sfView} decorate content with "C:\web\registry\test\functional\fixtures\project\apps\crud\templates/layout.php"
+Mar 02 13:09:12 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\apps\crud\templates/layout.php"
+Mar 02 13:09:12 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\apps\crud\templates/layout.php"
+Mar 02 13:09:12 symfony [info] {sfResponse} send content (1469 o)
+Mar 02 13:09:12 symfony [info] {sfResponse} send content (1469 o)
+Mar 02 13:09:12 symfony [info] {sfContext} initialization
+Mar 02 13:09:12 symfony [info] {sfContext} initialization
+Mar 02 13:09:12 symfony [info] {sfController} initialization
+Mar 02 13:09:12 symfony [info] {sfController} initialization
+Mar 02 13:09:12 symfony [info] {sfRouting} match route [default] "/:module/:action/*"
+Mar 02 13:09:12 symfony [info] {sfRouting} match route [default] "/:module/:action/*"
+Mar 02 13:09:12 symfony [info] {sfRequest} request parameters array (  'module' => 'simple',  'action' => 'edit',  'id' => '3',)
+Mar 02 13:09:12 symfony [info] {sfRequest} request parameters array (  'module' => 'simple',  'action' => 'edit',  'id' => '3',)
+Mar 02 13:09:12 symfony [info] {sfController} dispatch request
+Mar 02 13:09:12 symfony [info] {sfController} dispatch request
+Mar 02 13:09:12 symfony [info] {sfFilter} executing filter "sfFakeRenderingFilter"
+Mar 02 13:09:12 symfony [info] {sfFilter} executing filter "sfFakeRenderingFilter"
+Mar 02 13:09:12 symfony [info] {sfFilter} executing filter "sfCommonFilter"
+Mar 02 13:09:12 symfony [info] {sfFilter} executing filter "sfCommonFilter"
+Mar 02 13:09:12 symfony [info] {sfFilter} executing filter "sfFlashFilter"
+Mar 02 13:09:12 symfony [info] {sfFilter} executing filter "sfFlashFilter"
+Mar 02 13:09:12 symfony [info] {sfFilter} executing filter "sfExecutionFilter"
+Mar 02 13:09:12 symfony [info] {sfFilter} executing filter "sfExecutionFilter"
+Mar 02 13:09:12 symfony [info] {sfAction} call "simpleActions->executeEdit()"
+Mar 02 13:09:12 symfony [info] {sfAction} call "simpleActions->executeEdit()"
+Mar 02 13:09:12 symfony [info] {sfCreole} prepareStatement(): SELECT article.ID, article.TITLE, article.BODY, article.ONLINE, article.CATEGORY_ID, article.CREATED_AT, article.END_DATE, article.BOOK_ID FROM article WHERE article.ID=?
+Mar 02 13:09:12 symfony [info] {sfCreole} prepareStatement(): SELECT article.ID, article.TITLE, article.BODY, article.ONLINE, article.CATEGORY_ID, article.CREATED_AT, article.END_DATE, article.BOOK_ID FROM article WHERE article.ID=?
+Mar 02 13:09:12 symfony [info] {sfCreole} executeQuery(): [4.68 ms] SELECT article.ID, article.TITLE, article.BODY, article.ONLINE, article.CATEGORY_ID, article.CREATED_AT, article.END_DATE, article.BOOK_ID FROM article WHERE article.ID=3
+Mar 02 13:09:12 symfony [info] {sfCreole} executeQuery(): [4.68 ms] SELECT article.ID, article.TITLE, article.BODY, article.ONLINE, article.CATEGORY_ID, article.CREATED_AT, article.END_DATE, article.BOOK_ID FROM article WHERE article.ID=3
+Mar 02 13:09:12 symfony [err] {sfError404Exception} 
+Mar 02 13:09:12 symfony [err] {sfError404Exception} 
+Mar 02 13:09:13 symfony [info] {sfFilter} executing filter "sfFakeRenderingFilter"
+Mar 02 13:09:13 symfony [info] {sfFilter} executing filter "sfFakeRenderingFilter"
+Mar 02 13:09:13 symfony [info] {sfFilter} executing filter "sfCommonFilter"
+Mar 02 13:09:13 symfony [info] {sfFilter} executing filter "sfCommonFilter"
+Mar 02 13:09:13 symfony [info] {sfFilter} executing filter "sfFlashFilter"
+Mar 02 13:09:13 symfony [info] {sfFilter} executing filter "sfFlashFilter"
+Mar 02 13:09:13 symfony [info] {sfFilter} executing filter "sfExecutionFilter"
+Mar 02 13:09:13 symfony [info] {sfFilter} executing filter "sfExecutionFilter"
+Mar 02 13:09:13 symfony [info] {sfAction} call "defaultActions->executeError404()"
+Mar 02 13:09:13 symfony [info] {sfAction} call "defaultActions->executeError404()"
+Mar 02 13:09:13 symfony [info] {sfView} initialize view for "default/error404"
+Mar 02 13:09:13 symfony [info] {sfView} initialize view for "default/error404"
+Mar 02 13:09:13 symfony [info] {sfView} render "C:\web\registry\config/../data/symfony/modules/default/templates/error404Success.php"
+Mar 02 13:09:13 symfony [info] {sfView} render "C:\web\registry\config/../data/symfony/modules/default/templates/error404Success.php"
+Mar 02 13:09:13 symfony [info] {sfView} decorate content with "C:\web\registry\config/../data/symfony/modules/default/templates/defaultLayout.php"
+Mar 02 13:09:13 symfony [info] {sfView} decorate content with "C:\web\registry\config/../data/symfony/modules/default/templates/defaultLayout.php"
+Mar 02 13:09:13 symfony [info] {sfView} render "C:\web\registry\config/../data/symfony/modules/default/templates/defaultLayout.php"
+Mar 02 13:09:13 symfony [info] {sfView} render "C:\web\registry\config/../data/symfony/modules/default/templates/defaultLayout.php"
+Mar 02 13:09:13 symfony [info] {sfResponse} send content (2393 o)
+Mar 02 13:09:13 symfony [info] {sfResponse} send content (2393 o)

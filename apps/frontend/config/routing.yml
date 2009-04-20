@@ -1,0 +1,184 @@
+#api
+api_get:
+  url:   /api/get/*.
+  param: { module: api, action: get }
+
+# uri schema
+uri_schema_html:
+  url:  /uri/schema/:schema.html
+  param: { module: api, action: get, class: schema, type: html, redir: true }
+
+uri_schema_rdf:
+  url:  /uri/schema/:schema.rdf
+  param: { module: api, action: get, class: schema, type: rdf }
+
+uri_schema_default:
+  url:  /uri/schema/:schema.
+  param: { module: api, action: get, class: schema, type: unknown, redir: true }
+
+# uri schema property
+uri_schemaprop_html:
+  url:  /uri/schema/:schema/:property.html
+  param: { module: api, action: get, class: schemaproperty, type: html, redir: true }
+
+uri_schemaprop_rdf:
+  url:  /uri/schema/:schema/:property.rdf
+  param: { module: api, action: get, class: schemaproperty, type: rdf }
+
+uri_schemaprop_default:
+  url:  /uri/schema/:schema/:property.
+  param: { module: api, action: get, class: schemaproperty, type: unknown, redir: true }
+
+# uri concept scheme
+uri_concept_html:
+  url:  /uri/:scheme/:concept.html
+  param: { module: rdf, action: showConcept, type: html }
+
+uri_scheme_html:
+  url:  /uri/:scheme.html
+  param: { module: rdf, action: showScheme, type: html }
+
+#uri concept
+uri_concept_timeslice:
+  url:  /uri/:scheme/:concept/ts/:ts.rdf
+  param: { module: rdf, action: showConcept, type: uri }
+
+uri_concept:
+  url:  /uri/:scheme/:concept.rdf
+  param: { module: rdf, action: showConcept, type: uri }
+
+uri_scheme_timeslice:
+  url:  /uri/:scheme/ts/:ts.rdf
+  param: { module: rdf, action: showScheme, type: uri }
+
+uri_scheme_version:
+  url:  /uri/:scheme/version/:version.rdf
+  param: { module: rdf, action: showScheme, type: uri }
+
+uri_scheme:
+  url:  /uri/:scheme.rdf
+  param: { module: rdf, action: showScheme, type: uri }
+
+uri_scheme_xml_schema_timeslice:
+  url:  /uri/:scheme/ts/:ts.xsd
+  param: { module: xml, action: showScheme, type: uri }
+
+uri_scheme_xml_schema_version:
+  url:  /uri/:scheme/version/:version.xsd
+  param: { module: xml, action: showScheme, type: uri }
+
+uri_scheme_xml_schema:
+  url:  /uri/:scheme.xsd
+  param: { module: xml, action: showScheme, type: uri }
+
+uri_concept_unknown:
+  url:  /uri/:scheme/:concept.
+  param: { module: rdf, action: showConcept, type: unknown }
+
+uri_scheme_unknown:
+  url:  /uri/:scheme.
+  param: { module: rdf, action: showScheme, type: unknown }
+
+rdf_concept_timeslice:
+  url:  /concept/show/id/:id/ts/:ts.rdf
+  param: { module: rdf, action: showConcept, type: rdf }
+
+rdf_schema:
+  url:  /schema/show/id/:id.rdf
+  param: { module: schema, action: showRdf}
+
+rdf_concept:
+  url:  /concept/show/id/:id.rdf
+  param: { module: rdf, action: showConcept, type: rdf }
+
+rdf_vocabulary_timeslice:
+  url:  /vocabulary/show/id/:id/ts/:ts.rdf
+  param: { module: rdf, action: showScheme, type: rdf }
+
+rdf_vocabulary_version:
+  url:  /vocabulary/show/id/:id/version/:version.rdf
+  param: { module: rdf, action: showScheme, type: rdf }
+
+rdf_vocabulary:
+  url:  /vocabulary/show/id/:id.rdf
+  param: { module: rdf, action: showScheme, type: rdf }
+
+xml_schema_vocabulary_timeslice:
+  url:  /vocabulary/show/id/:id/ts/:ts.xsd
+  param: { module: xml, action: showScheme, type: xmlschema }
+
+xml_schema_vocabulary_version:
+  url:  /vocabulary/show/id/:id/version/:version.xsd
+  param: { module: xml, action: showScheme, type: xmlschema }
+
+xml_schema_vocabulary:
+  url:  /vocabulary/show/id/:id.xsd
+  param: { module: xml, action: showScheme, type: xmlschema }
+
+# concepts
+concept_search:
+  url:   /search.
+  param: { module: conceptprop, action: search }
+
+# user
+user_show:
+  url:   /user/show/id:/id
+  param: { module: user, action: show }
+
+user_list:
+  url:   /user/list
+  param: { module: user, action: list }
+
+user_save:
+  url:   /user/save
+  param: { module: user, action: save }
+
+user_profile:
+  url:   /user/:nickname
+  param: { module: user, action: showSubscriber }
+
+user_update:
+  url:   /update_user
+  param: { module: user, action: update }
+
+current_user_profile:
+  url:   /user
+  param: { module: user, action: showSubscriber }
+
+add_account:
+  url:   /add_user
+  param: { module: user, action: add }
+
+user_require_password:
+  url:   /password_request
+  param: { module: user, action: passwordRequest }
+
+# login
+login:
+  url:   /login
+  param: { module: user, action: login }
+
+logout:
+  url:   /logout
+  param: { module: user, action: logout }
+
+# content
+about:
+  url:   /about
+  param: { module: content, action: about }
+
+# default rules
+homepage:
+  url:   /
+  param: { module: content, action: home }
+
+default_symfony:
+  url:   /symfony/:action/*
+  param: { module: default }
+
+default_index:
+  url:   /:module
+  param: { action: index }
+
+default:
+  url:   /:module/:action/*

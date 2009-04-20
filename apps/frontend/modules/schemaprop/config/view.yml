@@ -1,0 +1,11 @@
+all:
+  stylesheets: [concept/layout, tabs]
+  javascripts: [%SF_PROTOTYPE_WEB_DIR%/js/prototype: { position: last }]
+
+editSuccess:
+  javascripts: [schemaprop/swapoptions: { position: last }, schemaprop: { position: last }]
+
+showRdfSuccess:
+  has_layout: off
+  http_metas:
+    content-type: application/rdf+xml; charset="utf-8"

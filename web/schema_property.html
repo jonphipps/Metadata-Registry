@@ -1,0 +1,191 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta name="title" content="The Registry! :: Test Schema :: Editing Test Property" />
+<meta name="robots" content="index,follow" />
+<meta name="description" content="The Metadata Registry Project" />
+<meta name="keywords" content="semantic web, registry, rdf, skos, metadata" />
+<meta name="language" content="en" />
+<title>The Registry! :: Test Schema :: Editing Test Property</title>
+<link rel="shortcut icon" href="/registry_favicon_dev.ico" />
+<script type="text/javascript" src="/sf/prototype/js/prototype.js">
+</script>
+<script type="text/javascript" src="/sf/prototype/js/builder.js">
+</script>
+<script type="text/javascript" src="/sf/prototype/js/effects.js">
+</script>
+<script type="text/javascript" src="/jpAdminPlugin/js/setfocus.js">
+</script>
+<link rel="stylesheet" type="text/css" media="screen" href="/jpAdminPlugin/css/main.css" />
+<link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+<link rel="stylesheet" type="text/css" media="screen" href="/css/layout.css" />
+<link rel="stylesheet" type="text/css" media="screen" href="/css/conceptprop/layout.css" />
+</head>
+<body>
+<div id="indicator" style="display: none"></div>
+<div id="header">
+  <ul>
+    <li><a href="/user.html">admin profile</a></li>
+    <li><a href="/logout.html">sign out</a></li>
+    <li class="last"><a href="/about.html">about</a></li>
+  </ul>
+  <div style="padding-top: 10px;"> <a href="/"><img alt="registry" align="left" src="/images/logo.gif.jpg" /></a> </div>
+  <div id="search">
+    <form method="get" action="/search">
+      <input type="text" name="term" id="term" value="" class="searchterm" />
+      &#160;
+      <input type="submit" name="commit" value="Search" class="small" />
+    </form>
+  </div>
+</div>
+<div id="login" style="display: none">
+  <h2>please sign-in first</h2>
+  <form id="loginform" method="post" action="/login.html" name="loginform">
+    <label for="nickname">nickname:</label>
+    <input type="text" name="nickname" id="nickname" value="" />
+    <label for="password">password:</label>
+    <input type="password" name="password" id="password" value="" />
+    <input type="hidden" name="referer" id="referer" value="http://registry/conceptprop/edit/id/71.html" />
+    <input type="submit" name="commit" value="login" />
+    <a href="#" onclick="new Effect.BlindUp('login', {duration:0.5});; return false;">cancel</a>
+  </form>
+</div>
+<div id="content">
+  <div id="content_main">
+    <div id="sf_admin_container">
+      <div id="sf_admin_header">
+        <h1><a href="#">Schema:</a> <a href="schema.html">Test Schema</a><br />
+          &#160;&#160;<a href="#">Properties:</a> Editing Test Property</h1>
+      </div>
+      <div id="sf_admin_content">
+        <form id="sf_admin_edit_form" name="sf_admin_edit_form" method="post" enctype="multipart/form-data" action="foobar.html">
+          <input type="hidden" name="concept_id" id="concept_id" value="5" />
+          <input type="hidden" name="id" id="id" value="71" />
+          <fieldset id="sf_fieldset_metadata">
+          <h2>Metadata</h2>
+          <div id="form_row_concept_property_created_at" class="form-row">
+            <label for="concept_property_created_at">Date Created:</label>
+            <div id="form_row_content_concept_property_created_at" class="content"> 04/21/06 </div>
+          </div>
+          <div id="form_row_concept_property_last_updated" class="form-row">
+            <label for="concept_property_last_updated">Last Updated:</label>
+            <div id="form_row_content_concept_property_last_updated" class="content"> 04/21/06
+              <div class="sf_admin_edit_help"> This is the date the property was last updated </div>
+            </div>
+          </div>
+          </fieldset>
+          <fieldset id="sf_fieldset_detail">
+          <h2>Detail</h2>
+          <div class="form-row">
+            <label for="vocabulary_uri" class="required">Token:</label>
+            <div class="content">
+              <input type="text" name="vocabulary[uri]" value="testProperty" size="60" />
+              <div class="sf_admin_edit_help">This is the 'name' of the property and can be used as a qname to reference the uri of this property.</div>
+            </div>
+          </div>
+          <div class="form-row">
+            <label for="vocabulary_uri" class="required">Label:</label>
+            <div class="content">
+              <input type="text" name="vocabulary[uri]" value="Test Property" size="60" />
+              <div class="sf_admin_edit_help">This is a required human readable label for this property</div>
+            </div>
+          </div>
+          <div id="form_row_concept_property_object" class="form-row">
+            <label for="concept_property_object" class="required">Definition:</label>
+            <div id="form_row_content_concept_property_object" class="content">
+              <textarea name="concept_property[object]" id="concept_property_object" rows="3" cols="55">
+This is a definition of this property
+    </textarea>
+            </div>
+          </div>
+          
+          
+          <div id="form_row_concept_property_skos_property_id" class="form-row">
+            <label for="concept_property_skos_property_id" class="required">Type of Term:</label>
+            <div id="form_row_content_concept_property_skos_property_id" class="content">
+              <select name="concept_property[skos_property_id]" id="concept_property_skos_property_id" onchange="swapOptions()">
+                <option value="1" selected="selected"> property </option>
+                <option value="2"> subproperty </option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <label for="vocabulary_uri" class="required">Is Subproperty of :</label>
+            <div class="content">
+              <input type="text" name="vocabulary[uri]" value="http://example.com/someuri#bar" size="60" />
+              <div class="sf_admin_edit_help">Only displayed if Type of Term is 'subproperty'. This will be a reciprocal reference to the URI of the term being refined</div>
+            </div>
+          </div>
+          <div class="form-row">
+            <label for="vocabulary_uri" class="required">Has Subproperty :</label>
+            <div class="content">
+              <input type="text" name="vocabulary[uri]" value="http://example.com/someuri#foo" size="60" />
+              <div class="sf_admin_edit_help">Only displayed if Type of Term is 'property'. This will be a reciprocal reference to the URI of the resource refining this term. May not be editable here, but displayed only as a link</div>
+            </div>
+          </div>
+          <div id="form_row_vocabulary_uri" class="form-row">
+            <label for="vocabulary_uri" class="required">URI:</label>
+            <div id="form_row_content_vocabulary_uri" class="content">
+              <input type="text" name="vocabulary[uri]" id="vocabulary_uri" value="http://purl.org/gem/gemTest/12345" size="60" />
+              <div class="sf_admin_edit_help">The URI of this property. By default this will be a concatenation of the schema URI and generated ID.</div>
+            </div>
+          </div>
+          <div id="form_row_concept_property_object" class="form-row">
+            <label for="concept_property_object" class="required">Comments:</label>
+            <div id="form_row_content_concept_property_object" class="content">
+              <textarea name="concept_property[object]" id="concept_property_object" rows="3" cols="55">
+
+    </textarea>
+            </div>
+          </div>
+          <div id="form_row_concept_property_object" class="form-row">
+            <label for="concept_property_object" class="required">Notes:</label>
+            <div id="form_row_content_concept_property_object" class="content">
+              <textarea name="concept_property[object]" id="concept_property_object" rows="3" cols="55">
+
+    </textarea>
+            </div>
+          </div>
+          </fieldset>
+          <ul class="sf_admin_actions">
+            <li>
+              <input name="button" type="button" class="sf_admin_action_list" onclick="document.location.href='/conceptprop/list/concept_id/5.html';" value="List" />
+            </li>
+            <li>
+              <input type="submit" name="save" value="Save" class="sf_admin_action_save" />
+            </li>
+            <li>
+              <input name="button" type="button" class="sf_admin_action_create" onclick="document.location.href='/conceptprop/create.html';" value="Create" />
+            </li>
+            <li>
+              <input type="submit" name="save_and_add" value="Save and add" class="sf_admin_action_save_and_add" />
+            </li>
+          </ul>
+        </form>
+        <ul class="sf_admin_actions">
+          <li class="float-left">
+            <form method="post" class="button_to" action="/conceptprop/delete/id/71.html">
+              <input name="submit" type="submit" class="sf_admin_action_delete" onclick="return confirm('Are you sure?');" value="Delete" />
+            </form>
+          </li>
+        </ul>
+      </div>
+      <div id="sf_admin_footer"></div>
+    </div>
+    <div class="verticalalign"></div>
+  </div>
+</div>
+<div id="footer"> powered by <a href="http://www.symfony-project.com/"><img align="middle" src="/images/symfony.gif" alt="Symfony" /></a> <a href="http://www.redhat.com/"><img align="middle" src="/images/poweredby.png" alt="Poweredby" /></a> </div>
+<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
+</script>
+<script type="text/javascript">
+//<![CDATA[
+   _uacct = "UA-840150-1";
+   urchinTracker();
+//]]>
+</script>
+</body>
+</html>

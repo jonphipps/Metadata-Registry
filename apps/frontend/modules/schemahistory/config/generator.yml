@@ -1,0 +1,42 @@
+generator:
+  class:              sfPropelAdminGenerator
+  param:
+    model_class:      SchemaPropertyElementHistory
+    theme:            default
+
+    list:
+      peer_method:   doSelectForList
+      #layout:        stacked
+      title:         Schema Property History List
+      #params:         =%%_created_at%%  %%uri%%  <strong> %%pref_label%% </strong><br />%%_property%%, %%action%%, %%user%% <br />%%object%%, %%_language%%, %%status%%
+      fields:
+        language:     { name: Lang }
+        created_at:   { name: Changed at, params: date_format='g' }
+        ceated_user:  { name: Changed by }
+        property:     { name: Property}
+        element:      { name: Element }
+        property_uri: { name: Property URI, helper: truncate_uri}
+        ts:            { name: TimeSlice}
+      display:        [=created_at, property_uri, _property, _element, _action, user]
+      sort:           [created_at, desc]
+      displayfilter:  false
+      filters:        [schema_id, schema_property_id, schema_property_element_id, updated_at, object, status, user]
+      # urlfilter form is [field to filter on]: [value passed from routing.yml]
+      # multiple filters can be set but they're currently mutually exclusive (any of the list can be used but only one per url)
+      urlfilters:
+        schema_id:                  schema_id
+        schema_property_id:         schema_property_id
+        schema_property_element_id: schema_property_element_id
+      actions:       -
+
+    show:
+      peer_method:    doSelectForList
+      fields:
+        id:               { name: History ID, credentials: [administrator] }
+        created_at:       { name: Changed at, params: date_format='g' }
+        user:             { name: Changed by }
+        property_label:   { name: PropertyLabel }
+        property_uri:     { name: Property URI }
+        profile_property: { name: Element Name }
+      display:            [id, created_at, user, action, schema, property_label, property_uri, profile_property, object, _language, status]
+      actions:       -

@@ -1,0 +1,184 @@
+Mar 02 12:58:54 symfony [info] {sfRouting} connect "/"
+Mar 02 12:58:54 symfony [info] {sfRouting} connect "/:sf_culture/:module/:action/*"
+Mar 02 12:58:55 symfony [info] {sfContext} initialization
+Mar 02 12:58:55 symfony [info] {sfContext} initialization
+Mar 02 12:58:55 symfony [info] {sfController} initialization
+Mar 02 12:58:55 symfony [info] {sfController} initialization
+Mar 02 12:58:55 symfony [info] {sfRouting} match route [homepage] "/"
+Mar 02 12:58:55 symfony [info] {sfRouting} match route [homepage] "/"
+Mar 02 12:58:55 symfony [info] {sfRequest} request parameters array (  'module' => 'i18n',  'action' => 'index',)
+Mar 02 12:58:55 symfony [info] {sfRequest} request parameters array (  'module' => 'i18n',  'action' => 'index',)
+Mar 02 12:58:55 symfony [info] {sfController} dispatch request
+Mar 02 12:58:55 symfony [info] {sfController} dispatch request
+Mar 02 12:58:55 symfony [info] {sfFilter} executing filter "sfFakeRenderingFilter"
+Mar 02 12:58:55 symfony [info] {sfFilter} executing filter "sfFakeRenderingFilter"
+Mar 02 12:58:55 symfony [info] {sfFilter} executing filter "sfCommonFilter"
+Mar 02 12:58:55 symfony [info] {sfFilter} executing filter "sfCommonFilter"
+Mar 02 12:58:55 symfony [info] {sfFilter} executing filter "sfFlashFilter"
+Mar 02 12:58:55 symfony [info] {sfFilter} executing filter "sfFlashFilter"
+Mar 02 12:58:55 symfony [info] {sfFilter} executing filter "sfExecutionFilter"
+Mar 02 12:58:55 symfony [info] {sfFilter} executing filter "sfExecutionFilter"
+Mar 02 12:58:55 symfony [info] {sfAction} call "i18nActions->executeIndex()"
+Mar 02 12:58:55 symfony [info] {sfAction} call "i18nActions->executeIndex()"
+Mar 02 12:58:55 symfony [info] {sfView} initialize view for "i18n/index"
+Mar 02 12:58:55 symfony [info] {sfView} initialize view for "i18n/index"
+Mar 02 12:58:55 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\apps\i18n\modules/i18n/templates/indexSuccess.php"
+Mar 02 12:58:55 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\apps\i18n\modules/i18n/templates/indexSuccess.php"
+Mar 02 12:58:55 symfony [info] {sfView} decorate content with "C:\web\registry\test\functional\fixtures\project\apps\i18n\templates/layout.php"
+Mar 02 12:58:55 symfony [info] {sfView} decorate content with "C:\web\registry\test\functional\fixtures\project\apps\i18n\templates/layout.php"
+Mar 02 12:58:55 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\apps\i18n\templates/layout.php"
+Mar 02 12:58:55 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\apps\i18n\templates/layout.php"
+Mar 02 12:58:55 symfony [info] {sfResponse} send content (1151 o)
+Mar 02 12:58:55 symfony [info] {sfResponse} send content (1151 o)
+Mar 02 12:58:55 symfony [info] {sfContext} initialization
+Mar 02 12:58:55 symfony [info] {sfContext} initialization
+Mar 02 12:58:55 symfony [info] {sfController} initialization
+Mar 02 12:58:55 symfony [info] {sfController} initialization
+Mar 02 12:58:55 symfony [info] {sfRouting} match route [default] "/:sf_culture/:module/:action/*"
+Mar 02 12:58:55 symfony [info] {sfRouting} match route [default] "/:sf_culture/:module/:action/*"
+Mar 02 12:58:55 symfony [info] {sfRequest} request parameters array (  'sf_culture' => 'fr',  'module' => 'i18n',  'action' => 'index',)
+Mar 02 12:58:55 symfony [info] {sfRequest} request parameters array (  'sf_culture' => 'fr',  'module' => 'i18n',  'action' => 'index',)
+Mar 02 12:58:55 symfony [info] {sfController} dispatch request
+Mar 02 12:58:55 symfony [info] {sfController} dispatch request
+Mar 02 12:58:55 symfony [info] {sfFilter} executing filter "sfFakeRenderingFilter"
+Mar 02 12:58:55 symfony [info] {sfFilter} executing filter "sfFakeRenderingFilter"
+Mar 02 12:58:55 symfony [info] {sfFilter} executing filter "sfCommonFilter"
+Mar 02 12:58:55 symfony [info] {sfFilter} executing filter "sfCommonFilter"
+Mar 02 12:58:55 symfony [info] {sfFilter} executing filter "sfFlashFilter"
+Mar 02 12:58:55 symfony [info] {sfFilter} executing filter "sfFlashFilter"
+Mar 02 12:58:55 symfony [info] {sfFilter} executing filter "sfExecutionFilter"
+Mar 02 12:58:55 symfony [info] {sfFilter} executing filter "sfExecutionFilter"
+Mar 02 12:58:55 symfony [info] {sfAction} call "i18nActions->executeIndex()"
+Mar 02 12:58:55 symfony [info] {sfAction} call "i18nActions->executeIndex()"
+Mar 02 12:58:55 symfony [info] {sfView} initialize view for "i18n/index"
+Mar 02 12:58:55 symfony [info] {sfView} initialize view for "i18n/index"
+Mar 02 12:58:55 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\apps\i18n\modules/i18n/templates/indexSuccess.php"
+Mar 02 12:58:55 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\apps\i18n\modules/i18n/templates/indexSuccess.php"
+Mar 02 12:58:55 symfony [info] {sfView} decorate content with "C:\web\registry\test\functional\fixtures\project\apps\i18n\templates/layout.php"
+Mar 02 12:58:55 symfony [info] {sfView} decorate content with "C:\web\registry\test\functional\fixtures\project\apps\i18n\templates/layout.php"
+Mar 02 12:58:55 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\apps\i18n\templates/layout.php"
+Mar 02 12:58:55 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\apps\i18n\templates/layout.php"
+Mar 02 12:58:55 symfony [info] {sfResponse} send content (1215 o)
+Mar 02 12:58:55 symfony [info] {sfResponse} send content (1215 o)
+Mar 02 12:58:55 symfony [info] {sfContext} initialization
+Mar 02 12:58:55 symfony [info] {sfContext} initialization
+Mar 02 12:58:55 symfony [info] {sfController} initialization
+Mar 02 12:58:55 symfony [info] {sfController} initialization
+Mar 02 12:58:55 symfony [info] {sfRouting} match route [default] "/:sf_culture/:module/:action/*"
+Mar 02 12:58:55 symfony [info] {sfRouting} match route [default] "/:sf_culture/:module/:action/*"
+Mar 02 12:58:55 symfony [info] {sfRequest} request parameters array (  'sf_culture' => 'fr',  'module' => 'sfI18NPlugin',  'action' => 'index',)
+Mar 02 12:58:55 symfony [info] {sfRequest} request parameters array (  'sf_culture' => 'fr',  'module' => 'sfI18NPlugin',  'action' => 'index',)
+Mar 02 12:58:55 symfony [info] {sfController} dispatch request
+Mar 02 12:58:55 symfony [info] {sfController} dispatch request
+Mar 02 12:58:55 symfony [info] {sfFilter} executing filter "sfFakeRenderingFilter"
+Mar 02 12:58:55 symfony [info] {sfFilter} executing filter "sfFakeRenderingFilter"
+Mar 02 12:58:55 symfony [info] {sfFilter} executing filter "sfCommonFilter"
+Mar 02 12:58:55 symfony [info] {sfFilter} executing filter "sfCommonFilter"
+Mar 02 12:58:55 symfony [info] {sfFilter} executing filter "sfFlashFilter"
+Mar 02 12:58:55 symfony [info] {sfFilter} executing filter "sfFlashFilter"
+Mar 02 12:58:55 symfony [info] {sfFilter} executing filter "sfExecutionFilter"
+Mar 02 12:58:55 symfony [info] {sfFilter} executing filter "sfExecutionFilter"
+Mar 02 12:58:55 symfony [info] {sfAction} call "sfI18NPluginActions->executeIndex()"
+Mar 02 12:58:55 symfony [info] {sfAction} call "sfI18NPluginActions->executeIndex()"
+Mar 02 12:58:56 symfony [info] {sfView} initialize view for "sfI18NPlugin/index"
+Mar 02 12:58:56 symfony [info] {sfView} initialize view for "sfI18NPlugin/index"
+Mar 02 12:58:56 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\plugins/sfI18NPlugin/modules/sfI18NPlugin/templates/indexSuccess.php"
+Mar 02 12:58:56 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\plugins/sfI18NPlugin/modules/sfI18NPlugin/templates/indexSuccess.php"
+Mar 02 12:58:56 symfony [info] {sfView} decorate content with "C:\web\registry\test\functional\fixtures\project\apps\i18n\templates/layout.php"
+Mar 02 12:58:56 symfony [info] {sfView} decorate content with "C:\web\registry\test\functional\fixtures\project\apps\i18n\templates/layout.php"
+Mar 02 12:58:56 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\apps\i18n\templates/layout.php"
+Mar 02 12:58:56 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\apps\i18n\templates/layout.php"
+Mar 02 12:58:56 symfony [info] {sfResponse} send content (941 o)
+Mar 02 12:58:56 symfony [info] {sfResponse} send content (941 o)
+Mar 02 13:09:40 symfony [info] {sfRouting} connect "/"
+Mar 02 13:09:40 symfony [info] {sfRouting} connect "/:sf_culture/:module/:action/*"
+Mar 02 13:09:40 symfony [info] {sfContext} initialization
+Mar 02 13:09:40 symfony [info] {sfContext} initialization
+Mar 02 13:09:40 symfony [info] {sfController} initialization
+Mar 02 13:09:40 symfony [info] {sfController} initialization
+Mar 02 13:09:40 symfony [info] {sfRouting} match route [homepage] "/"
+Mar 02 13:09:40 symfony [info] {sfRouting} match route [homepage] "/"
+Mar 02 13:09:40 symfony [info] {sfRequest} request parameters array (  'module' => 'i18n',  'action' => 'index',)
+Mar 02 13:09:40 symfony [info] {sfRequest} request parameters array (  'module' => 'i18n',  'action' => 'index',)
+Mar 02 13:09:40 symfony [info] {sfController} dispatch request
+Mar 02 13:09:40 symfony [info] {sfController} dispatch request
+Mar 02 13:09:40 symfony [info] {sfFilter} executing filter "sfFakeRenderingFilter"
+Mar 02 13:09:40 symfony [info] {sfFilter} executing filter "sfFakeRenderingFilter"
+Mar 02 13:09:40 symfony [info] {sfFilter} executing filter "sfCommonFilter"
+Mar 02 13:09:40 symfony [info] {sfFilter} executing filter "sfCommonFilter"
+Mar 02 13:09:40 symfony [info] {sfFilter} executing filter "sfFlashFilter"
+Mar 02 13:09:40 symfony [info] {sfFilter} executing filter "sfFlashFilter"
+Mar 02 13:09:40 symfony [info] {sfFilter} executing filter "sfExecutionFilter"
+Mar 02 13:09:40 symfony [info] {sfFilter} executing filter "sfExecutionFilter"
+Mar 02 13:09:40 symfony [info] {sfAction} call "i18nActions->executeIndex()"
+Mar 02 13:09:40 symfony [info] {sfAction} call "i18nActions->executeIndex()"
+Mar 02 13:09:40 symfony [info] {sfView} initialize view for "i18n/index"
+Mar 02 13:09:40 symfony [info] {sfView} initialize view for "i18n/index"
+Mar 02 13:09:40 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\apps\i18n\modules/i18n/templates/indexSuccess.php"
+Mar 02 13:09:40 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\apps\i18n\modules/i18n/templates/indexSuccess.php"
+Mar 02 13:09:40 symfony [info] {sfView} decorate content with "C:\web\registry\test\functional\fixtures\project\apps\i18n\templates/layout.php"
+Mar 02 13:09:40 symfony [info] {sfView} decorate content with "C:\web\registry\test\functional\fixtures\project\apps\i18n\templates/layout.php"
+Mar 02 13:09:40 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\apps\i18n\templates/layout.php"
+Mar 02 13:09:40 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\apps\i18n\templates/layout.php"
+Mar 02 13:09:40 symfony [info] {sfResponse} send content (1151 o)
+Mar 02 13:09:40 symfony [info] {sfResponse} send content (1151 o)
+Mar 02 13:09:40 symfony [info] {sfContext} initialization
+Mar 02 13:09:40 symfony [info] {sfContext} initialization
+Mar 02 13:09:40 symfony [info] {sfController} initialization
+Mar 02 13:09:40 symfony [info] {sfController} initialization
+Mar 02 13:09:40 symfony [info] {sfRouting} match route [default] "/:sf_culture/:module/:action/*"
+Mar 02 13:09:40 symfony [info] {sfRouting} match route [default] "/:sf_culture/:module/:action/*"
+Mar 02 13:09:40 symfony [info] {sfRequest} request parameters array (  'sf_culture' => 'fr',  'module' => 'i18n',  'action' => 'index',)
+Mar 02 13:09:40 symfony [info] {sfRequest} request parameters array (  'sf_culture' => 'fr',  'module' => 'i18n',  'action' => 'index',)
+Mar 02 13:09:40 symfony [info] {sfController} dispatch request
+Mar 02 13:09:40 symfony [info] {sfController} dispatch request
+Mar 02 13:09:40 symfony [info] {sfFilter} executing filter "sfFakeRenderingFilter"
+Mar 02 13:09:40 symfony [info] {sfFilter} executing filter "sfFakeRenderingFilter"
+Mar 02 13:09:40 symfony [info] {sfFilter} executing filter "sfCommonFilter"
+Mar 02 13:09:40 symfony [info] {sfFilter} executing filter "sfCommonFilter"
+Mar 02 13:09:40 symfony [info] {sfFilter} executing filter "sfFlashFilter"
+Mar 02 13:09:40 symfony [info] {sfFilter} executing filter "sfFlashFilter"
+Mar 02 13:09:40 symfony [info] {sfFilter} executing filter "sfExecutionFilter"
+Mar 02 13:09:40 symfony [info] {sfFilter} executing filter "sfExecutionFilter"
+Mar 02 13:09:40 symfony [info] {sfAction} call "i18nActions->executeIndex()"
+Mar 02 13:09:40 symfony [info] {sfAction} call "i18nActions->executeIndex()"
+Mar 02 13:09:40 symfony [info] {sfView} initialize view for "i18n/index"
+Mar 02 13:09:40 symfony [info] {sfView} initialize view for "i18n/index"
+Mar 02 13:09:40 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\apps\i18n\modules/i18n/templates/indexSuccess.php"
+Mar 02 13:09:40 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\apps\i18n\modules/i18n/templates/indexSuccess.php"
+Mar 02 13:09:40 symfony [info] {sfView} decorate content with "C:\web\registry\test\functional\fixtures\project\apps\i18n\templates/layout.php"
+Mar 02 13:09:40 symfony [info] {sfView} decorate content with "C:\web\registry\test\functional\fixtures\project\apps\i18n\templates/layout.php"
+Mar 02 13:09:40 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\apps\i18n\templates/layout.php"
+Mar 02 13:09:40 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\apps\i18n\templates/layout.php"
+Mar 02 13:09:40 symfony [info] {sfResponse} send content (1215 o)
+Mar 02 13:09:40 symfony [info] {sfResponse} send content (1215 o)
+Mar 02 13:09:40 symfony [info] {sfContext} initialization
+Mar 02 13:09:40 symfony [info] {sfContext} initialization
+Mar 02 13:09:40 symfony [info] {sfController} initialization
+Mar 02 13:09:40 symfony [info] {sfController} initialization
+Mar 02 13:09:40 symfony [info] {sfRouting} match route [default] "/:sf_culture/:module/:action/*"
+Mar 02 13:09:40 symfony [info] {sfRouting} match route [default] "/:sf_culture/:module/:action/*"
+Mar 02 13:09:40 symfony [info] {sfRequest} request parameters array (  'sf_culture' => 'fr',  'module' => 'sfI18NPlugin',  'action' => 'index',)
+Mar 02 13:09:40 symfony [info] {sfRequest} request parameters array (  'sf_culture' => 'fr',  'module' => 'sfI18NPlugin',  'action' => 'index',)
+Mar 02 13:09:40 symfony [info] {sfController} dispatch request
+Mar 02 13:09:40 symfony [info] {sfController} dispatch request
+Mar 02 13:09:41 symfony [info] {sfFilter} executing filter "sfFakeRenderingFilter"
+Mar 02 13:09:41 symfony [info] {sfFilter} executing filter "sfFakeRenderingFilter"
+Mar 02 13:09:41 symfony [info] {sfFilter} executing filter "sfCommonFilter"
+Mar 02 13:09:41 symfony [info] {sfFilter} executing filter "sfCommonFilter"
+Mar 02 13:09:41 symfony [info] {sfFilter} executing filter "sfFlashFilter"
+Mar 02 13:09:41 symfony [info] {sfFilter} executing filter "sfFlashFilter"
+Mar 02 13:09:41 symfony [info] {sfFilter} executing filter "sfExecutionFilter"
+Mar 02 13:09:41 symfony [info] {sfFilter} executing filter "sfExecutionFilter"
+Mar 02 13:09:41 symfony [info] {sfAction} call "sfI18NPluginActions->executeIndex()"
+Mar 02 13:09:41 symfony [info] {sfAction} call "sfI18NPluginActions->executeIndex()"
+Mar 02 13:09:41 symfony [info] {sfView} initialize view for "sfI18NPlugin/index"
+Mar 02 13:09:41 symfony [info] {sfView} initialize view for "sfI18NPlugin/index"
+Mar 02 13:09:41 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\plugins/sfI18NPlugin/modules/sfI18NPlugin/templates/indexSuccess.php"
+Mar 02 13:09:41 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\plugins/sfI18NPlugin/modules/sfI18NPlugin/templates/indexSuccess.php"
+Mar 02 13:09:41 symfony [info] {sfView} decorate content with "C:\web\registry\test\functional\fixtures\project\apps\i18n\templates/layout.php"
+Mar 02 13:09:41 symfony [info] {sfView} decorate content with "C:\web\registry\test\functional\fixtures\project\apps\i18n\templates/layout.php"
+Mar 02 13:09:41 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\apps\i18n\templates/layout.php"
+Mar 02 13:09:41 symfony [info] {sfView} render "C:\web\registry\test\functional\fixtures\project\apps\i18n\templates/layout.php"
+Mar 02 13:09:41 symfony [info] {sfResponse} send content (941 o)
+Mar 02 13:09:41 symfony [info] {sfResponse} send content (941 o)

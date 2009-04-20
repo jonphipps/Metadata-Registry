@@ -1,0 +1,212 @@
+---
+# names of the database tables we're getting fields from
+# Directly imported from schema.yml
+tables:
+  reg_agent:
+    selectors:
+      id:
+      created_at:
+      last_updated:
+      org_email:
+      org_name:
+      ind_affiliation:
+      ind_role:
+      address1:
+      address2:
+      city:
+      state:
+      postal_code:
+      country:
+      phone:
+      web_address:
+      type:
+
+objects:
+  selectors:
+    register_owner:      'a[href$="/agent/create"]'
+    register_vocabulary: 'a[href$="/vocabulary/create"]'
+
+roles:
+  guest:
+  subscriber:
+    login:    nickname
+    password: password
+  administrator:
+    login:    admin
+    password: admin
+  agentadmin:
+    login:    agentadmin
+    password: agentadmin
+
+actions:
+  list:
+    url:                '/agent/list'
+    tables:
+      reg_agent:
+        selectors:
+          org_name:       'th#sf_admin_list_th_org_name'
+          type:           'th#sf_admin_list_th_type'
+    objects:
+      selectors:
+        row_edit_46:    'tr.sf_admin_row_0 td ul.sf_admin_td_actions li a img[title="edit"]'
+        row_edit_52:    'tr.sf_admin_row_1 td ul.sf_admin_td_actions li a img[title="edit"]'
+        create:         'ul.sf_admin_actions > li > input[value="Create"]'
+    roles:
+      guest:
+        hide:
+          objects:        [create, row_edit_46, row_edit_52, register_owner, register_vocabulary]
+      subscriber:
+        hide:
+          objects:        [row_edit_46, row_edit_52, register_vocabulary]
+      agentadmin:
+        show:
+          tables:
+            reg_agent:    [org_name, type]
+          objects:        [create, row_edit_46]
+        hide:
+          objects:        [row_edit_52]
+      administrator:
+        show:
+          tables:
+            reg_agent:    [org_name, type]
+          objects:        [create, row_edit_46, row_edit_52]
+        hide:             []
+
+  show:
+    url:
+      valid:             '/agent/show/id/46'
+      invalid:           '/agent/show/id/52'
+    tables:
+      reg_agent:
+        selectors:
+          id:              'div#show_row_agent_id'
+          created_at:      'div#show_row_agent_created_at'
+          last_updated:    'div#show_row_agent_last_updated'
+          org_email:       'div#show_row_agent_org_email'
+          org_name:        'div#show_row_agent_org_name'
+          ind_affiliation: 'div#show_row_agent_ind_affiliation'
+#          ind_role:        'div#show_row_agent_ind_role'
+          address1:        'div#show_row_agent_address1'
+          address2:        'div#show_row_agent_address2'
+          city:            'div#show_row_agent_city'
+          state:           'div#show_row_agent_state'
+          postal_code:     'div#show_row_agent_postal_code'
+          country_name:    'div#show_row_agent_country_name'
+          phone:           'div#show_row_agent_phone'
+          web_address:     'div#show_row_agent_web_address'
+          type:            'div#show_row_agent_type'
+    objects:
+      selectors:
+        list:            'input[value="List"]'
+        edit:            'input[value="Edit"]'
+    roles:
+      guest:
+        valid:
+          hide:
+            tables:
+              reg_agent:   [id, created_at, last_updated, org_email]
+            objects:       [edit, register_owner, register_vocabulary]
+      subscriber:
+        valid:
+          hide:
+            tables:
+              reg_agent:   [id, created_at, last_updated, org_email]
+            objects:       [edit, register_vocabulary]
+      agentadmin:
+        valid:
+          hide:
+            tables:
+              reg_agent:   [id]
+        invalid:
+          hide:
+            tables:
+              reg_agent:   [id, created_at, last_updated, org_email]
+            objects:       [edit]
+      administrator:
+        valid:
+          show: []
+          hide: []
+
+  edit:
+    url:
+      valid:             '/agent/edit/id/46'
+      invalid:           '/agent/edit/id/52'
+    tables:
+      reg_agent:
+        selectors:
+          org_email:       'div#form_row_agent_org_email'
+          org_name:        'div#form_row_agent_org_name'
+          ind_affiliation: 'div#form_row_agent_ind_affiliation'
+#          ind_role:        'div#form_row_agent_ind_role'
+          address1:        'div#form_row_agent_address1'
+          address2:        'div#form_row_agent_address2'
+          city:            'div#form_row_agent_city'
+          state:           'div#form_row_agent_state'
+          postal_code:     'div#form_row_agent_postal_code'
+          country:         'div#form_row_agent_country'
+          phone:           'div#form_row_agent_phone'
+          web_address:     'div#form_row_agent_web_address'
+          type:            'div#form_row_agent_type'
+    objects:
+      selectors:
+        list:            'input[value="List"]'
+        save:            'input[value="Save"]'
+        save_and_add:    'input[value="Save and add"]'
+        delete:          'input[value="Delete"]'
+    roles:
+      guest:
+        valid:
+          forwardTo:       ['user', 'login']
+      subscriber:
+        valid:
+          forwardTo:       ['default', 'secure']
+      agentadmin:
+        valid:
+          hide:
+            objects:       [delete, save_and_add]
+        invalid:
+          forwardTo:       ['default', 'secure']
+      administrator:
+        valid:
+          show:            []
+          hide:            []
+
+  create:
+    url:                 '/agent/create'
+    tables:
+      reg_agent:
+        selectors:
+          org_email:       'div#form_row_agent_org_email'
+          org_name:        'div#form_row_agent_org_name'
+          ind_affiliation: 'div#form_row_agent_ind_affiliation'
+#          ind_role:        'div#form_row_agent_ind_role'
+          address1:        'div#form_row_agent_address1'
+          address2:        'div#form_row_agent_address2'
+          city:            'div#form_row_agent_city'
+          state:           'div#form_row_agent_state'
+          postal_code:     'div#form_row_agent_postal_code'
+          country:         'div#form_row_agent_country'
+          phone:           'div#form_row_agent_phone'
+          web_address:     'div#form_row_agent_web_address'
+          type:            'div#form_row_agent_type'
+    objects:
+      selectors:
+        list:            'input[value="List"]'
+        save:            'input[value="Save"]'
+        save_and_add:    'input[value="Save and add"]'
+    contents:
+      selectors:
+        header:         ["h1", '/Creating new owner/']
+        country:        ['option[selected="selected"]', '/United States/']
+    roles:
+      guest:
+        forwardTo:         ['user', 'login']
+      subscriber:
+        hide:
+          objects:         [save_and_add, register_vocabulary]
+      agentadmin:
+        hide:
+          objects:         [delete, save_and_add]
+      administrator:
+        show:              []
+        hide:              []
