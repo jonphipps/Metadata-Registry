@@ -1,0 +1,16 @@
+methods:
+  post:
+    - "sf_bread_nav_application{name}"
+    - "sf_bread_nav_application{application}"
+
+names:
+  sf_bread_nav_application{name}:
+    required:     yes
+    required_msg: Please, enter a Menu name.
+    
+  sf_bread_nav_application{application}:
+    required:     yes
+    required_msg: Please, enter an Application name.    
+fillin:
+  activate:    on
+ 

@@ -1,0 +1,25 @@
+propel:
+  _attributes:      { package: plugins.sfBreadNav2Plugin.lib.model }
+  
+  sf_BreadNav:
+    _attributes:    { phpName: sfBreadNav, treeMode: NestedSet }
+    id:             ~
+    page:           { type: varchar, size: 255, required: true }
+    title:          { type: varchar, size: 255, required: true }
+    module:         { type: varchar, size: 128, required: true }
+    action:         { type: varchar, size: 128, required: true }
+    credential:     { type: varchar, size: 128 }
+    catchall:       { type: boolean }
+    tree_left:      { type: integer, required: true, nestedSetLeftKey: true}
+    tree_right:     { type: integer, required: true, nestedSetRightKey: true}
+    tree_parent:    { type: integer, required: true }
+    scope:          { type: integer, foreignTable: sf_BreadNav_Application, foreignReference: id, required: true, onDelete:  cascade , treeScopeKey: true}
+    
+    
+  sf_BreadNav_Application:
+    _attributes:    { phpName: sfBreadNavApplication }
+    id:             ~
+    user_id:        { type: integer }
+    name:           { type: varchar, size: 255, required: true }
+    application:    { type: varchar, size: 255, required: true }
+    css:            { type: varchar, size: 2000, required: true }

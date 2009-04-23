@@ -1,0 +1,73 @@
+BreadNav2 Plugin
+================
+
+BreadNav2 works with symfony 1.2, sfGuardPlugin and propel 1.3's built in nested sets.  Allows the mangagment of a navigational tree for the purpose of generating a bread crumb and credential controlled menu.  Drop down menu is css based for search engine compatibility and easy customization.  Features include unlimited number of menus, so you can create seperate menus for frontend and backend apps and render multiple menus for a single app.  After making any changes to the menu be sure to clear the cache if you have application caching enabled.  The breadcrumb and nav menu will be cached when allowed.
+
+Requirements
+------------
+
+Symfony 1.2
+
+sfGuardPlugin
+
+Propel 1.3
+
+
+Installation
+------------
+
+  * __Install plugin__
+
+        $ symfony plugin:install sfBreadNav2Plugin
+        $ php symfony propel:build-all
+        $ php symfony plugin:publish-assets
+        $ php symfony cc
+
+
+Configuration
+-------------
+
+  * __Setting up admin panel.__
+
+    In your backend add  sfBreadNavAdmin module to your settings.yml
+
+    Example
+          
+           
+          all:
+           .settings:
+             enabled_modules:        [default, sfGuardGroup, sfGuardUser, sfGuardPermission, sfBreadNavAdmin]
+
+
+
+    http://localhost/backend.php/sfBreadNavAdmin
+    First you need to create a menu, the name is used to identify the menu in the templates.
+    Next define a home page.  If you wish to hide this button simply give an unused credential such as hide.
+    Each node requires  a name and module; actions and credentials are optional.  Also any valid  URL or route can be subsituted for a module.
+    To hide a menu button for people not logged in set the credential to authenticated.
+    Credentials do not cascade so you can apply them to nodes individually and orphaned nodes will propogate up.
+    The catch all flag is used to select a default bread crumb for any actions in a module without their own nav bar entry.
+
+
+  * __Setting up bread crumb__
+
+    add the following line to your template body.  
+
+            <?php include_partial('sfBreadNav/breadcrumb','menu_name') ?>
+
+
+  * __Setting up the navigation menu__
+
+    Add the following to your template body.
+            
+            
+            <div id='navmenu'>
+            <?php include_partial('sfBreadNav/navmenu', array('menu' => 'menu_name')) ?>
+            </div>
+
+    Add the following to your template head.
+
+             
+            <link rel="stylesheet" type="text/css" media="screen" href="/sfBreadNav2Plugin/css/menuh.css" />
+
+

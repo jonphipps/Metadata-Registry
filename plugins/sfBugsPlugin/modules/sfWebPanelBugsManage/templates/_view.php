@@ -1,0 +1,1 @@
+<a target="_blank" href="<?php echo $sf_request->getRelativeUrlRoot() . $sf_webpanel_bugs->getUrl(); ?>">Go</a>

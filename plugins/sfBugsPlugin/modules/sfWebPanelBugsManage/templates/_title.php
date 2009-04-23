@@ -1,0 +1,1 @@
+<?php echo link_to(substr($sf_webpanel_bugs->getTitle(), 0, 50), 'test/test') ?>

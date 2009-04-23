@@ -1,0 +1,5 @@
+_navmenu_show:
+  enabled: on
+
+_breadcrumb_show:
+  enabled: on  

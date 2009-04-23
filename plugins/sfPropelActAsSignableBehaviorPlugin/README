@@ -1,0 +1,186 @@
+= sfPropelActAsSignableBehaviorPlugin plugin =
+
+This `sfPropelActAsSignableBehaviorPlugin` plugin automates the handling of columns like `created_by`,
+`updated_by`, or even `deleted_by` (which is non-sense if you don't use sfPropelParanoidBehaviorPlugin).
+
+This helps you track changes done by users, as they automatically sign those changes.
+
+For example it could be used by forum posts, blog articles and comments, etc…
+
+== Instalation ==
+
+  * Install the plugin
+
+    {{{
+      symfony plugin-install http://plugins.symfony-project.com/sfPropelActAsSignableBehaviorPlugin
+    }}}
+    
+    Like any other plugin, you can either extract one of the attached archives, or use Subversion.
+  
+  * Add the desired columns to your schema.yml for the tables you want to be signed. You can use a string or 
+    an int type, the behavior will automatically detect the type and store the corresponding information 
+    depending on this type (for a string the username is stored, and for an integer it's the user's ID).
+  
+    {{{  
+      ...
+      # You can either set the type of a column to a string or an int
+      
+      # Will store the username
+      created_by:      varchar(255)
+      
+      # Will store the user ID 'as is'
+      created_by:      int
+      
+      # Example to use with sfGuardPlugin
+      created_by:      { type: integer, foreignTable: sf_guard_user, foreignReference: id, onDelete: cascade }
+      
+      
+      updated_by:      ...
+      
+      
+      deleted_by:      ...
+    ...
+    }}}
+  
+  * If you didn't enable it before, enable Propel behavior support in `propel.ini`:
+
+    {{{
+      propel.builder.AddBehaviors = true
+    }}}
+  
+    If you have to enable the behavior support, rebuild your model:
+
+    {{{
+      symfony propel-build-model
+    }}}
+    
+  * Enable the behavior for one of your Propel model:
+  
+    {{{
+      <?php
+        // lib/model/ForumPost.php
+        class ForumPost
+        {
+        }
+        
+        $columns_map = array('created' => ForumPostPeer::CREATED_BY,
+                             'updated' => ForumPostPeer::UPDATED_BY);
+        
+        sfPropelBehavior::add('ForumPost', array(
+          'sfPropelActAsSignableBehavior' => array(
+            'columns' => $columns_map
+          )
+        ); 
+    }}}
+    
+  * Add the needed methods to your `myUser` class (file located in `apps/myApp/lib/myUser.class.php`) :
+    
+    {{{
+      // Will be called if you have a `*_by` column set as string, useless if you use sfGuardPlugin
+      public function __toString() {
+        ...
+      }
+      
+      // Will be called if you have a `*_by` column set as integer 
+      public function getId() {
+        // Example if you use sfGuardPlugin :
+        return $this->getGuardUser()->getId(); 
+      }
+    }}}
+    
+    You can use different names for those methods, you can even use different methods for each
+    of your "signable" tables : See next section (options).
+
+=== Options ===
+
+The generic way to add the behavior to your table is 
+
+{{{
+  sfPropelBehavior::add('MyClass', array(
+    'sfPropelActAsSignableBehavior' => $options
+  ); 
+}}}
+    
+The `$options` array represents the options passed to customize the behavior to your needs. 
+
+The __`columns`__ index represents the columns mapping, which is used by the behavior to know which columns 
+hold information it needs :
+
+  * __`created`__ : Model column holding the creator of the object, default is `created_by`.
+  * __`updated`__ : Model column holding the last user who updated the object, default is `updated_by`.
+  * __`deleted`__ : Model column holding the user who deleted the object, default is `deleted_by`.
+
+The __`userMethods`__ index is used by the behavior to know what method of the `myUser` class must be called
+to retrieve the wanted information.
+
+  * __`id`__ :     Method called to retrieve the user's ID, to fill integer `*_by` columns, default is `getId()`.
+  * __`string`__ : Method called to retrieve the string representation of the user, to fill string `*_by` columns, default is `__toString()`.
+
+The __`updateModifiedColumn`__ is set to true if you want the behavior to overwrite the value of columns
+even if they are already marked as modified (i.e. if you set this option to true, you will not be able to
+customize the value of those columns in your auto-generated admin modules). Default value is false.
+
+The __`updateEmptyColumn`__ is set to true if you want the behavior to set the value of empty columns, even
+if they are already marked sas modified (i.e. if you set this option to true, your username will be stored
+if you let the field empty in your auto-generated admin modules). Default value is true.
+
+The full options are represented here with their default values :
+
+{{{
+  array(
+    'columns' => array(
+      'created' => 'created_by',
+      'updated' => 'updated_by',
+      'deleted' => 'deleted_by',
+    ),
+    'userMethods' => array(
+      'string' => '__toString',
+      'id'     => 'getId',
+    ),
+    'updateModifiedColumn' => false,
+    'updateEmptyColumn' => true,
+  )
+}}}
+
+
+== Dependencies ==
+
+There is no required dependency, although :
+
+  * [wiki:sfGuardPlugin sfGuardPlugin] will provide you basic but flexible and robust user management
+    and you will just have to follow the examples given in this page to perfectly fit the behavior to
+    this plugin.
+    
+  * [wiki:sfPropelParanoidBehaviorPlugin sfPropelParanoidBehaviorPlugin] is required if you want to attach
+    a `deleted_by` column to your model class. If you don't enable the paranoid behavior, your object will
+    be really deleted, and of course you will never be able to read the `deleted_by` column…
+
+== Usage ==
+
+Every time an object is saved, the behavior checks the existing columns (`created_by`, `updated_by`) and
+calls the corresponding setter with the result of the corresponding user's method (`getId` if column is
+integer, `__toString` if column is string).
+
+Every time an object is deleted, the behavior checks the existing column (`deleted_by`) and calls the
+corresponding setter with the result of the corresponding user's method (`getId` if column is
+integer, `__toString` if column is string).
+
+=== Temporarily disabling the behavior ===
+
+If you don't want the behavior to store user information for some reason (for example, in a batch script, or
+if you want to provide "anonymous" actions, or if you want to manually set the `*_by` column) you can
+temporarily disable it by calling `sfPropelActAsSignableBehavior::disable()`.
+
+When you call this method, the next time this behavior will be called it will just do nothing else than
+re-enabling itself.
+
+{{{
+  // Disable behavior
+  sfPropelActAsSignableBehavior::disable(); 
+
+  // Save object once
+  $object->save(); // object is not signed
+
+  // Save object again
+  $object->save(); // this time, the object is signed, because the behavior has automatically re-enabled itself
+}}}

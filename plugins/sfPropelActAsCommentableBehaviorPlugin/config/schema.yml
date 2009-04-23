@@ -1,0 +1,27 @@
+<?php include('schemaConfig.php') ?>
+<?php echo $config['connection'] ?>:
+  _attributes:    { package: plugins.sfPropelActAsCommentableBehaviorPlugin.lib.model }
+
+  # a comment applies to one Propel object
+  # a comment is defined by :
+  # - a title
+  # - a text
+  # - an author (set the related  user model in app.yml)
+  # - a creation date
+  sf_comment:
+    _attributes:       { phpName: sfComment, package: plugins.sfPropelActAsCommentableBehaviorPlugin.lib.model }
+    id:                { phpName: Id, type: integer, required: true, primaryKey: true, autoincrement: true }
+    commentable_model: varchar(30)
+    commentable_id:    integer
+    comment_namespace: varchar(50)
+    title:             varchar(100)
+    text:              longvarchar
+    author_id:         integer
+    author_name:       varchar(50)
+    author_email:      varchar(100)
+    author_website:    varchar(255)
+    created_at:
+    _indexes:
+      comments_index:  [comment_namespace, commentable_model, commentable_id]
+      object_index:    [commentable_model, commentable_id]
+      author_index:    [author_id]

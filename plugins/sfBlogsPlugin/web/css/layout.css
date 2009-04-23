@@ -1,0 +1,50 @@
+html, body { 
+ margin:0; 
+ padding:0; 
+ text-align:center; 
+}
+
+#sfBlog_container
+{
+  width: 930px;
+  \width: 950px;
+  w\idth: 930px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 10px;
+  text-align: left;
+  color:#333;
+  font-family:georgia,"Lucida Grande",arial,helvetica,sans-serif;
+  font-size: 14px;
+}
+
+#sfBlog_container #header
+{
+  margin-bottom: 10px;
+  text-align: right;
+}
+
+#sfBlog_container #content
+{
+  padding: 0 5px 5px 5px;
+  margin-right: 250px;
+  background-color: #ffffff;
+  font-size: 1.1em;
+}
+
+#sfBlog_container #sidebar-a
+{
+  float: right;
+  width: 230px;
+  margin: 0;
+  padding: 0 5px;
+}
+
+#sfBlog_container #footer
+{
+  text-align: center;
+  color: #aaa;
+  padding: 15px 5px;
+  margin-top: 10px; 
+  clear:both;
+}

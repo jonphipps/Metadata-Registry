@@ -1,0 +1,3 @@
+all:
+  layout: %SF_ROOT_DIR%/plugins/sfBlogsPlugin/modules/sfBlog/templates/layout
+  stylesheets: [/sfBlogsPlugin/css/blog.css]

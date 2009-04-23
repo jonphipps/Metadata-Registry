@@ -1,0 +1,8 @@
+#sfWebDebugbugsDetails {font-family:Tahoma; font-size:11px;}
+#sfWebDebugbugsDetails h1 {font-size:12px; font-weight:bold; margin:0; padding:6px 0 6px 0;}
+#sfWebDebugbugsDetails table {font-size:11px; width:450px;}
+#sfWebDebugbugsDetails a:link {color:#0000ff; text-decoration:underline;}
+#sfWebDebugbugsDetails a:visited {color:#55007f; text-decoration:underline;}
+#sfWebDebugbugsDetails a:hover {text-decoration:none;}
+#sfWebDebugbugsDetails #sf_webpanel_bug_form {font-size:11px;}
+#sfWebDebugbugsDetails .sf_webpanel_bug_form {width:250px;}

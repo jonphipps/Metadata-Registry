@@ -1,0 +1,20 @@
+agent:
+  class: sfPropelRouteCollection
+  options:
+    model:                Agent
+    module:               agent
+    prefix_path:          agent
+    column:               id
+    with_wildcard_routes: true
+
+# default rules
+homepage:
+  url:   /
+  param: { module: default, action: index }
+
+default_index:
+  url:   /:module
+  param: { action: index }
+
+default:
+  url:   /:module/:action/*

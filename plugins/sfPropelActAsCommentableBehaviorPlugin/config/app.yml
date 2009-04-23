@@ -1,0 +1,43 @@
+all:
+  sfPropelActAsCommentableBehaviorPlugin:
+    allowed_tags:
+      a:              <a>
+      blockquote:     <blockquote>
+      code:           <code>
+      em:             <em>
+      i:              <i>
+      p:              <p>
+      strong:         <strong>
+    anonymous:
+      enabled:        true
+      layout:
+        name:         required
+        email:        required
+        website:      optional
+        title:        optional
+        text:         required
+      name:           Anonymous User
+    count:
+      enabled:        false
+      method:         setSfCommentCount
+      namespace:      frontend
+    date_format:      words
+    max_tokens:       20
+    namespaces:
+      frontend:       
+      backend:        administrator
+    salt:             c0mm3nt4bl3
+    use_css:          true
+    use_gravatar:     true
+    use_routes:       true
+    user:
+      enabled:        false
+      layout:
+        title:        optional
+        text:         required
+      table:          sf_guard_user
+      id:             id
+      class:          sfGuardUser
+      id_method:      getId
+      toString:       __toString
+      save_name:      false

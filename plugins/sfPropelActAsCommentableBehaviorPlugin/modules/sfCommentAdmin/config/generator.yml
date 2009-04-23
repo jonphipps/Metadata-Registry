@@ -1,0 +1,39 @@
+generator:
+  class: sfPropelGenerator
+  param:
+    model_class:              sfComment
+    theme:                    admin
+    non_verbose_templates:    true
+    with_show:                false
+    singular:                 ~
+    plural:                   ~
+    route_prefix:             sf_comment_admin
+    with_propel_route:        1
+
+    config:
+      actions: ~
+      fields:
+        commentable_model:    { name: Model }
+        commentable_id:       { name: Id }
+        comment_namespace:    { name: Namespace }
+        _commented:           { name: Commented item }
+        _author:              { name: Author }
+        author:               { name: Author }
+        created_at:           { name: Date }
+      list:
+        title:                List of the comments
+        display:              [comment_namespace, _commented, _author, created_at, title, text]
+        sort:                 [created_at, desc]
+        object_actions:
+          _edit:              -
+          _delete:            confirm: Are you sur you want to delete this comment ?
+      filter:
+        display:              [commentable_model, commentable_id, comment_namespace]
+      form:
+        display:
+          "Commented object": [commentable_model, commentable_id]
+          "Comment":          [author_id, author_name, author_email, comment_namespace, created_at, title, text]
+      edit:
+        title:                Editing a comment
+      new:
+        title:                Create a new comment

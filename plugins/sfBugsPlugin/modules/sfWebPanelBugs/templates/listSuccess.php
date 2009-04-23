@@ -1,0 +1,1 @@
+<?php include_partial('sfWebPanelBugs/bugs', array('bugs'=>$bugs, 'module'=>$module, 'action'=>$action, 'app'=>$app)); ?>

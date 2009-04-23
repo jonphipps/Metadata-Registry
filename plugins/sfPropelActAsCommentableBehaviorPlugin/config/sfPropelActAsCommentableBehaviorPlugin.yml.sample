@@ -1,0 +1,6 @@
+schema:
+  connection:    propel
+  user_table:    sf_guard_user
+  user_id:       id
+  user_class:    sfGuardUser
+  comment_table: sf_comment

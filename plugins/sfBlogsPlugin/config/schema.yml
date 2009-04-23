@@ -1,0 +1,82 @@
+propel:
+  _attributes:       { package: plugins.sfBlogsPlugin.lib.model }
+
+  sf_blog:
+    _attributes:     { phpName: sfBlog }
+    id:              ~
+    title:           varchar(255)
+    tagline:         longvarchar
+    copyright:       longvarchar
+    stripped_title:  { type: varchar(255), index: unique }
+    is_published:    { type: boolean, default: false }
+    is_finished:     { type: boolean, default: false }
+    display_extract: { type: boolean, default: true }
+    comment_policy:  { type: integer, default: 2 }
+       #0: Comments are not allowed
+       #1: Comments must be reviewed before publication
+       #2: Comments must be reviewed if the author never commented
+       #3: Comments are published directly
+    created_at:      ~
+    updated_at:      ~
+  
+  sf_blog_post:
+    _attributes:     { phpName: sfBlogPost }
+    id:              ~
+    sf_blog_id:      { type: integer, foreignTable: sf_blog, foreignReference: id, onDelete: cascade  }
+    author_id:       { type: integer, foreignTable: sf_guard_user, foreignReference: id, onDelete: cascade  }
+    title:           varchar(255)
+    stripped_title:  { type: varchar(255) }
+    extract:         longvarchar
+    content:         longvarchar
+    is_published:    { type: boolean, default: false }
+    allow_comments:  { type: boolean, default: true }
+    nb_comments:     { type: integer, default: 0 }
+    created_at:      ~
+    updated_at:      ~
+    published_at:    timestamp
+    _uniques:
+      stripped_title_published_at:  [stripped_title, published_at]
+    
+  sf_blog_comment:
+    _attributes:     { phpName: sfBlogComment }
+    id:              ~
+    sf_blog_post_id: { type: integer, foreignTable: sf_blog_post, foreignReference: id, onDelete: cascade }
+    author_name:     varchar(255)
+    author_email:    varchar(255)
+    author_url:      varchar(255)
+    content:         longvarchar
+    status:          { type: integer, default: 1 }
+    created_at:      ~
+    
+  sf_blog_tag:
+    _attributes:     { phpName: sfBlogTag }
+    sf_blog_post_id: { type: integer, primaryKey: true, foreignTable: sf_blog_post, foreignReference: id, onDelete: cascade }
+    tag:             { type: varchar(255), primaryKey: true }
+    created_at:      ~
+    
+  sf_blog_user:
+    _attributes:     { phpName: sfBlogUser }
+    id:              ~
+    sf_blog_id:      { type: integer, foreignTable: sf_blog, foreignReference: id, onDelete: cascade  }
+    user_id:         { type: integer, foreignTable: sf_guard_user, foreignReference: id, onDelete: cascade  }
+    is_creator:      { type: boolean, default: true }
+  
+  sf_blog_log:
+    _attributes:     { phpName: sfBlogLog }
+    id:              ~
+    user_id:         { type: integer, foreignTable: sf_guard_user, foreignReference: id, onDelete: cascade  }
+    subject_class:    varchar(255)
+    subject_id:       integer
+    subject_name:     varchar(255)
+    subject_link:     varchar(255)
+    verb:             varchar(255)
+    object_class:     varchar(255)
+    object_id:        integer
+    object_name:      varchar(255)
+    object_link:      varchar(255)
+    complement_class: varchar(255)
+    complement_id:    integer
+    complement_name:  varchar(255)
+    complement_link:  varchar(255)
+    message:          varchar(255)
+    created_at:      ~

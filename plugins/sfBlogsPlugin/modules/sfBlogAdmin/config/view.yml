@@ -1,0 +1,21 @@
+indexSuccess:
+  layout: %SF_ROOT_DIR%/plugins/sfBlogsPlugin/modules/sfBlogAdmin/templates/layout
+
+postsSuccess:
+  layout: %SF_ROOT_DIR%/plugins/sfBlogsPlugin/modules/sfBlogAdmin/templates/layout
+
+postEditSuccess:
+  layout: %SF_ROOT_DIR%/plugins/sfBlogsPlugin/modules/sfBlogAdmin/templates/layoutNoSidebar
+
+postPreviewFullSuccess:
+  layout: %SF_ROOT_DIR%/plugins/sfBlogsPlugin/modules/sfBlog/templates/layout
+  stylesheets: [/sfBlogsPlugin/css/blog.css]
+
+commentsSuccess:
+  layout: %SF_ROOT_DIR%/plugins/sfBlogsPlugin/modules/sfBlogAdmin/templates/layout
+
+blogsSuccess:
+  layout: %SF_ROOT_DIR%/plugins/sfBlogsPlugin/modules/sfBlogAdmin/templates/layout
+
+blogEditSuccess:
+  layout: %SF_ROOT_DIR%/plugins/sfBlogsPlugin/modules/sfBlogAdmin/templates/layoutNoSidebar

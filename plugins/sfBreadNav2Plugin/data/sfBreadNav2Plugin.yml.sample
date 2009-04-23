@@ -1,0 +1,141 @@
+sfBreadNavApplication:
+  sfBreadNavApplication_2:
+    user_id: '1'
+    name: backend
+    application: backend
+    css: ''
+  sfBreadNavApplication_6:
+    name: main
+    application: frontend
+    css: ''
+sfBreadNav:
+  sfBreadNav_2:
+    page: Home
+    title: ''
+    module: home
+    action: index
+    credential: ''
+    tree_left: '1'
+    tree_right: '16'
+    tree_parent: '0'
+    scope: sfBreadNavApplication_2
+  sfBreadNav_3:
+    page: Frontend
+    title: ''
+    module: /
+    action: ''
+    credential: ''
+    tree_left: '2'
+    tree_right: '3'
+    tree_parent: '9'
+    scope: sfBreadNavApplication_2
+  sfBreadNav_4:
+    page: Menus
+    title: ''
+    module: sfBreadNavAdmin
+    action: index
+    credential: ''
+    tree_left: '4'
+    tree_right: '5'
+    tree_parent: '9'
+    scope: sfBreadNavApplication_2
+  sfBreadNav_5:
+    page: Users
+    title: ''
+    module: sfGuardUser
+    action: index
+    credential: ''
+    tree_left: '6'
+    tree_right: '13'
+    tree_parent: '9'
+    scope: sfBreadNavApplication_2
+  sfBreadNav_6:
+    page: Groups
+    title: ''
+    module: sfGuardGroup
+    action: index
+    credential: ''
+    tree_left: '7'
+    tree_right: '8'
+    tree_parent: '12'
+    scope: sfBreadNavApplication_2
+  sfBreadNav_7:
+    page: Permissions
+    title: ''
+    module: sfGuardPermission
+    action: index
+    credential: ''
+    tree_left: '9'
+    tree_right: '10'
+    tree_parent: '12'
+    scope: sfBreadNavApplication_2
+  sfBreadNav_29:
+    page: Profiles
+    title: ''
+    module: sf_guard_user_profile
+    action: ''
+    credential: ''
+    tree_left: '11'
+    tree_right: '12'
+    tree_parent: '5'
+    scope: sfBreadNavApplication_2
+  sfBreadNav_54:
+    page: HOME
+    title: ''
+    module: home
+    action: index
+    credential: ''
+    tree_left: '1'
+    tree_right: '12'
+    tree_parent: '0'
+    scope: sfBreadNavApplication_6
+  sfBreadNav_55:
+    page: Admin
+    title: ''
+    module: /backend.php/home
+    action: ''
+    credential: admin
+    tree_left: '2'
+    tree_right: '3'
+    tree_parent: '0'
+    scope: sfBreadNavApplication_6
+  sfBreadNav_56:
+    page: Login
+    title: ''
+    module: @sf_guard_signin
+    action: ''
+    credential: unauthenticated
+    tree_left: '4'
+    tree_right: '5'
+    tree_parent: '0'
+    scope: sfBreadNavApplication_6
+  sfBreadNav_57:
+    page: 'My Profile'
+    title: ''
+    module: usermanagement
+    action: editprofile
+    credential: authenticated
+    tree_left: '6'
+    tree_right: '7'
+    tree_parent: '0'
+    scope: sfBreadNavApplication_6
+  sfBreadNav_58:
+    page: Logout
+    title: ''
+    module: @sf_guard_signout
+    action: ''
+    credential: authenticated
+    tree_left: '8'
+    tree_right: '9'
+    tree_parent: '0'
+    scope: sfBreadNavApplication_6
+  sfBreadNav_59:
+    page: Register
+    title: ''
+    module: usermanagement
+    action: register
+    credential: unauthenticated
+    tree_left: '10'
+    tree_right: '11'
+    tree_parent: '0'
+    scope: sfBreadNavApplication_6

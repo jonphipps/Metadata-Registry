@@ -1,0 +1,23 @@
+=pkToolkitPlugin=
+
+pkToolkitPlugin is a collection of useful classes implementing common
+routines and algorithms we otherwise find ourselves reinventing in
+nearly every application. The golden rules for inclusion in pkToolkitPlugin
+are simple: it should be something that PHP should have had in the first place,
+and the implementation shouldn't be huge or have major dependencies on
+other libraries not typically built into PHP 5.2.x.
+
+pkToolkitPlugin classes generally contain straightforward static public
+methods. They are grouped in classes in order to gain the benefits of 
+autoloading and keep the PHP namespace uncluttered.
+
+pkToolkitPlugin also contains a collection of jQuery-based JavaScript
+progressive enhancement functions in its web/js folder. For more information 
+about progressive enhancement in general, see 
+[this alistapart article](http://www.alistapart.com/articles/understandingprogressiveenhancement).
+
+Since these are not loaded unless you expressly bring them in, there is no 
+significant overhead for those not using them. Still, we may migrate these to 
+a separate plugin later.
+
+For the time being, see the comments in the code for documentation.

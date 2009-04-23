@@ -1,0 +1,16 @@
+propel:
+  _attributes:    { package: plugins.sfBugsPlugin.lib.model }
+  sf_webpanel_bugs:
+    id: 
+      type: INTEGER
+      required: true
+      autoIncrement: true
+      primaryKey: true
+    title: { type: varchar, size: 50 }
+    module_name:           { type: varchar, size: 150 }
+    action_name:           { type: varchar, size: 150 }
+    app_name:              { type: varchar, size: 50 }
+    date_added:       { type: TIMESTAMP }
+    description:      { type: LONGVARCHAR }
+    url:           { type: varchar, size: 255 }
+    solved: { type: SMALLINT, size: '1', required: true, defaultValue: '0' }

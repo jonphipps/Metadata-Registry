@@ -1,0 +1,34 @@
+generator:
+  class: sfPropelGenerator
+  param:
+    model_class:           SfWebpanelBugs
+    theme:                 admin
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          sf_webpanel_bugs
+    with_propel_route:     1
+
+    config:
+      actions: ~
+      fields:
+        title: {label: Title}
+        module_name: {label: Module}
+        action_name: {label: Action}
+        app_name: {label: Application}
+        solved: {label: Solved}
+      list:
+        title: Bugs
+        display: [_title, app_name, module_name, action_name, _solved_list, _view]
+        fields:
+          solved_list: {label: Solved}
+          view: {label: Go to page}
+      filter:
+        display: [app_name, module_name, action_name, date_added]
+      form:
+        display: [title, description, date_added, app_name, module_name, action_name, url, _solved, _visit]
+      edit:
+        title: Edit "%%title%%"
+      new:
+        title: New bug

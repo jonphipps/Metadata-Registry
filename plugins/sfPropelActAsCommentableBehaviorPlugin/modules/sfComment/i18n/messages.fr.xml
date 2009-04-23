@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<xliff version="1.0">
+  <file orginal="global" source-language="en_US" datatype="plaintext">
+    <body>
+      <trans-unit>
+        <source>The message is required</source>
+        <target>Veuillez taper un message</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Write a comment</source>
+        <target>Écrire un commentaire</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Post this comment</source>
+        <target>Envoyer ce commentaire</target>
+      </trans-unit>
+      <trans-unit>
+        <source>There is no comment for the moment.</source>
+        <target>Il n'y a aucun commentaire pour le moment.</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

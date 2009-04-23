@@ -1,0 +1,26 @@
+# Enhance you forms with `forms.yml`
+
+Your symfony project's forms can be manipulated globally using the `forms.yml`
+configuration file. Once this plugin in installed and enabled you can create a
+`forms.yml` file that looks something like this:
+
+    # apps/*/config/forms.yml
+    forms:
+      sfGuardFormSignin:
+        username:
+          help: Please enter the username you selected during signup.
+        _post_validator:
+          invalid: The username and password you entered were not recognized.
+
+    widgets:
+      sfWidgetFormInput:
+        class: text
+
+    validators:
+      sfValidatorEmail:
+        invalid: '"%value%" is not a valid email address.'
+
+The effect of this configuration file is just as it appears. Custom error
+messages will be added to the `sfGuardFormSignin` form, the CSS class "text"
+will be added to all instances of `sfWidgetFormInput`, and a custom error
+message will be added to all instances of `sfValidatorEmail`.

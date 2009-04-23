@@ -1,0 +1,24 @@
+dev:
+  propel:
+    param:
+      classname: DebugPDO
+test:
+  propel:
+    param:
+      classname: DebugPDO
+sandbox:
+  propel:
+    param:
+      classname: PropelPDO
+all:
+  propel:
+    class: sfPropelDatabase
+    param:
+      classname: PropelPDO
+      dsn: 'mysql:host=localhost;port=8889;dbname=swregistry2'
+      username: root
+      password: RegIt!
+      encoding: utf8
+      persistent: true
+      pooling: true
+      compat_assoc_lower: true

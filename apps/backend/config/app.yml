@@ -1,0 +1,7 @@
+# default values
+all:
+  sf_admin_dash:
+    items:
+      Agents:
+        url:    agent
+

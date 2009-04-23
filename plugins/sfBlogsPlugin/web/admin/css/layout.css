@@ -1,0 +1,72 @@
+body 
+{
+  margin : 0;
+  padding : 0;
+  text-align: left;
+  color:#333;
+  font-family:georgia,"Lucida Grande",arial,helvetica,sans-serif;
+  font-size: 14px;
+}
+#header
+{
+  padding: 0;
+  background: #E3E3E3;
+  border-bottom: solid 1px #808080;
+  font-family: Arial, sans-serif;
+  font-size: 13px;
+}
+#navigation
+{
+  float: left;
+  width : 200px;
+  background: #E7EDF5;
+  border-top: solid 1px white;
+  font-family: Arial, sans-serif;
+  font-size: 13px;
+  overflow: auto;
+}
+#content
+{
+  overflow: auto;
+}
+#hextend #content
+{
+  margin-left: 201px;
+}
+#list
+{
+  overflow: auto;
+}
+.vsplitbar 
+{
+  border-right: solid 1px #808080;
+  width: 2px;
+  background: url(../images/vgrabber.gif) no-repeat center;
+}
+#hextend .vsplitbar
+{
+  background-color: #E7EDF5;
+}
+
+.vsplitbar.active, .vsplitbar:hover 
+{
+  background: #ddd url(../images/vgrabber.gif) no-repeat center;
+}
+.hsplitbar 
+{
+  border-bottom: solid 1px #808080;
+  height: 2px;
+  background: url(../images/hgrabber.gif) no-repeat center;
+}
+.hsplitbar.active, .hsplitbar:hover 
+{
+  background: #ddd url(../images/hgrabber.gif) no-repeat center;
+}
+
+#loader
+{
+  position: absolute;
+  top: 35px;
+  right: 10px;
+  display: none;
+}

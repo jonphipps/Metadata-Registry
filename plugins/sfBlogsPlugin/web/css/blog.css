@@ -1,0 +1,154 @@
+a:link, a:active
+{
+  color: #0066B3;
+}
+
+a:hover
+{
+  text-decoration: none;
+}
+
+/**********/
+/* header */
+/**********/
+#sfBlog_container #header ul
+{
+  padding: 0;
+  margin: 0;
+}
+
+#sfBlog_container #header ul li
+{
+  display: inline;
+  list-style: none;
+}
+
+/***********/
+/* sidebar */
+/***********/
+#sfBlog_container #sidebar-a h1
+{
+  margin-top: 0;
+}
+
+#sfBlog_container #sidebar-a h2 
+{
+  color: #003D6B;
+  font-weight: normal;
+  font-size: 1.2em;
+  margin: 10px 0;
+  font-family: verdana,"Lucida Grande",arial,helvetica,sans-serif;
+}
+
+#sfBlog_container #sidebar-a ul, #sfBlog_container #sidebar-a li
+{
+  list-style: none;
+  padding-left: 0;
+  margin-left: 0;
+  margin-top: 0;
+}
+
+
+#sfBlog_container #sidebar-a li
+{
+  margin-bottom: 5px;
+}
+
+.sfBlog .post
+{
+  margin: 10px 0;
+}
+
+.sfBlog .post h2
+{
+  font-size: 1.2em;
+  margin-bottom: 5px;
+}
+
+.sfBlog .post .details
+{
+  font-weight: bold;
+  font-size: 0.8em;
+  margin: 5px 0;
+  color: #aaa;
+}
+
+.sfBlog .post .details a:link, .sfBlog .post .details a:visited
+{
+  color: #aaa;
+}
+
+.sfBlog .related_details
+{
+  font-style: italic;
+}
+.sfBlog .post.tiny .related_details, .sfBlog .post.tiny .details
+{
+  display: inline;
+}
+.sfBlog .post.tiny .related_details:before
+{
+  content: ' - ';
+}
+.sfBlog .post.tiny .related_details
+{
+  font-weight: bold;
+  font-size: 0.8em;
+  color: #aaa;
+  font-style: normal;
+}
+.sfBlog .post.tiny .related_details a
+{
+  color: #aaa;
+}
+
+.sfBlog .post hr.end_excerpt
+{
+  display: none;
+  height: 0;
+}
+
+.sfBlog .comment
+{
+  padding:5px;
+  margin: 5px;
+  background: #eef;
+  border: solid 1px #ccd;
+}
+
+.sfBlog .comment .author
+{
+  font-weight: bold;
+}
+
+.sfBlog form.add_comment .form_control
+{
+  margin: 2px;
+}
+
+.sfBlog form.add_comment .form_control label
+{
+  padding-left:10px;
+}
+
+.sfBlog form.add_comment .form_control input.text
+{
+  width: 200px;
+}
+
+.sfBlog form.add_comment .form_control textarea
+{
+  width: 300px;
+  height: 150px;
+}
+
+.sfBlog .form_error
+{
+  color: red;
+}
+
+.comment.moderated
+{
+  font-style: italic;
+  background-color: #FFFFEE;
+}

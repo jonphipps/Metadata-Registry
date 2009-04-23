@@ -1,0 +1,175 @@
+sfSimpleBlog plugin
+===================
+
+The `sfBlogsPlugin` provides the model, a frontend and a backend modules to enable multiple blogs in a symfony application.
+
+Frontend features:
+
+ - List of blogs
+ - Lists of posts
+ - Details of a post
+ - Ability to add a comment
+ - Email alert on comments
+ - Tagsonomy
+ - RSS feeds (if [sfFeed2Plugin](http://www.symfony-project.org/plugins/sfFeed2Plugin) is installed)
+
+Backend features:
+
+ - Timeline
+ - Post management
+ - Comment management
+ - Blogs management
+
+The plugin is fully i18n. It is bundled with an English version. Additional translations are easy to implement.
+
+Dependencies
+------------
+
+This plugin works with symfony 1.2, and requires sfPropelPlugin, [sfGuardPlugin](http://www.symfony-project.org/plugins/sfGuardPlugin), and [DbFinderPlugin](http://www.symfony-project.org/plugins/DbFinderPlugin) to work.
+
+If you want to use RSS feeds, you must install the [sfFeed2Plugin](http://www.symfony-project.org/plugins/sfFeed2Plugin).
+
+**Note**: The plugin does not use any ORM specific abilities and uses DbFinder for all data retrieval, so it should be able to work with sfDoctrinePlugin and sfDoctrineGuardPlugin with some minor modifications.
+
+Installation
+------------
+
+To install the plugin for a symfony project, the usual process is to use the symfony command line:
+
+    $ php symfony plugin:install sfBlogsPlugin
+
+Alternatively, if you don't have PEAR installed, you can download the latest package attached to this plugin's page and extract it under your project's `plugins/` directory. You will also have to copy the contents of the `myproject/plugins/sfBlogsPlugin/web/` directory into a `myproject/web/sfBlogsPlugin/` directory.
+
+Enable the plugin in the project's configuration. Note that the admin interface requires the `sfCompat10Plugin` to be enabled, too.
+
+    // in apps/frontend/config/ProjectConfiguration.class.php
+    class ProjectConfiguration extends sfProjectConfiguration
+    {
+      public function setup()
+      {
+        $this->enablePlugins(array('DbFinderPlugin', 'sfPropelPlugin', 'sfCompat10Plugin', 'sfGuardPlugin', 'sfBlogsPlugin', 'sfFeed2Plugin'));
+      }
+    }
+    
+Rebuild the model and generate the SQL code for the three new tables:
+
+    $ php symfony propel:build-model
+    $ php symfony propel:build-sql
+
+Use the generated SQL file in `myproject/data/sql/plugins.sfBlogsPlugin.lib.model.schema.sql` to build the new tables in your project's database.
+
+    $ mysql -uroot mydb < data/sql/plugins.sfBlogsPlugin.lib.model.schema.sql
+
+Enable the two new modules in your applications, via the `settings.yml` file. Don't forget to set `compat_10` to `on`.
+
+    // in myproject/apps/frontend/config/settings.yml
+    all:
+      .settings:
+        compat_10:              on
+        enabled_modules:        [default, sfBlog, sfBlogAdmin]
+
+Start using the plugin by browsing to the frontend module's default page:
+
+    http://myproject/frontend_dev.php/home           # frontend
+    http://myproject/frontend_dev.php/sfBlogAdmin    # administration
+
+Tip: To test the plugin with test data, execute the following command:
+
+    $ php symfony propel:load-data frontend plugins/sfBlogsPlugin/data/fixtures
+
+Configuration
+-------------
+
+### The `app.yml` file
+
+The plugin is highly configurable and should be easy to integrate to an existing project. Here is the default plugin configuration, taken from `myproject/plugins/sfBlogsPlugin/config/app.yml.sample`:
+
+    all:
+      sfBlogs:
+        sidebar:       [custom, recent_posts, tags, feeds, blogroll, meta]
+
+        copyright:     Blogs hosted in this site have various copyright rules. Please refer to the page footer of each post for copyright.
+        
+        blogroll:
+          - { title: how is life on earth?, url: 'http://www.howislifeonearth.com' }
+          - { title: google, url: 'http://www.google.com' }
+
+        user_class: sfGuardUser        # class name for the user class
+        use_ajax:      true            # enable posting of comments in Ajax
+        use_feeds:     true            # enable feeds (require sfFeed2Plugin)
+        use_date_in_url: false         # enable to use urls in the form of /year/month/day/title (set to 'false' for backwards compatibility)
+
+        post_max_per_page:  5          # number of posts displayed in a list of posts
+        post_recent:        5          # number of posts to display in the recent sidebar widget
+
+        comment_enabled:        on     # enable comments by default on new posts
+        comment_disable_after:  0      # number of days after which comments on a post are not possible anymore
+                                       # set to 0 for unlimited comments
+        comment_mail_alert: on         # send an email to the blog owner when a comment is posted.
+                                       # Possible values are: 
+                                       # on: send an email for every posted comment
+                                       # moderated: send an email for every automoderated comment
+
+        feed_count:         5          # number of posts appearing in the RSS feed
+
+You can customize these settings in `myproject/apps/myapp/config/app.yml`
+
+The `sidebar` array controls which widgets, and in which order, appear in the sidebar of the blog frontend. The existing widgets are:
+
+ - `custom`: insertion of custom HTML code taken from the `blog_custom` parameter
+ - `recent_posts`: list of recent posts
+ - `archives`: post archive by month
+ - `tags`: list of tags
+ - `feeds`: links to the RSS and Atom feeds
+ - `blogroll`: list of blogs
+ - `meta`: not much for now (link to administration modules, but the link works only if the modules are in the same application)
+
+### Routing
+
+The plugin has its own routing roules for the frontend, with a heavy use of DbFinder routes. You can customize them in your routing.yml. Here is the default frontend routing configuration:
+
+    post:
+      url:     /blogs/:blog_title/:year/:month/:day/:stripped_title/*
+      class:   DbFinderObjectRoute
+      options: { model: sfBlogPost }
+      param:   { module: sfBlog, action: post }
+
+    blog:
+      url:     /blogs/:stripped_title/*
+      class:   DbFinderObjectRoute
+      options: { model: sfBlog, filter_variables: [stripped_title] }
+      param:   { module: sfBlog, action: blogPosts }
+      requirements: 
+        page:  \d*
+        stripped_title: ((?!all)[^/])*
+
+    blog_comments:
+      url:     /comments/:stripped_title/*
+      class:   DbFinderObjectRoute
+      options: { model: sfBlog, filter_variables: [stripped_title] }
+      param:   { module: sfBlog, action: blogComments }
+      requirements: 
+        stripped_title: ((?!all)[^/])*
+
+    posts:
+      url: /posts/*
+      param: { module: sfBlog, action: posts }
+      requirements: { page: \d* }
+
+    comments:
+      url:     /comments/all/*
+      class:   DbFinderObjectsRoute
+      options: { model: sfBlogComment }
+      param:   { module: sfBlog, action: comments }
+
+    blogs:
+      url: /blogs/all/*
+      class:   DbFinderObjectsRoute
+      options: { model: sfBlog }
+      param: { module: sfBlog, action: blogs }
+
+    index:
+      url: /home
+      class:   DbFinderObjectsRoute
+      options: { model: sfBlogPost, finder_methods: [innerJoinsfBlog, withsfBlog, published, innerJoinsfGuardUser, withsfGuardUser], default_order: [published_at, desc] }
+      param: { module: sfBlog, action: index }

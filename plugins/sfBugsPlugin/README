@@ -1,0 +1,51 @@
+sfBugsPlugin plugin
+===================
+
+The `sfBugsPlugin` allows you to easily send bugs from the Web Debug Toolbar for modules and actions.
+It's useful for testers to mark bugs for specific sections
+
+![bugs](http://img7.imageshack.us/img7/2509/bugsd.jpg "sfBugsPlugin")
+
+
+Installation
+------------
+
+  * Install the plugin
+  
+        $ symfony plugin:install sfBugsPlugin
+  
+  * Rebuild your model
+  
+        $ symfony propel:build-model
+        $ symfony propel:build-forms
+        $ symfony propel:build-filters
+        $ symfony propel:build-sql
+  
+  * Update you database tables by starting from scratch (it will delete all the existing tables, then re-create them):
+  
+        $ symfony propel:insert-sql
+
+  * Publish the assets for the enabled plugins. 
+  
+        $ symfony plugin:publish-assets
+  
+  * This plugin uses the Prototype plugin in order to send the bugs with Ajax calls. Please make sure you include the prototype JS library in every page in order the plugin to work.
+
+  * In your applications settings.yml enable the plugin modules
+
+        all:
+          .settings:
+            enabled_modules:      [default, sfWebPanelBugs, sfWebPanelBugsManage]
+
+  * Clear your cache.
+  
+        $ symfony cache:clear
+
+  * You should be done.
+
+Usage
+-----
+
+When you browse your website just press the "bugs" panel in the Web Debug Toolbar and an area with a form will popup. From there you can send a new bug for this module and action, view existing (open and closed ones), delete, close and re-open them.
+
+If you want to view the bugs for the whole website just navigate to /sfWebPanelBugsManage
