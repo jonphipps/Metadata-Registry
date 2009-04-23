@@ -1,0 +1,63 @@
+/* GLOBAL */
+.grid { background-color: #DADFE0; width: 100%; }
+.grid th { background: url(../img/header-row.gif) center; border-bottom: 1px solid #FFFFFF; border-left: 1px solid #FFFFFF; padding: 2px; font-size: 11px; text-align: left; }
+.grid th span { float: right; padding: 5px 4px 4px 4px; }
+.grid th a { color: #2F2F2F; display: block; padding: 3px 5px 3px 5px; }
+.grid th a:hover { color: #EB5E00; }
+.grid th a.sorting { background-image: url(../img/header-sorting.gif); padding: 3px 5px 3px 5px; }
+.grid th div { padding: 3px 5px 3px 5px; color: #2F2F2F; font-size: 11px; }
+.grid tr.lt { background-color: #FFFFFF; }
+.grid tr.dr { background-color: #f6f6f6; }
+.grid tr:hover { background-color: #FCF5DD; }
+.grid td { padding: 5px; }
+.grid td a { color: #EB5E00; }
+.grid td.filter { background: url(../img/filters-row.gif); padding: 5px 12px 5px 5px; font-weight: bold; color: #4E3030; }
+.grid td.filter div { width: 100%; }
+.grid td.inactive { background: #DADFE0; }
+
+.grid-pager { width: 100%; }
+.grid-pager td { padding: 5px 0px 5px 0px; }
+.grid-pager td .pager a { margin: 5px; color: #000000; }
+.grid-pager td .pager a.selected { font-weight: bold; color: #EB5E00; }
+.grid-pager .button { float: right }
+
+.datagrid-loader { display: none; left: 50%; top: 45%; position: absolute; margin-left: -102px; width: 200px; text-align: center; color:#d85909; padding: 50px 0px 10px 0px; font-size: 14px; font-weight: bold; border:2px solid #f1af73; background: #fff4e9 url(../img/ajax-loader.gif) no-repeat center 10px; }
+
+.grid-actions { background-image: url(../img/actions-row.gif); border: 1px solid #DADFE0; width: 100%; } 
+.grid-actions td { height: 24px; padding: 0px 5px 0px 5px; border-top: 1px solid #FFFFFF; }
+.grid-actions td.left-actions a { color: #EB5E00; font-size: 11px; }
+.grid-actions td select { width: 200px; }
+
+	#sf_admin_container td{
+	padding:3px;
+	background-color: transparent;
+	}
+	#sf_admin_container td.filter{
+	padding:10px;
+	background-color: transparent;
+	}
+
+#sf_admin_container ul.checkbox_list, #sf_admin_container .checkbox_list li{
+list-style:none;
+}
+/*
+Copy in your css
+*/
+#sf_admin_container fieldset#sf_datagrid_fieldset_none {
+border:0;
+}
+.form-elem{
+float:left;
+padding:5px;
+
+}
+#sf_admin_container .form-elem label{
+width:7em;
+text-align: right;
+padding:0;
+}
+.row-form{
+clear:both;
+
+}
+

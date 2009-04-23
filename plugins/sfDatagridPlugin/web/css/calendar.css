@@ -1,0 +1,54 @@
+/* the div that holds the date picker calendar */
+.dpDiv, #datepicker { background: #C3D9FF; padding: 10px; -moz-border-radius: 5px; -moz-border-radius-topleft: 0px; }
+
+/* the table (within the div) that holds the date picker calendar */
+.dpTable { text-align: center; color: #000000; background: #C3D9FF; }
+
+/* a table row that holds date numbers (either blank or 1-31) */
+.dpTR { padding: 0px; }
+
+/* the top table row that holds the month, year, and forward/backward buttons */
+.dpTitleTR {  }
+
+/* the second table row, that holds the names of days of the week (Mo, Tu, We, etc.) */
+.dpDayTR { padding: 0px; }
+
+/* the bottom table row, that has the "This Month" and "Close" buttons */
+.dpTodayButtonTR { padding: 0px; }
+
+/* a table cell that holds a date number (either blank or 1-31) */
+.dpTD { padding: 2px; background: #FFFFFF; }
+
+/* a table cell out of data range */
+.dpTDOff { background-color: #E8EEF7; }
+
+/* the date number table cell that the mouse pointer is currently over (you can use contrasting colors to make it apparent which cell is being hovered over) */
+.dpTDHover { cursor: pointer; background: #FFFFFF; padding: 1px; border: 1px dashed #AAAAAA; }
+
+/* the table cell that holds the name of the month and the year */
+.dpTitleTD { padding: 0px; }
+
+/* a table cell that holds one of the forward/backward buttons */
+.dpButtonTD { padding: 0px; }
+
+/* the table cell that holds the "This Month" or "Close" button at the bottom */
+.dpTodayButtonTD { padding: 5px 0px 0px 0px; }
+
+/* a table cell that holds the names of days of the week (Mo, Tu, We, etc.) */
+.dpDayTD { padding: 5px 0px 5px 0px; }
+
+/* additional style information for the text that indicates the month and year */
+.dpTitleText { padding: 0px; color: #112ABB; font-weight: bold; }
+
+/* a table cell that holds a highlighted day (usually either today's date or the current date field value) */
+.dpDayHighlightTD { background-color: #CCCCCC; border: 1px solid #AAAAAA; padding: 0px; }
+
+/* additional style information for the cell that holds a highlighted day (usually either today's date or the current date field value) */ 
+.dpDayHighlight { color: #FFFFFF; font-weight: bold; border: 1px solid #FFFFFF; }
+.dpDayHighlightTDHover { cursor: pointer; }
+
+/* the forward/backward buttons at the top */
+.dpButton { padding: 0px; font-family: Verdana, Arial, Times New Roman; font-size: 12px; color: #000000; cursor: pointer; }
+
+/* the "This Month" and "Close" buttons at the bottom */
+.dpTodayButton { cursor: pointer; color: #000000; margin: 0px 30px 0px 30px; }
