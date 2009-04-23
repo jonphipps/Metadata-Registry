@@ -5,3 +5,4 @@ plugins.sfBugsPlugin.lib.model.schema.sql=propel
 plugins.sfPropelActAsCommentableBehaviorPlugin.lib.model.schema.sql=propel
 plugins.sfBreadNav2Plugin.lib.model.schema.sql=propel
 plugins.sfBlogsPlugin.lib.model.schema.sql=propel
+plugins.sfPropelVersionableBehaviorPlugin.lib.model.schema.sql=propel
