@@ -5,10 +5,13 @@
 <?php
  foreach ($properties as $property): ?>
 <?php
-  $history = $property->getLastHistoryByTimestamp($timestamp);
-  if ($history)
+  if($timestamp)
   {
-    $property = $history;
+    $history = $property->getLastHistoryByTimestamp($timestamp);
+    if ($history)
+    {
+      $property = $history;
+    }
   }
   $skos = $property->getSkosPropertyId();
   $skosProp = $property->getSkosProperty();
