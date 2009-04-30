@@ -1,21 +1,7 @@
-dev:
-  propel:
-    param:
-      classname:  DebugPDO
-
-test:
-  propel:
-    param:
-      classname:  DebugPDO
-
 all:
-  propel:
-    class:        sfPropelDatabase
+  doctrine:
+    class: sfDoctrineDatabase
     param:
-      classname:  PropelPDO
-      dsn:        mysql:dbname=registry;host=localhost
-      username:   root
-      password:   
-      encoding:   utf8
-      persistent: true
-      pooling:    true
+      dsn: 'mysql:host=localhost;port=8889;dbname=swregistry2'
+      username: root
+      password: RegIt!

@@ -1,0 +1,1618 @@
+ArcG2t:
+  tableName: arc_g2t
+  columns:
+    g:
+      type: integer(3)
+      unsigned: 1
+      primary: true
+    t:
+      type: integer(3)
+      unsigned: 1
+      primary: true
+ArcId2val:
+  tableName: arc_id2val
+  columns:
+    id:
+      type: integer(3)
+      unsigned: 1
+      primary: true
+    misc:
+      type: integer(1)
+      default: '0'
+      notnull: true
+    val:
+      type: string(2147483647)
+      default: ''
+      notnull: true
+    val_type:
+      type: integer(1)
+      primary: true
+ArcO2val:
+  tableName: arc_o2val
+  columns:
+    id:
+      type: integer(3)
+      unsigned: 1
+      primary: true
+    cid:
+      type: integer(3)
+      unsigned: 1
+      default: ''
+      notnull: true
+    misc:
+      type: integer(1)
+      default: '0'
+      notnull: true
+    val:
+      type: string(2147483647)
+      default: ''
+      notnull: true
+ArcS2val:
+  tableName: arc_s2val
+  columns:
+    id:
+      type: integer(3)
+      unsigned: 1
+      primary: true
+    cid:
+      type: integer(3)
+      unsigned: 1
+      default: ''
+      notnull: true
+    misc:
+      type: integer(1)
+      default: '0'
+      notnull: true
+    val:
+      type: string(2147483647)
+      default: ''
+      notnull: true
+ArcSetting:
+  tableName: arc_setting
+  columns:
+    k:
+      type: string(32)
+      fixed: true
+      primary: true
+    val:
+      type: string(2147483647)
+      default: ''
+      notnull: true
+ArcTriple:
+  tableName: arc_triple
+  columns:
+    t:
+      type: integer(3)
+      unsigned: 1
+      primary: true
+    s:
+      type: integer(3)
+      unsigned: 1
+      default: ''
+      notnull: true
+    p:
+      type: integer(3)
+      unsigned: 1
+      default: ''
+      notnull: true
+    o:
+      type: integer(3)
+      unsigned: 1
+      default: ''
+      notnull: true
+    o_lang_dt:
+      type: integer(3)
+      unsigned: 1
+      default: ''
+      notnull: true
+    o_comp:
+      type: string(35)
+      fixed: true
+      default: ''
+      notnull: true
+    s_type:
+      type: integer(1)
+      default: '0'
+      notnull: true
+    o_type:
+      type: integer(1)
+      default: '0'
+      notnull: true
+    misc:
+      type: integer(1)
+      default: '0'
+      notnull: true
+Profile:
+  tableName: profile
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      autoincrement: true
+    agent_id:
+      type: integer(4)
+      default: ''
+      notnull: true
+    name:
+      type: string(255)
+      default: ''
+      notnull: true
+    uri:
+      type: string(255)
+      default: ''
+      notnull: true
+    base_domain:
+      type: string(255)
+      default: ''
+      notnull: true
+    token:
+      type: string(45)
+      default: ''
+      notnull: true
+    last_uri_id:
+      type: integer(4)
+      default: '100000'
+    status_id:
+      type: integer(4)
+      default: '1'
+      notnull: true
+    language:
+      type: string(6)
+      fixed: true
+      default: en
+      notnull: true
+    created_at: timestamp(25)
+    updated_at: timestamp(25)
+    deleted_at: timestamp(25)
+    created_by: integer(4)
+    updated_by: integer(4)
+    deleted_by: integer(4)
+    child_updated_at: timestamp(25)
+    child_updated_by: integer(4)
+    note: string(2147483647)
+    url: string(255)
+    community: string(45)
+  relations:
+    RegAgent:
+      local: agent_id
+      foreign: id
+      type: one
+    RegStatus:
+      local: status_id
+      foreign: id
+      type: one
+    RegUser:
+      local: updated_by
+      foreign: id
+      type: one
+    RegUser_4:
+      class: RegUser
+      local: created_by
+      foreign: id
+      type: one
+    RegUser_5:
+      class: RegUser
+      local: deleted_by
+      foreign: id
+      type: one
+    RegUser_6:
+      class: RegUser
+      local: child_updated_by
+      foreign: id
+      type: one
+ProfileProperty:
+  tableName: profile_property
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      autoincrement: true
+    updated_at:
+      type: timestamp(25)
+      notnull: true
+    profile_id:
+      type: integer(4)
+      default: ''
+      notnull: true
+    name:
+      type: string(255)
+      default: ''
+      notnull: true
+    label:
+      type: string(255)
+      default: ''
+      notnull: true
+    type:
+      type: enum(11)
+      values: [property, subproperty]
+      default: ''
+      notnull: true
+    status_id:
+      type: integer(4)
+      default: '1'
+      notnull: true
+    language:
+      type: string(6)
+      default: en
+      notnull: true
+    is_required:
+      type: integer(1)
+      default: '0'
+      notnull: true
+    is_reciprocal:
+      type: integer(1)
+      default: '0'
+      notnull: true
+    is_singleton:
+      type: integer(1)
+      default: '0'
+      notnull: true
+    is_in_picklist:
+      type: integer(1)
+      default: '1'
+      notnull: true
+    created_at: timestamp(25)
+    deleted_at: timestamp(25)
+    created_by: integer(4)
+    updated_by: integer(4)
+    deleted_by: integer(4)
+    schema_id: integer(4)
+    schema_property_id: integer(4)
+    definition: string(2147483647)
+    comment: string(2147483647)
+    uri: string(255)
+    note: string(2147483647)
+    display_order: integer(4)
+    picklist_order: integer(4)
+    examples: string(255)
+    inverse_profile_property_id: integer(4)
+  relations:
+    Profile:
+      local: profile_id
+      foreign: id
+      type: one
+    ProfileProperty:
+      local: inverse_profile_property_id
+      foreign: id
+      type: one
+    RegSchema:
+      local: schema_id
+      foreign: id
+      type: one
+    RegSchemaProperty:
+      local: schema_property_id
+      foreign: id
+      type: one
+    RegStatus:
+      local: status_id
+      foreign: id
+      type: one
+    RegUser:
+      local: updated_by
+      foreign: id
+      type: one
+    RegUser_7:
+      class: RegUser
+      local: created_by
+      foreign: id
+      type: one
+    RegUser_8:
+      class: RegUser
+      local: deleted_by
+      foreign: id
+      type: one
+RegAgent:
+  tableName: reg_agent
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      autoincrement: true
+    last_updated:
+      type: timestamp(25)
+      notnull: true
+    org_email:
+      type: string(100)
+      default: ''
+      notnull: true
+    org_name:
+      type: string(255)
+      default: ''
+      notnull: true
+    state:
+      type: string(2)
+      fixed: true
+    country:
+      type: string(3)
+      fixed: true
+    type:
+      type: string(15)
+      fixed: true
+    created_at: timestamp(25)
+    deleted_at: timestamp(25)
+    ind_affiliation: string(255)
+    ind_role: string(45)
+    address1: string(255)
+    address2: string(255)
+    city: string(45)
+    postal_code: string(15)
+    phone: string(45)
+    web_address: string(255)
+RegAgentHasUser:
+  tableName: reg_agent_has_user
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      autoincrement: true
+    updated_at:
+      type: timestamp(25)
+      notnull: true
+    user_id:
+      type: integer(4)
+      default: '0'
+      notnull: true
+    agent_id:
+      type: integer(4)
+      default: '0'
+      notnull: true
+    is_registrar_for:
+      type: integer(1)
+      default: '1'
+    is_admin_for:
+      type: integer(1)
+      default: '1'
+    deleted_at: timestamp(25)
+    created_at: timestamp(25)
+  relations:
+    RegUser:
+      local: user_id
+      foreign: id
+      type: one
+    RegAgent:
+      local: agent_id
+      foreign: id
+      type: one
+RegConcept:
+  tableName: reg_concept
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      autoincrement: true
+    updated_at:
+      type: timestamp(25)
+      notnull: true
+    uri:
+      type: string(255)
+      default: ''
+      notnull: true
+    pref_label:
+      type: string(255)
+      default: ''
+      notnull: true
+    status_id:
+      type: integer(4)
+      default: '1'
+      notnull: true
+    language:
+      type: string(6)
+      fixed: true
+      default: en
+      notnull: true
+    created_at: timestamp(25)
+    deleted_at: timestamp(25)
+    last_updated: timestamp(25)
+    created_user_id: integer(4)
+    updated_user_id: integer(4)
+    vocabulary_id: integer(4)
+    is_top_concept: integer(1)
+    pref_label_id: integer(4)
+  relations:
+    RegVocabulary:
+      local: vocabulary_id
+      foreign: id
+      type: one
+    RegStatus:
+      local: status_id
+      foreign: id
+      type: one
+    RegUser:
+      local: created_user_id
+      foreign: id
+      type: one
+    RegStatus_4:
+      class: RegStatus
+      local: status_id
+      foreign: id
+      type: one
+    RegConceptProperty:
+      local: pref_label_id
+      foreign: id
+      type: one
+    RegUser_6:
+      class: RegUser
+      local: updated_user_id
+      foreign: id
+      type: one
+RegConceptProperty:
+  tableName: reg_concept_property
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      autoincrement: true
+    updated_at:
+      type: timestamp(25)
+      notnull: true
+    concept_id:
+      type: integer(4)
+      default: ''
+      notnull: true
+    skos_property_id:
+      type: integer(4)
+      default: ''
+      notnull: true
+    object:
+      type: string(2147483647)
+      default: ''
+      notnull: true
+    language:
+      type: string(6)
+      fixed: true
+      default: en
+    status_id:
+      type: integer(4)
+      default: '1'
+    created_at: timestamp(25)
+    deleted_at: timestamp(25)
+    last_updated: timestamp(25)
+    created_user_id: integer(4)
+    updated_user_id: integer(4)
+    primary_pref_label: integer(1)
+    scheme_id: integer(4)
+    related_concept_id: integer(4)
+  relations:
+    RegConcept:
+      local: concept_id
+      foreign: id
+      type: one
+    RegSkosProperty:
+      local: skos_property_id
+      foreign: id
+      type: one
+    RegVocabulary:
+      local: scheme_id
+      foreign: id
+      type: one
+    RegLookup:
+      local: status_id
+      foreign: id
+      type: one
+    RegConcept_5:
+      class: RegConcept
+      local: related_concept_id
+      foreign: id
+      type: one
+    RegUser:
+      local: created_user_id
+      foreign: id
+      type: one
+    RegUser_7:
+      class: RegUser
+      local: updated_user_id
+      foreign: id
+      type: one
+RegConceptPropertyHistory:
+  tableName: reg_concept_property_history
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      autoincrement: true
+    created_at:
+      type: timestamp(25)
+      notnull: true
+    action:
+      type: enum(13)
+      values: [updated, added, deleted, force_deleted]
+    language:
+      type: string(6)
+      fixed: true
+      default: en
+    status_id:
+      type: integer(4)
+      default: '1'
+    concept_property_id: integer(4)
+    concept_id: integer(4)
+    vocabulary_id: integer(4)
+    skos_property_id: integer(4)
+    object: string(2147483647)
+    scheme_id: integer(4)
+    related_concept_id: integer(4)
+    created_user_id: integer(4)
+    change_note: string(2147483647)
+  relations:
+    RegSkosProperty:
+      local: skos_property_id
+      foreign: id
+      type: one
+    RegVocabulary:
+      local: scheme_id
+      foreign: id
+      type: one
+    RegStatus:
+      local: status_id
+      foreign: id
+      type: one
+    RegConcept:
+      local: related_concept_id
+      foreign: id
+      type: one
+    RegUser:
+      local: created_user_id
+      foreign: id
+      type: one
+    RegConceptProperty:
+      local: concept_property_id
+      foreign: id
+      type: one
+    RegVocabulary_7:
+      class: RegVocabulary
+      local: vocabulary_id
+      foreign: id
+      type: one
+    RegConcept_8:
+      class: RegConcept
+      local: concept_id
+      foreign: id
+      type: one
+RegLookup:
+  tableName: reg_lookup
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      autoincrement: true
+    short_value:
+      type: string(20)
+      fixed: true
+    type_id: integer(4)
+    long_value: string(255)
+    display_order: integer(4)
+RegNamespace:
+  tableName: reg_namespace
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      autoincrement: true
+    schema_id:
+      type: integer(4)
+      default: ''
+      notnull: true
+    token:
+      type: string(255)
+      default: ''
+      notnull: true
+    uri:
+      type: string(255)
+      default: ''
+      notnull: true
+    created_at: timestamp(25)
+    deleted_at: timestamp(25)
+    created_user_id: integer(4)
+    updated_user_id: integer(4)
+    note: string(2147483647)
+    schema_location: string(255)
+  relations:
+    RegSchema:
+      local: schema_id
+      foreign: id
+      type: one
+RegObjectHistory:
+  tableName: reg_object_history
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      autoincrement: true
+    created_at:
+      type: timestamp(25)
+      notnull: true
+    class_id:
+      type: integer(4)
+      default: '1'
+      notnull: true
+    action:
+      type: enum(13)
+      values: [updated, added, deleted, force_deleted]
+    language:
+      type: string(6)
+      fixed: true
+      default: en
+    status_id:
+      type: integer(4)
+      default: '1'
+    is_latest:
+      type: integer(1)
+      default: '1'
+      notnull: true
+    created_by: integer(4)
+    profile_property_id: integer(4)
+    vocabulary_id: integer(4)
+    parent_id: integer(4)
+    object_id: integer(4)
+    last_object_id: integer(4)
+    related_object_id: integer(4)
+    object: string(2147483647)
+    change_note: string(2147483647)
+    flag1: integer(1)
+    flag2: integer(1)
+    flags: text()
+  relations:
+    RegUser:
+      local: created_by
+      foreign: id
+      type: one
+    Profile:
+      local: profile_property_id
+      foreign: id
+      type: one
+    RegVocabulary:
+      local: vocabulary_id
+      foreign: id
+      type: one
+    RegConcept:
+      local: parent_id
+      foreign: id
+      type: one
+    RegObjectHistory:
+      local: object_id
+      foreign: id
+      type: one
+    RegObjectHistory_6:
+      class: RegObjectHistory
+      local: last_object_id
+      foreign: id
+      type: one
+    RegObjectHistory_7:
+      class: RegObjectHistory
+      local: related_object_id
+      foreign: id
+      type: one
+    RegStatus:
+      local: status_id
+      foreign: id
+      type: one
+RegSchema:
+  tableName: reg_schema
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      autoincrement: true
+    agent_id:
+      type: integer(4)
+      default: ''
+      notnull: true
+    name:
+      type: string(255)
+      default: ''
+      notnull: true
+    uri:
+      type: string(255)
+      default: ''
+      notnull: true
+    base_domain:
+      type: string(255)
+      default: ''
+      notnull: true
+    token:
+      type: string(45)
+      default: ''
+      notnull: true
+    last_uri_id:
+      type: integer(4)
+      default: '100000'
+    status_id:
+      type: integer(4)
+      default: '1'
+      notnull: true
+    language:
+      type: string(6)
+      fixed: true
+      default: en
+      notnull: true
+    ns_type:
+      type: string(6)
+      fixed: true
+      default: slash
+      notnull: true
+    created_at: timestamp(25)
+    updated_at: timestamp(25)
+    deleted_at: timestamp(25)
+    created_user_id: integer(4)
+    updated_user_id: integer(4)
+    child_updated_at: timestamp(25)
+    child_updated_user_id: integer(4)
+    note: string(2147483647)
+    url: string(255)
+    community: string(45)
+    profile_id: integer(4)
+  relations:
+    RegAgent:
+      local: agent_id
+      foreign: id
+      type: one
+    RegUser:
+      local: created_user_id
+      foreign: id
+      type: one
+    RegUser_3:
+      class: RegUser
+      local: updated_user_id
+      foreign: id
+      type: one
+    Profile:
+      local: profile_id
+      foreign: id
+      type: one
+    RegStatus:
+      local: status_id
+      foreign: id
+      type: one
+RegSchemaProperty:
+  tableName: reg_schema_property
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      autoincrement: true
+    updated_at:
+      type: timestamp(25)
+      notnull: true
+    schema_id:
+      type: integer(4)
+      default: ''
+      notnull: true
+    name:
+      type: string(255)
+      default: ''
+      notnull: true
+    label:
+      type: string(255)
+      default: ''
+      notnull: true
+    type:
+      type: enum(11)
+      values: [property, subproperty, class, subclass]
+      default: ''
+      notnull: true
+    uri:
+      type: string(255)
+      default: ''
+      notnull: true
+    status_id:
+      type: integer(4)
+      default: '0'
+      notnull: true
+    language:
+      type: string(6)
+      default: ''
+      notnull: true
+    created_at: timestamp(25)
+    deleted_at: timestamp(25)
+    created_user_id: integer(4)
+    updated_user_id: integer(4)
+    definition: string(2147483647)
+    comment: string(2147483647)
+    is_subproperty_of: integer(4)
+    parent_uri: string(255)
+    note: string(2147483647)
+    domain: string(255)
+    range: string(255)
+  relations:
+    RegUser:
+      local: created_user_id
+      foreign: id
+      type: one
+    RegUser_2:
+      class: RegUser
+      local: updated_user_id
+      foreign: id
+      type: one
+    RegSchema:
+      local: schema_id
+      foreign: id
+      type: one
+    RegSchemaProperty:
+      local: is_subproperty_of
+      foreign: id
+      type: one
+    RegStatus:
+      local: status_id
+      foreign: id
+      type: one
+RegSchemaPropertyElement:
+  tableName: reg_schema_property_element
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      autoincrement: true
+    updated_at:
+      type: timestamp(25)
+      notnull: true
+    schema_property_id:
+      type: integer(4)
+      default: ''
+      notnull: true
+    profile_property_id:
+      type: integer(4)
+      default: ''
+      notnull: true
+    object:
+      type: string(2147483647)
+      default: ''
+      notnull: true
+    language:
+      type: string(6)
+      fixed: true
+      default: en
+    status_id:
+      type: integer(4)
+      default: '1'
+    created_at: timestamp(25)
+    deleted_at: timestamp(25)
+    created_user_id: integer(4)
+    updated_user_id: integer(4)
+    is_schema_property: integer(1)
+    related_schema_property_id: integer(4)
+  relations:
+    ProfileProperty:
+      local: profile_property_id
+      foreign: id
+      type: one
+    RegUser:
+      local: created_user_id
+      foreign: id
+      type: one
+    RegUser_3:
+      class: RegUser
+      local: updated_user_id
+      foreign: id
+      type: one
+    RegSchemaProperty:
+      local: schema_property_id
+      foreign: id
+      type: one
+    RegSchemaProperty_5:
+      class: RegSchemaProperty
+      local: related_schema_property_id
+      foreign: id
+      type: one
+    RegStatus:
+      local: status_id
+      foreign: id
+      type: one
+RegSchemaPropertyElementHistory:
+  tableName: reg_schema_property_element_history
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      autoincrement: true
+    created_at:
+      type: timestamp(25)
+      notnull: true
+    action:
+      type: enum(13)
+      values: [updated, added, deleted, force_deleted]
+    language:
+      type: string(6)
+      fixed: true
+      default: en
+    status_id:
+      type: integer(4)
+      default: '1'
+    created_user_id: integer(4)
+    schema_property_element_id: integer(4)
+    schema_property_id: integer(4)
+    schema_id: integer(4)
+    profile_property_id: integer(4)
+    object: string(2147483647)
+    related_schema_property_id: integer(4)
+    change_note: string(2147483647)
+  relations:
+    RegUser:
+      local: created_user_id
+      foreign: id
+      type: one
+    RegSchemaPropertyElement:
+      local: schema_property_element_id
+      foreign: id
+      type: one
+    RegSchemaProperty:
+      local: schema_property_id
+      foreign: id
+      type: one
+    RegSchema:
+      local: schema_id
+      foreign: id
+      type: one
+    RegSchemaProperty_5:
+      class: RegSchemaProperty
+      local: related_schema_property_id
+      foreign: id
+      type: one
+    RegStatus:
+      local: status_id
+      foreign: id
+      type: one
+    ProfileProperty:
+      local: profile_property_id
+      foreign: id
+      type: one
+RegSkosProperty:
+  tableName: reg_skos_property
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      autoincrement: true
+    name:
+      type: string(255)
+      default: ''
+      notnull: true
+    uri:
+      type: string(255)
+      default: ''
+      notnull: true
+    object_type:
+      type: enum(8)
+      values: [resource, literal]
+      default: ''
+      notnull: true
+    is_required:
+      type: integer(1)
+      default: '0'
+      notnull: true
+    is_reciprocal:
+      type: integer(1)
+      default: '0'
+      notnull: true
+    is_singleton:
+      type: integer(1)
+      default: '0'
+      notnull: true
+    is_scheme:
+      type: integer(1)
+      default: '0'
+      notnull: true
+    is_in_picklist:
+      type: integer(1)
+      default: '1'
+      notnull: true
+    parent_id: integer(4)
+    inverse_id: integer(4)
+    display_order: integer(4)
+    picklist_order: integer(4)
+    label: string(255)
+    definition: string(2147483647)
+    comment: string(2147483647)
+    examples: string(255)
+RegStatus:
+  tableName: reg_status
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      autoincrement: true
+    display_order: integer(4)
+    display_name: string(255)
+    uri: string(255)
+RegUser:
+  tableName: reg_user
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      autoincrement: true
+    last_updated:
+      type: timestamp(25)
+      notnull: true
+    want_to_be_moderator:
+      type: integer(1)
+      default: '0'
+    is_moderator:
+      type: integer(1)
+      default: '0'
+    is_administrator:
+      type: integer(1)
+      default: '0'
+    deletions:
+      type: integer(4)
+      default: '0'
+    created_at: timestamp(25)
+    deleted_at: timestamp(25)
+    nickname: string(50)
+    salutation: string(5)
+    first_name: string(100)
+    last_name: string(100)
+    email: string(100)
+    sha1_password: string(40)
+    salt: string(32)
+    password: string(40)
+RegVocabulary:
+  tableName: reg_vocabulary
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      autoincrement: true
+    agent_id:
+      type: integer(4)
+      default: ''
+      notnull: true
+    last_updated:
+      type: timestamp(25)
+      notnull: true
+    name:
+      type: string(255)
+      default: ''
+      notnull: true
+    uri:
+      type: string(255)
+      default: ''
+      notnull: true
+    base_domain:
+      type: string(255)
+      default: ''
+      notnull: true
+    token:
+      type: string(45)
+      default: ''
+      notnull: true
+    last_uri_id:
+      type: integer(4)
+      default: '1000'
+    status_id:
+      type: integer(4)
+      default: '1'
+      notnull: true
+    language:
+      type: string(6)
+      fixed: true
+      default: en
+      notnull: true
+    created_at: timestamp(25)
+    deleted_at: timestamp(25)
+    created_user_id: integer(4)
+    updated_user_id: integer(4)
+    child_updated_at: timestamp(25)
+    child_updated_user_id: integer(4)
+    note: string(2147483647)
+    url: string(255)
+    community: string(45)
+  relations:
+    RegUser:
+      local: created_user_id
+      foreign: id
+      type: one
+    RegUser_2:
+      class: RegUser
+      local: updated_user_id
+      foreign: id
+      type: one
+    RegUser_3:
+      class: RegUser
+      local: child_updated_user_id
+      foreign: id
+      type: one
+    RegAgent:
+      local: agent_id
+      foreign: id
+      type: one
+    RegStatus:
+      local: status_id
+      foreign: id
+      type: one
+RegVocabularyHasUser:
+  tableName: reg_vocabulary_has_user
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      autoincrement: true
+    updated_at:
+      type: timestamp(25)
+      notnull: true
+    vocabulary_id:
+      type: integer(4)
+      default: '0'
+      notnull: true
+    user_id:
+      type: integer(4)
+      default: '0'
+      notnull: true
+    is_maintainer_for:
+      type: integer(1)
+      default: '1'
+    is_registrar_for:
+      type: integer(1)
+      default: '1'
+    is_admin_for:
+      type: integer(1)
+      default: '1'
+    created_at: timestamp(25)
+    deleted_at: timestamp(25)
+  relations:
+    RegUser:
+      local: user_id
+      foreign: id
+      type: one
+    RegVocabulary:
+      local: vocabulary_id
+      foreign: id
+      type: one
+RegVocabularyHasVersion:
+  tableName: reg_vocabulary_has_version
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      autoincrement: true
+    name:
+      type: string(255)
+      default: ''
+      notnull: true
+    created_at: timestamp(25)
+    deleted_at: timestamp(25)
+    updated_at: timestamp(25)
+    created_user_id: integer(4)
+    vocabulary_id: integer(4)
+    timeslice: timestamp(25)
+  relations:
+    RegUser:
+      local: created_user_id
+      foreign: id
+      type: one
+    RegVocabulary:
+      local: vocabulary_id
+      foreign: id
+      type: one
+SchemaHasUser:
+  tableName: schema_has_user
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      autoincrement: true
+    schema_id:
+      type: integer(4)
+      default: '0'
+      notnull: true
+    user_id:
+      type: integer(4)
+      default: '0'
+      notnull: true
+    is_maintainer_for:
+      type: integer(1)
+      default: '1'
+    is_registrar_for:
+      type: integer(1)
+      default: '1'
+    is_admin_for:
+      type: integer(1)
+      default: '1'
+    created_at: timestamp(25)
+    updated_at: timestamp(25)
+    deleted_at: timestamp(25)
+  relations:
+    RegSchema:
+      local: schema_id
+      foreign: id
+      type: one
+    RegUser:
+      local: user_id
+      foreign: id
+      type: one
+SchemaHasVersion:
+  tableName: schema_has_version
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      autoincrement: true
+    name:
+      type: string(255)
+      default: ''
+      notnull: true
+    created_at: timestamp(25)
+    deleted_at: timestamp(25)
+    updated_at: timestamp(25)
+    created_user_id: integer(4)
+    schema_id: integer(4)
+    timeslice: timestamp(25)
+  relations:
+    RegUser:
+      local: created_user_id
+      foreign: id
+      type: one
+    RegSchema:
+      local: schema_id
+      foreign: id
+      type: one
+SfBlog:
+  tableName: sf_blog
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      autoincrement: true
+    is_published:
+      type: integer(1)
+      default: '0'
+    is_finished:
+      type: integer(1)
+      default: '0'
+    display_extract:
+      type: integer(1)
+      default: '1'
+    comment_policy:
+      type: integer(4)
+      default: '2'
+    title: string(255)
+    tagline: string(2147483647)
+    copyright: string(2147483647)
+    stripped_title: string(255)
+    created_at: timestamp(25)
+    updated_at: timestamp(25)
+SfBlogComment:
+  tableName: sf_blog_comment
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      autoincrement: true
+    status:
+      type: integer(4)
+      default: '1'
+    sf_blog_post_id: integer(4)
+    author_name: string(255)
+    author_email: string(255)
+    author_url: string(255)
+    content: string(2147483647)
+    created_at: timestamp(25)
+  relations:
+    SfBlogPost:
+      local: sf_blog_post_id
+      foreign: id
+      type: one
+SfBlogLog:
+  tableName: sf_blog_log
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      autoincrement: true
+    user_id: integer(4)
+    subject_class: string(255)
+    subject_id: integer(4)
+    subject_name: string(255)
+    subject_link: string(255)
+    verb: string(255)
+    object_class: string(255)
+    object_id: integer(4)
+    object_name: string(255)
+    object_link: string(255)
+    complement_class: string(255)
+    complement_id: integer(4)
+    complement_name: string(255)
+    complement_link: string(255)
+    message: string(255)
+    created_at: timestamp(25)
+  relations:
+    SfGuardUser:
+      local: user_id
+      foreign: id
+      type: one
+SfBlogPost:
+  tableName: sf_blog_post
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      autoincrement: true
+    is_published:
+      type: integer(1)
+      default: '0'
+    allow_comments:
+      type: integer(1)
+      default: '1'
+    nb_comments:
+      type: integer(4)
+      default: '0'
+    sf_blog_id: integer(4)
+    author_id: integer(4)
+    title: string(255)
+    stripped_title: string(255)
+    extract: string(2147483647)
+    content: string(2147483647)
+    created_at: timestamp(25)
+    updated_at: timestamp(25)
+    published_at: timestamp(25)
+  relations:
+    SfBlog:
+      local: sf_blog_id
+      foreign: id
+      type: one
+    SfGuardUser:
+      local: author_id
+      foreign: id
+      type: one
+SfBlogTag:
+  tableName: sf_blog_tag
+  columns:
+    sf_blog_post_id:
+      type: integer(4)
+      primary: true
+    tag:
+      type: string(255)
+      primary: true
+    created_at: timestamp(25)
+  relations:
+    SfBlogPost:
+      local: sf_blog_post_id
+      foreign: id
+      type: one
+SfBlogUser:
+  tableName: sf_blog_user
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      autoincrement: true
+    is_creator:
+      type: integer(1)
+      default: '1'
+    sf_blog_id: integer(4)
+    user_id: integer(4)
+  relations:
+    SfBlog:
+      local: sf_blog_id
+      foreign: id
+      type: one
+    SfGuardUser:
+      local: user_id
+      foreign: id
+      type: one
+SfBreadnav:
+  tableName: sf_breadnav
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      autoincrement: true
+    page:
+      type: string(255)
+      default: ''
+      notnull: true
+    title:
+      type: string(255)
+      default: ''
+      notnull: true
+    module:
+      type: string(128)
+      default: ''
+      notnull: true
+    action:
+      type: string(128)
+      default: ''
+      notnull: true
+    tree_left:
+      type: integer(4)
+      default: ''
+      notnull: true
+    tree_right:
+      type: integer(4)
+      default: ''
+      notnull: true
+    tree_parent:
+      type: integer(4)
+      default: ''
+      notnull: true
+    scope:
+      type: integer(4)
+      default: ''
+      notnull: true
+    credential: string(128)
+    catchall: integer(1)
+  relations:
+    SfBreadnavApplication:
+      local: scope
+      foreign: id
+      type: one
+SfBreadnavApplication:
+  tableName: sf_breadnav_application
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      autoincrement: true
+    name:
+      type: string(255)
+      default: ''
+      notnull: true
+    application:
+      type: string(255)
+      default: ''
+      notnull: true
+    css:
+      type: string(2000)
+      default: ''
+      notnull: true
+    user_id: integer(4)
+SfComment:
+  tableName: sf_comment
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      autoincrement: true
+    commentable_model: string(30)
+    commentable_id: integer(4)
+    comment_namespace: string(50)
+    title: string(100)
+    text: string(2147483647)
+    author_id: integer(4)
+    author_name: string(50)
+    author_email: string(100)
+    author_website: string(255)
+    created_at: timestamp(25)
+SfGuardGroup:
+  tableName: sf_guard_group
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      autoincrement: true
+    name:
+      type: string(255)
+      default: ''
+      notnull: true
+    description: string(2147483647)
+SfGuardGroupPermission:
+  tableName: sf_guard_group_permission
+  columns:
+    group_id:
+      type: integer(4)
+      primary: true
+    permission_id:
+      type: integer(4)
+      primary: true
+  relations:
+    SfGuardGroup:
+      local: group_id
+      foreign: id
+      type: one
+    SfGuardPermission:
+      local: permission_id
+      foreign: id
+      type: one
+SfGuardPermission:
+  tableName: sf_guard_permission
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      autoincrement: true
+    name:
+      type: string(255)
+      default: ''
+      notnull: true
+    description: string(2147483647)
+SfGuardRememberKey:
+  tableName: sf_guard_remember_key
+  columns:
+    user_id:
+      type: integer(4)
+      primary: true
+    ip_address:
+      type: string(50)
+      primary: true
+    remember_key: string(32)
+    created_at: timestamp(25)
+  relations:
+    SfGuardUser:
+      local: user_id
+      foreign: id
+      type: one
+SfGuardUser:
+  tableName: sf_guard_user
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      autoincrement: true
+    username:
+      type: string(128)
+      default: ''
+      notnull: true
+    algorithm:
+      type: string(128)
+      default: sha1
+      notnull: true
+    salt:
+      type: string(128)
+      default: ''
+      notnull: true
+    password:
+      type: string(128)
+      default: ''
+      notnull: true
+    is_active:
+      type: integer(1)
+      default: '1'
+      notnull: true
+    is_super_admin:
+      type: integer(1)
+      default: '0'
+      notnull: true
+    created_at: timestamp(25)
+    last_login: timestamp(25)
+SfGuardUserGroup:
+  tableName: sf_guard_user_group
+  columns:
+    user_id:
+      type: integer(4)
+      primary: true
+    group_id:
+      type: integer(4)
+      primary: true
+  relations:
+    SfGuardUser:
+      local: user_id
+      foreign: id
+      type: one
+    SfGuardGroup:
+      local: group_id
+      foreign: id
+      type: one
+SfGuardUserPermission:
+  tableName: sf_guard_user_permission
+  columns:
+    user_id:
+      type: integer(4)
+      primary: true
+    permission_id:
+      type: integer(4)
+      primary: true
+  relations:
+    SfGuardUser:
+      local: user_id
+      foreign: id
+      type: one
+    SfGuardPermission:
+      local: permission_id
+      foreign: id
+      type: one
+SfWebpanelBugs:
+  tableName: sf_webpanel_bugs
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      autoincrement: true
+    solved:
+      type: integer(2)
+      default: '0'
+      notnull: true
+    title: string(50)
+    module_name: string(150)
+    action_name: string(150)
+    app_name: string(50)
+    date_added: timestamp(25)
+    description: string(2147483647)
+    url: string(255)
