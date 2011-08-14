@@ -1,0 +1,51 @@
+methods:
+  post:
+    -"vocabulary{name}"
+    -"vocabulary{uri}"
+    -"vocabulary{base_domain}"
+    -"vocabulary{token}"
+
+names:
+  "vocabulary{name}":
+    required:       Yes
+    required_msg:   The Name cannot be left blank
+  "vocabulary{uri}":
+    required:       Yes
+    required_msg:   The URI cannot be left blank
+    validators:     uniqueUriValidator
+  "vocabulary{base_domain}":
+    required:       Yes
+    required_msg:   The Base Domain cannot be left blank
+  "vocabulary{token}":
+    required:       Yes
+    required_msg:   The Token cannot be left blank
+    validators:     uniqueTokenValidator
+
+nameValidator:
+  class:          sfStringValidator
+  param:
+    min:          2
+    min_error:    You didn't enter a valid name (at least 2 characters). Please try again.
+    max:          100
+    max_error:    You didn't enter a valid name (less than 100 characters). Please try again.
+uniqueNameValidator:
+  class:          sfPropelUniqueValidator
+  param:
+    class:        Vocabulary
+    column:       name
+    unique_error: This vocabulary has already been registered.
+uniqueUriValidator:
+  class:          sfPropelUniqueValidator
+  param:
+    class:        Vocabulary
+    column:       uri
+    unique_error: This URI has already been registered.
+uniqueTokenValidator:
+  class:          sfPropelUniqueValidator
+  param:
+    class:        Vocabulary
+    column:       token
+    unique_error: This Token has already been registered.
+fillin:
+  activate: on
+  

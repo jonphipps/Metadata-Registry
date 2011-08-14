@@ -1,0 +1,1777 @@
+---
+propel:
+  _attributes:
+    package: lib.model
+  arc_g2t:
+    _attributes:
+      phpName: ArcG2t
+    g:
+      type: SMALLINT
+      required: true
+      default: ''
+      index: true
+    t:
+      type: SMALLINT
+      required: true
+      default: ''
+      index: true
+    _indexes:
+      tg:
+        - t
+        - g
+    _uniques:
+      gt:
+        - g
+        - t
+  arc_id2val:
+    _attributes:
+      phpName: ArcId2val
+    id:
+      type: SMALLINT
+      required: true
+      default: ''
+    misc:
+      type: BOOLEAN
+      required: true
+      default: 0
+    val:
+      type: LONGVARCHAR
+      required: true
+    val_type:
+      type: BOOLEAN
+      required: true
+      default: 0
+    _indexes:
+      v:
+        - val
+      id_2:
+        - id
+    _uniques:
+      id:
+        - id
+        - val_type
+  arc_o2val:
+    _attributes:
+      phpName: ArcO2val
+    id:
+      type: SMALLINT
+      required: true
+      default: ''
+      index: unique
+    cid:
+      type: SMALLINT
+      required: true
+      default: ''
+      index: true
+    misc:
+      type: BOOLEAN
+      required: true
+      default: 0
+    val:
+      type: LONGVARCHAR
+      required: true
+    _indexes:
+      v:
+        - val
+  arc_s2val:
+    _attributes:
+      phpName: ArcS2val
+    id:
+      type: SMALLINT
+      required: true
+      default: ''
+      index: unique
+    cid:
+      type: SMALLINT
+      required: true
+      default: ''
+      index: true
+    misc:
+      type: BOOLEAN
+      required: true
+      default: 0
+    val:
+      type: LONGVARCHAR
+      required: true
+    _indexes:
+      v:
+        - val
+  arc_setting:
+    _attributes:
+      phpName: ArcSetting
+    k:
+      type: CHAR
+      size: 32
+      required: true
+      default: ''
+      index: unique
+    val:
+      type: LONGVARCHAR
+      required: true
+  arc_triple:
+    _attributes:
+      phpName: ArcTriple
+    t:
+      type: SMALLINT
+      required: true
+      default: ''
+      index: unique
+    s:
+      type: SMALLINT
+      required: true
+      default: ''
+      index: true
+    p:
+      type: SMALLINT
+      required: true
+      default: ''
+      index: true
+    o:
+      type: SMALLINT
+      required: true
+      default: ''
+      index: true
+    o_lang_dt:
+      type: SMALLINT
+      required: true
+      default: ''
+      index: true
+    o_comp:
+      type: CHAR
+      size: 35
+      required: true
+      default: ''
+    s_type:
+      type: BOOLEAN
+      required: true
+      default: 0
+    o_type:
+      type: BOOLEAN
+      required: true
+      default: 0
+    misc:
+      type: BOOLEAN
+      required: true
+      default: 0
+      index: true
+    _indexes:
+      spo:
+        - s
+        - p
+        - o
+      os:
+        - o
+        - s
+      po:
+        - p
+        - o
+  profile:
+    _attributes:
+      phpName: Profile
+      idMethod: native
+    id:
+      type: INTEGER
+      required: true
+      autoIncrement: true
+    agent_id:
+      type: INTEGER
+      required: true
+      default: ''
+      foreignTable: reg_agent
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
+    created_at:
+      type: TIMESTAMP
+    updated_at:
+      type: TIMESTAMP
+    deleted_at:
+      type: TIMESTAMP
+    created_by:
+      type: INTEGER
+      foreignTable: reg_user
+      foreignReference: id
+      onDelete: SET NULL
+      onUpdate: RESTRICT
+    updated_by:
+      type: INTEGER
+      foreignTable: reg_user
+      foreignReference: id
+      onDelete: SET NULL
+      onUpdate: RESTRICT
+    deleted_by:
+      type: INTEGER
+      foreignTable: reg_user
+      foreignReference: id
+      onDelete: SET NULL
+      onUpdate: RESTRICT
+    child_updated_at:
+      type: TIMESTAMP
+    child_updated_by:
+      type: INTEGER
+      foreignTable: reg_user
+      foreignReference: id
+      onDelete: SET NULL
+      onUpdate: RESTRICT
+    name:
+      type: VARCHAR
+      size: 255
+      required: true
+      default: ''
+    note:
+      type: LONGVARCHAR
+    uri:
+      type: VARCHAR
+      size: 255
+      required: true
+      default: ''
+    url:
+      type: VARCHAR
+      size: 255
+    base_domain:
+      type: VARCHAR
+      size: 255
+      required: true
+      default: ''
+    token:
+      type: VARCHAR
+      size: 45
+      required: true
+      default: ''
+    community:
+      type: VARCHAR
+      size: 45
+    last_uri_id:
+      type: INTEGER
+      default: 100000
+    status_id:
+      type: INTEGER
+      required: true
+      default: 1
+      foreignTable: reg_status
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
+    language:
+      type: CHAR
+      size: 6
+      required: true
+      default: en
+    _indexes:
+      profile_agent_id:
+        - agent_id
+      profile_status_id:
+        - status_id
+      profile_updated_by:
+        - updated_by
+      profile_created_by:
+        - created_by
+      profile_deleted_by:
+        - deleted_by
+      profile_child_updated_by:
+        - child_updated_by
+    _uniques:
+      profile_id:
+        - id
+  profile_property:
+    _attributes:
+      phpName: ProfileProperty
+      idMethod: native
+    id:
+      type: INTEGER
+      required: true
+      autoIncrement: true
+      index: unique
+    created_at:
+      type: TIMESTAMP
+    updated_at:
+      type: TIMESTAMP
+      required: true
+    deleted_at:
+      type: TIMESTAMP
+    created_by:
+      type: INTEGER
+      foreignTable: reg_user
+      foreignReference: id
+      onDelete: SET NULL
+      onUpdate: RESTRICT
+    updated_by:
+      type: INTEGER
+      foreignTable: reg_user
+      foreignReference: id
+      onDelete: SET NULL
+      onUpdate: RESTRICT
+    deleted_by:
+      type: INTEGER
+      foreignTable: reg_user
+      foreignReference: id
+      onDelete: SET NULL
+      onUpdate: RESTRICT
+    profile_id:
+      type: INTEGER
+      required: true
+      default: ''
+      foreignTable: profile
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
+    name:
+      type: VARCHAR
+      size: 255
+      required: true
+      default: ''
+    label:
+      type: VARCHAR
+      size: 255
+      required: true
+      default: ''
+    definition:
+      type: LONGVARCHAR
+    comment:
+      type: LONGVARCHAR
+    type:
+      type: CHAR
+      required: true
+      default: ''
+    uri:
+      type: VARCHAR
+      size: 255
+    status_id:
+      type: INTEGER
+      required: true
+      default: 1
+      foreignTable: reg_status
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
+    language:
+      type: VARCHAR
+      size: 6
+      required: true
+      default: en
+    note:
+      type: LONGVARCHAR
+    display_order:
+      type: INTEGER
+    picklist_order:
+      type: INTEGER
+    examples:
+      type: VARCHAR
+      size: 255
+    is_required:
+      type: BOOLEAN
+      required: true
+      default: 0
+    is_reciprocal:
+      type: BOOLEAN
+      required: true
+      default: 0
+    is_singleton:
+      type: BOOLEAN
+      required: true
+      default: 0
+    is_in_picklist:
+      type: BOOLEAN
+      required: true
+      default: 1
+    is_in_class_picklist:
+      type: BOOLEAN
+      required: true
+      default: 1
+    is_in_property_picklist:
+      type: BOOLEAN
+      required: true
+      default: 1
+    is_in_rdf:
+      type: BOOLEAN
+      required: true
+      default: 1
+    is_in_xsd:
+      type: BOOLEAN
+      required: true
+      default: 1
+    is_attribute:
+      type: BOOLEAN
+      required: true
+      default: 0
+    has_language:
+      type: BOOLEAN
+      required: true
+      default: 0
+    inverse_profile_property_id:
+      type: INTEGER
+      foreignTable: profile_property
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
+      index: true
+    schema_property_id:
+      type: INTEGER
+      foreignTable: reg_schema_property
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
+      index: true
+    schema_id:
+      type: INTEGER
+      foreignTable: reg_schema
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
+      index: true
+    _indexes:
+      profile_property_agent_id:
+        - profile_id
+      profile_property_status_id:
+        - status_id
+      profile_property_updated_by:
+        - updated_by
+      profile_property_created_by:
+        - created_by
+      profile_property_deleted_by:
+        - deleted_by
+  reg_agent:
+    _attributes:
+      phpName: Agent
+      idMethod: native
+    id:
+      type: INTEGER
+      required: true
+      autoIncrement: true
+      primaryKey: true
+    created_at:
+      type: TIMESTAMP
+    last_updated:
+      type: TIMESTAMP
+      required: true
+    deleted_at:
+      type: TIMESTAMP
+    org_email:
+      type: VARCHAR
+      size: 100
+      required: true
+      default: ''
+    org_name:
+      type: VARCHAR
+      size: 255
+      required: true
+      default: ''
+    ind_affiliation:
+      type: VARCHAR
+      size: 255
+    ind_role:
+      type: VARCHAR
+      size: 45
+    address1:
+      type: VARCHAR
+      size: 255
+    address2:
+      type: VARCHAR
+      size: 255
+    city:
+      type: VARCHAR
+      size: 45
+    state:
+      type: CHAR
+      size: 2
+    postal_code:
+      type: VARCHAR
+      size: 15
+    country:
+      type: CHAR
+      size: 3
+    phone:
+      type: VARCHAR
+      size: 45
+    web_address:
+      type: VARCHAR
+      size: 255
+    type:
+      type: CHAR
+      size: 15
+  reg_agent_has_user:
+    _attributes:
+      phpName: AgentHasUser
+      idMethod: native
+    id:
+      type: INTEGER
+      required: true
+      autoIncrement: true
+      primaryKey: true
+    created_at:
+      type: TIMESTAMP
+    updated_at:
+      type: TIMESTAMP
+      required: true
+    deleted_at:
+      type: TIMESTAMP
+    user_id:
+      type: INTEGER
+      required: true
+      default: 0
+      foreignTable: reg_user
+      foreignReference: id
+      onDelete: CASCADE
+      onUpdate: RESTRICT
+    agent_id:
+      type: INTEGER
+      required: true
+      default: 0
+      foreignTable: reg_agent
+      foreignReference: id
+      onDelete: CASCADE
+      onUpdate: RESTRICT
+    is_registrar_for:
+      type: BOOLEAN
+      default: 1
+    is_admin_for:
+      type: BOOLEAN
+      default: 1
+    _uniques:
+      user_agent_id:
+        - user_id
+        - agent_id
+      agent_user_id:
+        - agent_id
+        - user_id
+  reg_batch:
+    _attributes:
+      phpName: Batch
+      idMethod: native
+    id:
+      type: INTEGER
+      required: true
+      autoIncrement: true
+      primaryKey: true
+      index: unique
+    run_time:
+      type: TIMESTAMP
+    run_description:
+      type: LONGVARCHAR
+    object_type:
+      type: VARCHAR
+      size: 20
+    object_id:
+      type: INTEGER
+    event_time:
+      type: TIMESTAMP
+    event_type:
+      type: VARCHAR
+      size: 20
+    event_description:
+      type: LONGVARCHAR
+    registry_uri:
+      type: VARCHAR
+      size: 255
+  reg_collection:
+    _attributes:
+      phpName: Collection
+      idMethod: native
+    id:
+      type: INTEGER
+      required: true
+      autoIncrement: true
+      primaryKey: true
+    created_at:
+      type: TIMESTAMP
+    updated_at:
+      type: TIMESTAMP
+      required: true
+    deleted_at:
+      type: TIMESTAMP
+    last_updated:
+      type: TIMESTAMP
+    created_user_id:
+      type: INTEGER
+      foreignTable: reg_user
+      foreignReference: id
+      onDelete: SET NULL
+      onUpdate: RESTRICT
+      index: true
+    updated_user_id:
+      type: INTEGER
+      foreignTable: reg_user
+      foreignReference: id
+      onDelete: SET NULL
+      onUpdate: RESTRICT
+    vocabulary_id:
+      type: INTEGER
+      foreignTable: reg_vocabulary
+      foreignReference: id
+      onDelete: CASCADE
+      onUpdate: RESTRICT
+      index: true
+    name:
+      type: VARCHAR
+      size: 255
+      required: true
+      default: ''
+    uri:
+      type: VARCHAR
+      size: 255
+    pref_label:
+      type: VARCHAR
+      size: 255
+      required: true
+      default: ''
+    status_id:
+      type: INTEGER
+      required: true
+      default: 1
+      foreignTable: reg_status
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
+      index: true
+    _indexes:
+      last_updated_by_user_id:
+        - updated_user_id
+  reg_concept:
+    _attributes:
+      phpName: Concept
+      idMethod: native
+    id:
+      type: INTEGER
+      required: true
+      autoIncrement: true
+      primaryKey: true
+    created_at:
+      type: TIMESTAMP
+    updated_at:
+      type: TIMESTAMP
+      required: true
+    deleted_at:
+      type: TIMESTAMP
+    last_updated:
+      type: TIMESTAMP
+    created_user_id:
+      type: INTEGER
+      foreignTable: reg_user
+      foreignReference: id
+      onDelete: SET NULL
+      onUpdate: RESTRICT
+      index: true
+    updated_user_id:
+      type: INTEGER
+      foreignTable: reg_user
+      foreignReference: id
+      onDelete: SET NULL
+      onUpdate: RESTRICT
+    uri:
+      type: VARCHAR
+      size: 255
+      required: true
+      default: ''
+    pref_label:
+      type: VARCHAR
+      size: 255
+      required: true
+      default: ''
+      index: true
+    vocabulary_id:
+      type: INTEGER
+      foreignTable: reg_vocabulary
+      foreignReference: id
+      onDelete: CASCADE
+      onUpdate: RESTRICT
+      index: true
+    is_top_concept:
+      type: BOOLEAN
+    pref_label_id:
+      type: INTEGER
+      foreignTable: reg_concept_property
+      foreignReference: id
+      onDelete: SET NULL
+      onUpdate: RESTRICT
+      index: true
+    status_id:
+      type: INTEGER
+      required: true
+      default: 1
+      foreignTable: reg_status
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
+      index: true
+    language:
+      type: CHAR
+      size: 6
+      required: true
+      default: en
+    _indexes:
+      last_updated_by_user_id:
+        - updated_user_id
+    _uniques:
+      vocabulary_id_pref_label:
+        - vocabulary_id
+        - pref_label
+  reg_concept_property:
+    _attributes:
+      phpName: ConceptProperty
+      idMethod: native
+    id:
+      type: INTEGER
+      required: true
+      autoIncrement: true
+      primaryKey: true
+      index: unique
+    created_at:
+      type: TIMESTAMP
+    updated_at:
+      type: TIMESTAMP
+      required: true
+    deleted_at:
+      type: TIMESTAMP
+    last_updated:
+      type: TIMESTAMP
+    created_user_id:
+      type: INTEGER
+      foreignTable: reg_user
+      foreignReference: id
+      onDelete: SET NULL
+      onUpdate: RESTRICT
+      index: true
+    updated_user_id:
+      type: INTEGER
+      foreignTable: reg_user
+      foreignReference: id
+      onDelete: SET NULL
+      onUpdate: RESTRICT
+      index: true
+    concept_id:
+      type: INTEGER
+      required: true
+      default: ''
+      foreignTable: reg_concept
+      foreignReference: id
+      onDelete: CASCADE
+      onUpdate: RESTRICT
+      index: true
+    primary_pref_label:
+      type: BOOLEAN
+    skos_property_id:
+      type: INTEGER
+      required: true
+      default: ''
+      foreignTable: reg_skos_property
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
+      index: true
+    object:
+      type: LONGVARCHAR
+      required: true
+    scheme_id:
+      type: INTEGER
+      foreignTable: reg_vocabulary
+      foreignReference: id
+      onDelete: SET NULL
+      onUpdate: RESTRICT
+      index: true
+    related_concept_id:
+      type: INTEGER
+      foreignTable: reg_concept
+      foreignReference: id
+      onDelete: SET NULL
+      onUpdate: RESTRICT
+      index: true
+    language:
+      type: CHAR
+      size: 6
+      default: en
+    status_id:
+      type: INTEGER
+      default: 1
+      foreignTable: reg_status
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
+      index: true
+  reg_concept_property_history:
+    _attributes:
+      phpName: ConceptPropertyHistory
+      idMethod: native
+    id:
+      type: INTEGER
+      required: true
+      autoIncrement: true
+      primaryKey: true
+      index: unique
+    created_at:
+      type: TIMESTAMP
+      required: true
+    action:
+      type: CHAR
+    concept_property_id:
+      type: INTEGER
+      foreignTable: reg_concept_property
+      foreignReference: id
+      onDelete: CASCADE
+      onUpdate: RESTRICT
+      index: true
+    concept_id:
+      type: INTEGER
+      foreignTable: reg_concept
+      foreignReference: id
+      onDelete: SET NULL
+      onUpdate: RESTRICT
+      index: true
+    vocabulary_id:
+      type: INTEGER
+      foreignTable: reg_vocabulary
+      foreignReference: id
+      onDelete: SET NULL
+      onUpdate: RESTRICT
+      index: true
+    skos_property_id:
+      type: INTEGER
+      foreignTable: reg_skos_property
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
+      index: true
+    object:
+      type: LONGVARCHAR
+    scheme_id:
+      type: INTEGER
+      foreignTable: reg_vocabulary
+      foreignReference: id
+      onDelete: SET NULL
+      onUpdate: RESTRICT
+      index: true
+    related_concept_id:
+      type: INTEGER
+      foreignTable: reg_concept
+      foreignReference: id
+      onDelete: SET NULL
+      onUpdate: RESTRICT
+      index: true
+    language:
+      type: CHAR
+      size: 6
+      default: en
+    status_id:
+      type: INTEGER
+      default: 1
+      foreignTable: reg_status
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
+      index: true
+    created_user_id:
+      type: INTEGER
+      foreignTable: reg_user
+      foreignReference: id
+      onDelete: SET NULL
+      onUpdate: RESTRICT
+      index: true
+    change_note:
+      type: LONGVARCHAR
+  reg_discuss:
+    _attributes:
+      phpName: Discuss
+      idMethod: native
+    id:
+      type: INTEGER
+      required: true
+      autoIncrement: true
+      primaryKey: true
+      index: unique
+    created_at:
+      type: TIMESTAMP
+    deleted_at:
+      type: TIMESTAMP
+    created_user_id:
+      type: INTEGER
+      foreignTable: reg_user
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
+      index: true
+    deleted_user_id:
+      type: INTEGER
+      foreignTable: reg_user
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
+      index: true
+    uri:
+      type: CHAR
+      size: 255
+      index: true
+    schema_id:
+      type: INTEGER
+      foreignTable: reg_schema
+      foreignReference: id
+      onDelete: CASCADE
+      onUpdate: RESTRICT
+      index: true
+    schema_property_id:
+      type: INTEGER
+      foreignTable: reg_schema_property
+      foreignReference: id
+      onDelete: CASCADE
+      onUpdate: RESTRICT
+    schema_property_element_id:
+      type: INTEGER
+      foreignTable: reg_schema_property_element
+      foreignReference: id
+      onDelete: CASCADE
+      onUpdate: RESTRICT
+    vocabulary_id:
+      type: INTEGER
+      foreignTable: reg_vocabulary
+      foreignReference: id
+      onDelete: CASCADE
+      onUpdate: RESTRICT
+    concept_id:
+      type: INTEGER
+      foreignTable: reg_concept
+      foreignReference: id
+      onDelete: CASCADE
+      onUpdate: RESTRICT
+      index: true
+    concept_property_id:
+      type: INTEGER
+      foreignTable: reg_concept_property
+      foreignReference: id
+      onDelete: CASCADE
+      onUpdate: RESTRICT
+      index: true
+    root_id:
+      type: INTEGER
+      foreignTable: reg_discuss
+      foreignReference: id
+      onDelete: CASCADE
+      onUpdate: RESTRICT
+      index: true
+    parent_id:
+      type: INTEGER
+      foreignTable: reg_discuss
+      foreignReference: id
+      onDelete: CASCADE
+      onUpdate: RESTRICT
+      index: true
+    subject:
+      type: VARCHAR
+      size: 255
+    content:
+      type: LONGVARCHAR
+    _indexes:
+      element_id:
+        - schema_property_id
+      element_property_id:
+        - schema_property_element_id
+      scheme_id:
+        - vocabulary_id
+  reg_lookup:
+    _attributes:
+      phpName: Lookup
+      idMethod: native
+    id:
+      type: INTEGER
+      required: true
+      autoIncrement: true
+      primaryKey: true
+      index: unique
+    type_id:
+      type: INTEGER
+    short_value:
+      type: CHAR
+      size: 20
+    long_value:
+      type: VARCHAR
+      size: 255
+    display_order:
+      type: INTEGER
+    _indexes:
+      display_order:
+        - type_id
+        - display_order
+  reg_namespace:
+    _attributes:
+      phpName: Namespace
+      idMethod: native
+    id:
+      type: INTEGER
+      required: true
+      autoIncrement: true
+      primaryKey: true
+    schema_id:
+      type: INTEGER
+      required: true
+      default: ''
+      foreignTable: reg_schema
+      foreignReference: id
+      onDelete: CASCADE
+      onUpdate: RESTRICT
+      index: true
+    created_at:
+      type: TIMESTAMP
+    deleted_at:
+      type: TIMESTAMP
+    created_user_id:
+      type: INTEGER
+    updated_user_id:
+      type: INTEGER
+    token:
+      type: VARCHAR
+      size: 255
+      required: true
+      default: ''
+    note:
+      type: LONGVARCHAR
+    uri:
+      type: VARCHAR
+      size: 255
+      required: true
+      default: ''
+    schema_location:
+      type: VARCHAR
+      size: 255
+  reg_schema:
+    _attributes:
+      phpName: Schema
+      idMethod: native
+    id:
+      type: INTEGER
+      required: true
+      autoIncrement: true
+      index: unique
+    agent_id:
+      type: INTEGER
+      required: true
+      default: ''
+      foreignTable: reg_agent
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
+      index: true
+    created_at:
+      type: TIMESTAMP
+    updated_at:
+      type: TIMESTAMP
+    deleted_at:
+      type: TIMESTAMP
+    created_user_id:
+      type: INTEGER
+      foreignTable: reg_user
+      foreignReference: id
+      onDelete: SET NULL
+      onUpdate: RESTRICT
+      index: true
+    updated_user_id:
+      type: INTEGER
+      foreignTable: reg_user
+      foreignReference: id
+      onDelete: SET NULL
+      onUpdate: RESTRICT
+    child_updated_at:
+      type: TIMESTAMP
+    child_updated_user_id:
+      type: INTEGER
+      index: true
+    name:
+      type: VARCHAR
+      size: 255
+      required: true
+      default: ''
+    note:
+      type: LONGVARCHAR
+    uri:
+      type: VARCHAR
+      size: 255
+      required: true
+      default: ''
+    url:
+      type: VARCHAR
+      size: 255
+    base_domain:
+      type: VARCHAR
+      size: 255
+      required: true
+      default: ''
+    token:
+      type: VARCHAR
+      size: 45
+      required: true
+      default: ''
+    community:
+      type: VARCHAR
+      size: 45
+    last_uri_id:
+      type: INTEGER
+      default: 100000
+    status_id:
+      type: INTEGER
+      required: true
+      default: 1
+      foreignTable: reg_status
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
+      index: true
+    language:
+      type: CHAR
+      size: 6
+      required: true
+      default: en
+    profile_id:
+      type: INTEGER
+      foreignTable: profile
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
+      index: true
+    ns_type:
+      type: CHAR
+      size: 6
+      required: true
+      default: slash
+    _indexes:
+      last_updated_by_user_id:
+        - updated_user_id
+  reg_schema_property:
+    _attributes:
+      phpName: SchemaProperty
+      idMethod: native
+    id:
+      type: INTEGER
+      required: true
+      autoIncrement: true
+      index: unique
+    created_at:
+      type: TIMESTAMP
+    updated_at:
+      type: TIMESTAMP
+      required: true
+    deleted_at:
+      type: TIMESTAMP
+    created_user_id:
+      type: INTEGER
+      foreignTable: reg_user
+      foreignReference: id
+      onDelete: SET NULL
+      onUpdate: RESTRICT
+      index: true
+    updated_user_id:
+      type: INTEGER
+      foreignTable: reg_user
+      foreignReference: id
+      onDelete: SET NULL
+      onUpdate: RESTRICT
+      index: true
+    schema_id:
+      type: INTEGER
+      required: true
+      default: ''
+      foreignTable: reg_schema
+      foreignReference: id
+      onDelete: CASCADE
+      onUpdate: RESTRICT
+      index: true
+    name:
+      type: VARCHAR
+      size: 255
+      required: true
+      default: ''
+    label:
+      type: VARCHAR
+      size: 255
+      required: true
+      default: ''
+    definition:
+      type: LONGVARCHAR
+    comment:
+      type: LONGVARCHAR
+    type:
+      type: CHAR
+      required: true
+      default: ''
+    is_subproperty_of:
+      type: INTEGER
+      foreignTable: reg_schema_property
+      foreignReference: id
+      onDelete: SET NULL
+      onUpdate: RESTRICT
+    parent_uri:
+      type: VARCHAR
+      size: 255
+    uri:
+      type: VARCHAR
+      size: 255
+      required: true
+      default: ''
+    status_id:
+      type: INTEGER
+      required: true
+      default: 0
+      foreignTable: reg_status
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
+      index: true
+    language:
+      type: VARCHAR
+      size: 6
+      required: true
+      default: ''
+    note:
+      type: LONGVARCHAR
+    domain:
+      type: VARCHAR
+      size: 255
+    orange:
+      type: VARCHAR
+      size: 255
+    is_deprecated:
+      type: BOOLEAN
+    _indexes:
+      subproperty_id:
+        - is_subproperty_of
+  reg_schema_property_element:
+    _attributes:
+      phpName: SchemaPropertyElement
+      idMethod: native
+    id:
+      type: INTEGER
+      required: true
+      autoIncrement: true
+      index: unique
+    created_at:
+      type: TIMESTAMP
+    updated_at:
+      type: TIMESTAMP
+      required: true
+    deleted_at:
+      type: TIMESTAMP
+    created_user_id:
+      type: INTEGER
+      foreignTable: reg_user
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
+      index: true
+    updated_user_id:
+      type: INTEGER
+      foreignTable: reg_user
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
+      index: true
+    schema_property_id:
+      type: INTEGER
+      required: true
+      default: ''
+      foreignTable: reg_schema_property
+      foreignReference: id
+      onDelete: CASCADE
+      onUpdate: RESTRICT
+      index: true
+    profile_property_id:
+      type: INTEGER
+      required: true
+      default: ''
+      foreignTable: profile_property
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
+      index: true
+    is_schema_property:
+      type: BOOLEAN
+    object:
+      type: LONGVARCHAR
+      required: true
+    related_schema_property_id:
+      type: INTEGER
+      foreignTable: reg_schema_property
+      foreignReference: id
+      onDelete: SET NULL
+      onUpdate: RESTRICT
+    language:
+      type: CHAR
+      size: 6
+      default: en
+    status_id:
+      type: INTEGER
+      default: 1
+      foreignTable: reg_status
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
+      index: true
+    _indexes:
+      related_property_id:
+        - related_schema_property_id
+  reg_schema_property_element_history:
+    _attributes:
+      phpName: SchemaPropertyElementHistory
+      idMethod: native
+    id:
+      type: INTEGER
+      required: true
+      autoIncrement: true
+      index: unique
+    created_at:
+      type: TIMESTAMP
+      required: true
+    created_user_id:
+      type: INTEGER
+      foreignTable: reg_user
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
+      index: true
+    action:
+      type: CHAR
+    schema_property_element_id:
+      type: INTEGER
+      foreignTable: reg_schema_property_element
+      foreignReference: id
+      onDelete: CASCADE
+      onUpdate: RESTRICT
+      index: true
+    schema_property_id:
+      type: INTEGER
+      foreignTable: reg_schema_property
+      foreignReference: id
+      onDelete: SET NULL
+      onUpdate: RESTRICT
+      index: true
+    schema_id:
+      type: INTEGER
+      foreignTable: reg_schema
+      foreignReference: id
+      onDelete: SET NULL
+      onUpdate: RESTRICT
+      index: true
+    profile_property_id:
+      type: INTEGER
+      foreignTable: profile_property
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
+      index: true
+    object:
+      type: LONGVARCHAR
+    related_schema_property_id:
+      type: INTEGER
+      foreignTable: reg_schema_property
+      foreignReference: id
+      onDelete: SET NULL
+      onUpdate: RESTRICT
+      index: true
+    language:
+      type: CHAR
+      size: 6
+      default: en
+    status_id:
+      type: INTEGER
+      default: 1
+      foreignTable: reg_status
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
+      index: true
+    change_note:
+      type: LONGVARCHAR
+  reg_skos_property:
+    _attributes:
+      phpName: SkosProperty
+      idMethod: native
+    id:
+      type: INTEGER
+      required: true
+      autoIncrement: true
+      primaryKey: true
+      index: unique
+    parent_id:
+      type: INTEGER
+    inverse_id:
+      type: INTEGER
+    name:
+      type: VARCHAR
+      size: 255
+      required: true
+      default: ''
+      index: unique
+    uri:
+      type: VARCHAR
+      size: 255
+      required: true
+      default: ''
+      index: unique
+    object_type:
+      type: CHAR
+      required: true
+      default: ''
+    display_order:
+      type: INTEGER
+    picklist_order:
+      type: INTEGER
+    label:
+      type: VARCHAR
+      size: 255
+    definition:
+      type: LONGVARCHAR
+    comment:
+      type: LONGVARCHAR
+    examples:
+      type: VARCHAR
+      size: 255
+    is_required:
+      type: BOOLEAN
+      required: true
+      default: 0
+    is_reciprocal:
+      type: BOOLEAN
+      required: true
+      default: 0
+    is_singleton:
+      type: BOOLEAN
+      required: true
+      default: 0
+    is_scheme:
+      type: BOOLEAN
+      required: true
+      default: 0
+    is_in_picklist:
+      type: BOOLEAN
+      required: true
+      default: 1
+  reg_status:
+    _attributes:
+      phpName: Status
+      idMethod: native
+    id:
+      type: INTEGER
+      required: true
+      autoIncrement: true
+      primaryKey: true
+      index: unique
+    display_order:
+      type: INTEGER
+      index: true
+    display_name:
+      type: VARCHAR
+      size: 255
+    uri:
+      type: VARCHAR
+      size: 255
+  reg_user:
+    _attributes:
+      phpName: User
+      idMethod: native
+    id:
+      type: INTEGER
+      required: true
+      autoIncrement: true
+      primaryKey: true
+    created_at:
+      type: TIMESTAMP
+    last_updated:
+      type: TIMESTAMP
+      required: true
+    deleted_at:
+      type: TIMESTAMP
+    nickname:
+      type: VARCHAR
+      size: 50
+    salutation:
+      type: VARCHAR
+      size: 5
+    first_name:
+      type: VARCHAR
+      size: 100
+    last_name:
+      type: VARCHAR
+      size: 100
+    email:
+      type: VARCHAR
+      size: 100
+    sha1_password:
+      type: VARCHAR
+      size: 40
+    salt:
+      type: VARCHAR
+      size: 32
+    want_to_be_moderator:
+      type: BOOLEAN
+      default: 0
+    is_moderator:
+      type: BOOLEAN
+      default: 0
+    is_administrator:
+      type: BOOLEAN
+      default: 0
+    deletions:
+      type: INTEGER
+      default: 0
+    password:
+      type: VARCHAR
+      size: 40
+    _indexes:
+      id:
+        - id
+        - created_at
+  reg_vocabulary:
+    _attributes:
+      phpName: Vocabulary
+      idMethod: native
+    id:
+      type: INTEGER
+      required: true
+      autoIncrement: true
+      primaryKey: true
+    agent_id:
+      type: INTEGER
+      required: true
+      default: ''
+      foreignTable: reg_agent
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
+      index: true
+    created_at:
+      type: TIMESTAMP
+    deleted_at:
+      type: TIMESTAMP
+    last_updated:
+      type: TIMESTAMP
+      required: true
+    created_user_id:
+      type: INTEGER
+      foreignTable: reg_user
+      foreignReference: id
+      onDelete: SET NULL
+      onUpdate: RESTRICT
+      index: true
+    updated_user_id:
+      type: INTEGER
+      foreignTable: reg_user
+      foreignReference: id
+      onDelete: SET NULL
+      onUpdate: RESTRICT
+    child_updated_at:
+      type: TIMESTAMP
+    child_updated_user_id:
+      type: INTEGER
+      foreignTable: reg_user
+      foreignReference: id
+      onDelete: SET NULL
+      onUpdate: RESTRICT
+      index: true
+    name:
+      type: VARCHAR
+      size: 255
+      required: true
+      default: ''
+    note:
+      type: LONGVARCHAR
+    uri:
+      type: VARCHAR
+      size: 255
+      required: true
+      default: ''
+    url:
+      type: VARCHAR
+      size: 255
+    base_domain:
+      type: VARCHAR
+      size: 255
+      required: true
+      default: ''
+    token:
+      type: VARCHAR
+      size: 45
+      required: true
+      default: ''
+    community:
+      type: VARCHAR
+      size: 45
+    last_uri_id:
+      type: INTEGER
+      default: 1000
+    status_id:
+      type: INTEGER
+      required: true
+      default: 1
+      foreignTable: reg_status
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
+      index: true
+    language:
+      type: CHAR
+      size: 6
+      required: true
+      default: en
+    _indexes:
+      last_updated_by_user_id:
+        - updated_user_id
+  reg_vocabulary_has_user:
+    _attributes:
+      phpName: VocabularyHasUser
+      idMethod: native
+    id:
+      type: INTEGER
+      required: true
+      autoIncrement: true
+      primaryKey: true
+    created_at:
+      type: TIMESTAMP
+    updated_at:
+      type: TIMESTAMP
+      required: true
+    deleted_at:
+      type: TIMESTAMP
+    vocabulary_id:
+      type: INTEGER
+      required: true
+      default: 0
+      foreignTable: reg_vocabulary
+      foreignReference: id
+      onDelete: CASCADE
+      onUpdate: RESTRICT
+    user_id:
+      type: INTEGER
+      required: true
+      default: 0
+      foreignTable: reg_user
+      foreignReference: id
+      onDelete: CASCADE
+      onUpdate: RESTRICT
+    is_maintainer_for:
+      type: BOOLEAN
+      default: 1
+    is_registrar_for:
+      type: BOOLEAN
+      default: 1
+    is_admin_for:
+      type: BOOLEAN
+      default: 1
+    _uniques:
+      resource_user_id:
+        - vocabulary_id
+        - user_id
+      user_resource_id:
+        - user_id
+        - vocabulary_id
+  reg_vocabulary_has_version:
+    _attributes:
+      phpName: VocabularyHasVersion
+      idMethod: native
+    id:
+      type: INTEGER
+      required: true
+      autoIncrement: true
+      primaryKey: true
+      index: unique
+    name:
+      type: VARCHAR
+      size: 255
+      required: true
+      default: ''
+      index: true
+    created_at:
+      type: TIMESTAMP
+    deleted_at:
+      type: TIMESTAMP
+    updated_at:
+      type: TIMESTAMP
+    created_user_id:
+      type: INTEGER
+      foreignTable: reg_user
+      foreignReference: id
+      onDelete: SET NULL
+      onUpdate: RESTRICT
+      index: true
+    vocabulary_id:
+      type: INTEGER
+      foreignTable: reg_vocabulary
+      foreignReference: id
+      onDelete: CASCADE
+      onUpdate: RESTRICT
+      index: true
+    timeslice:
+      type: TIMESTAMP
+  schema_has_user:
+    _attributes:
+      phpName: SchemaHasUser
+      idMethod: native
+    id:
+      type: INTEGER
+      required: true
+      autoIncrement: true
+      primaryKey: true
+      index: unique
+    created_at:
+      type: TIMESTAMP
+    updated_at:
+      type: TIMESTAMP
+    deleted_at:
+      type: TIMESTAMP
+    schema_id:
+      type: INTEGER
+      required: true
+      default: 0
+      foreignTable: reg_schema
+      foreignReference: id
+      onDelete: CASCADE
+      onUpdate: RESTRICT
+      index: true
+    user_id:
+      type: INTEGER
+      required: true
+      default: 0
+      foreignTable: reg_user
+      foreignReference: id
+      onDelete: CASCADE
+      onUpdate: RESTRICT
+      index: true
+    is_maintainer_for:
+      type: BOOLEAN
+      default: 1
+    is_registrar_for:
+      type: BOOLEAN
+      default: 1
+    is_admin_for:
+      type: BOOLEAN
+      default: 1
+  schema_has_version:
+    _attributes:
+      phpName: SchemaHasVersion
+      idMethod: native
+    id:
+      type: INTEGER
+      required: true
+      autoIncrement: true
+      primaryKey: true
+      index: unique
+    name:
+      type: VARCHAR
+      size: 255
+      required: true
+      default: ''
+    created_at:
+      type: TIMESTAMP
+    deleted_at:
+      type: TIMESTAMP
+    updated_at:
+      type: TIMESTAMP
+    created_user_id:
+      type: INTEGER
+      foreignTable: reg_user
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
+      index: true
+    schema_id:
+      type: INTEGER
+      foreignTable: reg_schema
+      foreignReference: id
+      onDelete: CASCADE
+      onUpdate: RESTRICT
+      index: true
+    timeslice:
+      type: TIMESTAMP

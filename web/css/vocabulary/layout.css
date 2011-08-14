@@ -1,0 +1,29 @@
+div#sf_admin_container,
+div#sf_admin_container.sf_admin_list div#sf_admin_content,
+div#sf_admin_container.sf_admin_list div#sf_admin_header
+{
+/*  width: 50em !important;*/
+  margin-left: auto;
+  margin-right: auto;
+}
+
+div#show_row_content_vocabulary_list_users .sf_admin_list
+{
+	width:40%;
+}
+
+fieldset#sf_fieldset_users .show-row label
+{ 
+  display: none;
+}
+
+fieldset#sf_fieldset_users .show-row ul
+{ 
+  list-style: none;
+}
+
+fieldset#sf_fieldset_users .show-row th,
+fieldset#sf_fieldset_users .show-row td
+{ 
+  text-align: center !important;
+}

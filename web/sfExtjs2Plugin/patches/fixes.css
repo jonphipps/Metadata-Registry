@@ -1,0 +1,4 @@
+/* Extjs 2.0.1 - IE6 grid-colum-width fix */
+.x-grid3-header-offset{
+  width:auto;
+}

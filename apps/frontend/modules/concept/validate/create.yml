@@ -1,0 +1,35 @@
+methods:
+  post:
+    - "concept{pref_label}"
+    - "concept{uri}"
+
+names:
+  concept{pref_label}:
+    required:     Yes
+    required_msg: Concept label cannot be blank
+    validators:   uniqueLabelValidator
+  concept{uri}:
+    required:     Yes
+    required_msg: Concept URI cannot be blank
+    validators:   uniqueUriValidator
+
+uriValidator:
+  class:          sfRegexValidator
+  param:
+    match:        Yes
+    match_error:  "Please enter a valid uri (for example: http://example.com/)"
+    pattern:      /^(http):\/\/(([A-Z0-9][A-Z0-9_-]*)(\.[A-Z0-9][A-Z0-9_-]*)+)(:(\d+))?\//i
+uniqueUriValidator:
+  class:          sfPropelUniqueValidator
+  param:
+    class:        Concept
+    column:       uri
+    unique_error: This Concept URI has already been registered.
+uniqueLabelValidator:
+  class:          sfPropelUniqueValidator
+  param:
+    class:        Concept
+    column:       pref_label
+    unique_error: This Concept has already been registered.
+fillin:
+  activate: on

@@ -1,0 +1,9 @@
+passwordRequestMailSent:
+  javascripts: [-*]
+
+all:
+  stylesheets: [-*, %SF_ADMIN_WEB_DIR%/css/main, main, layout, user/layout]
+  javascripts: [%SF_PROTOTYPE_WEB_DIR%/js/prototype: { position: last }]
+
+editSuccess:
+  javascripts: [setfocus: { position: last }]

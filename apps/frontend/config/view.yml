@@ -1,0 +1,22 @@
+default:
+  http_metas:
+    content-type:       text/html; charset=utf-8
+    Content-Style-Type: text/css
+
+  metas:
+    title:        The Registry Project
+    robots:       index,follow
+    description:  The Metadata Registry Project
+    keywords:     semantic web, registry, rdf, skos, metadata
+    language:     en
+
+  stylesheets:    [main, layout]
+
+  javascripts:    []
+
+  has_layout:     on
+  layout:         layout
+  components:          {}
+    sidebar:      [sidebar, default]
+
+  use_default_slots: on

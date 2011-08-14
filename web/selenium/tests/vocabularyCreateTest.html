@@ -1,0 +1,472 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>vocabularyCreateTest</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">vocabularyCreateTest</td></tr>
+</thead><tbody>
+<!--must be logged in as newtestuser-->
+<tr>
+	<td>clickAndWait</td>
+	<td>link=sign in / register</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: sign in / register</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>nickname</td>
+	<td>newtestuser</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>password</td>
+	<td>foobar</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>document.forms[1].commit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: home</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Vocabularies</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: Vocabularies :: List</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertElementPresent</td>
+	<td>//input[@value='Add Vocabulary']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyElementNotPresent</td>
+	<td>//img[@alt='edit']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyElementNotPresent</td>
+	<td>//tr[4]/td[4]/ul/li/a/img</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//a[contains(@href, '/frontend_dev.php/vocabulary/create.html')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: Creating new vocabulary</td>
+	<td></td>
+</tr>
+<!--test empty submit-->
+<tr>
+	<td>type</td>
+	<td>vocabulary_base_domain</td>
+	<td>http://metadataregistry.org/uri</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>vocabulary_base_domain</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>save</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: Creating new vocabulary</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//h2</td>
+	<td>Please correct the following errors...</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//dd[1]</td>
+	<td>The Name cannot be left blank</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//dd[2]</td>
+	<td>The URI cannot be left blank</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//dd[4]</td>
+	<td>The Token cannot be left blank</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//dd[3]</td>
+	<td>The Base Domain cannot be left blank</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>error_for_vocabulary_token</td>
+	<td>↓ The Token cannot be left blank&nbsp;&nbsp;↓</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>error_for_vocabulary_name</td>
+	<td>↓ The Name cannot be left blank&nbsp;&nbsp;↓</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>error_for_vocabulary_base_domain</td>
+	<td>↓ The Base Domain cannot be left blank&nbsp;&nbsp;↓</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>error_for_vocabulary_uri</td>
+	<td>↓ The URI cannot be left blank&nbsp;&nbsp;↓</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>vocabulary_name</td>
+	<td>newTestVocabulary</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>vocabulary_url</td>
+	<td>http://example.org</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>vocabulary_note</td>
+	<td>This is a test note</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>vocabulary_community</td>
+	<td>This field should say 'tags'</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>vocabulary_base_domain</td>
+	<td>http://metadataregistry.org/uri/</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>vocabulary_token</td>
+	<td>newTestToken</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>vocabulary_uri</td>
+	<td>http://metadataregistry.org/uri/newTestToken</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>vocabulary_language</td>
+	<td>Abkhazian Achinese Acoli Adangme Adyghe Afar Afrihili Afrikaans Afro-Asiatic (Other) Akan Akkadian Albanian Aleut Algonquian Languages Altaic (Other) Amharic Apache Languages Arabic Aragonese Aramaic Arapaho Araucanian Arawak Armenian Artificial (Other) Assamese Asturian Athapascan Languages Australian Languages Austronesian Avaric Avestan Awadhi Aymara Azerbaijani Balinese Baltic (Other) Baluchi Bambara Bamileke Languages Banda Bantu Basa Bashkir Basque Batak Beja Belarusian Bemba Bengali Berber Bhojpuri Bihari Bikol Bini Bislama Blin Bosnian Braj Breton Buginese Bulgarian Buriat Burmese Caddo Carib Catalan Caucasian (Other) Cebuano Celtic (Other) Central American Indian (Other) Chagatai Chamic Languages Chamorro Chechen Cherokee Cheyenne Chibcha Chinese Chinook Jargon Chipewyan Choctaw Church Slavic Chuukese Chuvash Classical Newari Coptic Cornish Corsican Cree Creek Creoles and Pidgins (Other) Creoles and Pidgins, English-based (Other) Creoles and Pidgins, French-based (Other) Creoles and pidgins, Portuguese-based (Other) Crimean Turkish; Crimean Tatar Croatian Cushitic (Other) Czech Dakota Danish Dargwa Dayak Delaware Dinka Divehi Dogri Dogrib Dravidian (Other) Duala Dutch Dutch, Middle (ca. 1050-1350) Dyula Dzongkha Efik Egyptian (Ancient) Ekajuk Elamite English English, Middle (1100-1500) English, Old (ca.450-1100) Erzya Esperanto Estonian Ewe Ewondo Fang Fanti Faroese Fijian Finnish Finno - Ugrian (Other) Fon French French, Middle (ca.1400-1600) French, Old (842-ca.1400) Frisian Friulian Fulah Ga Gallegan Ganda Gayo Gbaya Geez Georgian Gerbo German German, Middle High (ca.1050-1500) German, Old High (ca.750-1050) Germanic (Other) Gilbertese Gondi Gorontalo Gothic Greek Greek, Ancient (to 1453) Guarani Gujarati Gwichʻin Haida Haitian Hausa Hawaiian Hebrew Herero Hiligaynon Himachali Hindi Hiri Motu Hittite Hmong Hungarian Hupa Iban Icelandic Ido Igbo Ijo Iloko Inari Sami Indic (Other) Indo-European (Other) Indonesian Ingush Interlingua Interlingue Inuktitut Inupiaq Iranian Irish Irish, Middle (900-1200) Irish, Old (to 900) Iroquoian languages Italian Japanese Javanese Judeo-Arabic Judeo-Persian Kabardian Kabyle Kachin Kalaallisut Kalmyk Kamba Kannada Kanuri Kara-Kalpak Karachay-Balkar Karen Kashmiri Kashubian Kawi Kazakh Khasi Khmer Khoisan (Other) Khotanese Kikuyu Kimbundu Kinyarwanda Kirghiz Klingon Komi Kongo Konkani Korean Kosraean Kpelle Kru Kuanyama Kumyk Kurdish Kurukh Kutenai Ladino Lahnda Lamba Lao Latin Latvian Lezghian Limburgish Lingala Lithuanian Lojban Low German; Low Saxon Lower Sorbian Lozi Luba-Katanga Luba-Lulua Luiseno Lule Sami Lunda Luo Lushai Luxembourgish Macedonian Madurese Magahi Maithili Makasar Malagasy Malay Malayalam Maltese Manchu Mandar Mandingo Manipuri Manobo Languages Manx Maori Marathi Mari Marshallese Marwari Masai Mayan Mende Micmac Minangkabau Miscellaneous Languages Mohawk Moksha Moldavian Mon-Khmer (Other) Mongo Mongolian Mossi Multiple Languages Munda Languages Nahuatl Nauru Navajo Ndebele, North Ndebele, South Ndonga Neapolitan Nepali Newari Nias Niger - Kordofanian (Other) Nilo-Saharam (Other) Niuean Nogai Norse, Old North American Indian (Other) Northern Sami Norwegian Norwegian Bokmål Norwegian Nynorsk Nubian Languages Nyamwezi Nyanja; Chichewa; Chewa Nyankole Nyoro Nzima Occitan (post 1500); Provençal Ojibwa Oriya Oromo Osage Ossetic Otomian Languages Pahlavi Palauan Pali Pampanga Pangasinan Papiamento Papuan (Other) Pashto (Pushto) Persian Persian Old (ca.600-400 B.C.) Philippine (Other) Phoenician Pohnpeian Polish Portuguese Prakrit Languages Provençal, Old (to 1500) Punjabi Quechua Rajasthani Rapanui Rarotongan Rhaeto-Romance Romance (Other) Romanian Romany Root Rundi Russian Salishan languages Samaritan Aramaic Sami languages (Other) Samoan Sandawe Sango Sanskrit Santali Sardinian Sasak Scots Scottish Gaelic Selkup Semitic (Other) Serbian Serbo-Croatian Serer Shan Shona Sichuan Yi Sidamo Sign Languages Siksika Sindhi Sinhalese Sino-Tibetan (Other) Siouan Languages Skolt Sami Slave Slavic (Other) Slovak Slovenian Sogdien Somali Songhai Soninke Sorbian Languages Sotho, Northern Sotho, Southern South American Indian (Other) Southern Sami Spanish Sukuma Sumerian Sundanese Susu Swahili Swati Swedish Syriac Tagalog Tahitian Tai (Other) Tajik Tamashek Tamil Tatar Telugu Tereno Tetum Thai Tibetan Tigre Tigrinya Timne Tiv Tlingit Tok Pisin Tokelau Tonga (Nyasa) Tonga (Tonga Islands) Tsimshian Tsonga Tswana Tumbuka Tupi languages Turkish Turkish, Ottoman (1500-1928) Turkmen Tuvalu Tuvinian Twi Udmurt Ugaritic Uighur Ukrainian Umbundu Undetermined Upper Sorbian Urdu Uzbek Vai Venda Vietnamese Volapük Votic Wakashan Languages Walamo Walloon Waray Washo Welsh Wolof Xhosa Yakut Yao Yapese Yiddish Yoruba Yupik Languages Zande Zapotec Zenaga Zhuang Zulu Zuni</td>
+</tr>
+<tr>
+	<td>verifySelectedLabel</td>
+	<td>vocabulary_language</td>
+	<td>English</td>
+</tr>
+<tr>
+	<td>verifySelectedLabel</td>
+	<td>vocabulary_status_id</td>
+	<td>Published</td>
+</tr>
+<tr>
+	<td>verifyElementPresent</td>
+	<td>save</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertElementPresent</td>
+	<td>//input[@value='Cancel']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>save</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: newTestVocabulary :: Show Detail</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//h2</td>
+	<td>Your modifications have been saved</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>link=newTestAgent</td>
+	<td>newTestAgent</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>show_row_content_vocabulary_name</td>
+	<td>newTestVocabulary</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>link=exact:http://example.org</td>
+	<td>exact:http://example.org</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>show_row_content_vocabulary_note</td>
+	<td>This is a test note</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>show_row_content_vocabulary_community</td>
+	<td>This field should say 'tags'</td>
+</tr>
+<tr>
+	<td>verifyElementPresent</td>
+	<td>show_row_content_vocabulary_status</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>show_row_content_vocabulary_language</td>
+	<td>English</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>show_row_content_vocabulary_base_domain</td>
+	<td>exact:http://metadataregistry.org/uri/</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>show_row_content_vocabulary_token</td>
+	<td>newtest</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>link=exact:http://metadataregistry.org/uri/newtest</td>
+	<td>exact:http://metadataregistry.org/uri/newtest</td>
+</tr>
+<tr>
+	<td>assertElementPresent</td>
+	<td>fieldsetcollapser0</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyElementPresent</td>
+	<td>fieldsetcollapser3</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//input[@value='List']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//input[@value='Edit']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//input[@value='Get RDF']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//input[@value='Get XML Schema']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyElementPresent</td>
+	<td>show_row_content_vocabulary_last_updated</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyElementPresent</td>
+	<td>show_row_content_vocabulary_created_at</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyNotVisible</td>
+	<td>show_row_content_vocabulary_last_updated</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyNotVisible</td>
+	<td>show_row_content_vocabulary_created_at</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>fieldsetcollapser0</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyVisible</td>
+	<td>show_row_content_vocabulary_last_updated</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyVisible</td>
+	<td>show_row_content_vocabulary_created_at</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>link=newtestuser</td>
+	<td>newtestuser</td>
+</tr>
+<tr>
+	<td>verifyElementPresent</td>
+	<td>//td[3]/img</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyElementPresent</td>
+	<td>//td[4]/img</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyElementPresent</td>
+	<td>//img[@alt='Tick']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyElementPresent</td>
+	<td>show_row_content_vocabulary_list_users</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyNotVisible</td>
+	<td>show_row_content_vocabulary_list_users</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>fieldsetcollapser3</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyVisible</td>
+	<td>show_row_content_vocabulary_list_users</td>
+	<td></td>
+</tr>
+<!--check list-->
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@value='List']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: Vocabularies</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>link=newTestVocabulary</td>
+	<td>newTestVocabulary</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>link=newTestAgent</td>
+	<td>newTestAgent</td>
+</tr>
+<tr>
+	<td>verifyElementPresent</td>
+	<td>//tr[8]/td[4]/ul/li/a/img</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyElementNotPresent</td>
+	<td>//img[@alt='edit']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyElementNotPresent</td>
+	<td>//tr[4]/td[4]/ul/li/a/img</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//input[@value='Add Vocabulary']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=newTestVocabulary</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: Show detail for newTestVocabulary</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@value='List']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: Vocabularies</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//tr[8]/td[4]/ul/li/a/img</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: Editing newTestVocabulary</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@value='Cancel']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: Show detail for newTestVocabulary</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Vocabularies</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: Vocabularies</td>
+	<td></td>
+</tr>
+<tr>
+	<td></td>
+	<td></td>
+	<td></td>
+</tr>
+
+</tbody></table>
+</body>
+</html>

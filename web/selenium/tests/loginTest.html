@@ -1,0 +1,444 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>loginTest</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">loginTest</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: home</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Load test database</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: home</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=sign in / register</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: sign in / register</td>
+	<td></td>
+</tr>
+<!--//This should generate 2 errors-->
+<tr>
+	<td>clickAndWait</td>
+	<td>document.forms[1].commit</td>
+	<td></td>
+</tr>
+<!--//FIXME This should be amore descriptive title-->
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry Project</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>↓ your login name is required&nbsp;&nbsp;↓</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>↓ your password is required&nbsp;&nbsp;↓</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>nickname</td>
+	<td>newtestuser</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>document.forms[1].commit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry Project</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>error_for_nickname</td>
+	<td>↓ this account does not exist or you entered a wrong password&nbsp;&nbsp;↓</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>error_for_password</td>
+	<td>↓ your password is required&nbsp;&nbsp;↓</td>
+</tr>
+<tr>
+	<td>verifyVisible</td>
+	<td>forgot</td>
+	<td></td>
+</tr>
+<!--test password but no login name-->
+<tr>
+	<td>type</td>
+	<td>nickname</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>password</td>
+	<td>foobar</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>document.forms[1].commit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry Project</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>error_for_nickname</td>
+	<td>↓ your login name is required&nbsp;&nbsp;↓</td>
+</tr>
+<!--Test add new user-->
+<tr>
+	<td>click</td>
+	<td>new</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyNotVisible</td>
+	<td>forgot</td>
+	<td></td>
+</tr>
+<!--test missing password and emai-->
+<tr>
+	<td>type</td>
+	<td>nickname</td>
+	<td>newtestuser</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>document.forms[1].commit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry Project</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>error_for_password</td>
+	<td>↓ your password is required&nbsp;&nbsp;↓</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>error_for_email</td>
+	<td>↓ email is required&nbsp;&nbsp;↓</td>
+</tr>
+<!--test just one password-->
+<tr>
+	<td>type</td>
+	<td>password</td>
+	<td>foobar</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>document.forms[1].commit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry Project</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>error_for_password</td>
+	<td>↓ passwords do not match&nbsp;&nbsp;↓</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>error_for_email</td>
+	<td>↓ email is required&nbsp;&nbsp;↓</td>
+</tr>
+<!--test matching password, but no email-->
+<tr>
+	<td>type</td>
+	<td>password</td>
+	<td>foobar</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>password_bis</td>
+	<td>foobar</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>document.forms[1].commit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry Project</td>
+	<td></td>
+</tr>
+<!--testing email but no password-->
+<tr>
+	<td>verifyText</td>
+	<td>error_for_email</td>
+	<td>↓ email is required&nbsp;&nbsp;↓</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>email</td>
+	<td>jphipps@madcreek.com</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>document.forms[1].commit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry Project</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>error_for_password</td>
+	<td>↓ your password is required&nbsp;&nbsp;↓</td>
+</tr>
+<tr>
+	<td>verifyValue</td>
+	<td>email</td>
+	<td>jphipps@madcreek.com</td>
+</tr>
+<!--testing correct entry-->
+<tr>
+	<td>type</td>
+	<td>password</td>
+	<td>foobar</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>password_bis</td>
+	<td>foobar</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>document.forms[1].commit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: home</td>
+	<td></td>
+</tr>
+<tr>
+	<td>selectWindow</td>
+	<td>null</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyElementPresent</td>
+	<td>link=Resource Owners</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyElementPresent</td>
+	<td>link=Vocabularies</td>
+	<td></td>
+</tr>
+<!--//This is succesful and should display 'Add'-->
+<tr>
+	<td>assertElementPresent</td>
+	<td>link=(Add)</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertElementPresent</td>
+	<td>link=newtestuser profile</td>
+	<td></td>
+</tr>
+<!--//test logout-->
+<tr>
+	<td>clickAndWait</td>
+	<td>link=sign out</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: home</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertElementPresent</td>
+	<td>link=sign in / register</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertElementNotPresent</td>
+	<td>link=Resource Owner</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertElementPresent</td>
+	<td>//img[@alt='registry']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Welcome to The Registry!</td>
+	<td></td>
+</tr>
+<!--test register as existing user-->
+<tr>
+	<td>clickAndWait</td>
+	<td>link=sign in / register</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: sign in / register</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>nickname</td>
+	<td>newtestuser</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>password</td>
+	<td>foobar</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>new</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>password_bis</td>
+	<td>foobar</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>email</td>
+	<td>jphipps@madcreek.com</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>document.forms[1].commit</td>
+	<td></td>
+</tr>
+<!--this should have generated an error message-->
+<tr>
+	<td>verifyElementNotPresent</td>
+	<td>link=newtestuser profile</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>error_for_nickname</td>
+	<td>↓ an account with this login name already exists&nbsp;&nbsp;↓</td>
+</tr>
+<!--unselect 'new' and login as corect user-->
+<tr>
+	<td>click</td>
+	<td>new</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyVisible</td>
+	<td>forgot</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>password</td>
+	<td>foobar</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>document.forms[1].commit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: home</td>
+	<td></td>
+</tr>
+<!--test forgot password-->
+<tr>
+	<td>clickAndWait</td>
+	<td>link=sign out</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: home</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=sign in / register</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>forgot</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry Project</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>email</td>
+	<td>jphipps@madcreek.com</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>document.forms[1].commit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry Project</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//h1</td>
+	<td>Confirmation - login information sent</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//p[2]</td>
+	<td>jphipps@madcreek.com</td>
+</tr>
+
+</tbody></table>
+</body>
+</html>

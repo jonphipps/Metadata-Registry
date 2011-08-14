@@ -1,0 +1,50 @@
+About The Registry (2010.06.08)
+============
+
+The Open Metadata Registry is a fundamental piece of technical infrastructure for the Semantic Web. While originally built to support the National Science Digital Library (NSDL), the Registry is available openly and to all who wish to use its services.
+
+The Registry provides a means for to identify, declare and publish through registration their metadata schemas (element/property sets), schemes (controlled vocabularies) and Application Profiles (APs). In addition to supporting registration of schemes, schemas and APs for consumption and use by human and machine agents, the Open Registry will support the machine mapping of relationships among terms and concepts in those schemes (semantic mappings) and schemas (crosswalks). Thus, the Registry will support the key goals of metadata discovery, reuse, standardization and interoperability locally and globally.
+
+The Registry used as its inspiration the open-source Dublin Core Metadata Initiative (DCMI) Registry. The Registry extended the original DCMI goals to support: (1) the automated creation and maintenance of schemas and application profiles; and (2) the submission of schemas and schemes to a registry workflow for review and publication. All of the development work leverages the latest knowledge and standards for networked knowledge organization systems, schema and application profile declaration, and registry development.
+
+The Open Metadata Registry project was funded by the National Science Foundation for its first three years. It is currently managed by Metadata Management Associates, a consulting partnership committed to maintaining the Registry as an open system.
+
+Documentation
+============
+We have a number of papers available that discuss the Registry and its goals:
+------------
+
+
+[Application Profiles: Exposing and Enforcing Metadata Quality](http://hdl.handle.net/1813/9371), presented at the [International Conference on Dublin Core and Metadata Applications, Aug./Sept. 2007, Singapore](http://www.dc2007.sg/).
+
+[A Metadata Registry from Vocabularies UP: The NSDL Registry Project](http://arxiv.org/abs/cs.DL/0605111), presented at the [International Conference on Dublin Core and Metadata Applications, 3 - 6 October 2006](http://dc2006.ucol.mx/news.php).
+
+[Functional requirements and planning documents](http://metadataregistry.org/wiki/index.php/Working_Notes_and_Documentation)
+------------
+These documents include use cases, information on versioning strategies, and other detailed information on the registry development process.
+
+[The Registry Blog](http://metadataregistry.org/blog/)
+------------
+
+
+The Registry Blog is where all registry developers are welcome to post on advances and issues.
+
+[Code Development](http://trac.metadataregistry.org/)
+------------
+
+The Registry software is available, and will continue to be as the software grows and matures. Instructions for obtaining the latest code can be found at the above link. If you encounter a bug, or would like to make a suggestion, please [create a ticket](http://metadataregistry.org/trac/registry/newticket).
+
+The Open Registry is available now as a production application.
+------------
+Versioning and history are in place for both schemas and vocabularies. Please contact us at the addresses below if you are interested in working with us to provide additional functionality for the Registry.
+
+Still under development: subscription output, help, [notifications](http://wiki.metadataregistry.org/NSDL_Registry_Functional_Requirements#Notifications), and [data import](http://wiki.metadataregistry.org/NSDL_Registry_Use_Case_Documentation_\(Vocabularies\)#Use_Case_4a:_Maintainer_Uploads_non-Hosted_Vocabulary_Terms_to_the_Registry). As new functionality is introduced, we will notify all registered users and give instructions on how to use the new functions.
+
+The Registry can also provide "namespace" services to help you create and manage a unique namespace for your vocabulary as well as provide a permanent, [resolvable URI](http://www.w3.org/2001/sw/BestPractices/VM/http-examples/) for your vocabulary and each of your concepts.
+
+The Open Registry is conceived as a part of a distributed registry system supporting improved interoperability for all. For more information about how distributed registries might work, see the work being done by the [DCMI Registry Community](http://wiki.metadataregistry.org/DCMI_Registry_Community).
+
+The Open Registry is in active development. Because NSF funding has run out, collaborators interested in working with us on additional functionality are urged to contact us to discuss possibilities.
+
+Registry project contacts
+------------

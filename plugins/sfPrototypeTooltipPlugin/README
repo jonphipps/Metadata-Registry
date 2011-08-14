@@ -1,0 +1,15 @@
+sfPrototypeTooltip symfony plugin
+==========================
+
+Overview
+--------
+
+sfPrototypeTooltip provides helpers for easily creating tooltips via the prototype library,
+based on the excellent snippet by Dmitry Parnas @ http://www.symfony-project.com/snippets/snippet/24,
+implementing Davie Shafik's Prototype Tooltips @ http://tooltip.crtx.org/.
+
+License
+-------
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.

@@ -1,0 +1,225 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta name="title" content="The Registry! :: Profile :: Test Profile" />
+<meta name="robots" content="index,follow" />
+<meta name="description" content="The Metadata Registry Project" />
+<meta name="keywords" content="semantic web, registry, rdf, skos, metadata" />
+<meta name="language" content="en" />
+<title>The Registry! :: Profile :: Test Profile</title>
+<link rel="shortcut icon" href="/registry_favicon_dev.ico" />
+<script type="text/javascript" src="/sf/prototype/js/prototype.js">
+</script>
+<script type="text/javascript" src="/js/vocabulary.js">
+</script>
+<script type="text/javascript" src="/sf/prototype/js/builder.js">
+</script>
+<script type="text/javascript" src="/sf/prototype/js/effects.js">
+</script>
+<script type="text/javascript" src="/jpAdminPlugin/js/setfocus.js">
+</script>
+<link rel="stylesheet" type="text/css" media="screen" href="/jpAdminPlugin/css/main.css" />
+<link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+<link rel="stylesheet" type="text/css" media="screen" href="/css/layout.css" />
+<link rel="stylesheet" type="text/css" media="screen" href="/css/vocabulary/layout.css" />
+</head>
+<body>
+<div id="indicator" style="display: none"></div>
+<div id="header">
+  <ul>
+    <li><a href="/user.html">admin profile</a></li>
+    <li><a href="/logout.html">sign out</a></li>
+    <li class="last"><a href="/about.html">about</a></li>
+  </ul>
+  <div style="padding-top: 10px;"> <a href="/"><img alt="registry" align="left" src="/images/logo.gif.jpg" /></a> </div>
+  <div id="search">
+    <form method="get" action="/search">
+      <input type="text" name="term" id="term" value="" class="searchterm" />
+      &#160;
+      <input type="submit" name="commit" value="Search" class="small" />
+    </form>
+  </div>
+</div>
+<div id="login" style="display: none">
+  <h2>please sign-in first</h2>
+  <form id="loginform" method="post" action="/login.html" name="loginform">
+    <label for="nickname">nickname:</label>
+    <input type="text" name="nickname" id="nickname" value="" />
+    <label for="password">password:</label>
+    <input type="password" name="password" id="password" value="" />
+    <input type="hidden" name="referer" id="referer" value="http://registry/vocabulary/edit/id/8.html" />
+    <input type="submit" name="commit" value="login" />
+    <a href="#" onclick="new Effect.BlindUp('login', {duration:0.5});; return false;">cancel</a>
+  </form>
+</div>
+<div id="content">
+  <div id="content_main">
+    <div id="sf_admin_container">
+      <div id="sf_admin_header">
+        <h1>Editing&#160;Test Profile </h1>
+        <h2>&#160;Detail&#160;&#160;&#160;<a href="/schema_namespace.html">Namespaces</a>&#160;&#160;&#160;<a href="/profile_property.html">Properties</a>&#160;&#160;&#160;<a href="#">History</a>&#160;&#160;&#160;<a href="#">Versions</a></h2>
+      </div>
+      <div id="sf_admin_content">
+        <form id="sf_admin_edit_form" name="sf_admin_edit_form" method="post" enctype="multipart/form-data" action="/vocabulary/foobar.html">
+          <input type="hidden" name="id" id="id" value="8" />
+          <fieldset id="sf_fieldset_metadata">
+          <h2>Metadata</h2>
+          <div id="form_row_vocabulary_created_at" class="form-row">
+            <label for="vocabulary_created_at" class="required">Date Created:</label>
+            <div id="form_row_content_vocabulary_created_at" class="content"> 2006-04-13T11:51:57
+              <div class="sf_admin_edit_help"> This is the date the Application Profile was created </div>
+            </div>
+          </div>
+          <div id="form_row_vocabulary_last_updated" class="form-row">
+            <label for="vocabulary_last_updated">Last Updated:</label>
+            <div id="form_row_content_vocabulary_last_updated" class="content"> 2006-06-14
+              <div class="sf_admin_edit_help"> This is the date the Application Profile was last updated </div>
+            </div>
+          </div>
+          </fieldset>
+          <fieldset id="sf_fieldset_detail">
+          <h2>Detail</h2>
+          <div id="form_row_vocabulary_agent_id" class="form-row">
+            <label for="vocabulary_agent_id" class="required">Owner:</label>
+            <div id="form_row_content_vocabulary_agent_id" class="content">
+              <select name="vocabulary[agent_id]" id="vocabulary_agent_id">
+                <option value="46"> Diane Hillmann </option>
+                <option value="52" selected="selected"> GEM Exchange </option>
+                <option value="53"> National Science Digital Library </option>
+              </select>
+              <div class="sf_admin_edit_help"> The individual or organization that registered the Application Profile </div>
+            </div>
+          </div>
+          <div id="form_row_vocabulary_name" class="form-row">
+            <label for="vocabulary_name" class="required">Name:</label>
+            <div id="form_row_content_vocabulary_name" class="content">
+              <input type="text" name="vocabulary[name]" id="vocabulary_name" value="Test Profile" size="60" />
+              <div class="sf_admin_edit_help"> A descriptive name for the application profile. This will be displayed in lists of profiles. </div>
+            </div>
+          </div>
+          <div id="form_row_vocabulary_url" class="form-row">
+            <label for="vocabulary_url" class="required">URL:</label>
+            <div id="form_row_content_vocabulary_url" class="content">
+              <input type="text" name="vocabulary[url]" id="vocabulary_url" value="http://thegateway.org" size="60" />
+              <div class="sf_admin_edit_help"> A non-Registry URL that contains more information about this Application Profile </div>
+            </div>
+          </div>
+          <div id="form_row_vocabulary_note" class="form-row">
+            <label for="vocabulary_note">Note:</label>
+            <div id="form_row_content_vocabulary_note" class="content">
+              <textarea name="vocabulary[note]" id="vocabulary_note" rows="3" cols="55">
+</textarea>
+              <div class="sf_admin_edit_help"> A note about this Application Profile </div>
+            </div>
+          </div>
+          </fieldset>
+          <fieldset id="sf_fieldset_uri">
+          <h2>URI</h2>
+          <div id="form_row_vocabulary_base_domain" class="form-row">
+            <label for="vocabulary_base_domain">Base Domain:</label>
+            <div id="form_row_content_vocabulary_base_domain" class="content">
+              <input type="text" name="vocabulary[base_domain]" id="vocabulary_base_domain" value="http://purl.org/gem/" size="60" />
+              <div class="sf_admin_edit_help"> The root of all URIs related to this Application Profile and its properties. Defaults to the Base Domain set by the Owner of this Application Profile. </div>
+            </div>
+          </div>
+          <div id="form_row_vocabulary_token" class="form-row">
+            <label for="vocabulary_token" class="required">Token:</label>
+            <div id="form_row_content_vocabulary_token" class="content">
+              <input type="text" name="vocabulary[token]" id="vocabulary_token" value="gemTest" size="45" onblur="updateUri()" />
+              <div class="sf_admin_edit_help"> A unique token representing this Application Profile. This can be used as the RDF container class or as qname in XML </div>
+            </div>
+          </div>
+          <div id="form_row_vocabulary_uri" class="form-row">
+            <label for="vocabulary_uri" class="required">URI:</label>
+            <div id="form_row_content_vocabulary_uri" class="content">
+              <input type="text" name="vocabulary[uri]" id="vocabulary_uri" value="http://purl.org/gem/gemTest/" size="60" />
+              <div class="sf_admin_edit_help"> The URI of this Application Profile. By default this will be a concatenation of the Base Domain and the Token. </div>
+            </div>
+          </div>
+          </fieldset>
+          <fieldset id="sf_fieldset_properties">
+          <h2>Namespaces</h2>
+          <div id="form_row_concept_listproperties" class="form-row">
+              <table cellspacing="0" class="sf_admin_list">
+                <tr>
+                  <th>
+                    Title
+                  </th>
+                  <th>
+                    Namespace
+                  </th>
+                  <th>
+                    qname
+                  </th>
+                </tr>
+                <tr>
+                  <td>
+                    Dublin Core Metadata Element Set
+                  </td>
+                  <td>
+                    <a href="/4.html">http://purl.org/dc/elements/1.1/</a>
+                  </td>
+                  <td>
+                    dc
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    Dublin Core Terms
+                  </td>
+                  <td>
+                    <a href="/4.html"> http://purl.org/dc/terms/</a>
+                  </td>
+                  <td>
+                    dcterms
+                  </td>
+                </tr>
+              </table>
+          </div>
+          </fieldset>
+          <ul class="sf_admin_actions">
+            <li>
+              <input class="sf_admin_action_list" value="List" type="button" onclick="document.location.href='/vocabulary/list.html';" />
+            </li>
+            <li>
+              <input type="submit" name="save" value="Save" class="sf_admin_action_save" />
+            </li>
+            <li>
+              <input class="sf_admin_action_create" value="Create" type="button" onclick="document.location.href='/vocabulary/create.html';" />
+            </li>
+            <li>
+              <input type="submit" name="save_and_add" value="Save and add" class="sf_admin_action_save_and_add" />
+            </li>
+            <li>
+              <input class="sf_admin_action_cancel" value="Cancel" type="button" onclick="document.location.href='/vocabulary/show/id/8.html';" />
+            </li>
+          </ul>
+        </form>
+        </fieldset>
+        <ul class="sf_admin_actions">
+          <li class="float-left">
+            <form method="post" class="button_to" action="/vocabulary/delete/id/8.html">
+              <input class="sf_admin_action_delete" value="Delete" type="submit" onclick="return confirm('Are you sure?');" />
+            </form>
+          </li>
+        </ul>
+      </div>
+      <div id="sf_admin_footer"></div>
+    </div>
+    <div class="verticalalign"></div>
+  </div>
+</div>
+<div id="footer"> powered by <a href="http://www.symfony-project.com/"><img align="middle" src="/images/symfony.gif" alt="Symfony" /></a> <a href="http://www.redhat.com/"><img align="middle" src="/images/poweredby.png" alt="Poweredby" /></a> </div>
+<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
+</script>
+<script type="text/javascript">
+//<![CDATA[
+   _uacct = "UA-840150-1";
+   urchinTracker();
+//]]>
+</script>
+</body>
+</html>

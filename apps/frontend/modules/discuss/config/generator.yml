@@ -1,0 +1,70 @@
+generator:
+  class:              sfPropelAdminGenerator
+  param:
+    model_class:      Discuss
+    theme:            default
+
+    list:
+      peer_method:   doSelectForList
+      layout:        stacked
+      title:         Discussion List
+      display:        [=subject, created_at, user, content]
+      sort:           [created_at, desc]
+      displayfilter:  false
+      filters:        [schema_id, schema_property_id, schema_property_element_id, vocabulary_id, concept_id, concept_property_id]
+      # urlfilter form is [field to filter on]: [value passed from routing.yml]
+      # multiple filters can be set but they're currently mutually exclusive (any of the list can be used but only one per url)
+      urlfilters:
+        schema_id:                  schema_id
+        schema_property_id:         schema_property_id
+        schema_property_element_id: schema_property_element_id
+        vocabulary_id:              vocabulary_id
+        concept_id:                 concept_id
+        concept_property_id:        concept_property_id
+      actions:       -
+        _create:       { credentials: [[subscriber]] }
+
+
+    edit:
+      title:
+        mode:
+          edit:        Editing %%subject%%
+          create:      Creating new comment
+      fields:
+        id:                 { credentials: [administrator], mode: edit }
+        content:            { name: Comment, params: rich=true tinymce_options=height:350,width:500 }
+        _scheme_id:         { name: Vocabulary }
+        object:             { name: Value }
+        skos_property_id:   { name: skos:property, params: peer_method=getPicklist include_blank=false onchange=swapOptions() }
+        related_concept_id: { params: related_class=Concept peer_method=getConceptsByRelatedVocabID }
+        language:           { type: select_language_tag, params: include_blank=true }
+      display:
+        "-Metadata":        { fields: [id, created_at, created_user], mode: edit, credentials: [[administrator, vocabularymaintainer, vocabularyadmin, , schemamaintainer, schemaadmin]] }
+        "Detail":            [subject, content]
+        # "Other Properties":  [_listproperties]
+      actions:
+        # You can add a string literal to the query string like this: foo: "'bar'" which will add foo=bar
+        _list:         { query_string: {concept_id: concept_id} }
+        _save:         { credentials: [[administrator, vocabularymaintainer, vocabularyadmin, conceptpropadmin]] }
+        _delete:       { credentials: [[administrator, vocabularyadmin]] }
+        _create:       { query_string: {concept_id: concept_id}, name: Add Property, credentials: [[administrator, vocabularymaintainer, vocabularyadmin, conceptpropadmin]], mode: edit }
+        _save_and_add: { query_string: {concept_id: concept_id}, credentials: [[administrator, vocabularymaintainer, vocabularyadmin, conceptpropadmin]] }
+        _cancel:       { credentials: [[administrator, vocabularymaintainer, vocabularyadmin, conceptpropadmin]], query_string: {concept_id: concept_id} }
+
+
+#  `id` int(11) NOT NULL auto_increment,
+#  `created_at` datetime default NULL,
+#  `deleted_at` datetime default NULL,
+#  `created_user_id` int(11) default NULL,
+#  `deleted_user_id` int(11) default NULL,
+#  `uri` char(255) default NULL,
+#  `schema_id` int(11) default NULL,
+#  `schema_property_id` int(11) default NULL COMMENT 'This will be the ID of the element for element sets, concept for concept schemes',
+#  `schema_property_element_id` int(11) default NULL,
+#  `vocabulary_id` int(11) default NULL,
+#  `concept_id` int(11) default NULL,
+#  `concept_property_id` int(11) default NULL,
+#  `root_id` int(11) default NULL,
+#  `parent_id` int(11) default NULL,
+#  `subject` varchar(255) default NULL,
+#  `content` text,

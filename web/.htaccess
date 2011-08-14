@@ -1,0 +1,44 @@
+Options +FollowSymLinks +ExecCGI -Indexes
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # uncomment the following line, if you are having trouble
+  # getting no_script_name to work
+  #RewriteBase /
+
+  # we skip selenium
+  RewriteCond %{REQUEST_URI} /selenium/.+$
+  RewriteRule .* - [L]
+
+  # we skip all files with .something
+  RewriteCond %{REQUEST_URI} \..+$
+  RewriteCond %{REQUEST_URI} !\.html$
+  RewriteCond %{REQUEST_URI} !\.rdf$
+  RewriteCond %{REQUEST_URI} !\.xsd$
+  RewriteCond %{REQUEST_URI} !\.rss$
+  RewriteCond %{REQUEST_URI} !\.atom$
+  RewriteRule .* - [L]
+
+  # check for sandbox frontend_dev
+  RewriteCond %{HTTP_HOST} ^sandbox*
+  RewriteRule ^frontend_sand_dev.php(.*)$ frontend_sand_dev.php [QSA,L]
+
+  # check for the sandbox
+  RewriteCond %{HTTP_HOST} ^sandbox*
+  RewriteRule ^(.*)$ frontend_sand.php [QSA,L]
+
+  RewriteRule ^selenium/(.*)$ - [QSA,L]
+  
+  # we check if the .html version is here (caching)
+  # RewriteRule ^$ index.html [QSA]
+  # RewriteRule ^([^.]+)$ $1.html [QSA]
+
+	#check to see if it's a file
+  RewriteCond %{REQUEST_FILENAME} !-f
+  # no, so we redirect to our front web controller
+  RewriteRule ^(.*)$ index.php [QSA,L]
+</IfModule>
+
+# big crash from our front web controller
+ErrorDocument 500 "<h2>Application error</h2>The Registry failed to start properly"

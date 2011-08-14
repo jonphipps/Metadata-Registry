@@ -1,0 +1,61 @@
+generator:
+  class:              sfPropelAdminGenerator
+  param:
+    model_class:      VocabularyHasVersion
+    theme:            default
+    pager:
+      no_results:     No Versions have been defined for this Vocabulary
+    fields:
+      id:            { name: ID, type: plain, credentials: [administrator], mode: edit }
+      created_at:    { name: Date Created, type: plain }
+      updated_at:    { name: Last Updated, type: plain, credentials: [administrator] }
+      "name":        { name: Name, help: The identifying name of this version }
+      timeslice:     { name: TimeSlice, params: format='yyyy-MM-dd HH:mm:ss', help: "The point in time that is named by this version name. Please enter in 'yyyy-mm-dd hh:mm:ss' format." }
+      created_user:  { name: Created by}
+
+    list:
+      #peer_method:       doSelectJoinAll
+      #peer_count_method: doCountForUser
+      title:              versions for %%vocabulary%%
+      display:            [=name, timeslice, updated_at, created_user]
+      object_actions:
+        _edit:            { credentials: [[administrator, vocabularyadmin]] }
+        _delete:          { credentials: [[administrator, vocabularyadmin]] }
+      actions:
+        _create:          { name: Add Version, credentials: [[administrator, vocabularyadmin]] }
+      displayfilter:      false
+      filters:            [vocabulary_id, created_user_id]
+      urlfilters:
+        vocabulary_id:    vocabulary_id
+        user_id:          created_user_id
+
+    edit:
+      fields:
+        created_at:    { name: Date Created, type: plain, credentials: [administrator] }
+      title:
+        mode:
+          edit:        Editing version %%name%%
+          create:      Creating new version
+      hide:            [ vocabulary_id, created_user_id ]
+      display:
+        "-Metadata":
+          fields:      [ id, created_at, updated_at ]
+          mode:        edit
+        "Detail":      [ name, timeslice ]
+      actions:
+        _save:         { credentials: [[administrator, vocabularyadmin]] }
+        _delete:       { credentials: [[administrator, vocabularyadmin]], mode: edit }
+        _create:       { credentials: [[administrator, vocabularyadmin]], mode: edit }
+        _cancel:       { credentials: [[administrator, vocabularyadmin]] }
+
+    show:
+      fields:
+        created_at:    { name: Date Created, type: plain }
+      title:           Show detail for version %%name%%
+      display:
+        "-Metadata":   { fields: [id, updated_at], credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
+        "User":        [ created_user, created_at ]
+        "Detail":      [ name, timeslice ]
+      actions:
+        _delete:       { credentials: [[administrator, vocabularyadmin]] }
+        _edit:         { credentials: [[administrator, vocabularyadmin]] }

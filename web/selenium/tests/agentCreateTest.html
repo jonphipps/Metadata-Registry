@@ -1,0 +1,490 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>agentCreateTest</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">agentCreateTest</td></tr>
+</thead><tbody>
+<!--initial state should be logged in as 'newtestuser'-->
+<tr>
+	<td>open</td>
+	<td>/</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=sign in / register</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: sign in / register</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>nickname</td>
+	<td>newtestuser</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>password</td>
+	<td>foobar</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>document.forms[1].commit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: home</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=Resource Owners</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: Owners :: List Owners</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: home</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyElementPresent</td>
+	<td>//input[@value='Add Owner']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertElementPresent</td>
+	<td>link=(Add)</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=(Add)</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTitle</td>
+	<td>The Registry! :: Creating new owner</td>
+	<td></td>
+</tr>
+<!--Individual should be the default-->
+<tr>
+	<td>verifyElementPresent</td>
+	<td>//input[@value='List']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyElementPresent</td>
+	<td>save</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyElementPresent</td>
+	<td>//input[@value='Cancel']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Creating new owner</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//div[@id='form_row_agent_org_name']/label[@class='required']</td>
+	<td>Owner Name:</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//div[@id='form_row_agent_org_email']/label[@class='required']</td>
+	<td>Owner Email:</td>
+</tr>
+<tr>
+	<td>verifyValue</td>
+	<td>agent_type_Individual</td>
+	<td>on</td>
+</tr>
+<!--Test rejection of null values-->
+<tr>
+	<td>clickAndWait</td>
+	<td>save</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: Creating new owner</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyElementPresent</td>
+	<td>error_for_agent_org_name</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyElementPresent</td>
+	<td>error_for_agent_org_email</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>agent_org_name</td>
+	<td>newTestAgent</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>save</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyElementNotPresent</td>
+	<td>error_for_agent_org_name</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>agent_org_email</td>
+	<td>jphipps@madcreek.com</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>save</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: newTestAgent :: Show Detail</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//h1</td>
+	<td>exact:Owners: Show detail for newTestAgent</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>show_row_content_agent_type</td>
+	<td>Individual</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>show_row_content_agent_org_name</td>
+	<td>newTestAgent</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>show_row_content_agent_org_email</td>
+	<td>jphipps@madcreek.com</td>
+</tr>
+<tr>
+	<td>assertElementPresent</td>
+	<td>//a[contains(@href, '/frontend_dev.php/vocabulary/create.html')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyElementPresent</td>
+	<td>//input[@value='List']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyElementPresent</td>
+	<td>//input[@value='Edit']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>show_row_content_agent_country_name</td>
+	<td>United States</td>
+</tr>
+<tr>
+	<td>verifyElementPresent</td>
+	<td>show_row_content_agent_created_at</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyElementPresent</td>
+	<td>show_row_content_agent_last_updated</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyNotVisible</td>
+	<td>show_row_content_agent_created_at</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyNotVisible</td>
+	<td>show_row_content_agent_last_updated</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>fieldsetcollapser0</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyVisible</td>
+	<td>show_row_content_agent_created_at</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyVisible</td>
+	<td>show_row_content_agent_last_updated</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>fieldsetcollapser0</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyNotVisible</td>
+	<td>show_row_content_agent_created_at</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyNotVisible</td>
+	<td>show_row_content_agent_last_updated</td>
+	<td></td>
+</tr>
+<!--Check editing-->
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@value='Edit']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: Editing newTestAgent</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>agent_ind_affiliation</td>
+	<td>Cornell</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>agent_address1</td>
+	<td>Cornell address 1</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>agent_address2</td>
+	<td>Cornell address 2</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>agent_city</td>
+	<td>Ithaca</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>agent_state</td>
+	<td>NY</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>agent_postal_code</td>
+	<td>14850</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>agent_phone</td>
+	<td>607-785-3224</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>agent_web_address</td>
+	<td>http://madcreek.com</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>save</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: newTestAgent :: Show Detail</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//h2</td>
+	<td>Your modifications have been saved</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>show_row_content_agent_type</td>
+	<td>Individual</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>show_row_agent_org_name</td>
+	<td>Owner Name: newTestAgent</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>show_row_content_agent_org_email</td>
+	<td>jphipps@madcreek.com</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>show_row_content_agent_address1</td>
+	<td>Cornell address 1</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>show_row_content_agent_address2</td>
+	<td>Cornell address 2</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>show_row_content_agent_city</td>
+	<td>Ithaca</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>show_row_content_agent_state</td>
+	<td>NY</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>show_row_content_agent_postal_code</td>
+	<td>14850</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>show_row_content_agent_country_name</td>
+	<td>United States</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>show_row_content_agent_phone</td>
+	<td>607-785-3224</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>show_row_content_agent_web_address</td>
+	<td>exact:http://madcreek.com</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//h1</td>
+	<td>exact:Owners: Show detail for newTestAgent</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>fieldsetcollapser0</td>
+	<td></td>
+</tr>
+<!--create and update should not match-->
+<tr>
+	<td>storeText</td>
+	<td>show_row_content_agent_created_at</td>
+	<td>createDate</td>
+</tr>
+<tr>
+	<td>verifyNotText</td>
+	<td>show_row_content_agent_last_updated</td>
+	<td>${createDate}</td>
+</tr>
+<!--need a test for registering a duplicate agent-->
+<tr>
+	<td>clickAndWait</td>
+	<td>link=(Add)</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: Creating new owner</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>agent_org_name</td>
+	<td>newTestAgent</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>agent_org_email</td>
+	<td>jphipps@madcreek.com</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>save</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: Creating new owner</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>error_for_agent_org_name</td>
+	<td>↓ This owner has already been registered.&nbsp;&nbsp;↓</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//h2</td>
+	<td>Please correct the following errors...</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//dt</td>
+	<td>Owner Name:</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//dd</td>
+	<td>This owner has already been registered.</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@value='Cancel']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: Owners :: List Owners</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>link=newTestAgent</td>
+	<td>newTestAgent</td>
+</tr>
+<tr>
+	<td>verifyElementPresent</td>
+	<td>//img[@alt='edit']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertElementPresent</td>
+	<td>//a[contains(@href, '/frontend_dev.php/vocabulary/create.html')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=sign out</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>The Registry! :: home</td>
+	<td></td>
+</tr>
+
+</tbody></table>
+</body>
+</html>

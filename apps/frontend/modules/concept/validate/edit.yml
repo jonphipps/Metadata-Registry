@@ -1,0 +1,29 @@
+fillin:
+  enabled:      true
+
+fields:
+  concept{pref_label}:
+    required:
+      msg: Concept label cannot be blank
+    uniqueLabelValidator:
+  concept{uri}:
+    required:
+      msg: Concept URI cannot be blank
+    uniqueUriValidator:
+
+validators:
+# We're not using the URI validator at the moment because we're not sure that all URIs will validate as URLs
+  uriValidator:
+    class:         sfUrlValidator
+    param:
+      url_error:  "Please enter a valid uri (for example: http://example.com/)"
+
+  uniqueUriValidator:
+    class:          myPropelUniqueUriValidator
+    param:
+      unique_error: This Concept URI has already been registered.
+
+  uniqueLabelValidator:
+    class:          myPropelUniqueConceptValidator
+    param:
+      unique_error: This prefLabel has already been registered in this scheme.

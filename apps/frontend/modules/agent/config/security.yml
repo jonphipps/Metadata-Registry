@@ -1,0 +1,10 @@
+all:
+  is_secure:  off
+
+create:
+  is_secure:   on
+  credentials: [subscriber]
+
+edit:
+  is_secure:   on
+  credentials: [[administrator, agentadmin]]

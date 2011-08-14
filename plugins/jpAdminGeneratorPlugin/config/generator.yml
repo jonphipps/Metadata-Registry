@@ -1,0 +1,13 @@
+generator:
+  param:
+    defaults:
+      edit:
+        char_min:    20
+        char_max:    60
+        text_size:   55x3
+        int_size:    7
+        float_size:  7
+      filter:
+        char_max:    15
+        int_size:    7
+        float_size:  7

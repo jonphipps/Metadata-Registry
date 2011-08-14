@@ -1,0 +1,13 @@
+# default values
+all:
+  title_prefix: "The Registry! :: "
+  base_domain:         "http://registry:81/uri/"
+  default_language: en
+  default_status_id: 1
+  default_conneg_type: rdf
+  schema_profile_id: 1
+# these values may be edited for a localized install
+  admin_email:       sysadmin@metadataregistry.org
+  mysql_command:       ""C:\Program Files (x86)\Zend\MySQL51\bin\mysql.exe""
+  mysqldump_command:   ""C:\Program Files (x86)\Zend\MySQL51\bin\mysqldumo.exe""
+  db_load_filename:    swregistry_test_dump.sql

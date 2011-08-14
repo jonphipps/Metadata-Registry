@@ -1,0 +1,57 @@
+/*This is the stylesheet for the dhtmlgoodies xpPane script*/
+
+	#dhtmlgoodies_xpPane{
+		background-color:#7190e0;
+		float:left;
+		height:1200px;
+		width:200px;
+	}
+	#dhtmlgoodies_xpPane .dhtmlgoodies_panel{
+		margin-left:10px;
+		margin-right:10px;
+		margin-top:10px;	
+	}
+	#dhtmlgoodies_xpPane .panelContent{
+		font-size:0.7em;
+		background-image:url('images/bg_pane_right.gif');
+		background-position:top right;
+		background-repeat:repeat-y;
+		border-left:1px solid #FFF;
+		border-bottom:1px solid #FFF;	
+		padding-left:2px;
+		padding-right:2px;	
+		overflow:hidden;
+		position:relative;
+		clear:both;
+	}
+	#dhtmlgoodies_xpPane .panelContent div{
+		position:relative;
+	}
+	#dhtmlgoodies_xpPane .dhtmlgoodies_panel .topBar{
+		background-image:url('images/bg_panel_top_right.gif');
+		background-repeat:no-repeat;
+		background-position:top right;
+		height:25px;
+		padding-right:5px;
+		cursor:pointer;
+		overflow:hidden;
+	
+	}
+	#dhtmlgoodies_xpPane .dhtmlgoodies_panel .topBar span{
+		line-height:25px;
+		vertical-align:middle;
+		font-family:arial;
+		font-size:0.7em;
+		color:#215DC6;
+		font-weight:bold;
+		float:left;
+		padding-left:5px;
+	}
+	#dhtmlgoodies_xpPane .dhtmlgoodies_panel .topBar img{
+		float:right;
+		cursor:pointer;
+	}
+	#otherContent{	/* Normal text content */
+		float:left;	/* Firefox - to avoid blank white space above panel */
+		padding-left:10px;	/* A little space at the left */
+	}	

@@ -1,0 +1,17 @@
+
+fieldset#sf_fieldset_agents .form-row label,
+fieldset#sf_fieldset_vocabularies .form-row label,
+fieldset#sf_fieldset_agents .show-row label,
+fieldset#sf_fieldset_vocabularies .show-row label
+{
+  display: none;
+}
+
+fieldset#sf_fieldset_agents .form-row ul,
+fieldset#sf_fieldset_vocabularies .form-row ul,
+fieldset#sf_fieldset_agents .show-row ul,
+fieldset#sf_fieldset_vocabularies .show-row ul
+{
+  list-style: none;
+}
+

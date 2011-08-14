@@ -1,0 +1,741 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:mml="http://www.w3.org/1998/Math/MathML"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink"
+	elementFormDefault="qualified">
+
+	<!-- ======================================================================= -->
+	<!--      RDA Full Schema
+		CREATED FOR:
+		American Library Assocation (ALA)
+		50 E. Huron 
+		Chicago, IL 60611 
+		
+		CREATED BY:
+		Information Management Team (IMT), Inc.
+		
+		FOR ASSISTANCE:
+		Information Management Team (IMT), Inc.
+		West 4 Short Street
+		PO Box 217
+		Saint John, WA 99171
+		Phone: 509-648-4264
+		Fax: 509-271-2504
+		Contact: Nannette Naught (nnaught@imteaminc.com)
+		
+		Copyright  2009 American Library Association All rights reserved.  -->
+	<!-- ======================================================================= -->
+
+	<!-- ======================================================================= -->
+
+	<!-- ======================================================================= -->
+	<!--	Schema OUTLINE
+		The contents of the schema are organized as follows:
+			SCHEMA REVISION HISTORY
+			IMPORT OF OTHER NEEDED SCHEMA (call for special characters, etc.)
+			RDA RECORD & ITS CHILDREN, with annotations
+				frbrWork
+				frbrExpression
+				frbrManifestation
+				frbrItem
+				frbrPerson
+				frbrFamily
+				frbrCorporateBody
+				frbrConcept
+				frbrObject
+				frbrEvent
+				frbrPlace
+				fradName
+				frbrRelationships
+			RDA ELEMENTS & THIER CHILDREN (i.e., element types referenced in RDA Record)
+				rdaWork
+				rdaExpression
+				rdaManifestation
+				rdaItem
+				rdaPerson
+				rdaFamily
+				rdaCorporateBody
+				rdaConcept
+				rdaObject
+				rdaEvent
+				rdaPlace
+				rdaName
+				rdaRelationships
+		See RDA ERD available at www.rdaonline.org for a full visual detail of RDA entities and 
+		their relationships to FRBR entities.-->
+	
+	<!-- ======================================================================= -->
+	<!-- SCHEMA REVISION HISTORY
+		7-11-2009  Initial Release v1.0 -->
+	<!-- ======================================================================= -->
+
+	<!-- ======================================================================= -->
+	<!--  IMPORT OF OTHER NEEDED SCHEMA, including special characters, xlinks, & 
+		namespaces -->
+	<!-- ======================================================================= -->
+	<xs:import namespace="http://www.w3.org/1998/Math/MathML"
+		schemaLocation="ncbi-mathml2/mathml2.xsd"/>
+	<xs:import namespace="http://www.w3.org/1999/xlink" schemaLocation="xlink.xsd"/>
+	<xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="xml.xsd"/>
+
+
+	<!-- ======================================================================= -->
+	<!--  RDA RECORD -->
+	<!-- ======================================================================= -->
+	<xs:element name="RDARecord">
+		<xs:complexType>
+			<xs:annotation id="rdar-1">
+				<xs:documentation>Root element of an RDA record.</xs:documentation>
+			</xs:annotation>
+			<xs:sequence>
+				<xs:element name="frbrWork" minOccurs="0" maxOccurs="1" type="rdaWork">
+					<xs:annotation id="rdar-2">
+						<xs:documentation>FRBR Group 1: Work Entity</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="frbrExpression" minOccurs="0" maxOccurs="1" type="rdaExpression">
+					<xs:annotation id="rdar-3">
+						<xs:documentation>FRBR Group 1: Expression Entity</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="frbrManifestation" minOccurs="0" maxOccurs="1" type="rdaManifestation">
+					<xs:annotation id="rdar-4">
+						<xs:documentation>FRBR Group 1: Manifestation Entity</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="frbrItem" minOccurs="0" maxOccurs="unbounded" type="rdaItem">
+					<xs:annotation id="rdar-5">
+						<xs:documentation>FRBR Group 1: Item Entity</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="frbrPerson" minOccurs="0" maxOccurs="unbounded" type="rdaPerson">
+					<xs:annotation id="rdar-6">
+						<xs:documentation>FRBR Group 2: Person Entity</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="frbrFamily" minOccurs="0" maxOccurs="unbounded" type="rdaFamily">
+					<xs:annotation id="rdar-7">
+						<xs:documentation>FRBR Group 2: Family Entity</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="frbrCorporateBody" minOccurs="0" maxOccurs="unbounded"
+					type="rdaCorporateBody">
+					<xs:annotation id="rdar-8">
+						<xs:documentation>FRBR Group 2: Corporate Body Entity</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="frbrConcept" minOccurs="0" maxOccurs="unbounded" type="rdaConcept">
+					<xs:annotation id="rdar-9">
+						<xs:documentation>FRBR Group 3: Concept Entity</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="frbrObject" minOccurs="0" maxOccurs="unbounded" type="rdaObject">
+					<xs:annotation id="rdar-10">
+						<xs:documentation>FRBR Group 3: Object Entity</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="frbrEvent" minOccurs="0" maxOccurs="unbounded" type="rdaEvent">
+					<xs:annotation id="rdar-11">
+						<xs:documentation>FRBR Group 3: Event Entity</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="frbrPlace" minOccurs="0" maxOccurs="unbounded" type="rdaPlace">
+					<xs:annotation id="rdar-12">
+						<xs:documentation>FRBR Group 3: Place Entity</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="fradName" minOccurs="0" maxOccurs="1" type="rdaName">
+					<xs:annotation id="rdar-13">
+						<xs:documentation>FRAD Name Entity</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="frbrRelationships" minOccurs="0" maxOccurs="unbounded"
+					type="rdaRelationships">
+					<xs:annotation id="rdar-14">
+						<xs:documentation>FRBR Relationships</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+
+	<!-- ======================================================================= -->
+	<!--  RDA WORK -->
+	<!-- ======================================================================= -->
+	<xs:complexType name="rdaWork">
+		<xs:sequence>
+			<xs:annotation id="rdar-15">
+				<xs:documentation>RDA conceptualization of FRBR Group 1 Work Entity with 
+					accompanying RDA elements, subelements, and vocabularies. Where RDA 
+					defines Work as: "A distinct intellectual or artistic creation (i.e., the intellectual 
+					or artistic content)"</xs:documentation>
+			</xs:annotation>
+			<xs:element name="rdaCataloguersNote">
+				<xs:annotation id="rdar-16">
+					<xs:documentation>An annotation that might be helpful to those using or revising 
+						the authorized access point representing an entity or relationship data, or 
+						creating an authorized access point representing a related entity.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="id" type="xs:ID"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="rdaCoordinatesOfCartographicContent">
+				<xs:annotation id="rdar-17">
+					<xs:documentation>A mathematical system for identifying the area covered by 
+						the cartographic content of a resource. Coordinates may be expressed by 
+						means of longitude and latitude on the surface of planets or by the angles 
+						of right ascension and declination for celestial charts.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="rdaLongitudeAndLatitude">
+							<xs:annotation id="rdar-18">
+								<xs:documentation>A system for identifying the area covered by 
+									the cartographic content of a resource using longitude of the 
+									westernmost and easternmost boundaries and latitude of the 
+									northernmost and southernmost boundaries.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:attribute name="id" type="xs:ID"/>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="rdaStringsOfCoordinatePairs">
+							<xs:annotation id="rdar-19">
+								<xs:documentation>A system for identifying the precise area covered
+									by the cartographic content of a resource using coordinates for 
+									each vertex of a polygon.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:attribute name="id" type="xs:ID"/>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="rdaRightAscensionAndDeclination">
+							<xs:annotation id="rdar-20">
+								<xs:documentation>A system for identifying the location of a celestial 
+									object in the sky covered by the cartographic content of a resource 
+									using the angles of right ascension and declination.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:attribute name="id" type="xs:ID"/>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute name="id" type="xs:ID"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="rdaCoverageOfTheContent">
+				<xs:annotation id="rdar-21">
+					<xs:documentation>The chronological or geographic coverage of the content of a 
+						resource.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="id" type="xs:ID"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="rdaDateOfWork">
+				<xs:annotation id="rdar-22">
+					<xs:documentation>The earliest date associated with a work.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="id" type="xs:ID"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="rdaDissertationorThesisInformation">
+				<xs:annotation id="rdar-23">
+					<xs:documentation>Information relating to a work presented as part of the formal 
+						requirements for an academic degree.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="rdaYearDegreeGranted">
+							<xs:annotation id="rdar-24">
+								<xs:documentation>The calendar year in which a granting institution 
+									or faculty conferred an academic degree on a candidate.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:attribute name="id" type="xs:ID"/>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="rdaGrantingInstitutionorFaculty">
+							<xs:annotation id="rdar-25">
+								<xs:documentation>An institution or faculty conferring an academic 
+									degree on a candidate.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:attribute name="id" type="xs:ID"/>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="rdaAcademicDegree">
+							<xs:annotation id="rdar-26">
+								<xs:documentation>A rank conferred as a guarantee of academic proficiency.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:attribute name="id" type="xs:ID"/>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute name="id" type="xs:ID"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="rdaEpoch">
+				<xs:annotation id="rdar-27">
+					<xs:documentation>An arbitrary moment in time to which measurements of position for a body or 
+						orientation for an orbit are referred.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="id" type="xs:ID"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="rdaEquinox">
+				<xs:annotation id="rdar-28">
+					<xs:documentation>One of two points of intersection of the ecliptic and the celestial equator, 
+						occupied by the sun when its declination is 0°.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="id" type="xs:ID"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="rdaFormOfWork">
+				<xs:annotation id="rdar-29">
+					<xs:documentation>A class or genre to which a work belongs.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="id" type="xs:ID"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="rdaHistoryOfTheWork">
+				<xs:annotation id="rdar-30">
+					<xs:documentation>Information pertaining to the history of a work.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="id" type="xs:ID"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="rdaIdentifierForTheWork">
+				<xs:annotation id="rdar-31">
+					<xs:documentation>A character string uniquely associated with a work, 
+						or with a surrogate for a work (e.g., an authority record), that serves 
+						to differentiate that work from other works.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="id" type="xs:ID"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="rdaIntendedAudience">
+				<xs:annotation id="rdar-32">
+					<xs:documentation>The class of user for which the content of a resource 
+						is intended, or for whom the content is considered suitable, as defined 
+						by age group (e.g., children, young adults, adults, etc.), educational level 
+						(e.g., primary, secondary, etc.), type of disability, or other categorization.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="id" type="xs:ID"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="rdaKey">
+				<xs:annotation id="rdar-33">
+					<xs:documentation>The set of pitch relationships that establishes the tonal centre, 
+						or principal tonal centre, for a musical work. Key is designated by its pitch name 
+						and its mode, when it is major or minor.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="id" type="xs:ID"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="rdaMediumOfPerformance">
+				<xs:annotation id="rdar-34">
+					<xs:documentation>The instrument, instruments, voice, voices, etc., for which a 
+						musical work was originally conceived.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:string">
+							<xs:attribute name="RDAMediumOfPerformance">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:enumeration value="AccompanimentForSongsLiederetc_Accompanied"/>
+										<xs:enumeration value="AccompanimentForSongsLiederetc_Accompanied"/>
+										<xs:enumeration value="AccompanimentForSongsLiederetc_Unaccompanied"/>
+										<xs:enumeration value="Choruses_MensVoices"/>
+										<xs:enumeration value="Choruses_MixedVoices"/>
+										<xs:enumeration value="Choruses_UnisonVoices"/>
+										<xs:enumeration value="Choruses_WomensVoices"/>
+										<xs:enumeration value="GroupsOfInstruments_Brasses"/>
+										<xs:enumeration value="GroupsOfInstruments_Instrumental[stringwindetc.]Ensemble"/>
+										<xs:enumeration value="GroupsOfInstruments_KeyboardInstrument"/>
+										<xs:enumeration value="GroupsOfInstruments_Percussion"/>
+										<xs:enumeration value="GroupsOfInstruments_PluckedInstrument"/>
+										<xs:enumeration value="GroupsOfInstruments_Strings"/>
+										<xs:enumeration value="GroupsOfInstruments_Winds"/>
+										<xs:enumeration value="GroupsOfInstruments_Woodwinds"/>
+										<xs:enumeration value="IndividualInstruments_Continuo"/>
+										<xs:enumeration value="IndividualInstruments_KeyboardInstruments"/>
+										<xs:enumeration value="IndividualInstruments_Organs(2)"/>
+										<xs:enumeration value="IndividualInstruments_Piano"/>
+										<xs:enumeration value="IndividualInstruments_Piano4Hands"/>
+										<xs:enumeration value="IndividualInstruments_Pianos(2)"/>
+										<xs:enumeration value="IndividualInstruments_Pianos(2)8Hands"/>
+										<xs:enumeration value="Orchestraetc._Band"/>
+										<xs:enumeration value="Orchestraetc._Orchestra"/>
+										<xs:enumeration value="Orchestraetc._StringOrchestra"/>
+										<xs:enumeration value="SoloVoices_Alto"/>
+										<xs:enumeration value="SoloVoices_Baritone"/>
+										<xs:enumeration value="SoloVoices_Bass"/>
+										<xs:enumeration value="SoloVoices_Mezzo-Soprano"/>
+										<xs:enumeration value="SoloVoices_Soprano"/>
+										<xs:enumeration value="SoloVoices_Tenor"/>
+										<xs:enumeration value="StandardCombination_PianoStrings">
+											<xs:annotation id="rdar-50">
+												<xs:documentation>Standard combination: piano trio; instrumentation: piano, violin, violoncello.
+													Standard combination: piano quartet; instrumentation: piano, violin, viola, violoncello.
+													Standard combination: piano quintet; instrumentation: piano, 2 violins, viola, violoncello.</xs:documentation>
+											</xs:annotation>
+										</xs:enumeration>
+										<xs:enumeration value="StandardCombination_Strings">
+											<xs:annotation id="rdar-51">
+												<xs:documentation>Standard combination: string trio; instrumentation: violin, viola, violoncello.
+												Standard combination: string quartet; instrumentation: 2 violins, viola, violoncello.</xs:documentation>
+											</xs:annotation>
+										</xs:enumeration>
+										<xs:enumeration value="StandardCombination_Winds">
+											<xs:annotation id="rdar-52">
+												<xs:documentation>Standard combination: woodwind quartet; instrumentation: flute, oboe, 
+													clarinet, horn, bassoon.</xs:documentation>
+											</xs:annotation>
+										</xs:enumeration>
+										<xs:enumeration value="StandardCombination_Woodwinds">
+											<xs:annotation id="rdar-53">
+												<xs:documentation>Standard combination: flute, oboe, clarinet, bassoon.</xs:documentation>
+											</xs:annotation>
+										</xs:enumeration>
+										<xs:enumeration value="TwoorMoreSoloVoices_MensSoloVoices"/>
+										<xs:enumeration value="TwoorMoreSoloVoices_MixedSoloVoices"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:attribute>
+							<xs:attribute name="id" type="xs:ID"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="rdaNatureOfTheContent">
+				<xs:annotation id="rdar-35">
+					<xs:documentation>The specific character of the primary content of a resource (e.g., legal articles, 
+						interim report).</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="id" type="xs:ID"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="rdaNumericDesignationOfAMusicalWork">
+				<xs:annotation id="rdar-36">
+					<xs:documentation>A serial number, opus number, or thematic index number assigned to a musical 
+						work by a composer, publisher, or a musicologist.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="id" type="xs:ID"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="rdaOtherDistinguishingCharacteristicOfTheWork">
+				<xs:annotation id="rdar-37">
+					<xs:documentation>A characteristic other than form of work, date of work, or place of origin of the work 
+						that serves to differentiate a work from another work with the same title or from the name of a person, 
+						family, or corporate body.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="id" type="xs:ID"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="rdaPlaceOfOriginOfTheWork">
+				<xs:annotation id="rdar-38">
+					<xs:documentation>The country or other territorial jurisdiction from which a work originated.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="id" type="xs:ID"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="rdaSignatorytoATreatyetc.">
+				<xs:annotation id="rdar-39">
+					<xs:documentation>A government or other party that has formally signed a treaty, etc., as an adherent to its 
+						terms and conditions.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="id" type="xs:ID"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="rdaSourceConsulted">
+				<xs:annotation id="rdar-40">
+					<xs:documentation>A resource used in determining the name, title, or other identifying 
+						attributes of an entity, or in determining the relationship between entities.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="id" type="xs:ID"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="rdaStatusOfIdentification">
+				<xs:annotation id="rdar-41">
+					<xs:documentation>An indication of the level of authentication of the data identifying an 
+						entity.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:string">
+							<xs:attribute name="RDAStatusOfIdentification">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:enumeration value="FullyEstablished"/>
+										<xs:enumeration value="Preliminary"/>
+										<xs:enumeration value="Provisional"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:attribute>
+							<xs:attribute name="id" type="xs:ID"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="rdaSystemOfOrganization">
+				<xs:annotation id="rdar-42">
+					<xs:documentation>A system of arranging materials in an archival resource or a collection.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="id" type="xs:ID"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="rdaTitleOfWork">
+				<xs:annotation id="rdar-43">
+					<xs:documentation>A word, character, or group of words and/or characters by which a 
+						work is known.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="rdaPreferredTitleForTheWork">
+							<xs:annotation id="rdar-44">
+								<xs:documentation>The title or form of title chosen as the basis for the authorized 
+									access point representing that work.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:attribute name="id" type="xs:ID"/>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="rdaVariantTitleForTheWork">
+							<xs:annotation id="rdar-45">
+								<xs:documentation>A title or form of title by which a work is known that differs from 
+									the title or form of title chosen as the preferred title for the work.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:attribute name="id" type="xs:ID"/>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute name="id" type="xs:ID"/>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:ID"/>
+	</xs:complexType>
+
+	<!-- ======================================================================= -->
+	<!--  RDA EXPRESSION -->
+	<!-- ======================================================================= -->
+	<xs:complexType name="rdaExpression">
+		<xs:sequence>
+			<xs:annotation>
+				<xs:documentation>RDA conceptualization of FRBR Group 1 Expression Entity with accompanying
+					RDA elements, subelements, and vocabularies. Where RDA defines Expression as: "The
+					intellectual or artistic realization of a work in the form of alpha-numeric, musical or
+					choreographic notation, sound, image, object, movement, etc., or any combination of such
+					forms."</xs:documentation>
+			</xs:annotation>
+			<xs:element name="rdaAccessibilityContent">
+				<xs:annotation id="rdar-54"><xs:documentation></xs:documentation></xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="id" type="xs:ID"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="rdaArtisticAndorTechnicalCredit">
+				<xs:annotation id="rdar-55"><xs:documentation></xs:documentation></xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="id" type="xs:ID"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="rdaAspectRatio">
+				<xs:annotation id="rdar-56"><xs:documentation></xs:documentation></xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:string">
+							<xs:attribute name="RDAAspectRatio">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:enumeration value="RDAFullScreen"/>
+										<xs:enumeration value="RDAMixed"/>
+										<xs:enumeration value="RDAWideScreen"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:attribute>
+							<xs:attribute name="id" type="xs:ID"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			
+			
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- ======================================================================= -->
+	<!--  RDA MANIFESTATION -->
+	<!-- ======================================================================= -->
+	<xs:complexType name="rdaManifestation">
+		<xs:sequence>
+			<xs:annotation>
+				<xs:documentation>RDA conceptualization of FRBR Group 1 Manifestation Entity with
+					accompanying RDA elements, subelements, and vocabularies. Where RDA defines Manifestation
+					as: "The physical embodiment of an expression of a work."</xs:documentation>
+			</xs:annotation>
+			<xs:element name="rdaAppliedMaterial"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- ======================================================================= -->
+	<!--  RDA ITEM -->
+	<!-- ======================================================================= -->
+	<xs:complexType name="rdaItem">
+		<xs:sequence>
+			<xs:annotation>
+				<xs:documentation>RDA conceptualization of FRBR Group 1 Item Entity with accompanying RDA
+					elements, subelements, and vocabularies. Where RDA defines Item as: "A single exemplar or
+					instance of a manifestation."</xs:documentation>
+			</xs:annotation>
+			<xs:element name="rdaContactInformation"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- ======================================================================= -->
+	<!--  RDA PERSON -->
+	<!-- ======================================================================= -->
+	<xs:complexType name="rdaPerson">
+		<xs:sequence>
+			<xs:annotation>
+				<xs:documentation>RDA conceptualization of FRBR Group 2 Person Entity with accompanying RDA
+					elements, subelements, and vocabularies. Where RDA defines Person as: "An individual or an
+					identity established by an individual (either alone or in collaboration with one or more
+					other individuals)." </xs:documentation>
+			</xs:annotation>
+			<xs:element name="rdaAddressOfThePerson"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- ======================================================================= -->
+	<!--  RDA FAMILY -->
+	<!-- ======================================================================= -->
+	<xs:complexType name="rdaFamily">
+		<xs:sequence>
+			<xs:annotation>
+				<xs:documentation>RDA conceptualization of FRBR Group 2 Family Entity with accompanying RDA
+					elements, subelements, and vocabularies. Where RDA defines Family as: "Two or more persons
+					related by birth, marriage, adoption, civil union, or similar legal status, or who
+					otherwise present themselves as a family."</xs:documentation>
+			</xs:annotation>
+			<xs:element name="rdaCataloguersNote"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<!-- ======================================================================= -->
+	<!--  RDA CORPORATE BODY -->
+	<!-- ======================================================================= -->
+	<xs:complexType name="rdaCorporateBody">
+		<xs:sequence>
+			<xs:annotation>
+				<xs:documentation>RDA conceptualization of FRBR Group 2 Corporate Body Entity with
+					accompanying RDA elements, subelements, and vocabularies. Where RDA defines Corporate Body
+					as: "An organization or group of persons and/or organizations that is identified by a
+					particular name and that acts, or may act, as a unit."</xs:documentation>
+			</xs:annotation>
+			<xs:element name="rdaAddressOfTheCorporateBody"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<!-- ======================================================================= -->
+	<!--  RDA CONCEPT -->
+	<!-- ======================================================================= -->
+	<xs:complexType name="rdaConcept">
+		<xs:sequence>
+			<xs:annotation>
+				<xs:documentation>RDA conceptualization of FRBR Group 3 Concept Entity with accompanying RDA
+					elements, subelements, and vocabularies. </xs:documentation>
+			</xs:annotation>
+			<xs:element name="rdaCataloguersNote"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<!-- ======================================================================= -->
+	<!--  RDA OBJECT -->
+	<!-- ======================================================================= -->
+	<xs:complexType name="rdaObject">
+		<xs:sequence>
+			<xs:annotation>
+				<xs:documentation>RDA conceptualization of FRBR Group 3 Object Entity with accompanying RDA
+					elements, subelements, and vocabularies. </xs:documentation>
+			</xs:annotation>
+			<xs:element name="rdaCataloguersNote"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<!-- ======================================================================= -->
+	<!--  RDA EVENT -->
+	<!-- ======================================================================= -->
+	<xs:complexType name="rdaEvent">
+		<xs:sequence>
+			<xs:annotation>
+				<xs:documentation>RDA conceptualization of FRBR Group 3 Event Entity with accompanying RDA
+					elements, subelements, and vocabularies. </xs:documentation>
+			</xs:annotation>
+			<xs:element name="rdaCataloguersNote"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<!-- ======================================================================= -->
+	<!--  RDA PLACE -->
+	<!-- ======================================================================= -->
+	<xs:complexType name="rdaPlace">
+		<xs:sequence>
+			<xs:annotation>
+				<xs:documentation>RDA conceptualization of FRBR Group 3 Place Entity with accompanying RDA
+					elements, subelements, and vocabularies. Where RDA defines Place as: "A location
+					identified by a name."</xs:documentation>
+			</xs:annotation>
+			<xs:element name="rdaCataloguersNote"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<!-- ======================================================================= -->
+	<!--  RDA NAME -->
+	<!-- ======================================================================= -->
+	<xs:complexType name="rdaName">
+		<xs:sequence>
+			<xs:annotation>
+				<xs:documentation>RDA conceptualization of FRAD Name Entity with accompanying RDA elements,
+					subelements, and vocabularies. Where RDA defines Place as: "A word, character, or group of
+					words and/or characters by which an entity is known."</xs:documentation>
+			</xs:annotation>
+			<xs:element name="rdaCataloguersNote"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- ======================================================================= -->
+	<!--  RDA RELATIONSHIPS -->
+	<!-- ======================================================================= -->
+	<xs:complexType name="rdaRelationships">
+		<xs:sequence>
+			<xs:annotation>
+				<xs:documentation>RDA conceptualization of FRBR and FRAD Relationships with accompanying RDA
+					elements, subelements, and vocabularies. </xs:documentation>
+			</xs:annotation>
+			<xs:element name="rdaRelationshipDesignator"/>
+		</xs:sequence>
+	</xs:complexType>
+
+</xs:schema>

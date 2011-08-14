@@ -1,0 +1,12 @@
+fillin:
+  enabled: true
+
+fields:
+  vocabulary_has_version{name}:
+    required:
+      msg:  Name cannot be blank
+
+  vocabulary_has_version{timeslice}:
+    required:
+      msg:  TimeSlice cannot be blank
+    sfDateValidator:

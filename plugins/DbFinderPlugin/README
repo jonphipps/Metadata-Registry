@@ -1,0 +1,1034 @@
+DbFinder plugin
+===============
+
+The `DbFinder` is a symfony plugin that provides an easy API for finding Model objects, whether the underlying ORM is Propel or Doctrine. It can be seen as:
+
+* A usability layer to ease the use of Propel's Criteria object and Peer classes
+* An extension to Propel's limited capabilities to provide:
+  - complex joins
+  - custom hydration of related objects and columns
+  - schema and relation introspection
+* A compatibility layer to allow plugins to work with Propel 1.2, Propel 1.3, and Doctrine
+
+Overview
+--------
+
+The idea behind this plugin is to write queries to retrieve model objects through an ORM, but fast. Inspired by Doctrine, Rails has_finder plugin and SQLAlchemy, `DbFinder` can be seen as "jQuery for symfony's model layer". It also aims at putting the things in the right order, meaning that writing a `find()` query will feel natural for those familiar with SQL.
+
+    [php]
+    // With Propel Peer and Criteria
+    $c = new Criteria()
+    $c->add(ArticlePeer::TITLE, '%world', Criteria::LIKE);
+    $c->add(ArticlePeer::IS_PUBLISHED, true);
+    $c->addAscendingOrderByColumn(ArticlePeer::CREATED_AT);
+    $articles = ArticlePeer::doSelectJoinCategory($c);
+
+    // with DbFinder
+    $articles = DbFinder::from('Article')->
+      where('Title', 'like', '%world')->
+      where('IsPublished', true)->
+      orderBy('CreatedAt')->
+      with('Category')->
+      find();
+
+`DbFinder` uses the same fluid interface as the `sfFinder`, so you won't be lost. It is compatible with symfony 1.0 to 1.2, with Propel 1.2 and 1.3, and with Doctrine 1.0. `DbFinder` comes with a Propel and a Doctrine adapter (`sfPropelFinder`, `sfDoctrineFinder`). Whenever you use `DbFinder::from()`, the finder will check whether you look for Propel or Doctrine objects and use the appropriate adapter.
+
+You can also implement your own business logic to encapsulate complex queries, so that your queries look like real language:
+
+    [php]
+    // ArticleFinder extends sfPropelFinder. See how below
+    $finder = new ArticleFinder();
+    $articles = $finder->recent()->withComments()->notAnonymous()->wellRated()->find();
+
+Installation
+------------
+
+* Install the plugin
+  
+        > php symfony plugin-install http://plugins.symfony-project.com/DbFinderPlugin    # for symfony 1.0
+        > php symfony plugin:install DbFinderPlugin  # for symfony 1.2
+
+* Clear the cache
+
+        > php symfony cc
+
+**Warning**: The Doctrine implementation requires Doctrine 1.0. Unfortunately, only the version of `sfDoctrinePlugin` bundled for symfony 1.1 is compatible with Dbfinder, since the one for sf 1.0 uses the Doctrine 0.11 branch, and the one for sf 1.2 doesn't bundle the admin generator theme anymore.
+
+Usage
+-----
+
+### Finding Objects
+
+    [php]
+    // Finding all Articles
+    $articles = DbFinder::from('Article')->find();
+    // Finding 3 Articles
+    $articles = DbFinder::from('Article')->find(3);
+    // Finding a single Article
+    $article = DbFinder::from('Article')->findOne();
+    // Finding the last Article (the finder will figure out the column to use for sorting)
+    $article = DbFinder::from('Article')->findLast();
+
+### Adding A WHERE Clause
+
+    [php]
+    // Finding all Articles where title = 'foo'
+    $articles = DbFinder::from('Article')->
+      where('Title', 'foo')->
+      find();
+    // Finding all Articles where title like 'foo%'
+    $articles = DbFinder::from('Article')->
+      where('Title', 'like', 'foo%')->
+      find();
+    // Finding all Articles where published_at less than time()
+    $articles = DbFinder::from('Article')->
+      where('PublishedAt', '<', time())->
+      find();
+    // Finding all Articles with no category
+    $articles = DbFinder::from('Article')->
+      where('CategoryId', 'is not null')->
+      find();
+
+    // You can chain WHERE clauses
+    $articles = DbFinder::from('Article')->
+      where('Title', 'foo')->
+      where('PublishedAt', '<', time())->
+      find();
+    // For OR conditions, use orWhere() instead of where()
+    $articles = DbFinder::from('Article')->
+      where('Title', 'foo')->
+      where('PublishedAt', '<', time())->
+      orWhere('Title', 'like', 'bar%')->
+      find();
+    
+    // The where() method accepts simple or composed column names ('ClassName.ColumnName')
+    $articles = DbFinder::from('Article')->
+      where('Article.Title', 'foo')->
+      find();
+
+### Using Functions In A WHERE Clause
+
+    [php]
+    // When you need to apply a function, use whereCustom() instead of where()
+    // Finding all Articles for a given month
+    $articles = DbFinder::from('Article')->
+      whereCustom('date_format(Article.Title, \'%%y%%m\') = ?', $month)->
+      find();
+    // Notice that you must use the composed column name and the comparison operator
+    // The finder will escape the $month parameter, so there is no risk of SQL injection
+
+    // Finding all Articles where upper(title) = 'FOO' + 'BAR'
+    $articles = DbFinder::from('Article')->
+      whereCustom('upper(Article.Title) = ? + ?', array('FOO', 'BAR'))->
+      find();
+    // When there is more than one parameter, use an array as second argument
+
+    // Finding all Articles where PublishedAt is null AND upper(title) = 'FOO'
+    $articles = DbFinder::from('Article')->
+      where('PublishedAt', 'is null')->
+      whereCustom('upper(Article.Title) = ?', 'FOO')->
+      find();
+    // whereCustom() adds a condition with 'AND'
+    
+    // Finding all Articles where PublishedAt is null OR upper(title) = 'FOO'
+    $articles = DbFinder::from('Article')->
+      where('PublishedAt', 'is null')->
+      orWhereCustom('upper(Article.Title) = ?', 'FOO')->
+      find();
+    // orWhereCustom() adds a condition with 'OR'
+    
+### Ordering Results
+
+    [php]
+    // Finding all Articles ordered by created_at (ascending order by default)
+    $articles = DbFinder::from('Article')->
+      orderBy('CreatedAt')->
+      find();
+    // Finding all Articles ordered by created_at desc
+    $articles = DbFinder::from('Article')->
+      orderBy('CreatedAt', 'desc')->
+      find();
+
+### Chaining Methods
+
+The methods of the `DbFinder` object return the current finder object, so you can chain them together in a single call, and finish by any of the `find()` methods to launch the query.
+
+    [php]
+    // Everything chained together
+    $articles = DbFinder::from('Article')->where('Title', 'like', '%world')->where('IsPublished', true)->orderBy('CreatedAt')->find();
+    // You can write it in several lines, too
+    $articles = DbFinder::from('Article')->
+      where('Title', 'like', '%world')->
+      where('IsPublished', true)->
+      orderBy('CreatedAt')->
+      find();
+
+The syntax should remind you of `sfFinder` and `sfTestBrowser`.
+
+### Finding Records Related To Another One
+
+    [php]
+    // Propel way
+    $comments = $article->getComments();
+    // DbFinder way
+    $comments = DbFinder::from('Comment')->
+      where('ArticleId', $article->getId())->
+      find();
+    // Or let the finder guess local and foreign columns based on the schema
+    $comments = DbFinder::from('Comment')->
+      relatedTo($article)->
+      find();
+
+Since the finder way is longer than the native Propel way, what is the interest of using this `relatedTo()`? You get a `DbFinder` object when you use `relatedTo()`, so it allows you to do things that the generated Propel getter don't allow:
+
+    [php]
+    // Retrieving the related comments, orderd by date
+    $comments = DbFinder::from('Comment')->
+      relatedTo($article)->
+      orderBy('CreatedAt', 'desc')->
+      find();
+    // Retrieving the last one of the related comments
+    $comments = DbFinder::from('Comment')->
+      relatedTo($article)->
+      findLast();
+
+Compare it to the code required to get these `Comment` objects without `DbFinder`, and you will understand all the benefits the `relatedTo()` method provide.
+
+**Tip**: Alternatively, a finder can be initialized from an array of Propel object. The resulting SQL query contains a 'IN ()' clause, so use this possibility with caution.
+
+    [php]
+    // Retrieving the last one of the related comments
+    $comments = DbFinder::from($article->getComments())->
+      findLast();
+
+### Joins
+
+    [php]
+    // Test data
+    $article1 = new Article();
+    $article1->setTitle('Hello, world!');
+    $article1->save();
+    $comment = new Comment();
+    $comment->setContent('You rock!');
+    $comment->setArticle($article1);
+    $comment->save();
+
+    // Add a join statement
+    $article = DbFinder::from('Article')->
+      join('Comment')->
+      where('Comment.Content', 'You rock!')->
+      findOne();
+    // No need to tell the finder which columns to use for the join, just the related Class
+    // After all, the columns of the FK are already defined in the schema.
+    // Note that the default join() call results in a SQL INNER JOIN clause
+    // This is somewhat different from the Propel default, which issues a WHERE clause, but the result is the same
+
+    // If subsequent conditions use explicit column names,
+    // The finder can even guess the join table and you can omit the join() statement.
+    // This is the case here with Comment.Content, so the following also works
+    $article = DbFinder::from('Article')->
+      where('Comment.Content', 'You rock!')->
+      findOne();
+
+    // Using an explicit join is mostly useful if you want a special type of join
+    // Use leftJoin(), and rightJoin() for this purpose
+    // innerJoin() is a synonym for join()
+    $article = DbFinder::from('Article')->
+      leftJoin('Comment')->
+      where('Comment.Content', 'You rock!')->
+      findOne();
+
+    // Using an explicit join can also help if you need to specify the members of the join
+    $article = DbFinder::from('Article')->
+      leftJoin('Article.Id', 'Comment.ArticleId')->
+      where('Comment.Content', 'You rock!')->
+      findOne();
+
+    // You can chain joins if you want to make more complex queries
+    $article2 = new Article();
+    $article2->setTitle('Hello again, world!');
+    $article2->save();
+    $author1 = new Author();
+    $author1->setName('John');
+    $author1->save();
+    $comment = new Comment();
+    $comment->setContent('You rock!');
+    $comment->setArticle($article2);
+    $comment->setAuthor($author1);
+    $comment->save();
+
+    $article = DbFinder::from('Article')->
+      join('Comment')->
+      join('Author')->
+      where('Author.Name', 'John')->
+      findOne();
+    // In this example, Author.Name allows the finder to guess the last join
+    // So you can omit it
+    $article = DbFinder::from('Article')->
+      join('Comment')->
+      where('Author.Name', 'John')->
+      findOne();
+    
+### Table Aliases
+
+    [php]
+    // from() allows you to define table aliases
+    $articles = DbFinder::from('Article a')->
+      where('a.Title', 'foo')->
+      find();
+    
+    // join() also allows table aliases
+    $article = DbFinder::from('Article')->
+      join('Comment c')->
+      where('c.Content', 'You rock!')->
+      findOne();
+    
+    // Table aliases can be used in all finder methods (where, groupBy, orderBy, etc.)
+    $comments = DbFinder::from('Comment')->
+      join('Article a')->
+      orderBy('a.Title')->
+      find();
+    
+    // Table aliases are mostly useful to join the current table
+    $children = DbFinder::from('Person')->
+      innerJoin('Person father', 'Person.FatherId', 'father.Id')->
+      where('father.Name', 'Daddy!')->
+      find();
+    
+    // Table aliases also allow to handle multiple foreign keys on the same column
+    $house = DbFinder::from('House')->
+      innerJoin('Person owner', 'House.OwnerId', 'owner.Id')->
+      where('owner.Name', 'Mr Doe')->
+      innerJoin('Person renter', 'House.RenterId', 'renter.Id')->
+      where('renter.Name', 'Mr Black')->
+      find();
+    
+### Complex Logic
+
+    [php]
+    // where() and orWhere() only allow simple logical operations on a single condition
+    // For more complex logic, you have to use combine()
+    // It expects an array of named conditions to be combined, and an operator
+    // Use the fourth argument of where() to name a condition
+    $article = DbFinder::from('Article')->
+      where('Title', '=', 'Foo', 'cond1')->     // creates a condition named 'cond1'
+      where('Title', '=', 'Bar', 'cond2')->     // creates a condition named 'cond2'
+      combine(array('cond1', 'cond2'), 'or')->  // combine 'cond1' and 'cond2' with a logical OR
+      findOne();
+    // SELECT article.* FROM article WHERE (article.TITLE = 'foo' OR article.TITLE = 'bar');
+
+    // combine accepts more than two conditions at a time
+    $articles = DbFinder::from('Article')->
+      where('Title', '=', 'Foo', 'cond1')->
+      where('Title', '=', 'Bar', 'cond2')->
+      where('Title', '=', 'FooBar', 'cond3')->
+      combine(array('cond1', 'cond2', 'cond3'), 'or')->
+      find();
+    // SELECT article.* FROM article WHERE (article.TITLE = 'foo' OR article.TITLE = 'bar') OR article.TITLE = 'FooBar';
+
+    // combine() itself can return a named condition to be combined later
+    // So it allows for any level of logical complexity
+    $articles = DbFinder::from('Article')->
+      where('Title', '=', 'Foo', 'cond1')->
+      where('Title', '=', 'Bar', 'cond2')->
+      combine(array('cond1', 'cond2'), 'or', 'TitleFooBar')->
+      where('PublishedAt', '<=', $end, 'cond3')->
+      where('PublishedAt', '>=', $begin, 'cond4')->
+      combine(array('cond2', 'cond3'), 'and', 'PublishedInBounds')->
+      combine(array('TitleFooBar', 'PublishedInBounds'), 'or')->
+      find();
+    // SELECT article.* FROM article WHERE (
+    //  (article.TITLE = 'foo' OR article.TITLE = 'bar')
+    //  OR
+    //  (article.PUBLISHED_AT <= $end AND article.PUBLISHED_AT >= $begin)
+    // );
+    
+    // combine() also accepts named conditions added by whereCustom()
+    $article = DbFinder::from('Article')->
+      whereCustom('upper(Article.Title) = ?', 'Foo', 'cond1')->
+      whereCustom('upper(Article.Title) = ?', 'Bar', 'cond2')->
+      combine(array('cond1', 'cond2'), 'or')->
+      findOne();
+    // SELECT article.* FROM article WHERE (UPPER(article.TITLE) = 'foo' OR UPPER(article.TITLE) = 'bar');
+
+### Minimizing Queries
+
+Even if you do a Join, Propel or Doctrine will issue new queries when you fetch related objects:
+
+    [php]
+    $comment = DbFinder::from('Comment')->
+      join('Article')->
+      where('Article.Title', 'Hello, world')->
+      findOne();
+    $article = $comment->getArticle();  // Needs another database query
+
+Just as Propel offers generated `doSelectJoinXXX()` methods, `DbFinder` allows you to hydrate related objects in a single query - you just have to call the `with()` method to specify which objects the main object should be hydrated with.
+
+    [php]
+    $comment = DbFinder::from('Comment')->
+      with('Article')->
+      join('Article')->
+      where('Article.Title', 'Hello, world')->
+      findOne();
+    $article = $comment->getArticle();  // Same result, with no supplementary query
+
+The power of the `with()` method is that it can guess relationships just as well as `join()`, and will add the call to `join()` if you didn't do it yourself. So you can do for instance:
+
+    [php]
+    $category1 = new Category();
+    $category1->setName('Category1');
+    $category1->save();
+    $article1 = new Article();
+    $article1->setTitle('Hello, world!');
+    $article1->setCategory($category1);
+    $article1->save();
+    $comment = new Comment();
+    $comment->setContent('foo');
+    $comment->setArticle($article1);
+    $comment->save();
+
+    $comments = DbFinder::from('Comment')->
+      with('Article', 'Category')->
+      find();      // One single query here
+    foreach ($comments as $comment)
+    {
+      echo $comment->getArticle()->getCategory()->getName();  // No query needed, the related Article and article Category are already hydrated
+    }
+
+When joining a table with an alias, use the alias name in `with()` to hydrate the correct object.
+
+    [php]
+    $persons = DbFinder::from('Person')->
+      innerJoin('Person father', 'Person.FatherId', 'father.Id')->
+      with('father')->
+      findOne();
+    echo $person->getPersonRelatedByFatherId()->getName(); // No query needed
+    
+The `with()` method can also hydrate the related I18n objects, thus providing an equivalent to symfony's `doSelectWithI18n()` methods.
+
+    [php]
+    // Consider the following schema
+    //article:
+    //  title:       varchar(255)
+    //article_i18n:
+    //  content:     varchar(255)
+    $article = new Article();
+    $article->setTitle('Foo Bar');
+    $article->setCulture('en');
+    $article->setContent('english content');
+    $article->setCulture('fr');
+    $article->setContent('contenu français');
+    $article->save();
+
+    sfContext::getInstance()->getUser()->setCulture('en');
+    $article = DbFinder::from('Article')->with('I18n')->findOne();
+    echo $article->getContent();   // english content
+    sfContext::getInstance()->getUser()->setCulture('fr');
+    $article = DbFinder::from('Article')->with('I18n')->findOne();
+    echo $article->getContent();   // contenu français
+
+**Note**: Since the `i18nTable` and the `is_culture` schema properties are lost after Propel model generation, `with('I18n')` only works if the i18n table is named after the main table (e.g. 'Article' => 'ArticleI18n') and if the culture column name is `culture`. This is the default symfony behavior, so it should work if you didn't define special i18n table and column names.
+
+### Adding Columns
+
+If what you need is a single property of a related object, you probably don't need to hydrate the whole related object. For those cases, the finder allows you to add only one column of a related object with `withColumn()`. You can retrieve supplementary columns added by the finder by calling `getColumn()` on the resulting objects.
+
+Warning: The `withColumn()` feature requires symfony's Behavior system. It will only work if you enable behaviors in `propel.ini` and rebuild your model afterwards.
+
+    [php]
+    $article = DbFinder::from('Article')->
+      join('Category')->
+      withColumn('Category.Name')->
+      findOne();
+    $categoryName = $article->getColumn('Category.Name');  // No supplementary query
+
+    // Beware that in this case, the related `Category` object is not hydrated, since `with()` was not used.
+    // That means that retrieving the related `Category` object will issue a new database query,
+    // so use `withColumn()` only when you need one or two supplementary columns instead of the whole object.
+    $categoryName = $article->getCategory()->getName();  // One supplementary query
+
+    // Just like with(), withColumn() adds an internal join if you don't do it yourself
+    $article = DbFinder::from('Article')->
+      withColumn('Category.Name')->
+      findOne();
+    $categoryName = $article->getColumn('Category.Name');  // Works without a call to `join('Category')`
+
+    // withColumn() can use a column alias as second argument.
+    $article = DbFinder::from('Article')->
+      join('Category')->
+      withColumn('Category.Name', 'category')->
+      findOne();
+    $categoryName = $article->getColumn('category');
+
+    // This is particularly useful if you want to reuse a calculated column for sorting or grouping
+    $articles = DbFinder::from('Article')->
+      join('Comment')->
+      withColumn('COUNT(Comment.Id)', 'NbComments')->
+      orderBy('NbComments')->
+      find();
+    $articles = DbFinder::from('Article')->
+      join('Comment')->
+      groupBy('Article.Id')->
+      withColumn('COUNT(Comment.Id)', 'NbComments')->
+      find();
+
+    // Lastly, the supplementary columns added with withColumn() are considered string by default
+    // But you can force another data type by providing a third argument
+    $article = DbFinder::from('Article')->
+      join('Category')->
+      withColumn('Category.CreatedAt', 'CategoryCreatedAt', 'Timestamp')->
+      findOne();
+    $categoryDate = $article->getColumn('CategoryCreatedAt');
+
+### Counting Objects
+
+    [php]
+    // Counting all Articles
+    $nbArticles = DbFinder::from('Article')->count();
+
+### Getting A Paginated List Of Results
+
+    [php]
+    // Getting an initialized sfPropelPager object
+    $pager = DbFinder::from('Article')->paginate($currentPage = 1, $maxResultsPerPage = 10);
+    // You can use the pager object as usual
+    printf("Showing results %d to %d on %d\n",
+      $pager->getfirstIndice(),
+      $pager->getLastIndice(),
+      $pager->getNbResults());
+    foreach($pager->getResults() as $article)
+    {
+      echo $article->getTitle();
+    }
+
+### Deleting Objects
+
+    [php]
+    // Deleting all Articles
+    $nbArticles = DbFinder::from('Article')->delete();
+    // Deleting a selection of Articles
+    $nbArticles = DbFinder::from('Article')->
+      where('Title', 'like', 'foo%')->
+      delete();
+
+### Updating Objects
+
+    [php]
+    $article1 = new Article;
+    $article1->setTitle('foo');
+    $article1->save();
+    $article2 = new Article;
+    $article2->setTitle('bar');
+    $article2->save();
+
+    // set() issues an UPDATE ... SET query based on an associative array column => value
+    $nbUpdatedRows = DbFinder::from('Article')->
+      where('Title', 'foo')->
+      set(array('Title' => 'updated title'));
+
+    // set() returns the number of modified columns
+    echo $nbUpdatedRows; // 1
+
+    // Beware that set() updates all records found in a single row
+    // And bypasses any behavior registered on the save() hooks
+    // You can force a one-by-one update by setting the second parameter to true
+    DbFinder::from('Article')->
+      set(array('Title' => 'updated title'), true);
+    // Beware that it may take a long time
+
+### Finding Objects From A Primary Key
+
+    [php]
+    $article = DbFinder::from('Article')->findPk(123);
+    // is equivalent to
+    $article = ArticlePeer::retrieveByPk(123);
+
+    // But it's longer to write so what's the point?
+    // You can hydrate related objects by using with()
+    // So you need a single query to retrieve an object and its related objects
+    $article = DbFinder::from('Article')->
+      with('Category', 'I18n')->
+      findPk(123);
+
+    // Also works for objects with composite primary keys
+    $articleI18n = DbFinder::from('ArticleI18n')->findPk(array(123, 'fr'));
+    
+**Tip**:  `find()`, `findOne()`, `findPk`, `count()`, `delete()`, `paginate()`, and `set()` are _termination methods_ that reinitialize the finder object and erase all conditions and joins. If you want to reuse a finder object (for instance to call `find()` after `count()`), call the `keepQuery()` method before the first termination method call.
+
+### Getting Columns Instead Of Objects
+
+    [php]
+    // When you only need a few columns, it is faster to skip object hydration
+    // In such cases, call select() before find()
+    $articles = DbFinder::from('Article')->
+      join('Category')->
+      select(array('Id', 'Title', 'Content', 'Category.Name'))->
+      find();
+    // returns array(
+        array('Id' => 123, 'Title' => 'foo', 'Content' => 'This is foo', 'Category.Name' => 'Miscellaneous'),
+        array('Id' => 456, 'Title' => 'bar', 'Content' => 'This is bar', 'Category.Name' => 'Main')
+      )
+    
+    // If you prefer a flat array to an associative array,
+    // pass sfModelFinder::SIMPLE as second argument to the select call
+    $articles = DbFinder::from('Article')->
+      join('Category')->
+      select(array('Id', 'Title', 'Content', 'Category.Name'), sfModelFinder::SIMPLE)->
+      find();
+    // returns array(
+        array(123, 'foo', 'This is foo', 'Miscellaneous'),
+        array(456, 'bar', 'This is bar', 'Main')
+      )
+    
+    // When you need only one record, use select() with findOne()
+    $articles = DbFinder::from('Article')->
+      join('Category')->
+      select(array('Id', 'Title', 'Content', 'Category.Name'))->
+      findOne();
+    // returns array('Id' => 123, 'Title' => 'foo', 'Content' => 'This is foo', 'Category.Name' => 'Miscellaneous')
+    
+    // When you need only one column, use a column name as the select() argument
+    $articleTitles = DbFinder::from('Article')->
+      join('Category')->
+      select('Title')->
+      find();
+    // returns array('foo', 'bar')
+    
+    // When you need only one column from one record, use select() and findOne()
+    $articleTitle = DbFinder::from('Article')->
+      join('Category')->
+      select('Title')->
+      findOne();
+    // returns 'foo'
+    
+    // select() accepts calculated columns
+    $nbComments = DbFinder::from('Article')->
+      join('Comment')->
+      withColumn('count(Comment.ID)', 'nbComments')->
+      groupBy('Article.Id')->
+      select(array('Article.Title', 'nbComments'), sfModelFinder::SIMPLE)->
+      find()
+    // returns array(
+      array('foo', 25),
+      array('bar', 32)
+    )
+    
+    // When you want to select all the columns from the main class, use select('*')
+    $articles = DbFinder::from('Article')->
+      select('*')->
+      find();
+    // returns array(
+        array('Id' => 123, 'Title' => 'foo', 'Content' => 'This is foo'),
+        array('Id' => 456, 'Title' => 'bar', 'Content' => 'This is bar')
+      )
+    
+### Using Magic Finder Methods
+
+The finder recognizes method calls composed of `where`/`join`/`orderBy`, and a class / column name. It then forwards the call to the related method, adding the class/column name as a first argument.
+
+    [php]
+    DbFinder::from('Article')->whereTitle('foo')->find();
+    // same as
+    DbFinder::from('Article')->where('Title', 'foo')->find();
+
+    DbFinder::from('Article')->orderByCreatedAt()->find();
+    // same as
+    DbFinder::from('Article')->orderBy('CreatedAt')->find();
+
+    DbFinder::from('Article')->joinComment()->whereComment_Title('Hey')->findOne();
+    // same as
+    DbFinder::from('Article')->join('Comment')->where('Comment.Title', 'Hey')->findOne();
+
+The most useful magic methods are `findByXXX()` and `findOneByXXX()`.
+
+    [php]
+    DbFinder::from('Article')->findByTitle('foo');
+    // same as
+    DbFinder::from('Article')->where('Title', 'foo')->find();
+
+    DbFinder::from('Article')->findOneByTitle('foo');
+    // same as
+    DbFinder::from('Article')->where('Title', 'foo')->findOne();
+    
+### Using Conditional Methods
+
+    [php]
+    // Finding articles authored by the current user if connected, or all articles otherwise
+    $articles = DbFinder::from('Article')->
+      _if($user->isAuthenticated())->
+        where('AuthorId', $user->getId())->
+      _endif()->
+      orderBy('CreatedAt')->
+      find();
+    // Same as
+    $finder = DbFinder::from('Article');
+    if($user->isAuthenticated())
+    {
+      $finder->where('AuthorId', $user->getId());
+    }
+    $articles = $finder->
+      orderBy('CreatedAt')->
+      find();
+    // Available condtional methods are _if(), _elseif(), _else(), and _endif()
+
+### Writing Your Own business Logic Into A Finder
+
+You can create a new finder class for your models, with custom methods. The only prerequisites are to extend `DbFinder`, and to define a protected `$class` property.
+
+For instance, you can create an child of `DbFinder` to retrieve Propel `Article` objects. This new finder has access to a protected query object by way of `getQueryObject()`. This object is a Propel Criteria that can be augmented in the usual way. Don't forget to return the current object (`$this`) in the new methods.
+
+    [php]
+    class ArticleFinder extends DbFinder
+    {
+      protected $class = 'Article';
+
+      public function recent()
+      {
+        return $this->where('CreatedAt', '>=', time() - sfConfig::get('app_recent_days', 5) * 24 * 60 * 60);
+      }
+    }
+    // You can now use your custom finder and its methods together with the usual ones
+    $articleFinder = new ArticleFinder();
+    $articles = $articleFinder->
+      recent()->
+      orderByTitle()->
+      find();
+
+**Tip**: Once you define an `ArticleFinder` class, any call to `DbFinder::from('Article')` will return an instance of `ArticleFinder` instead of an instance of `DbFinder`. So the following also works:
+
+    [php]
+    $articleFinder = DbFinder::from('Article')->
+      recent()->
+      orderByTitle()->
+      find();
+
+You can create several custom finders for a given model, in order to separate the finder methods into logical classes. Also, use the `initialize()` method to add finder conditions on all queries executed on a custom finder (think of `sfAction::preExecute()`).
+
+    [php]
+    class frontendArticleFinder extends ArticleFinder
+    {
+      protected $class = 'Article';
+
+      public function initialize()
+      {
+        return $this->where('IsPublished', true);
+      }
+    }
+    // Use 'frontendArticle' instead of 'Article' in the frontend to retrieve only published articles
+    $article = DbFinder::from('frontendArticle')->find();
+
+**Tip**: Being able to use any class as a finder means that you can use the finder API to query model objects that are not backed by any ORM at all.
+
+### Applying filters
+
+    [php]
+    // filterBy() is an alternative to where(), which takes only two parameters: a key and a value
+    // filterBy() converts the value and the guesses the comparison based on the column type
+    $articleFinder = DbFinder::from('Article');
+
+    $articleFinder->filterBy('NbComments', '10');
+    // NbComments is an integer, so filterBy() translates into a simple where() and forces the value type to integer
+    $articleFinder->where('NbComments', 10);
+    
+    $articleFinder->filterBy('Title', '*foo*');
+    // Title is a string, and the value has wildcards, so filterBy() translates into a like comparison
+    $articleFinder->where('Title', 'like', '%foo%');
+
+    $articleFinder->filterBy('CreatedAt', array('from' => 'yesterday', 'to' => 'today'));
+    // CreatedAt is a timestamp, and the value is an array, so filterBy() translates into a between comparison
+    $articleFinder->where('CreatedAt', '<=', 'today')->where('CreatedAt', '>=', 'yesterday');
+
+    $articleFinder->filterBy('IsPublished', '1');
+    // IsPublished is a boolean, so filterBy() translates into a simple where() and forces the value type to boolean
+    $articleFinder->where('IsPublished', true);
+    
+    // filter() expects an associative array of key/value pairs
+    $articleFinder->filter(array(
+      'NbComments'  => '10',
+      'Title'       => '*foo*',
+      'CreatedAt'   => array('from' => 'yesterday', 'to' => 'today'),
+      'IsPublished' => '1'
+    ));
+    // same as
+    $articleFinder->
+      filterBy('NbComments', 10)->
+      filterBy('Title', '%foo%')->
+      filterBy('CreatedAt', array('from' => 'yesterday', 'to' => 'today'))->
+      filterBy('IsPublished', 1);
+    // same as
+    $articleFinder->
+      where('NbComments', 10)->
+      where('Title', 'like', '%foo%')->
+      where('CreatedAt', '<=', 'today')->
+      where('CreatedAt', '>=', 'yesterday')->
+      where('IsPublished', true);
+
+    // filter() uses filterByXXX() methods whenever they exist
+    $articleFinder->filter(array(
+      'Title'  => 'foo',
+      'Custom' => 'bar'
+    ));
+    // same as
+    $articleFinder->
+      where('Title', 'like', '%foo%')->
+      filterByCustom('bar');
+
+    // filter() is therefore quite useful to filter a list based on an unsafe list of conditions,
+    // like the query string found in the admin generator list view
+
+### Using Cache
+
+    [php]
+    // Using APC Cache with a lifetime of 10min = 600s
+    $finder = DbFinder::from('Article a')->useCache(new sfProcessCache(), 600);
+    // Note that you can use any of the symfony cache classes, including the sf 1.1 ones
+    // First time the finder executes a query, it stores the results in the cache
+    $article = $finder->where('a.Title', 'foo')->findOne();
+    echo $article->getTitle();  // foo
+    ...
+    // Next occurrences of the same query use the results from the cache, without any SQL query
+    $article = $finder->where('a.Title', 'foo')->findOne();  // no SQL query executed
+    echo $article->getTitle();  // foo
+    // This also works with count() queries and complex find() queries using with() and withColumns()
+    
+    // Instead of cache object, pass `true` to useCache() to let DbFinder find a caching backend
+    $finder = DbFinder::from('Article a')->useCache(true, 600);
+    
+    // Activating cache for all read queries by default
+    class ArticleFinder extends DbFinder
+    {
+      protected $class = 'Article';
+
+      public function initialize()
+      {
+        return $this->useCache(new sfProcessCache(), 600);
+      }
+    }
+    
+    // Deactivating cache on a finder object
+    $finder->useCache(false);
+
+**Warning**: The query cache also works with the Doctrine adapter, although the cache object passed to `useCache()` must implement the `Doctrine_Cache` interface (which is not the case for the symfony cache classes). Also, count queries are not cached with the Doctrine adapter (see [Ticket #1561](http://trac.doctrine-project.org/ticket/1561)).
+
+### Hacking The Finder
+
+If the finder doesn't (yet) provide the method to build the query you need, you can still call `Criteria` methods on the `sfPropelFinder` objects, or call `Doctrine_Query` methods on the `sfDoctrineFinder` objects, and they will be applied to the finder's internal query object.
+
+    [php]
+    $article = DbFinder::from('Article')->
+      where('Title', 'like', 'foo%')->
+      addOr(ArticlePeer::TITLE, 'bar%', Criteria::LIKE)-> // that's a Criteria method
+      findOne();
+
+You can explicitly access the internal query object (`Criteria` or `Doctrine_Query`) by calling `getQueryObject()` on a finder. The object is passed as reference: modify it and it will affect the finder.
+
+    [php]
+    $finder = DbFinder::from('Article')->
+      where('Title', 'like', 'foo%');
+    $finder->getQueryObject()->                          // returns a Criteria object
+      addOr(ArticlePeer::TITLE, 'bar%', Criteria::LIKE);
+    $article = $finder->findOne();
+
+If you're not sure about what query is issued by the finder, you can always check the SQL code after executing a termination method by calling the `getLatestQuery()` method. This method is only available when the symfony debug mode is enabled.
+
+    [php]
+    $finder = DbFinder::from('Article')->where('Title', 'foo');
+    echo $finder->getCriteria()->toString();
+    // SELECT FROM article WHERE article.TITLE=?
+    $finder->findOne();
+    echo $finder->getLatestQuery();
+    // 'SELECT article.ID, article.VERSION, article.TITLE, article.CATEGORY_ID FROM article WHERE article.TITLE=\'foo\' LIMIT 1'
+
+**Tip**: When developing with the finder, you may prefer to have an array or string representation of the results rather than an array of objects. The finder objects provides three methods (`toArray()`, `toString()` and `toHtml()`) that internally execute a `find()` and return something that you can output in your response.
+
+Alternative Framework Components
+--------------------------------
+
+DbFinder comes with a few handy classes to use with the symfony framework.
+
+The plugin bundles a generator theme to build an administration module with DbFinder. It offers additional features and a great ease of use. Check the following example, and the attached `doc/generator.txt` documentation, for more details.
+
+    generator:
+      class:              DbFinderAdminGenerator
+      param:
+        model_class:      Article
+        theme:            default
+        
+        list:
+          display: [=title, =category, author]
+          with:    [i18n, Category, Author]
+          finder_methods: [withNbComments]
+          fields:
+            author:   { sort_method: sortByUser }
+            category: { link_module: categoryAdmin }
+          batch_actions:
+            _deleteSelected:
+            myAction: { name: My Action, action: foo }
+
+`DbFinderPlugin` also bundles special routing classes to take advantage of the object routing through `DbFinder`. Check the attached `doc/routing.txt` documentation, which explains how to enrich your routing rules with powerful routes looking like the following:
+
+    // in routing.yml
+    blog_show:
+      class:   DbFinderObjectRoute
+      options: { model: BlogPost, finder_methods: [published] }
+      url:     /post/:blog_title/:date/:stripped_title
+      param:   { module: blog, action: show }
+    
+    blog_index:
+      class:   DbFinderObjectsRoute
+      options: { model: BlogPost, finder_methods: [published], default_order: [published_at, desc], filter_param: filters }
+      url:   /recent_posts/:page
+      param: { module: blog, action: list, page: 1 }
+
+In A Nutshell
+-------------
+
+Here is the list of methods you can call on a finder:
+
+    // Factories
+
+    static from($from, $connection = null)
+    static fromArray($array, $class, $pkName)
+    static fromClass($class, $connection = null)
+    static fromCollection($collection, $class = '', $pkName = '')
+
+    // Finder Filters (return a finder)
+
+    distinct()
+    limit($limit)
+    offset($offset)
+    where($name, $value)
+    where($name, $comparison, $value, $namedCondition = null)
+    orWhere($name, $value)
+    orWhere($name, $comparison, $value, $namedCondition = null)
+    combine($conditions, $operator = 'and', $namedCondition = null)
+    whereCustom($condition, $values = array(), $namedCondition = null)
+    orWhereCustom($condition, $values = array())
+    filterBy($name, $value)
+    filter($filters, $isNameUnderscore = false, $allowedNames = null)
+    relatedTo($object)
+    orderBy($columnName, $order = null)
+    groupBy($columnName)
+    groupByClass($class)
+    guessOrder($direction = 'desc')
+    join($class, $type = 'inner')
+    join($startColumn, $endColumn, $type)
+    join($class, $startColumn, $endColumn, $type) // Propel only
+
+    // Hydrating (return a finder)
+
+    with($classes)
+    withI18n($culture = null)
+    withColumn($column, $alias = null, $type = null)
+
+    // Finder output (return a finder)
+
+    select($columnArray, $keyType = self::ASSOCIATIVE)
+
+    // Finder executers (return model objects)
+
+    count($distinct = false)
+    find($limit = null)
+    findOne()
+    findLast($column = null)
+    findFirst($column = null)
+    findBy($columnName, $value, $limit = null)
+    findOneBy($columnName, $value)
+    findPk($pk)
+    delete($forceIndividualDeletes = false)
+    paginate($page = 1, $maxPerPage = 10)
+    set($values, $forceIndividualSaves = false)
+
+    // Finder utilities (return a finder)
+
+    keepQuery($keep = true)
+    getLatestQuery()
+    getUniqueIdentifier()
+    useCache($cacheInstance, $lifetime = 0)
+
+    // Conditions (return a finder)
+
+    _if($cond)
+    _elseif($cond)
+    _else()
+    _endif()
+
+    // Properties accessors (return a value)
+
+    getClass()
+    setClass($class, $alias = '')
+    getConnection()
+    setConnection($connection)
+    getQueryObject()
+    setQueryObject($query)
+
+    // Finder Outputters (return a result)
+
+    toArray($limit = null)
+    toString($limit = null)
+    __toString()
+    toHtml($limit = null)
+    
+TODO / Ideas
+------------
+ 
+* Allow i18n hydration of related objects (#3897)
+* Allow `between` as a `where()` operator for simplicity
+* Add a method returning a description of the conditions
+* Bypass hydration in array/text output methods
+* Implement iterator interface? That way, the query is only executed upon a foreach or an array access... And the finder can be seen as a collection
+* Allow `related_to()` to look for relations in joined classes if not found previously in main class
+
+Changelog
+---------
+
+### 2009-05-14 | Trunk
+
+* francois: Added magic handling of `filterByXXX()` methods, refactored `sfModelFinder::__call()` (based on a patch from victor)
+* francois: Made `sfModelFinder::filterBy()` ignore calls with empty values
+* francois: Fixed typos in README
+* francois: Refactored model class storage in `DbFinderRoute` and descendants
+* francois: Reverted fix in `DbFinderObjectRoute::generate()` (produces a warning on sf1.3, not sf 1.2)
+
+### 2009-04-23 | 1.2.2 Stable
+
+* francois: Made `sfPropelFinder::with()` work with one-to-one relationships and Propel 1.3 (patch from ivanrey)
+* francois: Fixed a bug in `DbFinderObjectRoute` and `DbFinderObjectsRoute` caching
+* francois: Fixed a warning in `DbFinderObjectRoute::generate()`
+* francois: Fixed a bug in order param case in `DbFinderRoute`
+
+### 2009-04-17 | 1.2.1 Stable
+
+* francois: Refactored and documented `DbFinderRoute` and children (WIP)
+* francois: Added `sfDoctrineFinder::select()`
+* francois: Added support for aliases in `sfDoctrineFinder::join()` 
+* francois: Fixed `sfPropelFinder::useCache()` on queries using `withColumn()`
+* francois: Fixed a reference to `Criteria` outside the Propel adapter
+* francois: Fixed problem in `sfPropelFinder::select()` and long column names in pdo_dblib (based on a patch by Benjamin Runnels)
+* francois: Added `sfModelFinder::filterBy()` and `sfModelFinder::filter()` methods
+* francois: Added `DbFinderRoute::getObjectPager()` method
+* francois: Added a `DbFinderRoute` class to implement object routing without knowing if the underlying object is Propel or Doctrine.
+* francois: Simplified the use of 'is null' and 'is not null' operators
+* francois: Added `sfPropelFinder::select()` (based on a patch by Benjamin Runnels)
+* francois: Improved performance when using `sfPropelFinder::with()` and `sfPropelFinder::withI18n()`
+* francois: Added support for aliases in `sfPropelFinder::with()`, and `sfPropelFinder::withColumn()`
+* francois: Added support for aliases in `sfPropelFinder::join()`
+* francois: Added a gazillon tests for Propel joins
+* francois: Added support for self-referenced foreign keys and multiple foreign keys to the same table in `sfPropelFinder::join()`
+* francois: Refactored relations discovery and storage
+* francois: Added `_else()` and `_elseif()` methods
+* francois: Added `whereCustom()` and `orWhereCustom()` in both adapters
+* francois: Fixed a bug in sfDoctrineFinder when using named conditions with a null value (patch from Maksymus007)
+* francois: Added the ability to add new adapters (for arrays, web services, BigTable and the likes)
+* francois: Added the ability to add helpers in the `generator.yml`
+* francois: Added the ability to link to another module in the admin generator theme
+* francois: Added `_if()` and `_endif()` methods
+* francois: Fixed an issue with filters on boolean fields in admin generator
+
+### 2008-12-01 | 1.1.0 Stable
+### 2008-11-17 | 1.0.0 Stable
+### 2008-08-28 | 0.9.0 Beta
+### 2008-08-12 | 0.4.0 Beta
+### 2008-07-07 | 0.3.0 Beta
+### 2008-03-31 | 0.2.0 Beta
+### 2008-03-27 | 0.1.0 Alpha

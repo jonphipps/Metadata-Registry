@@ -1,0 +1,8 @@
+all:
+  stylesheets: [agent/layout]
+  javascripts: [%SF_PROTOTYPE_WEB_DIR%/js/prototype: { position: last }]
+
+listSuccess:
+  metas:
+    title: "Registry :: Owners"
+

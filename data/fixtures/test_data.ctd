@@ -1,0 +1,384 @@
+-- MySQL dump 10.10
+--
+-- Host: localhost    Database: swregistry
+-- ------------------------------------------------------
+-- Server version	5.0.22-community-max
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `reg_agent_has_user`
+--
+
+DROP TABLE IF EXISTS `reg_agent_has_user`;
+CREATE TABLE `reg_agent_has_user` (
+  `user_id` int(11) NOT NULL,
+  `agent_id` int(11) NOT NULL default '0',
+  `is_registrar_for` tinyint(1) default '1',
+  `is_admin_for` tinyint(1) default '1' COMMENT 'boolean -- user is admin for agent',
+  PRIMARY KEY  (`agent_id`,`user_id`),
+  KEY `user_id` (`user_id`),
+  KEY `agent_id` (`agent_id`),
+  CONSTRAINT `reg_agent_has_user_fk` FOREIGN KEY (`user_id`) REFERENCES `reg_user` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `reg_agent_has_user_fk1` FOREIGN KEY (`agent_id`) REFERENCES `reg_agent` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='InnoDB free: 0 kB; (`user_id`) REFER `swregistry/reg_agents`';
+
+--
+-- Dumping data for table `reg_agent_has_user`
+--
+
+
+/*!40000 ALTER TABLE `reg_agent_has_user` DISABLE KEYS */;
+LOCK TABLES `reg_agent_has_user` WRITE;
+INSERT INTO `reg_agent_has_user` VALUES (36,46,0,0),(37,46,0,0),(44,46,1,1),(36,52,0,0),(38,52,0,0),(36,53,0,0),(37,53,0,0);
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `reg_agent_has_user` ENABLE KEYS */;
+
+--
+-- Table structure for table `reg_vocabulary_has_user`
+--
+
+DROP TABLE IF EXISTS `reg_vocabulary_has_user`;
+CREATE TABLE `reg_vocabulary_has_user` (
+  `vocabulary_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `is_maintainer_for` tinyint(1) default '1',
+  `is_registrar_for` tinyint(1) default '1',
+  `is_admin_for` tinyint(1) default '1',
+  PRIMARY KEY  (`user_id`,`vocabulary_id`),
+  KEY `resource_id` (`vocabulary_id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `reg_resource_has_user_fk1` FOREIGN KEY (`user_id`) REFERENCES `reg_user` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `reg_vocabulary_has_user_fk` FOREIGN KEY (`vocabulary_id`) REFERENCES `reg_vocabulary` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='InnoDB free: 0 kB; (`agent_id`) REFER `swregistry/reg_agent`';
+
+--
+-- Dumping data for table `reg_vocabulary_has_user`
+--
+
+
+/*!40000 ALTER TABLE `reg_vocabulary_has_user` DISABLE KEYS */;
+LOCK TABLES `reg_vocabulary_has_user` WRITE;
+INSERT INTO `reg_vocabulary_has_user` VALUES (8,36,1,0,1),(10,36,1,1,1),(11,36,1,1,1),(7,37,1,1,1),(10,37,1,0,0),(8,38,1,1,1);
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `reg_vocabulary_has_user` ENABLE KEYS */;
+
+--
+-- Table structure for table `reg_concept_property`
+--
+
+DROP TABLE IF EXISTS `reg_concept_property`;
+CREATE TABLE `reg_concept_property` (
+  `id` int(11) NOT NULL auto_increment,
+  `created_at` datetime default NULL,
+  `last_updated` timestamp NOT NULL default CURRENT_TIMESTAMP,
+  `concept_id` int(11) NOT NULL,
+  `skos_property_id` int(11) NOT NULL,
+  `object` text NOT NULL,
+  `scheme_id` int(11) default NULL COMMENT 'id of the related vocabulary when required',
+  `related_concept_id` int(11) default NULL COMMENT 'id of the related concept when required',
+  `language` char(6) default NULL COMMENT 'This will be an RFC3066 language code, which means it can be en, eng, en-us, or eng-us -- iso639-1 (2-char codes), iso639-2 (3-char codes), and combined with iso3166 (2-char country codes)',
+  `status_id` int(11) default NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `id` (`id`),
+  KEY `concept_id` (`concept_id`),
+  KEY `skos_property_id` (`skos_property_id`),
+  KEY `scheme_id` (`scheme_id`),
+  KEY `related_concept_id` (`related_concept_id`),
+  KEY `status_id` (`status_id`),
+  CONSTRAINT `reg_concept_property_fk` FOREIGN KEY (`concept_id`) REFERENCES `reg_concept` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `reg_concept_property_fk1` FOREIGN KEY (`skos_property_id`) REFERENCES `reg_skos_property` (`id`),
+  CONSTRAINT `reg_concept_property_fk2` FOREIGN KEY (`scheme_id`) REFERENCES `reg_vocabulary` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `reg_concept_property_fk3` FOREIGN KEY (`status_id`) REFERENCES `reg_lookup` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `reg_concept_property_fk4` FOREIGN KEY (`related_concept_id`) REFERENCES `reg_concept` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `reg_concept_property`
+--
+
+
+/*!40000 ALTER TABLE `reg_concept_property` DISABLE KEYS */;
+LOCK TABLES `reg_concept_property` WRITE;
+INSERT INTO `reg_concept_property` VALUES (4,NULL,'2006-04-14 23:11:49',4,19,'Grades Pre-K to 12',NULL,NULL,NULL,NULL),(5,NULL,'2006-04-14 23:12:41',5,19,'Elementary School',7,NULL,'en',NULL),(6,NULL,'2006-04-14 23:13:56',6,19,'Pre-Kindergarten',NULL,NULL,NULL,NULL),(13,NULL,'2006-04-17 15:36:14',6,1,'Nursery School',NULL,NULL,NULL,NULL),(14,NULL,'2006-04-17 15:36:36',6,1,'Pre-K',NULL,NULL,NULL,NULL),(15,NULL,'2006-04-17 15:36:50',6,1,'Preschool',NULL,NULL,NULL,NULL),(16,NULL,'2006-04-17 15:37:31',6,3,'http://metadataregistry.org/NSDLEdLvl#1001',NULL,5,NULL,NULL),(17,NULL,'2006-04-17 15:38:10',6,5,'Activities and/or experiences that are intended to effect developmental changes in children, from birth to entrance in kindergarten (or grade 1 when kindergarten is not attended) [ERIC]',NULL,NULL,NULL,NULL),(18,NULL,'2006-04-17 15:38:56',6,10,'Term source: http://www.ed.gov</skos:historyNote',NULL,NULL,NULL,NULL),(35,'2006-04-21 09:27:21','2006-04-21 13:27:21',11,1,'Junior High School',10,NULL,NULL,NULL),(36,'2006-04-21 09:28:14','2006-04-21 13:28:14',11,10,'Term Source: http://www.ed.gov',10,NULL,NULL,NULL),(38,'2006-04-21 09:34:22','2006-04-21 13:34:22',11,3,'http://metadataregistry.org/NSDLEdLvl#1000',10,4,NULL,NULL),(39,'2006-04-21 09:41:10','2006-04-21 13:41:10',16,19,'Grade 6',NULL,NULL,NULL,NULL),(40,'2006-04-21 09:43:13','2006-04-21 13:43:13',17,19,'Grade 7',NULL,NULL,NULL,NULL),(41,'2006-04-21 09:43:34','2006-04-21 13:43:34',18,19,'Grade 8',NULL,NULL,NULL,NULL),(42,'2006-04-21 09:47:31','2006-04-21 13:47:31',16,1,'Sixth Grade',10,NULL,NULL,NULL),(44,'2006-04-21 09:47:50','2006-04-21 13:47:50',16,3,'URI',10,11,NULL,NULL),(45,'2006-04-21 09:55:40','2006-04-21 13:55:40',17,1,'Seventh Grade',10,NULL,NULL,NULL),(47,'2006-04-21 09:55:59','2006-04-21 13:55:59',17,3,'URI',10,11,NULL,NULL),(48,'2006-04-21 09:58:22','2006-04-21 13:58:22',17,10,'Term Source: http://www.ed.gov',10,NULL,NULL,NULL),(49,'2006-04-21 09:59:29','2006-04-21 13:59:29',16,10,'Term Source: http://www.ed.gov',10,NULL,NULL,NULL),(50,'2006-04-21 10:01:48','2006-04-21 14:01:48',19,19,'Postsecondary',NULL,NULL,NULL,NULL),(51,'2006-04-21 10:02:25','2006-04-21 14:02:25',20,19,'Higher Education',NULL,NULL,NULL,NULL),(52,'2006-04-21 10:03:18','2006-04-21 14:03:18',21,19,'Undergraduate (Lower Divison)',NULL,NULL,NULL,NULL),(53,'2006-04-21 10:04:04','2006-04-21 14:04:04',22,19,'Undergraduate (Upper Divison)',NULL,NULL,NULL,NULL),(54,'2006-04-21 10:04:40','2006-04-21 14:04:40',23,19,'Graduate',NULL,NULL,NULL,NULL),(55,'2006-04-21 10:07:39','2006-04-21 14:07:39',24,19,'Kindergarten',NULL,NULL,NULL,NULL),(56,'2006-04-21 10:07:55','2006-04-21 14:07:55',25,19,'Grade 1',NULL,NULL,NULL,NULL),(57,'2006-04-21 10:08:16','2006-04-21 14:08:16',26,19,'Grade 2',NULL,NULL,NULL,NULL),(58,'2006-04-21 10:08:37','2006-04-21 14:08:37',27,19,'Grade 3',NULL,NULL,NULL,NULL),(59,'2006-04-21 10:08:56','2006-04-21 14:08:56',28,19,'Grade 4',NULL,NULL,NULL,NULL),(60,'2006-04-21 10:09:13','2006-04-21 14:09:13',29,19,'Grade 5',NULL,NULL,NULL,NULL),(61,'2006-04-21 10:10:30','2006-04-21 14:10:30',30,19,'High School',NULL,NULL,NULL,NULL),(62,'2006-04-21 10:11:06','2006-04-21 14:11:06',31,19,'Grade 9',NULL,NULL,NULL,NULL),(63,'2006-04-21 10:11:23','2006-04-21 14:11:23',32,19,'Grade 10',NULL,NULL,NULL,NULL),(64,'2006-04-21 10:11:46','2006-04-21 14:11:46',33,19,'Grade 11',NULL,NULL,NULL,NULL),(65,'2006-04-21 10:12:17','2006-04-21 14:12:17',34,19,'Grade 12',NULL,NULL,NULL,NULL),(67,'2006-04-21 10:13:32','2006-04-21 14:13:32',11,16,'http://metadataregistry.org/NSDLEdLvl/1010',10,16,NULL,NULL),(69,'2006-04-21 10:17:25','2006-04-21 14:17:25',11,16,'http://metadataregistry.org/NSDLEdLvl/1011',10,17,NULL,NULL),(70,'2006-04-21 10:21:22','2006-04-21 14:21:22',4,16,'http://metadataregistry.org/NSDLEdLvl#1001',10,5,NULL,NULL),(71,'2006-04-21 10:21:22','2006-04-21 14:21:22',5,3,'http://metadataregistry.org/NSDLEdLvl#1000',10,4,NULL,NULL),(72,'2006-04-21 10:21:51','2006-04-21 14:21:51',25,3,'http://metadataregistry.org/NSDLEdLvl#1001',10,5,NULL,NULL),(73,'2006-04-21 10:21:51','2006-04-21 14:21:51',5,16,'http://metadataregistry.org/NSDLEdLvl/1004',10,25,NULL,NULL),(74,'2006-04-21 10:22:10','2006-04-21 14:22:10',26,3,'http://metadataregistry.org/NSDLEdLvl#1001',10,5,NULL,NULL),(75,'2006-04-21 10:22:10','2006-04-21 14:22:10',5,16,'http://metadataregistry.org/NSDLEdLvl/1005',10,26,NULL,NULL),(76,'2006-04-21 10:22:24','2006-04-21 14:22:24',27,3,'http://metadataregistry.org/NSDLEdLvl#1001',10,5,NULL,NULL),(77,'2006-04-21 10:22:24','2006-04-21 14:22:24',5,16,'http://metadataregistry.org/NSDLEdLvl/1006',10,27,NULL,NULL),(78,'2006-04-21 10:22:43','2006-04-21 14:22:43',28,3,'http://metadataregistry.org/NSDLEdLvl#1001',10,5,NULL,NULL),(79,'2006-04-21 10:22:43','2006-04-21 14:22:43',5,16,'http://metadataregistry.org/NSDLEdLvl/1007',10,28,NULL,NULL),(80,'2006-04-21 10:23:00','2006-04-21 14:23:00',29,3,'http://metadataregistry.org/NSDLEdLvl#1001',10,5,NULL,NULL),(81,'2006-04-21 10:23:00','2006-04-21 14:23:00',5,16,'http://metadataregistry.org/NSDLEdLvl/1008',10,29,NULL,NULL),(82,'2006-04-21 10:23:21','2006-04-21 14:23:21',24,3,'http://metadataregistry.org/NSDLEdLvl#1001',10,5,NULL,NULL),(83,'2006-04-21 10:23:21','2006-04-21 14:23:21',5,16,'http://metadataregistry.org/NSDLEdLvl/1003',10,24,NULL,NULL),(84,'2006-04-21 10:25:25','2006-04-21 14:25:25',6,3,'http://metadataregistry.org/NSDLEdLvl#1001',10,5,NULL,NULL),(85,'2006-04-21 10:25:25','2006-04-21 14:25:25',5,16,'http://metadataregistry.org/NSDLEdLvl#1002',10,6,NULL,NULL),(89,'2006-04-21 10:30:29','2006-04-21 14:30:29',30,16,'http://metadataregistry.org/NSDLEdLvl/1015',10,32,NULL,NULL),(90,'2006-04-21 10:30:44','2006-04-21 14:30:44',33,3,'http://metadataregistry.org/NSDLEdLvl/1013',10,30,NULL,NULL),(92,'2006-04-21 10:31:00','2006-04-21 14:31:00',34,3,'http://metadataregistry.org/NSDLEdLvl/1013',10,30,NULL,NULL),(93,'2006-04-21 10:31:00','2006-04-21 14:31:00',30,16,'http://metadataregistry.org/NSDLEdLvl/1017',10,34,NULL,NULL),(94,'2006-04-21 10:31:59','2006-04-21 14:31:59',30,10,'Term Source: http://www.ed.gov',10,NULL,NULL,NULL),(95,'2006-04-21 10:32:25','2006-04-21 14:32:25',30,1,'Secondary School',10,NULL,NULL,NULL),(96,'2006-04-21 10:39:30','2006-04-21 14:39:30',30,3,'http://metadataregistry.org/NSDLEdLvl#1000',10,4,NULL,NULL),(97,'2006-04-21 10:39:30','2006-04-21 14:39:30',4,16,'http://metadataregistry.org/NSDLEdLvl/1013',10,30,NULL,NULL),(99,'2006-04-21 10:39:53','2006-04-21 14:39:53',4,16,'URI',10,11,NULL,NULL),(100,'2006-04-21 10:42:37','2006-04-21 14:42:37',24,5,'A program or class for four-year-old to six-year-old children that serves as an introduction to school [American Heritage Dictionary of the English Language]',10,NULL,NULL,NULL),(101,'2006-04-21 10:43:14','2006-04-21 14:43:14',24,10,'Term Source: http://www.ed.gov',10,NULL,NULL,NULL),(102,'2006-04-21 10:44:09','2006-04-21 14:44:09',25,1,'First Grade',10,NULL,NULL,NULL),(103,'2006-04-21 10:44:23','2006-04-21 14:44:23',25,10,'Term Source: http://www.ed.gov',10,NULL,NULL,NULL),(104,'2006-04-21 10:45:20','2006-04-21 14:45:20',26,1,'Second Grade',10,NULL,NULL,NULL),(105,'2006-04-21 10:45:34','2006-04-21 14:45:34',26,10,'Term Source: http://www.ed.gov',10,NULL,NULL,NULL),(106,'2006-04-21 10:46:27','2006-04-21 14:46:27',27,1,'Third Grade',10,NULL,NULL,NULL),(107,'2006-04-21 10:46:40','2006-04-21 14:46:40',27,10,'Term Source: http://www.ed.gov',10,NULL,NULL,NULL),(108,'2006-04-21 10:48:42','2006-04-21 14:48:42',28,1,'Fourth Grade',10,NULL,NULL,NULL),(109,'2006-04-21 10:48:56','2006-04-21 14:48:56',28,10,'Term Source: http://www.ed.gov',10,NULL,NULL,NULL),(110,'2006-04-21 10:50:18','2006-04-21 14:50:18',29,1,'Fifth Grade',10,NULL,NULL,NULL),(111,'2006-04-21 10:50:32','2006-04-21 14:50:33',29,10,'Term Source: http://www.ed.gov',10,NULL,NULL,NULL),(112,'2006-04-21 10:52:57','2006-04-21 14:52:57',11,16,'http://metadataregistry.org/NSDLEdLvl/1012',10,18,NULL,NULL),(113,'2006-04-21 10:52:57','2006-04-21 14:52:57',18,3,'URI',10,11,NULL,NULL),(114,'2006-04-21 10:53:14','2006-04-21 14:53:14',18,1,'Eighth Grade',10,NULL,NULL,NULL),(115,'2006-04-21 10:53:26','2006-04-21 14:53:26',18,10,'Term Source: http://www.ed.gov',10,NULL,NULL,NULL),(116,'2006-04-21 10:54:17','2006-04-21 14:54:17',31,1,'Ninth Grade',10,NULL,NULL,NULL),(117,'2006-04-21 10:54:35','2006-04-21 14:54:35',31,10,'Term Source: http://www.ed.gov',10,NULL,NULL,NULL),(118,'2006-04-22 19:45:29','2006-04-22 23:45:30',32,1,'Tenth Grade',10,NULL,NULL,NULL),(119,'2006-04-22 19:47:00','2006-04-22 23:47:00',32,10,'Term Source: http://www.ed.gov',10,NULL,NULL,NULL),(120,'2006-04-22 19:47:41','2006-04-22 23:47:41',33,1,'Eleventh Grade',10,NULL,NULL,NULL),(121,'2006-04-22 19:47:54','2006-04-22 23:47:54',33,10,'Term Source: http://www.ed.gov',10,NULL,NULL,NULL),(122,'2006-04-22 19:48:30','2006-04-22 23:48:30',34,1,'Twelfth Grade',10,NULL,NULL,NULL),(123,'2006-04-22 19:48:44','2006-04-22 23:48:44',34,10,'Term Source: http://www.ed.gov',10,NULL,NULL,NULL),(124,'2006-04-22 19:51:09','2006-04-22 23:51:09',23,22,'Provided in graduate and professional schools that generally require a university diploma as a minimum condition for admission. [ISCED]',10,NULL,NULL,NULL),(125,'2006-04-22 19:51:44','2006-04-22 23:51:44',23,1,'Post-Graduate Education',10,NULL,NULL,NULL),(126,'2006-04-22 19:51:57','2006-04-22 23:51:57',23,1,'Professional Education',10,NULL,NULL,NULL),(127,'2006-04-22 19:52:52','2006-04-22 23:52:52',20,16,'http://metadataregistry.org/NSDLEdLvl/1022',10,23,NULL,NULL),(128,'2006-04-22 19:52:52','2006-04-22 23:52:52',23,3,'http://metadataregistry.org/NSDLEdLvl/1019',10,20,NULL,NULL),(129,'2006-04-22 19:54:20','2006-04-22 23:54:20',21,3,'http://metadataregistry.org/NSDLEdLvl/1019',10,20,NULL,NULL),(130,'2006-04-22 19:54:20','2006-04-22 23:54:20',20,16,'http://metadataregistry.org/NSDLEdLvl/1020',10,21,NULL,NULL),(131,'2006-04-22 19:54:38','2006-04-22 23:54:38',22,3,'http://metadataregistry.org/NSDLEdLvl/1019',10,20,NULL,NULL),(132,'2006-04-22 19:54:38','2006-04-22 23:54:38',20,16,'http://metadataregistry.org/NSDLEdLvl/1021',10,22,NULL,NULL),(133,'2006-04-22 19:55:12','2006-04-22 23:55:12',19,16,'http://metadataregistry.org/NSDLEdLvl/1019',10,20,NULL,NULL),(134,'2006-04-22 19:55:13','2006-04-22 23:55:13',20,3,'http://metadataregistry.org/NSDLEdLvl/1018',10,19,NULL,NULL),(135,'2006-04-22 19:55:50','2006-04-22 23:55:50',20,5,'Education beyond the secondary level, especially education at the college or university level. [American Heritage Dictionary of the English Language, 4th ed., 2000]',10,NULL,NULL,NULL),(136,'2006-04-22 19:56:04','2006-04-22 23:56:04',20,1,'College',10,NULL,NULL,NULL),(137,'2006-04-22 19:56:26','2006-04-22 23:56:26',20,10,'Term Source: http://www.ed.gov',10,NULL,NULL,NULL),(138,'2006-04-22 19:59:04','2006-04-22 23:59:04',23,3,'http://metadataregistry.org/NSDLEdLvl/1018',10,19,NULL,NULL),(139,'2006-04-22 19:59:04','2006-04-22 23:59:04',19,16,'http://metadataregistry.org/NSDLEdLvl/1022',10,23,NULL,NULL),(140,'2006-04-22 20:00:02','2006-04-23 00:00:03',19,5,'All education beyond the secondary level -- includes learning activities and experiences beyond the compulsory school attendance age with the exception of adult basic education and high school equivalency programs.',10,NULL,NULL,NULL),(141,'2006-04-22 20:00:35','2006-04-23 00:00:35',19,10,'Term Source: http://www.ed.gov',10,NULL,NULL,NULL),(142,'2006-04-24 08:42:50','2006-04-24 12:42:50',35,19,'Abstract',NULL,NULL,NULL,NULL),(143,'2006-04-24 08:43:13','2006-04-24 12:43:13',36,19,'Annotation',NULL,NULL,NULL,NULL),(144,'2006-04-24 08:43:40','2006-04-24 12:43:40',37,19,'Article',NULL,NULL,NULL,NULL),(145,'2006-04-24 08:43:54','2006-04-24 12:43:54',38,19,'Artifact',NULL,NULL,NULL,NULL),(146,'2006-04-24 08:44:33','2006-04-24 12:44:33',39,19,'Ask-an-Expert',NULL,NULL,NULL,NULL),(147,'2006-04-24 08:44:47','2006-04-24 12:44:47',40,19,'Assessment',NULL,NULL,NULL,NULL),(148,'2006-04-24 08:45:16','2006-04-24 12:45:16',41,19,'Bibliography',NULL,NULL,NULL,NULL),(149,'2006-04-24 08:45:44','2006-04-24 12:45:44',42,19,'Broadcast',NULL,NULL,NULL,NULL),(150,'2006-04-24 08:46:10','2006-04-24 12:46:10',43,19,'Case Study',NULL,NULL,NULL,NULL),(151,'2006-04-24 08:46:27','2006-04-24 12:46:27',44,19,'Clearinghouse',NULL,NULL,NULL,NULL),(152,'2006-04-24 08:46:54','2006-04-24 12:46:54',45,19,'Course',NULL,NULL,NULL,NULL),(153,'2006-04-24 08:47:07','2006-04-24 12:47:07',46,19,'Curriculum',NULL,NULL,NULL,NULL),(154,'2006-04-24 08:47:27','2006-04-24 12:47:27',47,19,'Data Set',NULL,NULL,NULL,NULL),(155,'2006-04-24 08:47:49','2006-04-24 12:47:49',48,19,'Demonstration',NULL,NULL,NULL,NULL),(156,'2006-04-24 08:48:20','2006-04-24 12:48:20',49,19,'Experiment',NULL,NULL,NULL,NULL),(157,'2006-04-24 08:48:31','2006-04-24 12:48:31',50,19,'Fiction',NULL,NULL,NULL,NULL),(158,'2006-04-24 08:48:58','2006-04-24 12:48:58',51,19,'Form',NULL,NULL,NULL,NULL),(159,'2006-04-24 08:49:23','2006-04-24 12:49:23',52,19,'Forum',NULL,NULL,NULL,NULL),(160,'2006-04-24 08:49:46','2006-04-24 12:49:46',53,19,'Game',NULL,NULL,NULL,NULL),(161,'2006-04-24 08:49:59','2006-04-24 12:49:59',54,19,'Glossary',NULL,NULL,NULL,NULL),(162,'2006-04-24 08:50:27','2006-04-24 12:50:27',55,19,'Illustration',NULL,NULL,NULL,NULL),(163,'2006-04-24 08:50:40','2006-04-24 12:50:40',56,19,'Instructor Guide',NULL,NULL,NULL,NULL),(164,'2006-04-24 08:51:29','2006-04-24 12:51:29',57,19,'Lesson',NULL,NULL,NULL,NULL),(165,'2006-04-24 08:51:41','2006-04-24 12:51:41',58,19,'Map',NULL,NULL,NULL,NULL),(166,'2006-04-24 08:52:06','2006-04-24 12:52:06',59,19,'Music',NULL,NULL,NULL,NULL),(167,'2006-04-24 08:52:39','2006-04-24 12:52:39',60,19,'Oral History',NULL,NULL,NULL,NULL),(168,'2006-04-24 08:53:07','2006-04-24 12:53:07',61,19,'Periodical',NULL,NULL,NULL,NULL),(169,'2006-04-24 08:53:56','2006-04-24 12:53:56',62,19,'Photograph',NULL,NULL,NULL,NULL),(170,'2006-04-24 08:54:59','2006-04-24 12:54:59',63,19,'Portal',NULL,NULL,NULL,NULL),(171,'2006-04-24 08:55:14','2006-04-24 12:55:15',64,19,'Presentation',NULL,NULL,NULL,NULL),(172,'2006-04-24 08:55:39','2006-04-24 12:55:39',65,19,'Problem Set',NULL,NULL,NULL,NULL),(173,'2006-04-24 08:55:52','2006-04-24 12:55:52',66,19,'Project',NULL,NULL,NULL,NULL),(174,'2006-04-24 08:56:16','2006-04-24 12:56:16',67,19,'Reference',NULL,NULL,NULL,NULL),(175,'2006-04-24 08:56:37','2006-04-24 12:56:37',68,19,'Remotely Sensed Imagery',NULL,NULL,NULL,NULL),(176,'2006-04-24 08:57:48','2006-04-24 12:57:48',69,19,'Report',NULL,NULL,NULL,NULL),(177,'2006-04-24 08:58:02','2006-04-24 12:58:02',70,19,'Simulation',NULL,NULL,NULL,NULL),(178,'2006-04-24 08:58:32','2006-04-24 12:58:32',71,19,'Study Guide',NULL,NULL,NULL,NULL),(179,'2006-04-24 08:58:52','2006-04-24 12:58:52',72,19,'Syllabus',NULL,NULL,NULL,NULL),(180,'2006-04-24 08:59:24','2006-04-24 12:59:24',73,19,'Textbook',NULL,NULL,NULL,NULL),(181,'2006-04-24 08:59:37','2006-04-24 12:59:37',74,19,'Thesis',NULL,NULL,NULL,NULL),(182,'2006-04-24 09:00:07','2006-04-24 13:00:07',75,19,'Tutorial',NULL,NULL,NULL,NULL),(183,'2006-04-24 09:00:21','2006-04-24 13:00:21',76,19,'Field Trip',NULL,NULL,NULL,NULL),(184,'2006-04-24 09:00:42','2006-04-24 13:00:42',77,19,'Weblog',NULL,NULL,NULL,NULL),(185,'2006-04-24 09:04:27','2006-04-24 13:04:27',35,1,'Summary',11,NULL,NULL,NULL),(186,'2006-04-24 09:04:37','2006-04-24 13:04:37',35,5,'A condensed version of a larger piece of work outlining the major points and conclusions.',11,NULL,NULL,NULL),(187,'2006-04-24 09:05:10','2006-04-24 13:05:10',35,10,'Term source: http://www.dlese.org/Metadata/index.htm',11,NULL,NULL,NULL),(188,'2006-04-24 09:11:18','2006-04-24 13:11:18',36,1,'Review',11,NULL,NULL,NULL),(189,'2006-04-24 09:11:31','2006-04-24 13:11:31',36,1,'Comment',11,NULL,NULL,NULL),(190,'2006-04-24 09:11:44','2006-04-24 13:11:44',36,5,'A comment (usually added to a text) [Hyperdictionary]',11,NULL,NULL,NULL),(191,'2006-04-24 09:13:48','2006-04-24 13:13:48',37,5,'In publishing, an article is a piece of nonfictional prose that is an independent part of a publication (such as a book, journal, magazine, or newspaper). This sense of article overlaps with the usage of the word essay. In an encyclopedia or other reference work, an article is a primary division of content. [Wikipedia]',11,NULL,NULL,NULL),(192,'2006-04-24 09:14:08','2006-04-24 13:14:08',37,1,'Research Paper',11,NULL,NULL,NULL),(193,'2006-04-24 09:14:30','2006-04-24 13:14:30',37,1,'Research Article',11,NULL,NULL,NULL),(194,'2006-04-24 09:14:50','2006-04-24 13:14:50',37,1,'Scholarly Publication',11,NULL,NULL,NULL),(195,'2006-04-24 09:15:43','2006-04-24 13:15:43',37,1,'Peer Reviewed Article',11,NULL,NULL,NULL),(196,'2006-04-24 09:15:55','2006-04-24 13:15:55',37,1,'Newspaper Article',11,NULL,NULL,NULL),(197,'2006-04-24 09:16:32','2006-04-24 13:16:32',61,16,'http://metadataregistry.org/NSDLResType/1002',11,37,NULL,NULL),(198,'2006-04-24 09:16:32','2006-04-24 13:16:32',37,3,'http://metadataregistry.org/NSDLResType/1026',11,61,NULL,NULL),(199,'2006-04-24 09:16:46','2006-04-24 13:16:46',67,16,'http://metadataregistry.org/NSDLResType/1002',11,37,NULL,NULL),(200,'2006-04-24 09:16:46','2006-04-24 13:16:46',37,3,'http://metadataregistry.org/NSDLResType/1032',11,67,NULL,NULL),(201,'2006-04-24 09:18:29','2006-04-24 13:18:29',38,5,'Anything made by human art and workmanship; an artificial product. [Oxford\r\nEnglish Dictionary]',11,NULL,NULL,NULL),(202,'2006-04-24 09:18:41','2006-04-24 13:18:41',38,1,'Physical Object',11,NULL,NULL,NULL),(203,'2006-04-24 09:19:01','2006-04-24 13:19:01',38,10,'Term source: http://www.thegateway.org',11,NULL,NULL,NULL),(204,'2006-04-24 09:25:00','2006-04-24 13:25:00',39,1,'Virtual Reference',11,NULL,NULL,NULL),(205,'2006-04-24 09:25:13','2006-04-24 13:25:13',39,5,'Service where one can submit questions for personal response to either an individual or group of people who have specific expertise in the area of interest.',11,NULL,NULL,NULL),(206,'2006-04-24 09:25:42','2006-04-24 13:25:42',39,10,'Term source: http://www.dlese.org/Metadata/index.htm',11,NULL,NULL,NULL),(207,'2006-04-24 09:34:01','2006-04-24 13:34:01',40,5,'Resource used to evaluate or measure progress, development, ability, skill, understanding, knowledge, or achievement. [iLumina]',11,NULL,NULL,NULL),(208,'2006-04-24 09:34:19','2006-04-24 13:34:19',40,1,'Self-Assessment',11,NULL,NULL,NULL),(209,'2006-04-24 09:34:28','2006-04-24 13:34:28',40,1,'Test',11,NULL,NULL,NULL),(210,'2006-04-24 09:34:53','2006-04-24 13:34:54',40,10,'Term source: http://www.ilumina-dlib.org/documents/learning_resource_type.htm',11,NULL,NULL,NULL),(211,'2006-04-24 09:36:00','2006-04-24 13:36:00',41,1,'References',11,NULL,NULL,NULL),(212,'2006-04-24 09:36:20','2006-04-24 13:36:21',41,5,'A list often with descriptive or critical notes of writings relating to a particular subject, period, or author. [Merriam-Webster]',11,NULL,NULL,NULL),(213,'2006-04-24 09:36:39','2006-04-24 13:36:39',41,10,'Term source: http://www.edna.edu.au/edna/go/pid/333',11,NULL,NULL,NULL),(214,'2006-04-24 09:40:05','2006-04-24 13:40:05',42,5,'Recording of a newscast, talk show, or other audio or audio/visual presentation originally generated via the radio, television or the Internet. ',11,NULL,NULL,NULL),(215,'2006-04-24 09:40:26','2006-04-24 13:40:27',42,1,'Radio Broadcast',11,NULL,NULL,NULL),(216,'2006-04-24 09:40:38','2006-04-24 13:40:38',42,1,'Telecast',11,NULL,NULL,NULL),(217,'2006-04-24 09:40:49','2006-04-24 13:40:49',42,1,'Webcast',11,NULL,NULL,NULL),(218,'2006-04-24 09:40:59','2006-04-24 13:40:59',42,1,'Screencast',11,NULL,NULL,NULL),(219,'2006-04-24 09:41:19','2006-04-24 13:41:19',42,1,'Kinescope',11,NULL,NULL,NULL),(220,'2006-04-24 09:41:31','2006-04-24 13:41:31',42,1,'Video',11,NULL,NULL,NULL),(221,'2006-04-24 09:41:59','2006-04-24 13:41:59',42,10,'Term source: http://www.dlese.org/Metadata/index.htm',11,NULL,NULL,NULL),(222,'2006-04-24 14:22:52','2006-04-24 18:22:52',78,19,'test concept',NULL,NULL,NULL,NULL),(223,'2006-04-24 14:24:20','2006-04-24 18:24:20',79,19,'another test',NULL,NULL,NULL,NULL),(224,'2006-04-24 14:26:50','2006-04-24 18:26:50',80,19,'better test',NULL,NULL,NULL,NULL),(225,'2006-04-24 14:27:03','2006-04-24 18:27:03',81,19,'even better test',NULL,NULL,NULL,NULL),(226,'2006-04-24 16:10:58','2006-04-24 20:10:58',43,5,'Resource offering intensive analysis of an individual unit (as a person or community) stressing developmental factors in relation to environment or a scientific study of a specific location or region.',11,NULL,NULL,NULL),(227,'2006-04-24 16:11:39','2006-04-24 20:11:39',43,5,'A detailed study of the development of a particular person, group, or situation\r\nover a period of time; a particular instance used to illustrate a thesis or principle. [Compact Oxford English Dictionary]',11,NULL,NULL,NULL),(228,'2006-04-24 16:12:05','2006-04-24 20:12:05',43,10,'Term source: http://www.dlese.org/Metadata/index.htm',11,NULL,NULL,NULL),(229,'2006-04-24 16:14:09','2006-04-24 20:14:09',44,5,'A central agency for the collection, classification, and distribution especially\r\nof information; broadly : an informal channel for distributing information or assistance. [Merriam-Webster Online]',11,NULL,NULL,NULL),(230,'2006-04-24 16:14:27','2006-04-24 20:14:27',63,21,'http://metadataregistry.org/NSDLResType/1009',11,44,NULL,NULL),(231,'2006-04-24 16:14:27','2006-04-24 20:14:27',44,21,'http://metadataregistry.org/NSDLResType/1028',11,63,NULL,NULL),(232,'2006-04-24 16:15:36','2006-04-24 20:15:36',44,5,'Resource with links to other sites organized around a topic or topics. [DLESE]',11,NULL,NULL,NULL),(233,'2006-04-24 16:16:04','2006-04-24 20:16:04',44,6,'Second sentence of DLESE definition deleted.',11,NULL,NULL,NULL),(234,'2006-04-24 16:16:26','2006-04-24 20:16:26',44,10,'Term source: http://www.dlese.org/Metadata/index.htm',11,NULL,NULL,NULL),(235,'2006-04-24 16:25:39','2006-04-24 20:25:39',72,3,'http://metadataregistry.org/NSDLResType/1010',11,45,NULL,NULL),(236,'2006-04-24 16:25:39','2006-04-24 20:25:39',45,16,'http://metadataregistry.org/NSDLResType/1037',11,72,NULL,NULL),(237,'2006-04-24 16:26:11','2006-04-24 20:26:11',57,3,'http://metadataregistry.org/NSDLResType/1010',11,45,NULL,NULL),(238,'2006-04-24 16:26:11','2006-04-24 20:26:11',45,16,'http://metadataregistry.org/NSDLResType/1022',11,57,NULL,NULL),(239,'2006-04-24 16:26:51','2006-04-24 20:26:51',64,3,'http://metadataregistry.org/NSDLResType/1010',11,45,NULL,NULL),(240,'2006-04-24 16:26:51','2006-04-24 20:26:51',45,16,'http://metadataregistry.org/NSDLResType/1029',11,64,NULL,NULL),(241,'2006-04-24 16:27:10','2006-04-24 20:27:10',46,16,'http://metadataregistry.org/NSDLResType/1010',11,45,NULL,NULL),(242,'2006-04-24 16:27:10','2006-04-24 20:27:10',45,3,'http://metadataregistry.org/NSDLResType/1011',11,46,NULL,NULL),(243,'2006-04-24 16:29:03','2006-04-24 20:29:03',66,3,'http://metadataregistry.org/NSDLResType/1010',11,45,NULL,NULL),(244,'2006-04-24 16:29:03','2006-04-24 20:29:03',45,16,'http://metadataregistry.org/NSDLResType/1031',11,66,NULL,NULL),(245,'2006-04-24 16:29:35','2006-04-24 20:29:35',73,21,'http://metadataregistry.org/NSDLResType/1010',11,45,NULL,NULL),(246,'2006-04-24 16:29:35','2006-04-24 20:29:35',45,21,'http://metadataregistry.org/NSDLResType/1038',11,73,NULL,NULL),(247,'2006-04-24 16:30:08','2006-04-24 20:30:08',45,5,'A set of teaching and learning materials intended to achieve a wide range of objectives over an extended period of time.',11,NULL,NULL,NULL),(248,'2006-04-24 16:30:42','2006-04-24 20:30:42',45,10,'Term source: http://www.ilumina-dlib.org/documents/learning_resource_type.htm',11,NULL,NULL,NULL),(249,'2006-04-24 16:32:12','2006-04-24 20:32:12',46,5,'A program of study.',11,NULL,NULL,NULL),(250,'2006-04-24 16:32:36','2006-04-24 20:32:36',46,10,'Term source: http://www.dlese.org/Metadata/index.htm',11,NULL,NULL,NULL),(251,'2006-04-24 16:32:58','2006-04-24 20:32:58',46,10,'Term source: http://www.thegateway.org/',11,NULL,NULL,NULL),(252,'2006-04-24 16:33:49','2006-04-24 20:33:49',47,1,'Dataset',11,NULL,NULL,NULL),(253,'2006-04-24 16:34:20','2006-04-24 20:34:20',47,5,'A collection of data elements in the form of a list, table, or database intended for use with another learning resource. [iLumina]',11,NULL,NULL,NULL),(254,'2006-04-24 16:34:48','2006-04-24 20:34:48',47,5,'An organized collection of data with a common theme. [GIS Dictionary]',11,NULL,NULL,NULL),(255,'2006-04-24 16:35:40','2006-04-24 20:35:40',47,10,'Term source: http://www.ilumina-dlib.org/documents/learning_resource_type.htm',11,NULL,NULL,NULL),(256,'2006-04-24 16:37:11','2006-04-24 20:37:11',49,21,'http://metadataregistry.org/NSDLResType/1013',11,48,NULL,NULL),(257,'2006-04-24 16:37:11','2006-04-24 20:37:11',48,21,'http://metadataregistry.org/NSDLResType/1014',11,49,NULL,NULL),(258,'2006-04-24 16:37:25','2006-04-24 20:37:25',70,21,'http://metadataregistry.org/NSDLResType/1013',11,48,NULL,NULL),(259,'2006-04-24 16:37:26','2006-04-24 20:37:26',48,21,'http://metadataregistry.org/NSDLResType/1035',11,70,NULL,NULL),(260,'2006-04-24 16:38:19','2006-04-24 20:38:19',48,5,'Resource that uses a video or audio recording to show or explain a procedure, process, or principle. Note a verbal explanation is not required, the explanation may be implied through an action. This is distinct from simulations in that demonstrations have real objects in them as opposed to representations.',11,NULL,NULL,NULL),(261,'2006-04-24 16:38:56','2006-04-24 20:38:56',48,5,'An illustration or explanation, as of a theory or product, by exemplification or practical application. [American Heritage Dictionary, 4th ed.]',11,NULL,NULL,NULL),(262,'2006-04-24 16:40:17','2006-04-24 20:40:18',49,5,'A scientific procedure undertaken to make a discovery, test a hypothesis, or demonstrate a known fact. [Compact Oxford English Dictionary]',11,NULL,NULL,NULL),(263,'2006-04-24 16:40:33','2006-04-24 20:40:33',49,1,'Laboratory Experiment',11,NULL,NULL,NULL),(264,'2006-04-24 16:53:01','2006-04-24 20:53:01',50,5,'Prose literature, especially novels, describing imaginary events and people.',11,NULL,NULL,NULL),(265,'2006-04-24 16:54:11','2006-04-24 20:54:11',50,22,'Do not use for technical documentation and guides, or field and instructor\'s guides.',11,NULL,NULL,NULL),(266,'2006-04-24 16:54:51','2006-04-24 20:54:52',50,6,'Eliminated \'book\" from the term, moved former definition exclusions to scope note.',11,NULL,NULL,NULL),(267,'2006-04-24 16:55:59','2006-04-24 20:56:00',76,1,'Virtual Field Trip',11,NULL,NULL,NULL),(268,'2006-04-24 16:56:45','2006-04-24 20:56:46',76,5,'A trip or excursion to a place, often by a group of students or the like, to gain\r\nfirsthand information, knowledge, or experience. Includes descriptions or plans for actual field trips as well as virtual field trips. [Wordsmyth]',11,NULL,NULL,NULL),(269,'2006-04-24 16:57:12','2006-04-24 20:57:12',76,10,'Term source: http://www.dlese.org/Metadata/index.htm',11,NULL,NULL,NULL),(270,'2006-04-24 16:58:08','2006-04-24 20:58:08',51,1,'Web Form',11,NULL,NULL,NULL),(271,'2006-04-24 16:58:22','2006-04-24 20:58:23',51,5,'A formatted document containing blank fields that users can fill in with data. [Webopedia]',11,NULL,NULL,NULL),(272,'2006-04-24 16:59:45','2006-04-24 20:59:45',52,1,'Discussion',11,NULL,NULL,NULL),(273,'2006-04-24 16:59:57','2006-04-24 20:59:57',52,1,'Listserv',11,NULL,NULL,NULL),(274,'2006-04-24 17:00:15','2006-04-24 21:00:15',52,1,'Message Board',11,NULL,NULL,NULL),(275,'2006-04-24 17:00:26','2006-04-24 21:00:26',52,5,'A meeting or medium for an exchange of views. [Compact Oxford English Dictionary]',11,NULL,NULL,NULL),(276,'2006-04-26 17:13:37','2006-04-26 21:13:37',81,16,'http://smartbroad/dihNeww/100000',7,78,NULL,NULL),(277,'2006-04-26 17:13:37','2006-04-26 21:13:37',78,3,'http://smartbroad/dihNeww/100002',7,81,NULL,NULL),(278,'2006-05-31 18:47:42','2006-05-31 22:47:43',82,19,'testy',NULL,NULL,NULL,NULL),(279,'2006-06-07 12:29:34','2006-06-07 16:29:34',27,16,'http://metadataregistry.org/NSDLEdLvl#1001',10,5,'en',NULL);
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `reg_concept_property` ENABLE KEYS */;
+
+--
+-- Table structure for table `reg_lookup`
+--
+
+DROP TABLE IF EXISTS `reg_lookup`;
+CREATE TABLE `reg_lookup` (
+  `id` int(11) NOT NULL auto_increment,
+  `type_id` int(11) default NULL COMMENT 'This will be the lookup type and will reference the list of lookup types stored in this very same table',
+  `short_value` char(20) default NULL,
+  `long_value` varchar(255) default NULL,
+  `display_order` int(11) default NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `id` (`id`),
+  KEY `display_order` (`type_id`,`display_order`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `reg_lookup`
+--
+
+
+/*!40000 ALTER TABLE `reg_lookup` DISABLE KEYS */;
+LOCK TABLES `reg_lookup` WRITE;
+INSERT INTO `reg_lookup` VALUES (1,1,'Published','Published',7),(2,1,'New-Proposed','New-Proposed',1),(3,1,'Change-Proposed','Change-Proposed',2),(4,1,'Deprecate-Proposed','Deprecate-Proposed',3),(5,1,'New-Under Review','New-Under Review',4),(6,1,'Change-Under Review','Change-Under Review',5),(7,1,'Deprecate-Under Revi','Deprecate-Under Review',6),(8,1,'Deprecated','Deprecated',8),(9,1,'Not Approved','Not Approved',9);
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `reg_lookup` ENABLE KEYS */;
+
+--
+-- Table structure for table `reg_agent`
+--
+
+DROP TABLE IF EXISTS `reg_agent`;
+CREATE TABLE `reg_agent` (
+  `id` int(11) NOT NULL auto_increment,
+  `created_at` datetime default NULL,
+  `last_updated` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
+  `org_email` varchar(100) NOT NULL default '',
+  `org_name` varchar(255) NOT NULL default '',
+  `ind_affiliation` varchar(255) default NULL,
+  `ind_role` varchar(45) default NULL,
+  `address1` varchar(255) default NULL,
+  `address2` varchar(255) default NULL,
+  `city` varchar(45) default NULL,
+  `state` char(2) default NULL COMMENT 'Get from list of 2-digit state codes',
+  `postal_code` varchar(15) default NULL,
+  `country` char(3) default NULL COMMENT 'Get from list of 3-digit country codes',
+  `phone` varchar(45) default NULL,
+  `web_address` varchar(255) default NULL,
+  `type` char(15) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `reg_agent`
+--
+
+
+/*!40000 ALTER TABLE `reg_agent` DISABLE KEYS */;
+LOCK TABLES `reg_agent` WRITE;
+INSERT INTO `reg_agent` VALUES (46,'2006-04-12 18:27:05','2006-09-14 16:48:41','dih1@cornell.edu','Diane Hillmann','Cornell University',NULL,'','','','','','','','','Individual'),(52,'2006-04-13 11:49:15','2006-09-16 16:24:30','','GEM Exchange','',NULL,'','','','','','AF','','','Organization'),(53,'2006-04-13 11:54:11','2006-09-14 16:48:49','','National Science Digital Library','',NULL,'','','','','','','','','Organization');
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `reg_agent` ENABLE KEYS */;
+
+--
+-- Table structure for table `reg_skos_property`
+--
+
+DROP TABLE IF EXISTS `reg_skos_property`;
+CREATE TABLE `reg_skos_property` (
+  `id` int(11) NOT NULL auto_increment,
+  `parent_id` int(11) default NULL,
+  `inverse_id` int(11) default NULL COMMENT 'id of the inverse property',
+  `name` varchar(255) NOT NULL COMMENT 'The name of the property',
+  `uri` varchar(255) NOT NULL COMMENT 'The URI of the property',
+  `object_type` enum('resource','literal') NOT NULL COMMENT 'the type of the object for which this is the predicate',
+  `display_order` int(11) default NULL COMMENT 'Display order of properties',
+  `picklist_order` int(11) default NULL,
+  `label` varchar(255) default NULL COMMENT 'The pretty label for the property',
+  `definition` text,
+  `comment` text,
+  `examples` varchar(255) default NULL COMMENT 'Link to example usage',
+  `is_required` tinyint(1) NOT NULL default '0' COMMENT 'boolean -- id this value required',
+  `is_reciprocal` tinyint(1) NOT NULL default '0' COMMENT 'boolean - subject and object must both have this property',
+  `is_singleton` tinyint(1) NOT NULL default '0' COMMENT 'boolean -- is this property allowed to repeat for a concept',
+  `is_scheme` tinyint(1) NOT NULL default '0' COMMENT 'boolean - is in conceptScheme domain',
+  `is_in_picklist` tinyint(1) NOT NULL default '1' COMMENT 'boolean - is in the property picklist',
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `id` (`id`),
+  UNIQUE KEY `name` (`name`),
+  UNIQUE KEY `uri` (`uri`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Contains a list of available predicates for skos concepts co';
+
+--
+-- Dumping data for table `reg_skos_property`
+--
+
+
+/*!40000 ALTER TABLE `reg_skos_property` DISABLE KEYS */;
+LOCK TABLES `reg_skos_property` WRITE;
+INSERT INTO `reg_skos_property` VALUES (1,27,NULL,'altLabel','http://www.w3.org/2004/02/skos/core#altLabel','literal',1,3,'alternative label','An alternative lexical label for a resource.','Acronyms, abbreviations, spelling variants, and irregular plural/singular forms may be included among the alternative labels for a concept. Mis-spelled terms are normally included as hidden labels (see skos:hiddenLabel).','http://www.w3.org/2004/02/skos/core/examples/altLabel.rdf.xml',0,0,0,0,1),(2,26,NULL,'altSymbol','http://www.w3.org/2004/02/skos/core#altSymbol','literal',2,NULL,'alternative symbolic label','An alternative symbolic label for a resource.',NULL,'http://www.w3.org/2004/02/skos/core/examples/altSymbol.rdf.xml',0,0,0,0,0),(3,NULL,16,'broader','http://www.w3.org/2004/02/skos/core#broader','resource',3,4,'has broader','A concept that is more general in meaning.','Broader concepts are typically rendered as parents in a concept hierarchy (tree).','http://www.w3.org/2004/02/skos/core/examples/broader.rdf.xml',0,0,0,0,1),(4,17,NULL,'changeNote','http://www.w3.org/2004/02/skos/core#changeNote','literal',4,8,'change note','A note about a modification to a concept.',NULL,'http://www.w3.org/2004/02/skos/core/examples/changeNote.rdf.xml',0,0,0,0,1),(5,17,NULL,'definition','http://www.w3.org/2004/02/skos/core#definition','literal',NULL,2,'definition','A statement or formal explanation of the meaning of a concept.',NULL,'http://www.w3.org/2004/02/skos/core/examples/definition.rdf.xml',0,0,0,0,1),(6,17,NULL,'editorialNote','http://www.w3.org/2004/02/skos/core#editorialNote','literal',NULL,9,'editorial note','A note for an editor, translator or maintainer of the vocabulary.',NULL,'http://www.w3.org/2004/02/skos/core/examples/editorialNote.rdf.xml',0,0,0,0,1),(7,17,NULL,'example','http://www.w3.org/2004/02/skos/core#example','literal',NULL,10,'example','An example of the use of a concept.',NULL,'http://www.w3.org/2004/02/skos/core/examples/example.rdf.xml',0,0,0,0,1),(9,27,NULL,'hiddenLabel','http://www.w3.org/2004/02/skos/core#hiddenLabel','literal',NULL,12,'hidden label','A lexical label for a resource that should be hidden when generating visual displays of the resource, but should still be accessible to free text search operations.',NULL,'http://www.w3.org/2004/02/skos/core/examples/hiddenLabel.rdf.xml',0,0,0,0,1),(10,NULL,NULL,'historyNote','http://www.w3.org/2004/02/skos/core#historyNote','literal',NULL,11,'history note',NULL,'A note about the past state/use/meaning of a concept.','http://www.w3.org/2004/02/skos/core/examples/historyNote.rdf.xml',0,0,0,0,1),(11,NULL,NULL,'inScheme','http://www.w3.org/2004/02/skos/core#inScheme','resource',NULL,14,'in scheme','A concept scheme in which the concept is included.','A concept may be a member of more than one concept scheme.','http://www.w3.org/2004/02/skos/core/examples/inScheme.rdf.xml',1,0,0,0,1),(12,NULL,24,'isSubjectOf','http://www.w3.org/2004/02/skos/core#isSubjectOf','resource',NULL,NULL,'is subject of','A resource for which the concept is a subject.',NULL,'http://www.w3.org/2004/02/skos/core/examples/isSubjectOf.rdf.xml',0,0,0,0,0),(13,12,20,'isPrimarySubjectOf','http://www.w3.org/2004/02/skos/core#isPrimarySubjectOf','resource',NULL,NULL,'is primary subject of','A resource for which the concept is the primary subject.',NULL,NULL,0,0,0,0,0),(16,NULL,3,'narrower','http://www.w3.org/2004/02/skos/core#narrower','resource',NULL,5,'has narrower','A concept that is more specific in meaning.','Narrower concepts are typically rendered as children in a concept hierarchy (tree).','http://www.w3.org/2004/02/skos/core/examples/narrower.rdf.xml',0,0,0,0,1),(17,NULL,NULL,'note','http://www.w3.org/2004/02/skos/core#note','literal',NULL,13,'note','A general note, for any purpose.','This property may be used directly, or as a super-property for more specific note types.','http://www.w3.org/2004/02/skos/core/examples/note.rdf.xml',0,0,0,0,1),(18,26,NULL,'prefSymbol','http://www.w3.org/2004/02/skos/core#prefSymbol','literal',NULL,NULL,'preferred symbolic label','The preferred symbolic label for a resource.','No two concepts in the same concept scheme may have the same value for skos:prefSymbol.','http://www.w3.org/2004/02/skos/core/examples/prefSymbol.rdf.xml',0,0,0,0,0),(19,27,NULL,'prefLabel','http://www.w3.org/2004/02/skos/core#prefLabel','literal',NULL,1,'preferred label','The preferred lexical label for a resource, in a given language.','No two concepts in the same concept scheme may have the same value for skos:prefLabel in a given language.','http://www.w3.org/2004/02/skos/core/examples/prefLabel.rdf.xml',1,0,0,0,1),(20,24,NULL,'primarySubject','http://www.w3.org/2004/02/skos/core#primarySubject','literal',NULL,NULL,'has primary subject','A concept that is the primary subject of the resource.','A resource may have only one primary subject per concept scheme.','http://www.w3.org/2004/02/skos/core/examples/primarySubject.rdf.xml',0,0,0,0,0),(21,NULL,21,'related','http://www.w3.org/2004/02/skos/core#related','resource',NULL,6,'related to','A concept with which there is an associative semantic relationship.',NULL,'http://www.w3.org/2004/02/skos/core/examples/related.rdf.xml',0,1,0,0,1),(22,17,NULL,'scopeNote','http://www.w3.org/2004/02/skos/core#scopeNote','literal',NULL,7,'scope note','A note that helps to clarify the meaning of a concept.',NULL,'http://www.w3.org/2004/02/skos/core/examples/scopeNote.rdf.xml',0,0,0,0,1),(24,NULL,12,'subject','http://www.w3.org/2004/02/skos/core#subject','resource',NULL,NULL,'has subject','A concept that is a subject of the resource.','The following rule may be applied for this property: [(?d skos:subject ?x)(?x skos:broader ?y) implies (?d skos:subject ?y)]','http://www.w3.org/2004/02/skos/core/examples/subject.rdf.xml',0,0,0,0,0),(25,NULL,NULL,'subjectIndicator','http://www.w3.org/2004/02/skos/core#subjectIndicator','resource',NULL,NULL,'subject indicator','A subject indicator for a concept. [The notion of \'subject indicator\' is defined here with reference to the latest definition endorsed by the OASIS Published Subjects Technical Committee.]','This property allows subject indicators to be used for concept identification in place of or in addition to directly assigned URIs.','http://www.w3.org/2004/02/skos/core/examples/subjectIndicator.rdf.xml',0,0,0,0,0),(26,NULL,NULL,'symbol','http://www.w3.org/2004/02/skos/core#symbol','literal',NULL,NULL,'symbolic label','An image that is a symbolic label for the resource.','This property is roughly analagous to rdfs:label, but for labelling resources with images that have retrievable representations, rather than RDF literals.','http://www.w3.org/2004/02/skos/core/examples/symbol.rdf.xml',0,0,0,0,0),(27,NULL,NULL,'label','http://www.w3.org/2000/01/rdf-schema#label','literal',NULL,15,'label','A human-readable name for the subject.',NULL,NULL,0,0,0,0,1);
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `reg_skos_property` ENABLE KEYS */;
+
+--
+-- Table structure for table `reg_vocabulary`
+--
+
+DROP TABLE IF EXISTS `reg_vocabulary`;
+CREATE TABLE `reg_vocabulary` (
+  `id` int(11) NOT NULL auto_increment,
+  `agent_id` int(11) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `last_updated` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
+  `name` varchar(255) NOT NULL,
+  `note` text,
+  `uri` varchar(255) NOT NULL,
+  `url` varchar(255) default NULL,
+  `base_domain` varchar(255) NOT NULL,
+  `token` varchar(45) NOT NULL,
+  `community` varchar(45) default NULL,
+  `last_uri_id` int(11) default '1000' COMMENT 'this is the last concept id assigned to a concept uri in this vocabulary. It will be incremented by 1 every time a new concept uri is added to this vocabulary',
+  PRIMARY KEY  (`id`),
+  KEY `agent_id` (`agent_id`),
+  CONSTRAINT `vocabulary_agent_fk` FOREIGN KEY (`agent_id`) REFERENCES `reg_agent` (`id`) ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `reg_vocabulary`
+--
+
+
+/*!40000 ALTER TABLE `reg_vocabulary` DISABLE KEYS */;
+LOCK TABLES `reg_vocabulary` WRITE;
+INSERT INTO `reg_vocabulary` VALUES (7,46,'2006-04-12 19:13:39','2006-05-31 22:47:17','Diane\'s New Vocabulary','','http://smartbroad/newvocabulary','','http://smartbroad','dihNeww','',100005),(8,52,'2006-04-13 11:51:57','2006-06-14 16:11:15','Level Element GEM Controlled Vocabulary','','http://purl.org/gem/instance/level/','http://thegateway.org','http://purl.org/gem/','GemLevel','Education',100012),(10,53,'2006-04-13 13:58:01','2007-02-26 15:18:49','NSDL Education Level Vocabulary','test comment6','http://metadataregistry.org/NSDLEdLvl','http://metamanagement.comm.nsdl.org/cgi-bin/wiki.pl?VocabDevel','http://metadataregistry.org/','NSDLEdLvl','Science, Mathematics, Engineering, Technology',1026),(11,53,'2006-04-24 08:37:30','2006-10-04 14:12:05','NSDL Learning Resource Type Vocabulary','','http://metadataregistry.org/uri/NSDLResType/','http://metamanagement.comm.nsdl.org/cgi-bin/wiki.pl?LRT_Wiki_Version2','http://metadataregistry.org','NSDLResType','Education',1042);
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `reg_vocabulary` ENABLE KEYS */;
+
+--
+-- Table structure for table `reg_status`
+--
+
+DROP TABLE IF EXISTS `reg_status`;
+CREATE TABLE `reg_status` (
+  `id` int(11) NOT NULL auto_increment,
+  `display_order` int(11) default NULL,
+  `display_name` varchar(255) default NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `id` (`id`),
+  KEY `display_order` (`display_order`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `reg_status`
+--
+
+
+/*!40000 ALTER TABLE `reg_status` DISABLE KEYS */;
+LOCK TABLES `reg_status` WRITE;
+INSERT INTO `reg_status` VALUES (1,7,'Published'),(2,1,'New-Proposed'),(3,2,'Change-Proposed'),(4,3,'Deprecate-Proposed'),(5,4,'New-Under Review'),(6,5,'Change-Under Review'),(7,6,'Deprecate-Under Review'),(8,8,'Deprecated'),(9,9,'Not Approved');
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `reg_status` ENABLE KEYS */;
+
+--
+-- Table structure for table `reg_concept_history`
+--
+
+DROP TABLE IF EXISTS `reg_concept_history`;
+CREATE TABLE `reg_concept_history` (
+  `sid` char(32) NOT NULL COMMENT 'This is the PHP 32-character session ID',
+  `concept_property_id` int(11) NOT NULL COMMENT 'id of property being changed',
+  `user_id` int(11) NOT NULL,
+  `changed_at` timestamp NOT NULL default CURRENT_TIMESTAMP COMMENT 'timestamp of the last update in this session',
+  `old_values` text NOT NULL COMMENT 'this will be a serialized array of values',
+  `new_values` text NOT NULL COMMENT 'this will be a serialized array of values',
+  PRIMARY KEY  (`sid`,`concept_property_id`),
+  KEY `user_id` (`user_id`),
+  KEY `concept_property_id` (`concept_property_id`),
+  CONSTRAINT `reg_concept_history_fk` FOREIGN KEY (`user_id`) REFERENCES `reg_user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `reg_concept_history_fk1` FOREIGN KEY (`concept_property_id`) REFERENCES `reg_concept_property` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `reg_concept_history`
+--
+
+
+/*!40000 ALTER TABLE `reg_concept_history` DISABLE KEYS */;
+LOCK TABLES `reg_concept_history` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `reg_concept_history` ENABLE KEYS */;
+
+--
+-- Table structure for table `reg_concept`
+--
+
+DROP TABLE IF EXISTS `reg_concept`;
+CREATE TABLE `reg_concept` (
+  `id` int(11) NOT NULL auto_increment,
+  `created_at` datetime default NULL,
+  `last_updated` timestamp NOT NULL default CURRENT_TIMESTAMP,
+  `uri` varchar(255) NOT NULL,
+  `pref_label` varchar(255) NOT NULL COMMENT 'This is a denormalized, truncated clone of the prefLabel skos:property',
+  `vocabulary_id` int(11) default NULL,
+  `is_top_concept` int(1) default NULL COMMENT 'boolean -- this value is expressed in the conceptScheme using the inverse: hasTopConcept property',
+  `status_id` int(11) default '1',
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `vocabulary_id_pref_label` (`vocabulary_id`,`pref_label`),
+  KEY `vocabulary_id` (`vocabulary_id`),
+  KEY `pref_label` (`pref_label`),
+  KEY `status_id` (`status_id`),
+  CONSTRAINT `reg_concept_FK_1` FOREIGN KEY (`status_id`) REFERENCES `reg_status` (`id`),
+  CONSTRAINT `reg_concept_FK_2` FOREIGN KEY (`vocabulary_id`) REFERENCES `reg_vocabulary` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `reg_concept`
+--
+
+
+/*!40000 ALTER TABLE `reg_concept` DISABLE KEYS */;
+LOCK TABLES `reg_concept` WRITE;
+INSERT INTO `reg_concept` VALUES (4,NULL,'0000-00-00 00:00:00','http://metadataregistry.org/uri/NSDLEdLvl#1000','Grades Pre-K to 12',10,1,1),(5,NULL,'0000-00-00 00:00:00','http://metadataregistry.org/uri/NSDLEdLvl#1001','Elementary School',10,0,3),(6,NULL,'0000-00-00 00:00:00','http://metadataregistry.org/uri/NSDLEdLvl#1002','Pre-Kindergarten',10,NULL,1),(11,'2006-04-20 17:52:41','2006-04-20 21:52:42','URI','Middle School',10,0,1),(16,'2006-04-21 09:41:10','2006-04-21 13:41:10','http://metadataregistry.org/uri/NSDLEdLvl/1010','Grade 6',10,0,1),(17,'2006-04-21 09:43:12','2006-04-21 13:43:13','http://metadataregistry.org/uri/NSDLEdLvl/1011','Grade 7',10,0,1),(18,'2006-04-21 09:43:34','2006-04-21 13:43:34','http://metadataregistry.org/uri/NSDLEdLvl/1012','Grade 8',10,0,1),(19,'2006-04-21 10:01:48','2006-04-21 14:01:48','http://metadataregistry.org/uri/NSDLEdLvl/1018','Postsecondary',10,1,1),(20,'2006-04-21 10:02:25','2006-04-21 14:02:25','http://metadataregistry.org/uri/NSDLEdLvl/1019','Higher Education',10,0,1),(21,'2006-04-21 10:03:18','2006-04-21 14:03:18','http://metadataregistry.org/uri/NSDLEdLvl/1020','Undergraduate (Lower Divison)',10,0,1),(22,'2006-04-21 10:04:04','2006-04-21 14:04:04','http://metadataregistry.org/uri/NSDLEdLvl/1021','Undergraduate (Upper Divison)',10,0,1),(23,'2006-04-21 10:04:40','2006-04-21 14:04:40','http://metadataregistry.org/uri/NSDLEdLvl/1022','Graduate',10,0,1),(24,'2006-04-21 10:07:39','2006-04-21 14:07:39','http://metadataregistry.org/uri/NSDLEdLvl/1003','Kindergarten',10,0,1),(25,'2006-04-21 10:07:55','2006-04-21 14:07:55','http://metadataregistry.org/uri/NSDLEdLvl/1004','Grade 1',10,0,1),(26,'2006-04-21 10:08:16','2006-04-21 14:08:16','http://metadataregistry.org/uri/NSDLEdLvl/1005','Grade 2',10,0,1),(27,'2006-04-21 10:08:36','2006-04-21 14:08:37','http://metadataregistry.org/uri/NSDLEdLvl/1006','Grade 3',10,0,1),(28,'2006-04-21 10:08:56','2006-04-21 14:08:56','http://metadataregistry.org/uri/NSDLEdLvl/1007','Grade 4',10,0,1),(29,'2006-04-21 10:09:13','2006-04-21 14:09:13','http://metadataregistry.org/uri/NSDLEdLvl/1008','Grade 5',10,0,1),(30,'2006-04-21 10:10:30','2006-04-21 14:10:30','http://metadataregistry.org/uri/NSDLEdLvl/1013','High School',10,0,1),(31,'2006-04-21 10:11:06','2006-04-21 14:11:06','http://metadataregistry.org/uri/NSDLEdLvl/1014','Grade 9',10,0,1),(32,'2006-04-21 10:11:23','2006-04-21 14:11:23','http://metadataregistry.org/uri/NSDLEdLvl/1015','Grade 10',10,0,1),(33,'2006-04-21 10:11:46','2006-04-21 14:11:46','http://metadataregistry.org/uri/NSDLEdLvl/1016','Grade 11',10,0,1),(34,'2006-04-21 10:12:17','2006-04-21 14:12:17','http://metadataregistry.org/uri/NSDLEdLvl/1017','Grade 12',10,0,1),(35,'2006-04-24 08:42:49','2006-04-24 12:42:49','http://metadataregistry.org/uri/NSDLResType/1000','Abstract',11,0,NULL),(36,'2006-04-24 08:43:13','2006-04-24 12:43:13','http://metadataregistry.org/uri/NSDLResType/1001','Annotation',11,0,NULL),(37,'2006-04-24 08:43:40','2006-04-24 12:43:40','http://metadataregistry.org/uri/NSDLResType/1002','Article',11,0,NULL),(38,'2006-04-24 08:43:54','2006-04-24 12:43:54','http://metadataregistry.org/uri/NSDLResType/1003','Artifact',11,0,NULL),(39,'2006-04-24 08:44:33','2006-04-24 12:44:33','http://metadataregistry.org/uri/NSDLResType/1004','Ask-an-Expert',11,0,NULL),(40,'2006-04-24 08:44:47','2006-04-24 12:44:47','http://metadataregistry.org/uri/NSDLResType/1005','Assessment',11,0,NULL),(41,'2006-04-24 08:45:16','2006-04-24 12:45:16','http://metadataregistry.org/uri/NSDLResType/1006','Bibliography',11,0,NULL),(42,'2006-04-24 08:45:44','2006-04-24 12:45:44','http://metadataregistry.org/uri/NSDLResType/1007','Broadcast',11,0,NULL),(43,'2006-04-24 08:46:10','2006-04-24 12:46:10','http://metadataregistry.org/uri/NSDLResType/1008','Case Study',11,0,NULL),(44,'2006-04-24 08:46:27','2006-04-24 12:46:27','http://metadataregistry.org/uri/NSDLResType/1009','Clearinghouse',11,0,NULL),(45,'2006-04-24 08:46:54','2006-04-24 12:46:54','http://metadataregistry.org/uri/NSDLResType/1010','Course',11,0,NULL),(46,'2006-04-24 08:47:07','2006-04-24 12:47:07','http://metadataregistry.org/uri/NSDLResType/1011','Curriculum',11,0,NULL),(47,'2006-04-24 08:47:27','2006-04-24 12:47:27','http://metadataregistry.org/uri/NSDLResType/1012','Data Set',11,0,NULL),(48,'2006-04-24 08:47:49','2006-04-24 12:47:49','http://metadataregistry.org/uri/NSDLResType/1013','Demonstration',11,0,NULL),(49,'2006-04-24 08:48:20','2006-04-24 12:48:20','http://metadataregistry.org/uri/NSDLResType/1014','Experiment',11,0,NULL),(50,'2006-04-24 08:48:31','2006-04-24 12:48:31','http://metadataregistry.org/uri/NSDLResType/1015','Fiction',11,0,NULL),(51,'2006-04-24 08:48:58','2006-04-24 12:48:58','http://metadataregistry.org/uri/NSDLResType/1016','Form',11,0,NULL),(52,'2006-04-24 08:49:23','2006-04-24 12:49:23','http://metadataregistry.org/uri/NSDLResType/1017','Forum',11,0,NULL),(53,'2006-04-24 08:49:46','2006-04-24 12:49:46','http://metadataregistry.org/uri/NSDLResType/1018','Game',11,0,NULL),(54,'2006-04-24 08:49:59','2006-04-24 12:49:59','http://metadataregistry.org/uri/NSDLResType/1019','Glossary',11,0,NULL),(55,'2006-04-24 08:50:26','2006-04-24 12:50:27','http://metadataregistry.org/uri/NSDLResType/1020','Illustration',11,0,NULL),(56,'2006-04-24 08:50:40','2006-04-24 12:50:40','http://metadataregistry.org/uri/NSDLResType/1021','Instructor Guide',11,0,NULL),(57,'2006-04-24 08:51:29','2006-04-24 12:51:29','http://metadataregistry.org/uri/NSDLResType/1022','Lesson',11,0,NULL),(58,'2006-04-24 08:51:41','2006-04-24 12:51:41','http://metadataregistry.org/uri/NSDLResType/1023','Map',11,0,NULL),(59,'2006-04-24 08:52:06','2006-04-24 12:52:06','http://metadataregistry.org/uri/NSDLResType/1024','Music',11,0,NULL),(60,'2006-04-24 08:52:39','2006-04-24 12:52:39','http://metadataregistry.org/uri/NSDLResType/1025','Oral History',11,0,NULL),(61,'2006-04-24 08:53:07','2006-04-24 12:53:07','http://metadataregistry.org/uri/NSDLResType/1026','Periodical',11,0,NULL),(62,'2006-04-24 08:53:56','2006-04-24 12:53:56','http://metadataregistry.org/uri/NSDLResType/1027','Photograph',11,0,NULL),(63,'2006-04-24 08:54:59','2006-04-24 12:54:59','http://metadataregistry.org/uri/NSDLResType/1028','Portal',11,0,NULL),(64,'2006-04-24 08:55:14','2006-04-24 12:55:14','http://metadataregistry.org/uri/NSDLResType/1029','Presentation',11,0,NULL),(65,'2006-04-24 08:55:39','2006-04-24 12:55:39','http://metadataregistry.org/uri/NSDLResType/1030','Problem Set',11,0,NULL),(66,'2006-04-24 08:55:52','2006-04-24 12:55:52','http://metadataregistry.org/uri/NSDLResType/1031','Project',11,0,NULL),(67,'2006-04-24 08:56:16','2006-04-24 12:56:16','http://metadataregistry.org/uri/NSDLResType/1032','Reference',11,0,NULL),(68,'2006-04-24 08:56:36','2006-04-24 12:56:37','http://metadataregistry.org/uri/NSDLResType/1033','Remotely Sensed Imagery',11,0,NULL),(69,'2006-04-24 08:57:48','2006-04-24 12:57:48','http://metadataregistry.org/uri/NSDLResType/1034','Report',11,0,NULL),(70,'2006-04-24 08:58:02','2006-04-24 12:58:02','http://metadataregistry.org/uri/NSDLResType/1035','Simulation',11,0,NULL),(71,'2006-04-24 08:58:32','2006-04-24 12:58:32','http://metadataregistry.org/uri/NSDLResType/1036','Study Guide',11,0,NULL),(72,'2006-04-24 08:58:52','2006-04-24 12:58:52','http://metadataregistry.org/uri/NSDLResType/1037','Syllabus',11,0,NULL),(73,'2006-04-24 08:59:24','2006-04-24 12:59:24','http://metadataregistry.org/uri/NSDLResType/1038','Textbook',11,0,NULL),(74,'2006-04-24 08:59:37','2006-04-24 12:59:37','http://metadataregistry.org/uri/NSDLResType/1039','Thesis',11,0,NULL),(75,'2006-04-24 09:00:07','2006-04-24 13:00:07','http://metadataregistry.org/uri/NSDLResType/1040','Tutorial',11,0,NULL),(76,'2006-04-24 09:00:21','2006-04-24 13:00:21','http://metadataregistry.org/uri/NSDLResType/1041','Field Trip',11,0,NULL),(77,'2006-04-24 09:00:42','2006-04-24 13:00:42','http://metadataregistry.org/uri/NSDLResType/1042','Weblog',11,0,NULL),(78,'2006-04-24 14:22:52','2006-04-24 18:22:52','http://smartbroad/dihNeww/100000','test concept',7,0,NULL),(79,'2006-04-24 14:24:19','2006-04-24 18:24:20','http://smartbroad/dihNeww/100000','another test',7,0,NULL),(80,'2006-04-24 14:26:50','2006-04-24 18:26:50','http://smartbroad/dihNeww/100001','better test',7,0,NULL),(81,'2006-04-24 14:27:03','2006-04-24 18:27:03','http://smartbroad/dihNeww/100002','even better test',7,0,NULL),(82,'2006-05-31 18:47:41','2006-05-31 22:47:42','http://smartbroad/dihNeww/100005','testy',7,0,NULL);
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `reg_concept` ENABLE KEYS */;
+
+--
+-- Table structure for table `reg_user`
+--
+
+DROP TABLE IF EXISTS `reg_user`;
+CREATE TABLE `reg_user` (
+  `id` int(11) NOT NULL auto_increment,
+  `created_at` datetime default NULL,
+  `last_updated` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
+  `nickname` varchar(50) default NULL,
+  `salutation` varchar(5) default NULL,
+  `first_name` varchar(100) default NULL,
+  `last_name` varchar(100) default NULL,
+  `email` varchar(100) default NULL,
+  `sha1_password` varchar(40) default NULL,
+  `salt` varchar(32) default NULL,
+  `want_to_be_moderator` tinyint(1) default '0',
+  `is_moderator` tinyint(1) default '0',
+  `is_administrator` tinyint(1) default '0',
+  `deletions` int(11) default '0',
+  `password` varchar(40) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `reg_user`
+--
+
+
+/*!40000 ALTER TABLE `reg_user` DISABLE KEYS */;
+LOCK TABLES `reg_user` WRITE;
+INSERT INTO `reg_user` VALUES (35,'2006-03-24 15:16:33','2007-03-05 23:24:31','nickname','Salut','userFirstName','userLastName','useremail@nowhere.com','d34c30813aa5568a1d4e940d2405cf508887a799','e1e1be54a7818611c83b919fd5be0847',0,0,0,0,NULL),(36,'2006-03-24 17:29:24','2006-09-08 18:50:56','jonphipps',NULL,'Jon','Phipps','jphipps@madcreek.com','f4521d500ef2f3e2ea857eacb42679f549a13c40','70a6e9945d591c5347f7d65100bd8a18',NULL,0,1,0,NULL),(37,'2006-04-07 15:53:03','2006-04-07 19:53:03','dih1',NULL,NULL,NULL,'dih1@cornell.edu','a7294c358591a15d9bcb0a8cfd707335c2b9d222','88f61322d3c9f042b442ca255a4a567e',0,0,0,0,NULL),(38,'2006-04-07 15:53:36','2006-04-07 19:53:36','sas1',NULL,NULL,NULL,'sasutton@u.washington.edu','f01d10ee8880f4417ec1185579f49d87f798271d','704a68f4da0b09ae1090ec52363a80cc',0,0,0,0,NULL),(41,'2006-09-21 11:07:11','2006-09-21 15:07:11','vadmin',NULL,NULL,NULL,'vadmin@vadmin.com','1c2b85d7b8f9d216761dd1fb88960c499bc819bf','78dcb50e9e681b91fc5ac2e104ec0c0b',0,0,0,0,NULL),(43,'2007-02-28 18:22:13','2007-02-28 23:22:13','vocabowner',NULL,NULL,NULL,'vocabowner@jonphipps.com','ea209e975bcc394664ce42b03c0e345c2d0146c2','c6b0f0fb89531da792853cfa4968c9ea',0,0,0,0,NULL),(44,'2007-03-03 18:14:51','2007-03-03 23:39:27','admin',NULL,NULL,NULL,'admin@example.com','bf772da2ec13e3884cc80b4745f65c6fe88c64ba','445cf98776808291e6f1e8bc819a2cf2',0,0,1,0,NULL),(45,'2007-03-05 18:21:49','2007-03-05 23:21:49','agentadmin',NULL,NULL,NULL,'agentadmin@example.com','631e1e33866a78776596a12960a02083050bad6d','5a5d9ff756b88b3095c8df8755cba9c3',0,0,0,0,NULL);
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `reg_user` ENABLE KEYS */;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
