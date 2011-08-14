@@ -1,0 +1,8 @@
+# symfony ignore
+
+*.bak
+.project
+lib/ZendFramework/*
+lib/ZendGdata/*
+cache/*
+log/*
