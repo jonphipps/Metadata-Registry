@@ -6,3 +6,8 @@ lib/ZendFramework/*
 lib/ZendGdata/*
 cache/*
 log/*
+web/uploads/*
+config/databases.yml
+config/propel.ini
+config/Copy of properties.ini
+data/sql
