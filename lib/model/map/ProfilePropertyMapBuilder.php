@@ -109,6 +109,12 @@ class ProfilePropertyMapBuilder {
 
 		$tMap->addColumn('IS_IN_PICKLIST', 'IsInPicklist', 'boolean', CreoleTypes::BOOLEAN, true, null);
 
+		$tMap->addForeignKey('INVERSE_PROFILE_PROPERTY_ID', 'InverseProfilePropertyId', 'int', CreoleTypes::INTEGER, 'profile_property', 'ID', false, null);
+
+		$tMap->addForeignKey('SCHEMA_PROPERTY_ID', 'SchemaPropertyId', 'int', CreoleTypes::INTEGER, 'reg_schema_property', 'ID', false, null);
+
+		$tMap->addForeignKey('SCHEMA_ID', 'SchemaId', 'int', CreoleTypes::INTEGER, 'reg_schema', 'ID', false, null);
+
 		$tMap->addColumn('IS_IN_CLASS_PICKLIST', 'IsInClassPicklist', 'boolean', CreoleTypes::BOOLEAN, true, null);
 
 		$tMap->addColumn('IS_IN_PROPERTY_PICKLIST', 'IsInPropertyPicklist', 'boolean', CreoleTypes::BOOLEAN, true, null);
@@ -120,12 +126,6 @@ class ProfilePropertyMapBuilder {
 		$tMap->addColumn('IS_ATTRIBUTE', 'IsAttribute', 'boolean', CreoleTypes::BOOLEAN, true, null);
 
 		$tMap->addColumn('HAS_LANGUAGE', 'HasLanguage', 'boolean', CreoleTypes::BOOLEAN, true, null);
-
-		$tMap->addForeignKey('INVERSE_PROFILE_PROPERTY_ID', 'InverseProfilePropertyId', 'int', CreoleTypes::INTEGER, 'profile_property', 'ID', false, null);
-
-		$tMap->addForeignKey('SCHEMA_PROPERTY_ID', 'SchemaPropertyId', 'int', CreoleTypes::INTEGER, 'reg_schema_property', 'ID', false, null);
-
-		$tMap->addForeignKey('SCHEMA_ID', 'SchemaId', 'int', CreoleTypes::INTEGER, 'reg_schema', 'ID', false, null);
 
 	} // doBuild()
 

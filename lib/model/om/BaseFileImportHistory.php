@@ -1,20 +1,20 @@
 <?php
 
 /**
- * Base class that represents a row from the 'reg_namespace' table.
+ * Base class that represents a row from the 'reg_file_import_history' table.
  *
  * 
  *
  * @package    lib.model.om
  */
-abstract class BaseNamespace extends BaseObject  implements Persistent {
+abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 
 
 	/**
 	 * The Peer class.
 	 * Instance provides a convenient way of calling static methods on a class
 	 * that calling code may not be able to identify.
-	 * @var        NamespacePeer
+	 * @var        FileImportHistoryPeer
 	 */
 	protected static $peer;
 
@@ -27,13 +27,6 @@ abstract class BaseNamespace extends BaseObject  implements Persistent {
 
 
 	/**
-	 * The value for the schema_id field.
-	 * @var        int
-	 */
-	protected $schema_id;
-
-
-	/**
 	 * The value for the created_at field.
 	 * @var        int
 	 */
@@ -41,52 +34,55 @@ abstract class BaseNamespace extends BaseObject  implements Persistent {
 
 
 	/**
-	 * The value for the deleted_at field.
+	 * The value for the map field.
+	 * @var        string
+	 */
+	protected $map;
+
+
+	/**
+	 * The value for the user_id field.
 	 * @var        int
 	 */
-	protected $deleted_at;
+	protected $user_id;
 
 
 	/**
-	 * The value for the created_user_id field.
+	 * The value for the vocabulary_id field.
 	 * @var        int
 	 */
-	protected $created_user_id;
+	protected $vocabulary_id;
 
 
 	/**
-	 * The value for the updated_user_id field.
+	 * The value for the schema_id field.
 	 * @var        int
 	 */
-	protected $updated_user_id;
+	protected $schema_id;
 
 
 	/**
-	 * The value for the token field.
+	 * The value for the file_name field.
 	 * @var        string
 	 */
-	protected $token = '';
+	protected $file_name;
 
 
 	/**
-	 * The value for the note field.
-	 * @var        string
+	 * The value for the file_type field.
+	 * @var        int
 	 */
-	protected $note;
-
+	protected $file_type;
 
 	/**
-	 * The value for the uri field.
-	 * @var        string
+	 * @var        User
 	 */
-	protected $uri = '';
-
+	protected $aUser;
 
 	/**
-	 * The value for the schema_location field.
-	 * @var        string
+	 * @var        Vocabulary
 	 */
-	protected $schema_location;
+	protected $aVocabulary;
 
 	/**
 	 * @var        Schema
@@ -116,17 +112,6 @@ abstract class BaseNamespace extends BaseObject  implements Persistent {
 	{
 
 		return $this->id;
-	}
-
-	/**
-	 * Get the [schema_id] column value.
-	 * 
-	 * @return     int
-	 */
-	public function getSchemaId()
-	{
-
-		return $this->schema_id;
 	}
 
 	/**
@@ -161,100 +146,69 @@ abstract class BaseNamespace extends BaseObject  implements Persistent {
 	}
 
 	/**
-	 * Get the [optionally formatted] [deleted_at] column value.
+	 * Get the [map] column value.
 	 * 
-	 * @param      string $format The date/time format string (either date()-style or strftime()-style).
-	 *							If format is NULL, then the integer unix timestamp will be returned.
-	 * @return     mixed Formatted date/time value as string or integer unix timestamp (if format is NULL).
-	 * @throws     PropelException - if unable to convert the date/time to timestamp.
+	 * @return     string
 	 */
-	public function getDeletedAt($format = 'Y-m-d H:i:s')
+	public function getMap()
 	{
 
-		if ($this->deleted_at === null || $this->deleted_at === '') {
-			return null;
-		} elseif (!is_int($this->deleted_at)) {
-			// a non-timestamp value was set externally, so we convert it
-			$ts = strtotime($this->deleted_at);
-			if ($ts === -1 || $ts === false) { // in PHP 5.1 return value changes to FALSE
-				throw new PropelException("Unable to parse value of [deleted_at] as date/time value: " . var_export($this->deleted_at, true));
-			}
-		} else {
-			$ts = $this->deleted_at;
-		}
-		if ($format === null) {
-			return $ts;
-		} elseif (strpos($format, '%') !== false) {
-			return strftime($format, $ts);
-		} else {
-			return date($format, $ts);
-		}
+		return $this->map;
 	}
 
 	/**
-	 * Get the [created_user_id] column value.
+	 * Get the [user_id] column value.
 	 * 
 	 * @return     int
 	 */
-	public function getCreatedUserId()
+	public function getUserId()
 	{
 
-		return $this->created_user_id;
+		return $this->user_id;
 	}
 
 	/**
-	 * Get the [updated_user_id] column value.
+	 * Get the [vocabulary_id] column value.
 	 * 
 	 * @return     int
 	 */
-	public function getUpdatedUserId()
+	public function getVocabularyId()
 	{
 
-		return $this->updated_user_id;
+		return $this->vocabulary_id;
 	}
 
 	/**
-	 * Get the [token] column value.
+	 * Get the [schema_id] column value.
 	 * 
-	 * @return     string
+	 * @return     int
 	 */
-	public function getToken()
+	public function getSchemaId()
 	{
 
-		return $this->token;
+		return $this->schema_id;
 	}
 
 	/**
-	 * Get the [note] column value.
+	 * Get the [file_name] column value.
 	 * 
 	 * @return     string
 	 */
-	public function getNote()
+	public function getFileName()
 	{
 
-		return $this->note;
+		return $this->file_name;
 	}
 
 	/**
-	 * Get the [uri] column value.
+	 * Get the [file_type] column value.
 	 * 
-	 * @return     string
+	 * @return     int
 	 */
-	public function getUri()
+	public function getFileType()
 	{
 
-		return $this->uri;
-	}
-
-	/**
-	 * Get the [schema_location] column value.
-	 * 
-	 * @return     string
-	 */
-	public function getSchemaLocation()
-	{
-
-		return $this->schema_location;
+		return $this->file_type;
 	}
 
 	/**
@@ -274,36 +228,10 @@ abstract class BaseNamespace extends BaseObject  implements Persistent {
 
 		if ($this->id !== $v) {
 			$this->id = $v;
-			$this->modifiedColumns[] = NamespacePeer::ID;
+			$this->modifiedColumns[] = FileImportHistoryPeer::ID;
 		}
 
 	} // setId()
-
-	/**
-	 * Set the value of [schema_id] column.
-	 * 
-	 * @param      int $v new value
-	 * @return     void
-	 */
-	public function setSchemaId($v)
-	{
-
-		// Since the native PHP type for this column is integer,
-		// we will cast the input value to an int (if it is not).
-		if ($v !== null && !is_int($v) && is_numeric($v)) {
-			$v = (int) $v;
-		}
-
-		if ($this->schema_id !== $v) {
-			$this->schema_id = $v;
-			$this->modifiedColumns[] = NamespacePeer::SCHEMA_ID;
-		}
-
-		if ($this->aSchema !== null && $this->aSchema->getId() !== $v) {
-			$this->aSchema = null;
-		}
-
-	} // setSchemaId()
 
 	/**
 	 * Set the value of [created_at] column.
@@ -324,42 +252,40 @@ abstract class BaseNamespace extends BaseObject  implements Persistent {
 		}
 		if ($this->created_at !== $ts) {
 			$this->created_at = $ts;
-			$this->modifiedColumns[] = NamespacePeer::CREATED_AT;
+			$this->modifiedColumns[] = FileImportHistoryPeer::CREATED_AT;
 		}
 
 	} // setCreatedAt()
 
 	/**
-	 * Set the value of [deleted_at] column.
+	 * Set the value of [map] column.
 	 * 
-	 * @param      int $v new value
+	 * @param      string $v new value
 	 * @return     void
 	 */
-	public function setDeletedAt($v)
+	public function setMap($v)
 	{
 
-		if ($v !== null && !is_int($v)) {
-			$ts = strtotime($v);
-			if ($ts === -1 || $ts === false) { // in PHP 5.1 return value changes to FALSE
-				throw new PropelException("Unable to parse date/time value for [deleted_at] from input: " . var_export($v, true));
-			}
-		} else {
-			$ts = $v;
-		}
-		if ($this->deleted_at !== $ts) {
-			$this->deleted_at = $ts;
-			$this->modifiedColumns[] = NamespacePeer::DELETED_AT;
+		// Since the native PHP type for this column is string,
+		// we will cast the input to a string (if it is not).
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
 		}
 
-	} // setDeletedAt()
+		if ($this->map !== $v) {
+			$this->map = $v;
+			$this->modifiedColumns[] = FileImportHistoryPeer::MAP;
+		}
+
+	} // setMap()
 
 	/**
-	 * Set the value of [created_user_id] column.
+	 * Set the value of [user_id] column.
 	 * 
 	 * @param      int $v new value
 	 * @return     void
 	 */
-	public function setCreatedUserId($v)
+	public function setUserId($v)
 	{
 
 		// Since the native PHP type for this column is integer,
@@ -368,20 +294,24 @@ abstract class BaseNamespace extends BaseObject  implements Persistent {
 			$v = (int) $v;
 		}
 
-		if ($this->created_user_id !== $v) {
-			$this->created_user_id = $v;
-			$this->modifiedColumns[] = NamespacePeer::CREATED_USER_ID;
+		if ($this->user_id !== $v) {
+			$this->user_id = $v;
+			$this->modifiedColumns[] = FileImportHistoryPeer::USER_ID;
 		}
 
-	} // setCreatedUserId()
+		if ($this->aUser !== null && $this->aUser->getId() !== $v) {
+			$this->aUser = null;
+		}
+
+	} // setUserId()
 
 	/**
-	 * Set the value of [updated_user_id] column.
+	 * Set the value of [vocabulary_id] column.
 	 * 
 	 * @param      int $v new value
 	 * @return     void
 	 */
-	public function setUpdatedUserId($v)
+	public function setVocabularyId($v)
 	{
 
 		// Since the native PHP type for this column is integer,
@@ -390,20 +320,50 @@ abstract class BaseNamespace extends BaseObject  implements Persistent {
 			$v = (int) $v;
 		}
 
-		if ($this->updated_user_id !== $v) {
-			$this->updated_user_id = $v;
-			$this->modifiedColumns[] = NamespacePeer::UPDATED_USER_ID;
+		if ($this->vocabulary_id !== $v) {
+			$this->vocabulary_id = $v;
+			$this->modifiedColumns[] = FileImportHistoryPeer::VOCABULARY_ID;
 		}
 
-	} // setUpdatedUserId()
+		if ($this->aVocabulary !== null && $this->aVocabulary->getId() !== $v) {
+			$this->aVocabulary = null;
+		}
+
+	} // setVocabularyId()
 
 	/**
-	 * Set the value of [token] column.
+	 * Set the value of [schema_id] column.
+	 * 
+	 * @param      int $v new value
+	 * @return     void
+	 */
+	public function setSchemaId($v)
+	{
+
+		// Since the native PHP type for this column is integer,
+		// we will cast the input value to an int (if it is not).
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->schema_id !== $v) {
+			$this->schema_id = $v;
+			$this->modifiedColumns[] = FileImportHistoryPeer::SCHEMA_ID;
+		}
+
+		if ($this->aSchema !== null && $this->aSchema->getId() !== $v) {
+			$this->aSchema = null;
+		}
+
+	} // setSchemaId()
+
+	/**
+	 * Set the value of [file_name] column.
 	 * 
 	 * @param      string $v new value
 	 * @return     void
 	 */
-	public function setToken($v)
+	public function setFileName($v)
 	{
 
 		// Since the native PHP type for this column is string,
@@ -412,78 +372,34 @@ abstract class BaseNamespace extends BaseObject  implements Persistent {
 			$v = (string) $v; 
 		}
 
-		if ($this->token !== $v || $v === '') {
-			$this->token = $v;
-			$this->modifiedColumns[] = NamespacePeer::TOKEN;
+		if ($this->file_name !== $v) {
+			$this->file_name = $v;
+			$this->modifiedColumns[] = FileImportHistoryPeer::FILE_NAME;
 		}
 
-	} // setToken()
+	} // setFileName()
 
 	/**
-	 * Set the value of [note] column.
+	 * Set the value of [file_type] column.
 	 * 
-	 * @param      string $v new value
+	 * @param      int $v new value
 	 * @return     void
 	 */
-	public function setNote($v)
+	public function setFileType($v)
 	{
 
-		// Since the native PHP type for this column is string,
-		// we will cast the input to a string (if it is not).
-		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+		// Since the native PHP type for this column is integer,
+		// we will cast the input value to an int (if it is not).
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
 		}
 
-		if ($this->note !== $v) {
-			$this->note = $v;
-			$this->modifiedColumns[] = NamespacePeer::NOTE;
+		if ($this->file_type !== $v) {
+			$this->file_type = $v;
+			$this->modifiedColumns[] = FileImportHistoryPeer::FILE_TYPE;
 		}
 
-	} // setNote()
-
-	/**
-	 * Set the value of [uri] column.
-	 * 
-	 * @param      string $v new value
-	 * @return     void
-	 */
-	public function setUri($v)
-	{
-
-		// Since the native PHP type for this column is string,
-		// we will cast the input to a string (if it is not).
-		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
-		}
-
-		if ($this->uri !== $v || $v === '') {
-			$this->uri = $v;
-			$this->modifiedColumns[] = NamespacePeer::URI;
-		}
-
-	} // setUri()
-
-	/**
-	 * Set the value of [schema_location] column.
-	 * 
-	 * @param      string $v new value
-	 * @return     void
-	 */
-	public function setSchemaLocation($v)
-	{
-
-		// Since the native PHP type for this column is string,
-		// we will cast the input to a string (if it is not).
-		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
-		}
-
-		if ($this->schema_location !== $v) {
-			$this->schema_location = $v;
-			$this->modifiedColumns[] = NamespacePeer::SCHEMA_LOCATION;
-		}
-
-	} // setSchemaLocation()
+	} // setFileType()
 
 	/**
 	 * Hydrates (populates) the object variables with values from the database resultset.
@@ -504,33 +420,29 @@ abstract class BaseNamespace extends BaseObject  implements Persistent {
 
 			$this->id = $rs->getInt($startcol + 0);
 
-			$this->schema_id = $rs->getInt($startcol + 1);
+			$this->created_at = $rs->getTimestamp($startcol + 1, null);
 
-			$this->created_at = $rs->getTimestamp($startcol + 2, null);
+			$this->map = $rs->getString($startcol + 2);
 
-			$this->deleted_at = $rs->getTimestamp($startcol + 3, null);
+			$this->user_id = $rs->getInt($startcol + 3);
 
-			$this->created_user_id = $rs->getInt($startcol + 4);
+			$this->vocabulary_id = $rs->getInt($startcol + 4);
 
-			$this->updated_user_id = $rs->getInt($startcol + 5);
+			$this->schema_id = $rs->getInt($startcol + 5);
 
-			$this->token = $rs->getString($startcol + 6);
+			$this->file_name = $rs->getString($startcol + 6);
 
-			$this->note = $rs->getString($startcol + 7);
-
-			$this->uri = $rs->getString($startcol + 8);
-
-			$this->schema_location = $rs->getString($startcol + 9);
+			$this->file_type = $rs->getInt($startcol + 7);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 10; // 10 = NamespacePeer::NUM_COLUMNS - NamespacePeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 8; // 8 = FileImportHistoryPeer::NUM_COLUMNS - FileImportHistoryPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
-			throw new PropelException("Error populating Namespace object", $e);
+			throw new PropelException("Error populating FileImportHistory object", $e);
 		}
 	}
 
@@ -546,7 +458,7 @@ abstract class BaseNamespace extends BaseObject  implements Persistent {
 	public function delete($con = null)
 	{
 
-    foreach (sfMixer::getCallables('BaseNamespace:delete:pre') as $callable)
+    foreach (sfMixer::getCallables('BaseFileImportHistory:delete:pre') as $callable)
     {
       $ret = call_user_func($callable, $this, $con);
       if ($ret)
@@ -561,12 +473,12 @@ abstract class BaseNamespace extends BaseObject  implements Persistent {
 		}
 
 		if ($con === null) {
-			$con = Propel::getConnection(NamespacePeer::DATABASE_NAME);
+			$con = Propel::getConnection(FileImportHistoryPeer::DATABASE_NAME);
 		}
 
 		try {
 			$con->begin();
-			NamespacePeer::doDelete($this, $con);
+			FileImportHistoryPeer::doDelete($this, $con);
 			$this->setDeleted(true);
 			$con->commit();
 		} catch (PropelException $e) {
@@ -575,7 +487,7 @@ abstract class BaseNamespace extends BaseObject  implements Persistent {
 		}
 	
 
-    foreach (sfMixer::getCallables('BaseNamespace:delete:post') as $callable)
+    foreach (sfMixer::getCallables('BaseFileImportHistory:delete:post') as $callable)
     {
       call_user_func($callable, $this, $con);
     }
@@ -594,7 +506,7 @@ abstract class BaseNamespace extends BaseObject  implements Persistent {
 	public function save($con = null)
 	{
 
-    foreach (sfMixer::getCallables('BaseNamespace:save:pre') as $callable)
+    foreach (sfMixer::getCallables('BaseFileImportHistory:save:pre') as $callable)
     {
       $affectedRows = call_user_func($callable, $this, $con);
       if (is_int($affectedRows))
@@ -604,7 +516,7 @@ abstract class BaseNamespace extends BaseObject  implements Persistent {
     }
 
 
-    if ($this->isNew() && !$this->isColumnModified(NamespacePeer::CREATED_AT))
+    if ($this->isNew() && !$this->isColumnModified(FileImportHistoryPeer::CREATED_AT))
     {
       $this->setCreatedAt(time());
     }
@@ -614,14 +526,14 @@ abstract class BaseNamespace extends BaseObject  implements Persistent {
 		}
 
 		if ($con === null) {
-			$con = Propel::getConnection(NamespacePeer::DATABASE_NAME);
+			$con = Propel::getConnection(FileImportHistoryPeer::DATABASE_NAME);
 		}
 
 		try {
 			$con->begin();
 			$affectedRows = $this->doSave($con);
 			$con->commit();
-    foreach (sfMixer::getCallables('BaseNamespace:save:post') as $callable)
+    foreach (sfMixer::getCallables('BaseFileImportHistory:save:post') as $callable)
     {
       call_user_func($callable, $this, $con, $affectedRows);
     }
@@ -656,6 +568,20 @@ abstract class BaseNamespace extends BaseObject  implements Persistent {
 			// method.  This object relates to these object(s) by a
 			// foreign key reference.
 
+			if ($this->aUser !== null) {
+				if ($this->aUser->isModified()) {
+					$affectedRows += $this->aUser->save($con);
+				}
+				$this->setUser($this->aUser);
+			}
+
+			if ($this->aVocabulary !== null) {
+				if ($this->aVocabulary->isModified()) {
+					$affectedRows += $this->aVocabulary->save($con);
+				}
+				$this->setVocabulary($this->aVocabulary);
+			}
+
 			if ($this->aSchema !== null) {
 				if ($this->aSchema->isModified()) {
 					$affectedRows += $this->aSchema->save($con);
@@ -667,7 +593,7 @@ abstract class BaseNamespace extends BaseObject  implements Persistent {
 			// If this object has been modified, then save it to the database.
 			if ($this->isModified()) {
 				if ($this->isNew()) {
-					$pk = NamespacePeer::doInsert($this, $con);
+					$pk = FileImportHistoryPeer::doInsert($this, $con);
 					$affectedRows += 1; // we are assuming that there is only 1 row per doInsert() which
 										 // should always be true here (even though technically
 										 // BasePeer::doInsert() can insert multiple rows).
@@ -676,7 +602,7 @@ abstract class BaseNamespace extends BaseObject  implements Persistent {
 
 					$this->setNew(false);
 				} else {
-					$affectedRows += NamespacePeer::doUpdate($this, $con);
+					$affectedRows += FileImportHistoryPeer::doUpdate($this, $con);
 				}
 				$this->resetModified(); // [HL] After being saved an object is no longer 'modified'
 			}
@@ -751,6 +677,18 @@ abstract class BaseNamespace extends BaseObject  implements Persistent {
 			// method.  This object relates to these object(s) by a
 			// foreign key reference.
 
+			if ($this->aUser !== null) {
+				if (!$this->aUser->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aUser->getValidationFailures());
+				}
+			}
+
+			if ($this->aVocabulary !== null) {
+				if (!$this->aVocabulary->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aVocabulary->getValidationFailures());
+				}
+			}
+
 			if ($this->aSchema !== null) {
 				if (!$this->aSchema->validate($columns)) {
 					$failureMap = array_merge($failureMap, $this->aSchema->getValidationFailures());
@@ -758,7 +696,7 @@ abstract class BaseNamespace extends BaseObject  implements Persistent {
 			}
 
 
-			if (($retval = NamespacePeer::doValidate($this, $columns)) !== true) {
+			if (($retval = FileImportHistoryPeer::doValidate($this, $columns)) !== true) {
 				$failureMap = array_merge($failureMap, $retval);
 			}
 
@@ -781,7 +719,7 @@ abstract class BaseNamespace extends BaseObject  implements Persistent {
 	 */
 	public function getByName($name, $type = BasePeer::TYPE_PHPNAME)
 	{
-		$pos = NamespacePeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
+		$pos = FileImportHistoryPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
 		return $this->getByPosition($pos);
 	}
 
@@ -799,31 +737,25 @@ abstract class BaseNamespace extends BaseObject  implements Persistent {
 				return $this->getId();
 				break;
 			case 1:
-				return $this->getSchemaId();
-				break;
-			case 2:
 				return $this->getCreatedAt();
 				break;
+			case 2:
+				return $this->getMap();
+				break;
 			case 3:
-				return $this->getDeletedAt();
+				return $this->getUserId();
 				break;
 			case 4:
-				return $this->getCreatedUserId();
+				return $this->getVocabularyId();
 				break;
 			case 5:
-				return $this->getUpdatedUserId();
+				return $this->getSchemaId();
 				break;
 			case 6:
-				return $this->getToken();
+				return $this->getFileName();
 				break;
 			case 7:
-				return $this->getNote();
-				break;
-			case 8:
-				return $this->getUri();
-				break;
-			case 9:
-				return $this->getSchemaLocation();
+				return $this->getFileType();
 				break;
 			default:
 				return null;
@@ -843,18 +775,16 @@ abstract class BaseNamespace extends BaseObject  implements Persistent {
 	 */
 	public function toArray($keyType = BasePeer::TYPE_PHPNAME)
 	{
-		$keys = NamespacePeer::getFieldNames($keyType);
+		$keys = FileImportHistoryPeer::getFieldNames($keyType);
 		$result = array(
 			$keys[0] => $this->getId(),
-			$keys[1] => $this->getSchemaId(),
-			$keys[2] => $this->getCreatedAt(),
-			$keys[3] => $this->getDeletedAt(),
-			$keys[4] => $this->getCreatedUserId(),
-			$keys[5] => $this->getUpdatedUserId(),
-			$keys[6] => $this->getToken(),
-			$keys[7] => $this->getNote(),
-			$keys[8] => $this->getUri(),
-			$keys[9] => $this->getSchemaLocation(),
+			$keys[1] => $this->getCreatedAt(),
+			$keys[2] => $this->getMap(),
+			$keys[3] => $this->getUserId(),
+			$keys[4] => $this->getVocabularyId(),
+			$keys[5] => $this->getSchemaId(),
+			$keys[6] => $this->getFileName(),
+			$keys[7] => $this->getFileType(),
 		);
 		return $result;
 	}
@@ -871,7 +801,7 @@ abstract class BaseNamespace extends BaseObject  implements Persistent {
 	 */
 	public function setByName($name, $value, $type = BasePeer::TYPE_PHPNAME)
 	{
-		$pos = NamespacePeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
+		$pos = FileImportHistoryPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
 		return $this->setByPosition($pos, $value);
 	}
 
@@ -890,31 +820,25 @@ abstract class BaseNamespace extends BaseObject  implements Persistent {
 				$this->setId($value);
 				break;
 			case 1:
-				$this->setSchemaId($value);
-				break;
-			case 2:
 				$this->setCreatedAt($value);
 				break;
+			case 2:
+				$this->setMap($value);
+				break;
 			case 3:
-				$this->setDeletedAt($value);
+				$this->setUserId($value);
 				break;
 			case 4:
-				$this->setCreatedUserId($value);
+				$this->setVocabularyId($value);
 				break;
 			case 5:
-				$this->setUpdatedUserId($value);
+				$this->setSchemaId($value);
 				break;
 			case 6:
-				$this->setToken($value);
+				$this->setFileName($value);
 				break;
 			case 7:
-				$this->setNote($value);
-				break;
-			case 8:
-				$this->setUri($value);
-				break;
-			case 9:
-				$this->setSchemaLocation($value);
+				$this->setFileType($value);
 				break;
 		} // switch()
 	}
@@ -937,18 +861,16 @@ abstract class BaseNamespace extends BaseObject  implements Persistent {
 	 */
 	public function fromArray($arr, $keyType = BasePeer::TYPE_PHPNAME)
 	{
-		$keys = NamespacePeer::getFieldNames($keyType);
+		$keys = FileImportHistoryPeer::getFieldNames($keyType);
 
 		if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
-		if (array_key_exists($keys[1], $arr)) $this->setSchemaId($arr[$keys[1]]);
-		if (array_key_exists($keys[2], $arr)) $this->setCreatedAt($arr[$keys[2]]);
-		if (array_key_exists($keys[3], $arr)) $this->setDeletedAt($arr[$keys[3]]);
-		if (array_key_exists($keys[4], $arr)) $this->setCreatedUserId($arr[$keys[4]]);
-		if (array_key_exists($keys[5], $arr)) $this->setUpdatedUserId($arr[$keys[5]]);
-		if (array_key_exists($keys[6], $arr)) $this->setToken($arr[$keys[6]]);
-		if (array_key_exists($keys[7], $arr)) $this->setNote($arr[$keys[7]]);
-		if (array_key_exists($keys[8], $arr)) $this->setUri($arr[$keys[8]]);
-		if (array_key_exists($keys[9], $arr)) $this->setSchemaLocation($arr[$keys[9]]);
+		if (array_key_exists($keys[1], $arr)) $this->setCreatedAt($arr[$keys[1]]);
+		if (array_key_exists($keys[2], $arr)) $this->setMap($arr[$keys[2]]);
+		if (array_key_exists($keys[3], $arr)) $this->setUserId($arr[$keys[3]]);
+		if (array_key_exists($keys[4], $arr)) $this->setVocabularyId($arr[$keys[4]]);
+		if (array_key_exists($keys[5], $arr)) $this->setSchemaId($arr[$keys[5]]);
+		if (array_key_exists($keys[6], $arr)) $this->setFileName($arr[$keys[6]]);
+		if (array_key_exists($keys[7], $arr)) $this->setFileType($arr[$keys[7]]);
 	}
 
 	/**
@@ -958,18 +880,16 @@ abstract class BaseNamespace extends BaseObject  implements Persistent {
 	 */
 	public function buildCriteria()
 	{
-		$criteria = new Criteria(NamespacePeer::DATABASE_NAME);
+		$criteria = new Criteria(FileImportHistoryPeer::DATABASE_NAME);
 
-		if ($this->isColumnModified(NamespacePeer::ID)) $criteria->add(NamespacePeer::ID, $this->id);
-		if ($this->isColumnModified(NamespacePeer::SCHEMA_ID)) $criteria->add(NamespacePeer::SCHEMA_ID, $this->schema_id);
-		if ($this->isColumnModified(NamespacePeer::CREATED_AT)) $criteria->add(NamespacePeer::CREATED_AT, $this->created_at);
-		if ($this->isColumnModified(NamespacePeer::DELETED_AT)) $criteria->add(NamespacePeer::DELETED_AT, $this->deleted_at);
-		if ($this->isColumnModified(NamespacePeer::CREATED_USER_ID)) $criteria->add(NamespacePeer::CREATED_USER_ID, $this->created_user_id);
-		if ($this->isColumnModified(NamespacePeer::UPDATED_USER_ID)) $criteria->add(NamespacePeer::UPDATED_USER_ID, $this->updated_user_id);
-		if ($this->isColumnModified(NamespacePeer::TOKEN)) $criteria->add(NamespacePeer::TOKEN, $this->token);
-		if ($this->isColumnModified(NamespacePeer::NOTE)) $criteria->add(NamespacePeer::NOTE, $this->note);
-		if ($this->isColumnModified(NamespacePeer::URI)) $criteria->add(NamespacePeer::URI, $this->uri);
-		if ($this->isColumnModified(NamespacePeer::SCHEMA_LOCATION)) $criteria->add(NamespacePeer::SCHEMA_LOCATION, $this->schema_location);
+		if ($this->isColumnModified(FileImportHistoryPeer::ID)) $criteria->add(FileImportHistoryPeer::ID, $this->id);
+		if ($this->isColumnModified(FileImportHistoryPeer::CREATED_AT)) $criteria->add(FileImportHistoryPeer::CREATED_AT, $this->created_at);
+		if ($this->isColumnModified(FileImportHistoryPeer::MAP)) $criteria->add(FileImportHistoryPeer::MAP, $this->map);
+		if ($this->isColumnModified(FileImportHistoryPeer::USER_ID)) $criteria->add(FileImportHistoryPeer::USER_ID, $this->user_id);
+		if ($this->isColumnModified(FileImportHistoryPeer::VOCABULARY_ID)) $criteria->add(FileImportHistoryPeer::VOCABULARY_ID, $this->vocabulary_id);
+		if ($this->isColumnModified(FileImportHistoryPeer::SCHEMA_ID)) $criteria->add(FileImportHistoryPeer::SCHEMA_ID, $this->schema_id);
+		if ($this->isColumnModified(FileImportHistoryPeer::FILE_NAME)) $criteria->add(FileImportHistoryPeer::FILE_NAME, $this->file_name);
+		if ($this->isColumnModified(FileImportHistoryPeer::FILE_TYPE)) $criteria->add(FileImportHistoryPeer::FILE_TYPE, $this->file_type);
 
 		return $criteria;
 	}
@@ -984,9 +904,9 @@ abstract class BaseNamespace extends BaseObject  implements Persistent {
 	 */
 	public function buildPkeyCriteria()
 	{
-		$criteria = new Criteria(NamespacePeer::DATABASE_NAME);
+		$criteria = new Criteria(FileImportHistoryPeer::DATABASE_NAME);
 
-		$criteria->add(NamespacePeer::ID, $this->id);
+		$criteria->add(FileImportHistoryPeer::ID, $this->id);
 
 		return $criteria;
 	}
@@ -1017,30 +937,26 @@ abstract class BaseNamespace extends BaseObject  implements Persistent {
 	 * If desired, this method can also make copies of all associated (fkey referrers)
 	 * objects.
 	 *
-	 * @param      object $copyObj An object of Namespace (or compatible) type.
+	 * @param      object $copyObj An object of FileImportHistory (or compatible) type.
 	 * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
 	 * @throws     PropelException
 	 */
 	public function copyInto($copyObj, $deepCopy = false)
 	{
 
-		$copyObj->setSchemaId($this->schema_id);
-
 		$copyObj->setCreatedAt($this->created_at);
 
-		$copyObj->setDeletedAt($this->deleted_at);
+		$copyObj->setMap($this->map);
 
-		$copyObj->setCreatedUserId($this->created_user_id);
+		$copyObj->setUserId($this->user_id);
 
-		$copyObj->setUpdatedUserId($this->updated_user_id);
+		$copyObj->setVocabularyId($this->vocabulary_id);
 
-		$copyObj->setToken($this->token);
+		$copyObj->setSchemaId($this->schema_id);
 
-		$copyObj->setNote($this->note);
+		$copyObj->setFileName($this->file_name);
 
-		$copyObj->setUri($this->uri);
-
-		$copyObj->setSchemaLocation($this->schema_location);
+		$copyObj->setFileType($this->file_type);
 
 
 		$copyObj->setNew(true);
@@ -1058,7 +974,7 @@ abstract class BaseNamespace extends BaseObject  implements Persistent {
 	 * objects.
 	 *
 	 * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-	 * @return     Namespace Clone of current object.
+	 * @return     FileImportHistory Clone of current object.
 	 * @throws     PropelException
 	 */
 	public function copy($deepCopy = false)
@@ -1077,14 +993,114 @@ abstract class BaseNamespace extends BaseObject  implements Persistent {
 	 * same instance for all member of this class. The method could therefore
 	 * be static, but this would prevent one from overriding the behavior.
 	 *
-	 * @return     NamespacePeer
+	 * @return     FileImportHistoryPeer
 	 */
 	public function getPeer()
 	{
 		if (self::$peer === null) {
-			self::$peer = new NamespacePeer();
+			self::$peer = new FileImportHistoryPeer();
 		}
 		return self::$peer;
+	}
+
+	/**
+	 * Declares an association between this object and a User object.
+	 *
+	 * @param      User $v
+	 * @return     void
+	 * @throws     PropelException
+	 */
+	public function setUser($v)
+	{
+
+
+		if ($v === null) {
+			$this->setUserId(NULL);
+		} else {
+			$this->setUserId($v->getId());
+		}
+
+
+		$this->aUser = $v;
+	}
+
+
+	/**
+	 * Get the associated User object
+	 *
+	 * @param      Connection Optional Connection object.
+	 * @return     User The associated User object.
+	 * @throws     PropelException
+	 */
+	public function getUser($con = null)
+	{
+		if ($this->aUser === null && ($this->user_id !== null)) {
+			// include the related Peer class
+			include_once 'lib/model/om/BaseUserPeer.php';
+
+			$this->aUser = UserPeer::retrieveByPK($this->user_id, $con);
+
+			/* The following can be used instead of the line above to
+			   guarantee the related object contains a reference
+			   to this object, but this level of coupling
+			   may be undesirable in many circumstances.
+			   As it can lead to a db query with many results that may
+			   never be used.
+			   $obj = UserPeer::retrieveByPK($this->user_id, $con);
+			   $obj->addUsers($this);
+			 */
+		}
+		return $this->aUser;
+	}
+
+	/**
+	 * Declares an association between this object and a Vocabulary object.
+	 *
+	 * @param      Vocabulary $v
+	 * @return     void
+	 * @throws     PropelException
+	 */
+	public function setVocabulary($v)
+	{
+
+
+		if ($v === null) {
+			$this->setVocabularyId(NULL);
+		} else {
+			$this->setVocabularyId($v->getId());
+		}
+
+
+		$this->aVocabulary = $v;
+	}
+
+
+	/**
+	 * Get the associated Vocabulary object
+	 *
+	 * @param      Connection Optional Connection object.
+	 * @return     Vocabulary The associated Vocabulary object.
+	 * @throws     PropelException
+	 */
+	public function getVocabulary($con = null)
+	{
+		if ($this->aVocabulary === null && ($this->vocabulary_id !== null)) {
+			// include the related Peer class
+			include_once 'lib/model/om/BaseVocabularyPeer.php';
+
+			$this->aVocabulary = VocabularyPeer::retrieveByPK($this->vocabulary_id, $con);
+
+			/* The following can be used instead of the line above to
+			   guarantee the related object contains a reference
+			   to this object, but this level of coupling
+			   may be undesirable in many circumstances.
+			   As it can lead to a db query with many results that may
+			   never be used.
+			   $obj = VocabularyPeer::retrieveByPK($this->vocabulary_id, $con);
+			   $obj->addVocabularys($this);
+			 */
+		}
+		return $this->aVocabulary;
 	}
 
 	/**
@@ -1140,9 +1156,9 @@ abstract class BaseNamespace extends BaseObject  implements Persistent {
 
   public function __call($method, $arguments)
   {
-    if (!$callable = sfMixer::getCallable('BaseNamespace:'.$method))
+    if (!$callable = sfMixer::getCallable('BaseFileImportHistory:'.$method))
     {
-      throw new sfException(sprintf('Call to undefined method BaseNamespace::%s', $method));
+      throw new sfException(sprintf('Call to undefined method BaseFileImportHistory::%s', $method));
     }
 
     array_unshift($arguments, $this);
@@ -1151,4 +1167,4 @@ abstract class BaseNamespace extends BaseObject  implements Persistent {
   }
 
 
-} // BaseNamespace
+} // BaseFileImportHistory

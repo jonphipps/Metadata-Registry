@@ -545,16 +545,7 @@ abstract class BaseArcG2tPeer {
 
 		}
 
-		$res =  BasePeer::doValidate(ArcG2tPeer::DATABASE_NAME, ArcG2tPeer::TABLE_NAME, $columns);
-    if ($res !== true) {
-        $request = sfContext::getInstance()->getRequest();
-        foreach ($res as $failed) {
-            $col = ArcG2tPeer::translateFieldname($failed->getColumn(), BasePeer::TYPE_COLNAME, BasePeer::TYPE_PHPNAME);
-            $request->setError($col, $failed->getMessage());
-        }
-    }
-
-    return $res;
+		return BasePeer::doValidate(ArcG2tPeer::DATABASE_NAME, ArcG2tPeer::TABLE_NAME, $columns);
 	}
 
 	/**

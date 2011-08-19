@@ -30,7 +30,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	 * The value for the agent_id field.
 	 * @var        int
 	 */
-	protected $agent_id = 0;
+	protected $agent_id;
 
 
 	/**
@@ -247,6 +247,18 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	 * @var        Criteria
 	 */
 	protected $lastDiscussCriteria = null;
+
+	/**
+	 * Collection to store aggregation of collFileImportHistorys.
+	 * @var        array
+	 */
+	protected $collFileImportHistorys;
+
+	/**
+	 * The criteria used to select the current contents of collFileImportHistorys.
+	 * @var        Criteria
+	 */
+	protected $lastFileImportHistoryCriteria = null;
 
 	/**
 	 * Collection to store aggregation of collVocabularyHasUsers.
@@ -612,7 +624,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 			$v = (int) $v;
 		}
 
-		if ($this->agent_id !== $v || $v === 0) {
+		if ($this->agent_id !== $v) {
 			$this->agent_id = $v;
 			$this->modifiedColumns[] = VocabularyPeer::AGENT_ID;
 		}
@@ -1311,6 +1323,14 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 				}
 			}
 
+			if ($this->collFileImportHistorys !== null) {
+				foreach($this->collFileImportHistorys as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
+			}
+
 			if ($this->collVocabularyHasUsers !== null) {
 				foreach($this->collVocabularyHasUsers as $referrerFK) {
 					if (!$referrerFK->isDeleted()) {
@@ -1475,6 +1495,14 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 
 				if ($this->collDiscusss !== null) {
 					foreach($this->collDiscusss as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
+
+				if ($this->collFileImportHistorys !== null) {
+					foreach($this->collFileImportHistorys as $referrerFK) {
 						if (!$referrerFK->validate($columns)) {
 							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
 						}
@@ -1905,6 +1933,10 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 				$copyObj->addDiscuss($relObj->copy($deepCopy));
 			}
 
+			foreach($this->getFileImportHistorys() as $relObj) {
+				$copyObj->addFileImportHistory($relObj->copy($deepCopy));
+			}
+
 			foreach($this->getVocabularyHasUsers() as $relObj) {
 				$copyObj->addVocabularyHasUser($relObj->copy($deepCopy));
 			}
@@ -1972,7 +2004,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 
 
 		if ($v === null) {
-			$this->setAgentId('');
+			$this->setAgentId(NULL);
 		} else {
 			$this->setAgentId($v->getId());
 		}
@@ -4516,6 +4548,211 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 		$this->lastDiscussCriteria = $criteria;
 
 		return $this->collDiscusss;
+	}
+
+	/**
+	 * Temporary storage of collFileImportHistorys to save a possible db hit in
+	 * the event objects are add to the collection, but the
+	 * complete collection is never requested.
+	 * @return     void
+	 */
+	public function initFileImportHistorys()
+	{
+		if ($this->collFileImportHistorys === null) {
+			$this->collFileImportHistorys = array();
+		}
+	}
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Vocabulary has previously
+	 * been saved, it will retrieve related FileImportHistorys from storage.
+	 * If this Vocabulary is new, it will return
+	 * an empty collection or the current collection, the criteria
+	 * is ignored on a new object.
+	 *
+	 * @param      Connection $con
+	 * @param      Criteria $criteria
+	 * @throws     PropelException
+	 */
+	public function getFileImportHistorys($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseFileImportHistoryPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collFileImportHistorys === null) {
+			if ($this->isNew()) {
+			   $this->collFileImportHistorys = array();
+			} else {
+
+				$criteria->add(FileImportHistoryPeer::VOCABULARY_ID, $this->getId());
+
+				FileImportHistoryPeer::addSelectColumns($criteria);
+				$this->collFileImportHistorys = FileImportHistoryPeer::doSelect($criteria, $con);
+			}
+		} else {
+			// criteria has no effect for a new object
+			if (!$this->isNew()) {
+				// the following code is to determine if a new query is
+				// called for.  If the criteria is the same as the last
+				// one, just return the collection.
+
+
+				$criteria->add(FileImportHistoryPeer::VOCABULARY_ID, $this->getId());
+
+				FileImportHistoryPeer::addSelectColumns($criteria);
+				if (!isset($this->lastFileImportHistoryCriteria) || !$this->lastFileImportHistoryCriteria->equals($criteria)) {
+					$this->collFileImportHistorys = FileImportHistoryPeer::doSelect($criteria, $con);
+				}
+			}
+		}
+		$this->lastFileImportHistoryCriteria = $criteria;
+		return $this->collFileImportHistorys;
+	}
+
+	/**
+	 * Returns the number of related FileImportHistorys.
+	 *
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct
+	 * @param      Connection $con
+	 * @throws     PropelException
+	 */
+	public function countFileImportHistorys($criteria = null, $distinct = false, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseFileImportHistoryPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		$criteria->add(FileImportHistoryPeer::VOCABULARY_ID, $this->getId());
+
+		return FileImportHistoryPeer::doCount($criteria, $distinct, $con);
+	}
+
+	/**
+	 * Method called to associate a FileImportHistory object to this object
+	 * through the FileImportHistory foreign key attribute
+	 *
+	 * @param      FileImportHistory $l FileImportHistory
+	 * @return     void
+	 * @throws     PropelException
+	 */
+	public function addFileImportHistory(FileImportHistory $l)
+	{
+		$this->collFileImportHistorys[] = $l;
+		$l->setVocabulary($this);
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Vocabulary is new, it will return
+	 * an empty collection; or if this Vocabulary has previously
+	 * been saved, it will retrieve related FileImportHistorys from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Vocabulary.
+	 */
+	public function getFileImportHistorysJoinUser($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseFileImportHistoryPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collFileImportHistorys === null) {
+			if ($this->isNew()) {
+				$this->collFileImportHistorys = array();
+			} else {
+
+				$criteria->add(FileImportHistoryPeer::VOCABULARY_ID, $this->getId());
+
+				$this->collFileImportHistorys = FileImportHistoryPeer::doSelectJoinUser($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(FileImportHistoryPeer::VOCABULARY_ID, $this->getId());
+
+			if (!isset($this->lastFileImportHistoryCriteria) || !$this->lastFileImportHistoryCriteria->equals($criteria)) {
+				$this->collFileImportHistorys = FileImportHistoryPeer::doSelectJoinUser($criteria, $con);
+			}
+		}
+		$this->lastFileImportHistoryCriteria = $criteria;
+
+		return $this->collFileImportHistorys;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Vocabulary is new, it will return
+	 * an empty collection; or if this Vocabulary has previously
+	 * been saved, it will retrieve related FileImportHistorys from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Vocabulary.
+	 */
+	public function getFileImportHistorysJoinSchema($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseFileImportHistoryPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collFileImportHistorys === null) {
+			if ($this->isNew()) {
+				$this->collFileImportHistorys = array();
+			} else {
+
+				$criteria->add(FileImportHistoryPeer::VOCABULARY_ID, $this->getId());
+
+				$this->collFileImportHistorys = FileImportHistoryPeer::doSelectJoinSchema($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(FileImportHistoryPeer::VOCABULARY_ID, $this->getId());
+
+			if (!isset($this->lastFileImportHistoryCriteria) || !$this->lastFileImportHistoryCriteria->equals($criteria)) {
+				$this->collFileImportHistorys = FileImportHistoryPeer::doSelectJoinSchema($criteria, $con);
+			}
+		}
+		$this->lastFileImportHistoryCriteria = $criteria;
+
+		return $this->collFileImportHistorys;
 	}
 
 	/**

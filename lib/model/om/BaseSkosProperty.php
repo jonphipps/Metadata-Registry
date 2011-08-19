@@ -58,7 +58,7 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 	 * The value for the object_type field.
 	 * @var        string
 	 */
-	protected $object_type = '';
+	protected $object_type = 'resource';
 
 
 	/**
@@ -487,7 +487,7 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 			$v = (string) $v; 
 		}
 
-		if ($this->object_type !== $v || $v === '') {
+		if ($this->object_type !== $v || $v === 'resource') {
 			$this->object_type = $v;
 			$this->modifiedColumns[] = SkosPropertyPeer::OBJECT_TYPE;
 		}

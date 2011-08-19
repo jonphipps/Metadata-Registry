@@ -224,7 +224,7 @@ function run_propel_build_schema($task, $args)
  * @param array $args
  */
 function run_propel_dump_data($task, $args)
-{debugbreak();
+{
   if (!count($args))
   {
     throw new Exception('You must provide the app.');

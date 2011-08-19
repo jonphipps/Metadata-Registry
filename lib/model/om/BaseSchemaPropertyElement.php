@@ -65,14 +65,14 @@ abstract class BaseSchemaPropertyElement extends BaseObject  implements Persiste
 	 * The value for the schema_property_id field.
 	 * @var        int
 	 */
-	protected $schema_property_id = 0;
+	protected $schema_property_id;
 
 
 	/**
 	 * The value for the profile_property_id field.
 	 * @var        int
 	 */
-	protected $profile_property_id = 0;
+	protected $profile_property_id;
 
 
 	/**
@@ -541,7 +541,7 @@ abstract class BaseSchemaPropertyElement extends BaseObject  implements Persiste
 			$v = (int) $v;
 		}
 
-		if ($this->schema_property_id !== $v || $v === 0) {
+		if ($this->schema_property_id !== $v) {
 			$this->schema_property_id = $v;
 			$this->modifiedColumns[] = SchemaPropertyElementPeer::SCHEMA_PROPERTY_ID;
 		}
@@ -567,7 +567,7 @@ abstract class BaseSchemaPropertyElement extends BaseObject  implements Persiste
 			$v = (int) $v;
 		}
 
-		if ($this->profile_property_id !== $v || $v === 0) {
+		if ($this->profile_property_id !== $v) {
 			$this->profile_property_id = $v;
 			$this->modifiedColumns[] = SchemaPropertyElementPeer::PROFILE_PROPERTY_ID;
 		}
@@ -1561,7 +1561,7 @@ abstract class BaseSchemaPropertyElement extends BaseObject  implements Persiste
 
 
 		if ($v === null) {
-			$this->setSchemaPropertyId('');
+			$this->setSchemaPropertyId(NULL);
 		} else {
 			$this->setSchemaPropertyId($v->getId());
 		}
@@ -1611,7 +1611,7 @@ abstract class BaseSchemaPropertyElement extends BaseObject  implements Persiste
 
 
 		if ($v === null) {
-			$this->setProfilePropertyId('');
+			$this->setProfilePropertyId(NULL);
 		} else {
 			$this->setProfilePropertyId($v->getId());
 		}

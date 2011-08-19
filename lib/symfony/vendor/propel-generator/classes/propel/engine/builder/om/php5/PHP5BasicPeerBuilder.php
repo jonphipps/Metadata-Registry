@@ -404,14 +404,14 @@ if (Propel::isInit()) {
 	/** A key representing a particular subclass */
 	const CLASSKEY_".strtoupper($child->getKey())." = '" . $child->getKey() . "';
 ";
-					
+
 	if (strtoupper($child->getClassname()) != strtoupper($child->getKey())) {
 		$script .= "
 	/** A key representing a particular subclass */
 	const CLASSKEY_".strtoupper($child->getClassname())." = '" . $child->getKey() . "';
 ";
 	}
-	
+
 	$script .= "
 	/** A class that can be returned by this peer. */
 	const CLASSNAME_".strtoupper($child->getKey())." = '". $childBuilder->getClasspath() . "';
@@ -468,13 +468,13 @@ if (Propel::isInit()) {
 	 * @throws     PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
-	public static function addSelectColumns(Criteria \$criteria)
+	public static function addSelectColumns(Criteria \$criteria, \$tableAlias = null)
 	{
 ";
 		foreach ($this->getTable()->getColumns() as $col) {
 			if (!$col->isLazyLoad()) {
 				$script .= "
-		\$criteria->addSelectColumn(".$this->getPeerClassname()."::".$this->getColumnName($col).");
+        \$criteria->addSelectColumn((\$tableAlias) ? ".$this->getPeerClassname()."::alias(\$tableAlias, ".$this->getPeerClassname()."::".$this->getColumnName($col).") : ".$this->getPeerClassname()."::".$this->getColumnName($col).");
 ";
 			} // if !col->isLazyLoad
 		} // foreach

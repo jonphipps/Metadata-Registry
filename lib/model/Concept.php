@@ -140,4 +140,72 @@ class Concept extends BaseConcept
 
   } // getUpdatedUser()
 
+  /**
+  * description
+  *
+  * @return return_type
+  * @param  var_type $var
+  */
+  public function updateFromRequest($userId, $prefLabel = null, $language = null, $statusId = null)
+  {
+    //upsert the preflabel concept property
+    /** @var ConceptProperty **/
+    $conceptProperty = $this->getConceptProperty();
+    $updatedAt = time();
+
+    if (!$conceptProperty)
+    {
+      $conceptProperty = new ConceptProperty();
+      $conceptProperty->setSkosPropertyId(SkosProperty::getPrefLabelId());
+      $conceptProperty->setCreatedUserId($userId);
+      $conceptProperty->setPrimaryPrefLabel(1);
+    }
+
+    $conceptProperty->setUpdatedUserId($userId);
+
+    if (isset($prefLabel))
+    {
+      $conceptProperty->setObject($prefLabel);
+      $this->setPrefLabel($prefLabel);
+    }
+
+    if (isset($language))
+    {
+      $conceptProperty->setLanguage($language);
+      $this->setLanguage($language);
+    }
+
+    if (isset($statusId))
+    {
+      $conceptProperty->setStatusId($statusId);
+      $this->setStatusId($statusId);
+    }
+
+    $this->setUpdatedAt($updatedAt);
+    $conceptProperty->setUpdatedAt($updatedAt);
+
+    //now let's save the concept
+    //if we're in create mode...
+    if ($this->isNew())
+    {
+      $this->setCreatedUserId($userId);
+      $this->save();
+
+      $conceptProperty->setConceptRelatedByConceptId($this);
+      $conceptProperty->save();
+    }
+    else
+    {
+      $conceptProperty->setConceptRelatedByConceptId($this);
+    }
+
+    //update the pref_label concept property
+    $this->setUpdatedUserId($userId);
+    $this->setConceptProperty($conceptProperty);
+    $this->save();
+
+    return;
+
+  } //updateFromRequest()
+
 } // Concept

@@ -355,15 +355,7 @@ class PHP5ComplexPeerBuilder extends PHP5BasicPeerBuilder {
 		".$joinedTablePeerBuilder->getPeerClassname()."::addSelectColumns(\$c, '".'a' . $tableAliasIndex."');
 		\$startcol$new_index = \$startcol$index + ".$joinedTablePeerBuilder->getPeerClassname()."::NUM_COLUMNS;
 ";
-			$index = $new_index;
 
-			} // if fk->getForeignTableName != table->getName
-		} // foreach [sub] foreign keys
-		foreach ($table->getForeignKeys() as $fk) {
-			if ( $fk->getForeignTableName() != $table->getName() ) {
-				$joinTable = $table->getDatabase()->getTable($fk->getForeignTableName());
-				$joinedTablePeerBuilder = OMBuilder::getNewPeerBuilder($joinTable);
-				$joinClassName = $joinTable->getPhpName();
 				$lfMap = $fk->getLocalForeignMapping();
 				foreach ($fk->getLocalColumns() as $columnName ) {
 					$column = $table->getColumn($columnName);
@@ -373,10 +365,13 @@ class PHP5ComplexPeerBuilder extends PHP5BasicPeerBuilder {
         \$c->addAlias('".'a' . $tableAliasIndex."', ".$joinedTablePeerBuilder->getPeerClassname()."::TABLE_NAME);
 ";
 	  			}
-			}
+        $index = $new_index;
+
+      } // if fk->getForeignTableName != table->getName
 
           $tableAliasIndex++;
-		}
+
+    } // foreach [sub] foreign keys
 
 		$script .= "
 		\$rs = ".$this->basePeerClassname."::doSelect(\$c, \$con);

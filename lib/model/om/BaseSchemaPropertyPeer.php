@@ -2032,16 +2032,7 @@ abstract class BaseSchemaPropertyPeer {
 
 		}
 
-		$res =  BasePeer::doValidate(SchemaPropertyPeer::DATABASE_NAME, SchemaPropertyPeer::TABLE_NAME, $columns);
-    if ($res !== true) {
-        $request = sfContext::getInstance()->getRequest();
-        foreach ($res as $failed) {
-            $col = SchemaPropertyPeer::translateFieldname($failed->getColumn(), BasePeer::TYPE_COLNAME, BasePeer::TYPE_PHPNAME);
-            $request->setError($col, $failed->getMessage());
-        }
-    }
-
-    return $res;
+		return BasePeer::doValidate(SchemaPropertyPeer::DATABASE_NAME, SchemaPropertyPeer::TABLE_NAME, $columns);
 	}
 
 	/**

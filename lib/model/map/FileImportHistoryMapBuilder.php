@@ -2,7 +2,7 @@
 
 
 /**
- * This class adds structure of 'reg_collection' table to 'propel' DatabaseMap object.
+ * This class adds structure of 'reg_file_import_history' table to 'propel' DatabaseMap object.
  *
  *
  *
@@ -13,12 +13,12 @@
  *
  * @package    lib.model.map
  */
-class CollectionMapBuilder {
+class FileImportHistoryMapBuilder {
 
 	/**
 	 * The (dot-path) name of this class
 	 */
-	const CLASS_NAME = 'lib.model.map.CollectionMapBuilder';
+	const CLASS_NAME = 'lib.model.map.FileImportHistoryMapBuilder';
 
 	/**
 	 * The database map.
@@ -56,8 +56,8 @@ class CollectionMapBuilder {
 	{
 		$this->dbMap = Propel::getDatabaseMap('propel');
 
-		$tMap = $this->dbMap->addTable('reg_collection');
-		$tMap->setPhpName('Collection');
+		$tMap = $this->dbMap->addTable('reg_file_import_history');
+		$tMap->setPhpName('FileImportHistory');
 
 		$tMap->setUseIdGenerator(true);
 
@@ -65,26 +65,18 @@ class CollectionMapBuilder {
 
 		$tMap->addColumn('CREATED_AT', 'CreatedAt', 'int', CreoleTypes::TIMESTAMP, false, null);
 
-		$tMap->addColumn('UPDATED_AT', 'UpdatedAt', 'int', CreoleTypes::TIMESTAMP, false, null);
+		$tMap->addColumn('MAP', 'Map', 'string', CreoleTypes::LONGVARCHAR, false, null);
 
-		$tMap->addColumn('DELETED_AT', 'DeletedAt', 'int', CreoleTypes::TIMESTAMP, false, null);
-
-		$tMap->addColumn('LAST_UPDATED', 'LastUpdated', 'int', CreoleTypes::TIMESTAMP, false, null);
-
-		$tMap->addForeignKey('CREATED_USER_ID', 'CreatedUserId', 'int', CreoleTypes::INTEGER, 'reg_user', 'ID', false, null);
-
-		$tMap->addForeignKey('UPDATED_USER_ID', 'UpdatedUserId', 'int', CreoleTypes::INTEGER, 'reg_user', 'ID', false, null);
+		$tMap->addForeignKey('USER_ID', 'UserId', 'int', CreoleTypes::INTEGER, 'reg_user', 'ID', false, null);
 
 		$tMap->addForeignKey('VOCABULARY_ID', 'VocabularyId', 'int', CreoleTypes::INTEGER, 'reg_vocabulary', 'ID', false, null);
 
-		$tMap->addColumn('NAME', 'Name', 'string', CreoleTypes::VARCHAR, true, 255);
+		$tMap->addForeignKey('SCHEMA_ID', 'SchemaId', 'int', CreoleTypes::INTEGER, 'reg_schema', 'ID', false, null);
 
-		$tMap->addColumn('URI', 'Uri', 'string', CreoleTypes::VARCHAR, false, 255);
+		$tMap->addColumn('FILE_NAME', 'FileName', 'string', CreoleTypes::VARCHAR, false, 255);
 
-		$tMap->addColumn('PREF_LABEL', 'PrefLabel', 'string', CreoleTypes::VARCHAR, true, 255);
-
-		$tMap->addForeignKey('STATUS_ID', 'StatusId', 'int', CreoleTypes::INTEGER, 'reg_status', 'ID', true, null);
+		$tMap->addColumn('FILE_TYPE', 'FileType', 'int', CreoleTypes::INTEGER, false, null);
 
 	} // doBuild()
 
-} // CollectionMapBuilder
+} // FileImportHistoryMapBuilder

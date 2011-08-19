@@ -38,6 +38,11 @@ class conceptActions extends autoconceptActions
       //URI looks like: agent(base_domain) / vocabulary(token) / vocabulary(next_concept_id) / skos_property_id # concept(next_property_id)
       $vSlash = preg_match('@(/$)@i', $vocabDomain) ? '' : '/';
       $tSlash = preg_match('@(/$)@i', $vocabToken ) ? '' : '/';
+
+      //to support hash URIs just a wee bit better...
+      $tSlash = preg_match('/#$/', $vocabToken ) ? '' : $tSlash;
+
+
       $newURI = $vocabDomain . $vSlash . $vocabToken . $tSlash . $nextUriId;
       //registry base domain is http://metadataregistry.org/uri/
       //next_concept_id is always initialized to 100000, allowing for 999,999 concepts
@@ -123,60 +128,24 @@ class conceptActions extends autoconceptActions
     $conceptParam = $this->getRequestParameter('concept');
     $userId =  $this->getUser()->getAttribute('subscriber_id','','subscriber');
 
-    /** @var ConceptProperty **/
-    $conceptProperty = $this->concept->getConceptProperty();
-
-    if (!$conceptProperty)
-    {
-      $conceptProperty = new ConceptProperty();
-      $conceptProperty->setSkosPropertyId(SkosProperty::getPrefLabelId());
-      $conceptProperty->setCreatedUserId($userId);
-      $conceptProperty->setPrimaryPrefLabel(1);
-
-      $this->concept->setCreatedUserId($userId);
-    }
-
-    $conceptProperty->setUpdatedUserId($userId);
-
     if (isset($conceptParam['pref_label']))
     {
-      $conceptProperty->setObject($conceptParam['pref_label']);
+      $prefLabel = $conceptParam['pref_label'];
     }
 
     if (isset($conceptParam['language']))
     {
-      $conceptProperty->setLanguage($conceptParam['language']);
+      $language = $conceptParam['language'];
     }
 
     if (isset($conceptParam['status_id']))
     {
-      $conceptProperty->setStatusId($conceptParam['status_id']);
+      $statusId = $conceptParam['status_id'];
     }
 
     /** @var Concept $concept **/
     $concept = $this->concept;
-
-    $updatedAt = time();
-    $concept->setUpdatedAt($updatedAt);
-    $conceptProperty->setUpdatedAt($updatedAt);
-
-    //if we're in create mode...
-    if ($concept->isNew())
-    {
-      $concept->save();
-
-      $conceptProperty->setConceptRelatedByConceptId($concept);
-      $conceptProperty->save();
-    }
-    else
-    {
-      $conceptProperty->setConceptRelatedByConceptId($concept);
-    }
-
-    //update the pref_label concept property
-    $concept->setUpdatedUserId($userId);
-    $concept->setConceptProperty($conceptProperty);
-    $concept->save();
+    $concept->updateFromRequest($userId, $prefLabel, $language, $statusId);
 
   }
 

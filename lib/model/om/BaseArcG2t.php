@@ -23,14 +23,14 @@ abstract class BaseArcG2t extends BaseObject  implements Persistent {
 	 * The value for the g field.
 	 * @var        int
 	 */
-	protected $g = 0;
+	protected $g;
 
 
 	/**
 	 * The value for the t field.
 	 * @var        int
 	 */
-	protected $t = 0;
+	protected $t;
 
 
 	/**
@@ -101,7 +101,7 @@ abstract class BaseArcG2t extends BaseObject  implements Persistent {
 			$v = (int) $v;
 		}
 
-		if ($this->g !== $v || $v === 0) {
+		if ($this->g !== $v) {
 			$this->g = $v;
 			$this->modifiedColumns[] = ArcG2tPeer::G;
 		}
@@ -123,7 +123,7 @@ abstract class BaseArcG2t extends BaseObject  implements Persistent {
 			$v = (int) $v;
 		}
 
-		if ($this->t !== $v || $v === 0) {
+		if ($this->t !== $v) {
 			$this->t = $v;
 			$this->modifiedColumns[] = ArcG2tPeer::T;
 		}

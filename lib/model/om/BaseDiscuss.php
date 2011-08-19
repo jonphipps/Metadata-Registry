@@ -34,6 +34,13 @@ abstract class BaseDiscuss extends BaseObject  implements Persistent {
 
 
 	/**
+	 * The value for the updated_at field.
+	 * @var        int
+	 */
+	protected $updated_at;
+
+
+	/**
 	 * The value for the deleted_at field.
 	 * @var        int
 	 */
@@ -250,6 +257,37 @@ abstract class BaseDiscuss extends BaseObject  implements Persistent {
 			}
 		} else {
 			$ts = $this->created_at;
+		}
+		if ($format === null) {
+			return $ts;
+		} elseif (strpos($format, '%') !== false) {
+			return strftime($format, $ts);
+		} else {
+			return date($format, $ts);
+		}
+	}
+
+	/**
+	 * Get the [optionally formatted] [updated_at] column value.
+	 * 
+	 * @param      string $format The date/time format string (either date()-style or strftime()-style).
+	 *							If format is NULL, then the integer unix timestamp will be returned.
+	 * @return     mixed Formatted date/time value as string or integer unix timestamp (if format is NULL).
+	 * @throws     PropelException - if unable to convert the date/time to timestamp.
+	 */
+	public function getUpdatedAt($format = 'Y-m-d H:i:s')
+	{
+
+		if ($this->updated_at === null || $this->updated_at === '') {
+			return null;
+		} elseif (!is_int($this->updated_at)) {
+			// a non-timestamp value was set externally, so we convert it
+			$ts = strtotime($this->updated_at);
+			if ($ts === -1 || $ts === false) { // in PHP 5.1 return value changes to FALSE
+				throw new PropelException("Unable to parse value of [updated_at] as date/time value: " . var_export($this->updated_at, true));
+			}
+		} else {
+			$ts = $this->updated_at;
 		}
 		if ($format === null) {
 			return $ts;
@@ -479,6 +517,30 @@ abstract class BaseDiscuss extends BaseObject  implements Persistent {
 		}
 
 	} // setCreatedAt()
+
+	/**
+	 * Set the value of [updated_at] column.
+	 * 
+	 * @param      int $v new value
+	 * @return     void
+	 */
+	public function setUpdatedAt($v)
+	{
+
+		if ($v !== null && !is_int($v)) {
+			$ts = strtotime($v);
+			if ($ts === -1 || $ts === false) { // in PHP 5.1 return value changes to FALSE
+				throw new PropelException("Unable to parse date/time value for [updated_at] from input: " . var_export($v, true));
+			}
+		} else {
+			$ts = $v;
+		}
+		if ($this->updated_at !== $ts) {
+			$this->updated_at = $ts;
+			$this->modifiedColumns[] = DiscussPeer::UPDATED_AT;
+		}
+
+	} // setUpdatedAt()
 
 	/**
 	 * Set the value of [deleted_at] column.
@@ -851,40 +913,42 @@ abstract class BaseDiscuss extends BaseObject  implements Persistent {
 
 			$this->created_at = $rs->getTimestamp($startcol + 1, null);
 
-			$this->deleted_at = $rs->getTimestamp($startcol + 2, null);
+			$this->updated_at = $rs->getTimestamp($startcol + 2, null);
 
-			$this->created_user_id = $rs->getInt($startcol + 3);
+			$this->deleted_at = $rs->getTimestamp($startcol + 3, null);
 
-			$this->deleted_user_id = $rs->getInt($startcol + 4);
+			$this->created_user_id = $rs->getInt($startcol + 4);
 
-			$this->uri = $rs->getString($startcol + 5);
+			$this->deleted_user_id = $rs->getInt($startcol + 5);
 
-			$this->schema_id = $rs->getInt($startcol + 6);
+			$this->uri = $rs->getString($startcol + 6);
 
-			$this->schema_property_id = $rs->getInt($startcol + 7);
+			$this->schema_id = $rs->getInt($startcol + 7);
 
-			$this->schema_property_element_id = $rs->getInt($startcol + 8);
+			$this->schema_property_id = $rs->getInt($startcol + 8);
 
-			$this->vocabulary_id = $rs->getInt($startcol + 9);
+			$this->schema_property_element_id = $rs->getInt($startcol + 9);
 
-			$this->concept_id = $rs->getInt($startcol + 10);
+			$this->vocabulary_id = $rs->getInt($startcol + 10);
 
-			$this->concept_property_id = $rs->getInt($startcol + 11);
+			$this->concept_id = $rs->getInt($startcol + 11);
 
-			$this->root_id = $rs->getInt($startcol + 12);
+			$this->concept_property_id = $rs->getInt($startcol + 12);
 
-			$this->parent_id = $rs->getInt($startcol + 13);
+			$this->root_id = $rs->getInt($startcol + 13);
 
-			$this->subject = $rs->getString($startcol + 14);
+			$this->parent_id = $rs->getInt($startcol + 14);
 
-			$this->content = $rs->getString($startcol + 15);
+			$this->subject = $rs->getString($startcol + 15);
+
+			$this->content = $rs->getString($startcol + 16);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 16; // 16 = DiscussPeer::NUM_COLUMNS - DiscussPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 17; // 17 = DiscussPeer::NUM_COLUMNS - DiscussPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Discuss object", $e);
@@ -964,6 +1028,11 @@ abstract class BaseDiscuss extends BaseObject  implements Persistent {
     if ($this->isNew() && !$this->isColumnModified(DiscussPeer::CREATED_AT))
     {
       $this->setCreatedAt(time());
+    }
+
+    if ($this->isModified() && !$this->isColumnModified(DiscussPeer::UPDATED_AT))
+    {
+      $this->setUpdatedAt(time());
     }
 
 		if ($this->isDeleted()) {
@@ -1292,45 +1361,48 @@ abstract class BaseDiscuss extends BaseObject  implements Persistent {
 				return $this->getCreatedAt();
 				break;
 			case 2:
-				return $this->getDeletedAt();
+				return $this->getUpdatedAt();
 				break;
 			case 3:
-				return $this->getCreatedUserId();
+				return $this->getDeletedAt();
 				break;
 			case 4:
-				return $this->getDeletedUserId();
+				return $this->getCreatedUserId();
 				break;
 			case 5:
-				return $this->getUri();
+				return $this->getDeletedUserId();
 				break;
 			case 6:
-				return $this->getSchemaId();
+				return $this->getUri();
 				break;
 			case 7:
-				return $this->getSchemaPropertyId();
+				return $this->getSchemaId();
 				break;
 			case 8:
-				return $this->getSchemaPropertyElementId();
+				return $this->getSchemaPropertyId();
 				break;
 			case 9:
-				return $this->getVocabularyId();
+				return $this->getSchemaPropertyElementId();
 				break;
 			case 10:
-				return $this->getConceptId();
+				return $this->getVocabularyId();
 				break;
 			case 11:
-				return $this->getConceptPropertyId();
+				return $this->getConceptId();
 				break;
 			case 12:
-				return $this->getRootId();
+				return $this->getConceptPropertyId();
 				break;
 			case 13:
-				return $this->getParentId();
+				return $this->getRootId();
 				break;
 			case 14:
-				return $this->getSubject();
+				return $this->getParentId();
 				break;
 			case 15:
+				return $this->getSubject();
+				break;
+			case 16:
 				return $this->getContent();
 				break;
 			default:
@@ -1355,20 +1427,21 @@ abstract class BaseDiscuss extends BaseObject  implements Persistent {
 		$result = array(
 			$keys[0] => $this->getId(),
 			$keys[1] => $this->getCreatedAt(),
-			$keys[2] => $this->getDeletedAt(),
-			$keys[3] => $this->getCreatedUserId(),
-			$keys[4] => $this->getDeletedUserId(),
-			$keys[5] => $this->getUri(),
-			$keys[6] => $this->getSchemaId(),
-			$keys[7] => $this->getSchemaPropertyId(),
-			$keys[8] => $this->getSchemaPropertyElementId(),
-			$keys[9] => $this->getVocabularyId(),
-			$keys[10] => $this->getConceptId(),
-			$keys[11] => $this->getConceptPropertyId(),
-			$keys[12] => $this->getRootId(),
-			$keys[13] => $this->getParentId(),
-			$keys[14] => $this->getSubject(),
-			$keys[15] => $this->getContent(),
+			$keys[2] => $this->getUpdatedAt(),
+			$keys[3] => $this->getDeletedAt(),
+			$keys[4] => $this->getCreatedUserId(),
+			$keys[5] => $this->getDeletedUserId(),
+			$keys[6] => $this->getUri(),
+			$keys[7] => $this->getSchemaId(),
+			$keys[8] => $this->getSchemaPropertyId(),
+			$keys[9] => $this->getSchemaPropertyElementId(),
+			$keys[10] => $this->getVocabularyId(),
+			$keys[11] => $this->getConceptId(),
+			$keys[12] => $this->getConceptPropertyId(),
+			$keys[13] => $this->getRootId(),
+			$keys[14] => $this->getParentId(),
+			$keys[15] => $this->getSubject(),
+			$keys[16] => $this->getContent(),
 		);
 		return $result;
 	}
@@ -1407,45 +1480,48 @@ abstract class BaseDiscuss extends BaseObject  implements Persistent {
 				$this->setCreatedAt($value);
 				break;
 			case 2:
-				$this->setDeletedAt($value);
+				$this->setUpdatedAt($value);
 				break;
 			case 3:
-				$this->setCreatedUserId($value);
+				$this->setDeletedAt($value);
 				break;
 			case 4:
-				$this->setDeletedUserId($value);
+				$this->setCreatedUserId($value);
 				break;
 			case 5:
-				$this->setUri($value);
+				$this->setDeletedUserId($value);
 				break;
 			case 6:
-				$this->setSchemaId($value);
+				$this->setUri($value);
 				break;
 			case 7:
-				$this->setSchemaPropertyId($value);
+				$this->setSchemaId($value);
 				break;
 			case 8:
-				$this->setSchemaPropertyElementId($value);
+				$this->setSchemaPropertyId($value);
 				break;
 			case 9:
-				$this->setVocabularyId($value);
+				$this->setSchemaPropertyElementId($value);
 				break;
 			case 10:
-				$this->setConceptId($value);
+				$this->setVocabularyId($value);
 				break;
 			case 11:
-				$this->setConceptPropertyId($value);
+				$this->setConceptId($value);
 				break;
 			case 12:
-				$this->setRootId($value);
+				$this->setConceptPropertyId($value);
 				break;
 			case 13:
-				$this->setParentId($value);
+				$this->setRootId($value);
 				break;
 			case 14:
-				$this->setSubject($value);
+				$this->setParentId($value);
 				break;
 			case 15:
+				$this->setSubject($value);
+				break;
+			case 16:
 				$this->setContent($value);
 				break;
 		} // switch()
@@ -1473,20 +1549,21 @@ abstract class BaseDiscuss extends BaseObject  implements Persistent {
 
 		if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
 		if (array_key_exists($keys[1], $arr)) $this->setCreatedAt($arr[$keys[1]]);
-		if (array_key_exists($keys[2], $arr)) $this->setDeletedAt($arr[$keys[2]]);
-		if (array_key_exists($keys[3], $arr)) $this->setCreatedUserId($arr[$keys[3]]);
-		if (array_key_exists($keys[4], $arr)) $this->setDeletedUserId($arr[$keys[4]]);
-		if (array_key_exists($keys[5], $arr)) $this->setUri($arr[$keys[5]]);
-		if (array_key_exists($keys[6], $arr)) $this->setSchemaId($arr[$keys[6]]);
-		if (array_key_exists($keys[7], $arr)) $this->setSchemaPropertyId($arr[$keys[7]]);
-		if (array_key_exists($keys[8], $arr)) $this->setSchemaPropertyElementId($arr[$keys[8]]);
-		if (array_key_exists($keys[9], $arr)) $this->setVocabularyId($arr[$keys[9]]);
-		if (array_key_exists($keys[10], $arr)) $this->setConceptId($arr[$keys[10]]);
-		if (array_key_exists($keys[11], $arr)) $this->setConceptPropertyId($arr[$keys[11]]);
-		if (array_key_exists($keys[12], $arr)) $this->setRootId($arr[$keys[12]]);
-		if (array_key_exists($keys[13], $arr)) $this->setParentId($arr[$keys[13]]);
-		if (array_key_exists($keys[14], $arr)) $this->setSubject($arr[$keys[14]]);
-		if (array_key_exists($keys[15], $arr)) $this->setContent($arr[$keys[15]]);
+		if (array_key_exists($keys[2], $arr)) $this->setUpdatedAt($arr[$keys[2]]);
+		if (array_key_exists($keys[3], $arr)) $this->setDeletedAt($arr[$keys[3]]);
+		if (array_key_exists($keys[4], $arr)) $this->setCreatedUserId($arr[$keys[4]]);
+		if (array_key_exists($keys[5], $arr)) $this->setDeletedUserId($arr[$keys[5]]);
+		if (array_key_exists($keys[6], $arr)) $this->setUri($arr[$keys[6]]);
+		if (array_key_exists($keys[7], $arr)) $this->setSchemaId($arr[$keys[7]]);
+		if (array_key_exists($keys[8], $arr)) $this->setSchemaPropertyId($arr[$keys[8]]);
+		if (array_key_exists($keys[9], $arr)) $this->setSchemaPropertyElementId($arr[$keys[9]]);
+		if (array_key_exists($keys[10], $arr)) $this->setVocabularyId($arr[$keys[10]]);
+		if (array_key_exists($keys[11], $arr)) $this->setConceptId($arr[$keys[11]]);
+		if (array_key_exists($keys[12], $arr)) $this->setConceptPropertyId($arr[$keys[12]]);
+		if (array_key_exists($keys[13], $arr)) $this->setRootId($arr[$keys[13]]);
+		if (array_key_exists($keys[14], $arr)) $this->setParentId($arr[$keys[14]]);
+		if (array_key_exists($keys[15], $arr)) $this->setSubject($arr[$keys[15]]);
+		if (array_key_exists($keys[16], $arr)) $this->setContent($arr[$keys[16]]);
 	}
 
 	/**
@@ -1500,6 +1577,7 @@ abstract class BaseDiscuss extends BaseObject  implements Persistent {
 
 		if ($this->isColumnModified(DiscussPeer::ID)) $criteria->add(DiscussPeer::ID, $this->id);
 		if ($this->isColumnModified(DiscussPeer::CREATED_AT)) $criteria->add(DiscussPeer::CREATED_AT, $this->created_at);
+		if ($this->isColumnModified(DiscussPeer::UPDATED_AT)) $criteria->add(DiscussPeer::UPDATED_AT, $this->updated_at);
 		if ($this->isColumnModified(DiscussPeer::DELETED_AT)) $criteria->add(DiscussPeer::DELETED_AT, $this->deleted_at);
 		if ($this->isColumnModified(DiscussPeer::CREATED_USER_ID)) $criteria->add(DiscussPeer::CREATED_USER_ID, $this->created_user_id);
 		if ($this->isColumnModified(DiscussPeer::DELETED_USER_ID)) $criteria->add(DiscussPeer::DELETED_USER_ID, $this->deleted_user_id);
@@ -1569,6 +1647,8 @@ abstract class BaseDiscuss extends BaseObject  implements Persistent {
 	{
 
 		$copyObj->setCreatedAt($this->created_at);
+
+		$copyObj->setUpdatedAt($this->updated_at);
 
 		$copyObj->setDeletedAt($this->deleted_at);
 

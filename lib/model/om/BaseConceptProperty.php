@@ -72,7 +72,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 	 * The value for the concept_id field.
 	 * @var        int
 	 */
-	protected $concept_id = 0;
+	protected $concept_id;
 
 
 	/**
@@ -86,7 +86,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 	 * The value for the skos_property_id field.
 	 * @var        int
 	 */
-	protected $skos_property_id = 0;
+	protected $skos_property_id;
 
 
 	/**
@@ -638,7 +638,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 			$v = (int) $v;
 		}
 
-		if ($this->concept_id !== $v || $v === 0) {
+		if ($this->concept_id !== $v) {
 			$this->concept_id = $v;
 			$this->modifiedColumns[] = ConceptPropertyPeer::CONCEPT_ID;
 		}
@@ -680,7 +680,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 			$v = (int) $v;
 		}
 
-		if ($this->skos_property_id !== $v || $v === 0) {
+		if ($this->skos_property_id !== $v) {
 			$this->skos_property_id = $v;
 			$this->modifiedColumns[] = ConceptPropertyPeer::SKOS_PROPERTY_ID;
 		}
@@ -1743,7 +1743,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 
 
 		if ($v === null) {
-			$this->setConceptId('');
+			$this->setConceptId(NULL);
 		} else {
 			$this->setConceptId($v->getId());
 		}
@@ -1793,7 +1793,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 
 
 		if ($v === null) {
-			$this->setSkosPropertyId('');
+			$this->setSkosPropertyId(NULL);
 		} else {
 			$this->setSkosPropertyId($v->getId());
 		}

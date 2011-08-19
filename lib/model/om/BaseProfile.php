@@ -30,7 +30,7 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 	 * The value for the agent_id field.
 	 * @var        int
 	 */
-	protected $agent_id = 0;
+	protected $agent_id;
 
 
 	/**
@@ -563,7 +563,7 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 			$v = (int) $v;
 		}
 
-		if ($this->agent_id !== $v || $v === 0) {
+		if ($this->agent_id !== $v) {
 			$this->agent_id = $v;
 			$this->modifiedColumns[] = ProfilePeer::AGENT_ID;
 		}
@@ -1860,7 +1860,7 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 
 
 		if ($v === null) {
-			$this->setAgentId('');
+			$this->setAgentId(NULL);
 		} else {
 			$this->setAgentId($v->getId());
 		}

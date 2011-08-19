@@ -19,7 +19,7 @@ abstract class BaseDiscussPeer {
 	const CLASS_DEFAULT = 'lib.model.Discuss';
 
 	/** The total number of columns. */
-	const NUM_COLUMNS = 16;
+	const NUM_COLUMNS = 17;
 
 	/** The number of lazy-loaded columns. */
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -30,6 +30,9 @@ abstract class BaseDiscussPeer {
 
 	/** the column name for the CREATED_AT field */
 	const CREATED_AT = 'reg_discuss.CREATED_AT';
+
+	/** the column name for the UPDATED_AT field */
+	const UPDATED_AT = 'reg_discuss.UPDATED_AT';
 
 	/** the column name for the DELETED_AT field */
 	const DELETED_AT = 'reg_discuss.DELETED_AT';
@@ -84,10 +87,10 @@ abstract class BaseDiscussPeer {
 	 * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
 	 */
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'CreatedAt', 'DeletedAt', 'CreatedUserId', 'DeletedUserId', 'Uri', 'SchemaId', 'SchemaPropertyId', 'SchemaPropertyElementId', 'VocabularyId', 'ConceptId', 'ConceptPropertyId', 'RootId', 'ParentId', 'Subject', 'Content', ),
-		BasePeer::TYPE_COLNAME => array (DiscussPeer::ID, DiscussPeer::CREATED_AT, DiscussPeer::DELETED_AT, DiscussPeer::CREATED_USER_ID, DiscussPeer::DELETED_USER_ID, DiscussPeer::URI, DiscussPeer::SCHEMA_ID, DiscussPeer::SCHEMA_PROPERTY_ID, DiscussPeer::SCHEMA_PROPERTY_ELEMENT_ID, DiscussPeer::VOCABULARY_ID, DiscussPeer::CONCEPT_ID, DiscussPeer::CONCEPT_PROPERTY_ID, DiscussPeer::ROOT_ID, DiscussPeer::PARENT_ID, DiscussPeer::SUBJECT, DiscussPeer::CONTENT, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'created_at', 'deleted_at', 'created_user_id', 'deleted_user_id', 'uri', 'schema_id', 'schema_property_id', 'schema_property_element_id', 'vocabulary_id', 'concept_id', 'concept_property_id', 'root_id', 'parent_id', 'subject', 'content', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'CreatedAt', 'UpdatedAt', 'DeletedAt', 'CreatedUserId', 'DeletedUserId', 'Uri', 'SchemaId', 'SchemaPropertyId', 'SchemaPropertyElementId', 'VocabularyId', 'ConceptId', 'ConceptPropertyId', 'RootId', 'ParentId', 'Subject', 'Content', ),
+		BasePeer::TYPE_COLNAME => array (DiscussPeer::ID, DiscussPeer::CREATED_AT, DiscussPeer::UPDATED_AT, DiscussPeer::DELETED_AT, DiscussPeer::CREATED_USER_ID, DiscussPeer::DELETED_USER_ID, DiscussPeer::URI, DiscussPeer::SCHEMA_ID, DiscussPeer::SCHEMA_PROPERTY_ID, DiscussPeer::SCHEMA_PROPERTY_ELEMENT_ID, DiscussPeer::VOCABULARY_ID, DiscussPeer::CONCEPT_ID, DiscussPeer::CONCEPT_PROPERTY_ID, DiscussPeer::ROOT_ID, DiscussPeer::PARENT_ID, DiscussPeer::SUBJECT, DiscussPeer::CONTENT, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'created_at', 'updated_at', 'deleted_at', 'created_user_id', 'deleted_user_id', 'uri', 'schema_id', 'schema_property_id', 'schema_property_element_id', 'vocabulary_id', 'concept_id', 'concept_property_id', 'root_id', 'parent_id', 'subject', 'content', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, )
 	);
 
 	/**
@@ -97,10 +100,10 @@ abstract class BaseDiscussPeer {
 	 * e.g. self::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
 	 */
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'CreatedAt' => 1, 'DeletedAt' => 2, 'CreatedUserId' => 3, 'DeletedUserId' => 4, 'Uri' => 5, 'SchemaId' => 6, 'SchemaPropertyId' => 7, 'SchemaPropertyElementId' => 8, 'VocabularyId' => 9, 'ConceptId' => 10, 'ConceptPropertyId' => 11, 'RootId' => 12, 'ParentId' => 13, 'Subject' => 14, 'Content' => 15, ),
-		BasePeer::TYPE_COLNAME => array (DiscussPeer::ID => 0, DiscussPeer::CREATED_AT => 1, DiscussPeer::DELETED_AT => 2, DiscussPeer::CREATED_USER_ID => 3, DiscussPeer::DELETED_USER_ID => 4, DiscussPeer::URI => 5, DiscussPeer::SCHEMA_ID => 6, DiscussPeer::SCHEMA_PROPERTY_ID => 7, DiscussPeer::SCHEMA_PROPERTY_ELEMENT_ID => 8, DiscussPeer::VOCABULARY_ID => 9, DiscussPeer::CONCEPT_ID => 10, DiscussPeer::CONCEPT_PROPERTY_ID => 11, DiscussPeer::ROOT_ID => 12, DiscussPeer::PARENT_ID => 13, DiscussPeer::SUBJECT => 14, DiscussPeer::CONTENT => 15, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'created_at' => 1, 'deleted_at' => 2, 'created_user_id' => 3, 'deleted_user_id' => 4, 'uri' => 5, 'schema_id' => 6, 'schema_property_id' => 7, 'schema_property_element_id' => 8, 'vocabulary_id' => 9, 'concept_id' => 10, 'concept_property_id' => 11, 'root_id' => 12, 'parent_id' => 13, 'subject' => 14, 'content' => 15, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'CreatedAt' => 1, 'UpdatedAt' => 2, 'DeletedAt' => 3, 'CreatedUserId' => 4, 'DeletedUserId' => 5, 'Uri' => 6, 'SchemaId' => 7, 'SchemaPropertyId' => 8, 'SchemaPropertyElementId' => 9, 'VocabularyId' => 10, 'ConceptId' => 11, 'ConceptPropertyId' => 12, 'RootId' => 13, 'ParentId' => 14, 'Subject' => 15, 'Content' => 16, ),
+		BasePeer::TYPE_COLNAME => array (DiscussPeer::ID => 0, DiscussPeer::CREATED_AT => 1, DiscussPeer::UPDATED_AT => 2, DiscussPeer::DELETED_AT => 3, DiscussPeer::CREATED_USER_ID => 4, DiscussPeer::DELETED_USER_ID => 5, DiscussPeer::URI => 6, DiscussPeer::SCHEMA_ID => 7, DiscussPeer::SCHEMA_PROPERTY_ID => 8, DiscussPeer::SCHEMA_PROPERTY_ELEMENT_ID => 9, DiscussPeer::VOCABULARY_ID => 10, DiscussPeer::CONCEPT_ID => 11, DiscussPeer::CONCEPT_PROPERTY_ID => 12, DiscussPeer::ROOT_ID => 13, DiscussPeer::PARENT_ID => 14, DiscussPeer::SUBJECT => 15, DiscussPeer::CONTENT => 16, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'created_at' => 1, 'updated_at' => 2, 'deleted_at' => 3, 'created_user_id' => 4, 'deleted_user_id' => 5, 'uri' => 6, 'schema_id' => 7, 'schema_property_id' => 8, 'schema_property_element_id' => 9, 'vocabulary_id' => 10, 'concept_id' => 11, 'concept_property_id' => 12, 'root_id' => 13, 'parent_id' => 14, 'subject' => 15, 'content' => 16, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, )
 	);
 
 	/**
@@ -204,6 +207,8 @@ abstract class BaseDiscussPeer {
         $criteria->addSelectColumn(($tableAlias) ? DiscussPeer::alias($tableAlias, DiscussPeer::ID) : DiscussPeer::ID);
 
         $criteria->addSelectColumn(($tableAlias) ? DiscussPeer::alias($tableAlias, DiscussPeer::CREATED_AT) : DiscussPeer::CREATED_AT);
+
+        $criteria->addSelectColumn(($tableAlias) ? DiscussPeer::alias($tableAlias, DiscussPeer::UPDATED_AT) : DiscussPeer::UPDATED_AT);
 
         $criteria->addSelectColumn(($tableAlias) ? DiscussPeer::alias($tableAlias, DiscussPeer::DELETED_AT) : DiscussPeer::DELETED_AT);
 
@@ -4591,16 +4596,7 @@ abstract class BaseDiscussPeer {
 
 		}
 
-		$res =  BasePeer::doValidate(DiscussPeer::DATABASE_NAME, DiscussPeer::TABLE_NAME, $columns);
-    if ($res !== true) {
-        $request = sfContext::getInstance()->getRequest();
-        foreach ($res as $failed) {
-            $col = DiscussPeer::translateFieldname($failed->getColumn(), BasePeer::TYPE_COLNAME, BasePeer::TYPE_PHPNAME);
-            $request->setError($col, $failed->getMessage());
-        }
-    }
-
-    return $res;
+		return BasePeer::doValidate(DiscussPeer::DATABASE_NAME, DiscussPeer::TABLE_NAME, $columns);
 	}
 
 	/**

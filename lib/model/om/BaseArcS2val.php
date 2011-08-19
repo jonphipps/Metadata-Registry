@@ -30,7 +30,7 @@ abstract class BaseArcS2val extends BaseObject  implements Persistent {
 	 * The value for the cid field.
 	 * @var        int
 	 */
-	protected $cid = 0;
+	protected $cid;
 
 
 	/**
@@ -141,7 +141,7 @@ abstract class BaseArcS2val extends BaseObject  implements Persistent {
 			$v = (int) $v;
 		}
 
-		if ($this->cid !== $v || $v === 0) {
+		if ($this->cid !== $v) {
 			$this->cid = $v;
 			$this->modifiedColumns[] = ArcS2valPeer::CID;
 		}

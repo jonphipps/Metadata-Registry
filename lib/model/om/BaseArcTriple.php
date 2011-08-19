@@ -23,42 +23,42 @@ abstract class BaseArcTriple extends BaseObject  implements Persistent {
 	 * The value for the t field.
 	 * @var        int
 	 */
-	protected $t = 0;
+	protected $t;
 
 
 	/**
 	 * The value for the s field.
 	 * @var        int
 	 */
-	protected $s = 0;
+	protected $s;
 
 
 	/**
 	 * The value for the p field.
 	 * @var        int
 	 */
-	protected $p = 0;
+	protected $p;
 
 
 	/**
 	 * The value for the o field.
 	 * @var        int
 	 */
-	protected $o = 0;
+	protected $o;
 
 
 	/**
 	 * The value for the o_lang_dt field.
 	 * @var        int
 	 */
-	protected $o_lang_dt = 0;
+	protected $o_lang_dt;
 
 
 	/**
 	 * The value for the o_comp field.
 	 * @var        string
 	 */
-	protected $o_comp = '';
+	protected $o_comp;
 
 
 	/**
@@ -227,7 +227,7 @@ abstract class BaseArcTriple extends BaseObject  implements Persistent {
 			$v = (int) $v;
 		}
 
-		if ($this->t !== $v || $v === 0) {
+		if ($this->t !== $v) {
 			$this->t = $v;
 			$this->modifiedColumns[] = ArcTriplePeer::T;
 		}
@@ -249,7 +249,7 @@ abstract class BaseArcTriple extends BaseObject  implements Persistent {
 			$v = (int) $v;
 		}
 
-		if ($this->s !== $v || $v === 0) {
+		if ($this->s !== $v) {
 			$this->s = $v;
 			$this->modifiedColumns[] = ArcTriplePeer::S;
 		}
@@ -271,7 +271,7 @@ abstract class BaseArcTriple extends BaseObject  implements Persistent {
 			$v = (int) $v;
 		}
 
-		if ($this->p !== $v || $v === 0) {
+		if ($this->p !== $v) {
 			$this->p = $v;
 			$this->modifiedColumns[] = ArcTriplePeer::P;
 		}
@@ -293,7 +293,7 @@ abstract class BaseArcTriple extends BaseObject  implements Persistent {
 			$v = (int) $v;
 		}
 
-		if ($this->o !== $v || $v === 0) {
+		if ($this->o !== $v) {
 			$this->o = $v;
 			$this->modifiedColumns[] = ArcTriplePeer::O;
 		}
@@ -315,7 +315,7 @@ abstract class BaseArcTriple extends BaseObject  implements Persistent {
 			$v = (int) $v;
 		}
 
-		if ($this->o_lang_dt !== $v || $v === 0) {
+		if ($this->o_lang_dt !== $v) {
 			$this->o_lang_dt = $v;
 			$this->modifiedColumns[] = ArcTriplePeer::O_LANG_DT;
 		}
@@ -337,7 +337,7 @@ abstract class BaseArcTriple extends BaseObject  implements Persistent {
 			$v = (string) $v; 
 		}
 
-		if ($this->o_comp !== $v || $v === '') {
+		if ($this->o_comp !== $v) {
 			$this->o_comp = $v;
 			$this->modifiedColumns[] = ArcTriplePeer::O_COMP;
 		}

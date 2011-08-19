@@ -23,7 +23,7 @@ abstract class BaseArcSetting extends BaseObject  implements Persistent {
 	 * The value for the k field.
 	 * @var        string
 	 */
-	protected $k = '';
+	protected $k;
 
 
 	/**
@@ -101,7 +101,7 @@ abstract class BaseArcSetting extends BaseObject  implements Persistent {
 			$v = (string) $v; 
 		}
 
-		if ($this->k !== $v || $v === '') {
+		if ($this->k !== $v) {
 			$this->k = $v;
 			$this->modifiedColumns[] = ArcSettingPeer::K;
 		}

@@ -1,65 +1,53 @@
 <?php
 
 /**
- * Base static class for performing query and update operations on the 'reg_collection' table.
+ * Base static class for performing query and update operations on the 'reg_file_import_history' table.
  *
  * 
  *
  * @package    lib.model.om
  */
-abstract class BaseCollectionPeer {
+abstract class BaseFileImportHistoryPeer {
 
 	/** the default database name for this class */
 	const DATABASE_NAME = 'propel';
 
 	/** the table name for this class */
-	const TABLE_NAME = 'reg_collection';
+	const TABLE_NAME = 'reg_file_import_history';
 
 	/** A class that can be returned by this peer. */
-	const CLASS_DEFAULT = 'lib.model.Collection';
+	const CLASS_DEFAULT = 'lib.model.FileImportHistory';
 
 	/** The total number of columns. */
-	const NUM_COLUMNS = 12;
+	const NUM_COLUMNS = 8;
 
 	/** The number of lazy-loaded columns. */
 	const NUM_LAZY_LOAD_COLUMNS = 0;
 
 
 	/** the column name for the ID field */
-	const ID = 'reg_collection.ID';
+	const ID = 'reg_file_import_history.ID';
 
 	/** the column name for the CREATED_AT field */
-	const CREATED_AT = 'reg_collection.CREATED_AT';
+	const CREATED_AT = 'reg_file_import_history.CREATED_AT';
 
-	/** the column name for the UPDATED_AT field */
-	const UPDATED_AT = 'reg_collection.UPDATED_AT';
+	/** the column name for the MAP field */
+	const MAP = 'reg_file_import_history.MAP';
 
-	/** the column name for the DELETED_AT field */
-	const DELETED_AT = 'reg_collection.DELETED_AT';
-
-	/** the column name for the LAST_UPDATED field */
-	const LAST_UPDATED = 'reg_collection.LAST_UPDATED';
-
-	/** the column name for the CREATED_USER_ID field */
-	const CREATED_USER_ID = 'reg_collection.CREATED_USER_ID';
-
-	/** the column name for the UPDATED_USER_ID field */
-	const UPDATED_USER_ID = 'reg_collection.UPDATED_USER_ID';
+	/** the column name for the USER_ID field */
+	const USER_ID = 'reg_file_import_history.USER_ID';
 
 	/** the column name for the VOCABULARY_ID field */
-	const VOCABULARY_ID = 'reg_collection.VOCABULARY_ID';
+	const VOCABULARY_ID = 'reg_file_import_history.VOCABULARY_ID';
 
-	/** the column name for the NAME field */
-	const NAME = 'reg_collection.NAME';
+	/** the column name for the SCHEMA_ID field */
+	const SCHEMA_ID = 'reg_file_import_history.SCHEMA_ID';
 
-	/** the column name for the URI field */
-	const URI = 'reg_collection.URI';
+	/** the column name for the FILE_NAME field */
+	const FILE_NAME = 'reg_file_import_history.FILE_NAME';
 
-	/** the column name for the PREF_LABEL field */
-	const PREF_LABEL = 'reg_collection.PREF_LABEL';
-
-	/** the column name for the STATUS_ID field */
-	const STATUS_ID = 'reg_collection.STATUS_ID';
+	/** the column name for the FILE_TYPE field */
+	const FILE_TYPE = 'reg_file_import_history.FILE_TYPE';
 
 	/** The PHP to DB Name Mapping */
 	private static $phpNameMap = null;
@@ -72,10 +60,10 @@ abstract class BaseCollectionPeer {
 	 * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
 	 */
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'CreatedAt', 'UpdatedAt', 'DeletedAt', 'LastUpdated', 'CreatedUserId', 'UpdatedUserId', 'VocabularyId', 'Name', 'Uri', 'PrefLabel', 'StatusId', ),
-		BasePeer::TYPE_COLNAME => array (CollectionPeer::ID, CollectionPeer::CREATED_AT, CollectionPeer::UPDATED_AT, CollectionPeer::DELETED_AT, CollectionPeer::LAST_UPDATED, CollectionPeer::CREATED_USER_ID, CollectionPeer::UPDATED_USER_ID, CollectionPeer::VOCABULARY_ID, CollectionPeer::NAME, CollectionPeer::URI, CollectionPeer::PREF_LABEL, CollectionPeer::STATUS_ID, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'created_at', 'updated_at', 'deleted_at', 'last_updated', 'created_user_id', 'updated_user_id', 'vocabulary_id', 'name', 'uri', 'pref_label', 'status_id', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'CreatedAt', 'Map', 'UserId', 'VocabularyId', 'SchemaId', 'FileName', 'FileType', ),
+		BasePeer::TYPE_COLNAME => array (FileImportHistoryPeer::ID, FileImportHistoryPeer::CREATED_AT, FileImportHistoryPeer::MAP, FileImportHistoryPeer::USER_ID, FileImportHistoryPeer::VOCABULARY_ID, FileImportHistoryPeer::SCHEMA_ID, FileImportHistoryPeer::FILE_NAME, FileImportHistoryPeer::FILE_TYPE, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'created_at', 'map', 'user_id', 'vocabulary_id', 'schema_id', 'file_name', 'file_type', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, )
 	);
 
 	/**
@@ -85,10 +73,10 @@ abstract class BaseCollectionPeer {
 	 * e.g. self::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
 	 */
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'CreatedAt' => 1, 'UpdatedAt' => 2, 'DeletedAt' => 3, 'LastUpdated' => 4, 'CreatedUserId' => 5, 'UpdatedUserId' => 6, 'VocabularyId' => 7, 'Name' => 8, 'Uri' => 9, 'PrefLabel' => 10, 'StatusId' => 11, ),
-		BasePeer::TYPE_COLNAME => array (CollectionPeer::ID => 0, CollectionPeer::CREATED_AT => 1, CollectionPeer::UPDATED_AT => 2, CollectionPeer::DELETED_AT => 3, CollectionPeer::LAST_UPDATED => 4, CollectionPeer::CREATED_USER_ID => 5, CollectionPeer::UPDATED_USER_ID => 6, CollectionPeer::VOCABULARY_ID => 7, CollectionPeer::NAME => 8, CollectionPeer::URI => 9, CollectionPeer::PREF_LABEL => 10, CollectionPeer::STATUS_ID => 11, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'created_at' => 1, 'updated_at' => 2, 'deleted_at' => 3, 'last_updated' => 4, 'created_user_id' => 5, 'updated_user_id' => 6, 'vocabulary_id' => 7, 'name' => 8, 'uri' => 9, 'pref_label' => 10, 'status_id' => 11, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'CreatedAt' => 1, 'Map' => 2, 'UserId' => 3, 'VocabularyId' => 4, 'SchemaId' => 5, 'FileName' => 6, 'FileType' => 7, ),
+		BasePeer::TYPE_COLNAME => array (FileImportHistoryPeer::ID => 0, FileImportHistoryPeer::CREATED_AT => 1, FileImportHistoryPeer::MAP => 2, FileImportHistoryPeer::USER_ID => 3, FileImportHistoryPeer::VOCABULARY_ID => 4, FileImportHistoryPeer::SCHEMA_ID => 5, FileImportHistoryPeer::FILE_NAME => 6, FileImportHistoryPeer::FILE_TYPE => 7, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'created_at' => 1, 'map' => 2, 'user_id' => 3, 'vocabulary_id' => 4, 'schema_id' => 5, 'file_name' => 6, 'file_type' => 7, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, )
 	);
 
 	/**
@@ -98,8 +86,8 @@ abstract class BaseCollectionPeer {
 	 */
 	public static function getMapBuilder()
 	{
-		include_once 'lib/model/map/CollectionMapBuilder.php';
-		return BasePeer::getMapBuilder('lib.model.map.CollectionMapBuilder');
+		include_once 'lib/model/map/FileImportHistoryMapBuilder.php';
+		return BasePeer::getMapBuilder('lib.model.map.FileImportHistoryMapBuilder');
 	}
 	/**
 	 * Gets a map (hash) of PHP names to DB column names.
@@ -112,7 +100,7 @@ abstract class BaseCollectionPeer {
 	public static function getPhpNameMap()
 	{
 		if (self::$phpNameMap === null) {
-			$map = CollectionPeer::getTableMap();
+			$map = FileImportHistoryPeer::getTableMap();
 			$columns = $map->getColumns();
 			$nameMap = array();
 			foreach ($columns as $column) {
@@ -167,12 +155,12 @@ abstract class BaseCollectionPeer {
 	 *		$c->addJoin(TablePeer::alias("alias1", TablePeer::PRIMARY_KEY_COLUMN), TablePeer::PRIMARY_KEY_COLUMN);
 	 * </code>
 	 * @param      string $alias The alias for the current table.
-	 * @param      string $column The column name for current table. (i.e. CollectionPeer::COLUMN_NAME).
+	 * @param      string $column The column name for current table. (i.e. FileImportHistoryPeer::COLUMN_NAME).
 	 * @return     string
 	 */
 	public static function alias($alias, $column)
 	{
-		return str_replace(CollectionPeer::TABLE_NAME.'.', $alias.'.', $column);
+		return str_replace(FileImportHistoryPeer::TABLE_NAME.'.', $alias.'.', $column);
 	}
 
 	/**
@@ -189,34 +177,26 @@ abstract class BaseCollectionPeer {
 	public static function addSelectColumns(Criteria $criteria, $tableAlias = null)
 	{
 
-        $criteria->addSelectColumn(($tableAlias) ? CollectionPeer::alias($tableAlias, CollectionPeer::ID) : CollectionPeer::ID);
+        $criteria->addSelectColumn(($tableAlias) ? FileImportHistoryPeer::alias($tableAlias, FileImportHistoryPeer::ID) : FileImportHistoryPeer::ID);
 
-        $criteria->addSelectColumn(($tableAlias) ? CollectionPeer::alias($tableAlias, CollectionPeer::CREATED_AT) : CollectionPeer::CREATED_AT);
+        $criteria->addSelectColumn(($tableAlias) ? FileImportHistoryPeer::alias($tableAlias, FileImportHistoryPeer::CREATED_AT) : FileImportHistoryPeer::CREATED_AT);
 
-        $criteria->addSelectColumn(($tableAlias) ? CollectionPeer::alias($tableAlias, CollectionPeer::UPDATED_AT) : CollectionPeer::UPDATED_AT);
+        $criteria->addSelectColumn(($tableAlias) ? FileImportHistoryPeer::alias($tableAlias, FileImportHistoryPeer::MAP) : FileImportHistoryPeer::MAP);
 
-        $criteria->addSelectColumn(($tableAlias) ? CollectionPeer::alias($tableAlias, CollectionPeer::DELETED_AT) : CollectionPeer::DELETED_AT);
+        $criteria->addSelectColumn(($tableAlias) ? FileImportHistoryPeer::alias($tableAlias, FileImportHistoryPeer::USER_ID) : FileImportHistoryPeer::USER_ID);
 
-        $criteria->addSelectColumn(($tableAlias) ? CollectionPeer::alias($tableAlias, CollectionPeer::LAST_UPDATED) : CollectionPeer::LAST_UPDATED);
+        $criteria->addSelectColumn(($tableAlias) ? FileImportHistoryPeer::alias($tableAlias, FileImportHistoryPeer::VOCABULARY_ID) : FileImportHistoryPeer::VOCABULARY_ID);
 
-        $criteria->addSelectColumn(($tableAlias) ? CollectionPeer::alias($tableAlias, CollectionPeer::CREATED_USER_ID) : CollectionPeer::CREATED_USER_ID);
+        $criteria->addSelectColumn(($tableAlias) ? FileImportHistoryPeer::alias($tableAlias, FileImportHistoryPeer::SCHEMA_ID) : FileImportHistoryPeer::SCHEMA_ID);
 
-        $criteria->addSelectColumn(($tableAlias) ? CollectionPeer::alias($tableAlias, CollectionPeer::UPDATED_USER_ID) : CollectionPeer::UPDATED_USER_ID);
+        $criteria->addSelectColumn(($tableAlias) ? FileImportHistoryPeer::alias($tableAlias, FileImportHistoryPeer::FILE_NAME) : FileImportHistoryPeer::FILE_NAME);
 
-        $criteria->addSelectColumn(($tableAlias) ? CollectionPeer::alias($tableAlias, CollectionPeer::VOCABULARY_ID) : CollectionPeer::VOCABULARY_ID);
-
-        $criteria->addSelectColumn(($tableAlias) ? CollectionPeer::alias($tableAlias, CollectionPeer::NAME) : CollectionPeer::NAME);
-
-        $criteria->addSelectColumn(($tableAlias) ? CollectionPeer::alias($tableAlias, CollectionPeer::URI) : CollectionPeer::URI);
-
-        $criteria->addSelectColumn(($tableAlias) ? CollectionPeer::alias($tableAlias, CollectionPeer::PREF_LABEL) : CollectionPeer::PREF_LABEL);
-
-        $criteria->addSelectColumn(($tableAlias) ? CollectionPeer::alias($tableAlias, CollectionPeer::STATUS_ID) : CollectionPeer::STATUS_ID);
+        $criteria->addSelectColumn(($tableAlias) ? FileImportHistoryPeer::alias($tableAlias, FileImportHistoryPeer::FILE_TYPE) : FileImportHistoryPeer::FILE_TYPE);
 
 	}
 
-	const COUNT = 'COUNT(reg_collection.ID)';
-	const COUNT_DISTINCT = 'COUNT(DISTINCT reg_collection.ID)';
+	const COUNT = 'COUNT(reg_file_import_history.ID)';
+	const COUNT_DISTINCT = 'COUNT(DISTINCT reg_file_import_history.ID)';
 
 	/**
 	 * Returns the number of rows matching criteria.
@@ -234,9 +214,9 @@ abstract class BaseCollectionPeer {
 		// clear out anything that might confuse the ORDER BY clause
 		$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
-			$criteria->addSelectColumn(CollectionPeer::COUNT_DISTINCT);
+			$criteria->addSelectColumn(FileImportHistoryPeer::COUNT_DISTINCT);
 		} else {
-			$criteria->addSelectColumn(CollectionPeer::COUNT);
+			$criteria->addSelectColumn(FileImportHistoryPeer::COUNT);
 		}
 
 		// just in case we're grouping: add those columns to the select statement
@@ -245,7 +225,7 @@ abstract class BaseCollectionPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$rs = CollectionPeer::doSelectRS($criteria, $con);
+		$rs = FileImportHistoryPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
 			return $rs->getInt(1);
 		} else {
@@ -258,7 +238,7 @@ abstract class BaseCollectionPeer {
 	 *
 	 * @param      Criteria $criteria object used to create the SELECT statement.
 	 * @param      Connection $con
-	 * @return     Collection
+	 * @return     FileImportHistory
 	 * @throws     PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
@@ -266,7 +246,7 @@ abstract class BaseCollectionPeer {
 	{
 		$critcopy = clone $criteria;
 		$critcopy->setLimit(1);
-		$objects = CollectionPeer::doSelect($critcopy, $con);
+		$objects = FileImportHistoryPeer::doSelect($critcopy, $con);
 		if ($objects) {
 			return $objects[0];
 		}
@@ -283,7 +263,7 @@ abstract class BaseCollectionPeer {
 	 */
 	public static function doSelect(Criteria $criteria, $con = null)
 	{
-		return CollectionPeer::populateObjects(CollectionPeer::doSelectRS($criteria, $con));
+		return FileImportHistoryPeer::populateObjects(FileImportHistoryPeer::doSelectRS($criteria, $con));
 	}
 	/**
 	 * Prepares the Criteria object and uses the parent doSelect()
@@ -302,9 +282,9 @@ abstract class BaseCollectionPeer {
 	public static function doSelectRS(Criteria $criteria, $con = null)
 	{
 
-    foreach (sfMixer::getCallables('BaseCollectionPeer:addDoSelectRS:addDoSelectRS') as $callable)
+    foreach (sfMixer::getCallables('BaseFileImportHistoryPeer:addDoSelectRS:addDoSelectRS') as $callable)
     {
-      call_user_func($callable, 'BaseCollectionPeer', $criteria, $con);
+      call_user_func($callable, 'BaseFileImportHistoryPeer', $criteria, $con);
     }
 
 
@@ -314,7 +294,7 @@ abstract class BaseCollectionPeer {
 
 		if (!$criteria->getSelectColumns()) {
 			$criteria = clone $criteria;
-			CollectionPeer::addSelectColumns($criteria);
+			FileImportHistoryPeer::addSelectColumns($criteria);
 		}
 
 		// Set the correct dbName
@@ -336,7 +316,7 @@ abstract class BaseCollectionPeer {
 		$results = array();
 	
 		// set the class once to avoid overhead in the loop
-		$cls = CollectionPeer::getOMClass();
+		$cls = FileImportHistoryPeer::getOMClass();
 		$cls = Propel::import($cls);
 		// populate the object(s)
 		while($rs->next()) {
@@ -350,14 +330,14 @@ abstract class BaseCollectionPeer {
 	}
 
 	/**
-	 * Returns the number of rows matching criteria, joining the related UserRelatedByCreatedUserId table
+	 * Returns the number of rows matching criteria, joining the related User table
 	 *
 	 * @param Criteria $c
 	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
 	 * @param Connection $con
 	 * @return int Number of matching rows.
 	 */
-	public static function doCountJoinUserRelatedByCreatedUserId(Criteria $criteria, $distinct = false, $con = null)
+	public static function doCountJoinUser(Criteria $criteria, $distinct = false, $con = null)
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
@@ -365,9 +345,9 @@ abstract class BaseCollectionPeer {
 		// clear out anything that might confuse the ORDER BY clause
 		$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
-			$criteria->addSelectColumn(CollectionPeer::COUNT_DISTINCT);
+			$criteria->addSelectColumn(FileImportHistoryPeer::COUNT_DISTINCT);
 		} else {
-			$criteria->addSelectColumn(CollectionPeer::COUNT);
+			$criteria->addSelectColumn(FileImportHistoryPeer::COUNT);
 		}
 
 		// just in case we're grouping: add those columns to the select statement
@@ -376,48 +356,9 @@ abstract class BaseCollectionPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(CollectionPeer::CREATED_USER_ID, UserPeer::ID);
+		$criteria->addJoin(FileImportHistoryPeer::USER_ID, UserPeer::ID);
 
-		$rs = CollectionPeer::doSelectRS($criteria, $con);
-		if ($rs->next()) {
-			return $rs->getInt(1);
-		} else {
-			// no rows returned; we infer that means 0 matches.
-			return 0;
-		}
-	}
-
-
-	/**
-	 * Returns the number of rows matching criteria, joining the related UserRelatedByUpdatedUserId table
-	 *
-	 * @param Criteria $c
-	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
-	 * @param Connection $con
-	 * @return int Number of matching rows.
-	 */
-	public static function doCountJoinUserRelatedByUpdatedUserId(Criteria $criteria, $distinct = false, $con = null)
-	{
-		// we're going to modify criteria, so copy it first
-		$criteria = clone $criteria;
-
-		// clear out anything that might confuse the ORDER BY clause
-		$criteria->clearSelectColumns()->clearOrderByColumns();
-		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
-			$criteria->addSelectColumn(CollectionPeer::COUNT_DISTINCT);
-		} else {
-			$criteria->addSelectColumn(CollectionPeer::COUNT);
-		}
-
-		// just in case we're grouping: add those columns to the select statement
-		foreach($criteria->getGroupByColumns() as $column)
-		{
-			$criteria->addSelectColumn($column);
-		}
-
-		$criteria->addJoin(CollectionPeer::UPDATED_USER_ID, UserPeer::ID);
-
-		$rs = CollectionPeer::doSelectRS($criteria, $con);
+		$rs = FileImportHistoryPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
 			return $rs->getInt(1);
 		} else {
@@ -443,9 +384,9 @@ abstract class BaseCollectionPeer {
 		// clear out anything that might confuse the ORDER BY clause
 		$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
-			$criteria->addSelectColumn(CollectionPeer::COUNT_DISTINCT);
+			$criteria->addSelectColumn(FileImportHistoryPeer::COUNT_DISTINCT);
 		} else {
-			$criteria->addSelectColumn(CollectionPeer::COUNT);
+			$criteria->addSelectColumn(FileImportHistoryPeer::COUNT);
 		}
 
 		// just in case we're grouping: add those columns to the select statement
@@ -454,9 +395,9 @@ abstract class BaseCollectionPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(CollectionPeer::VOCABULARY_ID, VocabularyPeer::ID);
+		$criteria->addJoin(FileImportHistoryPeer::VOCABULARY_ID, VocabularyPeer::ID);
 
-		$rs = CollectionPeer::doSelectRS($criteria, $con);
+		$rs = FileImportHistoryPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
 			return $rs->getInt(1);
 		} else {
@@ -467,14 +408,14 @@ abstract class BaseCollectionPeer {
 
 
 	/**
-	 * Returns the number of rows matching criteria, joining the related Status table
+	 * Returns the number of rows matching criteria, joining the related Schema table
 	 *
 	 * @param Criteria $c
 	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
 	 * @param Connection $con
 	 * @return int Number of matching rows.
 	 */
-	public static function doCountJoinStatus(Criteria $criteria, $distinct = false, $con = null)
+	public static function doCountJoinSchema(Criteria $criteria, $distinct = false, $con = null)
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
@@ -482,9 +423,9 @@ abstract class BaseCollectionPeer {
 		// clear out anything that might confuse the ORDER BY clause
 		$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
-			$criteria->addSelectColumn(CollectionPeer::COUNT_DISTINCT);
+			$criteria->addSelectColumn(FileImportHistoryPeer::COUNT_DISTINCT);
 		} else {
-			$criteria->addSelectColumn(CollectionPeer::COUNT);
+			$criteria->addSelectColumn(FileImportHistoryPeer::COUNT);
 		}
 
 		// just in case we're grouping: add those columns to the select statement
@@ -493,9 +434,9 @@ abstract class BaseCollectionPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(CollectionPeer::STATUS_ID, StatusPeer::ID);
+		$criteria->addJoin(FileImportHistoryPeer::SCHEMA_ID, SchemaPeer::ID);
 
-		$rs = CollectionPeer::doSelectRS($criteria, $con);
+		$rs = FileImportHistoryPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
 			return $rs->getInt(1);
 		} else {
@@ -506,13 +447,13 @@ abstract class BaseCollectionPeer {
 
 
 	/**
-	 * Selects a collection of Collection objects pre-filled with their User objects.
+	 * Selects a collection of FileImportHistory objects pre-filled with their User objects.
 	 *
-	 * @return array Array of Collection objects.
+	 * @return array Array of FileImportHistory objects.
 	 * @throws PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
-	public static function doSelectJoinUserRelatedByCreatedUserId(Criteria $c, $con = null)
+	public static function doSelectJoinUser(Criteria $c, $con = null)
 	{
 		$c = clone $c;
 
@@ -521,17 +462,17 @@ abstract class BaseCollectionPeer {
 			$c->setDbName(self::DATABASE_NAME);
 		}
 
-		CollectionPeer::addSelectColumns($c);
-		$startcol = (CollectionPeer::NUM_COLUMNS - CollectionPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+		FileImportHistoryPeer::addSelectColumns($c);
+		$startcol = (FileImportHistoryPeer::NUM_COLUMNS - FileImportHistoryPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 		UserPeer::addSelectColumns($c);
 
-		$c->addJoin(CollectionPeer::CREATED_USER_ID, UserPeer::ID);
+		$c->addJoin(FileImportHistoryPeer::USER_ID, UserPeer::ID);
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
 
 		while($rs->next()) {
 
-			$omClass = CollectionPeer::getOMClass();
+			$omClass = FileImportHistoryPeer::getOMClass();
 
 			$cls = Propel::import($omClass);
 			$obj1 = new $cls();
@@ -545,17 +486,17 @@ abstract class BaseCollectionPeer {
 
 			$newObject = true;
 			foreach($results as $temp_obj1) {
-				$temp_obj2 = $temp_obj1->getUserRelatedByCreatedUserId(); //CHECKME
+				$temp_obj2 = $temp_obj1->getUser(); //CHECKME
 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
 					// e.g. $author->addBookRelatedByBookId()
-					$temp_obj2->addCollectionRelatedByCreatedUserId($obj1); //CHECKME
+					$temp_obj2->addFileImportHistory($obj1); //CHECKME
 					break;
 				}
 			}
 			if ($newObject) {
-				$obj2->initCollectionsRelatedByCreatedUserId();
-				$obj2->addCollectionRelatedByCreatedUserId($obj1); //CHECKME
+				$obj2->initFileImportHistorys();
+				$obj2->addFileImportHistory($obj1); //CHECKME
 			}
 			$results[] = $obj1;
 		}
@@ -564,67 +505,9 @@ abstract class BaseCollectionPeer {
 
 
 	/**
-	 * Selects a collection of Collection objects pre-filled with their User objects.
+	 * Selects a collection of FileImportHistory objects pre-filled with their Vocabulary objects.
 	 *
-	 * @return array Array of Collection objects.
-	 * @throws PropelException Any exceptions caught during processing will be
-	 *		 rethrown wrapped into a PropelException.
-	 */
-	public static function doSelectJoinUserRelatedByUpdatedUserId(Criteria $c, $con = null)
-	{
-		$c = clone $c;
-
-		// Set the correct dbName if it has not been overridden
-		if ($c->getDbName() == Propel::getDefaultDB()) {
-			$c->setDbName(self::DATABASE_NAME);
-		}
-
-		CollectionPeer::addSelectColumns($c);
-		$startcol = (CollectionPeer::NUM_COLUMNS - CollectionPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
-		UserPeer::addSelectColumns($c);
-
-		$c->addJoin(CollectionPeer::UPDATED_USER_ID, UserPeer::ID);
-		$rs = BasePeer::doSelect($c, $con);
-		$results = array();
-
-		while($rs->next()) {
-
-			$omClass = CollectionPeer::getOMClass();
-
-			$cls = Propel::import($omClass);
-			$obj1 = new $cls();
-			$obj1->hydrate($rs);
-
-			$omClass = UserPeer::getOMClass();
-
-			$cls = Propel::import($omClass);
-			$obj2 = new $cls();
-			$obj2->hydrate($rs, $startcol);
-
-			$newObject = true;
-			foreach($results as $temp_obj1) {
-				$temp_obj2 = $temp_obj1->getUserRelatedByUpdatedUserId(); //CHECKME
-				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
-					$newObject = false;
-					// e.g. $author->addBookRelatedByBookId()
-					$temp_obj2->addCollectionRelatedByUpdatedUserId($obj1); //CHECKME
-					break;
-				}
-			}
-			if ($newObject) {
-				$obj2->initCollectionsRelatedByUpdatedUserId();
-				$obj2->addCollectionRelatedByUpdatedUserId($obj1); //CHECKME
-			}
-			$results[] = $obj1;
-		}
-		return $results;
-	}
-
-
-	/**
-	 * Selects a collection of Collection objects pre-filled with their Vocabulary objects.
-	 *
-	 * @return array Array of Collection objects.
+	 * @return array Array of FileImportHistory objects.
 	 * @throws PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
@@ -637,17 +520,17 @@ abstract class BaseCollectionPeer {
 			$c->setDbName(self::DATABASE_NAME);
 		}
 
-		CollectionPeer::addSelectColumns($c);
-		$startcol = (CollectionPeer::NUM_COLUMNS - CollectionPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+		FileImportHistoryPeer::addSelectColumns($c);
+		$startcol = (FileImportHistoryPeer::NUM_COLUMNS - FileImportHistoryPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 		VocabularyPeer::addSelectColumns($c);
 
-		$c->addJoin(CollectionPeer::VOCABULARY_ID, VocabularyPeer::ID);
+		$c->addJoin(FileImportHistoryPeer::VOCABULARY_ID, VocabularyPeer::ID);
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
 
 		while($rs->next()) {
 
-			$omClass = CollectionPeer::getOMClass();
+			$omClass = FileImportHistoryPeer::getOMClass();
 
 			$cls = Propel::import($omClass);
 			$obj1 = new $cls();
@@ -665,13 +548,13 @@ abstract class BaseCollectionPeer {
 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
 					// e.g. $author->addBookRelatedByBookId()
-					$temp_obj2->addCollection($obj1); //CHECKME
+					$temp_obj2->addFileImportHistory($obj1); //CHECKME
 					break;
 				}
 			}
 			if ($newObject) {
-				$obj2->initCollections();
-				$obj2->addCollection($obj1); //CHECKME
+				$obj2->initFileImportHistorys();
+				$obj2->addFileImportHistory($obj1); //CHECKME
 			}
 			$results[] = $obj1;
 		}
@@ -680,13 +563,13 @@ abstract class BaseCollectionPeer {
 
 
 	/**
-	 * Selects a collection of Collection objects pre-filled with their Status objects.
+	 * Selects a collection of FileImportHistory objects pre-filled with their Schema objects.
 	 *
-	 * @return array Array of Collection objects.
+	 * @return array Array of FileImportHistory objects.
 	 * @throws PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
-	public static function doSelectJoinStatus(Criteria $c, $con = null)
+	public static function doSelectJoinSchema(Criteria $c, $con = null)
 	{
 		$c = clone $c;
 
@@ -695,23 +578,23 @@ abstract class BaseCollectionPeer {
 			$c->setDbName(self::DATABASE_NAME);
 		}
 
-		CollectionPeer::addSelectColumns($c);
-		$startcol = (CollectionPeer::NUM_COLUMNS - CollectionPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
-		StatusPeer::addSelectColumns($c);
+		FileImportHistoryPeer::addSelectColumns($c);
+		$startcol = (FileImportHistoryPeer::NUM_COLUMNS - FileImportHistoryPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+		SchemaPeer::addSelectColumns($c);
 
-		$c->addJoin(CollectionPeer::STATUS_ID, StatusPeer::ID);
+		$c->addJoin(FileImportHistoryPeer::SCHEMA_ID, SchemaPeer::ID);
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
 
 		while($rs->next()) {
 
-			$omClass = CollectionPeer::getOMClass();
+			$omClass = FileImportHistoryPeer::getOMClass();
 
 			$cls = Propel::import($omClass);
 			$obj1 = new $cls();
 			$obj1->hydrate($rs);
 
-			$omClass = StatusPeer::getOMClass();
+			$omClass = SchemaPeer::getOMClass();
 
 			$cls = Propel::import($omClass);
 			$obj2 = new $cls();
@@ -719,17 +602,17 @@ abstract class BaseCollectionPeer {
 
 			$newObject = true;
 			foreach($results as $temp_obj1) {
-				$temp_obj2 = $temp_obj1->getStatus(); //CHECKME
+				$temp_obj2 = $temp_obj1->getSchema(); //CHECKME
 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
 					// e.g. $author->addBookRelatedByBookId()
-					$temp_obj2->addCollection($obj1); //CHECKME
+					$temp_obj2->addFileImportHistory($obj1); //CHECKME
 					break;
 				}
 			}
 			if ($newObject) {
-				$obj2->initCollections();
-				$obj2->addCollection($obj1); //CHECKME
+				$obj2->initFileImportHistorys();
+				$obj2->addFileImportHistory($obj1); //CHECKME
 			}
 			$results[] = $obj1;
 		}
@@ -752,9 +635,9 @@ abstract class BaseCollectionPeer {
 		// clear out anything that might confuse the ORDER BY clause
 		$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
-			$criteria->addSelectColumn(CollectionPeer::COUNT_DISTINCT);
+			$criteria->addSelectColumn(FileImportHistoryPeer::COUNT_DISTINCT);
 		} else {
-			$criteria->addSelectColumn(CollectionPeer::COUNT);
+			$criteria->addSelectColumn(FileImportHistoryPeer::COUNT);
 		}
 
 		// just in case we're grouping: add those columns to the select statement
@@ -763,15 +646,13 @@ abstract class BaseCollectionPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(CollectionPeer::CREATED_USER_ID, UserPeer::ID);
+		$criteria->addJoin(FileImportHistoryPeer::USER_ID, UserPeer::ID);
 
-		$criteria->addJoin(CollectionPeer::UPDATED_USER_ID, UserPeer::ID);
+		$criteria->addJoin(FileImportHistoryPeer::VOCABULARY_ID, VocabularyPeer::ID);
 
-		$criteria->addJoin(CollectionPeer::VOCABULARY_ID, VocabularyPeer::ID);
+		$criteria->addJoin(FileImportHistoryPeer::SCHEMA_ID, SchemaPeer::ID);
 
-		$criteria->addJoin(CollectionPeer::STATUS_ID, StatusPeer::ID);
-
-		$rs = CollectionPeer::doSelectRS($criteria, $con);
+		$rs = FileImportHistoryPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
 			return $rs->getInt(1);
 		} else {
@@ -782,9 +663,9 @@ abstract class BaseCollectionPeer {
 
 
 	/**
-	 * Selects a collection of Collection objects pre-filled with all related objects.
+	 * Selects a collection of FileImportHistory objects pre-filled with all related objects.
 	 *
-	 * @return array Array of Collection objects.
+	 * @return array Array of FileImportHistory objects.
 	 * @throws PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
@@ -797,39 +678,33 @@ abstract class BaseCollectionPeer {
 			$c->setDbName(self::DATABASE_NAME);
 		}
 
-		CollectionPeer::addSelectColumns($c);
-		$startcol2 = (CollectionPeer::NUM_COLUMNS - CollectionPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+		FileImportHistoryPeer::addSelectColumns($c);
+		$startcol2 = (FileImportHistoryPeer::NUM_COLUMNS - FileImportHistoryPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 
 		UserPeer::addSelectColumns($c, 'a1');
 		$startcol3 = $startcol2 + UserPeer::NUM_COLUMNS;
 
-        $c->addJoin(CollectionPeer::CREATED_USER_ID, UserPeer::alias('a1', UserPeer::ID));
+        $c->addJoin(FileImportHistoryPeer::USER_ID, UserPeer::alias('a1', UserPeer::ID));
         $c->addAlias('a1', UserPeer::TABLE_NAME);
 
-		UserPeer::addSelectColumns($c, 'a2');
-		$startcol4 = $startcol3 + UserPeer::NUM_COLUMNS;
+		VocabularyPeer::addSelectColumns($c, 'a2');
+		$startcol4 = $startcol3 + VocabularyPeer::NUM_COLUMNS;
 
-        $c->addJoin(CollectionPeer::UPDATED_USER_ID, UserPeer::alias('a2', UserPeer::ID));
-        $c->addAlias('a2', UserPeer::TABLE_NAME);
+        $c->addJoin(FileImportHistoryPeer::VOCABULARY_ID, VocabularyPeer::alias('a2', VocabularyPeer::ID));
+        $c->addAlias('a2', VocabularyPeer::TABLE_NAME);
 
-		VocabularyPeer::addSelectColumns($c, 'a3');
-		$startcol5 = $startcol4 + VocabularyPeer::NUM_COLUMNS;
+		SchemaPeer::addSelectColumns($c, 'a3');
+		$startcol5 = $startcol4 + SchemaPeer::NUM_COLUMNS;
 
-        $c->addJoin(CollectionPeer::VOCABULARY_ID, VocabularyPeer::alias('a3', VocabularyPeer::ID));
-        $c->addAlias('a3', VocabularyPeer::TABLE_NAME);
-
-		StatusPeer::addSelectColumns($c, 'a4');
-		$startcol6 = $startcol5 + StatusPeer::NUM_COLUMNS;
-
-        $c->addJoin(CollectionPeer::STATUS_ID, StatusPeer::alias('a4', StatusPeer::ID));
-        $c->addAlias('a4', StatusPeer::TABLE_NAME);
+        $c->addJoin(FileImportHistoryPeer::SCHEMA_ID, SchemaPeer::alias('a3', SchemaPeer::ID));
+        $c->addAlias('a3', SchemaPeer::TABLE_NAME);
 
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
 
 		while($rs->next()) {
 
-			$omClass = CollectionPeer::getOMClass();
+			$omClass = FileImportHistoryPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -849,43 +724,17 @@ abstract class BaseCollectionPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj2 = $temp_obj1->getUserRelatedByCreatedUserId(); // CHECKME
+				$temp_obj2 = $temp_obj1->getUser(); // CHECKME
 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
-					$temp_obj2->addCollectionRelatedByCreatedUserId($obj1); // CHECKME
+					$temp_obj2->addFileImportHistory($obj1); // CHECKME
 					break;
 				}
 			}
 
 			if ($newObject) {
-				$obj2->initCollectionsRelatedByCreatedUserId();
-				$obj2->addCollectionRelatedByCreatedUserId($obj1);
-			}
-
-
-				// Add objects for joined User rows
-	
-			$omClass = UserPeer::getOMClass();
-
-
-			$cls = Propel::import($omClass);
-			$obj3 = new $cls();
-			$obj3->hydrate($rs, $startcol3);
-
-			$newObject = true;
-			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
-				$temp_obj1 = $results[$j];
-				$temp_obj3 = $temp_obj1->getUserRelatedByUpdatedUserId(); // CHECKME
-				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
-					$newObject = false;
-					$temp_obj3->addCollectionRelatedByUpdatedUserId($obj1); // CHECKME
-					break;
-				}
-			}
-
-			if ($newObject) {
-				$obj3->initCollectionsRelatedByUpdatedUserId();
-				$obj3->addCollectionRelatedByUpdatedUserId($obj1);
+				$obj2->initFileImportHistorys();
+				$obj2->addFileImportHistory($obj1);
 			}
 
 
@@ -895,49 +744,49 @@ abstract class BaseCollectionPeer {
 
 
 			$cls = Propel::import($omClass);
+			$obj3 = new $cls();
+			$obj3->hydrate($rs, $startcol3);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj3 = $temp_obj1->getVocabulary(); // CHECKME
+				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj3->addFileImportHistory($obj1); // CHECKME
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj3->initFileImportHistorys();
+				$obj3->addFileImportHistory($obj1);
+			}
+
+
+				// Add objects for joined Schema rows
+	
+			$omClass = SchemaPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
 			$obj4 = new $cls();
 			$obj4->hydrate($rs, $startcol4);
 
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj4 = $temp_obj1->getVocabulary(); // CHECKME
+				$temp_obj4 = $temp_obj1->getSchema(); // CHECKME
 				if ($temp_obj4->getPrimaryKey() === $obj4->getPrimaryKey()) {
 					$newObject = false;
-					$temp_obj4->addCollection($obj1); // CHECKME
+					$temp_obj4->addFileImportHistory($obj1); // CHECKME
 					break;
 				}
 			}
 
 			if ($newObject) {
-				$obj4->initCollections();
-				$obj4->addCollection($obj1);
-			}
-
-
-				// Add objects for joined Status rows
-	
-			$omClass = StatusPeer::getOMClass();
-
-
-			$cls = Propel::import($omClass);
-			$obj5 = new $cls();
-			$obj5->hydrate($rs, $startcol5);
-
-			$newObject = true;
-			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
-				$temp_obj1 = $results[$j];
-				$temp_obj5 = $temp_obj1->getStatus(); // CHECKME
-				if ($temp_obj5->getPrimaryKey() === $obj5->getPrimaryKey()) {
-					$newObject = false;
-					$temp_obj5->addCollection($obj1); // CHECKME
-					break;
-				}
-			}
-
-			if ($newObject) {
-				$obj5->initCollections();
-				$obj5->addCollection($obj1);
+				$obj4->initFileImportHistorys();
+				$obj4->addFileImportHistory($obj1);
 			}
 
 			$results[] = $obj1;
@@ -947,14 +796,14 @@ abstract class BaseCollectionPeer {
 
 
 	/**
-	 * Returns the number of rows matching criteria, joining the related UserRelatedByCreatedUserId table
+	 * Returns the number of rows matching criteria, joining the related User table
 	 *
 	 * @param Criteria $c
 	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
 	 * @param Connection $con
 	 * @return int Number of matching rows.
 	 */
-	public static function doCountJoinAllExceptUserRelatedByCreatedUserId(Criteria $criteria, $distinct = false, $con = null)
+	public static function doCountJoinAllExceptUser(Criteria $criteria, $distinct = false, $con = null)
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
@@ -962,9 +811,9 @@ abstract class BaseCollectionPeer {
 		// clear out anything that might confuse the ORDER BY clause
 		$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
-			$criteria->addSelectColumn(CollectionPeer::COUNT_DISTINCT);
+			$criteria->addSelectColumn(FileImportHistoryPeer::COUNT_DISTINCT);
 		} else {
-			$criteria->addSelectColumn(CollectionPeer::COUNT);
+			$criteria->addSelectColumn(FileImportHistoryPeer::COUNT);
 		}
 
 		// just in case we're grouping: add those columns to the select statement
@@ -973,52 +822,11 @@ abstract class BaseCollectionPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(CollectionPeer::VOCABULARY_ID, VocabularyPeer::ID);
+		$criteria->addJoin(FileImportHistoryPeer::VOCABULARY_ID, VocabularyPeer::ID);
 
-		$criteria->addJoin(CollectionPeer::STATUS_ID, StatusPeer::ID);
+		$criteria->addJoin(FileImportHistoryPeer::SCHEMA_ID, SchemaPeer::ID);
 
-		$rs = CollectionPeer::doSelectRS($criteria, $con);
-		if ($rs->next()) {
-			return $rs->getInt(1);
-		} else {
-			// no rows returned; we infer that means 0 matches.
-			return 0;
-		}
-	}
-
-
-	/**
-	 * Returns the number of rows matching criteria, joining the related UserRelatedByUpdatedUserId table
-	 *
-	 * @param Criteria $c
-	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
-	 * @param Connection $con
-	 * @return int Number of matching rows.
-	 */
-	public static function doCountJoinAllExceptUserRelatedByUpdatedUserId(Criteria $criteria, $distinct = false, $con = null)
-	{
-		// we're going to modify criteria, so copy it first
-		$criteria = clone $criteria;
-
-		// clear out anything that might confuse the ORDER BY clause
-		$criteria->clearSelectColumns()->clearOrderByColumns();
-		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
-			$criteria->addSelectColumn(CollectionPeer::COUNT_DISTINCT);
-		} else {
-			$criteria->addSelectColumn(CollectionPeer::COUNT);
-		}
-
-		// just in case we're grouping: add those columns to the select statement
-		foreach($criteria->getGroupByColumns() as $column)
-		{
-			$criteria->addSelectColumn($column);
-		}
-
-		$criteria->addJoin(CollectionPeer::VOCABULARY_ID, VocabularyPeer::ID);
-
-		$criteria->addJoin(CollectionPeer::STATUS_ID, StatusPeer::ID);
-
-		$rs = CollectionPeer::doSelectRS($criteria, $con);
+		$rs = FileImportHistoryPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
 			return $rs->getInt(1);
 		} else {
@@ -1044,9 +852,9 @@ abstract class BaseCollectionPeer {
 		// clear out anything that might confuse the ORDER BY clause
 		$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
-			$criteria->addSelectColumn(CollectionPeer::COUNT_DISTINCT);
+			$criteria->addSelectColumn(FileImportHistoryPeer::COUNT_DISTINCT);
 		} else {
-			$criteria->addSelectColumn(CollectionPeer::COUNT);
+			$criteria->addSelectColumn(FileImportHistoryPeer::COUNT);
 		}
 
 		// just in case we're grouping: add those columns to the select statement
@@ -1055,13 +863,11 @@ abstract class BaseCollectionPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(CollectionPeer::CREATED_USER_ID, UserPeer::ID);
+		$criteria->addJoin(FileImportHistoryPeer::USER_ID, UserPeer::ID);
 
-		$criteria->addJoin(CollectionPeer::UPDATED_USER_ID, UserPeer::ID);
+		$criteria->addJoin(FileImportHistoryPeer::SCHEMA_ID, SchemaPeer::ID);
 
-		$criteria->addJoin(CollectionPeer::STATUS_ID, StatusPeer::ID);
-
-		$rs = CollectionPeer::doSelectRS($criteria, $con);
+		$rs = FileImportHistoryPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
 			return $rs->getInt(1);
 		} else {
@@ -1072,14 +878,14 @@ abstract class BaseCollectionPeer {
 
 
 	/**
-	 * Returns the number of rows matching criteria, joining the related Status table
+	 * Returns the number of rows matching criteria, joining the related Schema table
 	 *
 	 * @param Criteria $c
 	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
 	 * @param Connection $con
 	 * @return int Number of matching rows.
 	 */
-	public static function doCountJoinAllExceptStatus(Criteria $criteria, $distinct = false, $con = null)
+	public static function doCountJoinAllExceptSchema(Criteria $criteria, $distinct = false, $con = null)
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
@@ -1087,9 +893,9 @@ abstract class BaseCollectionPeer {
 		// clear out anything that might confuse the ORDER BY clause
 		$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
-			$criteria->addSelectColumn(CollectionPeer::COUNT_DISTINCT);
+			$criteria->addSelectColumn(FileImportHistoryPeer::COUNT_DISTINCT);
 		} else {
-			$criteria->addSelectColumn(CollectionPeer::COUNT);
+			$criteria->addSelectColumn(FileImportHistoryPeer::COUNT);
 		}
 
 		// just in case we're grouping: add those columns to the select statement
@@ -1098,13 +904,11 @@ abstract class BaseCollectionPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(CollectionPeer::CREATED_USER_ID, UserPeer::ID);
+		$criteria->addJoin(FileImportHistoryPeer::USER_ID, UserPeer::ID);
 
-		$criteria->addJoin(CollectionPeer::UPDATED_USER_ID, UserPeer::ID);
+		$criteria->addJoin(FileImportHistoryPeer::VOCABULARY_ID, VocabularyPeer::ID);
 
-		$criteria->addJoin(CollectionPeer::VOCABULARY_ID, VocabularyPeer::ID);
-
-		$rs = CollectionPeer::doSelectRS($criteria, $con);
+		$rs = FileImportHistoryPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
 			return $rs->getInt(1);
 		} else {
@@ -1115,13 +919,13 @@ abstract class BaseCollectionPeer {
 
 
 	/**
-	 * Selects a collection of Collection objects pre-filled with all related objects except UserRelatedByCreatedUserId.
+	 * Selects a collection of FileImportHistory objects pre-filled with all related objects except User.
 	 *
-	 * @return array Array of Collection objects.
+	 * @return array Array of FileImportHistory objects.
 	 * @throws PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
-	public static function doSelectJoinAllExceptUserRelatedByCreatedUserId(Criteria $c, $con = null)
+	public static function doSelectJoinAllExceptUser(Criteria $c, $con = null)
 	{
 		$c = clone $c;
 
@@ -1132,18 +936,18 @@ abstract class BaseCollectionPeer {
 			$c->setDbName(self::DATABASE_NAME);
 		}
 
-		CollectionPeer::addSelectColumns($c);
-		$startcol2 = (CollectionPeer::NUM_COLUMNS - CollectionPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+		FileImportHistoryPeer::addSelectColumns($c);
+		$startcol2 = (FileImportHistoryPeer::NUM_COLUMNS - FileImportHistoryPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 
 		VocabularyPeer::addSelectColumns($c);
 		$startcol3 = $startcol2 + VocabularyPeer::NUM_COLUMNS;
 
-		StatusPeer::addSelectColumns($c);
-		$startcol4 = $startcol3 + StatusPeer::NUM_COLUMNS;
+		SchemaPeer::addSelectColumns($c);
+		$startcol4 = $startcol3 + SchemaPeer::NUM_COLUMNS;
 
-		$c->addJoin(CollectionPeer::VOCABULARY_ID, VocabularyPeer::ID);
+		$c->addJoin(FileImportHistoryPeer::VOCABULARY_ID, VocabularyPeer::ID);
 
-		$c->addJoin(CollectionPeer::STATUS_ID, StatusPeer::ID);
+		$c->addJoin(FileImportHistoryPeer::SCHEMA_ID, SchemaPeer::ID);
 
 
 		$rs = BasePeer::doSelect($c, $con);
@@ -1151,7 +955,7 @@ abstract class BaseCollectionPeer {
 
 		while($rs->next()) {
 
-			$omClass = CollectionPeer::getOMClass();
+			$omClass = FileImportHistoryPeer::getOMClass();
 
 			$cls = Propel::import($omClass);
 			$obj1 = new $cls();
@@ -1170,17 +974,17 @@ abstract class BaseCollectionPeer {
 				$temp_obj2 = $temp_obj1->getVocabulary(); //CHECKME
 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
-					$temp_obj2->addCollection($obj1);
+					$temp_obj2->addFileImportHistory($obj1);
 					break;
 				}
 			}
 
 			if ($newObject) {
-				$obj2->initCollections();
-				$obj2->addCollection($obj1);
+				$obj2->initFileImportHistorys();
+				$obj2->addFileImportHistory($obj1);
 			}
 
-			$omClass = StatusPeer::getOMClass();
+			$omClass = SchemaPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -1190,17 +994,17 @@ abstract class BaseCollectionPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj3 = $temp_obj1->getStatus(); //CHECKME
+				$temp_obj3 = $temp_obj1->getSchema(); //CHECKME
 				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
 					$newObject = false;
-					$temp_obj3->addCollection($obj1);
+					$temp_obj3->addFileImportHistory($obj1);
 					break;
 				}
 			}
 
 			if ($newObject) {
-				$obj3->initCollections();
-				$obj3->addCollection($obj1);
+				$obj3->initFileImportHistorys();
+				$obj3->addFileImportHistory($obj1);
 			}
 
 			$results[] = $obj1;
@@ -1210,104 +1014,9 @@ abstract class BaseCollectionPeer {
 
 
 	/**
-	 * Selects a collection of Collection objects pre-filled with all related objects except UserRelatedByUpdatedUserId.
+	 * Selects a collection of FileImportHistory objects pre-filled with all related objects except Vocabulary.
 	 *
-	 * @return array Array of Collection objects.
-	 * @throws PropelException Any exceptions caught during processing will be
-	 *		 rethrown wrapped into a PropelException.
-	 */
-	public static function doSelectJoinAllExceptUserRelatedByUpdatedUserId(Criteria $c, $con = null)
-	{
-		$c = clone $c;
-
-		// Set the correct dbName if it has not been overridden
-		// $c->getDbName() will return the same object if not set to another value
-		// so == check is okay and faster
-		if ($c->getDbName() == Propel::getDefaultDB()) {
-			$c->setDbName(self::DATABASE_NAME);
-		}
-
-		CollectionPeer::addSelectColumns($c);
-		$startcol2 = (CollectionPeer::NUM_COLUMNS - CollectionPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
-
-		VocabularyPeer::addSelectColumns($c);
-		$startcol3 = $startcol2 + VocabularyPeer::NUM_COLUMNS;
-
-		StatusPeer::addSelectColumns($c);
-		$startcol4 = $startcol3 + StatusPeer::NUM_COLUMNS;
-
-		$c->addJoin(CollectionPeer::VOCABULARY_ID, VocabularyPeer::ID);
-
-		$c->addJoin(CollectionPeer::STATUS_ID, StatusPeer::ID);
-
-
-		$rs = BasePeer::doSelect($c, $con);
-		$results = array();
-
-		while($rs->next()) {
-
-			$omClass = CollectionPeer::getOMClass();
-
-			$cls = Propel::import($omClass);
-			$obj1 = new $cls();
-			$obj1->hydrate($rs);
-
-			$omClass = VocabularyPeer::getOMClass();
-
-
-			$cls = Propel::import($omClass);
-			$obj2  = new $cls();
-			$obj2->hydrate($rs, $startcol2);
-
-			$newObject = true;
-			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
-				$temp_obj1 = $results[$j];
-				$temp_obj2 = $temp_obj1->getVocabulary(); //CHECKME
-				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
-					$newObject = false;
-					$temp_obj2->addCollection($obj1);
-					break;
-				}
-			}
-
-			if ($newObject) {
-				$obj2->initCollections();
-				$obj2->addCollection($obj1);
-			}
-
-			$omClass = StatusPeer::getOMClass();
-
-
-			$cls = Propel::import($omClass);
-			$obj3  = new $cls();
-			$obj3->hydrate($rs, $startcol3);
-
-			$newObject = true;
-			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
-				$temp_obj1 = $results[$j];
-				$temp_obj3 = $temp_obj1->getStatus(); //CHECKME
-				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
-					$newObject = false;
-					$temp_obj3->addCollection($obj1);
-					break;
-				}
-			}
-
-			if ($newObject) {
-				$obj3->initCollections();
-				$obj3->addCollection($obj1);
-			}
-
-			$results[] = $obj1;
-		}
-		return $results;
-	}
-
-
-	/**
-	 * Selects a collection of Collection objects pre-filled with all related objects except Vocabulary.
-	 *
-	 * @return array Array of Collection objects.
+	 * @return array Array of FileImportHistory objects.
 	 * @throws PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
@@ -1322,23 +1031,18 @@ abstract class BaseCollectionPeer {
 			$c->setDbName(self::DATABASE_NAME);
 		}
 
-		CollectionPeer::addSelectColumns($c);
-		$startcol2 = (CollectionPeer::NUM_COLUMNS - CollectionPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+		FileImportHistoryPeer::addSelectColumns($c);
+		$startcol2 = (FileImportHistoryPeer::NUM_COLUMNS - FileImportHistoryPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 
 		UserPeer::addSelectColumns($c);
 		$startcol3 = $startcol2 + UserPeer::NUM_COLUMNS;
 
-		UserPeer::addSelectColumns($c);
-		$startcol4 = $startcol3 + UserPeer::NUM_COLUMNS;
+		SchemaPeer::addSelectColumns($c);
+		$startcol4 = $startcol3 + SchemaPeer::NUM_COLUMNS;
 
-		StatusPeer::addSelectColumns($c);
-		$startcol5 = $startcol4 + StatusPeer::NUM_COLUMNS;
+		$c->addJoin(FileImportHistoryPeer::USER_ID, UserPeer::ID);
 
-		$c->addJoin(CollectionPeer::CREATED_USER_ID, UserPeer::ID);
-
-		$c->addJoin(CollectionPeer::UPDATED_USER_ID, UserPeer::ID);
-
-		$c->addJoin(CollectionPeer::STATUS_ID, StatusPeer::ID);
+		$c->addJoin(FileImportHistoryPeer::SCHEMA_ID, SchemaPeer::ID);
 
 
 		$rs = BasePeer::doSelect($c, $con);
@@ -1346,7 +1050,7 @@ abstract class BaseCollectionPeer {
 
 		while($rs->next()) {
 
-			$omClass = CollectionPeer::getOMClass();
+			$omClass = FileImportHistoryPeer::getOMClass();
 
 			$cls = Propel::import($omClass);
 			$obj1 = new $cls();
@@ -1362,20 +1066,20 @@ abstract class BaseCollectionPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj2 = $temp_obj1->getUserRelatedByCreatedUserId(); //CHECKME
+				$temp_obj2 = $temp_obj1->getUser(); //CHECKME
 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
-					$temp_obj2->addCollectionRelatedByCreatedUserId($obj1);
+					$temp_obj2->addFileImportHistory($obj1);
 					break;
 				}
 			}
 
 			if ($newObject) {
-				$obj2->initCollectionsRelatedByCreatedUserId();
-				$obj2->addCollectionRelatedByCreatedUserId($obj1);
+				$obj2->initFileImportHistorys();
+				$obj2->addFileImportHistory($obj1);
 			}
 
-			$omClass = UserPeer::getOMClass();
+			$omClass = SchemaPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -1385,40 +1089,17 @@ abstract class BaseCollectionPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj3 = $temp_obj1->getUserRelatedByUpdatedUserId(); //CHECKME
+				$temp_obj3 = $temp_obj1->getSchema(); //CHECKME
 				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
 					$newObject = false;
-					$temp_obj3->addCollectionRelatedByUpdatedUserId($obj1);
+					$temp_obj3->addFileImportHistory($obj1);
 					break;
 				}
 			}
 
 			if ($newObject) {
-				$obj3->initCollectionsRelatedByUpdatedUserId();
-				$obj3->addCollectionRelatedByUpdatedUserId($obj1);
-			}
-
-			$omClass = StatusPeer::getOMClass();
-
-
-			$cls = Propel::import($omClass);
-			$obj4  = new $cls();
-			$obj4->hydrate($rs, $startcol4);
-
-			$newObject = true;
-			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
-				$temp_obj1 = $results[$j];
-				$temp_obj4 = $temp_obj1->getStatus(); //CHECKME
-				if ($temp_obj4->getPrimaryKey() === $obj4->getPrimaryKey()) {
-					$newObject = false;
-					$temp_obj4->addCollection($obj1);
-					break;
-				}
-			}
-
-			if ($newObject) {
-				$obj4->initCollections();
-				$obj4->addCollection($obj1);
+				$obj3->initFileImportHistorys();
+				$obj3->addFileImportHistory($obj1);
 			}
 
 			$results[] = $obj1;
@@ -1428,13 +1109,13 @@ abstract class BaseCollectionPeer {
 
 
 	/**
-	 * Selects a collection of Collection objects pre-filled with all related objects except Status.
+	 * Selects a collection of FileImportHistory objects pre-filled with all related objects except Schema.
 	 *
-	 * @return array Array of Collection objects.
+	 * @return array Array of FileImportHistory objects.
 	 * @throws PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
-	public static function doSelectJoinAllExceptStatus(Criteria $c, $con = null)
+	public static function doSelectJoinAllExceptSchema(Criteria $c, $con = null)
 	{
 		$c = clone $c;
 
@@ -1445,23 +1126,18 @@ abstract class BaseCollectionPeer {
 			$c->setDbName(self::DATABASE_NAME);
 		}
 
-		CollectionPeer::addSelectColumns($c);
-		$startcol2 = (CollectionPeer::NUM_COLUMNS - CollectionPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+		FileImportHistoryPeer::addSelectColumns($c);
+		$startcol2 = (FileImportHistoryPeer::NUM_COLUMNS - FileImportHistoryPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 
 		UserPeer::addSelectColumns($c);
 		$startcol3 = $startcol2 + UserPeer::NUM_COLUMNS;
 
-		UserPeer::addSelectColumns($c);
-		$startcol4 = $startcol3 + UserPeer::NUM_COLUMNS;
-
 		VocabularyPeer::addSelectColumns($c);
-		$startcol5 = $startcol4 + VocabularyPeer::NUM_COLUMNS;
+		$startcol4 = $startcol3 + VocabularyPeer::NUM_COLUMNS;
 
-		$c->addJoin(CollectionPeer::CREATED_USER_ID, UserPeer::ID);
+		$c->addJoin(FileImportHistoryPeer::USER_ID, UserPeer::ID);
 
-		$c->addJoin(CollectionPeer::UPDATED_USER_ID, UserPeer::ID);
-
-		$c->addJoin(CollectionPeer::VOCABULARY_ID, VocabularyPeer::ID);
+		$c->addJoin(FileImportHistoryPeer::VOCABULARY_ID, VocabularyPeer::ID);
 
 
 		$rs = BasePeer::doSelect($c, $con);
@@ -1469,7 +1145,7 @@ abstract class BaseCollectionPeer {
 
 		while($rs->next()) {
 
-			$omClass = CollectionPeer::getOMClass();
+			$omClass = FileImportHistoryPeer::getOMClass();
 
 			$cls = Propel::import($omClass);
 			$obj1 = new $cls();
@@ -1485,20 +1161,20 @@ abstract class BaseCollectionPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj2 = $temp_obj1->getUserRelatedByCreatedUserId(); //CHECKME
+				$temp_obj2 = $temp_obj1->getUser(); //CHECKME
 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
-					$temp_obj2->addCollectionRelatedByCreatedUserId($obj1);
+					$temp_obj2->addFileImportHistory($obj1);
 					break;
 				}
 			}
 
 			if ($newObject) {
-				$obj2->initCollectionsRelatedByCreatedUserId();
-				$obj2->addCollectionRelatedByCreatedUserId($obj1);
+				$obj2->initFileImportHistorys();
+				$obj2->addFileImportHistory($obj1);
 			}
 
-			$omClass = UserPeer::getOMClass();
+			$omClass = VocabularyPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -1508,40 +1184,17 @@ abstract class BaseCollectionPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj3 = $temp_obj1->getUserRelatedByUpdatedUserId(); //CHECKME
+				$temp_obj3 = $temp_obj1->getVocabulary(); //CHECKME
 				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
 					$newObject = false;
-					$temp_obj3->addCollectionRelatedByUpdatedUserId($obj1);
+					$temp_obj3->addFileImportHistory($obj1);
 					break;
 				}
 			}
 
 			if ($newObject) {
-				$obj3->initCollectionsRelatedByUpdatedUserId();
-				$obj3->addCollectionRelatedByUpdatedUserId($obj1);
-			}
-
-			$omClass = VocabularyPeer::getOMClass();
-
-
-			$cls = Propel::import($omClass);
-			$obj4  = new $cls();
-			$obj4->hydrate($rs, $startcol4);
-
-			$newObject = true;
-			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
-				$temp_obj1 = $results[$j];
-				$temp_obj4 = $temp_obj1->getVocabulary(); //CHECKME
-				if ($temp_obj4->getPrimaryKey() === $obj4->getPrimaryKey()) {
-					$newObject = false;
-					$temp_obj4->addCollection($obj1);
-					break;
-				}
-			}
-
-			if ($newObject) {
-				$obj4->initCollections();
-				$obj4->addCollection($obj1);
+				$obj3->initFileImportHistorys();
+				$obj3->addFileImportHistory($obj1);
 			}
 
 			$results[] = $obj1;
@@ -1572,13 +1225,13 @@ abstract class BaseCollectionPeer {
 	 */
 	public static function getOMClass()
 	{
-		return CollectionPeer::CLASS_DEFAULT;
+		return FileImportHistoryPeer::CLASS_DEFAULT;
 	}
 
 	/**
-	 * Method perform an INSERT on the database, given a Collection or Criteria object.
+	 * Method perform an INSERT on the database, given a FileImportHistory or Criteria object.
 	 *
-	 * @param      mixed $values Criteria or Collection object containing data that is used to create the INSERT statement.
+	 * @param      mixed $values Criteria or FileImportHistory object containing data that is used to create the INSERT statement.
 	 * @param      Connection $con the connection to use
 	 * @return     mixed The new primary key.
 	 * @throws     PropelException Any exceptions caught during processing will be
@@ -1587,9 +1240,9 @@ abstract class BaseCollectionPeer {
 	public static function doInsert($values, $con = null)
 	{
 
-    foreach (sfMixer::getCallables('BaseCollectionPeer:doInsert:pre') as $callable)
+    foreach (sfMixer::getCallables('BaseFileImportHistoryPeer:doInsert:pre') as $callable)
     {
-      $ret = call_user_func($callable, 'BaseCollectionPeer', $values, $con);
+      $ret = call_user_func($callable, 'BaseFileImportHistoryPeer', $values, $con);
       if (false !== $ret)
       {
         return $ret;
@@ -1604,10 +1257,10 @@ abstract class BaseCollectionPeer {
 		if ($values instanceof Criteria) {
 			$criteria = clone $values; // rename for clarity
 		} else {
-			$criteria = $values->buildCriteria(); // build Criteria from Collection object
+			$criteria = $values->buildCriteria(); // build Criteria from FileImportHistory object
 		}
 
-		$criteria->remove(CollectionPeer::ID); // remove pkey col since this table uses auto-increment
+		$criteria->remove(FileImportHistoryPeer::ID); // remove pkey col since this table uses auto-increment
 
 
 		// Set the correct dbName
@@ -1625,18 +1278,18 @@ abstract class BaseCollectionPeer {
 		}
 
 		
-    foreach (sfMixer::getCallables('BaseCollectionPeer:doInsert:post') as $callable)
+    foreach (sfMixer::getCallables('BaseFileImportHistoryPeer:doInsert:post') as $callable)
     {
-      call_user_func($callable, 'BaseCollectionPeer', $values, $con, $pk);
+      call_user_func($callable, 'BaseFileImportHistoryPeer', $values, $con, $pk);
     }
 
     return $pk;
 	}
 
 	/**
-	 * Method perform an UPDATE on the database, given a Collection or Criteria object.
+	 * Method perform an UPDATE on the database, given a FileImportHistory or Criteria object.
 	 *
-	 * @param      mixed $values Criteria or Collection object containing data that is used to create the UPDATE statement.
+	 * @param      mixed $values Criteria or FileImportHistory object containing data that is used to create the UPDATE statement.
 	 * @param      Connection $con The connection to use (specify Connection object to exert more control over transactions).
 	 * @return     int The number of affected rows (if supported by underlying database driver).
 	 * @throws     PropelException Any exceptions caught during processing will be
@@ -1645,9 +1298,9 @@ abstract class BaseCollectionPeer {
 	public static function doUpdate($values, $con = null)
 	{
 
-    foreach (sfMixer::getCallables('BaseCollectionPeer:doUpdate:pre') as $callable)
+    foreach (sfMixer::getCallables('BaseFileImportHistoryPeer:doUpdate:pre') as $callable)
     {
-      $ret = call_user_func($callable, 'BaseCollectionPeer', $values, $con);
+      $ret = call_user_func($callable, 'BaseFileImportHistoryPeer', $values, $con);
       if (false !== $ret)
       {
         return $ret;
@@ -1664,10 +1317,10 @@ abstract class BaseCollectionPeer {
 		if ($values instanceof Criteria) {
 			$criteria = clone $values; // rename for clarity
 
-			$comparison = $criteria->getComparison(CollectionPeer::ID);
-			$selectCriteria->add(CollectionPeer::ID, $criteria->remove(CollectionPeer::ID), $comparison);
+			$comparison = $criteria->getComparison(FileImportHistoryPeer::ID);
+			$selectCriteria->add(FileImportHistoryPeer::ID, $criteria->remove(FileImportHistoryPeer::ID), $comparison);
 
-		} else { // $values is Collection object
+		} else { // $values is FileImportHistory object
 			$criteria = $values->buildCriteria(); // gets full criteria
 			$selectCriteria = $values->buildPkeyCriteria(); // gets criteria w/ primary key(s)
 		}
@@ -1678,16 +1331,16 @@ abstract class BaseCollectionPeer {
 		$ret = BasePeer::doUpdate($selectCriteria, $criteria, $con);
 	
 
-    foreach (sfMixer::getCallables('BaseCollectionPeer:doUpdate:post') as $callable)
+    foreach (sfMixer::getCallables('BaseFileImportHistoryPeer:doUpdate:post') as $callable)
     {
-      call_user_func($callable, 'BaseCollectionPeer', $values, $con, $ret);
+      call_user_func($callable, 'BaseFileImportHistoryPeer', $values, $con, $ret);
     }
 
     return $ret;
   }
 
 	/**
-	 * Method to DELETE all rows from the reg_collection table.
+	 * Method to DELETE all rows from the reg_file_import_history table.
 	 *
 	 * @return     int The number of affected rows (if supported by underlying database driver).
 	 */
@@ -1701,7 +1354,7 @@ abstract class BaseCollectionPeer {
 			// use transaction because $criteria could contain info
 			// for more than one table or we could emulating ON DELETE CASCADE, etc.
 			$con->begin();
-			$affectedRows += BasePeer::doDeleteAll(CollectionPeer::TABLE_NAME, $con);
+			$affectedRows += BasePeer::doDeleteAll(FileImportHistoryPeer::TABLE_NAME, $con);
 			$con->commit();
 			return $affectedRows;
 		} catch (PropelException $e) {
@@ -1711,9 +1364,9 @@ abstract class BaseCollectionPeer {
 	}
 
 	/**
-	 * Method perform a DELETE on the database, given a Collection or Criteria object OR a primary key value.
+	 * Method perform a DELETE on the database, given a FileImportHistory or Criteria object OR a primary key value.
 	 *
-	 * @param      mixed $values Criteria or Collection object or primary key or array of primary keys
+	 * @param      mixed $values Criteria or FileImportHistory object or primary key or array of primary keys
 	 *              which is used to create the DELETE statement
 	 * @param      Connection $con the connection to use
 	 * @return     int 	The number of affected rows (if supported by underlying database driver).  This includes CASCADE-related rows
@@ -1724,18 +1377,18 @@ abstract class BaseCollectionPeer {
 	 public static function doDelete($values, $con = null)
 	 {
 		if ($con === null) {
-			$con = Propel::getConnection(CollectionPeer::DATABASE_NAME);
+			$con = Propel::getConnection(FileImportHistoryPeer::DATABASE_NAME);
 		}
 
 		if ($values instanceof Criteria) {
 			$criteria = clone $values; // rename for clarity
-		} elseif ($values instanceof Collection) {
+		} elseif ($values instanceof FileImportHistory) {
 
 			$criteria = $values->buildPkeyCriteria();
 		} else {
 			// it must be the primary key
 			$criteria = new Criteria(self::DATABASE_NAME);
-			$criteria->add(CollectionPeer::ID, (array) $values, Criteria::IN);
+			$criteria->add(FileImportHistoryPeer::ID, (array) $values, Criteria::IN);
 		}
 
 		// Set the correct dbName
@@ -1758,24 +1411,24 @@ abstract class BaseCollectionPeer {
 	}
 
 	/**
-	 * Validates all modified columns of given Collection object.
+	 * Validates all modified columns of given FileImportHistory object.
 	 * If parameter $columns is either a single column name or an array of column names
 	 * than only those columns are validated.
 	 *
 	 * NOTICE: This does not apply to primary or foreign keys for now.
 	 *
-	 * @param      Collection $obj The object to validate.
+	 * @param      FileImportHistory $obj The object to validate.
 	 * @param      mixed $cols Column name or array of column names.
 	 *
 	 * @return     mixed TRUE if all columns are valid or the error message of the first invalid column.
 	 */
-	public static function doValidate(Collection $obj, $cols = null)
+	public static function doValidate(FileImportHistory $obj, $cols = null)
 	{
 		$columns = array();
 
 		if ($cols) {
-			$dbMap = Propel::getDatabaseMap(CollectionPeer::DATABASE_NAME);
-			$tableMap = $dbMap->getTable(CollectionPeer::TABLE_NAME);
+			$dbMap = Propel::getDatabaseMap(FileImportHistoryPeer::DATABASE_NAME);
+			$tableMap = $dbMap->getTable(FileImportHistoryPeer::TABLE_NAME);
 
 			if (! is_array($cols)) {
 				$cols = array($cols);
@@ -1791,7 +1444,7 @@ abstract class BaseCollectionPeer {
 
 		}
 
-		return BasePeer::doValidate(CollectionPeer::DATABASE_NAME, CollectionPeer::TABLE_NAME, $columns);
+		return BasePeer::doValidate(FileImportHistoryPeer::DATABASE_NAME, FileImportHistoryPeer::TABLE_NAME, $columns);
 	}
 
 	/**
@@ -1799,7 +1452,7 @@ abstract class BaseCollectionPeer {
 	 *
 	 * @param      mixed $pk the primary key.
 	 * @param      Connection $con the connection to use
-	 * @return     Collection
+	 * @return     FileImportHistory
 	 */
 	public static function retrieveByPK($pk, $con = null)
 	{
@@ -1807,12 +1460,12 @@ abstract class BaseCollectionPeer {
 			$con = Propel::getConnection(self::DATABASE_NAME);
 		}
 
-		$criteria = new Criteria(CollectionPeer::DATABASE_NAME);
+		$criteria = new Criteria(FileImportHistoryPeer::DATABASE_NAME);
 
-		$criteria->add(CollectionPeer::ID, $pk);
+		$criteria->add(FileImportHistoryPeer::ID, $pk);
 
 
-		$v = CollectionPeer::doSelect($criteria, $con);
+		$v = FileImportHistoryPeer::doSelect($criteria, $con);
 
 		return !empty($v) > 0 ? $v[0] : null;
 	}
@@ -1836,26 +1489,26 @@ abstract class BaseCollectionPeer {
 			$objs = array();
 		} else {
 			$criteria = new Criteria();
-			$criteria->add(CollectionPeer::ID, $pks, Criteria::IN);
-			$objs = CollectionPeer::doSelect($criteria, $con);
+			$criteria->add(FileImportHistoryPeer::ID, $pks, Criteria::IN);
+			$objs = FileImportHistoryPeer::doSelect($criteria, $con);
 		}
 		return $objs;
 	}
 
-} // BaseCollectionPeer
+} // BaseFileImportHistoryPeer
 
 // static code to register the map builder for this Peer with the main Propel class
 if (Propel::isInit()) {
 	// the MapBuilder classes register themselves with Propel during initialization
 	// so we need to load them here.
 	try {
-		BaseCollectionPeer::getMapBuilder();
+		BaseFileImportHistoryPeer::getMapBuilder();
 	} catch (Exception $e) {
 		Propel::log('Could not initialize Peer: ' . $e->getMessage(), Propel::LOG_ERR);
 	}
 } else {
 	// even if Propel is not yet initialized, the map builder class can be registered
 	// now and then it will be loaded when Propel initializes.
-	require_once 'lib/model/map/CollectionMapBuilder.php';
-	Propel::registerMapBuilder('lib.model.map.CollectionMapBuilder');
+	require_once 'lib/model/map/FileImportHistoryMapBuilder.php';
+	Propel::registerMapBuilder('lib.model.map.FileImportHistoryMapBuilder');
 }

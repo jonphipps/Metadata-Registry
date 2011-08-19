@@ -65,7 +65,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 	 * The value for the schema_id field.
 	 * @var        int
 	 */
-	protected $schema_id = 0;
+	protected $schema_id;
 
 
 	/**
@@ -100,7 +100,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 	 * The value for the type field.
 	 * @var        string
 	 */
-	protected $type = '';
+	protected $type = 'property';
 
 
 	/**
@@ -128,7 +128,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 	 * The value for the status_id field.
 	 * @var        int
 	 */
-	protected $status_id = 0;
+	protected $status_id = 1;
 
 
 	/**
@@ -740,7 +740,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 			$v = (int) $v;
 		}
 
-		if ($this->schema_id !== $v || $v === 0) {
+		if ($this->schema_id !== $v) {
 			$this->schema_id = $v;
 			$this->modifiedColumns[] = SchemaPropertyPeer::SCHEMA_ID;
 		}
@@ -854,7 +854,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 			$v = (string) $v; 
 		}
 
-		if ($this->type !== $v || $v === '') {
+		if ($this->type !== $v || $v === 'property') {
 			$this->type = $v;
 			$this->modifiedColumns[] = SchemaPropertyPeer::TYPE;
 		}
@@ -946,7 +946,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 			$v = (int) $v;
 		}
 
-		if ($this->status_id !== $v || $v === 0) {
+		if ($this->status_id !== $v || $v === 1) {
 			$this->status_id = $v;
 			$this->modifiedColumns[] = SchemaPropertyPeer::STATUS_ID;
 		}
@@ -2119,7 +2119,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 
 		if ($v === null) {
-			$this->setSchemaId('');
+			$this->setSchemaId(NULL);
 		} else {
 			$this->setSchemaId($v->getId());
 		}
@@ -2219,7 +2219,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 
 		if ($v === null) {
-			$this->setStatusId('0');
+			$this->setStatusId('1');
 		} else {
 			$this->setStatusId($v->getId());
 		}
