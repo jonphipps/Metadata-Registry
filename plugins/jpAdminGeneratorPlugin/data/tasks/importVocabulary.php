@@ -102,7 +102,15 @@ function run_import_vocabulary( $task, $args )
     {
       throw new Exception('Invalid vocabulary ID');
     }
+
+    //set some defaults
     $baseDomain = $vocabObj->getBaseDomain();
+    $language = $vocabObj->getLanguage();
+    $statusId = $vocabObj->getStatusId();
+
+    //get a skos property id map
+    $skosMap = SkosPropertyPeer::getPropertyNames();
+
   }
 
   //     insert jon's user id
@@ -148,7 +156,7 @@ function run_import_vocabulary( $task, $args )
       }
       // Get array of heading names found
       $headings = $reader->getHeadings();
-      ConceptPeer::getFieldNames();
+      $fields = ConceptPeer::getFieldNames();
 
       //set the map
 //      $map[] = array("property" => "Uri", "column" => "URILocal");
@@ -163,32 +171,87 @@ function run_import_vocabulary( $task, $args )
       "definition" => "skos:definition",
       "notation"   => "skos:notation",
       "scopeNote"  => "skos:scopeNote");
+
       //executeImport:
-
-      //set some defaults
-      /**
-      * @todo get these from the user configuration
-      **/
-      $language = "en";
-      $statusId = 1;
-
 
 //    serialize the column map
       try
       {
         while ($row = $reader->getRow()) {
-          echo("Name of User: " . $row['name'] . "\n");
-//          lookup the URI (or the OMR ID if available) for a match
-          $uri = $baseDomain . $map["uri"];
+//        lookup the URI (or the OMR ID if available) for a match
+          $uri = $baseDomain . $row[$map["uri"]];
           $concept = ConceptPeer::getConceptByUri($uri);
+          $updateTime = time();
+          $language = (isset($map['language'])) ? $row[$map['language']] : $vocabObj->getLanguage();
+
           if (!$concept)
           {
 //          create a new concept or element
             $concept = new Concept();
             $concept->setVocabulary($vocabObj);
+            $concept->setUri($uri);
+            /**
+            * @todo Need to handle updates for topconcept here, just like language
+            **/
+            $concept->setIsTopConcept(false);
             $concept->updateFromRequest($userId, $row[$map['prefLabel']], $language, $statusId);
-//               create a new property for each matched column
           }
+          //don't update the concept if the preflabel matches
+          else if($row[$map['prefLabel']] != $concept->getPrefLabel())
+          {
+            $concept->updateFromRequest($userId, $row[$map['prefLabel']]);
+          }
+
+          //there needs to be a language to lookup the properties unless it's an objectProperty
+          $rowLanguage = (isset($map['language'])) ? $row[$map['language']] : $concept->getLanguage();
+
+          foreach ($map as $key => $value)
+          {
+            //we skip because we already did them
+            if (!in_array($key, array('uri', 'prefLabel', 'language')))
+            {
+              $skosId = $skosMap[$key];
+              //check to see if the property already exists
+              $property = ConceptPropertyPeer::lookupProperty($concept->getId(), $skosId, $rowLanguage);
+
+              //create a new property for each unmatched column
+              if (!empty($row[$value]))
+              {
+                if (!$property)
+                {
+                  $property = new ConceptProperty();
+                  $property->setCreatedUserId($userId);
+                  $property->setConceptId($concept->getId());
+                  $property->setCreatedAt($updateTime);
+                  $property->setSkosPropertyId($skosId);
+                }
+
+                if (($row[$value] != $property->getObject()) || ($rowLanguage != $property->getLanguage()))
+                {
+                  /**
+                  * @todo We need a check here for skos objectproperties and handle differently
+                  **/
+                  if ($rowLanguage != $property->getLanguage())
+                  {
+                    $property->setLanguage($rowLanguage);
+                  }
+                  if ($row[$value] != $property->getObject())
+                  {
+                    $property->setObject($row[$value]);
+                  }
+                  $property->setUpdatedUserId($userId);
+                  $property->setUpdatedAt($updateTime);
+                  $property->save();
+                }
+              }
+              //the row value is empty
+              else if ($deleteMissing && $property)
+              {
+                $property->delete();
+              }
+            }
+          }
+
   //          else
   //               lookup and update concept or element
   //               lookup and update each property
