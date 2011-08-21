@@ -67,5 +67,25 @@ class SkosPropertyPeer extends BaseSkosPropertyPeer
     return $results;
   }
 
+  /**
+  * description
+  *
+  * @return return_type
+  * @param  var_type $var
+  */
+  public static function getPropertyNames()
+  {
+    $c = new Criteria();
+    $c->clearSelectColumns()->addSelectColumn(SkosPropertyPeer::ID);
+    $c->addSelectColumn(self::NAME);
+    $rs = SkosPropertyPeer::doSelectRS($c);
+    while($rs->next())
+    {
+      $results[$rs->getString(2)] = $rs->getInt(1);
+    }
+
+    return $results;
+  }
+
 
 } // SkosPropertyPeer
