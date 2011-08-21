@@ -3,10 +3,10 @@
 /**
  * Subclass for performing query and update operations on the 'reg_concept_property' table.
  *
- * 
+ *
  *
  * @package lib.model
- */ 
+ */
 class ConceptPropertyPeer extends BaseConceptPropertyPeer
 {
 	/** the column name for the VOCABULARY_ID field */
@@ -82,6 +82,33 @@ class ConceptPropertyPeer extends BaseConceptPropertyPeer
 
       return $results;
    }
+
+  /**
+  * description
+  *
+  * @return return_type
+  * @param  var_type $var
+  */
+  public static function lookupProperty($conceptId, $skosId, $language = null)
+  {
+    $c = new Criteria();
+    $c->add(self::CONCEPT_ID, $conceptId);
+    $c->add(self::SKOS_PROPERTY_ID, $skosId);
+
+    if (isset($language))
+    {
+      $skosProperty = SkosPropertyPeer::retrieveByPK($skosId);
+      if ('resource' != $skosProperty->getObjectType())
+      {
+        $c->add(self::LANGUAGE, $language);
+      }
+    }
+
+    $results = self::doSelectOne($c);
+
+    return $results;
+  }
+
 
 } // ConceptPropertyPeer
 
