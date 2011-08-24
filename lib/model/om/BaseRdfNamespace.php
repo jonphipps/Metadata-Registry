@@ -1,20 +1,20 @@
 <?php
 
 /**
- * Base class that represents a row from the 'reg_namespace' table.
+ * Base class that represents a row from the 'reg_rdf_namespace' table.
  *
  * 
  *
  * @package    lib.model.om
  */
-abstract class BaseNamespace extends BaseObject  implements Persistent {
+abstract class BaseRdfNamespace extends BaseObject  implements Persistent {
 
 
 	/**
 	 * The Peer class.
 	 * Instance provides a convenient way of calling static methods on a class
 	 * that calling code may not be able to identify.
-	 * @var        NamespacePeer
+	 * @var        RdfNamespacePeer
 	 */
 	protected static $peer;
 
@@ -274,7 +274,7 @@ abstract class BaseNamespace extends BaseObject  implements Persistent {
 
 		if ($this->id !== $v) {
 			$this->id = $v;
-			$this->modifiedColumns[] = NamespacePeer::ID;
+			$this->modifiedColumns[] = RdfNamespacePeer::ID;
 		}
 
 	} // setId()
@@ -296,7 +296,7 @@ abstract class BaseNamespace extends BaseObject  implements Persistent {
 
 		if ($this->schema_id !== $v) {
 			$this->schema_id = $v;
-			$this->modifiedColumns[] = NamespacePeer::SCHEMA_ID;
+			$this->modifiedColumns[] = RdfNamespacePeer::SCHEMA_ID;
 		}
 
 		if ($this->aSchema !== null && $this->aSchema->getId() !== $v) {
@@ -324,7 +324,7 @@ abstract class BaseNamespace extends BaseObject  implements Persistent {
 		}
 		if ($this->created_at !== $ts) {
 			$this->created_at = $ts;
-			$this->modifiedColumns[] = NamespacePeer::CREATED_AT;
+			$this->modifiedColumns[] = RdfNamespacePeer::CREATED_AT;
 		}
 
 	} // setCreatedAt()
@@ -348,7 +348,7 @@ abstract class BaseNamespace extends BaseObject  implements Persistent {
 		}
 		if ($this->deleted_at !== $ts) {
 			$this->deleted_at = $ts;
-			$this->modifiedColumns[] = NamespacePeer::DELETED_AT;
+			$this->modifiedColumns[] = RdfNamespacePeer::DELETED_AT;
 		}
 
 	} // setDeletedAt()
@@ -370,7 +370,7 @@ abstract class BaseNamespace extends BaseObject  implements Persistent {
 
 		if ($this->created_user_id !== $v) {
 			$this->created_user_id = $v;
-			$this->modifiedColumns[] = NamespacePeer::CREATED_USER_ID;
+			$this->modifiedColumns[] = RdfNamespacePeer::CREATED_USER_ID;
 		}
 
 	} // setCreatedUserId()
@@ -392,7 +392,7 @@ abstract class BaseNamespace extends BaseObject  implements Persistent {
 
 		if ($this->updated_user_id !== $v) {
 			$this->updated_user_id = $v;
-			$this->modifiedColumns[] = NamespacePeer::UPDATED_USER_ID;
+			$this->modifiedColumns[] = RdfNamespacePeer::UPDATED_USER_ID;
 		}
 
 	} // setUpdatedUserId()
@@ -414,7 +414,7 @@ abstract class BaseNamespace extends BaseObject  implements Persistent {
 
 		if ($this->token !== $v || $v === '') {
 			$this->token = $v;
-			$this->modifiedColumns[] = NamespacePeer::TOKEN;
+			$this->modifiedColumns[] = RdfNamespacePeer::TOKEN;
 		}
 
 	} // setToken()
@@ -436,7 +436,7 @@ abstract class BaseNamespace extends BaseObject  implements Persistent {
 
 		if ($this->note !== $v) {
 			$this->note = $v;
-			$this->modifiedColumns[] = NamespacePeer::NOTE;
+			$this->modifiedColumns[] = RdfNamespacePeer::NOTE;
 		}
 
 	} // setNote()
@@ -458,7 +458,7 @@ abstract class BaseNamespace extends BaseObject  implements Persistent {
 
 		if ($this->uri !== $v || $v === '') {
 			$this->uri = $v;
-			$this->modifiedColumns[] = NamespacePeer::URI;
+			$this->modifiedColumns[] = RdfNamespacePeer::URI;
 		}
 
 	} // setUri()
@@ -480,7 +480,7 @@ abstract class BaseNamespace extends BaseObject  implements Persistent {
 
 		if ($this->schema_location !== $v) {
 			$this->schema_location = $v;
-			$this->modifiedColumns[] = NamespacePeer::SCHEMA_LOCATION;
+			$this->modifiedColumns[] = RdfNamespacePeer::SCHEMA_LOCATION;
 		}
 
 	} // setSchemaLocation()
@@ -527,10 +527,10 @@ abstract class BaseNamespace extends BaseObject  implements Persistent {
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 10; // 10 = NamespacePeer::NUM_COLUMNS - NamespacePeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 10; // 10 = RdfNamespacePeer::NUM_COLUMNS - RdfNamespacePeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
-			throw new PropelException("Error populating Namespace object", $e);
+			throw new PropelException("Error populating RdfNamespace object", $e);
 		}
 	}
 
@@ -546,7 +546,7 @@ abstract class BaseNamespace extends BaseObject  implements Persistent {
 	public function delete($con = null)
 	{
 
-    foreach (sfMixer::getCallables('BaseNamespace:delete:pre') as $callable)
+    foreach (sfMixer::getCallables('BaseRdfNamespace:delete:pre') as $callable)
     {
       $ret = call_user_func($callable, $this, $con);
       if ($ret)
@@ -561,12 +561,12 @@ abstract class BaseNamespace extends BaseObject  implements Persistent {
 		}
 
 		if ($con === null) {
-			$con = Propel::getConnection(NamespacePeer::DATABASE_NAME);
+			$con = Propel::getConnection(RdfNamespacePeer::DATABASE_NAME);
 		}
 
 		try {
 			$con->begin();
-			NamespacePeer::doDelete($this, $con);
+			RdfNamespacePeer::doDelete($this, $con);
 			$this->setDeleted(true);
 			$con->commit();
 		} catch (PropelException $e) {
@@ -575,7 +575,7 @@ abstract class BaseNamespace extends BaseObject  implements Persistent {
 		}
 	
 
-    foreach (sfMixer::getCallables('BaseNamespace:delete:post') as $callable)
+    foreach (sfMixer::getCallables('BaseRdfNamespace:delete:post') as $callable)
     {
       call_user_func($callable, $this, $con);
     }
@@ -594,7 +594,7 @@ abstract class BaseNamespace extends BaseObject  implements Persistent {
 	public function save($con = null)
 	{
 
-    foreach (sfMixer::getCallables('BaseNamespace:save:pre') as $callable)
+    foreach (sfMixer::getCallables('BaseRdfNamespace:save:pre') as $callable)
     {
       $affectedRows = call_user_func($callable, $this, $con);
       if (is_int($affectedRows))
@@ -604,7 +604,7 @@ abstract class BaseNamespace extends BaseObject  implements Persistent {
     }
 
 
-    if ($this->isNew() && !$this->isColumnModified(NamespacePeer::CREATED_AT))
+    if ($this->isNew() && !$this->isColumnModified(RdfNamespacePeer::CREATED_AT))
     {
       $this->setCreatedAt(time());
     }
@@ -614,14 +614,14 @@ abstract class BaseNamespace extends BaseObject  implements Persistent {
 		}
 
 		if ($con === null) {
-			$con = Propel::getConnection(NamespacePeer::DATABASE_NAME);
+			$con = Propel::getConnection(RdfNamespacePeer::DATABASE_NAME);
 		}
 
 		try {
 			$con->begin();
 			$affectedRows = $this->doSave($con);
 			$con->commit();
-    foreach (sfMixer::getCallables('BaseNamespace:save:post') as $callable)
+    foreach (sfMixer::getCallables('BaseRdfNamespace:save:post') as $callable)
     {
       call_user_func($callable, $this, $con, $affectedRows);
     }
@@ -667,7 +667,7 @@ abstract class BaseNamespace extends BaseObject  implements Persistent {
 			// If this object has been modified, then save it to the database.
 			if ($this->isModified()) {
 				if ($this->isNew()) {
-					$pk = NamespacePeer::doInsert($this, $con);
+					$pk = RdfNamespacePeer::doInsert($this, $con);
 					$affectedRows += 1; // we are assuming that there is only 1 row per doInsert() which
 										 // should always be true here (even though technically
 										 // BasePeer::doInsert() can insert multiple rows).
@@ -676,7 +676,7 @@ abstract class BaseNamespace extends BaseObject  implements Persistent {
 
 					$this->setNew(false);
 				} else {
-					$affectedRows += NamespacePeer::doUpdate($this, $con);
+					$affectedRows += RdfNamespacePeer::doUpdate($this, $con);
 				}
 				$this->resetModified(); // [HL] After being saved an object is no longer 'modified'
 			}
@@ -758,7 +758,7 @@ abstract class BaseNamespace extends BaseObject  implements Persistent {
 			}
 
 
-			if (($retval = NamespacePeer::doValidate($this, $columns)) !== true) {
+			if (($retval = RdfNamespacePeer::doValidate($this, $columns)) !== true) {
 				$failureMap = array_merge($failureMap, $retval);
 			}
 
@@ -781,7 +781,7 @@ abstract class BaseNamespace extends BaseObject  implements Persistent {
 	 */
 	public function getByName($name, $type = BasePeer::TYPE_PHPNAME)
 	{
-		$pos = NamespacePeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
+		$pos = RdfNamespacePeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
 		return $this->getByPosition($pos);
 	}
 
@@ -843,7 +843,7 @@ abstract class BaseNamespace extends BaseObject  implements Persistent {
 	 */
 	public function toArray($keyType = BasePeer::TYPE_PHPNAME)
 	{
-		$keys = NamespacePeer::getFieldNames($keyType);
+		$keys = RdfNamespacePeer::getFieldNames($keyType);
 		$result = array(
 			$keys[0] => $this->getId(),
 			$keys[1] => $this->getSchemaId(),
@@ -871,7 +871,7 @@ abstract class BaseNamespace extends BaseObject  implements Persistent {
 	 */
 	public function setByName($name, $value, $type = BasePeer::TYPE_PHPNAME)
 	{
-		$pos = NamespacePeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
+		$pos = RdfNamespacePeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
 		return $this->setByPosition($pos, $value);
 	}
 
@@ -937,7 +937,7 @@ abstract class BaseNamespace extends BaseObject  implements Persistent {
 	 */
 	public function fromArray($arr, $keyType = BasePeer::TYPE_PHPNAME)
 	{
-		$keys = NamespacePeer::getFieldNames($keyType);
+		$keys = RdfNamespacePeer::getFieldNames($keyType);
 
 		if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
 		if (array_key_exists($keys[1], $arr)) $this->setSchemaId($arr[$keys[1]]);
@@ -958,18 +958,18 @@ abstract class BaseNamespace extends BaseObject  implements Persistent {
 	 */
 	public function buildCriteria()
 	{
-		$criteria = new Criteria(NamespacePeer::DATABASE_NAME);
+		$criteria = new Criteria(RdfNamespacePeer::DATABASE_NAME);
 
-		if ($this->isColumnModified(NamespacePeer::ID)) $criteria->add(NamespacePeer::ID, $this->id);
-		if ($this->isColumnModified(NamespacePeer::SCHEMA_ID)) $criteria->add(NamespacePeer::SCHEMA_ID, $this->schema_id);
-		if ($this->isColumnModified(NamespacePeer::CREATED_AT)) $criteria->add(NamespacePeer::CREATED_AT, $this->created_at);
-		if ($this->isColumnModified(NamespacePeer::DELETED_AT)) $criteria->add(NamespacePeer::DELETED_AT, $this->deleted_at);
-		if ($this->isColumnModified(NamespacePeer::CREATED_USER_ID)) $criteria->add(NamespacePeer::CREATED_USER_ID, $this->created_user_id);
-		if ($this->isColumnModified(NamespacePeer::UPDATED_USER_ID)) $criteria->add(NamespacePeer::UPDATED_USER_ID, $this->updated_user_id);
-		if ($this->isColumnModified(NamespacePeer::TOKEN)) $criteria->add(NamespacePeer::TOKEN, $this->token);
-		if ($this->isColumnModified(NamespacePeer::NOTE)) $criteria->add(NamespacePeer::NOTE, $this->note);
-		if ($this->isColumnModified(NamespacePeer::URI)) $criteria->add(NamespacePeer::URI, $this->uri);
-		if ($this->isColumnModified(NamespacePeer::SCHEMA_LOCATION)) $criteria->add(NamespacePeer::SCHEMA_LOCATION, $this->schema_location);
+		if ($this->isColumnModified(RdfNamespacePeer::ID)) $criteria->add(RdfNamespacePeer::ID, $this->id);
+		if ($this->isColumnModified(RdfNamespacePeer::SCHEMA_ID)) $criteria->add(RdfNamespacePeer::SCHEMA_ID, $this->schema_id);
+		if ($this->isColumnModified(RdfNamespacePeer::CREATED_AT)) $criteria->add(RdfNamespacePeer::CREATED_AT, $this->created_at);
+		if ($this->isColumnModified(RdfNamespacePeer::DELETED_AT)) $criteria->add(RdfNamespacePeer::DELETED_AT, $this->deleted_at);
+		if ($this->isColumnModified(RdfNamespacePeer::CREATED_USER_ID)) $criteria->add(RdfNamespacePeer::CREATED_USER_ID, $this->created_user_id);
+		if ($this->isColumnModified(RdfNamespacePeer::UPDATED_USER_ID)) $criteria->add(RdfNamespacePeer::UPDATED_USER_ID, $this->updated_user_id);
+		if ($this->isColumnModified(RdfNamespacePeer::TOKEN)) $criteria->add(RdfNamespacePeer::TOKEN, $this->token);
+		if ($this->isColumnModified(RdfNamespacePeer::NOTE)) $criteria->add(RdfNamespacePeer::NOTE, $this->note);
+		if ($this->isColumnModified(RdfNamespacePeer::URI)) $criteria->add(RdfNamespacePeer::URI, $this->uri);
+		if ($this->isColumnModified(RdfNamespacePeer::SCHEMA_LOCATION)) $criteria->add(RdfNamespacePeer::SCHEMA_LOCATION, $this->schema_location);
 
 		return $criteria;
 	}
@@ -984,9 +984,9 @@ abstract class BaseNamespace extends BaseObject  implements Persistent {
 	 */
 	public function buildPkeyCriteria()
 	{
-		$criteria = new Criteria(NamespacePeer::DATABASE_NAME);
+		$criteria = new Criteria(RdfNamespacePeer::DATABASE_NAME);
 
-		$criteria->add(NamespacePeer::ID, $this->id);
+		$criteria->add(RdfNamespacePeer::ID, $this->id);
 
 		return $criteria;
 	}
@@ -1017,7 +1017,7 @@ abstract class BaseNamespace extends BaseObject  implements Persistent {
 	 * If desired, this method can also make copies of all associated (fkey referrers)
 	 * objects.
 	 *
-	 * @param      object $copyObj An object of Namespace (or compatible) type.
+	 * @param      object $copyObj An object of RdfNamespace (or compatible) type.
 	 * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
 	 * @throws     PropelException
 	 */
@@ -1058,7 +1058,7 @@ abstract class BaseNamespace extends BaseObject  implements Persistent {
 	 * objects.
 	 *
 	 * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-	 * @return     Namespace Clone of current object.
+	 * @return     RdfNamespace Clone of current object.
 	 * @throws     PropelException
 	 */
 	public function copy($deepCopy = false)
@@ -1077,12 +1077,12 @@ abstract class BaseNamespace extends BaseObject  implements Persistent {
 	 * same instance for all member of this class. The method could therefore
 	 * be static, but this would prevent one from overriding the behavior.
 	 *
-	 * @return     NamespacePeer
+	 * @return     RdfNamespacePeer
 	 */
 	public function getPeer()
 	{
 		if (self::$peer === null) {
-			self::$peer = new NamespacePeer();
+			self::$peer = new RdfNamespacePeer();
 		}
 		return self::$peer;
 	}
@@ -1140,9 +1140,9 @@ abstract class BaseNamespace extends BaseObject  implements Persistent {
 
   public function __call($method, $arguments)
   {
-    if (!$callable = sfMixer::getCallable('BaseNamespace:'.$method))
+    if (!$callable = sfMixer::getCallable('BaseRdfNamespace:'.$method))
     {
-      throw new sfException(sprintf('Call to undefined method BaseNamespace::%s', $method));
+      throw new sfException(sprintf('Call to undefined method BaseRdfNamespace::%s', $method));
     }
 
     array_unshift($arguments, $this);
@@ -1151,4 +1151,4 @@ abstract class BaseNamespace extends BaseObject  implements Persistent {
   }
 
 
-} // BaseNamespace
+} // BaseRdfNamespace

@@ -2,7 +2,7 @@
 
 
 /**
- * This class adds structure of 'reg_namespace' table to 'propel' DatabaseMap object.
+ * This class adds structure of 'reg_rdf_namespace' table to 'propel' DatabaseMap object.
  *
  *
  *
@@ -13,12 +13,12 @@
  *
  * @package    lib.model.map
  */
-class NamespaceMapBuilder {
+class RdfNamespaceMapBuilder {
 
 	/**
 	 * The (dot-path) name of this class
 	 */
-	const CLASS_NAME = 'lib.model.map.NamespaceMapBuilder';
+	const CLASS_NAME = 'lib.model.map.RdfNamespaceMapBuilder';
 
 	/**
 	 * The database map.
@@ -56,8 +56,8 @@ class NamespaceMapBuilder {
 	{
 		$this->dbMap = Propel::getDatabaseMap('propel');
 
-		$tMap = $this->dbMap->addTable('reg_namespace');
-		$tMap->setPhpName('Namespace');
+		$tMap = $this->dbMap->addTable('reg_rdf_namespace');
+		$tMap->setPhpName('RdfNamespace');
 
 		$tMap->setUseIdGenerator(true);
 
@@ -83,4 +83,4 @@ class NamespaceMapBuilder {
 
 	} // doBuild()
 
-} // NamespaceMapBuilder
+} // RdfNamespaceMapBuilder

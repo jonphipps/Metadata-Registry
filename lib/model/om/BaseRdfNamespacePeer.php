@@ -1,22 +1,22 @@
 <?php
 
 /**
- * Base static class for performing query and update operations on the 'reg_namespace' table.
+ * Base static class for performing query and update operations on the 'reg_rdf_namespace' table.
  *
  * 
  *
  * @package    lib.model.om
  */
-abstract class BaseNamespacePeer {
+abstract class BaseRdfNamespacePeer {
 
 	/** the default database name for this class */
 	const DATABASE_NAME = 'propel';
 
 	/** the table name for this class */
-	const TABLE_NAME = 'reg_namespace';
+	const TABLE_NAME = 'reg_rdf_namespace';
 
 	/** A class that can be returned by this peer. */
-	const CLASS_DEFAULT = 'lib.model.Namespace';
+	const CLASS_DEFAULT = 'lib.model.RdfNamespace';
 
 	/** The total number of columns. */
 	const NUM_COLUMNS = 10;
@@ -26,34 +26,34 @@ abstract class BaseNamespacePeer {
 
 
 	/** the column name for the ID field */
-	const ID = 'reg_namespace.ID';
+	const ID = 'reg_rdf_namespace.ID';
 
 	/** the column name for the SCHEMA_ID field */
-	const SCHEMA_ID = 'reg_namespace.SCHEMA_ID';
+	const SCHEMA_ID = 'reg_rdf_namespace.SCHEMA_ID';
 
 	/** the column name for the CREATED_AT field */
-	const CREATED_AT = 'reg_namespace.CREATED_AT';
+	const CREATED_AT = 'reg_rdf_namespace.CREATED_AT';
 
 	/** the column name for the DELETED_AT field */
-	const DELETED_AT = 'reg_namespace.DELETED_AT';
+	const DELETED_AT = 'reg_rdf_namespace.DELETED_AT';
 
 	/** the column name for the CREATED_USER_ID field */
-	const CREATED_USER_ID = 'reg_namespace.CREATED_USER_ID';
+	const CREATED_USER_ID = 'reg_rdf_namespace.CREATED_USER_ID';
 
 	/** the column name for the UPDATED_USER_ID field */
-	const UPDATED_USER_ID = 'reg_namespace.UPDATED_USER_ID';
+	const UPDATED_USER_ID = 'reg_rdf_namespace.UPDATED_USER_ID';
 
 	/** the column name for the TOKEN field */
-	const TOKEN = 'reg_namespace.TOKEN';
+	const TOKEN = 'reg_rdf_namespace.TOKEN';
 
 	/** the column name for the NOTE field */
-	const NOTE = 'reg_namespace.NOTE';
+	const NOTE = 'reg_rdf_namespace.NOTE';
 
 	/** the column name for the URI field */
-	const URI = 'reg_namespace.URI';
+	const URI = 'reg_rdf_namespace.URI';
 
 	/** the column name for the SCHEMA_LOCATION field */
-	const SCHEMA_LOCATION = 'reg_namespace.SCHEMA_LOCATION';
+	const SCHEMA_LOCATION = 'reg_rdf_namespace.SCHEMA_LOCATION';
 
 	/** The PHP to DB Name Mapping */
 	private static $phpNameMap = null;
@@ -67,7 +67,7 @@ abstract class BaseNamespacePeer {
 	 */
 	private static $fieldNames = array (
 		BasePeer::TYPE_PHPNAME => array ('Id', 'SchemaId', 'CreatedAt', 'DeletedAt', 'CreatedUserId', 'UpdatedUserId', 'Token', 'Note', 'Uri', 'SchemaLocation', ),
-		BasePeer::TYPE_COLNAME => array (NamespacePeer::ID, NamespacePeer::SCHEMA_ID, NamespacePeer::CREATED_AT, NamespacePeer::DELETED_AT, NamespacePeer::CREATED_USER_ID, NamespacePeer::UPDATED_USER_ID, NamespacePeer::TOKEN, NamespacePeer::NOTE, NamespacePeer::URI, NamespacePeer::SCHEMA_LOCATION, ),
+		BasePeer::TYPE_COLNAME => array (RdfNamespacePeer::ID, RdfNamespacePeer::SCHEMA_ID, RdfNamespacePeer::CREATED_AT, RdfNamespacePeer::DELETED_AT, RdfNamespacePeer::CREATED_USER_ID, RdfNamespacePeer::UPDATED_USER_ID, RdfNamespacePeer::TOKEN, RdfNamespacePeer::NOTE, RdfNamespacePeer::URI, RdfNamespacePeer::SCHEMA_LOCATION, ),
 		BasePeer::TYPE_FIELDNAME => array ('id', 'schema_id', 'created_at', 'deleted_at', 'created_user_id', 'updated_user_id', 'token', 'note', 'uri', 'schema_location', ),
 		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, )
 	);
@@ -80,7 +80,7 @@ abstract class BaseNamespacePeer {
 	 */
 	private static $fieldKeys = array (
 		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'SchemaId' => 1, 'CreatedAt' => 2, 'DeletedAt' => 3, 'CreatedUserId' => 4, 'UpdatedUserId' => 5, 'Token' => 6, 'Note' => 7, 'Uri' => 8, 'SchemaLocation' => 9, ),
-		BasePeer::TYPE_COLNAME => array (NamespacePeer::ID => 0, NamespacePeer::SCHEMA_ID => 1, NamespacePeer::CREATED_AT => 2, NamespacePeer::DELETED_AT => 3, NamespacePeer::CREATED_USER_ID => 4, NamespacePeer::UPDATED_USER_ID => 5, NamespacePeer::TOKEN => 6, NamespacePeer::NOTE => 7, NamespacePeer::URI => 8, NamespacePeer::SCHEMA_LOCATION => 9, ),
+		BasePeer::TYPE_COLNAME => array (RdfNamespacePeer::ID => 0, RdfNamespacePeer::SCHEMA_ID => 1, RdfNamespacePeer::CREATED_AT => 2, RdfNamespacePeer::DELETED_AT => 3, RdfNamespacePeer::CREATED_USER_ID => 4, RdfNamespacePeer::UPDATED_USER_ID => 5, RdfNamespacePeer::TOKEN => 6, RdfNamespacePeer::NOTE => 7, RdfNamespacePeer::URI => 8, RdfNamespacePeer::SCHEMA_LOCATION => 9, ),
 		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'schema_id' => 1, 'created_at' => 2, 'deleted_at' => 3, 'created_user_id' => 4, 'updated_user_id' => 5, 'token' => 6, 'note' => 7, 'uri' => 8, 'schema_location' => 9, ),
 		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, )
 	);
@@ -92,8 +92,8 @@ abstract class BaseNamespacePeer {
 	 */
 	public static function getMapBuilder()
 	{
-		include_once 'lib/model/map/NamespaceMapBuilder.php';
-		return BasePeer::getMapBuilder('lib.model.map.NamespaceMapBuilder');
+		include_once 'lib/model/map/RdfNamespaceMapBuilder.php';
+		return BasePeer::getMapBuilder('lib.model.map.RdfNamespaceMapBuilder');
 	}
 	/**
 	 * Gets a map (hash) of PHP names to DB column names.
@@ -106,7 +106,7 @@ abstract class BaseNamespacePeer {
 	public static function getPhpNameMap()
 	{
 		if (self::$phpNameMap === null) {
-			$map = NamespacePeer::getTableMap();
+			$map = RdfNamespacePeer::getTableMap();
 			$columns = $map->getColumns();
 			$nameMap = array();
 			foreach ($columns as $column) {
@@ -161,12 +161,12 @@ abstract class BaseNamespacePeer {
 	 *		$c->addJoin(TablePeer::alias("alias1", TablePeer::PRIMARY_KEY_COLUMN), TablePeer::PRIMARY_KEY_COLUMN);
 	 * </code>
 	 * @param      string $alias The alias for the current table.
-	 * @param      string $column The column name for current table. (i.e. NamespacePeer::COLUMN_NAME).
+	 * @param      string $column The column name for current table. (i.e. RdfNamespacePeer::COLUMN_NAME).
 	 * @return     string
 	 */
 	public static function alias($alias, $column)
 	{
-		return str_replace(NamespacePeer::TABLE_NAME.'.', $alias.'.', $column);
+		return str_replace(RdfNamespacePeer::TABLE_NAME.'.', $alias.'.', $column);
 	}
 
 	/**
@@ -183,30 +183,30 @@ abstract class BaseNamespacePeer {
 	public static function addSelectColumns(Criteria $criteria, $tableAlias = null)
 	{
 
-        $criteria->addSelectColumn(($tableAlias) ? NamespacePeer::alias($tableAlias, NamespacePeer::ID) : NamespacePeer::ID);
+        $criteria->addSelectColumn(($tableAlias) ? RdfNamespacePeer::alias($tableAlias, RdfNamespacePeer::ID) : RdfNamespacePeer::ID);
 
-        $criteria->addSelectColumn(($tableAlias) ? NamespacePeer::alias($tableAlias, NamespacePeer::SCHEMA_ID) : NamespacePeer::SCHEMA_ID);
+        $criteria->addSelectColumn(($tableAlias) ? RdfNamespacePeer::alias($tableAlias, RdfNamespacePeer::SCHEMA_ID) : RdfNamespacePeer::SCHEMA_ID);
 
-        $criteria->addSelectColumn(($tableAlias) ? NamespacePeer::alias($tableAlias, NamespacePeer::CREATED_AT) : NamespacePeer::CREATED_AT);
+        $criteria->addSelectColumn(($tableAlias) ? RdfNamespacePeer::alias($tableAlias, RdfNamespacePeer::CREATED_AT) : RdfNamespacePeer::CREATED_AT);
 
-        $criteria->addSelectColumn(($tableAlias) ? NamespacePeer::alias($tableAlias, NamespacePeer::DELETED_AT) : NamespacePeer::DELETED_AT);
+        $criteria->addSelectColumn(($tableAlias) ? RdfNamespacePeer::alias($tableAlias, RdfNamespacePeer::DELETED_AT) : RdfNamespacePeer::DELETED_AT);
 
-        $criteria->addSelectColumn(($tableAlias) ? NamespacePeer::alias($tableAlias, NamespacePeer::CREATED_USER_ID) : NamespacePeer::CREATED_USER_ID);
+        $criteria->addSelectColumn(($tableAlias) ? RdfNamespacePeer::alias($tableAlias, RdfNamespacePeer::CREATED_USER_ID) : RdfNamespacePeer::CREATED_USER_ID);
 
-        $criteria->addSelectColumn(($tableAlias) ? NamespacePeer::alias($tableAlias, NamespacePeer::UPDATED_USER_ID) : NamespacePeer::UPDATED_USER_ID);
+        $criteria->addSelectColumn(($tableAlias) ? RdfNamespacePeer::alias($tableAlias, RdfNamespacePeer::UPDATED_USER_ID) : RdfNamespacePeer::UPDATED_USER_ID);
 
-        $criteria->addSelectColumn(($tableAlias) ? NamespacePeer::alias($tableAlias, NamespacePeer::TOKEN) : NamespacePeer::TOKEN);
+        $criteria->addSelectColumn(($tableAlias) ? RdfNamespacePeer::alias($tableAlias, RdfNamespacePeer::TOKEN) : RdfNamespacePeer::TOKEN);
 
-        $criteria->addSelectColumn(($tableAlias) ? NamespacePeer::alias($tableAlias, NamespacePeer::NOTE) : NamespacePeer::NOTE);
+        $criteria->addSelectColumn(($tableAlias) ? RdfNamespacePeer::alias($tableAlias, RdfNamespacePeer::NOTE) : RdfNamespacePeer::NOTE);
 
-        $criteria->addSelectColumn(($tableAlias) ? NamespacePeer::alias($tableAlias, NamespacePeer::URI) : NamespacePeer::URI);
+        $criteria->addSelectColumn(($tableAlias) ? RdfNamespacePeer::alias($tableAlias, RdfNamespacePeer::URI) : RdfNamespacePeer::URI);
 
-        $criteria->addSelectColumn(($tableAlias) ? NamespacePeer::alias($tableAlias, NamespacePeer::SCHEMA_LOCATION) : NamespacePeer::SCHEMA_LOCATION);
+        $criteria->addSelectColumn(($tableAlias) ? RdfNamespacePeer::alias($tableAlias, RdfNamespacePeer::SCHEMA_LOCATION) : RdfNamespacePeer::SCHEMA_LOCATION);
 
 	}
 
-	const COUNT = 'COUNT(reg_namespace.ID)';
-	const COUNT_DISTINCT = 'COUNT(DISTINCT reg_namespace.ID)';
+	const COUNT = 'COUNT(reg_rdf_namespace.ID)';
+	const COUNT_DISTINCT = 'COUNT(DISTINCT reg_rdf_namespace.ID)';
 
 	/**
 	 * Returns the number of rows matching criteria.
@@ -224,9 +224,9 @@ abstract class BaseNamespacePeer {
 		// clear out anything that might confuse the ORDER BY clause
 		$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
-			$criteria->addSelectColumn(NamespacePeer::COUNT_DISTINCT);
+			$criteria->addSelectColumn(RdfNamespacePeer::COUNT_DISTINCT);
 		} else {
-			$criteria->addSelectColumn(NamespacePeer::COUNT);
+			$criteria->addSelectColumn(RdfNamespacePeer::COUNT);
 		}
 
 		// just in case we're grouping: add those columns to the select statement
@@ -235,7 +235,7 @@ abstract class BaseNamespacePeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$rs = NamespacePeer::doSelectRS($criteria, $con);
+		$rs = RdfNamespacePeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
 			return $rs->getInt(1);
 		} else {
@@ -248,7 +248,7 @@ abstract class BaseNamespacePeer {
 	 *
 	 * @param      Criteria $criteria object used to create the SELECT statement.
 	 * @param      Connection $con
-	 * @return     Namespace
+	 * @return     RdfNamespace
 	 * @throws     PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
@@ -256,7 +256,7 @@ abstract class BaseNamespacePeer {
 	{
 		$critcopy = clone $criteria;
 		$critcopy->setLimit(1);
-		$objects = NamespacePeer::doSelect($critcopy, $con);
+		$objects = RdfNamespacePeer::doSelect($critcopy, $con);
 		if ($objects) {
 			return $objects[0];
 		}
@@ -273,7 +273,7 @@ abstract class BaseNamespacePeer {
 	 */
 	public static function doSelect(Criteria $criteria, $con = null)
 	{
-		return NamespacePeer::populateObjects(NamespacePeer::doSelectRS($criteria, $con));
+		return RdfNamespacePeer::populateObjects(RdfNamespacePeer::doSelectRS($criteria, $con));
 	}
 	/**
 	 * Prepares the Criteria object and uses the parent doSelect()
@@ -292,9 +292,9 @@ abstract class BaseNamespacePeer {
 	public static function doSelectRS(Criteria $criteria, $con = null)
 	{
 
-    foreach (sfMixer::getCallables('BaseNamespacePeer:addDoSelectRS:addDoSelectRS') as $callable)
+    foreach (sfMixer::getCallables('BaseRdfNamespacePeer:addDoSelectRS:addDoSelectRS') as $callable)
     {
-      call_user_func($callable, 'BaseNamespacePeer', $criteria, $con);
+      call_user_func($callable, 'BaseRdfNamespacePeer', $criteria, $con);
     }
 
 
@@ -304,7 +304,7 @@ abstract class BaseNamespacePeer {
 
 		if (!$criteria->getSelectColumns()) {
 			$criteria = clone $criteria;
-			NamespacePeer::addSelectColumns($criteria);
+			RdfNamespacePeer::addSelectColumns($criteria);
 		}
 
 		// Set the correct dbName
@@ -326,7 +326,7 @@ abstract class BaseNamespacePeer {
 		$results = array();
 	
 		// set the class once to avoid overhead in the loop
-		$cls = NamespacePeer::getOMClass();
+		$cls = RdfNamespacePeer::getOMClass();
 		$cls = Propel::import($cls);
 		// populate the object(s)
 		while($rs->next()) {
@@ -355,9 +355,9 @@ abstract class BaseNamespacePeer {
 		// clear out anything that might confuse the ORDER BY clause
 		$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
-			$criteria->addSelectColumn(NamespacePeer::COUNT_DISTINCT);
+			$criteria->addSelectColumn(RdfNamespacePeer::COUNT_DISTINCT);
 		} else {
-			$criteria->addSelectColumn(NamespacePeer::COUNT);
+			$criteria->addSelectColumn(RdfNamespacePeer::COUNT);
 		}
 
 		// just in case we're grouping: add those columns to the select statement
@@ -366,9 +366,9 @@ abstract class BaseNamespacePeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(NamespacePeer::SCHEMA_ID, SchemaPeer::ID);
+		$criteria->addJoin(RdfNamespacePeer::SCHEMA_ID, SchemaPeer::ID);
 
-		$rs = NamespacePeer::doSelectRS($criteria, $con);
+		$rs = RdfNamespacePeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
 			return $rs->getInt(1);
 		} else {
@@ -379,9 +379,9 @@ abstract class BaseNamespacePeer {
 
 
 	/**
-	 * Selects a collection of Namespace objects pre-filled with their Schema objects.
+	 * Selects a collection of RdfNamespace objects pre-filled with their Schema objects.
 	 *
-	 * @return array Array of Namespace objects.
+	 * @return array Array of RdfNamespace objects.
 	 * @throws PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
@@ -394,17 +394,17 @@ abstract class BaseNamespacePeer {
 			$c->setDbName(self::DATABASE_NAME);
 		}
 
-		NamespacePeer::addSelectColumns($c);
-		$startcol = (NamespacePeer::NUM_COLUMNS - NamespacePeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+		RdfNamespacePeer::addSelectColumns($c);
+		$startcol = (RdfNamespacePeer::NUM_COLUMNS - RdfNamespacePeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 		SchemaPeer::addSelectColumns($c);
 
-		$c->addJoin(NamespacePeer::SCHEMA_ID, SchemaPeer::ID);
+		$c->addJoin(RdfNamespacePeer::SCHEMA_ID, SchemaPeer::ID);
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
 
 		while($rs->next()) {
 
-			$omClass = NamespacePeer::getOMClass();
+			$omClass = RdfNamespacePeer::getOMClass();
 
 			$cls = Propel::import($omClass);
 			$obj1 = new $cls();
@@ -422,13 +422,13 @@ abstract class BaseNamespacePeer {
 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
 					// e.g. $author->addBookRelatedByBookId()
-					$temp_obj2->addNamespace($obj1); //CHECKME
+					$temp_obj2->addRdfNamespace($obj1); //CHECKME
 					break;
 				}
 			}
 			if ($newObject) {
-				$obj2->initNamespaces();
-				$obj2->addNamespace($obj1); //CHECKME
+				$obj2->initRdfNamespaces();
+				$obj2->addRdfNamespace($obj1); //CHECKME
 			}
 			$results[] = $obj1;
 		}
@@ -451,9 +451,9 @@ abstract class BaseNamespacePeer {
 		// clear out anything that might confuse the ORDER BY clause
 		$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
-			$criteria->addSelectColumn(NamespacePeer::COUNT_DISTINCT);
+			$criteria->addSelectColumn(RdfNamespacePeer::COUNT_DISTINCT);
 		} else {
-			$criteria->addSelectColumn(NamespacePeer::COUNT);
+			$criteria->addSelectColumn(RdfNamespacePeer::COUNT);
 		}
 
 		// just in case we're grouping: add those columns to the select statement
@@ -462,9 +462,9 @@ abstract class BaseNamespacePeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(NamespacePeer::SCHEMA_ID, SchemaPeer::ID);
+		$criteria->addJoin(RdfNamespacePeer::SCHEMA_ID, SchemaPeer::ID);
 
-		$rs = NamespacePeer::doSelectRS($criteria, $con);
+		$rs = RdfNamespacePeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
 			return $rs->getInt(1);
 		} else {
@@ -475,9 +475,9 @@ abstract class BaseNamespacePeer {
 
 
 	/**
-	 * Selects a collection of Namespace objects pre-filled with all related objects.
+	 * Selects a collection of RdfNamespace objects pre-filled with all related objects.
 	 *
-	 * @return array Array of Namespace objects.
+	 * @return array Array of RdfNamespace objects.
 	 * @throws PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
@@ -490,13 +490,13 @@ abstract class BaseNamespacePeer {
 			$c->setDbName(self::DATABASE_NAME);
 		}
 
-		NamespacePeer::addSelectColumns($c);
-		$startcol2 = (NamespacePeer::NUM_COLUMNS - NamespacePeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+		RdfNamespacePeer::addSelectColumns($c);
+		$startcol2 = (RdfNamespacePeer::NUM_COLUMNS - RdfNamespacePeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 
 		SchemaPeer::addSelectColumns($c, 'a1');
 		$startcol3 = $startcol2 + SchemaPeer::NUM_COLUMNS;
 
-        $c->addJoin(NamespacePeer::SCHEMA_ID, SchemaPeer::alias('a1', SchemaPeer::ID));
+        $c->addJoin(RdfNamespacePeer::SCHEMA_ID, SchemaPeer::alias('a1', SchemaPeer::ID));
         $c->addAlias('a1', SchemaPeer::TABLE_NAME);
 
 		$rs = BasePeer::doSelect($c, $con);
@@ -504,7 +504,7 @@ abstract class BaseNamespacePeer {
 
 		while($rs->next()) {
 
-			$omClass = NamespacePeer::getOMClass();
+			$omClass = RdfNamespacePeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -527,14 +527,14 @@ abstract class BaseNamespacePeer {
 				$temp_obj2 = $temp_obj1->getSchema(); // CHECKME
 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
-					$temp_obj2->addNamespace($obj1); // CHECKME
+					$temp_obj2->addRdfNamespace($obj1); // CHECKME
 					break;
 				}
 			}
 
 			if ($newObject) {
-				$obj2->initNamespaces();
-				$obj2->addNamespace($obj1);
+				$obj2->initRdfNamespaces();
+				$obj2->addRdfNamespace($obj1);
 			}
 
 			$results[] = $obj1;
@@ -565,13 +565,13 @@ abstract class BaseNamespacePeer {
 	 */
 	public static function getOMClass()
 	{
-		return NamespacePeer::CLASS_DEFAULT;
+		return RdfNamespacePeer::CLASS_DEFAULT;
 	}
 
 	/**
-	 * Method perform an INSERT on the database, given a Namespace or Criteria object.
+	 * Method perform an INSERT on the database, given a RdfNamespace or Criteria object.
 	 *
-	 * @param      mixed $values Criteria or Namespace object containing data that is used to create the INSERT statement.
+	 * @param      mixed $values Criteria or RdfNamespace object containing data that is used to create the INSERT statement.
 	 * @param      Connection $con the connection to use
 	 * @return     mixed The new primary key.
 	 * @throws     PropelException Any exceptions caught during processing will be
@@ -580,9 +580,9 @@ abstract class BaseNamespacePeer {
 	public static function doInsert($values, $con = null)
 	{
 
-    foreach (sfMixer::getCallables('BaseNamespacePeer:doInsert:pre') as $callable)
+    foreach (sfMixer::getCallables('BaseRdfNamespacePeer:doInsert:pre') as $callable)
     {
-      $ret = call_user_func($callable, 'BaseNamespacePeer', $values, $con);
+      $ret = call_user_func($callable, 'BaseRdfNamespacePeer', $values, $con);
       if (false !== $ret)
       {
         return $ret;
@@ -597,10 +597,10 @@ abstract class BaseNamespacePeer {
 		if ($values instanceof Criteria) {
 			$criteria = clone $values; // rename for clarity
 		} else {
-			$criteria = $values->buildCriteria(); // build Criteria from Namespace object
+			$criteria = $values->buildCriteria(); // build Criteria from RdfNamespace object
 		}
 
-		$criteria->remove(NamespacePeer::ID); // remove pkey col since this table uses auto-increment
+		$criteria->remove(RdfNamespacePeer::ID); // remove pkey col since this table uses auto-increment
 
 
 		// Set the correct dbName
@@ -618,18 +618,18 @@ abstract class BaseNamespacePeer {
 		}
 
 		
-    foreach (sfMixer::getCallables('BaseNamespacePeer:doInsert:post') as $callable)
+    foreach (sfMixer::getCallables('BaseRdfNamespacePeer:doInsert:post') as $callable)
     {
-      call_user_func($callable, 'BaseNamespacePeer', $values, $con, $pk);
+      call_user_func($callable, 'BaseRdfNamespacePeer', $values, $con, $pk);
     }
 
     return $pk;
 	}
 
 	/**
-	 * Method perform an UPDATE on the database, given a Namespace or Criteria object.
+	 * Method perform an UPDATE on the database, given a RdfNamespace or Criteria object.
 	 *
-	 * @param      mixed $values Criteria or Namespace object containing data that is used to create the UPDATE statement.
+	 * @param      mixed $values Criteria or RdfNamespace object containing data that is used to create the UPDATE statement.
 	 * @param      Connection $con The connection to use (specify Connection object to exert more control over transactions).
 	 * @return     int The number of affected rows (if supported by underlying database driver).
 	 * @throws     PropelException Any exceptions caught during processing will be
@@ -638,9 +638,9 @@ abstract class BaseNamespacePeer {
 	public static function doUpdate($values, $con = null)
 	{
 
-    foreach (sfMixer::getCallables('BaseNamespacePeer:doUpdate:pre') as $callable)
+    foreach (sfMixer::getCallables('BaseRdfNamespacePeer:doUpdate:pre') as $callable)
     {
-      $ret = call_user_func($callable, 'BaseNamespacePeer', $values, $con);
+      $ret = call_user_func($callable, 'BaseRdfNamespacePeer', $values, $con);
       if (false !== $ret)
       {
         return $ret;
@@ -657,10 +657,10 @@ abstract class BaseNamespacePeer {
 		if ($values instanceof Criteria) {
 			$criteria = clone $values; // rename for clarity
 
-			$comparison = $criteria->getComparison(NamespacePeer::ID);
-			$selectCriteria->add(NamespacePeer::ID, $criteria->remove(NamespacePeer::ID), $comparison);
+			$comparison = $criteria->getComparison(RdfNamespacePeer::ID);
+			$selectCriteria->add(RdfNamespacePeer::ID, $criteria->remove(RdfNamespacePeer::ID), $comparison);
 
-		} else { // $values is Namespace object
+		} else { // $values is RdfNamespace object
 			$criteria = $values->buildCriteria(); // gets full criteria
 			$selectCriteria = $values->buildPkeyCriteria(); // gets criteria w/ primary key(s)
 		}
@@ -671,16 +671,16 @@ abstract class BaseNamespacePeer {
 		$ret = BasePeer::doUpdate($selectCriteria, $criteria, $con);
 	
 
-    foreach (sfMixer::getCallables('BaseNamespacePeer:doUpdate:post') as $callable)
+    foreach (sfMixer::getCallables('BaseRdfNamespacePeer:doUpdate:post') as $callable)
     {
-      call_user_func($callable, 'BaseNamespacePeer', $values, $con, $ret);
+      call_user_func($callable, 'BaseRdfNamespacePeer', $values, $con, $ret);
     }
 
     return $ret;
   }
 
 	/**
-	 * Method to DELETE all rows from the reg_namespace table.
+	 * Method to DELETE all rows from the reg_rdf_namespace table.
 	 *
 	 * @return     int The number of affected rows (if supported by underlying database driver).
 	 */
@@ -694,7 +694,7 @@ abstract class BaseNamespacePeer {
 			// use transaction because $criteria could contain info
 			// for more than one table or we could emulating ON DELETE CASCADE, etc.
 			$con->begin();
-			$affectedRows += BasePeer::doDeleteAll(NamespacePeer::TABLE_NAME, $con);
+			$affectedRows += BasePeer::doDeleteAll(RdfNamespacePeer::TABLE_NAME, $con);
 			$con->commit();
 			return $affectedRows;
 		} catch (PropelException $e) {
@@ -704,9 +704,9 @@ abstract class BaseNamespacePeer {
 	}
 
 	/**
-	 * Method perform a DELETE on the database, given a Namespace or Criteria object OR a primary key value.
+	 * Method perform a DELETE on the database, given a RdfNamespace or Criteria object OR a primary key value.
 	 *
-	 * @param      mixed $values Criteria or Namespace object or primary key or array of primary keys
+	 * @param      mixed $values Criteria or RdfNamespace object or primary key or array of primary keys
 	 *              which is used to create the DELETE statement
 	 * @param      Connection $con the connection to use
 	 * @return     int 	The number of affected rows (if supported by underlying database driver).  This includes CASCADE-related rows
@@ -717,18 +717,18 @@ abstract class BaseNamespacePeer {
 	 public static function doDelete($values, $con = null)
 	 {
 		if ($con === null) {
-			$con = Propel::getConnection(NamespacePeer::DATABASE_NAME);
+			$con = Propel::getConnection(RdfNamespacePeer::DATABASE_NAME);
 		}
 
 		if ($values instanceof Criteria) {
 			$criteria = clone $values; // rename for clarity
-		} elseif ($values instanceof Namespace) {
+		} elseif ($values instanceof RdfNamespace) {
 
 			$criteria = $values->buildPkeyCriteria();
 		} else {
 			// it must be the primary key
 			$criteria = new Criteria(self::DATABASE_NAME);
-			$criteria->add(NamespacePeer::ID, (array) $values, Criteria::IN);
+			$criteria->add(RdfNamespacePeer::ID, (array) $values, Criteria::IN);
 		}
 
 		// Set the correct dbName
@@ -751,24 +751,24 @@ abstract class BaseNamespacePeer {
 	}
 
 	/**
-	 * Validates all modified columns of given Namespace object.
+	 * Validates all modified columns of given RdfNamespace object.
 	 * If parameter $columns is either a single column name or an array of column names
 	 * than only those columns are validated.
 	 *
 	 * NOTICE: This does not apply to primary or foreign keys for now.
 	 *
-	 * @param      Namespace $obj The object to validate.
+	 * @param      RdfNamespace $obj The object to validate.
 	 * @param      mixed $cols Column name or array of column names.
 	 *
 	 * @return     mixed TRUE if all columns are valid or the error message of the first invalid column.
 	 */
-	public static function doValidate(Namespace $obj, $cols = null)
+	public static function doValidate(RdfNamespace $obj, $cols = null)
 	{
 		$columns = array();
 
 		if ($cols) {
-			$dbMap = Propel::getDatabaseMap(NamespacePeer::DATABASE_NAME);
-			$tableMap = $dbMap->getTable(NamespacePeer::TABLE_NAME);
+			$dbMap = Propel::getDatabaseMap(RdfNamespacePeer::DATABASE_NAME);
+			$tableMap = $dbMap->getTable(RdfNamespacePeer::TABLE_NAME);
 
 			if (! is_array($cols)) {
 				$cols = array($cols);
@@ -784,7 +784,7 @@ abstract class BaseNamespacePeer {
 
 		}
 
-		return BasePeer::doValidate(NamespacePeer::DATABASE_NAME, NamespacePeer::TABLE_NAME, $columns);
+		return BasePeer::doValidate(RdfNamespacePeer::DATABASE_NAME, RdfNamespacePeer::TABLE_NAME, $columns);
 	}
 
 	/**
@@ -792,7 +792,7 @@ abstract class BaseNamespacePeer {
 	 *
 	 * @param      mixed $pk the primary key.
 	 * @param      Connection $con the connection to use
-	 * @return     Namespace
+	 * @return     RdfNamespace
 	 */
 	public static function retrieveByPK($pk, $con = null)
 	{
@@ -800,12 +800,12 @@ abstract class BaseNamespacePeer {
 			$con = Propel::getConnection(self::DATABASE_NAME);
 		}
 
-		$criteria = new Criteria(NamespacePeer::DATABASE_NAME);
+		$criteria = new Criteria(RdfNamespacePeer::DATABASE_NAME);
 
-		$criteria->add(NamespacePeer::ID, $pk);
+		$criteria->add(RdfNamespacePeer::ID, $pk);
 
 
-		$v = NamespacePeer::doSelect($criteria, $con);
+		$v = RdfNamespacePeer::doSelect($criteria, $con);
 
 		return !empty($v) > 0 ? $v[0] : null;
 	}
@@ -829,26 +829,26 @@ abstract class BaseNamespacePeer {
 			$objs = array();
 		} else {
 			$criteria = new Criteria();
-			$criteria->add(NamespacePeer::ID, $pks, Criteria::IN);
-			$objs = NamespacePeer::doSelect($criteria, $con);
+			$criteria->add(RdfNamespacePeer::ID, $pks, Criteria::IN);
+			$objs = RdfNamespacePeer::doSelect($criteria, $con);
 		}
 		return $objs;
 	}
 
-} // BaseNamespacePeer
+} // BaseRdfNamespacePeer
 
 // static code to register the map builder for this Peer with the main Propel class
 if (Propel::isInit()) {
 	// the MapBuilder classes register themselves with Propel during initialization
 	// so we need to load them here.
 	try {
-		BaseNamespacePeer::getMapBuilder();
+		BaseRdfNamespacePeer::getMapBuilder();
 	} catch (Exception $e) {
 		Propel::log('Could not initialize Peer: ' . $e->getMessage(), Propel::LOG_ERR);
 	}
 } else {
 	// even if Propel is not yet initialized, the map builder class can be registered
 	// now and then it will be loaded when Propel initializes.
-	require_once 'lib/model/map/NamespaceMapBuilder.php';
-	Propel::registerMapBuilder('lib.model.map.NamespaceMapBuilder');
+	require_once 'lib/model/map/RdfNamespaceMapBuilder.php';
+	Propel::registerMapBuilder('lib.model.map.RdfNamespaceMapBuilder');
 }
