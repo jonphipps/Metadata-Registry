@@ -227,16 +227,16 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 	protected $lastFileImportHistoryCriteria = null;
 
 	/**
-	 * Collection to store aggregation of collNamespaces.
+	 * Collection to store aggregation of collRdfNamespaces.
 	 * @var        array
 	 */
-	protected $collNamespaces;
+	protected $collRdfNamespaces;
 
 	/**
-	 * The criteria used to select the current contents of collNamespaces.
+	 * The criteria used to select the current contents of collRdfNamespaces.
 	 * @var        Criteria
 	 */
-	protected $lastNamespaceCriteria = null;
+	protected $lastRdfNamespaceCriteria = null;
 
 	/**
 	 * Collection to store aggregation of collSchemaPropertys.
@@ -1376,8 +1376,8 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 				}
 			}
 
-			if ($this->collNamespaces !== null) {
-				foreach($this->collNamespaces as $referrerFK) {
+			if ($this->collRdfNamespaces !== null) {
+				foreach($this->collRdfNamespaces as $referrerFK) {
 					if (!$referrerFK->isDeleted()) {
 						$affectedRows += $referrerFK->save($con);
 					}
@@ -1546,8 +1546,8 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 					}
 				}
 
-				if ($this->collNamespaces !== null) {
-					foreach($this->collNamespaces as $referrerFK) {
+				if ($this->collRdfNamespaces !== null) {
+					foreach($this->collRdfNamespaces as $referrerFK) {
 						if (!$referrerFK->validate($columns)) {
 							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
 						}
@@ -2004,8 +2004,8 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 				$copyObj->addFileImportHistory($relObj->copy($deepCopy));
 			}
 
-			foreach($this->getNamespaces() as $relObj) {
-				$copyObj->addNamespace($relObj->copy($deepCopy));
+			foreach($this->getRdfNamespaces() as $relObj) {
+				$copyObj->addRdfNamespace($relObj->copy($deepCopy));
 			}
 
 			foreach($this->getSchemaPropertys() as $relObj) {
@@ -3525,15 +3525,15 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 	}
 
 	/**
-	 * Temporary storage of collNamespaces to save a possible db hit in
+	 * Temporary storage of collRdfNamespaces to save a possible db hit in
 	 * the event objects are add to the collection, but the
 	 * complete collection is never requested.
 	 * @return     void
 	 */
-	public function initNamespaces()
+	public function initRdfNamespaces()
 	{
-		if ($this->collNamespaces === null) {
-			$this->collNamespaces = array();
+		if ($this->collRdfNamespaces === null) {
+			$this->collRdfNamespaces = array();
 		}
 	}
 
@@ -3541,7 +3541,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 	 * If this collection has already been initialized with
 	 * an identical criteria, it returns the collection.
 	 * Otherwise if this Schema has previously
-	 * been saved, it will retrieve related Namespaces from storage.
+	 * been saved, it will retrieve related RdfNamespaces from storage.
 	 * If this Schema is new, it will return
 	 * an empty collection or the current collection, the criteria
 	 * is ignored on a new object.
@@ -3550,10 +3550,10 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 	 * @param      Criteria $criteria
 	 * @throws     PropelException
 	 */
-	public function getNamespaces($criteria = null, $con = null)
+	public function getRdfNamespaces($criteria = null, $con = null)
 	{
 		// include the Peer class
-		include_once 'lib/model/om/BaseNamespacePeer.php';
+		include_once 'lib/model/om/BaseRdfNamespacePeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -3562,15 +3562,15 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 			$criteria = clone $criteria;
 		}
 
-		if ($this->collNamespaces === null) {
+		if ($this->collRdfNamespaces === null) {
 			if ($this->isNew()) {
-			   $this->collNamespaces = array();
+			   $this->collRdfNamespaces = array();
 			} else {
 
-				$criteria->add(NamespacePeer::SCHEMA_ID, $this->getId());
+				$criteria->add(RdfNamespacePeer::SCHEMA_ID, $this->getId());
 
-				NamespacePeer::addSelectColumns($criteria);
-				$this->collNamespaces = NamespacePeer::doSelect($criteria, $con);
+				RdfNamespacePeer::addSelectColumns($criteria);
+				$this->collRdfNamespaces = RdfNamespacePeer::doSelect($criteria, $con);
 			}
 		} else {
 			// criteria has no effect for a new object
@@ -3580,30 +3580,30 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 				// one, just return the collection.
 
 
-				$criteria->add(NamespacePeer::SCHEMA_ID, $this->getId());
+				$criteria->add(RdfNamespacePeer::SCHEMA_ID, $this->getId());
 
-				NamespacePeer::addSelectColumns($criteria);
-				if (!isset($this->lastNamespaceCriteria) || !$this->lastNamespaceCriteria->equals($criteria)) {
-					$this->collNamespaces = NamespacePeer::doSelect($criteria, $con);
+				RdfNamespacePeer::addSelectColumns($criteria);
+				if (!isset($this->lastRdfNamespaceCriteria) || !$this->lastRdfNamespaceCriteria->equals($criteria)) {
+					$this->collRdfNamespaces = RdfNamespacePeer::doSelect($criteria, $con);
 				}
 			}
 		}
-		$this->lastNamespaceCriteria = $criteria;
-		return $this->collNamespaces;
+		$this->lastRdfNamespaceCriteria = $criteria;
+		return $this->collRdfNamespaces;
 	}
 
 	/**
-	 * Returns the number of related Namespaces.
+	 * Returns the number of related RdfNamespaces.
 	 *
 	 * @param      Criteria $criteria
 	 * @param      boolean $distinct
 	 * @param      Connection $con
 	 * @throws     PropelException
 	 */
-	public function countNamespaces($criteria = null, $distinct = false, $con = null)
+	public function countRdfNamespaces($criteria = null, $distinct = false, $con = null)
 	{
 		// include the Peer class
-		include_once 'lib/model/om/BaseNamespacePeer.php';
+		include_once 'lib/model/om/BaseRdfNamespacePeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -3612,22 +3612,22 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 			$criteria = clone $criteria;
 		}
 
-		$criteria->add(NamespacePeer::SCHEMA_ID, $this->getId());
+		$criteria->add(RdfNamespacePeer::SCHEMA_ID, $this->getId());
 
-		return NamespacePeer::doCount($criteria, $distinct, $con);
+		return RdfNamespacePeer::doCount($criteria, $distinct, $con);
 	}
 
 	/**
-	 * Method called to associate a Namespace object to this object
-	 * through the Namespace foreign key attribute
+	 * Method called to associate a RdfNamespace object to this object
+	 * through the RdfNamespace foreign key attribute
 	 *
-	 * @param      Namespace $l Namespace
+	 * @param      RdfNamespace $l RdfNamespace
 	 * @return     void
 	 * @throws     PropelException
 	 */
-	public function addNamespace(Namespace $l)
+	public function addRdfNamespace(RdfNamespace $l)
 	{
-		$this->collNamespaces[] = $l;
+		$this->collRdfNamespaces[] = $l;
 		$l->setSchema($this);
 	}
 
