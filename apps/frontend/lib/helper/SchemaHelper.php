@@ -25,6 +25,12 @@
     return link_to(truncate_text($property->getObject(), 30), $property->getObject());
   }
 
+  //if it's a status code, we resolve the status
+  if (14 == $property->getProfilePropertyId())
+  {
+    return $property->getStatus();
+  }
+
   //if all else fails we display a truncated = 30 value
   return truncate_text($property->getObject(), 30);
 }
