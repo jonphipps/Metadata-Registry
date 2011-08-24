@@ -30,6 +30,25 @@ class SchemaPropertyElementPeer extends BaseSchemaPropertyElementPeer
 
   } // createElement
 
+  /**
+  * description
+  *
+  * @return return_type
+  * @param  var_type $var
+  */
+  public static function lookupElement($propertyId, $elementId, $object)
+  {
+    $c = new Criteria();
+    $c->add(self::SCHEMA_PROPERTY_ID, $propertyId);
+    $c->add(self::PROFILE_PROPERTY_ID, $elementId);
+    $c->add(self::OBJECT,$object);
+
+    $results = self::doSelectOne($c);
+
+    return $results;
+  }
+
+
 }
 
 sfPropelBehavior::add('SchemaPropertyElement', array('paranoid'));
