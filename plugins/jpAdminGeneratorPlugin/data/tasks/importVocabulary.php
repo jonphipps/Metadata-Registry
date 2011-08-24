@@ -16,7 +16,7 @@ pake_task( 'import-vocabulary' );
 
 function run_import_vocabulary( $task, $args )
 {
-  DebugBreak();
+  //DebugBreak();
 
   //check the argument counts
   if (count($args) < 1)
