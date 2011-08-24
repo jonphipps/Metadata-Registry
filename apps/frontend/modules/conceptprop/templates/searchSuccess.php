@@ -76,6 +76,24 @@
 <?php endif; ?>
 </tr>
 </thead>
+<tfoot>
+<tr><th colspan="5">
+<div class="float-right">
+<?php if ($pager->haveToPaginate()): ?>
+  <?php echo link_to(image_tag(sfConfig::get('sf_admin_web_dir').'/images/first.png', 'align=absmiddle'), 'conceptprop/search?page=1&term=' . $sf_params->get('term')) ?>
+  <?php echo link_to(image_tag(sfConfig::get('sf_admin_web_dir').'/images/previous.png', 'align=absmiddle'), 'conceptprop/search?page='.$pager->getPreviousPage() . '&term=' . $sf_params->get('term')) ?>
+
+  <?php foreach ($pager->getLinks() as $page): ?>
+   <?php echo link_to_unless($page == $pager->getPage(), $page, 'conceptprop/search?page='.$page . '&term=' . $sf_params->get('term')) ?>
+  <?php endforeach; ?>
+
+  <?php echo link_to(image_tag(sfConfig::get('sf_admin_web_dir').'/images/next.png', 'align=absmiddle'), 'conceptprop/search?page='.$pager->getNextPage() . '&term=' . $sf_params->get('term')) ?>
+  <?php echo link_to(image_tag(sfConfig::get('sf_admin_web_dir').'/images/last.png', 'align=absmiddle'), 'conceptprop/search?page='.$pager->getLastPage() . '&term=' . $sf_params->get('term')) ?>
+<?php endif; ?>
+</div>
+<?php echo format_number_choice('[0] no result|[1] 1 result|(1,+Inf] %1% results', array('%1%' => $pager->getNbResults()), $pager->getNbResults()) ?>
+</th></tr>
+</tfoot>
 <tbody>
 <?php $i = 1; foreach ($pager->getResults() as $concept_property): $odd = fmod(++$i, 2) ?>
 <tr class="sf_admin_row_<?php echo $odd ?>">
@@ -93,24 +111,6 @@
 <?php endif; ?></tr>
 <?php endforeach; ?>
 </tbody>
-<tfoot>
-<tr><th colspan="6">
-<div class="float-right">
-<?php if ($pager->haveToPaginate()): ?>
-  <?php echo link_to(image_tag(sfConfig::get('sf_admin_web_dir').'/images/first.png', 'align=absmiddle'), 'conceptprop/search?page=1&term=' . $sf_params->get('term')) ?>
-  <?php echo link_to(image_tag(sfConfig::get('sf_admin_web_dir').'/images/previous.png', 'align=absmiddle'), 'conceptprop/search?page='.$pager->getPreviousPage() . '&term=' . $sf_params->get('term')) ?>
-
-  <?php foreach ($pager->getLinks() as $page): ?>
-	 <?php echo link_to_unless($page == $pager->getPage(), $page, 'conceptprop/search?page='.$page . '&term=' . $sf_params->get('term')) ?>
-  <?php endforeach; ?>
-
-  <?php echo link_to(image_tag(sfConfig::get('sf_admin_web_dir').'/images/next.png', 'align=absmiddle'), 'conceptprop/search?page='.$pager->getNextPage() . '&term=' . $sf_params->get('term')) ?>
-  <?php echo link_to(image_tag(sfConfig::get('sf_admin_web_dir').'/images/last.png', 'align=absmiddle'), 'conceptprop/search?page='.$pager->getLastPage() . '&term=' . $sf_params->get('term')) ?>
-<?php endif; ?>
-</div>
-<?php echo format_number_choice('[0] no result|[1] 1 result|(1,+Inf] %1% results', array('%1%' => $pager->getNbResults()), $pager->getNbResults()) ?>
-</th></tr>
-</tfoot>
 </table>
 <?php endif; ?>
 
