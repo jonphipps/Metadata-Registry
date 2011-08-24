@@ -1,6 +1,6 @@
 <?php
 /**
- * 
+ *
  * Associative array access to CSV data.
  * Usage:
  * *
@@ -15,7 +15,7 @@
  * while ($row = $reader->getRow()) {
  * echo("Name of User: " . $row['name'] . "\n");
  * }
- * 
+ *
  * @package    apostrophePlugin
  * @subpackage    toolkit
  * @author     P'unk Avenue <apostrophe@punkave.com>
@@ -50,15 +50,16 @@ class aCsvNoHeadingsException extends Exception
  * @subpackage    toolkit
  * @author     P'unk Avenue <apostrophe@punkave.com>
  */
-class aCsvReader 
+class aCsvReader
 {
   private $in;
+  private $rowCount = 0;
 
   /**
    * DOCUMENT ME
    * @param mixed $file
    */
-  public function __construct($file) 
+  public function __construct($file)
   {
     $this->in = fopen($file, "r");
     if (!$this->in) {
@@ -84,7 +85,16 @@ class aCsvReader
    * DOCUMENT ME
    * @return mixed
    */
-  public function getRow() { 
+  public function getRowCount()
+  {
+    return $this->rowCount;
+  }
+
+  /**
+   * DOCUMENT ME
+   * @return mixed
+   */
+  public function getRow() {
     $data = fgetcsv($this->in);
     if ($data === false) {
       fclose($this->in);
@@ -100,6 +110,7 @@ class aCsvReader
         $row[$heading] = false;
       }
     }
+    $this->rowCount++;
     return $row;
   }
 }
