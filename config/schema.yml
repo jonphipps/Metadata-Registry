@@ -1002,9 +1002,9 @@ propel:
       display_order: 
         - type_id
         - display_order
-  reg_namespace: 
+  reg_rdf_namespace: 
     _attributes: 
-      phpName: Namespace
+      phpName: RdfNamespace
       idMethod: native
     id: 
       type: INTEGER
