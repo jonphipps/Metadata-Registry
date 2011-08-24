@@ -47,4 +47,24 @@ class Profile extends BaseProfile
 
   }
 
+   /**
+  * get all of the properties for this profile in a simple list
+  *
+  * @return array of Property objects
+  */
+  public function getAllProperties()
+  {
+    $c = new Criteria();
+    $c->addAscendingOrderByColumn(ProfilePropertyPeer::LABEL);
+    /** @var ProfileProperty **/
+
+    $rs = $this->getProfilePropertys($c);
+    for($i=0; $i<=count($rs)-1; $i++)
+    {
+      $results[$rs[$i]->getLabel()] = $rs[$i]->getId();
+    }
+
+    return $results;
+
+  }
 }
