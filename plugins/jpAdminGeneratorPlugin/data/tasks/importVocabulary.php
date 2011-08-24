@@ -1,16 +1,14 @@
 <?php
 /**
- * This task is used to make a tarball of the project ommiting subversion, eclipse, cache and log files
+ * This task is used to import either a vocabulary or an element set into an instance of the Registry
  *
  * It will look for the XSLT file data/transform/clay2propel.xsl
  *
- * @author  <anoy@arti-shock.com>
+ * @author  <jphipps@madcreek.com>
  *
  * usage :
- *   symfony tar
+ *   symfony import-vocabulary {type} {ID} {file path} -d ('delete existing' -- optional)
  *
- * installation :
- *   Just drop it in SF_DATA_DIR/tasks/
  */
 
 pake_desc( 'Import a file into a vocabulary' );
@@ -112,6 +110,28 @@ function run_import_vocabulary( $task, $args )
     $skosMap = SkosPropertyPeer::getPropertyNames();
 
   }
+  else
+  {
+    $schemaObj = SchemaPeer::retrieveByPK($id);
+    if (is_null($schemaObj))
+    {
+      throw new Exception('Invalid schema ID');
+    }
+
+    //set some defaults
+    $baseDomain = $schemaObj->getUri();
+    $language = $schemaObj->getLanguage();
+    $statusId = $schemaObj->getStatusId();
+
+    //get a element set property id map
+    $profileId = 1;
+    $profile = ProfilePeer::retrieveByPK($profileId);
+    $elementMap = $profile->getAllProperties();
+
+    //there has to be a hash or a slash
+    $tSlash = preg_match('@(/$)@i', $baseDomain ) ? '' : '/';
+    $tSlash = preg_match('/#$/', $baseDomain ) ? '' : $tSlash;
+  }
 
   //     insert jon's user id
   $userId = 36;
@@ -154,116 +174,264 @@ function run_import_vocabulary( $task, $args )
       } catch (Exception $e) {
         throw new Exception("Not a happy CSV file!");
       }
-      // Get array of heading names found
-      $headings = $reader->getHeadings();
-      $fields = ConceptPeer::getFieldNames();
 
-      //set the map
-//      $map[] = array("property" => "Uri", "column" => "URILocal");
-//      $map[] = array("property" => "prefLabel", "column" => "skos:prefLabel");
-//      $map[] = array("property" => "definition", "column" => "skos:definition");
-//      $map[] = array("property" => "notation", "column" => "skos:notation");
-//      $map[] = array("property" => "scopeNote", "column" => "skos:scopeNote");
-
-      $map = array(
-      "uri"        => "URILocal",
-      "prefLabel"  => "skos:prefLabel",
-      "definition" => "skos:definition",
-      "notation"   => "skos:notation",
-      "scopeNote"  => "skos:scopeNote");
-
-      //executeImport:
-
-//    serialize the column map
-      try
+      if ('vocab' == $type)
       {
-        while ($row = $reader->getRow()) {
-//        lookup the URI (or the OMR ID if available) for a match
-          $uri = $baseDomain . $row[$map["uri"]];
-          $concept = ConceptPeer::getConceptByUri($uri);
-          $updateTime = time();
-          $language = (isset($map['language'])) ? $row[$map['language']] : $vocabObj->getLanguage();
+        // Get array of heading names found
+        $headings = $reader->getHeadings();
+        $fields = ConceptPeer::getFieldNames();
 
-          if (!$concept)
-          {
-//          create a new concept or element
-            $concept = new Concept();
-            $concept->setVocabulary($vocabObj);
-            $concept->setUri($uri);
-            /**
-            * @todo Need to handle updates for topconcept here, just like language
-            **/
-            $concept->setIsTopConcept(false);
-            $concept->updateFromRequest($userId, $row[$map['prefLabel']], $language, $statusId);
-          }
-          //don't update the concept if the preflabel matches
-          else if($row[$map['prefLabel']] != $concept->getPrefLabel())
-          {
-            $concept->updateFromRequest($userId, $row[$map['prefLabel']]);
-          }
+        //set the map
+  //      $map[] = array("property" => "Uri", "column" => "URILocal");
+  //      $map[] = array("property" => "prefLabel", "column" => "skos:prefLabel");
+  //      $map[] = array("property" => "definition", "column" => "skos:definition");
+  //      $map[] = array("property" => "notation", "column" => "skos:notation");
+  //      $map[] = array("property" => "scopeNote", "column" => "skos:scopeNote");
 
-          //there needs to be a language to lookup the properties unless it's an objectProperty
-          $rowLanguage = (isset($map['language'])) ? $row[$map['language']] : $concept->getLanguage();
+        $map = array(
+        "uri"        => "URILocal",
+        "prefLabel"  => "skos:prefLabel",
+        "definition" => "skos:definition",
+        "notation"   => "skos:notation",
+        "scopeNote"  => "skos:scopeNote");
 
-          foreach ($map as $key => $value)
-          {
-            //we skip because we already did them
-            if (!in_array($key, array('uri', 'prefLabel', 'language')))
+        //executeImport:
+
+  //    serialize the column map
+        try
+        {
+          while ($row = $reader->getRow()) {
+  //        lookup the URI (or the OMR ID if available) for a match
+            $uri = $baseDomain . $row[$map["uri"]];
+            $concept = ConceptPeer::getConceptByUri($uri);
+            $updateTime = time();
+            $language = (isset($map['language'])) ? $row[$map['language']] : $vocabObj->getLanguage();
+
+            if (!$concept)
             {
-              $skosId = $skosMap[$key];
-              //check to see if the property already exists
-              $property = ConceptPropertyPeer::lookupProperty($concept->getId(), $skosId, $rowLanguage);
+  //          create a new concept or element
+              $concept = new Concept();
+              $concept->setVocabulary($vocabObj);
+              $concept->setUri($uri);
+              /**
+              * @todo Need to handle updates for topconcept here, just like language
+              **/
+              $concept->setIsTopConcept(false);
+              $concept->updateFromRequest($userId, $row[$map['prefLabel']], $language, $statusId);
+            }
+            //don't update the concept if the preflabel matches
+            else if($row[$map['prefLabel']] != $concept->getPrefLabel())
+            {
+              $concept->updateFromRequest($userId, $row[$map['prefLabel']]);
+            }
 
-              //create a new property for each unmatched column
-              if (!empty($row[$value]))
-              {
-                if (!$property)
-                {
-                  $property = new ConceptProperty();
-                  $property->setCreatedUserId($userId);
-                  $property->setConceptId($concept->getId());
-                  $property->setCreatedAt($updateTime);
-                  $property->setSkosPropertyId($skosId);
-                }
+            //there needs to be a language to lookup the properties unless it's an objectProperty
+            $rowLanguage = (isset($map['language'])) ? $row[$map['language']] : $concept->getLanguage();
 
-                if (($row[$value] != $property->getObject()) || ($rowLanguage != $property->getLanguage()))
-                {
-                  /**
-                  * @todo We need a check here for skos objectproperties and handle differently
-                  **/
-                  if ($rowLanguage != $property->getLanguage())
-                  {
-                    $property->setLanguage($rowLanguage);
-                  }
-                  if ($row[$value] != $property->getObject())
-                  {
-                    $property->setObject($row[$value]);
-                  }
-                  $property->setUpdatedUserId($userId);
-                  $property->setUpdatedAt($updateTime);
-                  $property->save();
-                }
-              }
-              //the row value is empty
-              else if ($deleteMissing && $property)
+            foreach ($map as $key => $value)
+            {
+              //we skip because we already did them
+              if (!in_array($key, array('uri', 'prefLabel', 'language')))
               {
-                $property->delete();
+                $skosId = $skosMap[$key];
+                //check to see if the property already exists
+                $property = ConceptPropertyPeer::lookupProperty($concept->getId(), $skosId, $rowLanguage);
+
+                //create a new property for each unmatched column
+                if (!empty($row[$value]))
+                {
+                  if (!$property)
+                  {
+                    $property = new ConceptProperty();
+                    $property->setCreatedUserId($userId);
+                    $property->setConceptId($concept->getId());
+                    $property->setCreatedAt($updateTime);
+                    $property->setSkosPropertyId($skosId);
+                  }
+
+                  if (($row[$value] != $property->getObject()) || ($rowLanguage != $property->getLanguage()))
+                  {
+                    /**
+                    * @todo We need a check here for skos objectproperties and handle differently
+                    **/
+                    if ($rowLanguage != $property->getLanguage())
+                    {
+                      $property->setLanguage($rowLanguage);
+                    }
+                    if ($row[$value] != $property->getObject())
+                    {
+                      $property->setObject($row[$value]);
+                    }
+                    $property->setUpdatedUserId($userId);
+                    $property->setUpdatedAt($updateTime);
+                    $property->save();
+                  }
+                }
+                //the row value is empty
+                else if ($deleteMissing && $property)
+                {
+                  $property->delete();
+                }
               }
             }
-          }
 
-  //          else
-  //               lookup and update concept or element
-  //               lookup and update each property
-  //          update the history for each property, action is 'import', should be a single timestamp for all (this should be automatic)
-  //          if 'delete missing properties' is true
-  //               delete each existing, non-required property that wasn't updated by the import
+    //          else
+    //               lookup and update concept or element
+    //               lookup and update each property
+    //          update the history for each property, action is 'import', should be a single timestamp for all (this should be automatic)
+    //          if 'delete missing properties' is true
+    //               delete each existing, non-required property that wasn't updated by the import
+          }
+        }
+        catch (Exception $e)
+        {
+    //          catch
+    //            if there's an error of any kind, write to error log and continue
         }
       }
-      catch (Exception $e)
+      else //it's an element set
       {
-  //          catch
-  //            if there's an error of any kind, write to error log and continue
+        $map = array(
+        "uri"         => "uriLocalPart",
+        "name"        => "reg:name",
+        "definition"  => "skos:definition",
+        "label"       => "rdfs:label",
+        "note" => array("tag" => "tagCap","ind1" => "ind1Cap","ind2" => "ind2Cap","sub" =>"subCap"));
+
+        //executeImport:
+  //    serialize the column map
+        try
+        {
+          while ($row = $reader->getRow()) {
+  //        lookup the URI (or the OMR ID if available) for a match
+
+            //There always has to be a URI on either update or create
+            if (!isset($row[$map["uri"]]))
+            {
+              throw new Exception('Missing URI for row: ' . $reader->getRowCount());
+              continue;
+            }
+            $uri = $baseDomain . $tSlash . $row[$map["uri"]];
+            $property = SchemaPropertyPeer::retrieveByUri($uri);
+            $updateTime = time();
+            $rowLanguage = (isset($map['language'])) ? $row[$map['language']] : $language;
+            $rowStatusId = (isset($map['status'])) ? $row[$map['status']] : $statusId;
+
+            if (!$property)
+            {
+  //          create a new property
+              /** @var SchemaProperty **/
+              $property = new SchemaProperty();
+              $property->setSchema($schemaObj);
+              $property->setUri($uri);
+              $property->setCreatedUserId($userId);
+              $property->setCreatedAt($updateTime);
+            }
+
+            $property->setLanguage($rowLanguage);
+            $property->setStatusId($rowStatusId);
+            $property->setUpdatedUserId($userId);
+            $property->setUpdatedAt($updateTime);
+
+            if (isset($row[$map["label"]]))
+            {
+              $property->setLabel($row[$map["label"]]);
+            }
+
+            if (isset($row[$map["name"]]))
+            {
+              $property->setName($row[$map["name"]]);
+            }
+
+            if (isset($row[$map["definition"]]))
+            {
+              $property->setDefinition($row[$map["definition"]]);
+            }
+
+              if (is_array($map["note"]))
+              {
+                $note = '';
+                foreach ($map["note"] as $key => $value)
+                {
+                  $caption = !empty($row[$value]) ? " (" .  $row[$value] . ")" : ' (empty)';
+                  $note .= $key . ": " . $row[$key] . $caption . "<br />";
+                }
+                $property->setNote($note);
+              }
+              else
+              {
+                if (isset($row[$map["note"]]))
+                {
+                  $property->setNote($row[$map["note"]]);
+                }
+            }
+            $property->saveSchemaProperty($userId);
+
+            /**
+            * @todo Need to handle domain and range
+            **/
+
+            foreach ($map as $key => $value)
+            {
+              //we skip because we already did them
+              if (!in_array($key, array('uri', 'status', 'language', 'label', 'name', 'definition', 'comment', 'note')))
+              {
+                $elementId = $elementMap[$key];
+                //check to see if the property already exists
+                //note that this also checks the object value as well, so there's no way to update or delete an existing triple
+                //the sheet would have to conatin the identifier for the triple
+                $element = SchemaPropertyElementPeer::lookupElement($schemaObj->getId(), $elementId, $map[$value]);
+
+                //create a new property for each unmatched column
+                if (!empty($row[$value]))
+                {
+                  if (!$element)
+                  {
+                    $element = new SchemaPropertyElement();
+                    $element->setCreatedUserId($userId);
+                    $element->setCreatedAt($updateTime);
+                    $element->setProfilePropertyId($elementId);
+                  }
+
+                  if (($row[$value] != $element->getObject()) || ($rowLanguage != $element->getLanguage()))
+                  {
+                    /**
+                    * @todo We need a check here for objectproperties and handle differently
+                    **/
+                    if ($rowLanguage != $element->getLanguage())
+                    {
+                      $element->setLanguage($rowLanguage);
+                    }
+                    if ($row[$value] != $element->getObject())
+                    {
+                      $element->setObject($row[$value]);
+                    }
+                    $element->setUpdatedUserId($userId);
+                    $element->setUpdatedAt($updateTime);
+                    $element->save();
+                  }
+                }
+                //the row value is empty
+                else if ($deleteMissing && $element)
+                {
+                  $element->delete();
+                }
+              }
+            }
+
+    //          else
+    //               lookup and update concept or element
+    //               lookup and update each property
+    //          update the history for each property, action is 'import', should be a single timestamp for all (this should be automatic)
+    //          if 'delete missing properties' is true
+    //               delete each existing, non-required property that wasn't updated by the import
+          }
+        }
+        catch (Exception $e)
+        {
+    //          catch
+    //            if there's an error of any kind, write to error log and continue
+        }
       }
   //     save the import history file (match timestamp to history entries)
       break;
