@@ -221,6 +221,10 @@ div#content_main .question_body li
   padding-bottom: 10px;
 }
 
+.highlight
+{
+  background-color: yellow
+}
 
 div#content_main .vote_up_mark
 {
@@ -298,7 +302,7 @@ div#footer
 div#search
 {
   position:absolute;
-  
+
   top:26px;
   right:0px;
   margin-right: 2px;
@@ -530,7 +534,7 @@ padding-right: 6px !important;
 }
 
 table.rowDetail tr {
-padding: 3px !important; 
+padding: 3px !important;
 }
 
 div.form-errors dl

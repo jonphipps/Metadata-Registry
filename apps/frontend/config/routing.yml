@@ -134,7 +134,7 @@ file_import:
 
 # concepts
 concept_search:
-  url:   /search.
+  url:   /conceptprop/search.
 #  param: { module: search, action: index }
   param: { module: conceptprop, action: search }
 
@@ -169,6 +169,11 @@ concept_history_feed_all_rss:
 
 
 #schemas (element sets)
+
+schema_search:
+  url:   /schemaprop/search.
+  param: { module: schemaprop, action: search }
+
 schema_history_list:
   url:   /schemahistory/list/:IdType/:id.html
   param: { module: schemahistory, action: list}

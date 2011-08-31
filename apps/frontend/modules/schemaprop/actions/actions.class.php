@@ -12,7 +12,10 @@ class schemapropActions extends autoschemapropActions
 {
   public function preExecute ()
   {
-    $this->getCurrentSchema();
+    if ('search' != $this->getRequestParameter('action'))
+    {
+      $this->getCurrentSchema();
+    }
     parent::preExecute();
   }
 
@@ -172,5 +175,68 @@ class schemapropActions extends autoschemapropActions
 
     return $affectedRows;
   }
+
+  public function executeSearch ()
+  {
+    $sort_column = $this->getRequestParameter('sort');
+    if ($sort_column)
+    {
+      switch ($sort_column)
+      {
+       case 'schema_prop_label':
+        $sort_column = SchemaPropertyPeer::LABEL;
+        break;
+       case 'schema_name':
+        $sort_column = SchemaPeer::NAME;
+        break;
+       case 'property_type':
+        $sort_column = SchemaPropertyPeer::TYPE;
+        break;
+       case 'language':
+        $sort_column = SchemaPropertyPeer::LANGUAGE;
+        break;
+      }
+    $this->getUser()->setAttribute('sort', $this->getRequestParameter('sort'), 'sf_admin/schema_search/sort');
+    $this->getUser()->setAttribute('type', $this->getRequestParameter('type', 'asc'), 'sf_admin/schema_search/sort');
+    }
+
+   if ($this->getRequest()->hasParameter('sq'))
+    {
+      $this->getRequest()->setParameter('filter','filter');
+      $filters = array('label' => $this->getRequestParameter('sq'));
+      $this->getUser()->getAttributeHolder()->removeNamespace('sf_admin/schema_search/filters');
+      $this->getUser()->getAttributeHolder()->add($filters, 'sf_admin/schema_search/filters');
+   }
+   $this->filters = $this->getUser()->getAttributeHolder()->getAll('sf_admin/schema_search/filters');
+
+    // pager
+   $this->pager = new sfPropelPager('SchemaProperty', 20);
+
+   $c = new Criteria();
+
+   //set sort criteria
+   if ($sort_column)
+   {
+    if ($this->getUser()->getAttribute('type', null, 'sf_admin/schema_search/sort') == 'asc')
+    {
+      $c->addAscendingOrderByColumn($sort_column);
+    }
+    else
+    {
+      $c->addDescendingOrderByColumn($sort_column);
+    }
+   }
+
+   if (isset($this->filters['label']) && $this->filters['label'] !== '')
+    {
+      $c->add(SchemaPropertyPeer::LABEL, '%' . $this->filters['label'] . '%', Criteria::LIKE);
+    }
+
+    $this->pager->setCriteria($c);
+    $this->pager->setPeerMethod('doSelectSearchResults');
+    $this->pager->setPage($this->getRequestParameter('page', 1));
+    $this->pager->init();
+  } //executeSearch
+
 
 }

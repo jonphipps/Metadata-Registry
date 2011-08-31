@@ -219,10 +219,10 @@ class conceptpropActions extends autoconceptpropActions
 		$this->getUser()->setAttribute('type', $this->getRequestParameter('type', 'asc'), 'sf_admin/concept_search/sort');
 	  }
 
-	 if ($this->getRequest()->hasParameter('term'))
+	 if ($this->getRequest()->hasParameter('concept_term'))
     {
       $this->getRequest()->setParameter('filter','filter');
-      $filters = array('label' => $this->getRequestParameter('term'));
+      $filters = array('label' => $this->getRequestParameter('concept_term'));
       $this->getUser()->getAttributeHolder()->removeNamespace('sf_admin/concept_search/filters');
       $this->getUser()->getAttributeHolder()->add($filters, 'sf_admin/concept_search/filters');
 	 }

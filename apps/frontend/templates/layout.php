@@ -42,11 +42,14 @@
       <li class="last"><?php echo link_to(__('about'), '@about') ?></li>
     </ul>
     <div style="padding-left: 10px;">
-      <?php echo link_to(image_tag('open_metadata_logo_with_interoperability.png', 'alt=registry align=left h'), '@homepage') ?>
+      <?php echo link_to(image_tag('open_metadata_logo_with_interoperability.png', 'alt=registry align=left'), '@homepage') ?>
     </div>
 
     <div id="search">
-      <?php include_partial('conceptprop/search', array('searchTerm' => $sf_params->get('term'))) ?>
+    <table>
+      <tr><?php include_partial('conceptprop/search', array('searchTerm' => $sf_params->get('term'))) ?></tr>
+      <tr><?php include_partial('schemaprop/search', array('searchTerm' => $sf_params->get('term'))) ?></tr>
+    </table>
 <?php if ($_SERVER['SERVER_NAME'] == 'registry'): ?>
       <br />
       <a href = "http://<?php echo $_SERVER['HTTP_HOST'] ?>/load_test_db.php">Load test database</a>

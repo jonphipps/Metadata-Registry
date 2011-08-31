@@ -1,7 +1,7 @@
 <?php use_helper('I18N', 'Date') ?>
 <div id="sf_admin_container" class="sf_admin_list">
 <div id="sf_admin_header">
-<h1><?php echo __('Search results for ', array()) . "<em>'" . $sf_params->get('term') . "'</em>" ?></h1>
+<h1><?php echo __('Search results for ', array()) . "<em>'" . $sf_params->get('concept_term') . "'</em>" ?></h1>
 </div>
 
 <div id="sf_admin_content">
@@ -14,7 +14,7 @@
 <tr>
   <th id="sf_admin_list_th_vocabulary">
 		<?php if ($sf_user->getAttribute('sort', null, 'sf_admin/concept_search/sort') == 'vocabulary_name'): ?>
-		<?php echo link_to(__('Vocabulary'), 'conceptprop/search?sort=vocabulary_name&type='.($sf_user->getAttribute('type', 'asc', 'sf_admin/concept_search/sort') == 'asc' ? 'desc' : 'asc') . '&term=' . $sf_params->get('term')) ?>
+		<?php echo link_to(__('Vocabulary'), 'conceptprop/search?sort=vocabulary_name&type='.($sf_user->getAttribute('type', 'asc', 'sf_admin/concept_search/sort') == 'asc' ? 'desc' : 'asc') . '&concept_term=' . $sf_params->get('concept_term')) ?>
 
    <?php if ($sf_user->getAttribute('type', null, 'sf_admin/concept_search/sort') == 'asc'): ?>
       <?php echo image_tag(sfConfig::get('sf_admin_web_dir').'/images/s_asc.png', array('align' => 'absmiddle', 'alt' => __('Ascending Order'), 'title' => __('List has been sorted in ascending order'))) ?>
@@ -23,12 +23,12 @@
       <?php endif; ?>
       <?php else: ?>
 
-		<?php echo link_to(__('Vocabulary'), 'conceptprop/search?sort=vocabulary_name&type=asc&term=' . $sf_params->get('term')) ?>
+		<?php echo link_to(__('Vocabulary'), 'conceptprop/search?sort=vocabulary_name&type=asc&concept_term=' . $sf_params->get('concept_term')) ?>
 		<?php endif; ?>
   </th>
   <th id="sf_admin_list_th_concept_pref_label">
 			 <?php if ($sf_user->getAttribute('sort', null, 'sf_admin/concept_search/sort') == 'concept_pref_label'): ?>
-		<?php echo link_to(__('Concept'), 'conceptprop/search?sort=concept_pref_label&type='.($sf_user->getAttribute('type', 'asc', 'sf_admin/concept_search/sort') == 'asc' ? 'desc' : 'asc') . '&term=' . $sf_params->get('term')) ?>
+		<?php echo link_to(__('Concept'), 'conceptprop/search?sort=concept_pref_label&type='.($sf_user->getAttribute('type', 'asc', 'sf_admin/concept_search/sort') == 'asc' ? 'desc' : 'asc') . '&concept_term=' . $sf_params->get('concept_term')) ?>
 
    <?php if ($sf_user->getAttribute('type', null, 'sf_admin/concept_search/sort') == 'asc'): ?>
       <?php echo image_tag(sfConfig::get('sf_admin_web_dir').'/images/s_asc.png', array('align' => 'absmiddle', 'alt' => __('Ascending Order'), 'title' => __('List has been sorted in ascending order'))) ?>
@@ -37,12 +37,12 @@
       <?php endif; ?>
       <?php else: ?>
 
-		<?php echo link_to(__('Concept'), 'conceptprop/search?sort=concept_pref_label&type=asc&term=' . $sf_params->get('term')) ?>
+		<?php echo link_to(__('Concept'), 'conceptprop/search?sort=concept_pref_label&type=asc&concept_term=' . $sf_params->get('concept_term')) ?>
 		<?php endif; ?>
   </th>
   <th id="sf_admin_list_th_object">
 			 <?php if ($sf_user->getAttribute('sort', null, 'sf_admin/concept_search/sort') == 'object'): ?>
-		<?php echo link_to(__('Label'), 'conceptprop/search?sort=object&type='.($sf_user->getAttribute('type', 'asc', 'sf_admin/concept_search/sort') == 'asc' ? 'desc' : 'asc') . '&term=' . $sf_params->get('term')) ?>
+		<?php echo link_to(__('Label'), 'conceptprop/search?sort=object&type='.($sf_user->getAttribute('type', 'asc', 'sf_admin/concept_search/sort') == 'asc' ? 'desc' : 'asc') . '&concept_term=' . $sf_params->get('concept_term')) ?>
 
    <?php if ($sf_user->getAttribute('type', null, 'sf_admin/concept_search/sort') == 'asc'): ?>
       <?php echo image_tag(sfConfig::get('sf_admin_web_dir').'/images/s_asc.png', array('align' => 'absmiddle', 'alt' => __('Ascending Order'), 'title' => __('List has been sorted in ascending order'))) ?>
@@ -51,12 +51,12 @@
       <?php endif; ?>
       <?php else: ?>
 
-		<?php echo link_to(__('Label'), 'conceptprop/search?sort=object&type=asc&term=' . $sf_params->get('term')) ?>
+		<?php echo link_to(__('Label'), 'conceptprop/search?sort=object&type=asc&concept_term=' . $sf_params->get('concept_term')) ?>
 		<?php endif; ?>
   </th>
   <th id="sf_admin_list_th_skos_property_name">
 			 <?php if ($sf_user->getAttribute('sort', null, 'sf_admin/concept_search/sort') == 'skos_property_name'): ?>
-		<?php echo link_to(__('SKOS property'), 'conceptprop/search?sort=skos_property_name&type='.($sf_user->getAttribute('type', 'asc', 'sf_admin/concept_search/sort') == 'asc' ? 'desc' : 'asc') . '&term=' . $sf_params->get('term')) ?>
+		<?php echo link_to(__('SKOS property'), 'conceptprop/search?sort=skos_property_name&type='.($sf_user->getAttribute('type', 'asc', 'sf_admin/concept_search/sort') == 'asc' ? 'desc' : 'asc') . '&concept_term=' . $sf_params->get('concept_term')) ?>
 
    <?php if ($sf_user->getAttribute('type', null, 'sf_admin/concept_search/sort') == 'asc'): ?>
       <?php echo image_tag(sfConfig::get('sf_admin_web_dir').'/images/s_asc.png', array('align' => 'absmiddle', 'alt' => __('Ascending Order'), 'title' => __('List has been sorted in ascending order'))) ?>
@@ -65,7 +65,7 @@
       <?php endif; ?>
       <?php else: ?>
 
-		<?php echo link_to(__('SKOS property'), 'conceptprop/search?sort=skos_property_name&type=asc&term=' . $sf_params->get('term')) ?>
+		<?php echo link_to(__('SKOS property'), 'conceptprop/search?sort=skos_property_name&type=asc&concept_term=' . $sf_params->get('concept_term')) ?>
 		<?php endif; ?>
 		</th>
   <th id="sf_admin_list_th_language">
@@ -80,15 +80,15 @@
 <tr><th colspan="5">
 <div class="float-right">
 <?php if ($pager->haveToPaginate()): ?>
-  <?php echo link_to(image_tag(sfConfig::get('sf_admin_web_dir').'/images/first.png', 'align=absmiddle'), 'conceptprop/search?page=1&term=' . $sf_params->get('term')) ?>
-  <?php echo link_to(image_tag(sfConfig::get('sf_admin_web_dir').'/images/previous.png', 'align=absmiddle'), 'conceptprop/search?page='.$pager->getPreviousPage() . '&term=' . $sf_params->get('term')) ?>
+  <?php echo link_to(image_tag(sfConfig::get('sf_admin_web_dir').'/images/first.png', 'align=absmiddle'), 'conceptprop/search?page=1&concept_term=' . $sf_params->get('concept_term')) ?>
+  <?php echo link_to(image_tag(sfConfig::get('sf_admin_web_dir').'/images/previous.png', 'align=absmiddle'), 'conceptprop/search?page='.$pager->getPreviousPage() . '&concept_term=' . $sf_params->get('concept_term')) ?>
 
   <?php foreach ($pager->getLinks() as $page): ?>
-   <?php echo link_to_unless($page == $pager->getPage(), $page, 'conceptprop/search?page='.$page . '&term=' . $sf_params->get('term')) ?>
+   <?php echo link_to_unless($page == $pager->getPage(), $page, 'conceptprop/search?page='.$page . '&concept_term=' . $sf_params->get('concept_term')) ?>
   <?php endforeach; ?>
 
-  <?php echo link_to(image_tag(sfConfig::get('sf_admin_web_dir').'/images/next.png', 'align=absmiddle'), 'conceptprop/search?page='.$pager->getNextPage() . '&term=' . $sf_params->get('term')) ?>
-  <?php echo link_to(image_tag(sfConfig::get('sf_admin_web_dir').'/images/last.png', 'align=absmiddle'), 'conceptprop/search?page='.$pager->getLastPage() . '&term=' . $sf_params->get('term')) ?>
+  <?php echo link_to(image_tag(sfConfig::get('sf_admin_web_dir').'/images/next.png', 'align=absmiddle'), 'conceptprop/search?page='.$pager->getNextPage() . '&concept_term=' . $sf_params->get('concept_term')) ?>
+  <?php echo link_to(image_tag(sfConfig::get('sf_admin_web_dir').'/images/last.png', 'align=absmiddle'), 'conceptprop/search?page='.$pager->getLastPage() . '&concept_term=' . $sf_params->get('concept_term')) ?>
 <?php endif; ?>
 </div>
 <?php echo format_number_choice('[0] no result|[1] 1 result|(1,+Inf] %1% results', array('%1%' => $pager->getNbResults()), $pager->getNbResults()) ?>

@@ -18,9 +18,9 @@ class SchemaPropertyPeer extends BaseSchemaPropertyPeer
   {
     $schema = myActionTools::findCurrentSchema();
     $c = new Criteria();
-    $c->add(SchemaPropertyPeer::TYPE,'property');
-    $c->addOr(SchemaPropertyPeer::TYPE,'subproperty');
-    $c->addAscendingOrderByColumn(SchemaPropertyPeer::NAME);
+    $c->add(self::TYPE,'property');
+    $c->addOr(self::TYPE,'subproperty');
+    $c->addAscendingOrderByColumn(self::NAME);
     $properties = $schema->getSchemaPropertys($c);
 
     $request = sfContext::getInstance()->getRequest();
@@ -48,9 +48,9 @@ class SchemaPropertyPeer extends BaseSchemaPropertyPeer
   {
     $schema = myActionTools::findCurrentSchema();
     $c = new Criteria();
-    $c->add(SchemaPropertyPeer::TYPE,'class');
-    $c->addOr(SchemaPropertyPeer::TYPE,'subclass');
-    $c->addAscendingOrderByColumn(SchemaPropertyPeer::NAME);
+    $c->add(self::TYPE,'class');
+    $c->addOr(self::TYPE,'subclass');
+    $c->addAscendingOrderByColumn(self::NAME);
     $classes = $schema->getSchemaPropertys($c);
 
     $request = sfContext::getInstance()->getRequest();
@@ -83,5 +83,23 @@ class SchemaPropertyPeer extends BaseSchemaPropertyPeer
     return self::doSelectOne($criteria);
 
   }
+
+
+  /**
+  * sets the criteria and returns the few columns needed for schema property search results
+  *
+  * @param Criteria $criteria The Criteria object used to build the SELECT statement.
+  * @param Connection $con
+  * @return array Array of selected Objects
+  * @throws PropelException Any exceptions caught during processing will be
+  *     rethrown wrapped into a PropelException.
+  */
+   public static function doSelectSearchResults(Criteria $c, $con = null)
+  {
+    $results = self::doSelectJoinSchema($c);
+
+    return $results;
+   }
+
 
 }
