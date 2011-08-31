@@ -24,7 +24,7 @@ class schemapropelActions extends autoschemapropelActions
   /**
   * Set the defaults
   *
-  * @param  ConceptProperty $schema_property
+  * @param  SchemaPropertyElement $schema_property
   */
   public function setDefaults ($schema_property_element)
   {
