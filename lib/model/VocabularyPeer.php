@@ -76,4 +76,21 @@ class VocabularyPeer extends BaseVocabularyPeer
    return $result;
   }
 
+  /**
+  * gets vocabulary by concept URI
+  *
+  * @return Vocabulary
+  * @param  string $vocabUri
+  */
+  public static function getVocabularyByUri($vocabUri)
+  {
+    $c = new Criteria();
+    $c->add(self::URI, $vocabUri);
+
+    $vocab = self::doSelectOne($c);
+
+    return $vocab;
+
+  } //getVocabularyByUri
+
 } // VocabularyPeer

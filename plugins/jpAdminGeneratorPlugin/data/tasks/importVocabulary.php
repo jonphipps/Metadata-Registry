@@ -14,6 +14,159 @@
 pake_desc( 'Import a file into a vocabulary' );
 pake_task( 'import-vocabulary' );
 
+pake_desc( 'Import a list of vocabulary files' );
+pake_task( 'import-list' );
+
+//DebugBreak();
+
+//we could also prepend these as arguments, but not today
+//define('SF_APP', $app);
+//define('SF_ENVIRONMENT', $env);
+define('SF_APP',         'frontend');
+define('SF_ENVIRONMENT', 'prod');
+define('SF_ROOT_DIR', sfConfig::get('sf_root_dir'));
+define('SF_DEBUG', true);
+
+require_once(SF_ROOT_DIR.DIRECTORY_SEPARATOR.'apps'.DIRECTORY_SEPARATOR.SF_APP.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'config.php');
+
+// initialize database manager
+$databaseManager = new sfDatabaseManager();
+$databaseManager->initialize();
+
+//necessary to detect line endings in mac files
+ini_set('auto_detect_line_endings', true);
+
+/**
+* this is for importing a list of value vocabulary files.
+*
+* it's designed specifically to import the list of marc21 VES files,
+* but may be modified and expanded to support more things
+*
+*
+* @param  var_type $var
+*/
+function run_import_list($task, $args)
+{
+  //DebugBreak();
+  //check the argument counts
+  if (count($args) < 1)
+  {
+    throw new Exception('You must provide a file name to import.');
+  }
+
+  //set the arguments
+  $filePath      = $args[0];
+
+  //does the file exist?
+  if (!file_exists($filePath))
+  {
+    throw new Exception('You must supply a valid file to import');
+  }
+
+  //is the file a valid type?
+  if (preg_match( '/^.+\.([[:alpha:]]{2,4})$/', $filePath, $matches))
+  {
+    if (!in_array(strtolower($matches[1]), array("json", "rdf", "csv", "xml")))
+    {
+      throw new Exception('You must provide a valid file type based on the extension');
+    }
+  }
+  else
+  {
+    throw new Exception("File type cannot be determined from the file extension");
+  }
+
+  $fileType = $matches[1];
+  $baseDomain = "http://marc21rdf.info/terms/";
+  //jon's user id
+  $userId = 36;
+  //MMA agent ID
+  $agentID = 67;
+  //fileupload location
+  $uploadPath = 'C:\\Users\\jphipps\\Documents\\sites\\registry_nlb_rackspace_update\\web\\uploads\\';
+  $importTask = new pakeTask('import-vocabulary');
+
+   //     parse file to get the fields/columns and data
+  $file = fopen($filePath,"r");
+  if (!$file)
+  {
+    throw new Exception("Can't read supplied file");
+  }
+
+  switch ($fileType)
+  {
+    case "csv":
+      try {
+        $reader = new aCsvReader($filePath);
+      } catch (Exception $e) {
+        throw new Exception("Not a happy CSV file!");
+      }
+
+        // Get array of heading names found
+        $headings = $reader->getHeadings();
+        $fields = VocabularyPeer::getFieldNames();
+
+        try
+        {
+          while ($row = $reader->getRow()) {
+  //        lookup the URI (or the OMR ID if available) for a match
+            if (empty($row["VES"]))
+            {
+              //skip this one
+              break;
+            }
+
+            $uri = $baseDomain . $row["VES"] . "#";
+            $vocab = VocabularyPeer::getVocabularyByUri($uri);
+            $updateTime = time();
+
+            if (!$vocab)
+            {
+  //          create a new concept or element
+              $vocab = new Vocabulary();
+              $vocab->setUri($uri);
+              $vocab->setCreatedAt($updateTime);
+              $vocab->setCreatedUserId($userId);
+              $vocab->setAgentId($agentID);
+              $vocab->setBaseDomain($baseDomain);
+              $vocab->setCommunity("Libraries, MARC21");
+              $vocab->setLanguage("en");
+              $vocab->setStatusId(1);
+            }
+            else
+            {
+              $vocab->setLastUpdated($updateTime);
+              $vocab->setUpdatedUserId($userId);
+            }
+
+            $vocab->setName($row['Name']);
+            $vocab->setNote($row['Note']);
+            $vocab->setToken($row['VES']);
+            $vocab->save();
+
+            //type
+            $args[0] = "vocab";
+            //vocabid
+            $args[1] = $vocab->getId();
+            //filepath
+            $args[2] = $uploadPath . $row['VES'] . ".csv";
+            $args[3] = "-d";
+
+            run_import_vocabulary($importTask, $args);
+            $foo = $vocab->countConcepts();
+          }
+        }
+        catch (Exception $e)
+        {
+          throw new Exception($e);
+        }
+      break;
+    default:
+  }
+
+
+}
+
 function run_import_vocabulary( $task, $args )
 {
   //DebugBreak();
@@ -60,7 +213,7 @@ function run_import_vocabulary( $task, $args )
   //does the file exist?
   if (!file_exists($filePath))
   {
-    throw new Exception('You must supply a valid file to import');
+    throw new Exception('You must supply a valid file to import: ' . $filePath);
   }
 
   //is the file a valid type?
@@ -77,20 +230,6 @@ function run_import_vocabulary( $task, $args )
   }
 
   $fileType = $matches[1];
-
-  //we could also prepend these as arguments, but not today
-  //define('SF_APP', $app);
-  //define('SF_ENVIRONMENT', $env);
-  define('SF_APP',         'frontend');
-  define('SF_ENVIRONMENT', 'prod');
-  define('SF_ROOT_DIR', sfConfig::get('sf_root_dir'));
-  define('SF_DEBUG', true);
-
-  require_once(SF_ROOT_DIR.DIRECTORY_SEPARATOR.'apps'.DIRECTORY_SEPARATOR.SF_APP.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'config.php');
-
-  // initialize database manager
-  $databaseManager = new sfDatabaseManager();
-  $databaseManager->initialize();
 
   //is the object a valid object?
   if ('vocab' == $type)
