@@ -558,3 +558,9 @@ div#tab_container
 {
 	background-color: #FFFFCC;
 }
+
+.deprecated
+{
+  color: #FF0000;
+  font-weight: bold;
+}

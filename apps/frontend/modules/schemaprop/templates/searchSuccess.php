@@ -75,6 +75,24 @@
     <?php endif; ?>
   </th>
 
+  <th id="sf_admin_list_th_updated">
+       <?php if ($sf_user->getAttribute('sort', null, 'sf_admin/schema_search/sort') == 'updated'): ?>
+    <?php echo link_to(__('Last Updated'), 'schemaprop/search?sort=updated&type='.($sf_user->getAttribute('type', 'asc', 'sf_admin/schema_search/sort') == 'asc' ? 'desc' : 'asc') . '&sq=' . $sf_params->get('sq')) ?>
+
+   <?php if ($sf_user->getAttribute('type', null, 'sf_admin/schema_search/sort') == 'asc'): ?>
+      <?php echo image_tag(sfConfig::get('sf_admin_web_dir').'/images/s_asc.png', array('align' => 'middle', 'alt' => __('Ascending Order'), 'title' => __('List has been sorted in ascending order'))) ?>
+      <?php elseif ($sf_user->getAttribute('type', null, 'sf_admin/schema_search/sort') == 'desc'): ?>
+      <?php echo image_tag(sfConfig::get('sf_admin_web_dir').'/images/s_desc.png', array('align' => 'middle', 'alt' => __('Descending Order'), 'title' => __('List has been sorted in descending order'))) ?>
+      <?php endif; ?>
+      <?php else: ?>
+
+    <?php echo link_to(__('Last Updated'), 'schemaprop/search?sort=updated&type=asc&sq=' . $sf_params->get('sq')) ?>
+    <?php endif; ?>
+  </th>
+
+  <th id="sf_admin_list_th_status">Status</th>
+
+
 <?php if ($sf_user->hasCredential(array (   0 => 'administrator', ))): ?>
   <th id="sf_admin_list_th_sf_actions"><?php echo __('Actions') ?></th>
 <?php endif; ?>
@@ -82,7 +100,7 @@
 </thead>
 
 <tfoot>
-<tr><th colspan="5">
+<tr><th colspan="7">
 <div class="float-right">
 <?php if ($pager->haveToPaginate()): ?>
   <?php echo link_to(image_tag(sfConfig::get('sf_admin_web_dir').'/images/first.png', 'align=middle'), 'schemaprop/search?page=1&sq=' . $sf_params->get('sq')) ?>
@@ -103,17 +121,34 @@
 <tbody>
 <?php $i = 1; foreach ($pager->getResults() as $property): $odd = fmod(++$i, 2) ?>
 <tr class="sf_admin_row_<?php echo $odd ?>">
-		<td><?php echo link_to($property->getSchema()->getName(), '/schema/show?id=' . $property->getschemaId()) ?></td>
-		<td><?php echo link_to($property->getLabel(), '/schemaprop/show?id=' . $property->getId()) ?></td>
+		<td><?php echo link_to(htmlspecialchars($property->getSchema()->getName()), '/schema/show?id=' . $property->getschemaId(), array("title"=>$property->getSchema()->getUri())) ?></td>
+		<td><?php echo image_tag(sfConfig::get('sf_admin_web_dir').'/images/help.png', array('align' => 'middle', 'alt' => $property->getDefinition(), 'title' => $property->getDefinition())) ?>
+    <?php $propertyLabel = $property->getLabel();
+          $query = '/(' . $sf_params->get('sq') . ')/i';
+          $propertyLabel = htmlspecialchars($property->getLabel());
+          $propertyLabel = preg_replace($query, '<span class="highlight">$1</span>', $propertyLabel);
+          echo link_to($propertyLabel, '/schemaprop/show?id=' . $property->getId(), array("title"=>$property->getUri())) ?></td>
     <td><?php if ($property->getIsSubpropertyOf())
               {
-                echo link_to($property->getType(), $property->getParentUri());
+                $parentUri = $property->getParentUri();
+                echo link_to($property->getType(), $parentUri, array("title"=>$parentUri));
               }
               else
               {
                 echo $property->getType();
               } ?></td>
-		<td><?php echo $property->getLanguage() ?></td>
+    <td><?php echo $property->getLanguage() ?></td>
+    <td><?php echo $property->getUpdatedAt()?></td>
+    <td><?php $propertyStatus = $property->getStatus();
+              //colorize the deprecated status
+              if (in_array($property->getStatusId(), array(6,8)))
+              {
+                echo '<span class="deprecated">' .  $propertyStatus . " </span>";
+              }
+              else
+              {
+                echo $propertyStatus;
+              } ?></td>
 <?php if ($sf_user->hasCredential(array (   0 => 'administrator', ))): ?>
 <td>
 <ul class="sf_admin_td_actions">
@@ -125,8 +160,6 @@
 </tbody>
 </table>
 <?php endif; ?>
-
-<?php echo include_partial('list_actions') ?>
 
 </div>
 

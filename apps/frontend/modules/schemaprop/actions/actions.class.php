@@ -178,27 +178,33 @@ class schemapropActions extends autoschemapropActions
 
   public function executeSearch ()
   {
-    $sort_column = $this->getRequestParameter('sort');
-    if ($sort_column)
+    if (!$this->getRequestParameter('sort'))
     {
-      switch ($sort_column)
-      {
-       case 'schema_prop_label':
+      //make 'updated at' the default sort order
+      $this->getRequest()->setParameter('sort','updated');
+      $this->getRequest()->setParameter('type','desc');
+    }
+    $sort_column = $this->getRequestParameter('sort');
+    switch ($sort_column)
+    {
+      case 'schema_prop_label':
         $sort_column = SchemaPropertyPeer::LABEL;
         break;
-       case 'schema_name':
+      case 'schema_name':
         $sort_column = SchemaPeer::NAME;
         break;
-       case 'property_type':
+      case 'property_type':
         $sort_column = SchemaPropertyPeer::TYPE;
         break;
-       case 'language':
+      case 'language':
         $sort_column = SchemaPropertyPeer::LANGUAGE;
         break;
-      }
+      case 'updated':
+        $sort_column = SchemaPropertyPeer::UPDATED_AT;
+        break;
+    }
     $this->getUser()->setAttribute('sort', $this->getRequestParameter('sort'), 'sf_admin/schema_search/sort');
     $this->getUser()->setAttribute('type', $this->getRequestParameter('type', 'asc'), 'sf_admin/schema_search/sort');
-    }
 
    if ($this->getRequest()->hasParameter('sq'))
     {
