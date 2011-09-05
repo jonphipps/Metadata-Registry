@@ -77,7 +77,7 @@ class VocabularyPeer extends BaseVocabularyPeer
   }
 
   /**
-  * gets vocabulary by concept URI
+  * gets vocabulary by vocabulary URI
   *
   * @return Vocabulary
   * @param  string $vocabUri
