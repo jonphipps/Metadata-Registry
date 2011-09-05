@@ -104,4 +104,23 @@ class SchemaPeer extends BaseSchemaPeer
     return Schema::getProfileFields();
   }
 
+
+  /**
+  * gets schema by schema URI
+  *
+  * @return schema
+  * @param  string $schemaUri
+  */
+  public static function getschemaByUri($schemaUri)
+  {
+    $c = new Criteria();
+    $c->add(self::URI, $schemaUri);
+
+    $schema = self::doSelectOne($c);
+
+    return $schema;
+
+  } //getschemaByUri
+
+
 }
