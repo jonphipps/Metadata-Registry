@@ -35,8 +35,8 @@ http://www.nusphere.com
 	error_reporting(E_ALL & ~(E_NOTICE | E_STRICT));
 	//    ini_set('display_errors', 'off');
 
-	define('DBG_WIZARD_VERSION', '2.3.2304');
-	define('DBG_VERSION', '4.1.2');
+	define('DBG_WIZARD_VERSION', '2.3.2305');
+	define('DBG_VERSION', '4.1.3');
 
 	$expected_dbg = DBG_VERSION;
 
@@ -209,7 +209,7 @@ http://www.nusphere.com
 		elseif (stristr(PHP_OS, 'darwin')!==false||stristr(PHP_OS, 'mac')!==false) {
 			$platform = php_uname('r');
 			if (version_compare($platform, '9.5.0', '>=')) {
-				$package = "MacOSX-10.4.0";
+				$package = "MacOSX";
 			} else {
 				$platform_is_supported = false;
 				$platform_errmsg[] = "Mac Darwin Kernel version $platform is not supported";
@@ -230,7 +230,7 @@ http://www.nusphere.com
 			}
 
 			$dbg_arch = sprintf("dbg-%s-%s.tar.gz", $expected_dbg, $package);
-			$dbg_path .= "MacOsX\\";
+			$dbg_path .= "MacOSX\\";
 			$dbg_loc_instr = "$dbg_module is packed into $dbg_path_prefix$dbg_path$dbg_arch archive, in $CPU subdirectory inside the archive";
 		}
 		elseif (IsLinux()) {
@@ -244,7 +244,7 @@ http://www.nusphere.com
 					$platform=GetGlibcVersion();
 			}
 			if (version_compare($platform, '2.3', '>=')) {
-				$package='Linux-glibc-2.3';
+				$package='Linux';
 			} else {
 				$platform_is_supported = false;
 				$platform_errmsg[] = "Linux glibc version $platform is not supported";
@@ -269,7 +269,7 @@ http://www.nusphere.com
 		elseif (stristr(PHP_OS, 'freebsd')!==false) {
 			$platform = (int)trim(php_uname('r'));//(int)`uname -r|sed 's,\\([0-9]*\\).*,\\1,g'`;
 			if ($platform >= 6) {
-				$package = 'FreeBSD-6';
+				$package = 'FreeBSD';
 			} else {
 				$platform_is_supported = false;
 				$platform_errmsg[] = "FreeBSD version $platform is not supported";
@@ -292,7 +292,7 @@ http://www.nusphere.com
 		elseif (stristr(PHP_OS, 'netbsd')!==false) {
 			$platform = (int)trim(php_uname('r'));//(int)`uname -r|sed 's,\\([0-9]*\\).*,\\1,g'`;
 			if ($platform >= 5) {
-				$package = 'NetBSD-5';
+				$package = 'NetBSD';
 			} else {
 				$platform_is_supported = false;
 				$platform_errmsg[] = "NetBSD version $platform is not supported";
@@ -315,7 +315,7 @@ http://www.nusphere.com
 		elseif (stristr(PHP_OS, 'openbsd')!==false) {
 			$platform = (int)trim(php_uname('r')); //`uname -r|sed 's,\\([0-9]*\\).*,\\1,g'`;
 			if ($platform >= 4) {
-				$package = 'OpenBSD-4';
+				$package = 'OpenBSD';
 			} else {
 				$platform_is_supported = false;
 				$platform_errmsg[] = "OpenBSD version $platform is not supported";
@@ -342,9 +342,9 @@ http://www.nusphere.com
 			if (stristr('sun4u', $CPU)!==false) $CPU='sparc';
 			if (stristr('i86pc', $CPU)!==false) $CPU='i386';
 			if (version_compare($platform, '5.10', '>=') && !stristr($CPU, 'sparc')!==false) {
-				$package='SunOS-5.10';
+				$package='SunOS';
 			} elseif (version_compare($platform, '5.8', '>=')) {
-				$package='SunOS-5.8';
+				$package='SunOS';
 			} else {
 				$platform_is_supported = false;
 				$platform_errmsg[] = "Sun OS $platform is not supported";
