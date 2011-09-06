@@ -17,7 +17,9 @@ pake_task( 'import-vocabulary' );
 pake_desc( 'Import a list of vocabulary files' );
 pake_task( 'import-list' );
 
-//DebugBreak();
+echo "\n";
+
+DebugBreak();
 
 //we could also prepend these as arguments, but not today
 //define('SF_APP', $app);
@@ -28,7 +30,7 @@ define('SF_ROOT_DIR', sfConfig::get('sf_root_dir'));
 define('SF_DEBUG', true);
 
 require_once(SF_ROOT_DIR.DIRECTORY_SEPARATOR.'apps'.DIRECTORY_SEPARATOR.SF_APP.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'config.php');
-
+SF_ROOT_DIR
 // initialize database manager
 $databaseManager = new sfDatabaseManager();
 $databaseManager->initialize();
@@ -47,15 +49,22 @@ ini_set('auto_detect_line_endings', true);
 */
 function run_import_list($task, $args)
 {
-  //DebugBreak();
+  DebugBreak();
+  //check the argument counts
   //check the argument counts
   if (count($args) < 1)
   {
-    throw new Exception('You must provide a file name to import.');
+    throw new Exception('You must provide a vocabulary type.');
+  }
+
+  if (count($args) < 2)
+  {
+    throw new Exception('You must provide a file name.');
   }
 
   //set the arguments
-  $filePath      = $args[0];
+  $type          = strtolower($args[0]);
+  $filePath      = $args[1];
 
   //does the file exist?
   if (!file_exists($filePath))
@@ -76,94 +85,167 @@ function run_import_list($task, $args)
     throw new Exception("File type cannot be determined from the file extension");
   }
 
+/************************************************************
+*    Set Deafults Here                                      *
+*************************************************************/
   $fileType = $matches[1];
-  $baseDomain = "http://marc21rdf.info/terms/";
-  //jon's user id
-  $userId = 36;
-  //MMA agent ID
-  $agentID = 67;
-  //fileupload location
-  $uploadPath = 'C:\\Users\\jphipps\\Documents\\sites\\registry_nlb_rackspace_update\\web\\uploads\\';
+  $baseDomain = "http://marc21rdf.info/";
+  $userId = 36;  //jon's user id
+  $agentID = 67; //MMA agent ID
+  $uploadPath = SF_ROOT_DIR . DIRECTORY_SEPARATOR . 'web' . DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR;
+  $communities = "Libraries, MARC21";
+  $language = "en";
+  $StatusId = 1;
+
   $importTask = new pakeTask('import-vocabulary');
 
    //     parse file to get the fields/columns and data
-  $file = fopen($filePath,"r");
-  if (!$file)
-  {
-    throw new Exception("Can't read supplied file");
-  }
+   $file = fopen($filePath,"r");
+   if (!$file)
+   {
+     throw new Exception("Can't read supplied file");
+   }
 
-  switch ($fileType)
-  {
-    case "csv":
-      try {
-        $reader = new aCsvReader($filePath);
-      } catch (Exception $e) {
-        throw new Exception("Not a happy CSV file!");
-      }
+   switch ($fileType)
+   {
+     case "csv":
+     try {
+       $reader = new aCsvReader($filePath);
+     } catch (Exception $e) {
+       throw new Exception("Not a happy CSV file! Error: " . $e);
+     }
+     if ('vocab' == $type)
+     {
+       // Get array of heading names found
+       $headings = $reader->getHeadings();
+       $fields = VocabularyPeer::getFieldNames();
 
-        // Get array of heading names found
-        $headings = $reader->getHeadings();
-        $fields = VocabularyPeer::getFieldNames();
+       try
+       {
+         while ($row = $reader->getRow()) {
+           //        lookup the URI (or the OMR ID if available) for a match
+           if (empty($row["VES"]))
+           {
+             //skip this one
+             break;
+           }
 
-        try
-        {
-          while ($row = $reader->getRow()) {
-  //        lookup the URI (or the OMR ID if available) for a match
-            if (empty($row["VES"]))
-            {
-              //skip this one
-              break;
-            }
+           $uri = $baseDomain . "terms/" . $row["VES"] . "#";
+           $vocab = VocabularyPeer::getVocabularyByUri($uri);
+           $updateTime = time();
 
-            $uri = $baseDomain . $row["VES"] . "#";
-            $vocab = VocabularyPeer::getVocabularyByUri($uri);
-            $updateTime = time();
+           if (!$vocab)
+           {
+             //          create a new concept or element
+             $vocab = new Vocabulary();
+             $vocab->setUri($uri);
+             $vocab->setCreatedAt($updateTime);
+             $vocab->setCreatedUserId($userId);
+             $vocab->setAgentId($agentID);
+             $vocab->setBaseDomain($baseDomain);
+             $vocab->setCommunity("Libraries, MARC21");
+             $vocab->setLanguage("en");
+             $vocab->setStatusId(1);
+           }
+           else
+           {
+             $vocab->setLastUpdated($updateTime);
+             $vocab->setUpdatedUserId($userId);
+           }
 
-            if (!$vocab)
-            {
-  //          create a new concept or element
-              $vocab = new Vocabulary();
-              $vocab->setUri($uri);
-              $vocab->setCreatedAt($updateTime);
-              $vocab->setCreatedUserId($userId);
-              $vocab->setAgentId($agentID);
-              $vocab->setBaseDomain($baseDomain);
-              $vocab->setCommunity("Libraries, MARC21");
-              $vocab->setLanguage("en");
-              $vocab->setStatusId(1);
-            }
-            else
-            {
-              $vocab->setLastUpdated($updateTime);
-              $vocab->setUpdatedUserId($userId);
-            }
+           $vocab->setName(fixEncoding(rtrim($row['Name'])));
+           $vocab->setNote(fixEncoding(rtrim($row['Note'])));
+           $vocab->setToken($row['VES']);
+           $vocab->save();
 
-            $vocab->setName($row['Name']);
-            $vocab->setNote($row['Note']);
-            $vocab->setToken($row['VES']);
-            $vocab->save();
+           //type
+           $args[0] = "vocab";
+           //vocabid
+           $args[2] = $vocab->getId();
+           //filepath
+           $args[1] = $uploadPath . $row['VES'] . ".csv";
+           $args[3] = "-d";
 
-            //type
-            $args[0] = "vocab";
-            //vocabid
-            $args[1] = $vocab->getId();
-            //filepath
-            $args[2] = $uploadPath . $row['VES'] . ".csv";
-            $args[3] = "-d";
+           run_import_vocabulary($importTask, $args);
+           $foo = $vocab->countConcepts();
+         }
+       }
+       catch (Exception $e)
+       {
+         throw new Exception($e);
+       }
+     }
+     else //it's a schema
+     {
+       // Get array of heading names found
+       $headings = $reader->getHeadings();
 
-            run_import_vocabulary($importTask, $args);
-            $foo = $vocab->countConcepts();
-          }
-        }
-        catch (Exception $e)
-        {
-          throw new Exception($e);
-        }
-      break;
-    default:
-  }
+       try
+       {
+         while ($row = $reader->getRow()) {
 
+           //NOTE: this is explicitly tuned to a particular import file
+           //TODO: generalize this import mapping
+
+           // lookup the URI (or the OMR ID if available) for a match
+           if (empty($row["URI"]))
+           {
+             //skip this one
+             break;
+           }
+
+           $baseDomain .= "elements/";
+           $uri = $row["URI"];
+           $schema = SchemaPeer::getschemaByUri($uri);
+           $updateTime = time();
+
+           if (!$schema)
+           {
+             //  create a new vocabulary
+             $schema = new Schema();
+             $schema->setUri($uri);
+             $schema->setCreatedAt($updateTime);
+             $schema->setCreatedUserId($userId);
+             $schema->setAgentId($agentID);
+             $schema->setBaseDomain($baseDomain);
+             $schema->setProfileId(1);
+           }
+           else
+           {
+             $schema->setUpdatedAt($updateTime);
+             $schema->setUpdatedUserId($userId);
+           }
+
+           $schema->setCommunity($row['Tags']);
+           $schema->setLanguage($row['Language']);
+           $schema->setNsType("slash");
+           $schema->setName($row['Label']);
+           $schema->setNote($row['Note']);
+           $schema->setStatusId(1);
+           $schema->setToken($row['Name']);
+           $schema->setUrl($row['URL']);
+           $schema->save();
+
+           //type
+           $args[0] = "schema";
+           //filepath
+           $args[1] = $uploadPath . $row['File Name'];
+           //vocabid
+           $args[2] = $schema->getId();
+           $args[3] = "-d";
+
+           run_import_vocabulary($importTask, $args);
+           $foo = $schema->countSchemaPropertys();
+         }
+       }
+       catch (Exception $e)
+       {
+         throw new Exception($e);
+       }
+     }
+     break;
+     default:
+   }
 
 }
 
@@ -179,18 +261,19 @@ function run_import_vocabulary( $task, $args )
 
   if (count($args) < 2)
   {
-    throw new Exception('You must provide a vocabulary id.');
+    throw new Exception('You must provide a file name.');
   }
 
   if (count($args) < 3)
   {
-    throw new Exception('You must provide a file name.');
+    throw new Exception('You must provide a vocabulary id.');
   }
+
 
   //set the arguments
   $type          = strtolower($args[0]);
-  $id            = $args[1];
-  $filePath      = $args[2];
+  $filePath      = $args[1];
+  $id            = $args[2];
   $deleteMissing = (isset($args[3]) && ("-d" == $args[3]));
 
   //do some basic validity checks
@@ -334,12 +417,15 @@ function run_import_vocabulary( $task, $args )
         "notation"   => "skos:notation",
         "scopeNote"  => "skos:scopeNote");
 
+        $rows = 0;
+
         //executeImport:
 
   //    serialize the column map
         try
         {
           while ($row = $reader->getRow()) {
+            $rows++;
   //        lookup the URI (or the OMR ID if available) for a match
             $uri = $baseDomain . $row[$map["uri"]];
             $concept = ConceptPeer::getConceptByUri($uri);
@@ -356,12 +442,12 @@ function run_import_vocabulary( $task, $args )
               * @todo Need to handle updates for topconcept here, just like language
               **/
               $concept->setIsTopConcept(false);
-              $concept->updateFromRequest($userId, $row[$map['prefLabel']], $language, $statusId);
+              $concept->updateFromRequest($userId, fixEncoding(rtrim($row[$map['prefLabel']])), $language, $statusId);
             }
             //don't update the concept if the preflabel matches
             else if($row[$map['prefLabel']] != $concept->getPrefLabel())
             {
-              $concept->updateFromRequest($userId, $row[$map['prefLabel']]);
+              $concept->updateFromRequest($userId, fixEncoding(rtrim($row[$map['prefLabel']])));
             }
 
             //there needs to be a language to lookup the properties unless it's an objectProperty
@@ -399,7 +485,7 @@ function run_import_vocabulary( $task, $args )
                     }
                     if ($row[$value] != $property->getObject())
                     {
-                      $property->setObject($row[$value]);
+                      $property->setObject(fixEncoding(rtrim($row[$value])));
                     }
                     $property->setUpdatedUserId($userId);
                     $property->setUpdatedAt($updateTime);
@@ -426,7 +512,10 @@ function run_import_vocabulary( $task, $args )
         {
     //          catch
     //            if there's an error of any kind, write to error log and continue
+          echo "Error on row: " . $rows . ", " . $uri . "\n" . $e . "\n";
+          continue;
         }
+        $objects = $vocabObj->countConcepts();
       }
       else //it's an element set
       {
@@ -436,6 +525,7 @@ function run_import_vocabulary( $task, $args )
         "definition"  => "skos:definition",
         "label"       => "rdfs:label",
         "note" => array("tag" => "tagCap","ind1" => "ind1Cap","ind2" => "ind2Cap","sub" =>"subCap"));
+        $rows = 0;
 
         //executeImport:
   //    serialize the column map
@@ -450,6 +540,8 @@ function run_import_vocabulary( $task, $args )
               throw new Exception('Missing URI for row: ' . $reader->getRowCount());
               continue;
             }
+
+            $rows++;
             $uri = $baseDomain . $tSlash . $row[$map["uri"]];
             $property = SchemaPropertyPeer::retrieveByUri($uri);
             $updateTime = time();
@@ -492,8 +584,8 @@ function run_import_vocabulary( $task, $args )
                 $note = '';
                 foreach ($map["note"] as $key => $value)
                 {
-                  $caption = !empty($row[$value]) ? " (" .  $row[$value] . ")" : ' (empty)';
-                  $note .= $key . ": " . $row[$key] . $caption . "<br />";
+                  $caption = !empty($row[$value]) ? " (" .  $row[$value] . ")" : ' (no caption)';
+                  $note .=   !empty($row[$key]) ? $key . ": " . $row[$key] . $caption . "<br />" : "";
                 }
                 $property->setNote($note);
               }
@@ -570,7 +662,10 @@ function run_import_vocabulary( $task, $args )
         {
     //          catch
     //            if there's an error of any kind, write to error log and continue
+          echo "Error on row: " . $rows . ", " . $uri . "\n" . $e . "\n";
+          continue;
         }
+        $objects = $schemaObj->countSchemaPropertys();
       }
   //     save the import history file (match timestamp to history entries)
       break;
@@ -585,8 +680,30 @@ function run_import_vocabulary( $task, $args )
 
   /* output to stdout*/
   //          number of objects imported (link to history, filtered on timestamp of import)
+  echo "File:" . $filePath . ";\n     Objects imported: " . $objects . "; Rows read: " . $rows . "\n";
   //          number of errors (link to error log)
 
 
 }
+
+function fixEncoding($in_str)
+{
+  //short circuit for now...
+  return $in_str;
+
+  $cur_encoding = mb_detect_encoding($in_str, 'UTF-8, ISO-8859-1', true) ;
+  if($cur_encoding == "UTF-8" && mb_check_encoding($in_str,"UTF-8"))
+    $newStr = $in_str;
+  else if($cur_encoding == "ISO-8859-1" && mb_check_encoding($in_str,"ISO-8859-1"))
+    $newStr = mb_convert_encoding($in_str, "UTF-8", "ISO-8859-1");
+  else
+  {
+    $newStr = utf8_encode($in_str);
+  }
+
+  return $newStr;
+}
+
+
+
 ?>
