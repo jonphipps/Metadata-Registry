@@ -9,6 +9,7 @@ default:
     description:  The Metadata Registry Project
     keywords:     semantic web, registry, rdf, skos, metadata
     language:     en
+    google-site-verification: Y6w7paanRUDHHWWKN9NXAtbDWP3ftC0yDYKwyiFmnzo
 
   stylesheets:    [main, layout]
 

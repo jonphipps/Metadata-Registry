@@ -31,7 +31,8 @@ function truncate_uri($text, $length = 30, $truncate_string = '...')
     return '';
   }
 
-  $fullText = $text;
+  //replace the # with %23
+  $fullText = preg_replace('/#(.+)/', '%23$1', $text);
 
   //check for a registry URI and strip it before checking the length
   $baseDomain = rtrim(sfConfig::get('app_base_domain') ," /");

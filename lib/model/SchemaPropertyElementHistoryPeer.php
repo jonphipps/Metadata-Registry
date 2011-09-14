@@ -188,4 +188,48 @@ class SchemaPropertyElementHistoryPeer extends BaseSchemaPropertyElementHistoryP
     return $results;
   }
 
+  /**
+  * Gets the last update for a domain
+  *
+  * @return mixed Either a date string or a time integer
+  * @param  string $domain
+  * @param  string $format A date format string. If $format is null, then an integer is returned
+  */
+  static public function getLastUpdateForDomain($domain, $format = 'Y-m-d H:i:s')
+  {
+    if (!preg_match('/%$/', $domain))
+    {
+      $domain .="%";
+    }
+    $c = new Criteria();
+    $c->add(SchemaPeer::URI, $domain, Criteria::LIKE);
+    $c->addJoin(self::SCHEMA_ID, SchemaPeer::ID);
+    $c->addDescendingOrderByColumn(self::CREATED_AT);
+    $rs = self::doSelectOne($c);
+    $results = $rs->getCreatedAt($format);
+    return $results;
+  }
+
+  /**
+  * Gets the last update for a schema
+  *
+  * @return mixed Either a date string or a time integer
+  * @param  integer $id
+  * @param  string $format A date format string. If $format is null, then an integer is returned
+  */
+  static public function getLastUpdateForSchema($id, $format = 'Y-m-d H:i:s')
+  {
+    $c = new Criteria();
+    $c->add(self::SCHEMA_ID, $id);
+    $c->addDescendingOrderByColumn(self::CREATED_AT);
+    $rs = self::doSelectOne($c);
+    $results = 0; //there may be no elements
+    if ($rs)
+    {
+      $results = $rs->getCreatedAt($format);
+    }
+    return $results;
+  }
+
+
 }

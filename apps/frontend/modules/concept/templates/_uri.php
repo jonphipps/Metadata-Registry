@@ -1,0 +1,1 @@
+<?php echo '<a href="' . preg_replace('/#(.+)/', '%23$1', $concept->getUri()) . '">' . $concept->getUri() . '</a>&nbsp;<a href="' . preg_replace('/#(.+)/', '%23$1', $concept->getUri()) . '.rdf" title="Retrieve remote RDF">(RDF)</a>' ?>

@@ -93,7 +93,7 @@ generator:
       peer_method:   doSelectJoinAll
       fields:
         id:            { credentials: [administrator] }
-        uri:           { helper: auto_link_text }
+        uri:           { helper: auto_link_uri }
         show_parent:   { name: Parent, condition: "('subproperty' == $schema_property->getType() || 'subclass' == $schema_property->getType()) && $schema_property->getIsSubpropertyOf()" }
         parent_uri:    { name: Parent, condition: "('subproperty' == $schema_property->getType() || 'subclass' == $schema_property->getType()) && !$schema_property->getIsSubpropertyOf()" }
         domain:        { condition: "'subproperty' == $schema_property->getType() || 'property' == $schema_property->getType()" }

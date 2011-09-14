@@ -43,8 +43,9 @@ class VocabularyPeer extends BaseVocabularyPeer
 		$con = Propel::getConnection(self::DATABASE_NAME);
 
 		$criteria = new Criteria(VocabularyPeer::DATABASE_NAME);
-
-		$criteria->add(VocabularyPeer::URI, $uri);
+		$criteria->add(self::URI, $uri);
+    $criteria->addOr(self::URI, $uri . "#");
+    $criteria->addOr(self::URI, $uri . "/");
 
 		$v = VocabularyPeer::doSelect($criteria, $con);
 
@@ -92,5 +93,60 @@ class VocabularyPeer extends BaseVocabularyPeer
     return $vocab;
 
   } //getVocabularyByUri
+
+  /**
+  *
+  * gets an array of Vocabulary objects related to a domain
+  *
+  * @return array Vocabulary
+  */
+  public static function getVocabulariesForDomain($domain)
+  {
+    if (!preg_match('/%$/', $domain))
+    {
+      $domain .="%";
+    }
+    $c = new Criteria();
+    $c->add(self::URI, $domain, Criteria::LIKE);
+    $c->addAscendingOrderByColumn(self::NAME);
+    $result = self::doSelectJoinStatus($c);
+
+    return $result;
+  }
+
+  /**
+  *
+  * gets the last update, either of the vocabulary or the history
+  *
+  * @return integer
+  */
+  public static function getLastUpdateDate($id)
+  {
+    $vocab = self::retrieveByPK($id);
+    if ($vocab)
+    {
+      $lastVocabUpdate = $vocab->getLastUpdated(null);
+    }
+    $lastHistoryUpdate = ConceptPropertyHistoryPeer::getLastUpdateForVocab($id, null);
+    $result = max(array($lastHistoryUpdate, $lastVocabUpdate));
+
+    return $result;
+  }
+
+  /**
+  * gets the property count
+  *
+  * @return integer
+  */
+  public static function getConceptCount($id)
+  {
+    $vocab = self::retrieveByPK($id);
+    if ($vocab)
+    {
+      $result = $vocab->countConcepts();
+    }
+
+    return $result;
+  }
 
 } // VocabularyPeer

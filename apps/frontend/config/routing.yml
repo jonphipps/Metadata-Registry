@@ -3,6 +3,10 @@ api_get:
   url:   /api/get/*.
   param: { module: api, action: get }
 
+api_all:
+  url:   /api/:objects/:action/*.
+  param: { module: api}
+
 # uri schema
 uri_schema_html:
   url:  /uri/schema/:schema.html

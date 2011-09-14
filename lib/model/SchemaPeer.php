@@ -20,6 +20,8 @@ class SchemaPeer extends BaseSchemaPeer
   {
 		$criteria = new Criteria();
 		$criteria->add(self::URI, $uri);
+    $criteria->addOr(self::URI, $uri . "#");
+    $criteria->addOr(self::URI, $uri . "/");
 
 		return self::doSelectOne($criteria);
 
@@ -122,5 +124,59 @@ class SchemaPeer extends BaseSchemaPeer
 
   } //getschemaByUri
 
+  /**
+  *
+  * gets an array of Schema objects related to a domain
+  *
+  * @return Agent
+  */
+  public static function getSchemasForDomain($domain)
+  {
+    if (!preg_match('/%$/', $domain))
+    {
+      $domain .="%";
+    }
+    $c = new Criteria();
+    $c->add(self::URI, $domain, Criteria::LIKE);
+    $c->addAscendingOrderByColumn(self::NAME);
+    $result = self::doSelectJoinStatus($c);
+
+    return $result;
+  }
+
+  /**
+  *
+  * gets the last update, either of the schema or the history
+  *
+  * @return integer
+  */
+  public static function getLastUpdateDate($id)
+  {
+    $schema = self::retrieveByPK($id);
+    if ($schema)
+    {
+      $lastSchemaUpdate = $schema->getUpdatedAt(null);
+    }
+    $lastHistoryUpdate = SchemaPropertyElementHistoryPeer::getLastUpdateForSchema($id, null);
+    $result = max(array($lastHistoryUpdate, $lastSchemaUpdate));
+
+    return $result;
+  }
+
+  /**
+  * gets the property count
+  *
+  * @return integer
+  */
+  public static function getPropertyCount($id)
+  {
+    $schema = self::retrieveByPK($id);
+    if ($schema)
+    {
+    $result = $schema->countSchemaPropertys();
+    }
+
+    return $result;
+  }
 
 }

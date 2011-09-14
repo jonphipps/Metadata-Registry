@@ -19,7 +19,7 @@ pake_task( 'import-list' );
 
 echo "\n";
 
-DebugBreak();
+//DebugBreak();
 
 //we could also prepend these as arguments, but not today
 //define('SF_APP', $app);
@@ -30,7 +30,7 @@ define('SF_ROOT_DIR', sfConfig::get('sf_root_dir'));
 define('SF_DEBUG', true);
 
 require_once(SF_ROOT_DIR.DIRECTORY_SEPARATOR.'apps'.DIRECTORY_SEPARATOR.SF_APP.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'config.php');
-SF_ROOT_DIR
+
 // initialize database manager
 $databaseManager = new sfDatabaseManager();
 $databaseManager->initialize();
@@ -49,7 +49,7 @@ ini_set('auto_detect_line_endings', true);
 */
 function run_import_list($task, $args)
 {
-  DebugBreak();
+  //DebugBreak();
   //check the argument counts
   //check the argument counts
   if (count($args) < 1)
@@ -120,6 +120,8 @@ function run_import_list($task, $args)
        $headings = $reader->getHeadings();
        $fields = VocabularyPeer::getFieldNames();
 
+       $baseDomain .= "terms/";
+
        try
        {
          while ($row = $reader->getRow()) {
@@ -130,7 +132,7 @@ function run_import_list($task, $args)
              break;
            }
 
-           $uri = $baseDomain . "terms/" . $row["VES"] . "#";
+           $uri = $baseDomain . $row["VES"] . "#";
            $vocab = VocabularyPeer::getVocabularyByUri($uri);
            $updateTime = time();
 
@@ -180,6 +182,8 @@ function run_import_list($task, $args)
        // Get array of heading names found
        $headings = $reader->getHeadings();
 
+       $baseDomain .= "elements/";
+
        try
        {
          while ($row = $reader->getRow()) {
@@ -194,7 +198,6 @@ function run_import_list($task, $args)
              break;
            }
 
-           $baseDomain .= "elements/";
            $uri = $row["URI"];
            $schema = SchemaPeer::getschemaByUri($uri);
            $updateTime = time();
@@ -331,6 +334,9 @@ function run_import_vocabulary( $task, $args )
     //get a skos property id map
     $skosMap = SkosPropertyPeer::getPropertyNames();
 
+    //there has to be a hash or a slash
+    $tSlash = preg_match('@(/$)@i', $vocabObj->getUri() ) ? '' : '/';
+    $tSlash = preg_match('/#$/', $vocabObj->getUri() ) ? '' : $tSlash;
   }
   else
   {

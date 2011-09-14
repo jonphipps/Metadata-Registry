@@ -15,6 +15,118 @@ class apiActions extends sfActions
     sfConfig::set('sf_web_debug', false);
   }
 
+  /**
+  * Gets the date of the last update of a domain or uri
+  *
+  * @return integer (unless a format string is supplied)
+  * @param  var_type $var
+  */
+  public function executeLastupdate()
+  {
+    //DebugBreak();
+        /** @var sfRequest **/
+    $request = $this->getRequest();
+    $domain = $this->getRequestParameter('domain');
+    $objects = $this->getRequestParameter('objects');
+    $type = $this->getRequestParameter('type', "json");
+    if (isset($domain))
+    {
+      if ('schemas' == $objects)
+      {
+        $lastUpdate = SchemaPropertyElementHistoryPeer::getLastUpdateForDomain($domain, null);
+      }
+      if ('vocabs' == $objects)
+      {
+        $lastUpdate = ConceptPropertyHistoryPeer::getLastUpdateForDomain($domain, null);
+      }
+    }
+
+    switch ($type)
+    {
+      case "json":
+        echo json_encode($lastUpdate);
+        break;
+      default:
+    }
+
+    return(sfView::NONE);
+  }
+
+  /**
+  * gets information about all schema/vocab in a domain
+  *
+  * @return array
+  */
+  public function executeGetinfo()
+  {
+    //DebugBreak();
+        /** @var sfRequest **/
+    $request = $this->getRequest();
+    $domain = $this->getRequestParameter('domain');
+    $objects = $this->getRequestParameter('objects');
+    $type = $this->getRequestParameter('type', "json");
+    if (isset($domain))
+    {
+      if ('schemas' == $objects)
+      {
+        //get the schemas for this domain
+        $result = SchemaPeer::getSchemasForDomain($domain);
+
+        /** @var Schema **/
+        for($id=0; $id<count($result); $id++)
+        {
+          $value = $result[$id];
+          $uri = rtrim($value->getUri(),"/#");
+          $index = strtolower($uri);
+          $data[$index]['count'] = SchemaPeer::getPropertyCount($value->getId());
+          $data[$index]['id'] = $value->getId();
+          $data[$index]['language'] = $value->getLanguage();
+          $data[$index]['lastUpdate'] = SchemaPeer::getLastUpdateDate($value->getId());
+          $data[$index]['name'] = $value->getName();
+          $data[$index]['note'] = $value->getNote();
+          $data[$index]['status'] = $value->getStatus()->getDisplayName();
+          $data[$index]['token'] = $value->getToken();
+          $data[$index]['uri'] = $uri;
+        }
+      }
+      if ('vocabs' == $objects)
+      {
+        //get the vocabularies for this domain
+        $result = VocabularyPeer::getVocabulariesForDomain($domain);
+
+        /** @var Vocabulary **/
+        for($id=0; $id<count($result); $id++)
+        {
+          $value = $result[$id];
+          $uri = rtrim($value->getUri(),"/#");
+          $index = strtolower($uri);
+          $data[$index]['count'] = VocabularyPeer::getConceptCount($value->getId());
+          $data[$index]['id'] = $value->getId();
+          $data[$index]['language'] = $value->getLanguage();
+          $data[$index]['lastUpdate'] = VocabularyPeer::getLastUpdateDate($value->getId());
+          $data[$index]['name'] = $value->getName();
+          $data[$index]['note'] = $value->getNote();
+          $data[$index]['status'] = $value->getStatus()->getDisplayName();
+          $data[$index]['token'] = $value->getToken();
+          $data[$index]['uri'] = $uri;
+        }
+      }
+    }
+
+    switch ($type)
+    {
+      case "json":
+        echo json_encode($data);
+        break;
+      case "php":
+        echo serialize($data);
+        break;
+      default:
+    }
+
+    return(sfView::NONE);
+  }
+
   public function executeGet()
   {
     //debugbreak();

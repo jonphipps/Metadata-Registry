@@ -79,10 +79,9 @@ generator:
     show:
       fields:
         id:            { credentials: [administrator] }
-        uri:           { helper: auto_link_text }
       display:
         "-Metadata":   { fields: [id, created_at, created_by, updated_at, updated_by], credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
-        "Detail":      [pref_label, _language, uri, is_top_concept, status]
+        "Detail":      [pref_label, _language, _uri, is_top_concept, status]
         "Properties":  [_listproperties]
       actions:
         _list:         { query_string: { vocabulary_id: vocabulary_id} }
