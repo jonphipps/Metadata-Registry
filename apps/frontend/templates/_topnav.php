@@ -21,16 +21,16 @@
   $topnav['vocabulary'] ['History']    ['link'] = '/history/list?vocabulary_id=';
   $topnav['vocabulary'] ['Versions']   ['link'] = '/version/list?vocabulary_id=';
   $topnav['vocabulary'] ['Maintainers']['link'] = '/vocabuser/list?vocabulary_id=';
-  $topnav['vocabulary'] ['Discuss']    ['link'] = '/discuss/list?vocabulary_id=';
+  //$topnav['vocabulary'] ['Discuss']    ['link'] = '/discuss/list?vocabulary_id=';
   //concepts
   $topnav['concept']    ['Detail']     ['link'] = '/concept/show?id=';
   $topnav['concept']    ['Properties'] ['link'] = '/conceptprop/list?concept_id=';
   $topnav['concept']    ['History']    ['link'] = '/history/list?concept_id=';
-  $topnav['concept']    ['Discuss']    ['link'] = '/discuss/list?concept_id=';
+  //$topnav['concept']    ['Discuss']    ['link'] = '/discuss/list?concept_id=';
   //properties
   $topnav['conceptprop']['Detail']     ['link'] = '/conceptprop/show?id=';
   $topnav['conceptprop']['History']    ['link'] = '/history/list?property_id=';
-  $topnav['conceptprop']['Discuss']    ['link'] = '/discuss/list?property_id=';
+  //$topnav['conceptprop']['Discuss']    ['link'] = '/discuss/list?property_id=';
   //schemas
   $topnav['schema']     ['Detail']     ['link'] = '/schema/show?id=';
   $topnav['schema']     ['Elements']   ['link'] = '/schemaprop/list?schema_id=';
@@ -38,16 +38,16 @@
   $topnav['schema']     ['History']    ['link'] = '/schemahistory/list?schema_id=';
 //  $topnav['schema']     ['Versions']   ['link'] = '/schemaversion/list?schema_id=';
   $topnav['schema']     ['Maintainers']['link'] = '/schemauser/list?schema_id=';
-  $topnav['schema']     ['Discuss']    ['link'] = '/discuss/list?schema_id=';
+  //$topnav['schema']     ['Discuss']    ['link'] = '/discuss/list?schema_id=';
   //schema properties
   $topnav['schemaprop'] ['Detail']     ['link'] = '/schemaprop/show?id=';
   $topnav['schemaprop'] ['Statements']   ['link'] = '/schemapropel/list?schema_property_id=';
   $topnav['schemaprop'] ['History']    ['link'] = '/schemahistory/list?schema_property_id=';
-  $topnav['schemaprop'] ['Discuss']    ['link'] = '/discuss/list?schema_property_id=';
+  //$topnav['schemaprop'] ['Discuss']    ['link'] = '/discuss/list?schema_property_id=';
   //properties
   $topnav['schemapropel']['Detail']    ['link'] = '/schemapropel/show?id=';
   $topnav['schemapropel']['History']   ['link'] = '/schemahistory/list?schema_property_element_id=';
-  $topnav['schemapropel']['Discuss']   ['link'] = '/discuss/list?schema_property_element_id=';
+  //$topnav['schemapropel']['Discuss']   ['link'] = '/discuss/list?schema_property_element_id=';
 
 //this section determines what tab will be shown (or not) by each module/action combination
 
@@ -345,8 +345,12 @@
           $schema = $schema_property->getSchema();
         }
       }
-      $objectId = $schema_property_element->getId();
+      if ($schema_property_element)
+      {
+        $objectId = $schema_property_element->getId();
+      }
       break;
+
     case 'schemahistorydetail':
       $showBc = true;
       $showSchemaBc = true;
