@@ -1,5 +1,5 @@
 <?php
-  include_once(sfConfig::get('sf_symfony_lib_dir').'/helper/TextHelper.php');
+  include_once(SF_ROOT_DIR.'/plugins/jpAdminGeneratorPlugin/lib/helper/TextHelper.php');
   /**
   * creates a link to related SchemaProperty
   *
