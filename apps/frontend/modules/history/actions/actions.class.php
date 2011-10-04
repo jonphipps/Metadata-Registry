@@ -31,12 +31,13 @@ class historyActions extends autohistoryActions
     {
       case "property_id":
         /** @var ConceptProperty **/
-        $conceptProperty = DbFinder::from('ConceptProperty')->findPk($id);
+        $conceptProperty = ConceptPropertyPeer::retrieveByPK($id);
         if ($conceptProperty)
         {
+          $vocabularyname = ($conceptProperty->getVocabulary()) ? $conceptProperty->getVocabulary()->getName() : "?" ;
           $title .= " for Property: '" .   $conceptProperty->getSkosProperty()->getName() .
                     "' of Concept: '" .    $conceptProperty->getConceptRelatedByConceptId()->getPrefLabel().
-                    "' in Vocabulary: '" . $conceptProperty->getVocabulary()->getName() . "'";
+                    "' in Vocabulary: '" . $vocabularyname . "'";
         }
         $filter = true;
         break;
