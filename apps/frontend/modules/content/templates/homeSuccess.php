@@ -14,7 +14,7 @@
           <tr>
             <td valign="baseline" style="white-space:nowrap"><h1 style="background-color: white; margin-left:0">Registry News</h1></td>
             <td valign="baseline" align="left" style="white-space:nowrap">  ...from the <a href="http://metadataregistry.org/blog/">Registry Blog</a></td>
-            <td valign="baseline" align="right" style="white-space:nowrap; padding-right:10px; width:100%;" ><a href="http://metadataregistry.org/blog/category/registry-development/the-registry/feed">rss 2.0</a>&nbsp;&nbsp;<a href="http://metadataregistry.org/blog/category/registry-development/the-registry/feed/rdf">rss 1.0</a>&nbsp;&nbsp;<a href="http://metadataregistry.org/blog/category/registry-development/the-registry/feed/atom">atom 1.0</a>&nbsp;&nbsp;<?php echo image_tag('feed-icon.gif',array('align' => "top")); ?></td>
+            <td valign="baseline" align="right" style="white-space:nowrap; padding-right:10px; padding-left:6px; width:100%;" ><a href="http://metadataregistry.org/blog/category/registry-development/the-registry/feed">rss 2.0</a>&nbsp;&nbsp;<a href="http://metadataregistry.org/blog/category/registry-development/the-registry/feed/rdf">rss 1.0</a>&nbsp;&nbsp;<a href="http://metadataregistry.org/blog/category/registry-development/the-registry/feed/atom">atom 1.0</a>&nbsp;&nbsp;<?php echo image_tag('feed-icon.gif',array('align' => "top")); ?></td>
           </tr>
         </table>
 <?php if (isset($rssItems)): ?>
