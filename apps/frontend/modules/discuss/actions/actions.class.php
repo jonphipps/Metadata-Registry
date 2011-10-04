@@ -35,19 +35,22 @@ class discussActions extends autodiscussActions
     }
 
     $vocabulary = myActionTools::findCurrentVocabulary();
-    $this->vocabulary = $vocabulary;
-
-    if (in_array($idType, array('concept_id','property_id')))
+    if ($vocabulary)
     {
-      $this->concept = myActionTools::findCurrentConcept();
-      $this->setFlash('hasConcept', true);
-    }
+      $this->vocabulary = $vocabulary;
 
-    //get the versions array
-    $c = new Criteria();
-    $c->add(VocabularyHasVersionPeer::VOCABULARY_ID, $vocabulary->getId());
-    $versions = VocabularyHasVersionPeer::doSelect($c);
-    $this->setFlash('versions', $versions);
+      if (in_array($idType, array('concept_id','property_id')))
+      {
+        $this->concept = myActionTools::findCurrentConcept();
+        $this->setFlash('hasConcept', true);
+      }
+
+      //get the versions array
+      $c = new Criteria();
+      $c->add(VocabularyHasVersionPeer::VOCABULARY_ID, $vocabulary->getId());
+      $versions = VocabularyHasVersionPeer::doSelect($c);
+      $this->setFlash('versions', $versions);
+    }
 
     parent::executeList();
   }
