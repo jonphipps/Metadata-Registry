@@ -9,7 +9,7 @@ NOTICE: This is a TimeSlice of this Concept as of:
   <?php echo date(DATE_W3C, $timestamp) ?>.
 
 The most current complete Concept may be retrieved from:
-  <?php echo $concept->getUri() ?>
+	<?php echo htmlspecialchars($concept->getUri()) ?>
 
 -->
 <?php endif; ?>
