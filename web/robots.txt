@@ -4,3 +4,10 @@ Disallow: /css/
 Disallow: /images/
 Disallow: /js/
 Disallow: /sf/
+Disallow: */ts/
+Disallow: /schemahistory/
+Disallow: /schemauser/
+Disallow: /history/
+Disallow: /version/
+Disallow: /vocabuser/
+Disallow: /discuss/
