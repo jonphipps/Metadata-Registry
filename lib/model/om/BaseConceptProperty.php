@@ -3,7 +3,7 @@
 /**
  * Base class that represents a row from the 'reg_concept_property' table.
  *
- * 
+ *
  *
  * @package    lib.model.om
  */
@@ -210,7 +210,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 
 	/**
 	 * Get the [id] column value.
-	 * 
+	 *
 	 * @return     int
 	 */
 	public function getId()
@@ -221,7 +221,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 
 	/**
 	 * Get the [optionally formatted] [created_at] column value.
-	 * 
+	 *
 	 * @param      string $format The date/time format string (either date()-style or strftime()-style).
 	 *							If format is NULL, then the integer unix timestamp will be returned.
 	 * @return     mixed Formatted date/time value as string or integer unix timestamp (if format is NULL).
@@ -252,7 +252,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 
 	/**
 	 * Get the [optionally formatted] [updated_at] column value.
-	 * 
+	 *
 	 * @param      string $format The date/time format string (either date()-style or strftime()-style).
 	 *							If format is NULL, then the integer unix timestamp will be returned.
 	 * @return     mixed Formatted date/time value as string or integer unix timestamp (if format is NULL).
@@ -283,7 +283,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 
 	/**
 	 * Get the [optionally formatted] [deleted_at] column value.
-	 * 
+	 *
 	 * @param      string $format The date/time format string (either date()-style or strftime()-style).
 	 *							If format is NULL, then the integer unix timestamp will be returned.
 	 * @return     mixed Formatted date/time value as string or integer unix timestamp (if format is NULL).
@@ -314,7 +314,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 
 	/**
 	 * Get the [optionally formatted] [last_updated] column value.
-	 * 
+	 *
 	 * @param      string $format The date/time format string (either date()-style or strftime()-style).
 	 *							If format is NULL, then the integer unix timestamp will be returned.
 	 * @return     mixed Formatted date/time value as string or integer unix timestamp (if format is NULL).
@@ -345,7 +345,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 
 	/**
 	 * Get the [created_user_id] column value.
-	 * 
+	 *
 	 * @return     int
 	 */
 	public function getCreatedUserId()
@@ -356,7 +356,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 
 	/**
 	 * Get the [updated_user_id] column value.
-	 * 
+	 *
 	 * @return     int
 	 */
 	public function getUpdatedUserId()
@@ -367,7 +367,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 
 	/**
 	 * Get the [concept_id] column value.
-	 * 
+	 *
 	 * @return     int
 	 */
 	public function getConceptId()
@@ -378,7 +378,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 
 	/**
 	 * Get the [primary_pref_label] column value.
-	 * 
+	 *
 	 * @return     boolean
 	 */
 	public function getPrimaryPrefLabel()
@@ -389,7 +389,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 
 	/**
 	 * Get the [skos_property_id] column value.
-	 * 
+	 *
 	 * @return     int
 	 */
 	public function getSkosPropertyId()
@@ -400,7 +400,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 
 	/**
 	 * Get the [object] column value.
-	 * 
+	 *
 	 * @return     string
 	 */
 	public function getObject()
@@ -411,7 +411,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 
 	/**
 	 * Get the [scheme_id] column value.
-	 * 
+	 *
 	 * @return     int
 	 */
 	public function getSchemeId()
@@ -422,7 +422,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 
 	/**
 	 * Get the [related_concept_id] column value.
-	 * 
+	 *
 	 * @return     int
 	 */
 	public function getRelatedConceptId()
@@ -433,7 +433,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 
 	/**
 	 * Get the [language] column value.
-	 * 
+	 *
 	 * @return     string
 	 */
 	public function getLanguage()
@@ -444,7 +444,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 
 	/**
 	 * Get the [status_id] column value.
-	 * 
+	 *
 	 * @return     int
 	 */
 	public function getStatusId()
@@ -455,7 +455,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 
 	/**
 	 * Set the value of [id] column.
-	 * 
+	 *
 	 * @param      int $v new value
 	 * @return     void
 	 */
@@ -477,7 +477,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 
 	/**
 	 * Set the value of [created_at] column.
-	 * 
+	 *
 	 * @param      int $v new value
 	 * @return     void
 	 */
@@ -501,7 +501,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 
 	/**
 	 * Set the value of [updated_at] column.
-	 * 
+	 *
 	 * @param      int $v new value
 	 * @return     void
 	 */
@@ -525,7 +525,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 
 	/**
 	 * Set the value of [deleted_at] column.
-	 * 
+	 *
 	 * @param      int $v new value
 	 * @return     void
 	 */
@@ -549,7 +549,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 
 	/**
 	 * Set the value of [last_updated] column.
-	 * 
+	 *
 	 * @param      int $v new value
 	 * @return     void
 	 */
@@ -573,7 +573,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 
 	/**
 	 * Set the value of [created_user_id] column.
-	 * 
+	 *
 	 * @param      int $v new value
 	 * @return     void
 	 */
@@ -599,7 +599,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 
 	/**
 	 * Set the value of [updated_user_id] column.
-	 * 
+	 *
 	 * @param      int $v new value
 	 * @return     void
 	 */
@@ -625,7 +625,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 
 	/**
 	 * Set the value of [concept_id] column.
-	 * 
+	 *
 	 * @param      int $v new value
 	 * @return     void
 	 */
@@ -651,7 +651,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 
 	/**
 	 * Set the value of [primary_pref_label] column.
-	 * 
+	 *
 	 * @param      boolean $v new value
 	 * @return     void
 	 */
@@ -667,7 +667,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 
 	/**
 	 * Set the value of [skos_property_id] column.
-	 * 
+	 *
 	 * @param      int $v new value
 	 * @return     void
 	 */
@@ -693,7 +693,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 
 	/**
 	 * Set the value of [object] column.
-	 * 
+	 *
 	 * @param      string $v new value
 	 * @return     void
 	 */
@@ -703,7 +703,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
 		if ($this->object !== $v) {
@@ -715,7 +715,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 
 	/**
 	 * Set the value of [scheme_id] column.
-	 * 
+	 *
 	 * @param      int $v new value
 	 * @return     void
 	 */
@@ -741,7 +741,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 
 	/**
 	 * Set the value of [related_concept_id] column.
-	 * 
+	 *
 	 * @param      int $v new value
 	 * @return     void
 	 */
@@ -767,7 +767,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 
 	/**
 	 * Set the value of [language] column.
-	 * 
+	 *
 	 * @param      string $v new value
 	 * @return     void
 	 */
@@ -777,7 +777,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
 		if ($this->language !== $v || $v === 'en') {
@@ -789,7 +789,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 
 	/**
 	 * Set the value of [status_id] column.
-	 * 
+	 *
 	 * @param      int $v new value
 	 * @return     void
 	 */
@@ -911,7 +911,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 			$con->rollback();
 			throw $e;
 		}
-	
+
 
     foreach (sfMixer::getCallables('BaseConceptProperty:delete:post') as $callable)
     {
