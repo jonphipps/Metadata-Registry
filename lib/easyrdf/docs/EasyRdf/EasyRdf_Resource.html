@@ -1,0 +1,1281 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos -->
+			<title>Docs For Class EasyRdf_Resource</title>
+			<link rel="stylesheet" href="../media/stylesheet.css" />
+			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
+		</head>
+		<body>
+			<div class="page-body">			
+<h2 class="class-name">Class EasyRdf_Resource</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+															<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+						
+					</div>
+	<div class="info-box-body">
+        		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Class that represents an RDF resource</p>
+	<ul class="tags">
+				<li><span class="field">copyright:</span> Copyright (c) 2009-2011 Nicholas J Humfrey</li>
+				<li><span class="field">license:</span> <a href="http://www.opensource.org/licenses/bsd-license.php">http://www.opensource.org/licenses/bsd-license.php</a></li>
+			</ul>
+		<p class="notes">
+			Located in <a class="field" href="_EasyRdf---Resource.php.html">/EasyRdf/Resource.php</a> (line <span class="field">46</span>)
+		</p>
+		
+				
+		<pre></pre>
+	
+			</div>
+</div>
+
+
+
+
+	<a name="sec-method-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Method Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+												<span class="disabled">Methods</span> (<a href="#sec-methods">details</a>)
+		</div>
+		<div class="info-box-body">			
+			<div class="method-summary">
+																																																																																																																																																																																																																																																																																				
+												<div class="method-definition">
+											<span class="method-result">EasyRdf_Resource</span>
+										<a href="#__construct" title="details" class="method-name">__construct</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$uri</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$graph</span> = <span class="var-default">null</span>])
+									</div>
+																<div class="method-definition">
+											<span class="method-result">array</span>
+										<a href="#add" title="details" class="method-name">add</a>
+											(<span class="var-type">mixed</span>&nbsp;<span class="var-name">$property</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$values</span> = <span class="var-default">null</span>], <span class="var-type">mixed</span>&nbsp;<span class="var-name">$resource</span>, <span class="var-type">mixed</span>&nbsp;<span class="var-name">$value</span>)
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#addLiteral" title="details" class="method-name">addLiteral</a>
+											(<span class="var-type">mixed</span>&nbsp;<span class="var-name">$property</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$values</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$lang</span> = <span class="var-default">null</span>], <span class="var-type">mixed</span>&nbsp;<span class="var-name">$value</span>)
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#addResource" title="details" class="method-name">addResource</a>
+											(<span class="var-type">mixed</span>&nbsp;<span class="var-name">$property</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$values</span>, <span class="var-type">mixed</span>&nbsp;<span class="var-name">$resource2</span>)
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#addType" title="details" class="method-name">addType</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$types</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$type</span>)
+									</div>
+																<div class="method-definition">
+											<span class="method-result">array</span>
+										<a href="#all" title="details" class="method-name">all</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$property</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$type</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$lang</span> = <span class="var-default">null</span>])
+									</div>
+																<div class="method-definition">
+											<span class="method-result">array</span>
+										<a href="#allLiterals" title="details" class="method-name">allLiterals</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$property</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$lang</span> = <span class="var-default">null</span>])
+									</div>
+																<div class="method-definition">
+											<span class="method-result">array</span>
+										<a href="#allResources" title="details" class="method-name">allResources</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$property</span>)
+									</div>
+																<div class="method-definition">
+											<span class="method-result">null</span>
+										<a href="#delete" title="details" class="method-name">delete</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$property</span>, [<span class="var-type">object</span>&nbsp;<span class="var-name">$value</span> = <span class="var-default">null</span>])
+									</div>
+																<div class="method-definition">
+											<span class="method-result">string</span>
+										<a href="#dump" title="details" class="method-name">dump</a>
+											([<span class="var-type">bool</span>&nbsp;<span class="var-name">$html</span> = <span class="var-default">true</span>])
+									</div>
+																<div class="method-definition">
+											<span class="method-result">string</span>
+										<a href="#dumpValue" title="details" class="method-name">dumpValue</a>
+											([<span class="var-type">bool</span>&nbsp;<span class="var-name">$html</span> = <span class="var-default">true</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$color</span> = <span class="var-default">'blue'</span>])
+									</div>
+																<div class="method-definition">
+											<span class="method-result">mixed</span>
+										<a href="#get" title="details" class="method-name">get</a>
+											(<span class="var-type">string|array</span>&nbsp;<span class="var-name">$property</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$type</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$lang</span> = <span class="var-default">null</span>])
+									</div>
+																<div class="method-definition">
+											<span class="method-result"><a href="../EasyRdf/EasyRdf_Literal.html">object EasyRdf_Literal</a></span>
+										<a href="#getLiteral" title="details" class="method-name">getLiteral</a>
+											(<span class="var-type">string|array</span>&nbsp;<span class="var-name">$property</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$lang</span> = <span class="var-default">null</span>], <span class="var-type">string</span>&nbsp;<span class="var-name">$resource</span>)
+									</div>
+																<div class="method-definition">
+											<span class="method-result">string</span>
+										<a href="#getNodeId" title="details" class="method-name">getNodeId</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result"><a href="../EasyRdf/EasyRdf_Resource.html">object EasyRdf_Resource</a></span>
+										<a href="#getResource" title="details" class="method-name">getResource</a>
+											(<span class="var-type">string|array</span>&nbsp;<span class="var-name">$property</span>)
+									</div>
+																<div class="method-definition">
+											<span class="method-result">string</span>
+										<a href="#getUri" title="details" class="method-name">getUri</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">bool</span>
+										<a href="#hasProperty" title="details" class="method-name">hasProperty</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$property</span>)
+									</div>
+																<div class="method-definition">
+											<span class="method-result">bool</span>
+										<a href="#isBnode" title="details" class="method-name">isBnode</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">boolean</span>
+										<a href="#is_a" title="details" class="method-name">is_a</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$type</span>)
+									</div>
+																<div class="method-definition">
+											<span class="method-result">string</span>
+										<a href="#join" title="details" class="method-name">join</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$property</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$glue</span> = <span class="var-default">' '</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$lang</span> = <span class="var-default">null</span>])
+									</div>
+																<div class="method-definition">
+											<span class="method-result">string</span>
+										<a href="#label" title="details" class="method-name">label</a>
+											([<span class="var-type"></span>&nbsp;<span class="var-name">$lang</span> = <span class="var-default">null</span>])
+									</div>
+																<div class="method-definition">
+											<span class="method-result">string</span>
+										<a href="#prefix" title="details" class="method-name">prefix</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result"><a href="../EasyRdf/EasyRdf_Resource.html">EasyRdf_Resource</a></span>
+										<a href="#primaryTopic" title="details" class="method-name">primaryTopic</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">array</span>
+										<a href="#properties" title="details" class="method-name">properties</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">array</span>
+										<a href="#propertyUris" title="details" class="method-name">propertyUris</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">array</span>
+										<a href="#reversePropertyUris" title="details" class="method-name">reversePropertyUris</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">array</span>
+										<a href="#set" title="details" class="method-name">set</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$property</span>, <span class="var-type">mixed</span>&nbsp;<span class="var-name">$values</span>)
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#setType" title="details" class="method-name">setType</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$type</span>)
+									</div>
+																<div class="method-definition">
+											<span class="method-result">string</span>
+										<a href="#shorten" title="details" class="method-name">shorten</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">array</span>
+										<a href="#toArray" title="details" class="method-name">toArray</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">string</span>
+										<a href="#type" title="details" class="method-name">type</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result"><a href="../EasyRdf/EasyRdf_Resource.html">EasyRdf_Resource</a></span>
+										<a href="#typeAsResource" title="details" class="method-name">typeAsResource</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">array</span>
+										<a href="#types" title="details" class="method-name">types</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">string</span>
+										<a href="#__toString" title="details" class="method-name">__toString</a>
+										()
+									</div>
+								</div>
+		</div>
+	</div>		
+
+	
+	<a name="sec-methods"></a>
+	<div class="info-box">
+		<div class="info-box-title">Methods</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+																<a href="#sec-method-summary">Methods</a> (<span class="disabled">details</span>)
+						
+		</div>
+		<div class="info-box-body">
+			<A NAME='method_detail'></A>
+
+<a name="method__construct" id="__construct"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">Constructor __construct</span> (line <span class="line-number">63</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Constructor</p>
+<p class="description"><p>* Please do not call new EasyRdf_Resource() directly *</p><p>To create a new resource use the get method in a graph:  $resource = $graph-&gt;resource('http://www.example.com/');</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">EasyRdf_Resource</span>
+		<span class="method-name">
+			__construct
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$uri</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$graph</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$uri</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$graph</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodadd" id="add"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">add</span> (line <span class="line-number">228</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Add values to for a property of the resource</p>
+<p class="description"><p>The value can either be a single value or an array of values.</p><p>Example:    $resource-&gt;add('prefix:property', 'value');</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> Array of all values associated with property.</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			add
+		</span>
+					(<span class="var-type">mixed</span>&nbsp;<span class="var-name">$property</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$values</span> = <span class="var-default">null</span>], <span class="var-type">mixed</span>&nbsp;<span class="var-name">$resource</span>, <span class="var-type">mixed</span>&nbsp;<span class="var-name">$value</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">mixed</span>
+				<span class="var-name">$resource</span><span class="var-description">: The resource to add data to</span>			</li>
+					<li>
+				<span class="var-type">mixed</span>
+				<span class="var-name">$property</span><span class="var-description">: The property name</span>			</li>
+					<li>
+				<span class="var-type">mixed</span>
+				<span class="var-name">$value</span><span class="var-description">: The value for the property</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$values</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodaddLiteral" id="addLiteral"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">addLiteral</span> (line <span class="line-number">245</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Add a literal value as a property of the resource</p>
+<p class="description"><p>The value can either be a single value or an array of values.</p><p>Example:    $resource-&gt;add('dc:title', 'Title of Page');</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			addLiteral
+		</span>
+					(<span class="var-type">mixed</span>&nbsp;<span class="var-name">$property</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$values</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$lang</span> = <span class="var-default">null</span>], <span class="var-type">mixed</span>&nbsp;<span class="var-name">$value</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">mixed</span>
+				<span class="var-name">$property</span><span class="var-description">: The property name</span>			</li>
+					<li>
+				<span class="var-type">mixed</span>
+				<span class="var-name">$value</span><span class="var-description">: The value or values for the property</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$lang</span><span class="var-description">: The language of the literal</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$values</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodaddResource" id="addResource"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">addResource</span> (line <span class="line-number">259</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Add a resource as a property of the resource</p>
+<p class="description"><p>Example:    $bob-&gt;add('foaf:knows', 'http://example.com/alice');</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			addResource
+		</span>
+					(<span class="var-type">mixed</span>&nbsp;<span class="var-name">$property</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$values</span>, <span class="var-type">mixed</span>&nbsp;<span class="var-name">$resource2</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">mixed</span>
+				<span class="var-name">$property</span><span class="var-description">: The property name</span>			</li>
+					<li>
+				<span class="var-type">mixed</span>
+				<span class="var-name">$resource2</span><span class="var-description">: The resource to be value of the property</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$values</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodaddType" id="addType"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">addType</span> (line <span class="line-number">485</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Add one or more rdf:type properties to the resource</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			addType
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$types</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$type</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$type</span><span class="var-description">: The new type (e.g. foaf:Person)</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$types</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodall" id="all"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">all</span> (line <span class="line-number">330</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Get all values for a property</p>
+<p class="description"><p>This method will return an empty array if the property does not exist.</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> An array of values associated with the property</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			all
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$property</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$type</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$lang</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$property</span><span class="var-description">: The name of the property (e.g. foaf:name)</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$type</span><span class="var-description">: The type of value to filter by (e.g. literal)</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$lang</span><span class="var-description">: The language to filter by (e.g. en)</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodallLiterals" id="allLiterals"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">allLiterals</span> (line <span class="line-number">345</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Get all literal values for a property of the resource</p>
+<p class="description"><p>This method will return an empty array if the resource does not  has any literal values for that property.</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> An array of values associated with the property</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			allLiterals
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$property</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$lang</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$property</span><span class="var-description">: The name of the property (e.g. foaf:name)</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$lang</span><span class="var-description">: The language to filter by (e.g. en)</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodallResources" id="allResources"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">allResources</span> (line <span class="line-number">359</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Get all resources for a property of the resource</p>
+<p class="description"><p>This method will return an empty array if the resource does not  has any resources for that property.</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> An array of values associated with the property</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			allResources
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$property</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$property</span><span class="var-description">: The name of the property (e.g. foaf:name)</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methoddelete" id="delete"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">delete</span> (line <span class="line-number">210</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Delete a property (or optionally just a specific value)</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">null</span>
+		<span class="method-name">
+			delete
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$property</span>, [<span class="var-type">object</span>&nbsp;<span class="var-name">$value</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$property</span><span class="var-description">: The name of the property (e.g. foaf:name)</span>			</li>
+					<li>
+				<span class="var-type">object</span>
+				<span class="var-name">$value</span><span class="var-description">: The value to delete (null to delete all values)</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methoddump" id="dump"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">dump</span> (line <span class="line-number">538</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Return a human readable view of the resource and its properties</p>
+<p class="description"><p>This method is intended to be a debugging aid and will  print a resource and its properties.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			dump
+		</span>
+					([<span class="var-type">bool</span>&nbsp;<span class="var-name">$html</span> = <span class="var-default">true</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">bool</span>
+				<span class="var-name">$html</span><span class="var-description">: Set to true to format the dump using HTML</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methoddumpValue" id="dumpValue"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">dumpValue</span> (line <span class="line-number">159</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Return pretty-print view of the resource</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			dumpValue
+		</span>
+					([<span class="var-type">bool</span>&nbsp;<span class="var-name">$html</span> = <span class="var-default">true</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$color</span> = <span class="var-default">'blue'</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">bool</span>
+				<span class="var-name">$html</span><span class="var-description">: Set to true to format the dump using HTML</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$color</span><span class="var-description">: The colour of the text</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodget" id="get"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">get</span> (line <span class="line-number">279</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Get a single value for a property</p>
+<p class="description"><p>If multiple values are set for a property then the value returned  may be arbitrary.</p><p>If $property is an array, then the first item in the array that matches  a property that exists is returned.</p><p>This method will return null if the property does not exist.</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> A value associated with the property</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">mixed</span>
+		<span class="method-name">
+			get
+		</span>
+					(<span class="var-type">string|array</span>&nbsp;<span class="var-name">$property</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$type</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$lang</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string|array</span>
+				<span class="var-name">$property</span><span class="var-description">: The name of the property (e.g. foaf:name)</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$lang</span><span class="var-description">: The language to filter by (e.g. en)</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$type</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetLiteral" id="getLiteral"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">getLiteral</span> (line <span class="line-number">298</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Get a single literal value for a property of the resource</p>
+<p class="description"><p>If multiple values are set for a property then the value returned  may be arbitrary.</p><p>This method will return null if there is not literal value for the  property.</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> Literal value associated with the property</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../EasyRdf/EasyRdf_Literal.html">object EasyRdf_Literal</a></span>
+		<span class="method-name">
+			getLiteral
+		</span>
+					(<span class="var-type">string|array</span>&nbsp;<span class="var-name">$property</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$lang</span> = <span class="var-default">null</span>], <span class="var-type">string</span>&nbsp;<span class="var-name">$resource</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$resource</span><span class="var-description">: The URI of the resource (e.g. http://example.com/joe#me)</span>			</li>
+					<li>
+				<span class="var-type">string|array</span>
+				<span class="var-name">$property</span><span class="var-description">: The name of the property (e.g. foaf:name)</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$lang</span><span class="var-description">: The language to filter by (e.g. en)</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetNodeId" id="getNodeId"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">getNodeId</span> (line <span class="line-number">105</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Get the identifier for a blank node</p>
+<p class="description"><p>Returns null if the resource is not a blank node.</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> The identifer for the bnode</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			getNodeId
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodgetResource" id="getResource"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">getResource</span> (line <span class="line-number">315</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Get a single resource value for a property of the resource</p>
+<p class="description"><p>If multiple values are set for a property then the value returned  may be arbitrary.</p><p>This method will return null if there is not resource for the  property.</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> Resource associated with the property</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../EasyRdf/EasyRdf_Resource.html">object EasyRdf_Resource</a></span>
+		<span class="method-name">
+			getResource
+		</span>
+					(<span class="var-type">string|array</span>&nbsp;<span class="var-name">$property</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string|array</span>
+				<span class="var-name">$property</span><span class="var-description">: The name of the property (e.g. foaf:name)</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetUri" id="getUri"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">getUri</span> (line <span class="line-number">81</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns the URI for the resource.</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> URI of this resource.</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			getUri
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodhasProperty" id="hasProperty"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">hasProperty</span> (line <span class="line-number">422</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Check to see if a property exists for this resource.</p>
+<p class="description"><p>This method will return true if the property exists.</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> True if value the property exists.</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">bool</span>
+		<span class="method-name">
+			hasProperty
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$property</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$property</span><span class="var-description">: The name of the property (e.g. foaf:gender)</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodisBnode" id="isBnode"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">isBnode</span> (line <span class="line-number">90</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Check to see if a resource is a blank node.</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> True if this resource is a blank node.</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">bool</span>
+		<span class="method-name">
+			isBnode
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodis_a" id="is_a"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">is_a</span> (line <span class="line-number">475</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Check if a resource is of the specified type</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> True if resource is of specified type.</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			is_a
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$type</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$type</span><span class="var-description">: The type to check (e.g. foaf:Person)</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodjoin" id="join"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">join</span> (line <span class="line-number">375</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Concatenate all values for a property into a string.</p>
+<p class="description"><p>The default is to join the values together with a space character.  This method will return an empty string if the property does not exist.</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> Concatenation of all the values.</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			join
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$property</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$glue</span> = <span class="var-default">' '</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$lang</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$property</span><span class="var-description">: The name of the property (e.g. foaf:name)</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$glue</span><span class="var-description">: The string to glue the values together with.</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$lang</span><span class="var-description">: The language to filter by (e.g. en)</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodlabel" id="label"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">label</span> (line <span class="line-number">524</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Get a human readable label for this resource</p>
+<p class="description"><p>This method will check a number of properties for the resource  (in the order: skos:prefLabel, rdfs:label, foaf:name, dc:title)  and return an approriate first that is available. If no label  is available then it will return null.</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> A label for the resource.</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			label
+		</span>
+					([<span class="var-type"></span>&nbsp;<span class="var-name">$lang</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$lang</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodprefix" id="prefix"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">prefix</span> (line <span class="line-number">121</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Get a the prefix of the namespace that this resource is part of</p>
+<p class="description"><p>This method will return null the resource isn't part of any  registered namespace.</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> The namespace prefix of the resource (e.g. foaf)</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			prefix
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodprimaryTopic" id="primaryTopic"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">primaryTopic</span> (line <span class="line-number">509</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Get the primary topic of this resource.</p>
+<p class="description"><p>Returns null if no primary topic is available.</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> The primary topic of this resource.</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../EasyRdf/EasyRdf_Resource.html">EasyRdf_Resource</a></span>
+		<span class="method-name">
+			primaryTopic
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodproperties" id="properties"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">properties</span> (line <span class="line-number">399</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Get a list of all the shortened property names (qnames) for a resource.</p>
+<p class="description"><p>This method will return an empty array if the resource has no properties.</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> Array of shortened URIs</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			properties
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodpropertyUris" id="propertyUris"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">propertyUris</span> (line <span class="line-number">387</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Get a list of the full URIs for the properties of this resource.</p>
+<p class="description"><p>This method will return an empty array if the resource has no properties.</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> Array of full URIs</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			propertyUris
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodreversePropertyUris" id="reversePropertyUris"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">reversePropertyUris</span> (line <span class="line-number">409</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Get a list of the full URIs for the properties that point to this resource.</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> Array of full property URIs</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			reversePropertyUris
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodset" id="set"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">set</span> (line <span class="line-number">198</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Set value(s) for a property</p>
+<p class="description"><p>The new value(s) will replace the existing values for the property.  The name of the property should be a string.  If you set a property to null or an empty array, then the property  will be deleted.</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> Array of new values for this property.</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			set
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$property</span>, <span class="var-type">mixed</span>&nbsp;<span class="var-name">$values</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$property</span><span class="var-description">: The name of the property (e.g. foaf:name)</span>			</li>
+					<li>
+				<span class="var-type">mixed</span>
+				<span class="var-name">$values</span><span class="var-description">: The value(s) for the property.</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodsetType" id="setType"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">setType</span> (line <span class="line-number">497</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Change the rdf:type property for the resource</p>
+<p class="description"><p>Note that the PHP class of the resource will not change.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			setType
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$type</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$type</span><span class="var-description">: The new type (e.g. foaf:Person)</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodshorten" id="shorten"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">shorten</span> (line <span class="line-number">133</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Get a shortened version of the resources URI.</p>
+<p class="description"><p>This method will return the full URI if the resource isn't part of any  registered namespace.</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> The shortened URI of this resource (e.g. foaf:name)</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			shorten
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodtoArray" id="toArray"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">toArray</span> (line <span class="line-number">145</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns the properties of the resource as an associative array</p>
+<p class="description"><p>For example:  array('type' =&gt; 'uri', 'value' =&gt; 'http://www.example.com/')</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> The properties of the resource</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			toArray
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodtype" id="type"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">type</span> (line <span class="line-number">450</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Get a single type for a resource.</p>
+<p class="description"><p>The type will be a shortened URI as a string.  If the resource has multiple types then the type returned  may be arbitrary.  This method will return null if the resource has no type.</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> A type assocated with the resource (e.g. foaf:Person)</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			type
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodtypeAsResource" id="typeAsResource"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">typeAsResource</span> (line <span class="line-number">465</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Get a single type for a resource, as a resource.</p>
+<p class="description"><p>The type will be returned as an EasyRdf_Resource.  If the resource has multiple types then the type returned  may be arbitrary.  This method will return null if the resource has no type.</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> A type assocated with the resource.</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../EasyRdf/EasyRdf_Resource.html">EasyRdf_Resource</a></span>
+		<span class="method-name">
+			typeAsResource
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodtypes" id="types"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">types</span> (line <span class="line-number">435</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Get a list of types for a resource.</p>
+<p class="description"><p>The types will each be a shortened URI as a string.  This method will return an empty array if the resource has no types.</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> All types assocated with the resource (e.g. foaf:Person)</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			types
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="method__toString" id="__toString"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">__toString</span> (line <span class="line-number">168</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Magic method to return URI of resource when casted to string</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> The URI of the resource</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			__toString
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+						
+		</div>
+	</div>
+
+
+	<p class="notes" id="credit">
+		Documentation generated on Wed, 20 Jul 2011 19:54:05 +0100 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
+	</p>
+	</div></body>
+</html>

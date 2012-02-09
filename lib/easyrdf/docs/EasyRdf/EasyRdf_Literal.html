@@ -1,0 +1,574 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos -->
+			<title>Docs For Class EasyRdf_Literal</title>
+			<link rel="stylesheet" href="../media/stylesheet.css" />
+			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
+		</head>
+		<body>
+			<div class="page-body">			
+<h2 class="class-name">Class EasyRdf_Literal</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+							<a href="#sec-descendents">Descendents</a>
+			|													<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+						
+					</div>
+	<div class="info-box-body">
+        		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Class that represents an RDF Literal</p>
+	<ul class="tags">
+				<li><span class="field">copyright:</span> Copyright (c) 2009-2011 Nicholas J Humfrey</li>
+				<li><span class="field">license:</span> <a href="http://www.opensource.org/licenses/bsd-license.php">http://www.opensource.org/licenses/bsd-license.php</a></li>
+			</ul>
+		<p class="notes">
+			Located in <a class="field" href="_EasyRdf---Literal.php.html">/EasyRdf/Literal.php</a> (line <span class="field">46</span>)
+		</p>
+		
+				
+		<pre></pre>
+	
+			</div>
+</div>
+
+	<a name="sec-descendents"></a>
+	<div class="info-box">
+		<div class="info-box-title">Direct descendents</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+			<span class="disabled">Descendents</span>
+			|															<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+								</div>
+		<div class="info-box-body">
+			<table cellpadding="2" cellspacing="0" class="class-table">
+				<tr>
+					<th class="class-table-header">Class</th>
+					<th class="class-table-header">Description</th>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em"><a href="../EasyRdf/EasyRdf_Literal_Boolean.html">EasyRdf_Literal_Boolean</a></td>
+					<td>
+											Class that represents an RDF Literal of datatype xsd:boolean
+										</td>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em"><a href="../EasyRdf/EasyRdf_Literal_Date.html">EasyRdf_Literal_Date</a></td>
+					<td>
+											Class that represents an RDF Literal of datatype xsd:date
+										</td>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em"><a href="../EasyRdf/EasyRdf_Literal_Decimal.html">EasyRdf_Literal_Decimal</a></td>
+					<td>
+											Class that represents an RDF Literal of datatype xsd:decimal
+										</td>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em"><a href="../EasyRdf/EasyRdf_Literal_Integer.html">EasyRdf_Literal_Integer</a></td>
+					<td>
+											Class that represents an RDF Literal of datatype xsd:integer
+										</td>
+				</tr>
+							</table>
+		</div>
+	</div>
+
+
+
+	<a name="sec-method-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Method Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-descendents">Descendents</a> |
+												<span class="disabled">Methods</span> (<a href="#sec-methods">details</a>)
+		</div>
+		<div class="info-box-body">			
+			<div class="method-summary">
+																				<div class="method-definition">
+					static 						<span class="method-result"><a href="../EasyRdf/EasyRdf_Literal.html">object EasyRdf_Literal</a></span>
+										<a href="#create" title="details" class="method-name">create</a>
+											(<span class="var-type">mixed</span>&nbsp;<span class="var-name">$value</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$lang</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$datatype</span> = <span class="var-default">null</span>])
+									</div>
+																<div class="method-definition">
+					static 						<span class="method-result">void</span>
+										<a href="#deleteDatatypeMapping" title="details" class="method-name">deleteDatatypeMapping</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$datatype</span>)
+									</div>
+																																<div class="method-definition">
+					static 						<span class="method-result">string</span>
+										<a href="#getDatatypeForValue" title="details" class="method-name">getDatatypeForValue</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$value</span>)
+									</div>
+																																								<div class="method-definition">
+					static 						<span class="method-result">void</span>
+										<a href="#setDatatypeMapping" title="details" class="method-name">setDatatypeMapping</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$datatype</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$class</span>)
+									</div>
+																								
+												<div class="method-definition">
+											<span class="method-result"><a href="../EasyRdf/EasyRdf_Literal.html">object EasyRdf_Literal</a></span>
+										<a href="#__construct" title="details" class="method-name">__construct</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$value</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$lang</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$datatype</span> = <span class="var-default">null</span>])
+									</div>
+																																<div class="method-definition">
+											<span class="method-result">string</span>
+										<a href="#dumpValue" title="details" class="method-name">dumpValue</a>
+											([<span class="var-type">bool</span>&nbsp;<span class="var-name">$html</span> = <span class="var-default">true</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$color</span> = <span class="var-default">'black'</span>])
+									</div>
+																<div class="method-definition">
+											<span class="method-result">string</span>
+										<a href="#getDatatype" title="details" class="method-name">getDatatype</a>
+										()
+									</div>
+																								<div class="method-definition">
+											<span class="method-result">string</span>
+										<a href="#getDatatypeUri" title="details" class="method-name">getDatatypeUri</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">string</span>
+										<a href="#getLang" title="details" class="method-name">getLang</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">string</span>
+										<a href="#getValue" title="details" class="method-name">getValue</a>
+										()
+									</div>
+																								<div class="method-definition">
+											<span class="method-result">array</span>
+										<a href="#toArray" title="details" class="method-name">toArray</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">string</span>
+										<a href="#__toString" title="details" class="method-name">__toString</a>
+										()
+									</div>
+								</div>
+		</div>
+	</div>		
+
+	
+	<a name="sec-methods"></a>
+	<div class="info-box">
+		<div class="info-box-title">Methods</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-descendents">Descendents</a> |
+																<a href="#sec-method-summary">Methods</a> (<span class="disabled">details</span>)
+						
+		</div>
+		<div class="info-box-body">
+			<A NAME='method_detail'></A>
+<a name="methodcreate" id="create"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">static method create</span> (line <span class="line-number">80</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Create a new literal object</p>
+<p class="description"><p>PHP values of type bool, int or float, will automatically be converted  to the corresponding datatype and PHP sub-class.</p><p>If a registered datatype is given, then the registered subclass of EasyRdf_Literal  will instantiated.</p><p>Note that literals are not required to have a language or datatype.  Literals cannot have both a language and a datatype.</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> (or subclass of EasyRdf_Literal)</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+	    static
+		<span class="method-result"><a href="../EasyRdf/EasyRdf_Literal.html">object EasyRdf_Literal</a></span>
+		<span class="method-name">
+			create
+		</span>
+					(<span class="var-type">mixed</span>&nbsp;<span class="var-name">$value</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$lang</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$datatype</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">mixed</span>
+				<span class="var-name">$value</span><span class="var-description">: The value of the literal or an associative array</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$lang</span><span class="var-description">: The natural language of the literal or null (e.g. 'en')</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$datatype</span><span class="var-description">: The datatype of the literal or null (e.g. 'xsd:integer')</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methoddeleteDatatypeMapping" id="deleteDatatypeMapping"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">static method deleteDatatypeMapping</span> (line <span class="line-number">144</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Remove the mapping between an RDF datatype and a PHP class name</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+	    static
+		<span class="method-result">void</span>
+		<span class="method-name">
+			deleteDatatypeMapping
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$datatype</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$datatype</span><span class="var-description">: The RDF datatype (e.g. xsd:dateTime)</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetDatatypeForValue" id="getDatatypeForValue"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">static method getDatatypeForValue</span> (line <span class="line-number">169</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Get datatype URI for a PHP value.</p>
+<p class="description"><p>This static function is intended for internal use.  Given a PHP value, it will return an XSD datatype  URI for that value, for example:  http://www.w3.org/2001/XMLSchema#integer</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> A URI for the datatype of $value.</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+	    static
+		<span class="method-result">string</span>
+		<span class="method-name">
+			getDatatypeForValue
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$value</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$value</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodsetDatatypeMapping" id="setDatatypeMapping"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">static method setDatatypeMapping</span> (line <span class="line-number">121</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Register an RDF datatype with a PHP class name</p>
+<p class="description"><p>When parsing registered class will be used whenever the datatype  is seen.</p><p>When serialising a registered class, the mapping will be used to  set the datatype in the RDF.</p><p>Example:  EasyRdf_Literal::registerDatatype('xsd:dateTime', 'My_DateTime_Class');</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+	    static
+		<span class="method-result">void</span>
+		<span class="method-name">
+			setDatatypeMapping
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$datatype</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$class</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$datatype</span><span class="var-description">: The RDF datatype (e.g. xsd:dateTime)</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$class</span><span class="var-description">: The PHP class name (e.g. My_DateTime_Class)</span>			</li>
+				</ul>
+		
+			
+	</div>
+
+<a name="method__construct" id="__construct"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">Constructor __construct</span> (line <span class="line-number">191</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Constructor for creating a new literal</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../EasyRdf/EasyRdf_Literal.html">object EasyRdf_Literal</a></span>
+		<span class="method-name">
+			__construct
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$value</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$lang</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$datatype</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$value</span><span class="var-description">: The value of the literal</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$lang</span><span class="var-description">: The natural language of the literal or null (e.g. 'en')</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$datatype</span><span class="var-description">: The datatype of the literal or null (e.g. 'xsd:string')</span>			</li>
+				</ul>
+		
+			
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../EasyRdf/EasyRdf_Literal_Boolean.html#method__construct">EasyRdf_Literal_Boolean::__construct()</a>
+								: Constructor for creating a new boolean literal
+							</li>
+					<li>
+				<a href="../EasyRdf/EasyRdf_Literal_Date.html#method__construct">EasyRdf_Literal_Date::__construct()</a>
+								: Constructor for creating a new date literal
+							</li>
+					<li>
+				<a href="../EasyRdf/EasyRdf_Literal_DateTime.html#method__construct">EasyRdf_Literal_DateTime::__construct()</a>
+								: Constructor for creating a new date literal
+							</li>
+					<li>
+				<a href="../EasyRdf/EasyRdf_Literal_Decimal.html#method__construct">EasyRdf_Literal_Decimal::__construct()</a>
+								: Constructor for creating a new decimal literal
+							</li>
+					<li>
+				<a href="../EasyRdf/EasyRdf_Literal_Integer.html#method__construct">EasyRdf_Literal_Integer::__construct()</a>
+								: Constructor for creating a new integer literal
+							</li>
+				</ul>
+	</div>
+<a name="methoddumpValue" id="dumpValue"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">dumpValue</span> (line <span class="line-number">296</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Return pretty-print view of the literal</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			dumpValue
+		</span>
+					([<span class="var-type">bool</span>&nbsp;<span class="var-name">$html</span> = <span class="var-default">true</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$color</span> = <span class="var-default">'black'</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">bool</span>
+				<span class="var-name">$html</span><span class="var-description">: Set to true to format the dump using HTML</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$color</span><span class="var-description">: The colour of the text</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetDatatype" id="getDatatype"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">getDatatype</span> (line <span class="line-number">240</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns the shortened datatype URI of the literal.</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> Datatype of this literal (e.g. xsd:integer).</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			getDatatype
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodgetDatatypeUri" id="getDatatypeUri"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">getDatatypeUri</span> (line <span class="line-number">231</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns the full datatype URI of the literal.</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> Datatype URI of this literal.</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			getDatatypeUri
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodgetLang" id="getLang"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">getLang</span> (line <span class="line-number">253</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns the language of the literal.</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> Language of this literal.</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			getLang
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodgetValue" id="getValue"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">getValue</span> (line <span class="line-number">222</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns the value of the literal.</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> Value of this literal.</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			getValue
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodtoArray" id="toArray"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">toArray</span> (line <span class="line-number">265</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns the properties of the literal as an associative array</p>
+<p class="description"><p>For example:  array('type' =&gt; 'literal', 'value' =&gt; 'string value')</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> The properties of the literal</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			toArray
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="method__toString" id="__toString"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">__toString</span> (line <span class="line-number">285</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Magic method to return the value of a literal when casted to string</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> The value of the literal</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			__toString
+		</span>
+				()
+			</div>
+	
+		
+			
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../EasyRdf/EasyRdf_Literal_Boolean.html#method__toString">EasyRdf_Literal_Boolean::__toString()</a>
+								: Magic method to return the value of a boolean when casted to string
+							</li>
+					<li>
+				<a href="../EasyRdf/EasyRdf_Literal_Date.html#method__toString">EasyRdf_Literal_Date::__toString()</a>
+								: Magic method to return the value as an ISO8601 date string
+							</li>
+					<li>
+				<a href="../EasyRdf/EasyRdf_Literal_DateTime.html#method__toString">EasyRdf_Literal_DateTime::__toString()</a>
+								: Magic method to return the value as an ISO8601 string
+							</li>
+				</ul>
+	</div>
+						
+		</div>
+	</div>
+
+
+	<p class="notes" id="credit">
+		Documentation generated on Wed, 20 Jul 2011 19:54:04 +0100 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
+	</p>
+	</div></body>
+</html>
