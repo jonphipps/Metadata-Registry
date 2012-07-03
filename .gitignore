@@ -12,3 +12,4 @@ config/propel.ini
 config/Copy of properties.ini
 data/sql
 /phpinfo.txt
+.idea
