@@ -252,8 +252,6 @@ function run_import_list($task, $args)
  */
 function run_import_vocabulary($task, $args)
 {
-  //xdebug_break();
-
     //check the argument counts
     if (count($args) < 1) {
         throw new Exception('You must provide a vocabulary type.');

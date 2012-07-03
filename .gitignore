@@ -16,3 +16,8 @@ data/sql
 Thumbs.db
 .DS_Store
 /.idea/
+*.log
+plugins/jpAdminGeneratorPlugin/lib/ImportVocab/tests/_log
+phpini.txt
+vendor.old
+vendor
