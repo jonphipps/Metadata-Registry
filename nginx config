@@ -1,0 +1,41 @@
+#nginx config
+
+server {
+  server_name          www.registry.dev;
+  return               301 $scheme://registry.dev$request_uri;
+}
+
+server {
+  listen                *:80;
+
+  server_name           registry.dev ;
+  root                  /var/www/registry.dev/web;
+
+  access_log            /var/log/nginx/registry.dev.access.log;
+  error_log             /var/log/nginx/registry.dev.error.log;
+
+
+  # strip frontend.php/ prefix if it is present
+  rewrite ^/frontend\.php/?(.*)$ /$1 permanent;
+
+  location / {
+    index frontend.php frontend_dev.php;
+    try_files $uri @rewriteapp;
+  }
+
+  location @rewriteapp {
+    rewrite ^(.*)$ /frontend.php/$1 last;
+  }
+
+  location ~ ^/(frontend|frontend_dev)\.php(/|$) {
+    fastcgi_param PATH_INFO $fastcgi_path_info;
+    fastcgi_param PATH_TRANSLATED $document_root$fastcgi_path_info;
+    fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    fastcgi_param APP_ENV dev;
+
+    fastcgi_pass unix:/var/run/php5-fpm.sock;
+    fastcgi_split_path_info ^(.+\.php)(/.+)$;
+    include fastcgi_params;
+  }
+
+}
