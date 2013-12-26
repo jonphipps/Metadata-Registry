@@ -12,3 +12,6 @@ config/propel.ini
 config/Copy of properties.ini
 data/sql
 /phpinfo.txt
+/projectFilesBackup/
+Thumbs.db
+.DS_Store
