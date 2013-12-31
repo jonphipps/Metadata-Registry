@@ -24,7 +24,7 @@ $databaseManager->initialize();
 // batch process here
 //     insert jon's user id
 $userId = 36;
-
+;xdebug_break();
 
 $cg = new Console_Getopt();
 $args = $cg->readPHPArgv();
@@ -40,7 +40,7 @@ if (PEAR::isError($params)) {
 }
 
 var_dump(condense_arguments($params));
-debugbreak();
+
 //     concept scheme or element set selected (get from command line)
 //        schema_id= vocab_id= file=     -delete_missing
 //       -snnnnn    -vnnnnnn  -fnnnnnnnn -d
