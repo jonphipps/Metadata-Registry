@@ -9,4 +9,3 @@ require_once(SF_ROOT_DIR . DIRECTORY_SEPARATOR . 'apps' . DIRECTORY_SEPARATOR . 
 
 sfContext::getInstance()->getController()->dispatch();
 
-?>
