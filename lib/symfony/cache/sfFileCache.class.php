@@ -86,7 +86,7 @@ class sfFileCache extends sfCache
  /**
   * Constructor.
   *
-  * @param string The cache root directory
+  * @param string $cacheDir The cache root directory
   */
   public function __construct($cacheDir = null)
   {
@@ -99,7 +99,7 @@ class sfFileCache extends sfCache
   /**
    * Initializes the cache.
    *
-   * @param array An array of options
+   * @param array $options An array of options
    * Available options:
    *  - cacheDir:                cache root directory
    *  - fileLocking:             enable / disable file locking (boolean)
@@ -134,7 +134,7 @@ class sfFileCache extends sfCache
   /**
    * Sets the suffix for cache files.
    *
-   * @param string The suffix name (with the leading .)
+   * @param string $suffix The suffix name (with the leading .)
    */
   public function setSuffix($suffix)
   {
@@ -184,7 +184,7 @@ class sfFileCache extends sfCache
   /**
    * Sets the cache root directory.
    *
-   * @param string The directory where to put the cache files
+   * @param string $cacheDir The directory where to put the cache files
    */
   public function setCacheDir($cacheDir)
   {
@@ -210,17 +210,17 @@ class sfFileCache extends sfCache
       return $this->cacheDir;
     }
 
- /**
-  * Tests if a cache is available and (if yes) returns it.
-  *
-  * @param  string  The cache id
-  * @param  string  The name of the cache namespace
-  * @param  boolean If set to true, the cache validity won't be tested
-  *
-  * @return string  Data of the cache (or null if no cache available)
-  *
-  * @see sfCache
-  */
+  /**
+   * Tests if a cache is available and (if yes) returns it.
+   *
+   * @param  string  $id                     The cache id
+   * @param  string  $namespace              The name of the cache namespace
+   * @param  boolean $doNotTestCacheValidity If set to true, the cache validity won't be tested
+   *
+   * @return string  Data of the cache (or null if no cache available)
+   *
+   * @see sfCache
+   */
   public function get($id, $namespace = self::DEFAULT_NAMESPACE, $doNotTestCacheValidity = false)
   {
     $data = null;
@@ -248,16 +248,15 @@ class sfFileCache extends sfCache
   /**
    * Returns true if there is a cache for the given id and namespace.
    *
-   * @param  string  The cache id
-   * @param  string  The name of the cache namespace
-   * @param  boolean If set to true, the cache validity won't be tested
+   * @param  string  $id                     The cache id
+   * @param  string  $namespace              The name of the cache namespace
+   * @param  boolean $doNotTestCacheValidity If set to true, the cache validity won't be tested
    *
    * @return boolean true if the cache exists, false otherwise
    *
    * @see sfCache
    */
-  public function has($id, $namespace = self::DEFAULT_NAMESPACE, $doNotTestCacheValidity = false)
-  {
+  public function has($id, $namespace = self::DEFAULT_NAMESPACE, $doNotTestCacheValidity = false) {
     list($path, $file) = $this->getFileName($id, $namespace);
 
     if ($doNotTestCacheValidity)
@@ -278,19 +277,18 @@ class sfFileCache extends sfCache
     return false;
   }
 
- /**
-  * Saves some data in a cache file.
-  *
-  * @param string The cache id
-  * @param string The name of the cache namespace
-  * @param string The data to put in cache
-  *
-  * @return boolean true if no problem
-  *
-  * @see sfCache
-  */
-  public function set($id, $namespace = self::DEFAULT_NAMESPACE, $data)
-  {
+  /**
+   * Saves some data in a cache file.
+   *
+   * @param string $id        The cache id
+   * @param string $namespace The name of the cache namespace
+   * @param string $data      The data to put in cache
+   *
+   * @return boolean true if no problem
+   *
+   * @see sfCache
+   */
+  public function set($id, $namespace = self::DEFAULT_NAMESPACE, $data) {
     list($path, $file) = $this->getFileName($id, $namespace);
 
     if ($this->automaticCleaningFactor > 0)
@@ -312,14 +310,14 @@ class sfFileCache extends sfCache
     }
   }
 
- /**
-  * Removes a cache file.
-  *
-  * @param string The cache id
-  * @param string The name of the cache namespace
-  *
-  * @return boolean true if no problem
-  */
+  /**
+   * Removes a cache file.
+   *
+   * @param string $id        The cache id
+   * @param string $namespace The name of the cache namespace
+   *
+   * @return boolean true if no problem
+   */
   public function remove($id, $namespace = self::DEFAULT_NAMESPACE)
   {
     list($path, $file) = $this->getFileName($id, $namespace);
@@ -365,8 +363,8 @@ class sfFileCache extends sfCache
  /**
   * Makes a file name (with path).
   *
-  * @param string The cache id
-  * @param string The name of the namespace
+  * @param string $id The cache id
+  * @param string $namespace The name of the namespace
   *
   * @return array An array containing the path and the file name
   */
@@ -398,7 +396,7 @@ class sfFileCache extends sfCache
  /**
   * Removes a file.
   *
-  * @param string The complete file path and name
+  * @param string $file The complete file path and name
   *
   * @return boolean true if no problem
   */
@@ -461,8 +459,8 @@ class sfFileCache extends sfCache
  /**
   * Reads the cache file and returns the content.
   *
-  * @param string The file path
-  * @param string The file name
+  * @param string $path The file path
+  * @param string $file The file name
   *
   * @return string The content of the cache file.
   *
@@ -478,17 +476,17 @@ class sfFileCache extends sfCache
 
     if ($fp)
     {
+      $hashControl = '';
       clearstatcache(); // because the filesize can be cached by PHP itself...
       $length = @filesize($path.$file);
-      $mqr = get_magic_quotes_runtime();
-      set_magic_quotes_runtime(0);
+      //set_magic_quotes_runtime(0);
       if ($this->readControl)
       {
         $hashControl = @fread($fp, 32);
         $length = $length - 32;
       }
       $data = ($length) ? @fread($fp, $length) : '';
-      set_magic_quotes_runtime($mqr);
+      //set_magic_quotes_runtime($mqr);
       if ($this->fileLocking)
       {
         @flock($fp, LOCK_UN);
@@ -513,9 +511,9 @@ class sfFileCache extends sfCache
  /**
   * Writes the given data in the cache file.
   *
-  * @param string The file path
-  * @param string The file name
-  * @param string The data to put in cache
+  * @param string $path The file path
+  * @param string $file The file name
+  * @param string  $dataThe data to put in cache
   *
   * @return boolean true if ok
   *
@@ -565,9 +563,9 @@ class sfFileCache extends sfCache
  /**
   * Writes the given data in the cache file and controls it just after to avoid corrupted cache entries.
   *
-  * @param string The file path
-  * @param string The file name
-  * @param string The data to put in cache
+  * @param string $path The file path
+  * @param string $file The file name
+  * @param string $data The data to put in cache
   *
   * @return boolean true if the test is ok
   */
