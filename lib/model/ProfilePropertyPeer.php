@@ -46,7 +46,7 @@ class ProfilePropertyPeer extends BaseProfilePropertyPeer
     //properties for the metadata registry schema are currently related to profile '1'
     $criteria->add(ProfilePropertyPeer::PROFILE_ID,1);
     $criteria->add(ProfilePropertyPeer::IS_IN_PICKLIST,1);
-    $criteria->addAscendingOrderByColumn(ProfilePropertyPeer::PICKLIST_ORDER);
+    $criteria->addAscendingOrderByColumn(ProfilePropertyPeer::URI);
 
     //get the list of all properties for this profile/namespace
     //at some point this should look at the property or schema namespace
