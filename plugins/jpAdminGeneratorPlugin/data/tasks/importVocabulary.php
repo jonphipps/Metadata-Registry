@@ -19,7 +19,7 @@ pake_task( 'import-list' );
 
 echo "\n";
 
-//xdebug_break();
+xdebug_break();
 
 //we could also prepend these as arguments, but not today
 //define('SF_APP', $app);
@@ -45,11 +45,14 @@ ini_set('auto_detect_line_endings', true);
 * but may be modified and expanded to support more things
 *
 *
-* @param  var_type $var
-*/
+ * @param $task
+ * @param $args
+ *
+ * @throws Exception
+ */
 function run_import_list($task, $args)
 {
-  //xdebug_break();
+//xdebug_break();
   //check the argument counts
   //check the argument counts
   if (count($args) < 1)
