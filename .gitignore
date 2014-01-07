@@ -2,6 +2,8 @@
 
 *.bak
 .project
+lib/ZendFramework/*
+
 cache/*
 log/*
 web/uploads/*
