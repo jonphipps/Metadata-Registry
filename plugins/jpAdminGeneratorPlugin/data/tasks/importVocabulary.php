@@ -39,6 +39,8 @@ $databaseManager->initialize();
 //necessary to detect line endings in mac files
 ini_set('auto_detect_line_endings', true);
 
+$uploadPath  = SF_ROOT_DIR . DIRECTORY_SEPARATOR . 'web' . DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR;
+
 /**
  * this is for importing a list of value vocabulary files.
  *
@@ -98,7 +100,6 @@ function run_import_list($task, $args)
     $baseDomain  = "http://marc21rdf.info/";
     $userId      = 36; //jon's user id
     $agentID     = 67; //MMA agent ID
-    $uploadPath  = SF_ROOT_DIR . DIRECTORY_SEPARATOR . 'web' . DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR;
     $communities = "";
     $language    = "en";
     $StatusId    = 1;
@@ -118,6 +119,7 @@ function run_import_list($task, $args)
             } catch(Exception $e) {
                 throw new Exception("Not a happy CSV file! Error: " . $e);
             }
+            $uploadPath = $uploadPath;
             if ('vocab' == $type) {
                 // Get array of heading names found
                 $headings = $reader->getHeadings();
@@ -163,7 +165,7 @@ function run_import_list($task, $args)
                         //vocabid
                         $args[2] = $vocab->getId();
                         //filepath
-                        $args[1] = $uploadPath . $row['VES'] . ".csv";
+                        $args[1] = $GLOBALS['uploadPath'] . $row['VES'] . ".csv";
                         $args[3] = "-d";
 
                         run_import_vocabulary($importTask, $args);
@@ -222,7 +224,7 @@ function run_import_list($task, $args)
                         //type
                         $args[0] = "schema";
                         //filepath
-                        $args[1] = $uploadPath . $row['File Name'];
+                        $args[1] = $GLOBALS['uploadPath'] . $row['File Name'];
                         //vocabid
                         $args[2] = $schema->getId();
                         $args[3] = "-d";
@@ -299,7 +301,11 @@ function run_import_vocabulary($task, $args)
 
     //does the file exist?
     if (! file_exists($filePath)) {
+        //default to the site upload path
+        $filePath = $GLOBALS['uploadPath'] . $filePath;
+        if (! file_exists($filePath)) {
         throw new Exception('You must supply a valid file to import: ' . $filePath);
+        }
     }
 
     //is the file a valid type?
