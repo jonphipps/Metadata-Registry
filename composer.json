@@ -1,0 +1,28 @@
+{
+    "name": "jonphipps/metadata-registry",
+    "description": "A metadata registry",
+    "require-dev": {
+        "codeception/codeception": "dev-master",
+        "codeception/specify": "*",
+        "codeception/verify": "*",
+        "codeception/aspect-mock": "*"
+    },
+    "config": {
+        "process-timeout": 900,
+        "cache-dir:":"../"
+    },
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "Jon Phipps",
+            "email": "jphipps@madcreek.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "zendframework/zendframework1": "1.12.*@dev",
+        "google/apiclient": "dev-master",
+        "easyrdf/easyrdf": "dev-master",
+        "jwage/easy-csv":"dev-master"
+    }
+}
