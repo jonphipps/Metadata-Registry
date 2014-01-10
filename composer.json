@@ -22,7 +22,11 @@
     "require": {
         "zendframework/zendframework1": "1.12.*@dev",
         "google/apiclient": "dev-master",
+        "semsol/arc2": "*",
         "easyrdf/easyrdf": "dev-master",
-        "jwage/easy-csv":"dev-master"
+        "ddeboer/data-import": "*",
+        "symfony/property-access": "*",
+        "phpoffice/phpexcel": "*",
+        "symfony/validator": "*"
     }
 }
