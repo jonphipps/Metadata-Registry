@@ -5,7 +5,8 @@
         "codeception/codeception": "dev-master",
         "codeception/specify": "*",
         "codeception/verify": "*",
-        "codeception/aspect-mock": "*"
+        "codeception/aspect-mock": "*",
+        "codeception/phpbuiltinserver": "*"
     },
     "config": {
         "process-timeout": 900,
@@ -27,6 +28,9 @@
         "ddeboer/data-import": "*",
         "symfony/property-access": "*",
         "phpoffice/phpexcel": "*",
-        "symfony/validator": "*"
+        "symfony/validator": "*",
+        "symfony/config": "*",
+        "symfony/intl": "*",
+        "symfony/http-foundation": "*"
     }
 }
