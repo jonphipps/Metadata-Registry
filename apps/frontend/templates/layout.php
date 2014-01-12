@@ -7,7 +7,7 @@
 
 <?php include_title() ?>
 
-<?php if ($_SERVER['SERVER_NAME'] == 'registry'): ?>
+<?php if ($_SERVER['SERVER_NAME'] == 'registry.dev'): ?>
    <link rel="shortcut icon" href="/registry_favicon_dev.ico" />
 <?php elseif ($_SERVER['SERVER_NAME'] == 'beta.metadataregistry.org' || $_SERVER['SERVER_NAME'] == 'beta-sand.metadataregistry.org' || $_SERVER['SERVER_NAME'] == 'beta-prod.metadataregistry.org'): ?>
    <link rel="shortcut icon" href="/registry_favicon_beta.ico" />
@@ -50,7 +50,7 @@
       <tr><?php include_partial('conceptprop/search', array('searchTerm' => $sf_params->get('term'))) ?></tr>
       <tr><?php include_partial('schemaprop/search', array('searchTerm' => $sf_params->get('term'))) ?></tr>
     </table>
-<?php if ($_SERVER['SERVER_NAME'] == 'registry'): ?>
+<?php if ($_SERVER['SERVER_NAME'] == 'registry.dev'): ?>
       <br />
       <a href = "http://<?php echo $_SERVER['HTTP_HOST'] ?>/load_test_db.php">Load test database</a>
 <?php endif; ?>
