@@ -9,46 +9,53 @@
  */
 class SchemaPropertyElementPeer extends BaseSchemaPropertyElementPeer
 {
-  /**
-  * create and add an individual element
-  *
-  * @param  SchemaProperty $schema_property
-  */
-  public static function createElement(SchemaProperty $schema_property, $userId, $fieldId)
-  {
-    $element = new SchemaPropertyElement();
-    $element->setCreatedUserId($userId);
-    $element->setUpdatedUserId($userId);
-    $element->setSchemaPropertyId($schema_property->getId());
-    $element->setLanguage($schema_property->getLanguage());
-    $element->setStatusId($schema_property->getStatusId());
-    $element->setProfilePropertyId($fieldId);
+    /**
+     * create and add an individual element
+     *
+     * @param  SchemaProperty $schema_property
+     * @param                 $userId
+     * @param                 $fieldId
+     *
+     * @return \SchemaPropertyElement
+     */
+    public static function createElement(SchemaProperty $schema_property, $userId, $fieldId)
+    {
+        $element = new SchemaPropertyElement();
+        $element->setCreatedUserId($userId);
+        $element->setUpdatedUserId($userId);
+        $element->setSchemaPropertyId($schema_property->getId());
+        $element->setLanguage($schema_property->getLanguage());
+        $element->setStatusId($schema_property->getStatusId());
+        $element->setProfilePropertyId($fieldId);
 
-    return $element;
+        return $element;
+        //self::updateElement($schema_property, $element, $userId, $field, $con, $isSchemaProperty);
 
-    //self::updateElement($schema_property, $element, $userId, $field, $con, $isSchemaProperty);
+    } // createElement
 
-  } // createElement
+    /**
+     * description
+     *
+     * @param integer $schemaPropertyId [Optional}
+     * @param integer $profilePropertyId
+     * @param string  $value
+     *
+     * @return SchemaPropertyElement
+     */
+    public static function lookupElement($schemaPropertyId = null, $profilePropertyId, $value)
+    {
+        $c = new Criteria();
+        $c->add(self::PROFILE_PROPERTY_ID, $profilePropertyId);
+        $c->add(self::OBJECT, $value);
+        //only add the schema property id if we know what the schema property is
+        if ($schemaPropertyId) {
+            $c->add(self::SCHEMA_PROPERTY_ID, $schemaPropertyId);
+        }
 
-  /**
-  * description
-  *
-  * @return return_type
-  * @param  var_type $var
-  */
-  public static function lookupElement($propertyId, $elementId, $object)
-  {
-    $c = new Criteria();
-    $c->add(self::SCHEMA_PROPERTY_ID, $propertyId);
-    $c->add(self::PROFILE_PROPERTY_ID, $elementId);
-    $c->add(self::OBJECT,$object);
+        $results = self::doSelectOne($c);
 
-    $results = self::doSelectOne($c);
-
-    return $results;
-  }
-
-
+        return $results;
+    }
 }
 
 sfPropelBehavior::add('SchemaPropertyElement', array('paranoid'));
