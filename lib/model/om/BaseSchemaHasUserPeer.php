@@ -3,7 +3,7 @@
 /**
  * Base static class for performing query and update operations on the 'schema_has_user' table.
  *
- * 
+ *
  *
  * @package    lib.model.om
  */
@@ -319,17 +319,17 @@ abstract class BaseSchemaHasUserPeer {
 	public static function populateObjects(ResultSet $rs)
 	{
 		$results = array();
-	
+
 		// set the class once to avoid overhead in the loop
 		$cls = SchemaHasUserPeer::getOMClass();
 		$cls = Propel::import($cls);
 		// populate the object(s)
 		while($rs->next()) {
-		
+
 			$obj = new $cls();
 			$obj->hydrate($rs);
 			$results[] = $obj;
-			
+
 		}
 		return $results;
 	}
@@ -613,7 +613,7 @@ abstract class BaseSchemaHasUserPeer {
 
 
 				// Add objects for joined Schema rows
-	
+
 			$omClass = SchemaPeer::getOMClass();
 
 
@@ -639,7 +639,7 @@ abstract class BaseSchemaHasUserPeer {
 
 
 				// Add objects for joined User rows
-	
+
 			$omClass = UserPeer::getOMClass();
 
 
@@ -955,7 +955,7 @@ abstract class BaseSchemaHasUserPeer {
 			throw $e;
 		}
 
-		
+
     foreach (sfMixer::getCallables('BaseSchemaHasUserPeer:doInsert:post') as $callable)
     {
       call_user_func($callable, 'BaseSchemaHasUserPeer', $values, $con, $pk);
@@ -1007,7 +1007,7 @@ abstract class BaseSchemaHasUserPeer {
 		$criteria->setDbName(self::DATABASE_NAME);
 
 		$ret = BasePeer::doUpdate($selectCriteria, $criteria, $con);
-	
+
 
     foreach (sfMixer::getCallables('BaseSchemaHasUserPeer:doUpdate:post') as $callable)
     {
@@ -1078,7 +1078,7 @@ abstract class BaseSchemaHasUserPeer {
 			// use transaction because $criteria could contain info
 			// for more than one table or we could emulating ON DELETE CASCADE, etc.
 			$con->begin();
-			
+
 			$affectedRows += BasePeer::doDelete($criteria, $con);
 			$con->commit();
 			return $affectedRows;
