@@ -32,5 +32,8 @@
         "symfony/config": "*",
         "symfony/intl": "*",
         "symfony/http-foundation": "*"
+    },
+    "autoload": {
+        "classmap": ["plugins/jpAdminGeneratorPlugin/lib/ImportVocab/src"]
     }
 }

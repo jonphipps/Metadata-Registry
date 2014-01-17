@@ -12,7 +12,9 @@ settings:
 modules:
     config:
         Db:
-            dsn: ''
-            user: ''
-            password: ''
-            dump: tests/_data/dump.sql
+            dsn: 'mysql:host=localhost;port=3307;dbname=swregistry_test'
+            user: 'root'
+            password: 'RegIt!'
+            dump: ../../../../codeception/_data/swregistry_test_2014-01-12.sql
+            populate: true
+            cleanup: false
