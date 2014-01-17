@@ -29,6 +29,8 @@ define('SF_ENVIRONMENT', 'prod');
 define('SF_ROOT_DIR', sfConfig::get('sf_root_dir'));
 define('SF_DEBUG', true);
 
+require_once(SF_ROOT_DIR . DIRECTORY_SEPARATOR . 'vendor'. DIRECTORY_SEPARATOR .'autoload.php');
+
 require_once(SF_ROOT_DIR . DIRECTORY_SEPARATOR . 'apps' . DIRECTORY_SEPARATOR . SF_APP . DIRECTORY_SEPARATOR .
              'config' . DIRECTORY_SEPARATOR . 'config.php');
 
@@ -119,7 +121,8 @@ function run_import_list($task, $args)
             } catch(Exception $e) {
                 throw new Exception("Not a happy CSV file! Error: " . $e);
             }
-            $uploadPath = $uploadPath;
+            $uploadPath = $GLOBALS['uploadPath'];
+            ;
             if ('vocab' == $type) {
                 // Get array of heading names found
                 $headings = $reader->getHeadings();
