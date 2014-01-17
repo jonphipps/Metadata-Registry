@@ -33,10 +33,6 @@ class ImportVocab
      */
     public $deleteMissing;
     /**
-     * @var array
-     */
-    public $errors = array();
-    /**
      * @var string
      */
     public $file;
@@ -57,6 +53,10 @@ class ImportVocab
      */
     private $reader;
     /**
+     * @var array
+     */
+    public $results = array();
+    /**
      * @var string
      */
     public $status;
@@ -72,6 +72,10 @@ class ImportVocab
      * @var bool
      */
     public $useSameAsForMatching;
+    /**
+     * @var bool
+     */
+    public $useCuries;
     /**
      * @var int
      */
@@ -111,7 +115,8 @@ class ImportVocab
 
         //TODO: these should get set somewhere
         $this->deleteMissing        = false;
-        $this->useSameAsForMatching = true;
+        $this->useSameAsForMatching = false;
+        $this->useCuries            = true;
 
         //TODO: store and retrieve this map from the database and associate with the agent(master template)/vocab(template)/batch(template)
         $this->mapping = array(
@@ -330,7 +335,11 @@ class ImportVocab
         $workflow->addWriter(
                  new Writer\CallbackWriter(function ($row) {
                      //lookup the property
-                     $uri      = $this->vocabulary->getBaseDomain() . $row["uri"];
+                     if ($this->useCuries) {
+                         $uri = $this->getFqn($row["uri"]);
+                     } else {
+                         $uri = $this->vocabulary->getBaseDomain() . $row["uri"];
+                     }
                      $property = \SchemaPropertyPeer::retrieveByUri($uri);
                      if ($property) {
                          //usesameasformatch is set then update the URIS
@@ -344,13 +353,20 @@ class ImportVocab
                              if ($subproperty) {
                                  //get the uri of the parent property
                                  $parentProperty = $subproperty->getSchemaPropertyRelatedBySchemaPropertyId();
-                                 //update the parentpropertyuri
-                                 $property->setParentUri($parentProperty->getUri());
-                                 //update the related schema id
-                                 $property->setSchemaPropertyRelatedByIsSubpropertyOf($parentProperty);
-                             };
-                             $property->save();
+                             }
+                         } else {
+                             $parentProperty = \SchemaPropertyPeer::retrieveByUri($property->getParentUri());
                          }
+                         if ($parentProperty) {
+                             //get the uri of the parent property
+                             //update the parentpropertyuri
+                             if (! $this->useCuries) {
+                                 $property->setParentUri($parentProperty->getUri());
+                             }
+                             //update the related schema id
+                             $property->setSchemaPropertyRelatedByIsSubpropertyOf($parentProperty);
+                             $property->save();
+                         };
                          //update the statements
                      } else {
                          //we have an error!!!! log it
@@ -407,7 +423,12 @@ class ImportVocab
                          }
 
                          //TODO NOW write a function to check mapped values for array
-                         $uri        = $this->vocabulary->getBaseDomain() . $row["uri"];
+
+                         if ($this->useCuries) {
+                             $uri = $this->getFqn($row["uri"]);
+                         } else {
+                             $uri = $this->vocabulary->getBaseDomain() . $row["uri"];
+                         }
                          $skipMap    = array();
                          $property   = \SchemaPropertyPeer::retrieveByUri($uri);
                          $updateTime = time();
