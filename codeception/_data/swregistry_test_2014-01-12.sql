@@ -8978,6 +8978,15 @@ CREATE TABLE `reg_schema` (
   CONSTRAINT `schema_status_fk` FOREIGN KEY (`status_id`) REFERENCES `reg_status` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+LOCK TABLES `reg_schema` WRITE;
+/*!40000 ALTER TABLE `reg_schema` DISABLE KEYS */;
+
+INSERT INTO `reg_schema` (`id`, `agent_id`, `created_at`, `updated_at`, `deleted_at`, `created_user_id`, `updated_user_id`, `child_updated_at`, `child_updated_user_id`, `name`, `note`, `uri`, `url`, `base_domain`, `token`, `community`, `last_uri_id`, `status_id`, `language`, `profile_id`, `ns_type`)
+VALUES
+	(1,63,'2014-01-15 21:34:03','2014-01-15 21:34:03',NULL,36,36,NULL,NULL,'RDA Item properties','Properties derived from RDA elements and relationship designators with the domain of RDA Item.','http://rdaregistry.info/Elements/i/','','http://registry.dev/uri/schema/','rdai','',100000,1,'en',1,'slash');
+
+/*!40000 ALTER TABLE `reg_schema` ENABLE KEYS */;
+UNLOCK TABLES;
 
 
 # Dump of table reg_schema_property
@@ -9427,6 +9436,15 @@ CREATE TABLE `schema_has_user` (
   CONSTRAINT `schema_has_user_fk1` FOREIGN KEY (`user_id`) REFERENCES `reg_user` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+LOCK TABLES `schema_has_user` WRITE;
+/*!40000 ALTER TABLE `schema_has_user` DISABLE KEYS */;
+
+INSERT INTO `schema_has_user` (`id`, `created_at`, `updated_at`, `deleted_at`, `schema_id`, `user_id`, `is_maintainer_for`, `is_registrar_for`, `is_admin_for`)
+VALUES
+	(1,'2014-01-15 21:34:03','2014-01-15 21:34:03',NULL,1,36,1,1,1);
+
+/*!40000 ALTER TABLE `schema_has_user` ENABLE KEYS */;
+UNLOCK TABLES;
 
 
 # Dump of table schema_has_version
