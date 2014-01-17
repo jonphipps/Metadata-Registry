@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.5.33-0+wheezy1)
 # Database: swregistry_test
-# Generation Time: 2014-01-12 16:36:43 +0000
+# Generation Time: 2014-01-15 21:56:14 +0000
 # ************************************************************
 
 
@@ -8978,6 +8978,15 @@ CREATE TABLE `reg_schema` (
   CONSTRAINT `schema_status_fk` FOREIGN KEY (`status_id`) REFERENCES `reg_status` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+LOCK TABLES `reg_schema` WRITE;
+/*!40000 ALTER TABLE `reg_schema` DISABLE KEYS */;
+
+INSERT INTO `reg_schema` (`id`, `agent_id`, `created_at`, `updated_at`, `deleted_at`, `created_user_id`, `updated_user_id`, `child_updated_at`, `child_updated_user_id`, `name`, `note`, `uri`, `url`, `base_domain`, `token`, `community`, `last_uri_id`, `status_id`, `language`, `profile_id`, `ns_type`)
+VALUES
+	(1,63,'2014-01-15 21:34:03','2014-01-15 21:34:03',NULL,36,36,NULL,NULL,'RDA Item properties','Properties derived from RDA elements and relationship designators with the domain of RDA Item.','http://rdaregistry.info/Elements/i/','','http://registry.dev/uri/schema/','rdai','',100000,1,'en',1,'slash');
+
+/*!40000 ALTER TABLE `reg_schema` ENABLE KEYS */;
+UNLOCK TABLES;
 
 
 # Dump of table reg_schema_property
@@ -9021,6 +9030,16 @@ CREATE TABLE `reg_schema_property` (
   CONSTRAINT `reg_schema_property_fk4` FOREIGN KEY (`status_id`) REFERENCES `reg_status` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+LOCK TABLES `reg_schema_property` WRITE;
+/*!40000 ALTER TABLE `reg_schema_property` DISABLE KEYS */;
+
+INSERT INTO `reg_schema_property` (`id`, `created_at`, `updated_at`, `deleted_at`, `created_user_id`, `updated_user_id`, `schema_id`, `name`, `label`, `definition`, `comment`, `type`, `is_subproperty_of`, `parent_uri`, `uri`, `status_id`, `language`, `note`, `domain`, `orange`, `is_deprecated`)
+VALUES
+	(1,'2014-01-15 21:51:22','2014-01-15 21:51:22',NULL,36,36,1,'testElement','Test element name','Just a test element','','property',NULL,NULL,'http://rdaregistry.info/Elements/i/testElement',1,'en','','http://nlsdata.info/dod/elements/Resource','http://nlsdata.info/dod/elements/Resource',NULL),
+	(2,'2014-01-15 21:52:22','2014-01-15 21:52:22',NULL,36,36,1,'mySubproperty','Test subproperty','Just a description','just a comment','subproperty',1,'http://rdaregistry.info/Elements/i/testElement','http://rdaregistry.info/Elements/i/mySubproperty',1,'en','','','',NULL);
+
+/*!40000 ALTER TABLE `reg_schema_property` ENABLE KEYS */;
+UNLOCK TABLES;
 
 
 # Dump of table reg_schema_property_element
@@ -9059,6 +9078,33 @@ CREATE TABLE `reg_schema_property_element` (
   CONSTRAINT `reg_schema_property_property_fk4` FOREIGN KEY (`status_id`) REFERENCES `reg_status` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+LOCK TABLES `reg_schema_property_element` WRITE;
+/*!40000 ALTER TABLE `reg_schema_property_element` DISABLE KEYS */;
+
+INSERT INTO `reg_schema_property_element` (`id`, `created_at`, `updated_at`, `deleted_at`, `created_user_id`, `updated_user_id`, `schema_property_id`, `profile_property_id`, `is_schema_property`, `object`, `related_schema_property_id`, `language`, `status_id`)
+VALUES
+	(1,'2014-01-15 21:51:22','2014-01-15 21:51:22',NULL,36,36,1,1,1,'testElement',NULL,'en',1),
+	(2,'2014-01-15 21:51:22','2014-01-15 21:51:22',NULL,36,36,1,2,1,'Test element name',NULL,'en',1),
+	(3,'2014-01-15 21:51:22','2014-01-15 21:51:22',NULL,36,36,1,3,1,'Just a test element',NULL,'en',1),
+	(4,'2014-01-15 21:51:22','2014-01-15 21:51:22',NULL,36,36,1,4,1,'property',NULL,'en',1),
+	(5,'2014-01-15 21:51:22','2014-01-15 21:51:22',NULL,36,36,1,11,1,'http://nlsdata.info/dod/elements/Resource',NULL,'en',1),
+	(6,'2014-01-15 21:51:22','2014-01-15 21:51:22',NULL,36,36,1,12,1,'http://nlsdata.info/dod/elements/Resource',NULL,'en',1),
+	(7,'2014-01-15 21:51:22','2014-01-15 21:51:22',NULL,36,36,1,13,1,'http://rdaregistry.info/Elements/i/testElement',NULL,'en',1),
+	(8,'2014-01-15 21:51:23','2014-01-15 21:51:23',NULL,36,36,1,14,1,'1',NULL,'en',1),
+	(9,'2014-01-15 21:52:22','2014-01-15 21:52:22',NULL,36,36,2,1,1,'mySubproperty',NULL,'en',1),
+	(10,'2014-01-15 21:52:22','2014-01-15 21:52:22',NULL,36,36,2,2,1,'Test subproperty',NULL,'en',1),
+	(11,'2014-01-15 21:52:22','2014-01-15 21:52:22',NULL,36,36,2,3,1,'Just a description',NULL,'en',1),
+	(12,'2014-01-15 21:52:23','2014-01-15 21:52:23',NULL,36,36,2,4,1,'subproperty',NULL,'en',1),
+	(13,'2014-01-15 21:52:23','2014-01-15 21:52:23',NULL,36,36,2,5,1,'just a comment',NULL,'en',1),
+	(14,'2014-01-15 21:52:23','2014-01-15 21:52:23',NULL,36,36,2,6,1,'http://rdaregistry.info/Elements/i/testElement',1,'en',1),
+	(15,'2014-01-15 21:52:23','2014-01-15 21:52:23',NULL,36,36,1,8,NULL,'',2,'en',1),
+	(16,'2014-01-15 21:52:23','2014-01-15 21:52:23',NULL,36,36,2,13,1,'http://rdaregistry.info/Elements/i/mySubproperty',NULL,'en',1),
+	(17,'2014-01-15 21:52:23','2014-01-15 21:52:23',NULL,36,36,2,14,1,'1',NULL,'en',1),
+	(18,'2014-01-15 21:53:27','2014-01-15 21:53:27',NULL,36,36,2,16,NULL,'rdai:accompaniedByItem',NULL,'en',1),
+	(19,'2014-01-15 21:54:50','2014-01-15 21:54:50',NULL,36,36,2,6,NULL,'rdau:accompaniedBy',NULL,'en',1);
+
+/*!40000 ALTER TABLE `reg_schema_property_element` ENABLE KEYS */;
+UNLOCK TABLES;
 
 
 # Dump of table reg_schema_property_element_history
@@ -9098,6 +9144,33 @@ CREATE TABLE `reg_schema_property_element_history` (
   CONSTRAINT `reg_schema_property_element_history_fk6` FOREIGN KEY (`profile_property_id`) REFERENCES `profile_property` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+LOCK TABLES `reg_schema_property_element_history` WRITE;
+/*!40000 ALTER TABLE `reg_schema_property_element_history` DISABLE KEYS */;
+
+INSERT INTO `reg_schema_property_element_history` (`id`, `created_at`, `created_user_id`, `action`, `schema_property_element_id`, `schema_property_id`, `schema_id`, `profile_property_id`, `object`, `related_schema_property_id`, `language`, `status_id`, `change_note`)
+VALUES
+	(1,'2014-01-15 21:51:22',36,'added',1,1,1,1,'testElement',NULL,'en',1,NULL),
+	(2,'2014-01-15 21:51:22',36,'added',2,1,1,2,'Test element name',NULL,'en',1,NULL),
+	(3,'2014-01-15 21:51:22',36,'added',3,1,1,3,'Just a test element',NULL,'en',1,NULL),
+	(4,'2014-01-15 21:51:22',36,'added',4,1,1,4,'property',NULL,'en',1,NULL),
+	(5,'2014-01-15 21:51:22',36,'added',5,1,1,11,'http://nlsdata.info/dod/elements/Resource',NULL,'en',1,NULL),
+	(6,'2014-01-15 21:51:22',36,'added',6,1,1,12,'http://nlsdata.info/dod/elements/Resource',NULL,'en',1,NULL),
+	(7,'2014-01-15 21:51:22',36,'added',7,1,1,13,'http://rdaregistry.info/Elements/i/testElement',NULL,'en',1,NULL),
+	(8,'2014-01-15 21:51:23',36,'added',8,1,1,14,'1',NULL,'en',1,NULL),
+	(9,'2014-01-15 21:52:22',36,'added',9,2,1,1,'mySubproperty',NULL,'en',1,NULL),
+	(10,'2014-01-15 21:52:22',36,'added',10,2,1,2,'Test subproperty',NULL,'en',1,NULL),
+	(11,'2014-01-15 21:52:22',36,'added',11,2,1,3,'Just a description',NULL,'en',1,NULL),
+	(12,'2014-01-15 21:52:23',36,'added',12,2,1,4,'subproperty',NULL,'en',1,NULL),
+	(13,'2014-01-15 21:52:23',36,'added',13,2,1,5,'just a comment',NULL,'en',1,NULL),
+	(14,'2014-01-15 21:52:23',36,'added',14,2,1,6,'http://rdaregistry.info/Elements/i/testElement',1,'en',1,NULL),
+	(15,'2014-01-15 21:52:23',36,'added',15,1,1,8,'',2,'en',1,NULL),
+	(16,'2014-01-15 21:52:23',36,'added',16,2,1,13,'http://rdaregistry.info/Elements/i/mySubproperty',NULL,'en',1,NULL),
+	(17,'2014-01-15 21:52:23',36,'added',17,2,1,14,'1',NULL,'en',1,NULL),
+	(18,'2014-01-15 21:53:27',36,'added',18,2,1,16,'rdai:accompaniedByItem',NULL,'en',1,NULL),
+	(19,'2014-01-15 21:54:50',36,'added',19,2,1,6,'rdau:accompaniedBy',NULL,'en',1,NULL);
+
+/*!40000 ALTER TABLE `reg_schema_property_element_history` ENABLE KEYS */;
+UNLOCK TABLES;
 
 
 # Dump of table reg_skos_property
@@ -9427,6 +9500,15 @@ CREATE TABLE `schema_has_user` (
   CONSTRAINT `schema_has_user_fk1` FOREIGN KEY (`user_id`) REFERENCES `reg_user` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+LOCK TABLES `schema_has_user` WRITE;
+/*!40000 ALTER TABLE `schema_has_user` DISABLE KEYS */;
+
+INSERT INTO `schema_has_user` (`id`, `created_at`, `updated_at`, `deleted_at`, `schema_id`, `user_id`, `is_maintainer_for`, `is_registrar_for`, `is_admin_for`)
+VALUES
+	(1,'2014-01-15 21:34:03','2014-01-15 21:34:03',NULL,1,36,1,1,1);
+
+/*!40000 ALTER TABLE `schema_has_user` ENABLE KEYS */;
+UNLOCK TABLES;
 
 
 # Dump of table schema_has_version
