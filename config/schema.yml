@@ -984,7 +984,8 @@ propel:
       type: VARCHAR
       size: 255
     file_type:
-      type: INTEGER
+      type: VARCHAR
+      size: 10
     results:
       type: LONGVARCHAR
   reg_lookup:

@@ -77,7 +77,7 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 
 	/**
 	 * The value for the file_type field.
-	 * @var        int
+	 * @var        string
 	 */
 	protected $file_type;
 
@@ -233,7 +233,7 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 	/**
 	 * Get the [file_type] column value.
 	 * 
-	 * @return     int
+	 * @return     string
 	 */
 	public function getFileType()
 	{
@@ -449,16 +449,16 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 	/**
 	 * Set the value of [file_type] column.
 	 * 
-	 * @param      int $v new value
+	 * @param      string $v new value
 	 * @return     void
 	 */
 	public function setFileType($v)
 	{
 
-		// Since the native PHP type for this column is integer,
-		// we will cast the input value to an int (if it is not).
-		if ($v !== null && !is_int($v) && is_numeric($v)) {
-			$v = (int) $v;
+		// Since the native PHP type for this column is string,
+		// we will cast the input to a string (if it is not).
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
 		}
 
 		if ($this->file_type !== $v) {
@@ -523,7 +523,7 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 
 			$this->file_name = $rs->getString($startcol + 7);
 
-			$this->file_type = $rs->getInt($startcol + 8);
+			$this->file_type = $rs->getString($startcol + 8);
 
 			$this->results = $rs->getString($startcol + 9);
 
