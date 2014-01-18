@@ -11,6 +11,8 @@
  *
  */
 
+use ImportVocab\ImportVocab;
+
 pake_desc('Import a file into a vocabulary');
 pake_task('import-vocabulary');
 
@@ -25,9 +27,9 @@ echo "\n";
 //define('SF_APP', $app);
 //define('SF_ENVIRONMENT', $env);
 define('SF_APP', 'frontend');
-define('SF_ENVIRONMENT', 'prod');
+define('SF_ENVIRONMENT', 'test');
 define('SF_ROOT_DIR', sfConfig::get('sf_root_dir'));
-define('SF_DEBUG', true);
+define('SF_DEBUG', false);
 
 require_once(SF_ROOT_DIR . DIRECTORY_SEPARATOR . 'vendor'. DIRECTORY_SEPARATOR .'autoload.php');
 
