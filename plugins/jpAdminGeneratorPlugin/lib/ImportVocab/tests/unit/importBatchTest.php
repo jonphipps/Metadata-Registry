@@ -47,12 +47,14 @@ class importBatchTest extends \Codeception\TestCase\Test
             $import->processData();
             //todo: $results should be a class
             $results[$id] = $import->results;
+            unset($import);
         }
 
         foreach ($results as $id => $result) {
             //FIXME: this is a terrible way to do this
+            $import             = new ImportVocab("schema");
             $import->reader     = new \Ddeboer\DataImport\Reader\ArrayReader($result['success']['rows']);
-            $import->vocabulary = $id;
+            $import->vocabId = $id;
             $import->processParents();
         }
     } //
