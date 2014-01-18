@@ -431,7 +431,11 @@ class ImportVocab
                          } else {
                              $rowStatusId = $this->prolog['defaults']['statusId'];
                          }
+
                          $results['status'] = 'modified';
+                         $skipMap[] = "uri";
+                         $skipMap[] = "meta";
+
                          if (! $property) {
                              //          create a new property
                              $results['status'] = 'created';
@@ -439,8 +443,6 @@ class ImportVocab
                              $property = new \SchemaProperty;
                              $property->setSchema($this->vocabulary);
                              $property->setUri($uri);
-                             $skipMap[] = "uri";
-                             $skipMap[] = "meta";
                              $property->setCreatedUserId($this->userId);
                              $property->setCreatedAt($updateTime);
                          }
@@ -508,16 +510,17 @@ class ImportVocab
                          }
                          //make sure this scrip has permission to write to php default session storage - /var/lib/php/session
                          $property->saveSchemaProperty($this->userId);
+                         $propertyId = $property->getId();
 
-                         $results['id']  = $property->getId();
-                         //$results['uri'] = $property->getUri();
-
-                         $StatementCounter = array();
+                         $results['id']  = $propertyId;
+                         $results['uri'] = $property->getUri();
+                         unset($property);
 
                          foreach ($row as $key => $value) {
                              //we skip because we already did them
                              if (! in_array($key, $skipMap)
                              ) {
+                                 $StatementCounter = array();
                                  $mappedkey = array_search($key, $this->mapping);
 
                                  if (isset($this->prolog['columns'][$mappedkey]['id'])) {
@@ -527,74 +530,82 @@ class ImportVocab
                                      exit("could not continue. mapping error on mapped key: " . $key);
                                  }
 
-                                 $propertyId = $property->getId();
+                                 if (!empty($row[$key])) {
                                  //check to see if the property already exists
-                                 //note that this also checks the object value as well, so there's no way to update or delete an existing triple
-                                 //the sheet would have to contain the identifier for the triple
-                                 /** @var $element \SchemaPropertyElement */
-                                 $element = \SchemaPropertyElementPeer::lookupElement(
-                                                                      $this->vocabulary->getId(),
-                                                                        $elementId,
-                                                                        $row[$key]
-                                 );
+                                     //note that this also checks the object value as well, so there's no way to update or delete an existing triple
+                                     //the sheet would have to contain the identifier for the triple
 
-                                 //get the language for this thing
-                                 //if there's a prolog set for the language for this column, use it
-                                 //use the default for the import (already set above)
-                                 //fall back to the default language of the vocabulary
-                                 //create a new property for each unmatched column
-                                 if (! empty($row[$key])) {
-                                     //we didn't find an existing element, make a new one
-                                     if (! $element) {
-                                         $element = new \SchemaPropertyElement;
-                                         $element->setCreatedUserId($this->userId);
-                                         $element->setCreatedAt($updateTime);
-                                         $element->setProfilePropertyId($elementId);
-                                         $element->setSchemaPropertyId($propertyId);
-                                     }
-
-                                     $cellLanguage = $this->getColLangType($mappedkey, 'lang');
+                                     $cellLanguage = $this->getColLangType($mappedkey, 'lang', true);
                                      //data type must be explicit
                                      $cellType = $this->getColLangType($mappedkey, 'type', true);
 
-                                     if (($row[$key] != $element->getObject()) ||
-                                         ($cellLanguage != $element->getLanguage())
-                                     ) {
-                                         /**
-                                          * @todo We need a check here for objectproperties and handle differently
-                                          *       if it's a URI, and it uses namespaces, and we have the namespace, do the substitution
-                                          **/
-                                         if (! $cellType and $cellLanguage) {
-                                             if ($cellLanguage != $element->getLanguage()) {
-                                                 $element->setLanguage($cellLanguage);
-                                             }
-                                         } else {
-                                             //check if it's a URI and massage the namespace
-                                             $row[$key] = $this->getFqn($row[$key]);
-                                         }
-                                         if ($row[$key] != $element->getObject()) {
-                                             $element->setObject($row[$key]);
-                                         }
-                                         $element->setUpdatedUserId($this->userId);
-                                         $element->setUpdatedAt($updateTime);
-                                         $element->setStatusId($rowStatusId);
-                                         $element->save();
-
-                                         $StatementCounter['id']         = $element->getId();
-                                         //$StatementCounter['propertyId'] = $element->getProfilePropertyId();
-                                         //$StatementCounter['object']     = $element->getObject();
-
-                                         $results['statements'][] = $StatementCounter;
+                                     //get the fqn if using curies
+                                     if ($cellType and $this->useCuries)
+                                     {
+                                         $row[$key] = $this->getFqn($row[$key]);
                                      }
 
-                                     $this->results['success']['rows'][] = $results;
+                                     /** @var $element \SchemaPropertyElement */
+                                     $element = \SchemaPropertyElementPeer::lookupElement(
+                                                                          $propertyId,
+                                                                            $elementId,
+                                                                            $row[$key]
+                                     );
 
-                                 } //the row value is empty
-                                 else if ($this->deleteMissing && $element) {
-                                     $element->delete();
+                                     //get the language for this thing
+                                     //if there's a prolog set for the language for this column, use it
+                                     //use the default for the import (already set above)
+                                     //fall back to the default language of the vocabulary
+                                     //create a new propertyelement for each unmatched column
+                                     $StatementCounter['status'] = 'modified';
+                                     if (! $element) {
+                                         //we didn't find an existing element, make a new one
+                                         if (! $element) {
+                                             $element = new \SchemaPropertyElement;
+                                             $element->setCreatedUserId($this->userId);
+                                             $element->setCreatedAt($updateTime);
+                                             $element->setProfilePropertyId($elementId);
+                                             $element->setSchemaPropertyId($propertyId);
+                                             $StatementCounter['status'] = 'created';
+                                         }
+
+                                         if (($row[$key] != $element->getObject()) ||
+                                             ($cellLanguage != $element->getLanguage())
+                                         ) {
+                                             /**
+                                              * @todo We need a check here for objectproperties and handle differently
+                                              *       if it's a URI, and it uses namespaces, and we have the namespace, do the substitution
+                                              **/
+                                             if (! $cellType and $cellLanguage) {
+                                                 if ($cellLanguage != $element->getLanguage()) {
+                                                     $element->setLanguage($cellLanguage);
+                                                 }
+                                             }
+
+                                             if ($row[$key] != $element->getObject()) {
+                                                 $element->setObject($row[$key]);
+                                             }
+
+                                             $element->setUpdatedUserId($this->userId);
+                                             $element->setUpdatedAt($updateTime);
+                                             $element->setStatusId($rowStatusId);
+                                         }
+
+                                         $element->save();
+                                         $StatementCounter['id']         = $element->getId();
+                                         $StatementCounter['propertyId'] = $element->getProfilePropertyId();
+                                         $StatementCounter['object']     = $element->getObject();
+
+                                         $results['statements'][] = $StatementCounter;
+                                         unset($element);
+                                     } //the row value is empty
+                                     else if ($this->deleteMissing && $element) {
+                                         $element->delete();
+                                     }
                                  }
                              }
                          }
+                         $this->results['success']['rows'][] = $results;
 
                          //          else
                          //               lookup and update concept or element
