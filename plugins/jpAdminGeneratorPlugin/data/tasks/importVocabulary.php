@@ -354,40 +354,10 @@ function run_import_vocabulary($task, $args)
         $tSlash = preg_match('@(/$)@i', $vocabObj->getUri()) ? '' : '/';
         $tSlash = preg_match('/#$/', $vocabObj->getUri()) ? '' : $tSlash;
     } else {
-        $schemaObj = SchemaPeer::retrieveByPK($id);
-        if (is_null($schemaObj)) {
-            throw new Exception('Invalid schema ID');
-        }
-
-        //set some defaults
-        $baseDomain = $schemaObj->getUri();
-        $language   = $schemaObj->getLanguage();
-        $statusId   = $schemaObj->getStatusId();
-        $userId     = $schemaObj->getCreatedUserId();
-        $agentId    = $schemaObj->getAgentId();
-
-        //get a element set property id map
-        $profileId  = 1;
-        $profile    = ProfilePeer::retrieveByPK($profileId);
-        $elementMap = $profile->getAllProperties();
-
-        //there has to be a hash or a slash
-        $tSlash = preg_match('@(/$)@i', $baseDomain) ? '' : '/';
-        $tSlash = preg_match('/#$/', $baseDomain) ? '' : $tSlash;
+        $import               = new ImportVocab($type, $filePath, $id);
     }
-
-    //     insert jon's user id
-    $userId = 36;
 
     /* From here on the process is the same regardless of UI */
-
-    //execute
-    //     parse file to get the fields/columns and data
-    $file = fopen($filePath, "r");
-    if (! $file) {
-        throw new Exception("Can't read supplied file");
-    }
-
     //     check to see if file has been uploaded before
     //          check import history for file name
     $importHistory = FileImportHistoryPeer::retrieveByLastFilePath($filePath);
@@ -410,12 +380,6 @@ function run_import_vocabulary($task, $args)
 
     switch ($fileType) {
         case "csv":
-            try {
-                $reader = new aCsvReader($filePath);
-            } catch(Exception $e) {
-                throw new Exception("Not a happy CSV file!");
-            }
-
             if ('vocab' == $type) {
                 // Get array of heading names found
                 $headings = $reader->getHeadings();
@@ -538,192 +502,13 @@ function run_import_vocabulary($task, $args)
                 $objects = $vocabObj->countConcepts();
             } else //it's an element set
             {
-                //todo map should come from linkage section and be stored in the registry
-                //&about,&type,&status,&equivalent,&label@en-US,&altLabel@en-US,&definition@en-US,&domain,&range,&category,&phase,&notes,&row_id
-
-                $map  = array(
-                  "uri"                => "&about",
-                  "type"               => "&type",
-                  "status"             => "&status",
-                  "equivalentProperty" => "&equivalent",
-                  "label"              => "&label@en-US",
-                  "altLabel"           => "&altLabel@en-US",
-                  "definition"         => "&definition@en-US",
-                  "domain"             => "&domain",
-                  "range"              => "&range",
-                  "comment"            => "&notes",
-                );
-                $rows = 0;
-
-                //executeImport:
-                //    serialize the column map
-                try {
-                    while ($row = $reader->getRow()) {
-                        //        lookup the URI (or the OMR ID if available) for a match
-
-                        //There always has to be a URI on either update or create
-                        if (! isset($row[$map["uri"]])) {
-                            throw new Exception('Missing URI for row: ' . $reader->getRowCount());
-                            continue;
-                        }
-
-                        //TODO NOW write a function to check mapped values for array
-                        $rows ++;
-                        $uri         = $baseDomain . $tSlash . $row[$map["uri"]];
-                        $property    = SchemaPropertyPeer::retrieveByUri($uri);
-                        $updateTime  = time();
-                        $rowLanguage = (isset($map['language'])) ? $row[$map['language']] : $language;
-
-                        if (isset($map['status'])) {
-                            //is it a known text string
-                            $c = new Criteria();
-                            $c->add(StatusPeer::DISPLAY_NAME, $row[$map['status']]);
-                            $statusObj = StatusPeer::doSelectOne($c);
-                            if (isset($statusObj)) {
-                                $rowStatusId = $statusObj->getId();
-                            } else if (is_integer($row[$map['status']])) {
-                                $rowStatusId = $row[$map['status']];
-                            } else {
-                                $rowStatusId = $statusId;
-                            }
-                        }
-
-                        if (! $property) {
-                            //          create a new property
-                            /** @var SchemaProperty * */
-                            $property = new SchemaProperty();
-                            $property->setSchema($schemaObj);
-                            $property->setUri($uri);
-                            $property->setCreatedUserId($userId);
-                            $property->setCreatedAt($updateTime);
-                        }
-
-                        $property->setLanguage($rowLanguage);
-                        $property->setStatusId($rowStatusId);
-                        $property->setUpdatedUserId($userId);
-                        $property->setUpdatedAt($updateTime);
-
-                        if (isset($row[$map["label"]])) {
-                            $property->setLabel($row[$map["label"]]);
-                        }
-
-                        if (isset($row[$map["name"]])) {
-                            $property->setName($row[$map["name"]]);
-                        } else {
-                            $property->setName($row[$map["uri"]]);
-//                        } elseif (isset($row[$map["label"]])) {
-//                            $property->setName(slugify($row[$map["label"]]));
-                        }
-                        if (isset($row[$map["type"]])) {
-                            $property->setDefinition(strtolower($row[$map["type"]]));
-                        }
-
-                        if (isset($row[$map["definition"]])) {
-                            $property->setDefinition($row[$map["definition"]]);
-                        }
-
-                        if (isset($row[$map["domain"]])) {
-                            $property->setDomain($row[$map["domain"]]);
-                        }
-
-                        if (isset($row[$map["range"]])) {
-                            $property->setOrange($row[$map["range"]]);
-                        }
-
-                        if (is_array($map["note"])) {
-                            $note = '';
-                            foreach ($map["note"] as $key => $value) {
-                                $caption = ! empty($row[$value]) ? " (" . $row[$value] . ")" : ' (no caption)';
-                                $note .= ! empty($row[$key]) ? $key . ": " . $row[$key] . $caption . "<br />" : "";
-                            }
-                            $property->setNote($note);
-                        } else {
-                            if (isset($row[$map["note"]])) {
-                                $property->setNote($row[$map["note"]]);
-                            }
-                        }
-                        $property->saveSchemaProperty($userId);
-
-                        foreach ($map as $key => $value) {
-                            //we skip because we already did them
-                            if (! in_array(
-                              $key,
-                              array(
-                                'uri',
-                                'status',
-                                'type',
-                                'language',
-                                'label',
-                                'name',
-                                'definition',
-                                'comment',
-                                'note',
-                                'domain',
-                                'range'
-                              )
-                            )
-                            ) {
-                                $elementId  = $elementMap[$key];
-                                $propertyId = $property->getId();
-                                //check to see if the property already exists
-                                //note that this also checks the object value as well, so there's no way to update or delete an existing triple
-                                //the sheet would have to contain the identifier for the triple
-                                $element = SchemaPropertyElementPeer::lookupElement(
-                                                                    $schemaObj->getId(),
-                                                                      $elementId,
-                                                                      $map[$value]
-                                );
-
-                                //create a new property for each unmatched column
-                                if (! empty($row[$value])) {
-                                    if (! $element) {
-                                        $element = new SchemaPropertyElement();
-                                        $element->setCreatedUserId($userId);
-                                        $element->setCreatedAt($updateTime);
-                                        $element->setProfilePropertyId($elementId);
-                                        $element->setSchemaPropertyId($propertyId);
-                                    }
-
-                                    if (($row[$value] != $element->getObject()) ||
-                                        ($rowLanguage != $element->getLanguage())
-                                    ) {
-                                        /**
-                                         * @todo We need a check here for objectproperties and handle differently
-                                         **/
-                                        if ($rowLanguage != $element->getLanguage()) {
-                                            $element->setLanguage($rowLanguage);
-                                        }
-                                        if ($row[$value] != $element->getObject()) {
-                                            $element->setObject($row[$value]);
-                                        }
-                                        $element->setUpdatedUserId($userId);
-                                        $element->setUpdatedAt($updateTime);
-                                        $element->setStatusId($rowStatusId);
-                                        $element->save();
-                                    }
-                                } //the row value is empty
-                                else if ($deleteMissing && $element) {
-                                    $element->delete();
-                                }
-                            }
-                        }
-
-                        //          else
-                        //               lookup and update concept or element
-                        //               lookup and update each property
-                        //          update the history for each property, action is 'import', should be a single timestamp for all (this should be automatic)
-                        //          if 'delete missing properties' is true
-                        //               delete each existing, non-required property that wasn't updated by the import
-                    }
-                } catch(Exception $e) {
-                    //          catch
-                    //            if there's an error of any kind, write to error log and continue
-                    echo "Error on row: " . $rows . ", " . $uri . "\n" . $e . "\n";
-                    continue;
-                }
-                $objects = $schemaObj->countSchemaPropertys();
+                $import->setCsvReader($import->file);
+                $import->processProlog();
+                $import->getDataColumnIds();
+                $import->processData();
+                //todo: $results should be a class
+                $results[$id] = $import->results;
             }
-            //     save the import history file (match timestamp to history entries)
             break;
         case "json":
             break;
@@ -736,7 +521,7 @@ function run_import_vocabulary($task, $args)
 
     /* output to stdout*/
     //          number of objects imported (link to history, filtered on timestamp of import)
-    echo "File:" . $filePath . ";\n     Objects imported: " . $objects . "; Rows read: " . $rows . "\n";
+    echo " Rows imported: " . count($results[$id]['success']['rows']) . "\n From File:" . $filePath . "\n";
     //          number of errors (link to error log)
 
 }
