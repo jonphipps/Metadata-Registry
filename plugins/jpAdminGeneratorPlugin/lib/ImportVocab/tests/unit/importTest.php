@@ -38,7 +38,7 @@ class importTest extends \Codeception\TestCase\Test
         verify("fixture file is readable", Fixtures::get("fixxy") == "../_data/dump.sql")->true();
     }
 
-    public function testclass_initialized_properly()
+    public function testClass_initialized_properly()
     {
         $this->assertEquals("schema", $this->import->type, "the type is set to 'schema'");
         $this->assertEquals("importdata.csv", $this->import->file, "the file is set to 'importdata.csv'");
@@ -63,6 +63,7 @@ class importTest extends \Codeception\TestCase\Test
     //testPrologProvision
     public function testProcessProlog()
     {
+        $this->codeGuy->wantToTest("processing the prolog and importing the file into the database");
         $this->import->setCsvReader($this->import->file);
         $this->import->processProlog();
         $prolog    = $this->import->prolog;
@@ -83,7 +84,7 @@ class importTest extends \Codeception\TestCase\Test
         //prolog entries that can't be matched produce fatal error (logged)
     } //
 
-    //testProvision
+
     //given a properly provisioned prolog
     //start reading from the first row of data
     //substitute fqn for prefix for all resource URIs
