@@ -6,3 +6,17 @@
 class_name: CodeGuy
 modules:
     enabled: [CodeHelper, Db]
+
+env:
+    batch:
+        modules:
+            config:
+                Db:
+                    dump: tests/_data/batch/swregistry_test_2014-01-17.sql
+
+env:
+    normal:
+        modules:
+            config:
+                Db:
+                    dump: ../../../../codeception/_data/swregistry_test_2014-01-12.sql
