@@ -96,10 +96,6 @@ class ImportVocab
         $this->file    = $file;
         $this->vocabId = $vocabId;
 
-        // initialize database manager
-        $databaseManager = new \sfDatabaseManager();
-        $databaseManager->initialize();
-
         //TODO: make prolog array a class
         $this->prolog['columns']  = array();
         $this->prolog['meta']     = array();
