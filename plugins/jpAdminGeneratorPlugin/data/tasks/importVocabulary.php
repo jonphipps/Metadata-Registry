@@ -19,6 +19,9 @@ pake_task('import-vocabulary');
 pake_desc('Import a list of vocabulary files');
 pake_task('import-list');
 
+pake_desc('Repair references in an import batch');
+pake_task('import-repair');
+
 echo "\n";
 
 //xdebug_break();
@@ -73,6 +76,7 @@ function run_import_list($task, $args)
     //set the arguments
     $type     = strtolower($args[0]);
     $filePath = $args[1];
+    $batchId =  $args[3];
 
     //does the file exist?
     if (! file_exists($filePath)) {
@@ -101,12 +105,7 @@ function run_import_list($task, $args)
      *    Set Defaults Here                                      *
      *************************************************************/
     $fileType    = $matches[1];
-    $baseDomain  = "http://marc21rdf.info/";
-    $userId      = 36; //jon's user id
-    $agentID     = 67; //MMA agent ID
-    $communities = "";
-    $language    = "en";
-    $StatusId    = 1;
+    //todo: need to figure out a way to pass defaults dynamically
 
     $importTask = new pakeTask('import-vocabulary');
 
@@ -129,8 +128,6 @@ function run_import_list($task, $args)
                 // Get array of heading names found
                 $headings = $reader->getHeadings();
                 $fields   = VocabularyPeer::getFieldNames();
-
-                $baseDomain .= "terms/";
 
                 try {
                     while ($row = $reader->getRow()) {
@@ -171,7 +168,8 @@ function run_import_list($task, $args)
                         $args[2] = $vocab->getId();
                         //filepath
                         $args[1] = $GLOBALS['uploadPath'] . $row['VES'] . ".csv";
-                        $args[3] = "-d";
+                        $args[3] = $batchId;
+                        $args[4] = "-d";
 
                         run_import_vocabulary($importTask, $args);
                         $foo = $vocab->countConcepts();
@@ -181,11 +179,6 @@ function run_import_list($task, $args)
                 }
             } else //it's a schema
             {
-                // Get array of heading names found
-                $headings = $reader->getHeadings();
-
-                $baseDomain .= "elements/";
-
                 try {
                     while ($row = $reader->getRow()) {
 
@@ -226,13 +219,17 @@ function run_import_list($task, $args)
                         $schema->setUrl($row['URL']);
                         $schema->save();
 
+                        //todo: create a new import batch here and pass it to the import args
+                        //see importVocabulary->saveresults()
+                        //$batchId =
                         //type
                         $args[0] = "schema";
                         //filepath
                         $args[1] = $GLOBALS['uploadPath'] . $row['File Name'];
                         //vocabid
                         $args[2] = $schema->getId();
-                        $args[3] = "-d";
+                        $args[3] = $batchId;
+                        $args[4] = "-d";
 
                         run_import_vocabulary($importTask, $args);
                         $foo = $schema->countSchemaPropertys();
@@ -254,7 +251,7 @@ function run_import_list($task, $args)
  * arg[1] is the vocabulary name.
  *        The file type is determined by the extension and must be one of "json", "rdf", "csv", "xml"
  * arg[2] is the vocabulary id
- * arg[3] is the user id
+ * arg[3] is the batch id
  * arg[4] [optional] is -d
  *
  * @throws Exception
@@ -279,8 +276,9 @@ function run_import_vocabulary($task, $args)
     //set the arguments
     $type          = strtolower($args[0]);
     $filePath      = $args[1];
-    $id            = $args[2];
-    $deleteMissing = (isset($args[3]) && ("-d" == $args[3]));
+    $vocabId       = $args[2];
+    $batchId       = $args[3];
+    $deleteMissing = (isset($args[4]) && ("-d" == $args[4]));
 
     //do some basic validity checks
 
@@ -300,7 +298,7 @@ function run_import_vocabulary($task, $args)
         $type = "vocab";
     }
 
-    if (! is_numeric($id)) {
+    if (! is_numeric($vocabId)) {
         throw new Exception('You must provide a valid ID');
     }
 
@@ -335,7 +333,7 @@ function run_import_vocabulary($task, $args)
 
     //is the object a valid object?
     if ('vocab' == $type) {
-        $vocabObj = VocabularyPeer::retrieveByPK($id);
+        $vocabObj = VocabularyPeer::retrieveByPK($vocabId);
         if (is_null($vocabObj)) {
             throw new Exception('Invalid vocabulary ID');
         }
@@ -354,7 +352,7 @@ function run_import_vocabulary($task, $args)
         $tSlash = preg_match('@(/$)@i', $vocabObj->getUri()) ? '' : '/';
         $tSlash = preg_match('/#$/', $vocabObj->getUri()) ? '' : $tSlash;
     } else {
-        $import               = new ImportVocab($type, $filePath, $id);
+        $import               = new ImportVocab($type, $filePath, $vocabId);
     }
 
     /* From here on the process is the same regardless of UI */
@@ -507,7 +505,8 @@ function run_import_vocabulary($task, $args)
                 $import->getDataColumnIds();
                 $import->processData();
                 //todo: $results should be a class
-                $results[$id] = $import->results;
+                $results[$vocabId] = $import->results;
+                $bacthId = $import->saveResults($batchId);
             }
             break;
         case "json":
@@ -521,7 +520,7 @@ function run_import_vocabulary($task, $args)
 
     /* output to stdout*/
     //          number of objects imported (link to history, filtered on timestamp of import)
-    echo " Rows imported: " . count($results[$id]['success']['rows']) . "\n From File:" . $filePath . "\n";
+    echo " Rows imported: " . count($results[$vocabId]['success']['rows']) . "\n From File:" . $filePath . "\nUse this ID for more in this batch: " . $bacthId;
     //          number of errors (link to error log)
 
 }

@@ -26,8 +26,8 @@ class BatchPeer extends BaseBatchPeer
     $batchRecord->setEventDescription($eventDescription);
     $batchRecord->setEventType($eventType);
     $batchRecord->setRegistryUri($registryURI);
-
-    return $batchRecord->save();
+    $batchRecord->save();
+    return $batchRecord;
 
   }
 

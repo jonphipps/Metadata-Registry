@@ -657,4 +657,40 @@ class ImportVocab
         //todo we should maybe do something a little different and return an error
         return $uri;
     }
+
+    public function saveResults($batchId = '')
+    {
+        $batchLog = new \BatchPeer();
+        if ($batchId) {
+            $criteria = new \Criteria();
+            $criteria->add(\BatchPeer::ID, $batchId);
+            /** @var $batch \Batch */
+            $batch = $batchLog::doSelectOne($criteria);
+        }
+
+        if (empty($batch)) {
+            $batch = $batchLog->createBatchRecord(
+                              time(),
+                                "manual import from file",
+                                "schema",
+                                "manual import (testing)",
+                                "import",
+                                $this->vocabId,
+                                $this->vocabulary->getUri()
+            );
+        }
+        //there's a bunch more stuff we should save here
+        $import = new \FileImportHistory();
+        $import->setFileName($this->file);
+        $import->setFileType($this->type);
+        $import->setMap(serialize($this->mapping));
+        $import->setResults(serialize($this->results));
+        $import->setUserId($this->userId);
+        $import->setSchemaId($this->vocabId);
+
+        $import->setBatch($batch);
+        $import->save();
+
+        return $batch->getId();
+    }
 }
