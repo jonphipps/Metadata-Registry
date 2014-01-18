@@ -51,7 +51,7 @@ class ImportVocab
     /**
      * @var CsvReader
      */
-    private $reader;
+    public $reader;
     /**
      * @var array
      */
@@ -90,7 +90,7 @@ class ImportVocab
      * @param        $file     string
      * @param        $vocabId  integer
      */
-    public function __construct($type, $file, $vocabId)
+    public function __construct($type = '', $file = '', $vocabId = null)
     {
         $this->type    = $type;
         $this->file    = $file;
@@ -109,9 +109,11 @@ class ImportVocab
         $this->prolog['key_column']   = 'id';
         $this->prolog['value_column'] = 'owl:sameAs';
 
-        $this->errors['error']   = array();
-        $this->errors['warning'] = array();
-        $this->errors['notice']  = array();
+        $this->results['errors']['error']   = array();
+        $this->results['errors']['warning'] = array();
+        $this->results['errors']['notice']  = array();
+
+        $this->results['success']['rows'] = array();
 
         //TODO: these should get set somewhere
         $this->deleteMissing        = false;
@@ -250,10 +252,10 @@ class ImportVocab
 
                      //if there's an error store it in the error array
                      //if the error is fatal throw an exception
-                     var_dump($this->prolog);
+                     //var_dump($this->prolog);
                  })
         );
-        $workflow->addWriter(new Writer\ArrayWriter($testArray));
+        //$workflow->addWriter(new Writer\ArrayWriter($testArray));
         $workflow->process();
         //use the prolog to configure namespaces, look up correct resources in the database
         //store the row number of the first non-meta line
@@ -289,12 +291,12 @@ class ImportVocab
                     if (isset($this->prolog['prefix'][$matches[1]])) {
                         $column['iri'] = preg_replace($pattern, $this->prolog['prefix'][$matches[1]], $key);
                     } else {
-                        $this->errors['error'][] = [
-                                                     'action' => "getIri",
-                                                     'error'  =>
-                                                       "Could not find namespace for prefix used in headers: " .
-                                                       $matches[1]
-                                                   ] . "in column '" . $key . "'";
+                        $this->results['errors']['error'][] = [
+                                                                'action' => "getIri",
+                                                                'error'  =>
+                                                                  "Could not find namespace for prefix used in headers: " .
+                                                                  $matches[1]
+                                                              ] . "in column '" . $key . "'";
                     }
                 }
             }
@@ -323,25 +325,13 @@ class ImportVocab
         $this->setVocabularyParams();
         $workflow = new Workflow($this->reader);
         $output   = new ConsoleOutput();
-        // Don’t import the non-metadata
-        $filter = new Filter\CallbackFilter(function ($row) {
-            return ! trim($row['meta']);
-        });
-        $workflow->setGlobalMapping($this->mapping);
-        /** @var $filter Filter\CallbackFilter */
-        $workflow->addFilter($filter);
         $workflow->addWriter(new Writer\ConsoleProgressWriter($output, $this->reader));
         //add a database writer
         $workflow->addWriter(
                  new Writer\CallbackWriter(function ($row) {
                      //lookup the property
-                     if ($this->useCuries) {
-                         $uri = $this->getFqn($row["uri"]);
-                     } else {
-                         $uri = $this->vocabulary->getBaseDomain() . $row["uri"];
-                     }
-                     $property = \SchemaPropertyPeer::retrieveByUri($uri);
-                     if ($property) {
+                     $property = \SchemaPropertyPeer::retrieveByPK($row['id']);
+                     if ($property and $property->getParentUri()) {
                          //usesameasformatch is set then update the URIS
                          if ($this->useSameAsForMatching) {
                              //lookup URI using sameas value
@@ -366,10 +356,14 @@ class ImportVocab
                              //update the related schema id
                              $property->setSchemaPropertyRelatedByIsSubpropertyOf($parentProperty);
                              $property->save();
-                         };
+                         }else{
+                             //found a property, but didn't find a parent
+                             //record it if we should have found one
+                         }
                          //update the statements
                      } else {
                          //we have an error!!!! log it
+                         $this->results['errors']['notice']['rows'][$this->rowCounter] = "some error in this row";
                      }
                  })
         );
@@ -412,9 +406,10 @@ class ImportVocab
 
                      //executeImport:
                      //    serialize the column map
+                     $results = array();
+
                      try {
                          //set the row counter
-                         $this->rowCounter ++;
 
                          //lookup the URI (or the OMR ID if available) for a match
                          //There always has to be a URI on either update or create
@@ -440,9 +435,10 @@ class ImportVocab
                          } else {
                              $rowStatusId = $this->prolog['defaults']['statusId'];
                          }
-
+                         $results['status'] = 'modified';
                          if (! $property) {
                              //          create a new property
+                             $results['status'] = 'created';
                              /** @var \SchemaProperty * */
                              $property = new \SchemaProperty;
                              $property->setSchema($this->vocabulary);
@@ -517,6 +513,11 @@ class ImportVocab
                          //make sure this scrip has permission to write to php default session storage - /var/lib/php/session
                          $property->saveSchemaProperty($this->userId);
 
+                         $results['id']  = $property->getId();
+                         //$results['uri'] = $property->getUri();
+
+                         $StatementCounter = array();
+
                          foreach ($row as $key => $value) {
                              //we skip because we already did them
                              if (! in_array($key, $skipMap)
@@ -527,8 +528,9 @@ class ImportVocab
                                      $elementId = $this->prolog['columns'][$mappedkey]['id'];
                                  } else {
                                      FIXME: //log an error here and exit
-                                     exit("could not continue. mapping error");
+                                     exit("could not continue. mapping error on mapped key: " . $key);
                                  }
+
                                  $propertyId = $property->getId();
                                  //check to see if the property already exists
                                  //note that this also checks the object value as well, so there's no way to update or delete an existing triple
@@ -581,7 +583,16 @@ class ImportVocab
                                          $element->setUpdatedAt($updateTime);
                                          $element->setStatusId($rowStatusId);
                                          $element->save();
+
+                                         $StatementCounter['id']         = $element->getId();
+                                         //$StatementCounter['propertyId'] = $element->getProfilePropertyId();
+                                         //$StatementCounter['object']     = $element->getObject();
+
+                                         $results['statements'][] = $StatementCounter;
                                      }
+
+                                     $this->results['success']['rows'][] = $results;
+
                                  } //the row value is empty
                                  else if ($this->deleteMissing && $element) {
                                      $element->delete();
@@ -605,7 +616,7 @@ class ImportVocab
 
                      //if there's an error store it in the error array
                      //if the error is fatal throw an exception
-                     var_dump($row);
+                     //var_dump($row);
                  })
         );
         $workflow->process();
