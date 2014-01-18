@@ -131,6 +131,9 @@ class ImportVocab
           "owl:sameAs"             => "sameas",
           "owl:inverseOf"          => "inverseof",
           "skos:altLabel"          => "altlabel",
+          "skos:broadMatch"        => "broadMatch",
+          "skos:closeMatch"        => "closeMatch",
+          "skos:narrowMatch"       => "narrowMatch",
           "ParentProperty"         => "parent_uri",
           "reg:status"             => "status"
         );
