@@ -8875,6 +8875,7 @@ CREATE TABLE `reg_file_import_history` (
   `user_id` int(11) DEFAULT NULL,
   `vocabulary_id` int(11) DEFAULT NULL,
   `schema_id` int(11) DEFAULT NULL,
+  `batch_id` int(11) DEFAULT NULL,
   `file_name` varchar(255) DEFAULT NULL,
   `file_type` int(11) DEFAULT NULL,
   `results` longtext COMMENT 'stores the serialized results of the import',
@@ -8882,9 +8883,11 @@ CREATE TABLE `reg_file_import_history` (
   KEY `user_id` (`user_id`),
   KEY `vocabulary_id` (`vocabulary_id`),
   KEY `schema_id` (`schema_id`),
+  KEY `batch_id` (`batch_id`),
   CONSTRAINT `reg_file_import_history_fk` FOREIGN KEY (`user_id`) REFERENCES `reg_user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `reg_file_import_history_fk1` FOREIGN KEY (`vocabulary_id`) REFERENCES `reg_vocabulary` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `reg_file_import_history_fk2` FOREIGN KEY (`schema_id`) REFERENCES `reg_schema` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `reg_file_import_history_fk2` FOREIGN KEY (`schema_id`) REFERENCES `reg_schema` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `reg_file_import_history_ibfk_1` FOREIGN KEY (`batch_id`) REFERENCES `reg_batch` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
