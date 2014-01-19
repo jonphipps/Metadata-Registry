@@ -143,7 +143,7 @@ class SchemaPropertyElement extends BaseSchemaPropertyElement
       return;
     }
 
-    $userId = sfContext::getInstance()->getUser()->getSubscriberId();
+    $userId = $this->getUpdatedUserId();
     $schemaPropertyID = $this->getSchemaPropertyId();
 
     $c = new Criteria();
