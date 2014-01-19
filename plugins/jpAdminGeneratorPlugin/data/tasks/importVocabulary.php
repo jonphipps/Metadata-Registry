@@ -48,6 +48,68 @@ ini_set('auto_detect_line_endings', true);
 
 $uploadPath  = SF_ROOT_DIR . DIRECTORY_SEPARATOR . 'web' . DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR;
 
+function run_import_repair($task, $args)
+{
+    xdebug_break();
+    if (count($args) < 1) {
+        throw new Exception('You must provide a batch ID.');
+    }
+    $batchId = $args[0];
+    //get the import history for the batchid
+    $criteria = new Criteria();
+    $criteria->add(\FileImportHistoryPeer::BATCH_ID, $batchId);
+    $batch = \FileImportHistoryPeer::doSelect($criteria);
+    if (empty($batch)) {
+        throw new Exception('Not a valid batch ID.');
+    }
+
+    $criteria = new \Criteria();
+    $criteria->add(\ProfilePropertyPeer::NAME, "isSameAs");
+    /** @var $profileProperty \ProfileProperty */
+    $profileProperty = \ProfilePropertyPeer::doSelectOne($criteria);
+    $sameasId = $profileProperty->getId();
+    //for each one in the list
+    /** @var $history FileImportHistory */
+    foreach ($batch as $history) {
+        //get result array
+        $results = unserialize($history->getResults());
+        $rows = $results['success']['rows'];
+        $userId = $history->getUserId();
+        //for each row
+        foreach ($rows as $row) {
+            //get the references
+            /** @var $property \SchemaProperty */
+            $property = \SchemaPropertyPeer::retrieveByPK($row['id']);
+            /** @var $ref \SchemaProperty */
+            $ref = \SchemaPropertyPeer::retrieveByUri($property->getParentUri());
+            if ($property and $ref) {
+                $property->setSchemaPropertyRelatedByIsSubpropertyOf($ref);
+                $property->save();
+            }
+            //update the parent property
+            if (isset($row['statements'])) {
+            //for each statement
+                foreach ($row['statements'] as $statement) {
+                    //get the references
+
+                    if ($sameasId != $statement['propertyId']) {
+                        /** @var $ref \SchemaProperty */
+                        $ref = \SchemaPropertyPeer::retrieveByUri($statement['object']);
+                    } else {
+                        //ref = the parent
+                        $ref = $property;
+                    }
+                    /** @var $propertyElement \SchemaPropertyElement */
+                    $propertyElement = \SchemaPropertyElementPeer::retrieveByPK($statement['id']);
+                    if ($propertyElement and $ref) {
+                        $propertyElement->setSchemaPropertyRelatedByRelatedSchemaPropertyId($ref);
+                        $propertyElement->save();
+                    }
+                }
+            }
+        }
+    }
+}
 /**
  * this is for importing a list of value vocabulary files.
  *
