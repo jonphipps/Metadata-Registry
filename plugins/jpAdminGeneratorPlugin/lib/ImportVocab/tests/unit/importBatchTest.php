@@ -28,7 +28,7 @@ class importBatchTest extends \Codeception\TestCase\Test
     public function testProcessBatch()
     {
         $results   = array();
-        $folder    = "/var/www/registry.dev/web/uploads/";
+        $folder    = "/var/www/registry/web/uploads/";
         $fileArray = array(
           'rdaelementsetuploadfinal - Agent.csv'         => '81',
           'rdaelementsetuploadfinal - Expression.csv'    => '78',

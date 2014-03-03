@@ -19,7 +19,7 @@ class importTest extends \Codeception\TestCase\Test
     {
         $this->import               = new ImportVocab("schema", "importdata.csv", 1);
         $this->import->importFolder =
-          "/var/www/registry.dev/plugins/jpAdminGeneratorPlugin/lib/ImportVocab/tests/_data/";
+          "/var/www/registry/plugins/jpAdminGeneratorPlugin/lib/ImportVocab/tests/_data/";
     }
 
     protected function _after()
@@ -45,7 +45,7 @@ class importTest extends \Codeception\TestCase\Test
         $this->assertEquals(1, $this->import->vocabId, "the vocabid is set to '1'");
         $this->assertTrue(is_integer($this->import->vocabId), "the vocabid is an integer");
         $this->assertEquals(
-             "/var/www/registry.dev/plugins/jpAdminGeneratorPlugin/lib/ImportVocab/tests/_data/importdata.csv",
+             "/var/www/registry/plugins/jpAdminGeneratorPlugin/lib/ImportVocab/tests/_data/importdata.csv",
                $this->import->importFolder . $this->import->file,
                "the path is set"
         );
