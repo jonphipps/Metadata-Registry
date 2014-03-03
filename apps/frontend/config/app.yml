@@ -1,7 +1,7 @@
 # default values
 all:
   title_prefix: "The Registry! :: "
-  base_domain:         "http://registry:81/uri/"
+  base_domain:         "http://registry.dev/uri/"
   default_language: en
   default_status_id: 1
   default_conneg_type: rdf
