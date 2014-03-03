@@ -202,8 +202,7 @@ class SchemaProperty extends BaseSchemaProperty
 
             if (isset($relatedId)) {
                 $related = SchemaPropertyPeer::retrieveByPK($relatedId);
-                if ($related) {
-                    $relatedUri = $related->getUri();
+                if ($related and $this->getParentUri() != $related->getUri()) {
                     $this->setParentUri($related->getUri());
                 }
             }
@@ -281,10 +280,12 @@ class SchemaProperty extends BaseSchemaProperty
                                 $id    = count($key) ? $key[0] : null;
                                 $field = 'is_subclass_of';
                             }
-                            //find the element
+                            //find the element and make sure it's only for the detail screen
+                            //find the element and make sure it's only for the detail screen
                             $foundOne = false;
+                            /** @var $element \SchemaPropertyElement */
                             foreach ($elements as $element) {
-                                if ($id == $element->getProfilePropertyId()) {
+                                if ($id == $element->getProfilePropertyId() and true == $element->getIsSchemaProperty()) {
                                     //did we make it null?
                                     if (0 === strlen(trim($object))) {
                                         //we have to make sure that it's not a subclass or subproperty
@@ -346,7 +347,7 @@ class SchemaProperty extends BaseSchemaProperty
      */
     public function updateElement(SchemaPropertyElement $element, $userId, $field, $object, $con)
     {
-        static $updatedUri;
+        //static $updatedUri;
 
         if ($element) {
             $element->setIsSchemaProperty(true);
@@ -354,13 +355,13 @@ class SchemaProperty extends BaseSchemaProperty
             //SchemaPropertyElementPeer::updateElement($schema_property, $element, $userId, $field, $con);
 
             if ('is_subproperty_of' == $field || 'is_subclass_of' == $field) {
-                if (! $updatedUri) {
+                //if (! $updatedUri) {
                     $element->setRelatedSchemaPropertyId($this->getIsSubpropertyOf());
                     $object     = $this->getParentUri();
-                    $updatedUri = true;
-                } Else {
-                    return false;
-                }
+                    //$updatedUri = true;
+                //} Else {
+                    //return false;
+                //}
             }
 
             $element->setObject($object ? $object : '');
