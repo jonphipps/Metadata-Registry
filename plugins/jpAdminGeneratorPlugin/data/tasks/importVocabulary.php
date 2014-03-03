@@ -30,7 +30,7 @@ echo "\n";
 //define('SF_APP', $app);
 //define('SF_ENVIRONMENT', $env);
 define('SF_APP', 'frontend');
-define('SF_ENVIRONMENT', 'test');
+define('SF_ENVIRONMENT', 'prod');
 define('SF_ROOT_DIR', sfConfig::get('sf_root_dir'));
 define('SF_DEBUG', false);
 
@@ -50,7 +50,7 @@ $uploadPath  = SF_ROOT_DIR . DIRECTORY_SEPARATOR . 'web' . DIRECTORY_SEPARATOR .
 
 function run_import_repair($task, $args)
 {
-    xdebug_break();
+    //xdebug_break();
     if (count($args) < 1) {
         throw new Exception('You must provide a batch ID.');
     }
@@ -68,6 +68,7 @@ function run_import_repair($task, $args)
     /** @var $profileProperty \ProfileProperty */
     $profileProperty = \ProfilePropertyPeer::doSelectOne($criteria);
     $sameasId = $profileProperty->getId();
+
     //for each one in the list
     /** @var $history FileImportHistory */
     foreach ($batch as $history) {
@@ -83,8 +84,8 @@ function run_import_repair($task, $args)
             /** @var $ref \SchemaProperty */
             $ref = \SchemaPropertyPeer::retrieveByUri($property->getParentUri());
             if ($property and $ref) {
-                $property->setSchemaPropertyRelatedByIsSubpropertyOf($ref);
-                $property->save();
+                $property->setIsSubpropertyOf($ref->getId());
+                $property->saveSchemaProperty($userId);
             }
             //update the parent property
             if (isset($row['statements'])) {
