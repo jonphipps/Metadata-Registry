@@ -1138,6 +1138,8 @@ propel:
       size: 6
       required: true
       default: en
+    languages:
+      type: LONGVARCHAR
     profile_id:
       type: INTEGER
       foreignTable: profile
@@ -1761,6 +1763,13 @@ propel:
     is_admin_for:
       type: BOOLEAN
       default: 1
+    languages:
+      type: LONGVARCHAR
+    default_language:
+      type: CHAR
+      size: 6
+      required: true
+      default: en
   schema_has_version:
     _attributes:
       phpName: SchemaHasVersion

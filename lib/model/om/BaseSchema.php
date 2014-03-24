@@ -153,6 +153,13 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 
 
 	/**
+	 * The value for the languages field.
+	 * @var        string
+	 */
+	protected $languages;
+
+
+	/**
 	 * The value for the profile_id field.
 	 * @var        int
 	 */
@@ -587,6 +594,17 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 	{
 
 		return $this->language;
+	}
+
+	/**
+	 * Get the [languages] column value.
+	 * 
+	 * @return     string
+	 */
+	public function getLanguages()
+	{
+
+		return $this->languages;
 	}
 
 	/**
@@ -1054,6 +1072,28 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 	} // setLanguage()
 
 	/**
+	 * Set the value of [languages] column.
+	 * 
+	 * @param      string $v new value
+	 * @return     void
+	 */
+	public function setLanguages($v)
+	{
+
+		// Since the native PHP type for this column is string,
+		// we will cast the input to a string (if it is not).
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->languages !== $v) {
+			$this->languages = $v;
+			$this->modifiedColumns[] = SchemaPeer::LANGUAGES;
+		}
+
+	} // setLanguages()
+
+	/**
 	 * Set the value of [profile_id] column.
 	 * 
 	 * @param      int $v new value
@@ -1156,16 +1196,18 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 
 			$this->language = $rs->getString($startcol + 18);
 
-			$this->profile_id = $rs->getInt($startcol + 19);
+			$this->languages = $rs->getString($startcol + 19);
 
-			$this->ns_type = $rs->getString($startcol + 20);
+			$this->profile_id = $rs->getInt($startcol + 20);
+
+			$this->ns_type = $rs->getString($startcol + 21);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 21; // 21 = SchemaPeer::NUM_COLUMNS - SchemaPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 22; // 22 = SchemaPeer::NUM_COLUMNS - SchemaPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Schema object", $e);
@@ -1676,9 +1718,12 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 				return $this->getLanguage();
 				break;
 			case 19:
-				return $this->getProfileId();
+				return $this->getLanguages();
 				break;
 			case 20:
+				return $this->getProfileId();
+				break;
+			case 21:
 				return $this->getNsType();
 				break;
 			default:
@@ -1720,8 +1765,9 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 			$keys[16] => $this->getLastUriId(),
 			$keys[17] => $this->getStatusId(),
 			$keys[18] => $this->getLanguage(),
-			$keys[19] => $this->getProfileId(),
-			$keys[20] => $this->getNsType(),
+			$keys[19] => $this->getLanguages(),
+			$keys[20] => $this->getProfileId(),
+			$keys[21] => $this->getNsType(),
 		);
 		return $result;
 	}
@@ -1811,9 +1857,12 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 				$this->setLanguage($value);
 				break;
 			case 19:
-				$this->setProfileId($value);
+				$this->setLanguages($value);
 				break;
 			case 20:
+				$this->setProfileId($value);
+				break;
+			case 21:
 				$this->setNsType($value);
 				break;
 		} // switch()
@@ -1858,8 +1907,9 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[16], $arr)) $this->setLastUriId($arr[$keys[16]]);
 		if (array_key_exists($keys[17], $arr)) $this->setStatusId($arr[$keys[17]]);
 		if (array_key_exists($keys[18], $arr)) $this->setLanguage($arr[$keys[18]]);
-		if (array_key_exists($keys[19], $arr)) $this->setProfileId($arr[$keys[19]]);
-		if (array_key_exists($keys[20], $arr)) $this->setNsType($arr[$keys[20]]);
+		if (array_key_exists($keys[19], $arr)) $this->setLanguages($arr[$keys[19]]);
+		if (array_key_exists($keys[20], $arr)) $this->setProfileId($arr[$keys[20]]);
+		if (array_key_exists($keys[21], $arr)) $this->setNsType($arr[$keys[21]]);
 	}
 
 	/**
@@ -1890,6 +1940,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(SchemaPeer::LAST_URI_ID)) $criteria->add(SchemaPeer::LAST_URI_ID, $this->last_uri_id);
 		if ($this->isColumnModified(SchemaPeer::STATUS_ID)) $criteria->add(SchemaPeer::STATUS_ID, $this->status_id);
 		if ($this->isColumnModified(SchemaPeer::LANGUAGE)) $criteria->add(SchemaPeer::LANGUAGE, $this->language);
+		if ($this->isColumnModified(SchemaPeer::LANGUAGES)) $criteria->add(SchemaPeer::LANGUAGES, $this->languages);
 		if ($this->isColumnModified(SchemaPeer::PROFILE_ID)) $criteria->add(SchemaPeer::PROFILE_ID, $this->profile_id);
 		if ($this->isColumnModified(SchemaPeer::NS_TYPE)) $criteria->add(SchemaPeer::NS_TYPE, $this->ns_type);
 
@@ -1981,6 +2032,8 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 		$copyObj->setStatusId($this->status_id);
 
 		$copyObj->setLanguage($this->language);
+
+		$copyObj->setLanguages($this->languages);
 
 		$copyObj->setProfileId($this->profile_id);
 

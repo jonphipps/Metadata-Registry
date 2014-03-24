@@ -81,6 +81,20 @@ abstract class BaseSchemaHasUser extends BaseObject  implements Persistent {
 	 */
 	protected $is_admin_for = true;
 
+
+	/**
+	 * The value for the languages field.
+	 * @var        string
+	 */
+	protected $languages;
+
+
+	/**
+	 * The value for the default_language field.
+	 * @var        string
+	 */
+	protected $default_language = 'en';
+
 	/**
 	 * @var        Schema
 	 */
@@ -262,6 +276,28 @@ abstract class BaseSchemaHasUser extends BaseObject  implements Persistent {
 	{
 
 		return $this->is_admin_for;
+	}
+
+	/**
+	 * Get the [languages] column value.
+	 * 
+	 * @return     string
+	 */
+	public function getLanguages()
+	{
+
+		return $this->languages;
+	}
+
+	/**
+	 * Get the [default_language] column value.
+	 * 
+	 * @return     string
+	 */
+	public function getDefaultLanguage()
+	{
+
+		return $this->default_language;
 	}
 
 	/**
@@ -459,6 +495,50 @@ abstract class BaseSchemaHasUser extends BaseObject  implements Persistent {
 	} // setIsAdminFor()
 
 	/**
+	 * Set the value of [languages] column.
+	 * 
+	 * @param      string $v new value
+	 * @return     void
+	 */
+	public function setLanguages($v)
+	{
+
+		// Since the native PHP type for this column is string,
+		// we will cast the input to a string (if it is not).
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->languages !== $v) {
+			$this->languages = $v;
+			$this->modifiedColumns[] = SchemaHasUserPeer::LANGUAGES;
+		}
+
+	} // setLanguages()
+
+	/**
+	 * Set the value of [default_language] column.
+	 * 
+	 * @param      string $v new value
+	 * @return     void
+	 */
+	public function setDefaultLanguage($v)
+	{
+
+		// Since the native PHP type for this column is string,
+		// we will cast the input to a string (if it is not).
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->default_language !== $v || $v === 'en') {
+			$this->default_language = $v;
+			$this->modifiedColumns[] = SchemaHasUserPeer::DEFAULT_LANGUAGE;
+		}
+
+	} // setDefaultLanguage()
+
+	/**
 	 * Hydrates (populates) the object variables with values from the database resultset.
 	 *
 	 * An offset (1-based "start column") is specified so that objects can be hydrated
@@ -493,12 +573,16 @@ abstract class BaseSchemaHasUser extends BaseObject  implements Persistent {
 
 			$this->is_admin_for = $rs->getBoolean($startcol + 8);
 
+			$this->languages = $rs->getString($startcol + 9);
+
+			$this->default_language = $rs->getString($startcol + 10);
+
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 9; // 9 = SchemaHasUserPeer::NUM_COLUMNS - SchemaHasUserPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 11; // 11 = SchemaHasUserPeer::NUM_COLUMNS - SchemaHasUserPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating SchemaHasUser object", $e);
@@ -811,6 +895,12 @@ abstract class BaseSchemaHasUser extends BaseObject  implements Persistent {
 			case 8:
 				return $this->getIsAdminFor();
 				break;
+			case 9:
+				return $this->getLanguages();
+				break;
+			case 10:
+				return $this->getDefaultLanguage();
+				break;
 			default:
 				return null;
 				break;
@@ -840,6 +930,8 @@ abstract class BaseSchemaHasUser extends BaseObject  implements Persistent {
 			$keys[6] => $this->getIsMaintainerFor(),
 			$keys[7] => $this->getIsRegistrarFor(),
 			$keys[8] => $this->getIsAdminFor(),
+			$keys[9] => $this->getLanguages(),
+			$keys[10] => $this->getDefaultLanguage(),
 		);
 		return $result;
 	}
@@ -898,6 +990,12 @@ abstract class BaseSchemaHasUser extends BaseObject  implements Persistent {
 			case 8:
 				$this->setIsAdminFor($value);
 				break;
+			case 9:
+				$this->setLanguages($value);
+				break;
+			case 10:
+				$this->setDefaultLanguage($value);
+				break;
 		} // switch()
 	}
 
@@ -930,6 +1028,8 @@ abstract class BaseSchemaHasUser extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[6], $arr)) $this->setIsMaintainerFor($arr[$keys[6]]);
 		if (array_key_exists($keys[7], $arr)) $this->setIsRegistrarFor($arr[$keys[7]]);
 		if (array_key_exists($keys[8], $arr)) $this->setIsAdminFor($arr[$keys[8]]);
+		if (array_key_exists($keys[9], $arr)) $this->setLanguages($arr[$keys[9]]);
+		if (array_key_exists($keys[10], $arr)) $this->setDefaultLanguage($arr[$keys[10]]);
 	}
 
 	/**
@@ -950,6 +1050,8 @@ abstract class BaseSchemaHasUser extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(SchemaHasUserPeer::IS_MAINTAINER_FOR)) $criteria->add(SchemaHasUserPeer::IS_MAINTAINER_FOR, $this->is_maintainer_for);
 		if ($this->isColumnModified(SchemaHasUserPeer::IS_REGISTRAR_FOR)) $criteria->add(SchemaHasUserPeer::IS_REGISTRAR_FOR, $this->is_registrar_for);
 		if ($this->isColumnModified(SchemaHasUserPeer::IS_ADMIN_FOR)) $criteria->add(SchemaHasUserPeer::IS_ADMIN_FOR, $this->is_admin_for);
+		if ($this->isColumnModified(SchemaHasUserPeer::LANGUAGES)) $criteria->add(SchemaHasUserPeer::LANGUAGES, $this->languages);
+		if ($this->isColumnModified(SchemaHasUserPeer::DEFAULT_LANGUAGE)) $criteria->add(SchemaHasUserPeer::DEFAULT_LANGUAGE, $this->default_language);
 
 		return $criteria;
 	}
@@ -1019,6 +1121,10 @@ abstract class BaseSchemaHasUser extends BaseObject  implements Persistent {
 		$copyObj->setIsRegistrarFor($this->is_registrar_for);
 
 		$copyObj->setIsAdminFor($this->is_admin_for);
+
+		$copyObj->setLanguages($this->languages);
+
+		$copyObj->setDefaultLanguage($this->default_language);
 
 
 		$copyObj->setNew(true);

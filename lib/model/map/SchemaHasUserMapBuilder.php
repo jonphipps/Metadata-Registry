@@ -79,6 +79,10 @@ class SchemaHasUserMapBuilder {
 
 		$tMap->addColumn('IS_ADMIN_FOR', 'IsAdminFor', 'boolean', CreoleTypes::BOOLEAN, false, null);
 
+		$tMap->addColumn('LANGUAGES', 'Languages', 'string', CreoleTypes::LONGVARCHAR, false, null);
+
+		$tMap->addColumn('DEFAULT_LANGUAGE', 'DefaultLanguage', 'string', CreoleTypes::CHAR, true, 6);
+
 	} // doBuild()
 
 } // SchemaHasUserMapBuilder
