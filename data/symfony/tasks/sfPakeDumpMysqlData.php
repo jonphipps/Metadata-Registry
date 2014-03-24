@@ -8,7 +8,6 @@ pake_task('mysql-load-data', 'project_exists');
 
 pake_desc('propel-build-all without losing data');
 pake_task('propel-build-all-save-mysql', 'project_exists');
-//debugbreak();
 function run_mysql_dump_data($task, $args) {
 
     $config = set_database($task, $args);
@@ -37,7 +36,6 @@ function run_mysql_dump_data($task, $args) {
 }
 
 function run_mysql_load_data($task, $args) {
-    //debugbreak();
 
     $config = set_database($task, $args);
     //global $config;

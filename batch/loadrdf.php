@@ -21,7 +21,6 @@ if (isset($argv[2]))
 {
   $_SERVER['SERVER_NAME'] = $argv[2];
 }
-//debugbreak();
 
 require_once(dirname(__FILE__).'/../config/arc_config.php');
 

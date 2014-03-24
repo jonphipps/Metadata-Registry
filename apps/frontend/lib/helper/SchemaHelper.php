@@ -8,7 +8,6 @@
   */
   function link_to_related($property)
 {
-  //debugbreak();
   $relSchemaPropertyId = $property->getRelatedSchemaPropertyId();
   if ($relSchemaPropertyId)
   {

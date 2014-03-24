@@ -17,8 +17,6 @@ define('SF_DEBUG',       true);
 
 require_once(SF_ROOT_DIR.DIRECTORY_SEPARATOR.'apps'.DIRECTORY_SEPARATOR.SF_APP.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'config.php');
 
-debugbreak();
-
 // initialize database manager
 $databaseManager = new sfDatabaseManager();
 $databaseManager->initialize();

@@ -54,7 +54,7 @@ foreach ($config['roles'] as $role => $roleArray)
   //merge the action selectors into $selectors
   foreach ($config['actions'] as $action => $actionArray)
   {
-//if ($role == 'vocabadmin' && $action == 'edit') debugbreak();
+//if ($role == 'vocabadmin' && $action == 'edit');
     $selectors = $initSelectors;
     //merge $action['objects']['selectors']
     if (isset($actionArray['objects']['selectors']))
@@ -199,7 +199,6 @@ foreach ($config['roles'] as $role => $roleArray)
         }
         else if (isset($selectors))
         {
-    //debugbreak();
           // test everything for this role
           foreach ($selectors as $selector => $test)
           {

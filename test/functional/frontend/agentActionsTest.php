@@ -15,7 +15,6 @@ $browser->post('/login', array(
   'commit' => 'sign+in' ))->
   isRedirected()->
   followRedirect();
-//debugbreak();
 $browser->
   get('/agent/list')->
   isStatusCode(200)->

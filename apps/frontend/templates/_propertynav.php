@@ -8,7 +8,6 @@
 <div id="tab_container">
 <ul class="ui-tabs-nav" >
 <?php
-  //debugbreak();
   $i = 0;
   $module = $sf_params->get('module');
   $action = $sf_params->get('action');

@@ -156,7 +156,6 @@ foreach ($config['roles'] as $role => $roleArray)
 
       if (isset($config['roles'][$role]['login']))
       {
-  //debugbreak();
         //$browser->setAuth($config['roles'][$role]['login'], $config['roles'][$role]['password']);
         //login as role
   //      $browser->
@@ -199,7 +198,6 @@ foreach ($config['roles'] as $role => $roleArray)
         }
         else if (isset($selectors))
         {
-    //debugbreak();
           // test everything for this role
           foreach ($selectors as $selector => $test)
           {

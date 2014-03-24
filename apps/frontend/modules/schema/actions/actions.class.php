@@ -26,7 +26,6 @@ class schemaActions extends autoschemaActions
 
   public function executeImport ()
   {
-    //DebugBreak();
     //set the form to display just the import if it's a get
     //if it's a post, we redirect to the import module
     if ($this->getRequest()->getMethod() == sfRequest::POST)
