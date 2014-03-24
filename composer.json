@@ -1,6 +1,9 @@
 {
     "name": "jonphipps/metadata-registry",
     "description": "A metadata registry",
+    "repositories": [
+      { "type": "vcs", "url": "git@github.com:jonphipps/phpspecgen.git" }
+    ],
     "require-dev": {
         "codeception/codeception": "dev-master",
         "codeception/specify": "*",
@@ -31,7 +34,8 @@
         "symfony/validator": "*",
         "symfony/config": "*",
         "symfony/intl": "*",
-        "symfony/http-foundation": "*"
+        "symfony/http-foundation": "*",
+        "njh/phpspecgen": "dev-master"
     },
     "autoload": {
         "classmap": ["plugins/jpAdminGeneratorPlugin/lib/ImportVocab/src"]

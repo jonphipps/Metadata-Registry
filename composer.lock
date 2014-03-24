@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "8fa2ff4a58cc5f60c276cb330e4bd403",
+    "hash": "6000d5d8832e0e47f22be858d181bb04",
     "packages": [
         {
             "name": "ddeboer/data-import",
@@ -168,6 +168,41 @@
                 "google"
             ],
             "time": "2014-02-27 05:32:12"
+        },
+        {
+            "name": "njh/phpspecgen",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jonphipps/phpspecgen.git",
+                "reference": "b26313615af3f10c34f2c525c3bc8a8748d89c8c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jonphipps/phpspecgen/zipball/b26313615af3f10c34f2c525c3bc8a8748d89c8c",
+                "reference": "b26313615af3f10c34f2c525c3bc8a8748d89c8c",
+                "shasum": ""
+            },
+            "require": {
+                "njh/easyrdf": "*"
+            },
+            "type": "library",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Nicholas Humfrey",
+                    "email": "njh@aelius.com",
+                    "homepage": "http://www.aelius.com/njh/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "phpspecgen is a library for generating HTML documentation for Semantic Web based on ontology definitions in RDFS and OWL.",
+            "support": {
+                "source": "https://github.com/jonphipps/phpspecgen/tree/master"
+            },
+            "time": "2014-01-27 20:58:09"
         },
         {
             "name": "phpoffice/phpexcel",
@@ -374,12 +409,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/HttpFoundation.git",
-                "reference": "0fa4996401cf4e97e621357b6f6a9efa8eee678e"
+                "reference": "b4311cae687a331e939352b81e5a5c87b8f51a0b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/HttpFoundation/zipball/0fa4996401cf4e97e621357b6f6a9efa8eee678e",
-                "reference": "0fa4996401cf4e97e621357b6f6a9efa8eee678e",
+                "url": "https://api.github.com/repos/symfony/HttpFoundation/zipball/b4311cae687a331e939352b81e5a5c87b8f51a0b",
+                "reference": "b4311cae687a331e939352b81e5a5c87b8f51a0b",
                 "shasum": ""
             },
             "require": {
@@ -417,7 +452,7 @@
             ],
             "description": "Symfony HttpFoundation Component",
             "homepage": "http://symfony.com",
-            "time": "2014-02-18 15:41:30"
+            "time": "2014-03-03 12:53:01"
         },
         {
             "name": "symfony/icu",
@@ -2540,6 +2575,7 @@
         "zendframework/zendframework1": 20,
         "google/apiclient": 20,
         "easyrdf/easyrdf": 20,
+        "njh/phpspecgen": 20,
         "codeception/codeception": 20
     },
     "platform": [
