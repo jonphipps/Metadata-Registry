@@ -18,7 +18,8 @@ generator:
       token:          { name: Name, help: A unique token representing this element set. This will be used as the prefix identifying this URI in RDF or a qname in XML}
       uri:            { name: URI, help: The URI of this element set. By default this will be a concatenation of the Registry default domain and the element set Name. }
       community:      { name: Tags, help: Tags identifying communities of practice that this element set addresses }
-      language:       { name: Language, help: Default language for the properties of this element set }
+      language:       { name: Default Language, help: Default language for the textual properties of this element set }
+      languages:      { name: Available Languages, help: Available languages for the textual properties of this element set }
       status_id:      { name: Status, help: Default status for the properties of this element set }
 #      ns_type:
 #        name: Type
@@ -53,11 +54,12 @@ generator:
         id:           { credentials: [administrator], mode: edit }
         agent_id:     { params: peer_method=getAgentsForCurrentUser}
         token:        { params: onblur=updateUri() }
+        languages:    { type: select_language_tag, params: multiple=true }
         language:     { type: select_language_tag }
       hide:           [base_domain]
       display:
         "-Metadata":  { fields: [id, created_at, created_user, updated_at, updated_user], mode: edit }
-        "Detail":     [agent_id, name]
+        "Detail":     [agent_id, name, languages]
 #        "Namespace":  [token, uri, ns_type]
         "Namespace":  [token, uri]
         "Documentation": [url, note, community]
@@ -81,7 +83,7 @@ generator:
         list_users:    { name: - }
       display:
         "-Metadata":   { fields: [id, created_at, created_user, updated_at, updated_user], credentials: [[administrator, schemamaintainer, schemaadmin]] }
-        "Detail":      [_agent, name]
+        "Detail":      [_agent, name, _languages]
 #        "Namespace":   [token, uri, ns_type]
         "Namespace":   [token, _uri]
         "Documentation": [url, note, community]
