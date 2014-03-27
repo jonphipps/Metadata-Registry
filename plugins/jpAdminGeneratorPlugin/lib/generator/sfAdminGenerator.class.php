@@ -25,8 +25,7 @@
  */
 abstract class sfAdminGenerator extends sfCrudGenerator
 {
-  protected
-    $fields = array();
+  protected $fields = array();
 
   /**
    * Returns HTML code for a help icon.
@@ -38,13 +37,14 @@ abstract class sfAdminGenerator extends sfCrudGenerator
    */
   public function getHelpAsIcon($column, $type = '')
   {
-    $help = $this->getParameterValue($type.'.fields.'.$column->getName().'.help');
-    if ($help)
-    {
-      $tmp = "[?php echo image_tag(sfConfig::get('sf_admin_web_dir').'/images/help.png', array('align' => 'absmiddle', 'alt' => __('".$this->escapeString($help)."'), 'title' => __('".$this->escapeString($help)."'))) ?]";
-      if ($type != 'list')
-      {
-         $tmp = '<div class="sf_admin_icon_edit_help" id="sf_admin_icon_edit_help_' . $column->getName() . '">' . $tmp . "</div>";
+    $help = $this->getParameterValue($type . '.fields.' . $column->getName() . '.help');
+    if ($help) {
+      $tmp =
+          "[?php echo image_tag(sfConfig::get('sf_admin_web_dir').'/images/help.png', array('align' => 'absmiddle', 'alt' => __('" .
+          $this->escapeString($help) . "'), 'title' => __('" . $this->escapeString($help) . "'))) ?]";
+      if ($type != 'list') {
+        $tmp = '<div class="sf_admin_icon_edit_help" id="sf_admin_icon_edit_help_' . $column->getName() . '">' . $tmp .
+               "</div>";
       }
       return $tmp;
     }
@@ -62,10 +62,9 @@ abstract class sfAdminGenerator extends sfCrudGenerator
    */
   public function getHelp($column, $type = '')
   {
-    $help = $this->getParameterValue($type.'.fields.'.$column->getName().'.help');
-    if ($help)
-    {
-      return "<div class=\"sf_admin_edit_help\">[?php echo __('".$this->escapeString($help)."') ?]</div>";
+    $help = $this->getParameterValue($type . '.fields.' . $column->getName() . '.help');
+    if ($help) {
+      return "<div class=\"sf_admin_edit_help\">[?php echo __('" . $this->escapeString($help) . "') ?]</div>";
     }
 
     return '';
@@ -89,28 +88,24 @@ abstract class sfAdminGenerator extends sfCrudGenerator
     $method   = 'button_to';
     $li_class = '';
     $only_for = isset($params['only_for']) ? $params['only_for'] : null;
-    $route = isset($params['route']) ? $params['route'] : null;
+    $route    = isset($params['route']) ? $params['route'] : null;
 
     // default values
-    if ($actionName[0] == '_')
-    {
+    if ($actionName[0] == '_') {
       $actionName     = substr($actionName, 1);
       $default_name   = ucfirst(strtr($actionName, '_', ' '));
-      $default_icon   = sfConfig::get('sf_admin_web_dir').'/images/'.$actionName.'_icon.png';
+      $default_icon   = sfConfig::get('sf_admin_web_dir') . '/images/' . $actionName . '_icon.png';
       $default_action = $actionName;
-      $default_class  = 'sf_admin_action_'.$actionName;
+      $default_class  = 'sf_admin_action_' . $actionName;
 
-      if ($actionName == 'save' || $actionName == 'save_and_add' || $actionName == 'save_and_list')
-      {
-        $method = 'submit_tag';
+      if ($actionName == 'save' || $actionName == 'save_and_add' || $actionName == 'save_and_list') {
+        $method          = 'submit_tag';
         $options['name'] = $actionName;
       }
 
-      if ($actionName == 'delete')
-      {
+      if ($actionName == 'delete') {
         $options['post'] = true;
-        if (!isset($options['confirm']))
-        {
+        if (! isset($options['confirm'])) {
           $options['confirm'] = 'Are you sure?';
         }
 
@@ -119,20 +114,16 @@ abstract class sfAdminGenerator extends sfCrudGenerator
         $only_for = 'edit';
       }
 
-      if ($actionName == 'list')
-      {
+      if ($actionName == 'list') {
         $pk_link = false;
-        if (!isset($options['title']))
-        {
+        if (! isset($options['title'])) {
           $options['title'] = 'Show ' . $this->getSingularName() . ' list';
         }
       }
-    }
-    else
-    {
+    } else {
       $default_name   = strtr($actionName, '_', ' ');
-      $default_icon   = sfConfig::get('sf_admin_web_dir').'/images/default_icon.png';
-      $default_action = 'List'.sfInflector::camelize($actionName);
+      $default_icon   = sfConfig::get('sf_admin_web_dir') . '/images/default_icon.png';
+      $default_action = 'List' . sfInflector::camelize($actionName);
       $default_class  = '';
     }
 
@@ -140,90 +131,68 @@ abstract class sfAdminGenerator extends sfCrudGenerator
     $icon   = isset($params['icon']) ? sfToolkit::replaceConstants($params['icon']) : $default_icon;
     $action = isset($params['action']) ? $params['action'] : $default_action;
 
-    if ($pk_link)
-    {
-      $url_params = '?'. $this->getPrimaryKeyUrlParams();
-    }
-    elseif (isset($params['query_string']))
-    {
-      $qry = '';
+    if ($pk_link) {
+      $url_params = '?' . $this->getPrimaryKeyUrlParams();
+    } elseif (isset($params['query_string'])) {
+      $qry         = '';
       $queryString = $params['query_string'];
-      foreach ($queryString as $key => $value)
-      {
+      foreach ($queryString as $key => $value) {
         $qry[] = $key . '=' . $this->getQueryParam($value);
       }
-      if (is_array($qry))
-      {
+      if (is_array($qry)) {
         $qry = implode('&', $qry);
       }
-      $url_params = '?'. $qry . "'";
-    }
-    else
-    {
+      $url_params = '?' . $qry . "'";
+    } else {
       $url_params = '\'';;
     }
 
-    if (!isset($options['title']))
-    {
+    if (! isset($options['title'])) {
       $options['title'] = $default_name;
     }
 
-    if (!isset($options['class']) && $default_class)
-    {
+    if (! isset($options['class']) && $default_class) {
       $options['class'] = $default_class;
-    }
-    else
-    {
-      $options['style'] = 'background: #ffc url('.$icon.') no-repeat 2px 3px; padding-left:20px !important';
+    } else {
+      $options['style'] = 'background: #ffc url(' . $icon . ') no-repeat 2px 3px; padding-left:20px !important';
     }
 
+    $li_class = $li_class ? ' class="' . $li_class . '"' : '';
 
-    $li_class = $li_class ? ' class="'.$li_class.'"' : '';
+    $html = '<li' . $li_class . '>';
 
-    $html = '<li'.$li_class.'>';
-
-    if ($only_for == 'edit')
-    {
-      $html .= '[?php if ('.$this->getPrimaryKeyIsSet().'): ?]'."\n";
-    }
-    else if ($only_for == 'create')
-    {
-      $html .= '[?php if (!'.$this->getPrimaryKeyIsSet().'): ?]'."\n";
-    }
-    else if ($only_for !== null)
-    {
-      throw new sfConfigurationException(sprintf('The "only_for" parameter can only take "create" or "edit" as argument ("%s")', $only_for));
+    if ($only_for == 'edit') {
+      $html .= '[?php if (' . $this->getPrimaryKeyIsSet() . '): ?]' . "\n";
+    } else if ($only_for == 'create') {
+      $html .= '[?php if (!' . $this->getPrimaryKeyIsSet() . '): ?]' . "\n";
+    } else if ($only_for !== null) {
+      throw new sfConfigurationException(
+          sprintf('The "only_for" parameter can only take "create" or "edit" as argument ("%s")', $only_for)
+      );
     }
 
-    if ($method == 'submit_tag')
-    {
-      $html .= '[?php echo submit_tag(__(\''.$name.'\'), '.var_export($options, true).') ?]';
-    }
-    else
-    {
+    if ($method == 'submit_tag') {
+      $html .= '[?php echo submit_tag(__(\'' . $name . '\'), ' . var_export($options, true) . ') ?]';
+    } else {
       $phpOptions = var_export($options, true);
 
       // little hack
       $phpOptions = preg_replace("/'confirm' => '(.+?)(?<!\\\)'/", '\'confirm\' => __(\'$1\')', $phpOptions);
 
-      if ($route)
-      {
-        $actionPath = "@".$route  ;
-      }
-      else
-      {
-        $actionPath = $this->getModuleName().'/'.$action;
+      if ($route) {
+        $actionPath = "@" . $route;
+      } else {
+        $actionPath = $this->getModuleName() . '/' . $action;
       }
 
-      $html .= "[?php echo button_to(__('".$name."'), '".$actionPath.$url_params.", ".$phpOptions.") ?]";
+      $html .= "[?php echo button_to(__('" . $name . "'), '" . $actionPath . $url_params . ", " . $phpOptions . ") ?]";
     }
 
-    if ($only_for !== null)
-    {
-      $html .= '[?php endif; ?]'."\n";
+    if ($only_for !== null) {
+      $html .= '[?php endif; ?]' . "\n";
     }
 
-    $html .= '</li>'."\n";
+    $html .= '</li>' . "\n";
 
     return $html;
   }
@@ -231,16 +200,14 @@ abstract class sfAdminGenerator extends sfCrudGenerator
   public function getQueryParam($value)
   {
     $qte = $value{0};
-    if ($qte == "'" || $qte == '"')
-    {
+    if ($qte == "'" || $qte == '"') {
       //it's a string
-      return trim($value,"'\"");
-    }
-    else
-    {
+      return trim($value, "'\"");
+    } else {
       return "'.\$" . $this->getSingularName() . "->get" . sfInflector::camelize($value) . "().'";
     }
   }
+
   /**
    * Returns HTML code for an action link.
    *
@@ -255,37 +222,36 @@ abstract class sfAdminGenerator extends sfCrudGenerator
     $options = isset($params['params']) ? sfToolkit::stringToArray($params['params']) : array();
 
     // default values
-    if ($actionName[0] == '_')
-    {
+    if ($actionName[0] == '_') {
       $actionName = substr($actionName, 1);
       $name       = $actionName;
-      $icon       = sfConfig::get('sf_admin_web_dir').'/images/'.$actionName.'_icon.png';
+      $icon       = sfConfig::get('sf_admin_web_dir') . '/images/' . $actionName . '_icon.png';
       $action     = $actionName;
 
-      if ($actionName == 'delete')
-      {
+      if ($actionName == 'delete') {
         $options['post'] = true;
-        if (!isset($options['confirm']))
-        {
+        if (! isset($options['confirm'])) {
           $options['confirm'] = 'Are you sure?';
         }
       }
-    }
-    else
-    {
+    } else {
       $name   = isset($params['name']) ? $params['name'] : $actionName;
-      $icon   = isset($params['icon']) ? sfToolkit::replaceConstants($params['icon']) : sfConfig::get('sf_admin_web_dir').'/images/default_icon.png';
-      $action = isset($params['action']) ? $params['action'] : 'List'.sfInflector::camelize($actionName);
+      $icon   = isset($params['icon']) ? sfToolkit::replaceConstants($params['icon']) :
+          sfConfig::get('sf_admin_web_dir') . '/images/default_icon.png';
+      $action = isset($params['action']) ? $params['action'] : 'List' . sfInflector::camelize($actionName);
     }
 
-    $url_params = $pk_link ? '?'.$this->getPrimaryKeyUrlParams() : '\'';
+    $url_params = $pk_link ? '?' . $this->getPrimaryKeyUrlParams() : '\'';
 
     $phpOptions = var_export($options, true);
 
     // little hack
     $phpOptions = preg_replace("/'confirm' => '(.+?)(?<!\\\)'/", '\'confirm\' => __(\'$1\')', $phpOptions);
 
-    return '[?php echo link_to(image_tag(\''.$icon.'\', array(\'alt\' => __(\''.$name.'\'), \'title\' => __(\''.$name.'\'))), \''.$this->getModuleName().'/'.$action.$url_params.($options ? ', '.$phpOptions : '').') ?]';
+    return
+        '[?php echo link_to(image_tag(\'' . $icon . '\', array(\'alt\' => __(\'' . $name . '\'), \'title\' => __(\'' .
+        $name . '\'))), \'' . $this->getModuleName() . '/' . $action . $url_params .
+        ($options ? ', ' . $phpOptions : '') . ') ?]';
   }
 
   /**
@@ -299,42 +265,44 @@ abstract class sfAdminGenerator extends sfCrudGenerator
   public function getColumnEditTag($column, $params = array())
   {
     // user defined parameters
-    $user_params = $this->getParameterValue('edit.fields.'.$column->getName().'.params');
+    $user_params = $this->getParameterValue('edit.fields.' . $column->getName() . '.params');
     $user_params = is_array($user_params) ? $user_params : sfToolkit::stringToArray($user_params);
     $params      = $user_params ? array_merge($params, $user_params) : $params;
 
-    if ($column->isComponent())
-    {
-      return "get_component('".$this->getModuleName()."', '".$column->getName()."', array('type' => 'edit', '{$this->getSingularName()}' => \${$this->getSingularName()}))";
-    }
-    else if ($column->isPartial())
-    {
-      return "get_partial('".$column->getName()."', array('type' => 'edit', '{$this->getSingularName()}' => \${$this->getSingularName()}))";
+    if ($column->isComponent()) {
+      return "get_component('" . $this->getModuleName() . "', '" . $column->getName() .
+             "', array('type' => 'edit', '{$this->getSingularName()}' => \${$this->getSingularName()}))";
+    } else if ($column->isPartial()) {
+      return "get_partial('" . $column->getName() .
+             "', array('type' => 'edit', '{$this->getSingularName()}' => \${$this->getSingularName()}))";
     }
 
     // default control name
-    $params = array_merge(array('control_name' => $this->getSingularName().'['.$column->getName().']'), $params);
+    $params = array_merge(array('control_name' => $this->getSingularName() . '[' . $column->getName() . ']'), $params);
 
     // default parameter values
     $type = $column->getCreoleType();
-    if ($type == CreoleTypes::DATE)
-    {
-      $params = array_merge(array('rich' => true, 'calendar_button_img' => sfConfig::get('sf_admin_web_dir').'/images/date.png'), $params);
-    }
-    else if ($type == CreoleTypes::TIMESTAMP)
-    {
-      $params = array_merge(array('rich' => true, 'withtime' => true, 'calendar_button_img' => sfConfig::get('sf_admin_web_dir').'/images/date.png'), $params);
+    if ($type == CreoleTypes::DATE) {
+      $params = array_merge(
+          array('rich' => true, 'calendar_button_img' => sfConfig::get('sf_admin_web_dir') . '/images/date.png'),
+          $params
+      );
+    } else if ($type == CreoleTypes::TIMESTAMP) {
+      $params = array_merge(
+          array(
+              'rich'                => true,
+              'withtime'            => true,
+              'calendar_button_img' => sfConfig::get('sf_admin_web_dir') . '/images/date.png'
+          ),
+          $params
+      );
     }
 
     // user sets a specific tag to use
-    if ($inputType = $this->getParameterValue('edit.fields.'.$column->getName().'.type'))
-    {
-      if ($inputType == 'plain')
-      {
+    if ($inputType = $this->getParameterValue('edit.fields.' . $column->getName() . '.type')) {
+      if ($inputType == 'plain') {
         return $this->getColumnListTag($column, $params);
-      }
-      else
-      {
+      } else {
         return $this->getPHPObjectHelper($inputType, $column, $params);
       }
     }
@@ -352,16 +320,13 @@ abstract class sfAdminGenerator extends sfCrudGenerator
    */
   public function getColumnCategories($paramName)
   {
-    if (is_array($this->getParameterValue($paramName)))
-    {
+    if (is_array($this->getParameterValue($paramName))) {
       $fields = $this->getParameterValue($paramName);
 
       // do we have categories?
-      if (!isset($fields[0]))
-      {
+      if (! isset($fields[0])) {
         return array_keys($fields);
       }
-
     }
 
     return array('NONE');
@@ -372,91 +337,75 @@ abstract class sfAdminGenerator extends sfCrudGenerator
    *
    * This overrides the same function in sfAdminGenerator
    *
-   * @param string $content The content
-   * @param array  $params  (optional, default = array()) The $array parameters
-   * @param bool   $inRow   (optional, default = false)
+   * @param string $content    The content
+   * @param array  $params     (optional, default = array()) The $array parameters
+   * @param bool   $inRow      (optional, default = false)
    * @param bool   $useObjects (optional, default = false)
    * @param string $actionName (optional, default = null)
    *
    * @return string HTML code
    */
-  public function addCredentialCondition($content, $params = array(), $inRow = false, $useObjects = false, $actionName = null)
-  {
-    if (isset($params['credentials']))
-    {
-      if ($useObjects)
-      {
-        if ($actionName[0] == '_')
-        {
+  public function addCredentialCondition(
+      $content,
+      $params = array(),
+      $inRow = false,
+      $useObjects = false,
+      $actionName = null
+  ) {
+    if (isset($params['credentials'])) {
+      if ($useObjects) {
+        if ($actionName[0] == '_') {
           $actionName = substr($actionName, 1);
         }
         //check the security for some more configuration
-        if ($actionName)
-        {
+        if ($actionName) {
           $objectCredArray = myUser::parseSecurity($this->security, $actionName);
-          if (isset($objectCredArray['key']))
-          {
-            $class = $objectCredArray['key']['class'];
+          if (isset($objectCredArray['key'])) {
+            $class  = $objectCredArray['key']['class'];
             $method = $objectCredArray['key']['method'];
             //$requestParam = $objectCredArray['request_param'];
             //$key = "call_user_func(array('$class', '$method'), \$sf_request->getParameter('$requestParam'))";
             $key = '$' . $class . '->' . $method . '()';
-          }
-          else if (isset($objectCredArray['request_param']))
-          {
+          } else if (isset($objectCredArray['request_param'])) {
             $requestParam = $objectCredArray['request_param'];
-            $key = "\$sf_request->getParameter('$requestParam')";
-          }
-          else
-          {
+            $key          = "\$sf_request->getParameter('$requestParam')";
+          } else {
             //only supports non-segmented keys at the moment
-            $key = $this->getPrimaryKeyIsSet() ;
+            $key = $this->getPrimaryKeyIsSet();
           }
 
-          if (isset($objectCredArray['module']))
-          {
+          if (isset($objectCredArray['module'])) {
             $module = $objectCredArray['module'];
-          }
-          else
-          {
+          } else {
             $module = $this->moduleName;
           }
 
           $insert = "hasObjectCredential($key, '$module', ";
-        }
-        else
-        {
+        } else {
           $insert = 'hasCredential(';
         }
-      }
-      else
-      {
+      } else {
         $insert = 'hasCredential(';
       }
 
       $credentials = str_replace("\n", ' ', var_export($params['credentials'], true));
 
-      if ($inRow)
-      {
-         return <<<EOF
+      if ($inRow) {
+        return <<<EOF
 [?php if (\$sf_user->$insert $credentials)): ?]
 $content
 [?php else: ?]
 &nbsp;
 [?php endif; ?]
 EOF;
-      }
-      else
-      {
-      return <<<EOF
+      } else {
+        return <<<EOF
 [?php if (\$sf_user->$insert $credentials)): ?]
 $content [?php endif; ?]
 
 EOF;
       }
-    }
-    else
-    {
+    } else {
       return $content;
     }
   }
@@ -475,44 +424,32 @@ EOF;
 
     // user has set a personnalized list of fields?
     $fields = $this->getParameterValue($paramName);
-    if (is_array($fields))
-    {
+    if (is_array($fields)) {
       // categories?
-      if (isset($fields[0]))
-      {
+      if (isset($fields[0])) {
         // simulate a default one
         $fields = array($category => $fields);
       }
 
-      if (!$fields)
-      {
+      if (! $fields) {
         return array();
       }
 
       //if there's a specific fields array, use $fields[$category]['fields'] instead of $fields[$category]
-      if (isset($fields[$category]['fields']))
-      {
-         $fieldsArray = $fields[$category]['fields'];
-      }
-      elseif (isset($fields[$category]))
-      {
-         $fieldsArray = $fields[$category];
-      }
-      else
-      {
-         $fieldsArray = $fields;
+      if (isset($fields[$category]['fields'])) {
+        $fieldsArray = $fields[$category]['fields'];
+      } elseif (isset($fields[$category])) {
+        $fieldsArray = $fields[$category];
+      } else {
+        $fieldsArray = $fields;
       }
 
-
-      foreach ($fieldsArray as $field)
-      {
+      foreach ($fieldsArray as $field) {
         list($field, $flags) = $this->splitFlag($field);
 
         $phpNames[] = $this->getAdminColumnForField($field, $flags);
       }
-    }
-    else
-    {
+    } else {
       // no, just return the full list of columns in table
       return $this->getAllColumns();
     }
@@ -530,10 +467,9 @@ EOF;
   public function splitFlag($text)
   {
     $flags = array();
-    while (in_array($text[0], array('=', '-', '+', '_', '~')))
-    {
+    while (in_array($text[0], array('=', '-', '+', '_', '~'))) {
       $flags[] = $text[0];
-      $text = substr($text, 1);
+      $text    = substr($text, 1);
     }
 
     return array($text, $flags);
@@ -549,12 +485,9 @@ EOF;
    */
   public function getParameterValue($key, $default = null)
   {
-    if (preg_match('/^([^\.]+)\.fields\.(.+)$/', $key, $matches))
-    {
+    if (preg_match('/^([^\.]+)\.fields\.(.+)$/', $key, $matches)) {
       return $this->getFieldParameterValue($matches[2], $matches[1], $default);
-    }
-    else
-    {
+    } else {
       return $this->getValueFromKey($key, $default);
     }
   }
@@ -570,25 +503,20 @@ EOF;
    */
   protected function getFieldParameterValue($key, $type = '', $default = null)
   {
-    $retval = $this->getValueFromKey($type.'.fields.'.$key, $default);
-    if ($retval !== null)
-    {
+    $retval = $this->getValueFromKey($type . '.fields.' . $key, $default);
+    if ($retval !== null) {
       return $retval;
     }
 
-    $retval = $this->getValueFromKey('fields.'.$key, $default);
-    if ($retval !== null)
-    {
+    $retval = $this->getValueFromKey('fields.' . $key, $default);
+    if ($retval !== null) {
       return $retval;
     }
 
-    if (preg_match('/\.name$/', $key))
-    {
+    if (preg_match('/\.name$/', $key)) {
       // default field.name
       return sfInflector::humanize(($pos = strpos($key, '.')) ? substr($key, 0, $pos) : $key);
-    }
-    else
-    {
+    } else {
       return null;
     }
   }
@@ -596,7 +524,7 @@ EOF;
   /**
    * Gets the value for a given key.
    *
-   * @param string $key The key name
+   * @param string $key     The key name
    * @param mixed  $default (optional, default = null) The default value
    *
    * @return mixed The key value
@@ -604,22 +532,17 @@ EOF;
   protected function getValueFromKey($key, $default = null)
   {
     $ref   =& $this->params;
-    $parts =  explode('.', $key);
-    $count =  count($parts);
-    for ($i = 0; $i < $count; $i++)
-    {
+    $parts = explode('.', $key);
+    $count = count($parts);
+    for ($i = 0; $i < $count; $i ++) {
       $partKey = $parts[$i];
-      if (!isset($ref[$partKey]))
-      {
+      if (! isset($ref[$partKey])) {
         return $default;
       }
 
-      if ($count == $i + 1)
-      {
+      if ($count == $i + 1) {
         return $ref[$partKey];
-      }
-      else
-      {
+      } else {
         $ref =& $ref[$partKey];
       }
     }
@@ -630,8 +553,8 @@ EOF;
   /**
    * Wraps a content for I18N.
    *
-   * @param string $key The key name
-   * @param string $default (optional, default = null)
+   * @param string $key      The key name
+   * @param string $default  (optional, default = null)
    * @param bool   $withEcho (optional, default = true)
    *
    * @return string HTML code
@@ -643,38 +566,30 @@ EOF;
     // find %%xx%% strings
     preg_match_all('/%%([^%]+)%%/', $value, $matches, PREG_PATTERN_ORDER);
     $this->params['tmp']['display'] = array();
-    foreach ($matches[1] as $name)
-    {
+    foreach ($matches[1] as $name) {
       $this->params['tmp']['display'][] = $name;
     }
 
     $vars = array();
-    foreach ($this->getColumns('tmp.display') as $column)
-    {
-      if ($column->isLink())
-      {
-        $vars[] = '\'%%'.$column->getName().'%%\' => link_to('.$this->getColumnListTag($column).', \''.$this->getModuleName().'/show?'.$this->getPrimaryKeyUrlParams().')';
-      }
-      elseif ($column->isPartial())
-      {
-        $vars[] = '\'%%_'.$column->getName().'%%\' => '.$this->getColumnListTag($column);
-      }
-      else if ($column->isComponent())
-      {
-        $vars[] = '\'%%~'.$column->getName().'%%\' => '.$this->getColumnListTag($column);
-      }
-      else
-      {
-        $vars[] = '\'%%'.$column->getName().'%%\' => '.$this->getColumnListTag($column);
+    foreach ($this->getColumns('tmp.display') as $column) {
+      if ($column->isLink()) {
+        $vars[] = '\'%%' . $column->getName() . '%%\' => link_to(' . $this->getColumnListTag($column) . ', \'' .
+                  $this->getModuleName() . '/show?' . $this->getPrimaryKeyUrlParams() . ')';
+      } elseif ($column->isPartial()) {
+        $vars[] = '\'%%_' . $column->getName() . '%%\' => ' . $this->getColumnListTag($column);
+      } else if ($column->isComponent()) {
+        $vars[] = '\'%%~' . $column->getName() . '%%\' => ' . $this->getColumnListTag($column);
+      } else {
+        $vars[] = '\'%%' . $column->getName() . '%%\' => ' . $this->getColumnListTag($column);
       }
     }
 
     // strip all = signs
     $value = preg_replace('/%%=([^%]+)%%/', '%%$1%%', $value);
 
-    $i18n = '__(\''.$value.'\', '."\n".'array('.implode(",\n", $vars).'))';
+    $i18n = '__(\'' . $value . '\', ' . "\n" . 'array(' . implode(",\n", $vars) . '))';
 
-    return $withEcho ? '[?php echo '.$i18n.' ?]' : $i18n;
+    return $withEcho ? '[?php echo ' . $i18n . ' ?]' : $i18n;
   }
 
   /**
@@ -690,14 +605,16 @@ EOF;
     // find %%xx%% strings
     preg_match_all('/%%([^%]+)%%/', $value, $matches, PREG_PATTERN_ORDER);
     $this->params['tmp']['display'] = array();
-    foreach ($matches[1] as $name)
-    {
+    foreach ($matches[1] as $name) {
       $this->params['tmp']['display'][] = $name;
     }
 
-    foreach ($this->getColumns('tmp.display') as $column)
-    {
-      $value = str_replace('%%'.$column->getName().'%%', (($developed) ? '{' : '').$this->getColumnGetter($column, $developed, 'this->').(($developed) ? '}' : ''), $value);
+    foreach ($this->getColumns('tmp.display') as $column) {
+      $value = str_replace(
+          '%%' . $column->getName() . '%%',
+          (($developed) ? '{' : '') . $this->getColumnGetter($column, $developed, 'this->') . (($developed) ? '}' : ''),
+          $value
+      );
     }
 
     return $value;
@@ -740,7 +657,7 @@ EOF;
    */
   public function getColumnTag($column, $params = array(), $action = 'list')
   {
-    $user_params = $this->getParameterValue($action.'.fields.'.$column->getName().'.params');
+    $user_params = $this->getParameterValue($action . '.fields.' . $column->getName() . '.params');
     $user_params = is_array($user_params) ? $user_params : sfToolkit::stringToArray($user_params);
     $params      = $user_params ? array_merge($params, $user_params) : $params;
 
@@ -748,25 +665,18 @@ EOF;
 
     $columnGetter = $this->getColumnGetter($column, true);
 
-    if ($column->isComponent())
-    {
-      return "get_component('".$this->getModuleName()."', '".$column->getName()."', array('type' => 'list', '{$this->getSingularName()}' => \${$this->getSingularName()}))";
-    }
-    else if ($column->isPartial())
-    {
-      return "get_partial('".$column->getName()."', array('type' => 'list', '{$this->getSingularName()}' => \${$this->getSingularName()}))";
-    }
-    else if ($type == CreoleTypes::DATE || $type == CreoleTypes::TIMESTAMP)
-    {
+    if ($column->isComponent()) {
+      return "get_component('" . $this->getModuleName() . "', '" . $column->getName() .
+             "', array('type' => 'list', '{$this->getSingularName()}' => \${$this->getSingularName()}))";
+    } else if ($column->isPartial()) {
+      return "get_partial('" . $column->getName() .
+             "', array('type' => 'list', '{$this->getSingularName()}' => \${$this->getSingularName()}))";
+    } else if ($type == CreoleTypes::DATE || $type == CreoleTypes::TIMESTAMP) {
       $format = isset($params['date_format']) ? $params['date_format'] : ($type == CreoleTypes::DATE ? 'D' : 'f');
       return "($columnGetter !== null && $columnGetter !== '') ? format_date($columnGetter, \"$format\") : ''";
-    }
-    elseif ($type == CreoleTypes::BOOLEAN)
-    {
+    } elseif ($type == CreoleTypes::BOOLEAN) {
       return "$columnGetter ? image_tag(sfConfig::get('sf_admin_web_dir').'/images/tick.png') : '&nbsp;'";
-    }
-    else
-    {
+    } else {
       return "$columnGetter";
     }
   }
@@ -781,88 +691,90 @@ EOF;
    */
   public function getColumnFilterTag($column, $params = array())
   {
-    $user_params = $this->getParameterValue('list.fields.'.$column->getName().'.params');
+    $user_params = $this->getParameterValue('list.fields.' . $column->getName() . '.params');
     $user_params = is_array($user_params) ? $user_params : sfToolkit::stringToArray($user_params);
     $params      = $user_params ? array_merge($params, $user_params) : $params;
 
-    if ($column->isComponent())
-    {
-      return "get_component('".$this->getModuleName()."', '".$column->getName()."', array('type' => 'filter'))";
-    }
-    else if ($column->isPartial())
-    {
-      return "get_partial('".$column->getName()."', array('type' => 'filter', 'filters' => \$filters))";
+    if ($column->isComponent()) {
+      return "get_component('" . $this->getModuleName() . "', '" . $column->getName() . "', array('type' => 'filter'))";
+    } else if ($column->isPartial()) {
+      return "get_partial('" . $column->getName() . "', array('type' => 'filter', 'filters' => \$filters))";
     }
 
     $type = $column->getCreoleType();
 
-    $default_value = "isset(\$filters['".$column->getName()."']) ? \$filters['".$column->getName()."'] : null";
-    $unquotedName = 'filters['.$column->getName().']';
-    $name = "'$unquotedName'";
+    $default_value = "isset(\$filters['" . $column->getName() . "']) ? \$filters['" . $column->getName() . "'] : null";
+    $unquotedName  = 'filters[' . $column->getName() . ']';
+    $name          = "'$unquotedName'";
 
-    if ($column->isForeignKey())
-    {
+    if ($column->isForeignKey()) {
 
       $related_class = isset($params['related_class']) ? $params['related_class'] : $this->getRelatedClassName($column);
-      $peer_method = isset($params['peer_method']) ? $params['peer_method'] : false;
-      $text_method = isset($params['text_method']) ? $params['text_method'] : '__toString' ;
+      $peer_method   = isset($params['peer_method']) ? $params['peer_method'] : false;
+      $text_method   = isset($params['text_method']) ? $params['text_method'] : '__toString';
 
-      $paramArray = array('include_blank' => true, 'related_class'=>$related_class, 'text_method'=>$text_method, 'control_name'=>$unquotedName);
-      if ($peer_method)
-      {
+      $paramArray = array(
+          'include_blank' => true,
+          'related_class' => $related_class,
+          'text_method'   => $text_method,
+          'control_name'  => $unquotedName
+      );
+      if ($peer_method) {
         $paramArray['peer_method'] = $peer_method;
       }
       $params = $this->getObjectTagParams($params, $paramArray);
       return "object_select_tag($default_value, null, $params)";
-
-    }
-    else if ($type == CreoleTypes::DATE)
-    {
+    } else if ($type == CreoleTypes::DATE) {
       // rich=false not yet implemented
-      $params = $this->getObjectTagParams($params, array('rich' => true, 'calendar_button_img' => sfConfig::get('sf_admin_web_dir').'/images/date.png'));
+      $params = $this->getObjectTagParams(
+          $params,
+          array('rich' => true, 'calendar_button_img' => sfConfig::get('sf_admin_web_dir') . '/images/date.png')
+      );
       return "input_date_range_tag($name, $default_value, $params)";
-    }
-    else if ($type == CreoleTypes::TIMESTAMP)
-    {
+    } else if ($type == CreoleTypes::TIMESTAMP) {
       // rich=false not yet implemented
-      $params = $this->getObjectTagParams($params, array('rich' => true, 'withtime' => true, 'calendar_button_img' => sfConfig::get('sf_admin_web_dir').'/images/date.png'));
+      $params = $this->getObjectTagParams(
+          $params,
+          array(
+              'rich'                => true,
+              'withtime'            => true,
+              'calendar_button_img' => sfConfig::get('sf_admin_web_dir') . '/images/date.png'
+          )
+      );
       return "input_date_range_tag($name, $default_value, $params)";
-    }
-    else if ($type == CreoleTypes::BOOLEAN)
-    {
+    } else if ($type == CreoleTypes::BOOLEAN) {
       $defaultIncludeCustom = '__("yes or no")';
 
       $option_params = $this->getObjectTagParams($params, array('include_custom' => $defaultIncludeCustom));
-      $params = $this->getObjectTagParams($params);
+      $params        = $this->getObjectTagParams($params);
 
       // little hack
-      $option_params = preg_replace("/'".preg_quote($defaultIncludeCustom)."'/", $defaultIncludeCustom, $option_params);
+      $option_params =
+          preg_replace("/'" . preg_quote($defaultIncludeCustom) . "'/", $defaultIncludeCustom, $option_params);
 
       $options = "options_for_select(array(1 => __('yes'), 0 => __('no')), $default_value, $option_params)";
 
       return "select_tag($name, $options, $params)";
-    }
-    else if ($type == CreoleTypes::CHAR || $type == CreoleTypes::VARCHAR || $type == CreoleTypes::TEXT || $type == CreoleTypes::LONGVARCHAR)
-    {
-      $max = $this->getParameterValue('defaults.filter.char_max', 15);
-      $size = ($column->getSize() < $max ? $column->getSize() : $max);
+    } else if ($type == CreoleTypes::CHAR || $type == CreoleTypes::VARCHAR || $type == CreoleTypes::TEXT ||
+               $type == CreoleTypes::LONGVARCHAR
+    ) {
+      $max    = $this->getParameterValue('defaults.filter.char_max', 15);
+      $size   = ($column->getSize() < $max ? $column->getSize() : $max);
       $params = $this->getObjectTagParams($params, array('size' => $size));
       return "input_tag($name, $default_value, $params)";
-    }
-    else if ($type == CreoleTypes::INTEGER || $type == CreoleTypes::TINYINT || $type == CreoleTypes::SMALLINT || $type == CreoleTypes::BIGINT)
-    {
-      $size = $this->getParameterValue('defaults.filter.int_size', 7);
+    } else if ($type == CreoleTypes::INTEGER || $type == CreoleTypes::TINYINT || $type == CreoleTypes::SMALLINT ||
+               $type == CreoleTypes::BIGINT
+    ) {
+      $size   = $this->getParameterValue('defaults.filter.int_size', 7);
       $params = $this->getObjectTagParams($params, array('size' => $size));
       return "input_tag($name, $default_value, $params)";
-    }
-    else if ($type == CreoleTypes::FLOAT || $type == CreoleTypes::DOUBLE || $type == CreoleTypes::DECIMAL || $type == CreoleTypes::NUMERIC || $type == CreoleTypes::REAL)
-    {
-      $size = $this->getParameterValue('defaults.filter.float_size', 7);
+    } else if ($type == CreoleTypes::FLOAT || $type == CreoleTypes::DOUBLE || $type == CreoleTypes::DECIMAL ||
+               $type == CreoleTypes::NUMERIC || $type == CreoleTypes::REAL
+    ) {
+      $size   = $this->getParameterValue('defaults.filter.float_size', 7);
       $params = $this->getObjectTagParams($params, array('size' => $size));
       return "input_tag($name, $default_value, $params)";
-    }
-    else
-    {
+    } else {
       $params = $this->getObjectTagParams($params, array('disabled' => true));
       return "input_tag($name, $default_value, $params)";
     }
@@ -891,10 +803,7 @@ EOF;
  */
 class sfAdminColumn
 {
-  protected
-    $phpName    = '',
-    $column     = null,
-    $flags      = array();
+  protected $phpName = '', $column = null, $flags = array();
 
   /**
    * Constructor.
