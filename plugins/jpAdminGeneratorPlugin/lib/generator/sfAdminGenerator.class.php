@@ -237,7 +237,7 @@ abstract class sfAdminGenerator extends sfCrudGenerator
     } else {
       $name   = isset($params['name']) ? $params['name'] : $actionName;
       $icon   = isset($params['icon']) ? sfToolkit::replaceConstants($params['icon']) :
-          sfConfig::get('sf_admin_web_dir') . '/images/default_icon.png';
+                                         sfConfig::get('sf_admin_web_dir') . '/images/default_icon.png';
       $action = isset($params['action']) ? $params['action'] : 'List' . sfInflector::camelize($actionName);
     }
 
@@ -257,8 +257,8 @@ abstract class sfAdminGenerator extends sfCrudGenerator
   /**
    * Returns HTML code for a column in edit mode.
    *
-   * @param string $column The column name
-   * @param array  $params (optional, default = array()) The parameters
+   * @param sfAdminColumn $column The column name
+   * @param array         $params (optional, default = array()) The parameters
    *
    * @return string HTML code
    */
@@ -422,7 +422,7 @@ EOF;
   {
     $phpNames = array();
 
-    // user has set a personnalized list of fields?
+    // user has set a personalized list of fields?
     $fields = $this->getParameterValue($paramName);
     if (is_array($fields)) {
       // categories?
@@ -801,7 +801,7 @@ EOF;
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
  * @version    SVN: $Id: sfPropelAdminGenerator.class.php 2625 2006-11-07 10:36:14Z fabien $
  */
-class sfAdminColumn
+class sfAdminColumn extends Column
 {
   protected $phpName = '', $column = null, $flags = array();
 
