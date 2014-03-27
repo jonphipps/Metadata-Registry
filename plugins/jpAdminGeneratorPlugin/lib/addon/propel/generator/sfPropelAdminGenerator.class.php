@@ -18,13 +18,12 @@
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
  * @version    SVN: $Id: sfPropelAdminGenerator.class.php 3302 2007-01-18 13:42:46Z fabien $
  */
-
 class sfPropelAdminGenerator extends sfPropelCrudGenerator
 {
   /**
    * Initializes the current sfGenerator instance.
    *
-   * @param sfGeneratorManager A sfGeneratorManager instance
+   * @param sfGeneratorManager $generatorManager A sfGeneratorManager instance
    */
   public function initialize($generatorManager)
   {
@@ -36,8 +35,8 @@ class sfPropelAdminGenerator extends sfPropelCrudGenerator
   public function getAllColumns()
   {
     $phpNames = array();
-    foreach ($this->getTableMap()->getColumns() as $column)
-    {
+    /** @var $column Column */
+    foreach ($this->getTableMap()->getColumns() as $column) {
       $phpNames[] = new sfAdminColumn($column->getPhpName(), $column);
     }
 
@@ -56,10 +55,9 @@ class sfPropelAdminGenerator extends sfPropelCrudGenerator
   {
     // search the matching column for this column name
 
-    foreach ($this->getTableMap()->getColumns() as $column)
-    {
-      if ($column->getPhpName() == $phpName)
-      {
+    /** @var $column Column */
+    foreach ($this->getTableMap()->getColumns() as $column) {
+      if ($column->getPhpName() == $phpName) {
         $found = true;
 
         return $column;
