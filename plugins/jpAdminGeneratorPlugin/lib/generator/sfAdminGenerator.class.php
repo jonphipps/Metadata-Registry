@@ -802,8 +802,10 @@ EOF;
  * @subpackage generator
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
  * @version    SVN: $Id: sfPropelAdminGenerator.class.php 2625 2006-11-07 10:36:14Z fabien $
+ *
+ * @method  getCreoleType()
  */
-class sfAdminColumn extends ColumnMap
+class sfAdminColumn
 {
   protected $phpName = '', $column = null, $flags = array();
 
