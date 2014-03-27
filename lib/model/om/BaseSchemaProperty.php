@@ -69,34 +69,6 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 
 	/**
-	 * The value for the name field.
-	 * @var        string
-	 */
-	protected $name = '';
-
-
-	/**
-	 * The value for the label field.
-	 * @var        string
-	 */
-	protected $label = '';
-
-
-	/**
-	 * The value for the definition field.
-	 * @var        string
-	 */
-	protected $definition;
-
-
-	/**
-	 * The value for the comment field.
-	 * @var        string
-	 */
-	protected $comment;
-
-
-	/**
 	 * The value for the type field.
 	 * @var        string
 	 */
@@ -129,20 +101,6 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 	 * @var        int
 	 */
 	protected $status_id = 1;
-
-
-	/**
-	 * The value for the language field.
-	 * @var        string
-	 */
-	protected $language = '';
-
-
-	/**
-	 * The value for the note field.
-	 * @var        string
-	 */
-	protected $note;
 
 
 	/**
@@ -227,6 +185,18 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 	protected $lastSchemaPropertyRelatedByIsSubpropertyOfCriteria = null;
 
 	/**
+	 * Collection to store aggregation of collSchemaPropertyI18ns.
+	 * @var        array
+	 */
+	protected $collSchemaPropertyI18ns;
+
+	/**
+	 * The criteria used to select the current contents of collSchemaPropertyI18ns.
+	 * @var        Criteria
+	 */
+	protected $lastSchemaPropertyI18nCriteria = null;
+
+	/**
 	 * Collection to store aggregation of collSchemaPropertyElementsRelatedBySchemaPropertyId.
 	 * @var        array
 	 */
@@ -287,6 +257,12 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 	 * @var        boolean
 	 */
 	protected $alreadyInValidation = false;
+
+  /**
+   * The value for the culture field.
+   * @var string
+   */
+  protected $culture;
 
 	/**
 	 * Get the [id] column value.
@@ -426,50 +402,6 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 	}
 
 	/**
-	 * Get the [name] column value.
-	 * 
-	 * @return     string
-	 */
-	public function getName()
-	{
-
-		return $this->name;
-	}
-
-	/**
-	 * Get the [label] column value.
-	 * 
-	 * @return     string
-	 */
-	public function getLabel()
-	{
-
-		return $this->label;
-	}
-
-	/**
-	 * Get the [definition] column value.
-	 * 
-	 * @return     string
-	 */
-	public function getDefinition()
-	{
-
-		return $this->definition;
-	}
-
-	/**
-	 * Get the [comment] column value.
-	 * 
-	 * @return     string
-	 */
-	public function getComment()
-	{
-
-		return $this->comment;
-	}
-
-	/**
 	 * Get the [type] column value.
 	 * 
 	 * @return     string
@@ -522,28 +454,6 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 	{
 
 		return $this->status_id;
-	}
-
-	/**
-	 * Get the [language] column value.
-	 * 
-	 * @return     string
-	 */
-	public function getLanguage()
-	{
-
-		return $this->language;
-	}
-
-	/**
-	 * Get the [note] column value.
-	 * 
-	 * @return     string
-	 */
-	public function getNote()
-	{
-
-		return $this->note;
 	}
 
 	/**
@@ -752,94 +662,6 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 	} // setSchemaId()
 
 	/**
-	 * Set the value of [name] column.
-	 * 
-	 * @param      string $v new value
-	 * @return     void
-	 */
-	public function setName($v)
-	{
-
-		// Since the native PHP type for this column is string,
-		// we will cast the input to a string (if it is not).
-		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
-		}
-
-		if ($this->name !== $v || $v === '') {
-			$this->name = $v;
-			$this->modifiedColumns[] = SchemaPropertyPeer::NAME;
-		}
-
-	} // setName()
-
-	/**
-	 * Set the value of [label] column.
-	 * 
-	 * @param      string $v new value
-	 * @return     void
-	 */
-	public function setLabel($v)
-	{
-
-		// Since the native PHP type for this column is string,
-		// we will cast the input to a string (if it is not).
-		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
-		}
-
-		if ($this->label !== $v || $v === '') {
-			$this->label = $v;
-			$this->modifiedColumns[] = SchemaPropertyPeer::LABEL;
-		}
-
-	} // setLabel()
-
-	/**
-	 * Set the value of [definition] column.
-	 * 
-	 * @param      string $v new value
-	 * @return     void
-	 */
-	public function setDefinition($v)
-	{
-
-		// Since the native PHP type for this column is string,
-		// we will cast the input to a string (if it is not).
-		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
-		}
-
-		if ($this->definition !== $v) {
-			$this->definition = $v;
-			$this->modifiedColumns[] = SchemaPropertyPeer::DEFINITION;
-		}
-
-	} // setDefinition()
-
-	/**
-	 * Set the value of [comment] column.
-	 * 
-	 * @param      string $v new value
-	 * @return     void
-	 */
-	public function setComment($v)
-	{
-
-		// Since the native PHP type for this column is string,
-		// we will cast the input to a string (if it is not).
-		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
-		}
-
-		if ($this->comment !== $v) {
-			$this->comment = $v;
-			$this->modifiedColumns[] = SchemaPropertyPeer::COMMENT;
-		}
-
-	} // setComment()
-
-	/**
 	 * Set the value of [type] column.
 	 * 
 	 * @param      string $v new value
@@ -958,50 +780,6 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 	} // setStatusId()
 
 	/**
-	 * Set the value of [language] column.
-	 * 
-	 * @param      string $v new value
-	 * @return     void
-	 */
-	public function setLanguage($v)
-	{
-
-		// Since the native PHP type for this column is string,
-		// we will cast the input to a string (if it is not).
-		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
-		}
-
-		if ($this->language !== $v || $v === '') {
-			$this->language = $v;
-			$this->modifiedColumns[] = SchemaPropertyPeer::LANGUAGE;
-		}
-
-	} // setLanguage()
-
-	/**
-	 * Set the value of [note] column.
-	 * 
-	 * @param      string $v new value
-	 * @return     void
-	 */
-	public function setNote($v)
-	{
-
-		// Since the native PHP type for this column is string,
-		// we will cast the input to a string (if it is not).
-		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
-		}
-
-		if ($this->note !== $v) {
-			$this->note = $v;
-			$this->modifiedColumns[] = SchemaPropertyPeer::NOTE;
-		}
-
-	} // setNote()
-
-	/**
 	 * Set the value of [domain] column.
 	 * 
 	 * @param      string $v new value
@@ -1092,40 +870,28 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 			$this->schema_id = $rs->getInt($startcol + 6);
 
-			$this->name = $rs->getString($startcol + 7);
+			$this->type = $rs->getString($startcol + 7);
 
-			$this->label = $rs->getString($startcol + 8);
+			$this->is_subproperty_of = $rs->getInt($startcol + 8);
 
-			$this->definition = $rs->getString($startcol + 9);
+			$this->parent_uri = $rs->getString($startcol + 9);
 
-			$this->comment = $rs->getString($startcol + 10);
+			$this->uri = $rs->getString($startcol + 10);
 
-			$this->type = $rs->getString($startcol + 11);
+			$this->status_id = $rs->getInt($startcol + 11);
 
-			$this->is_subproperty_of = $rs->getInt($startcol + 12);
+			$this->domain = $rs->getString($startcol + 12);
 
-			$this->parent_uri = $rs->getString($startcol + 13);
+			$this->orange = $rs->getString($startcol + 13);
 
-			$this->uri = $rs->getString($startcol + 14);
-
-			$this->status_id = $rs->getInt($startcol + 15);
-
-			$this->language = $rs->getString($startcol + 16);
-
-			$this->note = $rs->getString($startcol + 17);
-
-			$this->domain = $rs->getString($startcol + 18);
-
-			$this->orange = $rs->getString($startcol + 19);
-
-			$this->is_deprecated = $rs->getBoolean($startcol + 20);
+			$this->is_deprecated = $rs->getBoolean($startcol + 14);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 21; // 21 = SchemaPropertyPeer::NUM_COLUMNS - SchemaPropertyPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 15; // 15 = SchemaPropertyPeer::NUM_COLUMNS - SchemaPropertyPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating SchemaProperty object", $e);
@@ -1281,7 +1047,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 			}
 
 			if ($this->aSchemaPropertyRelatedByIsSubpropertyOf !== null) {
-				if ($this->aSchemaPropertyRelatedByIsSubpropertyOf->isModified()) {
+				if ($this->aSchemaPropertyRelatedByIsSubpropertyOf->isModified() || $this->aSchemaPropertyRelatedByIsSubpropertyOf->getCurrentSchemaPropertyI18n()->isModified()) {
 					$affectedRows += $this->aSchemaPropertyRelatedByIsSubpropertyOf->save($con);
 				}
 				$this->setSchemaPropertyRelatedByIsSubpropertyOf($this->aSchemaPropertyRelatedByIsSubpropertyOf);
@@ -1330,6 +1096,14 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 			if ($this->collSchemaPropertysRelatedByIsSubpropertyOf !== null) {
 				foreach($this->collSchemaPropertysRelatedByIsSubpropertyOf as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
+			}
+
+			if ($this->collSchemaPropertyI18ns !== null) {
+				foreach($this->collSchemaPropertyI18ns as $referrerFK) {
 					if (!$referrerFK->isDeleted()) {
 						$affectedRows += $referrerFK->save($con);
 					}
@@ -1490,6 +1264,14 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 					}
 				}
 
+				if ($this->collSchemaPropertyI18ns !== null) {
+					foreach($this->collSchemaPropertyI18ns as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
+
 				if ($this->collSchemaPropertyElementsRelatedBySchemaPropertyId !== null) {
 					foreach($this->collSchemaPropertyElementsRelatedBySchemaPropertyId as $referrerFK) {
 						if (!$referrerFK->validate($columns)) {
@@ -1576,45 +1358,27 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 				return $this->getSchemaId();
 				break;
 			case 7:
-				return $this->getName();
-				break;
-			case 8:
-				return $this->getLabel();
-				break;
-			case 9:
-				return $this->getDefinition();
-				break;
-			case 10:
-				return $this->getComment();
-				break;
-			case 11:
 				return $this->getType();
 				break;
-			case 12:
+			case 8:
 				return $this->getIsSubpropertyOf();
 				break;
-			case 13:
+			case 9:
 				return $this->getParentUri();
 				break;
-			case 14:
+			case 10:
 				return $this->getUri();
 				break;
-			case 15:
+			case 11:
 				return $this->getStatusId();
 				break;
-			case 16:
-				return $this->getLanguage();
-				break;
-			case 17:
-				return $this->getNote();
-				break;
-			case 18:
+			case 12:
 				return $this->getDomain();
 				break;
-			case 19:
+			case 13:
 				return $this->getOrange();
 				break;
-			case 20:
+			case 14:
 				return $this->getIsDeprecated();
 				break;
 			default:
@@ -1644,20 +1408,14 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 			$keys[4] => $this->getCreatedUserId(),
 			$keys[5] => $this->getUpdatedUserId(),
 			$keys[6] => $this->getSchemaId(),
-			$keys[7] => $this->getName(),
-			$keys[8] => $this->getLabel(),
-			$keys[9] => $this->getDefinition(),
-			$keys[10] => $this->getComment(),
-			$keys[11] => $this->getType(),
-			$keys[12] => $this->getIsSubpropertyOf(),
-			$keys[13] => $this->getParentUri(),
-			$keys[14] => $this->getUri(),
-			$keys[15] => $this->getStatusId(),
-			$keys[16] => $this->getLanguage(),
-			$keys[17] => $this->getNote(),
-			$keys[18] => $this->getDomain(),
-			$keys[19] => $this->getOrange(),
-			$keys[20] => $this->getIsDeprecated(),
+			$keys[7] => $this->getType(),
+			$keys[8] => $this->getIsSubpropertyOf(),
+			$keys[9] => $this->getParentUri(),
+			$keys[10] => $this->getUri(),
+			$keys[11] => $this->getStatusId(),
+			$keys[12] => $this->getDomain(),
+			$keys[13] => $this->getOrange(),
+			$keys[14] => $this->getIsDeprecated(),
 		);
 		return $result;
 	}
@@ -1711,45 +1469,27 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 				$this->setSchemaId($value);
 				break;
 			case 7:
-				$this->setName($value);
-				break;
-			case 8:
-				$this->setLabel($value);
-				break;
-			case 9:
-				$this->setDefinition($value);
-				break;
-			case 10:
-				$this->setComment($value);
-				break;
-			case 11:
 				$this->setType($value);
 				break;
-			case 12:
+			case 8:
 				$this->setIsSubpropertyOf($value);
 				break;
-			case 13:
+			case 9:
 				$this->setParentUri($value);
 				break;
-			case 14:
+			case 10:
 				$this->setUri($value);
 				break;
-			case 15:
+			case 11:
 				$this->setStatusId($value);
 				break;
-			case 16:
-				$this->setLanguage($value);
-				break;
-			case 17:
-				$this->setNote($value);
-				break;
-			case 18:
+			case 12:
 				$this->setDomain($value);
 				break;
-			case 19:
+			case 13:
 				$this->setOrange($value);
 				break;
-			case 20:
+			case 14:
 				$this->setIsDeprecated($value);
 				break;
 		} // switch()
@@ -1782,20 +1522,14 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[4], $arr)) $this->setCreatedUserId($arr[$keys[4]]);
 		if (array_key_exists($keys[5], $arr)) $this->setUpdatedUserId($arr[$keys[5]]);
 		if (array_key_exists($keys[6], $arr)) $this->setSchemaId($arr[$keys[6]]);
-		if (array_key_exists($keys[7], $arr)) $this->setName($arr[$keys[7]]);
-		if (array_key_exists($keys[8], $arr)) $this->setLabel($arr[$keys[8]]);
-		if (array_key_exists($keys[9], $arr)) $this->setDefinition($arr[$keys[9]]);
-		if (array_key_exists($keys[10], $arr)) $this->setComment($arr[$keys[10]]);
-		if (array_key_exists($keys[11], $arr)) $this->setType($arr[$keys[11]]);
-		if (array_key_exists($keys[12], $arr)) $this->setIsSubpropertyOf($arr[$keys[12]]);
-		if (array_key_exists($keys[13], $arr)) $this->setParentUri($arr[$keys[13]]);
-		if (array_key_exists($keys[14], $arr)) $this->setUri($arr[$keys[14]]);
-		if (array_key_exists($keys[15], $arr)) $this->setStatusId($arr[$keys[15]]);
-		if (array_key_exists($keys[16], $arr)) $this->setLanguage($arr[$keys[16]]);
-		if (array_key_exists($keys[17], $arr)) $this->setNote($arr[$keys[17]]);
-		if (array_key_exists($keys[18], $arr)) $this->setDomain($arr[$keys[18]]);
-		if (array_key_exists($keys[19], $arr)) $this->setOrange($arr[$keys[19]]);
-		if (array_key_exists($keys[20], $arr)) $this->setIsDeprecated($arr[$keys[20]]);
+		if (array_key_exists($keys[7], $arr)) $this->setType($arr[$keys[7]]);
+		if (array_key_exists($keys[8], $arr)) $this->setIsSubpropertyOf($arr[$keys[8]]);
+		if (array_key_exists($keys[9], $arr)) $this->setParentUri($arr[$keys[9]]);
+		if (array_key_exists($keys[10], $arr)) $this->setUri($arr[$keys[10]]);
+		if (array_key_exists($keys[11], $arr)) $this->setStatusId($arr[$keys[11]]);
+		if (array_key_exists($keys[12], $arr)) $this->setDomain($arr[$keys[12]]);
+		if (array_key_exists($keys[13], $arr)) $this->setOrange($arr[$keys[13]]);
+		if (array_key_exists($keys[14], $arr)) $this->setIsDeprecated($arr[$keys[14]]);
 	}
 
 	/**
@@ -1814,17 +1548,11 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(SchemaPropertyPeer::CREATED_USER_ID)) $criteria->add(SchemaPropertyPeer::CREATED_USER_ID, $this->created_user_id);
 		if ($this->isColumnModified(SchemaPropertyPeer::UPDATED_USER_ID)) $criteria->add(SchemaPropertyPeer::UPDATED_USER_ID, $this->updated_user_id);
 		if ($this->isColumnModified(SchemaPropertyPeer::SCHEMA_ID)) $criteria->add(SchemaPropertyPeer::SCHEMA_ID, $this->schema_id);
-		if ($this->isColumnModified(SchemaPropertyPeer::NAME)) $criteria->add(SchemaPropertyPeer::NAME, $this->name);
-		if ($this->isColumnModified(SchemaPropertyPeer::LABEL)) $criteria->add(SchemaPropertyPeer::LABEL, $this->label);
-		if ($this->isColumnModified(SchemaPropertyPeer::DEFINITION)) $criteria->add(SchemaPropertyPeer::DEFINITION, $this->definition);
-		if ($this->isColumnModified(SchemaPropertyPeer::COMMENT)) $criteria->add(SchemaPropertyPeer::COMMENT, $this->comment);
 		if ($this->isColumnModified(SchemaPropertyPeer::TYPE)) $criteria->add(SchemaPropertyPeer::TYPE, $this->type);
 		if ($this->isColumnModified(SchemaPropertyPeer::IS_SUBPROPERTY_OF)) $criteria->add(SchemaPropertyPeer::IS_SUBPROPERTY_OF, $this->is_subproperty_of);
 		if ($this->isColumnModified(SchemaPropertyPeer::PARENT_URI)) $criteria->add(SchemaPropertyPeer::PARENT_URI, $this->parent_uri);
 		if ($this->isColumnModified(SchemaPropertyPeer::URI)) $criteria->add(SchemaPropertyPeer::URI, $this->uri);
 		if ($this->isColumnModified(SchemaPropertyPeer::STATUS_ID)) $criteria->add(SchemaPropertyPeer::STATUS_ID, $this->status_id);
-		if ($this->isColumnModified(SchemaPropertyPeer::LANGUAGE)) $criteria->add(SchemaPropertyPeer::LANGUAGE, $this->language);
-		if ($this->isColumnModified(SchemaPropertyPeer::NOTE)) $criteria->add(SchemaPropertyPeer::NOTE, $this->note);
 		if ($this->isColumnModified(SchemaPropertyPeer::DOMAIN)) $criteria->add(SchemaPropertyPeer::DOMAIN, $this->domain);
 		if ($this->isColumnModified(SchemaPropertyPeer::ORANGE)) $criteria->add(SchemaPropertyPeer::ORANGE, $this->orange);
 		if ($this->isColumnModified(SchemaPropertyPeer::IS_DEPRECATED)) $criteria->add(SchemaPropertyPeer::IS_DEPRECATED, $this->is_deprecated);
@@ -1894,14 +1622,6 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 		$copyObj->setSchemaId($this->schema_id);
 
-		$copyObj->setName($this->name);
-
-		$copyObj->setLabel($this->label);
-
-		$copyObj->setDefinition($this->definition);
-
-		$copyObj->setComment($this->comment);
-
 		$copyObj->setType($this->type);
 
 		$copyObj->setIsSubpropertyOf($this->is_subproperty_of);
@@ -1911,10 +1631,6 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 		$copyObj->setUri($this->uri);
 
 		$copyObj->setStatusId($this->status_id);
-
-		$copyObj->setLanguage($this->language);
-
-		$copyObj->setNote($this->note);
 
 		$copyObj->setDomain($this->domain);
 
@@ -1942,6 +1658,10 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 				}
 
 				$copyObj->addSchemaPropertyRelatedByIsSubpropertyOf($relObj->copy($deepCopy));
+			}
+
+			foreach($this->getSchemaPropertyI18ns() as $relObj) {
+				$copyObj->addSchemaPropertyI18n($relObj->copy($deepCopy));
 			}
 
 			foreach($this->getSchemaPropertyElementsRelatedBySchemaPropertyId() as $relObj) {
@@ -3559,6 +3279,113 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 	}
 
 	/**
+	 * Temporary storage of collSchemaPropertyI18ns to save a possible db hit in
+	 * the event objects are add to the collection, but the
+	 * complete collection is never requested.
+	 * @return     void
+	 */
+	public function initSchemaPropertyI18ns()
+	{
+		if ($this->collSchemaPropertyI18ns === null) {
+			$this->collSchemaPropertyI18ns = array();
+		}
+	}
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this SchemaProperty has previously
+	 * been saved, it will retrieve related SchemaPropertyI18ns from storage.
+	 * If this SchemaProperty is new, it will return
+	 * an empty collection or the current collection, the criteria
+	 * is ignored on a new object.
+	 *
+	 * @param      Connection $con
+	 * @param      Criteria $criteria
+	 * @throws     PropelException
+	 */
+	public function getSchemaPropertyI18ns($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseSchemaPropertyI18nPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collSchemaPropertyI18ns === null) {
+			if ($this->isNew()) {
+			   $this->collSchemaPropertyI18ns = array();
+			} else {
+
+				$criteria->add(SchemaPropertyI18nPeer::ID, $this->getId());
+
+				SchemaPropertyI18nPeer::addSelectColumns($criteria);
+				$this->collSchemaPropertyI18ns = SchemaPropertyI18nPeer::doSelect($criteria, $con);
+			}
+		} else {
+			// criteria has no effect for a new object
+			if (!$this->isNew()) {
+				// the following code is to determine if a new query is
+				// called for.  If the criteria is the same as the last
+				// one, just return the collection.
+
+
+				$criteria->add(SchemaPropertyI18nPeer::ID, $this->getId());
+
+				SchemaPropertyI18nPeer::addSelectColumns($criteria);
+				if (!isset($this->lastSchemaPropertyI18nCriteria) || !$this->lastSchemaPropertyI18nCriteria->equals($criteria)) {
+					$this->collSchemaPropertyI18ns = SchemaPropertyI18nPeer::doSelect($criteria, $con);
+				}
+			}
+		}
+		$this->lastSchemaPropertyI18nCriteria = $criteria;
+		return $this->collSchemaPropertyI18ns;
+	}
+
+	/**
+	 * Returns the number of related SchemaPropertyI18ns.
+	 *
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct
+	 * @param      Connection $con
+	 * @throws     PropelException
+	 */
+	public function countSchemaPropertyI18ns($criteria = null, $distinct = false, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseSchemaPropertyI18nPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		$criteria->add(SchemaPropertyI18nPeer::ID, $this->getId());
+
+		return SchemaPropertyI18nPeer::doCount($criteria, $distinct, $con);
+	}
+
+	/**
+	 * Method called to associate a SchemaPropertyI18n object to this object
+	 * through the SchemaPropertyI18n foreign key attribute
+	 *
+	 * @param      SchemaPropertyI18n $l SchemaPropertyI18n
+	 * @return     void
+	 * @throws     PropelException
+	 */
+	public function addSchemaPropertyI18n(SchemaPropertyI18n $l)
+	{
+		$this->collSchemaPropertyI18ns[] = $l;
+		$l->setSchemaProperty($this);
+	}
+
+	/**
 	 * Temporary storage of collSchemaPropertyElementsRelatedBySchemaPropertyId to save a possible db hit in
 	 * the event objects are add to the collection, but the
 	 * complete collection is never requested.
@@ -4867,6 +4694,127 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 		return $this->collSchemaPropertyElementHistorysRelatedByRelatedSchemaPropertyId;
 	}
+
+  public function getCulture()
+  {
+    return $this->culture;
+  }
+
+  public function setCulture($culture)
+  {
+    $this->culture = $culture;
+  }
+
+  public function getName()
+  {
+    $obj = $this->getCurrentSchemaPropertyI18n();
+
+    return ($obj ? $obj->getName() : null);
+  }
+
+  public function setName($value)
+  {
+    $this->getCurrentSchemaPropertyI18n()->setName($value);
+  }
+
+  public function getLabel()
+  {
+    $obj = $this->getCurrentSchemaPropertyI18n();
+
+    return ($obj ? $obj->getLabel() : null);
+  }
+
+  public function setLabel($value)
+  {
+    $this->getCurrentSchemaPropertyI18n()->setLabel($value);
+  }
+
+  public function getLexicalUri()
+  {
+    $obj = $this->getCurrentSchemaPropertyI18n();
+
+    return ($obj ? $obj->getLexicalUri() : null);
+  }
+
+  public function setLexicalUri($value)
+  {
+    $this->getCurrentSchemaPropertyI18n()->setLexicalUri($value);
+  }
+
+  public function getDefinition()
+  {
+    $obj = $this->getCurrentSchemaPropertyI18n();
+
+    return ($obj ? $obj->getDefinition() : null);
+  }
+
+  public function setDefinition($value)
+  {
+    $this->getCurrentSchemaPropertyI18n()->setDefinition($value);
+  }
+
+  public function getComment()
+  {
+    $obj = $this->getCurrentSchemaPropertyI18n();
+
+    return ($obj ? $obj->getComment() : null);
+  }
+
+  public function setComment($value)
+  {
+    $this->getCurrentSchemaPropertyI18n()->setComment($value);
+  }
+
+  public function getLanguage()
+  {
+    $obj = $this->getCurrentSchemaPropertyI18n();
+
+    return ($obj ? $obj->getLanguage() : null);
+  }
+
+  public function setLanguage($value)
+  {
+    $this->getCurrentSchemaPropertyI18n()->setLanguage($value);
+  }
+
+  public function getNote()
+  {
+    $obj = $this->getCurrentSchemaPropertyI18n();
+
+    return ($obj ? $obj->getNote() : null);
+  }
+
+  public function setNote($value)
+  {
+    $this->getCurrentSchemaPropertyI18n()->setNote($value);
+  }
+
+  protected $current_i18n = array();
+
+  public function getCurrentSchemaPropertyI18n()
+  {
+    if (!isset($this->current_i18n[$this->culture]))
+    {
+      $obj = SchemaPropertyI18nPeer::retrieveByPK($this->getId(), $this->culture);
+      if ($obj)
+      {
+        $this->setSchemaPropertyI18nForCulture($obj, $this->culture);
+      }
+      else
+      {
+        $this->setSchemaPropertyI18nForCulture(new SchemaPropertyI18n(), $this->culture);
+        $this->current_i18n[$this->culture]->setCulture($this->culture);
+      }
+    }
+
+    return $this->current_i18n[$this->culture];
+  }
+
+  public function setSchemaPropertyI18nForCulture($object, $culture)
+  {
+    $this->current_i18n[$culture] = $object;
+    $this->addSchemaPropertyI18n($object);
+  }
 
 
   public function __call($method, $arguments)

@@ -887,7 +887,7 @@ abstract class BaseSchemaPropertyElement extends BaseObject  implements Persiste
 			}
 
 			if ($this->aSchemaPropertyRelatedBySchemaPropertyId !== null) {
-				if ($this->aSchemaPropertyRelatedBySchemaPropertyId->isModified()) {
+				if ($this->aSchemaPropertyRelatedBySchemaPropertyId->isModified() || $this->aSchemaPropertyRelatedBySchemaPropertyId->getCurrentSchemaPropertyI18n()->isModified()) {
 					$affectedRows += $this->aSchemaPropertyRelatedBySchemaPropertyId->save($con);
 				}
 				$this->setSchemaPropertyRelatedBySchemaPropertyId($this->aSchemaPropertyRelatedBySchemaPropertyId);
@@ -901,7 +901,7 @@ abstract class BaseSchemaPropertyElement extends BaseObject  implements Persiste
 			}
 
 			if ($this->aSchemaPropertyRelatedByRelatedSchemaPropertyId !== null) {
-				if ($this->aSchemaPropertyRelatedByRelatedSchemaPropertyId->isModified()) {
+				if ($this->aSchemaPropertyRelatedByRelatedSchemaPropertyId->isModified() || $this->aSchemaPropertyRelatedByRelatedSchemaPropertyId->getCurrentSchemaPropertyI18n()->isModified()) {
 					$affectedRows += $this->aSchemaPropertyRelatedByRelatedSchemaPropertyId->save($con);
 				}
 				$this->setSchemaPropertyRelatedByRelatedSchemaPropertyId($this->aSchemaPropertyRelatedByRelatedSchemaPropertyId);

@@ -1731,7 +1731,7 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 			}
 
 			if ($this->aSchemaProperty !== null) {
-				if ($this->aSchemaProperty->isModified()) {
+				if ($this->aSchemaProperty->isModified() || $this->aSchemaProperty->getCurrentSchemaPropertyI18n()->isModified()) {
 					$affectedRows += $this->aSchemaProperty->save($con);
 				}
 				$this->setSchemaProperty($this->aSchemaProperty);

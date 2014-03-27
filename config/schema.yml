@@ -1159,6 +1159,8 @@ propel:
     _attributes:
       phpName: SchemaProperty
       idMethod: native
+      isI18N: true
+      i18nTable: reg_schema_property_i18n
     id:
       type: INTEGER
       required: true
@@ -1193,20 +1195,6 @@ propel:
       onDelete: CASCADE
       onUpdate: RESTRICT
       index: true
-    name:
-      type: VARCHAR
-      size: 255
-      required: true
-      default: ''
-    label:
-      type: VARCHAR
-      size: 255
-      required: true
-      default: ''
-    definition:
-      type: LONGVARCHAR
-    comment:
-      type: LONGVARCHAR
     type:
       type: CHAR
       required: true
@@ -1234,13 +1222,6 @@ propel:
       onDelete: RESTRICT
       onUpdate: RESTRICT
       index: true
-    language:
-      type: VARCHAR
-      size: 6
-      required: true
-      default: ''
-    note:
-      type: LONGVARCHAR
     domain:
       type: VARCHAR
       size: 255
@@ -1252,6 +1233,39 @@ propel:
     _indexes:
       subproperty_id:
         - is_subproperty_of
+
+  reg_schema_property_i18n:
+    _attributes:
+      phpName: SchemaPropertyI18n
+    id:          { type: integer, required: true, primaryKey: true, foreignTable: reg_schema_property, foreignReference: id }
+    culture:     { isCulture: true, type: varchar, size: 7, required: true, primaryKey: true }
+    name:
+      type: VARCHAR
+      size: 255
+      required: true
+      default: ''
+    label:
+      type: VARCHAR
+      size: 255
+      required: true
+      default: ''
+    lexical_uri:
+      type: VARCHAR
+      size: 255
+      required: true
+      default: ''
+    definition:
+      type: LONGVARCHAR
+    comment:
+      type: LONGVARCHAR
+    language:
+      type: VARCHAR
+      size: 6
+      required: true
+      default: ''
+    note:
+      type: LONGVARCHAR
+
   reg_schema_property_element:
     _attributes:
       phpName: SchemaPropertyElement
