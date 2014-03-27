@@ -54,8 +54,8 @@ generator:
         id:           { credentials: [administrator], mode: edit }
         agent_id:     { params: peer_method=getAgentsForCurrentUser}
         token:        { params: onblur=updateUri() }
-        languages:    { type: select_language_tag, params: multiple=true }
-        language:     { type: select_language_tag }
+        languages:    { type: admin_select_language, params: multiple=true }
+        language:     { type: admin_select_language, params: limitmethod=getLanguages }
       hide:           [base_domain]
       display:
         "-Metadata":  { fields: [id, created_at, created_user, updated_at, updated_user], mode: edit }
