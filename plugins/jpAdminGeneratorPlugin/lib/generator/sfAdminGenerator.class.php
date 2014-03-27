@@ -30,8 +30,8 @@ abstract class sfAdminGenerator extends sfCrudGenerator
   /**
    * Returns HTML code for a help icon.
    *
-   * @param string $column The column name
-   * @param string $type   (optional, default = '') The field type (list, edit)
+   * @param sfAdminColumn $column The column name
+   * @param string        $type   (optional, default = '') The field type (list, edit)
    *
    * @return string HTML code
    */
@@ -55,8 +55,8 @@ abstract class sfAdminGenerator extends sfCrudGenerator
   /**
    * Returns HTML code for a help text.
    *
-   * @param string $column The column name
-   * @param string $type   (optional, default = '') The field type (list, edit)
+   * @param sfAdminColumn $column The column name
+   * @param string        $type   (optional, default = '') The field type (list, edit)
    *
    * @return string HTML code
    */
@@ -571,6 +571,7 @@ EOF;
     }
 
     $vars = array();
+    /** @var $column sfAdminColumn */
     foreach ($this->getColumns('tmp.display') as $column) {
       if ($column->isLink()) {
         $vars[] = '\'%%' . $column->getName() . '%%\' => link_to(' . $this->getColumnListTag($column) . ', \'' .
@@ -609,6 +610,7 @@ EOF;
       $this->params['tmp']['display'][] = $name;
     }
 
+    /** @var $column sfAdminColumn */
     foreach ($this->getColumns('tmp.display') as $column) {
       $value = str_replace(
           '%%' . $column->getName() . '%%',
@@ -623,8 +625,8 @@ EOF;
   /**
    * Sends the proper params to getColumnTag for the 'list' action, for BC.
    *
-   * @param string $column The column name
-   * @param array  $params (optional, default = array()) The parameters
+   * @param sfAdminColumn $column The column name
+   * @param array         $params (optional, default = array()) The parameters
    *
    * @return string
    */
@@ -636,8 +638,8 @@ EOF;
   /**
    * Sends the proper params to getColumnTag for the 'show' action, for BC.
    *
-   * @param string $column The column name
-   * @param array  $params (optional, default = array()) The parameters
+   * @param sfAdminColumn $column The column name
+   * @param array         $params (optional, default = array()) The parameters
    *
    * @return string
    */
@@ -649,9 +651,9 @@ EOF;
   /**
    * Returns HTML code for a column in list or show mode.
    *
-   * @param string       $column The column name
-   * @param array        $params (optional, default = array()) The parameters
-   * @param array|string $action (optional, default = 'list')  The action - list or show
+   * @param sfAdminColumn $column The column name
+   * @param array         $params (optional, default = array()) The parameters
+   * @param array|string  $action (optional, default = 'list')  The action - list or show
    *
    * @return string HTML code
    */
@@ -684,8 +686,8 @@ EOF;
   /**
    * Returns HTML code for a column in filter mode.
    *
-   * @param string $column The column name
-   * @param array  $params (optional, default = array()) The parameters
+   * @param sfAdminColumn $column The column name
+   * @param array         $params (optional, default = array()) The parameters
    *
    * @return string HTML code
    */
@@ -801,7 +803,7 @@ EOF;
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
  * @version    SVN: $Id: sfPropelAdminGenerator.class.php 2625 2006-11-07 10:36:14Z fabien $
  */
-class sfAdminColumn extends Column
+class sfAdminColumn extends ColumnMap
 {
   protected $phpName = '', $column = null, $flags = array();
 
