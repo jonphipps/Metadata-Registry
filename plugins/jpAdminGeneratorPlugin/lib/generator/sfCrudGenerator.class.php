@@ -316,7 +316,7 @@ abstract class sfCrudGenerator extends sfGenerator
   public function getColumnListTag($column, $params = array())
   {
     $type = $column->getCreoleType();
-    
+
     $columnGetter = $this->getColumnGetter($column, true);
 
     if ($type == CreoleTypes::TIMESTAMP)
@@ -336,8 +336,8 @@ abstract class sfCrudGenerator extends sfGenerator
   /**
    * Returns HTML code for a column in edit mode.
    *
-   * @param string  The column name
-   * @param array   The parameters
+   * @param Column $column  The column name
+   * @param array  $params  The parameters
    *
    * @return string HTML code
    */

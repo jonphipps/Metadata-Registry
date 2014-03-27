@@ -214,8 +214,12 @@ function object_select_language_tag($object, $method, $options = array(), $defau
   $options = _parse_attributes($options);
 
   $value = _get_object_value($object, $method, $default_value);
+  if (isset($options['limitmethod']))
+  {
+    $options['languages'] = _get_object_value($object, $options['limitmethod']);
+  }
 
-  return select_language_tag(_convert_method_to_name($method, $options), $value, $options);
+  return select_language_tag(_convert_method_to_name($method, $method), $value, $options);
 }
 
 /**
@@ -233,22 +237,23 @@ function object_select_language_tag($object, $method, $options = array(), $defau
  *
  * <b>Examples:</b>
  * <code>
- *  echo select_language_tag('language', 'de');
+ *  echo limitselect_language_tag('language', 'de');
  * </code>
  *
  * @param  string $name     field name
  * @param  string $selected selected field values (two or three-character language/culture code)
  * @param  array  $options  additional HTML compliant <select> tag parameters
  *
+ * 'limitmethod' option provides a method to call that limits the list to a subset of languages
  * @return string <selectize> tag populated with all the languages in the world.
  * @see select_tag, options_for_select, sfCultureInfo
  */
-function object_multiselect_language_tag($name, $selected = null, $options = array())
+function object_limitselect_language_tag($name, $selected = null, $options = array())
 {
     $c = new sfCultureInfo(sfContext::getInstance()->getUser()->getCulture());
     $languages = $c->getLanguages();
 
-    if ($language_option = _get_option($options, 'languages'))
+    if ($language_option = _get_option($options, 'limitmethod'))
     {
         foreach ($languages as $key => $value)
         {

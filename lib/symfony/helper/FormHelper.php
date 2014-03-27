@@ -80,6 +80,9 @@ function options_for_select($options = array(), $selected = '', $html_options = 
       if ((is_array($selected) && in_array(strval($key), $selected, true))) {
         $option_options['selected'] = 'selected';
       }
+      elseif ($option_options['value'] == $selected){
+        $option_options['selected'] = 'selected';
+      }
 
       $html .= content_tag('option', $value, $option_options) . "\n";
     }
@@ -263,7 +266,7 @@ function select_language_tag($name, $selected = null, $options = array())
   asort($languages);
 
   $option_tags = options_for_select($languages, $selected, $options);
-  unset($options['include_blank'], $options['include_custom']);
+  unset($options['include_blank'], $options['include_custom'], $options['control_name'], $options['limitmethod']);
 
   return select_tag($name, $option_tags, $options);
 }

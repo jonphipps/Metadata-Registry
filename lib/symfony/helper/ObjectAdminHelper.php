@@ -5,7 +5,7 @@ use_helper('Form', 'Javascript', 'Helper', 'I18N');
 /*
  * This file is part of the symfony package.
  * (c) 2004-2006 Fabien Potencier <fabien.potencier@symfony-project.com>
- * 
+ *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
@@ -62,7 +62,7 @@ function object_admin_double_list($object, $method, $options = array(), $callbac
 
   // get the lists of objects
   list($all_objects, $objects_associated, $associated_ids) = _get_object_list($object, $method, $options, $callback);
-  
+
   $objects_unassociated = array();
   foreach ($all_objects as $object)
   {
@@ -208,4 +208,17 @@ function _get_object_list($object, $method, $options, $callback)
   }
 
   return call_user_func($callback, $object, $method, $options);
+}
+
+function object_admin_select_language($object, $method, $options = array(), $default_value = null) {
+  //$params = array_merge(array('control_name' => $this->getSingularName() . '[' . $column->getName() . ']'), $params);
+  $options = _parse_attributes($options);
+
+  $value = _get_object_value($object, $method, $default_value);
+  if (isset($options['limitmethod']))
+  {
+    $options['languages'] = _get_object_value($object, $options['limitmethod']);
+  }
+
+  return select_language_tag($options['control_name'], $value, $options);
 }
