@@ -3,6 +3,13 @@
 /**
  * schemaprop actions.
  *
+ * @property SchemaProperty property
+ * @property Schema         schema
+ * @property int            timestamp
+ * @property array          labels
+ * @property int            schemaID
+ * @property SchemaProperty schemaprop
+ *
  * @package    registry
  * @subpackage schemaprop
  * @author     Jon Phipps <jonphipps@gmail.com>
@@ -41,6 +48,10 @@ class schemapropActions extends autoschemapropActions
     parent::setDefaults($schemaprop);
   }
 
+  /**
+   * @param SchemaProperty $schemaprop
+   * @param Schema         $schemaObj
+   */
   public function setDefaultUri($schemaprop, $schemaObj)
   {
     $schemaDomain = $schemaObj->getUri();
@@ -92,11 +103,14 @@ class schemapropActions extends autoschemapropActions
     parent::executeList();
   }
 
+  /**
+   * Show RDF
+   */
   public function executeShowRdf()
   {
     $ts              = strtotime($this->getRequestParameter('ts'));
     $this->timestamp = $ts;
-    /** @var SchemaProperty * */
+
     if (! $this->property) {
       $this->property = SchemaPropertyPeer::retrieveByPk($this->getRequestParameter('id'));
     }
@@ -121,7 +135,7 @@ class schemapropActions extends autoschemapropActions
       if (isset($this->schemaprop)) {
         $schema = $this->schemaprop->getSchema();
         if ($schema) {
-          myActionTools::setLatestSchema($schema);
+          myActionTools::setLatestSchema($schema->getId());
         }
       }
     }
@@ -136,7 +150,7 @@ class schemapropActions extends autoschemapropActions
 
   public function executeProperties()
   {
-    $this->redirect('/schemapropprop/list?schemaprop_id=' . $this->getRequestParameter('id'));
+    $this->redirect('/schemaprop/list?schemaprop_id=' . $this->getRequestParameter('id'));
   }
 
   public function executeGetSchemaPropertyList()
