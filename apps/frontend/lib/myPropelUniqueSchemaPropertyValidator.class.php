@@ -25,13 +25,15 @@ class myPropelUniqueSchemaPropertyValidator extends sfValidator
     $propertyId = $this->getContext()->getRequest()->getParameter('id');
 
     $c = new Criteria();
-    $c->add(SchemaPropertyPeer::NAME, $value);
+    $c->add(SchemaPropertyI18nPeer::NAME, $value);
     $c->add(SchemaPropertyPeer::SCHEMA_ID, $schemaId);
 
-    $object = SchemaPropertyPeer::doSelectOne($c);
+    $array = SchemaPropertyi18nPeer::doSelectJoinSchemaProperty($c);
 
-    if ($object)
+    if (isset($array[0]))
     {
+      /** @var $object SchemaPropertyI18n */
+      $object = $array[0];
        //check to see if the retrieved object has the same id
        if ($propertyId && ($object->getId() == $propertyId))
        {
