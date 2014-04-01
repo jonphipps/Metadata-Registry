@@ -9,6 +9,8 @@
  * @property array          labels
  * @property int            schemaID
  * @property SchemaProperty schemaprop
+ * @property sfPropelPager  pager
+ * @property array          filters
  *
  * @package    registry
  * @subpackage schemaprop
@@ -20,8 +22,61 @@ class schemapropActions extends autoschemapropActions
   public function preExecute()
   {
     if ('search' != $this->getRequestParameter('action')) {
-      $this->getCurrentSchema();
+      $schemaObj = $this->getCurrentSchema();
+
+      //Culture --
+      //Affects CONTENT ONLY:
+      //the list MAY have a directed culture in the URL, overrides all others
+      //the record being displayed MAY have a directed culture in the URL, overrides all others
+
+      //the schema property record being edited or saved MUST have a non-editable culture in the form, overrides all others
+
+      //the user MAY have a default culture wrt this schema, overrides her own default,
+      //    set when editing this schema for the first time in this session
+      //the schema MUST have a default culture, set when the schema or schemaprop is selected,
+      //    this will be the first culture a guest sees when viewing a schema or schema_prop, overrides system
+
+      //Affects ENTIRE INTERFACE:
+      //the user MAY have a default culture, overrides system, set when logging in
+      //the system MUST have a default culture
+
+      //set the culture
+      $culture = '';
+      //if the culture is in the url that overrides everything
+      if ('' == $culture) {
+        $culture = $this->getRequestParameter('l');
+        //make sure it's a culture that we can use for this vocab
+        $cultures = $schemaObj->getLanguages();
+        if (! in_array($culture, $cultures)) {
+          $culture = '';
+        }
+      }
+      //else set the culture to the user's default culture for this vocab
+      if ('' == $culture)
+        {
+          $schemaId = $schemaObj->getId();
+          $userId   = sfContext::getInstance()->getUser()->getSubscriberId();
+          if ($schemaId && $userId)
+          {
+            $c        = new Criteria();
+            $c->add(SchemaHasUserPeer::SCHEMA_ID, $schemaId);
+            $c->add(SchemaHasUserPeer::USER_ID, $userId);
+            $schemaUser = SchemaHasUserPeer::doSelectOne($c);
+            $culture    = $schemaUser->getDefaultLanguage();
+          }
+
+          //else set the culture to the default for the system default
+          if ('' == $culture) {
+            $culture = sfContext::getInstance()->getUser()->getCulture();
+          }
+
+          //$this->redirect($this->getRequest()->getUri() . "?l=" . $culture);
+      }
+
+
+      $this->getUser()->setCulture($culture);
     }
+
     parent::preExecute();
   }
 
