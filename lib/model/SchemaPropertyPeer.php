@@ -20,7 +20,7 @@ class SchemaPropertyPeer extends BaseSchemaPropertyPeer
         $c      = new Criteria();
         $c->add(self::TYPE, 'property');
         $c->addOr(self::TYPE, 'subproperty');
-        $c->addAscendingOrderByColumn(self::NAME);
+        //$c->addAscendingOrderByColumn(self::NAME);
         $properties = $schema->getSchemaPropertys($c);
 
         $request           = sfContext::getInstance()->getRequest();
@@ -47,7 +47,7 @@ class SchemaPropertyPeer extends BaseSchemaPropertyPeer
         $c      = new Criteria();
         $c->add(self::TYPE, 'class');
         $c->addOr(self::TYPE, 'subclass');
-        $c->addAscendingOrderByColumn(self::NAME);
+        //$c->addAscendingOrderByColumn(self::NAME);
         $classes = $schema->getSchemaPropertys($c);
 
         $request           = sfContext::getInstance()->getRequest();
