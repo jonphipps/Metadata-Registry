@@ -37,14 +37,14 @@ abstract class BaseSchemaPropertyI18nPeer {
 	/** the column name for the LABEL field */
 	const LABEL = 'reg_schema_property_i18n.LABEL';
 
-	/** the column name for the LEXICAL_URI field */
-	const LEXICAL_URI = 'reg_schema_property_i18n.LEXICAL_URI';
-
 	/** the column name for the DEFINITION field */
 	const DEFINITION = 'reg_schema_property_i18n.DEFINITION';
 
 	/** the column name for the COMMENT field */
 	const COMMENT = 'reg_schema_property_i18n.COMMENT';
+
+	/** the column name for the LEXICAL_URI field */
+	const LEXICAL_URI = 'reg_schema_property_i18n.LEXICAL_URI';
 
 	/** the column name for the NOTE field */
 	const NOTE = 'reg_schema_property_i18n.NOTE';
@@ -60,9 +60,9 @@ abstract class BaseSchemaPropertyI18nPeer {
 	 * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
 	 */
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'Culture', 'Name', 'Label', 'LexicalUri', 'Definition', 'Comment', 'Note', ),
-		BasePeer::TYPE_COLNAME => array (SchemaPropertyI18nPeer::ID, SchemaPropertyI18nPeer::CULTURE, SchemaPropertyI18nPeer::NAME, SchemaPropertyI18nPeer::LABEL, SchemaPropertyI18nPeer::LEXICAL_URI, SchemaPropertyI18nPeer::DEFINITION, SchemaPropertyI18nPeer::COMMENT, SchemaPropertyI18nPeer::NOTE, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'culture', 'name', 'label', 'lexical_uri', 'definition', 'comment', 'note', ),
+		BasePeer::TYPE_PHPNAME => array ('Id', 'Culture', 'Name', 'Label', 'Definition', 'Comment', 'LexicalUri', 'Note', ),
+		BasePeer::TYPE_COLNAME => array (SchemaPropertyI18nPeer::ID, SchemaPropertyI18nPeer::CULTURE, SchemaPropertyI18nPeer::NAME, SchemaPropertyI18nPeer::LABEL, SchemaPropertyI18nPeer::DEFINITION, SchemaPropertyI18nPeer::COMMENT, SchemaPropertyI18nPeer::LEXICAL_URI, SchemaPropertyI18nPeer::NOTE, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'culture', 'name', 'label', 'definition', 'comment', 'lexical_uri', 'note', ),
 		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, )
 	);
 
@@ -73,9 +73,9 @@ abstract class BaseSchemaPropertyI18nPeer {
 	 * e.g. self::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
 	 */
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Culture' => 1, 'Name' => 2, 'Label' => 3, 'LexicalUri' => 4, 'Definition' => 5, 'Comment' => 6, 'Note' => 7, ),
-		BasePeer::TYPE_COLNAME => array (SchemaPropertyI18nPeer::ID => 0, SchemaPropertyI18nPeer::CULTURE => 1, SchemaPropertyI18nPeer::NAME => 2, SchemaPropertyI18nPeer::LABEL => 3, SchemaPropertyI18nPeer::LEXICAL_URI => 4, SchemaPropertyI18nPeer::DEFINITION => 5, SchemaPropertyI18nPeer::COMMENT => 6, SchemaPropertyI18nPeer::NOTE => 7, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'culture' => 1, 'name' => 2, 'label' => 3, 'lexical_uri' => 4, 'definition' => 5, 'comment' => 6, 'note' => 7, ),
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Culture' => 1, 'Name' => 2, 'Label' => 3, 'Definition' => 4, 'Comment' => 5, 'LexicalUri' => 6, 'Note' => 7, ),
+		BasePeer::TYPE_COLNAME => array (SchemaPropertyI18nPeer::ID => 0, SchemaPropertyI18nPeer::CULTURE => 1, SchemaPropertyI18nPeer::NAME => 2, SchemaPropertyI18nPeer::LABEL => 3, SchemaPropertyI18nPeer::DEFINITION => 4, SchemaPropertyI18nPeer::COMMENT => 5, SchemaPropertyI18nPeer::LEXICAL_URI => 6, SchemaPropertyI18nPeer::NOTE => 7, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'culture' => 1, 'name' => 2, 'label' => 3, 'definition' => 4, 'comment' => 5, 'lexical_uri' => 6, 'note' => 7, ),
 		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, )
 	);
 
@@ -185,11 +185,11 @@ abstract class BaseSchemaPropertyI18nPeer {
 
         $criteria->addSelectColumn(($tableAlias) ? SchemaPropertyI18nPeer::alias($tableAlias, SchemaPropertyI18nPeer::LABEL) : SchemaPropertyI18nPeer::LABEL);
 
-        $criteria->addSelectColumn(($tableAlias) ? SchemaPropertyI18nPeer::alias($tableAlias, SchemaPropertyI18nPeer::LEXICAL_URI) : SchemaPropertyI18nPeer::LEXICAL_URI);
-
         $criteria->addSelectColumn(($tableAlias) ? SchemaPropertyI18nPeer::alias($tableAlias, SchemaPropertyI18nPeer::DEFINITION) : SchemaPropertyI18nPeer::DEFINITION);
 
         $criteria->addSelectColumn(($tableAlias) ? SchemaPropertyI18nPeer::alias($tableAlias, SchemaPropertyI18nPeer::COMMENT) : SchemaPropertyI18nPeer::COMMENT);
+
+        $criteria->addSelectColumn(($tableAlias) ? SchemaPropertyI18nPeer::alias($tableAlias, SchemaPropertyI18nPeer::LEXICAL_URI) : SchemaPropertyI18nPeer::LEXICAL_URI);
 
         $criteria->addSelectColumn(($tableAlias) ? SchemaPropertyI18nPeer::alias($tableAlias, SchemaPropertyI18nPeer::NOTE) : SchemaPropertyI18nPeer::NOTE);
 

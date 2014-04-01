@@ -1789,7 +1789,7 @@ abstract class BaseSchemaPropertyPeer {
     SchemaPropertyI18nPeer::addSelectColumns($c);
 
     $c->addJoin(SchemaPropertyPeer::ID, SchemaPropertyI18nPeer::ID);
-    $c->add(SchemaPropertyI18nPeer::CULTURE, $culture);
+    $c->add(, $culture);
 
     $rs = BasePeer::doSelect($c, $con);
     $results = array();

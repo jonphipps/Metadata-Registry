@@ -185,18 +185,6 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 	protected $lastSchemaPropertyRelatedByIsSubpropertyOfCriteria = null;
 
 	/**
-	 * Collection to store aggregation of collSchemaPropertyI18ns.
-	 * @var        array
-	 */
-	protected $collSchemaPropertyI18ns;
-
-	/**
-	 * The criteria used to select the current contents of collSchemaPropertyI18ns.
-	 * @var        Criteria
-	 */
-	protected $lastSchemaPropertyI18nCriteria = null;
-
-	/**
 	 * Collection to store aggregation of collSchemaPropertyElementsRelatedBySchemaPropertyId.
 	 * @var        array
 	 */
@@ -243,6 +231,18 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 	 * @var        Criteria
 	 */
 	protected $lastSchemaPropertyElementHistoryRelatedByRelatedSchemaPropertyIdCriteria = null;
+
+	/**
+	 * Collection to store aggregation of collSchemaPropertyI18ns.
+	 * @var        array
+	 */
+	protected $collSchemaPropertyI18ns;
+
+	/**
+	 * The criteria used to select the current contents of collSchemaPropertyI18ns.
+	 * @var        Criteria
+	 */
+	protected $lastSchemaPropertyI18nCriteria = null;
 
 	/**
 	 * Flag to prevent endless save loop, if this object is referenced
@@ -1102,14 +1102,6 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 				}
 			}
 
-			if ($this->collSchemaPropertyI18ns !== null) {
-				foreach($this->collSchemaPropertyI18ns as $referrerFK) {
-					if (!$referrerFK->isDeleted()) {
-						$affectedRows += $referrerFK->save($con);
-					}
-				}
-			}
-
 			if ($this->collSchemaPropertyElementsRelatedBySchemaPropertyId !== null) {
 				foreach($this->collSchemaPropertyElementsRelatedBySchemaPropertyId as $referrerFK) {
 					if (!$referrerFK->isDeleted()) {
@@ -1136,6 +1128,14 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 			if ($this->collSchemaPropertyElementHistorysRelatedByRelatedSchemaPropertyId !== null) {
 				foreach($this->collSchemaPropertyElementHistorysRelatedByRelatedSchemaPropertyId as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
+			}
+
+			if ($this->collSchemaPropertyI18ns !== null) {
+				foreach($this->collSchemaPropertyI18ns as $referrerFK) {
 					if (!$referrerFK->isDeleted()) {
 						$affectedRows += $referrerFK->save($con);
 					}
@@ -1264,14 +1264,6 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 					}
 				}
 
-				if ($this->collSchemaPropertyI18ns !== null) {
-					foreach($this->collSchemaPropertyI18ns as $referrerFK) {
-						if (!$referrerFK->validate($columns)) {
-							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
-						}
-					}
-				}
-
 				if ($this->collSchemaPropertyElementsRelatedBySchemaPropertyId !== null) {
 					foreach($this->collSchemaPropertyElementsRelatedBySchemaPropertyId as $referrerFK) {
 						if (!$referrerFK->validate($columns)) {
@@ -1298,6 +1290,14 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 				if ($this->collSchemaPropertyElementHistorysRelatedByRelatedSchemaPropertyId !== null) {
 					foreach($this->collSchemaPropertyElementHistorysRelatedByRelatedSchemaPropertyId as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
+
+				if ($this->collSchemaPropertyI18ns !== null) {
+					foreach($this->collSchemaPropertyI18ns as $referrerFK) {
 						if (!$referrerFK->validate($columns)) {
 							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
 						}
@@ -1660,10 +1660,6 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 				$copyObj->addSchemaPropertyRelatedByIsSubpropertyOf($relObj->copy($deepCopy));
 			}
 
-			foreach($this->getSchemaPropertyI18ns() as $relObj) {
-				$copyObj->addSchemaPropertyI18n($relObj->copy($deepCopy));
-			}
-
 			foreach($this->getSchemaPropertyElementsRelatedBySchemaPropertyId() as $relObj) {
 				$copyObj->addSchemaPropertyElementRelatedBySchemaPropertyId($relObj->copy($deepCopy));
 			}
@@ -1678,6 +1674,10 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 			foreach($this->getSchemaPropertyElementHistorysRelatedByRelatedSchemaPropertyId() as $relObj) {
 				$copyObj->addSchemaPropertyElementHistoryRelatedByRelatedSchemaPropertyId($relObj->copy($deepCopy));
+			}
+
+			foreach($this->getSchemaPropertyI18ns() as $relObj) {
+				$copyObj->addSchemaPropertyI18n($relObj->copy($deepCopy));
 			}
 
 		} // if ($deepCopy)
@@ -3279,113 +3279,6 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 	}
 
 	/**
-	 * Temporary storage of collSchemaPropertyI18ns to save a possible db hit in
-	 * the event objects are add to the collection, but the
-	 * complete collection is never requested.
-	 * @return     void
-	 */
-	public function initSchemaPropertyI18ns()
-	{
-		if ($this->collSchemaPropertyI18ns === null) {
-			$this->collSchemaPropertyI18ns = array();
-		}
-	}
-
-	/**
-	 * If this collection has already been initialized with
-	 * an identical criteria, it returns the collection.
-	 * Otherwise if this SchemaProperty has previously
-	 * been saved, it will retrieve related SchemaPropertyI18ns from storage.
-	 * If this SchemaProperty is new, it will return
-	 * an empty collection or the current collection, the criteria
-	 * is ignored on a new object.
-	 *
-	 * @param      Connection $con
-	 * @param      Criteria $criteria
-	 * @throws     PropelException
-	 */
-	public function getSchemaPropertyI18ns($criteria = null, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseSchemaPropertyI18nPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collSchemaPropertyI18ns === null) {
-			if ($this->isNew()) {
-			   $this->collSchemaPropertyI18ns = array();
-			} else {
-
-				$criteria->add(SchemaPropertyI18nPeer::ID, $this->getId());
-
-				SchemaPropertyI18nPeer::addSelectColumns($criteria);
-				$this->collSchemaPropertyI18ns = SchemaPropertyI18nPeer::doSelect($criteria, $con);
-			}
-		} else {
-			// criteria has no effect for a new object
-			if (!$this->isNew()) {
-				// the following code is to determine if a new query is
-				// called for.  If the criteria is the same as the last
-				// one, just return the collection.
-
-
-				$criteria->add(SchemaPropertyI18nPeer::ID, $this->getId());
-
-				SchemaPropertyI18nPeer::addSelectColumns($criteria);
-				if (!isset($this->lastSchemaPropertyI18nCriteria) || !$this->lastSchemaPropertyI18nCriteria->equals($criteria)) {
-					$this->collSchemaPropertyI18ns = SchemaPropertyI18nPeer::doSelect($criteria, $con);
-				}
-			}
-		}
-		$this->lastSchemaPropertyI18nCriteria = $criteria;
-		return $this->collSchemaPropertyI18ns;
-	}
-
-	/**
-	 * Returns the number of related SchemaPropertyI18ns.
-	 *
-	 * @param      Criteria $criteria
-	 * @param      boolean $distinct
-	 * @param      Connection $con
-	 * @throws     PropelException
-	 */
-	public function countSchemaPropertyI18ns($criteria = null, $distinct = false, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseSchemaPropertyI18nPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		$criteria->add(SchemaPropertyI18nPeer::ID, $this->getId());
-
-		return SchemaPropertyI18nPeer::doCount($criteria, $distinct, $con);
-	}
-
-	/**
-	 * Method called to associate a SchemaPropertyI18n object to this object
-	 * through the SchemaPropertyI18n foreign key attribute
-	 *
-	 * @param      SchemaPropertyI18n $l SchemaPropertyI18n
-	 * @return     void
-	 * @throws     PropelException
-	 */
-	public function addSchemaPropertyI18n(SchemaPropertyI18n $l)
-	{
-		$this->collSchemaPropertyI18ns[] = $l;
-		$l->setSchemaProperty($this);
-	}
-
-	/**
 	 * Temporary storage of collSchemaPropertyElementsRelatedBySchemaPropertyId to save a possible db hit in
 	 * the event objects are add to the collection, but the
 	 * complete collection is never requested.
@@ -4695,6 +4588,113 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 		return $this->collSchemaPropertyElementHistorysRelatedByRelatedSchemaPropertyId;
 	}
 
+	/**
+	 * Temporary storage of collSchemaPropertyI18ns to save a possible db hit in
+	 * the event objects are add to the collection, but the
+	 * complete collection is never requested.
+	 * @return     void
+	 */
+	public function initSchemaPropertyI18ns()
+	{
+		if ($this->collSchemaPropertyI18ns === null) {
+			$this->collSchemaPropertyI18ns = array();
+		}
+	}
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this SchemaProperty has previously
+	 * been saved, it will retrieve related SchemaPropertyI18ns from storage.
+	 * If this SchemaProperty is new, it will return
+	 * an empty collection or the current collection, the criteria
+	 * is ignored on a new object.
+	 *
+	 * @param      Connection $con
+	 * @param      Criteria $criteria
+	 * @throws     PropelException
+	 */
+	public function getSchemaPropertyI18ns($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseSchemaPropertyI18nPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collSchemaPropertyI18ns === null) {
+			if ($this->isNew()) {
+			   $this->collSchemaPropertyI18ns = array();
+			} else {
+
+				$criteria->add(SchemaPropertyI18nPeer::ID, $this->getId());
+
+				SchemaPropertyI18nPeer::addSelectColumns($criteria);
+				$this->collSchemaPropertyI18ns = SchemaPropertyI18nPeer::doSelect($criteria, $con);
+			}
+		} else {
+			// criteria has no effect for a new object
+			if (!$this->isNew()) {
+				// the following code is to determine if a new query is
+				// called for.  If the criteria is the same as the last
+				// one, just return the collection.
+
+
+				$criteria->add(SchemaPropertyI18nPeer::ID, $this->getId());
+
+				SchemaPropertyI18nPeer::addSelectColumns($criteria);
+				if (!isset($this->lastSchemaPropertyI18nCriteria) || !$this->lastSchemaPropertyI18nCriteria->equals($criteria)) {
+					$this->collSchemaPropertyI18ns = SchemaPropertyI18nPeer::doSelect($criteria, $con);
+				}
+			}
+		}
+		$this->lastSchemaPropertyI18nCriteria = $criteria;
+		return $this->collSchemaPropertyI18ns;
+	}
+
+	/**
+	 * Returns the number of related SchemaPropertyI18ns.
+	 *
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct
+	 * @param      Connection $con
+	 * @throws     PropelException
+	 */
+	public function countSchemaPropertyI18ns($criteria = null, $distinct = false, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseSchemaPropertyI18nPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		$criteria->add(SchemaPropertyI18nPeer::ID, $this->getId());
+
+		return SchemaPropertyI18nPeer::doCount($criteria, $distinct, $con);
+	}
+
+	/**
+	 * Method called to associate a SchemaPropertyI18n object to this object
+	 * through the SchemaPropertyI18n foreign key attribute
+	 *
+	 * @param      SchemaPropertyI18n $l SchemaPropertyI18n
+	 * @return     void
+	 * @throws     PropelException
+	 */
+	public function addSchemaPropertyI18n(SchemaPropertyI18n $l)
+	{
+		$this->collSchemaPropertyI18ns[] = $l;
+		$l->setSchemaProperty($this);
+	}
+
   public function getCulture()
   {
     return $this->culture;
@@ -4729,18 +4729,6 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
     $this->getCurrentSchemaPropertyI18n()->setLabel($value);
   }
 
-  public function getLexicalUri()
-  {
-    $obj = $this->getCurrentSchemaPropertyI18n();
-
-    return ($obj ? $obj->getLexicalUri() : null);
-  }
-
-  public function setLexicalUri($value)
-  {
-    $this->getCurrentSchemaPropertyI18n()->setLexicalUri($value);
-  }
-
   public function getDefinition()
   {
     $obj = $this->getCurrentSchemaPropertyI18n();
@@ -4763,6 +4751,18 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
   public function setComment($value)
   {
     $this->getCurrentSchemaPropertyI18n()->setComment($value);
+  }
+
+  public function getLexicalUri()
+  {
+    $obj = $this->getCurrentSchemaPropertyI18n();
+
+    return ($obj ? $obj->getLexicalUri() : null);
+  }
+
+  public function setLexicalUri($value)
+  {
+    $this->getCurrentSchemaPropertyI18n()->setLexicalUri($value);
   }
 
   public function getNote()
@@ -4791,7 +4791,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
       else
       {
         $this->setSchemaPropertyI18nForCulture(new SchemaPropertyI18n(), $this->culture);
-        $this->current_i18n[$this->culture]->setCulture($this->culture);
+        $this->current_i18n[$this->culture]->set($this->culture);
       }
     }
 

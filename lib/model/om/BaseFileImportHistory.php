@@ -62,13 +62,6 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 
 
 	/**
-	 * The value for the batch_id field.
-	 * @var        int
-	 */
-	protected $batch_id;
-
-
-	/**
 	 * The value for the file_name field.
 	 * @var        string
 	 */
@@ -80,6 +73,13 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 	 * @var        string
 	 */
 	protected $file_type;
+
+
+	/**
+	 * The value for the batch_id field.
+	 * @var        int
+	 */
+	protected $batch_id;
 
 
 	/**
@@ -209,17 +209,6 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 	}
 
 	/**
-	 * Get the [batch_id] column value.
-	 * 
-	 * @return     int
-	 */
-	public function getBatchId()
-	{
-
-		return $this->batch_id;
-	}
-
-	/**
 	 * Get the [file_name] column value.
 	 * 
 	 * @return     string
@@ -239,6 +228,17 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 	{
 
 		return $this->file_type;
+	}
+
+	/**
+	 * Get the [batch_id] column value.
+	 * 
+	 * @return     int
+	 */
+	public function getBatchId()
+	{
+
+		return $this->batch_id;
 	}
 
 	/**
@@ -399,32 +399,6 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 	} // setSchemaId()
 
 	/**
-	 * Set the value of [batch_id] column.
-	 * 
-	 * @param      int $v new value
-	 * @return     void
-	 */
-	public function setBatchId($v)
-	{
-
-		// Since the native PHP type for this column is integer,
-		// we will cast the input value to an int (if it is not).
-		if ($v !== null && !is_int($v) && is_numeric($v)) {
-			$v = (int) $v;
-		}
-
-		if ($this->batch_id !== $v) {
-			$this->batch_id = $v;
-			$this->modifiedColumns[] = FileImportHistoryPeer::BATCH_ID;
-		}
-
-		if ($this->aBatch !== null && $this->aBatch->getId() !== $v) {
-			$this->aBatch = null;
-		}
-
-	} // setBatchId()
-
-	/**
 	 * Set the value of [file_name] column.
 	 * 
 	 * @param      string $v new value
@@ -467,6 +441,32 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 		}
 
 	} // setFileType()
+
+	/**
+	 * Set the value of [batch_id] column.
+	 * 
+	 * @param      int $v new value
+	 * @return     void
+	 */
+	public function setBatchId($v)
+	{
+
+		// Since the native PHP type for this column is integer,
+		// we will cast the input value to an int (if it is not).
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->batch_id !== $v) {
+			$this->batch_id = $v;
+			$this->modifiedColumns[] = FileImportHistoryPeer::BATCH_ID;
+		}
+
+		if ($this->aBatch !== null && $this->aBatch->getId() !== $v) {
+			$this->aBatch = null;
+		}
+
+	} // setBatchId()
 
 	/**
 	 * Set the value of [results] column.
@@ -519,11 +519,11 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 
 			$this->schema_id = $rs->getInt($startcol + 5);
 
-			$this->batch_id = $rs->getInt($startcol + 6);
+			$this->file_name = $rs->getString($startcol + 6);
 
-			$this->file_name = $rs->getString($startcol + 7);
+			$this->file_type = $rs->getString($startcol + 7);
 
-			$this->file_type = $rs->getString($startcol + 8);
+			$this->batch_id = $rs->getInt($startcol + 8);
 
 			$this->results = $rs->getString($startcol + 9);
 
@@ -858,13 +858,13 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 				return $this->getSchemaId();
 				break;
 			case 6:
-				return $this->getBatchId();
-				break;
-			case 7:
 				return $this->getFileName();
 				break;
-			case 8:
+			case 7:
 				return $this->getFileType();
+				break;
+			case 8:
+				return $this->getBatchId();
 				break;
 			case 9:
 				return $this->getResults();
@@ -895,9 +895,9 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 			$keys[3] => $this->getUserId(),
 			$keys[4] => $this->getVocabularyId(),
 			$keys[5] => $this->getSchemaId(),
-			$keys[6] => $this->getBatchId(),
-			$keys[7] => $this->getFileName(),
-			$keys[8] => $this->getFileType(),
+			$keys[6] => $this->getFileName(),
+			$keys[7] => $this->getFileType(),
+			$keys[8] => $this->getBatchId(),
 			$keys[9] => $this->getResults(),
 		);
 		return $result;
@@ -949,13 +949,13 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 				$this->setSchemaId($value);
 				break;
 			case 6:
-				$this->setBatchId($value);
-				break;
-			case 7:
 				$this->setFileName($value);
 				break;
-			case 8:
+			case 7:
 				$this->setFileType($value);
+				break;
+			case 8:
+				$this->setBatchId($value);
 				break;
 			case 9:
 				$this->setResults($value);
@@ -989,9 +989,9 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[3], $arr)) $this->setUserId($arr[$keys[3]]);
 		if (array_key_exists($keys[4], $arr)) $this->setVocabularyId($arr[$keys[4]]);
 		if (array_key_exists($keys[5], $arr)) $this->setSchemaId($arr[$keys[5]]);
-		if (array_key_exists($keys[6], $arr)) $this->setBatchId($arr[$keys[6]]);
-		if (array_key_exists($keys[7], $arr)) $this->setFileName($arr[$keys[7]]);
-		if (array_key_exists($keys[8], $arr)) $this->setFileType($arr[$keys[8]]);
+		if (array_key_exists($keys[6], $arr)) $this->setFileName($arr[$keys[6]]);
+		if (array_key_exists($keys[7], $arr)) $this->setFileType($arr[$keys[7]]);
+		if (array_key_exists($keys[8], $arr)) $this->setBatchId($arr[$keys[8]]);
 		if (array_key_exists($keys[9], $arr)) $this->setResults($arr[$keys[9]]);
 	}
 
@@ -1010,9 +1010,9 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(FileImportHistoryPeer::USER_ID)) $criteria->add(FileImportHistoryPeer::USER_ID, $this->user_id);
 		if ($this->isColumnModified(FileImportHistoryPeer::VOCABULARY_ID)) $criteria->add(FileImportHistoryPeer::VOCABULARY_ID, $this->vocabulary_id);
 		if ($this->isColumnModified(FileImportHistoryPeer::SCHEMA_ID)) $criteria->add(FileImportHistoryPeer::SCHEMA_ID, $this->schema_id);
-		if ($this->isColumnModified(FileImportHistoryPeer::BATCH_ID)) $criteria->add(FileImportHistoryPeer::BATCH_ID, $this->batch_id);
 		if ($this->isColumnModified(FileImportHistoryPeer::FILE_NAME)) $criteria->add(FileImportHistoryPeer::FILE_NAME, $this->file_name);
 		if ($this->isColumnModified(FileImportHistoryPeer::FILE_TYPE)) $criteria->add(FileImportHistoryPeer::FILE_TYPE, $this->file_type);
+		if ($this->isColumnModified(FileImportHistoryPeer::BATCH_ID)) $criteria->add(FileImportHistoryPeer::BATCH_ID, $this->batch_id);
 		if ($this->isColumnModified(FileImportHistoryPeer::RESULTS)) $criteria->add(FileImportHistoryPeer::RESULTS, $this->results);
 
 		return $criteria;
@@ -1078,11 +1078,11 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 
 		$copyObj->setSchemaId($this->schema_id);
 
-		$copyObj->setBatchId($this->batch_id);
-
 		$copyObj->setFileName($this->file_name);
 
 		$copyObj->setFileType($this->file_type);
+
+		$copyObj->setBatchId($this->batch_id);
 
 		$copyObj->setResults($this->results);
 

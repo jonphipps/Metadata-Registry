@@ -73,11 +73,11 @@ class FileImportHistoryMapBuilder {
 
 		$tMap->addForeignKey('SCHEMA_ID', 'SchemaId', 'int', CreoleTypes::INTEGER, 'reg_schema', 'ID', false, null);
 
-		$tMap->addForeignKey('BATCH_ID', 'BatchId', 'int', CreoleTypes::INTEGER, 'reg_batch', 'ID', false, null);
-
 		$tMap->addColumn('FILE_NAME', 'FileName', 'string', CreoleTypes::VARCHAR, false, 255);
 
 		$tMap->addColumn('FILE_TYPE', 'FileType', 'string', CreoleTypes::VARCHAR, false, 10);
+
+		$tMap->addForeignKey('BATCH_ID', 'BatchId', 'int', CreoleTypes::INTEGER, 'reg_batch', 'ID', false, null);
 
 		$tMap->addColumn('RESULTS', 'Results', 'string', CreoleTypes::LONGVARCHAR, false, null);
 

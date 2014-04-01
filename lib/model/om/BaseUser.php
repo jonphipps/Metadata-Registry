@@ -130,6 +130,13 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	 */
 	protected $password;
 
+
+	/**
+	 * The value for the culture field.
+	 * @var        string
+	 */
+	protected $culture = 'en_US';
+
 	/**
 	 * Collection to store aggregation of collProfilesRelatedByCreatedBy.
 	 * @var        array
@@ -765,6 +772,17 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	}
 
 	/**
+	 * Get the [culture] column value.
+	 * 
+	 * @return     string
+	 */
+	public function getCulture()
+	{
+
+		return $this->culture;
+	}
+
+	/**
 	 * Set the value of [id] column.
 	 * 
 	 * @param      int $v new value
@@ -1105,6 +1123,28 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	} // setPassword()
 
 	/**
+	 * Set the value of [culture] column.
+	 * 
+	 * @param      string $v new value
+	 * @return     void
+	 */
+	public function setCulture($v)
+	{
+
+		// Since the native PHP type for this column is string,
+		// we will cast the input to a string (if it is not).
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->culture !== $v || $v === 'en_US') {
+			$this->culture = $v;
+			$this->modifiedColumns[] = UserPeer::CULTURE;
+		}
+
+	} // setCulture()
+
+	/**
 	 * Hydrates (populates) the object variables with values from the database resultset.
 	 *
 	 * An offset (1-based "start column") is specified so that objects can be hydrated
@@ -1153,12 +1193,14 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 			$this->password = $rs->getString($startcol + 15);
 
+			$this->culture = $rs->getString($startcol + 16);
+
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 16; // 16 = UserPeer::NUM_COLUMNS - UserPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 17; // 17 = UserPeer::NUM_COLUMNS - UserPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating User object", $e);
@@ -1961,6 +2003,9 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 			case 15:
 				return $this->getPassword();
 				break;
+			case 16:
+				return $this->getCulture();
+				break;
 			default:
 				return null;
 				break;
@@ -1997,6 +2042,7 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 			$keys[13] => $this->getIsAdministrator(),
 			$keys[14] => $this->getDeletions(),
 			$keys[15] => $this->getPassword(),
+			$keys[16] => $this->getCulture(),
 		);
 		return $result;
 	}
@@ -2076,6 +2122,9 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 			case 15:
 				$this->setPassword($value);
 				break;
+			case 16:
+				$this->setCulture($value);
+				break;
 		} // switch()
 	}
 
@@ -2115,6 +2164,7 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[13], $arr)) $this->setIsAdministrator($arr[$keys[13]]);
 		if (array_key_exists($keys[14], $arr)) $this->setDeletions($arr[$keys[14]]);
 		if (array_key_exists($keys[15], $arr)) $this->setPassword($arr[$keys[15]]);
+		if (array_key_exists($keys[16], $arr)) $this->setCulture($arr[$keys[16]]);
 	}
 
 	/**
@@ -2142,6 +2192,7 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(UserPeer::IS_ADMINISTRATOR)) $criteria->add(UserPeer::IS_ADMINISTRATOR, $this->is_administrator);
 		if ($this->isColumnModified(UserPeer::DELETIONS)) $criteria->add(UserPeer::DELETIONS, $this->deletions);
 		if ($this->isColumnModified(UserPeer::PASSWORD)) $criteria->add(UserPeer::PASSWORD, $this->password);
+		if ($this->isColumnModified(UserPeer::CULTURE)) $criteria->add(UserPeer::CULTURE, $this->culture);
 
 		return $criteria;
 	}
@@ -2225,6 +2276,8 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		$copyObj->setDeletions($this->deletions);
 
 		$copyObj->setPassword($this->password);
+
+		$copyObj->setCulture($this->culture);
 
 
 		if ($deepCopy) {

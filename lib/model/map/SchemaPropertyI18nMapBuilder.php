@@ -69,11 +69,11 @@ class SchemaPropertyI18nMapBuilder {
 
 		$tMap->addColumn('LABEL', 'Label', 'string', CreoleTypes::VARCHAR, true, 255);
 
-		$tMap->addColumn('LEXICAL_URI', 'LexicalUri', 'string', CreoleTypes::VARCHAR, true, 255);
-
 		$tMap->addColumn('DEFINITION', 'Definition', 'string', CreoleTypes::LONGVARCHAR, false, null);
 
 		$tMap->addColumn('COMMENT', 'Comment', 'string', CreoleTypes::LONGVARCHAR, false, null);
+
+		$tMap->addColumn('LEXICAL_URI', 'LexicalUri', 'string', CreoleTypes::VARCHAR, true, 255);
 
 		$tMap->addColumn('NOTE', 'Note', 'string', CreoleTypes::LONGVARCHAR, false, null);
 

@@ -30,7 +30,7 @@ abstract class BaseSchemaPropertyI18n extends BaseObject  implements Persistent 
 	 * The value for the culture field.
 	 * @var        string
 	 */
-	protected $culture;
+	protected $culture = 'en';
 
 
 	/**
@@ -48,13 +48,6 @@ abstract class BaseSchemaPropertyI18n extends BaseObject  implements Persistent 
 
 
 	/**
-	 * The value for the lexical_uri field.
-	 * @var        string
-	 */
-	protected $lexical_uri = '';
-
-
-	/**
 	 * The value for the definition field.
 	 * @var        string
 	 */
@@ -66,6 +59,13 @@ abstract class BaseSchemaPropertyI18n extends BaseObject  implements Persistent 
 	 * @var        string
 	 */
 	protected $comment;
+
+
+	/**
+	 * The value for the lexical_uri field.
+	 * @var        string
+	 */
+	protected $lexical_uri = '';
 
 
 	/**
@@ -138,17 +138,6 @@ abstract class BaseSchemaPropertyI18n extends BaseObject  implements Persistent 
 	}
 
 	/**
-	 * Get the [lexical_uri] column value.
-	 * 
-	 * @return     string
-	 */
-	public function getLexicalUri()
-	{
-
-		return $this->lexical_uri;
-	}
-
-	/**
 	 * Get the [definition] column value.
 	 * 
 	 * @return     string
@@ -168,6 +157,17 @@ abstract class BaseSchemaPropertyI18n extends BaseObject  implements Persistent 
 	{
 
 		return $this->comment;
+	}
+
+	/**
+	 * Get the [lexical_uri] column value.
+	 * 
+	 * @return     string
+	 */
+	public function getLexicalUri()
+	{
+
+		return $this->lexical_uri;
 	}
 
 	/**
@@ -222,7 +222,7 @@ abstract class BaseSchemaPropertyI18n extends BaseObject  implements Persistent 
 			$v = (string) $v; 
 		}
 
-		if ($this->culture !== $v) {
+		if ($this->culture !== $v || $v === 'en') {
 			$this->culture = $v;
 			$this->modifiedColumns[] = SchemaPropertyI18nPeer::CULTURE;
 		}
@@ -274,28 +274,6 @@ abstract class BaseSchemaPropertyI18n extends BaseObject  implements Persistent 
 	} // setLabel()
 
 	/**
-	 * Set the value of [lexical_uri] column.
-	 * 
-	 * @param      string $v new value
-	 * @return     void
-	 */
-	public function setLexicalUri($v)
-	{
-
-		// Since the native PHP type for this column is string,
-		// we will cast the input to a string (if it is not).
-		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
-		}
-
-		if ($this->lexical_uri !== $v || $v === '') {
-			$this->lexical_uri = $v;
-			$this->modifiedColumns[] = SchemaPropertyI18nPeer::LEXICAL_URI;
-		}
-
-	} // setLexicalUri()
-
-	/**
 	 * Set the value of [definition] column.
 	 * 
 	 * @param      string $v new value
@@ -338,6 +316,28 @@ abstract class BaseSchemaPropertyI18n extends BaseObject  implements Persistent 
 		}
 
 	} // setComment()
+
+	/**
+	 * Set the value of [lexical_uri] column.
+	 * 
+	 * @param      string $v new value
+	 * @return     void
+	 */
+	public function setLexicalUri($v)
+	{
+
+		// Since the native PHP type for this column is string,
+		// we will cast the input to a string (if it is not).
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->lexical_uri !== $v || $v === '') {
+			$this->lexical_uri = $v;
+			$this->modifiedColumns[] = SchemaPropertyI18nPeer::LEXICAL_URI;
+		}
+
+	} // setLexicalUri()
 
 	/**
 	 * Set the value of [note] column.
@@ -386,11 +386,11 @@ abstract class BaseSchemaPropertyI18n extends BaseObject  implements Persistent 
 
 			$this->label = $rs->getString($startcol + 3);
 
-			$this->lexical_uri = $rs->getString($startcol + 4);
+			$this->definition = $rs->getString($startcol + 4);
 
-			$this->definition = $rs->getString($startcol + 5);
+			$this->comment = $rs->getString($startcol + 5);
 
-			$this->comment = $rs->getString($startcol + 6);
+			$this->lexical_uri = $rs->getString($startcol + 6);
 
 			$this->note = $rs->getString($startcol + 7);
 
@@ -673,13 +673,13 @@ abstract class BaseSchemaPropertyI18n extends BaseObject  implements Persistent 
 				return $this->getLabel();
 				break;
 			case 4:
-				return $this->getLexicalUri();
-				break;
-			case 5:
 				return $this->getDefinition();
 				break;
-			case 6:
+			case 5:
 				return $this->getComment();
+				break;
+			case 6:
+				return $this->getLexicalUri();
 				break;
 			case 7:
 				return $this->getNote();
@@ -708,9 +708,9 @@ abstract class BaseSchemaPropertyI18n extends BaseObject  implements Persistent 
 			$keys[1] => $this->getCulture(),
 			$keys[2] => $this->getName(),
 			$keys[3] => $this->getLabel(),
-			$keys[4] => $this->getLexicalUri(),
-			$keys[5] => $this->getDefinition(),
-			$keys[6] => $this->getComment(),
+			$keys[4] => $this->getDefinition(),
+			$keys[5] => $this->getComment(),
+			$keys[6] => $this->getLexicalUri(),
 			$keys[7] => $this->getNote(),
 		);
 		return $result;
@@ -756,13 +756,13 @@ abstract class BaseSchemaPropertyI18n extends BaseObject  implements Persistent 
 				$this->setLabel($value);
 				break;
 			case 4:
-				$this->setLexicalUri($value);
-				break;
-			case 5:
 				$this->setDefinition($value);
 				break;
-			case 6:
+			case 5:
 				$this->setComment($value);
+				break;
+			case 6:
+				$this->setLexicalUri($value);
 				break;
 			case 7:
 				$this->setNote($value);
@@ -794,9 +794,9 @@ abstract class BaseSchemaPropertyI18n extends BaseObject  implements Persistent 
 		if (array_key_exists($keys[1], $arr)) $this->setCulture($arr[$keys[1]]);
 		if (array_key_exists($keys[2], $arr)) $this->setName($arr[$keys[2]]);
 		if (array_key_exists($keys[3], $arr)) $this->setLabel($arr[$keys[3]]);
-		if (array_key_exists($keys[4], $arr)) $this->setLexicalUri($arr[$keys[4]]);
-		if (array_key_exists($keys[5], $arr)) $this->setDefinition($arr[$keys[5]]);
-		if (array_key_exists($keys[6], $arr)) $this->setComment($arr[$keys[6]]);
+		if (array_key_exists($keys[4], $arr)) $this->setDefinition($arr[$keys[4]]);
+		if (array_key_exists($keys[5], $arr)) $this->setComment($arr[$keys[5]]);
+		if (array_key_exists($keys[6], $arr)) $this->setLexicalUri($arr[$keys[6]]);
 		if (array_key_exists($keys[7], $arr)) $this->setNote($arr[$keys[7]]);
 	}
 
@@ -813,9 +813,9 @@ abstract class BaseSchemaPropertyI18n extends BaseObject  implements Persistent 
 		if ($this->isColumnModified(SchemaPropertyI18nPeer::CULTURE)) $criteria->add(SchemaPropertyI18nPeer::CULTURE, $this->culture);
 		if ($this->isColumnModified(SchemaPropertyI18nPeer::NAME)) $criteria->add(SchemaPropertyI18nPeer::NAME, $this->name);
 		if ($this->isColumnModified(SchemaPropertyI18nPeer::LABEL)) $criteria->add(SchemaPropertyI18nPeer::LABEL, $this->label);
-		if ($this->isColumnModified(SchemaPropertyI18nPeer::LEXICAL_URI)) $criteria->add(SchemaPropertyI18nPeer::LEXICAL_URI, $this->lexical_uri);
 		if ($this->isColumnModified(SchemaPropertyI18nPeer::DEFINITION)) $criteria->add(SchemaPropertyI18nPeer::DEFINITION, $this->definition);
 		if ($this->isColumnModified(SchemaPropertyI18nPeer::COMMENT)) $criteria->add(SchemaPropertyI18nPeer::COMMENT, $this->comment);
+		if ($this->isColumnModified(SchemaPropertyI18nPeer::LEXICAL_URI)) $criteria->add(SchemaPropertyI18nPeer::LEXICAL_URI, $this->lexical_uri);
 		if ($this->isColumnModified(SchemaPropertyI18nPeer::NOTE)) $criteria->add(SchemaPropertyI18nPeer::NOTE, $this->note);
 
 		return $criteria;
@@ -887,11 +887,11 @@ abstract class BaseSchemaPropertyI18n extends BaseObject  implements Persistent 
 
 		$copyObj->setLabel($this->label);
 
-		$copyObj->setLexicalUri($this->lexical_uri);
-
 		$copyObj->setDefinition($this->definition);
 
 		$copyObj->setComment($this->comment);
+
+		$copyObj->setLexicalUri($this->lexical_uri);
 
 		$copyObj->setNote($this->note);
 
@@ -900,7 +900,7 @@ abstract class BaseSchemaPropertyI18n extends BaseObject  implements Persistent 
 
 		$copyObj->setId(NULL); // this is a pkey column, so set to default value
 
-		$copyObj->setCulture(NULL); // this is a pkey column, so set to default value
+		$copyObj->setCulture('en'); // this is a pkey column, so set to default value
 
 	}
 
