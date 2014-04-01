@@ -9,16 +9,74 @@
  */
 class SchemaProperty extends BaseSchemaProperty
 {
-    /**
-     * The value for the base schema uri field.
-     *
-     * @var        string
-     */
-    protected $schemaUri = '';
+  public function hydrate(ResultSet $rs, $startcol = 1)
+  {
+    $this->setCulture(sfContext::getInstance()->getUser()->getCulture());
+
+    return parent::hydrate($rs, $startcol);
+  }
+
+  public function getCurrentLanguage()
+  {
+    $c = new sfCultureInfo(sfContext::getInstance()->getUser()->getCulture());
+    return $c->getNativeName();
+  }
+  /**
+   * @return array
+   */
+  public function getLanguagesForSchema()
+  {
+    return $this->getSchema()->getLanguages();
+  }
+
+  /**
+   * @return array
+   */
+  public function getLanguagesForUser()
+  {
+    $schemaUser = $this->getSchemaForUser();
+    return $schemaUser->getLanguages();
+  }
+
+  /**
+   * @return string
+   */
+  public function getUserLanguage()
+  {
+    $language ='';
+    $schemaUser = $this->getSchemaForUser();
+    if ($schemaUser)
+    {
+      $language   = $schemaUser->getDefaultLanguage();
+    }
+    if (! $language) {
+      $language = sfContext::getInstance()->getUser()->getCulture();
+    }
+    return $language;
+  }
+  /**
+   * @return SchemaHasUser
+   */
+  public function getSchemaForUser()
+  {
+    $schemaId = $this->getSchemaId();
+    $userId   = sfContext::getInstance()->getUser()->getSubscriberId();
+    $c        = new Criteria();
+    $c->add(SchemaHasUserPeer::SCHEMA_ID, $schemaId);
+    $c->add(SchemaHasUserPeer::USER_ID, $userId);
+    return SchemaHasUserPeer::doSelectOne($c);
+  }
+
+  /**
+   * The value for the base schema uri field.
+   *
+   * @var        string
+   */
+  protected $schemaUri = '';
 
     public function __toString()
     {
-        return $this->getLabel();
+        return (string) $this->getLabel();
     }
 
     /**

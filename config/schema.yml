@@ -1258,11 +1258,6 @@ propel:
       type: LONGVARCHAR
     comment:
       type: LONGVARCHAR
-    language:
-      type: VARCHAR
-      size: 6
-      required: true
-      default: ''
     note:
       type: LONGVARCHAR
 

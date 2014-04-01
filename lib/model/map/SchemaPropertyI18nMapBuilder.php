@@ -75,8 +75,6 @@ class SchemaPropertyI18nMapBuilder {
 
 		$tMap->addColumn('COMMENT', 'Comment', 'string', CreoleTypes::LONGVARCHAR, false, null);
 
-		$tMap->addColumn('LANGUAGE', 'Language', 'string', CreoleTypes::VARCHAR, true, 6);
-
 		$tMap->addColumn('NOTE', 'Note', 'string', CreoleTypes::LONGVARCHAR, false, null);
 
 	} // doBuild()

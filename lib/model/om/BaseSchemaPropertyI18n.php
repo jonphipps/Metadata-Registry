@@ -69,13 +69,6 @@ abstract class BaseSchemaPropertyI18n extends BaseObject  implements Persistent 
 
 
 	/**
-	 * The value for the language field.
-	 * @var        string
-	 */
-	protected $language = '';
-
-
-	/**
 	 * The value for the note field.
 	 * @var        string
 	 */
@@ -175,17 +168,6 @@ abstract class BaseSchemaPropertyI18n extends BaseObject  implements Persistent 
 	{
 
 		return $this->comment;
-	}
-
-	/**
-	 * Get the [language] column value.
-	 * 
-	 * @return     string
-	 */
-	public function getLanguage()
-	{
-
-		return $this->language;
 	}
 
 	/**
@@ -358,28 +340,6 @@ abstract class BaseSchemaPropertyI18n extends BaseObject  implements Persistent 
 	} // setComment()
 
 	/**
-	 * Set the value of [language] column.
-	 * 
-	 * @param      string $v new value
-	 * @return     void
-	 */
-	public function setLanguage($v)
-	{
-
-		// Since the native PHP type for this column is string,
-		// we will cast the input to a string (if it is not).
-		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
-		}
-
-		if ($this->language !== $v || $v === '') {
-			$this->language = $v;
-			$this->modifiedColumns[] = SchemaPropertyI18nPeer::LANGUAGE;
-		}
-
-	} // setLanguage()
-
-	/**
 	 * Set the value of [note] column.
 	 * 
 	 * @param      string $v new value
@@ -432,16 +392,14 @@ abstract class BaseSchemaPropertyI18n extends BaseObject  implements Persistent 
 
 			$this->comment = $rs->getString($startcol + 6);
 
-			$this->language = $rs->getString($startcol + 7);
-
-			$this->note = $rs->getString($startcol + 8);
+			$this->note = $rs->getString($startcol + 7);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 9; // 9 = SchemaPropertyI18nPeer::NUM_COLUMNS - SchemaPropertyI18nPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 8; // 8 = SchemaPropertyI18nPeer::NUM_COLUMNS - SchemaPropertyI18nPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating SchemaPropertyI18n object", $e);
@@ -724,9 +682,6 @@ abstract class BaseSchemaPropertyI18n extends BaseObject  implements Persistent 
 				return $this->getComment();
 				break;
 			case 7:
-				return $this->getLanguage();
-				break;
-			case 8:
 				return $this->getNote();
 				break;
 			default:
@@ -756,8 +711,7 @@ abstract class BaseSchemaPropertyI18n extends BaseObject  implements Persistent 
 			$keys[4] => $this->getLexicalUri(),
 			$keys[5] => $this->getDefinition(),
 			$keys[6] => $this->getComment(),
-			$keys[7] => $this->getLanguage(),
-			$keys[8] => $this->getNote(),
+			$keys[7] => $this->getNote(),
 		);
 		return $result;
 	}
@@ -811,9 +765,6 @@ abstract class BaseSchemaPropertyI18n extends BaseObject  implements Persistent 
 				$this->setComment($value);
 				break;
 			case 7:
-				$this->setLanguage($value);
-				break;
-			case 8:
 				$this->setNote($value);
 				break;
 		} // switch()
@@ -846,8 +797,7 @@ abstract class BaseSchemaPropertyI18n extends BaseObject  implements Persistent 
 		if (array_key_exists($keys[4], $arr)) $this->setLexicalUri($arr[$keys[4]]);
 		if (array_key_exists($keys[5], $arr)) $this->setDefinition($arr[$keys[5]]);
 		if (array_key_exists($keys[6], $arr)) $this->setComment($arr[$keys[6]]);
-		if (array_key_exists($keys[7], $arr)) $this->setLanguage($arr[$keys[7]]);
-		if (array_key_exists($keys[8], $arr)) $this->setNote($arr[$keys[8]]);
+		if (array_key_exists($keys[7], $arr)) $this->setNote($arr[$keys[7]]);
 	}
 
 	/**
@@ -866,7 +816,6 @@ abstract class BaseSchemaPropertyI18n extends BaseObject  implements Persistent 
 		if ($this->isColumnModified(SchemaPropertyI18nPeer::LEXICAL_URI)) $criteria->add(SchemaPropertyI18nPeer::LEXICAL_URI, $this->lexical_uri);
 		if ($this->isColumnModified(SchemaPropertyI18nPeer::DEFINITION)) $criteria->add(SchemaPropertyI18nPeer::DEFINITION, $this->definition);
 		if ($this->isColumnModified(SchemaPropertyI18nPeer::COMMENT)) $criteria->add(SchemaPropertyI18nPeer::COMMENT, $this->comment);
-		if ($this->isColumnModified(SchemaPropertyI18nPeer::LANGUAGE)) $criteria->add(SchemaPropertyI18nPeer::LANGUAGE, $this->language);
 		if ($this->isColumnModified(SchemaPropertyI18nPeer::NOTE)) $criteria->add(SchemaPropertyI18nPeer::NOTE, $this->note);
 
 		return $criteria;
@@ -943,8 +892,6 @@ abstract class BaseSchemaPropertyI18n extends BaseObject  implements Persistent 
 		$copyObj->setDefinition($this->definition);
 
 		$copyObj->setComment($this->comment);
-
-		$copyObj->setLanguage($this->language);
 
 		$copyObj->setNote($this->note);
 

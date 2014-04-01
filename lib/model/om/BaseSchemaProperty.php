@@ -4765,18 +4765,6 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
     $this->getCurrentSchemaPropertyI18n()->setComment($value);
   }
 
-  public function getLanguage()
-  {
-    $obj = $this->getCurrentSchemaPropertyI18n();
-
-    return ($obj ? $obj->getLanguage() : null);
-  }
-
-  public function setLanguage($value)
-  {
-    $this->getCurrentSchemaPropertyI18n()->setLanguage($value);
-  }
-
   public function getNote()
   {
     $obj = $this->getCurrentSchemaPropertyI18n();
