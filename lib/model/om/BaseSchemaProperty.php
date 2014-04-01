@@ -4791,7 +4791,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
       else
       {
         $this->setSchemaPropertyI18nForCulture(new SchemaPropertyI18n(), $this->culture);
-        $this->current_i18n[$this->culture]->set($this->culture);
+        $this->current_i18n[$this->culture]->setCulture($this->culture);
       }
     }
 

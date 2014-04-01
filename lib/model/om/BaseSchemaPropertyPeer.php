@@ -3,7 +3,7 @@
 /**
  * Base static class for performing query and update operations on the 'reg_schema_property' table.
  *
- * 
+ *
  *
  * @package    lib.model.om
  */
@@ -349,17 +349,17 @@ abstract class BaseSchemaPropertyPeer {
 	public static function populateObjects(ResultSet $rs)
 	{
 		$results = array();
-	
+
 		// set the class once to avoid overhead in the loop
 		$cls = SchemaPropertyPeer::getOMClass();
 		$cls = Propel::import($cls);
 		// populate the object(s)
 		while($rs->next()) {
-		
+
 			$obj = new $cls();
 			$obj->hydrate($rs);
 			$results[] = $obj;
-			
+
 		}
 		return $results;
 	}
@@ -853,7 +853,7 @@ abstract class BaseSchemaPropertyPeer {
 
 
 				// Add objects for joined User rows
-	
+
 			$omClass = UserPeer::getOMClass();
 
 
@@ -879,7 +879,7 @@ abstract class BaseSchemaPropertyPeer {
 
 
 				// Add objects for joined User rows
-	
+
 			$omClass = UserPeer::getOMClass();
 
 
@@ -905,7 +905,7 @@ abstract class BaseSchemaPropertyPeer {
 
 
 				// Add objects for joined Schema rows
-	
+
 			$omClass = SchemaPeer::getOMClass();
 
 
@@ -931,7 +931,7 @@ abstract class BaseSchemaPropertyPeer {
 
 
 				// Add objects for joined Status rows
-	
+
 			$omClass = StatusPeer::getOMClass();
 
 
@@ -1760,13 +1760,14 @@ abstract class BaseSchemaPropertyPeer {
 		return $results;
 	}
 
-
   /**
    * Selects a collection of SchemaProperty objects pre-filled with their i18n objects.
    *
+   * @param Criteria   $c
+   * @param string     $culture
+   * @param Connection $con
+   *
    * @return array Array of SchemaProperty objects.
-   * @throws PropelException Any exceptions caught during processing will be
-   *     rethrown wrapped into a PropelException.
    */
   public static function doSelectWithI18n(Criteria $c, $culture = null, $con = null)
   {
@@ -1789,7 +1790,7 @@ abstract class BaseSchemaPropertyPeer {
     SchemaPropertyI18nPeer::addSelectColumns($c);
 
     $c->addJoin(SchemaPropertyPeer::ID, SchemaPropertyI18nPeer::ID);
-    $c->add(, $culture);
+    $c->add(SchemaPropertyI18nPeer::CULTURE, $culture);
 
     $rs = BasePeer::doSelect($c, $con);
     $results = array();
@@ -1892,7 +1893,7 @@ abstract class BaseSchemaPropertyPeer {
 			throw $e;
 		}
 
-		
+
     foreach (sfMixer::getCallables('BaseSchemaPropertyPeer:doInsert:post') as $callable)
     {
       call_user_func($callable, 'BaseSchemaPropertyPeer', $values, $con, $pk);
@@ -1944,7 +1945,7 @@ abstract class BaseSchemaPropertyPeer {
 		$criteria->setDbName(self::DATABASE_NAME);
 
 		$ret = BasePeer::doUpdate($selectCriteria, $criteria, $con);
-	
+
 
     foreach (sfMixer::getCallables('BaseSchemaPropertyPeer:doUpdate:post') as $callable)
     {
@@ -2015,7 +2016,7 @@ abstract class BaseSchemaPropertyPeer {
 			// use transaction because $criteria could contain info
 			// for more than one table or we could emulating ON DELETE CASCADE, etc.
 			$con->begin();
-			
+
 			$affectedRows += BasePeer::doDelete($criteria, $con);
 			$con->commit();
 			return $affectedRows;
