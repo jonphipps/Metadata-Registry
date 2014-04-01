@@ -424,6 +424,8 @@ EOF;
 
     // user has set a personalized list of fields?
     $fields = $this->getParameterValue($paramName);
+    $i18n = $this->getParameterValue('i18n', false);
+
     if (is_array($fields)) {
       // categories?
       if (isset($fields[0])) {
@@ -447,7 +449,7 @@ EOF;
       foreach ($fieldsArray as $field) {
         list($field, $flags) = $this->splitFlag($field);
 
-        $phpNames[] = $this->getAdminColumnForField($field, $flags);
+        $phpNames[] = $this->getAdminColumnForField($field, $flags, $i18n);
       }
     } else {
       // no, just return the full list of columns in table
@@ -803,7 +805,6 @@ EOF;
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
  * @version    SVN: $Id: sfPropelAdminGenerator.class.php 2625 2006-11-07 10:36:14Z fabien $
  *
- * @method  getCreoleType()
  */
 class sfAdminColumn
 {

@@ -3,6 +3,7 @@ generator:
   param:
     model_class:      SchemaProperty
     theme:            default
+    i18n:             true
     pager:
       no_results:     No Elements have been defined for this Element Set
 
@@ -34,10 +35,10 @@ generator:
       is_subproperty_of: { name: Subproperty of, help: "Choose a registered property from the list. This will override the existing subproperty URI (if any) when the form is saved." }
       is_subclass_of:    { name: Subclass of, help: "Choose a registered class from the list. This will override the existing subclass URI (if any) when the form is saved." }
       parent_uri:        { name: Parent URI, help: "The URI of the parent class or property."}
-      status_id:         { name: Status, help: "This is the overall status of this Element. Individual elements of this property may have a different status" }
+      status_id:         { name: Status, help: "This is the overall status of this Element. Individual properties of this element may have a different status" }
       properties:        { name: Statements }
       orange:            { name: Range }
-      language:          { name: Language, help: "This is the default language for all statements of this element." }
+      user_language:     { name: Language, help: "This is the current language for all statements of this element." }
 
     list:
       title:            Properties for %%schema%%
@@ -53,6 +54,7 @@ generator:
       filters:          [schema_id, label, updated_at, status]
       urlfilters:
         schema_id:  schema_id
+        lang:       culture
 
     edit:
       title:
@@ -62,6 +64,7 @@ generator:
       fields:
         id:            { credentials: [administrator], mode: edit }
         name:          { params: onblur=updateUri() }
+        label:         {type: input_tag, params: disabled=false }
         type:
           type: select_tag
           params:
@@ -72,17 +75,18 @@ generator:
               subclass:    subclass
             include_blank: true
             onchange: swapOptions()
-        language:          { type: select_language_tag }
+        user_language:     { type: admin_select_language, params: limitmethod=getLanguagesForUser }
         is_subproperty_of: { params: related_class=SchemaProperty peer_method=getPropertiesByCurrentSchemaID include_blank=true }
         is_subclass_of:    { type: select_tag, params: related_class=SchemaProperty peer_method=getClassesByCurrentSchemaID include_blank=true }
       title:               Detail for %%label%%
       hide:                [schema_id, schema_uri]
       display:
         "-Metadata":   { fields: [id, created_at, created_user, updated_at, updated_user], mode: edit}
-        "Detail":      [type, label, name, uri, definition, comment, is_subproperty_of, is_subclass_of, parent_uri, domain, orange, status_id, language, note]
+        "Language":    [user_language]
+        "Detail":      [type, label, name, uri, definition, comment, is_subproperty_of, is_subclass_of, parent_uri, domain, orange, status_id, note]
 #        "Statements":  [_listproperties]
       actions:
-        _list:         { query_string: { schema_id: schema_id} }
+        _list:         { query_string: { schema_id: schema_id } }
         _save:         { credentials: [[administrator, schemamaintainer, schemaadmin, schemapropadmin]] }
         _delete:       { credentials: [[administrator, schemaadmin]] }
         _create:       { name: Add Element, credentials: [[administrator, schemamaintainer, schemaadmin, schemapropadmin]], mode: edit  }
@@ -98,9 +102,11 @@ generator:
         parent_uri:    { name: Parent, condition: "('subproperty' == $schema_property->getType() || 'subclass' == $schema_property->getType()) && !$schema_property->getIsSubpropertyOf()" }
         domain:        { condition: "'subproperty' == $schema_property->getType() || 'property' == $schema_property->getType()" }
         orange:        { condition: "'subproperty' == $schema_property->getType() || 'property' == $schema_property->getType()" }
+        user_language: { type: admin_select_language, params: limitmethod=getLanguagesForSchema }
       display:
         "-Metadata":   { fields: [id, created_at, created_user, updated_at, updated_user] }
-        "Detail":      [label, name, _uri, definition, comment, type, _show_parent, parent_uri, domain, orange, status, _language, note]
+        "Language":    [current_language]
+        "Detail":      [label, name, _uri, definition, comment, type, _show_parent, parent_uri, domain, orange, status, note]
 #        "Statements":  [_listproperties]
       actions:
         _list:         { query_string: { schema_id: schema_id} }

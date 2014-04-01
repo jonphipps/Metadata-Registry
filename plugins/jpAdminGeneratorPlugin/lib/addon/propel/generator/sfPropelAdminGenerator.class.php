@@ -43,28 +43,47 @@ class sfPropelAdminGenerator extends sfPropelCrudGenerator
     return $phpNames;
   }
 
-  public function getAdminColumnForField($field, $flag = null)
+  public function getAdminColumnForField($field, $flag = null, $i18n = false)
   {
     $phpName = sfInflector::camelize($field);
 
-    return new sfAdminColumn($phpName, $this->getColumnForPhpName($phpName), $flag);
+    return new sfAdminColumn($phpName, $this->getColumnForPhpName($phpName, $i18n), $flag);
   }
 
   // returns a column phpName or null if none was found
-  public function getColumnForPhpName($phpName)
+  public function getColumnForPhpName($phpName, $i18n = false)
   {
     // search the matching column for this column name
+    $column = $this->SearchTableMap($this->getTableMap()->getColumns(), $phpName);
 
-    /** @var $column Column */
-    foreach ($this->getTableMap()->getColumns() as $column) {
-      if ($column->getPhpName() == $phpName) {
-        $found = true;
+    if (! $column && $i18n) {
+      //check for an i18n version of the table
+      $i18nMap = $this->getTableMap()->getDatabaseMap()->getTable($this->getTableMap()->getName() . '_i18n');
 
-        return $column;
+      /** @var $i18nMap TableMap */
+      if (! empty($i18nMap)) {
+        $column = $this->SearchTableMap($i18nMap->getColumns(), $phpName);
       }
     }
 
     // not a "real" column, so we will simulate one
+    return $column;
+  }
+
+  /**
+   * @param Column $columns
+   * @param string $phpName
+   *
+   * @return Column|null
+   */
+  private function SearchTableMap($columns, $phpName)
+  {
+    /** @var $column Column */
+    foreach ($columns as $column) {
+      if ($column->getPhpName() == $phpName) {
+        return $column;
+      }
+    }
     return null;
   }
 }
