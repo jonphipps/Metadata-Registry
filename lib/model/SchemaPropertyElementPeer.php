@@ -24,7 +24,7 @@ class SchemaPropertyElementPeer extends BaseSchemaPropertyElementPeer
         $element->setCreatedUserId($userId);
         $element->setUpdatedUserId($userId);
         $element->setSchemaPropertyId($schema_property->getId());
-        $element->setLanguage($schema_property->getLanguage());
+        $element->setLanguage($schema_property->getCurrentSchemaPropertyI18n()->getCulture());
         $element->setStatusId($schema_property->getStatusId());
         $element->setProfilePropertyId($fieldId);
 
@@ -33,16 +33,17 @@ class SchemaPropertyElementPeer extends BaseSchemaPropertyElementPeer
 
     } // createElement
 
-    /**
-     * description
-     *
-     * @param integer $schemaPropertyId [Optional}
-     * @param integer $profilePropertyId
-     * @param string  $value
-     *
-     * @return SchemaPropertyElement
-     */
-    public static function lookupElement($schemaPropertyId = null, $profilePropertyId, $value)
+  /**
+   * description
+   *
+   * @param integer $schemaPropertyId [Optional}
+   * @param integer $profilePropertyId
+   * @param string  $value
+   * @param string  $language (optional)
+   *
+   * @return SchemaPropertyElement
+   */
+    public static function lookupElement($schemaPropertyId = null, $profilePropertyId, $value, $language = null)
     {
         $c = new Criteria();
         $c->add(self::PROFILE_PROPERTY_ID, $profilePropertyId);
@@ -50,6 +51,33 @@ class SchemaPropertyElementPeer extends BaseSchemaPropertyElementPeer
         //only add the schema property id if we know what the schema property is
         if ($schemaPropertyId) {
             $c->add(self::SCHEMA_PROPERTY_ID, $schemaPropertyId);
+        }
+        if ($language) {
+            $c->add(self::LANGUAGE, $language);
+        }
+
+        $results = self::doSelectOne($c);
+
+        return $results;
+    }
+
+    /**
+     * description
+     *
+     * @param integer $schemaPropertyId
+     * @param integer $profilePropertyId
+     * @param string  $language         (optional)
+     *
+     * @return SchemaPropertyElement
+     */
+    public static function lookupDetailElement($schemaPropertyId, $profilePropertyId, $language = null)
+    {
+        $c = new Criteria();
+        $c->add(self::PROFILE_PROPERTY_ID, $profilePropertyId);
+        $c->add(self::IS_SCHEMA_PROPERTY, true);
+        $c->add(self::SCHEMA_PROPERTY_ID, $schemaPropertyId);
+        if ($language) {
+            $c->add(self::LANGUAGE, $language);
         }
 
         $results = self::doSelectOne($c);

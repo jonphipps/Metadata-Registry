@@ -312,15 +312,11 @@ class SchemaProperty extends BaseSchemaProperty
                     //get all of the existing elements
                     $elements = $this->getSchemaPropertyElementsRelatedBySchemaPropertyId();
                     foreach ($fields as $id => $field) {
-                        try {
-                            $column = SchemaPropertyPeer::translateFieldname(
-                                                        $field,
-                                                          BasePeer::TYPE_FIELDNAME,
-                                                          BasePeer::TYPE_COLNAME
-                            );
-                        } catch(PropelException $e) {
-                            $column = false;
-                        }
+                      try {
+                        $column = SchemaPropertyPeer::translateFieldname($field, BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_COLNAME);
+                      } catch(PropelException $e) {
+                        $column = false;
+                      }
 
                         $object = $this->getFieldValue($field);
 
@@ -338,7 +334,6 @@ class SchemaProperty extends BaseSchemaProperty
                                 $id    = count($key) ? $key[0] : null;
                                 $field = 'is_subclass_of';
                             }
-                            //find the element and make sure it's only for the detail screen
                             //find the element and make sure it's only for the detail screen
                             $foundOne = false;
                             /** @var $element \SchemaPropertyElement */
@@ -377,9 +372,41 @@ class SchemaProperty extends BaseSchemaProperty
                         }
                     }
 
-                    //save it last
-                    $affectedRows = $this->save($con);
+                    //do it again for i18n
+                    /** @var $i18n SchemaPropertyI18n */
+                    $i18n    = $this->getCurrentSchemaPropertyI18n();
+                    $columns = $i18n->modifiedColumns;
+
+                    foreach ($columns as $column) {
+                        $object     = $i18n->getByName($column, BasePeer::TYPE_COLNAME);
+                        $columnName = SchemaPropertyI18nPeer::translateFieldName($column, BasePeer::TYPE_COLNAME, BasePeer::TYPE_FIELDNAME);
+                        $profileId  = array_search($columnName, $fields);
+                        $element    = SchemaPropertyElementPeer::lookupDetailElement($i18n->getId(), $profileId, $i18n->getCulture());
+
+                        if ($element) {
+                            //did we make it null?
+                            if (0 === strlen(trim($object))) {
+                                //delete the element
+                                $element->delete($con);
+                                $element = false;
+                            } else {
+                                //modify it
+                                $element->setObject($object);
+                                $element->setUpdatedUserId($userId);
+                                $element->save();
+                            }
+                        }
+                        else{
+                            //create one
+                            $element = SchemaPropertyElementPeer::createElement($this, $userId, $profileId);
+                            $element->setObject($object);
+                            $element->setIsSchemaProperty(true);
+                            $element->save();
+                        }
+                    }
                 }
+                //save it last
+                $affectedRows = $this->save($con);
 
                 //commit the transaction
                 $con->commit();
