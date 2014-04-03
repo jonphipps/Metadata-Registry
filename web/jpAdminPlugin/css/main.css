@@ -18,8 +18,8 @@ body,
 {
   margin: 0;
   padding: 20px;
-/*  font-family: Arial, sans-serif;
-  font-size: 11px;*/
+  /*  font-family: Arial, sans-serif;
+    font-size: 11px;*/
   background-color: #fff;
 }
 
@@ -48,8 +48,8 @@ body,
 
 #sf_admin_container #sf_admin_content
 {
-	padding: 5px;
-	border-top:1px solid #DDDDDD;
+  padding: 5px;
+  border-top:1px solid #DDDDDD;
 }
 
 #sf_admin_container h1
@@ -69,15 +69,26 @@ body,
   font-size: 11px;
 }
 
-#sf_admin_container input,
-#sf_admin_container textarea,
-#sf_admin_container select
+#sf_admin_container fieldset input,
+#sf_admin_container fieldset textarea,
+#sf_admin_container fieldset select
 {
-  padding: 2px !important;
+  padding: 4px;
   font-family: Arial, sans-serif;
   font-size: 12px;
   border: 1px solid #ddd;
   vertical-align:middle;
+}
+
+#sf_admin_container fieldset input,
+#sf_admin_container fieldset textarea
+{
+  width: 99%
+}
+
+#sf_admin_container fieldset textarea
+{
+  height: 8em;
 }
 
 #sf_admin_container label
@@ -194,7 +205,7 @@ body,
 #sf_admin_container fieldset.collapse h2 a.collapse-toggle
 {
   color:#ED1F23;
-	letter-spacing: -1px;
+  letter-spacing: -1px;
 }
 
 #sf_admin_container fieldset.collapse h2 a.collapse-toggle:hover
@@ -381,16 +392,16 @@ body,
 
 #sf_admin_container .sf_admin_filters label
 {
- background-color: white;
-margin-right: 0px;
-padding-right: 0px;
+  background-color: white;
+  margin-right: 0px;
+  padding-right: 0px;
 }
 
 #sf_admin_container .sf_admin_filters .content
 {
- background-color: white;
-margin-left: 0px;
-padding-left: 0px;
+  background-color: white;
+  margin-left: 0px;
+  padding-left: 0px;
 }
 
 #sf_admin_container .sf_admin_row_0 td
@@ -406,6 +417,7 @@ padding-left: 0px;
 #sf_admin_container .sf_admin_edit_help
 {
   color: #aaa;
+  padding-top:4px;
 }
 
 div #sf_admin_container
@@ -415,7 +427,7 @@ div #sf_admin_container
   margin-bottom:10px;
   margin-top:10px;
   background-color:white;
-/*  width:480px;*/
+  /*  width:480px;*/
 }
 
 #sf_admin_container form#sf_admin_edit_form fieldset

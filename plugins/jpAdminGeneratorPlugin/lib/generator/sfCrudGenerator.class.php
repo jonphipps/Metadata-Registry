@@ -386,7 +386,7 @@ abstract class sfCrudGenerator extends sfGenerator
     }
     else if ($type == CreoleTypes::TEXT || $type == CreoleTypes::LONGVARCHAR)
     {
-      $size = $this->getParameterValue('defaults.edit.text_size', '50x3');
+      $size = $this->getParameterValue('defaults.edit.text_size', '80x5');
       return $this->getPHPObjectHelper('textarea_tag', $column, $params, array('size' => $size));
     }
     else
