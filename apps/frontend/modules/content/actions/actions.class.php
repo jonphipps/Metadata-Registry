@@ -49,7 +49,7 @@ class contentActions extends sfActions
 
     if (!is_readable($file))
     {
-      $file = $fileRoot . '_en.txt';
+      $file = $fileRoot . 'en.txt';
     }
 
     $this->html = markdown(file_get_contents($file));
