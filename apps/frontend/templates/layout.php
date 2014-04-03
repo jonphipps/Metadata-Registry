@@ -1,5 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
 
 <?php include_http_metas() ?>
@@ -7,7 +7,7 @@
 
 <?php include_title() ?>
 
-<?php if ($_SERVER['SERVER_NAME'] == 'registry.dev'): ?>
+<?php if ($_SERVER['SERVER_NAME'] == 'registry.dev' || $_SERVER['SERVER_NAME'] == 'beta.metadataregistry.net' ): ?>
    <link rel="shortcut icon" href="/registry_favicon_dev.ico" />
 <?php elseif ($_SERVER['SERVER_NAME'] == 'beta.metadataregistry.org' || $_SERVER['SERVER_NAME'] == 'beta-sand.metadataregistry.org' || $_SERVER['SERVER_NAME'] == 'beta-prod.metadataregistry.org'): ?>
    <link rel="shortcut icon" href="/registry_favicon_beta.ico" />
