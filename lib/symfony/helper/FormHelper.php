@@ -243,9 +243,15 @@ function select_country_tag($name, $selected = null, $options = array())
  *  echo select_language_tag('language', 'de');
  * </code>
  *
- * @param  string field name
- * @param  string selected field value (two or threecharacter language/culture code)
- * @param  array  additional HTML compliant <select> tag parameters
+ * @param  string $name     field name
+ * @param  string $selected field value (two or three character language/culture code)
+ * @param  array  $options additional HTML compliant <select> tag parameters
+ *                         options include:
+ *                         'languages' a list of available languages
+ *                         'include_blank' include empty prompt
+ *                         'include_custom' include a specific prompt
+ *                         'control_name' the control name
+ *                         'limitmethod'
  *
  * @return string <select> tag populated with all the languages in the world.
  * @see select_tag, options_for_select, sfCultureInfo
