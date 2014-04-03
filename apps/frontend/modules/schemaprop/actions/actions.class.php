@@ -21,60 +21,41 @@ class schemapropActions extends autoschemapropActions
 {
   public function preExecute()
   {
-    if ('search' != $this->getRequestParameter('action')) {
+    if ('search' != $this->getRequestParameter('action') && 'language' != $this->getRequestParameter('action')) {
       $schemaObj = $this->getCurrentSchema();
+      $SchemaLanguages = $schemaObj->getLanguages();
+      $CurrentCulture = sfContext::getInstance()->getUser()->getCulture();
+      $this->getUser()->setAttribute("languages", $SchemaLanguages);
+      $this->getUser()->setAttribute("CurrentLanguage", $CurrentCulture);
 
-      //Culture --
-      //Affects CONTENT ONLY:
-      //the list MAY have a directed culture in the URL, overrides all others
-      //the record being displayed MAY have a directed culture in the URL, overrides all others
-
-      //the schema property record being edited or saved MUST have a non-editable culture in the form, overrides all others
-
-      //the user MAY have a default culture wrt this schema, overrides her own default,
-      //    set when editing this schema for the first time in this session
-      //the schema MUST have a default culture, set when the schema or schemaprop is selected,
-      //    this will be the first culture a guest sees when viewing a schema or schema_prop, overrides system
-
-      //Affects ENTIRE INTERFACE:
-      //the user MAY have a default culture, overrides system, set when logging in
-      //the system MUST have a default culture
-
-      //set the culture
-      $culture = '';
-      //if the culture is in the url that overrides everything
-      if ('' == $culture) {
-        $culture = $this->getRequestParameter('l');
-        //make sure it's a culture that we can use for this vocab
-        $cultures = $schemaObj->getLanguages();
-        if (! in_array($culture, $cultures)) {
-          $culture = '';
+      $userId = sfContext::getInstance()->getUser()->getSubscriberId();
+      if ("edit" == $this->getActionName() && $userId) {
+        $c = new Criteria();
+        $c->add(SchemaHasUserPeer::USER_ID, $userId);
+        $c->add(SchemaHasUserPeer::SCHEMA_ID, $schemaObj->getId());
+        $schemaUser = SchemaHasUserPeer::doSelectOne($c);
+        $UserLanguages = $schemaUser->getLanguages();
+        $DefaultLanguage = $schemaUser->getDefaultLanguage();
+        if (!in_array($CurrentCulture, $UserLanguages))
+        {
+          //save the current culture
+          $UserCulture = sfContext::getInstance()->getUser()->getCulture();
+          $this->getUser()->setAttribute("UserCulture", $UserCulture);
+          //reset the current culture for edit
+          sfContext::getInstance()->getUser()->setCulture($DefaultLanguage);
+          $this->getUser()->setAttribute("CurrentLanguage", $DefaultLanguage);
+          $culture = new sfCultureInfo($this->getUser()->getCulture());
+          $this->setFlash('notice', 'Current language is not available for edit! Current editing language has been reset to: '. $culture->getNativeName());
+        }
+        $this->getUser()->setAttribute("languages", $UserLanguages);
+      }
+      else {
+        $UserCulture = $this->getUser()->getAttribute("UserCulture", false);
+        if ($this->getUser()->getAttribute("UserCulture", false))
+        {
+          sfContext::getInstance()->getUser()->setCulture($UserCulture);
         }
       }
-      //else set the culture to the user's default culture for this vocab
-      if ('' == $culture)
-        {
-          $schemaId = $schemaObj->getId();
-          $userId   = sfContext::getInstance()->getUser()->getSubscriberId();
-          if ($schemaId && $userId)
-          {
-            $c        = new Criteria();
-            $c->add(SchemaHasUserPeer::SCHEMA_ID, $schemaId);
-            $c->add(SchemaHasUserPeer::USER_ID, $userId);
-            $schemaUser = SchemaHasUserPeer::doSelectOne($c);
-            $culture    = $schemaUser->getDefaultLanguage();
-          }
-
-          //else set the culture to the default for the system default
-          if ('' == $culture) {
-            $culture = sfContext::getInstance()->getUser()->getCulture();
-          }
-
-          //$this->redirect($this->getRequest()->getUri() . "?l=" . $culture);
-      }
-
-
-      $this->getUser()->setCulture($culture);
     }
 
     parent::preExecute();
@@ -102,6 +83,16 @@ class schemapropActions extends autoschemapropActions
 
     parent::setDefaults($schemaprop);
   }
+
+  public function executeLanguage() {
+    $culture = $this->getRequestParameter('culture');
+    $this->getUser()->setCulture($culture);
+    $this->getUser()->setAttribute("UserCulture", $culture);
+    $foo = new sfCultureInfo($this->getUser()->getCulture());
+    $this->setFlash('notice', 'New current session locale : '. $foo->getNativeName());
+    $url = $this->getRequest()->getReferer() != '' ? $this->getRequest()->getReferer() : '@homepage';
+    $this->redirect($url);
+  } //executeLanguage
 
   /**
    * @param SchemaProperty $schemaprop
