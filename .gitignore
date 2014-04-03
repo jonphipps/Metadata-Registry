@@ -22,3 +22,4 @@ test/functional/fixtures/swregistry_test_dump_empty.sql
 test/functional/fixtures/swregistry_test_dump.sql
 plugins/jpAdminGeneratorPlugin/lib/ImportVocab/tests/_log
 php_errors.log
+phpini.txt
