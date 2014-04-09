@@ -3,7 +3,7 @@
 /**
  * Base class that represents a row from the 'reg_schema' table.
  *
- * 
+ *
  *
  * @package    lib.model.om
  */
@@ -309,7 +309,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 
 	/**
 	 * Get the [id] column value.
-	 * 
+	 *
 	 * @return     int
 	 */
 	public function getId()
@@ -320,7 +320,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 
 	/**
 	 * Get the [agent_id] column value.
-	 * 
+	 *
 	 * @return     int
 	 */
 	public function getAgentId()
@@ -331,7 +331,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 
 	/**
 	 * Get the [optionally formatted] [created_at] column value.
-	 * 
+	 *
 	 * @param      string $format The date/time format string (either date()-style or strftime()-style).
 	 *							If format is NULL, then the integer unix timestamp will be returned.
 	 * @return     mixed Formatted date/time value as string or integer unix timestamp (if format is NULL).
@@ -362,7 +362,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 
 	/**
 	 * Get the [optionally formatted] [updated_at] column value.
-	 * 
+	 *
 	 * @param      string $format The date/time format string (either date()-style or strftime()-style).
 	 *							If format is NULL, then the integer unix timestamp will be returned.
 	 * @return     mixed Formatted date/time value as string or integer unix timestamp (if format is NULL).
@@ -393,7 +393,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 
 	/**
 	 * Get the [optionally formatted] [deleted_at] column value.
-	 * 
+	 *
 	 * @param      string $format The date/time format string (either date()-style or strftime()-style).
 	 *							If format is NULL, then the integer unix timestamp will be returned.
 	 * @return     mixed Formatted date/time value as string or integer unix timestamp (if format is NULL).
@@ -424,7 +424,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 
 	/**
 	 * Get the [created_user_id] column value.
-	 * 
+	 *
 	 * @return     int
 	 */
 	public function getCreatedUserId()
@@ -435,7 +435,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 
 	/**
 	 * Get the [updated_user_id] column value.
-	 * 
+	 *
 	 * @return     int
 	 */
 	public function getUpdatedUserId()
@@ -446,7 +446,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 
 	/**
 	 * Get the [optionally formatted] [child_updated_at] column value.
-	 * 
+	 *
 	 * @param      string $format The date/time format string (either date()-style or strftime()-style).
 	 *							If format is NULL, then the integer unix timestamp will be returned.
 	 * @return     mixed Formatted date/time value as string or integer unix timestamp (if format is NULL).
@@ -477,7 +477,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 
 	/**
 	 * Get the [child_updated_user_id] column value.
-	 * 
+	 *
 	 * @return     int
 	 */
 	public function getChildUpdatedUserId()
@@ -488,7 +488,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 
 	/**
 	 * Get the [name] column value.
-	 * 
+	 *
 	 * @return     string
 	 */
 	public function getName()
@@ -499,7 +499,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 
 	/**
 	 * Get the [note] column value.
-	 * 
+	 *
 	 * @return     string
 	 */
 	public function getNote()
@@ -510,7 +510,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 
 	/**
 	 * Get the [uri] column value.
-	 * 
+	 *
 	 * @return     string
 	 */
 	public function getUri()
@@ -521,7 +521,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 
 	/**
 	 * Get the [url] column value.
-	 * 
+	 *
 	 * @return     string
 	 */
 	public function getUrl()
@@ -532,7 +532,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 
 	/**
 	 * Get the [base_domain] column value.
-	 * 
+	 *
 	 * @return     string
 	 */
 	public function getBaseDomain()
@@ -543,7 +543,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 
 	/**
 	 * Get the [token] column value.
-	 * 
+	 *
 	 * @return     string
 	 */
 	public function getToken()
@@ -554,7 +554,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 
 	/**
 	 * Get the [community] column value.
-	 * 
+	 *
 	 * @return     string
 	 */
 	public function getCommunity()
@@ -565,7 +565,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 
 	/**
 	 * Get the [last_uri_id] column value.
-	 * 
+	 *
 	 * @return     int
 	 */
 	public function getLastUriId()
@@ -576,7 +576,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 
 	/**
 	 * Get the [status_id] column value.
-	 * 
+	 *
 	 * @return     int
 	 */
 	public function getStatusId()
@@ -587,7 +587,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 
 	/**
 	 * Get the [language] column value.
-	 * 
+	 *
 	 * @return     string
 	 */
 	public function getLanguage()
@@ -598,7 +598,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 
 	/**
 	 * Get the [languages] column value.
-	 * 
+	 *
 	 * @return     string
 	 */
 	public function getLanguages()
@@ -609,7 +609,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 
 	/**
 	 * Get the [profile_id] column value.
-	 * 
+	 *
 	 * @return     int
 	 */
 	public function getProfileId()
@@ -620,7 +620,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 
 	/**
 	 * Get the [ns_type] column value.
-	 * 
+	 *
 	 * @return     string
 	 */
 	public function getNsType()
@@ -631,7 +631,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 
 	/**
 	 * Set the value of [id] column.
-	 * 
+	 *
 	 * @param      int $v new value
 	 * @return     void
 	 */
@@ -653,7 +653,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 
 	/**
 	 * Set the value of [agent_id] column.
-	 * 
+	 *
 	 * @param      int $v new value
 	 * @return     void
 	 */
@@ -679,7 +679,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 
 	/**
 	 * Set the value of [created_at] column.
-	 * 
+	 *
 	 * @param      int $v new value
 	 * @return     void
 	 */
@@ -703,7 +703,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 
 	/**
 	 * Set the value of [updated_at] column.
-	 * 
+	 *
 	 * @param      int $v new value
 	 * @return     void
 	 */
@@ -727,7 +727,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 
 	/**
 	 * Set the value of [deleted_at] column.
-	 * 
+	 *
 	 * @param      int $v new value
 	 * @return     void
 	 */
@@ -751,7 +751,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 
 	/**
 	 * Set the value of [created_user_id] column.
-	 * 
+	 *
 	 * @param      int $v new value
 	 * @return     void
 	 */
@@ -777,7 +777,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 
 	/**
 	 * Set the value of [updated_user_id] column.
-	 * 
+	 *
 	 * @param      int $v new value
 	 * @return     void
 	 */
@@ -803,7 +803,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 
 	/**
 	 * Set the value of [child_updated_at] column.
-	 * 
+	 *
 	 * @param      int $v new value
 	 * @return     void
 	 */
@@ -827,7 +827,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 
 	/**
 	 * Set the value of [child_updated_user_id] column.
-	 * 
+	 *
 	 * @param      int $v new value
 	 * @return     void
 	 */
@@ -849,7 +849,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 
 	/**
 	 * Set the value of [name] column.
-	 * 
+	 *
 	 * @param      string $v new value
 	 * @return     void
 	 */
@@ -859,7 +859,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
 		if ($this->name !== $v || $v === '') {
@@ -871,7 +871,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 
 	/**
 	 * Set the value of [note] column.
-	 * 
+	 *
 	 * @param      string $v new value
 	 * @return     void
 	 */
@@ -881,7 +881,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
 		if ($this->note !== $v) {
@@ -893,7 +893,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 
 	/**
 	 * Set the value of [uri] column.
-	 * 
+	 *
 	 * @param      string $v new value
 	 * @return     void
 	 */
@@ -903,7 +903,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
 		if ($this->uri !== $v || $v === '') {
@@ -915,7 +915,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 
 	/**
 	 * Set the value of [url] column.
-	 * 
+	 *
 	 * @param      string $v new value
 	 * @return     void
 	 */
@@ -925,7 +925,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
 		if ($this->url !== $v) {
@@ -937,7 +937,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 
 	/**
 	 * Set the value of [base_domain] column.
-	 * 
+	 *
 	 * @param      string $v new value
 	 * @return     void
 	 */
@@ -947,7 +947,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
 		if ($this->base_domain !== $v || $v === '') {
@@ -959,7 +959,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 
 	/**
 	 * Set the value of [token] column.
-	 * 
+	 *
 	 * @param      string $v new value
 	 * @return     void
 	 */
@@ -969,7 +969,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
 		if ($this->token !== $v || $v === '') {
@@ -981,7 +981,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 
 	/**
 	 * Set the value of [community] column.
-	 * 
+	 *
 	 * @param      string $v new value
 	 * @return     void
 	 */
@@ -991,7 +991,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
 		if ($this->community !== $v) {
@@ -1003,7 +1003,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 
 	/**
 	 * Set the value of [last_uri_id] column.
-	 * 
+	 *
 	 * @param      int $v new value
 	 * @return     void
 	 */
@@ -1025,7 +1025,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 
 	/**
 	 * Set the value of [status_id] column.
-	 * 
+	 *
 	 * @param      int $v new value
 	 * @return     void
 	 */
@@ -1051,7 +1051,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 
 	/**
 	 * Set the value of [language] column.
-	 * 
+	 *
 	 * @param      string $v new value
 	 * @return     void
 	 */
@@ -1061,7 +1061,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
 		if ($this->language !== $v || $v === 'en') {
@@ -1073,7 +1073,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 
 	/**
 	 * Set the value of [languages] column.
-	 * 
+	 *
 	 * @param      string $v new value
 	 * @return     void
 	 */
@@ -1083,7 +1083,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
 		if ($this->languages !== $v) {
@@ -1095,7 +1095,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 
 	/**
 	 * Set the value of [profile_id] column.
-	 * 
+	 *
 	 * @param      int $v new value
 	 * @return     void
 	 */
@@ -1121,7 +1121,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 
 	/**
 	 * Set the value of [ns_type] column.
-	 * 
+	 *
 	 * @param      string $v new value
 	 * @return     void
 	 */
@@ -1131,7 +1131,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
 		if ($this->ns_type !== $v || $v === 'slash') {
@@ -1253,7 +1253,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 			$con->rollback();
 			throw $e;
 		}
-	
+
 
     foreach (sfMixer::getCallables('BaseSchema:delete:post') as $callable)
     {
@@ -4450,19 +4450,21 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 		}
 	}
 
-	/**
-	 * If this collection has already been initialized with
-	 * an identical criteria, it returns the collection.
-	 * Otherwise if this Schema has previously
-	 * been saved, it will retrieve related SchemaHasUsers from storage.
-	 * If this Schema is new, it will return
-	 * an empty collection or the current collection, the criteria
-	 * is ignored on a new object.
-	 *
-	 * @param      Connection $con
-	 * @param      Criteria $criteria
-	 * @throws     PropelException
-	 */
+  /**
+   * If this collection has already been initialized with
+   * an identical criteria, it returns the collection.
+   * Otherwise if this Schema has previously
+   * been saved, it will retrieve related SchemaHasUsers from storage.
+   * If this Schema is new, it will return
+   * an empty collection or the current collection, the criteria
+   * is ignored on a new object.
+   *
+   * @param      Connection $con
+   * @param      Criteria   $criteria
+   *
+   * @return     SchemaHasUser[]
+   * @throws     PropelException
+   */
 	public function getSchemaHasUsers($criteria = null, $con = null)
 	{
 		// include the Peer class
