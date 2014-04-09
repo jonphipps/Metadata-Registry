@@ -82,7 +82,7 @@ generator:
       hide:                [schema_id, schema_uri]
       display:
         "-Metadata":   { fields: [id, created_at, created_user, updated_at, updated_user], mode: edit}
-        "Detail":      [type, uri, label, name, lexical_uri, definition, comment, is_subproperty_of, is_subclass_of, parent_uri, domain, orange, status_id, note]
+        "Detail":      [type, label, name, lexical_uri, uri, definition, comment, is_subproperty_of, is_subclass_of, parent_uri, domain, orange, status_id, note]
 #        "Statements":  [_listproperties]
       actions:
         _list:         { query_string: { schema_id: schema_id } }
