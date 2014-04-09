@@ -426,11 +426,13 @@ class myActionTools
   }
 
   /**
-  * gets the current schema object
-  *
-  * @return mixed current schema object, or false
-  */
-  public static function findCurrentSchema()
+   * gets the current schema object
+   *
+   * @param null|SchemaProperty|SchemaPropertyElement $using will be one of the subordinate objects
+   *
+   * @return bool|Schema current schema object, or false
+   */
+  public static function findCurrentSchema($using = null)
   {
     $instance = sfContext::getInstance();
     $user = $instance->getUser();
