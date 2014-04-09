@@ -71,8 +71,9 @@ class schemapropActions extends autoschemapropActions
     $schemaObj = $this->getCurrentSchema();
     $schemaId  = $schemaObj->getId();
     $schemaprop->setSchemaId($schemaId);
+    $schemaprop->setCulture($this->getUser()->getCulture());
 
-    $schemapropParam = $this->getContext()->getRequest()->getParameter('schemaprop');
+    $schemapropParam = $this->getContext()->getRequest()->getParameter('schema_property');
     if (! $this->getContext()->getRequest()->getErrors() and ! isset($schemapropParam['uri'])) {
       $this->setDefaultUri($schemaprop, $schemaObj);
       $schemaprop->setLabel('');
@@ -100,14 +101,22 @@ class schemapropActions extends autoschemapropActions
    */
   public function setDefaultUri($schemaprop, $schemaObj)
   {
-    $schemaDomain = $schemaObj->getUri();
-    //URI looks like: agent(base_domain) / schema(token) / schema(next_schemaprop_id) / skos_property_id # schemaprop(next_property_id)
-    $trailer = preg_match('%(/|#)$%im', $schemaDomain) ? '' : '/';
-    $newURI  = $schemaDomain . $trailer;
-    //registry base domain is http://metadataregistry.org/uri/
-    //schema carries denormalized base_domain from agent
+    $newURI = $this->getBaseUri($schemaObj);
 
-    $schemaprop->setSchemaUri($newURI);
+    $UriId = $schemaObj->getLastUriId() + 1;
+    $schemaObj->setLastUriId($UriId);
+    $schemaObj->save();
+    $schemaprop->setUri($newURI . $UriId);
+    $this->setDefaultLexicalUri($schemaprop, $newURI);
+  }
+
+  /**
+   * @param SchemaProperty $schemaprop
+   * @param string         $newURI
+   */
+  public function setDefaultLexicalUri($schemaprop, $newURI)
+  {
+    $schemaprop->setLexicalUri($newURI . "[LEXICAL_TOKEN]");
   }
 
   public function executeEdit()
@@ -120,17 +129,26 @@ class schemapropActions extends autoschemapropActions
 
     if ("subclass" == $schema_property['type']) {
       $schema_property['is_subproperty_of'] = $schema_property['is_subclass_of'];
+      $this->getContext()->getRequest()->setParameter('schema_property', $schema_property);
     }
     if ("subproperty" == $schema_property['type']) {
       $schema_property['is_subclass_of'] = $schema_property['is_subproperty_of'];
+      $this->getContext()->getRequest()->setParameter('schema_property', $schema_property);
     }
 
-    $this->getContext()->getRequest()->setParameter('schema_property', $schema_property);
-
     parent::executeEdit();
-    $schemaObj  = $this->getCurrentSchema();
-    $schemaprop = $this->schema_property;
-    $this->setDefaultUri($schemaprop, $schemaObj);
+    /** @var $schemaProperty SchemaProperty */
+    $schemaProperty = $this->schema_property;
+    if ($schemaProperty) {
+      $schemaObj = $this->getCurrentSchema();
+      $schemaProperty->setSchemaUri($this->getBaseUri($schemaObj));
+
+      $lexUri = $schemaProperty->getLexicalUri();
+      if (empty($lexUri)) {
+        $newURI = $this->getBaseUri($schemaObj);
+        $this->setDefaultLexicalUri($schemaProperty, $newURI);
+      }
+    }
   }
 
   public function executeList()
@@ -211,6 +229,22 @@ class schemapropActions extends autoschemapropActions
       $options[''] = 'There are no related schemaprops to select';
     }
     $this->schemaprops = $options;
+  }
+
+  /**
+   * @param  Schema $schemaObj
+   *
+   * @return string
+   */
+  public function getBaseUri($schemaObj)
+  {
+    $schemaDomain = $schemaObj->getUri();
+    //URI looks like: agent(base_domain) / schema(token) / schema(next_schemaprop_id) / skos_property_id # schemaprop(next_property_id)
+    $trailer = preg_match('%(/|#)$%im', $schemaDomain) ? '' : '/';
+    $newURI  = $schemaDomain . $trailer;
+    return $newURI;
+    //registry base domain is http://metadataregistry.org/uri/
+    //schema carries denormalized base_domain from agent
   }
 
   /**
