@@ -26,6 +26,30 @@ class Schema extends BaseSchema
   }
 
   /**
+   * @param int $userId
+   *
+   * @return bool|array
+   */
+  public function getLanguagesForUser($userId)
+  {
+    $schemaUser = $this->GetUserForSchema($userId);
+    return $schemaUser ? $schemaUser->getLanguages() : false;
+  }
+
+  /**
+   * @param $userId
+   *
+   * @return bool|SchemaHasUser
+   */
+  public function GetUserForSchema($userId)
+  {
+    $c = new Criteria();
+    $c->add(SchemaHasUserPeer::USER_ID, $userId);
+
+    $schemaUser = $this->getSchemaHasUsers($c);
+    return isset($schemaUser[0]) ? $schemaUser[0] : false;
+  }
+  /**
    * Set the value of [languages] column.
    *
    * @param      string $v new value
