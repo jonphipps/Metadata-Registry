@@ -1014,7 +1014,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 			}
 
 			if ($this->aConceptRelatedByConceptId !== null) {
-				if ($this->aConceptRelatedByConceptId->isModified()) {
+				if ($this->aConceptRelatedByConceptId->isModified() || $this->aConceptRelatedByConceptId->getCurrentConceptI18n()->isModified()) {
 					$affectedRows += $this->aConceptRelatedByConceptId->save($con);
 				}
 				$this->setConceptRelatedByConceptId($this->aConceptRelatedByConceptId);
@@ -1035,7 +1035,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 			}
 
 			if ($this->aConceptRelatedByRelatedConceptId !== null) {
-				if ($this->aConceptRelatedByRelatedConceptId->isModified()) {
+				if ($this->aConceptRelatedByRelatedConceptId->isModified() || $this->aConceptRelatedByRelatedConceptId->getCurrentConceptI18n()->isModified()) {
 					$affectedRows += $this->aConceptRelatedByRelatedConceptId->save($con);
 				}
 				$this->setConceptRelatedByRelatedConceptId($this->aConceptRelatedByRelatedConceptId);

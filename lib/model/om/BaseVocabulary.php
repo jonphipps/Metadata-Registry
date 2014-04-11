@@ -151,6 +151,20 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	 */
 	protected $language = 'en';
 
+
+	/**
+	 * The value for the languages field.
+	 * @var        string
+	 */
+	protected $languages;
+
+
+	/**
+	 * The value for the ns_type field.
+	 * @var        string
+	 */
+	protected $ns_type = 'slash';
+
 	/**
 	 * @var        Agent
 	 */
@@ -585,6 +599,28 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	{
 
 		return $this->language;
+	}
+
+	/**
+	 * Get the [languages] column value.
+	 * 
+	 * @return     string
+	 */
+	public function getLanguages()
+	{
+
+		return $this->languages;
+	}
+
+	/**
+	 * Get the [ns_type] column value.
+	 * 
+	 * @return     string
+	 */
+	public function getNsType()
+	{
+
+		return $this->ns_type;
 	}
 
 	/**
@@ -1034,6 +1070,50 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	} // setLanguage()
 
 	/**
+	 * Set the value of [languages] column.
+	 * 
+	 * @param      string $v new value
+	 * @return     void
+	 */
+	public function setLanguages($v)
+	{
+
+		// Since the native PHP type for this column is string,
+		// we will cast the input to a string (if it is not).
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->languages !== $v) {
+			$this->languages = $v;
+			$this->modifiedColumns[] = VocabularyPeer::LANGUAGES;
+		}
+
+	} // setLanguages()
+
+	/**
+	 * Set the value of [ns_type] column.
+	 * 
+	 * @param      string $v new value
+	 * @return     void
+	 */
+	public function setNsType($v)
+	{
+
+		// Since the native PHP type for this column is string,
+		// we will cast the input to a string (if it is not).
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->ns_type !== $v || $v === 'slash') {
+			$this->ns_type = $v;
+			$this->modifiedColumns[] = VocabularyPeer::NS_TYPE;
+		}
+
+	} // setNsType()
+
+	/**
 	 * Hydrates (populates) the object variables with values from the database resultset.
 	 *
 	 * An offset (1-based "start column") is specified so that objects can be hydrated
@@ -1088,12 +1168,16 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 
 			$this->language = $rs->getString($startcol + 18);
 
+			$this->languages = $rs->getString($startcol + 19);
+
+			$this->ns_type = $rs->getString($startcol + 20);
+
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 19; // 19 = VocabularyPeer::NUM_COLUMNS - VocabularyPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 21; // 21 = VocabularyPeer::NUM_COLUMNS - VocabularyPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Vocabulary object", $e);
@@ -1614,6 +1698,12 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 			case 18:
 				return $this->getLanguage();
 				break;
+			case 19:
+				return $this->getLanguages();
+				break;
+			case 20:
+				return $this->getNsType();
+				break;
 			default:
 				return null;
 				break;
@@ -1653,6 +1743,8 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 			$keys[16] => $this->getLastUriId(),
 			$keys[17] => $this->getStatusId(),
 			$keys[18] => $this->getLanguage(),
+			$keys[19] => $this->getLanguages(),
+			$keys[20] => $this->getNsType(),
 		);
 		return $result;
 	}
@@ -1741,6 +1833,12 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 			case 18:
 				$this->setLanguage($value);
 				break;
+			case 19:
+				$this->setLanguages($value);
+				break;
+			case 20:
+				$this->setNsType($value);
+				break;
 		} // switch()
 	}
 
@@ -1783,6 +1881,8 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[16], $arr)) $this->setLastUriId($arr[$keys[16]]);
 		if (array_key_exists($keys[17], $arr)) $this->setStatusId($arr[$keys[17]]);
 		if (array_key_exists($keys[18], $arr)) $this->setLanguage($arr[$keys[18]]);
+		if (array_key_exists($keys[19], $arr)) $this->setLanguages($arr[$keys[19]]);
+		if (array_key_exists($keys[20], $arr)) $this->setNsType($arr[$keys[20]]);
 	}
 
 	/**
@@ -1813,6 +1913,8 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(VocabularyPeer::LAST_URI_ID)) $criteria->add(VocabularyPeer::LAST_URI_ID, $this->last_uri_id);
 		if ($this->isColumnModified(VocabularyPeer::STATUS_ID)) $criteria->add(VocabularyPeer::STATUS_ID, $this->status_id);
 		if ($this->isColumnModified(VocabularyPeer::LANGUAGE)) $criteria->add(VocabularyPeer::LANGUAGE, $this->language);
+		if ($this->isColumnModified(VocabularyPeer::LANGUAGES)) $criteria->add(VocabularyPeer::LANGUAGES, $this->languages);
+		if ($this->isColumnModified(VocabularyPeer::NS_TYPE)) $criteria->add(VocabularyPeer::NS_TYPE, $this->ns_type);
 
 		return $criteria;
 	}
@@ -1902,6 +2004,10 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 		$copyObj->setStatusId($this->status_id);
 
 		$copyObj->setLanguage($this->language);
+
+		$copyObj->setLanguages($this->languages);
+
+		$copyObj->setNsType($this->ns_type);
 
 
 		if ($deepCopy) {

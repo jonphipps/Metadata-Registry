@@ -79,6 +79,12 @@ class VocabularyHasUserMapBuilder {
 
 		$tMap->addColumn('IS_ADMIN_FOR', 'IsAdminFor', 'boolean', CreoleTypes::BOOLEAN, false, null);
 
+		$tMap->addColumn('LANGUAGES', 'Languages', 'string', CreoleTypes::LONGVARCHAR, false, null);
+
+		$tMap->addColumn('DEFAULT_LANGUAGE', 'DefaultLanguage', 'string', CreoleTypes::CHAR, false, 6);
+
+		$tMap->addColumn('CURRENT_LANGUAGE', 'CurrentLanguage', 'string', CreoleTypes::CHAR, false, 6);
+
 	} // doBuild()
 
 } // VocabularyHasUserMapBuilder

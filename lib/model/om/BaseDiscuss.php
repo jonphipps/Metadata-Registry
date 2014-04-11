@@ -1125,7 +1125,7 @@ abstract class BaseDiscuss extends BaseObject  implements Persistent {
 			}
 
 			if ($this->aConcept !== null) {
-				if ($this->aConcept->isModified()) {
+				if ($this->aConcept->isModified() || $this->aConcept->getCurrentConceptI18n()->isModified()) {
 					$affectedRows += $this->aConcept->save($con);
 				}
 				$this->setConcept($this->aConcept);

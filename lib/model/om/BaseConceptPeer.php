@@ -19,7 +19,7 @@ abstract class BaseConceptPeer {
 	const CLASS_DEFAULT = 'lib.model.Concept';
 
 	/** The total number of columns. */
-	const NUM_COLUMNS = 14;
+	const NUM_COLUMNS = 13;
 
 	/** The number of lazy-loaded columns. */
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -49,9 +49,6 @@ abstract class BaseConceptPeer {
 	/** the column name for the URI field */
 	const URI = 'reg_concept.URI';
 
-	/** the column name for the PREF_LABEL field */
-	const PREF_LABEL = 'reg_concept.PREF_LABEL';
-
 	/** the column name for the VOCABULARY_ID field */
 	const VOCABULARY_ID = 'reg_concept.VOCABULARY_ID';
 
@@ -78,10 +75,10 @@ abstract class BaseConceptPeer {
 	 * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
 	 */
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'CreatedAt', 'UpdatedAt', 'DeletedAt', 'LastUpdated', 'CreatedUserId', 'UpdatedUserId', 'Uri', 'PrefLabel', 'VocabularyId', 'IsTopConcept', 'PrefLabelId', 'StatusId', 'Language', ),
-		BasePeer::TYPE_COLNAME => array (ConceptPeer::ID, ConceptPeer::CREATED_AT, ConceptPeer::UPDATED_AT, ConceptPeer::DELETED_AT, ConceptPeer::LAST_UPDATED, ConceptPeer::CREATED_USER_ID, ConceptPeer::UPDATED_USER_ID, ConceptPeer::URI, ConceptPeer::PREF_LABEL, ConceptPeer::VOCABULARY_ID, ConceptPeer::IS_TOP_CONCEPT, ConceptPeer::PREF_LABEL_ID, ConceptPeer::STATUS_ID, ConceptPeer::LANGUAGE, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'created_at', 'updated_at', 'deleted_at', 'last_updated', 'created_user_id', 'updated_user_id', 'uri', 'pref_label', 'vocabulary_id', 'is_top_concept', 'pref_label_id', 'status_id', 'language', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'CreatedAt', 'UpdatedAt', 'DeletedAt', 'LastUpdated', 'CreatedUserId', 'UpdatedUserId', 'Uri', 'VocabularyId', 'IsTopConcept', 'PrefLabelId', 'StatusId', 'Language', ),
+		BasePeer::TYPE_COLNAME => array (ConceptPeer::ID, ConceptPeer::CREATED_AT, ConceptPeer::UPDATED_AT, ConceptPeer::DELETED_AT, ConceptPeer::LAST_UPDATED, ConceptPeer::CREATED_USER_ID, ConceptPeer::UPDATED_USER_ID, ConceptPeer::URI, ConceptPeer::VOCABULARY_ID, ConceptPeer::IS_TOP_CONCEPT, ConceptPeer::PREF_LABEL_ID, ConceptPeer::STATUS_ID, ConceptPeer::LANGUAGE, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'created_at', 'updated_at', 'deleted_at', 'last_updated', 'created_user_id', 'updated_user_id', 'uri', 'vocabulary_id', 'is_top_concept', 'pref_label_id', 'status_id', 'language', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, )
 	);
 
 	/**
@@ -91,10 +88,10 @@ abstract class BaseConceptPeer {
 	 * e.g. self::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
 	 */
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'CreatedAt' => 1, 'UpdatedAt' => 2, 'DeletedAt' => 3, 'LastUpdated' => 4, 'CreatedUserId' => 5, 'UpdatedUserId' => 6, 'Uri' => 7, 'PrefLabel' => 8, 'VocabularyId' => 9, 'IsTopConcept' => 10, 'PrefLabelId' => 11, 'StatusId' => 12, 'Language' => 13, ),
-		BasePeer::TYPE_COLNAME => array (ConceptPeer::ID => 0, ConceptPeer::CREATED_AT => 1, ConceptPeer::UPDATED_AT => 2, ConceptPeer::DELETED_AT => 3, ConceptPeer::LAST_UPDATED => 4, ConceptPeer::CREATED_USER_ID => 5, ConceptPeer::UPDATED_USER_ID => 6, ConceptPeer::URI => 7, ConceptPeer::PREF_LABEL => 8, ConceptPeer::VOCABULARY_ID => 9, ConceptPeer::IS_TOP_CONCEPT => 10, ConceptPeer::PREF_LABEL_ID => 11, ConceptPeer::STATUS_ID => 12, ConceptPeer::LANGUAGE => 13, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'created_at' => 1, 'updated_at' => 2, 'deleted_at' => 3, 'last_updated' => 4, 'created_user_id' => 5, 'updated_user_id' => 6, 'uri' => 7, 'pref_label' => 8, 'vocabulary_id' => 9, 'is_top_concept' => 10, 'pref_label_id' => 11, 'status_id' => 12, 'language' => 13, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'CreatedAt' => 1, 'UpdatedAt' => 2, 'DeletedAt' => 3, 'LastUpdated' => 4, 'CreatedUserId' => 5, 'UpdatedUserId' => 6, 'Uri' => 7, 'VocabularyId' => 8, 'IsTopConcept' => 9, 'PrefLabelId' => 10, 'StatusId' => 11, 'Language' => 12, ),
+		BasePeer::TYPE_COLNAME => array (ConceptPeer::ID => 0, ConceptPeer::CREATED_AT => 1, ConceptPeer::UPDATED_AT => 2, ConceptPeer::DELETED_AT => 3, ConceptPeer::LAST_UPDATED => 4, ConceptPeer::CREATED_USER_ID => 5, ConceptPeer::UPDATED_USER_ID => 6, ConceptPeer::URI => 7, ConceptPeer::VOCABULARY_ID => 8, ConceptPeer::IS_TOP_CONCEPT => 9, ConceptPeer::PREF_LABEL_ID => 10, ConceptPeer::STATUS_ID => 11, ConceptPeer::LANGUAGE => 12, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'created_at' => 1, 'updated_at' => 2, 'deleted_at' => 3, 'last_updated' => 4, 'created_user_id' => 5, 'updated_user_id' => 6, 'uri' => 7, 'vocabulary_id' => 8, 'is_top_concept' => 9, 'pref_label_id' => 10, 'status_id' => 11, 'language' => 12, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, )
 	);
 
 	/**
@@ -210,8 +207,6 @@ abstract class BaseConceptPeer {
         $criteria->addSelectColumn(($tableAlias) ? ConceptPeer::alias($tableAlias, ConceptPeer::UPDATED_USER_ID) : ConceptPeer::UPDATED_USER_ID);
 
         $criteria->addSelectColumn(($tableAlias) ? ConceptPeer::alias($tableAlias, ConceptPeer::URI) : ConceptPeer::URI);
-
-        $criteria->addSelectColumn(($tableAlias) ? ConceptPeer::alias($tableAlias, ConceptPeer::PREF_LABEL) : ConceptPeer::PREF_LABEL);
 
         $criteria->addSelectColumn(($tableAlias) ? ConceptPeer::alias($tableAlias, ConceptPeer::VOCABULARY_ID) : ConceptPeer::VOCABULARY_ID);
 
@@ -2005,6 +2000,63 @@ abstract class BaseConceptPeer {
 		}
 		return $results;
 	}
+
+
+  /**
+   * Selects a collection of Concept objects pre-filled with their i18n objects.
+   *
+   * @return array Array of Concept objects.
+   * @throws PropelException Any exceptions caught during processing will be
+   *     rethrown wrapped into a PropelException.
+   */
+  public static function doSelectWithI18n(Criteria $c, $culture = null, $con = null)
+  {
+    // we're going to modify criteria, so copy it first
+    $c = clone $c;
+    if ($culture === null)
+    {
+      $culture = sfContext::getInstance()->getUser()->getCulture();
+    }
+
+    // Set the correct dbName if it has not been overridden
+    if ($c->getDbName() == Propel::getDefaultDB())
+    {
+      $c->setDbName(self::DATABASE_NAME);
+    }
+
+    ConceptPeer::addSelectColumns($c);
+    $startcol = (ConceptPeer::NUM_COLUMNS - ConceptPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+
+    ConceptI18nPeer::addSelectColumns($c);
+
+    $c->addJoin(ConceptPeer::ID, ConceptI18nPeer::ID);
+    $c->add(ConceptI18nPeer::CULTURE, $culture);
+
+    $rs = BasePeer::doSelect($c, $con);
+    $results = array();
+
+    while($rs->next()) {
+
+      $omClass = ConceptPeer::getOMClass();
+
+      $cls = Propel::import($omClass);
+      $obj1 = new $cls();
+      $obj1->hydrate($rs);
+      $obj1->setCulture($culture);
+
+      $omClass = ConceptI18nPeer::getOMClass($rs, $startcol);
+
+      $cls = Propel::import($omClass);
+      $obj2 = new $cls();
+      $obj2->hydrate($rs, $startcol);
+
+      $obj1->setConceptI18nForCulture($obj2, $culture);
+      $obj2->setConcept($obj1);
+
+      $results[] = $obj1;
+    }
+    return $results;
+  }
 
 	/**
 	 * Returns the TableMap related to this peer.
