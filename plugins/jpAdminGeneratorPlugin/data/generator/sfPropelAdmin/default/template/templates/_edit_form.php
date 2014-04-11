@@ -56,7 +56,7 @@ foreach ($this->getPrimaryKey() as $pk): ?>
 ?>
 <?php $catCredentials = $this->getParameterValue('edit.display.'.$category.'.credentials') ?>
 <?php if ($catCredentials): $catCredentials = str_replace("\n", ' ', var_export($catCredentials, true)) ?>
-[?php if ($sf_user->hasCredential(<?php echo $catCredentials ?>)): ?]
+[?php /** @var $sf_user MyUser */ if ($sf_user->hasCredential(<?php echo $catCredentials ?>)): ?]
 <?php endif; ?>
 <?php $catMode = $this->getParameterValue('edit.display.'.$category.'.mode') ?>
 <?php if ($catMode): ?>
