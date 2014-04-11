@@ -83,6 +83,8 @@ class SchemaHasUserMapBuilder {
 
 		$tMap->addColumn('DEFAULT_LANGUAGE', 'DefaultLanguage', 'string', CreoleTypes::CHAR, true, 6);
 
+		$tMap->addColumn('CURRENT_LANGUAGE', 'CurrentLanguage', 'string', CreoleTypes::CHAR, false, 6);
+
 	} // doBuild()
 
 } // SchemaHasUserMapBuilder

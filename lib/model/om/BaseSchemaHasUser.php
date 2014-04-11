@@ -95,6 +95,13 @@ abstract class BaseSchemaHasUser extends BaseObject  implements Persistent {
 	 */
 	protected $default_language = 'en';
 
+
+	/**
+	 * The value for the current_language field.
+	 * @var        string
+	 */
+	protected $current_language;
+
 	/**
 	 * @var        Schema
 	 */
@@ -298,6 +305,17 @@ abstract class BaseSchemaHasUser extends BaseObject  implements Persistent {
 	{
 
 		return $this->default_language;
+	}
+
+	/**
+	 * Get the [current_language] column value.
+	 * 
+	 * @return     string
+	 */
+	public function getCurrentLanguage()
+	{
+
+		return $this->current_language;
 	}
 
 	/**
@@ -539,6 +557,28 @@ abstract class BaseSchemaHasUser extends BaseObject  implements Persistent {
 	} // setDefaultLanguage()
 
 	/**
+	 * Set the value of [current_language] column.
+	 * 
+	 * @param      string $v new value
+	 * @return     void
+	 */
+	public function setCurrentLanguage($v)
+	{
+
+		// Since the native PHP type for this column is string,
+		// we will cast the input to a string (if it is not).
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->current_language !== $v) {
+			$this->current_language = $v;
+			$this->modifiedColumns[] = SchemaHasUserPeer::CURRENT_LANGUAGE;
+		}
+
+	} // setCurrentLanguage()
+
+	/**
 	 * Hydrates (populates) the object variables with values from the database resultset.
 	 *
 	 * An offset (1-based "start column") is specified so that objects can be hydrated
@@ -577,12 +617,14 @@ abstract class BaseSchemaHasUser extends BaseObject  implements Persistent {
 
 			$this->default_language = $rs->getString($startcol + 10);
 
+			$this->current_language = $rs->getString($startcol + 11);
+
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 11; // 11 = SchemaHasUserPeer::NUM_COLUMNS - SchemaHasUserPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 12; // 12 = SchemaHasUserPeer::NUM_COLUMNS - SchemaHasUserPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating SchemaHasUser object", $e);
@@ -901,6 +943,9 @@ abstract class BaseSchemaHasUser extends BaseObject  implements Persistent {
 			case 10:
 				return $this->getDefaultLanguage();
 				break;
+			case 11:
+				return $this->getCurrentLanguage();
+				break;
 			default:
 				return null;
 				break;
@@ -932,6 +977,7 @@ abstract class BaseSchemaHasUser extends BaseObject  implements Persistent {
 			$keys[8] => $this->getIsAdminFor(),
 			$keys[9] => $this->getLanguages(),
 			$keys[10] => $this->getDefaultLanguage(),
+			$keys[11] => $this->getCurrentLanguage(),
 		);
 		return $result;
 	}
@@ -996,6 +1042,9 @@ abstract class BaseSchemaHasUser extends BaseObject  implements Persistent {
 			case 10:
 				$this->setDefaultLanguage($value);
 				break;
+			case 11:
+				$this->setCurrentLanguage($value);
+				break;
 		} // switch()
 	}
 
@@ -1030,6 +1079,7 @@ abstract class BaseSchemaHasUser extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[8], $arr)) $this->setIsAdminFor($arr[$keys[8]]);
 		if (array_key_exists($keys[9], $arr)) $this->setLanguages($arr[$keys[9]]);
 		if (array_key_exists($keys[10], $arr)) $this->setDefaultLanguage($arr[$keys[10]]);
+		if (array_key_exists($keys[11], $arr)) $this->setCurrentLanguage($arr[$keys[11]]);
 	}
 
 	/**
@@ -1052,6 +1102,7 @@ abstract class BaseSchemaHasUser extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(SchemaHasUserPeer::IS_ADMIN_FOR)) $criteria->add(SchemaHasUserPeer::IS_ADMIN_FOR, $this->is_admin_for);
 		if ($this->isColumnModified(SchemaHasUserPeer::LANGUAGES)) $criteria->add(SchemaHasUserPeer::LANGUAGES, $this->languages);
 		if ($this->isColumnModified(SchemaHasUserPeer::DEFAULT_LANGUAGE)) $criteria->add(SchemaHasUserPeer::DEFAULT_LANGUAGE, $this->default_language);
+		if ($this->isColumnModified(SchemaHasUserPeer::CURRENT_LANGUAGE)) $criteria->add(SchemaHasUserPeer::CURRENT_LANGUAGE, $this->current_language);
 
 		return $criteria;
 	}
@@ -1125,6 +1176,8 @@ abstract class BaseSchemaHasUser extends BaseObject  implements Persistent {
 		$copyObj->setLanguages($this->languages);
 
 		$copyObj->setDefaultLanguage($this->default_language);
+
+		$copyObj->setCurrentLanguage($this->current_language);
 
 
 		$copyObj->setNew(true);
