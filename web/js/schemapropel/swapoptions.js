@@ -52,7 +52,7 @@ function swapOptions()
       $('label_for_schema_property_element_object').update('URI');
       Element.hide('form_row_schema_property_element_language');
 
-      if(6 == selectedId || 8 == selectedId)
+      if(6 == selectedId || 8 == selectedId || 17 == selectedId || 19 == selectedId)
       {
         Element.hide('form_row_schema_property_element_related_schema_class_id');
         Element.show('form_row_schema_property_element_related_schema_property_id');
