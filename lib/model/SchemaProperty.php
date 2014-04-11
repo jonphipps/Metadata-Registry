@@ -396,7 +396,7 @@ class SchemaProperty extends BaseSchemaProperty
                                 $element->save();
                             }
                         }
-                        else{
+                        elseif ($profileId) {
                             //create one
                             $element = SchemaPropertyElementPeer::createElement($this, $userId, $profileId);
                             $element->setObject($object);

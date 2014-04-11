@@ -9,59 +9,64 @@
  */
 class SchemaPropertyPeer extends BaseSchemaPropertyPeer
 {
-    /**
-     * returns properties for the current schema
-     *
-     * @return array of schema_property
-     */
-    public static function getPropertiesByCurrentSchemaID()
-    {
-        $schema = myActionTools::findCurrentSchema();
-        $c      = new Criteria();
-        $c->add(self::TYPE, 'property');
-        $c->addOr(self::TYPE, 'subproperty');
-        //$c->addAscendingOrderByColumn(self::NAME);
-        $properties = $schema->getSchemaPropertys($c);
+  /**
+   * returns properties for the current schema
+   *
+   * @return array of schema_property
+   */
+  public static function getPropertiesByCurrentSchemaID()
+  {
+    $currentPropertyId = sfContext::getInstance()->getRequest()->getParameter('schema_property_id', '');
+    $schema            = SchemaPropertyPeer::retrieveByPK($currentPropertyId)->getSchema();
+    $c = new Criteria();
+    $c->add(self::SCHEMA_ID, $schema->getId());
+    $c->add(self::TYPE, 'property');
+    $c->addOr(self::TYPE, 'subproperty');
+    $c->addAscendingOrderByColumn(SchemaPropertyI18nPeer::NAME);
+    $properties = self::doSelectWithI18n($c);
 
-        $request           = sfContext::getInstance()->getRequest();
-        $currentPropertyId = $request->getParameter('id');
-        if ("schemaprop" == $request->getParameter('module') && "edit" == $request->getParameter('action')) {
-            foreach ($properties as $id => $property) {
-                if ($property->getId() == $currentPropertyId) {
-                    unset($properties[$id]);
-                    break;
-                }
-            }
+    $request           = sfContext::getInstance()->getRequest();
+    $currentPropertyId = $request->getParameter('id');
+    if ("schemaprop" == $request->getParameter('module') && "edit" == $request->getParameter('action')) {
+      foreach ($properties as $id => $property) {
+        if ($property->getId() == $currentPropertyId) {
+          unset($properties[$id]);
+          break;
         }
-        return $properties;
+      }
     }
+    return $properties;
+  }
 
-    /**
-     * returns classes for the current schema
-     *
-     * @return array of schema_property
-     */
-    public static function getClassesByCurrentSchemaID()
-    {
-        $schema = myActionTools::findCurrentSchema();
-        $c      = new Criteria();
-        $c->add(self::TYPE, 'class');
-        $c->addOr(self::TYPE, 'subclass');
-        //$c->addAscendingOrderByColumn(self::NAME);
-        $classes = $schema->getSchemaPropertys($c);
+  /**
+   * returns classes for the current schema
+   *
+   * @return array of schema_property
+   */
+  public static function getClassesByCurrentSchemaID()
+  {
+    $currentPropertyId = sfContext::getInstance()->getRequest()->getParameter('schema_property_id', '');
+    $schema            = SchemaPropertyPeer::retrieveByPK($currentPropertyId)->getSchema();
+    $c                 = new Criteria();
+    $c->add(self::SCHEMA_ID, $schema->getId());
+    $c->add(self::TYPE, 'class');
+    $c->addOr(self::TYPE, 'subclass');
+    $c->addAscendingOrderByColumn(SchemaPropertyI18nPeer::NAME);
+    $classes = self::doSelectWithI18n($c);
 
-        $request           = sfContext::getInstance()->getRequest();
-        $currentPropertyId = $request->getParameter('id');
-        if ("schemaprop" == $request->getParameter('module') && "edit" == $request->getParameter('action')) {
-            foreach ($classes as $id => $property) {
-                if ($property->getId() == $currentPropertyId) {
-                    unset($classes[$id]);
-                    break;
-                }
-            }
+    $request           = sfContext::getInstance()->getRequest();
+    $currentPropertyId = $request->getParameter('id');
+    if ("schemaprop" == $request->getParameter('module') && "edit" == $request->getParameter('action')) {
+      /** @var $property SchemaProperty */
+      foreach ($classes as $id => $property) {
+        if ($property->getId() == $currentPropertyId) {
+          unset($classes[$id]);
+          break;
         }
-        return $classes;
+      }
     }
+    return $classes;
+  }
 
     /**
      * description
