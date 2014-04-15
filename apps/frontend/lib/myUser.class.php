@@ -589,18 +589,20 @@ class myUser extends sfBasicSecurityUser
     return $modCredentials;
   }
 
-
   /**
-  * gets the object credentials
-  *
-  * looks for the correct credential in the id array in the model array for the requested object
-  *
-  * @return boolean
-  * @param mixed   $object      The object to get credentials for
-  * @param string  $module      The module to use for security
-  * @param string  $action      The action to check for credential
-  * @param mixed   $credentials An array of credentials
-  */
+   * gets the object credentials
+   *
+   * looks for the correct credential in the id array in the model array for the requested object
+   *
+   * @return boolean
+   *
+   * @param int    $key         The ID of the object
+   * @param string $module      The module to use for security
+   * @param mixed  $credentials An array of credentials
+   *
+   * @internal param mixed $object The object to get credentials for
+   * @internal param string $action The action to check for credential
+   */
   public function hasObjectCredential($key, $module, $credentials)
   {
     //store the current module-level credentials
