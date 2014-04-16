@@ -29,4 +29,34 @@ class VocabularyHasUser extends BaseVocabularyHasUser
 
     return $saved;
   }
-} // VocabularyHasUser
+
+  public function getLanguagesForVocabulary()
+  {
+    return $this->getVocabulary()->getLanguages();
+  }
+  /**
+   * Get the [languages] column value.
+   *
+   * @return     string
+   */
+  public function getLanguages()
+  {
+    return (! is_null($this->languages)) ? unserialize($this->languages) : $this->languages;
+  }
+  /**
+   * Set the value of [languages] column.
+   *
+   * @param      string $v new value
+   *
+   * @return     void
+   */
+  public function setLanguages($v)
+  {
+    // Since the native PHP type for this column is string,
+    // we will serialize the input to a string (if it is not).
+    if ($v !== null) {
+      $v = serialize($v);
+    }
+    parent::setLanguages($v);
+  } // setLanguages()
+}
