@@ -10,21 +10,24 @@ generator:
       last_updated:   { name: Last Updated, type: plain, params: date_format='s', help: This is the date the Vocabulary was last updated }
       agent:          { name: Owner, help: The individual or organization that registered the vocabulary }
       agent_id:       { name: Owner, help: The individual or organization that registered the vocabulary }
-      name:           { name: Name, help: A descriptive name for the vocabulary. This will be displayed in lists of vocabularies. }
+      created_user:   { name: Created by, type: plain, help: The user who created this element set}
+      updated_user:   { name: Updated by, type: plain, help: The user who last updated this element set}
+      name:           { name: Label, help: A descriptive name for the vocabulary. This will be displayed in lists of vocabularies. }
       note:           { name: Note, help: A note about this vocabulary }
-      uri:            { name: URI, help: The URI of this vocabulary. By default this will be a concatenation of the Base Domain and the Token. }
       url:            { name: URL, help: A non-Registry URL that contains more information about this vocabulary }
       base_domain:    { name: Base Domain, help: The root of all URIs for this vocabulary and its terms. Defaults to the Base Domain set by the Owner of this vocabulary. }
-      token:          { name: Token, help: A unique token representing this vocabulary. This can be used as the RDF container class or to identify an encoding scheme in XML}
-      community:      { name: Community, help: Tags identifying communities of practice that this vocabulary addresses }
-      language:       { name: Language, help: Default language for the concept properties of this vocabulary }
+      token:          { name: Name, help: A unique token representing this vocabulary. This can be used as the RDF container class or to identify an encoding scheme in XML}
+      uri:            { name: URI, help: The URI of this vocabulary. By default this will be a concatenation of the Registry default domain and the vocabulary Name. }
+      community:      { name: Tags, help: Tags identifying communities of practice that this vocabulary addresses }
+      language:       { name: Default Language, help: Default language for the concept properties of this vocabulary }
+      languages:      { name: Available Languages, help: Available languages for the textual properties of this element set }
       status_id:      { name: Default Status, help: Default status for the concept properties of this vocabulary }
 
     list:
       title:          Vocabularies
       fields:
         last_updated: { params: date_format='yyyy-MM-dd' }
-      display:        [=name, _agent, last_updated]
+      display:        [=name, _agent, last_updated, updated_user]
       sort:           name
       object_actions:
         _edit:        { credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
@@ -42,11 +45,16 @@ generator:
         id:           { name: ID, type: plain, credentials: [administrator], mode: edit }
         agent_id:     { params: peer_method=getAgentsForCurrentUser}
         token:        { params: onblur=updateUri() }
-        language:     { type: select_language_tag }
+        languages:    { type: admin_select_language, params: multiple=true }
+        language:     { type: admin_select_language, params: limitmethod=getLanguages }
+      hide:           [base_domain]
       display:
-        "-Metadata":  { fields: [id, created_at, last_updated], mode: edit, credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
-        "Detail":     [agent_id, name, url, note, community, status_id, language]
-        "URI":        [base_domain, token, uri]
+        "-Metadata":  { fields: [id, created_at, last_updated, created_user, updated_user], mode: edit, credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
+        "Detail":     [agent_id, name, languages]
+#        "Namespace":  [token, uri, ns_type]
+        "Namespace":  [token, uri]
+        "Documentation": [url, note, community]
+        "Defaults":   [status_id, language]
       actions:
         _list:         -
         _save:         { credentials: [[administrator, hasAgents, vocabularymaintainer, vocabularyadmin]] }
@@ -58,16 +66,19 @@ generator:
     show:
       title:           Show detail for %%name%%
       fields:
-        id:            { name: ID, type: plain, credentials: [administrator], mode: edit }
+        id:            { name: ID, type: plain, credentials: [administrator]}
         uri:           { helper: auto_link_uri }
-        url:           { helper: auto_link_uri }
+        url:           { helper: auto_link_text }
         created_at:    { params: date_format='F' }
         last_updated:  { params: date_format='F' }
         list_users:    { name: - }
       display:
-        "-Metadata":   { fields: [id, created_at, last_updated], credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
-        "Detail":      [_agent, name, url, note, community, status, _language]
-        "URI":         [base_domain, token, uri]
+        "-Metadata":   { fields: [id, created_at, created_user, last_updated, updated_user], credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
+        "Detail":      [_agent, name, _languages]
+#        "Namespace":   [token, uri, ns_type]
+        "Namespace":   [token, _uri]
+        "Documentation": [url, note, community]
+        "Defaults":    [status, _language]
         "-Users":      [_list_users]
       actions:
         _list:

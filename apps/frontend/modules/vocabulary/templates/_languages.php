@@ -1,8 +1,9 @@
 <?php  $languages = '';
-if (is_array($schema->getLanguages())) {
-  foreach ($schema->getLanguages() as $language) {
-    $languages .= format_language($language) . ", ";
+  /** @var $vocabulary Vocabulary */
+  if (is_array($vocabulary->getLanguages())) {
+    foreach ($vocabulary->getLanguages() as $language) {
+      $languages .= format_language($language) . ", ";
+    }
+    $languages = rtrim($languages, ", ");
   }
-  $languages = rtrim($languages, ", ");
-}
-echo $languages ?>
+  echo $languages ?>
