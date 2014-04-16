@@ -31,6 +31,13 @@ class vocabuserActions extends autovocabuserActions
     if ($this->vocabulary)
     {
       $VocabularyHasUser->setVocabularyId($this->vocabulary->getId());
+
+      //throw an error if there's no languages for vocab
+      /** @var $vocabulary Vocabulary */
+      $vocabulary = $this->vocabulary;
+      if (! $vocabulary->getLanguages()) {
+        sfContext::getInstance()->getRequest()->setError('vocabulary_has_user{languages}', "No languages have been defined for this Vocabulary.");
+      }
     }
 
     $VocabularyHasUser->setIsRegistrarFor(false);
