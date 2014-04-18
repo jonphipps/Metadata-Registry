@@ -28,14 +28,17 @@
         "google/apiclient": "dev-master",
         "semsol/arc2": "*",
         "easyrdf/easyrdf": "dev-master",
+        "ml/json-ld": "dev-master",
         "ddeboer/data-import": "*",
         "symfony/property-access": "*",
         "phpoffice/phpexcel": "*",
         "symfony/validator": "*",
         "symfony/config": "*",
         "symfony/intl": "*",
+        "psr/log": "dev-master",
         "symfony/http-foundation": "*",
-        "njh/phpspecgen": "dev-master"
+        "njh/phpspecgen": "dev-master",
+        "bgcc/sf-select2-widgets-plugin": "~1.0"
     },
     "autoload": {
         "classmap": ["plugins/jpAdminGeneratorPlugin/lib/ImportVocab/src"]
