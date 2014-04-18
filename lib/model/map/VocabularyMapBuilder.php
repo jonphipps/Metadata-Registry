@@ -99,7 +99,7 @@ class VocabularyMapBuilder {
 
 		$tMap->addColumn('LANGUAGE', 'Language', 'string', CreoleTypes::CHAR, true, 6);
 
-		$tMap->addColumn('LANGUAGES', 'Languages', 'string', CreoleTypes::LONGVARCHAR, false, null);
+		$tMap->addColumn('LANGUAGES', 'Languages', 'string', CreoleTypes::LONGVARCHAR, true, null);
 
 		$tMap->addColumn('NS_TYPE', 'NsType', 'string', CreoleTypes::CHAR, true, 6);
 

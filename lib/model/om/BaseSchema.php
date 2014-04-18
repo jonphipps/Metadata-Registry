@@ -4461,8 +4461,6 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 	 *
 	 * @param      Connection $con
 	 * @param      Criteria $criteria
-   *
-   * @return     SchemaHasUser[]
 	 * @throws     PropelException
 	 */
 	public function getSchemaHasUsers($criteria = null, $con = null)

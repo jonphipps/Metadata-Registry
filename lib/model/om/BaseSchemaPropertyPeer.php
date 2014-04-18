@@ -1764,10 +1764,6 @@ abstract class BaseSchemaPropertyPeer {
   /**
    * Selects a collection of SchemaProperty objects pre-filled with their i18n objects.
    *
-   * @param Criteria   $c
-   * @param string     $culture
-   * @param Connection $con
-   *
    * @return array Array of SchemaProperty objects.
    * @throws PropelException Any exceptions caught during processing will be
    *     rethrown wrapped into a PropelException.

@@ -4777,14 +4777,8 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
     $this->getCurrentSchemaPropertyI18n()->setNote($value);
   }
 
-    /**
-     * @var SchemaPropertyI18n[]
-     */
   protected $current_i18n = array();
 
-    /**
-     * @return SchemaPropertyI18n[]
-     */
   public function getCurrentSchemaPropertyI18n()
   {
     if (!isset($this->current_i18n[$this->culture]))
