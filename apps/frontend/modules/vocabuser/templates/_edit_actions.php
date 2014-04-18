@@ -10,6 +10,7 @@
               0 => 'administrator',
               1 => 'vocabularyadmin',
               2 => 'agentadmin',
+        3 => 'vocabularymaintainer',
           ),
       )
   )
@@ -71,6 +72,7 @@
               0 => 'administrator',
               1 => 'vocabularyadmin',
               2 => 'agentadmin',
+        3 => 'vocabularymaintainer',
           ),
       )
   )

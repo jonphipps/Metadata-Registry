@@ -1,8 +1,10 @@
-<?php  $languages = '';
-if (is_array($vocabulary_has_user->getLanguages())) {
-  foreach ($vocabulary_has_user->getLanguages() as $language) {
-    $languages .= format_language($language) . ", ";
+<?php  $languagesOut = '';
+  /** @var $vocabulary_has_user VocabularyHasUser */
+  $languages = $vocabulary_has_user->getLanguages();
+  if (is_array($languages)) {
+  foreach ($languages as $language) {
+    $languagesOut .= format_language($language) . ", ";
   }
-  $languages = rtrim($languages, ", ");
+  $languagesOut = rtrim($languagesOut, ", ");
 }
-echo $languages ?>
+echo $languagesOut ?>

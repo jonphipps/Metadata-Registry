@@ -7,31 +7,36 @@
     /** @var $sf_request myWebRequest */
     /** @var $sf_flash sfParameterHolder */
     if ($sf_user->hasCredential(
-            array(
-                0 => array(
-                    0 => 'administrator',
-                    1 => 'vocabularyadmin',
-                    2 => 'agentadmin'
-                ),
-            )
+        array(
+          0 => array(
+            0 => 'administrator',
+            1 => 'vocabularyadmin',
+            2 => 'agentadmin'
+          ),
         )
+      )
         && '' != $sf_request->getParameter('vocabulary_id', '')
-        && count($sf_flash->get('newUsers', array()))
-    ): ?>
 
-      <li><?php echo button_to(
+    ): ?>
+      <?php if (count($sf_flash->get('newUsers', array()))): ?>
+        <li><?php echo button_to(
             __('Add Maintainer'),
             'vocabuser/create?vocabulary_id=' . $sf_request->getParameter('vocabulary_id', '') . '',
             array(
-                'title' => 'Create',
-                'class' => 'sf_admin_action_create',
+              'title' => 'Create',
+              'class' => 'sf_admin_action_create',
             )
-        ) ?></li>
+          ) ?></li>
 
-    <?php else: ?>
-      <li>You must add more Members to this Vocabulary's Owner before adding a new maintainer.</li>
-      <li><?php echo button_to(__('Add Member'), 'agentuser/create', array (
-        'title' => 'Create',
-        'class' => 'sf_admin_action_create',
-        )); ?> </li>
+      <?php else: ?>
+        <li>You must add more Members to this Vocabulary's Owner before adding a new maintainer.</li>
+        <li><?php echo button_to(
+            __('Add Member'),
+            'agentuser/create',
+            array(
+              'title' => 'Create',
+              'class' => 'sf_admin_action_create',
+            )
+          ); ?> </li>
+      <?php endif; ?>
     <?php endif; ?></ul>
