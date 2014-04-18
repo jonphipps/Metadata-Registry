@@ -21,7 +21,7 @@ generator:
       community:      { name: Tags, help: Tags identifying communities of practice that this vocabulary addresses }
       language:       { name: Default Language, help: Default language for the concept properties of this vocabulary }
       languages:      { name: Available Languages, help: Available languages for the textual properties of this element set }
-      status_id:      { name: Default Status, help: Default status for the concept properties of this vocabulary }
+      status_id:      { name: Status, help: Initial status for the concept properties of this vocabulary }
 
     list:
       title:          Vocabularies
@@ -45,16 +45,14 @@ generator:
         id:           { name: ID, type: plain, credentials: [administrator], mode: edit }
         agent_id:     { params: peer_method=getAgentsForCurrentUser}
         token:        { params: onblur=updateUri() }
-        languages:    { type: admin_select_language, params: multiple=true }
-        language:     { type: admin_select_language, params: limitmethod=getLanguages }
-      hide:           [base_domain]
+        languages:    { type: admin_select_language, params: multiple=true style="width:99%" }
+#        language:     { type: hidden }
       display:
         "-Metadata":  { fields: [id, created_at, last_updated, created_user, updated_user], mode: edit, credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
-        "Detail":     [agent_id, name, languages]
+        "Detail":     [agent_id, name, languages, language, status_id]
 #        "Namespace":  [token, uri, ns_type]
-        "Namespace":  [token, uri]
+        "Namespace":  [base_domain, token, uri]
         "Documentation": [url, note, community]
-        "Defaults":   [status_id, language]
       actions:
         _list:         -
         _save:         { credentials: [[administrator, hasAgents, vocabularymaintainer, vocabularyadmin]] }
@@ -74,11 +72,10 @@ generator:
         list_users:    { name: - }
       display:
         "-Metadata":   { fields: [id, created_at, created_user, last_updated, updated_user], credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
-        "Detail":      [_agent, name, _languages]
+        "Detail":      [_agent, name, _languages, _language, status]
 #        "Namespace":   [token, uri, ns_type]
-        "Namespace":   [token, _uri]
+        "Namespace":   [base_domain, token, _uri]
         "Documentation": [url, note, community]
-        "Defaults":    [status, _language]
         "-Users":      [_list_users]
       actions:
         _list:
