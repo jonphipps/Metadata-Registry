@@ -59,4 +59,26 @@ class VocabularyHasUser extends BaseVocabularyHasUser
     }
     parent::setLanguages($v);
   } // setLanguages()
+
+  /**
+   * Does this vocab have multiple admins?
+   *
+   * @return bool
+   */
+  public function HasMultipleAdmins() {
+    return (bool) ($this->GetAdminCount() > 1);
+  }
+
+  /**
+   * Get the count of admins
+   *
+   * @return int
+   */
+  public function GetAdminCount() {
+    $c = new Criteria();
+    $c->add(VocabularyHasUserPeer::IS_ADMIN_FOR, TRUE);
+    $c->add(VocabularyHasUserPeer::VOCABULARY_ID, $this->getVocabularyId());
+
+    return VocabularyHasUserPeer::doCount($c);
+  }
 }
