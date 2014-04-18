@@ -13,17 +13,17 @@ div#show_row_content_vocabulary_list_users .sf_admin_list
 }
 
 fieldset#sf_fieldset_users .show-row label
-{ 
+{
   display: none;
 }
 
 fieldset#sf_fieldset_users .show-row ul
-{ 
+{
   list-style: none;
 }
 
 fieldset#sf_fieldset_users .show-row th,
 fieldset#sf_fieldset_users .show-row td
-{ 
+{
   text-align: center !important;
 }

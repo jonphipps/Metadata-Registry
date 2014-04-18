@@ -1,5 +1,6 @@
 all:
   stylesheets: [vocabulary/layout, tabs]
-  javascripts: [%SF_PROTOTYPE_WEB_DIR%/js/prototype: { position: last }]
+#  javascripts: [%SF_PROTOTYPE_WEB_DIR%/js/prototype: { position: last }]
 editSuccess:
-  javascripts: [vocabulary: { position: last }]
+  stylesheets: [%sf_select2_web_dir%/select2]
+  javascripts: [vocabulary: { position: last }, %sf_select2_web_dir%/bower_components/jquery/dist/jquery, %sf_select2_web_dir%/select2 ]
