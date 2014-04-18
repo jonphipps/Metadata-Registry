@@ -218,10 +218,6 @@ function object_admin_select_language($object, $method, $options = array(), $def
   if (isset($options['limitmethod']))
   {
     $options['languages'] = _get_object_value($object, $options['limitmethod']);
-    if (empty($options['languages']))
-    {
-      return "No languages!";
-    }
   }
 
   return select_language_tag($options['control_name'], $value, $options);
