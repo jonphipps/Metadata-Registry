@@ -10,10 +10,14 @@
 class SchemaPropertyElementPeer extends BaseSchemaPropertyElementPeer
 {
   /**
-  * create and add an individual element
-  *
-  * @param  SchemaProperty $schema_property
-  */
+   * create and add an individual element
+   *
+   * @param  SchemaProperty $schema_property
+   * @param  int            $userId
+   * @param  int            $fieldId
+   *
+   * @return \SchemaPropertyElement
+   */
   public static function createElement(SchemaProperty $schema_property, $userId, $fieldId)
   {
     $element = new SchemaPropertyElement();
@@ -31,11 +35,16 @@ class SchemaPropertyElementPeer extends BaseSchemaPropertyElementPeer
   } // createElement
 
   /**
-  * description
-  *
-  * @return return_type
-  * @param  var_type $var
-  */
+   * description
+   *
+   * @return SchemaPropertyElement
+   *
+   * @param $propertyId
+   * @param $elementId
+   * @param $object
+   *
+   * @internal param \var_type $var
+   */
   public static function lookupElement($propertyId, $elementId, $object)
   {
     $c = new Criteria();
@@ -47,7 +56,6 @@ class SchemaPropertyElementPeer extends BaseSchemaPropertyElementPeer
 
     return $results;
   }
-
 
 }
 

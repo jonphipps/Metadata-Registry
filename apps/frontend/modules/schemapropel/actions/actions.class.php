@@ -1,8 +1,10 @@
 <?php
 
-/**
+  /**
  * schemapropel actions.
  *
+ * @property SchemaProperty schema_property
+   *
  * @package    registry
  * @subpackage schemapropel
  * @author     Jon Phipps <jonphipps@gmail.com>
@@ -22,10 +24,11 @@ class schemapropelActions extends autoschemapropelActions
   }
 
   /**
-  * Set the defaults
-  *
-  * @param  SchemaPropertyElement $schema_property
-  */
+   * Set the defaults
+   *
+   * @param SchemaPropertyElement $schema_property_element
+   *
+   */
   public function setDefaults ($schema_property_element)
   {
     $schemaPropertyId = $this->schema_property->getId();

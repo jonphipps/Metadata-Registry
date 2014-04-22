@@ -12,8 +12,7 @@ class SchemaPropertyElement extends BaseSchemaPropertyElement
   /**
   * description
   *
-  * @return return_type
-  * @param  var_type $var
+  * @return string
   */
   public function __toString()
   {
@@ -21,11 +20,16 @@ class SchemaPropertyElement extends BaseSchemaPropertyElement
   }
 
   /**
-  * description
-  *
-  * @return return_type
-  * @param  var_type $var
-  */
+   * description
+   *
+   * @return int affected rows
+   *
+   * @param Connection $con
+   * @param bool $reciprocal
+   *
+   * @throws Exception
+   * @throws PropelException
+   */
   public function save($con = null, $reciprocal = false)
   {
     if ($this->isModified())
@@ -79,10 +83,12 @@ class SchemaPropertyElement extends BaseSchemaPropertyElement
   }
 
   /**
-  * Gets the language
-  *
-  * @return string The formatted language
-  */
+   * Gets the language
+   *
+   * @param string $culture
+   *
+   * @return string The formatted language
+   */
   public function getFormatLanguage($culture = null)
   {
     return format_language(parent::getLanguage(), $culture);
@@ -123,28 +129,59 @@ class SchemaPropertyElement extends BaseSchemaPropertyElement
   }
 
   /**
-  * updates/creates/deletes the reciprocal property
-  *
-  * @param  SchemaPropertyElement $element
-  * @param  string $action
-  * @param  Connection $con
-  */
+   * updates/creates/deletes the reciprocal property
+   *
+   * @param  string     $action
+   * @param  Connection $con
+   *
+   * @throws Exception
+   * @throws PropelException
+   * @internal param \SchemaPropertyElement $element
+   */
   public function updateReciprocal($action, $con = null)
   {
     $relatedPropertyId = $this->getRelatedSchemaPropertyId();
-    if (!$relatedPropertyId)
-    {
+    if (!$relatedPropertyId) {
       return;
     }
 
     $recipProfilePropertyId = $this->getProfileProperty()->getInverseProfilePropertyId();
-    if (!$recipProfilePropertyId)
-    {
+    if (!$recipProfilePropertyId) {
       return;
     }
 
-    $userId = sfContext::getInstance()->getUser()->getSubscriberId();
     $schemaPropertyID = $this->getSchemaPropertyId();
+
+    //does the user have editorial rights to the reciprocal...
+    //get the schema_id of the reciprocal property
+    /** @var $user myUser */
+    $user       = sfContext::getInstance()->getUser();
+    $userId     = $user->getSubscriberId();
+    $permission = FALSE;
+
+    $c = new Criteria();
+    $c->add(SchemaPropertyPeer::ID, $relatedPropertyId);
+    $property = SchemaPropertyPeer::doSelectOne($c);
+    if ($property) {
+      $schemaId = $property->getSchemaId();
+
+      //does this user have the proper credentials?
+      $permission = $user->hasObjectCredential(
+        $schemaId,
+        'schema',
+        array(
+          0 => array(
+            0 => 'administrator',
+            1 => 'schemamaintainer',
+            2 => 'schemaadmin',
+          )
+        )
+      );
+    }
+
+    if (!$permission) {
+      return;
+    }
 
     $c = new Criteria();
     $c->add(SchemaPropertyElementPeer::SCHEMA_PROPERTY_ID, $relatedPropertyId);
