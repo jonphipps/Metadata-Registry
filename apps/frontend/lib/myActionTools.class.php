@@ -227,7 +227,9 @@ class myActionTools
   public static function setLatestagent($agentId)
   {
     $agentObj = AgentPeer::retrieveByPK($agentId);
-    sfContext::getInstance()->getUser()->setCurrentagent($agentObj);
+    if ($agentObj) {
+      sfContext::getInstance()->getUser()->setCurrentagent($agentObj);
+    }
     return $agentObj;
   }
 
