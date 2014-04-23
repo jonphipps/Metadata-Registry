@@ -1,14 +1,13 @@
+actor: Dev
 paths:
     tests: test/codeception
-    log: test/codeception/_log
+    log: log/codeception/
     data: test/codeception/_data
     helpers: test/codeception/_helpers
 settings:
     bootstrap: _bootstrap.php
-    suite_class: \PHPUnit_Framework_TestSuite
     colors: true
     memory_limit: 1024M
-    log: true
 modules:
     config:
         Db:
