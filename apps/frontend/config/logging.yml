@@ -9,8 +9,7 @@ sandbox:
   level:   err
   rotate:  on
   purge:   off
-dev:
-test:
+
 #all:
 #  enabled: on
 #  level:   debug
