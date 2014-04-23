@@ -21,7 +21,7 @@ dev:
 test:
   .settings:
     # E_ALL | E_STRICT & ~E_NOTICE = 2047
-    error_reporting:        2047
+    error_reporting:        -1
     cache:                  off
     web_debug:              on
     no_script_name:         off
@@ -30,7 +30,7 @@ test:
 test-empty:
   .settings:
     # E_ALL | E_STRICT & ~E_NOTICE = 2047
-    error_reporting:        2047
+    error_reporting:        -1
     cache:                  off
     web_debug:              on
     no_script_name:         off
