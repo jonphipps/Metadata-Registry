@@ -160,6 +160,13 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 
 
 	/**
+	 * The value for the profile_id field.
+	 * @var        int
+	 */
+	protected $profile_id;
+
+
+	/**
 	 * The value for the ns_type field.
 	 * @var        string
 	 */
@@ -189,6 +196,11 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	 * @var        Status
 	 */
 	protected $aStatus;
+
+	/**
+	 * @var        Profile
+	 */
+	protected $aProfile;
 
 	/**
 	 * Collection to store aggregation of collCollections.
@@ -610,6 +622,17 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	{
 
 		return $this->languages;
+	}
+
+	/**
+	 * Get the [profile_id] column value.
+	 * 
+	 * @return     int
+	 */
+	public function getProfileId()
+	{
+
+		return $this->profile_id;
 	}
 
 	/**
@@ -1092,6 +1115,32 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	} // setLanguages()
 
 	/**
+	 * Set the value of [profile_id] column.
+	 * 
+	 * @param      int $v new value
+	 * @return     void
+	 */
+	public function setProfileId($v)
+	{
+
+		// Since the native PHP type for this column is integer,
+		// we will cast the input value to an int (if it is not).
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->profile_id !== $v) {
+			$this->profile_id = $v;
+			$this->modifiedColumns[] = VocabularyPeer::PROFILE_ID;
+		}
+
+		if ($this->aProfile !== null && $this->aProfile->getId() !== $v) {
+			$this->aProfile = null;
+		}
+
+	} // setProfileId()
+
+	/**
 	 * Set the value of [ns_type] column.
 	 * 
 	 * @param      string $v new value
@@ -1170,14 +1219,16 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 
 			$this->languages = $rs->getString($startcol + 19);
 
-			$this->ns_type = $rs->getString($startcol + 20);
+			$this->profile_id = $rs->getInt($startcol + 20);
+
+			$this->ns_type = $rs->getString($startcol + 21);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 21; // 21 = VocabularyPeer::NUM_COLUMNS - VocabularyPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 22; // 22 = VocabularyPeer::NUM_COLUMNS - VocabularyPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Vocabulary object", $e);
@@ -1339,6 +1390,13 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 					$affectedRows += $this->aStatus->save($con);
 				}
 				$this->setStatus($this->aStatus);
+			}
+
+			if ($this->aProfile !== null) {
+				if ($this->aProfile->isModified()) {
+					$affectedRows += $this->aProfile->save($con);
+				}
+				$this->setProfile($this->aProfile);
 			}
 
 
@@ -1531,6 +1589,12 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 				}
 			}
 
+			if ($this->aProfile !== null) {
+				if (!$this->aProfile->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aProfile->getValidationFailures());
+				}
+			}
+
 
 			if (($retval = VocabularyPeer::doValidate($this, $columns)) !== true) {
 				$failureMap = array_merge($failureMap, $retval);
@@ -1702,6 +1766,9 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 				return $this->getLanguages();
 				break;
 			case 20:
+				return $this->getProfileId();
+				break;
+			case 21:
 				return $this->getNsType();
 				break;
 			default:
@@ -1744,7 +1811,8 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 			$keys[17] => $this->getStatusId(),
 			$keys[18] => $this->getLanguage(),
 			$keys[19] => $this->getLanguages(),
-			$keys[20] => $this->getNsType(),
+			$keys[20] => $this->getProfileId(),
+			$keys[21] => $this->getNsType(),
 		);
 		return $result;
 	}
@@ -1837,6 +1905,9 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 				$this->setLanguages($value);
 				break;
 			case 20:
+				$this->setProfileId($value);
+				break;
+			case 21:
 				$this->setNsType($value);
 				break;
 		} // switch()
@@ -1882,7 +1953,8 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[17], $arr)) $this->setStatusId($arr[$keys[17]]);
 		if (array_key_exists($keys[18], $arr)) $this->setLanguage($arr[$keys[18]]);
 		if (array_key_exists($keys[19], $arr)) $this->setLanguages($arr[$keys[19]]);
-		if (array_key_exists($keys[20], $arr)) $this->setNsType($arr[$keys[20]]);
+		if (array_key_exists($keys[20], $arr)) $this->setProfileId($arr[$keys[20]]);
+		if (array_key_exists($keys[21], $arr)) $this->setNsType($arr[$keys[21]]);
 	}
 
 	/**
@@ -1914,6 +1986,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(VocabularyPeer::STATUS_ID)) $criteria->add(VocabularyPeer::STATUS_ID, $this->status_id);
 		if ($this->isColumnModified(VocabularyPeer::LANGUAGE)) $criteria->add(VocabularyPeer::LANGUAGE, $this->language);
 		if ($this->isColumnModified(VocabularyPeer::LANGUAGES)) $criteria->add(VocabularyPeer::LANGUAGES, $this->languages);
+		if ($this->isColumnModified(VocabularyPeer::PROFILE_ID)) $criteria->add(VocabularyPeer::PROFILE_ID, $this->profile_id);
 		if ($this->isColumnModified(VocabularyPeer::NS_TYPE)) $criteria->add(VocabularyPeer::NS_TYPE, $this->ns_type);
 
 		return $criteria;
@@ -2006,6 +2079,8 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 		$copyObj->setLanguage($this->language);
 
 		$copyObj->setLanguages($this->languages);
+
+		$copyObj->setProfileId($this->profile_id);
 
 		$copyObj->setNsType($this->ns_type);
 
@@ -2346,6 +2421,56 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 			 */
 		}
 		return $this->aStatus;
+	}
+
+	/**
+	 * Declares an association between this object and a Profile object.
+	 *
+	 * @param      Profile $v
+	 * @return     void
+	 * @throws     PropelException
+	 */
+	public function setProfile($v)
+	{
+
+
+		if ($v === null) {
+			$this->setProfileId(NULL);
+		} else {
+			$this->setProfileId($v->getId());
+		}
+
+
+		$this->aProfile = $v;
+	}
+
+
+	/**
+	 * Get the associated Profile object
+	 *
+	 * @param      Connection Optional Connection object.
+	 * @return     Profile The associated Profile object.
+	 * @throws     PropelException
+	 */
+	public function getProfile($con = null)
+	{
+		if ($this->aProfile === null && ($this->profile_id !== null)) {
+			// include the related Peer class
+			include_once 'lib/model/om/BaseProfilePeer.php';
+
+			$this->aProfile = ProfilePeer::retrieveByPK($this->profile_id, $con);
+
+			/* The following can be used instead of the line above to
+			   guarantee the related object contains a reference
+			   to this object, but this level of coupling
+			   may be undesirable in many circumstances.
+			   As it can lead to a db query with many results that may
+			   never be used.
+			   $obj = ProfilePeer::retrieveByPK($this->profile_id, $con);
+			   $obj->addProfiles($this);
+			 */
+		}
+		return $this->aProfile;
 	}
 
 	/**
@@ -2800,55 +2925,6 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 
 			if (!isset($this->lastConceptCriteria) || !$this->lastConceptCriteria->equals($criteria)) {
 				$this->collConcepts = ConceptPeer::doSelectJoinUserRelatedByUpdatedUserId($criteria, $con);
-			}
-		}
-		$this->lastConceptCriteria = $criteria;
-
-		return $this->collConcepts;
-	}
-
-
-	/**
-	 * If this collection has already been initialized with
-	 * an identical criteria, it returns the collection.
-	 * Otherwise if this Vocabulary is new, it will return
-	 * an empty collection; or if this Vocabulary has previously
-	 * been saved, it will retrieve related Concepts from storage.
-	 *
-	 * This method is protected by default in order to keep the public
-	 * api reasonable.  You can provide public methods for those you
-	 * actually need in Vocabulary.
-	 */
-	public function getConceptsJoinConceptProperty($criteria = null, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseConceptPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collConcepts === null) {
-			if ($this->isNew()) {
-				$this->collConcepts = array();
-			} else {
-
-				$criteria->add(ConceptPeer::VOCABULARY_ID, $this->getId());
-
-				$this->collConcepts = ConceptPeer::doSelectJoinConceptProperty($criteria, $con);
-			}
-		} else {
-			// the following code is to determine if a new query is
-			// called for.  If the criteria is the same as the last
-			// one, just return the collection.
-
-			$criteria->add(ConceptPeer::VOCABULARY_ID, $this->getId());
-
-			if (!isset($this->lastConceptCriteria) || !$this->lastConceptCriteria->equals($criteria)) {
-				$this->collConcepts = ConceptPeer::doSelectJoinConceptProperty($criteria, $con);
 			}
 		}
 		$this->lastConceptCriteria = $criteria;

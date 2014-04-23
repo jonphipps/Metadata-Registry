@@ -81,8 +81,6 @@ class ConceptMapBuilder {
 
 		$tMap->addColumn('IS_TOP_CONCEPT', 'IsTopConcept', 'boolean', CreoleTypes::BOOLEAN, false, null);
 
-		$tMap->addForeignKey('PREF_LABEL_ID', 'PrefLabelId', 'int', CreoleTypes::INTEGER, 'reg_concept_property', 'ID', false, null);
-
 		$tMap->addForeignKey('STATUS_ID', 'StatusId', 'int', CreoleTypes::INTEGER, 'reg_status', 'ID', true, null);
 
 		$tMap->addColumn('LANGUAGE', 'Language', 'string', CreoleTypes::CHAR, true, 6);

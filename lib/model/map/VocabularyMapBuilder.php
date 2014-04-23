@@ -101,6 +101,8 @@ class VocabularyMapBuilder {
 
 		$tMap->addColumn('LANGUAGES', 'Languages', 'string', CreoleTypes::LONGVARCHAR, true, null);
 
+		$tMap->addForeignKey('PROFILE_ID', 'ProfileId', 'int', CreoleTypes::INTEGER, 'profile', 'ID', false, null);
+
 		$tMap->addColumn('NS_TYPE', 'NsType', 'string', CreoleTypes::CHAR, true, 6);
 
 	} // doBuild()

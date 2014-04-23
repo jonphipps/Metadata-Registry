@@ -90,13 +90,6 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 
 
 	/**
-	 * The value for the pref_label_id field.
-	 * @var        int
-	 */
-	protected $pref_label_id;
-
-
-	/**
 	 * The value for the status_id field.
 	 * @var        int
 	 */
@@ -123,11 +116,6 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	 * @var        Vocabulary
 	 */
 	protected $aVocabulary;
-
-	/**
-	 * @var        ConceptProperty
-	 */
-	protected $aConceptProperty;
 
 	/**
 	 * @var        Status
@@ -417,17 +405,6 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	}
 
 	/**
-	 * Get the [pref_label_id] column value.
-	 * 
-	 * @return     int
-	 */
-	public function getPrefLabelId()
-	{
-
-		return $this->pref_label_id;
-	}
-
-	/**
 	 * Get the [status_id] column value.
 	 * 
 	 * @return     int
@@ -684,32 +661,6 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	} // setIsTopConcept()
 
 	/**
-	 * Set the value of [pref_label_id] column.
-	 * 
-	 * @param      int $v new value
-	 * @return     void
-	 */
-	public function setPrefLabelId($v)
-	{
-
-		// Since the native PHP type for this column is integer,
-		// we will cast the input value to an int (if it is not).
-		if ($v !== null && !is_int($v) && is_numeric($v)) {
-			$v = (int) $v;
-		}
-
-		if ($this->pref_label_id !== $v) {
-			$this->pref_label_id = $v;
-			$this->modifiedColumns[] = ConceptPeer::PREF_LABEL_ID;
-		}
-
-		if ($this->aConceptProperty !== null && $this->aConceptProperty->getId() !== $v) {
-			$this->aConceptProperty = null;
-		}
-
-	} // setPrefLabelId()
-
-	/**
 	 * Set the value of [status_id] column.
 	 * 
 	 * @param      int $v new value
@@ -794,18 +745,16 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 
 			$this->is_top_concept = $rs->getBoolean($startcol + 9);
 
-			$this->pref_label_id = $rs->getInt($startcol + 10);
+			$this->status_id = $rs->getInt($startcol + 10);
 
-			$this->status_id = $rs->getInt($startcol + 11);
-
-			$this->language = $rs->getString($startcol + 12);
+			$this->language = $rs->getString($startcol + 11);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 13; // 13 = ConceptPeer::NUM_COLUMNS - ConceptPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 12; // 12 = ConceptPeer::NUM_COLUMNS - ConceptPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Concept object", $e);
@@ -958,13 +907,6 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 					$affectedRows += $this->aVocabulary->save($con);
 				}
 				$this->setVocabulary($this->aVocabulary);
-			}
-
-			if ($this->aConceptProperty !== null) {
-				if ($this->aConceptProperty->isModified()) {
-					$affectedRows += $this->aConceptProperty->save($con);
-				}
-				$this->setConceptProperty($this->aConceptProperty);
 			}
 
 			if ($this->aStatus !== null) {
@@ -1128,12 +1070,6 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 				}
 			}
 
-			if ($this->aConceptProperty !== null) {
-				if (!$this->aConceptProperty->validate($columns)) {
-					$failureMap = array_merge($failureMap, $this->aConceptProperty->getValidationFailures());
-				}
-			}
-
 			if ($this->aStatus !== null) {
 				if (!$this->aStatus->validate($columns)) {
 					$failureMap = array_merge($failureMap, $this->aStatus->getValidationFailures());
@@ -1257,12 +1193,9 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 				return $this->getIsTopConcept();
 				break;
 			case 10:
-				return $this->getPrefLabelId();
-				break;
-			case 11:
 				return $this->getStatusId();
 				break;
-			case 12:
+			case 11:
 				return $this->getLanguage();
 				break;
 			default:
@@ -1295,9 +1228,8 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 			$keys[7] => $this->getUri(),
 			$keys[8] => $this->getVocabularyId(),
 			$keys[9] => $this->getIsTopConcept(),
-			$keys[10] => $this->getPrefLabelId(),
-			$keys[11] => $this->getStatusId(),
-			$keys[12] => $this->getLanguage(),
+			$keys[10] => $this->getStatusId(),
+			$keys[11] => $this->getLanguage(),
 		);
 		return $result;
 	}
@@ -1360,12 +1292,9 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 				$this->setIsTopConcept($value);
 				break;
 			case 10:
-				$this->setPrefLabelId($value);
-				break;
-			case 11:
 				$this->setStatusId($value);
 				break;
-			case 12:
+			case 11:
 				$this->setLanguage($value);
 				break;
 		} // switch()
@@ -1401,9 +1330,8 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[7], $arr)) $this->setUri($arr[$keys[7]]);
 		if (array_key_exists($keys[8], $arr)) $this->setVocabularyId($arr[$keys[8]]);
 		if (array_key_exists($keys[9], $arr)) $this->setIsTopConcept($arr[$keys[9]]);
-		if (array_key_exists($keys[10], $arr)) $this->setPrefLabelId($arr[$keys[10]]);
-		if (array_key_exists($keys[11], $arr)) $this->setStatusId($arr[$keys[11]]);
-		if (array_key_exists($keys[12], $arr)) $this->setLanguage($arr[$keys[12]]);
+		if (array_key_exists($keys[10], $arr)) $this->setStatusId($arr[$keys[10]]);
+		if (array_key_exists($keys[11], $arr)) $this->setLanguage($arr[$keys[11]]);
 	}
 
 	/**
@@ -1425,7 +1353,6 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(ConceptPeer::URI)) $criteria->add(ConceptPeer::URI, $this->uri);
 		if ($this->isColumnModified(ConceptPeer::VOCABULARY_ID)) $criteria->add(ConceptPeer::VOCABULARY_ID, $this->vocabulary_id);
 		if ($this->isColumnModified(ConceptPeer::IS_TOP_CONCEPT)) $criteria->add(ConceptPeer::IS_TOP_CONCEPT, $this->is_top_concept);
-		if ($this->isColumnModified(ConceptPeer::PREF_LABEL_ID)) $criteria->add(ConceptPeer::PREF_LABEL_ID, $this->pref_label_id);
 		if ($this->isColumnModified(ConceptPeer::STATUS_ID)) $criteria->add(ConceptPeer::STATUS_ID, $this->status_id);
 		if ($this->isColumnModified(ConceptPeer::LANGUAGE)) $criteria->add(ConceptPeer::LANGUAGE, $this->language);
 
@@ -1499,8 +1426,6 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 		$copyObj->setVocabularyId($this->vocabulary_id);
 
 		$copyObj->setIsTopConcept($this->is_top_concept);
-
-		$copyObj->setPrefLabelId($this->pref_label_id);
 
 		$copyObj->setStatusId($this->status_id);
 
@@ -1731,56 +1656,6 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 			 */
 		}
 		return $this->aVocabulary;
-	}
-
-	/**
-	 * Declares an association between this object and a ConceptProperty object.
-	 *
-	 * @param      ConceptProperty $v
-	 * @return     void
-	 * @throws     PropelException
-	 */
-	public function setConceptProperty($v)
-	{
-
-
-		if ($v === null) {
-			$this->setPrefLabelId(NULL);
-		} else {
-			$this->setPrefLabelId($v->getId());
-		}
-
-
-		$this->aConceptProperty = $v;
-	}
-
-
-	/**
-	 * Get the associated ConceptProperty object
-	 *
-	 * @param      Connection Optional Connection object.
-	 * @return     ConceptProperty The associated ConceptProperty object.
-	 * @throws     PropelException
-	 */
-	public function getConceptProperty($con = null)
-	{
-		if ($this->aConceptProperty === null && ($this->pref_label_id !== null)) {
-			// include the related Peer class
-			include_once 'lib/model/om/BaseConceptPropertyPeer.php';
-
-			$this->aConceptProperty = ConceptPropertyPeer::retrieveByPK($this->pref_label_id, $con);
-
-			/* The following can be used instead of the line above to
-			   guarantee the related object contains a reference
-			   to this object, but this level of coupling
-			   may be undesirable in many circumstances.
-			   As it can lead to a db query with many results that may
-			   never be used.
-			   $obj = ConceptPropertyPeer::retrieveByPK($this->pref_label_id, $con);
-			   $obj->addConceptPropertys($this);
-			 */
-		}
-		return $this->aConceptProperty;
 	}
 
 	/**

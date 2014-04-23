@@ -5070,55 +5070,6 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in User.
 	 */
-	public function getConceptsRelatedByCreatedUserIdJoinConceptProperty($criteria = null, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseConceptPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collConceptsRelatedByCreatedUserId === null) {
-			if ($this->isNew()) {
-				$this->collConceptsRelatedByCreatedUserId = array();
-			} else {
-
-				$criteria->add(ConceptPeer::CREATED_USER_ID, $this->getId());
-
-				$this->collConceptsRelatedByCreatedUserId = ConceptPeer::doSelectJoinConceptProperty($criteria, $con);
-			}
-		} else {
-			// the following code is to determine if a new query is
-			// called for.  If the criteria is the same as the last
-			// one, just return the collection.
-
-			$criteria->add(ConceptPeer::CREATED_USER_ID, $this->getId());
-
-			if (!isset($this->lastConceptRelatedByCreatedUserIdCriteria) || !$this->lastConceptRelatedByCreatedUserIdCriteria->equals($criteria)) {
-				$this->collConceptsRelatedByCreatedUserId = ConceptPeer::doSelectJoinConceptProperty($criteria, $con);
-			}
-		}
-		$this->lastConceptRelatedByCreatedUserIdCriteria = $criteria;
-
-		return $this->collConceptsRelatedByCreatedUserId;
-	}
-
-
-	/**
-	 * If this collection has already been initialized with
-	 * an identical criteria, it returns the collection.
-	 * Otherwise if this User is new, it will return
-	 * an empty collection; or if this User has previously
-	 * been saved, it will retrieve related ConceptsRelatedByCreatedUserId from storage.
-	 *
-	 * This method is protected by default in order to keep the public
-	 * api reasonable.  You can provide public methods for those you
-	 * actually need in User.
-	 */
 	public function getConceptsRelatedByCreatedUserIdJoinStatus($criteria = null, $con = null)
 	{
 		// include the Peer class
@@ -5305,55 +5256,6 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 			if (!isset($this->lastConceptRelatedByUpdatedUserIdCriteria) || !$this->lastConceptRelatedByUpdatedUserIdCriteria->equals($criteria)) {
 				$this->collConceptsRelatedByUpdatedUserId = ConceptPeer::doSelectJoinVocabulary($criteria, $con);
-			}
-		}
-		$this->lastConceptRelatedByUpdatedUserIdCriteria = $criteria;
-
-		return $this->collConceptsRelatedByUpdatedUserId;
-	}
-
-
-	/**
-	 * If this collection has already been initialized with
-	 * an identical criteria, it returns the collection.
-	 * Otherwise if this User is new, it will return
-	 * an empty collection; or if this User has previously
-	 * been saved, it will retrieve related ConceptsRelatedByUpdatedUserId from storage.
-	 *
-	 * This method is protected by default in order to keep the public
-	 * api reasonable.  You can provide public methods for those you
-	 * actually need in User.
-	 */
-	public function getConceptsRelatedByUpdatedUserIdJoinConceptProperty($criteria = null, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseConceptPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collConceptsRelatedByUpdatedUserId === null) {
-			if ($this->isNew()) {
-				$this->collConceptsRelatedByUpdatedUserId = array();
-			} else {
-
-				$criteria->add(ConceptPeer::UPDATED_USER_ID, $this->getId());
-
-				$this->collConceptsRelatedByUpdatedUserId = ConceptPeer::doSelectJoinConceptProperty($criteria, $con);
-			}
-		} else {
-			// the following code is to determine if a new query is
-			// called for.  If the criteria is the same as the last
-			// one, just return the collection.
-
-			$criteria->add(ConceptPeer::UPDATED_USER_ID, $this->getId());
-
-			if (!isset($this->lastConceptRelatedByUpdatedUserIdCriteria) || !$this->lastConceptRelatedByUpdatedUserIdCriteria->equals($criteria)) {
-				$this->collConceptsRelatedByUpdatedUserId = ConceptPeer::doSelectJoinConceptProperty($criteria, $con);
 			}
 		}
 		$this->lastConceptRelatedByUpdatedUserIdCriteria = $criteria;
@@ -10044,6 +9946,55 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		return $this->collVocabularysRelatedByCreatedUserId;
 	}
 
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this User is new, it will return
+	 * an empty collection; or if this User has previously
+	 * been saved, it will retrieve related VocabularysRelatedByCreatedUserId from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in User.
+	 */
+	public function getVocabularysRelatedByCreatedUserIdJoinProfile($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseVocabularyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collVocabularysRelatedByCreatedUserId === null) {
+			if ($this->isNew()) {
+				$this->collVocabularysRelatedByCreatedUserId = array();
+			} else {
+
+				$criteria->add(VocabularyPeer::CREATED_USER_ID, $this->getId());
+
+				$this->collVocabularysRelatedByCreatedUserId = VocabularyPeer::doSelectJoinProfile($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(VocabularyPeer::CREATED_USER_ID, $this->getId());
+
+			if (!isset($this->lastVocabularyRelatedByCreatedUserIdCriteria) || !$this->lastVocabularyRelatedByCreatedUserIdCriteria->equals($criteria)) {
+				$this->collVocabularysRelatedByCreatedUserId = VocabularyPeer::doSelectJoinProfile($criteria, $con);
+			}
+		}
+		$this->lastVocabularyRelatedByCreatedUserIdCriteria = $criteria;
+
+		return $this->collVocabularysRelatedByCreatedUserId;
+	}
+
 	/**
 	 * Temporary storage of collVocabularysRelatedByUpdatedUserId to save a possible db hit in
 	 * the event objects are add to the collection, but the
@@ -10249,6 +10200,55 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		return $this->collVocabularysRelatedByUpdatedUserId;
 	}
 
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this User is new, it will return
+	 * an empty collection; or if this User has previously
+	 * been saved, it will retrieve related VocabularysRelatedByUpdatedUserId from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in User.
+	 */
+	public function getVocabularysRelatedByUpdatedUserIdJoinProfile($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseVocabularyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collVocabularysRelatedByUpdatedUserId === null) {
+			if ($this->isNew()) {
+				$this->collVocabularysRelatedByUpdatedUserId = array();
+			} else {
+
+				$criteria->add(VocabularyPeer::UPDATED_USER_ID, $this->getId());
+
+				$this->collVocabularysRelatedByUpdatedUserId = VocabularyPeer::doSelectJoinProfile($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(VocabularyPeer::UPDATED_USER_ID, $this->getId());
+
+			if (!isset($this->lastVocabularyRelatedByUpdatedUserIdCriteria) || !$this->lastVocabularyRelatedByUpdatedUserIdCriteria->equals($criteria)) {
+				$this->collVocabularysRelatedByUpdatedUserId = VocabularyPeer::doSelectJoinProfile($criteria, $con);
+			}
+		}
+		$this->lastVocabularyRelatedByUpdatedUserIdCriteria = $criteria;
+
+		return $this->collVocabularysRelatedByUpdatedUserId;
+	}
+
 	/**
 	 * Temporary storage of collVocabularysRelatedByChildUpdatedUserId to save a possible db hit in
 	 * the event objects are add to the collection, but the
@@ -10447,6 +10447,55 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 			if (!isset($this->lastVocabularyRelatedByChildUpdatedUserIdCriteria) || !$this->lastVocabularyRelatedByChildUpdatedUserIdCriteria->equals($criteria)) {
 				$this->collVocabularysRelatedByChildUpdatedUserId = VocabularyPeer::doSelectJoinStatus($criteria, $con);
+			}
+		}
+		$this->lastVocabularyRelatedByChildUpdatedUserIdCriteria = $criteria;
+
+		return $this->collVocabularysRelatedByChildUpdatedUserId;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this User is new, it will return
+	 * an empty collection; or if this User has previously
+	 * been saved, it will retrieve related VocabularysRelatedByChildUpdatedUserId from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in User.
+	 */
+	public function getVocabularysRelatedByChildUpdatedUserIdJoinProfile($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseVocabularyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collVocabularysRelatedByChildUpdatedUserId === null) {
+			if ($this->isNew()) {
+				$this->collVocabularysRelatedByChildUpdatedUserId = array();
+			} else {
+
+				$criteria->add(VocabularyPeer::CHILD_UPDATED_USER_ID, $this->getId());
+
+				$this->collVocabularysRelatedByChildUpdatedUserId = VocabularyPeer::doSelectJoinProfile($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(VocabularyPeer::CHILD_UPDATED_USER_ID, $this->getId());
+
+			if (!isset($this->lastVocabularyRelatedByChildUpdatedUserIdCriteria) || !$this->lastVocabularyRelatedByChildUpdatedUserIdCriteria->equals($criteria)) {
+				$this->collVocabularysRelatedByChildUpdatedUserId = VocabularyPeer::doSelectJoinProfile($criteria, $con);
 			}
 		}
 		$this->lastVocabularyRelatedByChildUpdatedUserIdCriteria = $criteria;

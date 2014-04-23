@@ -123,6 +123,13 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 	 */
 	protected $status_id = 1;
 
+
+	/**
+	 * The value for the is_concept_property field.
+	 * @var        boolean
+	 */
+	protected $is_concept_property = false;
+
 	/**
 	 * @var        User
 	 */
@@ -157,18 +164,6 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 	 * @var        Status
 	 */
 	protected $aStatus;
-
-	/**
-	 * Collection to store aggregation of collConcepts.
-	 * @var        array
-	 */
-	protected $collConcepts;
-
-	/**
-	 * The criteria used to select the current contents of collConcepts.
-	 * @var        Criteria
-	 */
-	protected $lastConceptCriteria = null;
 
 	/**
 	 * Collection to store aggregation of collConceptPropertyHistorys.
@@ -451,6 +446,17 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 	{
 
 		return $this->status_id;
+	}
+
+	/**
+	 * Get the [is_concept_property] column value.
+	 * 
+	 * @return     boolean
+	 */
+	public function getIsConceptProperty()
+	{
+
+		return $this->is_concept_property;
 	}
 
 	/**
@@ -814,6 +820,22 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 	} // setStatusId()
 
 	/**
+	 * Set the value of [is_concept_property] column.
+	 * 
+	 * @param      boolean $v new value
+	 * @return     void
+	 */
+	public function setIsConceptProperty($v)
+	{
+
+		if ($this->is_concept_property !== $v || $v === false) {
+			$this->is_concept_property = $v;
+			$this->modifiedColumns[] = ConceptPropertyPeer::IS_CONCEPT_PROPERTY;
+		}
+
+	} // setIsConceptProperty()
+
+	/**
 	 * Hydrates (populates) the object variables with values from the database resultset.
 	 *
 	 * An offset (1-based "start column") is specified so that objects can be hydrated
@@ -860,12 +882,14 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 
 			$this->status_id = $rs->getInt($startcol + 14);
 
+			$this->is_concept_property = $rs->getBoolean($startcol + 15);
+
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 15; // 15 = ConceptPropertyPeer::NUM_COLUMNS - ConceptPropertyPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 16; // 16 = ConceptPropertyPeer::NUM_COLUMNS - ConceptPropertyPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating ConceptProperty object", $e);
@@ -1066,14 +1090,6 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 				$this->resetModified(); // [HL] After being saved an object is no longer 'modified'
 			}
 
-			if ($this->collConcepts !== null) {
-				foreach($this->collConcepts as $referrerFK) {
-					if (!$referrerFK->isDeleted()) {
-						$affectedRows += $referrerFK->save($con);
-					}
-				}
-			}
-
 			if ($this->collConceptPropertyHistorys !== null) {
 				foreach($this->collConceptPropertyHistorys as $referrerFK) {
 					if (!$referrerFK->isDeleted()) {
@@ -1208,14 +1224,6 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 			}
 
 
-				if ($this->collConcepts !== null) {
-					foreach($this->collConcepts as $referrerFK) {
-						if (!$referrerFK->validate($columns)) {
-							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
-						}
-					}
-				}
-
 				if ($this->collConceptPropertyHistorys !== null) {
 					foreach($this->collConceptPropertyHistorys as $referrerFK) {
 						if (!$referrerFK->validate($columns)) {
@@ -1309,6 +1317,9 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 			case 14:
 				return $this->getStatusId();
 				break;
+			case 15:
+				return $this->getIsConceptProperty();
+				break;
 			default:
 				return null;
 				break;
@@ -1344,6 +1355,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 			$keys[12] => $this->getRelatedConceptId(),
 			$keys[13] => $this->getLanguage(),
 			$keys[14] => $this->getStatusId(),
+			$keys[15] => $this->getIsConceptProperty(),
 		);
 		return $result;
 	}
@@ -1420,6 +1432,9 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 			case 14:
 				$this->setStatusId($value);
 				break;
+			case 15:
+				$this->setIsConceptProperty($value);
+				break;
 		} // switch()
 	}
 
@@ -1458,6 +1473,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[12], $arr)) $this->setRelatedConceptId($arr[$keys[12]]);
 		if (array_key_exists($keys[13], $arr)) $this->setLanguage($arr[$keys[13]]);
 		if (array_key_exists($keys[14], $arr)) $this->setStatusId($arr[$keys[14]]);
+		if (array_key_exists($keys[15], $arr)) $this->setIsConceptProperty($arr[$keys[15]]);
 	}
 
 	/**
@@ -1484,6 +1500,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(ConceptPropertyPeer::RELATED_CONCEPT_ID)) $criteria->add(ConceptPropertyPeer::RELATED_CONCEPT_ID, $this->related_concept_id);
 		if ($this->isColumnModified(ConceptPropertyPeer::LANGUAGE)) $criteria->add(ConceptPropertyPeer::LANGUAGE, $this->language);
 		if ($this->isColumnModified(ConceptPropertyPeer::STATUS_ID)) $criteria->add(ConceptPropertyPeer::STATUS_ID, $this->status_id);
+		if ($this->isColumnModified(ConceptPropertyPeer::IS_CONCEPT_PROPERTY)) $criteria->add(ConceptPropertyPeer::IS_CONCEPT_PROPERTY, $this->is_concept_property);
 
 		return $criteria;
 	}
@@ -1566,15 +1583,13 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 
 		$copyObj->setStatusId($this->status_id);
 
+		$copyObj->setIsConceptProperty($this->is_concept_property);
+
 
 		if ($deepCopy) {
 			// important: temporarily setNew(false) because this affects the behavior of
 			// the getter/setter methods for fkey referrer objects.
 			$copyObj->setNew(false);
-
-			foreach($this->getConcepts() as $relObj) {
-				$copyObj->addConcept($relObj->copy($deepCopy));
-			}
 
 			foreach($this->getConceptPropertyHistorys() as $relObj) {
 				$copyObj->addConceptPropertyHistory($relObj->copy($deepCopy));
@@ -1979,309 +1994,6 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 			 */
 		}
 		return $this->aStatus;
-	}
-
-	/**
-	 * Temporary storage of collConcepts to save a possible db hit in
-	 * the event objects are add to the collection, but the
-	 * complete collection is never requested.
-	 * @return     void
-	 */
-	public function initConcepts()
-	{
-		if ($this->collConcepts === null) {
-			$this->collConcepts = array();
-		}
-	}
-
-	/**
-	 * If this collection has already been initialized with
-	 * an identical criteria, it returns the collection.
-	 * Otherwise if this ConceptProperty has previously
-	 * been saved, it will retrieve related Concepts from storage.
-	 * If this ConceptProperty is new, it will return
-	 * an empty collection or the current collection, the criteria
-	 * is ignored on a new object.
-	 *
-	 * @param      Connection $con
-	 * @param      Criteria $criteria
-	 * @throws     PropelException
-	 */
-	public function getConcepts($criteria = null, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseConceptPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collConcepts === null) {
-			if ($this->isNew()) {
-			   $this->collConcepts = array();
-			} else {
-
-				$criteria->add(ConceptPeer::PREF_LABEL_ID, $this->getId());
-
-				ConceptPeer::addSelectColumns($criteria);
-				$this->collConcepts = ConceptPeer::doSelect($criteria, $con);
-			}
-		} else {
-			// criteria has no effect for a new object
-			if (!$this->isNew()) {
-				// the following code is to determine if a new query is
-				// called for.  If the criteria is the same as the last
-				// one, just return the collection.
-
-
-				$criteria->add(ConceptPeer::PREF_LABEL_ID, $this->getId());
-
-				ConceptPeer::addSelectColumns($criteria);
-				if (!isset($this->lastConceptCriteria) || !$this->lastConceptCriteria->equals($criteria)) {
-					$this->collConcepts = ConceptPeer::doSelect($criteria, $con);
-				}
-			}
-		}
-		$this->lastConceptCriteria = $criteria;
-		return $this->collConcepts;
-	}
-
-	/**
-	 * Returns the number of related Concepts.
-	 *
-	 * @param      Criteria $criteria
-	 * @param      boolean $distinct
-	 * @param      Connection $con
-	 * @throws     PropelException
-	 */
-	public function countConcepts($criteria = null, $distinct = false, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseConceptPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		$criteria->add(ConceptPeer::PREF_LABEL_ID, $this->getId());
-
-		return ConceptPeer::doCount($criteria, $distinct, $con);
-	}
-
-	/**
-	 * Method called to associate a Concept object to this object
-	 * through the Concept foreign key attribute
-	 *
-	 * @param      Concept $l Concept
-	 * @return     void
-	 * @throws     PropelException
-	 */
-	public function addConcept(Concept $l)
-	{
-		$this->collConcepts[] = $l;
-		$l->setConceptProperty($this);
-	}
-
-
-	/**
-	 * If this collection has already been initialized with
-	 * an identical criteria, it returns the collection.
-	 * Otherwise if this ConceptProperty is new, it will return
-	 * an empty collection; or if this ConceptProperty has previously
-	 * been saved, it will retrieve related Concepts from storage.
-	 *
-	 * This method is protected by default in order to keep the public
-	 * api reasonable.  You can provide public methods for those you
-	 * actually need in ConceptProperty.
-	 */
-	public function getConceptsJoinUserRelatedByCreatedUserId($criteria = null, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseConceptPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collConcepts === null) {
-			if ($this->isNew()) {
-				$this->collConcepts = array();
-			} else {
-
-				$criteria->add(ConceptPeer::PREF_LABEL_ID, $this->getId());
-
-				$this->collConcepts = ConceptPeer::doSelectJoinUserRelatedByCreatedUserId($criteria, $con);
-			}
-		} else {
-			// the following code is to determine if a new query is
-			// called for.  If the criteria is the same as the last
-			// one, just return the collection.
-
-			$criteria->add(ConceptPeer::PREF_LABEL_ID, $this->getId());
-
-			if (!isset($this->lastConceptCriteria) || !$this->lastConceptCriteria->equals($criteria)) {
-				$this->collConcepts = ConceptPeer::doSelectJoinUserRelatedByCreatedUserId($criteria, $con);
-			}
-		}
-		$this->lastConceptCriteria = $criteria;
-
-		return $this->collConcepts;
-	}
-
-
-	/**
-	 * If this collection has already been initialized with
-	 * an identical criteria, it returns the collection.
-	 * Otherwise if this ConceptProperty is new, it will return
-	 * an empty collection; or if this ConceptProperty has previously
-	 * been saved, it will retrieve related Concepts from storage.
-	 *
-	 * This method is protected by default in order to keep the public
-	 * api reasonable.  You can provide public methods for those you
-	 * actually need in ConceptProperty.
-	 */
-	public function getConceptsJoinUserRelatedByUpdatedUserId($criteria = null, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseConceptPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collConcepts === null) {
-			if ($this->isNew()) {
-				$this->collConcepts = array();
-			} else {
-
-				$criteria->add(ConceptPeer::PREF_LABEL_ID, $this->getId());
-
-				$this->collConcepts = ConceptPeer::doSelectJoinUserRelatedByUpdatedUserId($criteria, $con);
-			}
-		} else {
-			// the following code is to determine if a new query is
-			// called for.  If the criteria is the same as the last
-			// one, just return the collection.
-
-			$criteria->add(ConceptPeer::PREF_LABEL_ID, $this->getId());
-
-			if (!isset($this->lastConceptCriteria) || !$this->lastConceptCriteria->equals($criteria)) {
-				$this->collConcepts = ConceptPeer::doSelectJoinUserRelatedByUpdatedUserId($criteria, $con);
-			}
-		}
-		$this->lastConceptCriteria = $criteria;
-
-		return $this->collConcepts;
-	}
-
-
-	/**
-	 * If this collection has already been initialized with
-	 * an identical criteria, it returns the collection.
-	 * Otherwise if this ConceptProperty is new, it will return
-	 * an empty collection; or if this ConceptProperty has previously
-	 * been saved, it will retrieve related Concepts from storage.
-	 *
-	 * This method is protected by default in order to keep the public
-	 * api reasonable.  You can provide public methods for those you
-	 * actually need in ConceptProperty.
-	 */
-	public function getConceptsJoinVocabulary($criteria = null, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseConceptPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collConcepts === null) {
-			if ($this->isNew()) {
-				$this->collConcepts = array();
-			} else {
-
-				$criteria->add(ConceptPeer::PREF_LABEL_ID, $this->getId());
-
-				$this->collConcepts = ConceptPeer::doSelectJoinVocabulary($criteria, $con);
-			}
-		} else {
-			// the following code is to determine if a new query is
-			// called for.  If the criteria is the same as the last
-			// one, just return the collection.
-
-			$criteria->add(ConceptPeer::PREF_LABEL_ID, $this->getId());
-
-			if (!isset($this->lastConceptCriteria) || !$this->lastConceptCriteria->equals($criteria)) {
-				$this->collConcepts = ConceptPeer::doSelectJoinVocabulary($criteria, $con);
-			}
-		}
-		$this->lastConceptCriteria = $criteria;
-
-		return $this->collConcepts;
-	}
-
-
-	/**
-	 * If this collection has already been initialized with
-	 * an identical criteria, it returns the collection.
-	 * Otherwise if this ConceptProperty is new, it will return
-	 * an empty collection; or if this ConceptProperty has previously
-	 * been saved, it will retrieve related Concepts from storage.
-	 *
-	 * This method is protected by default in order to keep the public
-	 * api reasonable.  You can provide public methods for those you
-	 * actually need in ConceptProperty.
-	 */
-	public function getConceptsJoinStatus($criteria = null, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseConceptPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collConcepts === null) {
-			if ($this->isNew()) {
-				$this->collConcepts = array();
-			} else {
-
-				$criteria->add(ConceptPeer::PREF_LABEL_ID, $this->getId());
-
-				$this->collConcepts = ConceptPeer::doSelectJoinStatus($criteria, $con);
-			}
-		} else {
-			// the following code is to determine if a new query is
-			// called for.  If the criteria is the same as the last
-			// one, just return the collection.
-
-			$criteria->add(ConceptPeer::PREF_LABEL_ID, $this->getId());
-
-			if (!isset($this->lastConceptCriteria) || !$this->lastConceptCriteria->equals($criteria)) {
-				$this->collConcepts = ConceptPeer::doSelectJoinStatus($criteria, $con);
-			}
-		}
-		$this->lastConceptCriteria = $criteria;
-
-		return $this->collConcepts;
 	}
 
 	/**

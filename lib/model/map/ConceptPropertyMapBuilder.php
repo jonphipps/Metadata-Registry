@@ -91,6 +91,8 @@ class ConceptPropertyMapBuilder {
 
 		$tMap->addForeignKey('STATUS_ID', 'StatusId', 'int', CreoleTypes::INTEGER, 'reg_status', 'ID', false, null);
 
+		$tMap->addColumn('IS_CONCEPT_PROPERTY', 'IsConceptProperty', 'boolean', CreoleTypes::BOOLEAN, true, null);
+
 	} // doBuild()
 
 } // ConceptPropertyMapBuilder
