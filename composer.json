@@ -2,7 +2,10 @@
     "name": "jonphipps/metadata-registry",
     "description": "A metadata registry",
     "repositories": [
-      { "type": "vcs", "url": "git@github.com:jonphipps/phpspecgen.git" }
+    {
+      "type": "vcs",
+      "url": "git@github.com:jonphipps/phpspecgen.git"
+    }
     ],
     "require-dev": {
         "codeception/codeception": "dev-master",
