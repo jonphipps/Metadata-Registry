@@ -1,49 +1,51 @@
 {
-    "name": "jonphipps/metadata-registry",
-    "description": "A metadata registry",
-    "repositories": [
+  "name": "jonphipps/metadata-registry",
+  "description": "A metadata registry",
+  "repositories": [
     {
       "type": "vcs",
       "url": "git@github.com:jonphipps/phpspecgen.git"
     }
-    ],
-    "require-dev": {
-        "codeception/codeception": "dev-master",
-        "codeception/specify": "*",
-        "codeception/verify": "*",
-        "codeception/aspect-mock": "*",
-        "codeception/phpbuiltinserver": "*"
-    },
-    "config": {
-        "process-timeout": 900,
-        "cache-dir:":"../"
-    },
-    "license": "Apache-2.0",
-    "authors": [
-        {
-            "name": "Jon Phipps",
-            "email": "jphipps@madcreek.com"
-        }
-    ],
-    "minimum-stability": "dev",
-    "require": {
-        "zendframework/zendframework1": "1.12.*@dev",
-        "google/apiclient": "dev-master",
-        "semsol/arc2": "*",
-        "easyrdf/easyrdf": "dev-master",
-        "ml/json-ld": "dev-master",
-        "ddeboer/data-import": "*",
-        "symfony/property-access": "*",
-        "phpoffice/phpexcel": "*",
-        "symfony/validator": "*",
-        "symfony/config": "*",
-        "symfony/intl": "*",
-        "psr/log": "dev-master",
-        "symfony/http-foundation": "*",
-        "njh/phpspecgen": "dev-master",
-        "bgcc/sf-select2-widgets-plugin": "~1.0"
-    },
-    "autoload": {
-        "classmap": ["plugins/jpAdminGeneratorPlugin/lib/ImportVocab/src"]
+  ],
+  "require-dev": {
+    "codeception/codeception": "dev-master",
+    "codeception/specify": "*",
+    "codeception/verify": "*",
+    "codeception/aspect-mock": "*",
+    "codeception/phpbuiltinserver": "*",
+    "captbaritone/mailcatcher-codeception-module": "*",
+    "raveren/kint": "1.0.*@dev"
+  },
+  "config": {
+    "process-timeout": 900,
+    "cache-dir:": "../"
+  },
+  "license": "Apache-2.0",
+  "authors": [
+    {
+      "name": "Jon Phipps",
+      "email": "jphipps@madcreek.com"
     }
+  ],
+  "minimum-stability": "dev",
+  "require": {
+    "zendframework/zendframework1": "1.12.*@dev",
+    "google/apiclient": "dev-master",
+    "semsol/arc2": "*",
+    "easyrdf/easyrdf": "dev-master",
+    "ml/json-ld": "dev-master",
+    "ddeboer/data-import": "*",
+    "symfony/property-access": "*",
+    "phpoffice/phpexcel": "*",
+    "symfony/validator": "*",
+    "symfony/config": "*",
+    "symfony/intl": "*",
+    "psr/log": "dev-master",
+    "symfony/http-foundation": "*",
+    "njh/phpspecgen": "dev-master",
+    "bgcc/sf-select2-widgets-plugin": "~1.0"
+  },
+  "autoload": {
+    "classmap": ["plugins/jpAdminGeneratorPlugin/lib/ImportVocab/src"]
+  }
 }
