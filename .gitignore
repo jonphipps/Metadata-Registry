@@ -25,3 +25,4 @@ php_errors.log
 phpini.txt
 vendor.old
 test/codeception.old
+test/acceptance
