@@ -46,6 +46,7 @@ generator:
         agent_id:     { params: peer_method=getAgentsForCurrentUser}
         token:        { params: onblur=updateUri() }
         languages:    { type: admin_select_language, params: multiple=true style="width:99%" }
+        language:     { type: admin_select_language, params: limitmethod=getLanguageForSelect style="width:99%" }
 #        language:     { type: hidden }
       display:
         "-Metadata":  { fields: [id, created_at, last_updated, created_user, updated_user], mode: edit, credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }

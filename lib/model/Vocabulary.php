@@ -14,6 +14,9 @@ class Vocabulary extends BaseVocabulary
     return $this->getName();
   }
 
+  public function getLanguageForSelect() {
+    return array($this->getLanguage() => format_language($this->getLanguage()));
+  }
   /**
    * Get the [languages] column value.
    *
