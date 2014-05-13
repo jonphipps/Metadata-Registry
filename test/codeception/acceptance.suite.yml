@@ -9,7 +9,42 @@ class_name: WebDev
 modules:
     enabled:
         - PhpBrowser
+        - Db
+        - MailCatcher
+        - WebDriverHelper
         - WebHelper
     config:
         PhpBrowser:
-            url: 'http://localhost/myapp/'
+            url: 'http://registry.dev/frontend_test-empty.php'
+        MailCatcher:
+            url: 'http://registry.dev'
+            port: 1080
+        WebDriverHelper:
+            browser: 'phantomjs'
+            url: 'http://registry.dev/frontend_test-empty.php'
+            restart: false # resets the session for each run. Set to false to NOT persist the session
+            window_size: 1024x768
+            # clear_cookies: true
+            # wait: 1
+        Db:
+            cleanup: false
+env:
+    phantom:
+         modules:
+            enabled:
+              - WebDriver
+              - WebHelper
+            config:
+                WebDriverHelper:
+                    browser: 'phantomjs'
+                    url: 'http://registry.dev/frontend_test-empty.php'
+
+    chrome:
+         modules:
+            enabled:
+              - WebDriver
+              - WebHelper
+            config:
+                WebDriverHelper:
+                    browser: 'chrome'
+                    url: 'http://registry.dev/frontend_test-empty.php'
