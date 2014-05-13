@@ -250,7 +250,7 @@
           $agent = AgentPeer::retrieveByPK($id);
         }
       }
-      $objectId = $agent->getID();
+      $objectId = ($agent) ? $agent->getID() : "";
       break;
     case 'agentuser':
       $showBc = true;
@@ -923,7 +923,7 @@
 <?php endif;
 
 //set the meta title
-  $title = ltrim($title,': ');
+  $title = ($title) ? ltrim($title,': ') : "";
   $metaAction = rtrim ($metaAction);
   $sf_context->getResponse()->setTitle(sfConfig::get('app_title_prefix') . $title . $metaAction);
 
