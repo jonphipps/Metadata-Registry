@@ -40,7 +40,7 @@ generator:
         user_id:           { params: peer_method=getNewUsersForSchema include_blank=false, mode: create }
         user:              { type: plain, mode: edit }
         is_registrar_for:  { credentials: [[administrator]], mode: edit}
-        languages:         { type: admin_select_language, params: multiple=true limitmethod=getLanguagesForSchema style="width:99%", credentials: [[administrator, schemaadmin, agentadmin]] }
+        languages:         { type: admin_select_language, params: multiple=true limitmethod=getLanguagesForSchema style="width:99%" include_custom=[*, All languages ], credentials: [[administrator, schemaadmin, agentadmin]] }
         default_language:  { type: admin_select_language, params: limitmethod=getLanguagesForSchema style="width:99%", credentials: [[administrator, schemaadmin, agentadmin, schemamaintainer]] }
       display:             [user, user_id, isRegistrarFor, isAdminFor, isMaintainerFor, languages, default_language]
       actions:
