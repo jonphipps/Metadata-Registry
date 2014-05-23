@@ -579,4 +579,10 @@ class myActionTools
     return $propertyObj;
   }
 
+  /**
+   * Gets the current editorial language
+   */
+  public static function getEditLanguage() {
+    return new sfCultureInfo(sfContext::getInstance()->getUser()->getCulture());
+  }
 }
