@@ -7,6 +7,10 @@
 
 <?php include_title() ?>
 
+  <?php if (has_slot('data')): ?>
+    <?php include_slot('data') ?>
+  <?php endif; ?>
+
 <?php if ($_SERVER['SERVER_NAME'] == 'registry.dev' || $_SERVER['SERVER_NAME'] == 'beta.metadataregistry.net' ): ?>
    <link rel="shortcut icon" href="/registry_favicon_dev.ico" />
 <?php elseif ($_SERVER['SERVER_NAME'] == 'beta.metadataregistry.org' || $_SERVER['SERVER_NAME'] == 'beta-sand.metadataregistry.org' || $_SERVER['SERVER_NAME'] == 'beta-prod.metadataregistry.org'): ?>
