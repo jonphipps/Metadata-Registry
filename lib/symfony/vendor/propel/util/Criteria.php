@@ -162,12 +162,12 @@ class Criteria implements IteratorAggregate {
 	 */
 	private $map = array();
 
-	/**
-	 * Creates a new instance with the default capacity which corresponds to
-	 * the specified database.
-	 *
-	 * @param      dbName The dabase name.
-	 */
+  /**
+   * Creates a new instance with the default capacity which corresponds to
+   * the specified database.
+   *
+   * @param string $dbName The database name.
+   */
 	public function __construct($dbName = null)
 	{
 		$this->setDbName($dbName);
@@ -250,12 +250,13 @@ class Criteria implements IteratorAggregate {
 		return $this->asColumns;
 	}
 
-		/**
-	 * Returns the column name associated with an alias (AS-column).
-	 *
-	 * @param      string $alias
-	 * @return     string $string
-	 */
+  /**
+   * Returns the column name associated with an alias (AS-column).
+   *
+   * @param string $as
+   *
+   * @return     string $string
+   */
 	public function getColumnForAs($as)
 	{
 		if (isset($this->asColumns[$as])) {
@@ -436,7 +437,7 @@ class Criteria implements IteratorAggregate {
 	 * Set the DatabaseMap name.  If <code>null</code> is supplied, uses value
 	 * provided by <code>Propel::getDefaultDB()</code>.
 	 *
-	 * @param      $dbName A String with the Database(Map) name.
+	 * @param string $dbName A String with the Database(Map) name.
 	 * @return     void
 	 */
 	public function setDbName($dbName = null)
@@ -447,7 +448,7 @@ class Criteria implements IteratorAggregate {
 	/**
 	 * Method to return a String table name.
 	 *
-	 * @param      $name A String with the name of the key.
+	 * @param  string    $name A String with the name of the key.
 	 * @return     string A String with the value of table for criterion at key.
 	 */
 	public function getTableName($name)

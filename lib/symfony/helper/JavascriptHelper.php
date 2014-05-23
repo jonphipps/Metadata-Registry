@@ -109,7 +109,7 @@
 
     return tag('input', $html_options);
   }
-  
+
   /**
    * Returns an html button to a remote action defined by 'url' (using the
    * 'url_for()' format) that's called in the background using XMLHttpRequest.
@@ -796,14 +796,14 @@
    *
    * The form is serialized and sent to the server using an AJAX call, the action on
    * the server should process the value and return the updated value in the body of
-   * the reponse. The element will automatically be updated with the changed value
+   * the response. The element will automatically be updated with the changed value
    * (as returned from the server).
    *
    * Required '$options' are:
    * 'url'                 Specifies the url where the updated value should
    *                       be sent after the user presses "ok".
    *
-   * Addtional '$options' are:
+   * Additional '$options' are:
    * 'rows'                Number of rows (more than 1 will use a TEXTAREA)
    * 'cancel_text'         The text on the cancel link. (default: "cancel")
    * 'save_text'           The text on the save link. (default: "ok")
@@ -930,7 +930,7 @@
     {
       $js_options['afterUpdateElement'] = $options['after_update_element'];
     }
-    if (isset($options['param_name'])) 
+    if (isset($options['param_name']))
     {
       $js_options['paramName'] = "'".$options['param_name']."'";
     }

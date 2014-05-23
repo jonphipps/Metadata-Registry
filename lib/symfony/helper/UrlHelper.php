@@ -3,7 +3,7 @@
 /*
  * This file is part of the symfony package.
  * (c) 2004-2006 Fabien Potencier <fabien.potencier@symfony-project.com>
- * 
+ *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
@@ -27,7 +27,7 @@
  *  echo url_for('my_module/my_action');
  *    => /path/to/my/action
  *  echo url_for('@my_rule');
- *    => /path/to/my/action 
+ *    => /path/to/my/action
  *  echo url_for('@my_rule', true);
  *    => http://myapp.example.com/path/to/my/action
  * </code>
@@ -48,43 +48,46 @@ function url_for($internal_uri, $absolute = false)
   return $controller->genUrl($internal_uri, $absolute);
 }
 
-/**
- * Creates a <a> link tag of the given name using a routed URL
- * based on the module/action passed as argument and the routing configuration.
- * It's also possible to pass a string instead of a module/action pair to
- * get a link tag that just points without consideration. 
- * If null is passed as a name, the link itself will become the name.
- * If an object is passed as a name, the object string representation is used.
- * One of the options serves for for creating javascript confirm alerts where 
- * if you pass 'confirm' => 'Are you sure?', the link will be guarded 
- * with a JS popup asking that question. If the user accepts, the link is processed,
- * otherwise not.
- *
- * <b>Options:</b>
- * - 'absolute' - if set to true, the helper outputs an absolute URL
- * - 'query_string' - to append a query string (starting by ?) to the routed url
- * - 'confirm' - displays a javascript confirmation alert when the link is clicked
- * - 'popup' - if set to true, the link opens a new browser window 
- * - 'post' - if set to true, the link submits a POST request instead of GET (caution: do not use inside a form)
- *
- * <b>Note:</b> The 'popup' and 'post' options are not compatible with each other.
- *
- * <b>Examples:</b>
- * <code>
- *  echo link_to('Delete this page', 'my_module/my_action');
- *    => <a href="/path/to/my/action">Delete this page</a>
- *  echo link_to('Visit Hoogle', 'http://www.hoogle.com');
- *    => <a href="http://www.hoogle.com">Visit Hoogle</a>
- *  echo link_to('Delete this page', 'my_module/my_action', array('id' => 'myid', 'confirm' => 'Are you sure?', 'absolute' => true));
- *    => <a href="http://myapp.example.com/path/to/my/action" id="myid" onclick="return confirm('Are you sure?');">Delete this page</a>
- * </code>
- *
- * @param  string name of the link, i.e. string to appear between the <a> tags
- * @param  string 'module/action' or '@rule' of the action
- * @param  array additional HTML compliant <a> tag parameters
- * @return string XHTML compliant <a href> tag
- * @see    url_for
- */
+  /**
+   * Creates a <a> link tag of the given name using a routed URL
+   * based on the module/action passed as argument and the routing configuration.
+   * It's also possible to pass a string instead of a module/action pair to
+   * get a link tag that just points without consideration.
+   * If null is passed as a name, the link itself will become the name.
+   * If an object is passed as a name, the object string representation is used.
+   * One of the options serves for for creating javascript confirm alerts where
+   * if you pass 'confirm' => 'Are you sure?', the link will be guarded
+   * with a JS popup asking that question. If the user accepts, the link is processed,
+   * otherwise not.
+   *
+   * <b>Options:</b>
+   * - 'absolute' - if set to true, the helper outputs an absolute URL
+   * - 'query_string' - to append a query string (starting by ?) to the routed url
+   * - 'confirm' - displays a javascript confirmation alert when the link is clicked
+   * - 'popup' - if set to true, the link opens a new browser window
+   * - 'post' - if set to true, the link submits a POST request instead of GET (caution: do not use inside a form)
+   *
+   * <b>Note:</b> The 'popup' and 'post' options are not compatible with each other.
+   *
+   * <b>Examples:</b>
+   * <code>
+   *  echo link_to('Delete this page', 'my_module/my_action');
+   *    => <a href="/path/to/my/action">Delete this page</a>
+   *  echo link_to('Visit Hoogle', 'http://www.hoogle.com');
+   *    => <a href="http://www.hoogle.com">Visit Hoogle</a>
+   *  echo link_to('Delete this page', 'my_module/my_action', array('id' => 'myid', 'confirm' => 'Are you sure?', 'absolute' => true));
+   *    => <a href="http://myapp.example.com/path/to/my/action" id="myid" onclick="return confirm('Are you sure?');">Delete this page</a>
+   * </code>
+   *
+   * @param  string $name         name of the link, i.e. string to appear between the <a> tags
+   * @param  string $internal_uri 'module/action' or '@rule' of the action
+   * @param  array  $options      array additional HTML compliant <a> tag parameters
+   *
+   * @throws sfConfigurationException
+   * @throws sfException
+   * @return string XHTML compliant <a href> tag
+   * @see    url_for
+   */
 function link_to($name = '', $internal_uri = '', $options = array())
 {
   $html_options = _parse_attributes($options);
@@ -142,14 +145,14 @@ function link_to($name = '', $internal_uri = '', $options = array())
  * - 'absolute' - if set to true, the helper outputs an absolute URL
  * - 'query_string' - to append a query string (starting by ?) to the routed url
  * - 'confirm' - displays a javascript confirmation alert when the link is clicked
- * - 'popup' - if set to true, the link opens a new browser window 
+ * - 'popup' - if set to true, the link opens a new browser window
  * - 'post' - if set to true, the link submits a POST request instead of GET (caution: do not use inside a form)
  *
  * <b>Examples:</b>
  * <code>
  *  echo link_to_if($user->isAdministrator(), 'Delete this page', 'my_module/my_action');
  *    => <a href="/path/to/my/action">Delete this page</a>
- *  echo link_to_if(!$user->isAdministrator(), 'Delete this page', 'my_module/my_action'); 
+ *  echo link_to_if(!$user->isAdministrator(), 'Delete this page', 'my_module/my_action');
  *    => <span>Delete this page</span>
  * </code>
  *
@@ -191,14 +194,14 @@ function link_to_if($condition, $name = '', $internal_uri = '', $options = array
  * - 'absolute' - if set to true, the helper outputs an absolute URL
  * - 'query_string' - to append a query string (starting by ?) to the routed url
  * - 'confirm' - displays a javascript confirmation alert when the link is clicked
- * - 'popup' - if set to true, the link opens a new browser window 
+ * - 'popup' - if set to true, the link opens a new browser window
  * - 'post' - if set to true, the link submits a POST request instead of GET (caution: do not use inside a form)
  *
  * <b>Examples:</b>
  * <code>
  *  echo link_to_unless($user->isAdministrator(), 'Delete this page', 'my_module/my_action');
  *    => <span>Delete this page</span>
- *  echo link_to_unless(!$user->isAdministrator(), 'Delete this page', 'my_module/my_action'); 
+ *  echo link_to_unless(!$user->isAdministrator(), 'Delete this page', 'my_module/my_action');
  *    => <a href="/path/to/my/action">Delete this page</a>
  * </code>
  *
@@ -223,7 +226,7 @@ function link_to_unless($condition, $name = '', $url = '', $options = array())
  * - 'absolute' - if set to true, the helper outputs an absolute URL
  * - 'query_string' - to append a query string (starting by ?) to the routed url
  * - 'confirm' - displays a javascript confirmation alert when the button is clicked
- * - 'popup' - if set to true, the button opens a new browser window 
+ * - 'popup' - if set to true, the button opens a new browser window
  * - 'post' - if set to true, the button submits a POST request instead of GET (caution: do not use inside a form)
  *
  * <b>Examples:</b>
