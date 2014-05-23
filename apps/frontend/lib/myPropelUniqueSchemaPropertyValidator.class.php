@@ -23,9 +23,11 @@ class myPropelUniqueSchemaPropertyValidator extends sfValidator
   {
     $schemaId   = $this->getContext()->getRequest()->getParameter('schema_id');
     $propertyId = $this->getContext()->getRequest()->getParameter('id');
+    $culture = myActionTools::getEditLanguage();
 
     $c = new Criteria();
     $c->add(SchemaPropertyI18nPeer::NAME, $value);
+    $c->add(SchemaPropertyI18nPeer::CULTURE, $culture);
     $c->add(SchemaPropertyPeer::SCHEMA_ID, $schemaId);
 
     $array = SchemaPropertyi18nPeer::doSelectJoinSchemaProperty($c);
