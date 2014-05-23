@@ -29,10 +29,10 @@ generator:
       title:         Schema Property Statement List
       fields:
         format_language: { name: Language }
-        updated_at:   { name: Updated }
         updated_user: { name: Updated by }
-      display:        [=profile_property, _show_object, format_language, status, updated_at, updated_user]
+      display:        [=profile_property, _object, format_language, status, updated_at, updated_user]
       displayfilter:  false
+      sort:           display_order
       object_actions:
         _edit:        { credentials: [[administrator, schemamaintainer, schemaadmin]] }
         _delete:      { credentials: [[administrator, schemamaintainer, schemaadmin]] }
