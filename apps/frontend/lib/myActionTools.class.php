@@ -2,35 +2,31 @@
 class myActionTools
 {
   /**
-  * update the currently set filters
-  *
-  * @return none
-  * @param  string $filter the name of the filtet, typically from the query string
-  * @param  string $value the value of the filter
-  * @param  string $namespace the local filter namespace ('sf_admin/$namespace/filters')
-  */
+   * update the currently set filters
+   *
+   * @param sfParameterHolder $attributeHolder
+   * @param  string           $filter    the name of the filter, typically from the query string
+   * @param  string           $value     the value of the filter
+   * @param  string           $namespace the local filter namespace ('sf_admin/$namespace/filters')
+   */
   public static function updateAdminFilters(sfParameterHolder $attributeHolder, $filter, $value, $namespace)
   {
     $attributeHolder->set($filter, $value, "sf_admin/$namespace/filters");
-
-    return;
   }
 
   /**
-  * require that there be a schema
-  *
-  * returns a 404 if no schema has already been selected
-  * Peforms a redirect if one has but the param has not been added to the request
-  *
-  * @param  string $module The calling module
-  * @param  string $action The calling action
-  */
+   * require that there be a schema
+   *
+   * returns a 404 if no schema has already been selected
+   * Performs a redirect if one has but the param has not been added to the request
+   *
+   */
   public static function requireSchemaFilter()
   {
+    /* @var sfAction */
     $actionInstance = sfContext::getInstance()->getActionStack()->getLastEntry()->getActionInstance();
     /** @var Schema **/
     $schema = self::findCurrentSchema();
-    /* @var sfAction */
     $actionInstance->forward404Unless($schema,'No Element Set has been selected.');
 
     //check to see if there's the correct request parameter
@@ -58,7 +54,7 @@ class myActionTools
   * require that there be a property
   *
   * returns a 404 if no vocabulary has already been selected
-  * Peforms a redirect if one has but the param has not been added to the request
+  * Performs a redirect if one has but the param has not been added to the request
   *
   */
   public static function requireSchemaPropertyFilter()
@@ -94,7 +90,7 @@ class myActionTools
   * require that there be a vocabulary
   *
   * returns a 404 if no vocabulary has already been selected
-  * Peforms a redirect if one has but the param has not been added to the request
+  * Performs a redirect if one has but the param has not been added to the request
   *
   * @return  Vocabulary The current vocabulary object
   */
@@ -131,7 +127,7 @@ class myActionTools
   * require that there be a concept
   *
   * returns a 404 if no vocabulary has already been selected
-  * Peforms a redirect if one has but the param has not been added to the request
+  * Performs a redirect if one has but the param has not been added to the request
   *
   */
   public static function requireConceptFilter()
@@ -485,12 +481,12 @@ class myActionTools
   }
 
   /**
-  * description
-  *
-  * @return Schema Current schema object
-  * @param  integer $schemaId
-  * @param  object $schemaId
-  */
+   * description
+   *
+   * @return Schema Current schema object
+   *
+   * @param int $schemaId
+   */
   public static function setLatestSchema($schemaId)
   {
     if (is_object($schemaId))
