@@ -69,4 +69,22 @@
 
       return $criteria;
     }
+
+    /**
+     * @param integer $userId
+     *
+     * @return Schema[]
+     */
+    public static function getSchemasForUser($userId) {
+      $c = new Criteria();
+      $c->add(self::USER_ID, $userId);
+      $schemaUserArray = self::doSelectJoinSchema($c);
+      $schemas         = array();
+      /** @var $schemaUser SchemaHasUser */
+      foreach ($schemaUserArray as $schemaUser) {
+        $schemas[] = $schemaUser->getSchema();
+      }
+
+      return $schemas;
+    }
   }

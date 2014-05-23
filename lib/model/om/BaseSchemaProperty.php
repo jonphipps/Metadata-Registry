@@ -107,14 +107,14 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 	 * The value for the domain field.
 	 * @var        string
 	 */
-	protected $domain;
+	protected $domain = '';
 
 
 	/**
 	 * The value for the orange field.
 	 * @var        string
 	 */
-	protected $orange;
+	protected $orange = '';
 
 
 	/**
@@ -794,7 +794,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 			$v = (string) $v; 
 		}
 
-		if ($this->domain !== $v) {
+		if ($this->domain !== $v || $v === '') {
 			$this->domain = $v;
 			$this->modifiedColumns[] = SchemaPropertyPeer::DOMAIN;
 		}
@@ -816,7 +816,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 			$v = (string) $v; 
 		}
 
-		if ($this->orange !== $v) {
+		if ($this->orange !== $v || $v === '') {
 			$this->orange = $v;
 			$this->modifiedColumns[] = SchemaPropertyPeer::ORANGE;
 		}

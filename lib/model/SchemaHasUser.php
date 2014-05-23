@@ -44,7 +44,7 @@ class SchemaHasUser extends BaseSchemaHasUser
   public function getLanguages()
   {
 
-    return (! is_null($this->languages)) ? unserialize($this->languages) : $this->languages;
+    return ($this->languages) ? unserialize($this->languages) : $this->languages;
   }
 
   /**

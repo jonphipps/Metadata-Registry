@@ -80,6 +80,32 @@
 
       return $results;
     }
+
+    /**
+     * @param SchemaProperty $schema_property
+     * @param int            $userId
+     * @param array          $fields
+     * @param string         $language
+     */
+    public static function UpdateElementsFromForm(SchemaProperty $schema_property, $userId, $fields, $language = NULL){
+      //iterate through the fields
+      foreach ($fields as $key => $value) {
+
+        //lookup each field in the array
+        //if it's a match compare the values
+        if () {
+          //if the new value is empty and the old value is not, delete the old value
+          if () {
+          }
+          //if the values are different update the element
+          else if () {
+          }
+        }
+        //if there's no match then create a new element
+        else {
+        }
+      }
+    }
   }
 
   sfPropelBehavior::add('SchemaPropertyElement', array('paranoid'));

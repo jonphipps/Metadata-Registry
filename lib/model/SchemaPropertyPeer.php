@@ -16,8 +16,7 @@ class SchemaPropertyPeer extends BaseSchemaPropertyPeer
    */
   public static function getPropertiesByCurrentSchemaID()
   {
-    $currentPropertyId = sfContext::getInstance()->getRequest()->getParameter('schema_property_id', '');
-    $schema            = SchemaPropertyPeer::retrieveByPK($currentPropertyId)->getSchema();
+    $schema = self::getSchema();
     $c = new Criteria();
     $c->add(self::SCHEMA_ID, $schema->getId());
     $c->add(self::TYPE, 'property');
@@ -45,8 +44,7 @@ class SchemaPropertyPeer extends BaseSchemaPropertyPeer
    */
   public static function getClassesByCurrentSchemaID()
   {
-    $currentPropertyId = sfContext::getInstance()->getRequest()->getParameter('schema_property_id', '');
-    $schema            = SchemaPropertyPeer::retrieveByPK($currentPropertyId)->getSchema();
+    $schema = self::getSchema();
     $c                 = new Criteria();
     $c->add(self::SCHEMA_ID, $schema->getId());
     $c->add(self::TYPE, 'class');
@@ -99,4 +97,40 @@ class SchemaPropertyPeer extends BaseSchemaPropertyPeer
 
         return $results;
     }
+
+  /**
+   *
+   * @return Schema
+   */
+  private static function getSchema() {
+    $currentPropertyId = sfContext::getInstance()->getRequest()->getParameter('schema_property_id', '');
+    if ($currentPropertyId) {
+      $schema = SchemaPropertyPeer::retrieveByPK($currentPropertyId)->getSchema();
+    }
+    else {
+      $id = sfContext::getInstance()->getRequest()->getParameter('id', '');
+
+      if ($id) {
+        $schema = SchemaPropertyPeer::retrieveByPK($id)->getSchema();
+      }
+      else {
+        $schema = sfContext::getInstance()->getUser()->getAttribute('schema');
+      }
+    }
+
+    return $schema;
+  }
+
+  /**
+   * @param $schemaId
+   *
+   * @return SchemaProperty[]
+   */
+  public static function getElementsForSchema($schemaId) {
+    $c = new Criteria();
+    $c->add(self::SCHEMA_ID, $schemaId);
+    $elements = self::doSelect($c);
+
+    return $elements;
+  }
 }

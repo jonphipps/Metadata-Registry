@@ -21,8 +21,8 @@ class Schema extends BaseSchema
    */
   public function getLanguages()
   {
-
-    return (! is_null($this->languages)) ? unserialize($this->languages) : $this->languages;
+    //this deliberately returns the default language if languages is empty
+    return ($this->languages) ? unserialize($this->languages) : [$this->language];
   }
 
   /**

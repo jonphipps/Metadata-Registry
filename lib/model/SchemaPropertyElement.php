@@ -10,22 +10,33 @@
 class SchemaPropertyElement extends BaseSchemaPropertyElement
 {
   /**
-  * description
-  *
-  * @return return_type
-  * @param  var_type $var
-  */
+   * description
+   *
+   * @return string
+   */
   public function __toString()
   {
     return $this->getProfileProperty()->__toString();
   }
 
   /**
-  * description
-  *
-  * @return return_type
-  * @param  var_type $var
-  */
+   * @return int
+   */
+  public function getProfileOrder() {
+    return $this->getProfileProperty()->getDisplayOrder();
+  }
+
+  /**
+   * description
+   *
+   * @return integer
+   *
+   * @param Connection $con
+   * @param bool $reciprocal
+   *
+   * @throws Exception
+   * @throws PropelException
+   */
   public function save($con = null, $reciprocal = false)
   {
     if ($this->isModified())
