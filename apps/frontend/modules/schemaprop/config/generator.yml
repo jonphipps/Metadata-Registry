@@ -64,25 +64,25 @@ generator:
       fields:
         id:            { credentials: [administrator], mode: edit }
         name:          { params: onblur=updateUri() }
-        label:         {type: input_tag, params: disabled=false }
+        label:         { type: input_tag, params: disabled=false }
+        mytype:        { type: plain, name: Type, mode: edit }
         type:
+          mode: create
           type: select_tag
           params:
             select_options:
               property:    property
-              subproperty: subproperty
               class:       class
-              subclass:    subclass
-            include_blank: true
+            include_blank: false
             onchange: swapOptions()
         user_language:     { type: admin_select_language, params: limitmethod=getLanguagesForUser }
-        is_subproperty_of: { params: related_class=SchemaProperty peer_method=getPropertiesByCurrentSchemaID include_blank=true }
-        is_subclass_of:    { type: select_tag, params: related_class=SchemaProperty peer_method=getClassesByCurrentSchemaID include_blank=true }
+        is_subproperty_of: { params: related_class=SchemaProperty peer_method=getPropertiesByCurrentSchemaID include_blank=true on onchange=showHideParent()}
+        is_subclass_of:    { type: select_tag, params: related_class=SchemaProperty peer_method=getClassesByCurrentSchemaID include_blank=true onchange=showHideParent()}
       title:               Detail for %%label%%
       hide:                [schema_id, schema_uri]
       display:
         "-Metadata":   { fields: [id, created_at, created_user, updated_at, updated_user], mode: edit}
-        "Detail":      [type, label, name, lexical_uri, uri, definition, comment, is_subproperty_of, is_subclass_of, parent_uri, domain, orange, status_id, note]
+        "Detail":      [mytype, type, uri, label, name, lexical_uri, definition, comment, is_subproperty_of, is_subclass_of, parent_uri, domain, orange, status_id, note]
 #        "Statements":  [_listproperties]
       actions:
         _list:         { query_string: { schema_id: schema_id } }
@@ -103,7 +103,7 @@ generator:
         orange:        { condition: "'subproperty' == $schema_property->getType() || 'property' == $schema_property->getType()" }
       display:
         "-Metadata":   { fields: [id, created_at, created_user, updated_at, updated_user] }
-        "Detail":      [_uri, lexical_uri, label, name, definition, comment, type, _show_parent, parent_uri, domain, orange, status, note]
+        "Detail":      [_uri, label, name, _lexicaluri, definition, comment, type, _show_parent, parent_uri, domain, orange, status, note]
 #        "Statements":  [_listproperties]
       actions:
         _list:         { query_string: { schema_id: schema_id} }

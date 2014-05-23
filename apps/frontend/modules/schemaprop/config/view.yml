@@ -1,8 +1,10 @@
 all:
   stylesheets: [concept/layout, tabs]
   javascripts: [%SF_PROTOTYPE_WEB_DIR%/js/prototype: { position: last }]
+  javascripts: [%SF_JQUERY_WEB_DIR%/jquery: { position: last }]
 
 editSuccess:
+  javascripts: [%SF_bugge_WEB_DIR%/jquery: { position: last }]
   javascripts: [schemaprop/swapoptions: { position: last }, schemaprop: { position: last }]
 
 showRdfSuccess:

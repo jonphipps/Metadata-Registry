@@ -28,16 +28,32 @@ class schemapropActions extends autoschemapropActions
       $this->getUser()->setAttribute("languages", $SchemaLanguages);
       $this->getUser()->setAttribute("CurrentLanguage", $CurrentCulture);
 
+      //todo: What if the user is an admin and has global editorial access? The following blows up because it requires moderator-level permissions.
+      //todo: this should not be in preExecute but rather a method called before create/edit/list _or_ we skip it for save/delete
       $userId = sfContext::getInstance()->getUser()->getSubscriberId();
+      $foo = SchemaHasUserPeer::getSchemasForUser($userId);
       if ("edit" == $this->getActionName() && $userId) {
         $c = new Criteria();
         $c->add(SchemaHasUserPeer::USER_ID, $userId);
         $c->add(SchemaHasUserPeer::SCHEMA_ID, $schemaObj->getId());
         $schemaUser = SchemaHasUserPeer::doSelectOne($c);
-        $UserLanguages = $schemaUser->getLanguages();
-        $DefaultLanguage = $schemaUser->getDefaultLanguage();
-        if (!in_array($CurrentCulture, $UserLanguages))
+        if ($schemaUser) {
+          $UserLanguages   = $schemaUser->getLanguages();
+          $DefaultLanguage = $schemaUser->getDefaultLanguage();
+        }
+        else {
+          //set the languages from the schema
+          $UserLanguages   = $schemaObj->getLanguages();
+          $DefaultLanguage = $schemaObj->getLanguage();
+        }
+
+        //get all the languages if the language is "*"
+        if (in_array("*", $UserLanguages))
         {
+          $UserLanguages   = $schemaObj->getLanguages();
+        }
+
+        if (!in_array($CurrentCulture, $UserLanguages)) {
           //save the current culture
           $UserCulture = sfContext::getInstance()->getUser()->getCulture();
           $this->getUser()->setAttribute("UserCulture", $UserCulture);
@@ -45,14 +61,14 @@ class schemapropActions extends autoschemapropActions
           sfContext::getInstance()->getUser()->setCulture($DefaultLanguage);
           $this->getUser()->setAttribute("CurrentLanguage", $DefaultLanguage);
           $culture = new sfCultureInfo($this->getUser()->getCulture());
-          $this->setFlash('notice', 'Current language is not available for edit! Current editing language has been reset to: '. $culture->getNativeName());
+          $this->setFlash('notice', 'Current language is not available for edit! Current editing language has been reset to: ' . $culture->getNativeName());
         }
         $this->getUser()->setAttribute("languages", $UserLanguages);
       }
+
       else {
-        $UserCulture = $this->getUser()->getAttribute("UserCulture", false);
-        if ($this->getUser()->getAttribute("UserCulture", false))
-        {
+        $UserCulture = $this->getUser()->getAttribute("UserCulture", FALSE);
+        if ($this->getUser()->getAttribute("UserCulture", FALSE)) {
           sfContext::getInstance()->getUser()->setCulture($UserCulture);
         }
       }
@@ -272,7 +288,7 @@ class schemapropActions extends autoschemapropActions
     $sort_column = $this->getRequestParameter('sort');
     switch ($sort_column) {
       case 'schema_prop_label':
-        $sort_column = SchemaPropertyPeer::LABEL;
+        $sort_column = SchemaPropertyi18nPeer::LABEL;
         break;
       case 'schema_name':
         $sort_column = SchemaPeer::NAME;
@@ -313,7 +329,7 @@ class schemapropActions extends autoschemapropActions
     }
 
     if (isset($this->filters['label']) && $this->filters['label'] !== '') {
-      $c->add(SchemaPropertyPeer::LABEL, '%' . $this->filters['label'] . '%', Criteria::LIKE);
+      $c->add(SchemaPropertyI18nPeer::LABEL, '%' . $this->filters['label'] . '%', Criteria::LIKE);
     }
 
     $this->pager->setCriteria($c);

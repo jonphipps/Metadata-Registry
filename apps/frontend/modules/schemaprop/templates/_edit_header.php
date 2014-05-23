@@ -8,7 +8,15 @@ array('%%label%%' => $schema_property->getLabel())); ?>
 <?php else: ?>
 <?php $title = __('Creating new ') . "schema_property"; ?>
 <?php endif;
+  /** @var $sf_context sfContext */
   $sf_context->getResponse()->setTitle("The Registry! :: " . $title); ?>
 <h1><?php echo $title ?></h1>
 <?php include_partial('language_select') ?>
 
+<?php slot('data') ?>
+  <!-- javascript data for use in the current template-->
+<?php
+  /** @var $sf_user myUser */
+  use_helper('Schema');
+  echo schema_for_user_select_array($sf_user->getSubscriberId(), true, "data"); ?>
+<?php end_slot() ?>
