@@ -1,0 +1,25 @@
+{
+  "name": "prototypejs",
+  "version": "1.7.1",
+  "main": [ 
+    "dist/prototype.js",
+    "dist/prototype.min.js"
+  ],
+  "ignore": [
+    "doc_assets",
+    "ext",
+    "node_modules",
+    "old_tests",
+    "src",
+    "test",
+    "vendor",
+    "**/.gitignore",
+    ".gitmodules",
+    ".travis.yml",
+    "CHANGELOG",
+    "Gruntfile.js",
+    "package.json",
+    "Rakefile",
+    "README.markdown"
+  ]
+}

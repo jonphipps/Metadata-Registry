@@ -1,0 +1,25 @@
+{
+  "name": "omr",
+  "version": "0.0.0",
+  "homepage": "http://metadataregistry.org",
+  "authors": [
+    "Jon Phipps <jphipps@madcreek.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "speakingurl": "~0.9.1",
+    "string": "~1.8.1",
+    "select2": "~3.4.8",
+    "bootstrap": "~3.1.1",
+    "sco.js": "~1.0.2",
+    "prototype.js": "~1.7.1",
+    "scriptaculous-bower": "~1.9.0"
+  }
+}
