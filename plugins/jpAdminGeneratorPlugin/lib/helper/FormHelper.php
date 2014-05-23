@@ -18,8 +18,9 @@
  * @author     David Heinemeier Hansson
  * @version    SVN: $Id: FormHelper.php 23543 2009-11-03 08:19:42Z fabien $
  */
+  use Symfony\Component\Yaml\Parser;
 
-/**
+  /**
  * Returns a formatted set of <option> tags based on optional <i>$options</i> array variable.
  *
  * The options_for_select helper is usually called in conjunction with the select_tag helper, as it is relatively
@@ -64,11 +65,19 @@ function options_for_select($options = array(), $selected = '', $html_options = 
 
   $html = '';
 
+
   if ($value = _get_option($html_options, 'include_custom')) {
-    $html .= content_tag('option', $value, array('value' => '')) . "\n";
-  } else if (_get_option($html_options, 'include_blank')) {
+    if (preg_match('/^\[(.*),\s*(.*)\]$/', $value, $result)) {
+      $html .= content_tag('option', $result[2], array('value' => $result[1])) . "\n";
+    }
+    else {
+      $html .= content_tag('option', $value, array('value' => '')) . "\n";
+    }
+  }
+  else if (_get_option($html_options, 'include_blank')) {
     $html .= content_tag('option', '', array('value' => '')) . "\n";
   }
+
 
   foreach ($options as $key => $value) {
     if (is_array($value) || $value instanceof sfOutputEscaperArrayDecorator) {

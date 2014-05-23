@@ -1,3 +1,4 @@
 table.sf_admin_list{
   white-space: nowrap;
+  table-layout: fixed;
 }
