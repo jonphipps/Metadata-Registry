@@ -1,5 +1,5 @@
 <?php use_helper('Validation', 'Javascript') ?>
-<?php use_javascript(sfConfig::get('sf_prototype_web_dir').'/js/prototype', 'first') ?>
+<?php use_javascript(sfConfig::get('sf_prototype_web_dir').'/prototype.min.js', 'first') ?>
 
 <?php echo javascript_tag("formUtil.focusOnFirst('email_password');") ?>
 

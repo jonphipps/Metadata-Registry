@@ -57,7 +57,7 @@ $browser->
 
 //dynamic head settings
 $browser->
-  checkResponseElement('script[src="/sf/prototype/js/prototype.js"]', true)->
+  checkResponseElement('script[src="/sf/prototype/prototype.min.js"]', true)->
   checkResponseElement('script[src="/sf/prototype/js/builder.js"]', true)->
   checkResponseElement('script[src="/sf/prototype/js/effects.js"]', true)->
   checkResponseElement('link[href="/jpAdminPlugin/css/main.css"]', true)->

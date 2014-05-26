@@ -340,7 +340,7 @@
    */
   function update_element_function($element_id, $options = array())
   {
-    sfContext::getInstance()->getResponse()->addJavascript(sfConfig::get('sf_prototype_web_dir').'/js/prototype');
+    sfContext::getInstance()->getResponse()->addJavascript(sfConfig::get('sf_prototype_web_dir').'/prototype.min.js');
 
     $content = escape_javascript(isset($options['content']) ? $options['content'] : '');
 
@@ -397,7 +397,7 @@
    */
   function remote_function($options)
   {
-    sfContext::getInstance()->getResponse()->addJavascript(sfConfig::get('sf_prototype_web_dir').'/js/prototype');
+    sfContext::getInstance()->getResponse()->addJavascript(sfConfig::get('sf_prototype_web_dir').'/prototype.min.js');
 
     $javascript_options = _options_for_ajax($options);
 
@@ -476,7 +476,7 @@
    */
   function observe_field($field_id, $options = array())
   {
-    sfContext::getInstance()->getResponse()->addJavascript(sfConfig::get('sf_prototype_web_dir').'/js/prototype');
+    sfContext::getInstance()->getResponse()->addJavascript(sfConfig::get('sf_prototype_web_dir').'/prototype.min.js');
 
     if (isset($options['frequency']) && $options['frequency'] > 0)
     {
@@ -496,7 +496,7 @@
    */
   function observe_form($form_id, $options = array())
   {
-    sfContext::getInstance()->getResponse()->addJavascript(sfConfig::get('sf_prototype_web_dir').'/js/prototype');
+    sfContext::getInstance()->getResponse()->addJavascript(sfConfig::get('sf_prototype_web_dir').'/prototype.min.js');
 
     if (isset($options['frequency']) && $options['frequency'] > 0)
     {
@@ -523,7 +523,7 @@
    * variable in the generated JavaScript execution context. This can be used
    * for example with drop_receiving_element():
    *
-   *  <?php echo drop_receving_element( ..., array(
+   *  <?php echo drop_receiving_element( ..., array(
    *        ...
    *        'loading' => visual_effect('fade'),
    *  )) ?>
@@ -536,9 +536,9 @@
   function visual_effect($name, $element_id = false, $js_options = array())
   {
     $response = sfContext::getInstance()->getResponse();
-    $response->addJavascript(sfConfig::get('sf_prototype_web_dir').'/js/prototype');
-    $response->addJavascript(sfConfig::get('sf_prototype_web_dir').'/js/builder');
-    $response->addJavascript(sfConfig::get('sf_prototype_web_dir').'/js/effects');
+    $response->addJavascript(sfConfig::get('sf_prototype_web_dir').'/prototype.min.js');
+    $response->addJavascript(sfConfig::get('sf_scriptaculous_web_dir').'/builder');
+    $response->addJavascript(sfConfig::get('sf_scriptaculous_web_dir').'/effects');
 
     $element = $element_id ? "'$element_id'" : 'element';
 
@@ -573,10 +573,10 @@
   function sortable_element($element_id, $options = array())
   {
     $response = sfContext::getInstance()->getResponse();
-    $response->addJavascript(sfConfig::get('sf_prototype_web_dir').'/js/prototype');
-    $response->addJavascript(sfConfig::get('sf_prototype_web_dir').'/js/builder');
-    $response->addJavascript(sfConfig::get('sf_prototype_web_dir').'/js/effects');
-    $response->addJavascript(sfConfig::get('sf_prototype_web_dir').'/js/dragdrop');
+    $response->addJavascript(sfConfig::get('sf_prototype_web_dir').'/prototype.min.js');
+    $response->addJavascript(sfConfig::get('sf_scriptaculous_web_dir').'/builder');
+    $response->addJavascript(sfConfig::get('sf_scriptaculous_web_dir').'/effects');
+    $response->addJavascript(sfConfig::get('sf_scriptaculous_web_dir').'/dragdrop');
 
     if (!isset($options['with']))
     {
@@ -633,10 +633,10 @@
   function draggable_element($element_id, $options = array())
   {
     $response = sfContext::getInstance()->getResponse();
-    $response->addJavascript(sfConfig::get('sf_prototype_web_dir').'/js/prototype');
-    $response->addJavascript(sfConfig::get('sf_prototype_web_dir').'/js/builder');
-    $response->addJavascript(sfConfig::get('sf_prototype_web_dir').'/js/effects');
-    $response->addJavascript(sfConfig::get('sf_prototype_web_dir').'/js/dragdrop');
+    $response->addJavascript(sfConfig::get('sf_prototype_web_dir').'/prototype.min.js');
+    $response->addJavascript(sfConfig::get('sf_scriptaculous_web_dir').'/builder');
+    $response->addJavascript(sfConfig::get('sf_scriptaculous_web_dir').'/effects');
+    $response->addJavascript(sfConfig::get('sf_scriptaculous_web_dir').'/dragdrop');
 
     return javascript_tag("new Draggable('$element_id', "._options_for_javascript($options).")");
   }
@@ -657,10 +657,10 @@
   function drop_receiving_element($element_id, $options = array())
   {
     $response = sfContext::getInstance()->getResponse();
-    $response->addJavascript(sfConfig::get('sf_prototype_web_dir').'/js/prototype');
-    $response->addJavascript(sfConfig::get('sf_prototype_web_dir').'/js/builder');
-    $response->addJavascript(sfConfig::get('sf_prototype_web_dir').'/js/effects');
-    $response->addJavascript(sfConfig::get('sf_prototype_web_dir').'/js/dragdrop');
+    $response->addJavascript(sfConfig::get('sf_prototype_web_dir').'/prototype.min.js');
+    $response->addJavascript(sfConfig::get('sf_scriptaculous_web_dir').'/builder');
+    $response->addJavascript(sfConfig::get('sf_scriptaculous_web_dir').'/effects');
+    $response->addJavascript(sfConfig::get('sf_scriptaculous_web_dir').'/dragdrop');
 
     if (!isset($options['with']))
     {
@@ -707,10 +707,12 @@
 
   /**
    * wrapper for script.aculo.us/prototype Ajax.Autocompleter.
-   * @param string name value of input field
-   * @param string default value for input field
-   * @param array input tag options. (size, autocomplete, etc...)
-   * @param array completion options. (use_style, etc...)
+   *
+   * @param string $name  value of input field
+   * @param string $value default value for input field
+   * @param string $url
+   * @param array  $tag_options input tag options. (size, autocomplete, etc...)
+   * @param array  $completion_options @completion options. (use_style, etc...)
    *
    * @return string input field tag, div for completion results, and
    *                 auto complete javascript tags
@@ -722,14 +724,14 @@
     $tag_options = _convert_options($tag_options);
 
     $response = $context->getResponse();
-    $response->addJavascript(sfConfig::get('sf_prototype_web_dir').'/js/prototype');
-    $response->addJavascript(sfConfig::get('sf_prototype_web_dir').'/js/effects');
+    $response->addJavascript(sfConfig::get('sf_prototype_web_dir').'/prototype.min.js');
+    $response->addJavascript(sfConfig::get('sf_scriptaculous_web_dir').'/effects');
     $response->addJavascript(sfConfig::get('sf_prototype_web_dir').'/js/controls');
 
     $comp_options = _convert_options($completion_options);
     if (isset($comp_options['use_style']) && $comp_options['use_style'] == true)
     {
-      $response->addStylesheet(sfConfig::get('sf_prototype_web_dir').'/css/input_auto_complete_tag');
+      $response->addStylesheet('/sf/prototype/css/input_auto_complete_tag');
     }
 
     $tag_options['id'] = get_id_from_name(isset($tag_options['id']) ? $tag_options['id'] : $name);
@@ -743,18 +745,18 @@
 
   /**
    * wrapper for script.aculo.us/prototype Ajax.InPlaceEditor.
-   * @param string name id of field that can be edited
-   * @param string url of module/action to be called when ok is clicked
-   * @param array editor tag options. (rows, cols, highlightcolor, highlightendcolor, etc...)
+   * @param string $name id of field that can be edited
+   * @param string $url of module/action to be called when ok is clicked
+   * @param array $editor_options tag options. (rows, cols, highlightcolor, highlightendcolor, etc...)
    *
    * @return string javascript to manipulate the id field to allow click and edit functionality
    */
   function input_in_place_editor_tag($name, $url, $editor_options = array())
   {
     $response = sfContext::getInstance()->getResponse();
-    $response->addJavascript(sfConfig::get('sf_prototype_web_dir').'/js/prototype');
-    $response->addJavascript(sfConfig::get('sf_prototype_web_dir').'/js/effects');
-    $response->addJavascript(sfConfig::get('sf_prototype_web_dir').'/js/controls');
+    $response->addJavascript(sfConfig::get('sf_prototype_web_dir').'/prototype.min.js');
+    $response->addJavascript(sfConfig::get('sf_scriptaculous_web_dir').'/effects');
+    $response->addJavascript(sfConfig::get('sf_scriptaculous_web_dir').'/js/controls');
 
     $editor_options = _convert_options($editor_options);
     $default_options = array('tag' => 'span', 'id' => '\''.$name.'_in_place_editor', 'class' => 'in_place_editor_field');
@@ -872,9 +874,10 @@
 
   /**
    * wrapper for script.aculo.us/prototype Ajax.Autocompleter.
-   * @param string id value of input field
-   * @param string url of module/action to execute for autocompletion
-   * @param array completion options
+   *
+   * @param string $field_id value of input field
+   * @param string $url of module/action to execute for autocompletion
+   * @param array $options completion options
    * @return string javascript tag for Ajax.Autocompleter
    */
   function _auto_complete_field($field_id, $url, $options = array())
@@ -962,6 +965,7 @@
     {
       return "'$option'";
     }
+    return '';
   }
 
   function _options_for_ajax($options)

@@ -1,4 +1,3 @@
 all:
   stylesheets: [concept/layout, tabs]
-  javascripts: [%SF_PROTOTYPE_WEB_DIR%/js/prototype]
-  
+  javascripts: [%SF_PROTOTYPE_WEB_DIR%/prototype.min]

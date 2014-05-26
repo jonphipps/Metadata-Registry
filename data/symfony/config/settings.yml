@@ -56,7 +56,8 @@ default:
 
     # Assets paths
     rich_text_js_dir:       js/tiny_mce
-    prototype_web_dir:      /sf/prototype
+    prototype_web_dir:      /bower_components/prototype.js/dist
+    scriptaculous_web_dir:  /bower_components/scriptaculous-bower
     bower_web_dir:          /bower_components
     jquery_web_dir:         /bower_components/jquery/dist
     admin_web_dir:          /sf/sf_admin

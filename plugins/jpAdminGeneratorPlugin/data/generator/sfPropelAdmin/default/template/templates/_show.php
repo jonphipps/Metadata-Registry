@@ -9,7 +9,7 @@
     if ($first)
     {
       $first = false;
-      echo "[?php use_javascript(sfConfig::get('sf_prototype_web_dir').'/js/prototype', 'first') ?]\n";
+      echo "[?php use_javascript(sfConfig::get('sf_prototype_web_dir').'/prototype.min.js', 'first') ?]\n";
       echo "[?php use_javascript(sfConfig::get('sf_admin_web_dir').'/js/collapse', 'last') ?]\n";
     }
   }

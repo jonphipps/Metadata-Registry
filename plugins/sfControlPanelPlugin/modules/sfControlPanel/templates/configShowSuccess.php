@@ -1,5 +1,5 @@
 <?php echo use_helper('Javascript') ?>
-<?php echo use_javascript(sfConfig::get('sf_prototype_web_dir').'/js/prototype') ?>
+<?php echo use_javascript(sfConfig::get('sf_prototype_web_dir').'/prototype.min.js') ?>
 <?php slot('sidebar') ?>
 <ul>
   <li class="category empty">sfConfig</li>
@@ -10,7 +10,7 @@
 <input name="filter_text" id="filter_text" value="filter" onClick="this.value='';"/>
 <?php echo javascript_tag('
 new Form.Element.Observer("filter_text", 1, function(input, value) {
-   $$(".parameter").each(function (parameter) { 
+   $$(".parameter").each(function (parameter) {
      parameter.style.display = (parameter.id.indexOf(value) == 0) ? "block" : "none";
    });
 });

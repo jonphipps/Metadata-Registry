@@ -170,7 +170,7 @@ function _upgrade_1_0_php_files($app_dir)
     $content = file_get_contents($php_file);
 
     $deprecated = array(
-      "'/sf/js/prototype"     => "sfConfig::get('sf_prototype_web_dir').'/js",
+      "'/sf/prototype.min"     => "sfConfig::get('sf_prototype_web_dir').'/js",
       "'/sf/css/prototype"    => "sfConfig::get('sf_prototype_web_dir').'/css",
       "'/sf/js/sf_admin"      => "sfConfig::get('sf_admin_web_dir').'/js",
       "'/sf/css/sf_admin"     => "sfConfig::get('sf_admin_web_dir').'/css",
@@ -266,7 +266,7 @@ function _upgrade_1_0_view_yml($app_dir)
     $content = file_get_contents($yml_file);
 
     $deprecated = array(
-      '/sf/js/prototype'     => '%SF_PROTOTYPE_WEB_DIR%/js',
+      '/sf/prototype.min'     => '%SF_PROTOTYPE_WEB_DIR%/js',
       '/sf/css/prototype'    => '%SF_PROTOTYPE_WEB_DIR%/css',
       '/sf/js/sf_admin'      => '%SF_ADMIN_WEB_DIR%/js',
       '/sf/css/sf_admin'     => '%SF_ADMIN_WEB_DIR%/css',

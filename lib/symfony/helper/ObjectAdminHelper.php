@@ -102,7 +102,7 @@ function object_admin_double_list($object, $method, $options = array(), $callbac
 ';
 
   $response = sfContext::getInstance()->getResponse();
-  $response->addJavascript(sfConfig::get('sf_prototype_web_dir').'/js/prototype');
+  $response->addJavascript(sfConfig::get('sf_prototype_web_dir').'/prototype.min.js');
   $response->addJavascript(sfConfig::get('sf_admin_web_dir').'/js/double_list');
 
   return sprintf($html,
