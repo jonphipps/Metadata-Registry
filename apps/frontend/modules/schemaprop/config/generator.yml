@@ -76,8 +76,8 @@ generator:
             include_blank: false
             onchange: swapOptions()
         user_language:     { type: admin_select_language, params: limitmethod=getLanguagesForUser }
-        is_subproperty_of: { params: related_class=SchemaProperty peer_method=getPropertiesByCurrentSchemaID include_blank=true on onchange=showHideParent()}
-        is_subclass_of:    { type: select_tag, params: related_class=SchemaProperty peer_method=getClassesByCurrentSchemaID include_blank=true onchange=showHideParent()}
+        is_subproperty_of: { type: select_tag, params: related_class=SchemaProperty array_method=getPropertiesforCurrentUser include_blank=true onchange=showHideParent() style="width:99%"}
+        is_subclass_of:    { type: select_tag, params: related_class=SchemaProperty array_method=getClassesForCurrentUser include_blank=true onchange=showHideParent() style="width:99%"}
       title:               Detail for %%label%%
       hide:                [schema_id, schema_uri]
       display:
@@ -97,10 +97,10 @@ generator:
       fields:
         id:            { credentials: [administrator] }
         uri:           { helper: auto_link_uri }
-        show_parent:   { name: Parent, condition: "('subproperty' == $schema_property->getType() || 'subclass' == $schema_property->getType()) && $schema_property->getIsSubpropertyOf()" }
-        parent_uri:    { name: Parent, condition: "('subproperty' == $schema_property->getType() || 'subclass' == $schema_property->getType()) && !$schema_property->getIsSubpropertyOf()" }
-        domain:        { condition: "'subproperty' == $schema_property->getType() || 'property' == $schema_property->getType()" }
-        orange:        { condition: "'subproperty' == $schema_property->getType() || 'property' == $schema_property->getType()" }
+        show_parent:   { name: Parent, condition: "$schema_property->getParentUri()" }
+        parent_uri:    { name: Parent, condition: "$schema_property->getParentUri()" }
+        domain:        { condition: "'property' == $schema_property->getType()" }
+        orange:        { condition: "''property' == $schema_property->getType()" }
       display:
         "-Metadata":   { fields: [id, created_at, created_user, updated_at, updated_user] }
         "Detail":      [_uri, label, name, _lexicaluri, definition, comment, type, _show_parent, parent_uri, domain, orange, status, note]

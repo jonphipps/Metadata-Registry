@@ -1,7 +1,7 @@
 
 <!--<?php echo $type; ?>: <?php echo $property->getLabel();?>-->
 <?php $ts = ($timestamp) ? '/ts/' . date('YmdHis',$timestamp) : '';
-      $language = $property->getLanguage();
+      $language = $property->getCulture();
       $status = $property->getStatus();
       $propType = $property->getType();
       $typeArray = array(
