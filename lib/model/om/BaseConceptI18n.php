@@ -129,10 +129,10 @@ abstract class BaseConceptI18n extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
-		if ($this->culture !== $v || $v === 'en') {
+		if ($this->culture !== $v) {
 			$this->culture = $v;
 			$this->modifiedColumns[] = ConceptI18nPeer::CULTURE;
 		}
@@ -151,10 +151,10 @@ abstract class BaseConceptI18n extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
-		if ($this->pref_label !== $v || $v === '') {
+		if ($this->pref_label !== $v) {
 			$this->pref_label = $v;
 			$this->modifiedColumns[] = ConceptI18nPeer::PREF_LABEL;
 		}

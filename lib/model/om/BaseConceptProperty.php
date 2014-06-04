@@ -709,7 +709,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
 		if ($this->object !== $v) {
@@ -783,10 +783,10 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
-		if ($this->language !== $v || $v === 'en') {
+		if ($this->language !== $v) {
 			$this->language = $v;
 			$this->modifiedColumns[] = ConceptPropertyPeer::LANGUAGE;
 		}
@@ -808,7 +808,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 			$v = (int) $v;
 		}
 
-		if ($this->status_id !== $v || $v === 1) {
+		if ($this->status_id !== $v) {
 			$this->status_id = $v;
 			$this->modifiedColumns[] = ConceptPropertyPeer::STATUS_ID;
 		}
@@ -828,7 +828,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 	public function setIsConceptProperty($v)
 	{
 
-		if ($this->is_concept_property !== $v || $v === false) {
+		if ($this->is_concept_property !== $v) {
 			$this->is_concept_property = $v;
 			$this->modifiedColumns[] = ConceptPropertyPeer::IS_CONCEPT_PROPERTY;
 		}

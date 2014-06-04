@@ -888,7 +888,7 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
 		if ($this->nickname !== $v) {
@@ -910,7 +910,7 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
 		if ($this->salutation !== $v) {
@@ -932,7 +932,7 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
 		if ($this->first_name !== $v) {
@@ -954,7 +954,7 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
 		if ($this->last_name !== $v) {
@@ -976,7 +976,7 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
 		if ($this->email !== $v) {
@@ -998,7 +998,7 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
 		if ($this->sha1_password !== $v) {
@@ -1020,7 +1020,7 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
 		if ($this->salt !== $v) {
@@ -1039,7 +1039,7 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	public function setWantToBeModerator($v)
 	{
 
-		if ($this->want_to_be_moderator !== $v || $v === false) {
+		if ($this->want_to_be_moderator !== $v) {
 			$this->want_to_be_moderator = $v;
 			$this->modifiedColumns[] = UserPeer::WANT_TO_BE_MODERATOR;
 		}
@@ -1055,7 +1055,7 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	public function setIsModerator($v)
 	{
 
-		if ($this->is_moderator !== $v || $v === false) {
+		if ($this->is_moderator !== $v) {
 			$this->is_moderator = $v;
 			$this->modifiedColumns[] = UserPeer::IS_MODERATOR;
 		}
@@ -1071,7 +1071,7 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	public function setIsAdministrator($v)
 	{
 
-		if ($this->is_administrator !== $v || $v === false) {
+		if ($this->is_administrator !== $v) {
 			$this->is_administrator = $v;
 			$this->modifiedColumns[] = UserPeer::IS_ADMINISTRATOR;
 		}
@@ -1093,7 +1093,7 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 			$v = (int) $v;
 		}
 
-		if ($this->deletions !== $v || $v === 0) {
+		if ($this->deletions !== $v) {
 			$this->deletions = $v;
 			$this->modifiedColumns[] = UserPeer::DELETIONS;
 		}
@@ -1112,7 +1112,7 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
 		if ($this->password !== $v) {
@@ -1134,10 +1134,10 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
-		if ($this->culture !== $v || $v === 'en_US') {
+		if ($this->culture !== $v) {
 			$this->culture = $v;
 			$this->modifiedColumns[] = UserPeer::CULTURE;
 		}

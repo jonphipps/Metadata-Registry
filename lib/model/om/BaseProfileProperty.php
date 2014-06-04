@@ -972,10 +972,10 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
-		if ($this->name !== $v || $v === '') {
+		if ($this->name !== $v) {
 			$this->name = $v;
 			$this->modifiedColumns[] = ProfilePropertyPeer::NAME;
 		}
@@ -994,10 +994,10 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
-		if ($this->label !== $v || $v === '') {
+		if ($this->label !== $v) {
 			$this->label = $v;
 			$this->modifiedColumns[] = ProfilePropertyPeer::LABEL;
 		}
@@ -1016,7 +1016,7 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
 		if ($this->definition !== $v) {
@@ -1038,7 +1038,7 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
 		if ($this->comment !== $v) {
@@ -1060,7 +1060,7 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
 		if ($this->type !== $v) {
@@ -1082,7 +1082,7 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
 		if ($this->uri !== $v) {
@@ -1107,7 +1107,7 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 			$v = (int) $v;
 		}
 
-		if ($this->status_id !== $v || $v === 1) {
+		if ($this->status_id !== $v) {
 			$this->status_id = $v;
 			$this->modifiedColumns[] = ProfilePropertyPeer::STATUS_ID;
 		}
@@ -1130,10 +1130,10 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
-		if ($this->language !== $v || $v === 'en') {
+		if ($this->language !== $v) {
 			$this->language = $v;
 			$this->modifiedColumns[] = ProfilePropertyPeer::LANGUAGE;
 		}
@@ -1152,7 +1152,7 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
 		if ($this->note !== $v) {
@@ -1218,7 +1218,7 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
 		if ($this->examples !== $v) {
@@ -1237,7 +1237,7 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 	public function setIsRequired($v)
 	{
 
-		if ($this->is_required !== $v || $v === false) {
+		if ($this->is_required !== $v) {
 			$this->is_required = $v;
 			$this->modifiedColumns[] = ProfilePropertyPeer::IS_REQUIRED;
 		}
@@ -1253,7 +1253,7 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 	public function setIsReciprocal($v)
 	{
 
-		if ($this->is_reciprocal !== $v || $v === false) {
+		if ($this->is_reciprocal !== $v) {
 			$this->is_reciprocal = $v;
 			$this->modifiedColumns[] = ProfilePropertyPeer::IS_RECIPROCAL;
 		}
@@ -1269,7 +1269,7 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 	public function setIsSingleton($v)
 	{
 
-		if ($this->is_singleton !== $v || $v === false) {
+		if ($this->is_singleton !== $v) {
 			$this->is_singleton = $v;
 			$this->modifiedColumns[] = ProfilePropertyPeer::IS_SINGLETON;
 		}
@@ -1285,7 +1285,7 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 	public function setIsInPicklist($v)
 	{
 
-		if ($this->is_in_picklist !== $v || $v === true) {
+		if ($this->is_in_picklist !== $v) {
 			$this->is_in_picklist = $v;
 			$this->modifiedColumns[] = ProfilePropertyPeer::IS_IN_PICKLIST;
 		}
@@ -1379,7 +1379,7 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 	public function setIsInClassPicklist($v)
 	{
 
-		if ($this->is_in_class_picklist !== $v || $v === true) {
+		if ($this->is_in_class_picklist !== $v) {
 			$this->is_in_class_picklist = $v;
 			$this->modifiedColumns[] = ProfilePropertyPeer::IS_IN_CLASS_PICKLIST;
 		}
@@ -1395,7 +1395,7 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 	public function setIsInPropertyPicklist($v)
 	{
 
-		if ($this->is_in_property_picklist !== $v || $v === true) {
+		if ($this->is_in_property_picklist !== $v) {
 			$this->is_in_property_picklist = $v;
 			$this->modifiedColumns[] = ProfilePropertyPeer::IS_IN_PROPERTY_PICKLIST;
 		}
@@ -1411,7 +1411,7 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 	public function setIsInRdf($v)
 	{
 
-		if ($this->is_in_rdf !== $v || $v === true) {
+		if ($this->is_in_rdf !== $v) {
 			$this->is_in_rdf = $v;
 			$this->modifiedColumns[] = ProfilePropertyPeer::IS_IN_RDF;
 		}
@@ -1427,7 +1427,7 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 	public function setIsInXsd($v)
 	{
 
-		if ($this->is_in_xsd !== $v || $v === true) {
+		if ($this->is_in_xsd !== $v) {
 			$this->is_in_xsd = $v;
 			$this->modifiedColumns[] = ProfilePropertyPeer::IS_IN_XSD;
 		}
@@ -1443,7 +1443,7 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 	public function setIsAttribute($v)
 	{
 
-		if ($this->is_attribute !== $v || $v === false) {
+		if ($this->is_attribute !== $v) {
 			$this->is_attribute = $v;
 			$this->modifiedColumns[] = ProfilePropertyPeer::IS_ATTRIBUTE;
 		}
@@ -1459,7 +1459,7 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 	public function setHasLanguage($v)
 	{
 
-		if ($this->has_language !== $v || $v === false) {
+		if ($this->has_language !== $v) {
 			$this->has_language = $v;
 			$this->modifiedColumns[] = ProfilePropertyPeer::HAS_LANGUAGE;
 		}

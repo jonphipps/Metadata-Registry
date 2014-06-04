@@ -135,7 +135,7 @@ abstract class BaseArcId2val extends BaseObject  implements Persistent {
 	public function setMisc($v)
 	{
 
-		if ($this->misc !== $v || $v === false) {
+		if ($this->misc !== $v) {
 			$this->misc = $v;
 			$this->modifiedColumns[] = ArcId2valPeer::MISC;
 		}
@@ -154,7 +154,7 @@ abstract class BaseArcId2val extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
 		if ($this->val !== $v) {
@@ -173,7 +173,7 @@ abstract class BaseArcId2val extends BaseObject  implements Persistent {
 	public function setValType($v)
 	{
 
-		if ($this->val_type !== $v || $v === false) {
+		if ($this->val_type !== $v) {
 			$this->val_type = $v;
 			$this->modifiedColumns[] = ArcId2valPeer::VAL_TYPE;
 		}

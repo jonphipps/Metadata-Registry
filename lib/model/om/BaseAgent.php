@@ -552,10 +552,10 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
-		if ($this->org_email !== $v || $v === '') {
+		if ($this->org_email !== $v) {
 			$this->org_email = $v;
 			$this->modifiedColumns[] = AgentPeer::ORG_EMAIL;
 		}
@@ -574,10 +574,10 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
-		if ($this->org_name !== $v || $v === '') {
+		if ($this->org_name !== $v) {
 			$this->org_name = $v;
 			$this->modifiedColumns[] = AgentPeer::ORG_NAME;
 		}
@@ -596,7 +596,7 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
 		if ($this->ind_affiliation !== $v) {
@@ -618,7 +618,7 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
 		if ($this->ind_role !== $v) {
@@ -640,7 +640,7 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
 		if ($this->address1 !== $v) {
@@ -662,7 +662,7 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
 		if ($this->address2 !== $v) {
@@ -684,7 +684,7 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
 		if ($this->city !== $v) {
@@ -706,7 +706,7 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
 		if ($this->state !== $v) {
@@ -728,7 +728,7 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
 		if ($this->postal_code !== $v) {
@@ -750,7 +750,7 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
 		if ($this->country !== $v) {
@@ -772,7 +772,7 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
 		if ($this->phone !== $v) {
@@ -794,7 +794,7 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
 		if ($this->web_address !== $v) {
@@ -816,7 +816,7 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
 		if ($this->type !== $v) {

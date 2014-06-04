@@ -119,7 +119,14 @@ function object_select_tag($object, $method, $options = array(), $default_value 
 
   $text_method = _get_option($options, 'text_method');
 
-  $select_options = _get_options_from_objects(sfContext::getInstance()->retrieveObjects($related_class, $peer_method), $text_method);
+  $options_method = _get_option($options, 'options_method');
+
+  if (!$options_method) {
+    $select_options = _get_options_from_objects(sfContext::getInstance()->retrieveObjects($related_class, $peer_method), $text_method);
+  }
+  else {
+    $select_options = _get_options_from_objects(sfContext::getInstance()->retrieveObjects($related_class, $peer_method), $text_method);
+  }
 
   if ($value = _get_option($options, 'include_custom'))
   {
@@ -295,7 +302,7 @@ function _get_object_value($object, $method, $default_value = null, $param = nul
     $param = ($param == null ? array() : array($param));
     $method = array($method, $param);
   }
-  
+
   // method exists?
   if (!is_callable(array($object, $method[0])))
   {

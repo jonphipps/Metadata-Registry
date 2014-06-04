@@ -606,7 +606,7 @@ abstract class BaseSchemaPropertyElement extends BaseObject  implements Persiste
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
 		if ($this->object !== $v) {
@@ -654,10 +654,10 @@ abstract class BaseSchemaPropertyElement extends BaseObject  implements Persiste
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
-		if ($this->language !== $v || $v === 'en') {
+		if ($this->language !== $v) {
 			$this->language = $v;
 			$this->modifiedColumns[] = SchemaPropertyElementPeer::LANGUAGE;
 		}
@@ -679,7 +679,7 @@ abstract class BaseSchemaPropertyElement extends BaseObject  implements Persiste
 			$v = (int) $v;
 		}
 
-		if ($this->status_id !== $v || $v === 1) {
+		if ($this->status_id !== $v) {
 			$this->status_id = $v;
 			$this->modifiedColumns[] = SchemaPropertyElementPeer::STATUS_ID;
 		}

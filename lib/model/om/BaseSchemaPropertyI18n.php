@@ -219,10 +219,10 @@ abstract class BaseSchemaPropertyI18n extends BaseObject  implements Persistent 
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
-		if ($this->culture !== $v || $v === 'en') {
+		if ($this->culture !== $v) {
 			$this->culture = $v;
 			$this->modifiedColumns[] = SchemaPropertyI18nPeer::CULTURE;
 		}
@@ -241,10 +241,10 @@ abstract class BaseSchemaPropertyI18n extends BaseObject  implements Persistent 
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
-		if ($this->name !== $v || $v === '') {
+		if ($this->name !== $v) {
 			$this->name = $v;
 			$this->modifiedColumns[] = SchemaPropertyI18nPeer::NAME;
 		}
@@ -263,10 +263,10 @@ abstract class BaseSchemaPropertyI18n extends BaseObject  implements Persistent 
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
-		if ($this->label !== $v || $v === '') {
+		if ($this->label !== $v) {
 			$this->label = $v;
 			$this->modifiedColumns[] = SchemaPropertyI18nPeer::LABEL;
 		}
@@ -285,7 +285,7 @@ abstract class BaseSchemaPropertyI18n extends BaseObject  implements Persistent 
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
 		if ($this->definition !== $v) {
@@ -307,7 +307,7 @@ abstract class BaseSchemaPropertyI18n extends BaseObject  implements Persistent 
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
 		if ($this->comment !== $v) {
@@ -329,10 +329,10 @@ abstract class BaseSchemaPropertyI18n extends BaseObject  implements Persistent 
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
-		if ($this->lexical_uri !== $v || $v === '') {
+		if ($this->lexical_uri !== $v) {
 			$this->lexical_uri = $v;
 			$this->modifiedColumns[] = SchemaPropertyI18nPeer::LEXICAL_URI;
 		}
@@ -351,7 +351,7 @@ abstract class BaseSchemaPropertyI18n extends BaseObject  implements Persistent 
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
 		if ($this->note !== $v) {

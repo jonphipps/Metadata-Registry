@@ -107,14 +107,14 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 	 * The value for the domain field.
 	 * @var        string
 	 */
-	protected $domain = '';
+	protected $domain;
 
 
 	/**
 	 * The value for the orange field.
 	 * @var        string
 	 */
-	protected $orange = '';
+	protected $orange;
 
 
 	/**
@@ -673,10 +673,10 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
-		if ($this->type !== $v || $v === 'property') {
+		if ($this->type !== $v) {
 			$this->type = $v;
 			$this->modifiedColumns[] = SchemaPropertyPeer::TYPE;
 		}
@@ -721,7 +721,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
 		if ($this->parent_uri !== $v) {
@@ -743,10 +743,10 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
-		if ($this->uri !== $v || $v === '') {
+		if ($this->uri !== $v) {
 			$this->uri = $v;
 			$this->modifiedColumns[] = SchemaPropertyPeer::URI;
 		}
@@ -768,7 +768,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 			$v = (int) $v;
 		}
 
-		if ($this->status_id !== $v || $v === 1) {
+		if ($this->status_id !== $v) {
 			$this->status_id = $v;
 			$this->modifiedColumns[] = SchemaPropertyPeer::STATUS_ID;
 		}
@@ -791,10 +791,10 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
-		if ($this->domain !== $v || $v === '') {
+		if ($this->domain !== $v) {
 			$this->domain = $v;
 			$this->modifiedColumns[] = SchemaPropertyPeer::DOMAIN;
 		}
@@ -813,10 +813,10 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
-		if ($this->orange !== $v || $v === '') {
+		if ($this->orange !== $v) {
 			$this->orange = $v;
 			$this->modifiedColumns[] = SchemaPropertyPeer::ORANGE;
 		}

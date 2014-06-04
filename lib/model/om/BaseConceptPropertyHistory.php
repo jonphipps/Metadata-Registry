@@ -402,7 +402,7 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
 		if ($this->action !== $v) {
@@ -528,7 +528,7 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
 		if ($this->object !== $v) {
@@ -602,10 +602,10 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
-		if ($this->language !== $v || $v === 'en') {
+		if ($this->language !== $v) {
 			$this->language = $v;
 			$this->modifiedColumns[] = ConceptPropertyHistoryPeer::LANGUAGE;
 		}
@@ -627,7 +627,7 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 			$v = (int) $v;
 		}
 
-		if ($this->status_id !== $v || $v === 1) {
+		if ($this->status_id !== $v) {
 			$this->status_id = $v;
 			$this->modifiedColumns[] = ConceptPropertyHistoryPeer::STATUS_ID;
 		}
@@ -676,7 +676,7 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
 		if ($this->change_note !== $v) {

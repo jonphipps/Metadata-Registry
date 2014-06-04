@@ -427,7 +427,7 @@ abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
 			$v = (int) $v;
 		}
 
-		if ($this->vocabulary_id !== $v || $v === 0) {
+		if ($this->vocabulary_id !== $v) {
 			$this->vocabulary_id = $v;
 			$this->modifiedColumns[] = VocabularyHasUserPeer::VOCABULARY_ID;
 		}
@@ -453,7 +453,7 @@ abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
 			$v = (int) $v;
 		}
 
-		if ($this->user_id !== $v || $v === 0) {
+		if ($this->user_id !== $v) {
 			$this->user_id = $v;
 			$this->modifiedColumns[] = VocabularyHasUserPeer::USER_ID;
 		}
@@ -473,7 +473,7 @@ abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
 	public function setIsMaintainerFor($v)
 	{
 
-		if ($this->is_maintainer_for !== $v || $v === true) {
+		if ($this->is_maintainer_for !== $v) {
 			$this->is_maintainer_for = $v;
 			$this->modifiedColumns[] = VocabularyHasUserPeer::IS_MAINTAINER_FOR;
 		}
@@ -489,7 +489,7 @@ abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
 	public function setIsRegistrarFor($v)
 	{
 
-		if ($this->is_registrar_for !== $v || $v === true) {
+		if ($this->is_registrar_for !== $v) {
 			$this->is_registrar_for = $v;
 			$this->modifiedColumns[] = VocabularyHasUserPeer::IS_REGISTRAR_FOR;
 		}
@@ -505,7 +505,7 @@ abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
 	public function setIsAdminFor($v)
 	{
 
-		if ($this->is_admin_for !== $v || $v === true) {
+		if ($this->is_admin_for !== $v) {
 			$this->is_admin_for = $v;
 			$this->modifiedColumns[] = VocabularyHasUserPeer::IS_ADMIN_FOR;
 		}
@@ -524,7 +524,7 @@ abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
 		if ($this->languages !== $v) {
@@ -546,10 +546,10 @@ abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
-		if ($this->default_language !== $v || $v === 'en') {
+		if ($this->default_language !== $v) {
 			$this->default_language = $v;
 			$this->modifiedColumns[] = VocabularyHasUserPeer::DEFAULT_LANGUAGE;
 		}
@@ -568,10 +568,10 @@ abstract class BaseVocabularyHasUser extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
-		if ($this->current_language !== $v || $v === 'en') {
+		if ($this->current_language !== $v) {
 			$this->current_language = $v;
 			$this->modifiedColumns[] = VocabularyHasUserPeer::CURRENT_LANGUAGE;
 		}

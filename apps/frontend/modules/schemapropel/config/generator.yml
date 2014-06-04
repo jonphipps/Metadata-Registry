@@ -32,7 +32,7 @@ generator:
         updated_user: { name: Updated by }
       display:        [=profile_property, _object, format_language, status, updated_at, updated_user]
       displayfilter:  false
-      sort:           display_order
+      sort:           profile_property
       object_actions:
         _edit:        { credentials: [[administrator, schemamaintainer, schemaadmin]] }
         _delete:      { credentials: [[administrator, schemamaintainer, schemaadmin]] }

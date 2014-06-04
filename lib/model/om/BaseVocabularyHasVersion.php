@@ -300,10 +300,10 @@ abstract class BaseVocabularyHasVersion extends BaseObject  implements Persisten
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
-		if ($this->name !== $v || $v === '') {
+		if ($this->name !== $v) {
 			$this->name = $v;
 			$this->modifiedColumns[] = VocabularyHasVersionPeer::NAME;
 		}

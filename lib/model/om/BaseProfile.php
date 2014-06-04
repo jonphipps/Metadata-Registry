@@ -798,10 +798,10 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
-		if ($this->name !== $v || $v === '') {
+		if ($this->name !== $v) {
 			$this->name = $v;
 			$this->modifiedColumns[] = ProfilePeer::NAME;
 		}
@@ -820,7 +820,7 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
 		if ($this->note !== $v) {
@@ -842,10 +842,10 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
-		if ($this->uri !== $v || $v === '') {
+		if ($this->uri !== $v) {
 			$this->uri = $v;
 			$this->modifiedColumns[] = ProfilePeer::URI;
 		}
@@ -864,7 +864,7 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
 		if ($this->url !== $v) {
@@ -886,10 +886,10 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
-		if ($this->base_domain !== $v || $v === '') {
+		if ($this->base_domain !== $v) {
 			$this->base_domain = $v;
 			$this->modifiedColumns[] = ProfilePeer::BASE_DOMAIN;
 		}
@@ -908,10 +908,10 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
-		if ($this->token !== $v || $v === '') {
+		if ($this->token !== $v) {
 			$this->token = $v;
 			$this->modifiedColumns[] = ProfilePeer::TOKEN;
 		}
@@ -930,7 +930,7 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
 		if ($this->community !== $v) {
@@ -955,7 +955,7 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 			$v = (int) $v;
 		}
 
-		if ($this->last_uri_id !== $v || $v === 100000) {
+		if ($this->last_uri_id !== $v) {
 			$this->last_uri_id = $v;
 			$this->modifiedColumns[] = ProfilePeer::LAST_URI_ID;
 		}
@@ -977,7 +977,7 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 			$v = (int) $v;
 		}
 
-		if ($this->status_id !== $v || $v === 1) {
+		if ($this->status_id !== $v) {
 			$this->status_id = $v;
 			$this->modifiedColumns[] = ProfilePeer::STATUS_ID;
 		}
@@ -1000,10 +1000,10 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
-		if ($this->language !== $v || $v === 'en') {
+		if ($this->language !== $v) {
 			$this->language = $v;
 			$this->modifiedColumns[] = ProfilePeer::LANGUAGE;
 		}

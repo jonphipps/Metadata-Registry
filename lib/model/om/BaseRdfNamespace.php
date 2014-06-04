@@ -409,10 +409,10 @@ abstract class BaseRdfNamespace extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
-		if ($this->token !== $v || $v === '') {
+		if ($this->token !== $v) {
 			$this->token = $v;
 			$this->modifiedColumns[] = RdfNamespacePeer::TOKEN;
 		}
@@ -431,7 +431,7 @@ abstract class BaseRdfNamespace extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
 		if ($this->note !== $v) {
@@ -453,10 +453,10 @@ abstract class BaseRdfNamespace extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
-		if ($this->uri !== $v || $v === '') {
+		if ($this->uri !== $v) {
 			$this->uri = $v;
 			$this->modifiedColumns[] = RdfNamespacePeer::URI;
 		}
@@ -475,7 +475,7 @@ abstract class BaseRdfNamespace extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
 		if ($this->schema_location !== $v) {

@@ -556,10 +556,10 @@ abstract class BaseCollection extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
-		if ($this->name !== $v || $v === '') {
+		if ($this->name !== $v) {
 			$this->name = $v;
 			$this->modifiedColumns[] = CollectionPeer::NAME;
 		}
@@ -578,7 +578,7 @@ abstract class BaseCollection extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
 		if ($this->uri !== $v) {
@@ -600,10 +600,10 @@ abstract class BaseCollection extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
-		if ($this->pref_label !== $v || $v === '') {
+		if ($this->pref_label !== $v) {
 			$this->pref_label = $v;
 			$this->modifiedColumns[] = CollectionPeer::PREF_LABEL;
 		}
@@ -625,7 +625,7 @@ abstract class BaseCollection extends BaseObject  implements Persistent {
 			$v = (int) $v;
 		}
 
-		if ($this->status_id !== $v || $v === 1) {
+		if ($this->status_id !== $v) {
 			$this->status_id = $v;
 			$this->modifiedColumns[] = CollectionPeer::STATUS_ID;
 		}

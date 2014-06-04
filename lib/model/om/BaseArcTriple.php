@@ -334,7 +334,7 @@ abstract class BaseArcTriple extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
 		if ($this->o_comp !== $v) {
@@ -353,7 +353,7 @@ abstract class BaseArcTriple extends BaseObject  implements Persistent {
 	public function setSType($v)
 	{
 
-		if ($this->s_type !== $v || $v === false) {
+		if ($this->s_type !== $v) {
 			$this->s_type = $v;
 			$this->modifiedColumns[] = ArcTriplePeer::S_TYPE;
 		}
@@ -369,7 +369,7 @@ abstract class BaseArcTriple extends BaseObject  implements Persistent {
 	public function setOType($v)
 	{
 
-		if ($this->o_type !== $v || $v === false) {
+		if ($this->o_type !== $v) {
 			$this->o_type = $v;
 			$this->modifiedColumns[] = ArcTriplePeer::O_TYPE;
 		}
@@ -385,7 +385,7 @@ abstract class BaseArcTriple extends BaseObject  implements Persistent {
 	public function setMisc($v)
 	{
 
-		if ($this->misc !== $v || $v === false) {
+		if ($this->misc !== $v) {
 			$this->misc = $v;
 			$this->modifiedColumns[] = ArcTriplePeer::MISC;
 		}

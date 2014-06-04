@@ -608,10 +608,10 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
-		if ($this->uri !== $v || $v === '') {
+		if ($this->uri !== $v) {
 			$this->uri = $v;
 			$this->modifiedColumns[] = ConceptPeer::URI;
 		}
@@ -675,7 +675,7 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 			$v = (int) $v;
 		}
 
-		if ($this->status_id !== $v || $v === 1) {
+		if ($this->status_id !== $v) {
 			$this->status_id = $v;
 			$this->modifiedColumns[] = ConceptPeer::STATUS_ID;
 		}
@@ -698,10 +698,10 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
-		if ($this->language !== $v || $v === 'en') {
+		if ($this->language !== $v) {
 			$this->language = $v;
 			$this->modifiedColumns[] = ConceptPeer::LANGUAGE;
 		}

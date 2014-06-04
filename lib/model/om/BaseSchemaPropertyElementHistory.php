@@ -405,7 +405,7 @@ abstract class BaseSchemaPropertyElementHistory extends BaseObject  implements P
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
 		if ($this->action !== $v) {
@@ -531,7 +531,7 @@ abstract class BaseSchemaPropertyElementHistory extends BaseObject  implements P
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
 		if ($this->object !== $v) {
@@ -579,10 +579,10 @@ abstract class BaseSchemaPropertyElementHistory extends BaseObject  implements P
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
-		if ($this->language !== $v || $v === 'en') {
+		if ($this->language !== $v) {
 			$this->language = $v;
 			$this->modifiedColumns[] = SchemaPropertyElementHistoryPeer::LANGUAGE;
 		}
@@ -604,7 +604,7 @@ abstract class BaseSchemaPropertyElementHistory extends BaseObject  implements P
 			$v = (int) $v;
 		}
 
-		if ($this->status_id !== $v || $v === 1) {
+		if ($this->status_id !== $v) {
 			$this->status_id = $v;
 			$this->modifiedColumns[] = SchemaPropertyElementHistoryPeer::STATUS_ID;
 		}
@@ -627,7 +627,7 @@ abstract class BaseSchemaPropertyElementHistory extends BaseObject  implements P
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
 		if ($this->change_note !== $v) {

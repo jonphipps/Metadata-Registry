@@ -440,10 +440,10 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
-		if ($this->name !== $v || $v === '') {
+		if ($this->name !== $v) {
 			$this->name = $v;
 			$this->modifiedColumns[] = SkosPropertyPeer::NAME;
 		}
@@ -462,10 +462,10 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
-		if ($this->uri !== $v || $v === '') {
+		if ($this->uri !== $v) {
 			$this->uri = $v;
 			$this->modifiedColumns[] = SkosPropertyPeer::URI;
 		}
@@ -484,10 +484,10 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
-		if ($this->object_type !== $v || $v === 'resource') {
+		if ($this->object_type !== $v) {
 			$this->object_type = $v;
 			$this->modifiedColumns[] = SkosPropertyPeer::OBJECT_TYPE;
 		}
@@ -550,7 +550,7 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
 		if ($this->label !== $v) {
@@ -572,7 +572,7 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
 		if ($this->definition !== $v) {
@@ -594,7 +594,7 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
 		if ($this->comment !== $v) {
@@ -616,7 +616,7 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
 		if ($this->examples !== $v) {
@@ -635,7 +635,7 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 	public function setIsRequired($v)
 	{
 
-		if ($this->is_required !== $v || $v === false) {
+		if ($this->is_required !== $v) {
 			$this->is_required = $v;
 			$this->modifiedColumns[] = SkosPropertyPeer::IS_REQUIRED;
 		}
@@ -651,7 +651,7 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 	public function setIsReciprocal($v)
 	{
 
-		if ($this->is_reciprocal !== $v || $v === false) {
+		if ($this->is_reciprocal !== $v) {
 			$this->is_reciprocal = $v;
 			$this->modifiedColumns[] = SkosPropertyPeer::IS_RECIPROCAL;
 		}
@@ -667,7 +667,7 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 	public function setIsSingleton($v)
 	{
 
-		if ($this->is_singleton !== $v || $v === false) {
+		if ($this->is_singleton !== $v) {
 			$this->is_singleton = $v;
 			$this->modifiedColumns[] = SkosPropertyPeer::IS_SINGLETON;
 		}
@@ -683,7 +683,7 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 	public function setIsScheme($v)
 	{
 
-		if ($this->is_scheme !== $v || $v === false) {
+		if ($this->is_scheme !== $v) {
 			$this->is_scheme = $v;
 			$this->modifiedColumns[] = SkosPropertyPeer::IS_SCHEME;
 		}
@@ -699,7 +699,7 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 	public function setIsInPicklist($v)
 	{
 
-		if ($this->is_in_picklist !== $v || $v === true) {
+		if ($this->is_in_picklist !== $v) {
 			$this->is_in_picklist = $v;
 			$this->modifiedColumns[] = SkosPropertyPeer::IS_IN_PICKLIST;
 		}

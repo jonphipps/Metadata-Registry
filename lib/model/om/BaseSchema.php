@@ -859,10 +859,10 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
-		if ($this->name !== $v || $v === '') {
+		if ($this->name !== $v) {
 			$this->name = $v;
 			$this->modifiedColumns[] = SchemaPeer::NAME;
 		}
@@ -881,7 +881,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
 		if ($this->note !== $v) {
@@ -903,10 +903,10 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
-		if ($this->uri !== $v || $v === '') {
+		if ($this->uri !== $v) {
 			$this->uri = $v;
 			$this->modifiedColumns[] = SchemaPeer::URI;
 		}
@@ -925,7 +925,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
 		if ($this->url !== $v) {
@@ -947,10 +947,10 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
-		if ($this->base_domain !== $v || $v === '') {
+		if ($this->base_domain !== $v) {
 			$this->base_domain = $v;
 			$this->modifiedColumns[] = SchemaPeer::BASE_DOMAIN;
 		}
@@ -969,10 +969,10 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
-		if ($this->token !== $v || $v === '') {
+		if ($this->token !== $v) {
 			$this->token = $v;
 			$this->modifiedColumns[] = SchemaPeer::TOKEN;
 		}
@@ -991,7 +991,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
 		if ($this->community !== $v) {
@@ -1016,7 +1016,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 			$v = (int) $v;
 		}
 
-		if ($this->last_uri_id !== $v || $v === 100000) {
+		if ($this->last_uri_id !== $v) {
 			$this->last_uri_id = $v;
 			$this->modifiedColumns[] = SchemaPeer::LAST_URI_ID;
 		}
@@ -1038,7 +1038,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 			$v = (int) $v;
 		}
 
-		if ($this->status_id !== $v || $v === 1) {
+		if ($this->status_id !== $v) {
 			$this->status_id = $v;
 			$this->modifiedColumns[] = SchemaPeer::STATUS_ID;
 		}
@@ -1061,10 +1061,10 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
-		if ($this->language !== $v || $v === 'en') {
+		if ($this->language !== $v) {
 			$this->language = $v;
 			$this->modifiedColumns[] = SchemaPeer::LANGUAGE;
 		}
@@ -1083,7 +1083,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
 		if ($this->languages !== $v) {
@@ -1131,10 +1131,10 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
+			$v = (string) $v;
 		}
 
-		if ($this->ns_type !== $v || $v === 'slash') {
+		if ($this->ns_type !== $v) {
 			$this->ns_type = $v;
 			$this->modifiedColumns[] = SchemaPeer::NS_TYPE;
 		}

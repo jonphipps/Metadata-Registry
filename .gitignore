@@ -26,3 +26,4 @@ phpini.txt
 vendor.old
 test/codeception.old
 test/acceptance
+.filemap

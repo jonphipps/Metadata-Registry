@@ -355,7 +355,7 @@ abstract class BaseAgentHasUser extends BaseObject  implements Persistent {
 			$v = (int) $v;
 		}
 
-		if ($this->user_id !== $v || $v === 0) {
+		if ($this->user_id !== $v) {
 			$this->user_id = $v;
 			$this->modifiedColumns[] = AgentHasUserPeer::USER_ID;
 		}
@@ -381,7 +381,7 @@ abstract class BaseAgentHasUser extends BaseObject  implements Persistent {
 			$v = (int) $v;
 		}
 
-		if ($this->agent_id !== $v || $v === 0) {
+		if ($this->agent_id !== $v) {
 			$this->agent_id = $v;
 			$this->modifiedColumns[] = AgentHasUserPeer::AGENT_ID;
 		}
@@ -401,7 +401,7 @@ abstract class BaseAgentHasUser extends BaseObject  implements Persistent {
 	public function setIsRegistrarFor($v)
 	{
 
-		if ($this->is_registrar_for !== $v || $v === true) {
+		if ($this->is_registrar_for !== $v) {
 			$this->is_registrar_for = $v;
 			$this->modifiedColumns[] = AgentHasUserPeer::IS_REGISTRAR_FOR;
 		}
@@ -417,7 +417,7 @@ abstract class BaseAgentHasUser extends BaseObject  implements Persistent {
 	public function setIsAdminFor($v)
 	{
 
-		if ($this->is_admin_for !== $v || $v === true) {
+		if ($this->is_admin_for !== $v) {
 			$this->is_admin_for = $v;
 			$this->modifiedColumns[] = AgentHasUserPeer::IS_ADMIN_FOR;
 		}
