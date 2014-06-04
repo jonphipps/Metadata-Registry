@@ -66,7 +66,136 @@ class SchemaPropertyPeer extends BaseSchemaPropertyPeer
     return $classes;
   }
 
-    /**
+  /**
+   * @return array
+   */
+  public static function getClassesForCurrentUser() {
+    return self::getElementsForCurrentUser("class");
+  }
+
+  /**
+   * @return array
+   */
+  public static function getPropertiesForCurrentUser() {
+    return self::getElementsForCurrentUser("property");
+  }
+
+  /**
+   * @param string $type
+   *
+   * @return array
+   */
+  public static function getElementsForCurrentUser($type) {
+    $userId = sfContext::getInstance()->getUser()->getSubscriberId();
+    if (!$userId) {
+      //can't do a proper filter, but this is unlikely
+      return FALSE;
+    }
+
+    $c = new Criteria();
+    $c->addJoin(SchemaPropertyPeer::SCHEMA_ID, SchemaHasUserPeer::SCHEMA_ID)
+      ->addJoin(SchemaPeer::ID, SchemaHasUserPeer::SCHEMA_ID)
+      ->addJoin(SchemaPropertyPeer::ID, SchemaPropertyI18nPeer::ID);
+
+    $c->add(SchemaHasUserPeer::USER_ID, $userId);
+    //todo: remove the 'subs' when we don't have the option in the db
+    if ("class" == strtolower($type)) {
+      $c->add(self::TYPE, 'class');
+      $c->addOr(self::TYPE, 'subclass');
+    }
+    else {
+      $c->add(self::TYPE, 'property');
+      $c->addOr(self::TYPE, 'subproperty');
+    }
+
+    $request           = sfContext::getInstance()->getRequest();
+    $currentPropertyId = $request->getParameter('id');
+    if ($currentPropertyId && "schemaprop" == $request->getParameter('module') && "edit" == $request->getParameter('action')) {
+      $c->add(SchemaPropertyPeer::ID, $currentPropertyId, Criteria::NOT_EQUAL);
+    }
+
+    $c->clearSelectColumns()
+      ->addSelectColumn(SchemaPropertyPeer::ID)
+      ->addSelectColumn(SchemaPeer::NAME)
+      ->addSelectColumn(SchemaPropertyI18nPeer::CULTURE)
+      ->addSelectColumn(SchemaPropertyI18nPeer::LABEL)
+      ->addSelectColumn(SchemaPropertyPeer::URI);
+
+    $c->addAscendingOrderByColumn(SchemaPeer::NAME)
+      ->addAscendingOrderByColumn(SchemaPropertyI18nPeer::CULTURE)
+      ->addAscendingOrderByColumn(SchemaPropertyI18nPeer::LABEL);
+
+    /** @var $rs MySQLResultSet */
+    $rs = self::doSelectRS($c);
+    $results   = array();
+    /** @var $rs MySQLResultSet */
+    while ($rs->next()) {
+      $results[$rs->getString(2) . " (" . $rs->getString(3) . ")"][ $rs->getInt(1) ] = $rs->getString(4) . " -- " . $rs->getString(5);
+    }
+    return $results;
+  }
+
+  /**
+   * @param SchemaProperty|SchemaPropertyI18n $property
+   * @param string                            $fieldName
+   * @param string                            $object
+   * @param int                               $objectId if the object has a related Id
+   * @param int                               $userId
+   * @param array                             $fieldIds
+   * @param int                               $statusId
+   * @param Connection                        $con
+   *
+   * @throws Exception
+   * @throws PropelException
+   * @return bool
+   */
+  public static function updateRelatedElements($property, $fieldName, $object, $objectId, $userId, $fieldIds, $statusId, $con) {
+    if (isset($fieldIds[ $fieldName ])) {
+      $profileId = $fieldIds[ $fieldName ]['id'];
+    }
+    else {
+      return false;
+    }
+
+    $language =  $fieldIds[ $fieldName ]['hasLang'] ? $property->getCulture() : null ;
+    $element   = SchemaPropertyElementPeer::lookupDetailElement($property->getId(), $profileId, $language);
+
+    if ($element) {
+      //did we make it null?
+      if (0 === strlen(trim($object))) {
+        //we have to make sure that it's not a subclass or subproperty
+        if (('is_subproperty_of' == $fieldName || 'is_subclass_of' == $fieldName)
+            && $property->getParentUri()
+        ) {
+          //there's a uri but it doesn't match anything registered
+          //so we have to delete just the reciprocal
+          $element->updateReciprocal('deleted', $con);
+        }
+        else {
+          //delete the element
+          $element->delete($con);
+        }
+      }
+      else {
+        //modify it
+        $element->setObject($object);
+        $element->setRelatedSchemaPropertyId($objectId);
+        $element->setUpdatedUserId($userId);
+        $element->save();
+      }
+    }
+    elseif ($profileId && $object) {
+      //create one
+      $element = SchemaPropertyElementPeer::createElement($property, $userId, $profileId, $statusId, $language);
+      $element->setObject($object);
+      $element->setRelatedSchemaPropertyId($objectId);
+      $element->setIsSchemaProperty(TRUE);
+      $element->save();
+    }
+    return true;
+  }
+
+  /**
      * description
      *
      * @param string $uri

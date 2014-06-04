@@ -33,15 +33,8 @@ class ProfilePropertyPeer extends BaseProfilePropertyPeer
             $schemaProperty = \SchemaPropertyPeer::retrieveByPK($propertyId);
             if ('class' == $schemaProperty->getType() || 'subclass' == $schemaProperty->getType()) {
                 $criteria->add(\ProfilePropertyPeer::IS_IN_CLASS_PICKLIST, 1);
-                $criteria->add(\ProfilePropertyPeer::IS_IN_PROPERTY_PICKLIST, 1);
-                if ('class' == $schemaProperty->getType()) {
-                    $criteria->add(\ProfilePropertyPeer::NAME, 'isSubclassOf', \Criteria::NOT_EQUAL);
-                }
             } else {
                 $criteria->add(\ProfilePropertyPeer::IS_IN_PROPERTY_PICKLIST, 1);
-                if ('property' == $schemaProperty->getType()) {
-                    $criteria->add(\ProfilePropertyPeer::NAME, 'isSubpropertyOf', \Criteria::NOT_EQUAL);
-                }
             }
         }
 

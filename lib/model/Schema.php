@@ -153,31 +153,40 @@ class Schema extends BaseSchema
   } // getUpdatedUser
 
   /**
-  * get the schema fields array (field_id => field name)
-  *
-  * @return array The fields
-  */
-  public static function getProfileFields()
-  {
+   * get the schema fields profile
+   *
+   * @return array The fields
+   */
+  public static function getProfileArray() {
     $c = new Criteria();
-    $c->add(ProfilePropertyPeer::PROFILE_ID,1);
-    $properties = ProfilePropertyPeer::doSelect($c);
-    $fieldsNew = array();
-    foreach ($properties as $property)
-    {
-      $fieldsNew[$property->getId()] = sfInflector::underscore($property->getName());
+    $c->add(ProfilePropertyPeer::PROFILE_ID, 1);
+
+    return ProfilePropertyPeer::doSelect($c);
+  }
+
+  /**
+   * get the schema fields array (field_id => field name)
+   *
+   * @return array The fields
+   */
+  public static function getProfileFields() {
+    $properties = self::getProfileArray();
+    $fieldsNew  = array();
+    foreach ($properties as $property) {
+      $fieldsNew[ $property->getId() ] = sfInflector::underscore($property->getName());
     }
     /**
-    * @todo $fields needs to come from an application profile for schemas, or the vocabulary
-    **/
+     * @todo $fields needs to come from an application profile for schemas, or the vocabulary
+     **/
     $fields = array(
-    1 => 'name',
-    2 => 'label',
-    3 => 'definition',
-    4 => 'type',
-    5 => 'comment',
-    6 => 'related_property',
-    7 => 'note');
+      1 => 'name',
+      2 => 'label',
+      3 => 'definition',
+      4 => 'type',
+      5 => 'comment',
+      6 => 'related_property',
+      7 => 'note'
+    );
 
     return $fieldsNew;
   }

@@ -87,13 +87,17 @@ class SchemaPropertyElement extends BaseSchemaPropertyElement
 
     return $affectedRows;
     }
+
+    return false;
   }
 
   /**
-  * Gets the language
-  *
-  * @return string The formatted language
-  */
+   * Gets the language
+   *
+   * @param string $culture
+   *
+   * @return string The formatted language
+   */
   public function getFormatLanguage($culture = null)
   {
     return format_language(parent::getLanguage(), $culture);
@@ -134,12 +138,14 @@ class SchemaPropertyElement extends BaseSchemaPropertyElement
   }
 
   /**
-  * updates/creates/deletes the reciprocal property
-  *
-  * @param  SchemaPropertyElement $element
-  * @param  string $action
-  * @param  Connection $con
-  */
+   * updates/creates/deletes the reciprocal property
+   *
+   * @param  string     $action
+   * @param  Connection $con
+   *
+   * @throws Exception
+   * @throws PropelException
+   */
   public function updateReciprocal($action, $con = null)
   {
     $relatedPropertyId = $this->getRelatedSchemaPropertyId();
@@ -168,6 +174,8 @@ class SchemaPropertyElement extends BaseSchemaPropertyElement
 
     $recipProfileProperty = ProfilePropertyPeer::retrieveByPK($recipProfilePropertyId, $con);
 
+    $statusId = $this->getStatusId();
+
     if ($recipProfileProperty)
     {
       $recipField = $recipProfileProperty->getName();
@@ -185,7 +193,7 @@ class SchemaPropertyElement extends BaseSchemaPropertyElement
     if ('added' == $action && !$recipElement)
     {
       //add the reciprocal
-      $recipElement = SchemaPropertyElementPeer::createElement($recipSchemaProperty, $userId, $recipProfilePropertyId);
+      $recipElement = SchemaPropertyElementPeer::createElement($recipSchemaProperty, $userId, $recipProfilePropertyId, $statusId);
     }
 
     //if action == updated
@@ -195,7 +203,7 @@ class SchemaPropertyElement extends BaseSchemaPropertyElement
       if (!$recipElement)
       {
         //create a new one
-        $recipElement = SchemaPropertyElementPeer::createElement($recipSchemaProperty, $userId, $recipProfilePropertyId);
+        $recipElement = SchemaPropertyElementPeer::createElement($recipSchemaProperty, $userId, $recipProfilePropertyId, $statusId);
       }
     }
 

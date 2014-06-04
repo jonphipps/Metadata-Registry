@@ -11,19 +11,21 @@
     /**
      * create and add an individual element
      *
-     * @param  SchemaProperty $schema_property
-     * @param                 $userId
-     * @param                 $fieldId
+     * @param  SchemaProperty|SchemaPropertyI18n $schema_property
+     * @param  int                               $userId
+     * @param  int                               $fieldId
+     * @param  int                               $statusId
+     * @param string                             $language
      *
      * @return \SchemaPropertyElement
      */
-    public static function createElement(SchemaProperty $schema_property, $userId, $fieldId) {
+    public static function createElement( $schema_property, $userId, $fieldId, $statusId, $language = null) {
       $element = new SchemaPropertyElement();
       $element->setCreatedUserId($userId);
       $element->setUpdatedUserId($userId);
       $element->setSchemaPropertyId($schema_property->getId());
-      $element->setLanguage($schema_property->getCurrentSchemaPropertyI18n()->getCulture());
-      $element->setStatusId($schema_property->getStatusId());
+      $element->setLanguage($language);
+      $element->setStatusId($statusId);
       $element->setProfilePropertyId($fieldId);
 
       return $element;
@@ -84,27 +86,36 @@
     /**
      * @param SchemaProperty $schema_property
      * @param int            $userId
-     * @param array          $fields
-     * @param string         $language
+     * @param Connection     $con
+     *
+     * @returns array Affected statements
      */
-    public static function UpdateElementsFromForm(SchemaProperty $schema_property, $userId, $fields, $language = NULL){
+    public static function updateElementsFromForm(SchemaProperty $schema_property, $userId, $con = null){
+      $language = myActionTools::getEditLanguage();
+      $i18n = $schema_property->getCurrentSchemaPropertyI18n();
+
+      $fields = Schema::getProfileFields();
+      //add parent_uri to fields
+      $fields[] = "parent_uri";
+
       //iterate through the fields
       foreach ($fields as $key => $value) {
 
         //lookup each field in the array
         //if it's a match compare the values
-        if () {
+        if ($key) {
           //if the new value is empty and the old value is not, delete the old value
-          if () {
+          if ($key) {
           }
           //if the values are different update the element
-          else if () {
+          else if ($key) {
           }
         }
         //if there's no match then create a new element
         else {
         }
       }
+      return $affected;
     }
   }
 

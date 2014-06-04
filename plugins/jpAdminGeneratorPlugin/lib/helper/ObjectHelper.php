@@ -114,13 +114,11 @@ function objects_for_select($options = array(), $value_method, $text_method = nu
  *
  * @return string A list string which represents an input tag.
  */
-function object_select_tag($object, $method, $options = array(), $default_value = null)
-{
+function object_select_tag($object, $method, $options = array(), $default_value = null) {
   $options = _parse_attributes($options);
 
-  $related_class = _get_option($options, 'related_class', false);
-  if (false === $related_class && preg_match('/^get(.+?)Id$/', $method, $match))
-  {
+  $related_class = _get_option($options, 'related_class', FALSE);
+  if (FALSE === $related_class && preg_match('/^get(.+?)Id$/', $method, $match)) {
     $related_class = $match[1];
   }
 
@@ -128,7 +126,15 @@ function object_select_tag($object, $method, $options = array(), $default_value 
 
   $text_method = _get_option($options, 'text_method');
 
-  $select_options = _get_option($options, 'select_options');
+  $array_method = _get_option($options, 'array_method');
+
+  if (isset($array_method)) {
+    $select_options = sfContext::getInstance()->retrieveObjects($related_class, $array_method);
+  }
+  else {
+    $select_options = _get_option($options, 'select_options');
+  }
+
   if (!isset($select_options))
   {
     $select_options = _get_options_from_objects(sfContext::getInstance()->retrieveObjects($related_class, $peer_method), $text_method);
@@ -174,7 +180,7 @@ function _get_options_from_objects($objects, $text_method = null)
       if ($first)
       {
         // multi primary keys handling
-        $multi_primary_keys = is_array($tmp_object->getPrimaryKey()) ? true : false;
+        $multi_primary_keys = method_exists($tmp_object, "getPrimaryKey") && is_array($tmp_object->getPrimaryKey()) ? true : false;
 
         // which method to call?
         $methodToCall = '';
