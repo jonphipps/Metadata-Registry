@@ -48,9 +48,9 @@
  *  echo select_tag('employee', options_for_select($optgroup_array, null, array('include_blank' => true)), array('class' => 'mystyle'));
  * </code>
  *
- * @param  array  dataset to create <option> tags and <optgroup> tags from
- * @param  string selected option value
- * @param  array  additional HTML compliant <option> tag parameters
+ * @param  array $options dataset to create <option> tags and <optgroup> tags from
+ * @param  string $selected selected option value
+ * @param  array $html_options additional HTML compliant <option> tag parameters
  *
  * @return string populated with <option> tags derived from the <i>$options</i> array variable
  * @see select_tag
