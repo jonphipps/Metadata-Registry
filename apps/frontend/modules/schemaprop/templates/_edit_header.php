@@ -17,6 +17,7 @@ array('%%label%%' => $schema_property->getLabel())); ?>
   <!-- javascript data for use in the current template-->
 <?php
   /** @var $sf_user myUser */
-  use_helper('Schema');
-  echo schema_for_user_select_array($sf_user->getSubscriberId(), true, "data"); ?>
+  //use_helper('Schema');
+  //todo: this is just too slow, so we'll have to use ajax to update the slave dropdown
+  //echo schema_for_user_select_array($sf_user->getSubscriberId(), true, "data"); ?>
 <?php end_slot() ?>
