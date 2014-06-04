@@ -255,7 +255,7 @@ Version: 3.4.8 Timestamp: Thu May  1 09:50:32 EDT 2014
 
 .select2-container-active .select2-choice,
 .select2-container-active .select2-choices {
-    border: 1px solid #5897fb;
+    border: 19px solid #5897fb;
     outline: none;
 
     -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, .3);

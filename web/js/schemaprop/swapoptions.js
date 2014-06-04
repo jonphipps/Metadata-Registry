@@ -2,10 +2,10 @@ function swapOptions()
 {
   //var the_div = $('form_row_concept_property_object');
   var selectedType;
-  if (document.getElementsByName("form_row_content_schema_property_mytype").length !== 0){
-     selectedType = $F('schema_property_type');
+  if ($("form_row_content_schema_property_mytype")){  
+     selectedType = $("form_row_content_schema_property_mytype").innerHTML.trim();
   } else {
-     selectedType = $('form_row_content_schema_property_mytype').innerHTML.strip();
+     selectedType = $('schema_property_type').value;
   }
 
 
