@@ -31,7 +31,7 @@ class schemapropActions extends autoschemapropActions
       //todo: What if the user is an admin and has global editorial access? The following blows up because it requires moderator-level permissions.
       //todo: this should not be in preExecute but rather a method called before create/edit/list _or_ we skip it for save/delete
       $userId = sfContext::getInstance()->getUser()->getSubscriberId();
-      $foo = SchemaHasUserPeer::getSchemasForUser($userId);
+
       if ("edit" == $this->getActionName() && $userId) {
         $c = new Criteria();
         $c->add(SchemaHasUserPeer::USER_ID, $userId);
@@ -137,21 +137,6 @@ class schemapropActions extends autoschemapropActions
 
   public function executeEdit()
   {
-
-    /**
-     * @todo this is a hack to sidestep issues related to another hack -- subpropertyof and subclass0f must have the same value
-     **/
-    $schema_property = $this->getRequestParameter('schema_property');
-
-    if ("subclass" == $schema_property['type']) {
-      $schema_property['is_subproperty_of'] = $schema_property['is_subclass_of'];
-      $this->getContext()->getRequest()->setParameter('schema_property', $schema_property);
-    }
-    if ("subproperty" == $schema_property['type']) {
-      $schema_property['is_subclass_of'] = $schema_property['is_subproperty_of'];
-      $this->getContext()->getRequest()->setParameter('schema_property', $schema_property);
-    }
-
     parent::executeEdit();
     /** @var $schemaProperty SchemaProperty */
     $schemaProperty = $this->schema_property;
