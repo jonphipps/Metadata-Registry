@@ -739,19 +739,20 @@ class Criteria implements IteratorAggregate {
 	/**
 	 * Get offset.
 	 *
-	 * @return     An int with the value for offset.
+	 * @return  int with the value for offset.
 	 */
 	public function getOffset()
 	{
 		return $this->offset;
 	}
 
-	/**
-	 * Add select column.
-	 *
-	 * @param      name A String with the name of the select column.
-	 * @return     A modified Criteria object.
-	 */
+  /**
+   * Add select column.
+   *
+   * @param string $name String with the name of the select column.
+   *
+   * @return Criteria A modified Criteria object.
+   */
 	public function addSelectColumn($name)
 	{
 		$this->selectColumns[] = $name;
@@ -761,7 +762,7 @@ class Criteria implements IteratorAggregate {
 	/**
 	 * Get select columns.
 	 *
-	 * @return     array An array with the name of the select
+	 * @return array An array with the name of the select
 	 * columns.
 	 */
 	public function getSelectColumns()
@@ -783,7 +784,7 @@ class Criteria implements IteratorAggregate {
 	/**
 	 * Get select modifiers.
 	 *
-	 * @return     An array with the select modifiers.
+	 * @return array  An array with the select modifiers.
 	 */
 	public function getSelectModifiers()
 	{
@@ -803,11 +804,12 @@ class Criteria implements IteratorAggregate {
 	}
 
 	/**
-	 * Add order by column name, explicitly specifying ascending.
-	 *
-	 * @param      name The name of the column to order by.
-	 * @return     A modified Criteria object.
-	 */
+   * Add order by column name, explicitly specifying ascending.
+   *
+   * @param string $name The name of the column to order by.
+   *
+   * @return Criteria  A modified Criteria object.
+   */
 	public function addAscendingOrderByColumn($name)
 	{
 		$this->orderByColumns[] = $name . ' ' . self::ASC;
@@ -995,35 +997,39 @@ class Criteria implements IteratorAggregate {
 		return $this;
 	}
 
-	/**
-	 * This method adds a new criterion to the list of criterias.
-	 * If a criterion for the requested column already exists, it is
-	 * "AND"ed to the existing criterion.
-	  *
-	 * addAnd(column, value, comparison)
-	 * <code>
-	 * $crit = $orig_crit->addAnd(&quot;column&quot;,
-	 *                                      &quot;value&quot;
-	 *                                      &quot;Criterion::GREATER_THAN&quot;);
-	 * </code>
-	 *
-	 * addAnd(column, value)
-	 * <code>
-	 * $crit = $orig_crit->addAnd(&quot;column&quot;, &quot;value&quot;);
-	 * </code>
-	 *
-	 * addAnd(Criterion)
-	 * <code>
-	 * $crit = new Criteria();
-	 * $c = $crit->getNewCriterion(BasePeer::ID, 5, Criteria::LESS_THAN);
-	 * $crit->addAnd($c);
-	 * </code>
-	 *
-	 * Any comparison can be used, of course.
-	 *
-	 *
-	 * @return     Criteria A modified Criteria object.
-	 */
+  /**
+   * This method adds a new criterion to the list of criterias.
+   * If a criterion for the requested column already exists, it is
+   * "AND"ed to the existing criterion.
+   *
+   * addAnd(column, value, comparison)
+   * <code>
+   * $crit = $orig_crit->addAnd(&quot;column&quot;,
+   *                                      &quot;value&quot;
+   *                                      &quot;Criterion::GREATER_THAN&quot;);
+   * </code>
+   *
+   * addAnd(column, value)
+   * <code>
+   * $crit = $orig_crit->addAnd(&quot;column&quot;, &quot;value&quot;);
+   * </code>
+   *
+   * addAnd(Criterion)
+   * <code>
+   * $crit = new Criteria();
+   * $c = $crit->getNewCriterion(BasePeer::ID, 5, Criteria::LESS_THAN);
+   * $crit->addAnd($c);
+   * </code>
+   *
+   * Any comparison can be used, of course.
+   *
+   *
+   * @param string $p1
+   * @param string $p2
+   * @param string $p3
+   *
+   * @return     Criteria A modified Criteria object.
+   */
 	public function addAnd($p1, $p2 = null, $p3 = null)
 	{
 		if ($p3 !== null) {
@@ -1056,31 +1062,35 @@ class Criteria implements IteratorAggregate {
 		return $this;
 	}
 
-	/**
-	 * This method adds a new criterion to the list of criterias.
-	 * If a criterion for the requested column already exists, it is
-	 * "OR"ed to the existing criterion.
-	 *
-	 * Any comparison can be used.
-	 *
-	 * Supports a number of different signatures:
-	 *
-	 * addOr(column, value, comparison)
-	 * <code>
-	 * $crit = $orig_crit->addOr(&quot;column&quot;,
-	 *                                      &quot;value&quot;
-	 *                                      &quot;Criterion::GREATER_THAN&quot;);
-	 * </code>
-	 *
-	 * addOr(column, value)
-	 * <code>
-	 * $crit = $orig_crit->addOr(&quot;column&quot;, &quot;value&quot;);
-	 * </code>
-	 *
-	 * addOr(Criterion)
-	 *
-	 * @return     Criteria A modified Criteria object.
-	 */
+  /**
+   * This method adds a new criterion to the list of criterias.
+   * If a criterion for the requested column already exists, it is
+   * "OR"ed to the existing criterion.
+   *
+   * Any comparison can be used.
+   *
+   * Supports a number of different signatures:
+   *
+   * addOr(column, value, comparison)
+   * <code>
+   * $crit = $orig_crit->addOr(&quot;column&quot;,
+   *                                      &quot;value&quot;
+   *                                      &quot;Criterion::GREATER_THAN&quot;);
+   * </code>
+   *
+   * addOr(column, value)
+   * <code>
+   * $crit = $orig_crit->addOr(&quot;column&quot;, &quot;value&quot;);
+   * </code>
+   *
+   * addOr(Criterion)
+   *
+   * @param string $p1
+   * @param string $p2
+   * @param string $p3
+   *
+   * @return     Criteria A modified Criteria object.
+   */
 	public function addOr($p1, $p2 = null, $p3 = null)
 	{
 		if ($p3 !== null) {
@@ -1214,14 +1224,15 @@ class Criterion  {
 	/** "Parent" Criteria class */
 	private $parent;
 
-	/**
-	 * Create a new instance.
-	 *
-	 * @param      Criteria $parent The outer class (this is an "inner" class).
-	 * @param      string $column TABLE.COLUMN format.
-	 * @param      mixed $value
-	 * @param      string $comparison
-	 */
+  /**
+   * Create a new instance.
+   *
+   * @param Criteria    $outer The outer class (this is an "inner" class).
+   * @param      string $column TABLE.COLUMN format.
+   * @param      mixed  $value
+   * @param      string $comparison
+   *
+   */
 	public function __construct(Criteria $outer, $column, $value, $comparison = null)
 	{
 		list($this->table, $this->column) = explode('.', $column);
@@ -1263,12 +1274,13 @@ class Criterion  {
 		return $this->column;
 	}
 
-	/**
-	 * Set the table name.
-	 *
-	 * @param      name A String with the table name.
-	 * @return     void
-	 */
+  /**
+   * Set the table name.
+   *
+   * @param A $name String with the table name.
+   *
+   * @return     void
+   */
 	public function setTable($name)
 	{
 		$this->table = $name;
