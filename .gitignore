@@ -22,3 +22,6 @@ phpini.txt
 vendor.old
 vendor
 
+seleniumTestRunner.php
+tmp_selenium.html
+tmp_selenium_phpunit.php
