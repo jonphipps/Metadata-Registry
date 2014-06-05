@@ -171,5 +171,17 @@ WHERE e.schema_property_id = p.id
 and e.`profile_property_id`=26
 and e.`updated_user_id`=36;
 
-
+/* ******** update the subclass and subproperty missing ids */
+UPDATE swregistry.reg_schema_property
+       LEFT JOIN swregistry.reg_schema_property AS uri
+              ON reg_schema_property.parent_uri = uri.uri
+SET    reg_schema_property.is_subproperty_of = uri.id
+WHERE  reg_schema_property.is_subproperty_of IS NULL
+   AND ( reg_schema_property.type = 'subclass'
+          OR reg_schema_property.type = 'subproperty' )
+   AND uri.id IS NOT NULL;
+   
+UPDATE swregistry.reg_schema_property SET type = 'class' WHERE type = 'subclass';
+UPDATE swregistry.reg_schema_property SET type = 'property' WHERE type = 'subproperty';
+   
 COMMIT;
