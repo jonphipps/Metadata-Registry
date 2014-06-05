@@ -137,7 +137,7 @@
               {
                 echo $property->getType();
               } ?></td>
-    <td><?php echo $property->getLanguage() ?></td>
+    <td><?php echo $property->getCulture() ?></td>
     <td><?php echo $property->getUpdatedAt()?></td>
     <td><?php $propertyStatus = $property->getStatus();
               //colorize the deprecated status
