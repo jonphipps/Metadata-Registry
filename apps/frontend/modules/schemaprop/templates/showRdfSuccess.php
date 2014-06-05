@@ -37,6 +37,8 @@ The most current complete Element Set may be retrieved from:
       $c = new Criteria();
       $c->add(ProfilePropertyPeer::IS_IN_RDF,1);
       $c->add(SchemaPropertyElementPeer::DELETED_AT, null, Criteria::ISNULL);
+      //deprecated
+      $c->add(BaseSchemaPropertyElementPeer::STATUS_ID, 8, Criteria::NOT_EQUAL);
       $elements = $property->getSchemaPropertyElementsRelatedBySchemaPropertyIdJoinProfileProperty($c);
       echo include_partial('rdf', array(
       'property' => $property,
