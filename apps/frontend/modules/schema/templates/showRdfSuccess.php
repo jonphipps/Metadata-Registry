@@ -64,6 +64,8 @@ The most current complete Vocabulary may be retrieved from:
       $c = new Criteria();
       $c->add(ProfilePropertyPeer::IS_IN_RDF,1);
       $c->add(SchemaPropertyElementPeer::DELETED_AT,null,Criteria::ISNULL);
+      //deprecated
+      $c->add(BaseSchemaPropertyElementPeer::STATUS_ID, 8, Criteria::NOT_EQUAL);
     if ($classes): ?>
 
 <!-- Classes -->
