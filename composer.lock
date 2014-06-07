@@ -1,9 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
+        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
     ],
-    "hash": "51e1bddbe875df17c64bcb272a0591ea",
+    "hash": "aced90fa1fa2f56018d358bd8fffa965",
     "packages": [
         {
             "name": "bgcc/sf-select2-widgets-plugin",
@@ -40,12 +41,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/installers.git",
-                "reference": "eb9b5b6f59fbaaa6aa7c8fabd2d66e60f376eaa2"
+                "reference": "11f7f8e82cbe1538721b72aa14bbd8007dde96e1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/installers/zipball/eb9b5b6f59fbaaa6aa7c8fabd2d66e60f376eaa2",
-                "reference": "eb9b5b6f59fbaaa6aa7c8fabd2d66e60f376eaa2",
+                "url": "https://api.github.com/repos/composer/installers/zipball/11f7f8e82cbe1538721b72aa14bbd8007dde96e1",
+                "reference": "11f7f8e82cbe1538721b72aa14bbd8007dde96e1",
                 "shasum": ""
             },
             "replace": {
@@ -54,7 +55,7 @@
             },
             "require-dev": {
                 "composer/composer": "1.0.*@dev",
-                "phpunit/phpunit": "3.7.*"
+                "phpunit/phpunit": "4.1.*"
             },
             "type": "composer-installer",
             "extra": {
@@ -84,12 +85,14 @@
             "homepage": "http://composer.github.com/installers/",
             "keywords": [
                 "Craft",
+                "Dolibarr",
                 "Hurad",
                 "MODX Evo",
                 "OXID",
                 "WolfCMS",
                 "agl",
                 "annotatecms",
+                "bitrix",
                 "cakephp",
                 "codeigniter",
                 "concrete5",
@@ -106,6 +109,7 @@
                 "mako",
                 "mediawiki",
                 "modulework",
+                "moodle",
                 "phpbb",
                 "piwik",
                 "ppi",
@@ -118,7 +122,7 @@
                 "zend",
                 "zikula"
             ],
-            "time": "2014-05-07 15:43:15"
+            "time": "2014-06-04 16:59:54"
         },
         {
             "name": "ddeboer/data-import",
@@ -253,12 +257,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/google/google-api-php-client.git",
-                "reference": "3c4392e8cedbf963198c374784f700845712b3f5"
+                "reference": "83742556c82f2eeb1de4d63d411fa44e254ab80b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/google/google-api-php-client/zipball/3c4392e8cedbf963198c374784f700845712b3f5",
-                "reference": "3c4392e8cedbf963198c374784f700845712b3f5",
+                "url": "https://api.github.com/repos/google/google-api-php-client/zipball/83742556c82f2eeb1de4d63d411fa44e254ab80b",
+                "reference": "83742556c82f2eeb1de4d63d411fa44e254ab80b",
                 "shasum": ""
             },
             "require": {
@@ -290,7 +294,52 @@
             "keywords": [
                 "google"
             ],
-            "time": "2014-05-30 06:56:09"
+            "time": "2014-06-05 07:02:10"
+        },
+        {
+            "name": "league/plates",
+            "version": "2.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thephpleague/plates.git",
+                "reference": "814f7005134187d769bd9df74a40d345d675cd04"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thephpleague/plates/zipball/814f7005134187d769bd9df74a40d345d675cd04",
+                "reference": "814f7005134187d769bd9df74a40d345d675cd04",
+                "shasum": ""
+            },
+            "require-dev": {
+                "mikey179/vfsstream": "v1.2.0",
+                "mockery/mockery": "dev-master@dev",
+                "phpunit/phpunit": "3.7.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "League\\Plates\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jonathan Reinink",
+                    "email": "jonathan@reinink.ca",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Plates, the native PHP template system that’s fast, easy to use and easy to extend.",
+            "homepage": "http://platesphp.com",
+            "keywords": [
+                "league",
+                "package",
+                "templating"
+            ],
+            "time": "2014-04-02 19:15:11"
         },
         {
             "name": "ml/iri",
@@ -1041,12 +1090,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zf1.git",
-                "reference": "613c23463c05a631ebe2046ceff0e29b22899e82"
+                "reference": "1947510b07cfec207055d3e9e68a7304bca53bf2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zf1/zipball/613c23463c05a631ebe2046ceff0e29b22899e82",
-                "reference": "613c23463c05a631ebe2046ceff0e29b22899e82",
+                "url": "https://api.github.com/repos/zendframework/zf1/zipball/1947510b07cfec207055d3e9e68a7304bca53bf2",
+                "reference": "1947510b07cfec207055d3e9e68a7304bca53bf2",
                 "shasum": ""
             },
             "require": {
@@ -1080,7 +1129,7 @@
                 "ZF1",
                 "framework"
             ],
-            "time": "2014-05-27 06:19:01"
+            "time": "2014-06-04 06:33:01"
         }
     ],
     "packages-dev": [
@@ -1208,12 +1257,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Codeception/Codeception.git",
-                "reference": "5dc357a1ced70824df562273550caf0a41e82af7"
+                "reference": "4ff02cce0994adb570bc3c3820603d2070d6b3af"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Codeception/Codeception/zipball/5dc357a1ced70824df562273550caf0a41e82af7",
-                "reference": "5dc357a1ced70824df562273550caf0a41e82af7",
+                "url": "https://api.github.com/repos/Codeception/Codeception/zipball/4ff02cce0994adb570bc3c3820603d2070d6b3af",
+                "reference": "4ff02cce0994adb570bc3c3820603d2070d6b3af",
                 "shasum": ""
             },
             "require": {
@@ -1269,7 +1318,7 @@
                 "functional testing",
                 "unit testing"
             ],
-            "time": "2014-05-30 21:12:32"
+            "time": "2014-06-04 03:01:06"
         },
         {
             "name": "codeception/phpbuiltinserver",
@@ -1559,12 +1608,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "c346caa339eeed124f7135d8dda9deffa80fc93f"
+                "reference": "d79c9820cf8f8e4adff35f4f6719503e04674ba4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/c346caa339eeed124f7135d8dda9deffa80fc93f",
-                "reference": "c346caa339eeed124f7135d8dda9deffa80fc93f",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/d79c9820cf8f8e4adff35f4f6719503e04674ba4",
+                "reference": "d79c9820cf8f8e4adff35f4f6719503e04674ba4",
                 "shasum": ""
             },
             "require": {
@@ -1616,7 +1665,7 @@
                 "rest",
                 "web service"
             ],
-            "time": "2014-05-30 17:33:57"
+            "time": "2014-06-04 21:57:31"
         },
         {
             "name": "guzzlehttp/streams",
@@ -1732,12 +1781,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/lisachenko/go-aop-php.git",
-                "reference": "f0ac9ee57f41942245c8ca0a3f3eccd073195619"
+                "reference": "06f7d9707e875a2f6aef46b3430f5f14f05acc91"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lisachenko/go-aop-php/zipball/f0ac9ee57f41942245c8ca0a3f3eccd073195619",
-                "reference": "f0ac9ee57f41942245c8ca0a3f3eccd073195619",
+                "url": "https://api.github.com/repos/lisachenko/go-aop-php/zipball/06f7d9707e875a2f6aef46b3430f5f14f05acc91",
+                "reference": "06f7d9707e875a2f6aef46b3430f5f14f05acc91",
                 "shasum": ""
             },
             "require": {
@@ -1784,7 +1833,7 @@
                 "library",
                 "php"
             ],
-            "time": "2014-05-24 11:48:29"
+            "time": "2014-06-04 20:10:55"
         },
         {
             "name": "myclabs/deep-copy",
@@ -2699,12 +2748,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/DomCrawler.git",
-                "reference": "9e2314d2ac6b7f2724073c23cd15c65f8b5e0c1d"
+                "reference": "c18697a0775c44b2a08dff0dbae9f6d45e090914"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/DomCrawler/zipball/9e2314d2ac6b7f2724073c23cd15c65f8b5e0c1d",
-                "reference": "9e2314d2ac6b7f2724073c23cd15c65f8b5e0c1d",
+                "url": "https://api.github.com/repos/symfony/DomCrawler/zipball/c18697a0775c44b2a08dff0dbae9f6d45e090914",
+                "reference": "c18697a0775c44b2a08dff0dbae9f6d45e090914",
                 "shasum": ""
             },
             "require": {
@@ -2745,7 +2794,7 @@
             ],
             "description": "Symfony DomCrawler Component",
             "homepage": "http://symfony.com",
-            "time": "2014-05-31 02:03:04"
+            "time": "2014-06-03 21:06:30"
         },
         {
             "name": "symfony/event-dispatcher",
@@ -2862,12 +2911,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Yaml.git",
-                "reference": "d151f00d4fae107ea0d70ade6b0d2d3e81f45ecd"
+                "reference": "b01d366060f33e18fd98b0008c41a01b0d25c95c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Yaml/zipball/d151f00d4fae107ea0d70ade6b0d2d3e81f45ecd",
-                "reference": "d151f00d4fae107ea0d70ade6b0d2d3e81f45ecd",
+                "url": "https://api.github.com/repos/symfony/Yaml/zipball/b01d366060f33e18fd98b0008c41a01b0d25c95c",
+                "reference": "b01d366060f33e18fd98b0008c41a01b0d25c95c",
                 "shasum": ""
             },
             "require": {
@@ -2902,7 +2951,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "http://symfony.com",
-            "time": "2014-05-23 14:36:49"
+            "time": "2014-06-04 06:43:44"
         }
     ],
     "aliases": [],

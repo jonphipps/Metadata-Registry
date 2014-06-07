@@ -43,7 +43,8 @@
     "psr/log": "dev-master",
     "symfony/http-foundation": "*",
     "njh/phpspecgen": "dev-master",
-    "bgcc/sf-select2-widgets-plugin": "~1.0"
+    "bgcc/sf-select2-widgets-plugin": "~1.0",
+    "league/plates": "2.*"
   },
   "autoload": {
     "classmap": ["plugins/jpAdminGeneratorPlugin/lib/ImportVocab/src"]
