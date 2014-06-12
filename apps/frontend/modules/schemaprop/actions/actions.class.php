@@ -317,6 +317,8 @@ class schemapropActions extends autoschemapropActions
       $c->add(SchemaPropertyI18nPeer::LABEL, '%' . $this->filters['label'] . '%', Criteria::LIKE);
     }
 
+    $c->addJoin(SchemaPropertyI18nPeer::ID,SchemaPropertyPeer::ID);
+
     $this->pager->setCriteria($c);
     $this->pager->setPeerMethod('doSelectSearchResults');
     $this->pager->setPage($this->getRequestParameter('page', 1));
