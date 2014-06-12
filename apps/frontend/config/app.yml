@@ -8,6 +8,6 @@ all:
   schema_profile_id: 1
 # these values may be edited for a localized install
   admin_email:       sysadmin@metadataregistry.org
-  mysql_command:       ""C:\Program Files (x86)\Zend\MySQL51\bin\mysql.exe""
-  mysqldump_command:   ""C:\Program Files (x86)\Zend\MySQL51\bin\mysqldumo.exe""
+  mysql_command:       /usr/bin/mysql
+  mysqldump_command:   /usr/bin/mysqldump
   db_load_filename:    swregistry_test_dump.sql

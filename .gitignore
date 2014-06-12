@@ -27,3 +27,4 @@ vendor.old
 test/codeception.old
 test/acceptance
 .filemap
+mailer.yml
