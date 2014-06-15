@@ -3,6 +3,11 @@
   /**
    * schema actions.
    *
+   * @property SchemaProperty[] properties
+   * @property SchemaProperty[] classes
+   * @property Schema           schema
+   * @property array            labels
+   * @property int              timestamp
    * @package    registry
    * @subpackage schema
    * @author     Jon Phipps <jonphipps@gmail.com>
@@ -30,6 +35,9 @@
       }
     }
 
+    /**
+     *
+     */
     public function executeList() {
       //clear any detail filters
       $this->getUser()->getAttributeHolder()->removeNamespace('sf_admin/schema_property/filters');
@@ -55,5 +63,30 @@
       $this->properties = $this->schema->getProperties();
       $this->classes    = $this->schema->getClasses();
       //$this->forward('rdf','ShowSchema');
+    }
+
+    public function executePublish() {
+      //send the id to the publishing class
+      if (!$this->schema) {
+        $this->schema = SchemaPeer::retrieveByPk($this->getRequestParameter('id'));
+      }
+      $success = $this->schema->publish();
+      //don't display any of this, but instead reshow the 'show' display with 'Published' flash message
+      //if publish was successful
+      $this->setFlash('notice', 'This Schema has been published');
+      //we should modify this to return an error flash message if there was a problem
+      //note that error doesn't exist in either css or the default template
+      $this->setFlash('error', 'This Schema has been published');
+      return $this->forward('schema', 'show');
+
+      if (!$this->schema) {
+        $this->schema = SchemaPeer::retrieveByPk($this->getRequestParameter('id'));
+      }
+      $this->labels = $this->getLabels('show');
+
+      $this->forward404Unless($this->schema);
+      $this->properties = $this->schema->getProperties();
+      $this->classes    = $this->schema->getClasses();
+
     }
   }

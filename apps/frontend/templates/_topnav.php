@@ -127,6 +127,7 @@
 
   $tabMap['schema']       ['list'] = array('tab' => 'schemalist',     'title' => 'List');
   $tabMap['schema']       ['show'] = array('tab' => 'schema',         'title' => 'Show Detail');
+  $tabMap['schema']       ['publish'] = array('tab' => 'schema',         'title' => 'Publish');
   if ('schema' == $filter)
   {
     $tabMap['discuss']       ['list'] = array('tab' => 'schema',      'title' => 'Discussion');
@@ -289,7 +290,7 @@
       $showSchemaBc = true;
       if (!isset($schema))
       {
-        $id = ('show' == $action) ? $sf_params->get('id') : $paramId;
+        $id = ('show' == $action || 'publish' == $action) ? $sf_params->get('id') : $paramId;
         if ($id)
         {
           $schema = SchemaPeer::retrieveByPK($id);

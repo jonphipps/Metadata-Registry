@@ -288,6 +288,12 @@ body,
   cursor: pointer;
 }
 
+#sf_admin_container .sf_admin_action_publish
+{
+  background: url(/jpAdminPlugin/images/publish.png) no-repeat 3px 2px;
+  border-right: 4px solid #73B65A !important;
+  padding-left:20px !important;
+}
 #sf_admin_container .sf_admin_action_edit
 {
   background: url(/jpAdminPlugin/images/edit.png) no-repeat 3px 2px;

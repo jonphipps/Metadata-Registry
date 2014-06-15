@@ -210,7 +210,8 @@ class Schema extends BaseSchema
     $c = new Criteria();
     $c->add(SchemaPropertyPeer::TYPE,'property');
     $c->addOr(SchemaPropertyPeer::TYPE,'subproperty');
-    $c->addAscendingOrderByColumn(SchemaPropertyPeer::NAME);
+    $c->addJoin(SchemaPropertyI18nPeer::ID,BaseSchemaPropertyPeer::ID);
+    $c->addAscendingOrderByColumn(SchemaPropertyI18nPeer::NAME);
 
     return $this->getSchemaPropertysJoinStatus($c);
   }
@@ -225,9 +226,55 @@ class Schema extends BaseSchema
     $c = new Criteria();
     $c->add(SchemaPropertyPeer::TYPE,'class');
     $c->addOr(SchemaPropertyPeer::TYPE,'subclass');
-    $c->addAscendingOrderByColumn(SchemaPropertyPeer::NAME);
+    $c->addJoin(SchemaPropertyI18nPeer::ID,BaseSchemaPropertyPeer::ID);
+    $c->addAscendingOrderByColumn(SchemaPropertyi18nPeer::NAME);
 
     return $this->getSchemaPropertysJoinStatus($c);
   }
 
+  public function publish() {
+    //open a file for write
+
+    //init the array
+    /** @var ProfileProperty[] $propArray */
+    $propArray = [];
+
+    //get the profile properties
+    $c=new Criteria();
+    $c->add(ProfilePropertyPeer::PROFILE_ID, 1);
+    /** @var ProfileProperty[] $ProfileProps */
+    $ProfileProps = ProfilePropertyPeer::doSelect($c);
+    foreach ( $ProfileProps as $prop) {
+      $propArray[$prop->getId()]['name'] = $prop->getName();
+      $propArray[$prop->getId()]['name']['isData'] = $prop->getHasLanguage();
+    }
+    //todo: figure out a better way to set the rdf:type property. probably in the data
+    /** This is the id of rdf:type, which isn't used directly  */
+    $propArray[4] = "@type";
+
+    //get a list of the resources
+    /** @var SchemaProperty[] $properties */
+    $properties = $this->getSchemaPropertys();
+    //foreach resource
+    foreach ($properties as $property) {
+      $resourceArray = [];
+      $resourceArray["@id"] = $property->getUri();
+      $resourceArray["@type"] = $property->getUri();
+      /** @var SchemaPropertyElement $element */
+      foreach ($property->getSchemaPropertyElementsRelatedBySchemaPropertyId() as $element) {
+        /** @var string $ppi */
+        $ppi = $propArray[$element->getProfilePropertyId()];
+        //id
+        $rdfArray[$ppi] = $element->getObject();
+        $foo = 'foo';
+        //add it to the array
+      }
+    }
+
+    //get all of the elements as an array
+    //foreach property
+    //if the value is an object properties
+      //get the object and make an array of the returned values
+    //get all of the object properties
+  }
 }

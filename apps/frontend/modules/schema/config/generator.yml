@@ -70,6 +70,7 @@ generator:
         _create:       { credentials: [[administrator, hasAgents]], mode: edit }
         _save_and_add: { credentials: [administrator] }
         _cancel:       { credentials: [[administrator, hasAgents, schemamaintainer, schemaadmin]] }
+        _publish:      { credentials: [[administrator, schemaadmin]] }
 
     show:
       title:           Show detail for %%name%%
@@ -90,6 +91,7 @@ generator:
       actions:
         _list:
         _edit:       { credentials: [[administrator, schemamaintainer, schemaadmin]] }
+        _publish:    { credentials: [[administrator, schemaadmin]] }
         showRdf:
           name:      Get RDF
           icon:      %SF_ADMIN_WEB_DIR%/images/rdf_icon.png
