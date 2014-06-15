@@ -4,7 +4,7 @@
  * This file is part of the symfony package.
  * (c) 2004-2006 Fabien Potencier <fabien.potencier@symfony-project.com>
  * (c) 2004-2006 Sean Kerr <sean@code-box.org>
- * 
+ *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
@@ -29,8 +29,23 @@ class sfUser
    */
   const ATTRIBUTE_NAMESPACE = 'symfony/user/sfUser/attributes';
 
+  /**
+   *
+   */
   const CULTURE_NAMESPACE = 'symfony/user/sfUser/culture';
 
+  /**
+   * @var sfParameterHolder $parameterHolder
+   */
+  /**
+   * @var sfParameterHolder $attributeHolder
+   */
+  /**
+   * @var string $culture
+   */
+  /**
+   * @var sfContext $context
+   */
   protected
     $parameterHolder = null,
     $attributeHolder = null,
@@ -50,8 +65,8 @@ class sfUser
   /**
    * Initialize this User.
    *
-   * @param Context A Context instance.
-   * @param array   An associative array of initialization parameters.
+   * @param sfContext $context  A Context instance.
+   * @param array  $parameters An associative array of initialization parameters.
    *
    * @return bool true, if initialization completes successfully, otherwise
    *              false.
@@ -95,7 +110,7 @@ class sfUser
   /**
    * Retrieve a new sfUser implementation instance.
    *
-   * @param string A sfUser implementation name
+   * @param string $class A sfUser implementation name
    *
    * @return User A sfUser implementation instance.
    *
@@ -121,7 +136,7 @@ class sfUser
   /**
    * Sets culture.
    *
-   * @param  string culture
+   * @param  string $culture culture
    */
   public function setCulture($culture)
   {
@@ -150,41 +165,87 @@ class sfUser
     return $this->culture;
   }
 
+  /**
+   * @return sfParameterHolder
+   */
   public function getParameterHolder()
   {
     return $this->parameterHolder;
   }
 
+  /**
+   * @return sfParameterHolder
+   */
   public function getAttributeHolder()
   {
     return $this->attributeHolder;
   }
 
+  /**
+   * @param string $name
+   * @param string $default
+   * @param string $ns
+   *
+   * @return mixed
+   */
   public function getAttribute($name, $default = null, $ns = null)
   {
     return $this->attributeHolder->get($name, $default, $ns);
   }
 
+  /**
+   * @param  string $name
+   * @param string $ns
+   *
+   * @return mixed
+   */
   public function hasAttribute($name, $ns = null)
   {
     return $this->attributeHolder->has($name, $ns);
   }
 
+  /**
+   * @param   string   $name
+   * @param   string   $value
+   * @param string $ns
+   *
+   * @return mixed
+   */
   public function setAttribute($name, $value, $ns = null)
   {
     return $this->attributeHolder->set($name, $value, $ns);
   }
 
+  /**
+   * @param   string   $name
+   * @param string $default
+   * @param string $ns
+   *
+   * @return mixed
+   */
   public function getParameter($name, $default = null, $ns = null)
   {
     return $this->parameterHolder->get($name, $default, $ns);
   }
 
+  /**
+   * @param  string    $name
+   * @param string $ns
+   *
+   * @return mixed
+   */
   public function hasParameter($name, $ns = null)
   {
     return $this->parameterHolder->has($name, $ns);
   }
 
+  /**
+   * @param   string   $name
+   * @param   string   $value
+   * @param string $ns
+   *
+   * @return mixed
+   */
   public function setParameter($name, $value, $ns = null)
   {
     return $this->parameterHolder->set($name, $value, $ns);
@@ -214,6 +275,13 @@ class sfUser
     session_write_close();
   }
 
+  /**
+   * @param string $method
+   * @param array $arguments
+   *
+   * @return mixed
+   * @throws sfException
+   */
   public function __call($method, $arguments)
   {
     if (!$callable = sfMixer::getCallable('sfUser:'.$method))
