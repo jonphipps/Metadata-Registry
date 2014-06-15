@@ -402,6 +402,10 @@ propel:
       type: BOOLEAN
       required: true
       default: 0
+    is_object_prop:
+      type: BOOLEAN
+      required: true
+      default: 1
     _indexes:
       profile_property_agent_id:
         - profile_id
