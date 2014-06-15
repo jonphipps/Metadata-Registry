@@ -67,11 +67,11 @@ class UnixFileSystem extends FileSystem {
      * This way we iterate through the whole pathname string only once.
      */
     function normalize($strPathname) {
-        
+
         if (empty($strPathname)) {
             return;
         }
-        
+
         // Resolve home directories. We assume /home is where all home
         // directories reside, b/c there is no other way to do this with
         // PHP AFAIK.
@@ -185,13 +185,13 @@ class UnixFileSystem extends FileSystem {
             return $f->getPath();
         } else {
             return $this->resolve(Phing::getProperty("user.dir"), $f->getPath());
-        }       
+        }
     }
 
-    /* -- most of the following is mapped to the php natives wrapped by FileSystem */    
+    /* -- most of the following is mapped to the php natives wrapped by FileSystem */
 
     /* -- Attribute accessors -- */
-    function getBooleanAttributes(&$f) {
+    function getBooleanAttributes($f) {
         //$rv = getBooleanAttributes0($f);
         $name = $f->getName();
         $hidden = (strlen($name) > 0) && ($name{0} == '.');
@@ -255,12 +255,12 @@ class UnixFileSystem extends FileSystem {
     function fromURIPath($p) {
         if (StringHelper::endsWith("/", $p) && (strlen($p) > 1)) {
 
-            // "/foo/" --> "/foo", but "/" --> "/"            
+            // "/foo/" --> "/foo", but "/" --> "/"
             $p = substr($p, 0, strlen($p) - 1);
 
         }
 
         return $p;
     }
-    
+
 }
