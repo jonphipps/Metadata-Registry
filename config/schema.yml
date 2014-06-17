@@ -1244,6 +1244,11 @@ propel:
       size: 255
       required: true
       default: ''
+    url:
+      type: VARCHAR
+      size: 255
+      required: false
+      default: ''
     status_id:
       type: INTEGER
       required: true
