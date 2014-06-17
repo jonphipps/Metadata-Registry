@@ -232,49 +232,164 @@ class Schema extends BaseSchema
     return $this->getSchemaPropertysJoinStatus($c);
   }
 
-  public function publish() {
+  /**
+   * @param boolean $languageArray
+   * @param string  $languageDefault
+   * @param integer $pageLimit
+   *
+   * note: if $languageArray is set to false there must be a default language
+   *       so $languageDefault is always set to the schema default language if empty
+   *
+   * @return array
+   */
+  public function publish($languageArray = TRUE, $languageDefault = "", $pageLimit = NULL) {
+    //todo: add option for paging
+    //todo: add option for single language
+    //todo: add option for language array (with or without single language)
+    //todo: check for singleton
+
+    if ("" == $languageDefault) {
+      $languageDefault = $this->getLanguage();
+    }
     //open a file for write
 
     //init the array
     /** @var ProfileProperty[] $propArray */
     $propArray = [];
+    /** @var Status[] $statusArray */
+    $statusArray = [];
+    $rdfArray    = [];
 
     //get the profile properties
-    $c=new Criteria();
+    $c = new Criteria();
     $c->add(ProfilePropertyPeer::PROFILE_ID, 1);
     /** @var ProfileProperty[] $ProfileProps */
     $ProfileProps = ProfilePropertyPeer::doSelect($c);
-    foreach ( $ProfileProps as $prop) {
-      $propArray[$prop->getId()]['name'] = $prop->getName();
-      $propArray[$prop->getId()]['name']['isData'] = $prop->getHasLanguage();
+    foreach ($ProfileProps as $prop) {
+      $propArray[ $prop->getId() ] = $prop;
     }
     //todo: figure out a better way to set the rdf:type property. probably in the data
     /** This is the id of rdf:type, which isn't used directly  */
-    $propArray[4] = "@type";
+    $propArray[4]->setName("@type");
+
+    $c = new Criteria();
+    $c->addJoin(StatusPeer::DISPLAY_NAME, ConceptI18nPeer::PREF_LABEL);
+    $c->addJoin(ConceptI18nPeer::ID, ConceptPeer::ID);
+    $c->add(ConceptPeer::VOCABULARY_ID, 31);
+    StatusPeer::addSelectColumns($c);
+    ConceptI18nPeer::addSelectColumns($c);
+    $stati = StatusPeer::doSelectRS($c);
+    /** @var Status[] $stati */
+    foreach ($stati as $stat) {
+      $statusArray[ $stat[0] ] = $stat;
+    }
 
     //get a list of the resources
     /** @var SchemaProperty[] $properties */
     $properties = $this->getSchemaPropertys();
+    $cLang = new Criteria();
+    $cLang->add(SchemaPropertyElementPeer::PROFILE_PROPERTY_ID, 13, Criteria::NOT_EQUAL);
+    if (!$languageArray)
+    {
+      $cLang->add(SchemaPropertyElementPeer::LANGUAGE, $languageDefault);
+    }
     //foreach resource
     foreach ($properties as $property) {
-      $resourceArray = [];
+      $resourceArray        = [];
       $resourceArray["@id"] = $property->getUri();
-      $resourceArray["@type"] = $property->getUri();
       /** @var SchemaPropertyElement $element */
-      foreach ($property->getSchemaPropertyElementsRelatedBySchemaPropertyId() as $element) {
+      foreach ($property->getSchemaPropertyElementsRelatedBySchemaPropertyId($cLang) as $element) {
+        if (in_array($statusArray[ $element->getStatusId() ][2], ["Deprecated", "Not Approved"])) {
+          continue;
+        }
         /** @var string $ppi */
-        $ppi = $propArray[$element->getProfilePropertyId()];
+        $pproperty = $propArray[ $element->getProfilePropertyId() ];
+        $ppi       = $pproperty->getLabel();
         //id
-        $rdfArray[$ppi] = $element->getObject();
-        $foo = 'foo';
-        //add it to the array
+        if (!$pproperty->getIsObjectProp()) {
+          if ($pproperty->getHasLanguage() && $languageArray) {
+              $resourceArray[ $ppi ][ $element->getLanguage() ] = $element->getObject();
+          }
+          else {
+            //$resourceArray[ $ppi ][] = $element->getObject();
+            $resourceArray[ $ppi ] = self::addToGraph($element->getObject(), $pproperty->getIsSingleton());
+          }
+        }
+        else {
+          $array = array();
+          if ("status" !== $ppi) {
+            $object = $element->getSchemaPropertyRelatedByRelatedSchemaPropertyId();
+            if ($object) {
+              $array = array(
+                //here we need the related object, but we don't always have it
+                "@id"          => $element->getObject(),
+                "lexicalAlias" => $object->getLexicalUri(),
+                "url"          => $object->getUrl(),
+                "label"        => $object->getLabel()
+              );
+              //$resourceArray[ $ppi ] = self::addToGraph($array, $pproperty->getIsSingleton());
+            }
+            else {
+              $object = SchemaPropertyPeer::retrieveByUri($element->getObject());
+              if ($object) {
+                $array = array(
+                  //here we need the related object, but we don't always have it
+                  "@id"          => $element->getObject(),
+                  "lexicalAlias" => $object->getLexicalUri(),
+                  "url"          => $object->getUrl(),
+                  "label"        => $object->getLabel()
+                );
+                //$resourceArray[ $ppi ] = self::addToGraph($array, $pproperty->getIsSingleton());
+
+                //save it so we don't have to look again
+                //$element->setRelatedSchemaPropertyId($object->getId());
+                //$element->save();
+              }
+              else {
+                $array = array(
+                  //here we need the related object, but we don't always have it
+                  "@id"          => $element->getObject(),
+                  "lexicalAlias" => "",
+                  "url"          => "",
+                  "label"        => ""
+                );
+                //$resourceArray[ $ppi ] = self::addToGraph($array, $pproperty->getIsSingleton());
+              }
+            }
+          }
+          else {
+            $status                  = $statusArray[ $element->getObject() ];
+            $array = array(
+              "@id"          => $status[3],
+              "lexicalAlias" => "http://metadataregistry.org/uri/RegStatus/" . $status[6],
+              "url"          => "http://metadataregistry.org/concept/show/id/$status[4].html",
+              "label"        => $status[6]
+            );
+            //$resourceArray[ $ppi ] = self::addToGraph($array, $pproperty->getIsSingleton());
+          }
+          $resourceArray[ $ppi ] = self::addToGraph($array, $pproperty->getIsSingleton());
+        }
       }
+      //add it to the array
+      $rdfArray["@graph"][] = $resourceArray;
     }
 
+    return $rdfArray;
     //get all of the elements as an array
     //foreach property
     //if the value is an object properties
-      //get the object and make an array of the returned values
+    //get the object and make an array of the returned values
     //get all of the object properties
+  }
+
+  /**
+   * @param mixed $value
+   * @param bool  $isSingleton
+   *
+   * @return array|mixed
+
+   */
+  private static function addToGraph($value, $isSingleton) {
+    return ($isSingleton) ? $value : array($value);
   }
 }

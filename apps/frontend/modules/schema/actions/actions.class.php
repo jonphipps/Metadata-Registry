@@ -70,13 +70,21 @@
       if (!$this->schema) {
         $this->schema = SchemaPeer::retrieveByPk($this->getRequestParameter('id'));
       }
-      $success = $this->schema->publish();
-      //don't display any of this, but instead reshow the 'show' display with 'Published' flash message
-      //if publish was successful
-      $this->setFlash('notice', 'This Schema has been published');
+      $success = $this->schema->publish(false);
+
+      if ($success) {
+        $graph["@graph"] = $success;
+        $json = json_encode($graph);
+        $file = "/Users/jonphipps/sites/PuphPet_UidJuy/www/registry/web/repos/RDA-Vocabularies/json-ld/Elements/a.json-ld";
+        //don't display any of this, but instead reshow the 'show' display with 'Published' flash message
+        //if publish was successful
+        $this->setFlash('notice', 'This Schema has been published');
+      }
+      else {
+      }
       //we should modify this to return an error flash message if there was a problem
       //note that error doesn't exist in either css or the default template
-      $this->setFlash('error', 'This Schema has been published');
+      $this->setFlash('error', 'This Schema has NOT been published');
       return $this->forward('schema', 'show');
 
       if (!$this->schema) {
