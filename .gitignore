@@ -28,3 +28,4 @@ test/codeception.old
 test/acceptance
 .filemap
 mailer.yml
+schema_org_dataset

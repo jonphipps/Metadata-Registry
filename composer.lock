@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "ce9a550917ea7ba6ded2ddfcd868b01b",
+    "hash": "137391100f3fd6f5aa4d5a37c20a8d62",
     "packages": [
         {
             "name": "bgcc/sf-select2-widgets-plugin",
@@ -257,12 +257,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/google/google-api-php-client.git",
-                "reference": "28852dcb90a7d9e5c40ac920873153bdd118895a"
+                "reference": "a88dcec6833ac2de4798c13a24abe30c90feb057"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/google/google-api-php-client/zipball/28852dcb90a7d9e5c40ac920873153bdd118895a",
-                "reference": "28852dcb90a7d9e5c40ac920873153bdd118895a",
+                "url": "https://api.github.com/repos/google/google-api-php-client/zipball/a88dcec6833ac2de4798c13a24abe30c90feb057",
+                "reference": "a88dcec6833ac2de4798c13a24abe30c90feb057",
                 "shasum": ""
             },
             "require": {
@@ -294,7 +294,7 @@
             "keywords": [
                 "google"
             ],
-            "time": "2014-06-12 07:09:15"
+            "time": "2014-06-14 07:10:57"
         },
         {
             "name": "league/flysystem",
@@ -540,6 +540,58 @@
             "time": "2014-01-27 20:58:09"
         },
         {
+            "name": "phing/phing",
+            "version": "2.7.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phingofficial/phing.git",
+                "reference": "bd2689790c620ac745b3ad29765c641a0dd5d007"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phingofficial/phing/zipball/bd2689790c620ac745b3ad29765c641a0dd5d007",
+                "reference": "bd2689790c620ac745b3ad29765c641a0dd5d007",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.2.0"
+            },
+            "bin": [
+                "bin/phing"
+            ],
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "classes/phing/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "include-path": [
+                "classes"
+            ],
+            "license": [
+                "LGPL3"
+            ],
+            "authors": [
+                {
+                    "name": "Michiel Rook",
+                    "email": "mrook@php.net"
+                },
+                {
+                    "name": "Phing Community",
+                    "homepage": "http://www.phing.info/trac/wiki/Development/Contributors"
+                }
+            ],
+            "description": "PHing Is Not GNU make; it's a PHP project build system or build tool based on Apache Ant.",
+            "homepage": "http://www.phing.info/",
+            "keywords": [
+                "build",
+                "task",
+                "tool"
+            ],
+            "time": "2014-02-13 13:17:59"
+        },
+        {
             "name": "phpoffice/phpexcel",
             "version": "dev-master",
             "source": {
@@ -595,6 +647,69 @@
                 "xlsx"
             ],
             "time": "2014-03-02 15:22:49"
+        },
+        {
+            "name": "propel/propel1",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/propelorm/Propel.git",
+                "reference": "3f7a284906ce3e402bcb101938270842fdad71fa"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/propelorm/Propel/zipball/3f7a284906ce3e402bcb101938270842fdad71fa",
+                "reference": "3f7a284906ce3e402bcb101938270842fdad71fa",
+                "shasum": ""
+            },
+            "require": {
+                "phing/phing": "~2.4",
+                "php": ">=5.2.4"
+            },
+            "require-dev": {
+                "pear-pear.php.net/pear_packagefilemanager2": "@stable"
+            },
+            "bin": [
+                "generator/bin/propel-gen",
+                "generator/bin/propel-gen.bat"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.7-dev"
+                }
+            },
+            "autoload": {
+                "classmap": [
+                    "runtime/lib",
+                    "generator/lib"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "include-path": [
+                "runtime/lib",
+                "generator/lib"
+            ],
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "William Durand",
+                    "email": "william.durand1@gmail.com",
+                    "homepage": "http://www.willdurand.fr"
+                }
+            ],
+            "description": "Propel is an open-source Object-Relational Mapping (ORM) for PHP5.",
+            "homepage": "http://www.propelorm.org/",
+            "keywords": [
+                "Active Record",
+                "database",
+                "mapping",
+                "orm",
+                "persistence"
+            ],
+            "time": "2014-04-17 20:39:42"
         },
         {
             "name": "psr/log",
@@ -1086,12 +1201,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Validator.git",
-                "reference": "e81249a7b7a0206b0cc6f416b9ee1f03c8de04ba"
+                "reference": "a455848711cc64e445090f47440e5cc0726e7a21"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Validator/zipball/e81249a7b7a0206b0cc6f416b9ee1f03c8de04ba",
-                "reference": "e81249a7b7a0206b0cc6f416b9ee1f03c8de04ba",
+                "url": "https://api.github.com/repos/symfony/Validator/zipball/a455848711cc64e445090f47440e5cc0726e7a21",
+                "reference": "a455848711cc64e445090f47440e5cc0726e7a21",
                 "shasum": ""
             },
             "require": {
@@ -1149,7 +1264,7 @@
             ],
             "description": "Symfony Validator Component",
             "homepage": "http://symfony.com",
-            "time": "2014-06-12 10:01:10"
+            "time": "2014-06-16 09:30:19"
         },
         {
             "name": "zendframework/zendframework1",
@@ -1157,12 +1272,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zf1.git",
-                "reference": "1947510b07cfec207055d3e9e68a7304bca53bf2"
+                "reference": "129f65c3a310ab08c7e25db09adf709e4548e741"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zf1/zipball/1947510b07cfec207055d3e9e68a7304bca53bf2",
-                "reference": "1947510b07cfec207055d3e9e68a7304bca53bf2",
+                "url": "https://api.github.com/repos/zendframework/zf1/zipball/129f65c3a310ab08c7e25db09adf709e4548e741",
+                "reference": "129f65c3a310ab08c7e25db09adf709e4548e741",
                 "shasum": ""
             },
             "require": {
@@ -1196,7 +1311,7 @@
                 "ZF1",
                 "framework"
             ],
-            "time": "2014-06-04 06:33:01"
+            "time": "2014-06-12 16:28:52"
         }
     ],
     "packages-dev": [
@@ -2198,12 +2313,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "eeba51bcbf0ccee44cc67256cc922f2f35eb9092"
+                "reference": "a724a04abab2726d97ffcc7c966c1d49fac797b6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/eeba51bcbf0ccee44cc67256cc922f2f35eb9092",
-                "reference": "eeba51bcbf0ccee44cc67256cc922f2f35eb9092",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/a724a04abab2726d97ffcc7c966c1d49fac797b6",
+                "reference": "a724a04abab2726d97ffcc7c966c1d49fac797b6",
                 "shasum": ""
             },
             "require": {
@@ -2264,7 +2379,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2014-06-11 22:13:26"
+            "time": "2014-06-16 10:45:34"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
