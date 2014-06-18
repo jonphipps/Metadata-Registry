@@ -53,6 +53,10 @@ class <?php echo $this->getGeneratedModuleName() ?>Actions extends sfActions
     // pager
     $this->pager = new sfPropelPager('<?php echo $this->getClassName() ?>', <?php echo $this->getParameterValue('list.max_per_page', 20) ?>);
     $c = new Criteria();
+    if (class_exists("<?php echo $this->getClassName() ?>PeerI18n"))
+    {
+      $c->addJoin(<?php echo $this->getClassName() ?>Peer::ID, <?php echo $this->getClassName() ?>I18nPeer::ID);
+    }
     $this->addSortCriteria($c);
     $this->addFiltersCriteria($c);
     $this->pager->setCriteria($c);
@@ -511,8 +515,15 @@ $column = sfPropelManyToMany::getColumn($class, $through_class);
         $sort_column = <?php echo $this->getClassName() ?>Peer::translateFieldName($sort_column, BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_COLNAME);
       }
       catch(PropelException $e) {
-        $this->getUser()->setAttribute('sort', NULL, 'sf_admin/<?php echo $this->getSingularName() ?>/sort');
-        return;
+        if (class_exists("<?php echo $this->getClassName() ?>I18nPeer")) {
+          try {
+            $sort_column = <?php echo $this->getClassName() ?>I18nPeer::translateFieldName($sort_column, BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_COLNAME);
+          }
+          catch(Exception $e) {
+            $this->getUser()->setAttribute('sort', NULL, 'sf_admin/<?php echo $this->getSingularName() ?>/sort');
+            return;
+          }
+        }
       }
       if ($this->getUser()->getAttribute('type', null, 'sf_admin/<?php echo $this->getSingularName() ?>/sort') == 'asc')
       {
