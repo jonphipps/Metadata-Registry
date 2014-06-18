@@ -1,6 +1,6 @@
 <?php
 
-/**
+  /**
  * schemaprop actions.
  *
  * @property SchemaProperty property
@@ -11,6 +11,7 @@
  * @property SchemaProperty schemaprop
  * @property sfPropelPager  pager
  * @property array          filters
+ * @property SchemaProperty schema_property
  *
  * @package    registry
  * @subpackage schemaprop
@@ -21,6 +22,7 @@ class schemapropActions extends autoschemapropActions
 {
   public function preExecute()
   {
+ //todo: this makes no sense currently
     if ('search' != $this->getRequestParameter('action') && 'language' != $this->getRequestParameter('action')) {
       $schemaObj = $this->getCurrentSchema();
       $SchemaLanguages = $schemaObj->getLanguages();
@@ -28,45 +30,9 @@ class schemapropActions extends autoschemapropActions
       $this->getUser()->setAttribute("languages", $SchemaLanguages);
       $this->getUser()->setAttribute("CurrentLanguage", $CurrentCulture);
 
-      //todo: What if the user is an admin and has global editorial access? The following blows up because it requires moderator-level permissions.
-      //todo: this should not be in preExecute but rather a method called before create/edit/list _or_ we skip it for save/delete
       $userId = sfContext::getInstance()->getUser()->getSubscriberId();
 
-      if ("edit" == $this->getActionName() && $userId) {
-        $c = new Criteria();
-        $c->add(SchemaHasUserPeer::USER_ID, $userId);
-        $c->add(SchemaHasUserPeer::SCHEMA_ID, $schemaObj->getId());
-        $schemaUser = SchemaHasUserPeer::doSelectOne($c);
-        if ($schemaUser) {
-          $UserLanguages   = $schemaUser->getLanguages();
-          $DefaultLanguage = $schemaUser->getDefaultLanguage();
-        }
-        else {
-          //set the languages from the schema
-          $UserLanguages   = $schemaObj->getLanguages();
-          $DefaultLanguage = $schemaObj->getLanguage();
-        }
-
-        //get all the languages if the language is "*"
-        if (in_array("*", $UserLanguages))
-        {
-          $UserLanguages   = $schemaObj->getLanguages();
-        }
-
-        if (!in_array($CurrentCulture, $UserLanguages)) {
-          //save the current culture
-          $UserCulture = sfContext::getInstance()->getUser()->getCulture();
-          $this->getUser()->setAttribute("UserCulture", $UserCulture);
-          //reset the current culture for edit
-          sfContext::getInstance()->getUser()->setCulture($DefaultLanguage);
-          $this->getUser()->setAttribute("CurrentLanguage", $DefaultLanguage);
-          $culture = new sfCultureInfo($this->getUser()->getCulture());
-          $this->setFlash('notice', 'Current language is not available for edit! Current editing language has been reset to: ' . $culture->getNativeName());
-        }
-        $this->getUser()->setAttribute("languages", $UserLanguages);
-      }
-
-      else {
+      if ($userId) {
         $UserCulture = $this->getUser()->getAttribute("UserCulture", FALSE);
         if ($this->getUser()->getAttribute("UserCulture", FALSE)) {
           sfContext::getInstance()->getUser()->setCulture($UserCulture);
@@ -137,6 +103,44 @@ class schemapropActions extends autoschemapropActions
 
   public function executeEdit()
   {
+    $sfUser = sfContext::getInstance()->getUser();
+    $userId = $sfUser->getSubscriberId();
+    $schemaObj = $this->getCurrentSchema();
+    $CurrentCulture = $sfUser->getCulture();
+
+    if ($userId) {
+      $c = new Criteria();
+      $c->add(SchemaHasUserPeer::USER_ID, $userId);
+      $c->add(SchemaHasUserPeer::SCHEMA_ID, $schemaObj->getId());
+      $schemaUser = SchemaHasUserPeer::doSelectOne($c);
+      if ($schemaUser) {
+        $UserLanguages   = $schemaUser->getLanguages();
+        $DefaultLanguage = $schemaUser->getDefaultLanguage();
+      }
+      else {
+        //set the languages from the schema
+        $UserLanguages   = $schemaObj->getLanguages();
+        $DefaultLanguage = $schemaObj->getLanguage();
+      }
+
+      //get all the languages if the language is "*"
+      if (in_array("*", $UserLanguages))
+      {
+        $UserLanguages   = $schemaObj->getLanguages();
+      }
+
+      if (!in_array($CurrentCulture, $UserLanguages)) {
+        //save the current culture
+        $UserCulture = $sfUser->getCulture();
+        $this->getUser()->setAttribute("UserCulture", $UserCulture);
+        //reset the current culture for edit
+        $sfUser->setCulture($DefaultLanguage);
+        $this->getUser()->setAttribute("CurrentLanguage", $DefaultLanguage);
+        $culture = new sfCultureInfo($this->getUser()->getCulture());
+        $this->setFlash('notice', 'Current language is not available for edit! Current editing language has been reset to: ' . $culture->getNativeName());
+      }
+      $this->getUser()->setAttribute("languages", $UserLanguages);
+    }
     parent::executeEdit();
     /** @var $schemaProperty SchemaProperty */
     $schemaProperty = $this->schema_property;
