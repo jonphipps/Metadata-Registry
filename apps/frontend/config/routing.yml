@@ -178,6 +178,10 @@ schema_search:
   url:   /schemaprop/search.
   param: { module: schemaprop, action: search }
 
+schemaprop_language:
+  url:   /schemaprop/language.
+  param: { module: schemaprop, action: language }
+
 schema_history_list:
   url:   /schemahistory/list/:IdType/:id.html
   param: { module: schemahistory, action: list}
