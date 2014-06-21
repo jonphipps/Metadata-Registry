@@ -9,6 +9,26 @@
  */
 class Schema extends BaseSchema
 {
+  /**
+   * @return Status[]
+   */
+  public static function getStatusArray() {
+    $statusArray = [];
+    $c           = new Criteria();
+    $c->addJoin(StatusPeer::DISPLAY_NAME, ConceptI18nPeer::PREF_LABEL);
+    $c->addJoin(ConceptI18nPeer::ID, ConceptPeer::ID);
+    $c->add(ConceptPeer::VOCABULARY_ID, 31);
+    StatusPeer::addSelectColumns($c);
+    ConceptI18nPeer::addSelectColumns($c);
+    $stati = StatusPeer::doSelectRS($c);
+    /** @var Status[] $stati */
+    foreach ($stati as $stat) {
+      $statusArray[ $stat[0] ] = $stat;
+    }
+
+    return $statusArray;
+  }
+
   public function __toString()
   {
     return $this->getName();
@@ -233,36 +253,141 @@ class Schema extends BaseSchema
   }
 
   /**
-   * @param boolean $languageArray
-   * @param string  $languageDefault
-   * @param integer $pageLimit
+   * @param SchemaProperty     $property
+   * @param Criteria           $cLang
+   * @param  ProfileProperty[] $propArray
+   * @param  Status[]          $statusArray
+   * @param  bool              $languageArray
    *
-   * note: if $languageArray is set to false there must be a default language
-   *       so $languageDefault is always set to the schema default language if empty
+   * @internal param Criteria $clang
    *
    * @return array
    */
-  public function publish($languageArray = TRUE, $languageDefault = "", $pageLimit = NULL) {
-    //todo: add option for paging
-    //todo: add option for single language
-    //todo: add option for language array (with or without single language)
-    //todo: check for singleton
+  public function getResourceArray(SchemaProperty $property, Criteria $cLang, $propArray, $statusArray, $languageArray, $languageDefault) {
+    //todo: remove hard coded registry URLs
+    $resourceArray                = [];
+    $resourceArray["@id"]         = $property->getUri();
+    $resourceArray["isDefinedBy"] = array(
+      //here we need the related object, but we don't always have it
+      "@id"          => $this->getUri(),
+      "url"          => "http://metadataregistry.org/schema/show/id/" . $this->getId() . ".html",
+      "label"        => $this->getName()
+    );
+    $resourceArray["url"]         = "http://metadataregistry.org/schemaprop/show/id/" . $property->getId() . ".html";
 
-    if ("" == $languageDefault) {
-      $languageDefault = $this->getLanguage();
+    /** @var SchemaPropertyElement $element */
+    foreach ($property->getSchemaPropertyElementsRelatedBySchemaPropertyId($cLang) as $element) {
+      if (in_array($statusArray[ $element->getStatusId() ][2], ["Deprecated", "Not Approved"])) {
+        continue;
+      }
+      /** @var string $ppi */
+      $pproperty = $propArray[ $element->getProfilePropertyId() ];
+      $ppi       = $pproperty->getLabel();
+      //id
+      if (!$pproperty->getIsObjectProp()) {
+        if ($pproperty->getHasLanguage() && $languageArray) {
+          //we're putting language related elements in a language specific array
+          self::addToGraph($resourceArray[ $ppi ][ $element->getLanguage() ], $element->getObject(), $pproperty->getIsSingleton());
+        }
+        else {
+          self::addToGraph($resourceArray[ $ppi ], $element->getObject(), $pproperty->getIsSingleton());
+        }
+      }
+      else {
+        $array = array();
+        if ("status" !== $ppi) {
+          $object = $element->getSchemaPropertyRelatedByRelatedSchemaPropertyId();
+          if (!$object) {
+            //there wasn't an ID so we look it up by the URI
+            $object = SchemaPropertyPeer::retrieveByUri($element->getObject());
+            if ($object)
+            {
+              //we now have an ID
+              //todo: save the related ID so we don't have to look it up again
+              //todo: log that we did this
+              //$element->setRelatedSchemaPropertyId($object->getId());
+              //$element->save();
+            }
+          }
+          if ($object) {
+            //we got an object somehow
+            //todo: refactor this to build a language array for lexicalalias and label if uselanguagearray is true
+            //we'll need to get the array of available languages for the schema and do a for/next
+            $object->setCulture($languageDefault);
+            $array = array(
+              "@id"          => $object->getUri(),
+              "lexicalAlias" => $object->getLexicalUri(),
+              //"url"          => $object->getUrl(),
+              "url"          => "http://metadataregistry.org/schemaprop/show/id/" . $object->getId() . ".html",
+              "label"        => $object->getLabel()
+            );
+          }
+          else {
+            $array = array(
+              //here we need the related object, but we don't always have it
+              "@id"          => $element->getObject()
+            );
+          }
+        }
+        else {
+          //it's a status
+          $status = $statusArray[ $element->getObject() ];
+          $array  = array(
+            "@id"          => $status[3],
+            "lexicalAlias" => "http://metadataregistry.org/uri/RegStatus/" . $status[6],
+            "url"          => "http://metadataregistry.org/concept/show/id/$status[4].html",
+            "label"        => $status[6]
+          );
+          //$resourceArray[ $ppi ] = self::addToGraph($array, $pproperty->getIsSingleton());
+        }
+        self::addToGraph($resourceArray[ $ppi ], $array, $pproperty->getIsSingleton());
+      }
     }
-    //open a file for write
+    //todo: remove this bit of data cleanup
+    if (isset($resourceArray["@type"]))
+    {
+      if (in_array($resourceArray["@type"], array("subproperty", "property"))) {
+        $resourceArray["@type"] = "Property";
+      }
+      else if (in_array($resourceArray["@type"], array("subclass", "class"))) {
+        $resourceArray["@type"] = "Class";
+      }
+    }
 
+    ksort($resourceArray, SORT_FLAG_CASE | SORT_NATURAL);
+    return $resourceArray;
+  }
+
+  /**
+   * @param array $graph
+   * @param array $value
+   * @param bool  $isSingleton
+   *
+   * @return array|mixed
+   */
+  private static function addToGraph(&$graph, $value, $isSingleton) {
+    if ($isSingleton) {
+      //we should raise/log an error here if graph is already populated and we're overwriting it
+      $graph = $value;
+    }
+    else {
+      $graph[] = $value;
+    }
+  }
+
+  /**
+   * @param int $profileId The id of the application profile. defaults to '1'
+   *
+   * @return ProfileProperty[]
+   */
+  public static function getPropertyArray($profileId = 1) {
     //init the array
     /** @var ProfileProperty[] $propArray */
     $propArray = [];
-    /** @var Status[] $statusArray */
-    $statusArray = [];
-    $rdfArray    = [];
 
     //get the profile properties
     $c = new Criteria();
-    $c->add(ProfilePropertyPeer::PROFILE_ID, 1);
+    $c->add(ProfilePropertyPeer::PROFILE_ID, $profileId);
     /** @var ProfileProperty[] $ProfileProps */
     $ProfileProps = ProfilePropertyPeer::doSelect($c);
     foreach ($ProfileProps as $prop) {
@@ -271,125 +396,160 @@ class Schema extends BaseSchema
     //todo: figure out a better way to set the rdf:type property. probably in the data
     /** This is the id of rdf:type, which isn't used directly  */
     $propArray[4]->setName("@type");
+    $propArray[4]->setLabel("@type");
 
-    $c = new Criteria();
-    $c->addJoin(StatusPeer::DISPLAY_NAME, ConceptI18nPeer::PREF_LABEL);
-    $c->addJoin(ConceptI18nPeer::ID, ConceptPeer::ID);
-    $c->add(ConceptPeer::VOCABULARY_ID, 31);
-    StatusPeer::addSelectColumns($c);
-    ConceptI18nPeer::addSelectColumns($c);
-    $stati = StatusPeer::doSelectRS($c);
-    /** @var Status[] $stati */
-    foreach ($stati as $stat) {
-      $statusArray[ $stat[0] ] = $stat;
-    }
-
-    //get a list of the resources
-    /** @var SchemaProperty[] $properties */
-    $properties = $this->getSchemaPropertys();
-    $cLang = new Criteria();
-    $cLang->add(SchemaPropertyElementPeer::PROFILE_PROPERTY_ID, 13, Criteria::NOT_EQUAL);
-    if (!$languageArray)
-    {
-      $cLang->add(SchemaPropertyElementPeer::LANGUAGE, $languageDefault);
-    }
-    //foreach resource
-    foreach ($properties as $property) {
-      $resourceArray        = [];
-      $resourceArray["@id"] = $property->getUri();
-      /** @var SchemaPropertyElement $element */
-      foreach ($property->getSchemaPropertyElementsRelatedBySchemaPropertyId($cLang) as $element) {
-        if (in_array($statusArray[ $element->getStatusId() ][2], ["Deprecated", "Not Approved"])) {
-          continue;
-        }
-        /** @var string $ppi */
-        $pproperty = $propArray[ $element->getProfilePropertyId() ];
-        $ppi       = $pproperty->getLabel();
-        //id
-        if (!$pproperty->getIsObjectProp()) {
-          if ($pproperty->getHasLanguage() && $languageArray) {
-              $resourceArray[ $ppi ][ $element->getLanguage() ] = $element->getObject();
-          }
-          else {
-            //$resourceArray[ $ppi ][] = $element->getObject();
-            $resourceArray[ $ppi ] = self::addToGraph($element->getObject(), $pproperty->getIsSingleton());
-          }
-        }
-        else {
-          $array = array();
-          if ("status" !== $ppi) {
-            $object = $element->getSchemaPropertyRelatedByRelatedSchemaPropertyId();
-            if ($object) {
-              $array = array(
-                //here we need the related object, but we don't always have it
-                "@id"          => $element->getObject(),
-                "lexicalAlias" => $object->getLexicalUri(),
-                "url"          => $object->getUrl(),
-                "label"        => $object->getLabel()
-              );
-              //$resourceArray[ $ppi ] = self::addToGraph($array, $pproperty->getIsSingleton());
-            }
-            else {
-              $object = SchemaPropertyPeer::retrieveByUri($element->getObject());
-              if ($object) {
-                $array = array(
-                  //here we need the related object, but we don't always have it
-                  "@id"          => $element->getObject(),
-                  "lexicalAlias" => $object->getLexicalUri(),
-                  "url"          => $object->getUrl(),
-                  "label"        => $object->getLabel()
-                );
-                //$resourceArray[ $ppi ] = self::addToGraph($array, $pproperty->getIsSingleton());
-
-                //save it so we don't have to look again
-                //$element->setRelatedSchemaPropertyId($object->getId());
-                //$element->save();
-              }
-              else {
-                $array = array(
-                  //here we need the related object, but we don't always have it
-                  "@id"          => $element->getObject(),
-                  "lexicalAlias" => "",
-                  "url"          => "",
-                  "label"        => ""
-                );
-                //$resourceArray[ $ppi ] = self::addToGraph($array, $pproperty->getIsSingleton());
-              }
-            }
-          }
-          else {
-            $status                  = $statusArray[ $element->getObject() ];
-            $array = array(
-              "@id"          => $status[3],
-              "lexicalAlias" => "http://metadataregistry.org/uri/RegStatus/" . $status[6],
-              "url"          => "http://metadataregistry.org/concept/show/id/$status[4].html",
-              "label"        => $status[6]
-            );
-            //$resourceArray[ $ppi ] = self::addToGraph($array, $pproperty->getIsSingleton());
-          }
-          $resourceArray[ $ppi ] = self::addToGraph($array, $pproperty->getIsSingleton());
-        }
-      }
-      //add it to the array
-      $rdfArray["@graph"][] = $resourceArray;
-    }
-
-    return $rdfArray;
-    //get all of the elements as an array
-    //foreach property
-    //if the value is an object properties
-    //get the object and make an array of the returned values
-    //get all of the object properties
+    return $propArray;
   }
 
   /**
-   * @param mixed $value
-   * @param bool  $isSingleton
+   * @param string $lang
    *
-   * @return array|mixed
-
-   */
-  private static function addToGraph($value, $isSingleton) {
-    return ($isSingleton) ? $value : array($value);
+   * @return string
+   */public static function getJsonLdContext($lang = null) {
+      $language='';
+      if ($lang)
+      {
+        $language = '    "@language": "' . $lang . '",' . PHP_EOL;
+      }
+      return '{' . PHP_EOL . $language . <<<EOT
+    "dc": "http://purl.org/dc/elements/1.1/",
+    "rdac": "http://rdaregistry.info/Elements/c/",
+    "rdaa": "http://rdaregistry.info/Elements/a/",
+    "rdau": "http://rdaregistry.info/Elements/u/",
+    "rdaw": "http://rdaregistry.info/Elements/w/",
+    "rdae": "http://rdaregistry.info/Elements/e/",
+    "rdam": "http://rdaregistry.info/Elements/m/",
+    "rdai": "http://rdaregistry.info/Elements/i/",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "reg": "http://metadataregistry.org/uri/profile/RegAp/",
+    "regstat": "http://metadataregistry.org/uri/RegStatus/",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "owl": "http://www.w3.org/2002/07/owl#",
+    "disjointWith": {
+      "@id": "owl:disjointWith",
+      "@type": "@id"
+    },
+    "equivalentClass": {
+      "@id": "owl:equivalentClass",
+      "@type": "@id"
+    },
+    "equivalentProperty": {
+      "@id": "owl:equivalentProperty",
+      "@type": "@id"
+    },
+    "inverseOf": {
+      "@id": "owl:inverseOf",
+      "@type": "@id"
+    },
+    "propertyDisjointWith": {
+      "@id": "owl:propertyDisjointWith",
+      "@type": "@id"
+    },
+    "sameAs": {
+      "@id": "owl:sameAs",
+      "@type": "@id"
+    },
+    "Property": {
+      "@id": "rdf:Property",
+      "@type": "@id"
+    },
+    "Class": {
+      "@id": "rdf:Class",
+      "@type": "@id"
+    },
+    "comment": {
+      "@id": "rdfs:comment",
+      "@type": "@id"
+    },
+    "domain": {
+      "@id": "rdfs:domain",
+      "@type": "@id"
+    },
+    "isDefinedBy": {
+      "@id": "rdfs:isDefinedBy",
+      "@type": "@id"
+    },
+    "label": "rdfs:label",
+    "range": {
+      "@id": "rdfs:range",
+      "@type": "@id"
+    },
+    "subClassOf": {
+      "@id": "rdfs:subClassOf",
+      "@type": "@id"
+    },
+    "subPropertyOf": {
+      "@id": "rdfs:subPropertyOf",
+      "@type": "@id"
+    },
+    "lexicalAlias": {
+      "@id": "reg:lexicalAlias",
+      "@type": "@id"
+    },
+    "hasSubproperty": {
+      "@id": "reg:hasSubproperty",
+      "@type": "@id"
+    },
+    "hasSubclass": {
+      "@id": "reg:hasSubclass",
+      "@type": "@id"
+    },
+    "unconstrained": {
+      "@id": "reg:hasUnconstrained",
+      "@type": "@id"
+    },
+    "name": "reg:name",
+    "status": {
+      "@id": "reg:status",
+      "@type": "@id"
+    },
+    "url": {
+      "@id": "reg:url",
+      "@type": "@id"
+    },
+    "altLabel": "skos:altLabel",
+    "broadMatch": {
+      "@id": "skos:broadMatch",
+      "@type": "@id"
+    },
+    "closeMatch": {
+      "@id": "skos:closeMatch",
+      "@type": "@id"
+    },
+    "definition": "skos:definition",
+    "narrowMatch": {
+      "@id": "skos:narrowMatch",
+      "@type": "@id"
+    },
+    "scopeNote": "skos:scopeNote"
   }
+EOT;
+  }
+
+  /**
+   * @param $languageArray
+   * @param $languageDefault
+   *
+   * note: if $languageArray is set to false there must be a default language
+   *       so $languageDefault is always set to the schema default language if empty
+   *
+   * @return Criteria
+   */
+  public function getCriteriaForLanguage($languageArray = TRUE, $languageDefault = "") {
+    //always set to the schema default language if empty
+    if ("" == $languageDefault) {
+      $languageDefault = $this->getLanguage();
+    }
+    $cLang = new Criteria();
+    //skip URI
+    $cLang->add(SchemaPropertyElementPeer::PROFILE_PROPERTY_ID, 13, Criteria::NOT_EQUAL);
+    //if we want a single language we have to select for it
+    if (!$languageArray) {
+      $cLang->add(SchemaPropertyElementPeer::LANGUAGE, $languageDefault);
+    }
+
+    return $cLang;
+  }
+
 }

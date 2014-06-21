@@ -9,6 +9,22 @@
    */
   class SchemaProperty extends BaseSchemaProperty {
 
+    /**
+     * @return string
+     */
+    public function getLexicalUri() {
+      $obj = $this->getCurrentSchemaPropertyI18n();
+      /** @var SchemaPropertyI18n $obj */
+      $uri = ($obj ? $obj->getLexicalUri() : NULL);
+
+      if (!$uri) {
+        //see if we can make one
+        //this should be the namespace + the token
+        $uri = $this->getSchema()->getUri() . $this->getName() . "." . $this->getCulture();
+      }
+
+      return $uri;
+    }
 
     public function getLabelForSelect() {
       return  $this->getName() . " (" . $this->getCulture()  . ") :: " . $this->getLabel()  . " -- " . $this->getUri() ;
