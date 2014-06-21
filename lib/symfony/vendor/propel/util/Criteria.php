@@ -158,7 +158,7 @@ class Criteria implements IteratorAggregate {
 
 	/**
 	 * Primary storage of criteria data.
-	 * @var        array
+	 * @var    Criterion[]
 	 */
 	private $map = array();
 
@@ -353,7 +353,7 @@ class Criteria implements IteratorAggregate {
 	 * Method to return criteria related to columns in a table.
 	 *
 		 * @param      string $column Column name.
-	 * @return     A Criterion or null if $column is invalid.
+	 * @return  null|Criteria   A Criterion or null if $column is invalid.
 	 */
 	public function getCriterion($column)
 	{
@@ -362,27 +362,29 @@ class Criteria implements IteratorAggregate {
 		}
 	}
 
-	/**
-	 * Method to return criterion that is not added automatically
-	 * to this Criteria.  This can be used to chain the
-	 * Criterions to form a more complex where clause.
-	 *
-	 * @param      column String full name of column (for example TABLE.COLUMN).
-	 * @param      mixed $value
-	 * @param      string $comparison
-	 * @return     A Criterion.
-	 */
+  /**
+   * Method to return criterion that is not added automatically
+   * to this Criteria.  This can be used to chain the
+   * Criterions to form a more complex where clause.
+   *
+   * @param string $column String full name of column (for example TABLE.COLUMN).
+   * @param mixed  $value
+   * @param string $comparison
+   *
+   * @return \Criterion
+   */
 	public function getNewCriterion($column, $value, $comparison = null)
 	{
 		return new Criterion($this, $column, $value, $comparison);
 	}
 
 	/**
-	 * Method to return a String table name.
-	 *
-	 * @param      name A String with the name of the key.
-	 * @return     A String with the value of the object at key.
-	 */
+   * Method to return a String table name.
+   *
+   * @param string $name A String with the name of the key.
+   *
+   * @return string A String with the value of the object at key.
+   */
 	public function getColumnName($name)
 	{
 		if ( isset ( $this->map[$name] ) ) {
@@ -484,20 +486,21 @@ class Criteria implements IteratorAggregate {
 		return $this->getValue($key);
 	}
 
-	/**
-	 * Overrides Hashtable put, so that this object is returned
-	 * instead of the value previously in the Criteria object.
-	 * The reason is so that it more closely matches the behavior
-	 * of the add() methods. If you want to get the previous value
-	 * then you should first Criteria.get() it yourself. Note, if
-	 * you attempt to pass in an Object that is not a String, it will
-	 * throw a NPE. The reason for this is that none of the add()
-	 * methods support adding anything other than a String as a key.
-	 *
-	 * @param      string $key
-	 * @param      mixed $value
-	 * @return     Instance of self.
-	 */
+  /**
+   * Overrides Hashtable put, so that this object is returned
+   * instead of the value previously in the Criteria object.
+   * The reason is so that it more closely matches the behavior
+   * of the add() methods. If you want to get the previous value
+   * then you should first Criteria.get() it yourself. Note, if
+   * you attempt to pass in an Object that is not a String, it will
+   * throw a NPE. The reason for this is that none of the add()
+   * methods support adding anything other than a String as a key.
+   *
+   * @param      string $key
+   * @param      mixed  $value
+   *
+   * @return \A Instance of self
+   */
 	public function put($key, $value)
 	{
 		return $this->add($key, $value);
@@ -603,7 +606,7 @@ class Criteria implements IteratorAggregate {
 	/**
 	 * Get the array of Joins.  This method is meant to
 	 * be called by BasePeer.
-	 * @return     an array which contains objects of type Join,
+	 * @return  Join[]   an array which contains objects of type Join,
 	 *         or an empty array if the criteria does not contains any joins
 	 */
 	function & getJoins()
@@ -682,9 +685,9 @@ class Criteria implements IteratorAggregate {
 	 * multiple records but you are only interested in the first one then you
 	 * should be using setLimit(1).
 	 *
-	 * @param      b set to <code>true</code> if you expect the query to select just
+	 * @param  bool $b set to <code>true</code> if you expect the query to select just
 	 * one record.
-	 * @return     A modified Criteria object.
+	 * @return  Criteria   A modified Criteria object.
 	 */
 	public function setSingleRecord($b)
 	{
@@ -705,8 +708,8 @@ class Criteria implements IteratorAggregate {
 	/**
 	 * Set limit.
 	 *
-	 * @param      limit An int with the value for limit.
-	 * @return     A modified Criteria object.
+	 * @param  int    $limit An int with the value for limit.
+	 * @return  Criteria   A modified Criteria object.
 	 */
 	public function setLimit($limit)
 	{
@@ -928,11 +931,14 @@ class Criteria implements IteratorAggregate {
 		return count($this->map);
 	}
 
-	/**
-	 * This method checks another Criteria to see if they contain
-	 * the same attributes and hashtable entries.
-	 * @return     boolean
-	 */
+  /**
+   * This method checks another Criteria to see if they contain
+   * the same attributes and hashtable entries.
+   *
+   * @param Criteria $crit
+   *
+   * @return     boolean
+   */
 	public function equals($crit)
 	{
 		$isEquiv = false;
@@ -1144,7 +1150,10 @@ class CriterionIterator implements Iterator {
 	private $criteriaKeys;
 	private $criteriaSize;
 
-	public function __construct($criteria) {
+  /**
+   * @param Criteria $criteria
+   */
+  public function __construct($criteria) {
 		$this->criteria = $criteria;
 		$this->criteriaKeys = $criteria->keys();
 		$this->criteriaSize = count($this->criteriaKeys);
@@ -1206,17 +1215,19 @@ class Criterion  {
 	/** Column name. */
 	private $column;
 
-	/** flag to ignore case in comparision */
+	/** flag to ignore case in comparison */
 	private $ignoreStringCase = false;
 
 	/**
 	 * The DBAdaptor which might be used to get db specific
 	 * variations of sql.
+   *
 	 */
 	private $db;
 
 	/**
 	 * other connected criteria and their conjunctions.
+   * @var Criteria
 	 */
 	private $clauses = array();
 	private $conjunctions = array();
@@ -1595,8 +1606,8 @@ class Criterion  {
 
 		foreach ( $this->clauses as $clause ) {
 			// TODO: i KNOW there is a php incompatibility with the following line
-			// but i dont remember what it is, someone care to look it up and
-			// replace it if it doesnt bother us?
+			// but i don't remember what it is, someone care to look it up and
+			// replace it if it doesn't bother us?
 			// $clause->appendPsTo($sb='',$params=array());
 			$sb = '';
 			$params = array();
@@ -1619,11 +1630,15 @@ class Criterion  {
 		return $tables;
 	}
 
-	/**
-	 * method supporting recursion through all criterions to give
-	 * us a string array of tables from each criterion
-	 * @return     void
-	 */
+  /**
+   * method supporting recursion through all criterions to give
+   * us a string array of tables from each criterion
+   *
+   * @param Criterion $c
+   * @param string $s
+   *
+   * @return     void
+   */
 	private function addCriterionTable(Criterion $c, &$s)
 	{
 		$s[] = $c->getTable();
@@ -1679,11 +1694,11 @@ class Join
 
 	/**
 	 * Constructor
-	 * @param      leftColumn the left column of the join condition;
+	 * @param string $leftColumn the left column of the join condition;
 	 *        might contain an alias name
-	 * @param      rightColumn the right column of the join condition
+	 * @param  string $rightColumn the right column of the join condition
 	 *        might contain an alias name
-	 * @param      joinType the type of the join. Valid join types are
+	 * @param  string $joinType the type of the join. Valid join types are
 	 *        null (adding the join condition to the where clause),
 	 *        Criteria::LEFT_JOIN(), Criteria::RIGHT_JOIN(), and Criteria::INNER_JOIN()
 	 */
@@ -1695,7 +1710,7 @@ class Join
 	}
 
 	/**
-	 * @return     the type of the join, i.e. Criteria::LEFT_JOIN(), ...,
+	 * @return  string   the type of the join, i.e. Criteria::LEFT_JOIN(), ...,
 	 *         or null for adding the join condition to the where Clause
 	 */
 	public function getJoinType()
@@ -1704,7 +1719,7 @@ class Join
 	}
 
 	/**
-	 * @return     the left column of the join condition
+	 * @return  string   the left column of the join condition
 	 */
 	public function getLeftColumn()
 	{
@@ -1722,7 +1737,7 @@ class Join
 		}
 
 	/**
-	 * @return     the right column of the join condition
+	 * @return  string   the right column of the join condition
 	 */
 	public function getRightColumn()
 	{
