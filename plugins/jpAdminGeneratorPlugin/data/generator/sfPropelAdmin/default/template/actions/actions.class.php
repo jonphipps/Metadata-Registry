@@ -53,10 +53,9 @@ class <?php echo $this->getGeneratedModuleName() ?>Actions extends sfActions
     // pager
     $this->pager = new sfPropelPager('<?php echo $this->getClassName() ?>', <?php echo $this->getParameterValue('list.max_per_page', 20) ?>);
     $c = new Criteria();
-    if (class_exists("<?php echo $this->getClassName() ?>PeerI18n"))
-    {
-      $c->addJoin(<?php echo $this->getClassName() ?>Peer::ID, <?php echo $this->getClassName() ?>I18nPeer::ID);
-    }
+<?php if (class_exists($this->getClassName() ."I18nPeer")): ?>
+    $c->addJoin(<?php echo $this->getClassName() ?>Peer::ID, <?php echo $this->getClassName() ?>I18nPeer::ID);
+<?php endif ?>
     $this->addSortCriteria($c);
     $this->addFiltersCriteria($c);
     $this->pager->setCriteria($c);
@@ -164,7 +163,8 @@ class <?php echo $this->getGeneratedModuleName() ?>Actions extends sfActions
     }
 
 <?php foreach ($this->getColumnCategories('edit.display') as $category): ?>
-<?php foreach ($this->getColumns('edit.display', $category) as $name => $column): ?>
+<?php /** @var sfAdminColumn $column */
+  foreach ($this->getColumns('edit.display', $category) as $name => $column): ?>
 <?php $input_type = $this->getParameterValue('edit.fields.'.$column->getName().'.type') ?>
 <?php if ($input_type == 'admin_input_file_tag'): ?>
 <?php $upload_dir = $this->replaceConstants($this->getParameterValue('edit.fields.'.$column->getName().'.upload_dir')) ?>
@@ -451,10 +451,14 @@ $column = sfPropelManyToMany::getColumn($class, $through_class);
 <?php if ($this->getParameterValue('list.filters')): ?>
 <?php foreach ($this->getColumns('list.filters') as $column): $type = $column->getCreoleType() ?>
 <?php if (($column->isPartial() || $column->isComponent()) && $this->getParameterValue('list.fields.'.$column->getName().'.filter_criteria_disabled')) continue ?>
+    <?php $PeerPropertyName = (defined($this->getPeerI18nClassName() . "::" . strtoupper($column->getName())))
+      ? $this->getPeerI18nClassName() . "::" . strtoupper($column->getName()) :
+      $this->getPeerClassName() . "::" . strtoupper($column->getName())
+    ?>
     if (isset($this->filters['<?php echo $column->getName() ?>_is_empty']))
     {
-      $criterion = $c->getNewCriterion(<?php echo $this->getPeerClassName() ?>::<?php echo strtoupper($column->getName()) ?>, '');
-      $criterion->addOr($c->getNewCriterion(<?php echo $this->getPeerClassName() ?>::<?php echo strtoupper($column->getName()) ?>, null, Criteria::ISNULL));
+      $criterion = $c->getNewCriterion(<?php echo $PeerPropertyName ?>, '');
+      $criterion->addOr($c->getNewCriterion(<?php echo $PeerPropertyName ?>, null, Criteria::ISNULL));
       $c->add($criterion);
     }
 <?php if ($type == CreoleTypes::DATE || $type == CreoleTypes::TIMESTAMP): ?>
@@ -463,9 +467,9 @@ $column = sfPropelManyToMany::getColumn($class, $through_class);
       if (isset($this->filters['<?php echo $column->getName() ?>']['from']) && $this->filters['<?php echo $column->getName() ?>']['from'] !== '')
       {
 <?php if ($type == CreoleTypes::DATE): ?>
-        $criterion = $c->getNewCriterion(<?php echo $this->getPeerClassName() ?>::<?php echo strtoupper($column->getName()) ?>, date('Y-m-d', $this->filters['<?php echo $column->getName() ?>']['from']), Criteria::GREATER_EQUAL);
+        $criterion = $c->getNewCriterion(<?php echo $PeerPropertyName ?>, date('Y-m-d', $this->filters['<?php echo $column->getName() ?>']['from']), Criteria::GREATER_EQUAL);
 <?php else: ?>
-        $criterion = $c->getNewCriterion(<?php echo $this->getPeerClassName() ?>::<?php echo strtoupper($column->getName()) ?>, $this->filters['<?php echo $column->getName() ?>']['from'], Criteria::GREATER_EQUAL);
+        $criterion = $c->getNewCriterion(<?php echo $PeerPropertyName ?>, $this->filters['<?php echo $column->getName() ?>']['from'], Criteria::GREATER_EQUAL);
 <?php endif; ?>
       }
       if (isset($this->filters['<?php echo $column->getName() ?>']['to']) && $this->filters['<?php echo $column->getName() ?>']['to'] !== '')
@@ -473,17 +477,17 @@ $column = sfPropelManyToMany::getColumn($class, $through_class);
         if (isset($criterion))
         {
 <?php if ($type == CreoleTypes::DATE): ?>
-          $criterion->addAnd($c->getNewCriterion(<?php echo $this->getPeerClassName() ?>::<?php echo strtoupper($column->getName()) ?>, date('Y-m-d', $this->filters['<?php echo $column->getName() ?>']['to']), Criteria::LESS_EQUAL));
+          $criterion->addAnd($c->getNewCriterion(<?php echo $PeerPropertyName ?>, date('Y-m-d', $this->filters['<?php echo $column->getName() ?>']['to']), Criteria::LESS_EQUAL));
 <?php else: ?>
-          $criterion->addAnd($c->getNewCriterion(<?php echo $this->getPeerClassName() ?>::<?php echo strtoupper($column->getName()) ?>, $this->filters['<?php echo $column->getName() ?>']['to'], Criteria::LESS_EQUAL));
+          $criterion->addAnd($c->getNewCriterion(<?php echo $PeerPropertyName ?>, $this->filters['<?php echo $column->getName() ?>']['to'], Criteria::LESS_EQUAL));
 <?php endif; ?>
         }
         else
         {
 <?php if ($type == CreoleTypes::DATE): ?>
-          $criterion = $c->getNewCriterion(<?php echo $this->getPeerClassName() ?>::<?php echo strtoupper($column->getName()) ?>, date('Y-m-d', $this->filters['<?php echo $column->getName() ?>']['to']), Criteria::LESS_EQUAL);
+          $criterion = $c->getNewCriterion(<?php echo $PeerPropertyName ?>, date('Y-m-d', $this->filters['<?php echo $column->getName() ?>']['to']), Criteria::LESS_EQUAL);
 <?php else: ?>
-          $criterion = $c->getNewCriterion(<?php echo $this->getPeerClassName() ?>::<?php echo strtoupper($column->getName()) ?>, $this->filters['<?php echo $column->getName() ?>']['to'], Criteria::LESS_EQUAL);
+          $criterion = $c->getNewCriterion(<?php echo $PeerPropertyName ?>, $this->filters['<?php echo $column->getName() ?>']['to'], Criteria::LESS_EQUAL);
 <?php endif; ?>
         }
       }
@@ -497,9 +501,9 @@ $column = sfPropelManyToMany::getColumn($class, $through_class);
     else if (isset($this->filters['<?php echo $column->getName() ?>']) && $this->filters['<?php echo $column->getName() ?>'] !== '')
     {
 <?php if ($type == CreoleTypes::CHAR || $type == CreoleTypes::VARCHAR || $type == CreoleTypes::LONGVARCHAR): ?>
-      $c->add(<?php echo $this->getPeerClassName() ?>::<?php echo strtoupper($column->getName()) ?>, strtr($this->filters['<?php echo $column->getName() ?>'], '*', '%'), Criteria::LIKE);
+      $c->add(<?php echo $PeerPropertyName ?>, strtr($this->filters['<?php echo $column->getName() ?>'], '*', '%'), Criteria::LIKE);
 <?php else: ?>
-      $c->add(<?php echo $this->getPeerClassName() ?>::<?php echo strtoupper($column->getName()) ?>, $this->filters['<?php echo $column->getName() ?>']);
+      $c->add(<?php echo $PeerPropertyName ?>, $this->filters['<?php echo $column->getName() ?>']);
 <?php endif; ?>
     }
 <?php endif; ?>
@@ -515,15 +519,18 @@ $column = sfPropelManyToMany::getColumn($class, $through_class);
         $sort_column = <?php echo $this->getClassName() ?>Peer::translateFieldName($sort_column, BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_COLNAME);
       }
       catch(PropelException $e) {
-        if (class_exists("<?php echo $this->getClassName() ?>I18nPeer")) {
-          try {
-            $sort_column = <?php echo $this->getClassName() ?>I18nPeer::translateFieldName($sort_column, BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_COLNAME);
-          }
-          catch(Exception $e) {
-            $this->getUser()->setAttribute('sort', NULL, 'sf_admin/<?php echo $this->getSingularName() ?>/sort');
-            return;
-          }
+<?php if (class_exists($this->getClassName() ."I18nPeer")): ?>
+        try {
+          $sort_column = <?php echo $this->getClassName() ?>I18nPeer::translateFieldName($sort_column, BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_COLNAME);
         }
+        catch(PropelException $e) {
+          $this->getUser()->setAttribute('sort', NULL, 'sf_admin/<?php echo $this->getSingularName() ?>/sort');
+          return;
+        }
+<?php else: ?>
+        $this->getUser()->setAttribute('sort', NULL, 'sf_admin/<?php echo $this->getSingularName() ?>/sort');
+        return;
+<?php endif; ?>
       }
       if ($this->getUser()->getAttribute('type', null, 'sf_admin/<?php echo $this->getSingularName() ?>/sort') == 'asc')
       {

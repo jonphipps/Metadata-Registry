@@ -24,6 +24,7 @@ abstract class sfCrudGenerator extends sfGenerator
     $singularName  = '',
     $pluralName    = '',
     $peerClassName = '',
+    $peerI18nClassName = '',
     $map           = null,
     $tableMap      = null,
     $primaryKey    = array(),
@@ -33,8 +34,12 @@ abstract class sfCrudGenerator extends sfGenerator
   /**
    * Generates classes and templates in cache.
    *
-   * @param array The parameters
+   * @param array $params The parameters
    *
+   * @throws sfConfigurationException
+   * @throws sfException
+   * @throws sfInitializationException
+   * @throws sfParseException
    * @return string The data to put in configuration cache
    */
   public function generate($params = array())
@@ -60,7 +65,7 @@ abstract class sfCrudGenerator extends sfGenerator
 
     if (!class_exists($modelClass))
     {
-      $error = 'Unable to scaffold unexistant model "%s"';
+      $error = 'Unable to scaffold nonexistent model "%s"';
       $error = sprintf($error, $modelClass);
 
       throw new sfInitializationException($error);
@@ -103,7 +108,7 @@ abstract class sfCrudGenerator extends sfGenerator
   /**
    * Returns PHP code for primary keys parameters.
    *
-   * @param integer The indentation value
+   * @param integer $indent The indentation value
    *
    * @return string The PHP code
    */
@@ -184,7 +189,7 @@ abstract class sfCrudGenerator extends sfGenerator
   /**
    * Sets the class name to use for scaffolding
    *
-   * @param  string class name
+   * @param  string $className class name
    */
   protected function setScaffoldingClassName($className)
   {
@@ -192,6 +197,9 @@ abstract class sfCrudGenerator extends sfGenerator
     $this->pluralName    = $this->singularName.'s';
     $this->className     = $className;
     $this->peerClassName = $className.'Peer';
+    if (class_exists($className.'I18nPeer')) {
+      $this->peerI18nClassName = $className . 'I18nPeer';
+    }
   }
 
   /**
@@ -235,9 +243,19 @@ abstract class sfCrudGenerator extends sfGenerator
   }
 
   /**
+ * Gets the Peer I18n class name.
+ *
+ * @return string
+ */
+  public function getPeerI18nClassName()
+  {
+    return $this->peerI18nClassName;
+  }
+
+  /**
    * Gets the primary key name.
    *
-   * @return string
+   * @return ColumnMap[]
    */
   public function getPrimaryKey()
   {
@@ -247,7 +265,7 @@ abstract class sfCrudGenerator extends sfGenerator
   /**
    * Gets the Map object.
    *
-   * @return object
+   * @return DatabaseMap
    */
   public function getMap()
   {
@@ -257,13 +275,14 @@ abstract class sfCrudGenerator extends sfGenerator
   /**
    * Returns PHP code to add to a URL for primary keys.
    *
-   * @param string The prefix value
+   * @param string $prefix The prefix value
    *
    * @return string PHP code
    */
   public function getPrimaryKeyUrlParams($prefix = '')
   {
     $params = array();
+    /** @var  $pk */
     foreach ($this->getPrimaryKey() as $pk)
     {
       $phpName   = $pk->getPhpName();
@@ -277,7 +296,7 @@ abstract class sfCrudGenerator extends sfGenerator
   /**
    * Gets PHP code for primary key condition.
    *
-   * @param string The prefix value
+   * @param string $prefix The prefix value
    *
    * @return string PHP code
    */
@@ -295,8 +314,8 @@ abstract class sfCrudGenerator extends sfGenerator
   /**
    * Gets object tag parameters.
    *
-   * @param array An array of parameters
-   * @param array An array of default parameters
+   * @param array $params An array of parameters
+   * @param array $default_params An array of default parameters
    *
    * @return string PHP code
    */
@@ -308,8 +327,8 @@ abstract class sfCrudGenerator extends sfGenerator
   /**
    * Returns HTML code for a column in list mode.
    *
-   * @param string  The column name
-   * @param array   The parameters
+   * @param ColumnMap $column The column name
+   * @param array  $params The parameters
    *
    * @return string HTML code
    */
@@ -336,7 +355,7 @@ abstract class sfCrudGenerator extends sfGenerator
   /**
    * Returns HTML code for a column in edit mode.
    *
-   * @param Column $column  The column name
+   * @param ColumnMap $column  The column name
    * @param array  $params  The parameters
    *
    * @return string HTML code
@@ -418,23 +437,23 @@ abstract class sfCrudGenerator extends sfGenerator
    *
    * This method is ORM dependant.
    *
-   * @param string The helper name
-   * @param string The column name
-   * @param array  An array of parameters
-   * @param array  An array of local parameters
+   * @param string $helperName The helper name
+   * @param string $column The column name
+   * @param array  $params An array of parameters
+   * @param array  $localParams An array of local parameters
    *
    * @return string PHP code
    */
   abstract function getPHPObjectHelper($helperName, $column, $params, $localParams = array());
 
   /**
-   * Returns the getter either non-developped: 'getFoo' or developped: '$class->getFoo()'.
+   * Returns the getter either non-developed: 'getFoo' or developed: '$class->getFoo()'.
    *
    * This method is ORM dependant.
    *
-   * @param string  The column name
-   * @param boolean true if you want developped method names, false otherwise
-   * @param string The prefix value
+   * @param string $column The column name
+   * @param boolean $developed true if you want developped method names, false otherwise
+   * @param string $prefix The prefix value
    *
    * @return string PHP code
    */
