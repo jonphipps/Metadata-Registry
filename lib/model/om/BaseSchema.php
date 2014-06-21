@@ -172,6 +172,13 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 	 */
 	protected $ns_type = 'slash';
 
+
+	/**
+	 * The value for the repo field.
+	 * @var        string
+	 */
+	protected $repo = '';
+
 	/**
 	 * @var        Agent
 	 */
@@ -627,6 +634,17 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 	{
 
 		return $this->ns_type;
+	}
+
+	/**
+	 * Get the [repo] column value.
+	 * 
+	 * @return     string
+	 */
+	public function getRepo()
+	{
+
+		return $this->repo;
 	}
 
 	/**
@@ -1142,6 +1160,28 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 	} // setNsType()
 
 	/**
+	 * Set the value of [repo] column.
+	 * 
+	 * @param      string $v new value
+	 * @return     void
+	 */
+	public function setRepo($v)
+	{
+
+		// Since the native PHP type for this column is string,
+		// we will cast the input to a string (if it is not).
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v;
+		}
+
+		if ($this->repo !== $v) {
+			$this->repo = $v;
+			$this->modifiedColumns[] = SchemaPeer::REPO;
+		}
+
+	} // setRepo()
+
+	/**
 	 * Hydrates (populates) the object variables with values from the database resultset.
 	 *
 	 * An offset (1-based "start column") is specified so that objects can be hydrated
@@ -1202,12 +1242,14 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 
 			$this->ns_type = $rs->getString($startcol + 21);
 
+			$this->repo = $rs->getString($startcol + 22);
+
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 22; // 22 = SchemaPeer::NUM_COLUMNS - SchemaPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 23; // 23 = SchemaPeer::NUM_COLUMNS - SchemaPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Schema object", $e);
@@ -1726,6 +1768,9 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 			case 21:
 				return $this->getNsType();
 				break;
+			case 22:
+				return $this->getRepo();
+				break;
 			default:
 				return null;
 				break;
@@ -1768,6 +1813,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 			$keys[19] => $this->getLanguages(),
 			$keys[20] => $this->getProfileId(),
 			$keys[21] => $this->getNsType(),
+			$keys[22] => $this->getRepo(),
 		);
 		return $result;
 	}
@@ -1865,6 +1911,9 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 			case 21:
 				$this->setNsType($value);
 				break;
+			case 22:
+				$this->setRepo($value);
+				break;
 		} // switch()
 	}
 
@@ -1910,6 +1959,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[19], $arr)) $this->setLanguages($arr[$keys[19]]);
 		if (array_key_exists($keys[20], $arr)) $this->setProfileId($arr[$keys[20]]);
 		if (array_key_exists($keys[21], $arr)) $this->setNsType($arr[$keys[21]]);
+		if (array_key_exists($keys[22], $arr)) $this->setRepo($arr[$keys[22]]);
 	}
 
 	/**
@@ -1943,6 +1993,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(SchemaPeer::LANGUAGES)) $criteria->add(SchemaPeer::LANGUAGES, $this->languages);
 		if ($this->isColumnModified(SchemaPeer::PROFILE_ID)) $criteria->add(SchemaPeer::PROFILE_ID, $this->profile_id);
 		if ($this->isColumnModified(SchemaPeer::NS_TYPE)) $criteria->add(SchemaPeer::NS_TYPE, $this->ns_type);
+		if ($this->isColumnModified(SchemaPeer::REPO)) $criteria->add(SchemaPeer::REPO, $this->repo);
 
 		return $criteria;
 	}
@@ -2038,6 +2089,8 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 		$copyObj->setProfileId($this->profile_id);
 
 		$copyObj->setNsType($this->ns_type);
+
+		$copyObj->setRepo($this->repo);
 
 
 		if ($deepCopy) {

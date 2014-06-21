@@ -3,7 +3,7 @@
 /**
  * Base static class for performing query and update operations on the 'reg_schema_property' table.
  *
- *
+ * 
  *
  * @package    lib.model.om
  */
@@ -354,17 +354,17 @@ abstract class BaseSchemaPropertyPeer {
 	public static function populateObjects(ResultSet $rs)
 	{
 		$results = array();
-
+	
 		// set the class once to avoid overhead in the loop
 		$cls = SchemaPropertyPeer::getOMClass();
 		$cls = Propel::import($cls);
 		// populate the object(s)
 		while($rs->next()) {
-
+		
 			$obj = new $cls();
 			$obj->hydrate($rs);
 			$results[] = $obj;
-
+			
 		}
 		return $results;
 	}
@@ -858,7 +858,7 @@ abstract class BaseSchemaPropertyPeer {
 
 
 				// Add objects for joined User rows
-
+	
 			$omClass = UserPeer::getOMClass();
 
 
@@ -884,7 +884,7 @@ abstract class BaseSchemaPropertyPeer {
 
 
 				// Add objects for joined User rows
-
+	
 			$omClass = UserPeer::getOMClass();
 
 
@@ -910,7 +910,7 @@ abstract class BaseSchemaPropertyPeer {
 
 
 				// Add objects for joined Schema rows
-
+	
 			$omClass = SchemaPeer::getOMClass();
 
 
@@ -936,7 +936,7 @@ abstract class BaseSchemaPropertyPeer {
 
 
 				// Add objects for joined Status rows
-
+	
 			$omClass = StatusPeer::getOMClass();
 
 
@@ -1897,7 +1897,7 @@ abstract class BaseSchemaPropertyPeer {
 			throw $e;
 		}
 
-
+		
     foreach (sfMixer::getCallables('BaseSchemaPropertyPeer:doInsert:post') as $callable)
     {
       call_user_func($callable, 'BaseSchemaPropertyPeer', $values, $con, $pk);
@@ -1949,7 +1949,7 @@ abstract class BaseSchemaPropertyPeer {
 		$criteria->setDbName(self::DATABASE_NAME);
 
 		$ret = BasePeer::doUpdate($selectCriteria, $criteria, $con);
-
+	
 
     foreach (sfMixer::getCallables('BaseSchemaPropertyPeer:doUpdate:post') as $callable)
     {
@@ -2020,7 +2020,7 @@ abstract class BaseSchemaPropertyPeer {
 			// use transaction because $criteria could contain info
 			// for more than one table or we could emulating ON DELETE CASCADE, etc.
 			$con->begin();
-
+			
 			$affectedRows += BasePeer::doDelete($criteria, $con);
 			$con->commit();
 			return $affectedRows;

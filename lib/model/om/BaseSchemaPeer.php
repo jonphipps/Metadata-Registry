@@ -19,7 +19,7 @@ abstract class BaseSchemaPeer {
 	const CLASS_DEFAULT = 'lib.model.Schema';
 
 	/** The total number of columns. */
-	const NUM_COLUMNS = 22;
+	const NUM_COLUMNS = 23;
 
 	/** The number of lazy-loaded columns. */
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -91,6 +91,9 @@ abstract class BaseSchemaPeer {
 	/** the column name for the NS_TYPE field */
 	const NS_TYPE = 'reg_schema.NS_TYPE';
 
+	/** the column name for the REPO field */
+	const REPO = 'reg_schema.REPO';
+
 	/** The PHP to DB Name Mapping */
 	private static $phpNameMap = null;
 
@@ -102,10 +105,10 @@ abstract class BaseSchemaPeer {
 	 * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
 	 */
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'AgentId', 'CreatedAt', 'UpdatedAt', 'DeletedAt', 'CreatedUserId', 'UpdatedUserId', 'ChildUpdatedAt', 'ChildUpdatedUserId', 'Name', 'Note', 'Uri', 'Url', 'BaseDomain', 'Token', 'Community', 'LastUriId', 'StatusId', 'Language', 'Languages', 'ProfileId', 'NsType', ),
-		BasePeer::TYPE_COLNAME => array (SchemaPeer::ID, SchemaPeer::AGENT_ID, SchemaPeer::CREATED_AT, SchemaPeer::UPDATED_AT, SchemaPeer::DELETED_AT, SchemaPeer::CREATED_USER_ID, SchemaPeer::UPDATED_USER_ID, SchemaPeer::CHILD_UPDATED_AT, SchemaPeer::CHILD_UPDATED_USER_ID, SchemaPeer::NAME, SchemaPeer::NOTE, SchemaPeer::URI, SchemaPeer::URL, SchemaPeer::BASE_DOMAIN, SchemaPeer::TOKEN, SchemaPeer::COMMUNITY, SchemaPeer::LAST_URI_ID, SchemaPeer::STATUS_ID, SchemaPeer::LANGUAGE, SchemaPeer::LANGUAGES, SchemaPeer::PROFILE_ID, SchemaPeer::NS_TYPE, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'agent_id', 'created_at', 'updated_at', 'deleted_at', 'created_user_id', 'updated_user_id', 'child_updated_at', 'child_updated_user_id', 'name', 'note', 'uri', 'url', 'base_domain', 'token', 'community', 'last_uri_id', 'status_id', 'language', 'languages', 'profile_id', 'ns_type', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'AgentId', 'CreatedAt', 'UpdatedAt', 'DeletedAt', 'CreatedUserId', 'UpdatedUserId', 'ChildUpdatedAt', 'ChildUpdatedUserId', 'Name', 'Note', 'Uri', 'Url', 'BaseDomain', 'Token', 'Community', 'LastUriId', 'StatusId', 'Language', 'Languages', 'ProfileId', 'NsType', 'Repo', ),
+		BasePeer::TYPE_COLNAME => array (SchemaPeer::ID, SchemaPeer::AGENT_ID, SchemaPeer::CREATED_AT, SchemaPeer::UPDATED_AT, SchemaPeer::DELETED_AT, SchemaPeer::CREATED_USER_ID, SchemaPeer::UPDATED_USER_ID, SchemaPeer::CHILD_UPDATED_AT, SchemaPeer::CHILD_UPDATED_USER_ID, SchemaPeer::NAME, SchemaPeer::NOTE, SchemaPeer::URI, SchemaPeer::URL, SchemaPeer::BASE_DOMAIN, SchemaPeer::TOKEN, SchemaPeer::COMMUNITY, SchemaPeer::LAST_URI_ID, SchemaPeer::STATUS_ID, SchemaPeer::LANGUAGE, SchemaPeer::LANGUAGES, SchemaPeer::PROFILE_ID, SchemaPeer::NS_TYPE, SchemaPeer::REPO, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'agent_id', 'created_at', 'updated_at', 'deleted_at', 'created_user_id', 'updated_user_id', 'child_updated_at', 'child_updated_user_id', 'name', 'note', 'uri', 'url', 'base_domain', 'token', 'community', 'last_uri_id', 'status_id', 'language', 'languages', 'profile_id', 'ns_type', 'repo', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, )
 	);
 
 	/**
@@ -115,10 +118,10 @@ abstract class BaseSchemaPeer {
 	 * e.g. self::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
 	 */
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'AgentId' => 1, 'CreatedAt' => 2, 'UpdatedAt' => 3, 'DeletedAt' => 4, 'CreatedUserId' => 5, 'UpdatedUserId' => 6, 'ChildUpdatedAt' => 7, 'ChildUpdatedUserId' => 8, 'Name' => 9, 'Note' => 10, 'Uri' => 11, 'Url' => 12, 'BaseDomain' => 13, 'Token' => 14, 'Community' => 15, 'LastUriId' => 16, 'StatusId' => 17, 'Language' => 18, 'Languages' => 19, 'ProfileId' => 20, 'NsType' => 21, ),
-		BasePeer::TYPE_COLNAME => array (SchemaPeer::ID => 0, SchemaPeer::AGENT_ID => 1, SchemaPeer::CREATED_AT => 2, SchemaPeer::UPDATED_AT => 3, SchemaPeer::DELETED_AT => 4, SchemaPeer::CREATED_USER_ID => 5, SchemaPeer::UPDATED_USER_ID => 6, SchemaPeer::CHILD_UPDATED_AT => 7, SchemaPeer::CHILD_UPDATED_USER_ID => 8, SchemaPeer::NAME => 9, SchemaPeer::NOTE => 10, SchemaPeer::URI => 11, SchemaPeer::URL => 12, SchemaPeer::BASE_DOMAIN => 13, SchemaPeer::TOKEN => 14, SchemaPeer::COMMUNITY => 15, SchemaPeer::LAST_URI_ID => 16, SchemaPeer::STATUS_ID => 17, SchemaPeer::LANGUAGE => 18, SchemaPeer::LANGUAGES => 19, SchemaPeer::PROFILE_ID => 20, SchemaPeer::NS_TYPE => 21, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'agent_id' => 1, 'created_at' => 2, 'updated_at' => 3, 'deleted_at' => 4, 'created_user_id' => 5, 'updated_user_id' => 6, 'child_updated_at' => 7, 'child_updated_user_id' => 8, 'name' => 9, 'note' => 10, 'uri' => 11, 'url' => 12, 'base_domain' => 13, 'token' => 14, 'community' => 15, 'last_uri_id' => 16, 'status_id' => 17, 'language' => 18, 'languages' => 19, 'profile_id' => 20, 'ns_type' => 21, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'AgentId' => 1, 'CreatedAt' => 2, 'UpdatedAt' => 3, 'DeletedAt' => 4, 'CreatedUserId' => 5, 'UpdatedUserId' => 6, 'ChildUpdatedAt' => 7, 'ChildUpdatedUserId' => 8, 'Name' => 9, 'Note' => 10, 'Uri' => 11, 'Url' => 12, 'BaseDomain' => 13, 'Token' => 14, 'Community' => 15, 'LastUriId' => 16, 'StatusId' => 17, 'Language' => 18, 'Languages' => 19, 'ProfileId' => 20, 'NsType' => 21, 'Repo' => 22, ),
+		BasePeer::TYPE_COLNAME => array (SchemaPeer::ID => 0, SchemaPeer::AGENT_ID => 1, SchemaPeer::CREATED_AT => 2, SchemaPeer::UPDATED_AT => 3, SchemaPeer::DELETED_AT => 4, SchemaPeer::CREATED_USER_ID => 5, SchemaPeer::UPDATED_USER_ID => 6, SchemaPeer::CHILD_UPDATED_AT => 7, SchemaPeer::CHILD_UPDATED_USER_ID => 8, SchemaPeer::NAME => 9, SchemaPeer::NOTE => 10, SchemaPeer::URI => 11, SchemaPeer::URL => 12, SchemaPeer::BASE_DOMAIN => 13, SchemaPeer::TOKEN => 14, SchemaPeer::COMMUNITY => 15, SchemaPeer::LAST_URI_ID => 16, SchemaPeer::STATUS_ID => 17, SchemaPeer::LANGUAGE => 18, SchemaPeer::LANGUAGES => 19, SchemaPeer::PROFILE_ID => 20, SchemaPeer::NS_TYPE => 21, SchemaPeer::REPO => 22, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'agent_id' => 1, 'created_at' => 2, 'updated_at' => 3, 'deleted_at' => 4, 'created_user_id' => 5, 'updated_user_id' => 6, 'child_updated_at' => 7, 'child_updated_user_id' => 8, 'name' => 9, 'note' => 10, 'uri' => 11, 'url' => 12, 'base_domain' => 13, 'token' => 14, 'community' => 15, 'last_uri_id' => 16, 'status_id' => 17, 'language' => 18, 'languages' => 19, 'profile_id' => 20, 'ns_type' => 21, 'repo' => 22, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, )
 	);
 
 	/**
@@ -262,6 +265,8 @@ abstract class BaseSchemaPeer {
         $criteria->addSelectColumn(($tableAlias) ? SchemaPeer::alias($tableAlias, SchemaPeer::PROFILE_ID) : SchemaPeer::PROFILE_ID);
 
         $criteria->addSelectColumn(($tableAlias) ? SchemaPeer::alias($tableAlias, SchemaPeer::NS_TYPE) : SchemaPeer::NS_TYPE);
+
+        $criteria->addSelectColumn(($tableAlias) ? SchemaPeer::alias($tableAlias, SchemaPeer::REPO) : SchemaPeer::REPO);
 
 	}
 

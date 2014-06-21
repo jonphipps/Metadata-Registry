@@ -1179,6 +1179,11 @@ propel:
       size: 6
       required: true
       default: slash
+    repo:
+      type: VARCHAR
+      size: 255
+      required: true
+      default: ''
     _indexes:
       last_updated_by_user_id:
         - updated_user_id

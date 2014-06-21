@@ -105,6 +105,8 @@ class SchemaMapBuilder {
 
 		$tMap->addColumn('NS_TYPE', 'NsType', 'string', CreoleTypes::CHAR, true, 6);
 
+		$tMap->addColumn('REPO', 'Repo', 'string', CreoleTypes::VARCHAR, true, 255);
+
 	} // doBuild()
 
 } // SchemaMapBuilder
