@@ -34,6 +34,21 @@ class Schema extends BaseSchema
     return $this->getName();
   }
 
+  //todo: make $lexicalarray a class
+  private $lexicalArray = array();
+
+  public function getLexicalArray() {
+    return $this->lexicalArray;
+  }
+
+  /**
+   * @param string $lexicalUri
+   * @param string $targetUri
+   * @param string $code
+   */
+  public function setLexicalArray($lexicalUri, $targetUri, $code) {
+    $this->lexicalArray[ $lexicalUri ] = array("targetUri" => $targetUri, "code" => $code);
+  }
   /**
    * Get the [languages] column value.
    *
@@ -264,6 +279,8 @@ class Schema extends BaseSchema
    * @return array
    */
   public function getResourceArray(SchemaProperty $property, Criteria $cLang, $propArray, $statusArray, $languageArray, $languageDefault) {
+    //todo: this should be based on a constant rather than hard-coded;
+    $lexicalAliasProperty = 26;
     //todo: remove hard coded registry URLs
     $resourceArray                = [];
     $resourceArray["@id"]         = $property->getUri();
@@ -292,6 +309,9 @@ class Schema extends BaseSchema
         else {
           self::addToGraph($resourceArray[ $ppi ], $element->getObject(), $pproperty->getIsSingleton());
         }
+        if ($lexicalAliasProperty == $pproperty->getId()) {
+          $this->setLexicalArray($element->getObject(), $resourceArray["@id"], 308);
+        }
       }
       else {
         $array = array();
@@ -303,10 +323,9 @@ class Schema extends BaseSchema
             if ($object)
             {
               //we now have an ID
-              //todo: save the related ID so we don't have to look it up again
               //todo: log that we did this
-              //$element->setRelatedSchemaPropertyId($object->getId());
-              //$element->save();
+              $element->setRelatedSchemaPropertyId($object->getId());
+              $element->save();
             }
           }
           if ($object) {
@@ -334,7 +353,7 @@ class Schema extends BaseSchema
           $status = $statusArray[ $element->getObject() ];
           $array  = array(
             "@id"          => $status[3],
-            "lexicalAlias" => "http://metadataregistry.org/uri/RegStatus/" . $status[6],
+            "lexicalAlias" => "http://metadataregistry.org/uri/RegStatus/" . $status[6] . ".en",
             "url"          => "http://metadataregistry.org/concept/show/id/$status[4].html",
             "label"        => $status[6]
           );
@@ -409,9 +428,11 @@ class Schema extends BaseSchema
       $language='';
       if ($lang)
       {
-        $language = '    "@language": "' . $lang . '",' . PHP_EOL;
+        $language = PHP_EOL . '    "@language": "' . $lang . '",';
       }
-      return '{' . PHP_EOL . $language . <<<EOT
+      return  <<<EOT
+{
+  "@context": { $language
     "dc": "http://purl.org/dc/elements/1.1/",
     "rdac": "http://rdaregistry.info/Elements/c/",
     "rdaa": "http://rdaregistry.info/Elements/a/",
@@ -524,6 +545,7 @@ class Schema extends BaseSchema
     },
     "scopeNote": "skos:scopeNote"
   }
+}
 EOT;
   }
 

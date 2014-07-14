@@ -92,9 +92,11 @@
       $repoRoot = SF_ROOT_DIR . DIRECTORY_SEPARATOR . 'web' . DIRECTORY_SEPARATOR . 'repos' . DIRECTORY_SEPARATOR ;
       $filesystem = new Filesystem(new Adapter($repoRoot), new Cache);
       $bigPath = $repoRoot . DIRECTORY_SEPARATOR . $repo . DIRECTORY_SEPARATOR . $mime . DIRECTORY_SEPARATOR . $file;
+      $aliasPath =  $repo . DIRECTORY_SEPARATOR . "alias" . DIRECTORY_SEPARATOR . $vocabDir;
 
       $uselanguageAsArray = FALSE;
       $useLanguage        = "en";
+      $jsonldContext_en = "http://rdaregistry.info/Contexts/elements_en.jsonld";
 
       $cLang       = $this->schema->getCriteriaForLanguage($uselanguageAsArray, $useLanguage);
       $propArray   = $this->schema->getPropertyArray();
@@ -102,9 +104,20 @@
 
       //open a file for writing the complete vocabulary file
       $vocabFile = fopen($bigPath, 'w+');
-      $context = $this->schema->getJsonLdContext("en");
+      //$context = $this->schema->getJsonLdContext("en");
+      $contextArray = array("http://rdaregistry.info/Contexts/elements_nolang.jsonld", array("@language"=>$useLanguage));
+
+      $context = <<<EOT
+  [ "http://rdaregistry.info/Contexts/elements_nolang.jsonld",
+      {
+        "@language": $useLanguage;
+      }
+  ]
+EOT;
+
+      $context = json_encode($contextArray, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
       //prepend the context
-      fwrite($vocabFile, "{" . PHP_EOL . '"@context":' . $context . "," . PHP_EOL  . '  "@graph": [');
+      fwrite($vocabFile, '{' . PHP_EOL . '"@context": ' . $context  . ',' . PHP_EOL .  '  "@graph": [');
       $comma = "";
       $counter = 0;
       $aka=array();
@@ -118,11 +131,12 @@
         if ($success) {
           $counter++;
           $jsonld    = json_encode($success, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
-          $success["@context"] = json_decode($context);
+          //$success["@context"] = json_encode($contextArray);
+          $success["@context"] = $contextArray;
           ksort($success, SORT_FLAG_CASE | SORT_NATURAL);
           $jsonFrag = json_encode($success, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
           $jsonFrag .= PHP_EOL;
-          $compacted = JsonLD::compact($jsonFrag,"http://rdaregistry.info/Contexts/elements_en.jsonld");
+//          $compacted = JsonLD::compact($jsonFrag);
 //          $expanded = JsonLD::expand($jsonFrag);
 //          $flattened = JsonLD::flatten($jsonFrag);
 //          $prettyC = JsonLD::toString($compacted, true);
@@ -131,7 +145,15 @@
 //          $quads = JsonLD::toRdf($jsonFrag);
 //          $nquads = new NQuads();
 //          $serialized = $nquads->serialize($quads);
+//          $document = JsonLD::fromRdf($quads);
+//          $doc = JsonLD::getDocument($jsonFrag);
+//          $graph = $doc->getGraph();
+//          $serialized2 = JsonLD::toString($graph->toJsonLd());
 //          $rdfFormats = EasyRdf_Format::getFormats();
+//          $graph = new EasyRdf_Graph($success["@id"]);
+//          $graph->parse($quads, "jsonld", $success["@id"]);
+//          $output = $graph->serialise("turtle");
+
           //append the json to the open file
           fwrite($vocabFile, $comma . PHP_EOL . $jsonld);
 
@@ -144,6 +166,8 @@
       }
       fwrite($vocabFile, PHP_EOL . "  ]" . PHP_EOL . "}" . PHP_EOL);
       fclose($vocabFile);
+      $filesystem->put($aliasPath . ".json", json_encode($this->schema->getLexicalArray(), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
+      $filesystem->put($aliasPath . ".php", serialize($this->schema->getLexicalArray()));
 
         //don't display any of this, but instead reshow the 'show' display with 'Published' flash message
         //if publish was successful
@@ -154,7 +178,7 @@
       //$this->setFlash('error', 'This Schema has NOT been published');
       return $this->forward('schema', 'show');
 
-      if (!$this->schema) {
+/*      if (!$this->schema) {
         $this->schema = SchemaPeer::retrieveByPk($this->getRequestParameter('id'));
       }
       $this->labels = $this->getLabels('show');
@@ -162,6 +186,7 @@
       $this->forward404Unless($this->schema);
       $this->properties = $this->schema->getProperties();
       $this->classes    = $this->schema->getClasses();
+*/
 
     }
   }
