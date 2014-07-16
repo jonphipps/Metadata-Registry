@@ -27,3 +27,5 @@ tmp_selenium.html
 tmp_selenium_phpunit.php
 mailer.yml
 schema_org_dataset
+.env.php
+
