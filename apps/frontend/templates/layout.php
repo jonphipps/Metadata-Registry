@@ -77,7 +77,9 @@
 
   <div id="footer">
     <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/"><img alt="Creative Commons License" style="border-width:0" src="/images/cc_by-nc-sa_3.0_80x15.png"/></a>
-  <?php echo __('powered by %1%', array('%1%' => link_to(image_tag('symfony.gif', 'align=middle'), 'http://www.symfony-project.com/'))); ?>
+  <?php echo __('powered by %1%', array('%1%' => link_to(image_tag('symfony.gif', 'align=bottom'), 'http://www.symfony-project.com/'))); ?>
+    <?php echo link_to(image_tag('DO_Proudly_Hosted_Badge_Blue-735d53ec.png', array('alt' => 'Powered by Digital Ocean', 'size' => '75x20')), 'https://www.digitalocean.com/'); ?>
+
   </div>
 
 <?php
