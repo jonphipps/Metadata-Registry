@@ -2,7 +2,7 @@
 <link rel="alternate" type="application/rdf+xml" title="Registry News RSS 1.0 (RDF)" href="http://blog.metadataregistry.org/category/registry-development/the-registry/feed/rdf" />
 <link rel="alternate" type="application/rss+xml" title="Registry News RSS 2.0" href="http://blog.metadataregistry.org/category/registry-development/the-registry/feed" />
 <link rel="alternate" type="application/atom+xml" title="Registry News Atom 1.0" href= "http://blog.metadataregistry.org/category/registry-development/the-registry/feed/atom" />
-<link rel="alternate" type="application/atom+xml" title="Registry Changes Atom 1.0" href= "http://metadataregistry.or/allhistoryfeeds.atom" />
+<link rel="alternate" type="application/atom+xml" title="Registry Changes Atom 1.0" href= "http://metadataregistry.org/allhistoryfeeds.atom" />
 <?php end_slot() ?>
 
 <div id="home" style="margin-left:auto;margin-right:auto;">
@@ -14,7 +14,7 @@
           <tr>
             <td valign="baseline" style="white-space:nowrap"><h1 style="background-color: white; margin-left:0">Registry News</h1></td>
             <td valign="baseline" align="left" style="white-space:nowrap">  ...from the <a href="http://blog.metadataregistry.org/">Registry Blog</a></td>
-            <td valign="baseline" align="right" style="white-space:nowrap; padding-right:10px; padding-left:6px; width:100%;" ><a href="http://blog.metadataregistry.org/category/registry-development/the-registry/feed">rss 2.0</a>&nbsp;&nbsp;<a href="http://blog.metadataregistry.org/category/registry-development/the-registry/feed/rdf">rss 1.0</a>&nbsp;&nbsp;<a href="http:/blog./metadataregistry.org/category/registry-development/the-registry/feed/atom">atom 1.0</a>&nbsp;&nbsp;<?php echo image_tag('feed-icon.gif',array('align' => "top")); ?></td>
+            <td valign="baseline" align="right" style="white-space:nowrap; padding-right:10px; padding-left:6px; width:100%;" ><a href="http://blog.metadataregistry.org/category/registry-development/the-registry/feed">rss 2.0</a>&nbsp;&nbsp;<a href="http://blog.metadataregistry.org/category/registry-development/the-registry/feed/rdf">rss 1.0</a>&nbsp;&nbsp;<a href="http://blog.metadataregistry.org/category/registry-development/the-registry/feed/atom">atom 1.0</a>&nbsp;&nbsp;<?php echo image_tag('feed-icon.gif',array('align' => "top")); ?></td>
           </tr>
         </table>
 <?php if (isset($rssItems)): ?>
