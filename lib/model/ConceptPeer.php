@@ -101,7 +101,7 @@ class ConceptPeer extends BaseConceptPeer
   * @return Concept
   * @param  var_type $var
   */
-  public function getConceptByUri($conceptUri)
+  public static function getConceptByUri($conceptUri)
   {
     $c = new Criteria();
     $c->add(self::URI, $conceptUri);
