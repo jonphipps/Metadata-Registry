@@ -291,6 +291,8 @@ class apiActions extends sfActions
       default:
         $this->forward404();
     }
+
+    return(sfView::NONE);
   }
 
   public function executeError()
