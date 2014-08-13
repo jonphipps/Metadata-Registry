@@ -10,7 +10,7 @@ dev:
     # E_ALL | E_STRICT = 4095
     # error_reporting:        4095
     # E_ALL
-    error_reporting:        6143
+    error_reporting:        -1
     web_debug:              on
     cache:                  off
     no_script_name:         off
