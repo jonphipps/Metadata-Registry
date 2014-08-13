@@ -71,14 +71,14 @@ class ConceptPeer extends BaseConceptPeer
   }
 
   /**
-  * description
-  *
-  * @return return_type
-  * @param  var_type $var
-  */
+   * description
+   *
+   * @return return_type
+   */
   public static function getConceptsByRelatedVocabID()
   {
-     $conceptProperty = sfContext::getInstance()->getActionStack()->getLastEntry()->getActionInstance()->concept_property;
+    /** @var ConceptProperty $conceptProperty */
+    $conceptProperty = sfContext::getInstance()->getActionStack()->getLastEntry()->getActionInstance()->concept_property;
      if ($conceptProperty)
      {
          $vocabId = $conceptProperty->getSchemeId();
@@ -96,11 +96,11 @@ class ConceptPeer extends BaseConceptPeer
   }
 
   /**
-  * gets concept by concept URI
-  *
-  * @return Concept
-  * @param  var_type $var
-  */
+   * gets concept by concept URI
+   *
+   * @return Concept
+   * @param $conceptUri
+   */
   public static function getConceptByUri($conceptUri)
   {
     $c = new Criteria();
