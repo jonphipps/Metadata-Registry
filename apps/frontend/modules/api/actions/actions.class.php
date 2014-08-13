@@ -19,16 +19,16 @@ class apiActions extends sfActions
   * Gets the date of the last update of a domain or uri
   *
   * @return integer (unless a format string is supplied)
-  * @param  var_type $var
   */
   public function executeLastupdate()
   {
     //DebugBreak();
-        /** @var sfRequest **/
-    $request = $this->getRequest();
+
     $domain = $this->getRequestParameter('domain');
     $objects = $this->getRequestParameter('objects');
     $type = $this->getRequestParameter('type', "json");
+    $lastUpdate="";
+
     if (isset($domain))
     {
       if ('schemas' == $objects)
@@ -65,6 +65,8 @@ class apiActions extends sfActions
     $domain = $this->getRequestParameter('domain');
     $objects = $this->getRequestParameter('objects');
     $type = $this->getRequestParameter('type', "json");
+    $data = "";
+
     if (isset($domain))
     {
       if ('schemas' == $objects)
@@ -72,9 +74,9 @@ class apiActions extends sfActions
         //get the schemas for this domain
         $result = SchemaPeer::getSchemasForDomain($domain);
 
-        /** @var Schema **/
         for($id=0; $id<count($result); $id++)
         {
+          /** @var Schema $value */
           $value = $result[$id];
           $uri = rtrim($value->getUri(),"/#");
           $index = strtolower($uri);
@@ -94,9 +96,9 @@ class apiActions extends sfActions
         //get the vocabularies for this domain
         $result = VocabularyPeer::getVocabulariesForDomain($domain);
 
-        /** @var Vocabulary **/
         for($id=0; $id<count($result); $id++)
         {
+          /** @var Vocabulary $value */
           $value = $result[$id];
           $uri = rtrim($value->getUri(),"/#");
           $index = strtolower($uri);
@@ -127,10 +129,13 @@ class apiActions extends sfActions
     return(sfView::NONE);
   }
 
+  /**
+   * @return string
+   * @throws sfError404Exception
+   */
   public function executeGet()
   {
-    //debugbreak();
-    /** @var sfRequest **/
+    /** @var myWebRequest $request **/
     $request = $this->getRequest();
 
     $redir = $this->getRequestParameter('redir', false);
