@@ -19,7 +19,7 @@ We have a number of papers available that discuss the Registry and its goals:
 
 [A Metadata Registry from Vocabularies UP: The NSDL Registry Project](http://arxiv.org/abs/cs.DL/0605111), presented at the [International Conference on Dublin Core and Metadata Applications, 3 - 6 October 2006](http://dc2006.ucol.mx/news.php).
 
-[Functional requirements and planning documents](http://metadataregistry.org/wiki/index.php/Working_Notes_and_Documentation)
+[Functional requirements and planning documents](http://wiki.metadataregistry.org/Working_Notes_and_Documentation)
 ------------
 These documents include use cases, information on versioning strategies, and other detailed information on the registry development process.
 

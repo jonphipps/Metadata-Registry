@@ -11,7 +11,7 @@ How to begin
 
 The best place to get started might be to see what other folks are doing. Click on 'Browse Vocabularies' over there on the right.
 
-When you're ready to play yourself, here are some [Step-by-step illustrated instructions...](http://metadataregistry.org/wiki/index.php/Step-By-Step_Instruction)
+When you're ready to play yourself, here are some [Step-by-step illustrated instructions...](http://wiki.metadataregistry.org/Step-By-Step_Instruction)
 
 If you want to know more about what's going on here, you can see all of the relevant documentation over at the [Production Metadata Registry](http://metadataregistry.org)
 
