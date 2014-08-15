@@ -1,6 +1,8 @@
 prod:
   .settings:
     no_script_name:           on
+    cache:                  on
+    etag:                   on
 
 sandbox:
   .settings:
@@ -12,7 +14,7 @@ dev:
     # E_ALL
     error_reporting:        -1
     web_debug:              on
-    cache:                  off
+    cache:                  on
     no_script_name:         off
     etag:                   off
     # Activated modules from plugins or from the symfony core
