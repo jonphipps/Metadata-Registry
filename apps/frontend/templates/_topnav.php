@@ -529,7 +529,9 @@
           $user = UserPeer::retrieveByPK($id);
         }
       }
-      $objectId = $user->getID();
+      if ($user) {
+        $objectId = $user->getID();
+      }
       break;
 
     case 'version':
