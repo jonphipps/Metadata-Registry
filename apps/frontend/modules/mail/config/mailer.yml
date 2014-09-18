@@ -2,4 +2,4 @@ dev:
   deliver:    off
 
 all:
-  mailer:     sendmail
+  mailer:     smtp
