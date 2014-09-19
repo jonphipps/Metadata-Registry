@@ -1,8 +1,4 @@
-list:
-  stylesheets: [history/layout, jquery.cluetip/jquery.cluetip.css]
-  javascripts: [jq/jquery: { position: last }, jq/jquery.hoverIntent.js: { position: last }, jq/jquery.dimensions.js: { position: last }, jq/jquery.cluetip.js: { position: last }, history/cluetip: { position: last }]
-
-show:
+all:
   stylesheets: [history/layout, jquery.cluetip/jquery.cluetip.css]
   javascripts: [jq/jquery: { position: last }, jq/jquery.hoverIntent.js: { position: last }, jq/jquery.dimensions.js: { position: last }, jq/jquery.cluetip.js: { position: last }, history/cluetip: { position: last }]
 
