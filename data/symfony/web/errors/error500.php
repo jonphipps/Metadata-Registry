@@ -33,7 +33,7 @@
 
   <dl class="sfTMessageInfo">
     <dt>Something is broken</dt>
-    <dd>Please e-mail us at [email] and let us know what you were doing when this error occurred. We will fix it as soon as possible.
+    <dd>Please <?php echo mail_to('sysadmin@metadataregistry.org', 'send us an email', array('encode' => true)); ?> and let us know what you were doing when this error occurred. We will fix it as soon as possible.
     Sorry for any inconvenience caused.</dd>
 
     <dt>What's next</dt>

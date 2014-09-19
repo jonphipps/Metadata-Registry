@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
 <?php $path = sfConfig::get('sf_relative_url_root', preg_replace('#/[^/]+\.php5?$#', '', isset($_SERVER['SCRIPT_NAME']) ? $_SERVER['SCRIPT_NAME'] : (isset($_SERVER['ORIG_SCRIPT_NAME']) ? $_SERVER['ORIG_SCRIPT_NAME'] : ''))) ?>
 
@@ -33,7 +33,7 @@
 
   <dl class="sfTMessageInfo">
     <dt>Something is broken</dt>
-    <dd>Please e-mail us at [email] and let us know what you were doing when this error occurred. We will fix it as soon as possible.
+    <dd>Please <a href="mailto:sysadmin@metadataregistry.org">send us an email</a> and let us know what you were doing when this error occurred. We will fix it as soon as possible.
     Sorry for any inconvenience caused.</dd>
 
     <dt>What's next</dt>
