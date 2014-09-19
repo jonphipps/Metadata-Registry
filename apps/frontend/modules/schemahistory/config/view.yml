@@ -2,3 +2,8 @@ all:
   stylesheets: [history/layout, jquery.cluetip/jquery.cluetip.css]
   javascripts: [jq/jquery: { position: last }, jq/jquery.hoverIntent.js: { position: last }, jq/jquery.dimensions.js: { position: last }, jq/jquery.cluetip.js: { position: last }, history/cluetip: { position: last }]
 
+feed:
+  has_layout: off
+
+  http_metas:
+    content-type: text/xml
