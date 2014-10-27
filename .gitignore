@@ -29,3 +29,6 @@ test/acceptance
 .filemap
 mailer.yml
 schema_org_dataset
+phpinfo.php
+.gitignore.orig
+importVocabulary.php.orig
