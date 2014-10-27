@@ -29,3 +29,6 @@ mailer.yml
 schema_org_dataset
 .env.php
 
+.gitignore.orig
+phpinfo.php
+importVocabulary.php.orig
