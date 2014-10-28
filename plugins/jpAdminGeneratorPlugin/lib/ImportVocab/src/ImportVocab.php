@@ -6,6 +6,7 @@
 
 namespace ImportVocab;
 
+use Ddeboer\DataImport\ItemConverter\MappingItemConverter;
 use Ddeboer\DataImport\Reader\CsvReader;
 use Ddeboer\DataImport\Workflow;
 use Ddeboer\DataImport\Writer;
@@ -101,9 +102,11 @@ class ImportVocab
         $this->prolog['meta']     = array();
         $this->prolog['prefix']   = array();
         $this->prolog['defaults'] = array();
-        //TODO: set these values dynamically based on column position rather than actual hard-coded values
-        $this->prolog['key_column']   = 'id';
-        $this->prolog['value_column'] = 'owl:sameAs';
+
+        //these values are set dynamically based on column position rather than actual hard-coded values in processProlog()
+        $this->prolog['meta_column']   = ''; //column '0'
+        $this->prolog['key_column']   = 'ID'; //column '1'
+        $this->prolog['value_column'] = 'owl:sameAs'; //column '2'
 
         $this->results['errors']['error']   = array();
         $this->results['errors']['warning'] = array();
@@ -118,19 +121,21 @@ class ImportVocab
 
         //TODO: store and retrieve this map from the database and associate with the agent(master template)/vocab(template)/batch(template)
         $this->mapping = array(
+          "rdfs:comment"           => "comment",
           "rdfs:label"             => "label",
           "skos:definition"        => "definition",
           "skos:scopeNote"         => "note",
           "rdfs:domain"            => "domain",
           "rdfs:range"             => "range",
-          "rdfs:subPropertyOf"     => "subpropertyof",
+          "rdfs:subPropertyOf"     => "subpropertyOf",
+          "rdfs:subClassOf"       => "subClassOf",
           "reg:type"               => "type",
           "reg:name"               => "name",
           "id"                     => "uri",
-          "owl:equivalentProperty" => "equivalentproperty",
-          "owl:sameAs"             => "sameas",
-          "owl:inverseOf"          => "inverseof",
-          "skos:altLabel"          => "altlabel",
+          "owl:equivalentProperty" => "equivalentProperty",
+          "owl:sameAs"             => "sameAs",
+          "owl:inverseOf"          => "inverseOf",
+          "skos:altLabel"          => "altLabel",
           "skos:broadMatch"        => "broadMatch",
           "skos:closeMatch"        => "closeMatch",
           "skos:narrowMatch"       => "narrowMatch",
@@ -196,7 +201,7 @@ class ImportVocab
         if (is_readable($path)) {
             $splFile      = new \SplFileObject($path);
             $this->reader = new CsvReader($splFile, ",");
-            $this->reader->setHeaderRowNumber(0);
+            $this->reader->setHeaderRowNumber(0, CsvReader::DUPLICATE_HEADERS_INCREMENT);
             return $this->reader;
         } else {
             return false;
@@ -207,11 +212,18 @@ class ImportVocab
     {
         $testArray = array();
         $this->setCsvReader($this->file);
+        //set the prolog columns
+        //Note: this makes a valid assumption about the content of the first 3 columns in a file containing an inline prolog
+        $this->prolog['meta_column'] = $this->reader->getColumnHeaders()[0];
+        $this->prolog['key_column'] = $this->reader->getColumnHeaders()[1];
+        $this->prolog['value_column'] = $this->reader->getColumnHeaders()[2];
+
         $workflow = new Workflow($this->reader);
         $output   = new ConsoleOutput();
         // Don’t import the non-metadata
         $filter = new Filter\CallbackFilter(function ($row) {
-            return trim($row['meta']);
+              $i = trim($row[$this->prolog['meta_column']]);
+            return ! empty($i);
         });
         /** @var $filter Filter\CallbackFilter */
         $workflow->addFilter($filter);
@@ -227,14 +239,14 @@ class ImportVocab
 //                         }
 //                     }
                      //if this is meta store it in the array
-                     $meta = mb_strtolower(trim($row['meta']));
+                     $meta = mb_strtolower(trim($row[$this->prolog['meta_column']]));
                      switch ($meta) {
                          case "uri":
                          case "lang":
                          case "type":
                              //$this->prolog['columns'][$meta] = array();
                              foreach ($row as $column => $value) {
-                                 if ('meta' != $column) {
+                                 if ('' != $column) {
                                      $this->prolog['columns'][$column][$meta] = $value;
                                  } elseif ('uri' != $meta) {
                                      $this->prolog['defaults'][$meta] = $row[$this->prolog['key_column']];
@@ -256,6 +268,10 @@ class ImportVocab
         );
         //$workflow->addWriter(new Writer\ArrayWriter($testArray));
         $workflow->process();
+        //add the token and the base_domin to the prefixes
+        $this->prolog['prefix'][$this->prolog['meta']['token']] = $this->prolog['meta']['base_domain'];
+        $this->status = $this->prolog['meta']['status_id'];
+        $this->userId = $this->prolog['meta']['user_id'];
         //use the prolog to configure namespaces, look up correct resources in the database
         //store the row number of the first non-meta line
 
@@ -379,9 +395,10 @@ class ImportVocab
         $output   = new ConsoleOutput();
         // Don’t import the non-metadata
         $filter = new Filter\CallbackFilter(function ($row) {
-            return ! trim($row['meta']);
+            return ! trim($row[$this->prolog['meta_column']]);
         });
-        $workflow->setGlobalMapping($this->mapping);
+        $converter = new MappingItemConverter($this->mapping);
+        $workflow->addItemConverter($converter);
         /** @var $filter Filter\CallbackFilter */
         $workflow->addFilter($filter);
         $workflow->addWriter(new Writer\ConsoleProgressWriter($output, $this->reader));
@@ -410,18 +427,20 @@ class ImportVocab
                      try {
                          //set the row counter
 
+                         $rowUri = $row[$this->prolog['key_column']];
                          //lookup the URI (or the OMR ID if available) for a match
                          //There always has to be a URI on either update or create
-                         if (! isset($row["uri"])) {
+                         //If there's a prolog, this will be the 'key_column'
+                         if (empty($rowUri)) {
                              throw new \Exception('Missing URI for row: ' . $this->rowCounter);
                          }
 
                          //TODO NOW write a function to check mapped values for array
 
                          if ($this->useCuries) {
-                             $uri = $this->getFqn($row["uri"]);
+                             $uri = $this->getFqn($rowUri);
                          } else {
-                             $uri = $this->vocabulary->getBaseDomain() . $row["uri"];
+                             $uri = $this->vocabulary->getBaseDomain() . $rowUri;
                          }
                          $skipMap    = array();
                          $property   = \SchemaPropertyPeer::retrieveByUri($uri);
@@ -465,7 +484,7 @@ class ImportVocab
                              $property->setName($row["name"]);
                              $skipMap[] = "name";
                          } else {
-                             $property->setName($row["uri"]);
+                             $property->setName($rowUri);
                              $skipMap[] = "name";
 //                        } elseif (isset($row["label"])) {
 //                            $property->setName(slugify($row["label"]));
