@@ -30,7 +30,7 @@ echo "\n";
 //define('SF_APP', $app);
 //define('SF_ENVIRONMENT', $env);
 define('SF_APP', 'frontend');
-define('SF_ENVIRONMENT', 'prod');
+define('SF_ENVIRONMENT', 'dev');
 define('SF_ROOT_DIR', sfConfig::get('sf_root_dir'));
 define('SF_DEBUG', false);
 
@@ -340,7 +340,7 @@ function run_import_vocabulary($task, $args)
     $type          = strtolower($args[0]);
     $filePath      = $args[1];
     $vocabId       = $args[2];
-    $batchId       = $args[3];
+    $batchId       = isset($args[3]) ? $args[3] : "";
     $deleteMissing = (isset($args[4]) && ("-d" == $args[4]));
 
     //do some basic validity checks
