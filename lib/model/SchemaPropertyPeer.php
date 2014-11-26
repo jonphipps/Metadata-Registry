@@ -12,7 +12,7 @@ class SchemaPropertyPeer extends BaseSchemaPropertyPeer
   /**
   * returns properties for the current schema
   *
-  * @return array of schema_property
+  * @return SchemaProperty[]
   */
   public static function getPropertiesByCurrentSchemaID()
   {
@@ -42,7 +42,7 @@ class SchemaPropertyPeer extends BaseSchemaPropertyPeer
   /**
   * returns classes for the current schema
   *
-  * @return array of schema_property
+  * @return SchemaProperty[]
   */
   public static function getClassesByCurrentSchemaID()
   {
@@ -70,11 +70,12 @@ class SchemaPropertyPeer extends BaseSchemaPropertyPeer
   }
 
   /**
-  * description
-  *
-  * @return return_type
-  * @param  var_type $var
-  */
+   * description
+   *
+   *
+   * @param string $uri
+   * @return SchemaProperty
+   */
   public static function  retrieveByUri($uri)
   {
     $criteria = new Criteria();
@@ -84,16 +85,13 @@ class SchemaPropertyPeer extends BaseSchemaPropertyPeer
 
   }
 
-
   /**
-  * sets the criteria and returns the few columns needed for schema property search results
-  *
-  * @param Criteria $criteria The Criteria object used to build the SELECT statement.
-  * @param Connection $con
-  * @return array Array of selected Objects
-  * @throws PropelException Any exceptions caught during processing will be
-  *     rethrown wrapped into a PropelException.
-  */
+   * sets the criteria and returns the few columns needed for schema property search results
+   *
+   * @param Criteria $c The Criteria object used to build the SELECT statement.
+   * @param Connection $con
+   * @return SchemaProperty[]
+   */
    public static function doSelectSearchResults(Criteria $c, $con = null)
   {
     $results = self::doSelectJoinSchema($c);

@@ -1,0 +1,37 @@
+meta,id,owl:sameAs,rdfs:label,skos:definition,skos:scopeNote,rdfs:domain,rdfs:range,ParentProperty,rdfs:subPropertyOf,owl:inverseOf,reg:name,reg:type
+uri,key,owl:sameAs,rdfs:label,skos:definition,skos:scopeNote,rdfs:domain,rdfs:range,rdfs:subPropertyOf,rdfs:subPropertyOf,owl:inverseOf,reg:name,reg:type
+lang,en,,en,en,en,,,,,,,
+type,uri,uri,,,,uri,uri,uri,uri,uri,,
+meta,token,rdam,"A unique token representing this element set. This will be used as the prefix identifying this URI in RDF curies or as a qname in XML",,,,,,,,,
+meta,label,"RDA Manifestation properties","A human-readable descriptive label for the vocab. This will be displayed in lists of vocabs.",,,,,,,,,
+meta,status_id,1,"The registry code of the status (defaults to published)",,,,,,,,,
+meta,url,,"A non-Registry URL that contains more information about this element set",,,,,,,,,
+meta,note,,"A note about this element set",,,,,,,,,
+meta,tags,,"Comma separated list of tags",,,,,,,,,
+meta,base_domain,http://rdaregistry.info/Elements/m/,"the URI of this vocab",,,,,,,,,
+meta,type,schema,"""schema"" || ""vocab""",,,,,,,,,
+meta,agent_id,,"The registry ID of the owner/agent",,,,,,,,,
+meta,user_id,,"The registry ID of the vocab admin (must be affiliated with the owner/agent)",,,,,,,,,
+prefix,owl,http://www.w3.org/2002/07/owl#,OWL,,,,,,,,,
+prefix,rdfs,http://www.w3.org/2000/01/rdf-schema#,"RDF schema",,,,,,,,,
+prefix,skos,http://www.w3.org/2004/02/skos/core#,SKOS,,,,,,,,,
+prefix,mrc,http://id.loc.gov/vocabulary/relators/,"MARC relator codes",,,,,,,,,
+prefix,reg,http://metadataregistry.org/uri/profile/RegAp/,"OMR elements",,,,,,,,,
+prefix,rdaa,http://rdaregistry.info/Elements/a/,"RDA agent (person, family, corporate body) properties",,,,,,,,,
+prefix,rdac,http://rdaregistry.info/Elements/c/,"RDA classes",,,,,,,,,
+prefix,rdae,http://rdaregistry.info/Elements/e/,"RDA expression properties",,,,,,,,,
+prefix,rdai,http://rdaregistry.info/Elements/i/,"RDA item properties",,,,,,,,,
+prefix,rdam,http://rdaregistry.info/Elements/m/,"RDA manifestaion properties",,,,,,,,,
+prefix,rdau,http://rdaregistry.info/Elements/u/,"RDA unconstrained properties",,,,,,,,,
+prefix,rdaw,http://rdaregistry.info/Elements/w/,"RDA work properties",,,,,,,,,
+,rdam:P30001,rdam:carrierType,"has carrier type","Relates a manifestation to a categorization reflecting the format of the storage medium and housing of a carrier in combination with the type of intermediation device required to view, play, run, etc., the content of a resource.",,rdac:C10007,,rdau:P60048,,,carrierType,subproperty
+,rdam:P30002,rdam:mediaType,"has media type","Relates a manifestation to a categorization reflecting the general type of intermediation device required to view, play, run, etc., the content of a resource.",,rdac:C10007,,rdau:P60050,,,mediaType,subproperty
+,rdam:P30003,rdam:modeOfIssuance,"has mode of issuance","Relates a manifestation to a categorization reflecting whether a resource is issued in one or more parts, the way it is updated, and its intended termination.",,rdac:C10007,,rdau:P60051,,,modeOfIssuance,subproperty
+,rdam:P30004,rdam:identifierForTheManifestation,"has identifier for the manifestation","Relates a manifestation to a character string associated with a manifestation that serves to differentiate that manifestation from other manifestations.",,rdac:C10007,,rdau:P60052,,,identifierForTheManifestation,subproperty
+,rdam:P30005,rdam:preferredCitation,"has preferred citation","Relates a manifestation to a citation for a resource in the form preferred by a creator, publisher, custodian, indexing or abstracting service, etc.",,rdac:C10007,,rdau:P60057,,,preferredCitation,subproperty
+,rdam:P30006,rdam:regionalEncoding,"has regional encoding","Relates a manifestation to a code identifying the region of the world for which a videodisc has been encoded and preventing the disc from being played on a player sold in a different region.",,rdac:C10007,,rdam:P30124,rdau:P60059,,regionalEncoding,subproperty
+,rdam:P30007,rdam:copyrightDate,"has copyright date","Relates a manifestation to a date associated with a claim of protection under copyright or a similar regime.",,rdac:C10007,,rdau:P60069,,,copyrightDate,subproperty
+,rdam:P30008,rdam:dateOfDistribution,"has date of distribution","Relates a manifestation to a date associated with the distribution of a resource in a published form.",,rdac:C10007,,rdau:P60070,,,dateOfDistribution,subproperty
+,rdam:P30009,rdam:dateOfProduction,"has date of production","Relates a manifestation to a date associated with the inscription, fabrication, construction, etc., of a resource in an unpublished form.",,rdac:C10007,,rdau:P60071,,,dateOfProduction,subproperty
+,rdam:P30010,rdam:dateOfManufacture,"has date of manufacture","Relates a manifestation to a date associated with the printing, duplicating, casting, etc., of a resource in a published form.",,rdac:C10007,,rdau:P60072,,,dateOfManufacture,subproperty
+,rdam:P30011,rdam:dateOfPublication,"has date of publication","Relates a manifestation to a date associated with the publication, release, or issuing of a resource.",,rdac:C10007,,rdau:P60073,,,dateOfPublication,subproperty

@@ -1,0 +1,22 @@
+paths:
+    tests: tests
+    log: tests/_log
+    data: tests/_data
+    helpers: tests/_helpers
+settings:
+    bootstrap: _bootstrap.php
+    suite_class: \PHPUnit_Framework_TestSuite
+    colors: true
+    memory_limit: 1024M
+    log: true
+modules:
+    config:
+        Db:
+            dsn: 'mysql:host=localhost;port=3307;dbname=swregistry_test'
+            user: 'root'
+            password: 'RegIt!'
+            # disabled to run batch-specific tests
+            # dump: ../../../../codeception/_data/swregistry_test_2014-01-12.sql
+            dump: tests/_data/batch/swregistry_test_2014-01-17.sql
+            populate: true
+            cleanup: false

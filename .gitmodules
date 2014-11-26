@@ -1,0 +1,6 @@
+[submodule "web/repos/marc21rdf.info"]
+	path = web/repos/marc21rdf.info
+	url = https://github.com/OpenMetadataRegistry/marc21rdf.info
+[submodule "web/repos/RDA-Vocabularies"]
+	path = web/repos/RDA-Vocabularies
+	url = https://github.com/RDARegistry/RDA-Vocabularies

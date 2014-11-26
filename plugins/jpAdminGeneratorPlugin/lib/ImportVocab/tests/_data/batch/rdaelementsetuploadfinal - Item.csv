@@ -1,0 +1,37 @@
+meta,id,owl:sameAs,rdfs:label,skos:definition,skos:scopeNote,rdfs:domain,rdfs:range,ParentProperty,rdfs:subPropertyOf,owl:inverseOf,reg:name,reg:type
+uri,key,owl:sameAs,rdfs:label,skos:definition,skos:scopeNote,rdfs:domain,rdfs:range,rdfs:subPropertyOf,rdfs:subPropertyOf,owl:inverseOf,reg:name,reg:type
+lang,en,,en,en,en,,,,,,,
+type,uri,uri,,,,uri,uri,uri,uri,uri,,
+meta,token,rdai,"A unique token representing this element set. This will be used as the prefix identifying this URI in RDF curies or as a qname in XML",,,,,,,,,
+meta,label,"RDA Item properties","A human-readable descriptive label for the vocab. This will be displayed in lists of vocabs.",,,,,,,,,
+meta,status_id,1,"The registry code of the status (defaults to published)",,,,,,,,,
+meta,url,,"A non-Registry URL that contains more information about this element set",,,,,,,,,
+meta,note,,"A note about this element set",,,,,,,,,
+meta,tags,,"Comma separated list of tags",,,,,,,,,
+meta,base_domain,http://rdaregistry.info/Elements/i/,"the URI of this vocab",,,,,,,,,
+meta,type,schema,"""schema"" || ""vocab""",,,,,,,,,
+meta,agent_id,,"The registry ID of the owner/agent",,,,,,,,,
+meta,user_id,,"The registry ID of the vocab admin (must be affiliated with the owner/agent)",,,,,,,,,
+prefix,owl,http://www.w3.org/2002/07/owl#,OWL,,,,,,,,,
+prefix,rdfs,http://www.w3.org/2000/01/rdf-schema#,"RDF schema",,,,,,,,,
+prefix,skos,http://www.w3.org/2004/02/skos/core#,SKOS,,,,,,,,,
+prefix,mrc,http://id.loc.gov/vocabulary/relators/,"MARC relator codes",,,,,,,,,
+prefix,reg,http://metadataregistry.org/uri/profile/RegAp/,"OMR elements",,,,,,,,,
+prefix,rdaa,http://rdaregistry.info/Elements/a/,"RDA agent (person, family, corporate body) properties",,,,,,,,,
+prefix,rdac,http://rdaregistry.info/Elements/c/,"RDA classes",,,,,,,,,
+prefix,rdae,http://rdaregistry.info/Elements/e/,"RDA expression properties",,,,,,,,,
+prefix,rdai,http://rdaregistry.info/Elements/i/,"RDA item properties",,,,,,,,,
+prefix,rdam,http://rdaregistry.info/Elements/m/,"RDA manifestaion properties",,,,,,,,,
+prefix,rdau,http://rdaregistry.info/Elements/u/,"RDA unconstrained properties",,,,,,,,,
+prefix,rdaw,http://rdaregistry.info/Elements/w/,"RDA work properties",,,,,,,,,
+,rdai:P40001,rdai:identifierForTheItem,"has identifier for the item","Relates an item to a character string associated with an item that serves to differentiate that item from other items.",,rdac:C10003,,rdau:P60052,,,identifierForTheItem,subproperty
+,rdai:P40002,rdai:itemSpecificCarrierCharacteristicOfEarlyPrintedResource,"has item-specific carrier characteristic of early printed resource","Relates an item to a characteristic that applies to the carrier or carriers of the specific early printed item being described and is assumed not to apply to other items exemplifying the same manifestation. includes rubrication, illumination, and other hand colouring, manuscript additions, and binding.",,rdac:C10003,,rdai:P40003,rdau:P60055,,itemSpecificCarrierCharacteristicOfEarlyPrintedResource,subproperty
+,rdai:P40003,rdai:itemSpecificCarrierCharacteristic,"has item-specific carrier characteristic","Relates an item to a characteristic that applies to the carrier or carriers of the specific item being described and is assumed not to apply to other items exemplifying the same manifestation.",,rdac:C10003,,rdau:P60056,,,itemSpecificCarrierCharacteristic,subproperty
+,rdai:P40004,rdai:collector,"has collector","Relates an item to a curator who brings together items from various sources that are then arranged, described, and cataloged as a collection.",,rdac:C10003,rdac:C10002,rdai:P40017,rdau:P60066,rdaa:P50045,collector,subproperty
+,rdai:P40005,rdai:collectionRegistrar,"has collection registrar","Relates an item to a curator who lists or inventories the items in an aggregate work such as a collection of items or works.",,rdac:C10003,rdac:C10002,rdai:P40017,rdau:P60067,rdaa:P50046,collectionRegistrar,subproperty
+,rdai:P40006,rdai:depositor,"has depositor","Relates an item to a current owner of an item who deposited the item into the custody of another person, family, or corporate body, while still retaining ownership.",,rdac:C10003,rdac:C10002,rdai:P40018,rdau:P60068,rdaa:P50047,depositor,subproperty
+,rdai:P40007,rdai:donor,"has donor","Relates an item to a former owner of an item who donated that item to another owner.",,rdac:C10003,rdac:C10002,rdai:P40019,rdau:P60091,rdaa:P50066,donor,subproperty
+,rdai:P40008,rdai:seller,"has seller","Relates an item to a former owner of an item who sold that item to another owner.",,rdac:C10003,rdac:C10002,rdai:P40019,rdau:P60092,rdaa:P50067,seller,subproperty
+,rdai:P40009,rdai:containedInItem,"is contained in (item)","Relates an item to a larger item of which a part is a discrete component.",,rdac:C10003,rdac:C10003,rdai:P40054,rdau:P60101,rdai:P40034,containedInItem,subproperty
+,rdai:P40010,rdai:noteOnDimensionsOfItem,"has note on dimensions of item","Relates an item to a note providing information on the dimensions of the specific item being described that is not recorded as part of the dimensions element.",,rdac:C10003,,rdai:P40028,rdau:P60133,,noteOnDimensionsOfItem,subproperty
+,rdai:P40011,rdai:noteOnExtentOfItem,"has note on extent of item","Relates an item to a note providing information on the extent of a manifestation that is not recorded as part of the extent element.",,rdac:C10003,,rdai:P40028,rdau:P60134,,noteOnExtentOfItem,subproperty

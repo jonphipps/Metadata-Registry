@@ -11,11 +11,16 @@
  *
  */
 
+use ImportVocab\ImportVocab;
+
 pake_desc('Import a file into a vocabulary');
 pake_task('import-vocabulary');
 
 pake_desc('Import a list of vocabulary files');
 pake_task('import-list');
+
+pake_desc('Repair references in an import batch');
+pake_task('import-repair');
 
 echo "\n";
 
@@ -25,9 +30,11 @@ echo "\n";
 //define('SF_APP', $app);
 //define('SF_ENVIRONMENT', $env);
 define('SF_APP', 'frontend');
-define('SF_ENVIRONMENT', 'prod');
+define('SF_ENVIRONMENT', 'dev');
 define('SF_ROOT_DIR', sfConfig::get('sf_root_dir'));
-define('SF_DEBUG', true);
+define('SF_DEBUG', false);
+
+require_once(SF_ROOT_DIR . DIRECTORY_SEPARATOR . 'vendor'. DIRECTORY_SEPARATOR .'autoload.php');
 
 require_once(SF_ROOT_DIR . DIRECTORY_SEPARATOR . 'apps' . DIRECTORY_SEPARATOR . SF_APP . DIRECTORY_SEPARATOR .
              'config' . DIRECTORY_SEPARATOR . 'config.php');
@@ -39,6 +46,71 @@ $databaseManager->initialize();
 //necessary to detect line endings in mac files
 ini_set('auto_detect_line_endings', true);
 
+$uploadPath  = SF_ROOT_DIR . DIRECTORY_SEPARATOR . 'web' . DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR;
+
+function run_import_repair($task, $args)
+{
+    //xdebug_break();
+    if (count($args) < 1) {
+        throw new Exception('You must provide a batch ID.');
+    }
+    $batchId = $args[0];
+    //get the import history for the batchid
+    $criteria = new Criteria();
+    $criteria->add(\FileImportHistoryPeer::BATCH_ID, $batchId);
+    $batch = \FileImportHistoryPeer::doSelect($criteria);
+    if (empty($batch)) {
+        throw new Exception('Not a valid batch ID.');
+    }
+
+    $criteria = new \Criteria();
+    $criteria->add(\ProfilePropertyPeer::NAME, "isSameAs");
+    /** @var $profileProperty \ProfileProperty */
+    $profileProperty = \ProfilePropertyPeer::doSelectOne($criteria);
+    $sameasId = $profileProperty->getId();
+
+    //for each one in the list
+    /** @var $history FileImportHistory */
+    foreach ($batch as $history) {
+        //get result array
+        $results = unserialize($history->getResults());
+        $rows = $results['success']['rows'];
+        $userId = $history->getUserId();
+        //for each row
+        foreach ($rows as $row) {
+            //get the references
+            /** @var $property \SchemaProperty */
+            $property = \SchemaPropertyPeer::retrieveByPK($row['id']);
+            /** @var $ref \SchemaProperty */
+            $ref = \SchemaPropertyPeer::retrieveByUri($property->getParentUri());
+            if ($property and $ref) {
+                $property->setIsSubpropertyOf($ref->getId());
+                $property->saveSchemaProperty($userId);
+            }
+            //update the parent property
+            if (isset($row['statements'])) {
+            //for each statement
+                foreach ($row['statements'] as $statement) {
+                    //get the references
+
+                    if ($sameasId != $statement['propertyId']) {
+                        /** @var $ref \SchemaProperty */
+                        $ref = \SchemaPropertyPeer::retrieveByUri($statement['object']);
+                    } else {
+                        //ref = the parent
+                        $ref = $property;
+                    }
+                    /** @var $propertyElement \SchemaPropertyElement */
+                    $propertyElement = \SchemaPropertyElementPeer::retrieveByPK($statement['id']);
+                    if ($propertyElement and $ref) {
+                        $propertyElement->setSchemaPropertyRelatedByRelatedSchemaPropertyId($ref);
+                        $propertyElement->save();
+                    }
+                }
+            }
+        }
+    }
+}
 /**
  * this is for importing a list of value vocabulary files.
  *
@@ -67,6 +139,7 @@ function run_import_list($task, $args)
     //set the arguments
     $type     = strtolower($args[0]);
     $filePath = $args[1];
+    $batchId =  $args[3];
 
     //does the file exist?
     if (! file_exists($filePath)) {
@@ -95,13 +168,7 @@ function run_import_list($task, $args)
      *    Set Defaults Here                                      *
      *************************************************************/
     $fileType    = $matches[1];
-    $baseDomain  = "http://marc21rdf.info/";
-    $userId      = 36; //jon's user id
-    $agentID     = 67; //MMA agent ID
-    $uploadPath  = SF_ROOT_DIR . DIRECTORY_SEPARATOR . 'web' . DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR;
-    $communities = "";
-    $language    = "en";
-    $StatusId    = 1;
+    //todo: need to figure out a way to pass defaults dynamically
 
     $importTask = new pakeTask('import-vocabulary');
 
@@ -118,12 +185,12 @@ function run_import_list($task, $args)
             } catch(Exception $e) {
                 throw new Exception("Not a happy CSV file! Error: " . $e);
             }
+            $uploadPath = $GLOBALS['uploadPath'];
+            ;
             if ('vocab' == $type) {
                 // Get array of heading names found
                 $headings = $reader->getHeadings();
                 $fields   = VocabularyPeer::getFieldNames();
-
-                $baseDomain .= "terms/";
 
                 try {
                     while ($row = $reader->getRow()) {
@@ -163,8 +230,9 @@ function run_import_list($task, $args)
                         //vocabid
                         $args[2] = $vocab->getId();
                         //filepath
-                        $args[1] = $uploadPath . $row['VES'] . ".csv";
-                        $args[3] = "-d";
+                        $args[1] = $GLOBALS['uploadPath'] . $row['VES'] . ".csv";
+                        $args[3] = $batchId;
+                        $args[4] = "-d";
 
                         run_import_vocabulary($importTask, $args);
                         $foo = $vocab->countConcepts();
@@ -174,11 +242,6 @@ function run_import_list($task, $args)
                 }
             } else //it's a schema
             {
-                // Get array of heading names found
-                $headings = $reader->getHeadings();
-
-                $baseDomain .= "elements/";
-
                 try {
                     while ($row = $reader->getRow()) {
 
@@ -219,13 +282,17 @@ function run_import_list($task, $args)
                         $schema->setUrl($row['URL']);
                         $schema->save();
 
+                        //todo: create a new import batch here and pass it to the import args
+                        //see importVocabulary->saveresults()
+                        //$batchId =
                         //type
                         $args[0] = "schema";
                         //filepath
-                        $args[1] = $uploadPath . $row['File Name'];
+                        $args[1] = $GLOBALS['uploadPath'] . $row['File Name'];
                         //vocabid
                         $args[2] = $schema->getId();
-                        $args[3] = "-d";
+                        $args[3] = $batchId;
+                        $args[4] = "-d";
 
                         run_import_vocabulary($importTask, $args);
                         $foo = $schema->countSchemaPropertys();
@@ -247,13 +314,15 @@ function run_import_list($task, $args)
  * arg[1] is the vocabulary name.
  *        The file type is determined by the extension and must be one of "json", "rdf", "csv", "xml"
  * arg[2] is the vocabulary id
- * arg[3] is the user id
+ * arg[3] is the batch id
  * arg[4] [optional] is -d
  *
  * @throws Exception
  */
 function run_import_vocabulary($task, $args)
 {
+    //xdebug_break();
+
     //check the argument counts
     if (count($args) < 1) {
         throw new Exception('You must provide a vocabulary type.');
@@ -270,8 +339,9 @@ function run_import_vocabulary($task, $args)
     //set the arguments
     $type          = strtolower($args[0]);
     $filePath      = $args[1];
-    $id            = $args[2];
-    $deleteMissing = (isset($args[3]) && ("-d" == $args[3]));
+    $vocabId       = $args[2];
+    $batchId       = isset($args[3]) ? $args[3] : "";
+    $deleteMissing = (isset($args[4]) && ("-d" == $args[4]));
 
     //do some basic validity checks
 
@@ -291,13 +361,17 @@ function run_import_vocabulary($task, $args)
         $type = "vocab";
     }
 
-    if (! is_numeric($id)) {
+    if (! is_numeric($vocabId)) {
         throw new Exception('You must provide a valid ID');
     }
 
     //does the file exist?
     if (! file_exists($filePath)) {
+        //default to the site upload path
+        $filePath = $GLOBALS['uploadPath'] . $filePath;
+        if (! file_exists($filePath)) {
         throw new Exception('You must supply a valid file to import: ' . $filePath);
+        }
     }
 
     //is the file a valid type?
@@ -322,7 +396,7 @@ function run_import_vocabulary($task, $args)
 
     //is the object a valid object?
     if ('vocab' == $type) {
-        $vocabObj = VocabularyPeer::retrieveByPK($id);
+        $vocabObj = VocabularyPeer::retrieveByPK($vocabId);
         if (is_null($vocabObj)) {
             throw new Exception('Invalid vocabulary ID');
         }
@@ -341,37 +415,10 @@ function run_import_vocabulary($task, $args)
         $tSlash = preg_match('@(/$)@i', $vocabObj->getUri()) ? '' : '/';
         $tSlash = preg_match('/#$/', $vocabObj->getUri()) ? '' : $tSlash;
     } else {
-        $schemaObj = SchemaPeer::retrieveByPK($id);
-        if (is_null($schemaObj)) {
-            throw new Exception('Invalid schema ID');
-        }
-
-        //set some defaults
-        $baseDomain = $schemaObj->getUri();
-        $language   = $schemaObj->getLanguage();
-        $statusId   = $schemaObj->getStatusId();
-        $userId     = $schemaObj->getCreatedUserId();
-        $agentId    = $schemaObj->getAgentId();
-
-        //get a element set property id map
-        $profileId  = 1;
-        $profile    = ProfilePeer::retrieveByPK($profileId);
-        $elementMap = $profile->getAllProperties();
-
-        //there has to be a hash or a slash
-        $tSlash = preg_match('@(/$)@i', $baseDomain) ? '' : '/';
-        $tSlash = preg_match('/#$/', $baseDomain) ? '' : $tSlash;
+        $import               = new ImportVocab($type, $filePath, $vocabId);
     }
 
     /* From here on the process is the same regardless of UI */
-
-    //execute
-    //     parse file to get the fields/columns and data
-    $file = fopen($filePath, "r");
-    if (! $file) {
-        throw new Exception("Can't read supplied file");
-    }
-
     //     check to see if file has been uploaded before
     //          check import history for file name
     $importHistory = FileImportHistoryPeer::retrieveByLastFilePath($filePath);
@@ -394,12 +441,6 @@ function run_import_vocabulary($task, $args)
 
     switch ($fileType) {
         case "csv":
-            try {
-                $reader = new aCsvReader($filePath);
-            } catch(Exception $e) {
-                throw new Exception("Not a happy CSV file!");
-            }
-
             if ('vocab' == $type) {
                 // Get array of heading names found
                 $headings = $reader->getHeadings();
@@ -522,192 +563,14 @@ function run_import_vocabulary($task, $args)
                 $objects = $vocabObj->countConcepts();
             } else //it's an element set
             {
-                //todo map should come from linkage section and be stored in the registry
-                //&about,&type,&status,&equivalent,&label@en-US,&altLabel@en-US,&definition@en-US,&domain,&range,&category,&phase,&notes,&row_id
-
-                $map  = array(
-                  "uri"                => "&about",
-                  "type"               => "&type",
-                  "status"             => "&status",
-                  "equivalentProperty" => "&equivalent",
-                  "label"              => "&label@en-US",
-                  "altLabel"           => "&altLabel@en-US",
-                  "definition"         => "&definition@en-US",
-                  "domain"             => "&domain",
-                  "range"              => "&range",
-                  "comment"            => "&notes",
-                );
-                $rows = 0;
-
-                //executeImport:
-                //    serialize the column map
-                try {
-                    while ($row = $reader->getRow()) {
-                        //        lookup the URI (or the OMR ID if available) for a match
-
-                        //There always has to be a URI on either update or create
-                        if (! isset($row[$map["uri"]])) {
-                            throw new Exception('Missing URI for row: ' . $reader->getRowCount());
-                            continue;
-                        }
-
-                        //TODO NOW write a function to check mapped values for array
-                        $rows ++;
-                        $uri         = $baseDomain . $tSlash . $row[$map["uri"]];
-                        $property    = SchemaPropertyPeer::retrieveByUri($uri);
-                        $updateTime  = time();
-                        $rowLanguage = (isset($map['language'])) ? $row[$map['language']] : $language;
-
-                        if (isset($map['status'])) {
-                            //is it a known text string
-                            $c = new Criteria();
-                            $c->add(StatusPeer::DISPLAY_NAME, $row[$map['status']]);
-                            $statusObj = StatusPeer::doSelectOne($c);
-                            if (isset($statusObj)) {
-                                $rowStatusId = $statusObj->getId();
-                            } else if (is_integer($row[$map['status']])) {
-                                $rowStatusId = $row[$map['status']];
-                            } else {
-                                $rowStatusId = $statusId;
-                            }
-                        }
-
-                        if (! $property) {
-                            //          create a new property
-                            /** @var SchemaProperty * */
-                            $property = new SchemaProperty();
-                            $property->setSchema($schemaObj);
-                            $property->setUri($uri);
-                            $property->setCreatedUserId($userId);
-                            $property->setCreatedAt($updateTime);
-                        }
-
-                        $property->setLanguage($rowLanguage);
-                        $property->setStatusId($rowStatusId);
-                        $property->setUpdatedUserId($userId);
-                        $property->setUpdatedAt($updateTime);
-
-                        if (isset($row[$map["label"]])) {
-                            $property->setLabel($row[$map["label"]]);
-                        }
-
-                        if (isset($row[$map["name"]])) {
-                            $property->setName($row[$map["name"]]);
-                        } else {
-                            $property->setName($row[$map["uri"]]);
-//                        } elseif (isset($row[$map["label"]])) {
-//                            $property->setName(slugify($row[$map["label"]]));
-                        }
-                        if (isset($row[$map["type"]])) {
-                            $property->setDefinition(strtolower($row[$map["type"]]));
-                        }
-
-                        if (isset($row[$map["definition"]])) {
-                            $property->setDefinition($row[$map["definition"]]);
-                        }
-
-                        if (isset($row[$map["domain"]])) {
-                            $property->setDomain($row[$map["domain"]]);
-                        }
-
-                        if (isset($row[$map["range"]])) {
-                            $property->setOrange($row[$map["range"]]);
-                        }
-
-                        if (is_array($map["note"])) {
-                            $note = '';
-                            foreach ($map["note"] as $key => $value) {
-                                $caption = ! empty($row[$value]) ? " (" . $row[$value] . ")" : ' (no caption)';
-                                $note .= ! empty($row[$key]) ? $key . ": " . $row[$key] . $caption . "<br />" : "";
-                            }
-                            $property->setNote($note);
-                        } else {
-                            if (isset($row[$map["note"]])) {
-                                $property->setNote($row[$map["note"]]);
-                            }
-                        }
-                        $property->saveSchemaProperty($userId);
-
-                        foreach ($map as $key => $value) {
-                            //we skip because we already did them
-                            if (! in_array(
-                              $key,
-                              array(
-                                'uri',
-                                'status',
-                                'type',
-                                'language',
-                                'label',
-                                'name',
-                                'definition',
-                                'comment',
-                                'note',
-                                'domain',
-                                'range'
-                              )
-                            )
-                            ) {
-                                $elementId  = $elementMap[$key];
-                                $propertyId = $property->getId();
-                                //check to see if the property already exists
-                                //note that this also checks the object value as well, so there's no way to update or delete an existing triple
-                                //the sheet would have to contain the identifier for the triple
-                                $element = SchemaPropertyElementPeer::lookupElement(
-                                                                    $schemaObj->getId(),
-                                                                      $elementId,
-                                                                      $map[$value]
-                                );
-
-                                //create a new property for each unmatched column
-                                if (! empty($row[$value])) {
-                                    if (! $element) {
-                                        $element = new SchemaPropertyElement();
-                                        $element->setCreatedUserId($userId);
-                                        $element->setCreatedAt($updateTime);
-                                        $element->setProfilePropertyId($elementId);
-                                        $element->setSchemaPropertyId($propertyId);
-                                    }
-
-                                    if (($row[$value] != $element->getObject()) ||
-                                        ($rowLanguage != $element->getLanguage())
-                                    ) {
-                                        /**
-                                         * @todo We need a check here for objectproperties and handle differently
-                                         **/
-                                        if ($rowLanguage != $element->getLanguage()) {
-                                            $element->setLanguage($rowLanguage);
-                                        }
-                                        if ($row[$value] != $element->getObject()) {
-                                            $element->setObject($row[$value]);
-                                        }
-                                        $element->setUpdatedUserId($userId);
-                                        $element->setUpdatedAt($updateTime);
-                                        $element->setStatusId($rowStatusId);
-                                        $element->save();
-                                    }
-                                } //the row value is empty
-                                else if ($deleteMissing && $element) {
-                                    $element->delete();
-                                }
-                            }
-                        }
-
-                        //          else
-                        //               lookup and update concept or element
-                        //               lookup and update each property
-                        //          update the history for each property, action is 'import', should be a single timestamp for all (this should be automatic)
-                        //          if 'delete missing properties' is true
-                        //               delete each existing, non-required property that wasn't updated by the import
-                    }
-                } catch(Exception $e) {
-                    //          catch
-                    //            if there's an error of any kind, write to error log and continue
-                    echo "Error on row: " . $rows . ", " . $uri . "\n" . $e . "\n";
-                    continue;
-                }
-                $objects = $schemaObj->countSchemaPropertys();
+                $import->setCsvReader($import->file);
+                $import->processProlog();
+                $import->getDataColumnIds();
+                $import->processData();
+                //todo: $results should be a class
+                $results[$vocabId] = $import->results;
+                $bacthId = $import->saveResults($batchId);
             }
-            //     save the import history file (match timestamp to history entries)
             break;
         case "json":
             break;
@@ -720,7 +583,7 @@ function run_import_vocabulary($task, $args)
 
     /* output to stdout*/
     //          number of objects imported (link to history, filtered on timestamp of import)
-    echo "File:" . $filePath . ";\n     Objects imported: " . $objects . "; Rows read: " . $rows . "\n";
+    echo " Rows imported: " . count($results[$vocabId]['success']['rows']) . "\n From File:" . $filePath . "\nUse this ID for more in this batch: " . $bacthId;
     //          number of errors (link to error log)
 
 }
