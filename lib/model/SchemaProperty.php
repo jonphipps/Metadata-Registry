@@ -367,8 +367,6 @@ class SchemaProperty extends BaseSchemaProperty
   */
   public function updateElement(SchemaPropertyElement $element, $userId, $field, $object, $con)
   {
-    static $updatedUri;
-
     if ($element)
     {
       $element->setIsSchemaProperty(true);
@@ -377,16 +375,12 @@ class SchemaProperty extends BaseSchemaProperty
 
       if ('is_subproperty_of' == $field || 'is_subclass_of' == $field)
       {
-        if (!$updatedUri)
+        if ($this->getIsSubpropertyOf() && empty($object))
         {
           $element->setRelatedSchemaPropertyId($this->getIsSubpropertyOf());
           $object = $this->getParentUri();
-          $updatedUri = true;
         }
-        Else
-        {
-          return false;
-        }
+
       }
 
       $element->setObject($object ? $object : '');
