@@ -19,6 +19,7 @@ Thumbs.db
 *.log
 plugins/jpAdminGeneratorPlugin/lib/ImportVocab/tests/_log
 phpini.txt
+repos
 vendor.old
 vendor
 
