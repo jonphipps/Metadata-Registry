@@ -32,3 +32,4 @@ schema_org_dataset
 phpinfo.php
 .gitignore.orig
 importVocabulary.php.orig
+*.log
