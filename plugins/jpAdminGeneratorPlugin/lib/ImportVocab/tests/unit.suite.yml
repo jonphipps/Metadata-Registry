@@ -1,22 +1,20 @@
 # Codeception Test Suite Configuration
 
 # suite for unit (internal) tests.
-# RUN `build` COMMAND AFTER ADDING/REMOVING MODULES.
+class_name: UnitTester
+error_level: "E_ALL & ~E_STRICT & ~E_USER_DEPRECATED & ~E_DEPRECATED"
 
-class_name: CodeGuy
 modules:
-    enabled: [CodeHelper, Db]
-
+    enabled: [Asserts, UnitHelper, Db]
 env:
     batch:
         modules:
             config:
                 Db:
                     dump: tests/_data/batch/swregistry_test_2014-01-17.sql
-
 env:
     normal:
         modules:
             config:
                 Db:
-                    dump: ../../../../codeception/_data/swregistry_test_2014-01-12.sql
+                    dump: ../../../../codeception/_data/swregistry_test.sql
