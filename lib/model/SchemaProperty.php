@@ -62,12 +62,13 @@ class SchemaProperty extends BaseSchemaProperty
   {
     $affectedRows = parent::save($con);
 
-    $schema = sfContext::getInstance()->getUser()->getCurrentSchema();
-    if ($schema)
-    {
-      /** @var Schema **/
-      $schema->clearProperties();
-      $schema->getSchemaPropertys();
+    if (sfcontext::hasInstance()) {
+      $schema = sfContext::getInstance()->getUser()->getCurrentSchema();
+      if ($schema) {
+        /** @var Schema * */
+        $schema->clearProperties();
+        $schema->getSchemaPropertys();
+      }
     }
 
     return $affectedRows;
