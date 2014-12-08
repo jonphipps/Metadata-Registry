@@ -7,7 +7,7 @@
 
 <?php include_title() ?>
 
-<?php if ($_SERVER['SERVER_NAME'] == 'registry'): ?>
+<?php if ($_SERVER['SERVER_NAME'] == 'registry' || $_SERVER['SERVER_NAME'] == 'registry.dev'): ?>
    <link rel="shortcut icon" href="/registry_favicon_dev.ico" />
 <?php elseif ($_SERVER['SERVER_NAME'] == 'beta.metadataregistry.org' || $_SERVER['SERVER_NAME'] == 'beta-sand.metadataregistry.org' || $_SERVER['SERVER_NAME'] == 'beta-prod.metadataregistry.org'): ?>
    <link rel="shortcut icon" href="/registry_favicon_beta.ico" />
