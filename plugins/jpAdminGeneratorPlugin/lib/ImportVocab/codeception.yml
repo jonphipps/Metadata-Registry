@@ -18,3 +18,4 @@ modules:
             dump: 'tests/_data/swregistry_test.sql'
             populate: true
             cleanup: false
+
