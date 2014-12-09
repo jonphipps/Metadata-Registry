@@ -8,7 +8,7 @@
     }
   ],
   "require-dev": {
-    "codeception/codeception": "dev-master",
+    "codeception/codeception": "2.0.x",
     "codeception/specify": "*",
     "codeception/verify": "*",
     "codeception/aspect-mock": "*",
