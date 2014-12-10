@@ -383,7 +383,7 @@ class ImportVocab {
             $profileProperty = $element->getProfileProperty();
             if (! $profileProperty->getHasLanguage() && 'reg:uri' != $profileProperty->getUri()) {
                 $relatedProperty = \SchemaPropertyPeer::retrieveByUri($element->getObject());
-                if ($relatedProperty)
+                if ($relatedProperty and $element->getRelatedSchemaPropertyId() != $relatedProperty->getId())
                 {
                   $element->setRelatedSchemaPropertyId($relatedProperty->getId());
                   $element->setUpdatedAt($updateTime);
@@ -486,9 +486,6 @@ class ImportVocab {
             if ($property->getLanguage() !== $rowLanguage) {
               $property->setLanguage($rowLanguage);
             }
-            $property->setStatusId($rowStatusId);
-            $property->setUpdatedUserId($this->userId);
-            $property->setUpdatedAt($updateTime);
 
             /** @TODO: match the language */
 
@@ -531,8 +528,13 @@ class ImportVocab {
               }
             }
 
-            //make sure this scrip has permission to write to php default session storage - /var/lib/php/session
-            $property->saveSchemaProperty($this->userId);
+            if ($property->isModified() or $property->isNew()) {
+              $property->setStatusId($rowStatusId);
+              $property->setUpdatedUserId($this->userId);
+              $property->setUpdatedAt($updateTime);
+              //make sure this scrip has permission to write to php default session storage - /var/lib/php/session
+              $property->saveSchemaProperty($this->userId);
+            }
             $propertyId = $property->getId();
 
             $results['id'] = $propertyId;
@@ -730,25 +732,35 @@ class ImportVocab {
    * @param $onlyFirst
    * @return string the key that was processed
    */
-  private function setPropertyValue($value, $property, $key, $isLiteral, $onlyFirst = false) {
+  private function setPropertyValue($value, $property, $key, $isLiteral, $onlyFirst = false)
+  {
     if (is_array($value)) {
       if ($onlyFirst) {
         //only take the first one here
         $value = $isLiteral ? $value[0] : $this->getFqn($value[0]);
-        $property->setByName(ucfirst($key), $value);
+        $oldValue = $property->getByName(ucfirst($key));
+        if ($oldValue != $value) {
+          $property->setByName(ucfirst($key), $value);
+        }
+
         return $key . "0";
-      }
-      else {
+      } else {
         foreach ($value as $unit) {
           $unit = $isLiteral ? $unit : $this->getFqn($unit);
-          $property->setByName(ucfirst($key), $unit);
+          $oldValue = $property->getByName(ucfirst($key));
+          if ($oldValue != $value) {
+            $property->setByName(ucfirst($key), $unit);
+          }
         }
       }
-    }
-    else {
+    } else {
       $value = $isLiteral ? $value : $this->getFqn($value);
-      $property->setByName(ucfirst($key), $value);
+      $oldValue = $property->getByName(ucfirst($key));
+      if ($oldValue != $value) {
+        $property->setByName(ucfirst($key), $value);
+      }
     }
+
     return $key;
   }
 
@@ -763,7 +775,8 @@ class ImportVocab {
    * @return array $results
    * @throws \PropelException
    */
-  private function SetPropertyElement($key, $value, $propertyId, $updateTime, $rowStatusId, $cellLanguage, $cellType) {
+  private function SetPropertyElement($key, $value, $propertyId, $updateTime, $rowStatusId, $cellLanguage, $cellType)
+  {
     $profilePropertyId = $this->prolog['columns'][$key]['id'];
 
     //check to see if the property already exists
@@ -819,11 +832,12 @@ class ImportVocab {
           $element->setLanguage($cellLanguage);
         }
       }
+    }
+    if ($value != $element->getObject()) {
+      $element->setObject($value);
+    }
 
-      if ($value != $element->getObject()) {
-        $element->setObject($value);
-      }
-
+    if ($element->isNew() or $element->isModified()) {
       $element->setUpdatedUserId($this->userId);
       $element->setUpdatedAt($updateTime);
       $element->setStatusId($rowStatusId);
@@ -833,22 +847,21 @@ class ImportVocab {
       if ($StatementCounter['status'] != 'created') {
         $StatementCounter['status'] = 'modified';
       }
-    }
 
-    if (is_array($element->getProfilePropertyId())) {
-      $profilePropertyId = $element->getProfilePropertyId()[0];
+      if (is_array($element->getProfilePropertyId())) {
+        $profilePropertyId = $element->getProfilePropertyId()[0];
+      } else {
+        $profilePropertyId = $element->getProfilePropertyId();
+      }
+      /** @var \ProfileProperty $profileProperty */
+      $profileProperty = $this->prolog['profileProperties'][$profilePropertyId];
+      $StatementCounter['column'] = $key;
+      $StatementCounter['id'] = $element->getId();
+      $StatementCounter['propertyId'] = $element->getProfilePropertyId();
+      $StatementCounter['object'] = $element->getObject();
+      $StatementCounter['type'] = $cellType;
+      $StatementCounter['language'] = $cellLanguage;
     }
-    else {
-      $profilePropertyId = $element->getProfilePropertyId();
-    }
-    /** @var \ProfileProperty $profileProperty */
-    $profileProperty = $this->prolog['profileProperties'][$profilePropertyId];
-    $StatementCounter['column'] = $key;
-    $StatementCounter['id'] = $element->getId();
-    $StatementCounter['propertyId'] = $element->getProfilePropertyId();
-    $StatementCounter['object'] = $element->getObject();
-    $StatementCounter['type'] = $cellType;
-    $StatementCounter['language'] = $cellLanguage;
 
     unset($element);
     return $StatementCounter;

@@ -16,8 +16,6 @@ class DbHelper extends \Codeception\Module\Db
         $settings = Configuration::suiteSettings("unit", $config);
         //get the settings for the db module
         $dbConfig = (isset($settings['modules']['config']['Db'])) ? $settings['modules']['config']['Db'] : array();
-        //reset the dump file location
-        $dbConfig['dump'] = 'tests/_data/swregistry_test_update.sql';
         //set the config for the helper module
         $this->_setConfig($dbConfig);
     }
