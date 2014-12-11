@@ -36,4 +36,17 @@ class UnitHelper extends \Codeception\Module
         $res = $propTable::doCount($c);
         \PHPUnit_Framework_Assert::assertEquals($TestCount, $res);
     }
+
+    /**
+     * @param $dumpFile
+     * @throws \Codeception\Exception\Module
+     */
+    public function resetDatabase2($dumpFile)
+    {
+        /** @var \Codeception\Module\Db $db */
+        $db = $this->getModule('Db');
+        $config['dump'] = 'tests/_data/' . $dumpFile;
+        $db->_reconfigure($config);
+        $db->_initialize();
+    }
 }
