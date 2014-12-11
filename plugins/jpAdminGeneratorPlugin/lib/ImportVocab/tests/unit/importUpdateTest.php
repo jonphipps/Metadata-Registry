@@ -19,7 +19,7 @@ class importUpdateTest extends \Codeception\TestCase\Test
     {
         $this->import = new ImportVocab("schema", "updatedata.csv", 1);
         $this->import->importFolder = "/var/www/registry/plugins/jpAdminGeneratorPlugin/lib/ImportVocab/tests/_data/";
-        $this->tester->resetDatabase('swregistry_test_update.sql');
+        $this->tester->resetDatabase2('swregistry_test_update.sql');
     }
 
     protected function _after()
@@ -100,11 +100,22 @@ class importUpdateTest extends \Codeception\TestCase\Test
         $otherPropertyUpdateDate = $I->grabFromDatabase('reg_schema_property_element', 'updated_at', ['id' => 12]);
         verify("the inverse property statement has not been updated",
           $historyDate)->greaterThan($otherPropertyUpdateDate);
-        //test if a changed cell that exists only in the statement table gets changed in the statement table
-        //test if the history is updated
+        $I->canSeeInDatabase('reg_schema_property_element', ['id' => 3, "object" => "fubar, baby"]);
         //test if a NEW cell in the main table gets sdded
+        $I->canSeeInDatabase('reg_schema_property_element', ["object" => "New definition"]);
         //test if a NEW cell in the main table gets changed in the statement table
+        $I->canSeeInDatabase('reg_schema_property', ['id' => 2, "definition" => "New definition"]);
         //test if the history is updated
+        $I->canSeeInDatabase('reg_schema_property_element_history', ['profile_property_id' => 3, 'schema_property_id' => 2, "object" => "New definition", "action" => "added"]);
+        //test if a changed cell that exists only in the statement table gets changed in the statement table
+        $I->canSeeInDatabase('reg_schema_property_element', ["object" => "http://iflastandards.info/ns/fr/frbr/frbroo/CLP105TestMe"]);
+        //test if the history is updated
+        $I->canSeeInDatabase('reg_schema_property_element_history', ['profile_property_id' => 15, 'schema_property_id' => 4, "object" => "http://iflastandards.info/ns/fr/frbr/frbroo/CLP105TestMe", "action" => "added"]);
+        //test if the parent update date matches the update of a statement when the statement is the only thing changed
+        $updateDate = $I->grabFromDatabase('reg_schema_property', 'updated_at', ['id' => 4]);
+        $elementUpdateDate = $I->grabFromDatabase('reg_schema_property_element', 'updated_at', ['id' => 94]);
+        verify("the element row has been updated",
+          $updateDate)->equals($elementUpdateDate);
         //test if a NEW cell that exists only in the statement table gets added to the statement table
         //test if the history is updated
     }
