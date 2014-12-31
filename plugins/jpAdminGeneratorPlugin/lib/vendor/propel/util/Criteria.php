@@ -748,7 +748,7 @@ class Criteria implements IteratorAggregate {
 	/**
 	 * Add select column.
 	 *
-	 * @param      name A String with the name of the select column.
+	 * @param      $name String with the name of the select column.
 	 * @return     A modified Criteria object.
 	 */
 	public function addSelectColumn($name)
@@ -804,7 +804,7 @@ class Criteria implements IteratorAggregate {
 	/**
 	 * Add order by column name, explicitly specifying ascending.
 	 *
-	 * @param      name The name of the column to order by.
+	 * @param      $name string The name of the column to order by.
 	 * @return     A modified Criteria object.
 	 */
 	public function addAscendingOrderByColumn($name)
