@@ -42,22 +42,30 @@ class SchemaPropertyElementPeer extends BaseSchemaPropertyElementPeer
    * @param int $profilePropertyId
    * @param string $object
    * @param null $language
-   *
+   * @param bool $excludeSchema
    * @return SchemaPropertyElement
+   * @internal param bool $isSchemaProperty
    */
-  public static function lookupElement($propertyId, $profilePropertyId, $object, $language = null)
+  public static function lookupElement($propertyId, $profilePropertyId, $object = null, $language = null, $excludeSchema = false)
   {
     $c = new Criteria();
     $c->add(self::SCHEMA_PROPERTY_ID, $propertyId);
     $c->add(self::PROFILE_PROPERTY_ID, $profilePropertyId);
-    $c->add(self::OBJECT,$object);
+    if (!empty($object)) {
+      $c->add(self::OBJECT, $object);
+    }
 
     if ($language)
     {
       $c->add(self::LANGUAGE, $language);
     }
 
-    $results = self::doSelectOne($c);
+    if ($excludeSchema)
+    {
+      $c->add(self::IS_SCHEMA_PROPERTY, null, Criteria::ISNULL);
+    }
+
+    $results = self::doSelect($c);
 
     return $results;
   }
