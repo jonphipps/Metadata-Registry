@@ -5,20 +5,20 @@ use ImportVocab\ImportVocab;
 
 class importTest extends \Codeception\TestCase\Test
 {
-   /**
-    * @var \UnitTester
-    */
+    /**
+     * @var \UnitTester
+     */
     protected $tester;
 
     /**
      * @var ImportVocab
      */
     protected $import;
+
     protected function _before()
     {
-        $this->import               = new ImportVocab("schema", "importdata.csv", 1);
-        $this->import->importFolder =
-          "/var/www/registry/plugins/jpAdminGeneratorPlugin/lib/ImportVocab/tests/_data/";
+        $this->import = new ImportVocab("schema", "importdata.csv", 1);
+        $this->import->importFolder = "/var/www/registry/plugins/jpAdminGeneratorPlugin/lib/ImportVocab/tests/_data/";
     }
 
     protected function _after()
@@ -37,6 +37,7 @@ class importTest extends \Codeception\TestCase\Test
         $this->tester->canSeeInDatabase('reg_schema', ['id' => 1, "agent_id" => 3]);
         //verify("fixture file is readable", Fixtures::get("fixxy") == "../_data/dump.sql")->true();
     }
+
     public function testClass_initialized_properly()
     {
         $this->assertEquals("schema", $this->import->type, "the type is set to 'schema'");
@@ -44,17 +45,19 @@ class importTest extends \Codeception\TestCase\Test
         $this->assertEquals(1, $this->import->vocabId, "the vocabid is set to '1'");
         $this->assertTrue(is_integer($this->import->vocabId), "the vocabid is an integer");
         $this->assertEquals(
-             "/var/www/registry/plugins/jpAdminGeneratorPlugin/lib/ImportVocab/tests/_data/importdata.csv",
-               $this->import->importFolder . $this->import->file,
-               "the path is set"
+          "/var/www/registry/plugins/jpAdminGeneratorPlugin/lib/ImportVocab/tests/_data/importdata.csv",
+          $this->import->importFolder . $this->import->file,
+          "the path is set"
         );
     }
+
     public function testOpenFile()
     {
         $reader = $this->import->setCsvReader($this->import->file);
         verify(
           "Reading the file doesn't return an error",
-          get_class($reader))->equals("Ddeboer\\DataImport\\Reader\\CsvReader");
+          get_class($reader)
+        )->equals("Ddeboer\\DataImport\\Reader\\CsvReader");
     }
 
     //testPrologProvision
@@ -64,18 +67,20 @@ class importTest extends \Codeception\TestCase\Test
         $this->tester->wantToTest("processing the prolog and importing the file into the database");
         $this->import->setCsvReader($this->import->file);
         $this->import->processProlog();
-        $prolog    = $this->import->prolog;
+        $prolog = $this->import->prolog;
         $this->assertEquals(14, count($prolog['columns']), "There are the correct number of columns");
         $this->assertEquals(6, count($prolog['prefix']), "There are the correct number of prefix entries");
         $this->assertEquals(10, count($prolog['meta']), "There are the correct number of meta entries");
         $this->import->getDataColumnIds();
         $this->import->processData();
         $results = $this->import->results['success'];
-        verify("There were 8 rows processed",
-                 count($results['rows']))->equals(8);
+        verify(
+          "There were 8 rows processed",
+          count($results['rows'])
+        )->equals(12);
         $this->import->processParents();
-        $I->seeRecordCountInDatabaseTable("SchemaPropertyElement", 92);
-        $I->seeRecordCountInDatabaseTable("SchemaProperty", 8);
+        $I->seeRecordCountInDatabaseTable("SchemaPropertyElement", 138);
+        $I->seeRecordCountInDatabaseTable("SchemaProperty", 12);
         //prolog namespace entries are readable
         //prolog headers are actually in row 1
         //prolog headers not in row 1 produce fatal error (logged)

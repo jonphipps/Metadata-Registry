@@ -487,30 +487,29 @@ class ImportVocab {
               $property->setLanguage($rowLanguage);
             }
 
-            /** @TODO: match the language */
+            //we always skip these
+            $skipMap[] = 'parent_property';
+            $skipMap[] = 'parent_class';
 
+            /** @TODO: match the language */
             foreach (array_keys($row) as $key) {
               $value = $row[$key];
-              if (empty($value)) {
-                continue;
-              }
+
               //do the specials
               if ($key === 'parent_class' && isset($row['type']) && 'subclass' === strtolower($row['type'])) {
                 $property->setParentUri($this->getFqn($value));
-                $skipMap[] = $key;
                 continue;
               }
               if ($key === 'parent_property' && isset($row['type']) && 'subproperty' === strtolower($row['type'])) {
                 $property->setParentUri($this->getFqn($value));
-                $skipMap[] = $key;
-                continue;
-              }
-              //do the literals
-              if (!empty($value) && in_array($key, array('domain', 'orange'))) {
-                $skipMap[] = self::setPropertyValue($value, $property, $key, false, true);
                 continue;
               }
               //do the nonliterals
+              if (in_array($key, array('domain', 'orange'))) {
+                $skipMap[] = self::setPropertyValue($value, $property, $key, false, true);
+                continue;
+              }
+              //do the literals
               if (in_array($key, array('name', 'label', 'definition', 'comment', 'note'))) {
                 $skipMap[] = self::setPropertyValue($value, $property, $key, true, true );
               }
@@ -552,32 +551,97 @@ class ImportVocab {
 
             $StatementCounter = array();
             foreach (array_keys($row) as $key) {
-              if (is_array($row[$key])) {
-                $counter = 0;
-                foreach ($row[$key] as $value) {
-                  //we skip because we already did them
-                  if (in_array($key . $counter, $skipMap) || empty($value)) {
-                    $counter++;
-                    continue;
-                  }
-                  $cellLanguage = $this->getColLangType($key, 'lang', false, $counter);
-                  //data type must be explicit
-                  $cellType = $this->getColLangType($key, 'type', false, $counter);
+              if ( is_array( $row[$key] ) )
+              {
+                //make a copy of the $row[$key] array
+                $statements        = $row[$key];
+                $profilePropertyId = $this->prolog['columns'][$key]['id'][0];
+                //get an array of exising values for this element that are not schema properties
+                /** @var \SchemaPropertyElement $element */
+                $oldStatements = \SchemaPropertyElementPeer::lookupElement(
+                  $propertyId,
+                  $profilePropertyId,
+                  null,
+                  null,
+                  true
+                );
 
-                  $results['statements'][] = self::SetPropertyElement($key, $value, $propertyId, $updateTime, $rowStatusId, $cellLanguage, $cellType);
-                  $counter++;
+                //for each existing element value
+                /** @var \SchemaPropertyElement $oldStatement */
+                foreach ( $oldStatements as $oldStatement )
+                {
+                  $foundOne = false;
+                  $counter  = 0;
+                  foreach ( $statements as $statementKey => $statement )
+                  {
+                    $cellType     = $this->getColLangType( $key, 'type', false, $counter );
+                    $cellLanguage = $this->getColLangType( $key, 'lang', false, $counter );
+                    if ( 'uri' === $cellType )
+                    {
+
+                      if ( $this->useCuries )
+                      {
+                        $statement = $this->getFqn( $statement );
+                      }
+                      if ( $statement == $oldStatement->getObject()
+                           && $profilePropertyId === $oldStatement->getProfilePropertyId()
+                      )
+                      {
+                        unset( $statements[$statementKey] );
+                        $foundOne = true;
+                        break;
+                      }
+                    }
+                    else
+                    {
+                      //if it's a match to the $row[$key] value then skip it; pop from $copyRow[$key] array
+                      if ( $statement == $oldStatement->getObject()
+                           && $profilePropertyId === $oldStatement->getProfilePropertyId()
+                           && $cellLanguage === $oldStatement->getLanguage()
+                      )
+                      {
+                        unset( $statements[$statementKey] );
+                        $foundOne = true;
+                        break;
+                      }
+                    }
+                    $counter ++;
+                  }
+                  //if there's NO match to the $row[$key] value, then delete it;
+                  if ( ! $foundOne )
+                  {
+                    $oldStatement->setDeletedAt( $updateTime );
+                    $oldStatement->getUpdatedUserId( $this->userId );
+                    $oldStatement->save();
+                  }
+                }
+                //add whatever statements are left as new elements
+                foreach ( $statements as $value )
+                {
+                  $cellType     = $this->getColLangType( $key, 'type', false );
+                  $cellLanguage = $this->getColLangType( $key, 'lang', false );
+                  if ( 'uri' === $cellType and $this->useCuries )
+                  {
+                    $value = $this->getFqn( $value );
+                  }
+                  if ( ! empty( $value ) )
+                  {
+                    $results['statements'][] = self::SetPropertyElement( $key, $value, $propertyId, $updateTime, $rowStatusId, $cellLanguage, $cellType );
+                  }
                 }
               }
-              else {
+              else
+              {
                 $value = $row[$key];
                 //we skip because we already did them
-                if (in_array($key, $skipMap) || empty($value)) {
+                if ( empty( $key ) or in_array( $key, $skipMap ) )
+                {
                   continue;
                 }
-                $cellLanguage = $this->getColLangType($key, 'lang', false);
+                $cellLanguage = $this->getColLangType( $key, 'lang', false );
                 //data type must be explicit
-                $cellType = $this->getColLangType($key, 'type', false);
-                $results['statements'][] = self::SetPropertyElement($key, $value, $propertyId, $updateTime, $rowStatusId, $cellLanguage, $cellType);
+                $cellType                = $this->getColLangType( $key, 'type', false );
+                $results['statements'][] = self::SetPropertyElement( $key, $value, $propertyId, $updateTime, $rowStatusId, $cellLanguage, $cellType );
               }
             }
 
@@ -778,6 +842,10 @@ class ImportVocab {
   private function SetPropertyElement($key, $value, $propertyId, $updateTime, $rowStatusId, $cellLanguage, $cellType)
   {
     $profilePropertyId = $this->prolog['columns'][$key]['id'];
+    if (is_array($profilePropertyId))
+    {
+      $profilePropertyId = $profilePropertyId[0];
+    }
 
     //check to see if the property already exists
     //note that this also checks the object value as well, so there's no way to update or delete an existing triple
@@ -801,23 +869,48 @@ class ImportVocab {
 
     $StatementCounter['status'] = 'skipped';
 
-    /** @var $element \SchemaPropertyElement */
-    $element = \SchemaPropertyElementPeer::lookupElement(
-      $propertyId,
-      $profilePropertyId,
-      $value,
-      $cellLanguage
-    );
+      /** @var \SchemaPropertyElement $element */
+      $element = \SchemaPropertyElementPeer::lookupElement(
+        $propertyId,
+        $profilePropertyId,
+        $value,
+        $cellLanguage
+      );
+
+    if ($element) {
+      if (1 === count($element)) {
+        $element = $element[0];
+        //make sure we handle the special case of subproperty and subclass
+        if (empty($value) && $element->getIsSchemaProperty() && in_array($element->getProfilePropertyId(),[6,9]) )
+        {
+          return $StatementCounter;
+        }
+      }
+      else {
+        //it's ambiguous and we stop processing, logging an error to be dealt with later
+        $error['Message'] = "Ambiguous update";
+        $error['PropertyId'] = $propertyId;
+        $error['ProfilePropertyId'] = $profilePropertyId;
+        $error['UpdateValue'] = $value;
+
+        $this->results['errors'][] = $error;
+      }
+    }
 
     //create a new propertyelement for each unmatched column
     //we didn't find an existing element, make a new one
-    if (!$element) {
+    if (!$element && !empty($value)) {
       $element = new \SchemaPropertyElement;
       $element->setCreatedUserId($this->userId);
       $element->setCreatedAt($updateTime);
       $element->setProfilePropertyId($profilePropertyId);
       $element->setSchemaPropertyId($propertyId);
       $StatementCounter['status'] = 'created';
+    }
+
+    if (!$element)
+    {
+      return $StatementCounter;
     }
 
     if (($value != $element->getObject())
@@ -834,7 +927,11 @@ class ImportVocab {
       }
     }
     if ($value != $element->getObject()) {
-      $element->setObject($value);
+      if (!empty($value)) {
+        $element->setObject($value);
+      } else {
+        $element->setDeletedAt($updateTime);
+      }
     }
 
     if ($element->isNew() or $element->isModified()) {
