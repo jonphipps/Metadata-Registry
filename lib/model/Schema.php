@@ -7,164 +7,206 @@
  *
  * @package lib.model
  */
-class Schema extends BaseSchema
-{
-  public function __toString()
-  {
-    return $this->getName();
-  }
+class Schema extends BaseSchema {
 
-  public function save($con = null)
-  {
-    $userId = sfContext::getInstance()->getUser()->getSubscriberId();
-    if ($userId)
+    public function __toString()
     {
-      $this->setUpdatedUserId($userId);
-      if ($this->isNew())
-      {
-        $this->setCreatedUserId($userId);
-      }
+        return $this->getName();
     }
 
-    $con = Propel::getConnection();
-    try
+    public function save( $con = null )
     {
-      $con->begin();
-
-      $ret = parent::save($con);
-
-      // update schema_has_user table
-      $schemaId = $this->getId();
-      $mode = sfContext::getInstance()->getRequest()->getParameter('action');
-      if ($userId && $schemaId)
-      {
-        //see if there's already an entry in the table and if not, add it
-        $criteria = new Criteria();
-        $criteria->add(SchemaHasUserPeer::USER_ID, $userId);
-        $SchemaHasUsersColl = $this->getSchemaHasUsers($criteria, $con);
-
-        if (!count($SchemaHasUsersColl))
+        $userId = sfContext::getInstance()->getUser()->getSubscriberId();
+        if ( $userId )
         {
-          $schemaUser = new SchemaHasUser();
-          $schemaUser->setSchemaId($schemaId);
-          $schemaUser->setUserId($userId);
-          $schemaUser->setIsRegistrarFor(true);
-          $schemaUser->setIsAdminFor(true);
-          $schemaUser->setIsMaintainerFor(true);
-          $schemaUser->save($con);
+            $this->setUpdatedUserId( $userId );
+            if ( $this->isNew() )
+            {
+                $this->setCreatedUserId( $userId );
+            }
         }
 
-      }
+        $con = Propel::getConnection();
+        try
+        {
+            $con->begin();
 
-      $con->commit();
+            $ret = parent::save( $con );
 
-      return $ret;
+            // update schema_has_user table
+            $schemaId = $this->getId();
+            $mode     = sfContext::getInstance()->getRequest()->getParameter( 'action' );
+            if ( $userId && $schemaId )
+            {
+                //see if there's already an entry in the table and if not, add it
+                $criteria = new Criteria();
+                $criteria->add( SchemaHasUserPeer::USER_ID, $userId );
+                $SchemaHasUsersColl = $this->getSchemaHasUsers( $criteria, $con );
 
-    }
-    catch (Exception $e)
-    {
-      $con->rollback();
-      throw $e;
-    }
-  }
+                if ( ! count( $SchemaHasUsersColl ) )
+                {
+                    $schemaUser = new SchemaHasUser();
+                    $schemaUser->setSchemaId( $schemaId );
+                    $schemaUser->setUserId( $userId );
+                    $schemaUser->setIsRegistrarFor( true );
+                    $schemaUser->setIsAdminFor( true );
+                    $schemaUser->setIsMaintainerFor( true );
+                    $schemaUser->save( $con );
+                }
+            }
 
-  /**
-  * Gets the created_by_user
-  *
-  * @return User
-  */
-  public function getCreatedUser()
-  {
-    $user = $this->getUserRelatedByCreatedUserId();
-    if ($user)
-    {
-      return $user->getUser();
-    }
+            $con->commit();
 
-  } // getCreatedUser
-
-  /**
-  * Gets the updated_by_user
-  *
-  * @return User
-  */
-  public function getUpdatedUser()
-  {
-    $user = $this->getUserRelatedByUpdatedUserId();
-    if ($user)
-    {
-      return $user->getUser();
+            return $ret;
+        }
+        catch( Exception $e )
+        {
+            $con->rollback();
+            throw $e;
+        }
     }
 
-  } // getUpdatedUser
-
-  /**
-  * get the schema fields array (field_id => field name)
-  *
-  * @return array The fields
-  */
-  public static function getProfileFields()
-  {
-    $c = new Criteria();
-    $c->add(ProfilePropertyPeer::PROFILE_ID,1);
-    $properties = ProfilePropertyPeer::doSelect($c);
-    $fieldsNew = array();
-    foreach ($properties as $property)
-    {
-      $fieldsNew[$property->getId()] = sfInflector::underscore($property->getName());
-    }
     /**
-    * @todo $fields needs to come from an application profile for schemas, or the vocabulary
-    **/
-    $fields = array(
-    1 => 'name',
-    2 => 'label',
-    3 => 'definition',
-    4 => 'type',
-    5 => 'comment',
-    6 => 'related_property',
-    7 => 'note');
+     * Gets the created_by_user
+     *
+     * @return User
+     */
+    public function getCreatedUser()
+    {
+        $user = $this->getUserRelatedByCreatedUserId();
+        if ( $user )
+        {
+            return $user->getUser();
+        }
+    } // getCreatedUser
 
-    return $fieldsNew;
+    /**
+     * Gets the updated_by_user
+     *
+     * @return User
+     */
+    public function getUpdatedUser()
+    {
+        $user = $this->getUserRelatedByUpdatedUserId();
+        if ( $user )
+        {
+            return $user->getUser();
+        }
+    } // getUpdatedUser
+
+    /**
+     * get the schema fields array (field_id => field name)
+     *
+     * @return array The fields
+     */
+    public static function getProfileFields()
+    {
+        $c = new Criteria();
+        $c->add( ProfilePropertyPeer::PROFILE_ID, 1 );
+        $properties = ProfilePropertyPeer::doSelect( $c );
+        $fieldsNew  = array();
+        foreach ( $properties as $property )
+        {
+            $fieldsNew[$property->getId()] = sfInflector::underscore( $property->getName() );
+        }
+        /**
+         * @todo $fields needs to come from an application profile for schemas, or the vocabulary
+         **/
+        $fields = array(
+          1 => 'name',
+          2 => 'label',
+          3 => 'definition',
+          4 => 'type',
+          5 => 'comment',
+          6 => 'related_property',
+          7 => 'note'
+        );
+
+        return $fieldsNew;
+    }
+
+    /**
+     * clears the properties
+     *
+     */
+    public function clearProperties()
+    {
+        $this->collSchemaPropertys = null;
+    }
+
+    /**
+     * gets just the properties, ordered by name
+     *
+     * @return array SchemaProperty
+     */
+    public function getProperties()
+    {
+        $c = new Criteria();
+        $c->add( SchemaPropertyPeer::TYPE, 'property' );
+        $c->addOr( SchemaPropertyPeer::TYPE, 'subproperty' );
+        $c->addAscendingOrderByColumn( SchemaPropertyPeer::NAME );
+
+        return $this->getSchemaPropertysJoinStatus( $c );
+    }
+
+    /**
+     * gets just the classes, ordered by name
+     *
+     * @return array SchemaProperty
+     */
+    public function getClasses()
+    {
+        $c = new Criteria();
+        $c->add( SchemaPropertyPeer::TYPE, 'class' );
+        $c->addOr( SchemaPropertyPeer::TYPE, 'subclass' );
+        $c->addAscendingOrderByColumn( SchemaPropertyPeer::NAME );
+
+        return $this->getSchemaPropertysJoinStatus( $c );
+    }
+
+    public function findLanguages()
+    {
+        $c = new Criteria();
+        $c->add( SchemaPropertyPeer::SCHEMA_ID, $this->getId() );
+        $c->clearSelectColumns();
+        $c->addSelectColumn( BaseSchemaPropertyElementPeer::LANGUAGE );
+        $c->setDistinct();
+        $c->addJoin( SchemaPropertyElementPeer::SCHEMA_PROPERTY_ID , SchemaPropertyPeer::ID);
+
+        $foo = array();
+        $results = SchemaPropertyElementPeer::doSelectRS($c);
+        foreach ($results as $result){
+            $foo[] = $result[0];
+        }
+
+        return $foo;
   }
 
-  /**
-  * clears the properties
-  *
-  */
-  public function clearProperties()
-  {
-    $this->collSchemaPropertys = null;
-  }
+    public function findUsedProfileProperties()
+    {
+        $c = new Criteria();
+        $c->add( SchemaPropertyPeer::SCHEMA_ID, $this->getId() );
+        $c->clearSelectColumns();
+        $c->addSelectColumn( BaseSchemaPropertyElementPeer::PROFILE_PROPERTY_ID );
+        $c->addAscendingOrderByColumn( BaseSchemaPropertyElementPeer::PROFILE_PROPERTY_ID );
+        $c->setDistinct();
+        $c->addJoin( SchemaPropertyElementPeer::SCHEMA_PROPERTY_ID, SchemaPropertyPeer::ID );
 
-  /**
-  * gets just the properties, ordered by name
-  *
-  * @return array SchemaProperty
-  */
-  public function getProperties()
-  {
-    $c = new Criteria();
-    $c->add(SchemaPropertyPeer::TYPE,'property');
-    $c->addOr(SchemaPropertyPeer::TYPE,'subproperty');
-    $c->addAscendingOrderByColumn(SchemaPropertyPeer::NAME);
+        $foo     = array();
+        $poo     = array();
+        $results = SchemaPropertyElementPeer::doSelectRS( $c );
+        unset( $c );
 
-    return $this->getSchemaPropertysJoinStatus($c);
-  }
+        foreach ( $results as $result )
+        {
+            $foo[] = $result[0];
+        }
 
-  /**
-  * gets just the classes, ordered by name
-  *
-  * @return array SchemaProperty
-  */
-  public function getClasses()
-  {
-    $c = new Criteria();
-    $c->add(SchemaPropertyPeer::TYPE,'class');
-    $c->addOr(SchemaPropertyPeer::TYPE,'subclass');
-    $c->addAscendingOrderByColumn(SchemaPropertyPeer::NAME);
+        if ( count( $foo ) )
+        {
+            $poo = ProfilePropertyPeer::retrieveByPKs( $foo );
+        }
 
-    return $this->getSchemaPropertysJoinStatus($c);
-  }
-
+        return $poo;
+    }
 }
