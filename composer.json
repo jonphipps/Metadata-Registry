@@ -44,9 +44,13 @@
     "symfony/http-foundation": "*",
     "bgcc/sf-select2-widgets-plugin": "~1.0",
     "league/plates": "2.*",
-    "league/flysystem": "0.4.*"
+    "league/flysystem": "0.4.*",
+    "phpspec/phpspec": "2.1.0"
   },
   "autoload": {
-    "classmap": ["plugins/jpAdminGeneratorPlugin/lib/ImportVocab/src"]
+    "classmap": [
+      "plugins/jpAdminGeneratorPlugin/lib/ImportVocab/src",
+      "plugins/jpAdminGeneratorPlugin/lib/ExportVocab/src"
+    ]
   }
 }
