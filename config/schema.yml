@@ -681,6 +681,8 @@ propel:
     _indexes:
       last_updated_by_user_id:
         - updated_user_id
+      reg_concept_idx1:
+        - uri
     _uniques:
       vocabulary_id_pref_label:
         - vocabulary_id
@@ -845,6 +847,9 @@ propel:
       index: true
     change_note:
       type: LONGVARCHAR
+    _indexes:
+      reg_concept_property_history_idx1:
+        - created_at
   reg_discuss:
     _attributes:
       phpName: Discuss
@@ -1011,6 +1016,31 @@ propel:
       display_order:
         - type_id
         - display_order
+  reg_prefix:
+    _attributes:
+      phpName: Prefix
+    id:
+      type: INTEGER
+      required: true
+      primaryKey: true
+      default: 0
+    uri:
+      type: VARCHAR
+      size: 256
+    rank:
+      type: INTEGER
+      default: 0
+    prefix:
+      type: VARCHAR
+      size: 256
+    _indexes:
+      prefix_uri:
+        - uri
+      prefix_rank:
+        - rank
+    _uniques:
+      prefix_prefix:
+        - prefix
   reg_rdf_namespace:
     _attributes:
       phpName: RdfNamespace
@@ -1152,6 +1182,10 @@ propel:
     _indexes:
       last_updated_by_user_id:
         - updated_user_id
+      reg_schema_idx1:
+        - uri
+      reg_schema_idx2:
+        - name
   reg_schema_property:
     _attributes:
       phpName: SchemaProperty
@@ -1249,6 +1283,8 @@ propel:
     _indexes:
       subproperty_id:
         - is_subproperty_of
+      reg_schema_property_idx1:
+        - uri
   reg_schema_property_element:
     _attributes:
       phpName: SchemaPropertyElement
@@ -1321,6 +1357,10 @@ propel:
     _indexes:
       related_property_id:
         - related_schema_property_id
+      reg_schema_property_element_idx1:
+        - object
+      reg_schema_property_element_idx2:
+        - updated_at
   reg_schema_property_element_history:
     _attributes:
       phpName: SchemaPropertyElementHistory
@@ -1393,6 +1433,9 @@ propel:
       index: true
     change_note:
       type: LONGVARCHAR
+    _indexes:
+      reg_schema_property_element_history_idx1:
+        - created_at
   reg_skos_property:
     _attributes:
       phpName: SkosProperty
@@ -1631,6 +1674,10 @@ propel:
     _indexes:
       last_updated_by_user_id:
         - updated_user_id
+      reg_vocabulary_idx1:
+        - uri
+      reg_vocabulary_idx2:
+        - name
   reg_vocabulary_has_user:
     _attributes:
       phpName: VocabularyHasUser
