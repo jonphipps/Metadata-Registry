@@ -1,6 +1,6 @@
 <?php
 
-namespace spec;
+namespace spec\ImportVocab;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
@@ -11,7 +11,7 @@ define('SF_APP',         'frontend');
 define('SF_ENVIRONMENT', 'test');
 define('SF_DEBUG',       isset($debug) ? $debug : true);
 //initialize composer
-require_once(SF_ROOT_DIR.DIRECTORY_SEPARATOR.'vendor'.DIRECTORY_SEPARATOR.'autoload.php');
+require_once( SF_ROOT_DIR . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php' );
 // initialize symfony
 require_once(SF_ROOT_DIR.DIRECTORY_SEPARATOR.'apps'.DIRECTORY_SEPARATOR.SF_APP.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'config.php');
 //$databaseManager = new \sfDatabaseManager();
@@ -32,7 +32,7 @@ class ExportVocabSpec extends ObjectBehavior
 
     function it_is_initializable()
     {
-        $this->shouldHaveType('ExportVocab');
+        $this->shouldHaveType('ImportVocab\ExportVocab');
     }
 
     function it_gets_a_prolog_as_an_array() {

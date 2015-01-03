@@ -14,7 +14,8 @@
     "codeception/aspect-mock": "*",
     "codeception/phpbuiltinserver": "*",
     "captbaritone/mailcatcher-codeception-module": "*",
-    "raveren/kint": "1.0.*@dev"
+    "raveren/kint": "1.0.*@dev",
+    "phpspec/phpspec": "2.1.0"
   },
   "config": {
     "process-timeout": 900,
@@ -44,13 +45,17 @@
     "symfony/http-foundation": "*",
     "bgcc/sf-select2-widgets-plugin": "~1.0",
     "league/plates": "2.*",
-    "league/flysystem": "0.4.*",
-    "phpspec/phpspec": "2.1.0"
+    "league/flysystem": "0.4.*"
   },
+
   "autoload": {
-    "classmap": [
-      "plugins/jpAdminGeneratorPlugin/lib/ImportVocab/src",
-      "plugins/jpAdminGeneratorPlugin/lib/ExportVocab/src"
-    ]
-  }
+    "psr-4": {
+      "ImportVocab\\": "plugins/jpAdminGeneratorPlugin/lib/ImportVocab",
+      "model\\": "lib/model"
+    },
+    "classmap": ["lib/model/"]
+  },
+
+    "include-path": ["lib/model"]
+
 }

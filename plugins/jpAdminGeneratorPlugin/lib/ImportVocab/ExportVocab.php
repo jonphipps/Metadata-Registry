@@ -1,5 +1,7 @@
 <?php
 
+namespace ImportVocab;
+
 class ExportVocab {
 
     /** @var  \Schema */
@@ -50,7 +52,7 @@ class ExportVocab {
 
     public function setSchema( $schemaId )
     {
-        $this->schema = SchemaPeer::retrieveByPK( $schemaId );
+        $this->schema = \SchemaPeer::retrieveByPK( $schemaId );
     }
 
     /**
@@ -63,7 +65,7 @@ class ExportVocab {
 
     public function setUser( $userId )
     {
-        $this->user = UserPeer::retrieveByPK( $userId );
+        $this->user = \UserPeer::retrieveByPK( $userId );
     }
 
     /**
@@ -116,6 +118,7 @@ class ExportVocab {
 
     public function retrievePrefixes()
     {
+        return;
         $xhtml    = simplexml_load_file( 'http://prefix.cc/popular/all' );
         $prefixes = array();
         foreach ( $xhtml->body->ol->li as $value )
