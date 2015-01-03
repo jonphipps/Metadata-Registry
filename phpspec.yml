@@ -4,6 +4,3 @@ suites:
     src_path: plugins/jpAdminGeneratorPlugin/lib
     spec_path: plugins/jpAdminGeneratorPlugin/lib
 
-  model_suite:
-    namespace: model
-    src_path: lib
