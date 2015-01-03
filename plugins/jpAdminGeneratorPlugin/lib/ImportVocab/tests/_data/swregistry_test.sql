@@ -16,6 +16,7 @@ DROP TABLE IF EXISTS `reg_schema_property_element_history`;
 DROP TABLE IF EXISTS `reg_schema_property_element`;
 DROP TABLE IF EXISTS `reg_schema_property`;
 DROP TABLE IF EXISTS `reg_rdf_namespace`;
+DROP TABLE IF EXISTS `reg_prefix`;
 DROP TABLE IF EXISTS `reg_lookup`;
 DROP TABLE IF EXISTS `reg_file_import_history`;
 DROP TABLE IF EXISTS `reg_vocabulary`;
@@ -571,6 +572,16 @@ CREATE TABLE `reg_lookup` (
   UNIQUE KEY `id` (`id`),
   KEY `display_order` (`type_id`,`display_order`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+CREATE TABLE `reg_prefix` (
+  `id` int(11) NOT NULL DEFAULT '0',
+  `uri` varchar(256) DEFAULT NULL,
+  `rank` int(11) DEFAULT '0',
+  `prefix` varchar(256) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `prefix_prefix` (`prefix`(255)),
+  KEY `prefix_uri` (`uri`(255)),
+  KEY `prefix_rank` (`rank`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 CREATE TABLE `reg_rdf_namespace` (
