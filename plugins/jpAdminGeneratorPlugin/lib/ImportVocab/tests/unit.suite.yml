@@ -5,7 +5,7 @@ class_name: UnitTester
 error_level: "E_ALL & ~E_STRICT & ~E_USER_DEPRECATED & ~E_DEPRECATED"
 
 modules:
-    enabled: [Asserts, UnitHelper, Db, DbHelper]
+    enabled: [Asserts, UnitHelper, Db, DbHelper, Filesystem]
 env:
     batch:
         modules:

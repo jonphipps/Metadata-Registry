@@ -35,3 +35,5 @@ phpinfo.php
 importVocabulary.php.orig
 dbg-wizard.php
 composer.phar
+
+tests/_output/*

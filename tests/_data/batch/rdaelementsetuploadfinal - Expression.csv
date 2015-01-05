@@ -1,0 +1,37 @@
+meta,id,owl:sameAs,rdfs:label,skos:definition,skos:scopeNote,rdfs:domain,rdfs:range,ParentProperty,rdfs:subPropertyOf,owl:inverseOf,reg:name,reg:type
+uri,key,owl:sameAs,rdfs:label,skos:definition,skos:scopeNote,rdfs:domain,rdfs:range,rdfs:subPropertyOf,rdfs:subPropertyOf,owl:inverseOf,reg:name,reg:type
+lang,en,,en,en,en,,,,,,,
+type,uri,uri,,,,uri,uri,uri,uri,uri,,
+meta,token,rdae,"A unique token representing this element set. This will be used as the prefix identifying this URI in RDF curies or as a qname in XML",,,,,,,,,
+meta,label,"RDA Expression properties","A human-readable descriptive label for the vocab. This will be displayed in lists of vocabs.",,,,,,,,,
+meta,status_id,1,"The registry code of the status (defaults to published)",,,,,,,,,
+meta,url,,"A non-Registry URL that contains more information about this element set",,,,,,,,,
+meta,note,,"A note about this element set",,,,,,,,,
+meta,tags,,"Comma separated list of tags",,,,,,,,,
+meta,base_domain,http://rdaregistry.info/Elements/e/,"the URI of this vocab",,,,,,,,,
+meta,type,schema,"""schema"" || ""vocab""",,,,,,,,,
+meta,agent_id,,"The registry ID of the owner/agent",,,,,,,,,
+meta,user_id,,"The registry ID of the vocab admin (must be affiliated with the owner/agent)",,,,,,,,,
+prefix,owl,http://www.w3.org/2002/07/owl#,OWL,,,,,,,,,
+prefix,rdfs,http://www.w3.org/2000/01/rdf-schema#,"RDF schema",,,,,,,,,
+prefix,skos,http://www.w3.org/2004/02/skos/core#,SKOS,,,,,,,,,
+prefix,mrc,http://id.loc.gov/vocabulary/relators/,"MARC relator codes",,,,,,,,,
+prefix,reg,http://metadataregistry.org/uri/profile/RegAp/,"OMR elements",,,,,,,,,
+prefix,rdaa,http://rdaregistry.info/Elements/a/,"RDA agent (person, family, corporate body) properties",,,,,,,,,
+prefix,rdac,http://rdaregistry.info/Elements/c/,"RDA classes",,,,,,,,,
+prefix,rdae,http://rdaregistry.info/Elements/e/,"RDA expression properties",,,,,,,,,
+prefix,rdai,http://rdaregistry.info/Elements/i/,"RDA item properties",,,,,,,,,
+prefix,rdam,http://rdaregistry.info/Elements/m/,"RDA manifestaion properties",,,,,,,,,
+prefix,rdau,http://rdaregistry.info/Elements/u/,"RDA unconstrained properties",,,,,,,,,
+prefix,rdaw,http://rdaregistry.info/Elements/w/,"RDA work properties",,,,,,,,,
+,rdae:P20001,rdae:contentType,"has content type","Relates an expression to a categorization reflecting the fundamental form of communication in which the content is expressed and the human sense through which it is intended to be perceived.","For content expressed in the form of an image or images, content type also reflects the number of spatial dimensions in which the content is intended to be perceived and the perceived presence or absence of movement.",rdac:C10006,,rdau:P60049,,,contentType,subproperty
+,rdae:P20002,rdae:identifierForTheExpression,"has identifier for the expression","Relates an expression to a character string uniquely associated with an expression, or with a surrogate for an expression (e.g., an authority record).","The identifier serves to differentiate that expression from other expressions.",rdac:C10006,,rdau:P60052,,,identifierForTheExpression,subproperty
+,rdae:P20003,rdae:otherDistinguishingCharacteristicOfTheExpression,"has other distinguishing characteristic of the expression","Relates an expression to a characteristic other than content type, language of expression, or date of expression.","It serves to differentiate an expression from another expression of the same work.",rdac:C10006,,rdau:P60054,,,otherDistinguishingCharacteristicOfTheExpression,subproperty
+,rdae:P20004,rdae:dateOfCapture,"has date of capture","Relates an expression to a date or range of dates associated with the capture (i.e., recording, filming, etc.) of the content of a resource.",,rdac:C10006,,rdau:P60074,,,dateOfCapture,subproperty
+,rdae:P20005,rdae:award,"has award","Relates an expression to a formal recognition of excellence, etc., given by an award- or prize-granting body, for the content of a resource.",,rdac:C10006,,rdau:P60090,,,award,subproperty
+,rdae:P20006,rdae:languageOfExpression,"has language of expression","Relates an expression to a language in which a work is expressed.",,rdac:C10006,,rdau:P60099,,,languageOfExpression,subproperty
+,rdae:P20007,rdae:languageOfTheContent,"has language of the content","Relates an expression to a language used to express the content of a resource.",,rdac:C10006,,rdau:P60099,,,languageOfTheContent,subproperty
+,rdae:P20008,rdae:artisticAndOrTechnicalCredit,"has artistic and/or technical credit","Relates an expression to a listing of persons, families, or corporate bodies making contributions to the artistic and/or technical production of a resource.",,rdac:C10006,,rdau:P60105,,,artisticAndOrTechnicalCredit,subproperty
+,rdae:P20009,rdae:adaptedAsAMotionPictureExpression,"is adapted as a motion picture (expression)","Relates an expression to a motion picture based on the source entity.",,rdac:C10006,rdac:C10006,rdae:P20153,rdau:P60110,rdae:P20125,adaptedAsAMotionPictureExpression,subproperty
+,rdae:P20010,rdae:noteOnChangesInContentCharacteristics,"has note on changes in content characteristics","Relates an expression to a note on changes in content characteristics that occur in subsequent issues or parts of a resource issued in successive parts or between iterations of an integrating resource.",,rdac:C10006,,rdae:P20071,rdau:P60123,,noteOnChangesInContentCharacteristics,subproperty
+,rdae:P20011,rdae:conductor,"has conductor","Relates an expression to a performer contributing to an expression of a musical work by leading a performing group (orchestra, chorus, opera, etc.) in a musical or dramatic presentation, etc.",,rdac:C10006,rdac:C10002,rdae:P20039,rdau:P60141,rdaa:P50070,conductor,subproperty

@@ -6,6 +6,11 @@ modules:
     enabled: [Asserts, ModelHelper, Db, DbHelper, Filesystem]
 
 env:
+    batch:
+        modules:
+            config:
+                Db:
+                    dump: tests/_data/batch/swregistry_test_2014-01-17.sql
     normal:
         modules:
             config:

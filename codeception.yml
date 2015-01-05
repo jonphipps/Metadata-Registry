@@ -1,0 +1,20 @@
+actor: Tester
+paths:
+    tests: tests
+    log: tests/_output
+    data: plugins/jpAdminGeneratorPlugin/lib/ImportVocab/tests/_data
+    helpers: tests/_support
+settings:
+    bootstrap: _bootstrap.php
+    colors: true
+    memory_limit: 1024M
+    error_level: "E_ALL & ~E_STRICT & ~E_USER_DEPRECATED & ~E_DEPRECATED"
+modules:
+    config:
+        Db:
+            dsn: 'mysql:host=127.0.0.1;port=3306;dbname=swregistry_test'
+            user: 'root'
+            password: 'RegIt!'
+            dump: 'tests/_data/swregistry_test.sql'
+            populate: true
+            cleanup: false

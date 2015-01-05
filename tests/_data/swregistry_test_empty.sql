@@ -572,16 +572,16 @@ CREATE TABLE `reg_lookup` (
   UNIQUE KEY `id` (`id`),
   KEY `display_order` (`type_id`,`display_order`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+
+
 CREATE TABLE `reg_prefix` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `prefix` varchar(40) NOT NULL,
   `uri` varchar(256) DEFAULT NULL,
   `rank` int(11) DEFAULT '0',
-  `prefix` varchar(256) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `prefix_prefix` (`prefix`(255)),
+  PRIMARY KEY (`prefix`),
   KEY `prefix_uri` (`uri`(255)),
   KEY `prefix_rank` (`rank`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 CREATE TABLE `reg_rdf_namespace` (
