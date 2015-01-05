@@ -1,0 +1,18 @@
+class_name: ModelTester
+
+error_level: "E_ALL & ~E_STRICT & ~E_USER_DEPRECATED & ~E_DEPRECATED"
+
+modules:
+    enabled: [Asserts, ModelHelper, Db, DbHelper, Filesystem]
+
+env:
+    normal:
+        modules:
+            config:
+                Db:
+                    dump: tests/_data/swregistry_test.sql
+    empty:
+        modules:
+            config:
+                Db:
+                    dump: tests/_data/swregistry_test_empty.sql
