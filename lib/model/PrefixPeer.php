@@ -7,12 +7,13 @@
  *
  * @package lib.model
  */
-class PrefixPeer extends \BasePrefixPeer
-{
+class PrefixPeer extends \BasePrefixPeer {
+
     public static function populatePrefixes()
     {
         $xhtml    = simplexml_load_file( 'http://prefix.cc/popular/all' );
-        $prefixes = array();
+        $c        = new Criteria();
+        $prefixes = self::doSelect( $c );
         foreach ( $xhtml->body->ol->li as $value )
         {
             $uri    = (string) $value['content'];
@@ -20,19 +21,15 @@ class PrefixPeer extends \BasePrefixPeer
             $rank   = (int) $value->span['content'];
 
             //lookup prefix by prefix
-            if ( isset( $prefixes[$uri] ) )
+            $old = self::findByPrefix( $prefix );
+            if ( ! $old )
             {
-                if ( $rank < $prefixes[$uri]['rank'] )
-                {
-                    $prefixes[$uri]['rank']   = $rank;
-                    $prefixes[$uri]['prefix'] = $prefix;
-                }
+                $old = new \Prefix();
+                $old->setPrefix($prefix);
             }
-            else
-            {
-                $prefixes[$uri]['rank']   = $rank;
-                $prefixes[$uri]['prefix'] = $prefix;
-            }
+            $old->setUri( $uri );
+            $old->setRank( $rank );
+            $old->save();
         }
 
         return $prefixes;
@@ -41,24 +38,68 @@ class PrefixPeer extends \BasePrefixPeer
     public static function findByPrefix( $prefix )
     {
         $c = new Criteria();
-        $c->add($prefix, PrefixPeer::PREFIX);
+        $c->add( PrefixPeer::PREFIX, $prefix );
 
-       return PrefixPeer::doSelectOne($c);
-
+        return PrefixPeer::doSelectOne( $c );
     }
 
-    public static function findByUri( $uri, $findAll = false)
+    public static function findByUri( $uri, $findAll = false )
     {
         $c = new Criteria();
-        $c->add($uri, PrefixPeer::URI);
-        $c->addAscendingOrderByColumn(PrefixPeer::RANK);
+        $c->add( PrefixPeer::URI, $uri );
+        $c->addAscendingOrderByColumn( PrefixPeer::RANK );
 
-        if ($findAll)
+        if ( $findAll )
         {
-          return PrefixPeer::doSelect($c);
+            return PrefixPeer::doSelect( $c );
         }
-        else {
-            return PrefixPeer::doSelectOne($c);
+        else
+        {
+            return PrefixPeer::doSelectOne( $c );
         }
+    }
+
+    public function getIndexedArrayIndexedByPrefix()
+    {
+        $prefixes = array();
+        $c        = new Criteria();
+        $results  = self::doSelect( $c );
+        /** @var \Prefix[] $results */
+        foreach ( $results as $value )
+        {
+            $prefix                    = $value->getPrefix();
+            $prefixes[$prefix]['uri']  = $value->getUri();
+            $prefixes[$prefix]['id']   = $value->getId();
+            $prefixes[$prefix]['rank'] = $value->getRank();
+        }
+
+        return $prefixes;
+    }
+
+    public function getIndexedArrayIndexedByUri()
+    {
+        $prefixes = array();
+        $c        = new Criteria();
+        $results  = self::doSelect( $c );
+        /** @var \Prefix[] $results */
+        foreach ( $results as $value )
+        {
+            $index = $value->getUri();
+            $rank  = $value->getRank();
+
+            //lookup prefix by uri
+            if ( isset( $prefixes[$index] ) )
+            {
+                // lower rank number means more popular (??)
+                if ( $rank < $prefixes[$index]['rank'] )
+                {
+                    $prefixes[$index]['rank']   = $rank;
+                    $prefixes[$index]['prefix'] = $value->getPrefix();
+                    $prefixes[$index]['id']     = $value->getId();
+                }
+            }
+        }
+
+        return $prefixes;
     }
 }

@@ -19,23 +19,20 @@ abstract class BasePrefixPeer {
 	const CLASS_DEFAULT = 'lib.model.Prefix';
 
 	/** The total number of columns. */
-	const NUM_COLUMNS = 4;
+	const NUM_COLUMNS = 3;
 
 	/** The number of lazy-loaded columns. */
 	const NUM_LAZY_LOAD_COLUMNS = 0;
 
 
-	/** the column name for the ID field */
-	const ID = 'reg_prefix.ID';
+	/** the column name for the PREFIX field */
+	const PREFIX = 'reg_prefix.PREFIX';
 
 	/** the column name for the URI field */
 	const URI = 'reg_prefix.URI';
 
 	/** the column name for the RANK field */
 	const RANK = 'reg_prefix.RANK';
-
-	/** the column name for the PREFIX field */
-	const PREFIX = 'reg_prefix.PREFIX';
 
 	/** The PHP to DB Name Mapping */
 	private static $phpNameMap = null;
@@ -48,10 +45,10 @@ abstract class BasePrefixPeer {
 	 * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
 	 */
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'Uri', 'Rank', 'Prefix', ),
-		BasePeer::TYPE_COLNAME => array (PrefixPeer::ID, PrefixPeer::URI, PrefixPeer::RANK, PrefixPeer::PREFIX, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'uri', 'rank', 'prefix', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, )
+		BasePeer::TYPE_PHPNAME => array ('Prefix', 'Uri', 'Rank', ),
+		BasePeer::TYPE_COLNAME => array (PrefixPeer::PREFIX, PrefixPeer::URI, PrefixPeer::RANK, ),
+		BasePeer::TYPE_FIELDNAME => array ('prefix', 'uri', 'rank', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, )
 	);
 
 	/**
@@ -61,10 +58,10 @@ abstract class BasePrefixPeer {
 	 * e.g. self::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
 	 */
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Uri' => 1, 'Rank' => 2, 'Prefix' => 3, ),
-		BasePeer::TYPE_COLNAME => array (PrefixPeer::ID => 0, PrefixPeer::URI => 1, PrefixPeer::RANK => 2, PrefixPeer::PREFIX => 3, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'uri' => 1, 'rank' => 2, 'prefix' => 3, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, )
+		BasePeer::TYPE_PHPNAME => array ('Prefix' => 0, 'Uri' => 1, 'Rank' => 2, ),
+		BasePeer::TYPE_COLNAME => array (PrefixPeer::PREFIX => 0, PrefixPeer::URI => 1, PrefixPeer::RANK => 2, ),
+		BasePeer::TYPE_FIELDNAME => array ('prefix' => 0, 'uri' => 1, 'rank' => 2, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, )
 	);
 
 	/**
@@ -165,18 +162,16 @@ abstract class BasePrefixPeer {
 	public static function addSelectColumns(Criteria $criteria, $tableAlias = null)
 	{
 
-        $criteria->addSelectColumn(($tableAlias) ? PrefixPeer::alias($tableAlias, PrefixPeer::ID) : PrefixPeer::ID);
+        $criteria->addSelectColumn(($tableAlias) ? PrefixPeer::alias($tableAlias, PrefixPeer::PREFIX) : PrefixPeer::PREFIX);
 
         $criteria->addSelectColumn(($tableAlias) ? PrefixPeer::alias($tableAlias, PrefixPeer::URI) : PrefixPeer::URI);
 
         $criteria->addSelectColumn(($tableAlias) ? PrefixPeer::alias($tableAlias, PrefixPeer::RANK) : PrefixPeer::RANK);
 
-        $criteria->addSelectColumn(($tableAlias) ? PrefixPeer::alias($tableAlias, PrefixPeer::PREFIX) : PrefixPeer::PREFIX);
-
 	}
 
-	const COUNT = 'COUNT(reg_prefix.ID)';
-	const COUNT_DISTINCT = 'COUNT(DISTINCT reg_prefix.ID)';
+	const COUNT = 'COUNT(reg_prefix.PREFIX)';
+	const COUNT_DISTINCT = 'COUNT(DISTINCT reg_prefix.PREFIX)';
 
 	/**
 	 * Returns the number of rows matching criteria.
@@ -421,8 +416,8 @@ abstract class BasePrefixPeer {
 		if ($values instanceof Criteria) {
 			$criteria = clone $values; // rename for clarity
 
-			$comparison = $criteria->getComparison(PrefixPeer::ID);
-			$selectCriteria->add(PrefixPeer::ID, $criteria->remove(PrefixPeer::ID), $comparison);
+			$comparison = $criteria->getComparison(PrefixPeer::PREFIX);
+			$selectCriteria->add(PrefixPeer::PREFIX, $criteria->remove(PrefixPeer::PREFIX), $comparison);
 
 		} else { // $values is Prefix object
 			$criteria = $values->buildCriteria(); // gets full criteria
@@ -492,7 +487,7 @@ abstract class BasePrefixPeer {
 		} else {
 			// it must be the primary key
 			$criteria = new Criteria(self::DATABASE_NAME);
-			$criteria->add(PrefixPeer::ID, (array) $values, Criteria::IN);
+			$criteria->add(PrefixPeer::PREFIX, (array) $values, Criteria::IN);
 		}
 
 		// Set the correct dbName
@@ -566,7 +561,7 @@ abstract class BasePrefixPeer {
 
 		$criteria = new Criteria(PrefixPeer::DATABASE_NAME);
 
-		$criteria->add(PrefixPeer::ID, $pk);
+		$criteria->add(PrefixPeer::PREFIX, $pk);
 
 
 		$v = PrefixPeer::doSelect($criteria, $con);
@@ -593,7 +588,7 @@ abstract class BasePrefixPeer {
 			$objs = array();
 		} else {
 			$criteria = new Criteria();
-			$criteria->add(PrefixPeer::ID, $pks, Criteria::IN);
+			$criteria->add(PrefixPeer::PREFIX, $pks, Criteria::IN);
 			$objs = PrefixPeer::doSelect($criteria, $con);
 		}
 		return $objs;
