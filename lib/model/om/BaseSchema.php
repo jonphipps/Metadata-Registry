@@ -165,6 +165,13 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 	 */
 	protected $ns_type = 'slash';
 
+
+	/**
+	 * The value for the prefixes field.
+	 * @var        string
+	 */
+	protected $prefixes;
+
 	/**
 	 * @var        Agent
 	 */
@@ -609,6 +616,17 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 	{
 
 		return $this->ns_type;
+	}
+
+	/**
+	 * Get the [prefixes] column value.
+	 * 
+	 * @return     string
+	 */
+	public function getPrefixes()
+	{
+
+		return $this->prefixes;
 	}
 
 	/**
@@ -1102,6 +1120,28 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 	} // setNsType()
 
 	/**
+	 * Set the value of [prefixes] column.
+	 * 
+	 * @param      string $v new value
+	 * @return     void
+	 */
+	public function setPrefixes($v)
+	{
+
+		// Since the native PHP type for this column is string,
+		// we will cast the input to a string (if it is not).
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->prefixes !== $v) {
+			$this->prefixes = $v;
+			$this->modifiedColumns[] = SchemaPeer::PREFIXES;
+		}
+
+	} // setPrefixes()
+
+	/**
 	 * Hydrates (populates) the object variables with values from the database resultset.
 	 *
 	 * An offset (1-based "start column") is specified so that objects can be hydrated
@@ -1160,12 +1200,14 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 
 			$this->ns_type = $rs->getString($startcol + 20);
 
+			$this->prefixes = $rs->getString($startcol + 21);
+
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 21; // 21 = SchemaPeer::NUM_COLUMNS - SchemaPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 22; // 22 = SchemaPeer::NUM_COLUMNS - SchemaPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Schema object", $e);
@@ -1681,6 +1723,9 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 			case 20:
 				return $this->getNsType();
 				break;
+			case 21:
+				return $this->getPrefixes();
+				break;
 			default:
 				return null;
 				break;
@@ -1722,6 +1767,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 			$keys[18] => $this->getLanguage(),
 			$keys[19] => $this->getProfileId(),
 			$keys[20] => $this->getNsType(),
+			$keys[21] => $this->getPrefixes(),
 		);
 		return $result;
 	}
@@ -1816,6 +1862,9 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 			case 20:
 				$this->setNsType($value);
 				break;
+			case 21:
+				$this->setPrefixes($value);
+				break;
 		} // switch()
 	}
 
@@ -1860,6 +1909,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[18], $arr)) $this->setLanguage($arr[$keys[18]]);
 		if (array_key_exists($keys[19], $arr)) $this->setProfileId($arr[$keys[19]]);
 		if (array_key_exists($keys[20], $arr)) $this->setNsType($arr[$keys[20]]);
+		if (array_key_exists($keys[21], $arr)) $this->setPrefixes($arr[$keys[21]]);
 	}
 
 	/**
@@ -1892,6 +1942,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(SchemaPeer::LANGUAGE)) $criteria->add(SchemaPeer::LANGUAGE, $this->language);
 		if ($this->isColumnModified(SchemaPeer::PROFILE_ID)) $criteria->add(SchemaPeer::PROFILE_ID, $this->profile_id);
 		if ($this->isColumnModified(SchemaPeer::NS_TYPE)) $criteria->add(SchemaPeer::NS_TYPE, $this->ns_type);
+		if ($this->isColumnModified(SchemaPeer::PREFIXES)) $criteria->add(SchemaPeer::PREFIXES, $this->prefixes);
 
 		return $criteria;
 	}
@@ -1985,6 +2036,8 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 		$copyObj->setProfileId($this->profile_id);
 
 		$copyObj->setNsType($this->ns_type);
+
+		$copyObj->setPrefixes($this->prefixes);
 
 
 		if ($deepCopy) {

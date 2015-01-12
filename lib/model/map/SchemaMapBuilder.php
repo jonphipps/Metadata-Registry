@@ -103,6 +103,8 @@ class SchemaMapBuilder {
 
 		$tMap->addColumn('NS_TYPE', 'NsType', 'string', CreoleTypes::CHAR, true, 6);
 
+		$tMap->addColumn('PREFIXES', 'Prefixes', 'string', CreoleTypes::LONGVARCHAR, false, null);
+
 	} // doBuild()
 
 } // SchemaMapBuilder
