@@ -38,23 +38,42 @@ class PrefixTest extends \Codeception\TestCase\Test {
         );
     }
 
-    public function testPopulate()
+    /**
+     * This test is executed only for an empty database
+     * @env empty
+     */
+    public function testPopulateFromLocalFile()
     {
         $this->specify(
-          "The database is populated from prefix.cc",
+          "An empty table in the database is populated from a local file",
           function ()
           {
               $c = new Criteria();
               verify( $this->PrefixPeer->doCount( $c ) )->equals( 0 );
-              $this->PrefixPeer->populatePrefixes();
-              verify( $this->PrefixPeer->doCount( $c ) )->greaterThan( 0 );
+              $config = Configuration::config();
+
+              $xhtml = simplexml_load_file( $config['paths']['data'] . '/prefix.cc.local.xml' );
+              $count = count($xhtml->body->ol->li);
+              $this->PrefixPeer->populatePrefixes( $xhtml );
+              verify( $this->PrefixPeer->doCount( $c ) )->equals( $count );
           }
         );
     }
 
-    public function test_get_record_by_prefix()
+    public function testGetPrefixCC()
     {
+        $this->specify(
+          "The we can get prefix.cc",
+          function ()
+    {
+              $xhtml = PrefixPeer::getPrefixcc();
+              verify( count($xhtml->body->ol) )->equals( 1 );
+          }
+        );
+    }
 
+    public function test_get_record_by_uri()
+    {
         //$this->tester->haveInDatabase( "reg_prefix", [ 'uri' => "http://www.w3.org/1999/02/22-rdf-syntax-ns#", 'rank' => '2', 'rdf' ] );
         $this->specify(
           "that the record can be retrieved by uri",

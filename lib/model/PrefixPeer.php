@@ -9,9 +9,8 @@
  */
 class PrefixPeer extends \BasePrefixPeer {
 
-    public static function populatePrefixes()
+    public static function populatePrefixes($xhtml)
     {
-        $xhtml    = simplexml_load_file( 'http://prefix.cc/popular/all' );
         $c        = new Criteria();
         $prefixes = self::doSelect( $c );
         foreach ( $xhtml->body->ol->li as $value )
@@ -101,5 +100,15 @@ class PrefixPeer extends \BasePrefixPeer {
         }
 
         return $prefixes;
+    }
+
+    /**
+     * @return SimpleXMLElement
+     */
+    public static function getPrefixcc()
+    {
+        $xhtml = simplexml_load_file( 'http://prefix.cc/popular/all' );
+
+        return $xhtml;
     }
 }
