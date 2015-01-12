@@ -1,5 +1,11 @@
 <?php
 
+use Codeception\Configuration;
+use Codeception\Module\Db;
+use Codeception\Module\Dbh;
+use Codeception\Module\DbHelper;
+use Codeception\Scenario;
+
 class PrefixTest extends \Codeception\TestCase\Test {
 
     use Codeception\Specify;
@@ -15,10 +21,21 @@ class PrefixTest extends \Codeception\TestCase\Test {
     /** @var  \Prefix */
     protected $Prefix;
 
-    protected function _before()
+    public function __construct()
     {
         $this->PrefixPeer = new \PrefixPeer();
         $this->Prefix     = new \Prefix();
+    }
+
+    public static function setUpBeforeClass()
+    {
+    }
+
+    protected function _before()
+    {
+        $config = Configuration::config();
+        //get  the unit settings
+        $settings = Configuration::suiteSettings("unit", $config);
     }
 
     protected function _after()
@@ -65,7 +82,7 @@ class PrefixTest extends \Codeception\TestCase\Test {
         $this->specify(
           "The we can get prefix.cc",
           function ()
-    {
+          {
               $xhtml = PrefixPeer::getPrefixcc();
               verify( count($xhtml->body->ol) )->equals( 1 );
           }
@@ -79,8 +96,8 @@ class PrefixTest extends \Codeception\TestCase\Test {
           "that the record can be retrieved by uri",
           function ()
           {
-              verify($this->PrefixPeer->findByUri( "http://www.w3.org/1999/02/22-rdf-syntax-ns#" )->getPrefix())->equals( "rdf" );
-        }
+              verify( $this->PrefixPeer->findByUri( "http://www.w3.org/1999/02/22-rdf-syntax-ns#" )->getPrefix() )->equals( "rdf" );
+          }
         );
     }
 }
