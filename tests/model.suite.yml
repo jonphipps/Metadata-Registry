@@ -3,8 +3,7 @@ class_name: ModelTester
 error_level: "E_ALL & ~E_STRICT & ~E_USER_DEPRECATED & ~E_DEPRECATED"
 
 modules:
-    enabled: [Asserts, ModelHelper, Db, DbHelper, Filesystem]
-
+    enabled: [Asserts, ModelHelper, Db, Filesystem]
 env:
     batch:
         modules:

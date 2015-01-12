@@ -4,7 +4,7 @@
 class_name: UnitTester
 error_level: "E_ALL & ~E_STRICT & ~E_USER_DEPRECATED & ~E_DEPRECATED"
 modules:
-    enabled: [Asserts, UnitHelper, Db, DbHelper, Filesystem]
+    enabled: [Asserts, UnitHelper, Db, Filesystem]
 env:
     batch:
         modules:
@@ -16,9 +16,9 @@ env:
         modules:
             config:
                 Db:
-                    dump: ../../../../codeception/_data/swregistry_test.sql
+                    dump: tests/_data/swregistry_test.sql
     update:
         modules:
             config:
                 Db:
-                    dump: ../../../../codeception/_data/swregistry_test_update.sql
+                    dump: tests/_data/swregistry_test_update.sql
