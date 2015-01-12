@@ -486,6 +486,7 @@ CREATE TABLE `reg_schema` (
   `language` char(6) NOT NULL DEFAULT 'en',
   `profile_id` int(11) DEFAULT NULL,
   `ns_type` char(6) NOT NULL DEFAULT 'slash',
+  `prefixes` TEXT NULL DEFAULT NULL,
   UNIQUE KEY `id` (`id`),
   KEY `agent_id` (`agent_id`),
   KEY `status_id` (`status_id`),
@@ -863,7 +864,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `profile` WRITE;
 ALTER TABLE `profile` DISABLE KEYS;
-INSERT INTO `profile` (`id`, `agent_id`, `created_at`, `updated_at`, `deleted_at`, `created_by`, `updated_by`, `deleted_by`, `child_updated_at`, `child_updated_by`, `name`, `note`, `uri`, `url`, `base_domain`, `token`, `community`, `last_uri_id`, `status_id`, `language`) VALUES 
+INSERT INTO `profile` (`id`, `agent_id`, `created_at`, `updated_at`, `deleted_at`, `created_by`, `updated_by`, `deleted_by`, `child_updated_at`, `child_updated_by`, `name`, `note`, `uri`, `url`, `base_domain`, `token`, `community`, `last_uri_id`, `status_id`, `language`) VALUES
 	(1,58,'2008-04-20 11:52:00','2008-04-20 11:52:00',NULL,36,36,NULL,NULL,NULL,'NSDL Registry Schema',NULL,'http://registry/uri/profile/registryschema',NULL,'http://registry/uri/profile/registryschema','registryschema','100000',100000,1,'en');
 ALTER TABLE `profile` ENABLE KEYS;
 UNLOCK TABLES;
@@ -871,7 +872,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `profile_property` WRITE;
 ALTER TABLE `profile_property` DISABLE KEYS;
-INSERT INTO `profile_property` (`id`, `created_at`, `updated_at`, `deleted_at`, `created_by`, `updated_by`, `deleted_by`, `profile_id`, `name`, `label`, `definition`, `comment`, `type`, `uri`, `status_id`, `language`, `note`, `display_order`, `picklist_order`, `examples`, `is_required`, `is_reciprocal`, `is_singleton`, `is_in_picklist`, `inverse_profile_property_id`, `schema_property_id`, `schema_id`, `is_in_class_picklist`, `is_in_property_picklist`, `is_in_rdf`, `is_in_xsd`, `is_attribute`, `has_language`) VALUES 
+INSERT INTO `profile_property` (`id`, `created_at`, `updated_at`, `deleted_at`, `created_by`, `updated_by`, `deleted_by`, `profile_id`, `name`, `label`, `definition`, `comment`, `type`, `uri`, `status_id`, `language`, `note`, `display_order`, `picklist_order`, `examples`, `is_required`, `is_reciprocal`, `is_singleton`, `is_in_picklist`, `inverse_profile_property_id`, `schema_property_id`, `schema_id`, `is_in_class_picklist`, `is_in_property_picklist`, `is_in_rdf`, `is_in_xsd`, `is_attribute`, `has_language`) VALUES
 	(1,'2008-04-20 12:00:00','2008-04-20 15:00:00',NULL,36,36,NULL,1,'name','name',NULL,NULL,'property','reg:name',1,'en',NULL,1,1,NULL,1,0,1,0,NULL,NULL,NULL,0,0,1,1,1,1),
 	(2,'2008-04-20 12:00:00','2008-04-20 15:00:00',NULL,36,36,NULL,1,'label','label',NULL,NULL,'property','rdfs:label',1,'en',NULL,2,2,NULL,1,0,0,1,NULL,NULL,NULL,1,1,1,1,0,1),
 	(3,'2008-04-20 12:01:00','2008-04-20 15:01:01',NULL,36,36,NULL,1,'definition','description',NULL,NULL,'property','skos:definition',1,'en',NULL,3,3,NULL,0,0,0,1,NULL,NULL,NULL,1,1,1,1,0,1),
@@ -944,7 +945,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `reg_status` WRITE;
 ALTER TABLE `reg_status` DISABLE KEYS;
-INSERT INTO `reg_status` (`id`, `display_order`, `display_name`, `uri`) VALUES 
+INSERT INTO `reg_status` (`id`, `display_order`, `display_name`, `uri`) VALUES
 	(1,7,'Published','http://metadataregistry.org/uri/RegStatus/1001'),
 	(2,1,'New-Proposed','http://metadataregistry.org/uri/RegStatus/1002'),
 	(3,2,'Change-Proposed','http://metadataregistry.org/uri/RegStatus/1003'),
@@ -960,7 +961,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `reg_user` WRITE;
 ALTER TABLE `reg_user` DISABLE KEYS;
-INSERT INTO `reg_user` (`id`, `created_at`, `last_updated`, `deleted_at`, `nickname`, `salutation`, `first_name`, `last_name`, `email`, `sha1_password`, `salt`, `want_to_be_moderator`, `is_moderator`, `is_administrator`, `deletions`, `password`) VALUES 
+INSERT INTO `reg_user` (`id`, `created_at`, `last_updated`, `deleted_at`, `nickname`, `salutation`, `first_name`, `last_name`, `email`, `sha1_password`, `salt`, `want_to_be_moderator`, `is_moderator`, `is_administrator`, `deletions`, `password`) VALUES
 	(1,'2014-12-04 04:02:52','2014-12-03 23:03:39',NULL,'admin',NULL,NULL,NULL,'jphipps@madcreek.com','89c4c184c5bcf66571433599b3864a92fdde20f2','989dc77e31d1bbace236b7c9da7c92bd',0,0,1,0,NULL);
 ALTER TABLE `reg_user` ENABLE KEYS;
 UNLOCK TABLES;
@@ -986,7 +987,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `reg_lookup` WRITE;
 ALTER TABLE `reg_lookup` DISABLE KEYS;
-INSERT INTO `reg_lookup` (`id`, `type_id`, `short_value`, `long_value`, `display_order`) VALUES 
+INSERT INTO `reg_lookup` (`id`, `type_id`, `short_value`, `long_value`, `display_order`) VALUES
 	(1,1,'Published','Published',7),
 	(2,1,'New-Proposed','New-Proposed',1),
 	(3,1,'Change-Proposed','Change-Proposed',2),
@@ -1026,7 +1027,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `reg_skos_property` WRITE;
 ALTER TABLE `reg_skos_property` DISABLE KEYS;
-INSERT INTO `reg_skos_property` (`id`, `parent_id`, `inverse_id`, `name`, `uri`, `object_type`, `display_order`, `picklist_order`, `label`, `definition`, `comment`, `examples`, `is_required`, `is_reciprocal`, `is_singleton`, `is_scheme`, `is_in_picklist`) VALUES 
+INSERT INTO `reg_skos_property` (`id`, `parent_id`, `inverse_id`, `name`, `uri`, `object_type`, `display_order`, `picklist_order`, `label`, `definition`, `comment`, `examples`, `is_required`, `is_reciprocal`, `is_singleton`, `is_scheme`, `is_in_picklist`) VALUES
 	(1,0,NULL,'altLabel','http://www.w3.org/2004/02/skos/core#altLabel','literal',1,110,'alternative label','An alternative lexical label for a resource.','Acronyms, abbreviations, spelling variants, and irregular plural/singular forms may be included among the alternative labels for a concept. Mis-spelled terms are normally included as hidden labels (see skos:hiddenLabel).','http://www.w3.org/2004/02/skos/core/examples/altLabel.rdf.xml',0,0,0,0,1),
 	(3,NULL,16,'broader','http://www.w3.org/2004/02/skos/core#broader','resource',3,400,'has broader','A concept that is more general in meaning.','Broader concepts are typically rendered as parents in a concept hierarchy (tree).','http://www.w3.org/2004/02/skos/core/examples/broader.rdf.xml',0,0,0,0,1),
 	(4,17,NULL,'changeNote','http://www.w3.org/2004/02/skos/core#changeNote','literal',4,320,'change note','A note about a modification to a concept.',NULL,'http://www.w3.org/2004/02/skos/core/examples/changeNote.rdf.xml',0,0,0,0,1),
