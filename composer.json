@@ -15,7 +15,8 @@
     "codeception/phpbuiltinserver": "*",
     "captbaritone/mailcatcher-codeception-module": "*",
     "raveren/kint": "1.0.*@dev",
-    "phpspec/phpspec": "2.1.0"
+    "phpspec/phpspec": "2.1.0",
+    "vlucas/phpdotenv": "1.*@dev"
   },
   "config": {
     "process-timeout": 900,

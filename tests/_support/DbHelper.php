@@ -6,7 +6,7 @@ namespace Codeception\Module;
 
 use Codeception\Configuration;
 
-class DbHelper extends \Codeception\Module\Db
+class DbHelper extends Db
 {
     public function __construct()
     {
@@ -16,8 +16,12 @@ class DbHelper extends \Codeception\Module\Db
         $settings = Configuration::suiteSettings("unit", $config);
         //get the settings for the db module
         $dbConfig = (isset($settings['modules']['config']['Db'])) ? $settings['modules']['config']['Db'] : array();
-        //set the config for the helper module
-        $this->_setConfig($dbConfig);
+        $dbConfig['user'] = $_ENV['db_user'];
+        $dbConfig['password'] = $_ENV['db_password'];
+        $this->_reconfigure($dbConfig);
+
+        //$this->_setConfig($dbConfig);
+        //$this->_initialize();
     }
 
     public function _initialize()
