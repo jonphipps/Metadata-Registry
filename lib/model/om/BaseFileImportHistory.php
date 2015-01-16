@@ -104,6 +104,11 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 	protected $aSchema;
 
 	/**
+	 * @var        Batch
+	 */
+	protected $aBatch;
+
+	/**
 	 * Flag to prevent endless save loop, if this object is referenced
 	 * by another object which falls in this transaction.
 	 * @var        boolean
@@ -457,6 +462,10 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 			$this->modifiedColumns[] = FileImportHistoryPeer::BATCH_ID;
 		}
 
+		if ($this->aBatch !== null && $this->aBatch->getId() !== $v) {
+			$this->aBatch = null;
+		}
+
 	} // setBatchId()
 
 	/**
@@ -673,6 +682,13 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 				$this->setSchema($this->aSchema);
 			}
 
+			if ($this->aBatch !== null) {
+				if ($this->aBatch->isModified()) {
+					$affectedRows += $this->aBatch->save($con);
+				}
+				$this->setBatch($this->aBatch);
+			}
+
 
 			// If this object has been modified, then save it to the database.
 			if ($this->isModified()) {
@@ -776,6 +792,12 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 			if ($this->aSchema !== null) {
 				if (!$this->aSchema->validate($columns)) {
 					$failureMap = array_merge($failureMap, $this->aSchema->getValidationFailures());
+				}
+			}
+
+			if ($this->aBatch !== null) {
+				if (!$this->aBatch->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aBatch->getValidationFailures());
 				}
 			}
 
@@ -1257,6 +1279,56 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 			 */
 		}
 		return $this->aSchema;
+	}
+
+	/**
+	 * Declares an association between this object and a Batch object.
+	 *
+	 * @param      Batch $v
+	 * @return     void
+	 * @throws     PropelException
+	 */
+	public function setBatch($v)
+	{
+
+
+		if ($v === null) {
+			$this->setBatchId(NULL);
+		} else {
+			$this->setBatchId($v->getId());
+		}
+
+
+		$this->aBatch = $v;
+	}
+
+
+	/**
+	 * Get the associated Batch object
+	 *
+	 * @param      Connection Optional Connection object.
+	 * @return     Batch The associated Batch object.
+	 * @throws     PropelException
+	 */
+	public function getBatch($con = null)
+	{
+		if ($this->aBatch === null && ($this->batch_id !== null)) {
+			// include the related Peer class
+			include_once 'lib/model/om/BaseBatchPeer.php';
+
+			$this->aBatch = BatchPeer::retrieveByPK($this->batch_id, $con);
+
+			/* The following can be used instead of the line above to
+			   guarantee the related object contains a reference
+			   to this object, but this level of coupling
+			   may be undesirable in many circumstances.
+			   As it can lead to a db query with many results that may
+			   never be used.
+			   $obj = BatchPeer::retrieveByPK($this->batch_id, $con);
+			   $obj->addBatchs($this);
+			 */
+		}
+		return $this->aBatch;
 	}
 
 

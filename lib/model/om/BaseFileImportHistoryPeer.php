@@ -457,6 +457,45 @@ abstract class BaseFileImportHistoryPeer {
 
 
 	/**
+	 * Returns the number of rows matching criteria, joining the related Batch table
+	 *
+	 * @param Criteria $c
+	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
+	 * @param Connection $con
+	 * @return int Number of matching rows.
+	 */
+	public static function doCountJoinBatch(Criteria $criteria, $distinct = false, $con = null)
+	{
+		// we're going to modify criteria, so copy it first
+		$criteria = clone $criteria;
+
+		// clear out anything that might confuse the ORDER BY clause
+		$criteria->clearSelectColumns()->clearOrderByColumns();
+		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->addSelectColumn(FileImportHistoryPeer::COUNT_DISTINCT);
+		} else {
+			$criteria->addSelectColumn(FileImportHistoryPeer::COUNT);
+		}
+
+		// just in case we're grouping: add those columns to the select statement
+		foreach($criteria->getGroupByColumns() as $column)
+		{
+			$criteria->addSelectColumn($column);
+		}
+
+		$criteria->addJoin(FileImportHistoryPeer::BATCH_ID, BatchPeer::ID);
+
+		$rs = FileImportHistoryPeer::doSelectRS($criteria, $con);
+		if ($rs->next()) {
+			return $rs->getInt(1);
+		} else {
+			// no rows returned; we infer that means 0 matches.
+			return 0;
+		}
+	}
+
+
+	/**
 	 * Selects a collection of FileImportHistory objects pre-filled with their User objects.
 	 *
 	 * @return array Array of FileImportHistory objects.
@@ -631,6 +670,64 @@ abstract class BaseFileImportHistoryPeer {
 
 
 	/**
+	 * Selects a collection of FileImportHistory objects pre-filled with their Batch objects.
+	 *
+	 * @return array Array of FileImportHistory objects.
+	 * @throws PropelException Any exceptions caught during processing will be
+	 *		 rethrown wrapped into a PropelException.
+	 */
+	public static function doSelectJoinBatch(Criteria $c, $con = null)
+	{
+		$c = clone $c;
+
+		// Set the correct dbName if it has not been overridden
+		if ($c->getDbName() == Propel::getDefaultDB()) {
+			$c->setDbName(self::DATABASE_NAME);
+		}
+
+		FileImportHistoryPeer::addSelectColumns($c);
+		$startcol = (FileImportHistoryPeer::NUM_COLUMNS - FileImportHistoryPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+		BatchPeer::addSelectColumns($c);
+
+		$c->addJoin(FileImportHistoryPeer::BATCH_ID, BatchPeer::ID);
+		$rs = BasePeer::doSelect($c, $con);
+		$results = array();
+
+		while($rs->next()) {
+
+			$omClass = FileImportHistoryPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj1 = new $cls();
+			$obj1->hydrate($rs);
+
+			$omClass = BatchPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj2 = new $cls();
+			$obj2->hydrate($rs, $startcol);
+
+			$newObject = true;
+			foreach($results as $temp_obj1) {
+				$temp_obj2 = $temp_obj1->getBatch(); //CHECKME
+				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+					$newObject = false;
+					// e.g. $author->addBookRelatedByBookId()
+					$temp_obj2->addFileImportHistory($obj1); //CHECKME
+					break;
+				}
+			}
+			if ($newObject) {
+				$obj2->initFileImportHistorys();
+				$obj2->addFileImportHistory($obj1); //CHECKME
+			}
+			$results[] = $obj1;
+		}
+		return $results;
+	}
+
+
+	/**
 	 * Returns the number of rows matching criteria, joining all related tables
 	 *
 	 * @param Criteria $c
@@ -661,6 +758,8 @@ abstract class BaseFileImportHistoryPeer {
 		$criteria->addJoin(FileImportHistoryPeer::VOCABULARY_ID, VocabularyPeer::ID);
 
 		$criteria->addJoin(FileImportHistoryPeer::SCHEMA_ID, SchemaPeer::ID);
+
+		$criteria->addJoin(FileImportHistoryPeer::BATCH_ID, BatchPeer::ID);
 
 		$rs = FileImportHistoryPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
@@ -708,6 +807,12 @@ abstract class BaseFileImportHistoryPeer {
 
         $c->addJoin(FileImportHistoryPeer::SCHEMA_ID, SchemaPeer::alias('a3', SchemaPeer::ID));
         $c->addAlias('a3', SchemaPeer::TABLE_NAME);
+
+		BatchPeer::addSelectColumns($c, 'a4');
+		$startcol6 = $startcol5 + BatchPeer::NUM_COLUMNS;
+
+        $c->addJoin(FileImportHistoryPeer::BATCH_ID, BatchPeer::alias('a4', BatchPeer::ID));
+        $c->addAlias('a4', BatchPeer::TABLE_NAME);
 
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
@@ -799,6 +904,32 @@ abstract class BaseFileImportHistoryPeer {
 				$obj4->addFileImportHistory($obj1);
 			}
 
+
+				// Add objects for joined Batch rows
+	
+			$omClass = BatchPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj5 = new $cls();
+			$obj5->hydrate($rs, $startcol5);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj5 = $temp_obj1->getBatch(); // CHECKME
+				if ($temp_obj5->getPrimaryKey() === $obj5->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj5->addFileImportHistory($obj1); // CHECKME
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj5->initFileImportHistorys();
+				$obj5->addFileImportHistory($obj1);
+			}
+
 			$results[] = $obj1;
 		}
 		return $results;
@@ -835,6 +966,8 @@ abstract class BaseFileImportHistoryPeer {
 		$criteria->addJoin(FileImportHistoryPeer::VOCABULARY_ID, VocabularyPeer::ID);
 
 		$criteria->addJoin(FileImportHistoryPeer::SCHEMA_ID, SchemaPeer::ID);
+
+		$criteria->addJoin(FileImportHistoryPeer::BATCH_ID, BatchPeer::ID);
 
 		$rs = FileImportHistoryPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
@@ -877,6 +1010,8 @@ abstract class BaseFileImportHistoryPeer {
 
 		$criteria->addJoin(FileImportHistoryPeer::SCHEMA_ID, SchemaPeer::ID);
 
+		$criteria->addJoin(FileImportHistoryPeer::BATCH_ID, BatchPeer::ID);
+
 		$rs = FileImportHistoryPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
 			return $rs->getInt(1);
@@ -918,6 +1053,51 @@ abstract class BaseFileImportHistoryPeer {
 
 		$criteria->addJoin(FileImportHistoryPeer::VOCABULARY_ID, VocabularyPeer::ID);
 
+		$criteria->addJoin(FileImportHistoryPeer::BATCH_ID, BatchPeer::ID);
+
+		$rs = FileImportHistoryPeer::doSelectRS($criteria, $con);
+		if ($rs->next()) {
+			return $rs->getInt(1);
+		} else {
+			// no rows returned; we infer that means 0 matches.
+			return 0;
+		}
+	}
+
+
+	/**
+	 * Returns the number of rows matching criteria, joining the related Batch table
+	 *
+	 * @param Criteria $c
+	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
+	 * @param Connection $con
+	 * @return int Number of matching rows.
+	 */
+	public static function doCountJoinAllExceptBatch(Criteria $criteria, $distinct = false, $con = null)
+	{
+		// we're going to modify criteria, so copy it first
+		$criteria = clone $criteria;
+
+		// clear out anything that might confuse the ORDER BY clause
+		$criteria->clearSelectColumns()->clearOrderByColumns();
+		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->addSelectColumn(FileImportHistoryPeer::COUNT_DISTINCT);
+		} else {
+			$criteria->addSelectColumn(FileImportHistoryPeer::COUNT);
+		}
+
+		// just in case we're grouping: add those columns to the select statement
+		foreach($criteria->getGroupByColumns() as $column)
+		{
+			$criteria->addSelectColumn($column);
+		}
+
+		$criteria->addJoin(FileImportHistoryPeer::USER_ID, UserPeer::ID);
+
+		$criteria->addJoin(FileImportHistoryPeer::VOCABULARY_ID, VocabularyPeer::ID);
+
+		$criteria->addJoin(FileImportHistoryPeer::SCHEMA_ID, SchemaPeer::ID);
+
 		$rs = FileImportHistoryPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
 			return $rs->getInt(1);
@@ -955,9 +1135,14 @@ abstract class BaseFileImportHistoryPeer {
 		SchemaPeer::addSelectColumns($c);
 		$startcol4 = $startcol3 + SchemaPeer::NUM_COLUMNS;
 
+		BatchPeer::addSelectColumns($c);
+		$startcol5 = $startcol4 + BatchPeer::NUM_COLUMNS;
+
 		$c->addJoin(FileImportHistoryPeer::VOCABULARY_ID, VocabularyPeer::ID);
 
 		$c->addJoin(FileImportHistoryPeer::SCHEMA_ID, SchemaPeer::ID);
+
+		$c->addJoin(FileImportHistoryPeer::BATCH_ID, BatchPeer::ID);
 
 
 		$rs = BasePeer::doSelect($c, $con);
@@ -1017,6 +1202,29 @@ abstract class BaseFileImportHistoryPeer {
 				$obj3->addFileImportHistory($obj1);
 			}
 
+			$omClass = BatchPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj4  = new $cls();
+			$obj4->hydrate($rs, $startcol4);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj4 = $temp_obj1->getBatch(); //CHECKME
+				if ($temp_obj4->getPrimaryKey() === $obj4->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj4->addFileImportHistory($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj4->initFileImportHistorys();
+				$obj4->addFileImportHistory($obj1);
+			}
+
 			$results[] = $obj1;
 		}
 		return $results;
@@ -1050,9 +1258,14 @@ abstract class BaseFileImportHistoryPeer {
 		SchemaPeer::addSelectColumns($c);
 		$startcol4 = $startcol3 + SchemaPeer::NUM_COLUMNS;
 
+		BatchPeer::addSelectColumns($c);
+		$startcol5 = $startcol4 + BatchPeer::NUM_COLUMNS;
+
 		$c->addJoin(FileImportHistoryPeer::USER_ID, UserPeer::ID);
 
 		$c->addJoin(FileImportHistoryPeer::SCHEMA_ID, SchemaPeer::ID);
+
+		$c->addJoin(FileImportHistoryPeer::BATCH_ID, BatchPeer::ID);
 
 
 		$rs = BasePeer::doSelect($c, $con);
@@ -1112,6 +1325,29 @@ abstract class BaseFileImportHistoryPeer {
 				$obj3->addFileImportHistory($obj1);
 			}
 
+			$omClass = BatchPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj4  = new $cls();
+			$obj4->hydrate($rs, $startcol4);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj4 = $temp_obj1->getBatch(); //CHECKME
+				if ($temp_obj4->getPrimaryKey() === $obj4->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj4->addFileImportHistory($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj4->initFileImportHistorys();
+				$obj4->addFileImportHistory($obj1);
+			}
+
 			$results[] = $obj1;
 		}
 		return $results;
@@ -1145,9 +1381,14 @@ abstract class BaseFileImportHistoryPeer {
 		VocabularyPeer::addSelectColumns($c);
 		$startcol4 = $startcol3 + VocabularyPeer::NUM_COLUMNS;
 
+		BatchPeer::addSelectColumns($c);
+		$startcol5 = $startcol4 + BatchPeer::NUM_COLUMNS;
+
 		$c->addJoin(FileImportHistoryPeer::USER_ID, UserPeer::ID);
 
 		$c->addJoin(FileImportHistoryPeer::VOCABULARY_ID, VocabularyPeer::ID);
+
+		$c->addJoin(FileImportHistoryPeer::BATCH_ID, BatchPeer::ID);
 
 
 		$rs = BasePeer::doSelect($c, $con);
@@ -1205,6 +1446,152 @@ abstract class BaseFileImportHistoryPeer {
 			if ($newObject) {
 				$obj3->initFileImportHistorys();
 				$obj3->addFileImportHistory($obj1);
+			}
+
+			$omClass = BatchPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj4  = new $cls();
+			$obj4->hydrate($rs, $startcol4);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj4 = $temp_obj1->getBatch(); //CHECKME
+				if ($temp_obj4->getPrimaryKey() === $obj4->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj4->addFileImportHistory($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj4->initFileImportHistorys();
+				$obj4->addFileImportHistory($obj1);
+			}
+
+			$results[] = $obj1;
+		}
+		return $results;
+	}
+
+
+	/**
+	 * Selects a collection of FileImportHistory objects pre-filled with all related objects except Batch.
+	 *
+	 * @return array Array of FileImportHistory objects.
+	 * @throws PropelException Any exceptions caught during processing will be
+	 *		 rethrown wrapped into a PropelException.
+	 */
+	public static function doSelectJoinAllExceptBatch(Criteria $c, $con = null)
+	{
+		$c = clone $c;
+
+		// Set the correct dbName if it has not been overridden
+		// $c->getDbName() will return the same object if not set to another value
+		// so == check is okay and faster
+		if ($c->getDbName() == Propel::getDefaultDB()) {
+			$c->setDbName(self::DATABASE_NAME);
+		}
+
+		FileImportHistoryPeer::addSelectColumns($c);
+		$startcol2 = (FileImportHistoryPeer::NUM_COLUMNS - FileImportHistoryPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+
+		UserPeer::addSelectColumns($c);
+		$startcol3 = $startcol2 + UserPeer::NUM_COLUMNS;
+
+		VocabularyPeer::addSelectColumns($c);
+		$startcol4 = $startcol3 + VocabularyPeer::NUM_COLUMNS;
+
+		SchemaPeer::addSelectColumns($c);
+		$startcol5 = $startcol4 + SchemaPeer::NUM_COLUMNS;
+
+		$c->addJoin(FileImportHistoryPeer::USER_ID, UserPeer::ID);
+
+		$c->addJoin(FileImportHistoryPeer::VOCABULARY_ID, VocabularyPeer::ID);
+
+		$c->addJoin(FileImportHistoryPeer::SCHEMA_ID, SchemaPeer::ID);
+
+
+		$rs = BasePeer::doSelect($c, $con);
+		$results = array();
+
+		while($rs->next()) {
+
+			$omClass = FileImportHistoryPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj1 = new $cls();
+			$obj1->hydrate($rs);
+
+			$omClass = UserPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj2  = new $cls();
+			$obj2->hydrate($rs, $startcol2);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj2 = $temp_obj1->getUser(); //CHECKME
+				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj2->addFileImportHistory($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj2->initFileImportHistorys();
+				$obj2->addFileImportHistory($obj1);
+			}
+
+			$omClass = VocabularyPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj3  = new $cls();
+			$obj3->hydrate($rs, $startcol3);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj3 = $temp_obj1->getVocabulary(); //CHECKME
+				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj3->addFileImportHistory($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj3->initFileImportHistorys();
+				$obj3->addFileImportHistory($obj1);
+			}
+
+			$omClass = SchemaPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj4  = new $cls();
+			$obj4->hydrate($rs, $startcol4);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj4 = $temp_obj1->getSchema(); //CHECKME
+				if ($temp_obj4->getPrimaryKey() === $obj4->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj4->addFileImportHistory($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj4->initFileImportHistorys();
+				$obj4->addFileImportHistory($obj1);
 			}
 
 			$results[] = $obj1;
