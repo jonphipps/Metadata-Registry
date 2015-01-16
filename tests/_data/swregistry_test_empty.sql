@@ -194,8 +194,10 @@ CREATE TABLE `reg_schema` (
   `language` char(6) NOT NULL DEFAULT 'en',
   `profile_id` int(11) DEFAULT NULL,
   `ns_type` char(6) NOT NULL DEFAULT 'slash',
-  `prefixes` TEXT NULL DEFAULT NULL,
-  UNIQUE KEY `id` (`id`),
+  `prefixes` text,
+  `languages` text,
+  `repo` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
   KEY `agent_id` (`agent_id`),
   KEY `status_id` (`status_id`),
   KEY `last_updated_by_user_id` (`updated_user_id`),
@@ -244,8 +246,9 @@ CREATE TABLE `profile_property` (
   `is_in_xsd` tinyint(1) NOT NULL DEFAULT '1' COMMENT 'boolean - should this display in the XSD',
   `is_attribute` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'boolean - is this an attribute? attribute''s aren''t editable outside the main form',
   `has_language` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Boolean that determines whether language attribute is displayed for this property',
+  `is_object_prop` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
-  KEY `profile_id` (`profile_id`),
+  KEY `profile_property_profile_id` (`profile_id`),
   KEY `profile_property_status_id` (`status_id`),
   KEY `profile_property_updated_by` (`updated_by`),
   KEY `profile_property_created_by` (`created_by`),
@@ -803,15 +806,7 @@ CREATE TABLE `schema_has_version` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='InnoDB free: 0 kB; ';
 
 
-CREATE TABLE `vs_database_diagrams` (
-  `name` char(80) DEFAULT NULL,
-  `diadata` text,
-  `comment` varchar(1022) DEFAULT NULL,
-  `preview` text,
-  `lockinfo` char(80) DEFAULT NULL,
-  `locktime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `version` char(80) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
 
 
 
@@ -1086,10 +1081,6 @@ ALTER TABLE `schema_has_version` ENABLE KEYS;
 UNLOCK TABLES;
 
 
-LOCK TABLES `vs_database_diagrams` WRITE;
-ALTER TABLE `vs_database_diagrams` DISABLE KEYS;
-ALTER TABLE `vs_database_diagrams` ENABLE KEYS;
-UNLOCK TABLES;
 
 
 
