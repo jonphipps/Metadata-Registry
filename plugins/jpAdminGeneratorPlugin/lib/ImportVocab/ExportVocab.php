@@ -2,6 +2,11 @@
 
 namespace ImportVocab;
 
+use Ddeboer\DataImport\Workflow;
+use Ddeboer\DataImport\Reader\ArrayReader;
+use Ddeboer\DataImport\Writer\CsvWriter;
+use Ddeboer\DataImport\ValueConverter\CallbackValueConverter;
+
 class ExportVocab {
 
     /** @var  \Schema */
@@ -11,8 +16,8 @@ class ExportVocab {
     private $user;
 
     /** @var \ProfileProperty[] */
-    private $columns  = array();
-    private $prefixes = array();
+    private $columns   = array();
+    private $prefixes  = array();
     private $languages = array();
 
     public function __construct( $vocabId, $userId )
@@ -24,26 +29,22 @@ class ExportVocab {
     public function getCsvProlog()
     {
         // TODO: write logic here
+        //get the header
+
     }
 
-    public function findColumns( )
+    public function findColumns()
     {
-        $this->setColumns($this->schema->findUsedProfileProperties());
-    }
-
-    public function findPrefixes(  )
-    {
-        // TODO: write logic here
+        $this->setColumns( $this->schema->findUsedProfileProperties() );
     }
 
     public function findLanguages()
     {
-        $this->setLanguages($this->schema->findLanguages());
-
+        $this->setLanguages( $this->schema->findLanguages() );
     }
 
     /**
-     * @return mixed
+     * @return \Schema
      */
     public function getSchema()
     {
@@ -118,29 +119,32 @@ class ExportVocab {
 
     public function retrievePrefixes()
     {
-        return;
-        $xhtml    = simplexml_load_file( 'http://prefix.cc/popular/all' );
-        $prefixes = array();
-        foreach ( $xhtml->body->ol->li as $value )
+        $n          = $this->schema->getPrefixes();
+        $namespaces = \SchemaPropertyElementPeer::getNamespaceList( $this->schema->getId() );
+        //there weren't any stored so try to find some
+        foreach ( $namespaces as $uri )
         {
-            $uri    = (string) $value['content'];
-            $prefix = (string) $value->a;
-            $rank   = (int) $value->span['content'];
-            if ( isset( $prefixes[$uri] ) )
+            $prefix = \PrefixPeer::findByUri( $uri );
+            if ( $prefix )
             {
-                if ( $rank < $prefixes[$uri]['rank'] )
-                {
-                    $prefixes[$uri]['rank']   = $rank;
-                    $prefixes[$uri]['prefix'] = $prefix;
-                }
+                $n[$prefix->getPrefix()] = $uri;
             }
             else
             {
-                $prefixes[$uri]['rank']   = $rank;
-                $prefixes[$uri]['prefix'] = $prefix;
+                //looks for an alternative match
+                $key = array_search( $uri, $n );
+                if ( $key === false )
+                {
+                    $n[] = $uri;
+                }
             }
         }
+        //there weren't any stored at all and we found some so update the record
+        if ( count( $n ) )
+        {
+            $this->schema->setPrefixes( $n );
+        }
 
-        return $prefixes;
+        return $n;
     }
 }
