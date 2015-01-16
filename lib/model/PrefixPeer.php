@@ -58,7 +58,7 @@ class PrefixPeer extends \BasePrefixPeer {
         }
     }
 
-    public function getIndexedArrayIndexedByPrefix()
+    public static function getIndexedArrayIndexedByPrefix()
     {
         $prefixes = array();
         $c        = new Criteria();
@@ -75,7 +75,7 @@ class PrefixPeer extends \BasePrefixPeer {
         return $prefixes;
     }
 
-    public function getIndexedArrayIndexedByUri()
+    public static function getIndexedArrayIndexedByUri()
     {
         $prefixes = array();
         $c        = new Criteria();
