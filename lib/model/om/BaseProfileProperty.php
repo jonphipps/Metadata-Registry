@@ -249,6 +249,13 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 	 */
 	protected $has_language = false;
 
+
+	/**
+	 * The value for the is_object_prop field.
+	 * @var        boolean
+	 */
+	protected $is_object_prop = true;
+
 	/**
 	 * @var        User
 	 */
@@ -760,6 +767,17 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 	{
 
 		return $this->has_language;
+	}
+
+	/**
+	 * Get the [is_object_prop] column value.
+	 * 
+	 * @return     boolean
+	 */
+	public function getIsObjectProp()
+	{
+
+		return $this->is_object_prop;
 	}
 
 	/**
@@ -1467,6 +1485,22 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 	} // setHasLanguage()
 
 	/**
+	 * Set the value of [is_object_prop] column.
+	 * 
+	 * @param      boolean $v new value
+	 * @return     void
+	 */
+	public function setIsObjectProp($v)
+	{
+
+		if ($this->is_object_prop !== $v || $v === true) {
+			$this->is_object_prop = $v;
+			$this->modifiedColumns[] = ProfilePropertyPeer::IS_OBJECT_PROP;
+		}
+
+	} // setIsObjectProp()
+
+	/**
 	 * Hydrates (populates) the object variables with values from the database resultset.
 	 *
 	 * An offset (1-based "start column") is specified so that objects can be hydrated
@@ -1549,12 +1583,14 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 
 			$this->has_language = $rs->getBoolean($startcol + 32);
 
+			$this->is_object_prop = $rs->getBoolean($startcol + 33);
+
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 33; // 33 = ProfilePropertyPeer::NUM_COLUMNS - ProfilePropertyPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 34; // 34 = ProfilePropertyPeer::NUM_COLUMNS - ProfilePropertyPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating ProfileProperty object", $e);
@@ -2057,6 +2093,9 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 			case 32:
 				return $this->getHasLanguage();
 				break;
+			case 33:
+				return $this->getIsObjectProp();
+				break;
 			default:
 				return null;
 				break;
@@ -2110,6 +2149,7 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 			$keys[30] => $this->getIsInXsd(),
 			$keys[31] => $this->getIsAttribute(),
 			$keys[32] => $this->getHasLanguage(),
+			$keys[33] => $this->getIsObjectProp(),
 		);
 		return $result;
 	}
@@ -2240,6 +2280,9 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 			case 32:
 				$this->setHasLanguage($value);
 				break;
+			case 33:
+				$this->setIsObjectProp($value);
+				break;
 		} // switch()
 	}
 
@@ -2296,6 +2339,7 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[30], $arr)) $this->setIsInXsd($arr[$keys[30]]);
 		if (array_key_exists($keys[31], $arr)) $this->setIsAttribute($arr[$keys[31]]);
 		if (array_key_exists($keys[32], $arr)) $this->setHasLanguage($arr[$keys[32]]);
+		if (array_key_exists($keys[33], $arr)) $this->setIsObjectProp($arr[$keys[33]]);
 	}
 
 	/**
@@ -2340,6 +2384,7 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(ProfilePropertyPeer::IS_IN_XSD)) $criteria->add(ProfilePropertyPeer::IS_IN_XSD, $this->is_in_xsd);
 		if ($this->isColumnModified(ProfilePropertyPeer::IS_ATTRIBUTE)) $criteria->add(ProfilePropertyPeer::IS_ATTRIBUTE, $this->is_attribute);
 		if ($this->isColumnModified(ProfilePropertyPeer::HAS_LANGUAGE)) $criteria->add(ProfilePropertyPeer::HAS_LANGUAGE, $this->has_language);
+		if ($this->isColumnModified(ProfilePropertyPeer::IS_OBJECT_PROP)) $criteria->add(ProfilePropertyPeer::IS_OBJECT_PROP, $this->is_object_prop);
 
 		return $criteria;
 	}
@@ -2457,6 +2502,8 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 		$copyObj->setIsAttribute($this->is_attribute);
 
 		$copyObj->setHasLanguage($this->has_language);
+
+		$copyObj->setIsObjectProp($this->is_object_prop);
 
 
 		if ($deepCopy) {

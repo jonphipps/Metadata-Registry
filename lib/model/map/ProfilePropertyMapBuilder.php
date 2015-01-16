@@ -127,6 +127,8 @@ class ProfilePropertyMapBuilder {
 
 		$tMap->addColumn('HAS_LANGUAGE', 'HasLanguage', 'boolean', CreoleTypes::BOOLEAN, true, null);
 
+		$tMap->addColumn('IS_OBJECT_PROP', 'IsObjectProp', 'boolean', CreoleTypes::BOOLEAN, true, null);
+
 	} // doBuild()
 
 } // ProfilePropertyMapBuilder
