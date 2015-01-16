@@ -85,6 +85,10 @@ class SchemaPropertyElementPeer extends BaseSchemaPropertyElementPeer {
         return $results;
     }
 
+    /**
+     * @param int $schemaId
+     * @return array
+     */
     public static function getNamespaceList( $schemaId )
     {
         $namespaces = array();
@@ -121,7 +125,7 @@ class SchemaPropertyElementPeer extends BaseSchemaPropertyElementPeer {
             if ( $match )
             {
                 $index              = $matches['protocol'] . "://" . $matches['domain'] . $matches['path'];
-                $namespaces[$index] = $method;
+                $namespaces[$index] = $index;
             }
         }
 

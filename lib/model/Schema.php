@@ -171,42 +171,96 @@ class Schema extends BaseSchema {
         $c->clearSelectColumns();
         $c->addSelectColumn( BaseSchemaPropertyElementPeer::LANGUAGE );
         $c->setDistinct();
-        $c->addJoin( SchemaPropertyElementPeer::SCHEMA_PROPERTY_ID , SchemaPropertyPeer::ID);
+        $c->addJoin( SchemaPropertyElementPeer::SCHEMA_PROPERTY_ID, SchemaPropertyPeer::ID );
 
-        $foo = array();
-        $results = SchemaPropertyElementPeer::doSelectRS($c);
-        foreach ($results as $result){
+        $foo     = array();
+        $results = SchemaPropertyElementPeer::doSelectRS( $c );
+        foreach ( $results as $result )
+        {
             $foo[] = $result[0];
         }
 
         return $foo;
-  }
+    }
 
     public function findUsedProfileProperties()
     {
         $c = new Criteria();
         $c->add( SchemaPropertyPeer::SCHEMA_ID, $this->getId() );
         $c->clearSelectColumns();
-        $c->addSelectColumn( BaseSchemaPropertyElementPeer::PROFILE_PROPERTY_ID );
-        $c->addAscendingOrderByColumn( BaseSchemaPropertyElementPeer::PROFILE_PROPERTY_ID );
-        $c->setDistinct();
+        $c->addSelectColumn( SchemaPropertyElementPeer::SCHEMA_PROPERTY_ID );
+        $c->addSelectColumn( SchemaPropertyElementPeer::PROFILE_PROPERTY_ID );
+        $c->addSelectColumn( SchemaPropertyElementPeer::LANGUAGE );
+        $c->addAscendingOrderByColumn( SchemaPropertyElementPeer::SCHEMA_PROPERTY_ID );
         $c->addJoin( SchemaPropertyElementPeer::SCHEMA_PROPERTY_ID, SchemaPropertyPeer::ID );
 
         $foo     = array();
-        $poo     = array();
+        $bar     = array();
         $results = SchemaPropertyElementPeer::doSelectRS( $c );
         unset( $c );
 
         foreach ( $results as $result )
         {
-            $foo[] = $result[0];
+            if ( ! isset( $foo[$result[0]][$result[1]][$result[2]] ) )
+            {
+                $foo[$result[0]][$result[1]][$result[2]] = 1;
+            }
+            else
+            {
+                $foo[$result[0]][$result[1]][$result[2]] ++;
+            }
         }
 
         if ( count( $foo ) )
         {
-            $poo = ProfilePropertyPeer::retrieveByPKs( $foo );
+            $bar = array();
+            foreach ( $foo as $value )
+            {
+                foreach ( $value as $key => $langArray )
+                {
+                    foreach ( $langArray as $lang => $count )
+                    {
+                        $profile = ProfilePropertyPeer::retrieveByPK( $key );
+                        $order   = $profile->getDisplayOrder();
+                        if ( ! isset( $bar[$order][$lang] ) )
+                        {
+                            /** @var \ProfileProperty $profile */
+                            $bar[$order][$lang]['profile'] = $profile;
+                            $bar[$order][$lang]['count']   = 1;
+                            $bar[$order][$lang]['id']   = $key;
+                        }
+                        else
+                        {
+                            if ( $bar[$order][$lang]['count'] < $count )
+                            {
+                                $bar[$order][$lang]['count'] = $count;
+                            }
+                        }
+                    }
+                }
+            }
         }
 
-        return $poo;
+        return $bar;
+    }
+
+    public function getPrefixes()
+    {
+        $v = parent::getPrefixes();
+        try
+        {
+            $n = unserialize( $v );
+        }
+        catch( Exception $e )
+        {
+            $n = $v;
+        }
+
+        return $n;
+    }
+
+    public function setPrefixes( array $v )
+    {
+        parent::setPrefixes( serialize( $v ) );
     }
 }
