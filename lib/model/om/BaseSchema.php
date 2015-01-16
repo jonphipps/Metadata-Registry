@@ -172,6 +172,20 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 	 */
 	protected $prefixes;
 
+
+	/**
+	 * The value for the languages field.
+	 * @var        string
+	 */
+	protected $languages;
+
+
+	/**
+	 * The value for the repo field.
+	 * @var        string
+	 */
+	protected $repo;
+
 	/**
 	 * @var        Agent
 	 */
@@ -627,6 +641,28 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 	{
 
 		return $this->prefixes;
+	}
+
+	/**
+	 * Get the [languages] column value.
+	 * 
+	 * @return     string
+	 */
+	public function getLanguages()
+	{
+
+		return $this->languages;
+	}
+
+	/**
+	 * Get the [repo] column value.
+	 * 
+	 * @return     string
+	 */
+	public function getRepo()
+	{
+
+		return $this->repo;
 	}
 
 	/**
@@ -1142,6 +1178,50 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 	} // setPrefixes()
 
 	/**
+	 * Set the value of [languages] column.
+	 * 
+	 * @param      string $v new value
+	 * @return     void
+	 */
+	public function setLanguages($v)
+	{
+
+		// Since the native PHP type for this column is string,
+		// we will cast the input to a string (if it is not).
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->languages !== $v) {
+			$this->languages = $v;
+			$this->modifiedColumns[] = SchemaPeer::LANGUAGES;
+		}
+
+	} // setLanguages()
+
+	/**
+	 * Set the value of [repo] column.
+	 * 
+	 * @param      string $v new value
+	 * @return     void
+	 */
+	public function setRepo($v)
+	{
+
+		// Since the native PHP type for this column is string,
+		// we will cast the input to a string (if it is not).
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->repo !== $v) {
+			$this->repo = $v;
+			$this->modifiedColumns[] = SchemaPeer::REPO;
+		}
+
+	} // setRepo()
+
+	/**
 	 * Hydrates (populates) the object variables with values from the database resultset.
 	 *
 	 * An offset (1-based "start column") is specified so that objects can be hydrated
@@ -1202,12 +1282,16 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 
 			$this->prefixes = $rs->getString($startcol + 21);
 
+			$this->languages = $rs->getString($startcol + 22);
+
+			$this->repo = $rs->getString($startcol + 23);
+
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 22; // 22 = SchemaPeer::NUM_COLUMNS - SchemaPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 24; // 24 = SchemaPeer::NUM_COLUMNS - SchemaPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Schema object", $e);
@@ -1726,6 +1810,12 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 			case 21:
 				return $this->getPrefixes();
 				break;
+			case 22:
+				return $this->getLanguages();
+				break;
+			case 23:
+				return $this->getRepo();
+				break;
 			default:
 				return null;
 				break;
@@ -1768,6 +1858,8 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 			$keys[19] => $this->getProfileId(),
 			$keys[20] => $this->getNsType(),
 			$keys[21] => $this->getPrefixes(),
+			$keys[22] => $this->getLanguages(),
+			$keys[23] => $this->getRepo(),
 		);
 		return $result;
 	}
@@ -1865,6 +1957,12 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 			case 21:
 				$this->setPrefixes($value);
 				break;
+			case 22:
+				$this->setLanguages($value);
+				break;
+			case 23:
+				$this->setRepo($value);
+				break;
 		} // switch()
 	}
 
@@ -1910,6 +2008,8 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[19], $arr)) $this->setProfileId($arr[$keys[19]]);
 		if (array_key_exists($keys[20], $arr)) $this->setNsType($arr[$keys[20]]);
 		if (array_key_exists($keys[21], $arr)) $this->setPrefixes($arr[$keys[21]]);
+		if (array_key_exists($keys[22], $arr)) $this->setLanguages($arr[$keys[22]]);
+		if (array_key_exists($keys[23], $arr)) $this->setRepo($arr[$keys[23]]);
 	}
 
 	/**
@@ -1943,6 +2043,8 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(SchemaPeer::PROFILE_ID)) $criteria->add(SchemaPeer::PROFILE_ID, $this->profile_id);
 		if ($this->isColumnModified(SchemaPeer::NS_TYPE)) $criteria->add(SchemaPeer::NS_TYPE, $this->ns_type);
 		if ($this->isColumnModified(SchemaPeer::PREFIXES)) $criteria->add(SchemaPeer::PREFIXES, $this->prefixes);
+		if ($this->isColumnModified(SchemaPeer::LANGUAGES)) $criteria->add(SchemaPeer::LANGUAGES, $this->languages);
+		if ($this->isColumnModified(SchemaPeer::REPO)) $criteria->add(SchemaPeer::REPO, $this->repo);
 
 		return $criteria;
 	}
@@ -2038,6 +2140,10 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 		$copyObj->setNsType($this->ns_type);
 
 		$copyObj->setPrefixes($this->prefixes);
+
+		$copyObj->setLanguages($this->languages);
+
+		$copyObj->setRepo($this->repo);
 
 
 		if ($deepCopy) {
@@ -3570,6 +3676,55 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 
 			if (!isset($this->lastFileImportHistoryCriteria) || !$this->lastFileImportHistoryCriteria->equals($criteria)) {
 				$this->collFileImportHistorys = FileImportHistoryPeer::doSelectJoinVocabulary($criteria, $con);
+			}
+		}
+		$this->lastFileImportHistoryCriteria = $criteria;
+
+		return $this->collFileImportHistorys;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Schema is new, it will return
+	 * an empty collection; or if this Schema has previously
+	 * been saved, it will retrieve related FileImportHistorys from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Schema.
+	 */
+	public function getFileImportHistorysJoinBatch($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseFileImportHistoryPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collFileImportHistorys === null) {
+			if ($this->isNew()) {
+				$this->collFileImportHistorys = array();
+			} else {
+
+				$criteria->add(FileImportHistoryPeer::SCHEMA_ID, $this->getId());
+
+				$this->collFileImportHistorys = FileImportHistoryPeer::doSelectJoinBatch($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(FileImportHistoryPeer::SCHEMA_ID, $this->getId());
+
+			if (!isset($this->lastFileImportHistoryCriteria) || !$this->lastFileImportHistoryCriteria->equals($criteria)) {
+				$this->collFileImportHistorys = FileImportHistoryPeer::doSelectJoinBatch($criteria, $con);
 			}
 		}
 		$this->lastFileImportHistoryCriteria = $criteria;

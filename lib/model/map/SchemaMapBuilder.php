@@ -105,6 +105,10 @@ class SchemaMapBuilder {
 
 		$tMap->addColumn('PREFIXES', 'Prefixes', 'string', CreoleTypes::LONGVARCHAR, false, null);
 
+		$tMap->addColumn('LANGUAGES', 'Languages', 'string', CreoleTypes::LONGVARCHAR, false, null);
+
+		$tMap->addColumn('REPO', 'Repo', 'string', CreoleTypes::VARCHAR, true, 255);
+
 	} // doBuild()
 
 } // SchemaMapBuilder
