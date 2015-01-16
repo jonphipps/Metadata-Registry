@@ -287,16 +287,6 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 	protected $aProfilePropertyRelatedByInverseProfilePropertyId;
 
 	/**
-	 * @var        SchemaProperty
-	 */
-	protected $aSchemaProperty;
-
-	/**
-	 * @var        Schema
-	 */
-	protected $aSchema;
-
-	/**
 	 * Collection to store aggregation of collProfilePropertysRelatedByInverseProfilePropertyId.
 	 * @var        array
 	 */
@@ -1356,10 +1346,6 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 			$this->modifiedColumns[] = ProfilePropertyPeer::SCHEMA_PROPERTY_ID;
 		}
 
-		if ($this->aSchemaProperty !== null && $this->aSchemaProperty->getId() !== $v) {
-			$this->aSchemaProperty = null;
-		}
-
 	} // setSchemaPropertyId()
 
 	/**
@@ -1380,10 +1366,6 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 		if ($this->schema_id !== $v) {
 			$this->schema_id = $v;
 			$this->modifiedColumns[] = ProfilePropertyPeer::SCHEMA_ID;
-		}
-
-		if ($this->aSchema !== null && $this->aSchema->getId() !== $v) {
-			$this->aSchema = null;
 		}
 
 	} // setSchemaId()
@@ -1766,20 +1748,6 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 				$this->setProfilePropertyRelatedByInverseProfilePropertyId($this->aProfilePropertyRelatedByInverseProfilePropertyId);
 			}
 
-			if ($this->aSchemaProperty !== null) {
-				if ($this->aSchemaProperty->isModified()) {
-					$affectedRows += $this->aSchemaProperty->save($con);
-				}
-				$this->setSchemaProperty($this->aSchemaProperty);
-			}
-
-			if ($this->aSchema !== null) {
-				if ($this->aSchema->isModified()) {
-					$affectedRows += $this->aSchema->save($con);
-				}
-				$this->setSchema($this->aSchema);
-			}
-
 
 			// If this object has been modified, then save it to the database.
 			if ($this->isModified()) {
@@ -1925,18 +1893,6 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 			if ($this->aProfilePropertyRelatedByInverseProfilePropertyId !== null) {
 				if (!$this->aProfilePropertyRelatedByInverseProfilePropertyId->validate($columns)) {
 					$failureMap = array_merge($failureMap, $this->aProfilePropertyRelatedByInverseProfilePropertyId->getValidationFailures());
-				}
-			}
-
-			if ($this->aSchemaProperty !== null) {
-				if (!$this->aSchemaProperty->validate($columns)) {
-					$failureMap = array_merge($failureMap, $this->aSchemaProperty->getValidationFailures());
-				}
-			}
-
-			if ($this->aSchema !== null) {
-				if (!$this->aSchema->validate($columns)) {
-					$failureMap = array_merge($failureMap, $this->aSchema->getValidationFailures());
 				}
 			}
 
@@ -2875,106 +2831,6 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 	}
 
 	/**
-	 * Declares an association between this object and a SchemaProperty object.
-	 *
-	 * @param      SchemaProperty $v
-	 * @return     void
-	 * @throws     PropelException
-	 */
-	public function setSchemaProperty($v)
-	{
-
-
-		if ($v === null) {
-			$this->setSchemaPropertyId(NULL);
-		} else {
-			$this->setSchemaPropertyId($v->getId());
-		}
-
-
-		$this->aSchemaProperty = $v;
-	}
-
-
-	/**
-	 * Get the associated SchemaProperty object
-	 *
-	 * @param      Connection Optional Connection object.
-	 * @return     SchemaProperty The associated SchemaProperty object.
-	 * @throws     PropelException
-	 */
-	public function getSchemaProperty($con = null)
-	{
-		if ($this->aSchemaProperty === null && ($this->schema_property_id !== null)) {
-			// include the related Peer class
-			include_once 'lib/model/om/BaseSchemaPropertyPeer.php';
-
-			$this->aSchemaProperty = SchemaPropertyPeer::retrieveByPK($this->schema_property_id, $con);
-
-			/* The following can be used instead of the line above to
-			   guarantee the related object contains a reference
-			   to this object, but this level of coupling
-			   may be undesirable in many circumstances.
-			   As it can lead to a db query with many results that may
-			   never be used.
-			   $obj = SchemaPropertyPeer::retrieveByPK($this->schema_property_id, $con);
-			   $obj->addSchemaPropertys($this);
-			 */
-		}
-		return $this->aSchemaProperty;
-	}
-
-	/**
-	 * Declares an association between this object and a Schema object.
-	 *
-	 * @param      Schema $v
-	 * @return     void
-	 * @throws     PropelException
-	 */
-	public function setSchema($v)
-	{
-
-
-		if ($v === null) {
-			$this->setSchemaId(NULL);
-		} else {
-			$this->setSchemaId($v->getId());
-		}
-
-
-		$this->aSchema = $v;
-	}
-
-
-	/**
-	 * Get the associated Schema object
-	 *
-	 * @param      Connection Optional Connection object.
-	 * @return     Schema The associated Schema object.
-	 * @throws     PropelException
-	 */
-	public function getSchema($con = null)
-	{
-		if ($this->aSchema === null && ($this->schema_id !== null)) {
-			// include the related Peer class
-			include_once 'lib/model/om/BaseSchemaPeer.php';
-
-			$this->aSchema = SchemaPeer::retrieveByPK($this->schema_id, $con);
-
-			/* The following can be used instead of the line above to
-			   guarantee the related object contains a reference
-			   to this object, but this level of coupling
-			   may be undesirable in many circumstances.
-			   As it can lead to a db query with many results that may
-			   never be used.
-			   $obj = SchemaPeer::retrieveByPK($this->schema_id, $con);
-			   $obj->addSchemas($this);
-			 */
-		}
-		return $this->aSchema;
-	}
-
-	/**
 	 * Temporary storage of collProfilePropertysRelatedByInverseProfilePropertyId to save a possible db hit in
 	 * the event objects are add to the collection, but the
 	 * complete collection is never requested.
@@ -3319,104 +3175,6 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 
 			if (!isset($this->lastProfilePropertyRelatedByInverseProfilePropertyIdCriteria) || !$this->lastProfilePropertyRelatedByInverseProfilePropertyIdCriteria->equals($criteria)) {
 				$this->collProfilePropertysRelatedByInverseProfilePropertyId = ProfilePropertyPeer::doSelectJoinStatus($criteria, $con);
-			}
-		}
-		$this->lastProfilePropertyRelatedByInverseProfilePropertyIdCriteria = $criteria;
-
-		return $this->collProfilePropertysRelatedByInverseProfilePropertyId;
-	}
-
-
-	/**
-	 * If this collection has already been initialized with
-	 * an identical criteria, it returns the collection.
-	 * Otherwise if this ProfileProperty is new, it will return
-	 * an empty collection; or if this ProfileProperty has previously
-	 * been saved, it will retrieve related ProfilePropertysRelatedByInverseProfilePropertyId from storage.
-	 *
-	 * This method is protected by default in order to keep the public
-	 * api reasonable.  You can provide public methods for those you
-	 * actually need in ProfileProperty.
-	 */
-	public function getProfilePropertysRelatedByInverseProfilePropertyIdJoinSchemaProperty($criteria = null, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseProfilePropertyPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collProfilePropertysRelatedByInverseProfilePropertyId === null) {
-			if ($this->isNew()) {
-				$this->collProfilePropertysRelatedByInverseProfilePropertyId = array();
-			} else {
-
-				$criteria->add(ProfilePropertyPeer::INVERSE_PROFILE_PROPERTY_ID, $this->getId());
-
-				$this->collProfilePropertysRelatedByInverseProfilePropertyId = ProfilePropertyPeer::doSelectJoinSchemaProperty($criteria, $con);
-			}
-		} else {
-			// the following code is to determine if a new query is
-			// called for.  If the criteria is the same as the last
-			// one, just return the collection.
-
-			$criteria->add(ProfilePropertyPeer::INVERSE_PROFILE_PROPERTY_ID, $this->getId());
-
-			if (!isset($this->lastProfilePropertyRelatedByInverseProfilePropertyIdCriteria) || !$this->lastProfilePropertyRelatedByInverseProfilePropertyIdCriteria->equals($criteria)) {
-				$this->collProfilePropertysRelatedByInverseProfilePropertyId = ProfilePropertyPeer::doSelectJoinSchemaProperty($criteria, $con);
-			}
-		}
-		$this->lastProfilePropertyRelatedByInverseProfilePropertyIdCriteria = $criteria;
-
-		return $this->collProfilePropertysRelatedByInverseProfilePropertyId;
-	}
-
-
-	/**
-	 * If this collection has already been initialized with
-	 * an identical criteria, it returns the collection.
-	 * Otherwise if this ProfileProperty is new, it will return
-	 * an empty collection; or if this ProfileProperty has previously
-	 * been saved, it will retrieve related ProfilePropertysRelatedByInverseProfilePropertyId from storage.
-	 *
-	 * This method is protected by default in order to keep the public
-	 * api reasonable.  You can provide public methods for those you
-	 * actually need in ProfileProperty.
-	 */
-	public function getProfilePropertysRelatedByInverseProfilePropertyIdJoinSchema($criteria = null, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseProfilePropertyPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collProfilePropertysRelatedByInverseProfilePropertyId === null) {
-			if ($this->isNew()) {
-				$this->collProfilePropertysRelatedByInverseProfilePropertyId = array();
-			} else {
-
-				$criteria->add(ProfilePropertyPeer::INVERSE_PROFILE_PROPERTY_ID, $this->getId());
-
-				$this->collProfilePropertysRelatedByInverseProfilePropertyId = ProfilePropertyPeer::doSelectJoinSchema($criteria, $con);
-			}
-		} else {
-			// the following code is to determine if a new query is
-			// called for.  If the criteria is the same as the last
-			// one, just return the collection.
-
-			$criteria->add(ProfilePropertyPeer::INVERSE_PROFILE_PROPERTY_ID, $this->getId());
-
-			if (!isset($this->lastProfilePropertyRelatedByInverseProfilePropertyIdCriteria) || !$this->lastProfilePropertyRelatedByInverseProfilePropertyIdCriteria->equals($criteria)) {
-				$this->collProfilePropertysRelatedByInverseProfilePropertyId = ProfilePropertyPeer::doSelectJoinSchema($criteria, $con);
 			}
 		}
 		$this->lastProfilePropertyRelatedByInverseProfilePropertyIdCriteria = $criteria;

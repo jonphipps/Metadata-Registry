@@ -1,7 +1,7 @@
 #
 # SQL Export
 # Created by Querious (945)
-# Created: January 16, 2015 at 5:16:56 PM EST
+# Created: January 16, 2015 at 5:35:03 PM EST
 # Encoding: Unicode (UTF-8)
 #
 
@@ -23,6 +23,7 @@ DROP TABLE IF EXISTS `reg_prefix`;
 DROP TABLE IF EXISTS `reg_lookup`;
 DROP TABLE IF EXISTS `reg_file_import_history`;
 DROP TABLE IF EXISTS `reg_discuss`;
+DROP TABLE IF EXISTS `reg_schema`;
 DROP TABLE IF EXISTS `reg_concept_property_history`;
 DROP TABLE IF EXISTS `reg_concept_property`;
 DROP TABLE IF EXISTS `reg_concept`;
@@ -30,7 +31,6 @@ DROP TABLE IF EXISTS `reg_collection`;
 DROP TABLE IF EXISTS `reg_batch`;
 DROP TABLE IF EXISTS `reg_agent_has_user`;
 DROP TABLE IF EXISTS `profile_property`;
-DROP TABLE IF EXISTS `reg_schema`;
 DROP TABLE IF EXISTS `profile`;
 DROP TABLE IF EXISTS `reg_agent`;
 DROP TABLE IF EXISTS `arc_triple`;
@@ -172,48 +172,6 @@ CREATE TABLE `profile` (
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `reg_schema` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `agent_id` int(11) NOT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  `deleted_at` datetime DEFAULT NULL,
-  `created_user_id` int(11) DEFAULT NULL,
-  `updated_user_id` int(11) DEFAULT NULL,
-  `child_updated_at` datetime DEFAULT NULL,
-  `child_updated_user_id` int(11) DEFAULT NULL,
-  `name` varchar(255) NOT NULL DEFAULT '',
-  `note` text,
-  `uri` varchar(255) NOT NULL DEFAULT '',
-  `url` varchar(255) DEFAULT NULL,
-  `base_domain` varchar(255) NOT NULL DEFAULT '',
-  `token` varchar(45) NOT NULL DEFAULT '',
-  `community` varchar(45) DEFAULT NULL,
-  `last_uri_id` int(11) DEFAULT '100000',
-  `status_id` int(11) NOT NULL DEFAULT '1',
-  `language` char(6) NOT NULL DEFAULT 'en',
-  `profile_id` int(11) DEFAULT NULL,
-  `ns_type` char(6) NOT NULL DEFAULT 'slash',
-  `prefixes` text,
-  `languages` text,
-  `repo` varchar(255) NOT NULL,
-  UNIQUE KEY `id` (`id`),
-  KEY `agent_id` (`agent_id`),
-  KEY `status_id` (`status_id`),
-  KEY `last_updated_by_user_id` (`updated_user_id`),
-  KEY `created_user_id` (`created_user_id`),
-  KEY `child_updated_user_id` (`child_updated_user_id`),
-  KEY `profile_id` (`profile_id`),
-  KEY `reg_schema_idx1` (`uri`),
-  KEY `reg_schema_idx2` (`name`),
-  CONSTRAINT `schema_FK_user_1` FOREIGN KEY (`created_user_id`) REFERENCES `reg_user` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
-  CONSTRAINT `schema_FK_user_2` FOREIGN KEY (`updated_user_id`) REFERENCES `reg_user` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
-  CONSTRAINT `schema_agent_fk` FOREIGN KEY (`agent_id`) REFERENCES `reg_agent` (`id`) ON UPDATE NO ACTION,
-  CONSTRAINT `schema_profile_fk` FOREIGN KEY (`profile_id`) REFERENCES `profile` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `schema_status_fk` FOREIGN KEY (`status_id`) REFERENCES `reg_status` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 AVG_ROW_LENGTH=16384 PACK_KEYS=0 ROW_FORMAT=COMPACT COMMENT='InnoDB free: 0 kB; ';
-
-
 CREATE TABLE `profile_property` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `created_at` datetime DEFAULT NULL,
@@ -255,13 +213,9 @@ CREATE TABLE `profile_property` (
   KEY `profile_property_created_by` (`created_by`),
   KEY `profile_property_deleted_by` (`deleted_by`),
   KEY `inverse_profile_property_id` (`inverse_profile_property_id`),
-  KEY `schema_id` (`schema_id`),
-  KEY `schema_property_id` (`schema_property_id`),
   KEY `profile_id` (`profile_id`) USING BTREE,
   CONSTRAINT `profile_property_agent_FK` FOREIGN KEY (`profile_id`) REFERENCES `profile` (`id`) ON UPDATE NO ACTION,
   CONSTRAINT `profile_property_fk` FOREIGN KEY (`inverse_profile_property_id`) REFERENCES `profile_property` (`id`),
-  CONSTRAINT `profile_property_schema` FOREIGN KEY (`schema_id`) REFERENCES `reg_schema` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `profile_property_schema_property` FOREIGN KEY (`schema_property_id`) REFERENCES `reg_schema_property` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `profile_property_status_FK` FOREIGN KEY (`status_id`) REFERENCES `reg_status` (`id`),
   CONSTRAINT `profile_property_user_FK_1` FOREIGN KEY (`updated_by`) REFERENCES `reg_user` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
   CONSTRAINT `profile_property_user_FK_2` FOREIGN KEY (`created_by`) REFERENCES `reg_user` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
@@ -429,6 +383,48 @@ CREATE TABLE `reg_concept_property_history` (
   CONSTRAINT `reg_concept_property_history_FK_2` FOREIGN KEY (`vocabulary_id`) REFERENCES `reg_vocabulary` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
   CONSTRAINT `reg_concept_property_history_FK_3` FOREIGN KEY (`concept_id`) REFERENCES `reg_concept` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AVG_ROW_LENGTH=166 COMMENT='InnoDB free: 0 kB; ';
+
+
+CREATE TABLE `reg_schema` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `agent_id` int(11) NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  `created_user_id` int(11) DEFAULT NULL,
+  `updated_user_id` int(11) DEFAULT NULL,
+  `child_updated_at` datetime DEFAULT NULL,
+  `child_updated_user_id` int(11) DEFAULT NULL,
+  `name` varchar(255) NOT NULL DEFAULT '',
+  `note` text,
+  `uri` varchar(255) NOT NULL DEFAULT '',
+  `url` varchar(255) DEFAULT NULL,
+  `base_domain` varchar(255) NOT NULL DEFAULT '',
+  `token` varchar(45) NOT NULL DEFAULT '',
+  `community` varchar(45) DEFAULT NULL,
+  `last_uri_id` int(11) DEFAULT '100000',
+  `status_id` int(11) NOT NULL DEFAULT '1',
+  `language` char(6) NOT NULL DEFAULT 'en',
+  `profile_id` int(11) DEFAULT NULL,
+  `ns_type` char(6) NOT NULL DEFAULT 'slash',
+  `prefixes` text,
+  `languages` text,
+  `repo` varchar(255) NOT NULL,
+  UNIQUE KEY `id` (`id`),
+  KEY `agent_id` (`agent_id`),
+  KEY `status_id` (`status_id`),
+  KEY `last_updated_by_user_id` (`updated_user_id`),
+  KEY `created_user_id` (`created_user_id`),
+  KEY `child_updated_user_id` (`child_updated_user_id`),
+  KEY `profile_id` (`profile_id`),
+  KEY `reg_schema_idx1` (`uri`),
+  KEY `reg_schema_idx2` (`name`),
+  CONSTRAINT `schema_FK_user_1` FOREIGN KEY (`created_user_id`) REFERENCES `reg_user` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
+  CONSTRAINT `schema_FK_user_2` FOREIGN KEY (`updated_user_id`) REFERENCES `reg_user` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
+  CONSTRAINT `schema_agent_fk` FOREIGN KEY (`agent_id`) REFERENCES `reg_agent` (`id`) ON UPDATE NO ACTION,
+  CONSTRAINT `schema_profile_fk` FOREIGN KEY (`profile_id`) REFERENCES `profile` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `schema_status_fk` FOREIGN KEY (`status_id`) REFERENCES `reg_status` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 AVG_ROW_LENGTH=16384 PACK_KEYS=0 ROW_FORMAT=COMPACT COMMENT='InnoDB free: 0 kB; ';
 
 
 CREATE TABLE `reg_discuss` (
@@ -877,14 +873,6 @@ ALTER TABLE `profile` ENABLE KEYS;
 UNLOCK TABLES;
 
 
-LOCK TABLES `reg_schema` WRITE;
-ALTER TABLE `reg_schema` DISABLE KEYS;
-INSERT INTO `reg_schema` (`id`, `agent_id`, `created_at`, `updated_at`, `deleted_at`, `created_user_id`, `updated_user_id`, `child_updated_at`, `child_updated_user_id`, `name`, `note`, `uri`, `url`, `base_domain`, `token`, `community`, `last_uri_id`, `status_id`, `language`, `profile_id`, `ns_type`, `prefixes`, `languages`, `repo`) VALUES 
-	(1,3,'2014-12-04 04:11:44','2014-12-04 04:12:54',NULL,2,2,NULL,NULL,'Test Element Set','','http://registry.dev/uri/schema/testelement','','http://registry.dev/uri/schema/','testelement','',100000,1,'en',1,'slash',NULL,'a:1:{i:0;s:2:"en";}','');
-ALTER TABLE `reg_schema` ENABLE KEYS;
-UNLOCK TABLES;
-
-
 LOCK TABLES `profile_property` WRITE;
 ALTER TABLE `profile_property` DISABLE KEYS;
 INSERT INTO `profile_property` (`id`, `created_at`, `updated_at`, `deleted_at`, `created_by`, `updated_by`, `deleted_by`, `profile_id`, `name`, `label`, `definition`, `comment`, `type`, `uri`, `status_id`, `language`, `note`, `display_order`, `picklist_order`, `examples`, `is_required`, `is_reciprocal`, `is_singleton`, `is_in_picklist`, `inverse_profile_property_id`, `schema_property_id`, `schema_id`, `is_in_class_picklist`, `is_in_property_picklist`, `is_in_rdf`, `is_in_xsd`, `is_attribute`, `has_language`, `is_object_prop`) VALUES 
@@ -951,6 +939,14 @@ UNLOCK TABLES;
 LOCK TABLES `reg_concept_property_history` WRITE;
 ALTER TABLE `reg_concept_property_history` DISABLE KEYS;
 ALTER TABLE `reg_concept_property_history` ENABLE KEYS;
+UNLOCK TABLES;
+
+
+LOCK TABLES `reg_schema` WRITE;
+ALTER TABLE `reg_schema` DISABLE KEYS;
+INSERT INTO `reg_schema` (`id`, `agent_id`, `created_at`, `updated_at`, `deleted_at`, `created_user_id`, `updated_user_id`, `child_updated_at`, `child_updated_user_id`, `name`, `note`, `uri`, `url`, `base_domain`, `token`, `community`, `last_uri_id`, `status_id`, `language`, `profile_id`, `ns_type`, `prefixes`, `languages`, `repo`) VALUES 
+	(1,3,'2014-12-04 04:11:44','2014-12-04 04:12:54',NULL,2,2,NULL,NULL,'Test Element Set','','http://registry.dev/uri/schema/testelement','','http://registry.dev/uri/schema/','testelement','',100000,1,'en',1,'slash',NULL,'a:1:{i:0;s:2:"en";}','');
+ALTER TABLE `reg_schema` ENABLE KEYS;
 UNLOCK TABLES;
 
 

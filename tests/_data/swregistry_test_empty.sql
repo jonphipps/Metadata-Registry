@@ -1,12 +1,11 @@
 #
 # SQL Export
-# Created by Querious (941)
-# Created: December 3, 2014 at 11:31:43 PM EST
+# Created by Querious (945)
+# Created: January 16, 2015 at 5:34:38 PM EST
 # Encoding: Unicode (UTF-8)
 #
 
 
-DROP TABLE IF EXISTS `vs_database_diagrams`;
 DROP TABLE IF EXISTS `schema_has_version`;
 DROP TABLE IF EXISTS `schema_has_user`;
 DROP TABLE IF EXISTS `reg_vocabulary_has_version`;
@@ -23,6 +22,7 @@ DROP TABLE IF EXISTS `reg_prefix`;
 DROP TABLE IF EXISTS `reg_lookup`;
 DROP TABLE IF EXISTS `reg_file_import_history`;
 DROP TABLE IF EXISTS `reg_discuss`;
+DROP TABLE IF EXISTS `reg_schema`;
 DROP TABLE IF EXISTS `reg_concept_property_history`;
 DROP TABLE IF EXISTS `reg_concept_property`;
 DROP TABLE IF EXISTS `reg_concept`;
@@ -30,7 +30,6 @@ DROP TABLE IF EXISTS `reg_collection`;
 DROP TABLE IF EXISTS `reg_batch`;
 DROP TABLE IF EXISTS `reg_agent_has_user`;
 DROP TABLE IF EXISTS `profile_property`;
-DROP TABLE IF EXISTS `reg_schema`;
 DROP TABLE IF EXISTS `profile`;
 DROP TABLE IF EXISTS `reg_agent`;
 DROP TABLE IF EXISTS `arc_triple`;
@@ -172,46 +171,6 @@ CREATE TABLE `profile` (
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `reg_schema` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `agent_id` int(11) NOT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  `deleted_at` datetime DEFAULT NULL,
-  `created_user_id` int(11) DEFAULT NULL,
-  `updated_user_id` int(11) DEFAULT NULL,
-  `child_updated_at` datetime DEFAULT NULL,
-  `child_updated_user_id` int(11) DEFAULT NULL,
-  `name` varchar(255) NOT NULL DEFAULT '',
-  `note` text,
-  `uri` varchar(255) NOT NULL DEFAULT '',
-  `url` varchar(255) DEFAULT NULL,
-  `base_domain` varchar(255) NOT NULL DEFAULT '',
-  `token` varchar(45) NOT NULL DEFAULT '',
-  `community` varchar(45) DEFAULT NULL,
-  `last_uri_id` int(11) DEFAULT '100000',
-  `status_id` int(11) NOT NULL DEFAULT '1',
-  `language` char(6) NOT NULL DEFAULT 'en',
-  `profile_id` int(11) DEFAULT NULL,
-  `ns_type` char(6) NOT NULL DEFAULT 'slash',
-  `prefixes` text,
-  `languages` text,
-  `repo` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `agent_id` (`agent_id`),
-  KEY `status_id` (`status_id`),
-  KEY `last_updated_by_user_id` (`updated_user_id`),
-  KEY `created_user_id` (`created_user_id`),
-  KEY `child_updated_user_id` (`child_updated_user_id`),
-  KEY `profile_id` (`profile_id`),
-  KEY `reg_schema_idx1` (`uri`),
-  KEY `reg_schema_idx2` (`name`),
-  CONSTRAINT `schema_FK_user_1` FOREIGN KEY (`created_user_id`) REFERENCES `reg_user` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
-  CONSTRAINT `schema_FK_user_2` FOREIGN KEY (`updated_user_id`) REFERENCES `reg_user` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
-  CONSTRAINT `schema_agent_fk` FOREIGN KEY (`agent_id`) REFERENCES `reg_agent` (`id`) ON UPDATE NO ACTION,
-  CONSTRAINT `schema_profile_fk` FOREIGN KEY (`profile_id`) REFERENCES `profile` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `schema_status_fk` FOREIGN KEY (`status_id`) REFERENCES `reg_status` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 AVG_ROW_LENGTH=16384 PACK_KEYS=0 ROW_FORMAT=COMPACT COMMENT='InnoDB free: 0 kB; ';
 CREATE TABLE `profile_property` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `created_at` datetime DEFAULT NULL,
@@ -248,18 +207,14 @@ CREATE TABLE `profile_property` (
   `has_language` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Boolean that determines whether language attribute is displayed for this property',
   `is_object_prop` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
-  KEY `profile_property_profile_id` (`profile_id`),
   KEY `profile_property_status_id` (`status_id`),
   KEY `profile_property_updated_by` (`updated_by`),
   KEY `profile_property_created_by` (`created_by`),
   KEY `profile_property_deleted_by` (`deleted_by`),
   KEY `inverse_profile_property_id` (`inverse_profile_property_id`),
-  KEY `schema_id` (`schema_id`),
-  KEY `schema_property_id` (`schema_property_id`),
+  KEY `profile_id` (`profile_id`) USING BTREE,
   CONSTRAINT `profile_property_agent_FK` FOREIGN KEY (`profile_id`) REFERENCES `profile` (`id`) ON UPDATE NO ACTION,
   CONSTRAINT `profile_property_fk` FOREIGN KEY (`inverse_profile_property_id`) REFERENCES `profile_property` (`id`),
-  CONSTRAINT `profile_property_schema` FOREIGN KEY (`schema_id`) REFERENCES `reg_schema` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `profile_property_schema_property` FOREIGN KEY (`schema_property_id`) REFERENCES `reg_schema_property` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `profile_property_status_FK` FOREIGN KEY (`status_id`) REFERENCES `reg_status` (`id`),
   CONSTRAINT `profile_property_user_FK_1` FOREIGN KEY (`updated_by`) REFERENCES `reg_user` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
   CONSTRAINT `profile_property_user_FK_2` FOREIGN KEY (`created_by`) REFERENCES `reg_user` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
@@ -427,6 +382,48 @@ CREATE TABLE `reg_concept_property_history` (
   CONSTRAINT `reg_concept_property_history_FK_2` FOREIGN KEY (`vocabulary_id`) REFERENCES `reg_vocabulary` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
   CONSTRAINT `reg_concept_property_history_FK_3` FOREIGN KEY (`concept_id`) REFERENCES `reg_concept` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AVG_ROW_LENGTH=166 COMMENT='InnoDB free: 0 kB; ';
+
+
+CREATE TABLE `reg_schema` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `agent_id` int(11) NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  `created_user_id` int(11) DEFAULT NULL,
+  `updated_user_id` int(11) DEFAULT NULL,
+  `child_updated_at` datetime DEFAULT NULL,
+  `child_updated_user_id` int(11) DEFAULT NULL,
+  `name` varchar(255) NOT NULL DEFAULT '',
+  `note` text,
+  `uri` varchar(255) NOT NULL DEFAULT '',
+  `url` varchar(255) DEFAULT NULL,
+  `base_domain` varchar(255) NOT NULL DEFAULT '',
+  `token` varchar(45) NOT NULL DEFAULT '',
+  `community` varchar(45) DEFAULT NULL,
+  `last_uri_id` int(11) DEFAULT '100000',
+  `status_id` int(11) NOT NULL DEFAULT '1',
+  `language` char(6) NOT NULL DEFAULT 'en',
+  `profile_id` int(11) DEFAULT NULL,
+  `ns_type` char(6) NOT NULL DEFAULT 'slash',
+  `prefixes` text,
+  `languages` text,
+  `repo` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `agent_id` (`agent_id`),
+  KEY `status_id` (`status_id`),
+  KEY `last_updated_by_user_id` (`updated_user_id`),
+  KEY `created_user_id` (`created_user_id`),
+  KEY `child_updated_user_id` (`child_updated_user_id`),
+  KEY `profile_id` (`profile_id`),
+  KEY `reg_schema_idx1` (`uri`),
+  KEY `reg_schema_idx2` (`name`),
+  CONSTRAINT `schema_FK_user_1` FOREIGN KEY (`created_user_id`) REFERENCES `reg_user` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
+  CONSTRAINT `schema_FK_user_2` FOREIGN KEY (`updated_user_id`) REFERENCES `reg_user` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
+  CONSTRAINT `schema_agent_fk` FOREIGN KEY (`agent_id`) REFERENCES `reg_agent` (`id`) ON UPDATE NO ACTION,
+  CONSTRAINT `schema_profile_fk` FOREIGN KEY (`profile_id`) REFERENCES `profile` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `schema_status_fk` FOREIGN KEY (`status_id`) REFERENCES `reg_status` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 AVG_ROW_LENGTH=16384 PACK_KEYS=0 ROW_FORMAT=COMPACT COMMENT='InnoDB free: 0 kB; ';
 
 
 CREATE TABLE `reg_discuss` (
@@ -694,8 +691,6 @@ CREATE TABLE `reg_user` (
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 AVG_ROW_LENGTH=606 COMMENT='InnoDB free: 0 kB';
 
 
-
-
 CREATE TABLE `reg_vocabulary` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `agent_id` int(11) NOT NULL,
@@ -808,9 +803,6 @@ CREATE TABLE `schema_has_version` (
 
 
 
-
-
-
 SET @PREVIOUS_FOREIGN_KEY_CHECKS = @@FOREIGN_KEY_CHECKS;
 SET FOREIGN_KEY_CHECKS = 0;
 
@@ -859,45 +851,39 @@ UNLOCK TABLES;
 
 LOCK TABLES `profile` WRITE;
 ALTER TABLE `profile` DISABLE KEYS;
-INSERT INTO `profile` (`id`, `agent_id`, `created_at`, `updated_at`, `deleted_at`, `created_by`, `updated_by`, `deleted_by`, `child_updated_at`, `child_updated_by`, `name`, `note`, `uri`, `url`, `base_domain`, `token`, `community`, `last_uri_id`, `status_id`, `language`) VALUES
+INSERT INTO `profile` (`id`, `agent_id`, `created_at`, `updated_at`, `deleted_at`, `created_by`, `updated_by`, `deleted_by`, `child_updated_at`, `child_updated_by`, `name`, `note`, `uri`, `url`, `base_domain`, `token`, `community`, `last_uri_id`, `status_id`, `language`) VALUES 
 	(1,58,'2008-04-20 11:52:00','2008-04-20 11:52:00',NULL,36,36,NULL,NULL,NULL,'NSDL Registry Schema',NULL,'http://registry/uri/profile/registryschema',NULL,'http://registry/uri/profile/registryschema','registryschema','100000',100000,1,'en');
 ALTER TABLE `profile` ENABLE KEYS;
 UNLOCK TABLES;
 
 
-LOCK TABLES `reg_schema` WRITE;
-ALTER TABLE `reg_schema` DISABLE KEYS;
-ALTER TABLE `reg_schema` ENABLE KEYS;
-UNLOCK TABLES;
-
-
 LOCK TABLES `profile_property` WRITE;
 ALTER TABLE `profile_property` DISABLE KEYS;
-INSERT INTO `profile_property` (`id`, `created_at`, `updated_at`, `deleted_at`, `created_by`, `updated_by`, `deleted_by`, `profile_id`, `name`, `label`, `definition`, `comment`, `type`, `uri`, `status_id`, `language`, `note`, `display_order`, `picklist_order`, `examples`, `is_required`, `is_reciprocal`, `is_singleton`, `is_in_picklist`, `inverse_profile_property_id`, `schema_property_id`, `schema_id`, `is_in_class_picklist`, `is_in_property_picklist`, `is_in_rdf`, `is_in_xsd`, `is_attribute`, `has_language`) VALUES
-  (1,'2008-04-20 12:00:00','2008-04-20 15:00:00',NULL,36,36,NULL,1,'name','name',NULL,NULL,'property','reg:name',1,'en',NULL,1,1,NULL,1,0,1,0,NULL,NULL,NULL,0,0,1,1,1,1),
-  (2,'2008-04-20 12:00:00','2008-04-20 15:00:00',NULL,36,36,NULL,1,'label','label',NULL,NULL,'property','rdfs:label',1,'en',NULL,2,2,NULL,1,0,0,1,NULL,NULL,NULL,1,1,1,1,0,1),
-  (3,'2008-04-20 12:01:00','2008-04-20 15:01:01',NULL,36,36,NULL,1,'definition','description',NULL,NULL,'property','skos:definition',1,'en',NULL,3,3,NULL,0,0,0,1,NULL,NULL,NULL,1,1,1,1,0,1),
-  (4,'2008-04-20 12:02:00','2008-04-20 15:02:00',NULL,36,36,NULL,1,'type','type',NULL,NULL,'property','rdf:type',1,'en',NULL,5,5,NULL,1,0,1,0,NULL,NULL,NULL,0,0,1,1,1,0),
-  (5,'2008-04-20 00:02:00','2008-04-20 03:02:02',NULL,36,36,NULL,1,'comment','comment',NULL,NULL,'property','rdfs:comment',1,'en',NULL,4,4,NULL,0,0,0,1,NULL,NULL,NULL,1,1,1,1,0,1),
-  (6,'2008-04-20 00:03:00','2008-04-20 15:03:00',NULL,36,36,NULL,1,'isSubpropertyOf','subpropertyOf',NULL,NULL,'property','rdfs:subPropertyOf',1,'en',NULL,6,6,NULL,0,0,0,1,8,NULL,NULL,0,1,1,1,0,0),
-  (7,'2008-04-20 00:04:00','2008-04-20 03:04:00',NULL,36,36,NULL,1,'note','note',NULL,NULL,'property','skos:scopeNote',1,'en',NULL,8,8,NULL,0,0,0,1,NULL,NULL,NULL,1,1,1,1,0,1),
-  (8,'2008-04-20 12:05:00','2008-04-20 15:05:00',NULL,36,36,NULL,1,'hasSubproperty','hasSubproperty',NULL,NULL,'property','reg:hasSubproperty',1,'en',NULL,7,7,NULL,0,0,0,0,6,NULL,NULL,0,0,1,1,1,0),
-  (9,'2009-03-07 11:49:27','2009-03-07 14:49:27',NULL,36,36,NULL,1,'isSubclassOf','subClassOf','','','property','rdfs:subClassOf',1,'en','',9,9,'',0,0,0,0,10,NULL,NULL,1,0,1,1,0,0),
-  (10,'2009-03-07 11:53:34','2009-03-07 14:53:34',NULL,36,36,NULL,1,'hasSubClass','hasSubClass',NULL,NULL,'property','reg:hasSubClass',1,'en',NULL,10,10,NULL,0,0,0,0,9,NULL,NULL,1,0,1,1,1,0),
-  (11,'2009-03-07 11:57:15','2009-03-07 14:57:15',NULL,36,36,NULL,1,'domain','domain',NULL,NULL,'property','rdfs:domain',1,'en',NULL,11,11,NULL,0,0,0,1,NULL,NULL,NULL,0,1,1,1,0,0),
-  (12,'2009-03-07 12:01:38','2009-03-07 15:01:38',NULL,36,36,NULL,1,'orange','range',NULL,NULL,'property','rdfs:range',1,'en',NULL,12,12,NULL,0,0,0,1,NULL,NULL,NULL,0,1,1,1,0,0),
-  (13,'2009-03-07 12:01:38','2009-03-07 15:01:38',NULL,36,36,NULL,1,'uri','uri',NULL,NULL,'property','reg:uri',1,'en',NULL,13,13,NULL,1,0,1,0,NULL,NULL,NULL,0,0,0,1,1,0),
-  (14,'2009-03-07 12:01:38','2009-03-07 15:01:38',NULL,36,36,NULL,1,'statusId','status',NULL,NULL,'property','reg:status',1,'en',NULL,14,14,NULL,1,0,1,0,NULL,NULL,NULL,0,0,0,1,1,0),
-  (15,'2011-09-29 14:12:00','2011-09-29 10:20:25',NULL,36,36,NULL,1,'isInverseOf','inverseOf','','The property that determines that two given properties are inverse.','property','owl:inverseOf',1,'en','',15,15,'',0,1,0,1,NULL,NULL,NULL,0,1,1,0,0,0),
-  (16,'2011-09-29 14:23:24','2011-09-29 10:23:24',NULL,36,36,NULL,1,'isSameAs','sameAs','','The property that determines that two given individuals are equal.','property','owl:sameAs',1,'en','',16,16,'',0,1,0,1,NULL,NULL,NULL,1,1,1,0,0,0),
-  (17,'2011-09-29 14:26:25','2011-09-29 10:26:25',NULL,36,36,NULL,1,'propertyIsDisjointWith','propertyDisjointWith','','Used to specify that two properties are mutually disjoint, and it is defined as a property itself. ','property','owl:propertyDisjointWith',1,'en','',17,17,'',0,1,0,1,NULL,NULL,NULL,0,1,1,1,0,0),
-  (18,'2011-09-29 14:28:57','2011-09-29 10:28:57',NULL,36,36,NULL,1,'isEquivalentClass','equivalentClass','','The property that determines that two given classes are equivalent, and that is used to specify datatype definitions.','property','owl:equivalentClass',1,'en','',19,19,'',0,1,0,1,NULL,NULL,NULL,1,0,1,1,0,0),
-  (19,'2011-09-29 14:30:00','2011-09-29 10:30:00',NULL,36,36,NULL,1,'isEquivalentProperty','equivalentProperty','','','property','owl:equivalentProperty',1,'en','',20,20,'',0,1,0,1,NULL,NULL,NULL,0,1,1,1,0,0),
-  (20,'2012-02-02 23:21:08','2012-02-02 18:21:08',NULL,36,36,NULL,1,'isDisjointWith','disjointWith','','The property that determines that two given properties are disjoint.','property','owl:disjointWith',1,'en','',18,18,'',0,1,0,1,NULL,NULL,NULL,1,1,1,1,0,0),
-  (21,'2012-06-02 23:21:08','2012-06-02 19:21:08',NULL,36,36,NULL,1,'altLabel','altLabel',NULL,NULL,'property','skos:altLabel',1,'en',NULL,21,21,NULL,0,0,0,1,NULL,NULL,NULL,1,1,1,1,0,1),
-  (23,'2014-01-18 04:04:02','2014-01-17 23:04:02',NULL,36,36,NULL,1,'narrowMatch','narrowMatch',NULL,NULL,'property','skos:narrowMatch',1,'en',NULL,24,24,NULL,0,0,0,1,NULL,NULL,NULL,1,1,1,1,0,0),
-  (24,'2014-01-18 04:04:01','2014-01-17 23:04:01',NULL,36,36,NULL,1,'closeMatch','closeMatch',NULL,NULL,'property','skos:closeMatch',1,'en',NULL,23,23,NULL,0,0,0,1,NULL,NULL,NULL,1,1,1,1,0,0),
-  (25,'2014-01-18 04:04:00','2014-01-17 23:04:00',NULL,36,36,NULL,1,'broadMatch','broadMatch',NULL,NULL,'property','skos:broadMatch',1,'en',NULL,22,22,NULL,0,0,0,1,NULL,NULL,NULL,1,1,1,1,0,0);
+INSERT INTO `profile_property` (`id`, `created_at`, `updated_at`, `deleted_at`, `created_by`, `updated_by`, `deleted_by`, `profile_id`, `name`, `label`, `definition`, `comment`, `type`, `uri`, `status_id`, `language`, `note`, `display_order`, `picklist_order`, `examples`, `is_required`, `is_reciprocal`, `is_singleton`, `is_in_picklist`, `inverse_profile_property_id`, `schema_property_id`, `schema_id`, `is_in_class_picklist`, `is_in_property_picklist`, `is_in_rdf`, `is_in_xsd`, `is_attribute`, `has_language`, `is_object_prop`) VALUES 
+	(1,'2008-04-20 12:00:00','2008-04-20 15:00:00',NULL,36,36,NULL,1,'name','name',NULL,NULL,'property','reg:name',1,'en',NULL,1,1,NULL,1,0,1,0,NULL,NULL,NULL,0,0,1,1,1,1,1),
+	(2,'2008-04-20 12:00:00','2008-04-20 15:00:00',NULL,36,36,NULL,1,'label','label',NULL,NULL,'property','rdfs:label',1,'en',NULL,2,2,NULL,1,0,0,1,NULL,NULL,NULL,1,1,1,1,0,1,1),
+	(3,'2008-04-20 12:01:00','2008-04-20 15:01:01',NULL,36,36,NULL,1,'definition','description',NULL,NULL,'property','skos:definition',1,'en',NULL,3,3,NULL,0,0,0,1,NULL,NULL,NULL,1,1,1,1,0,1,1),
+	(4,'2008-04-20 12:02:00','2008-04-20 15:02:00',NULL,36,36,NULL,1,'type','type',NULL,NULL,'property','rdf:type',1,'en',NULL,5,5,NULL,1,0,1,0,NULL,NULL,NULL,0,0,1,1,1,0,1),
+	(5,'2008-04-20 00:02:00','2008-04-20 03:02:02',NULL,36,36,NULL,1,'comment','comment',NULL,NULL,'property','rdfs:comment',1,'en',NULL,4,4,NULL,0,0,0,1,NULL,NULL,NULL,1,1,1,1,0,1,1),
+	(6,'2008-04-20 00:03:00','2008-04-20 15:03:00',NULL,36,36,NULL,1,'isSubpropertyOf','subpropertyOf',NULL,NULL,'property','rdfs:subPropertyOf',1,'en',NULL,6,6,NULL,0,0,0,1,8,NULL,NULL,0,1,1,1,0,0,1),
+	(7,'2008-04-20 00:04:00','2008-04-20 03:04:00',NULL,36,36,NULL,1,'note','note',NULL,NULL,'property','skos:scopeNote',1,'en',NULL,8,8,NULL,0,0,0,1,NULL,NULL,NULL,1,1,1,1,0,1,1),
+	(8,'2008-04-20 12:05:00','2008-04-20 15:05:00',NULL,36,36,NULL,1,'hasSubproperty','hasSubproperty',NULL,NULL,'property','reg:hasSubproperty',1,'en',NULL,7,7,NULL,0,0,0,0,6,NULL,NULL,0,0,1,1,1,0,1),
+	(9,'2009-03-07 11:49:27','2009-03-07 14:49:27',NULL,36,36,NULL,1,'isSubclassOf','subClassOf','','','property','rdfs:subClassOf',1,'en','',9,9,'',0,0,0,0,10,NULL,NULL,1,0,1,1,0,0,1),
+	(10,'2009-03-07 11:53:34','2009-03-07 14:53:34',NULL,36,36,NULL,1,'hasSubClass','hasSubClass',NULL,NULL,'property','reg:hasSubClass',1,'en',NULL,10,10,NULL,0,0,0,0,9,NULL,NULL,1,0,1,1,1,0,1),
+	(11,'2009-03-07 11:57:15','2009-03-07 14:57:15',NULL,36,36,NULL,1,'domain','domain',NULL,NULL,'property','rdfs:domain',1,'en',NULL,11,11,NULL,0,0,0,1,NULL,NULL,NULL,0,1,1,1,0,0,1),
+	(12,'2009-03-07 12:01:38','2009-03-07 15:01:38',NULL,36,36,NULL,1,'orange','range',NULL,NULL,'property','rdfs:range',1,'en',NULL,12,12,NULL,0,0,0,1,NULL,NULL,NULL,0,1,1,1,0,0,1),
+	(13,'2009-03-07 12:01:38','2009-03-07 15:01:38',NULL,36,36,NULL,1,'uri','uri',NULL,NULL,'property','reg:uri',1,'en',NULL,13,13,NULL,1,0,1,0,NULL,NULL,NULL,0,0,0,1,1,0,1),
+	(14,'2009-03-07 12:01:38','2009-03-07 15:01:38',NULL,36,36,NULL,1,'statusId','status',NULL,NULL,'property','reg:status',1,'en',NULL,14,14,NULL,1,0,1,0,NULL,NULL,NULL,0,0,0,1,1,0,1),
+	(15,'2011-09-29 14:12:00','2011-09-29 10:20:25',NULL,36,36,NULL,1,'isInverseOf','inverseOf','','The property that determines that two given properties are inverse.','property','owl:inverseOf',1,'en','',15,15,'',0,1,0,1,NULL,NULL,NULL,0,1,1,0,0,0,1),
+	(16,'2011-09-29 14:23:24','2011-09-29 10:23:24',NULL,36,36,NULL,1,'isSameAs','sameAs','','The property that determines that two given individuals are equal.','property','owl:sameAs',1,'en','',16,16,'',0,1,0,1,NULL,NULL,NULL,1,1,1,0,0,0,1),
+	(17,'2011-09-29 14:26:25','2011-09-29 10:26:25',NULL,36,36,NULL,1,'propertyIsDisjointWith','propertyDisjointWith','','Used to specify that two properties are mutually disjoint, and it is defined as a property itself. ','property','owl:propertyDisjointWith',1,'en','',17,17,'',0,1,0,1,NULL,NULL,NULL,0,1,1,1,0,0,1),
+	(18,'2011-09-29 14:28:57','2011-09-29 10:28:57',NULL,36,36,NULL,1,'isEquivalentClass','equivalentClass','','The property that determines that two given classes are equivalent, and that is used to specify datatype definitions.','property','owl:equivalentClass',1,'en','',19,19,'',0,1,0,1,NULL,NULL,NULL,1,0,1,1,0,0,1),
+	(19,'2011-09-29 14:30:00','2011-09-29 10:30:00',NULL,36,36,NULL,1,'isEquivalentProperty','equivalentProperty','','','property','owl:equivalentProperty',1,'en','',20,20,'',0,1,0,1,NULL,NULL,NULL,0,1,1,1,0,0,1),
+	(20,'2012-02-02 23:21:08','2012-02-02 18:21:08',NULL,36,36,NULL,1,'isDisjointWith','disjointWith','','The property that determines that two given properties are disjoint.','property','owl:disjointWith',1,'en','',18,18,'',0,1,0,1,NULL,NULL,NULL,1,1,1,1,0,0,1),
+	(21,'2012-06-02 23:21:08','2012-06-02 19:21:08',NULL,36,36,NULL,1,'altLabel','altLabel',NULL,NULL,'property','skos:altLabel',1,'en',NULL,21,21,NULL,0,0,0,1,NULL,NULL,NULL,1,1,1,1,0,1,1),
+	(23,'2014-01-18 04:04:02','2014-01-17 23:04:02',NULL,36,36,NULL,1,'narrowMatch','narrowMatch',NULL,NULL,'property','skos:narrowMatch',1,'en',NULL,24,24,NULL,0,0,0,1,NULL,NULL,NULL,1,1,1,1,0,0,1),
+	(24,'2014-01-18 04:04:01','2014-01-17 23:04:01',NULL,36,36,NULL,1,'closeMatch','closeMatch',NULL,NULL,'property','skos:closeMatch',1,'en',NULL,23,23,NULL,0,0,0,1,NULL,NULL,NULL,1,1,1,1,0,0,1),
+	(25,'2014-01-18 04:04:00','2014-01-17 23:04:00',NULL,36,36,NULL,1,'broadMatch','broadMatch',NULL,NULL,'property','skos:broadMatch',1,'en',NULL,22,22,NULL,0,0,0,1,NULL,NULL,NULL,1,1,1,1,0,0,1);
 ALTER TABLE `profile_property` ENABLE KEYS;
 UNLOCK TABLES;
 
@@ -938,6 +924,12 @@ ALTER TABLE `reg_concept_property_history` ENABLE KEYS;
 UNLOCK TABLES;
 
 
+LOCK TABLES `reg_schema` WRITE;
+ALTER TABLE `reg_schema` DISABLE KEYS;
+ALTER TABLE `reg_schema` ENABLE KEYS;
+UNLOCK TABLES;
+
+
 LOCK TABLES `reg_discuss` WRITE;
 ALTER TABLE `reg_discuss` DISABLE KEYS;
 ALTER TABLE `reg_discuss` ENABLE KEYS;
@@ -952,7 +944,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `reg_lookup` WRITE;
 ALTER TABLE `reg_lookup` DISABLE KEYS;
-INSERT INTO `reg_lookup` (`id`, `type_id`, `short_value`, `long_value`, `display_order`) VALUES
+INSERT INTO `reg_lookup` (`id`, `type_id`, `short_value`, `long_value`, `display_order`) VALUES 
 	(1,1,'Published','Published',7),
 	(2,1,'New-Proposed','New-Proposed',1),
 	(3,1,'Change-Proposed','Change-Proposed',2),
@@ -998,7 +990,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `reg_skos_property` WRITE;
 ALTER TABLE `reg_skos_property` DISABLE KEYS;
-INSERT INTO `reg_skos_property` (`id`, `parent_id`, `inverse_id`, `name`, `uri`, `object_type`, `display_order`, `picklist_order`, `label`, `definition`, `comment`, `examples`, `is_required`, `is_reciprocal`, `is_singleton`, `is_scheme`, `is_in_picklist`) VALUES
+INSERT INTO `reg_skos_property` (`id`, `parent_id`, `inverse_id`, `name`, `uri`, `object_type`, `display_order`, `picklist_order`, `label`, `definition`, `comment`, `examples`, `is_required`, `is_reciprocal`, `is_singleton`, `is_scheme`, `is_in_picklist`) VALUES 
 	(1,0,NULL,'altLabel','http://www.w3.org/2004/02/skos/core#altLabel','literal',1,110,'alternative label','An alternative lexical label for a resource.','Acronyms, abbreviations, spelling variants, and irregular plural/singular forms may be included among the alternative labels for a concept. Mis-spelled terms are normally included as hidden labels (see skos:hiddenLabel).','http://www.w3.org/2004/02/skos/core/examples/altLabel.rdf.xml',0,0,0,0,1),
 	(3,NULL,16,'broader','http://www.w3.org/2004/02/skos/core#broader','resource',3,400,'has broader','A concept that is more general in meaning.','Broader concepts are typically rendered as parents in a concept hierarchy (tree).','http://www.w3.org/2004/02/skos/core/examples/broader.rdf.xml',0,0,0,0,1),
 	(4,17,NULL,'changeNote','http://www.w3.org/2004/02/skos/core#changeNote','literal',4,320,'change note','A note about a modification to a concept.',NULL,'http://www.w3.org/2004/02/skos/core/examples/changeNote.rdf.xml',0,0,0,0,1),
@@ -1030,7 +1022,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `reg_status` WRITE;
 ALTER TABLE `reg_status` DISABLE KEYS;
-INSERT INTO `reg_status` (`id`, `display_order`, `display_name`, `uri`) VALUES
+INSERT INTO `reg_status` (`id`, `display_order`, `display_name`, `uri`) VALUES 
 	(1,7,'Published','http://metadataregistry.org/uri/RegStatus/1001'),
 	(2,1,'New-Proposed','http://metadataregistry.org/uri/RegStatus/1002'),
 	(3,2,'Change-Proposed','http://metadataregistry.org/uri/RegStatus/1003'),
@@ -1046,7 +1038,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `reg_user` WRITE;
 ALTER TABLE `reg_user` DISABLE KEYS;
-INSERT INTO `reg_user` (`id`, `created_at`, `last_updated`, `deleted_at`, `nickname`, `salutation`, `first_name`, `last_name`, `email`, `sha1_password`, `salt`, `want_to_be_moderator`, `is_moderator`, `is_administrator`, `deletions`, `password`) VALUES
+INSERT INTO `reg_user` (`id`, `created_at`, `last_updated`, `deleted_at`, `nickname`, `salutation`, `first_name`, `last_name`, `email`, `sha1_password`, `salt`, `want_to_be_moderator`, `is_moderator`, `is_administrator`, `deletions`, `password`) VALUES 
 	(1,'2014-12-04 04:02:52','2014-12-03 23:03:39',NULL,'admin',NULL,NULL,NULL,'jphipps@madcreek.com','89c4c184c5bcf66571433599b3864a92fdde20f2','989dc77e31d1bbace236b7c9da7c92bd',0,0,1,0,NULL);
 ALTER TABLE `reg_user` ENABLE KEYS;
 UNLOCK TABLES;
@@ -1056,6 +1048,7 @@ LOCK TABLES `reg_vocabulary` WRITE;
 ALTER TABLE `reg_vocabulary` DISABLE KEYS;
 ALTER TABLE `reg_vocabulary` ENABLE KEYS;
 UNLOCK TABLES;
+
 
 LOCK TABLES `reg_vocabulary_has_user` WRITE;
 ALTER TABLE `reg_vocabulary_has_user` DISABLE KEYS;
@@ -1079,8 +1072,6 @@ LOCK TABLES `schema_has_version` WRITE;
 ALTER TABLE `schema_has_version` DISABLE KEYS;
 ALTER TABLE `schema_has_version` ENABLE KEYS;
 UNLOCK TABLES;
-
-
 
 
 

@@ -9,6 +9,46 @@
  */
 class Schema extends BaseSchema {
 
+    /**
+     * @param $foo
+     * @return array
+     */
+    protected static function buildColumnArray( $foo )
+    {
+        $bar = array();
+
+        if ( count( $foo ) )
+        {
+            foreach ( $foo as $value )
+            {
+                foreach ( $value as $key => $langArray )
+                {
+                    foreach ( $langArray as $lang => $count )
+                    {
+                        $profile = ProfilePropertyPeer::retrieveByPK( $key );
+                        $order   = $profile->getDisplayOrder();
+                        if ( ! isset( $bar[$order][$lang] ) )
+                        {
+                            /** @var \ProfileProperty $profile */
+                            $bar[$order][$lang]['profile'] = $profile;
+                            $bar[$order][$lang]['count']   = 1;
+                            $bar[$order][$lang]['id']      = $key;
+                        }
+                        else
+                        {
+                            if ( $bar[$order][$lang]['count'] < $count )
+                            {
+                                $bar[$order][$lang]['count'] = $count;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return $bar;
+    }
+
     public function __toString()
     {
         return $this->getName();
@@ -195,7 +235,6 @@ class Schema extends BaseSchema {
         $c->addJoin( SchemaPropertyElementPeer::SCHEMA_PROPERTY_ID, SchemaPropertyPeer::ID );
 
         $foo     = array();
-        $bar     = array();
         $results = SchemaPropertyElementPeer::doSelectRS( $c );
         unset( $c );
 
@@ -211,35 +250,27 @@ class Schema extends BaseSchema {
             }
         }
 
-        if ( count( $foo ) )
+        $bar = self::buildColumnArray( $foo );
+
+        return $bar;
+    }
+
+    public function getAllProfileProperties()
+    {
+        $foo = array();
+
+        $results = $this->getProfilePropertys();
+        $this->getLanguages();
+        foreach ( $results as $result )
         {
-            $bar = array();
-            foreach ( $foo as $value )
+            if ( ! isset( $foo[$result[0]][$result[1]][$result[2]] ) )
             {
-                foreach ( $value as $key => $langArray )
-                {
-                    foreach ( $langArray as $lang => $count )
-                    {
-                        $profile = ProfilePropertyPeer::retrieveByPK( $key );
-                        $order   = $profile->getDisplayOrder();
-                        if ( ! isset( $bar[$order][$lang] ) )
-                        {
-                            /** @var \ProfileProperty $profile */
-                            $bar[$order][$lang]['profile'] = $profile;
-                            $bar[$order][$lang]['count']   = 1;
-                            $bar[$order][$lang]['id']   = $key;
-                        }
-                        else
-                        {
-                            if ( $bar[$order][$lang]['count'] < $count )
-                            {
-                                $bar[$order][$lang]['count'] = $count;
-                            }
-                        }
-                    }
-                }
+                $foo[$result[0]][$result[1]][$result[2]] = 1;
             }
+
         }
+
+        $bar = self::buildColumnArray( $foo );
 
         return $bar;
     }
@@ -262,5 +293,25 @@ class Schema extends BaseSchema {
     public function setPrefixes( array $v )
     {
         parent::setPrefixes( serialize( $v ) );
+    }
+
+    public function getLanguages()
+    {
+        $languages = parent::getLanguages();
+        if ( empty( $languages ) )
+        {
+            $languages = [ $this->getLanguage() ];
+
+            if ( empty( $languages ) )
+            {
+                $languages = [ 'en' ];
+            }
+        }
+        else
+        {
+            $languages = unserialize( $languages );
+        }
+
+        return $languages;
     }
 }

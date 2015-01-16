@@ -299,6 +299,7 @@ propel:
       foreignReference: id
       onDelete: RESTRICT
       onUpdate: RESTRICT
+      index: true
     name: 
       type: VARCHAR
       size: 255
@@ -366,18 +367,8 @@ propel:
       index: true
     schema_property_id: 
       type: INTEGER
-      foreignTable: reg_schema_property
-      foreignReference: id
-      onDelete: RESTRICT
-      onUpdate: RESTRICT
-      index: true
     schema_id: 
       type: INTEGER
-      foreignTable: reg_schema
-      foreignReference: id
-      onDelete: RESTRICT
-      onUpdate: RESTRICT
-      index: true
     is_in_class_picklist: 
       type: BOOLEAN
       required: true
@@ -407,8 +398,6 @@ propel:
       required: true
       default: 1
     _indexes: 
-      profile_property_profile_id: 
-        - profile_id
       profile_property_status_id: 
         - status_id
       profile_property_updated_by: 
