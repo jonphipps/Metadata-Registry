@@ -14,6 +14,7 @@ define( 'SF_DEBUG', isset( $debug ) ? $debug : true );
 require_once( SF_ROOT_DIR . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php' );
 // initialize symfony
 require_once( SF_ROOT_DIR . DIRECTORY_SEPARATOR . 'apps' . DIRECTORY_SEPARATOR . SF_APP . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'config.php' );
+// initialize database manager
 $databaseManager = new \sfDatabaseManager();
 $databaseManager->initialize();
 
@@ -24,9 +25,6 @@ class ExportVocabSpec extends ObjectBehavior {
         $vocabId = 1;
         $userId  = 1;
         $this->beConstructedWith( $vocabId, $userId );
-        // initialize database manager
-        //$databaseManager = new \sfDatabaseManager();
-        //$databaseManager->initialize();
     }
 
     function it_is_initializable()
