@@ -196,6 +196,7 @@ CREATE TABLE `profile_property` (
   `is_reciprocal` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'boolean - subject and object must both have this property',
   `is_singleton` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'boolean -- is this property allowed to repeat for a concept',
   `is_in_picklist` tinyint(1) NOT NULL DEFAULT '1' COMMENT 'boolean - is in the property picklist',
+  `is_in_export` tinyint(1) NOT NULL DEFAULT '1',
   `inverse_profile_property_id` int(11) DEFAULT NULL COMMENT 'id of the inverse property',
   `schema_property_id` int(11) DEFAULT NULL,
   `schema_id` int(11) DEFAULT NULL,
@@ -863,31 +864,31 @@ UNLOCK TABLES;
 
 LOCK TABLES `profile_property` WRITE;
 ALTER TABLE `profile_property` DISABLE KEYS;
-INSERT INTO `profile_property` (`id`, `created_at`, `updated_at`, `deleted_at`, `created_by`, `updated_by`, `deleted_by`, `profile_id`, `name`, `label`, `definition`, `comment`, `type`, `uri`, `status_id`, `language`, `note`, `display_order`, `picklist_order`, `examples`, `is_required`, `is_reciprocal`, `is_singleton`, `is_in_picklist`, `inverse_profile_property_id`, `schema_property_id`, `schema_id`, `is_in_class_picklist`, `is_in_property_picklist`, `is_in_rdf`, `is_in_xsd`, `is_attribute`, `has_language`, `is_object_prop`) VALUES 
-	(1,'2008-04-20 12:00:00','2008-04-20 15:00:00',NULL,36,36,NULL,1,'name','name',NULL,NULL,'property','reg:name',1,'en',NULL,1,1,NULL,1,0,1,0,NULL,NULL,NULL,0,0,1,1,1,1,1),
-	(2,'2008-04-20 12:00:00','2008-04-20 15:00:00',NULL,36,36,NULL,1,'label','label',NULL,NULL,'property','rdfs:label',1,'en',NULL,2,2,NULL,1,0,0,1,NULL,NULL,NULL,1,1,1,1,0,1,1),
-	(3,'2008-04-20 12:01:00','2008-04-20 15:01:01',NULL,36,36,NULL,1,'definition','description',NULL,NULL,'property','skos:definition',1,'en',NULL,3,3,NULL,0,0,0,1,NULL,NULL,NULL,1,1,1,1,0,1,1),
-	(4,'2008-04-20 12:02:00','2008-04-20 15:02:00',NULL,36,36,NULL,1,'type','type',NULL,NULL,'property','rdf:type',1,'en',NULL,5,5,NULL,1,0,1,0,NULL,NULL,NULL,0,0,1,1,1,0,1),
-	(5,'2008-04-20 00:02:00','2008-04-20 03:02:02',NULL,36,36,NULL,1,'comment','comment',NULL,NULL,'property','rdfs:comment',1,'en',NULL,4,4,NULL,0,0,0,1,NULL,NULL,NULL,1,1,1,1,0,1,1),
-	(6,'2008-04-20 00:03:00','2008-04-20 15:03:00',NULL,36,36,NULL,1,'isSubpropertyOf','subpropertyOf',NULL,NULL,'property','rdfs:subPropertyOf',1,'en',NULL,6,6,NULL,0,0,0,1,8,NULL,NULL,0,1,1,1,0,0,1),
-	(7,'2008-04-20 00:04:00','2008-04-20 03:04:00',NULL,36,36,NULL,1,'note','note',NULL,NULL,'property','skos:scopeNote',1,'en',NULL,8,8,NULL,0,0,0,1,NULL,NULL,NULL,1,1,1,1,0,1,1),
-	(8,'2008-04-20 12:05:00','2008-04-20 15:05:00',NULL,36,36,NULL,1,'hasSubproperty','hasSubproperty',NULL,NULL,'property','reg:hasSubproperty',1,'en',NULL,7,7,NULL,0,0,0,0,6,NULL,NULL,0,0,1,1,1,0,1),
-	(9,'2009-03-07 11:49:27','2009-03-07 14:49:27',NULL,36,36,NULL,1,'isSubclassOf','subClassOf','','','property','rdfs:subClassOf',1,'en','',9,9,'',0,0,0,0,10,NULL,NULL,1,0,1,1,0,0,1),
-	(10,'2009-03-07 11:53:34','2009-03-07 14:53:34',NULL,36,36,NULL,1,'hasSubClass','hasSubClass',NULL,NULL,'property','reg:hasSubClass',1,'en',NULL,10,10,NULL,0,0,0,0,9,NULL,NULL,1,0,1,1,1,0,1),
-	(11,'2009-03-07 11:57:15','2009-03-07 14:57:15',NULL,36,36,NULL,1,'domain','domain',NULL,NULL,'property','rdfs:domain',1,'en',NULL,11,11,NULL,0,0,0,1,NULL,NULL,NULL,0,1,1,1,0,0,1),
-	(12,'2009-03-07 12:01:38','2009-03-07 15:01:38',NULL,36,36,NULL,1,'orange','range',NULL,NULL,'property','rdfs:range',1,'en',NULL,12,12,NULL,0,0,0,1,NULL,NULL,NULL,0,1,1,1,0,0,1),
-	(13,'2009-03-07 12:01:38','2009-03-07 15:01:38',NULL,36,36,NULL,1,'uri','uri',NULL,NULL,'property','reg:uri',1,'en',NULL,13,13,NULL,1,0,1,0,NULL,NULL,NULL,0,0,0,1,1,0,1),
-	(14,'2009-03-07 12:01:38','2009-03-07 15:01:38',NULL,36,36,NULL,1,'statusId','status',NULL,NULL,'property','reg:status',1,'en',NULL,14,14,NULL,1,0,1,0,NULL,NULL,NULL,0,0,0,1,1,0,1),
-	(15,'2011-09-29 14:12:00','2011-09-29 10:20:25',NULL,36,36,NULL,1,'isInverseOf','inverseOf','','The property that determines that two given properties are inverse.','property','owl:inverseOf',1,'en','',15,15,'',0,1,0,1,NULL,NULL,NULL,0,1,1,0,0,0,1),
-	(16,'2011-09-29 14:23:24','2011-09-29 10:23:24',NULL,36,36,NULL,1,'isSameAs','sameAs','','The property that determines that two given individuals are equal.','property','owl:sameAs',1,'en','',16,16,'',0,1,0,1,NULL,NULL,NULL,1,1,1,0,0,0,1),
-	(17,'2011-09-29 14:26:25','2011-09-29 10:26:25',NULL,36,36,NULL,1,'propertyIsDisjointWith','propertyDisjointWith','','Used to specify that two properties are mutually disjoint, and it is defined as a property itself. ','property','owl:propertyDisjointWith',1,'en','',17,17,'',0,1,0,1,NULL,NULL,NULL,0,1,1,1,0,0,1),
-	(18,'2011-09-29 14:28:57','2011-09-29 10:28:57',NULL,36,36,NULL,1,'isEquivalentClass','equivalentClass','','The property that determines that two given classes are equivalent, and that is used to specify datatype definitions.','property','owl:equivalentClass',1,'en','',19,19,'',0,1,0,1,NULL,NULL,NULL,1,0,1,1,0,0,1),
-	(19,'2011-09-29 14:30:00','2011-09-29 10:30:00',NULL,36,36,NULL,1,'isEquivalentProperty','equivalentProperty','','','property','owl:equivalentProperty',1,'en','',20,20,'',0,1,0,1,NULL,NULL,NULL,0,1,1,1,0,0,1),
-	(20,'2012-02-02 23:21:08','2012-02-02 18:21:08',NULL,36,36,NULL,1,'isDisjointWith','disjointWith','','The property that determines that two given properties are disjoint.','property','owl:disjointWith',1,'en','',18,18,'',0,1,0,1,NULL,NULL,NULL,1,1,1,1,0,0,1),
-	(21,'2012-06-02 23:21:08','2012-06-02 19:21:08',NULL,36,36,NULL,1,'altLabel','altLabel',NULL,NULL,'property','skos:altLabel',1,'en',NULL,21,21,NULL,0,0,0,1,NULL,NULL,NULL,1,1,1,1,0,1,1),
-	(23,'2014-01-18 04:04:02','2014-01-17 23:04:02',NULL,36,36,NULL,1,'narrowMatch','narrowMatch',NULL,NULL,'property','skos:narrowMatch',1,'en',NULL,24,24,NULL,0,0,0,1,NULL,NULL,NULL,1,1,1,1,0,0,1),
-	(24,'2014-01-18 04:04:01','2014-01-17 23:04:01',NULL,36,36,NULL,1,'closeMatch','closeMatch',NULL,NULL,'property','skos:closeMatch',1,'en',NULL,23,23,NULL,0,0,0,1,NULL,NULL,NULL,1,1,1,1,0,0,1),
-	(25,'2014-01-18 04:04:00','2014-01-17 23:04:00',NULL,36,36,NULL,1,'broadMatch','broadMatch',NULL,NULL,'property','skos:broadMatch',1,'en',NULL,22,22,NULL,0,0,0,1,NULL,NULL,NULL,1,1,1,1,0,0,1);
+INSERT INTO `profile_property` (`id`, `created_at`, `updated_at`, `deleted_at`, `created_by`, `updated_by`, `deleted_by`, `profile_id`, `name`, `label`, `definition`, `comment`, `type`, `uri`, `status_id`, `language`, `note`, `display_order`, `picklist_order`, `examples`, `is_required`, `is_reciprocal`, `is_singleton`, `is_in_picklist`, `is_in_export`, `inverse_profile_property_id`, `schema_property_id`, `schema_id`, `is_in_class_picklist`, `is_in_property_picklist`, `is_in_rdf`, `is_in_xsd`, `is_attribute`, `has_language`, `is_object_prop`) VALUES 
+	(1,'2008-04-20 12:00:00','2008-04-20 15:00:00',NULL,36,36,NULL,1,'name','name',NULL,NULL,'property','reg:name',1,'en',NULL,1,1,NULL,1,0,1,0,1,NULL,NULL,NULL,0,0,1,1,1,1,1),
+	(2,'2008-04-20 12:00:00','2008-04-20 15:00:00',NULL,36,36,NULL,1,'label','label',NULL,NULL,'property','rdfs:label',1,'en',NULL,2,2,NULL,1,0,0,1,1,NULL,NULL,NULL,1,1,1,1,0,1,1),
+	(3,'2008-04-20 12:01:00','2008-04-20 15:01:01',NULL,36,36,NULL,1,'definition','description',NULL,NULL,'property','skos:definition',1,'en',NULL,3,3,NULL,0,0,0,1,1,NULL,NULL,NULL,1,1,1,1,0,1,1),
+	(4,'2008-04-20 12:02:00','2008-04-20 15:02:00',NULL,36,36,NULL,1,'type','type',NULL,NULL,'property','rdf:type',1,'en',NULL,5,5,NULL,1,0,1,0,1,NULL,NULL,NULL,0,0,1,1,1,0,1),
+	(5,'2008-04-20 00:02:00','2008-04-20 03:02:02',NULL,36,36,NULL,1,'comment','comment',NULL,NULL,'property','rdfs:comment',1,'en',NULL,4,4,NULL,0,0,0,1,1,NULL,NULL,NULL,1,1,1,1,0,1,1),
+	(6,'2008-04-20 00:03:00','2008-04-20 15:03:00',NULL,36,36,NULL,1,'isSubpropertyOf','subpropertyOf',NULL,NULL,'property','rdfs:subPropertyOf',1,'en',NULL,6,6,NULL,0,0,0,1,1,8,NULL,NULL,0,1,1,1,0,0,1),
+	(7,'2008-04-20 00:04:00','2008-04-20 03:04:00',NULL,36,36,NULL,1,'note','note',NULL,NULL,'property','skos:scopeNote',1,'en',NULL,8,8,NULL,0,0,0,1,1,NULL,NULL,NULL,1,1,1,1,0,1,1),
+	(8,'2008-04-20 12:05:00','2008-04-20 15:05:00',NULL,36,36,NULL,1,'hasSubproperty','hasSubproperty',NULL,NULL,'property','reg:hasSubproperty',1,'en',NULL,7,7,NULL,0,0,0,0,0,6,NULL,NULL,0,0,1,1,1,0,1),
+	(9,'2009-03-07 11:49:27','2009-03-07 14:49:27',NULL,36,36,NULL,1,'isSubclassOf','subClassOf','','','property','rdfs:subClassOf',1,'en','',9,9,'',0,0,0,0,1,10,NULL,NULL,1,0,1,1,0,0,1),
+	(10,'2009-03-07 11:53:34','2009-03-07 14:53:34',NULL,36,36,NULL,1,'hasSubClass','hasSubClass',NULL,NULL,'property','reg:hasSubClass',1,'en',NULL,10,10,NULL,0,0,0,0,0,9,NULL,NULL,1,0,1,1,1,0,1),
+	(11,'2009-03-07 11:57:15','2009-03-07 14:57:15',NULL,36,36,NULL,1,'domain','domain',NULL,NULL,'property','rdfs:domain',1,'en',NULL,11,11,NULL,0,0,0,1,1,NULL,NULL,NULL,0,1,1,1,0,0,1),
+	(12,'2009-03-07 12:01:38','2009-03-07 15:01:38',NULL,36,36,NULL,1,'orange','range',NULL,NULL,'property','rdfs:range',1,'en',NULL,12,12,NULL,0,0,0,1,1,NULL,NULL,NULL,0,1,1,1,0,0,1),
+	(13,'2009-03-07 12:01:38','2009-03-07 15:01:38',NULL,36,36,NULL,1,'uri','uri',NULL,NULL,'property','reg:uri',1,'en',NULL,13,13,NULL,1,0,1,0,0,NULL,NULL,NULL,0,0,0,1,1,0,1),
+	(14,'2009-03-07 12:01:38','2009-03-07 15:01:38',NULL,36,36,NULL,1,'statusId','status',NULL,NULL,'property','reg:status',1,'en',NULL,14,14,NULL,1,0,1,0,1,NULL,NULL,NULL,0,0,0,1,1,0,1),
+	(15,'2011-09-29 14:12:00','2011-09-29 10:20:25',NULL,36,36,NULL,1,'isInverseOf','inverseOf','','The property that determines that two given properties are inverse.','property','owl:inverseOf',1,'en','',15,15,'',0,1,0,1,1,NULL,NULL,NULL,0,1,1,0,0,0,1),
+	(16,'2011-09-29 14:23:24','2011-09-29 10:23:24',NULL,36,36,NULL,1,'isSameAs','sameAs','','The property that determines that two given individuals are equal.','property','owl:sameAs',1,'en','',16,16,'',0,1,0,1,1,NULL,NULL,NULL,1,1,1,0,0,0,1),
+	(17,'2011-09-29 14:26:25','2011-09-29 10:26:25',NULL,36,36,NULL,1,'propertyIsDisjointWith','propertyDisjointWith','','Used to specify that two properties are mutually disjoint, and it is defined as a property itself. ','property','owl:propertyDisjointWith',1,'en','',17,17,'',0,1,0,1,1,NULL,NULL,NULL,0,1,1,1,0,0,1),
+	(18,'2011-09-29 14:28:57','2011-09-29 10:28:57',NULL,36,36,NULL,1,'isEquivalentClass','equivalentClass','','The property that determines that two given classes are equivalent, and that is used to specify datatype definitions.','property','owl:equivalentClass',1,'en','',19,19,'',0,1,0,1,1,NULL,NULL,NULL,1,0,1,1,0,0,1),
+	(19,'2011-09-29 14:30:00','2011-09-29 10:30:00',NULL,36,36,NULL,1,'isEquivalentProperty','equivalentProperty','','','property','owl:equivalentProperty',1,'en','',20,20,'',0,1,0,1,1,NULL,NULL,NULL,0,1,1,1,0,0,1),
+	(20,'2012-02-02 23:21:08','2012-02-02 18:21:08',NULL,36,36,NULL,1,'isDisjointWith','disjointWith','','The property that determines that two given properties are disjoint.','property','owl:disjointWith',1,'en','',18,18,'',0,1,0,1,1,NULL,NULL,NULL,1,1,1,1,0,0,1),
+	(21,'2012-06-02 23:21:08','2012-06-02 19:21:08',NULL,36,36,NULL,1,'altLabel','altLabel',NULL,NULL,'property','skos:altLabel',1,'en',NULL,21,21,NULL,0,0,0,1,1,NULL,NULL,NULL,1,1,1,1,0,1,1),
+	(23,'2014-01-18 04:04:02','2014-01-17 23:04:02',NULL,36,36,NULL,1,'narrowMatch','narrowMatch',NULL,NULL,'property','skos:narrowMatch',1,'en',NULL,24,24,NULL,0,0,0,1,1,NULL,NULL,NULL,1,1,1,1,0,0,1),
+	(24,'2014-01-18 04:04:01','2014-01-17 23:04:01',NULL,36,36,NULL,1,'closeMatch','closeMatch',NULL,NULL,'property','skos:closeMatch',1,'en',NULL,23,23,NULL,0,0,0,1,1,NULL,NULL,NULL,1,1,1,1,0,0,1),
+	(25,'2014-01-18 04:04:00','2014-01-17 23:04:00',NULL,36,36,NULL,1,'broadMatch','broadMatch',NULL,NULL,'property','skos:broadMatch',1,'en',NULL,22,22,NULL,0,0,0,1,1,NULL,NULL,NULL,1,1,1,1,0,0,1);
 ALTER TABLE `profile_property` ENABLE KEYS;
 UNLOCK TABLES;
 
@@ -933,7 +934,7 @@ UNLOCK TABLES;
 LOCK TABLES `reg_schema` WRITE;
 ALTER TABLE `reg_schema` DISABLE KEYS;
 INSERT INTO `reg_schema` (`id`, `agent_id`, `created_at`, `updated_at`, `deleted_at`, `created_user_id`, `updated_user_id`, `child_updated_at`, `child_updated_user_id`, `name`, `note`, `uri`, `url`, `base_domain`, `token`, `community`, `last_uri_id`, `status_id`, `language`, `profile_id`, `ns_type`, `prefixes`, `languages`, `repo`) VALUES 
-	(1,3,'2014-12-04 04:11:44','2014-12-04 04:12:54',NULL,2,2,NULL,NULL,'Test Element Set','','http://registry.dev/uri/schema/testelement','','http://registry.dev/uri/schema/','testelement','',100000,1,'en',1,'slash',NULL,'a:1:{i:0;s:2:"en";}','');
+	(1,3,'2014-12-04 04:11:44','2014-12-04 04:12:54',NULL,2,2,NULL,NULL,'Test Element Set','','http://registry.dev/uri/schema/testelement','','http://registry.dev/uri/schema/','testelement','',100000,1,'en',1,'slash',NULL,'a:2:{i:0;s:2:"en";i:1;s:2:"fr";}','');
 ALTER TABLE `reg_schema` ENABLE KEYS;
 UNLOCK TABLES;
 
@@ -2605,7 +2606,9 @@ INSERT INTO `reg_schema_property_element` (`id`, `created_at`, `updated_at`, `de
 	(135,'2015-01-11 01:51:38','2015-01-11 01:51:38',NULL,1,1,12,13,1,'http://iflastandards.info/ns/fr/frbr/frbroo/R11i',NULL,'en',1),
 	(136,'2015-01-11 01:51:38','2015-01-11 01:51:38',NULL,1,1,12,14,1,'1',NULL,'en',1),
 	(137,'2015-01-11 01:51:38','2015-01-11 01:51:38',NULL,1,1,12,16,NULL,'http://iflastandards.info/ns/fr/frbr/frbroo/R11i_is_issuing_rule_of',NULL,'en',1),
-	(138,'2015-01-11 01:51:38','2015-01-11 01:51:39',NULL,1,1,12,15,NULL,'http://iflastandards.info/ns/fr/frbr/frbroo/R11',11,'en',1);
+	(138,'2014-12-19 00:18:41','2014-12-19 00:18:42',NULL,1,1,12,15,NULL,'http://iflastandards.info/ns/fr/frbr/frbroo/R11',11,'en',1),
+	(139,'2015-01-11 01:51:34','2015-01-11 01:51:34',NULL,1,1,7,2,1,'est le successeur logique de',NULL,'fr',1),
+	(140,'2014-12-19 00:18:39','2014-12-19 00:18:39',NULL,1,1,8,2,1,'incorpore',NULL,'fr',1);
 ALTER TABLE `reg_schema_property_element` ENABLE KEYS;
 UNLOCK TABLES;
 
@@ -2756,7 +2759,9 @@ INSERT INTO `reg_schema_property_element_history` (`id`, `created_at`, `created_
 	(141,'2015-01-11 01:51:39',1,'updated',105,9,1,15,'http://iflastandards.info/ns/fr/frbr/frbroo/R13i',10,'en',1,NULL),
 	(142,'2015-01-11 01:51:39',1,'updated',116,10,1,15,'http://iflastandards.info/ns/fr/frbr/frbroo/R13',9,'en',1,NULL),
 	(143,'2015-01-11 01:51:39',1,'updated',128,11,1,15,'http://iflastandards.info/ns/fr/frbr/frbroo/R11i',12,'en',1,NULL),
-	(144,'2015-01-11 01:51:39',1,'updated',138,12,1,15,'http://iflastandards.info/ns/fr/frbr/frbroo/R11',11,'en',1,NULL);
+	(144,'2014-12-19 00:18:42',1,'updated',138,12,1,15,'http://iflastandards.info/ns/fr/frbr/frbroo/R11',11,'en',1,NULL),
+	(145,'2015-01-11 01:51:34',1,'added',68,7,1,2,'est le successeur logique de',NULL,'fr',1,NULL),
+	(146,'2014-12-19 00:18:39',1,'added',80,8,1,2,'incorpore',NULL,'fr',1,NULL);
 ALTER TABLE `reg_schema_property_element_history` ENABLE KEYS;
 UNLOCK TABLES;
 

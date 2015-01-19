@@ -358,6 +358,10 @@ propel:
       type: BOOLEAN
       required: true
       default: 1
+    is_in_export: 
+      type: BOOLEAN
+      required: true
+      default: 1
     inverse_profile_property_id: 
       type: INTEGER
       foreignTable: profile_property

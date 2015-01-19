@@ -109,6 +109,8 @@ class ProfilePropertyMapBuilder {
 
 		$tMap->addColumn('IS_IN_PICKLIST', 'IsInPicklist', 'boolean', CreoleTypes::BOOLEAN, true, null);
 
+		$tMap->addColumn('IS_IN_EXPORT', 'IsInExport', 'boolean', CreoleTypes::BOOLEAN, true, null);
+
 		$tMap->addForeignKey('INVERSE_PROFILE_PROPERTY_ID', 'InverseProfilePropertyId', 'int', CreoleTypes::INTEGER, 'profile_property', 'ID', false, null);
 
 		$tMap->addColumn('SCHEMA_PROPERTY_ID', 'SchemaPropertyId', 'int', CreoleTypes::INTEGER, false, null);

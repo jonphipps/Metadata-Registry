@@ -188,6 +188,13 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 
 
 	/**
+	 * The value for the is_in_export field.
+	 * @var        boolean
+	 */
+	protected $is_in_export = true;
+
+
+	/**
 	 * The value for the inverse_profile_property_id field.
 	 * @var        int
 	 */
@@ -658,6 +665,17 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 	{
 
 		return $this->is_in_picklist;
+	}
+
+	/**
+	 * Get the [is_in_export] column value.
+	 * 
+	 * @return     boolean
+	 */
+	public function getIsInExport()
+	{
+
+		return $this->is_in_export;
 	}
 
 	/**
@@ -1301,6 +1319,22 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 	} // setIsInPicklist()
 
 	/**
+	 * Set the value of [is_in_export] column.
+	 * 
+	 * @param      boolean $v new value
+	 * @return     void
+	 */
+	public function setIsInExport($v)
+	{
+
+		if ($this->is_in_export !== $v || $v === true) {
+			$this->is_in_export = $v;
+			$this->modifiedColumns[] = ProfilePropertyPeer::IS_IN_EXPORT;
+		}
+
+	} // setIsInExport()
+
+	/**
 	 * Set the value of [inverse_profile_property_id] column.
 	 * 
 	 * @param      int $v new value
@@ -1547,32 +1581,34 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 
 			$this->is_in_picklist = $rs->getBoolean($startcol + 23);
 
-			$this->inverse_profile_property_id = $rs->getInt($startcol + 24);
+			$this->is_in_export = $rs->getBoolean($startcol + 24);
 
-			$this->schema_property_id = $rs->getInt($startcol + 25);
+			$this->inverse_profile_property_id = $rs->getInt($startcol + 25);
 
-			$this->schema_id = $rs->getInt($startcol + 26);
+			$this->schema_property_id = $rs->getInt($startcol + 26);
 
-			$this->is_in_class_picklist = $rs->getBoolean($startcol + 27);
+			$this->schema_id = $rs->getInt($startcol + 27);
 
-			$this->is_in_property_picklist = $rs->getBoolean($startcol + 28);
+			$this->is_in_class_picklist = $rs->getBoolean($startcol + 28);
 
-			$this->is_in_rdf = $rs->getBoolean($startcol + 29);
+			$this->is_in_property_picklist = $rs->getBoolean($startcol + 29);
 
-			$this->is_in_xsd = $rs->getBoolean($startcol + 30);
+			$this->is_in_rdf = $rs->getBoolean($startcol + 30);
 
-			$this->is_attribute = $rs->getBoolean($startcol + 31);
+			$this->is_in_xsd = $rs->getBoolean($startcol + 31);
 
-			$this->has_language = $rs->getBoolean($startcol + 32);
+			$this->is_attribute = $rs->getBoolean($startcol + 32);
 
-			$this->is_object_prop = $rs->getBoolean($startcol + 33);
+			$this->has_language = $rs->getBoolean($startcol + 33);
+
+			$this->is_object_prop = $rs->getBoolean($startcol + 34);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 34; // 34 = ProfilePropertyPeer::NUM_COLUMNS - ProfilePropertyPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 35; // 35 = ProfilePropertyPeer::NUM_COLUMNS - ProfilePropertyPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating ProfileProperty object", $e);
@@ -2023,33 +2059,36 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 				return $this->getIsInPicklist();
 				break;
 			case 24:
-				return $this->getInverseProfilePropertyId();
+				return $this->getIsInExport();
 				break;
 			case 25:
-				return $this->getSchemaPropertyId();
+				return $this->getInverseProfilePropertyId();
 				break;
 			case 26:
-				return $this->getSchemaId();
+				return $this->getSchemaPropertyId();
 				break;
 			case 27:
-				return $this->getIsInClassPicklist();
+				return $this->getSchemaId();
 				break;
 			case 28:
-				return $this->getIsInPropertyPicklist();
+				return $this->getIsInClassPicklist();
 				break;
 			case 29:
-				return $this->getIsInRdf();
+				return $this->getIsInPropertyPicklist();
 				break;
 			case 30:
-				return $this->getIsInXsd();
+				return $this->getIsInRdf();
 				break;
 			case 31:
-				return $this->getIsAttribute();
+				return $this->getIsInXsd();
 				break;
 			case 32:
-				return $this->getHasLanguage();
+				return $this->getIsAttribute();
 				break;
 			case 33:
+				return $this->getHasLanguage();
+				break;
+			case 34:
 				return $this->getIsObjectProp();
 				break;
 			default:
@@ -2096,16 +2135,17 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 			$keys[21] => $this->getIsReciprocal(),
 			$keys[22] => $this->getIsSingleton(),
 			$keys[23] => $this->getIsInPicklist(),
-			$keys[24] => $this->getInverseProfilePropertyId(),
-			$keys[25] => $this->getSchemaPropertyId(),
-			$keys[26] => $this->getSchemaId(),
-			$keys[27] => $this->getIsInClassPicklist(),
-			$keys[28] => $this->getIsInPropertyPicklist(),
-			$keys[29] => $this->getIsInRdf(),
-			$keys[30] => $this->getIsInXsd(),
-			$keys[31] => $this->getIsAttribute(),
-			$keys[32] => $this->getHasLanguage(),
-			$keys[33] => $this->getIsObjectProp(),
+			$keys[24] => $this->getIsInExport(),
+			$keys[25] => $this->getInverseProfilePropertyId(),
+			$keys[26] => $this->getSchemaPropertyId(),
+			$keys[27] => $this->getSchemaId(),
+			$keys[28] => $this->getIsInClassPicklist(),
+			$keys[29] => $this->getIsInPropertyPicklist(),
+			$keys[30] => $this->getIsInRdf(),
+			$keys[31] => $this->getIsInXsd(),
+			$keys[32] => $this->getIsAttribute(),
+			$keys[33] => $this->getHasLanguage(),
+			$keys[34] => $this->getIsObjectProp(),
 		);
 		return $result;
 	}
@@ -2210,33 +2250,36 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 				$this->setIsInPicklist($value);
 				break;
 			case 24:
-				$this->setInverseProfilePropertyId($value);
+				$this->setIsInExport($value);
 				break;
 			case 25:
-				$this->setSchemaPropertyId($value);
+				$this->setInverseProfilePropertyId($value);
 				break;
 			case 26:
-				$this->setSchemaId($value);
+				$this->setSchemaPropertyId($value);
 				break;
 			case 27:
-				$this->setIsInClassPicklist($value);
+				$this->setSchemaId($value);
 				break;
 			case 28:
-				$this->setIsInPropertyPicklist($value);
+				$this->setIsInClassPicklist($value);
 				break;
 			case 29:
-				$this->setIsInRdf($value);
+				$this->setIsInPropertyPicklist($value);
 				break;
 			case 30:
-				$this->setIsInXsd($value);
+				$this->setIsInRdf($value);
 				break;
 			case 31:
-				$this->setIsAttribute($value);
+				$this->setIsInXsd($value);
 				break;
 			case 32:
-				$this->setHasLanguage($value);
+				$this->setIsAttribute($value);
 				break;
 			case 33:
+				$this->setHasLanguage($value);
+				break;
+			case 34:
 				$this->setIsObjectProp($value);
 				break;
 		} // switch()
@@ -2286,16 +2329,17 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[21], $arr)) $this->setIsReciprocal($arr[$keys[21]]);
 		if (array_key_exists($keys[22], $arr)) $this->setIsSingleton($arr[$keys[22]]);
 		if (array_key_exists($keys[23], $arr)) $this->setIsInPicklist($arr[$keys[23]]);
-		if (array_key_exists($keys[24], $arr)) $this->setInverseProfilePropertyId($arr[$keys[24]]);
-		if (array_key_exists($keys[25], $arr)) $this->setSchemaPropertyId($arr[$keys[25]]);
-		if (array_key_exists($keys[26], $arr)) $this->setSchemaId($arr[$keys[26]]);
-		if (array_key_exists($keys[27], $arr)) $this->setIsInClassPicklist($arr[$keys[27]]);
-		if (array_key_exists($keys[28], $arr)) $this->setIsInPropertyPicklist($arr[$keys[28]]);
-		if (array_key_exists($keys[29], $arr)) $this->setIsInRdf($arr[$keys[29]]);
-		if (array_key_exists($keys[30], $arr)) $this->setIsInXsd($arr[$keys[30]]);
-		if (array_key_exists($keys[31], $arr)) $this->setIsAttribute($arr[$keys[31]]);
-		if (array_key_exists($keys[32], $arr)) $this->setHasLanguage($arr[$keys[32]]);
-		if (array_key_exists($keys[33], $arr)) $this->setIsObjectProp($arr[$keys[33]]);
+		if (array_key_exists($keys[24], $arr)) $this->setIsInExport($arr[$keys[24]]);
+		if (array_key_exists($keys[25], $arr)) $this->setInverseProfilePropertyId($arr[$keys[25]]);
+		if (array_key_exists($keys[26], $arr)) $this->setSchemaPropertyId($arr[$keys[26]]);
+		if (array_key_exists($keys[27], $arr)) $this->setSchemaId($arr[$keys[27]]);
+		if (array_key_exists($keys[28], $arr)) $this->setIsInClassPicklist($arr[$keys[28]]);
+		if (array_key_exists($keys[29], $arr)) $this->setIsInPropertyPicklist($arr[$keys[29]]);
+		if (array_key_exists($keys[30], $arr)) $this->setIsInRdf($arr[$keys[30]]);
+		if (array_key_exists($keys[31], $arr)) $this->setIsInXsd($arr[$keys[31]]);
+		if (array_key_exists($keys[32], $arr)) $this->setIsAttribute($arr[$keys[32]]);
+		if (array_key_exists($keys[33], $arr)) $this->setHasLanguage($arr[$keys[33]]);
+		if (array_key_exists($keys[34], $arr)) $this->setIsObjectProp($arr[$keys[34]]);
 	}
 
 	/**
@@ -2331,6 +2375,7 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(ProfilePropertyPeer::IS_RECIPROCAL)) $criteria->add(ProfilePropertyPeer::IS_RECIPROCAL, $this->is_reciprocal);
 		if ($this->isColumnModified(ProfilePropertyPeer::IS_SINGLETON)) $criteria->add(ProfilePropertyPeer::IS_SINGLETON, $this->is_singleton);
 		if ($this->isColumnModified(ProfilePropertyPeer::IS_IN_PICKLIST)) $criteria->add(ProfilePropertyPeer::IS_IN_PICKLIST, $this->is_in_picklist);
+		if ($this->isColumnModified(ProfilePropertyPeer::IS_IN_EXPORT)) $criteria->add(ProfilePropertyPeer::IS_IN_EXPORT, $this->is_in_export);
 		if ($this->isColumnModified(ProfilePropertyPeer::INVERSE_PROFILE_PROPERTY_ID)) $criteria->add(ProfilePropertyPeer::INVERSE_PROFILE_PROPERTY_ID, $this->inverse_profile_property_id);
 		if ($this->isColumnModified(ProfilePropertyPeer::SCHEMA_PROPERTY_ID)) $criteria->add(ProfilePropertyPeer::SCHEMA_PROPERTY_ID, $this->schema_property_id);
 		if ($this->isColumnModified(ProfilePropertyPeer::SCHEMA_ID)) $criteria->add(ProfilePropertyPeer::SCHEMA_ID, $this->schema_id);
@@ -2440,6 +2485,8 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 		$copyObj->setIsSingleton($this->is_singleton);
 
 		$copyObj->setIsInPicklist($this->is_in_picklist);
+
+		$copyObj->setIsInExport($this->is_in_export);
 
 		$copyObj->setInverseProfilePropertyId($this->inverse_profile_property_id);
 
