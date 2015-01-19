@@ -37,3 +37,5 @@ dbg-wizard.php
 composer.phar
 
 tests/_output/*
+Export_*.sql
+Export_*.csv
