@@ -317,6 +317,7 @@ propel:
     type: 
       type: CHAR
       required: true
+      default: property
     uri: 
       type: VARCHAR
       size: 255
@@ -369,10 +370,6 @@ propel:
       onDelete: RESTRICT
       onUpdate: RESTRICT
       index: true
-    schema_property_id: 
-      type: INTEGER
-    schema_id: 
-      type: INTEGER
     is_in_class_picklist: 
       type: BOOLEAN
       required: true

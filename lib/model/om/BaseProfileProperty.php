@@ -107,7 +107,7 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 	 * The value for the type field.
 	 * @var        string
 	 */
-	protected $type;
+	protected $type = 'property';
 
 
 	/**
@@ -199,20 +199,6 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 	 * @var        int
 	 */
 	protected $inverse_profile_property_id;
-
-
-	/**
-	 * The value for the schema_property_id field.
-	 * @var        int
-	 */
-	protected $schema_property_id;
-
-
-	/**
-	 * The value for the schema_id field.
-	 * @var        int
-	 */
-	protected $schema_id;
 
 
 	/**
@@ -690,28 +676,6 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 	}
 
 	/**
-	 * Get the [schema_property_id] column value.
-	 * 
-	 * @return     int
-	 */
-	public function getSchemaPropertyId()
-	{
-
-		return $this->schema_property_id;
-	}
-
-	/**
-	 * Get the [schema_id] column value.
-	 * 
-	 * @return     int
-	 */
-	public function getSchemaId()
-	{
-
-		return $this->schema_id;
-	}
-
-	/**
 	 * Get the [is_in_class_picklist] column value.
 	 * 
 	 * @return     boolean
@@ -1089,7 +1053,7 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 			$v = (string) $v; 
 		}
 
-		if ($this->type !== $v) {
+		if ($this->type !== $v || $v === 'property') {
 			$this->type = $v;
 			$this->modifiedColumns[] = ProfilePropertyPeer::TYPE;
 		}
@@ -1361,50 +1325,6 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 	} // setInverseProfilePropertyId()
 
 	/**
-	 * Set the value of [schema_property_id] column.
-	 * 
-	 * @param      int $v new value
-	 * @return     void
-	 */
-	public function setSchemaPropertyId($v)
-	{
-
-		// Since the native PHP type for this column is integer,
-		// we will cast the input value to an int (if it is not).
-		if ($v !== null && !is_int($v) && is_numeric($v)) {
-			$v = (int) $v;
-		}
-
-		if ($this->schema_property_id !== $v) {
-			$this->schema_property_id = $v;
-			$this->modifiedColumns[] = ProfilePropertyPeer::SCHEMA_PROPERTY_ID;
-		}
-
-	} // setSchemaPropertyId()
-
-	/**
-	 * Set the value of [schema_id] column.
-	 * 
-	 * @param      int $v new value
-	 * @return     void
-	 */
-	public function setSchemaId($v)
-	{
-
-		// Since the native PHP type for this column is integer,
-		// we will cast the input value to an int (if it is not).
-		if ($v !== null && !is_int($v) && is_numeric($v)) {
-			$v = (int) $v;
-		}
-
-		if ($this->schema_id !== $v) {
-			$this->schema_id = $v;
-			$this->modifiedColumns[] = ProfilePropertyPeer::SCHEMA_ID;
-		}
-
-	} // setSchemaId()
-
-	/**
 	 * Set the value of [is_in_class_picklist] column.
 	 * 
 	 * @param      boolean $v new value
@@ -1585,30 +1505,26 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 
 			$this->inverse_profile_property_id = $rs->getInt($startcol + 25);
 
-			$this->schema_property_id = $rs->getInt($startcol + 26);
+			$this->is_in_class_picklist = $rs->getBoolean($startcol + 26);
 
-			$this->schema_id = $rs->getInt($startcol + 27);
+			$this->is_in_property_picklist = $rs->getBoolean($startcol + 27);
 
-			$this->is_in_class_picklist = $rs->getBoolean($startcol + 28);
+			$this->is_in_rdf = $rs->getBoolean($startcol + 28);
 
-			$this->is_in_property_picklist = $rs->getBoolean($startcol + 29);
+			$this->is_in_xsd = $rs->getBoolean($startcol + 29);
 
-			$this->is_in_rdf = $rs->getBoolean($startcol + 30);
+			$this->is_attribute = $rs->getBoolean($startcol + 30);
 
-			$this->is_in_xsd = $rs->getBoolean($startcol + 31);
+			$this->has_language = $rs->getBoolean($startcol + 31);
 
-			$this->is_attribute = $rs->getBoolean($startcol + 32);
-
-			$this->has_language = $rs->getBoolean($startcol + 33);
-
-			$this->is_object_prop = $rs->getBoolean($startcol + 34);
+			$this->is_object_prop = $rs->getBoolean($startcol + 32);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 35; // 35 = ProfilePropertyPeer::NUM_COLUMNS - ProfilePropertyPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 33; // 33 = ProfilePropertyPeer::NUM_COLUMNS - ProfilePropertyPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating ProfileProperty object", $e);
@@ -2065,30 +1981,24 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 				return $this->getInverseProfilePropertyId();
 				break;
 			case 26:
-				return $this->getSchemaPropertyId();
-				break;
-			case 27:
-				return $this->getSchemaId();
-				break;
-			case 28:
 				return $this->getIsInClassPicklist();
 				break;
-			case 29:
+			case 27:
 				return $this->getIsInPropertyPicklist();
 				break;
-			case 30:
+			case 28:
 				return $this->getIsInRdf();
 				break;
-			case 31:
+			case 29:
 				return $this->getIsInXsd();
 				break;
-			case 32:
+			case 30:
 				return $this->getIsAttribute();
 				break;
-			case 33:
+			case 31:
 				return $this->getHasLanguage();
 				break;
-			case 34:
+			case 32:
 				return $this->getIsObjectProp();
 				break;
 			default:
@@ -2137,15 +2047,13 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 			$keys[23] => $this->getIsInPicklist(),
 			$keys[24] => $this->getIsInExport(),
 			$keys[25] => $this->getInverseProfilePropertyId(),
-			$keys[26] => $this->getSchemaPropertyId(),
-			$keys[27] => $this->getSchemaId(),
-			$keys[28] => $this->getIsInClassPicklist(),
-			$keys[29] => $this->getIsInPropertyPicklist(),
-			$keys[30] => $this->getIsInRdf(),
-			$keys[31] => $this->getIsInXsd(),
-			$keys[32] => $this->getIsAttribute(),
-			$keys[33] => $this->getHasLanguage(),
-			$keys[34] => $this->getIsObjectProp(),
+			$keys[26] => $this->getIsInClassPicklist(),
+			$keys[27] => $this->getIsInPropertyPicklist(),
+			$keys[28] => $this->getIsInRdf(),
+			$keys[29] => $this->getIsInXsd(),
+			$keys[30] => $this->getIsAttribute(),
+			$keys[31] => $this->getHasLanguage(),
+			$keys[32] => $this->getIsObjectProp(),
 		);
 		return $result;
 	}
@@ -2256,30 +2164,24 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 				$this->setInverseProfilePropertyId($value);
 				break;
 			case 26:
-				$this->setSchemaPropertyId($value);
-				break;
-			case 27:
-				$this->setSchemaId($value);
-				break;
-			case 28:
 				$this->setIsInClassPicklist($value);
 				break;
-			case 29:
+			case 27:
 				$this->setIsInPropertyPicklist($value);
 				break;
-			case 30:
+			case 28:
 				$this->setIsInRdf($value);
 				break;
-			case 31:
+			case 29:
 				$this->setIsInXsd($value);
 				break;
-			case 32:
+			case 30:
 				$this->setIsAttribute($value);
 				break;
-			case 33:
+			case 31:
 				$this->setHasLanguage($value);
 				break;
-			case 34:
+			case 32:
 				$this->setIsObjectProp($value);
 				break;
 		} // switch()
@@ -2331,15 +2233,13 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[23], $arr)) $this->setIsInPicklist($arr[$keys[23]]);
 		if (array_key_exists($keys[24], $arr)) $this->setIsInExport($arr[$keys[24]]);
 		if (array_key_exists($keys[25], $arr)) $this->setInverseProfilePropertyId($arr[$keys[25]]);
-		if (array_key_exists($keys[26], $arr)) $this->setSchemaPropertyId($arr[$keys[26]]);
-		if (array_key_exists($keys[27], $arr)) $this->setSchemaId($arr[$keys[27]]);
-		if (array_key_exists($keys[28], $arr)) $this->setIsInClassPicklist($arr[$keys[28]]);
-		if (array_key_exists($keys[29], $arr)) $this->setIsInPropertyPicklist($arr[$keys[29]]);
-		if (array_key_exists($keys[30], $arr)) $this->setIsInRdf($arr[$keys[30]]);
-		if (array_key_exists($keys[31], $arr)) $this->setIsInXsd($arr[$keys[31]]);
-		if (array_key_exists($keys[32], $arr)) $this->setIsAttribute($arr[$keys[32]]);
-		if (array_key_exists($keys[33], $arr)) $this->setHasLanguage($arr[$keys[33]]);
-		if (array_key_exists($keys[34], $arr)) $this->setIsObjectProp($arr[$keys[34]]);
+		if (array_key_exists($keys[26], $arr)) $this->setIsInClassPicklist($arr[$keys[26]]);
+		if (array_key_exists($keys[27], $arr)) $this->setIsInPropertyPicklist($arr[$keys[27]]);
+		if (array_key_exists($keys[28], $arr)) $this->setIsInRdf($arr[$keys[28]]);
+		if (array_key_exists($keys[29], $arr)) $this->setIsInXsd($arr[$keys[29]]);
+		if (array_key_exists($keys[30], $arr)) $this->setIsAttribute($arr[$keys[30]]);
+		if (array_key_exists($keys[31], $arr)) $this->setHasLanguage($arr[$keys[31]]);
+		if (array_key_exists($keys[32], $arr)) $this->setIsObjectProp($arr[$keys[32]]);
 	}
 
 	/**
@@ -2377,8 +2277,6 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(ProfilePropertyPeer::IS_IN_PICKLIST)) $criteria->add(ProfilePropertyPeer::IS_IN_PICKLIST, $this->is_in_picklist);
 		if ($this->isColumnModified(ProfilePropertyPeer::IS_IN_EXPORT)) $criteria->add(ProfilePropertyPeer::IS_IN_EXPORT, $this->is_in_export);
 		if ($this->isColumnModified(ProfilePropertyPeer::INVERSE_PROFILE_PROPERTY_ID)) $criteria->add(ProfilePropertyPeer::INVERSE_PROFILE_PROPERTY_ID, $this->inverse_profile_property_id);
-		if ($this->isColumnModified(ProfilePropertyPeer::SCHEMA_PROPERTY_ID)) $criteria->add(ProfilePropertyPeer::SCHEMA_PROPERTY_ID, $this->schema_property_id);
-		if ($this->isColumnModified(ProfilePropertyPeer::SCHEMA_ID)) $criteria->add(ProfilePropertyPeer::SCHEMA_ID, $this->schema_id);
 		if ($this->isColumnModified(ProfilePropertyPeer::IS_IN_CLASS_PICKLIST)) $criteria->add(ProfilePropertyPeer::IS_IN_CLASS_PICKLIST, $this->is_in_class_picklist);
 		if ($this->isColumnModified(ProfilePropertyPeer::IS_IN_PROPERTY_PICKLIST)) $criteria->add(ProfilePropertyPeer::IS_IN_PROPERTY_PICKLIST, $this->is_in_property_picklist);
 		if ($this->isColumnModified(ProfilePropertyPeer::IS_IN_RDF)) $criteria->add(ProfilePropertyPeer::IS_IN_RDF, $this->is_in_rdf);
@@ -2489,10 +2387,6 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 		$copyObj->setIsInExport($this->is_in_export);
 
 		$copyObj->setInverseProfilePropertyId($this->inverse_profile_property_id);
-
-		$copyObj->setSchemaPropertyId($this->schema_property_id);
-
-		$copyObj->setSchemaId($this->schema_id);
 
 		$copyObj->setIsInClassPicklist($this->is_in_class_picklist);
 
