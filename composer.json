@@ -46,7 +46,7 @@
     "symfony/http-foundation": "*",
     "bgcc/sf-select2-widgets-plugin": "~1.0",
     "league/plates": "2.*",
-    "league/flysystem": "0.4.*"
+    "league/flysystem": "0.5.*"
   },
 
   "autoload": {
