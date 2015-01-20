@@ -295,6 +295,10 @@ class Schema extends BaseSchema {
         parent::setPrefixes( serialize( $v ) );
     }
 
+    public function setLanguages( array $v){
+        parent::setLanguages(serialize($v));
+    }
+
     public function getLanguages()
     {
         $languages = parent::getLanguages();
