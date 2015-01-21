@@ -16,7 +16,7 @@
     "captbaritone/mailcatcher-codeception-module": "*",
     "raveren/kint": "1.0.*@dev",
     "phpspec/phpspec": "2.1.0",
-    "vlucas/phpdotenv": "1.*@dev"
+    "henrikbjorn/phpspec-code-coverage": "1.0.*@dev"
   },
   "config": {
     "process-timeout": 900,
@@ -46,7 +46,8 @@
     "symfony/http-foundation": "*",
     "bgcc/sf-select2-widgets-plugin": "~1.0",
     "league/plates": "2.*",
-    "league/flysystem": "0.5.*"
+    "league/flysystem": "0.5.*",
+    "vlucas/phpdotenv": "1.*@dev"
   },
 
   "autoload": {
