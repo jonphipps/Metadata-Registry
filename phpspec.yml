@@ -3,20 +3,3 @@ suites:
     namespace: ImportVocab
     src_path: plugins/jpAdminGeneratorPlugin/lib
     spec_path: plugins/jpAdminGeneratorPlugin/lib
-
-extensions:
-    - PhpSpec\Extension\CodeCoverageExtension
-code_coverage:
-  format:
-    - html
-    - clover
-  output:
-    html: spec/coverage
-    clover: spec/coverage.xml
-  blacklist:
-    - plugins/jpAdminGeneratorPlugin/lib/ImportVocab/tests
-  whitelist:
-    - plugins/jpAdminGeneratorPlugin/lib/ImportVocab
-  whitelist_files:
-    - plugins/jpAdminGeneratorPlugin/lib/ImportVocab/ExportVocab.php
-
