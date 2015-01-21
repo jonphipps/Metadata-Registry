@@ -146,6 +146,13 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 
 
 	/**
+	 * The value for the export_order field.
+	 * @var        int
+	 */
+	protected $export_order;
+
+
+	/**
 	 * The value for the picklist_order field.
 	 * @var        int
 	 */
@@ -585,6 +592,17 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 	{
 
 		return $this->display_order;
+	}
+
+	/**
+	 * Get the [export_order] column value.
+	 * 
+	 * @return     int
+	 */
+	public function getExportOrder()
+	{
+
+		return $this->export_order;
 	}
 
 	/**
@@ -1175,6 +1193,28 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 	} // setDisplayOrder()
 
 	/**
+	 * Set the value of [export_order] column.
+	 * 
+	 * @param      int $v new value
+	 * @return     void
+	 */
+	public function setExportOrder($v)
+	{
+
+		// Since the native PHP type for this column is integer,
+		// we will cast the input value to an int (if it is not).
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->export_order !== $v) {
+			$this->export_order = $v;
+			$this->modifiedColumns[] = ProfilePropertyPeer::EXPORT_ORDER;
+		}
+
+	} // setExportOrder()
+
+	/**
 	 * Set the value of [picklist_order] column.
 	 * 
 	 * @param      int $v new value
@@ -1489,42 +1529,44 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 
 			$this->display_order = $rs->getInt($startcol + 17);
 
-			$this->picklist_order = $rs->getInt($startcol + 18);
+			$this->export_order = $rs->getInt($startcol + 18);
 
-			$this->examples = $rs->getString($startcol + 19);
+			$this->picklist_order = $rs->getInt($startcol + 19);
 
-			$this->is_required = $rs->getBoolean($startcol + 20);
+			$this->examples = $rs->getString($startcol + 20);
 
-			$this->is_reciprocal = $rs->getBoolean($startcol + 21);
+			$this->is_required = $rs->getBoolean($startcol + 21);
 
-			$this->is_singleton = $rs->getBoolean($startcol + 22);
+			$this->is_reciprocal = $rs->getBoolean($startcol + 22);
 
-			$this->is_in_picklist = $rs->getBoolean($startcol + 23);
+			$this->is_singleton = $rs->getBoolean($startcol + 23);
 
-			$this->is_in_export = $rs->getBoolean($startcol + 24);
+			$this->is_in_picklist = $rs->getBoolean($startcol + 24);
 
-			$this->inverse_profile_property_id = $rs->getInt($startcol + 25);
+			$this->is_in_export = $rs->getBoolean($startcol + 25);
 
-			$this->is_in_class_picklist = $rs->getBoolean($startcol + 26);
+			$this->inverse_profile_property_id = $rs->getInt($startcol + 26);
 
-			$this->is_in_property_picklist = $rs->getBoolean($startcol + 27);
+			$this->is_in_class_picklist = $rs->getBoolean($startcol + 27);
 
-			$this->is_in_rdf = $rs->getBoolean($startcol + 28);
+			$this->is_in_property_picklist = $rs->getBoolean($startcol + 28);
 
-			$this->is_in_xsd = $rs->getBoolean($startcol + 29);
+			$this->is_in_rdf = $rs->getBoolean($startcol + 29);
 
-			$this->is_attribute = $rs->getBoolean($startcol + 30);
+			$this->is_in_xsd = $rs->getBoolean($startcol + 30);
 
-			$this->has_language = $rs->getBoolean($startcol + 31);
+			$this->is_attribute = $rs->getBoolean($startcol + 31);
 
-			$this->is_object_prop = $rs->getBoolean($startcol + 32);
+			$this->has_language = $rs->getBoolean($startcol + 32);
+
+			$this->is_object_prop = $rs->getBoolean($startcol + 33);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 33; // 33 = ProfilePropertyPeer::NUM_COLUMNS - ProfilePropertyPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 34; // 34 = ProfilePropertyPeer::NUM_COLUMNS - ProfilePropertyPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating ProfileProperty object", $e);
@@ -1957,48 +1999,51 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 				return $this->getDisplayOrder();
 				break;
 			case 18:
-				return $this->getPicklistOrder();
+				return $this->getExportOrder();
 				break;
 			case 19:
-				return $this->getExamples();
+				return $this->getPicklistOrder();
 				break;
 			case 20:
-				return $this->getIsRequired();
+				return $this->getExamples();
 				break;
 			case 21:
-				return $this->getIsReciprocal();
+				return $this->getIsRequired();
 				break;
 			case 22:
-				return $this->getIsSingleton();
+				return $this->getIsReciprocal();
 				break;
 			case 23:
-				return $this->getIsInPicklist();
+				return $this->getIsSingleton();
 				break;
 			case 24:
-				return $this->getIsInExport();
+				return $this->getIsInPicklist();
 				break;
 			case 25:
-				return $this->getInverseProfilePropertyId();
+				return $this->getIsInExport();
 				break;
 			case 26:
-				return $this->getIsInClassPicklist();
+				return $this->getInverseProfilePropertyId();
 				break;
 			case 27:
-				return $this->getIsInPropertyPicklist();
+				return $this->getIsInClassPicklist();
 				break;
 			case 28:
-				return $this->getIsInRdf();
+				return $this->getIsInPropertyPicklist();
 				break;
 			case 29:
-				return $this->getIsInXsd();
+				return $this->getIsInRdf();
 				break;
 			case 30:
-				return $this->getIsAttribute();
+				return $this->getIsInXsd();
 				break;
 			case 31:
-				return $this->getHasLanguage();
+				return $this->getIsAttribute();
 				break;
 			case 32:
+				return $this->getHasLanguage();
+				break;
+			case 33:
 				return $this->getIsObjectProp();
 				break;
 			default:
@@ -2039,21 +2084,22 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 			$keys[15] => $this->getLanguage(),
 			$keys[16] => $this->getNote(),
 			$keys[17] => $this->getDisplayOrder(),
-			$keys[18] => $this->getPicklistOrder(),
-			$keys[19] => $this->getExamples(),
-			$keys[20] => $this->getIsRequired(),
-			$keys[21] => $this->getIsReciprocal(),
-			$keys[22] => $this->getIsSingleton(),
-			$keys[23] => $this->getIsInPicklist(),
-			$keys[24] => $this->getIsInExport(),
-			$keys[25] => $this->getInverseProfilePropertyId(),
-			$keys[26] => $this->getIsInClassPicklist(),
-			$keys[27] => $this->getIsInPropertyPicklist(),
-			$keys[28] => $this->getIsInRdf(),
-			$keys[29] => $this->getIsInXsd(),
-			$keys[30] => $this->getIsAttribute(),
-			$keys[31] => $this->getHasLanguage(),
-			$keys[32] => $this->getIsObjectProp(),
+			$keys[18] => $this->getExportOrder(),
+			$keys[19] => $this->getPicklistOrder(),
+			$keys[20] => $this->getExamples(),
+			$keys[21] => $this->getIsRequired(),
+			$keys[22] => $this->getIsReciprocal(),
+			$keys[23] => $this->getIsSingleton(),
+			$keys[24] => $this->getIsInPicklist(),
+			$keys[25] => $this->getIsInExport(),
+			$keys[26] => $this->getInverseProfilePropertyId(),
+			$keys[27] => $this->getIsInClassPicklist(),
+			$keys[28] => $this->getIsInPropertyPicklist(),
+			$keys[29] => $this->getIsInRdf(),
+			$keys[30] => $this->getIsInXsd(),
+			$keys[31] => $this->getIsAttribute(),
+			$keys[32] => $this->getHasLanguage(),
+			$keys[33] => $this->getIsObjectProp(),
 		);
 		return $result;
 	}
@@ -2140,48 +2186,51 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 				$this->setDisplayOrder($value);
 				break;
 			case 18:
-				$this->setPicklistOrder($value);
+				$this->setExportOrder($value);
 				break;
 			case 19:
-				$this->setExamples($value);
+				$this->setPicklistOrder($value);
 				break;
 			case 20:
-				$this->setIsRequired($value);
+				$this->setExamples($value);
 				break;
 			case 21:
-				$this->setIsReciprocal($value);
+				$this->setIsRequired($value);
 				break;
 			case 22:
-				$this->setIsSingleton($value);
+				$this->setIsReciprocal($value);
 				break;
 			case 23:
-				$this->setIsInPicklist($value);
+				$this->setIsSingleton($value);
 				break;
 			case 24:
-				$this->setIsInExport($value);
+				$this->setIsInPicklist($value);
 				break;
 			case 25:
-				$this->setInverseProfilePropertyId($value);
+				$this->setIsInExport($value);
 				break;
 			case 26:
-				$this->setIsInClassPicklist($value);
+				$this->setInverseProfilePropertyId($value);
 				break;
 			case 27:
-				$this->setIsInPropertyPicklist($value);
+				$this->setIsInClassPicklist($value);
 				break;
 			case 28:
-				$this->setIsInRdf($value);
+				$this->setIsInPropertyPicklist($value);
 				break;
 			case 29:
-				$this->setIsInXsd($value);
+				$this->setIsInRdf($value);
 				break;
 			case 30:
-				$this->setIsAttribute($value);
+				$this->setIsInXsd($value);
 				break;
 			case 31:
-				$this->setHasLanguage($value);
+				$this->setIsAttribute($value);
 				break;
 			case 32:
+				$this->setHasLanguage($value);
+				break;
+			case 33:
 				$this->setIsObjectProp($value);
 				break;
 		} // switch()
@@ -2225,21 +2274,22 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[15], $arr)) $this->setLanguage($arr[$keys[15]]);
 		if (array_key_exists($keys[16], $arr)) $this->setNote($arr[$keys[16]]);
 		if (array_key_exists($keys[17], $arr)) $this->setDisplayOrder($arr[$keys[17]]);
-		if (array_key_exists($keys[18], $arr)) $this->setPicklistOrder($arr[$keys[18]]);
-		if (array_key_exists($keys[19], $arr)) $this->setExamples($arr[$keys[19]]);
-		if (array_key_exists($keys[20], $arr)) $this->setIsRequired($arr[$keys[20]]);
-		if (array_key_exists($keys[21], $arr)) $this->setIsReciprocal($arr[$keys[21]]);
-		if (array_key_exists($keys[22], $arr)) $this->setIsSingleton($arr[$keys[22]]);
-		if (array_key_exists($keys[23], $arr)) $this->setIsInPicklist($arr[$keys[23]]);
-		if (array_key_exists($keys[24], $arr)) $this->setIsInExport($arr[$keys[24]]);
-		if (array_key_exists($keys[25], $arr)) $this->setInverseProfilePropertyId($arr[$keys[25]]);
-		if (array_key_exists($keys[26], $arr)) $this->setIsInClassPicklist($arr[$keys[26]]);
-		if (array_key_exists($keys[27], $arr)) $this->setIsInPropertyPicklist($arr[$keys[27]]);
-		if (array_key_exists($keys[28], $arr)) $this->setIsInRdf($arr[$keys[28]]);
-		if (array_key_exists($keys[29], $arr)) $this->setIsInXsd($arr[$keys[29]]);
-		if (array_key_exists($keys[30], $arr)) $this->setIsAttribute($arr[$keys[30]]);
-		if (array_key_exists($keys[31], $arr)) $this->setHasLanguage($arr[$keys[31]]);
-		if (array_key_exists($keys[32], $arr)) $this->setIsObjectProp($arr[$keys[32]]);
+		if (array_key_exists($keys[18], $arr)) $this->setExportOrder($arr[$keys[18]]);
+		if (array_key_exists($keys[19], $arr)) $this->setPicklistOrder($arr[$keys[19]]);
+		if (array_key_exists($keys[20], $arr)) $this->setExamples($arr[$keys[20]]);
+		if (array_key_exists($keys[21], $arr)) $this->setIsRequired($arr[$keys[21]]);
+		if (array_key_exists($keys[22], $arr)) $this->setIsReciprocal($arr[$keys[22]]);
+		if (array_key_exists($keys[23], $arr)) $this->setIsSingleton($arr[$keys[23]]);
+		if (array_key_exists($keys[24], $arr)) $this->setIsInPicklist($arr[$keys[24]]);
+		if (array_key_exists($keys[25], $arr)) $this->setIsInExport($arr[$keys[25]]);
+		if (array_key_exists($keys[26], $arr)) $this->setInverseProfilePropertyId($arr[$keys[26]]);
+		if (array_key_exists($keys[27], $arr)) $this->setIsInClassPicklist($arr[$keys[27]]);
+		if (array_key_exists($keys[28], $arr)) $this->setIsInPropertyPicklist($arr[$keys[28]]);
+		if (array_key_exists($keys[29], $arr)) $this->setIsInRdf($arr[$keys[29]]);
+		if (array_key_exists($keys[30], $arr)) $this->setIsInXsd($arr[$keys[30]]);
+		if (array_key_exists($keys[31], $arr)) $this->setIsAttribute($arr[$keys[31]]);
+		if (array_key_exists($keys[32], $arr)) $this->setHasLanguage($arr[$keys[32]]);
+		if (array_key_exists($keys[33], $arr)) $this->setIsObjectProp($arr[$keys[33]]);
 	}
 
 	/**
@@ -2269,6 +2319,7 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(ProfilePropertyPeer::LANGUAGE)) $criteria->add(ProfilePropertyPeer::LANGUAGE, $this->language);
 		if ($this->isColumnModified(ProfilePropertyPeer::NOTE)) $criteria->add(ProfilePropertyPeer::NOTE, $this->note);
 		if ($this->isColumnModified(ProfilePropertyPeer::DISPLAY_ORDER)) $criteria->add(ProfilePropertyPeer::DISPLAY_ORDER, $this->display_order);
+		if ($this->isColumnModified(ProfilePropertyPeer::EXPORT_ORDER)) $criteria->add(ProfilePropertyPeer::EXPORT_ORDER, $this->export_order);
 		if ($this->isColumnModified(ProfilePropertyPeer::PICKLIST_ORDER)) $criteria->add(ProfilePropertyPeer::PICKLIST_ORDER, $this->picklist_order);
 		if ($this->isColumnModified(ProfilePropertyPeer::EXAMPLES)) $criteria->add(ProfilePropertyPeer::EXAMPLES, $this->examples);
 		if ($this->isColumnModified(ProfilePropertyPeer::IS_REQUIRED)) $criteria->add(ProfilePropertyPeer::IS_REQUIRED, $this->is_required);
@@ -2371,6 +2422,8 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 		$copyObj->setNote($this->note);
 
 		$copyObj->setDisplayOrder($this->display_order);
+
+		$copyObj->setExportOrder($this->export_order);
 
 		$copyObj->setPicklistOrder($this->picklist_order);
 

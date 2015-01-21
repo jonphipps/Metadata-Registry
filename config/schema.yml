@@ -338,6 +338,8 @@ propel:
       type: LONGVARCHAR
     display_order: 
       type: INTEGER
+    export_order: 
+      type: INTEGER
     picklist_order: 
       type: INTEGER
     examples: 

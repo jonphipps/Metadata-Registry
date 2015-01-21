@@ -97,6 +97,8 @@ class ProfilePropertyMapBuilder {
 
 		$tMap->addColumn('DISPLAY_ORDER', 'DisplayOrder', 'int', CreoleTypes::INTEGER, false, null);
 
+		$tMap->addColumn('EXPORT_ORDER', 'ExportOrder', 'int', CreoleTypes::INTEGER, false, null);
+
 		$tMap->addColumn('PICKLIST_ORDER', 'PicklistOrder', 'int', CreoleTypes::INTEGER, false, null);
 
 		$tMap->addColumn('EXAMPLES', 'Examples', 'string', CreoleTypes::VARCHAR, false, 255);
