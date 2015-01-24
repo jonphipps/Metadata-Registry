@@ -11,12 +11,12 @@ $ts = ($timestamp) ? '/ts/' . date('YmdHis',$timestamp) : ''; ?>
 
     <xs:annotation>
         <xs:documentation xml:lang="en">
-            <?php echo htmlspecialchars($vocabulary->getName(), ENT_NOQUOTES, 'UTF-8'); ?> XML Schema
+            <?php echo htmlspecialchars(html_entity_decode($vocabulary->getName(), ENT_QUOTES | ENT_HTML5, 'UTF-8')); ?> XML Schema
             XML Schema for <?php echo $vocabulary->getUri() . $ts; ?> namespace
             Date created: <?php echo $vocabulary->getCreatedAt() . "\n" ?>
             Date of last update: <?php echo $vocabulary->getLastUpdated() . "\n" ?>
 <?php if ($vocabulary->getNote()): ?>
-            <?php echo htmlspecialchars($vocabulary->getNote(), ENT_NOQUOTES, 'UTF-8') . "\n" ?>
+            <?php echo htmlspecialchars(html_entity_decode($vocabulary->getNote(), ENT_QUOTES | ENT_HTML5, 'UTF-8'))  . "\n" ?>
 <?php endif; ?>
             Further information about this Vocabulary is available at <?php echo $vocabulary->getUri() . ".html\n" ?>
         </xs:documentation>
@@ -33,7 +33,7 @@ $ts = ($timestamp) ? '/ts/' . date('YmdHis',$timestamp) : ''; ?>
     <xs:simpleType name="DCMIType">
         <xs:restriction base="xs:string">
 <?php foreach ($concepts as $concept): ?>
-            <xs:enumeration value="<?php echo htmlspecialchars($concept->getPrefLabel(), ENT_NOQUOTES, 'UTF-8'); ?>"/>
+            <xs:enumeration value="<?php echo htmlspecialchars(html_entity_decode($concept->getPrefLabel(), ENT_QUOTES | ENT_HTML5, 'UTF-8')); ?>"/>
 <?php endforeach; ?>
         </xs:restriction>
     </xs:simpleType>

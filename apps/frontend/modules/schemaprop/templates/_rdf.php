@@ -34,7 +34,7 @@
         } ?>
 <?php if ($object): ?>
 <?php  if ($property->getHasLanguage()): ?>
-  <<?php echo $uri ?> xml:lang="<?php /** @var SchemaPropertyElement **/ echo $element->getLanguage() ?>"><?php echo htmlspecialchars($object, ENT_NOQUOTES, "UTF-8", false) ?></<?php echo $uri ?>>
+  <<?php echo $uri ?> xml:lang="<?php /** @var SchemaPropertyElement **/ echo $element->getLanguage() ?>"><?php echo htmlspecialchars(html_entity_decode($object, ENT_QUOTES | ENT_HTML5, 'UTF-8'), ENT_NOQUOTES, "UTF-8", false) ?></<?php echo $uri ?>>
 <?php else: ?>
   <<?php echo $uri ?> rdf:resource="<?php echo rtrim($object) ?>" />
 <?php endif; ?>
