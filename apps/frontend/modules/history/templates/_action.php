@@ -1,5 +1,5 @@
 <?php
-  //debugbreak();
+
   // use the following instead of 'updated...' when we get the jscript working...
   //<a class="load-local" href="#update_$id" rel="#update_$id">updated...</a>
 
@@ -10,7 +10,7 @@
     $language = $concept_property_history->getLanguage();
     $status   = $concept_property_history->getStatus();
     $id = $concept_property_history->getId();
-    
+
     /** @var ConceptPropertyHistory **/
     $previous = $concept_property_history->getPrevious();
     $oldAction = $previous->getAction();
@@ -18,7 +18,7 @@
     $oldStatus = $previous->getStatus();
     $oldLanguage = $previous->getLanguage();
     $str = <<<EOD
-<a class="load-local" href="#detail_$id" rel="#detail_$id" title="Change Detail">updated...</a> 
+<a class="load-local" href="#detail_$id" rel="#detail_$id" title="Change Detail">updated...</a>
 <div id="detail_$id">
   <table cellpadding="0" cellspacing="0" class="rowDetail">
     <tr>

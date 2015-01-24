@@ -738,8 +738,8 @@ class ImportVocab {
     $import = new \FileImportHistory();
     $import->setFileName($this->file);
     $import->setFileType($this->type);
-    $import->setMap(serialize($this->mapping));
-    $import->setResults(serialize($this->results));
+    $import->setMap($this->mapping);
+    $import->setResults($this->results);
     $import->setUserId($this->userId);
     $import->setSchemaId($this->vocabId);
     $import->setBatch($batch);

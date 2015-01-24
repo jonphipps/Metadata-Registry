@@ -79,9 +79,12 @@ function url_for($internal_uri, $absolute = false)
  *    => <a href="http://myapp.example.com/path/to/my/action" id="myid" onclick="return confirm('Are you sure?');">Delete this page</a>
  * </code>
  *
- * @param  string name of the link, i.e. string to appear between the <a> tags
- * @param  string 'module/action' or '@rule' of the action
- * @param  array additional HTML compliant <a> tag parameters
+   * @param  string $name         name of the link, i.e. string to appear between the <a> tags
+   * @param  string $internal_uri 'module/action' or '@rule' of the action
+   * @param  array  $options      array additional HTML compliant <a> tag parameters
+   *
+   * @throws sfConfigurationException
+   * @throws sfException
  * @return string XHTML compliant <a href> tag
  * @see    url_for
  */

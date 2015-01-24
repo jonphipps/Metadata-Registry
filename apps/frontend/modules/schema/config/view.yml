@@ -1,8 +1,9 @@
 all:
-  javascripts: [%SF_PROTOTYPE_WEB_DIR%/js/prototype: { position: last }]
+  javascripts: [%SF_PROTOTYPE_WEB_DIR%/prototype.min.js: { position: last }]
 
 editSuccess:
-  javascripts: [schema: { position: last }]
+  stylesheets: [%sf_select2_web_dir%/select2/select2]
+  javascripts: [schema: { position: last }, %sf_select2_web_dir%/jquery/dist/jquery, %sf_select2_web_dir%/select2/select2]
 
 showRdfSuccess:
   has_layout: off

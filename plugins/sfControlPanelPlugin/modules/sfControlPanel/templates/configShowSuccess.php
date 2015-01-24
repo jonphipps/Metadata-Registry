@@ -1,5 +1,5 @@
 <?php echo use_helper('Javascript') ?>
-<?php echo use_javascript(sfConfig::get('sf_prototype_web_dir').'/js/prototype') ?>
+<?php echo use_javascript(sfConfig::get('sf_prototype_web_dir').'/prototype.min.js') ?>
 <?php slot('sidebar') ?>
 <ul>
   <li class="category empty">sfConfig</li>

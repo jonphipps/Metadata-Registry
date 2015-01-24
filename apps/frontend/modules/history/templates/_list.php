@@ -53,7 +53,7 @@
           'concept_property_history' => $concept_property_history,
           'version' => $version));
           echo ($value) ? $value : '&nbsp;' ?>
-</td></tr><?php //debugbreak(); ?>
+</td></tr><?php  ?>
 <?php endif; ?>
 <?php endforeach; $tsLast = $tsNew ?>
 <tr class="sf_admin_row_<?php echo $odd ?>">

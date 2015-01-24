@@ -90,6 +90,8 @@ generator:
       actions:
         _list:
         _edit:       { credentials: [[administrator, schemamaintainer, schemaadmin]] }
+        _publish:    { credentials: [[administrator, schemaadmin]] }
+        csv:           { name: Get CSV, icon: %SF_ADMIN_WEB_DIR%/images/csv_text.png, route: rdf_schema }
         showRdf:
           name:      Get RDF
           icon:      %SF_ADMIN_WEB_DIR%/images/rdf_icon.png

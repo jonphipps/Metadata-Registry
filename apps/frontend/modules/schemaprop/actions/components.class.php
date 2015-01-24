@@ -1,8 +1,10 @@
 <?php
-class schemapropComponents extends sfComponents
-{
-  public function executePropertylist()
-  {
+  /**
+   * @property SchemaProperty[] properties
+   * @property int              schemaId
+   */
+  class schemapropComponents extends sfComponents {
+    public function executePropertylist() {
     $c = new Criteria();
     $c->add(SchemaPropertyPeer::SCHEMA_ID, $this->schemaId);
 //    $c->addDescendingOrderByColumn(ConceptPropertyPeer::SKOS_PROPERTY_ID);

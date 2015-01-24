@@ -22,7 +22,7 @@ class apiActions extends sfActions
   */
   public function executeLastupdate()
   {
-    //DebugBreak();
+
 
     $domain = $this->getRequestParameter('domain');
     $objects = $this->getRequestParameter('objects');
@@ -59,7 +59,7 @@ class apiActions extends sfActions
   */
   public function executeGetinfo()
   {
-    //DebugBreak();
+
         /** @var sfRequest **/
     $request = $this->getRequest();
     $domain = $this->getRequestParameter('domain');

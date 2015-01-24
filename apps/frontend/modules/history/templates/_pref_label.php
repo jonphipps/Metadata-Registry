@@ -1,5 +1,5 @@
 <?php
-//debugbreak();
+
    $concept = $concept_property_history->getConceptRelatedByConceptId();
    if ($concept)
    {

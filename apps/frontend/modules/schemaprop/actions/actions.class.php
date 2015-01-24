@@ -128,7 +128,7 @@ class schemapropActions extends autoschemapropActions
         $schema = $this->schemaprop->getSchema();
         if ($schema)
         {
-          myActionTools::setLatestSchema($schema);
+          myActionTools::setLatestSchema($schema->getId());
         }
       }
     }
@@ -143,7 +143,7 @@ class schemapropActions extends autoschemapropActions
 
   public function executeProperties()
   {
-    $this->redirect('/schemapropprop/list?schemaprop_id=' . $this->getRequestParameter('id') );
+    $this->redirect('/schemaprop/list?schemaprop_id=' . $this->getRequestParameter('id'));
   }
 
   public function executeGetSchemaPropertyList()
@@ -163,6 +163,20 @@ class schemapropActions extends autoschemapropActions
   }
 
   /**
+   * @param  Schema $schemaObj
+   *
+   * @return string
+   */
+  public function getBaseUri($schemaObj)
+  {
+    $schemaDomain = $schemaObj->getUri();
+    //URI looks like: agent(base_domain) / schema(token) / schema(next_schemaprop_id) / skos_property_id # schemaprop(next_property_id)
+    $trailer = preg_match('%(/|#)$%im', $schemaDomain) ? '' : '/';
+    $newURI  = $schemaDomain . $trailer;
+    return $newURI;
+    //registry base domain is http://metadataregistry.org/uri/
+    //schema carries denormalized base_domain from agent
+  }
   * overload saveSchemaProperty
   *
   * @return mixed

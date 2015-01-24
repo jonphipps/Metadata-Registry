@@ -22,10 +22,10 @@ use_helper('Form');
 /**
  * Returns a html date control.
  *
- * @param object An object.
- * @param string An object column.
- * @param array Date options.
- * @param bool Date default value.
+ * @param object $object        An object
+ * @param string $method        An object column
+ * @param array  $options       Date options
+ * @param bool   $default_value Date default value
  *
  * @return string An html string which represents a date control.
  *
@@ -42,10 +42,10 @@ function object_input_date_tag($object, $method, $options = array(), $default_va
 /**
  * Returns a textarea html tag.
  *
- * @param object An object.
- * @param string An object column.
- * @param array Textarea options.
- * @param bool Textarea default value.
+ * @param object $object        An object
+ * @param string $method        An object column
+ * @param array  $options       Textarea options
+ * @param bool   $default_value Textarea default value
  *
  * @return string An html string which represents a textarea tag.
  *
@@ -65,6 +65,15 @@ function object_textarea_tag($object, $method, $options = array(), $default_valu
  * It returns a string of option tags.
  *
  * NOTE: Only the option tags are returned, you have to wrap this call in a regular HTML select tag.
+ *
+ * @param array   $options      a container of objects
+ * @param  string $value_method method name to use for the value
+ * @param string  $text_method  method name to use for the display
+ * @param string  $selected
+ * @param array   $html_options
+ *
+ * @return string option tags
+ * @throws sfViewException
  */
 function objects_for_select($options = array(), $value_method, $text_method = null, $selected = null, $html_options = array())
 {
@@ -100,10 +109,10 @@ function objects_for_select($options = array(), $value_method, $text_method = nu
  * Updated by Jon Phipps 04/12/2008
  *   added 'select_options' parameter
  *
- * @param object An object or the selected value
- * @param string An object column.
- * @param array Input options (related_class option is mandatory).
- * @param bool Input default value.
+ * @param object $object        An object or the selected value
+ * @param string $method        An object column.
+ * @param array  $options       Input options (related_class option is mandatory).
+ * @param bool   $default_value Input default value.
  *
  * @return string A list string which represents an input tag.
  *
@@ -215,10 +224,10 @@ function object_select_language_tag($object, $method, $options = array(), $defau
 /**
  * Returns a hidden input html tag.
  *
- * @param object An object.
- * @param string An object column.
- * @param array Input options.
- * @param bool Input default value.
+ * @param object $object        An object or the selected value
+ * @param string $method        An object column.
+ * @param array  $options       Input options.
+ * @param bool   $default_value Input default value.
  *
  * @return string An html string which represents a hidden input tag.
  *
@@ -235,10 +244,10 @@ function object_input_hidden_tag($object, $method, $options = array(), $default_
 /**
  * Returns a input html tag.
  *
- * @param object An object.
- * @param string An object column.
- * @param array Input options.
- * @param bool Input default value.
+ * @param object $object        An object or the selected value
+ * @param string $method        An object column.
+ * @param array  $options       Input options.
+ * @param bool   $default_value Input default value.
  *
  * @return string An html string which represents an input tag.
  *
@@ -255,10 +264,10 @@ function object_input_tag($object, $method, $options = array(), $default_value =
 /**
  * Returns a checkbox html tag.
  *
- * @param object An object.
- * @param string An object column.
- * @param array Checkbox options.
- * @param bool Checkbox value.
+ * @param object $object        An object
+ * @param string $method        An object column
+ * @param array  $options       Checkbox options
+ * @param bool   $default_value Checkbox default value
  *
  * @return string An html string which represents a checkbox tag.
  *
@@ -320,7 +329,7 @@ function _get_object_value($object, $method, $default_value = null, $param = nul
 /**
  * Returns the name of the class of an decorated object
  *
- * @param object An object that might be wrapped in an sfOutputEscaperObjectDecorator(-derivative)
+ * @param object $object An object that might be wrapped in an sfOutputEscaperObjectDecorator(-derivative)
  *
  * @return string The name of the class of the object being decorated for escaping, or the class of the object if it isn't decorated
  */

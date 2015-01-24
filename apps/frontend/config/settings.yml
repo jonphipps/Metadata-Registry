@@ -23,7 +23,15 @@ dev:
 test:
   .settings:
     # E_ALL | E_STRICT & ~E_NOTICE = 2047
-    error_reporting:        2047
+    error_reporting:        -1
+    cache:                  off
+    web_debug:              on
+    no_script_name:         off
+    etag:                   on
+test-empty:
+  .settings:
+    # E_ALL | E_STRICT & ~E_NOTICE = 2047
+    error_reporting:        -1
     cache:                  off
     web_debug:              on
     no_script_name:         off
@@ -40,6 +48,7 @@ all:
     standard_helpers:       [Partial, Cache, Form, I18N]
     timeout:                43200
     suffix:                .html
+
 #    default_module:         default   # Default module and action to be called when
 #    default_action:         index     # A routing rule doesn't set it
 #
@@ -105,7 +114,7 @@ all:
 #    standard_helpers:       [Partial, Cache, Form]
 #
 #    # Activated modules from plugins or from the symfony core
-#    enabled_modules:        [default]
+    enabled_modules:        [default, sfSelect2Widgets]
 #
 #    # Charset used for the response
 #    charset:                utf-8

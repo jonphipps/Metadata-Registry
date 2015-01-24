@@ -24,7 +24,7 @@ class sfPropelAdminGenerator extends sfPropelCrudGenerator
   /**
    * Initializes the current sfGenerator instance.
    *
-   * @param sfGeneratorManager A sfGeneratorManager instance
+   * @param sfGeneratorManager $generatorManager A sfGeneratorManager instance
    */
   public function initialize($generatorManager)
   {
@@ -36,8 +36,8 @@ class sfPropelAdminGenerator extends sfPropelCrudGenerator
   public function getAllColumns()
   {
     $phpNames = array();
-    foreach ($this->getTableMap()->getColumns() as $column)
-    {
+    /** @var Column $column */
+    foreach ($this->getTableMap()->getColumns() as $column) {
       $phpNames[] = new sfAdminColumn($column->getPhpName(), $column);
     }
 
