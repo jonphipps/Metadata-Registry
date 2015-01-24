@@ -1,0 +1,62 @@
+generator:
+  class:              sfPropelAdminGenerator
+  param:
+    model_class:      FileImportHistory
+    theme:            default
+
+    list:
+      title:          Import History
+      fields:
+        created_at:   { params: date_format='F' }
+      display:        [=id, created_at, user, vocabulary, schema, file_name]
+      sort:           [created_at, desc]
+      displayfilter:  false
+      filters:        [schema_id, created_at, user]
+      # urlfilter form is [field to filter on]: [value passed from routing.yml]
+      # multiple filters can be set but they're currently mutually exclusive (any of the list can be used but only one per url)
+      urlfilters:
+        schema_id:                  schema_id
+      actions:
+        _create:      { name: Import CSV,  credentials: [[administrator, schemaadmin]] }
+
+    edit:
+      title:
+        mode:
+          edit:       Editing %%name%%
+          create:     Creating new element set
+      helptype:       icon
+      fields:
+        id:           { credentials: [administrator], mode: edit }
+        agent_id:     { params: peer_method=getAgentsForCurrentUser}
+        token:        { params: onblur=updateUri() }
+        language:     { type: select_language_tag }
+      hide:           [base_domain]
+      display:
+        "-Metadata":  { fields: [id, created_at, created_user, updated_at, updated_user], mode: edit }
+        "Detail":     [agent_id, name]
+#        "Namespace":  [token, uri, ns_type]
+        "Namespace":  [token, uri]
+        "Documentation": [url, note, community]
+        "Defaults":   [status_id, language]
+      actions:
+        _list:         -
+        _save:         { credentials: [[administrator, hasAgents, schemamaintainer, schemaadmin]] }
+        _delete:       { credentials: [administrator] }
+        _create:       { credentials: [[administrator, hasAgents]], mode: edit }
+        _save_and_add: { credentials: [administrator] }
+        _cancel:       { credentials: [[administrator, hasAgents, schemamaintainer, schemaadmin]] }
+
+    show:
+      title:           Show detail for %%name%%
+      fields:
+        id:            { credentials: [administrator] }
+#        map:           { helper: auto_link_uri }
+#        results:       { helper: auto_link_text }
+        created_at:    { params: date_format='F' }
+      display:
+        "Detail":      [created_at, user]
+#        "Map":        [_map]
+        "Results":    [_results]
+      actions:
+        _list:
+        _edit:       { credentials: [[administrator, schemamaintainer, schemaadmin]] }

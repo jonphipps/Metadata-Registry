@@ -1,0 +1,6 @@
+all:
+  javascripts: [components/jquery/dist/jquery.min.js: { position: last }]
+
+# editSuccess:
+#   javascripts: [schema: { position: last }]
+
