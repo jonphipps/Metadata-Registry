@@ -12,7 +12,7 @@ class SchemaPropertyPeer extends BaseSchemaPropertyPeer
   /**
    * returns properties for the current schema
    *
-   * @return array of schema_property
+  * @return SchemaProperty[]
    */
   public static function getPropertiesByCurrentSchemaID()
   {

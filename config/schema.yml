@@ -266,7 +266,7 @@ propel:
       type: INTEGER
       required: true
       autoIncrement: true
-      index: unique
+      primaryKey: true
     created_at:
       type: TIMESTAMP
     updated_at:
@@ -299,6 +299,7 @@ propel:
       foreignReference: id
       onDelete: RESTRICT
       onUpdate: RESTRICT
+      index: true
     name:
       type: VARCHAR
       size: 255
@@ -316,6 +317,7 @@ propel:
     type:
       type: CHAR
       required: true
+      default: property
     uri:
       type: VARCHAR
       size: 255
@@ -335,6 +337,8 @@ propel:
     note:
       type: LONGVARCHAR
     display_order:
+      type: INTEGER
+    export_order: 
       type: INTEGER
     picklist_order:
       type: INTEGER
@@ -357,23 +361,13 @@ propel:
       type: BOOLEAN
       required: true
       default: 1
+    is_in_export: 
+      type: BOOLEAN
+      required: true
+      default: 1
     inverse_profile_property_id:
       type: INTEGER
       foreignTable: profile_property
-      foreignReference: id
-      onDelete: RESTRICT
-      onUpdate: RESTRICT
-      index: true
-    schema_property_id:
-      type: INTEGER
-      foreignTable: reg_schema_property
-      foreignReference: id
-      onDelete: RESTRICT
-      onUpdate: RESTRICT
-      index: true
-    schema_id:
-      type: INTEGER
-      foreignTable: reg_schema
       foreignReference: id
       onDelete: RESTRICT
       onUpdate: RESTRICT
@@ -407,8 +401,6 @@ propel:
       required: true
       default: 1
     _indexes:
-      profile_property_agent_id:
-        - profile_id
       profile_property_status_id:
         - status_id
       profile_property_updated_by:
@@ -1038,6 +1030,25 @@ propel:
       display_order:
         - type_id
         - display_order
+  reg_prefix: 
+    _attributes: 
+      phpName: Prefix
+    prefix: 
+      type: VARCHAR
+      size: 40
+      required: true
+      primaryKey: true
+    uri: 
+      type: VARCHAR
+      size: 256
+    rank: 
+      type: INTEGER
+      default: 0
+    _indexes: 
+      prefix_uri: 
+        - uri
+      prefix_rank: 
+        - rank
   reg_rdf_namespace:
     _attributes:
       phpName: RdfNamespace
@@ -1086,7 +1097,7 @@ propel:
       type: INTEGER
       required: true
       autoIncrement: true
-      index: unique
+      primaryKey: true
     agent_id:
       type: INTEGER
       required: true
@@ -1164,9 +1175,6 @@ propel:
       size: 6
       required: true
       default: en
-    languages:
-      type: LONGVARCHAR
-      required: true
     profile_id:
       type: INTEGER
       foreignTable: profile
@@ -1179,6 +1187,11 @@ propel:
       size: 6
       required: true
       default: slash
+    prefixes: 
+      type: LONGVARCHAR
+    languages:
+      type: LONGVARCHAR
+      required: true
     repo:
       type: VARCHAR
       size: 255
@@ -1348,6 +1361,10 @@ propel:
     _indexes:
       related_property_id:
         - related_schema_property_id
+      reg_schema_property_element_idx1: 
+        - object
+      reg_schema_property_element_idx2: 
+        - updated_at
   reg_schema_property_element_history:
     _attributes:
       phpName: SchemaPropertyElementHistory

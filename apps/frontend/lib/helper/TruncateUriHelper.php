@@ -63,7 +63,7 @@ function truncate_uri($text, $length = 30, $truncate_string = '...')
     }
     else
     {
-      $truncate_text = substr($text, -$length, $length);
+      $truncate_text = substr($truncate_text, -$length, $length);
     }
   }
   else

@@ -21,11 +21,11 @@ The most current complete Element Set may be retrieved from:
 
 -->
 <?php endif; ?>
-<!-- Element Set: <?php echo htmlspecialchars($schema->getName(), ENT_NOQUOTES, 'UTF-8'); ?> -->
+<!-- Element Set: <?php echo htmlspecialchars(html_entity_decode($schema->getName(), ENT_QUOTES | ENT_HTML5, 'UTF-8')); ?> -->
 <rdf:Description rdf:about="<?php echo $schema->getUri() ?>">
-  <dc:title xml:lang="<?php echo $schema->getLanguage();?>"><?php echo htmlspecialchars($schema->getName(), ENT_NOQUOTES, 'UTF-8'); ?></dc:title>
+  <dc:title xml:lang="<?php echo $schema->getLanguage();?>"><?php echo htmlspecialchars(html_entity_decode($schema->getName(), ENT_QUOTES | ENT_HTML5, 'UTF-8')); ?></dc:title>
 <?php if ($schema->getNote()): ?>
-  <skos:note  xml:lang="<?php echo $schema->getLanguage();?>"><?php echo htmlspecialchars($schema->getNote(), ENT_NOQUOTES, 'UTF-8'); ?></skos:note>
+  <skos:note  xml:lang="<?php echo $schema->getLanguage();?>"><?php echo htmlspecialchars(html_entity_decode($schema->getNote(), ENT_QUOTES | ENT_HTML5, 'UTF-8')); ?></skos:note>
 <?php endif; ?>
 <?php if ($schema->getUrl()): ?>
   <foaf:homepage rdf:resource="<?php echo htmlspecialchars($schema->getUrl()); ?>"/>

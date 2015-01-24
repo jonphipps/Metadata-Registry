@@ -59,7 +59,7 @@ class userActions extends autouserActions
       $referer = $this->getUser()->getAttribute  ('referer', '@homepage', 'sfRefererPlugin');
 
       //$this->getUser()->getAttributeHolder()->remove('referer');
-      if (preg_match('/add_user/', $referer)) {
+      if (preg_match('/add_user/', $referer) || preg_match('/password_request/', $referer)) {
         $this->redirect('@homepage');
       } else {
         $this->redirect($referer);

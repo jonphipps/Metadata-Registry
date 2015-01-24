@@ -125,9 +125,13 @@ class apiActions extends sfActions
     return(sfView::NONE);
   }
 
+  /**
+   * @return string
+   * @throws sfError404Exception
+   */
   public function executeGet()
   {
-    /** @var sfRequest **/
+    /** @var myWebRequest $request **/
     $request = $this->getRequest();
 
     $redir = $this->getRequestParameter('redir', false);
@@ -188,23 +192,23 @@ class apiActions extends sfActions
         switch ($module)
         {
           case 'html':
-            /** @var Concept **/
+            /** @var Concept $concept **/
             $concept = ConceptPeer::getConceptByUri($uri);
             $this->forward404Unless($concept);
-            $uri = $this->getRequest()->getUriPrefix() . "/concept/show/id/". $concept->getId() . ".html";
+            $uri = $request->getUriPrefix() . "/concept/show/id/". $concept->getId() . ".html";
             //redirect
             $this->redirectIf($redir, $uri, 303);
             //return the url
             return $this->renderText($uri);
             //forward
-            //$this->getRequest()->setParameter('vocabulary_id', $vocabulary->getId());
+            //$request->setParameter('vocabulary_id', $vocabulary->getId());
             //$this->forward('concept','list');
             break;
           case 'rdf':
             //redirect
             $this->redirectIf($redir, $uri . '.rdf', 303);
             //forward
-            $this->getRequest()->setParameter('type', 'api_uri');
+            $request->setParameter('type', 'api_uri');
             $this->forwardIf($uri, 'rdf', 'showConcept');
             break;
         }
@@ -214,40 +218,40 @@ class apiActions extends sfActions
         switch ($module)
         {
           case 'html':
-            /** @var Vocabulary **/
+            /** @var Vocabulary $vocabulary **/
             $vocabulary = VocabularyPeer::retrieveByUri($uri);
             $this->forward404Unless($vocabulary);
-            $uri = $this->getRequest()->getUriPrefix() . "/vocabulary/show/id/". $vocabulary->getId() . ".html";
+            $uri = $request->getUriPrefix() . "/vocabulary/show/id/". $vocabulary->getId() . ".html";
             //redirect
             $this->redirectIf($redir, $uri, 303);
             //return the url
             return $this->renderText($uri);
             //forward
-            //$this->getRequest()->setParameter('vocabulary_id', $vocabulary->getId());
+            //$request->setParameter('vocabulary_id', $vocabulary->getId());
             //$this->forward('concept','list');
             break;
           case 'rdf':
             //redirect
             $this->redirectIf($redir, $uri . '.rdf', 303);
             //forward
-            $this->getRequest()->setParameter('type', 'api_uri');
+            $request->setParameter('type', 'api_uri');
             $this->forwardIf($uri, 'rdf', 'showScheme');
             break;
           case 'xsd':
             //reset the type
-            $this->getRequest()->setParameter('type', 'api_uri');
+            $request->setParameter('type', 'api_uri');
             $this->forwardIf($uri, 'xml', 'showScheme');
             break;
         }
         break;
       case 'schema':
-        /** @var Schema **/
+        /** @var Schema $schema **/
         $schema = SchemaPeer::retrieveByUri($uri);
         $this->forward404Unless($schema);
         switch ($module)
         {
           case 'html':
-            $uri = $this->getRequest()->getUriPrefix() . "/schema/show/id/". $schema->getId() . ".html";
+            $uri = $request->getUriPrefix() . "/schema/show/id/". $schema->getId() . ".html";
             //redirect
             $this->redirectIf($redir, $uri, 303);
             //return the url
@@ -257,7 +261,7 @@ class apiActions extends sfActions
             //redirect
             $this->redirectIf($redir, $uri . '.rdf', 303);
             //forward
-            $this->getRequest()->setParameter('id', $schema->getId());
+            $request->setParameter('id', $schema->getId());
             $this->forwardIf($uri, 'schema', 'showRdf');
             break;
         }
@@ -270,7 +274,7 @@ class apiActions extends sfActions
         switch ($module)
         {
           case 'html':
-            $uri = $this->getRequest()->getUriPrefix() . "/schemaprop/show/id/". $property->getId() . ".html";
+            $uri = $request->getUriPrefix() . "/schemaprop/show/id/". $property->getId() . ".html";
             //redirect
             $this->redirectIf($redir, $uri, 303);
             //return the url
@@ -280,7 +284,7 @@ class apiActions extends sfActions
             //redirect
             $this->redirectIf($redir, $uri . '.rdf', 303);
             //forward
-            $this->getRequest()->setParameter('id', $property->getId());
+            $request->setParameter('id', $property->getId());
             $this->forwardIf($uri, 'schemaprop', 'showRdf');
             break;
         }
@@ -288,6 +292,7 @@ class apiActions extends sfActions
       default:
         $this->forward404();
     }
+    return(sfView::NONE);
   }
 
   public function executeError()

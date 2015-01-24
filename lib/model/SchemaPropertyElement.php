@@ -54,6 +54,8 @@ class SchemaPropertyElement extends BaseSchemaPropertyElement
       {
         $action = 'updated';
       }
+      $property = $this->getSchemaPropertyRelatedBySchemaPropertyId();
+      $property->setUpdatedAt($this->getUpdatedAt());
 
       //continue with save
       $affectedRows = parent::save($con);
@@ -160,9 +162,35 @@ class SchemaPropertyElement extends BaseSchemaPropertyElement
       return;
     }
 
-    $userId = $this->getUpdatedUserId();
     $schemaPropertyID = $this->getSchemaPropertyId();
 
+    //does the user have editorial rights to the reciprocal...
+    //get the schema_id of the reciprocal property
+    /** @var $user myUser */
+    $user       = sfContext::getInstance()->getUser();
+    $userId     = $user->getSubscriberId();
+    $permission = FALSE;
+    $c = new Criteria();
+    $c->add(SchemaPropertyPeer::ID, $relatedPropertyId);
+    $property = SchemaPropertyPeer::doSelectOne($c);
+    if ($property) {
+      $schemaId = $property->getSchemaId();
+      //does this user have the proper credentials?
+      $permission = $user->hasObjectCredential(
+        $schemaId,
+        'schema',
+        array(
+          0 => array(
+            0 => 'administrator',
+            1 => 'schemamaintainer',
+            2 => 'schemaadmin',
+          )
+        )
+      );
+    }
+    if (!$permission) {
+      return;
+    }
     $c = new Criteria();
     $c->add(SchemaPropertyElementPeer::SCHEMA_PROPERTY_ID, $relatedPropertyId);
     $c->add(SchemaPropertyElementPeer::PROFILE_PROPERTY_ID, $recipProfilePropertyId);

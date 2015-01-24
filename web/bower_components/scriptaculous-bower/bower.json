@@ -1,8 +1,0 @@
-{
-  "name": "scriptaculous-bower",
-  "version": "1.9.0",
-  "main": "scriptaculous.js",
-  "dependencies": {
-    "prototypejs-bower":  "git://github.com/plynchnlm/prototypejs-bower.git#1.7.0"
-  }
-}

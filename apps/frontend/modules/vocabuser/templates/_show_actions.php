@@ -14,6 +14,7 @@
         ),
       )
     )
+             && $vocabulary_has_user->getUserId() != $sf_user->getAttribute( 'subscriber_id', '', 'subscriber' )
   ): ?>
     <li class="float-left-show"><?php if ($vocabulary_has_user->getId()): ?>
         <?php echo button_to(

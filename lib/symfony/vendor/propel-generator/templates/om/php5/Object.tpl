@@ -334,7 +334,7 @@ foreach ($table->getColumns() as $col) {
 <?php   } else {
 		// NORMAL column
 ?>
-		if ($this-><?php echo $clo ?> !== $v<?php if ($defaultValue !== null) { ?><?php } ?>) {
+		if ($this-><?php echo $clo ?> !== $v<?php if ($defaultValue !== null) { ?> || $v === <?php echo $defaultValue ?><?php } ?>) {
 			$this-><?php echo $clo ?> = $v;
 			$this->modifiedColumns[] = <?php echo PeerBuilder::getColumnName($col, $table->getPhpName()) ?>;
 		}

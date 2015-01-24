@@ -573,7 +573,7 @@ EOF;
     }
 
     $vars = array();
-    /** @var $column sfAdminColumn */
+    /** @var sfAdminColumn $column */
     foreach ($this->getColumns('tmp.display') as $column) {
       if ($column->isLink()) {
         $vars[] = '\'%%' . $column->getName() . '%%\' => link_to(' . $this->getColumnListTag($column) . ', \'' .

@@ -3,6 +3,9 @@
 /**
  * concept actions.
  *
+ * @property \Vocabulary vocabulary
+ * @property \Concept concept
+ * @property integer vocabularyID
  * @package    registry
  * @subpackage concept
  * @author     Jon Phipps <jonphipps@gmail.com>
@@ -81,7 +84,9 @@ class conceptActions extends autoconceptActions
     if (!$vocabulary) //we have to do it the hard way
     {
       $this->concept = ConceptPeer::retrieveByPk($this->getRequestParameter('id'));
+      if (isset($this->concept)) {
       $vocabulary = $this->concept->getVocabulary();
+      }
     }
 
     $this->forward404Unless($vocabulary,'No vocabulary has been selected.');

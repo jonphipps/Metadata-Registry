@@ -28,6 +28,7 @@ use_helper('Form');
  * @param bool   $default_value Date default value
  *
  * @return string An html string which represents a date control.
+ *
  */
 function object_input_date_tag($object, $method, $options = array(), $default_value = null)
 {
@@ -47,6 +48,7 @@ function object_input_date_tag($object, $method, $options = array(), $default_va
  * @param bool   $default_value Textarea default value
  *
  * @return string An html string which represents a textarea tag.
+ *
  */
 function object_textarea_tag($object, $method, $options = array(), $default_value = null)
 {
@@ -113,6 +115,7 @@ function objects_for_select($options = array(), $value_method, $text_method = nu
  * @param bool   $default_value Input default value.
  *
  * @return string A list string which represents an input tag.
+ *
  */
 function object_select_tag($object, $method, $options = array(), $default_value = null) {
   $options = _parse_attributes($options);

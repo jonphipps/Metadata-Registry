@@ -73,7 +73,7 @@ function run_import_repair($task, $args)
     /** @var $history FileImportHistory */
     foreach ($batch as $history) {
         //get result array
-        $results = unserialize($history->getResults());
+        $results = $history->getResults();
         $rows = $results['success']['rows'];
         $userId = $history->getUserId();
         //for each row
@@ -340,7 +340,7 @@ function run_import_vocabulary($task, $args)
     $type          = strtolower($args[0]);
     $filePath      = $args[1];
     $vocabId       = $args[2];
-    $batchId       = $args[3];
+    $batchId       = isset($args[3]) ? $args[3] : "";
     $deleteMissing = (isset($args[4]) && ("-d" == $args[4]));
 
     //do some basic validity checks

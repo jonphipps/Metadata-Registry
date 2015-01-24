@@ -35,7 +35,7 @@ class sfPropelAdminGenerator extends sfPropelCrudGenerator
   public function getAllColumns()
   {
     $phpNames = array();
-    /** @var $column Column */
+    /** @var Column $column */
     foreach ($this->getTableMap()->getColumns() as $column) {
       $phpNames[] = new sfAdminColumn($column->getPhpName(), $column);
     }

@@ -38,6 +38,7 @@
   $topnav['schema']     ['History']    ['link'] = '/schemahistory/list?schema_id=';
 //  $topnav['schema']     ['Versions']   ['link'] = '/schemaversion/list?schema_id=';
   $topnav['schema']     ['Maintainers']['link'] = '/schemauser/list?schema_id=';
+$topnav['schema']     ['Import']     ['link'] = '/import/list?schema_id=';
   //$topnav['schema']     ['Discuss']    ['link'] = '/discuss/list?schema_id=';
   //schema properties
   $topnav['schemaprop'] ['Detail']     ['link'] = '/schemaprop/show?id=';
@@ -128,8 +129,10 @@
   $tabMap['schema']       ['list'] = array('tab' => 'schemalist',     'title' => 'List');
   $tabMap['schema']       ['show'] = array('tab' => 'schema',         'title' => 'Show Detail');
   $tabMap['schema']       ['publish'] = array('tab' => 'schema',         'title' => 'Publish');
+  $tabMap['import']        ['show'] = array('tab' => 'schema',      'title' => 'Show Detail');
   if ('schema' == $filter)
   {
+      $tabMap['import']        ['list'] = array('tab' => 'schema',      'title' => 'Import');
     $tabMap['discuss']       ['list'] = array('tab' => 'schema',      'title' => 'Discussion');
     $tabMap['schemahistory'] ['list'] = array('tab' => 'schema',      'title' => 'History of Changes');
     $tabMap['schemaversion'] ['list'] = array('tab' => 'schema',      'title' => 'List Versions');
@@ -530,7 +533,9 @@
           $user = UserPeer::retrieveByPK($id);
         }
       }
+      if ($user) {
       $objectId = $user->getID();
+      }
       break;
 
     case 'version':

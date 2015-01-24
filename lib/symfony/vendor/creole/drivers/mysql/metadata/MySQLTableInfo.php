@@ -176,10 +176,10 @@ class MySQLTableInfo extends TableInfo {
 
     // Yes, it is OK to hardcode this...this was the first version of MySQL
     // that supported foreign keys
-    if ($row[0] < '3.23.44') {
-       $this->fksLoaded = true;
-       return;
-    }
+//    if ($row[0] < '3.23.44') {
+//       $this->fksLoaded = true;
+//       return;
+//    }
 
     include_once 'creole/metadata/ForeignKeyInfo.php';
 

@@ -74,10 +74,10 @@ class ConceptPeer extends BaseConceptPeer
   * description
   *
   * @return return_type
-  * @param  var_type $var
   */
   public static function getConceptsByRelatedVocabID()
   {
+    /** @var ConceptProperty $conceptProperty */
      $conceptProperty = sfContext::getInstance()->getActionStack()->getLastEntry()->getActionInstance()->concept_property;
      if ($conceptProperty)
      {
@@ -99,9 +99,9 @@ class ConceptPeer extends BaseConceptPeer
   * gets concept by concept URI
   *
   * @return Concept
-  * @param  var_type $var
+   * @param $conceptUri
   */
-  public function getConceptByUri($conceptUri)
+  public static function getConceptByUri($conceptUri)
   {
     $c = new Criteria();
     $c->add(self::URI, $conceptUri);

@@ -18,9 +18,9 @@
  * @author     David Heinemeier Hansson
  * @version    SVN: $Id: FormHelper.php 23543 2009-11-03 08:19:42Z fabien $
  */
-  use Symfony\Component\Yaml\Parser;
+use Symfony\Component\Yaml\Parser;
 
-  /**
+/**
  * Returns a formatted set of <option> tags based on optional <i>$options</i> array variable.
  *
  * The options_for_select helper is usually called in conjunction with the select_tag helper, as it is relatively
@@ -57,47 +57,41 @@
  */
 function options_for_select($options = array(), $selected = '', $html_options = array())
 {
-  $html_options = _parse_attributes($html_options);
+    $html_options = _parse_attributes($html_options);
 
-  if (is_array($selected)) {
-    $selected = array_map('strval', array_values($selected));
-  }
-
-  $html = '';
-
-
-  if ($value = _get_option($html_options, 'include_custom')) {
-    if (preg_match('/^\[(.*),\s*(.*)\]$/', $value, $result)) {
-      $html .= content_tag('option', $result[2], array('value' => $result[1])) . "\n";
+    if (is_array($selected)) {
+        $selected = array_map('strval', array_values($selected));
     }
-    else {
-      $html .= content_tag('option', $value, array('value' => '')) . "\n";
+
+    $html = '';
+
+    if ($value = _get_option($html_options, 'include_custom')) {
+        if (preg_match('/^\[(.*),\s*(.*)\]$/', $value, $result)) {
+            $html .= content_tag('option', $result[2], array('value' => $result[1])) . "\n";
+        } else {
+            $html .= content_tag('option', $value, array('value' => '')) . "\n";
+        }
+    } else if (_get_option($html_options, 'include_blank')) {
+        $html .= content_tag('option', '', array('value' => '')) . "\n";
     }
-  }
-  else if (_get_option($html_options, 'include_blank')) {
-    $html .= content_tag('option', '', array('value' => '')) . "\n";
-  }
 
+    foreach ($options as $key => $value) {
+        if (is_array($value) || $value instanceof sfOutputEscaperArrayDecorator) {
+            $html .= content_tag('optgroup', options_for_select($value, $selected, $html_options), array('label' => $key)) . "\n";
+        } else {
+            $option_options = array('value' => $key);
 
-  foreach ($options as $key => $value) {
-    if (is_array($value) || $value instanceof sfOutputEscaperArrayDecorator) {
-      $html .= content_tag('optgroup', options_for_select($value, $selected, $html_options), array('label' => $key)) .
-               "\n";
-    } else {
-      $option_options = array('value' => $key);
+            if ((is_array($selected) && in_array(strval($key), $selected, true))) {
+                $option_options['selected'] = 'selected';
+            } elseif ($option_options['value'] == $selected) {
+                $option_options['selected'] = 'selected';
+            }
 
-      if ((is_array($selected) && in_array(strval($key), $selected, true))) {
-        $option_options['selected'] = 'selected';
-      }
-      elseif ($option_options['value'] == $selected){
-        $option_options['selected'] = 'selected';
-      }
-
-      $html .= content_tag('option', $value, $option_options) . "\n";
+            $html .= content_tag('option', $value, $option_options) . "\n";
+        }
     }
-  }
 
-  return $html;
+    return $html;
 }
 
 /**
@@ -121,20 +115,20 @@ function options_for_select($options = array(), $selected = '', $html_options = 
  */
 function form_tag($url_for_options = '', $options = array())
 {
-  $options = _parse_attributes($options);
+    $options = _parse_attributes($options);
 
-  $html_options = $options;
-  if (! isset($html_options['method'])) {
-    $html_options['method'] = 'post';
-  }
+    $html_options = $options;
+    if (!isset($html_options['method'])) {
+        $html_options['method'] = 'post';
+    }
 
-  if (_get_option($html_options, 'multipart')) {
-    $html_options['enctype'] = 'multipart/form-data';
-  }
+    if (_get_option($html_options, 'multipart')) {
+        $html_options['enctype'] = 'multipart/form-data';
+    }
 
-  $html_options['action'] = url_for($url_for_options);
+    $html_options['action'] = url_for($url_for_options);
 
-  return tag('form', $html_options, true);
+    return tag('form', $html_options, true);
 }
 
 /**
@@ -172,20 +166,16 @@ function form_tag($url_for_options = '', $options = array())
  */
 function select_tag($name, $option_tags = null, $options = array())
 {
-  $options = _convert_options($options);
-  $id      = $name;
-  if (isset($options['multiple']) && $options['multiple'] && substr($name, - 2) !== '[]') {
-    $name .= '[]';
-  }
-  if (is_array($option_tags)) {
-    $option_tags = options_for_select($option_tags);
-  }
+    $options = _convert_options($options);
+    $id = $name;
+    if (isset($options['multiple']) && $options['multiple'] && substr($name, -2) !== '[]') {
+        $name .= '[]';
+    }
+    if (is_array($option_tags)) {
+        $option_tags = options_for_select($option_tags);
+    }
 
-  return content_tag(
-      'select',
-      $option_tags,
-      array_merge(array('name' => $name, 'id' => get_id_from_name($id)), $options)
-  );
+    return content_tag('select', $option_tags, array_merge(array('name' => $name, 'id' => get_id_from_name($id)), $options));
 }
 
 /**
@@ -215,23 +205,23 @@ function select_tag($name, $option_tags = null, $options = array())
  */
 function select_country_tag($name, $selected = null, $options = array())
 {
-  $c         = new sfCultureInfo(sfContext::getInstance()->getUser()->getCulture());
-  $countries = $c->getCountries();
+    $c = new sfCultureInfo(sfContext::getInstance()->getUser()->getCulture());
+    $countries = $c->getCountries();
 
-  if ($country_option = _get_option($options, 'countries')) {
-    foreach ($countries as $key => $value) {
-      if (! in_array($key, $country_option)) {
-        unset($countries[$key]);
-      }
+    if ($country_option = _get_option($options, 'countries')) {
+        foreach ($countries as $key => $value) {
+            if (!in_array($key, $country_option)) {
+                unset($countries[$key]);
+            }
+        }
     }
-  }
 
-  asort($countries);
+    asort($countries);
 
-  $option_tags = options_for_select($countries, $selected, $options);
-  unset($options['include_blank'], $options['include_custom']);
+    $option_tags = options_for_select($countries, $selected, $options);
+    unset($options['include_blank'], $options['include_custom']);
 
-  return select_tag($name, $option_tags, $options);
+    return select_tag($name, $option_tags, $options);
 }
 
 /**
@@ -252,9 +242,9 @@ function select_country_tag($name, $selected = null, $options = array())
  *  echo select_language_tag('language', 'de');
  * </code>
  *
- * @param  string $name     field name
+ * @param  string $name field name
  * @param  string $selected field value (two or three character language/culture code)
- * @param  array  $options additional HTML compliant <select> tag parameters
+ * @param  array $options additional HTML compliant <select> tag parameters
  *                         options include:
  *                         'languages' a list of available languages
  *                         'include_blank' include empty prompt
@@ -267,23 +257,23 @@ function select_country_tag($name, $selected = null, $options = array())
  */
 function select_language_tag($name, $selected = null, $options = array())
 {
-  $c         = new sfCultureInfo(sfContext::getInstance()->getUser()->getCulture());
-  $languages = $c->getLanguages();
+    $c = new sfCultureInfo(sfContext::getInstance()->getUser()->getCulture());
+    $languages = $c->getLanguages();
 
-  if ($language_option = _get_option($options, 'languages')) {
-    foreach ($languages as $key => $value) {
-      if (! in_array($key, $language_option)) {
-        unset($languages[$key]);
-      }
+    if ($language_option = _get_option($options, 'languages')) {
+        foreach ($languages as $key => $value) {
+            if (!in_array($key, $language_option)) {
+                unset($languages[$key]);
+            }
+        }
     }
-  }
 
-  asort($languages);
+    asort($languages);
 
-  $option_tags = options_for_select($languages, $selected, $options);
-  unset($options['include_blank'], $options['include_custom'], $options['control_name'], $options['limitmethod']);
+    $option_tags = options_for_select($languages, $selected, $options);
+    unset($options['include_blank'], $options['include_custom'], $options['control_name'], $options['limitmethod']);
 
-  return select_tag($name, $option_tags, $options);
+    return select_tag($name, $option_tags, $options);
 }
 
 /**
@@ -309,13 +299,8 @@ function select_language_tag($name, $selected = null, $options = array())
  */
 function input_tag($name, $value = null, $options = array())
 {
-  return tag(
-      'input',
-      array_merge(
-          array('type' => 'text', 'name' => $name, 'id' => get_id_from_name($name, $value), 'value' => $value),
-          _convert_options($options)
-      )
-  );
+    return tag('input',
+      array_merge(array('type' => 'text', 'name' => $name, 'id' => get_id_from_name($name, $value), 'value' => $value), _convert_options($options)));
 }
 
 /**
@@ -338,10 +323,11 @@ function input_tag($name, $value = null, $options = array())
  */
 function input_hidden_tag($name, $value = null, $options = array())
 {
-  $options = _parse_attributes($options);
+    $options = _parse_attributes($options);
 
-  $options['type'] = 'hidden';
-  return input_tag($name, $value, $options);
+    $options['type'] = 'hidden';
+
+    return input_tag($name, $value, $options);
 }
 
 /**
@@ -367,10 +353,11 @@ function input_hidden_tag($name, $value = null, $options = array())
  */
 function input_file_tag($name, $options = array())
 {
-  $options = _parse_attributes($options);
+    $options = _parse_attributes($options);
 
-  $options['type'] = 'file';
-  return input_tag($name, null, $options);
+    $options['type'] = 'file';
+
+    return input_tag($name, null, $options);
 }
 
 /**
@@ -398,10 +385,11 @@ function input_file_tag($name, $options = array())
  */
 function input_password_tag($name = 'password', $value = null, $options = array())
 {
-  $options = _parse_attributes($options);
+    $options = _parse_attributes($options);
 
-  $options['type'] = 'password';
-  return input_tag($name, $value, $options);
+    $options['type'] = 'password';
+
+    return input_tag($name, $value, $options);
 }
 
 /**
@@ -432,55 +420,48 @@ function input_password_tag($name = 'password', $value = null, $options = array(
  */
 function textarea_tag($name, $content = null, $options = array())
 {
-  $options = _parse_attributes($options);
+    $options = _parse_attributes($options);
 
-  if ($size = _get_option($options, 'size')) {
-    list($options['cols'], $options['rows']) = explode('x', $size, 2);
-    if (0 == $options['cols'])
-    {
-      unset($options['cols']);
-    }
-  }
-
-  // rich control?
-  if ($rich = _get_option($options, 'rich', false)) {
-    if (true === $rich) {
-      $rich = sfConfig::get('sf_rich_text_editor_class', 'TinyMCE');
+    if ($size = _get_option($options, 'size')) {
+        list($options['cols'], $options['rows']) = explode('x', $size, 2);
+        if (0 == $options['cols']) {
+            unset($options['cols']);
+        }
     }
 
-    // switch for backward compatibility
-    switch ($rich) {
-      case 'tinymce':
-        $rich = 'TinyMCE';
-        break;
-      case 'fck':
-        $rich = 'FCK';
-        break;
+    // rich control?
+    if ($rich = _get_option($options, 'rich', false)) {
+        if (true === $rich) {
+            $rich = sfConfig::get('sf_rich_text_editor_class', 'TinyMCE');
+        }
+
+        // switch for backward compatibility
+        switch ($rich) {
+            case 'tinymce':
+                $rich = 'TinyMCE';
+                break;
+            case 'fck':
+                $rich = 'FCK';
+                break;
+        }
+
+        $editorClass = 'sfRichTextEditor' . $rich;
+
+        if (!class_exists($editorClass)) {
+            throw new sfConfigurationException(sprintf('The rich text editor "%s" does not exist.', $editorClass));
+        }
+
+        $sfEditor = new $editorClass();
+        if (!in_array('sfRichTextEditor', class_parents($sfEditor))) {
+            throw new sfConfigurationException(sprintf('The editor "%s" must extend sfRichTextEditor.', $editorClass));
+        }
+        $sfEditor->initialize($name, $content, $options);
+
+        return $sfEditor->toHTML();
     }
 
-    $editorClass = 'sfRichTextEditor' . $rich;
-
-    if (! class_exists($editorClass)) {
-      throw new sfConfigurationException(sprintf('The rich text editor "%s" does not exist.', $editorClass));
-    }
-
-    $sfEditor = new $editorClass();
-    if (! in_array('sfRichTextEditor', class_parents($sfEditor))) {
-      throw new sfConfigurationException(sprintf('The editor "%s" must extend sfRichTextEditor.', $editorClass));
-    }
-    $sfEditor->initialize($name, $content, $options);
-
-    return $sfEditor->toHTML();
-  }
-
-  return content_tag(
-      'textarea',
-      escape_once((is_object($content)) ? $content->__toString() : $content),
-      array_merge(
-          array('name' => $name, 'id' => get_id_from_name(_get_option($options, 'id', $name), null)),
-          _convert_options($options)
-      )
-  );
+    return content_tag('textarea', escape_once((is_object($content)) ? $content->__toString() : $content),
+      array_merge(array('name' => $name, 'id' => get_id_from_name(_get_option($options, 'id', $name), null)), _convert_options($options)));
 }
 
 /**
@@ -526,16 +507,14 @@ function textarea_tag($name, $content = null, $options = array())
  */
 function checkbox_tag($name, $value = '1', $checked = false, $options = array())
 {
-  $html_options = array_merge(
-      array('type' => 'checkbox', 'name' => $name, 'id' => get_id_from_name($name, $value), 'value' => $value),
-      _convert_options($options)
-  );
+    $html_options =
+      array_merge(array('type' => 'checkbox', 'name' => $name, 'id' => get_id_from_name($name, $value), 'value' => $value), _convert_options($options));
 
-  if ($checked) {
-    $html_options['checked'] = 'checked';
-  }
+    if ($checked) {
+        $html_options['checked'] = 'checked';
+    }
 
-  return tag('input', $html_options);
+    return tag('input', $html_options);
 }
 
 /**
@@ -556,16 +535,14 @@ function checkbox_tag($name, $value = '1', $checked = false, $options = array())
  */
 function radiobutton_tag($name, $value, $checked = false, $options = array())
 {
-  $html_options = array_merge(
-      array('type' => 'radio', 'name' => $name, 'id' => get_id_from_name($name . '[]', $value), 'value' => $value),
-      _convert_options($options)
-  );
+    $html_options =
+      array_merge(array('type' => 'radio', 'name' => $name, 'id' => get_id_from_name($name . '[]', $value), 'value' => $value), _convert_options($options));
 
-  if ($checked) {
-    $html_options['checked'] = 'checked';
-  }
+    if ($checked) {
+        $html_options['checked'] = 'checked';
+    }
 
-  return tag('input', $html_options);
+    return tag('input', $html_options);
 }
 
 /**
@@ -606,14 +583,14 @@ function radiobutton_tag($name, $value, $checked = false, $options = array())
  */
 function input_date_range_tag($name, $value, $options = array())
 {
-  $options = _parse_attributes($options);
+    $options = _parse_attributes($options);
 
-  $before = _get_option($options, 'before', '');
-  $middle = _get_option($options, 'middle', '');
-  $after  = _get_option($options, 'after', '');
+    $before = _get_option($options, 'before', '');
+    $middle = _get_option($options, 'middle', '');
+    $after = _get_option($options, 'after', '');
 
-  return $before . input_date_tag($name . '[from]', isset($value['from']) ? $value['from'] : null, $options) . $middle .
-         input_date_tag($name . '[to]', isset($value['to']) ? $value['to'] : null, $options) . $after;
+    return $before . input_date_tag($name . '[from]', isset($value['from']) ? $value['from'] : null, $options) . $middle . input_date_tag($name . '[to]',
+      isset($value['to']) ? $value['to'] : null, $options) . $after;
 }
 
 /**
@@ -643,88 +620,84 @@ function input_date_range_tag($name, $value, $options = array())
  */
 function input_date_tag($name, $value = null, $options = array())
 {
-  $options = _parse_attributes($options);
+    $options = _parse_attributes($options);
 
-  $context = sfContext::getInstance();
+    $context = sfContext::getInstance();
 
-  $culture = _get_option($options, 'culture', $context->getUser()->getCulture());
+    $culture = _get_option($options, 'culture', $context->getUser()->getCulture());
 
-  $withTime = _get_option($options, 'withtime', false);
+    $withTime = _get_option($options, 'withtime', false);
 
-  // rich control?
-  if (! _get_option($options, 'rich', false)) {
-    use_helper('DateForm');
+    // rich control?
+    if (!_get_option($options, 'rich', false)) {
+        use_helper('DateForm');
 
-    // set culture for month tag
-    $options['culture'] = $culture;
+        // set culture for month tag
+        $options['culture'] = $culture;
 
-    if ($withTime) {
-      return select_datetime_tag($name, $value, $options, isset($options['html']) ? $options['html'] : array());
-    } else {
-      return select_date_tag($name, $value, $options, isset($options['html']) ? $options['html'] : array());
+        if ($withTime) {
+            return select_datetime_tag($name, $value, $options, isset($options['html']) ? $options['html'] : array());
+        } else {
+            return select_date_tag($name, $value, $options, isset($options['html']) ? $options['html'] : array());
+        }
     }
-  }
 
-  $pattern = _get_option($options, 'format', $withTime ? 'g' : 'd');
+    $pattern = _get_option($options, 'format', $withTime ? 'g' : 'd');
 
-  $dateFormat = new sfDateFormat($culture);
+    $dateFormat = new sfDateFormat($culture);
 
-  $pattern = $dateFormat->getInputPattern($pattern);
+    $pattern = $dateFormat->getInputPattern($pattern);
 
-  // parse date
-  if ($value === null || $value === '') {
-    $value = '';
-  } else {
-    $value = $dateFormat->format($value, $pattern);
-  }
+    // parse date
+    if ($value === null || $value === '') {
+        $value = '';
+    } else {
+        $value = $dateFormat->format($value, $pattern);
+    }
 
-  // register our javascripts and stylesheets
-  $langFile = sfConfig::get('sf_calendar_web_dir') . '/lang/calendar-' . strtolower(substr($culture, 0, 2));
-  $jss      = array(
+    // register our javascripts and stylesheets
+    $langFile = sfConfig::get('sf_calendar_web_dir') . '/lang/calendar-' . strtolower(substr($culture, 0, 2));
+    $jss = array(
       sfConfig::get('sf_calendar_web_dir') . '/calendar',
-      is_readable(sfConfig::get('sf_symfony_data_dir') . '/web/' . $langFile . '.js') ||
-      is_readable(sfConfig::get('sf_web_dir') . '/' . $langFile . '.js') ? $langFile :
-          sfConfig::get('sf_calendar_web_dir') . '/lang/calendar-en',
+      is_readable(sfConfig::get('sf_symfony_data_dir') . '/web/' . $langFile . '.js') || is_readable(sfConfig::get('sf_web_dir') . '/' . $langFile . '.js') ?
+        $langFile : sfConfig::get('sf_calendar_web_dir') . '/lang/calendar-en',
       sfConfig::get('sf_calendar_web_dir') . '/calendar-setup',
-  );
-  foreach ($jss as $js) {
-    $context->getResponse()->addJavascript($js);
-  }
+    );
+    foreach ($jss as $js) {
+        $context->getResponse()->addJavascript($js);
+    }
 
-  // css
-  if ($calendar_style = _get_option($options, 'css', 'skins/aqua/theme')) {
-    $context->getResponse()->addStylesheet(sfConfig::get('sf_calendar_web_dir') . '/' . $calendar_style);
-  }
+    // css
+    if ($calendar_style = _get_option($options, 'css', 'skins/aqua/theme')) {
+        $context->getResponse()->addStylesheet(sfConfig::get('sf_calendar_web_dir') . '/' . $calendar_style);
+    }
 
-  // date format
-  $date_format = $dateFormat->getPattern($pattern);
+    // date format
+    $date_format = $dateFormat->getPattern($pattern);
 
-  // calendar date format
-  $calendar_date_format = $date_format;
-  $calendar_date_format = strtr(
-      $date_format,
-      array(
-          'yyyy' => 'Y',
-          'yy'   => 'y',
-          'MM'   => 'm',
-          'M'    => 'm',
-          'dd'   => 'd',
-          'd'    => 'e',
-          'HH'   => 'H',
-          'H'    => 'k',
-          'hh'   => 'I',
-          'h'    => 'l',
-          'mm'   => 'M',
-          'ss'   => 'S',
-          'a'    => 'p'
-      )
-  );
+    // calendar date format
+    $calendar_date_format = $date_format;
+    $calendar_date_format = strtr($date_format, array(
+      'yyyy' => 'Y',
+      'yy' => 'y',
+      'MM' => 'm',
+      'M' => 'm',
+      'dd' => 'd',
+      'd' => 'e',
+      'HH' => 'H',
+      'H' => 'k',
+      'hh' => 'I',
+      'h' => 'l',
+      'mm' => 'M',
+      'ss' => 'S',
+      'a' => 'p'
+    ));
 
-  $calendar_date_format = preg_replace('/([mdyhklspe])+/i', '%\\1', $calendar_date_format);
+    $calendar_date_format = preg_replace('/([mdyhklspe])+/i', '%\\1', $calendar_date_format);
 
-  $id_inputField     = isset($options['id']) ? $options['id'] : get_id_from_name($name);
-  $id_calendarButton = 'trigger_' . $id_inputField;
-  $js                = '
+    $id_inputField = isset($options['id']) ? $options['id'] : get_id_from_name($name);
+    $id_calendarButton = 'trigger_' . $id_inputField;
+    $js = '
     document.getElementById("' . $id_calendarButton . '").disabled = false;
     Calendar.setup({
       inputField : "' . $id_inputField . '",
@@ -732,58 +705,52 @@ function input_date_tag($name, $value = null, $options = array())
       daFormat : "' . $calendar_date_format . '",
       button : "' . $id_calendarButton . '"';
 
-  if ($withTime) {
-    $js .= ",\n showsTime : true";
-  }
+    if ($withTime) {
+        $js .= ",\n showsTime : true";
+    }
 
-  // calendar options
-  if ($calendar_options = _get_option($options, 'calendar_options')) {
-    $js .= ",\n" . $calendar_options;
-  }
+    // calendar options
+    if ($calendar_options = _get_option($options, 'calendar_options')) {
+        $js .= ",\n" . $calendar_options;
+    }
 
-  $js .= '
+    $js .= '
     });
   ';
 
-  // calendar button
-  $calendar_button      = '...';
-  $calendar_button_type = 'txt';
-  if ($calendar_button_img = _get_option($options, 'calendar_button_img')) {
-    $calendar_button      = $calendar_button_img;
-    $calendar_button_type = 'img';
-  } else if ($calendar_button_txt = _get_option($options, 'calendar_button_txt')) {
-    $calendar_button      = $calendar_button_txt;
+    // calendar button
+    $calendar_button = '...';
     $calendar_button_type = 'txt';
-  }
+    if ($calendar_button_img = _get_option($options, 'calendar_button_img')) {
+        $calendar_button = $calendar_button_img;
+        $calendar_button_type = 'img';
+    } else if ($calendar_button_txt = _get_option($options, 'calendar_button_txt')) {
+        $calendar_button = $calendar_button_txt;
+        $calendar_button_type = 'txt';
+    }
 
-  // construct html
-  if (! isset($options['size'])) {
-    // educated guess about the size
-    $options['size'] = strlen($date_format) + 2;
-  }
-  $html = input_tag($name, $value, $options);
+    // construct html
+    if (!isset($options['size'])) {
+        // educated guess about the size
+        $options['size'] = strlen($date_format) + 2;
+    }
+    $html = input_tag($name, $value, $options);
 
-  if ($calendar_button_type == 'img') {
-    $html .= image_tag(
-        $calendar_button,
-        array('id' => $id_calendarButton, 'style' => 'cursor: pointer; vertical-align: middle')
-    );
-  } else {
-    $html .= content_tag(
-        'button',
-        $calendar_button,
-        array('type' => 'button', 'disabled' => 'disabled', 'onclick' => 'return false', 'id' => $id_calendarButton)
-    );
-  }
+    if ($calendar_button_type == 'img') {
+        $html .= image_tag($calendar_button, array('id' => $id_calendarButton, 'style' => 'cursor: pointer; vertical-align: middle'));
+    } else {
+        $html .= content_tag('button', $calendar_button,
+          array('type' => 'button', 'disabled' => 'disabled', 'onclick' => 'return false', 'id' => $id_calendarButton));
+    }
 
-  if (_get_option($options, 'with_format')) {
-    $html .= '(' . $date_format . ')';
-  }
+    if (_get_option($options, 'with_format')) {
+        $html .= '(' . $date_format . ')';
+    }
 
-  // add javascript
-  $html .= content_tag('script', $js, array('type' => 'text/javascript'));
+    // add javascript
+    $html .= content_tag('script', $js, array('type' => 'text/javascript'));
 
-  return $html;
+    return $html;
 }
 
 /**
@@ -811,13 +778,8 @@ function input_date_tag($name, $value = null, $options = array())
  */
 function submit_tag($value = 'Save changes', $options = array())
 {
-  return tag(
-      'input',
-      array_merge(
-          array('type' => 'submit', 'name' => 'commit', 'value' => $value),
-          _convert_options_to_javascript(_convert_options($options))
-      )
-  );
+    return tag('input',
+      array_merge(array('type' => 'submit', 'name' => 'commit', 'value' => $value), _convert_options_to_javascript(_convert_options($options))));
 }
 
 /**
@@ -843,10 +805,7 @@ function submit_tag($value = 'Save changes', $options = array())
  */
 function reset_tag($value = 'Reset', $options = array())
 {
-  return tag(
-      'input',
-      array_merge(array('type' => 'reset', 'name' => 'reset', 'value' => $value), _convert_options($options))
-  );
+    return tag('input', array_merge(array('type' => 'reset', 'name' => 'reset', 'value' => $value), _convert_options($options)));
 }
 
 /**
@@ -875,21 +834,16 @@ function reset_tag($value = 'Reset', $options = array())
  */
 function submit_image_tag($source, $options = array())
 {
-  if (! isset($options['alt'])) {
-    $path_pos       = strrpos($source, '/');
-    $dot_pos        = strrpos($source, '.');
-    $begin          = $path_pos ? $path_pos + 1 : 0;
-    $nb_str         = ($dot_pos ? $dot_pos : strlen($source)) - $begin;
-    $options['alt'] = ucfirst(substr($source, $begin, $nb_str));
-  }
+    if (!isset($options['alt'])) {
+        $path_pos = strrpos($source, '/');
+        $dot_pos = strrpos($source, '.');
+        $begin = $path_pos ? $path_pos + 1 : 0;
+        $nb_str = ($dot_pos ? $dot_pos : strlen($source)) - $begin;
+        $options['alt'] = ucfirst(substr($source, $begin, $nb_str));
+    }
 
-  return tag(
-      'input',
-      array_merge(
-          array('type' => 'image', 'name' => 'commit', 'src' => image_path($source)),
-          _convert_options_to_javascript(_convert_options($options))
-      )
-  );
+    return tag('input',
+      array_merge(array('type' => 'image', 'name' => 'commit', 'src' => image_path($source)), _convert_options_to_javascript(_convert_options($options))));
 }
 
 /**
@@ -903,9 +857,9 @@ function submit_image_tag($source, $options = array())
  */
 function label_for($id, $label, $options = array())
 {
-  $options = _parse_attributes($options);
+    $options = _parse_attributes($options);
 
-  return content_tag('label', $label, array_merge(array('for' => get_id_from_name($id, null)), $options));
+    return content_tag('label', $label, array_merge(array('for' => get_id_from_name($id, null)), $options));
 }
 
 /**
@@ -932,13 +886,12 @@ function label_for($id, $label, $options = array())
  */
 function get_id_from_name($name, $value = null)
 {
-  // check to see if we have an array variable for a field name
-  if (strstr($name, '[')) {
-    $name =
-        str_replace(array('[]', '][', '[', ']'), array((($value != null) ? '_' . $value : ''), '_', '_', ''), $name);
-  }
+    // check to see if we have an array variable for a field name
+    if (strstr($name, '[')) {
+        $name = str_replace(array('[]', '][', '[', ']'), array((($value != null) ? '_' . $value : ''), '_', '_', ''), $name);
+    }
 
-  return $name;
+    return $name;
 }
 
 /**
@@ -950,26 +903,26 @@ function get_id_from_name($name, $value = null)
  */
 function _convert_options($options)
 {
-  $options = _parse_attributes($options);
+    $options = _parse_attributes($options);
 
-  foreach (array('disabled', 'readonly', 'multiple') as $attribute) {
-    if (array_key_exists($attribute, $options)) {
-      if ($options[$attribute]) {
-        $options[$attribute] = $attribute;
-      } else {
-        unset($options[$attribute]);
-      }
+    foreach (array('disabled', 'readonly', 'multiple') as $attribute) {
+        if (array_key_exists($attribute, $options)) {
+            if ($options[$attribute]) {
+                $options[$attribute] = $attribute;
+            } else {
+                unset($options[$attribute]);
+            }
+        }
     }
-  }
 
-  return $options;
+    return $options;
 }
 
 function _convert_include_custom_for_select($options, &$select_options)
 {
-  if (_get_option($options, 'include_blank')) {
-    $select_options[''] = '';
-  } else if ($include_custom = _get_option($options, 'include_custom')) {
-    $select_options[''] = $include_custom;
-  }
+    if (_get_option($options, 'include_blank')) {
+        $select_options[''] = '';
+    } else if ($include_custom = _get_option($options, 'include_custom')) {
+        $select_options[''] = $include_custom;
+    }
 }

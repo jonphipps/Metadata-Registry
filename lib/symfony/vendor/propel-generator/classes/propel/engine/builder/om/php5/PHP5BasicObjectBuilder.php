@@ -651,7 +651,9 @@ abstract class ".$this->getClassname()." extends ".ClassTools::classname($this->
 
 		$script .= "
 		if (\$this->$clo !== \$v";
-
+		if ($defaultValue !== null) {
+			$script .= " || \$v === $defaultValue";
+		}
 		$script .= ") {
 			\$this->$clo = \$v;
 			\$this->modifiedColumns[] = ".$this->getColumnConstant($col).";

@@ -7,8 +7,61 @@
  *
  * @package lib.model
  */
-class Schema extends BaseSchema
-{
+class Schema extends BaseSchema {
+
+    /**
+     * @param $foo
+     * @return array
+     */
+    protected static function buildColumnArray( $foo )
+    {
+        $bar = array();
+        if ( count( $foo ) )
+        {
+            foreach ( $foo as $value )
+            {
+                foreach ( $value as $key => $langArray )
+                {
+                    /** @var \ProfileProperty $profile */
+                    $profile                = ProfilePropertyPeer::retrieveByPK( $key );
+                    $order                  = $profile->getExportOrder();
+                    $bar[$order]['profile'] = $profile;
+                    $bar[$order]['id']      = $key;
+
+                    foreach ( $langArray as $lang => $count )
+                    {
+                        if ( $profile->getHasLanguage() )
+                        {
+                            if ( ! isset( $bar[$order]['languages'][$lang] ) )
+                            {
+                                $bar[$order]['languages'][$lang] = 1;
+                            }
+                            else if ( $bar[$order]['languages'][$lang] < $count )
+                            {
+                                $bar[$order]['languages'][$lang] = $count;
+                            }
+                        }
+                        else
+                        {
+                            if ( ! isset( $bar[$order]['count'] ) )
+                            {
+                                $bar[$order]['count'] = 1;
+                            }
+                            else if ( $bar[$order]['count'] < $count )
+                            {
+                                $bar[$order]['count'] = $count;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        ksort($bar, SORT_NUMERIC);
+        return $bar;
+    }
+
+
   /**
    * @return Status[]
    */
@@ -48,16 +101,6 @@ class Schema extends BaseSchema
    */
   public function setLexicalArray($lexicalUri, $targetUri, $code) {
     $this->lexicalArray[ $lexicalUri ] = array("targetUri" => $targetUri, "code" => $code);
-  }
-  /**
-   * Get the [languages] column value.
-   *
-   * @return     string
-   */
-  public function getLanguages()
-  {
-    //this deliberately returns the default language if languages is empty
-    return ($this->languages) ? unserialize($this->languages) : [$this->language];
   }
 
   /**
@@ -205,8 +248,11 @@ class Schema extends BaseSchema
    * @return array The fields
    */
   public static function getProfileFields() {
-    $properties = self::getProfileArray();
-    $fieldsNew  = array();
+        $c = new Criteria();
+        $c->add( ProfilePropertyPeer::PROFILE_ID, 1 );
+        $properties = ProfilePropertyPeer::doSelect( $c );
+        $fieldsNew  = array();
+        /** @var \ProfileProperty $property */
     foreach ($properties as $property) {
       $fieldsNew[ $property->getId() ] = sfInflector::underscore($property->getName());
     }
@@ -266,6 +312,131 @@ class Schema extends BaseSchema
 
     return $this->getSchemaPropertysJoinStatus($c);
   }
+
+    public function getPropertyElements( ){
+        $c = new Criteria();
+        $c->add(SchemaPropertyPeer::SCHEMA_ID, $this->getId());
+        $c->addAscendingOrderByColumn(SchemaPropertyPeer::URI);
+        return SchemaPropertyElementPeer::doSelectJoinSchemaPropertyRelatedBySchemaPropertyId($c);
+    }
+
+    public function findLanguages()
+    {
+        $c = new Criteria();
+        $c->add( SchemaPropertyPeer::SCHEMA_ID, $this->getId() );
+        $c->clearSelectColumns();
+        $c->addSelectColumn( BaseSchemaPropertyElementPeer::LANGUAGE );
+        $c->setDistinct();
+        $c->addJoin( SchemaPropertyElementPeer::SCHEMA_PROPERTY_ID, SchemaPropertyPeer::ID );
+
+        $foo     = array();
+        $results = SchemaPropertyElementPeer::doSelectRS( $c );
+        foreach ( $results as $result )
+        {
+            $foo[] = $result[0];
+        }
+
+        return $foo;
+    }
+
+    public function findUsedProfileProperties()
+    {
+        $c = new Criteria();
+        $c->add( SchemaPropertyPeer::SCHEMA_ID, $this->getId() );
+        $c->clearSelectColumns();
+        $c->addSelectColumn( SchemaPropertyElementPeer::SCHEMA_PROPERTY_ID );
+        $c->addSelectColumn( SchemaPropertyElementPeer::PROFILE_PROPERTY_ID );
+        $c->addSelectColumn( SchemaPropertyElementPeer::LANGUAGE );
+        $c->addAscendingOrderByColumn( SchemaPropertyElementPeer::SCHEMA_PROPERTY_ID );
+        $c->addJoin( SchemaPropertyElementPeer::SCHEMA_PROPERTY_ID, SchemaPropertyPeer::ID );
+
+        $foo     = array();
+        $results = SchemaPropertyElementPeer::doSelectRS( $c );
+        unset( $c );
+
+        foreach ( $results as $result )
+        {
+            if ( ! isset( $foo[$result[0]][$result[1]][$result[2]] ) )
+            {
+                $foo[$result[0]][$result[1]][$result[2]] = 1;
+            }
+            else
+            {
+                $foo[$result[0]][$result[1]][$result[2]] ++;
+            }
+        }
+
+        $bar = self::buildColumnArray( $foo );
+
+        return $bar;
+    }
+
+    public function getAllProfileProperties($forExport = false)
+    {
+        $foo = array();
+
+        $c = new Criteria();
+        $c->addAscendingOrderByColumn(ProfilePropertyPeer::EXPORT_ORDER);
+
+        if ( $forExport )
+        {
+            $c->add( ProfilePropertyPeer::IS_IN_EXPORT, true );
+        }
+        $results   = $this->getProfile()->getProfilePropertys($c);
+        $languages = $this->getLanguages();
+        /** @var \profileProperty $result */
+        foreach ( $results as $result )
+        {
+            foreach ( $languages as $language )
+            {
+                $foo[0][$result->getId()][$language] = 1;
+            }
+        }
+
+        $bar = self::buildColumnArray( $foo );
+
+        return $bar;
+    }
+
+    public function getPrefixes()
+    {
+        $v = parent::getPrefixes();
+        try
+        {
+            $n = unserialize( $v );
+        }
+        catch( Exception $e )
+        {
+            $n = $v;
+        }
+
+        return $n;
+    }
+
+    public function setPrefixes( $v )
+    {
+        parent::setPrefixes( serialize( $v ) );
+    }
+
+    public function getLanguages()
+    {
+        $languages = parent::getLanguages();
+        if ( empty( $languages ) )
+        {
+            $languages = [ $this->getLanguage() ];
+
+            if ( empty( $languages ) )
+            {
+                $languages = [ 'en' ];
+            }
+        }
+        else
+        {
+            $languages = unserialize( $languages );
+        }
+
+        return $languages;
+    }
 
   /**
    * @param SchemaProperty     $property
