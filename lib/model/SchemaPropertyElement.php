@@ -20,9 +20,16 @@ class SchemaPropertyElement extends BaseSchemaPropertyElement
   }
 
   /**
+   * @return int
+   */
+  public function getProfileOrder() {
+    return $this->getProfileProperty()->getDisplayOrder();
+  }
+
+  /**
    * description
    *
-   * @return int affected rows
+   * @return integer
    *
    * @param Connection $con
    * @param bool $reciprocal
@@ -83,6 +90,7 @@ class SchemaPropertyElement extends BaseSchemaPropertyElement
 
     return $affectedRows;
     }
+    return false;
   }
 
   /**
@@ -139,7 +147,6 @@ class SchemaPropertyElement extends BaseSchemaPropertyElement
    *
    * @throws Exception
    * @throws PropelException
-   * @internal param \SchemaPropertyElement $element
    */
   public function updateReciprocal($action, $con = null)
   {
@@ -196,6 +203,7 @@ class SchemaPropertyElement extends BaseSchemaPropertyElement
     $recipSchemaProperty = SchemaPropertyPeer::retrieveByPK($relatedPropertyId, $con);
 
     $recipProfileProperty = ProfilePropertyPeer::retrieveByPK($recipProfilePropertyId, $con);
+    $statusId = $this->getStatusId();
 
     if ($recipProfileProperty)
     {
@@ -214,7 +222,7 @@ class SchemaPropertyElement extends BaseSchemaPropertyElement
     if ('added' == $action && !$recipElement)
     {
       //add the reciprocal
-      $recipElement = SchemaPropertyElementPeer::createElement($recipSchemaProperty, $userId, $recipProfilePropertyId);
+      $recipElement = SchemaPropertyElementPeer::createElement($recipSchemaProperty, $userId, $recipProfilePropertyId, $statusId);
     }
 
     //if action == updated
@@ -224,7 +232,7 @@ class SchemaPropertyElement extends BaseSchemaPropertyElement
       if (!$recipElement)
       {
         //create a new one
-        $recipElement = SchemaPropertyElementPeer::createElement($recipSchemaProperty, $userId, $recipProfilePropertyId);
+        $recipElement = SchemaPropertyElementPeer::createElement($recipSchemaProperty, $userId, $recipProfilePropertyId, $statusId);
       }
     }
 

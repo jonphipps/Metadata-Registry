@@ -90,7 +90,10 @@ class SchemaPropertyPeer extends BaseSchemaPropertyPeer
    *
    * @param Criteria $c The Criteria object used to build the SELECT statement.
    * @param Connection $con
-   * @return SchemaProperty[]
+     *
+     * @return array Array of selected Objects
+     * @throws PropelException Any exceptions caught during processing will be
+     *     rethrown wrapped into a PropelException.
    */
    public static function doSelectSearchResults(Criteria $c, $con = null)
   {

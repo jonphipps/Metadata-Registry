@@ -7,17 +7,80 @@
  *
  * @package lib.model
  */
-class SchemaProperty extends BaseSchemaProperty
-{
+  class SchemaProperty extends BaseSchemaProperty {
+    /**
+     * @return string
+     */
+    public function getLexicalUri() {
+      $obj = $this->getCurrentSchemaPropertyI18n();
+      /** @var SchemaPropertyI18n $obj */
+      $uri = ($obj ? $obj->getLexicalUri() : NULL);
+      if (!$uri) {
+        //see if we can make one
+        //this should be the namespace + the token
+        $uri = $this->getSchema()->getUri() . $this->getName() . "." . $this->getCulture();
+      }
+      return $uri;
+    }
+    public function getLabelForSelect() {
+      return  $this->getName() . " (" . $this->getCulture()  . ") :: " . $this->getLabel()  . " -- " . $this->getUri() ;
+    }
+    public function hydrate(ResultSet $rs, $startcol = 1) {
+      $this->setCulture(sfContext::getInstance()->getUser()->getCulture());
+      return parent::hydrate($rs, $startcol);
+    }
+    public function getCurrentLanguage() {
+      $c = new sfCultureInfo(sfContext::getInstance()->getUser()->getCulture());
+      return $c->getNativeName();
+    }
   /**
+     * @return array
+     */
+    public function getLanguagesForSchema() {
+      return $this->getSchema()->getLanguages();
+    }
+    /**
+     * @return array
+     */
+    public function getLanguagesForUser() {
+      $schemaUser = $this->getSchemaForUser();
+      return $schemaUser->getLanguages();
+    }
+    /**
+     * @return string
+     */
+    public function getUserLanguage() {
+      $language   = '';
+      $schemaUser = $this->getSchemaForUser();
+      if ($schemaUser) {
+        $language = $schemaUser->getDefaultLanguage();
+      }
+      if (!$language) {
+        $language = sfContext::getInstance()->getUser()->getCulture();
+      }
+      return $language;
+    }
+    /**
+     * @return SchemaHasUser
+     */
+    public function getSchemaForUser() {
+      $schemaId = $this->getSchemaId();
+      $userId   = sfContext::getInstance()->getUser()->getSubscriberId();
+      $c        = new Criteria();
+      $c->add(SchemaHasUserPeer::SCHEMA_ID, $schemaId);
+      $c->add(SchemaHasUserPeer::USER_ID, $userId);
+      return SchemaHasUserPeer::doSelectOne($c);
+    }
+    /**
    * The value for the base schema uri field.
+     *
    * @var        string
    */
   protected $schemaUri = '';
 
   public function __toString()
   {
-    return $this->getLabel();
+      return (string) $this->getLabel();
   }
 
   /**
@@ -55,8 +118,10 @@ class SchemaProperty extends BaseSchemaProperty
   /**
   * clear the properties of the stored schema
   *
-  * @return return_type
-  * @param  var_type $var
+     * @return integer
+     *
+     * @param \Connection $con [optional]
+     *
   */
   public function save($con = null)
   {
@@ -74,6 +139,9 @@ class SchemaProperty extends BaseSchemaProperty
     return $affectedRows;
   }
 
+    public function getMyType() {
+      return $this->getType();
+    }
   /**
   * get the base schema uri
   *
@@ -87,6 +155,8 @@ class SchemaProperty extends BaseSchemaProperty
   /**
   * set the property base schema uri
   *
+     * @param string $v
+     *
   * @return string The uri of the schema
   */
   public function setSchemaUri($v)
@@ -107,18 +177,22 @@ class SchemaProperty extends BaseSchemaProperty
   *
   * @return string
   */
-  public function getIsSubclassOf()
-  {
+    public function getIsSubclassOf() {
+      if ("class" == $this->getType()) {
     return $this->getIsSubpropertyOf();
   }
 
+      return NULL;
+    }
   /**
   * Sets the subclass id
   *
   * @param      string $v new value
+     *
   * @return     void
   */
-  public function SetIsSubclassOf($v)
+    public function setIsSubclassOf($v) {
+      if ("class" == $this->getType())
   {
     $this->setIsSubpropertyOf($v);
   }
@@ -149,7 +223,11 @@ class SchemaProperty extends BaseSchemaProperty
   * overload schemaSave
   *
   * @return mixed
+     *
   * @param  integer $userId
+     *
+     * @throws Exception
+     * @throws PropelException
   */
   public function saveSchemaProperty($userId)
   {
@@ -362,9 +440,13 @@ class SchemaProperty extends BaseSchemaProperty
   /**
   * create a new element
   *
-  * @return SchemaPropertyElement
   * @param  SchemaPropertyElement $element
-  * @param  Connection $con
+     * @param integer               $userId
+     * @param                       $field
+     * @param string                $object
+     * @param \Connection           $con
+     *
+     * @return bool|\SchemaPropertyElement
   */
   public function updateElement(SchemaPropertyElement $element, $userId, $field, $object, $con)
   {
@@ -397,6 +479,7 @@ class SchemaProperty extends BaseSchemaProperty
   * gets the value of a field by name
   *
   * @return mixed
+     *
   * @param  string $field name to fetch
   */
   public function getFieldValue($field)

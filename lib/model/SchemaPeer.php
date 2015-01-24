@@ -13,8 +13,10 @@ class SchemaPeer extends BaseSchemaPeer
   /**
   * description
   *
-  * @return return_type
-  * @param  var_type $var
+     * @return Schema
+     *
+     * @param string $uri
+     *
   */
   public static function  retrieveByUri($uri)
   {
@@ -76,15 +78,16 @@ class SchemaPeer extends BaseSchemaPeer
   /**
   * description
   *
-  * @return return_type
+     * @return int
+     *
   * @param  integer $v Schema Id to lookup
   */
   public static function getNextSchemaPropertyId($v)
   {
     //lookup the schema
     $schema = SchemaPeer::retrieveByPK($v);
-    if ($schema)
-    {
+      $nextId = NULL;
+      if ($schema) {
       //get the last id
       $lastId = $schema->getLastUriId();
       //increment it by one and set the last_id
@@ -128,7 +131,9 @@ class SchemaPeer extends BaseSchemaPeer
   *
   * gets an array of Schema objects related to a domain
   *
-  * @return Agent
+     * @param string $domain
+     *
+     * @return Schema[]
   */
   public static function getSchemasForDomain($domain)
   {
@@ -148,6 +153,9 @@ class SchemaPeer extends BaseSchemaPeer
   *
   * gets the last update, either of the schema or the history
   *
+     * @param int $id
+     *
+     * @throws PropelException
   * @return integer
   */
   public static function getLastUpdateDate($id)
@@ -166,11 +174,14 @@ class SchemaPeer extends BaseSchemaPeer
   /**
   * gets the property count
   *
+     * @param int $id
+     *
   * @return integer
   */
   public static function getPropertyCount($id)
   {
     $schema = self::retrieveByPK($id);
+      $result = 0;
     if ($schema)
     {
     $result = $schema->countSchemaPropertys();
