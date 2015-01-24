@@ -38,6 +38,7 @@
   $topnav['schema']     ['History']    ['link'] = '/schemahistory/list?schema_id=';
 //  $topnav['schema']     ['Versions']   ['link'] = '/schemaversion/list?schema_id=';
   $topnav['schema']     ['Maintainers']['link'] = '/schemauser/list?schema_id=';
+$topnav['schema']     ['Import']     ['link'] = '/import/list?schema_id=';
   //$topnav['schema']     ['Discuss']    ['link'] = '/discuss/list?schema_id=';
   //schema properties
   $topnav['schemaprop'] ['Detail']     ['link'] = '/schemaprop/show?id=';
@@ -127,8 +128,11 @@
 
   $tabMap['schema']       ['list'] = array('tab' => 'schemalist',     'title' => 'List');
   $tabMap['schema']       ['show'] = array('tab' => 'schema',         'title' => 'Show Detail');
+  $tabMap['schema']       ['publish'] = array('tab' => 'schema',         'title' => 'Publish');
+  $tabMap['import']        ['show'] = array('tab' => 'schema',      'title' => 'Show Detail');
   if ('schema' == $filter)
   {
+      $tabMap['import']        ['list'] = array('tab' => 'schema',      'title' => 'Import');
     $tabMap['discuss']       ['list'] = array('tab' => 'schema',      'title' => 'Discussion');
     $tabMap['schemahistory'] ['list'] = array('tab' => 'schema',      'title' => 'History of Changes');
     $tabMap['schemaversion'] ['list'] = array('tab' => 'schema',      'title' => 'List Versions');
@@ -250,7 +254,7 @@
           $agent = AgentPeer::retrieveByPK($id);
         }
       }
-      $objectId = $agent->getID();
+      $objectId = ($agent) ? $agent->getID() : "";
       break;
     case 'agentuser':
       $showBc = true;
@@ -289,7 +293,7 @@
       $showSchemaBc = true;
       if (!isset($schema))
       {
-        $id = ('show' == $action) ? $sf_params->get('id') : $paramId;
+        $id = ('show' == $action || 'publish' == $action) ? $sf_params->get('id') : $paramId;
         if ($id)
         {
           $schema = SchemaPeer::retrieveByPK($id);
@@ -925,7 +929,7 @@
 <?php endif;
 
 //set the meta title
-  $title = ltrim($title,': ');
+  $title = ($title) ? ltrim($title,': ') : "";
   $metaAction = rtrim ($metaAction);
   $sf_context->getResponse()->setTitle(sfConfig::get('app_title_prefix') . $title . $metaAction);
 
