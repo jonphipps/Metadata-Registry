@@ -763,6 +763,10 @@ propel:
       onDelete: RESTRICT
       onUpdate: RESTRICT
       index: true
+    is_concept_property:
+      type: BOOLEAN
+      required: true
+      default: 0
   reg_concept_property_history: 
     _attributes: 
       phpName: ConceptPropertyHistory
@@ -978,7 +982,8 @@ propel:
       type: VARCHAR
       size: 255
     file_type: 
-      type: INTEGER
+      type: VARCHAR
+      size: 10
     batch_id: 
       type: INTEGER
       foreignTable: reg_batch
@@ -1173,10 +1178,12 @@ propel:
       type: LONGVARCHAR
     languages: 
       type: LONGVARCHAR
+      required: true
     repo: 
       type: VARCHAR
       size: 255
       required: true
+      default: ''
     _indexes: 
       last_updated_by_user_id: 
         - updated_user_id
@@ -1253,6 +1260,11 @@ propel:
       type: VARCHAR
       size: 255
       required: true
+      default: ''
+    url:
+      type: VARCHAR
+      size: 255
+      required: false
       default: ''
     status_id: 
       type: INTEGER
@@ -1453,11 +1465,13 @@ propel:
       size: 255
       required: true
       default: ''
+      index: unique
     uri: 
       type: VARCHAR
       size: 255
       required: true
       default: ''
+      index: unique
     object_type: 
       type: CHAR
       required: true
@@ -1572,6 +1586,10 @@ propel:
     password: 
       type: VARCHAR
       size: 40
+    culture:
+      type: VARCHAR
+      size: 7
+      default: en_US
     _indexes: 
       id: 
         - id
@@ -1667,6 +1685,21 @@ propel:
       size: 6
       required: true
       default: en
+    languages:
+      type: LONGVARCHAR
+      required: true
+    profile_id:
+      type: INTEGER
+      foreignTable: profile
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
+      index: true
+    ns_type:
+      type: CHAR
+      size: 6
+      required: true
+      default: slash
     _indexes: 
       last_updated_by_user_id: 
         - updated_user_id
@@ -1715,6 +1748,17 @@ propel:
     is_admin_for: 
       type: BOOLEAN
       default: 1
+    languages:
+      type: LONGVARCHAR
+      required: true
+    default_language:
+      type: CHAR
+      size: 6
+      default: en
+    current_language:
+      type: CHAR
+      size: 6
+      default: en
     _uniques: 
       resource_user_id: 
         - vocabulary_id
@@ -1803,6 +1847,17 @@ propel:
     is_admin_for: 
       type: BOOLEAN
       default: 1
+    languages:
+      type: LONGVARCHAR
+      required: true
+    default_language:
+      type: CHAR
+      size: 6
+      required: true
+      default: en
+    current_language:
+      type: CHAR
+      size: 6
   schema_has_version: 
     _attributes: 
       phpName: SchemaHasVersion
