@@ -12,10 +12,12 @@ generator:
         name:         Date Created
         help:         This is the date the Property was created
         type:         plain
+        class:        date
       updated_at:
         name:         Last Updated
         help:         This is the date the Property was last updated
         type:         plain
+        class:        date
       created_user:
         name:         Created by
         help:         This is the user who created this Property

@@ -298,10 +298,7 @@ abstract class sfAdminGenerator extends sfCrudGenerator
    */
   public function getColumnEditTag($column, $params = array())
   {
-    // user defined parameters
-    $user_params = $this->getParameterValue('edit.fields.'.$column->getName().'.params');
-    $user_params = is_array($user_params) ? $user_params : sfToolkit::stringToArray($user_params);
-    $params      = $user_params ? array_merge($params, $user_params) : $params;
+    $params = $this->getParams( $column, $params, 'edit' );
 
     if ($column->isComponent())
     {
@@ -739,9 +736,7 @@ EOF;
    */
   public function getColumnTag($column, $params = array(), $action = 'list')
   {
-    $user_params = $this->getParameterValue($action.'.fields.'.$column->getName().'.params');
-    $user_params = is_array($user_params) ? $user_params : sfToolkit::stringToArray($user_params);
-    $params      = $user_params ? array_merge($params, $user_params) : $params;
+    $params = $this->getParams( $column, $params, $action );
 
     $type = $column->getCreoleType();
 
@@ -878,6 +873,38 @@ EOF;
   {
     return preg_replace('/\'/', '\\\'', $string);
   }
+
+  /**
+   * @param $column
+   * @param $params
+   * @param $action
+   * @return array
+   */
+  private function getParams( $column, $params, $action )
+  {
+    $user_params = $this->getParameterValue( $action . '.fields.' . $column->getName() . '.params' );
+    $user_params = is_array( $user_params ) ? $user_params : sfToolkit::stringToArray( $user_params );
+    $params = $user_params ? array_merge( $params, $user_params ) : $params;
+
+    return $params;
+  }
+
+  /**
+   * adds a class to a tag if it's set in the field params
+   * @param string $tag
+   * @param sfAdminColumn $column
+   * @param $params
+   * @param $action
+   * @return string
+   */
+  public function getClass( $tag, $column, $action )
+  {
+    $classParam = $this->getParameterValue($action.'.fields.'.$column->getName().'.class');
+    $class = $classParam  ? ' class="' . $classParam . '" ' : '';
+
+    return "<$tag$class>";
+  }
+
 }
 
 /**
