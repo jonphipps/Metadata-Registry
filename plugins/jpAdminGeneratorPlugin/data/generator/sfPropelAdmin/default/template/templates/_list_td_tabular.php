@@ -1,5 +1,7 @@
-<?php $hs = $this->getParameterValue('list.hide', array()) ?>
-<?php foreach ($this->getColumns('list.display') as $column): ?>
+<?php /** @var sfAdminGenerator $this */
+$hs = $this->getParameterValue('list.hide', array()) ?>
+<?php /** @var sfAdminColumn $column */
+foreach ($this->getColumns('list.display') as $column): ?>
 <?php if (in_array($column->getName(), $hs)) continue ?>
 <?php $condition = $this->getParameterValue('list.fields.'.$column->getName().'.condition') ?>
 <?php if ($condition): ?>
