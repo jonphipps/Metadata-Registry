@@ -763,7 +763,7 @@ propel:
       onDelete: RESTRICT
       onUpdate: RESTRICT
       index: true
-    is_concept_property:
+    is_concept_property: 
       type: BOOLEAN
       required: true
       default: 0
@@ -1178,12 +1178,10 @@ propel:
       type: LONGVARCHAR
     languages: 
       type: LONGVARCHAR
-      required: true
     repo: 
       type: VARCHAR
       size: 255
       required: true
-      default: ''
     _indexes: 
       last_updated_by_user_id: 
         - updated_user_id
@@ -1261,10 +1259,9 @@ propel:
       size: 255
       required: true
       default: ''
-    url:
+    url: 
       type: VARCHAR
       size: 255
-      required: false
       default: ''
     status_id: 
       type: INTEGER
@@ -1465,13 +1462,11 @@ propel:
       size: 255
       required: true
       default: ''
-      index: unique
     uri: 
       type: VARCHAR
       size: 255
       required: true
       default: ''
-      index: unique
     object_type: 
       type: CHAR
       required: true
@@ -1586,7 +1581,7 @@ propel:
     password: 
       type: VARCHAR
       size: 40
-    culture:
+    culture: 
       type: VARCHAR
       size: 7
       default: en_US
@@ -1685,19 +1680,17 @@ propel:
       size: 6
       required: true
       default: en
-    languages:
+    languages: 
       type: LONGVARCHAR
-      required: true
-    profile_id:
+    profile_id: 
       type: INTEGER
       foreignTable: profile
       foreignReference: id
       onDelete: RESTRICT
       onUpdate: RESTRICT
       index: true
-    ns_type:
+    ns_type: 
       type: CHAR
-      size: 6
       required: true
       default: slash
     _indexes: 
@@ -1748,14 +1741,13 @@ propel:
     is_admin_for: 
       type: BOOLEAN
       default: 1
-    languages:
+    languages: 
       type: LONGVARCHAR
-      required: true
-    default_language:
+    default_language: 
       type: CHAR
       size: 6
       default: en
-    current_language:
+    current_language: 
       type: CHAR
       size: 6
       default: en
@@ -1847,15 +1839,14 @@ propel:
     is_admin_for: 
       type: BOOLEAN
       default: 1
-    languages:
+    languages: 
       type: LONGVARCHAR
-      required: true
-    default_language:
+    default_language: 
       type: CHAR
       size: 6
       required: true
       default: en
-    current_language:
+    current_language: 
       type: CHAR
       size: 6
   schema_has_version: 

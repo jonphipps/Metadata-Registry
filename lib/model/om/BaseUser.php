@@ -130,6 +130,13 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	 */
 	protected $password;
 
+
+	/**
+	 * The value for the culture field.
+	 * @var        string
+	 */
+	protected $culture = 'en_US';
+
 	/**
 	 * Collection to store aggregation of collProfilesRelatedByCreatedBy.
 	 * @var        array
@@ -765,6 +772,17 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	}
 
 	/**
+	 * Get the [culture] column value.
+	 * 
+	 * @return     string
+	 */
+	public function getCulture()
+	{
+
+		return $this->culture;
+	}
+
+	/**
 	 * Set the value of [id] column.
 	 * 
 	 * @param      int $v new value
@@ -1105,6 +1123,28 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	} // setPassword()
 
 	/**
+	 * Set the value of [culture] column.
+	 * 
+	 * @param      string $v new value
+	 * @return     void
+	 */
+	public function setCulture($v)
+	{
+
+		// Since the native PHP type for this column is string,
+		// we will cast the input to a string (if it is not).
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->culture !== $v || $v === 'en_US') {
+			$this->culture = $v;
+			$this->modifiedColumns[] = UserPeer::CULTURE;
+		}
+
+	} // setCulture()
+
+	/**
 	 * Hydrates (populates) the object variables with values from the database resultset.
 	 *
 	 * An offset (1-based "start column") is specified so that objects can be hydrated
@@ -1153,12 +1193,14 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 			$this->password = $rs->getString($startcol + 15);
 
+			$this->culture = $rs->getString($startcol + 16);
+
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 16; // 16 = UserPeer::NUM_COLUMNS - UserPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 17; // 17 = UserPeer::NUM_COLUMNS - UserPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating User object", $e);
@@ -1961,6 +2003,9 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 			case 15:
 				return $this->getPassword();
 				break;
+			case 16:
+				return $this->getCulture();
+				break;
 			default:
 				return null;
 				break;
@@ -1997,6 +2042,7 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 			$keys[13] => $this->getIsAdministrator(),
 			$keys[14] => $this->getDeletions(),
 			$keys[15] => $this->getPassword(),
+			$keys[16] => $this->getCulture(),
 		);
 		return $result;
 	}
@@ -2076,6 +2122,9 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 			case 15:
 				$this->setPassword($value);
 				break;
+			case 16:
+				$this->setCulture($value);
+				break;
 		} // switch()
 	}
 
@@ -2115,6 +2164,7 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[13], $arr)) $this->setIsAdministrator($arr[$keys[13]]);
 		if (array_key_exists($keys[14], $arr)) $this->setDeletions($arr[$keys[14]]);
 		if (array_key_exists($keys[15], $arr)) $this->setPassword($arr[$keys[15]]);
+		if (array_key_exists($keys[16], $arr)) $this->setCulture($arr[$keys[16]]);
 	}
 
 	/**
@@ -2142,6 +2192,7 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(UserPeer::IS_ADMINISTRATOR)) $criteria->add(UserPeer::IS_ADMINISTRATOR, $this->is_administrator);
 		if ($this->isColumnModified(UserPeer::DELETIONS)) $criteria->add(UserPeer::DELETIONS, $this->deletions);
 		if ($this->isColumnModified(UserPeer::PASSWORD)) $criteria->add(UserPeer::PASSWORD, $this->password);
+		if ($this->isColumnModified(UserPeer::CULTURE)) $criteria->add(UserPeer::CULTURE, $this->culture);
 
 		return $criteria;
 	}
@@ -2225,6 +2276,8 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		$copyObj->setDeletions($this->deletions);
 
 		$copyObj->setPassword($this->password);
+
+		$copyObj->setCulture($this->culture);
 
 
 		if ($deepCopy) {
@@ -9697,6 +9750,55 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		return $this->collVocabularysRelatedByCreatedUserId;
 	}
 
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this User is new, it will return
+	 * an empty collection; or if this User has previously
+	 * been saved, it will retrieve related VocabularysRelatedByCreatedUserId from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in User.
+	 */
+	public function getVocabularysRelatedByCreatedUserIdJoinProfile($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseVocabularyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collVocabularysRelatedByCreatedUserId === null) {
+			if ($this->isNew()) {
+				$this->collVocabularysRelatedByCreatedUserId = array();
+			} else {
+
+				$criteria->add(VocabularyPeer::CREATED_USER_ID, $this->getId());
+
+				$this->collVocabularysRelatedByCreatedUserId = VocabularyPeer::doSelectJoinProfile($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(VocabularyPeer::CREATED_USER_ID, $this->getId());
+
+			if (!isset($this->lastVocabularyRelatedByCreatedUserIdCriteria) || !$this->lastVocabularyRelatedByCreatedUserIdCriteria->equals($criteria)) {
+				$this->collVocabularysRelatedByCreatedUserId = VocabularyPeer::doSelectJoinProfile($criteria, $con);
+			}
+		}
+		$this->lastVocabularyRelatedByCreatedUserIdCriteria = $criteria;
+
+		return $this->collVocabularysRelatedByCreatedUserId;
+	}
+
 	/**
 	 * Temporary storage of collVocabularysRelatedByUpdatedUserId to save a possible db hit in
 	 * the event objects are add to the collection, but the
@@ -9902,6 +10004,55 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		return $this->collVocabularysRelatedByUpdatedUserId;
 	}
 
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this User is new, it will return
+	 * an empty collection; or if this User has previously
+	 * been saved, it will retrieve related VocabularysRelatedByUpdatedUserId from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in User.
+	 */
+	public function getVocabularysRelatedByUpdatedUserIdJoinProfile($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseVocabularyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collVocabularysRelatedByUpdatedUserId === null) {
+			if ($this->isNew()) {
+				$this->collVocabularysRelatedByUpdatedUserId = array();
+			} else {
+
+				$criteria->add(VocabularyPeer::UPDATED_USER_ID, $this->getId());
+
+				$this->collVocabularysRelatedByUpdatedUserId = VocabularyPeer::doSelectJoinProfile($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(VocabularyPeer::UPDATED_USER_ID, $this->getId());
+
+			if (!isset($this->lastVocabularyRelatedByUpdatedUserIdCriteria) || !$this->lastVocabularyRelatedByUpdatedUserIdCriteria->equals($criteria)) {
+				$this->collVocabularysRelatedByUpdatedUserId = VocabularyPeer::doSelectJoinProfile($criteria, $con);
+			}
+		}
+		$this->lastVocabularyRelatedByUpdatedUserIdCriteria = $criteria;
+
+		return $this->collVocabularysRelatedByUpdatedUserId;
+	}
+
 	/**
 	 * Temporary storage of collVocabularysRelatedByChildUpdatedUserId to save a possible db hit in
 	 * the event objects are add to the collection, but the
@@ -10100,6 +10251,55 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 			if (!isset($this->lastVocabularyRelatedByChildUpdatedUserIdCriteria) || !$this->lastVocabularyRelatedByChildUpdatedUserIdCriteria->equals($criteria)) {
 				$this->collVocabularysRelatedByChildUpdatedUserId = VocabularyPeer::doSelectJoinStatus($criteria, $con);
+			}
+		}
+		$this->lastVocabularyRelatedByChildUpdatedUserIdCriteria = $criteria;
+
+		return $this->collVocabularysRelatedByChildUpdatedUserId;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this User is new, it will return
+	 * an empty collection; or if this User has previously
+	 * been saved, it will retrieve related VocabularysRelatedByChildUpdatedUserId from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in User.
+	 */
+	public function getVocabularysRelatedByChildUpdatedUserIdJoinProfile($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseVocabularyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collVocabularysRelatedByChildUpdatedUserId === null) {
+			if ($this->isNew()) {
+				$this->collVocabularysRelatedByChildUpdatedUserId = array();
+			} else {
+
+				$criteria->add(VocabularyPeer::CHILD_UPDATED_USER_ID, $this->getId());
+
+				$this->collVocabularysRelatedByChildUpdatedUserId = VocabularyPeer::doSelectJoinProfile($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(VocabularyPeer::CHILD_UPDATED_USER_ID, $this->getId());
+
+			if (!isset($this->lastVocabularyRelatedByChildUpdatedUserIdCriteria) || !$this->lastVocabularyRelatedByChildUpdatedUserIdCriteria->equals($criteria)) {
+				$this->collVocabularysRelatedByChildUpdatedUserId = VocabularyPeer::doSelectJoinProfile($criteria, $con);
 			}
 		}
 		$this->lastVocabularyRelatedByChildUpdatedUserIdCriteria = $criteria;

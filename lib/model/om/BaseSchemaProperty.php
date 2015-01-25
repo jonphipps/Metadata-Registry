@@ -125,6 +125,13 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 
 	/**
+	 * The value for the url field.
+	 * @var        string
+	 */
+	protected $url = '';
+
+
+	/**
 	 * The value for the status_id field.
 	 * @var        int
 	 */
@@ -499,6 +506,17 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 	{
 
 		return $this->uri;
+	}
+
+	/**
+	 * Get the [url] column value.
+	 * 
+	 * @return     string
+	 */
+	public function getUrl()
+	{
+
+		return $this->url;
 	}
 
 	/**
@@ -920,6 +938,28 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 	} // setUri()
 
 	/**
+	 * Set the value of [url] column.
+	 * 
+	 * @param      string $v new value
+	 * @return     void
+	 */
+	public function setUrl($v)
+	{
+
+		// Since the native PHP type for this column is string,
+		// we will cast the input to a string (if it is not).
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->url !== $v || $v === '') {
+			$this->url = $v;
+			$this->modifiedColumns[] = SchemaPropertyPeer::URL;
+		}
+
+	} // setUrl()
+
+	/**
 	 * Set the value of [status_id] column.
 	 * 
 	 * @param      int $v new value
@@ -1096,24 +1136,26 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 			$this->uri = $rs->getString($startcol + 14);
 
-			$this->status_id = $rs->getInt($startcol + 15);
+			$this->url = $rs->getString($startcol + 15);
 
-			$this->language = $rs->getString($startcol + 16);
+			$this->status_id = $rs->getInt($startcol + 16);
 
-			$this->note = $rs->getString($startcol + 17);
+			$this->language = $rs->getString($startcol + 17);
 
-			$this->domain = $rs->getString($startcol + 18);
+			$this->note = $rs->getString($startcol + 18);
 
-			$this->orange = $rs->getString($startcol + 19);
+			$this->domain = $rs->getString($startcol + 19);
 
-			$this->is_deprecated = $rs->getBoolean($startcol + 20);
+			$this->orange = $rs->getString($startcol + 20);
+
+			$this->is_deprecated = $rs->getBoolean($startcol + 21);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 21; // 21 = SchemaPropertyPeer::NUM_COLUMNS - SchemaPropertyPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 22; // 22 = SchemaPropertyPeer::NUM_COLUMNS - SchemaPropertyPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating SchemaProperty object", $e);
@@ -1572,21 +1614,24 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 				return $this->getUri();
 				break;
 			case 15:
-				return $this->getStatusId();
+				return $this->getUrl();
 				break;
 			case 16:
-				return $this->getLanguage();
+				return $this->getStatusId();
 				break;
 			case 17:
-				return $this->getNote();
+				return $this->getLanguage();
 				break;
 			case 18:
-				return $this->getDomain();
+				return $this->getNote();
 				break;
 			case 19:
-				return $this->getOrange();
+				return $this->getDomain();
 				break;
 			case 20:
+				return $this->getOrange();
+				break;
+			case 21:
 				return $this->getIsDeprecated();
 				break;
 			default:
@@ -1624,12 +1669,13 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 			$keys[12] => $this->getIsSubpropertyOf(),
 			$keys[13] => $this->getParentUri(),
 			$keys[14] => $this->getUri(),
-			$keys[15] => $this->getStatusId(),
-			$keys[16] => $this->getLanguage(),
-			$keys[17] => $this->getNote(),
-			$keys[18] => $this->getDomain(),
-			$keys[19] => $this->getOrange(),
-			$keys[20] => $this->getIsDeprecated(),
+			$keys[15] => $this->getUrl(),
+			$keys[16] => $this->getStatusId(),
+			$keys[17] => $this->getLanguage(),
+			$keys[18] => $this->getNote(),
+			$keys[19] => $this->getDomain(),
+			$keys[20] => $this->getOrange(),
+			$keys[21] => $this->getIsDeprecated(),
 		);
 		return $result;
 	}
@@ -1707,21 +1753,24 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 				$this->setUri($value);
 				break;
 			case 15:
-				$this->setStatusId($value);
+				$this->setUrl($value);
 				break;
 			case 16:
-				$this->setLanguage($value);
+				$this->setStatusId($value);
 				break;
 			case 17:
-				$this->setNote($value);
+				$this->setLanguage($value);
 				break;
 			case 18:
-				$this->setDomain($value);
+				$this->setNote($value);
 				break;
 			case 19:
-				$this->setOrange($value);
+				$this->setDomain($value);
 				break;
 			case 20:
+				$this->setOrange($value);
+				break;
+			case 21:
 				$this->setIsDeprecated($value);
 				break;
 		} // switch()
@@ -1762,12 +1811,13 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[12], $arr)) $this->setIsSubpropertyOf($arr[$keys[12]]);
 		if (array_key_exists($keys[13], $arr)) $this->setParentUri($arr[$keys[13]]);
 		if (array_key_exists($keys[14], $arr)) $this->setUri($arr[$keys[14]]);
-		if (array_key_exists($keys[15], $arr)) $this->setStatusId($arr[$keys[15]]);
-		if (array_key_exists($keys[16], $arr)) $this->setLanguage($arr[$keys[16]]);
-		if (array_key_exists($keys[17], $arr)) $this->setNote($arr[$keys[17]]);
-		if (array_key_exists($keys[18], $arr)) $this->setDomain($arr[$keys[18]]);
-		if (array_key_exists($keys[19], $arr)) $this->setOrange($arr[$keys[19]]);
-		if (array_key_exists($keys[20], $arr)) $this->setIsDeprecated($arr[$keys[20]]);
+		if (array_key_exists($keys[15], $arr)) $this->setUrl($arr[$keys[15]]);
+		if (array_key_exists($keys[16], $arr)) $this->setStatusId($arr[$keys[16]]);
+		if (array_key_exists($keys[17], $arr)) $this->setLanguage($arr[$keys[17]]);
+		if (array_key_exists($keys[18], $arr)) $this->setNote($arr[$keys[18]]);
+		if (array_key_exists($keys[19], $arr)) $this->setDomain($arr[$keys[19]]);
+		if (array_key_exists($keys[20], $arr)) $this->setOrange($arr[$keys[20]]);
+		if (array_key_exists($keys[21], $arr)) $this->setIsDeprecated($arr[$keys[21]]);
 	}
 
 	/**
@@ -1794,6 +1844,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(SchemaPropertyPeer::IS_SUBPROPERTY_OF)) $criteria->add(SchemaPropertyPeer::IS_SUBPROPERTY_OF, $this->is_subproperty_of);
 		if ($this->isColumnModified(SchemaPropertyPeer::PARENT_URI)) $criteria->add(SchemaPropertyPeer::PARENT_URI, $this->parent_uri);
 		if ($this->isColumnModified(SchemaPropertyPeer::URI)) $criteria->add(SchemaPropertyPeer::URI, $this->uri);
+		if ($this->isColumnModified(SchemaPropertyPeer::URL)) $criteria->add(SchemaPropertyPeer::URL, $this->url);
 		if ($this->isColumnModified(SchemaPropertyPeer::STATUS_ID)) $criteria->add(SchemaPropertyPeer::STATUS_ID, $this->status_id);
 		if ($this->isColumnModified(SchemaPropertyPeer::LANGUAGE)) $criteria->add(SchemaPropertyPeer::LANGUAGE, $this->language);
 		if ($this->isColumnModified(SchemaPropertyPeer::NOTE)) $criteria->add(SchemaPropertyPeer::NOTE, $this->note);
@@ -1881,6 +1932,8 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 		$copyObj->setParentUri($this->parent_uri);
 
 		$copyObj->setUri($this->uri);
+
+		$copyObj->setUrl($this->url);
 
 		$copyObj->setStatusId($this->status_id);
 

@@ -93,6 +93,8 @@ class UserMapBuilder {
 
 		$tMap->addColumn('PASSWORD', 'Password', 'string', CreoleTypes::VARCHAR, false, 40);
 
+		$tMap->addColumn('CULTURE', 'Culture', 'string', CreoleTypes::VARCHAR, false, 7);
+
 	} // doBuild()
 
 } // UserMapBuilder

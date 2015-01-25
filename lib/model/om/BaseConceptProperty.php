@@ -123,6 +123,13 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 	 */
 	protected $status_id = 1;
 
+
+	/**
+	 * The value for the is_concept_property field.
+	 * @var        boolean
+	 */
+	protected $is_concept_property = false;
+
 	/**
 	 * @var        User
 	 */
@@ -451,6 +458,17 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 	{
 
 		return $this->status_id;
+	}
+
+	/**
+	 * Get the [is_concept_property] column value.
+	 * 
+	 * @return     boolean
+	 */
+	public function getIsConceptProperty()
+	{
+
+		return $this->is_concept_property;
 	}
 
 	/**
@@ -814,6 +832,22 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 	} // setStatusId()
 
 	/**
+	 * Set the value of [is_concept_property] column.
+	 * 
+	 * @param      boolean $v new value
+	 * @return     void
+	 */
+	public function setIsConceptProperty($v)
+	{
+
+		if ($this->is_concept_property !== $v || $v === false) {
+			$this->is_concept_property = $v;
+			$this->modifiedColumns[] = ConceptPropertyPeer::IS_CONCEPT_PROPERTY;
+		}
+
+	} // setIsConceptProperty()
+
+	/**
 	 * Hydrates (populates) the object variables with values from the database resultset.
 	 *
 	 * An offset (1-based "start column") is specified so that objects can be hydrated
@@ -860,12 +894,14 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 
 			$this->status_id = $rs->getInt($startcol + 14);
 
+			$this->is_concept_property = $rs->getBoolean($startcol + 15);
+
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 15; // 15 = ConceptPropertyPeer::NUM_COLUMNS - ConceptPropertyPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 16; // 16 = ConceptPropertyPeer::NUM_COLUMNS - ConceptPropertyPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating ConceptProperty object", $e);
@@ -1309,6 +1345,9 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 			case 14:
 				return $this->getStatusId();
 				break;
+			case 15:
+				return $this->getIsConceptProperty();
+				break;
 			default:
 				return null;
 				break;
@@ -1344,6 +1383,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 			$keys[12] => $this->getRelatedConceptId(),
 			$keys[13] => $this->getLanguage(),
 			$keys[14] => $this->getStatusId(),
+			$keys[15] => $this->getIsConceptProperty(),
 		);
 		return $result;
 	}
@@ -1420,6 +1460,9 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 			case 14:
 				$this->setStatusId($value);
 				break;
+			case 15:
+				$this->setIsConceptProperty($value);
+				break;
 		} // switch()
 	}
 
@@ -1458,6 +1501,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[12], $arr)) $this->setRelatedConceptId($arr[$keys[12]]);
 		if (array_key_exists($keys[13], $arr)) $this->setLanguage($arr[$keys[13]]);
 		if (array_key_exists($keys[14], $arr)) $this->setStatusId($arr[$keys[14]]);
+		if (array_key_exists($keys[15], $arr)) $this->setIsConceptProperty($arr[$keys[15]]);
 	}
 
 	/**
@@ -1484,6 +1528,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(ConceptPropertyPeer::RELATED_CONCEPT_ID)) $criteria->add(ConceptPropertyPeer::RELATED_CONCEPT_ID, $this->related_concept_id);
 		if ($this->isColumnModified(ConceptPropertyPeer::LANGUAGE)) $criteria->add(ConceptPropertyPeer::LANGUAGE, $this->language);
 		if ($this->isColumnModified(ConceptPropertyPeer::STATUS_ID)) $criteria->add(ConceptPropertyPeer::STATUS_ID, $this->status_id);
+		if ($this->isColumnModified(ConceptPropertyPeer::IS_CONCEPT_PROPERTY)) $criteria->add(ConceptPropertyPeer::IS_CONCEPT_PROPERTY, $this->is_concept_property);
 
 		return $criteria;
 	}
@@ -1565,6 +1610,8 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 		$copyObj->setLanguage($this->language);
 
 		$copyObj->setStatusId($this->status_id);
+
+		$copyObj->setIsConceptProperty($this->is_concept_property);
 
 
 		if ($deepCopy) {
