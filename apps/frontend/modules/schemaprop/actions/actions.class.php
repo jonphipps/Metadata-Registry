@@ -177,6 +177,8 @@ class schemapropActions extends autoschemapropActions
     //registry base domain is http://metadataregistry.org/uri/
     //schema carries denormalized base_domain from agent
   }
+
+  /**
   * overload saveSchemaProperty
   *
   * @return mixed

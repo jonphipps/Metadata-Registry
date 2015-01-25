@@ -31,7 +31,7 @@ generator:
         format_language: { name: Lang }
         updated_at:   { name: Updated }
         updated_user: { name: Updated by }
-      display:        [=profile_property, _show_object, format_language, status, updated_at, updated_user]
+      display:        [=profile_property, _object, format_language, status, updated_at, updated_user]
       displayfilter:  false
       object_actions:
         _edit:        { credentials: [[administrator, schemamaintainer, schemaadmin]] }

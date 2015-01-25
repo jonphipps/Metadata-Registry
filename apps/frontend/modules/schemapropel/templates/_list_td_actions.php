@@ -18,11 +18,7 @@
                   )
               )
           )
-                   && ! in_array(
-              $schema_property_element->getProfilePropertyId(),
-              $sf_flash->get( 'noedit', array () )
-          )
-      ): ?>
+          && ! $schema_property_element->getIsSchemaProperty()): ?>
         <?php echo link_to(
             image_tag(
                 '/jpAdminPlugin/images/edit_icon.png',

@@ -25,10 +25,7 @@
     public function getLabelForSelect() {
       return  $this->getName() . " (" . $this->getCulture()  . ") :: " . $this->getLabel()  . " -- " . $this->getUri() ;
     }
-    public function hydrate(ResultSet $rs, $startcol = 1) {
-      $this->setCulture(sfContext::getInstance()->getUser()->getCulture());
-      return parent::hydrate($rs, $startcol);
-    }
+
     public function getCurrentLanguage() {
       $c = new sfCultureInfo(sfContext::getInstance()->getUser()->getCulture());
       return $c->getNativeName();
@@ -196,6 +193,7 @@
   {
     $this->setIsSubpropertyOf($v);
   }
+    }
 
   /**
    * Overrides setting the value of [is_subproperty_of] column.
