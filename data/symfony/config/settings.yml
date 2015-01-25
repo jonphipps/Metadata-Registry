@@ -12,7 +12,7 @@ default:
     secure_module:          default   # To be called when a user doesn't have
     secure_action:          secure    # The credentials required for an action
 
-    module_disabled_module: default   # To be called when a user requests 
+    module_disabled_module: default   # To be called when a user requests
     module_disabled_action: disabled  # A module disabled in the module.yml
 
     unavailable_module:     default   # To be called when a user requests a page
@@ -56,7 +56,7 @@ default:
 
     # Assets paths
     rich_text_js_dir:       js/tiny_mce
-    prototype_web_dir:      /js/components/prototype.js/dist
+    prototype_web_dir:      /js/components/prototypejs/dist
     scriptaculous_web_dir:  /js/components/scriptaculous-bower
     bower_web_dir:          /js/components
     jquery_web_dir:         /js/components/jquery/dist
