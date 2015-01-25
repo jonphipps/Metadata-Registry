@@ -14,7 +14,7 @@ dev:
     # E_ALL
     error_reporting:        -1
     web_debug:              on
-    cache:                  on
+    cache:                  off
     no_script_name:         off
     etag:                   off
     # Activated modules from plugins or from the symfony core
