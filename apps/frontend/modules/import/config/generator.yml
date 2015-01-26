@@ -8,7 +8,7 @@ generator:
       title:          Import History
       fields:
         created_at:   { params: date_format='F' }
-      display:        [=id, created_at, user, vocabulary, schema, file_name]
+      display:        [=id, created_at, user, schema, source_file_name, file_type]
       sort:           [created_at, desc]
       displayfilter:  false
       filters:        [schema_id, created_at, user]
@@ -17,46 +17,43 @@ generator:
       urlfilters:
         schema_id:                  schema_id
       actions:
-        _create:      { name: Import CSV,  credentials: [[administrator, schemaadmin]] }
+        _create:      { name: Import CSV,  credentials: [[administrator, schemaadmin]], query_string: { schema_id: schema_id} }
 
     edit:
       title:
         mode:
-          edit:       Editing %%name%%
-          create:     Creating new element set
+          edit:       Editing %%filename%%
+          create:     Import a file for %%schema%%
       helptype:       icon
       fields:
         id:           { credentials: [administrator], mode: edit }
-        agent_id:     { params: peer_method=getAgentsForCurrentUser}
-        token:        { params: onblur=updateUri() }
-        language:     { type: select_language_tag }
-      hide:           [base_domain]
+        filename:
+          name:       Upload file
+          type:       admin_input_file_tag
+          upload_dir: csv
+          params:     include_link=upload
+          credentials: [[administrator, schemaadmin]]
+
       display:
-        "-Metadata":  { fields: [id, created_at, created_user, updated_at, updated_user], mode: edit }
-        "Detail":     [agent_id, name]
-#        "Namespace":  [token, uri, ns_type]
-        "Namespace":  [token, uri]
-        "Documentation": [url, note, community]
-        "Defaults":   [status_id, language]
+#        "-Metadata":  { fields: [id, created_at, created_user, updated_at, updated_user], mode: edit }
+        "Detail":     [id, filename]
+      hide:           [schema_id, user_id]
+
       actions:
-        _list:         -
-        _save:         { credentials: [[administrator, hasAgents, schemamaintainer, schemaadmin]] }
-        _delete:       { credentials: [administrator] }
-        _create:       { credentials: [[administrator, hasAgents]], mode: edit }
-        _save_and_add: { credentials: [administrator] }
-        _cancel:       { credentials: [[administrator, hasAgents, schemamaintainer, schemaadmin]] }
+        _list:         { query_string: { schema_id: schema_id} }
+        _save:         { name: Import CSV, credentials: [[administrator, schemaadmin]] }
+        _cancel:       { credentials: [[administrator, schemaadmin]], query_string: { schema_id: schema_id} }
 
     show:
-      title:           Show detail for %%name%%
+      title:           Show Import detail for %%schema%%
       fields:
         id:            { credentials: [administrator] }
 #        map:           { helper: auto_link_uri }
 #        results:       { helper: auto_link_text }
         created_at:    { params: date_format='F' }
       display:
-        "Detail":      [created_at, user]
+        "Import Detail":      [created_at, user, source_file_name]
 #        "Map":        [_map]
-        "Results":    [_results]
+#        "Results":    [_results]
       actions:
-        _list:
-        _edit:       { credentials: [[administrator, schemamaintainer, schemaadmin]] }
+        _list:         { query_string: { schema_id: schema_id} }
