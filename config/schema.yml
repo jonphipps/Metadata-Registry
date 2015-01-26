@@ -981,6 +981,9 @@ propel:
     file_name: 
       type: VARCHAR
       size: 255
+    source_file_name: 
+      type: VARCHAR
+      size: 255
     file_type: 
       type: VARCHAR
       size: 10

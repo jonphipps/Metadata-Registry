@@ -75,6 +75,8 @@ class FileImportHistoryMapBuilder {
 
 		$tMap->addColumn('FILE_NAME', 'FileName', 'string', CreoleTypes::VARCHAR, false, 255);
 
+		$tMap->addColumn('SOURCE_FILE_NAME', 'SourceFileName', 'string', CreoleTypes::VARCHAR, false, 255);
+
 		$tMap->addColumn('FILE_TYPE', 'FileType', 'string', CreoleTypes::VARCHAR, false, 10);
 
 		$tMap->addForeignKey('BATCH_ID', 'BatchId', 'int', CreoleTypes::INTEGER, 'reg_batch', 'ID', false, null);

@@ -69,6 +69,13 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 
 
 	/**
+	 * The value for the source_file_name field.
+	 * @var        string
+	 */
+	protected $source_file_name;
+
+
+	/**
 	 * The value for the file_type field.
 	 * @var        string
 	 */
@@ -217,6 +224,17 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 	{
 
 		return $this->file_name;
+	}
+
+	/**
+	 * Get the [source_file_name] column value.
+	 * 
+	 * @return     string
+	 */
+	public function getSourceFileName()
+	{
+
+		return $this->source_file_name;
 	}
 
 	/**
@@ -421,6 +439,28 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 	} // setFileName()
 
 	/**
+	 * Set the value of [source_file_name] column.
+	 * 
+	 * @param      string $v new value
+	 * @return     void
+	 */
+	public function setSourceFileName($v)
+	{
+
+		// Since the native PHP type for this column is string,
+		// we will cast the input to a string (if it is not).
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->source_file_name !== $v) {
+			$this->source_file_name = $v;
+			$this->modifiedColumns[] = FileImportHistoryPeer::SOURCE_FILE_NAME;
+		}
+
+	} // setSourceFileName()
+
+	/**
 	 * Set the value of [file_type] column.
 	 * 
 	 * @param      string $v new value
@@ -521,18 +561,20 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 
 			$this->file_name = $rs->getString($startcol + 6);
 
-			$this->file_type = $rs->getString($startcol + 7);
+			$this->source_file_name = $rs->getString($startcol + 7);
 
-			$this->batch_id = $rs->getInt($startcol + 8);
+			$this->file_type = $rs->getString($startcol + 8);
 
-			$this->results = $rs->getString($startcol + 9);
+			$this->batch_id = $rs->getInt($startcol + 9);
+
+			$this->results = $rs->getString($startcol + 10);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 10; // 10 = FileImportHistoryPeer::NUM_COLUMNS - FileImportHistoryPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 11; // 11 = FileImportHistoryPeer::NUM_COLUMNS - FileImportHistoryPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating FileImportHistory object", $e);
@@ -861,12 +903,15 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 				return $this->getFileName();
 				break;
 			case 7:
-				return $this->getFileType();
+				return $this->getSourceFileName();
 				break;
 			case 8:
-				return $this->getBatchId();
+				return $this->getFileType();
 				break;
 			case 9:
+				return $this->getBatchId();
+				break;
+			case 10:
 				return $this->getResults();
 				break;
 			default:
@@ -896,9 +941,10 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 			$keys[4] => $this->getVocabularyId(),
 			$keys[5] => $this->getSchemaId(),
 			$keys[6] => $this->getFileName(),
-			$keys[7] => $this->getFileType(),
-			$keys[8] => $this->getBatchId(),
-			$keys[9] => $this->getResults(),
+			$keys[7] => $this->getSourceFileName(),
+			$keys[8] => $this->getFileType(),
+			$keys[9] => $this->getBatchId(),
+			$keys[10] => $this->getResults(),
 		);
 		return $result;
 	}
@@ -952,12 +998,15 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 				$this->setFileName($value);
 				break;
 			case 7:
-				$this->setFileType($value);
+				$this->setSourceFileName($value);
 				break;
 			case 8:
-				$this->setBatchId($value);
+				$this->setFileType($value);
 				break;
 			case 9:
+				$this->setBatchId($value);
+				break;
+			case 10:
 				$this->setResults($value);
 				break;
 		} // switch()
@@ -990,9 +1039,10 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[4], $arr)) $this->setVocabularyId($arr[$keys[4]]);
 		if (array_key_exists($keys[5], $arr)) $this->setSchemaId($arr[$keys[5]]);
 		if (array_key_exists($keys[6], $arr)) $this->setFileName($arr[$keys[6]]);
-		if (array_key_exists($keys[7], $arr)) $this->setFileType($arr[$keys[7]]);
-		if (array_key_exists($keys[8], $arr)) $this->setBatchId($arr[$keys[8]]);
-		if (array_key_exists($keys[9], $arr)) $this->setResults($arr[$keys[9]]);
+		if (array_key_exists($keys[7], $arr)) $this->setSourceFileName($arr[$keys[7]]);
+		if (array_key_exists($keys[8], $arr)) $this->setFileType($arr[$keys[8]]);
+		if (array_key_exists($keys[9], $arr)) $this->setBatchId($arr[$keys[9]]);
+		if (array_key_exists($keys[10], $arr)) $this->setResults($arr[$keys[10]]);
 	}
 
 	/**
@@ -1011,6 +1061,7 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(FileImportHistoryPeer::VOCABULARY_ID)) $criteria->add(FileImportHistoryPeer::VOCABULARY_ID, $this->vocabulary_id);
 		if ($this->isColumnModified(FileImportHistoryPeer::SCHEMA_ID)) $criteria->add(FileImportHistoryPeer::SCHEMA_ID, $this->schema_id);
 		if ($this->isColumnModified(FileImportHistoryPeer::FILE_NAME)) $criteria->add(FileImportHistoryPeer::FILE_NAME, $this->file_name);
+		if ($this->isColumnModified(FileImportHistoryPeer::SOURCE_FILE_NAME)) $criteria->add(FileImportHistoryPeer::SOURCE_FILE_NAME, $this->source_file_name);
 		if ($this->isColumnModified(FileImportHistoryPeer::FILE_TYPE)) $criteria->add(FileImportHistoryPeer::FILE_TYPE, $this->file_type);
 		if ($this->isColumnModified(FileImportHistoryPeer::BATCH_ID)) $criteria->add(FileImportHistoryPeer::BATCH_ID, $this->batch_id);
 		if ($this->isColumnModified(FileImportHistoryPeer::RESULTS)) $criteria->add(FileImportHistoryPeer::RESULTS, $this->results);
@@ -1079,6 +1130,8 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 		$copyObj->setSchemaId($this->schema_id);
 
 		$copyObj->setFileName($this->file_name);
+
+		$copyObj->setSourceFileName($this->source_file_name);
 
 		$copyObj->setFileType($this->file_type);
 
