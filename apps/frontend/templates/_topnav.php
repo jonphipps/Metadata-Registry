@@ -38,7 +38,7 @@
   $topnav['schema']     ['History']    ['link'] = '/schemahistory/list?schema_id=';
 //  $topnav['schema']     ['Versions']   ['link'] = '/schemaversion/list?schema_id=';
   $topnav['schema']     ['Maintainers']['link'] = '/schemauser/list?schema_id=';
-$topnav['schema']     ['Import']     ['link'] = '/import/list?schema_id=';
+  $topnav['schema']     ['Import']     ['link'] = '/import/list?schema_id=';
   //$topnav['schema']     ['Discuss']    ['link'] = '/discuss/list?schema_id=';
   //schema properties
   $topnav['schemaprop'] ['Detail']     ['link'] = '/schemaprop/show?id=';
@@ -129,10 +129,9 @@ $topnav['schema']     ['Import']     ['link'] = '/import/list?schema_id=';
   $tabMap['schema']       ['list'] = array('tab' => 'schemalist',     'title' => 'List');
   $tabMap['schema']       ['show'] = array('tab' => 'schema',         'title' => 'Show Detail');
   $tabMap['schema']       ['publish'] = array('tab' => 'schema',         'title' => 'Publish');
-  $tabMap['import']        ['show'] = array('tab' => 'schema',      'title' => 'Show Detail');
   if ('schema' == $filter)
   {
-      $tabMap['import']        ['list'] = array('tab' => 'schema',      'title' => 'Import');
+    $tabMap['import']        ['list'] = array('tab' => 'schema',      'title' => 'Import');
     $tabMap['discuss']       ['list'] = array('tab' => 'schema',      'title' => 'Discussion');
     $tabMap['schemahistory'] ['list'] = array('tab' => 'schema',      'title' => 'History of Changes');
     $tabMap['schemaversion'] ['list'] = array('tab' => 'schema',      'title' => 'List Versions');
@@ -161,6 +160,8 @@ $topnav['schema']     ['Import']     ['link'] = '/import/list?schema_id=';
   $tabMap['vocabuser']  ['show'] = array('tab' => 'vocabuser',        'title' => 'Show Detail');
   $tabMap['version']    ['show'] = array('tab' => 'version',          'title' => 'Show Detail');
   $tabMap['schemauser'] ['show'] = array('tab' => 'schemauser',       'title' => 'Show Detail');
+  $tabMap['import']     ['show'] = array('tab' => 'import',           'title' => 'Show Import Detail');
+  $tabMap['import']     ['list'] = array('tab' => 'importlist',       'title' => 'List Imports');
 
   //get the current module/action
   $module = $sf_params->get('module');
@@ -414,6 +415,28 @@ $topnav['schema']     ['Import']     ['link'] = '/import/list?schema_id=';
       }
       $tab = false;
       break;
+    case 'import':
+      $showBc = true;
+      $showSchemaBc = true;
+      $tab = false;
+
+      /** @var \FileImportHistory $file_import_history */
+      if ( ! isset( $file_import_history ) ) {
+        $id = ( 'show' == $action ) ? $sf_params->get( 'id' ) : $paramId;
+        if ( $id ) {
+          $file_import_history = FileImportHistoryPeer::retrieveByPK( $id );
+        }
+      }
+
+      if ( $file_import_history ) {
+        if ( ! isset( $schema ) ) {
+          $schema = $file_import_history->getSchema();
+          $objectId = $file_import_history->getSchemaId();
+        }
+      }
+      $title = '';
+
+      break;
     case 'vocabuser':
       $showBc = true;
       $showVocabularyBc = true;
@@ -574,6 +597,10 @@ $topnav['schema']     ['Import']     ['link'] = '/import/list?schema_id=';
       break;
     case 'userlist':
       $title = __('Users');
+      $tab = false;
+      break;
+    case 'importlist':
+      $title = __('Imports');
       $tab = false;
       break;
   }
