@@ -44,11 +44,11 @@ class ImportVocab {
   /**
    * @var array of mapping values
    */
-  public $mapping = array();
+  public $mapping = array ();
   /**
    * @var array
    */
-  public $prolog = array();
+  public $prolog = array ();
   /**
    * @var CsvReader
    */
@@ -56,7 +56,11 @@ class ImportVocab {
   /**
    * @var array
    */
-  public $results = array();
+  public $results = array ();
+  /** @var \Ddeboer\DataImport\Result */
+  public $DataWorkflowResults;
+  /** @var \Ddeboer\DataImport\Result */
+  public $ParentWorkflowResults;
   /**
    * @var string
    */
@@ -195,15 +199,20 @@ class ImportVocab {
     }
   }
 
-  public function setCsvReader($file) {
-    $path = $this->importFolder . $file;
-    if (is_readable($path)) {
-      $splFile = new \SplFileObject($path);
-      $this->reader = new CsvReader($splFile, ",");
-      $this->reader->setHeaderRowNumber(0, CsvReader::DUPLICATE_HEADERS_MERGE);
-      return $this->reader;
+  public function setCsvReader( $file )
+  {
+    if ( isset( $this->importFolder ) ) {
+      $path = $this->importFolder . $file;
+    } else {
+      $path = $file;
     }
-    else {
+    if ( is_readable( $path ) ) {
+      $splFile = new \SplFileObject( $path );
+      $this->reader = new CsvReader( $splFile, "," );
+      $this->reader->setHeaderRowNumber( 0, CsvReader::DUPLICATE_HEADERS_MERGE );
+
+      return $this->reader;
+    } else {
       return false;
     }
   }
@@ -278,6 +287,8 @@ class ImportVocab {
     $this->userId = $this->prolog['meta']['user_id'];
     //use the prolog to configure namespaces, look up correct resources in the database
     //store the row number of the first non-meta line
+
+    return $this->prolog;
 
   }
 
@@ -394,7 +405,9 @@ class ImportVocab {
         }
       )
     );
-    $workflow->process();
+    $results =$workflow->process();
+    $this->ParentWorkflowResults = $results;
+    return $results;
     //use the prolog to configure namespaces, look up correct resources in the database
     //store the row number of the first non-meta line
 
@@ -668,12 +681,15 @@ class ImportVocab {
      *     delete the entire schemaproperty
      */
 
-    $workflow->process();
+    $workResults = $workflow->process();
+    $this->DataWorkflowResults = $workResults;
 
     /** @TODO need to make a second pass through to lookup and set $element->related_schema_property_id */
     $this->processParents();
     //use the prolog to configure namespaces, look up correct resources in the database
     //store the row number of the first non-meta line
+
+    return  $workResults;
 
   }
 
