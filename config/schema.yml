@@ -986,7 +986,7 @@ propel:
       size: 255
     file_type: 
       type: VARCHAR
-      size: 10
+      size: 30
     batch_id: 
       type: INTEGER
       foreignTable: reg_batch
@@ -996,6 +996,12 @@ propel:
       index: true
     results: 
       type: LONGVARCHAR
+    total_processed_count: 
+      type: INTEGER
+    error_count: 
+      type: INTEGER
+    success_count: 
+      type: INTEGER
   reg_lookup: 
     _attributes: 
       phpName: Lookup

@@ -8,8 +8,12 @@
  * @package lib.model
  */
 class FileImportHistory extends BaseFileImportHistory {
+  function __toString()
+  {
+    return $this->getCreatedAt();
+  }
 
-    /**
+  /**
      * @return string
      */
     public function getMap()
