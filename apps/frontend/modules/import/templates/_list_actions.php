@@ -4,7 +4,7 @@
 ?>
 <ul class="sf_admin_actions">
 <?php if ($sf_user->hasCredential( array (   0 =>    array (     0 => 'administrator',     1 => 'schemaadmin',   ), ))): ?>
-<li><?php echo button_to(__('Import CSV'), 'import/create?schema_id='.$sf_params->get('schema_id').'', array (
+<li><?php echo button_to(__('Import New CSV'), 'import/create?schema_id='.$sf_params->get('schema_id').'', array (
   'title' => 'Create',
   'class' => 'sf_admin_action_create',
 )) ?></li>
