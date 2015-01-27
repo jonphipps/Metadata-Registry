@@ -95,6 +95,27 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 	 */
 	protected $results;
 
+
+	/**
+	 * The value for the total_processed_count field.
+	 * @var        int
+	 */
+	protected $total_processed_count;
+
+
+	/**
+	 * The value for the error_count field.
+	 * @var        int
+	 */
+	protected $error_count;
+
+
+	/**
+	 * The value for the success_count field.
+	 * @var        int
+	 */
+	protected $success_count;
+
 	/**
 	 * @var        User
 	 */
@@ -268,6 +289,39 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 	{
 
 		return $this->results;
+	}
+
+	/**
+	 * Get the [total_processed_count] column value.
+	 * 
+	 * @return     int
+	 */
+	public function getTotalProcessedCount()
+	{
+
+		return $this->total_processed_count;
+	}
+
+	/**
+	 * Get the [error_count] column value.
+	 * 
+	 * @return     int
+	 */
+	public function getErrorCount()
+	{
+
+		return $this->error_count;
+	}
+
+	/**
+	 * Get the [success_count] column value.
+	 * 
+	 * @return     int
+	 */
+	public function getSuccessCount()
+	{
+
+		return $this->success_count;
 	}
 
 	/**
@@ -531,6 +585,72 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 	} // setResults()
 
 	/**
+	 * Set the value of [total_processed_count] column.
+	 * 
+	 * @param      int $v new value
+	 * @return     void
+	 */
+	public function setTotalProcessedCount($v)
+	{
+
+		// Since the native PHP type for this column is integer,
+		// we will cast the input value to an int (if it is not).
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->total_processed_count !== $v) {
+			$this->total_processed_count = $v;
+			$this->modifiedColumns[] = FileImportHistoryPeer::TOTAL_PROCESSED_COUNT;
+		}
+
+	} // setTotalProcessedCount()
+
+	/**
+	 * Set the value of [error_count] column.
+	 * 
+	 * @param      int $v new value
+	 * @return     void
+	 */
+	public function setErrorCount($v)
+	{
+
+		// Since the native PHP type for this column is integer,
+		// we will cast the input value to an int (if it is not).
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->error_count !== $v) {
+			$this->error_count = $v;
+			$this->modifiedColumns[] = FileImportHistoryPeer::ERROR_COUNT;
+		}
+
+	} // setErrorCount()
+
+	/**
+	 * Set the value of [success_count] column.
+	 * 
+	 * @param      int $v new value
+	 * @return     void
+	 */
+	public function setSuccessCount($v)
+	{
+
+		// Since the native PHP type for this column is integer,
+		// we will cast the input value to an int (if it is not).
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->success_count !== $v) {
+			$this->success_count = $v;
+			$this->modifiedColumns[] = FileImportHistoryPeer::SUCCESS_COUNT;
+		}
+
+	} // setSuccessCount()
+
+	/**
 	 * Hydrates (populates) the object variables with values from the database resultset.
 	 *
 	 * An offset (1-based "start column") is specified so that objects can be hydrated
@@ -569,12 +689,18 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 
 			$this->results = $rs->getString($startcol + 10);
 
+			$this->total_processed_count = $rs->getInt($startcol + 11);
+
+			$this->error_count = $rs->getInt($startcol + 12);
+
+			$this->success_count = $rs->getInt($startcol + 13);
+
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 11; // 11 = FileImportHistoryPeer::NUM_COLUMNS - FileImportHistoryPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 14; // 14 = FileImportHistoryPeer::NUM_COLUMNS - FileImportHistoryPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating FileImportHistory object", $e);
@@ -914,6 +1040,15 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 			case 10:
 				return $this->getResults();
 				break;
+			case 11:
+				return $this->getTotalProcessedCount();
+				break;
+			case 12:
+				return $this->getErrorCount();
+				break;
+			case 13:
+				return $this->getSuccessCount();
+				break;
 			default:
 				return null;
 				break;
@@ -945,6 +1080,9 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 			$keys[8] => $this->getFileType(),
 			$keys[9] => $this->getBatchId(),
 			$keys[10] => $this->getResults(),
+			$keys[11] => $this->getTotalProcessedCount(),
+			$keys[12] => $this->getErrorCount(),
+			$keys[13] => $this->getSuccessCount(),
 		);
 		return $result;
 	}
@@ -1009,6 +1147,15 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 			case 10:
 				$this->setResults($value);
 				break;
+			case 11:
+				$this->setTotalProcessedCount($value);
+				break;
+			case 12:
+				$this->setErrorCount($value);
+				break;
+			case 13:
+				$this->setSuccessCount($value);
+				break;
 		} // switch()
 	}
 
@@ -1043,6 +1190,9 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[8], $arr)) $this->setFileType($arr[$keys[8]]);
 		if (array_key_exists($keys[9], $arr)) $this->setBatchId($arr[$keys[9]]);
 		if (array_key_exists($keys[10], $arr)) $this->setResults($arr[$keys[10]]);
+		if (array_key_exists($keys[11], $arr)) $this->setTotalProcessedCount($arr[$keys[11]]);
+		if (array_key_exists($keys[12], $arr)) $this->setErrorCount($arr[$keys[12]]);
+		if (array_key_exists($keys[13], $arr)) $this->setSuccessCount($arr[$keys[13]]);
 	}
 
 	/**
@@ -1065,6 +1215,9 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(FileImportHistoryPeer::FILE_TYPE)) $criteria->add(FileImportHistoryPeer::FILE_TYPE, $this->file_type);
 		if ($this->isColumnModified(FileImportHistoryPeer::BATCH_ID)) $criteria->add(FileImportHistoryPeer::BATCH_ID, $this->batch_id);
 		if ($this->isColumnModified(FileImportHistoryPeer::RESULTS)) $criteria->add(FileImportHistoryPeer::RESULTS, $this->results);
+		if ($this->isColumnModified(FileImportHistoryPeer::TOTAL_PROCESSED_COUNT)) $criteria->add(FileImportHistoryPeer::TOTAL_PROCESSED_COUNT, $this->total_processed_count);
+		if ($this->isColumnModified(FileImportHistoryPeer::ERROR_COUNT)) $criteria->add(FileImportHistoryPeer::ERROR_COUNT, $this->error_count);
+		if ($this->isColumnModified(FileImportHistoryPeer::SUCCESS_COUNT)) $criteria->add(FileImportHistoryPeer::SUCCESS_COUNT, $this->success_count);
 
 		return $criteria;
 	}
@@ -1138,6 +1291,12 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 		$copyObj->setBatchId($this->batch_id);
 
 		$copyObj->setResults($this->results);
+
+		$copyObj->setTotalProcessedCount($this->total_processed_count);
+
+		$copyObj->setErrorCount($this->error_count);
+
+		$copyObj->setSuccessCount($this->success_count);
 
 
 		$copyObj->setNew(true);
