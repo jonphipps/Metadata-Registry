@@ -129,6 +129,8 @@
   $tabMap['schema']       ['list'] = array('tab' => 'schemalist',     'title' => 'List');
   $tabMap['schema']       ['show'] = array('tab' => 'schema',         'title' => 'Show Detail');
   $tabMap['schema']       ['publish'] = array('tab' => 'schema',         'title' => 'Publish');
+  $tabMap['import']       ['list'] = array('tab' => 'importlist',       'title' => 'List Imports');
+
   if ('schema' == $filter)
   {
     $tabMap['import']        ['list'] = array('tab' => 'schema',      'title' => 'Import');
@@ -161,7 +163,6 @@
   $tabMap['version']    ['show'] = array('tab' => 'version',          'title' => 'Show Detail');
   $tabMap['schemauser'] ['show'] = array('tab' => 'schemauser',       'title' => 'Show Detail');
   $tabMap['import']     ['show'] = array('tab' => 'import',           'title' => 'Show Import Detail');
-  $tabMap['import']     ['list'] = array('tab' => 'importlist',       'title' => 'List Imports');
 
   //get the current module/action
   $module = $sf_params->get('module');
@@ -197,6 +198,7 @@
   $showHistoryBc = false;
   $showDiscussBc = false;
   $showVersionBc = false;
+ $showSchemaImportBc = false;
   $showBc = false;
   $tabTitle = false;
 
@@ -418,6 +420,7 @@
     case 'import':
       $showBc = true;
       $showSchemaBc = true;
+      $showSchemaImportBc = true;
       $tab = false;
 
       /** @var \FileImportHistory $file_import_history */
@@ -712,7 +715,7 @@
 
       if ($schema)
       {
-        if ($showSchemaPropBc || $showSchemaHistoryBc || $showVocabUserBc || $showVersionBc)
+        if ($showSchemaPropBc || $showSchemaHistoryBc || $showVocabUserBc || $showVersionBc || $showSchemaImportBc)
         {
           if ($schema->getDeletedAt())
           {
@@ -762,6 +765,26 @@
         }
 
         $title .= ' :: ' . __('%%schemaprop%%', array('%%schemaprop%%' => $schema_property));
+      }
+    }
+
+    if ($showSchemaImportBc)
+    {
+      $spaceCount++;
+      if ($file_import_history)
+      {
+        if ($schema->getDeletedAt())
+        {
+          echo "<br />&nbsp;&nbsp;Elements&nbsp;(deleted):&nbsp;";
+        }
+        else
+        {
+          echo '<br />&nbsp;&nbsp;' . link_to('Imports:', '/import/list?schema_id=' . $file_import_history->getSchemaId()) . '&nbsp;&nbsp;';
+        }
+          echo $file_import_history->getCreatedAt();
+
+
+        $title .= ' :: ' . __('%%import%%', array('%%import%%' => $file_import_history));
       }
     }
 
