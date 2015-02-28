@@ -1,7 +1,7 @@
 #
 # SQL Export
 # Created by Querious (945)
-# Created: January 16, 2015 at 5:34:23 PM EST
+# Created: January 27, 2015 at 10:46:47 AM EST
 # Encoding: Unicode (UTF-8)
 #
 
@@ -190,6 +190,7 @@ CREATE TABLE `profile_property` (
   `language` varchar(6) NOT NULL DEFAULT 'en',
   `note` text,
   `display_order` int(11) DEFAULT NULL COMMENT 'Display order of properties',
+  `export_order` int(11) DEFAULT NULL COMMENT 'Display order of properties',
   `picklist_order` int(11) DEFAULT NULL,
   `examples` varchar(255) DEFAULT NULL COMMENT 'Link to example usage',
   `is_required` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'boolean -- id this value required',
@@ -218,7 +219,7 @@ CREATE TABLE `profile_property` (
   CONSTRAINT `profile_property_user_FK_1` FOREIGN KEY (`updated_by`) REFERENCES `reg_user` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
   CONSTRAINT `profile_property_user_FK_2` FOREIGN KEY (`created_by`) REFERENCES `reg_user` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
   CONSTRAINT `profile_property_user_FK_3` FOREIGN KEY (`deleted_by`) REFERENCES `reg_user` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8 AVG_ROW_LENGTH=1170;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8 AVG_ROW_LENGTH=1170;
 
 
 CREATE TABLE `reg_agent_has_user` (
@@ -304,7 +305,6 @@ CREATE TABLE `reg_concept` (
   KEY `reg_concept_idx1` (`uri`),
   CONSTRAINT `concept_vocabulary_fk` FOREIGN KEY (`vocabulary_id`) REFERENCES `reg_vocabulary` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `reg_concept_FK_` FOREIGN KEY (`created_user_id`) REFERENCES `reg_user` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
-  CONSTRAINT `reg_concept_FK_1` FOREIGN KEY (`status_id`) REFERENCES `reg_status` (`id`),
   CONSTRAINT `reg_concept_FK_3` FOREIGN KEY (`pref_label_id`) REFERENCES `reg_concept_property` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
   CONSTRAINT `reg_concept_FK_4` FOREIGN KEY (`updated_user_id`) REFERENCES `reg_user` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
   CONSTRAINT `reg_concept_fk` FOREIGN KEY (`status_id`) REFERENCES `reg_status` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
@@ -327,6 +327,7 @@ CREATE TABLE `reg_concept_property` (
   `related_concept_id` int(11) DEFAULT NULL,
   `language` char(6) DEFAULT 'en',
   `status_id` int(11) DEFAULT '1',
+  `is_concept_property` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`),
   KEY `concept_id` (`concept_id`),
@@ -471,14 +472,18 @@ CREATE TABLE `reg_discuss` (
 CREATE TABLE `reg_file_import_history` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `map` longtext COMMENT 'stores the serialized column map array',
+  `map` text COMMENT 'stores the serialized column map array',
   `user_id` int(11) DEFAULT NULL,
   `vocabulary_id` int(11) DEFAULT NULL,
   `schema_id` int(11) DEFAULT NULL,
   `file_name` varchar(255) DEFAULT NULL,
-  `file_type` int(11) DEFAULT NULL,
+  `source_file_name` varchar(255) DEFAULT NULL,
+  `file_type` varchar(30) DEFAULT NULL,
   `batch_id` int(11) DEFAULT NULL,
-  `results` longtext COMMENT 'stores the serialized results of the import',
+  `results` text COMMENT 'stores the serialized results of the import',
+  `total_processed_count` int(11) DEFAULT NULL,
+  `error_count` int(11) DEFAULT NULL,
+  `success_count` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   KEY `vocabulary_id` (`vocabulary_id`),
@@ -546,6 +551,7 @@ CREATE TABLE `reg_schema_property` (
   `is_subproperty_of` int(11) DEFAULT NULL,
   `parent_uri` varchar(255) DEFAULT NULL,
   `uri` varchar(255) NOT NULL DEFAULT '',
+  `url` varchar(255) DEFAULT '',
   `status_id` int(11) NOT NULL DEFAULT '1',
   `language` varchar(6) NOT NULL DEFAULT '',
   `note` text,
@@ -596,7 +602,7 @@ CREATE TABLE `reg_schema_property_element` (
   CONSTRAINT `reg_schema_property_property_fk2` FOREIGN KEY (`schema_property_id`) REFERENCES `reg_schema_property` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `reg_schema_property_property_fk3` FOREIGN KEY (`related_schema_property_id`) REFERENCES `reg_schema_property` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
   CONSTRAINT `reg_schema_property_property_fk4` FOREIGN KEY (`status_id`) REFERENCES `reg_status` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=139 DEFAULT CHARSET=utf8 AVG_ROW_LENGTH=1260 COMMENT='InnoDB free: 0 kB; ';
+) ENGINE=InnoDB AUTO_INCREMENT=144 DEFAULT CHARSET=utf8 AVG_ROW_LENGTH=1260 COMMENT='InnoDB free: 0 kB; ';
 
 
 CREATE TABLE `reg_schema_property_element_history` (
@@ -629,7 +635,7 @@ CREATE TABLE `reg_schema_property_element_history` (
   CONSTRAINT `reg_schema_property_element_history_fk4` FOREIGN KEY (`related_schema_property_id`) REFERENCES `reg_schema_property` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
   CONSTRAINT `reg_schema_property_element_history_fk5` FOREIGN KEY (`status_id`) REFERENCES `reg_status` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `reg_schema_property_element_history_fk6` FOREIGN KEY (`profile_property_id`) REFERENCES `profile_property` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=145 DEFAULT CHARSET=utf8 AVG_ROW_LENGTH=1170 COMMENT='InnoDB free: 0 kB; ';
+) ENGINE=InnoDB AUTO_INCREMENT=160 DEFAULT CHARSET=utf8 AVG_ROW_LENGTH=1170 COMMENT='InnoDB free: 0 kB; ';
 
 
 CREATE TABLE `reg_skos_property` (
@@ -685,6 +691,7 @@ CREATE TABLE `reg_user` (
   `is_administrator` tinyint(1) DEFAULT '0',
   `deletions` int(11) DEFAULT '0',
   `password` varchar(40) DEFAULT NULL,
+  `culture` varchar(7) DEFAULT 'en_US',
   PRIMARY KEY (`id`),
   KEY `id` (`id`,`created_at`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 AVG_ROW_LENGTH=606 COMMENT='InnoDB free: 0 kB';
@@ -710,6 +717,9 @@ CREATE TABLE `reg_vocabulary` (
   `last_uri_id` int(11) DEFAULT '1000',
   `status_id` int(11) NOT NULL DEFAULT '1' COMMENT 'This will be the default status id for all concept properties for this vocabulary',
   `language` char(6) NOT NULL DEFAULT 'en' COMMENT 'This is the default language for all concept properties',
+  `languages` text,
+  `profile_id` int(11) DEFAULT NULL,
+  `ns_type` enum('hash','slash') NOT NULL DEFAULT 'slash',
   PRIMARY KEY (`id`),
   KEY `agent_id` (`agent_id`),
   KEY `child_updated_user_id` (`child_updated_user_id`),
@@ -718,10 +728,12 @@ CREATE TABLE `reg_vocabulary` (
   KEY `status_id` (`status_id`),
   KEY `reg_vocabulary_idx1` (`uri`),
   KEY `reg_vocabulary_idx2` (`name`),
+  KEY `profile_id` (`profile_id`) USING BTREE,
   CONSTRAINT `reg_vocabulary_FK_` FOREIGN KEY (`created_user_id`) REFERENCES `reg_user` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
   CONSTRAINT `reg_vocabulary_FK_1` FOREIGN KEY (`updated_user_id`) REFERENCES `reg_user` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
   CONSTRAINT `reg_vocabulary_FK_2` FOREIGN KEY (`child_updated_user_id`) REFERENCES `reg_user` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
   CONSTRAINT `vocabulary_agent_fk` FOREIGN KEY (`agent_id`) REFERENCES `reg_agent` (`id`) ON UPDATE NO ACTION,
+  CONSTRAINT `vocabulary_profile_fk` FOREIGN KEY (`profile_id`) REFERENCES `profile` (`id`),
   CONSTRAINT `vocabulary_status_fk` FOREIGN KEY (`status_id`) REFERENCES `reg_status` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 AVG_ROW_LENGTH=1024 COMMENT='InnoDB free: 0 kB;';
 
@@ -736,6 +748,9 @@ CREATE TABLE `reg_vocabulary_has_user` (
   `is_maintainer_for` tinyint(1) DEFAULT '1',
   `is_registrar_for` tinyint(1) DEFAULT '1',
   `is_admin_for` tinyint(1) DEFAULT '1',
+  `languages` text,
+  `default_language` char(6) DEFAULT 'en',
+  `current_language` char(6) DEFAULT 'en',
   PRIMARY KEY (`id`),
   UNIQUE KEY `resource_user_id` (`vocabulary_id`,`user_id`),
   UNIQUE KEY `user_resource_id` (`user_id`,`vocabulary_id`),
@@ -773,6 +788,9 @@ CREATE TABLE `schema_has_user` (
   `is_maintainer_for` tinyint(1) DEFAULT '1',
   `is_registrar_for` tinyint(1) DEFAULT '1',
   `is_admin_for` tinyint(1) DEFAULT '1',
+  `languages` text,
+  `default_language` char(6) NOT NULL DEFAULT 'en',
+  `current_language` char(6) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`),
   KEY `schema_id` (`schema_id`),
@@ -844,7 +862,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `reg_agent` WRITE;
 ALTER TABLE `reg_agent` DISABLE KEYS;
-INSERT INTO `reg_agent` (`id`, `created_at`, `last_updated`, `deleted_at`, `org_email`, `org_name`, `ind_affiliation`, `ind_role`, `address1`, `address2`, `city`, `state`, `postal_code`, `country`, `phone`, `web_address`, `type`) VALUES 
+INSERT INTO `reg_agent` (`id`, `created_at`, `last_updated`, `deleted_at`, `org_email`, `org_name`, `ind_affiliation`, `ind_role`, `address1`, `address2`, `city`, `state`, `postal_code`, `country`, `phone`, `web_address`, `type`) VALUES
 	(1,'2014-05-05 21:27:54','2014-05-05 17:27:54',NULL,'test_owner@example.com','Test Owner','my affiliation',NULL,'my address 1','my address 2','my city','my','my postal code','US','my phone','http://mywebaddress.com','Individual'),
 	(2,'2014-05-06 17:51:46','2014-05-06 13:51:46',NULL,'owner@mail.com','owner','',NULL,'','','','','','US','','','Individual'),
 	(3,'2014-12-04 04:08:56','2014-12-03 23:08:56',NULL,'jphipps@madcreek.com','vocabs','',NULL,'','','','','','US','','','Individual');
@@ -854,7 +872,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `profile` WRITE;
 ALTER TABLE `profile` DISABLE KEYS;
-INSERT INTO `profile` (`id`, `agent_id`, `created_at`, `updated_at`, `deleted_at`, `created_by`, `updated_by`, `deleted_by`, `child_updated_at`, `child_updated_by`, `name`, `note`, `uri`, `url`, `base_domain`, `token`, `community`, `last_uri_id`, `status_id`, `language`) VALUES 
+INSERT INTO `profile` (`id`, `agent_id`, `created_at`, `updated_at`, `deleted_at`, `created_by`, `updated_by`, `deleted_by`, `child_updated_at`, `child_updated_by`, `name`, `note`, `uri`, `url`, `base_domain`, `token`, `community`, `last_uri_id`, `status_id`, `language`) VALUES
 	(1,58,'2008-04-20 11:52:00','2008-04-20 11:52:00',NULL,36,36,NULL,NULL,NULL,'NSDL Registry Schema',NULL,'http://registry/uri/profile/registryschema',NULL,'http://registry/uri/profile/registryschema','registryschema','100000',100000,1,'en');
 ALTER TABLE `profile` ENABLE KEYS;
 UNLOCK TABLES;
@@ -862,40 +880,40 @@ UNLOCK TABLES;
 
 LOCK TABLES `profile_property` WRITE;
 ALTER TABLE `profile_property` DISABLE KEYS;
-INSERT INTO `profile_property` (`id`, `created_at`, `updated_at`, `deleted_at`, `created_by`, `updated_by`, `deleted_by`, `profile_id`, `name`, `label`, `definition`, `comment`, `type`, `uri`, `status_id`, `language`, `note`, `display_order`, `picklist_order`, `examples`, `is_required`, `is_reciprocal`, `is_singleton`, `is_in_picklist`, `is_in_export`, `inverse_profile_property_id`, `is_in_class_picklist`, `is_in_property_picklist`, `is_in_rdf`, `is_in_xsd`, `is_attribute`, `has_language`, `is_object_prop`) VALUES 
-	(1,'2008-04-20 12:00:00','2008-04-20 15:00:00',NULL,36,36,NULL,1,'name','name',NULL,NULL,'property','reg:name',1,'en',NULL,1,1,NULL,1,0,1,0,1,NULL,0,0,1,1,1,1,0),
-	(2,'2008-04-20 12:00:00','2008-04-20 15:00:00',NULL,36,36,NULL,1,'label','label',NULL,NULL,'property','rdfs:label',1,'en',NULL,2,2,NULL,1,0,0,1,1,NULL,1,1,1,1,0,1,0),
-	(3,'2008-04-20 12:01:00','2008-04-20 15:01:01',NULL,36,36,NULL,1,'definition','description',NULL,NULL,'property','skos:definition',1,'en',NULL,3,3,NULL,0,0,0,1,1,NULL,1,1,1,1,0,1,0),
-	(4,'2008-04-20 12:02:00','2008-04-20 15:02:00',NULL,36,36,NULL,1,'type','type',NULL,NULL,'property','rdf:type',1,'en',NULL,5,5,NULL,1,0,1,0,1,NULL,0,0,1,1,1,0,1),
-	(5,'2008-04-20 00:02:00','2008-04-20 03:02:02',NULL,36,36,NULL,1,'comment','comment',NULL,NULL,'property','rdfs:comment',1,'en',NULL,4,4,NULL,0,0,0,1,1,NULL,1,1,1,1,0,1,0),
-	(6,'2008-04-20 00:03:00','2008-04-20 15:03:00',NULL,36,36,NULL,1,'isSubpropertyOf','subpropertyOf',NULL,NULL,'property','rdfs:subPropertyOf',1,'en',NULL,6,6,NULL,0,0,0,1,1,8,0,1,1,1,0,0,1),
-	(7,'2008-04-20 00:04:00','2008-04-20 03:04:00',NULL,36,36,NULL,1,'note','note',NULL,NULL,'property','skos:scopeNote',1,'en',NULL,8,8,NULL,0,0,0,1,1,NULL,1,1,1,1,0,1,0),
-	(8,'2008-04-20 12:05:00','2008-04-20 15:05:00',NULL,36,36,NULL,1,'hasSubproperty','hasSubproperty',NULL,NULL,'property','reg:hasSubproperty',1,'en',NULL,7,7,NULL,0,0,0,0,0,6,0,0,1,1,1,0,1),
-	(9,'2009-03-07 11:49:27','2009-03-07 14:49:27',NULL,36,36,NULL,1,'isSubclassOf','subClassOf','','','property','rdfs:subClassOf',1,'en','',9,9,'',0,0,0,0,1,10,1,0,1,1,0,0,1),
-	(10,'2009-03-07 11:53:34','2009-03-07 14:53:34',NULL,36,36,NULL,1,'hasSubClass','hasSubClass',NULL,NULL,'property','reg:hasSubClass',1,'en',NULL,10,10,NULL,0,0,0,0,0,9,1,0,1,1,1,0,1),
-	(11,'2009-03-07 11:57:15','2009-03-07 14:57:15',NULL,36,36,NULL,1,'domain','domain',NULL,NULL,'property','rdfs:domain',1,'en',NULL,11,11,NULL,0,0,0,1,1,NULL,0,1,1,1,0,0,1),
-	(12,'2009-03-07 12:01:38','2009-03-07 15:01:38',NULL,36,36,NULL,1,'orange','range',NULL,NULL,'property','rdfs:range',1,'en',NULL,12,12,NULL,0,0,0,1,1,NULL,0,1,1,1,0,0,1),
-	(13,'2009-03-07 12:01:38','2009-03-07 15:01:38',NULL,36,36,NULL,1,'uri','uri',NULL,NULL,'property','reg:uri',1,'en',NULL,13,13,NULL,1,0,1,0,0,NULL,0,0,0,1,1,0,1),
-	(14,'2009-03-07 12:01:38','2009-03-07 15:01:38',NULL,36,36,NULL,1,'statusId','status',NULL,NULL,'property','reg:status',1,'en',NULL,14,14,NULL,1,0,1,0,1,NULL,0,0,0,1,1,0,1),
-	(15,'2011-09-29 14:12:00','2011-09-29 10:20:25',NULL,36,36,NULL,1,'isInverseOf','inverseOf','','The property that determines that two given properties are inverse.','property','owl:inverseOf',1,'en','',15,15,'',0,1,0,1,1,NULL,0,1,1,0,0,0,1),
-	(16,'2011-09-29 14:23:24','2011-09-29 10:23:24',NULL,36,36,NULL,1,'isSameAs','sameAs','','The property that determines that two given individuals are equal.','property','owl:sameAs',1,'en','',16,16,'',0,1,0,1,1,NULL,1,1,1,0,0,0,1),
-	(17,'2011-09-29 14:26:25','2011-09-29 10:26:25',NULL,36,36,NULL,1,'propertyIsDisjointWith','propertyDisjointWith','','Used to specify that two properties are mutually disjoint, and it is defined as a property itself. ','property','owl:propertyDisjointWith',1,'en','',17,17,'',0,1,0,1,1,NULL,0,1,1,1,0,0,1),
-	(18,'2011-09-29 14:28:57','2011-09-29 10:28:57',NULL,36,36,NULL,1,'isEquivalentClass','equivalentClass','','The property that determines that two given classes are equivalent, and that is used to specify datatype definitions.','property','owl:equivalentClass',1,'en','',19,19,'',0,1,0,1,1,NULL,1,0,1,1,0,0,1),
-	(19,'2011-09-29 14:30:00','2011-09-29 10:30:00',NULL,36,36,NULL,1,'isEquivalentProperty','equivalentProperty','','','property','owl:equivalentProperty',1,'en','',20,20,'',0,1,0,1,1,NULL,0,1,1,1,0,0,1),
-	(20,'2012-02-02 23:21:08','2012-02-02 18:21:08',NULL,36,36,NULL,1,'isDisjointWith','disjointWith','','The property that determines that two given properties are disjoint.','property','owl:disjointWith',1,'en','',18,18,'',0,1,0,1,1,NULL,1,1,1,1,0,0,1),
-	(21,'2012-06-02 23:21:08','2012-06-02 19:21:08',NULL,36,36,NULL,1,'altLabel','altLabel',NULL,NULL,'property','skos:altLabel',1,'en',NULL,21,21,NULL,0,0,0,1,1,NULL,1,1,1,1,0,1,0),
-	(23,'2014-01-18 04:04:02','2014-01-17 23:04:02',NULL,36,36,NULL,1,'narrowMatch','narrowMatch',NULL,NULL,'property','skos:narrowMatch',1,'en',NULL,24,24,NULL,0,0,0,1,1,NULL,1,1,1,1,0,0,1),
-	(24,'2014-01-18 04:04:01','2014-01-17 23:04:01',NULL,36,36,NULL,1,'closeMatch','closeMatch',NULL,NULL,'property','skos:closeMatch',1,'en',NULL,23,23,NULL,0,0,0,1,1,NULL,1,1,1,1,0,0,1),
-	(25,'2014-01-18 04:04:00','2014-01-17 23:04:00',NULL,36,36,NULL,1,'broadMatch','broadMatch',NULL,NULL,'property','skos:broadMatch',1,'en',NULL,22,22,NULL,0,0,0,1,1,NULL,1,1,1,1,0,0,1),
-	(26,'2011-09-29 14:23:24','2011-09-29 10:23:24',NULL,36,36,NULL,1,'hasUnconstrained','hasUnconstrained','','','property','reg:hasUnconstrained',1,'en','',26,26,'',0,1,1,1,1,NULL,1,1,1,0,0,0,1),
-	(27,'2011-09-29 14:23:24','2011-09-29 10:23:24',NULL,36,36,NULL,1,'lexicalAlias','lexicalAlias','','','property','reg:lexicalAlias',1,'en','',25,25,'',0,0,0,1,1,NULL,1,1,1,0,0,1,1);
+INSERT INTO `profile_property` (`id`, `created_at`, `updated_at`, `deleted_at`, `created_by`, `updated_by`, `deleted_by`, `profile_id`, `name`, `label`, `definition`, `comment`, `type`, `uri`, `status_id`, `language`, `note`, `display_order`, `export_order`, `picklist_order`, `examples`, `is_required`, `is_reciprocal`, `is_singleton`, `is_in_picklist`, `is_in_export`, `inverse_profile_property_id`, `is_in_class_picklist`, `is_in_property_picklist`, `is_in_rdf`, `is_in_xsd`, `is_attribute`, `has_language`, `is_object_prop`) VALUES
+	(1,'2008-04-20 12:00:00','2008-04-20 15:00:00',NULL,36,36,NULL,1,'name','name',NULL,NULL,'property','reg:name',1,'en',NULL,1,3,1,NULL,1,0,1,0,1,NULL,0,0,1,1,1,1,0),
+	(2,'2008-04-20 12:00:00','2008-04-20 15:00:00',NULL,36,36,NULL,1,'label','label',NULL,NULL,'property','rdfs:label',1,'en',NULL,2,4,2,NULL,1,0,0,1,1,NULL,1,1,1,1,0,1,0),
+	(3,'2008-04-20 12:01:00','2008-04-20 15:01:01',NULL,36,36,NULL,1,'definition','description',NULL,NULL,'property','skos:definition',1,'en',NULL,3,6,3,NULL,0,0,0,1,1,NULL,1,1,1,1,0,1,0),
+	(4,'2008-04-20 12:02:00','2008-04-20 15:02:00',NULL,36,36,NULL,1,'type','type',NULL,NULL,'property','rdf:type',1,'en',NULL,5,2,5,NULL,1,0,1,0,1,NULL,0,0,1,1,1,0,1),
+	(5,'2008-04-20 00:02:00','2008-04-20 03:02:02',NULL,36,36,NULL,1,'comment','comment',NULL,NULL,'property','rdfs:comment',1,'en',NULL,4,8,4,NULL,0,0,0,1,1,NULL,1,1,1,1,0,1,0),
+	(6,'2008-04-20 00:03:00','2008-04-20 15:03:00',NULL,36,36,NULL,1,'isSubpropertyOf','subPropertyOf',NULL,NULL,'property','rdfs:subPropertyOf',1,'en',NULL,6,14,6,NULL,0,0,0,1,1,8,0,1,1,1,0,0,1),
+	(7,'2008-04-20 00:04:00','2008-04-20 03:04:00',NULL,36,36,NULL,1,'note','note',NULL,NULL,'property','skos:scopeNote',1,'en',NULL,8,7,8,NULL,0,0,0,1,1,NULL,1,1,1,1,0,1,0),
+	(8,'2008-04-20 12:05:00','2008-04-20 15:05:00',NULL,36,36,NULL,1,'hasSubproperty','hasSubproperty',NULL,NULL,'property','reg:hasSubproperty',1,'en',NULL,7,15,7,NULL,0,0,0,0,0,6,0,0,1,1,1,0,1),
+	(9,'2009-03-07 11:49:27','2009-03-07 14:49:27',NULL,36,36,NULL,1,'isSubclassOf','subClassOf','','','property','rdfs:subClassOf',1,'en','',9,12,9,'',0,0,0,0,1,10,1,0,1,1,0,0,1),
+	(10,'2009-03-07 11:53:34','2009-03-07 14:53:34',NULL,36,36,NULL,1,'hasSubClass','hasSubClass',NULL,NULL,'property','reg:hasSubClass',1,'en',NULL,10,13,10,NULL,0,0,0,0,0,9,1,0,1,1,1,0,1),
+	(11,'2009-03-07 11:57:15','2009-03-07 14:57:15',NULL,36,36,NULL,1,'domain','domain',NULL,NULL,'property','rdfs:domain',1,'en',NULL,11,9,11,NULL,0,0,0,1,1,NULL,0,1,1,1,0,0,1),
+	(12,'2009-03-07 12:01:38','2009-03-07 15:01:38',NULL,36,36,NULL,1,'orange','range',NULL,NULL,'property','rdfs:range',1,'en',NULL,12,10,12,NULL,0,0,0,1,1,NULL,0,1,1,1,0,0,1),
+	(13,'2009-03-07 12:01:38','2009-03-07 15:01:38',NULL,36,36,NULL,1,'uri','uri',NULL,NULL,'property','reg:uri',1,'en',NULL,0,1,13,NULL,1,0,1,0,1,NULL,0,0,0,1,1,0,1),
+	(14,'2009-03-07 12:01:38','2009-03-07 15:01:38',NULL,36,36,NULL,1,'statusId','status',NULL,NULL,'property','reg:status',1,'en',NULL,27,26,27,NULL,1,0,1,0,1,NULL,0,0,0,1,1,0,1),
+	(15,'2011-09-29 14:12:00','2011-09-29 10:20:25',NULL,36,36,NULL,1,'isInverseOf','inverseOf','','The property that determines that two given properties are inverse.','property','owl:inverseOf',1,'en','',15,16,15,'',0,1,0,1,1,NULL,0,1,1,0,0,0,1),
+	(16,'2011-09-29 14:23:24','2011-09-29 10:23:24',NULL,36,36,NULL,1,'isSameAs','sameAs','','The property that determines that two given individuals are equal.','property','owl:sameAs',1,'en','',16,17,16,'',0,1,0,1,1,NULL,1,1,1,0,0,0,1),
+	(17,'2011-09-29 14:26:25','2011-09-29 10:26:25',NULL,36,36,NULL,1,'propertyIsDisjointWith','propertyDisjointWith','','Used to specify that two properties are mutually disjoint, and it is defined as a property itself. ','property','owl:propertyDisjointWith',1,'en','',17,18,17,'',0,1,0,1,1,NULL,0,1,1,1,0,0,1),
+	(18,'2011-09-29 14:28:57','2011-09-29 10:28:57',NULL,36,36,NULL,1,'isEquivalentClass','equivalentClass','','The property that determines that two given classes are equivalent, and that is used to specify datatype definitions.','property','owl:equivalentClass',1,'en','',19,20,19,'',0,1,0,1,1,NULL,1,0,1,1,0,0,1),
+	(19,'2011-09-29 14:30:00','2011-09-29 10:30:00',NULL,36,36,NULL,1,'isEquivalentProperty','equivalentProperty','','','property','owl:equivalentProperty',1,'en','',20,21,20,'',0,1,0,1,1,NULL,0,1,1,1,0,0,1),
+	(20,'2012-02-02 23:21:08','2012-02-02 18:21:08',NULL,36,36,NULL,1,'isDisjointWith','disjointWith','','The property that determines that two given properties are disjoint.','property','owl:disjointWith',1,'en','',18,19,18,'',0,1,0,1,1,NULL,1,1,1,1,0,0,1),
+	(21,'2012-06-02 23:21:08','2012-06-02 19:21:08',NULL,36,36,NULL,1,'altLabel','altLabel',NULL,NULL,'property','skos:altLabel',1,'en',NULL,21,22,21,NULL,0,0,0,1,1,NULL,1,1,1,1,0,1,0),
+	(23,'2014-01-18 04:04:02','2014-01-17 23:04:02',NULL,36,36,NULL,1,'narrowMatch','narrowMatch',NULL,NULL,'property','skos:narrowMatch',1,'en',NULL,24,25,24,NULL,0,0,0,1,1,NULL,1,1,1,1,0,0,1),
+	(24,'2014-01-18 04:04:01','2014-01-17 23:04:01',NULL,36,36,NULL,1,'closeMatch','closeMatch',NULL,NULL,'property','skos:closeMatch',1,'en',NULL,23,24,23,NULL,0,0,0,1,1,NULL,1,1,1,1,0,0,1),
+	(25,'2014-01-18 04:04:00','2014-01-17 23:04:00',NULL,36,36,NULL,1,'broadMatch','broadMatch',NULL,NULL,'property','skos:broadMatch',1,'en',NULL,22,23,22,NULL,0,0,0,1,1,NULL,1,1,1,1,0,0,1),
+	(26,'2011-09-29 14:23:24','2011-09-29 10:23:24',NULL,36,36,NULL,1,'hasUnconstrained','hasUnconstrained','','','property','reg:hasUnconstrained',1,'en','',26,11,26,'',0,1,1,1,1,NULL,1,1,1,0,0,0,1),
+	(27,'2011-09-29 14:23:24','2011-09-29 10:23:24',NULL,36,36,NULL,1,'lexicalAlias','lexicalAlias','','','property','reg:lexicalAlias',1,'en','',25,5,25,'',0,0,0,1,1,NULL,1,1,1,0,0,1,1);
 ALTER TABLE `profile_property` ENABLE KEYS;
 UNLOCK TABLES;
 
 
 LOCK TABLES `reg_agent_has_user` WRITE;
 ALTER TABLE `reg_agent_has_user` DISABLE KEYS;
-INSERT INTO `reg_agent_has_user` (`id`, `created_at`, `updated_at`, `deleted_at`, `user_id`, `agent_id`, `is_registrar_for`, `is_admin_for`) VALUES 
+INSERT INTO `reg_agent_has_user` (`id`, `created_at`, `updated_at`, `deleted_at`, `user_id`, `agent_id`, `is_registrar_for`, `is_admin_for`) VALUES
 	(1,'2014-12-04 04:08:56','2014-12-04 04:08:56',NULL,2,3,1,1);
 ALTER TABLE `reg_agent_has_user` ENABLE KEYS;
 UNLOCK TABLES;
@@ -933,8 +951,8 @@ UNLOCK TABLES;
 
 LOCK TABLES `reg_schema` WRITE;
 ALTER TABLE `reg_schema` DISABLE KEYS;
-INSERT INTO `reg_schema` (`id`, `agent_id`, `created_at`, `updated_at`, `deleted_at`, `created_user_id`, `updated_user_id`, `child_updated_at`, `child_updated_user_id`, `name`, `note`, `uri`, `url`, `base_domain`, `token`, `community`, `last_uri_id`, `status_id`, `language`, `profile_id`, `ns_type`, `prefixes`, `languages`, `repo`) VALUES 
-	(1,3,'2014-12-04 04:11:44','2014-12-04 04:12:54',NULL,2,2,NULL,NULL,'Test Element Set','','http://registry.dev/uri/schema/testelement','','http://registry.dev/uri/schema/','testelement','',100000,1,'en',1,'slash',NULL,'a:2:{i:0;s:2:"en";i:1;s:2:"fr";}','');
+INSERT INTO `reg_schema` (`id`, `agent_id`, `created_at`, `updated_at`, `deleted_at`, `created_user_id`, `updated_user_id`, `child_updated_at`, `child_updated_user_id`, `name`, `note`, `uri`, `url`, `base_domain`, `token`, `community`, `last_uri_id`, `status_id`, `language`, `profile_id`, `ns_type`, `prefixes`, `languages`, `repo`) VALUES
+	(1,3,'2014-12-04 04:11:44','2015-01-20 20:04:41',NULL,2,2,NULL,NULL,'Test Element Set','','http://registry.dev/uri/schema/testelement','','http://registry.dev/uri/schema/','testelement','',100000,1,'en',1,'slash','','a:2:{i:0;s:2:"en";i:1;s:2:"fr";}','');
 ALTER TABLE `reg_schema` ENABLE KEYS;
 UNLOCK TABLES;
 
@@ -953,7 +971,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `reg_lookup` WRITE;
 ALTER TABLE `reg_lookup` DISABLE KEYS;
-INSERT INTO `reg_lookup` (`id`, `type_id`, `short_value`, `long_value`, `display_order`) VALUES 
+INSERT INTO `reg_lookup` (`id`, `type_id`, `short_value`, `long_value`, `display_order`) VALUES
 	(1,1,'Published','Published',7),
 	(2,1,'New-Proposed','New-Proposed',1),
 	(3,1,'Change-Proposed','Change-Proposed',2),
@@ -969,7 +987,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `reg_prefix` WRITE;
 ALTER TABLE `reg_prefix` DISABLE KEYS;
-INSERT INTO `reg_prefix` (`prefix`, `uri`, `rank`) VALUES 
+INSERT INTO `reg_prefix` (`prefix`, `uri`, `rank`) VALUES
 	('aair','http://xmlns.notu.be/aair#',544),
 	('aapi','http://rdf.alchemyapi.com/rdf/v1/s/aapi-schema#',691),
 	('aat','http://vocab.getty.edu/aat/',982),
@@ -2449,326 +2467,25 @@ UNLOCK TABLES;
 
 LOCK TABLES `reg_schema_property` WRITE;
 ALTER TABLE `reg_schema_property` DISABLE KEYS;
-INSERT INTO `reg_schema_property` (`id`, `created_at`, `updated_at`, `deleted_at`, `created_user_id`, `updated_user_id`, `schema_id`, `name`, `label`, `definition`, `comment`, `type`, `is_subproperty_of`, `parent_uri`, `uri`, `status_id`, `language`, `note`, `domain`, `orange`, `is_deprecated`) VALUES 
-	(1,'2015-01-11 01:51:30','2015-01-11 01:51:30',NULL,1,1,1,'subjectTo','subject to','This property associates a publication, i.e. an instance of F3 Manifestation Product Type, with an instance of E30 Right, which applies to all exemplars of that publication, as long as they are recognised as exemplars of that publication.','This property associates a publication, i.e. an instance of F3 Manifestation Product Type, with an instance of E30 Right, which applies to all exemplars of that publication, as long as they are recognised as exemplars of that publication. The rights covered by this property may include: acquisition or access authorisation; terms of availability; access restrictions on the Manifestation Product Type; etc.','property',NULL,NULL,'http://iflastandards.info/ns/fr/frbr/frbroo/CLP104',1,'en','The rights covered by this property may include: acquisition or access authorisation; terms of availability; access restrictions on the Manifestation Product Type; etc.','http://iflastandards.info/ns/fr/frbr/frbroo/F3','http://www.cidoc-crm.org/cidoc-crm/E30_Right',NULL),
-	(2,'2015-01-11 01:51:31','2015-01-11 01:51:31',NULL,1,1,1,'appliesTo','applies to',NULL,'Inverse of CLP104_subject_to.','property',NULL,NULL,'http://iflastandards.info/ns/fr/frbr/frbroo/CLP104i',1,'en',NULL,'http://www.cidoc-crm.org/cidoc-crm/E30_Right','http://iflastandards.info/ns/fr/frbr/frbroo/F3',NULL),
-	(3,'2015-01-11 01:51:32','2015-01-11 01:51:32',NULL,1,1,1,'rightHeldBy','right held by','This property associates a publication, i.e. an instance of F3 Manifestation Product Type, with an instance of E39 Actor, who holds an instance of E30 Right on all exemplars of that publication, as long as they are recognised as exemplars of that publication.','This property associates a publication, i.e. an instance of F3 Manifestation Product Type, with an instance of E39 Actor, who holds an instance of E30 Right on all exemplars of that publication, as long as they are recognised as exemplars of that publication.','property',NULL,NULL,'http://iflastandards.info/ns/fr/frbr/frbroo/CLP105',1,'en',NULL,'http://iflastandards.info/ns/fr/frbr/frbroo/F3','http://www.cidoc-crm.org/cidoc-crm/E39_Actor',NULL),
-	(4,'2015-01-11 01:51:32','2015-01-11 01:51:32',NULL,1,1,1,'Identifier','Identifier','This class comprises strings or codes assigned to instances of E1 CRM Entity in order to identify them uniquely and permanently within the context of one or more organisations. Such codes are often known as inventory numbers, registration codes, etc. and are typically composed of alphanumeric sequences.','This class comprises strings or codes assigned to instances of E1 CRM Entity in order to identify them uniquely and permanently within the context of one or more organisations. Such codes are often known as inventory numbers, registration codes, etc. and are typically composed of alphanumeric sequences. The class E42 Identifier is not normally used for machine-generated identifiers used for automated processing unless these are also used by human agents. [Adapted from the Scope Note of CIDOC CRM E42 Identifier ver. 5.0.1]','subclass',NULL,'http://iflastandards.info/ns/fr/frbr/frbroo/F12','http://iflastandards.info/ns/fr/frbr/frbroo/F13',1,'en','The class E42 Identifier is not normally used for machine-generated identifiers used for automated processing unless these are also used by human agents.',NULL,NULL,NULL),
-	(5,'2015-01-11 01:51:33','2015-01-11 01:51:33',NULL,1,1,1,'KOS','KOS','This class comprises documents that establish controlled terminology (nomina) for consistent use. They may also describe relationships between entities and controlled terminology and relationships between entities.','This class comprises documents that establish controlled terminology (nomina) for consistent use. They may also describe relationships between entities and controlled terminology and relationships between entities. Note that any meaningful change in a Knowledge Organisation System (KOS) that affects the validity status of its elements defines a new release (Expression) of the KOS. Note that identifiers created following a rule in a KOS are to be regarded as being taken from this KOS, even though not explicitly spelled out. This definition of KOS reflects current library practice and not the use of the term in general.','subclass',NULL,'http://iflastandards.info/ns/fr/frbr/frbroo/F2','http://iflastandards.info/ns/fr/frbr/frbroo/F34',1,'en','Note that any meaningful change in a Knowledge Organisation System (KOS) that affects the validity status of its elements defines a new release (Expression) of the KOS. Note that identifiers created following a rule in a KOS are to be regarded as being taken from this KOS, even though not explicitly spelled out. This definition of KOS reflects current library practice and not the use of the term in general.',NULL,NULL,NULL),
-	(6,'2015-01-11 01:51:34','2015-01-11 01:51:34',NULL,1,1,1,'NomenUseStatement','Nomen Use Statement','This class comprises statements relating a Thema with a particular Nomen and its usage in the context of a common Complex Work realized by one or more KOS.','This class comprises statements relating a Thema with a particular Nomen and its usage in the context of a common Complex Work realized by one or more KOS.','subclass',NULL,'http://iflastandards.info/ns/fr/frbr/frbroo/F2','http://iflastandards.info/ns/fr/frbr/frbroo/F35',1,'en',NULL,NULL,NULL,NULL),
-	(7,'2015-01-11 01:51:34','2015-01-11 01:51:34',NULL,1,1,1,'isLogicalSuccessorOf','is logical successor of','This property associates an instance of F1 Work which logically continues the content of another instance of F1 Work with the latter.','This property associates an instance of F1 Work which logically continues the content of another instance of F1 Work with the latter.','subproperty',NULL,'http://www.cidoc-crm.org/cidoc-crm/P130_shows_features_of','http://iflastandards.info/ns/fr/frbr/frbroo/R1',1,'en',NULL,'http://iflastandards.info/ns/fr/frbr/frbroo/F1','http://iflastandards.info/ns/fr/frbr/frbroo/F1',NULL),
-	(8,'2015-01-11 01:51:35','2015-01-11 01:51:35',NULL,1,1,1,'incorporates','incorporates','This property associates an instance of F22 Self-Contained Expression with an instance of F2 Expression that was included in it and that is a realisation of an independent work. The incorporated expression may be self-contained or fragmentary.','This property associates an instance of F22 Self-Contained Expression with an instance of F2 Expression that was included in it and that is a realisation of an independent work. The incorporated expression may be self-contained or fragmentary. This property makes it possible to recognise the autonomous status of the incorporated expression, which was created in a distinct context, and can be incorporated in many distinct self-contained expressions, and to highlight the difference between structural and accidental whole-part relationships between conceptual entities. It accounts for many cultural facts that are quite frequent and significant: the inclusion of a poem in an anthology, the re-use of an operatic aria in a new opera, the use of a reproduction of a painting for a book cover or a CD booklet, the integration of textual quotations, the presence of lyrics in a song that sets those lyrics to music, the presence of the text of a play in a movie based on that play, etc.','subproperty',NULL,'http://www.cidoc-crm.org/cidoc-crm/P148_has_component','http://iflastandards.info/ns/fr/frbr/frbroo/R14',1,'en','This property makes it possible to recognise the autonomous status of the incorporated expression, which was created in a distinct context, and can be incorporated in many distinct self-contained expressions, and to highlight the difference between structural and accidental whole-part relationships between conceptual entities. It accounts for many cultural facts that are quite frequent and significant: the inclusion of a poem in an anthology, the re-use of an operatic aria in a new opera, the use of a reproduction of a painting for a book cover or a CD booklet, the integration of textual quotations, the presence of lyrics in a song that sets those lyrics to music, the presence of the text of a play in a movie based on that play, etc.','http://iflastandards.info/ns/fr/frbr/frbroo/F22','http://iflastandards.info/ns/fr/frbr/frbroo/F2',NULL),
-	(9,'2015-01-11 01:51:36','2015-01-11 01:51:36',NULL,1,1,1,'isRealisedInRecordingOfRecordingWork','is realised in Recording of Recording Work','This property associates an instance of F21 Recording Work with an instance of F26 Recording realising the instance of F21 Recording work.','This property associates an instance of F21 Recording Work with an instance of F26 Recording realising the instance of F21 Recording work. This is a shortcut of the more elaborated path through R22 was realised through, F29 Recording Event and R21 created, which should be used when information about the recording event is available.','subproperty',NULL,'http://iflastandards.info/ns/fr/frbr/frbroo/R3','http://iflastandards.info/ns/fr/frbr/frbroo/R13',1,'en','This is a shortcut of the more elaborated path through R22 was realised through, F29 Recording Event and R21 created, which should be used when information about the recording event is available.','http://iflastandards.info/ns/fr/frbr/frbroo/F21','http://iflastandards.info/ns/fr/frbr/frbroo/F26',NULL),
-	(10,'2015-01-11 01:51:36','2015-01-11 01:51:36',NULL,1,1,1,'realisesRecordingWorkByRecording','realises Recording Work by Recording',NULL,'Inverse of R13_is_realised_in.','subproperty',NULL,'http://iflastandards.info/ns/fr/frbr/frbroo/R3i','http://iflastandards.info/ns/fr/frbr/frbroo/R13i',1,'en',NULL,'http://iflastandards.info/ns/fr/frbr/frbroo/F26','http://iflastandards.info/ns/fr/frbr/frbroo/F21',NULL),
-	(11,'2015-01-11 01:51:37','2015-01-11 01:51:37',NULL,1,1,1,'hasIssuingRule','has issuing rule','This property associates an instance of F18 Serial Work with the instance of E29 Design or Procedure that specifies the issuing policy planned by this Work, such as sequencing pattern, expected frequency and expected regularity.','This property associates an instance of F18 Serial Work with the instance of E29 Design or Procedure that specifies the issuing policy planned by this Work, such as sequencing pattern, expected frequency and expected regularity. This property is a shortcut of the full path: F18 Serial Work R23B was realised through F30 Publication Event P16 used specific object E29 Design or Procedure.','property',NULL,NULL,'http://iflastandards.info/ns/fr/frbr/frbroo/R11',1,'en','This property is a shortcut of the full path: F18 Serial Work R23B was realised through F30 Publication Event P16 used specific object E29 Design or Procedure.','http://iflastandards.info/ns/fr/frbr/frbroo/F18','http://www.cidoc-crm.org/cidoc-crm/E29_Design_or_Procedure',NULL),
-	(12,'2015-01-11 01:51:38','2015-01-11 01:51:38',NULL,1,1,1,'isIssuingRuleOf','is issuing rule of',NULL,'Inverse of R11_has_issuing_rule.','property',NULL,NULL,'http://iflastandards.info/ns/fr/frbr/frbroo/R11i',1,'en',NULL,'http://www.cidoc-crm.org/cidoc-crm/E29_Design_or_Procedure','http://iflastandards.info/ns/fr/frbr/frbroo/F18',NULL);
 ALTER TABLE `reg_schema_property` ENABLE KEYS;
 UNLOCK TABLES;
 
 
 LOCK TABLES `reg_schema_property_element` WRITE;
 ALTER TABLE `reg_schema_property_element` DISABLE KEYS;
-INSERT INTO `reg_schema_property_element` (`id`, `created_at`, `updated_at`, `deleted_at`, `created_user_id`, `updated_user_id`, `schema_property_id`, `profile_property_id`, `is_schema_property`, `object`, `related_schema_property_id`, `language`, `status_id`) VALUES 
-	(1,'2015-01-11 01:51:31','2015-01-11 01:51:31',NULL,1,1,1,1,1,'subjectTo',NULL,'en',1),
-	(2,'2015-01-11 01:51:31','2015-01-11 01:51:31',NULL,1,1,1,2,1,'subject to',NULL,'en',1),
-	(3,'2015-01-11 01:51:31','2015-01-11 01:51:31',NULL,1,1,1,3,1,'This property associates a publication, i.e. an instance of F3 Manifestation Product Type, with an instance of E30 Right, which applies to all exemplars of that publication, as long as they are recognised as exemplars of that publication.',NULL,'en',1),
-	(4,'2015-01-11 01:51:31','2015-01-11 01:51:31',NULL,1,1,1,4,1,'property',NULL,'en',1),
-	(5,'2015-01-11 01:51:31','2015-01-11 01:51:31',NULL,1,1,1,5,1,'This property associates a publication, i.e. an instance of F3 Manifestation Product Type, with an instance of E30 Right, which applies to all exemplars of that publication, as long as they are recognised as exemplars of that publication. The rights covered by this property may include: acquisition or access authorisation; terms of availability; access restrictions on the Manifestation Product Type; etc.',NULL,'en',1),
-	(6,'2015-01-11 01:51:31','2015-01-11 01:51:31',NULL,1,1,1,7,1,'The rights covered by this property may include: acquisition or access authorisation; terms of availability; access restrictions on the Manifestation Product Type; etc.',NULL,'en',1),
-	(7,'2015-01-11 01:51:31','2015-01-11 01:51:31',NULL,1,1,1,11,1,'http://iflastandards.info/ns/fr/frbr/frbroo/F3',NULL,'en',1),
-	(8,'2015-01-11 01:51:31','2015-01-11 01:51:31',NULL,1,1,1,12,1,'http://www.cidoc-crm.org/cidoc-crm/E30_Right',NULL,'en',1),
-	(9,'2015-01-11 01:51:31','2015-01-11 01:51:31',NULL,1,1,1,13,1,'http://iflastandards.info/ns/fr/frbr/frbroo/CLP104',NULL,'en',1),
-	(10,'2015-01-11 01:51:31','2015-01-11 01:51:31',NULL,1,1,1,14,1,'1',NULL,'en',1),
-	(11,'2015-01-11 01:51:30','2015-01-11 01:51:30',NULL,1,1,1,16,NULL,'http://iflastandards.info/ns/fr/frbr/frbroo/CLP104_subject_to',NULL,'en',1),
-	(12,'2015-01-11 01:51:30','2015-01-11 01:51:38',NULL,1,1,1,15,NULL,'http://iflastandards.info/ns/fr/frbr/frbroo/CLP104i',2,'en',1),
-	(13,'2015-01-11 01:51:31','2015-01-11 01:51:31',NULL,1,1,2,1,1,'appliesTo',NULL,'en',1),
-	(14,'2015-01-11 01:51:31','2015-01-11 01:51:31',NULL,1,1,2,2,1,'applies to',NULL,'en',1),
-	(15,'2015-01-11 01:51:31','2015-01-11 01:51:31',NULL,1,1,2,4,1,'property',NULL,'en',1),
-	(16,'2015-01-11 01:51:31','2015-01-11 01:51:31',NULL,1,1,2,5,1,'Inverse of CLP104_subject_to.',NULL,'en',1),
-	(17,'2015-01-11 01:51:31','2015-01-11 01:51:31',NULL,1,1,2,11,1,'http://www.cidoc-crm.org/cidoc-crm/E30_Right',NULL,'en',1),
-	(18,'2015-01-11 01:51:31','2015-01-11 01:51:31',NULL,1,1,2,12,1,'http://iflastandards.info/ns/fr/frbr/frbroo/F3',NULL,'en',1),
-	(19,'2015-01-11 01:51:31','2015-01-11 01:51:31',NULL,1,1,2,13,1,'http://iflastandards.info/ns/fr/frbr/frbroo/CLP104i',NULL,'en',1),
-	(20,'2015-01-11 01:51:32','2015-01-11 01:51:32',NULL,1,1,2,14,1,'1',NULL,'en',1),
-	(21,'2015-01-11 01:51:31','2015-01-11 01:51:31',NULL,1,1,2,16,NULL,'http://iflastandards.info/ns/fr/frbr/frbroo/CLP104i_applies_to',NULL,'en',1),
-	(22,'2015-01-11 01:51:31','2015-01-11 01:51:38',NULL,1,1,2,15,NULL,'http://iflastandards.info/ns/fr/frbr/frbroo/CLP104',1,'en',1),
-	(23,'2015-01-11 01:51:32','2015-01-11 01:51:32',NULL,1,1,3,1,1,'rightHeldBy',NULL,'en',1),
-	(24,'2015-01-11 01:51:32','2015-01-11 01:51:32',NULL,1,1,3,2,1,'right held by',NULL,'en',1),
-	(25,'2015-01-11 01:51:32','2015-01-11 01:51:32',NULL,1,1,3,3,1,'This property associates a publication, i.e. an instance of F3 Manifestation Product Type, with an instance of E39 Actor, who holds an instance of E30 Right on all exemplars of that publication, as long as they are recognised as exemplars of that publication.',NULL,'en',1),
-	(26,'2015-01-11 01:51:32','2015-01-11 01:51:32',NULL,1,1,3,4,1,'property',NULL,'en',1),
-	(27,'2015-01-11 01:51:32','2015-01-11 01:51:32',NULL,1,1,3,5,1,'This property associates a publication, i.e. an instance of F3 Manifestation Product Type, with an instance of E39 Actor, who holds an instance of E30 Right on all exemplars of that publication, as long as they are recognised as exemplars of that publication.',NULL,'en',1),
-	(28,'2015-01-11 01:51:32','2015-01-11 01:51:32',NULL,1,1,3,11,1,'http://iflastandards.info/ns/fr/frbr/frbroo/F3',NULL,'en',1),
-	(29,'2015-01-11 01:51:32','2015-01-11 01:51:32',NULL,1,1,3,12,1,'http://www.cidoc-crm.org/cidoc-crm/E39_Actor',NULL,'en',1),
-	(30,'2015-01-11 01:51:32','2015-01-11 01:51:32',NULL,1,1,3,13,1,'http://iflastandards.info/ns/fr/frbr/frbroo/CLP105',NULL,'en',1),
-	(31,'2015-01-11 01:51:32','2015-01-11 01:51:32',NULL,1,1,3,14,1,'1',NULL,'en',1),
-	(32,'2015-01-11 01:51:32','2015-01-11 01:51:32',NULL,1,1,3,16,NULL,'http://iflastandards.info/ns/fr/frbr/frbroo/CLP105_right_held_by',NULL,'en',1),
-	(33,'2015-01-11 01:51:32','2015-01-11 01:51:32',NULL,1,1,3,15,NULL,'http://iflastandards.info/ns/fr/frbr/frbroo/CLP105i',NULL,'en',1),
-	(34,'2015-01-11 01:51:32','2015-01-11 01:51:32',NULL,1,1,4,1,1,'Identifier',NULL,'en',1),
-	(35,'2015-01-11 01:51:32','2015-01-11 01:51:32',NULL,1,1,4,2,1,'Identifier',NULL,'en',1),
-	(36,'2015-01-11 01:51:32','2015-01-11 01:51:32',NULL,1,1,4,3,1,'This class comprises strings or codes assigned to instances of E1 CRM Entity in order to identify them uniquely and permanently within the context of one or more organisations. Such codes are often known as inventory numbers, registration codes, etc. and are typically composed of alphanumeric sequences.',NULL,'en',1),
-	(37,'2015-01-11 01:51:33','2015-01-11 01:51:33',NULL,1,1,4,4,1,'subclass',NULL,'en',1),
-	(38,'2015-01-11 01:51:33','2015-01-11 01:51:33',NULL,1,1,4,5,1,'This class comprises strings or codes assigned to instances of E1 CRM Entity in order to identify them uniquely and permanently within the context of one or more organisations. Such codes are often known as inventory numbers, registration codes, etc. and are typically composed of alphanumeric sequences. The class E42 Identifier is not normally used for machine-generated identifiers used for automated processing unless these are also used by human agents. [Adapted from the Scope Note of CIDOC CRM E42 Identifier ver. 5.0.1]',NULL,'en',1),
-	(39,'2015-01-11 01:51:33','2015-01-11 01:51:33',NULL,1,1,4,7,1,'The class E42 Identifier is not normally used for machine-generated identifiers used for automated processing unless these are also used by human agents.',NULL,'en',1),
-	(40,'2015-01-11 01:51:33','2015-01-11 01:51:33',NULL,1,1,4,13,1,'http://iflastandards.info/ns/fr/frbr/frbroo/F13',NULL,'en',1),
-	(41,'2015-01-11 01:51:33','2015-01-11 01:51:33',NULL,1,1,4,14,1,'1',NULL,'en',1),
-	(42,'2015-01-11 01:51:33','2015-01-11 01:51:33',NULL,1,1,4,9,1,'http://iflastandards.info/ns/fr/frbr/frbroo/F12',NULL,'en',1),
-	(43,'2015-01-11 01:51:32','2015-01-11 01:51:32',NULL,1,1,4,9,NULL,'http://www.cidoc-crm.org/cidoc-crm/E42_Identifier',NULL,'en',1),
-	(44,'2015-01-11 01:51:32','2015-01-11 01:51:32',NULL,1,1,4,16,NULL,'http://iflastandards.info/ns/fr/frbr/frbroo/F13_Identifier',NULL,'en',1),
-	(45,'2015-01-11 01:51:33','2015-01-11 01:51:33',NULL,1,1,5,1,1,'KOS',NULL,'en',1),
-	(46,'2015-01-11 01:51:33','2015-01-11 01:51:33',NULL,1,1,5,2,1,'KOS',NULL,'en',1),
-	(47,'2015-01-11 01:51:33','2015-01-11 01:51:33',NULL,1,1,5,3,1,'This class comprises documents that establish controlled terminology (nomina) for consistent use. They may also describe relationships between entities and controlled terminology and relationships between entities.',NULL,'en',1),
-	(48,'2015-01-11 01:51:33','2015-01-11 01:51:33',NULL,1,1,5,4,1,'subclass',NULL,'en',1),
-	(49,'2015-01-11 01:51:33','2015-01-11 01:51:33',NULL,1,1,5,5,1,'This class comprises documents that establish controlled terminology (nomina) for consistent use. They may also describe relationships between entities and controlled terminology and relationships between entities. Note that any meaningful change in a Knowledge Organisation System (KOS) that affects the validity status of its elements defines a new release (Expression) of the KOS. Note that identifiers created following a rule in a KOS are to be regarded as being taken from this KOS, even though not explicitly spelled out. This definition of KOS reflects current library practice and not the use of the term in general.',NULL,'en',1),
-	(50,'2015-01-11 01:51:33','2015-01-11 01:51:33',NULL,1,1,5,7,1,'Note that any meaningful change in a Knowledge Organisation System (KOS) that affects the validity status of its elements defines a new release (Expression) of the KOS. Note that identifiers created following a rule in a KOS are to be regarded as being taken from this KOS, even though not explicitly spelled out. This definition of KOS reflects current library practice and not the use of the term in general.',NULL,'en',1),
-	(51,'2015-01-11 01:51:33','2015-01-11 01:51:33',NULL,1,1,5,13,1,'http://iflastandards.info/ns/fr/frbr/frbroo/F34',NULL,'en',1),
-	(52,'2015-01-11 01:51:33','2015-01-11 01:51:33',NULL,1,1,5,14,1,'1',NULL,'en',1),
-	(53,'2015-01-11 01:51:33','2015-01-11 01:51:33',NULL,1,1,5,9,1,'http://iflastandards.info/ns/fr/frbr/frbroo/F2',NULL,'en',1),
-	(54,'2015-01-11 01:51:33','2015-01-11 01:51:33',NULL,1,1,5,9,NULL,'http://www.cidoc-crm.org/cidoc-crm/E32_Authority_Document',NULL,'en',1),
-	(55,'2015-01-11 01:51:33','2015-01-11 01:51:33',NULL,1,1,5,9,NULL,'http://www.cidoc-crm.org/cidoc-crm/E29_Design_or_Procedure',NULL,'en',1),
-	(56,'2015-01-11 01:51:33','2015-01-11 01:51:33',NULL,1,1,5,16,NULL,'http://iflastandards.info/ns/fr/frbr/frbroo/F34_KOS',NULL,'en',1),
-	(57,'2015-01-11 01:51:34','2015-01-11 01:51:34',NULL,1,1,6,1,1,'NomenUseStatement',NULL,'en',1),
-	(58,'2015-01-11 01:51:34','2015-01-11 01:51:34',NULL,1,1,6,2,1,'Nomen Use Statement',NULL,'en',1),
-	(59,'2015-01-11 01:51:34','2015-01-11 01:51:34',NULL,1,1,6,3,1,'This class comprises statements relating a Thema with a particular Nomen and its usage in the context of a common Complex Work realized by one or more KOS.',NULL,'en',1),
-	(60,'2015-01-11 01:51:34','2015-01-11 01:51:34',NULL,1,1,6,4,1,'subclass',NULL,'en',1),
-	(61,'2015-01-11 01:51:34','2015-01-11 01:51:34',NULL,1,1,6,5,1,'This class comprises statements relating a Thema with a particular Nomen and its usage in the context of a common Complex Work realized by one or more KOS.',NULL,'en',1),
-	(62,'2015-01-11 01:51:34','2015-01-11 01:51:34',NULL,1,1,6,13,1,'http://iflastandards.info/ns/fr/frbr/frbroo/F35',NULL,'en',1),
-	(63,'2015-01-11 01:51:34','2015-01-11 01:51:34',NULL,1,1,6,14,1,'1',NULL,'en',1),
-	(64,'2015-01-11 01:51:34','2015-01-11 01:51:34',NULL,1,1,6,9,1,'http://iflastandards.info/ns/fr/frbr/frbroo/F2',NULL,'en',1),
-	(65,'2015-01-11 01:51:34','2015-01-11 01:51:34',NULL,1,1,6,9,NULL,'http://www.cidoc-crm.org/cidoc-crm/E29_Design_or_Procedure',NULL,'en',1),
-	(66,'2015-01-11 01:51:34','2015-01-11 01:51:34',NULL,1,1,6,16,NULL,'http://iflastandards.info/ns/fr/frbr/frbroo/F35_Nomen_Use_Statement',NULL,'en',1),
-	(67,'2015-01-11 01:51:34','2015-01-11 01:51:34',NULL,1,1,7,1,1,'isLogicalSuccessorOf',NULL,'en',1),
-	(68,'2015-01-11 01:51:34','2015-01-11 01:51:34',NULL,1,1,7,2,1,'is logical successor of',NULL,'en',1),
-	(69,'2015-01-11 01:51:34','2015-01-11 01:51:34',NULL,1,1,7,3,1,'This property associates an instance of F1 Work which logically continues the content of another instance of F1 Work with the latter.',NULL,'en',1),
-	(70,'2015-01-11 01:51:34','2015-01-11 01:51:34',NULL,1,1,7,4,1,'subproperty',NULL,'en',1),
-	(71,'2015-01-11 01:51:34','2015-01-11 01:51:34',NULL,1,1,7,5,1,'This property associates an instance of F1 Work which logically continues the content of another instance of F1 Work with the latter.',NULL,'en',1),
-	(72,'2015-01-11 01:51:34','2015-01-11 01:51:34',NULL,1,1,7,11,1,'http://iflastandards.info/ns/fr/frbr/frbroo/F1',NULL,'en',1),
-	(73,'2015-01-11 01:51:35','2015-01-11 01:51:35',NULL,1,1,7,12,1,'http://iflastandards.info/ns/fr/frbr/frbroo/F1',NULL,'en',1),
-	(74,'2015-01-11 01:51:35','2015-01-11 01:51:35',NULL,1,1,7,13,1,'http://iflastandards.info/ns/fr/frbr/frbroo/R1',NULL,'en',1),
-	(75,'2015-01-11 01:51:35','2015-01-11 01:51:35',NULL,1,1,7,14,1,'1',NULL,'en',1),
-	(76,'2015-01-11 01:51:35','2015-01-11 01:51:35',NULL,1,1,7,6,1,'http://www.cidoc-crm.org/cidoc-crm/P130_shows_features_of',NULL,'en',1),
-	(77,'2015-01-11 01:51:34','2015-01-11 01:51:34',NULL,1,1,7,16,NULL,'http://iflastandards.info/ns/fr/frbr/frbroo/R1_is_logical_successor_of',NULL,'en',1),
-	(78,'2015-01-11 01:51:34','2015-01-11 01:51:34',NULL,1,1,7,15,NULL,'http://iflastandards.info/ns/fr/frbr/frbroo/R1i',NULL,'en',1),
-	(79,'2015-01-11 01:51:35','2015-01-11 01:51:35',NULL,1,1,8,1,1,'incorporates',NULL,'en',1),
-	(80,'2015-01-11 01:51:35','2015-01-11 01:51:35',NULL,1,1,8,2,1,'incorporates',NULL,'en',1),
-	(81,'2015-01-11 01:51:35','2015-01-11 01:51:35',NULL,1,1,8,3,1,'This property associates an instance of F22 Self-Contained Expression with an instance of F2 Expression that was included in it and that is a realisation of an independent work. The incorporated expression may be self-contained or fragmentary.',NULL,'en',1),
-	(82,'2015-01-11 01:51:35','2015-01-11 01:51:35',NULL,1,1,8,4,1,'subproperty',NULL,'en',1),
-	(83,'2015-01-11 01:51:35','2015-01-11 01:51:35',NULL,1,1,8,5,1,'This property associates an instance of F22 Self-Contained Expression with an instance of F2 Expression that was included in it and that is a realisation of an independent work. The incorporated expression may be self-contained or fragmentary. This property makes it possible to recognise the autonomous status of the incorporated expression, which was created in a distinct context, and can be incorporated in many distinct self-contained expressions, and to highlight the difference between structural and accidental whole-part relationships between conceptual entities. It accounts for many cultural facts that are quite frequent and significant: the inclusion of a poem in an anthology, the re-use of an operatic aria in a new opera, the use of a reproduction of a painting for a book cover or a CD booklet, the integration of textual quotations, the presence of lyrics in a song that sets those lyrics to music, the presence of the text of a play in a movie based on that play, etc.',NULL,'en',1),
-	(84,'2015-01-11 01:51:35','2015-01-11 01:51:35',NULL,1,1,8,7,1,'This property makes it possible to recognise the autonomous status of the incorporated expression, which was created in a distinct context, and can be incorporated in many distinct self-contained expressions, and to highlight the difference between structural and accidental whole-part relationships between conceptual entities. It accounts for many cultural facts that are quite frequent and significant: the inclusion of a poem in an anthology, the re-use of an operatic aria in a new opera, the use of a reproduction of a painting for a book cover or a CD booklet, the integration of textual quotations, the presence of lyrics in a song that sets those lyrics to music, the presence of the text of a play in a movie based on that play, etc.',NULL,'en',1),
-	(85,'2015-01-11 01:51:35','2015-01-11 01:51:35',NULL,1,1,8,11,1,'http://iflastandards.info/ns/fr/frbr/frbroo/F22',NULL,'en',1),
-	(86,'2015-01-11 01:51:35','2015-01-11 01:51:35',NULL,1,1,8,12,1,'http://iflastandards.info/ns/fr/frbr/frbroo/F2',NULL,'en',1),
-	(87,'2015-01-11 01:51:35','2015-01-11 01:51:35',NULL,1,1,8,13,1,'http://iflastandards.info/ns/fr/frbr/frbroo/R14',NULL,'en',1),
-	(88,'2015-01-11 01:51:35','2015-01-11 01:51:35',NULL,1,1,8,14,1,'1',NULL,'en',1),
-	(89,'2015-01-11 01:51:35','2015-01-11 01:51:35',NULL,1,1,8,6,1,'http://www.cidoc-crm.org/cidoc-crm/P148_has_component',NULL,'en',1),
-	(90,'2015-01-11 01:51:35','2015-01-11 01:51:35',NULL,1,1,8,6,NULL,'http://www.cidoc-crm.org/cidoc-crm/P106_is_composed_of',NULL,'en',1),
-	(91,'2015-01-11 01:51:35','2015-01-11 01:51:35',NULL,1,1,8,16,NULL,'http://iflastandards.info/ns/fr/frbr/frbroo/R14_incorporates',NULL,'en',1),
-	(92,'2015-01-11 01:51:35','2015-01-11 01:51:35',NULL,1,1,8,15,NULL,'http://iflastandards.info/ns/fr/frbr/frbroo/R14i',NULL,'en',1),
-	(93,'2015-01-11 01:51:36','2015-01-11 01:51:36',NULL,1,1,9,1,1,'isRealisedInRecordingOfRecordingWork',NULL,'en',1),
-	(94,'2015-01-11 01:51:36','2015-01-11 01:51:36',NULL,1,1,9,2,1,'is realised in Recording of Recording Work',NULL,'en',1),
-	(95,'2015-01-11 01:51:36','2015-01-11 01:51:36',NULL,1,1,9,3,1,'This property associates an instance of F21 Recording Work with an instance of F26 Recording realising the instance of F21 Recording work.',NULL,'en',1),
-	(96,'2015-01-11 01:51:36','2015-01-11 01:51:36',NULL,1,1,9,4,1,'subproperty',NULL,'en',1),
-	(97,'2015-01-11 01:51:36','2015-01-11 01:51:36',NULL,1,1,9,5,1,'This property associates an instance of F21 Recording Work with an instance of F26 Recording realising the instance of F21 Recording work. This is a shortcut of the more elaborated path through R22 was realised through, F29 Recording Event and R21 created, which should be used when information about the recording event is available.',NULL,'en',1),
-	(98,'2015-01-11 01:51:36','2015-01-11 01:51:36',NULL,1,1,9,7,1,'This is a shortcut of the more elaborated path through R22 was realised through, F29 Recording Event and R21 created, which should be used when information about the recording event is available.',NULL,'en',1),
-	(99,'2015-01-11 01:51:36','2015-01-11 01:51:36',NULL,1,1,9,11,1,'http://iflastandards.info/ns/fr/frbr/frbroo/F21',NULL,'en',1),
-	(100,'2015-01-11 01:51:36','2015-01-11 01:51:36',NULL,1,1,9,12,1,'http://iflastandards.info/ns/fr/frbr/frbroo/F26',NULL,'en',1),
-	(101,'2015-01-11 01:51:36','2015-01-11 01:51:36',NULL,1,1,9,13,1,'http://iflastandards.info/ns/fr/frbr/frbroo/R13',NULL,'en',1),
-	(102,'2015-01-11 01:51:36','2015-01-11 01:51:36',NULL,1,1,9,14,1,'1',NULL,'en',1),
-	(103,'2015-01-11 01:51:36','2015-01-11 01:51:36',NULL,1,1,9,6,1,'http://iflastandards.info/ns/fr/frbr/frbroo/R3',NULL,'en',1),
-	(104,'2015-01-11 01:51:36','2015-01-11 01:51:36',NULL,1,1,9,16,NULL,'http://iflastandards.info/ns/fr/frbr/frbroo/R13_is_realised_in',NULL,'en',1),
-	(105,'2015-01-11 01:51:36','2015-01-11 01:51:39',NULL,1,1,9,15,NULL,'http://iflastandards.info/ns/fr/frbr/frbroo/R13i',10,'en',1),
-	(106,'2015-01-11 01:51:36','2015-01-11 01:51:36',NULL,1,1,10,1,1,'realisesRecordingWorkByRecording',NULL,'en',1),
-	(107,'2015-01-11 01:51:36','2015-01-11 01:51:36',NULL,1,1,10,2,1,'realises Recording Work by Recording',NULL,'en',1),
-	(108,'2015-01-11 01:51:36','2015-01-11 01:51:36',NULL,1,1,10,4,1,'subproperty',NULL,'en',1),
-	(109,'2015-01-11 01:51:37','2015-01-11 01:51:37',NULL,1,1,10,5,1,'Inverse of R13_is_realised_in.',NULL,'en',1),
-	(110,'2015-01-11 01:51:37','2015-01-11 01:51:37',NULL,1,1,10,11,1,'http://iflastandards.info/ns/fr/frbr/frbroo/F26',NULL,'en',1),
-	(111,'2015-01-11 01:51:37','2015-01-11 01:51:37',NULL,1,1,10,12,1,'http://iflastandards.info/ns/fr/frbr/frbroo/F21',NULL,'en',1),
-	(112,'2015-01-11 01:51:37','2015-01-11 01:51:37',NULL,1,1,10,13,1,'http://iflastandards.info/ns/fr/frbr/frbroo/R13i',NULL,'en',1),
-	(113,'2015-01-11 01:51:37','2015-01-11 01:51:37',NULL,1,1,10,14,1,'1',NULL,'en',1),
-	(114,'2015-01-11 01:51:37','2015-01-11 01:51:37',NULL,1,1,10,6,1,'http://iflastandards.info/ns/fr/frbr/frbroo/R3i',NULL,'en',1),
-	(115,'2015-01-11 01:51:36','2015-01-11 01:51:36',NULL,1,1,10,16,NULL,'http://iflastandards.info/ns/fr/frbr/frbroo/R13i_realises',NULL,'en',1),
-	(116,'2015-01-11 01:51:36','2015-01-11 01:51:39',NULL,1,1,10,15,NULL,'http://iflastandards.info/ns/fr/frbr/frbroo/R13',9,'en',1),
-	(117,'2015-01-11 01:51:37','2015-01-11 01:51:37',NULL,1,1,11,1,1,'hasIssuingRule',NULL,'en',1),
-	(118,'2015-01-11 01:51:37','2015-01-11 01:51:37',NULL,1,1,11,2,1,'has issuing rule',NULL,'en',1),
-	(119,'2015-01-11 01:51:37','2015-01-11 01:51:37',NULL,1,1,11,3,1,'This property associates an instance of F18 Serial Work with the instance of E29 Design or Procedure that specifies the issuing policy planned by this Work, such as sequencing pattern, expected frequency and expected regularity.',NULL,'en',1),
-	(120,'2015-01-11 01:51:37','2015-01-11 01:51:37',NULL,1,1,11,4,1,'property',NULL,'en',1),
-	(121,'2015-01-11 01:51:37','2015-01-11 01:51:37',NULL,1,1,11,5,1,'This property associates an instance of F18 Serial Work with the instance of E29 Design or Procedure that specifies the issuing policy planned by this Work, such as sequencing pattern, expected frequency and expected regularity. This property is a shortcut of the full path: F18 Serial Work R23B was realised through F30 Publication Event P16 used specific object E29 Design or Procedure.',NULL,'en',1),
-	(122,'2015-01-11 01:51:37','2015-01-11 01:51:37',NULL,1,1,11,7,1,'This property is a shortcut of the full path: F18 Serial Work R23B was realised through F30 Publication Event P16 used specific object E29 Design or Procedure.',NULL,'en',1),
-	(123,'2015-01-11 01:51:37','2015-01-11 01:51:37',NULL,1,1,11,11,1,'http://iflastandards.info/ns/fr/frbr/frbroo/F18',NULL,'en',1),
-	(124,'2015-01-11 01:51:37','2015-01-11 01:51:37',NULL,1,1,11,12,1,'http://www.cidoc-crm.org/cidoc-crm/E29_Design_or_Procedure',NULL,'en',1),
-	(125,'2015-01-11 01:51:37','2015-01-11 01:51:37',NULL,1,1,11,13,1,'http://iflastandards.info/ns/fr/frbr/frbroo/R11',NULL,'en',1),
-	(126,'2015-01-11 01:51:38','2015-01-11 01:51:38',NULL,1,1,11,14,1,'1',NULL,'en',1),
-	(127,'2015-01-11 01:51:37','2015-01-11 01:51:37',NULL,1,1,11,16,NULL,'http://iflastandards.info/ns/fr/frbr/frbroo/R11_has_issuing_rule',NULL,'en',1),
-	(128,'2015-01-11 01:51:37','2015-01-11 01:51:39',NULL,1,1,11,15,NULL,'http://iflastandards.info/ns/fr/frbr/frbroo/R11i',12,'en',1),
-	(129,'2015-01-11 01:51:38','2015-01-11 01:51:38',NULL,1,1,12,1,1,'isIssuingRuleOf',NULL,'en',1),
-	(130,'2015-01-11 01:51:38','2015-01-11 01:51:38',NULL,1,1,12,2,1,'is issuing rule of',NULL,'en',1),
-	(131,'2015-01-11 01:51:38','2015-01-11 01:51:38',NULL,1,1,12,4,1,'property',NULL,'en',1),
-	(132,'2015-01-11 01:51:38','2015-01-11 01:51:38',NULL,1,1,12,5,1,'Inverse of R11_has_issuing_rule.',NULL,'en',1),
-	(133,'2015-01-11 01:51:38','2015-01-11 01:51:38',NULL,1,1,12,11,1,'http://www.cidoc-crm.org/cidoc-crm/E29_Design_or_Procedure',NULL,'en',1),
-	(134,'2015-01-11 01:51:38','2015-01-11 01:51:38',NULL,1,1,12,12,1,'http://iflastandards.info/ns/fr/frbr/frbroo/F18',NULL,'en',1),
-	(135,'2015-01-11 01:51:38','2015-01-11 01:51:38',NULL,1,1,12,13,1,'http://iflastandards.info/ns/fr/frbr/frbroo/R11i',NULL,'en',1),
-	(136,'2015-01-11 01:51:38','2015-01-11 01:51:38',NULL,1,1,12,14,1,'1',NULL,'en',1),
-	(137,'2015-01-11 01:51:38','2015-01-11 01:51:38',NULL,1,1,12,16,NULL,'http://iflastandards.info/ns/fr/frbr/frbroo/R11i_is_issuing_rule_of',NULL,'en',1),
-	(138,'2014-12-19 00:18:41','2014-12-19 00:18:42',NULL,1,1,12,15,NULL,'http://iflastandards.info/ns/fr/frbr/frbroo/R11',11,'en',1),
-	(139,'2015-01-11 01:51:34','2015-01-11 01:51:34',NULL,1,1,7,2,1,'est le successeur logique de',NULL,'fr',1),
-	(140,'2014-12-19 00:18:39','2014-12-19 00:18:39',NULL,1,1,8,2,1,'incorpore',NULL,'fr',1);
 ALTER TABLE `reg_schema_property_element` ENABLE KEYS;
 UNLOCK TABLES;
 
 
 LOCK TABLES `reg_schema_property_element_history` WRITE;
 ALTER TABLE `reg_schema_property_element_history` DISABLE KEYS;
-INSERT INTO `reg_schema_property_element_history` (`id`, `created_at`, `created_user_id`, `action`, `schema_property_element_id`, `schema_property_id`, `schema_id`, `profile_property_id`, `object`, `related_schema_property_id`, `language`, `status_id`, `change_note`) VALUES 
-	(1,'2015-01-11 01:51:31',1,'added',1,1,1,1,'subjectTo',NULL,'en',1,NULL),
-	(2,'2015-01-11 01:51:31',1,'added',2,1,1,2,'subject to',NULL,'en',1,NULL),
-	(3,'2015-01-11 01:51:31',1,'added',3,1,1,3,'This property associates a publication, i.e. an instance of F3 Manifestation Product Type, with an instance of E30 Right, which applies to all exemplars of that publication, as long as they are recognised as exemplars of that publication.',NULL,'en',1,NULL),
-	(4,'2015-01-11 01:51:31',1,'added',4,1,1,4,'property',NULL,'en',1,NULL),
-	(5,'2015-01-11 01:51:31',1,'added',5,1,1,5,'This property associates a publication, i.e. an instance of F3 Manifestation Product Type, with an instance of E30 Right, which applies to all exemplars of that publication, as long as they are recognised as exemplars of that publication. The rights covered by this property may include: acquisition or access authorisation; terms of availability; access restrictions on the Manifestation Product Type; etc.',NULL,'en',1,NULL),
-	(6,'2015-01-11 01:51:31',1,'added',6,1,1,7,'The rights covered by this property may include: acquisition or access authorisation; terms of availability; access restrictions on the Manifestation Product Type; etc.',NULL,'en',1,NULL),
-	(7,'2015-01-11 01:51:31',1,'added',7,1,1,11,'http://iflastandards.info/ns/fr/frbr/frbroo/F3',NULL,'en',1,NULL),
-	(8,'2015-01-11 01:51:31',1,'added',8,1,1,12,'http://www.cidoc-crm.org/cidoc-crm/E30_Right',NULL,'en',1,NULL),
-	(9,'2015-01-11 01:51:31',1,'added',9,1,1,13,'http://iflastandards.info/ns/fr/frbr/frbroo/CLP104',NULL,'en',1,NULL),
-	(10,'2015-01-11 01:51:31',1,'added',10,1,1,14,'1',NULL,'en',1,NULL),
-	(11,'2015-01-11 01:51:30',1,'added',11,1,1,16,'http://iflastandards.info/ns/fr/frbr/frbroo/CLP104_subject_to',NULL,'en',1,NULL),
-	(12,'2015-01-11 01:51:30',1,'added',12,1,1,15,'http://iflastandards.info/ns/fr/frbr/frbroo/CLP104i',NULL,'en',1,NULL),
-	(13,'2015-01-11 01:51:31',1,'added',13,2,1,1,'appliesTo',NULL,'en',1,NULL),
-	(14,'2015-01-11 01:51:31',1,'added',14,2,1,2,'applies to',NULL,'en',1,NULL),
-	(15,'2015-01-11 01:51:31',1,'added',15,2,1,4,'property',NULL,'en',1,NULL),
-	(16,'2015-01-11 01:51:31',1,'added',16,2,1,5,'Inverse of CLP104_subject_to.',NULL,'en',1,NULL),
-	(17,'2015-01-11 01:51:31',1,'added',17,2,1,11,'http://www.cidoc-crm.org/cidoc-crm/E30_Right',NULL,'en',1,NULL),
-	(18,'2015-01-11 01:51:31',1,'added',18,2,1,12,'http://iflastandards.info/ns/fr/frbr/frbroo/F3',NULL,'en',1,NULL),
-	(19,'2015-01-11 01:51:31',1,'added',19,2,1,13,'http://iflastandards.info/ns/fr/frbr/frbroo/CLP104i',NULL,'en',1,NULL),
-	(20,'2015-01-11 01:51:32',1,'added',20,2,1,14,'1',NULL,'en',1,NULL),
-	(21,'2015-01-11 01:51:31',1,'added',21,2,1,16,'http://iflastandards.info/ns/fr/frbr/frbroo/CLP104i_applies_to',NULL,'en',1,NULL),
-	(22,'2015-01-11 01:51:31',1,'added',22,2,1,15,'http://iflastandards.info/ns/fr/frbr/frbroo/CLP104',NULL,'en',1,NULL),
-	(23,'2015-01-11 01:51:32',1,'added',23,3,1,1,'rightHeldBy',NULL,'en',1,NULL),
-	(24,'2015-01-11 01:51:32',1,'added',24,3,1,2,'right held by',NULL,'en',1,NULL),
-	(25,'2015-01-11 01:51:32',1,'added',25,3,1,3,'This property associates a publication, i.e. an instance of F3 Manifestation Product Type, with an instance of E39 Actor, who holds an instance of E30 Right on all exemplars of that publication, as long as they are recognised as exemplars of that publication.',NULL,'en',1,NULL),
-	(26,'2015-01-11 01:51:32',1,'added',26,3,1,4,'property',NULL,'en',1,NULL),
-	(27,'2015-01-11 01:51:32',1,'added',27,3,1,5,'This property associates a publication, i.e. an instance of F3 Manifestation Product Type, with an instance of E39 Actor, who holds an instance of E30 Right on all exemplars of that publication, as long as they are recognised as exemplars of that publication.',NULL,'en',1,NULL),
-	(28,'2015-01-11 01:51:32',1,'added',28,3,1,11,'http://iflastandards.info/ns/fr/frbr/frbroo/F3',NULL,'en',1,NULL),
-	(29,'2015-01-11 01:51:32',1,'added',29,3,1,12,'http://www.cidoc-crm.org/cidoc-crm/E39_Actor',NULL,'en',1,NULL),
-	(30,'2015-01-11 01:51:32',1,'added',30,3,1,13,'http://iflastandards.info/ns/fr/frbr/frbroo/CLP105',NULL,'en',1,NULL),
-	(31,'2015-01-11 01:51:32',1,'added',31,3,1,14,'1',NULL,'en',1,NULL),
-	(32,'2015-01-11 01:51:32',1,'added',32,3,1,16,'http://iflastandards.info/ns/fr/frbr/frbroo/CLP105_right_held_by',NULL,'en',1,NULL),
-	(33,'2015-01-11 01:51:32',1,'added',33,3,1,15,'http://iflastandards.info/ns/fr/frbr/frbroo/CLP105i',NULL,'en',1,NULL),
-	(34,'2015-01-11 01:51:32',1,'added',34,4,1,1,'Identifier',NULL,'en',1,NULL),
-	(35,'2015-01-11 01:51:32',1,'added',35,4,1,2,'Identifier',NULL,'en',1,NULL),
-	(36,'2015-01-11 01:51:32',1,'added',36,4,1,3,'This class comprises strings or codes assigned to instances of E1 CRM Entity in order to identify them uniquely and permanently within the context of one or more organisations. Such codes are often known as inventory numbers, registration codes, etc. and are typically composed of alphanumeric sequences.',NULL,'en',1,NULL),
-	(37,'2015-01-11 01:51:33',1,'added',37,4,1,4,'subclass',NULL,'en',1,NULL),
-	(38,'2015-01-11 01:51:33',1,'added',38,4,1,5,'This class comprises strings or codes assigned to instances of E1 CRM Entity in order to identify them uniquely and permanently within the context of one or more organisations. Such codes are often known as inventory numbers, registration codes, etc. and are typically composed of alphanumeric sequences. The class E42 Identifier is not normally used for machine-generated identifiers used for automated processing unless these are also used by human agents. [Adapted from the Scope Note of CIDOC CRM E42 Identifier ver. 5.0.1]',NULL,'en',1,NULL),
-	(39,'2015-01-11 01:51:33',1,'added',39,4,1,7,'The class E42 Identifier is not normally used for machine-generated identifiers used for automated processing unless these are also used by human agents.',NULL,'en',1,NULL),
-	(40,'2015-01-11 01:51:33',1,'added',40,4,1,13,'http://iflastandards.info/ns/fr/frbr/frbroo/F13',NULL,'en',1,NULL),
-	(41,'2015-01-11 01:51:33',1,'added',41,4,1,14,'1',NULL,'en',1,NULL),
-	(42,'2015-01-11 01:51:33',1,'added',42,4,1,9,'http://iflastandards.info/ns/fr/frbr/frbroo/F12',NULL,'en',1,NULL),
-	(43,'2015-01-11 01:51:32',1,'added',43,4,1,9,'http://www.cidoc-crm.org/cidoc-crm/E42_Identifier',NULL,'en',1,NULL),
-	(44,'2015-01-11 01:51:32',1,'added',44,4,1,16,'http://iflastandards.info/ns/fr/frbr/frbroo/F13_Identifier',NULL,'en',1,NULL),
-	(45,'2015-01-11 01:51:33',1,'added',45,5,1,1,'KOS',NULL,'en',1,NULL),
-	(46,'2015-01-11 01:51:33',1,'added',46,5,1,2,'KOS',NULL,'en',1,NULL),
-	(47,'2015-01-11 01:51:33',1,'added',47,5,1,3,'This class comprises documents that establish controlled terminology (nomina) for consistent use. They may also describe relationships between entities and controlled terminology and relationships between entities.',NULL,'en',1,NULL),
-	(48,'2015-01-11 01:51:33',1,'added',48,5,1,4,'subclass',NULL,'en',1,NULL),
-	(49,'2015-01-11 01:51:33',1,'added',49,5,1,5,'This class comprises documents that establish controlled terminology (nomina) for consistent use. They may also describe relationships between entities and controlled terminology and relationships between entities. Note that any meaningful change in a Knowledge Organisation System (KOS) that affects the validity status of its elements defines a new release (Expression) of the KOS. Note that identifiers created following a rule in a KOS are to be regarded as being taken from this KOS, even though not explicitly spelled out. This definition of KOS reflects current library practice and not the use of the term in general.',NULL,'en',1,NULL),
-	(50,'2015-01-11 01:51:33',1,'added',50,5,1,7,'Note that any meaningful change in a Knowledge Organisation System (KOS) that affects the validity status of its elements defines a new release (Expression) of the KOS. Note that identifiers created following a rule in a KOS are to be regarded as being taken from this KOS, even though not explicitly spelled out. This definition of KOS reflects current library practice and not the use of the term in general.',NULL,'en',1,NULL),
-	(51,'2015-01-11 01:51:33',1,'added',51,5,1,13,'http://iflastandards.info/ns/fr/frbr/frbroo/F34',NULL,'en',1,NULL),
-	(52,'2015-01-11 01:51:33',1,'added',52,5,1,14,'1',NULL,'en',1,NULL),
-	(53,'2015-01-11 01:51:33',1,'added',53,5,1,9,'http://iflastandards.info/ns/fr/frbr/frbroo/F2',NULL,'en',1,NULL),
-	(54,'2015-01-11 01:51:33',1,'added',54,5,1,9,'http://www.cidoc-crm.org/cidoc-crm/E32_Authority_Document',NULL,'en',1,NULL),
-	(55,'2015-01-11 01:51:33',1,'added',55,5,1,9,'http://www.cidoc-crm.org/cidoc-crm/E29_Design_or_Procedure',NULL,'en',1,NULL),
-	(56,'2015-01-11 01:51:33',1,'added',56,5,1,16,'http://iflastandards.info/ns/fr/frbr/frbroo/F34_KOS',NULL,'en',1,NULL),
-	(57,'2015-01-11 01:51:34',1,'added',57,6,1,1,'NomenUseStatement',NULL,'en',1,NULL),
-	(58,'2015-01-11 01:51:34',1,'added',58,6,1,2,'Nomen Use Statement',NULL,'en',1,NULL),
-	(59,'2015-01-11 01:51:34',1,'added',59,6,1,3,'This class comprises statements relating a Thema with a particular Nomen and its usage in the context of a common Complex Work realized by one or more KOS.',NULL,'en',1,NULL),
-	(60,'2015-01-11 01:51:34',1,'added',60,6,1,4,'subclass',NULL,'en',1,NULL),
-	(61,'2015-01-11 01:51:34',1,'added',61,6,1,5,'This class comprises statements relating a Thema with a particular Nomen and its usage in the context of a common Complex Work realized by one or more KOS.',NULL,'en',1,NULL),
-	(62,'2015-01-11 01:51:34',1,'added',62,6,1,13,'http://iflastandards.info/ns/fr/frbr/frbroo/F35',NULL,'en',1,NULL),
-	(63,'2015-01-11 01:51:34',1,'added',63,6,1,14,'1',NULL,'en',1,NULL),
-	(64,'2015-01-11 01:51:34',1,'added',64,6,1,9,'http://iflastandards.info/ns/fr/frbr/frbroo/F2',NULL,'en',1,NULL),
-	(65,'2015-01-11 01:51:34',1,'added',65,6,1,9,'http://www.cidoc-crm.org/cidoc-crm/E29_Design_or_Procedure',NULL,'en',1,NULL),
-	(66,'2015-01-11 01:51:34',1,'added',66,6,1,16,'http://iflastandards.info/ns/fr/frbr/frbroo/F35_Nomen_Use_Statement',NULL,'en',1,NULL),
-	(67,'2015-01-11 01:51:34',1,'added',67,7,1,1,'isLogicalSuccessorOf',NULL,'en',1,NULL),
-	(68,'2015-01-11 01:51:34',1,'added',68,7,1,2,'is logical successor of',NULL,'en',1,NULL),
-	(69,'2015-01-11 01:51:34',1,'added',69,7,1,3,'This property associates an instance of F1 Work which logically continues the content of another instance of F1 Work with the latter.',NULL,'en',1,NULL),
-	(70,'2015-01-11 01:51:34',1,'added',70,7,1,4,'subproperty',NULL,'en',1,NULL),
-	(71,'2015-01-11 01:51:34',1,'added',71,7,1,5,'This property associates an instance of F1 Work which logically continues the content of another instance of F1 Work with the latter.',NULL,'en',1,NULL),
-	(72,'2015-01-11 01:51:34',1,'added',72,7,1,11,'http://iflastandards.info/ns/fr/frbr/frbroo/F1',NULL,'en',1,NULL),
-	(73,'2015-01-11 01:51:35',1,'added',73,7,1,12,'http://iflastandards.info/ns/fr/frbr/frbroo/F1',NULL,'en',1,NULL),
-	(74,'2015-01-11 01:51:35',1,'added',74,7,1,13,'http://iflastandards.info/ns/fr/frbr/frbroo/R1',NULL,'en',1,NULL),
-	(75,'2015-01-11 01:51:35',1,'added',75,7,1,14,'1',NULL,'en',1,NULL),
-	(76,'2015-01-11 01:51:35',1,'added',76,7,1,6,'http://www.cidoc-crm.org/cidoc-crm/P130_shows_features_of',NULL,'en',1,NULL),
-	(77,'2015-01-11 01:51:34',1,'added',77,7,1,16,'http://iflastandards.info/ns/fr/frbr/frbroo/R1_is_logical_successor_of',NULL,'en',1,NULL),
-	(78,'2015-01-11 01:51:34',1,'added',78,7,1,15,'http://iflastandards.info/ns/fr/frbr/frbroo/R1i',NULL,'en',1,NULL),
-	(79,'2015-01-11 01:51:35',1,'added',79,8,1,1,'incorporates',NULL,'en',1,NULL),
-	(80,'2015-01-11 01:51:35',1,'added',80,8,1,2,'incorporates',NULL,'en',1,NULL),
-	(81,'2015-01-11 01:51:35',1,'added',81,8,1,3,'This property associates an instance of F22 Self-Contained Expression with an instance of F2 Expression that was included in it and that is a realisation of an independent work. The incorporated expression may be self-contained or fragmentary.',NULL,'en',1,NULL),
-	(82,'2015-01-11 01:51:35',1,'added',82,8,1,4,'subproperty',NULL,'en',1,NULL),
-	(83,'2015-01-11 01:51:35',1,'added',83,8,1,5,'This property associates an instance of F22 Self-Contained Expression with an instance of F2 Expression that was included in it and that is a realisation of an independent work. The incorporated expression may be self-contained or fragmentary. This property makes it possible to recognise the autonomous status of the incorporated expression, which was created in a distinct context, and can be incorporated in many distinct self-contained expressions, and to highlight the difference between structural and accidental whole-part relationships between conceptual entities. It accounts for many cultural facts that are quite frequent and significant: the inclusion of a poem in an anthology, the re-use of an operatic aria in a new opera, the use of a reproduction of a painting for a book cover or a CD booklet, the integration of textual quotations, the presence of lyrics in a song that sets those lyrics to music, the presence of the text of a play in a movie based on that play, etc.',NULL,'en',1,NULL),
-	(84,'2015-01-11 01:51:35',1,'added',84,8,1,7,'This property makes it possible to recognise the autonomous status of the incorporated expression, which was created in a distinct context, and can be incorporated in many distinct self-contained expressions, and to highlight the difference between structural and accidental whole-part relationships between conceptual entities. It accounts for many cultural facts that are quite frequent and significant: the inclusion of a poem in an anthology, the re-use of an operatic aria in a new opera, the use of a reproduction of a painting for a book cover or a CD booklet, the integration of textual quotations, the presence of lyrics in a song that sets those lyrics to music, the presence of the text of a play in a movie based on that play, etc.',NULL,'en',1,NULL),
-	(85,'2015-01-11 01:51:35',1,'added',85,8,1,11,'http://iflastandards.info/ns/fr/frbr/frbroo/F22',NULL,'en',1,NULL),
-	(86,'2015-01-11 01:51:35',1,'added',86,8,1,12,'http://iflastandards.info/ns/fr/frbr/frbroo/F2',NULL,'en',1,NULL),
-	(87,'2015-01-11 01:51:35',1,'added',87,8,1,13,'http://iflastandards.info/ns/fr/frbr/frbroo/R14',NULL,'en',1,NULL),
-	(88,'2015-01-11 01:51:35',1,'added',88,8,1,14,'1',NULL,'en',1,NULL),
-	(89,'2015-01-11 01:51:35',1,'added',89,8,1,6,'http://www.cidoc-crm.org/cidoc-crm/P148_has_component',NULL,'en',1,NULL),
-	(90,'2015-01-11 01:51:35',1,'added',90,8,1,6,'http://www.cidoc-crm.org/cidoc-crm/P106_is_composed_of',NULL,'en',1,NULL),
-	(91,'2015-01-11 01:51:35',1,'added',91,8,1,16,'http://iflastandards.info/ns/fr/frbr/frbroo/R14_incorporates',NULL,'en',1,NULL),
-	(92,'2015-01-11 01:51:35',1,'added',92,8,1,15,'http://iflastandards.info/ns/fr/frbr/frbroo/R14i',NULL,'en',1,NULL),
-	(93,'2015-01-11 01:51:36',1,'added',93,9,1,1,'isRealisedInRecordingOfRecordingWork',NULL,'en',1,NULL),
-	(94,'2015-01-11 01:51:36',1,'added',94,9,1,2,'is realised in Recording of Recording Work',NULL,'en',1,NULL),
-	(95,'2015-01-11 01:51:36',1,'added',95,9,1,3,'This property associates an instance of F21 Recording Work with an instance of F26 Recording realising the instance of F21 Recording work.',NULL,'en',1,NULL),
-	(96,'2015-01-11 01:51:36',1,'added',96,9,1,4,'subproperty',NULL,'en',1,NULL),
-	(97,'2015-01-11 01:51:36',1,'added',97,9,1,5,'This property associates an instance of F21 Recording Work with an instance of F26 Recording realising the instance of F21 Recording work. This is a shortcut of the more elaborated path through R22 was realised through, F29 Recording Event and R21 created, which should be used when information about the recording event is available.',NULL,'en',1,NULL),
-	(98,'2015-01-11 01:51:36',1,'added',98,9,1,7,'This is a shortcut of the more elaborated path through R22 was realised through, F29 Recording Event and R21 created, which should be used when information about the recording event is available.',NULL,'en',1,NULL),
-	(99,'2015-01-11 01:51:36',1,'added',99,9,1,11,'http://iflastandards.info/ns/fr/frbr/frbroo/F21',NULL,'en',1,NULL),
-	(100,'2015-01-11 01:51:36',1,'added',100,9,1,12,'http://iflastandards.info/ns/fr/frbr/frbroo/F26',NULL,'en',1,NULL),
-	(101,'2015-01-11 01:51:36',1,'added',101,9,1,13,'http://iflastandards.info/ns/fr/frbr/frbroo/R13',NULL,'en',1,NULL),
-	(102,'2015-01-11 01:51:36',1,'added',102,9,1,14,'1',NULL,'en',1,NULL),
-	(103,'2015-01-11 01:51:36',1,'added',103,9,1,6,'http://iflastandards.info/ns/fr/frbr/frbroo/R3',NULL,'en',1,NULL),
-	(104,'2015-01-11 01:51:36',1,'added',104,9,1,16,'http://iflastandards.info/ns/fr/frbr/frbroo/R13_is_realised_in',NULL,'en',1,NULL),
-	(105,'2015-01-11 01:51:36',1,'added',105,9,1,15,'http://iflastandards.info/ns/fr/frbr/frbroo/R13i',NULL,'en',1,NULL),
-	(106,'2015-01-11 01:51:36',1,'added',106,10,1,1,'realisesRecordingWorkByRecording',NULL,'en',1,NULL),
-	(107,'2015-01-11 01:51:36',1,'added',107,10,1,2,'realises Recording Work by Recording',NULL,'en',1,NULL),
-	(108,'2015-01-11 01:51:36',1,'added',108,10,1,4,'subproperty',NULL,'en',1,NULL),
-	(109,'2015-01-11 01:51:37',1,'added',109,10,1,5,'Inverse of R13_is_realised_in.',NULL,'en',1,NULL),
-	(110,'2015-01-11 01:51:37',1,'added',110,10,1,11,'http://iflastandards.info/ns/fr/frbr/frbroo/F26',NULL,'en',1,NULL),
-	(111,'2015-01-11 01:51:37',1,'added',111,10,1,12,'http://iflastandards.info/ns/fr/frbr/frbroo/F21',NULL,'en',1,NULL),
-	(112,'2015-01-11 01:51:37',1,'added',112,10,1,13,'http://iflastandards.info/ns/fr/frbr/frbroo/R13i',NULL,'en',1,NULL),
-	(113,'2015-01-11 01:51:37',1,'added',113,10,1,14,'1',NULL,'en',1,NULL),
-	(114,'2015-01-11 01:51:37',1,'added',114,10,1,6,'http://iflastandards.info/ns/fr/frbr/frbroo/R3i',NULL,'en',1,NULL),
-	(115,'2015-01-11 01:51:36',1,'added',115,10,1,16,'http://iflastandards.info/ns/fr/frbr/frbroo/R13i_realises',NULL,'en',1,NULL),
-	(116,'2015-01-11 01:51:36',1,'added',116,10,1,15,'http://iflastandards.info/ns/fr/frbr/frbroo/R13',NULL,'en',1,NULL),
-	(117,'2015-01-11 01:51:37',1,'added',117,11,1,1,'hasIssuingRule',NULL,'en',1,NULL),
-	(118,'2015-01-11 01:51:37',1,'added',118,11,1,2,'has issuing rule',NULL,'en',1,NULL),
-	(119,'2015-01-11 01:51:37',1,'added',119,11,1,3,'This property associates an instance of F18 Serial Work with the instance of E29 Design or Procedure that specifies the issuing policy planned by this Work, such as sequencing pattern, expected frequency and expected regularity.',NULL,'en',1,NULL),
-	(120,'2015-01-11 01:51:37',1,'added',120,11,1,4,'property',NULL,'en',1,NULL),
-	(121,'2015-01-11 01:51:37',1,'added',121,11,1,5,'This property associates an instance of F18 Serial Work with the instance of E29 Design or Procedure that specifies the issuing policy planned by this Work, such as sequencing pattern, expected frequency and expected regularity. This property is a shortcut of the full path: F18 Serial Work R23B was realised through F30 Publication Event P16 used specific object E29 Design or Procedure.',NULL,'en',1,NULL),
-	(122,'2015-01-11 01:51:37',1,'added',122,11,1,7,'This property is a shortcut of the full path: F18 Serial Work R23B was realised through F30 Publication Event P16 used specific object E29 Design or Procedure.',NULL,'en',1,NULL),
-	(123,'2015-01-11 01:51:37',1,'added',123,11,1,11,'http://iflastandards.info/ns/fr/frbr/frbroo/F18',NULL,'en',1,NULL),
-	(124,'2015-01-11 01:51:37',1,'added',124,11,1,12,'http://www.cidoc-crm.org/cidoc-crm/E29_Design_or_Procedure',NULL,'en',1,NULL),
-	(125,'2015-01-11 01:51:37',1,'added',125,11,1,13,'http://iflastandards.info/ns/fr/frbr/frbroo/R11',NULL,'en',1,NULL),
-	(126,'2015-01-11 01:51:38',1,'added',126,11,1,14,'1',NULL,'en',1,NULL),
-	(127,'2015-01-11 01:51:37',1,'added',127,11,1,16,'http://iflastandards.info/ns/fr/frbr/frbroo/R11_has_issuing_rule',NULL,'en',1,NULL),
-	(128,'2015-01-11 01:51:37',1,'added',128,11,1,15,'http://iflastandards.info/ns/fr/frbr/frbroo/R11i',NULL,'en',1,NULL),
-	(129,'2015-01-11 01:51:38',1,'added',129,12,1,1,'isIssuingRuleOf',NULL,'en',1,NULL),
-	(130,'2015-01-11 01:51:38',1,'added',130,12,1,2,'is issuing rule of',NULL,'en',1,NULL),
-	(131,'2015-01-11 01:51:38',1,'added',131,12,1,4,'property',NULL,'en',1,NULL),
-	(132,'2015-01-11 01:51:38',1,'added',132,12,1,5,'Inverse of R11_has_issuing_rule.',NULL,'en',1,NULL),
-	(133,'2015-01-11 01:51:38',1,'added',133,12,1,11,'http://www.cidoc-crm.org/cidoc-crm/E29_Design_or_Procedure',NULL,'en',1,NULL),
-	(134,'2015-01-11 01:51:38',1,'added',134,12,1,12,'http://iflastandards.info/ns/fr/frbr/frbroo/F18',NULL,'en',1,NULL),
-	(135,'2015-01-11 01:51:38',1,'added',135,12,1,13,'http://iflastandards.info/ns/fr/frbr/frbroo/R11i',NULL,'en',1,NULL),
-	(136,'2015-01-11 01:51:38',1,'added',136,12,1,14,'1',NULL,'en',1,NULL),
-	(137,'2015-01-11 01:51:38',1,'added',137,12,1,16,'http://iflastandards.info/ns/fr/frbr/frbroo/R11i_is_issuing_rule_of',NULL,'en',1,NULL),
-	(138,'2015-01-11 01:51:38',1,'added',138,12,1,15,'http://iflastandards.info/ns/fr/frbr/frbroo/R11',NULL,'en',1,NULL),
-	(139,'2015-01-11 01:51:38',1,'updated',12,1,1,15,'http://iflastandards.info/ns/fr/frbr/frbroo/CLP104i',2,'en',1,NULL),
-	(140,'2015-01-11 01:51:38',1,'updated',22,2,1,15,'http://iflastandards.info/ns/fr/frbr/frbroo/CLP104',1,'en',1,NULL),
-	(141,'2015-01-11 01:51:39',1,'updated',105,9,1,15,'http://iflastandards.info/ns/fr/frbr/frbroo/R13i',10,'en',1,NULL),
-	(142,'2015-01-11 01:51:39',1,'updated',116,10,1,15,'http://iflastandards.info/ns/fr/frbr/frbroo/R13',9,'en',1,NULL),
-	(143,'2015-01-11 01:51:39',1,'updated',128,11,1,15,'http://iflastandards.info/ns/fr/frbr/frbroo/R11i',12,'en',1,NULL),
-	(144,'2014-12-19 00:18:42',1,'updated',138,12,1,15,'http://iflastandards.info/ns/fr/frbr/frbroo/R11',11,'en',1,NULL),
-	(145,'2015-01-11 01:51:34',1,'added',68,7,1,2,'est le successeur logique de',NULL,'fr',1,NULL),
-	(146,'2014-12-19 00:18:39',1,'added',80,8,1,2,'incorpore',NULL,'fr',1,NULL);
 ALTER TABLE `reg_schema_property_element_history` ENABLE KEYS;
 UNLOCK TABLES;
 
 
 LOCK TABLES `reg_skos_property` WRITE;
 ALTER TABLE `reg_skos_property` DISABLE KEYS;
-INSERT INTO `reg_skos_property` (`id`, `parent_id`, `inverse_id`, `name`, `uri`, `object_type`, `display_order`, `picklist_order`, `label`, `definition`, `comment`, `examples`, `is_required`, `is_reciprocal`, `is_singleton`, `is_scheme`, `is_in_picklist`) VALUES 
+INSERT INTO `reg_skos_property` (`id`, `parent_id`, `inverse_id`, `name`, `uri`, `object_type`, `display_order`, `picklist_order`, `label`, `definition`, `comment`, `examples`, `is_required`, `is_reciprocal`, `is_singleton`, `is_scheme`, `is_in_picklist`) VALUES
 	(1,0,NULL,'altLabel','http://www.w3.org/2004/02/skos/core#altLabel','literal',1,110,'alternative label','An alternative lexical label for a resource.','Acronyms, abbreviations, spelling variants, and irregular plural/singular forms may be included among the alternative labels for a concept. Mis-spelled terms are normally included as hidden labels (see skos:hiddenLabel).','http://www.w3.org/2004/02/skos/core/examples/altLabel.rdf.xml',0,0,0,0,1),
 	(3,NULL,16,'broader','http://www.w3.org/2004/02/skos/core#broader','resource',3,400,'has broader','A concept that is more general in meaning.','Broader concepts are typically rendered as parents in a concept hierarchy (tree).','http://www.w3.org/2004/02/skos/core/examples/broader.rdf.xml',0,0,0,0,1),
 	(4,17,NULL,'changeNote','http://www.w3.org/2004/02/skos/core#changeNote','literal',4,320,'change note','A note about a modification to a concept.',NULL,'http://www.w3.org/2004/02/skos/core/examples/changeNote.rdf.xml',0,0,0,0,1),
@@ -2800,7 +2517,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `reg_status` WRITE;
 ALTER TABLE `reg_status` DISABLE KEYS;
-INSERT INTO `reg_status` (`id`, `display_order`, `display_name`, `uri`) VALUES 
+INSERT INTO `reg_status` (`id`, `display_order`, `display_name`, `uri`) VALUES
 	(1,7,'Published','http://metadataregistry.org/uri/RegStatus/1001'),
 	(2,1,'New-Proposed','http://metadataregistry.org/uri/RegStatus/1002'),
 	(3,2,'Change-Proposed','http://metadataregistry.org/uri/RegStatus/1003'),
@@ -2816,26 +2533,26 @@ UNLOCK TABLES;
 
 LOCK TABLES `reg_user` WRITE;
 ALTER TABLE `reg_user` DISABLE KEYS;
-INSERT INTO `reg_user` (`id`, `created_at`, `last_updated`, `deleted_at`, `nickname`, `salutation`, `first_name`, `last_name`, `email`, `sha1_password`, `salt`, `want_to_be_moderator`, `is_moderator`, `is_administrator`, `deletions`, `password`) VALUES 
-	(1,'2014-12-04 04:02:52','2014-12-03 23:03:39',NULL,'admin',NULL,NULL,NULL,'jphipps@madcreek.com','89c4c184c5bcf66571433599b3864a92fdde20f2','989dc77e31d1bbace236b7c9da7c92bd',0,0,1,0,NULL),
-	(2,'2014-12-04 04:05:45','2014-12-03 23:05:45',NULL,'vocab_owner',NULL,NULL,NULL,'jphipps@madcreek.com','1d3304806406506c724c92ddb07bec42fff1f9de','f9a53f40fe15f0d30d5a1409118259b6',0,0,0,0,NULL),
-	(3,'2014-12-04 04:07:03','2014-12-03 23:07:03',NULL,'vocab_maintainer',NULL,NULL,NULL,'jphipps@madcreek.com','1226be1bb7bdce7bab3fad80be1cf652013bb5ef','681f3d73ac442ec27dfe90bf1180de22',0,0,0,0,NULL);
+INSERT INTO `reg_user` (`id`, `created_at`, `last_updated`, `deleted_at`, `nickname`, `salutation`, `first_name`, `last_name`, `email`, `sha1_password`, `salt`, `want_to_be_moderator`, `is_moderator`, `is_administrator`, `deletions`, `password`, `culture`) VALUES
+	(1,'2014-12-04 04:02:52','2014-12-03 23:03:39',NULL,'admin',NULL,NULL,NULL,'jphipps@madcreek.com','89c4c184c5bcf66571433599b3864a92fdde20f2','989dc77e31d1bbace236b7c9da7c92bd',0,0,1,0,NULL,'en_US'),
+	(2,'2014-12-04 04:05:45','2014-12-03 23:05:45',NULL,'vocab_owner',NULL,NULL,NULL,'jphipps@madcreek.com','1d3304806406506c724c92ddb07bec42fff1f9de','f9a53f40fe15f0d30d5a1409118259b6',0,0,0,0,NULL,'en_US'),
+	(3,'2014-12-04 04:07:03','2014-12-03 23:07:03',NULL,'vocab_maintainer',NULL,NULL,NULL,'jphipps@madcreek.com','1226be1bb7bdce7bab3fad80be1cf652013bb5ef','681f3d73ac442ec27dfe90bf1180de22',0,0,0,0,NULL,'en_US');
 ALTER TABLE `reg_user` ENABLE KEYS;
 UNLOCK TABLES;
 
 
 LOCK TABLES `reg_vocabulary` WRITE;
 ALTER TABLE `reg_vocabulary` DISABLE KEYS;
-INSERT INTO `reg_vocabulary` (`id`, `agent_id`, `created_at`, `deleted_at`, `last_updated`, `created_user_id`, `updated_user_id`, `child_updated_at`, `child_updated_user_id`, `name`, `note`, `uri`, `url`, `base_domain`, `token`, `community`, `last_uri_id`, `status_id`, `language`) VALUES 
-	(1,3,'2014-12-04 04:14:37',NULL,'2014-12-03 23:14:37',NULL,NULL,NULL,NULL,'Test Vocab','','http://registry.dev/uri/testvocab','','http://registry.dev/uri/','testvocab','',1000,1,'en');
+INSERT INTO `reg_vocabulary` (`id`, `agent_id`, `created_at`, `deleted_at`, `last_updated`, `created_user_id`, `updated_user_id`, `child_updated_at`, `child_updated_user_id`, `name`, `note`, `uri`, `url`, `base_domain`, `token`, `community`, `last_uri_id`, `status_id`, `language`, `languages`, `profile_id`, `ns_type`) VALUES
+	(1,3,'2014-12-04 04:14:37',NULL,'2014-12-03 23:14:37',NULL,NULL,NULL,NULL,'Test Vocab','','http://registry.dev/uri/testvocab','','http://registry.dev/uri/','testvocab','',1000,1,'en',NULL,NULL,'slash');
 ALTER TABLE `reg_vocabulary` ENABLE KEYS;
 UNLOCK TABLES;
 
 
 LOCK TABLES `reg_vocabulary_has_user` WRITE;
 ALTER TABLE `reg_vocabulary_has_user` DISABLE KEYS;
-INSERT INTO `reg_vocabulary_has_user` (`id`, `created_at`, `updated_at`, `deleted_at`, `vocabulary_id`, `user_id`, `is_maintainer_for`, `is_registrar_for`, `is_admin_for`) VALUES 
-	(1,'2014-12-04 04:14:37','2014-12-04 04:14:37',NULL,1,2,1,1,1);
+INSERT INTO `reg_vocabulary_has_user` (`id`, `created_at`, `updated_at`, `deleted_at`, `vocabulary_id`, `user_id`, `is_maintainer_for`, `is_registrar_for`, `is_admin_for`, `languages`, `default_language`, `current_language`) VALUES
+	(1,'2014-12-04 04:14:37','2014-12-04 04:14:37',NULL,1,2,1,1,1,NULL,'en',NULL);
 ALTER TABLE `reg_vocabulary_has_user` ENABLE KEYS;
 UNLOCK TABLES;
 
@@ -2848,8 +2565,8 @@ UNLOCK TABLES;
 
 LOCK TABLES `schema_has_user` WRITE;
 ALTER TABLE `schema_has_user` DISABLE KEYS;
-INSERT INTO `schema_has_user` (`id`, `created_at`, `updated_at`, `deleted_at`, `schema_id`, `user_id`, `is_maintainer_for`, `is_registrar_for`, `is_admin_for`) VALUES 
-	(1,'2014-12-04 04:11:44','2014-12-04 04:11:44',NULL,1,2,1,1,1);
+INSERT INTO `schema_has_user` (`id`, `created_at`, `updated_at`, `deleted_at`, `schema_id`, `user_id`, `is_maintainer_for`, `is_registrar_for`, `is_admin_for`, `languages`, `default_language`, `current_language`) VALUES
+	(1,'2014-12-04 04:11:44','2014-12-04 04:11:44',NULL,1,2,1,1,1,NULL,'en',NULL);
 ALTER TABLE `schema_has_user` ENABLE KEYS;
 UNLOCK TABLES;
 
