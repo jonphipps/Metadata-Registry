@@ -1,4 +1,5 @@
 <?php
+use ImportVocab\ImportVocab;
 
 /**
  * import actions.
@@ -32,7 +33,7 @@ class importActions extends autoimportActions
 
     /** @var sfWebRequest $request */
     $request = $this->getRequest();
-    if ( ! $request->hasFileErrors() ) {
+    if ($request->hasFile( "file_import_history[filename]") and ! $request->hasFileErrors() ) {
       $sourceFile = $request->getFile( "file_import_history[filename]" );
       $file_import_history->setSourceFileName( $sourceFile[ 'name' ] );
       $file_import_history->setFileType( $sourceFile[ 'type' ] );
@@ -41,11 +42,51 @@ class importActions extends autoimportActions
     parent::setDefaults( $file_import_history );
   }
 
+  /**
+   * @throws sfStopException
+   */
   public function executeEdit()
   {
-    parent::executeEdit();
-    $foo = $this->file_import_history;
+    /** @var \FileImportHistory file_import_history */
+    $this->file_import_history = $this->getFileImportHistoryOrCreate();
+
+    if ( $this->getRequest()->getMethod() == sfRequest::POST ) {
+      $this->updateFileImportHistoryFromRequest();
+      $schemaId = $this->file_import_history->getSchemaId();
+
+      $filePath = sfConfig::get( 'sf_upload_dir' ) . DIRECTORY_SEPARATOR .
+                  'csv' . DIRECTORY_SEPARATOR .
+                  $this->file_import_history->getFileName();
+      $import = new ImportVocab( 'schema', $filePath, $schemaId );
+      $prolog = $import->processProlog();
+      //todo we need a validation check to make sure that if there's a schema_id in the prolog that it matches the current ID
+      //todo update the prefixes table with prefixes
+      //todo update the schema table with prefixes
+      //todo display some sort of progress indicator on the page, or enqueue the process and send a results email
+      $import->processData();
+      $this->file_import_history->setResults($import->results);
+      $this->file_import_history->setMap($import->mapping);
+      $this->file_import_history->setTotalProcessedCount( $import->DataWorkflowResults->getTotalProcessedCount());
+      $this->file_import_history->setErrorCount($import->DataWorkflowResults->getErrorCount());
+      $this->file_import_history->setSuccessCount($import->DataWorkflowResults->getSuccessCount());
+
+      $newFilePath = sfConfig::get( 'sf_repos_dir' ) . DIRECTORY_SEPARATOR .
+                     'agents' . DIRECTORY_SEPARATOR .
+                     $this->file_import_history->getSchema()->getAgentId() . DIRECTORY_SEPARATOR .
+                     $this->file_import_history->getSourceFileName();
+      $this->getRequest()->moveToRepo($filePath, $newFilePath);
+
+
+      $this->saveFileImportHistory( $this->file_import_history );
+      $this->setFlash( 'notice', 'Your file has been imported' );
+      unset ($import);
+
+      return $this->redirect( 'import/show?id=' . $this->file_import_history->getId() );
+    } else {
+      $this->labels = $this->getLabels();
+    }
   }
+
   /**
    * gets the current schema object
    *
