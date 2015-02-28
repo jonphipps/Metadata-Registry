@@ -7,41 +7,42 @@
  *
  * @package lib.model
  */
-class FileImportHistory extends BaseFileImportHistory {
+class FileImportHistory extends BaseFileImportHistory
+{
   function __toString()
   {
     return $this->getCreatedAt();
   }
 
   /**
-     * @return string
-     */
-    public function getMap()
-    {
-        return unserialize( $this->map );
-    }
+   * @return string
+   */
+  public function getMap()
+  {
+    return unserialize( $this->map );
+  }
 
-    /**
-     * @param string $map
-     */
-    public function setMap( $map )
-    {
-        $this->map = serialize( $map );
-    }
+  /**
+   * @param string $map
+   */
+  public function setMap( $map )
+  {
+    parent::setMap( serialize( $map ) );
+  }
 
-    /**
-     * @return string
-     */
-    public function getResults()
-    {
-        return unserialize( $this->results );
-    }
+  /**
+   * @return string
+   */
+  public function getResults()
+  {
+    return unserialize( $this->results );
+  }
 
-    /**
-     * @param string $results
-     */
-    public function setResults( $results )
-    {
-        $this->results = serialize( $results );
-    }
+  /**
+   * @param string $results
+   */
+  public function setResults( $results )
+  {
+    parent::setResults( serialize( $results ) );
+  }
 }
