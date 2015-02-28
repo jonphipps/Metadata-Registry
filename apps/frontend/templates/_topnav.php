@@ -4,6 +4,7 @@
 **/
 
   $sf_context->getResponse()->addStylesheet('ui');
+  $title='';
 
 //this section defines the tabs
   $topnav = array();
@@ -302,7 +303,9 @@
           $schema = SchemaPeer::retrieveByPK($id);
         }
       }
-      $objectId = $schema->getID();
+      if ( ! empty( $schema ) ) {
+        $objectId = $schema->getID();
+      }
       break;
     case 'schemaprop':
       $showBc = true;
@@ -956,23 +959,25 @@
 <?php
 
 //Show the tabs
-  $i = 0;
+  if ( !empty($objectId )) {
+    $i = 0;
 
-  foreach ($topnav[$tab] as $key => $value):
-    $here = false;
-    $options = array();
-    $options['id'] = 'a' . $i;
-    $i++;
+    foreach ($topnav[$tab] as $key => $value):
+      $here = false;
+      $options = array();
+      $options['id'] = 'a' . $i;
+      $i++;
 
-    if (false !== strpos($value['link'], $module . '/' . $action))
-    {
-      echo '<li class = "ui-tabs-selected">' . link_to('<span>' . __($key) . '</span>', $value['link'] . $objectId, $options) . '</li>';
-    }
-    else
-    {
-      echo '<li>' . link_to('<span>' . __($key) . '</span>', $value['link'] . $objectId, $options) . '</li>';
-    }
-  endforeach;
+      if (false !== strpos($value['link'], $module . '/' . $action))
+      {
+        echo '<li class = "ui-tabs-selected">' . link_to('<span>' . __($key) . '</span>', $value['link'] . $objectId, $options) . '</li>';
+      }
+      else
+      {
+        echo '<li>' . link_to('<span>' . __($key) . '</span>', $value['link'] . $objectId, $options) . '</li>';
+      }
+    endforeach;
+  }
 ?>
 </ul>
 </div>
