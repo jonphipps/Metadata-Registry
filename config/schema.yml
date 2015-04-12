@@ -1449,6 +1449,14 @@ propel:
       index: true
     change_note: 
       type: LONGVARCHAR
+    history_id: 
+      type: INTEGER
+      required: true
+      foreignTable: reg_schema_property_element_history
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
+      index: true
     _indexes: 
       reg_schema_property_element_history_idx1: 
         - created_at

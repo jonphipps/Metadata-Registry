@@ -87,6 +87,8 @@ class SchemaPropertyElementHistoryMapBuilder {
 
 		$tMap->addColumn('CHANGE_NOTE', 'ChangeNote', 'string', CreoleTypes::LONGVARCHAR, false, null);
 
+		$tMap->addForeignKey('HISTORY_ID', 'HistoryId', 'int', CreoleTypes::INTEGER, 'reg_schema_property_element_history', 'ID', true, null);
+
 	} // doBuild()
 
 } // SchemaPropertyElementHistoryMapBuilder
