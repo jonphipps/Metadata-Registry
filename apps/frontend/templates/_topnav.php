@@ -39,6 +39,7 @@
   $topnav['schema']     ['History']    ['link'] = '/schemahistory/list?schema_id=';
 //  $topnav['schema']     ['Versions']   ['link'] = '/schemaversion/list?schema_id=';
   $topnav['schema']     ['Maintainers']['link'] = '/schemauser/list?schema_id=';
+  $topnav['schema']     ['Export']     ['link'] = '/schema/export?id=';
   $topnav['schema']     ['Import']     ['link'] = '/import/list?schema_id=';
   //$topnav['schema']     ['Discuss']    ['link'] = '/discuss/list?schema_id=';
   //schema properties
@@ -130,6 +131,7 @@
   $tabMap['schema']       ['list'] = array('tab' => 'schemalist',     'title' => 'List');
   $tabMap['schema']       ['show'] = array('tab' => 'schema',         'title' => 'Show Detail');
   $tabMap['schema']       ['publish'] = array('tab' => 'schema',         'title' => 'Publish');
+  $tabMap['schema']       ['export'] = array('tab' => 'schema',         'title' => 'Export');
   $tabMap['import']       ['list'] = array('tab' => 'importlist',       'title' => 'List Imports');
 
   if ('schema' == $filter)
@@ -199,7 +201,7 @@
   $showHistoryBc = false;
   $showDiscussBc = false;
   $showVersionBc = false;
- $showSchemaImportBc = false;
+  $showSchemaImportBc = false;
   $showBc = false;
   $tabTitle = false;
 
@@ -420,6 +422,15 @@
       }
       $tab = false;
       break;
+    case 'export':
+      $showBc = true;
+      $showSchemaBc = true;
+      $tab = true;
+
+      $title = __('Export');
+
+      break;
+
     case 'import':
       $showBc = true;
       $showSchemaBc = true;
@@ -611,6 +622,16 @@
       break;
   }
 
+//Find the breadcrumb title
+if ( isset( $topnav[ $tab ] ) ) {
+  foreach ( $topnav[ $tab ] as $key => $value ):
+
+    if ( false !== strpos( $value[ 'link' ], $module . '/' . $action ) ) {
+      $bcTitle = $key;
+    }
+
+  endforeach;
+}
 //show the breadcrumbs
   echo '<h1>';
   //is a breadcrumb set
@@ -731,7 +752,7 @@
         }
         else
         {
-          echo __('Show detail for ') . $schema->getName();
+          echo __('Show ' . $bcTitle . ' for ') . $schema->getName();
         }
 
         $title = __('%%schema%%', array('%%schema%%' => $schema->getName()));
