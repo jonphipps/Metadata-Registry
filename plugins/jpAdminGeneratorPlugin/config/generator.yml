@@ -4,7 +4,7 @@ generator:
       edit:
         char_min:    20
         char_max:    60
-        text_size:   55x3
+        text_size:   0x3
         int_size:    7
         float_size:  7
       filter:

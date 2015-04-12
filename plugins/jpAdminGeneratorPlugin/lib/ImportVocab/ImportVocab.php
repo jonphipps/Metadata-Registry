@@ -96,6 +96,9 @@ class ImportVocab {
    * @param        $vocabId  integer
    */
   public function __construct($type = '', $file = '', $vocabId = null) {
+
+    //TODO: Major - process statements first and build elements from the statements, based on the profile. Even better, make elements virtual
+
     $this->type = $type;
     $this->file = $file;
     $this->vocabId = $vocabId;
@@ -108,7 +111,7 @@ class ImportVocab {
 
     //these values are set dynamically based on column position rather than actual hard-coded values in processProlog()
     $this->prolog['meta_column'] = ''; //column '0'
-    $this->prolog['key_column'] = 'ID'; //column '1'
+    $this->prolog['key_column'] = 'reg_id'; //column '1'
     $this->prolog['value_column'] = 'owl:sameAs'; //column '2'
 
     $this->results['errors']['error'] = array();
@@ -255,20 +258,16 @@ class ImportVocab {
             case "uri":
             case "lang":
             case "type":
-              //$this->prolog['columns'][$meta] = array();
               foreach ($row as $column => $value) {
-                $mapped = empty($this->mapping[$column]) ? "" : $this->mapping[$column];
-                if ('' != $mapped) {
-                  $this->prolog['columns'][$mapped][$meta] = $value;
-                }
-                elseif ('uri' != $meta) {
-                  $this->prolog['defaults'][$meta] = $row[$this->prolog['key_column']];
+                $this->prolog[ 'columns' ][ $column ][ $meta ] = $value;
+                if ('uri' != $meta) {
+                  $this->prolog[ 'defaults' ][ $meta ] = $row[ $this->prolog[ 'key_column' ] ];
                 }
               }
               break;
             case "meta":
             case "prefix":
-              $this->prolog[$meta][$row[$this->prolog['key_column']]] = $row[$this->prolog['value_column']];
+              $this->prolog[ $meta ][ $row[ $this->prolog[ 'key_column' ] ] ] = $row[ $this->prolog[ 'value_column' ] ];
               break;
             default:
           }
@@ -281,11 +280,18 @@ class ImportVocab {
     );
     //$workflow->addWriter(new Writer\ArrayWriter($testArray));
     $workflow->process();
-    //add the token and the base_domin to the prefixes
-    $this->prolog['prefix'][$this->prolog['meta']['token']] = $this->prolog['meta']['base_domain'];
-    $this->status = $this->prolog['meta']['status_id'];
-    $this->userId = $this->prolog['meta']['user_id'];
+    //add the token and the base_domain to the prefixes
+    if (! array_key_exists($this->prolog[ 'meta' ][ 'token' ], $this->prolog[ 'prefix' ])) {
+      $this->prolog[ 'prefix' ][ $this->prolog[ 'meta' ][ 'token' ] ] = $this->prolog[ 'meta' ][ 'base_domain' ];
+    }
+    if (isset($this->prolog['meta']['status_id'])) {
+      $this->status = $this->prolog['meta']['status_id'];
+    }
+    if (isset($this->prolog['meta']['user_id'])) {
+      $this->userId = $this->prolog['meta']['user_id'];
+    }
     //use the prolog to configure namespaces, look up correct resources in the database
+    $this->getDataColumnIds();
     //store the row number of the first non-meta line
 
     return $this->prolog;
@@ -418,13 +424,11 @@ class ImportVocab {
     $workflow = new Workflow($this->reader);
     $output = new ConsoleOutput();
     // Don’t import the non-metadata
-    $filter = new Filter\CallbackFilter(
-      function ($row) {
-        return !trim($row[$this->prolog['meta_column']]);
-      }
-    );
-    $converter = new MappingItemConverter($this->mapping);
-    $workflow->addItemConverter($converter);
+    $filter = new Filter\CallbackFilter(function ($row) {
+      return ! trim($row[ $this->prolog[ 'meta_column' ] ]) or is_numeric($row[ $this->prolog[ 'meta_column' ] ]);
+    });
+    //$converter = new MappingItemConverter($this->mapping);
+    //$workflow->addItemConverter($converter);
     /** @var $filter Filter\CallbackFilter */
     $workflow->addFilter($filter);
     $workflow->addWriter(new Writer\ConsoleProgressWriter($output, $this->reader));
@@ -458,7 +462,7 @@ class ImportVocab {
             //lookup the URI (or the OMR ID if available) for a match
             //There always has to be a URI on either update or create
             //If there's a prolog, this will be the 'key_column'
-            if (empty($rowUri)) {
+            if (array_filter($row,'trim') and empty($rowUri)) {
               throw new \Exception('Missing URI for row: ' . $this->rowCounter);
             }
 
@@ -469,7 +473,11 @@ class ImportVocab {
               $uri = $this->vocabulary->getBaseDomain() . $rowUri;
             }
             $skipMap = array();
-            $property = \SchemaPropertyPeer::retrieveByUri($uri);
+            if (isset($row[$this->prolog['meta_column']])) {
+              $property = \SchemaPropertyPeer::retrieveByPK($row[$this->prolog['meta_column']]);
+            } else {
+              $property = \SchemaPropertyPeer::retrieveByUri($uri);
+            }
             $updateTime = time();
 
             $rowLanguage = $this->prolog['defaults']['lang'];
@@ -481,9 +489,14 @@ class ImportVocab {
               $rowStatusId = $this->prolog['defaults']['statusId'];
             }
 
+            //todo check for a URI change if we have a roe_id
             $results['status'] = 'modified';
-            $skipMap[] = "uri";
+            $skipMap[] = $this->prolog['meta_column'];
+            $skipMap[] = $this->prolog['key_column'];
             $skipMap[] = "meta";
+            //we always skip these
+            $skipMap[] = 'parent_property';
+            $skipMap[] = 'parent_class';
 
             if (!$property) {
               //          create a new property
@@ -500,15 +513,10 @@ class ImportVocab {
               $property->setLanguage($rowLanguage);
             }
 
-            //we always skip these
-            $skipMap[] = 'parent_property';
-            $skipMap[] = 'parent_class';
-
-            /** @TODO: match the language */
             foreach (array_keys($row) as $key) {
               $value = $row[$key];
 
-              //do the specials
+              //do the special properties that are set from the
               if ($key === 'parent_class' && isset($row['type']) && 'subclass' === strtolower($row['type'])) {
                 $property->setParentUri($this->getFqn($value));
                 continue;
@@ -518,12 +526,12 @@ class ImportVocab {
                 continue;
               }
               //do the nonliterals
-              if (in_array($key, array('domain', 'orange'))) {
+              if (in_array($key, array('domain', 'orange',))) {
                 $skipMap[] = self::setPropertyValue($value, $property, $key, false, true);
                 continue;
               }
               //do the literals
-              if (in_array($key, array('name', 'label', 'definition', 'comment', 'note'))) {
+              if (in_array($key, array('name', 'label', 'definition', 'comment', 'note',))) {
                 $skipMap[] = self::setPropertyValue($value, $property, $key, true, true );
               }
             }
@@ -551,11 +559,13 @@ class ImportVocab {
 
             $results['id'] = $propertyId;
             $results['uri'] = $property->getUri();
-            unset($property);
+            //unset($property);
 
-            //add the identifier column to the skip map
-            $skipMap[] = $this->prolog['key_column'];
-            $elements = \SchemaPropertyElementPeer::getNonSchemaPropertyElements($results['id']);
+            //do the individual elements
+            /** @TODO: match the language */
+
+            //$elements = \SchemaPropertyElementPeer::getNonSchemaPropertyElements($results['id']);
+            //$elements = $property->getSchemaPropertyElementsRelatedBySchemaPropertyId();
             $results['statements'] = array();
 
             /** @todo get the current list of non-form-editor statements, indexed by full property, object, language */
@@ -653,7 +663,7 @@ class ImportVocab {
                 }
                 $cellLanguage = $this->getColLangType( $key, 'lang', false );
                 //data type must be explicit
-                $cellType                = $this->getColLangType( $key, 'type', false );
+                $cellType                = $this->getColLangType( $key, 'type', true );
                 $results['statements'][] = self::SetPropertyElement( $key, $value, $propertyId, $updateTime, $rowStatusId, $cellLanguage, $cellType );
               }
             }
@@ -754,6 +764,7 @@ class ImportVocab {
     $import = new \FileImportHistory();
     $import->setFileName($this->file);
     $import->setFileType($this->type);
+    //todo $this->mapping isn't correct
     $import->setMap($this->mapping);
     $import->setResults($this->results);
     $import->setUserId($this->userId);
@@ -797,8 +808,8 @@ class ImportVocab {
       else {
         $this->results['errors']['error'][] = [
                                                 'action' => "getIri",
-                                                'error'  => "Could not find namespace for prefix used in headers: " . $matches[1]
-                                              ] . "in column '" . $key . "'";
+                                                'error'  => "Could not find namespace for prefix used in headers: '" . $matches[1]
+                                               . "' in column: '" . $key . "'"];
       }
     }
     return $value;

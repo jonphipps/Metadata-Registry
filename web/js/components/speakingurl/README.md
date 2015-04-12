@@ -52,12 +52,12 @@ copy the file speakingurl.min.js to your script directory
 #### [CDN/cloudflare](https://www.cloudflare.com/)
 
 -	available versions: http://cdnjs.com/libraries/speakingurl/
--	use //cdnjs.cloudflare.com/ajax/libs/speakingurl/0.20.0/speakingurl.min.js
+-	use //cdnjs.cloudflare.com/ajax/libs/speakingurl/0.20.1/speakingurl.min.js
 
 #### [CDN/maxcdn](https://www.maxcdn.com/)
 
 -	available versions: http://www.jsdelivr.com/#!speakingurl
--	use //cdn.jsdelivr.net/speakingurl/0.20.0/speakingurl.min.js
+-	use //cdn.jsdelivr.net/speakingurl/0.20.1/speakingurl.min.js
 
 Usage
 -----
@@ -74,7 +74,7 @@ Usage
 		-	char that replace the whitespaces
 	-	`lang` {string} default: 'en'
 		-	false -> don't convert symbols
-		-	language for symbol translation ('ar', 'cz', 'de', 'en', 'es', 'fr', 'it', 'my, 'nl', pt', 'ru', 'sk', 'tr' and 'vn'; more coming soon, please help!)
+		-	language for symbol translation ('ar', 'cz', 'de', 'en', 'es', 'fr', 'hu', 'it', 'my, 'nl', pt', 'ru', 'sk', 'tr' and 'vn'; more coming soon, please help!)
 		-	false -\> don't convert symbols
 	-	`maintainCase` {boolean} default: false
 		-	true -\> maintain case chars

@@ -67,9 +67,9 @@ class importUpdateTest extends \Codeception\TestCase\Test
     {
         $I=$this->tester;
         $I->wantToTest("if a changed cell in the main table gets changed");
-        $I->seeRecordCountInDatabaseTable("SchemaPropertyElement", 138);
+        $I->seeRecordCountInDatabaseTable("SchemaPropertyElement", 140);
         $I->seeRecordCountInDatabaseTable("SchemaProperty", 12);
-        $I->seeRecordCountInDatabaseTable("SchemaPropertyElementHistory", 144);
+        $I->seeRecordCountInDatabaseTable("SchemaPropertyElementHistory", 146);
         $I->canSeeInDatabase('reg_schema_property', ['id' => 1, "definition" => "This property associates a publication, i.e. an instance of F3 Manifestation Product Type, with an instance of E30 Right, which applies to all exemplars of that publication, as long as they are recognised as exemplars of that publication."]);
         $this->import->setCsvReader($this->import->file);
         $this->import->processProlog();
@@ -113,7 +113,7 @@ class importUpdateTest extends \Codeception\TestCase\Test
         $I->canSeeInDatabase('reg_schema_property_element_history', ['profile_property_id' => 15, 'schema_property_id' => 4, "object" => "http://iflastandards.info/ns/fr/frbr/frbroo/CLP105TestMe", "action" => "added"]);
         //test if the parent update date matches the update of a statement when the statement is the only thing changed
         $updateDate = $I->grabFromDatabase('reg_schema_property', 'updated_at', ['id' => 4]);
-        $elementUpdateDate = $I->grabFromDatabase('reg_schema_property_element', 'updated_at', ['id' => 140]);
+        $elementUpdateDate = $I->grabFromDatabase('reg_schema_property_element', 'updated_at', ['id' => 141]);
         verify("the element row has been updated",
           $updateDate)->equals($elementUpdateDate);
         $I->wantTo('see if a deleted cell is removed from the schema_property record');

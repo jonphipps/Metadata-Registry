@@ -69,4 +69,21 @@ class sfPropelAdminGenerator extends sfPropelCrudGenerator
     // not a "real" column, so we will simulate one
     return null;
   }
+
+  /**
+   * @param Column $columns
+   * @param string $phpName
+   *
+   * @return Column|null
+   */
+  private function SearchTableMap($columns, $phpName)
+  {
+    /** @var $column Column */
+    foreach ($columns as $column) {
+      if ($column->getPhpName() == $phpName) {
+        return $column;
+      }
+    }
+    return null;
+  }
 }

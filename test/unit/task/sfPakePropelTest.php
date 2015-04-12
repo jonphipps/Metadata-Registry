@@ -8,7 +8,6 @@
  * file that was distributed with this source code.
  */
 
-//debugbreak();
 require_once(dirname(__FILE__).'/../../bootstrap/unit.php');
 require_once($sf_symfony_lib_dir.'/vendor/pake/pakeFunction.php');
 require_once($sf_symfony_lib_dir.'/vendor/pake/pakeGetopt.class.php');
@@ -147,7 +146,7 @@ function checkTestArray($args, $testArray, $task, $t)
   $args = _parse_args($args, $task);
   foreach ($args as $key => $value)
   {
-    //if (is_array($args[$key])) debugbreak();
+    //if (is_array($args[$key]));
     $t->is($args[$key], $testArray[$key], $args[$key]." == '".$testArray[$key]."'");
   }
 }

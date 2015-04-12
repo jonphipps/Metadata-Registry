@@ -106,7 +106,7 @@ class sfRouting
       {
         foreach ($request->getParameterHolder()->getAll() as $key => $value)
         {
-          if ($key == 'module' || $key == 'action' || in_array($key, $names))
+          if ($key == 'module' || $key == 'action' || in_array($key, $names) || is_array($value))
           {
             continue;
           }
@@ -587,7 +587,7 @@ class sfRouting
             {
               $pass = sfToolkit::stripslashesDeep((array) $pass);
             }
-            
+
             foreach ($pass as $key => $value)
             {
               // we add this parameters if not in conflict with named url element (i.e. ':action')

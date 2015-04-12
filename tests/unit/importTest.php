@@ -79,7 +79,7 @@ class importTest extends \Codeception\TestCase\Test
           count($results['rows'])
         )->equals(12);
         $this->import->processParents();
-        $I->seeRecordCountInDatabaseTable("SchemaPropertyElement", 138);
+        $I->seeRecordCountInDatabaseTable("SchemaPropertyElement", 140);
         $I->seeRecordCountInDatabaseTable("SchemaProperty", 12);
         //prolog namespace entries are readable
         //prolog headers are actually in row 1

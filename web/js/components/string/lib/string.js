@@ -5,7 +5,7 @@ string.js - Copyright (C) 2012-2014, JP Richardson <jprichardson@gmail.com>
 !(function() {
   "use strict";
 
-  var VERSION = '3.0.0';
+  var VERSION = '3.0.1';
 
   var ENTITIES = {};
 
@@ -121,15 +121,7 @@ string.js - Copyright (C) 2012-2014, JP Richardson <jprichardson@gmail.com>
     },
 
     count: function(ss) {
-      var count = 0
-        , pos = this.s.indexOf(ss)
-
-      while (pos >= 0) {
-        count += 1
-        pos = this.s.indexOf(ss, pos + 1)
-      }
-
-      return count
+      return require('./_count')(this.s, ss)
     },
 
     //#modified from https://github.com/epeli/underscore.string
@@ -566,7 +558,7 @@ string.js - Copyright (C) 2012-2014, JP Richardson <jprichardson@gmail.com>
 
     //#modified from https://github.com/epeli/underscore.string
     underscore: function() {
-      var s = this.trim().s.replace(/([a-z\d])([A-Z]+)/g, '$1_$2').replace(/[-\s]+/g, '_').toLowerCase();
+      var s = this.trim().s.replace(/([a-z\d])([A-Z]+)/g, '$1_$2').replace(/([A-Z\d]+)([A-Z][a-z])/,'$1_$2').replace(/[-\s]+/g, '_').toLowerCase();
       return new this.constructor(s);
     },
 

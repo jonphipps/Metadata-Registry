@@ -24,13 +24,16 @@
  *
  * The options_for_select helper is usually called in conjunction with the select_tag helper, as it is relatively
  * useless on its own. By passing an array of <i>$options</i>, the helper will automatically generate <option> tags
- * using the array key as the value and the array value as the display title. Additionally the options_for_select tag is
- * smart enough to detect nested arrays as <optgroup> tags.  If the helper detects that the array value is an array itself,
- * it creates an <optgroup> tag with the name of the group being the key and the contents of the <optgroup> being the array.
+ * using the array key as the value and the array value as the display title. Additionally the options_for_select tag
+ * is
+ * smart enough to detect nested arrays as <optgroup> tags.  If the helper detects that the array value is an array
+ * itself, it creates an <optgroup> tag with the name of the group being the key and the contents of the <optgroup>
+ * being the array.
  *
  * <b>Options:</b>
  * - include_blank  - Includes a blank <option> tag at the beginning of the string with an empty value
- * - include_custom - Includes an <option> tag with a custom display title at the beginning of the string with an empty value
+ * - include_custom - Includes an <option> tag with a custom display title at the beginning of the string with an empty
+ * value
  *
  * <b>Examples:</b>
  * <code>
@@ -39,15 +42,17 @@
  *
  * <code>
  *  $card_list = array('VISA' => 'Visa', 'MAST' => 'MasterCard', 'AMEX' => 'American Express', 'DISC' => 'Discover');
- *  echo select_tag('cc_type', options_for_select($card_list, 'AMEX', array('include_custom' => '-- Select Credit Card Type --')));
+ *  echo select_tag('cc_type', options_for_select($card_list, 'AMEX', array('include_custom' => '-- Select Credit Card
+ *  Type --')));
  * </code>
  *
  * <code>
- *  $optgroup_array = array(1 => 'Joe', 2 => 'Sue', 'Group A' => array(3 => 'Mary', 4 => 'Tom'), 'Group B' => array(5 => 'Bill', 6 =>'Andy'));
- *  echo select_tag('employee', options_for_select($optgroup_array, null, array('include_blank' => true)), array('class' => 'mystyle'));
+ *  $optgroup_array = array(1 => 'Joe', 2 => 'Sue', 'Group A' => array(3 => 'Mary', 4 => 'Tom'), 'Group B' => array(5
+ *  => 'Bill', 6 =>'Andy')); echo select_tag('employee', options_for_select($optgroup_array, null,
+ *  array('include_blank' => true)), array('class' => 'mystyle'));
  * </code>
  *
- * @param  array dataset to create <option> tags and <optgroup> tags from
+ * @param  array  dataset to create <option> tags and <optgroup> tags from
  * @param  string selected option value
  * @param  array  additional HTML compliant <option> tag parameters
  *
@@ -106,7 +111,7 @@ function options_for_select( $options = array (), $selected = '', $html_options 
  *   <code><?php echo form_tag('/module/action', array('name' => 'myformname', 'multipart' => true)); ?></code>
  *
  * @param  string valid action, route or URL
- * @param  array optional HTML parameters for the <form> tag
+ * @param  array  optional HTML parameters for the <form> tag
  *
  * @return string opening HTML <form> tag with options
  */
@@ -133,9 +138,10 @@ function form_tag( $url_for_options = '', $options = array () )
  *
  * The select tag does not generate <option> tags by default.
  * To do so, you must populate the <i>$option_tags</i> parameter with a string of valid HTML compliant <option> tags.
- * Fortunately, Symfony provides a handy helper function to convert an array of data into option tags (see options_for_select).
- * If you need to create a "multiple" select tag (ability to select multiple options), set the <i>multiple</i> option to true.
- * Doing so will automatically convert the name field to an array type variable (i.e. name="name" becomes name="name[]").
+ * Fortunately, Symfony provides a handy helper function to convert an array of data into option tags (see
+ * options_for_select). If you need to create a "multiple" select tag (ability to select multiple options), set the
+ * <i>multiple</i> option to true. Doing so will automatically convert the name field to an array type variable (i.e.
+ * name="name" becomes name="name[]").
  *
  * <b>Options:</b>
  * - multiple - If set to true, the select tag will allow multiple options to be selected at once.
@@ -155,7 +161,8 @@ function form_tag( $url_for_options = '', $options = array () )
  * </code>
  *
  * @param  string field name
- * @param  mixed contains a string of valid <option></option> tags, or an array of options that will be passed to options_for_select
+ * @param  mixed  contains a string of valid <option></option> tags, or an array of options that will be passed to
+ *                         options_for_select
  * @param  array  additional HTML compliant <select> tag parameters
  *
  * @return string <select> tag optionally comprised of <option> tags.
@@ -232,7 +239,8 @@ function select_country_tag( $name, $selected = null, $options = array () )
  * all the languages in the world (sorted alphabetically). Each option in the list has a two or three character
  * language/culture code for its value and the language's name as its display title.  The country data is
  * retrieved via the sfCultureInfo class, which stores a wide variety of i18n and i10n settings for various
- * countries and cultures throughout the world. Here's an example of an <option> tag generated by the select_country_tag:
+ * countries and cultures throughout the world. Here's an example of an <option> tag generated by the
+ * select_country_tag:
  *
  * <samp>
  *  <option value="en">English</option>
@@ -243,15 +251,15 @@ function select_country_tag( $name, $selected = null, $options = array () )
  *  echo select_language_tag('language', 'de');
  * </code>
  *
- * @param  string $name field name
+ * @param  string $name     field name
  * @param  string $selected field value (two or three character language/culture code)
- * @param  array $options additional HTML compliant <select> tag parameters
- *                         options include:
- *                         'languages' a list of available languages
- *                         'include_blank' include empty prompt
- *                         'include_custom' include a specific prompt
- *                         'control_name' the control name
- *                         'limitmethod'
+ * @param  array  $options  additional HTML compliant <select> tag parameters
+ *                          options include:
+ *                          'languages' a list of available languages
+ *                          'include_blank' include empty prompt
+ *                          'include_custom' include a specific prompt
+ *                          'control_name' the control name
+ *                          'limitmethod'
  *
  * @return string <select> tag populated with all the languages in the world.
  * @see select_tag, options_for_select, sfCultureInfo
@@ -304,9 +312,9 @@ function input_tag( $name, $value = null, $options = array () )
       'input',
       array_merge(
           array (
-              'type' => 'text',
-              'name' => $name,
-              'id' => get_id_from_name( $name, $value ),
+              'type'  => 'text',
+              'name'  => $name,
+              'id'    => get_id_from_name( $name, $value ),
               'value' => $value
           ),
           _convert_options( $options )
@@ -375,11 +383,12 @@ function input_file_tag( $name, $options = array () )
  * Returns an XHTML compliant <input> tag with type="password".
  *
  * Similar to the input_tag helper, the input_hidden_tag helper generates your basic XHTML <input> tag and can utilize
- * any standard <input> tag parameters passed in the optional <i>$options</i> parameter.  The only difference is that it
- * creates the tag with type="password", meaning that the text entered into this field will not be visible to the end user.
- * In most cases it is replaced by  * * * * * * * *.  Even though this text is not readable, it is recommended that you do not
- * populate the optional <i>$value</i> option with a plain-text password or any other sensitive information, as this is a
- * potential security risk.
+ * any standard <input> tag parameters passed in the optional <i>$options</i> parameter.  The only difference is that
+ * it
+ * creates the tag with type="password", meaning that the text entered into this field will not be visible to the end
+ * user. In most cases it is replaced by  * * * * * * * *.  Even though this text is not readable, it is recommended
+ * that you do not populate the optional <i>$value</i> option with a plain-text password or any other sensitive
+ * information, as this is a potential security risk.
  *
  * <b>Examples:</b>
  * <code>
@@ -474,7 +483,7 @@ function textarea_tag( $name, $content = null, $options = array () )
       array_merge(
           array (
               'name' => $name,
-              'id' => get_id_from_name( _get_option( $options, 'id', $name ), null )
+              'id'   => get_id_from_name( _get_option( $options, 'id', $name ), null )
           ),
           _convert_options( $options )
       )
@@ -526,9 +535,9 @@ function checkbox_tag( $name, $value = '1', $checked = false, $options = array (
 {
   $html_options = array_merge(
       array (
-          'type' => 'checkbox',
-          'name' => $name,
-          'id' => get_id_from_name( $name, $value ),
+          'type'  => 'checkbox',
+          'name'  => $name,
+          'id'    => get_id_from_name( $name, $value ),
           'value' => $value
       ),
       _convert_options( $options )
@@ -561,9 +570,9 @@ function radiobutton_tag( $name, $value, $checked = false, $options = array () )
 {
   $html_options = array_merge(
       array (
-          'type' => 'radio',
-          'name' => $name,
-          'id' => get_id_from_name( $name . '[]', $value ),
+          'type'  => 'radio',
+          'name'  => $name,
+          'id'    => get_id_from_name( $name . '[]', $value ),
           'value' => $value
       ),
       _convert_options( $options )
@@ -722,18 +731,18 @@ function input_date_tag( $name, $value = null, $options = array () )
       $date_format,
       array (
           'yyyy' => 'Y',
-          'yy' => 'y',
-          'MM' => 'm',
-          'M' => 'm',
-          'dd' => 'd',
-          'd' => 'e',
-          'HH' => 'H',
-          'H' => 'k',
-          'hh' => 'I',
-          'h' => 'l',
-          'mm' => 'M',
-          'ss' => 'S',
-          'a' => 'p'
+          'yy'   => 'y',
+          'MM'   => 'm',
+          'M'    => 'm',
+          'dd'   => 'd',
+          'd'    => 'e',
+          'HH'   => 'H',
+          'H'    => 'k',
+          'hh'   => 'I',
+          'h'    => 'l',
+          'mm'   => 'M',
+          'ss'   => 'S',
+          'a'    => 'p'
       )
   );
 
@@ -790,10 +799,10 @@ function input_date_tag( $name, $value = null, $options = array () )
         'button',
         $calendar_button,
         array (
-            'type' => 'button',
+            'type'     => 'button',
             'disabled' => 'disabled',
-            'onclick' => 'return false',
-            'id' => $id_calendarButton
+            'onclick'  => 'return false',
+            'id'       => $id_calendarButton
         )
     );
   }
@@ -860,6 +869,7 @@ function submit_tag( $value = 'Save changes', $options = array () )
  *
  * @param  string field value (title of reset button)
  * @param  array  additional HTML compliant <input> tag parameters
+ *
  * @return string XHTML compliant <input> tag with type="reset"
  */
 function reset_tag( $value = 'Reset', $options = array () )

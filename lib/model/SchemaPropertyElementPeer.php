@@ -78,7 +78,7 @@ class SchemaPropertyElementPeer extends BaseSchemaPropertyElementPeer {
     {
         $c = new Criteria();
         $c->add( self::SCHEMA_PROPERTY_ID, $propertyId );
-        $c->add( self::IS_SCHEMA_PROPERTY, false );
+        $c->add( self::IS_SCHEMA_PROPERTY, Criteria::ISNULL );
 
         $results = self::doSelect( $c );
 
@@ -94,13 +94,19 @@ class SchemaPropertyElementPeer extends BaseSchemaPropertyElementPeer {
         $namespaces = array();
 
         $c = new Criteria();
+        $c->clearSelectColumns();
+        $c->addSelectColumn(SchemaPropertyElementPeer::OBJECT);
+        $c->add(SchemaPropertyElementPeer::OBJECT,"http%", Criteria::LIKE);
         $c->add( SchemaPropertyPeer::SCHEMA_ID, $schemaId );
-        $result = self::doSelectJoinSchemaPropertyRelatedBySchemaPropertyId( $c );
+        $c->addJoin(SchemaPropertyElementPeer::SCHEMA_PROPERTY_ID,SchemaPropertyPeer::ID);
+        $result = self::doSelectRS($c);
         self::getNamespaceUris( $result, 'getObject', $namespaces );
 
         $c = new Criteria();
+        $c->clearSelectColumns();
+        $c->addSelectColumn(SchemaPropertyPeer::URI);
         $c->add( SchemaPropertyPeer::SCHEMA_ID, $schemaId );
-        $result = SchemaPropertyPeer::doSelect( $c );
+        $result = SchemaPropertyPeer::doSelectRS( $c );
         self::getNamespaceUris( $result, 'getUri', $namespaces );
 
         return $namespaces;
@@ -119,7 +125,7 @@ class SchemaPropertyElementPeer extends BaseSchemaPropertyElementPeer {
         {
             $match = preg_match(
               '/\b(?<protocol>https?|ftp):\/\/(?<domain>[-A-Z0-9.]+)(?<path>\/[-A-Z0-9+&@#\/%=~_|!:,.;]*[\/|#])(?<file>[-A-Z0-9+&@#\/%=~_|!:,.;]*)?(?<parameters>\?[A-Z0-9+&@#\/%=~_|!:,.;]*)?/i',
-              call_user_func( [ &$value, $method ] ),
+              $value[0],
               $matches
             );
             if ( $match )

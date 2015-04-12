@@ -404,6 +404,18 @@ class Schema extends BaseSchema {
         return $languages;
     }
 
+  public function getLanguagesNoDefault()
+  {
+    $languages = $this->getLanguages();
+      $language = $this->getLanguage();
+    $default = array_search( $language, $languages );
+    if ( false !== $default ) {
+      unset( $languages[ $default ] );
+    }
+
+    return $languages;
+  }
+
   /**
    * @param SchemaProperty     $property
    * @param Criteria           $cLang
