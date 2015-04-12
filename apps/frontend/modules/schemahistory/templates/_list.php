@@ -53,7 +53,7 @@
           'schema_property_element_history' => $schema_property_element_history,
           'version' => $version));
           echo ($value) ? $value : '&nbsp;' ?>
-</td></tr><?php  ?>
+</td></tr>
 <?php endif; ?>
 <?php endforeach; $tsLast = $tsNew ?>
 <tr class="sf_admin_row_<?php echo $odd ?>">

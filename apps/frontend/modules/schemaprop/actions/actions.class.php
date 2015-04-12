@@ -55,6 +55,15 @@ class schemapropActions extends autoschemapropActions
     $schemaprop->setSchemaUri($newURI);
   }
 
+  /**
+   * @param SchemaProperty $schemaprop
+   * @param string         $newURI
+   */
+  public function setDefaultLexicalUri($schemaprop, $newURI)
+  {
+    $schemaprop->setLexicalUri($newURI . "[LEXICAL_TOKEN]");
+  }
+
   public function executeEdit()
   {
 
