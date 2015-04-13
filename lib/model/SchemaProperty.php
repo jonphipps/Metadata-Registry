@@ -75,8 +75,7 @@
    */
   protected $schemaUri = '';
 
-  public function __toString()
-  {
+  public function __toString() {
       return (string) $this->getLabel();
   }
 
@@ -85,8 +84,7 @@
   *
   * @return User
   */
-  public function getCreatedUser()
-  {
+    public function getCreatedUser() {
     return $this->getUserRelatedByCreatedUserId();
 
   } // getCreatedUser
@@ -96,8 +94,7 @@
   *
   * @return User
   */
-  public function getUpdatedUser()
-  {
+    public function getUpdatedUser() {
     return $this->getUserRelatedByUpdatedUserId();
 
   } // getUpdatedUser
@@ -107,8 +104,7 @@
   *
   * @return SchemaProperty
   */
-  public function getParentProperty()
-  {
+    public function getParentProperty() {
     return $this->getSchemaPropertyRelatedByIsSubpropertyOf();
   }
 
@@ -120,8 +116,7 @@
      * @param \Connection $con [optional]
      *
   */
-  public function save($con = null)
-  {
+    public function save($con = NULL) {
     $affectedRows = parent::save($con);
 
     if (sfcontext::hasInstance()) {
@@ -144,8 +139,7 @@
   *
   * @return string The uri of the schema
   */
-  public function getSchemaUri()
-  {
+    public function getSchemaUri() {
     return $this->schemaUri;
   }
 
@@ -156,8 +150,7 @@
      *
   * @return string The uri of the schema
   */
-  public function setSchemaUri($v)
-  {
+    public function setSchemaUri($v) {
     // Since the native PHP type for this column is string,
     // we will cast the input to a string (if it is not).
     if ($v !== null && !is_string($v)) {
@@ -227,8 +220,7 @@
      * @throws Exception
      * @throws PropelException
   */
-  public function saveSchemaProperty($userId)
-  {
+    public function saveSchemaProperty($userId) {
     //if the property is modified then
     if ($this->isModified() || $this->isNew())
     {
@@ -446,10 +438,8 @@
      *
      * @return bool|\SchemaPropertyElement
   */
-  public function updateElement(SchemaPropertyElement $element, $userId, $field, $object, $con)
-  {
-    if ($element)
-    {
+  public function updateElement(SchemaPropertyElement $element, $userId, $field, $object, $con) {
+      if ($element) {
       $element->setIsSchemaProperty(true);
       $element->setUpdatedUserId($userId);
       //SchemaPropertyElementPeer::updateElement($schema_property, $element, $userId, $field, $con);
@@ -480,14 +470,11 @@
      *
   * @param  string $field name to fetch
   */
-  public function getFieldValue($field)
-  {
-    try
-    {
+    public function getFieldValue($field) {
+      try {
       $fieldTest = $this->getByName($field, BasePeer::TYPE_FIELDNAME);
     }
-    catch (PropelException $e)
-    {
+      catch(PropelException $e) {
       $fieldTest = false;
     }
     return $fieldTest;
