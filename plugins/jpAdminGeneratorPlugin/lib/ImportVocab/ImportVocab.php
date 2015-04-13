@@ -473,11 +473,23 @@ class ImportVocab {
               $uri = $this->vocabulary->getBaseDomain() . $rowUri;
             }
             $skipMap = array();
+            $propertyId = '';
+
             if (isset($row[$this->prolog['meta_column']])) {
               $property = \SchemaPropertyPeer::retrieveByPK($row[$this->prolog['meta_column']]);
+              //check for a URI change
+              if ($uri != $property->getUri()) {
+                $property->setUri($uri);
+              }
+
             } else {
               $property = \SchemaPropertyPeer::retrieveByUri($uri);
             }
+
+            if ( ! empty($property)) {
+              $propertyId = $property->getId();
+            }
+
             $updateTime = time();
 
             $rowLanguage = $this->prolog['defaults']['lang'];
@@ -489,7 +501,7 @@ class ImportVocab {
               $rowStatusId = $this->prolog['defaults']['statusId'];
             }
 
-            //todo check for a URI change if we have a roe_id
+            //todo check for a URI change if we have a row_id
             $results['status'] = 'modified';
             $skipMap[] = $this->prolog['meta_column'];
             $skipMap[] = $this->prolog['key_column'];
@@ -507,6 +519,9 @@ class ImportVocab {
               $property->setUri($uri);
               $property->setCreatedUserId($this->userId);
               $property->setCreatedAt($updateTime);
+              $property->save();
+
+              $propertyId = $property->getId();
             }
 
             if ($property->getLanguage() !== $rowLanguage) {
@@ -555,7 +570,6 @@ class ImportVocab {
               //make sure this scrip has permission to write to php default session storage - /var/lib/php/session
               $property->saveSchemaProperty($this->userId);
             }
-            $propertyId = $property->getId();
 
             $results['id'] = $propertyId;
             $results['uri'] = $property->getUri();

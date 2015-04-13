@@ -24,7 +24,7 @@ class SfMapBuilderBuilder extends PHP5MapBuilderBuilder
     {
       return sfToolkit::stripComments(parent::build());
     }
-    
+
     return parent::build();
   }
 
@@ -44,6 +44,7 @@ class SfMapBuilderBuilder extends PHP5MapBuilderBuilder
 
     // fix http://propel.phpdb.org/trac/ticket/235: Column sizes not being inserted into [table]MapBuilder->DoBuild() by PHP5MapBuilderBuilder
     $sizes = array();
+    /** @var Column $col */
     foreach ($this->getTable()->getColumns() as $col)
     {
       $sizes[$col->getPhpName()] = !$col->getSize() ? 'null' : $col->getSize();
