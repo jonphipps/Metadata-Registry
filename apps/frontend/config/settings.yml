@@ -12,7 +12,7 @@ dev:
     # E_ALL | E_STRICT = 4095
     # error_reporting:        4095
     # E_ALL
-    error_reporting:        -1
+    error_reporting:        15
     web_debug:              on
     cache:                  off
     no_script_name:         off
@@ -23,7 +23,7 @@ dev:
 test:
   .settings:
     # E_ALL | E_STRICT & ~E_NOTICE = 2047
-    error_reporting:        -1
+    error_reporting:        15
     cache:                  off
     web_debug:              on
     no_script_name:         off
@@ -31,7 +31,7 @@ test:
 test-empty:
   .settings:
     # E_ALL | E_STRICT & ~E_NOTICE = 2047
-    error_reporting:        -1
+    error_reporting:        15
     cache:                  off
     web_debug:              on
     no_script_name:         off
