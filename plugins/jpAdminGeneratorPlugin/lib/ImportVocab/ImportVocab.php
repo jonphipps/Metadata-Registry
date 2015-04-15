@@ -835,8 +835,8 @@ class ImportVocab {
   public function setColumnId(&$uri, $dbKeys) {
     $value = false;
     if (!empty($uri)) {
-      if (!empty($dbKeys[$uri])) {
-        $value = $dbKeys[$uri];
+      if (!empty($dbKeys[$uri]['id'])) {
+        $value = $dbKeys[$uri]['id'];
       }
     }
     return $value;
