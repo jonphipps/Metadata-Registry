@@ -298,31 +298,48 @@ class ImportVocab {
 
   }
 
-  public function getDataColumnIds() {
-    //use the prolog to look up correct resources in the database
-    $criteria = new \Criteria();
-    $criteria->add(\ProfilePropertyPeer::PROFILE_ID, 1);
-    $this->prolog['profileProperties'] = \ProfilePropertyPeer::doSelect($criteria);
-    //get the curies
-    /** @var $property \ProfileProperty */
-    foreach ($this->prolog['profileProperties'] as $property) {
-      $dbKeys[$property->getUri()] = $property->getId();
-    }
-    //get the iris
-    foreach ($this->prolog['columns'] as $key => &$column) {
-      if (!is_array($column['uri'])) {
-        $column['id'] = $this->setColumnId($column['uri'], $dbKeys);
-        $column['iri'] = $this->setColumnIri($column['uri'], $key);
-      }
-      else {
-        $count = count($column['uri']);
-        for ($I = 0; $I < $count; $I++) {
-          $column['id'][$I] = $this->setColumnId($column['uri'][$I], $dbKeys);
-          $column['iri'][$I] = $this->setColumnIri($column['uri'][$I], $key);
+    public function getDataColumnIds()
+    {
+        //use the prolog to look up correct resources in the database
+        $criteria = new \Criteria();
+        $criteria->add(\ProfilePropertyPeer::PROFILE_ID, 1);
+        $this->prolog[ 'profileProperties' ] = \ProfilePropertyPeer::doSelect($criteria);
+        //get the curies
+        /** @var $property \ProfileProperty */
+        foreach ($this->prolog[ 'profileProperties' ] as $property) {
+            $uri = $property->getUri();
+            $dbKeys[ $uri ][ 'id' ] = $property->getId();
+            $dbKeys[ $uri ][ 'property' ] = $property;
         }
-      }
+        //get the iris
+        foreach ($this->prolog['columns'] as $key => &$column) {
+            if ( ! is_array($column['uri'])) {
+                $column['id'] = $this->setColumnId($column['uri'], $dbKeys);
+                $column['iri'] = $this->setColumnIri($column['uri'], $key);
+                if (isset($column['uri']) and
+                    isset($dbKeys[$column['uri']]['property'])
+                ) {
+                    $property = $dbKeys[$column['uri']]['property'];
+                    /** @var \ProfileProperty $property */
+                    $column['property'] = $property;
+                    $column['name'] = $property->getName();
+                }
+            } else {
+                $count = count($column['uri']);
+                for ($I = 0; $I < $count; $I ++) {
+                    $column['id'][$I] = $this->setColumnId($column['uri'][$I], $dbKeys);
+                    $column['iri'][$I] = $this->setColumnIri($column['uri'][$I], $key);
+                    if (isset($column['uri'][$I]) and
+                        isset($dbKeys[$column['uri'][$I]]['property'])) {
+                        $property = $dbKeys[$column['uri'][$I]]['property'];
+                        /** @var \ProfileProperty $property */
+                        $column['property'] = $property;
+                        $column['name'] = $property->getName();
+                    }
+                }
+            }
+        }
     }
-  }
 
   public function getStatusId($status) {
     if (is_integer($status)) {
@@ -528,33 +545,53 @@ class ImportVocab {
               $property->setLanguage($rowLanguage);
             }
 
-            foreach (array_keys($row) as $key) {
-              $value = $row[$key];
+              $property->setStatusId($rowStatusId);
 
-              //do the special properties that are set from the
-              if ($key === 'parent_class' && isset($row['type']) && 'subclass' === strtolower($row['type'])) {
-                $property->setParentUri($this->getFqn($value));
-                continue;
-              }
-              if ($key === 'parent_property' && isset($row['type']) && 'subproperty' === strtolower($row['type'])) {
-                $property->setParentUri($this->getFqn($value));
-                continue;
-              }
-              //do the nonliterals
-              if (in_array($key, array('domain', 'orange',))) {
-                $skipMap[] = self::setPropertyValue($value, $property, $key, false, true);
-                continue;
-              }
-              //do the literals
-              if (in_array($key, array('name', 'label', 'definition', 'comment', 'note',))) {
-                $skipMap[] = self::setPropertyValue($value, $property, $key, true, true );
-              }
-            }
+              foreach (array_keys($row) as $key) {
+                  $value = $row[$key];
+                  $column = $this->prolog['columns'][$key];
+                  $propertyLanguage = $property->getLanguage();
 
-            if (empty($row["name"]) and !empty($row["label"])) {
-              $property->setName(slugify($row["label"]));
-            }
+                  //do the special properties that are set from the
+                  if ($key === 'parent_class' && isset($row['type']) && 'subclass' === strtolower($row['type'])) {
+                      $property->setParentUri($this->getFqn($value));
+                      continue;
+                  }
+                  if ($key === 'parent_property' && isset($row['type']) && 'subproperty' === strtolower($row['type'])) {
+                      $property->setParentUri($this->getFqn($value));
+                      continue;
+                  }
+                  //do the nonliterals
+                  if (in_array($column['uri'], array(
+                        'rdfs:domain',
+                        'rdfs:range',
+                  ))) {
+                      $skipMap[] = self::setPropertyValue($value, $property, $column['name'], false, true);
+                      continue;
+                  }
+                  //do the literals
+                  if ($column['lang'] == $propertyLanguage) {
+                      if (in_array($column['uri'], array(
+                            'reg:name',
+                            'rdfs:label',
+                            'skos:definition',
+                            'rdfs:comment',
+                            'skos:scopeNote',
+                      ))) {
+                          $skipMap[] = self::setPropertyValue($value, $property, $column['name'], true, true);
+                      }
 
+                      if (empty($name) and 'reg:name' == $column['uri']) {
+                          $name = $value;
+                      }
+                      if (empty($label) and 'rdfs:label' == $column['uri']) {
+                          $label = $value;
+                      }
+                  }
+              }
+              if (empty($name) and ! empty($label)) {
+                  $property->setName(slugify($label));
+              }
             $lowType = strtolower($row["type"]);
             if (isset($row["type"])) {
               $skipMap[] = "type";
@@ -564,7 +601,6 @@ class ImportVocab {
             }
 
             if ($property->isModified() or $property->isNew()) {
-              $property->setStatusId($rowStatusId);
               $property->setUpdatedUserId($this->userId);
               $property->setUpdatedAt($updateTime);
               //make sure this scrip has permission to write to php default session storage - /var/lib/php/session
