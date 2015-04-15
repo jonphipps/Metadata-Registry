@@ -511,14 +511,16 @@ class ImportVocab {
 
             $rowLanguage = $this->prolog['defaults']['lang'];
 
-            if (isset($row['status'])) {
-              $rowStatusId = $this->getStatusId($row['status']);
-            }
-            else {
-              $rowStatusId = $this->prolog['defaults']['statusId'];
-            }
+              if (isset($row['status'])) {
+                  if (is_numeric($row['status'])) {
+                      $rowStatusId = $row['status'];
+                  } else {
+                      $rowStatusId = $this->getStatusId($row['status']);
+                  }
+              } else {
+                  $rowStatusId = $this->prolog['defaults']['statusId'];
+              }
 
-            //todo check for a URI change if we have a row_id
             $results['status'] = 'modified';
             $skipMap[] = $this->prolog['meta_column'];
             $skipMap[] = $this->prolog['key_column'];
