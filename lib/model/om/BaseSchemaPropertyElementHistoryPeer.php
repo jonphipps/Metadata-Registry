@@ -64,8 +64,8 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 	/** the column name for the CHANGE_NOTE field */
 	const CHANGE_NOTE = 'reg_schema_property_element_history.CHANGE_NOTE';
 
-	/** the column name for the HISTORY_ID field */
-	const HISTORY_ID = 'reg_schema_property_element_history.HISTORY_ID';
+	/** the column name for the IMPORT_ID field */
+	const IMPORT_ID = 'reg_schema_property_element_history.IMPORT_ID';
 
 	/** The PHP to DB Name Mapping */
 	private static $phpNameMap = null;
@@ -78,9 +78,9 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 	 * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
 	 */
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'CreatedAt', 'CreatedUserId', 'Action', 'SchemaPropertyElementId', 'SchemaPropertyId', 'SchemaId', 'ProfilePropertyId', 'Object', 'RelatedSchemaPropertyId', 'Language', 'StatusId', 'ChangeNote', 'HistoryId', ),
-		BasePeer::TYPE_COLNAME => array (SchemaPropertyElementHistoryPeer::ID, SchemaPropertyElementHistoryPeer::CREATED_AT, SchemaPropertyElementHistoryPeer::CREATED_USER_ID, SchemaPropertyElementHistoryPeer::ACTION, SchemaPropertyElementHistoryPeer::SCHEMA_PROPERTY_ELEMENT_ID, SchemaPropertyElementHistoryPeer::SCHEMA_PROPERTY_ID, SchemaPropertyElementHistoryPeer::SCHEMA_ID, SchemaPropertyElementHistoryPeer::PROFILE_PROPERTY_ID, SchemaPropertyElementHistoryPeer::OBJECT, SchemaPropertyElementHistoryPeer::RELATED_SCHEMA_PROPERTY_ID, SchemaPropertyElementHistoryPeer::LANGUAGE, SchemaPropertyElementHistoryPeer::STATUS_ID, SchemaPropertyElementHistoryPeer::CHANGE_NOTE, SchemaPropertyElementHistoryPeer::HISTORY_ID, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'created_at', 'created_user_id', 'action', 'schema_property_element_id', 'schema_property_id', 'schema_id', 'profile_property_id', 'object', 'related_schema_property_id', 'language', 'status_id', 'change_note', 'history_id', ),
+		BasePeer::TYPE_PHPNAME => array ('Id', 'CreatedAt', 'CreatedUserId', 'Action', 'SchemaPropertyElementId', 'SchemaPropertyId', 'SchemaId', 'ProfilePropertyId', 'Object', 'RelatedSchemaPropertyId', 'Language', 'StatusId', 'ChangeNote', 'ImportId', ),
+		BasePeer::TYPE_COLNAME => array (SchemaPropertyElementHistoryPeer::ID, SchemaPropertyElementHistoryPeer::CREATED_AT, SchemaPropertyElementHistoryPeer::CREATED_USER_ID, SchemaPropertyElementHistoryPeer::ACTION, SchemaPropertyElementHistoryPeer::SCHEMA_PROPERTY_ELEMENT_ID, SchemaPropertyElementHistoryPeer::SCHEMA_PROPERTY_ID, SchemaPropertyElementHistoryPeer::SCHEMA_ID, SchemaPropertyElementHistoryPeer::PROFILE_PROPERTY_ID, SchemaPropertyElementHistoryPeer::OBJECT, SchemaPropertyElementHistoryPeer::RELATED_SCHEMA_PROPERTY_ID, SchemaPropertyElementHistoryPeer::LANGUAGE, SchemaPropertyElementHistoryPeer::STATUS_ID, SchemaPropertyElementHistoryPeer::CHANGE_NOTE, SchemaPropertyElementHistoryPeer::IMPORT_ID, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'created_at', 'created_user_id', 'action', 'schema_property_element_id', 'schema_property_id', 'schema_id', 'profile_property_id', 'object', 'related_schema_property_id', 'language', 'status_id', 'change_note', 'import_id', ),
 		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, )
 	);
 
@@ -91,9 +91,9 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 	 * e.g. self::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
 	 */
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'CreatedAt' => 1, 'CreatedUserId' => 2, 'Action' => 3, 'SchemaPropertyElementId' => 4, 'SchemaPropertyId' => 5, 'SchemaId' => 6, 'ProfilePropertyId' => 7, 'Object' => 8, 'RelatedSchemaPropertyId' => 9, 'Language' => 10, 'StatusId' => 11, 'ChangeNote' => 12, 'HistoryId' => 13, ),
-		BasePeer::TYPE_COLNAME => array (SchemaPropertyElementHistoryPeer::ID => 0, SchemaPropertyElementHistoryPeer::CREATED_AT => 1, SchemaPropertyElementHistoryPeer::CREATED_USER_ID => 2, SchemaPropertyElementHistoryPeer::ACTION => 3, SchemaPropertyElementHistoryPeer::SCHEMA_PROPERTY_ELEMENT_ID => 4, SchemaPropertyElementHistoryPeer::SCHEMA_PROPERTY_ID => 5, SchemaPropertyElementHistoryPeer::SCHEMA_ID => 6, SchemaPropertyElementHistoryPeer::PROFILE_PROPERTY_ID => 7, SchemaPropertyElementHistoryPeer::OBJECT => 8, SchemaPropertyElementHistoryPeer::RELATED_SCHEMA_PROPERTY_ID => 9, SchemaPropertyElementHistoryPeer::LANGUAGE => 10, SchemaPropertyElementHistoryPeer::STATUS_ID => 11, SchemaPropertyElementHistoryPeer::CHANGE_NOTE => 12, SchemaPropertyElementHistoryPeer::HISTORY_ID => 13, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'created_at' => 1, 'created_user_id' => 2, 'action' => 3, 'schema_property_element_id' => 4, 'schema_property_id' => 5, 'schema_id' => 6, 'profile_property_id' => 7, 'object' => 8, 'related_schema_property_id' => 9, 'language' => 10, 'status_id' => 11, 'change_note' => 12, 'history_id' => 13, ),
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'CreatedAt' => 1, 'CreatedUserId' => 2, 'Action' => 3, 'SchemaPropertyElementId' => 4, 'SchemaPropertyId' => 5, 'SchemaId' => 6, 'ProfilePropertyId' => 7, 'Object' => 8, 'RelatedSchemaPropertyId' => 9, 'Language' => 10, 'StatusId' => 11, 'ChangeNote' => 12, 'ImportId' => 13, ),
+		BasePeer::TYPE_COLNAME => array (SchemaPropertyElementHistoryPeer::ID => 0, SchemaPropertyElementHistoryPeer::CREATED_AT => 1, SchemaPropertyElementHistoryPeer::CREATED_USER_ID => 2, SchemaPropertyElementHistoryPeer::ACTION => 3, SchemaPropertyElementHistoryPeer::SCHEMA_PROPERTY_ELEMENT_ID => 4, SchemaPropertyElementHistoryPeer::SCHEMA_PROPERTY_ID => 5, SchemaPropertyElementHistoryPeer::SCHEMA_ID => 6, SchemaPropertyElementHistoryPeer::PROFILE_PROPERTY_ID => 7, SchemaPropertyElementHistoryPeer::OBJECT => 8, SchemaPropertyElementHistoryPeer::RELATED_SCHEMA_PROPERTY_ID => 9, SchemaPropertyElementHistoryPeer::LANGUAGE => 10, SchemaPropertyElementHistoryPeer::STATUS_ID => 11, SchemaPropertyElementHistoryPeer::CHANGE_NOTE => 12, SchemaPropertyElementHistoryPeer::IMPORT_ID => 13, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'created_at' => 1, 'created_user_id' => 2, 'action' => 3, 'schema_property_element_id' => 4, 'schema_property_id' => 5, 'schema_id' => 6, 'profile_property_id' => 7, 'object' => 8, 'related_schema_property_id' => 9, 'language' => 10, 'status_id' => 11, 'change_note' => 12, 'import_id' => 13, ),
 		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, )
 	);
 
@@ -221,7 +221,7 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 
         $criteria->addSelectColumn(($tableAlias) ? SchemaPropertyElementHistoryPeer::alias($tableAlias, SchemaPropertyElementHistoryPeer::CHANGE_NOTE) : SchemaPropertyElementHistoryPeer::CHANGE_NOTE);
 
-        $criteria->addSelectColumn(($tableAlias) ? SchemaPropertyElementHistoryPeer::alias($tableAlias, SchemaPropertyElementHistoryPeer::HISTORY_ID) : SchemaPropertyElementHistoryPeer::HISTORY_ID);
+        $criteria->addSelectColumn(($tableAlias) ? SchemaPropertyElementHistoryPeer::alias($tableAlias, SchemaPropertyElementHistoryPeer::IMPORT_ID) : SchemaPropertyElementHistoryPeer::IMPORT_ID);
 
 	}
 
@@ -621,6 +621,45 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 		}
 
 		$criteria->addJoin(SchemaPropertyElementHistoryPeer::STATUS_ID, StatusPeer::ID);
+
+		$rs = SchemaPropertyElementHistoryPeer::doSelectRS($criteria, $con);
+		if ($rs->next()) {
+			return $rs->getInt(1);
+		} else {
+			// no rows returned; we infer that means 0 matches.
+			return 0;
+		}
+	}
+
+
+	/**
+	 * Returns the number of rows matching criteria, joining the related FileImportHistory table
+	 *
+	 * @param Criteria $c
+	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
+	 * @param Connection $con
+	 * @return int Number of matching rows.
+	 */
+	public static function doCountJoinFileImportHistory(Criteria $criteria, $distinct = false, $con = null)
+	{
+		// we're going to modify criteria, so copy it first
+		$criteria = clone $criteria;
+
+		// clear out anything that might confuse the ORDER BY clause
+		$criteria->clearSelectColumns()->clearOrderByColumns();
+		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->addSelectColumn(SchemaPropertyElementHistoryPeer::COUNT_DISTINCT);
+		} else {
+			$criteria->addSelectColumn(SchemaPropertyElementHistoryPeer::COUNT);
+		}
+
+		// just in case we're grouping: add those columns to the select statement
+		foreach($criteria->getGroupByColumns() as $column)
+		{
+			$criteria->addSelectColumn($column);
+		}
+
+		$criteria->addJoin(SchemaPropertyElementHistoryPeer::IMPORT_ID, FileImportHistoryPeer::ID);
 
 		$rs = SchemaPropertyElementHistoryPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
@@ -1039,6 +1078,64 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 
 
 	/**
+	 * Selects a collection of SchemaPropertyElementHistory objects pre-filled with their FileImportHistory objects.
+	 *
+	 * @return array Array of SchemaPropertyElementHistory objects.
+	 * @throws PropelException Any exceptions caught during processing will be
+	 *		 rethrown wrapped into a PropelException.
+	 */
+	public static function doSelectJoinFileImportHistory(Criteria $c, $con = null)
+	{
+		$c = clone $c;
+
+		// Set the correct dbName if it has not been overridden
+		if ($c->getDbName() == Propel::getDefaultDB()) {
+			$c->setDbName(self::DATABASE_NAME);
+		}
+
+		SchemaPropertyElementHistoryPeer::addSelectColumns($c);
+		$startcol = (SchemaPropertyElementHistoryPeer::NUM_COLUMNS - SchemaPropertyElementHistoryPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+		FileImportHistoryPeer::addSelectColumns($c);
+
+		$c->addJoin(SchemaPropertyElementHistoryPeer::IMPORT_ID, FileImportHistoryPeer::ID);
+		$rs = BasePeer::doSelect($c, $con);
+		$results = array();
+
+		while($rs->next()) {
+
+			$omClass = SchemaPropertyElementHistoryPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj1 = new $cls();
+			$obj1->hydrate($rs);
+
+			$omClass = FileImportHistoryPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj2 = new $cls();
+			$obj2->hydrate($rs, $startcol);
+
+			$newObject = true;
+			foreach($results as $temp_obj1) {
+				$temp_obj2 = $temp_obj1->getFileImportHistory(); //CHECKME
+				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+					$newObject = false;
+					// e.g. $author->addBookRelatedByBookId()
+					$temp_obj2->addSchemaPropertyElementHistory($obj1); //CHECKME
+					break;
+				}
+			}
+			if ($newObject) {
+				$obj2->initSchemaPropertyElementHistorys();
+				$obj2->addSchemaPropertyElementHistory($obj1); //CHECKME
+			}
+			$results[] = $obj1;
+		}
+		return $results;
+	}
+
+
+	/**
 	 * Returns the number of rows matching criteria, joining all related tables
 	 *
 	 * @param Criteria $c
@@ -1077,6 +1174,8 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 		$criteria->addJoin(SchemaPropertyElementHistoryPeer::RELATED_SCHEMA_PROPERTY_ID, SchemaPropertyPeer::ID);
 
 		$criteria->addJoin(SchemaPropertyElementHistoryPeer::STATUS_ID, StatusPeer::ID);
+
+		$criteria->addJoin(SchemaPropertyElementHistoryPeer::IMPORT_ID, FileImportHistoryPeer::ID);
 
 		$rs = SchemaPropertyElementHistoryPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
@@ -1148,6 +1247,12 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 
         $c->addJoin(SchemaPropertyElementHistoryPeer::STATUS_ID, StatusPeer::alias('a7', StatusPeer::ID));
         $c->addAlias('a7', StatusPeer::TABLE_NAME);
+
+		FileImportHistoryPeer::addSelectColumns($c, 'a8');
+		$startcol10 = $startcol9 + FileImportHistoryPeer::NUM_COLUMNS;
+
+        $c->addJoin(SchemaPropertyElementHistoryPeer::IMPORT_ID, FileImportHistoryPeer::alias('a8', FileImportHistoryPeer::ID));
+        $c->addAlias('a8', FileImportHistoryPeer::TABLE_NAME);
 
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
@@ -1343,6 +1448,32 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 				$obj8->addSchemaPropertyElementHistory($obj1);
 			}
 
+
+				// Add objects for joined FileImportHistory rows
+	
+			$omClass = FileImportHistoryPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj9 = new $cls();
+			$obj9->hydrate($rs, $startcol9);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj9 = $temp_obj1->getFileImportHistory(); // CHECKME
+				if ($temp_obj9->getPrimaryKey() === $obj9->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj9->addSchemaPropertyElementHistory($obj1); // CHECKME
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj9->initSchemaPropertyElementHistorys();
+				$obj9->addSchemaPropertyElementHistory($obj1);
+			}
+
 			$results[] = $obj1;
 		}
 		return $results;
@@ -1387,6 +1518,8 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 		$criteria->addJoin(SchemaPropertyElementHistoryPeer::RELATED_SCHEMA_PROPERTY_ID, SchemaPropertyPeer::ID);
 
 		$criteria->addJoin(SchemaPropertyElementHistoryPeer::STATUS_ID, StatusPeer::ID);
+
+		$criteria->addJoin(SchemaPropertyElementHistoryPeer::IMPORT_ID, FileImportHistoryPeer::ID);
 
 		$rs = SchemaPropertyElementHistoryPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
@@ -1437,6 +1570,8 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 
 		$criteria->addJoin(SchemaPropertyElementHistoryPeer::STATUS_ID, StatusPeer::ID);
 
+		$criteria->addJoin(SchemaPropertyElementHistoryPeer::IMPORT_ID, FileImportHistoryPeer::ID);
+
 		$rs = SchemaPropertyElementHistoryPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
 			return $rs->getInt(1);
@@ -1483,6 +1618,8 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 		$criteria->addJoin(SchemaPropertyElementHistoryPeer::PROFILE_PROPERTY_ID, ProfilePropertyPeer::ID);
 
 		$criteria->addJoin(SchemaPropertyElementHistoryPeer::STATUS_ID, StatusPeer::ID);
+
+		$criteria->addJoin(SchemaPropertyElementHistoryPeer::IMPORT_ID, FileImportHistoryPeer::ID);
 
 		$rs = SchemaPropertyElementHistoryPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
@@ -1533,6 +1670,8 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 
 		$criteria->addJoin(SchemaPropertyElementHistoryPeer::STATUS_ID, StatusPeer::ID);
 
+		$criteria->addJoin(SchemaPropertyElementHistoryPeer::IMPORT_ID, FileImportHistoryPeer::ID);
+
 		$rs = SchemaPropertyElementHistoryPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
 			return $rs->getInt(1);
@@ -1582,6 +1721,8 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 
 		$criteria->addJoin(SchemaPropertyElementHistoryPeer::STATUS_ID, StatusPeer::ID);
 
+		$criteria->addJoin(SchemaPropertyElementHistoryPeer::IMPORT_ID, FileImportHistoryPeer::ID);
+
 		$rs = SchemaPropertyElementHistoryPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
 			return $rs->getInt(1);
@@ -1628,6 +1769,8 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 		$criteria->addJoin(SchemaPropertyElementHistoryPeer::PROFILE_PROPERTY_ID, ProfilePropertyPeer::ID);
 
 		$criteria->addJoin(SchemaPropertyElementHistoryPeer::STATUS_ID, StatusPeer::ID);
+
+		$criteria->addJoin(SchemaPropertyElementHistoryPeer::IMPORT_ID, FileImportHistoryPeer::ID);
 
 		$rs = SchemaPropertyElementHistoryPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
@@ -1678,6 +1821,8 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 
 		$criteria->addJoin(SchemaPropertyElementHistoryPeer::RELATED_SCHEMA_PROPERTY_ID, SchemaPropertyPeer::ID);
 
+		$criteria->addJoin(SchemaPropertyElementHistoryPeer::IMPORT_ID, FileImportHistoryPeer::ID);
+
 		$rs = SchemaPropertyElementHistoryPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
 			return $rs->getInt(1);
@@ -1689,14 +1834,14 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 
 
 	/**
-	 * Returns the number of rows matching criteria, joining the related SchemaPropertyElementHistoryRelatedByHistoryId table
+	 * Returns the number of rows matching criteria, joining the related FileImportHistory table
 	 *
 	 * @param Criteria $c
 	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
 	 * @param Connection $con
 	 * @return int Number of matching rows.
 	 */
-	public static function doCountJoinAllExceptSchemaPropertyElementHistoryRelatedByHistoryId(Criteria $criteria, $distinct = false, $con = null)
+	public static function doCountJoinAllExceptFileImportHistory(Criteria $criteria, $distinct = false, $con = null)
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
@@ -1778,6 +1923,9 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 		StatusPeer::addSelectColumns($c);
 		$startcol8 = $startcol7 + StatusPeer::NUM_COLUMNS;
 
+		FileImportHistoryPeer::addSelectColumns($c);
+		$startcol9 = $startcol8 + FileImportHistoryPeer::NUM_COLUMNS;
+
 		$c->addJoin(SchemaPropertyElementHistoryPeer::SCHEMA_PROPERTY_ELEMENT_ID, SchemaPropertyElementPeer::ID);
 
 		$c->addJoin(SchemaPropertyElementHistoryPeer::SCHEMA_PROPERTY_ID, SchemaPropertyPeer::ID);
@@ -1789,6 +1937,8 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 		$c->addJoin(SchemaPropertyElementHistoryPeer::RELATED_SCHEMA_PROPERTY_ID, SchemaPropertyPeer::ID);
 
 		$c->addJoin(SchemaPropertyElementHistoryPeer::STATUS_ID, StatusPeer::ID);
+
+		$c->addJoin(SchemaPropertyElementHistoryPeer::IMPORT_ID, FileImportHistoryPeer::ID);
 
 
 		$rs = BasePeer::doSelect($c, $con);
@@ -1940,6 +2090,29 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 				$obj7->addSchemaPropertyElementHistory($obj1);
 			}
 
+			$omClass = FileImportHistoryPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj8  = new $cls();
+			$obj8->hydrate($rs, $startcol8);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj8 = $temp_obj1->getFileImportHistory(); //CHECKME
+				if ($temp_obj8->getPrimaryKey() === $obj8->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj8->addSchemaPropertyElementHistory($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj8->initSchemaPropertyElementHistorys();
+				$obj8->addSchemaPropertyElementHistory($obj1);
+			}
+
 			$results[] = $obj1;
 		}
 		return $results;
@@ -1985,6 +2158,9 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 		StatusPeer::addSelectColumns($c);
 		$startcol8 = $startcol7 + StatusPeer::NUM_COLUMNS;
 
+		FileImportHistoryPeer::addSelectColumns($c);
+		$startcol9 = $startcol8 + FileImportHistoryPeer::NUM_COLUMNS;
+
 		$c->addJoin(SchemaPropertyElementHistoryPeer::CREATED_USER_ID, UserPeer::ID);
 
 		$c->addJoin(SchemaPropertyElementHistoryPeer::SCHEMA_PROPERTY_ID, SchemaPropertyPeer::ID);
@@ -1996,6 +2172,8 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 		$c->addJoin(SchemaPropertyElementHistoryPeer::RELATED_SCHEMA_PROPERTY_ID, SchemaPropertyPeer::ID);
 
 		$c->addJoin(SchemaPropertyElementHistoryPeer::STATUS_ID, StatusPeer::ID);
+
+		$c->addJoin(SchemaPropertyElementHistoryPeer::IMPORT_ID, FileImportHistoryPeer::ID);
 
 
 		$rs = BasePeer::doSelect($c, $con);
@@ -2147,6 +2325,29 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 				$obj7->addSchemaPropertyElementHistory($obj1);
 			}
 
+			$omClass = FileImportHistoryPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj8  = new $cls();
+			$obj8->hydrate($rs, $startcol8);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj8 = $temp_obj1->getFileImportHistory(); //CHECKME
+				if ($temp_obj8->getPrimaryKey() === $obj8->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj8->addSchemaPropertyElementHistory($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj8->initSchemaPropertyElementHistorys();
+				$obj8->addSchemaPropertyElementHistory($obj1);
+			}
+
 			$results[] = $obj1;
 		}
 		return $results;
@@ -2189,6 +2390,9 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 		StatusPeer::addSelectColumns($c);
 		$startcol7 = $startcol6 + StatusPeer::NUM_COLUMNS;
 
+		FileImportHistoryPeer::addSelectColumns($c);
+		$startcol8 = $startcol7 + FileImportHistoryPeer::NUM_COLUMNS;
+
 		$c->addJoin(SchemaPropertyElementHistoryPeer::CREATED_USER_ID, UserPeer::ID);
 
 		$c->addJoin(SchemaPropertyElementHistoryPeer::SCHEMA_PROPERTY_ELEMENT_ID, SchemaPropertyElementPeer::ID);
@@ -2198,6 +2402,8 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 		$c->addJoin(SchemaPropertyElementHistoryPeer::PROFILE_PROPERTY_ID, ProfilePropertyPeer::ID);
 
 		$c->addJoin(SchemaPropertyElementHistoryPeer::STATUS_ID, StatusPeer::ID);
+
+		$c->addJoin(SchemaPropertyElementHistoryPeer::IMPORT_ID, FileImportHistoryPeer::ID);
 
 
 		$rs = BasePeer::doSelect($c, $con);
@@ -2326,6 +2532,29 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 				$obj6->addSchemaPropertyElementHistory($obj1);
 			}
 
+			$omClass = FileImportHistoryPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj7  = new $cls();
+			$obj7->hydrate($rs, $startcol7);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj7 = $temp_obj1->getFileImportHistory(); //CHECKME
+				if ($temp_obj7->getPrimaryKey() === $obj7->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj7->addSchemaPropertyElementHistory($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj7->initSchemaPropertyElementHistorys();
+				$obj7->addSchemaPropertyElementHistory($obj1);
+			}
+
 			$results[] = $obj1;
 		}
 		return $results;
@@ -2371,6 +2600,9 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 		StatusPeer::addSelectColumns($c);
 		$startcol8 = $startcol7 + StatusPeer::NUM_COLUMNS;
 
+		FileImportHistoryPeer::addSelectColumns($c);
+		$startcol9 = $startcol8 + FileImportHistoryPeer::NUM_COLUMNS;
+
 		$c->addJoin(SchemaPropertyElementHistoryPeer::CREATED_USER_ID, UserPeer::ID);
 
 		$c->addJoin(SchemaPropertyElementHistoryPeer::SCHEMA_PROPERTY_ELEMENT_ID, SchemaPropertyElementPeer::ID);
@@ -2382,6 +2614,8 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 		$c->addJoin(SchemaPropertyElementHistoryPeer::RELATED_SCHEMA_PROPERTY_ID, SchemaPropertyPeer::ID);
 
 		$c->addJoin(SchemaPropertyElementHistoryPeer::STATUS_ID, StatusPeer::ID);
+
+		$c->addJoin(SchemaPropertyElementHistoryPeer::IMPORT_ID, FileImportHistoryPeer::ID);
 
 
 		$rs = BasePeer::doSelect($c, $con);
@@ -2533,6 +2767,29 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 				$obj7->addSchemaPropertyElementHistory($obj1);
 			}
 
+			$omClass = FileImportHistoryPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj8  = new $cls();
+			$obj8->hydrate($rs, $startcol8);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj8 = $temp_obj1->getFileImportHistory(); //CHECKME
+				if ($temp_obj8->getPrimaryKey() === $obj8->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj8->addSchemaPropertyElementHistory($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj8->initSchemaPropertyElementHistorys();
+				$obj8->addSchemaPropertyElementHistory($obj1);
+			}
+
 			$results[] = $obj1;
 		}
 		return $results;
@@ -2578,6 +2835,9 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 		StatusPeer::addSelectColumns($c);
 		$startcol8 = $startcol7 + StatusPeer::NUM_COLUMNS;
 
+		FileImportHistoryPeer::addSelectColumns($c);
+		$startcol9 = $startcol8 + FileImportHistoryPeer::NUM_COLUMNS;
+
 		$c->addJoin(SchemaPropertyElementHistoryPeer::CREATED_USER_ID, UserPeer::ID);
 
 		$c->addJoin(SchemaPropertyElementHistoryPeer::SCHEMA_PROPERTY_ELEMENT_ID, SchemaPropertyElementPeer::ID);
@@ -2589,6 +2849,8 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 		$c->addJoin(SchemaPropertyElementHistoryPeer::RELATED_SCHEMA_PROPERTY_ID, SchemaPropertyPeer::ID);
 
 		$c->addJoin(SchemaPropertyElementHistoryPeer::STATUS_ID, StatusPeer::ID);
+
+		$c->addJoin(SchemaPropertyElementHistoryPeer::IMPORT_ID, FileImportHistoryPeer::ID);
 
 
 		$rs = BasePeer::doSelect($c, $con);
@@ -2740,6 +3002,29 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 				$obj7->addSchemaPropertyElementHistory($obj1);
 			}
 
+			$omClass = FileImportHistoryPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj8  = new $cls();
+			$obj8->hydrate($rs, $startcol8);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj8 = $temp_obj1->getFileImportHistory(); //CHECKME
+				if ($temp_obj8->getPrimaryKey() === $obj8->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj8->addSchemaPropertyElementHistory($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj8->initSchemaPropertyElementHistorys();
+				$obj8->addSchemaPropertyElementHistory($obj1);
+			}
+
 			$results[] = $obj1;
 		}
 		return $results;
@@ -2782,6 +3067,9 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 		StatusPeer::addSelectColumns($c);
 		$startcol7 = $startcol6 + StatusPeer::NUM_COLUMNS;
 
+		FileImportHistoryPeer::addSelectColumns($c);
+		$startcol8 = $startcol7 + FileImportHistoryPeer::NUM_COLUMNS;
+
 		$c->addJoin(SchemaPropertyElementHistoryPeer::CREATED_USER_ID, UserPeer::ID);
 
 		$c->addJoin(SchemaPropertyElementHistoryPeer::SCHEMA_PROPERTY_ELEMENT_ID, SchemaPropertyElementPeer::ID);
@@ -2791,6 +3079,8 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 		$c->addJoin(SchemaPropertyElementHistoryPeer::PROFILE_PROPERTY_ID, ProfilePropertyPeer::ID);
 
 		$c->addJoin(SchemaPropertyElementHistoryPeer::STATUS_ID, StatusPeer::ID);
+
+		$c->addJoin(SchemaPropertyElementHistoryPeer::IMPORT_ID, FileImportHistoryPeer::ID);
 
 
 		$rs = BasePeer::doSelect($c, $con);
@@ -2919,6 +3209,29 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 				$obj6->addSchemaPropertyElementHistory($obj1);
 			}
 
+			$omClass = FileImportHistoryPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj7  = new $cls();
+			$obj7->hydrate($rs, $startcol7);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj7 = $temp_obj1->getFileImportHistory(); //CHECKME
+				if ($temp_obj7->getPrimaryKey() === $obj7->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj7->addSchemaPropertyElementHistory($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj7->initSchemaPropertyElementHistorys();
+				$obj7->addSchemaPropertyElementHistory($obj1);
+			}
+
 			$results[] = $obj1;
 		}
 		return $results;
@@ -2964,6 +3277,9 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 		SchemaPropertyPeer::addSelectColumns($c);
 		$startcol8 = $startcol7 + SchemaPropertyPeer::NUM_COLUMNS;
 
+		FileImportHistoryPeer::addSelectColumns($c);
+		$startcol9 = $startcol8 + FileImportHistoryPeer::NUM_COLUMNS;
+
 		$c->addJoin(SchemaPropertyElementHistoryPeer::CREATED_USER_ID, UserPeer::ID);
 
 		$c->addJoin(SchemaPropertyElementHistoryPeer::SCHEMA_PROPERTY_ELEMENT_ID, SchemaPropertyElementPeer::ID);
@@ -2975,6 +3291,8 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 		$c->addJoin(SchemaPropertyElementHistoryPeer::PROFILE_PROPERTY_ID, ProfilePropertyPeer::ID);
 
 		$c->addJoin(SchemaPropertyElementHistoryPeer::RELATED_SCHEMA_PROPERTY_ID, SchemaPropertyPeer::ID);
+
+		$c->addJoin(SchemaPropertyElementHistoryPeer::IMPORT_ID, FileImportHistoryPeer::ID);
 
 
 		$rs = BasePeer::doSelect($c, $con);
@@ -3126,6 +3444,29 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 				$obj7->addSchemaPropertyElementHistoryRelatedByRelatedSchemaPropertyId($obj1);
 			}
 
+			$omClass = FileImportHistoryPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj8  = new $cls();
+			$obj8->hydrate($rs, $startcol8);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj8 = $temp_obj1->getFileImportHistory(); //CHECKME
+				if ($temp_obj8->getPrimaryKey() === $obj8->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj8->addSchemaPropertyElementHistory($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj8->initSchemaPropertyElementHistorys();
+				$obj8->addSchemaPropertyElementHistory($obj1);
+			}
+
 			$results[] = $obj1;
 		}
 		return $results;
@@ -3133,13 +3474,13 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 
 
 	/**
-	 * Selects a collection of SchemaPropertyElementHistory objects pre-filled with all related objects except SchemaPropertyElementHistoryRelatedByHistoryId.
+	 * Selects a collection of SchemaPropertyElementHistory objects pre-filled with all related objects except FileImportHistory.
 	 *
 	 * @return array Array of SchemaPropertyElementHistory objects.
 	 * @throws PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
-	public static function doSelectJoinAllExceptSchemaPropertyElementHistoryRelatedByHistoryId(Criteria $c, $con = null)
+	public static function doSelectJoinAllExceptFileImportHistory(Criteria $c, $con = null)
 	{
 		$c = clone $c;
 

@@ -4099,7 +4099,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in SchemaProperty.
 	 */
-	public function getSchemaPropertyElementHistorysRelatedBySchemaPropertyIdJoinSchemaPropertyElementHistoryRelatedByHistoryId($criteria = null, $con = null)
+	public function getSchemaPropertyElementHistorysRelatedBySchemaPropertyIdJoinFileImportHistory($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseSchemaPropertyElementHistoryPeer.php';
@@ -4118,7 +4118,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 				$criteria->add(SchemaPropertyElementHistoryPeer::SCHEMA_PROPERTY_ID, $this->getId());
 
-				$this->collSchemaPropertyElementHistorysRelatedBySchemaPropertyId = SchemaPropertyElementHistoryPeer::doSelectJoinSchemaPropertyElementHistoryRelatedByHistoryId($criteria, $con);
+				$this->collSchemaPropertyElementHistorysRelatedBySchemaPropertyId = SchemaPropertyElementHistoryPeer::doSelectJoinFileImportHistory($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -4128,7 +4128,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 			$criteria->add(SchemaPropertyElementHistoryPeer::SCHEMA_PROPERTY_ID, $this->getId());
 
 			if (!isset($this->lastSchemaPropertyElementHistoryRelatedBySchemaPropertyIdCriteria) || !$this->lastSchemaPropertyElementHistoryRelatedBySchemaPropertyIdCriteria->equals($criteria)) {
-				$this->collSchemaPropertyElementHistorysRelatedBySchemaPropertyId = SchemaPropertyElementHistoryPeer::doSelectJoinSchemaPropertyElementHistoryRelatedByHistoryId($criteria, $con);
+				$this->collSchemaPropertyElementHistorysRelatedBySchemaPropertyId = SchemaPropertyElementHistoryPeer::doSelectJoinFileImportHistory($criteria, $con);
 			}
 		}
 		$this->lastSchemaPropertyElementHistoryRelatedBySchemaPropertyIdCriteria = $criteria;
@@ -4500,7 +4500,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in SchemaProperty.
 	 */
-	public function getSchemaPropertyElementHistorysRelatedByRelatedSchemaPropertyIdJoinSchemaPropertyElementHistoryRelatedByHistoryId($criteria = null, $con = null)
+	public function getSchemaPropertyElementHistorysRelatedByRelatedSchemaPropertyIdJoinFileImportHistory($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseSchemaPropertyElementHistoryPeer.php';
@@ -4519,7 +4519,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 				$criteria->add(SchemaPropertyElementHistoryPeer::RELATED_SCHEMA_PROPERTY_ID, $this->getId());
 
-				$this->collSchemaPropertyElementHistorysRelatedByRelatedSchemaPropertyId = SchemaPropertyElementHistoryPeer::doSelectJoinSchemaPropertyElementHistoryRelatedByHistoryId($criteria, $con);
+				$this->collSchemaPropertyElementHistorysRelatedByRelatedSchemaPropertyId = SchemaPropertyElementHistoryPeer::doSelectJoinFileImportHistory($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -4529,7 +4529,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 			$criteria->add(SchemaPropertyElementHistoryPeer::RELATED_SCHEMA_PROPERTY_ID, $this->getId());
 
 			if (!isset($this->lastSchemaPropertyElementHistoryRelatedByRelatedSchemaPropertyIdCriteria) || !$this->lastSchemaPropertyElementHistoryRelatedByRelatedSchemaPropertyIdCriteria->equals($criteria)) {
-				$this->collSchemaPropertyElementHistorysRelatedByRelatedSchemaPropertyId = SchemaPropertyElementHistoryPeer::doSelectJoinSchemaPropertyElementHistoryRelatedByHistoryId($criteria, $con);
+				$this->collSchemaPropertyElementHistorysRelatedByRelatedSchemaPropertyId = SchemaPropertyElementHistoryPeer::doSelectJoinFileImportHistory($criteria, $con);
 			}
 		}
 		$this->lastSchemaPropertyElementHistoryRelatedByRelatedSchemaPropertyIdCriteria = $criteria;

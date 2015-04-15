@@ -111,10 +111,10 @@ abstract class BaseSchemaPropertyElementHistory extends BaseObject  implements P
 
 
 	/**
-	 * The value for the history_id field.
+	 * The value for the import_id field.
 	 * @var        int
 	 */
-	protected $history_id;
+	protected $import_id;
 
 	/**
 	 * @var        User
@@ -152,21 +152,9 @@ abstract class BaseSchemaPropertyElementHistory extends BaseObject  implements P
 	protected $aStatus;
 
 	/**
-	 * @var        SchemaPropertyElementHistory
+	 * @var        FileImportHistory
 	 */
-	protected $aSchemaPropertyElementHistoryRelatedByHistoryId;
-
-	/**
-	 * Collection to store aggregation of collSchemaPropertyElementHistorysRelatedByHistoryId.
-	 * @var        array
-	 */
-	protected $collSchemaPropertyElementHistorysRelatedByHistoryId;
-
-	/**
-	 * The criteria used to select the current contents of collSchemaPropertyElementHistorysRelatedByHistoryId.
-	 * @var        Criteria
-	 */
-	protected $lastSchemaPropertyElementHistoryRelatedByHistoryIdCriteria = null;
+	protected $aFileImportHistory;
 
 	/**
 	 * Flag to prevent endless save loop, if this object is referenced
@@ -346,14 +334,14 @@ abstract class BaseSchemaPropertyElementHistory extends BaseObject  implements P
 	}
 
 	/**
-	 * Get the [history_id] column value.
+	 * Get the [import_id] column value.
 	 * 
 	 * @return     int
 	 */
-	public function getHistoryId()
+	public function getImportId()
 	{
 
-		return $this->history_id;
+		return $this->import_id;
 	}
 
 	/**
@@ -673,12 +661,12 @@ abstract class BaseSchemaPropertyElementHistory extends BaseObject  implements P
 	} // setChangeNote()
 
 	/**
-	 * Set the value of [history_id] column.
+	 * Set the value of [import_id] column.
 	 * 
 	 * @param      int $v new value
 	 * @return     void
 	 */
-	public function setHistoryId($v)
+	public function setImportId($v)
 	{
 
 		// Since the native PHP type for this column is integer,
@@ -687,16 +675,16 @@ abstract class BaseSchemaPropertyElementHistory extends BaseObject  implements P
 			$v = (int) $v;
 		}
 
-		if ($this->history_id !== $v) {
-			$this->history_id = $v;
-			$this->modifiedColumns[] = SchemaPropertyElementHistoryPeer::HISTORY_ID;
+		if ($this->import_id !== $v) {
+			$this->import_id = $v;
+			$this->modifiedColumns[] = SchemaPropertyElementHistoryPeer::IMPORT_ID;
 		}
 
-		if ($this->aSchemaPropertyElementHistoryRelatedByHistoryId !== null && $this->aSchemaPropertyElementHistoryRelatedByHistoryId->getId() !== $v) {
-			$this->aSchemaPropertyElementHistoryRelatedByHistoryId = null;
+		if ($this->aFileImportHistory !== null && $this->aFileImportHistory->getId() !== $v) {
+			$this->aFileImportHistory = null;
 		}
 
-	} // setHistoryId()
+	} // setImportId()
 
 	/**
 	 * Hydrates (populates) the object variables with values from the database resultset.
@@ -741,7 +729,7 @@ abstract class BaseSchemaPropertyElementHistory extends BaseObject  implements P
 
 			$this->change_note = $rs->getString($startcol + 12);
 
-			$this->history_id = $rs->getInt($startcol + 13);
+			$this->import_id = $rs->getInt($startcol + 13);
 
 			$this->resetModified();
 
@@ -926,11 +914,11 @@ abstract class BaseSchemaPropertyElementHistory extends BaseObject  implements P
 				$this->setStatus($this->aStatus);
 			}
 
-			if ($this->aSchemaPropertyElementHistoryRelatedByHistoryId !== null) {
-				if ($this->aSchemaPropertyElementHistoryRelatedByHistoryId->isModified()) {
-					$affectedRows += $this->aSchemaPropertyElementHistoryRelatedByHistoryId->save($con);
+			if ($this->aFileImportHistory !== null) {
+				if ($this->aFileImportHistory->isModified()) {
+					$affectedRows += $this->aFileImportHistory->save($con);
 				}
-				$this->setSchemaPropertyElementHistoryRelatedByHistoryId($this->aSchemaPropertyElementHistoryRelatedByHistoryId);
+				$this->setFileImportHistory($this->aFileImportHistory);
 			}
 
 
@@ -949,14 +937,6 @@ abstract class BaseSchemaPropertyElementHistory extends BaseObject  implements P
 					$affectedRows += SchemaPropertyElementHistoryPeer::doUpdate($this, $con);
 				}
 				$this->resetModified(); // [HL] After being saved an object is no longer 'modified'
-			}
-
-			if ($this->collSchemaPropertyElementHistorysRelatedByHistoryId !== null) {
-				foreach($this->collSchemaPropertyElementHistorysRelatedByHistoryId as $referrerFK) {
-					if (!$referrerFK->isDeleted()) {
-						$affectedRows += $referrerFK->save($con);
-					}
-				}
 			}
 
 			$this->alreadyInSave = false;
@@ -1071,9 +1051,9 @@ abstract class BaseSchemaPropertyElementHistory extends BaseObject  implements P
 				}
 			}
 
-			if ($this->aSchemaPropertyElementHistoryRelatedByHistoryId !== null) {
-				if (!$this->aSchemaPropertyElementHistoryRelatedByHistoryId->validate($columns)) {
-					$failureMap = array_merge($failureMap, $this->aSchemaPropertyElementHistoryRelatedByHistoryId->getValidationFailures());
+			if ($this->aFileImportHistory !== null) {
+				if (!$this->aFileImportHistory->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aFileImportHistory->getValidationFailures());
 				}
 			}
 
@@ -1155,7 +1135,7 @@ abstract class BaseSchemaPropertyElementHistory extends BaseObject  implements P
 				return $this->getChangeNote();
 				break;
 			case 13:
-				return $this->getHistoryId();
+				return $this->getImportId();
 				break;
 			default:
 				return null;
@@ -1190,7 +1170,7 @@ abstract class BaseSchemaPropertyElementHistory extends BaseObject  implements P
 			$keys[10] => $this->getLanguage(),
 			$keys[11] => $this->getStatusId(),
 			$keys[12] => $this->getChangeNote(),
-			$keys[13] => $this->getHistoryId(),
+			$keys[13] => $this->getImportId(),
 		);
 		return $result;
 	}
@@ -1262,7 +1242,7 @@ abstract class BaseSchemaPropertyElementHistory extends BaseObject  implements P
 				$this->setChangeNote($value);
 				break;
 			case 13:
-				$this->setHistoryId($value);
+				$this->setImportId($value);
 				break;
 		} // switch()
 	}
@@ -1300,7 +1280,7 @@ abstract class BaseSchemaPropertyElementHistory extends BaseObject  implements P
 		if (array_key_exists($keys[10], $arr)) $this->setLanguage($arr[$keys[10]]);
 		if (array_key_exists($keys[11], $arr)) $this->setStatusId($arr[$keys[11]]);
 		if (array_key_exists($keys[12], $arr)) $this->setChangeNote($arr[$keys[12]]);
-		if (array_key_exists($keys[13], $arr)) $this->setHistoryId($arr[$keys[13]]);
+		if (array_key_exists($keys[13], $arr)) $this->setImportId($arr[$keys[13]]);
 	}
 
 	/**
@@ -1325,7 +1305,7 @@ abstract class BaseSchemaPropertyElementHistory extends BaseObject  implements P
 		if ($this->isColumnModified(SchemaPropertyElementHistoryPeer::LANGUAGE)) $criteria->add(SchemaPropertyElementHistoryPeer::LANGUAGE, $this->language);
 		if ($this->isColumnModified(SchemaPropertyElementHistoryPeer::STATUS_ID)) $criteria->add(SchemaPropertyElementHistoryPeer::STATUS_ID, $this->status_id);
 		if ($this->isColumnModified(SchemaPropertyElementHistoryPeer::CHANGE_NOTE)) $criteria->add(SchemaPropertyElementHistoryPeer::CHANGE_NOTE, $this->change_note);
-		if ($this->isColumnModified(SchemaPropertyElementHistoryPeer::HISTORY_ID)) $criteria->add(SchemaPropertyElementHistoryPeer::HISTORY_ID, $this->history_id);
+		if ($this->isColumnModified(SchemaPropertyElementHistoryPeer::IMPORT_ID)) $criteria->add(SchemaPropertyElementHistoryPeer::IMPORT_ID, $this->import_id);
 
 		return $criteria;
 	}
@@ -1404,23 +1384,7 @@ abstract class BaseSchemaPropertyElementHistory extends BaseObject  implements P
 
 		$copyObj->setChangeNote($this->change_note);
 
-		$copyObj->setHistoryId($this->history_id);
-
-
-		if ($deepCopy) {
-			// important: temporarily setNew(false) because this affects the behavior of
-			// the getter/setter methods for fkey referrer objects.
-			$copyObj->setNew(false);
-
-			foreach($this->getSchemaPropertyElementHistorysRelatedByHistoryId() as $relObj) {
-				if($this->getPrimaryKey() === $relObj->getPrimaryKey()) {
-						continue;
-				}
-
-				$copyObj->addSchemaPropertyElementHistoryRelatedByHistoryId($relObj->copy($deepCopy));
-			}
-
-		} // if ($deepCopy)
+		$copyObj->setImportId($this->import_id);
 
 
 		$copyObj->setNew(true);
@@ -1818,41 +1782,41 @@ abstract class BaseSchemaPropertyElementHistory extends BaseObject  implements P
 	}
 
 	/**
-	 * Declares an association between this object and a SchemaPropertyElementHistory object.
+	 * Declares an association between this object and a FileImportHistory object.
 	 *
-	 * @param      SchemaPropertyElementHistory $v
+	 * @param      FileImportHistory $v
 	 * @return     void
 	 * @throws     PropelException
 	 */
-	public function setSchemaPropertyElementHistoryRelatedByHistoryId($v)
+	public function setFileImportHistory($v)
 	{
 
 
 		if ($v === null) {
-			$this->setHistoryId(NULL);
+			$this->setImportId(NULL);
 		} else {
-			$this->setHistoryId($v->getId());
+			$this->setImportId($v->getId());
 		}
 
 
-		$this->aSchemaPropertyElementHistoryRelatedByHistoryId = $v;
+		$this->aFileImportHistory = $v;
 	}
 
 
 	/**
-	 * Get the associated SchemaPropertyElementHistory object
+	 * Get the associated FileImportHistory object
 	 *
 	 * @param      Connection Optional Connection object.
-	 * @return     SchemaPropertyElementHistory The associated SchemaPropertyElementHistory object.
+	 * @return     FileImportHistory The associated FileImportHistory object.
 	 * @throws     PropelException
 	 */
-	public function getSchemaPropertyElementHistoryRelatedByHistoryId($con = null)
+	public function getFileImportHistory($con = null)
 	{
-		if ($this->aSchemaPropertyElementHistoryRelatedByHistoryId === null && ($this->history_id !== null)) {
+		if ($this->aFileImportHistory === null && ($this->import_id !== null)) {
 			// include the related Peer class
-			include_once 'lib/model/om/BaseSchemaPropertyElementHistoryPeer.php';
+			include_once 'lib/model/om/BaseFileImportHistoryPeer.php';
 
-			$this->aSchemaPropertyElementHistoryRelatedByHistoryId = SchemaPropertyElementHistoryPeer::retrieveByPK($this->history_id, $con);
+			$this->aFileImportHistory = FileImportHistoryPeer::retrieveByPK($this->import_id, $con);
 
 			/* The following can be used instead of the line above to
 			   guarantee the related object contains a reference
@@ -1860,461 +1824,11 @@ abstract class BaseSchemaPropertyElementHistory extends BaseObject  implements P
 			   may be undesirable in many circumstances.
 			   As it can lead to a db query with many results that may
 			   never be used.
-			   $obj = SchemaPropertyElementHistoryPeer::retrieveByPK($this->history_id, $con);
-			   $obj->addSchemaPropertyElementHistorysRelatedByHistoryId($this);
+			   $obj = FileImportHistoryPeer::retrieveByPK($this->import_id, $con);
+			   $obj->addFileImportHistorys($this);
 			 */
 		}
-		return $this->aSchemaPropertyElementHistoryRelatedByHistoryId;
-	}
-
-	/**
-	 * Temporary storage of collSchemaPropertyElementHistorysRelatedByHistoryId to save a possible db hit in
-	 * the event objects are add to the collection, but the
-	 * complete collection is never requested.
-	 * @return     void
-	 */
-	public function initSchemaPropertyElementHistorysRelatedByHistoryId()
-	{
-		if ($this->collSchemaPropertyElementHistorysRelatedByHistoryId === null) {
-			$this->collSchemaPropertyElementHistorysRelatedByHistoryId = array();
-		}
-	}
-
-	/**
-	 * If this collection has already been initialized with
-	 * an identical criteria, it returns the collection.
-	 * Otherwise if this SchemaPropertyElementHistory has previously
-	 * been saved, it will retrieve related SchemaPropertyElementHistorysRelatedByHistoryId from storage.
-	 * If this SchemaPropertyElementHistory is new, it will return
-	 * an empty collection or the current collection, the criteria
-	 * is ignored on a new object.
-	 *
-	 * @param      Connection $con
-	 * @param      Criteria $criteria
-	 * @throws     PropelException
-	 */
-	public function getSchemaPropertyElementHistorysRelatedByHistoryId($criteria = null, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseSchemaPropertyElementHistoryPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collSchemaPropertyElementHistorysRelatedByHistoryId === null) {
-			if ($this->isNew()) {
-			   $this->collSchemaPropertyElementHistorysRelatedByHistoryId = array();
-			} else {
-
-				$criteria->add(SchemaPropertyElementHistoryPeer::HISTORY_ID, $this->getId());
-
-				SchemaPropertyElementHistoryPeer::addSelectColumns($criteria);
-				$this->collSchemaPropertyElementHistorysRelatedByHistoryId = SchemaPropertyElementHistoryPeer::doSelect($criteria, $con);
-			}
-		} else {
-			// criteria has no effect for a new object
-			if (!$this->isNew()) {
-				// the following code is to determine if a new query is
-				// called for.  If the criteria is the same as the last
-				// one, just return the collection.
-
-
-				$criteria->add(SchemaPropertyElementHistoryPeer::HISTORY_ID, $this->getId());
-
-				SchemaPropertyElementHistoryPeer::addSelectColumns($criteria);
-				if (!isset($this->lastSchemaPropertyElementHistoryRelatedByHistoryIdCriteria) || !$this->lastSchemaPropertyElementHistoryRelatedByHistoryIdCriteria->equals($criteria)) {
-					$this->collSchemaPropertyElementHistorysRelatedByHistoryId = SchemaPropertyElementHistoryPeer::doSelect($criteria, $con);
-				}
-			}
-		}
-		$this->lastSchemaPropertyElementHistoryRelatedByHistoryIdCriteria = $criteria;
-		return $this->collSchemaPropertyElementHistorysRelatedByHistoryId;
-	}
-
-	/**
-	 * Returns the number of related SchemaPropertyElementHistorysRelatedByHistoryId.
-	 *
-	 * @param      Criteria $criteria
-	 * @param      boolean $distinct
-	 * @param      Connection $con
-	 * @throws     PropelException
-	 */
-	public function countSchemaPropertyElementHistorysRelatedByHistoryId($criteria = null, $distinct = false, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseSchemaPropertyElementHistoryPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		$criteria->add(SchemaPropertyElementHistoryPeer::HISTORY_ID, $this->getId());
-
-		return SchemaPropertyElementHistoryPeer::doCount($criteria, $distinct, $con);
-	}
-
-	/**
-	 * Method called to associate a SchemaPropertyElementHistory object to this object
-	 * through the SchemaPropertyElementHistory foreign key attribute
-	 *
-	 * @param      SchemaPropertyElementHistory $l SchemaPropertyElementHistory
-	 * @return     void
-	 * @throws     PropelException
-	 */
-	public function addSchemaPropertyElementHistoryRelatedByHistoryId(SchemaPropertyElementHistory $l)
-	{
-		$this->collSchemaPropertyElementHistorysRelatedByHistoryId[] = $l;
-		$l->setSchemaPropertyElementHistoryRelatedByHistoryId($this);
-	}
-
-
-	/**
-	 * If this collection has already been initialized with
-	 * an identical criteria, it returns the collection.
-	 * Otherwise if this SchemaPropertyElementHistory is new, it will return
-	 * an empty collection; or if this SchemaPropertyElementHistory has previously
-	 * been saved, it will retrieve related SchemaPropertyElementHistorysRelatedByHistoryId from storage.
-	 *
-	 * This method is protected by default in order to keep the public
-	 * api reasonable.  You can provide public methods for those you
-	 * actually need in SchemaPropertyElementHistory.
-	 */
-	public function getSchemaPropertyElementHistorysRelatedByHistoryIdJoinUser($criteria = null, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseSchemaPropertyElementHistoryPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collSchemaPropertyElementHistorysRelatedByHistoryId === null) {
-			if ($this->isNew()) {
-				$this->collSchemaPropertyElementHistorysRelatedByHistoryId = array();
-			} else {
-
-				$criteria->add(SchemaPropertyElementHistoryPeer::HISTORY_ID, $this->getId());
-
-				$this->collSchemaPropertyElementHistorysRelatedByHistoryId = SchemaPropertyElementHistoryPeer::doSelectJoinUser($criteria, $con);
-			}
-		} else {
-			// the following code is to determine if a new query is
-			// called for.  If the criteria is the same as the last
-			// one, just return the collection.
-
-			$criteria->add(SchemaPropertyElementHistoryPeer::HISTORY_ID, $this->getId());
-
-			if (!isset($this->lastSchemaPropertyElementHistoryRelatedByHistoryIdCriteria) || !$this->lastSchemaPropertyElementHistoryRelatedByHistoryIdCriteria->equals($criteria)) {
-				$this->collSchemaPropertyElementHistorysRelatedByHistoryId = SchemaPropertyElementHistoryPeer::doSelectJoinUser($criteria, $con);
-			}
-		}
-		$this->lastSchemaPropertyElementHistoryRelatedByHistoryIdCriteria = $criteria;
-
-		return $this->collSchemaPropertyElementHistorysRelatedByHistoryId;
-	}
-
-
-	/**
-	 * If this collection has already been initialized with
-	 * an identical criteria, it returns the collection.
-	 * Otherwise if this SchemaPropertyElementHistory is new, it will return
-	 * an empty collection; or if this SchemaPropertyElementHistory has previously
-	 * been saved, it will retrieve related SchemaPropertyElementHistorysRelatedByHistoryId from storage.
-	 *
-	 * This method is protected by default in order to keep the public
-	 * api reasonable.  You can provide public methods for those you
-	 * actually need in SchemaPropertyElementHistory.
-	 */
-	public function getSchemaPropertyElementHistorysRelatedByHistoryIdJoinSchemaPropertyElement($criteria = null, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseSchemaPropertyElementHistoryPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collSchemaPropertyElementHistorysRelatedByHistoryId === null) {
-			if ($this->isNew()) {
-				$this->collSchemaPropertyElementHistorysRelatedByHistoryId = array();
-			} else {
-
-				$criteria->add(SchemaPropertyElementHistoryPeer::HISTORY_ID, $this->getId());
-
-				$this->collSchemaPropertyElementHistorysRelatedByHistoryId = SchemaPropertyElementHistoryPeer::doSelectJoinSchemaPropertyElement($criteria, $con);
-			}
-		} else {
-			// the following code is to determine if a new query is
-			// called for.  If the criteria is the same as the last
-			// one, just return the collection.
-
-			$criteria->add(SchemaPropertyElementHistoryPeer::HISTORY_ID, $this->getId());
-
-			if (!isset($this->lastSchemaPropertyElementHistoryRelatedByHistoryIdCriteria) || !$this->lastSchemaPropertyElementHistoryRelatedByHistoryIdCriteria->equals($criteria)) {
-				$this->collSchemaPropertyElementHistorysRelatedByHistoryId = SchemaPropertyElementHistoryPeer::doSelectJoinSchemaPropertyElement($criteria, $con);
-			}
-		}
-		$this->lastSchemaPropertyElementHistoryRelatedByHistoryIdCriteria = $criteria;
-
-		return $this->collSchemaPropertyElementHistorysRelatedByHistoryId;
-	}
-
-
-	/**
-	 * If this collection has already been initialized with
-	 * an identical criteria, it returns the collection.
-	 * Otherwise if this SchemaPropertyElementHistory is new, it will return
-	 * an empty collection; or if this SchemaPropertyElementHistory has previously
-	 * been saved, it will retrieve related SchemaPropertyElementHistorysRelatedByHistoryId from storage.
-	 *
-	 * This method is protected by default in order to keep the public
-	 * api reasonable.  You can provide public methods for those you
-	 * actually need in SchemaPropertyElementHistory.
-	 */
-	public function getSchemaPropertyElementHistorysRelatedByHistoryIdJoinSchemaPropertyRelatedBySchemaPropertyId($criteria = null, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseSchemaPropertyElementHistoryPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collSchemaPropertyElementHistorysRelatedByHistoryId === null) {
-			if ($this->isNew()) {
-				$this->collSchemaPropertyElementHistorysRelatedByHistoryId = array();
-			} else {
-
-				$criteria->add(SchemaPropertyElementHistoryPeer::HISTORY_ID, $this->getId());
-
-				$this->collSchemaPropertyElementHistorysRelatedByHistoryId = SchemaPropertyElementHistoryPeer::doSelectJoinSchemaPropertyRelatedBySchemaPropertyId($criteria, $con);
-			}
-		} else {
-			// the following code is to determine if a new query is
-			// called for.  If the criteria is the same as the last
-			// one, just return the collection.
-
-			$criteria->add(SchemaPropertyElementHistoryPeer::HISTORY_ID, $this->getId());
-
-			if (!isset($this->lastSchemaPropertyElementHistoryRelatedByHistoryIdCriteria) || !$this->lastSchemaPropertyElementHistoryRelatedByHistoryIdCriteria->equals($criteria)) {
-				$this->collSchemaPropertyElementHistorysRelatedByHistoryId = SchemaPropertyElementHistoryPeer::doSelectJoinSchemaPropertyRelatedBySchemaPropertyId($criteria, $con);
-			}
-		}
-		$this->lastSchemaPropertyElementHistoryRelatedByHistoryIdCriteria = $criteria;
-
-		return $this->collSchemaPropertyElementHistorysRelatedByHistoryId;
-	}
-
-
-	/**
-	 * If this collection has already been initialized with
-	 * an identical criteria, it returns the collection.
-	 * Otherwise if this SchemaPropertyElementHistory is new, it will return
-	 * an empty collection; or if this SchemaPropertyElementHistory has previously
-	 * been saved, it will retrieve related SchemaPropertyElementHistorysRelatedByHistoryId from storage.
-	 *
-	 * This method is protected by default in order to keep the public
-	 * api reasonable.  You can provide public methods for those you
-	 * actually need in SchemaPropertyElementHistory.
-	 */
-	public function getSchemaPropertyElementHistorysRelatedByHistoryIdJoinSchema($criteria = null, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseSchemaPropertyElementHistoryPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collSchemaPropertyElementHistorysRelatedByHistoryId === null) {
-			if ($this->isNew()) {
-				$this->collSchemaPropertyElementHistorysRelatedByHistoryId = array();
-			} else {
-
-				$criteria->add(SchemaPropertyElementHistoryPeer::HISTORY_ID, $this->getId());
-
-				$this->collSchemaPropertyElementHistorysRelatedByHistoryId = SchemaPropertyElementHistoryPeer::doSelectJoinSchema($criteria, $con);
-			}
-		} else {
-			// the following code is to determine if a new query is
-			// called for.  If the criteria is the same as the last
-			// one, just return the collection.
-
-			$criteria->add(SchemaPropertyElementHistoryPeer::HISTORY_ID, $this->getId());
-
-			if (!isset($this->lastSchemaPropertyElementHistoryRelatedByHistoryIdCriteria) || !$this->lastSchemaPropertyElementHistoryRelatedByHistoryIdCriteria->equals($criteria)) {
-				$this->collSchemaPropertyElementHistorysRelatedByHistoryId = SchemaPropertyElementHistoryPeer::doSelectJoinSchema($criteria, $con);
-			}
-		}
-		$this->lastSchemaPropertyElementHistoryRelatedByHistoryIdCriteria = $criteria;
-
-		return $this->collSchemaPropertyElementHistorysRelatedByHistoryId;
-	}
-
-
-	/**
-	 * If this collection has already been initialized with
-	 * an identical criteria, it returns the collection.
-	 * Otherwise if this SchemaPropertyElementHistory is new, it will return
-	 * an empty collection; or if this SchemaPropertyElementHistory has previously
-	 * been saved, it will retrieve related SchemaPropertyElementHistorysRelatedByHistoryId from storage.
-	 *
-	 * This method is protected by default in order to keep the public
-	 * api reasonable.  You can provide public methods for those you
-	 * actually need in SchemaPropertyElementHistory.
-	 */
-	public function getSchemaPropertyElementHistorysRelatedByHistoryIdJoinProfileProperty($criteria = null, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseSchemaPropertyElementHistoryPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collSchemaPropertyElementHistorysRelatedByHistoryId === null) {
-			if ($this->isNew()) {
-				$this->collSchemaPropertyElementHistorysRelatedByHistoryId = array();
-			} else {
-
-				$criteria->add(SchemaPropertyElementHistoryPeer::HISTORY_ID, $this->getId());
-
-				$this->collSchemaPropertyElementHistorysRelatedByHistoryId = SchemaPropertyElementHistoryPeer::doSelectJoinProfileProperty($criteria, $con);
-			}
-		} else {
-			// the following code is to determine if a new query is
-			// called for.  If the criteria is the same as the last
-			// one, just return the collection.
-
-			$criteria->add(SchemaPropertyElementHistoryPeer::HISTORY_ID, $this->getId());
-
-			if (!isset($this->lastSchemaPropertyElementHistoryRelatedByHistoryIdCriteria) || !$this->lastSchemaPropertyElementHistoryRelatedByHistoryIdCriteria->equals($criteria)) {
-				$this->collSchemaPropertyElementHistorysRelatedByHistoryId = SchemaPropertyElementHistoryPeer::doSelectJoinProfileProperty($criteria, $con);
-			}
-		}
-		$this->lastSchemaPropertyElementHistoryRelatedByHistoryIdCriteria = $criteria;
-
-		return $this->collSchemaPropertyElementHistorysRelatedByHistoryId;
-	}
-
-
-	/**
-	 * If this collection has already been initialized with
-	 * an identical criteria, it returns the collection.
-	 * Otherwise if this SchemaPropertyElementHistory is new, it will return
-	 * an empty collection; or if this SchemaPropertyElementHistory has previously
-	 * been saved, it will retrieve related SchemaPropertyElementHistorysRelatedByHistoryId from storage.
-	 *
-	 * This method is protected by default in order to keep the public
-	 * api reasonable.  You can provide public methods for those you
-	 * actually need in SchemaPropertyElementHistory.
-	 */
-	public function getSchemaPropertyElementHistorysRelatedByHistoryIdJoinSchemaPropertyRelatedByRelatedSchemaPropertyId($criteria = null, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseSchemaPropertyElementHistoryPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collSchemaPropertyElementHistorysRelatedByHistoryId === null) {
-			if ($this->isNew()) {
-				$this->collSchemaPropertyElementHistorysRelatedByHistoryId = array();
-			} else {
-
-				$criteria->add(SchemaPropertyElementHistoryPeer::HISTORY_ID, $this->getId());
-
-				$this->collSchemaPropertyElementHistorysRelatedByHistoryId = SchemaPropertyElementHistoryPeer::doSelectJoinSchemaPropertyRelatedByRelatedSchemaPropertyId($criteria, $con);
-			}
-		} else {
-			// the following code is to determine if a new query is
-			// called for.  If the criteria is the same as the last
-			// one, just return the collection.
-
-			$criteria->add(SchemaPropertyElementHistoryPeer::HISTORY_ID, $this->getId());
-
-			if (!isset($this->lastSchemaPropertyElementHistoryRelatedByHistoryIdCriteria) || !$this->lastSchemaPropertyElementHistoryRelatedByHistoryIdCriteria->equals($criteria)) {
-				$this->collSchemaPropertyElementHistorysRelatedByHistoryId = SchemaPropertyElementHistoryPeer::doSelectJoinSchemaPropertyRelatedByRelatedSchemaPropertyId($criteria, $con);
-			}
-		}
-		$this->lastSchemaPropertyElementHistoryRelatedByHistoryIdCriteria = $criteria;
-
-		return $this->collSchemaPropertyElementHistorysRelatedByHistoryId;
-	}
-
-
-	/**
-	 * If this collection has already been initialized with
-	 * an identical criteria, it returns the collection.
-	 * Otherwise if this SchemaPropertyElementHistory is new, it will return
-	 * an empty collection; or if this SchemaPropertyElementHistory has previously
-	 * been saved, it will retrieve related SchemaPropertyElementHistorysRelatedByHistoryId from storage.
-	 *
-	 * This method is protected by default in order to keep the public
-	 * api reasonable.  You can provide public methods for those you
-	 * actually need in SchemaPropertyElementHistory.
-	 */
-	public function getSchemaPropertyElementHistorysRelatedByHistoryIdJoinStatus($criteria = null, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseSchemaPropertyElementHistoryPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collSchemaPropertyElementHistorysRelatedByHistoryId === null) {
-			if ($this->isNew()) {
-				$this->collSchemaPropertyElementHistorysRelatedByHistoryId = array();
-			} else {
-
-				$criteria->add(SchemaPropertyElementHistoryPeer::HISTORY_ID, $this->getId());
-
-				$this->collSchemaPropertyElementHistorysRelatedByHistoryId = SchemaPropertyElementHistoryPeer::doSelectJoinStatus($criteria, $con);
-			}
-		} else {
-			// the following code is to determine if a new query is
-			// called for.  If the criteria is the same as the last
-			// one, just return the collection.
-
-			$criteria->add(SchemaPropertyElementHistoryPeer::HISTORY_ID, $this->getId());
-
-			if (!isset($this->lastSchemaPropertyElementHistoryRelatedByHistoryIdCriteria) || !$this->lastSchemaPropertyElementHistoryRelatedByHistoryIdCriteria->equals($criteria)) {
-				$this->collSchemaPropertyElementHistorysRelatedByHistoryId = SchemaPropertyElementHistoryPeer::doSelectJoinStatus($criteria, $con);
-			}
-		}
-		$this->lastSchemaPropertyElementHistoryRelatedByHistoryIdCriteria = $criteria;
-
-		return $this->collSchemaPropertyElementHistorysRelatedByHistoryId;
+		return $this->aFileImportHistory;
 	}
 
 

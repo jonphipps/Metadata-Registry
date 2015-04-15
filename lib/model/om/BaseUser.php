@@ -9557,7 +9557,7 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in User.
 	 */
-	public function getSchemaPropertyElementHistorysJoinSchemaPropertyElementHistoryRelatedByHistoryId($criteria = null, $con = null)
+	public function getSchemaPropertyElementHistorysJoinFileImportHistory($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseSchemaPropertyElementHistoryPeer.php';
@@ -9576,7 +9576,7 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 				$criteria->add(SchemaPropertyElementHistoryPeer::CREATED_USER_ID, $this->getId());
 
-				$this->collSchemaPropertyElementHistorys = SchemaPropertyElementHistoryPeer::doSelectJoinSchemaPropertyElementHistoryRelatedByHistoryId($criteria, $con);
+				$this->collSchemaPropertyElementHistorys = SchemaPropertyElementHistoryPeer::doSelectJoinFileImportHistory($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -9586,7 +9586,7 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 			$criteria->add(SchemaPropertyElementHistoryPeer::CREATED_USER_ID, $this->getId());
 
 			if (!isset($this->lastSchemaPropertyElementHistoryCriteria) || !$this->lastSchemaPropertyElementHistoryCriteria->equals($criteria)) {
-				$this->collSchemaPropertyElementHistorys = SchemaPropertyElementHistoryPeer::doSelectJoinSchemaPropertyElementHistoryRelatedByHistoryId($criteria, $con);
+				$this->collSchemaPropertyElementHistorys = SchemaPropertyElementHistoryPeer::doSelectJoinFileImportHistory($criteria, $con);
 			}
 		}
 		$this->lastSchemaPropertyElementHistoryCriteria = $criteria;
