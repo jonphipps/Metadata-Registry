@@ -9,6 +9,7 @@ sandbox:
     no_script_name:           on
 dev:
   .settings:
+    timeout:                 31536000
     # E_ALL | E_STRICT = 4095
     # error_reporting:        4095
     # E_ALL
@@ -22,6 +23,7 @@ dev:
 
 test:
   .settings:
+    timeout:                 31536000
     # E_ALL | E_STRICT & ~E_NOTICE = 2047
     error_reporting:        15
     cache:                  off
@@ -30,6 +32,7 @@ test:
     etag:                   on
 test-empty:
   .settings:
+    timeout:                 31536000
     # E_ALL | E_STRICT & ~E_NOTICE = 2047
     error_reporting:        15
     cache:                  off
