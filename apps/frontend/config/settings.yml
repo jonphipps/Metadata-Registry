@@ -1,5 +1,6 @@
 prod:
   .settings:
+    timeout:                 31536000
     no_script_name:           on
     cache:                  on
     etag:                   on
@@ -31,6 +32,15 @@ test:
     no_script_name:         off
     etag:                   on
 test-empty:
+  .settings:
+    timeout:                 31536000
+    # E_ALL | E_STRICT & ~E_NOTICE = 2047
+    error_reporting:        15
+    cache:                  off
+    web_debug:              on
+    no_script_name:         off
+    etag:                   on
+test-update:
   .settings:
     timeout:                 31536000
     # E_ALL | E_STRICT & ~E_NOTICE = 2047
