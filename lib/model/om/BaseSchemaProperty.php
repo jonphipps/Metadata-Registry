@@ -132,6 +132,13 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 
 	/**
+	 * The value for the lexical_alias field.
+	 * @var        string
+	 */
+	protected $lexical_alias;
+
+
+	/**
 	 * The value for the status_id field.
 	 * @var        int
 	 */
@@ -517,6 +524,17 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 	{
 
 		return $this->url;
+	}
+
+	/**
+	 * Get the [lexical_alias] column value.
+	 * 
+	 * @return     string
+	 */
+	public function getLexicalAlias()
+	{
+
+		return $this->lexical_alias;
 	}
 
 	/**
@@ -960,6 +978,28 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 	} // setUrl()
 
 	/**
+	 * Set the value of [lexical_alias] column.
+	 * 
+	 * @param      string $v new value
+	 * @return     void
+	 */
+	public function setLexicalAlias($v)
+	{
+
+		// Since the native PHP type for this column is string,
+		// we will cast the input to a string (if it is not).
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->lexical_alias !== $v) {
+			$this->lexical_alias = $v;
+			$this->modifiedColumns[] = SchemaPropertyPeer::LEXICAL_ALIAS;
+		}
+
+	} // setLexicalAlias()
+
+	/**
 	 * Set the value of [status_id] column.
 	 * 
 	 * @param      int $v new value
@@ -1138,24 +1178,26 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 			$this->url = $rs->getString($startcol + 15);
 
-			$this->status_id = $rs->getInt($startcol + 16);
+			$this->lexical_alias = $rs->getString($startcol + 16);
 
-			$this->language = $rs->getString($startcol + 17);
+			$this->status_id = $rs->getInt($startcol + 17);
 
-			$this->note = $rs->getString($startcol + 18);
+			$this->language = $rs->getString($startcol + 18);
 
-			$this->domain = $rs->getString($startcol + 19);
+			$this->note = $rs->getString($startcol + 19);
 
-			$this->orange = $rs->getString($startcol + 20);
+			$this->domain = $rs->getString($startcol + 20);
 
-			$this->is_deprecated = $rs->getBoolean($startcol + 21);
+			$this->orange = $rs->getString($startcol + 21);
+
+			$this->is_deprecated = $rs->getBoolean($startcol + 22);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 22; // 22 = SchemaPropertyPeer::NUM_COLUMNS - SchemaPropertyPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 23; // 23 = SchemaPropertyPeer::NUM_COLUMNS - SchemaPropertyPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating SchemaProperty object", $e);
@@ -1617,21 +1659,24 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 				return $this->getUrl();
 				break;
 			case 16:
-				return $this->getStatusId();
+				return $this->getLexicalAlias();
 				break;
 			case 17:
-				return $this->getLanguage();
+				return $this->getStatusId();
 				break;
 			case 18:
-				return $this->getNote();
+				return $this->getLanguage();
 				break;
 			case 19:
-				return $this->getDomain();
+				return $this->getNote();
 				break;
 			case 20:
-				return $this->getOrange();
+				return $this->getDomain();
 				break;
 			case 21:
+				return $this->getOrange();
+				break;
+			case 22:
 				return $this->getIsDeprecated();
 				break;
 			default:
@@ -1670,12 +1715,13 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 			$keys[13] => $this->getParentUri(),
 			$keys[14] => $this->getUri(),
 			$keys[15] => $this->getUrl(),
-			$keys[16] => $this->getStatusId(),
-			$keys[17] => $this->getLanguage(),
-			$keys[18] => $this->getNote(),
-			$keys[19] => $this->getDomain(),
-			$keys[20] => $this->getOrange(),
-			$keys[21] => $this->getIsDeprecated(),
+			$keys[16] => $this->getLexicalAlias(),
+			$keys[17] => $this->getStatusId(),
+			$keys[18] => $this->getLanguage(),
+			$keys[19] => $this->getNote(),
+			$keys[20] => $this->getDomain(),
+			$keys[21] => $this->getOrange(),
+			$keys[22] => $this->getIsDeprecated(),
 		);
 		return $result;
 	}
@@ -1756,21 +1802,24 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 				$this->setUrl($value);
 				break;
 			case 16:
-				$this->setStatusId($value);
+				$this->setLexicalAlias($value);
 				break;
 			case 17:
-				$this->setLanguage($value);
+				$this->setStatusId($value);
 				break;
 			case 18:
-				$this->setNote($value);
+				$this->setLanguage($value);
 				break;
 			case 19:
-				$this->setDomain($value);
+				$this->setNote($value);
 				break;
 			case 20:
-				$this->setOrange($value);
+				$this->setDomain($value);
 				break;
 			case 21:
+				$this->setOrange($value);
+				break;
+			case 22:
 				$this->setIsDeprecated($value);
 				break;
 		} // switch()
@@ -1812,12 +1861,13 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[13], $arr)) $this->setParentUri($arr[$keys[13]]);
 		if (array_key_exists($keys[14], $arr)) $this->setUri($arr[$keys[14]]);
 		if (array_key_exists($keys[15], $arr)) $this->setUrl($arr[$keys[15]]);
-		if (array_key_exists($keys[16], $arr)) $this->setStatusId($arr[$keys[16]]);
-		if (array_key_exists($keys[17], $arr)) $this->setLanguage($arr[$keys[17]]);
-		if (array_key_exists($keys[18], $arr)) $this->setNote($arr[$keys[18]]);
-		if (array_key_exists($keys[19], $arr)) $this->setDomain($arr[$keys[19]]);
-		if (array_key_exists($keys[20], $arr)) $this->setOrange($arr[$keys[20]]);
-		if (array_key_exists($keys[21], $arr)) $this->setIsDeprecated($arr[$keys[21]]);
+		if (array_key_exists($keys[16], $arr)) $this->setLexicalAlias($arr[$keys[16]]);
+		if (array_key_exists($keys[17], $arr)) $this->setStatusId($arr[$keys[17]]);
+		if (array_key_exists($keys[18], $arr)) $this->setLanguage($arr[$keys[18]]);
+		if (array_key_exists($keys[19], $arr)) $this->setNote($arr[$keys[19]]);
+		if (array_key_exists($keys[20], $arr)) $this->setDomain($arr[$keys[20]]);
+		if (array_key_exists($keys[21], $arr)) $this->setOrange($arr[$keys[21]]);
+		if (array_key_exists($keys[22], $arr)) $this->setIsDeprecated($arr[$keys[22]]);
 	}
 
 	/**
@@ -1845,6 +1895,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(SchemaPropertyPeer::PARENT_URI)) $criteria->add(SchemaPropertyPeer::PARENT_URI, $this->parent_uri);
 		if ($this->isColumnModified(SchemaPropertyPeer::URI)) $criteria->add(SchemaPropertyPeer::URI, $this->uri);
 		if ($this->isColumnModified(SchemaPropertyPeer::URL)) $criteria->add(SchemaPropertyPeer::URL, $this->url);
+		if ($this->isColumnModified(SchemaPropertyPeer::LEXICAL_ALIAS)) $criteria->add(SchemaPropertyPeer::LEXICAL_ALIAS, $this->lexical_alias);
 		if ($this->isColumnModified(SchemaPropertyPeer::STATUS_ID)) $criteria->add(SchemaPropertyPeer::STATUS_ID, $this->status_id);
 		if ($this->isColumnModified(SchemaPropertyPeer::LANGUAGE)) $criteria->add(SchemaPropertyPeer::LANGUAGE, $this->language);
 		if ($this->isColumnModified(SchemaPropertyPeer::NOTE)) $criteria->add(SchemaPropertyPeer::NOTE, $this->note);
@@ -1934,6 +1985,8 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 		$copyObj->setUri($this->uri);
 
 		$copyObj->setUrl($this->url);
+
+		$copyObj->setLexicalAlias($this->lexical_alias);
 
 		$copyObj->setStatusId($this->status_id);
 

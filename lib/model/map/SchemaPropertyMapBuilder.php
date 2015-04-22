@@ -93,6 +93,8 @@ class SchemaPropertyMapBuilder {
 
 		$tMap->addColumn('URL', 'Url', 'string', CreoleTypes::VARCHAR, false, 255);
 
+		$tMap->addColumn('LEXICAL_ALIAS', 'LexicalAlias', 'string', CreoleTypes::VARCHAR, false, 255);
+
 		$tMap->addForeignKey('STATUS_ID', 'StatusId', 'int', CreoleTypes::INTEGER, 'reg_status', 'ID', true, null);
 
 		$tMap->addColumn('LANGUAGE', 'Language', 'string', CreoleTypes::VARCHAR, true, 6);
