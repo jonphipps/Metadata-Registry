@@ -5,6 +5,7 @@
 
   $sf_context->getResponse()->addStylesheet('ui');
   $title='';
+  $bcTitle='';
 
 //this section defines the tabs
   $topnav = array();
