@@ -9,6 +9,8 @@
  */
 class SchemaPropertyElement extends BaseSchemaPropertyElement
 {
+  public $importId;
+
   /**
   * description
   *
@@ -80,6 +82,10 @@ class SchemaPropertyElement extends BaseSchemaPropertyElement
       $history->setStatusId($this->getStatusId());
       $history->setCreatedUserId($this->getUpdatedUserId());
       $history->setCreatedAt($this->getUpdatedAt());
+      if (!empty($this->importId))
+      {
+        $history->setImportId($this->importId);
+      }
 
       $history->save($con);
 
