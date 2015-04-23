@@ -85,17 +85,18 @@ class ImportVocab {
    * @var int
    */
   public $vocabId;
-  /**
-   * @var \Schema
-   */
+  /** @var \Schema */
   public $vocabulary;
+  /** @var int */
+  public $importId;
 
   /**
-   * @param        $type     string (schema|vocab)
-   * @param        $file     string
-   * @param        $vocabId  integer
+   * @param $type     string (schema|vocab)
+   * @param $file     string
+   * @param $vocabId  integer
    */
-  public function __construct($type = '', $file = '', $vocabId = null) {
+  public function __construct($type = '', $file = '', $vocabId = null)
+  {
 
     //TODO: Major - process statements first and build elements from the statements, based on the profile. Even better, make elements virtual
 
@@ -521,7 +522,7 @@ class ImportVocab {
                   $rowStatusId = $this->prolog['defaults']['statusId'];
               }
 
-            $results['status'] = 'modified';
+            $results['status'] = '';
             $skipMap[] = $this->prolog['meta_column'];
             $skipMap[] = $this->prolog['key_column'];
             $skipMap[] = "meta";
@@ -716,11 +717,17 @@ class ImportVocab {
                 $cellLanguage = $this->getColLangType( $key, 'lang', false );
                 //data type must be explicit
                 $cellType                = $this->getColLangType( $key, 'type', true );
-                $results['statements'][] = self::SetPropertyElement( $key, $value, $propertyId, $updateTime, $rowStatusId, $cellLanguage, $cellType );
+                $result = self::SetPropertyElement($key, $value, $propertyId, $updateTime, $rowStatusId, $cellLanguage,
+                      $cellType);
+                if ($result and is_array($result) and isset($result["status"]) and "skipped" != $result["status"]) {
+                  $results['statements'][] = $result;
+                }
               }
             }
 
-            $this->results['success']['rows'][] = $results;
+            if ( ! empty($results['status'])) {
+              $this->results['success']['rows'][] = $results;
+            }
           }
           catch(\Exception $e) {
             //            if there's an error of any kind, write to error log and continue
@@ -1017,7 +1024,7 @@ class ImportVocab {
       $element->setUpdatedUserId($this->userId);
       $element->setUpdatedAt($updateTime);
       $element->setStatusId($rowStatusId);
-
+      $element->importId = $this->importId;
       $element->save();
 
       if ($StatementCounter['status'] != 'created') {

@@ -52,12 +52,15 @@ class importActions extends autoimportActions
 
     if ( $this->getRequest()->getMethod() == sfRequest::POST ) {
       $this->updateFileImportHistoryFromRequest();
+      //need an id
+      $this->saveFileImportHistory( $this->file_import_history );
       $schemaId = $this->file_import_history->getSchemaId();
 
       $filePath = sfConfig::get( 'sf_upload_dir' ) . DIRECTORY_SEPARATOR .
                   'csv' . DIRECTORY_SEPARATOR .
                   $this->file_import_history->getFileName();
       $import = new ImportVocab( 'schema', $filePath, $schemaId );
+      $import->importId = $this->file_import_history->getId();
       $prolog = $import->processProlog();
       //todo we need a validation check to make sure that if there's a schema_id in the prolog that it matches the current ID
       if (isset($prolog['meta']['schema_id']) and $prolog['meta']['schema_id'] != $schemaId)
