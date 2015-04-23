@@ -55,6 +55,10 @@ class SchemaHasUser extends BaseSchemaHasUser
     // Since the native PHP type for this column is string,
     // we will serialize the input to a string (if it is not).
     if ($v !== null) {
+      if (is_array($v) and 1 == count($v) and "*" == $v[0]) {
+        //get all of the languages for the schema
+        $v = $this->getLanguagesForSchema();
+      }
       $v = serialize($v);
     }
     parent::setLanguages($v);
