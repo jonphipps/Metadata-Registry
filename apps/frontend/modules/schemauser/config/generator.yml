@@ -10,15 +10,17 @@ generator:
       is_admin_for:      { name: Administrator }
       is_registrar_for:  { name: Registrar }
       is_maintainer_for: { name: Maintainer }
+      languages:         { name: Editable Languages }
+      default_language:  { name: Default Language }
 
     list:
       #peer_method:       doSelectJoinAll
       #peer_count_method: doCountForUser
       title:              Maintainers for %%schema%%
-      display:            [_user, _schema, isRegistrarFor, isAdminFor, isMaintainerFor]
+      display:            [_user, _schema, isRegistrarFor, isAdminFor, isMaintainerFor, _languages, _defaultLanguage]
       object_actions:
         _show:
-        _edit:            { credentials: [[administrator, schemaadmin, agentadmin]] }
+        _edit:            { credentials: [[administrator, schemaadmin, schemamaintainer, agentadmin]] }
         _delete:          { credentials: [[administrator, schemaadmin, agentadmin]] }
       actions:
         _create:          {query_string: {schema_id: schema_id}, name: Add Maintainer, credentials: [[administrator, schemaadmin, agentadmin]] }
@@ -37,20 +39,23 @@ generator:
       fields:
         user_id:       { params: peer_method=getNewUsersForSchema include_blank=false, mode: create }
         user:          { type: plain, mode: edit }
-      display:         [user, user_id, isAdminFor, isMaintainerFor]
+        is_registrar_for:  { credentials: [[administrator]], mode: edit}
+        languages:         { type: admin_select_language, params: multiple=true limitmethod=getLanguagesForSchema style="width:99%" include_custom=[*, All languages ], credentials: [[administrator, schemaadmin, agentadmin]] }
+        default_language:  { type: admin_select_language, params: limitmethod=getLanguagesForSchema style="width:99%", credentials: [[administrator, schemaadmin, agentadmin, schemamaintainer]] }
+      display:             [user, user_id, isRegistrarFor, isAdminFor, isMaintainerFor, languages, default_language]
       actions:
-        _save:         { credentials: [[administrator, schemaadmin, agentadmin]] }
+        _save:         { credentials: [[administrator, schemaadmin, agentadmin, schemamaintainer]] }
         _delete:       { credentials: [[administrator, schemaadmin, agentadmin]] }
         _create:       { name: Add Maintainer, credentials: [[administrator, schemaadmin, agentadmin]], mode: edit  }
         _save_and_add: { credentials: [[administrator, schemaadmin, agentadmin]] }
-        _cancel:       { credentials: [[administrator, schemaadmin, agentadmin]] }
+        _cancel:       { credentials: [[administrator, schemaadmin, agentadmin, schemamaintainer]] }
 
     show:
       title:           %%schema%% permissions for %%user%%
       fields:
         user:          { type: plain }
-      display:         [user, isRegistrarFor, isAdminFor, isMaintainerFor]
+      display:         [user, isRegistrarFor, isAdminFor, isMaintainerFor, _languages, _defaultLanguage]
       actions:
         _delete:       { credentials: [[administrator, schemaadmin, agentadmin]] }
-        _edit:         { credentials: [[administrator, schemaadmin, agentadmin]] }
+        _edit:         { credentials: [[administrator, schemaadmin, agentadmin, schemamaintainer]] }
         _create:       { name: Add Maintainer, credentials: [[administrator, schemaadmin, agentadmin]] }

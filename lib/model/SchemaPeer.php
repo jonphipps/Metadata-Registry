@@ -66,6 +66,8 @@ class SchemaPeer extends BaseSchemaPeer
     $c = new Criteria();
     $c->clearSelectColumns();
     $c->addSelectColumn(self::AGENT_ID);
+      $c->addJoin(self::AGENT_ID, AgentPeer::ID);
+      $c->addAscendingOrderByColumn(AgentPeer::ORG_NAME);
     $c->setDistinct();
     $rs = self::doSelectRS($c);
     while($rs->next())

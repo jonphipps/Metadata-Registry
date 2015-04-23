@@ -30,11 +30,11 @@ generator:
     list:
       title:         Schema Property Statement List
       fields:
-        format_language: { name: Lang }
-        updated_at:   { name: Updated }
+        format_language: { name: Language }
         updated_user: { name: Updated by }
       display:        [=profile_property, _object, format_language, status, updated_at, updated_user]
       displayfilter:  false
+#      sort:           profile_property
       object_actions:
         _edit:        { credentials: [[administrator, schemamaintainer, schemaadmin]] }
         _delete:      { credentials: [[administrator, schemamaintainer, schemaadmin]] }
@@ -82,7 +82,7 @@ generator:
         language:                   { type: select_language_tag }
       display:
         "-Metadata":        { mode: edit, fields: [id, created_at, created_user, updated_at, updated_user] }
-        "Detail":            [profile_property_id, profile_property, related_schema_property_id, related_schema_class_id, object, language, status_id]
+        "Detail":            [profile_property_id, profile_property, related_schema_property_id, related_schema_class_id, object, _language, status_id]
 #        "Other Properties":  [_listproperties]
       actions:
         # You can add a string literal to the query string like this: foo: "'bar'" which will add foo=bar

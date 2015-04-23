@@ -1272,6 +1272,9 @@ propel:
       type: VARCHAR
       size: 255
       default: ''
+    lexical_alias: 
+      type: VARCHAR
+      size: 255
     status_id: 
       type: INTEGER
       required: true

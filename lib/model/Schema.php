@@ -61,6 +61,24 @@ class Schema extends BaseSchema {
         return $bar;
     }
 
+  /**
+   * @return Status[]
+   */
+  public static function getStatusArray() {
+    $statusArray = [];
+    $c           = new Criteria();
+    $c->addJoin(StatusPeer::DISPLAY_NAME, ConceptPeer::PREF_LABEL);
+    $c->addJoin(ConceptPeer::ID, ConceptPeer::ID);
+    $c->add(ConceptPeer::VOCABULARY_ID, 31);
+    StatusPeer::addSelectColumns($c);
+    ConceptPeer::addSelectColumns($c);
+    $stati = StatusPeer::doSelectRS($c);
+    /** @var Status[] $stati */
+    foreach ($stati as $stat) {
+      $statusArray[ $stat[0] ] = $stat;
+    }
+    return $statusArray;
+  }
     public function __toString()
     {
         return $this->getName();
@@ -481,10 +499,10 @@ class Schema extends BaseSchema {
             //we got an object somehow
             //todo: refactor this to build a language array for lexicalalias and label if uselanguagearray is true
             //we'll need to get the array of available languages for the schema and do a for/next
-            $object->setCulture($languageDefault);
+            $object->setLanguage($languageDefault);
             $array = array(
               "@id"          => $object->getUri(),
-              "lexicalAlias" => $object->getLexicalUri(),
+              "lexicalAlias" => $object->getLexicalAlias(),
               //"url"          => $object->getUrl(),
               "url"          => "http://metadataregistry.org/schemaprop/show/id/" . $object->getId() . ".html",
               "label"        => $object->getLabel()

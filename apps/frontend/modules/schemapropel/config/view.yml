@@ -4,3 +4,4 @@ all:
 editSuccess:
   javascripts: [schemapropel/swapoptions: { position: last }]
 
+

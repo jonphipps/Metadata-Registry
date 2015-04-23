@@ -1,17 +1,20 @@
 function updateUri () {
   var domainField = $('schema_uri');
+  var labelField = $('schema_property_label');
+  var labelValue = labelField.value;
   var tokenField = $('schema_property_name');
-  var tokenValue = $('schema_property_name').value;
-  var uriField = $('schema_property_lexical_uri');
-  var nextField = $('schema_property_definition');
+  var tokenValue = tokenField.value;
+  var uriField = $('schema_property_lexical_alias');
   var updateIt;
-  if ('' != tokenValue && tokenValue != tokenField.defaultValue) {
-    updateIt = confirm("Automatically update the URI based on your changes?");
+  if ('' != labelValue && labelValue != labelField.defaultValue) {
+    updateIt = confirm("Automatically update the Name and Lexical Alias based on your changes?");
   }
   if (updateIt) {
+    tokenValue = S(labelField.value).camelize().s;
     uriField.value = domainField.value + tokenValue;
-    tokenField.defaultValue = tokenValue;
-    uriField.select();
+    labelField.defaultValue = labelValue;
+    tokenField.value = tokenValue;
+    tokenField.select();
   }
 }
 
@@ -25,19 +28,23 @@ Event.observe(window, 'load', function () {
       $parentValue;
 
   var updateParent = function (sel) {
-    $ParentUri.value = sel.select2("data").text.split("--")[1].trim();
-    $parentValue = $ParentUri.value;
+    if (sel.select2("val") !== '') {
+      $ParentUri.value = sel.select2("data").text.split("--")[1].trim();
+      $parentValue = $ParentUri.value;
+    } else {
+      $ParentUri.value = '';
+    }
     $ParentUri.focus();
-  }
+  };
 
   $selProperties.select2({
-    placeholder: "Select from properties of Element Sets for which you are a maintainer",
-    allowClear: true
+    allowClear: true,
+    placeholder: "Select from properties of Element Sets for which you are a maintainer"
   });
 
   $selClasses.select2({
-    placeholder: "Select from classes of Element Sets for which you are a maintainer",
-    allowClear: true
+    allowClear: true,
+    placeholder: "Select from classes of Element Sets for which you are a maintainer"
   });
 
   $selProperties.on("change", function () {
