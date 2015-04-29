@@ -41,6 +41,17 @@ class SchemaHasUser extends BaseSchemaHasUser
    */
   public function getLanguages()
   {
+    //if languages have never been set for this user, set them to the defaults
+    if (!$this->languages)
+    {
+      if ($this->getIsAdminFor())
+      {
+        $this->setLanguages($this->getLanguagesForSchema());
+      } else {
+        $this->setLanguages($this->getSchema()->getLanguage());
+      }
+
+    }
     return ($this->languages) ? unserialize($this->languages) : $this->languages;
   }
   /**

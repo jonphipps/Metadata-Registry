@@ -85,28 +85,35 @@ class schemapropActions extends autoschemapropActions
     $schemaObj = $this->getCurrentSchema();
     $CurrentCulture = $sfUser->getCulture();
 
+    //FIXME: If the user is an admin, set the available languages to all of the schema languages
+    //FIXME: if the user has no languages set, silently set their language to the default (?)
     if ($userId) {
       $c = new Criteria();
       $c->add(SchemaHasUserPeer::USER_ID, $userId);
       $c->add(SchemaHasUserPeer::SCHEMA_ID, $schemaObj->getId());
       $schemaUser = SchemaHasUserPeer::doSelectOne($c);
-      if ($schemaUser) {
-        $UserLanguages   = $schemaUser->getLanguages();
-        $DefaultLanguage = $schemaUser->getDefaultLanguage();
-      }
-      else {
-        //set the languages from the schema
-        $UserLanguages   = $schemaObj->getLanguages();
+
+      if ($sfUser->hasObjectCredential($schemaObj->getId(), 'schema', array(
+            0 => array(
+                  0 => 'administrator',
+                  2 => 'schemaadmin',
+            ),
+      ))
+      ) {
+        $UserLanguages = $schemaObj->getLanguages();
         $DefaultLanguage = $schemaObj->getLanguage();
+      } else {
+        if ($schemaUser) {
+          $UserLanguages = $schemaUser->getLanguages();
+          $DefaultLanguage = $schemaUser->getDefaultLanguage();
+        } else {
+          //set the languages from the schema
+          $UserLanguages = $schemaObj->getLanguages();
+          $DefaultLanguage = $schemaObj->getLanguage();
+        }
       }
 
-      //get all the languages if the language is "*"
-      if (in_array("*", $UserLanguages))
-      {
-        $UserLanguages   = $schemaObj->getLanguages();
-      }
-
-      if (!in_array($CurrentCulture, $UserLanguages)) {
+      if (is_array($UserLanguages) && !in_array($CurrentCulture, $UserLanguages)) {
         //save the current culture
         $UserCulture = $sfUser->getCulture();
         $this->getUser()->setAttribute("UserCulture", $UserCulture);
