@@ -95,7 +95,7 @@ generator:
         id:            { credentials: [administrator] }
         uri:           { helper: auto_link_uri }
         show_parent:   { name: Parent, condition: "$schema_property->getParentUri()" }
-        parent_uri:    { name: Parent, condition: "$schema_property->getParentUri()" }
+        parent_uri:    { name: Parent URI, condition: "$schema_property->getParentUri()" }
         domain:        { condition: "'property' == $schema_property->getType()" }
         orange:        { condition: "''property' == $schema_property->getType()" }
         show_lexical_alias:  { name: Lexical Alias, help: "This is a language-specific 'readable' URI for this element." }
