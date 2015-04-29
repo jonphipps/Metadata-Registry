@@ -256,6 +256,13 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 	 */
 	protected $is_object_prop = true;
 
+
+	/**
+	 * The value for the is_in_form field.
+	 * @var        boolean
+	 */
+	protected $is_in_form = false;
+
 	/**
 	 * @var        User
 	 */
@@ -768,6 +775,17 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 	{
 
 		return $this->is_object_prop;
+	}
+
+	/**
+	 * Get the [is_in_form] column value.
+	 * 
+	 * @return     boolean
+	 */
+	public function getIsInForm()
+	{
+
+		return $this->is_in_form;
 	}
 
 	/**
@@ -1477,6 +1495,22 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 	} // setIsObjectProp()
 
 	/**
+	 * Set the value of [is_in_form] column.
+	 * 
+	 * @param      boolean $v new value
+	 * @return     void
+	 */
+	public function setIsInForm($v)
+	{
+
+		if ($this->is_in_form !== $v || $v === false) {
+			$this->is_in_form = $v;
+			$this->modifiedColumns[] = ProfilePropertyPeer::IS_IN_FORM;
+		}
+
+	} // setIsInForm()
+
+	/**
 	 * Hydrates (populates) the object variables with values from the database resultset.
 	 *
 	 * An offset (1-based "start column") is specified so that objects can be hydrated
@@ -1561,12 +1595,14 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 
 			$this->is_object_prop = $rs->getBoolean($startcol + 33);
 
+			$this->is_in_form = $rs->getBoolean($startcol + 34);
+
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 34; // 34 = ProfilePropertyPeer::NUM_COLUMNS - ProfilePropertyPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 35; // 35 = ProfilePropertyPeer::NUM_COLUMNS - ProfilePropertyPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating ProfileProperty object", $e);
@@ -2046,6 +2082,9 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 			case 33:
 				return $this->getIsObjectProp();
 				break;
+			case 34:
+				return $this->getIsInForm();
+				break;
 			default:
 				return null;
 				break;
@@ -2100,6 +2139,7 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 			$keys[31] => $this->getIsAttribute(),
 			$keys[32] => $this->getHasLanguage(),
 			$keys[33] => $this->getIsObjectProp(),
+			$keys[34] => $this->getIsInForm(),
 		);
 		return $result;
 	}
@@ -2233,6 +2273,9 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 			case 33:
 				$this->setIsObjectProp($value);
 				break;
+			case 34:
+				$this->setIsInForm($value);
+				break;
 		} // switch()
 	}
 
@@ -2290,6 +2333,7 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[31], $arr)) $this->setIsAttribute($arr[$keys[31]]);
 		if (array_key_exists($keys[32], $arr)) $this->setHasLanguage($arr[$keys[32]]);
 		if (array_key_exists($keys[33], $arr)) $this->setIsObjectProp($arr[$keys[33]]);
+		if (array_key_exists($keys[34], $arr)) $this->setIsInForm($arr[$keys[34]]);
 	}
 
 	/**
@@ -2335,6 +2379,7 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(ProfilePropertyPeer::IS_ATTRIBUTE)) $criteria->add(ProfilePropertyPeer::IS_ATTRIBUTE, $this->is_attribute);
 		if ($this->isColumnModified(ProfilePropertyPeer::HAS_LANGUAGE)) $criteria->add(ProfilePropertyPeer::HAS_LANGUAGE, $this->has_language);
 		if ($this->isColumnModified(ProfilePropertyPeer::IS_OBJECT_PROP)) $criteria->add(ProfilePropertyPeer::IS_OBJECT_PROP, $this->is_object_prop);
+		if ($this->isColumnModified(ProfilePropertyPeer::IS_IN_FORM)) $criteria->add(ProfilePropertyPeer::IS_IN_FORM, $this->is_in_form);
 
 		return $criteria;
 	}
@@ -2454,6 +2499,8 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 		$copyObj->setHasLanguage($this->has_language);
 
 		$copyObj->setIsObjectProp($this->is_object_prop);
+
+		$copyObj->setIsInForm($this->is_in_form);
 
 
 		if ($deepCopy) {

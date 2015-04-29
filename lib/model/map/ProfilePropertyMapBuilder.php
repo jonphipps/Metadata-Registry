@@ -129,6 +129,8 @@ class ProfilePropertyMapBuilder {
 
 		$tMap->addColumn('IS_OBJECT_PROP', 'IsObjectProp', 'boolean', CreoleTypes::BOOLEAN, true, null);
 
+		$tMap->addColumn('IS_IN_FORM', 'IsInForm', 'boolean', CreoleTypes::BOOLEAN, true, null);
+
 	} // doBuild()
 
 } // ProfilePropertyMapBuilder
