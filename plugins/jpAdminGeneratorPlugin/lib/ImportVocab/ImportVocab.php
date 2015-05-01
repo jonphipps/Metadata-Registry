@@ -437,13 +437,14 @@ class ImportVocab {
 
   }
 
-  public function processData() {
+  public function processData()
+  {
     $this->setVocabularyParams();
     $workflow = new Workflow($this->reader);
     $output = new ConsoleOutput();
     // Don’t import the non-metadata
     $filter = new Filter\CallbackFilter(function ($row) {
-      return ! trim($row[ $this->prolog[ 'meta_column' ] ]) or is_numeric($row[ $this->prolog[ 'meta_column' ] ]);
+      return ! trim($row[$this->prolog['meta_column']]) or is_numeric($row[$this->prolog['meta_column']]);
     });
     //$converter = new MappingItemConverter($this->mapping);
     //$workflow->addItemConverter($converter);
@@ -451,297 +452,104 @@ class ImportVocab {
     $workflow->addFilter($filter);
     $workflow->addWriter(new Writer\ConsoleProgressWriter($output, $this->reader));
     //add a database writer
-    $workflow->addWriter(
-      new Writer\CallbackWriter(
-        function ($row) {
-          //build an array of references
-          //use the prefix to build the FQURI in the references
-          //if it's a bad prefix, throw the cell away and report it as an error
-          //if it's a required property, fail the row and report the error
-
-          //the type is stored in reg:type.
-          //if it's a subproperty and there's no parentproperty, it's an error
-          //if it's a property and there's a parentproperty, it's an error
-
-          //build the URI from the vocabulary base domain and the ID column
-          //$record->setLabel($row);
-
-          /**@todo map should come from linkage section and be stored in the registry
-          &about,&type,&status,&equivalent,&label@en-US,&altLabel@en-US,&definition@en-US,&domain,&range,&category,&phase,&notes,&row_id */
-
-          //executeImport:
-          //    serialize the column map
-          $results = array();
-
-          try {
-            //set the row counter
-
-            $rowUri = $row[$this->prolog['key_column']];
-            //lookup the URI (or the OMR ID if available) for a match
-            //There always has to be a URI on either update or create
-            //If there's a prolog, this will be the 'key_column'
-            if (array_filter($row,'trim') and empty($rowUri)) {
-              throw new \Exception('Missing URI for row: ' . $this->rowCounter);
+    $workflow->addWriter(new Writer\CallbackWriter(function ($row) {
+            //build an array of references
+            if ( ! array_filter($row, 'trim')) {
+              return;
             }
-
-            if ($this->useCuries) {
-              $uri = $this->getFqn($rowUri);
+            $newElements = [];
+            if ( ! isset($row['status'])) {
+              $row['status'] = $this->prolog['defaults']['statusId'];
             }
-            else {
-              $uri = $this->vocabulary->getBaseDomain() . $rowUri;
+            foreach ($row as $key => $element) {
+              if ( ! empty($this->prolog['columns'][$key]['type'])) {
+                if ($this->useCuries) {
+                  $element = $this->getFqn($element);
+                }
+              }
+              $key2 =
+                    md5(strval($this->prolog['columns'][$key]['id']) . strval($this->prolog['columns'][$key]['lang'])
+                        . $element);
+              $newElements[$key2] = [];
+              $newElements[$key2] += $this->prolog['columns'][$key];
+              $newElements[$key2]['val'] = $element;
             }
-            $skipMap = array();
-            $propertyId = '';
-
-            if (isset($row[$this->prolog['meta_column']])) {
+            if ( ! empty($row[$this->prolog['meta_column']])) {
               $property = \SchemaPropertyPeer::retrieveByPK($row[$this->prolog['meta_column']]);
-              //check for a URI change
-              if ($uri != $property->getUri()) {
-                $property->setUri($uri);
-              }
-
-            } else {
-              $property = \SchemaPropertyPeer::retrieveByUri($uri);
-            }
-
-            if ( ! empty($property)) {
-              $propertyId = $property->getId();
-            }
-
-            $updateTime = time();
-
-            $rowLanguage = $this->prolog['defaults']['lang'];
-
-              if (isset($row['status'])) {
-                  if (is_numeric($row['status'])) {
-                      $rowStatusId = $row['status'];
-                  } else {
-                      $rowStatusId = $this->getStatusId($row['status']);
-                  }
-              } else {
-                  $rowStatusId = $this->prolog['defaults']['statusId'];
-              }
-
-            $results['status'] = '';
-            $skipMap[] = $this->prolog['meta_column'];
-            $skipMap[] = $this->prolog['key_column'];
-            $skipMap[] = "meta";
-            //we always skip these
-            $skipMap[] = 'parent_property';
-            $skipMap[] = 'parent_class';
-
-            if (!$property) {
-              //          create a new property
-              $results['status'] = 'created';
-              /** @var \SchemaProperty * */
-              $property = new \SchemaProperty;
-              $property->setSchema($this->vocabulary);
-              $property->setUri($uri);
-              $property->setCreatedUserId($this->userId);
-              $property->setCreatedAt($updateTime);
-              $property->save();
-
-              $propertyId = $property->getId();
-            }
-
-            if ($property->getLanguage() !== $rowLanguage) {
-              $property->setLanguage($rowLanguage);
-            }
-
-              $property->setStatusId($rowStatusId);
-
-              foreach (array_keys($row) as $key) {
-                  $value = $row[$key];
-                  $column = $this->prolog['columns'][$key];
-                  $propertyLanguage = $property->getLanguage();
-
-                  //do the special properties that are set from the
-                  if ($key === 'parent_class' && isset($row['type']) && 'subclass' === strtolower($row['type'])) {
-                      $property->setParentUri($this->getFqn($value));
-                      continue;
-                  }
-                  if ($key === 'parent_property' && isset($row['type']) && 'subproperty' === strtolower($row['type'])) {
-                      $property->setParentUri($this->getFqn($value));
-                      continue;
-                  }
-                  //do the nonliterals
-                  if (in_array($column['uri'], array(
-                        'rdfs:domain',
-                        'rdfs:range',
-                  ))) {
-                      $skipMap[] = self::setPropertyValue($value, $property, $column['name'], false, true);
-                      continue;
-                  }
-                  //do the literals
-                  if ($column['lang'] == $propertyLanguage) {
-                      if (in_array($column['uri'], array(
-                            'reg:name',
-                            'rdfs:label',
-                            'skos:definition',
-                            'rdfs:comment',
-                            'skos:scopeNote',
-                      ))) {
-                          $skipMap[] = self::setPropertyValue($value, $property, $column['name'], true, true);
-                      }
-
-                      if (empty($name) and 'reg:name' == $column['uri']) {
-                          $name = $value;
-                      }
-                      if (empty($label) and 'rdfs:label' == $column['uri']) {
-                          $label = $value;
-                      }
-                  }
-              }
-              if (empty($name) and ! empty($label)) {
-                  $property->setName(slugify($label));
-              }
-            $lowType = strtolower($row["type"]);
-            if (isset($row["type"])) {
-              $skipMap[] = "type";
-              if ($property->getType() != $lowType) {
-                $property->settype($lowType);
-              }
-            }
-
-            if ($property->isModified() or $property->isNew()) {
-              $property->setUpdatedUserId($this->userId);
-              $property->setUpdatedAt($updateTime);
-              //make sure this scrip has permission to write to php default session storage - /var/lib/php/session
-              $property->saveSchemaProperty($this->userId);
-            }
-
-            $results['id'] = $propertyId;
-            $results['uri'] = $property->getUri();
-            //unset($property);
-
-            //do the individual elements
-            /** @TODO: match the language */
-
-            //$elements = \SchemaPropertyElementPeer::getNonSchemaPropertyElements($results['id']);
-            //$elements = $property->getSchemaPropertyElementsRelatedBySchemaPropertyId();
-            $results['statements'] = array();
-
-            /** @todo get the current list of non-form-editor statements, indexed by full property, object, language */
-            /** @todo get the current list of non-form-editor statements, indexed by just the property */
-            //use these indexes below to figure out whether the statement needs to be updated
-
-            $StatementCounter = array();
-            foreach (array_keys($row) as $key) {
-              if ( is_array( $row[$key] ) )
-              {
-                //make a copy of the $row[$key] array
-                $statements        = $row[$key];
-                $profilePropertyId = $this->prolog['columns'][$key]['id'][0];
-                //get an array of exising values for this element that are not schema properties
+              if ($property) {
+                $oldElements = [];
+                $dbElements = $property->getSchemaPropertyElementsRelatedBySchemaPropertyId();
                 /** @var \SchemaPropertyElement $element */
-                $oldStatements = \SchemaPropertyElementPeer::lookupElement(
-                  $propertyId,
-                  $profilePropertyId,
-                  null,
-                  null,
-                  true
-                );
-
-                //for each existing element value
-                /** @var \SchemaPropertyElement $oldStatement */
-                foreach ( $oldStatements as $oldStatement )
-                {
-                  $foundOne = false;
-                  $counter  = 0;
-                  foreach ( $statements as $statementKey => $statement )
-                  {
-                    $cellType     = $this->getColLangType( $key, 'type', false, $counter );
-                    $cellLanguage = $this->getColLangType( $key, 'lang', false, $counter );
-                    if ( 'uri' === $cellType )
-                    {
-
-                      if ( $this->useCuries )
-                      {
-                        $statement = $this->getFqn( $statement );
-                      }
-                      if ( $statement == $oldStatement->getObject()
-                           && $profilePropertyId === $oldStatement->getProfilePropertyId()
-                      )
-                      {
-                        unset( $statements[$statementKey] );
-                        $foundOne = true;
+                foreach ($dbElements as $element) {
+                  $element->matchKey =
+                        md5(strval($element->getProfilePropertyId()) . strval($element->getLanguage())
+                            . $element->getObject());
+                }
+              } else {
+                //there's no existing property an we have to create a new one
+                $property = new \SchemaProperty();
+              }
+              foreach ($newElements as $key => $newElement) {
+                if ( ! empty($newElement['id']) and ! isset($oldElements[$key])) {
+                  $profileProperty = $newElement['property'];
+                  //walk the old elements looking for a match on predicate + language
+                  /** @var \SchemaPropertyElement $oldElement */
+                  foreach ($oldElements as $oldElement) {
+                    /** @var \SchemaPropertyElement $oldOne */
+                    $oldOne = &$oldElement['element'];
+                    if ($newElement['id'] == $oldOne->getProfilePropertyId()) {
+                      /** @var \ProfileProperty $profileProperty */
+                      if (($profileProperty->getHasLanguage() and $newElement['lang'] == $oldOne->getLanguage())
+                          or ! $profileProperty->getHasLanguage()
+                      ) {
+                        if ( ! empty($newElement['val'])) {
+                          $oldOne->setObject($newElement['val']);
+                          $oldOne->setUpdatedUserId($this->userId);
+                          $oldOne->setStatusId($row['status']);
+                          //$oldOne->save();
+                          $oldElement['status'] = "updated";
+                        } else {
+                          $oldOne->delete();
+                          $oldElement['status'] = "deleted";
+                        }
+                        //update the property value
+                        if ($profileProperty->getIsInForm()) {
+                          $this->setPropertyValue($newElement['val'], $property, $profileProperty->getName(),
+                                ! $profileProperty->getIsObjectProp());
+                        }
                         break;
                       }
                     }
-                    else
-                    {
-                      //if it's a match to the $row[$key] value then skip it; pop from $copyRow[$key] array
-                      if ( $statement == $oldStatement->getObject()
-                           && $profilePropertyId === $oldStatement->getProfilePropertyId()
-                           && $cellLanguage === $oldStatement->getLanguage()
-                      )
-                      {
-                        unset( $statements[$statementKey] );
-                        $foundOne = true;
-                        break;
-                      }
+                  }
+                  //we looked through them all, add a new one
+                  if (!empty($newElement['val'])) {
+                    $addMe = new \SchemaPropertyElement();
+                    $addMe->setObject($newElement['val']);
+                    //$addMe->setSchemaPropertyRelatedBySchemaPropertyId($property);
+                    $addMe->setCreatedUserId($this->userId);
+                    $addMe->setUpdatedUserId($this->userId);
+                    $addMe->setLanguage($newElement['lang']);
+                    $addMe->setProfilePropertyId($newElement['id']);
+                    $addMe->setStatusId($row['status']);
+                    $addMe->importId = $this->importId;
+                    //$addMe->save();
+                    $property->addSchemaPropertyElementRelatedBySchemaPropertyId($addMe);
+                    //update the property value
+                    if ($profileProperty->getIsInForm()) {
+                      $this->setPropertyValue($newElement['val'], $property, $profileProperty->getName(),
+                            ! $profileProperty->getIsObjectProp());
                     }
-                    $counter ++;
-                  }
-                  //if there's NO match to the $row[$key] value, then delete it;
-                  if ( ! $foundOne )
-                  {
-                    $oldStatement->setDeletedAt( $updateTime );
-                    $oldStatement->getUpdatedUserId( $this->userId );
-                    $oldStatement->save();
-                  }
-                }
-                //add whatever statements are left as new elements
-                foreach ( $statements as $value )
-                {
-                  $cellType     = $this->getColLangType( $key, 'type', false );
-                  $cellLanguage = $this->getColLangType( $key, 'lang', false );
-                  if ( 'uri' === $cellType and $this->useCuries )
-                  {
-                    $value = $this->getFqn( $value );
-                  }
-                  if ( ! empty( $value ) )
-                  {
-                    $results['statements'][] = self::SetPropertyElement( $key, $value, $propertyId, $updateTime, $rowStatusId, $cellLanguage, $cellType );
                   }
                 }
               }
-              else
-              {
-                $value = $row[$key];
-                //we skip because we already did them
-                if ( empty( $key ) or in_array( $key, $skipMap ) )
-                {
-                  continue;
-                }
-                $cellLanguage = $this->getColLangType( $key, 'lang', false );
-                //data type must be explicit
-                $cellType                = $this->getColLangType( $key, 'type', true );
-                $result = self::SetPropertyElement($key, $value, $propertyId, $updateTime, $rowStatusId, $cellLanguage,
-                      $cellType);
-                if ($result and is_array($result) and isset($result["status"]) and "skipped" != $result["status"]) {
-                  $results['statements'][] = $result;
-                }
+              //update the property
+              if ($property) {
+                $property->setStatusId($row['status']);
+                $property->save();
               }
             }
-
-            if ( ! empty($results['status'])) {
-              $this->results['success']['rows'][] = $results;
-            }
-          }
-          catch(\Exception $e) {
-            //            if there's an error of any kind, write to error log and continue
-            echo "Error on row: " . $this->rowCounter . ", " . $uri . "\n" . $e . "\n";
-          }
-          $objects = $this->vocabulary->countSchemaPropertys();
-
-          /* @todo if there's an error store it in the error array
-              if the error is fatal throw an exception */
-
-          //var_dump($row);
-        }
-      )
-    );
+            //var_dump($row);
+          }));
 
     /** @todo we need to make a second pass through to delete missing rows
      * for each schemaproperty in the database
@@ -758,8 +566,7 @@ class ImportVocab {
     //use the prolog to configure namespaces, look up correct resources in the database
     //store the row number of the first non-meta line
 
-    return  $workResults;
-
+    return $workResults;
   }
 
   /**
