@@ -47,7 +47,8 @@
     "bgcc/sf-select2-widgets-plugin": "~1.0",
     "league/plates": "2.*",
     "league/flysystem": "0.5.*",
-    "vlucas/phpdotenv": "1.*@dev"
+    "vlucas/phpdotenv": "1.*@dev",
+    "robmorgan/phinx": "*"
   },
 
   "autoload": {
