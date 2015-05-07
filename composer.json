@@ -36,7 +36,6 @@
     "semsol/arc2": "*",
     "easyrdf/easyrdf": "dev-master",
     "ml/json-ld": "dev-master",
-    "ddeboer/data-import": "*",
     "symfony/property-access": "*",
     "phpoffice/phpexcel": "*",
     "symfony/validator": "*",
@@ -48,7 +47,8 @@
     "league/plates": "2.*",
     "league/flysystem": "0.5.*",
     "vlucas/phpdotenv": "1.*@dev",
-    "robmorgan/phinx": "*"
+    "robmorgan/phinx": "*",
+    "ddeboer/data-import": "@stable"
   },
 
   "autoload": {
