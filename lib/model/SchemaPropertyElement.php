@@ -10,6 +10,8 @@
 class SchemaPropertyElement extends BaseSchemaPropertyElement
 {
   public $importId;
+  public $matchKey;
+  public $importStatus;
 
   /**
   * description
