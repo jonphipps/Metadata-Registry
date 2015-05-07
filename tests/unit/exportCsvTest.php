@@ -5,21 +5,19 @@ use Codeception\Specify;
 class exportCsvTest extends \Codeception\TestCase\Test
 {
     use Specify;
-
     /**
-     * @var UnitTester
+     * @var \UnitTester
      */
     protected $tester;
 
     /** @var  ExportVocab */
     protected $export;
-
-    protected function  before()
+    protected function _before()
     {
         $this->export = new ExportVocab(1, 2);
     }
 
-    protected function  after()
+    protected function _after()
     {
     }
 
@@ -42,7 +40,6 @@ class exportCsvTest extends \Codeception\TestCase\Test
             //export as rdf
             //export as excel
             //fully populated or empty
-
     }
 
 }

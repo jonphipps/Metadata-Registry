@@ -17,9 +17,9 @@ class importUpdateTest extends \Codeception\TestCase\Test
 
     protected function _before()
     {
+        $this->tester->resetDatabase2('swregistry_test_update.sql');
         $this->import = new ImportVocab("schema", "updatedata.csv", 1);
         $this->import->importFolder = "/var/www/registry/plugins/jpAdminGeneratorPlugin/lib/ImportVocab/tests/_data/";
-        $this->tester->resetDatabase2('swregistry_test_update.sql');
     }
 
     protected function _after()

@@ -1,0 +1,5 @@
+# `normal` environment config goes here
+modules:
+  config:
+    Db:
+      dump: tests/_data/swregistry_test.sql

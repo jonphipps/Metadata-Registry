@@ -1,12 +1,11 @@
 <?php
-namespace Codeception\Module;
-
+namespace Helper;
 // here you can define custom actions
 // all public methods declared in helper class will be available in $I
 
-use Codeception\Codecept;
+use Codeception\Module;
 
-class UnitHelper extends \Codeception\Module
+class Unit extends Module
 {
     /**
      * @param $table
@@ -36,7 +35,6 @@ class UnitHelper extends \Codeception\Module
         $res = $propTable::doCount($c);
         \PHPUnit_Framework_Assert::assertEquals($TestCount, $res);
     }
-
     /**
      * @param $dumpFile
      * @throws \Codeception\Exception\Module

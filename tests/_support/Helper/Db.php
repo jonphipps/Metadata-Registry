@@ -1,12 +1,10 @@
 <?php
-namespace Codeception\Module;
-
+namespace Helper;
 // here you can define custom actions
 // all public methods declared in helper class will be available in $I
 
 use Codeception\Configuration;
-
-class DbHelper extends Db
+class Db extends \Codeception\Module\Db
 {
     public function __construct()
     {
