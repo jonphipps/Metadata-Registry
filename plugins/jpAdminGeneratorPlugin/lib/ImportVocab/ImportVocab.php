@@ -159,7 +159,7 @@ class ImportVocab {
     /** @var $vocabulary \Schema */
     $vocabulary = \SchemaPeer::doSelectOne($criteria);
     if (!$vocabulary) {
-      //TODO: turn this into a real error message and exit grcefully
+      //TODO: turn this into a real error message and exit gracefully
       exit("No vocab!!!!!");
     }
     $this->vocabulary = $vocabulary;
