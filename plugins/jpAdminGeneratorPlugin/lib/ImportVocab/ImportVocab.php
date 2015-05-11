@@ -127,30 +127,32 @@ class ImportVocab {
     $this->useCuries = true;
 
     //TODO: store and retrieve this map from the database and associate with the agent(master template)/vocab(template)/batch(template)
-    $this->mapping = array(
-      "rdfs:comment"           => "comment",
-      "rdfs:label"             => "label",
-      "skos:definition"        => "definition",
-      "skos:scopeNote"         => "note",
-      "rdfs:domain"            => "domain",
-      "rdfs:range"             => "orange",
-      "rdfs:subPropertyOf"     => "subPropertyOf",
-      "rdfs:subClassOf"        => "subClassOf",
-      "reg:type"               => "type",
-      "reg:name"               => "name",
-      "owl:equivalentProperty" => "equivalentProperty",
-      "owl:sameAs"             => "sameAs",
-      "owl:inverseOf"          => "inverseOf",
-      "skos:altLabel"          => "altLabel",
-      "skos:broadMatch"        => "broadMatch",
-      "skos:closeMatch"        => "closeMatch",
-      "skos:narrowMatch"       => "narrowMatch",
-      "ParentProperty"         => "parent_uri",
-      "parent_class"           => "parent_class",
-      "parent_property"        => "parent_property",
-      "reg:status"             => "status"
-    );
+    $this->setVocabularyParams();
+    $this->mapping = $this->makeMap();
   }
+
+  public function makeMap()
+  {
+    $profileProperties = $this->vocabulary->getAllProfileProperties(true);
+    $languages = $this->vocabulary->getLanguages();
+    $map = new MappingItemConverter();
+    foreach ($profileProperties as $property) {
+      /** @var \ProfileProperty $profile */
+      $profile = $property['profile'];
+      $this->profileProperties[$profile->getId()] = $profile;
+      if (isset($property['languages'])) {
+        foreach ($languages as $language) {
+          {
+            $map->addMapping($profile->getLabel() . " (" . $language . ")",  $property['id'] . " (" . $language . ")");
+          }
+        }
+      } else {
+        $map->addMapping($profile->getLabel(), $property['id']);
+      }
+    }
+    return $map;
+  }
+
 
   public function  setVocabularyParams() {
     //use the prolog to look up correct resources in the database
@@ -241,6 +243,7 @@ class ImportVocab {
     );
     /** @var $filter Filter\CallbackFilter */
     $workflow->addFilter($filter);
+    $workflow->addItemConverter($this->mapping);
     $workflow->addWriter(new Writer\ConsoleProgressWriter($output, $this->reader));
     $workflow->addWriter(
       new Writer\CallbackWriter(
@@ -360,7 +363,6 @@ class ImportVocab {
 
   public function processParents() {
     //spin through file again, now that the database is populated, and cleanup all of the parental relationships
-    $this->setVocabularyParams();
     $reader = new ArrayReader($this->results['success']['rows']);
     $workflow = new Workflow($reader);
     $output = new ConsoleOutput();
