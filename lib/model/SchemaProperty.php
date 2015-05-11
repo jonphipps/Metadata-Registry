@@ -12,8 +12,7 @@
 
         public function getLabelForSelect()
         {
-            return $this->getName() . " (" . $this->getLanguage() . ") :: " . $this->getLabel() . " -- "
-                   . $this->getUri();
+        return $this->getName() . " (" . $this->getLanguage() . ") :: " . $this->getLabel() . " -- " . $this->getUri();
         }
 
         public function getCurrentLanguage()
@@ -232,14 +231,19 @@
      * @throws Exception
      * @throws PropelException
      */
-    public function saveSchemaProperty($userId) {
+    public function saveSchemaProperty($userId)
+    {
       //if the property is modified then
       if ($this->isModified() || $this->isNew()) {
 
         $fields = Schema::getProfileArray();
         /** @var $field ProfileProperty */
         foreach ($fields as $field) {
-          $fieldIds[sfInflector::underscore($field->getName())]=["id" => $field->getId(), "hasLang" => $field->getHasLanguage()];
+                $fieldIds[sfInflector::underscore($field->getName())] =
+                      [
+                            "id" => $field->getId(),
+                            "hasLang" => $field->getHasLanguage(),
+                      ];
         }
 
         $statusId = $this->getStatusId();
