@@ -1,7 +1,5 @@
 <?php
-use Codeception\Util\Stub;
-use Codeception\Util\Fixtures;
-use ImportVocab\ImportVocab;
+require_once("_bootstrap.php");
 
 class importUpdateTest extends \Codeception\TestCase\Test
 {
