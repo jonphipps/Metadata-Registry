@@ -17,9 +17,6 @@ class importUpdateTest extends \Codeception\TestCase\Test
 
     protected function _before()
     {
-        $this->tester->resetDatabase2('swregistry_test_update.sql');
-        $this->import = new ImportVocab("schema", "updatedata.csv", 1);
-        $this->import->importFolder = "/var/www/registry/plugins/jpAdminGeneratorPlugin/lib/ImportVocab/tests/_data/";
     }
 
     protected function _after()
@@ -27,39 +24,6 @@ class importUpdateTest extends \Codeception\TestCase\Test
     }
 
     // tests
-    public function testCodecep_setup()
-    {
-        echo var_dump(get_class($this->import));
-        verify(
-          "ImportVocab is a class = " . get_class($this->import),
-          get_class($this->import) == 'ImportVocab\ImportVocab'
-        )->true();
-        $this->tester->canSeeInDatabase('reg_schema_property', ['id' => 1, "name" => 'subjectTo']);
-        $this->tester->canSeeInDatabase('reg_schema_property_element', ['id' => 1, "object" => 'subjectTo']);
-        $this->tester->canSeeInDatabase('reg_schema_property_element_history', ['id' => 1, "object" => 'subjectTo']);
-    }
-
-    public function testClass_initialized_properly()
-    {
-        $this->assertEquals("schema", $this->import->type, "the type is set to 'schema'");
-        $this->assertEquals("updatedata.csv", $this->import->file, "the file is set to 'updatedata.csv'");
-        $this->assertEquals(1, $this->import->vocabId, "the vocabid is set to '1'");
-        $this->assertTrue(is_integer($this->import->vocabId), "the vocabid is an integer");
-        $this->assertEquals(
-          "/var/www/registry/plugins/jpAdminGeneratorPlugin/lib/ImportVocab/tests/_data/updatedata.csv",
-          $this->import->importFolder . $this->import->file,
-          "the path is set"
-        );
-    }
-
-    public function testOpenFile()
-    {
-        $reader = $this->import->setCsvReader($this->import->file);
-        verify(
-          "Reading the file doesn't return an error",
-          get_class($reader)
-        )->equals("Ddeboer\\DataImport\\Reader\\CsvReader");
-    }
 
     // These tests determine if a changed csv properly updates the db and records the correct history
     // It won't delete any data
@@ -67,14 +31,14 @@ class importUpdateTest extends \Codeception\TestCase\Test
     {
         $I=$this->tester;
         $I->wantToTest("if a changed cell in the main table gets changed");
-        $I->seeRecordCountInDatabaseTable("SchemaPropertyElement", 140);
-        $I->seeRecordCountInDatabaseTable("SchemaProperty", 12);
-        $I->seeRecordCountInDatabaseTable("SchemaPropertyElementHistory", 146);
-        $I->canSeeInDatabase('reg_schema_property', ['id' => 1, "definition" => "This property associates a publication, i.e. an instance of F3 Manifestation Product Type, with an instance of E30 Right, which applies to all exemplars of that publication, as long as they are recognised as exemplars of that publication."]);
+        //$I->seeRecordCountInDatabaseTable("SchemaPropertyElement", 140);
+        $I->seeRecordCountInDatabaseTable("SchemaProperty", 1);
+        //$I->seeRecordCountInDatabaseTable("SchemaPropertyElementHistory", 146);
+        //$I->canSeeInDatabase('reg_schema_property', ['id' => 81, "definition" => "This property associates a publication, i.e. an instance of F3 Manifestation Product Type, with an instance of E30 Right, which applies to all exemplars of that publication, as long as they are recognised as exemplars of that publication."]);
         $this->import->setCsvReader($this->import->file);
         $this->import->processProlog();
         $prolog    = $this->import->prolog;
-        $this->assertEquals(14, count($prolog['columns']), "There are the correct number of columns");
+        $this->assertEquals(16, count($prolog['columns']), "There are the correct number of columns");
         $this->assertEquals(6, count($prolog['prefix']), "There are the correct number of prefix entries");
         $this->assertEquals(10, count($prolog['meta']), "There are the correct number of meta entries");
         $this->import->getDataColumnIds();
