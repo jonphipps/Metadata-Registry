@@ -7,6 +7,7 @@
 namespace ImportVocab;
 
 use Ddeboer\DataImport\ItemConverter\MappingItemConverter;
+use Ddeboer\DataImport\ItemConverter\NestedMappingItemConverter;
 use Ddeboer\DataImport\Reader\ArrayReader;
 use Ddeboer\DataImport\Reader\CsvReader;
 use Ddeboer\DataImport\Workflow;
@@ -89,6 +90,8 @@ class ImportVocab {
   public $vocabulary;
   /** @var int */
   public $importId;
+  /** @var  \ProfileProperty[] */
+  public $profileProperties;
 
   /**
    * @param $type     string (schema|vocab)
@@ -109,11 +112,6 @@ class ImportVocab {
     $this->prolog['meta'] = array();
     $this->prolog['prefix'] = array();
     $this->prolog['defaults'] = array();
-
-    //these values are set dynamically based on column position rather than actual hard-coded values in processProlog()
-    $this->prolog['meta_column'] = ''; //column '0'
-    $this->prolog['key_column'] = 'reg_id'; //column '1'
-    $this->prolog['value_column'] = 'owl:sameAs'; //column '2'
 
     $this->results['errors']['error'] = array();
     $this->results['errors']['warning'] = array();
@@ -248,6 +246,12 @@ class ImportVocab {
     $workflow->addWriter(
       new Writer\CallbackWriter(
         function ($row) {
+          if (array_keys($row)[2] !== $this->prolog['value_column'][2]) {
+            $this->prolog['meta_column'] = array_keys($row)[0];
+            $this->prolog['key_column'] = array_keys($row)[1];
+            $this->prolog['value_column'] = array_keys($row)[2];
+          }
+
           //if the columns array is empty, set it from the headers
 //                     if (! count($this->prolog['columns'])) {
 //                         foreach ($row as $key => $column) {
@@ -410,7 +414,7 @@ class ImportVocab {
           }
           else {
             //we have an error!!!! log it
-            $this->results['errors']['notice']['rows'][$this->rowCounter] = "some error in this row";
+            $this->results['errors']['notice']['rows'][$this->rowCounter] = 'some error in this row';
           }
 
           //now do the individual added statements
@@ -418,7 +422,7 @@ class ImportVocab {
           /** @var \SchemaPropertyElement $element */
           foreach ($elements as $element) {
             $profileProperty = $element->getProfileProperty();
-            if (! $profileProperty->getHasLanguage() && 'reg:uri' != $profileProperty->getUri()) {
+            if (! $profileProperty->getHasLanguage() && 'reg:uri' !== $profileProperty->getUri()) {
                 $relatedProperty = \SchemaPropertyPeer::retrieveByUri($element->getObject());
                 if ($relatedProperty and $element->getRelatedSchemaPropertyId() != $relatedProperty->getId())
                 {
@@ -441,52 +445,177 @@ class ImportVocab {
 
   public function processData()
   {
-    $this->setVocabularyParams();
     $workflow = new Workflow($this->reader);
     $output = new ConsoleOutput();
     // Don’t import the non-metadata
     $filter = new Filter\CallbackFilter(function ($row) {
-      return ! trim($row[$this->prolog['meta_column']]) or is_numeric($row[$this->prolog['meta_column']]);
+      return ( ! trim($row[$this->prolog['meta_column']]) or is_numeric($row[$this->prolog['meta_column']]))
+             and function ($row) {
+        foreach ($row as $item) {
+          if ( ! is_array($item) and trim($item)) {
+            return true;
+          } else {
+            foreach ($item as $foo) {
+              if (trim($foo)) {
+                return true;
+              }
+            }
+          }
+        }
+        return false;
+      };
     });
-    //$converter = new MappingItemConverter($this->mapping);
-    //$workflow->addItemConverter($converter);
+    $workflow->addItemConverter($this->mapping);
     /** @var $filter Filter\CallbackFilter */
     $workflow->addFilter($filter);
     $workflow->addWriter(new Writer\ConsoleProgressWriter($output, $this->reader));
     //add a database writer
     $workflow->addWriter(new Writer\CallbackWriter(function ($row) {
-            //build an array of references
-            if ( ! array_filter($row, 'trim')) {
-              return;
+      if ( ! empty($row[$this->prolog['meta_column']])) {
+        $property = \SchemaPropertyPeer::retrieveByPK($row[$this->prolog['meta_column']]);
+        if ($property) {
+          $dbElements = $property->getElementsForImport($this->profileProperties);
+          foreach ($dbElements as $key => $dbElement) {
+            if (isset($row[$key])) {
+              if ($row[$key] = $dbElement->getObject()) {
+                unset($row[$key]);
+              }
+            } else {
+              //there's no matching column so deprecate the element
+              $dbElement->setStatusId(8);
+              $dbElement->setUpdatedUserId($this->userId);
+              $dbElement->importId = $this->importId;
+              $dbElement->save();
+              $profileProperty = $this->profileProperties[$dbElement->getProfilePropertyId()];
+              if ($profileProperty->getIsInForm() and $property->getLanguage() == $dbElement->getLanguage())
+              {
+                $this->setPropertyValue('',$property,$profileProperty->getName(), ! $profileProperty->getIsObjectProp());
+              }
             }
+          }
+        }
+
+      }
+          //build an array of references
             $newElements = [];
+            $newElements2 = [];
             if ( ! isset($row['status'])) {
-              $row['status'] = $this->prolog['defaults']['statusId'];
+              $row[14] = $this->prolog['defaults']['statusId'];
             }
             foreach ($row as $key => $element) {
-              if ( ! empty($this->prolog['columns'][$key]['type'])) {
-                if ($this->useCuries) {
+              //skip it there's no property id
+              $columnKey = $this->prolog['columns'][$key];
+              if (! $columnKey['id'])
+              {
+                continue;
+              }
+
+              if ( ! empty($columnKey['type']) and $this->useCuries) {
                   $element = $this->getFqn($element);
+              }
+
+              $key2 = md5(
+                          strval($columnKey['id']) .
+                          strval($columnKey['lang']) .
+                          $element);
+              $newElements[$key2] = [];
+              $newElements[$key2] += $columnKey;
+              $newElements[$key2]['val'] = $element;
+              /** @var \ProfileProperty $profileProperty */
+              if (isset($columnKey['property'])) {
+                $profileProperty = $columnKey['property'];
+                $var =
+                      array(
+                            'matchkey' => $key2,
+                            'val'      => $newElements[$key2],
+                      );
+                if (isset($profileProperty) and $profileProperty->getHasLanguage()) {
+                  $newElements2[$columnKey['id']][$columnKey['lang']][] = $var;
+                } else {
+                  $newElements2[$columnKey['id']][] = $var;
                 }
               }
-              $key2 =
-                    md5(strval($this->prolog['columns'][$key]['id']) . strval($this->prolog['columns'][$key]['lang'])
-                        . $element);
-              $newElements[$key2] = [];
-              $newElements[$key2] += $this->prolog['columns'][$key];
-              $newElements[$key2]['val'] = $element;
             }
             if ( ! empty($row[$this->prolog['meta_column']])) {
               $property = \SchemaPropertyPeer::retrieveByPK($row[$this->prolog['meta_column']]);
               if ($property) {
-                $oldElements = [];
-                $dbElements = $property->getSchemaPropertyElementsRelatedBySchemaPropertyId();
+                $dbElements = $property->getSchemaPropertyElementsRelatedBySchemaPropertyIdJoinProfileProperty();
+                $dbElements2 = [];
+                /** @var \SchemaPropertyElement $dbElement */
+                foreach ($dbElements as $dbElement) {
+                  if ($dbElement->getProfileProperty()->getHasLanguage()) {
+                    $dbElements2[$dbElement->getProfilePropertyId()][$dbElement->getLanguage()][] = &$dbElement;
+                  } else {
+                    $dbElements2[$dbElement->getProfilePropertyId()][] = &$dbElement;
+                  }
+                }
+
                 /** @var \SchemaPropertyElement $element */
                 foreach ($dbElements as $element) {
-                  $element->matchKey =
-                        md5(strval($element->getProfilePropertyId()) . strval($element->getLanguage())
-                            . $element->getObject());
+                  $language = $element->getLanguage();
+                  $profilePropertyId = $element->getProfilePropertyId();
+                  $key = md5(
+                              strval($profilePropertyId) .
+                              strval($language) .
+                              $element->getObject());
+                  //if the newelement key matches then
+                  if (isset($newElements[$key])) {
+                    if ($element->getProfileProperty()->getHasLanguage()) {
+                      $newElements2Array = $newElements2[$profilePropertyId][$language];
+                    } else {
+                      $newElements2Array = $newElements2[$profilePropertyId];
+                    }
+                    $count = count($newElements2Array);
+                    for ($I = 0; $I < $count; $I ++) {
+                      if ($newElements2Array[$I]['matchkey'] == $key) {
+                        unset($newElements2Array[$I]);
+                      }
+                    }
+                    unset($newElements[$key]);
+                    $element->importStatus = 'match';
+                    continue;
+                  } else {
+                    if ($element->getProfileProperty()->getHasLanguage()) {
+                      if (isset($newElements2[$profilePropertyId][$language])) {
+                        $count = count($newElements2[$profilePropertyId][$language]);
+                        for ($I = 0; $I < $count; $I ++) {
+                          if ($newElements2[$profilePropertyId][$language][$I]['val']['val'] == $element->getObject()) {
+                            unset($newElements2[$profilePropertyId][$language][$I]);
+                            $element->importStatus = 'match';
+                            if (!count($newElements2[$profilePropertyId][$language]))
+                            {
+                              unset($newElements2[$profilePropertyId][$language]);
+                            }
+                            continue;
+                          }
+                        }
+                      }
+                    } else {
+                      //compare the old values with the new with the same key
+                      $count = count($newElements2[$profilePropertyId]);
+                      for ($I = 0; $I < $count; $I ++) {
+                        if (isset($newElements2[$profilePropertyId][$I])) {
+                          if ($newElements2[$profilePropertyId][$I]['val']['val'] == $element->getObject()) {
+                            unset($newElements2[$profilePropertyId][$I]);
+                            $element->importStatus = 'match';
+                            continue;
+                          }
+                        }
+                      }
+                    }
+                    //if the key matches then
+                    //if the value matches
+                    //delete the newElement
+                    //else the value doesn't match
+                    //if the newElement value is empty
+                    //delete the dbElement
+
+                  }
+
+                  $element->matchKey = $key;
                 }
+                //update the property values
+                $property->save();
               } else {
                 //there's no existing property an we have to create a new one
                 $property = new \SchemaProperty();
@@ -496,7 +625,7 @@ class ImportVocab {
                   $profileProperty = $newElement['property'];
                   //walk the old elements looking for a match on predicate + language
                   /** @var \SchemaPropertyElement $oldElement */
-                  foreach ($oldElements as $oldElement) {
+                  foreach ($dbElements as $oldElement) {
                     /** @var \SchemaPropertyElement $oldOne */
                     $oldOne = &$oldElement['element'];
                     if ($newElement['id'] == $oldOne->getProfilePropertyId()) {
@@ -633,7 +762,7 @@ class ImportVocab {
     $import->setFileName($this->file);
     $import->setFileType($this->type);
     //todo $this->mapping isn't correct
-    $import->setMap($this->mapping);
+    //$import->setMap($this->mapping);
     $import->setResults($this->results);
     $import->setUserId($this->userId);
     $import->setSchemaId($this->vocabId);
