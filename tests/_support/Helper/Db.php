@@ -11,7 +11,7 @@ class Db extends \Codeception\Module\Db
         //grab the global config file
         $config = Configuration::config();
         //get  the unit settings
-        $settings = Configuration::suiteSettings("unit", $config);
+        $settings = Configuration::suiteSettings("import", $config);
         //get the settings for the db module
         $dbConfig = (isset($settings['modules']['config']['Db'])) ? $settings['modules']['config']['Db'] : array();
         $dbConfig['user'] = $_ENV['db_user'];

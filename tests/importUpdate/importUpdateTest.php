@@ -1,4 +1,7 @@
 <?php
+use Codeception\Util\Fixtures;
+use ImportVocab\ImportVocab;
+
 require_once("_bootstrap.php");
 
 class importUpdateTest extends \Codeception\TestCase\Test
@@ -15,6 +18,8 @@ class importUpdateTest extends \Codeception\TestCase\Test
 
     protected function _before()
     {
+        $this->import = new ImportVocab("schema", "updatedata.csv", 81);
+        $this->import->importFolder = Fixtures::get("importFolder");
     }
 
     protected function _after()
