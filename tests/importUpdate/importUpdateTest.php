@@ -34,16 +34,8 @@ class importUpdateTest extends \Codeception\TestCase\Test
     {
         $I=$this->tester;
         $I->wantToTest("if a changed cell in the main table gets changed");
-        //$I->seeRecordCountInDatabaseTable("SchemaPropertyElement", 140);
-        $I->seeRecordCountInDatabaseTable("SchemaProperty", 1);
-        //$I->seeRecordCountInDatabaseTable("SchemaPropertyElementHistory", 146);
-        //$I->canSeeInDatabase('reg_schema_property', ['id' => 81, "definition" => "This property associates a publication, i.e. an instance of F3 Manifestation Product Type, with an instance of E30 Right, which applies to all exemplars of that publication, as long as they are recognised as exemplars of that publication."]);
         $this->import->setCsvReader($this->import->file);
         $this->import->processProlog();
-        $prolog    = $this->import->prolog;
-        $this->assertEquals(16, count($prolog['columns']), "There are the correct number of columns");
-        $this->assertEquals(15, count($prolog['prefix']), "There are the correct number of prefix entries");
-        $this->assertEquals(9, count($prolog['meta']), "There are the correct number of meta entries");
         $this->import->getDataColumnIds();
         $this->import->processData();
         $results = $this->import->results['success'];
