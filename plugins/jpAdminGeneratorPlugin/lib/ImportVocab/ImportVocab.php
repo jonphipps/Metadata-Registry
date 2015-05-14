@@ -312,10 +312,6 @@ class ImportVocab {
     public function getDataColumnIds()
     {
         //use the prolog to look up correct resources in the database
-        $criteria = new \Criteria();
-        $criteria->add(\ProfilePropertyPeer::PROFILE_ID, 1);
-        $this->prolog[ 'profileProperties' ] = \ProfilePropertyPeer::doSelect($criteria);
-        //get the curies
         /** @var $property \ProfileProperty */
         foreach ($this->prolog[ 'profileProperties' ] as $property) {
             $uri = $property->getUri();
@@ -980,7 +976,7 @@ class ImportVocab {
         $profilePropertyId = $element->getProfilePropertyId();
       }
       /** @var \ProfileProperty $profileProperty */
-      $profileProperty = $this->prolog['profileProperties'][$profilePropertyId];
+      $profileProperty = $this->profileProperties[$profilePropertyId];
       $StatementCounter['column'] = $key;
       $StatementCounter['id'] = $element->getId();
       $StatementCounter['propertyId'] = $element->getProfilePropertyId();
