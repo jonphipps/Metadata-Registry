@@ -23,6 +23,10 @@ class ImportVocab {
   /**
    * @var integer
    */
+  public $prologRowCount;
+  /**
+   * @var integer
+   */
   private $rowCounter;
   /**
    * @var \sfDatabaseManager
@@ -61,6 +65,8 @@ class ImportVocab {
    */
   public $results = array ();
   /** @var \Ddeboer\DataImport\Result */
+  public $processPrologResults;
+  /** @var \Ddeboer\DataImport\Result */
   public $DataWorkflowResults;
   /** @var \Ddeboer\DataImport\Result */
   public $ParentWorkflowResults;
@@ -94,6 +100,7 @@ class ImportVocab {
   public $importId;
   /** @var  \ProfileProperty[] */
   public $profileProperties;
+  public $processPrologResult;
 
   /**
    * @param $type     string (schema|vocab)
@@ -282,7 +289,7 @@ class ImportVocab {
       )
     );
     //$workflow->addWriter(new Writer\ArrayWriter($testArray));
-    $workflowResult = $workflow->process();
+    $this->processPrologResults = $workflow->process();
     //add the token and the base_domain to the prefixes
     if (! array_key_exists($this->prolog[ 'meta' ][ 'token' ], $this->prolog[ 'prefix' ])) {
       $this->prolog[ 'prefix' ][ $this->prolog[ 'meta' ][ 'token' ] ] = $this->prolog[ 'meta' ][ 'base_domain' ];
@@ -296,6 +303,7 @@ class ImportVocab {
     //use the prolog to configure namespaces, look up correct resources in the database
     $this->getDataColumnIds();
     //store the row number of the first non-meta line
+    $this->prologRowCount = $this->reader->count() - 2;
 
     return $this->prolog;
 
@@ -432,7 +440,7 @@ class ImportVocab {
     );
     $results =$workflow->process();
     $this->ParentWorkflowResults = $results;
-    return $results;
+    //return $results;
     //use the prolog to configure namespaces, look up correct resources in the database
     //store the row number of the first non-meta line
 
@@ -444,10 +452,8 @@ class ImportVocab {
     $output = new ConsoleOutput();
     // Don’t import the non-metadata
     $filter = new Filter\CallbackFilter(function ($row) {
-      if ( ! trim($row['reg_id']) or is_numeric($row['reg_id'])) {
-        return true;
-      }
-
+      if(is_numeric($row['reg_id'])) return true;
+      if (! trim($row['reg_id']) ) {
       foreach ($row as $item) {
         if ( ! is_array($item) and trim($item)) {
           return true;
@@ -463,6 +469,7 @@ class ImportVocab {
       return false;
     });
     $workflow->addItemConverter($this->mapping);
+    $workflow->addFilter(new Filter\OffsetFilter($this->prologRowCount, null));
     /** @var $filter Filter\CallbackFilter */
     $workflow->addFilter($filter);
     $workflow->addWriter(new Writer\ConsoleProgressWriter($output, $this->reader));
