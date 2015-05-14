@@ -46,7 +46,7 @@ class importUpdateTest extends \Codeception\TestCase\Test
         $this->assertEquals(81, $this->import->vocabId, "the vocabid is set to '81'");
         $this->assertTrue(is_integer($this->import->vocabId), "the vocabid is an integer");
         $this->assertEquals(
-          "/var/www/registry/plugins/jpAdminGeneratorPlugin/lib/ImportVocab/tests/_data/updatedata.csv",
+          Fixtures::get("importFolder")."updatedata.csv",
           $this->import->importFolder . $this->import->file,
           "the path is set"
         );
