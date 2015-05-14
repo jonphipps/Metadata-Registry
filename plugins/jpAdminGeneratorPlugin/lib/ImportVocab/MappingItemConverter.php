@@ -7,6 +7,10 @@
 namespace ImportVocab;
 
 
-class MappingItemConverter {
+class MappingItemConverter extends \Ddeboer\DataImport\ItemConverter\MappingItemConverter{
 
+    public function getMappings()
+    {
+        return $this->mappings;
+    }
 }

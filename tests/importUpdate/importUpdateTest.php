@@ -42,8 +42,8 @@ class importUpdateTest extends \Codeception\TestCase\Test
         $this->import->processProlog();
         $prolog    = $this->import->prolog;
         $this->assertEquals(16, count($prolog['columns']), "There are the correct number of columns");
-        $this->assertEquals(6, count($prolog['prefix']), "There are the correct number of prefix entries");
-        $this->assertEquals(10, count($prolog['meta']), "There are the correct number of meta entries");
+        $this->assertEquals(15, count($prolog['prefix']), "There are the correct number of prefix entries");
+        $this->assertEquals(9, count($prolog['meta']), "There are the correct number of meta entries");
         $this->import->getDataColumnIds();
         $this->import->processData();
         $results = $this->import->results['success'];

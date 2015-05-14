@@ -6,8 +6,6 @@
 
 namespace ImportVocab;
 
-use Ddeboer\DataImport\ItemConverter\MappingItemConverter;
-use Ddeboer\DataImport\ItemConverter\NestedMappingItemConverter;
 use Ddeboer\DataImport\Reader\ArrayReader;
 use Ddeboer\DataImport\Reader\CsvReader;
 use Ddeboer\DataImport\Workflow;
@@ -43,9 +41,13 @@ class ImportVocab {
    */
   public $importFolder;
   /**
-   * @var array of mapping values
+   * @var MappingItemConverter
    */
-  public $mapping = array ();
+  public $mapping;
+  /**
+   * @var array of column Reverse mapping values
+   */
+  public $columnMap = array();
   /**
    * @var array
    */
@@ -142,11 +144,13 @@ class ImportVocab {
         foreach ($languages as $language) {
           {
             $map->addMapping($profile->getLabel() . " (" . $language . ")",  $property['id'] . " (" . $language . ")");
+            $this->columnMap[$property['id'] . " (" . $language . ")"] = $profile->getLabel() . " (" . $language . ")";
           }
         }
       } else {
         $map->addMapping($profile->getLabel(), $property['id']);
-      }
+        $this->columnMap[$property['id']] = $profile->getLabel();
+        }
     }
     return $map;
   }
@@ -224,18 +228,13 @@ class ImportVocab {
   public function processProlog() {
     $testArray = array();
     $this->setCsvReader($this->file);
-    //set the prolog columns
-    //Note: this makes a valid assumption about the content of the first 3 columns in a file containing an inline prolog
-    $this->prolog['meta_column'] = $this->reader->getColumnHeaders()[0];
-    $this->prolog['key_column'] = $this->reader->getColumnHeaders()[1];
-    $this->prolog['value_column'] = $this->reader->getColumnHeaders()[2];
 
     $workflow = new Workflow($this->reader);
     $output = new ConsoleOutput();
     // Don’t import the non-metadata
     $filter = new Filter\CallbackFilter(
       function ($row) {
-        $i = trim($row[$this->prolog['meta_column']]);
+        $i = trim($row['reg_id']);
         return !empty($i);
       }
     );
@@ -246,11 +245,8 @@ class ImportVocab {
     $workflow->addWriter(
       new Writer\CallbackWriter(
         function ($row) {
-          if (array_keys($row)[2] !== $this->prolog['value_column'][2]) {
-            $this->prolog['meta_column'] = array_keys($row)[0];
-            $this->prolog['key_column'] = array_keys($row)[1];
-            $this->prolog['value_column'] = array_keys($row)[2];
-          }
+
+          $this->setPrologColumns();
 
           //if the columns array is empty, set it from the headers
 //                     if (! count($this->prolog['columns'])) {
@@ -261,7 +257,7 @@ class ImportVocab {
 //                         }
 //                     }
           //if this is meta store it in the array
-          $meta = mb_strtolower(trim($row[$this->prolog['meta_column']]));
+          $meta = mb_strtolower(trim($row['reg_id']));
           switch ($meta) {
             case "uri":
             case "lang":
@@ -282,12 +278,11 @@ class ImportVocab {
 
           //if there's an error store it in the error array
           //if the error is fatal throw an exception
-          //var_dump($this->prolog);
         }
       )
     );
     //$workflow->addWriter(new Writer\ArrayWriter($testArray));
-    $workflow->process();
+    $workflowResult = $workflow->process();
     //add the token and the base_domain to the prefixes
     if (! array_key_exists($this->prolog[ 'meta' ][ 'token' ], $this->prolog[ 'prefix' ])) {
       $this->prolog[ 'prefix' ][ $this->prolog[ 'meta' ][ 'token' ] ] = $this->prolog[ 'meta' ][ 'base_domain' ];
@@ -449,21 +444,23 @@ class ImportVocab {
     $output = new ConsoleOutput();
     // Don’t import the non-metadata
     $filter = new Filter\CallbackFilter(function ($row) {
-      return ( ! trim($row[$this->prolog['meta_column']]) or is_numeric($row[$this->prolog['meta_column']]))
-             and function ($row) {
-        foreach ($row as $item) {
-          if ( ! is_array($item) and trim($item)) {
-            return true;
-          } else {
-            foreach ($item as $foo) {
-              if (trim($foo)) {
-                return true;
-              }
+      if ( ! trim($row['reg_id']) or is_numeric($row['reg_id'])) {
+        return true;
+      }
+
+      foreach ($row as $item) {
+        if ( ! is_array($item) and trim($item)) {
+          return true;
+        } else {
+          foreach ($item as $foo) {
+            if (trim($foo)) {
+              return true;
             }
           }
         }
-        return false;
-      };
+      }
+
+      return false;
     });
     $workflow->addItemConverter($this->mapping);
     /** @var $filter Filter\CallbackFilter */
@@ -471,8 +468,9 @@ class ImportVocab {
     $workflow->addWriter(new Writer\ConsoleProgressWriter($output, $this->reader));
     //add a database writer
     $workflow->addWriter(new Writer\CallbackWriter(function ($row) {
-      if ( ! empty($row[$this->prolog['meta_column']])) {
-        $property = \SchemaPropertyPeer::retrieveByPK($row[$this->prolog['meta_column']]);
+      $this->setPrologColumns();
+      if ( ! empty($row['reg_id'])) {
+        $property = \SchemaPropertyPeer::retrieveByPK($row['reg_id']);
         if ($property) {
           $dbElements = $property->getElementsForImport($this->profileProperties);
           foreach ($dbElements as $key => $dbElement) {
@@ -536,8 +534,8 @@ class ImportVocab {
                 }
               }
             }
-            if ( ! empty($row[$this->prolog['meta_column']])) {
-              $property = \SchemaPropertyPeer::retrieveByPK($row[$this->prolog['meta_column']]);
+            if ( ! empty($row['reg_id'])) {
+              $property = \SchemaPropertyPeer::retrieveByPK($row['reg_id']);
               if ($property) {
                 $dbElements = $property->getSchemaPropertyElementsRelatedBySchemaPropertyIdJoinProfileProperty();
                 $dbElements2 = [];
@@ -987,5 +985,17 @@ class ImportVocab {
     unset($element);
     return $StatementCounter;
   }
+
+
+  private function setPrologColumns()
+  {
+    if (empty($this->prolog['meta_column'])) {
+      //set the prolog columns
+      $this->prolog['meta_column'] = $this->reader->getColumnHeaders()[0];
+      $this->prolog['key_column'] = $this->mapping->getMappings()[$this->reader->getColumnHeaders()[1]];
+      $this->prolog['value_column'] = $this->mapping->getMappings()[$this->reader->getColumnHeaders()[2]];
+    }
+  }
+
 
 }

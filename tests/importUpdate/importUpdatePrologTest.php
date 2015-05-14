@@ -61,4 +61,15 @@ class importUpdateTest extends \Codeception\TestCase\Test
         )->equals("Ddeboer\\DataImport\\Reader\\CsvReader");
     }
 
+    public function testPrologInitialization()
+    {
+        $this->import->setCsvReader($this->import->file);
+        $this->import->processProlog();
+        $prolog = $this->import->prolog;
+        $this->assertEquals(16, count($prolog['columns']), "There are the correct number of columns");
+        $this->assertEquals(15, count($prolog['prefix']), "There are the correct number of prefix entries");
+        $this->assertEquals(9, count($prolog['meta']), "There are the correct number of meta entries");
+    }
+
+
 }
