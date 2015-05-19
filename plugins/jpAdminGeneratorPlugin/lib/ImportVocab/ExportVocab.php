@@ -142,10 +142,11 @@ class ExportVocab {
             $prefixReplacement = array();
             foreach ( $prefixes as $prefix => $namespace )
             {
-                if ( ! is_int($prefix) )
-                {
-                    $prefixPattern[]     = "|" . $namespace . "|";
-                    $prefixReplacement[] = $prefix . ":";
+                if (trim($prefix)) {
+                    if ( ! is_int($prefix)) {
+                        $prefixPattern[] = "|" . $namespace . "|";
+                        $prefixReplacement[] = $prefix . ":";
+                    }
                 }
             }
 
