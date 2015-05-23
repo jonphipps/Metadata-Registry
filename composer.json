@@ -46,7 +46,8 @@
     "league/flysystem": "0.5.*",
     "vlucas/phpdotenv": "1.*@dev",
     "robmorgan/phinx": "*",
-    "ddeboer/data-import": "@stable"
+    "ddeboer/data-import": "@stable",
+    "mjphaynes/php-resque": "dev-master"
   },
 
   "autoload": {

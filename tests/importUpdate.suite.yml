@@ -5,3 +5,4 @@ modules:
     config:
         Db:
             dump: tests/_data/swregistry_test_update.sql
+            cleanup: false

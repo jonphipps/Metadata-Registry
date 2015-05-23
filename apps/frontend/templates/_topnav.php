@@ -58,7 +58,7 @@
   //refine which tab is shown based on the id presented with the action
   //this could probably be improved by adding another node to the tabmap array
   $filter = '';
-  foreach (array('agent','vocabulary','concept','property','user','schema_property_element','schema_property','schema') as $value)
+  foreach (array('agent','vocabulary','concept','property','user','schema_property_element','schema_property','schema','import') as $value)
   {
     $paramId = $sf_params->get($value . "_id");
     if ($paramId)
@@ -82,7 +82,8 @@
   $tabMap['discuss']      ['show'] = array('tab' => 'discussdetail',  'title' => 'Show Discussion Detail');
 
   $tabMap['history']      ['show'] = array('tab' => 'historydetail',  'title' => 'Show History Detail');
-  $tabMap['schemahistory']['show'] = array('tab' => 'schemahistorydetail', 'title' => 'Show History Detail');
+$tabMap['schemahistory']['show'] = array('tab' => 'schemahistorydetail', 'title' => 'Show History Detail');
+$tabMap['schemahistory']['list'] = array('tab' => 'schemahistorylist', 'title' => 'Import History');
 
   $tabMap['user']         ['list'] = array('tab' => 'userlist',       'title' => 'List Members');
   $tabMap['user']         ['show'] = array('tab' => 'user',           'title' => 'Show Detail');
@@ -135,7 +136,7 @@
   $tabMap['schema']       ['export'] = array('tab' => 'schema',         'title' => 'Export');
   $tabMap['import']       ['list'] = array('tab' => 'importlist',       'title' => 'List Imports');
 
-  if ('schema' == $filter)
+  if ('schema' == $filter or 'import' == $filter)
   {
     $tabMap['import']        ['list'] = array('tab' => 'schema',      'title' => 'Import');
     $tabMap['discuss']       ['list'] = array('tab' => 'schema',      'title' => 'Discussion');
@@ -362,6 +363,47 @@
       {
         $objectId = $schema_property_element->getId();
       }
+      break;
+
+    case 'schemahistorylist':
+      $showBc = true;
+      $showSchemaBc = true;
+      $showSchemaPropBc = true;
+      $showSchemaPropelBc = true;
+      $showSchemaHistoryBc = true;
+      if (!isset($history))
+      {
+        $id = $sf_params->get('id');
+        if ($id)
+        {
+          $history = SchemaPropertyElementHistoryPeer::retrieveByPK($id);
+        }
+      }
+      if (!isset($schema_property_element))
+      {
+        if ($history)
+        {
+          sfPropelParanoidBehavior::disable();
+          $schema_property_element = $history->getSchemaPropertyElement();
+        }
+      }
+      if (!isset($schema_property))
+      {
+        if ($schema_property_element)
+        {
+          sfPropelParanoidBehavior::disable();
+          $schema_property = $schema_property_element->getSchemaPropertyRelatedBySchemaPropertyId();
+        }
+      }
+      if (!isset($schema))
+      {
+        if ($schema_property)
+        {
+          sfPropelParanoidBehavior::disable();
+          $schema = $schema_property->getSchema();
+        }
+      }
+      $tab = false;
       break;
 
     case 'schemahistorydetail':

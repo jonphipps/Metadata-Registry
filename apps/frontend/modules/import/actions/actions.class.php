@@ -1,4 +1,5 @@
 <?php
+use ImportVocab\ImportJob;
 use ImportVocab\ImportVocab;
 
 /**
@@ -42,90 +43,74 @@ class importActions extends autoimportActions
     parent::setDefaults( $file_import_history );
   }
 
-  /**
-   * @throws sfStopException
-   */
   public function executeEdit()
   {
     /** @var \FileImportHistory file_import_history */
     $this->file_import_history = $this->getFileImportHistoryOrCreate();
+    $this->labels = $this->getLabels();
 
     if ( $this->getRequest()->getMethod() == sfRequest::POST ) {
       $this->updateFileImportHistoryFromRequest();
       //need an id
-      $this->saveFileImportHistory( $this->file_import_history );
       $schemaId = $this->file_import_history->getSchemaId();
 
-      $filePath = sfConfig::get( 'sf_upload_dir' ) . DIRECTORY_SEPARATOR .
-                  'csv' . DIRECTORY_SEPARATOR .
-                  $this->file_import_history->getFileName();
-      $import = new ImportVocab( 'schema', $filePath, $schemaId );
-      $import->importId = $this->file_import_history->getId();
+      $filePath =
+            sfConfig::get('sf_upload_dir') . DIRECTORY_SEPARATOR . 'csv' . DIRECTORY_SEPARATOR
+            . $this->file_import_history->getFileName();
+      $import = new ImportVocab('schema', $filePath, $schemaId);
       $prolog = $import->processProlog();
-      //todo we need a validation check to make sure that if there's a schema_id in the prolog that it matches the current ID
-      if (isset($prolog['meta']['schema_id']) and $prolog['meta']['schema_id'] != $schemaId)
-      {
-        $this->getRequest()->setError('Schema Id match', 'The Schema Id in the file you are importing does not match the Schema Id of this
-        Element Set');
-        $this->setFlash( 'error', 'The Schema Id ('. $prolog['meta']['schema_id'] .') in the file you are importing
-        does not match the Schema Id (' . $schemaId . ') of this Element Set. They must be the same Schema' );
-        return $this->redirect( 'import/create?schema_id=' . $this->file_import_history->getId() );
-
+      if ( ! $prolog) {
+        $message =
+              "Something went seriously wrong and we couldn't process your file at all (wish we could be more helpful)";
+        $this->handleImportError($message, $filePath);
       }
-      //todo we need to check to make sure the user is an admin
+      //check to make sure that if there's a schema_id in the prolog that it matches the current ID
+      if (isset($prolog['meta']['schema_id'])) {
+        if (is_array($prolog['meta']['schema_id'])) {
+          $message =
+                "You have a duplicate of one of the prolog columns ('reg_id', 'uri', 'type') in your data<br />We can't process the file until it's removed.";
+          $this->handleImportError($message, $filePath);
+        }
+        if ($prolog['meta']['schema_id'] != $schemaId) {
+          $message = "The Schema Id in the file you are importing (" . $prolog['meta']['schema_id'] . ") does not match the Element Set Id of this
+        Element Set (" . $schemaId . ")<br />You may be trying to import into the wrong Element Set?";
+          $this->handleImportError($message, $filePath);
+        }
+      } else {
+        $message = "Your file is missing a Schema ID in the 'meta' section and we won't process it without one";
+        $this->handleImportError($message, $filePath);
+      }
+      //todo identify and warn of more processing errors with the prolog
+      //check to make sure the user is an admin
       $user = $this->getUser();
-      if ( ! $user->hasCredential(array (
-            0 => array (
+      if ( ! $user->hasCredential(array(
+            0 => array(
                   0 => 'administrator',
                   1 => 'schemaadmin',
             ),
       ))
       ) {
-        $this->setFlash('error', 'You must be an administrator of this Element Set to import.');
-
-        return $this->redirect('import/create?schema_id=' . $this->file_import_history->getId());
+        $message = 'You must be an administrator of this Element Set to import.';
+        $this->handleImportError($message, $filePath);
       }
-      //todo update the prefixes table with prefixes
-      //todo update the schema table with prefixes
-      $schema = $this->getCurrentSchema();
-      $schemaPrefixes = $schema->getPrefixes();
-      $countSchemaPrefixes = count($schemaPrefixes);
-      $importPrefixes = $import->prolog['prefix'];
-      foreach ($importPrefixes as $prefix => $url) {
-        if (!array_key_exists($prefix,$schemaPrefixes))
-        {
-          $schemaPrefixes[$prefix] = $url;
-        }
-      }
-      if (count($schemaPrefixes) != $countSchemaPrefixes)
-      {
-        $schema->setPrefixes($schemaPrefixes);
-        $schema->save();
-      }
-
-      //todo display some sort of progress indicator on the page, or enqueue the process and send a results email
-      $import->processData();
-      $this->file_import_history->setResults($import->results);
-      $this->file_import_history->setMap($import->mapping);
-      $this->file_import_history->setTotalProcessedCount( $import->DataWorkflowResults->getTotalProcessedCount());
-      $this->file_import_history->setErrorCount($import->DataWorkflowResults->getErrorCount());
-      $this->file_import_history->setSuccessCount($import->DataWorkflowResults->getSuccessCount());
-
-      $newFilePath = sfConfig::get( 'sf_repos_dir' ) . DIRECTORY_SEPARATOR .
-                     'agents' . DIRECTORY_SEPARATOR .
-                     $this->file_import_history->getSchema()->getAgentId() . DIRECTORY_SEPARATOR .
-                     $this->file_import_history->getSourceFileName();
-      $this->getRequest()->moveToRepo($filePath, $newFilePath);
-
-
-      $this->saveFileImportHistory( $this->file_import_history );
-      $this->setFlash( 'notice', 'Your file has been imported' );
+      $this->file_import_history->setResults("Queued for processing.");
+      $this->saveFileImportHistory($this->file_import_history);
+      $this->setFlash('notice',
+            'Your file has been accepted and queued for processing. Check back in a few minutes for the results');
       unset ($import);
+      $environment = SF_ENVIRONMENT;
 
-      return $this->redirect( 'import/show?id=' . $this->file_import_history->getId() );
-    } else {
-      $this->labels = $this->getLabels();
+      //todo it's at this point that we push this onto a queue for processing
+      $job = Resque::push('ImportVocab\ImportJob', array(
+                  $schemaId,
+                  $filePath,
+                  $this->file_import_history->getId(),
+                  $environment
+            ));
+
+      return $this->redirect('import/show?id=' . $this->file_import_history->getId());
     }
+
   }
 
   /**
@@ -154,5 +139,15 @@ class importActions extends autoimportActions
     $this->schemaID = $schema->getId();
 
     return $schema;
+  }
+
+  private function handleImportError($message, $filePath)
+  {
+    if (is_file($filePath)) {
+      unlink($filePath);
+    }
+    $this->getRequest()->setError('file_import_history{filename}', $message);
+
+    return sfView::SUCCESS;
   }
 }

@@ -53,9 +53,10 @@ generator:
 #        map:           { helper: auto_link_uri }
 #        results:       { helper: auto_link_text }
         created_at:    { params: date_format='F' }
+        _elapsed:      { name: Elapsed }
       display:
         "Import Detail":      [created_at, user, source_file_name]
-        "Results":            [totalProcessedCount, success_count, error_count]
+        "Results":            [totalProcessedCount, success_count, error_count, _elapsed]
 #        "Map":                [map]
         "Import Log":         [_results]
       actions:

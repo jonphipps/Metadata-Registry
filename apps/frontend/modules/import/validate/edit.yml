@@ -6,6 +6,7 @@ names:
     required:     Yes
     required_msg: Please select a file to upload
     file:         Yes
+    validators:   myFileValidator
 
 myFileValidator:
   class:              sfFileValidator
@@ -16,6 +17,9 @@ myFileValidator:
     mime_types_error: Only CSV files are allowed
     max_size:         2048000
     max_size_error:   Max size is 2Mb
+
+importValidator:
+    class:         myImportValidator
 
 fillin:
   activate: on

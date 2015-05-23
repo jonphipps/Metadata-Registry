@@ -9,7 +9,7 @@
 </tr>
 </thead>
 <tfoot>
-<tr><th colspan="6">
+<tr><th colspan="7">
 <div class="float-right">
 <?php if ($pager->haveToPaginate()): ?>
   <?php $filterParam = ''; ?>
@@ -45,7 +45,7 @@
 <?php if ($ts < $tsLast && $ts >= $tsNew): ?>
 <tr>
   <td><strong>Version:</strong></td>
-  <td colspan="5"><?php echo $version->getName(); ?></td>
+  <td colspan="6"><?php echo $version->getName(); ?></td>
   <td><?php $value = get_partial(
         'ts',
         array(

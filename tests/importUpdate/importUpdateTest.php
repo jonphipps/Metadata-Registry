@@ -20,6 +20,7 @@ class importUpdateTest extends \Codeception\TestCase\Test
     {
         $this->import = new ImportVocab("schema", "updatedata.csv", 81);
         $this->import->importFolder = Fixtures::get("importFolder");
+        $this->import->importId = 41;
     }
 
     protected function _after()
@@ -40,7 +41,7 @@ class importUpdateTest extends \Codeception\TestCase\Test
         $this->import->processData();
         $results = $this->import->results['success'];
         verify("There were 12 rows processed",
-          count($results['rows']))->equals(12);
+          count($results['rows']))->equals(2);
         $this->import->processParents();
         $I->canSeeInDatabase('reg_schema_property', ['id' => 1, "definition" => "fubar, baby"]);
 

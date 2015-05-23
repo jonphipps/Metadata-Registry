@@ -50,3 +50,5 @@ Export_*.sql
 Export_*.csv
 coverage.xml
 spec/coverage
+.env
+dump.rdb

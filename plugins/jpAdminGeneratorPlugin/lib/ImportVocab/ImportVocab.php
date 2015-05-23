@@ -12,6 +12,7 @@ use Ddeboer\DataImport\Workflow;
 use Ddeboer\DataImport\Writer;
 use Ddeboer\DataImport\Filter;
 use Symfony\Component\Console\Output\ConsoleOutput;
+use Ddeboer\DataImport\Filter\ValidatorFilter;
 
 /**
  * Class ImportVocab
@@ -234,7 +235,10 @@ class ImportVocab {
 
   public function processProlog() {
     $testArray = array();
-    $this->setCsvReader($this->file);
+    $canRead = $this->setCsvReader($this->file);
+    if ( !$canRead) {
+      return false;
+    }
 
     $workflow = new Workflow($this->reader);
     $output = new ConsoleOutput();
@@ -291,8 +295,10 @@ class ImportVocab {
     //$workflow->addWriter(new Writer\ArrayWriter($testArray));
     $this->processPrologResults = $workflow->process();
     //add the token and the base_domain to the prefixes
-    if (! array_key_exists($this->prolog[ 'meta' ][ 'token' ], $this->prolog[ 'prefix' ])) {
-      $this->prolog[ 'prefix' ][ $this->prolog[ 'meta' ][ 'token' ] ] = $this->prolog[ 'meta' ][ 'base_domain' ];
+    if (!is_array($this->prolog[ 'meta' ][ 'token' ])) {
+      if ( ! array_key_exists($this->prolog['meta']['token'], $this->prolog['prefix'])) {
+        $this->prolog['prefix'][$this->prolog['meta']['token']] = $this->prolog['meta']['base_domain'];
+      }
     }
     if (isset($this->prolog['meta']['status_id'])) {
       $this->status = $this->prolog['meta']['status_id'];
@@ -303,50 +309,52 @@ class ImportVocab {
     //use the prolog to configure namespaces, look up correct resources in the database
     $this->getDataColumnIds();
     //store the row number of the first non-meta line
-    $this->prologRowCount = $this->reader->count() - 2;
+    $this->prologRowCount = $this->reader->count();
 
     return $this->prolog;
 
   }
 
-    public function getDataColumnIds()
-    {
-        //use the prolog to look up correct resources in the database
-        /** @var $property \ProfileProperty */
-        foreach ($this->prolog[ 'profileProperties' ] as $property) {
-            $uri = $property->getUri();
-            $dbKeys[ $uri ][ 'id' ] = $property->getId();
-            $dbKeys[ $uri ][ 'property' ] = $property;
-        }
-        //get the iris
-        foreach ($this->prolog['columns'] as $key => &$column) {
-            if ( ! is_array($column['uri'])) {
-                $column['id'] = $this->setColumnId($column['uri'], $dbKeys);
-                $column['iri'] = $this->setColumnIri($column['uri'], $key);
-                if (isset($column['uri']) and
-                    isset($dbKeys[$column['uri']]['property'])
-                ) {
-                    $property = $dbKeys[$column['uri']]['property'];
-                    /** @var \ProfileProperty $property */
-                    $column['property'] = $property;
-                    $column['name'] = $property->getName();
-                }
-            } else {
-                $count = count($column['uri']);
-                for ($I = 0; $I < $count; $I ++) {
-                    $column['id'][$I] = $this->setColumnId($column['uri'][$I], $dbKeys);
-                    $column['iri'][$I] = $this->setColumnIri($column['uri'][$I], $key);
-                    if (isset($column['uri'][$I]) and
-                        isset($dbKeys[$column['uri'][$I]]['property'])) {
-                        $property = $dbKeys[$column['uri'][$I]]['property'];
-                        /** @var \ProfileProperty $property */
-                        $column['property'] = $property;
-                        $column['name'] = $property->getName();
-                    }
-                }
-            }
-        }
+  public function getDataColumnIds()
+  {
+    //use the prolog to look up correct resources in the database
+    $dbKeys = [];
+    /** @var $property \ProfileProperty */
+    foreach ($this->profileProperties as $property) {
+      $uri = $property->getUri();
+      $dbKeys[$uri]['id'] = $property->getId();
+      $dbKeys[$uri]['property'] = $property;
     }
+    //get the iris
+    foreach ($this->prolog['columns'] as $key => &$column) {
+        if ( ! is_array($column['uri'])) {
+          if (isset($dbKeys[$column['uri']])) {
+            $column['id'] = $dbKeys[$column['uri']]['id'];
+            if (isset($column['uri']) and isset($dbKeys[$column['uri']]['property'])
+            ) {
+              $property = $dbKeys[$column['uri']]['property'];
+              /** @var \ProfileProperty $property */
+              $column['property'] = $property;
+              $column['name'] = $property->getName();
+            }
+          }
+        } else {
+          $count = count($column['uri']);
+          for ($I = 0; $I < $count; $I ++) {
+            if (isset($dbKeys[$column['uri'][$I]])) {
+            $column['id'][$I] = $dbKeys[$column['uri'][$I]]['id'];
+            if (isset($column['uri'][$I]) and isset($dbKeys[$column['uri'][$I]]['property'])) {
+              $property = $dbKeys[$column['uri'][$I]]['property'];
+              /** @var \ProfileProperty $property */
+              $column['property'] = $property;
+              $column['name'] = $property->getName();
+            }
+          }
+          }
+        }
+
+    }
+  }
 
   public function getStatusId($status) {
     if (is_integer($status)) {
@@ -364,8 +372,22 @@ class ImportVocab {
     }
   }
 
-  public function processParents() {
-    //spin through file again, now that the database is populated, and cleanup all of the parental relationships
+  /**
+   * spin through file again, now that the database is populated, and cleanup all of the parental relationships
+
+   * @param int $schemaId
+   *
+   * @throws \Ddeboer\DataImport\Exception\ExceptionInterface
+   * @throws \Exception
+     */
+    public function processParents($schemaId) {
+      return;
+    //get a list of all of the properties
+      //foreach PropertyElement
+      //if it's a 6 or 9 it has a reciprocal
+      // check if the reciprocal exists
+      // see if it has a related SchemaPropertyId
+      //if it has an existing ID, make sure it can be retrieved
     $reader = new ArrayReader($this->results['success']['rows']);
     $workflow = new Workflow($reader);
     $output = new ConsoleOutput();
@@ -449,14 +471,17 @@ class ImportVocab {
     // Don’t import the non-metadata
     $filter = new Filter\CallbackFilter(function ($row) {
       if(is_numeric($row['reg_id'])) return true;
-      if (! trim($row['reg_id']) ) {
-      foreach ($row as $item) {
-        if ( ! is_array($item) and trim($item)) {
-          return true;
-        } else {
-          foreach ($item as $foo) {
-            if (trim($foo)) {
+      if ( ! trim($row['reg_id'])) {
+        foreach ($row as $item) {
+          if ( ! is_array($item)) {
+            if (trim($item)) {
               return true;
+            }
+          } else {
+            foreach ($item as $foo) {
+              if (trim($foo)) {
+                return true;
+              }
             }
           }
         }
@@ -465,223 +490,256 @@ class ImportVocab {
       return false;
     });
     $workflow->addItemConverter($this->mapping);
-    $workflow->addFilter(new Filter\OffsetFilter($this->prologRowCount, null));
     /** @var $filter Filter\CallbackFilter */
     $workflow->addFilter($filter);
     $workflow->addWriter(new Writer\ConsoleProgressWriter($output, $this->reader));
     //add a database writer
     $workflow->addWriter(new Writer\CallbackWriter(function ($row) {
       $this->setPrologColumns();
-      if ( ! empty($row['reg_id'])) {
-        $property = \SchemaPropertyPeer::retrieveByPK($row['reg_id']);
-        if ($property) {
+
+      if ( ! isset($row[14])) {
+        $row[14] = $this->prolog['defaults']['statusId'];
+      }
+      $rowStatus = $row[14];
+      $language = $this->prolog['defaults']['lang'];
+
+      foreach ($row as $key => &$element) {
+        $this->updateRowUris($key, $element);
+      }
+
+      $uri = $row[13];
+
+      if (empty($row['reg_id'])) {
+        //check for an existing property by uri
+        $property = \SchemaPropertyPeer::retrieveByUri($uri);
+        if (!$property) { //it's a new property
+          $property = new \SchemaProperty();
+          $property->setSchemaId($this->vocabId);
+          $property->setCreatedUserId($this->userId);
+          $property->setUpdatedUserId($this->userId);
+          $property->setStatusId($rowStatus);
+          $property->setLanguage($language);
+          $property->save();
+        }
+      } else {
+        $propertyId = $row['reg_id'];
+        $property = \SchemaPropertyPeer::retrieveByPK($propertyId);
+        unset($row['reg_id']);
+      }
+      if ($property) {
+        if (8 == $rowStatus) {
+          //it's been deprecated and we don't do anything else
+          $property->setStatusId($rowStatus);
+        } else {
           $dbElements = $property->getElementsForImport($this->profileProperties);
           foreach ($dbElements as $key => $dbElement) {
-            if (isset($row[$key])) {
-              if ($row[$key] = $dbElement->getObject()) {
-                unset($row[$key]);
+            $rowElement = isset($row[$key]) ? $row[$key] : null;
+            if (is_array($rowElement)) {
+              foreach ($rowElement as &$element) {
+                $this->updateElement($element, $dbElement, $property);
               }
             } else {
-              //there's no matching column so deprecate the element
-              $dbElement->setStatusId(8);
-              $dbElement->setUpdatedUserId($this->userId);
-              $dbElement->importId = $this->importId;
-              $dbElement->save();
-              $profileProperty = $this->profileProperties[$dbElement->getProfilePropertyId()];
-              if ($profileProperty->getIsInForm() and $property->getLanguage() == $dbElement->getLanguage())
-              {
-                $this->setPropertyValue('',$property,$profileProperty->getName(), ! $profileProperty->getIsObjectProp());
+              $this->updateElement($rowElement, $dbElement, $property);
+            }
+          }
+          foreach ($row as $key => $value) {
+            $dbElement = isset($dbElements[$key]) ? $dbElements[$key] : null;
+            if ( ! empty($this->prolog['columns'][$key]['property'])) {
+              $profileProperty = $this->prolog['columns'][$key]['property'];
+              if (is_array($value)) {
+                foreach ($value as &$oneValue) {
+                  $language = $this->prolog['columns'][$key]['lang'][0];
+                  $this->upsertElementFromRow($dbElement, $oneValue, $rowStatus, $property, $profileProperty,
+                        $language);
+                }
+              } else {
+                $language = $this->prolog['columns'][$key]['lang'];
+                $this->upsertElementFromRow($dbElement, $value, $rowStatus, $property, $profileProperty, $language);
               }
             }
           }
         }
 
+        $affectedRows = $property->save();
       }
-          //build an array of references
-            $newElements = [];
-            $newElements2 = [];
-            if ( ! isset($row['status'])) {
-              $row[14] = $this->prolog['defaults']['statusId'];
+
+      return;
+      //build an array of references
+      $newElements = [];
+      $newElements2 = [];
+      if ( ! isset($row['status'])) {
+        $row[14] = $this->prolog['defaults']['statusId'];
+      }
+      foreach ($row as $key => $element) {
+        //skip it there's no property id
+        $columnKey = $this->prolog['columns'][$key];
+        if ( ! $columnKey['id']) {
+          continue;
+        }
+
+        if ( ! empty($columnKey['type']) and $this->useCuries) {
+          $element = $this->getFqn($element);
+        }
+
+        $key2 = md5(strval($columnKey['id']) . strval($columnKey['lang']) . $element);
+        $newElements[$key2] = [];
+        $newElements[$key2] += $columnKey;
+        $newElements[$key2]['val'] = $element;
+        /** @var \ProfileProperty $profileProperty */
+        if (isset($columnKey['property'])) {
+          $profileProperty = $columnKey['property'];
+          $var = array(
+                'matchkey' => $key2,
+                'val'      => $newElements[$key2],
+          );
+          if (isset($profileProperty) and $profileProperty->getHasLanguage()) {
+            $newElements2[$columnKey['id']][$columnKey['lang']][] = $var;
+          } else {
+            $newElements2[$columnKey['id']][] = $var;
+          }
+        }
+      }
+      if ( ! empty($row['reg_id'])) {
+        $property = \SchemaPropertyPeer::retrieveByPK($row['reg_id']);
+        if ($property) {
+          $dbElements = $property->getSchemaPropertyElementsRelatedBySchemaPropertyIdJoinProfileProperty();
+          $dbElements2 = [];
+          /** @var \SchemaPropertyElement $dbElement */
+          foreach ($dbElements as $dbElement) {
+            if ($dbElement->getProfileProperty()->getHasLanguage()) {
+              $dbElements2[$dbElement->getProfilePropertyId()][$dbElement->getLanguage()][] = &$dbElement;
+            } else {
+              $dbElements2[$dbElement->getProfilePropertyId()][] = &$dbElement;
             }
-            foreach ($row as $key => $element) {
-              //skip it there's no property id
-              $columnKey = $this->prolog['columns'][$key];
-              if (! $columnKey['id'])
-              {
-                continue;
-              }
+          }
 
-              if ( ! empty($columnKey['type']) and $this->useCuries) {
-                  $element = $this->getFqn($element);
-              }
-
-              $key2 = md5(
-                          strval($columnKey['id']) .
-                          strval($columnKey['lang']) .
-                          $element);
-              $newElements[$key2] = [];
-              $newElements[$key2] += $columnKey;
-              $newElements[$key2]['val'] = $element;
-              /** @var \ProfileProperty $profileProperty */
-              if (isset($columnKey['property'])) {
-                $profileProperty = $columnKey['property'];
-                $var =
-                      array(
-                            'matchkey' => $key2,
-                            'val'      => $newElements[$key2],
-                      );
-                if (isset($profileProperty) and $profileProperty->getHasLanguage()) {
-                  $newElements2[$columnKey['id']][$columnKey['lang']][] = $var;
-                } else {
-                  $newElements2[$columnKey['id']][] = $var;
-                }
-              }
-            }
-            if ( ! empty($row['reg_id'])) {
-              $property = \SchemaPropertyPeer::retrieveByPK($row['reg_id']);
-              if ($property) {
-                $dbElements = $property->getSchemaPropertyElementsRelatedBySchemaPropertyIdJoinProfileProperty();
-                $dbElements2 = [];
-                /** @var \SchemaPropertyElement $dbElement */
-                foreach ($dbElements as $dbElement) {
-                  if ($dbElement->getProfileProperty()->getHasLanguage()) {
-                    $dbElements2[$dbElement->getProfilePropertyId()][$dbElement->getLanguage()][] = &$dbElement;
-                  } else {
-                    $dbElements2[$dbElement->getProfilePropertyId()][] = &$dbElement;
-                  }
-                }
-
-                /** @var \SchemaPropertyElement $element */
-                foreach ($dbElements as $element) {
-                  $language = $element->getLanguage();
-                  $profilePropertyId = $element->getProfilePropertyId();
-                  $key = md5(
-                              strval($profilePropertyId) .
-                              strval($language) .
-                              $element->getObject());
-                  //if the newelement key matches then
-                  if (isset($newElements[$key])) {
-                    if ($element->getProfileProperty()->getHasLanguage()) {
-                      $newElements2Array = $newElements2[$profilePropertyId][$language];
-                    } else {
-                      $newElements2Array = $newElements2[$profilePropertyId];
-                    }
-                    $count = count($newElements2Array);
-                    for ($I = 0; $I < $count; $I ++) {
-                      if ($newElements2Array[$I]['matchkey'] == $key) {
-                        unset($newElements2Array[$I]);
-                      }
-                    }
-                    unset($newElements[$key]);
-                    $element->importStatus = 'match';
-                    continue;
-                  } else {
-                    if ($element->getProfileProperty()->getHasLanguage()) {
-                      if (isset($newElements2[$profilePropertyId][$language])) {
-                        $count = count($newElements2[$profilePropertyId][$language]);
-                        for ($I = 0; $I < $count; $I ++) {
-                          if ($newElements2[$profilePropertyId][$language][$I]['val']['val'] == $element->getObject()) {
-                            unset($newElements2[$profilePropertyId][$language][$I]);
-                            $element->importStatus = 'match';
-                            if (!count($newElements2[$profilePropertyId][$language]))
-                            {
-                              unset($newElements2[$profilePropertyId][$language]);
-                            }
-                            continue;
-                          }
-                        }
-                      }
-                    } else {
-                      //compare the old values with the new with the same key
-                      $count = count($newElements2[$profilePropertyId]);
-                      for ($I = 0; $I < $count; $I ++) {
-                        if (isset($newElements2[$profilePropertyId][$I])) {
-                          if ($newElements2[$profilePropertyId][$I]['val']['val'] == $element->getObject()) {
-                            unset($newElements2[$profilePropertyId][$I]);
-                            $element->importStatus = 'match';
-                            continue;
-                          }
-                        }
-                      }
-                    }
-                    //if the key matches then
-                    //if the value matches
-                    //delete the newElement
-                    //else the value doesn't match
-                    //if the newElement value is empty
-                    //delete the dbElement
-
-                  }
-
-                  $element->matchKey = $key;
-                }
-                //update the property values
-                $property->save();
+          /** @var \SchemaPropertyElement $element */
+          foreach ($dbElements as $element) {
+            $language = $element->getLanguage();
+            $profilePropertyId = $element->getProfilePropertyId();
+            $key = md5(strval($profilePropertyId) . strval($language) . $element->getObject());
+            //if the newelement key matches then
+            if (isset($newElements[$key])) {
+              if ($element->getProfileProperty()->getHasLanguage()) {
+                $newElements2Array = $newElements2[$profilePropertyId][$language];
               } else {
-                //there's no existing property an we have to create a new one
-                $property = new \SchemaProperty();
+                $newElements2Array = $newElements2[$profilePropertyId];
               }
-              foreach ($newElements as $key => $newElement) {
-                if ( ! empty($newElement['id']) and ! isset($oldElements[$key])) {
-                  $profileProperty = $newElement['property'];
-                  //walk the old elements looking for a match on predicate + language
-                  /** @var \SchemaPropertyElement $oldElement */
-                  foreach ($dbElements as $oldElement) {
-                    /** @var \SchemaPropertyElement $oldOne */
-                    $oldOne = &$oldElement['element'];
-                    if ($newElement['id'] == $oldOne->getProfilePropertyId()) {
-                      /** @var \ProfileProperty $profileProperty */
-                      if (($profileProperty->getHasLanguage() and $newElement['lang'] == $oldOne->getLanguage())
-                          or ! $profileProperty->getHasLanguage()
-                      ) {
-                        if ( ! empty($newElement['val'])) {
-                          $oldOne->setObject($newElement['val']);
-                          $oldOne->setUpdatedUserId($this->userId);
-                          $oldOne->setStatusId($row['status']);
-                          //$oldOne->save();
-                          $oldElement['status'] = "updated";
-                        } else {
-                          $oldOne->delete();
-                          $oldElement['status'] = "deleted";
-                        }
-                        //update the property value
-                        if ($profileProperty->getIsInForm()) {
-                          $this->setPropertyValue($newElement['val'], $property, $profileProperty->getName(),
-                                ! $profileProperty->getIsObjectProp());
-                        }
-                        break;
+              $count = count($newElements2Array);
+              for ($I = 0; $I < $count; $I ++) {
+                if ($newElements2Array[$I]['matchkey'] == $key) {
+                  unset($newElements2Array[$I]);
+                }
+              }
+              unset($newElements[$key]);
+              $element->importStatus = 'match';
+              continue;
+            } else {
+              if ($element->getProfileProperty()->getHasLanguage()) {
+                if (isset($newElements2[$profilePropertyId][$language])) {
+                  $count = count($newElements2[$profilePropertyId][$language]);
+                  for ($I = 0; $I < $count; $I ++) {
+                    if ($newElements2[$profilePropertyId][$language][$I]['val']['val'] == $element->getObject()) {
+                      unset($newElements2[$profilePropertyId][$language][$I]);
+                      $element->importStatus = 'match';
+                      if ( ! count($newElements2[$profilePropertyId][$language])) {
+                        unset($newElements2[$profilePropertyId][$language]);
                       }
+                      continue;
                     }
                   }
-                  //we looked through them all, add a new one
-                  if (!empty($newElement['val'])) {
-                    $addMe = new \SchemaPropertyElement();
-                    $addMe->setObject($newElement['val']);
-                    //$addMe->setSchemaPropertyRelatedBySchemaPropertyId($property);
-                    $addMe->setCreatedUserId($this->userId);
-                    $addMe->setUpdatedUserId($this->userId);
-                    $addMe->setLanguage($newElement['lang']);
-                    $addMe->setProfilePropertyId($newElement['id']);
-                    $addMe->setStatusId($row['status']);
-                    $addMe->importId = $this->importId;
-                    //$addMe->save();
-                    $property->addSchemaPropertyElementRelatedBySchemaPropertyId($addMe);
-                    //update the property value
-                    if ($profileProperty->getIsInForm()) {
-                      $this->setPropertyValue($newElement['val'], $property, $profileProperty->getName(),
-                            ! $profileProperty->getIsObjectProp());
+                }
+              } else {
+                //compare the old values with the new with the same key
+                $count = count($newElements2[$profilePropertyId]);
+                for ($I = 0; $I < $count; $I ++) {
+                  if (isset($newElements2[$profilePropertyId][$I])) {
+                    if ($newElements2[$profilePropertyId][$I]['val']['val'] == $element->getObject()) {
+                      unset($newElements2[$profilePropertyId][$I]);
+                      $element->importStatus = 'match';
+                      continue;
                     }
                   }
                 }
               }
-              //update the property
-              if ($property) {
-                $property->setStatusId($row['status']);
-                $property->save();
+              //if the key matches then
+              //if the value matches
+              //delete the newElement
+              //else the value doesn't match
+              //if the newElement value is empty
+              //delete the dbElement
+
+            }
+
+            $element->matchKey = $key;
+          }
+          //update the property values
+          $property->save();
+        } else {
+          //there's no existing property an we have to create a new one
+          $property = new \SchemaProperty();
+        }
+        foreach ($newElements as $key => $newElement) {
+          if ( ! empty($newElement['id']) and ! isset($oldElements[$key])) {
+            $profileProperty = $newElement['property'];
+            //walk the old elements looking for a match on predicate + language
+            /** @var \SchemaPropertyElement $oldElement */
+            foreach ($dbElements as $oldElement) {
+              /** @var \SchemaPropertyElement $oldOne */
+              $oldOne = &$oldElement['element'];
+              if ($newElement['id'] == $oldOne->getProfilePropertyId()) {
+                /** @var \ProfileProperty $profileProperty */
+                if (($profileProperty->getHasLanguage() and $newElement['lang'] == $oldOne->getLanguage())
+                    or ! $profileProperty->getHasLanguage()
+                ) {
+                  if ( ! empty($newElement['val'])) {
+                    $oldOne->setObject($newElement['val']);
+                    $oldOne->setUpdatedUserId($this->userId);
+                    $oldOne->setStatusId($row['status']);
+                    //$oldOne->save();
+                    $oldElement['status'] = "updated";
+                  } else {
+                    $oldOne->delete();
+                    $oldElement['status'] = "deleted";
+                  }
+                  //update the property value
+                  if ($profileProperty->getIsInForm()) {
+                    $this->setPropertyValue($newElement['val'], $property, $profileProperty->getName(),
+                          ! $profileProperty->getIsObjectProp());
+                  }
+                  break;
+                }
               }
             }
-            //var_dump($row);
-          }));
+            //we looked through them all, add a new one
+            if ( ! empty($newElement['val'])) {
+              $addMe = new \SchemaPropertyElement();
+              $addMe->setObject($newElement['val']);
+              //$addMe->setSchemaPropertyRelatedBySchemaPropertyId($property);
+              $addMe->setCreatedUserId($this->userId);
+              $addMe->setUpdatedUserId($this->userId);
+              $addMe->setLanguage($newElement['lang']);
+              $addMe->setProfilePropertyId($newElement['id']);
+              $addMe->setStatusId($row['status']);
+              $addMe->importId = $this->importId;
+              //$addMe->save();
+              $property->addSchemaPropertyElementRelatedBySchemaPropertyId($addMe);
+              //update the property value
+              if ($profileProperty->getIsInForm()) {
+                $this->setPropertyValue($newElement['val'], $property, $profileProperty->getName(),
+                      ! $profileProperty->getIsObjectProp());
+              }
+            }
+          }
+        }
+        //update the property
+        if ($property) {
+          $property->setStatusId($row['status']);
+          $property->save();
+        }
+      }
+      //var_dump($row);
+    }));
 
     /** @todo we need to make a second pass through to delete missing rows
      * for each schemaproperty in the database
@@ -694,7 +752,7 @@ class ImportVocab {
     $this->DataWorkflowResults = $workResults;
 
     /** @TODO need to make a second pass through to lookup and set $element->related_schema_property_id */
-    $this->processParents();
+    $this->processParents($this->vocabId);
     //use the prolog to configure namespaces, look up correct resources in the database
     //store the row number of the first non-meta line
 
@@ -1000,5 +1058,114 @@ class ImportVocab {
     }
   }
 
+  /**
+   * @param string $rowElement
+   * @param array | \SchemaPropertyElement $dbElement
+   * @param \SchemaProperty $property
+   */
+  private function updateElement(&$rowElement, &$dbElement, &$property)
+  {
+    if ( ! empty($rowElement)) {
+      if ( ! is_array($dbElement)) {
+        if ($rowElement === $dbElement->getObject()) {
+          unset($rowElement);
+        }
+      } else {
+        /** @var \SchemaPropertyElement $element */
+        foreach ($dbElement as &$element) {
+          $this->updateElement($rowElement, $element, $property);
+        }
+      }
+    } else {
+      //there's no matching column so delete the element
+      $this->deleteElement($dbElement, $property);
+    }
+    return;
+  }
 
+  /**
+   * @param \SchemaPropertyElement $dbElement
+   * @param                        $value
+   * @param                        $rowStatus
+   * @param \SchemaProperty        $property
+   * @param \ProfileProperty       $profileProperty
+   * @param                        $language
+   */
+  private function upsertElementFromRow(&$dbElement, $value, $rowStatus, &$property, $profileProperty, $language)
+  {
+    if ( ! is_array($dbElement)) {
+      if (empty($dbElement) and $value) {
+        $dbElement = new \SchemaPropertyElement();
+        $dbElement->setProfilePropertyId($profileProperty->getId());
+        $dbElement->setSchemaPropertyId($property->getId());
+        $dbElement->setLanguage($language);
+        $property->addSchemaPropertyElementRelatedBySchemaPropertyId($dbElement);
+      }
+      if ($dbElement and $value !== $dbElement->getObject()) {
+        $dbElement->setStatusId($rowStatus);
+        $dbElement->setObject($value);
+        $dbElement->setCreatedUserId($this->userId);
+        $dbElement->setUpdatedUserId($this->userId);
+        $dbElement->importId = $this->importId;
+        //$dbElement->save();
+        if ($profileProperty->getIsInForm() and $property->getLanguage() == $dbElement->getLanguage()) {
+          $this->setPropertyValue($value, $property, $profileProperty->getName(), ! $profileProperty->getIsObjectProp());
+        }
+      }
+    } else {
+      foreach ($dbElement as &$oneElement) {
+        $this->upsertElementFromRow($oneElement, $value, $rowStatus, $property, $profileProperty, $language);
+      }
+    }
+  }
+
+  /**
+   * @param $key
+   * @param $element
+   */
+  private function updateRowUris($key, &$element)
+  {
+    if (! is_array($element)) {
+      if ( ! empty($this->prolog['columns'][$key]['type']) and $this->useCuries) {
+        $element = $this->getFqn($element);
+      }
+    } else {
+      foreach ($element as &$oneElement) {
+        $this->updateRowUris($key, $oneElement);
+      }
+    }
+    return;
+  }
+
+  /**
+   * @param \SchemaPropertyElement $dbElement
+   * @param \SchemaProperty        $property
+   *
+   * @return int
+   */
+  private function deleteElement(&$dbElement, &$property)
+  {
+    if ( ! is_array($dbElement)) {
+      //we don't delete derived properties at this stage
+      if (in_array($dbElement->getProfilePropertyId(),[6,9]))
+      {
+        return 0;
+      }
+      $profileProperty = $this->profileProperties[$dbElement->getProfilePropertyId()];
+      if ($profileProperty->getIsInForm() and $property->getLanguage() == $dbElement->getLanguage()) {
+        $this->setPropertyValue('', $property, $profileProperty->getName(), ! $profileProperty->getIsObjectProp());
+      }
+      $dbElement->setUpdatedUserId($this->userId);
+      $dbElement->importId = $this->importId;
+      //$affectedRows = $dbElement->save();
+      return $dbElement->delete();
+    } else {
+      $affectedRows = 0;
+      /** @var \SchemaPropertyElement $element */
+      foreach ($dbElement as &$element) {
+        $affectedRows += $this->deleteElement($element, $property);
+      }
+      return $affectedRows;
+    }
+  }
 }
