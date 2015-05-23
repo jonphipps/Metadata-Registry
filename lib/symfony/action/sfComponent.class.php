@@ -3,7 +3,7 @@
 /*
  * This file is part of the symfony package.
  * (c) 2004-2006 Fabien Potencier <fabien.potencier@symfony-project.com>
- * 
+ *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
@@ -227,7 +227,7 @@ abstract class sfComponent
    *
    * <code>$this->getContext()->getUser()</code>
    *
-   * @return sfUser The current sfUser implementation instance
+   * @return myUser The current sfUser implementation instance
    */
   public function getUser()
   {
@@ -369,7 +369,7 @@ abstract class sfComponent
 
   /**
    * Returns true if a flash variable of the specified name exists.
-   * 
+   *
    * @param  string $name The name of the flash variable
    *
    * @return boolean   true if the variable exists, false otherwise
