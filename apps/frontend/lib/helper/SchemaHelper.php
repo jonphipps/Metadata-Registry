@@ -18,7 +18,7 @@
       if ($relSchemaProperty) {
         $link = 'schemaprop/show/?id=' . $relSchemaPropertyId;
 
-        return link_to($relSchemaProperty, $link, ["title" => $property->getObject()]);
+        return link_to($property->getObject(), $link, ["title" => $relSchemaProperty]);
     }
   }
   //If the skosProperty.objectType is resource then we display a truncated URI with a complete link_to
@@ -34,9 +34,9 @@
   }
 
     //if it's a URI we return a link, but if it's not we just return the object
-    return preg_replace('/\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[A-Z0-9+&@#\/%=~_|]/i', '<a href="\0">\0</a>', $property->getObject());
+    //return preg_replace('/\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[A-Z0-9+&@#\/%=~_|]/i', '<a href="\0">\0</a>', $property->getObject());
   //if all else fails we display a truncated = 30 value
-    //return truncate_text($property->getObject(), 30);
+    return $property->getObject();
 }
 
 /**
