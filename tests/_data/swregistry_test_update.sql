@@ -23,7 +23,69 @@ DROP TABLE IF EXISTS `reg_agent_has_user`;
 DROP TABLE IF EXISTS `profile_property`;
 DROP TABLE IF EXISTS `profile`;
 DROP TABLE IF EXISTS `reg_agent`;
+DROP TABLE IF EXISTS `reg_vocabulary_has_user`;
+DROP TABLE IF EXISTS `reg_vocabulary`;
 
+
+CREATE TABLE `reg_vocabulary` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `agent_id` int(11) NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  `last_updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_user_id` int(11) DEFAULT NULL,
+  `updated_user_id` int(11) DEFAULT NULL,
+  `child_updated_at` datetime DEFAULT NULL,
+  `child_updated_user_id` int(11) DEFAULT NULL,
+  `name` varchar(255) NOT NULL DEFAULT '',
+  `note` text,
+  `uri` varchar(255) NOT NULL DEFAULT '',
+  `url` varchar(255) DEFAULT NULL,
+  `base_domain` varchar(255) NOT NULL DEFAULT '',
+  `token` varchar(45) NOT NULL DEFAULT '',
+  `community` varchar(45) DEFAULT NULL,
+  `last_uri_id` int(11) DEFAULT '1000',
+  `status_id` int(11) NOT NULL DEFAULT '1' COMMENT 'This will be the default status id for all concept properties for this vocabulary',
+  `language` char(6) NOT NULL DEFAULT 'en' COMMENT 'This is the default language for all concept properties',
+  `languages` text,
+  `profile_id` int(11) DEFAULT NULL,
+  `ns_type` enum('hash','slash') NOT NULL DEFAULT 'slash',
+  PRIMARY KEY (`id`),
+  KEY `agent_id` (`agent_id`),
+  KEY `child_updated_user_id` (`child_updated_user_id`),
+  KEY `created_user_id` (`created_user_id`),
+  KEY `last_updated_by_user_id` (`updated_user_id`),
+  KEY `status_id` (`status_id`),
+  KEY `reg_vocabulary_idx1` (`uri`),
+  KEY `reg_vocabulary_idx2` (`name`),
+  KEY `profile_id` (`profile_id`),
+  FOREIGN KEY (`created_user_id`) REFERENCES `reg_user` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
+  FOREIGN KEY (`updated_user_id`) REFERENCES `reg_user` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
+  FOREIGN KEY (`child_updated_user_id`) REFERENCES `reg_user` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
+  FOREIGN KEY (`profile_id`) REFERENCES `profile` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  FOREIGN KEY (`agent_id`) REFERENCES `reg_agent` (`id`) ON UPDATE NO ACTION,
+  FOREIGN KEY (`status_id`) REFERENCES `reg_status` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AVG_ROW_LENGTH=1024 COMMENT='InnoDB free: 0 kB;';
+
+CREATE TABLE `reg_vocabulary_has_user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `deleted_at` datetime DEFAULT NULL,
+  `vocabulary_id` int(11) NOT NULL DEFAULT '0',
+  `user_id` int(11) NOT NULL DEFAULT '0',
+  `is_maintainer_for` tinyint(1) DEFAULT '1',
+  `is_registrar_for` tinyint(1) DEFAULT '1',
+  `is_admin_for` tinyint(1) DEFAULT '1',
+  `languages` text,
+  `default_language` char(6) DEFAULT 'en',
+  `current_language` char(6) DEFAULT 'en',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `resource_user_id` (`vocabulary_id`,`user_id`),
+  UNIQUE KEY `user_resource_id` (`user_id`,`vocabulary_id`),
+  FOREIGN KEY (`user_id`) REFERENCES `reg_user` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  FOREIGN KEY (`vocabulary_id`) REFERENCES `reg_vocabulary` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AVG_ROW_LENGTH=630 COMMENT='InnoDB free: 0 kB; ';
 
 CREATE TABLE `reg_agent` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -465,7 +527,7 @@ SET FOREIGN_KEY_CHECKS = 0;
 
 LOCK TABLES `reg_agent` WRITE;
 ALTER TABLE `reg_agent` DISABLE KEYS;
-INSERT INTO `reg_agent` (`id`, `created_at`, `last_updated`, `deleted_at`, `org_email`, `org_name`, `ind_affiliation`, `ind_role`, `address1`, `address2`, `city`, `state`, `postal_code`, `country`, `phone`, `web_address`, `type`) VALUES 
+INSERT INTO `reg_agent` (`id`, `created_at`, `last_updated`, `deleted_at`, `org_email`, `org_name`, `ind_affiliation`, `ind_role`, `address1`, `address2`, `city`, `state`, `postal_code`, `country`, `phone`, `web_address`, `type`) VALUES
 	(1,'2014-05-05 21:27:54','2014-05-05 17:27:54',NULL,'test_owner@example.com','Test Owner','my affiliation',NULL,'my address 1','my address 2','my city','my','my postal code','US','my phone','http://mywebaddress.com','Individual'),
 	(2,'2014-05-06 17:51:46','2014-05-06 13:51:46',NULL,'owner@mail.com','owner','',NULL,'','','','','','US','','','Individual'),
 	(3,'2014-12-04 04:08:56','2014-12-03 23:08:56',NULL,'jphipps@madcreek.com','vocabs','',NULL,'','','','','','US','','','Individual'),
@@ -476,7 +538,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `profile` WRITE;
 ALTER TABLE `profile` DISABLE KEYS;
-INSERT INTO `profile` (`id`, `agent_id`, `created_at`, `updated_at`, `deleted_at`, `created_by`, `updated_by`, `deleted_by`, `child_updated_at`, `child_updated_by`, `name`, `note`, `uri`, `url`, `base_domain`, `token`, `community`, `last_uri_id`, `status_id`, `language`) VALUES 
+INSERT INTO `profile` (`id`, `agent_id`, `created_at`, `updated_at`, `deleted_at`, `created_by`, `updated_by`, `deleted_by`, `child_updated_at`, `child_updated_by`, `name`, `note`, `uri`, `url`, `base_domain`, `token`, `community`, `last_uri_id`, `status_id`, `language`) VALUES
 	(1,58,'2008-04-20 11:52:00','2008-04-20 11:52:00',NULL,36,36,NULL,NULL,NULL,'NSDL Registry Schema',NULL,'http://registry/uri/profile/registryschema',NULL,'http://registry/uri/profile/registryschema','registryschema','100000',100000,1,'en');
 ALTER TABLE `profile` ENABLE KEYS;
 UNLOCK TABLES;
@@ -484,11 +546,11 @@ UNLOCK TABLES;
 
 LOCK TABLES `profile_property` WRITE;
 ALTER TABLE `profile_property` DISABLE KEYS;
-INSERT INTO `profile_property` (`id`, `created_at`, `updated_at`, `deleted_at`, `created_by`, `updated_by`, `deleted_by`, `profile_id`, `name`, `label`, `definition`, `comment`, `type`, `uri`, `status_id`, `language`, `note`, `display_order`, `export_order`, `picklist_order`, `examples`, `is_required`, `is_reciprocal`, `is_singleton`, `is_in_picklist`, `is_in_export`, `inverse_profile_property_id`, `is_in_class_picklist`, `is_in_property_picklist`, `is_in_rdf`, `is_in_xsd`, `is_attribute`, `has_language`, `is_object_prop`, `is_in_form`) VALUES 
+INSERT INTO `profile_property` (`id`, `created_at`, `updated_at`, `deleted_at`, `created_by`, `updated_by`, `deleted_by`, `profile_id`, `name`, `label`, `definition`, `comment`, `type`, `uri`, `status_id`, `language`, `note`, `display_order`, `export_order`, `picklist_order`, `examples`, `is_required`, `is_reciprocal`, `is_singleton`, `is_in_picklist`, `is_in_export`, `inverse_profile_property_id`, `is_in_class_picklist`, `is_in_property_picklist`, `is_in_rdf`, `is_in_xsd`, `is_attribute`, `has_language`, `is_object_prop`, `is_in_form`) VALUES
 	(1,'2008-04-20 12:00:00','2008-04-20 15:00:00',NULL,36,36,NULL,1,'name','name',NULL,NULL,'property','reg:name',1,'en',NULL,1,3,1,NULL,1,0,1,0,1,NULL,0,0,1,1,1,1,0,1),
 	(2,'2008-04-20 12:00:00','2008-04-20 15:00:00',NULL,36,36,NULL,1,'label','label',NULL,NULL,'property','rdfs:label',1,'en',NULL,2,4,2,NULL,1,0,0,1,1,NULL,1,1,1,1,0,1,0,1),
 	(3,'2008-04-20 12:01:00','2008-04-20 15:01:01',NULL,36,36,NULL,1,'definition','description',NULL,NULL,'property','skos:definition',1,'en',NULL,3,6,3,NULL,0,0,0,1,1,NULL,1,1,1,1,0,1,0,1),
-	(4,'2008-04-20 12:02:00','2008-04-20 15:02:00',NULL,36,36,NULL,1,'type','type',NULL,NULL,'property','rdf:type',1,'en',NULL,5,2,5,NULL,1,0,1,0,1,NULL,0,0,1,1,1,0,1,1),
+	(4,'2008-04-20 12:02:00','2008-04-20 15:02:00',NULL,36,36,NULL,1,'type','type',NULL,NULL,'property','reg:type',1,'en',NULL,5,2,5,NULL,1,0,1,0,1,NULL,0,0,1,1,1,0,1,1),
 	(5,'2008-04-20 00:02:00','2008-04-20 03:02:02',NULL,36,36,NULL,1,'comment','comment',NULL,NULL,'property','rdfs:comment',1,'en',NULL,4,8,4,NULL,0,0,0,1,1,NULL,1,1,1,1,0,1,0,1),
 	(6,'2008-04-20 00:03:00','2008-04-20 15:03:00',NULL,36,36,NULL,1,'isSubpropertyOf','subPropertyOf',NULL,NULL,'property','rdfs:subPropertyOf',1,'en',NULL,6,14,6,NULL,0,0,0,1,1,8,0,1,1,1,0,0,1,1),
 	(7,'2008-04-20 00:04:00','2008-04-20 03:04:00',NULL,36,36,NULL,1,'note','note',NULL,NULL,'property','skos:scopeNote',1,'en',NULL,8,7,8,NULL,0,0,0,1,1,NULL,1,1,1,1,0,1,0,1),
@@ -519,7 +581,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `reg_agent_has_user` WRITE;
 ALTER TABLE `reg_agent_has_user` DISABLE KEYS;
-INSERT INTO `reg_agent_has_user` (`id`, `created_at`, `updated_at`, `deleted_at`, `user_id`, `agent_id`, `is_registrar_for`, `is_admin_for`) VALUES 
+INSERT INTO `reg_agent_has_user` (`id`, `created_at`, `updated_at`, `deleted_at`, `user_id`, `agent_id`, `is_registrar_for`, `is_admin_for`) VALUES
 	(1,'2014-12-04 04:08:56','2014-12-04 04:08:56',NULL,2,3,1,1),
 	(171,'2014-01-13 09:58:44','2014-01-13 04:58:44',NULL,422,177,1,1);
 ALTER TABLE `reg_agent_has_user` ENABLE KEYS;
@@ -534,54 +596,15 @@ UNLOCK TABLES;
 
 LOCK TABLES `reg_file_import_history` WRITE;
 ALTER TABLE `reg_file_import_history` DISABLE KEYS;
-INSERT INTO `reg_file_import_history` (`id`, `created_at`, `map`, `user_id`, `vocabulary_id`, `schema_id`, `file_name`, `source_file_name`, `file_type`, `batch_id`, `results`, `total_processed_count`, `error_count`, `success_count`) VALUES 
-	(41,'2015-04-30 22:00:00',NULL,422,NULL,81,'4eafa66ea44302f211b214cc6c18e9a4.bin','RDA Agent update - rdaa_template-1.csv','text/csv',NULL,NULL,NULL,NULL,NULL),
-	(42,'2015-05-03 19:58:49',NULL,422,NULL,81,'3b26624e6572698dcaca5fda134a8949.bin','RDA Agent update - rdaa_template.csv','text/csv',NULL,NULL,NULL,NULL,NULL),
-	(43,'2015-05-03 20:13:16',NULL,422,NULL,81,'febbd40dd3ec8309d3dd51120ea80d6c.bin','RDA Agent update - rdaa_template.csv','text/csv',NULL,NULL,NULL,NULL,NULL),
-	(44,'2015-05-03 20:19:42',NULL,422,NULL,81,'8906703a37824cc79b0697adefbe810c.bin','RDA Agent update - rdaa_template.csv','text/csv',NULL,NULL,NULL,NULL,NULL),
-	(45,'2015-05-03 20:23:04',NULL,422,NULL,81,'7a2773bbba03814842fd6b973f23cbda.bin','RDA Agent update - rdaa_template.csv','text/csv',NULL,NULL,NULL,NULL,NULL),
-	(46,'2015-05-03 20:34:00',NULL,422,NULL,81,'2d5bb4602f4c49bdf44268b340613fdb.bin','RDA Agent update - rdaa_template.csv','text/csv',NULL,NULL,NULL,NULL,NULL),
-	(47,'2015-05-03 20:37:20',NULL,422,NULL,81,'d9bce9d61557006ff9b913ba924357e6.bin','RDA Agent update - rdaa_template.csv','text/csv',NULL,NULL,NULL,NULL,NULL),
-	(48,'2015-05-03 20:42:50',NULL,422,NULL,81,'13cbf1188ac4e45535b6810d5449d6cf.bin','RDA Agent update - rdaa_template.csv','text/csv',NULL,NULL,NULL,NULL,NULL),
-	(49,'2015-05-03 21:07:00',NULL,422,NULL,81,'9f58e35bbd12bbd40a52c86e0670c15c.bin','RDA Agent update - rdaa_template.csv','text/csv',NULL,NULL,NULL,NULL,NULL),
-	(50,'2015-05-03 21:31:15',NULL,422,NULL,81,'87b5f4195122dad5c50d78f6cd7ac575.bin','RDA Agent update - rdaa_template.csv','text/csv',NULL,NULL,NULL,NULL,NULL),
-	(51,'2015-05-03 21:31:44',NULL,422,NULL,81,'b182eec0e3cf489fd826a9f591ff4199.bin','RDA Agent update - rdaa_template.csv','text/csv',NULL,NULL,NULL,NULL,NULL),
-	(52,'2015-05-03 21:41:39',NULL,422,NULL,81,'fc22300ab0323ed5ede8a9d923b7cd22.bin','RDA Agent update - rdaa_template.csv','text/csv',NULL,NULL,NULL,NULL,NULL),
-	(53,'2015-05-03 21:58:29',NULL,422,NULL,81,'a0d77ceb2f31c7360304e0fb66c6a894.bin','RDA Agent update - rdaa_template.csv','text/csv',NULL,NULL,NULL,NULL,NULL),
-	(54,'2015-05-03 21:59:16',NULL,422,NULL,81,'16ca22611f7db105edef3c5ce50722c4.bin','RDA Agent update - rdaa_template.csv','text/csv',NULL,NULL,NULL,NULL,NULL),
-	(55,'2015-05-03 22:01:18',NULL,422,NULL,81,'db2e0a7094dbaa39d431fc4215f7849c.bin','RDA Agent update - rdaa_template.csv','text/csv',NULL,NULL,NULL,NULL,NULL),
-	(56,'2015-05-03 22:03:31',NULL,422,NULL,81,'482317df1997f493f4b6f1cc35627666.bin','RDA Agent update - rdaa_template.csv','text/csv',NULL,NULL,NULL,NULL,NULL),
-	(57,'2015-05-04 20:11:31',NULL,422,NULL,81,'53a8583835715755c3b1293829cb268a.bin','RDA Agent update - rdaa_template.csv','text/csv',NULL,NULL,NULL,NULL,NULL),
-	(58,'2015-05-04 20:13:05',NULL,422,NULL,81,'9f60b77e1cac337cc223be821282ac13.bin','RDA Agent update - rdaa_template.csv','text/csv',NULL,NULL,NULL,NULL,NULL),
-	(59,'2015-05-04 20:13:26',NULL,422,NULL,81,'d3f338f538c6b489f6e682efbd12e6fd.bin','RDA Agent update - rdaa_template.csv','text/csv',NULL,NULL,NULL,NULL,NULL),
-	(60,'2015-05-04 22:47:24',NULL,422,NULL,81,'56f4e460261dd7fbfe9ee89b724e71b9.bin','RDA Agent update - rdaa_template.csv','text/csv',NULL,NULL,NULL,NULL,NULL),
-	(61,'2015-05-04 22:47:45',NULL,422,NULL,81,'caa653fb7a2a879209bfe60734aecaa9.bin','RDA Agent update - rdaa_template.csv','text/csv',NULL,NULL,NULL,NULL,NULL),
-	(62,'2015-05-04 22:49:12',NULL,422,NULL,81,'b85d1c1df143ae7b6377b7dc511f6c8b.bin','RDA Agent update - rdaa_template.csv','text/csv',NULL,NULL,NULL,NULL,NULL),
-	(63,'2015-05-04 22:52:20',NULL,422,NULL,81,'19764d27256ef1d921cdccf56c65d5fd.bin','RDA Agent update - rdaa_template.csv','text/csv',NULL,NULL,NULL,NULL,NULL),
-	(64,'2015-05-04 23:04:51',NULL,422,NULL,81,'a5791d6cf0ec12707be2b2ec3db15baf.bin','RDA Agent update - rdaa_template.csv','text/csv',NULL,NULL,NULL,NULL,NULL),
-	(65,'2015-05-04 23:42:22',NULL,422,NULL,81,'000d50628a541b211c51dc46cad5ff75.bin','RDA Agent update - rdaa_template.csv','text/csv',NULL,NULL,NULL,NULL,NULL),
-	(66,'2015-05-04 23:42:48',NULL,422,NULL,81,'de6fa4bcf9ce986ee5f0a5b9ae489635.bin','RDA Agent update - rdaa_template.csv','text/csv',NULL,NULL,NULL,NULL,NULL),
-	(67,'2015-05-04 23:49:00',NULL,422,NULL,81,'11af39587b60a862f1fdb22ebd9fadfc.bin','RDA Agent update - rdaa_template.csv','text/csv',NULL,NULL,NULL,NULL,NULL),
-	(68,'2015-05-04 23:52:24',NULL,422,NULL,81,'2a7f6347b138f180da187a03b4d83fcc.bin','RDA Agent update - rdaa_template.csv','text/csv',NULL,NULL,NULL,NULL,NULL),
-	(69,'2015-05-05 00:40:05',NULL,422,NULL,81,'fa7e0c1c573cb932df426b0fdc6cff52.bin','RDA Agent update - rdaa_template.csv','text/csv',NULL,NULL,NULL,NULL,NULL),
-	(70,'2015-05-05 00:54:26',NULL,422,NULL,81,'42008daf1242b73696639fc348464c34.bin','RDA Agent update - rdaa_template.csv','text/csv',NULL,NULL,NULL,NULL,NULL),
-	(71,'2015-05-05 00:59:25',NULL,422,NULL,81,'81a9e499aad3a8662046b7c1d5fd6aac.bin','RDA Agent update - rdaa_template.csv','text/csv',NULL,NULL,NULL,NULL,NULL),
-	(72,'2015-05-05 01:16:48',NULL,422,NULL,81,'828dd8721a94265297e2aa8b54e79e95.bin','RDA Agent update - rdaa_template.csv','text/csv',NULL,NULL,NULL,NULL,NULL),
-	(73,'2015-05-05 21:20:13',NULL,422,NULL,81,'d13cee9f53dd28d6dafc000ee0fce0ee.bin','RDA Agent update - rdaa_template.csv','text/csv',NULL,NULL,NULL,NULL,NULL),
-	(74,'2015-05-05 21:26:28',NULL,422,NULL,81,'daa81aa229b7fc82c57f3f3838b3ba56.bin','RDA Agent update - rdaa_template.csv','text/csv',NULL,NULL,NULL,NULL,NULL),
-	(75,'2015-05-05 21:27:39',NULL,422,NULL,81,'29de5f0b0a59786424720f0cf5b27766.bin','RDA Agent update - rdaa_template.csv','text/csv',NULL,NULL,NULL,NULL,NULL),
-	(76,'2015-05-05 21:47:57',NULL,422,NULL,81,'8c1d1d24615360d709d89972b152dd3a.bin','RDA Agent update - rdaa_template.csv','text/csv',NULL,NULL,NULL,NULL,NULL),
-	(77,'2015-05-05 21:54:06',NULL,422,NULL,81,'fd0de2b55512f484cf79081ebf14a5f7.bin','RDA Agent update - rdaa_template.csv','text/csv',NULL,NULL,NULL,NULL,NULL),
-	(78,'2015-05-05 22:21:16',NULL,422,NULL,81,'a60995d68a7eafa38b151fbf93788b61.bin','RDA Agent update - rdaa_template.csv','text/csv',NULL,NULL,NULL,NULL,NULL),
-	(79,'2015-05-05 22:39:25',NULL,422,NULL,81,'abc48d6f322ebd39c21d5c2e4793fc2f.bin','RDA Agent update - rdaa_template.csv','text/csv',NULL,NULL,NULL,NULL,NULL),
-	(80,'2015-05-06 15:48:30',NULL,422,NULL,81,'cfbd8874c9fd8975e76d62a066e13bfc.bin','RDA Agent update - rdaa_template.csv','text/csv',NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `reg_file_import_history` (`id`, `created_at`, `map`, `user_id`, `vocabulary_id`, `schema_id`, `file_name`, `source_file_name`, `file_type`, `batch_id`, `results`, `total_processed_count`, `error_count`, `success_count`) VALUES
+	(41,'2015-04-30 22:00:00',NULL,422,NULL,81,'4eafa66ea44302f211b214cc6c18e9a4.bin','RDA Agent update - rdaa_template-1.csv','text/csv',NULL,NULL,NULL,NULL,NULL);
 ALTER TABLE `reg_file_import_history` ENABLE KEYS;
 UNLOCK TABLES;
 
 
 LOCK TABLES `reg_lookup` WRITE;
 ALTER TABLE `reg_lookup` DISABLE KEYS;
-INSERT INTO `reg_lookup` (`id`, `type_id`, `short_value`, `long_value`, `display_order`) VALUES 
+INSERT INTO `reg_lookup` (`id`, `type_id`, `short_value`, `long_value`, `display_order`) VALUES
 	(1,1,'Published','Published',7),
 	(2,1,'New-Proposed','New-Proposed',1),
 	(3,1,'Change-Proposed','Change-Proposed',2),
@@ -603,7 +626,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `reg_status` WRITE;
 ALTER TABLE `reg_status` DISABLE KEYS;
-INSERT INTO `reg_status` (`id`, `display_order`, `display_name`, `uri`) VALUES 
+INSERT INTO `reg_status` (`id`, `display_order`, `display_name`, `uri`) VALUES
 	(1,7,'Published','http://metadataregistry.org/uri/RegStatus/1001'),
 	(2,1,'New-Proposed','http://metadataregistry.org/uri/RegStatus/1002'),
 	(3,2,'Change-Proposed','http://metadataregistry.org/uri/RegStatus/1003'),
@@ -619,7 +642,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `reg_user` WRITE;
 ALTER TABLE `reg_user` DISABLE KEYS;
-INSERT INTO `reg_user` (`id`, `created_at`, `last_updated`, `deleted_at`, `nickname`, `salutation`, `first_name`, `last_name`, `email`, `sha1_password`, `salt`, `want_to_be_moderator`, `is_moderator`, `is_administrator`, `deletions`, `password`, `culture`) VALUES 
+INSERT INTO `reg_user` (`id`, `created_at`, `last_updated`, `deleted_at`, `nickname`, `salutation`, `first_name`, `last_name`, `email`, `sha1_password`, `salt`, `want_to_be_moderator`, `is_moderator`, `is_administrator`, `deletions`, `password`, `culture`) VALUES
 	(1,'2014-12-04 04:02:52','2014-12-03 23:03:39',NULL,'admin',NULL,NULL,NULL,'jphipps@madcreek.com','89c4c184c5bcf66571433599b3864a92fdde20f2','989dc77e31d1bbace236b7c9da7c92bd',0,0,1,0,NULL,'en_US'),
 	(2,'2014-12-04 04:05:45','2014-12-03 23:05:45',NULL,'vocab_owner',NULL,NULL,NULL,'jphipps@madcreek.com','1d3304806406506c724c92ddb07bec42fff1f9de','f9a53f40fe15f0d30d5a1409118259b6',0,0,0,0,NULL,'en_US'),
 	(3,'2014-12-04 04:07:03','2014-12-03 23:07:03',NULL,'vocab_maintainer',NULL,NULL,NULL,'jphipps@madcreek.com','1226be1bb7bdce7bab3fad80be1cf652013bb5ef','681f3d73ac442ec27dfe90bf1180de22',0,0,0,0,NULL,'en_US'),
@@ -631,8 +654,10 @@ UNLOCK TABLES;
 
 LOCK TABLES `reg_schema` WRITE;
 ALTER TABLE `reg_schema` DISABLE KEYS;
-INSERT INTO `reg_schema` (`id`, `agent_id`, `created_at`, `updated_at`, `deleted_at`, `created_user_id`, `updated_user_id`, `child_updated_at`, `child_updated_user_id`, `name`, `note`, `uri`, `url`, `base_domain`, `token`, `community`, `last_uri_id`, `status_id`, `language`, `profile_id`, `ns_type`, `prefixes`, `languages`, `repo`) VALUES 
-	(81,177,'2014-01-13 10:14:49','2015-05-05 01:17:31',NULL,422,422,NULL,NULL,'RDA Agent properties','Properties derived from RDA elements and relationship designators with the domain of RDA Agent.','http://rdaregistry.info/Elements/a/','','http://metadataregistry.org/uri/schema/','rdaa','',100000,1,'en',1,'slash','a:16:{s:4:"rdac";s:35:"http://rdaregistry.info/Elements/c/";s:4:"rdaa";s:35:"http://rdaregistry.info/Elements/a/";s:4:"rdau";s:35:"http://rdaregistry.info/Elements/u/";s:4:"rdaw";s:35:"http://rdaregistry.info/Elements/w/";s:4:"rdai";s:35:"http://rdaregistry.info/Elements/i/";s:4:"rdae";s:35:"http://rdaregistry.info/Elements/e/";s:4:"rdam";s:35:"http://rdaregistry.info/Elements/m/";s:3:"owl";s:30:"http://www.w3.org/2002/07/owl#";s:4:"rdaz";s:35:"http://rdaregistry.info/Elements/z/";s:4:"rdfs";s:37:"http://www.w3.org/2000/01/rdf-schema#";s:3:"reg";s:46:"http://metadataregistry.org/uri/profile/RegAp/";s:4:"skos";s:36:"http://www.w3.org/2004/02/skos/core#";s:3:"mrc";s:38:"http://id.loc.gov/vocabulary/relators/";s:6:"rdakit";s:41:"http://rdaregistry.info/Elements/toolkit/";s:7:"regstat";s:42:"http://metadataregistry.org/uri/RegStatus/";s:0:"";N;}','a:3:{i:0;s:2:"en";i:1;s:2:"fr";i:2;s:2:"es";}','');
+INSERT INTO `reg_schema` (`id`, `agent_id`, `created_at`, `updated_at`, `deleted_at`, `created_user_id`, `updated_user_id`, `child_updated_at`, `child_updated_user_id`, `name`, `note`, `uri`, `url`, `base_domain`, `token`, `community`, `last_uri_id`, `status_id`, `language`, `profile_id`, `ns_type`, `prefixes`, `languages`, `repo`) VALUES
+	(81,177,'2014-01-13 10:14:49','2015-05-05 01:17:31',NULL,422,422,NULL,NULL,'RDA Agent properties','Properties derived from RDA elements and relationship designators with the domain of RDA Agent.','http://rdaregistry.info/Elements/a/','','http://metadataregistry.org/uri/schema/','rdaa','',100000,1,'en',1,'slash','a:16:{s:4:"rdac";s:35:"http://rdaregistry.info/Elements/c/";s:4:"rdaa";s:35:"http://rdaregistry.info/Elements/a/";s:4:"rdau";s:35:"http://rdaregistry.info/Elements/u/";s:4:"rdaw";s:35:"http://rdaregistry.info/Elements/w/";s:4:"rdai";s:35:"http://rdaregistry.info/Elements/i/";s:4:"rdae";s:35:"http://rdaregistry.info/Elements/e/";s:4:"rdam";s:35:"http://rdaregistry.info/Elements/m/";s:3:"owl";s:30:"http://www.w3.org/2002/07/owl#";s:4:"rdaz";s:35:"http://rdaregistry.info/Elements/z/";s:4:"rdfs";s:37:"http://www.w3.org/2000/01/rdf-schema#";s:3:"reg";s:46:"http://metadataregistry.org/uri/profile/RegAp/";s:4:"skos";s:36:"http://www.w3.org/2004/02/skos/core#";s:3:"mrc";s:38:"http://id.loc.gov/vocabulary/relators/";s:6:"rdakit";s:41:"http://rdaregistry.info/Elements/toolkit/";s:7:"regstat";s:42:"http://metadataregistry.org/uri/RegStatus/";s:0:"";N;}','a:3:{i:0;s:2:"en";i:1;s:2:"fr";i:2;s:2:"es";}',''),
+(82,177,'2014-01-13 10:15:27','2015-04-18 21:39:53',NULL,422,422,NULL,NULL,'RDA Unconstrained properties','Properties derived from RDA elements and relationship designators without specific or implicit restrictions to RDA entities.','http://rdaregistry.info/Elements/u/','','http://metadataregistry.org/uri/schema/','rdau','',100000,1,'en',1,'slash','a:2:{s:4:"rdau";s:35:"http://rdaregistry.info/Elements/u/";s:7:"marcrel";s:38:"http://id.loc.gov/vocabulary/relators/";}',NULL,NULL);
+
 ALTER TABLE `reg_schema` ENABLE KEYS;
 UNLOCK TABLES;
 
@@ -645,19 +670,24 @@ UNLOCK TABLES;
 
 LOCK TABLES `reg_schema_property` WRITE;
 ALTER TABLE `reg_schema_property` DISABLE KEYS;
-INSERT INTO `reg_schema_property` (`id`, `created_at`, `updated_at`, `deleted_at`, `created_user_id`, `updated_user_id`, `schema_id`, `name`, `label`, `definition`, `comment`, `type`, `is_subproperty_of`, `parent_uri`, `uri`, `status_id`, `language`, `note`, `domain`, `orange`, `is_deprecated`, `url`, `lexical_alias`) VALUES 
-	(15536,'2014-01-19 11:29:58','2014-01-19 06:29:58',NULL,422,422,81,'respondentOf','is respondent of','Relates a candidate for a degree who defends or opposes a thesis provided by the praeses in an academic disputation to the work.','','property',NULL,'http://rdaregistry.info/Elements/a/P50204','http://rdaregistry.info/Elements/a/P50001',1,'en','','http://rdaregistry.info/Elements/c/C10004','http://rdaregistry.info/Elements/c/C10001',NULL,NULL,NULL);
+INSERT INTO `reg_schema_property` (`id`, `created_at`, `updated_at`, `deleted_at`, `created_user_id`, `updated_user_id`, `schema_id`, `name`, `label`, `definition`, `comment`, `type`, `is_subproperty_of`, `parent_uri`, `uri`, `status_id`, `language`, `note`, `domain`, `orange`, `is_deprecated`, `url`, `lexical_alias`) VALUES
+	(15536,'2014-01-19 11:29:58','2014-01-19 06:29:58',NULL,422,422,81,'respondentOf','is respondent of','Relates a candidate for a degree who defends or opposes a thesis provided by the praeses in an academic disputation to the work.','','property',NULL,'http://rdaregistry.info/Elements/a/P50204','http://rdaregistry.info/Elements/a/P50001',1,'en','','http://rdaregistry.info/Elements/c/C10004','http://rdaregistry.info/Elements/c/C10001',NULL,NULL,NULL),
+  (14603,'2014-01-19 03:45:21','2014-01-18 22:51:24',NULL,422,422,82,'respondentOf','is respondent of','Relates a candidate for a degree who defends or opposes a thesis provided by the praeses in an academic disputation to the resource.',NULL,'property',15262,'http://rdaregistry.info/Elements/u/P60672','http://rdaregistry.info/Elements/u/P60001',1,'en','',NULL,NULL,NULL,NULL,NULL),
+	(14069,'2014-01-19 03:42:03','2014-06-01 12:53:50',NULL,422,422,81,'creatorOf','is creator of','Relates a person, family, or corporate body responsible for the creation of a work to the work.','','subproperty',15262,'http://rdaregistry.info/Elements/a/P50204','http://rdaregistry.info/Elements/a/P50204',1,'en','','http://rdaregistry.info/Elements/c/C10002','http://rdaregistry.info/Elements/c/C10001',NULL,NULL,NULL),
+  (15262,'2014-01-19 03:46:24','2014-01-18 22:46:24',NULL,422,422,82,'creatorOf','is creator of','Relates an agent responsible for the creation of a resourc to the resource.',NULL,'property',NULL,NULL,'http://rdaregistry.info/Elements/u/P60672',1,'en','',NULL,NULL,NULL,NULL,NULL),
+  (15553,'2014-01-19 12:30:22','2014-01-19 07:30:22',NULL,422,422,81,'locationOfHeadquarters','has location of headquarters','Relates a corporate body to a country, state, province, etc., or local place in which an organization has its headquarters.','','property',13896,'http://rdaregistry.info/Elements/a/P50031','http://rdaregistry.info/Elements/a/P50018',1,'en','','http://rdaregistry.info/Elements/c/C10005','',NULL,NULL,NULL);
+
 ALTER TABLE `reg_schema_property` ENABLE KEYS;
 UNLOCK TABLES;
 
 
 LOCK TABLES `reg_schema_property_element` WRITE;
 ALTER TABLE `reg_schema_property_element` DISABLE KEYS;
-INSERT INTO `reg_schema_property_element` (`id`, `created_at`, `updated_at`, `deleted_at`, `created_user_id`, `updated_user_id`, `schema_property_id`, `profile_property_id`, `is_schema_property`, `object`, `related_schema_property_id`, `language`, `status_id`) VALUES 
+INSERT INTO `reg_schema_property_element` (`id`, `created_at`, `updated_at`, `deleted_at`, `created_user_id`, `updated_user_id`, `schema_property_id`, `profile_property_id`, `is_schema_property`, `object`, `related_schema_property_id`, `language`, `status_id`) VALUES
 	(121276,'2014-01-19 11:29:58','2014-01-19 06:29:58',NULL,422,422,15536,1,1,'respondentOf',NULL,'en',1),
 	(121277,'2014-01-19 11:29:58','2014-01-19 06:29:58',NULL,422,422,15536,2,1,'is respondent of',NULL,'en',1),
 	(121278,'2014-01-19 11:29:58','2014-01-19 06:29:58',NULL,422,422,15536,3,1,'Relates a candidate for a degree who defends or opposes a thesis provided by the praeses in an academic disputation to the work.',NULL,'en',1),
-	(121279,'2014-01-19 11:29:58','2014-01-19 06:29:58',NULL,422,422,15536,4,1,'subproperty',NULL,'en',1),
+	(121279,'2014-01-19 11:29:58','2014-01-19 06:29:58',NULL,422,422,15536,4,1,'property',NULL,'en',1),
 	(121280,'2014-01-19 11:29:58','2014-01-19 06:29:58',NULL,422,422,15536,11,1,'http://rdaregistry.info/Elements/c/C10004',NULL,'en',1),
 	(121281,'2014-01-19 11:29:58','2014-01-19 06:29:58',NULL,422,422,15536,12,1,'http://rdaregistry.info/Elements/c/C10001',NULL,'en',1),
 	(121282,'2014-01-19 11:29:58','2014-01-19 06:29:58',NULL,422,422,15536,13,1,'http://rdaregistry.info/Elements/a/P50001',NULL,'en',1),
@@ -665,18 +695,58 @@ INSERT INTO `reg_schema_property_element` (`id`, `created_at`, `updated_at`, `de
 	(121284,'2014-01-19 11:29:58','2014-01-19 06:29:58',NULL,422,422,15536,6,1,'http://rdaregistry.info/Elements/a/P50204',14069,'en',1),
 	(121285,'2014-01-19 11:31:45','2014-01-19 06:31:45',NULL,422,422,15536,6,NULL,'http://rdaregistry.info/Elements/u/P60001',14603,'en',1),
 	(121286,'2014-01-19 11:33:14','2014-01-19 06:33:14',NULL,422,422,15536,15,NULL,'http://rdaregistry.info/Elements/w/P10001',NULL,'en',1),
-	(122794,'2014-04-26 06:27:36','2014-04-26 02:27:36',NULL,422,422,15536,16,NULL,'http://rdaregistry.info/Elements/a/respondentOf',NULL,'en',1);
+	(122794,'2014-04-26 06:27:36','2014-04-26 02:27:36',NULL,422,422,15536,16,NULL,'http://rdaregistry.info/Elements/a/respondentOf',NULL,'en',1),
+  (104709,'2014-01-19 03:42:03','2014-01-18 22:42:03',NULL,422,422,14069,1,1,'creatorOf',NULL,'en',1),
+  (104710,'2014-01-19 03:42:03','2014-01-18 22:42:03',NULL,422,422,14069,2,1,'is creator of',NULL,'en',1),
+  (104711,'2014-01-19 03:42:03','2014-01-18 22:42:03',NULL,422,422,14069,3,1,'Relates a person, family, or corporate body responsible for the creation of a work to the work.',NULL,'en',1),
+  (104712,'2014-01-19 03:42:03','2014-01-18 22:42:03',NULL,422,422,14069,4,1,'subproperty',NULL,'en',1),
+  (104713,'2014-01-19 03:42:03','2014-01-18 22:42:03',NULL,422,422,14069,11,1,'http://rdaregistry.info/Elements/c/C10002',NULL,'en',1),
+  (104714,'2014-01-19 03:42:03','2014-01-18 22:42:03',NULL,422,422,14069,12,1,'http://rdaregistry.info/Elements/c/C10001',NULL,'en',1),
+  (104715,'2014-01-19 03:42:03','2014-01-18 22:42:03',NULL,422,422,14069,13,1,'http://rdaregistry.info/Elements/a/P50204',NULL,'en',1),
+  (104716,'2014-01-19 03:42:03','2014-01-18 22:42:03',NULL,422,422,14069,14,1,'1',NULL,'en',1),
+  (104718,'2014-01-19 03:42:03','2014-01-18 22:50:36',NULL,422,422,14069,16,NULL,'http://rdaregistry.info/Elements/a/P50204',14069,'en',1),
+  (104719,'2014-01-19 03:42:03','2014-01-18 22:50:36',NULL,422,422,14069,15,NULL,'http://rdaregistry.info/Elements/w/P10065',15368,'en',1),
+  (119207,'2014-01-19 03:50:22','2014-01-18 22:50:22',NULL,422,422,14069,8,NULL,'http://rdaregistry.info/Elements/a/P50068',13933,'en',1),
+  (119301,'2014-01-19 03:50:28','2014-01-18 22:50:28',NULL,422,422,14069,8,NULL,'http://rdaregistry.info/Elements/a/P50127',13992,'en',1),
+  (119409,'2014-01-19 03:50:34','2014-01-18 22:50:34',NULL,422,422,14069,8,NULL,'http://rdaregistry.info/Elements/a/P50184',14049,'en',1),
+  (119411,'2014-01-19 03:50:35','2014-01-18 22:50:35',NULL,422,422,14069,8,NULL,'http://rdaregistry.info/Elements/a/P50185',14050,'en',1),
+  (119413,'2014-01-19 03:50:35','2014-01-18 22:50:35',NULL,422,422,14069,8,NULL,'http://rdaregistry.info/Elements/a/P50186',14051,'en',1),
+  (119415,'2014-01-19 03:50:35','2014-01-18 22:50:35',NULL,422,422,14069,8,NULL,'http://rdaregistry.info/Elements/a/P50187',14052,'en',1),
+  (119417,'2014-01-19 03:50:35','2014-01-18 22:50:35',NULL,422,422,14069,8,NULL,'http://rdaregistry.info/Elements/a/P50188',14053,'en',1),
+  (119419,'2014-01-19 03:50:35','2014-01-18 22:50:35',NULL,422,422,14069,8,NULL,'http://rdaregistry.info/Elements/a/P50189',14054,'en',1),
+  (119421,'2014-01-19 03:50:35','2014-01-18 22:50:35',NULL,422,422,14069,8,NULL,'http://rdaregistry.info/Elements/a/P50190',14055,'en',1),
+  (119423,'2014-01-19 03:50:35','2014-01-18 22:50:35',NULL,422,422,14069,8,NULL,'http://rdaregistry.info/Elements/a/P50191',14056,'en',1),
+  (119425,'2014-01-19 03:50:35','2014-01-18 22:50:35',NULL,422,422,14069,8,NULL,'http://rdaregistry.info/Elements/a/P50192',14057,'en',1),
+  (119427,'2014-01-19 03:50:35','2014-01-18 22:50:35',NULL,422,422,14069,8,NULL,'http://rdaregistry.info/Elements/a/P50193',14058,'en',1),
+  (119429,'2014-01-19 03:50:36','2014-01-18 22:50:36',NULL,422,422,14069,8,NULL,'http://rdaregistry.info/Elements/a/P50194',14059,'en',1),
+  (119431,'2014-01-19 03:50:36','2014-01-18 22:50:36',NULL,422,422,14069,8,NULL,'http://rdaregistry.info/Elements/a/P50195',14060,'en',1),
+  (119433,'2014-01-19 03:50:36','2014-01-18 22:50:36',NULL,422,422,14069,8,NULL,'http://rdaregistry.info/Elements/a/P50196',14061,'en',1),
+  (119435,'2014-01-19 03:50:36','2014-01-18 22:50:36',NULL,422,422,14069,8,NULL,'http://rdaregistry.info/Elements/a/P50197',14062,'en',1),
+  (119444,'2014-01-19 03:50:36','2014-06-01 12:30:28','2014-06-01 16:30:28',422,422,14069,8,NULL,'http://rdaregistry.info/Elements/a/P50204',14069,'en',1),
+  (122831,'2014-06-01 16:49:40','2014-06-01 12:53:13',NULL,422,422,14069,6,1,'http://rdaregistry.info/Elements/u/P60672',15262,'en',1),
+(110489,'2014-01-19 03:45:21','2014-01-18 22:45:21',NULL,422,422,14603,1,1,'respondentOf',NULL,'en',1),
+(110490,'2014-01-19 03:45:21','2014-01-18 22:45:21',NULL,422,422,14603,2,1,'is respondent of',NULL,'en',1),
+(110491,'2014-01-19 03:45:21','2014-01-18 22:45:21',NULL,422,422,14603,3,1,'Relates a candidate for a degree who defends or opposes a thesis provided by the praeses in an academic disputation to the resource.',NULL,'en',1),
+(110492,'2014-01-19 03:45:21','2014-01-18 22:45:21',NULL,422,422,14603,4,1,'subproperty',NULL,'en',1),
+(110493,'2014-01-19 03:45:21','2014-01-18 22:45:21',NULL,422,422,14603,13,1,'http://rdaregistry.info/Elements/u/P60001',NULL,'en',1),
+(110494,'2014-01-19 03:45:21','2014-01-18 22:45:21',NULL,422,422,14603,14,1,'1',NULL,'en',1),
+(110495,'2014-01-19 03:45:21','2014-01-18 22:51:24',NULL,422,422,14603,6,1,'http://rdaregistry.info/Elements/u/P60672',15262,'en',1),
+(110496,'2014-01-19 03:45:21','2014-01-18 22:51:24',NULL,422,422,14603,16,NULL,'http://rdaregistry.info/Elements/u/respondentOf',14603,'en',1),
+(110497,'2014-01-19 03:45:21','2014-01-18 22:51:24',NULL,422,422,14603,15,NULL,'http://rdaregistry.info/Elements/u/P60045',14641,'en',1);
+
+
+
 ALTER TABLE `reg_schema_property_element` ENABLE KEYS;
 UNLOCK TABLES;
 
 
 LOCK TABLES `reg_schema_property_element_history` WRITE;
 ALTER TABLE `reg_schema_property_element_history` DISABLE KEYS;
-INSERT INTO `reg_schema_property_element_history` (`id`, `created_at`, `created_user_id`, `action`, `schema_property_element_id`, `schema_property_id`, `schema_id`, `profile_property_id`, `object`, `related_schema_property_id`, `language`, `status_id`, `change_note`, `import_id`) VALUES 
+INSERT INTO `reg_schema_property_element_history` (`id`, `created_at`, `created_user_id`, `action`, `schema_property_element_id`, `schema_property_id`, `schema_id`, `profile_property_id`, `object`, `related_schema_property_id`, `language`, `status_id`, `change_note`, `import_id`) VALUES
 	(139292,'2014-01-19 06:29:58',422,'added',121276,15536,81,1,'respondentOf',NULL,'en',1,NULL,NULL),
 	(139293,'2014-01-19 06:29:58',422,'added',121277,15536,81,2,'is respondent of',NULL,'en',1,NULL,NULL),
 	(139294,'2014-01-19 06:29:58',422,'added',121278,15536,81,3,'Relates a candidate for a degree who defends or opposes a thesis provided by the praeses in an academic disputation to the work.',NULL,'en',1,NULL,NULL),
-	(139295,'2014-01-19 06:29:58',422,'added',121279,15536,81,4,'subproperty',NULL,'en',1,NULL,NULL),
+	(139295,'2014-01-19 06:29:58',422,'added',121279,15536,81,4,'property',NULL,'en',1,NULL,NULL),
 	(139296,'2014-01-19 06:29:58',422,'added',121280,15536,81,11,'http://rdaregistry.info/Elements/c/C10004',NULL,'en',1,NULL,NULL),
 	(139297,'2014-01-19 06:29:58',422,'added',121281,15536,81,12,'http://rdaregistry.info/Elements/c/C10001',NULL,'en',1,NULL,NULL),
 	(139298,'2014-01-19 06:29:58',422,'added',121282,15536,81,13,'http://rdaregistry.info/Elements/a/P50001',NULL,'en',1,NULL,NULL),
@@ -684,14 +754,59 @@ INSERT INTO `reg_schema_property_element_history` (`id`, `created_at`, `created_
 	(139300,'2014-01-19 06:29:58',422,'added',121284,15536,81,6,'http://rdaregistry.info/Elements/a/P50204',NULL,'en',1,NULL,NULL),
 	(139301,'2014-01-19 06:31:45',422,'added',121285,15536,81,6,'http://rdaregistry.info/Elements/u/P60001',NULL,'en',1,NULL,NULL),
 	(139302,'2014-01-19 06:33:14',422,'added',121286,15536,81,15,'http://rdaregistry.info/Elements/w/P10001',NULL,'en',1,NULL,NULL),
-	(141444,'2014-04-26 02:27:36',422,'added',122794,15536,81,16,'http://rdaregistry.info/Elements/a/respondentOf',NULL,'en',1,NULL,NULL);
+	(141444,'2014-04-26 02:27:36',422,'added',122794,15536,81,16,'http://rdaregistry.info/Elements/a/respondentOf',NULL,'en',1,NULL,NULL),
+(117881,'2014-01-18 22:42:03',422,'added',104709,14069,81,1,'creatorOf',NULL,'en',1,NULL,NULL),
+(117882,'2014-01-18 22:42:03',422,'added',104710,14069,81,2,'is creator of',NULL,'en',1,NULL,NULL),
+(117883,'2014-01-18 22:42:03',422,'added',104711,14069,81,3,'Relates a person, family, or corporate body responsible for the creation of a work to the work.',NULL,'en',1,NULL,NULL),
+(117884,'2014-01-18 22:42:03',422,'added',104712,14069,81,4,'property',NULL,'en',1,NULL,NULL),
+(117885,'2014-01-18 22:42:03',422,'added',104713,14069,81,11,'http://rdaregistry.info/Elements/c/C10002',NULL,'en',1,NULL,NULL),
+(117886,'2014-01-18 22:42:03',422,'added',104714,14069,81,12,'http://rdaregistry.info/Elements/c/C10001',NULL,'en',1,NULL,NULL),
+(117887,'2014-01-18 22:42:03',422,'added',104715,14069,81,13,'http://rdaregistry.info/Elements/a/P50204',NULL,'en',1,NULL,NULL),
+(117888,'2014-01-18 22:42:03',422,'added',104716,14069,81,14,'1',NULL,'en',1,NULL,NULL),
+(117890,'2014-01-18 22:42:03',422,'added',104718,14069,81,16,'http://rdaregistry.info/Elements/a/creatorOf',NULL,'en',1,NULL,NULL),
+(117891,'2014-01-18 22:42:03',422,'added',104719,14069,81,15,'http://rdaregistry.info/Elements/w/P10065',NULL,'en',1,NULL,NULL),
+(132502,'2014-01-18 22:50:22',422,'added',119207,14069,81,8,'http://rdaregistry.info/Elements/a/P50068',13933,'en',1,NULL,NULL),
+(132785,'2014-01-18 22:50:28',422,'added',119301,14069,81,8,'http://rdaregistry.info/Elements/a/P50127',13992,'en',1,NULL,NULL),
+(133115,'2014-01-18 22:50:34',422,'added',119409,14069,81,8,'http://rdaregistry.info/Elements/a/P50184',14049,'en',1,NULL,NULL),
+(133121,'2014-01-18 22:50:35',422,'added',119411,14069,81,8,'http://rdaregistry.info/Elements/a/P50185',14050,'en',1,NULL,NULL),
+(133127,'2014-01-18 22:50:35',422,'added',119413,14069,81,8,'http://rdaregistry.info/Elements/a/P50186',14051,'en',1,NULL,NULL),
+(133133,'2014-01-18 22:50:35',422,'added',119415,14069,81,8,'http://rdaregistry.info/Elements/a/P50187',14052,'en',1,NULL,NULL),
+(133139,'2014-01-18 22:50:35',422,'added',119417,14069,81,8,'http://rdaregistry.info/Elements/a/P50188',14053,'en',1,NULL,NULL),
+(133145,'2014-01-18 22:50:35',422,'added',119419,14069,81,8,'http://rdaregistry.info/Elements/a/P50189',14054,'en',1,NULL,NULL),
+(133151,'2014-01-18 22:50:35',422,'added',119421,14069,81,8,'http://rdaregistry.info/Elements/a/P50190',14055,'en',1,NULL,NULL),
+(133157,'2014-01-18 22:50:35',422,'added',119423,14069,81,8,'http://rdaregistry.info/Elements/a/P50191',14056,'en',1,NULL,NULL),
+(133163,'2014-01-18 22:50:35',422,'added',119425,14069,81,8,'http://rdaregistry.info/Elements/a/P50192',14057,'en',1,NULL,NULL),
+(133169,'2014-01-18 22:50:35',422,'added',119427,14069,81,8,'http://rdaregistry.info/Elements/a/P50193',14058,'en',1,NULL,NULL),
+(133175,'2014-01-18 22:50:36',422,'added',119429,14069,81,8,'http://rdaregistry.info/Elements/a/P50194',14059,'en',1,NULL,NULL),
+(133181,'2014-01-18 22:50:36',422,'added',119431,14069,81,8,'http://rdaregistry.info/Elements/a/P50195',14060,'en',1,NULL,NULL),
+(133187,'2014-01-18 22:50:36',422,'added',119433,14069,81,8,'http://rdaregistry.info/Elements/a/P50196',14061,'en',1,NULL,NULL),
+(133193,'2014-01-18 22:50:36',422,'added',119435,14069,81,8,'http://rdaregistry.info/Elements/a/P50197',14062,'en',1,NULL,NULL),
+(133225,'2014-01-18 22:50:36',422,'added',119444,14069,81,8,'http://rdaregistry.info/Elements/a/P50204',14069,'en',1,NULL,NULL),
+(133226,'2014-01-18 22:50:36',422,'updated',104718,14069,81,16,'http://rdaregistry.info/Elements/a/creatorOf',14069,'en',1,NULL,NULL),
+(133227,'2014-01-18 22:50:36',422,'updated',104719,14069,81,15,'http://rdaregistry.info/Elements/w/P10065',15368,'en',1,NULL,NULL),
+(141489,'2014-06-01 12:30:28',422,'deleted',119444,14069,81,8,'http://rdaregistry.info/Elements/a/P50204',14069,'en',1,NULL,NULL),
+(141501,'2014-06-01 12:49:40',422,'added',122831,14069,81,6,'http://rdaregistry.info/Elements/a/P50204',14069,'en',1,NULL,NULL),
+(141504,'2014-06-01 12:53:13',422,'updated',122831,14069,81,6,'http://rdaregistry.info/Elements/u/P60672',14069,'en',1,NULL,NULL),
+(123661,'2014-01-18 22:45:21',422,'added',110489,14603,82,1,'respondentOf',NULL,'en',1,NULL,NULL),
+(123662,'2014-01-18 22:45:21',422,'added',110490,14603,82,2,'is respondent of',NULL,'en',1,NULL,NULL),
+(123663,'2014-01-18 22:45:21',422,'added',110491,14603,82,3,'Relates a candidate for a degree who defends or opposes a thesis provided by the praeses in an academic disputation to the resource.',NULL,'en',1,NULL,NULL),
+(123664,'2014-01-18 22:45:21',422,'added',110492,14603,82,4,'property',NULL,'en',1,NULL,NULL),
+(123665,'2014-01-18 22:45:21',422,'added',110493,14603,82,13,'http://rdaregistry.info/Elements/u/P60001',NULL,'en',1,NULL,NULL),
+(123666,'2014-01-18 22:45:21',422,'added',110494,14603,82,14,'1',NULL,'en',1,NULL,NULL),
+(123667,'2014-01-18 22:45:21',422,'added',110495,14603,82,6,'http://rdaregistry.info/Elements/u/P60672',NULL,'en',1,NULL,NULL),
+(123668,'2014-01-18 22:45:21',422,'added',110496,14603,82,16,'http://rdaregistry.info/Elements/u/respondentOf',NULL,'en',1,NULL,NULL),
+(123669,'2014-01-18 22:45:21',422,'added',110497,14603,82,15,'http://rdaregistry.info/Elements/u/P60045',NULL,'en',1,NULL,NULL),
+(135851,'2014-01-18 22:51:24',422,'updated',110495,14603,82,6,'http://rdaregistry.info/Elements/u/P60672',15262,'en',1,NULL,NULL),
+(135853,'2014-01-18 22:51:24',422,'updated',110496,14603,82,16,'http://rdaregistry.info/Elements/u/respondentOf',14603,'en',1,NULL,NULL),
+(135854,'2014-01-18 22:51:24',422,'updated',110497,14603,82,15,'http://rdaregistry.info/Elements/u/P60045',14641,'en',1,NULL,NULL);
+
 ALTER TABLE `reg_schema_property_element_history` ENABLE KEYS;
 UNLOCK TABLES;
 
 
 LOCK TABLES `schema_has_user` WRITE;
 ALTER TABLE `schema_has_user` DISABLE KEYS;
-INSERT INTO `schema_has_user` (`id`, `created_at`, `updated_at`, `deleted_at`, `schema_id`, `user_id`, `is_maintainer_for`, `is_registrar_for`, `is_admin_for`, `languages`, `default_language`, `current_language`) VALUES 
+INSERT INTO `schema_has_user` (`id`, `created_at`, `updated_at`, `deleted_at`, `schema_id`, `user_id`, `is_maintainer_for`, `is_registrar_for`, `is_admin_for`, `languages`, `default_language`, `current_language`) VALUES
 	(95,'2014-01-13 10:14:49','2014-01-13 10:14:49',NULL,81,422,1,1,1,NULL,'en',NULL);
 ALTER TABLE `schema_has_user` ENABLE KEYS;
 UNLOCK TABLES;
