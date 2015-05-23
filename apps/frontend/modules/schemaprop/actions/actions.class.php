@@ -80,6 +80,7 @@ class schemapropActions extends autoschemapropActions
 
   public function executeEdit()
   {
+    /** @var \myUser $sfUser */
     $sfUser = sfContext::getInstance()->getUser();
     $userId = $sfUser->getSubscriberId();
     $schemaObj = $this->getCurrentSchema();

@@ -366,11 +366,13 @@ class SchemaProperty extends BaseSchemaProperty
         $dbElements = $this->getSchemaPropertyElementsRelatedBySchemaPropertyId();
         /** @var \SchemaPropertyElement $element */
         foreach ($dbElements as $element) {
-            $profile = $profileProperties[$element->getProfilePropertyId()];
-            if ($profile->getHasLanguage()) {
-                $elementsTmp[$profile->getId() . " (" . $element->getLanguage() . ")"][] = $element;
-            } else {
-                $elementsTmp[$profile->getId()][] = $element;
+            $profile = empty($profileProperties[$element->getProfilePropertyId()]) ? null : $profileProperties[$element->getProfilePropertyId()];
+            if ($profile) {
+                if ($profile->getHasLanguage()) {
+                    $elementsTmp[$profile->getId() . " (" . $element->getLanguage() . ")"][] = $element;
+                } else {
+                    $elementsTmp[$profile->getId()][] = $element;
+                }
             }
         }
         foreach ($elementsTmp as $key => $elementTmp) {

@@ -59,8 +59,8 @@ class SchemaPropertyElement extends BaseSchemaPropertyElement
         $action = 'updated';
       }
 
-      $property = $this->getSchemaPropertyRelatedBySchemaPropertyId();
-      $property->setUpdatedAt($this->getUpdatedAt());
+      //$property = $this->getSchemaPropertyRelatedBySchemaPropertyId();
+      //$property->setUpdatedAt($this->getUpdatedAt());
 
       //continue with save
       $affectedRows = parent::save($con);
