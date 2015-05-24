@@ -175,12 +175,12 @@ class SchemaPropertyElement extends BaseSchemaPropertyElement
       $relatedProperty = SchemaPropertyPeer::retrieveByUri($this->getObject());
       if (!$relatedProperty) {
         //there's no related property in the registry
-      return;
+        return;
       } else {
         $relatedPropertyId = $relatedProperty->getId();
         $this->setRelatedSchemaPropertyId($relatedPropertyId);
         $this->save();
-    }
+      }
     }
 
     $schemaPropertyID = $this->getSchemaPropertyId();
@@ -206,7 +206,7 @@ class SchemaPropertyElement extends BaseSchemaPropertyElement
 
     $c = new Criteria();
     $c->add(SchemaPropertyElementPeer::SCHEMA_PROPERTY_ID, $relatedPropertyId);
-    $c->add(SchemaPropertyElementPeer::PROFILE_PROPERTY_ID, $recipProfilePropertyId);
+    $c->add(SchemaPropertyElementPeer::PROFILE_PROPERTY_ID, $inverseProfilePropertyId);
     $c->add(SchemaPropertyElementPeer::RELATED_SCHEMA_PROPERTY_ID,$schemaPropertyID);
     $c->add(SchemaPropertyElementPeer::DELETED_AT,Criteria::ISNULL);
 
@@ -214,7 +214,7 @@ class SchemaPropertyElement extends BaseSchemaPropertyElement
 
     $recipSchemaProperty = SchemaPropertyPeer::retrieveByPK($relatedPropertyId, $con);
 
-    $recipProfileProperty = ProfilePropertyPeer::retrieveByPK($recipProfilePropertyId, $con);
+    $recipProfileProperty = ProfilePropertyPeer::retrieveByPK($inverseProfilePropertyId, $con);
     $statusId = $this->getStatusId();
 
     if ($recipProfileProperty)
@@ -234,7 +234,7 @@ class SchemaPropertyElement extends BaseSchemaPropertyElement
     if ('added' == $action && !$recipElement)
     {
       //add the reciprocal
-      $recipElement = SchemaPropertyElementPeer::createElement($recipSchemaProperty, $userId, $recipProfilePropertyId, $statusId);
+      $recipElement = SchemaPropertyElementPeer::createElement($recipSchemaProperty, $userId, $inverseProfilePropertyId, $statusId);
     }
 
     //if action == updated
@@ -244,7 +244,7 @@ class SchemaPropertyElement extends BaseSchemaPropertyElement
       if (!$recipElement)
       {
         //create a new one
-        $recipElement = SchemaPropertyElementPeer::createElement($recipSchemaProperty, $userId, $recipProfilePropertyId, $statusId);
+        $recipElement = SchemaPropertyElementPeer::createElement($recipSchemaProperty, $userId, $inverseProfilePropertyId, $statusId);
       }
     }
 
@@ -252,7 +252,7 @@ class SchemaPropertyElement extends BaseSchemaPropertyElement
     {
       $recipElement->setUpdatedUserId($userId);
       $recipElement->setRelatedSchemaPropertyId($schemaPropertyID);
-      $recipElement->setObject('');
+      $recipElement->setObject($this->getSchemaPropertyRelatedBySchemaPropertyId()->getUri());
       $recipElement->save($con, true);
     }
 
