@@ -208,6 +208,7 @@ class SchemaPropertyElement extends BaseSchemaPropertyElement
     $c->add(SchemaPropertyElementPeer::SCHEMA_PROPERTY_ID, $relatedPropertyId);
     $c->add(SchemaPropertyElementPeer::PROFILE_PROPERTY_ID, $recipProfilePropertyId);
     $c->add(SchemaPropertyElementPeer::RELATED_SCHEMA_PROPERTY_ID,$schemaPropertyID);
+    $c->add(SchemaPropertyElementPeer::DELETED_AT,Criteria::ISNULL);
 
     $recipElement = SchemaPropertyElementPeer::doSelectOne($c, $con);
 
