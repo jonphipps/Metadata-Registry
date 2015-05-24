@@ -15,7 +15,6 @@ class ImportJob
 
     public function perform($args)
     {
-        xdebug_break();
         list($schemaId, $filePath, $importId, $environment) = $args;
         // Set up environment for this job
         define('SF_ROOT_DIR', realpath(dirname(__file__) . '/../../../..'));
