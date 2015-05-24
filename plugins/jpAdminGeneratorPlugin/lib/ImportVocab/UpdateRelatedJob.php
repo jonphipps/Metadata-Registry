@@ -10,13 +10,12 @@ class UpdateRelatedJob
 {
     public function setUp()
     {
-
+        set_time_limit(0);
     }
 
     public function perform($args)
     {
         //todo: this part really should be in a _bootstrapDbJob include
-        xdebug_break();
         list($schemaId, $importId, $userId, $environment) = $args;
         // Set up environment for this job
         define('SF_ROOT_DIR', realpath(dirname(__file__) . '/../../../..'));

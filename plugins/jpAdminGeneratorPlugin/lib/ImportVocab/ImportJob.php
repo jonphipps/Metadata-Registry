@@ -10,7 +10,7 @@ class ImportJob
 {
     public function setUp()
     {
-
+        set_time_limit(0);
     }
 
     public function perform($args)
