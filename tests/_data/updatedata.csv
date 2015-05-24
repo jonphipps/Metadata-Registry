@@ -30,5 +30,5 @@ prefix,regstat,http://metadataregistry.org/uri/RegStatus/,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,,
 15536,rdaa:P50001,rdaa:respondentOf,"is respondent of",respondentOf,"New definition",,rdac:C10004,,rdaa:P50206,rdaa:P50204,rdau:P60001,rdaw:P10001,property,"This is a change note",1.2.3,1
 ,rdaa:P50240,rdaa:broaderAffiliatedBody,"has broader affiliated body",broaderAffiliatedBody,"Relates a corporate body to a corporate body that acts for the local affiliated body and others at a broader organizational level.",,rdac:C10005,rdac:C10005,,,rdau:P60738,,property,,,1
-,rdaa:P50204,rdaa:creatorOf,creatorOf,"is creator of","Another new definition",,,rdac:C10002,rdac:C10001,rdau:P60672,,rdaw:P10065,property,,,1
+,rdaa:P50204,rdaa:creatorOf,creatorOf,"is creator of","Another new definition",,rdac:C10002,rdac:C10001,,,rdau:P60672,rdaw:P10065,property,,,1
 ,rdaa:P50018,,,,,,,,,,,,,,,8
