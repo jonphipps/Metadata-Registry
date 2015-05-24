@@ -32,84 +32,21 @@ class UpdateRelatedJob
         $databaseManager = new \sfDatabaseManager();
         $databaseManager->initialize();
 
-//        //get the userId
-//        $userId = null;
-//        $import = \FileImportHistoryPeer::retrieveByPK($importId);
-//        if ($import) {
-//            $userid = $import->getUserId();
-//        }
-
-
+        //todo: better error handling and logging
         if ($schemaId) {
             self::processSchema($schemaId, $userId);
-
-        }
-
-
-
-
-
-
-
-        $import = new ImportVocab('schema', $filePath, $schemaId);
-        try {
-            $fileImportHistory = \FileImportHistoryPeer::retrieveByPK($importId);
-        } catch (\PropelException $e) {
-            //exit the job with an error
-            throw $e;
-        }
-
-        try {
-            $schema = \SchemaPeer::retrieveByPK($schemaId);
-        } catch (\PropelException $e) {
-            //exit the job with an error
-            throw $e;
-        }
-
-        // Perform some job
-        $import->importId = $importId;
-        //todo update the prefixes table with prefixes
-        //todo update the schema table with prefixes
-        $schemaPrefixes = $schema->getPrefixes();
-        $countSchemaPrefixes = count($schemaPrefixes);
-        /** @var string[] $importPrefixes */
-        $importPrefixes = $import->prolog['prefix'];
-        foreach ($importPrefixes as $prefix => $url) {
-            if (trim($prefix)) {
-                if ( ! array_key_exists($prefix, $schemaPrefixes)) {
-                    $schemaPrefixes[$prefix] = $url;
-                }
+        } else {
+            //schemaId is not set, so process all of the schemas
+            // (we could just process al of the elements, but that would take too much memory)
+            $c = new \Criteria();
+            $schemas = \SchemaPeer::doSelect($c);
+            /** @var \Schema $schema */
+            foreach ($schemas as $schema) {
+                self::processSchema($schema->getId(), $userId);
             }
         }
-        if (count($schemaPrefixes) != $countSchemaPrefixes)
-        {
-            $schema->setPrefixes($schemaPrefixes);
-            $schema->save();
-        }
-        $prolog = $import->processProlog();
-        $import->processData();
-        $fileImportHistory->setResults($import->results);
-        $fileImportHistory->setMap($import->mapping);
-        $fileImportHistory->setTotalProcessedCount( $import->DataWorkflowResults->getTotalProcessedCount());
-        $fileImportHistory->setErrorCount($import->DataWorkflowResults->getErrorCount());
-        $fileImportHistory->setSuccessCount($import->DataWorkflowResults->getSuccessCount());
-        $fileImportHistory->setResults('Your file has been imported. It took us: ' . $import->DataWorkflowResults->getElapsed()->format("%h:%i:%s"));
-        $fileImportHistory->save();
-
-        $newFilePath = \sfConfig::get( 'sf_repos_dir' ) . DIRECTORY_SEPARATOR .
-                       'agents' . DIRECTORY_SEPARATOR .
-                       $fileImportHistory->getSchema()->getAgentId() . DIRECTORY_SEPARATOR .
-                       $fileImportHistory->getSourceFileName();
-        $request = new \myWebRequest();
-        $result = $request->moveToRepo($filePath, $newFilePath);
-
-        unset ($import);
-        unset ($request);
-        unset($databaseManager);
-
     }
 
-    //if schemaId is not set, process all of the schemas (we could just process al of the elements, but that would take to much memory)
     private static function processSchema($schemaId, $userId = null)
     {
         $c = new \Criteria();
