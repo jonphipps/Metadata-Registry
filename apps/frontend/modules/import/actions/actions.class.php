@@ -82,6 +82,7 @@ class importActions extends autoimportActions
       }
       //todo identify and warn of more processing errors with the prolog
       //check to make sure the user is an admin
+      /** @var myUser $user */
       $user = $this->getUser();
       if ( ! $user->hasCredential(array(
             0 => array(
@@ -107,6 +108,12 @@ class importActions extends autoimportActions
                   $this->file_import_history->getId(),
                   $environment
             ));
+      $job2 = Resque::push('ImportVocab\UpdateRelatedJob', array(
+            $schemaId,
+            $this->file_import_history->getId(),
+            $this->file_import_history->getUserId(),
+            $environment
+      ));
 
       return $this->redirect('import/show?id=' . $this->file_import_history->getId());
     }
