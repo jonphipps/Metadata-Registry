@@ -1131,8 +1131,12 @@ class ImportVocab {
   private function updateRowUris($key, &$element)
   {
     if (! is_array($element)) {
-      if ( ! empty($this->prolog['columns'][$key]['type']) and $this->useCuries) {
-        $element = $this->getFqn($element);
+      /** @var \ProfileProperty $property */
+      $property = $this->prolog['columns'][$key]['property'];
+      if (isset($property)) {
+        if ( ! empty($property->getIsObjectProp()) and $this->useCuries) {
+          $element = $this->getFqn($element);
+        }
       }
     } else {
       foreach ($element as &$oneElement) {
