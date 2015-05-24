@@ -1102,11 +1102,16 @@ class ImportVocab {
         $property->addSchemaPropertyElementRelatedBySchemaPropertyId($dbElement);
       }
       if ($dbElement and $value !== $dbElement->getObject()) {
-        $dbElement->setStatusId($rowStatus);
-        $dbElement->setObject($value);
-        $dbElement->setCreatedUserId($this->userId);
-        $dbElement->setUpdatedUserId($this->userId);
-        $dbElement->importId = $this->importId;
+        if (empty($value))
+        {
+          $dbElement->delete();
+        } else {
+          $dbElement->setStatusId($rowStatus);
+          $dbElement->setObject($value);
+          $dbElement->setCreatedUserId($this->userId);
+          $dbElement->setUpdatedUserId($this->userId);
+          $dbElement->importId = $this->importId;
+        }
         //$dbElement->save();
         if ($profileProperty->getIsInForm() and $property->getLanguage() == $dbElement->getLanguage()) {
           $this->setPropertyValue($value, $property, $profileProperty->getName(), ! $profileProperty->getIsObjectProp());
