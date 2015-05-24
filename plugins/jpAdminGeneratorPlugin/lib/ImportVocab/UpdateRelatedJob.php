@@ -54,14 +54,13 @@ class UpdateRelatedJob
         $properties = \SchemaPropertyPeer::doSelect($c);
         /** @var \SchemaProperty $property */
         foreach ($properties as $property) {
-            if (!$userId)
-            {
-              $userId = $property->getUpdatedUserId();
+            if ( ! $userId) {
+                $userId = $property->getUpdatedUserId();
             }
             $elements = $property->getSchemaPropertyElementsRelatedBySchemaPropertyId();
             /** @var \SchemaPropertyElement $element */
             foreach ($elements as $element) {
-                $element->updateReciprocal('update', $userId, $schemaId);
+                $element->updateReciprocal('updated', $userId, $schemaId);
             }
         }
         unset($properties);
