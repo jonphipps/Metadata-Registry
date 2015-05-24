@@ -740,4 +740,22 @@ EOT;
 
     return $cLang;
   }
+
+    /**
+     * @return array
+     */
+    public function getMaintainerIds()
+    {
+        $ca = new Criteria();
+        $ca->add(SchemaHasUserPeer::SCHEMA_ID, $this->getId());
+        $ca->add(SchemaHasUserPeer::IS_MAINTAINER_FOR, true);
+        $maintainers = SchemaHasUserPeer::doSelect($ca);
+        $maintainerArray = [];
+        /** @var SchemaHasUser $maintainer */
+        foreach ($maintainers as $maintainer) {
+            $maintainerArray[] = $maintainer->getUserId();
+        }
+
+        return $maintainerArray;
+    }
 }
