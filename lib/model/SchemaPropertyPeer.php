@@ -158,7 +158,7 @@ class SchemaPropertyPeer extends BaseSchemaPropertyPeer
         ) {
           //there's a uri but it doesn't match anything registered
           //so we have to delete just the reciprocal
-          $element->updateReciprocal('deleted', $con);
+          $element->updateReciprocal('deleted', $userId, $property->getSchemaId(), $con);
         }
         else {
           //delete the element

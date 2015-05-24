@@ -73,16 +73,19 @@ class SchemaPropertyElement extends BaseSchemaPropertyElement
         $action = 'deleted';
       }
 
+      $userId = $this->getUpdatedUserId();
+      $schemaId = $this->getSchemaPropertyRelatedBySchemaPropertyId()->getSchemaId();
+
       $history->setAction($action);
       $history->setProfilePropertyId($this->getProfilePropertyId());
-      $history->setSchemaId($this->getSchemaPropertyRelatedBySchemaPropertyId()->getSchemaId());
+      $history->setSchemaId($schemaId);
       $history->setSchemaPropertyId($this->getSchemaPropertyId());
       $history->setSchemaPropertyElementId($this->getId());
       $history->setRelatedSchemaPropertyId($this->getRelatedSchemaPropertyId());
       $history->setObject($this->getObject());
       $history->setLanguage($this->getLanguage());
       $history->setStatusId($this->getStatusId());
-      $history->setCreatedUserId($this->getUpdatedUserId());
+      $history->setCreatedUserId($userId);
       $history->setCreatedAt($this->getUpdatedAt());
       if (!empty($this->importId))
       {
@@ -93,7 +96,7 @@ class SchemaPropertyElement extends BaseSchemaPropertyElement
 
       if (!$reciprocal)
       {
-        $this->updateReciprocal($action, $con);
+        $this->updateReciprocal($action, $userId, $schemaId, $con);
       }
 
     return $affectedRows;
@@ -156,45 +159,45 @@ class SchemaPropertyElement extends BaseSchemaPropertyElement
    * @throws Exception
    * @throws PropelException
    */
-  public function updateReciprocal($action, $con = null)
+  public function updateReciprocal($action, $userId, $schemaId, $con = null)
   {
-    $relatedPropertyId = $this->getRelatedSchemaPropertyId();
-    if (!$relatedPropertyId) {
+    $inverseProfilePropertyId = $this->getProfileProperty()->getInverseProfilePropertyId();
+    if (empty($inverseProfilePropertyId) and $this->getProfileProperty()->getIsReciprocal()) {
+      $inverseProfilePropertyId = $this->getProfileProperty()->getId();
+    }
+    if ( ! $inverseProfilePropertyId) {
+      //there's no reciprocal or inverse to process
       return;
     }
 
-    $recipProfilePropertyId = $this->getProfileProperty()->getInverseProfilePropertyId();
-    if (!$recipProfilePropertyId) {
+    $relatedPropertyId = $this->getRelatedSchemaPropertyId();
+    if (!$relatedPropertyId) {
+      $relatedProperty = SchemaPropertyPeer::retrieveByUri($this->getObject());
+      if (!$relatedProperty) {
+        //there's no related property in the registry
       return;
+      } else {
+        $relatedPropertyId = $relatedProperty->getId();
+        $this->setRelatedSchemaPropertyId($relatedPropertyId);
+        $this->save();
+    }
     }
 
     $schemaPropertyID = $this->getSchemaPropertyId();
 
     //does the user have editorial rights to the reciprocal...
-    //get the schema_id of the reciprocal property
-    /** @var $user myUser */
-    $user       = sfContext::getInstance()->getUser();
-    $userId     = $user->getSubscriberId();
     $permission = FALSE;
-
     $c = new Criteria();
     $c->add(SchemaPropertyPeer::ID, $relatedPropertyId);
     $property = SchemaPropertyPeer::doSelectOne($c);
     if ($property) {
-      $schemaId = $property->getSchemaId();
-
-      //does this user have the proper credentials?
-      $permission = $user->hasObjectCredential(
-        $schemaId,
-        'schema',
-        array(
-          0 => array(
-            0 => 'administrator',
-            1 => 'schemamaintainer',
-            2 => 'schemaadmin',
-          )
-        )
-      );
+      //get the maintainers of the reciprocal property
+      $maintainers = $property->getSchema()->getMaintainerIds();
+      foreach ($maintainers as $maintainerId) {
+        if ($userId == $maintainerId) {
+          $permission = true;
+        }
+      }
     }
 
     if (!$permission) {
