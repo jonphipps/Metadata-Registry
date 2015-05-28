@@ -13,10 +13,16 @@ class UpdateRelatedJob
         set_time_limit(0);
     }
 
+    /**
+     * @param $args
+     *
+     * @throws \PropelException
+     */
     public function perform($args)
     {
+        list($environment) = $args;
+
         //todo: this part really should be in a _bootstrapDbJob include
-        list($schemaId, $importId, $userId, $environment) = $args;
         // Set up environment for this job
         define('SF_ROOT_DIR', realpath(dirname(__file__) . '/../../../..'));
         define('SF_APP', 'frontend');
@@ -31,39 +37,33 @@ class UpdateRelatedJob
 // initialize database manager
         $databaseManager = new \sfDatabaseManager();
         $databaseManager->initialize();
+        $connection = \Propel::getConnection();
 
-        //todo: better error handling and logging
-        if ($schemaId) {
-            self::processSchema($schemaId, $userId);
-        } else {
-            //schemaId is not set, so process all of the schemas
-            // (we could just process al of the elements, but that would take too much memory)
-            $c = new \Criteria();
-            $schemas = \SchemaPeer::doSelect($c);
-            /** @var \Schema $schema */
-            foreach ($schemas as $schema) {
-                self::processSchema($schema->getId(), $userId);
-            }
-        }
-    }
+        //todo: this should be setup to run on a cron
 
-    private static function processSchema($schemaId, $userId = null)
-    {
-        $c = new \Criteria();
-        $c->add(\SchemaPropertyPeer::SCHEMA_ID, $schemaId);
-        $properties = \SchemaPropertyPeer::doSelect($c);
-        /** @var \SchemaProperty $property */
-        foreach ($properties as $property) {
-            if ( ! $userId) {
-                $userId = $property->getUpdatedUserId();
-            }
-            $elements = $property->getSchemaPropertyElementsRelatedBySchemaPropertyId();
-            /** @var \SchemaPropertyElement $element */
-            foreach ($elements as $element) {
-                $element->updateReciprocal('updated', $userId, $schemaId);
-            }
-        }
-        unset($properties);
+        //update lexical aliases
+
+        $query = <<<SQL
+update reg_schema_property_element
+set related_schema_property_id = schema_property_id
+WHERE profile_property_id = 27
+and related_schema_property_id is NULL
+SQL;
+        $statement = $connection->prepareStatement($query);
+        $affectedRows = $statement->executeUpdate();
+        echo $affectedRows;
+
+        //update all of the related_schema_property_id
+
+        $query = <<<SQL
+update reg_schema_property_element as e, reg_schema_property as p
+set e.related_schema_property_id = p.id
+WHERE e.object = p.uri
+and (e.related_schema_property_id <> p.id or e.related_schema_property_id is NULL)
+SQL;
+        $statement = $connection->prepareStatement($query);
+        $affectedRows = $statement->executeUpdate();
+        echo $affectedRows;
     }
 
     public function tearDown()

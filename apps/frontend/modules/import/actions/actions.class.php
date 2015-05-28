@@ -109,9 +109,6 @@ class importActions extends autoimportActions
                   $environment
             ));
       $job2 = Resque::push('ImportVocab\UpdateRelatedJob', array(
-            $schemaId,
-            $this->file_import_history->getId(),
-            $this->file_import_history->getUserId(),
             $environment
       ));
 
