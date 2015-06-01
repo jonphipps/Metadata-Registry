@@ -1,5 +1,0 @@
-# `batch` environment config goes here
-modules:
-    config:
-        Db:
-            dump: tests/_data/batch/swregistry_test_2014-01-17.sql
