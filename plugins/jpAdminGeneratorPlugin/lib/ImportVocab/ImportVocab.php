@@ -8,6 +8,7 @@ namespace ImportVocab;
 
 use Ddeboer\DataImport\Reader\ArrayReader;
 use Ddeboer\DataImport\Reader\CsvReader;
+use Ddeboer\DataImport\ValueConverter\MappingValueConverter;
 use Ddeboer\DataImport\Workflow;
 use Ddeboer\DataImport\Writer;
 use Ddeboer\DataImport\Filter;
@@ -493,6 +494,14 @@ class ImportVocab {
     /** @var $filter Filter\CallbackFilter */
     $workflow->addFilter($filter);
     $workflow->addWriter(new Writer\ConsoleProgressWriter($output, $this->reader));
+    $typeConverter = new MappingValueConverter(array(
+          'rdfs:class' => 'class',
+          'rdfs:property' => 'property',
+          'class' => 'class',
+          'property' => 'property',
+          '' => ''
+    ));
+    $workflow->addValueConverter("4", $typeConverter);
     //add a database writer
     $workflow->addWriter(new Writer\CallbackWriter(function ($row) {
       $this->setPrologColumns();
