@@ -4,7 +4,7 @@ use Codeception\Configuration;
 
 define('SF_ROOT_DIR',    realpath(dirname(__file__).'/../'));
 define('SF_APP',         'frontend');
-define('SF_ENVIRONMENT', 'test');
+define('SF_ENVIRONMENT', 'test-update');
 define('SF_DEBUG',       isset($debug) ? $debug : true);
 //load dotenv
 if (file_exists(SF_ROOT_DIR.'/tests/.env'))
@@ -14,10 +14,8 @@ if (file_exists(SF_ROOT_DIR.'/tests/.env'))
 //initialize codeception db
 \Codeception\Configuration::$defaultSuiteSettings['modules']['config'] = [
   'Db' => [
-    'dsn' => getenv('DB_DSN'),
     'user' => getenv('DB_USER'),
     'password' => getenv('DB_PASS'),
-    'dump' => 'tests/_data/swregistry_test.sql',
     'populate' => true,
     'cleanup' => false
   ]

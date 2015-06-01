@@ -18,7 +18,7 @@ class importUpdateTest extends \Codeception\TestCase\Test
 
     protected function _before()
     {
-        $this->import = new ImportVocab("schema", "updatedata.csv", 81);
+        $this->import = new ImportVocab("schema", "updatedata4dupetest.CSV", 77);
         $this->import->importFolder = Fixtures::get("importFolder");
         $this->import->importId = 41;
     }
@@ -42,7 +42,7 @@ class importUpdateTest extends \Codeception\TestCase\Test
         $results = $this->import->results['success'];
         verify("There were 12 rows processed",
           count($results['rows']))->equals(2);
-        $this->import->processParents();
+        //$this->import->processParents();
         $I->canSeeInDatabase('reg_schema_property', ['id' => 1, "definition" => "fubar, baby"]);
 
         //test if a changed cell in the main table gets changed in the statement table
