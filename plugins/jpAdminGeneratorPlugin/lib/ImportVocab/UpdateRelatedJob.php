@@ -64,6 +64,19 @@ SQL;
         $statement = $connection->prepareStatement($query);
         $affectedRows = $statement->executeUpdate();
         echo $affectedRows;
+
+        //update all of the property parent_id
+
+        $query = <<<SQL
+UPDATE reg_schema_property as propa, reg_schema_property as propb
+set propa.is_subproperty_of = propb.id
+where propa.parent_uri is not NULL
+and propa.is_subproperty_of is NULL
+and propa.parent_uri = propb.uri;
+SQL;
+        $statement = $connection->prepareStatement($query);
+        $affectedRows = $statement->executeUpdate();
+        echo $affectedRows;
     }
 
     public function tearDown()

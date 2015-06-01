@@ -161,6 +161,9 @@ class ImportVocab {
         $this->columnMap[$property['id']] = $profile->getLabel();
         }
     }
+    //$map->addMapping('parent_property', 6);
+    //$map->addMapping('parent_class', 9);
+
     return $map;
   }
 
@@ -542,6 +545,7 @@ class ImportVocab {
         } else {
           $dbElements = $property->getElementsForImport($this->profileProperties);
           foreach ($dbElements as $key => $dbElement) {
+            /** @var string | array $rowElement */
             $rowElement = isset($row[$key]) ? $row[$key] : null;
             if (is_array($rowElement)) {
               foreach ($rowElement as &$element) {
@@ -552,18 +556,34 @@ class ImportVocab {
             }
           }
           foreach ($row as $key => $value) {
-            $dbElement = isset($dbElements[$key]) ? $dbElements[$key] : null;
+            $isParent = false;
+            $dbKey = $key;
+            if ("parent_property" == $key) {
+              $dbKey = "6";
+              $isParent = true;
+            }
+            if ("parent_class" == $key) {
+              $dbKey = "9";
+              $isParent = true;
+            }
+            $dbElement = isset($dbElements[$dbKey]) ? $dbElements[$dbKey] : null;
             if ( ! empty($this->prolog['columns'][$key]['property'])) {
               $profileProperty = $this->prolog['columns'][$key]['property'];
               if (is_array($value)) {
                 foreach ($value as &$oneValue) {
                   $language = $this->prolog['columns'][$key]['lang'][0];
                   $this->upsertElementFromRow($dbElement, $oneValue, $rowStatus, $property, $profileProperty,
-                        $language);
+                        $language, $key);
                 }
               } else {
                 $language = $this->prolog['columns'][$key]['lang'];
-                $this->upsertElementFromRow($dbElement, $value, $rowStatus, $property, $profileProperty, $language);
+                $this->upsertElementFromRow($dbElement, $value, $rowStatus, $property, $profileProperty, $language, $key);
+              }
+              if ($isParent and $row[$key] != $property->getParentUri())
+              {
+                $property->setParentUri($row[$key]);
+                //we'll set this later
+                $property->setIsSubpropertyOf(null);
               }
             }
           }
@@ -881,43 +901,46 @@ class ImportVocab {
   }
 
   /**
-   * @param $value
+   * @param                 $value
    * @param \SchemaProperty $property
-   * @param $key
-   * @param $isLiteral
-   * @param $onlyFirst
+   * @param                 $field
+   * @param                 $isLiteral
+   * @param string          $key
+   * @param bool            $onlyFirst
+   *
    * @return string the key that was processed
    */
-  private function setPropertyValue($value, $property, $key, $isLiteral, $onlyFirst = false)
+  private function setPropertyValue($value, $property, $field, $isLiteral, $key = '', $onlyFirst = false)
   {
+    $field = ('parent_class' == $key or 'parent_property' == $key) ? 'ParentUri' : $field;
     if (is_array($value)) {
       if ($onlyFirst) {
         //only take the first one here
         $value = $isLiteral ? $value[0] : $this->getFqn($value[0]);
-        $oldValue = $property->getByName(ucfirst($key));
+        $oldValue = $property->getByName(ucfirst($field));
         if ($oldValue != $value) {
-          $property->setByName(ucfirst($key), $value);
+          $property->setByName(ucfirst($field), $value);
         }
 
-        return $key . "0";
+        return $field . "0";
       } else {
         foreach ($value as $unit) {
           $unit = $isLiteral ? $unit : $this->getFqn($unit);
-          $oldValue = $property->getByName(ucfirst($key));
+          $oldValue = $property->getByName(ucfirst($field));
           if ($oldValue != $value) {
-            $property->setByName(ucfirst($key), $unit);
+            $property->setByName(ucfirst($field), $unit);
           }
         }
       }
     } else {
       $value = $isLiteral ? $value : $this->getFqn($value);
-      $oldValue = $property->getByName(ucfirst($key));
+      $oldValue = $property->getByName(ucfirst($field));
       if ($oldValue != $value) {
-        $property->setByName(ucfirst($key), $value);
+        $property->setByName(ucfirst($field), $value);
       }
     }
 
-    return $key;
+    return $field;
   }
 
   /**
@@ -1093,14 +1116,20 @@ class ImportVocab {
   }
 
   /**
-   * @param \SchemaPropertyElement $dbElement
+   * @param \SchemaPropertyElement | \SchemaPropertyElement[] $dbElement
    * @param                        $value
    * @param                        $rowStatus
    * @param \SchemaProperty        $property
    * @param \ProfileProperty       $profileProperty
    * @param                        $language
+   *
+   * @param                        $key
+   *
+   * @return bool
+   * @throws \Exception
+   * @throws \PropelException
    */
-  private function upsertElementFromRow(&$dbElement, $value, $rowStatus, &$property, $profileProperty, $language)
+  private function upsertElementFromRow(&$dbElement, $value, $rowStatus, &$property, $profileProperty, $language, $key)
   {
     if ( ! is_array($dbElement)) {
       if (empty($dbElement) and $value) {
@@ -1122,15 +1151,26 @@ class ImportVocab {
           $dbElement->importId = $this->importId;
         }
         //$dbElement->save();
-        if ($profileProperty->getIsInForm() and $property->getLanguage() == $dbElement->getLanguage()) {
-          $this->setPropertyValue($value, $property, $profileProperty->getName(), ! $profileProperty->getIsObjectProp());
+        if ($profileProperty->getIsInForm()) {
+          if (($profileProperty->getHasLanguage() and $property->getLanguage() == $dbElement->getLanguage())
+              or ! $profileProperty->getHasLanguage()
+          ) {
+            $this->setPropertyValue($value, $property, $profileProperty->getName(),
+                  ! $profileProperty->getIsObjectProp(), $key);
+          }
         }
+        return false;
       }
     } else {
+      $foundOne = false;
       foreach ($dbElement as &$oneElement) {
-        $this->upsertElementFromRow($oneElement, $value, $rowStatus, $property, $profileProperty, $language);
+        if (!$foundOne)
+        {
+          $foundOne = $this->upsertElementFromRow($oneElement, $value, $rowStatus, $property, $profileProperty, $language, $key);
+        }
       }
     }
+    return true;
   }
 
   /**
@@ -1142,7 +1182,7 @@ class ImportVocab {
     if (! is_array($element)) {
       /** @var \ProfileProperty $property */
       if (isset($this->prolog['columns'][$key]['property'])) {
-      $property = $this->prolog['columns'][$key]['property'];
+        $property = $this->prolog['columns'][$key]['property'];
         if ( ! empty($property->getIsObjectProp()) and $this->useCuries) {
           $element = $this->getFqn($element);
         }
@@ -1157,7 +1197,7 @@ class ImportVocab {
 
   /**
    * @param \SchemaPropertyElement | \SchemaPropertyElement[] $dbElement
-   * @param \SchemaProperty        $property
+   * @param \SchemaProperty                                   $property
    *
    * @return int
    */
