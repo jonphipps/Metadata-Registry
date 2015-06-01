@@ -62,23 +62,23 @@ class importActions extends autoimportActions
       if ( ! $prolog) {
         $message =
               "Something went seriously wrong and we couldn't process your file at all (wish we could be more helpful)";
-        $this->handleImportError($message, $filePath);
+        return $this->handleImportError($message, $filePath);
       }
       //check to make sure that if there's a schema_id in the prolog that it matches the current ID
       if (isset($prolog['meta']['schema_id'])) {
         if (is_array($prolog['meta']['schema_id'])) {
           $message =
                 "You have a duplicate of one of the prolog columns ('reg_id', 'uri', 'type') in your data<br />We can't process the file until it's removed.";
-          $this->handleImportError($message, $filePath);
+          return $this->handleImportError($message, $filePath);
         }
         if ($prolog['meta']['schema_id'] != $schemaId) {
           $message = "The Schema Id in the file you are importing (" . $prolog['meta']['schema_id'] . ") does not match the Element Set Id of this
         Element Set (" . $schemaId . ")<br />You may be trying to import into the wrong Element Set?";
-          $this->handleImportError($message, $filePath);
+          return $this->handleImportError($message, $filePath);
         }
       } else {
         $message = "Your file is missing a Schema ID in the 'meta' section and we won't process it without one";
-        $this->handleImportError($message, $filePath);
+        return $this->handleImportError($message, $filePath);
       }
       //todo identify and warn of more processing errors with the prolog
       //check to make sure the user is an admin
@@ -92,7 +92,7 @@ class importActions extends autoimportActions
       ))
       ) {
         $message = 'You must be an administrator of this Element Set to import.';
-        $this->handleImportError($message, $filePath);
+        return $this->handleImportError($message, $filePath);
       }
       $this->file_import_history->setResults("Queued for processing.");
       $this->saveFileImportHistory($this->file_import_history);
