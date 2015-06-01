@@ -1132,8 +1132,8 @@ class ImportVocab {
   {
     if (! is_array($element)) {
       /** @var \ProfileProperty $property */
+      if (isset($this->prolog['columns'][$key]['property'])) {
       $property = $this->prolog['columns'][$key]['property'];
-      if (isset($property)) {
         if ( ! empty($property->getIsObjectProp()) and $this->useCuries) {
           $element = $this->getFqn($element);
         }
