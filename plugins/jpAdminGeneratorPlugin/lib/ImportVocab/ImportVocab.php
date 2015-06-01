@@ -1147,7 +1147,7 @@ class ImportVocab {
   }
 
   /**
-   * @param \SchemaPropertyElement $dbElement
+   * @param \SchemaPropertyElement | \SchemaPropertyElement[] $dbElement
    * @param \SchemaProperty        $property
    *
    * @return int
