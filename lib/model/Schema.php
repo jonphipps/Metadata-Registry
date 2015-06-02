@@ -434,17 +434,17 @@ class Schema extends BaseSchema {
     return $languages;
   }
 
-  /**
-   * @param SchemaProperty     $property
-   * @param Criteria           $cLang
-   * @param  ProfileProperty[] $propArray
-   * @param  Status[]          $statusArray
-   * @param  bool              $languageArray
+    /**
+     * @param SchemaProperty     $property
+     * @param Criteria           $cLang
+     * @param ProfileProperty[] $propArray
+     * @param Status[]          $statusArray
+     * @param bool              $languageArray
      * @param                    $languageDefault
-   *
-   * @return array
      *
-   */
+     * @return array
+     *
+     */
   public function getResourceArray(SchemaProperty $property, Criteria $cLang, $propArray, $statusArray, $languageArray, $languageDefault) {
     //todo: this should be based on a constant rather than hard-coded;
     $lexicalAliasProperty = 27;
@@ -475,9 +475,6 @@ class Schema extends BaseSchema {
         }
         else {
           self::addToGraph($resourceArray[ $ppi ], $element->getObject(), $pproperty->getIsSingleton());
-        }
-        if ($lexicalAliasProperty == $pproperty->getId()) {
-          $this->setLexicalArray($element->getObject(), $resourceArray["@id"], 308);
         }
       }
       else {
@@ -514,19 +511,21 @@ class Schema extends BaseSchema {
               "@id"          => $element->getObject()
             );
           }
+        } else {
+            //it's a status
+            $status = $statusArray[$element->getObject()];
+            $array = array(
+                  "@id"          => $status[3],
+                  "lexicalAlias" => "http://metadataregistry.org/uri/RegStatus/" . $status[6] . ".en",
+                  "url"          => "http://metadataregistry.org/concept/show/id/$status[4].html",
+                  "label"        => $status[6],
+            );
+            //$resourceArray[ $ppi ] = self::addToGraph($array, $pproperty->getIsSingleton());
         }
-        else {
-          //it's a status
-          $status = $statusArray[ $element->getObject() ];
-          $array  = array(
-            "@id"          => $status[3],
-            "lexicalAlias" => "http://metadataregistry.org/uri/RegStatus/" . $status[6] . ".en",
-            "url"          => "http://metadataregistry.org/concept/show/id/$status[4].html",
-            "label"        => $status[6]
-          );
-          //$resourceArray[ $ppi ] = self::addToGraph($array, $pproperty->getIsSingleton());
-        }
-        self::addToGraph($resourceArray[ $ppi ], $array, $pproperty->getIsSingleton());
+          self::addToGraph($resourceArray[$ppi], $array, $pproperty->getIsSingleton());
+          if ($lexicalAliasProperty == $pproperty->getId()) {
+              $this->setLexicalArray($element->getObject(), $resourceArray["@id"], 308);
+          }
       }
     }
     //todo: remove this bit of data cleanup
