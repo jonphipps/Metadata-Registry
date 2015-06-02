@@ -440,14 +440,14 @@ class Schema extends BaseSchema {
    * @param  ProfileProperty[] $propArray
    * @param  Status[]          $statusArray
    * @param  bool              $languageArray
-   *
-   * @internal param Criteria $clang
+     * @param                    $languageDefault
    *
    * @return array
+     *
    */
   public function getResourceArray(SchemaProperty $property, Criteria $cLang, $propArray, $statusArray, $languageArray, $languageDefault) {
     //todo: this should be based on a constant rather than hard-coded;
-    $lexicalAliasProperty = 26;
+    $lexicalAliasProperty = 27;
     //todo: remove hard coded registry URLs
     $resourceArray                = [];
     $resourceArray["@id"]         = $property->getUri();
