@@ -149,6 +149,12 @@ class schemaActions extends autoschemaActions
       }
 
       $schema = $this->schema;
+      //todo: these should be configured by the publish form
+      $uselanguageAsArray = FALSE;
+      $useLanguage        = "";
+      if ($useLanguage == "") {
+          $useLanguage = $schema->getLanguage();
+      }
 
       ini_set('memory_limit', '640M');
       ini_set('max_execution_time', 600);
@@ -175,11 +181,6 @@ class schemaActions extends autoschemaActions
                  $file;
       $aliasPath =  "alias" . DIRECTORY_SEPARATOR . $vocabDir;
 
-      //todo: these should be configured by the publish form
-      $uselanguageAsArray = FALSE;
-      $useLanguage        = "en";
-      $jsonldContext_en = "http://rdaregistry.info/Contexts/elements_en.jsonld";
-
       $cLang       = $schema->getCriteriaForLanguage($uselanguageAsArray, $useLanguage);
       $propArray   = $schema->getPropertyArray();
       $statusArray = $schema->getStatusArray();
@@ -187,15 +188,15 @@ class schemaActions extends autoschemaActions
       //open a file for writing the complete vocabulary file
       $vocabFile = fopen($filePath, 'w+');
       //$context = $schema->getJsonLdContext("en");
-      $contextArray = array("http://rdaregistry.info/Contexts/elements_nolang.jsonld", array("@language"=>$useLanguage,),);
 
-      $context = <<<EOT
-  [ "http://rdaregistry.info/Contexts/elements_nolang.jsonld",
-      {
-        "@language": $useLanguage;
+      if ( ! $uselanguageAsArray) {
+          $jsonldContext = $schema->getBaseDomain() . "Contexts/nolang.jsonld";
+          $contextArray = array($jsonldContext, array("@language"=>$useLanguage,),);
+      } else {
+          //note: this probably isn't right
+          $jsonldContext = $schema->getBaseDomain() . "Contexts/" . $useLanguage . ".jsonld";
+          $contextArray = array($jsonldContext, "@language"=>$useLanguage,);
       }
-  ]
-EOT;
 
       $context = json_encode($contextArray, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
       //prepend the context
