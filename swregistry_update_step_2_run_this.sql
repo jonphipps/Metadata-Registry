@@ -79,11 +79,21 @@ ADD current_language CHAR(6);
 --
 
 update reg_schema_property
-set type='property'
-where type='subproperty';
+set type='Property'
+where type='subproperty' OR type='property';
 update reg_schema_property
-set type='class'
-where type='subclass';
+set type='Class'
+where type='subclass' OR type='class';
+
+update reg_schema_property_element
+set object='Property'
+WHERE profile_property_id=4
+      AND (object='subproperty' OR object='property');
+update reg_schema_property_element
+set object='Class'
+WHERE profile_property_id=4
+      and (object='subclass' OR object='class');
+
 --
 -- FOREIGN KEYS [CREATE]
 --
