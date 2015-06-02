@@ -148,12 +148,14 @@ class schemaActions extends autoschemaActions
         $this->schema = SchemaPeer::retrieveByPk($this->getRequestParameter('id'));
       }
 
+      $schema = $this->schema;
+
       ini_set('memory_limit', '640M');
       ini_set('max_execution_time', 600);
 
-      $repo = $this->schema->getRepo();
+      $repo = $schema->getRepo();
       $mime = "jsonld";
-      if (preg_match('%' . $this->schema->getBaseDomain() . '(.*)[/#]$%i', $this->schema->getUri(), $regs)) {
+      if (preg_match('%' . $schema->getBaseDomain() . '(.*)[/#]$%i', $schema->getUri(), $regs)) {
         $vocabDir = $regs[1];
       } else {
         $this->setFlash('error', 'This Schema has NOT been published. We couldn\'t parse the file names from the uri' );
@@ -165,7 +167,7 @@ class schemaActions extends autoschemaActions
                   'web' . DIRECTORY_SEPARATOR .
                   'repos' . DIRECTORY_SEPARATOR  .
                   "agents" . DIRECTORY_SEPARATOR .
-                  $this->schema->getAgentId() . DIRECTORY_SEPARATOR .
+                  $schema->getAgentId() . DIRECTORY_SEPARATOR .
                   $repo;
       $filesystem = new Filesystem(new Adapter($repoRoot), new Cache);
       $filePath = $repoRoot . DIRECTORY_SEPARATOR .
@@ -173,17 +175,18 @@ class schemaActions extends autoschemaActions
                  $file;
       $aliasPath =  "alias" . DIRECTORY_SEPARATOR . $vocabDir;
 
+      //todo: these should be configured by the publish form
       $uselanguageAsArray = FALSE;
       $useLanguage        = "en";
       $jsonldContext_en = "http://rdaregistry.info/Contexts/elements_en.jsonld";
 
-      $cLang       = $this->schema->getCriteriaForLanguage($uselanguageAsArray, $useLanguage);
-      $propArray   = $this->schema->getPropertyArray();
-      $statusArray = $this->schema->getStatusArray();
+      $cLang       = $schema->getCriteriaForLanguage($uselanguageAsArray, $useLanguage);
+      $propArray   = $schema->getPropertyArray();
+      $statusArray = $schema->getStatusArray();
 
       //open a file for writing the complete vocabulary file
       $vocabFile = fopen($filePath, 'w+');
-      //$context = $this->schema->getJsonLdContext("en");
+      //$context = $schema->getJsonLdContext("en");
       $contextArray = array("http://rdaregistry.info/Contexts/elements_nolang.jsonld", array("@language"=>$useLanguage,),);
 
       $context = <<<EOT
@@ -205,10 +208,10 @@ EOT;
 
       //get a list of the resources
       /** @var SchemaProperty[] $properties */
-      $resources = $this->schema->getSchemaPropertys();
+      $resources = $schema->getSchemaPropertys();
       /** @var SchemaProperty $resource */
       foreach ($resources as $resource) {
-        $success = $this->schema->getResourceArray($resource, $cLang, $propArray, $statusArray, $uselanguageAsArray, $useLanguage);
+        $success = $schema->getResourceArray($resource, $cLang, $propArray, $statusArray, $uselanguageAsArray, $useLanguage);
         if ($success) {
           $counter++;
           $jsonld    = json_encode($success, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
@@ -247,8 +250,8 @@ EOT;
       }
       fwrite($vocabFile, PHP_EOL . "  ]" . PHP_EOL . "}" . PHP_EOL);
       fclose($vocabFile);
-      $filesystem->put($aliasPath . ".json", json_encode($this->schema->getLexicalArray(), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
-      $filesystem->put($aliasPath . ".php", serialize($this->schema->getLexicalArray()));
+      $filesystem->put($aliasPath . ".json", json_encode($schema->getLexicalArray(), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
+      $filesystem->put($aliasPath . ".php", serialize($schema->getLexicalArray()));
 
         //don't display any of this, but instead reshow the 'show' display with 'Published' flash message
         //if publish was successful
@@ -259,14 +262,14 @@ EOT;
       //$this->setFlash('error', 'This Schema has NOT been published');
       return $this->forward('schema', 'show');
 
-/*      if (!$this->schema) {
-        $this->schema = SchemaPeer::retrieveByPk($this->getRequestParameter('id'));
+/*      if (!$schema) {
+        $schema = SchemaPeer::retrieveByPk($this->getRequestParameter('id'));
       }
       $this->labels = $this->getLabels('show');
 
-      $this->forward404Unless($this->schema);
-      $this->properties = $this->schema->getProperties();
-      $this->classes    = $this->schema->getClasses();
+      $this->forward404Unless($schema);
+      $this->properties = $schema->getProperties();
+      $this->classes    = $schema->getClasses();
 */
     }
 
