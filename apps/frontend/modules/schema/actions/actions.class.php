@@ -161,10 +161,17 @@ class schemaActions extends autoschemaActions
       }
       $file = $vocabDir . "." . $mime;
 
-      $repoRoot = SF_ROOT_DIR . DIRECTORY_SEPARATOR . 'web' . DIRECTORY_SEPARATOR . 'repos' . DIRECTORY_SEPARATOR ;
+      $repoRoot = SF_ROOT_DIR . DIRECTORY_SEPARATOR .
+                  'web' . DIRECTORY_SEPARATOR .
+                  'repos' . DIRECTORY_SEPARATOR  .
+                  "agents" . DIRECTORY_SEPARATOR .
+                  $this->schema->getAgentId() . DIRECTORY_SEPARATOR .
+                  $repo;
       $filesystem = new Filesystem(new Adapter($repoRoot), new Cache);
-      $bigPath = $repoRoot . DIRECTORY_SEPARATOR . $repo . DIRECTORY_SEPARATOR . $mime . DIRECTORY_SEPARATOR . $file;
-      $aliasPath =  $repo . DIRECTORY_SEPARATOR . "alias" . DIRECTORY_SEPARATOR . $vocabDir;
+      $filePath = $repoRoot . DIRECTORY_SEPARATOR .
+                  $mime . DIRECTORY_SEPARATOR .
+                 $file;
+      $aliasPath =  "alias" . DIRECTORY_SEPARATOR . $vocabDir;
 
       $uselanguageAsArray = FALSE;
       $useLanguage        = "en";
@@ -175,7 +182,7 @@ class schemaActions extends autoschemaActions
       $statusArray = $this->schema->getStatusArray();
 
       //open a file for writing the complete vocabulary file
-      $vocabFile = fopen($bigPath, 'w+');
+      $vocabFile = fopen($filePath, 'w+');
       //$context = $this->schema->getJsonLdContext("en");
       $contextArray = array("http://rdaregistry.info/Contexts/elements_nolang.jsonld", array("@language"=>$useLanguage,),);
 
@@ -190,6 +197,8 @@ EOT;
       $context = json_encode($contextArray, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
       //prepend the context
       fwrite($vocabFile, '{' . PHP_EOL . '"@context": ' . $context  . ',' . PHP_EOL .  '  "@graph": [');
+      fclose($vocabFile);
+      $vocabFile = fopen($filePath, 'a+');
       $comma = "";
       $counter = 0;
       $aka=array();
@@ -232,7 +241,7 @@ EOT;
           //update the fragment
           //this just gets the last bit after the last slash
           $filename = preg_replace('%.*/%i', '', $resource->getUri());
-          $filesystem->put($repo . DIRECTORY_SEPARATOR . $mime . DIRECTORY_SEPARATOR . $vocabDir . DIRECTORY_SEPARATOR . $filename . "." . $mime, $jsonFrag);
+          $filesystem->put($mime . DIRECTORY_SEPARATOR . $vocabDir . DIRECTORY_SEPARATOR . $filename . "." . $mime, $jsonFrag);
           $comma = ",";
         }
       }
