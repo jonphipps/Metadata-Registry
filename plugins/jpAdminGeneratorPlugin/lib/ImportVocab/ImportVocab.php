@@ -6,8 +6,10 @@
 
 namespace ImportVocab;
 
+use Ddeboer\DataImport\ItemConverter\CallbackItemConverter;
 use Ddeboer\DataImport\Reader\ArrayReader;
 use Ddeboer\DataImport\Reader\CsvReader;
+use Ddeboer\DataImport\ValueConverter\CallbackValueConverter;
 use Ddeboer\DataImport\ValueConverter\MappingValueConverter;
 use Ddeboer\DataImport\Workflow;
 use Ddeboer\DataImport\Writer;
@@ -468,13 +470,20 @@ class ImportVocab {
 
   }
 
+  /**
+   * @return \Ddeboer\DataImport\Result
+   * @throws \Ddeboer\DataImport\Exception\ExceptionInterface
+   * @throws \Exception
+     */
   public function processData()
   {
     $workflow = new Workflow($this->reader);
     $output = new ConsoleOutput();
     // Don’t import the non-metadata
     $filter = new Filter\CallbackFilter(function ($row) {
-      if(is_numeric($row['reg_id'])) return true;
+      if (is_numeric($row['reg_id'])) {
+        return true;
+      }
       if ( ! trim($row['reg_id'])) {
         foreach ($row as $item) {
           if ( ! is_array($item)) {
@@ -493,9 +502,17 @@ class ImportVocab {
 
       return false;
     });
+
+    $trimConverter = new CallbackItemConverter(function ($row) {
+      foreach ($row as $key => $value) {
+        $row[$key] = trim($row[$key]);
+      }
+
+      return $row;
+    });
     $workflow->addItemConverter($this->mapping);
-    /** @var $filter Filter\CallbackFilter */
     $workflow->addFilter($filter);
+    $workflow->addItemConverter($trimConverter);
     $workflow->addWriter(new Writer\ConsoleProgressWriter($output, $this->reader));
     $typeConverter = new MappingValueConverter(array(
           'rdfs:class' => 'class',
@@ -539,10 +556,11 @@ class ImportVocab {
         unset($row['reg_id']);
       }
       if ($property) {
-        if (8 == $rowStatus) {
-          //it's been deprecated and we don't do anything else
-          $property->setStatusId($rowStatus);
-        } else {
+//        if (8 == $rowStatus) {
+//          //it's been deprecated and we don't do anything else
+//          $property->setStatusId($rowStatus);
+//          $this->updateElement($element, $dbElement, $property);
+//        } else {
           $dbElements = $property->getElementsForImport($this->profileProperties);
           foreach ($dbElements as $key => $dbElement) {
             /** @var string | array $rowElement */
@@ -590,7 +608,7 @@ class ImportVocab {
         }
 
         $affectedRows = $property->save();
-      }
+//      }
 
       return;
       //build an array of references
@@ -1097,21 +1115,23 @@ class ImportVocab {
    */
   private function updateElement(&$rowElement, &$dbElement, &$property)
   {
-    if ( ! empty($rowElement)) {
-      if ( ! is_array($dbElement)) {
+    if ( ! is_array($dbElement)) {
+      $dbElement->doReciprocal = false;
+      if ( ! empty($rowElement)) {
         if ($rowElement === $dbElement->getObject()) {
           unset($rowElement);
         }
       } else {
-        /** @var \SchemaPropertyElement $element */
-        foreach ($dbElement as &$element) {
-          $this->updateElement($rowElement, $element, $property);
-        }
+        //there's no matching column so delete the element
+        $this->deleteElement($dbElement, $property);
       }
     } else {
-      //there's no matching column so delete the element
-      $this->deleteElement($dbElement, $property);
+      /** @var \SchemaPropertyElement $element */
+      foreach ($dbElement as &$element) {
+        $this->updateElement($rowElement, $element, $property);
+      }
     }
+
     return;
   }
 
@@ -1137,6 +1157,7 @@ class ImportVocab {
         $dbElement->setProfilePropertyId($profileProperty->getId());
         $dbElement->setSchemaPropertyId($property->getId());
         $dbElement->setLanguage($language);
+        $dbElement->setCreatedUserId($this->userId);
         $property->addSchemaPropertyElementRelatedBySchemaPropertyId($dbElement);
       }
       if ($dbElement and $value !== $dbElement->getObject()) {
@@ -1146,9 +1167,9 @@ class ImportVocab {
         } else {
           $dbElement->setStatusId($rowStatus);
           $dbElement->setObject($value);
-          $dbElement->setCreatedUserId($this->userId);
           $dbElement->setUpdatedUserId($this->userId);
           $dbElement->importId = $this->importId;
+          $dbElement->setDeletedAt(null);
         }
         //$dbElement->save();
         if ($profileProperty->getIsInForm()) {
@@ -1159,7 +1180,7 @@ class ImportVocab {
                   ! $profileProperty->getIsObjectProp(), $key);
           }
         }
-        return false;
+        return true;
       }
     } else {
       $foundOne = false;
@@ -1205,10 +1226,10 @@ class ImportVocab {
   {
     if ( ! is_array($dbElement)) {
       //we don't delete derived properties at this stage
-      if (in_array($dbElement->getProfilePropertyId(),[6,9]))
-      {
-        return 0;
-      }
+//      if (in_array($dbElement->getProfilePropertyId(),[6,9]))
+//      {
+//        return 0;
+//      }
       $profileProperty = $this->profileProperties[$dbElement->getProfilePropertyId()];
       if ($profileProperty->getIsInForm() and $property->getLanguage() == $dbElement->getLanguage()) {
         $this->setPropertyValue('', $property, $profileProperty->getName(), ! $profileProperty->getIsObjectProp());
