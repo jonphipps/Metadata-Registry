@@ -26,12 +26,29 @@ ADD url VARCHAR(255),
 ADD lexical_alias VARCHAR(255);
 
 --
+-- reg_schema_property_element
+--
+
+ALTER TABLE `reg_schema_property_element`
+CHANGE COLUMN `language` `language`
+CHAR(6)
+CHARACTER SET utf8
+COLLATE utf8_general_ci
+  NOT NULL
+COMMENT ''
+AFTER `related_schema_property_id`;
+
+--
 -- reg_schema_property_element_history
 --
 
 ALTER TABLE reg_schema_property_element_history
 ADD import_id INT(11);
 CREATE INDEX reg_schema_property_element_history_fk7 ON reg_schema_property_element_history (import_id ASC);
+ALTER TABLE `reg_schema_property_element_history`
+CHANGE COLUMN `language` `language`
+CHAR(6) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL
+COMMENT '' AFTER `related_schema_property_id`;
 
 --
 -- reg_user
@@ -93,6 +110,37 @@ update reg_schema_property_element
 set object='Class'
 WHERE profile_property_id=4
       and (object='subclass' OR object='class');
+
+ALTER TABLE `reg_schema_property`
+CHANGE COLUMN `type` `type`
+ENUM('Property','Class')
+CHARACTER SET utf8
+COLLATE utf8_general_ci
+  NOT NULL
+  DEFAULT 'Property'
+COMMENT ''
+AFTER `comment`;
+
+--
+-- update related
+--
+
+update reg_schema_property_element, reg_schema_property
+set reg_schema_property_element.related_schema_property_id = reg_schema_property.id
+WHERE reg_schema_property_element.object = reg_schema_property.uri
+      and (
+        reg_schema_property_element.related_schema_property_id <> reg_schema_property.id
+        or reg_schema_property_element.related_schema_property_id is NULL);
+
+--
+-- remove language from elements that don't have language
+--
+
+UPDATE reg_schema_property_element as e, profile_property as p
+set e.language=NULL
+WHERE e.profile_property_id = p.id
+      and p.has_language=0
+      and e.language<>'';
 
 --
 -- FOREIGN KEYS [CREATE]
