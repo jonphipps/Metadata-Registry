@@ -12,6 +12,7 @@ class SchemaPropertyElement extends BaseSchemaPropertyElement
   public $importId;
   public $matchKey;
   public $importStatus;
+  public $doReciprocal = true;
 
   /**
   * description
@@ -36,12 +37,11 @@ class SchemaPropertyElement extends BaseSchemaPropertyElement
    * @return integer
    *
    * @param Connection $con
-   * @param bool $reciprocal
    *
    * @throws Exception
    * @throws PropelException
    */
-  public function save($con = null, $reciprocal = false)
+  public function save($con = null)
   {
     if ($this->isModified())
     {
@@ -94,7 +94,7 @@ class SchemaPropertyElement extends BaseSchemaPropertyElement
 
       $history->save($con);
 
-      if (!$reciprocal)
+      if (!$this->doReciprocal)
       {
         $this->updateReciprocal($action, $userId, $schemaId, $con);
       }
@@ -154,10 +154,11 @@ class SchemaPropertyElement extends BaseSchemaPropertyElement
    * updates/creates/deletes the reciprocal property
    *
    * @param  string     $action
+   * @param  int        $userId
+   * @param  int        $schemaId
    * @param  Connection $con
    *
-   * @throws Exception
-   * @throws PropelException
+   * @throws \PropelException
    */
   public function updateReciprocal($action, $userId, $schemaId, $con = null)
   {
@@ -184,30 +185,28 @@ class SchemaPropertyElement extends BaseSchemaPropertyElement
     }
 
     $schemaPropertyID = $this->getSchemaPropertyId();
+    $property = $this->getSchemaPropertyRelatedBySchemaPropertyId();
 
     //does the user have editorial rights to the reciprocal...
-    $permission = FALSE;
-    $c = new Criteria();
-    $c->add(SchemaPropertyPeer::ID, $relatedPropertyId);
-    $property = SchemaPropertyPeer::doSelectOne($c);
-    if ($property) {
-      //get the maintainers of the reciprocal property
-      $maintainers = $property->getSchema()->getMaintainerIds();
-      foreach ($maintainers as $maintainerId) {
-        if ($userId == $maintainerId) {
-          $permission = true;
-        }
+    $permission = false;
+    //get the maintainers of the reciprocal property
+    $maintainers = $property->getSchema()->getMaintainerIds();
+    foreach ($maintainers as $maintainerId) {
+      if ($userId == $maintainerId) {
+        $permission = true;
+        break;
       }
     }
 
-    if (!$permission) {
+    if ( false === $permission) {
+      $foo = 15;
       return;
     }
 
     $c = new Criteria();
     $c->add(SchemaPropertyElementPeer::SCHEMA_PROPERTY_ID, $relatedPropertyId);
     $c->add(SchemaPropertyElementPeer::PROFILE_PROPERTY_ID, $inverseProfilePropertyId);
-    $c->add(SchemaPropertyElementPeer::RELATED_SCHEMA_PROPERTY_ID,$schemaPropertyID);
+    $c->add(SchemaPropertyElementPeer::OBJECT,$property->getUri());
     $c->add(SchemaPropertyElementPeer::DELETED_AT,Criteria::ISNULL);
 
     $recipElement = SchemaPropertyElementPeer::doSelectOne($c, $con);
@@ -216,10 +215,14 @@ class SchemaPropertyElement extends BaseSchemaPropertyElement
 
     $recipProfileProperty = ProfilePropertyPeer::retrieveByPK($inverseProfilePropertyId, $con);
     $statusId = $this->getStatusId();
+    $language = '';
 
     if ($recipProfileProperty)
     {
       $recipField = $recipProfileProperty->getName();
+      if ($recipProfileProperty->getHasLanguage()) {
+        $language = $this->getLanguage();
+      }
     }
 
     //if action == deleted then
@@ -234,7 +237,7 @@ class SchemaPropertyElement extends BaseSchemaPropertyElement
     if ('added' == $action && !$recipElement)
     {
       //add the reciprocal
-      $recipElement = SchemaPropertyElementPeer::createElement($recipSchemaProperty, $userId, $inverseProfilePropertyId, $statusId);
+      $recipElement = SchemaPropertyElementPeer::createElement($recipSchemaProperty, $userId, $inverseProfilePropertyId, $statusId, $language);
     }
 
     //if action == updated
@@ -244,7 +247,7 @@ class SchemaPropertyElement extends BaseSchemaPropertyElement
       if (!$recipElement)
       {
         //create a new one
-        $recipElement = SchemaPropertyElementPeer::createElement($recipSchemaProperty, $userId, $inverseProfilePropertyId, $statusId);
+        $recipElement = SchemaPropertyElementPeer::createElement($recipSchemaProperty, $userId, $inverseProfilePropertyId, $statusId, $language);
       }
     }
 

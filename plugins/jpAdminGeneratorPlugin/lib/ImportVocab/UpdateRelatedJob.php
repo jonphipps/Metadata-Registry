@@ -20,26 +20,47 @@ class UpdateRelatedJob
      */
     public function perform($args)
     {
-        list($environment) = $args;
+        list($environment, $importId) = $args;
 
-        //todo: this part really should be in a _bootstrapDbJob include
-        // Set up environment for this job
-        define('SF_ROOT_DIR', realpath(dirname(__file__) . '/../../../..'));
-        define('SF_APP', 'frontend');
-        define('SF_ENVIRONMENT', $environment);
-        define('SF_DEBUG', false);
+        if ( ! defined('SF_ENVIRONMENT')) {
+            //todo: this part really should be in a _bootstrapDbJob include
+            // Set up environment for this job
+            define('SF_ROOT_DIR', realpath(dirname(__file__) . '/../../../..'));
+            define('SF_APP', 'frontend');
+            define('SF_ENVIRONMENT', $environment);
+            define('SF_DEBUG', false);
 
 //initialize composer
-        require_once(SF_ROOT_DIR . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php');
+            require_once(SF_ROOT_DIR . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php');
 // initialize symfony
-        require_once(SF_ROOT_DIR . DIRECTORY_SEPARATOR . 'apps' . DIRECTORY_SEPARATOR . SF_APP . DIRECTORY_SEPARATOR
-                     . 'config' . DIRECTORY_SEPARATOR . 'config.php');
+            require_once(SF_ROOT_DIR . DIRECTORY_SEPARATOR . 'apps' . DIRECTORY_SEPARATOR . SF_APP . DIRECTORY_SEPARATOR
+                         . 'config' . DIRECTORY_SEPARATOR . 'config.php');
 // initialize database manager
-        $databaseManager = new \sfDatabaseManager();
-        $databaseManager->initialize();
+            $databaseManager = new \sfDatabaseManager();
+            $databaseManager->initialize();
+        }
+
         $connection = \Propel::getConnection();
 
         //todo: this should be setup to run on a cron
+
+        //update the reciprocals and inverse
+        if ($importId) {
+            $c = new \Criteria();
+            $c->add(\SchemaPropertyElementHistoryPeer::IMPORT_ID, $importId);
+            $historyList = \SchemaPropertyElementHistoryPeer::doSelect($c);
+            /** @var \SchemaPropertyElementHistory $history */
+            foreach ($historyList as $history) {
+                $element = $history->getSchemaPropertyElement();
+                if ($element) {
+                    $element->importId = $importId;
+                    $element->updateReciprocal(
+                          $history->getAction(),
+                          $history->getCreatedUserId(),
+                          $history->getSchemaId());
+                }
+            }
+        }
 
         //update lexical aliases
 

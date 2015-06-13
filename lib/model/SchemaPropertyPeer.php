@@ -127,7 +127,7 @@ class SchemaPropertyPeer extends BaseSchemaPropertyPeer
     return $results;
   }
   /**
-   * @param SchemaProperty|SchemaPropertyI18n $property
+   * @param SchemaProperty $property
    * @param string                            $fieldName
    * @param string                            $object
    * @param int                               $objectId if the object has a related Id
