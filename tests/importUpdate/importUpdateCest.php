@@ -158,13 +158,12 @@ class importUpdateCest
               '"122968","2015-06-12 16:06:08","2015-06-12 16:06:08",,"422","422","15536","27",,"http://rdaregistry.info/Elements/a/respondentOf",,"en","1"';
         $CsvValues[] =
               '"122969","2015-06-12 16:06:08","2015-06-12 16:06:08",,"422","422","15536","26",,"http://rdaregistry.info/Elements/u/P60001",,"","1"';
-        $this->TestData('reg_schema_property_element', $CsvHeader, $CsvValues, $I, $CsvNullMe, [], [
+        $dateFields = [
               'created_at' => [
                     122968,
                     122969,
               ],
               'updated_at' => [
-                    121279,
                     121284,
                     121285,
                     122794,
@@ -174,7 +173,8 @@ class importUpdateCest
               'deleted_at' => [
                     121284,
               ],
-        ]);
+        ];
+        $this->TestData('reg_schema_property_element', $CsvHeader, $CsvValues, $I, $CsvNullMe, [], $dateFields);
 
         //reg_schema_property_element_history
 
@@ -189,12 +189,12 @@ class importUpdateCest
         $CsvValues[] =
               '"141931","2015-06-12 19:24:42","422","deleted","122794","15536","81","16","http://rdaregistry.info/Elements/a/respondentOf",,,"1",,"41"';
         $CsvValues[] =
-              '"141932","2015-06-12 19:24:43","422","updated","121279","15536","81","4","property",,,"1",,"41"';
+              '"141932","2015-06-12 19:24:43","422","added","122968","15536","81","27","http://rdaregistry.info/Elements/a/respondentOf",,"en","1",,"41"';
         $CsvValues[] =
-              '"141933","2015-06-12 19:24:43","422","added","122968","15536","81","27","http://rdaregistry.info/Elements/a/respondentOf",,"en","1",,"41"';
-        $CsvValues[] =
-              '"141934","2015-06-12 19:24:43","422","added","122969","15536","81","26","http://rdaregistry.info/Elements/u/P60001",,,"1",,"41"';
-        $this->TestData('reg_schema_property_element_history', $CsvHeader, $CsvValues, $I, $CsvNullMe, [], [
+              '"141933","2015-06-12 19:24:43","422","added","122969","15536","81","26","http://rdaregistry.info/Elements/u/P60001",,,"1",,"41"';
+
+        $table = 'reg_schema_property_element_history';
+        $this->TestData($table, $CsvHeader, $CsvValues, $I, $CsvNullMe, [], [
               'created_at' => [
                     141929,
                     141930,
@@ -208,6 +208,7 @@ class importUpdateCest
         //this history element should not exist. The element should not have been updated -- property should have been Property
         //'id,created_at,created_user_id,action,schema_property_element_id,schema_property_id,schema_id,profile_property_id,object,related_schema_property_id,language,status_id,change_note,import_id
         //"141932","2015-06-12 22:38:40","422","updated","121279","15536","81","4","property",,,"1",,"41"'
+        $I->dontSeeInDatabase($table,['id'=>141932, 'object'=> 'property']);
 
         //this schema_property_element should not have been deleted -- it's the parent property
         //it's still listed as the parent_uri in the form
@@ -226,7 +227,6 @@ class importUpdateCest
               SF_ENVIRONMENT,
               41,
         ));
-        xdebug_break();
         //these two rows should have their related...ids updated
 //        id,created_at,updated_at,deleted_at,created_user_id,updated_user_id,schema_property_id,profile_property_id,is_schema_property,object,related_schema_property_id,language,status_id
 //"122968","2015-06-12 22:55:26","2015-06-12 22:55:26",,"422","422","15536","27",,"http://rdaregistry.info/Elements/a/respondentOf","15536","en","1"

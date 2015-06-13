@@ -515,10 +515,10 @@ class ImportVocab {
     $workflow->addItemConverter($trimConverter);
     $workflow->addWriter(new Writer\ConsoleProgressWriter($output, $this->reader));
     $typeConverter = new MappingValueConverter(array(
-          'rdfs:class' => 'class',
-          'rdfs:property' => 'property',
-          'class' => 'class',
-          'property' => 'property',
+          'rdfs:class' => 'Class',
+          'rdfs:property' => 'Property',
+          'class' => 'Class',
+          'property' => 'Property',
           '' => ''
     ));
     $workflow->addValueConverter("4", $typeConverter);
