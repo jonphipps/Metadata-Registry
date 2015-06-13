@@ -68,8 +68,8 @@ generator:
           type: select_tag
           params:
             select_options:
-              property:    property
-              class:       class
+              property:    Property
+              class:       Class
             include_blank: false
             onchange: swapOptions()
         language:          { type: admin_select_language, params: limitmethod=getLanguagesForUser }
