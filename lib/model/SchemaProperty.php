@@ -15,6 +15,26 @@ class SchemaProperty extends BaseSchemaProperty
         return $this->getName() . " (" . $this->getLanguage() . ") :: " . $this->getLabel() . " -- " . $this->getUri();
     }
 
+    /**
+     * @param string $lang
+     *
+     * @return string
+     */
+    public function getLexicalAlias($lang = '')
+    {
+        //always set the language, even though it's optional
+        if (empty($lang)) {
+            $lang = $this->getLanguage();
+        }
+        $alias = $this->lexical_alias;
+        //check for existing language suffix
+        if ($alias and $lang and ! preg_match("/\\." . $lang . "$/u", $alias)) {
+            $alias = $this->lexical_alias . "." . $lang;
+        }
+
+        return $alias;
+    }
+
     public function getCurrentLanguage()
     {
         $c = new sfCultureInfo(sfContext::getInstance()->getUser()->getCulture());
