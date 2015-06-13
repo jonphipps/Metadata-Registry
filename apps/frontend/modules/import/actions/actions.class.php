@@ -100,19 +100,21 @@ class importActions extends autoimportActions
             'Your file has been accepted and queued for processing. Check back in a few minutes for the results');
       unset ($import);
       $environment = SF_ENVIRONMENT;
+      $importId = $this->file_import_history->getId();
 
       //todo it's at this point that we push this onto a queue for processing
       $job = Resque::push('ImportVocab\ImportJob', array(
                   $schemaId,
                   $filePath,
-                  $this->file_import_history->getId(),
+                  $importId,
                   $environment
             ));
       $job2 = Resque::push('ImportVocab\UpdateRelatedJob', array(
-            $environment
+            $environment,
+            $importId,
       ));
 
-      return $this->redirect('import/show?id=' . $this->file_import_history->getId());
+      return $this->redirect('import/show?id=' . $importId);
     }
 
   }
