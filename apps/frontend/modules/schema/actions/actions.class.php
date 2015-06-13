@@ -164,7 +164,7 @@ class schemaActions extends autoschemaActions
       if (preg_match('%' . $schema->getBaseDomain() . '(.*)[/#]$%i', $schema->getUri(), $regs)) {
         $vocabDir = $regs[1];
       } else {
-        $this->setFlash('error', 'This Schema has NOT been published. We couldn\'t parse the file names from the uri' );
+        $this->setFlash('error', 'This Schema has NOT been published. We couldn\'t parse the file names from the uri.</br>Make sure that you\'ve set the base domain, the uri, and the Git Repository.' );
         return $this->forward('schema', 'show');
       }
       $file = $vocabDir . "." . $mime;
