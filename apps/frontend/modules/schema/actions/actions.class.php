@@ -152,9 +152,6 @@ class schemaActions extends autoschemaActions
       //todo: these should be configured by the publish form
       $uselanguageAsArray = FALSE;
       $useLanguage        = "";
-      if ($useLanguage == "") {
-          $useLanguage = $schema->getLanguage();
-      }
 
       ini_set('memory_limit', '640M');
       ini_set('max_execution_time', 600);
@@ -185,16 +182,20 @@ class schemaActions extends autoschemaActions
       $propArray   = $schema->getPropertyArray();
       $statusArray = $schema->getStatusArray();
 
+      if ($useLanguage == "") {
+          $useLanguage = $schema->getLanguage();
+      }
+
       //open a file for writing the complete vocabulary file
       $vocabFile = fopen($filePath, 'w+');
       //$context = $schema->getJsonLdContext("en");
 
       if ( ! $uselanguageAsArray) {
-          $jsonldContext = $schema->getBaseDomain() . "Contexts/nolang.jsonld";
+          $jsonldContext = $schema->getBaseDomain() . "Contexts/elements_nolang.jsonld";
           $contextArray = array($jsonldContext, array("@language"=>$useLanguage,),);
       } else {
           //note: this probably isn't right
-          $jsonldContext = $schema->getBaseDomain() . "Contexts/" . $useLanguage . ".jsonld";
+          $jsonldContext = $schema->getBaseDomain() . "Contexts/elements_" . $useLanguage . ".jsonld";
           $contextArray = array($jsonldContext, "@language"=>$useLanguage,);
       }
 
