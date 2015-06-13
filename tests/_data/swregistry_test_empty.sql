@@ -131,7 +131,7 @@ CREATE TABLE `reg_agent` (
   `web_address` varchar(255) DEFAULT NULL,
   `type` char(15) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AVG_ROW_LENGTH=1820 COMMENT='InnoDB free: 0 kB';
+) ENGINE=InnoDB AUTO_INCREMENT=197 DEFAULT CHARSET=utf8 AVG_ROW_LENGTH=1820 COMMENT='InnoDB free: 0 kB';
 
 
 CREATE TABLE `profile` (
@@ -155,19 +155,19 @@ CREATE TABLE `profile` (
   `last_uri_id` int(11) DEFAULT '100000',
   `status_id` int(11) NOT NULL DEFAULT '1',
   `language` char(6) NOT NULL DEFAULT 'en',
-  UNIQUE KEY `profile_id` (`id`),
+  PRIMARY KEY (`id`),
   KEY `profile_agent_id` (`agent_id`),
   KEY `profile_status_id` (`status_id`),
   KEY `profile_updated_by` (`updated_by`),
   KEY `profile_created_by` (`created_by`),
   KEY `profile_deleted_by` (`deleted_by`),
   KEY `profile_child_updated_by` (`child_updated_by`),
-  CONSTRAINT `profile_agent_FK` FOREIGN KEY (`agent_id`) REFERENCES `reg_agent` (`id`) ON UPDATE NO ACTION,
-  CONSTRAINT `profile_status_FK` FOREIGN KEY (`status_id`) REFERENCES `reg_status` (`id`),
-  CONSTRAINT `profile_user_FK_1` FOREIGN KEY (`updated_by`) REFERENCES `reg_user` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
-  CONSTRAINT `profile_user_FK_2` FOREIGN KEY (`created_by`) REFERENCES `reg_user` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
-  CONSTRAINT `profile_user_FK_3` FOREIGN KEY (`deleted_by`) REFERENCES `reg_user` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
-  CONSTRAINT `profile_user_FK_4` FOREIGN KEY (`child_updated_by`) REFERENCES `reg_user` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION
+  FOREIGN KEY (`agent_id`) REFERENCES `reg_agent` (`id`) ON UPDATE NO ACTION,
+  FOREIGN KEY (`status_id`) REFERENCES `reg_status` (`id`),
+  FOREIGN KEY (`updated_by`) REFERENCES `reg_user` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
+  FOREIGN KEY (`created_by`) REFERENCES `reg_user` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
+  FOREIGN KEY (`deleted_by`) REFERENCES `reg_user` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
+  FOREIGN KEY (`child_updated_by`) REFERENCES `reg_user` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 
@@ -206,6 +206,7 @@ CREATE TABLE `profile_property` (
   `is_attribute` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'boolean - is this an attribute? attribute''s aren''t editable outside the main form',
   `has_language` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Boolean that determines whether language attribute is displayed for this property',
   `is_object_prop` tinyint(1) NOT NULL DEFAULT '1',
+  `is_in_form` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `profile_property_status_id` (`status_id`),
   KEY `profile_property_updated_by` (`updated_by`),
@@ -213,13 +214,13 @@ CREATE TABLE `profile_property` (
   KEY `profile_property_deleted_by` (`deleted_by`),
   KEY `inverse_profile_property_id` (`inverse_profile_property_id`),
   KEY `profile_id` (`profile_id`) USING BTREE,
-  CONSTRAINT `profile_property_agent_FK` FOREIGN KEY (`profile_id`) REFERENCES `profile` (`id`) ON UPDATE NO ACTION,
-  CONSTRAINT `profile_property_fk` FOREIGN KEY (`inverse_profile_property_id`) REFERENCES `profile_property` (`id`),
-  CONSTRAINT `profile_property_status_FK` FOREIGN KEY (`status_id`) REFERENCES `reg_status` (`id`),
-  CONSTRAINT `profile_property_user_FK_1` FOREIGN KEY (`updated_by`) REFERENCES `reg_user` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
-  CONSTRAINT `profile_property_user_FK_2` FOREIGN KEY (`created_by`) REFERENCES `reg_user` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
-  CONSTRAINT `profile_property_user_FK_3` FOREIGN KEY (`deleted_by`) REFERENCES `reg_user` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8 AVG_ROW_LENGTH=1170;
+  FOREIGN KEY (`profile_id`) REFERENCES `profile` (`id`) ON UPDATE NO ACTION,
+  FOREIGN KEY (`inverse_profile_property_id`) REFERENCES `profile_property` (`id`),
+  FOREIGN KEY (`status_id`) REFERENCES `reg_status` (`id`),
+  FOREIGN KEY (`updated_by`) REFERENCES `reg_user` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
+  FOREIGN KEY (`created_by`) REFERENCES `reg_user` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
+  FOREIGN KEY (`deleted_by`) REFERENCES `reg_user` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8 AVG_ROW_LENGTH=1170;
 
 
 CREATE TABLE `reg_agent_has_user` (
@@ -234,23 +235,22 @@ CREATE TABLE `reg_agent_has_user` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_agent_id` (`user_id`,`agent_id`),
   UNIQUE KEY `agent_user_id` (`agent_id`,`user_id`),
-  CONSTRAINT `reg_agent_has_user_fk` FOREIGN KEY (`user_id`) REFERENCES `reg_user` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `reg_agent_has_user_fk1` FOREIGN KEY (`agent_id`) REFERENCES `reg_agent` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AVG_ROW_LENGTH=1092 COMMENT='InnoDB free: 0 kB; ';
+  FOREIGN KEY (`user_id`) REFERENCES `reg_user` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  FOREIGN KEY (`agent_id`) REFERENCES `reg_agent` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=217 DEFAULT CHARSET=utf8 AVG_ROW_LENGTH=1092 COMMENT='InnoDB free: 0 kB; ';
 
 
 CREATE TABLE `reg_batch` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `run_time` datetime DEFAULT NULL,
-  `run_description` text CHARACTER SET latin1,
-  `object_type` varchar(20) CHARACTER SET latin1 DEFAULT NULL,
+  `run_description` text,
+  `object_type` varchar(20) DEFAULT NULL,
   `object_id` int(11) DEFAULT NULL,
   `event_time` datetime DEFAULT NULL,
-  `event_type` varchar(20) CHARACTER SET latin1 DEFAULT NULL,
-  `event_description` text CHARACTER SET latin1,
-  `registry_uri` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `id` (`id`)
+  `event_type` varchar(20) DEFAULT NULL,
+  `event_description` text,
+  `registry_uri` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AVG_ROW_LENGTH=331 PACK_KEYS=0 ROW_FORMAT=COMPACT COMMENT='InnoDB free: 5120 kB';
 
 
@@ -272,10 +272,10 @@ CREATE TABLE `reg_collection` (
   KEY `updated_user_id` (`updated_user_id`),
   KEY `vocabulary_id` (`vocabulary_id`),
   KEY `status_id` (`status_id`),
-  CONSTRAINT `reg_collection_fk` FOREIGN KEY (`created_user_id`) REFERENCES `reg_user` (`id`) ON DELETE SET NULL,
-  CONSTRAINT `reg_collection_fk1` FOREIGN KEY (`updated_user_id`) REFERENCES `reg_user` (`id`) ON DELETE SET NULL,
-  CONSTRAINT `reg_collection_fk2` FOREIGN KEY (`vocabulary_id`) REFERENCES `reg_vocabulary` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `reg_collection_fk3` FOREIGN KEY (`status_id`) REFERENCES `reg_status` (`id`)
+  FOREIGN KEY (`created_user_id`) REFERENCES `reg_user` (`id`) ON DELETE SET NULL,
+  FOREIGN KEY (`updated_user_id`) REFERENCES `reg_user` (`id`) ON DELETE SET NULL,
+  FOREIGN KEY (`vocabulary_id`) REFERENCES `reg_vocabulary` (`id`) ON DELETE CASCADE,
+  FOREIGN KEY (`status_id`) REFERENCES `reg_status` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 PACK_KEYS=0 ROW_FORMAT=COMPACT;
 
 
@@ -303,12 +303,13 @@ CREATE TABLE `reg_concept` (
   KEY `last_updated_by_user_id` (`updated_user_id`),
   KEY `pref_label_id` (`pref_label_id`),
   KEY `reg_concept_idx1` (`uri`),
-  CONSTRAINT `concept_vocabulary_fk` FOREIGN KEY (`vocabulary_id`) REFERENCES `reg_vocabulary` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `reg_concept_FK_` FOREIGN KEY (`created_user_id`) REFERENCES `reg_user` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
-  CONSTRAINT `reg_concept_FK_3` FOREIGN KEY (`pref_label_id`) REFERENCES `reg_concept_property` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
-  CONSTRAINT `reg_concept_FK_4` FOREIGN KEY (`updated_user_id`) REFERENCES `reg_user` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
-  CONSTRAINT `reg_concept_fk` FOREIGN KEY (`status_id`) REFERENCES `reg_status` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AVG_ROW_LENGTH=240 COMMENT='InnoDB free: 0 kB; ';
+  FOREIGN KEY (`vocabulary_id`) REFERENCES `reg_vocabulary` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  FOREIGN KEY (`created_user_id`) REFERENCES `reg_user` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
+  FOREIGN KEY (`status_id`) REFERENCES `reg_status` (`id`),
+  FOREIGN KEY (`pref_label_id`) REFERENCES `reg_concept_property` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
+  FOREIGN KEY (`updated_user_id`) REFERENCES `reg_user` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
+  FOREIGN KEY (`status_id`) REFERENCES `reg_status` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=6988 DEFAULT CHARSET=utf8 AVG_ROW_LENGTH=240 COMMENT='InnoDB free: 0 kB; ';
 
 
 CREATE TABLE `reg_concept_property` (
@@ -329,7 +330,6 @@ CREATE TABLE `reg_concept_property` (
   `status_id` int(11) DEFAULT '1',
   `is_concept_property` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `id` (`id`),
   KEY `concept_id` (`concept_id`),
   KEY `skos_property_id` (`skos_property_id`),
   KEY `scheme_id` (`scheme_id`),
@@ -337,14 +337,14 @@ CREATE TABLE `reg_concept_property` (
   KEY `status_id` (`status_id`),
   KEY `updated_user_id` (`updated_user_id`),
   KEY `created_user_id` (`created_user_id`),
-  CONSTRAINT `reg_concept_property_FK_` FOREIGN KEY (`created_user_id`) REFERENCES `reg_user` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
-  CONSTRAINT `reg_concept_property_FK_1` FOREIGN KEY (`updated_user_id`) REFERENCES `reg_user` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
-  CONSTRAINT `reg_concept_property_fk` FOREIGN KEY (`concept_id`) REFERENCES `reg_concept` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `reg_concept_property_fk1` FOREIGN KEY (`skos_property_id`) REFERENCES `reg_skos_property` (`id`),
-  CONSTRAINT `reg_concept_property_fk2` FOREIGN KEY (`scheme_id`) REFERENCES `reg_vocabulary` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
-  CONSTRAINT `reg_concept_property_fk3` FOREIGN KEY (`status_id`) REFERENCES `reg_status` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `reg_concept_property_fk4` FOREIGN KEY (`related_concept_id`) REFERENCES `reg_concept` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AVG_ROW_LENGTH=140 COMMENT='InnoDB free: 0 kB; ';
+  FOREIGN KEY (`created_user_id`) REFERENCES `reg_user` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
+  FOREIGN KEY (`updated_user_id`) REFERENCES `reg_user` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
+  FOREIGN KEY (`concept_id`) REFERENCES `reg_concept` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  FOREIGN KEY (`skos_property_id`) REFERENCES `reg_skos_property` (`id`),
+  FOREIGN KEY (`scheme_id`) REFERENCES `reg_vocabulary` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
+  FOREIGN KEY (`status_id`) REFERENCES `reg_status` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  FOREIGN KEY (`related_concept_id`) REFERENCES `reg_concept` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=23626 DEFAULT CHARSET=utf8 AVG_ROW_LENGTH=140 COMMENT='InnoDB free: 0 kB; ';
 
 
 CREATE TABLE `reg_concept_property_history` (
@@ -363,7 +363,6 @@ CREATE TABLE `reg_concept_property_history` (
   `created_user_id` int(11) DEFAULT NULL COMMENT 'The ID of the user that created the property',
   `change_note` text,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `id` (`id`),
   KEY `concept_id` (`concept_id`),
   KEY `skos_property_id` (`skos_property_id`),
   KEY `scheme_id` (`scheme_id`),
@@ -373,15 +372,15 @@ CREATE TABLE `reg_concept_property_history` (
   KEY `created_user_id` (`created_user_id`),
   KEY `vocabulary_id` (`vocabulary_id`),
   KEY `reg_concept_property_history_idx1` (`created_at`),
-  CONSTRAINT `reg_concept_property_fk1_new` FOREIGN KEY (`skos_property_id`) REFERENCES `reg_skos_property` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `reg_concept_property_fk2_new` FOREIGN KEY (`scheme_id`) REFERENCES `reg_vocabulary` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
-  CONSTRAINT `reg_concept_property_fk3_new` FOREIGN KEY (`status_id`) REFERENCES `reg_status` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `reg_concept_property_fk4_new` FOREIGN KEY (`related_concept_id`) REFERENCES `reg_concept` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
-  CONSTRAINT `reg_concept_property_history_FK_` FOREIGN KEY (`created_user_id`) REFERENCES `reg_user` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
-  CONSTRAINT `reg_concept_property_history_FK_1` FOREIGN KEY (`concept_property_id`) REFERENCES `reg_concept_property` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `reg_concept_property_history_FK_2` FOREIGN KEY (`vocabulary_id`) REFERENCES `reg_vocabulary` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
-  CONSTRAINT `reg_concept_property_history_FK_3` FOREIGN KEY (`concept_id`) REFERENCES `reg_concept` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AVG_ROW_LENGTH=166 COMMENT='InnoDB free: 0 kB; ';
+  FOREIGN KEY (`skos_property_id`) REFERENCES `reg_skos_property` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  FOREIGN KEY (`scheme_id`) REFERENCES `reg_vocabulary` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
+  FOREIGN KEY (`status_id`) REFERENCES `reg_status` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  FOREIGN KEY (`related_concept_id`) REFERENCES `reg_concept` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
+  FOREIGN KEY (`created_user_id`) REFERENCES `reg_user` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
+  FOREIGN KEY (`concept_property_id`) REFERENCES `reg_concept_property` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  FOREIGN KEY (`vocabulary_id`) REFERENCES `reg_vocabulary` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
+  FOREIGN KEY (`concept_id`) REFERENCES `reg_concept` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=27139 DEFAULT CHARSET=utf8 AVG_ROW_LENGTH=166 COMMENT='InnoDB free: 0 kB; ';
 
 
 CREATE TABLE `reg_schema` (
@@ -418,12 +417,12 @@ CREATE TABLE `reg_schema` (
   KEY `profile_id` (`profile_id`),
   KEY `reg_schema_idx1` (`uri`),
   KEY `reg_schema_idx2` (`name`),
-  CONSTRAINT `schema_FK_user_1` FOREIGN KEY (`created_user_id`) REFERENCES `reg_user` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
-  CONSTRAINT `schema_FK_user_2` FOREIGN KEY (`updated_user_id`) REFERENCES `reg_user` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
-  CONSTRAINT `schema_agent_fk` FOREIGN KEY (`agent_id`) REFERENCES `reg_agent` (`id`) ON UPDATE NO ACTION,
-  CONSTRAINT `schema_profile_fk` FOREIGN KEY (`profile_id`) REFERENCES `profile` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `schema_status_fk` FOREIGN KEY (`status_id`) REFERENCES `reg_status` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AVG_ROW_LENGTH=16384 PACK_KEYS=0 ROW_FORMAT=COMPACT COMMENT='InnoDB free: 0 kB; ';
+  FOREIGN KEY (`created_user_id`) REFERENCES `reg_user` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
+  FOREIGN KEY (`updated_user_id`) REFERENCES `reg_user` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
+  FOREIGN KEY (`agent_id`) REFERENCES `reg_agent` (`id`) ON UPDATE NO ACTION,
+  FOREIGN KEY (`profile_id`) REFERENCES `profile` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  FOREIGN KEY (`status_id`) REFERENCES `reg_status` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=97 DEFAULT CHARSET=utf8 AVG_ROW_LENGTH=16384 PACK_KEYS=0 ROW_FORMAT=COMPACT COMMENT='InnoDB free: 0 kB; ';
 
 
 CREATE TABLE `reg_discuss` (
@@ -456,16 +455,16 @@ CREATE TABLE `reg_discuss` (
   KEY `parent_id` (`parent_id`),
   KEY `concept_property_id` (`concept_property_id`),
   KEY `uri` (`uri`),
-  CONSTRAINT `reg_discuss_fk` FOREIGN KEY (`created_user_id`) REFERENCES `reg_user` (`id`),
-  CONSTRAINT `reg_discuss_fk1` FOREIGN KEY (`deleted_user_id`) REFERENCES `reg_user` (`id`),
-  CONSTRAINT `reg_discuss_fk2` FOREIGN KEY (`schema_id`) REFERENCES `reg_schema` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `reg_discuss_fk3` FOREIGN KEY (`schema_property_id`) REFERENCES `reg_schema_property` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `reg_discuss_fk4` FOREIGN KEY (`schema_property_element_id`) REFERENCES `reg_schema_property_element` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `reg_discuss_fk5` FOREIGN KEY (`vocabulary_id`) REFERENCES `reg_vocabulary` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `reg_discuss_fk6` FOREIGN KEY (`concept_id`) REFERENCES `reg_concept` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `reg_discuss_fk7` FOREIGN KEY (`root_id`) REFERENCES `reg_discuss` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `reg_discuss_fk8` FOREIGN KEY (`parent_id`) REFERENCES `reg_discuss` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `reg_discuss_fk9` FOREIGN KEY (`concept_property_id`) REFERENCES `reg_concept_property` (`id`) ON DELETE CASCADE
+  FOREIGN KEY (`created_user_id`) REFERENCES `reg_user` (`id`),
+  FOREIGN KEY (`concept_property_id`) REFERENCES `reg_concept_property` (`id`) ON DELETE CASCADE,
+  FOREIGN KEY (`deleted_user_id`) REFERENCES `reg_user` (`id`),
+  FOREIGN KEY (`schema_id`) REFERENCES `reg_schema` (`id`) ON DELETE CASCADE,
+  FOREIGN KEY (`schema_property_id`) REFERENCES `reg_schema_property` (`id`) ON DELETE CASCADE,
+  FOREIGN KEY (`schema_property_element_id`) REFERENCES `reg_schema_property_element` (`id`) ON DELETE CASCADE,
+  FOREIGN KEY (`vocabulary_id`) REFERENCES `reg_vocabulary` (`id`) ON DELETE CASCADE,
+  FOREIGN KEY (`concept_id`) REFERENCES `reg_concept` (`id`) ON DELETE CASCADE,
+  FOREIGN KEY (`root_id`) REFERENCES `reg_discuss` (`id`) ON DELETE CASCADE,
+  FOREIGN KEY (`parent_id`) REFERENCES `reg_discuss` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 PACK_KEYS=0 ROW_FORMAT=COMPACT;
 
 
@@ -489,10 +488,10 @@ CREATE TABLE `reg_file_import_history` (
   KEY `vocabulary_id` (`vocabulary_id`),
   KEY `schema_id` (`schema_id`),
   KEY `batch_id` (`batch_id`),
-  CONSTRAINT `reg_file_import_history_fk` FOREIGN KEY (`user_id`) REFERENCES `reg_user` (`id`),
-  CONSTRAINT `reg_file_import_history_fk1` FOREIGN KEY (`vocabulary_id`) REFERENCES `reg_vocabulary` (`id`),
-  CONSTRAINT `reg_file_import_history_fk2` FOREIGN KEY (`schema_id`) REFERENCES `reg_schema` (`id`),
-  CONSTRAINT `reg_file_import_history_ibfk_1` FOREIGN KEY (`batch_id`) REFERENCES `reg_batch` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+  FOREIGN KEY (`user_id`) REFERENCES `reg_user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  FOREIGN KEY (`vocabulary_id`) REFERENCES `reg_vocabulary` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  FOREIGN KEY (`schema_id`) REFERENCES `reg_schema` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  FOREIGN KEY (`batch_id`) REFERENCES `reg_batch` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 PACK_KEYS=0 ROW_FORMAT=COMPACT;
 
 
@@ -503,7 +502,6 @@ CREATE TABLE `reg_lookup` (
   `long_value` varchar(255) DEFAULT NULL,
   `display_order` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `id` (`id`),
   KEY `display_order` (`type_id`,`display_order`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
@@ -531,7 +529,7 @@ CREATE TABLE `reg_rdf_namespace` (
   `schema_location` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `schema_id` (`schema_id`),
-  CONSTRAINT `reg_rdf_namespace_fk` FOREIGN KEY (`schema_id`) REFERENCES `reg_schema` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+  FOREIGN KEY (`schema_id`) REFERENCES `reg_schema` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 PACK_KEYS=0 ROW_FORMAT=COMPACT;
 
 
@@ -547,30 +545,31 @@ CREATE TABLE `reg_schema_property` (
   `label` varchar(255) NOT NULL DEFAULT '',
   `definition` text,
   `comment` text,
-  `type` enum('property','subproperty','class','subclass') NOT NULL DEFAULT 'property',
+  `type` enum('Property','Class') NOT NULL DEFAULT 'Property',
   `is_subproperty_of` int(11) DEFAULT NULL,
   `parent_uri` varchar(255) DEFAULT NULL,
   `uri` varchar(255) NOT NULL DEFAULT '',
-  `url` varchar(255) DEFAULT '',
   `status_id` int(11) NOT NULL DEFAULT '1',
   `language` varchar(6) NOT NULL DEFAULT '',
   `note` text,
   `domain` varchar(255) DEFAULT NULL,
   `orange` varchar(255) DEFAULT NULL,
   `is_deprecated` tinyint(1) DEFAULT NULL COMMENT 'Boolean. Has this class/property been deprecated',
-  UNIQUE KEY `id` (`id`),
+  `url` varchar(255) DEFAULT NULL,
+  `lexical_alias` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
   KEY `created_user_id` (`created_user_id`),
   KEY `updated_user_id` (`updated_user_id`),
   KEY `schema_id` (`schema_id`),
   KEY `subproperty_id` (`is_subproperty_of`),
   KEY `status_id` (`status_id`),
   KEY `reg_schema_property_idx1` (`uri`),
-  CONSTRAINT `reg_schema_property_fk` FOREIGN KEY (`created_user_id`) REFERENCES `reg_user` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
-  CONSTRAINT `reg_schema_property_fk1` FOREIGN KEY (`updated_user_id`) REFERENCES `reg_user` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
-  CONSTRAINT `reg_schema_property_fk2` FOREIGN KEY (`schema_id`) REFERENCES `reg_schema` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `reg_schema_property_fk3` FOREIGN KEY (`is_subproperty_of`) REFERENCES `reg_schema_property` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
-  CONSTRAINT `reg_schema_property_fk4` FOREIGN KEY (`status_id`) REFERENCES `reg_status` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AVG_ROW_LENGTH=5461 COMMENT='InnoDB free: 0 kB;';
+  FOREIGN KEY (`created_user_id`) REFERENCES `reg_user` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
+  FOREIGN KEY (`updated_user_id`) REFERENCES `reg_user` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
+  FOREIGN KEY (`schema_id`) REFERENCES `reg_schema` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  FOREIGN KEY (`is_subproperty_of`) REFERENCES `reg_schema_property` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
+  FOREIGN KEY (`status_id`) REFERENCES `reg_status` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=16080 DEFAULT CHARSET=utf8 AVG_ROW_LENGTH=5461 COMMENT='InnoDB free: 0 kB;';
 
 
 CREATE TABLE `reg_schema_property_element` (
@@ -585,9 +584,9 @@ CREATE TABLE `reg_schema_property_element` (
   `is_schema_property` tinyint(1) DEFAULT NULL,
   `object` text NOT NULL,
   `related_schema_property_id` int(11) DEFAULT NULL,
-  `language` char(6) DEFAULT 'en',
+  `language` char(6) NOT NULL,
   `status_id` int(11) DEFAULT '1',
-  UNIQUE KEY `id` (`id`),
+  PRIMARY KEY (`id`),
   KEY `created_user_id` (`created_user_id`),
   KEY `updated_user_id` (`updated_user_id`),
   KEY `schema_property_id` (`schema_property_id`),
@@ -596,13 +595,13 @@ CREATE TABLE `reg_schema_property_element` (
   KEY `profile_property_id` (`profile_property_id`),
   KEY `reg_schema_property_element_idx1` (`object`(1)),
   KEY `reg_schema_property_element_idx2` (`updated_at`),
-  CONSTRAINT `reg_schema_property_element_fk` FOREIGN KEY (`profile_property_id`) REFERENCES `profile_property` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `reg_schema_property_property_fk` FOREIGN KEY (`created_user_id`) REFERENCES `reg_user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `reg_schema_property_property_fk1` FOREIGN KEY (`updated_user_id`) REFERENCES `reg_user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `reg_schema_property_property_fk2` FOREIGN KEY (`schema_property_id`) REFERENCES `reg_schema_property` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `reg_schema_property_property_fk3` FOREIGN KEY (`related_schema_property_id`) REFERENCES `reg_schema_property` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
-  CONSTRAINT `reg_schema_property_property_fk4` FOREIGN KEY (`status_id`) REFERENCES `reg_status` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AVG_ROW_LENGTH=1260 COMMENT='InnoDB free: 0 kB; ';
+  FOREIGN KEY (`profile_property_id`) REFERENCES `profile_property` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  FOREIGN KEY (`created_user_id`) REFERENCES `reg_user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  FOREIGN KEY (`updated_user_id`) REFERENCES `reg_user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  FOREIGN KEY (`schema_property_id`) REFERENCES `reg_schema_property` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  FOREIGN KEY (`related_schema_property_id`) REFERENCES `reg_schema_property` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
+  FOREIGN KEY (`status_id`) REFERENCES `reg_status` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=127199 DEFAULT CHARSET=utf8 AVG_ROW_LENGTH=1260 COMMENT='InnoDB free: 0 kB; ';
 
 
 CREATE TABLE `reg_schema_property_element_history` (
@@ -616,10 +615,11 @@ CREATE TABLE `reg_schema_property_element_history` (
   `profile_property_id` int(11) DEFAULT NULL,
   `object` text,
   `related_schema_property_id` int(11) DEFAULT NULL,
-  `language` char(6) DEFAULT 'en',
+  `language` char(6) NOT NULL,
   `status_id` int(11) DEFAULT '1',
   `change_note` text,
-  UNIQUE KEY `id` (`id`),
+  `import_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
   KEY `created_user_id` (`created_user_id`),
   KEY `schema_property_element_id` (`schema_property_element_id`),
   KEY `schema_property_id` (`schema_property_id`),
@@ -628,14 +628,16 @@ CREATE TABLE `reg_schema_property_element_history` (
   KEY `status_id` (`status_id`),
   KEY `profile_property_id` (`profile_property_id`),
   KEY `reg_schema_property_element_history_idx1` (`created_at`),
-  CONSTRAINT `reg_schema_property_element_history_fk` FOREIGN KEY (`created_user_id`) REFERENCES `reg_user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `reg_schema_property_element_history_fk1` FOREIGN KEY (`schema_property_element_id`) REFERENCES `reg_schema_property_element` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `reg_schema_property_element_history_fk2` FOREIGN KEY (`schema_property_id`) REFERENCES `reg_schema_property` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
-  CONSTRAINT `reg_schema_property_element_history_fk3` FOREIGN KEY (`schema_id`) REFERENCES `reg_schema` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
-  CONSTRAINT `reg_schema_property_element_history_fk4` FOREIGN KEY (`related_schema_property_id`) REFERENCES `reg_schema_property` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
-  CONSTRAINT `reg_schema_property_element_history_fk5` FOREIGN KEY (`status_id`) REFERENCES `reg_status` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `reg_schema_property_element_history_fk6` FOREIGN KEY (`profile_property_id`) REFERENCES `profile_property` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AVG_ROW_LENGTH=1170 COMMENT='InnoDB free: 0 kB; ';
+  KEY `reg_schema_property_element_history_fk7` (`import_id`),
+  FOREIGN KEY (`created_user_id`) REFERENCES `reg_user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  FOREIGN KEY (`schema_property_element_id`) REFERENCES `reg_schema_property_element` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  FOREIGN KEY (`schema_property_id`) REFERENCES `reg_schema_property` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
+  FOREIGN KEY (`schema_id`) REFERENCES `reg_schema` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
+  FOREIGN KEY (`related_schema_property_id`) REFERENCES `reg_schema_property` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
+  FOREIGN KEY (`status_id`) REFERENCES `reg_status` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  FOREIGN KEY (`profile_property_id`) REFERENCES `profile_property` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  FOREIGN KEY (`import_id`) REFERENCES `reg_file_import_history` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=146879 DEFAULT CHARSET=utf8 AVG_ROW_LENGTH=1170 COMMENT='InnoDB free: 0 kB; ';
 
 
 CREATE TABLE `reg_skos_property` (
@@ -657,7 +659,6 @@ CREATE TABLE `reg_skos_property` (
   `is_scheme` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'boolean - is in conceptScheme domain',
   `is_in_picklist` tinyint(1) NOT NULL DEFAULT '1' COMMENT 'boolean - is in the property picklist',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `id` (`id`),
   UNIQUE KEY `name_2` (`name`),
   UNIQUE KEY `uri_2` (`uri`)
 ) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8 COMMENT='InnoDB free: 0 kB';
@@ -669,7 +670,6 @@ CREATE TABLE `reg_status` (
   `display_name` varchar(255) DEFAULT NULL,
   `uri` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `id` (`id`),
   KEY `display_order` (`display_order`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
@@ -692,9 +692,8 @@ CREATE TABLE `reg_user` (
   `deletions` int(11) DEFAULT '0',
   `password` varchar(40) DEFAULT NULL,
   `culture` varchar(7) DEFAULT 'en_US',
-  PRIMARY KEY (`id`),
-  KEY `id` (`id`,`created_at`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 AVG_ROW_LENGTH=606 COMMENT='InnoDB free: 0 kB';
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1000038 DEFAULT CHARSET=utf8 AVG_ROW_LENGTH=606 COMMENT='InnoDB free: 0 kB';
 
 
 CREATE TABLE `reg_vocabulary` (
@@ -729,13 +728,13 @@ CREATE TABLE `reg_vocabulary` (
   KEY `reg_vocabulary_idx1` (`uri`),
   KEY `reg_vocabulary_idx2` (`name`),
   KEY `profile_id` (`profile_id`),
-  CONSTRAINT `reg_vocabulary_FK_` FOREIGN KEY (`created_user_id`) REFERENCES `reg_user` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
-  CONSTRAINT `reg_vocabulary_FK_1` FOREIGN KEY (`updated_user_id`) REFERENCES `reg_user` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
-  CONSTRAINT `reg_vocabulary_FK_2` FOREIGN KEY (`child_updated_user_id`) REFERENCES `reg_user` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
-  CONSTRAINT `vocabulary_agent_fk` FOREIGN KEY (`agent_id`) REFERENCES `reg_agent` (`id`) ON UPDATE NO ACTION,
-  CONSTRAINT `vocabulary_profile_fk` FOREIGN KEY (`profile_id`) REFERENCES `profile` (`id`),
-  CONSTRAINT `vocabulary_status_fk` FOREIGN KEY (`status_id`) REFERENCES `reg_status` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AVG_ROW_LENGTH=1024 COMMENT='InnoDB free: 0 kB;';
+  FOREIGN KEY (`created_user_id`) REFERENCES `reg_user` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
+  FOREIGN KEY (`updated_user_id`) REFERENCES `reg_user` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
+  FOREIGN KEY (`child_updated_user_id`) REFERENCES `reg_user` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
+  FOREIGN KEY (`profile_id`) REFERENCES `profile` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  FOREIGN KEY (`agent_id`) REFERENCES `reg_agent` (`id`) ON UPDATE NO ACTION,
+  FOREIGN KEY (`status_id`) REFERENCES `reg_status` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=375 DEFAULT CHARSET=utf8 AVG_ROW_LENGTH=1024 COMMENT='InnoDB free: 0 kB;';
 
 
 CREATE TABLE `reg_vocabulary_has_user` (
@@ -754,9 +753,9 @@ CREATE TABLE `reg_vocabulary_has_user` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `resource_user_id` (`vocabulary_id`,`user_id`),
   UNIQUE KEY `user_resource_id` (`user_id`,`vocabulary_id`),
-  CONSTRAINT `reg_resource_has_user_fk1` FOREIGN KEY (`user_id`) REFERENCES `reg_user` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `reg_vocabulary_has_user_fk` FOREIGN KEY (`vocabulary_id`) REFERENCES `reg_vocabulary` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AVG_ROW_LENGTH=630 COMMENT='InnoDB free: 0 kB; ';
+  FOREIGN KEY (`user_id`) REFERENCES `reg_user` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  FOREIGN KEY (`vocabulary_id`) REFERENCES `reg_vocabulary` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=413 DEFAULT CHARSET=utf8 AVG_ROW_LENGTH=630 COMMENT='InnoDB free: 0 kB; ';
 
 
 CREATE TABLE `reg_vocabulary_has_version` (
@@ -769,13 +768,12 @@ CREATE TABLE `reg_vocabulary_has_version` (
   `vocabulary_id` int(11) DEFAULT NULL,
   `timeslice` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `id` (`id`),
   KEY `created_user_id` (`created_user_id`),
   KEY `vocabulary_id` (`vocabulary_id`),
   KEY `name` (`name`),
-  CONSTRAINT `reg_vocabulary_has_version_FK_user` FOREIGN KEY (`created_user_id`) REFERENCES `reg_user` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
-  CONSTRAINT `reg_vocabulary_has_version_FK_vocabulary` FOREIGN KEY (`vocabulary_id`) REFERENCES `reg_vocabulary` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AVG_ROW_LENGTH=8192 COMMENT='InnoDB free: 0 kB; ';
+  FOREIGN KEY (`created_user_id`) REFERENCES `reg_user` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
+  FOREIGN KEY (`vocabulary_id`) REFERENCES `reg_vocabulary` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 AVG_ROW_LENGTH=8192 COMMENT='InnoDB free: 0 kB; ';
 
 
 CREATE TABLE `schema_has_user` (
@@ -792,12 +790,11 @@ CREATE TABLE `schema_has_user` (
   `default_language` char(6) NOT NULL DEFAULT 'en',
   `current_language` char(6) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `id` (`id`),
   KEY `schema_id` (`schema_id`),
   KEY `user_id` (`user_id`),
-  CONSTRAINT `schema_has_user_fk` FOREIGN KEY (`schema_id`) REFERENCES `reg_schema` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `schema_has_user_fk1` FOREIGN KEY (`user_id`) REFERENCES `reg_user` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AVG_ROW_LENGTH=16384 COMMENT='InnoDB free: 0 kB; ';
+  FOREIGN KEY (`schema_id`) REFERENCES `reg_schema` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  FOREIGN KEY (`user_id`) REFERENCES `reg_user` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=125 DEFAULT CHARSET=utf8 AVG_ROW_LENGTH=16384 COMMENT='InnoDB free: 0 kB; ';
 
 
 CREATE TABLE `schema_has_version` (
@@ -810,11 +807,10 @@ CREATE TABLE `schema_has_version` (
   `schema_id` int(11) DEFAULT NULL,
   `timeslice` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `id` (`id`),
   KEY `created_user_id` (`created_user_id`),
   KEY `schema_id` (`schema_id`),
-  CONSTRAINT `schema_has_version_fk` FOREIGN KEY (`created_user_id`) REFERENCES `reg_user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `schema_has_version_fk1` FOREIGN KEY (`schema_id`) REFERENCES `reg_schema` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+  FOREIGN KEY (`created_user_id`) REFERENCES `reg_user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  FOREIGN KEY (`schema_id`) REFERENCES `reg_schema` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='InnoDB free: 0 kB; ';
 
 
@@ -876,33 +872,35 @@ UNLOCK TABLES;
 
 LOCK TABLES `profile_property` WRITE;
 ALTER TABLE `profile_property` DISABLE KEYS;
-INSERT INTO `profile_property` (`id`, `created_at`, `updated_at`, `deleted_at`, `created_by`, `updated_by`, `deleted_by`, `profile_id`, `name`, `label`, `definition`, `comment`, `type`, `uri`, `status_id`, `language`, `note`, `display_order`, `export_order`, `picklist_order`, `examples`, `is_required`, `is_reciprocal`, `is_singleton`, `is_in_picklist`, `is_in_export`, `inverse_profile_property_id`, `is_in_class_picklist`, `is_in_property_picklist`, `is_in_rdf`, `is_in_xsd`, `is_attribute`, `has_language`, `is_object_prop`) VALUES
-	(1,'2008-04-20 12:00:00','2008-04-20 15:00:00',NULL,36,36,NULL,1,'name','name',NULL,NULL,'property','reg:name',1,'en',NULL,1,3,1,NULL,1,0,1,0,1,NULL,0,0,1,1,1,1,0),
-	(2,'2008-04-20 12:00:00','2008-04-20 15:00:00',NULL,36,36,NULL,1,'label','label',NULL,NULL,'property','rdfs:label',1,'en',NULL,2,4,2,NULL,1,0,0,1,1,NULL,1,1,1,1,0,1,0),
-	(3,'2008-04-20 12:01:00','2008-04-20 15:01:01',NULL,36,36,NULL,1,'definition','description',NULL,NULL,'property','skos:definition',1,'en',NULL,3,6,3,NULL,0,0,0,1,1,NULL,1,1,1,1,0,1,0),
-	(4,'2008-04-20 12:02:00','2008-04-20 15:02:00',NULL,36,36,NULL,1,'type','type',NULL,NULL,'property','rdf:type',1,'en',NULL,5,2,5,NULL,1,0,1,0,1,NULL,0,0,1,1,1,0,1),
-	(5,'2008-04-20 00:02:00','2008-04-20 03:02:02',NULL,36,36,NULL,1,'comment','comment',NULL,NULL,'property','rdfs:comment',1,'en',NULL,4,8,4,NULL,0,0,0,1,1,NULL,1,1,1,1,0,1,0),
-	(6,'2008-04-20 00:03:00','2008-04-20 15:03:00',NULL,36,36,NULL,1,'isSubpropertyOf','subPropertyOf',NULL,NULL,'property','rdfs:subPropertyOf',1,'en',NULL,6,14,6,NULL,0,0,0,1,1,8,0,1,1,1,0,0,1),
-	(7,'2008-04-20 00:04:00','2008-04-20 03:04:00',NULL,36,36,NULL,1,'note','note',NULL,NULL,'property','skos:scopeNote',1,'en',NULL,8,7,8,NULL,0,0,0,1,1,NULL,1,1,1,1,0,1,0),
-	(8,'2008-04-20 12:05:00','2008-04-20 15:05:00',NULL,36,36,NULL,1,'hasSubproperty','hasSubproperty',NULL,NULL,'property','reg:hasSubproperty',1,'en',NULL,7,15,7,NULL,0,0,0,0,0,6,0,0,1,1,1,0,1),
-	(9,'2009-03-07 11:49:27','2009-03-07 14:49:27',NULL,36,36,NULL,1,'isSubclassOf','subClassOf','','','property','rdfs:subClassOf',1,'en','',9,12,9,'',0,0,0,0,1,10,1,0,1,1,0,0,1),
-	(10,'2009-03-07 11:53:34','2009-03-07 14:53:34',NULL,36,36,NULL,1,'hasSubClass','hasSubClass',NULL,NULL,'property','reg:hasSubClass',1,'en',NULL,10,13,10,NULL,0,0,0,0,0,9,1,0,1,1,1,0,1),
-	(11,'2009-03-07 11:57:15','2009-03-07 14:57:15',NULL,36,36,NULL,1,'domain','domain',NULL,NULL,'property','rdfs:domain',1,'en',NULL,11,9,11,NULL,0,0,0,1,1,NULL,0,1,1,1,0,0,1),
-	(12,'2009-03-07 12:01:38','2009-03-07 15:01:38',NULL,36,36,NULL,1,'orange','range',NULL,NULL,'property','rdfs:range',1,'en',NULL,12,10,12,NULL,0,0,0,1,1,NULL,0,1,1,1,0,0,1),
-	(13,'2009-03-07 12:01:38','2009-03-07 15:01:38',NULL,36,36,NULL,1,'uri','uri',NULL,NULL,'property','reg:uri',1,'en',NULL,0,1,13,NULL,1,0,1,0,1,NULL,0,0,0,1,1,0,1),
-	(14,'2009-03-07 12:01:38','2009-03-07 15:01:38',NULL,36,36,NULL,1,'statusId','status',NULL,NULL,'property','reg:status',1,'en',NULL,27,26,27,NULL,1,0,1,0,1,NULL,0,0,0,1,1,0,1),
-	(15,'2011-09-29 14:12:00','2011-09-29 10:20:25',NULL,36,36,NULL,1,'isInverseOf','inverseOf','','The property that determines that two given properties are inverse.','property','owl:inverseOf',1,'en','',15,16,15,'',0,1,0,1,1,NULL,0,1,1,0,0,0,1),
-	(16,'2011-09-29 14:23:24','2011-09-29 10:23:24',NULL,36,36,NULL,1,'isSameAs','sameAs','','The property that determines that two given individuals are equal.','property','owl:sameAs',1,'en','',16,17,16,'',0,1,0,1,1,NULL,1,1,1,0,0,0,1),
-	(17,'2011-09-29 14:26:25','2011-09-29 10:26:25',NULL,36,36,NULL,1,'propertyIsDisjointWith','propertyDisjointWith','','Used to specify that two properties are mutually disjoint, and it is defined as a property itself. ','property','owl:propertyDisjointWith',1,'en','',17,18,17,'',0,1,0,1,1,NULL,0,1,1,1,0,0,1),
-	(18,'2011-09-29 14:28:57','2011-09-29 10:28:57',NULL,36,36,NULL,1,'isEquivalentClass','equivalentClass','','The property that determines that two given classes are equivalent, and that is used to specify datatype definitions.','property','owl:equivalentClass',1,'en','',19,20,19,'',0,1,0,1,1,NULL,1,0,1,1,0,0,1),
-	(19,'2011-09-29 14:30:00','2011-09-29 10:30:00',NULL,36,36,NULL,1,'isEquivalentProperty','equivalentProperty','','','property','owl:equivalentProperty',1,'en','',20,21,20,'',0,1,0,1,1,NULL,0,1,1,1,0,0,1),
-	(20,'2012-02-02 23:21:08','2012-02-02 18:21:08',NULL,36,36,NULL,1,'isDisjointWith','disjointWith','','The property that determines that two given properties are disjoint.','property','owl:disjointWith',1,'en','',18,19,18,'',0,1,0,1,1,NULL,1,1,1,1,0,0,1),
-	(21,'2012-06-02 23:21:08','2012-06-02 19:21:08',NULL,36,36,NULL,1,'altLabel','altLabel',NULL,NULL,'property','skos:altLabel',1,'en',NULL,21,22,21,NULL,0,0,0,1,1,NULL,1,1,1,1,0,1,0),
-	(23,'2014-01-18 04:04:02','2014-01-17 23:04:02',NULL,36,36,NULL,1,'narrowMatch','narrowMatch',NULL,NULL,'property','skos:narrowMatch',1,'en',NULL,24,25,24,NULL,0,0,0,1,1,NULL,1,1,1,1,0,0,1),
-	(24,'2014-01-18 04:04:01','2014-01-17 23:04:01',NULL,36,36,NULL,1,'closeMatch','closeMatch',NULL,NULL,'property','skos:closeMatch',1,'en',NULL,23,24,23,NULL,0,0,0,1,1,NULL,1,1,1,1,0,0,1),
-	(25,'2014-01-18 04:04:00','2014-01-17 23:04:00',NULL,36,36,NULL,1,'broadMatch','broadMatch',NULL,NULL,'property','skos:broadMatch',1,'en',NULL,22,23,22,NULL,0,0,0,1,1,NULL,1,1,1,1,0,0,1),
-	(26,'2011-09-29 14:23:24','2011-09-29 10:23:24',NULL,36,36,NULL,1,'hasUnconstrained','hasUnconstrained','','','property','reg:hasUnconstrained',1,'en','',26,11,26,'',0,1,1,1,1,NULL,1,1,1,0,0,0,1),
-	(27,'2011-09-29 14:23:24','2011-09-29 10:23:24',NULL,36,36,NULL,1,'lexicalAlias','lexicalAlias','','','property','reg:lexicalAlias',1,'en','',25,5,25,'',0,0,0,1,1,NULL,1,1,1,0,0,1,1);
+INSERT INTO `profile_property` (`id`, `created_at`, `updated_at`, `deleted_at`, `created_by`, `updated_by`, `deleted_by`, `profile_id`, `name`, `label`, `definition`, `comment`, `type`, `uri`, `status_id`, `language`, `note`, `display_order`, `export_order`, `picklist_order`, `examples`, `is_required`, `is_reciprocal`, `is_singleton`, `is_in_picklist`, `is_in_export`, `inverse_profile_property_id`, `is_in_class_picklist`, `is_in_property_picklist`, `is_in_rdf`, `is_in_xsd`, `is_attribute`, `has_language`, `is_object_prop`, `is_in_form`) VALUES
+	(1,'2008-04-20 12:00:00','2008-04-20 15:00:00',NULL,36,36,NULL,1,'name','name',NULL,NULL,'property','reg:name',1,'en',NULL,1,3,1,NULL,1,0,1,0,1,NULL,0,0,1,1,1,1,0,1),
+	(2,'2008-04-20 12:00:00','2008-04-20 15:00:00',NULL,36,36,NULL,1,'label','label',NULL,NULL,'property','rdfs:label',1,'en',NULL,2,4,2,NULL,1,0,1,1,1,NULL,1,1,1,1,0,1,0,1),
+	(3,'2008-04-20 12:01:00','2008-04-20 15:01:01',NULL,36,36,NULL,1,'definition','description',NULL,NULL,'property','skos:definition',1,'en',NULL,3,6,3,NULL,0,0,0,1,1,NULL,1,1,1,1,0,1,0,1),
+	(4,'2008-04-20 12:02:00','2008-04-20 15:02:00',NULL,36,36,NULL,1,'type','type',NULL,NULL,'property','rdf:type',1,'en',NULL,5,2,5,NULL,1,0,1,0,1,NULL,0,0,1,1,1,0,0,1),
+	(5,'2008-04-20 00:02:00','2008-04-20 03:02:02',NULL,36,36,NULL,1,'comment','comment',NULL,NULL,'property','rdfs:comment',1,'en',NULL,4,8,4,NULL,0,0,0,1,1,NULL,1,1,1,1,0,1,0,1),
+	(6,'2008-04-20 00:03:00','2008-04-20 15:03:00',NULL,36,36,NULL,1,'isSubpropertyOf','subPropertyOf',NULL,NULL,'property','rdfs:subPropertyOf',1,'en',NULL,6,14,6,NULL,0,0,0,1,1,8,0,1,1,1,0,0,1,0),
+	(7,'2008-04-20 00:04:00','2008-04-20 03:04:00',NULL,36,36,NULL,1,'note','note',NULL,NULL,'property','skos:scopeNote',1,'en',NULL,8,7,8,NULL,0,0,0,1,1,NULL,1,1,1,1,0,1,0,1),
+	(8,'2008-04-20 12:05:00','2008-04-20 15:05:00',NULL,36,36,NULL,1,'hasSubproperty','hasSubproperty',NULL,NULL,'property','reg:hasSubproperty',1,'en',NULL,7,15,7,NULL,0,0,0,0,0,6,0,0,1,1,1,0,1,0),
+	(9,'2009-03-07 11:49:27','2009-03-07 14:49:27',NULL,36,36,NULL,1,'isSubclassOf','subClassOf','','','property','rdfs:subClassOf',1,'en','',9,12,9,'',0,0,0,0,1,10,1,0,1,1,0,0,1,0),
+	(10,'2009-03-07 11:53:34','2009-03-07 14:53:34',NULL,36,36,NULL,1,'hasSubClass','hasSubClass',NULL,NULL,'property','reg:hasSubClass',1,'en',NULL,10,13,10,NULL,0,0,0,0,0,9,1,0,1,1,1,0,1,0),
+	(11,'2009-03-07 11:57:15','2009-03-07 14:57:15',NULL,36,36,NULL,1,'domain','domain',NULL,NULL,'property','rdfs:domain',1,'en',NULL,11,9,11,NULL,0,0,1,1,1,NULL,0,1,1,1,0,0,1,1),
+	(12,'2009-03-07 12:01:38','2009-03-07 15:01:38',NULL,36,36,NULL,1,'orange','range',NULL,NULL,'property','rdfs:range',1,'en',NULL,12,10,12,NULL,0,0,1,1,1,NULL,0,1,1,1,0,0,1,1),
+	(13,'2009-03-07 12:01:38','2009-03-07 15:01:38',NULL,36,36,NULL,1,'uri','uri',NULL,NULL,'property','reg:uri',1,'en',NULL,0,1,13,NULL,1,0,1,0,1,NULL,0,0,0,1,1,0,1,1),
+	(14,'2009-03-07 12:01:38','2009-03-07 15:01:38',NULL,36,36,NULL,1,'statusId','status',NULL,NULL,'property','reg:status',1,'en',NULL,27,26,27,NULL,1,0,1,0,1,NULL,0,0,0,1,1,0,1,1),
+	(15,'2011-09-29 14:12:00','2011-09-29 10:20:25',NULL,36,36,NULL,1,'isInverseOf','inverseOf','','The property that determines that two given properties are inverse.','property','owl:inverseOf',1,'en','',15,16,15,'',0,1,1,1,1,NULL,0,1,1,0,0,0,1,0),
+	(16,'2011-09-29 14:23:24','2011-09-29 10:23:24',NULL,36,36,NULL,1,'isSameAs','sameAs','','The property that determines that two given individuals are equal.','property','owl:sameAs',1,'en','',16,17,16,'',0,1,0,1,1,NULL,1,1,1,0,0,0,1,0),
+	(17,'2011-09-29 14:26:25','2011-09-29 10:26:25',NULL,36,36,NULL,1,'propertyIsDisjointWith','propertyDisjointWith','','Used to specify that two properties are mutually disjoint, and it is defined as a property itself. ','property','owl:propertyDisjointWith',1,'en','',17,18,17,'',0,1,0,1,1,NULL,0,1,1,1,0,0,1,0),
+	(18,'2011-09-29 14:28:57','2011-09-29 10:28:57',NULL,36,36,NULL,1,'isEquivalentClass','equivalentClass','','The property that determines that two given classes are equivalent, and that is used to specify datatype definitions.','property','owl:equivalentClass',1,'en','',19,20,19,'',0,1,1,1,1,NULL,1,0,1,1,0,0,1,0),
+	(19,'2011-09-29 14:30:00','2011-09-29 10:30:00',NULL,36,36,NULL,1,'isEquivalentProperty','equivalentProperty','','','property','owl:equivalentProperty',1,'en','',20,21,20,'',0,1,1,1,1,NULL,0,1,1,1,0,0,1,0),
+	(20,'2012-02-02 23:21:08','2012-02-02 18:21:08',NULL,36,36,NULL,1,'isDisjointWith','disjointWith','','The property that determines that two given properties are disjoint.','property','owl:disjointWith',1,'en','',18,19,18,'',0,1,0,1,1,NULL,1,1,1,1,0,0,1,0),
+	(21,'2012-06-02 23:21:08','2012-06-02 19:21:08',NULL,36,36,NULL,1,'altLabel','altLabel',NULL,NULL,'property','skos:altLabel',1,'en',NULL,21,22,21,NULL,0,0,0,1,1,NULL,1,1,1,1,0,1,0,0),
+	(23,'2014-01-18 04:04:02','2014-01-17 23:04:02',NULL,36,36,NULL,1,'narrowMatch','narrowMatch',NULL,NULL,'property','skos:narrowMatch',1,'en',NULL,24,25,24,NULL,0,0,0,1,1,NULL,1,1,1,1,0,0,1,0),
+	(24,'2014-01-18 04:04:01','2014-01-17 23:04:01',NULL,36,36,NULL,1,'closeMatch','closeMatch',NULL,NULL,'property','skos:closeMatch',1,'en',NULL,23,24,23,NULL,0,0,0,1,1,NULL,1,1,1,1,0,0,1,0),
+	(25,'2014-01-18 04:04:00','2014-01-17 23:04:00',NULL,36,36,NULL,1,'broadMatch','broadMatch',NULL,NULL,'property','skos:broadMatch',1,'en',NULL,22,23,22,NULL,0,0,0,1,1,NULL,1,1,1,1,0,0,1,0),
+	(26,'2011-09-29 14:23:24','2011-09-29 10:23:24',NULL,36,36,NULL,1,'hasUnconstrained','hasUnconstrained','','','property','reg:hasUnconstrained',1,'en','',26,11,26,'',0,0,1,1,1,8,1,1,1,0,0,0,1,0),
+	(27,'2011-09-29 14:23:24','2011-09-29 10:23:24',NULL,36,36,NULL,1,'lexicalAlias','lexicalAlias','','','property','reg:lexicalAlias',1,'en','',25,5,25,'',0,0,1,1,1,NULL,1,1,1,0,0,1,1,1),
+	(30,'2015-05-01 23:04:00','2015-05-01 23:04:00',NULL,36,36,NULL,1,'changeNote','changeNote',NULL,NULL,'property','skos:changeNote',1,'en',NULL,30,30,30,NULL,0,0,0,1,1,NULL,1,1,1,1,0,1,0,0),
+	(31,'2014-04-17 23:04:00','2014-04-17 23:04:00',NULL,36,36,NULL,1,'instructionNumber','instructionNumber','RDA Toolkit instruction number reference','','property','rdakit:instructionNumber',1,'en','',27,27,27,'',0,0,1,1,1,NULL,0,1,1,0,0,0,0,0);
 ALTER TABLE `profile_property` ENABLE KEYS;
 UNLOCK TABLES;
 

@@ -37,4 +37,5 @@ class Db extends \Codeception\Module\Db
         $this->config['dump'] = 'tests/_data/' . $dumpFile;
         $this->_initialize();
     }
+
 }

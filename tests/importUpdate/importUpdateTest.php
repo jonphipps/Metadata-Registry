@@ -1,13 +1,23 @@
 <?php
 use Codeception\Util\Fixtures;
 use ImportVocab\ImportVocab;
+use Codeception\Module\Db;
+use Codeception\Module\Dbh;
+use Codeception\Module\DbHelper;
+use Ddeboer\DataImport\Reader\ArrayReader;
 
 require_once("_bootstrap.php");
 
 class importUpdateTest extends \Codeception\TestCase\Test
 {
+    /*********************************
+    /*
+    /* deprecated -- moved to cest
+    /*
+    /*********************************
+
     /**
-     * @var \UnitTester
+     * @var \ImportTester
      */
     protected $tester;
 
@@ -18,7 +28,7 @@ class importUpdateTest extends \Codeception\TestCase\Test
 
     protected function _before()
     {
-        $this->import = new ImportVocab("schema", "updatedata4dupetest.CSV", 77);
+        $this->import = new ImportVocab("schema", "updatedata_nochange.CSV", 77);
         $this->import->importFolder = Fixtures::get("importFolder");
         $this->import->importId = 41;
     }
@@ -29,79 +39,29 @@ class importUpdateTest extends \Codeception\TestCase\Test
 
     // tests
 
-    // These tests determine if a changed csv properly updates the db and records the correct history
+    // These tests determine if an unchanged csv properly updates the db and records the correct history
     // It won't delete any data
     public function testSparseUpdate()
     {
-        $I=$this->tester;
-        $I->wantToTest("if a changed cell in the main table gets changed");
+        $I = $this->tester;
+
+        $CsvHeader = "id,created_at,updated_at,deleted_at,created_user_id,updated_user_id,schema_id,name,label,definition,comment,type,is_subproperty_of,parent_uri,uri,status_id,language,note,domain,orange,is_deprecated,url,lexical_alias";
+        $CsvValues = '"15368","2014-01-19 03:48:16","2015-05-29 18:47:56",,"422","422","77","creator","has creator","Relates a work to a person, family, or corporate body responsible for the creation of a work.",,"property","15039","http://rdaregistry.info/Elements/u/P60447","http://rdaregistry.info/Elements/w/P10065","1","en",,"http://rdaregistry.info/Elements/c/C10001","http://rdaregistry.info/Elements/c/C10002",,,';
+
+        $correctData = $I->getArrayFromCsv($CsvHeader, $CsvValues, ['updated_at','deleted_at','created_user_id']);
+        $I->wantToTest("if nothing in the main table gets changed");
         $this->import->setCsvReader($this->import->file);
         $this->import->processProlog();
         $this->import->getDataColumnIds();
-        $this->import->processData();
-        $results = $this->import->results['success'];
-        verify("There were 12 rows processed",
-          count($results['rows']))->equals(2);
+        $results = $this->import->processData();
+        verify("There were 1 rows processed",
+          $results->getSuccessCount())->equals(1);
         //$this->import->processParents();
-        $I->canSeeInDatabase('reg_schema_property', ['id' => 1, "definition" => "fubar, baby"]);
+        foreach ($correctData as $key => $value) {
+            $I->canSeeInDatabase('reg_schema_property', [$key => $value]);
+        }
 
-        //test if a changed cell in the main table gets changed in the statement table
-        $I->canSeeInDatabase('reg_schema_property_element', ['id' => 3, "object" => "fubar, baby"]);
-        //test if the history is updated
-        $I->canSeeInDatabase('reg_schema_property_element_history', ['schema_property_element_id' => 3, 'schema_property_id' => 1, "object" => "fubar, baby"]);
-        $historyDate = $I->grabFromDatabase('reg_schema_property_element_history', 'created_at', ['schema_property_element_id' => 3, 'schema_property_id' => 1, "object" => "fubar, baby"]);
-        //the other rows haven't been updated
-        $updateDate = $I->grabFromDatabase('reg_schema_property', 'updated_at', ['id' => 3]);
-        verify("another property row hasn't been updated",
-          $historyDate)->greaterThan($updateDate);
-        $elementUpdateDate = $I->grabFromDatabase('reg_schema_property_element', 'updated_at', ['id' => 3]);
-        verify("the element row has been updated",
-          $historyDate)->equals($elementUpdateDate);
-        $otherPropertyUpdateDate = $I->grabFromDatabase('reg_schema_property_element', 'updated_at', ['id' => 12]);
-        verify("the inverse property statement has not been updated",
-          $historyDate)->greaterThan($otherPropertyUpdateDate);
-        $I->canSeeInDatabase('reg_schema_property_element', ['id' => 3, "object" => "fubar, baby"]);
-        //test if a NEW cell in the main table gets sdded
-        $I->canSeeInDatabase('reg_schema_property_element', ["object" => "New definition"]);
-        //test if a NEW cell in the main table gets changed in the statement table
-        $I->canSeeInDatabase('reg_schema_property', ['id' => 2, "definition" => "New definition"]);
-        //test if the history is updated
-        $I->canSeeInDatabase('reg_schema_property_element_history', ['profile_property_id' => 3, 'schema_property_id' => 2, "object" => "New definition", "action" => "added"]);
-        //test if a changed cell that exists only in the statement table gets changed in the statement table
-        $I->canSeeInDatabase('reg_schema_property_element', ["object" => "http://iflastandards.info/ns/fr/frbr/frbroo/CLP105TestMe"]);
-        //test if the history is updated
-        $I->canSeeInDatabase('reg_schema_property_element_history', ['profile_property_id' => 15, 'schema_property_id' => 4, "object" => "http://iflastandards.info/ns/fr/frbr/frbroo/CLP105TestMe", "action" => "added"]);
-        //test if the parent update date matches the update of a statement when the statement is the only thing changed
-        $updateDate = $I->grabFromDatabase('reg_schema_property', 'updated_at', ['id' => 4]);
-        $elementUpdateDate = $I->grabFromDatabase('reg_schema_property_element', 'updated_at', ['id' => 141]);
-        verify("the element row has been updated",
-          $updateDate)->equals($elementUpdateDate);
-        $I->wantTo('see if a deleted cell is removed from the schema_property record');
-        $I->dontSeeInDatabase('reg_schema_property', ['id' => 2, "comment" => "Inverse of CLP104_subject_to."]);
-        $I->wantTo('see if a deleted cell that was removed from the schema_property record, was also marked as deleted in the schema_property_element table');
-        $I->dontSeeInDatabase('reg_schema_property_element', ['schema_property_id' => 2, "object" => "Inverse of CLP104_subject_to.", "deleted_at" => null]);
-        $I->wantTo('see if a deleted cell, marked as deleted in the schema_property_element table, is also marked as deleted in the history table');
-        $I->canSeeInDatabase('reg_schema_property_element_history', ['profile_property_id' => 5, 'schema_property_id' => 2, "object" => "Inverse of CLP104_subject_to.", "action" => "deleted"]);
+        $I->canSeeInDatabase('reg_schema_property', ['name' => 'creator', 'label' => "has creator"]);
 
-        $I->wantTo('see if a deleted cell, not in the main property record, deletes the schema_property_element record');
-
-        $I->dontSeeInDatabase('reg_schema_property_element', ['schema_property_id' => 2, "object" => "http://iflastandards.info/ns/fr/frbr/frbroo/CLP104", "deleted_at" => null]);
-        $I->wantTo('see if a deleted cell, marked as deleted in the schema_property_element table, is also marked as deleted in the history table');
-        $I->canSeeInDatabase('reg_schema_property_element_history', ['profile_property_id' => 15, 'schema_property_id' => 2, "object" => "http://iflastandards.info/ns/fr/frbr/frbroo/CLP104", "action" => "deleted"]);
-
-        $I->wantTo('see if a subproperty was inappropriately deleted');
-        $I->canSeeInDatabase('reg_schema_property_element', ['schema_property_id' => 7, "object" => "http://www.cidoc-crm.org/cidoc-crm/P130_shows_features_of", "deleted_at" => null]);
-
-        //row 9 is converted to property from subproperty
-        $I->wantTo('see if a subproperty was appropriately deleted');
-        $I->canSeeInDatabase('reg_schema_property_element_history', ['object' => 'http://iflastandards.info/ns/fr/frbr/frbroo/R3', "action" => "deleted"]);
-
-        //row 12 is converted to subproperty from property
-        $I->canSeeInDatabase('reg_schema_property', ['id' => 12, 'type' => 'subproperty', 'parent_uri' => 'http://iflastandards.info/ns/fr/frbr/frbroo/R3i']);
-        $I->canSeeInDatabase('reg_schema_property_element_history', ['profile_property_id' => 6, 'schema_property_id' => 12, 'object' => 'http://iflastandards.info/ns/fr/frbr/frbroo/R3i', "action" => "added"]);
-
-        //row 5 removes one subclass, but keeps the parent_class and the second subclass
-        $I->canSeeInDatabase('reg_schema_property', ['id' => 5, 'parent_uri' => 'http://iflastandards.info/ns/fr/frbr/frbroo/F2']);
-        $I->canSeeInDatabase('reg_schema_property_element_history', ['profile_property_id' => 9, 'schema_property_id' => 5, 'object' => 'http://www.cidoc-crm.org/cidoc-crm/E32_Authority_Document', "action" => "deleted"]);
     }
 }
