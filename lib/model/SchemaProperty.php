@@ -388,10 +388,25 @@ class SchemaProperty extends BaseSchemaProperty
         foreach ($dbElements as $element) {
             $profile = empty($profileProperties[$element->getProfilePropertyId()]) ? null : $profileProperties[$element->getProfilePropertyId()];
             if ($profile) {
+                $profileId = $profile->getId();
                 if ($profile->getHasLanguage()) {
-                    $elementsTmp[$profile->getId() . " (" . $element->getLanguage() . ")"][] = $element;
+                    $elementsTmp[$profileId . " (" . $element->getLanguage() . ")"][] = $element;
                 } else {
-                    $elementsTmp[$profile->getId()][] = $element;
+                    if (in_array($profileId, [6, 9,])) {
+                        $schemaProp = $element->getSchemaPropertyRelatedBySchemaPropertyId();
+                        if ($schemaProp->getParentUri() == $element->getObject()) {
+                            if ($profileId == 6) {
+                                $elementsTmp['parent_property'][] = $element;
+                            }
+                            if ($profileId == 9) {
+                                $elementsTmp['parent_class'][] = $element;
+                            }
+                        } else {
+                            $elementsTmp[$profile->getId()][] = $element;
+                        }
+                    } else {
+                        $elementsTmp[$profile->getId()][] = $element;
+                    }
                 }
             }
         }

@@ -61,38 +61,48 @@ class SchemaPropertyElement extends BaseSchemaPropertyElement
 
       //$property = $this->getSchemaPropertyRelatedBySchemaPropertyId();
       //$property->setUpdatedAt($this->getUpdatedAt());
+      $doHistory = true;
 
+      if (count($this->modifiedColumns) == 1
+          and $this->modifiedColumns[0] == 'reg_schema_property_element.RELATED_SCHEMA_PROPERTY_ID') {
+        $doHistory = false;
+      }
       //continue with save
       $affectedRows = parent::save($con);
 
-      //do the history
-      $history = new SchemaPropertyElementHistory();
-
-      if ($action == 'updated' && $this->getDeletedAt())
-      {
-        $action = 'deleted';
-      }
-
       $userId = $this->getUpdatedUserId();
-      $schemaId = $this->getSchemaPropertyRelatedBySchemaPropertyId()->getSchemaId();
 
-      $history->setAction($action);
-      $history->setProfilePropertyId($this->getProfilePropertyId());
-      $history->setSchemaId($schemaId);
-      $history->setSchemaPropertyId($this->getSchemaPropertyId());
-      $history->setSchemaPropertyElementId($this->getId());
-      $history->setRelatedSchemaPropertyId($this->getRelatedSchemaPropertyId());
-      $history->setObject($this->getObject());
-      $history->setLanguage($this->getLanguage());
-      $history->setStatusId($this->getStatusId());
-      $history->setCreatedUserId($userId);
-      $history->setCreatedAt($this->getUpdatedAt());
-      if (!empty($this->importId))
-      {
-        $history->setImportId($this->importId);
+      //update the schema
+      $schema = $this->getSchemaPropertyRelatedBySchemaPropertyId();
+      $schemaId = $schema->getSchemaId();
+      $schema->setUpdatedAt($this->getUpdatedAt());
+      $schema->setUpdatedUserId($userId);
+      $schema->save();
+
+      if ($doHistory) { //do the history
+        $history = new SchemaPropertyElementHistory();
+
+        if ($action == 'updated' && $this->getDeletedAt()) {
+          $action = 'deleted';
+        }
+
+        $history->setAction($action);
+        $history->setProfilePropertyId($this->getProfilePropertyId());
+        $history->setSchemaId($schemaId);
+        $history->setSchemaPropertyId($this->getSchemaPropertyId());
+        $history->setSchemaPropertyElementId($this->getId());
+        $history->setRelatedSchemaPropertyId($this->getRelatedSchemaPropertyId());
+        $history->setObject($this->getObject());
+        $history->setLanguage($this->getLanguage());
+        $history->setStatusId($this->getStatusId());
+        $history->setCreatedUserId($userId);
+        $history->setCreatedAt($this->getUpdatedAt());
+        if ( ! empty($this->importId)) {
+          $history->setImportId($this->importId);
+        }
+
+        $history->save($con);
       }
-
-      $history->save($con);
 
       if (!$this->doReciprocal)
       {
@@ -207,7 +217,6 @@ class SchemaPropertyElement extends BaseSchemaPropertyElement
     $c->add(SchemaPropertyElementPeer::SCHEMA_PROPERTY_ID, $relatedPropertyId);
     $c->add(SchemaPropertyElementPeer::PROFILE_PROPERTY_ID, $inverseProfilePropertyId);
     $c->add(SchemaPropertyElementPeer::OBJECT,$property->getUri());
-    $c->add(SchemaPropertyElementPeer::DELETED_AT,Criteria::ISNULL);
 
     $recipElement = SchemaPropertyElementPeer::doSelectOne($c, $con);
 
@@ -233,6 +242,11 @@ class SchemaPropertyElement extends BaseSchemaPropertyElement
       return;
     }
 
+    //undelete the element if it's deleted and we get this far
+    if (isset($recipElement)) {
+      $recipElement->setDeletedAt(null);
+    }
+
     //if action == added, and reciprocal doesn't exist
     if ('added' == $action && !$recipElement)
     {
@@ -253,10 +267,14 @@ class SchemaPropertyElement extends BaseSchemaPropertyElement
 
     if ($recipElement)
     {
+      if (isset($this->importId))
+      {
+        $recipElement->importId = $this->importId;
+      }
       $recipElement->setUpdatedUserId($userId);
       $recipElement->setRelatedSchemaPropertyId($schemaPropertyID);
       $recipElement->setObject($this->getSchemaPropertyRelatedBySchemaPropertyId()->getUri());
-      $recipElement->save($con, true);
+      $recipElement->save($con);
     }
 
     return;

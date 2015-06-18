@@ -289,7 +289,7 @@ CREATE TABLE `reg_schema_property` (
   `label` varchar(255) NOT NULL DEFAULT '',
   `definition` text,
   `comment` text,
-  `type` enum('Property','Class') NOT NULL DEFAULT 'Property',
+  `type` enum('property','class') NOT NULL DEFAULT 'property',
   `is_subproperty_of` int(11) DEFAULT NULL,
   `parent_uri` varchar(255) DEFAULT NULL,
   `uri` varchar(255) NOT NULL DEFAULT '',
@@ -547,7 +547,7 @@ INSERT INTO `profile_property` (`id`, `created_at`, `updated_at`, `deleted_at`, 
 	(1,'2008-04-20 12:00:00','2008-04-20 15:00:00',NULL,36,36,NULL,1,'name','name',NULL,NULL,'property','reg:name',1,'en',NULL,1,3,1,NULL,1,0,1,0,1,NULL,0,0,1,1,1,1,0,1),
 	(2,'2008-04-20 12:00:00','2008-04-20 15:00:00',NULL,36,36,NULL,1,'label','label',NULL,NULL,'property','rdfs:label',1,'en',NULL,2,4,2,NULL,1,0,1,1,1,NULL,1,1,1,1,0,1,0,1),
 	(3,'2008-04-20 12:01:00','2008-04-20 15:01:01',NULL,36,36,NULL,1,'definition','description',NULL,NULL,'property','skos:definition',1,'en',NULL,3,6,3,NULL,0,0,0,1,1,NULL,1,1,1,1,0,1,0,1),
-	(4,'2008-04-20 12:02:00','2008-04-20 15:02:00',NULL,36,36,NULL,1,'type','type',NULL,NULL,'property','rdf:type',1,'en',NULL,5,2,5,NULL,1,0,1,0,1,NULL,0,0,1,1,1,0,0,1),
+	(4,'2008-04-20 12:02:00','2008-04-20 15:02:00',NULL,36,36,NULL,1,'type','type',NULL,NULL,'property','rdf:type',1,'en',NULL,5,2,5,NULL,1,0,1,0,1,NULL,0,0,1,1,1,0,1,1),
 	(5,'2008-04-20 00:02:00','2008-04-20 03:02:02',NULL,36,36,NULL,1,'comment','comment',NULL,NULL,'property','rdfs:comment',1,'en',NULL,4,8,4,NULL,0,0,0,1,1,NULL,1,1,1,1,0,1,0,1),
 	(6,'2008-04-20 00:03:00','2008-04-20 15:03:00',NULL,36,36,NULL,1,'isSubpropertyOf','subPropertyOf',NULL,NULL,'property','rdfs:subPropertyOf',1,'en',NULL,6,14,6,NULL,0,0,0,1,1,8,0,1,1,1,0,0,1,0),
 	(7,'2008-04-20 00:04:00','2008-04-20 03:04:00',NULL,36,36,NULL,1,'note','note',NULL,NULL,'property','skos:scopeNote',1,'en',NULL,8,7,8,NULL,0,0,0,1,1,NULL,1,1,1,1,0,1,0,1),
@@ -571,7 +571,9 @@ INSERT INTO `profile_property` (`id`, `created_at`, `updated_at`, `deleted_at`, 
 	(26,'2011-09-29 14:23:24','2011-09-29 10:23:24',NULL,36,36,NULL,1,'hasUnconstrained','hasUnconstrained','','','property','reg:hasUnconstrained',1,'en','',26,11,26,'',0,0,1,1,1,8,1,1,1,0,0,0,1,0),
 	(27,'2011-09-29 14:23:24','2011-09-29 10:23:24',NULL,36,36,NULL,1,'lexicalAlias','lexicalAlias','','','property','reg:lexicalAlias',1,'en','',25,5,25,'',0,0,1,1,1,NULL,1,1,1,0,0,1,1,1),
 	(30,'2015-05-01 23:04:00','2015-05-01 23:04:00',NULL,36,36,NULL,1,'changeNote','changeNote',NULL,NULL,'property','skos:changeNote',1,'en',NULL,30,30,30,NULL,0,0,0,1,1,NULL,1,1,1,1,0,1,0,0),
-	(31,'2014-04-17 23:04:00','2014-04-17 23:04:00',NULL,36,36,NULL,1,'instructionNumber','instructionNumber','RDA Toolkit instruction number reference','','property','rdakit:instructionNumber',1,'en','',27,27,27,'',0,0,1,1,1,NULL,0,1,1,0,0,0,0,0);
+  (31, '2014-04-17 23:04:00', '2014-04-17 23:04:00', NULL, 36, 36, NULL, 1, 'instructionNumber', 'instructionNumber',
+   'RDA Toolkit instruction number reference', '', 'property', 'rdakit:instructionNumber', 1, 'en', '', 27, 27, 27, '',
+   0, 0, 1, 1, 1, NULL, 0, 1, 1, 0, 0, 0, 0, 0);
 ALTER TABLE `profile_property` ENABLE KEYS;
 UNLOCK TABLES;
 
@@ -685,15 +687,15 @@ UNLOCK TABLES;
 LOCK TABLES `reg_schema_property` WRITE;
 ALTER TABLE `reg_schema_property` DISABLE KEYS;
 INSERT INTO `reg_schema_property` (`id`, `created_at`, `updated_at`, `deleted_at`, `created_user_id`, `updated_user_id`, `schema_id`, `name`, `label`, `definition`, `comment`, `type`, `is_subproperty_of`, `parent_uri`, `uri`, `status_id`, `language`, `note`, `domain`, `orange`, `is_deprecated`, `url`, `lexical_alias`) VALUES
-(15536,'2014-01-19 11:29:58','2014-01-19 06:29:58',NULL,422,422,81,'respondentOf','is respondent of','Relates a candidate for a degree who defends or opposes a thesis provided by the praeses in an academic disputation to the work.','','Property',14069,'http://rdaregistry.info/Elements/a/P50204','http://rdaregistry.info/Elements/a/P50001',1,'en','','http://rdaregistry.info/Elements/c/C10004','http://rdaregistry.info/Elements/c/C10001',NULL,NULL,NULL),
+(15536,'2014-01-19 11:29:58','2014-01-19 06:29:58',NULL,422,422,81,'respondentOf','is respondent of','Relates a candidate for a degree who defends or opposes a thesis provided by the praeses in an academic disputation to the work.','','property',14069,'http://rdaregistry.info/Elements/a/P50204','http://rdaregistry.info/Elements/a/P50001',1,'en','','http://rdaregistry.info/Elements/c/C10004','http://rdaregistry.info/Elements/c/C10001',NULL,NULL,NULL),
   (14603,'2014-01-19 03:45:21','2014-01-18 22:51:24',NULL,422,422,82,'respondentOf','is respondent of','Relates a candidate for a degree who defends or opposes a thesis provided by the praeses in an academic disputation to the resource.',NULL,'property',15262,'http://rdaregistry.info/Elements/u/P60672','http://rdaregistry.info/Elements/u/P60001',1,'en','',NULL,NULL,NULL,NULL,NULL),
 	(14069,'2014-01-19 03:42:03','2014-06-01 12:53:50',NULL,422,422,81,'creatorOf','is creator of','Relates a person, family, or corporate body responsible for the creation of a work to the work.','','subproperty',15262,'http://rdaregistry.info/Elements/a/P50204','http://rdaregistry.info/Elements/a/P50204',1,'en','','http://rdaregistry.info/Elements/c/C10002','http://rdaregistry.info/Elements/c/C10001',NULL,NULL,NULL),
   (15262,'2014-01-19 03:46:24','2014-01-18 22:46:24',NULL,422,422,82,'creatorOf','is creator of','Relates an agent responsible for the creation of a resourc to the resource.',NULL,'property',NULL,NULL,'http://rdaregistry.info/Elements/u/P60672',1,'en','',NULL,NULL,NULL,NULL,NULL),
+  (15247,'2014-01-19 03:46:23','2014-01-18 22:52:01',NULL,422,422,82,'compilerOf','is compiler of','Relates an agent responsible for creating a new resource (e.g., a bibliography, a directory) by selecting, arranging, aggregating, and editing data, information, etc. to the resource.',NULL,'subproperty',15262,'http://rdaregistry.info/Elements/u/P60672','http://rdaregistry.info/Elements/u/P60657',1,'en','',NULL,NULL,NULL,NULL,NULL),
   (15553,'2014-01-19 12:30:22','2014-01-19 07:30:22',NULL,422,422,81,'locationOfHeadquarters','has location of headquarters','Relates a corporate body to a country, state, province, etc., or local place in which an organization has its headquarters.','','property',13896,'http://rdaregistry.info/Elements/a/P50031','http://rdaregistry.info/Elements/a/P50018',1,'en','','http://rdaregistry.info/Elements/c/C10005','',NULL,NULL,NULL),
   (15365,'2014-01-19 03:48:16','2014-01-18 22:52:10',NULL,422,422,77,'architect','has architect','Relates a work to a person, family, or corporate body responsible for creating an architectural design, including a pictorial representation intended to show how a building, etc., will look when completed.',NULL,'property',15368,'http://rdaregistry.info/Elements/w/P10065','http://rdaregistry.info/Elements/w/P10062',1,'en','','http://rdaregistry.info/Elements/c/C10001','http://rdaregistry.info/Elements/c/C10002',NULL,NULL,NULL),
   (15029,'2014-01-19 03:46:02','2014-01-18 22:51:50',NULL,422,422,82,'architect','has architect','Relates a resource to an agent responsible for creating an architectural design, including a pictorial representation intended to show how a building, etc., will look when completed.',NULL,'property',15039,'http://rdaregistry.info/Elements/u/P60447','http://rdaregistry.info/Elements/u/P60435',1,'en','',NULL,NULL,NULL,NULL,NULL),
-  (15368,'2014-01-19 03:48:16','2014-01-18 22:52:10',NULL,422,422,77,'creator','has creator','Relates a work to a person, family, or corporate body responsible for the creation of a work.',NULL,'Property',15039,'http://rdaregistry.info/Elements/u/P60447','http://rdaregistry.info/Elements/w/P10065',1,'en','','http://rdaregistry.info/Elements/c/C10001','http://rdaregistry.info/Elements/c/C10002',NULL,NULL,NULL);
-
+  (15368,'2014-01-19 03:48:16','2014-01-18 22:52:10',NULL,422,422,77,'creator','has creator','Relates a work to a person, family, or corporate body responsible for the creation of a work.',NULL,'property',15039,'http://rdaregistry.info/Elements/u/P60447','http://rdaregistry.info/Elements/w/P10065',1,'en','','http://rdaregistry.info/Elements/c/C10001','http://rdaregistry.info/Elements/c/C10002',NULL,NULL,NULL);
 
 ALTER TABLE `reg_schema_property` ENABLE KEYS;
 UNLOCK TABLES;
@@ -705,7 +707,7 @@ INSERT INTO `reg_schema_property_element` (`id`, `created_at`, `updated_at`, `de
   (121276, '2014-01-19 11:29:58', '2014-01-19 06:29:58', NULL, 422, 422, 15536, 1, 1, 'respondentOf', NULL, 'en', 1),
   (121277, '2014-01-19 11:29:58', '2014-01-19 06:29:58', NULL, 422, 422, 15536, 2, 1, 'is respondent of', NULL, 'en', 1),
   (121278, '2014-01-19 11:29:58', '2014-01-19 06:29:58', NULL, 422, 422, 15536, 3, 1, 'Relates a candidate for a degree who defends or opposes a thesis provided by the praeses in an academic disputation to the work.', NULL, 'en', 1),
-  (121279, '2014-01-19 11:29:58', '2014-01-19 06:29:58', NULL, 422, 422, 15536, 4, 1, 'Property', NULL, NULL, 1),
+  (121279, '2014-01-19 11:29:58', '2014-01-19 06:29:58', NULL, 422, 422, 15536, 4, 1, 'property', NULL, NULL, 1),
   (121280, '2014-01-19 11:29:58', '2014-01-19 06:29:58', NULL, 422, 422, 15536, 11, 1, 'http://rdaregistry.info/Elements/c/C10004', 14331, NULL, 1),
   (121281, '2014-01-19 11:29:58', '2014-01-19 06:29:58', NULL, 422, 422, 15536, 12, 1, 'http://rdaregistry.info/Elements/c/C10001', 14328, NULL, 1),
   (121282, '2014-01-19 11:29:58', '2014-01-19 06:29:58', NULL, 422, 422, 15536, 13, 1, 'http://rdaregistry.info/Elements/a/P50001', 15536, NULL, 1),
@@ -768,7 +770,7 @@ INSERT INTO `reg_schema_property_element` (`id`, `created_at`, `updated_at`, `de
   (117206, '2014-01-19 03:48:16', '2014-01-18 22:48:16', NULL, 422, 422, 15368, 1, 1, 'creator', NULL, 'en', 1),
   (117207, '2014-01-19 03:48:16', '2014-01-18 22:48:16', NULL, 422, 422, 15368, 2, 1, 'has creator', NULL, 'en', 1),
   (117208, '2014-01-19 03:48:16', '2014-01-18 22:48:16', NULL, 422, 422, 15368, 3, 1, 'Relates a work to a person, family, or corporate body responsible for the creation of a work.', NULL, 'en', 1),
-  (117209, '2014-01-19 03:48:16', '2014-01-18 22:48:16', NULL, 422, 422, 15368, 4, 1, 'Property', NULL, NULL, 1),
+  (117209, '2014-01-19 03:48:16', '2014-01-18 22:48:16', NULL, 422, 422, 15368, 4, 1, 'property', NULL, NULL, 1),
   (117210, '2014-01-19 03:48:16', '2014-01-18 22:48:16', NULL, 422, 422, 15368, 11, 1, 'http://rdaregistry.info/Elements/c/C10001', 14328, NULL, 1),
   (117211, '2014-01-19 03:48:16', '2014-01-18 22:48:16', NULL, 422, 422, 15368, 12, 1, 'http://rdaregistry.info/Elements/c/C10002', 14329, NULL, 1),
   (117212, '2014-01-19 03:48:16', '2014-01-18 22:48:16', NULL, 422, 422, 15368, 13, 1, 'http://rdaregistry.info/Elements/w/P10065', 15368, NULL, 1),

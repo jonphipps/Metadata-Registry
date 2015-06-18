@@ -27,4 +27,4 @@ prefix,mrc,http://id.loc.gov/vocabulary/relators/,,,,,,,,,,,
 prefix,rdakit,http://rdaregistry.info/Elements/toolkit/,,,,,,,,,,,
 prefix,regstat,http://metadataregistry.org/uri/RegStatus/,,,,,,,,,,,
 ,,,,,,,,,,,,,,,,
-,rdaa:P50001,property,respondentOf,"is respondent of",rdaa:respondentOf,"Relates a candidate for a degree who defends or opposes a thesis provided by the praeses in an academic disputation to the work.",,rdac:C10004,rdac:C10001,rdau:P60001,rdaa:P50204,rdaw:P10001,1
+,rdaa:P50001,property,respondentOf,"is respondent of",rdaa:respondentOf,"Relates a candidate for a degree who defends or opposes a thesis provided by the praeses in an academic disputation to the work.",,rdac:C10004,rdac:C10001,rdau:P60657,rdaa:P50204,rdaw:P10001,1

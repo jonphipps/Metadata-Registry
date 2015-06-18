@@ -510,15 +510,33 @@ class ImportVocab {
 
       return $row;
     });
+    $lexicalConverter = new CallbackItemConverter(function ($row) {
+      foreach ($row as $key => $value) {
+        if (isset($this->prolog['columns'][$key]['id']) and $this->prolog['columns'][$key]['id'] == 27) {
+          $lang = $this->prolog['columns'][$key]['lang'];
+          //check for existing language suffix
+          if ($value and ! preg_match("/\\." . $lang . "$/u", $value)) {
+            $row[$key] = $value . "." . $lang;
+          }
+        }
+      }
+
+      return $row;
+    });
     $workflow->addItemConverter($this->mapping);
     $workflow->addFilter($filter);
     $workflow->addItemConverter($trimConverter);
+    $workflow->addItemConverter($lexicalConverter);
     $workflow->addWriter(new Writer\ConsoleProgressWriter($output, $this->reader));
     $typeConverter = new MappingValueConverter(array(
-          'rdfs:class' => 'Class',
-          'rdfs:property' => 'Property',
-          'class' => 'Class',
-          'property' => 'Property',
+          'rdfs:class' => 'class',
+          'rdfs:property' => 'property',
+          'class' => 'class',
+          'property' => 'property',
+          'Class' => 'class',
+          'Property' => 'property',
+          'subclass' => 'class',
+          'subproperty' => 'property',
           '' => ''
     ));
     $workflow->addValueConverter("4", $typeConverter);
@@ -553,8 +571,8 @@ class ImportVocab {
       } else {
         $propertyId = $row['reg_id'];
         $property = \SchemaPropertyPeer::retrieveByPK($propertyId);
-        unset($row['reg_id']);
       }
+      unset($row['reg_id']);
       if ($property) {
 //        if (8 == $rowStatus) {
 //          //it's been deprecated and we don't do anything else
@@ -566,25 +584,21 @@ class ImportVocab {
             /** @var string | array $rowElement */
             $rowElement = isset($row[$key]) ? $row[$key] : null;
             if (is_array($rowElement)) {
-              foreach ($rowElement as &$element) {
-                $this->updateElement($element, $dbElement, $property);
+              foreach ($rowElement as $elementKey => &$element) {
+                if( $this->updateElement($element, $dbElement, $property));
+                {
+                  unset($rowElement[$elementKey]);
+                }
               }
             } else {
-              $this->updateElement($rowElement, $dbElement, $property);
+              if ($this->updateElement($rowElement, $dbElement, $property))
+              {
+                unset($row[$key]);
+              }
             }
           }
           foreach ($row as $key => $value) {
-            $isParent = false;
-            $dbKey = $key;
-            if ("parent_property" == $key) {
-              $dbKey = "6";
-              $isParent = true;
-            }
-            if ("parent_class" == $key) {
-              $dbKey = "9";
-              $isParent = true;
-            }
-            $dbElement = isset($dbElements[$dbKey]) ? $dbElements[$dbKey] : null;
+            $dbElement = isset($dbElements[$key]) ? $dbElements[$key] : null;
             if ( ! empty($this->prolog['columns'][$key]['property'])) {
               $profileProperty = $this->prolog['columns'][$key]['property'];
               if (is_array($value)) {
@@ -597,7 +611,13 @@ class ImportVocab {
                 $language = $this->prolog['columns'][$key]['lang'];
                 $this->upsertElementFromRow($dbElement, $value, $rowStatus, $property, $profileProperty, $language, $key);
               }
-              if ($isParent and $row[$key] != $property->getParentUri())
+              if ($key == 'parent_class' and strtolower($property->getType()) == 'class' and $row[$key] != $property->getParentUri())
+              {
+                $property->setParentUri($row[$key]);
+                //we'll set this later
+                $property->setIsSubpropertyOf(null);
+              }
+              if ($key == 'parent_property' and strtolower($property->getType()) == 'property' and $row[$key] != $property->getParentUri())
               {
                 $property->setParentUri($row[$key]);
                 //we'll set this later
@@ -1109,9 +1129,11 @@ class ImportVocab {
   }
 
   /**
-   * @param string $rowElement
+   * @param string                         $rowElement
    * @param array | \SchemaPropertyElement $dbElement
-   * @param \SchemaProperty $property
+   * @param \SchemaProperty                $property
+   *
+   * @return bool
    */
   private function updateElement(&$rowElement, &$dbElement, &$property)
   {
@@ -1119,7 +1141,7 @@ class ImportVocab {
       $dbElement->doReciprocal = false;
       if ( ! empty($rowElement)) {
         if ($rowElement === $dbElement->getObject()) {
-          unset($rowElement);
+          return true;
         }
       } else {
         //there's no matching column so delete the element
@@ -1132,7 +1154,7 @@ class ImportVocab {
       }
     }
 
-    return;
+    return false;
   }
 
   /**
