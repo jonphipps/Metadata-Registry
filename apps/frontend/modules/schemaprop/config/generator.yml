@@ -96,12 +96,12 @@ generator:
         uri:           { helper: auto_link_uri }
         show_parent:   { name: Parent, condition: "$schema_property->getParentUri()" }
         parent_uri:    { name: Parent URI, condition: "$schema_property->getParentUri()" }
-        domain:        { condition: "'property' == $schema_property->getType()" }
-        orange:        { condition: "''property' == $schema_property->getType()" }
+        domain:        { condition: "'property' == strtolower($schema_property->getType())" }
+        orange:        { condition: "'property' == strtolower($schema_property->getType())" }
         show_lexical_alias:  { name: Lexical Alias, help: "This is a language-specific 'readable' URI for this element." }
       display:
         "-Metadata":   { fields: [id, created_at, created_user, updated_at, updated_user] }
-        "Detail":      [_uri, label, name, _show_lexical_alias, definition, comment, type, _show_parent, parent_uri, domain, orange, status, _language, note]
+        "Detail":      [_uri, label, name, _show_lexical_alias, definition, comment, type, _show_parent, _domain, _orange, status, _language, note]
 #        "Statements":  [_listproperties]
       actions:
         _list:         { query_string: { schema_id: schema_id} }

@@ -48,13 +48,14 @@
 function link_to_related_property($property)
 {
   $relPropertyId = $property->getIsSubpropertyOf();
+  $relPropertyUri = $property->getParentUri();
   if ($relPropertyId)
   {
     //get the related concept
     $relProperty = SchemaPropertyPeer::retrieveByPK($relPropertyId);
     if ($relProperty)
     {
-      return link_to($relProperty->getLabel(), 'schemaprop/show/?id=' . $relPropertyId);
+      return link_to($relProperty->getLabel(), 'schemaprop/show/?id=' . $relPropertyId, ['title' => $relPropertyUri]);
     }
   }
 

@@ -1,11 +1,15 @@
 <?php
-$relPropertyId = $property->getIsSubpropertyOf();
-$relPropertyUri = $property->getParentUri();
-if ($relPropertyId) {
-    //get the related concept
-    $relProperty = SchemaPropertyPeer::retrieveByPK($relPropertyId);
+$c = new Criteria();
+$c->add(SchemaPropertyElementPeer::PROFILE_PROPERTY_ID,11 );
+/** @var SchemaProperty $schema_property */
+$result = $schema_property->getSchemaPropertyElementsRelatedBySchemaPropertyId($c);
+if (count($result)) {
+    /** @var SchemaPropertyElement $domain */
+    $domain = $result[0];
+    //get the related property
+    $relProperty = $domain->getSchemaPropertyRelatedByRelatedSchemaPropertyId();
     if ($relProperty) {
-        echo link_to($relProperty->getLabel(), 'schemaprop/show/?id=' . $relPropertyId, ['title' => $relPropertyUri]);
+        echo link_to($relProperty->getLabel(), 'schemaprop/show/?id=' . $relProperty->getId(), ['title' => $relProperty->getUri()]);
     }
 }
     ?>
