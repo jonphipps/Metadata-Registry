@@ -100,7 +100,7 @@ abstract class BaseSchemaPropertyElement extends BaseObject  implements Persiste
 	 * The value for the language field.
 	 * @var        string
 	 */
-	protected $language = 'en';
+	protected $language;
 
 
 	/**
@@ -108,6 +108,13 @@ abstract class BaseSchemaPropertyElement extends BaseObject  implements Persiste
 	 * @var        int
 	 */
 	protected $status_id = 1;
+
+
+	/**
+	 * The value for the is_generated field.
+	 * @var        boolean
+	 */
+	protected $is_generated = false;
 
 	/**
 	 * @var        User
@@ -378,6 +385,17 @@ abstract class BaseSchemaPropertyElement extends BaseObject  implements Persiste
 	{
 
 		return $this->status_id;
+	}
+
+	/**
+	 * Get the [is_generated] column value.
+	 * 
+	 * @return     boolean
+	 */
+	public function getIsGenerated()
+	{
+
+		return $this->is_generated;
 	}
 
 	/**
@@ -657,7 +675,7 @@ abstract class BaseSchemaPropertyElement extends BaseObject  implements Persiste
 			$v = (string) $v; 
 		}
 
-		if ($this->language !== $v || $v === 'en') {
+		if ($this->language !== $v) {
 			$this->language = $v;
 			$this->modifiedColumns[] = SchemaPropertyElementPeer::LANGUAGE;
 		}
@@ -689,6 +707,22 @@ abstract class BaseSchemaPropertyElement extends BaseObject  implements Persiste
 		}
 
 	} // setStatusId()
+
+	/**
+	 * Set the value of [is_generated] column.
+	 * 
+	 * @param      boolean $v new value
+	 * @return     void
+	 */
+	public function setIsGenerated($v)
+	{
+
+		if ($this->is_generated !== $v || $v === false) {
+			$this->is_generated = $v;
+			$this->modifiedColumns[] = SchemaPropertyElementPeer::IS_GENERATED;
+		}
+
+	} // setIsGenerated()
 
 	/**
 	 * Hydrates (populates) the object variables with values from the database resultset.
@@ -733,12 +767,14 @@ abstract class BaseSchemaPropertyElement extends BaseObject  implements Persiste
 
 			$this->status_id = $rs->getInt($startcol + 12);
 
+			$this->is_generated = $rs->getBoolean($startcol + 13);
+
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 13; // 13 = SchemaPropertyElementPeer::NUM_COLUMNS - SchemaPropertyElementPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 14; // 14 = SchemaPropertyElementPeer::NUM_COLUMNS - SchemaPropertyElementPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating SchemaPropertyElement object", $e);
@@ -1147,6 +1183,9 @@ abstract class BaseSchemaPropertyElement extends BaseObject  implements Persiste
 			case 12:
 				return $this->getStatusId();
 				break;
+			case 13:
+				return $this->getIsGenerated();
+				break;
 			default:
 				return null;
 				break;
@@ -1180,6 +1219,7 @@ abstract class BaseSchemaPropertyElement extends BaseObject  implements Persiste
 			$keys[10] => $this->getRelatedSchemaPropertyId(),
 			$keys[11] => $this->getLanguage(),
 			$keys[12] => $this->getStatusId(),
+			$keys[13] => $this->getIsGenerated(),
 		);
 		return $result;
 	}
@@ -1250,6 +1290,9 @@ abstract class BaseSchemaPropertyElement extends BaseObject  implements Persiste
 			case 12:
 				$this->setStatusId($value);
 				break;
+			case 13:
+				$this->setIsGenerated($value);
+				break;
 		} // switch()
 	}
 
@@ -1286,6 +1329,7 @@ abstract class BaseSchemaPropertyElement extends BaseObject  implements Persiste
 		if (array_key_exists($keys[10], $arr)) $this->setRelatedSchemaPropertyId($arr[$keys[10]]);
 		if (array_key_exists($keys[11], $arr)) $this->setLanguage($arr[$keys[11]]);
 		if (array_key_exists($keys[12], $arr)) $this->setStatusId($arr[$keys[12]]);
+		if (array_key_exists($keys[13], $arr)) $this->setIsGenerated($arr[$keys[13]]);
 	}
 
 	/**
@@ -1310,6 +1354,7 @@ abstract class BaseSchemaPropertyElement extends BaseObject  implements Persiste
 		if ($this->isColumnModified(SchemaPropertyElementPeer::RELATED_SCHEMA_PROPERTY_ID)) $criteria->add(SchemaPropertyElementPeer::RELATED_SCHEMA_PROPERTY_ID, $this->related_schema_property_id);
 		if ($this->isColumnModified(SchemaPropertyElementPeer::LANGUAGE)) $criteria->add(SchemaPropertyElementPeer::LANGUAGE, $this->language);
 		if ($this->isColumnModified(SchemaPropertyElementPeer::STATUS_ID)) $criteria->add(SchemaPropertyElementPeer::STATUS_ID, $this->status_id);
+		if ($this->isColumnModified(SchemaPropertyElementPeer::IS_GENERATED)) $criteria->add(SchemaPropertyElementPeer::IS_GENERATED, $this->is_generated);
 
 		return $criteria;
 	}
@@ -1387,6 +1432,8 @@ abstract class BaseSchemaPropertyElement extends BaseObject  implements Persiste
 		$copyObj->setLanguage($this->language);
 
 		$copyObj->setStatusId($this->status_id);
+
+		$copyObj->setIsGenerated($this->is_generated);
 
 
 		if ($deepCopy) {

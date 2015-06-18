@@ -382,13 +382,17 @@ abstract class AbstractPropelDataModelTask extends Task {
 
     /**
      * Gets all matching XML schema files and loads them into data models for class.
-     * @return void
+     *
+     * @throws \BuildException
+     * @throws \EngineException
+     * @throws \Exception
      */
     protected function loadDataModels()
     {
 		$ads = array();
 
         // Get all matched files from schemaFilesets
+        /** @var FileSet $fs */
         foreach($this->schemaFilesets as $fs) {
             $ds = $fs->getDirectoryScanner($this->project);
             $srcDir = $fs->getDir($this->project);
@@ -415,7 +419,9 @@ abstract class AbstractPropelDataModelTask extends Task {
 						// normalize the document using normalizer stylesheet
 
 						$xsl = new XsltProcessor();
-						$xsl->importStyleSheet(DomDocument::load($this->xslFile->getAbsolutePath()));
+                        $domDoc = new DomDocument('1.0', 'UTF-8');
+                        $domDoc->load($this->xslFile->getAbsolutePath());
+						$xsl->importStyleSheet($domDoc);
 						$transformed = $xsl->transformToDoc($dom);
 						$newXmlFilename = substr($xmlFile->getName(), 0, strrpos($xmlFile->getName(), '.')) . '-transformed.xml';
 
@@ -433,7 +439,8 @@ abstract class AbstractPropelDataModelTask extends Task {
 				if ($this->validate && $this->xsdFile) {
 					$this->log("Validating XML doc (".$xmlFile->getPath().") using schema file " . $this->xsdFile->getPath(), PROJECT_MSG_VERBOSE);
 					if (!$dom->schemaValidate($this->xsdFile->getAbsolutePath())) {
-						throw new BuildException("XML schema file (".$xmlFile->getPath().") does not validate.  See warnings above for reasons validation failed (make sure error_reporting is set to show E_WARNING if you don't see any).");		throw new EngineException("XML schema does not validate (using schema file $xsdFile).  See warnings above for reasons validation failed (make sure error_reporting is set to show E_WARNING if you don't see any).", $this->getLocation());
+						throw new BuildException("XML schema file (".$xmlFile->getPath().") does not validate.  See warnings above for reasons validation failed (make sure error_reporting is set to show E_WARNING if you don't see any).");
+                        throw new EngineException("XML schema does not validate (using schema file $xsdFile).  See warnings above for reasons validation failed (make sure error_reporting is set to show E_WARNING if you don't see any).", $this->getLocation());
 					}
 				}
 

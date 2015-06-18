@@ -70,12 +70,6 @@ abstract class BaseSchemaPropertyPeer {
 	/** the column name for the URI field */
 	const URI = 'reg_schema_property.URI';
 
-	/** the column name for the URL field */
-	const URL = 'reg_schema_property.URL';
-
-	/** the column name for the LEXICAL_ALIAS field */
-	const LEXICAL_ALIAS = 'reg_schema_property.LEXICAL_ALIAS';
-
 	/** the column name for the STATUS_ID field */
 	const STATUS_ID = 'reg_schema_property.STATUS_ID';
 
@@ -94,6 +88,12 @@ abstract class BaseSchemaPropertyPeer {
 	/** the column name for the IS_DEPRECATED field */
 	const IS_DEPRECATED = 'reg_schema_property.IS_DEPRECATED';
 
+	/** the column name for the URL field */
+	const URL = 'reg_schema_property.URL';
+
+	/** the column name for the LEXICAL_ALIAS field */
+	const LEXICAL_ALIAS = 'reg_schema_property.LEXICAL_ALIAS';
+
 	/** The PHP to DB Name Mapping */
 	private static $phpNameMap = null;
 
@@ -105,9 +105,9 @@ abstract class BaseSchemaPropertyPeer {
 	 * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
 	 */
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'CreatedAt', 'UpdatedAt', 'DeletedAt', 'CreatedUserId', 'UpdatedUserId', 'SchemaId', 'Name', 'Label', 'Definition', 'Comment', 'Type', 'IsSubpropertyOf', 'ParentUri', 'Uri', 'Url', 'LexicalAlias', 'StatusId', 'Language', 'Note', 'Domain', 'Orange', 'IsDeprecated', ),
-		BasePeer::TYPE_COLNAME => array (SchemaPropertyPeer::ID, SchemaPropertyPeer::CREATED_AT, SchemaPropertyPeer::UPDATED_AT, SchemaPropertyPeer::DELETED_AT, SchemaPropertyPeer::CREATED_USER_ID, SchemaPropertyPeer::UPDATED_USER_ID, SchemaPropertyPeer::SCHEMA_ID, SchemaPropertyPeer::NAME, SchemaPropertyPeer::LABEL, SchemaPropertyPeer::DEFINITION, SchemaPropertyPeer::COMMENT, SchemaPropertyPeer::TYPE, SchemaPropertyPeer::IS_SUBPROPERTY_OF, SchemaPropertyPeer::PARENT_URI, SchemaPropertyPeer::URI, SchemaPropertyPeer::URL, SchemaPropertyPeer::LEXICAL_ALIAS, SchemaPropertyPeer::STATUS_ID, SchemaPropertyPeer::LANGUAGE, SchemaPropertyPeer::NOTE, SchemaPropertyPeer::DOMAIN, SchemaPropertyPeer::ORANGE, SchemaPropertyPeer::IS_DEPRECATED, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'created_at', 'updated_at', 'deleted_at', 'created_user_id', 'updated_user_id', 'schema_id', 'name', 'label', 'definition', 'comment', 'type', 'is_subproperty_of', 'parent_uri', 'uri', 'url', 'lexical_alias', 'status_id', 'language', 'note', 'domain', 'orange', 'is_deprecated', ),
+		BasePeer::TYPE_PHPNAME => array ('Id', 'CreatedAt', 'UpdatedAt', 'DeletedAt', 'CreatedUserId', 'UpdatedUserId', 'SchemaId', 'Name', 'Label', 'Definition', 'Comment', 'Type', 'IsSubpropertyOf', 'ParentUri', 'Uri', 'StatusId', 'Language', 'Note', 'Domain', 'Orange', 'IsDeprecated', 'Url', 'LexicalAlias', ),
+		BasePeer::TYPE_COLNAME => array (SchemaPropertyPeer::ID, SchemaPropertyPeer::CREATED_AT, SchemaPropertyPeer::UPDATED_AT, SchemaPropertyPeer::DELETED_AT, SchemaPropertyPeer::CREATED_USER_ID, SchemaPropertyPeer::UPDATED_USER_ID, SchemaPropertyPeer::SCHEMA_ID, SchemaPropertyPeer::NAME, SchemaPropertyPeer::LABEL, SchemaPropertyPeer::DEFINITION, SchemaPropertyPeer::COMMENT, SchemaPropertyPeer::TYPE, SchemaPropertyPeer::IS_SUBPROPERTY_OF, SchemaPropertyPeer::PARENT_URI, SchemaPropertyPeer::URI, SchemaPropertyPeer::STATUS_ID, SchemaPropertyPeer::LANGUAGE, SchemaPropertyPeer::NOTE, SchemaPropertyPeer::DOMAIN, SchemaPropertyPeer::ORANGE, SchemaPropertyPeer::IS_DEPRECATED, SchemaPropertyPeer::URL, SchemaPropertyPeer::LEXICAL_ALIAS, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'created_at', 'updated_at', 'deleted_at', 'created_user_id', 'updated_user_id', 'schema_id', 'name', 'label', 'definition', 'comment', 'type', 'is_subproperty_of', 'parent_uri', 'uri', 'status_id', 'language', 'note', 'domain', 'orange', 'is_deprecated', 'url', 'lexical_alias', ),
 		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, )
 	);
 
@@ -118,9 +118,9 @@ abstract class BaseSchemaPropertyPeer {
 	 * e.g. self::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
 	 */
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'CreatedAt' => 1, 'UpdatedAt' => 2, 'DeletedAt' => 3, 'CreatedUserId' => 4, 'UpdatedUserId' => 5, 'SchemaId' => 6, 'Name' => 7, 'Label' => 8, 'Definition' => 9, 'Comment' => 10, 'Type' => 11, 'IsSubpropertyOf' => 12, 'ParentUri' => 13, 'Uri' => 14, 'Url' => 15, 'LexicalAlias' => 16, 'StatusId' => 17, 'Language' => 18, 'Note' => 19, 'Domain' => 20, 'Orange' => 21, 'IsDeprecated' => 22, ),
-		BasePeer::TYPE_COLNAME => array (SchemaPropertyPeer::ID => 0, SchemaPropertyPeer::CREATED_AT => 1, SchemaPropertyPeer::UPDATED_AT => 2, SchemaPropertyPeer::DELETED_AT => 3, SchemaPropertyPeer::CREATED_USER_ID => 4, SchemaPropertyPeer::UPDATED_USER_ID => 5, SchemaPropertyPeer::SCHEMA_ID => 6, SchemaPropertyPeer::NAME => 7, SchemaPropertyPeer::LABEL => 8, SchemaPropertyPeer::DEFINITION => 9, SchemaPropertyPeer::COMMENT => 10, SchemaPropertyPeer::TYPE => 11, SchemaPropertyPeer::IS_SUBPROPERTY_OF => 12, SchemaPropertyPeer::PARENT_URI => 13, SchemaPropertyPeer::URI => 14, SchemaPropertyPeer::URL => 15, SchemaPropertyPeer::LEXICAL_ALIAS => 16, SchemaPropertyPeer::STATUS_ID => 17, SchemaPropertyPeer::LANGUAGE => 18, SchemaPropertyPeer::NOTE => 19, SchemaPropertyPeer::DOMAIN => 20, SchemaPropertyPeer::ORANGE => 21, SchemaPropertyPeer::IS_DEPRECATED => 22, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'created_at' => 1, 'updated_at' => 2, 'deleted_at' => 3, 'created_user_id' => 4, 'updated_user_id' => 5, 'schema_id' => 6, 'name' => 7, 'label' => 8, 'definition' => 9, 'comment' => 10, 'type' => 11, 'is_subproperty_of' => 12, 'parent_uri' => 13, 'uri' => 14, 'url' => 15, 'lexical_alias' => 16, 'status_id' => 17, 'language' => 18, 'note' => 19, 'domain' => 20, 'orange' => 21, 'is_deprecated' => 22, ),
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'CreatedAt' => 1, 'UpdatedAt' => 2, 'DeletedAt' => 3, 'CreatedUserId' => 4, 'UpdatedUserId' => 5, 'SchemaId' => 6, 'Name' => 7, 'Label' => 8, 'Definition' => 9, 'Comment' => 10, 'Type' => 11, 'IsSubpropertyOf' => 12, 'ParentUri' => 13, 'Uri' => 14, 'StatusId' => 15, 'Language' => 16, 'Note' => 17, 'Domain' => 18, 'Orange' => 19, 'IsDeprecated' => 20, 'Url' => 21, 'LexicalAlias' => 22, ),
+		BasePeer::TYPE_COLNAME => array (SchemaPropertyPeer::ID => 0, SchemaPropertyPeer::CREATED_AT => 1, SchemaPropertyPeer::UPDATED_AT => 2, SchemaPropertyPeer::DELETED_AT => 3, SchemaPropertyPeer::CREATED_USER_ID => 4, SchemaPropertyPeer::UPDATED_USER_ID => 5, SchemaPropertyPeer::SCHEMA_ID => 6, SchemaPropertyPeer::NAME => 7, SchemaPropertyPeer::LABEL => 8, SchemaPropertyPeer::DEFINITION => 9, SchemaPropertyPeer::COMMENT => 10, SchemaPropertyPeer::TYPE => 11, SchemaPropertyPeer::IS_SUBPROPERTY_OF => 12, SchemaPropertyPeer::PARENT_URI => 13, SchemaPropertyPeer::URI => 14, SchemaPropertyPeer::STATUS_ID => 15, SchemaPropertyPeer::LANGUAGE => 16, SchemaPropertyPeer::NOTE => 17, SchemaPropertyPeer::DOMAIN => 18, SchemaPropertyPeer::ORANGE => 19, SchemaPropertyPeer::IS_DEPRECATED => 20, SchemaPropertyPeer::URL => 21, SchemaPropertyPeer::LEXICAL_ALIAS => 22, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'created_at' => 1, 'updated_at' => 2, 'deleted_at' => 3, 'created_user_id' => 4, 'updated_user_id' => 5, 'schema_id' => 6, 'name' => 7, 'label' => 8, 'definition' => 9, 'comment' => 10, 'type' => 11, 'is_subproperty_of' => 12, 'parent_uri' => 13, 'uri' => 14, 'status_id' => 15, 'language' => 16, 'note' => 17, 'domain' => 18, 'orange' => 19, 'is_deprecated' => 20, 'url' => 21, 'lexical_alias' => 22, ),
 		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, )
 	);
 
@@ -252,10 +252,6 @@ abstract class BaseSchemaPropertyPeer {
 
         $criteria->addSelectColumn(($tableAlias) ? SchemaPropertyPeer::alias($tableAlias, SchemaPropertyPeer::URI) : SchemaPropertyPeer::URI);
 
-        $criteria->addSelectColumn(($tableAlias) ? SchemaPropertyPeer::alias($tableAlias, SchemaPropertyPeer::URL) : SchemaPropertyPeer::URL);
-
-        $criteria->addSelectColumn(($tableAlias) ? SchemaPropertyPeer::alias($tableAlias, SchemaPropertyPeer::LEXICAL_ALIAS) : SchemaPropertyPeer::LEXICAL_ALIAS);
-
         $criteria->addSelectColumn(($tableAlias) ? SchemaPropertyPeer::alias($tableAlias, SchemaPropertyPeer::STATUS_ID) : SchemaPropertyPeer::STATUS_ID);
 
         $criteria->addSelectColumn(($tableAlias) ? SchemaPropertyPeer::alias($tableAlias, SchemaPropertyPeer::LANGUAGE) : SchemaPropertyPeer::LANGUAGE);
@@ -267,6 +263,10 @@ abstract class BaseSchemaPropertyPeer {
         $criteria->addSelectColumn(($tableAlias) ? SchemaPropertyPeer::alias($tableAlias, SchemaPropertyPeer::ORANGE) : SchemaPropertyPeer::ORANGE);
 
         $criteria->addSelectColumn(($tableAlias) ? SchemaPropertyPeer::alias($tableAlias, SchemaPropertyPeer::IS_DEPRECATED) : SchemaPropertyPeer::IS_DEPRECATED);
+
+        $criteria->addSelectColumn(($tableAlias) ? SchemaPropertyPeer::alias($tableAlias, SchemaPropertyPeer::URL) : SchemaPropertyPeer::URL);
+
+        $criteria->addSelectColumn(($tableAlias) ? SchemaPropertyPeer::alias($tableAlias, SchemaPropertyPeer::LEXICAL_ALIAS) : SchemaPropertyPeer::LEXICAL_ALIAS);
 
 	}
 

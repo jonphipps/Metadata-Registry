@@ -93,7 +93,7 @@ abstract class BaseSchemaPropertyElementHistory extends BaseObject  implements P
 	 * The value for the language field.
 	 * @var        string
 	 */
-	protected $language = 'en';
+	protected $language;
 
 
 	/**
@@ -605,7 +605,7 @@ abstract class BaseSchemaPropertyElementHistory extends BaseObject  implements P
 			$v = (string) $v; 
 		}
 
-		if ($this->language !== $v || $v === 'en') {
+		if ($this->language !== $v) {
 			$this->language = $v;
 			$this->modifiedColumns[] = SchemaPropertyElementHistoryPeer::LANGUAGE;
 		}

@@ -3,7 +3,7 @@
 /**
  * Base class that represents a row from the 'reg_schema_property' table.
  *
- *
+ * 
  *
  * @package    lib.model.om
  */
@@ -100,7 +100,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 	 * The value for the type field.
 	 * @var        string
 	 */
-	protected $type = 'property';
+	protected $type = 'Property';
 
 
 	/**
@@ -122,20 +122,6 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 	 * @var        string
 	 */
 	protected $uri = '';
-
-
-	/**
-	 * The value for the url field.
-	 * @var        string
-	 */
-	protected $url = '';
-
-
-	/**
-	 * The value for the lexical_alias field.
-	 * @var        string
-	 */
-	protected $lexical_alias;
 
 
 	/**
@@ -178,6 +164,20 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 	 * @var        boolean
 	 */
 	protected $is_deprecated;
+
+
+	/**
+	 * The value for the url field.
+	 * @var        string
+	 */
+	protected $url;
+
+
+	/**
+	 * The value for the lexical_alias field.
+	 * @var        string
+	 */
+	protected $lexical_alias;
 
 	/**
 	 * @var        User
@@ -292,7 +292,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 	/**
 	 * Get the [id] column value.
-	 *
+	 * 
 	 * @return     int
 	 */
 	public function getId()
@@ -303,7 +303,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 	/**
 	 * Get the [optionally formatted] [created_at] column value.
-	 *
+	 * 
 	 * @param      string $format The date/time format string (either date()-style or strftime()-style).
 	 *							If format is NULL, then the integer unix timestamp will be returned.
 	 * @return     mixed Formatted date/time value as string or integer unix timestamp (if format is NULL).
@@ -334,7 +334,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 	/**
 	 * Get the [optionally formatted] [updated_at] column value.
-	 *
+	 * 
 	 * @param      string $format The date/time format string (either date()-style or strftime()-style).
 	 *							If format is NULL, then the integer unix timestamp will be returned.
 	 * @return     mixed Formatted date/time value as string or integer unix timestamp (if format is NULL).
@@ -365,7 +365,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 	/**
 	 * Get the [optionally formatted] [deleted_at] column value.
-	 *
+	 * 
 	 * @param      string $format The date/time format string (either date()-style or strftime()-style).
 	 *							If format is NULL, then the integer unix timestamp will be returned.
 	 * @return     mixed Formatted date/time value as string or integer unix timestamp (if format is NULL).
@@ -396,7 +396,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 	/**
 	 * Get the [created_user_id] column value.
-	 *
+	 * 
 	 * @return     int
 	 */
 	public function getCreatedUserId()
@@ -407,7 +407,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 	/**
 	 * Get the [updated_user_id] column value.
-	 *
+	 * 
 	 * @return     int
 	 */
 	public function getUpdatedUserId()
@@ -418,7 +418,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 	/**
 	 * Get the [schema_id] column value.
-	 *
+	 * 
 	 * @return     int
 	 */
 	public function getSchemaId()
@@ -429,7 +429,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 	/**
 	 * Get the [name] column value.
-	 *
+	 * 
 	 * @return     string
 	 */
 	public function getName()
@@ -440,7 +440,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 	/**
 	 * Get the [label] column value.
-	 *
+	 * 
 	 * @return     string
 	 */
 	public function getLabel()
@@ -451,7 +451,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 	/**
 	 * Get the [definition] column value.
-	 *
+	 * 
 	 * @return     string
 	 */
 	public function getDefinition()
@@ -462,7 +462,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 	/**
 	 * Get the [comment] column value.
-	 *
+	 * 
 	 * @return     string
 	 */
 	public function getComment()
@@ -473,7 +473,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 	/**
 	 * Get the [type] column value.
-	 *
+	 * 
 	 * @return     string
 	 */
 	public function getType()
@@ -484,7 +484,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 	/**
 	 * Get the [is_subproperty_of] column value.
-	 *
+	 * 
 	 * @return     int
 	 */
 	public function getIsSubpropertyOf()
@@ -495,7 +495,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 	/**
 	 * Get the [parent_uri] column value.
-	 *
+	 * 
 	 * @return     string
 	 */
 	public function getParentUri()
@@ -506,7 +506,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 	/**
 	 * Get the [uri] column value.
-	 *
+	 * 
 	 * @return     string
 	 */
 	public function getUri()
@@ -516,30 +516,8 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 	}
 
 	/**
-	 * Get the [url] column value.
-	 *
-	 * @return     string
-	 */
-	public function getUrl()
-	{
-
-		return $this->url;
-	}
-
-	/**
-	 * Get the [lexical_alias] column value.
-	 *
-	 * @return     string
-	 */
-	public function getLexicalAlias()
-	{
-
-		return $this->lexical_alias;
-	}
-
-	/**
 	 * Get the [status_id] column value.
-	 *
+	 * 
 	 * @return     int
 	 */
 	public function getStatusId()
@@ -550,7 +528,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 	/**
 	 * Get the [language] column value.
-	 *
+	 * 
 	 * @return     string
 	 */
 	public function getLanguage()
@@ -561,7 +539,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 	/**
 	 * Get the [note] column value.
-	 *
+	 * 
 	 * @return     string
 	 */
 	public function getNote()
@@ -572,7 +550,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 	/**
 	 * Get the [domain] column value.
-	 *
+	 * 
 	 * @return     string
 	 */
 	public function getDomain()
@@ -583,7 +561,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 	/**
 	 * Get the [orange] column value.
-	 *
+	 * 
 	 * @return     string
 	 */
 	public function getOrange()
@@ -594,7 +572,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 	/**
 	 * Get the [is_deprecated] column value.
-	 *
+	 * 
 	 * @return     boolean
 	 */
 	public function getIsDeprecated()
@@ -604,8 +582,30 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 	}
 
 	/**
+	 * Get the [url] column value.
+	 * 
+	 * @return     string
+	 */
+	public function getUrl()
+	{
+
+		return $this->url;
+	}
+
+	/**
+	 * Get the [lexical_alias] column value.
+	 * 
+	 * @return     string
+	 */
+	public function getLexicalAlias()
+	{
+
+		return $this->lexical_alias;
+	}
+
+	/**
 	 * Set the value of [id] column.
-	 *
+	 * 
 	 * @param      int $v new value
 	 * @return     void
 	 */
@@ -627,7 +627,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 	/**
 	 * Set the value of [created_at] column.
-	 *
+	 * 
 	 * @param      int $v new value
 	 * @return     void
 	 */
@@ -651,7 +651,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 	/**
 	 * Set the value of [updated_at] column.
-	 *
+	 * 
 	 * @param      int $v new value
 	 * @return     void
 	 */
@@ -675,7 +675,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 	/**
 	 * Set the value of [deleted_at] column.
-	 *
+	 * 
 	 * @param      int $v new value
 	 * @return     void
 	 */
@@ -699,7 +699,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 	/**
 	 * Set the value of [created_user_id] column.
-	 *
+	 * 
 	 * @param      int $v new value
 	 * @return     void
 	 */
@@ -725,7 +725,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 	/**
 	 * Set the value of [updated_user_id] column.
-	 *
+	 * 
 	 * @param      int $v new value
 	 * @return     void
 	 */
@@ -751,7 +751,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 	/**
 	 * Set the value of [schema_id] column.
-	 *
+	 * 
 	 * @param      int $v new value
 	 * @return     void
 	 */
@@ -777,7 +777,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 	/**
 	 * Set the value of [name] column.
-	 *
+	 * 
 	 * @param      string $v new value
 	 * @return     void
 	 */
@@ -787,7 +787,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v;
+			$v = (string) $v; 
 		}
 
 		if ($this->name !== $v || $v === '') {
@@ -799,7 +799,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 	/**
 	 * Set the value of [label] column.
-	 *
+	 * 
 	 * @param      string $v new value
 	 * @return     void
 	 */
@@ -809,7 +809,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v;
+			$v = (string) $v; 
 		}
 
 		if ($this->label !== $v || $v === '') {
@@ -821,7 +821,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 	/**
 	 * Set the value of [definition] column.
-	 *
+	 * 
 	 * @param      string $v new value
 	 * @return     void
 	 */
@@ -831,7 +831,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v;
+			$v = (string) $v; 
 		}
 
 		if ($this->definition !== $v) {
@@ -843,7 +843,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 	/**
 	 * Set the value of [comment] column.
-	 *
+	 * 
 	 * @param      string $v new value
 	 * @return     void
 	 */
@@ -853,7 +853,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v;
+			$v = (string) $v; 
 		}
 
 		if ($this->comment !== $v) {
@@ -865,7 +865,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 	/**
 	 * Set the value of [type] column.
-	 *
+	 * 
 	 * @param      string $v new value
 	 * @return     void
 	 */
@@ -875,10 +875,10 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v;
+			$v = (string) $v; 
 		}
 
-		if ($this->type !== $v || $v === 'property') {
+		if ($this->type !== $v || $v === 'Property') {
 			$this->type = $v;
 			$this->modifiedColumns[] = SchemaPropertyPeer::TYPE;
 		}
@@ -887,7 +887,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 	/**
 	 * Set the value of [is_subproperty_of] column.
-	 *
+	 * 
 	 * @param      int $v new value
 	 * @return     void
 	 */
@@ -913,7 +913,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 	/**
 	 * Set the value of [parent_uri] column.
-	 *
+	 * 
 	 * @param      string $v new value
 	 * @return     void
 	 */
@@ -923,7 +923,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v;
+			$v = (string) $v; 
 		}
 
 		if ($this->parent_uri !== $v) {
@@ -935,7 +935,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 	/**
 	 * Set the value of [uri] column.
-	 *
+	 * 
 	 * @param      string $v new value
 	 * @return     void
 	 */
@@ -945,7 +945,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v;
+			$v = (string) $v; 
 		}
 
 		if ($this->uri !== $v || $v === '') {
@@ -956,52 +956,8 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 	} // setUri()
 
 	/**
-	 * Set the value of [url] column.
-	 *
-	 * @param      string $v new value
-	 * @return     void
-	 */
-	public function setUrl($v)
-	{
-
-		// Since the native PHP type for this column is string,
-		// we will cast the input to a string (if it is not).
-		if ($v !== null && !is_string($v)) {
-			$v = (string) $v;
-		}
-
-		if ($this->url !== $v || $v === '') {
-			$this->url = $v;
-			$this->modifiedColumns[] = SchemaPropertyPeer::URL;
-		}
-
-	} // setUrl()
-
-	/**
-	 * Set the value of [lexical_alias] column.
-	 *
-	 * @param      string $v new value
-	 * @return     void
-	 */
-	public function setLexicalAlias($v)
-	{
-
-		// Since the native PHP type for this column is string,
-		// we will cast the input to a string (if it is not).
-		if ($v !== null && !is_string($v)) {
-			$v = (string) $v;
-		}
-
-		if ($this->lexical_alias !== $v) {
-			$this->lexical_alias = $v;
-			$this->modifiedColumns[] = SchemaPropertyPeer::LEXICAL_ALIAS;
-		}
-
-	} // setLexicalAlias()
-
-	/**
 	 * Set the value of [status_id] column.
-	 *
+	 * 
 	 * @param      int $v new value
 	 * @return     void
 	 */
@@ -1027,7 +983,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 	/**
 	 * Set the value of [language] column.
-	 *
+	 * 
 	 * @param      string $v new value
 	 * @return     void
 	 */
@@ -1037,7 +993,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v;
+			$v = (string) $v; 
 		}
 
 		if ($this->language !== $v || $v === '') {
@@ -1049,7 +1005,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 	/**
 	 * Set the value of [note] column.
-	 *
+	 * 
 	 * @param      string $v new value
 	 * @return     void
 	 */
@@ -1059,7 +1015,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v;
+			$v = (string) $v; 
 		}
 
 		if ($this->note !== $v) {
@@ -1071,7 +1027,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 	/**
 	 * Set the value of [domain] column.
-	 *
+	 * 
 	 * @param      string $v new value
 	 * @return     void
 	 */
@@ -1081,7 +1037,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v;
+			$v = (string) $v; 
 		}
 
 		if ($this->domain !== $v) {
@@ -1093,7 +1049,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 	/**
 	 * Set the value of [orange] column.
-	 *
+	 * 
 	 * @param      string $v new value
 	 * @return     void
 	 */
@@ -1103,7 +1059,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 		// Since the native PHP type for this column is string,
 		// we will cast the input to a string (if it is not).
 		if ($v !== null && !is_string($v)) {
-			$v = (string) $v;
+			$v = (string) $v; 
 		}
 
 		if ($this->orange !== $v) {
@@ -1115,7 +1071,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 	/**
 	 * Set the value of [is_deprecated] column.
-	 *
+	 * 
 	 * @param      boolean $v new value
 	 * @return     void
 	 */
@@ -1128,6 +1084,50 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 		}
 
 	} // setIsDeprecated()
+
+	/**
+	 * Set the value of [url] column.
+	 * 
+	 * @param      string $v new value
+	 * @return     void
+	 */
+	public function setUrl($v)
+	{
+
+		// Since the native PHP type for this column is string,
+		// we will cast the input to a string (if it is not).
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->url !== $v) {
+			$this->url = $v;
+			$this->modifiedColumns[] = SchemaPropertyPeer::URL;
+		}
+
+	} // setUrl()
+
+	/**
+	 * Set the value of [lexical_alias] column.
+	 * 
+	 * @param      string $v new value
+	 * @return     void
+	 */
+	public function setLexicalAlias($v)
+	{
+
+		// Since the native PHP type for this column is string,
+		// we will cast the input to a string (if it is not).
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->lexical_alias !== $v) {
+			$this->lexical_alias = $v;
+			$this->modifiedColumns[] = SchemaPropertyPeer::LEXICAL_ALIAS;
+		}
+
+	} // setLexicalAlias()
 
 	/**
 	 * Hydrates (populates) the object variables with values from the database resultset.
@@ -1176,21 +1176,21 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 			$this->uri = $rs->getString($startcol + 14);
 
-			$this->url = $rs->getString($startcol + 15);
+			$this->status_id = $rs->getInt($startcol + 15);
 
-			$this->lexical_alias = $rs->getString($startcol + 16);
+			$this->language = $rs->getString($startcol + 16);
 
-			$this->status_id = $rs->getInt($startcol + 17);
+			$this->note = $rs->getString($startcol + 17);
 
-			$this->language = $rs->getString($startcol + 18);
+			$this->domain = $rs->getString($startcol + 18);
 
-			$this->note = $rs->getString($startcol + 19);
+			$this->orange = $rs->getString($startcol + 19);
 
-			$this->domain = $rs->getString($startcol + 20);
+			$this->is_deprecated = $rs->getBoolean($startcol + 20);
 
-			$this->orange = $rs->getString($startcol + 21);
+			$this->url = $rs->getString($startcol + 21);
 
-			$this->is_deprecated = $rs->getBoolean($startcol + 22);
+			$this->lexical_alias = $rs->getString($startcol + 22);
 
 			$this->resetModified();
 
@@ -1243,7 +1243,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 			$con->rollback();
 			throw $e;
 		}
-
+	
 
     foreach (sfMixer::getCallables('BaseSchemaProperty:delete:post') as $callable)
     {
@@ -1327,7 +1327,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 
 			// We call the save method on the following object(s) if they
-			// were passed to this object by their corresponding set
+			// were passed to this object by their coresponding set
 			// method.  This object relates to these object(s) by a
 			// foreign key reference.
 
@@ -1656,28 +1656,28 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 				return $this->getUri();
 				break;
 			case 15:
-				return $this->getUrl();
-				break;
-			case 16:
-				return $this->getLexicalAlias();
-				break;
-			case 17:
 				return $this->getStatusId();
 				break;
-			case 18:
+			case 16:
 				return $this->getLanguage();
 				break;
-			case 19:
+			case 17:
 				return $this->getNote();
 				break;
-			case 20:
+			case 18:
 				return $this->getDomain();
 				break;
-			case 21:
+			case 19:
 				return $this->getOrange();
 				break;
-			case 22:
+			case 20:
 				return $this->getIsDeprecated();
+				break;
+			case 21:
+				return $this->getUrl();
+				break;
+			case 22:
+				return $this->getLexicalAlias();
 				break;
 			default:
 				return null;
@@ -1714,14 +1714,14 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 			$keys[12] => $this->getIsSubpropertyOf(),
 			$keys[13] => $this->getParentUri(),
 			$keys[14] => $this->getUri(),
-			$keys[15] => $this->getUrl(),
-			$keys[16] => $this->getLexicalAlias(),
-			$keys[17] => $this->getStatusId(),
-			$keys[18] => $this->getLanguage(),
-			$keys[19] => $this->getNote(),
-			$keys[20] => $this->getDomain(),
-			$keys[21] => $this->getOrange(),
-			$keys[22] => $this->getIsDeprecated(),
+			$keys[15] => $this->getStatusId(),
+			$keys[16] => $this->getLanguage(),
+			$keys[17] => $this->getNote(),
+			$keys[18] => $this->getDomain(),
+			$keys[19] => $this->getOrange(),
+			$keys[20] => $this->getIsDeprecated(),
+			$keys[21] => $this->getUrl(),
+			$keys[22] => $this->getLexicalAlias(),
 		);
 		return $result;
 	}
@@ -1799,28 +1799,28 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 				$this->setUri($value);
 				break;
 			case 15:
-				$this->setUrl($value);
-				break;
-			case 16:
-				$this->setLexicalAlias($value);
-				break;
-			case 17:
 				$this->setStatusId($value);
 				break;
-			case 18:
+			case 16:
 				$this->setLanguage($value);
 				break;
-			case 19:
+			case 17:
 				$this->setNote($value);
 				break;
-			case 20:
+			case 18:
 				$this->setDomain($value);
 				break;
-			case 21:
+			case 19:
 				$this->setOrange($value);
 				break;
-			case 22:
+			case 20:
 				$this->setIsDeprecated($value);
+				break;
+			case 21:
+				$this->setUrl($value);
+				break;
+			case 22:
+				$this->setLexicalAlias($value);
 				break;
 		} // switch()
 	}
@@ -1860,14 +1860,14 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[12], $arr)) $this->setIsSubpropertyOf($arr[$keys[12]]);
 		if (array_key_exists($keys[13], $arr)) $this->setParentUri($arr[$keys[13]]);
 		if (array_key_exists($keys[14], $arr)) $this->setUri($arr[$keys[14]]);
-		if (array_key_exists($keys[15], $arr)) $this->setUrl($arr[$keys[15]]);
-		if (array_key_exists($keys[16], $arr)) $this->setLexicalAlias($arr[$keys[16]]);
-		if (array_key_exists($keys[17], $arr)) $this->setStatusId($arr[$keys[17]]);
-		if (array_key_exists($keys[18], $arr)) $this->setLanguage($arr[$keys[18]]);
-		if (array_key_exists($keys[19], $arr)) $this->setNote($arr[$keys[19]]);
-		if (array_key_exists($keys[20], $arr)) $this->setDomain($arr[$keys[20]]);
-		if (array_key_exists($keys[21], $arr)) $this->setOrange($arr[$keys[21]]);
-		if (array_key_exists($keys[22], $arr)) $this->setIsDeprecated($arr[$keys[22]]);
+		if (array_key_exists($keys[15], $arr)) $this->setStatusId($arr[$keys[15]]);
+		if (array_key_exists($keys[16], $arr)) $this->setLanguage($arr[$keys[16]]);
+		if (array_key_exists($keys[17], $arr)) $this->setNote($arr[$keys[17]]);
+		if (array_key_exists($keys[18], $arr)) $this->setDomain($arr[$keys[18]]);
+		if (array_key_exists($keys[19], $arr)) $this->setOrange($arr[$keys[19]]);
+		if (array_key_exists($keys[20], $arr)) $this->setIsDeprecated($arr[$keys[20]]);
+		if (array_key_exists($keys[21], $arr)) $this->setUrl($arr[$keys[21]]);
+		if (array_key_exists($keys[22], $arr)) $this->setLexicalAlias($arr[$keys[22]]);
 	}
 
 	/**
@@ -1894,14 +1894,14 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(SchemaPropertyPeer::IS_SUBPROPERTY_OF)) $criteria->add(SchemaPropertyPeer::IS_SUBPROPERTY_OF, $this->is_subproperty_of);
 		if ($this->isColumnModified(SchemaPropertyPeer::PARENT_URI)) $criteria->add(SchemaPropertyPeer::PARENT_URI, $this->parent_uri);
 		if ($this->isColumnModified(SchemaPropertyPeer::URI)) $criteria->add(SchemaPropertyPeer::URI, $this->uri);
-		if ($this->isColumnModified(SchemaPropertyPeer::URL)) $criteria->add(SchemaPropertyPeer::URL, $this->url);
-		if ($this->isColumnModified(SchemaPropertyPeer::LEXICAL_ALIAS)) $criteria->add(SchemaPropertyPeer::LEXICAL_ALIAS, $this->lexical_alias);
 		if ($this->isColumnModified(SchemaPropertyPeer::STATUS_ID)) $criteria->add(SchemaPropertyPeer::STATUS_ID, $this->status_id);
 		if ($this->isColumnModified(SchemaPropertyPeer::LANGUAGE)) $criteria->add(SchemaPropertyPeer::LANGUAGE, $this->language);
 		if ($this->isColumnModified(SchemaPropertyPeer::NOTE)) $criteria->add(SchemaPropertyPeer::NOTE, $this->note);
 		if ($this->isColumnModified(SchemaPropertyPeer::DOMAIN)) $criteria->add(SchemaPropertyPeer::DOMAIN, $this->domain);
 		if ($this->isColumnModified(SchemaPropertyPeer::ORANGE)) $criteria->add(SchemaPropertyPeer::ORANGE, $this->orange);
 		if ($this->isColumnModified(SchemaPropertyPeer::IS_DEPRECATED)) $criteria->add(SchemaPropertyPeer::IS_DEPRECATED, $this->is_deprecated);
+		if ($this->isColumnModified(SchemaPropertyPeer::URL)) $criteria->add(SchemaPropertyPeer::URL, $this->url);
+		if ($this->isColumnModified(SchemaPropertyPeer::LEXICAL_ALIAS)) $criteria->add(SchemaPropertyPeer::LEXICAL_ALIAS, $this->lexical_alias);
 
 		return $criteria;
 	}
@@ -1984,10 +1984,6 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 		$copyObj->setUri($this->uri);
 
-		$copyObj->setUrl($this->url);
-
-		$copyObj->setLexicalAlias($this->lexical_alias);
-
 		$copyObj->setStatusId($this->status_id);
 
 		$copyObj->setLanguage($this->language);
@@ -1999,6 +1995,10 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 		$copyObj->setOrange($this->orange);
 
 		$copyObj->setIsDeprecated($this->is_deprecated);
+
+		$copyObj->setUrl($this->url);
+
+		$copyObj->setLexicalAlias($this->lexical_alias);
 
 
 		if ($deepCopy) {

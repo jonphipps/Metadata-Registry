@@ -66,6 +66,7 @@ ADD lexical_alias VARCHAR(255);
 --
 
 ALTER TABLE reg_schema_property_element CHANGE COLUMN language language CHAR(6) NOT NULL COMMENT '';
+ALTER TABLE reg_schema_property_element ADD COLUMN `is_generated` TINYINT NOT NULL DEFAULT 0 AFTER `status_id`;
 DROP INDEX reg_schema_property_element_idx1 ON reg_schema_property_element;
 CREATE INDEX reg_schema_property_element_idx1 ON reg_schema_property_element (object(150) ASC);
 

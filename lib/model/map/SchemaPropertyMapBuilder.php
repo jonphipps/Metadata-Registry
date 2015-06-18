@@ -91,10 +91,6 @@ class SchemaPropertyMapBuilder {
 
 		$tMap->addColumn('URI', 'Uri', 'string', CreoleTypes::VARCHAR, true, 255);
 
-		$tMap->addColumn('URL', 'Url', 'string', CreoleTypes::VARCHAR, false, 255);
-
-		$tMap->addColumn('LEXICAL_ALIAS', 'LexicalAlias', 'string', CreoleTypes::VARCHAR, false, 255);
-
 		$tMap->addForeignKey('STATUS_ID', 'StatusId', 'int', CreoleTypes::INTEGER, 'reg_status', 'ID', true, null);
 
 		$tMap->addColumn('LANGUAGE', 'Language', 'string', CreoleTypes::VARCHAR, true, 6);
@@ -106,6 +102,10 @@ class SchemaPropertyMapBuilder {
 		$tMap->addColumn('ORANGE', 'Orange', 'string', CreoleTypes::VARCHAR, false, 255);
 
 		$tMap->addColumn('IS_DEPRECATED', 'IsDeprecated', 'boolean', CreoleTypes::BOOLEAN, false, null);
+
+		$tMap->addColumn('URL', 'Url', 'string', CreoleTypes::VARCHAR, false, 255);
+
+		$tMap->addColumn('LEXICAL_ALIAS', 'LexicalAlias', 'string', CreoleTypes::VARCHAR, false, 255);
 
 	} // doBuild()
 
