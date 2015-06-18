@@ -29,6 +29,25 @@
 
             <div class="sf_admin_edit_help"><?php echo __('The type of CSV file to export') ?></div>
         </div>
+        <div id="form_row_include_deprecated" class="form-row">
+            <?php echo label_for('includeDeprecated', __('Include Deprecated'), 'id=label_for_include_deprecated') ?>
+            <div id="form_row_content_include_deprecated" class="content<?php if ($sf_request->hasError('includeDeprecated')): ?> form-error<?php endif; ?>">
+                <?php echo checkbox_tag('includeDeprecated', 1,
+                      $sf_request->getAttribute('includeDeprecated', false) ? 1 : 0, array('style'=>"width:1em")) ?>
+                <div class="sf_admin_edit_help"><?php echo __('This will include currently deprecated elements in the export.') ?></div>
+            </div>
+        </div>
+        <div id="form_row_include_deleted" class="form-row">
+            <?php echo label_for('includeDeleted', __('Include Deleted'), 'id=label_for_include_deleted') ?>
+            <div id="form_row_content_include_deleted" class="content<?php if ($sf_request->hasError('includeDeleted')): ?> form-error<?php endif; ?>">
+                <?php echo checkbox_tag('includeDeleted', 1,
+                      $sf_request->getAttribute('includeDeleted', false) ? 1 : 0, array('style'=>"width:1em")) ?>
+                <div class="sf_admin_edit_help"><?php echo nl2br(__("This will include most of the previously deleted element properties in the export.
+                This isn't a complete 'undo' feature. It simply puts properties that have been deleted back in the exported data.
+                It's primary utility is to recover properties that were deleted by misteak in the last import.
+                THIS HAS NO EFFECT ON RDF EXPORT!! Deleted properties are never included in the RDF.")) ?></div>
+            </div>
+        </div>
     </div>
     <?php if (isset($schema) and count($schema->getLanguages()) > 1) : ?>
         <div id="form_row_add_language" class="form-row">

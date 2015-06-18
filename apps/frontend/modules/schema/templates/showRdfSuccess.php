@@ -70,6 +70,7 @@ The most current complete Vocabulary may be retrieved from:
     if ($classes): ?>
 
 <!-- Classes -->
+
 <?php /** @var \SchemaProperty $property */
         foreach ($classes as $property): ?>
 <?php $statusId = $property->getStatusId();
@@ -87,6 +88,7 @@ The most current complete Vocabulary may be retrieved from:
 <?php if ($properties): ?>
 
 <!-- Properties -->
+
 <?php /** @var \SchemaProperty $property */
     foreach ($properties as $property): ?>
 <?php $statusId = $property->getStatusId();

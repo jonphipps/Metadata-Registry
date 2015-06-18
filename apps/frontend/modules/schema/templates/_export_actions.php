@@ -12,11 +12,11 @@
             'style' => 'background: #ffc url(/jpAdminPlugin/images/csv_text.png) no-repeat 2px 3px; padding-left:20px !important',
         )
     ) ?></li>
-  <li><?php echo button_to(
+  <li><?php echo submit_tag(
         __( 'Get RDF' ),
-        '@rdf_schema?id=' . $schema->getId(),
         array (
-            'title' => 'showRdf',
+              'name'  => 'showRdf',
+              'title' => 'Get RDF',
             'style' => 'background: #ffc url(/jpAdminPlugin/images/rdf_icon.png) no-repeat 2px 3px; padding-left:20px !important',
         )
     ) ?></li>

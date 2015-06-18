@@ -269,28 +269,41 @@ class Schema extends BaseSchema {
     /**
      * gets just the properties, ordered by name
      *
+     * @param bool $includeDeprecated
+     *
      * @return array SchemaProperty
+     * @internal param bool $includeDeleted
+     *
      */
-    public function getProperties()
+    public function getProperties($includeDeprecated = false)
     {
         $c = new Criteria();
         $c->add( SchemaPropertyPeer::TYPE, 'property' );
-        $c->addOr( SchemaPropertyPeer::TYPE, 'subproperty' );
         $c->addAscendingOrderByColumn( SchemaPropertyPeer::NAME );
-
-        return $this->getSchemaPropertysJoinStatus( $c );
+        if (!$includeDeprecated)
+        {
+            $c->add(\SchemaPropertyPeer::STATUS_ID, 8, \Criteria::NOT_EQUAL);
+        }
+         return $this->getSchemaPropertysJoinStatus( $c );
     }
 
     /**
      * gets just the classes, ordered by name
      *
+     * @param bool $includeDeprecated
+     *
      * @return array SchemaProperty
+     * @internal param bool $includeDeleted
+     *
      */
-    public function getClasses()
+    public function getClasses($includeDeprecated = false)
     {
         $c = new Criteria();
         $c->add( SchemaPropertyPeer::TYPE, 'class' );
-        $c->addOr( SchemaPropertyPeer::TYPE, 'subclass' );
+        if (!$includeDeprecated)
+        {
+            $c->add(\SchemaPropertyPeer::STATUS_ID, 8, \Criteria::NOT_EQUAL);
+        }
         $c->addAscendingOrderByColumn( SchemaPropertyPeer::NAME );
 
         return $this->getSchemaPropertysJoinStatus( $c );
@@ -457,6 +470,12 @@ class Schema extends BaseSchema {
           "url"   => "http://metadataregistry.org/schema/show/id/" . $this->getId() . ".html",
           "label" => $this->getName(),
       );
+      $typeArray = array(
+            'property' => "Property",
+            'class' => "Class",
+            'subproperty' => "Property",
+            'subclass' => "Class",
+      );
       $resourceArray["url"] = "http://metadataregistry.org/schemaprop/show/id/" . $property->getId() . ".html";
 
       /** @var SchemaPropertyElement $element */
@@ -515,6 +534,8 @@ class Schema extends BaseSchema {
                               unset($array['lexicalAlias']);
                           }
                       }
+                  } else if ('@type' == $ppi and isset($typeArray[$element->getObject()])) {
+                      $array = $typeArray[$element->getObject()];
                   } else {
                       $array = array(
                           //here we need the related object, but we don't always have it

@@ -63,32 +63,41 @@ class schemaActions extends autoschemaActions
     parent::executeSave();
   }
 
-  public function executeShowRdf ()
-  {
-    $ts = strtotime($this->getRequestParameter('ts'));
-    $this->timestamp = $ts;
-    if (!$this->schema)
+    /**
+     * @throws \sfError404Exception
+     */
+    public function executeShowRdf()
     {
-      $this->schema = SchemaPeer::retrieveByPk($this->getRequestParameter('id'));
+        $ts = strtotime($this->getRequestParameter('ts'));
+        $this->timestamp = $ts;
+        $this->includeDeprecated = $this->getRequestParameter('includeDeprecated', false);
+        if ( ! $this->schema) {
+            $this->schema = SchemaPeer::retrieveByPk($this->getRequestParameter('id'));
+        }
+        $this->labels = $this->getLabels('show');
+
+        $this->forward404Unless($this->schema);
+        $this->properties = $this->schema->getProperties($this->includeDeprecated);
+        $this->classes = $this->schema->getClasses($this->includeDeprecated);
+        //$this->forward('rdf','ShowSchema');
     }
-    $this->labels = $this->getLabels('show');
 
-    $this->forward404Unless($this->schema);
-    $this->properties = $this->schema->getProperties();
-    $this->classes = $this->schema->getClasses();
-
-     //$this->forward('rdf','ShowSchema');
-  }
-
-  public function executeExport()
-  {
-    $this->labels = $this->getLabels('show');
-    $this->language = $this->getRequestParameter( 'addLanguage' );
-    $this->defaultLanguage = $this->getDefaultLanguage();
-  }
+    public function executeExport()
+    {
+        $this->labels = $this->getLabels('show');
+        $this->language = $this->getRequestParameter('addLanguage');
+        $this->defaultLanguage = $this->getDefaultLanguage();
+        $this->includeDeleted = $this->getRequestParameter('includeDeleted', false);
+        $this->includeDeprecated = $this->getRequestParameter('includeDeprecated', false);
+    }
 
   public function executeGetcsv()
   {
+      if ($this->getRequestParameter('showRdf'))
+      {
+          return $this->forward('schema', 'showRdf');
+      }
+
     $asTemplate = '';
     $includeProlog = '';
     $populate = '';
@@ -124,8 +133,11 @@ class schemaActions extends autoschemaActions
     }
     $this->setLayout(false);
     sfConfig::set('sf_escaping_strategy', false);
+      $includeDeleted = (bool) $this->getRequestParameter('includeDeleted', false);
+      $includeDeprecated = (bool) $this->getRequestParameter('includeDeprecated', false);
 
-    $export = new ExportVocab($this->getRequestParameter('id'), '', $populate, $asTemplate, $includeProlog, $languages);
+    $export = new ExportVocab($this->getRequestParameter('id'), '', $populate, $asTemplate, $includeProlog,
+          $includeDeleted, $includeDeprecated, $languages);
 
 //    $this->getResponse()->clearHttpHeaders();
 //    $this->getResponse()->setHttpHeader('Content-Description','File Transfer');

@@ -32,6 +32,7 @@ The most current complete Element Set may be retrieved from:
 <?php endif; ?>
 </rdf:Description>
 <?php $statusArray = array();
+        /** @var SchemaProperty $property */
       $statusId = $property->getStatusId();
       $statusArray[$statusId] = $statusId;
       $c = new Criteria();

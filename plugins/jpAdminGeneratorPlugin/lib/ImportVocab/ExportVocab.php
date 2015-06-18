@@ -30,17 +30,37 @@ class ExportVocab {
     private $headerMap = array();
     private $populate = false;
     private $includeProlog = true;
+    /**
+     * @var bool
+     */
+    private $includeDeleted;
+    /**
+     * @var bool
+     */
+    private $includeDeprecated;
 
     /**
      * @param       $vocabId
      * @param       $userId
      * @param bool  $populate
      * @param bool  $asTemplate
+     * @param bool  $includeProlog
+     * @param bool  $includeDeleted
+     * @param bool  $includeDeprecated
      * @param array $languages
      *
      * @internal param bool $download
      */
-    public function __construct($vocabId, $userId, $populate = false, $asTemplate = false, $includeProlog = true, $languages = array ())
+    public function __construct(
+          $vocabId,
+          $userId,
+          $populate = false,
+          $asTemplate = false,
+          $includeProlog = true,
+          $includeDeleted = false,
+          $includeDeprecated = false,
+          $languages = array()
+    )
     {
         $this->setSchema($vocabId);
         $this->setUser($userId);
@@ -52,6 +72,8 @@ class ExportVocab {
 
         $this->setPath(SF_ROOT_DIR . DIRECTORY_SEPARATOR . 'web' . DIRECTORY_SEPARATOR . 'repos' . DIRECTORY_SEPARATOR
                        . 'agents' . DIRECTORY_SEPARATOR . $this->schema->getAgentId() . DIRECTORY_SEPARATOR);
+        $this->includeDeleted = $includeDeleted;
+        $this->includeDeprecated = $includeDeprecated;
     }
 
     /**
@@ -155,6 +177,10 @@ class ExportVocab {
             $c->clearSelectColumns();
             $c->addSelectColumn(\SchemaPropertyPeer::ID);
             $c->add(\SchemaPropertyPeer::SCHEMA_ID,$this->schema->getId());
+            if (!$this->includeDeprecated)
+            {
+                $c->add(\SchemaPropertyPeer::STATUS_ID, 8, \Criteria::NOT_EQUAL);
+            }
             $c->addAscendingOrderByColumn( \SchemaPropertyPeer::URI );
             $properties = \SchemaPropertyPeer::doSelectRS($c);
             /** @var \SchemaProperty $property */
@@ -166,6 +192,11 @@ class ExportVocab {
 
                 $ce = new \Criteria();
                 $ce->add(\BaseSchemaPropertyElementPeer::SCHEMA_PROPERTY_ID, $property[0]);
+                if (!$this->includeDeleted) {
+                    $ce->add(\BaseSchemaPropertyElementPeer::DELETED_AT, null);
+                    $ce->addAscendingOrderByColumn( \SchemaPropertyElementPeer::UPDATED_AT );
+                }
+                $ce->addAscendingOrderByColumn( \SchemaPropertyElementPeer::UPDATED_AT );
                 $elements = \SchemaPropertyElementPeer::doSelectJoinProfileProperty($ce);
 
                 /** @var \SchemaPropertyElement $element */

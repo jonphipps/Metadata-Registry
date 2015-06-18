@@ -16,6 +16,8 @@
                     'labels'          => $labels,
                     'language'        => $language,
                     'defaultLanguage' => $defaultLanguage,
+                    'includeDeleted'  => $includeDeleted,
+                    'includeDeprecated'  => $includeDeprecated,
               )) ?>
 
     </div>
