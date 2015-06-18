@@ -299,6 +299,16 @@ $tabMap['schemahistory']['list'] = array('tab' => 'schemahistorylist', 'title' =
     case 'schema':
       $showBc = true;
       $showSchemaBc = true;
+      if ('import' == $filter)
+      {
+        $import = FileImportHistoryPeer::retrieveByPK($paramId);
+        if ($import)
+        {
+          $id = $import->getSchemaId();
+          $schema = SchemaPeer::retrieveByPK($id);
+        }
+      }
+
       if (!isset($schema))
       {
         $id = ('show' == $action || 'publish' == $action) ? $sf_params->get('id') : $paramId;
