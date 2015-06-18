@@ -457,6 +457,14 @@ class myActionTools
 
     $schema = $user->getCurrentSchema();
 
+    if ($using and !$schema)
+    {
+      $schema = SchemaPeer::retrieveByPK($using);
+      if ($schema)
+      {
+        $schemaId = $schema->getId();
+      }
+    }
     //We got here and there's a schema_id but we didn't get the stored schema object
     if ($schemaId && !$schema)
     {

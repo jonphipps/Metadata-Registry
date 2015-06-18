@@ -209,7 +209,6 @@ class SchemaPropertyElement extends BaseSchemaPropertyElement
     }
 
     if ( false === $permission) {
-      $foo = 15;
       return;
     }
 

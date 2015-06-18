@@ -571,9 +571,14 @@ switch ($buildBc) {
     case 'schemahistorylist':
         $showBc = true;
         $showSchemaBc = true;
-        $showSchemaPropBc = true;
-        $showSchemaPropelBc = true;
-        $showSchemaHistoryBc = true;
+        if ('import' == $filter) {
+            $import = FileImportHistoryPeer::retrieveByPK($paramId);
+            if ($import) {
+                $id = $import->getSchemaId();
+                $schema = SchemaPeer::retrieveByPK($id);
+            }
+        }
+
         if ( ! isset($history)) {
             $id = $sf_params->get('id');
             if ($id) {

@@ -13,9 +13,12 @@
 <div class="float-right">
 <?php if ($pager->haveToPaginate()): ?>
   <?php $filterParam = ''; ?>
-<?php if ($sf_params->has('schema_id')): ?>
-    <?php $filterParam .= '&schema_id=' . $sf_params->get('schema_id'); ?>
-<?php endif; ?>
+    <?php if ($sf_params->has('schema_id')): ?>
+        <?php $filterParam .= '&schema_id=' . $sf_params->get('schema_id'); ?>
+    <?php endif; ?>
+    <?php if ($sf_params->has('import_id')): ?>
+        <?php $filterParam .= '&import_id=' . $sf_params->get('import_id'); ?>
+    <?php endif; ?>
 <?php if ($sf_params->has('schema_property_id')): ?>
     <?php $filterParam .= '&schema_property_id=' . $sf_params->get('schema_property_id'); ?>
 <?php endif; ?>
