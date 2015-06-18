@@ -167,7 +167,7 @@ INSERT INTO `profile_property` (`id`, `created_at`, `updated_at`, `deleted_at`, 
 	(23,'2014-01-18 04:04:02','2014-01-17 23:04:02',NULL,36,36,NULL,1,'narrowMatch','narrowMatch',NULL,NULL,'property','skos:narrowMatch',1,'en',NULL,24,25,24,NULL,0,0,0,1,1,NULL,1,1,1,1,0,0,1,0),
 	(24,'2014-01-18 04:04:01','2014-01-17 23:04:01',NULL,36,36,NULL,1,'closeMatch','closeMatch',NULL,NULL,'property','skos:closeMatch',1,'en',NULL,23,24,23,NULL,0,0,0,1,1,NULL,1,1,1,1,0,0,1,0),
 	(25,'2014-01-18 04:04:00','2014-01-17 23:04:00',NULL,36,36,NULL,1,'broadMatch','broadMatch',NULL,NULL,'property','skos:broadMatch',1,'en',NULL,22,23,22,NULL,0,0,0,1,1,NULL,1,1,1,1,0,0,1,0),
-	(26,'2011-09-29 14:23:24','2011-09-29 10:23:24',NULL,36,36,NULL,1,'hasUnconstrained','hasUnconstrained','','','property','reg:hasUnconstrained',1,'en','',26,11,26,'',0,1,1,1,1,NULL,1,1,1,0,0,0,1,0),
+  (26,'2011-09-29 14:23:24','2011-09-29 10:23:24',NULL,36,36,NULL,1,'hasUnconstrained','hasUnconstrained','','','property','reg:hasUnconstrained',1,'en','',26,11,26,'',0,0,1,1,1,8,1,1,1,0,0,0,1,0),
 	(27,'2011-09-29 14:23:24','2011-09-29 10:23:24',NULL,36,36,NULL,1,'lexicalAlias','lexicalAlias','','','property','reg:lexicalAlias',1,'en','',25,5,25,'',0,0,1,1,1,NULL,1,1,1,0,0,1,1,1),
 	(30,'2015-05-01 23:04:00','2015-05-01 23:04:00',NULL,36,36,NULL,1,'changeNote','changeNote',NULL,NULL,'property','skos:changeNote',1,'en',NULL,30,30,30,NULL,0,0,0,1,1,NULL,1,1,1,1,0,1,0,0),
 	(31,'2014-04-17 23:04:00','2014-04-17 23:04:00',NULL,36,36,NULL,1,'instructionNumber','instructionNumber','RDA Toolkit instruction number reference','','property','rdakit:instructionNumber',1,'en','',27,27,27,'',0,0,1,1,1,NULL,0,1,1,0,0,0,0,0);
