@@ -53,11 +53,12 @@ class UpdateRelatedJob
             foreach ($historyList as $history) {
                 $element = $history->getSchemaPropertyElement();
                 if ($element) {
-                    $element->importId = $importId;
-                    $element->updateReciprocal(
-                          $history->getAction(),
-                          $history->getCreatedUserId(),
-                          $history->getSchemaId());
+                    //don't generate reciprocals for generated elements
+                    if (!$element->getIsGenerated()) {
+                        $element->importId = $importId;
+                        $element->updateReciprocal($history->getAction(), $history->getCreatedUserId(),
+                              $history->getSchemaId());
+                    }
                 }
             }
         }

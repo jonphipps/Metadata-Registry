@@ -7,27 +7,29 @@
  *
  * @package lib.model
  */
-class SchemaPropertyElementPeer extends BaseSchemaPropertyElementPeer {
-
+class SchemaPropertyElementPeer extends BaseSchemaPropertyElementPeer
+{
     /**
      * create and add an individual element
      *
      * @param  SchemaProperty $schema_property
-     * @param  int $userId
-     * @param  int $fieldId
-     * @param  int                               $statusId
-     * @param string                             $language
+     * @param  int            $userId
+     * @param  int            $fieldId
+     * @param  int            $statusId
+     * @param string          $language
      *
      * @return \SchemaPropertyElement
      */
-    public static function createElement( $schema_property, $userId, $fieldId, $statusId, $language = null) {
+    public static function createElement($schema_property, $userId, $fieldId, $statusId, $language = null)
+    {
         $element = new SchemaPropertyElement();
-        $element->setCreatedUserId( $userId );
-        $element->setUpdatedUserId( $userId );
-        $element->setSchemaPropertyId( $schema_property->getId() );
-      $element->setLanguage($language);
-      $element->setStatusId($statusId);
-        $element->setProfilePropertyId( $fieldId );
+        $element->setCreatedUserId($userId);
+        $element->setUpdatedUserId($userId);
+        $element->setSchemaPropertyId($schema_property->getId());
+        $element->setLanguage($language);
+        $element->setStatusId($statusId);
+        $element->setProfilePropertyId($fieldId);
+        $element->setIsGenerated(true);
 
         return $element;
         //self::updateElement($schema_property, $element, $userId, $field, $con, $isSchemaProperty);

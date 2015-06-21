@@ -86,6 +86,10 @@ class SchemaPropertyElement extends BaseSchemaPropertyElement
           $action = 'deleted';
         }
 
+        if ($this->getIsGenerated()) {
+          $action = 'generated';
+        }
+
         $history->setAction($action);
         $history->setProfilePropertyId($this->getProfilePropertyId());
         $history->setSchemaId($schemaId);

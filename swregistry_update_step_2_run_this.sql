@@ -75,8 +75,10 @@ CREATE INDEX reg_schema_property_element_idx1 ON reg_schema_property_element (ob
 --
 
 ALTER TABLE reg_schema_property_element_history CHANGE COLUMN language language CHAR(6) NOT NULL COMMENT '';
-ALTER TABLE reg_schema_property_element_history
-ADD import_id INT(11);
+ALTER TABLE reg_schema_property_element_history ADD import_id INT(11);
+ALTER TABLE `reg_schema_property_element_history` CHANGE COLUMN `action` `action` ENUM('updated','added','deleted','force_deleted','generated') CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL  COMMENT '' AFTER `created_user_id`;
+
+
 CREATE INDEX reg_schema_property_element_history_fk7 ON reg_schema_property_element_history (import_id ASC);
 
 --
@@ -184,6 +186,12 @@ update reg_schema_property_element, reg_schema_property
 set reg_schema_property_element.related_schema_property_id = reg_schema_property.id
 WHERE reg_schema_property_element.object = reg_schema_property.uri
   and reg_schema_property_element.related_schema_property_id <> reg_schema_property.id;
+
+-- fix generated is true sometimes
+UPDATE reg_schema_property_element, profile_property
+set reg_schema_property_element.is_generated = 1
+WHERE reg_schema_property_element.profile_property_id = profile_property.id
+      AND profile_property.id in (8, 10);
 
 --
 -- remove language from elements that don't have language
