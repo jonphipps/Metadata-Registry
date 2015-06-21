@@ -145,31 +145,24 @@ ADD current_language CHAR(6);
 -- update property/class
 --
 
-update reg_schema_property
-set type='property'
-where type='subproperty' OR type='property';
-update reg_schema_property
-set type='class'
-where type='subclass' OR type='class';
+ALTER TABLE reg_schema_property ADD COLUMN `tmp_type` VARCHAR(15) CHARACTER SET utf8 COLLATE utf8_general_ci NULL AFTER `type`;
+update reg_schema_property set tmp_type = 'property' where type = 'subproperty';
+update reg_schema_property set tmp_type = 'property' where type = 'property';
+update reg_schema_property set tmp_type = 'class' where type = 'subclass';
+update reg_schema_property set tmp_type = 'class' where type = 'class';
+update reg_schema_property set tmp_type = 'property' where type = '';
+ALTER TABLE `reg_schema_property` DROP COLUMN `type` ;
+ALTER TABLE `reg_schema_property` CHANGE COLUMN `tmp_type` `type`
+VARCHAR(15) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL  COMMENT '' AFTER `comment`;
 
 update reg_schema_property_element
 set object='property'
 WHERE profile_property_id=4
-      AND (object='subproperty' OR object='property');
+      AND (object='subproperty');
 update reg_schema_property_element
 set object='class'
 WHERE profile_property_id=4
-      and (object='subclass' OR object='class');
-
-ALTER TABLE `reg_schema_property`
-CHANGE COLUMN `type` `type`
-ENUM('property','class')
-CHARACTER SET utf8
-COLLATE utf8_general_ci
-  NOT NULL
-  DEFAULT 'property'
-COMMENT ''
-AFTER `comment`;
+      and (object='subclass');
 
 --
 -- update related
