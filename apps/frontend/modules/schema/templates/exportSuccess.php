@@ -17,7 +17,8 @@
                     'language'        => $language,
                     'defaultLanguage' => $defaultLanguage,
                     'includeDeleted'  => $includeDeleted,
-                    'includeDeprecated'  => $includeDeprecated,
+                    'excludeDeprecated'  => $excludeDeprecated,
+                    'excludeGenerated'  => $excludeGenerated,
               )) ?>
 
     </div>

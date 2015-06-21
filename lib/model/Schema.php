@@ -269,18 +269,19 @@ class Schema extends BaseSchema {
     /**
      * gets just the properties, ordered by name
      *
-     * @param bool $includeDeprecated
+     * @param bool $excludeDeprecated
+     *
+     * @param bool $excludeGenerated
      *
      * @return array SchemaProperty
      * @internal param bool $includeDeleted
-     *
      */
-    public function getProperties($includeDeprecated = false)
+    public function getProperties($excludeDeprecated = false, $excludeGenerated = false)
     {
         $c = new Criteria();
         $c->add( SchemaPropertyPeer::TYPE, 'property' );
         $c->addAscendingOrderByColumn( SchemaPropertyPeer::NAME );
-        if (!$includeDeprecated)
+        if ($excludeDeprecated)
         {
             $c->add(\SchemaPropertyPeer::STATUS_ID, 8, \Criteria::NOT_EQUAL);
         }
@@ -290,22 +291,22 @@ class Schema extends BaseSchema {
     /**
      * gets just the classes, ordered by name
      *
-     * @param bool $includeDeprecated
+     * @param bool $excludeDeprecated
+     *
+     * @param bool $excludeGenerated
      *
      * @return array SchemaProperty
      * @internal param bool $includeDeleted
-     *
      */
-    public function getClasses($includeDeprecated = false)
+    public function getClasses($excludeDeprecated = false, $excludeGenerated = false)
     {
         $c = new Criteria();
         $c->add( SchemaPropertyPeer::TYPE, 'class' );
-        if (!$includeDeprecated)
+        if ($excludeDeprecated)
         {
             $c->add(\SchemaPropertyPeer::STATUS_ID, 8, \Criteria::NOT_EQUAL);
         }
         $c->addAscendingOrderByColumn( SchemaPropertyPeer::NAME );
-
         return $this->getSchemaPropertysJoinStatus( $c );
     }
 
@@ -480,12 +481,6 @@ class Schema extends BaseSchema {
 
       /** @var SchemaPropertyElement $element */
       foreach ($property->getSchemaPropertyElementsRelatedBySchemaPropertyId($cLang) as $element) {
-          if (in_array($statusArray[$element->getStatusId()][2], [
-                "Deprecated",
-                "Not Approved",
-          ])) {
-              continue;
-          }
           /** @var string $ppi */
           $pproperty = $propArray[$element->getProfilePropertyId()];
           $ppi = $pproperty->getLabel();
@@ -501,46 +496,52 @@ class Schema extends BaseSchema {
           } else {
               $array = array();
               if ("status" !== $ppi) {
-                  $object = $element->getSchemaPropertyRelatedByRelatedSchemaPropertyId();
-                  if ( ! $object) {
-                      //there wasn't an ID so we look it up by the URI
-                      $object = SchemaPropertyPeer::retrieveByUri($element->getObject());
-                      if ($object) {
-                          //we now have an ID
-                          //todo: log that we did this
-                          $element->setRelatedSchemaPropertyId($object->getId());
-                          $element->save();
-                      }
-                  }
-                  if ($object) {
-                      //we got an object somehow
-                      //todo: refactor this to build a language array for lexicalalias and label if uselanguagearray is true
-                      //we'll need to get the array of available languages for the schema and do a for/next
-                      //todo: we removed the language filter from the query, so we need to check for a language match here
-                      $object->setLanguage($languageDefault);
-                      if ($lexicalAliasProperty == $pproperty->getId()) {
-                          $array = $object->getLexicalAlias();
-                          $this->setLexicalArray($element->getObject(), $resourceArray["@id"], 308);
-                      } else {
-                          $array = array(
-                                "@id"          => $object->getUri(),
-                                "lexicalAlias" => $object->getLexicalAlias(),
-                                //"url"          => $object->getUrl(),
-                                "url"          => "http://metadataregistry.org/schemaprop/show/id/" . $object->getId()
-                                                  . ".html",
-                                "label"        => $object->getLabel(),
-                          );
-                          if (empty($array['lexicalAlias'])) {
-                              unset($array['lexicalAlias']);
+                  if ( ! in_array($statusArray[$element->getStatusId()][2], [
+                        "Deprecated",
+                        "Not Approved",
+                  ])
+                  ) {
+                      $object = $element->getSchemaPropertyRelatedByRelatedSchemaPropertyId();
+                      if ( ! $object) {
+                          //there wasn't an ID so we look it up by the URI
+                          $object = SchemaPropertyPeer::retrieveByUri($element->getObject());
+                          if ($object) {
+                              //we now have an ID
+                              //todo: log that we did this
+                              $element->setRelatedSchemaPropertyId($object->getId());
+                              $element->save();
                           }
                       }
-                  } else if ('@type' == $ppi and isset($typeArray[$element->getObject()])) {
-                      $array = $typeArray[$element->getObject()];
-                  } else {
-                      $array = array(
-                          //here we need the related object, but we don't always have it
-                          "@id" => $element->getObject(),
-                      );
+                      if ($object) {
+                          //we got an object somehow
+                          //todo: refactor this to build a language array for lexicalalias and label if uselanguagearray is true
+                          //we'll need to get the array of available languages for the schema and do a for/next
+                          //todo: we removed the language filter from the query, so we need to check for a language match here
+                          $object->setLanguage($languageDefault);
+                          if ($lexicalAliasProperty == $pproperty->getId()) {
+                              $array = $object->getLexicalAlias();
+                              $this->setLexicalArray($element->getObject(), $resourceArray["@id"], 308);
+                          } else {
+                              $array = array(
+                                    "@id"          => $object->getUri(),
+                                    "lexicalAlias" => $object->getLexicalAlias(),
+                                    //"url"          => $object->getUrl(),
+                                    "url"          => "http://metadataregistry.org/schemaprop/show/id/"
+                                                      . $object->getId() . ".html",
+                                    "label"        => $object->getLabel(),
+                              );
+                              if (empty($array['lexicalAlias'])) {
+                                  unset($array['lexicalAlias']);
+                              }
+                          }
+                      } else if ('@type' == $ppi and isset($typeArray[$element->getObject()])) {
+                          $array = $typeArray[$element->getObject()];
+                      } else {
+                          $array = array(
+                              //here we need the related object, but we don't always have it
+                              "@id" => $element->getObject(),
+                          );
+                      }
                   }
               } else {
                   //it's a status

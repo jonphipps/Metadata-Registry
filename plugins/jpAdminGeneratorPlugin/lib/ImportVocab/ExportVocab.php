@@ -37,7 +37,11 @@ class ExportVocab {
     /**
      * @var bool
      */
-    private $includeDeprecated;
+    private $excludeDeprecated;
+    /**
+     * @var bool
+     */
+    private $excludeGenerated;
 
     /**
      * @param       $vocabId
@@ -46,7 +50,8 @@ class ExportVocab {
      * @param bool  $asTemplate
      * @param bool  $includeProlog
      * @param bool  $includeDeleted
-     * @param bool  $includeDeprecated
+     * @param bool  $excludeDeprecated
+     * @param bool  $excludeGenerated
      * @param array $languages
      *
      * @internal param bool $download
@@ -58,7 +63,8 @@ class ExportVocab {
           $asTemplate = false,
           $includeProlog = true,
           $includeDeleted = false,
-          $includeDeprecated = false,
+          $excludeDeprecated = false,
+          $excludeGenerated = false,
           $languages = array()
     )
     {
@@ -73,7 +79,8 @@ class ExportVocab {
         $this->setPath(SF_ROOT_DIR . DIRECTORY_SEPARATOR . 'web' . DIRECTORY_SEPARATOR . 'repos' . DIRECTORY_SEPARATOR
                        . 'agents' . DIRECTORY_SEPARATOR . $this->schema->getAgentId() . DIRECTORY_SEPARATOR);
         $this->includeDeleted = $includeDeleted;
-        $this->includeDeprecated = $includeDeprecated;
+        $this->excludeDeprecated = $excludeDeprecated;
+        $this->excludeGenerated = $excludeGenerated;
     }
 
     /**
@@ -177,7 +184,7 @@ class ExportVocab {
             $c->clearSelectColumns();
             $c->addSelectColumn(\SchemaPropertyPeer::ID);
             $c->add(\SchemaPropertyPeer::SCHEMA_ID,$this->schema->getId());
-            if (!$this->includeDeprecated)
+            if ($this->excludeDeprecated)
             {
                 $c->add(\SchemaPropertyPeer::STATUS_ID, 8, \Criteria::NOT_EQUAL);
             }
@@ -194,14 +201,17 @@ class ExportVocab {
                 $ce->add(\BaseSchemaPropertyElementPeer::SCHEMA_PROPERTY_ID, $property[0]);
                 if (!$this->includeDeleted) {
                     $ce->add(\BaseSchemaPropertyElementPeer::DELETED_AT, null);
+                }
+                if ($this->includeDeleted) {
                     $ce->addAscendingOrderByColumn( \SchemaPropertyElementPeer::UPDATED_AT );
                 }
-                $ce->addAscendingOrderByColumn( \SchemaPropertyElementPeer::UPDATED_AT );
                 $elements = \SchemaPropertyElementPeer::doSelectJoinProfileProperty($ce);
-
                 /** @var \SchemaPropertyElement $element */
                 foreach ( $elements as $element )
                 {
+                    if ($this->excludeGenerated and $element->getIsGenerated()) {
+                        continue;
+                    }
                     $profileProperty = $element->getProfileProperty();
                     $propertyId      = $element->getProfilePropertyId();
                     if ( in_array( $propertyId, [ 6, 9, ] ) and $element->getIsSchemaProperty() )
@@ -484,6 +494,13 @@ class ExportVocab {
     public function getPrefixRows()
     {
         $prefixes    = $this->getPrefixes();
+        //add the column header prefixes (hacky)
+        //todo get the column header prefixes from profile properties
+        $prefixes['owl'] = 'http://www.w3.org/2002/07/owl#';
+        $prefixes['rdfs'] = 'http://www.w3.org/2000/01/rdf-schema#';
+        $prefixes['reg'] = 'http://metadataregistry.org/uri/profile/RegAp/';
+        $prefixes['skos'] = 'http://www.w3.org/2004/02/skos/core#';
+
         $headerCount = $this->getHeaderCount();
         $rowCount    = count( $prefixes );
         $n           = array_fill( 0, $rowCount, array_fill( 0, $headerCount, '' ) );

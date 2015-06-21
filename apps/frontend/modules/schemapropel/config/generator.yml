@@ -51,9 +51,10 @@ generator:
         id:               { credentials: [administrator] }
         profile_property: { name: Profile Property }
         show_object:      { name: Value }
+        is_generated:     { name: Generated }
       display:
         "-Metadata":   { fields: [id, created_at, created_user, updated_at, updated_user] }
-        "Detail":     [profile_property, object, format_language, status]
+        "Detail":     [profile_property, object, format_language, status, is_generated]
 #        "-Other Properties": [_listproperties]
       actions:
         _list:        { query_string: {schema_property_id: schema_property_id} }

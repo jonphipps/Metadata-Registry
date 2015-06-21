@@ -1,7 +1,8 @@
 <!-- <?php echo $type; ?>: <?php
 /** @var SchemaProperty $property */
 $status = $property->getStatus();
-
+/** @var sfParameterHolder $sf_params */
+$excludeGenerated = (bool) $sf_params->get('excludeGenerated');
 if ($status->getId() == 8){
 echo "DEPRECATED";
 }else{
@@ -32,6 +33,11 @@ echo $property->getLabel();
   <reg:status rdf:resource="<?php echo $status->getUri(); ?>" />
 <?php /** @var SchemaPropertyElement $element */
     foreach ($elements as $element) {
+        if ($element->getIsGenerated()) {
+            if ($excludeGenerated) {
+                continue;
+            }
+        }
         /** @var ProfileProperty $property */
         $property = $element->getProfileProperty();
         $object = $element->getObject();
