@@ -91,5 +91,5 @@ generator:
       actions:
         _list:
         _edit:       { credentials: [[administrator, schemamaintainer, schemaadmin]] }
-        _publish:    { credentials: [[administrator, schemaadmin]] }
+        _publish:    { credentials: [[administrator]] }
 
