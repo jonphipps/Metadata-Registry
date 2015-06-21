@@ -17,16 +17,17 @@ generator:
         element:      { name: Statement }
         property_uri: { name: Property URI, helper: truncate_uri}
         ts:           { name: TimeSlice}
-      display:        [=created_at, property_uri, _property, _element, _action, user]
+      display:        [=created_at, property_uri, _property, _element, _action, user, _import]
       sort:           [created_at, desc]
       displayfilter:  false
-      filters:        [schema_id, schema_property_id, schema_property_element_id, updated_at, object, status, user]
+      filters:        [schema_id, schema_property_id, schema_property_element_id, updated_at, object, status, user, import_id]
       # urlfilter form is [field to filter on]: [value passed from routing.yml]
       # multiple filters can be set but they're currently mutually exclusive (any of the list can be used but only one per url)
       urlfilters:
         schema_id:                  schema_id
         schema_property_id:         schema_property_id
         schema_property_element_id: schema_property_element_id
+        import_id:                  import_id
       actions:       -
 
     show:
@@ -38,5 +39,5 @@ generator:
         property_label:   { name: PropertyLabel }
         property_uri:     { name: Property URI }
         profile_property: { name: Statement Name }
-      display:            [id, created_at, user, action, schema, property_label, property_uri, profile_property, object, _language, status]
+      display:            [id, created_at, user, _import, action, schema, property_label, property_uri, profile_property, object, _language, status]
       actions:       -

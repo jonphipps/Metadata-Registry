@@ -1,5 +1,5 @@
 <?php
-//debugbreak();
+
    $property = $schema_property_element_history->getSchemaPropertyRelatedBySchemaPropertyId();
    if ($property)
    {

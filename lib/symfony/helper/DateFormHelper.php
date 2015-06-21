@@ -37,9 +37,11 @@ use_helper('Form');
  *  echo select_day_tag('day', 14);
  * </code>
  *
- * @param  string field name
- * @param  integer selected value (1 - 31)
- * @param  array  additional HTML compliant <select> tag parameters
+   * @param string $name field name
+   * @param int    $value selected value (1 - 31)
+   * @param array  $options additional HTML compliant <select> tag parameters
+   * @param array  $html_options
+   *
  * @return string <select> tag populated with all the days of the month (1 - 31).
  * @see    select_date_tag, select datetime_tag
  */

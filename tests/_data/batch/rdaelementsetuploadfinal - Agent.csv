@@ -1,0 +1,37 @@
+meta,id,owl:sameAs,rdfs:label,skos:definition,skos:scopeNote,rdfs:domain,rdfs:range,ParentProperty,rdfs:subPropertyOf,owl:inverseOf,reg:name,reg:type
+uri,key,owl:sameAs,rdfs:label,skos:definition,skos:scopeNote,rdfs:domain,rdfs:range,rdfs:subPropertyOf,rdfs:subPropertyOf,owl:inverseOf,reg:name,reg:type
+lang,en,,en,en,en,,,,,,,
+type,uri,uri,,,,uri,uri,uri,uri,uri,,
+meta,token,rdaa,"A unique token representing this element set. This will be used as the prefix identifying this URI in RDF curies or as a qname in XML",,,,,,,,,
+meta,label,"RDA Agent properties","A human-readable descriptive label for the vocab. This will be displayed in lists of vocabs.",,,,,,,,,
+meta,status_id,1,"The registry code of the status (defaults to published)",,,,,,,,,
+meta,url,,"A non-Registry URL that contains more information about this element set",,,,,,,,,
+meta,note,,"A note about this element set",,,,,,,,,
+meta,tags,,"Comma separated list of tags",,,,,,,,,
+meta,base_domain,http://rdaregistry.info/Elements/a/,"the URI of this vocab",,,,,,,,,
+meta,type,schema,"""schema"" || ""vocab""",,,,,,,,,
+meta,agent_id,,"The registry ID of the owner/agent",,,,,,,,,
+meta,user_id,,"The registry ID of the vocab admin (must be affiliated with the owner/agent)",,,,,,,,,
+prefix,owl,http://www.w3.org/2002/07/owl#,OWL,,,,,,,,,
+prefix,rdfs,http://www.w3.org/2000/01/rdf-schema#,"RDF schema",,,,,,,,,
+prefix,skos,http://www.w3.org/2004/02/skos/core#,SKOS,,,,,,,,,
+prefix,mrc,http://id.loc.gov/vocabulary/relators/,"MARC relator codes",,,,,,,,,
+prefix,reg,http://metadataregistry.org/uri/profile/RegAp/,"OMR elements",,,,,,,,,
+prefix,rdaa,http://rdaregistry.info/Elements/a/,"RDA agent (person, family, corporate body) properties",,,,,,,,,
+prefix,rdac,http://rdaregistry.info/Elements/c/,"RDA classes",,,,,,,,,
+prefix,rdae,http://rdaregistry.info/Elements/e/,"RDA expression properties",,,,,,,,,
+prefix,rdai,http://rdaregistry.info/Elements/i/,"RDA item properties",,,,,,,,,
+prefix,rdam,http://rdaregistry.info/Elements/m/,"RDA manifestaion properties",,,,,,,,,
+prefix,rdau,http://rdaregistry.info/Elements/u/,"RDA unconstrained properties",,,,,,,,,
+prefix,rdaw,http://rdaregistry.info/Elements/w/,"RDA work properties",,,,,,,,,
+,rdaa:P50026,rdaa:employee,"has employee","Relates a corporate body to a person employed by the corporate body.",,rdac:C10005,rdac:C10004,rdau:P60629,,rdaa:P50096,employee,subproperty
+,rdaa:P50027,rdaa:incumbent,"has incumbent","Relates a corporate body to a person holding an office in the corporate body.",,rdac:C10005,rdac:C10004,rdau:P60633,,,incumbent,subproperty
+,rdaa:P50028,rdaa:sponsor,"has sponsor","Relates a corporate body to a person sponsoring the corporate body.",,rdac:C10005,rdac:C10004,rdau:P60676,,,sponsor,subproperty
+,rdaa:P50029,rdaa:founder,"has founder","Relates a corporate body to a person who founded the corporate body.",,rdac:C10005,rdac:C10004,rdau:P60694,,rdaa:P50112,founder,subproperty
+,rdaa:P50030,rdaa:groupMember,"has group member","Relates a corporate body to a person who is a member of the performing group, expedition, etc.",,rdac:C10005,rdac:C10004,rdau:P60697,,rdaa:P50095,groupMember,subproperty
+,rdaa:P50031,rdaa:placeAssociatedWithTheCorporateBody,"has place associated with the corporate body","Relates a corporate body to a significant location associated with a corporate body (e.g., location of a conference, etc., location of the headquarters of an organization).",,rdac:C10005,,rdau:P60325,,,placeAssociatedWithTheCorporateBody,subproperty
+,rdaa:P50032,rdaa:nameOfTheCorporateBody,"has name of the corporate body","Relates a corporate body to a word, character, or group of words and/or characters by which a corporate body is known.",,rdac:C10005,,rdau:P60368,,,nameOfTheCorporateBody,subproperty
+,rdaa:P50033,rdaa:otherDesignationAssociatedWithTheCorporateBody,"has other designation associated with the corporate body","Relates a corporate body to a word, phrase, or abbreviation indicating incorporation or legal status of a corporate body, or any term serving to differentiate the body from other corporate bodies, persons, etc.",,rdac:C10005,,rdau:P60370,,,otherDesignationAssociatedWithTheCorporateBody,subproperty
+,rdaa:P50034,rdaa:associatedInstitution,"has associated institution","Relates a corporate body to an institution commonly associated with a corporate body.",,rdac:C10005,,rdau:P60482,,,associatedInstitution,subproperty
+,rdaa:P50035,rdaa:corporateHistory,"has corporate history","Relates a corporate body to historical information about the corporate body.",,rdac:C10005,,rdau:P60484,,,corporateHistory,subproperty
+,rdaa:P50036,rdaa:addressOfTheCorporateBody,"has address of the corporate body","Relates a corporate body to the address of a corporate body’s headquarters or offices, or an e-mail or internet address for the body.",,rdac:C10005,,rdau:P60512,,,addressOfTheCorporateBody,subproperty

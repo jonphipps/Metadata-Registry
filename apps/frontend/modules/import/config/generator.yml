@@ -1,0 +1,63 @@
+generator:
+  class:              sfPropelAdminGenerator
+  param:
+    model_class:      FileImportHistory
+    theme:            default
+
+    list:
+      title:          Import History
+      fields:
+        created_at:   { params: date_format='F' }
+      display:        [created_at, user, schema, source_file_name, file_type]
+      sort:           [created_at, desc]
+      displayfilter:  false
+      filters:        [schema_id, created_at, user]
+      # urlfilter form is [field to filter on]: [value passed from routing.yml]
+      # multiple filters can be set but they're currently mutually exclusive (any of the list can be used but only one per url)
+      urlfilters:
+        schema_id:                  schema_id
+      object_actions:
+        _show:
+      actions:
+        _create:      { name: Import New CSV,  credentials: [[administrator, schemaadmin]], query_string: { schema_id: schema_id} }
+
+    edit:
+      title:
+        mode:
+          edit:       Editing %%filename%%
+          create:     Import a file for %%schema%%
+      helptype:       icon
+      fields:
+        id:           { credentials: [administrator], mode: edit }
+        filename:
+          name:       Select file to upload
+          type:       admin_input_file_tag
+          upload_dir: csv
+          params:     include_link=upload
+          credentials: [[administrator, schemaadmin]]
+
+      display:
+#        "-Metadata":  { fields: [id, created_at, created_user, updated_at, updated_user], mode: edit }
+        "Import Detail":     [id, filename]
+      hide:           [schema_id, user_id]
+
+      actions:
+        _list:         { query_string: { schema_id: schema_id} }
+        _save:         { name: Import CSV, credentials: [[administrator, schemaadmin]] }
+        _cancel:       { credentials: [[administrator, schemaadmin]], query_string: { schema_id: schema_id} }
+
+    show:
+      title:           Show Import detail for %%schema%%
+      fields:
+        id:            { credentials: [administrator] }
+#        map:           { helper: auto_link_uri }
+#        results:       { helper: auto_link_text }
+        created_at:    { params: date_format='F' }
+        _elapsed:      { name: Elapsed }
+      display:
+        "Import Detail":      [created_at, user, source_file_name]
+        "Results":            [totalProcessedCount, success_count, error_count, _elapsed]
+#        "Map":                [map]
+        "Import Log":         [_results]
+      actions:
+        _list:         { query_string: { schema_id: schema_id} }

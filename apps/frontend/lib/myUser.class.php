@@ -596,10 +596,11 @@ class myUser extends sfBasicSecurityUser
   * looks for the correct credential in the id array in the model array for the requested object
   *
   * @return boolean
-  * @param mixed   $object      The object to get credentials for
+   *
+   * @param int    $key         The ID of the object
   * @param string  $module      The module to use for security
-  * @param string  $action      The action to check for credential
   * @param mixed   $credentials An array of credentials
+   *
   */
   public function hasObjectCredential($key, $module, $credentials)
   {

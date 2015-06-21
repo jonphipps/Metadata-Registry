@@ -19,7 +19,7 @@ abstract class BaseSchemaPropertyElementPeer {
 	const CLASS_DEFAULT = 'lib.model.SchemaPropertyElement';
 
 	/** The total number of columns. */
-	const NUM_COLUMNS = 13;
+	const NUM_COLUMNS = 14;
 
 	/** The number of lazy-loaded columns. */
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -64,6 +64,9 @@ abstract class BaseSchemaPropertyElementPeer {
 	/** the column name for the STATUS_ID field */
 	const STATUS_ID = 'reg_schema_property_element.STATUS_ID';
 
+	/** the column name for the IS_GENERATED field */
+	const IS_GENERATED = 'reg_schema_property_element.IS_GENERATED';
+
 	/** The PHP to DB Name Mapping */
 	private static $phpNameMap = null;
 
@@ -75,10 +78,10 @@ abstract class BaseSchemaPropertyElementPeer {
 	 * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
 	 */
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'CreatedAt', 'UpdatedAt', 'DeletedAt', 'CreatedUserId', 'UpdatedUserId', 'SchemaPropertyId', 'ProfilePropertyId', 'IsSchemaProperty', 'Object', 'RelatedSchemaPropertyId', 'Language', 'StatusId', ),
-		BasePeer::TYPE_COLNAME => array (SchemaPropertyElementPeer::ID, SchemaPropertyElementPeer::CREATED_AT, SchemaPropertyElementPeer::UPDATED_AT, SchemaPropertyElementPeer::DELETED_AT, SchemaPropertyElementPeer::CREATED_USER_ID, SchemaPropertyElementPeer::UPDATED_USER_ID, SchemaPropertyElementPeer::SCHEMA_PROPERTY_ID, SchemaPropertyElementPeer::PROFILE_PROPERTY_ID, SchemaPropertyElementPeer::IS_SCHEMA_PROPERTY, SchemaPropertyElementPeer::OBJECT, SchemaPropertyElementPeer::RELATED_SCHEMA_PROPERTY_ID, SchemaPropertyElementPeer::LANGUAGE, SchemaPropertyElementPeer::STATUS_ID, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'created_at', 'updated_at', 'deleted_at', 'created_user_id', 'updated_user_id', 'schema_property_id', 'profile_property_id', 'is_schema_property', 'object', 'related_schema_property_id', 'language', 'status_id', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'CreatedAt', 'UpdatedAt', 'DeletedAt', 'CreatedUserId', 'UpdatedUserId', 'SchemaPropertyId', 'ProfilePropertyId', 'IsSchemaProperty', 'Object', 'RelatedSchemaPropertyId', 'Language', 'StatusId', 'IsGenerated', ),
+		BasePeer::TYPE_COLNAME => array (SchemaPropertyElementPeer::ID, SchemaPropertyElementPeer::CREATED_AT, SchemaPropertyElementPeer::UPDATED_AT, SchemaPropertyElementPeer::DELETED_AT, SchemaPropertyElementPeer::CREATED_USER_ID, SchemaPropertyElementPeer::UPDATED_USER_ID, SchemaPropertyElementPeer::SCHEMA_PROPERTY_ID, SchemaPropertyElementPeer::PROFILE_PROPERTY_ID, SchemaPropertyElementPeer::IS_SCHEMA_PROPERTY, SchemaPropertyElementPeer::OBJECT, SchemaPropertyElementPeer::RELATED_SCHEMA_PROPERTY_ID, SchemaPropertyElementPeer::LANGUAGE, SchemaPropertyElementPeer::STATUS_ID, SchemaPropertyElementPeer::IS_GENERATED, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'created_at', 'updated_at', 'deleted_at', 'created_user_id', 'updated_user_id', 'schema_property_id', 'profile_property_id', 'is_schema_property', 'object', 'related_schema_property_id', 'language', 'status_id', 'is_generated', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, )
 	);
 
 	/**
@@ -88,10 +91,10 @@ abstract class BaseSchemaPropertyElementPeer {
 	 * e.g. self::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
 	 */
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'CreatedAt' => 1, 'UpdatedAt' => 2, 'DeletedAt' => 3, 'CreatedUserId' => 4, 'UpdatedUserId' => 5, 'SchemaPropertyId' => 6, 'ProfilePropertyId' => 7, 'IsSchemaProperty' => 8, 'Object' => 9, 'RelatedSchemaPropertyId' => 10, 'Language' => 11, 'StatusId' => 12, ),
-		BasePeer::TYPE_COLNAME => array (SchemaPropertyElementPeer::ID => 0, SchemaPropertyElementPeer::CREATED_AT => 1, SchemaPropertyElementPeer::UPDATED_AT => 2, SchemaPropertyElementPeer::DELETED_AT => 3, SchemaPropertyElementPeer::CREATED_USER_ID => 4, SchemaPropertyElementPeer::UPDATED_USER_ID => 5, SchemaPropertyElementPeer::SCHEMA_PROPERTY_ID => 6, SchemaPropertyElementPeer::PROFILE_PROPERTY_ID => 7, SchemaPropertyElementPeer::IS_SCHEMA_PROPERTY => 8, SchemaPropertyElementPeer::OBJECT => 9, SchemaPropertyElementPeer::RELATED_SCHEMA_PROPERTY_ID => 10, SchemaPropertyElementPeer::LANGUAGE => 11, SchemaPropertyElementPeer::STATUS_ID => 12, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'created_at' => 1, 'updated_at' => 2, 'deleted_at' => 3, 'created_user_id' => 4, 'updated_user_id' => 5, 'schema_property_id' => 6, 'profile_property_id' => 7, 'is_schema_property' => 8, 'object' => 9, 'related_schema_property_id' => 10, 'language' => 11, 'status_id' => 12, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'CreatedAt' => 1, 'UpdatedAt' => 2, 'DeletedAt' => 3, 'CreatedUserId' => 4, 'UpdatedUserId' => 5, 'SchemaPropertyId' => 6, 'ProfilePropertyId' => 7, 'IsSchemaProperty' => 8, 'Object' => 9, 'RelatedSchemaPropertyId' => 10, 'Language' => 11, 'StatusId' => 12, 'IsGenerated' => 13, ),
+		BasePeer::TYPE_COLNAME => array (SchemaPropertyElementPeer::ID => 0, SchemaPropertyElementPeer::CREATED_AT => 1, SchemaPropertyElementPeer::UPDATED_AT => 2, SchemaPropertyElementPeer::DELETED_AT => 3, SchemaPropertyElementPeer::CREATED_USER_ID => 4, SchemaPropertyElementPeer::UPDATED_USER_ID => 5, SchemaPropertyElementPeer::SCHEMA_PROPERTY_ID => 6, SchemaPropertyElementPeer::PROFILE_PROPERTY_ID => 7, SchemaPropertyElementPeer::IS_SCHEMA_PROPERTY => 8, SchemaPropertyElementPeer::OBJECT => 9, SchemaPropertyElementPeer::RELATED_SCHEMA_PROPERTY_ID => 10, SchemaPropertyElementPeer::LANGUAGE => 11, SchemaPropertyElementPeer::STATUS_ID => 12, SchemaPropertyElementPeer::IS_GENERATED => 13, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'created_at' => 1, 'updated_at' => 2, 'deleted_at' => 3, 'created_user_id' => 4, 'updated_user_id' => 5, 'schema_property_id' => 6, 'profile_property_id' => 7, 'is_schema_property' => 8, 'object' => 9, 'related_schema_property_id' => 10, 'language' => 11, 'status_id' => 12, 'is_generated' => 13, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, )
 	);
 
 	/**
@@ -217,6 +220,8 @@ abstract class BaseSchemaPropertyElementPeer {
         $criteria->addSelectColumn(($tableAlias) ? SchemaPropertyElementPeer::alias($tableAlias, SchemaPropertyElementPeer::LANGUAGE) : SchemaPropertyElementPeer::LANGUAGE);
 
         $criteria->addSelectColumn(($tableAlias) ? SchemaPropertyElementPeer::alias($tableAlias, SchemaPropertyElementPeer::STATUS_ID) : SchemaPropertyElementPeer::STATUS_ID);
+
+        $criteria->addSelectColumn(($tableAlias) ? SchemaPropertyElementPeer::alias($tableAlias, SchemaPropertyElementPeer::IS_GENERATED) : SchemaPropertyElementPeer::IS_GENERATED);
 
 	}
 

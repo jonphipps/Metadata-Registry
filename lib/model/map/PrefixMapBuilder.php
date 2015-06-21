@@ -61,13 +61,11 @@ class PrefixMapBuilder {
 
 		$tMap->setUseIdGenerator(false);
 
-		$tMap->addPrimaryKey('ID', 'Id', 'int', CreoleTypes::INTEGER, true, null);
+		$tMap->addPrimaryKey('PREFIX', 'Prefix', 'string', CreoleTypes::VARCHAR, true, 40);
 
 		$tMap->addColumn('URI', 'Uri', 'string', CreoleTypes::VARCHAR, false, 256);
 
 		$tMap->addColumn('RANK', 'Rank', 'int', CreoleTypes::INTEGER, false, null);
-
-		$tMap->addColumn('PREFIX', 'Prefix', 'string', CreoleTypes::VARCHAR, false, 256);
 
 	} // doBuild()
 

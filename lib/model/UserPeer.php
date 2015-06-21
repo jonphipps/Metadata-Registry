@@ -186,10 +186,10 @@ class UserPeer extends BaseUserPeer
   * gets a list of users for the selected agent that have not been assigned to the current vocabulary
   *
   * @return array an array for select
-  * @param  var_type $var
   */
   public static function getNewUsersForVocabulary()
   {
+    $results = array();
     $vocabulary = myActionTools::findCurrentVocabulary();
     if ($vocabulary)
     {
@@ -204,9 +204,11 @@ class UserPeer extends BaseUserPeer
       $c = new Criteria();
       $c->add(VocabularyHasUserPeer::VOCABULARY_ID, $vocabulary->getId(), Criteria::EQUAL);
       $vocabUsers = VocabularyHasUserPeer::doSelect($c);
+      /** @var $vocabUser VocabularyHasUser */
       foreach ($vocabUsers as $vocabUser)
       {
         $curId = $vocabUser->getUserId();
+        /** @var $result User */
         foreach ($results as $key => $result)
         {
           if ($result->getId() == $curId)
@@ -231,6 +233,7 @@ class UserPeer extends BaseUserPeer
   public static function getNewUsersForSchema()
   {
     $schema = myActionTools::findCurrentSchema();
+    $results = array();
     if ($schema)
     {
       //get the users for the agent

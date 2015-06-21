@@ -67,10 +67,6 @@ class FileImportHistoryMapBuilder {
 
 		$tMap->addColumn('MAP', 'Map', 'string', CreoleTypes::LONGVARCHAR, false, null);
 
-		$tMap->addColumn('RESULTS', 'Results', 'string', CreoleTypes::LONGVARCHAR, false, null);
-
-		$tMap->addForeignKey('BATCH_ID', 'BatchId', 'int', CreoleTypes::INTEGER, 'reg_batch', 'ID', false, null);
-
 		$tMap->addForeignKey('USER_ID', 'UserId', 'int', CreoleTypes::INTEGER, 'reg_user', 'ID', false, null);
 
 		$tMap->addForeignKey('VOCABULARY_ID', 'VocabularyId', 'int', CreoleTypes::INTEGER, 'reg_vocabulary', 'ID', false, null);
@@ -79,7 +75,19 @@ class FileImportHistoryMapBuilder {
 
 		$tMap->addColumn('FILE_NAME', 'FileName', 'string', CreoleTypes::VARCHAR, false, 255);
 
-		$tMap->addColumn('FILE_TYPE', 'FileType', 'int', CreoleTypes::INTEGER, false, null);
+		$tMap->addColumn('SOURCE_FILE_NAME', 'SourceFileName', 'string', CreoleTypes::VARCHAR, false, 255);
+
+		$tMap->addColumn('FILE_TYPE', 'FileType', 'string', CreoleTypes::VARCHAR, false, 30);
+
+		$tMap->addForeignKey('BATCH_ID', 'BatchId', 'int', CreoleTypes::INTEGER, 'reg_batch', 'ID', false, null);
+
+		$tMap->addColumn('RESULTS', 'Results', 'string', CreoleTypes::LONGVARCHAR, false, null);
+
+		$tMap->addColumn('TOTAL_PROCESSED_COUNT', 'TotalProcessedCount', 'int', CreoleTypes::INTEGER, false, null);
+
+		$tMap->addColumn('ERROR_COUNT', 'ErrorCount', 'int', CreoleTypes::INTEGER, false, null);
+
+		$tMap->addColumn('SUCCESS_COUNT', 'SuccessCount', 'int', CreoleTypes::INTEGER, false, null);
 
 	} // doBuild()
 

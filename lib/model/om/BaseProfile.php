@@ -213,6 +213,18 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 	protected $lastSchemaCriteria = null;
 
 	/**
+	 * Collection to store aggregation of collVocabularys.
+	 * @var        array
+	 */
+	protected $collVocabularys;
+
+	/**
+	 * The criteria used to select the current contents of collVocabularys.
+	 * @var        Criteria
+	 */
+	protected $lastVocabularyCriteria = null;
+
+	/**
 	 * Flag to prevent endless save loop, if this object is referenced
 	 * by another object which falls in this transaction.
 	 * @var        boolean
@@ -1270,6 +1282,14 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 				}
 			}
 
+			if ($this->collVocabularys !== null) {
+				foreach($this->collVocabularys as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
+			}
+
 			$this->alreadyInSave = false;
 		}
 		return $affectedRows;
@@ -1392,6 +1412,14 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 
 				if ($this->collSchemas !== null) {
 					foreach($this->collSchemas as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
+
+				if ($this->collVocabularys !== null) {
+					foreach($this->collVocabularys as $referrerFK) {
 						if (!$referrerFK->validate($columns)) {
 							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
 						}
@@ -1799,6 +1827,10 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 
 			foreach($this->getSchemas() as $relObj) {
 				$copyObj->addSchema($relObj->copy($deepCopy));
+			}
+
+			foreach($this->getVocabularys() as $relObj) {
+				$copyObj->addVocabulary($relObj->copy($deepCopy));
 			}
 
 		} // if ($deepCopy)
@@ -2500,104 +2532,6 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 		return $this->collProfilePropertys;
 	}
 
-
-	/**
-	 * If this collection has already been initialized with
-	 * an identical criteria, it returns the collection.
-	 * Otherwise if this Profile is new, it will return
-	 * an empty collection; or if this Profile has previously
-	 * been saved, it will retrieve related ProfilePropertys from storage.
-	 *
-	 * This method is protected by default in order to keep the public
-	 * api reasonable.  You can provide public methods for those you
-	 * actually need in Profile.
-	 */
-	public function getProfilePropertysJoinSchemaProperty($criteria = null, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseProfilePropertyPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collProfilePropertys === null) {
-			if ($this->isNew()) {
-				$this->collProfilePropertys = array();
-			} else {
-
-				$criteria->add(ProfilePropertyPeer::PROFILE_ID, $this->getId());
-
-				$this->collProfilePropertys = ProfilePropertyPeer::doSelectJoinSchemaProperty($criteria, $con);
-			}
-		} else {
-			// the following code is to determine if a new query is
-			// called for.  If the criteria is the same as the last
-			// one, just return the collection.
-
-			$criteria->add(ProfilePropertyPeer::PROFILE_ID, $this->getId());
-
-			if (!isset($this->lastProfilePropertyCriteria) || !$this->lastProfilePropertyCriteria->equals($criteria)) {
-				$this->collProfilePropertys = ProfilePropertyPeer::doSelectJoinSchemaProperty($criteria, $con);
-			}
-		}
-		$this->lastProfilePropertyCriteria = $criteria;
-
-		return $this->collProfilePropertys;
-	}
-
-
-	/**
-	 * If this collection has already been initialized with
-	 * an identical criteria, it returns the collection.
-	 * Otherwise if this Profile is new, it will return
-	 * an empty collection; or if this Profile has previously
-	 * been saved, it will retrieve related ProfilePropertys from storage.
-	 *
-	 * This method is protected by default in order to keep the public
-	 * api reasonable.  You can provide public methods for those you
-	 * actually need in Profile.
-	 */
-	public function getProfilePropertysJoinSchema($criteria = null, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseProfilePropertyPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collProfilePropertys === null) {
-			if ($this->isNew()) {
-				$this->collProfilePropertys = array();
-			} else {
-
-				$criteria->add(ProfilePropertyPeer::PROFILE_ID, $this->getId());
-
-				$this->collProfilePropertys = ProfilePropertyPeer::doSelectJoinSchema($criteria, $con);
-			}
-		} else {
-			// the following code is to determine if a new query is
-			// called for.  If the criteria is the same as the last
-			// one, just return the collection.
-
-			$criteria->add(ProfilePropertyPeer::PROFILE_ID, $this->getId());
-
-			if (!isset($this->lastProfilePropertyCriteria) || !$this->lastProfilePropertyCriteria->equals($criteria)) {
-				$this->collProfilePropertys = ProfilePropertyPeer::doSelectJoinSchema($criteria, $con);
-			}
-		}
-		$this->lastProfilePropertyCriteria = $criteria;
-
-		return $this->collProfilePropertys;
-	}
-
 	/**
 	 * Temporary storage of collSchemas to save a possible db hit in
 	 * the event objects are add to the collection, but the
@@ -2899,6 +2833,358 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 		$this->lastSchemaCriteria = $criteria;
 
 		return $this->collSchemas;
+	}
+
+	/**
+	 * Temporary storage of collVocabularys to save a possible db hit in
+	 * the event objects are add to the collection, but the
+	 * complete collection is never requested.
+	 * @return     void
+	 */
+	public function initVocabularys()
+	{
+		if ($this->collVocabularys === null) {
+			$this->collVocabularys = array();
+		}
+	}
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Profile has previously
+	 * been saved, it will retrieve related Vocabularys from storage.
+	 * If this Profile is new, it will return
+	 * an empty collection or the current collection, the criteria
+	 * is ignored on a new object.
+	 *
+	 * @param      Connection $con
+	 * @param      Criteria $criteria
+	 * @throws     PropelException
+	 */
+	public function getVocabularys($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseVocabularyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collVocabularys === null) {
+			if ($this->isNew()) {
+			   $this->collVocabularys = array();
+			} else {
+
+				$criteria->add(VocabularyPeer::PROFILE_ID, $this->getId());
+
+				VocabularyPeer::addSelectColumns($criteria);
+				$this->collVocabularys = VocabularyPeer::doSelect($criteria, $con);
+			}
+		} else {
+			// criteria has no effect for a new object
+			if (!$this->isNew()) {
+				// the following code is to determine if a new query is
+				// called for.  If the criteria is the same as the last
+				// one, just return the collection.
+
+
+				$criteria->add(VocabularyPeer::PROFILE_ID, $this->getId());
+
+				VocabularyPeer::addSelectColumns($criteria);
+				if (!isset($this->lastVocabularyCriteria) || !$this->lastVocabularyCriteria->equals($criteria)) {
+					$this->collVocabularys = VocabularyPeer::doSelect($criteria, $con);
+				}
+			}
+		}
+		$this->lastVocabularyCriteria = $criteria;
+		return $this->collVocabularys;
+	}
+
+	/**
+	 * Returns the number of related Vocabularys.
+	 *
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct
+	 * @param      Connection $con
+	 * @throws     PropelException
+	 */
+	public function countVocabularys($criteria = null, $distinct = false, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseVocabularyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		$criteria->add(VocabularyPeer::PROFILE_ID, $this->getId());
+
+		return VocabularyPeer::doCount($criteria, $distinct, $con);
+	}
+
+	/**
+	 * Method called to associate a Vocabulary object to this object
+	 * through the Vocabulary foreign key attribute
+	 *
+	 * @param      Vocabulary $l Vocabulary
+	 * @return     void
+	 * @throws     PropelException
+	 */
+	public function addVocabulary(Vocabulary $l)
+	{
+		$this->collVocabularys[] = $l;
+		$l->setProfile($this);
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Profile is new, it will return
+	 * an empty collection; or if this Profile has previously
+	 * been saved, it will retrieve related Vocabularys from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Profile.
+	 */
+	public function getVocabularysJoinAgent($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseVocabularyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collVocabularys === null) {
+			if ($this->isNew()) {
+				$this->collVocabularys = array();
+			} else {
+
+				$criteria->add(VocabularyPeer::PROFILE_ID, $this->getId());
+
+				$this->collVocabularys = VocabularyPeer::doSelectJoinAgent($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(VocabularyPeer::PROFILE_ID, $this->getId());
+
+			if (!isset($this->lastVocabularyCriteria) || !$this->lastVocabularyCriteria->equals($criteria)) {
+				$this->collVocabularys = VocabularyPeer::doSelectJoinAgent($criteria, $con);
+			}
+		}
+		$this->lastVocabularyCriteria = $criteria;
+
+		return $this->collVocabularys;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Profile is new, it will return
+	 * an empty collection; or if this Profile has previously
+	 * been saved, it will retrieve related Vocabularys from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Profile.
+	 */
+	public function getVocabularysJoinUserRelatedByCreatedUserId($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseVocabularyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collVocabularys === null) {
+			if ($this->isNew()) {
+				$this->collVocabularys = array();
+			} else {
+
+				$criteria->add(VocabularyPeer::PROFILE_ID, $this->getId());
+
+				$this->collVocabularys = VocabularyPeer::doSelectJoinUserRelatedByCreatedUserId($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(VocabularyPeer::PROFILE_ID, $this->getId());
+
+			if (!isset($this->lastVocabularyCriteria) || !$this->lastVocabularyCriteria->equals($criteria)) {
+				$this->collVocabularys = VocabularyPeer::doSelectJoinUserRelatedByCreatedUserId($criteria, $con);
+			}
+		}
+		$this->lastVocabularyCriteria = $criteria;
+
+		return $this->collVocabularys;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Profile is new, it will return
+	 * an empty collection; or if this Profile has previously
+	 * been saved, it will retrieve related Vocabularys from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Profile.
+	 */
+	public function getVocabularysJoinUserRelatedByUpdatedUserId($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseVocabularyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collVocabularys === null) {
+			if ($this->isNew()) {
+				$this->collVocabularys = array();
+			} else {
+
+				$criteria->add(VocabularyPeer::PROFILE_ID, $this->getId());
+
+				$this->collVocabularys = VocabularyPeer::doSelectJoinUserRelatedByUpdatedUserId($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(VocabularyPeer::PROFILE_ID, $this->getId());
+
+			if (!isset($this->lastVocabularyCriteria) || !$this->lastVocabularyCriteria->equals($criteria)) {
+				$this->collVocabularys = VocabularyPeer::doSelectJoinUserRelatedByUpdatedUserId($criteria, $con);
+			}
+		}
+		$this->lastVocabularyCriteria = $criteria;
+
+		return $this->collVocabularys;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Profile is new, it will return
+	 * an empty collection; or if this Profile has previously
+	 * been saved, it will retrieve related Vocabularys from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Profile.
+	 */
+	public function getVocabularysJoinUserRelatedByChildUpdatedUserId($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseVocabularyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collVocabularys === null) {
+			if ($this->isNew()) {
+				$this->collVocabularys = array();
+			} else {
+
+				$criteria->add(VocabularyPeer::PROFILE_ID, $this->getId());
+
+				$this->collVocabularys = VocabularyPeer::doSelectJoinUserRelatedByChildUpdatedUserId($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(VocabularyPeer::PROFILE_ID, $this->getId());
+
+			if (!isset($this->lastVocabularyCriteria) || !$this->lastVocabularyCriteria->equals($criteria)) {
+				$this->collVocabularys = VocabularyPeer::doSelectJoinUserRelatedByChildUpdatedUserId($criteria, $con);
+			}
+		}
+		$this->lastVocabularyCriteria = $criteria;
+
+		return $this->collVocabularys;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Profile is new, it will return
+	 * an empty collection; or if this Profile has previously
+	 * been saved, it will retrieve related Vocabularys from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Profile.
+	 */
+	public function getVocabularysJoinStatus($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseVocabularyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collVocabularys === null) {
+			if ($this->isNew()) {
+				$this->collVocabularys = array();
+			} else {
+
+				$criteria->add(VocabularyPeer::PROFILE_ID, $this->getId());
+
+				$this->collVocabularys = VocabularyPeer::doSelectJoinStatus($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(VocabularyPeer::PROFILE_ID, $this->getId());
+
+			if (!isset($this->lastVocabularyCriteria) || !$this->lastVocabularyCriteria->equals($criteria)) {
+				$this->collVocabularys = VocabularyPeer::doSelectJoinStatus($criteria, $con);
+			}
+		}
+		$this->lastVocabularyCriteria = $criteria;
+
+		return $this->collVocabularys;
 	}
 
 

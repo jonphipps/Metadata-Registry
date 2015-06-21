@@ -29,20 +29,36 @@ class schemapropelActions extends autoschemapropelActions
    * @param SchemaPropertyElement $schema_property_element
    *
    */
-  public function setDefaults ($schema_property_element)
+  public function setDefaults($schema_property_element)
   {
-    $schemaPropertyId = $this->schema_property->getId();
-    $schemaPropertyStatus = $this->schema_property->getStatusID();
-    $schemaPropertyLanguage = $this->schema_property->getLanguage();
-    $user = $this->getUser()->getSubscriberId();
+    $schemaObj = $this->schema_property->getSchema();
+    $language  = sfContext::getInstance()->getUser()->getCulture();
+    $userId    = sfContext::getInstance()->getUser()->getSubscriberId();
 
-    $schema_property_element->setSchemaPropertyId($schemaPropertyId);
-    $schema_property_element->setStatusId($schemaPropertyStatus);
-    $schema_property_element->setLanguage($schemaPropertyLanguage);
-    $schema_property_element->setCreatedUserId($user);
-    $schema_property_element->setUpdatedUserId($user);
+      if ("edit" == $this->getActionName() && $userId) {
+        $schemaUser    = $schemaObj->GetUserForSchema($userId);
+        $UserLanguages = $schemaUser->getLanguages();
+        $this->getUser()->setAttribute("languages", $UserLanguages);
+
+        if (! in_array($language, $UserLanguages)) {
+          $language = $schemaUser->getDefaultLanguage();
+          //save the current culture
+          $UserCulture = sfContext::getInstance()->getUser()->getCulture();
+          $this->getUser()->setAttribute("UserCulture", $UserCulture);
+        }
+
+        $this->getUser()->setAttribute("CurrentLanguage", $language);
+      }
+      $schemaPropertyStatus = $this->schema_property->getStatusID();
+      $schema_property_element->setStatusId($schemaPropertyStatus);
 
     parent::setDefaults($schema_property_element);
+
+    $schemaPropertyId     = $this->schema_property->getId();
+    $schema_property_element->setSchemaPropertyId($schemaPropertyId);
+
+    $schema_property_element->setCreatedUserId($userId);
+    $schema_property_element->setUpdatedUserId($userId);
   }
 
   public function executeList ()
@@ -59,6 +75,7 @@ class schemapropelActions extends autoschemapropelActions
       $properties = $profile->getRequiredProperties();
       $required = array();
 
+      /** @var ProfileProperty $value */
       foreach ($properties as $value)
       {
         $required[] = $value->getId();

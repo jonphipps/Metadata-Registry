@@ -12,8 +12,7 @@ class SchemaHasUserPeer extends BaseSchemaHasUserPeer
    /**
   * description
   *
-  * @return return_type
-  * @param  var_type $var
+     * @return SchemaHasUser[]
   */
   public static function doSelectForCurrentUser()
   {
@@ -26,8 +25,10 @@ class SchemaHasUserPeer extends BaseSchemaHasUserPeer
    /**
   * description
   *
-  * @return return_type
-  * @param  var_type $var
+     * @param integer $userId
+     *
+     * @throws PropelException
+     * @return SchemaHasUser[]
   */
   public static function doSelectForUser($userId)
   {
@@ -42,8 +43,7 @@ class SchemaHasUserPeer extends BaseSchemaHasUserPeer
   /**
   * description
   *
-  * @return return_type
-  * @param  var_type $var
+     * @return integer
   */
   public static function doCountForCurrentUser()
   {
@@ -55,7 +55,7 @@ class SchemaHasUserPeer extends BaseSchemaHasUserPeer
   /**
   * gets the criteria for select based on whether the user is an admin
   *
-  * @return criteria object
+     * @return Criteria
   */
   public static function getCurrentUserCriteria()
   {
@@ -70,4 +70,20 @@ class SchemaHasUserPeer extends BaseSchemaHasUserPeer
       }
     return $criteria;
   }
+    /**
+     * @param integer $userId
+     *
+     * @return Schema[]
+     */
+    public static function getSchemasForUser($userId) {
+      $c = new Criteria();
+      $c->add(self::USER_ID, $userId);
+      $schemaUserArray = self::doSelectJoinSchema($c);
+      $schemas         = array();
+      /** @var $schemaUser SchemaHasUser */
+      foreach ($schemaUserArray as $schemaUser) {
+        $schemas[] = $schemaUser->getSchema();
 }
+      return $schemas;
+    }
+  }

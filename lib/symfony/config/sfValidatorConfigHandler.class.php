@@ -232,12 +232,13 @@ class sfValidatorConfigHandler extends sfYamlConfigHandler
   /**
    * Loads the linear list of attributes from the [names] category.
    *
-   * @param string The configuration file name (for exception usage)
-   * @param array  An associative array of request method data
-   * @param array  An associative array of file/parameter names in which to store loaded information
-   * @param array  An associative array of validator data
-   * @param array  The loaded ini configuration that we'll use for verification purposes
-   * @param string A comma delimited list of file/parameter names
+   * @param string $configFiles The configuration file name (for exception usage)
+   * @param array  $methods     An associative array of request method data
+   * @param array  $names       An associative array of file/parameter names in which to store loaded information
+   * @param array  $validators  An associative array of validator data
+   * @param array  $config      The loaded ini configuration that we'll use for verification purposes
+   * @param string $list        A comma delimited list of file/parameter names
+   * @throws sfParseException
    */
   protected function loadAttributes(&$configFiles, &$methods, &$names, &$validators, &$config, &$list)
   {

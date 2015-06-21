@@ -558,13 +558,13 @@ class sfWebRequest extends sfRequest
   /**
    * Moves an uploaded file.
    *
-   * @param string A file name
-   * @param string An absolute filesystem path to where you would like the
-   *               file moved. This includes the new filename as well, since
-   *               uploaded files are stored with random names
-   * @param int    The octal mode to use for the new file
-   * @param boolean   Indicates that we should make the directory before moving the file
-   * @param int    The octal mode to use when creating the directory
+   * @param string  $name     A file name
+   * @param string  $file     An absolute filesystem path to where you would like the
+   *                          file moved. This includes the new filename as well, since
+   *                          uploaded files are stored with random names
+   * @param int     $fileMode [optional = 0666] The octal mode to use for the new file
+   * @param boolean $create   [optional = true] Indicates that we should make the directory before moving the file
+   * @param int     $dirMode  [optional = 0777] The octal mode to use when creating the directory
    *
    * @return boolean true, if the file was moved, otherwise false
    *

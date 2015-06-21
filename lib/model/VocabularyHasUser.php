@@ -29,4 +29,53 @@ class VocabularyHasUser extends BaseVocabularyHasUser
 
     return $saved;
   }
-} // VocabularyHasUser
+
+  public function getLanguagesForVocabulary()
+  {
+    return $this->getVocabulary()->getLanguages();
+  }
+  /**
+   * Get the [languages] column value.
+   *
+   * @return     string
+   */
+  public function getLanguages()
+  {
+    return (! is_null($this->languages)) ? unserialize($this->languages) : $this->languages;
+  }
+  /**
+   * Set the value of [languages] column.
+   *
+   * @param      string $v new value
+   *
+   * @return     void
+   */
+  public function setLanguages($v)
+  {
+    // Since the native PHP type for this column is string,
+    // we will serialize the input to a string (if it is not).
+    if ($v !== null) {
+      $v = serialize($v);
+    }
+    parent::setLanguages($v);
+  } // setLanguages()
+  /**
+   * Does this vocab have multiple admins?
+   *
+   * @return bool
+   */
+  public function HasMultipleAdmins() {
+    return (bool) ($this->GetAdminCount() > 1);
+  }
+  /**
+   * Get the count of admins
+   *
+   * @return int
+   */
+  public function GetAdminCount() {
+    $c = new Criteria();
+    $c->add(VocabularyHasUserPeer::IS_ADMIN_FOR, TRUE);
+    $c->add(VocabularyHasUserPeer::VOCABULARY_ID, $this->getVocabularyId());
+    return VocabularyHasUserPeer::doCount($c);
+  }
+}

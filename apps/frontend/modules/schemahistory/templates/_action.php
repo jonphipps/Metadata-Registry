@@ -1,5 +1,5 @@
 <?php
-  //debugbreak();
+
   //FIXME this is almost the same code that is used in concept history, so this should be refactored
   //<a class="load-local" href="#update_$id" rel="#update_$id">updated...</a>
 

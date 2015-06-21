@@ -3,7 +3,8 @@
   'name'      => 'sf_admin_edit_form',
   'multipart' => true,
 <?php foreach ($this->getColumnCategories('edit.display') as $category): ?>
-<?php foreach ($this->getColumns('edit.display', $category) as $name => $column): ?>
+<?php /** @var sfAdminColumn $column */
+  foreach ($this->getColumns('edit.display', $category) as $name => $column): ?>
 <?php if (false !== strpos($this->getParameterValue('edit.fields.'.$column->getName().'.type'), 'admin_double_list')): ?>
   'onsubmit'  => 'double_list_submit(); return true;'
 <?php break 2; ?>
@@ -28,7 +29,8 @@
 <?php endforeach; ?>
 <?php endif; ?>
 
-<?php foreach ($this->getPrimaryKey() as $pk): ?>
+<?php /** @var sfAdminColumn $pk */
+foreach ($this->getPrimaryKey() as $pk): ?>
 [?php echo object_input_hidden_tag($<?php echo $this->getSingularName() ?>, 'get<?php echo $pk->getPhpName() ?>') ?]
 <?php endforeach; ?>
 
@@ -54,7 +56,7 @@
 ?>
 <?php $catCredentials = $this->getParameterValue('edit.display.'.$category.'.credentials') ?>
 <?php if ($catCredentials): $catCredentials = str_replace("\n", ' ', var_export($catCredentials, true)) ?>
-[?php if ($sf_user->hasCredential(<?php echo $catCredentials ?>)): ?]
+[?php /** @var MyUser $sf_user */ if ($sf_user->hasCredential(<?php echo $catCredentials ?>)): ?]
 <?php endif; ?>
 <?php $catMode = $this->getParameterValue('edit.display.'.$category.'.mode') ?>
 <?php if ($catMode): ?>

@@ -414,7 +414,7 @@ $column = sfPropelManyToMany::getColumn($class, $through_class);
 
   protected function addJavascriptsForEdit()
   {
-    $this->getResponse()->addJavascript(sfConfig::get('sf_prototype_web_dir').'/js/prototype');
+    $this->getResponse()->addJavascript(sfConfig::get('sf_prototype_web_dir').'/prototype.min.js');
     $this->getResponse()->addJavascript(sfConfig::get('sf_admin_web_dir').'/js/collapse');
     $this->getResponse()->addJavascript(sfConfig::get('sf_admin_web_dir').'/js/double_list');
   }

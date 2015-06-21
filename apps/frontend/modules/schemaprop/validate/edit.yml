@@ -2,10 +2,6 @@ fillin:
   enabled:      true
 
 fields:
-  schema_property{type}:
-    required:
-      msg: You must select a type
-    requireParentUriValidator:
 
   schema_property{name}:
     required:

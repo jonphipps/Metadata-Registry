@@ -1,0 +1,36 @@
+{
+  "name": "prototypejs",
+  "version": "1.7.1",
+  "main": [
+    "dist/prototype.js",
+    "dist/prototype.min.js"
+  ],
+  "ignore": [
+    "doc_assets",
+    "ext",
+    "node_modules",
+    "old_tests",
+    "src",
+    "test",
+    "vendor",
+    "**/.gitignore",
+    ".gitmodules",
+    ".travis.yml",
+    "CHANGELOG",
+    "Gruntfile.js",
+    "package.json",
+    "Rakefile",
+    "README.markdown"
+  ],
+  "homepage": "https://github.com/jwestbrook/prototype",
+  "_release": "1.7.1",
+  "_resolution": {
+    "type": "version",
+    "tag": "v1.7.1",
+    "commit": "3c45151f88c7a47ac4694764b9dee762ddf4b5cf"
+  },
+  "_source": "git://github.com/jwestbrook/prototype.git",
+  "_target": "~1.7.1",
+  "_originalSource": "prototypejs",
+  "_direct": true
+}

@@ -20,10 +20,10 @@ abstract class BasePrefix extends BaseObject  implements Persistent {
 
 
 	/**
-	 * The value for the id field.
-	 * @var        int
+	 * The value for the prefix field.
+	 * @var        string
 	 */
-	protected $id = 0;
+	protected $prefix;
 
 
 	/**
@@ -38,13 +38,6 @@ abstract class BasePrefix extends BaseObject  implements Persistent {
 	 * @var        int
 	 */
 	protected $rank = 0;
-
-
-	/**
-	 * The value for the prefix field.
-	 * @var        string
-	 */
-	protected $prefix;
 
 	/**
 	 * Flag to prevent endless save loop, if this object is referenced
@@ -61,14 +54,14 @@ abstract class BasePrefix extends BaseObject  implements Persistent {
 	protected $alreadyInValidation = false;
 
 	/**
-	 * Get the [id] column value.
+	 * Get the [prefix] column value.
 	 * 
-	 * @return     int
+	 * @return     string
 	 */
-	public function getId()
+	public function getPrefix()
 	{
 
-		return $this->id;
+		return $this->prefix;
 	}
 
 	/**
@@ -94,37 +87,26 @@ abstract class BasePrefix extends BaseObject  implements Persistent {
 	}
 
 	/**
-	 * Get the [prefix] column value.
+	 * Set the value of [prefix] column.
 	 * 
-	 * @return     string
-	 */
-	public function getPrefix()
-	{
-
-		return $this->prefix;
-	}
-
-	/**
-	 * Set the value of [id] column.
-	 * 
-	 * @param      int $v new value
+	 * @param      string $v new value
 	 * @return     void
 	 */
-	public function setId($v)
+	public function setPrefix($v)
 	{
 
-		// Since the native PHP type for this column is integer,
-		// we will cast the input value to an int (if it is not).
-		if ($v !== null && !is_int($v) && is_numeric($v)) {
-			$v = (int) $v;
+		// Since the native PHP type for this column is string,
+		// we will cast the input to a string (if it is not).
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
 		}
 
-		if ($this->id !== $v || $v === 0) {
-			$this->id = $v;
-			$this->modifiedColumns[] = PrefixPeer::ID;
+		if ($this->prefix !== $v) {
+			$this->prefix = $v;
+			$this->modifiedColumns[] = PrefixPeer::PREFIX;
 		}
 
-	} // setId()
+	} // setPrefix()
 
 	/**
 	 * Set the value of [uri] column.
@@ -171,28 +153,6 @@ abstract class BasePrefix extends BaseObject  implements Persistent {
 	} // setRank()
 
 	/**
-	 * Set the value of [prefix] column.
-	 * 
-	 * @param      string $v new value
-	 * @return     void
-	 */
-	public function setPrefix($v)
-	{
-
-		// Since the native PHP type for this column is string,
-		// we will cast the input to a string (if it is not).
-		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
-		}
-
-		if ($this->prefix !== $v) {
-			$this->prefix = $v;
-			$this->modifiedColumns[] = PrefixPeer::PREFIX;
-		}
-
-	} // setPrefix()
-
-	/**
 	 * Hydrates (populates) the object variables with values from the database resultset.
 	 *
 	 * An offset (1-based "start column") is specified so that objects can be hydrated
@@ -209,20 +169,18 @@ abstract class BasePrefix extends BaseObject  implements Persistent {
 	{
 		try {
 
-			$this->id = $rs->getInt($startcol + 0);
+			$this->prefix = $rs->getString($startcol + 0);
 
 			$this->uri = $rs->getString($startcol + 1);
 
 			$this->rank = $rs->getInt($startcol + 2);
-
-			$this->prefix = $rs->getString($startcol + 3);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 4; // 4 = PrefixPeer::NUM_COLUMNS - PrefixPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 3; // 3 = PrefixPeer::NUM_COLUMNS - PrefixPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Prefix object", $e);
@@ -459,16 +417,13 @@ abstract class BasePrefix extends BaseObject  implements Persistent {
 	{
 		switch($pos) {
 			case 0:
-				return $this->getId();
+				return $this->getPrefix();
 				break;
 			case 1:
 				return $this->getUri();
 				break;
 			case 2:
 				return $this->getRank();
-				break;
-			case 3:
-				return $this->getPrefix();
 				break;
 			default:
 				return null;
@@ -490,10 +445,9 @@ abstract class BasePrefix extends BaseObject  implements Persistent {
 	{
 		$keys = PrefixPeer::getFieldNames($keyType);
 		$result = array(
-			$keys[0] => $this->getId(),
+			$keys[0] => $this->getPrefix(),
 			$keys[1] => $this->getUri(),
 			$keys[2] => $this->getRank(),
-			$keys[3] => $this->getPrefix(),
 		);
 		return $result;
 	}
@@ -526,16 +480,13 @@ abstract class BasePrefix extends BaseObject  implements Persistent {
 	{
 		switch($pos) {
 			case 0:
-				$this->setId($value);
+				$this->setPrefix($value);
 				break;
 			case 1:
 				$this->setUri($value);
 				break;
 			case 2:
 				$this->setRank($value);
-				break;
-			case 3:
-				$this->setPrefix($value);
 				break;
 		} // switch()
 	}
@@ -560,10 +511,9 @@ abstract class BasePrefix extends BaseObject  implements Persistent {
 	{
 		$keys = PrefixPeer::getFieldNames($keyType);
 
-		if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
+		if (array_key_exists($keys[0], $arr)) $this->setPrefix($arr[$keys[0]]);
 		if (array_key_exists($keys[1], $arr)) $this->setUri($arr[$keys[1]]);
 		if (array_key_exists($keys[2], $arr)) $this->setRank($arr[$keys[2]]);
-		if (array_key_exists($keys[3], $arr)) $this->setPrefix($arr[$keys[3]]);
 	}
 
 	/**
@@ -575,10 +525,9 @@ abstract class BasePrefix extends BaseObject  implements Persistent {
 	{
 		$criteria = new Criteria(PrefixPeer::DATABASE_NAME);
 
-		if ($this->isColumnModified(PrefixPeer::ID)) $criteria->add(PrefixPeer::ID, $this->id);
+		if ($this->isColumnModified(PrefixPeer::PREFIX)) $criteria->add(PrefixPeer::PREFIX, $this->prefix);
 		if ($this->isColumnModified(PrefixPeer::URI)) $criteria->add(PrefixPeer::URI, $this->uri);
 		if ($this->isColumnModified(PrefixPeer::RANK)) $criteria->add(PrefixPeer::RANK, $this->rank);
-		if ($this->isColumnModified(PrefixPeer::PREFIX)) $criteria->add(PrefixPeer::PREFIX, $this->prefix);
 
 		return $criteria;
 	}
@@ -595,29 +544,29 @@ abstract class BasePrefix extends BaseObject  implements Persistent {
 	{
 		$criteria = new Criteria(PrefixPeer::DATABASE_NAME);
 
-		$criteria->add(PrefixPeer::ID, $this->id);
+		$criteria->add(PrefixPeer::PREFIX, $this->prefix);
 
 		return $criteria;
 	}
 
 	/**
 	 * Returns the primary key for this object (row).
-	 * @return     int
+	 * @return     string
 	 */
 	public function getPrimaryKey()
 	{
-		return $this->getId();
+		return $this->getPrefix();
 	}
 
 	/**
-	 * Generic method to set the primary key (id column).
+	 * Generic method to set the primary key (prefix column).
 	 *
-	 * @param      int $key Primary key.
+	 * @param      string $key Primary key.
 	 * @return     void
 	 */
 	public function setPrimaryKey($key)
 	{
-		$this->setId($key);
+		$this->setPrefix($key);
 	}
 
 	/**
@@ -637,12 +586,10 @@ abstract class BasePrefix extends BaseObject  implements Persistent {
 
 		$copyObj->setRank($this->rank);
 
-		$copyObj->setPrefix($this->prefix);
-
 
 		$copyObj->setNew(true);
 
-		$copyObj->setId('0'); // this is a pkey column, so set to default value
+		$copyObj->setPrefix(NULL); // this is a pkey column, so set to default value
 
 	}
 

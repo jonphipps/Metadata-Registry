@@ -124,6 +124,19 @@ body,
   background: #73B65A url(/jpAdminPlugin/images/ok.png) no-repeat 5px 2px;
 }
 
+#sf_admin_container .save-error
+{
+  margin-bottom: 10px;
+  border: 1px solid maroon;
+}
+#sf_admin_container .save-error h2
+{
+  margin: 0 !important;
+  padding: 5px 20px 5px 25px;
+  font-size: 11px;
+  color: maroon;
+  background: #F2DEDE url(jpAdminPlugin/images/bug_icon_24.png) no-repeat 5px 2px;
+}
 #sf_admin_container .form-row,
 #sf_admin_container .show-row
 {
@@ -288,6 +301,12 @@ body,
   cursor: pointer;
 }
 
+#sf_admin_container .sf_admin_action_publish
+{
+  background: url(/jpAdminPlugin/images/publish.png) no-repeat 3px 2px;
+  border-right: 4px solid #73B65A !important;
+  padding-left:20px !important;
+}
 #sf_admin_container .sf_admin_action_edit
 {
   background: url(/jpAdminPlugin/images/edit.png) no-repeat 3px 2px;
@@ -383,6 +402,11 @@ body,
   padding: 3px;
   border-bottom: 1px solid #ddd;
   border-right: 1px solid #ddd;
+}
+
+#sf_admin_container .sf_admin_list td.date {
+  white-space: nowrap;
+  text-align: left;
 }
 
 #sf_admin_container .sf_admin_filters li

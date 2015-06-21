@@ -7,6 +7,18 @@ function swapOptions()
     showSelect[10] = true;
     showSelect[11] = true;
     showSelect[12] = true;
+    showSelect[13] = true;
+    showSelect[14] = true;
+    showSelect[15] = true;
+    showSelect[16] = true;
+    showSelect[17] = true;
+    showSelect[18] = true;
+    showSelect[19] = true;
+    showSelect[20] = true;
+    showSelect[23] = true;
+    showSelect[24] = true;
+    showSelect[25] = true;
+    showSelect[26] = true;
 
   if($F('id'))
   {
@@ -40,7 +52,7 @@ function swapOptions()
       $('label_for_schema_property_element_object').update('URI');
       Element.hide('form_row_schema_property_element_language');
 
-      if(6 == selectedId || 8 == selectedId)
+      if(6 == selectedId || 8 == selectedId || 17 == selectedId || 19 == selectedId)
       {
         Element.hide('form_row_schema_property_element_related_schema_class_id');
         Element.show('form_row_schema_property_element_related_schema_property_id');

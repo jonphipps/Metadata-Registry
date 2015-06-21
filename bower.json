@@ -1,0 +1,17 @@
+{
+  "name": "omr",
+  "version": "0.0.0",
+  "homepage": "http://metadataregistry.org",
+  "authors": [
+    "Jon Phipps <jphipps@madcreek.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "js/components",
+    "test",
+    "tests"
+  ]
+}

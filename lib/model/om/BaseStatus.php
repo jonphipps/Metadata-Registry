@@ -1750,104 +1750,6 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 		return $this->collProfilePropertys;
 	}
 
-
-	/**
-	 * If this collection has already been initialized with
-	 * an identical criteria, it returns the collection.
-	 * Otherwise if this Status is new, it will return
-	 * an empty collection; or if this Status has previously
-	 * been saved, it will retrieve related ProfilePropertys from storage.
-	 *
-	 * This method is protected by default in order to keep the public
-	 * api reasonable.  You can provide public methods for those you
-	 * actually need in Status.
-	 */
-	public function getProfilePropertysJoinSchemaProperty($criteria = null, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseProfilePropertyPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collProfilePropertys === null) {
-			if ($this->isNew()) {
-				$this->collProfilePropertys = array();
-			} else {
-
-				$criteria->add(ProfilePropertyPeer::STATUS_ID, $this->getId());
-
-				$this->collProfilePropertys = ProfilePropertyPeer::doSelectJoinSchemaProperty($criteria, $con);
-			}
-		} else {
-			// the following code is to determine if a new query is
-			// called for.  If the criteria is the same as the last
-			// one, just return the collection.
-
-			$criteria->add(ProfilePropertyPeer::STATUS_ID, $this->getId());
-
-			if (!isset($this->lastProfilePropertyCriteria) || !$this->lastProfilePropertyCriteria->equals($criteria)) {
-				$this->collProfilePropertys = ProfilePropertyPeer::doSelectJoinSchemaProperty($criteria, $con);
-			}
-		}
-		$this->lastProfilePropertyCriteria = $criteria;
-
-		return $this->collProfilePropertys;
-	}
-
-
-	/**
-	 * If this collection has already been initialized with
-	 * an identical criteria, it returns the collection.
-	 * Otherwise if this Status is new, it will return
-	 * an empty collection; or if this Status has previously
-	 * been saved, it will retrieve related ProfilePropertys from storage.
-	 *
-	 * This method is protected by default in order to keep the public
-	 * api reasonable.  You can provide public methods for those you
-	 * actually need in Status.
-	 */
-	public function getProfilePropertysJoinSchema($criteria = null, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseProfilePropertyPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collProfilePropertys === null) {
-			if ($this->isNew()) {
-				$this->collProfilePropertys = array();
-			} else {
-
-				$criteria->add(ProfilePropertyPeer::STATUS_ID, $this->getId());
-
-				$this->collProfilePropertys = ProfilePropertyPeer::doSelectJoinSchema($criteria, $con);
-			}
-		} else {
-			// the following code is to determine if a new query is
-			// called for.  If the criteria is the same as the last
-			// one, just return the collection.
-
-			$criteria->add(ProfilePropertyPeer::STATUS_ID, $this->getId());
-
-			if (!isset($this->lastProfilePropertyCriteria) || !$this->lastProfilePropertyCriteria->equals($criteria)) {
-				$this->collProfilePropertys = ProfilePropertyPeer::doSelectJoinSchema($criteria, $con);
-			}
-		}
-		$this->lastProfilePropertyCriteria = $criteria;
-
-		return $this->collProfilePropertys;
-	}
-
 	/**
 	 * Temporary storage of collCollections to save a possible db hit in
 	 * the event objects are add to the collection, but the
@@ -4615,6 +4517,55 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 		return $this->collSchemaPropertyElementHistorys;
 	}
 
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Status is new, it will return
+	 * an empty collection; or if this Status has previously
+	 * been saved, it will retrieve related SchemaPropertyElementHistorys from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Status.
+	 */
+	public function getSchemaPropertyElementHistorysJoinFileImportHistory($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseSchemaPropertyElementHistoryPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collSchemaPropertyElementHistorys === null) {
+			if ($this->isNew()) {
+				$this->collSchemaPropertyElementHistorys = array();
+			} else {
+
+				$criteria->add(SchemaPropertyElementHistoryPeer::STATUS_ID, $this->getId());
+
+				$this->collSchemaPropertyElementHistorys = SchemaPropertyElementHistoryPeer::doSelectJoinFileImportHistory($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(SchemaPropertyElementHistoryPeer::STATUS_ID, $this->getId());
+
+			if (!isset($this->lastSchemaPropertyElementHistoryCriteria) || !$this->lastSchemaPropertyElementHistoryCriteria->equals($criteria)) {
+				$this->collSchemaPropertyElementHistorys = SchemaPropertyElementHistoryPeer::doSelectJoinFileImportHistory($criteria, $con);
+			}
+		}
+		$this->lastSchemaPropertyElementHistoryCriteria = $criteria;
+
+		return $this->collSchemaPropertyElementHistorys;
+	}
+
 	/**
 	 * Temporary storage of collVocabularys to save a possible db hit in
 	 * the event objects are add to the collection, but the
@@ -4911,6 +4862,55 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 
 			if (!isset($this->lastVocabularyCriteria) || !$this->lastVocabularyCriteria->equals($criteria)) {
 				$this->collVocabularys = VocabularyPeer::doSelectJoinUserRelatedByChildUpdatedUserId($criteria, $con);
+			}
+		}
+		$this->lastVocabularyCriteria = $criteria;
+
+		return $this->collVocabularys;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Status is new, it will return
+	 * an empty collection; or if this Status has previously
+	 * been saved, it will retrieve related Vocabularys from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Status.
+	 */
+	public function getVocabularysJoinProfile($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseVocabularyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collVocabularys === null) {
+			if ($this->isNew()) {
+				$this->collVocabularys = array();
+			} else {
+
+				$criteria->add(VocabularyPeer::STATUS_ID, $this->getId());
+
+				$this->collVocabularys = VocabularyPeer::doSelectJoinProfile($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(VocabularyPeer::STATUS_ID, $this->getId());
+
+			if (!isset($this->lastVocabularyCriteria) || !$this->lastVocabularyCriteria->equals($criteria)) {
+				$this->collVocabularys = VocabularyPeer::doSelectJoinProfile($criteria, $con);
 			}
 		}
 		$this->lastVocabularyCriteria = $criteria;

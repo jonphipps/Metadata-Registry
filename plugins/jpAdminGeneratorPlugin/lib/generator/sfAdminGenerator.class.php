@@ -31,8 +31,8 @@ abstract class sfAdminGenerator extends sfCrudGenerator
   /**
    * Returns HTML code for a help icon.
    *
-   * @param string The column name
-   * @param string The field type (list, edit)
+   * @param sfAdminColumn $column The column name
+   * @param string        $type   (optional, default = '') The field type (list, edit)
    *
    * @return string HTML code
    */
@@ -55,8 +55,8 @@ abstract class sfAdminGenerator extends sfCrudGenerator
   /**
    * Returns HTML code for a help text.
    *
-   * @param string The column name
-   * @param string The field type (list, edit)
+   * @param sfAdminColumn $column The column name
+   * @param string        $type   (optional, default = '') The field type (list, edit)
    *
    * @return string HTML code
    */
@@ -76,9 +76,10 @@ abstract class sfAdminGenerator extends sfCrudGenerator
    *
    * @param string  $actionName The action name
    * @param array   $params     The parameters
-   * @param boolean $pk_link    (optional) Whether to add a primary key link or not
-   * @param string  $pageAction (optional) The action associated with the calling template
+   * @param boolean $pk_link    (optional, default = false) Whether to add a primary key link or not
+   * @param string  $pageAction (optional, default = null) The action associated with the calling template
    *
+   * @throws sfConfigurationException
    * @return string HTML code
    */
   public function getButtonToAction($actionName, $params, $pk_link = false, $pageAction = null)
@@ -243,9 +244,9 @@ abstract class sfAdminGenerator extends sfCrudGenerator
   /**
    * Returns HTML code for an action link.
    *
-   * @param string  The action name
-   * @param array   The parameters
-   * @param boolean Whether to add a primary key link or not
+   * @param string  $actionName The action name
+   * @param array   $params     The parameters
+   * @param boolean $pk_link    (optional, default = false) Whether to add a primary key link or not
    *
    * @return string HTML code
    */
@@ -290,17 +291,14 @@ abstract class sfAdminGenerator extends sfCrudGenerator
   /**
    * Returns HTML code for a column in edit mode.
    *
-   * @param string  The column name
-   * @param array   The parameters
+   * @param sfAdminColumn $column The column name
+   * @param array         $params (optional, default = array()) The parameters
    *
    * @return string HTML code
    */
   public function getColumnEditTag($column, $params = array())
   {
-    // user defined parameters
-    $user_params = $this->getParameterValue('edit.fields.'.$column->getName().'.params');
-    $user_params = is_array($user_params) ? $user_params : sfToolkit::stringToArray($user_params);
-    $params      = $user_params ? array_merge($params, $user_params) : $params;
+    $params = $this->getParams( $column, $params, 'edit' );
 
     if ($column->isComponent())
     {
@@ -345,7 +343,7 @@ abstract class sfAdminGenerator extends sfCrudGenerator
   /**
    * Returns all column categories.
    *
-   * @param string  The parameter name
+   * @param string $paramName The parameter name
    *
    * @return array The column categories
    */
@@ -371,8 +369,11 @@ abstract class sfAdminGenerator extends sfCrudGenerator
    *
    * This overrides the same function in sfAdminGenerator
    *
-   * @param string  The content
-   * @param array   The parameters
+   * @param string $content    The content
+   * @param array  $params     (optional, default = array()) The $array parameters
+   * @param bool   $inRow      (optional, default = false)
+   * @param bool   $useObjects (optional, default = false)
+   * @param string $actionName (optional, default = null)
    *
    * @return string HTML code
    */
@@ -460,7 +461,8 @@ EOF;
   /**
    * Gets sfAdminColumn objects for a given category.
    *
-   * @param string The parameter name
+   * @param string $paramName The parameter name
+   * @param string $category  (optional, default = 'NONE')
    *
    * @return array sfAdminColumn array
    */
@@ -518,7 +520,7 @@ EOF;
   /**
    * Gets modifier flags from a column name.
    *
-   * @param string The column name
+   * @param string $text The column name
    *
    * @return array An array of detected flags
    */
@@ -537,8 +539,8 @@ EOF;
   /**
    * Gets a parameter value.
    *
-   * @param string The key name
-   * @param mixed  The default value
+   * @param string $key     The key name
+   * @param mixed  $default (optional, default = null) The default value
    *
    * @return mixed The parameter value
    */
@@ -557,9 +559,9 @@ EOF;
   /**
    * Gets a field parameter value.
    *
-   * @param string The key name
-   * @param string The type (list, edit)
-   * @param mixed  The default value
+   * @param string $key     The key name
+   * @param string $type    (optional, default = '')   The type (list, edit)
+   * @param mixed  $default (optional, default = null) The default value
    *
    * @return mixed The parameter value
    */
@@ -591,8 +593,8 @@ EOF;
   /**
    * Gets the value for a given key.
    *
-   * @param string The key name
-   * @param mixed  The default value
+   * @param string $key     The key name
+   * @param mixed  $default (optional, default = null) The default value
    *
    * @return mixed The key value
    */
@@ -625,8 +627,9 @@ EOF;
   /**
    * Wraps a content for I18N.
    *
-   * @param string The key name
-   * @param string The defaul value
+   * @param string $key      The key name
+   * @param string $default  (optional, default = null)
+   * @param bool   $withEcho (optional, default = true)
    *
    * @return string HTML code
    */
@@ -643,14 +646,12 @@ EOF;
     }
 
     $vars = array();
-    foreach ($this->getColumns('tmp.display') as $column)
-    {
-      if ($column->isLink())
-      {
-        $vars[] = '\'%%'.$column->getName().'%%\' => link_to('.$this->getColumnListTag($column).', \''.$this->getModuleName().'/show?'.$this->getPrimaryKeyUrlParams().')';
-      }
-      elseif ($column->isPartial())
-      {
+    /** @var sfAdminColumn $column */
+    foreach ($this->getColumns('tmp.display') as $column) {
+      if ($column->isLink()) {
+        $vars[] = '\'%%' . $column->getName() . '%%\' => link_to(' . $this->getColumnListTag($column) . ', \'' .
+                  $this->getModuleName() . '/show?' . $this->getPrimaryKeyUrlParams() . ')';
+      } elseif ($column->isPartial()) {
         $vars[] = '\'%%_'.$column->getName().'%%\' => '.$this->getColumnListTag($column);
       }
       else if ($column->isComponent())
@@ -674,7 +675,8 @@ EOF;
   /**
    * Replaces constants in a string.
    *
-   * @param string
+   * @param string $value
+   * @param bool   $developed (optional, default = true)
    *
    * @return string
    */
@@ -688,6 +690,7 @@ EOF;
       $this->params['tmp']['display'][] = $name;
     }
 
+    /** @var $column sfAdminColumn */
     foreach ($this->getColumns('tmp.display') as $column)
     {
       $value = str_replace('%%'.$column->getName().'%%', (($developed) ? '{' : '').$this->getColumnGetter($column, $developed, 'this->').(($developed) ? '}' : ''), $value);
@@ -699,8 +702,10 @@ EOF;
   /**
    * Sends the proper params to getColumnTag for the 'list' action, for BC.
    *
-   * @param string  $column The column name
-   * @param array   $params The parameters
+   * @param sfAdminColumn $column The column name
+   * @param array         $params (optional, default = array()) The parameters
+   *
+   * @return string
    */
   public function getColumnListTag($column, $params = array())
   {
@@ -710,8 +715,10 @@ EOF;
   /**
    * Sends the proper params to getColumnTag for the 'show' action, for BC.
    *
-   * @param string  $column The column name
-   * @param array   $params The parameters
+   * @param sfAdminColumn $column The column name
+   * @param array         $params (optional, default = array()) The parameters
+   *
+   * @return string
    */
   public function getColumnShowTag($column, $params = array())
   {
@@ -721,17 +728,15 @@ EOF;
   /**
    * Returns HTML code for a column in list or show mode.
    *
-   * @param string  $column The column name
-   * @param array   $params The parameters
-   * @param array   $action The action - list or show
+   * @param sfAdminColumn $column The column name
+   * @param array         $params (optional, default = array()) The parameters
+   * @param array|string  $action (optional, default = 'list')  The action - list or show
    *
    * @return string HTML code
    */
   public function getColumnTag($column, $params = array(), $action = 'list')
   {
-    $user_params = $this->getParameterValue($action.'.fields.'.$column->getName().'.params');
-    $user_params = is_array($user_params) ? $user_params : sfToolkit::stringToArray($user_params);
-    $params      = $user_params ? array_merge($params, $user_params) : $params;
+    $params = $this->getParams( $column, $params, $action );
 
     $type = $column->getCreoleType();
 
@@ -763,8 +768,8 @@ EOF;
   /**
    * Returns HTML code for a column in filter mode.
    *
-   * @param string  The column name
-   * @param array   The parameters
+   * @param sfAdminColumn $column The column name
+   * @param array         $params (optional, default = array()) The parameters
    *
    * @return string HTML code
    */
@@ -868,6 +873,38 @@ EOF;
   {
     return preg_replace('/\'/', '\\\'', $string);
   }
+
+  /**
+   * @param $column
+   * @param $params
+   * @param $action
+   * @return array
+   */
+  private function getParams( $column, $params, $action )
+  {
+    $user_params = $this->getParameterValue( $action . '.fields.' . $column->getName() . '.params' );
+    $user_params = is_array( $user_params ) ? $user_params : sfToolkit::stringToArray( $user_params );
+    $params = $user_params ? array_merge( $params, $user_params ) : $params;
+
+    return $params;
+  }
+
+  /**
+   * adds a class to a tag if it's set in the field params
+   * @param string $tag
+   * @param sfAdminColumn $column
+   * @param $params
+   * @param $action
+   * @return string
+   */
+  public function getClass( $tag, $column, $action )
+  {
+    $classParam = $this->getParameterValue($action.'.fields.'.$column->getName().'.class');
+    $class = $classParam  ? ' class="' . $classParam . '" ' : '';
+
+    return "<$tag$class>";
+  }
+
 }
 
 /**
@@ -888,9 +925,9 @@ class sfAdminColumn
   /**
    * Constructor.
    *
-   * @param string The column php name
-   * @param string The column name
-   * @param array  The column flags
+   * @param string $phpName The column php name
+   * @param string $column  (optional) The column name
+   * @param array  $flags   (optional) The column flags
    */
   public function __construct($phpName, $column = null, $flags = array())
   {

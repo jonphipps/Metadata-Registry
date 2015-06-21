@@ -1,5 +1,5 @@
 <?php use_helper('Validation', 'Javascript','Date', 'Text', 'Object') ?>
-<?php use_javascript(sfConfig::get('sf_prototype_web_dir').'/js/prototype', 'first') ?>
+<?php use_javascript(sfConfig::get('sf_prototype_web_dir').'/prototype.min.js', 'first') ?>
 <?php use_javascript(sfConfig::get('sf_admin_web_dir').'/js/setfocus', 'last') ?>
 
 <?php echo javascript_tag("formUtil.focusOnFirst('sf_admin_edit_form');") ?>

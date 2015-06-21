@@ -199,7 +199,7 @@ foreach ($config['roles'] as $role => $roleArray)
         }
         else if (isset($selectors))
         {
-    //debugbreak();
+
           // test everything for this role
           foreach ($selectors as $selector => $test)
           {

@@ -19,7 +19,7 @@ abstract class BaseSchemaHasUserPeer {
 	const CLASS_DEFAULT = 'lib.model.SchemaHasUser';
 
 	/** The total number of columns. */
-	const NUM_COLUMNS = 9;
+	const NUM_COLUMNS = 12;
 
 	/** The number of lazy-loaded columns. */
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -52,6 +52,15 @@ abstract class BaseSchemaHasUserPeer {
 	/** the column name for the IS_ADMIN_FOR field */
 	const IS_ADMIN_FOR = 'schema_has_user.IS_ADMIN_FOR';
 
+	/** the column name for the LANGUAGES field */
+	const LANGUAGES = 'schema_has_user.LANGUAGES';
+
+	/** the column name for the DEFAULT_LANGUAGE field */
+	const DEFAULT_LANGUAGE = 'schema_has_user.DEFAULT_LANGUAGE';
+
+	/** the column name for the CURRENT_LANGUAGE field */
+	const CURRENT_LANGUAGE = 'schema_has_user.CURRENT_LANGUAGE';
+
 	/** The PHP to DB Name Mapping */
 	private static $phpNameMap = null;
 
@@ -63,10 +72,10 @@ abstract class BaseSchemaHasUserPeer {
 	 * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
 	 */
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'CreatedAt', 'UpdatedAt', 'DeletedAt', 'SchemaId', 'UserId', 'IsMaintainerFor', 'IsRegistrarFor', 'IsAdminFor', ),
-		BasePeer::TYPE_COLNAME => array (SchemaHasUserPeer::ID, SchemaHasUserPeer::CREATED_AT, SchemaHasUserPeer::UPDATED_AT, SchemaHasUserPeer::DELETED_AT, SchemaHasUserPeer::SCHEMA_ID, SchemaHasUserPeer::USER_ID, SchemaHasUserPeer::IS_MAINTAINER_FOR, SchemaHasUserPeer::IS_REGISTRAR_FOR, SchemaHasUserPeer::IS_ADMIN_FOR, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'created_at', 'updated_at', 'deleted_at', 'schema_id', 'user_id', 'is_maintainer_for', 'is_registrar_for', 'is_admin_for', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'CreatedAt', 'UpdatedAt', 'DeletedAt', 'SchemaId', 'UserId', 'IsMaintainerFor', 'IsRegistrarFor', 'IsAdminFor', 'Languages', 'DefaultLanguage', 'CurrentLanguage', ),
+		BasePeer::TYPE_COLNAME => array (SchemaHasUserPeer::ID, SchemaHasUserPeer::CREATED_AT, SchemaHasUserPeer::UPDATED_AT, SchemaHasUserPeer::DELETED_AT, SchemaHasUserPeer::SCHEMA_ID, SchemaHasUserPeer::USER_ID, SchemaHasUserPeer::IS_MAINTAINER_FOR, SchemaHasUserPeer::IS_REGISTRAR_FOR, SchemaHasUserPeer::IS_ADMIN_FOR, SchemaHasUserPeer::LANGUAGES, SchemaHasUserPeer::DEFAULT_LANGUAGE, SchemaHasUserPeer::CURRENT_LANGUAGE, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'created_at', 'updated_at', 'deleted_at', 'schema_id', 'user_id', 'is_maintainer_for', 'is_registrar_for', 'is_admin_for', 'languages', 'default_language', 'current_language', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, )
 	);
 
 	/**
@@ -76,10 +85,10 @@ abstract class BaseSchemaHasUserPeer {
 	 * e.g. self::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
 	 */
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'CreatedAt' => 1, 'UpdatedAt' => 2, 'DeletedAt' => 3, 'SchemaId' => 4, 'UserId' => 5, 'IsMaintainerFor' => 6, 'IsRegistrarFor' => 7, 'IsAdminFor' => 8, ),
-		BasePeer::TYPE_COLNAME => array (SchemaHasUserPeer::ID => 0, SchemaHasUserPeer::CREATED_AT => 1, SchemaHasUserPeer::UPDATED_AT => 2, SchemaHasUserPeer::DELETED_AT => 3, SchemaHasUserPeer::SCHEMA_ID => 4, SchemaHasUserPeer::USER_ID => 5, SchemaHasUserPeer::IS_MAINTAINER_FOR => 6, SchemaHasUserPeer::IS_REGISTRAR_FOR => 7, SchemaHasUserPeer::IS_ADMIN_FOR => 8, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'created_at' => 1, 'updated_at' => 2, 'deleted_at' => 3, 'schema_id' => 4, 'user_id' => 5, 'is_maintainer_for' => 6, 'is_registrar_for' => 7, 'is_admin_for' => 8, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'CreatedAt' => 1, 'UpdatedAt' => 2, 'DeletedAt' => 3, 'SchemaId' => 4, 'UserId' => 5, 'IsMaintainerFor' => 6, 'IsRegistrarFor' => 7, 'IsAdminFor' => 8, 'Languages' => 9, 'DefaultLanguage' => 10, 'CurrentLanguage' => 11, ),
+		BasePeer::TYPE_COLNAME => array (SchemaHasUserPeer::ID => 0, SchemaHasUserPeer::CREATED_AT => 1, SchemaHasUserPeer::UPDATED_AT => 2, SchemaHasUserPeer::DELETED_AT => 3, SchemaHasUserPeer::SCHEMA_ID => 4, SchemaHasUserPeer::USER_ID => 5, SchemaHasUserPeer::IS_MAINTAINER_FOR => 6, SchemaHasUserPeer::IS_REGISTRAR_FOR => 7, SchemaHasUserPeer::IS_ADMIN_FOR => 8, SchemaHasUserPeer::LANGUAGES => 9, SchemaHasUserPeer::DEFAULT_LANGUAGE => 10, SchemaHasUserPeer::CURRENT_LANGUAGE => 11, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'created_at' => 1, 'updated_at' => 2, 'deleted_at' => 3, 'schema_id' => 4, 'user_id' => 5, 'is_maintainer_for' => 6, 'is_registrar_for' => 7, 'is_admin_for' => 8, 'languages' => 9, 'default_language' => 10, 'current_language' => 11, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, )
 	);
 
 	/**
@@ -197,6 +206,12 @@ abstract class BaseSchemaHasUserPeer {
         $criteria->addSelectColumn(($tableAlias) ? SchemaHasUserPeer::alias($tableAlias, SchemaHasUserPeer::IS_REGISTRAR_FOR) : SchemaHasUserPeer::IS_REGISTRAR_FOR);
 
         $criteria->addSelectColumn(($tableAlias) ? SchemaHasUserPeer::alias($tableAlias, SchemaHasUserPeer::IS_ADMIN_FOR) : SchemaHasUserPeer::IS_ADMIN_FOR);
+
+        $criteria->addSelectColumn(($tableAlias) ? SchemaHasUserPeer::alias($tableAlias, SchemaHasUserPeer::LANGUAGES) : SchemaHasUserPeer::LANGUAGES);
+
+        $criteria->addSelectColumn(($tableAlias) ? SchemaHasUserPeer::alias($tableAlias, SchemaHasUserPeer::DEFAULT_LANGUAGE) : SchemaHasUserPeer::DEFAULT_LANGUAGE);
+
+        $criteria->addSelectColumn(($tableAlias) ? SchemaHasUserPeer::alias($tableAlias, SchemaHasUserPeer::CURRENT_LANGUAGE) : SchemaHasUserPeer::CURRENT_LANGUAGE);
 
 	}
 

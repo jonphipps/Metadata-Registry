@@ -100,7 +100,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 	 * The value for the type field.
 	 * @var        string
 	 */
-	protected $type = 'property';
+	protected $type = 'Property';
 
 
 	/**
@@ -165,6 +165,20 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 	 */
 	protected $is_deprecated;
 
+
+	/**
+	 * The value for the url field.
+	 * @var        string
+	 */
+	protected $url;
+
+
+	/**
+	 * The value for the lexical_alias field.
+	 * @var        string
+	 */
+	protected $lexical_alias;
+
 	/**
 	 * @var        User
 	 */
@@ -189,18 +203,6 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 	 * @var        Status
 	 */
 	protected $aStatus;
-
-	/**
-	 * Collection to store aggregation of collProfilePropertys.
-	 * @var        array
-	 */
-	protected $collProfilePropertys;
-
-	/**
-	 * The criteria used to select the current contents of collProfilePropertys.
-	 * @var        Criteria
-	 */
-	protected $lastProfilePropertyCriteria = null;
 
 	/**
 	 * Collection to store aggregation of collDiscusss.
@@ -580,6 +582,28 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 	}
 
 	/**
+	 * Get the [url] column value.
+	 * 
+	 * @return     string
+	 */
+	public function getUrl()
+	{
+
+		return $this->url;
+	}
+
+	/**
+	 * Get the [lexical_alias] column value.
+	 * 
+	 * @return     string
+	 */
+	public function getLexicalAlias()
+	{
+
+		return $this->lexical_alias;
+	}
+
+	/**
 	 * Set the value of [id] column.
 	 * 
 	 * @param      int $v new value
@@ -854,7 +878,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 			$v = (string) $v; 
 		}
 
-		if ($this->type !== $v || $v === 'property') {
+		if ($this->type !== $v || $v === 'Property') {
 			$this->type = $v;
 			$this->modifiedColumns[] = SchemaPropertyPeer::TYPE;
 		}
@@ -1062,6 +1086,50 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 	} // setIsDeprecated()
 
 	/**
+	 * Set the value of [url] column.
+	 * 
+	 * @param      string $v new value
+	 * @return     void
+	 */
+	public function setUrl($v)
+	{
+
+		// Since the native PHP type for this column is string,
+		// we will cast the input to a string (if it is not).
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->url !== $v) {
+			$this->url = $v;
+			$this->modifiedColumns[] = SchemaPropertyPeer::URL;
+		}
+
+	} // setUrl()
+
+	/**
+	 * Set the value of [lexical_alias] column.
+	 * 
+	 * @param      string $v new value
+	 * @return     void
+	 */
+	public function setLexicalAlias($v)
+	{
+
+		// Since the native PHP type for this column is string,
+		// we will cast the input to a string (if it is not).
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->lexical_alias !== $v) {
+			$this->lexical_alias = $v;
+			$this->modifiedColumns[] = SchemaPropertyPeer::LEXICAL_ALIAS;
+		}
+
+	} // setLexicalAlias()
+
+	/**
 	 * Hydrates (populates) the object variables with values from the database resultset.
 	 *
 	 * An offset (1-based "start column") is specified so that objects can be hydrated
@@ -1120,12 +1188,16 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 			$this->is_deprecated = $rs->getBoolean($startcol + 20);
 
+			$this->url = $rs->getString($startcol + 21);
+
+			$this->lexical_alias = $rs->getString($startcol + 22);
+
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 21; // 21 = SchemaPropertyPeer::NUM_COLUMNS - SchemaPropertyPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 23; // 23 = SchemaPropertyPeer::NUM_COLUMNS - SchemaPropertyPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating SchemaProperty object", $e);
@@ -1312,14 +1384,6 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 				$this->resetModified(); // [HL] After being saved an object is no longer 'modified'
 			}
 
-			if ($this->collProfilePropertys !== null) {
-				foreach($this->collProfilePropertys as $referrerFK) {
-					if (!$referrerFK->isDeleted()) {
-						$affectedRows += $referrerFK->save($con);
-					}
-				}
-			}
-
 			if ($this->collDiscusss !== null) {
 				foreach($this->collDiscusss as $referrerFK) {
 					if (!$referrerFK->isDeleted()) {
@@ -1474,14 +1538,6 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 			}
 
 
-				if ($this->collProfilePropertys !== null) {
-					foreach($this->collProfilePropertys as $referrerFK) {
-						if (!$referrerFK->validate($columns)) {
-							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
-						}
-					}
-				}
-
 				if ($this->collDiscusss !== null) {
 					foreach($this->collDiscusss as $referrerFK) {
 						if (!$referrerFK->validate($columns)) {
@@ -1617,6 +1673,12 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 			case 20:
 				return $this->getIsDeprecated();
 				break;
+			case 21:
+				return $this->getUrl();
+				break;
+			case 22:
+				return $this->getLexicalAlias();
+				break;
 			default:
 				return null;
 				break;
@@ -1658,6 +1720,8 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 			$keys[18] => $this->getDomain(),
 			$keys[19] => $this->getOrange(),
 			$keys[20] => $this->getIsDeprecated(),
+			$keys[21] => $this->getUrl(),
+			$keys[22] => $this->getLexicalAlias(),
 		);
 		return $result;
 	}
@@ -1752,6 +1816,12 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 			case 20:
 				$this->setIsDeprecated($value);
 				break;
+			case 21:
+				$this->setUrl($value);
+				break;
+			case 22:
+				$this->setLexicalAlias($value);
+				break;
 		} // switch()
 	}
 
@@ -1796,6 +1866,8 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[18], $arr)) $this->setDomain($arr[$keys[18]]);
 		if (array_key_exists($keys[19], $arr)) $this->setOrange($arr[$keys[19]]);
 		if (array_key_exists($keys[20], $arr)) $this->setIsDeprecated($arr[$keys[20]]);
+		if (array_key_exists($keys[21], $arr)) $this->setUrl($arr[$keys[21]]);
+		if (array_key_exists($keys[22], $arr)) $this->setLexicalAlias($arr[$keys[22]]);
 	}
 
 	/**
@@ -1828,6 +1900,8 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(SchemaPropertyPeer::DOMAIN)) $criteria->add(SchemaPropertyPeer::DOMAIN, $this->domain);
 		if ($this->isColumnModified(SchemaPropertyPeer::ORANGE)) $criteria->add(SchemaPropertyPeer::ORANGE, $this->orange);
 		if ($this->isColumnModified(SchemaPropertyPeer::IS_DEPRECATED)) $criteria->add(SchemaPropertyPeer::IS_DEPRECATED, $this->is_deprecated);
+		if ($this->isColumnModified(SchemaPropertyPeer::URL)) $criteria->add(SchemaPropertyPeer::URL, $this->url);
+		if ($this->isColumnModified(SchemaPropertyPeer::LEXICAL_ALIAS)) $criteria->add(SchemaPropertyPeer::LEXICAL_ALIAS, $this->lexical_alias);
 
 		return $criteria;
 	}
@@ -1922,15 +1996,15 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 		$copyObj->setIsDeprecated($this->is_deprecated);
 
+		$copyObj->setUrl($this->url);
+
+		$copyObj->setLexicalAlias($this->lexical_alias);
+
 
 		if ($deepCopy) {
 			// important: temporarily setNew(false) because this affects the behavior of
 			// the getter/setter methods for fkey referrer objects.
 			$copyObj->setNew(false);
-
-			foreach($this->getProfilePropertys() as $relObj) {
-				$copyObj->addProfileProperty($relObj->copy($deepCopy));
-			}
 
 			foreach($this->getDiscusss() as $relObj) {
 				$copyObj->addDiscuss($relObj->copy($deepCopy));
@@ -2255,456 +2329,6 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 			 */
 		}
 		return $this->aStatus;
-	}
-
-	/**
-	 * Temporary storage of collProfilePropertys to save a possible db hit in
-	 * the event objects are add to the collection, but the
-	 * complete collection is never requested.
-	 * @return     void
-	 */
-	public function initProfilePropertys()
-	{
-		if ($this->collProfilePropertys === null) {
-			$this->collProfilePropertys = array();
-		}
-	}
-
-	/**
-	 * If this collection has already been initialized with
-	 * an identical criteria, it returns the collection.
-	 * Otherwise if this SchemaProperty has previously
-	 * been saved, it will retrieve related ProfilePropertys from storage.
-	 * If this SchemaProperty is new, it will return
-	 * an empty collection or the current collection, the criteria
-	 * is ignored on a new object.
-	 *
-	 * @param      Connection $con
-	 * @param      Criteria $criteria
-	 * @throws     PropelException
-	 */
-	public function getProfilePropertys($criteria = null, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseProfilePropertyPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collProfilePropertys === null) {
-			if ($this->isNew()) {
-			   $this->collProfilePropertys = array();
-			} else {
-
-				$criteria->add(ProfilePropertyPeer::SCHEMA_PROPERTY_ID, $this->getId());
-
-				ProfilePropertyPeer::addSelectColumns($criteria);
-				$this->collProfilePropertys = ProfilePropertyPeer::doSelect($criteria, $con);
-			}
-		} else {
-			// criteria has no effect for a new object
-			if (!$this->isNew()) {
-				// the following code is to determine if a new query is
-				// called for.  If the criteria is the same as the last
-				// one, just return the collection.
-
-
-				$criteria->add(ProfilePropertyPeer::SCHEMA_PROPERTY_ID, $this->getId());
-
-				ProfilePropertyPeer::addSelectColumns($criteria);
-				if (!isset($this->lastProfilePropertyCriteria) || !$this->lastProfilePropertyCriteria->equals($criteria)) {
-					$this->collProfilePropertys = ProfilePropertyPeer::doSelect($criteria, $con);
-				}
-			}
-		}
-		$this->lastProfilePropertyCriteria = $criteria;
-		return $this->collProfilePropertys;
-	}
-
-	/**
-	 * Returns the number of related ProfilePropertys.
-	 *
-	 * @param      Criteria $criteria
-	 * @param      boolean $distinct
-	 * @param      Connection $con
-	 * @throws     PropelException
-	 */
-	public function countProfilePropertys($criteria = null, $distinct = false, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseProfilePropertyPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		$criteria->add(ProfilePropertyPeer::SCHEMA_PROPERTY_ID, $this->getId());
-
-		return ProfilePropertyPeer::doCount($criteria, $distinct, $con);
-	}
-
-	/**
-	 * Method called to associate a ProfileProperty object to this object
-	 * through the ProfileProperty foreign key attribute
-	 *
-	 * @param      ProfileProperty $l ProfileProperty
-	 * @return     void
-	 * @throws     PropelException
-	 */
-	public function addProfileProperty(ProfileProperty $l)
-	{
-		$this->collProfilePropertys[] = $l;
-		$l->setSchemaProperty($this);
-	}
-
-
-	/**
-	 * If this collection has already been initialized with
-	 * an identical criteria, it returns the collection.
-	 * Otherwise if this SchemaProperty is new, it will return
-	 * an empty collection; or if this SchemaProperty has previously
-	 * been saved, it will retrieve related ProfilePropertys from storage.
-	 *
-	 * This method is protected by default in order to keep the public
-	 * api reasonable.  You can provide public methods for those you
-	 * actually need in SchemaProperty.
-	 */
-	public function getProfilePropertysJoinUserRelatedByCreatedBy($criteria = null, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseProfilePropertyPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collProfilePropertys === null) {
-			if ($this->isNew()) {
-				$this->collProfilePropertys = array();
-			} else {
-
-				$criteria->add(ProfilePropertyPeer::SCHEMA_PROPERTY_ID, $this->getId());
-
-				$this->collProfilePropertys = ProfilePropertyPeer::doSelectJoinUserRelatedByCreatedBy($criteria, $con);
-			}
-		} else {
-			// the following code is to determine if a new query is
-			// called for.  If the criteria is the same as the last
-			// one, just return the collection.
-
-			$criteria->add(ProfilePropertyPeer::SCHEMA_PROPERTY_ID, $this->getId());
-
-			if (!isset($this->lastProfilePropertyCriteria) || !$this->lastProfilePropertyCriteria->equals($criteria)) {
-				$this->collProfilePropertys = ProfilePropertyPeer::doSelectJoinUserRelatedByCreatedBy($criteria, $con);
-			}
-		}
-		$this->lastProfilePropertyCriteria = $criteria;
-
-		return $this->collProfilePropertys;
-	}
-
-
-	/**
-	 * If this collection has already been initialized with
-	 * an identical criteria, it returns the collection.
-	 * Otherwise if this SchemaProperty is new, it will return
-	 * an empty collection; or if this SchemaProperty has previously
-	 * been saved, it will retrieve related ProfilePropertys from storage.
-	 *
-	 * This method is protected by default in order to keep the public
-	 * api reasonable.  You can provide public methods for those you
-	 * actually need in SchemaProperty.
-	 */
-	public function getProfilePropertysJoinUserRelatedByUpdatedBy($criteria = null, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseProfilePropertyPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collProfilePropertys === null) {
-			if ($this->isNew()) {
-				$this->collProfilePropertys = array();
-			} else {
-
-				$criteria->add(ProfilePropertyPeer::SCHEMA_PROPERTY_ID, $this->getId());
-
-				$this->collProfilePropertys = ProfilePropertyPeer::doSelectJoinUserRelatedByUpdatedBy($criteria, $con);
-			}
-		} else {
-			// the following code is to determine if a new query is
-			// called for.  If the criteria is the same as the last
-			// one, just return the collection.
-
-			$criteria->add(ProfilePropertyPeer::SCHEMA_PROPERTY_ID, $this->getId());
-
-			if (!isset($this->lastProfilePropertyCriteria) || !$this->lastProfilePropertyCriteria->equals($criteria)) {
-				$this->collProfilePropertys = ProfilePropertyPeer::doSelectJoinUserRelatedByUpdatedBy($criteria, $con);
-			}
-		}
-		$this->lastProfilePropertyCriteria = $criteria;
-
-		return $this->collProfilePropertys;
-	}
-
-
-	/**
-	 * If this collection has already been initialized with
-	 * an identical criteria, it returns the collection.
-	 * Otherwise if this SchemaProperty is new, it will return
-	 * an empty collection; or if this SchemaProperty has previously
-	 * been saved, it will retrieve related ProfilePropertys from storage.
-	 *
-	 * This method is protected by default in order to keep the public
-	 * api reasonable.  You can provide public methods for those you
-	 * actually need in SchemaProperty.
-	 */
-	public function getProfilePropertysJoinUserRelatedByDeletedBy($criteria = null, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseProfilePropertyPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collProfilePropertys === null) {
-			if ($this->isNew()) {
-				$this->collProfilePropertys = array();
-			} else {
-
-				$criteria->add(ProfilePropertyPeer::SCHEMA_PROPERTY_ID, $this->getId());
-
-				$this->collProfilePropertys = ProfilePropertyPeer::doSelectJoinUserRelatedByDeletedBy($criteria, $con);
-			}
-		} else {
-			// the following code is to determine if a new query is
-			// called for.  If the criteria is the same as the last
-			// one, just return the collection.
-
-			$criteria->add(ProfilePropertyPeer::SCHEMA_PROPERTY_ID, $this->getId());
-
-			if (!isset($this->lastProfilePropertyCriteria) || !$this->lastProfilePropertyCriteria->equals($criteria)) {
-				$this->collProfilePropertys = ProfilePropertyPeer::doSelectJoinUserRelatedByDeletedBy($criteria, $con);
-			}
-		}
-		$this->lastProfilePropertyCriteria = $criteria;
-
-		return $this->collProfilePropertys;
-	}
-
-
-	/**
-	 * If this collection has already been initialized with
-	 * an identical criteria, it returns the collection.
-	 * Otherwise if this SchemaProperty is new, it will return
-	 * an empty collection; or if this SchemaProperty has previously
-	 * been saved, it will retrieve related ProfilePropertys from storage.
-	 *
-	 * This method is protected by default in order to keep the public
-	 * api reasonable.  You can provide public methods for those you
-	 * actually need in SchemaProperty.
-	 */
-	public function getProfilePropertysJoinProfile($criteria = null, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseProfilePropertyPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collProfilePropertys === null) {
-			if ($this->isNew()) {
-				$this->collProfilePropertys = array();
-			} else {
-
-				$criteria->add(ProfilePropertyPeer::SCHEMA_PROPERTY_ID, $this->getId());
-
-				$this->collProfilePropertys = ProfilePropertyPeer::doSelectJoinProfile($criteria, $con);
-			}
-		} else {
-			// the following code is to determine if a new query is
-			// called for.  If the criteria is the same as the last
-			// one, just return the collection.
-
-			$criteria->add(ProfilePropertyPeer::SCHEMA_PROPERTY_ID, $this->getId());
-
-			if (!isset($this->lastProfilePropertyCriteria) || !$this->lastProfilePropertyCriteria->equals($criteria)) {
-				$this->collProfilePropertys = ProfilePropertyPeer::doSelectJoinProfile($criteria, $con);
-			}
-		}
-		$this->lastProfilePropertyCriteria = $criteria;
-
-		return $this->collProfilePropertys;
-	}
-
-
-	/**
-	 * If this collection has already been initialized with
-	 * an identical criteria, it returns the collection.
-	 * Otherwise if this SchemaProperty is new, it will return
-	 * an empty collection; or if this SchemaProperty has previously
-	 * been saved, it will retrieve related ProfilePropertys from storage.
-	 *
-	 * This method is protected by default in order to keep the public
-	 * api reasonable.  You can provide public methods for those you
-	 * actually need in SchemaProperty.
-	 */
-	public function getProfilePropertysJoinStatus($criteria = null, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseProfilePropertyPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collProfilePropertys === null) {
-			if ($this->isNew()) {
-				$this->collProfilePropertys = array();
-			} else {
-
-				$criteria->add(ProfilePropertyPeer::SCHEMA_PROPERTY_ID, $this->getId());
-
-				$this->collProfilePropertys = ProfilePropertyPeer::doSelectJoinStatus($criteria, $con);
-			}
-		} else {
-			// the following code is to determine if a new query is
-			// called for.  If the criteria is the same as the last
-			// one, just return the collection.
-
-			$criteria->add(ProfilePropertyPeer::SCHEMA_PROPERTY_ID, $this->getId());
-
-			if (!isset($this->lastProfilePropertyCriteria) || !$this->lastProfilePropertyCriteria->equals($criteria)) {
-				$this->collProfilePropertys = ProfilePropertyPeer::doSelectJoinStatus($criteria, $con);
-			}
-		}
-		$this->lastProfilePropertyCriteria = $criteria;
-
-		return $this->collProfilePropertys;
-	}
-
-
-	/**
-	 * If this collection has already been initialized with
-	 * an identical criteria, it returns the collection.
-	 * Otherwise if this SchemaProperty is new, it will return
-	 * an empty collection; or if this SchemaProperty has previously
-	 * been saved, it will retrieve related ProfilePropertys from storage.
-	 *
-	 * This method is protected by default in order to keep the public
-	 * api reasonable.  You can provide public methods for those you
-	 * actually need in SchemaProperty.
-	 */
-	public function getProfilePropertysJoinProfilePropertyRelatedByInverseProfilePropertyId($criteria = null, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseProfilePropertyPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collProfilePropertys === null) {
-			if ($this->isNew()) {
-				$this->collProfilePropertys = array();
-			} else {
-
-				$criteria->add(ProfilePropertyPeer::SCHEMA_PROPERTY_ID, $this->getId());
-
-				$this->collProfilePropertys = ProfilePropertyPeer::doSelectJoinProfilePropertyRelatedByInverseProfilePropertyId($criteria, $con);
-			}
-		} else {
-			// the following code is to determine if a new query is
-			// called for.  If the criteria is the same as the last
-			// one, just return the collection.
-
-			$criteria->add(ProfilePropertyPeer::SCHEMA_PROPERTY_ID, $this->getId());
-
-			if (!isset($this->lastProfilePropertyCriteria) || !$this->lastProfilePropertyCriteria->equals($criteria)) {
-				$this->collProfilePropertys = ProfilePropertyPeer::doSelectJoinProfilePropertyRelatedByInverseProfilePropertyId($criteria, $con);
-			}
-		}
-		$this->lastProfilePropertyCriteria = $criteria;
-
-		return $this->collProfilePropertys;
-	}
-
-
-	/**
-	 * If this collection has already been initialized with
-	 * an identical criteria, it returns the collection.
-	 * Otherwise if this SchemaProperty is new, it will return
-	 * an empty collection; or if this SchemaProperty has previously
-	 * been saved, it will retrieve related ProfilePropertys from storage.
-	 *
-	 * This method is protected by default in order to keep the public
-	 * api reasonable.  You can provide public methods for those you
-	 * actually need in SchemaProperty.
-	 */
-	public function getProfilePropertysJoinSchema($criteria = null, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseProfilePropertyPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collProfilePropertys === null) {
-			if ($this->isNew()) {
-				$this->collProfilePropertys = array();
-			} else {
-
-				$criteria->add(ProfilePropertyPeer::SCHEMA_PROPERTY_ID, $this->getId());
-
-				$this->collProfilePropertys = ProfilePropertyPeer::doSelectJoinSchema($criteria, $con);
-			}
-		} else {
-			// the following code is to determine if a new query is
-			// called for.  If the criteria is the same as the last
-			// one, just return the collection.
-
-			$criteria->add(ProfilePropertyPeer::SCHEMA_PROPERTY_ID, $this->getId());
-
-			if (!isset($this->lastProfilePropertyCriteria) || !$this->lastProfilePropertyCriteria->equals($criteria)) {
-				$this->collProfilePropertys = ProfilePropertyPeer::doSelectJoinSchema($criteria, $con);
-			}
-		}
-		$this->lastProfilePropertyCriteria = $criteria;
-
-		return $this->collProfilePropertys;
 	}
 
 	/**
@@ -4516,6 +4140,55 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 		return $this->collSchemaPropertyElementHistorysRelatedBySchemaPropertyId;
 	}
 
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this SchemaProperty is new, it will return
+	 * an empty collection; or if this SchemaProperty has previously
+	 * been saved, it will retrieve related SchemaPropertyElementHistorysRelatedBySchemaPropertyId from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in SchemaProperty.
+	 */
+	public function getSchemaPropertyElementHistorysRelatedBySchemaPropertyIdJoinFileImportHistory($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseSchemaPropertyElementHistoryPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collSchemaPropertyElementHistorysRelatedBySchemaPropertyId === null) {
+			if ($this->isNew()) {
+				$this->collSchemaPropertyElementHistorysRelatedBySchemaPropertyId = array();
+			} else {
+
+				$criteria->add(SchemaPropertyElementHistoryPeer::SCHEMA_PROPERTY_ID, $this->getId());
+
+				$this->collSchemaPropertyElementHistorysRelatedBySchemaPropertyId = SchemaPropertyElementHistoryPeer::doSelectJoinFileImportHistory($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(SchemaPropertyElementHistoryPeer::SCHEMA_PROPERTY_ID, $this->getId());
+
+			if (!isset($this->lastSchemaPropertyElementHistoryRelatedBySchemaPropertyIdCriteria) || !$this->lastSchemaPropertyElementHistoryRelatedBySchemaPropertyIdCriteria->equals($criteria)) {
+				$this->collSchemaPropertyElementHistorysRelatedBySchemaPropertyId = SchemaPropertyElementHistoryPeer::doSelectJoinFileImportHistory($criteria, $con);
+			}
+		}
+		$this->lastSchemaPropertyElementHistoryRelatedBySchemaPropertyIdCriteria = $criteria;
+
+		return $this->collSchemaPropertyElementHistorysRelatedBySchemaPropertyId;
+	}
+
 	/**
 	 * Temporary storage of collSchemaPropertyElementHistorysRelatedByRelatedSchemaPropertyId to save a possible db hit in
 	 * the event objects are add to the collection, but the
@@ -4861,6 +4534,55 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 			if (!isset($this->lastSchemaPropertyElementHistoryRelatedByRelatedSchemaPropertyIdCriteria) || !$this->lastSchemaPropertyElementHistoryRelatedByRelatedSchemaPropertyIdCriteria->equals($criteria)) {
 				$this->collSchemaPropertyElementHistorysRelatedByRelatedSchemaPropertyId = SchemaPropertyElementHistoryPeer::doSelectJoinStatus($criteria, $con);
+			}
+		}
+		$this->lastSchemaPropertyElementHistoryRelatedByRelatedSchemaPropertyIdCriteria = $criteria;
+
+		return $this->collSchemaPropertyElementHistorysRelatedByRelatedSchemaPropertyId;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this SchemaProperty is new, it will return
+	 * an empty collection; or if this SchemaProperty has previously
+	 * been saved, it will retrieve related SchemaPropertyElementHistorysRelatedByRelatedSchemaPropertyId from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in SchemaProperty.
+	 */
+	public function getSchemaPropertyElementHistorysRelatedByRelatedSchemaPropertyIdJoinFileImportHistory($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseSchemaPropertyElementHistoryPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collSchemaPropertyElementHistorysRelatedByRelatedSchemaPropertyId === null) {
+			if ($this->isNew()) {
+				$this->collSchemaPropertyElementHistorysRelatedByRelatedSchemaPropertyId = array();
+			} else {
+
+				$criteria->add(SchemaPropertyElementHistoryPeer::RELATED_SCHEMA_PROPERTY_ID, $this->getId());
+
+				$this->collSchemaPropertyElementHistorysRelatedByRelatedSchemaPropertyId = SchemaPropertyElementHistoryPeer::doSelectJoinFileImportHistory($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(SchemaPropertyElementHistoryPeer::RELATED_SCHEMA_PROPERTY_ID, $this->getId());
+
+			if (!isset($this->lastSchemaPropertyElementHistoryRelatedByRelatedSchemaPropertyIdCriteria) || !$this->lastSchemaPropertyElementHistoryRelatedByRelatedSchemaPropertyIdCriteria->equals($criteria)) {
+				$this->collSchemaPropertyElementHistorysRelatedByRelatedSchemaPropertyId = SchemaPropertyElementHistoryPeer::doSelectJoinFileImportHistory($criteria, $con);
 			}
 		}
 		$this->lastSchemaPropertyElementHistoryRelatedByRelatedSchemaPropertyIdCriteria = $criteria;

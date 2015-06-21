@@ -558,7 +558,7 @@ class Criteria implements IteratorAggregate {
 	 * so the Column name must be something like 'TABLE.id'. If you
 	 * don't like this, you can use the add(table, column, value) method.
 	 *
-	 * @param      string $critOrColumn The column to run the comparison on, or Criterion object.
+	 * @param      string $p1 The column to run the comparison on, or Criterion object.
 	 * @param      mixed $value
 	 * @param      string $comparison A String.
 	 *

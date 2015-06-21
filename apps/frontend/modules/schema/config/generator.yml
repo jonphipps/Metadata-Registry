@@ -14,12 +14,14 @@ generator:
       name:           { name: Label, help: A human-readable descriptive label for the element set. This will be displayed in lists of element sets. }
       note:           { name: Note, help: A note about this element set }
       url:            { name: URL, help: A non-Registry URL that contains more information about this element set }
-      base_domain:    { name: Base Domain, help: The root of all URIs for this element set and its elements. Defaults to the Base Domain set by the Owner of this element set. }
+      base_domain:    { name: Base Domain, help: The root of all URIs for this element set and its elements. }
       token:          { name: Name, help: A unique token representing this element set. This will be used as the prefix identifying this URI in RDF or a qname in XML}
       uri:            { name: URI, help: The URI of this element set. By default this will be a concatenation of the Registry default domain and the element set Name. }
       community:      { name: Tags, help: Tags identifying communities of practice that this element set addresses }
-      language:       { name: Language, help: Default language for the properties of this element set }
+      language:       { name: Default Language, help: Default language for the textual properties of this element set }
+      languages:      { name: Available Languages, help: Available languages for the textual properties of this element set }
       status_id:      { name: Status, help: Default status for the properties of this element set }
+      repo:           { name: Git Repository, help: This is the name of the Git Repo that will hold this Element Set }
 #      ns_type:
 #        name: Type
 #        help: "Element set URI will be terminated with either a hash ( # ) or a slash ( / ) to identify the namespace"
@@ -53,15 +55,15 @@ generator:
         id:           { credentials: [administrator], mode: edit }
         agent_id:     { params: peer_method=getAgentsForCurrentUser}
         token:        { params: onblur=updateUri() }
-        language:     { type: select_language_tag }
-      hide:           [base_domain]
+        languages:    { type: admin_select_language, params: multiple=true style="width:99%" }
+        language:     { type: admin_select_language, params: limitmethod=getLanguages style="width:99%" }
+#      hide:           [base_domain]
       display:
         "-Metadata":  { fields: [id, created_at, created_user, updated_at, updated_user], mode: edit }
-        "Detail":     [agent_id, name]
+        "Detail":     [agent_id, name, languages, language, status_id]
 #        "Namespace":  [token, uri, ns_type]
-        "Namespace":  [token, uri]
+        "Namespace":  [ repo, base_domain, token, uri]
         "Documentation": [url, note, community]
-        "Defaults":   [status_id, language]
       actions:
         _list:         -
         _save:         { credentials: [[administrator, hasAgents, schemamaintainer, schemaadmin]] }
@@ -81,16 +83,13 @@ generator:
         list_users:    { name: - }
       display:
         "-Metadata":   { fields: [id, created_at, created_user, updated_at, updated_user], credentials: [[administrator, schemamaintainer, schemaadmin]] }
-        "Detail":      [_agent, name]
+        "Detail":      [_agent, name, _languages, _language, status]
 #        "Namespace":   [token, uri, ns_type]
-        "Namespace":   [token, _uri]
+        "Namespace":   [repo, base_domain, token, _uri]
         "Documentation": [url, note, community]
-        "Defaults":    [status, _language]
         "-Users":      [_list_users]
       actions:
         _list:
         _edit:       { credentials: [[administrator, schemamaintainer, schemaadmin]] }
-        showRdf:
-          name:      Get RDF
-          icon:      %SF_ADMIN_WEB_DIR%/images/rdf_icon.png
-          route:     rdf_schema
+        _publish:    { credentials: [[administrator, schemaadmin]] }
+

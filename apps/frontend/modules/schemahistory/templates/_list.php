@@ -9,13 +9,16 @@
 </tr>
 </thead>
 <tfoot>
-<tr><th colspan="6">
+<tr><th colspan="7">
 <div class="float-right">
 <?php if ($pager->haveToPaginate()): ?>
   <?php $filterParam = ''; ?>
-<?php if ($sf_params->has('schema_id')): ?>
-    <?php $filterParam .= '&schema_id=' . $sf_params->get('schema_id'); ?>
-<?php endif; ?>
+    <?php if ($sf_params->has('schema_id')): ?>
+        <?php $filterParam .= '&schema_id=' . $sf_params->get('schema_id'); ?>
+    <?php endif; ?>
+    <?php if ($sf_params->has('import_id')): ?>
+        <?php $filterParam .= '&import_id=' . $sf_params->get('import_id'); ?>
+    <?php endif; ?>
 <?php if ($sf_params->has('schema_property_id')): ?>
     <?php $filterParam .= '&schema_property_id=' . $sf_params->get('schema_property_id'); ?>
 <?php endif; ?>
@@ -45,7 +48,7 @@
 <?php if ($ts < $tsLast && $ts >= $tsNew): ?>
 <tr>
   <td><strong>Version:</strong></td>
-  <td colspan="5"><?php echo $version->getName(); ?></td>
+  <td colspan="6"><?php echo $version->getName(); ?></td>
   <td><?php $value = get_partial(
         'ts',
         array(
@@ -53,7 +56,7 @@
           'schema_property_element_history' => $schema_property_element_history,
           'version' => $version));
           echo ($value) ? $value : '&nbsp;' ?>
-</td></tr><?php //debugbreak(); ?>
+</td></tr>
 <?php endif; ?>
 <?php endforeach; $tsLast = $tsNew ?>
 <tr class="sf_admin_row_<?php echo $odd ?>">

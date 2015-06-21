@@ -23,6 +23,9 @@
  */
 class sfContext
 {
+  /**
+   * @var $response sfWebResponse
+   */
   protected
     $actionStack       = null,
     $controller        = null,
@@ -235,7 +238,7 @@ class sfContext
   /**
    * Retrieve the response.
    *
-   * @return sfResponse The current sfResponse implementation instance.
+   * @return sfWebResponse The current sfResponse implementation instance.
    */
   public function getResponse()
   {
@@ -293,7 +296,7 @@ class sfContext
   /**
    * Retrieve the user.
    *
-   * @return sfUser The current sfUser implementation instance.
+   * @return myUser The current sfUser implementation instance.
    */
   public function getUser()
   {

@@ -83,9 +83,11 @@ class SchemaPropertyElementMapBuilder {
 
 		$tMap->addForeignKey('RELATED_SCHEMA_PROPERTY_ID', 'RelatedSchemaPropertyId', 'int', CreoleTypes::INTEGER, 'reg_schema_property', 'ID', false, null);
 
-		$tMap->addColumn('LANGUAGE', 'Language', 'string', CreoleTypes::CHAR, false, 6);
+		$tMap->addColumn('LANGUAGE', 'Language', 'string', CreoleTypes::CHAR, true, 6);
 
 		$tMap->addForeignKey('STATUS_ID', 'StatusId', 'int', CreoleTypes::INTEGER, 'reg_status', 'ID', false, null);
+
+		$tMap->addColumn('IS_GENERATED', 'IsGenerated', 'boolean', CreoleTypes::BOOLEAN, true, null);
 
 	} // doBuild()
 

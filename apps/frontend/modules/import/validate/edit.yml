@@ -1,0 +1,25 @@
+methods:
+  post: ["file_import_history{filename}"]
+
+names:
+  file_import_history{filename}:
+    required:     Yes
+    required_msg: Please select a file to upload
+    file:         Yes
+    validators:   myFileValidator
+
+myFileValidator:
+  class:              sfFileValidator
+  param:
+    mime_types:
+      - 'text/csv'
+      - 'application/csv'
+    mime_types_error: Only CSV files are allowed
+    max_size:         2048000
+    max_size_error:   Max size is 2Mb
+
+importValidator:
+    class:         myImportValidator
+
+fillin:
+  activate: on

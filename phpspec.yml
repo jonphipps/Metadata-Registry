@@ -1,0 +1,5 @@
+suites:
+  ImportVocab_suite:
+    namespace: ImportVocab
+    src_path: plugins/jpAdminGeneratorPlugin/lib
+    spec_path: plugins/jpAdminGeneratorPlugin/lib

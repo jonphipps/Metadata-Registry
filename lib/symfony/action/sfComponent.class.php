@@ -3,7 +3,7 @@
 /*
  * This file is part of the symfony package.
  * (c) 2004-2006 Fabien Potencier <fabien.potencier@symfony-project.com>
- * 
+ *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
@@ -18,6 +18,21 @@
  */
 abstract class sfComponent
 {
+  /**
+   * @var $context sfContext
+   */
+  /**
+   * @var myWebRequest $request
+   */
+  /**
+   * @var sfWebResponse $response
+   */
+  /**
+   * @var sfParameterHolder $varHolder
+   */
+  /**
+   * @var sfParameterHolder $requestParameterHolder
+   */
   protected
     $context                = null,
     $request                = null,
@@ -63,7 +78,7 @@ abstract class sfComponent
   /**
    * Initializes this component.
    *
-   * @param sfContext The current application context
+   * @param sfContext $context The current application context
    *
    * @return boolean true, if initialization completes successfully, otherwise false
    */
@@ -101,8 +116,8 @@ abstract class sfComponent
   /**
    * Logs a message using the sfLogger object.
    *
-   * @param mixed  String or object containing the message to log
-   * @param string The priority of the message
+   * @param mixed $message String or object containing the message to log
+   * @param string $priority The priority of the message
    *               (available priorities: emerg, alert, crit, err, warning, notice, info, debug)
    *
    * @see sfLogger
@@ -118,7 +133,7 @@ abstract class sfComponent
   /**
    * Displays a message as a short message in the sfWebDebug toolbar.
    *
-   * @param string The message text
+   * @param string $message The message text
    *
    * @see sfWebDebug
    */
@@ -137,7 +152,9 @@ abstract class sfComponent
    *
    * <code>$this->getRequest()->getParameterHolder()->get($name)</code>
    *
-   * @param  string The parameter name
+   * @param  string $name The parameter name
+   *
+   * @param string    $default
    *
    * @return string The request parameter value
    */
@@ -153,7 +170,7 @@ abstract class sfComponent
    *
    * <code>$this->getRequest()->getParameterHolder()->has($name)</code>
    *
-   * @param  string  The parameter name
+   * @param  string $name The parameter name
    * @return boolean true if the request parameter exists, false otherwise
    */
   public function hasRequestParameter($name)
@@ -168,7 +185,7 @@ abstract class sfComponent
    *
    * <code>$this->getContext()->getRequest()</code>
    *
-   * @return sfRequest The current sfRequest implementation instance
+   * @return sfWebRequest The current sfRequest implementation instance
    */
   public function getRequest()
   {
@@ -182,7 +199,7 @@ abstract class sfComponent
    *
    * <code>$this->getContext()->getResponse()</code>
    *
-   * @return sfResponse The current sfResponse implementation instance
+   * @return sfWebResponse The current sfResponse implementation instance
    */
   public function getResponse()
   {
@@ -210,7 +227,7 @@ abstract class sfComponent
    *
    * <code>$this->getContext()->getUser()</code>
    *
-   * @return sfUser The current sfUser implementation instance
+   * @return myUser The current sfUser implementation instance
    */
   public function getUser()
   {
@@ -220,8 +237,8 @@ abstract class sfComponent
   /**
    * Sets a variable for the template.
    *
-   * @param  string The variable name
-   * @param  mixed  The variable value
+   * @param  string $name The variable name
+   * @param  mixed $value The variable value
    */
   public function setVar($name, $value)
   {
@@ -231,7 +248,7 @@ abstract class sfComponent
   /**
    * Gets a variable set for the template.
    *
-   * @param  string The variable name
+   * @param  string $name The variable name
    * @return mixed  The variable value
    */
   public function getVar($name)
@@ -256,8 +273,8 @@ abstract class sfComponent
    *
    * <code>$this->setVar('name', 'value')</code>
    *
-   * @param  string The variable name
-   * @param  string The variable value
+   * @param  string $key The variable name
+   * @param  string $value The variable value
    *
    * @return boolean always true
    *
@@ -275,7 +292,7 @@ abstract class sfComponent
    *
    * <code>$this->getVar('name')</code>
    *
-   * @param  string The variable name
+   * @param  string $key The variable name
    *
    * @return mixed The variable value
    *
@@ -293,7 +310,7 @@ abstract class sfComponent
    *
    * <code>$this->getVarHolder()->has('name')</code>
    *
-   * @param  string The variable name
+   * @param  string $name The variable name
    *
    * @return boolean true if the variable is set
    */
@@ -309,7 +326,7 @@ abstract class sfComponent
    *
    * <code>$this->getVarHolder()->remove('name')</code>
    *
-   * @param  string The variable Name
+   * @param  string $name The variable Name
    */
   public function __unset($name)
   {
@@ -319,9 +336,9 @@ abstract class sfComponent
   /**
    * Sets a flash variable that will be passed to the very next action.
    *
-   * @param  string  The name of the flash variable
-   * @param  string  The value of the flash variable
-   * @param  boolean true if the flash have to persist for the following request (true by default)
+   * @param  string $name The name of the flash variable
+   * @param  string $value The value of the flash variable
+   * @param  boolean $persist true if the flash have to persist for the following request (true by default)
    */
   public function setFlash($name, $value, $persist = true)
   {
@@ -341,7 +358,7 @@ abstract class sfComponent
   /**
    * Gets a flash variable.
    *
-   * @param  string The name of the flash variable
+   * @param  string $name The name of the flash variable
    *
    * @return mixed The value of the flash variable
    */
@@ -352,8 +369,8 @@ abstract class sfComponent
 
   /**
    * Returns true if a flash variable of the specified name exists.
-   * 
-   * @param  string The name of the flash variable
+   *
+   * @param  string $name The name of the flash variable
    *
    * @return boolean   true if the variable exists, false otherwise
    */
@@ -371,8 +388,8 @@ abstract class sfComponent
    *
    * <code>$this->getController()->sendEmail($module, $action)</code>
    *
-   * @param  string A module name
-   * @param  string An action name
+   * @param  string $module A module name
+   * @param  string $action An action name
    *
    * @return string The generated mail content
    *
@@ -390,9 +407,9 @@ abstract class sfComponent
    *
    * <code>$this->getController()->getPresentationFor($module, $action, $viewName)</code>
    *
-   * @param  string A module name
-   * @param  string An action name
-   * @param  string A View class name
+   * @param  string $module A module name
+   * @param  string $action An action name
+   * @param  string $viewName A View class name
    *
    * @return string The generated content
    *
@@ -406,9 +423,10 @@ abstract class sfComponent
   /**
    * Calls methods defined via the sfMixer class.
    *
-   * @param string The method name
-   * @param array  The method arguments
+   * @param string $method    The method name
+   * @param array  $arguments The method arguments
    *
+   * @throws sfException
    * @return mixed The returned value of the called method
    *
    * @see sfMixer

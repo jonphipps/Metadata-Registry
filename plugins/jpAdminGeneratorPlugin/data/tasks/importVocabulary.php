@@ -73,7 +73,7 @@ function run_import_repair($task, $args)
     /** @var $history FileImportHistory */
     foreach ($batch as $history) {
         //get result array
-        $results = unserialize($history->getResults());
+        $results = $history->getResults();
         $rows = $results['success']['rows'];
         $userId = $history->getUserId();
         //for each row

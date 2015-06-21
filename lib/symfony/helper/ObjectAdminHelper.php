@@ -102,7 +102,7 @@ function object_admin_double_list($object, $method, $options = array(), $callbac
 ';
 
   $response = sfContext::getInstance()->getResponse();
-  $response->addJavascript(sfConfig::get('sf_prototype_web_dir').'/js/prototype');
+  $response->addJavascript(sfConfig::get('sf_prototype_web_dir').'/prototype.min.js');
   $response->addJavascript(sfConfig::get('sf_admin_web_dir').'/js/double_list');
 
   return sprintf($html,
@@ -208,4 +208,14 @@ function _get_object_list($object, $method, $options, $callback)
   }
 
   return call_user_func($callback, $object, $method, $options);
+}
+function object_admin_select_language($object, $method, $options = array(), $default_value = null) {
+  //$params = array_merge(array('control_name' => $this->getSingularName() . '[' . $column->getName() . ']'), $params);
+  $options = _parse_attributes($options);
+  $value = _get_object_value($object, $method, $default_value);
+  if (isset($options['limitmethod']))
+  {
+    $options['languages'] = _get_object_value($object, $options['limitmethod']);
+  }
+  return select_language_tag($options['control_name'], $value, $options);
 }

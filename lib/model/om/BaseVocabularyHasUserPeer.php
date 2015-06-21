@@ -19,7 +19,7 @@ abstract class BaseVocabularyHasUserPeer {
 	const CLASS_DEFAULT = 'lib.model.VocabularyHasUser';
 
 	/** The total number of columns. */
-	const NUM_COLUMNS = 9;
+	const NUM_COLUMNS = 12;
 
 	/** The number of lazy-loaded columns. */
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -52,6 +52,15 @@ abstract class BaseVocabularyHasUserPeer {
 	/** the column name for the IS_ADMIN_FOR field */
 	const IS_ADMIN_FOR = 'reg_vocabulary_has_user.IS_ADMIN_FOR';
 
+	/** the column name for the LANGUAGES field */
+	const LANGUAGES = 'reg_vocabulary_has_user.LANGUAGES';
+
+	/** the column name for the DEFAULT_LANGUAGE field */
+	const DEFAULT_LANGUAGE = 'reg_vocabulary_has_user.DEFAULT_LANGUAGE';
+
+	/** the column name for the CURRENT_LANGUAGE field */
+	const CURRENT_LANGUAGE = 'reg_vocabulary_has_user.CURRENT_LANGUAGE';
+
 	/** The PHP to DB Name Mapping */
 	private static $phpNameMap = null;
 
@@ -63,10 +72,10 @@ abstract class BaseVocabularyHasUserPeer {
 	 * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
 	 */
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'CreatedAt', 'UpdatedAt', 'DeletedAt', 'VocabularyId', 'UserId', 'IsMaintainerFor', 'IsRegistrarFor', 'IsAdminFor', ),
-		BasePeer::TYPE_COLNAME => array (VocabularyHasUserPeer::ID, VocabularyHasUserPeer::CREATED_AT, VocabularyHasUserPeer::UPDATED_AT, VocabularyHasUserPeer::DELETED_AT, VocabularyHasUserPeer::VOCABULARY_ID, VocabularyHasUserPeer::USER_ID, VocabularyHasUserPeer::IS_MAINTAINER_FOR, VocabularyHasUserPeer::IS_REGISTRAR_FOR, VocabularyHasUserPeer::IS_ADMIN_FOR, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'created_at', 'updated_at', 'deleted_at', 'vocabulary_id', 'user_id', 'is_maintainer_for', 'is_registrar_for', 'is_admin_for', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'CreatedAt', 'UpdatedAt', 'DeletedAt', 'VocabularyId', 'UserId', 'IsMaintainerFor', 'IsRegistrarFor', 'IsAdminFor', 'Languages', 'DefaultLanguage', 'CurrentLanguage', ),
+		BasePeer::TYPE_COLNAME => array (VocabularyHasUserPeer::ID, VocabularyHasUserPeer::CREATED_AT, VocabularyHasUserPeer::UPDATED_AT, VocabularyHasUserPeer::DELETED_AT, VocabularyHasUserPeer::VOCABULARY_ID, VocabularyHasUserPeer::USER_ID, VocabularyHasUserPeer::IS_MAINTAINER_FOR, VocabularyHasUserPeer::IS_REGISTRAR_FOR, VocabularyHasUserPeer::IS_ADMIN_FOR, VocabularyHasUserPeer::LANGUAGES, VocabularyHasUserPeer::DEFAULT_LANGUAGE, VocabularyHasUserPeer::CURRENT_LANGUAGE, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'created_at', 'updated_at', 'deleted_at', 'vocabulary_id', 'user_id', 'is_maintainer_for', 'is_registrar_for', 'is_admin_for', 'languages', 'default_language', 'current_language', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, )
 	);
 
 	/**
@@ -76,10 +85,10 @@ abstract class BaseVocabularyHasUserPeer {
 	 * e.g. self::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
 	 */
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'CreatedAt' => 1, 'UpdatedAt' => 2, 'DeletedAt' => 3, 'VocabularyId' => 4, 'UserId' => 5, 'IsMaintainerFor' => 6, 'IsRegistrarFor' => 7, 'IsAdminFor' => 8, ),
-		BasePeer::TYPE_COLNAME => array (VocabularyHasUserPeer::ID => 0, VocabularyHasUserPeer::CREATED_AT => 1, VocabularyHasUserPeer::UPDATED_AT => 2, VocabularyHasUserPeer::DELETED_AT => 3, VocabularyHasUserPeer::VOCABULARY_ID => 4, VocabularyHasUserPeer::USER_ID => 5, VocabularyHasUserPeer::IS_MAINTAINER_FOR => 6, VocabularyHasUserPeer::IS_REGISTRAR_FOR => 7, VocabularyHasUserPeer::IS_ADMIN_FOR => 8, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'created_at' => 1, 'updated_at' => 2, 'deleted_at' => 3, 'vocabulary_id' => 4, 'user_id' => 5, 'is_maintainer_for' => 6, 'is_registrar_for' => 7, 'is_admin_for' => 8, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'CreatedAt' => 1, 'UpdatedAt' => 2, 'DeletedAt' => 3, 'VocabularyId' => 4, 'UserId' => 5, 'IsMaintainerFor' => 6, 'IsRegistrarFor' => 7, 'IsAdminFor' => 8, 'Languages' => 9, 'DefaultLanguage' => 10, 'CurrentLanguage' => 11, ),
+		BasePeer::TYPE_COLNAME => array (VocabularyHasUserPeer::ID => 0, VocabularyHasUserPeer::CREATED_AT => 1, VocabularyHasUserPeer::UPDATED_AT => 2, VocabularyHasUserPeer::DELETED_AT => 3, VocabularyHasUserPeer::VOCABULARY_ID => 4, VocabularyHasUserPeer::USER_ID => 5, VocabularyHasUserPeer::IS_MAINTAINER_FOR => 6, VocabularyHasUserPeer::IS_REGISTRAR_FOR => 7, VocabularyHasUserPeer::IS_ADMIN_FOR => 8, VocabularyHasUserPeer::LANGUAGES => 9, VocabularyHasUserPeer::DEFAULT_LANGUAGE => 10, VocabularyHasUserPeer::CURRENT_LANGUAGE => 11, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'created_at' => 1, 'updated_at' => 2, 'deleted_at' => 3, 'vocabulary_id' => 4, 'user_id' => 5, 'is_maintainer_for' => 6, 'is_registrar_for' => 7, 'is_admin_for' => 8, 'languages' => 9, 'default_language' => 10, 'current_language' => 11, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, )
 	);
 
 	/**
@@ -197,6 +206,12 @@ abstract class BaseVocabularyHasUserPeer {
         $criteria->addSelectColumn(($tableAlias) ? VocabularyHasUserPeer::alias($tableAlias, VocabularyHasUserPeer::IS_REGISTRAR_FOR) : VocabularyHasUserPeer::IS_REGISTRAR_FOR);
 
         $criteria->addSelectColumn(($tableAlias) ? VocabularyHasUserPeer::alias($tableAlias, VocabularyHasUserPeer::IS_ADMIN_FOR) : VocabularyHasUserPeer::IS_ADMIN_FOR);
+
+        $criteria->addSelectColumn(($tableAlias) ? VocabularyHasUserPeer::alias($tableAlias, VocabularyHasUserPeer::LANGUAGES) : VocabularyHasUserPeer::LANGUAGES);
+
+        $criteria->addSelectColumn(($tableAlias) ? VocabularyHasUserPeer::alias($tableAlias, VocabularyHasUserPeer::DEFAULT_LANGUAGE) : VocabularyHasUserPeer::DEFAULT_LANGUAGE);
+
+        $criteria->addSelectColumn(($tableAlias) ? VocabularyHasUserPeer::alias($tableAlias, VocabularyHasUserPeer::CURRENT_LANGUAGE) : VocabularyHasUserPeer::CURRENT_LANGUAGE);
 
 	}
 

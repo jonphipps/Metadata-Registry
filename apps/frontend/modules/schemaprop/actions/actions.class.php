@@ -3,6 +3,16 @@
 /**
  * schemaprop actions.
  *
+ * @property SchemaProperty property
+ * @property Schema         schema
+ * @property int            timestamp
+ * @property array          labels
+ * @property int            schemaID
+ * @property SchemaProperty schemaprop
+ * @property sfPropelPager  pager
+ * @property array          filters
+ * @property SchemaProperty schema_property
+ *
  * @package    registry
  * @subpackage schemaprop
  * @author     Jon Phipps <jonphipps@gmail.com>
@@ -43,41 +53,92 @@ class schemapropActions extends autoschemapropActions
     parent::setDefaults($schemaprop);
   }
 
+  /**
+   * @param SchemaProperty $schemaprop
+   * @param Schema         $schemaObj
+   */
   public function setDefaultUri($schemaprop, $schemaObj)
   {
-    $schemaDomain = $schemaObj->getUri();
-    //URI looks like: agent(base_domain) / schema(token) / schema(next_schemaprop_id) / skos_property_id # schemaprop(next_property_id)
-    $trailer = preg_match('%(/|#)$%im', $schemaDomain) ? '' : '/';
-    $newURI = $schemaDomain . $trailer;
-    //registry base domain is http://metadataregistry.org/uri/
-    //schema carries denormalized base_domain from agent
+    $newURI = $this->getBaseUri($schemaObj);
 
-    $schemaprop->setSchemaUri($newURI);
+    $UriId = $schemaObj->getLastUriId() + 1;
+    $schemaObj->setLastUriId($UriId);
+    $schemaObj->save();
+    $schemaprop->setUri($newURI . $UriId);
+
+    $this->setDefaultLexicalAlias($schemaprop, $newURI);
+  }
+
+  /**
+   * @param SchemaProperty $schemaprop
+   * @param string         $newURI
+   */
+  public function setDefaultLexicalAlias($schemaprop, $newURI)
+  {
+    $schemaprop->setLexicalAlias($newURI . "[LEXICAL_TOKEN]");
   }
 
   public function executeEdit()
   {
-
-    /**
-    * @todo this is a hack to sidestep issues related to another hack -- subpropertyof and subclass0f must have the same value
-    **/
-    $schema_property = $this->getRequestParameter('schema_property');
-
-    if ("subclass" == $schema_property['type'])
-    {
-      $schema_property['is_subproperty_of'] = $schema_property['is_subclass_of'];
-    }
-    if ("subproperty" == $schema_property['type'])
-    {
-      $schema_property['is_subclass_of'] = $schema_property['is_subproperty_of'];
-    }
-
-    $this->getContext()->getRequest()->setParameter('schema_property', $schema_property);
-
-    parent::executeEdit();
+    /** @var \myUser $sfUser */
+    $sfUser = sfContext::getInstance()->getUser();
+    $userId = $sfUser->getSubscriberId();
     $schemaObj = $this->getCurrentSchema();
-    $schemaprop = $this->schema_property;
-    $this->setDefaultUri($schemaprop, $schemaObj);
+    $CurrentCulture = $sfUser->getCulture();
+
+    //FIXME: If the user is an admin, set the available languages to all of the schema languages
+    //FIXME: if the user has no languages set, silently set their language to the default (?)
+    if ($userId) {
+      $c = new Criteria();
+      $c->add(SchemaHasUserPeer::USER_ID, $userId);
+      $c->add(SchemaHasUserPeer::SCHEMA_ID, $schemaObj->getId());
+      $schemaUser = SchemaHasUserPeer::doSelectOne($c);
+
+      if ($sfUser->hasObjectCredential($schemaObj->getId(), 'schema', array(
+            0 => array(
+                  0 => 'administrator',
+                  2 => 'schemaadmin',
+            ),
+      ))
+      ) {
+        $UserLanguages = $schemaObj->getLanguages();
+        $DefaultLanguage = $schemaObj->getLanguage();
+      } else {
+        if ($schemaUser) {
+          $UserLanguages = $schemaUser->getLanguages();
+          $DefaultLanguage = $schemaUser->getDefaultLanguage();
+        } else {
+          //set the languages from the schema
+          $UserLanguages = $schemaObj->getLanguages();
+          $DefaultLanguage = $schemaObj->getLanguage();
+        }
+      }
+
+      if (is_array($UserLanguages) && !in_array($CurrentCulture, $UserLanguages)) {
+        //save the current culture
+        $UserCulture = $sfUser->getCulture();
+        $this->getUser()->setAttribute("UserCulture", $UserCulture);
+        //reset the current culture for edit
+        $sfUser->setCulture($DefaultLanguage);
+        $this->getUser()->setAttribute("CurrentLanguage", $DefaultLanguage);
+        $culture = new sfCultureInfo($this->getUser()->getCulture());
+        $this->setFlash('notice', 'Current language is not available for edit! Current editing language has been reset to: ' . $culture->getNativeName());
+      }
+      $this->getUser()->setAttribute("languages", $UserLanguages);
+    }
+    parent::executeEdit();
+    /** @var $schemaProperty SchemaProperty */
+    $schemaProperty = $this->schema_property;
+    if ($schemaProperty) {
+      $schemaObj = $this->getCurrentSchema();
+      $schemaProperty->setSchemaUri($this->getBaseUri($schemaObj));
+
+      $lexUri = $schemaProperty->getLexicalAlias();
+      if (empty($lexUri)) {
+        $newURI = $this->getBaseUri($schemaObj);
+        $this->setDefaultLexicalAlias($schemaProperty, $newURI);
+      }
+    }
   }
 
   public function executeList ()
@@ -96,6 +157,9 @@ class schemapropActions extends autoschemapropActions
     parent::executeList();
   }
 
+  /**
+   * Show RDF
+   */
   public function executeShowRdf ()
   {
     $ts = strtotime($this->getRequestParameter('ts'));
@@ -128,7 +192,7 @@ class schemapropActions extends autoschemapropActions
         $schema = $this->schemaprop->getSchema();
         if ($schema)
         {
-          myActionTools::setLatestSchema($schema);
+          myActionTools::setLatestSchema($schema->getId());
         }
       }
     }
@@ -143,7 +207,7 @@ class schemapropActions extends autoschemapropActions
 
   public function executeProperties()
   {
-    $this->redirect('/schemapropprop/list?schemaprop_id=' . $this->getRequestParameter('id') );
+    $this->redirect('/schemaprop/list?schemaprop_id=' . $this->getRequestParameter('id'));
   }
 
   public function executeGetSchemaPropertyList()
@@ -160,6 +224,22 @@ class schemapropActions extends autoschemapropActions
          $options[''] = 'There are no related schemaprops to select';
      }
      $this->schemaprops = $options;
+  }
+
+  /**
+   * @param  Schema $schemaObj
+   *
+   * @return string
+   */
+  public function getBaseUri($schemaObj)
+  {
+    $schemaDomain = $schemaObj->getUri();
+    //URI looks like: agent(base_domain) / schema(token) / schema(next_schemaprop_id) / skos_property_id # schemaprop(next_property_id)
+    $trailer = preg_match('%(/|#)$%im', $schemaDomain) ? '' : '/';
+    $newURI  = $schemaDomain . $trailer;
+    return $newURI;
+    //registry base domain is http://metadataregistry.org/uri/
+    //schema carries denormalized base_domain from agent
   }
 
   /**

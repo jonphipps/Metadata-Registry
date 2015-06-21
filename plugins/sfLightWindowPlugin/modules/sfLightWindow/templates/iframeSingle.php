@@ -14,7 +14,7 @@
   <title>sfLightWindowPlugin Demo</title>
 
   <script type="text/javascript" src="/sf/sf_web_debug/js/main.js"></script>
-  <script type="text/javascript" src="/sfLightWindowPlugin/js/prototype.js"></script>
+  <script type="text/javascript" src="/sfLightWindowPlugin/prototype.min.js"></script>
   
 	<style type="text/css">
         

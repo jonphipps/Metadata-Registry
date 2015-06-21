@@ -1,5 +1,6 @@
 prod:
   .settings:
+    timeout:                 31536000
     no_script_name:           on
     cache:                  on
     etag:                   on
@@ -9,12 +10,13 @@ sandbox:
     no_script_name:           on
 dev:
   .settings:
+    timeout:                 31536000
     # E_ALL | E_STRICT = 4095
     # error_reporting:        4095
     # E_ALL
-    error_reporting:        -1
+    error_reporting:        15
     web_debug:              on
-    cache:                  on
+    cache:                  off
     no_script_name:         off
     etag:                   off
     # Activated modules from plugins or from the symfony core
@@ -22,8 +24,27 @@ dev:
 
 test:
   .settings:
+    timeout:                 31536000
     # E_ALL | E_STRICT & ~E_NOTICE = 2047
-    error_reporting:        2047
+    error_reporting:        15
+    cache:                  off
+    web_debug:              on
+    no_script_name:         off
+    etag:                   on
+test-empty:
+  .settings:
+    timeout:                 31536000
+    # E_ALL | E_STRICT & ~E_NOTICE = 2047
+    error_reporting:        15
+    cache:                  off
+    web_debug:              on
+    no_script_name:         off
+    etag:                   on
+test-update:
+  .settings:
+    timeout:                 31536000
+    # E_ALL | E_STRICT & ~E_NOTICE = 2047
+    error_reporting:        15
     cache:                  off
     web_debug:              on
     no_script_name:         off
@@ -40,6 +61,7 @@ all:
     standard_helpers:       [Partial, Cache, Form, I18N]
     timeout:                43200
     suffix:                .html
+
 #    default_module:         default   # Default module and action to be called when
 #    default_action:         index     # A routing rule doesn't set it
 #
@@ -105,7 +127,7 @@ all:
 #    standard_helpers:       [Partial, Cache, Form]
 #
 #    # Activated modules from plugins or from the symfony core
-#    enabled_modules:        [default]
+    enabled_modules:        [default, sfSelect2Widgets]
 #
 #    # Charset used for the response
 #    charset:                utf-8

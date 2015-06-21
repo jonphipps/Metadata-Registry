@@ -1,9 +1,10 @@
 all:
   stylesheets: [concept/layout, tabs]
-  javascripts: [%SF_PROTOTYPE_WEB_DIR%/js/prototype: { position: last }]
+  javascripts: [%SF_PROTOTYPE_WEB_DIR%/prototype.min.js: { position: last }]
 
 editSuccess:
-  javascripts: [schemaprop/swapoptions: { position: last }, schemaprop: { position: last }]
+  stylesheets: [%sf_select2_web_dir%/select2]
+  javascripts: [schemaprop/swapoptions: { position: last }, schemaprop: { position: last }, %sf_jquery_web_dir%/jquery: { position: first }, %sf_select2_web_dir%/select2: { position: first }, "https://cdn.rawgit.com/jprichardson/string.js/master/lib/string.min.js": { position: last } ]
 
 showRdfSuccess:
   has_layout: off

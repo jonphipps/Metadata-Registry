@@ -4,8 +4,8 @@ class myActionTools
   /**
   * update the currently set filters
   *
-  * @return none
-  * @param  string $filter the name of the filtet, typically from the query string
+   * @param sfParameterHolder $attributeHolder
+   * @param  string           $filter    the name of the filter, typically from the query string
   * @param  string $value the value of the filter
   * @param  string $namespace the local filter namespace ('sf_admin/$namespace/filters')
   */
@@ -20,17 +20,17 @@ class myActionTools
   * require that there be a schema
   *
   * returns a 404 if no schema has already been selected
-  * Peforms a redirect if one has but the param has not been added to the request
+   * Performs a redirect if one has but the param has not been added to the request
   *
   * @param  string $module The calling module
   * @param  string $action The calling action
   */
   public static function requireSchemaFilter()
   {
+    /* @var sfAction */
     $actionInstance = sfContext::getInstance()->getActionStack()->getLastEntry()->getActionInstance();
     /** @var Schema **/
     $schema = self::findCurrentSchema();
-    /* @var sfAction */
     $actionInstance->forward404Unless($schema,'No Element Set has been selected.');
 
     //check to see if there's the correct request parameter
@@ -58,7 +58,7 @@ class myActionTools
   * require that there be a property
   *
   * returns a 404 if no vocabulary has already been selected
-  * Peforms a redirect if one has but the param has not been added to the request
+  * Performs a redirect if one has but the param has not been added to the request
   *
   */
   public static function requireSchemaPropertyFilter()
@@ -94,7 +94,7 @@ class myActionTools
   * require that there be a vocabulary
   *
   * returns a 404 if no vocabulary has already been selected
-  * Peforms a redirect if one has but the param has not been added to the request
+  * Performs a redirect if one has but the param has not been added to the request
   *
   * @return  Vocabulary The current vocabulary object
   */
@@ -227,7 +227,9 @@ class myActionTools
   public static function setLatestagent($agentId)
   {
     $agentObj = AgentPeer::retrieveByPK($agentId);
+    if ($agentObj) {
     sfContext::getInstance()->getUser()->setCurrentagent($agentObj);
+    }
     return $agentObj;
   }
 
@@ -428,9 +430,11 @@ class myActionTools
   /**
   * gets the current schema object
   *
-  * @return mixed current schema object, or false
+   * @param null|SchemaProperty|SchemaPropertyElement $using will be one of the subordinate objects
+   *
+   * @return bool|Schema current schema object, or false
   */
-  public static function findCurrentSchema()
+  public static function findCurrentSchema($using = null)
   {
     $instance = sfContext::getInstance();
     $user = $instance->getUser();
@@ -453,6 +457,14 @@ class myActionTools
 
     $schema = $user->getCurrentSchema();
 
+    if ($using and !$schema)
+    {
+      $schema = SchemaPeer::retrieveByPK($using);
+      if ($schema)
+      {
+        $schemaId = $schema->getId();
+      }
+    }
     //We got here and there's a schema_id but we didn't get the stored schema object
     if ($schemaId && !$schema)
     {
@@ -484,8 +496,8 @@ class myActionTools
   * description
   *
   * @return Schema Current schema object
-  * @param  integer $schemaId
-  * @param  object $schemaId
+   *
+   * @param int $schemaId
   */
   public static function setLatestSchema($schemaId)
   {
@@ -575,4 +587,10 @@ class myActionTools
     return $propertyObj;
   }
 
+  /**
+   * Gets the current editorial language
+   */
+  public static function getEditLanguage() {
+    return new sfCultureInfo(sfContext::getInstance()->getUser()->getCulture());
+  }
 }

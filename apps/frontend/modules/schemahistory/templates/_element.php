@@ -1,5 +1,4 @@
 <?php
-//debugbreak();
    $element = $schema_property_element_history->getSchemaPropertyElement();
    if ($element)
    {

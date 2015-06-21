@@ -103,6 +103,10 @@ class SchemaPropertyMapBuilder {
 
 		$tMap->addColumn('IS_DEPRECATED', 'IsDeprecated', 'boolean', CreoleTypes::BOOLEAN, false, null);
 
+		$tMap->addColumn('URL', 'Url', 'string', CreoleTypes::VARCHAR, false, 255);
+
+		$tMap->addColumn('LEXICAL_ALIAS', 'LexicalAlias', 'string', CreoleTypes::VARCHAR, false, 255);
+
 	} // doBuild()
 
 } // SchemaPropertyMapBuilder

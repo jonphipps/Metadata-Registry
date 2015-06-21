@@ -121,6 +121,13 @@ class schemahistoryActions extends autoschemahistoryActions
     {
       $this->schema = $schema;
       $schemaId = $schema->getId();
+    } else {
+      $import = FileImportHistoryPeer::retrieveByPK($id);
+      if ($import)
+      {
+        $this->schema = $import->getSchema();
+        $schemaId = $this->schema->getId();
+      }
     }
 
     if (in_array($idType, array('schema_property_id','schema_property_element_id')))

@@ -1,0 +1,25 @@
+class_name: ModelTester
+error_level: "E_ALL & ~E_STRICT & ~E_USER_DEPRECATED & ~E_DEPRECATED"
+modules:
+    enabled: [Asserts, \Helper\Model, Db, Filesystem]
+    config:
+        Db:
+            user: user
+            password: password
+            dsn: mysql:host=127.0.0.1;port=3306;dbname=swregistry_test_update
+env:
+    batch:
+        modules:
+            config:
+                Db:
+                    dump: tests/_data/batch/swregistry_test_2014-01-17.sql
+    normal:
+        modules:
+            config:
+                Db:
+                    dump: tests/_data/swregistry_test.sql
+    empty:
+        modules:
+            config:
+                Db:
+                    dump: tests/_data/swregistry_test_empty.sql
