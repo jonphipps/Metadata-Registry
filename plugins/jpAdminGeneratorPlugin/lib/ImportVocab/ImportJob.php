@@ -66,6 +66,8 @@ class ImportJob
             $schema->setPrefixes($schemaPrefixes);
             $schema->save();
         }
+        try {
+
         $prolog = $import->processProlog();
         $import->processData();
         $fileImportHistory->setResults($import->results);
@@ -73,15 +75,25 @@ class ImportJob
         $fileImportHistory->setTotalProcessedCount( $import->DataWorkflowResults->getTotalProcessedCount());
         $fileImportHistory->setErrorCount($import->DataWorkflowResults->getErrorCount());
         $fileImportHistory->setSuccessCount($import->DataWorkflowResults->getSuccessCount());
-        $fileImportHistory->setResults('Your file has been imported. It took us: ' . $import->DataWorkflowResults->getElapsed()->format("%h:%i:%s"));
+        $fileImportHistory->setResults('Your file has been imported. It took us: ' . $import->DataWorkflowResults->getElapsed()->format("%h hours; %i minutes; %s seconds"));
         $fileImportHistory->save();
-
+        } catch (\Exception $e) {
+            $fileImportHistory->setResults("There was an error processing the import. Message: " . $e->getMessage());
+            $fileImportHistory->save();
+            throw $e;
+        }
         $newFilePath = \sfConfig::get( 'sf_repos_dir' ) . DIRECTORY_SEPARATOR .
                        'agents' . DIRECTORY_SEPARATOR .
                        $fileImportHistory->getSchema()->getAgentId() . DIRECTORY_SEPARATOR .
                        $fileImportHistory->getSourceFileName();
         $request = new \myWebRequest();
         $result = $request->moveToRepo($filePath, $newFilePath);
+        $schema = \SchemaPeer::retrieveByPK($schemaId);
+        if ($schema) {
+            $schema->setUpdatedAt(time());
+            $schema->setUpdatedUserId($import->userId);
+            $schema->save();
+        }
 
         unset ($import);
         unset ($request);
