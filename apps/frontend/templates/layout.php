@@ -72,6 +72,7 @@
         <td class="right">
           <div id="content_bar" class="main-subcontent">
             <?php include_component_slot('sidebar') ?>
+            <div>See a problem? <br /><?php echo link_to(__('Make an issue out of it...'), 'https://github.com/jonphipps/Metadata-Registry/issues/') ?></div>
           </div>
         </td>
       </tr>
