@@ -55,9 +55,18 @@ class SchemaProperty extends BaseSchemaProperty
      */
     public function getLanguagesForUser()
     {
-        $schemaUser = $this->getSchemaForUser();
+        $languages = null;
+        $user = sfContext::getInstance()->getUser();
+        if ($user->hasCredential('administrator')) {
+            $languages = $this->getLanguagesForSchema();
+        } else {
+            $schemaUser = $this->getSchemaForUser();
+            if ($schemaUser) {
+                $languages = $schemaUser->getLanguages();
+            }
+        }
 
-        return $schemaUser->getLanguages();
+        return $languages;
     }
 
     /**
