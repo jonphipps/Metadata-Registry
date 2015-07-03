@@ -295,19 +295,28 @@ class schemaActions extends autoschemaActions
 
   private function getDefaultLanguage($textual = false)
   {
-    if ( ! $this->schema) {
-      $this->schema = SchemaPeer::retrieveByPk($this->getRequestParameter('id'));
-    }
-    $language = $this->schema->getLanguage();
+      $language = 'en';
+      if ( ! $this->schema) {
+          $this->schema = SchemaPeer::retrieveByPk($this->getRequestParameter('id'));
+      }
+      if (isset($this->schema)) {
+          $language = $this->schema->getLanguage();
+      }
 
-    if ( ! $textual) {
-      return $language;
-    } else {
-      $cultureInfo = new sfCultureInfo($this->getUser()->getCulture());
-      $languages = $cultureInfo->getLanguages();
+      if ( ! $textual) {
+          return $language;
+      } else {
+          $culture = 'en';
+          /** @var sfUser $user */
+          $user = $this->getUser();
+          if ($user) {
+              $culture = $user->getCulture();
+          }
+          $cultureInfo = new sfCultureInfo($culture);
 
-      return $languages[ $language ];
-    }
+          $languages = $cultureInfo->getLanguages();
 
+          return $languages[$language];
+      }
   }
 }
