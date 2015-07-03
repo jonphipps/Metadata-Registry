@@ -72,7 +72,8 @@ class ExportVocab {
         $this->setUser($userId);
         $this->setAsTemplate($asTemplate);
         $this->languages = $languages;
-        $this->language = $this->getSchema()->getLanguage();
+        $schema = $this->getSchema();
+        $this->language = isset($schema) ? $schema->getLanguage() : 'en';
         $this->populate = $populate;
         $this->includeProlog = $includeProlog;
 
