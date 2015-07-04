@@ -37,7 +37,7 @@ class schemapropelActions extends autoschemapropelActions
 
       if ("edit" == $this->getActionName() && $userId) {
         $schemaUser    = $schemaObj->GetUserForSchema($userId);
-        $UserLanguages = $schemaUser->getLanguages();
+        $UserLanguages = (isset($schemaUser))? $schemaUser->getLanguages() : ['en'];
         $this->getUser()->setAttribute("languages", $UserLanguages);
 
         if (! in_array($language, $UserLanguages)) {
