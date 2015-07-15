@@ -52,3 +52,4 @@ coverage.xml
 spec/coverage
 .env
 dump.rdb
+node_modules
