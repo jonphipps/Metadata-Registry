@@ -10,6 +10,8 @@ if (count($result)) {
     $relProperty = $domain->getSchemaPropertyRelatedByRelatedSchemaPropertyId();
     if ($relProperty) {
         echo link_to($relProperty->getLabel(), 'schemaprop/show/?id=' . $relProperty->getId(), ['title' => $relProperty->getUri()]);
+    } else {
+        echo $domain->getObject();
     }
 }
     ?>
