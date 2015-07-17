@@ -81,6 +81,8 @@ generator:
           params:                   related_class=SchemaProperty peer_method=getClassesByCurrentSchemaID include_blank=true
           condition:                "$sf_flash->get('showList') || 'create' == $mode"
         language:                   { type: select_language_tag }
+          condition:                "$schema_property_element->getProfileProperty()->getHasLanguage()"
+
       display:
         "-Metadata":        { mode: edit, fields: [id, created_at, created_user, updated_at, updated_user] }
         "Detail":            [profile_property_id, profile_property, related_schema_property_id, related_schema_class_id, object, _language, status_id]
