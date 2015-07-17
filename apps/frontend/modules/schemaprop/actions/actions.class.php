@@ -75,7 +75,7 @@ class schemapropActions extends autoschemapropActions
    */
   public function setDefaultLexicalAlias($schemaprop, $newURI)
   {
-    $schemaprop->setLexicalAlias($newURI . "[LEXICAL_TOKEN]");
+    //$schemaprop->setLexicalAlias($newURI . "[LEXICAL_TOKEN]");
   }
 
   public function executeEdit()
