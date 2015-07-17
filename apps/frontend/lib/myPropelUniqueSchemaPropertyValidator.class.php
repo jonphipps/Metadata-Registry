@@ -32,7 +32,12 @@ class myPropelUniqueSchemaPropertyValidator extends sfValidator
 
     if ($object)
     {
-       //check to see if the retrieved object has the same id
+      //it's ok to use if the status is deprecated
+      if ($object->getStatusId() == 8) {
+        return true;
+      }
+
+      //check to see if the retrieved object has the same id
        if ($propertyId && ($object->getId() == $propertyId))
        {
          return true;
