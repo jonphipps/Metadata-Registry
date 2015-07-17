@@ -254,7 +254,8 @@ class SchemaPropertyElement extends BaseSchemaPropertyElement
     if ('added' == $action && !$recipElement)
     {
       //add the reciprocal
-      $recipElement = SchemaPropertyElementPeer::createElement($recipSchemaProperty, $userId, $inverseProfilePropertyId, $statusId, $language);
+      $recipElement = SchemaPropertyElementPeer::createElement($recipSchemaProperty, $userId, $inverseProfilePropertyId,
+          $statusId, $language, false, true);
     }
 
     //if action == updated
@@ -264,7 +265,8 @@ class SchemaPropertyElement extends BaseSchemaPropertyElement
       if (!$recipElement)
       {
         //create a new one
-        $recipElement = SchemaPropertyElementPeer::createElement($recipSchemaProperty, $userId, $inverseProfilePropertyId, $statusId, $language);
+        $recipElement = SchemaPropertyElementPeer::createElement($recipSchemaProperty, $userId,
+            $inverseProfilePropertyId, $statusId, $language, false, true);
       }
     }
 

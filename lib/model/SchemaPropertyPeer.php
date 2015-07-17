@@ -150,6 +150,8 @@ class SchemaPropertyPeer extends BaseSchemaPropertyPeer
     $language =  $fieldIds[ $fieldName ]['hasLang'] ? $property->getLanguage() : null ;
     $element   = SchemaPropertyElementPeer::lookupDetailElement($property->getId(), $profileId, $language);
     if ($element) {
+      //no matter what we do, it's not generated any more
+      $element->setIsGenerated(false);
       //did we make it null?
       if (0 === strlen(trim($object))) {
         //we have to make sure that it's not a subclass or subproperty
@@ -175,7 +177,7 @@ class SchemaPropertyPeer extends BaseSchemaPropertyPeer
     }
     elseif ($profileId && $object) {
       //create one
-      $element = SchemaPropertyElementPeer::createElement($property, $userId, $profileId, $statusId, $language);
+      $element = SchemaPropertyElementPeer::createElement($property, $userId, $profileId, $statusId, $language, false);
       $element->setObject($object);
       $element->setRelatedSchemaPropertyId($objectId);
       $element->setIsSchemaProperty(TRUE);

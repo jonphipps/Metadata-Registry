@@ -13,14 +13,22 @@ class SchemaPropertyElementPeer extends BaseSchemaPropertyElementPeer
      * create and add an individual element
      *
      * @param  SchemaProperty $schema_property
-     * @param  int            $userId
-     * @param  int            $fieldId
-     * @param  int            $statusId
-     * @param string          $language
+     * @param  int $userId
+     * @param  int $fieldId
+     * @param  int $statusId
+     * @param string $language
      *
-     * @return \SchemaPropertyElement
+     * @param bool $isGenerated
+     * @return SchemaPropertyElement
      */
-    public static function createElement($schema_property, $userId, $fieldId, $statusId, $language = null)
+    public static function createElement(
+        $schema_property,
+        $userId,
+        $fieldId,
+        $statusId,
+        $language = null,
+        $isGenerated = false
+    )
     {
         $element = new SchemaPropertyElement();
         $element->setCreatedUserId($userId);
@@ -29,7 +37,7 @@ class SchemaPropertyElementPeer extends BaseSchemaPropertyElementPeer
         $element->setLanguage($language);
         $element->setStatusId($statusId);
         $element->setProfilePropertyId($fieldId);
-        $element->setIsGenerated(true);
+        $element->setIsGenerated($isGenerated);
 
         return $element;
         //self::updateElement($schema_property, $element, $userId, $field, $con, $isSchemaProperty);
