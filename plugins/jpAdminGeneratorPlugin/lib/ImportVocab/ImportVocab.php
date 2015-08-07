@@ -555,24 +555,33 @@ class ImportVocab {
       }
 
       $uri = $row[13];
+      $property = null;
 
-      if (empty($row['reg_id'])) {
+      if (!empty($row['reg_id'])) {
+        $property = \SchemaPropertyPeer::retrieveByPK($row['reg_id']);
+      } else {
         //check for an existing property by uri
         $property = \SchemaPropertyPeer::retrieveByUri($uri);
-        if (!$property) { //it's a new property
-          $property = new \SchemaProperty();
-          $property->setSchemaId($this->vocabId);
-          $property->setCreatedUserId($this->userId);
-          $property->setUpdatedUserId($this->userId);
-          $property->setStatusId($rowStatus);
-          $property->setLanguage($language);
-          $property->save();
-        }
-      } else {
-        $propertyId = $row['reg_id'];
-        $property = \SchemaPropertyPeer::retrieveByPK($propertyId);
       }
+
+      //even if we found a property, we kill it if it's in a different schema than we're populating
+      if ($property and $property->getSchemaId() !== $this->vocabId) {
+        //todo: we should log this event
+        unset($property);
+      }
+
+      if (empty($property)) { //it's a new property
+        $property = new \SchemaProperty();
+        $property->setSchemaId($this->vocabId);
+        $property->setCreatedUserId($this->userId);
+        $property->setUpdatedUserId($this->userId);
+        $property->setStatusId($rowStatus);
+        $property->setLanguage($language);
+        $property->save();
+      }
+
       unset($row['reg_id']);
+
       if ($property) {
 //        if (8 == $rowStatus) {
 //          //it's been deprecated and we don't do anything else
@@ -989,6 +998,7 @@ class ImportVocab {
    * @param $rowStatusId
    * @param $cellLanguage
    * @param $cellType
+   * @param $schemaId
    * @return array $results
    * @throws \PropelException
    */
