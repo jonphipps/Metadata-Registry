@@ -17,7 +17,7 @@
   'related_class' => 'Schema',
   'peer_method' => 'getSchemaAgents',
   'text_method' => '__toString',
-  'control_name' => 'filters[agent_id]',
+  'control_name' => 'agent_id',
 )) ?>
     </div>
     </div>
