@@ -380,12 +380,12 @@ $column = sfPropelManyToMany::getColumn($class, $through_class);
   $hasFilter = false;
 <?php $urlFilters = $this->getParameterValue('list.urlfilters'); if($urlFilters): ?>
   <?php foreach ($urlFilters as $key => $param):  ?>
-  if ($this->hasRequestParameter('filters[<?php echo $param ?>]'))
+  if ($this->hasRequestParameter('<?php echo $param ?>'))
     {
       $hasFilter = true;
       //cancels all other filters
       $this->getUser()->getAttributeHolder()->removeNamespace('sf_admin/<?php echo $this->getSingularName() ?>/filters');
-      $this->getUser()->getAttributeHolder()->set('<?php echo $key ?>', $this->getRequestParameter('filters[<?php echo $param ?>]'),'sf_admin/<?php echo $this->getSingularName() ?>/filters');
+      $this->getUser()->getAttributeHolder()->set('<?php echo $key ?>', $this->getRequestParameter('<?php echo $param ?>'),'sf_admin/<?php echo $this->getSingularName() ?>/filters');
     }
   <?php endforeach ?>
 <?php endif ?>
@@ -397,21 +397,21 @@ $column = sfPropelManyToMany::getColumn($class, $through_class);
       $filters = $this->getRequestParameter('filters');
 <?php foreach ($this->getColumns('list.filters') as $column): $type = $column->getCreoleType() ?>
 <?php if ($type == CreoleTypes::DATE || $type == CreoleTypes::TIMESTAMP): ?>
-      if (isset($filters['<?php echo $column->getName() ?>']['from']) && $filters['<?php echo $column->getName() ?>']['from'] !== '')
-      {
-        $filters['<?php echo $column->getName() ?>']['from'] = sfI18N::getTimestampForCulture($filters['<?php echo $column->getName() ?>']['from'], $this->getUser()->getCulture());
-      }
-      if (isset($filters['<?php echo $column->getName() ?>']['to']) && $filters['<?php echo $column->getName() ?>']['to'] !== '')
-      {
-        $filters['<?php echo $column->getName() ?>']['to'] = sfI18N::getTimestampForCulture($filters['<?php echo $column->getName() ?>']['to'], $this->getUser()->getCulture());
-      }
+          if (isset($filters['<?php echo $column->getName() ?>']['from']) && $filters['<?php echo $column->getName() ?>']['from'] !== '')
+          {
+            $filters['<?php echo $column->getName() ?>']['from'] = sfI18N::getTimestampForCulture($filters['<?php echo $column->getName() ?>']['from'], $this->getUser()->getCulture());
+          }
+          if (isset($filters['<?php echo $column->getName() ?>']['to']) && $filters['<?php echo $column->getName() ?>']['to'] !== '')
+          {
+            $filters['<?php echo $column->getName() ?>']['to'] = sfI18N::getTimestampForCulture($filters['<?php echo $column->getName() ?>']['to'], $this->getUser()->getCulture());
+          }
 <?php endif; ?>
 <?php endforeach; ?>
 
-      $this->getUser()->getAttributeHolder()->removeNamespace('sf_admin/<?php echo $this->getSingularName() ?>');
-      $this->getUser()->getAttributeHolder()->removeNamespace('sf_admin/<?php echo $this->getSingularName() ?>/filters');
-      $this->getUser()->getAttributeHolder()->add($filters, 'sf_admin/<?php echo $this->getSingularName() ?>/filters');
-    }
+        $this->getUser()->getAttributeHolder()->removeNamespace('sf_admin/<?php echo $this->getSingularName() ?>');
+        $this->getUser()->getAttributeHolder()->removeNamespace('sf_admin/<?php echo $this->getSingularName() ?>/filters');
+        $this->getUser()->getAttributeHolder()->add($filters, 'sf_admin/<?php echo $this->getSingularName() ?>/filters');
+      }
     if (!$hasFilter)
     {
       //cancels all filters

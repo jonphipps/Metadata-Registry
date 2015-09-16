@@ -3,8 +3,8 @@
 <?php $urlFilters = $this->getParameterValue('list.urlfilters') ?>
 <?php if ($urlFilters): ?>
   <?php foreach ($urlFilters as $field => $param): ?>
-    [?php if ($sf_params->has('filters[<?php echo $param ?>]')): ?]
-    [?php $filterParam .= '&filters[<?php echo $param ?>]=' . $sf_params->get('filters[<?php echo $param ?>]'); ?]
+    [?php if ($sf_params->has('<?php echo $param ?>')): ?]
+    [?php $filterParam .= '&<?php echo $param ?>=' . $sf_params->get('<?php echo $param ?>'); ?]
     [?php endif; ?]
   <?php endforeach; ?>
 <?php endif; ?>
