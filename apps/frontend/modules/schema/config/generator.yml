@@ -41,8 +41,8 @@ generator:
         _edit:        { credentials: [[administrator, schemamaintainer, schemaadmin]] }
       actions:
         _create:      { name: Add Element Set,  credentials: [[administrator, hasAgents]] }
-      filters:
-#        agent_id:     { name: agent_id, params: peer_method=getSchemaAgents related_class=Schema }
+      filters:        [agent_id]
+      urlfilters:
         agent_id:     agent_id
 
     edit:
