@@ -393,8 +393,10 @@ $column = sfPropelManyToMany::getColumn($class, $through_class);
 <?php if ($this->getParameterValue('list.filters')): ?>
     if ($this->getRequest()->hasParameter('filter'))
     {
-      $hasFilter = true;
       $filters = $this->getRequestParameter('filters');
+      if ($filters)
+        {
+          $hasFilter = true;
 <?php foreach ($this->getColumns('list.filters') as $column): $type = $column->getCreoleType() ?>
 <?php if ($type == CreoleTypes::DATE || $type == CreoleTypes::TIMESTAMP): ?>
           if (isset($filters['<?php echo $column->getName() ?>']['from']) && $filters['<?php echo $column->getName() ?>']['from'] !== '')
@@ -407,11 +409,11 @@ $column = sfPropelManyToMany::getColumn($class, $through_class);
           }
 <?php endif; ?>
 <?php endforeach; ?>
-
         $this->getUser()->getAttributeHolder()->removeNamespace('sf_admin/<?php echo $this->getSingularName() ?>');
         $this->getUser()->getAttributeHolder()->removeNamespace('sf_admin/<?php echo $this->getSingularName() ?>/filters');
         $this->getUser()->getAttributeHolder()->add($filters, 'sf_admin/<?php echo $this->getSingularName() ?>/filters');
       }
+    }
     if (!$hasFilter)
     {
       //cancels all filters
