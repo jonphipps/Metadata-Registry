@@ -149,4 +149,27 @@ class VocabularyPeer extends BaseVocabularyPeer
     return $result;
   }
 
+
+  /**
+   * gets a list of all agents related to all vocabs
+   *
+   * @return array Agents
+   */
+  public static function getVocabularyAgents()
+  {
+    $results = array();
+    $c = new Criteria();
+    $c->clearSelectColumns();
+    $c->addSelectColumn(self::AGENT_ID);
+    $c->addJoin(self::AGENT_ID, AgentPeer::ID);
+    $c->addAscendingOrderByColumn(AgentPeer::ORG_NAME);
+    $c->setDistinct();
+    $rs = self::doSelectRS($c);
+    while($rs->next())
+    {
+      $results[] = AgentPeer::retrieveByPK($rs->getInt(1));
+    }
+    return $results;
+  }
+
 } // VocabularyPeer

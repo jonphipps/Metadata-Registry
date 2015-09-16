@@ -31,6 +31,8 @@ generator:
       actions:
         _create:      { name: Add Vocabulary,  credentials: [[administrator, hasAgents]] }
       filters:        [agent_id]
+      urlfilters:
+        agent_id:     agent_id
 
     edit:
       title:
