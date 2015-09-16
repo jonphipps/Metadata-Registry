@@ -380,12 +380,12 @@ $column = sfPropelManyToMany::getColumn($class, $through_class);
   $hasFilter = false;
 <?php $urlFilters = $this->getParameterValue('list.urlfilters'); if($urlFilters): ?>
   <?php foreach ($urlFilters as $key => $param):  ?>
-  if ($this->hasRequestParameter('<?php echo $param ?>'))
+  if ($this->hasRequestParameter('filters[<?php echo $param ?>]'))
     {
       $hasFilter = true;
       //cancels all other filters
       $this->getUser()->getAttributeHolder()->removeNamespace('sf_admin/<?php echo $this->getSingularName() ?>/filters');
-      $this->getUser()->getAttributeHolder()->set('<?php echo $key ?>', $this->getRequestParameter('<?php echo $param ?>'),'sf_admin/<?php echo $this->getSingularName() ?>/filters');
+      $this->getUser()->getAttributeHolder()->set('<?php echo $key ?>', $this->getRequestParameter('filters[<?php echo $param ?>]'),'sf_admin/<?php echo $this->getSingularName() ?>/filters');
     }
   <?php endforeach ?>
 <?php endif ?>
