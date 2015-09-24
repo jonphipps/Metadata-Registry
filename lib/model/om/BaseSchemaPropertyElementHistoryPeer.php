@@ -3949,7 +3949,16 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 
 		}
 
-		return BasePeer::doValidate(SchemaPropertyElementHistoryPeer::DATABASE_NAME, SchemaPropertyElementHistoryPeer::TABLE_NAME, $columns);
+		$res =  BasePeer::doValidate(SchemaPropertyElementHistoryPeer::DATABASE_NAME, SchemaPropertyElementHistoryPeer::TABLE_NAME, $columns);
+    if ($res !== true) {
+        $request = sfContext::getInstance()->getRequest();
+        foreach ($res as $failed) {
+            $col = SchemaPropertyElementHistoryPeer::translateFieldname($failed->getColumn(), BasePeer::TYPE_COLNAME, BasePeer::TYPE_PHPNAME);
+            $request->setError($col, $failed->getMessage());
+        }
+    }
+
+    return $res;
 	}
 
 	/**

@@ -1137,7 +1137,16 @@ abstract class BaseVocabularyHasUserPeer {
 
 		}
 
-		return BasePeer::doValidate(VocabularyHasUserPeer::DATABASE_NAME, VocabularyHasUserPeer::TABLE_NAME, $columns);
+		$res =  BasePeer::doValidate(VocabularyHasUserPeer::DATABASE_NAME, VocabularyHasUserPeer::TABLE_NAME, $columns);
+    if ($res !== true) {
+        $request = sfContext::getInstance()->getRequest();
+        foreach ($res as $failed) {
+            $col = VocabularyHasUserPeer::translateFieldname($failed->getColumn(), BasePeer::TYPE_COLNAME, BasePeer::TYPE_PHPNAME);
+            $request->setError($col, $failed->getMessage());
+        }
+    }
+
+    return $res;
 	}
 
 	/**

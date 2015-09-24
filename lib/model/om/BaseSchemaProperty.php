@@ -100,7 +100,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 	 * The value for the type field.
 	 * @var        string
 	 */
-	protected $type = 'Property';
+	protected $type = 'property';
 
 
 	/**
@@ -878,7 +878,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 			$v = (string) $v; 
 		}
 
-		if ($this->type !== $v || $v === 'Property') {
+		if ($this->type !== $v || $v === 'property') {
 			$this->type = $v;
 			$this->modifiedColumns[] = SchemaPropertyPeer::TYPE;
 		}

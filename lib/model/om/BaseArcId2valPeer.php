@@ -550,7 +550,16 @@ abstract class BaseArcId2valPeer {
 
 		}
 
-		return BasePeer::doValidate(ArcId2valPeer::DATABASE_NAME, ArcId2valPeer::TABLE_NAME, $columns);
+		$res =  BasePeer::doValidate(ArcId2valPeer::DATABASE_NAME, ArcId2valPeer::TABLE_NAME, $columns);
+    if ($res !== true) {
+        $request = sfContext::getInstance()->getRequest();
+        foreach ($res as $failed) {
+            $col = ArcId2valPeer::translateFieldname($failed->getColumn(), BasePeer::TYPE_COLNAME, BasePeer::TYPE_PHPNAME);
+            $request->setError($col, $failed->getMessage());
+        }
+    }
+
+    return $res;
 	}
 
 	/**

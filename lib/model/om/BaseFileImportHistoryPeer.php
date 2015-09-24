@@ -1861,7 +1861,16 @@ abstract class BaseFileImportHistoryPeer {
 
 		}
 
-		return BasePeer::doValidate(FileImportHistoryPeer::DATABASE_NAME, FileImportHistoryPeer::TABLE_NAME, $columns);
+		$res =  BasePeer::doValidate(FileImportHistoryPeer::DATABASE_NAME, FileImportHistoryPeer::TABLE_NAME, $columns);
+    if ($res !== true) {
+        $request = sfContext::getInstance()->getRequest();
+        foreach ($res as $failed) {
+            $col = FileImportHistoryPeer::translateFieldname($failed->getColumn(), BasePeer::TYPE_COLNAME, BasePeer::TYPE_PHPNAME);
+            $request->setError($col, $failed->getMessage());
+        }
+    }
+
+    return $res;
 	}
 
 	/**

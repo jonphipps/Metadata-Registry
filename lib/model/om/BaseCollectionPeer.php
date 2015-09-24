@@ -1791,7 +1791,16 @@ abstract class BaseCollectionPeer {
 
 		}
 
-		return BasePeer::doValidate(CollectionPeer::DATABASE_NAME, CollectionPeer::TABLE_NAME, $columns);
+		$res =  BasePeer::doValidate(CollectionPeer::DATABASE_NAME, CollectionPeer::TABLE_NAME, $columns);
+    if ($res !== true) {
+        $request = sfContext::getInstance()->getRequest();
+        foreach ($res as $failed) {
+            $col = CollectionPeer::translateFieldname($failed->getColumn(), BasePeer::TYPE_COLNAME, BasePeer::TYPE_PHPNAME);
+            $request->setError($col, $failed->getMessage());
+        }
+    }
+
+    return $res;
 	}
 
 	/**

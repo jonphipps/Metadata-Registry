@@ -63,6 +63,8 @@ class ProfilePropertyMapBuilder {
 
 		$tMap->addPrimaryKey('ID', 'Id', 'int', CreoleTypes::INTEGER, true, null);
 
+		$tMap->addColumn('SKOS_ID', 'SkosId', 'int', CreoleTypes::INTEGER, false, null);
+
 		$tMap->addColumn('CREATED_AT', 'CreatedAt', 'int', CreoleTypes::TIMESTAMP, false, null);
 
 		$tMap->addColumn('UPDATED_AT', 'UpdatedAt', 'int', CreoleTypes::TIMESTAMP, true, null);
@@ -76,6 +78,8 @@ class ProfilePropertyMapBuilder {
 		$tMap->addForeignKey('DELETED_BY', 'DeletedBy', 'int', CreoleTypes::INTEGER, 'reg_user', 'ID', false, null);
 
 		$tMap->addForeignKey('PROFILE_ID', 'ProfileId', 'int', CreoleTypes::INTEGER, 'profile', 'ID', true, null);
+
+		$tMap->addColumn('SKOS_PARENT_ID', 'SkosParentId', 'int', CreoleTypes::INTEGER, false, null);
 
 		$tMap->addColumn('NAME', 'Name', 'string', CreoleTypes::VARCHAR, true, 255);
 

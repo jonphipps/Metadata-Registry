@@ -83,7 +83,7 @@ class SchemaPropertyMapBuilder {
 
 		$tMap->addColumn('COMMENT', 'Comment', 'string', CreoleTypes::LONGVARCHAR, false, null);
 
-		$tMap->addColumn('TYPE', 'Type', 'string', CreoleTypes::CHAR, true, null);
+		$tMap->addColumn('TYPE', 'Type', 'string', CreoleTypes::VARCHAR, true, 15);
 
 		$tMap->addForeignKey('IS_SUBPROPERTY_OF', 'IsSubpropertyOf', 'int', CreoleTypes::INTEGER, 'reg_schema_property', 'ID', false, null);
 

@@ -27,6 +27,13 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 
 
 	/**
+	 * The value for the skos_id field.
+	 * @var        int
+	 */
+	protected $skos_id;
+
+
+	/**
 	 * The value for the created_at field.
 	 * @var        int
 	 */
@@ -73,6 +80,13 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 	 * @var        int
 	 */
 	protected $profile_id;
+
+
+	/**
+	 * The value for the skos_parent_id field.
+	 * @var        int
+	 */
+	protected $skos_parent_id;
 
 
 	/**
@@ -355,6 +369,17 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 	}
 
 	/**
+	 * Get the [skos_id] column value.
+	 * 
+	 * @return     int
+	 */
+	public function getSkosId()
+	{
+
+		return $this->skos_id;
+	}
+
+	/**
 	 * Get the [optionally formatted] [created_at] column value.
 	 * 
 	 * @param      string $format The date/time format string (either date()-style or strftime()-style).
@@ -489,6 +514,17 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 	{
 
 		return $this->profile_id;
+	}
+
+	/**
+	 * Get the [skos_parent_id] column value.
+	 * 
+	 * @return     int
+	 */
+	public function getSkosParentId()
+	{
+
+		return $this->skos_parent_id;
 	}
 
 	/**
@@ -811,6 +847,28 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 	} // setId()
 
 	/**
+	 * Set the value of [skos_id] column.
+	 * 
+	 * @param      int $v new value
+	 * @return     void
+	 */
+	public function setSkosId($v)
+	{
+
+		// Since the native PHP type for this column is integer,
+		// we will cast the input value to an int (if it is not).
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->skos_id !== $v) {
+			$this->skos_id = $v;
+			$this->modifiedColumns[] = ProfilePropertyPeer::SKOS_ID;
+		}
+
+	} // setSkosId()
+
+	/**
 	 * Set the value of [created_at] column.
 	 * 
 	 * @param      int $v new value
@@ -985,6 +1043,28 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 		}
 
 	} // setProfileId()
+
+	/**
+	 * Set the value of [skos_parent_id] column.
+	 * 
+	 * @param      int $v new value
+	 * @return     void
+	 */
+	public function setSkosParentId($v)
+	{
+
+		// Since the native PHP type for this column is integer,
+		// we will cast the input value to an int (if it is not).
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->skos_parent_id !== $v) {
+			$this->skos_parent_id = $v;
+			$this->modifiedColumns[] = ProfilePropertyPeer::SKOS_PARENT_ID;
+		}
+
+	} // setSkosParentId()
 
 	/**
 	 * Set the value of [name] column.
@@ -1529,80 +1609,84 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 
 			$this->id = $rs->getInt($startcol + 0);
 
-			$this->created_at = $rs->getTimestamp($startcol + 1, null);
+			$this->skos_id = $rs->getInt($startcol + 1);
 
-			$this->updated_at = $rs->getTimestamp($startcol + 2, null);
+			$this->created_at = $rs->getTimestamp($startcol + 2, null);
 
-			$this->deleted_at = $rs->getTimestamp($startcol + 3, null);
+			$this->updated_at = $rs->getTimestamp($startcol + 3, null);
 
-			$this->created_by = $rs->getInt($startcol + 4);
+			$this->deleted_at = $rs->getTimestamp($startcol + 4, null);
 
-			$this->updated_by = $rs->getInt($startcol + 5);
+			$this->created_by = $rs->getInt($startcol + 5);
 
-			$this->deleted_by = $rs->getInt($startcol + 6);
+			$this->updated_by = $rs->getInt($startcol + 6);
 
-			$this->profile_id = $rs->getInt($startcol + 7);
+			$this->deleted_by = $rs->getInt($startcol + 7);
 
-			$this->name = $rs->getString($startcol + 8);
+			$this->profile_id = $rs->getInt($startcol + 8);
 
-			$this->label = $rs->getString($startcol + 9);
+			$this->skos_parent_id = $rs->getInt($startcol + 9);
 
-			$this->definition = $rs->getString($startcol + 10);
+			$this->name = $rs->getString($startcol + 10);
 
-			$this->comment = $rs->getString($startcol + 11);
+			$this->label = $rs->getString($startcol + 11);
 
-			$this->type = $rs->getString($startcol + 12);
+			$this->definition = $rs->getString($startcol + 12);
 
-			$this->uri = $rs->getString($startcol + 13);
+			$this->comment = $rs->getString($startcol + 13);
 
-			$this->status_id = $rs->getInt($startcol + 14);
+			$this->type = $rs->getString($startcol + 14);
 
-			$this->language = $rs->getString($startcol + 15);
+			$this->uri = $rs->getString($startcol + 15);
 
-			$this->note = $rs->getString($startcol + 16);
+			$this->status_id = $rs->getInt($startcol + 16);
 
-			$this->display_order = $rs->getInt($startcol + 17);
+			$this->language = $rs->getString($startcol + 17);
 
-			$this->export_order = $rs->getInt($startcol + 18);
+			$this->note = $rs->getString($startcol + 18);
 
-			$this->picklist_order = $rs->getInt($startcol + 19);
+			$this->display_order = $rs->getInt($startcol + 19);
 
-			$this->examples = $rs->getString($startcol + 20);
+			$this->export_order = $rs->getInt($startcol + 20);
 
-			$this->is_required = $rs->getBoolean($startcol + 21);
+			$this->picklist_order = $rs->getInt($startcol + 21);
 
-			$this->is_reciprocal = $rs->getBoolean($startcol + 22);
+			$this->examples = $rs->getString($startcol + 22);
 
-			$this->is_singleton = $rs->getBoolean($startcol + 23);
+			$this->is_required = $rs->getBoolean($startcol + 23);
 
-			$this->is_in_picklist = $rs->getBoolean($startcol + 24);
+			$this->is_reciprocal = $rs->getBoolean($startcol + 24);
 
-			$this->is_in_export = $rs->getBoolean($startcol + 25);
+			$this->is_singleton = $rs->getBoolean($startcol + 25);
 
-			$this->inverse_profile_property_id = $rs->getInt($startcol + 26);
+			$this->is_in_picklist = $rs->getBoolean($startcol + 26);
 
-			$this->is_in_class_picklist = $rs->getBoolean($startcol + 27);
+			$this->is_in_export = $rs->getBoolean($startcol + 27);
 
-			$this->is_in_property_picklist = $rs->getBoolean($startcol + 28);
+			$this->inverse_profile_property_id = $rs->getInt($startcol + 28);
 
-			$this->is_in_rdf = $rs->getBoolean($startcol + 29);
+			$this->is_in_class_picklist = $rs->getBoolean($startcol + 29);
 
-			$this->is_in_xsd = $rs->getBoolean($startcol + 30);
+			$this->is_in_property_picklist = $rs->getBoolean($startcol + 30);
 
-			$this->is_attribute = $rs->getBoolean($startcol + 31);
+			$this->is_in_rdf = $rs->getBoolean($startcol + 31);
 
-			$this->has_language = $rs->getBoolean($startcol + 32);
+			$this->is_in_xsd = $rs->getBoolean($startcol + 32);
 
-			$this->is_object_prop = $rs->getBoolean($startcol + 33);
+			$this->is_attribute = $rs->getBoolean($startcol + 33);
 
-			$this->is_in_form = $rs->getBoolean($startcol + 34);
+			$this->has_language = $rs->getBoolean($startcol + 34);
+
+			$this->is_object_prop = $rs->getBoolean($startcol + 35);
+
+			$this->is_in_form = $rs->getBoolean($startcol + 36);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 35; // 35 = ProfilePropertyPeer::NUM_COLUMNS - ProfilePropertyPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 37; // 37 = ProfilePropertyPeer::NUM_COLUMNS - ProfilePropertyPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating ProfileProperty object", $e);
@@ -1984,105 +2068,111 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 				return $this->getId();
 				break;
 			case 1:
-				return $this->getCreatedAt();
+				return $this->getSkosId();
 				break;
 			case 2:
-				return $this->getUpdatedAt();
+				return $this->getCreatedAt();
 				break;
 			case 3:
-				return $this->getDeletedAt();
+				return $this->getUpdatedAt();
 				break;
 			case 4:
-				return $this->getCreatedBy();
+				return $this->getDeletedAt();
 				break;
 			case 5:
-				return $this->getUpdatedBy();
+				return $this->getCreatedBy();
 				break;
 			case 6:
-				return $this->getDeletedBy();
+				return $this->getUpdatedBy();
 				break;
 			case 7:
-				return $this->getProfileId();
+				return $this->getDeletedBy();
 				break;
 			case 8:
-				return $this->getName();
+				return $this->getProfileId();
 				break;
 			case 9:
-				return $this->getLabel();
+				return $this->getSkosParentId();
 				break;
 			case 10:
-				return $this->getDefinition();
+				return $this->getName();
 				break;
 			case 11:
-				return $this->getComment();
+				return $this->getLabel();
 				break;
 			case 12:
-				return $this->getType();
+				return $this->getDefinition();
 				break;
 			case 13:
-				return $this->getUri();
+				return $this->getComment();
 				break;
 			case 14:
-				return $this->getStatusId();
+				return $this->getType();
 				break;
 			case 15:
-				return $this->getLanguage();
+				return $this->getUri();
 				break;
 			case 16:
-				return $this->getNote();
+				return $this->getStatusId();
 				break;
 			case 17:
-				return $this->getDisplayOrder();
+				return $this->getLanguage();
 				break;
 			case 18:
-				return $this->getExportOrder();
+				return $this->getNote();
 				break;
 			case 19:
-				return $this->getPicklistOrder();
+				return $this->getDisplayOrder();
 				break;
 			case 20:
-				return $this->getExamples();
+				return $this->getExportOrder();
 				break;
 			case 21:
-				return $this->getIsRequired();
+				return $this->getPicklistOrder();
 				break;
 			case 22:
-				return $this->getIsReciprocal();
+				return $this->getExamples();
 				break;
 			case 23:
-				return $this->getIsSingleton();
+				return $this->getIsRequired();
 				break;
 			case 24:
-				return $this->getIsInPicklist();
+				return $this->getIsReciprocal();
 				break;
 			case 25:
-				return $this->getIsInExport();
+				return $this->getIsSingleton();
 				break;
 			case 26:
-				return $this->getInverseProfilePropertyId();
+				return $this->getIsInPicklist();
 				break;
 			case 27:
-				return $this->getIsInClassPicklist();
+				return $this->getIsInExport();
 				break;
 			case 28:
-				return $this->getIsInPropertyPicklist();
+				return $this->getInverseProfilePropertyId();
 				break;
 			case 29:
-				return $this->getIsInRdf();
+				return $this->getIsInClassPicklist();
 				break;
 			case 30:
-				return $this->getIsInXsd();
+				return $this->getIsInPropertyPicklist();
 				break;
 			case 31:
-				return $this->getIsAttribute();
+				return $this->getIsInRdf();
 				break;
 			case 32:
-				return $this->getHasLanguage();
+				return $this->getIsInXsd();
 				break;
 			case 33:
-				return $this->getIsObjectProp();
+				return $this->getIsAttribute();
 				break;
 			case 34:
+				return $this->getHasLanguage();
+				break;
+			case 35:
+				return $this->getIsObjectProp();
+				break;
+			case 36:
 				return $this->getIsInForm();
 				break;
 			default:
@@ -2106,40 +2196,42 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 		$keys = ProfilePropertyPeer::getFieldNames($keyType);
 		$result = array(
 			$keys[0] => $this->getId(),
-			$keys[1] => $this->getCreatedAt(),
-			$keys[2] => $this->getUpdatedAt(),
-			$keys[3] => $this->getDeletedAt(),
-			$keys[4] => $this->getCreatedBy(),
-			$keys[5] => $this->getUpdatedBy(),
-			$keys[6] => $this->getDeletedBy(),
-			$keys[7] => $this->getProfileId(),
-			$keys[8] => $this->getName(),
-			$keys[9] => $this->getLabel(),
-			$keys[10] => $this->getDefinition(),
-			$keys[11] => $this->getComment(),
-			$keys[12] => $this->getType(),
-			$keys[13] => $this->getUri(),
-			$keys[14] => $this->getStatusId(),
-			$keys[15] => $this->getLanguage(),
-			$keys[16] => $this->getNote(),
-			$keys[17] => $this->getDisplayOrder(),
-			$keys[18] => $this->getExportOrder(),
-			$keys[19] => $this->getPicklistOrder(),
-			$keys[20] => $this->getExamples(),
-			$keys[21] => $this->getIsRequired(),
-			$keys[22] => $this->getIsReciprocal(),
-			$keys[23] => $this->getIsSingleton(),
-			$keys[24] => $this->getIsInPicklist(),
-			$keys[25] => $this->getIsInExport(),
-			$keys[26] => $this->getInverseProfilePropertyId(),
-			$keys[27] => $this->getIsInClassPicklist(),
-			$keys[28] => $this->getIsInPropertyPicklist(),
-			$keys[29] => $this->getIsInRdf(),
-			$keys[30] => $this->getIsInXsd(),
-			$keys[31] => $this->getIsAttribute(),
-			$keys[32] => $this->getHasLanguage(),
-			$keys[33] => $this->getIsObjectProp(),
-			$keys[34] => $this->getIsInForm(),
+			$keys[1] => $this->getSkosId(),
+			$keys[2] => $this->getCreatedAt(),
+			$keys[3] => $this->getUpdatedAt(),
+			$keys[4] => $this->getDeletedAt(),
+			$keys[5] => $this->getCreatedBy(),
+			$keys[6] => $this->getUpdatedBy(),
+			$keys[7] => $this->getDeletedBy(),
+			$keys[8] => $this->getProfileId(),
+			$keys[9] => $this->getSkosParentId(),
+			$keys[10] => $this->getName(),
+			$keys[11] => $this->getLabel(),
+			$keys[12] => $this->getDefinition(),
+			$keys[13] => $this->getComment(),
+			$keys[14] => $this->getType(),
+			$keys[15] => $this->getUri(),
+			$keys[16] => $this->getStatusId(),
+			$keys[17] => $this->getLanguage(),
+			$keys[18] => $this->getNote(),
+			$keys[19] => $this->getDisplayOrder(),
+			$keys[20] => $this->getExportOrder(),
+			$keys[21] => $this->getPicklistOrder(),
+			$keys[22] => $this->getExamples(),
+			$keys[23] => $this->getIsRequired(),
+			$keys[24] => $this->getIsReciprocal(),
+			$keys[25] => $this->getIsSingleton(),
+			$keys[26] => $this->getIsInPicklist(),
+			$keys[27] => $this->getIsInExport(),
+			$keys[28] => $this->getInverseProfilePropertyId(),
+			$keys[29] => $this->getIsInClassPicklist(),
+			$keys[30] => $this->getIsInPropertyPicklist(),
+			$keys[31] => $this->getIsInRdf(),
+			$keys[32] => $this->getIsInXsd(),
+			$keys[33] => $this->getIsAttribute(),
+			$keys[34] => $this->getHasLanguage(),
+			$keys[35] => $this->getIsObjectProp(),
+			$keys[36] => $this->getIsInForm(),
 		);
 		return $result;
 	}
@@ -2175,105 +2267,111 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 				$this->setId($value);
 				break;
 			case 1:
-				$this->setCreatedAt($value);
+				$this->setSkosId($value);
 				break;
 			case 2:
-				$this->setUpdatedAt($value);
+				$this->setCreatedAt($value);
 				break;
 			case 3:
-				$this->setDeletedAt($value);
+				$this->setUpdatedAt($value);
 				break;
 			case 4:
-				$this->setCreatedBy($value);
+				$this->setDeletedAt($value);
 				break;
 			case 5:
-				$this->setUpdatedBy($value);
+				$this->setCreatedBy($value);
 				break;
 			case 6:
-				$this->setDeletedBy($value);
+				$this->setUpdatedBy($value);
 				break;
 			case 7:
-				$this->setProfileId($value);
+				$this->setDeletedBy($value);
 				break;
 			case 8:
-				$this->setName($value);
+				$this->setProfileId($value);
 				break;
 			case 9:
-				$this->setLabel($value);
+				$this->setSkosParentId($value);
 				break;
 			case 10:
-				$this->setDefinition($value);
+				$this->setName($value);
 				break;
 			case 11:
-				$this->setComment($value);
+				$this->setLabel($value);
 				break;
 			case 12:
-				$this->setType($value);
+				$this->setDefinition($value);
 				break;
 			case 13:
-				$this->setUri($value);
+				$this->setComment($value);
 				break;
 			case 14:
-				$this->setStatusId($value);
+				$this->setType($value);
 				break;
 			case 15:
-				$this->setLanguage($value);
+				$this->setUri($value);
 				break;
 			case 16:
-				$this->setNote($value);
+				$this->setStatusId($value);
 				break;
 			case 17:
-				$this->setDisplayOrder($value);
+				$this->setLanguage($value);
 				break;
 			case 18:
-				$this->setExportOrder($value);
+				$this->setNote($value);
 				break;
 			case 19:
-				$this->setPicklistOrder($value);
+				$this->setDisplayOrder($value);
 				break;
 			case 20:
-				$this->setExamples($value);
+				$this->setExportOrder($value);
 				break;
 			case 21:
-				$this->setIsRequired($value);
+				$this->setPicklistOrder($value);
 				break;
 			case 22:
-				$this->setIsReciprocal($value);
+				$this->setExamples($value);
 				break;
 			case 23:
-				$this->setIsSingleton($value);
+				$this->setIsRequired($value);
 				break;
 			case 24:
-				$this->setIsInPicklist($value);
+				$this->setIsReciprocal($value);
 				break;
 			case 25:
-				$this->setIsInExport($value);
+				$this->setIsSingleton($value);
 				break;
 			case 26:
-				$this->setInverseProfilePropertyId($value);
+				$this->setIsInPicklist($value);
 				break;
 			case 27:
-				$this->setIsInClassPicklist($value);
+				$this->setIsInExport($value);
 				break;
 			case 28:
-				$this->setIsInPropertyPicklist($value);
+				$this->setInverseProfilePropertyId($value);
 				break;
 			case 29:
-				$this->setIsInRdf($value);
+				$this->setIsInClassPicklist($value);
 				break;
 			case 30:
-				$this->setIsInXsd($value);
+				$this->setIsInPropertyPicklist($value);
 				break;
 			case 31:
-				$this->setIsAttribute($value);
+				$this->setIsInRdf($value);
 				break;
 			case 32:
-				$this->setHasLanguage($value);
+				$this->setIsInXsd($value);
 				break;
 			case 33:
-				$this->setIsObjectProp($value);
+				$this->setIsAttribute($value);
 				break;
 			case 34:
+				$this->setHasLanguage($value);
+				break;
+			case 35:
+				$this->setIsObjectProp($value);
+				break;
+			case 36:
 				$this->setIsInForm($value);
 				break;
 		} // switch()
@@ -2300,40 +2398,42 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 		$keys = ProfilePropertyPeer::getFieldNames($keyType);
 
 		if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
-		if (array_key_exists($keys[1], $arr)) $this->setCreatedAt($arr[$keys[1]]);
-		if (array_key_exists($keys[2], $arr)) $this->setUpdatedAt($arr[$keys[2]]);
-		if (array_key_exists($keys[3], $arr)) $this->setDeletedAt($arr[$keys[3]]);
-		if (array_key_exists($keys[4], $arr)) $this->setCreatedBy($arr[$keys[4]]);
-		if (array_key_exists($keys[5], $arr)) $this->setUpdatedBy($arr[$keys[5]]);
-		if (array_key_exists($keys[6], $arr)) $this->setDeletedBy($arr[$keys[6]]);
-		if (array_key_exists($keys[7], $arr)) $this->setProfileId($arr[$keys[7]]);
-		if (array_key_exists($keys[8], $arr)) $this->setName($arr[$keys[8]]);
-		if (array_key_exists($keys[9], $arr)) $this->setLabel($arr[$keys[9]]);
-		if (array_key_exists($keys[10], $arr)) $this->setDefinition($arr[$keys[10]]);
-		if (array_key_exists($keys[11], $arr)) $this->setComment($arr[$keys[11]]);
-		if (array_key_exists($keys[12], $arr)) $this->setType($arr[$keys[12]]);
-		if (array_key_exists($keys[13], $arr)) $this->setUri($arr[$keys[13]]);
-		if (array_key_exists($keys[14], $arr)) $this->setStatusId($arr[$keys[14]]);
-		if (array_key_exists($keys[15], $arr)) $this->setLanguage($arr[$keys[15]]);
-		if (array_key_exists($keys[16], $arr)) $this->setNote($arr[$keys[16]]);
-		if (array_key_exists($keys[17], $arr)) $this->setDisplayOrder($arr[$keys[17]]);
-		if (array_key_exists($keys[18], $arr)) $this->setExportOrder($arr[$keys[18]]);
-		if (array_key_exists($keys[19], $arr)) $this->setPicklistOrder($arr[$keys[19]]);
-		if (array_key_exists($keys[20], $arr)) $this->setExamples($arr[$keys[20]]);
-		if (array_key_exists($keys[21], $arr)) $this->setIsRequired($arr[$keys[21]]);
-		if (array_key_exists($keys[22], $arr)) $this->setIsReciprocal($arr[$keys[22]]);
-		if (array_key_exists($keys[23], $arr)) $this->setIsSingleton($arr[$keys[23]]);
-		if (array_key_exists($keys[24], $arr)) $this->setIsInPicklist($arr[$keys[24]]);
-		if (array_key_exists($keys[25], $arr)) $this->setIsInExport($arr[$keys[25]]);
-		if (array_key_exists($keys[26], $arr)) $this->setInverseProfilePropertyId($arr[$keys[26]]);
-		if (array_key_exists($keys[27], $arr)) $this->setIsInClassPicklist($arr[$keys[27]]);
-		if (array_key_exists($keys[28], $arr)) $this->setIsInPropertyPicklist($arr[$keys[28]]);
-		if (array_key_exists($keys[29], $arr)) $this->setIsInRdf($arr[$keys[29]]);
-		if (array_key_exists($keys[30], $arr)) $this->setIsInXsd($arr[$keys[30]]);
-		if (array_key_exists($keys[31], $arr)) $this->setIsAttribute($arr[$keys[31]]);
-		if (array_key_exists($keys[32], $arr)) $this->setHasLanguage($arr[$keys[32]]);
-		if (array_key_exists($keys[33], $arr)) $this->setIsObjectProp($arr[$keys[33]]);
-		if (array_key_exists($keys[34], $arr)) $this->setIsInForm($arr[$keys[34]]);
+		if (array_key_exists($keys[1], $arr)) $this->setSkosId($arr[$keys[1]]);
+		if (array_key_exists($keys[2], $arr)) $this->setCreatedAt($arr[$keys[2]]);
+		if (array_key_exists($keys[3], $arr)) $this->setUpdatedAt($arr[$keys[3]]);
+		if (array_key_exists($keys[4], $arr)) $this->setDeletedAt($arr[$keys[4]]);
+		if (array_key_exists($keys[5], $arr)) $this->setCreatedBy($arr[$keys[5]]);
+		if (array_key_exists($keys[6], $arr)) $this->setUpdatedBy($arr[$keys[6]]);
+		if (array_key_exists($keys[7], $arr)) $this->setDeletedBy($arr[$keys[7]]);
+		if (array_key_exists($keys[8], $arr)) $this->setProfileId($arr[$keys[8]]);
+		if (array_key_exists($keys[9], $arr)) $this->setSkosParentId($arr[$keys[9]]);
+		if (array_key_exists($keys[10], $arr)) $this->setName($arr[$keys[10]]);
+		if (array_key_exists($keys[11], $arr)) $this->setLabel($arr[$keys[11]]);
+		if (array_key_exists($keys[12], $arr)) $this->setDefinition($arr[$keys[12]]);
+		if (array_key_exists($keys[13], $arr)) $this->setComment($arr[$keys[13]]);
+		if (array_key_exists($keys[14], $arr)) $this->setType($arr[$keys[14]]);
+		if (array_key_exists($keys[15], $arr)) $this->setUri($arr[$keys[15]]);
+		if (array_key_exists($keys[16], $arr)) $this->setStatusId($arr[$keys[16]]);
+		if (array_key_exists($keys[17], $arr)) $this->setLanguage($arr[$keys[17]]);
+		if (array_key_exists($keys[18], $arr)) $this->setNote($arr[$keys[18]]);
+		if (array_key_exists($keys[19], $arr)) $this->setDisplayOrder($arr[$keys[19]]);
+		if (array_key_exists($keys[20], $arr)) $this->setExportOrder($arr[$keys[20]]);
+		if (array_key_exists($keys[21], $arr)) $this->setPicklistOrder($arr[$keys[21]]);
+		if (array_key_exists($keys[22], $arr)) $this->setExamples($arr[$keys[22]]);
+		if (array_key_exists($keys[23], $arr)) $this->setIsRequired($arr[$keys[23]]);
+		if (array_key_exists($keys[24], $arr)) $this->setIsReciprocal($arr[$keys[24]]);
+		if (array_key_exists($keys[25], $arr)) $this->setIsSingleton($arr[$keys[25]]);
+		if (array_key_exists($keys[26], $arr)) $this->setIsInPicklist($arr[$keys[26]]);
+		if (array_key_exists($keys[27], $arr)) $this->setIsInExport($arr[$keys[27]]);
+		if (array_key_exists($keys[28], $arr)) $this->setInverseProfilePropertyId($arr[$keys[28]]);
+		if (array_key_exists($keys[29], $arr)) $this->setIsInClassPicklist($arr[$keys[29]]);
+		if (array_key_exists($keys[30], $arr)) $this->setIsInPropertyPicklist($arr[$keys[30]]);
+		if (array_key_exists($keys[31], $arr)) $this->setIsInRdf($arr[$keys[31]]);
+		if (array_key_exists($keys[32], $arr)) $this->setIsInXsd($arr[$keys[32]]);
+		if (array_key_exists($keys[33], $arr)) $this->setIsAttribute($arr[$keys[33]]);
+		if (array_key_exists($keys[34], $arr)) $this->setHasLanguage($arr[$keys[34]]);
+		if (array_key_exists($keys[35], $arr)) $this->setIsObjectProp($arr[$keys[35]]);
+		if (array_key_exists($keys[36], $arr)) $this->setIsInForm($arr[$keys[36]]);
 	}
 
 	/**
@@ -2346,6 +2446,7 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 		$criteria = new Criteria(ProfilePropertyPeer::DATABASE_NAME);
 
 		if ($this->isColumnModified(ProfilePropertyPeer::ID)) $criteria->add(ProfilePropertyPeer::ID, $this->id);
+		if ($this->isColumnModified(ProfilePropertyPeer::SKOS_ID)) $criteria->add(ProfilePropertyPeer::SKOS_ID, $this->skos_id);
 		if ($this->isColumnModified(ProfilePropertyPeer::CREATED_AT)) $criteria->add(ProfilePropertyPeer::CREATED_AT, $this->created_at);
 		if ($this->isColumnModified(ProfilePropertyPeer::UPDATED_AT)) $criteria->add(ProfilePropertyPeer::UPDATED_AT, $this->updated_at);
 		if ($this->isColumnModified(ProfilePropertyPeer::DELETED_AT)) $criteria->add(ProfilePropertyPeer::DELETED_AT, $this->deleted_at);
@@ -2353,6 +2454,7 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(ProfilePropertyPeer::UPDATED_BY)) $criteria->add(ProfilePropertyPeer::UPDATED_BY, $this->updated_by);
 		if ($this->isColumnModified(ProfilePropertyPeer::DELETED_BY)) $criteria->add(ProfilePropertyPeer::DELETED_BY, $this->deleted_by);
 		if ($this->isColumnModified(ProfilePropertyPeer::PROFILE_ID)) $criteria->add(ProfilePropertyPeer::PROFILE_ID, $this->profile_id);
+		if ($this->isColumnModified(ProfilePropertyPeer::SKOS_PARENT_ID)) $criteria->add(ProfilePropertyPeer::SKOS_PARENT_ID, $this->skos_parent_id);
 		if ($this->isColumnModified(ProfilePropertyPeer::NAME)) $criteria->add(ProfilePropertyPeer::NAME, $this->name);
 		if ($this->isColumnModified(ProfilePropertyPeer::LABEL)) $criteria->add(ProfilePropertyPeer::LABEL, $this->label);
 		if ($this->isColumnModified(ProfilePropertyPeer::DEFINITION)) $criteria->add(ProfilePropertyPeer::DEFINITION, $this->definition);
@@ -2434,6 +2536,8 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 	public function copyInto($copyObj, $deepCopy = false)
 	{
 
+		$copyObj->setSkosId($this->skos_id);
+
 		$copyObj->setCreatedAt($this->created_at);
 
 		$copyObj->setUpdatedAt($this->updated_at);
@@ -2447,6 +2551,8 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 		$copyObj->setDeletedBy($this->deleted_by);
 
 		$copyObj->setProfileId($this->profile_id);
+
+		$copyObj->setSkosParentId($this->skos_parent_id);
 
 		$copyObj->setName($this->name);
 

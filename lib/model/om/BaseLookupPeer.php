@@ -555,7 +555,16 @@ abstract class BaseLookupPeer {
 
 		}
 
-		return BasePeer::doValidate(LookupPeer::DATABASE_NAME, LookupPeer::TABLE_NAME, $columns);
+		$res =  BasePeer::doValidate(LookupPeer::DATABASE_NAME, LookupPeer::TABLE_NAME, $columns);
+    if ($res !== true) {
+        $request = sfContext::getInstance()->getRequest();
+        foreach ($res as $failed) {
+            $col = LookupPeer::translateFieldname($failed->getColumn(), BasePeer::TYPE_COLNAME, BasePeer::TYPE_PHPNAME);
+            $request->setError($col, $failed->getMessage());
+        }
+    }
+
+    return $res;
 	}
 
 	/**

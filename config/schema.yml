@@ -151,6 +151,16 @@ propel:
       po: 
         - p
         - o
+  migrations: 
+    _attributes: 
+      phpName: Migrations
+    migration: 
+      type: VARCHAR
+      size: 255
+      required: true
+    batch: 
+      type: INTEGER
+      required: true
   profile: 
     _attributes: 
       phpName: Profile
@@ -265,6 +275,8 @@ propel:
       required: true
       autoIncrement: true
       primaryKey: true
+    skos_id: 
+      type: INTEGER
     created_at: 
       type: TIMESTAMP
     updated_at: 
@@ -298,6 +310,8 @@ propel:
       onDelete: RESTRICT
       onUpdate: RESTRICT
       index: true
+    skos_parent_id: 
+      type: INTEGER
     name: 
       type: VARCHAR
       size: 255
@@ -1249,9 +1263,10 @@ propel:
     comment: 
       type: LONGVARCHAR
     type: 
-      type: CHAR
+      type: VARCHAR
+      size: 15
       required: true
-      default: Property
+      default: property
     is_subproperty_of: 
       type: INTEGER
       foreignTable: reg_schema_property
@@ -1708,6 +1723,11 @@ propel:
       type: CHAR
       required: true
       default: slash
+    prefixes: 
+      type: LONGVARCHAR
+    repos: 
+      type: VARCHAR
+      size: 256
     _indexes: 
       last_updated_by_user_id: 
         - updated_user_id

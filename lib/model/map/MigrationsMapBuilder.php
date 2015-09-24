@@ -2,7 +2,7 @@
 
 
 /**
- * This class adds structure of 'arc_g2t' table to 'propel' DatabaseMap object.
+ * This class adds structure of 'migrations' table to 'propel' DatabaseMap object.
  *
  *
  *
@@ -13,12 +13,12 @@
  *
  * @package    lib.model.map
  */
-class ArcG2tMapBuilder {
+class MigrationsMapBuilder {
 
 	/**
 	 * The (dot-path) name of this class
 	 */
-	const CLASS_NAME = 'lib.model.map.ArcG2tMapBuilder';
+	const CLASS_NAME = 'lib.model.map.MigrationsMapBuilder';
 
 	/**
 	 * The database map.
@@ -56,17 +56,17 @@ class ArcG2tMapBuilder {
 	{
 		$this->dbMap = Propel::getDatabaseMap('propel');
 
-		$tMap = $this->dbMap->addTable('arc_g2t');
-		$tMap->setPhpName('ArcG2t');
+		$tMap = $this->dbMap->addTable('migrations');
+		$tMap->setPhpName('Migrations');
 
 		$tMap->setUseIdGenerator(true);
 
-		$tMap->addColumn('G', 'G', 'int', CreoleTypes::SMALLINT, true, null);
+		$tMap->addColumn('MIGRATION', 'Migration', 'string', CreoleTypes::VARCHAR, true, 255);
 
-		$tMap->addColumn('T', 'T', 'int', CreoleTypes::SMALLINT, true, null);
+		$tMap->addColumn('BATCH', 'Batch', 'int', CreoleTypes::INTEGER, true, null);
 
 		$tMap->addPrimaryKey('ID', 'Id', 'int', CreoleTypes::INTEGER, true, null);
 
 	} // doBuild()
 
-} // ArcG2tMapBuilder
+} // MigrationsMapBuilder

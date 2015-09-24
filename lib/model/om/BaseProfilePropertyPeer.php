@@ -19,7 +19,7 @@ abstract class BaseProfilePropertyPeer {
 	const CLASS_DEFAULT = 'lib.model.ProfileProperty';
 
 	/** The total number of columns. */
-	const NUM_COLUMNS = 35;
+	const NUM_COLUMNS = 37;
 
 	/** The number of lazy-loaded columns. */
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -27,6 +27,9 @@ abstract class BaseProfilePropertyPeer {
 
 	/** the column name for the ID field */
 	const ID = 'profile_property.ID';
+
+	/** the column name for the SKOS_ID field */
+	const SKOS_ID = 'profile_property.SKOS_ID';
 
 	/** the column name for the CREATED_AT field */
 	const CREATED_AT = 'profile_property.CREATED_AT';
@@ -48,6 +51,9 @@ abstract class BaseProfilePropertyPeer {
 
 	/** the column name for the PROFILE_ID field */
 	const PROFILE_ID = 'profile_property.PROFILE_ID';
+
+	/** the column name for the SKOS_PARENT_ID field */
+	const SKOS_PARENT_ID = 'profile_property.SKOS_PARENT_ID';
 
 	/** the column name for the NAME field */
 	const NAME = 'profile_property.NAME';
@@ -141,10 +147,10 @@ abstract class BaseProfilePropertyPeer {
 	 * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
 	 */
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'CreatedAt', 'UpdatedAt', 'DeletedAt', 'CreatedBy', 'UpdatedBy', 'DeletedBy', 'ProfileId', 'Name', 'Label', 'Definition', 'Comment', 'Type', 'Uri', 'StatusId', 'Language', 'Note', 'DisplayOrder', 'ExportOrder', 'PicklistOrder', 'Examples', 'IsRequired', 'IsReciprocal', 'IsSingleton', 'IsInPicklist', 'IsInExport', 'InverseProfilePropertyId', 'IsInClassPicklist', 'IsInPropertyPicklist', 'IsInRdf', 'IsInXsd', 'IsAttribute', 'HasLanguage', 'IsObjectProp', 'IsInForm', ),
-		BasePeer::TYPE_COLNAME => array (ProfilePropertyPeer::ID, ProfilePropertyPeer::CREATED_AT, ProfilePropertyPeer::UPDATED_AT, ProfilePropertyPeer::DELETED_AT, ProfilePropertyPeer::CREATED_BY, ProfilePropertyPeer::UPDATED_BY, ProfilePropertyPeer::DELETED_BY, ProfilePropertyPeer::PROFILE_ID, ProfilePropertyPeer::NAME, ProfilePropertyPeer::LABEL, ProfilePropertyPeer::DEFINITION, ProfilePropertyPeer::COMMENT, ProfilePropertyPeer::TYPE, ProfilePropertyPeer::URI, ProfilePropertyPeer::STATUS_ID, ProfilePropertyPeer::LANGUAGE, ProfilePropertyPeer::NOTE, ProfilePropertyPeer::DISPLAY_ORDER, ProfilePropertyPeer::EXPORT_ORDER, ProfilePropertyPeer::PICKLIST_ORDER, ProfilePropertyPeer::EXAMPLES, ProfilePropertyPeer::IS_REQUIRED, ProfilePropertyPeer::IS_RECIPROCAL, ProfilePropertyPeer::IS_SINGLETON, ProfilePropertyPeer::IS_IN_PICKLIST, ProfilePropertyPeer::IS_IN_EXPORT, ProfilePropertyPeer::INVERSE_PROFILE_PROPERTY_ID, ProfilePropertyPeer::IS_IN_CLASS_PICKLIST, ProfilePropertyPeer::IS_IN_PROPERTY_PICKLIST, ProfilePropertyPeer::IS_IN_RDF, ProfilePropertyPeer::IS_IN_XSD, ProfilePropertyPeer::IS_ATTRIBUTE, ProfilePropertyPeer::HAS_LANGUAGE, ProfilePropertyPeer::IS_OBJECT_PROP, ProfilePropertyPeer::IS_IN_FORM, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'created_at', 'updated_at', 'deleted_at', 'created_by', 'updated_by', 'deleted_by', 'profile_id', 'name', 'label', 'definition', 'comment', 'type', 'uri', 'status_id', 'language', 'note', 'display_order', 'export_order', 'picklist_order', 'examples', 'is_required', 'is_reciprocal', 'is_singleton', 'is_in_picklist', 'is_in_export', 'inverse_profile_property_id', 'is_in_class_picklist', 'is_in_property_picklist', 'is_in_rdf', 'is_in_xsd', 'is_attribute', 'has_language', 'is_object_prop', 'is_in_form', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'SkosId', 'CreatedAt', 'UpdatedAt', 'DeletedAt', 'CreatedBy', 'UpdatedBy', 'DeletedBy', 'ProfileId', 'SkosParentId', 'Name', 'Label', 'Definition', 'Comment', 'Type', 'Uri', 'StatusId', 'Language', 'Note', 'DisplayOrder', 'ExportOrder', 'PicklistOrder', 'Examples', 'IsRequired', 'IsReciprocal', 'IsSingleton', 'IsInPicklist', 'IsInExport', 'InverseProfilePropertyId', 'IsInClassPicklist', 'IsInPropertyPicklist', 'IsInRdf', 'IsInXsd', 'IsAttribute', 'HasLanguage', 'IsObjectProp', 'IsInForm', ),
+		BasePeer::TYPE_COLNAME => array (ProfilePropertyPeer::ID, ProfilePropertyPeer::SKOS_ID, ProfilePropertyPeer::CREATED_AT, ProfilePropertyPeer::UPDATED_AT, ProfilePropertyPeer::DELETED_AT, ProfilePropertyPeer::CREATED_BY, ProfilePropertyPeer::UPDATED_BY, ProfilePropertyPeer::DELETED_BY, ProfilePropertyPeer::PROFILE_ID, ProfilePropertyPeer::SKOS_PARENT_ID, ProfilePropertyPeer::NAME, ProfilePropertyPeer::LABEL, ProfilePropertyPeer::DEFINITION, ProfilePropertyPeer::COMMENT, ProfilePropertyPeer::TYPE, ProfilePropertyPeer::URI, ProfilePropertyPeer::STATUS_ID, ProfilePropertyPeer::LANGUAGE, ProfilePropertyPeer::NOTE, ProfilePropertyPeer::DISPLAY_ORDER, ProfilePropertyPeer::EXPORT_ORDER, ProfilePropertyPeer::PICKLIST_ORDER, ProfilePropertyPeer::EXAMPLES, ProfilePropertyPeer::IS_REQUIRED, ProfilePropertyPeer::IS_RECIPROCAL, ProfilePropertyPeer::IS_SINGLETON, ProfilePropertyPeer::IS_IN_PICKLIST, ProfilePropertyPeer::IS_IN_EXPORT, ProfilePropertyPeer::INVERSE_PROFILE_PROPERTY_ID, ProfilePropertyPeer::IS_IN_CLASS_PICKLIST, ProfilePropertyPeer::IS_IN_PROPERTY_PICKLIST, ProfilePropertyPeer::IS_IN_RDF, ProfilePropertyPeer::IS_IN_XSD, ProfilePropertyPeer::IS_ATTRIBUTE, ProfilePropertyPeer::HAS_LANGUAGE, ProfilePropertyPeer::IS_OBJECT_PROP, ProfilePropertyPeer::IS_IN_FORM, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'skos_id', 'created_at', 'updated_at', 'deleted_at', 'created_by', 'updated_by', 'deleted_by', 'profile_id', 'skos_parent_id', 'name', 'label', 'definition', 'comment', 'type', 'uri', 'status_id', 'language', 'note', 'display_order', 'export_order', 'picklist_order', 'examples', 'is_required', 'is_reciprocal', 'is_singleton', 'is_in_picklist', 'is_in_export', 'inverse_profile_property_id', 'is_in_class_picklist', 'is_in_property_picklist', 'is_in_rdf', 'is_in_xsd', 'is_attribute', 'has_language', 'is_object_prop', 'is_in_form', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, )
 	);
 
 	/**
@@ -154,10 +160,10 @@ abstract class BaseProfilePropertyPeer {
 	 * e.g. self::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
 	 */
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'CreatedAt' => 1, 'UpdatedAt' => 2, 'DeletedAt' => 3, 'CreatedBy' => 4, 'UpdatedBy' => 5, 'DeletedBy' => 6, 'ProfileId' => 7, 'Name' => 8, 'Label' => 9, 'Definition' => 10, 'Comment' => 11, 'Type' => 12, 'Uri' => 13, 'StatusId' => 14, 'Language' => 15, 'Note' => 16, 'DisplayOrder' => 17, 'ExportOrder' => 18, 'PicklistOrder' => 19, 'Examples' => 20, 'IsRequired' => 21, 'IsReciprocal' => 22, 'IsSingleton' => 23, 'IsInPicklist' => 24, 'IsInExport' => 25, 'InverseProfilePropertyId' => 26, 'IsInClassPicklist' => 27, 'IsInPropertyPicklist' => 28, 'IsInRdf' => 29, 'IsInXsd' => 30, 'IsAttribute' => 31, 'HasLanguage' => 32, 'IsObjectProp' => 33, 'IsInForm' => 34, ),
-		BasePeer::TYPE_COLNAME => array (ProfilePropertyPeer::ID => 0, ProfilePropertyPeer::CREATED_AT => 1, ProfilePropertyPeer::UPDATED_AT => 2, ProfilePropertyPeer::DELETED_AT => 3, ProfilePropertyPeer::CREATED_BY => 4, ProfilePropertyPeer::UPDATED_BY => 5, ProfilePropertyPeer::DELETED_BY => 6, ProfilePropertyPeer::PROFILE_ID => 7, ProfilePropertyPeer::NAME => 8, ProfilePropertyPeer::LABEL => 9, ProfilePropertyPeer::DEFINITION => 10, ProfilePropertyPeer::COMMENT => 11, ProfilePropertyPeer::TYPE => 12, ProfilePropertyPeer::URI => 13, ProfilePropertyPeer::STATUS_ID => 14, ProfilePropertyPeer::LANGUAGE => 15, ProfilePropertyPeer::NOTE => 16, ProfilePropertyPeer::DISPLAY_ORDER => 17, ProfilePropertyPeer::EXPORT_ORDER => 18, ProfilePropertyPeer::PICKLIST_ORDER => 19, ProfilePropertyPeer::EXAMPLES => 20, ProfilePropertyPeer::IS_REQUIRED => 21, ProfilePropertyPeer::IS_RECIPROCAL => 22, ProfilePropertyPeer::IS_SINGLETON => 23, ProfilePropertyPeer::IS_IN_PICKLIST => 24, ProfilePropertyPeer::IS_IN_EXPORT => 25, ProfilePropertyPeer::INVERSE_PROFILE_PROPERTY_ID => 26, ProfilePropertyPeer::IS_IN_CLASS_PICKLIST => 27, ProfilePropertyPeer::IS_IN_PROPERTY_PICKLIST => 28, ProfilePropertyPeer::IS_IN_RDF => 29, ProfilePropertyPeer::IS_IN_XSD => 30, ProfilePropertyPeer::IS_ATTRIBUTE => 31, ProfilePropertyPeer::HAS_LANGUAGE => 32, ProfilePropertyPeer::IS_OBJECT_PROP => 33, ProfilePropertyPeer::IS_IN_FORM => 34, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'created_at' => 1, 'updated_at' => 2, 'deleted_at' => 3, 'created_by' => 4, 'updated_by' => 5, 'deleted_by' => 6, 'profile_id' => 7, 'name' => 8, 'label' => 9, 'definition' => 10, 'comment' => 11, 'type' => 12, 'uri' => 13, 'status_id' => 14, 'language' => 15, 'note' => 16, 'display_order' => 17, 'export_order' => 18, 'picklist_order' => 19, 'examples' => 20, 'is_required' => 21, 'is_reciprocal' => 22, 'is_singleton' => 23, 'is_in_picklist' => 24, 'is_in_export' => 25, 'inverse_profile_property_id' => 26, 'is_in_class_picklist' => 27, 'is_in_property_picklist' => 28, 'is_in_rdf' => 29, 'is_in_xsd' => 30, 'is_attribute' => 31, 'has_language' => 32, 'is_object_prop' => 33, 'is_in_form' => 34, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'SkosId' => 1, 'CreatedAt' => 2, 'UpdatedAt' => 3, 'DeletedAt' => 4, 'CreatedBy' => 5, 'UpdatedBy' => 6, 'DeletedBy' => 7, 'ProfileId' => 8, 'SkosParentId' => 9, 'Name' => 10, 'Label' => 11, 'Definition' => 12, 'Comment' => 13, 'Type' => 14, 'Uri' => 15, 'StatusId' => 16, 'Language' => 17, 'Note' => 18, 'DisplayOrder' => 19, 'ExportOrder' => 20, 'PicklistOrder' => 21, 'Examples' => 22, 'IsRequired' => 23, 'IsReciprocal' => 24, 'IsSingleton' => 25, 'IsInPicklist' => 26, 'IsInExport' => 27, 'InverseProfilePropertyId' => 28, 'IsInClassPicklist' => 29, 'IsInPropertyPicklist' => 30, 'IsInRdf' => 31, 'IsInXsd' => 32, 'IsAttribute' => 33, 'HasLanguage' => 34, 'IsObjectProp' => 35, 'IsInForm' => 36, ),
+		BasePeer::TYPE_COLNAME => array (ProfilePropertyPeer::ID => 0, ProfilePropertyPeer::SKOS_ID => 1, ProfilePropertyPeer::CREATED_AT => 2, ProfilePropertyPeer::UPDATED_AT => 3, ProfilePropertyPeer::DELETED_AT => 4, ProfilePropertyPeer::CREATED_BY => 5, ProfilePropertyPeer::UPDATED_BY => 6, ProfilePropertyPeer::DELETED_BY => 7, ProfilePropertyPeer::PROFILE_ID => 8, ProfilePropertyPeer::SKOS_PARENT_ID => 9, ProfilePropertyPeer::NAME => 10, ProfilePropertyPeer::LABEL => 11, ProfilePropertyPeer::DEFINITION => 12, ProfilePropertyPeer::COMMENT => 13, ProfilePropertyPeer::TYPE => 14, ProfilePropertyPeer::URI => 15, ProfilePropertyPeer::STATUS_ID => 16, ProfilePropertyPeer::LANGUAGE => 17, ProfilePropertyPeer::NOTE => 18, ProfilePropertyPeer::DISPLAY_ORDER => 19, ProfilePropertyPeer::EXPORT_ORDER => 20, ProfilePropertyPeer::PICKLIST_ORDER => 21, ProfilePropertyPeer::EXAMPLES => 22, ProfilePropertyPeer::IS_REQUIRED => 23, ProfilePropertyPeer::IS_RECIPROCAL => 24, ProfilePropertyPeer::IS_SINGLETON => 25, ProfilePropertyPeer::IS_IN_PICKLIST => 26, ProfilePropertyPeer::IS_IN_EXPORT => 27, ProfilePropertyPeer::INVERSE_PROFILE_PROPERTY_ID => 28, ProfilePropertyPeer::IS_IN_CLASS_PICKLIST => 29, ProfilePropertyPeer::IS_IN_PROPERTY_PICKLIST => 30, ProfilePropertyPeer::IS_IN_RDF => 31, ProfilePropertyPeer::IS_IN_XSD => 32, ProfilePropertyPeer::IS_ATTRIBUTE => 33, ProfilePropertyPeer::HAS_LANGUAGE => 34, ProfilePropertyPeer::IS_OBJECT_PROP => 35, ProfilePropertyPeer::IS_IN_FORM => 36, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'skos_id' => 1, 'created_at' => 2, 'updated_at' => 3, 'deleted_at' => 4, 'created_by' => 5, 'updated_by' => 6, 'deleted_by' => 7, 'profile_id' => 8, 'skos_parent_id' => 9, 'name' => 10, 'label' => 11, 'definition' => 12, 'comment' => 13, 'type' => 14, 'uri' => 15, 'status_id' => 16, 'language' => 17, 'note' => 18, 'display_order' => 19, 'export_order' => 20, 'picklist_order' => 21, 'examples' => 22, 'is_required' => 23, 'is_reciprocal' => 24, 'is_singleton' => 25, 'is_in_picklist' => 26, 'is_in_export' => 27, 'inverse_profile_property_id' => 28, 'is_in_class_picklist' => 29, 'is_in_property_picklist' => 30, 'is_in_rdf' => 31, 'is_in_xsd' => 32, 'is_attribute' => 33, 'has_language' => 34, 'is_object_prop' => 35, 'is_in_form' => 36, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, )
 	);
 
 	/**
@@ -260,6 +266,8 @@ abstract class BaseProfilePropertyPeer {
 
         $criteria->addSelectColumn(($tableAlias) ? ProfilePropertyPeer::alias($tableAlias, ProfilePropertyPeer::ID) : ProfilePropertyPeer::ID);
 
+        $criteria->addSelectColumn(($tableAlias) ? ProfilePropertyPeer::alias($tableAlias, ProfilePropertyPeer::SKOS_ID) : ProfilePropertyPeer::SKOS_ID);
+
         $criteria->addSelectColumn(($tableAlias) ? ProfilePropertyPeer::alias($tableAlias, ProfilePropertyPeer::CREATED_AT) : ProfilePropertyPeer::CREATED_AT);
 
         $criteria->addSelectColumn(($tableAlias) ? ProfilePropertyPeer::alias($tableAlias, ProfilePropertyPeer::UPDATED_AT) : ProfilePropertyPeer::UPDATED_AT);
@@ -273,6 +281,8 @@ abstract class BaseProfilePropertyPeer {
         $criteria->addSelectColumn(($tableAlias) ? ProfilePropertyPeer::alias($tableAlias, ProfilePropertyPeer::DELETED_BY) : ProfilePropertyPeer::DELETED_BY);
 
         $criteria->addSelectColumn(($tableAlias) ? ProfilePropertyPeer::alias($tableAlias, ProfilePropertyPeer::PROFILE_ID) : ProfilePropertyPeer::PROFILE_ID);
+
+        $criteria->addSelectColumn(($tableAlias) ? ProfilePropertyPeer::alias($tableAlias, ProfilePropertyPeer::SKOS_PARENT_ID) : ProfilePropertyPeer::SKOS_PARENT_ID);
 
         $criteria->addSelectColumn(($tableAlias) ? ProfilePropertyPeer::alias($tableAlias, ProfilePropertyPeer::NAME) : ProfilePropertyPeer::NAME);
 
@@ -2459,7 +2469,16 @@ abstract class BaseProfilePropertyPeer {
 
 		}
 
-		return BasePeer::doValidate(ProfilePropertyPeer::DATABASE_NAME, ProfilePropertyPeer::TABLE_NAME, $columns);
+		$res =  BasePeer::doValidate(ProfilePropertyPeer::DATABASE_NAME, ProfilePropertyPeer::TABLE_NAME, $columns);
+    if ($res !== true) {
+        $request = sfContext::getInstance()->getRequest();
+        foreach ($res as $failed) {
+            $col = ProfilePropertyPeer::translateFieldname($failed->getColumn(), BasePeer::TYPE_COLNAME, BasePeer::TYPE_PHPNAME);
+            $request->setError($col, $failed->getMessage());
+        }
+    }
+
+    return $res;
 	}
 
 	/**

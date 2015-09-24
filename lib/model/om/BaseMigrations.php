@@ -1,85 +1,36 @@
 <?php
 
 /**
- * Base class that represents a row from the 'arc_triple' table.
+ * Base class that represents a row from the 'migrations' table.
  *
  * 
  *
  * @package    lib.model.om
  */
-abstract class BaseArcTriple extends BaseObject  implements Persistent {
+abstract class BaseMigrations extends BaseObject  implements Persistent {
 
 
 	/**
 	 * The Peer class.
 	 * Instance provides a convenient way of calling static methods on a class
 	 * that calling code may not be able to identify.
-	 * @var        ArcTriplePeer
+	 * @var        MigrationsPeer
 	 */
 	protected static $peer;
 
 
 	/**
-	 * The value for the t field.
-	 * @var        int
-	 */
-	protected $t;
-
-
-	/**
-	 * The value for the s field.
-	 * @var        int
-	 */
-	protected $s;
-
-
-	/**
-	 * The value for the p field.
-	 * @var        int
-	 */
-	protected $p;
-
-
-	/**
-	 * The value for the o field.
-	 * @var        int
-	 */
-	protected $o;
-
-
-	/**
-	 * The value for the o_lang_dt field.
-	 * @var        int
-	 */
-	protected $o_lang_dt;
-
-
-	/**
-	 * The value for the o_comp field.
+	 * The value for the migration field.
 	 * @var        string
 	 */
-	protected $o_comp;
+	protected $migration;
 
 
 	/**
-	 * The value for the s_type field.
-	 * @var        boolean
+	 * The value for the batch field.
+	 * @var        int
 	 */
-	protected $s_type = false;
-
-
-	/**
-	 * The value for the o_type field.
-	 * @var        boolean
-	 */
-	protected $o_type = false;
-
-
-	/**
-	 * The value for the misc field.
-	 * @var        boolean
-	 */
-	protected $misc = false;
+	protected $batch;
 
 
 	/**
@@ -103,102 +54,25 @@ abstract class BaseArcTriple extends BaseObject  implements Persistent {
 	protected $alreadyInValidation = false;
 
 	/**
-	 * Get the [t] column value.
-	 * 
-	 * @return     int
-	 */
-	public function getT()
-	{
-
-		return $this->t;
-	}
-
-	/**
-	 * Get the [s] column value.
-	 * 
-	 * @return     int
-	 */
-	public function getS()
-	{
-
-		return $this->s;
-	}
-
-	/**
-	 * Get the [p] column value.
-	 * 
-	 * @return     int
-	 */
-	public function getP()
-	{
-
-		return $this->p;
-	}
-
-	/**
-	 * Get the [o] column value.
-	 * 
-	 * @return     int
-	 */
-	public function getO()
-	{
-
-		return $this->o;
-	}
-
-	/**
-	 * Get the [o_lang_dt] column value.
-	 * 
-	 * @return     int
-	 */
-	public function getOLangDt()
-	{
-
-		return $this->o_lang_dt;
-	}
-
-	/**
-	 * Get the [o_comp] column value.
+	 * Get the [migration] column value.
 	 * 
 	 * @return     string
 	 */
-	public function getOComp()
+	public function getMigration()
 	{
 
-		return $this->o_comp;
+		return $this->migration;
 	}
 
 	/**
-	 * Get the [s_type] column value.
+	 * Get the [batch] column value.
 	 * 
-	 * @return     boolean
+	 * @return     int
 	 */
-	public function getSType()
+	public function getBatch()
 	{
 
-		return $this->s_type;
-	}
-
-	/**
-	 * Get the [o_type] column value.
-	 * 
-	 * @return     boolean
-	 */
-	public function getOType()
-	{
-
-		return $this->o_type;
-	}
-
-	/**
-	 * Get the [misc] column value.
-	 * 
-	 * @return     boolean
-	 */
-	public function getMisc()
-	{
-
-		return $this->misc;
+		return $this->batch;
 	}
 
 	/**
@@ -213,122 +87,12 @@ abstract class BaseArcTriple extends BaseObject  implements Persistent {
 	}
 
 	/**
-	 * Set the value of [t] column.
-	 * 
-	 * @param      int $v new value
-	 * @return     void
-	 */
-	public function setT($v)
-	{
-
-		// Since the native PHP type for this column is integer,
-		// we will cast the input value to an int (if it is not).
-		if ($v !== null && !is_int($v) && is_numeric($v)) {
-			$v = (int) $v;
-		}
-
-		if ($this->t !== $v) {
-			$this->t = $v;
-			$this->modifiedColumns[] = ArcTriplePeer::T;
-		}
-
-	} // setT()
-
-	/**
-	 * Set the value of [s] column.
-	 * 
-	 * @param      int $v new value
-	 * @return     void
-	 */
-	public function setS($v)
-	{
-
-		// Since the native PHP type for this column is integer,
-		// we will cast the input value to an int (if it is not).
-		if ($v !== null && !is_int($v) && is_numeric($v)) {
-			$v = (int) $v;
-		}
-
-		if ($this->s !== $v) {
-			$this->s = $v;
-			$this->modifiedColumns[] = ArcTriplePeer::S;
-		}
-
-	} // setS()
-
-	/**
-	 * Set the value of [p] column.
-	 * 
-	 * @param      int $v new value
-	 * @return     void
-	 */
-	public function setP($v)
-	{
-
-		// Since the native PHP type for this column is integer,
-		// we will cast the input value to an int (if it is not).
-		if ($v !== null && !is_int($v) && is_numeric($v)) {
-			$v = (int) $v;
-		}
-
-		if ($this->p !== $v) {
-			$this->p = $v;
-			$this->modifiedColumns[] = ArcTriplePeer::P;
-		}
-
-	} // setP()
-
-	/**
-	 * Set the value of [o] column.
-	 * 
-	 * @param      int $v new value
-	 * @return     void
-	 */
-	public function setO($v)
-	{
-
-		// Since the native PHP type for this column is integer,
-		// we will cast the input value to an int (if it is not).
-		if ($v !== null && !is_int($v) && is_numeric($v)) {
-			$v = (int) $v;
-		}
-
-		if ($this->o !== $v) {
-			$this->o = $v;
-			$this->modifiedColumns[] = ArcTriplePeer::O;
-		}
-
-	} // setO()
-
-	/**
-	 * Set the value of [o_lang_dt] column.
-	 * 
-	 * @param      int $v new value
-	 * @return     void
-	 */
-	public function setOLangDt($v)
-	{
-
-		// Since the native PHP type for this column is integer,
-		// we will cast the input value to an int (if it is not).
-		if ($v !== null && !is_int($v) && is_numeric($v)) {
-			$v = (int) $v;
-		}
-
-		if ($this->o_lang_dt !== $v) {
-			$this->o_lang_dt = $v;
-			$this->modifiedColumns[] = ArcTriplePeer::O_LANG_DT;
-		}
-
-	} // setOLangDt()
-
-	/**
-	 * Set the value of [o_comp] column.
+	 * Set the value of [migration] column.
 	 * 
 	 * @param      string $v new value
 	 * @return     void
 	 */
-	public function setOComp($v)
+	public function setMigration($v)
 	{
 
 		// Since the native PHP type for this column is string,
@@ -337,60 +101,34 @@ abstract class BaseArcTriple extends BaseObject  implements Persistent {
 			$v = (string) $v; 
 		}
 
-		if ($this->o_comp !== $v) {
-			$this->o_comp = $v;
-			$this->modifiedColumns[] = ArcTriplePeer::O_COMP;
+		if ($this->migration !== $v) {
+			$this->migration = $v;
+			$this->modifiedColumns[] = MigrationsPeer::MIGRATION;
 		}
 
-	} // setOComp()
+	} // setMigration()
 
 	/**
-	 * Set the value of [s_type] column.
+	 * Set the value of [batch] column.
 	 * 
-	 * @param      boolean $v new value
+	 * @param      int $v new value
 	 * @return     void
 	 */
-	public function setSType($v)
+	public function setBatch($v)
 	{
 
-		if ($this->s_type !== $v || $v === false) {
-			$this->s_type = $v;
-			$this->modifiedColumns[] = ArcTriplePeer::S_TYPE;
+		// Since the native PHP type for this column is integer,
+		// we will cast the input value to an int (if it is not).
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
 		}
 
-	} // setSType()
-
-	/**
-	 * Set the value of [o_type] column.
-	 * 
-	 * @param      boolean $v new value
-	 * @return     void
-	 */
-	public function setOType($v)
-	{
-
-		if ($this->o_type !== $v || $v === false) {
-			$this->o_type = $v;
-			$this->modifiedColumns[] = ArcTriplePeer::O_TYPE;
+		if ($this->batch !== $v) {
+			$this->batch = $v;
+			$this->modifiedColumns[] = MigrationsPeer::BATCH;
 		}
 
-	} // setOType()
-
-	/**
-	 * Set the value of [misc] column.
-	 * 
-	 * @param      boolean $v new value
-	 * @return     void
-	 */
-	public function setMisc($v)
-	{
-
-		if ($this->misc !== $v || $v === false) {
-			$this->misc = $v;
-			$this->modifiedColumns[] = ArcTriplePeer::MISC;
-		}
-
-	} // setMisc()
+	} // setBatch()
 
 	/**
 	 * Set the value of [id] column.
@@ -409,7 +147,7 @@ abstract class BaseArcTriple extends BaseObject  implements Persistent {
 
 		if ($this->id !== $v) {
 			$this->id = $v;
-			$this->modifiedColumns[] = ArcTriplePeer::ID;
+			$this->modifiedColumns[] = MigrationsPeer::ID;
 		}
 
 	} // setId()
@@ -431,35 +169,21 @@ abstract class BaseArcTriple extends BaseObject  implements Persistent {
 	{
 		try {
 
-			$this->t = $rs->getInt($startcol + 0);
+			$this->migration = $rs->getString($startcol + 0);
 
-			$this->s = $rs->getInt($startcol + 1);
+			$this->batch = $rs->getInt($startcol + 1);
 
-			$this->p = $rs->getInt($startcol + 2);
-
-			$this->o = $rs->getInt($startcol + 3);
-
-			$this->o_lang_dt = $rs->getInt($startcol + 4);
-
-			$this->o_comp = $rs->getString($startcol + 5);
-
-			$this->s_type = $rs->getBoolean($startcol + 6);
-
-			$this->o_type = $rs->getBoolean($startcol + 7);
-
-			$this->misc = $rs->getBoolean($startcol + 8);
-
-			$this->id = $rs->getInt($startcol + 9);
+			$this->id = $rs->getInt($startcol + 2);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 10; // 10 = ArcTriplePeer::NUM_COLUMNS - ArcTriplePeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 3; // 3 = MigrationsPeer::NUM_COLUMNS - MigrationsPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
-			throw new PropelException("Error populating ArcTriple object", $e);
+			throw new PropelException("Error populating Migrations object", $e);
 		}
 	}
 
@@ -475,7 +199,7 @@ abstract class BaseArcTriple extends BaseObject  implements Persistent {
 	public function delete($con = null)
 	{
 
-    foreach (sfMixer::getCallables('BaseArcTriple:delete:pre') as $callable)
+    foreach (sfMixer::getCallables('BaseMigrations:delete:pre') as $callable)
     {
       $ret = call_user_func($callable, $this, $con);
       if ($ret)
@@ -490,12 +214,12 @@ abstract class BaseArcTriple extends BaseObject  implements Persistent {
 		}
 
 		if ($con === null) {
-			$con = Propel::getConnection(ArcTriplePeer::DATABASE_NAME);
+			$con = Propel::getConnection(MigrationsPeer::DATABASE_NAME);
 		}
 
 		try {
 			$con->begin();
-			ArcTriplePeer::doDelete($this, $con);
+			MigrationsPeer::doDelete($this, $con);
 			$this->setDeleted(true);
 			$con->commit();
 		} catch (PropelException $e) {
@@ -504,7 +228,7 @@ abstract class BaseArcTriple extends BaseObject  implements Persistent {
 		}
 	
 
-    foreach (sfMixer::getCallables('BaseArcTriple:delete:post') as $callable)
+    foreach (sfMixer::getCallables('BaseMigrations:delete:post') as $callable)
     {
       call_user_func($callable, $this, $con);
     }
@@ -523,7 +247,7 @@ abstract class BaseArcTriple extends BaseObject  implements Persistent {
 	public function save($con = null)
 	{
 
-    foreach (sfMixer::getCallables('BaseArcTriple:save:pre') as $callable)
+    foreach (sfMixer::getCallables('BaseMigrations:save:pre') as $callable)
     {
       $affectedRows = call_user_func($callable, $this, $con);
       if (is_int($affectedRows))
@@ -538,14 +262,14 @@ abstract class BaseArcTriple extends BaseObject  implements Persistent {
 		}
 
 		if ($con === null) {
-			$con = Propel::getConnection(ArcTriplePeer::DATABASE_NAME);
+			$con = Propel::getConnection(MigrationsPeer::DATABASE_NAME);
 		}
 
 		try {
 			$con->begin();
 			$affectedRows = $this->doSave($con);
 			$con->commit();
-    foreach (sfMixer::getCallables('BaseArcTriple:save:post') as $callable)
+    foreach (sfMixer::getCallables('BaseMigrations:save:post') as $callable)
     {
       call_user_func($callable, $this, $con, $affectedRows);
     }
@@ -578,7 +302,7 @@ abstract class BaseArcTriple extends BaseObject  implements Persistent {
 			// If this object has been modified, then save it to the database.
 			if ($this->isModified()) {
 				if ($this->isNew()) {
-					$pk = ArcTriplePeer::doInsert($this, $con);
+					$pk = MigrationsPeer::doInsert($this, $con);
 					$affectedRows += 1; // we are assuming that there is only 1 row per doInsert() which
 										 // should always be true here (even though technically
 										 // BasePeer::doInsert() can insert multiple rows).
@@ -587,7 +311,7 @@ abstract class BaseArcTriple extends BaseObject  implements Persistent {
 
 					$this->setNew(false);
 				} else {
-					$affectedRows += ArcTriplePeer::doUpdate($this, $con);
+					$affectedRows += MigrationsPeer::doUpdate($this, $con);
 				}
 				$this->resetModified(); // [HL] After being saved an object is no longer 'modified'
 			}
@@ -657,7 +381,7 @@ abstract class BaseArcTriple extends BaseObject  implements Persistent {
 			$failureMap = array();
 
 
-			if (($retval = ArcTriplePeer::doValidate($this, $columns)) !== true) {
+			if (($retval = MigrationsPeer::doValidate($this, $columns)) !== true) {
 				$failureMap = array_merge($failureMap, $retval);
 			}
 
@@ -680,7 +404,7 @@ abstract class BaseArcTriple extends BaseObject  implements Persistent {
 	 */
 	public function getByName($name, $type = BasePeer::TYPE_PHPNAME)
 	{
-		$pos = ArcTriplePeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
+		$pos = MigrationsPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
 		return $this->getByPosition($pos);
 	}
 
@@ -695,33 +419,12 @@ abstract class BaseArcTriple extends BaseObject  implements Persistent {
 	{
 		switch($pos) {
 			case 0:
-				return $this->getT();
+				return $this->getMigration();
 				break;
 			case 1:
-				return $this->getS();
+				return $this->getBatch();
 				break;
 			case 2:
-				return $this->getP();
-				break;
-			case 3:
-				return $this->getO();
-				break;
-			case 4:
-				return $this->getOLangDt();
-				break;
-			case 5:
-				return $this->getOComp();
-				break;
-			case 6:
-				return $this->getSType();
-				break;
-			case 7:
-				return $this->getOType();
-				break;
-			case 8:
-				return $this->getMisc();
-				break;
-			case 9:
 				return $this->getId();
 				break;
 			default:
@@ -742,18 +445,11 @@ abstract class BaseArcTriple extends BaseObject  implements Persistent {
 	 */
 	public function toArray($keyType = BasePeer::TYPE_PHPNAME)
 	{
-		$keys = ArcTriplePeer::getFieldNames($keyType);
+		$keys = MigrationsPeer::getFieldNames($keyType);
 		$result = array(
-			$keys[0] => $this->getT(),
-			$keys[1] => $this->getS(),
-			$keys[2] => $this->getP(),
-			$keys[3] => $this->getO(),
-			$keys[4] => $this->getOLangDt(),
-			$keys[5] => $this->getOComp(),
-			$keys[6] => $this->getSType(),
-			$keys[7] => $this->getOType(),
-			$keys[8] => $this->getMisc(),
-			$keys[9] => $this->getId(),
+			$keys[0] => $this->getMigration(),
+			$keys[1] => $this->getBatch(),
+			$keys[2] => $this->getId(),
 		);
 		return $result;
 	}
@@ -770,7 +466,7 @@ abstract class BaseArcTriple extends BaseObject  implements Persistent {
 	 */
 	public function setByName($name, $value, $type = BasePeer::TYPE_PHPNAME)
 	{
-		$pos = ArcTriplePeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
+		$pos = MigrationsPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
 		return $this->setByPosition($pos, $value);
 	}
 
@@ -786,33 +482,12 @@ abstract class BaseArcTriple extends BaseObject  implements Persistent {
 	{
 		switch($pos) {
 			case 0:
-				$this->setT($value);
+				$this->setMigration($value);
 				break;
 			case 1:
-				$this->setS($value);
+				$this->setBatch($value);
 				break;
 			case 2:
-				$this->setP($value);
-				break;
-			case 3:
-				$this->setO($value);
-				break;
-			case 4:
-				$this->setOLangDt($value);
-				break;
-			case 5:
-				$this->setOComp($value);
-				break;
-			case 6:
-				$this->setSType($value);
-				break;
-			case 7:
-				$this->setOType($value);
-				break;
-			case 8:
-				$this->setMisc($value);
-				break;
-			case 9:
 				$this->setId($value);
 				break;
 		} // switch()
@@ -836,18 +511,11 @@ abstract class BaseArcTriple extends BaseObject  implements Persistent {
 	 */
 	public function fromArray($arr, $keyType = BasePeer::TYPE_PHPNAME)
 	{
-		$keys = ArcTriplePeer::getFieldNames($keyType);
+		$keys = MigrationsPeer::getFieldNames($keyType);
 
-		if (array_key_exists($keys[0], $arr)) $this->setT($arr[$keys[0]]);
-		if (array_key_exists($keys[1], $arr)) $this->setS($arr[$keys[1]]);
-		if (array_key_exists($keys[2], $arr)) $this->setP($arr[$keys[2]]);
-		if (array_key_exists($keys[3], $arr)) $this->setO($arr[$keys[3]]);
-		if (array_key_exists($keys[4], $arr)) $this->setOLangDt($arr[$keys[4]]);
-		if (array_key_exists($keys[5], $arr)) $this->setOComp($arr[$keys[5]]);
-		if (array_key_exists($keys[6], $arr)) $this->setSType($arr[$keys[6]]);
-		if (array_key_exists($keys[7], $arr)) $this->setOType($arr[$keys[7]]);
-		if (array_key_exists($keys[8], $arr)) $this->setMisc($arr[$keys[8]]);
-		if (array_key_exists($keys[9], $arr)) $this->setId($arr[$keys[9]]);
+		if (array_key_exists($keys[0], $arr)) $this->setMigration($arr[$keys[0]]);
+		if (array_key_exists($keys[1], $arr)) $this->setBatch($arr[$keys[1]]);
+		if (array_key_exists($keys[2], $arr)) $this->setId($arr[$keys[2]]);
 	}
 
 	/**
@@ -857,18 +525,11 @@ abstract class BaseArcTriple extends BaseObject  implements Persistent {
 	 */
 	public function buildCriteria()
 	{
-		$criteria = new Criteria(ArcTriplePeer::DATABASE_NAME);
+		$criteria = new Criteria(MigrationsPeer::DATABASE_NAME);
 
-		if ($this->isColumnModified(ArcTriplePeer::T)) $criteria->add(ArcTriplePeer::T, $this->t);
-		if ($this->isColumnModified(ArcTriplePeer::S)) $criteria->add(ArcTriplePeer::S, $this->s);
-		if ($this->isColumnModified(ArcTriplePeer::P)) $criteria->add(ArcTriplePeer::P, $this->p);
-		if ($this->isColumnModified(ArcTriplePeer::O)) $criteria->add(ArcTriplePeer::O, $this->o);
-		if ($this->isColumnModified(ArcTriplePeer::O_LANG_DT)) $criteria->add(ArcTriplePeer::O_LANG_DT, $this->o_lang_dt);
-		if ($this->isColumnModified(ArcTriplePeer::O_COMP)) $criteria->add(ArcTriplePeer::O_COMP, $this->o_comp);
-		if ($this->isColumnModified(ArcTriplePeer::S_TYPE)) $criteria->add(ArcTriplePeer::S_TYPE, $this->s_type);
-		if ($this->isColumnModified(ArcTriplePeer::O_TYPE)) $criteria->add(ArcTriplePeer::O_TYPE, $this->o_type);
-		if ($this->isColumnModified(ArcTriplePeer::MISC)) $criteria->add(ArcTriplePeer::MISC, $this->misc);
-		if ($this->isColumnModified(ArcTriplePeer::ID)) $criteria->add(ArcTriplePeer::ID, $this->id);
+		if ($this->isColumnModified(MigrationsPeer::MIGRATION)) $criteria->add(MigrationsPeer::MIGRATION, $this->migration);
+		if ($this->isColumnModified(MigrationsPeer::BATCH)) $criteria->add(MigrationsPeer::BATCH, $this->batch);
+		if ($this->isColumnModified(MigrationsPeer::ID)) $criteria->add(MigrationsPeer::ID, $this->id);
 
 		return $criteria;
 	}
@@ -883,9 +544,9 @@ abstract class BaseArcTriple extends BaseObject  implements Persistent {
 	 */
 	public function buildPkeyCriteria()
 	{
-		$criteria = new Criteria(ArcTriplePeer::DATABASE_NAME);
+		$criteria = new Criteria(MigrationsPeer::DATABASE_NAME);
 
-		$criteria->add(ArcTriplePeer::ID, $this->id);
+		$criteria->add(MigrationsPeer::ID, $this->id);
 
 		return $criteria;
 	}
@@ -916,30 +577,16 @@ abstract class BaseArcTriple extends BaseObject  implements Persistent {
 	 * If desired, this method can also make copies of all associated (fkey referrers)
 	 * objects.
 	 *
-	 * @param      object $copyObj An object of ArcTriple (or compatible) type.
+	 * @param      object $copyObj An object of Migrations (or compatible) type.
 	 * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
 	 * @throws     PropelException
 	 */
 	public function copyInto($copyObj, $deepCopy = false)
 	{
 
-		$copyObj->setT($this->t);
+		$copyObj->setMigration($this->migration);
 
-		$copyObj->setS($this->s);
-
-		$copyObj->setP($this->p);
-
-		$copyObj->setO($this->o);
-
-		$copyObj->setOLangDt($this->o_lang_dt);
-
-		$copyObj->setOComp($this->o_comp);
-
-		$copyObj->setSType($this->s_type);
-
-		$copyObj->setOType($this->o_type);
-
-		$copyObj->setMisc($this->misc);
+		$copyObj->setBatch($this->batch);
 
 
 		$copyObj->setNew(true);
@@ -957,7 +604,7 @@ abstract class BaseArcTriple extends BaseObject  implements Persistent {
 	 * objects.
 	 *
 	 * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-	 * @return     ArcTriple Clone of current object.
+	 * @return     Migrations Clone of current object.
 	 * @throws     PropelException
 	 */
 	public function copy($deepCopy = false)
@@ -976,12 +623,12 @@ abstract class BaseArcTriple extends BaseObject  implements Persistent {
 	 * same instance for all member of this class. The method could therefore
 	 * be static, but this would prevent one from overriding the behavior.
 	 *
-	 * @return     ArcTriplePeer
+	 * @return     MigrationsPeer
 	 */
 	public function getPeer()
 	{
 		if (self::$peer === null) {
-			self::$peer = new ArcTriplePeer();
+			self::$peer = new MigrationsPeer();
 		}
 		return self::$peer;
 	}
@@ -989,9 +636,9 @@ abstract class BaseArcTriple extends BaseObject  implements Persistent {
 
   public function __call($method, $arguments)
   {
-    if (!$callable = sfMixer::getCallable('BaseArcTriple:'.$method))
+    if (!$callable = sfMixer::getCallable('BaseMigrations:'.$method))
     {
-      throw new sfException(sprintf('Call to undefined method BaseArcTriple::%s', $method));
+      throw new sfException(sprintf('Call to undefined method BaseMigrations::%s', $method));
     }
 
     array_unshift($arguments, $this);
@@ -1000,4 +647,4 @@ abstract class BaseArcTriple extends BaseObject  implements Persistent {
   }
 
 
-} // BaseArcTriple
+} // BaseMigrations

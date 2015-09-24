@@ -105,6 +105,10 @@ class VocabularyMapBuilder {
 
 		$tMap->addColumn('NS_TYPE', 'NsType', 'string', CreoleTypes::CHAR, true, null);
 
+		$tMap->addColumn('PREFIXES', 'Prefixes', 'string', CreoleTypes::LONGVARCHAR, false, null);
+
+		$tMap->addColumn('REPOS', 'Repos', 'string', CreoleTypes::VARCHAR, false, 256);
+
 	} // doBuild()
 
 } // VocabularyMapBuilder

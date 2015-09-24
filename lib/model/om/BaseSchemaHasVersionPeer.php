@@ -1117,7 +1117,16 @@ abstract class BaseSchemaHasVersionPeer {
 
 		}
 
-		return BasePeer::doValidate(SchemaHasVersionPeer::DATABASE_NAME, SchemaHasVersionPeer::TABLE_NAME, $columns);
+		$res =  BasePeer::doValidate(SchemaHasVersionPeer::DATABASE_NAME, SchemaHasVersionPeer::TABLE_NAME, $columns);
+    if ($res !== true) {
+        $request = sfContext::getInstance()->getRequest();
+        foreach ($res as $failed) {
+            $col = SchemaHasVersionPeer::translateFieldname($failed->getColumn(), BasePeer::TYPE_COLNAME, BasePeer::TYPE_PHPNAME);
+            $request->setError($col, $failed->getMessage());
+        }
+    }
+
+    return $res;
 	}
 
 	/**

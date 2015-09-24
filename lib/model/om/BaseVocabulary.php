@@ -172,6 +172,20 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	 */
 	protected $ns_type = 'slash';
 
+
+	/**
+	 * The value for the prefixes field.
+	 * @var        string
+	 */
+	protected $prefixes;
+
+
+	/**
+	 * The value for the repos field.
+	 * @var        string
+	 */
+	protected $repos;
+
 	/**
 	 * @var        Agent
 	 */
@@ -644,6 +658,28 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	{
 
 		return $this->ns_type;
+	}
+
+	/**
+	 * Get the [prefixes] column value.
+	 * 
+	 * @return     string
+	 */
+	public function getPrefixes()
+	{
+
+		return $this->prefixes;
+	}
+
+	/**
+	 * Get the [repos] column value.
+	 * 
+	 * @return     string
+	 */
+	public function getRepos()
+	{
+
+		return $this->repos;
 	}
 
 	/**
@@ -1163,6 +1199,50 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	} // setNsType()
 
 	/**
+	 * Set the value of [prefixes] column.
+	 * 
+	 * @param      string $v new value
+	 * @return     void
+	 */
+	public function setPrefixes($v)
+	{
+
+		// Since the native PHP type for this column is string,
+		// we will cast the input to a string (if it is not).
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->prefixes !== $v) {
+			$this->prefixes = $v;
+			$this->modifiedColumns[] = VocabularyPeer::PREFIXES;
+		}
+
+	} // setPrefixes()
+
+	/**
+	 * Set the value of [repos] column.
+	 * 
+	 * @param      string $v new value
+	 * @return     void
+	 */
+	public function setRepos($v)
+	{
+
+		// Since the native PHP type for this column is string,
+		// we will cast the input to a string (if it is not).
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->repos !== $v) {
+			$this->repos = $v;
+			$this->modifiedColumns[] = VocabularyPeer::REPOS;
+		}
+
+	} // setRepos()
+
+	/**
 	 * Hydrates (populates) the object variables with values from the database resultset.
 	 *
 	 * An offset (1-based "start column") is specified so that objects can be hydrated
@@ -1223,12 +1303,16 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 
 			$this->ns_type = $rs->getString($startcol + 21);
 
+			$this->prefixes = $rs->getString($startcol + 22);
+
+			$this->repos = $rs->getString($startcol + 23);
+
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 22; // 22 = VocabularyPeer::NUM_COLUMNS - VocabularyPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 24; // 24 = VocabularyPeer::NUM_COLUMNS - VocabularyPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Vocabulary object", $e);
@@ -1771,6 +1855,12 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 			case 21:
 				return $this->getNsType();
 				break;
+			case 22:
+				return $this->getPrefixes();
+				break;
+			case 23:
+				return $this->getRepos();
+				break;
 			default:
 				return null;
 				break;
@@ -1813,6 +1903,8 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 			$keys[19] => $this->getLanguages(),
 			$keys[20] => $this->getProfileId(),
 			$keys[21] => $this->getNsType(),
+			$keys[22] => $this->getPrefixes(),
+			$keys[23] => $this->getRepos(),
 		);
 		return $result;
 	}
@@ -1910,6 +2002,12 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 			case 21:
 				$this->setNsType($value);
 				break;
+			case 22:
+				$this->setPrefixes($value);
+				break;
+			case 23:
+				$this->setRepos($value);
+				break;
 		} // switch()
 	}
 
@@ -1955,6 +2053,8 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[19], $arr)) $this->setLanguages($arr[$keys[19]]);
 		if (array_key_exists($keys[20], $arr)) $this->setProfileId($arr[$keys[20]]);
 		if (array_key_exists($keys[21], $arr)) $this->setNsType($arr[$keys[21]]);
+		if (array_key_exists($keys[22], $arr)) $this->setPrefixes($arr[$keys[22]]);
+		if (array_key_exists($keys[23], $arr)) $this->setRepos($arr[$keys[23]]);
 	}
 
 	/**
@@ -1988,6 +2088,8 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(VocabularyPeer::LANGUAGES)) $criteria->add(VocabularyPeer::LANGUAGES, $this->languages);
 		if ($this->isColumnModified(VocabularyPeer::PROFILE_ID)) $criteria->add(VocabularyPeer::PROFILE_ID, $this->profile_id);
 		if ($this->isColumnModified(VocabularyPeer::NS_TYPE)) $criteria->add(VocabularyPeer::NS_TYPE, $this->ns_type);
+		if ($this->isColumnModified(VocabularyPeer::PREFIXES)) $criteria->add(VocabularyPeer::PREFIXES, $this->prefixes);
+		if ($this->isColumnModified(VocabularyPeer::REPOS)) $criteria->add(VocabularyPeer::REPOS, $this->repos);
 
 		return $criteria;
 	}
@@ -2083,6 +2185,10 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 		$copyObj->setProfileId($this->profile_id);
 
 		$copyObj->setNsType($this->ns_type);
+
+		$copyObj->setPrefixes($this->prefixes);
+
+		$copyObj->setRepos($this->repos);
 
 
 		if ($deepCopy) {
