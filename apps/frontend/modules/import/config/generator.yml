@@ -16,6 +16,7 @@ generator:
       # multiple filters can be set but they're currently mutually exclusive (any of the list can be used but only one per url)
       urlfilters:
         schema_id:                  schema_id
+        vocabulary_id:              vocabulary_id
       object_actions:
         _show:
       actions:
