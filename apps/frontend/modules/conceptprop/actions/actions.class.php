@@ -118,7 +118,7 @@ class conceptpropActions extends autoconceptpropActions
                       $this->getRequest()->getParameterHolder()->set('concept_property', $concept_property);
                   }
                   //lookup the inverse id
-                  $InverseSkosId = SkosPropertyPeer::retrieveByPK($concept_property['skos_property_id'])->getInverseId();
+                  $InverseSkosId = ProfilePropertyPeer::retrieveByPK($concept_property['skos_property_id'])->getInverseProfilePropertyId();
                   //then we create a new reciprocal property in the related term
                   $newProp = new ConceptProperty();
                   $newProp->setConceptId($concept_property['related_concept_id']);
@@ -303,7 +303,7 @@ class conceptpropActions extends autoconceptpropActions
          //check to see if it defines a relationship
          $currentRelatedSchemeId = $currentProperty->getSchemeId();
          $currentRelatedConceptId = $currentProperty->getRelatedConceptId();
-         $currentRelatedConceptInverseSkosId = $currentProperty->getSkosProperty()->getInverseId();
+         $currentRelatedConceptInverseSkosId = $currentProperty->getProfileProperty()->getInverseProfilePropertyId();
          //if it does and it doesn't match the current relationship
          if (isset($currentRelatedConceptId) && $currentRelatedConceptId != $relatedIdFromRequest)
          {

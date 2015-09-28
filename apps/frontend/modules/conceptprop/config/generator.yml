@@ -26,7 +26,7 @@ generator:
       concept_id:       { name: Parent Concept }
       related_concept_id:
       scheme_id:
-      skos_property:    { name: skos:property }
+      profile_property:    { name: skos:property }
       object:           { name: Value }
       show_object:      { name: Value }
       listproperties:   { name: "" }
@@ -37,7 +37,7 @@ generator:
       fields:
         _language:     { name: Lang }
         updated_at: { name: Updated }
-      display:        [=skos_property, _show_object, _language, status, updated_at]
+      display:        [=profile_property, _show_object, _language, status, updated_at]
       displayfilter:  false
       object_actions:
         _edit:        { credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
@@ -53,7 +53,7 @@ generator:
     edit:
       title:
         mode:
-          edit:        Editing %%skos_property%%
+          edit:        Editing %%profile_property%%
           create:      Creating new property
       hide:                 [concept_id]
       fields:
@@ -82,7 +82,7 @@ generator:
         object:       { helper: auto_link_text }
       display:
         "-Metadata":   { fields: [id, created_at, created_user, updated_at, updated_user], credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
-        "Detail":     [skos_property, related_scheme, related_concept, object, _language, status]
+        "Detail":     [profile_property, related_scheme, related_concept, object, _language, status]
         "-Other Properties": [_listproperties]
       actions:
         _list:        { query_string: {concept_id: concept_id} }

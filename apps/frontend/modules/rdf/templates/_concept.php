@@ -12,7 +12,8 @@
       <skos:topConceptOf rdf:resource="<?php echo htmlspecialchars($vocabulary->getUri()); ?>"/>
 <?php endif; ?>
 <?php
-  foreach ($properties as $property): ?>
+/** @var \ConceptProperty $property */
+foreach ($properties as $property): ?>
 <?php
   if($timestamp)
   {
@@ -25,7 +26,7 @@
   $skos = $property->getSkosPropertyId();
   $language = $property->getLanguage();
   $language = ($language) ? ' xml:lang="' . $language . '"' : '';
-  $skosProp = $property->getSkosProperty();
+  $skosProp = $property->getProfileProperty();
   if (in_array($skos, $skosProps)): ?>
 	    <skos:<?php echo $skosProp->getName() ?> rdf:resource="<?php echo htmlspecialchars($property->getObject()); ?>"/>
 <?php else: ?>

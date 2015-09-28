@@ -19,7 +19,7 @@
     }
   }
   //If the skosProperty.objectType is resource then we display a truncated URI with a complete link_to
-  if ($property->getSkosProperty()->getObjectType() == 'resource')
+  if ($property->getProfileProperty()->getIsObjectProp())
   {
     return link_to(truncate_text($property->getObject(), 30), $property->getObject());
   }

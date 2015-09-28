@@ -35,7 +35,7 @@ class historyActions extends autohistoryActions
         if ($conceptProperty)
         {
           $vocabularyname = ($conceptProperty->getVocabulary()) ? $conceptProperty->getVocabulary()->getName() : "?" ;
-          $title .= " for Property: '" .   $conceptProperty->getSkosProperty()->getName() .
+          $title .= " for Property: '" .   $conceptProperty->getProfileProperty()->getName() .
                     "' of Concept: '" .    $conceptProperty->getConceptRelatedByConceptId()->getPrefLabel().
                     "' in Vocabulary: '" . $vocabularyname . "'";
         }

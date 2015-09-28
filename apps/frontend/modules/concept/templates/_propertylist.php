@@ -1,9 +1,10 @@
 <table cellspacing="0" class="sf_admin_list">
 <?php $skosProps = SkosPropertyPeer::getResourceProperties(); ?>
-<?php foreach($properties as $property): ?>
+    <?php /** @var ConceptProperty $property */
+foreach($properties as $property): ?>
   <tr>
     <td>
-      <?php echo link_to($property->getSkosProperty()->getLabel(), 'conceptprop/show?id=' . $property->getId(), array('title' => 'skos:' . $property->getSkosProperty()->getName())) ?>
+      <?php echo link_to($property->getProfileProperty()->getLabel(), 'conceptprop/show?id=' . $property->getId(), array('title' => 'skos:' . $property->getProfileProperty()->getName())) ?>
     </td>
     <td>
 <?php $skos = $property->getSkosPropertyId(); ?>
