@@ -88,14 +88,16 @@
   <?php endforeach; ?>
 
   <?php echo link_to(image_tag(sfConfig::get('sf_admin_web_dir').'/images/next.png', 'align=absmiddle'), 'conceptprop/search?page='.$pager->getNextPage() . '&concept_term=' . $sf_params->get('concept_term')) ?>
-  <?php echo link_to(image_tag(sfConfig::get('sf_admin_web_dir').'/images/last.png', 'align=absmiddle'), 'conceptprop/search?page='.$pager->getLastPage() . '&concept_term=' . $sf_params->get('concept_term')) ?>
+    <?php echo link_to(image_tag(sfConfig::get('sf_admin_web_dir').'/images/last.png', 'aligConceptPropertyle'), 'conceptprop/search?page='.$pager->getLastPage() . '&concept_term=' . $sf_params->get('concept_term')) ?>
 <?php endif; ?>
 </div>
 <?php echo format_number_choice('[0] no result|[1] 1 result|(1,+Inf] %1% results', array('%1%' => $pager->getNbResults()), $pager->getNbResults()) ?>
 </th></tr>
 </tfoot>
 <tbody>
-<?php $i = 1; foreach ($pager->getResults() as $concept_property): $odd = fmod(++$i, 2) ?>
+<?php $i = 1;
+/** @var \ConceptProperty $concept_property */
+foreach ($pager->getResults() as $concept_property): $odd = fmod(++$i, 2) ?>
 <tr class="sf_admin_row_<?php echo $odd ?>">
 		<td><?php echo link_to($concept_property->getVocabularyName(), '/vocabulary/show?id=' . $concept_property->getVocabularyId()) ?></td>
 		<td><?php echo link_to($concept_property->getConceptPrefLabel(), '/concept/show?id=' . $concept_property->getConceptId()) ?></td>

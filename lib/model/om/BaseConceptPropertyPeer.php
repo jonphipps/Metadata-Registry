@@ -487,14 +487,14 @@ abstract class BaseConceptPropertyPeer {
 
 
 	/**
-	 * Returns the number of rows matching criteria, joining the related SkosProperty table
+	 * Returns the number of rows matching criteria, joining the related ProfileProperty table
 	 *
 	 * @param Criteria $c
 	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
 	 * @param Connection $con
 	 * @return int Number of matching rows.
 	 */
-	public static function doCountJoinSkosProperty(Criteria $criteria, $distinct = false, $con = null)
+	public static function doCountJoinProfileProperty(Criteria $criteria, $distinct = false, $con = null)
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
@@ -513,7 +513,7 @@ abstract class BaseConceptPropertyPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(ConceptPropertyPeer::SKOS_PROPERTY_ID, SkosPropertyPeer::ID);
+		$criteria->addJoin(ConceptPropertyPeer::SKOS_PROPERTY_ID, ProfilePropertyPeer::SKOS_ID);
 
 		$rs = ConceptPropertyPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
@@ -817,13 +817,13 @@ abstract class BaseConceptPropertyPeer {
 
 
 	/**
-	 * Selects a collection of ConceptProperty objects pre-filled with their SkosProperty objects.
+	 * Selects a collection of ConceptProperty objects pre-filled with their ProfileProperty objects.
 	 *
 	 * @return array Array of ConceptProperty objects.
 	 * @throws PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
-	public static function doSelectJoinSkosProperty(Criteria $c, $con = null)
+	public static function doSelectJoinProfileProperty(Criteria $c, $con = null)
 	{
 		$c = clone $c;
 
@@ -834,9 +834,9 @@ abstract class BaseConceptPropertyPeer {
 
 		ConceptPropertyPeer::addSelectColumns($c);
 		$startcol = (ConceptPropertyPeer::NUM_COLUMNS - ConceptPropertyPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
-		SkosPropertyPeer::addSelectColumns($c);
+		ProfilePropertyPeer::addSelectColumns($c);
 
-		$c->addJoin(ConceptPropertyPeer::SKOS_PROPERTY_ID, SkosPropertyPeer::ID);
+		$c->addJoin(ConceptPropertyPeer::SKOS_PROPERTY_ID, ProfilePropertyPeer::SKOS_ID);
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
 
@@ -848,7 +848,7 @@ abstract class BaseConceptPropertyPeer {
 			$obj1 = new $cls();
 			$obj1->hydrate($rs);
 
-			$omClass = SkosPropertyPeer::getOMClass();
+			$omClass = ProfilePropertyPeer::getOMClass();
 
 			$cls = Propel::import($omClass);
 			$obj2 = new $cls();
@@ -856,7 +856,7 @@ abstract class BaseConceptPropertyPeer {
 
 			$newObject = true;
 			foreach($results as $temp_obj1) {
-				$temp_obj2 = $temp_obj1->getSkosProperty(); //CHECKME
+				$temp_obj2 = $temp_obj1->getProfileProperty(); //CHECKME
 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
 					// e.g. $author->addBookRelatedByBookId()
@@ -1080,7 +1080,7 @@ abstract class BaseConceptPropertyPeer {
 
 		$criteria->addJoin(ConceptPropertyPeer::CONCEPT_ID, ConceptPeer::ID);
 
-		$criteria->addJoin(ConceptPropertyPeer::SKOS_PROPERTY_ID, SkosPropertyPeer::ID);
+		$criteria->addJoin(ConceptPropertyPeer::SKOS_PROPERTY_ID, ProfilePropertyPeer::SKOS_ID);
 
 		$criteria->addJoin(ConceptPropertyPeer::SCHEME_ID, VocabularyPeer::ID);
 
@@ -1135,11 +1135,11 @@ abstract class BaseConceptPropertyPeer {
         $c->addJoin(ConceptPropertyPeer::CONCEPT_ID, ConceptPeer::alias('a3', ConceptPeer::ID));
         $c->addAlias('a3', ConceptPeer::TABLE_NAME);
 
-		SkosPropertyPeer::addSelectColumns($c, 'a4');
-		$startcol6 = $startcol5 + SkosPropertyPeer::NUM_COLUMNS;
+		ProfilePropertyPeer::addSelectColumns($c, 'a4');
+		$startcol6 = $startcol5 + ProfilePropertyPeer::NUM_COLUMNS;
 
-        $c->addJoin(ConceptPropertyPeer::SKOS_PROPERTY_ID, SkosPropertyPeer::alias('a4', SkosPropertyPeer::ID));
-        $c->addAlias('a4', SkosPropertyPeer::TABLE_NAME);
+        $c->addJoin(ConceptPropertyPeer::SKOS_PROPERTY_ID, ProfilePropertyPeer::alias('a4', ProfilePropertyPeer::SKOS_ID));
+        $c->addAlias('a4', ProfilePropertyPeer::TABLE_NAME);
 
 		VocabularyPeer::addSelectColumns($c, 'a5');
 		$startcol7 = $startcol6 + VocabularyPeer::NUM_COLUMNS;
@@ -1250,9 +1250,9 @@ abstract class BaseConceptPropertyPeer {
 			}
 
 
-				// Add objects for joined SkosProperty rows
+				// Add objects for joined ProfileProperty rows
 	
-			$omClass = SkosPropertyPeer::getOMClass();
+			$omClass = ProfilePropertyPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -1262,7 +1262,7 @@ abstract class BaseConceptPropertyPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj5 = $temp_obj1->getSkosProperty(); // CHECKME
+				$temp_obj5 = $temp_obj1->getProfileProperty(); // CHECKME
 				if ($temp_obj5->getPrimaryKey() === $obj5->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj5->addConceptProperty($obj1); // CHECKME
@@ -1388,7 +1388,7 @@ abstract class BaseConceptPropertyPeer {
 
 		$criteria->addJoin(ConceptPropertyPeer::CONCEPT_ID, ConceptPeer::ID);
 
-		$criteria->addJoin(ConceptPropertyPeer::SKOS_PROPERTY_ID, SkosPropertyPeer::ID);
+		$criteria->addJoin(ConceptPropertyPeer::SKOS_PROPERTY_ID, ProfilePropertyPeer::SKOS_ID);
 
 		$criteria->addJoin(ConceptPropertyPeer::SCHEME_ID, VocabularyPeer::ID);
 
@@ -1435,7 +1435,7 @@ abstract class BaseConceptPropertyPeer {
 
 		$criteria->addJoin(ConceptPropertyPeer::CONCEPT_ID, ConceptPeer::ID);
 
-		$criteria->addJoin(ConceptPropertyPeer::SKOS_PROPERTY_ID, SkosPropertyPeer::ID);
+		$criteria->addJoin(ConceptPropertyPeer::SKOS_PROPERTY_ID, ProfilePropertyPeer::SKOS_ID);
 
 		$criteria->addJoin(ConceptPropertyPeer::SCHEME_ID, VocabularyPeer::ID);
 
@@ -1484,7 +1484,7 @@ abstract class BaseConceptPropertyPeer {
 
 		$criteria->addJoin(ConceptPropertyPeer::UPDATED_USER_ID, UserPeer::ID);
 
-		$criteria->addJoin(ConceptPropertyPeer::SKOS_PROPERTY_ID, SkosPropertyPeer::ID);
+		$criteria->addJoin(ConceptPropertyPeer::SKOS_PROPERTY_ID, ProfilePropertyPeer::SKOS_ID);
 
 		$criteria->addJoin(ConceptPropertyPeer::SCHEME_ID, VocabularyPeer::ID);
 
@@ -1501,14 +1501,14 @@ abstract class BaseConceptPropertyPeer {
 
 
 	/**
-	 * Returns the number of rows matching criteria, joining the related SkosProperty table
+	 * Returns the number of rows matching criteria, joining the related ProfileProperty table
 	 *
 	 * @param Criteria $c
 	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
 	 * @param Connection $con
 	 * @return int Number of matching rows.
 	 */
-	public static function doCountJoinAllExceptSkosProperty(Criteria $criteria, $distinct = false, $con = null)
+	public static function doCountJoinAllExceptProfileProperty(Criteria $criteria, $distinct = false, $con = null)
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
@@ -1582,7 +1582,7 @@ abstract class BaseConceptPropertyPeer {
 
 		$criteria->addJoin(ConceptPropertyPeer::CONCEPT_ID, ConceptPeer::ID);
 
-		$criteria->addJoin(ConceptPropertyPeer::SKOS_PROPERTY_ID, SkosPropertyPeer::ID);
+		$criteria->addJoin(ConceptPropertyPeer::SKOS_PROPERTY_ID, ProfilePropertyPeer::SKOS_ID);
 
 		$criteria->addJoin(ConceptPropertyPeer::RELATED_CONCEPT_ID, ConceptPeer::ID);
 
@@ -1629,7 +1629,7 @@ abstract class BaseConceptPropertyPeer {
 
 		$criteria->addJoin(ConceptPropertyPeer::UPDATED_USER_ID, UserPeer::ID);
 
-		$criteria->addJoin(ConceptPropertyPeer::SKOS_PROPERTY_ID, SkosPropertyPeer::ID);
+		$criteria->addJoin(ConceptPropertyPeer::SKOS_PROPERTY_ID, ProfilePropertyPeer::SKOS_ID);
 
 		$criteria->addJoin(ConceptPropertyPeer::SCHEME_ID, VocabularyPeer::ID);
 
@@ -1678,7 +1678,7 @@ abstract class BaseConceptPropertyPeer {
 
 		$criteria->addJoin(ConceptPropertyPeer::CONCEPT_ID, ConceptPeer::ID);
 
-		$criteria->addJoin(ConceptPropertyPeer::SKOS_PROPERTY_ID, SkosPropertyPeer::ID);
+		$criteria->addJoin(ConceptPropertyPeer::SKOS_PROPERTY_ID, ProfilePropertyPeer::SKOS_ID);
 
 		$criteria->addJoin(ConceptPropertyPeer::SCHEME_ID, VocabularyPeer::ID);
 
@@ -1718,8 +1718,8 @@ abstract class BaseConceptPropertyPeer {
 		ConceptPeer::addSelectColumns($c);
 		$startcol3 = $startcol2 + ConceptPeer::NUM_COLUMNS;
 
-		SkosPropertyPeer::addSelectColumns($c);
-		$startcol4 = $startcol3 + SkosPropertyPeer::NUM_COLUMNS;
+		ProfilePropertyPeer::addSelectColumns($c);
+		$startcol4 = $startcol3 + ProfilePropertyPeer::NUM_COLUMNS;
 
 		VocabularyPeer::addSelectColumns($c);
 		$startcol5 = $startcol4 + VocabularyPeer::NUM_COLUMNS;
@@ -1732,7 +1732,7 @@ abstract class BaseConceptPropertyPeer {
 
 		$c->addJoin(ConceptPropertyPeer::CONCEPT_ID, ConceptPeer::ID);
 
-		$c->addJoin(ConceptPropertyPeer::SKOS_PROPERTY_ID, SkosPropertyPeer::ID);
+		$c->addJoin(ConceptPropertyPeer::SKOS_PROPERTY_ID, ProfilePropertyPeer::SKOS_ID);
 
 		$c->addJoin(ConceptPropertyPeer::SCHEME_ID, VocabularyPeer::ID);
 
@@ -1775,7 +1775,7 @@ abstract class BaseConceptPropertyPeer {
 				$obj2->addConceptPropertyRelatedByConceptId($obj1);
 			}
 
-			$omClass = SkosPropertyPeer::getOMClass();
+			$omClass = ProfilePropertyPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -1785,7 +1785,7 @@ abstract class BaseConceptPropertyPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj3 = $temp_obj1->getSkosProperty(); //CHECKME
+				$temp_obj3 = $temp_obj1->getProfileProperty(); //CHECKME
 				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj3->addConceptProperty($obj1);
@@ -1897,8 +1897,8 @@ abstract class BaseConceptPropertyPeer {
 		ConceptPeer::addSelectColumns($c);
 		$startcol3 = $startcol2 + ConceptPeer::NUM_COLUMNS;
 
-		SkosPropertyPeer::addSelectColumns($c);
-		$startcol4 = $startcol3 + SkosPropertyPeer::NUM_COLUMNS;
+		ProfilePropertyPeer::addSelectColumns($c);
+		$startcol4 = $startcol3 + ProfilePropertyPeer::NUM_COLUMNS;
 
 		VocabularyPeer::addSelectColumns($c);
 		$startcol5 = $startcol4 + VocabularyPeer::NUM_COLUMNS;
@@ -1911,7 +1911,7 @@ abstract class BaseConceptPropertyPeer {
 
 		$c->addJoin(ConceptPropertyPeer::CONCEPT_ID, ConceptPeer::ID);
 
-		$c->addJoin(ConceptPropertyPeer::SKOS_PROPERTY_ID, SkosPropertyPeer::ID);
+		$c->addJoin(ConceptPropertyPeer::SKOS_PROPERTY_ID, ProfilePropertyPeer::SKOS_ID);
 
 		$c->addJoin(ConceptPropertyPeer::SCHEME_ID, VocabularyPeer::ID);
 
@@ -1954,7 +1954,7 @@ abstract class BaseConceptPropertyPeer {
 				$obj2->addConceptPropertyRelatedByConceptId($obj1);
 			}
 
-			$omClass = SkosPropertyPeer::getOMClass();
+			$omClass = ProfilePropertyPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -1964,7 +1964,7 @@ abstract class BaseConceptPropertyPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj3 = $temp_obj1->getSkosProperty(); //CHECKME
+				$temp_obj3 = $temp_obj1->getProfileProperty(); //CHECKME
 				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj3->addConceptProperty($obj1);
@@ -2079,8 +2079,8 @@ abstract class BaseConceptPropertyPeer {
 		UserPeer::addSelectColumns($c);
 		$startcol4 = $startcol3 + UserPeer::NUM_COLUMNS;
 
-		SkosPropertyPeer::addSelectColumns($c);
-		$startcol5 = $startcol4 + SkosPropertyPeer::NUM_COLUMNS;
+		ProfilePropertyPeer::addSelectColumns($c);
+		$startcol5 = $startcol4 + ProfilePropertyPeer::NUM_COLUMNS;
 
 		VocabularyPeer::addSelectColumns($c);
 		$startcol6 = $startcol5 + VocabularyPeer::NUM_COLUMNS;
@@ -2092,7 +2092,7 @@ abstract class BaseConceptPropertyPeer {
 
 		$c->addJoin(ConceptPropertyPeer::UPDATED_USER_ID, UserPeer::ID);
 
-		$c->addJoin(ConceptPropertyPeer::SKOS_PROPERTY_ID, SkosPropertyPeer::ID);
+		$c->addJoin(ConceptPropertyPeer::SKOS_PROPERTY_ID, ProfilePropertyPeer::SKOS_ID);
 
 		$c->addJoin(ConceptPropertyPeer::SCHEME_ID, VocabularyPeer::ID);
 
@@ -2156,7 +2156,7 @@ abstract class BaseConceptPropertyPeer {
 				$obj3->addConceptPropertyRelatedByUpdatedUserId($obj1);
 			}
 
-			$omClass = SkosPropertyPeer::getOMClass();
+			$omClass = ProfilePropertyPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -2166,7 +2166,7 @@ abstract class BaseConceptPropertyPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj4 = $temp_obj1->getSkosProperty(); //CHECKME
+				$temp_obj4 = $temp_obj1->getProfileProperty(); //CHECKME
 				if ($temp_obj4->getPrimaryKey() === $obj4->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj4->addConceptProperty($obj1);
@@ -2232,13 +2232,13 @@ abstract class BaseConceptPropertyPeer {
 
 
 	/**
-	 * Selects a collection of ConceptProperty objects pre-filled with all related objects except SkosProperty.
+	 * Selects a collection of ConceptProperty objects pre-filled with all related objects except ProfileProperty.
 	 *
 	 * @return array Array of ConceptProperty objects.
 	 * @throws PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
-	public static function doSelectJoinAllExceptSkosProperty(Criteria $c, $con = null)
+	public static function doSelectJoinAllExceptProfileProperty(Criteria $c, $con = null)
 	{
 		$c = clone $c;
 
@@ -2468,8 +2468,8 @@ abstract class BaseConceptPropertyPeer {
 		ConceptPeer::addSelectColumns($c);
 		$startcol5 = $startcol4 + ConceptPeer::NUM_COLUMNS;
 
-		SkosPropertyPeer::addSelectColumns($c);
-		$startcol6 = $startcol5 + SkosPropertyPeer::NUM_COLUMNS;
+		ProfilePropertyPeer::addSelectColumns($c);
+		$startcol6 = $startcol5 + ProfilePropertyPeer::NUM_COLUMNS;
 
 		ConceptPeer::addSelectColumns($c);
 		$startcol7 = $startcol6 + ConceptPeer::NUM_COLUMNS;
@@ -2483,7 +2483,7 @@ abstract class BaseConceptPropertyPeer {
 
 		$c->addJoin(ConceptPropertyPeer::CONCEPT_ID, ConceptPeer::ID);
 
-		$c->addJoin(ConceptPropertyPeer::SKOS_PROPERTY_ID, SkosPropertyPeer::ID);
+		$c->addJoin(ConceptPropertyPeer::SKOS_PROPERTY_ID, ProfilePropertyPeer::SKOS_ID);
 
 		$c->addJoin(ConceptPropertyPeer::RELATED_CONCEPT_ID, ConceptPeer::ID);
 
@@ -2570,7 +2570,7 @@ abstract class BaseConceptPropertyPeer {
 				$obj4->addConceptPropertyRelatedByConceptId($obj1);
 			}
 
-			$omClass = SkosPropertyPeer::getOMClass();
+			$omClass = ProfilePropertyPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -2580,7 +2580,7 @@ abstract class BaseConceptPropertyPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj5 = $temp_obj1->getSkosProperty(); //CHECKME
+				$temp_obj5 = $temp_obj1->getProfileProperty(); //CHECKME
 				if ($temp_obj5->getPrimaryKey() === $obj5->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj5->addConceptProperty($obj1);
@@ -2672,8 +2672,8 @@ abstract class BaseConceptPropertyPeer {
 		UserPeer::addSelectColumns($c);
 		$startcol4 = $startcol3 + UserPeer::NUM_COLUMNS;
 
-		SkosPropertyPeer::addSelectColumns($c);
-		$startcol5 = $startcol4 + SkosPropertyPeer::NUM_COLUMNS;
+		ProfilePropertyPeer::addSelectColumns($c);
+		$startcol5 = $startcol4 + ProfilePropertyPeer::NUM_COLUMNS;
 
 		VocabularyPeer::addSelectColumns($c);
 		$startcol6 = $startcol5 + VocabularyPeer::NUM_COLUMNS;
@@ -2685,7 +2685,7 @@ abstract class BaseConceptPropertyPeer {
 
 		$c->addJoin(ConceptPropertyPeer::UPDATED_USER_ID, UserPeer::ID);
 
-		$c->addJoin(ConceptPropertyPeer::SKOS_PROPERTY_ID, SkosPropertyPeer::ID);
+		$c->addJoin(ConceptPropertyPeer::SKOS_PROPERTY_ID, ProfilePropertyPeer::SKOS_ID);
 
 		$c->addJoin(ConceptPropertyPeer::SCHEME_ID, VocabularyPeer::ID);
 
@@ -2749,7 +2749,7 @@ abstract class BaseConceptPropertyPeer {
 				$obj3->addConceptPropertyRelatedByUpdatedUserId($obj1);
 			}
 
-			$omClass = SkosPropertyPeer::getOMClass();
+			$omClass = ProfilePropertyPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -2759,7 +2759,7 @@ abstract class BaseConceptPropertyPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj4 = $temp_obj1->getSkosProperty(); //CHECKME
+				$temp_obj4 = $temp_obj1->getProfileProperty(); //CHECKME
 				if ($temp_obj4->getPrimaryKey() === $obj4->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj4->addConceptProperty($obj1);
@@ -2854,8 +2854,8 @@ abstract class BaseConceptPropertyPeer {
 		ConceptPeer::addSelectColumns($c);
 		$startcol5 = $startcol4 + ConceptPeer::NUM_COLUMNS;
 
-		SkosPropertyPeer::addSelectColumns($c);
-		$startcol6 = $startcol5 + SkosPropertyPeer::NUM_COLUMNS;
+		ProfilePropertyPeer::addSelectColumns($c);
+		$startcol6 = $startcol5 + ProfilePropertyPeer::NUM_COLUMNS;
 
 		VocabularyPeer::addSelectColumns($c);
 		$startcol7 = $startcol6 + VocabularyPeer::NUM_COLUMNS;
@@ -2869,7 +2869,7 @@ abstract class BaseConceptPropertyPeer {
 
 		$c->addJoin(ConceptPropertyPeer::CONCEPT_ID, ConceptPeer::ID);
 
-		$c->addJoin(ConceptPropertyPeer::SKOS_PROPERTY_ID, SkosPropertyPeer::ID);
+		$c->addJoin(ConceptPropertyPeer::SKOS_PROPERTY_ID, ProfilePropertyPeer::SKOS_ID);
 
 		$c->addJoin(ConceptPropertyPeer::SCHEME_ID, VocabularyPeer::ID);
 
@@ -2956,7 +2956,7 @@ abstract class BaseConceptPropertyPeer {
 				$obj4->addConceptPropertyRelatedByConceptId($obj1);
 			}
 
-			$omClass = SkosPropertyPeer::getOMClass();
+			$omClass = ProfilePropertyPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -2966,7 +2966,7 @@ abstract class BaseConceptPropertyPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj5 = $temp_obj1->getSkosProperty(); //CHECKME
+				$temp_obj5 = $temp_obj1->getProfileProperty(); //CHECKME
 				if ($temp_obj5->getPrimaryKey() === $obj5->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj5->addConceptProperty($obj1);

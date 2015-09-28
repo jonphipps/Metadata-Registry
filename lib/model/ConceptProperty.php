@@ -36,7 +36,7 @@ class ConceptProperty extends BaseConceptProperty
 
   public function __toString()
   {
-    return $this->getSkosProperty()->getName();
+    return $this->getProfileProperty()->getName();
   }
 
   /**
@@ -46,7 +46,7 @@ class ConceptProperty extends BaseConceptProperty
   */
   public function getConceptVocabulary()
   {
-    return $this->getConcept()->getVocabulary();
+    return $this->getConceptRelatedByConceptId()->getVocabulary();
   }
 
 	/**
@@ -359,6 +359,55 @@ class ConceptProperty extends BaseConceptProperty
 
   } //getLastHistoryByTimestamp
 
+    /**
+     * Get the associated ProfileProperty object
+     *
+     * @param      Connection Optional Connection object.
+     * @return     ProfileProperty The associated ProfileProperty object.
+     * @throws     PropelException
+     */
+    public function getProfileProperty($con = null)
+    {
+        if ($this->aProfileProperty === null && ($this->skos_property_id !== null)) {
+            // include the related Peer class
+            include_once 'lib/model/om/BaseProfilePropertyPeer.php';
+
+            if ($con === null) {
+                $con = \Propel::getConnection(\ProfilePropertyPeer::DATABASE_NAME);
+            }
+
+            $criteria = new \Criteria(ProfilePropertyPeer::DATABASE_NAME);
+            $criteria->add(\ProfilePropertyPeer::SKOS_ID, $this->skos_property_id);
+
+            $v = ProfilePropertyPeer::doSelect($criteria, $con);
+
+            $this->aProfileProperty = !empty($v) > 0 ? $v[0] : null;
+
+        }
+
+        return $this->aProfileProperty;
+    }
+
+    /**
+     * Get the associated ProfileProperty object
+     *
+     * @param      Connection Optional Connection object.
+     * @return     ProfileProperty The associated ProfileProperty object.
+     * @throws     PropelException
+     */
+    public function getSkosProperty($con = null)
+    {
+        if ($this->aProfileProperty === null && ($this->skos_property_id !== null)) {
+            // include the related Peer class
+            include_once 'lib/model/om/BaseProfilePropertyPeer.php';
+            $c = new \Criteria();
+            $c->add(\ProfilePropertyPeer::SKOS_ID, $this->skos_property_id);
+
+            $this->aProfileProperty = ProfilePropertyPeer::doSelect($c, $con);
+
+        }
+        return $this->aProfileProperty;
+    }
 
 
 } // ConceptProperty

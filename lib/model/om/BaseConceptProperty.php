@@ -146,9 +146,9 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 	protected $aConceptRelatedByConceptId;
 
 	/**
-	 * @var        SkosProperty
+	 * @var        ProfileProperty
 	 */
-	protected $aSkosProperty;
+	protected $aProfileProperty;
 
 	/**
 	 * @var        Vocabulary
@@ -703,8 +703,8 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 			$this->modifiedColumns[] = ConceptPropertyPeer::SKOS_PROPERTY_ID;
 		}
 
-		if ($this->aSkosProperty !== null && $this->aSkosProperty->getId() !== $v) {
-			$this->aSkosProperty = null;
+		if ($this->aProfileProperty !== null && $this->aProfileProperty->getSkosId() !== $v) {
+			$this->aProfileProperty = null;
 		}
 
 	} // setSkosPropertyId()
@@ -1056,11 +1056,11 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 				$this->setConceptRelatedByConceptId($this->aConceptRelatedByConceptId);
 			}
 
-			if ($this->aSkosProperty !== null) {
-				if ($this->aSkosProperty->isModified()) {
-					$affectedRows += $this->aSkosProperty->save($con);
+			if ($this->aProfileProperty !== null) {
+				if ($this->aProfileProperty->isModified()) {
+					$affectedRows += $this->aProfileProperty->save($con);
 				}
-				$this->setSkosProperty($this->aSkosProperty);
+				$this->setProfileProperty($this->aProfileProperty);
 			}
 
 			if ($this->aVocabulary !== null) {
@@ -1214,9 +1214,9 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 				}
 			}
 
-			if ($this->aSkosProperty !== null) {
-				if (!$this->aSkosProperty->validate($columns)) {
-					$failureMap = array_merge($failureMap, $this->aSkosProperty->getValidationFailures());
+			if ($this->aProfileProperty !== null) {
+				if (!$this->aProfileProperty->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aProfileProperty->getValidationFailures());
 				}
 			}
 
@@ -1829,41 +1829,41 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 	}
 
 	/**
-	 * Declares an association between this object and a SkosProperty object.
+	 * Declares an association between this object and a ProfileProperty object.
 	 *
-	 * @param      SkosProperty $v
+	 * @param      ProfileProperty $v
 	 * @return     void
 	 * @throws     PropelException
 	 */
-	public function setSkosProperty($v)
+	public function setProfileProperty($v)
 	{
 
 
 		if ($v === null) {
 			$this->setSkosPropertyId(NULL);
 		} else {
-			$this->setSkosPropertyId($v->getId());
+			$this->setSkosPropertyId($v->getSkosId());
 		}
 
 
-		$this->aSkosProperty = $v;
+		$this->aProfileProperty = $v;
 	}
 
 
 	/**
-	 * Get the associated SkosProperty object
+	 * Get the associated ProfileProperty object
 	 *
 	 * @param      Connection Optional Connection object.
-	 * @return     SkosProperty The associated SkosProperty object.
+	 * @return     ProfileProperty The associated ProfileProperty object.
 	 * @throws     PropelException
 	 */
-	public function getSkosProperty($con = null)
+	public function getProfileProperty($con = null)
 	{
-		if ($this->aSkosProperty === null && ($this->skos_property_id !== null)) {
+		if ($this->aProfileProperty === null && ($this->skos_property_id !== null)) {
 			// include the related Peer class
-			include_once 'lib/model/om/BaseSkosPropertyPeer.php';
+			include_once 'lib/model/om/BaseProfilePropertyPeer.php';
 
-			$this->aSkosProperty = SkosPropertyPeer::retrieveByPK($this->skos_property_id, $con);
+			$this->aProfileProperty = ProfilePropertyPeer::retrieveByPK($this->skos_property_id, $con);
 
 			/* The following can be used instead of the line above to
 			   guarantee the related object contains a reference
@@ -1871,11 +1871,11 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 			   may be undesirable in many circumstances.
 			   As it can lead to a db query with many results that may
 			   never be used.
-			   $obj = SkosPropertyPeer::retrieveByPK($this->skos_property_id, $con);
-			   $obj->addSkosPropertys($this);
+			   $obj = ProfilePropertyPeer::retrieveByPK($this->skos_property_id, $con);
+			   $obj->addProfilePropertys($this);
 			 */
 		}
-		return $this->aSkosProperty;
+		return $this->aProfileProperty;
 	}
 
 	/**

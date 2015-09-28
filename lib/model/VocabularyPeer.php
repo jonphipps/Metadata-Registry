@@ -172,4 +172,57 @@ class VocabularyPeer extends BaseVocabularyPeer
     return $results;
   }
 
+  /**
+   * @param int $vocabularyId
+   * @return array
+   */
+  public static function getNamespaceList( $vocabularyId )
+  {
+    $namespaces = array();
+
+    $c = new Criteria();
+    $c->clearSelectColumns();
+    $c->addSelectColumn(ConceptPropertyPeer::OBJECT);
+    $c->add(ConceptPropertyPeer::OBJECT,"http%", Criteria::LIKE);
+    $c->add( ConceptPeer::VOCABULARY_ID, $vocabularyId );
+    $c->addJoin(ConceptPropertyPeer::CONCEPT_ID, ConceptPeer::ID);
+    $result = self::doSelectRS($c);
+    self::getNamespaceUris( $result, 'getObject', $namespaces );
+
+    $c = new Criteria();
+    $c->clearSelectColumns();
+    $c->addSelectColumn(ConceptPeer::URI);
+    $c->add( ConceptPeer::VOCABULARY_ID, $vocabularyId );
+    $result = ConceptPeer::doSelectRS( $c );
+    self::getNamespaceUris( $result, 'getUri', $namespaces );
+
+    return $namespaces;
+  }
+  /**
+   * @param $queryResult
+   * @param $method
+   * @param $namespaces
+   * @return mixed
+   */
+  protected static function getNamespaceUris( $queryResult, $method, &$namespaces )
+  {
+    /** @var \Concept $value */
+    foreach ( $queryResult as $value )
+    {
+      $match = preg_match(
+          '/\b(?<protocol>https?|ftp):\/\/(?<domain>[-A-Z0-9.]+)(?<path>\/[-A-Z0-9+&@#\/%=~_|!:,.;]*[\/|#])(?<file>[-A-Z0-9+&@#\/%=~_|!:,.;]*)?(?<parameters>\?[A-Z0-9+&@#\/%=~_|!:,.;]*)?/i',
+          $value[0],
+          $matches
+      );
+      if ( $match )
+      {
+        $index              = $matches['protocol'] . "://" . $matches['domain'] . $matches['path'];
+        $namespaces[$index] = $index;
+      }
+    }
+
+    return $namespaces;
+  }
+
+
 } // VocabularyPeer

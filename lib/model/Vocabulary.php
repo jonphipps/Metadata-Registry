@@ -17,15 +17,7 @@ class Vocabulary extends BaseVocabulary
   public function getLanguageForSelect() {
     return array($this->getLanguage() => format_language($this->getLanguage()));
   }
-  /**
-   * Get the [languages] column value.
-   *
-   * @return     string
-   */
-  public function getLanguages()
-  {
-    return (! is_null($this->languages)) ? unserialize($this->languages) : $this->languages;
-  }
+
   /**
    * Set the value of [languages] column.
    *
@@ -129,5 +121,56 @@ class Vocabulary extends BaseVocabulary
     }
 
   } // getUpdatedUser
+  public function getPrefixes()
+  {
+    $v = parent::getPrefixes();
+    try
+    {
+      $n = unserialize( $v );
+    }
+    catch( Exception $e )
+    {
+      $n = $v;
+    }
+
+    return $n;
+  }
+
+  public function setPrefixes( $v )
+  {
+    parent::setPrefixes( serialize( $v ) );
+  }
+
+  public function getLanguages()
+  {
+    $languages = parent::getLanguages();
+    if ( empty( $languages ) )
+    {
+      $languages = [ $this->getLanguage() ];
+
+      if ( empty( $languages ) )
+      {
+        $languages = [ 'en' ];
+      }
+    }
+    else
+    {
+      $languages = unserialize( $languages );
+    }
+
+    return $languages;
+  }
+
+  public function getLanguagesNoDefault()
+  {
+    $languages = $this->getLanguages();
+    $language = $this->getLanguage();
+    $default = array_search( $language, $languages );
+    if ( false !== $default ) {
+      unset( $languages[ $default ] );
+    }
+
+    return $languages;
+  }
 
 }

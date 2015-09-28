@@ -30,7 +30,7 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 	 * The value for the skos_id field.
 	 * @var        int
 	 */
-	protected $skos_id;
+	protected $skos_id = 0;
 
 
 	/**
@@ -318,6 +318,18 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 	 * @var        Criteria
 	 */
 	protected $lastProfilePropertyRelatedByInverseProfilePropertyIdCriteria = null;
+
+	/**
+	 * Collection to store aggregation of collConceptPropertys.
+	 * @var        array
+	 */
+	protected $collConceptPropertys;
+
+	/**
+	 * The criteria used to select the current contents of collConceptPropertys.
+	 * @var        Criteria
+	 */
+	protected $lastConceptPropertyCriteria = null;
 
 	/**
 	 * Collection to store aggregation of collSchemaPropertyElements.
@@ -861,7 +873,7 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 			$v = (int) $v;
 		}
 
-		if ($this->skos_id !== $v) {
+		if ($this->skos_id !== $v || $v === 0) {
 			$this->skos_id = $v;
 			$this->modifiedColumns[] = ProfilePropertyPeer::SKOS_ID;
 		}
@@ -1888,6 +1900,14 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 				}
 			}
 
+			if ($this->collConceptPropertys !== null) {
+				foreach($this->collConceptPropertys as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
+			}
+
 			if ($this->collSchemaPropertyElements !== null) {
 				foreach($this->collSchemaPropertyElements as $referrerFK) {
 					if (!$referrerFK->isDeleted()) {
@@ -2015,6 +2035,14 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 				$failureMap = array_merge($failureMap, $retval);
 			}
 
+
+				if ($this->collConceptPropertys !== null) {
+					foreach($this->collConceptPropertys as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
 
 				if ($this->collSchemaPropertyElements !== null) {
 					foreach($this->collSchemaPropertyElements as $referrerFK) {
@@ -2620,6 +2648,10 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 				}
 
 				$copyObj->addProfilePropertyRelatedByInverseProfilePropertyId($relObj->copy($deepCopy));
+			}
+
+			foreach($this->getConceptPropertys() as $relObj) {
+				$copyObj->addConceptProperty($relObj->copy($deepCopy));
 			}
 
 			foreach($this->getSchemaPropertyElements() as $relObj) {
@@ -3327,6 +3359,407 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 		$this->lastProfilePropertyRelatedByInverseProfilePropertyIdCriteria = $criteria;
 
 		return $this->collProfilePropertysRelatedByInverseProfilePropertyId;
+	}
+
+	/**
+	 * Temporary storage of collConceptPropertys to save a possible db hit in
+	 * the event objects are add to the collection, but the
+	 * complete collection is never requested.
+	 * @return     void
+	 */
+	public function initConceptPropertys()
+	{
+		if ($this->collConceptPropertys === null) {
+			$this->collConceptPropertys = array();
+		}
+	}
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this ProfileProperty has previously
+	 * been saved, it will retrieve related ConceptPropertys from storage.
+	 * If this ProfileProperty is new, it will return
+	 * an empty collection or the current collection, the criteria
+	 * is ignored on a new object.
+	 *
+	 * @param      Connection $con
+	 * @param      Criteria $criteria
+	 * @throws     PropelException
+	 */
+	public function getConceptPropertys($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseConceptPropertyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collConceptPropertys === null) {
+			if ($this->isNew()) {
+			   $this->collConceptPropertys = array();
+			} else {
+
+				$criteria->add(ConceptPropertyPeer::SKOS_PROPERTY_ID, $this->getSkosId());
+
+				ConceptPropertyPeer::addSelectColumns($criteria);
+				$this->collConceptPropertys = ConceptPropertyPeer::doSelect($criteria, $con);
+			}
+		} else {
+			// criteria has no effect for a new object
+			if (!$this->isNew()) {
+				// the following code is to determine if a new query is
+				// called for.  If the criteria is the same as the last
+				// one, just return the collection.
+
+
+				$criteria->add(ConceptPropertyPeer::SKOS_PROPERTY_ID, $this->getSkosId());
+
+				ConceptPropertyPeer::addSelectColumns($criteria);
+				if (!isset($this->lastConceptPropertyCriteria) || !$this->lastConceptPropertyCriteria->equals($criteria)) {
+					$this->collConceptPropertys = ConceptPropertyPeer::doSelect($criteria, $con);
+				}
+			}
+		}
+		$this->lastConceptPropertyCriteria = $criteria;
+		return $this->collConceptPropertys;
+	}
+
+	/**
+	 * Returns the number of related ConceptPropertys.
+	 *
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct
+	 * @param      Connection $con
+	 * @throws     PropelException
+	 */
+	public function countConceptPropertys($criteria = null, $distinct = false, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseConceptPropertyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		$criteria->add(ConceptPropertyPeer::SKOS_PROPERTY_ID, $this->getSkosId());
+
+		return ConceptPropertyPeer::doCount($criteria, $distinct, $con);
+	}
+
+	/**
+	 * Method called to associate a ConceptProperty object to this object
+	 * through the ConceptProperty foreign key attribute
+	 *
+	 * @param      ConceptProperty $l ConceptProperty
+	 * @return     void
+	 * @throws     PropelException
+	 */
+	public function addConceptProperty(ConceptProperty $l)
+	{
+		$this->collConceptPropertys[] = $l;
+		$l->setProfileProperty($this);
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this ProfileProperty is new, it will return
+	 * an empty collection; or if this ProfileProperty has previously
+	 * been saved, it will retrieve related ConceptPropertys from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in ProfileProperty.
+	 */
+	public function getConceptPropertysJoinUserRelatedByCreatedUserId($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseConceptPropertyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collConceptPropertys === null) {
+			if ($this->isNew()) {
+				$this->collConceptPropertys = array();
+			} else {
+
+				$criteria->add(ConceptPropertyPeer::SKOS_PROPERTY_ID, $this->getSkosId());
+
+				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinUserRelatedByCreatedUserId($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(ConceptPropertyPeer::SKOS_PROPERTY_ID, $this->getSkosId());
+
+			if (!isset($this->lastConceptPropertyCriteria) || !$this->lastConceptPropertyCriteria->equals($criteria)) {
+				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinUserRelatedByCreatedUserId($criteria, $con);
+			}
+		}
+		$this->lastConceptPropertyCriteria = $criteria;
+
+		return $this->collConceptPropertys;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this ProfileProperty is new, it will return
+	 * an empty collection; or if this ProfileProperty has previously
+	 * been saved, it will retrieve related ConceptPropertys from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in ProfileProperty.
+	 */
+	public function getConceptPropertysJoinUserRelatedByUpdatedUserId($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseConceptPropertyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collConceptPropertys === null) {
+			if ($this->isNew()) {
+				$this->collConceptPropertys = array();
+			} else {
+
+				$criteria->add(ConceptPropertyPeer::SKOS_PROPERTY_ID, $this->getSkosId());
+
+				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinUserRelatedByUpdatedUserId($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(ConceptPropertyPeer::SKOS_PROPERTY_ID, $this->getSkosId());
+
+			if (!isset($this->lastConceptPropertyCriteria) || !$this->lastConceptPropertyCriteria->equals($criteria)) {
+				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinUserRelatedByUpdatedUserId($criteria, $con);
+			}
+		}
+		$this->lastConceptPropertyCriteria = $criteria;
+
+		return $this->collConceptPropertys;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this ProfileProperty is new, it will return
+	 * an empty collection; or if this ProfileProperty has previously
+	 * been saved, it will retrieve related ConceptPropertys from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in ProfileProperty.
+	 */
+	public function getConceptPropertysJoinConceptRelatedByConceptId($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseConceptPropertyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collConceptPropertys === null) {
+			if ($this->isNew()) {
+				$this->collConceptPropertys = array();
+			} else {
+
+				$criteria->add(ConceptPropertyPeer::SKOS_PROPERTY_ID, $this->getSkosId());
+
+				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinConceptRelatedByConceptId($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(ConceptPropertyPeer::SKOS_PROPERTY_ID, $this->getSkosId());
+
+			if (!isset($this->lastConceptPropertyCriteria) || !$this->lastConceptPropertyCriteria->equals($criteria)) {
+				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinConceptRelatedByConceptId($criteria, $con);
+			}
+		}
+		$this->lastConceptPropertyCriteria = $criteria;
+
+		return $this->collConceptPropertys;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this ProfileProperty is new, it will return
+	 * an empty collection; or if this ProfileProperty has previously
+	 * been saved, it will retrieve related ConceptPropertys from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in ProfileProperty.
+	 */
+	public function getConceptPropertysJoinVocabulary($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseConceptPropertyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collConceptPropertys === null) {
+			if ($this->isNew()) {
+				$this->collConceptPropertys = array();
+			} else {
+
+				$criteria->add(ConceptPropertyPeer::SKOS_PROPERTY_ID, $this->getSkosId());
+
+				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinVocabulary($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(ConceptPropertyPeer::SKOS_PROPERTY_ID, $this->getSkosId());
+
+			if (!isset($this->lastConceptPropertyCriteria) || !$this->lastConceptPropertyCriteria->equals($criteria)) {
+				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinVocabulary($criteria, $con);
+			}
+		}
+		$this->lastConceptPropertyCriteria = $criteria;
+
+		return $this->collConceptPropertys;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this ProfileProperty is new, it will return
+	 * an empty collection; or if this ProfileProperty has previously
+	 * been saved, it will retrieve related ConceptPropertys from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in ProfileProperty.
+	 */
+	public function getConceptPropertysJoinConceptRelatedByRelatedConceptId($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseConceptPropertyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collConceptPropertys === null) {
+			if ($this->isNew()) {
+				$this->collConceptPropertys = array();
+			} else {
+
+				$criteria->add(ConceptPropertyPeer::SKOS_PROPERTY_ID, $this->getSkosId());
+
+				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinConceptRelatedByRelatedConceptId($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(ConceptPropertyPeer::SKOS_PROPERTY_ID, $this->getSkosId());
+
+			if (!isset($this->lastConceptPropertyCriteria) || !$this->lastConceptPropertyCriteria->equals($criteria)) {
+				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinConceptRelatedByRelatedConceptId($criteria, $con);
+			}
+		}
+		$this->lastConceptPropertyCriteria = $criteria;
+
+		return $this->collConceptPropertys;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this ProfileProperty is new, it will return
+	 * an empty collection; or if this ProfileProperty has previously
+	 * been saved, it will retrieve related ConceptPropertys from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in ProfileProperty.
+	 */
+	public function getConceptPropertysJoinStatus($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseConceptPropertyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collConceptPropertys === null) {
+			if ($this->isNew()) {
+				$this->collConceptPropertys = array();
+			} else {
+
+				$criteria->add(ConceptPropertyPeer::SKOS_PROPERTY_ID, $this->getSkosId());
+
+				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinStatus($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(ConceptPropertyPeer::SKOS_PROPERTY_ID, $this->getSkosId());
+
+			if (!isset($this->lastConceptPropertyCriteria) || !$this->lastConceptPropertyCriteria->equals($criteria)) {
+				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinStatus($criteria, $con);
+			}
+		}
+		$this->lastConceptPropertyCriteria = $criteria;
+
+		return $this->collConceptPropertys;
 	}
 
 	/**

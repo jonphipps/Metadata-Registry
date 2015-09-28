@@ -277,6 +277,8 @@ propel:
       primaryKey: true
     skos_id: 
       type: INTEGER
+      required: true
+      default: 0
     created_at: 
       type: TIMESTAMP
     updated_at: 
@@ -425,6 +427,8 @@ propel:
         - created_by
       profile_property_deleted_by: 
         - deleted_by
+      profile_property_skos_id: 
+        - skos_id
   reg_agent: 
     _attributes: 
       phpName: Agent
@@ -743,8 +747,8 @@ propel:
     skos_property_id: 
       type: INTEGER
       required: true
-      foreignTable: reg_skos_property
-      foreignReference: id
+      foreignTable: profile_property
+      foreignReference: skos_id
       onDelete: RESTRICT
       onUpdate: RESTRICT
       index: true
@@ -1725,7 +1729,7 @@ propel:
       default: slash
     prefixes: 
       type: LONGVARCHAR
-    repos: 
+    repo: 
       type: VARCHAR
       size: 256
     _indexes: 

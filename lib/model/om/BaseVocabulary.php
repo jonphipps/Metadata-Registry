@@ -181,10 +181,10 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 
 
 	/**
-	 * The value for the repos field.
+	 * The value for the repo field.
 	 * @var        string
 	 */
-	protected $repos;
+	protected $repo;
 
 	/**
 	 * @var        Agent
@@ -672,14 +672,14 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	}
 
 	/**
-	 * Get the [repos] column value.
+	 * Get the [repo] column value.
 	 * 
 	 * @return     string
 	 */
-	public function getRepos()
+	public function getRepo()
 	{
 
-		return $this->repos;
+		return $this->repo;
 	}
 
 	/**
@@ -1221,12 +1221,12 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	} // setPrefixes()
 
 	/**
-	 * Set the value of [repos] column.
+	 * Set the value of [repo] column.
 	 * 
 	 * @param      string $v new value
 	 * @return     void
 	 */
-	public function setRepos($v)
+	public function setRepo($v)
 	{
 
 		// Since the native PHP type for this column is string,
@@ -1235,12 +1235,12 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 			$v = (string) $v; 
 		}
 
-		if ($this->repos !== $v) {
-			$this->repos = $v;
-			$this->modifiedColumns[] = VocabularyPeer::REPOS;
+		if ($this->repo !== $v) {
+			$this->repo = $v;
+			$this->modifiedColumns[] = VocabularyPeer::REPO;
 		}
 
-	} // setRepos()
+	} // setRepo()
 
 	/**
 	 * Hydrates (populates) the object variables with values from the database resultset.
@@ -1305,7 +1305,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 
 			$this->prefixes = $rs->getString($startcol + 22);
 
-			$this->repos = $rs->getString($startcol + 23);
+			$this->repo = $rs->getString($startcol + 23);
 
 			$this->resetModified();
 
@@ -1859,7 +1859,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 				return $this->getPrefixes();
 				break;
 			case 23:
-				return $this->getRepos();
+				return $this->getRepo();
 				break;
 			default:
 				return null;
@@ -1904,7 +1904,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 			$keys[20] => $this->getProfileId(),
 			$keys[21] => $this->getNsType(),
 			$keys[22] => $this->getPrefixes(),
-			$keys[23] => $this->getRepos(),
+			$keys[23] => $this->getRepo(),
 		);
 		return $result;
 	}
@@ -2006,7 +2006,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 				$this->setPrefixes($value);
 				break;
 			case 23:
-				$this->setRepos($value);
+				$this->setRepo($value);
 				break;
 		} // switch()
 	}
@@ -2054,7 +2054,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[20], $arr)) $this->setProfileId($arr[$keys[20]]);
 		if (array_key_exists($keys[21], $arr)) $this->setNsType($arr[$keys[21]]);
 		if (array_key_exists($keys[22], $arr)) $this->setPrefixes($arr[$keys[22]]);
-		if (array_key_exists($keys[23], $arr)) $this->setRepos($arr[$keys[23]]);
+		if (array_key_exists($keys[23], $arr)) $this->setRepo($arr[$keys[23]]);
 	}
 
 	/**
@@ -2089,7 +2089,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(VocabularyPeer::PROFILE_ID)) $criteria->add(VocabularyPeer::PROFILE_ID, $this->profile_id);
 		if ($this->isColumnModified(VocabularyPeer::NS_TYPE)) $criteria->add(VocabularyPeer::NS_TYPE, $this->ns_type);
 		if ($this->isColumnModified(VocabularyPeer::PREFIXES)) $criteria->add(VocabularyPeer::PREFIXES, $this->prefixes);
-		if ($this->isColumnModified(VocabularyPeer::REPOS)) $criteria->add(VocabularyPeer::REPOS, $this->repos);
+		if ($this->isColumnModified(VocabularyPeer::REPO)) $criteria->add(VocabularyPeer::REPO, $this->repo);
 
 		return $criteria;
 	}
@@ -2188,7 +2188,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 
 		$copyObj->setPrefixes($this->prefixes);
 
-		$copyObj->setRepos($this->repos);
+		$copyObj->setRepo($this->repo);
 
 
 		if ($deepCopy) {
@@ -3402,7 +3402,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in Vocabulary.
 	 */
-	public function getConceptPropertysJoinSkosProperty($criteria = null, $con = null)
+	public function getConceptPropertysJoinProfileProperty($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseConceptPropertyPeer.php';
@@ -3421,7 +3421,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 
 				$criteria->add(ConceptPropertyPeer::SCHEME_ID, $this->getId());
 
-				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinSkosProperty($criteria, $con);
+				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinProfileProperty($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -3431,7 +3431,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 			$criteria->add(ConceptPropertyPeer::SCHEME_ID, $this->getId());
 
 			if (!isset($this->lastConceptPropertyCriteria) || !$this->lastConceptPropertyCriteria->equals($criteria)) {
-				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinSkosProperty($criteria, $con);
+				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinProfileProperty($criteria, $con);
 			}
 		}
 		$this->lastConceptPropertyCriteria = $criteria;

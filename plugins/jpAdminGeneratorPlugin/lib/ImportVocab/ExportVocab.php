@@ -42,32 +42,39 @@ class ExportVocab {
      * @var bool
      */
     private $excludeGenerated;
+    /**
+     * @var string
+     */
+    private $type;
 
     /**
      * @param       $vocabId
      * @param       $userId
-     * @param bool  $populate
-     * @param bool  $asTemplate
-     * @param bool  $includeProlog
-     * @param bool  $includeDeleted
-     * @param bool  $excludeDeprecated
-     * @param bool  $excludeGenerated
+     * @param bool $populate
+     * @param bool $asTemplate
+     * @param bool $includeProlog
+     * @param bool $includeDeleted
+     * @param bool $excludeDeprecated
+     * @param bool $excludeGenerated
      * @param array $languages
      *
+     * @param string $type
      * @internal param bool $download
      */
     public function __construct(
-          $vocabId,
-          $userId,
-          $populate = false,
-          $asTemplate = false,
-          $includeProlog = true,
-          $includeDeleted = false,
-          $excludeDeprecated = false,
-          $excludeGenerated = false,
-          $languages = array()
+        $vocabId,
+        $userId,
+        $populate = false,
+        $asTemplate = false,
+        $includeProlog = true,
+        $includeDeleted = false,
+        $excludeDeprecated = false,
+        $excludeGenerated = false,
+        $languages = array(),
+        $type = 'schema'
     )
     {
+        $this->type = $type;
         $this->setSchema($vocabId);
         $this->setUser($userId);
         $this->setAsTemplate($asTemplate);
@@ -102,7 +109,11 @@ class ExportVocab {
 
     public function setSchema( $schemaId )
     {
-        $this->schema = \SchemaPeer::retrieveByPK( $schemaId );
+        if ($this->type === 'schema' ) {
+            $this->schema = \SchemaPeer::retrieveByPK($schemaId);
+        } else {
+            $this->schema = \VocabularyPeer::retrieveByPK($schemaId);
+        }
     }
 
   public function getPath( )
@@ -183,15 +194,25 @@ class ExportVocab {
             $map = $this->getHeaderMap();
             $c   = new \Criteria();
             $c->clearSelectColumns();
-            $c->addSelectColumn(\SchemaPropertyPeer::ID);
-            $c->add(\SchemaPropertyPeer::SCHEMA_ID,$this->schema->getId());
-            if ($this->excludeDeprecated)
-            {
-                $c->add(\SchemaPropertyPeer::STATUS_ID, 8, \Criteria::NOT_EQUAL);
+            if ('schema' === $this->type) {
+                $c->addSelectColumn(\SchemaPropertyPeer::ID);
+                $c->add(\SchemaPropertyPeer::SCHEMA_ID, $this->schema->getId());
+                if ($this->excludeDeprecated) {
+                    $c->add(\SchemaPropertyPeer::STATUS_ID, 8, \Criteria::NOT_EQUAL);
+                }
+                $c->addAscendingOrderByColumn(\SchemaPropertyPeer::URI);
+                $properties = \SchemaPropertyPeer::doSelectRS($c);
+            } else {
+                $c->addSelectColumn(\ConceptPeer::ID);
+                $c->addSelectColumn(\ConceptPeer::URI);
+                $c->addSelectColumn(\ConceptPeer::STATUS_ID);
+                $c->add(\ConceptPeer::VOCABULARY_ID, $this->schema->getId());
+                if ($this->excludeDeprecated) {
+                    $c->add(\ConceptPeer::STATUS_ID, 8, \Criteria::NOT_EQUAL);
+                }
+                $c->addAscendingOrderByColumn(\ConceptPeer::URI);
+                $properties = \ConceptPeer::doSelectRS($c);
             }
-            $c->addAscendingOrderByColumn( \SchemaPropertyPeer::URI );
-            $properties = \SchemaPropertyPeer::doSelectRS($c);
-            /** @var \SchemaProperty $property */
             foreach ( $properties as $property )
             {
                 $line    = array_fill( 0, $this->getHeaderCount(), '' );
@@ -199,23 +220,36 @@ class ExportVocab {
                 $map     = $this->getHeaderMap();
 
                 $ce = new \Criteria();
-                $ce->add(\BaseSchemaPropertyElementPeer::SCHEMA_PROPERTY_ID, $property[0]);
-                if (!$this->includeDeleted) {
-                    $ce->add(\BaseSchemaPropertyElementPeer::DELETED_AT, null);
+                if ('schema' === $this->type) {
+                    $ce->add(\BaseSchemaPropertyElementPeer::SCHEMA_PROPERTY_ID, $property[0]);
+                    if (!$this->includeDeleted) {
+                        $ce->add(\BaseSchemaPropertyElementPeer::DELETED_AT, null);
+                    }
+                    if ($this->includeDeleted) {
+                        $ce->addAscendingOrderByColumn(\SchemaPropertyElementPeer::UPDATED_AT);
+                    }
+                    $elements = \SchemaPropertyElementPeer::doSelectJoinProfileProperty($ce);
+                } else {
+                    $ce->add(\ConceptPropertyPeer::CONCEPT_ID, $property[0]);
+                    if (!$this->includeDeleted) {
+                        $ce->add(\ConceptPropertyPeer::DELETED_AT, null);
+                    }
+                    if ($this->includeDeleted) {
+                        $ce->addAscendingOrderByColumn(\ConceptPropertyPeer::UPDATED_AT);
+                    }
+                    $elements = \ConceptPropertyPeer::doSelectJoinProfileProperty($ce);
+                    $line[array_search('uri', $header[0])] = $property[1];
+                    $line[array_search('status', $header[0])] = $property[2];
                 }
-                if ($this->includeDeleted) {
-                    $ce->addAscendingOrderByColumn( \SchemaPropertyElementPeer::UPDATED_AT );
-                }
-                $elements = \SchemaPropertyElementPeer::doSelectJoinProfileProperty($ce);
-                /** @var \SchemaPropertyElement $element */
                 foreach ( $elements as $element )
                 {
                     if ($this->excludeGenerated and $element->getIsGenerated()) {
                         continue;
                     }
+                    /** @var \ProfileProperty $profileProperty */
                     $profileProperty = $element->getProfileProperty();
-                    $propertyId      = $element->getProfilePropertyId();
-                    if ( in_array( $propertyId, [ 6, 9, ] ) and $element->getIsSchemaProperty() )
+                    $propertyId      = $profileProperty->getId();
+                    if ('schema' === $this->type and in_array( $propertyId, [ 6, 9, ] ) and $element->getIsSchemaProperty() )
                     {
                         $language = 'parent';
                     }
@@ -237,8 +271,7 @@ class ExportVocab {
 
                 $writer->writeItem( preg_replace( $prefixPattern, $prefixReplacement, $line ));
 
-                unset($line);
-                unset($elements);
+                unset($line, $elements);
             }
         }
 
@@ -275,7 +308,7 @@ class ExportVocab {
         if ( $this->asTemplate )
         {
             //get the headers from the profile instead of finding them for the schema
-            $properties = $this->getSchema()->getAllProfileProperties( true );
+            $properties = $this->getAllProfileProperties( true );
         }
         else
         {
@@ -370,7 +403,11 @@ class ExportVocab {
 
     public function findColumns()
     {
-        $this->setColumns( $this->schema->findUsedProfileProperties() );
+        if ('schema' === $this->type) {
+            $this->setColumns($this->findUsedSchemaProfileProperties());
+        } else {
+            $this->setColumns($this->findUsedVocabularyProfileProperties());
+        }
 
         return $this->getColumns();
     }
@@ -380,7 +417,7 @@ class ExportVocab {
      */
     public function getColumns()
     {
-        if ( empty( $this->columns ) )
+        if ( 0 === count( $this->columns ) )
         {
             $this->getHeader();
         }
@@ -543,7 +580,11 @@ class ExportVocab {
     public function retrievePrefixes()
     {
         $prefixes = $this->schema->getPrefixes();
-        $namespaces = \SchemaPropertyElementPeer::getNamespaceList($this->schema->getId());
+        if ('schema' === $this->type) {
+            $namespaces = \SchemaPropertyElementPeer::getNamespaceList($this->schema->getId());
+        } else {
+            $namespaces = \VocabularyPeer::getNamespaceList($this->schema->getId());
+        }
         //check the retrieved namespaces for a match to existing prefixes
         foreach ($namespaces as $uri) {
             //if we find the uri in existing schema prefixes, move on
@@ -594,6 +635,154 @@ class ExportVocab {
 
         header( 'Content-Type: text/csv; charset=UTF-8' );
         header( 'Content-Disposition: attachment; filename="' . $filename . '"' );
+    }
+
+    public function findUsedSchemaProfileProperties()
+    {
+        $c = new \Criteria();
+        $c->add( \SchemaPropertyPeer::SCHEMA_ID, $this->getSchema()->getId() );
+        $c->clearSelectColumns();
+        $c->addSelectColumn( \SchemaPropertyElementPeer::SCHEMA_PROPERTY_ID );
+        $c->addSelectColumn( \SchemaPropertyElementPeer::PROFILE_PROPERTY_ID );
+        $c->addSelectColumn( \SchemaPropertyElementPeer::LANGUAGE );
+        $c->addAscendingOrderByColumn( \SchemaPropertyElementPeer::SCHEMA_PROPERTY_ID );
+        $c->addJoin( \SchemaPropertyElementPeer::SCHEMA_PROPERTY_ID, \SchemaPropertyPeer::ID );
+
+        $foo     = array();
+        $results = \SchemaPropertyElementPeer::doSelectRS( $c );
+        unset( $c );
+
+        foreach ( $results as $result )
+        {
+            if ( ! isset( $foo[$result[0]][$result[1]][$result[2]] ) )
+            {
+                $foo[$result[0]][$result[1]][$result[2]] = 1;
+            }
+            else
+            {
+                $foo[$result[0]][$result[1]][$result[2]] ++;
+            }
+        }
+
+        $bar = self::buildColumnArray( $foo );
+
+        return $bar;
+    }
+
+    public function findUsedVocabularyProfileProperties()
+    {
+        $c = new \Criteria();
+        $c->add( \ConceptPeer::VOCABULARY_ID, $this->getSchema()->getId() );
+        $c->clearSelectColumns();
+        $c->addSelectColumn( \ConceptPropertyPeer::CONCEPT_ID );
+        $c->addSelectColumn( \ProfilePropertyPeer::ID );
+        $c->addSelectColumn( \ConceptPropertyPeer::LANGUAGE );
+        $c->addAscendingOrderByColumn( \ConceptPropertyPeer::CONCEPT_ID );
+        $c->addJoin( \ConceptPropertyPeer::CONCEPT_ID, \ConceptPeer::ID );
+        $c->addJoin( \ConceptPropertyPeer::SKOS_PROPERTY_ID, \ProfilePropertyPeer::SKOS_ID );
+
+        $foo     = array();
+        $results = \ConceptPropertyPeer::doSelectRS( $c );
+        unset( $c );
+
+        foreach ( $results as $result )
+        {
+            if ( ! isset( $foo[$result[0]][$result[1]][$result[2]] ) )
+            {
+                $foo[$result[0]][$result[1]][$result[2]] = 1;
+            }
+            else
+            {
+                $foo[$result[0]][$result[1]][$result[2]] ++;
+            }
+        }
+
+        $bar = self::buildColumnArray( $foo );
+
+        return $bar;
+    }
+
+    public function getAllProfileProperties($forExport = false)
+    {
+        $foo = array();
+        if ('schema' === $this->type) {
+            $profile = \ProfilePeer::retrieveByPK(1);
+        } else {
+            $profile = \ProfilePeer::retrieveByPK(2);
+        }
+        $c = new \Criteria();
+        $c->addAscendingOrderByColumn(\ProfilePropertyPeer::EXPORT_ORDER);
+
+        if ( $forExport )
+        {
+            $c->add( \ProfilePropertyPeer::IS_IN_EXPORT, true );
+        }
+        $results   = $profile->getProfilePropertys($c);
+        $languages = $this->getLanguages();
+        /** @var \profileProperty $result */
+        foreach ( $results as $result )
+        {
+            foreach ( $languages as $language )
+            {
+                $foo[0][$result->getId()][$language] = 1;
+            }
+        }
+
+        $bar = self::buildColumnArray( $foo );
+
+        return $bar;
+    }
+
+    /**
+     * @param $foo
+     * @return array
+     */
+    protected static function buildColumnArray( $foo )
+    {
+        $bar = array();
+        if ( count( $foo ) )
+        {
+            foreach ( $foo as $value )
+            {
+                foreach ( $value as $key => $langArray )
+                {
+                    /** @var \ProfileProperty $profile */
+                    $profile                = \ProfilePropertyPeer::retrieveByPK( $key );
+                    $order                  = $profile->getExportOrder();
+                    $bar[$order]['profile'] = $profile;
+                    $bar[$order]['id']      = $key;
+
+                    foreach ( $langArray as $lang => $count )
+                    {
+                        if ( $profile->getHasLanguage() )
+                        {
+                            if ( ! isset( $bar[$order]['languages'][$lang] ) )
+                            {
+                                $bar[$order]['languages'][$lang] = 1;
+                            }
+                            else if ( $bar[$order]['languages'][$lang] < $count )
+                            {
+                                $bar[$order]['languages'][$lang] = $count;
+                            }
+                        }
+                        else
+                        {
+                            if ( ! isset( $bar[$order]['count'] ) )
+                            {
+                                $bar[$order]['count'] = 1;
+                            }
+                            else if ( $bar[$order]['count'] < $count )
+                            {
+                                $bar[$order]['count'] = $count;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        ksort($bar, SORT_NUMERIC);
+        return $bar;
     }
 
 

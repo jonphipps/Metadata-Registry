@@ -24,6 +24,8 @@ $topnav['vocabulary'] ['Concepts']   ['link'] = '/concept/list?vocabulary_id=';
 $topnav['vocabulary'] ['History']    ['link'] = '/history/list?vocabulary_id=';
 $topnav['vocabulary'] ['Versions']   ['link'] = '/version/list?vocabulary_id=';
 $topnav['vocabulary'] ['Maintainers']['link'] = '/vocabuser/list?vocabulary_id=';
+$topnav['vocabulary'] ['Export']     ['link'] = '/vocabulary/export?id=';
+$topnav['vocabulary'] ['Import']     ['link'] = '/import/list?vocabulary_id=';
 //$topnav['vocabulary'] ['Discuss']    ['link'] = '/discuss/list?vocabulary_id=';
 //concepts
 $topnav['concept']    ['Detail']     ['link'] = '/concept/show?id=';
@@ -174,6 +176,11 @@ $tabMap['vocabulary']   ['show'] =
             'tab'   => 'vocabulary',
             'title' => 'Show Detail',
       );
+$tabMap['vocabulary']       ['export'] =
+    array(
+        'tab'   => 'vocabulary',
+        'title' => 'Export',
+    );
 if ('vocabulary' == $filter) {
     $tabMap['discuss']    ['list'] =
           array(
@@ -274,7 +281,7 @@ $tabMap['import']       ['list'] =
             'title' => 'List Imports',
       );
 
-if ('schema' == $filter or 'import' == $filter) {
+if ('schema' == $filter or 'vocabulary' == $filter or 'import' == $filter) {
     $tabMap['import']        ['list'] =
           array(
                 'tab'   => 'schema',

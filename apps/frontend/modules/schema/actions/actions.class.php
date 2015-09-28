@@ -143,7 +143,7 @@ class schemaActions extends autoschemaActions
       $excludeGenerated = (bool) $this->getRequestParameter('excludeGenerated', false);
 
     $export = new ExportVocab($this->getRequestParameter('id'), '', $populate, $asTemplate, $includeProlog,
-          $includeDeleted, $excludeDeprecated, $excludeGenerated, $languages);
+        $includeDeleted, $excludeDeprecated, $excludeGenerated, $languages);
 
 //    $this->getResponse()->clearHttpHeaders();
 //    $this->getResponse()->setHttpHeader('Content-Description','File Transfer');

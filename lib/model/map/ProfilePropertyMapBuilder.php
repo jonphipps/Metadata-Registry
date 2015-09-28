@@ -63,7 +63,7 @@ class ProfilePropertyMapBuilder {
 
 		$tMap->addPrimaryKey('ID', 'Id', 'int', CreoleTypes::INTEGER, true, null);
 
-		$tMap->addColumn('SKOS_ID', 'SkosId', 'int', CreoleTypes::INTEGER, false, null);
+		$tMap->addColumn('SKOS_ID', 'SkosId', 'int', CreoleTypes::INTEGER, true, null);
 
 		$tMap->addColumn('CREATED_AT', 'CreatedAt', 'int', CreoleTypes::TIMESTAMP, false, null);
 
