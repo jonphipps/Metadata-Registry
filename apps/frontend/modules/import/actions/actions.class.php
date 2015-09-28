@@ -28,7 +28,12 @@ class importActions extends autoimportActions
   {
     $schemaObj = $this->getCurrentSchema();
     $schemaId = $schemaObj->getId();
-    $file_import_history->setSchemaId( $schemaId );
+
+    if ('Vocabulary' == get_class($schemaObj)) {
+      $file_import_history->setVocabularyId($schemaId);
+    } else {
+      $file_import_history->setSchemaId($schemaId);
+    }
     $userId = sfContext::getInstance()->getUser()->getSubscriberId();
     $file_import_history->setUserId( $userId );
 
@@ -52,8 +57,11 @@ class importActions extends autoimportActions
     if ( $this->getRequest()->getMethod() == sfRequest::POST ) {
       $this->updateFileImportHistoryFromRequest();
       //need an id
-      $schemaId = $this->file_import_history->getSchemaId();
-
+      if ('Vocabulary' == true) {
+        $schemaId = $this->file_import_history->getVocabularyId();
+      } else {
+        $schemaId = $this->file_import_history->getSchemaId();
+      }
       $filePath =
             sfConfig::get('sf_upload_dir') . DIRECTORY_SEPARATOR . 'csv' . DIRECTORY_SEPARATOR
             . $this->file_import_history->getFileName();
@@ -126,20 +134,25 @@ class importActions extends autoimportActions
    */
   public function getCurrentSchema()
   {
-    $schema = myActionTools::findCurrentSchema();
 
-    if ( ! $schema ) //we have to do it the hard way
-    {
+    if ($this->getRequestParameter('id')) {
       $this->file_import_history = FileImportHistoryPeer::retrieveByPk($this->getRequestParameter('id'));
-      if ( isset( $this->file_import_history ) ) {
+      if (isset($this->file_import_history)) {
         $schema = $this->file_import_history->getSchema();
-        if ( $schema ) {
-          myActionTools::setLatestSchema( $schema->getId() );
-        }
       }
     }
+    if ($this->getRequestParameter('schema_id')) {
+      $schema = SchemaPeer::retrieveByPk($this->getRequestParameter('schema_id'));
+    }
+    if ($this->getRequestParameter('vocabulary_id')) {
+      $schema = VocabularyPeer::retrieveByPk($this->getRequestParameter('vocabulary_id'));
+    }
 
-    $this->forward404Unless( $schema, 'No Element Set has been selected.' );
+    if ($schema) {
+      myActionTools::setLatestSchema($schema->getId());
+    }
+
+    $this->forward404Unless( $schema, 'No filter has been selected.' );
 
     $this->schema = $schema;
     $this->schemaID = $schema->getId();

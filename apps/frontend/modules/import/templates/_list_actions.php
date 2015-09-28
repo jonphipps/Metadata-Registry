@@ -10,7 +10,12 @@
           ),
     ))
     ): ?>
-        <li><?php echo button_to(__('Import New CSV'), 'import/create?schema_id=' . $sf_params->get('schema_id') . '',
+        <li><?php if ($sf_params->get('schema_id')) {
+                $param = 'schema_id=' . $sf_params->get('schema_id');
+                } else {
+                $param = 'vocabulary_id=' . $sf_params->get('vocabulary_id');
+            }
+            echo button_to(__('Import New CSV'), 'import/create?' . $param . '',
                   array(
                         'title' => 'Create',
                         'class' => 'sf_admin_action_create',

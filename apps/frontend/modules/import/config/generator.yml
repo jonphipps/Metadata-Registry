@@ -11,7 +11,7 @@ generator:
       display:        [created_at, user, schema, source_file_name, file_type]
       sort:           [created_at, desc]
       displayfilter:  false
-      filters:        [schema_id, created_at, user]
+      filters:        [schema_id, created_at, user, vocabulary_id]
       # urlfilter form is [field to filter on]: [value passed from routing.yml]
       # multiple filters can be set but they're currently mutually exclusive (any of the list can be used but only one per url)
       urlfilters:
