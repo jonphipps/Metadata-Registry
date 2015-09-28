@@ -12,13 +12,15 @@ generator:
       agent_id:       { name: Owner, help: The individual or organization that registered the vocabulary }
       name:           { name: Name, help: A descriptive name for the vocabulary. This will be displayed in lists of vocabularies. }
       note:           { name: Note, help: A note about this vocabulary }
-      uri:            { name: URI, help: The URI of this vocabulary. By default this will be a concatenation of the Base Domain and the Token. }
       url:            { name: URL, help: A non-Registry URL that contains more information about this vocabulary }
       base_domain:    { name: Base Domain, help: The root of all URIs for this vocabulary and its terms. Defaults to the Base Domain set by the Owner of this vocabulary. }
       token:          { name: Token, help: A unique token representing this vocabulary. This can be used as the RDF container class or to identify an encoding scheme in XML}
+      uri:            { name: URI, help: The URI of this vocabulary. By default this will be a concatenation of the Base Domain and the Token. }
       community:      { name: Community, help: Tags identifying communities of practice that this vocabulary addresses }
-      language:       { name: Language, help: Default language for the concept properties of this vocabulary }
+      language:       { name: Default Language, help: Default language for the textual properties of this vocabulary }
+      languages:      { name: Available Languages, help: Available languages for the textual properties of this element set }
       status_id:      { name: Default Status, help: Default status for the concept properties of this vocabulary }
+      repo:           { name: Git Repository, help: This is the name of the Git Repo that will hold this Element Set }
 
     list:
       title:          Vocabularies
@@ -44,11 +46,13 @@ generator:
         id:           { name: ID, type: plain, credentials: [administrator], mode: edit }
         agent_id:     { params: peer_method=getAgentsForCurrentUser}
         token:        { params: onblur=updateUri() }
-        language:     { type: select_language_tag }
+        languages:    { type: admin_select_language, params: multiple=true style="width:99%" }
+        language:     { type: admin_select_language, params: limitmethod=getLanguages style="width:99%" }
       display:
         "-Metadata":  { fields: [id, created_at, last_updated], mode: edit, credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
-        "Detail":     [agent_id, name, url, note, community, status_id, language]
-        "URI":        [base_domain, token, uri]
+        "Detail":     [agent_id, name, languages, language, status_id]
+        "Namespace":  [ repo, base_domain, token, uri]
+        "Documentation": [url, note, community]
       actions:
         _list:         -
         _save:         { credentials: [[administrator, hasAgents, vocabularymaintainer, vocabularyadmin]] }
@@ -68,8 +72,9 @@ generator:
         list_users:    { name: - }
       display:
         "-Metadata":   { fields: [id, created_at, last_updated], credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
-        "Detail":      [_agent, name, url, note, community, status, _language]
-        "URI":         [base_domain, token, uri]
+        "Detail":      [_agent, name, _languages, _language, status]
+        "Namespace":   [repo, base_domain, token, uri]
+        "Documentation": [url, note, community]
         "-Users":      [_list_users]
       actions:
         _list:

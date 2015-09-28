@@ -4,3 +4,17 @@ all:
 editSuccess:
   stylesheets: [%sf_select2_web_dir%/select2]
   javascripts: [vocabulary: { position: last }, %sf_jquery_web_dir%/jquery, %sf_select2_web_dir%/select2 ]
+exportSuccess:
+  stylesheets: [%sf_select2_web_dir%/select2]
+  javascripts: [export: { position: last }, components/jquery/dist/jquery.min.js, %sf_select2_web_dir%/select2]
+
+showRdfSuccess:
+  has_layout: off
+  http_metas:
+    content-type: application/rdf+xml; charset="utf-8"
+
+getCsvSuccess:
+  has_layout: off
+  http_metas:
+    content-type: text/csv; charset="utf-8"
+

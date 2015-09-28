@@ -9,3 +9,6 @@ edit:
   is_secure:   on
   credentials: [[administrator, vocabularyadmin]]
 
+publish:
+  is_secure:   on
+  credentials: [[administrator, vocabularyadmin]]
