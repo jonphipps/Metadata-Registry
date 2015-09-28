@@ -18,8 +18,8 @@
 
         <div id="form_row_content_schema_language" class="content<?php if ($sf_request->hasError('exportType')): ?> form-error<?php endif; ?>">
             <?php $value = select_tag('exportType', options_for_select(array(
-                  1 => 'Empty import template',
                   2 => 'Populated import template',
+                  1 => 'Empty import template',
                   3 => 'Sparse data (just the populated attribute columns',
                   4 => 'Rich data (includes empty attribute columns',
             )), array(
