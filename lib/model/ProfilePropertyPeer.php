@@ -9,6 +9,89 @@
  */
 class ProfilePropertyPeer extends BaseProfilePropertyPeer
 {
+  /** the value for the altLabel ID  */
+  const LABEL_ALT_ID = 1;
+
+  /** the value for the hiddenLabel ID  */
+  const LABEL_HIDDEN_ID = 9;
+
+  /** the value for the prefLabel ID  */
+  const LABEL_PREF_ID = 19;
+
+  /** the value for the label ID  */
+  const LABEL_ID = 27;
+
+  /**
+   * description
+   *
+   * @return ProfileProperty[]
+   */
+  public static function getResourceProperties()
+  {
+    $c = new Criteria();
+    $c->add(self::IS_OBJECT_PROP, 1);
+    $c->add(self::PROFILE_ID, 2);
+    $c->clearSelectColumns()->addSelectColumn(self::SKOS_ID);
+    $rs = self::doSelectRS($c);
+    while($rs->next())
+    {
+      $results[] = $rs->getInt(1);
+    }
+
+    return $results;
+  }
+
+  /**
+   * description
+   *
+   * @return ProfileProperty[]
+   */
+  public static function getPicklist()
+  {
+    $c = new Criteria();
+    $c->add(self::IS_IN_PICKLIST,true);
+    $c->add(self::PROFILE_ID, 2);
+    $c->addAscendingOrderByColumn(self::PICKLIST_ORDER);
+    $results = self::doSelect($c);
+
+    //create appearance of tree
+    /** @var $result ProfileProperty **/
+    foreach ($results as $result)
+    {
+      $result->setId($result->getSkosId());
+      if ($result->getSkosParentId())
+      {
+        $result->setLabel('&nbsp;&nbsp;&nbsp;' . $result->getLabel());
+      }
+    }
+
+    return $results;
+  }
+
+  /**
+   * description
+   *
+   * @return ProfileProperty[]
+   */
+  public static function getPropertyNames()
+  {
+    $results = false;
+    $c = new Criteria();
+    $c->clearSelectColumns()->addSelectColumn(self::SKOS_ID);
+    $c->add(self::PROFILE_ID, 2);
+    $c->addSelectColumn(self::NAME);
+    $rs = self::doSelectRS($c);
+    while($rs->next())
+    {
+      $results[$rs->getString(2)] = $rs->getInt(1);
+    }
+
+    return $results;
+  }
+
+
+
+
   /**
   * gets repeatable or unused profile properties for a resource property element
   *
