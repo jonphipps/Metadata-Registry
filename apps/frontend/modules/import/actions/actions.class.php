@@ -9,6 +9,8 @@ use ImportVocab\ImportVocab;
  * @subpackage import
  * @author     Your name here
  * @version    SVN: $Id: actions.class.php 2288 2006-10-02 15:22:13Z fabien $
+ * @property   \FileImportHistory  $file_import_history
+
  */
 class importActions extends autoimportActions
 {
@@ -57,7 +59,7 @@ class importActions extends autoimportActions
     if ( $this->getRequest()->getMethod() == sfRequest::POST ) {
       $this->updateFileImportHistoryFromRequest();
       //need an id
-      if ('Vocabulary' == true) {
+      if ($this->file_import_history->getVocabularyId()) {
         $schemaId = $this->file_import_history->getVocabularyId();
       } else {
         $schemaId = $this->file_import_history->getSchemaId();
