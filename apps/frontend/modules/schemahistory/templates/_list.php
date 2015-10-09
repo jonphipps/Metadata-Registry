@@ -9,7 +9,7 @@
 </tr>
 </thead>
 <tfoot>
-<tr><th colspan="7">
+<tr><th colspan="8">
 <div class="float-right">
 <?php if ($pager->haveToPaginate()): ?>
   <?php $filterParam = ''; ?>

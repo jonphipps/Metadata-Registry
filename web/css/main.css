@@ -20,15 +20,24 @@ body, td
   font-family: Arial, Helvetica, sans-serif;
   font-size: 12px;
   max-width: 100%;
+}
+
+body
+{
+  text-align: left;
+}
+
+td
+{
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 /*  background: #F2ECF2;*/
 }
 
-body
+td:hover
 {
-  text-align: left;
+  overflow:visible;
 }
 
 div#header
