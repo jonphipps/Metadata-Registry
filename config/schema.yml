@@ -864,6 +864,13 @@ propel:
       index: true
     change_note: 
       type: LONGVARCHAR
+    import_id: 
+      type: INTEGER
+      foreignTable: reg_file_import_history
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
+      index: true
     _indexes: 
       reg_concept_property_history_idx1: 
         - created_at

@@ -17,20 +17,20 @@ generator:
         user          { name: User }
         object:       { helper: truncate_text }
         language:     { name: Lang }
-        import_id:    { name: Import }
+        _import:      { name: Import }
         ts:           { name: TimeSlice}
       #params:         =%%_created_at%%  %%uri%%  <strong> %%pref_label%% </strong><br />%%_property%%, %%action%%, %%user%% <br />%%object%%, %%_language%%, %%status%%
-      display:        [=created_at, uri, _pref_label, _property, _action, user, _ts]
+      display:        [=created_at, uri, _pref_label, _property, _language, _action, user, _import, _ts]
       sort:           [created_at, desc]
       displayfilter:  false
-      filters:        [vocabulary_id, concept_property_id, concept_id, skos_property_id, updated_at, object, status, user]
+      filters:        [import_id, vocabulary_id, concept_property_id, concept_id, skos_property_id, updated_at, object, status, user]
       # urlfilter form is [field to filter on]: [value passed from routing.yml]
       # multiple filters can be set but they're currently mutually exclusive (any of the list can be used but only one per url)
       urlfilters:
         concept_id:          concept_id
         concept_property_id: property_id
         vocabulary_id:       vocabulary_id
-#        import_id:           import_id
+        import_id:           import_id
       actions:       -
 
     show:
@@ -39,5 +39,5 @@ generator:
         object:       { helper: auto_link_text }
         created_at:   { name: Changed at }
         user:         { name: Changed by }
-      display:        [id, created_at, user, action, scheme, related_concept, object, _language, status]
+      display:        [id, created_at, user, action, scheme, related_concept, object, _language, status, _import]
       actions:       -

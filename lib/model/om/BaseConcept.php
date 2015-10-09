@@ -2953,6 +2953,55 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 		return $this->collConceptPropertyHistorysRelatedByConceptId;
 	}
 
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Concept is new, it will return
+	 * an empty collection; or if this Concept has previously
+	 * been saved, it will retrieve related ConceptPropertyHistorysRelatedByConceptId from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Concept.
+	 */
+	public function getConceptPropertyHistorysRelatedByConceptIdJoinFileImportHistory($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseConceptPropertyHistoryPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collConceptPropertyHistorysRelatedByConceptId === null) {
+			if ($this->isNew()) {
+				$this->collConceptPropertyHistorysRelatedByConceptId = array();
+			} else {
+
+				$criteria->add(ConceptPropertyHistoryPeer::CONCEPT_ID, $this->getId());
+
+				$this->collConceptPropertyHistorysRelatedByConceptId = ConceptPropertyHistoryPeer::doSelectJoinFileImportHistory($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(ConceptPropertyHistoryPeer::CONCEPT_ID, $this->getId());
+
+			if (!isset($this->lastConceptPropertyHistoryRelatedByConceptIdCriteria) || !$this->lastConceptPropertyHistoryRelatedByConceptIdCriteria->equals($criteria)) {
+				$this->collConceptPropertyHistorysRelatedByConceptId = ConceptPropertyHistoryPeer::doSelectJoinFileImportHistory($criteria, $con);
+			}
+		}
+		$this->lastConceptPropertyHistoryRelatedByConceptIdCriteria = $criteria;
+
+		return $this->collConceptPropertyHistorysRelatedByConceptId;
+	}
+
 	/**
 	 * Temporary storage of collConceptPropertyHistorysRelatedByRelatedConceptId to save a possible db hit in
 	 * the event objects are add to the collection, but the
@@ -3347,6 +3396,55 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 
 			if (!isset($this->lastConceptPropertyHistoryRelatedByRelatedConceptIdCriteria) || !$this->lastConceptPropertyHistoryRelatedByRelatedConceptIdCriteria->equals($criteria)) {
 				$this->collConceptPropertyHistorysRelatedByRelatedConceptId = ConceptPropertyHistoryPeer::doSelectJoinUser($criteria, $con);
+			}
+		}
+		$this->lastConceptPropertyHistoryRelatedByRelatedConceptIdCriteria = $criteria;
+
+		return $this->collConceptPropertyHistorysRelatedByRelatedConceptId;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Concept is new, it will return
+	 * an empty collection; or if this Concept has previously
+	 * been saved, it will retrieve related ConceptPropertyHistorysRelatedByRelatedConceptId from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Concept.
+	 */
+	public function getConceptPropertyHistorysRelatedByRelatedConceptIdJoinFileImportHistory($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseConceptPropertyHistoryPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collConceptPropertyHistorysRelatedByRelatedConceptId === null) {
+			if ($this->isNew()) {
+				$this->collConceptPropertyHistorysRelatedByRelatedConceptId = array();
+			} else {
+
+				$criteria->add(ConceptPropertyHistoryPeer::RELATED_CONCEPT_ID, $this->getId());
+
+				$this->collConceptPropertyHistorysRelatedByRelatedConceptId = ConceptPropertyHistoryPeer::doSelectJoinFileImportHistory($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(ConceptPropertyHistoryPeer::RELATED_CONCEPT_ID, $this->getId());
+
+			if (!isset($this->lastConceptPropertyHistoryRelatedByRelatedConceptIdCriteria) || !$this->lastConceptPropertyHistoryRelatedByRelatedConceptIdCriteria->equals($criteria)) {
+				$this->collConceptPropertyHistorysRelatedByRelatedConceptId = ConceptPropertyHistoryPeer::doSelectJoinFileImportHistory($criteria, $con);
 			}
 		}
 		$this->lastConceptPropertyHistoryRelatedByRelatedConceptIdCriteria = $criteria;

@@ -15,7 +15,7 @@ class ImportJob
 
     public function perform($args)
     {
-        list($schemaId, $filePath, $importId, $environment) = $args;
+        list($schemaId, $filePath, $importId, $environment, $type) = $args;
         // Set up environment for this job
         define('SF_ROOT_DIR', realpath(dirname(__file__) . '/../../../..'));
         define('SF_APP', 'frontend');
@@ -31,7 +31,7 @@ class ImportJob
         $databaseManager = new \sfDatabaseManager();
         $databaseManager->initialize();
 
-        $import = new ImportVocab('schema', $filePath, $schemaId);
+        $import = new ImportVocab($type, $filePath, $schemaId);
         try {
             $fileImportHistory = \FileImportHistoryPeer::retrieveByPK($importId);
         } catch (\PropelException $e) {
@@ -40,7 +40,11 @@ class ImportJob
         }
 
         try {
-            $schema = \SchemaPeer::retrieveByPK($schemaId);
+            if ('schema' == $type) {
+                $schema = \SchemaPeer::retrieveByPK($schemaId);
+            } else {
+                $schema = \VocabularyPeer::retrieveByPK($schemaId);
+            }
         } catch (\PropelException $e) {
             //exit the job with an error
             throw $e;
@@ -82,9 +86,10 @@ class ImportJob
             $fileImportHistory->save();
             throw $e;
         }
+        $agentId = ($fileImportHistory->getSchema()) ? $fileImportHistory->getSchema()->getAgentId() : $fileImportHistory->getVocabulary()->getAgentId();
         $newFilePath = \sfConfig::get( 'sf_repos_dir' ) . DIRECTORY_SEPARATOR .
                        'agents' . DIRECTORY_SEPARATOR .
-                       $fileImportHistory->getSchema()->getAgentId() . DIRECTORY_SEPARATOR .
+                       $agentId . DIRECTORY_SEPARATOR .
                        $fileImportHistory->getSourceFileName();
         $request = new \myWebRequest();
         $result = $request->moveToRepo($filePath, $newFilePath);

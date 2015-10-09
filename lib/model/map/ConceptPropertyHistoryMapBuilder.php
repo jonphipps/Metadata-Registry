@@ -89,6 +89,8 @@ class ConceptPropertyHistoryMapBuilder {
 
 		$tMap->addColumn('CHANGE_NOTE', 'ChangeNote', 'string', CreoleTypes::LONGVARCHAR, false, null);
 
+		$tMap->addForeignKey('IMPORT_ID', 'ImportId', 'int', CreoleTypes::INTEGER, 'reg_file_import_history', 'ID', false, null);
+
 	} // doBuild()
 
 } // ConceptPropertyHistoryMapBuilder

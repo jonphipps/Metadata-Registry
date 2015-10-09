@@ -9,7 +9,7 @@
 </tr>
 </thead>
 <tfoot>
-<tr><th colspan="7">
+<tr><th colspan="9">
 <div class="float-right">
 <?php if ($pager->haveToPaginate()): ?>
   <?php $filterParam = ''; ?>
@@ -40,6 +40,7 @@
 <?php $i = 1; $tsLast = 1925009940; $versions = $sf_flash->get('versions'); ?>
 <?php foreach ($pager->getResults() as $concept_property_history): $odd = fmod(++$i, 2) ?>
 <?php $tsNew = strtotime($concept_property_history->getCreatedAt()); ?>
+<?php if ($versions): ?>
 <?php foreach ($versions as $version):
   $ts = strtotime($version->getTimeslice());?>
 <?php if ($ts < $tsLast && $ts >= $tsNew): ?>
@@ -56,6 +57,7 @@
 </td></tr>
 <?php endif; ?>
 <?php endforeach; $tsLast = $tsNew ?>
+<?php endif; ?>
 <tr class="sf_admin_row_<?php echo $odd ?>">
 <?php include_partial('list_td_tabular', array('concept_property_history' => $concept_property_history)) ?>
 <?php include_partial('list_td_actions', array('concept_property_history' => $concept_property_history)) ?>

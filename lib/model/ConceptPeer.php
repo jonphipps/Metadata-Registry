@@ -204,5 +204,9 @@ class ConceptPeer extends BaseConceptPeer
     return $results;
   }
 
+    public static function retrieveByUri($uri)
+    {
+    }
+
 
 } // ConceptPeer

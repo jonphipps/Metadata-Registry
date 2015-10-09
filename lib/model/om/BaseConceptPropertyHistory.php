@@ -116,6 +116,13 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 	 */
 	protected $change_note;
 
+
+	/**
+	 * The value for the import_id field.
+	 * @var        int
+	 */
+	protected $import_id;
+
 	/**
 	 * @var        ConceptProperty
 	 */
@@ -155,6 +162,11 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 	 * @var        User
 	 */
 	protected $aUser;
+
+	/**
+	 * @var        FileImportHistory
+	 */
+	protected $aFileImportHistory;
 
 	/**
 	 * Flag to prevent endless save loop, if this object is referenced
@@ -342,6 +354,17 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 	{
 
 		return $this->change_note;
+	}
+
+	/**
+	 * Get the [import_id] column value.
+	 * 
+	 * @return     int
+	 */
+	public function getImportId()
+	{
+
+		return $this->import_id;
 	}
 
 	/**
@@ -687,6 +710,32 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 	} // setChangeNote()
 
 	/**
+	 * Set the value of [import_id] column.
+	 * 
+	 * @param      int $v new value
+	 * @return     void
+	 */
+	public function setImportId($v)
+	{
+
+		// Since the native PHP type for this column is integer,
+		// we will cast the input value to an int (if it is not).
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->import_id !== $v) {
+			$this->import_id = $v;
+			$this->modifiedColumns[] = ConceptPropertyHistoryPeer::IMPORT_ID;
+		}
+
+		if ($this->aFileImportHistory !== null && $this->aFileImportHistory->getId() !== $v) {
+			$this->aFileImportHistory = null;
+		}
+
+	} // setImportId()
+
+	/**
 	 * Hydrates (populates) the object variables with values from the database resultset.
 	 *
 	 * An offset (1-based "start column") is specified so that objects can be hydrated
@@ -731,12 +780,14 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 
 			$this->change_note = $rs->getString($startcol + 13);
 
+			$this->import_id = $rs->getInt($startcol + 14);
+
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 14; // 14 = ConceptPropertyHistoryPeer::NUM_COLUMNS - ConceptPropertyHistoryPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 15; // 15 = ConceptPropertyHistoryPeer::NUM_COLUMNS - ConceptPropertyHistoryPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating ConceptPropertyHistory object", $e);
@@ -921,6 +972,13 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 				$this->setUser($this->aUser);
 			}
 
+			if ($this->aFileImportHistory !== null) {
+				if ($this->aFileImportHistory->isModified()) {
+					$affectedRows += $this->aFileImportHistory->save($con);
+				}
+				$this->setFileImportHistory($this->aFileImportHistory);
+			}
+
 
 			// If this object has been modified, then save it to the database.
 			if ($this->isModified()) {
@@ -1057,6 +1115,12 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 				}
 			}
 
+			if ($this->aFileImportHistory !== null) {
+				if (!$this->aFileImportHistory->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aFileImportHistory->getValidationFailures());
+				}
+			}
+
 
 			if (($retval = ConceptPropertyHistoryPeer::doValidate($this, $columns)) !== true) {
 				$failureMap = array_merge($failureMap, $retval);
@@ -1137,6 +1201,9 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 			case 13:
 				return $this->getChangeNote();
 				break;
+			case 14:
+				return $this->getImportId();
+				break;
 			default:
 				return null;
 				break;
@@ -1171,6 +1238,7 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 			$keys[11] => $this->getStatusId(),
 			$keys[12] => $this->getCreatedUserId(),
 			$keys[13] => $this->getChangeNote(),
+			$keys[14] => $this->getImportId(),
 		);
 		return $result;
 	}
@@ -1244,6 +1312,9 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 			case 13:
 				$this->setChangeNote($value);
 				break;
+			case 14:
+				$this->setImportId($value);
+				break;
 		} // switch()
 	}
 
@@ -1281,6 +1352,7 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 		if (array_key_exists($keys[11], $arr)) $this->setStatusId($arr[$keys[11]]);
 		if (array_key_exists($keys[12], $arr)) $this->setCreatedUserId($arr[$keys[12]]);
 		if (array_key_exists($keys[13], $arr)) $this->setChangeNote($arr[$keys[13]]);
+		if (array_key_exists($keys[14], $arr)) $this->setImportId($arr[$keys[14]]);
 	}
 
 	/**
@@ -1306,6 +1378,7 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 		if ($this->isColumnModified(ConceptPropertyHistoryPeer::STATUS_ID)) $criteria->add(ConceptPropertyHistoryPeer::STATUS_ID, $this->status_id);
 		if ($this->isColumnModified(ConceptPropertyHistoryPeer::CREATED_USER_ID)) $criteria->add(ConceptPropertyHistoryPeer::CREATED_USER_ID, $this->created_user_id);
 		if ($this->isColumnModified(ConceptPropertyHistoryPeer::CHANGE_NOTE)) $criteria->add(ConceptPropertyHistoryPeer::CHANGE_NOTE, $this->change_note);
+		if ($this->isColumnModified(ConceptPropertyHistoryPeer::IMPORT_ID)) $criteria->add(ConceptPropertyHistoryPeer::IMPORT_ID, $this->import_id);
 
 		return $criteria;
 	}
@@ -1385,6 +1458,8 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 		$copyObj->setCreatedUserId($this->created_user_id);
 
 		$copyObj->setChangeNote($this->change_note);
+
+		$copyObj->setImportId($this->import_id);
 
 
 		$copyObj->setNew(true);
@@ -1829,6 +1904,56 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 			 */
 		}
 		return $this->aUser;
+	}
+
+	/**
+	 * Declares an association between this object and a FileImportHistory object.
+	 *
+	 * @param      FileImportHistory $v
+	 * @return     void
+	 * @throws     PropelException
+	 */
+	public function setFileImportHistory($v)
+	{
+
+
+		if ($v === null) {
+			$this->setImportId(NULL);
+		} else {
+			$this->setImportId($v->getId());
+		}
+
+
+		$this->aFileImportHistory = $v;
+	}
+
+
+	/**
+	 * Get the associated FileImportHistory object
+	 *
+	 * @param      Connection Optional Connection object.
+	 * @return     FileImportHistory The associated FileImportHistory object.
+	 * @throws     PropelException
+	 */
+	public function getFileImportHistory($con = null)
+	{
+		if ($this->aFileImportHistory === null && ($this->import_id !== null)) {
+			// include the related Peer class
+			include_once 'lib/model/om/BaseFileImportHistoryPeer.php';
+
+			$this->aFileImportHistory = FileImportHistoryPeer::retrieveByPK($this->import_id, $con);
+
+			/* The following can be used instead of the line above to
+			   guarantee the related object contains a reference
+			   to this object, but this level of coupling
+			   may be undesirable in many circumstances.
+			   As it can lead to a db query with many results that may
+			   never be used.
+			   $obj = FileImportHistoryPeer::retrieveByPK($this->import_id, $con);
+			   $obj->addFileImportHistorys($this);
+			 */
+		}
+		return $this->aFileImportHistory;
 	}
 
 

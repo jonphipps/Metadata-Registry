@@ -109,10 +109,15 @@ $tabMap['schemahistory']['show'] =
             'title' => 'Show History Detail',
       );
 $tabMap['schemahistory']['list'] =
-      array(
-            'tab'   => 'schemahistorylist',
-            'title' => 'Import History',
-      );
+    array(
+        'tab'   => 'schemahistorylist',
+        'title' => 'Import History',
+    );
+$tabMap['history']['list'] =
+    array(
+        'tab'   => 'historylist',
+        'title' => 'Import History',
+    );
 
 $tabMap['user']         ['list'] =
       array(
@@ -182,6 +187,11 @@ $tabMap['vocabulary']       ['export'] =
         'title' => 'Export',
     );
 if ('vocabulary' == $filter) {
+    $tabMap['import']        ['list'] =
+        array(
+            'tab'   => 'vocabulary',
+            'title' => 'List Imports',
+        );
     $tabMap['discuss']    ['list'] =
           array(
                 'tab'   => 'vocabulary',
@@ -271,21 +281,16 @@ $tabMap['schema']       ['publish'] =
             'title' => 'Publish',
       );
 $tabMap['schema']       ['export'] =
-      array(
-            'tab'   => 'schema',
-            'title' => 'Export',
-      );
-$tabMap['import']       ['list'] =
-      array(
-            'tab'   => 'importlist',
-            'title' => 'List Imports',
-      );
+    array(
+        'tab' => 'schema',
+        'title' => 'Export',
+    );
 
-if ('schema' == $filter or 'vocabulary' == $filter or 'import' == $filter) {
+if ('schema' == $filter) {
     $tabMap['import']        ['list'] =
           array(
                 'tab'   => 'schema',
-                'title' => 'Import',
+                'title' => 'list Imports',
           );
     $tabMap['discuss']       ['list'] =
           array(
@@ -407,7 +412,7 @@ $buildBc = $tab;
 $metaAction = ' :: ' . __($tabMap[$module][$action]['title']);
 
 //set the filter
-/** @var myUser $sf_user **/
+/** @var myUser $sf_user * */
 myActionTools::updateAdminFilters($sf_user->getAttributeHolder(), $value, $paramId, $module);
 
 //setup the variables determining which breadcrumb to display
@@ -427,6 +432,7 @@ $showHistoryBc = false;
 $showDiscussBc = false;
 $showVersionBc = false;
 $showSchemaImportBc = false;
+$showVocabularyImportBc = false;
 $showBc = false;
 $tabTitle = false;
 
@@ -476,7 +482,7 @@ switch ($buildBc) {
     case 'agent':
         $showBc = true;
         $showAgentBc = true;
-        if ( ! isset($agent)) {
+        if (!isset($agent)) {
             $id = ('show' == $action) ? $sf_params->get('id') : $paramId;
             if ($id) {
                 $agent = AgentPeer::retrieveByPK($id);
@@ -488,14 +494,14 @@ switch ($buildBc) {
         $showBc = true;
         $showAgentBc = true;
         $showAgentUserBc = true;
-        if ( ! isset($agent_has_user)) {
+        if (!isset($agent_has_user)) {
             $id = ('show' == $action) ? $sf_params->get('id') : $paramId;
             if ($id) {
                 $agent_has_user = AgentHasUserPeer::retrieveByPK($id);
             }
         }
         $objectId = $agent_has_user->getID();
-        if ( ! isset($agent)) {
+        if (!isset($agent)) {
             $agent = $agent_has_user->getAgent();
         }
         $tab = false;
@@ -503,7 +509,14 @@ switch ($buildBc) {
     case 'vocabulary':
         $showBc = true;
         $showVocabularyBc = true;
-        if ( ! isset($vocabulary)) {
+        if ('import' == $filter) {
+            $import = FileImportHistoryPeer::retrieveByPK($paramId);
+            if ($import) {
+                $id = $import->getSchemaId();
+                $schema = SchemaPeer::retrieveByPK($id);
+            }
+        }
+        if (!isset($vocabulary)) {
             $id = ('show' == $action) ? $sf_params->get('id') : $paramId;
             if ($id) {
                 $vocabulary = VocabularyPeer::retrieveByPK($id);
@@ -522,13 +535,13 @@ switch ($buildBc) {
             }
         }
 
-        if ( ! isset($schema)) {
+        if (!isset($schema)) {
             $id = ('show' == $action || 'publish' == $action) ? $sf_params->get('id') : $paramId;
             if ($id) {
                 $schema = SchemaPeer::retrieveByPK($id);
             }
         }
-        if ( ! empty($schema)) {
+        if (!empty($schema)) {
             $objectId = $schema->getID();
         }
         break;
@@ -536,13 +549,13 @@ switch ($buildBc) {
         $showBc = true;
         $showSchemaBc = true;
         $showSchemaPropBc = true;
-        if ( ! isset($schema_property)) {
+        if (!isset($schema_property)) {
             $id = ('show' == $action) ? $sf_params->get('id') : $paramId;
             if ($id) {
                 $schema_property = SchemaPropertyPeer::retrieveByPK($id);
             }
         }
-        if ( ! isset($schema)) {
+        if (!isset($schema)) {
             if ($schema_property) {
                 $objectId = $schema_property->getId();
                 $schema = $schema_property->getSchema();
@@ -554,18 +567,18 @@ switch ($buildBc) {
         $showSchemaBc = true;
         $showSchemaPropBc = true;
         $showSchemaPropelBc = true;
-        if ( ! isset($schema_property_element)) {
+        if (!isset($schema_property_element)) {
             $id = ('show' == $action) ? $sf_params->get('id') : $paramId;
             if ($id) {
                 $schema_property_element = SchemaPropertyElementPeer::retrieveByPK($id);
             }
         }
-        if ( ! isset($schema_property)) {
+        if (!isset($schema_property)) {
             if ($schema_property_element) {
                 $schema_property = $schema_property_element->getSchemaPropertyRelatedBySchemaPropertyId();
             }
         }
-        if ( ! isset($schema)) {
+        if (!isset($schema)) {
             if ($schema_property) {
                 $schema = $schema_property->getSchema();
             }
@@ -574,6 +587,34 @@ switch ($buildBc) {
             $objectId = $schema_property_element->getId();
         }
         break;
+
+    case 'historylist':
+        $showBc = true;
+        if ('import' == $filter) {
+            $import = FileImportHistoryPeer::retrieveByPK($paramId);
+            if ($import) {
+                if ($import->getSchemaId()) {
+                    $id = $import->getSchemaId();
+                    $schema = $import->getSchema();
+                    $objectId = $schema->getId();
+                    $history = $import->getSchemaPropertyElementHistorys();
+                    $showSchemaBc = true;
+                    //$showHistoryBc = true;
+                }
+                if ($import->getVocabularyId()) {
+                    $id = $import->getVocabularyId();
+                    $vocabulary = $import->getVocabulary();
+                    $objectId = $vocabulary->getId();
+                    $history = $import->getConceptPropertyHistorys();
+                    $showVocabularyBc = true;
+                    $showHistoryBc = true;
+                    $tab = 'vocabulary';
+                }
+            }
+        }
+
+        break;
+
 
     case 'schemahistorylist':
         $showBc = true;
@@ -586,25 +627,25 @@ switch ($buildBc) {
             }
         }
 
-        if ( ! isset($history)) {
+        if (!isset($history)) {
             $id = $sf_params->get('id');
             if ($id) {
                 $history = SchemaPropertyElementHistoryPeer::retrieveByPK($id);
             }
         }
-        if ( ! isset($schema_property_element)) {
+        if (!isset($schema_property_element)) {
             if ($history) {
                 sfPropelParanoidBehavior::disable();
                 $schema_property_element = $history->getSchemaPropertyElement();
             }
         }
-        if ( ! isset($schema_property)) {
+        if (!isset($schema_property)) {
             if ($schema_property_element) {
                 sfPropelParanoidBehavior::disable();
                 $schema_property = $schema_property_element->getSchemaPropertyRelatedBySchemaPropertyId();
             }
         }
-        if ( ! isset($schema)) {
+        if (!isset($schema)) {
             if ($schema_property) {
                 sfPropelParanoidBehavior::disable();
                 $schema = $schema_property->getSchema();
@@ -619,25 +660,25 @@ switch ($buildBc) {
         $showSchemaPropBc = true;
         $showSchemaPropelBc = true;
         $showSchemaHistoryBc = true;
-        if ( ! isset($history)) {
+        if (!isset($history)) {
             $id = $sf_params->get('id');
             if ($id) {
                 $history = SchemaPropertyElementHistoryPeer::retrieveByPK($id);
             }
         }
-        if ( ! isset($schema_property_element)) {
+        if (!isset($schema_property_element)) {
             if ($history) {
                 sfPropelParanoidBehavior::disable();
                 $schema_property_element = $history->getSchemaPropertyElement();
             }
         }
-        if ( ! isset($schema_property)) {
+        if (!isset($schema_property)) {
             if ($schema_property_element) {
                 sfPropelParanoidBehavior::disable();
                 $schema_property = $schema_property_element->getSchemaPropertyRelatedBySchemaPropertyId();
             }
         }
-        if ( ! isset($schema)) {
+        if (!isset($schema)) {
             if ($schema_property) {
                 sfPropelParanoidBehavior::disable();
                 $schema = $schema_property->getSchema();
@@ -649,14 +690,14 @@ switch ($buildBc) {
         $showBc = true;
         $showSchemaBc = true;
         $showSchemaUserBc = true;
-        if ( ! isset($schema_has_user)) {
+        if (!isset($schema_has_user)) {
             $id = ('show' == $action) ? $sf_params->get('id') : $paramId;
             if ($id) {
                 $schema_has_user = SchemaHasUserPeer::retrieveByPK($id);
             }
         }
         $objectId = $schema_has_user->getID();
-        if ( ! isset($schema)) {
+        if (!isset($schema)) {
             $schema = $schema_has_user->getSchema();
         }
         $tab = false;
@@ -672,12 +713,10 @@ switch ($buildBc) {
 
     case 'import':
         $showBc = true;
-        $showSchemaBc = true;
-        $showSchemaImportBc = true;
         $tab = false;
 
         /** @var \FileImportHistory $file_import_history */
-        if ( ! isset($file_import_history)) {
+        if (!isset($file_import_history)) {
             $id = ('show' == $action) ? $sf_params->get('id') : $paramId;
             if ($id) {
                 $file_import_history = FileImportHistoryPeer::retrieveByPK($id);
@@ -685,14 +724,61 @@ switch ($buildBc) {
         }
 
         if ($file_import_history) {
-            if ( ! isset($schema)) {
+            if ($file_import_history->getSchemaId() and !isset($schema) ) {
                 $schema = $file_import_history->getSchema();
                 $objectId = $file_import_history->getSchemaId();
+                $showSchemaBc = true;
+                $showSchemaImportBc = true;
+                //$tab = 'schema';
+            }
+            if ($file_import_history->getVocabularyId() and !isset($vocabulary)) {
+                $vocabulary = $file_import_history->getVocabulary();
+                $objectId = $file_import_history->getVocabularyId();
+                $showVocabularyBc = true;
+                $showVocabularyImportBc = true;
+                //$tab = 'vocabulary';
             }
         }
         $title = '';
+        break;
+    case 'importlist':
+        $showBc = true;
+        $tab = false;
+
+        /** @var \FileImportHistory $file_import_history */
+        if (!isset($file_import_history)) {
+            $id = ('show' == $action) ? $sf_params->get('id') : $paramId;
+            if ($id) {
+                $file_import_history = FileImportHistoryPeer::retrieveByPK($id);
+            }
+        }
+
+        if ($file_import_history) {
+            if ($file_import_history->getSchemaId() and !isset($schema) ) {
+                $schema = $file_import_history->getSchema();
+                $objectId = $file_import_history->getSchemaId();
+                $showSchemaBc = true;
+                $showSchemaImportBc = true;
+                //$tab = 'schema';
+            }
+            if ($file_import_history->getVocabularyId() and !isset($vocabulary)) {
+                $vocabulary = $file_import_history->getVocabulary();
+                $objectId = $file_import_history->getVocabularyId();
+                $showVocabularyBc = true;
+                $showVocabularyImportBc = true;
+                //$tab = 'vocabulary';
+            }
+        }
+        $title = '';
+        break;
+
+    case 'vocabularyimportlist':
+        $showBc = true;
+        $showVocabularyBc = true;
+        $tab = true;
 
         break;
+
     case 'vocabuser':
         $showBc = true;
         $showVocabularyBc = true;
@@ -856,7 +942,7 @@ if ($showBc) {
         echo link_to('Vocabulary:', 'vocabulary/list') . '&nbsp;';
 
         if ($vocabulary) {
-            if ($showConceptBc || $showHistoryBc || $showVocabUserBc || $showVersionBc) {
+            if ($showConceptBc || $showHistoryBc || $showVocabUserBc || $showVersionBc || $showVocabularyImportBc) {
                 if ($vocabulary->getDeletedAt()) {
                     echo $vocabulary->getName() . '&nbsp;(deleted)';
                 } else {

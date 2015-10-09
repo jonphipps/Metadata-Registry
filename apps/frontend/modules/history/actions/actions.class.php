@@ -3,6 +3,7 @@
 /**
  * history actions.
  *
+ * @property Vocabulary vocabulary
  * @package    registry
  * @subpackage history
  * @author     Jon Phipps <jonphipps@gmail.com>
@@ -103,28 +104,32 @@ class historyActions extends autohistoryActions
     return;
   }
 
-  public function executeList ()
+  public function executeList()
   {
     $idType = $this->getRequestParameter('IdType', null);
     $id = $this->getRequestParameter('id', null);
 
-    if(!$idType)
-    {
+    if (!$idType) {
       //a current vocabulary is required to be in the request URL
       myActionTools::requireVocabularyFilter();
-    }
-    else
-    {
+    } else {
       $this->getRequest()->getParameterHolder()->set($idType, $id);
     }
 
-    $vocabulary = myActionTools::findCurrentVocabulary();
-    $this->vocabulary = $vocabulary;
+    if ($idType !== 'import_id') {
+      $vocabulary = myActionTools::findCurrentVocabulary();
+      $this->vocabulary = $vocabulary;
 
-    if (in_array($idType, array('concept_id','property_id')))
-    {
-      $this->concept = myActionTools::findCurrentConcept();
-      $this->setFlash('hasConcept', true);
+      if (in_array($idType, array('concept_id', 'property_id'))) {
+        $this->concept = myActionTools::findCurrentConcept();
+        $this->setFlash('hasConcept', true);
+      }
+    } else {
+      $import = FileImportHistoryPeer::retrieveByPK($id);
+      if ($import) {
+        $vocabulary = $import->getVocabulary();
+        $this->vocabulary = $vocabulary;
+      }
     }
 
     //get the versions array

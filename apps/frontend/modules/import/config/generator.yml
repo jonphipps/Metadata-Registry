@@ -26,7 +26,7 @@ generator:
       title:
         mode:
           edit:       Editing %%filename%%
-          create:     Import a file for %%schema%%
+          create:     Import a file for %%resource%%
       helptype:       icon
       fields:
         id:           { credentials: [administrator], mode: edit }
@@ -40,7 +40,7 @@ generator:
       display:
 #        "-Metadata":  { fields: [id, created_at, created_user, updated_at, updated_user], mode: edit }
         "Import Detail":     [id, filename]
-      hide:           [schema_id, user_id]
+      hide:           [schema_id, user_id, vocabulary_id]
 
       actions:
         _list:         { query_string: { schema_id: schema_id} }
@@ -48,7 +48,7 @@ generator:
         _cancel:       { credentials: [[administrator, schemaadmin]], query_string: { schema_id: schema_id} }
 
     show:
-      title:           Show Import detail for %%schema%%
+      title:           Show Import detail for %%resource%%
       fields:
         id:            { credentials: [administrator] }
 #        map:           { helper: auto_link_uri }

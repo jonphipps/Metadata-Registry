@@ -368,33 +368,6 @@ class Schema extends BaseSchema {
         return $bar;
     }
 
-    public function getAllProfileProperties($forExport = false)
-    {
-        $foo = array();
-
-        $c = new Criteria();
-        $c->addAscendingOrderByColumn(ProfilePropertyPeer::EXPORT_ORDER);
-
-        if ( $forExport )
-        {
-            $c->add( ProfilePropertyPeer::IS_IN_EXPORT, true );
-        }
-        $results   = $this->getProfile()->getProfilePropertys($c);
-        $languages = $this->getLanguages();
-        /** @var \profileProperty $result */
-        foreach ( $results as $result )
-        {
-            foreach ( $languages as $language )
-            {
-                $foo[0][$result->getId()][$language] = 1;
-            }
-        }
-
-        $bar = self::buildColumnArray( $foo );
-
-        return $bar;
-    }
-
     public function getPrefixes()
     {
         $v = parent::getPrefixes();

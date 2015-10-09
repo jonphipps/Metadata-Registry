@@ -9,7 +9,12 @@
  */
 class ConceptProperty extends BaseConceptProperty
 {
-	/**
+    public $importId;
+    public $matchKey;
+    public $importStatus;
+    public $doReciprocal = true;
+
+    /**
 	 * The value for the vocabulary_id field.
 	 * @var int
 	 */
@@ -329,7 +334,9 @@ class ConceptProperty extends BaseConceptProperty
     $history->setStatusId($this->getStatusId());
     $history->setCreatedUserId($this->getUpdatedUserId());
     $history->setCreatedAt($this->getUpdatedAt());
-
+      if ( ! empty($this->importId)) {
+          $history->setImportId($this->importId);
+      }
     $history->save();
   }
 

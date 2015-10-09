@@ -52,7 +52,7 @@ class SchemaPropertyElementPeer extends BaseSchemaPropertyElementPeer
      * @param string  $value
      * @param string  $language         (optional)
      *
-     * @return SchemaPropertyElement
+     * @return SchemaPropertyElement[]
      */
     public static function lookupElement($schemaPropertyId = NULL, $profilePropertyId, $value, $language = NULL) {
       $c = new Criteria();

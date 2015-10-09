@@ -10,7 +10,6 @@ use ImportVocab\ImportVocab;
  * @author     Your name here
  * @version    SVN: $Id: actions.class.php 2288 2006-10-02 15:22:13Z fabien $
  * @property   \FileImportHistory  $file_import_history
-
  */
 class importActions extends autoimportActions
 {
@@ -50,6 +49,10 @@ class importActions extends autoimportActions
     parent::setDefaults( $file_import_history );
   }
 
+  /**
+   * @return string|void
+   * @throws sfStopException
+     */
   public function executeEdit()
   {
     /** @var \FileImportHistory file_import_history */
@@ -61,13 +64,15 @@ class importActions extends autoimportActions
       //need an id
       if ($this->file_import_history->getVocabularyId()) {
         $schemaId = $this->file_import_history->getVocabularyId();
+        $type = 'vocabulary';
       } else {
         $schemaId = $this->file_import_history->getSchemaId();
+        $type = 'schema';
       }
       $filePath =
             sfConfig::get('sf_upload_dir') . DIRECTORY_SEPARATOR . 'csv' . DIRECTORY_SEPARATOR
             . $this->file_import_history->getFileName();
-      $import = new ImportVocab('schema', $filePath, $schemaId);
+      $import = new ImportVocab($type, $filePath, $schemaId);
       $prolog = $import->processProlog();
       if ( ! $prolog) {
         $message =
@@ -117,7 +122,8 @@ class importActions extends autoimportActions
                   $schemaId,
                   $filePath,
                   $importId,
-                  $environment
+                  $environment,
+                  $type
             ));
       $job2 = Resque::push('ImportVocab\UpdateRelatedJob', array(
             $environment,
@@ -137,10 +143,17 @@ class importActions extends autoimportActions
   public function getCurrentSchema()
   {
 
+    $schema  = false;
     if ($this->getRequestParameter('id')) {
       $this->file_import_history = FileImportHistoryPeer::retrieveByPk($this->getRequestParameter('id'));
       if (isset($this->file_import_history)) {
         $schema = $this->file_import_history->getSchema();
+        if ($this->file_import_history->getSchemaId()) {
+          $schema = $this->file_import_history->getSchema();
+        }
+        if ($this->file_import_history->getVocabularyId()) {
+          $schema = $this->file_import_history->getVocabulary();
+        }
       }
     }
     if ($this->getRequestParameter('schema_id')) {

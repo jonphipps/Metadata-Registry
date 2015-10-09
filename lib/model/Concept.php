@@ -208,4 +208,38 @@ class Concept extends BaseConcept
 
   } //updateFromRequest()
 
+	/**
+	 * @param ProfileProperty[] $profileProperties
+	 *
+	 * @return ConceptProperty[]
+	 */
+	public function getElementsForImport($profileProperties)
+	{
+		$elementsTmp = [];
+		$elements = [];
+		$dbElements = $this->getConceptPropertysRelatedByConceptId();
+		/** @var \ConceptProperty $element */
+		foreach ($dbElements as $element) {
+			$profile = $element->getProfileProperty();
+			if ($profile) {
+				$profileId = $profile->getId();
+				if ($profile->getHasLanguage()) {
+					$elementsTmp[$profileId . " (" . $element->getLanguage() . ")"][] = $element;
+				} else {
+					$elementsTmp[$profile->getId()][] = $element;
+				}
+			}
+		}
+		foreach ($elementsTmp as $key => $elementTmp) {
+			if (1 == count($elementTmp)) {
+				$elements[$key] = $elementTmp[0];
+			} else {
+				$elements[$key] = $elementTmp;
+			}
+		}
+
+		return $elements;
+	}
+
+
 } // Concept

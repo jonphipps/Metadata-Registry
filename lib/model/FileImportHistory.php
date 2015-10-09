@@ -45,4 +45,15 @@ class FileImportHistory extends BaseFileImportHistory
   {
     parent::setResults( serialize( $results ) );
   }
+
+  public function getResource()
+  {
+    if ($this->getVocabularyId()) {
+      return $this->getVocabulary();
+    }
+    if ($this->getSchemaId()) {
+      return $this->getSchema();
+    }
+
+  }
 }

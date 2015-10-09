@@ -17,7 +17,7 @@ generator:
         element:      { name: Statement }
         property_uri: { name: Property URI, helper: truncate_uri}
         ts:           { name: TimeSlice}
-      display:        [=created_at, property_uri, _property, _element, _action, user, _import]
+      display:        [=created_at, property_uri, _property, _element, _language, _action, user, _import]
       sort:           [created_at, desc]
       displayfilter:  false
       filters:        [schema_id, schema_property_id, schema_property_element_id, updated_at, object, status, user, import_id]
