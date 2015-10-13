@@ -16,7 +16,7 @@ if ($sf_params->get('schema_id')) {
             'class' => 'sf_admin_action_list',
         )
     ) ?></li>
-  <?php if ( $sf_user->hasCredential( array ( 0 => array ( 0 => 'administrator', 1 => 'schemaadmin', ), ) ) ): ?>
+  <?php if ( $sf_user->hasCredential( array ( 0 => array ( 0 => 'administrator', 1 => 'schemaadmin', 2 => 'vocabularyadmin', ), ) ) ): ?>
     <li><?php echo submit_tag(
           __( 'Import CSV' ),
           array (
@@ -26,7 +26,7 @@ if ($sf_params->get('schema_id')) {
           )
       ) ?></li>
   <?php endif; ?>
-  <?php if ( $sf_user->hasCredential( array ( 0 => array ( 0 => 'administrator', 1 => 'schemaadmin', ), ) ) ): ?>
+  <?php if ( $sf_user->hasCredential( array ( 0 => array ( 0 => 'administrator', 1 => 'schemaadmin', 2 => 'vocabularyadmin', ), ) ) ): ?>
     <li><?php echo button_to(
           __( 'Cancel' ),
           'import/list?' . $param . '',
