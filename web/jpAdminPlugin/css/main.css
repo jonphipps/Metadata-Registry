@@ -197,6 +197,7 @@ body,
   border: 1px solid silver;
   border-bottom: 0px;
   background-color: #fff;
+  white-space: normal;
 }
 
 #sf_admin_container fieldset.collapsed *
