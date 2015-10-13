@@ -489,3 +489,13 @@ ul.sf_admin_checklist li
   line-height: 1.5em;
 }
 
+table.sf_admin_list td{
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+ table.sf_admin_list td:hover{
+  overflow: visible;
+}
