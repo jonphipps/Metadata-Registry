@@ -3,11 +3,19 @@
     // date: 2015/01/25 21:06:33
 ?>
 <ul class="sf_admin_actions">
-    <?php if ($sf_user->hasObjectCredential($schema->getId(), 'schema', array(
+    <?php /** @var \myUser $sf_user */
+    if ($sf_user->hasObjectCredential($schema->getId(), 'schema', array(
           0 => array(
                 0 => 'administrator',
                 1 => 'schemaadmin',
           ),
+    ) ||
+        $sf_user->hasObjectCredential($schema->getId(), 'vocabulary', array(
+                0 => array(
+                    0 => 'administrator',
+                    1 => 'vocabularyadmin',
+                ),
+            )
     ))
     ): ?>
         <li><?php if ($sf_params->get('schema_id')) {

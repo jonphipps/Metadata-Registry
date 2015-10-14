@@ -1,13 +1,25 @@
 <?php
-  $concept = $sf_user->getAttribute('concept');
-  if ($sf_flash->has('hasConcept'))
+
+$uri = '';
+$concept = $sf_user->getAttribute('concept');
+
+/** @var \sfParameterHolder $sf_flash */
+if ($sf_flash->has('hasConcept'))
   {
     $uri = $sf_user->getAttribute('concept')->getUri();
   }
-  else
+  else if ($sf_user->getAttribute('vocabulary'))
   {
     $uri = $sf_user->getAttribute('vocabulary')->getUri();
   }
+else {
+  /** @var \ConceptPropertyHistory $concept_property_history */
+  $vocabulary = $concept_property_history->getVocabularyRelatedByVocabularyId();
+  if ($vocabulary) {
+    $uri = $vocabulary->getUri();
+    $sf_user->setAttribute('vocabulary', $vocabulary);
+  }
+}
 
   if(isset($version))
   {
@@ -28,4 +40,4 @@
       echo "&nbsp;" . link_to('Name', 'version/create?ts=' . $concept_property_history->getCreatedAt('YmdHis'), array('title' => 'Create a named version for this TimeSlice'));
       }
     }
-  } ?>
+  }

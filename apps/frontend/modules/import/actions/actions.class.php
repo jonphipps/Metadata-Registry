@@ -103,6 +103,7 @@ class importActions extends autoimportActions
             0 => array(
                   0 => 'administrator',
                   1 => 'schemaadmin',
+                  2 => 'vocabularyadmin',
             ),
       ))
       ) {
@@ -158,9 +159,11 @@ class importActions extends autoimportActions
     }
     if ($this->getRequestParameter('schema_id')) {
       $schema = SchemaPeer::retrieveByPk($this->getRequestParameter('schema_id'));
+      $this->type = 'schema';
     }
     if ($this->getRequestParameter('vocabulary_id')) {
       $schema = VocabularyPeer::retrieveByPk($this->getRequestParameter('vocabulary_id'));
+      $this->type = 'vocabulary';
     }
 
     if ($schema) {

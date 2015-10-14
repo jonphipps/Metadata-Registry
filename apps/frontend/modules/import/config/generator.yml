@@ -20,7 +20,7 @@ generator:
       object_actions:
         _show:
       actions:
-        _create:      { name: Import New CSV,  credentials: [[administrator, schemaadmin]], query_string: { schema_id: schema_id} }
+        _create:      { name: Import New CSV,  credentials: [[administrator, schemaadmin, vocabularyadmin]], query_string: { schema_id: schema_id} }
 
     edit:
       title:
@@ -35,7 +35,7 @@ generator:
           type:       admin_input_file_tag
           upload_dir: csv
           params:     include_link=upload
-          credentials: [[administrator, schemaadmin]]
+          credentials: [[administrator, schemaadmin, vocabularyadmin]]
 
       display:
 #        "-Metadata":  { fields: [id, created_at, created_user, updated_at, updated_user], mode: edit }
@@ -44,8 +44,8 @@ generator:
 
       actions:
         _list:         { query_string: { schema_id: schema_id} }
-        _save:         { name: Import CSV, credentials: [[administrator, schemaadmin]] }
-        _cancel:       { credentials: [[administrator, schemaadmin]], query_string: { schema_id: schema_id} }
+        _save:         { name: Import CSV, credentials: [[administrator, schemaadmin, vocabularyadmin]] }
+        _cancel:       { credentials: [[administrator, schemaadmin, vocabularyadmin]], query_string: { schema_id: schema_id} }
 
     show:
       title:           Show Import detail for %%resource%%

@@ -57,6 +57,17 @@ class userObjectFilter extends sfFilter
 
     //so next we need to know the key...
 
+    //big hack because I'm frustrated:
+    if ('import' == $module) {
+      if ($request->getParameter('vocabulary_id')) {
+        $key = $request->getParameter('vocabulary_id');
+        $module = 'vocabulary';
+      }
+      if ($request->getParameter('schema_id')) {
+        $key = $request->getParameter('schema_id');
+        $module = 'schema';
+      }
+    }
     //Does the request parameter exist?
     if (isset($objectCredArray['request_param']))
     {
