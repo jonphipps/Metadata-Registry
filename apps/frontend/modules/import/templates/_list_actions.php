@@ -4,20 +4,17 @@
 ?>
 <ul class="sf_admin_actions">
     <?php /** @var \myUser $sf_user */
-    if ($sf_user->hasObjectCredential($schema->getId(), 'schema', array(
+    if (($sf_params->get('schema_id') && $sf_user->hasObjectCredential($sf_params->get('schema_id'), 'schema', array(
           0 => array(
                 0 => 'administrator',
                 1 => 'schemaadmin',
-          ),
-    ) ||
-        $sf_user->hasObjectCredential($schema->getId(), 'vocabulary', array(
+          ))))  ||
+        ($sf_params->get('vocabulary_id') && $sf_user->hasObjectCredential($sf_params->get('vocabulary_id'), 'vocabulary', array(
                 0 => array(
                     0 => 'administrator',
                     1 => 'vocabularyadmin',
                 ),
-            )
-    ))
-    ): ?>
+            )))): ?>
         <li><?php if ($sf_params->get('schema_id')) {
                 $param = 'schema_id=' . $sf_params->get('schema_id');
                 } else {
