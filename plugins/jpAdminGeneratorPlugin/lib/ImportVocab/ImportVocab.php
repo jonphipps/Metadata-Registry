@@ -835,7 +835,9 @@ class ImportVocab {
         //check for an existing property by uri
         /** @var \SchemaProperty $property */
         $property = \SchemaPropertyPeer::retrieveByUri($uri);
-        $schemaId = $property->getSchemaId();
+        if ($property) {
+          $schemaId = $property->getSchemaId();
+        }
       }
 
       //even if we found a property, we kill it if it's in a different schema than we're populating

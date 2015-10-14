@@ -17,6 +17,7 @@ class importActions extends autoimportActions
   {
     $this->getCurrentSchema();
 
+
     parent::preExecute();
   }
 
@@ -164,7 +165,7 @@ class importActions extends autoimportActions
     if ($this->getRequestParameter('vocabulary_id')) {
       $schema = VocabularyPeer::retrieveByPk($this->getRequestParameter('vocabulary_id'));
       $this->type = 'vocabulary';
-    }
+     }
 
     if ($schema) {
       myActionTools::setLatestSchema($schema->getId());
