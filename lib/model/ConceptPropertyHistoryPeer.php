@@ -19,6 +19,7 @@ class ConceptPropertyHistoryPeer extends BaseConceptPropertyHistoryPeer
   */
   static public function getLastUpdateForDomain($domain, $format = 'Y-m-d H:i:s')
   {
+    $results = '';
     if (!preg_match('/%$/', $domain))
     {
       $domain .="%";
@@ -28,7 +29,9 @@ class ConceptPropertyHistoryPeer extends BaseConceptPropertyHistoryPeer
     $c->addJoin(self::VOCABULARY_ID, VocabularyPeer::ID);
     $c->addDescendingOrderByColumn(self::CREATED_AT);
     $rs = self::doSelectOne($c);
-    $results = $rs->getCreatedAt($format);
+    if ($rs) {
+      $results = $rs->getCreatedAt($format);
+    }
     return $results;
   }
 

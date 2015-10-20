@@ -197,6 +197,7 @@ class SchemaPropertyElementHistoryPeer extends BaseSchemaPropertyElementHistoryP
   */
   static public function getLastUpdateForDomain($domain, $format = 'Y-m-d H:i:s')
   {
+    $results = '';
     if (!preg_match('/%$/', $domain))
     {
       $domain .="%";
@@ -206,7 +207,9 @@ class SchemaPropertyElementHistoryPeer extends BaseSchemaPropertyElementHistoryP
     $c->addJoin(self::SCHEMA_ID, SchemaPeer::ID);
     $c->addDescendingOrderByColumn(self::CREATED_AT);
     $rs = self::doSelectOne($c);
-    $results = $rs->getCreatedAt($format);
+    if ($rs) {
+      $results = $rs->getCreatedAt($format);
+    }
     return $results;
   }
 
