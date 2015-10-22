@@ -26,11 +26,12 @@ foreach ($properties as $property): ?>
   $skos = $property->getSkosPropertyId();
   $language = $property->getLanguage();
   $language = ($language) ? ' xml:lang="' . $language . '"' : '';
-  $skosProp = $property->getProfileProperty();
+  $skosProp = $property->getSkosProperty();
+  $skosPropName = $skosProp ? $skosProp->getName() : '';
   if (in_array($skos, $skosProps)): ?>
-	    <skos:<?php echo $skosProp->getName() ?> rdf:resource="<?php echo htmlspecialchars($property->getObject()); ?>"/>
+	    <skos:<?php echo $skosPropName ?> rdf:resource="<?php echo htmlspecialchars($property->getObject()); ?>"/>
 <?php else: ?>
-      <skos:<?php echo $skosProp->getName() . $language; ?>><?php echo htmlspecialchars(html_entity_decode($property->getObject(), ENT_QUOTES | ENT_HTML5, 'UTF-8')) ?></skos:<?php echo $skosProp->getName() ?>>
+      <skos:<?php echo $skosPropName . $language; ?>><?php echo htmlspecialchars(html_entity_decode($property->getObject(), ENT_QUOTES | ENT_HTML5, 'UTF-8')) ?></skos:<?php echo $skosPropName ?>>
 <?php endif; ?>
 <?php endforeach; ?>
     </skos:Concept>
