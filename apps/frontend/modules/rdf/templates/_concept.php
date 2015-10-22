@@ -26,7 +26,7 @@ foreach ($properties as $property): ?>
   $skos = $property->getSkosPropertyId();
   $language = $property->getLanguage();
   $language = ($language) ? ' xml:lang="' . $language . '"' : '';
-  $skosProp = $property->getProfileProperty();
+  $skosProp = $property->getSkosProperty();
   if (in_array($skos, $skosProps)): ?>
 	    <skos:<?php echo $skosProp->getName() ?> rdf:resource="<?php echo htmlspecialchars($property->getObject()); ?>"/>
 <?php else: ?>
