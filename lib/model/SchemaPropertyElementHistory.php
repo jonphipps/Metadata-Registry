@@ -1,4 +1,5 @@
 <?php
+use ForceUTF8\Encoding;
 
 /**
  * Subclass for representing a row from the 'reg_schema_property_element_history' table.
@@ -118,7 +119,7 @@ class SchemaPropertyElementHistory extends BaseSchemaPropertyElementHistory
   /**
    * SchemaPropertyElementHistory::getContent()
    *
-   * @return
+   * @return string
    */
   public function getFeedContent()
   {
@@ -135,7 +136,7 @@ class SchemaPropertyElementHistory extends BaseSchemaPropertyElementHistory
                $this->getProfileProperty()->getLabel() . $language . '</a> Property';
     $content .= ('updated' == $this->getAction()) ? '<br /> To: ' : ':';
     $content .= '<div style="background-color:#eeffee; padding:3px" >';
-    $content .= htmlspecialchars($this->getObject(), ENT_QUOTES, "UTF-8");
+    $content .= Encoding::fixUTF8($this->getObject());
     $content .= '</div>';
     if ('updated' == $this->getAction())
     {

@@ -47,7 +47,8 @@
     "vlucas/phpdotenv": "1.*@dev",
     "robmorgan/phinx": "*",
     "ddeboer/data-import": "@stable",
-    "mjphaynes/php-resque": "dev-master"
+    "mjphaynes/php-resque": "dev-master",
+    "neitanod/forceutf8": "dev-master"
   },
 
   "autoload": {
