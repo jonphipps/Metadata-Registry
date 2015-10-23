@@ -135,7 +135,7 @@ class SchemaPropertyElementHistory extends BaseSchemaPropertyElementHistory
                $this->getProfileProperty()->getLabel() . $language . '</a> Property';
     $content .= ('updated' == $this->getAction()) ? '<br /> To: ' : ':';
     $content .= '<div style="background-color:#eeffee; padding:3px" >';
-    $content .= $this->getObject();
+    $content .= htmlspecialchars($this->getObject(), ENT_QUOTES, "UTF-8");
     $content .= '</div>';
     if ('updated' == $this->getAction())
     {
