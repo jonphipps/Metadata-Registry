@@ -21,8 +21,7 @@ class ConceptPropertyHistory extends BaseConceptPropertyHistory
   /**
   * description
   *
-  * @return return_type
-  * @param  var_type $var
+  * @return string
   */
   public function getScheme()
   {
@@ -37,8 +36,7 @@ class ConceptPropertyHistory extends BaseConceptPropertyHistory
   /**
   * description
   *
-  * @return return_type
-  * @param  var_type $var
+  * @return string
   */
   public function getRelatedConcept()
   {
@@ -53,8 +51,7 @@ class ConceptPropertyHistory extends BaseConceptPropertyHistory
   /**
   * description
   *
-  * @return return_type
-  * @param  var_type $var
+  * @return string
   */
   public function getPrefLabel()
   {
@@ -63,8 +60,7 @@ class ConceptPropertyHistory extends BaseConceptPropertyHistory
   /**
   * description
   *
-  * @return return_type
-  * @param  var_type $var
+  * @return string
   */
   public function getUri()
   {
@@ -75,8 +71,6 @@ class ConceptPropertyHistory extends BaseConceptPropertyHistory
   * gets the previous change if the action is 'modified'
   *
   * @return ConceptPropertyHistory object
-  * @param  string $historyTimestamp
-  * @param  string $propertyId
   */
   function getPrevious()
   {
@@ -112,7 +106,7 @@ class ConceptPropertyHistory extends BaseConceptPropertyHistory
    /**
    * ConceptPropertyHistory::getFeedTitle()
    *
-   * @return
+   * @return string
    */
   public function getFeedTitle()
   {
@@ -124,18 +118,9 @@ class ConceptPropertyHistory extends BaseConceptPropertyHistory
   }
 
   /**
-   * ConceptPropertyHistory::getFeedLink()
-   *
-   * @return
-   */
-//  public function getFeedLink()
-//  {
-//  }
-
-  /**
    * ConceptPropertyHistory::getDescription()
    *
-   * @return
+   * @return null
    */
   public function getFeedDescription()
   {
@@ -145,7 +130,7 @@ class ConceptPropertyHistory extends BaseConceptPropertyHistory
   /**
    * ConceptPropertyHistory::getContent()
    *
-   * @return
+   * @return string
    */
   public function getFeedContent()
   {
@@ -182,7 +167,6 @@ class ConceptPropertyHistory extends BaseConceptPropertyHistory
   /**
    * ConceptPropertyHistory::getAuthorEmail()
    *
-   * @return
    */
   public function getFeedAuthorEmail()
   {
@@ -192,7 +176,7 @@ class ConceptPropertyHistory extends BaseConceptPropertyHistory
   /**
    * ConceptPropertyHistory::getAuthorName()
    *
-   * @return
+   * @return string
    */
   public function getFeedAuthorName()
   {
@@ -209,7 +193,7 @@ class ConceptPropertyHistory extends BaseConceptPropertyHistory
   /**
    * ConceptPropertyHistory::getAuthorLink()
    *
-   * @return
+   * @return string
    */
   public function getFeedAuthorLink()
   {
@@ -221,7 +205,7 @@ class ConceptPropertyHistory extends BaseConceptPropertyHistory
   /**
    * ConceptPropertyHistory::getPubdate()
    *
-   * @return
+   * @return string
    */
   public function getFeedPubdate()
   {
@@ -230,9 +214,8 @@ class ConceptPropertyHistory extends BaseConceptPropertyHistory
   }
 
   /**
-   * ConceptPropertyHistory::getComments()
+   * ConceptPropertyHistory::getFeedComments()
    *
-   * @return
    */
   public function getFeedComments()
   {
@@ -242,7 +225,7 @@ class ConceptPropertyHistory extends BaseConceptPropertyHistory
   /**
    * ConceptPropertyHistory::getUniqueId()
    *
-   * @return
+   * @return string
    */
   public function getFeedUniqueId()
   {
@@ -254,7 +237,6 @@ class ConceptPropertyHistory extends BaseConceptPropertyHistory
   /**
    * ConceptPropertyHistory::getEnclosure()
    *
-   * @return
    */
   public function getFeedEnclosure()
   {
@@ -264,13 +246,24 @@ class ConceptPropertyHistory extends BaseConceptPropertyHistory
   /**
    * ConceptPropertyHistory::getCategories()
    *
-   * @return
    */
   public function getFeedCategories()
   {
 
   }
 
+
+  /**
+   * Get the associated ProfileProperty object
+   *
+   * @param Connection $con Optional
+   * @return ProfileProperty The associated ProfileProperty object.
+   * @throws PropelException
+   */
+  public function getProfileProperty($con = null)
+  {
+    return $this->getConceptProperty()->getProfileProperty();
+  }
 
 
 }
