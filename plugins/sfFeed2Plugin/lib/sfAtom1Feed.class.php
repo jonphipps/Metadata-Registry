@@ -44,14 +44,16 @@ class sfAtom1Feed extends sfFeed
   public function fromXml($feedXml)
   {
     preg_match('/^<\?xml\s*version="1\.0"\s*encoding="(.*?)".*?\?>$/mi', $feedXml, $matches);
-    if(isset($matches[1]))
-    {
+    if (isset($matches[1])) {
       $this->setEncoding($matches[1]);
     }
-    $feedXml = simplexml_load_string($feedXml);
-    if(!$feedXml)
-    {
-      throw new Exception('Error creating feed from XML: string is not well-formatted XML');
+
+    try {
+      $feedXml = preg_replace_callback('/<!\[CDATA\[(.*)\]\]>/', 'self::filter_xml', $feedXml);
+
+      $feedXml = simplexml_load_string($feedXml);
+    } catch (Exception $e) {
+      throw $e;
     }
 
     $attributes = $feedXml->attributes('http://www.w3.org/XML/1998/namespace');
@@ -336,6 +338,10 @@ class sfAtom1Feed extends sfFeed
     $tag = preg_replace('/#/', '/', $tag);
 
     return 'tag:'.$tag;
+  }
+
+  private static function filter_xml($matches) {
+    return trim(htmlspecialchars($matches[1]));
   }
 
 }

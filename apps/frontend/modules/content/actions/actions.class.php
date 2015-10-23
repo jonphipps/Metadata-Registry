@@ -92,8 +92,6 @@ class contentActions extends sfActions
   /**
   * Displays the latest changes to the registry
   *
-  * @return return_type
-  * @param  var_type $var
   */
   public function getChangeFeed()
   {
@@ -104,7 +102,7 @@ class contentActions extends sfActions
       if ($feed1 && $feed2)
       { $image = new sfFeedImage();
         $image->setFavicon($this->getRequest()->getUriPrefix() . "/favicon.ico");
-        $image->setFeed($this->getRequest()->getUriPrefix() . "/allfeeds.atom");
+        $image->setFeed($this->getRequest()->getUriPrefix() . "/allhistoryfeeds.atom");
         $image->setLink($image->getFeed());
         $image->setTitle("Metadata Registry Change History");
         $this->feed = sfFeedPeer::aggregate(array($feed1, $feed2),
