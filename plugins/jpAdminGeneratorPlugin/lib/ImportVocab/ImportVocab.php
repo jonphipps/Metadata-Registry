@@ -565,7 +565,7 @@ class ImportVocab {
       } else {
         //check for an existing property by uri
         /** @var \Concept $property */
-        $property = \ConceptPeer::retrieveByUri($uri);
+        $property = \ConceptPeer::getConceptByUri($row['uri']);
       }
 
       //even if we found a property, we kill it if it's in a different schema than we're populating
@@ -636,6 +636,14 @@ class ImportVocab {
 //      }
 
       return;
+
+
+      //**************
+      // CRUFT ALERT
+      // The rest of this is never run!!
+      //**************
+
+
       //build an array of references
       $newElements = [];
       $newElements2 = [];
