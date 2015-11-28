@@ -10,7 +10,7 @@ foreach($properties as $property): ?>
 <?php $skos = $property->getSkosPropertyId(); ?>
 <?php if (in_array($skos, $skosProps)): ?>
   <?php $relatedConcept = $property->getConceptRelatedByRelatedConceptId(); ?>
-      <?php echo ($relatedConcept) ? link_to($relatedConcept->getPrefLabel(), 'concept/show?id=' . $relatedConcept->getId(), array('title' => $relatedConcept->getUri())) : $property->getObject(); ?>
+      <?php echo ($relatedConcept) ? link_to($relatedConcept->getPrefLabel(), 'concept/show?id=' . $relatedConcept->getId(), array('title' => $relatedConcept->getUri())) : htmlspecialchars(html_entity_decode($property->getObject(), ENT_QUOTES | ENT_HTML5, 'UTF-8')); ?>
 <?php else: ?>
       <?php echo $property->getObject(); ?>
 <?php endif; ?>
