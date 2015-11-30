@@ -263,7 +263,7 @@
         foreach ( $pager->getResults() as $property ): $odd = fmod( ++ $i, 2 ) ?>
           <tr class="sf_admin_row_<?php echo $odd ?>">
             <td><?php echo link_to(
-                  htmlspecialchars( $property->getSchema()->getName() ),
+                  htmlspecialchars(html_entity_decode($property->getSchema()->getName(), ENT_QUOTES | ENT_HTML5, 'UTF-8')),
                   '/schema/show?id=' . $property->getschemaId(),
                   array ( "title" => $property->getSchema()->getUri() )
               ) ?></td>
@@ -277,7 +277,7 @@
               ) ?>
               <?php $propertyLabel = $property->getLabel();
               $query = '/(' . $sf_params->get( 'sq' ) . ')/i';
-              $propertyLabel = htmlspecialchars( $property->getLabel() );
+              $propertyLabel = htmlspecialchars(html_entity_decode($property->getLabel(), ENT_QUOTES | ENT_HTML5, 'UTF-8'));
               $propertyLabel = preg_replace( $query, '<span class="highlight">$1</span>', $propertyLabel );
               echo link_to(
                   $propertyLabel,

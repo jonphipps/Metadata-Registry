@@ -99,9 +99,9 @@
 /** @var \ConceptProperty $concept_property */
 foreach ($pager->getResults() as $concept_property): $odd = fmod(++$i, 2) ?>
 <tr class="sf_admin_row_<?php echo $odd ?>">
-		<td><?php echo link_to($concept_property->getVocabularyName(), '/vocabulary/show?id=' . $concept_property->getVocabularyId()) ?></td>
-		<td><?php echo link_to($concept_property->getConceptPrefLabel(), '/concept/show?id=' . $concept_property->getConceptId()) ?></td>
-		<td><?php echo link_to($concept_property->getObject(), '/conceptprop/show?id=' . $concept_property->getId()) ?></td>
+		<td><?php echo link_to(htmlspecialchars(html_entity_decode($concept_property->getVocabularyName(), ENT_QUOTES | ENT_HTML5, 'UTF-8')), '/vocabulary/show?id=' . $concept_property->getVocabularyId()) ?></td>
+		<td><?php echo link_to(htmlspecialchars(html_entity_decode($concept_property->getConceptPrefLabel(), ENT_QUOTES | ENT_HTML5, 'UTF-8')), '/concept/show?id=' . $concept_property->getConceptId()) ?></td>
+		<td><?php echo link_to(htmlspecialchars(html_entity_decode($concept_property->getObject(), ENT_QUOTES | ENT_HTML5, 'UTF-8')), '/conceptprop/show?id=' . $concept_property->getId()) ?></td>
 		<td><?php echo $concept_property->getSkosPropertyName() ?></td>
 		<td><?php echo $concept_property->getLanguage() ?></td>
 <?php if ($sf_user->hasCredential(array (   0 => 'administrator', ))): ?>
