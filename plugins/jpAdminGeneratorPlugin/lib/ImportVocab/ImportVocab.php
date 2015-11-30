@@ -633,7 +633,17 @@ class ImportVocab {
       $property->setStatusId($rowStatus);
 
       $affectedRows = $property->save();
-//      }
+
+
+      if (empty($property->getPrefLabel())) {
+        $prefLabel = \ConceptPropertyPeer::lookupProperty($property->getId(), 19, $this->prolog['defaults']['lang']);
+        if (!empty($prefLabel)) {
+          $property->setPrefLabel($prefLabel->getObject());
+          $property->setPrefLabelId($prefLabel->getId());
+          $property->setLanguage($this->prolog['defaults']['lang']);
+          $property->save();
+        }
+      }
 
       return;
 
