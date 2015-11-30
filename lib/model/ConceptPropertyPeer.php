@@ -83,12 +83,15 @@ class ConceptPropertyPeer extends BaseConceptPropertyPeer
       return $results;
    }
 
-  /**
-  * description
-  *
-  * @return return_type
-  * @param  var_type $var
-  */
+	/**
+	 * description
+	 *
+	 *
+	 * @param int $conceptId
+	 * @param int $skosId
+	 * @param string $language
+	 * @return ConceptProperty
+	 */
   public static function lookupProperty($conceptId, $skosId, $language = null)
   {
     $c = new Criteria();
