@@ -557,7 +557,7 @@ class ImportVocab {
         $this->updateRowUris($key, $element);
       }
 
-      $uri = $row[62];
+      $uri = $this->getFqn($row[62]);
       $property = null;
 
       if (!empty($row['reg_id'])) {
@@ -565,7 +565,7 @@ class ImportVocab {
       } else {
         //check for an existing property by uri
         /** @var \Concept $property */
-        $property = \ConceptPeer::getConceptByUri($row['uri']);
+        $property = \ConceptPeer::getConceptByUri($uri);
       }
 
       //even if we found a property, we kill it if it's in a different schema than we're populating
