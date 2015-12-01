@@ -40,7 +40,7 @@ table.layout td.right {
 .main-subcontent p.center {text-align:center;}
 .main-subcontent p.right {text-align:right;}
 
-.main-subcontent ul {list-style:none; margin:0.5em 10px 0px 10px;}
+.main-subcontent ul {list-style:none; margin:0.5em 10px 0 10px;}
 .main-subcontent ul li {margin:5px 0 0.2em 2px; padding:0 0 0 11px; line-height:1.2em; font-size:110%;}
 .main-subcontent ol {margin:0.5em 10px 1.0em 30px !important /*Non-IE6*/; margin:0.5em 10px 1.0em 35px /*IE6*/;}
 .main-subcontent ol li {list-style-position:outside; margin:0 0 0.4em 0; font-size:110%;}
@@ -49,7 +49,7 @@ table.layout td.right {
 .subcontent-unit-border {width:183px; margin:0 0 2.0em 0; padding:0 0 5px 0; border:solid 1px rgb(190,190,190); background:rgb(235,235,235);}
 .subcontent-unit-border-green {width:183px; margin:0 0 1.5em 0; padding:0 0 10px 0; border:solid 1px rgb(160,214,81); background-color:rgb(217,239,185);}
 .subcontent-unit-border-blue  {width:183px; margin:0 0 1.5em 0; padding:0 0 10px 0; border:solid 1px rgb(137,170,214); background-color:rgb(213,225,240);}
-.subcontent-unit-border-orange {width:183px; margin:0 0 1.5em 0px; padding:0 0 10px 0; border: 1px solid #ffe6cc; background-color:rgb(255, 255, 204);}
+.subcontent-unit-border-orange {width:183px; margin:0 0 1.5em 0; padding:0 0 10px 0; border: 1px solid #ffe6cc; background-color:rgb(255, 255, 204);}
 
 .subcontent-unit-noborder {width:185px; margin:0 0 2.5em 0; padding:0 0 10px 0; background:rgb(235,235,235);}
 .subcontent-unit-noborder-green {width:185px; margin:0 0 2.5em 0; padding:0 0 10px 0; background-color:rgb(217,239,185);}
@@ -58,5 +58,5 @@ table.layout td.right {
 
 .round-border-topleft {width:10px; height:10px; position:absolute; z-index:100; background:url(../images/bg_corner_topleft.gif) no-repeat; margin-top:-1px; margin-left:-1px;}
 .round-border-topright {width:10px; height:10px; position:absolute; z-index:100; background:url(../images/bg_corner_topright.gif) no-repeat; margin-top:-1px; margin-left:174px;}
-.round-noborder-topleft {width:10px; height:10px; position:absolute; z-index:100; background:url(../images/bg_corner_topleft.gif) no-repeat; margin-top:0px; margin-left:0px;}
-.round-noborder-topright {width:10px; height:10px; position:absolute; z-index:100; background:url(../images/bg_corner_topright.gif) no-repeat; margin-top:0px; margin-left:175px;}
+.round-noborder-topleft {width:10px; height:10px; position:absolute; z-index:100; background:url(../images/bg_corner_topleft.gif) no-repeat; margin-top:0; margin-left:0;}
+.round-noborder-topright {width:10px; height:10px; position:absolute; z-index:100; background:url(../images/bg_corner_topright.gif) no-repeat; margin-top:0; margin-left:175px;}

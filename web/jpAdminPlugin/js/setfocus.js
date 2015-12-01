@@ -19,6 +19,6 @@ formUtil.focusOnFirst = function(formId)
          }
       }
    });
-}
+};
 
 formUtil.focusOnFirst();

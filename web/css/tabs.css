@@ -13,10 +13,9 @@ ul#topnav.double {
 
 ul#topnav.single {
   background-color: #FFFFF0 !important;
-  border-style: solid;
-  border-width: 1px 1px 0 1px;
-  border-color: #DDDDDD;
-  margin: 0 -1px;
+	border: 1px solid #DDDDDD;
+	border-bottom-width: 0;
+	margin: 0 -1px;
   padding-top: 6px;
   display: block;
 }
@@ -39,7 +38,7 @@ ul#topnav.single {
 	position: relative;
 	font: bold 1.1em helvetica, arial, geneva, lucida, sans-serif;
   }
-#topnav a#a0 { left: 0px;}
+#topnav a#a0 { left: 0;}
 #topnav a#a1 { left: -30px;}
 #topnav a#a2 { left: -60px;}
 #topnav a#a3 { left: -90px;}
@@ -65,7 +64,7 @@ ul#subnav {
 	z-index:101;
 	margin: -1px 0 0 -12px;
 	left: 10px;
-	padding: 2px 0px 3px 2px;
+	padding: 2px 0 3px 2px;
 	background: #bbb;
 	border-top:1px solid #fff;
 	border-bottom:1px solid #999;
@@ -87,22 +86,19 @@ ul#subnav {
 	text-decoration:none;
 	margin:0;
 	padding: 2px 12px 2px 10px;
-	background: transparent;
-	background-image: none;
+	background: transparent none;
 	border: 0 none;
 }
 	
 #subnav a:hover {
 	color:#444;
-	background: transparent;
-	background-image: none;
+	background: transparent none;
 	border: 0 none;
 }
 
 #subnav a.here {
 	color:#444;
-	background: transparent;
-	background-image: none;
+	background: transparent none;
 	border: 0 none;
 	margin:0;
 	padding: 2px 12px 2px 10px;

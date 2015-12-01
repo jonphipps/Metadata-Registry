@@ -49,7 +49,7 @@ li > label.over {
 	color: #2f66a3;
 }
 li > label.checked:hover,
-li > label.checked.over, {
+li > label.checked.over {
  background: url(../images/checkboxtree/bg-checkbox-checked.gif) no-repeat 0 1px;
 }
 li > label.checkedchildren:hover,

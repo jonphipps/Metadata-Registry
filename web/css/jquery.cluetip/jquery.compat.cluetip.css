@@ -39,8 +39,7 @@ div.ui-cluetip {
   left: -11px;
   width: 11px;
   height: 22px;
-  background-repeat: no-repeat;
-  background-position: 0 0;
+  background: no-repeat 0 0;
   border-width: 0;
 }
 #cluetip-extra {
@@ -190,7 +189,7 @@ div.clue-bottom-jtip .cluetip-arrows {
 /* need to be more specific here to override ThemeRoller defaults */
 div.cluetip-rounded  .cluetip-arrows {
   font-size: 0;
-  line-height: 0%;
+  line-height: 0;
   width: 0;
   height: 0;
   border-style: solid;

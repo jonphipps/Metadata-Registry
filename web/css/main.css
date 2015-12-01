@@ -128,7 +128,7 @@ div#content_bar
 
 div#content_main h1
 {
-  margin: 0px;
+  margin: 0;
   font-size:14px;
   font-family:Verdana, Arial, sans-serif;
   padding:5px 5px 5px 10px;
@@ -278,7 +278,7 @@ div#content_bar div.topbar
 
 div#content_bar li
 {
-  padding: 0 0 0px 5px;
+  padding: 0 0 0 5px;
   list-style:none;
 }
 
@@ -296,8 +296,8 @@ div#footer
   left:0;
   width:96%;
   text-align: right;
-  margin:10px 10px 0px 10px;
-  padding:10px 10px 0px 10px;
+  margin:10px 10px 0 10px;
+  padding:10px 10px 0 10px;
 }
 
 div#search
@@ -305,7 +305,7 @@ div#search
   position:absolute;
 
   top:26px;
-  right:0px;
+  right:0;
   margin-top: 15px;
   padding:3px;
   text-align: right;
@@ -474,8 +474,7 @@ ul.plain_list
 h1
 {
   margin: 8px 0;
-  padding: 3px;
-  padding-left: 5px;
+  padding: 3px 3px 3px 5px;
   color: #555;
   font-size: 16px;
   border: 0;
@@ -512,9 +511,8 @@ padding: 3px !important;
 }
 
 tr.rowDetailNew td{
- border-style: solid;
- border-width: thin;
- border-color: #7e7e7e #d6d6d6 #d6d6d6 #d6d6d6;
+  border: thin solid #d6d6d6;
+  border-top-color: #7e7e7e;
 }
 
 tr.rowDetailData td {
@@ -524,7 +522,7 @@ tr.rowDetailData td {
 }
 
 tr.rowDetailOld td {
-border: thin solid #d6d6d6;
+border: thin solid;
 border-color: #d6d6d6 #d6d6d6 #7e7e7e #d6d6d6;
 
 }

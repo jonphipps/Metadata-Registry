@@ -82,6 +82,6 @@ var CollapsedFieldsets = {
       }
     }
   }
-}
+};
 
 Event.observe(window, 'load', CollapsedFieldsets.init, false);
