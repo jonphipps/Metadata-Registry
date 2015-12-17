@@ -96,11 +96,14 @@ class schemaActions extends autoschemaActions
         $this->excludeGenerated = $this->getRequestParameter('excludeGenerated', false);
     }
 
-  public function executeGetcsv()
+    /**
+     * @throws sfStopException
+     */
+    public function executeGetcsv()
   {
       if ($this->getRequestParameter('showRdf'))
       {
-          return $this->redirect('schema/showRdf?id=' . $this->getRequestParameter('id'));
+          $this->redirect('schema/showRdf?id=' . $this->getRequestParameter('id'));
       }
 
     $asTemplate = '';
