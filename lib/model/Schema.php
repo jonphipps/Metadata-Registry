@@ -374,6 +374,15 @@ class Schema extends BaseSchema {
         try
         {
             $n = unserialize( $v );
+            //make sure it's a valid (not empty) prefix
+            foreach ($n as $key => $value) {
+                if (!$key) {
+                    unset($n[$key]);
+                }
+            }
+            if (!count($n)) {
+                $n = null;
+            }
         }
         catch( Exception $e )
         {
