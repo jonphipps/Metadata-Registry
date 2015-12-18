@@ -7,7 +7,7 @@
     <skos:Concept rdf:about="<?php echo htmlspecialchars($concept->getUri()) . $ts?>" <?php echo $language; ?>>
       <skos:inScheme rdf:resource="<?php echo htmlspecialchars($vocabulary->getUri()) . $ts; ?>"/>
       <reg:status rdf:resource="<?php echo htmlspecialchars($status->getUri()); ?>"/>
-			<reg:identifier rdf:resource="<?php echo $concept->getId(); ?>"/>
+      <reg:identifier rdf:resource="http://metadataregistry.org/concepts/<?php echo $concept->getId(); ?>"/>
 <?php if ($concept->getIsTopConcept()): ?>
       <skos:topConceptOf rdf:resource="<?php echo htmlspecialchars($vocabulary->getUri()); ?>"/>
 <?php endif; ?>
