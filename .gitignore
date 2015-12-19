@@ -53,3 +53,4 @@ spec/coverage
 .env
 dump.rdb
 node_modules
+composer.lock

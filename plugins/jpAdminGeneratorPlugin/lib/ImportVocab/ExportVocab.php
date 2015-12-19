@@ -3,8 +3,8 @@
 namespace ImportVocab;
 
 use Ddeboer\DataImport\Writer\CsvWriter;
-use League\Flysystem\Filesystem;
 use League\Flysystem\Adapter\Local as Adapter;
+use League\Flysystem\Filesystem;
 
 class ExportVocab {
 
@@ -561,11 +561,25 @@ class ExportVocab {
             $this->prefixes = $this->schema->getPrefixes();
         }
 
-        return $this->prefixes;
+        return $this->getDefaultPrefix($this->prefixes);
     }
 
-    private function getDefaultPrefix(){
-        return [ $this->schema->getToken() => $this->schema->getUri()];
+    /**
+     * @param array $prefixes
+     * @return array
+     */
+    private function getDefaultPrefix($prefixes = null)
+    {
+        $default = [$this->schema->getToken() => $this->schema->getUri()];
+        //if the uri matches the default but there is no hash key
+        if ($prefixes) {
+            if (array_search($this->schema->getUri(), $prefixes) === 0) {
+                unset($prefixes[0]);
+                $default = array_merge($default, $prefixes);
+            }
+        }
+
+        return $default;
     }
 
     /**
