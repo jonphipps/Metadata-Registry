@@ -3,8 +3,6 @@ use ImportVocab\ExportVocab;
 use League\Flysystem\Filesystem;
 use League\Flysystem\Adapter\Local as Adapter;
 use League\Flysystem\Cache\Memory as Cache;
-use ML\JsonLD\JsonLD;
-use ML\JsonLD\NQuads;
 
 /**
  * schema actions.
@@ -179,6 +177,7 @@ class schemaActions extends autoschemaActions
 
       $repo = $schema->getRepo();
       $mime = "jsonld";
+      $vocabDir='';
       if (preg_match('%' . $schema->getBaseDomain() . '(.*)[/#]$%i', $schema->getUri(), $regs)) {
         $vocabDir = $regs[1];
       } else {
@@ -283,7 +282,7 @@ class schemaActions extends autoschemaActions
       //we should modify this to return an error flash message if there was a problem
       //note that error doesn't exist in either css or the default template
       //$this->setFlash('error', 'This Schema has NOT been published');
-      return $this->forward('schema', 'show');
+      $this->forward('schema', 'show');
 
 /*      if (!$schema) {
         $schema = SchemaPeer::retrieveByPk($this->getRequestParameter('id'));
@@ -310,7 +309,7 @@ class schemaActions extends autoschemaActions
           return $language;
       } else {
           $culture = 'en';
-          /** @var sfUser $user */
+          /** @var myUser $user */
           $user = $this->getUser();
           if ($user) {
               $culture = $user->getCulture();
