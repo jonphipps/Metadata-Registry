@@ -78,13 +78,24 @@ class Schema extends BaseSchema {
     }
     return $statusArray;
   }
+
+    /**
+     * @return string
+     */
     public function __toString()
     {
         return $this->getName();
     }
   //todo: make $lexicalarray a class
-  private $lexicalArray = array();
-  public function getLexicalArray() {
+    /**
+     * @var array
+     */
+    private $lexicalArray = array();
+
+    /**
+     * @return array
+     */
+    public function getLexicalArray() {
     return $this->lexicalArray;
   }
   /**
@@ -135,6 +146,12 @@ class Schema extends BaseSchema {
     parent::setLanguages($v);
   } // setLanguages()
 
+    /**
+     * @param null $con
+     * @return int
+     * @throws Exception
+     * @throws PropelException
+     */
     public function save( $con = null )
     {
         $userId = sfContext::getInstance()->getUser()->getSubscriberId();
@@ -270,11 +287,9 @@ class Schema extends BaseSchema {
      * gets just the properties, ordered by name
      *
      * @param bool $excludeDeprecated
-     *
      * @param bool $excludeGenerated
      *
      * @return array SchemaProperty
-     * @internal param bool $includeDeleted
      */
     public function getProperties($excludeDeprecated = false, $excludeGenerated = false)
     {
@@ -292,11 +307,9 @@ class Schema extends BaseSchema {
      * gets just the classes, ordered by name
      *
      * @param bool $excludeDeprecated
-     *
      * @param bool $excludeGenerated
      *
      * @return array SchemaProperty
-     * @internal param bool $includeDeleted
      */
     public function getClasses($excludeDeprecated = false, $excludeGenerated = false)
     {
@@ -310,6 +323,9 @@ class Schema extends BaseSchema {
         return $this->getSchemaPropertysJoinStatus( $c );
     }
 
+    /**
+     * @return array
+     */
     public function getPropertyElements( ){
         $c = new Criteria();
         $c->add(SchemaPropertyPeer::SCHEMA_ID, $this->getId());
@@ -317,6 +333,9 @@ class Schema extends BaseSchema {
         return SchemaPropertyElementPeer::doSelectJoinSchemaPropertyRelatedBySchemaPropertyId($c);
     }
 
+    /**
+     * @return array
+     */
     public function findLanguages()
     {
         $c = new Criteria();
@@ -336,6 +355,9 @@ class Schema extends BaseSchema {
         return $foo;
     }
 
+    /**
+     * @return array
+     */
     public function findUsedProfileProperties()
     {
         $c = new Criteria();
@@ -368,6 +390,9 @@ class Schema extends BaseSchema {
         return $bar;
     }
 
+    /**
+     * @return mixed|null|string
+     */
     public function getPrefixes()
     {
         $v = parent::getPrefixes();
@@ -392,11 +417,17 @@ class Schema extends BaseSchema {
         return $n;
     }
 
+    /**
+     * @param string $v
+     */
     public function setPrefixes( $v )
     {
         parent::setPrefixes( serialize( $v ) );
     }
 
+    /**
+     * @return array|mixed|string
+     */
     public function getLanguages()
     {
         $languages = parent::getLanguages();
@@ -417,7 +448,10 @@ class Schema extends BaseSchema {
         return $languages;
     }
 
-  public function getLanguagesNoDefault()
+    /**
+     * @return array|mixed|string
+     */
+    public function getLanguagesNoDefault()
   {
     $languages = $this->getLanguages();
       $language = $this->getLanguage();
