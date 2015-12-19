@@ -564,14 +564,20 @@ class ExportVocab {
         return $this->prefixes;
     }
 
+    private function getDefaultPrefix(){
+        return [ $this->schema->getToken() => $this->schema->getUri()];
+    }
+
     /**
      * @param array $prefixes
      */
     public function setPrefixes($prefixes)
     {
-        $this->prefixes = $prefixes;
-        $this->schema->setPrefixes($prefixes);
-        $this->schema->save();
+        if ($prefixes) {
+            $this->prefixes = $prefixes;
+            $this->schema->setPrefixes($prefixes);
+            $this->schema->save();
+        }
     }
 
     public function retrievePrefixes()
@@ -599,6 +605,9 @@ class ExportVocab {
             } else {
                 $prefixes[ ] = $uri;
             }
+        }
+        if (empty($prefixes)) {
+            $prefixes = $this->getDefaultPrefix();
         }
 
         return $prefixes;
