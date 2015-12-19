@@ -2,11 +2,7 @@
 
 namespace ImportVocab;
 
-use Ddeboer\DataImport\Workflow;
-use Ddeboer\DataImport\Reader\ArrayReader;
 use Ddeboer\DataImport\Writer\CsvWriter;
-use Ddeboer\DataImport\ValueConverter\CallbackValueConverter;
-use League\Flysystem\FileNotFoundException;
 use League\Flysystem\Filesystem;
 use League\Flysystem\Adapter\Local as Adapter;
 
@@ -241,7 +237,8 @@ class ExportVocab {
                     $line[array_search('uri', $header[0])] = $property[1];
                     $line[array_search('status', $header[0])] = $property[2];
                 }
-                foreach ( $elements as $element )
+                /** @var \SchemaPropertyElement $element */
+                foreach ($elements as $element )
                 {
                     if ($this->excludeGenerated and $element->getIsGenerated()) {
                         continue;
