@@ -216,6 +216,8 @@ class Schema extends BaseSchema {
         {
             return $user->getUser();
         }
+
+        return false;
     } // getCreatedUser
 
     /**
@@ -230,6 +232,7 @@ class Schema extends BaseSchema {
         {
             return $user->getUser();
         }
+        return false;
     } // getUpdatedUser
 
   /**
