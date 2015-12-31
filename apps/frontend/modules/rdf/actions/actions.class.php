@@ -112,6 +112,7 @@ class rdfActions extends sfActions
 
     // get the list of skos properties that reference resources
     $this->skosProps = SkosPropertyPeer::getResourceProperties();
+    $this->namespaces = $vocabulary->getNamespaces();
 
     //get top concepts for vocabulary
     $this->getTopConcepts($vocabulary, $ts);
@@ -201,6 +202,7 @@ class rdfActions extends sfActions
 
     // get the list of skos properties that reference resources
     $this->skosProps = SkosPropertyPeer::getResourceProperties();
+    $this->namespaces = $vocabulary->getNamespaces();
 
     //get top concepts for vocabulary
     $this->getTopConcepts($vocabulary);

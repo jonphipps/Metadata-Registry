@@ -1,5 +1,6 @@
-<?php echo include_partial('rdf/rdfHead'); $statusArray = array(); ?>
-
+<?php
+  echo include_partial('rdf/rdfHead', array('namespaces' => $namespaces));
+  $statusArray = array(); ?>
 <?php if ($timestamp): ?>
 <!--
 NOTICE: This is a TimeSlice of this Vocabulary as of:

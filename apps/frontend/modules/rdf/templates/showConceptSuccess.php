@@ -1,5 +1,4 @@
-<?php echo include_partial('rdf/rdfHead')?>
-
+<?php  echo include_partial('rdf/rdfHead', array('namespaces' => $namespaces)); ?>
 
 <!-- NOTICE: This is a single-concept fragment -->
 <?php if ($timestamp): ?>

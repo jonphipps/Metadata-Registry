@@ -173,4 +173,39 @@ class Vocabulary extends BaseVocabulary
     return $languages;
   }
 
+  public function getNamespaces()
+  {
+    $criteria = new Criteria();
+    $criteria->add(ConceptPeer::VOCABULARY_ID, $this->getId());
+    $criteria->addJoin(ConceptPropertyPeer::CONCEPT_ID, ConceptPeer::ID);
+    $criteria->addJoin(ProfilePropertyPeer::SKOS_ID, ConceptPropertyPeer::SKOS_PROPERTY_ID);
+    $criteria->clearSelectColumns();
+    $criteria->addSelectColumn(ProfilePropertyPeer::URI);
+    $criteria->setDistinct();
+    $rs = ConceptPeer::doSelectRS($criteria);
+    $coreNamespaces = [
+        'dc'     => 'http://purl.org/dc/elements/1.1/',
+        'dcterm' => 'http://purl.org/dc/terms/',
+        'owl'    => 'http://www.w3.org/2002/07/owl#',
+        'skos'   => 'http://www.w3.org/2004/02/skos/core#',
+        'rdf'    => 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
+        'rdfs'   => 'http://www.w3.org/2000/01/rdf-schema#',
+        'reg'    => 'http://metadataregistry.org/uri/profile/regap/',
+        'rdakit' => 'http://metadataregistry.org/uri/profile/rdakit/',
+    ];
+    $namespaces = [];
+    foreach ($rs as $r) {
+      $array = explode(":", $r[0]);
+      if (isset($coreNamespaces[$array[0]])) {
+        $namespaces[$array[0]] = $coreNamespaces[$array[0]];
+      }
+    }
+    //add the required namespaces
+    foreach (['dc', 'reg', 'rdf', 'skos'] as $ns) {
+      $namespaces[$ns] = $coreNamespaces[$ns];
+    }
+    ksort($namespaces);
+
+    return $namespaces;
+  }
 }
