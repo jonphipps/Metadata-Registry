@@ -12,7 +12,7 @@ names:
   "vocabulary{uri}":
     required:       Yes
     required_msg:   The URI cannot be left blank
-    validators:     uniqueUriValidator
+    validators:     uniqueUriValidator, trailiingValidator
   "vocabulary{base_domain}":
     required:       Yes
     required_msg:   The Base Domain cannot be left blank
@@ -46,6 +46,11 @@ uniqueTokenValidator:
     class:        Vocabulary
     column:       token
     unique_error: This Token has already been registered.
+trailiingValidator:
+  class:          sfRegexValidator
+  param:
+    match:        true
+    pattern:      "/[\/\#]$/us"
+    match_error:  URI must end in a slash (/) or a hash (#)
 fillin:
   activate: on
-  
