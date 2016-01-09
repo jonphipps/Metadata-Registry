@@ -27,9 +27,9 @@ class http_handler extends http_request {
 				$fp = @stream_socket_client($this->activeRequest['HTTPTransport'].$this->activeRequest['HTTPRequestServer'].':'.$this->activeRequest['HTTPPort'], $errno, $errstr, 30, STREAM_CLIENT_CONNECT, $this->randomContext());
 				if (!$fp) {
 					if($errno == 0) {
-						$this->HTTPErrorMsg = "http_handler could not connect to $this->activeRequest['HTTPRequestServer']:$this->activeRequest['HTTPPort']";
+						$this->HTTPErrorMsg = "http_handler could not connect to " . $this->activeRequest['HTTPRequestServer'] . ":" . $this->activeRequest['HTTPPort'];
 					} else {
-						$this->HTTPErrorMsg = "http_handler could not connect to ".$this->activeRequest['HTTPRequestServer'].":".$this->activeRequest['HTTPPort']." (PHP Error Number: $errno, Message: $errstr)";
+						$this->HTTPErrorMsg = "http_handler could not connect to " . $this->activeRequest['HTTPRequestServer'] . ":" . $this->activeRequest['HTTPPort'] . " (PHP Error Number: $errno, Message: $errstr)";
 					}
 					return false;
 				} else {
