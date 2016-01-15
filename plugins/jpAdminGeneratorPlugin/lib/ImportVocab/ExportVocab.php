@@ -282,7 +282,9 @@ class ExportVocab {
     {
         $template = $this->isTemplate() ? "_template" : "";
 
-        return $this->getSchema()->getToken() . $template . '.' . $type;
+        //handle special characters in token that result in invalid filename
+        $fileName = urlencode(utf8_encode(urldecode($this->getSchema()->getToken())));
+        return $fileName . $template . '.' . $type;
     }
 
     /**
