@@ -12,14 +12,14 @@ names:
   "vocabulary{uri}":
     required:       Yes
     required_msg:   The URI cannot be left blank
-    validators:     uniqueUriValidator
+    validators:     uniqueUriValidator, trailiingValidator
   "vocabulary{base_domain}":
     required:       Yes
     required_msg:   The Base Domain cannot be left blank
   "vocabulary{token}":
     required:       Yes
     required_msg:   The Token cannot be left blank
-    validators:     uniqueTokenValidator
+    validators:     uniqueTokenValidator, noSlashesInTokenValidator
 
 nameValidator:
   class:          sfStringValidator
@@ -46,11 +46,18 @@ uniqueTokenValidator:
     class:        Vocabulary
     column:       token
     unique_error: This Token has already been registered.
-  trailiingValidator:
-    class:          sfRegexValidator
-    param:
-      match:        true
-      pattern:      "/[\/\#]$/us"
-        match_error:  URI must end in a slash (/) or a hash (#)
+trailiingValidator:
+  class:          sfRegexValidator
+  param:
+    match:        true
+    pattern:      "/[\/\#]$/us"
+    match_error:  "URI must end in a slash (/) or a hash (#)"
+noSlashesInTokenValidator:
+  class:          sfRegexValidator
+  param:
+    match:        false
+    pattern:      "/.*\/.*/us"
+    match_error:  Token must not contain forward slashes. If adding a subdirectory to the URI, add it to the base domain.
+
 fillin:
   activate: on

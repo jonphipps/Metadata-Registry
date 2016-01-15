@@ -19,7 +19,7 @@ names:
   "vocabulary{token}":
     required:       Yes
     required_msg:   The Token cannot be left blank
-    validators:     uniqueTokenValidator
+    validators:     uniqueTokenValidator, noSlashesInTokenValidator
 
 nameValidator:
   class:          sfStringValidator
@@ -51,6 +51,13 @@ trailiingValidator:
   param:
     match:        true
     pattern:      "/[\/\#]$/us"
-    match_error:  URI must end in a slash (/) or a hash (#)
+    match_error:  "URI must end in a slash (/) or a hash (#)"
+noSlashesInTokenValidator:
+  class:          sfRegexValidator
+  param:
+    match:        false
+    pattern:      "/.*\/.*/us"
+    match_error:  Token must not contain forward slashes. If adding a subdirectory to the URI, add it to the base domain.
+
 fillin:
   activate: on
