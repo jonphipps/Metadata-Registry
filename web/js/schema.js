@@ -1,6 +1,6 @@
 function updateUri()
 {
-   var domainField = $('base_domain');
+   var domainField = $('schema_base_domain');
    var tokenField = $('schema_token');
    var uriField = $('schema_uri');
    var updateIt = true;
