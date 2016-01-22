@@ -165,4 +165,27 @@ class ProfilePropertyPeer extends BaseProfilePropertyPeer
     return $propertyList; //whatever remains in the list
   }
 
+  /**
+   * Retrieve a single object by pkey.
+   *
+   * @param $skosId int
+   * @param      Connection $con the connection to use
+   * @return ProfileProperty
+   * @throws PropelException
+   */
+  public static function retrieveBySkosID($skosId, $con = null)
+  {
+    if ($con === null) {
+      $con = Propel::getConnection(self::DATABASE_NAME);
+    }
+
+    $criteria = new Criteria(ProfilePropertyPeer::DATABASE_NAME);
+
+    $criteria->add(ProfilePropertyPeer::SKOS_ID, $skosId);
+
+    $v = ProfilePropertyPeer::doSelect($criteria, $con);
+
+    return !empty($v) > 0 ? $v[0] : null;
+  }
+
 }

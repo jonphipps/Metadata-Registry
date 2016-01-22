@@ -40,7 +40,11 @@ class conceptpropActions extends autoconceptpropActions
     $concept_property->setLanguage($conceptLanguage);
     $concept_property->setSchemeId($vocabId);
 
-    parent::setDefaults($concept_property);
+      if (!$concept_property->getCreatedUserId()) {
+          $concept_property->setCreatedUserId($this->getUser()->getSubscriberId());
+      }
+
+      parent::setDefaults($concept_property);
   }
 
   public function executeDelete()
@@ -118,7 +122,8 @@ class conceptpropActions extends autoconceptpropActions
                       $this->getRequest()->getParameterHolder()->set('concept_property', $concept_property);
                   }
                   //lookup the inverse id
-                  $InverseSkosId = ProfilePropertyPeer::retrieveByPK($concept_property['skos_property_id'])->getInverseProfilePropertyId();
+                  $InverseProfileId = ProfilePropertyPeer::retrieveBySkosID($concept_property['skos_property_id'])->getInverseProfilePropertyId();
+                  $InverseSkosId = ProfilePropertyPeer::retrieveByPK($InverseProfileId)->getSkosId();
                   //then we create a new reciprocal property in the related term
                   $newProp = new ConceptProperty();
                   $newProp->setConceptId($concept_property['related_concept_id']);
