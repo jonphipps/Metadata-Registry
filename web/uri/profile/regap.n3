@@ -1,0 +1,91 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix reg: <http://metadataregistry.org/uri/profile/RegAp/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix status: <http://metadataregistry.org/uri/RegStatus/> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://metadataregistry.org/uri/profile/regap/hasSubClass> a rdf:Property ;
+    rdfs:label "Has SubClass"@en ;
+    reg:lexicalAlias <http://metadataregistry.org/uri/profile/regap/hasSubClass.en> ;
+    reg:name "hasSubClass"@en ;
+    reg:status <http://metadataregistry.org/uri/RegStatus/1001> ;
+    rdfs:domain rdf:Class ;
+    rdfs:isDefinedBy <http://metadataregistry.org/uri/profile/regap> ;
+    rdfs:range rdf:Class ;
+    skos:definition "This Class has a subClass"@en .
+
+<http://metadataregistry.org/uri/profile/regap/hasSubproperty> a rdf:Property ;
+    rdfs:label "Has Subproperty"@en ;
+    reg:lexicalAlias <http://metadataregistry.org/uri/profile/regap/HasSubproperty.en> ;
+    reg:name "hasSubproperty"@en ;
+    reg:status <http://metadataregistry.org/uri/RegStatus/1001> ;
+    rdfs:domain rdf:Property ;
+    rdfs:isDefinedBy <http://metadataregistry.org/uri/profile/regap> ;
+    rdfs:range rdf:Property ;
+    skos:definition "This Property has a subProperty"@en .
+
+<http://metadataregistry.org/uri/profile/regap/hasUnconstrained> a rdf:Property ;
+    rdfs:label "Has Unconstrained"@en ;
+    reg:lexicalAlias <http://metadataregistry.org/uri/profile/regap/hasUnconstrained.en> ;
+    reg:name "hasUnconstrained"@en ;
+    reg:status <http://metadataregistry.org/uri/RegStatus/1001> ;
+    rdfs:domain rdf:Property ;
+    rdfs:isDefinedBy <http://metadataregistry.org/uri/profile/regap> ;
+    rdfs:range rdf:Property ;
+    rdfs:subPropertyOf rdfs:subPropertyOf ;
+    skos:definition "This property is a subproperty of another property"@en .
+
+<http://metadataregistry.org/uri/profile/regap/lexicalAlias> a rdf:Property ;
+    rdfs:label "Has Lexical Alias"@en ;
+    reg:lexicalAlias <http://metadataregistry.org/uri/profile/regap/lexicalAlias.en> ;
+    reg:name "lexicalAlias"@en ;
+    reg:status <http://metadataregistry.org/uri/RegStatus/1001> ;
+    rdfs:isDefinedBy <http://metadataregistry.org/uri/profile/regap> ;
+    rdfs:subPropertyOf owl:sameAs ;
+    skos:definition "A subproperty of owl:sameAs designed to provide 'readable', language specific, equivalent URIs that can be resolved to a canonical opaque URI"@en .
+
+<http://metadataregistry.org/uri/profile/regap/name> a rdf:Property ;
+    rdfs:label "Name"@en ;
+    reg:lexicalAlias <http://metadataregistry.org/uri/profile/regap/name.en> ;
+    reg:name "Name"@en ;
+    reg:status <http://metadataregistry.org/uri/RegStatus/1001> ;
+    rdfs:isDefinedBy <http://metadataregistry.org/uri/profile/regap> ;
+    skos:definition "This is a machine-compatible label for a property or class"@en .
+
+<http://metadataregistry.org/uri/profile/regap/registryUrl> a rdf:Property ;
+    rdfs:label "Registry URL"@en ;
+    reg:lexicalAlias <http://metadataregistry.org/uri/profile/regap/registryURL.en> ;
+    reg:name "registryURL"@en ;
+    reg:status <http://metadataregistry.org/uri/RegStatus/1001> ;
+    rdfs:comment "When we say 'permanent' we mean it. At some point the OMR URLs will become more restful and the Ids may change -- completely changing the URL. But the 'old' URLs will always be redirected with 301 redirects to the new locations."@en ;
+    rdfs:isDefinedBy <http://metadataregistry.org/uri/profile/regap> ;
+    skos:definition "This is the permanent URL of the OMR page representing this resource. For instance the 'reg:registryURL' of this element is http://metadataregistry.org/schemaprop/show/id/16520.html"@en .
+
+<http://metadataregistry.org/uri/profile/regap/status> a rdf:Property ;
+    rdfs:label "Status"@en ;
+    reg:lexicalAlias <http://metadataregistry.org/uri/profile/regap/Status.en> ;
+    reg:name "Status"@en ;
+    reg:status <http://metadataregistry.org/uri/RegStatus/1001> ;
+    rdfs:isDefinedBy <http://metadataregistry.org/uri/profile/regap> ;
+    rdfs:range status: ;
+    skos:definition "The status of the resource in the publishing workflow"@en .
+
+<http://metadataregistry.org/uri/profile/regap/uri> a rdf:Property ;
+    rdfs:label "Uri"@en ;
+    reg:lexicalAlias <http://metadataregistry.org/uri/profile/regap/uri.en> ;
+    reg:name "Uri"@en ;
+    reg:status <http://metadataregistry.org/uri/RegStatus/1001> ;
+    rdfs:isDefinedBy <http://metadataregistry.org/uri/profile/regap> ;
+    skos:definition "The OMR maintains a 'local' URI as well as a canonical, 'published' URI. This element contains the canonical URI, which can be changed at will. This will appear in generated RDF as the \"rdf:about\" attribute of an rdf:Description"@en .
+
+<http://metadataregistry.org/uri/RegStatus/1001> a skos:Concept ;
+    skos:prefLabel "Published"@en .
+
+<http://metadataregistry.org/uri/profile/regap> dc:title "Open Metadata Registry Application Profile properties"@en .
+

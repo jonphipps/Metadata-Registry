@@ -1,0 +1,80 @@
+<div>
+  <div itemtype="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property" itemid="http://metadataregistry.org/uri/profile/regap/lexicalAlias" itemscope>
+    <meta itemprop="http://www.w3.org/2004/02/skos/core#definition" content="A subproperty of owl:sameAs designed to provide 'readable', language specific, equivalent URIs that can be resolved to a canonical opaque URI" />
+    <link itemprop="http://metadataregistry.org/uri/profile/RegAp/lexicalAlias" href="http://metadataregistry.org/uri/profile/regap/lexicalAlias.en" />
+    <div itemprop="http://metadataregistry.org/uri/profile/RegAp/status" itemtype="http://www.w3.org/2004/02/skos/core#Concept" itemid="http://metadataregistry.org/uri/RegStatus/1001" itemscope>
+      <meta itemprop="prefLabel" content="Published" />
+    </div>
+    <div itemprop="http://www.w3.org/2000/01/rdf-schema#isDefinedBy" itemid="http://metadataregistry.org/uri/profile/regap" itemscope>
+      <meta itemprop="http://purl.org/dc/elements/1.1/title" content="Open Metadata Registry Application Profile properties" />
+    </div>
+    <link itemprop="http://www.w3.org/2000/01/rdf-schema#subPropertyOf" href="http://www.w3.org/2002/07/owl#sameAs" />
+    <meta itemprop="http://www.w3.org/2000/01/rdf-schema#label" content="Has Lexical Alias" />
+    <meta itemprop="http://metadataregistry.org/uri/profile/RegAp/name" content="lexicalAlias" />
+  </div>
+  <div itemtype="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property" itemid="http://metadataregistry.org/uri/profile/regap/uri" itemscope>
+    <link itemprop="http://metadataregistry.org/uri/profile/RegAp/lexicalAlias" href="http://metadataregistry.org/uri/profile/regap/uri.en" />
+    <meta itemprop="http://www.w3.org/2004/02/skos/core#definition" content="The OMR maintains a 'local' URI as well as a canonical, 'published' URI. This element contains the canonical URI, which can be changed at will. This will appear in generated RDF as the "rdf:about" attribute of an rdf:Description" />
+    <meta itemprop="http://metadataregistry.org/uri/profile/RegAp/name" content="Uri" />
+    <link itemprop="http://metadataregistry.org/uri/profile/RegAp/status" href="http://metadataregistry.org/uri/RegStatus/1001" />
+    <link itemprop="http://www.w3.org/2000/01/rdf-schema#isDefinedBy" href="http://metadataregistry.org/uri/profile/regap" />
+    <meta itemprop="http://www.w3.org/2000/01/rdf-schema#label" content="Uri" />
+  </div>
+  <div itemtype="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property" itemid="http://metadataregistry.org/uri/profile/regap/hasUnconstrained" itemscope>
+    <link itemprop="http://metadataregistry.org/uri/profile/RegAp/status" href="http://metadataregistry.org/uri/RegStatus/1001" />
+    <meta itemprop="http://metadataregistry.org/uri/profile/RegAp/name" content="hasUnconstrained" />
+    <link itemprop="http://metadataregistry.org/uri/profile/RegAp/lexicalAlias" href="http://metadataregistry.org/uri/profile/regap/hasUnconstrained.en" />
+    <link itemprop="http://www.w3.org/2000/01/rdf-schema#subPropertyOf" href="http://www.w3.org/2000/01/rdf-schema#subPropertyOf" />
+    <link itemprop="http://www.w3.org/2000/01/rdf-schema#isDefinedBy" href="http://metadataregistry.org/uri/profile/regap" />
+    <meta itemprop="http://www.w3.org/2004/02/skos/core#definition" content="This property is a subproperty of another property" />
+    <link itemprop="http://www.w3.org/2000/01/rdf-schema#domain" href="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property" />
+    <meta itemprop="http://www.w3.org/2000/01/rdf-schema#label" content="Has Unconstrained" />
+    <link itemprop="http://www.w3.org/2000/01/rdf-schema#range" href="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property" />
+  </div>
+  <div itemtype="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property" itemid="http://metadataregistry.org/uri/profile/regap/hasSubproperty" itemscope>
+    <meta itemprop="http://www.w3.org/2000/01/rdf-schema#label" content="Has Subproperty" />
+    <link itemprop="http://www.w3.org/2000/01/rdf-schema#isDefinedBy" href="http://metadataregistry.org/uri/profile/regap" />
+    <link itemprop="http://metadataregistry.org/uri/profile/RegAp/lexicalAlias" href="http://metadataregistry.org/uri/profile/regap/HasSubproperty.en" />
+    <link itemprop="http://www.w3.org/2000/01/rdf-schema#range" href="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property" />
+    <meta itemprop="http://metadataregistry.org/uri/profile/RegAp/name" content="hasSubproperty" />
+    <meta itemprop="http://www.w3.org/2004/02/skos/core#definition" content="This Property has a subProperty" />
+    <link itemprop="http://metadataregistry.org/uri/profile/RegAp/status" href="http://metadataregistry.org/uri/RegStatus/1001" />
+    <link itemprop="http://www.w3.org/2000/01/rdf-schema#domain" href="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property" />
+  </div>
+  <div itemtype="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property" itemid="http://metadataregistry.org/uri/profile/regap/name" itemscope>
+    <link itemprop="http://metadataregistry.org/uri/profile/RegAp/lexicalAlias" href="http://metadataregistry.org/uri/profile/regap/name.en" />
+    <link itemprop="http://metadataregistry.org/uri/profile/RegAp/status" href="http://metadataregistry.org/uri/RegStatus/1001" />
+    <link itemprop="http://www.w3.org/2000/01/rdf-schema#isDefinedBy" href="http://metadataregistry.org/uri/profile/regap" />
+    <meta itemprop="http://www.w3.org/2000/01/rdf-schema#label" content="Name" />
+    <meta itemprop="http://www.w3.org/2004/02/skos/core#definition" content="This is a machine-compatible label for a property or class" />
+    <meta itemprop="http://metadataregistry.org/uri/profile/RegAp/name" content="Name" />
+  </div>
+  <div itemtype="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property" itemid="http://metadataregistry.org/uri/profile/regap/status" itemscope>
+    <link itemprop="http://www.w3.org/2000/01/rdf-schema#isDefinedBy" href="http://metadataregistry.org/uri/profile/regap" />
+    <link itemprop="http://www.w3.org/2000/01/rdf-schema#range" href="http://metadataregistry.org/uri/RegStatus/" />
+    <link itemprop="http://metadataregistry.org/uri/profile/RegAp/lexicalAlias" href="http://metadataregistry.org/uri/profile/regap/Status.en" />
+    <meta itemprop="http://www.w3.org/2000/01/rdf-schema#label" content="Status" />
+    <link itemprop="http://metadataregistry.org/uri/profile/RegAp/status" href="http://metadataregistry.org/uri/RegStatus/1001" />
+    <meta itemprop="http://metadataregistry.org/uri/profile/RegAp/name" content="Status" />
+    <meta itemprop="http://www.w3.org/2004/02/skos/core#definition" content="The status of the resource in the publishing workflow" />
+  </div>
+  <div itemtype="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property" itemid="http://metadataregistry.org/uri/profile/regap/registryUrl" itemscope>
+    <link itemprop="http://www.w3.org/2000/01/rdf-schema#isDefinedBy" href="http://metadataregistry.org/uri/profile/regap" />
+    <meta itemprop="http://www.w3.org/2000/01/rdf-schema#comment" content="When we say 'permanent' we mean it. At some point the OMR URLs will become more restful and the Ids may change -- completely changing the URL. But the 'old' URLs will always be redirected with 301 redirects to the new locations." />
+    <meta itemprop="http://www.w3.org/2000/01/rdf-schema#label" content="Registry URL" />
+    <meta itemprop="http://www.w3.org/2004/02/skos/core#definition" content="This is the permanent URL of the OMR page representing this resource. For instance the 'reg:registryURL' of this element is http://metadataregistry.org/schemaprop/show/id/16520.html" />
+    <link itemprop="http://metadataregistry.org/uri/profile/RegAp/lexicalAlias" href="http://metadataregistry.org/uri/profile/regap/registryURL.en" />
+    <meta itemprop="http://metadataregistry.org/uri/profile/RegAp/name" content="registryURL" />
+    <link itemprop="http://metadataregistry.org/uri/profile/RegAp/status" href="http://metadataregistry.org/uri/RegStatus/1001" />
+  </div>
+  <div itemtype="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property" itemid="http://metadataregistry.org/uri/profile/regap/hasSubClass" itemscope>
+    <link itemprop="http://www.w3.org/2000/01/rdf-schema#isDefinedBy" href="http://metadataregistry.org/uri/profile/regap" />
+    <link itemprop="http://www.w3.org/2000/01/rdf-schema#range" href="http://www.w3.org/1999/02/22-rdf-syntax-ns#Class" />
+    <link itemprop="http://metadataregistry.org/uri/profile/RegAp/lexicalAlias" href="http://metadataregistry.org/uri/profile/regap/hasSubClass.en" />
+    <meta itemprop="http://www.w3.org/2000/01/rdf-schema#label" content="Has SubClass" />
+    <meta itemprop="http://www.w3.org/2004/02/skos/core#definition" content="This Class has a subClass" />
+    <meta itemprop="http://metadataregistry.org/uri/profile/RegAp/name" content="hasSubClass" />
+    <link itemprop="http://www.w3.org/2000/01/rdf-schema#domain" href="http://www.w3.org/1999/02/22-rdf-syntax-ns#Class" />
+    <link itemprop="http://metadataregistry.org/uri/profile/RegAp/status" href="http://metadataregistry.org/uri/RegStatus/1001" />
+  </div>
+</div>

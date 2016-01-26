@@ -1,0 +1,69 @@
+<http://metadataregistry.org/uri/profile/regap> <http://purl.org/dc/elements/1.1/title> "Open Metadata Registry Application Profile properties"@en .
+<http://metadataregistry.org/uri/profile/regap/hasSubClass> <http://www.w3.org/2000/01/rdf-schema#isDefinedBy> <http://metadataregistry.org/uri/profile/regap> .
+<http://metadataregistry.org/uri/profile/regap/hasSubClass> <http://metadataregistry.org/uri/profile/RegAp/status> <http://metadataregistry.org/uri/RegStatus/1001> .
+<http://metadataregistry.org/uri/profile/regap/hasSubClass> <http://www.w3.org/2000/01/rdf-schema#label> "Has SubClass"@en .
+<http://metadataregistry.org/uri/profile/regap/hasSubClass> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> .
+<http://metadataregistry.org/uri/profile/regap/hasSubClass> <http://metadataregistry.org/uri/profile/RegAp/name> "hasSubClass"@en .
+<http://metadataregistry.org/uri/profile/regap/hasSubClass> <http://metadataregistry.org/uri/profile/RegAp/lexicalAlias> <http://metadataregistry.org/uri/profile/regap/hasSubClass.en> .
+<http://metadataregistry.org/uri/profile/regap/hasSubClass> <http://www.w3.org/2004/02/skos/core#definition> "This Class has a subClass"@en .
+<http://metadataregistry.org/uri/profile/regap/hasSubClass> <http://www.w3.org/2000/01/rdf-schema#domain> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Class> .
+<http://metadataregistry.org/uri/profile/regap/hasSubClass> <http://www.w3.org/2000/01/rdf-schema#range> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Class> .
+<http://metadataregistry.org/uri/profile/regap/hasSubproperty> <http://www.w3.org/2000/01/rdf-schema#isDefinedBy> <http://metadataregistry.org/uri/profile/regap> .
+<http://metadataregistry.org/uri/profile/regap/hasSubproperty> <http://metadataregistry.org/uri/profile/RegAp/status> <http://metadataregistry.org/uri/RegStatus/1001> .
+<http://metadataregistry.org/uri/profile/regap/hasSubproperty> <http://www.w3.org/2000/01/rdf-schema#label> "Has Subproperty"@en .
+<http://metadataregistry.org/uri/profile/regap/hasSubproperty> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> .
+<http://metadataregistry.org/uri/profile/regap/hasSubproperty> <http://metadataregistry.org/uri/profile/RegAp/name> "hasSubproperty"@en .
+<http://metadataregistry.org/uri/profile/regap/hasSubproperty> <http://metadataregistry.org/uri/profile/RegAp/lexicalAlias> <http://metadataregistry.org/uri/profile/regap/HasSubproperty.en> .
+<http://metadataregistry.org/uri/profile/regap/hasSubproperty> <http://www.w3.org/2004/02/skos/core#definition> "This Property has a subProperty"@en .
+<http://metadataregistry.org/uri/profile/regap/hasSubproperty> <http://www.w3.org/2000/01/rdf-schema#domain> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> .
+<http://metadataregistry.org/uri/profile/regap/hasSubproperty> <http://www.w3.org/2000/01/rdf-schema#range> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> .
+<http://metadataregistry.org/uri/profile/regap/hasUnconstrained> <http://www.w3.org/2000/01/rdf-schema#isDefinedBy> <http://metadataregistry.org/uri/profile/regap> .
+<http://metadataregistry.org/uri/profile/regap/hasUnconstrained> <http://metadataregistry.org/uri/profile/RegAp/status> <http://metadataregistry.org/uri/RegStatus/1001> .
+<http://metadataregistry.org/uri/profile/regap/hasUnconstrained> <http://www.w3.org/2000/01/rdf-schema#label> "Has Unconstrained"@en .
+<http://metadataregistry.org/uri/profile/regap/hasUnconstrained> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> .
+<http://metadataregistry.org/uri/profile/regap/hasUnconstrained> <http://metadataregistry.org/uri/profile/RegAp/name> "hasUnconstrained"@en .
+<http://metadataregistry.org/uri/profile/regap/hasUnconstrained> <http://metadataregistry.org/uri/profile/RegAp/lexicalAlias> <http://metadataregistry.org/uri/profile/regap/hasUnconstrained.en> .
+<http://metadataregistry.org/uri/profile/regap/hasUnconstrained> <http://www.w3.org/2004/02/skos/core#definition> "This property is a subproperty of another property"@en .
+<http://metadataregistry.org/uri/profile/regap/hasUnconstrained> <http://www.w3.org/2000/01/rdf-schema#subPropertyOf> <http://www.w3.org/2000/01/rdf-schema#subPropertyOf> .
+<http://metadataregistry.org/uri/profile/regap/hasUnconstrained> <http://www.w3.org/2000/01/rdf-schema#domain> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> .
+<http://metadataregistry.org/uri/profile/regap/hasUnconstrained> <http://www.w3.org/2000/01/rdf-schema#range> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> .
+<http://metadataregistry.org/uri/profile/regap/lexicalAlias> <http://www.w3.org/2000/01/rdf-schema#isDefinedBy> <http://metadataregistry.org/uri/profile/regap> .
+<http://metadataregistry.org/uri/profile/regap/lexicalAlias> <http://metadataregistry.org/uri/profile/RegAp/status> <http://metadataregistry.org/uri/RegStatus/1001> .
+<http://metadataregistry.org/uri/profile/regap/lexicalAlias> <http://www.w3.org/2000/01/rdf-schema#label> "Has Lexical Alias"@en .
+<http://metadataregistry.org/uri/profile/regap/lexicalAlias> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> .
+<http://metadataregistry.org/uri/profile/regap/lexicalAlias> <http://metadataregistry.org/uri/profile/RegAp/name> "lexicalAlias"@en .
+<http://metadataregistry.org/uri/profile/regap/lexicalAlias> <http://metadataregistry.org/uri/profile/RegAp/lexicalAlias> <http://metadataregistry.org/uri/profile/regap/lexicalAlias.en> .
+<http://metadataregistry.org/uri/profile/regap/lexicalAlias> <http://www.w3.org/2004/02/skos/core#definition> "A subproperty of owl:sameAs designed to provide 'readable', language specific, equivalent URIs that can be resolved to a canonical opaque URI"@en .
+<http://metadataregistry.org/uri/profile/regap/lexicalAlias> <http://www.w3.org/2000/01/rdf-schema#subPropertyOf> <http://www.w3.org/2002/07/owl#sameAs> .
+<http://metadataregistry.org/uri/profile/regap/name> <http://www.w3.org/2000/01/rdf-schema#isDefinedBy> <http://metadataregistry.org/uri/profile/regap> .
+<http://metadataregistry.org/uri/profile/regap/name> <http://metadataregistry.org/uri/profile/RegAp/status> <http://metadataregistry.org/uri/RegStatus/1001> .
+<http://metadataregistry.org/uri/profile/regap/name> <http://www.w3.org/2000/01/rdf-schema#label> "Name"@en .
+<http://metadataregistry.org/uri/profile/regap/name> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> .
+<http://metadataregistry.org/uri/profile/regap/name> <http://metadataregistry.org/uri/profile/RegAp/name> "Name"@en .
+<http://metadataregistry.org/uri/profile/regap/name> <http://metadataregistry.org/uri/profile/RegAp/lexicalAlias> <http://metadataregistry.org/uri/profile/regap/name.en> .
+<http://metadataregistry.org/uri/profile/regap/name> <http://www.w3.org/2004/02/skos/core#definition> "This is a machine-compatible label for a property or class"@en .
+<http://metadataregistry.org/uri/profile/regap/registryUrl> <http://www.w3.org/2000/01/rdf-schema#isDefinedBy> <http://metadataregistry.org/uri/profile/regap> .
+<http://metadataregistry.org/uri/profile/regap/registryUrl> <http://metadataregistry.org/uri/profile/RegAp/status> <http://metadataregistry.org/uri/RegStatus/1001> .
+<http://metadataregistry.org/uri/profile/regap/registryUrl> <http://www.w3.org/2000/01/rdf-schema#label> "Registry URL"@en .
+<http://metadataregistry.org/uri/profile/regap/registryUrl> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> .
+<http://metadataregistry.org/uri/profile/regap/registryUrl> <http://metadataregistry.org/uri/profile/RegAp/name> "registryURL"@en .
+<http://metadataregistry.org/uri/profile/regap/registryUrl> <http://metadataregistry.org/uri/profile/RegAp/lexicalAlias> <http://metadataregistry.org/uri/profile/regap/registryURL.en> .
+<http://metadataregistry.org/uri/profile/regap/registryUrl> <http://www.w3.org/2004/02/skos/core#definition> "This is the permanent URL of the OMR page representing this resource. For instance the 'reg:registryURL' of this element is http://metadataregistry.org/schemaprop/show/id/16520.html"@en .
+<http://metadataregistry.org/uri/profile/regap/registryUrl> <http://www.w3.org/2000/01/rdf-schema#comment> "When we say 'permanent' we mean it. At some point the OMR URLs will become more restful and the Ids may change -- completely changing the URL. But the 'old' URLs will always be redirected with 301 redirects to the new locations."@en .
+<http://metadataregistry.org/uri/profile/regap/status> <http://www.w3.org/2000/01/rdf-schema#isDefinedBy> <http://metadataregistry.org/uri/profile/regap> .
+<http://metadataregistry.org/uri/profile/regap/status> <http://metadataregistry.org/uri/profile/RegAp/status> <http://metadataregistry.org/uri/RegStatus/1001> .
+<http://metadataregistry.org/uri/profile/regap/status> <http://www.w3.org/2000/01/rdf-schema#label> "Status"@en .
+<http://metadataregistry.org/uri/profile/regap/status> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> .
+<http://metadataregistry.org/uri/profile/regap/status> <http://metadataregistry.org/uri/profile/RegAp/name> "Status"@en .
+<http://metadataregistry.org/uri/profile/regap/status> <http://metadataregistry.org/uri/profile/RegAp/lexicalAlias> <http://metadataregistry.org/uri/profile/regap/Status.en> .
+<http://metadataregistry.org/uri/profile/regap/status> <http://www.w3.org/2004/02/skos/core#definition> "The status of the resource in the publishing workflow"@en .
+<http://metadataregistry.org/uri/profile/regap/status> <http://www.w3.org/2000/01/rdf-schema#range> <http://metadataregistry.org/uri/RegStatus/> .
+<http://metadataregistry.org/uri/profile/regap/uri> <http://www.w3.org/2000/01/rdf-schema#isDefinedBy> <http://metadataregistry.org/uri/profile/regap> .
+<http://metadataregistry.org/uri/profile/regap/uri> <http://metadataregistry.org/uri/profile/RegAp/status> <http://metadataregistry.org/uri/RegStatus/1001> .
+<http://metadataregistry.org/uri/profile/regap/uri> <http://www.w3.org/2000/01/rdf-schema#label> "Uri"@en .
+<http://metadataregistry.org/uri/profile/regap/uri> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> .
+<http://metadataregistry.org/uri/profile/regap/uri> <http://metadataregistry.org/uri/profile/RegAp/name> "Uri"@en .
+<http://metadataregistry.org/uri/profile/regap/uri> <http://metadataregistry.org/uri/profile/RegAp/lexicalAlias> <http://metadataregistry.org/uri/profile/regap/uri.en> .
+<http://metadataregistry.org/uri/profile/regap/uri> <http://www.w3.org/2004/02/skos/core#definition> "The OMR maintains a 'local' URI as well as a canonical, 'published' URI. This element contains the canonical URI, which can be changed at will. This will appear in generated RDF as the \"rdf:about\" attribute of an rdf:Description"@en .
+<http://metadataregistry.org/uri/RegStatus/1001> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2004/02/skos/core#Concept> .
+<http://metadataregistry.org/uri/RegStatus/1001> <http://www.w3.org/2004/02/skos/core#prefLabel> "Published"@en .
