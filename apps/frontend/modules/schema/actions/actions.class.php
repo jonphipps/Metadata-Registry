@@ -206,8 +206,10 @@ class schemaActions extends autoschemaActions
           $useLanguage = $schema->getLanguage();
       }
 
+      //make sure the path is created
+      $filesystem->put( $mime . DIRECTORY_SEPARATOR . $file, '');
       //open a file for writing the complete vocabulary file
-      $vocabFile = fopen($filePath, 'w+');
+      $vocabFile = fopen($filePath, 'w');
       //$context = $schema->getJsonLdContext("en");
 
       if ( ! $uselanguageAsArray) {
