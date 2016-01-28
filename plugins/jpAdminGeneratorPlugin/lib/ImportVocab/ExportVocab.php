@@ -553,9 +553,12 @@ class ExportVocab {
         return $n;
     }
 
-    public function getPrefixes()
+    public function getPrefixes($reset = false)
     {
-        $prefixes = $this->schema->getPrefixes();
+        $prefixes = [];
+        if ( ! $reset) {
+            $prefixes = $this->schema->getPrefixes();
+        }
         if (empty($prefixes)) {
             $prefixes = $this->retrievePrefixes();
             $this->setPrefixes($prefixes);
