@@ -797,4 +797,39 @@ EOT;
 
         return $maintainerArray;
     }
+
+    public function getRdfNamespaces()
+    {
+        $con = Propel::getConnection(SchemaPeer::DATABASE_NAME);
+        $id = $this->getId();
+        $rs = $con->executeQuery(
+        /** @lang MySQL */
+            <<<SQL
+SELECT DISTINCT reg_prefix.prefix, reg_prefix.uri
+FROM reg_schema_property,
+	reg_schema_property_element,
+	profile_property,
+	reg_prefix
+WHERE reg_schema_property_element.schema_property_id = reg_schema_property.id
+				AND reg_schema_property.schema_id = $id
+				AND reg_schema_property_element.deleted_at IS NULL
+				AND profile_property_id = profile_property.id
+				AND reg_prefix.uri = profile_property.namespace
+ORDER BY reg_prefix.prefix
+SQL
+        );
+        //we have some defaults
+        $results['dc'] = PrefixPeer::findByPrefix('dc')->getUri();
+        $results['foaf'] = PrefixPeer::findByPrefix('foaf')->getUri();
+        $results['rdf'] = PrefixPeer::findByPrefix('rdf')->getUri();
+        $results['skos'] = PrefixPeer::findByPrefix('skos')->getUri();
+
+        while ($rs->next()) {
+            $results[$rs->getString('prefix')] = $rs->getString('uri');
+        }
+
+        ksort($results);
+
+        return $results;
+    }
 }

@@ -1,16 +1,15 @@
 <?php echo '<?xml version="1.0" encoding="UTF-8"?>'; ?>
-<?php $ts = ($timestamp) ? '/ts/' . date('YmdHis',$timestamp) : '';?>
-<rdf:RDF xmlns="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-  xml:base="<?php echo htmlspecialchars($schema->getUri() . $ts); ?>"
-  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-  xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
-  xmlns:skos="http://www.w3.org/2004/02/skos/core#"
-  xmlns:dc="http://purl.org/dc/elements/1.1/"
-  xmlns:dct="http://purl.org/dc/terms/"
-  xmlns:owl="http://www.w3.org/2002/07/owl#"
-  xmlns:foaf="http://xmlns.com/foaf/0.1/"
-  xmlns:reg="http://metadataregistry.org/uri/profile/RegAp/"
-  xmlns:status="http://metadataregistry.org/uri/RegStatus/">
+<?php $ts = ($timestamp) ? '/ts/' . date('YmdHis', $timestamp) : '';
+$ns = $schema->getRdfNamespaces();
+?>
+<rdf:RDF
+    <?php
+    echo 'xml:base="' .  htmlspecialchars($schema->getUri() . $ts) . '"';
+    foreach ($ns as $key => $uri) {
+        echo "\n    xmlns:" . $key . '="' . $uri . '"';
+    }
+    ?>
+>
 
 <?php if ($timestamp): ?>
 <!--

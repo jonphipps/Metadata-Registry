@@ -7,21 +7,8 @@ $c->add(SchemaPropertyElementPeer::DELETED_AT, null, Criteria::ISNULL);
 //deprecated
 $c->add(BaseSchemaPropertyElementPeer::STATUS_ID, 8, Criteria::NOT_EQUAL);
 $elements = $property->getSchemaPropertyElementsRelatedBySchemaPropertyIdJoinProfileProperty($c);
-$ns['dc'] = 'http://purl.org/dc/elements/1.1/';
-$ns['foaf'] = 'http://xmlns.com/foaf/0.1/';
-$ns['rdf'] = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#';
-$ns['skos'] = 'http://www.w3.org/2004/02/skos/core#';
+$ns = $schema->getRdfNamespaces();
 
-/** @var SchemaPropertyElement $element */
-foreach ($elements as $element) {
-    $uri = $element->getProfileProperty()->getUri();
-    preg_match("/^(.*):/us", $uri, $matches);
-    if ( ! isset($ns[$matches[1]])) {
-        $prefix = PrefixPeer::findByPrefix($matches[1]);
-        $ns[$matches[1]] = $prefix->getUri();
-    }
-}
-ksort($ns);
 ?>
 <rdf:RDF
 <?php
@@ -52,7 +39,7 @@ The most current complete Element Set may be retrieved from:
   <foaf:homepage rdf:resource="<?php echo htmlspecialchars($schema->getUrl()); ?>"/>
 <?php endif; ?>
 </rdf:Description>
-    
+
 <?php $statusArray = array();
         /** @var SchemaProperty $property */
       $statusId = $property->getStatusId();
