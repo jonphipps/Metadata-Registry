@@ -135,6 +135,8 @@ class ProfilePropertyMapBuilder {
 
 		$tMap->addColumn('IS_IN_FORM', 'IsInForm', 'boolean', CreoleTypes::BOOLEAN, true, null);
 
+		$tMap->addColumn('NAMESPACE', 'Namespace', 'string', CreoleTypes::CHAR, true, 255);
+
 	} // doBuild()
 
 } // ProfilePropertyMapBuilder

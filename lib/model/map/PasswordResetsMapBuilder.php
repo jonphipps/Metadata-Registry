@@ -2,7 +2,7 @@
 
 
 /**
- * This class adds structure of 'migrations' table to 'propel' DatabaseMap object.
+ * This class adds structure of 'password_resets' table to 'propel' DatabaseMap object.
  *
  *
  *
@@ -13,12 +13,12 @@
  *
  * @package    lib.model.map
  */
-class MigrationsMapBuilder {
+class PasswordResetsMapBuilder {
 
 	/**
 	 * The (dot-path) name of this class
 	 */
-	const CLASS_NAME = 'lib.model.map.MigrationsMapBuilder';
+	const CLASS_NAME = 'lib.model.map.PasswordResetsMapBuilder';
 
 	/**
 	 * The database map.
@@ -56,15 +56,19 @@ class MigrationsMapBuilder {
 	{
 		$this->dbMap = Propel::getDatabaseMap('propel');
 
-		$tMap = $this->dbMap->addTable('migrations');
-		$tMap->setPhpName('Migrations');
+		$tMap = $this->dbMap->addTable('password_resets');
+		$tMap->setPhpName('PasswordResets');
 
-		$tMap->setUseIdGenerator(false);
+		$tMap->setUseIdGenerator(true);
 
-		$tMap->addPrimaryKey('MIGRATION', 'Migration', 'string', CreoleTypes::VARCHAR, true, 255);
+		$tMap->addColumn('EMAIL', 'Email', 'string', CreoleTypes::VARCHAR, true, 255);
 
-		$tMap->addPrimaryKey('BATCH', 'Batch', 'int', CreoleTypes::INTEGER, true, null);
+		$tMap->addColumn('TOKEN', 'Token', 'string', CreoleTypes::VARCHAR, true, 255);
+
+		$tMap->addColumn('CREATED_AT', 'CreatedAt', 'int', CreoleTypes::TIMESTAMP, true, null);
+
+		$tMap->addPrimaryKey('ID', 'Id', 'int', CreoleTypes::INTEGER, true, null);
 
 	} // doBuild()
 
-} // MigrationsMapBuilder
+} // PasswordResetsMapBuilder

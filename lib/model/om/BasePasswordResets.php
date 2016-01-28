@@ -1,36 +1,50 @@
 <?php
 
 /**
- * Base class that represents a row from the 'migrations' table.
+ * Base class that represents a row from the 'password_resets' table.
  *
  * 
  *
  * @package    lib.model.om
  */
-abstract class BaseMigrations extends BaseObject  implements Persistent {
+abstract class BasePasswordResets extends BaseObject  implements Persistent {
 
 
 	/**
 	 * The Peer class.
 	 * Instance provides a convenient way of calling static methods on a class
 	 * that calling code may not be able to identify.
-	 * @var        MigrationsPeer
+	 * @var        PasswordResetsPeer
 	 */
 	protected static $peer;
 
 
 	/**
-	 * The value for the migration field.
+	 * The value for the email field.
 	 * @var        string
 	 */
-	protected $migration;
+	protected $email;
 
 
 	/**
-	 * The value for the batch field.
+	 * The value for the token field.
+	 * @var        string
+	 */
+	protected $token;
+
+
+	/**
+	 * The value for the created_at field.
 	 * @var        int
 	 */
-	protected $batch;
+	protected $created_at = -62169984000;
+
+
+	/**
+	 * The value for the id field.
+	 * @var        int
+	 */
+	protected $id;
 
 	/**
 	 * Flag to prevent endless save loop, if this object is referenced
@@ -47,34 +61,76 @@ abstract class BaseMigrations extends BaseObject  implements Persistent {
 	protected $alreadyInValidation = false;
 
 	/**
-	 * Get the [migration] column value.
+	 * Get the [email] column value.
 	 * 
 	 * @return     string
 	 */
-	public function getMigration()
+	public function getEmail()
 	{
 
-		return $this->migration;
+		return $this->email;
 	}
 
 	/**
-	 * Get the [batch] column value.
+	 * Get the [token] column value.
+	 * 
+	 * @return     string
+	 */
+	public function getToken()
+	{
+
+		return $this->token;
+	}
+
+	/**
+	 * Get the [optionally formatted] [created_at] column value.
+	 * 
+	 * @param      string $format The date/time format string (either date()-style or strftime()-style).
+	 *							If format is NULL, then the integer unix timestamp will be returned.
+	 * @return     mixed Formatted date/time value as string or integer unix timestamp (if format is NULL).
+	 * @throws     PropelException - if unable to convert the date/time to timestamp.
+	 */
+	public function getCreatedAt($format = 'Y-m-d H:i:s')
+	{
+
+		if ($this->created_at === null || $this->created_at === '') {
+			return null;
+		} elseif (!is_int($this->created_at)) {
+			// a non-timestamp value was set externally, so we convert it
+			$ts = strtotime($this->created_at);
+			if ($ts === -1 || $ts === false) { // in PHP 5.1 return value changes to FALSE
+				throw new PropelException("Unable to parse value of [created_at] as date/time value: " . var_export($this->created_at, true));
+			}
+		} else {
+			$ts = $this->created_at;
+		}
+		if ($format === null) {
+			return $ts;
+		} elseif (strpos($format, '%') !== false) {
+			return strftime($format, $ts);
+		} else {
+			return date($format, $ts);
+		}
+	}
+
+	/**
+	 * Get the [id] column value.
 	 * 
 	 * @return     int
 	 */
-	public function getBatch()
+	public function getId()
 	{
 
-		return $this->batch;
+		return $this->id;
 	}
 
 	/**
-	 * Set the value of [migration] column.
+	 * Set the value of [email] column.
 	 * 
 	 * @param      string $v new value
 	 * @return     void
 	 */
-	public function setMigration($v)
+	public function setEmail($v)
 	{
 
 		// Since the native PHP type for this column is string,
@@ -83,20 +139,66 @@ abstract class BaseMigrations extends BaseObject  implements Persistent {
 			$v = (string) $v; 
 		}
 
-		if ($this->migration !== $v) {
-			$this->migration = $v;
-			$this->modifiedColumns[] = MigrationsPeer::MIGRATION;
+		if ($this->email !== $v) {
+			$this->email = $v;
+			$this->modifiedColumns[] = PasswordResetsPeer::EMAIL;
 		}
 
-	} // setMigration()
+	} // setEmail()
 
 	/**
-	 * Set the value of [batch] column.
+	 * Set the value of [token] column.
+	 * 
+	 * @param      string $v new value
+	 * @return     void
+	 */
+	public function setToken($v)
+	{
+
+		// Since the native PHP type for this column is string,
+		// we will cast the input to a string (if it is not).
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->token !== $v) {
+			$this->token = $v;
+			$this->modifiedColumns[] = PasswordResetsPeer::TOKEN;
+		}
+
+	} // setToken()
+
+	/**
+	 * Set the value of [created_at] column.
 	 * 
 	 * @param      int $v new value
 	 * @return     void
 	 */
-	public function setBatch($v)
+	public function setCreatedAt($v)
+	{
+
+		if ($v !== null && !is_int($v)) {
+			$ts = strtotime($v);
+			if ($ts === -1 || $ts === false) { // in PHP 5.1 return value changes to FALSE
+				throw new PropelException("Unable to parse date/time value for [created_at] from input: " . var_export($v, true));
+			}
+		} else {
+			$ts = $v;
+		}
+		if ($this->created_at !== $ts || $ts === -62169984000) {
+			$this->created_at = $ts;
+			$this->modifiedColumns[] = PasswordResetsPeer::CREATED_AT;
+		}
+
+	} // setCreatedAt()
+
+	/**
+	 * Set the value of [id] column.
+	 * 
+	 * @param      int $v new value
+	 * @return     void
+	 */
+	public function setId($v)
 	{
 
 		// Since the native PHP type for this column is integer,
@@ -105,12 +207,12 @@ abstract class BaseMigrations extends BaseObject  implements Persistent {
 			$v = (int) $v;
 		}
 
-		if ($this->batch !== $v) {
-			$this->batch = $v;
-			$this->modifiedColumns[] = MigrationsPeer::BATCH;
+		if ($this->id !== $v) {
+			$this->id = $v;
+			$this->modifiedColumns[] = PasswordResetsPeer::ID;
 		}
 
-	} // setBatch()
+	} // setId()
 
 	/**
 	 * Hydrates (populates) the object variables with values from the database resultset.
@@ -129,19 +231,23 @@ abstract class BaseMigrations extends BaseObject  implements Persistent {
 	{
 		try {
 
-			$this->migration = $rs->getString($startcol + 0);
+			$this->email = $rs->getString($startcol + 0);
 
-			$this->batch = $rs->getInt($startcol + 1);
+			$this->token = $rs->getString($startcol + 1);
+
+			$this->created_at = $rs->getTimestamp($startcol + 2, null);
+
+			$this->id = $rs->getInt($startcol + 3);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 2; // 2 = MigrationsPeer::NUM_COLUMNS - MigrationsPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 4; // 4 = PasswordResetsPeer::NUM_COLUMNS - PasswordResetsPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
-			throw new PropelException("Error populating Migrations object", $e);
+			throw new PropelException("Error populating PasswordResets object", $e);
 		}
 	}
 
@@ -157,7 +263,7 @@ abstract class BaseMigrations extends BaseObject  implements Persistent {
 	public function delete($con = null)
 	{
 
-    foreach (sfMixer::getCallables('BaseMigrations:delete:pre') as $callable)
+    foreach (sfMixer::getCallables('BasePasswordResets:delete:pre') as $callable)
     {
       $ret = call_user_func($callable, $this, $con);
       if ($ret)
@@ -172,12 +278,12 @@ abstract class BaseMigrations extends BaseObject  implements Persistent {
 		}
 
 		if ($con === null) {
-			$con = Propel::getConnection(MigrationsPeer::DATABASE_NAME);
+			$con = Propel::getConnection(PasswordResetsPeer::DATABASE_NAME);
 		}
 
 		try {
 			$con->begin();
-			MigrationsPeer::doDelete($this, $con);
+			PasswordResetsPeer::doDelete($this, $con);
 			$this->setDeleted(true);
 			$con->commit();
 		} catch (PropelException $e) {
@@ -186,7 +292,7 @@ abstract class BaseMigrations extends BaseObject  implements Persistent {
 		}
 	
 
-    foreach (sfMixer::getCallables('BaseMigrations:delete:post') as $callable)
+    foreach (sfMixer::getCallables('BasePasswordResets:delete:post') as $callable)
     {
       call_user_func($callable, $this, $con);
     }
@@ -205,7 +311,7 @@ abstract class BaseMigrations extends BaseObject  implements Persistent {
 	public function save($con = null)
 	{
 
-    foreach (sfMixer::getCallables('BaseMigrations:save:pre') as $callable)
+    foreach (sfMixer::getCallables('BasePasswordResets:save:pre') as $callable)
     {
       $affectedRows = call_user_func($callable, $this, $con);
       if (is_int($affectedRows))
@@ -215,19 +321,24 @@ abstract class BaseMigrations extends BaseObject  implements Persistent {
     }
 
 
+    if ($this->isNew() && !$this->isColumnModified(PasswordResetsPeer::CREATED_AT))
+    {
+      $this->setCreatedAt(time());
+    }
+
 		if ($this->isDeleted()) {
 			throw new PropelException("You cannot save an object that has been deleted.");
 		}
 
 		if ($con === null) {
-			$con = Propel::getConnection(MigrationsPeer::DATABASE_NAME);
+			$con = Propel::getConnection(PasswordResetsPeer::DATABASE_NAME);
 		}
 
 		try {
 			$con->begin();
 			$affectedRows = $this->doSave($con);
 			$con->commit();
-    foreach (sfMixer::getCallables('BaseMigrations:save:post') as $callable)
+    foreach (sfMixer::getCallables('BasePasswordResets:save:post') as $callable)
     {
       call_user_func($callable, $this, $con, $affectedRows);
     }
@@ -260,14 +371,16 @@ abstract class BaseMigrations extends BaseObject  implements Persistent {
 			// If this object has been modified, then save it to the database.
 			if ($this->isModified()) {
 				if ($this->isNew()) {
-					$pk = MigrationsPeer::doInsert($this, $con);
+					$pk = PasswordResetsPeer::doInsert($this, $con);
 					$affectedRows += 1; // we are assuming that there is only 1 row per doInsert() which
 										 // should always be true here (even though technically
 										 // BasePeer::doInsert() can insert multiple rows).
 
+					$this->setId($pk);  //[IMV] update autoincrement primary key
+
 					$this->setNew(false);
 				} else {
-					$affectedRows += MigrationsPeer::doUpdate($this, $con);
+					$affectedRows += PasswordResetsPeer::doUpdate($this, $con);
 				}
 				$this->resetModified(); // [HL] After being saved an object is no longer 'modified'
 			}
@@ -337,7 +450,7 @@ abstract class BaseMigrations extends BaseObject  implements Persistent {
 			$failureMap = array();
 
 
-			if (($retval = MigrationsPeer::doValidate($this, $columns)) !== true) {
+			if (($retval = PasswordResetsPeer::doValidate($this, $columns)) !== true) {
 				$failureMap = array_merge($failureMap, $retval);
 			}
 
@@ -360,7 +473,7 @@ abstract class BaseMigrations extends BaseObject  implements Persistent {
 	 */
 	public function getByName($name, $type = BasePeer::TYPE_PHPNAME)
 	{
-		$pos = MigrationsPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
+		$pos = PasswordResetsPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
 		return $this->getByPosition($pos);
 	}
 
@@ -375,10 +488,16 @@ abstract class BaseMigrations extends BaseObject  implements Persistent {
 	{
 		switch($pos) {
 			case 0:
-				return $this->getMigration();
+				return $this->getEmail();
 				break;
 			case 1:
-				return $this->getBatch();
+				return $this->getToken();
+				break;
+			case 2:
+				return $this->getCreatedAt();
+				break;
+			case 3:
+				return $this->getId();
 				break;
 			default:
 				return null;
@@ -398,10 +517,12 @@ abstract class BaseMigrations extends BaseObject  implements Persistent {
 	 */
 	public function toArray($keyType = BasePeer::TYPE_PHPNAME)
 	{
-		$keys = MigrationsPeer::getFieldNames($keyType);
+		$keys = PasswordResetsPeer::getFieldNames($keyType);
 		$result = array(
-			$keys[0] => $this->getMigration(),
-			$keys[1] => $this->getBatch(),
+			$keys[0] => $this->getEmail(),
+			$keys[1] => $this->getToken(),
+			$keys[2] => $this->getCreatedAt(),
+			$keys[3] => $this->getId(),
 		);
 		return $result;
 	}
@@ -418,7 +539,7 @@ abstract class BaseMigrations extends BaseObject  implements Persistent {
 	 */
 	public function setByName($name, $value, $type = BasePeer::TYPE_PHPNAME)
 	{
-		$pos = MigrationsPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
+		$pos = PasswordResetsPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
 		return $this->setByPosition($pos, $value);
 	}
 
@@ -434,10 +555,16 @@ abstract class BaseMigrations extends BaseObject  implements Persistent {
 	{
 		switch($pos) {
 			case 0:
-				$this->setMigration($value);
+				$this->setEmail($value);
 				break;
 			case 1:
-				$this->setBatch($value);
+				$this->setToken($value);
+				break;
+			case 2:
+				$this->setCreatedAt($value);
+				break;
+			case 3:
+				$this->setId($value);
 				break;
 		} // switch()
 	}
@@ -460,10 +587,12 @@ abstract class BaseMigrations extends BaseObject  implements Persistent {
 	 */
 	public function fromArray($arr, $keyType = BasePeer::TYPE_PHPNAME)
 	{
-		$keys = MigrationsPeer::getFieldNames($keyType);
+		$keys = PasswordResetsPeer::getFieldNames($keyType);
 
-		if (array_key_exists($keys[0], $arr)) $this->setMigration($arr[$keys[0]]);
-		if (array_key_exists($keys[1], $arr)) $this->setBatch($arr[$keys[1]]);
+		if (array_key_exists($keys[0], $arr)) $this->setEmail($arr[$keys[0]]);
+		if (array_key_exists($keys[1], $arr)) $this->setToken($arr[$keys[1]]);
+		if (array_key_exists($keys[2], $arr)) $this->setCreatedAt($arr[$keys[2]]);
+		if (array_key_exists($keys[3], $arr)) $this->setId($arr[$keys[3]]);
 	}
 
 	/**
@@ -473,10 +602,12 @@ abstract class BaseMigrations extends BaseObject  implements Persistent {
 	 */
 	public function buildCriteria()
 	{
-		$criteria = new Criteria(MigrationsPeer::DATABASE_NAME);
+		$criteria = new Criteria(PasswordResetsPeer::DATABASE_NAME);
 
-		if ($this->isColumnModified(MigrationsPeer::MIGRATION)) $criteria->add(MigrationsPeer::MIGRATION, $this->migration);
-		if ($this->isColumnModified(MigrationsPeer::BATCH)) $criteria->add(MigrationsPeer::BATCH, $this->batch);
+		if ($this->isColumnModified(PasswordResetsPeer::EMAIL)) $criteria->add(PasswordResetsPeer::EMAIL, $this->email);
+		if ($this->isColumnModified(PasswordResetsPeer::TOKEN)) $criteria->add(PasswordResetsPeer::TOKEN, $this->token);
+		if ($this->isColumnModified(PasswordResetsPeer::CREATED_AT)) $criteria->add(PasswordResetsPeer::CREATED_AT, $this->created_at);
+		if ($this->isColumnModified(PasswordResetsPeer::ID)) $criteria->add(PasswordResetsPeer::ID, $this->id);
 
 		return $criteria;
 	}
@@ -491,43 +622,31 @@ abstract class BaseMigrations extends BaseObject  implements Persistent {
 	 */
 	public function buildPkeyCriteria()
 	{
-		$criteria = new Criteria(MigrationsPeer::DATABASE_NAME);
+		$criteria = new Criteria(PasswordResetsPeer::DATABASE_NAME);
 
-		$criteria->add(MigrationsPeer::MIGRATION, $this->migration);
-		$criteria->add(MigrationsPeer::BATCH, $this->batch);
+		$criteria->add(PasswordResetsPeer::ID, $this->id);
 
 		return $criteria;
 	}
 
 	/**
-	 * Returns the composite primary key for this object.
-	 * The array elements will be in same order as specified in XML.
-	 * @return     array
+	 * Returns the primary key for this object (row).
+	 * @return     int
 	 */
 	public function getPrimaryKey()
 	{
-		$pks = array();
-
-		$pks[0] = $this->getMigration();
-
-		$pks[1] = $this->getBatch();
-
-		return $pks;
+		return $this->getId();
 	}
 
 	/**
-	 * Set the [composite] primary key.
+	 * Generic method to set the primary key (id column).
 	 *
-	 * @param      array $keys The elements of the composite key (order must match the order in XML file).
+	 * @param      int $key Primary key.
 	 * @return     void
 	 */
-	public function setPrimaryKey($keys)
+	public function setPrimaryKey($key)
 	{
-
-		$this->setMigration($keys[0]);
-
-		$this->setBatch($keys[1]);
-
+		$this->setId($key);
 	}
 
 	/**
@@ -536,19 +655,23 @@ abstract class BaseMigrations extends BaseObject  implements Persistent {
 	 * If desired, this method can also make copies of all associated (fkey referrers)
 	 * objects.
 	 *
-	 * @param      object $copyObj An object of Migrations (or compatible) type.
+	 * @param      object $copyObj An object of PasswordResets (or compatible) type.
 	 * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
 	 * @throws     PropelException
 	 */
 	public function copyInto($copyObj, $deepCopy = false)
 	{
 
+		$copyObj->setEmail($this->email);
+
+		$copyObj->setToken($this->token);
+
+		$copyObj->setCreatedAt($this->created_at);
+
 
 		$copyObj->setNew(true);
 
-		$copyObj->setMigration(NULL); // this is a pkey column, so set to default value
-
-		$copyObj->setBatch(NULL); // this is a pkey column, so set to default value
+		$copyObj->setId(NULL); // this is a pkey column, so set to default value
 
 	}
 
@@ -561,7 +684,7 @@ abstract class BaseMigrations extends BaseObject  implements Persistent {
 	 * objects.
 	 *
 	 * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-	 * @return     Migrations Clone of current object.
+	 * @return     PasswordResets Clone of current object.
 	 * @throws     PropelException
 	 */
 	public function copy($deepCopy = false)
@@ -580,12 +703,12 @@ abstract class BaseMigrations extends BaseObject  implements Persistent {
 	 * same instance for all member of this class. The method could therefore
 	 * be static, but this would prevent one from overriding the behavior.
 	 *
-	 * @return     MigrationsPeer
+	 * @return     PasswordResetsPeer
 	 */
 	public function getPeer()
 	{
 		if (self::$peer === null) {
-			self::$peer = new MigrationsPeer();
+			self::$peer = new PasswordResetsPeer();
 		}
 		return self::$peer;
 	}
@@ -593,9 +716,9 @@ abstract class BaseMigrations extends BaseObject  implements Persistent {
 
   public function __call($method, $arguments)
   {
-    if (!$callable = sfMixer::getCallable('BaseMigrations:'.$method))
+    if (!$callable = sfMixer::getCallable('BasePasswordResets:'.$method))
     {
-      throw new sfException(sprintf('Call to undefined method BaseMigrations::%s', $method));
+      throw new sfException(sprintf('Call to undefined method BasePasswordResets::%s', $method));
     }
 
     array_unshift($arguments, $this);
@@ -604,4 +727,4 @@ abstract class BaseMigrations extends BaseObject  implements Persistent {
   }
 
 
-} // BaseMigrations
+} // BasePasswordResets

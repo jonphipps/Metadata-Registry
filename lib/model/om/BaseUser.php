@@ -5284,7 +5284,7 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in User.
 	 */
-	public function getConceptPropertysRelatedByCreatedUserIdJoinProfileProperty($criteria = null, $con = null)
+	public function getConceptPropertysRelatedByCreatedUserIdJoinProfilePropertyRelatedBySkosPropertyId($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseConceptPropertyPeer.php';
@@ -5303,7 +5303,7 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 				$criteria->add(ConceptPropertyPeer::CREATED_USER_ID, $this->getId());
 
-				$this->collConceptPropertysRelatedByCreatedUserId = ConceptPropertyPeer::doSelectJoinProfileProperty($criteria, $con);
+				$this->collConceptPropertysRelatedByCreatedUserId = ConceptPropertyPeer::doSelectJoinProfilePropertyRelatedBySkosPropertyId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -5313,7 +5313,7 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 			$criteria->add(ConceptPropertyPeer::CREATED_USER_ID, $this->getId());
 
 			if (!isset($this->lastConceptPropertyRelatedByCreatedUserIdCriteria) || !$this->lastConceptPropertyRelatedByCreatedUserIdCriteria->equals($criteria)) {
-				$this->collConceptPropertysRelatedByCreatedUserId = ConceptPropertyPeer::doSelectJoinProfileProperty($criteria, $con);
+				$this->collConceptPropertysRelatedByCreatedUserId = ConceptPropertyPeer::doSelectJoinProfilePropertyRelatedBySkosPropertyId($criteria, $con);
 			}
 		}
 		$this->lastConceptPropertyRelatedByCreatedUserIdCriteria = $criteria;
@@ -5461,6 +5461,55 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 			if (!isset($this->lastConceptPropertyRelatedByCreatedUserIdCriteria) || !$this->lastConceptPropertyRelatedByCreatedUserIdCriteria->equals($criteria)) {
 				$this->collConceptPropertysRelatedByCreatedUserId = ConceptPropertyPeer::doSelectJoinStatus($criteria, $con);
+			}
+		}
+		$this->lastConceptPropertyRelatedByCreatedUserIdCriteria = $criteria;
+
+		return $this->collConceptPropertysRelatedByCreatedUserId;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this User is new, it will return
+	 * an empty collection; or if this User has previously
+	 * been saved, it will retrieve related ConceptPropertysRelatedByCreatedUserId from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in User.
+	 */
+	public function getConceptPropertysRelatedByCreatedUserIdJoinProfilePropertyRelatedByProfilePropertyId($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseConceptPropertyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collConceptPropertysRelatedByCreatedUserId === null) {
+			if ($this->isNew()) {
+				$this->collConceptPropertysRelatedByCreatedUserId = array();
+			} else {
+
+				$criteria->add(ConceptPropertyPeer::CREATED_USER_ID, $this->getId());
+
+				$this->collConceptPropertysRelatedByCreatedUserId = ConceptPropertyPeer::doSelectJoinProfilePropertyRelatedByProfilePropertyId($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(ConceptPropertyPeer::CREATED_USER_ID, $this->getId());
+
+			if (!isset($this->lastConceptPropertyRelatedByCreatedUserIdCriteria) || !$this->lastConceptPropertyRelatedByCreatedUserIdCriteria->equals($criteria)) {
+				$this->collConceptPropertysRelatedByCreatedUserId = ConceptPropertyPeer::doSelectJoinProfilePropertyRelatedByProfilePropertyId($criteria, $con);
 			}
 		}
 		$this->lastConceptPropertyRelatedByCreatedUserIdCriteria = $criteria;
@@ -5636,7 +5685,7 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in User.
 	 */
-	public function getConceptPropertysRelatedByUpdatedUserIdJoinProfileProperty($criteria = null, $con = null)
+	public function getConceptPropertysRelatedByUpdatedUserIdJoinProfilePropertyRelatedBySkosPropertyId($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseConceptPropertyPeer.php';
@@ -5655,7 +5704,7 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 				$criteria->add(ConceptPropertyPeer::UPDATED_USER_ID, $this->getId());
 
-				$this->collConceptPropertysRelatedByUpdatedUserId = ConceptPropertyPeer::doSelectJoinProfileProperty($criteria, $con);
+				$this->collConceptPropertysRelatedByUpdatedUserId = ConceptPropertyPeer::doSelectJoinProfilePropertyRelatedBySkosPropertyId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -5665,7 +5714,7 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 			$criteria->add(ConceptPropertyPeer::UPDATED_USER_ID, $this->getId());
 
 			if (!isset($this->lastConceptPropertyRelatedByUpdatedUserIdCriteria) || !$this->lastConceptPropertyRelatedByUpdatedUserIdCriteria->equals($criteria)) {
-				$this->collConceptPropertysRelatedByUpdatedUserId = ConceptPropertyPeer::doSelectJoinProfileProperty($criteria, $con);
+				$this->collConceptPropertysRelatedByUpdatedUserId = ConceptPropertyPeer::doSelectJoinProfilePropertyRelatedBySkosPropertyId($criteria, $con);
 			}
 		}
 		$this->lastConceptPropertyRelatedByUpdatedUserIdCriteria = $criteria;
@@ -5813,6 +5862,55 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 			if (!isset($this->lastConceptPropertyRelatedByUpdatedUserIdCriteria) || !$this->lastConceptPropertyRelatedByUpdatedUserIdCriteria->equals($criteria)) {
 				$this->collConceptPropertysRelatedByUpdatedUserId = ConceptPropertyPeer::doSelectJoinStatus($criteria, $con);
+			}
+		}
+		$this->lastConceptPropertyRelatedByUpdatedUserIdCriteria = $criteria;
+
+		return $this->collConceptPropertysRelatedByUpdatedUserId;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this User is new, it will return
+	 * an empty collection; or if this User has previously
+	 * been saved, it will retrieve related ConceptPropertysRelatedByUpdatedUserId from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in User.
+	 */
+	public function getConceptPropertysRelatedByUpdatedUserIdJoinProfilePropertyRelatedByProfilePropertyId($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseConceptPropertyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collConceptPropertysRelatedByUpdatedUserId === null) {
+			if ($this->isNew()) {
+				$this->collConceptPropertysRelatedByUpdatedUserId = array();
+			} else {
+
+				$criteria->add(ConceptPropertyPeer::UPDATED_USER_ID, $this->getId());
+
+				$this->collConceptPropertysRelatedByUpdatedUserId = ConceptPropertyPeer::doSelectJoinProfilePropertyRelatedByProfilePropertyId($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(ConceptPropertyPeer::UPDATED_USER_ID, $this->getId());
+
+			if (!isset($this->lastConceptPropertyRelatedByUpdatedUserIdCriteria) || !$this->lastConceptPropertyRelatedByUpdatedUserIdCriteria->equals($criteria)) {
+				$this->collConceptPropertysRelatedByUpdatedUserId = ConceptPropertyPeer::doSelectJoinProfilePropertyRelatedByProfilePropertyId($criteria, $con);
 			}
 		}
 		$this->lastConceptPropertyRelatedByUpdatedUserIdCriteria = $criteria;

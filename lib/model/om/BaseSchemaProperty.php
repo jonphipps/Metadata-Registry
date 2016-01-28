@@ -179,6 +179,13 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 	 */
 	protected $lexical_alias;
 
+
+	/**
+	 * The value for the hash_id field.
+	 * @var        string
+	 */
+	protected $hash_id;
+
 	/**
 	 * @var        User
 	 */
@@ -601,6 +608,17 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 	{
 
 		return $this->lexical_alias;
+	}
+
+	/**
+	 * Get the [hash_id] column value.
+	 * 
+	 * @return     string
+	 */
+	public function getHashId()
+	{
+
+		return $this->hash_id;
 	}
 
 	/**
@@ -1130,6 +1148,28 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 	} // setLexicalAlias()
 
 	/**
+	 * Set the value of [hash_id] column.
+	 * 
+	 * @param      string $v new value
+	 * @return     void
+	 */
+	public function setHashId($v)
+	{
+
+		// Since the native PHP type for this column is string,
+		// we will cast the input to a string (if it is not).
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->hash_id !== $v) {
+			$this->hash_id = $v;
+			$this->modifiedColumns[] = SchemaPropertyPeer::HASH_ID;
+		}
+
+	} // setHashId()
+
+	/**
 	 * Hydrates (populates) the object variables with values from the database resultset.
 	 *
 	 * An offset (1-based "start column") is specified so that objects can be hydrated
@@ -1192,12 +1232,14 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 			$this->lexical_alias = $rs->getString($startcol + 22);
 
+			$this->hash_id = $rs->getString($startcol + 23);
+
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 23; // 23 = SchemaPropertyPeer::NUM_COLUMNS - SchemaPropertyPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 24; // 24 = SchemaPropertyPeer::NUM_COLUMNS - SchemaPropertyPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating SchemaProperty object", $e);
@@ -1679,6 +1721,9 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 			case 22:
 				return $this->getLexicalAlias();
 				break;
+			case 23:
+				return $this->getHashId();
+				break;
 			default:
 				return null;
 				break;
@@ -1722,6 +1767,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 			$keys[20] => $this->getIsDeprecated(),
 			$keys[21] => $this->getUrl(),
 			$keys[22] => $this->getLexicalAlias(),
+			$keys[23] => $this->getHashId(),
 		);
 		return $result;
 	}
@@ -1822,6 +1868,9 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 			case 22:
 				$this->setLexicalAlias($value);
 				break;
+			case 23:
+				$this->setHashId($value);
+				break;
 		} // switch()
 	}
 
@@ -1868,6 +1917,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[20], $arr)) $this->setIsDeprecated($arr[$keys[20]]);
 		if (array_key_exists($keys[21], $arr)) $this->setUrl($arr[$keys[21]]);
 		if (array_key_exists($keys[22], $arr)) $this->setLexicalAlias($arr[$keys[22]]);
+		if (array_key_exists($keys[23], $arr)) $this->setHashId($arr[$keys[23]]);
 	}
 
 	/**
@@ -1902,6 +1952,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(SchemaPropertyPeer::IS_DEPRECATED)) $criteria->add(SchemaPropertyPeer::IS_DEPRECATED, $this->is_deprecated);
 		if ($this->isColumnModified(SchemaPropertyPeer::URL)) $criteria->add(SchemaPropertyPeer::URL, $this->url);
 		if ($this->isColumnModified(SchemaPropertyPeer::LEXICAL_ALIAS)) $criteria->add(SchemaPropertyPeer::LEXICAL_ALIAS, $this->lexical_alias);
+		if ($this->isColumnModified(SchemaPropertyPeer::HASH_ID)) $criteria->add(SchemaPropertyPeer::HASH_ID, $this->hash_id);
 
 		return $criteria;
 	}
@@ -1999,6 +2050,8 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 		$copyObj->setUrl($this->url);
 
 		$copyObj->setLexicalAlias($this->lexical_alias);
+
+		$copyObj->setHashId($this->hash_id);
 
 
 		if ($deepCopy) {

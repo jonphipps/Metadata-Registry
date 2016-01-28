@@ -107,6 +107,8 @@ class SchemaPropertyMapBuilder {
 
 		$tMap->addColumn('LEXICAL_ALIAS', 'LexicalAlias', 'string', CreoleTypes::VARCHAR, false, 255);
 
+		$tMap->addColumn('HASH_ID', 'HashId', 'string', CreoleTypes::CHAR, true, 255);
+
 	} // doBuild()
 
 } // SchemaPropertyMapBuilder

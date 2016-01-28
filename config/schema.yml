@@ -158,9 +158,31 @@ propel:
       type: VARCHAR
       size: 255
       required: true
+      primaryKey: true
     batch: 
       type: INTEGER
       required: true
+      primaryKey: true
+  password_resets: 
+    _attributes: 
+      phpName: PasswordResets
+    email: 
+      type: VARCHAR
+      size: 255
+      required: true
+    token: 
+      type: VARCHAR
+      size: 255
+      required: true
+    created_at: 
+      type: TIMESTAMP
+      required: true
+      default: 0000-00-00 00:00:00
+    _indexes: 
+      password_resets_email_index: 
+        - email
+      password_resets_token_index: 
+        - token
   profile: 
     _attributes: 
       phpName: Profile
@@ -418,6 +440,10 @@ propel:
       type: BOOLEAN
       required: true
       default: 0
+    namespace: 
+      type: CHAR
+      size: 255
+      required: true
     _indexes: 
       profile_property_status_id: 
         - status_id
@@ -455,7 +481,7 @@ propel:
       size: 255
       required: true
       default: ''
-    ind_affiliation: 
+    ind_affiliation:
       type: VARCHAR
       size: 255
     ind_role: 
@@ -755,7 +781,7 @@ propel:
     object: 
       type: LONGVARCHAR
       required: true
-    scheme_id: 
+    scheme_id:
       type: INTEGER
       foreignTable: reg_vocabulary
       foreignReference: id
@@ -785,6 +811,13 @@ propel:
       type: BOOLEAN
       required: true
       default: 0
+    profile_property_id: 
+      type: INTEGER
+      foreignTable: profile_property
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
+      index: true
   reg_concept_property_history: 
     _attributes: 
       phpName: ConceptPropertyHistory
@@ -1154,7 +1187,7 @@ propel:
       size: 255
       required: true
       default: ''
-    note: 
+    note:
       type: LONGVARCHAR
     uri: 
       type: VARCHAR
@@ -1269,7 +1302,7 @@ propel:
       size: 255
       required: true
       default: ''
-    definition: 
+    definition:
       type: LONGVARCHAR
     comment: 
       type: LONGVARCHAR
@@ -1322,6 +1355,11 @@ propel:
     lexical_alias: 
       type: VARCHAR
       size: 255
+    hash_id: 
+      type: CHAR
+      size: 255
+      required: true
+      index: true
     _indexes: 
       subproperty_id: 
         - is_subproperty_of
@@ -1378,7 +1416,7 @@ propel:
     object: 
       type: LONGVARCHAR
       required: true
-    related_schema_property_id: 
+    related_schema_property_id:
       type: INTEGER
       foreignTable: reg_schema_property
       foreignReference: id
@@ -1592,16 +1630,16 @@ propel:
       type: TIMESTAMP
     nickname: 
       type: VARCHAR
-      size: 50
+      size: 60
     salutation: 
       type: VARCHAR
       size: 5
     first_name: 
       type: VARCHAR
-      size: 100
+      size: 125
     last_name: 
       type: VARCHAR
-      size: 100
+      size: 125
     email: 
       type: VARCHAR
       size: 100
@@ -1681,7 +1719,7 @@ propel:
       size: 255
       required: true
       default: ''
-    note: 
+    note:
       type: LONGVARCHAR
     uri: 
       type: VARCHAR
@@ -1736,6 +1774,9 @@ propel:
       default: slash
     prefixes: 
       type: LONGVARCHAR
+    repos: 
+      type: VARCHAR
+      size: 256
     repo: 
       type: VARCHAR
       size: 256

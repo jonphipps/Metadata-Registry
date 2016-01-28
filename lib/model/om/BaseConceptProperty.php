@@ -130,6 +130,13 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 	 */
 	protected $is_concept_property = false;
 
+
+	/**
+	 * The value for the profile_property_id field.
+	 * @var        int
+	 */
+	protected $profile_property_id;
+
 	/**
 	 * @var        User
 	 */
@@ -148,7 +155,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 	/**
 	 * @var        ProfileProperty
 	 */
-	protected $aProfileProperty;
+	protected $aProfilePropertyRelatedBySkosPropertyId;
 
 	/**
 	 * @var        Vocabulary
@@ -164,6 +171,11 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 	 * @var        Status
 	 */
 	protected $aStatus;
+
+	/**
+	 * @var        ProfileProperty
+	 */
+	protected $aProfilePropertyRelatedByProfilePropertyId;
 
 	/**
 	 * Collection to store aggregation of collConcepts.
@@ -472,6 +484,17 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 	}
 
 	/**
+	 * Get the [profile_property_id] column value.
+	 * 
+	 * @return     int
+	 */
+	public function getProfilePropertyId()
+	{
+
+		return $this->profile_property_id;
+	}
+
+	/**
 	 * Set the value of [id] column.
 	 * 
 	 * @param      int $v new value
@@ -703,8 +726,8 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 			$this->modifiedColumns[] = ConceptPropertyPeer::SKOS_PROPERTY_ID;
 		}
 
-		if ($this->aProfileProperty !== null && $this->aProfileProperty->getSkosId() !== $v) {
-			$this->aProfileProperty = null;
+		if ($this->aProfilePropertyRelatedBySkosPropertyId !== null && $this->aProfilePropertyRelatedBySkosPropertyId->getSkosId() !== $v) {
+			$this->aProfilePropertyRelatedBySkosPropertyId = null;
 		}
 
 	} // setSkosPropertyId()
@@ -848,6 +871,32 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 	} // setIsConceptProperty()
 
 	/**
+	 * Set the value of [profile_property_id] column.
+	 * 
+	 * @param      int $v new value
+	 * @return     void
+	 */
+	public function setProfilePropertyId($v)
+	{
+
+		// Since the native PHP type for this column is integer,
+		// we will cast the input value to an int (if it is not).
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->profile_property_id !== $v) {
+			$this->profile_property_id = $v;
+			$this->modifiedColumns[] = ConceptPropertyPeer::PROFILE_PROPERTY_ID;
+		}
+
+		if ($this->aProfilePropertyRelatedByProfilePropertyId !== null && $this->aProfilePropertyRelatedByProfilePropertyId->getId() !== $v) {
+			$this->aProfilePropertyRelatedByProfilePropertyId = null;
+		}
+
+	} // setProfilePropertyId()
+
+	/**
 	 * Hydrates (populates) the object variables with values from the database resultset.
 	 *
 	 * An offset (1-based "start column") is specified so that objects can be hydrated
@@ -896,12 +945,14 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 
 			$this->is_concept_property = $rs->getBoolean($startcol + 15);
 
+			$this->profile_property_id = $rs->getInt($startcol + 16);
+
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 16; // 16 = ConceptPropertyPeer::NUM_COLUMNS - ConceptPropertyPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 17; // 17 = ConceptPropertyPeer::NUM_COLUMNS - ConceptPropertyPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating ConceptProperty object", $e);
@@ -1056,11 +1107,11 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 				$this->setConceptRelatedByConceptId($this->aConceptRelatedByConceptId);
 			}
 
-			if ($this->aProfileProperty !== null) {
-				if ($this->aProfileProperty->isModified()) {
-					$affectedRows += $this->aProfileProperty->save($con);
+			if ($this->aProfilePropertyRelatedBySkosPropertyId !== null) {
+				if ($this->aProfilePropertyRelatedBySkosPropertyId->isModified()) {
+					$affectedRows += $this->aProfilePropertyRelatedBySkosPropertyId->save($con);
 				}
-				$this->setProfileProperty($this->aProfileProperty);
+				$this->setProfilePropertyRelatedBySkosPropertyId($this->aProfilePropertyRelatedBySkosPropertyId);
 			}
 
 			if ($this->aVocabulary !== null) {
@@ -1082,6 +1133,13 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 					$affectedRows += $this->aStatus->save($con);
 				}
 				$this->setStatus($this->aStatus);
+			}
+
+			if ($this->aProfilePropertyRelatedByProfilePropertyId !== null) {
+				if ($this->aProfilePropertyRelatedByProfilePropertyId->isModified()) {
+					$affectedRows += $this->aProfilePropertyRelatedByProfilePropertyId->save($con);
+				}
+				$this->setProfilePropertyRelatedByProfilePropertyId($this->aProfilePropertyRelatedByProfilePropertyId);
 			}
 
 
@@ -1214,9 +1272,9 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 				}
 			}
 
-			if ($this->aProfileProperty !== null) {
-				if (!$this->aProfileProperty->validate($columns)) {
-					$failureMap = array_merge($failureMap, $this->aProfileProperty->getValidationFailures());
+			if ($this->aProfilePropertyRelatedBySkosPropertyId !== null) {
+				if (!$this->aProfilePropertyRelatedBySkosPropertyId->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aProfilePropertyRelatedBySkosPropertyId->getValidationFailures());
 				}
 			}
 
@@ -1235,6 +1293,12 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 			if ($this->aStatus !== null) {
 				if (!$this->aStatus->validate($columns)) {
 					$failureMap = array_merge($failureMap, $this->aStatus->getValidationFailures());
+				}
+			}
+
+			if ($this->aProfilePropertyRelatedByProfilePropertyId !== null) {
+				if (!$this->aProfilePropertyRelatedByProfilePropertyId->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aProfilePropertyRelatedByProfilePropertyId->getValidationFailures());
 				}
 			}
 
@@ -1348,6 +1412,9 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 			case 15:
 				return $this->getIsConceptProperty();
 				break;
+			case 16:
+				return $this->getProfilePropertyId();
+				break;
 			default:
 				return null;
 				break;
@@ -1384,6 +1451,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 			$keys[13] => $this->getLanguage(),
 			$keys[14] => $this->getStatusId(),
 			$keys[15] => $this->getIsConceptProperty(),
+			$keys[16] => $this->getProfilePropertyId(),
 		);
 		return $result;
 	}
@@ -1463,6 +1531,9 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 			case 15:
 				$this->setIsConceptProperty($value);
 				break;
+			case 16:
+				$this->setProfilePropertyId($value);
+				break;
 		} // switch()
 	}
 
@@ -1502,6 +1573,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[13], $arr)) $this->setLanguage($arr[$keys[13]]);
 		if (array_key_exists($keys[14], $arr)) $this->setStatusId($arr[$keys[14]]);
 		if (array_key_exists($keys[15], $arr)) $this->setIsConceptProperty($arr[$keys[15]]);
+		if (array_key_exists($keys[16], $arr)) $this->setProfilePropertyId($arr[$keys[16]]);
 	}
 
 	/**
@@ -1529,6 +1601,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(ConceptPropertyPeer::LANGUAGE)) $criteria->add(ConceptPropertyPeer::LANGUAGE, $this->language);
 		if ($this->isColumnModified(ConceptPropertyPeer::STATUS_ID)) $criteria->add(ConceptPropertyPeer::STATUS_ID, $this->status_id);
 		if ($this->isColumnModified(ConceptPropertyPeer::IS_CONCEPT_PROPERTY)) $criteria->add(ConceptPropertyPeer::IS_CONCEPT_PROPERTY, $this->is_concept_property);
+		if ($this->isColumnModified(ConceptPropertyPeer::PROFILE_PROPERTY_ID)) $criteria->add(ConceptPropertyPeer::PROFILE_PROPERTY_ID, $this->profile_property_id);
 
 		return $criteria;
 	}
@@ -1612,6 +1685,8 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 		$copyObj->setStatusId($this->status_id);
 
 		$copyObj->setIsConceptProperty($this->is_concept_property);
+
+		$copyObj->setProfilePropertyId($this->profile_property_id);
 
 
 		if ($deepCopy) {
@@ -1835,7 +1910,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 	 * @return     void
 	 * @throws     PropelException
 	 */
-	public function setProfileProperty($v)
+	public function setProfilePropertyRelatedBySkosPropertyId($v)
 	{
 
 
@@ -1846,7 +1921,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 		}
 
 
-		$this->aProfileProperty = $v;
+		$this->aProfilePropertyRelatedBySkosPropertyId = $v;
 	}
 
 
@@ -1857,13 +1932,13 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 	 * @return     ProfileProperty The associated ProfileProperty object.
 	 * @throws     PropelException
 	 */
-	public function getProfileProperty($con = null)
+	public function getProfilePropertyRelatedBySkosPropertyId($con = null)
 	{
-		if ($this->aProfileProperty === null && ($this->skos_property_id !== null)) {
+		if ($this->aProfilePropertyRelatedBySkosPropertyId === null && ($this->skos_property_id !== null)) {
 			// include the related Peer class
 			include_once 'lib/model/om/BaseProfilePropertyPeer.php';
 
-			$this->aProfileProperty = ProfilePropertyPeer::retrieveByPK($this->skos_property_id, $con);
+			$this->aProfilePropertyRelatedBySkosPropertyId = ProfilePropertyPeer::retrieveByPK($this->skos_property_id, $con);
 
 			/* The following can be used instead of the line above to
 			   guarantee the related object contains a reference
@@ -1872,10 +1947,10 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 			   As it can lead to a db query with many results that may
 			   never be used.
 			   $obj = ProfilePropertyPeer::retrieveByPK($this->skos_property_id, $con);
-			   $obj->addProfilePropertys($this);
+			   $obj->addProfilePropertysRelatedBySkosPropertyId($this);
 			 */
 		}
-		return $this->aProfileProperty;
+		return $this->aProfilePropertyRelatedBySkosPropertyId;
 	}
 
 	/**
@@ -2026,6 +2101,56 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 			 */
 		}
 		return $this->aStatus;
+	}
+
+	/**
+	 * Declares an association between this object and a ProfileProperty object.
+	 *
+	 * @param      ProfileProperty $v
+	 * @return     void
+	 * @throws     PropelException
+	 */
+	public function setProfilePropertyRelatedByProfilePropertyId($v)
+	{
+
+
+		if ($v === null) {
+			$this->setProfilePropertyId(NULL);
+		} else {
+			$this->setProfilePropertyId($v->getId());
+		}
+
+
+		$this->aProfilePropertyRelatedByProfilePropertyId = $v;
+	}
+
+
+	/**
+	 * Get the associated ProfileProperty object
+	 *
+	 * @param      Connection Optional Connection object.
+	 * @return     ProfileProperty The associated ProfileProperty object.
+	 * @throws     PropelException
+	 */
+	public function getProfilePropertyRelatedByProfilePropertyId($con = null)
+	{
+		if ($this->aProfilePropertyRelatedByProfilePropertyId === null && ($this->profile_property_id !== null)) {
+			// include the related Peer class
+			include_once 'lib/model/om/BaseProfilePropertyPeer.php';
+
+			$this->aProfilePropertyRelatedByProfilePropertyId = ProfilePropertyPeer::retrieveByPK($this->profile_property_id, $con);
+
+			/* The following can be used instead of the line above to
+			   guarantee the related object contains a reference
+			   to this object, but this level of coupling
+			   may be undesirable in many circumstances.
+			   As it can lead to a db query with many results that may
+			   never be used.
+			   $obj = ProfilePropertyPeer::retrieveByPK($this->profile_property_id, $con);
+			   $obj->addProfilePropertysRelatedByProfilePropertyId($this);
+			 */
+		}
+		return $this->aProfilePropertyRelatedByProfilePropertyId;
 	}
 
 	/**
