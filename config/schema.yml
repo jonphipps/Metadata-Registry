@@ -440,7 +440,7 @@ propel:
       type: BOOLEAN
       required: true
       default: 0
-    namespace: 
+    namespce:
       type: CHAR
       size: 255
       required: true

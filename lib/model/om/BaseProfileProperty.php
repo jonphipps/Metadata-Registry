@@ -279,10 +279,10 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 
 
 	/**
-	 * The value for the namespace field.
+	 * The value for the namespce field.
 	 * @var        string
 	 */
-	protected $namespace;
+	protected $namespce;
 
 	/**
 	 * @var        User
@@ -856,14 +856,14 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 	}
 
 	/**
-	 * Get the [namespace] column value.
+	 * Get the [namespce] column value.
 	 * 
 	 * @return     string
 	 */
-	public function getNamespace()
+	public function getNamespce()
 	{
 
-		return $this->namespace;
+		return $this->namespce;
 	}
 
 	/**
@@ -1633,12 +1633,12 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 	} // setIsInForm()
 
 	/**
-	 * Set the value of [namespace] column.
+	 * Set the value of [namespce] column.
 	 * 
 	 * @param      string $v new value
 	 * @return     void
 	 */
-	public function setNamespace($v)
+	public function setNamespce($v)
 	{
 
 		// Since the native PHP type for this column is string,
@@ -1647,12 +1647,12 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 			$v = (string) $v; 
 		}
 
-		if ($this->namespace !== $v) {
-			$this->namespace = $v;
-			$this->modifiedColumns[] = ProfilePropertyPeer::NAMESPACE;
+		if ($this->namespce !== $v) {
+			$this->namespce = $v;
+			$this->modifiedColumns[] = ProfilePropertyPeer::NAMESPCE;
 		}
 
-	} // setNamespace()
+	} // setNamespce()
 
 	/**
 	 * Hydrates (populates) the object variables with values from the database resultset.
@@ -1745,7 +1745,7 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 
 			$this->is_in_form = $rs->getBoolean($startcol + 36);
 
-			$this->namespace = $rs->getString($startcol + 37);
+			$this->namespce = $rs->getString($startcol + 37);
 
 			$this->resetModified();
 
@@ -2274,7 +2274,7 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 				return $this->getIsInForm();
 				break;
 			case 37:
-				return $this->getNamespace();
+				return $this->getNamespce();
 				break;
 			default:
 				return null;
@@ -2333,7 +2333,7 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 			$keys[34] => $this->getHasLanguage(),
 			$keys[35] => $this->getIsObjectProp(),
 			$keys[36] => $this->getIsInForm(),
-			$keys[37] => $this->getNamespace(),
+			$keys[37] => $this->getNamespce(),
 		);
 		return $result;
 	}
@@ -2477,7 +2477,7 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 				$this->setIsInForm($value);
 				break;
 			case 37:
-				$this->setNamespace($value);
+				$this->setNamespce($value);
 				break;
 		} // switch()
 	}
@@ -2539,7 +2539,7 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[34], $arr)) $this->setHasLanguage($arr[$keys[34]]);
 		if (array_key_exists($keys[35], $arr)) $this->setIsObjectProp($arr[$keys[35]]);
 		if (array_key_exists($keys[36], $arr)) $this->setIsInForm($arr[$keys[36]]);
-		if (array_key_exists($keys[37], $arr)) $this->setNamespace($arr[$keys[37]]);
+		if (array_key_exists($keys[37], $arr)) $this->setNamespce($arr[$keys[37]]);
 	}
 
 	/**
@@ -2588,7 +2588,7 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(ProfilePropertyPeer::HAS_LANGUAGE)) $criteria->add(ProfilePropertyPeer::HAS_LANGUAGE, $this->has_language);
 		if ($this->isColumnModified(ProfilePropertyPeer::IS_OBJECT_PROP)) $criteria->add(ProfilePropertyPeer::IS_OBJECT_PROP, $this->is_object_prop);
 		if ($this->isColumnModified(ProfilePropertyPeer::IS_IN_FORM)) $criteria->add(ProfilePropertyPeer::IS_IN_FORM, $this->is_in_form);
-		if ($this->isColumnModified(ProfilePropertyPeer::NAMESPACE)) $criteria->add(ProfilePropertyPeer::NAMESPACE, $this->namespace);
+		if ($this->isColumnModified(ProfilePropertyPeer::NAMESPCE)) $criteria->add(ProfilePropertyPeer::NAMESPCE, $this->namespce);
 
 		return $criteria;
 	}
@@ -2715,7 +2715,7 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 
 		$copyObj->setIsInForm($this->is_in_form);
 
-		$copyObj->setNamespace($this->namespace);
+		$copyObj->setNamespce($this->namespce);
 
 
 		if ($deepCopy) {
