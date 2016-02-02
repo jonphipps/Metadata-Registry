@@ -814,7 +814,7 @@ WHERE reg_schema_property_element.schema_property_id = reg_schema_property.id
 				AND reg_schema_property.schema_id = $id
 				AND reg_schema_property_element.deleted_at IS NULL
 				AND profile_property_id = profile_property.id
-				AND reg_prefix.uri = profile_property.namespace
+				AND reg_prefix.uri = profile_property.namespce
 ORDER BY reg_prefix.prefix
 SQL
         );
