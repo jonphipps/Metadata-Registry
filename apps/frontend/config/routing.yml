@@ -263,6 +263,9 @@ about:
   url:   /about
   param: { module: content, action: about }
 
+  url:   /languages
+  param: { module: content, action: languages }
+
 # default rules
 homepage:
   url:   /

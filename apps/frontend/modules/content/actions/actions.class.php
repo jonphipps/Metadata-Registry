@@ -21,6 +21,10 @@ class contentActions extends sfActions
   {
     $this->outputFile('about');
   }
+  public function executeLanguages()
+  {
+    return;
+  }
 
   public function executeUnavailable()
   {
