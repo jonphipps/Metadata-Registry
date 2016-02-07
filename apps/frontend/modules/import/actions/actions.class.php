@@ -80,15 +80,17 @@ class importActions extends autoimportActions
               "Something went seriously wrong and we couldn't process your file at all (wish we could be more helpful)";
         return $this->handleImportError($message, $filePath);
       }
+
+      $type_id = ('vocabulary' === $type) ? 'vocabulary_id' : 'schema_id';
       //check to make sure that if there's a schema_id in the prolog that it matches the current ID
-      if (isset($prolog['meta']['schema_id'])) {
-        if (is_array($prolog['meta']['schema_id'])) {
+      if (isset($prolog['meta'][$type_id])) {
+        if (is_array($prolog['meta'][$type_id])) {
           $message =
                 "You have a duplicate of one of the prolog columns ('reg_id', 'uri', 'type') in your data<br />We can't process the file until it's removed.";
           return $this->handleImportError($message, $filePath);
         }
-        if ($prolog['meta']['schema_id'] != $schemaId) {
-          $message = "The Schema Id in the file you are importing (" . $prolog['meta']['schema_id'] . ") does not match the Element Set Id of this
+        if ($prolog['meta'][$type_id] != $schemaId) {
+          $message = "The Schema Id in the file you are importing (" . $prolog['meta'][$type_id] . ") does not match the Element Set Id of this
         Element Set (" . $schemaId . ")<br />You may be trying to import into the wrong Element Set?";
           return $this->handleImportError($message, $filePath);
         }

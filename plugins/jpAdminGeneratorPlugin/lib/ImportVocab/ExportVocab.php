@@ -233,7 +233,7 @@ class ExportVocab {
                     if ($this->includeDeleted) {
                         $ce->addAscendingOrderByColumn(\ConceptPropertyPeer::UPDATED_AT);
                     }
-                    $elements = \ConceptPropertyPeer::doSelectJoinProfileProperty($ce);
+                    $elements = \ConceptPropertyPeer::doSelectJoinProfilePropertyRelatedBySkosPropertyId($ce);
                     $line[array_search('uri', $header[0])] = $property[1];
                     $line[array_search('status', $header[0])] = $property[2];
                 }
@@ -460,6 +460,7 @@ class ExportVocab {
     public function getMetadata()
     {
         $headerCount = $this->getHeaderCount();
+        ($this->schema instanceof \Vocabulary) ? $type = 'vocabulary' : $type = 'schema';
         $rows = array_fill(0, 9, array_fill(0, $headerCount, ''));
         for ($I = 0; $I < 9; $I ++) {
             $rows[ $I ][ 0 ] = "meta";
@@ -468,7 +469,7 @@ class ExportVocab {
         $rows[ 0 ][ 2 ] = $this->getSchema()->getToken();
         $rows[ 1 ][ 1 ] = 'label';
         $rows[ 1 ][ 2 ] = $this->getSchema()->getName();
-        $rows[ 2 ][ 1 ] = 'schema_id';
+        $rows[ 2 ][ 1 ] = "{$type}_id";
         $rows[ 2 ][ 2 ] = $this->getSchema()->getId();
         $rows[ 3 ][ 1 ] = 'uri';
         $rows[ 3 ][ 2 ] = $this->getSchema()->getUri();
@@ -479,7 +480,7 @@ class ExportVocab {
         $rows[ 6 ][ 1 ] = 'base_domain';
         $rows[ 6 ][ 2 ] = $this->getSchema()->getBaseDomain();
         $rows[ 7 ][ 1 ] = 'type';
-        $rows[ 7 ][ 2 ] = 'schema';
+        $rows[ 7 ][ 2 ] = $type;
         $rows[ 8 ][ 1 ] = 'agent_id';
         $rows[ 8 ][ 2 ] = $this->getSchema()->getAgentId();
         if ($this->getUser()) {

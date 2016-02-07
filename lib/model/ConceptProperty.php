@@ -369,13 +369,13 @@ class ConceptProperty extends BaseConceptProperty
     /**
      * Get the associated ProfileProperty object
      *
-     * @param      Connection Optional Connection object.
+     * @param      Connection $con Optional Connection object.
      * @return     ProfileProperty The associated ProfileProperty object.
      * @throws     PropelException
      */
     public function getProfileProperty($con = null)
     {
-        if ($this->aProfileProperty === null && ($this->skos_property_id !== null)) {
+        if ($this->aProfilePropertyRelatedBySkosPropertyId === null && ($this->skos_property_id !== null)) {
             // include the related Peer class
             include_once 'lib/model/om/BaseProfilePropertyPeer.php';
 
@@ -388,11 +388,11 @@ class ConceptProperty extends BaseConceptProperty
 
             $v = ProfilePropertyPeer::doSelect($criteria, $con);
 
-            $this->aProfileProperty = !empty($v) > 0 ? $v[0] : null;
+            $this->aProfilePropertyRelatedBySkosPropertyId = !empty($v) > 0 ? $v[0] : null;
 
         }
 
-        return $this->aProfileProperty;
+        return $this->aProfilePropertyRelatedBySkosPropertyId;
     }
 
     /**
