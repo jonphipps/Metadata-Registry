@@ -262,7 +262,7 @@ logout:
 about:
   url:   /about
   param: { module: content, action: about }
-
+languages:
   url:   /languages
   param: { module: content, action: languages }
 
