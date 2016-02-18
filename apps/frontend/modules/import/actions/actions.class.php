@@ -90,12 +90,12 @@ class importActions extends autoimportActions
           return $this->handleImportError($message, $filePath);
         }
         if ($prolog['meta'][$type_id] != $schemaId) {
-          $message = "The Schema Id in the file you are importing (" . $prolog['meta'][$type_id] . ") does not match the Element Set Id of this
+          $message = "The " . $type . "_id in the file you are importing (" . $prolog['meta'][$type_id] . ") does not match the Element Set Id of this
         Element Set (" . $schemaId . ")<br />You may be trying to import into the wrong Element Set?";
           return $this->handleImportError($message, $filePath);
         }
       } else {
-        $message = "Your file is missing a Schema ID in the 'meta' section and we won't process it without one";
+        $message = "Your file is missing a " . $type . "_id entry in the 'meta' section and we won't process it without one";
         return $this->handleImportError($message, $filePath);
       }
       //todo identify and warn of more processing errors with the prolog
