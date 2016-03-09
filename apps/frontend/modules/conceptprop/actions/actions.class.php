@@ -132,6 +132,7 @@ class conceptpropActions extends autoconceptpropActions
                   $newProp->setRelatedConceptId($this->concept->GetId());
                   $newProp->setObject($this->concept->getUri());
                   $newProp->setStatusId($concept_property['status_id']);
+                  $newProp->setIsGenerated(true);
                   $newProp->setCreatedUserId($this->getUser()->getSubscriberId());
                   $newProp->setUpdatedUserId($this->getUser()->getSubscriberId());
 
