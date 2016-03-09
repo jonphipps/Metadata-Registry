@@ -440,7 +440,7 @@ propel:
       type: BOOLEAN
       required: true
       default: 0
-    namespce:
+    namespace: 
       type: CHAR
       size: 255
       required: true
@@ -464,7 +464,7 @@ propel:
       required: true
       autoIncrement: true
       primaryKey: true
-    created_at: 
+    created_at:
       type: TIMESTAMP
     last_updated: 
       type: TIMESTAMP
@@ -843,7 +843,7 @@ propel:
       type: INTEGER
       foreignTable: reg_concept
       foreignReference: id
-      onDelete: SET NULL
+      onDelete: RESTRICT
       onUpdate: RESTRICT
       index: true
     vocabulary_id: 
@@ -1355,6 +1355,11 @@ propel:
     lexical_alias: 
       type: VARCHAR
       size: 255
+    hash_id: 
+      type: CHAR
+      size: 255
+      required: true
+      index: true
     _indexes: 
       subproperty_id: 
         - is_subproperty_of
