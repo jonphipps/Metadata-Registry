@@ -95,6 +95,8 @@ class ConceptPropertyMapBuilder {
 
 		$tMap->addForeignKey('PROFILE_PROPERTY_ID', 'ProfilePropertyId', 'int', CreoleTypes::INTEGER, 'profile_property', 'ID', false, null);
 
+		$tMap->addColumn('IS_GENERATED', 'IsGenerated', 'boolean', CreoleTypes::BOOLEAN, false, null);
+
 	} // doBuild()
 
 } // ConceptPropertyMapBuilder

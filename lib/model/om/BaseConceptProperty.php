@@ -137,6 +137,13 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 	 */
 	protected $profile_property_id;
 
+
+	/**
+	 * The value for the is_generated field.
+	 * @var        boolean
+	 */
+	protected $is_generated = false;
+
 	/**
 	 * @var        User
 	 */
@@ -492,6 +499,17 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 	{
 
 		return $this->profile_property_id;
+	}
+
+	/**
+	 * Get the [is_generated] column value.
+	 * 
+	 * @return     boolean
+	 */
+	public function getIsGenerated()
+	{
+
+		return $this->is_generated;
 	}
 
 	/**
@@ -897,6 +915,22 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 	} // setProfilePropertyId()
 
 	/**
+	 * Set the value of [is_generated] column.
+	 * 
+	 * @param      boolean $v new value
+	 * @return     void
+	 */
+	public function setIsGenerated($v)
+	{
+
+		if ($this->is_generated !== $v || $v === false) {
+			$this->is_generated = $v;
+			$this->modifiedColumns[] = ConceptPropertyPeer::IS_GENERATED;
+		}
+
+	} // setIsGenerated()
+
+	/**
 	 * Hydrates (populates) the object variables with values from the database resultset.
 	 *
 	 * An offset (1-based "start column") is specified so that objects can be hydrated
@@ -947,12 +981,14 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 
 			$this->profile_property_id = $rs->getInt($startcol + 16);
 
+			$this->is_generated = $rs->getBoolean($startcol + 17);
+
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 17; // 17 = ConceptPropertyPeer::NUM_COLUMNS - ConceptPropertyPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 18; // 18 = ConceptPropertyPeer::NUM_COLUMNS - ConceptPropertyPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating ConceptProperty object", $e);
@@ -1415,6 +1451,9 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 			case 16:
 				return $this->getProfilePropertyId();
 				break;
+			case 17:
+				return $this->getIsGenerated();
+				break;
 			default:
 				return null;
 				break;
@@ -1452,6 +1491,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 			$keys[14] => $this->getStatusId(),
 			$keys[15] => $this->getIsConceptProperty(),
 			$keys[16] => $this->getProfilePropertyId(),
+			$keys[17] => $this->getIsGenerated(),
 		);
 		return $result;
 	}
@@ -1534,6 +1574,9 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 			case 16:
 				$this->setProfilePropertyId($value);
 				break;
+			case 17:
+				$this->setIsGenerated($value);
+				break;
 		} // switch()
 	}
 
@@ -1574,6 +1617,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[14], $arr)) $this->setStatusId($arr[$keys[14]]);
 		if (array_key_exists($keys[15], $arr)) $this->setIsConceptProperty($arr[$keys[15]]);
 		if (array_key_exists($keys[16], $arr)) $this->setProfilePropertyId($arr[$keys[16]]);
+		if (array_key_exists($keys[17], $arr)) $this->setIsGenerated($arr[$keys[17]]);
 	}
 
 	/**
@@ -1602,6 +1646,7 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(ConceptPropertyPeer::STATUS_ID)) $criteria->add(ConceptPropertyPeer::STATUS_ID, $this->status_id);
 		if ($this->isColumnModified(ConceptPropertyPeer::IS_CONCEPT_PROPERTY)) $criteria->add(ConceptPropertyPeer::IS_CONCEPT_PROPERTY, $this->is_concept_property);
 		if ($this->isColumnModified(ConceptPropertyPeer::PROFILE_PROPERTY_ID)) $criteria->add(ConceptPropertyPeer::PROFILE_PROPERTY_ID, $this->profile_property_id);
+		if ($this->isColumnModified(ConceptPropertyPeer::IS_GENERATED)) $criteria->add(ConceptPropertyPeer::IS_GENERATED, $this->is_generated);
 
 		return $criteria;
 	}
@@ -1687,6 +1732,8 @@ abstract class BaseConceptProperty extends BaseObject  implements Persistent {
 		$copyObj->setIsConceptProperty($this->is_concept_property);
 
 		$copyObj->setProfilePropertyId($this->profile_property_id);
+
+		$copyObj->setIsGenerated($this->is_generated);
 
 
 		if ($deepCopy) {

@@ -818,6 +818,9 @@ propel:
       onDelete: RESTRICT
       onUpdate: RESTRICT
       index: true
+    is_generated: 
+      type: BOOLEAN
+      default: 0
   reg_concept_property_history: 
     _attributes: 
       phpName: ConceptPropertyHistory
