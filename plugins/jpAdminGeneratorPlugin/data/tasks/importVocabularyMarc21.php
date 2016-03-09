@@ -24,10 +24,18 @@ echo "\n";
 //we could also prepend these as arguments, but not today
 //define('SF_APP', $app);
 //define('SF_ENVIRONMENT', $env);
-define('SF_APP', 'frontend');
-define('SF_ENVIRONMENT', 'prod');
-define('SF_ROOT_DIR', sfConfig::get('sf_root_dir'));
-define('SF_DEBUG', true);
+if ( ! defined('SF_APP')) {
+    define('SF_APP', 'frontend');
+}
+if ( ! defined('SF_ENVIRONMENT')) {
+    define('SF_ENVIRONMENT', 'prod');
+}
+if ( ! defined('SF_ROOT_DIR')) {
+    define('SF_ROOT_DIR', sfConfig::get('sf_root_dir'));
+}
+if ( ! defined('SF_DEBUG')) {
+    define('SF_DEBUG', true);
+}
 
 require_once(SF_ROOT_DIR . DIRECTORY_SEPARATOR . 'apps' . DIRECTORY_SEPARATOR . SF_APP . DIRECTORY_SEPARATOR .
              'config' . DIRECTORY_SEPARATOR . 'config.php');
