@@ -92,9 +92,9 @@ body,
 
 #sf_admin_container label
 {
-  /* display: block; */
+  display: block;
   padding: 0 1em 3px 0;
-  /* float: left; */
+  float: left;
   text-align: left;
   width: 8em;
   color: #666;
@@ -419,6 +419,8 @@ body,
   margin-right: 0;
   padding-right: .25em;
   width: inherit;
+  display: initial;
+  float: none;
 }
 
 #sf_admin_container .sf_admin_filters .content
