@@ -26,13 +26,13 @@ generator:
       title:          Vocabularies
       fields:
         last_updated: { params: date_format='yyyy-MM-dd' }
-      display:        [=name, _agent, last_updated]
+      display:        [=name, _agent, status, last_updated]
       sort:           name
       object_actions:
         _edit:        { credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
       actions:
         _create:      { name: Add Vocabulary,  credentials: [[administrator, hasAgents]] }
-      filters:        [agent_id]
+      filters:        [agent_id, status_id]
       urlfilters:
         agent_id:     agent_id
 

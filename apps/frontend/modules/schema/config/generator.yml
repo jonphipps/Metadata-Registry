@@ -35,13 +35,13 @@ generator:
       title:          Element Sets
       fields:
         updated_at:   { params: date_format='yyyy-MM-dd' }
-      display:        [=name, _agent, updated_at, updated_user]
+      display:        [=name, _agent, status, updated_at, updated_user]
       sort:           name
       object_actions:
         _edit:        { credentials: [[administrator, schemamaintainer, schemaadmin]] }
       actions:
         _create:      { name: Add Element Set,  credentials: [[administrator, hasAgents]] }
-      filters:        [agent_id]
+      filters:        [agent_id, status_id]
       urlfilters:
         agent_id:     agent_id
 
