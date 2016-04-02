@@ -34,7 +34,9 @@ class rdfActions extends sfActions
           //this URI HAS an 'id', HAS an 'rdf' suffix, and does NOT have a 'uri' action
           $id = $this->getRequestParameter('id');
           $vocabulary = VocabularyPeer::retrieveByPK($id);
+          $filename = isset($vocabulary) ? $vocabulary->getToken() : $id;
           $this->getContext()->getResponse()->setStatusCode(200);
+          $this->getResponse()->setHttpHeader('Content-Disposition', 'attachment; filename="' . $filename . '.xml"');
           break;
        case 'html':
           //this URI does NOT have an 'id', HAS an 'html' suffix, and HAS a 'uri' action
