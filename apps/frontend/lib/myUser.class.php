@@ -24,6 +24,20 @@ class myUser extends sfBasicSecurityUser
   private $objectsecurity = array();
   private $security = null;
 
+
+  public function initialize($context, $parameters = null)
+  {
+    if (sfConfig::get('sf_timeout') == 0) {
+      // session will expire if window is open for a day
+      sfConfig::set('sf_timeout', 86400);
+    }
+
+    return parent::initialize($context, $parameters);
+  }
+
+  /**
+   * @param User $user
+   */
   public function signIn($user)
   {
     $userID = $user->getId();
@@ -113,6 +127,7 @@ class myUser extends sfBasicSecurityUser
   */
   public function setAgentCredentials()
   {
+    /** @var AgentHasUser[] $credentials */
     $credentials = AgentHasUserPeer::doSelectForUser($this->getSubscriberId());
     foreach ($credentials as $credential)
     {
@@ -142,6 +157,7 @@ class myUser extends sfBasicSecurityUser
   */
   public function setVocabularyCredentials()
   {
+    /** @var VocabularyHasUser[] $credentials */
     $credentials = VocabularyHasUserPeer::doSelectForUser($this->getSubscriberId());
     foreach ($credentials as $credential)
     {

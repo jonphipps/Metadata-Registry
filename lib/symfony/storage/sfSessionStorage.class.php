@@ -57,7 +57,7 @@ class sfSessionStorage extends sfStorage
     }
 
     $cookieDefaults = session_get_cookie_params();
-    $lifetime = $this->getParameter('session_cookie_lifetime', $cookieDefaults['lifetime']);
+    $lifetime = $this->getParameter('session_cookie_lifetime', sfConfig::get('sf_timeout'));
     $path     = $this->getParameter('session_cookie_path',     $cookieDefaults['path']);
     $domain   = $this->getParameter('session_cookie_domain',   $cookieDefaults['domain']);
     $secure   = $this->getParameter('session_cookie_secure',   $cookieDefaults['secure']);
