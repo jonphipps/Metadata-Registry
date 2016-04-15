@@ -3,6 +3,8 @@ use ImportVocab\ExportVocab;
 use League\Flysystem\Filesystem;
 use League\Flysystem\Adapter\Local as Adapter;
 use League\Flysystem\Cache\Memory as Cache;
+use ML\JsonLD\JsonLD;
+use ML\JsonLD\NQuads;
 
 /**
  * schema actions.
@@ -164,13 +166,14 @@ class schemaActions extends autoschemaActions
   public function executePublish() {
       //send the id to the publishing class
       if (!$this->schema) {
-        $this->schema = SchemaPeer::retrieveByPk($this->getRequestParameter('id'));
+        $this->schema = SchemaPeer::retrieveByPK($this->getRequestParameter('id'));
       }
 
       $schema = $this->schema;
       //todo: these should be configured by the publish form
-      $uselanguageAsArray = FALSE;
+      $uselanguageMap = true;
       $useLanguage        = "";
+      $cLang = null;
 
       ini_set('memory_limit', '640M');
       ini_set('max_execution_time', 600);
@@ -198,13 +201,15 @@ class schemaActions extends autoschemaActions
                  $file;
       $aliasPath =  "alias" . DIRECTORY_SEPARATOR . $vocabDir;
 
-      $cLang       = $schema->getCriteriaForLanguage($uselanguageAsArray, $useLanguage);
       $propArray   = $schema->getPropertyArray();
       $statusArray = $schema->getStatusArray();
 
+      //use the default language if none specified
       if ($useLanguage == "") {
           $useLanguage = $schema->getLanguage();
       }
+
+      //todo: For each language make a language-specific file using the nolang context
 
       //make sure the path is created
       $filesystem->put( $mime . DIRECTORY_SEPARATOR . $file, '');
@@ -212,15 +217,18 @@ class schemaActions extends autoschemaActions
       $vocabFile = fopen($filePath, 'w');
       //$context = $schema->getJsonLdContext("en");
 
-      if ( ! $uselanguageAsArray) {
+      if ( ! $uselanguageMap) {
+          //write the nolang context -- this one is what we already have, but it's static at the moment
           $jsonldContext = $schema->getBaseDomain() . "Contexts/elements_nolang.jsonld";
           $contextArray = array($jsonldContext, array("@language"=>$useLanguage,),);
       } else {
-          //note: this probably isn't right
-          $jsonldContext = $schema->getBaseDomain() . "Contexts/elements_" . $useLanguage . ".jsonld";
-          $contextArray = array($jsonldContext, "@language"=>$useLanguage,);
+          //write the language map context
+          $jsonldContext = $schema->getBaseDomain() . "Contexts/elements_langmap.jsonld";
+          $contextArray = $jsonldContext;
+          $cLang = $schema->getCriteriaForLanguage($uselanguageMap, $useLanguage);
       }
 
+      //make a single file with all languages in a proper array for the language map context
       $context = json_encode($contextArray, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
       //prepend the context
       fwrite($vocabFile, '{' . PHP_EOL . '"@context": ' . $context  . ',' . PHP_EOL .  '  "@graph": [');
@@ -235,7 +243,7 @@ class schemaActions extends autoschemaActions
       $resources = $schema->getSchemaPropertys();
       /** @var SchemaProperty $resource */
       foreach ($resources as $resource) {
-        $success = $schema->getResourceArray($resource, $cLang, $propArray, $statusArray, $uselanguageAsArray, $useLanguage);
+        $success = $schema->getResourceArray($resource, $cLang, $propArray, $statusArray, $uselanguageMap, $useLanguage);
         if ($success) {
           $counter++;
           $jsonld    = json_encode($success, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
@@ -244,23 +252,23 @@ class schemaActions extends autoschemaActions
           ksort($success, SORT_FLAG_CASE | SORT_NATURAL);
           $jsonFrag = json_encode($success, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
           $jsonFrag .= PHP_EOL;
-//          $compacted = JsonLD::compact($jsonFrag);
-//          $expanded = JsonLD::expand($jsonFrag);
-//          $flattened = JsonLD::flatten($jsonFrag);
-//          $prettyC = JsonLD::toString($compacted, true);
-//          $prettyE = JsonLD::toString($expanded, true);
-//          $prettyF = JsonLD::toString($flattened, true);
-//          $quads = JsonLD::toRdf($jsonFrag);
-//          $nquads = new NQuads();
-//          $serialized = $nquads->serialize($quads);
-//          $document = JsonLD::fromRdf($quads);
-//          $doc = JsonLD::getDocument($jsonFrag);
-//          $graph = $doc->getGraph();
-//          $serialized2 = JsonLD::toString($graph->toJsonLd());
-//          $rdfFormats = EasyRdf_Format::getFormats();
-//          $graph = new EasyRdf_Graph($success["@id"]);
-//          $graph->parse($quads, "jsonld", $success["@id"]);
-//          $output = $graph->serialise("turtle");
+          //$compacted = JsonLD::compact($jsonFrag);
+          //$expanded = JsonLD::expand($jsonFrag);
+          //$flattened = JsonLD::flatten($jsonFrag);
+          //$prettyC = JsonLD::toString($compacted, true);
+          //$prettyE = JsonLD::toString($expanded, true);
+          //$prettyF = JsonLD::toString($flattened, true);
+          //$quads = JsonLD::toRdf($jsonFrag);
+          //$nquads = new NQuads();
+          //$serialized = $nquads->serialize($quads);
+          //$document = JsonLD::fromRdf($quads);
+          //$doc = JsonLD::getDocument($jsonFrag);
+          //$graph = $doc->getGraph();
+          //$serialized2 = JsonLD::toString($graph->toJsonLd());
+          //$rdfFormats = EasyRdf_Format::getFormats();
+          //$graph = new EasyRdf_Graph($success["@id"]);
+          //$graph->parse($quads, "jsonld", $success["@id"]);
+          //$output = $graph->serialise("turtle");
 
           //append the json to the open file
           fwrite($vocabFile, $comma . PHP_EOL . $jsonld);

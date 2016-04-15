@@ -499,8 +499,9 @@ class Schema extends BaseSchema {
       );
       $resourceArray["url"] = "http://metadataregistry.org/schemaprop/show/id/" . $property->getId() . ".html";
 
+      $elements = $property->getSchemaPropertyElementsRelatedBySchemaPropertyId($cLang);
       /** @var SchemaPropertyElement $element */
-      foreach ($property->getSchemaPropertyElementsRelatedBySchemaPropertyId($cLang) as $element) {
+      foreach ($elements as $element) {
           /** @var string $ppi */
           $pproperty = $propArray[$element->getProfilePropertyId()];
           $ppi = $pproperty->getLabel();
