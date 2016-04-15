@@ -1,6 +1,5 @@
 prod:
   .settings:
-    timeout:                 31536000
     no_script_name:           on
     cache:                  on
     etag:                   on
