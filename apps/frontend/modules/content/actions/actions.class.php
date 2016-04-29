@@ -24,6 +24,8 @@ class contentActions extends sfActions
 
   public function executeLanguages()
   {
+    $this->getResponse()->addStylesheet('/jpAdminPlugin/css/main');
+
     return sfView::SUCCESS;
   }
 
