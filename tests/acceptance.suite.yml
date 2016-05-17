@@ -12,3 +12,4 @@ modules:
         - Filesystem
         - PhpBrowser:
             url: http://registry.dev
+#            url: http://metadataregistry.org

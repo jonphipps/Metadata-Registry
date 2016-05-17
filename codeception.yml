@@ -13,4 +13,5 @@ settings:
 extensions:
     enabled:
         - Codeception\Extension\RunFailed
+        - tests\extensions\ConfigDbExtension
 
