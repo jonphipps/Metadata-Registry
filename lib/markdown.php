@@ -694,12 +694,27 @@ function _DoHeaders($text) {
 	#	  Header 2
 	#	  --------
 	#
-	$text = preg_replace(
-		array('{ ^(.+)[ \t]*\n=+[ \t]*\n+ }emx',
-			  '{ ^(.+)[ \t]*\n-+[ \t]*\n+ }emx'),
-		array("'<h1>'._RunSpanGamut(_UnslashQuotes('\\1')).'</h1>\n\n'",
-			  "'<h2>'._RunSpanGamut(_UnslashQuotes('\\1')).'</h2>\n\n'"),
-		$text);
+	if (version_compare(phpversion(), '7.0.0', '<')) {
+		$text = preg_replace([
+								 '{ ^(.+)[ \t]*\n=+[ \t]*\n+ }emx',
+								 '{ ^(.+)[ \t]*\n-+[ \t]*\n+ }emx'
+							 ],
+							 [
+								 "'<h1>'._RunSpanGamut(_UnslashQuotes('\\1')).'</h1>\n\n'",
+								 "'<h2>'._RunSpanGamut(_UnslashQuotes('\\1')).'</h2>\n\n'"
+							 ],
+							 $text);
+	} else {
+		$text = preg_replace_callback_array([
+												'{ ^(.+)[ \t]*\n=+[ \t]*\n+ }mx' => function ($matches) {
+													return '<h1>' . _RunSpanGamut(_UnslashQuotes($matches[1])) . "</h1>\n\n";
+												},
+												'{ ^(.+)[ \t]*\n-+[ \t]*\n+ }mx' => function ($matches) {
+													return '<h2>' . _RunSpanGamut(_UnslashQuotes($matches[1])) . "</h2>\n\n";
+												}
+											],
+											$text);
+	}
 
 	# atx-style headers:
 	#	# Header 1
@@ -708,16 +723,19 @@ function _DoHeaders($text) {
 	#	...
 	#	###### Header 6
 	#
-	$text = preg_replace("{
+
+	preg_replace_callback("{
 			^(\\#{1,6})	# $1 = string of #'s
 			[ \\t]*
 			(.+?)		# $2 = Header text
 			[ \\t]*
 			\\#*			# optional closing #'s (not counted)
 			\\n+
-		}xme",
-		"'<h'.strlen('\\1').'>'._RunSpanGamut(_UnslashQuotes('\\2')).'</h'.strlen('\\1').'>\n\n'",
-		$text);
+		}xm",
+		function ($matches) {
+			return '<h'.strlen($matches[1]).'>'._RunSpanGamut(_UnslashQuotes($matches[2])).'</h'.strlen($matches[1]).'>\n\n';
+		},
+						  $text);
 
 	return $text;
 }
@@ -1129,7 +1147,7 @@ function _DoAutoLinks($text) {
 						 '<a href="\1">\1</a>', $text);
 
 	# Email addresses: <address@domain.foo>
-	$text = preg_replace('{
+	$text = preg_replace_callback('{
 		<
         (?:mailto:)?
 		(
@@ -1138,9 +1156,11 @@ function _DoAutoLinks($text) {
 			[-a-z0-9]+(\.[-a-z0-9]+)*\.[a-z]+
 		)
 		>
-		}exi',
-		"_EncodeEmailAddress(_UnescapeSpecialChars(_UnslashQuotes('\\1')))",
-		$text);
+		}xi',
+		function ($matches)  {
+			return _EncodeEmailAddress(_UnescapeSpecialChars(_UnslashQuotes($matches[1])));
+		},
+						  $text);
 
 	return $text;
 }

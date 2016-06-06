@@ -813,7 +813,10 @@ class sfWebBrowser
    */
   protected function normalizeHeaderName($name)
   {
-    return preg_replace('/\-(.)/e', "'-'.strtoupper('\\1')", strtr(ucfirst(strtolower($name)), '_', '-'));
+    preg_replace_callback('/\-(.)/',
+        function ($matches) {
+          return '-' . strtoupper($matches[1]);
+        }, strtr(ucfirst(strtolower($name)), '_', '-'));
   }
 
 }
