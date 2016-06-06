@@ -49,9 +49,9 @@ uniqueTokenValidator:
 trailiingValidator:
   class:          sfRegexValidator
   param:
-    match:        true
+    match:        false
     pattern:      "/[\/\#]$/us"
-    match_error:  "URI must end in a slash (/) or a hash (#)"
+    match_error:  "URI must NOT end in a slash (/) or a hash (#)"
 noSlashesInTokenValidator:
   class:          sfRegexValidator
   param:

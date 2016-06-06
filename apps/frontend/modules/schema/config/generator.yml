@@ -12,24 +12,24 @@ generator:
       created_user:   { name: Created by, type: plain, help: The user who created this element set}
       updated_user:   { name: Updated by, type: plain, help: The user who last updated this element set}
       name:           { name: Label, help: A human-readable descriptive label for the element set. This will be displayed in lists of element sets. }
-      note:           { name: Note, help: A note about this element set }
+      note:           { name: Description, help: A general description of this element set }
       url:            { name: URL, help: A non-Registry URL that contains more information about this element set }
       base_domain:    { name: Base Domain, help: The root of all URIs for this element set and its elements. }
-      token:          { name: Name, help: A unique token representing this element set. This will be used as the prefix identifying this URI in RDF or a qname in XML}
+      token:          { name: Prefix, help: A unique token representing this element set. This will be used as the prefix identifying this URI in RDF or a qname in XML}
       uri:            { name: URI, help: The URI of this element set. By default this will be a concatenation of the Registry default domain and the element set Name. }
       community:      { name: Tags, help: Tags identifying communities of practice that this element set addresses }
       language:       { name: Default Language, help: Default language for the textual properties of this element set }
       languages:      { name: Available Languages, help: Available languages for the textual properties of this element set }
-      status_id:      { name: Status, help: Default status for the properties of this element set }
+      status_id:      { name: Default Status, help: Default status for the properties of this element set }
       repo:           { name: Git Repository, help: This is the name of the Git Repo that will hold this Element Set }
-#      ns_type:
-#        name: Type
-#        help: "Element set URI will be terminated with either a hash ( # ) or a slash ( / ) to identify the namespace"
-#        type: select_tag
-#        params:
-#          select_options:
-#            hash:  hash
-#            slash: slash
+      ns_type:
+        name: Type
+        help: "Element set URI will be terminated with either a hash ( # ) or a slash ( / ) to identify the namespace"
+        type: select_tag
+        params:
+          select_options:
+            hash:  hash
+            slash: slash
 
     list:
       title:          Element Sets
@@ -57,12 +57,12 @@ generator:
         token:        { params: onblur=updateUri() }
         languages:    { type: admin_select_language, params: multiple=true style="width:99%" }
         language:     { type: admin_select_language, params: limitmethod=getLanguages style="width:99%" }
+        namespace:    { name: Namespace, type: plain}
 #      hide:           [base_domain]
       display:
         "-Metadata":  { fields: [id, created_at, created_user, updated_at, updated_user], mode: edit }
         "Detail":     [agent_id, name, languages, language, status_id]
-#        "Namespace":  [token, uri, ns_type]
-        "Namespace":  [ repo, base_domain, token, uri]
+        "Namespace":  [ base_domain, token, uri, ns_type, namespace]
         "Documentation": [url, note, community]
       actions:
         _list:         -
@@ -77,15 +77,15 @@ generator:
       fields:
         id:            { credentials: [administrator] }
         uri:           { helper: auto_link_uri }
-        url:           { helper: auto_link_text }
+        url:           { helper: auto_link_uri }
         created_at:    { params: date_format='F' }
         updated_at:    { params: date_format='F' }
         list_users:    { name: - }
+        namespace:    { name: Namespace }
       display:
         "-Metadata":   { fields: [id, created_at, created_user, updated_at, updated_user], credentials: [[administrator, schemamaintainer, schemaadmin]] }
         "Detail":      [_agent, name, _languages, _language, status]
-#        "Namespace":   [token, uri, ns_type]
-        "Namespace":   [repo, base_domain, token, _uri]
+        "Namespace":   [uri, namespace]
         "Documentation": [url, note, community]
         "-Users":      [_list_users]
       actions:

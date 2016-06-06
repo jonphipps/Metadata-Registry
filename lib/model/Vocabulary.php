@@ -92,6 +92,38 @@ class Vocabulary extends BaseVocabulary
     }
   }
 
+
+    /**
+     * @return string
+     * @throws Exception
+     *
+     * check if there's an errant trailing /# on the uri
+     * if there is, set the ns_type to match it and return the URI
+     * else
+     * set the trailing string based on the ns_type property
+     * append to the uri and return
+     */
+    public function getNamespace()
+    {
+        $uri = self::getUri();
+        $trailer = substr($uri, -1);
+        $nstrailer =  self::getNsType() == 'slash'  ?  "/" :  "#";
+
+        if ($uri and rtrim($uri,"/#") === $uri) {
+            return $uri . $nstrailer;
+        }
+        if ($trailer === $nstrailer) {
+            return $uri;
+        }
+        if ($trailer == "/" and $nstrailer != '/') {
+            self::setNsType('slash');
+        }
+        if ($trailer == "#" and $nstrailer != '#') {
+            self::setNsType('hash');
+        }
+        return $uri;
+    }
+
   /**
   * Gets the created_by_user
   *

@@ -10,17 +10,25 @@ generator:
       last_updated:   { name: Last Updated, type: plain, params: date_format='s', help: This is the date the Vocabulary was last updated }
       agent:          { name: Owner, help: The individual or organization that registered the vocabulary }
       agent_id:       { name: Owner, help: The individual or organization that registered the vocabulary }
-      name:           { name: Name, help: A descriptive name for the vocabulary. This will be displayed in lists of vocabularies. }
-      note:           { name: Note, help: A note about this vocabulary }
+      name:           { name: Label, help: A descriptive name for the vocabulary. This will be displayed in lists of vocabularies. }
+      note:           { name: Description, help: A general description of this vocabulary }
       url:            { name: URL, help: A non-Registry URL that contains more information about this vocabulary }
       base_domain:    { name: Base Domain, help: The root of all URIs for this vocabulary and its terms. Defaults to the Base Domain set by the Owner of this vocabulary. }
-      token:          { name: Token, help: A unique token representing this vocabulary. This can be used as the RDF container class or to identify an encoding scheme in XML}
+      token:          { name: Prefix, help: A unique token representing this vocabulary. This will be used as the prefix identifying this URI in RDF or a qname in XML}
       uri:            { name: URI, help: The URI of this vocabulary. By default this will be a concatenation of the Base Domain and the Token. }
       community:      { name: Community, help: Tags identifying communities of practice that this vocabulary addresses }
       language:       { name: Default Language, help: Default language for the textual properties of this vocabulary }
       languages:      { name: Available Languages, help: Available languages for the textual properties of this element set }
       status_id:      { name: Default Status, help: Default status for the concept properties of this vocabulary }
       repo:           { name: Git Repository, help: This is the name of the Git Repo that will hold this Element Set }
+      ns_type:
+        name: Type
+        help: "The Vocabulary URI will be terminated with either a hash ( # ) or a slash ( / ) to identify the namespace"
+        type: select_tag
+        params:
+          select_options:
+            hash:  hash
+            slash: slash
 
     list:
       title:          Vocabularies
@@ -48,10 +56,11 @@ generator:
         token:        { params: onblur=updateUri() }
         languages:    { type: admin_select_language, params: multiple=true style="width:99%" }
         language:     { type: admin_select_language, params: limitmethod=getLanguages style="width:99%" }
+        namespace:    { name: Namespace, type: plain}
       display:
-        "-Metadata":  { fields: [id, created_at, last_updated], mode: edit, credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
+        "-Metadata":  { fields: [id, created_at, created_user, last_updated, updated_user], mode: edit, credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
         "Detail":     [agent_id, name, languages, language, status_id]
-        "Namespace":  [ repo, base_domain, token, uri]
+        "Namespace":  [ base_domain, token, uri, ns_type, namespace]
         "Documentation": [url, note, community]
       actions:
         _list:         -
@@ -70,15 +79,17 @@ generator:
         created_at:    { params: date_format='F' }
         last_updated:  { params: date_format='F' }
         list_users:    { name: - }
+        namespace:    { name: Namespace }
       display:
-        "-Metadata":   { fields: [id, created_at, last_updated], credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
+        "-Metadata":   { fields: [id, created_at, created_user, last_updated, updated_user], credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
         "Detail":      [_agent, name, _languages, _language, status]
-        "Namespace":   [repo, base_domain, token, uri]
+        "Namespace":   [uri, namespace]
         "Documentation": [url, note, community]
         "-Users":      [_list_users]
       actions:
         _list:
         _edit:       { credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
+        _publish:    { credentials: [[administrator]] }
         rdf:
           name:      Get RDF
           icon:      %SF_ADMIN_WEB_DIR%/images/rdf_icon.png
