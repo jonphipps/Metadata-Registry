@@ -1,41 +1,76 @@
-function updateUri () {
-  var domainField = $('vocabulary_base_domain');
-  var tokenField = $('vocabulary_token');
-  var uriField = $('vocabulary_uri');
-  var updateIt = true;
-  if (uriField.value != domainField.value + tokenField.value) {
-    updateIt = confirm("Automatically update the URI based on your changes?");
-  }
-  if (updateIt) {
-    uriField.value = domainField.value + tokenField.value;
-  }
+function updateUri() {
+    var domainField = $('vocabulary_base_domain'),
+        tokenField = $('vocabulary_token'),
+        uriField = $('vocabulary_uri'),
+        updateIt = true;
+    if ('' != tokenField.value && uriField.value != domainField.value + tokenField.value) {
+        updateIt = confirm("Automatically update the URI based on your changes?");
+    }
+    if (updateIt) {
+        uriField.value = domainField.value + tokenField.value;
+        $jq('#vocabulary_ns_type').change();
+    }
 }
 
 var $jq = jQuery.noConflict();
 $jq(document).ready(function () {
+    var $selLanguages = $jq("select#vocabulary_languages"),
+        $selLang = $jq('select#vocabulary_language'),
+        $selNamespace = $jq('#vocabulary_ns_type');
 
-  $jq("select#vocabulary_languages").select2({
-    placeholder: "Select all available Language(s)",
-    allowClear: true
-  });
+    $selLanguages.select2({
+        placeholder: "Select all available Language(s)",
+        allowClear: true
+    });
 
-  $jq("select#vocabulary_language").select2({
-    placeholder: "Select a Default Language",
-    allowClear: true
-  });
+    $selLang.select2({
+        placeholder: "Select a Default Language",
+        allowClear: true
+    });
 
-  $jq("select#vocabulary_languages").on("change",
-      function (e) {
-        var data = $jq("select#vocabulary_languages").select2("data");
-        var $selLang = $jq('select#vocabulary_language');
-        var savedVal = $selLang.select2("val");
-        $selLang[0].options.length = 0;
-        $selLang.select2("val", "");
-        $jq.each(data, function (index, value) {
-          $selLang.append('<option value="' + data[index].id + '">' + data[index].text + '</option>');
-          if (data[index].id == savedVal) {
-            $selLang.select2("val", savedVal)
-          }
+    $selLanguages.on("change",
+        function (e) {
+            var data = $selLanguages.select2("data");
+            var savedVal = $selLang.select2("val");
+            $selLang[0].options.length = 0;
+            $selLang.select2("val", "");
+            $jq.each(data, function (index, value) {
+                $selLang.append('<option value="' + data[index].id + '">' + data[index].text + '</option>');
+                if (data[index].id == savedVal) {
+                    $selLang.select2("val", savedVal)
+                }
+            });
         });
-      });
+
+    $selNamespace.on('change',
+        function(e) {
+            var trailing = '/',
+                $uri = $jq('#vocabulary_uri');
+
+            var uri = stripTrailingSlash($uri.val());
+
+            if (this.value == 'hash') {
+                trailing = '#';
+                $uri.val(uri);
+            }
+            if (uri !== "") {
+                $jq('#form_row_content_vocabulary_namespace').text(uri + trailing);
+            }
+        }
+    );
+
+    $jq('#vocabulary_uri').on('change',
+        function (e) {
+        $jq('#vocabulary_ns_type').change();
+        });
+
 });
+
+function stripTrailingSlash(str) {
+    if (typeof str === 'string') {
+        if (str.substr(-1) === '/') {
+            return str.substr(0, str.length - 1);
+        }
+    }
+    return str;
+}
