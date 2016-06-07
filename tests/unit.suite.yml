@@ -8,6 +8,8 @@ modules:
     config:
         Db:
             dsn: mysql:host=127.0.0.1;port=3306;dbname=swregistry_test_update
+            user: "%DB_USER%"
+            password: "%DB_PASS%"
 env:
     batch:
         modules:

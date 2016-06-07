@@ -13,5 +13,8 @@ settings:
 extensions:
     enabled:
         - Codeception\Extension\RunFailed
-        - tests\extensions\ConfigDbExtension
+        - Codeception\Extension\Logger
+        - Codeception\Extension\Recorder
+params:
+    - tests/.env
 

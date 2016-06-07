@@ -10,6 +10,8 @@ modules:
         - Asserts
         - \Helper\Acceptance
         - Filesystem
-        - PhpBrowser:
-            url: http://registry.dev
+        - WebDriver:
+            url: "http://registry.dev"
+            browser: firefox
+
 #            url: http://metadataregistry.org
