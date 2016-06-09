@@ -59,11 +59,9 @@ class schemapropActions extends autoschemapropActions
    */
   public function setDefaultUri($schemaprop, $schemaObj)
   {
-    $newURI = $this->getBaseUri($schemaObj);
+    $newURI = $schemaObj->getNamespace();
 
     $UriId = $schemaObj->getLastUriId() + 1;
-    $schemaObj->setLastUriId($UriId);
-    $schemaObj->save();
     $schemaprop->setUri($newURI . $UriId);
 
     $this->setDefaultLexicalAlias($schemaprop, $newURI);
@@ -131,11 +129,11 @@ class schemapropActions extends autoschemapropActions
     $schemaProperty = $this->schema_property;
     if ($schemaProperty) {
       $schemaObj = $this->getCurrentSchema();
-      $schemaProperty->setSchemaUri($this->getBaseUri($schemaObj));
+      $schemaProperty->setSchemaUri($schemaObj->getNamespace());
 
       $lexUri = $schemaProperty->getLexicalAlias();
       if (empty($lexUri)) {
-        $newURI = $this->getBaseUri($schemaObj);
+        $newURI = $schemaObj->getNamespace();
         $this->setDefaultLexicalAlias($schemaProperty, $newURI);
       }
     }
@@ -225,23 +223,7 @@ class schemapropActions extends autoschemapropActions
      }
      $this->schemaprops = $options;
   }
-
-  /**
-   * @param  Schema $schemaObj
-   *
-   * @return string
-   */
-  public function getBaseUri($schemaObj)
-  {
-    $schemaDomain = $schemaObj->getUri();
-    //URI looks like: agent(base_domain) / schema(token) / schema(next_schemaprop_id) / skos_property_id # schemaprop(next_property_id)
-    $trailer = preg_match('%(/|#)$%im', $schemaDomain) ? '' : '/';
-    $newURI  = $schemaDomain . $trailer;
-    return $newURI;
-    //registry base domain is http://metadataregistry.org/uri/
-    //schema carries denormalized base_domain from agent
-  }
-
+  
   /**
   * overload saveSchemaProperty
   *

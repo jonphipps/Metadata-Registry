@@ -152,6 +152,17 @@ class SchemaProperty extends BaseSchemaProperty
      */
     public function save($con = null)
     {
+        $arr = explode("/", self::getUri());
+        $id = array_pop($arr);
+        if (is_numeric($id)) {
+            $schema = self::getSchema();
+
+            if ($schema->getLastUriId() != $id) {
+                $schema->setLastUriId($id);
+                $schema->save();
+            }
+        }
+
         $affectedRows = parent::save($con);
 
         if (sfcontext::hasInstance()) {
