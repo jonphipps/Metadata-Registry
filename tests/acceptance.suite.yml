@@ -1,17 +1,12 @@
 # Codeception Test Suite Configuration
 #
-# suite for acceptance tests.
-# perform tests in browser using the WebDriver or PhpBrowser.
+# Suite for acceptance tests.
+# Perform tests in browser using the WebDriver or PhpBrowser.
 # If you need both WebDriver and PHPBrowser tests - create a separate suite.
 
 class_name: AcceptanceTester
 modules:
     enabled:
-        - Asserts
+        - PhpBrowser:
+            url: http://registry.dev
         - \Helper\Acceptance
-        - Filesystem
-        - WebDriver:
-            url: "http://registry.dev"
-            browser: firefox
-
-#            url: http://metadataregistry.org

@@ -54,3 +54,5 @@ spec/coverage
 dump.rdb
 node_modules
 composer.lock
+
+tests/_output/*

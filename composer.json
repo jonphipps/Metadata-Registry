@@ -14,12 +14,7 @@
     "codeception/specify": "^0.4.3",
     "codeception/verify": "^0.3.0",
     "captbaritone/mailcatcher-codeception-module": "^1.1",
-    "behat/behat": "^3.0",
-    "behat/mink": "^1.7",
-    "behat/mink-extension": "^2.1",
-    "behat/mink-selenium2-driver": "^1.3",
-    "behat/mink-goutte-driver": "^1.2",
-    "codeception/codeception": "@dev"
+    "codeception/codeception": "^2.2"
   },
   "config": {
     "process-timeout": 900,
@@ -34,7 +29,6 @@
   ],
   "minimum-stability": "dev",
   "require": {
-    "zendframework/zendframework1": "1.12.*@dev",
     "bgcc/sf-select2-widgets-plugin": "~1.0",
     "league/plates": "2.*",
     "league/flysystem": "0.5.*",
