@@ -1,17 +1,14 @@
 <?php
 namespace Step\Acceptance;
 
-class login extends \AcceptanceTester
+class admin extends \AcceptanceTester
 {
 
-    public function asAdmin()
+    public function login()
     {
         $I = $this;
         $I->click('sign in / register');
-        $I->fillField('login name:', 'jonphipps');
-        $I->fillField('password:','phipj121');
-        $I->click('sign in');
-
+        $I->submitForm('#login_form', [ 'nickname' => 'jonphipps', 'password' => 'phipj121' ]);
     }
 
 }
