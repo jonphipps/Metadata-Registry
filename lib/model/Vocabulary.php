@@ -240,4 +240,5 @@ class Vocabulary extends BaseVocabulary
 
     return $namespaces;
   }
+
 }

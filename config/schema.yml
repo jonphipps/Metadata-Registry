@@ -1783,7 +1783,11 @@ propel:
     repo: 
       type: VARCHAR
       size: 256
-    _indexes: 
+    prefix: 
+      type: VARCHAR
+      size: 255
+      required: true
+    _indexes:
       last_updated_by_user_id: 
         - updated_user_id
       reg_vocabulary_idx1: 
