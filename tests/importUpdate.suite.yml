@@ -1,0 +1,13 @@
+class_name: ImportTester
+error_level: "E_ALL & ~E_STRICT & ~E_USER_DEPRECATED & ~E_DEPRECATED"
+modules:
+    enabled: [Asserts, \Helper\Import, \Helper\ImportUpdate, Db, Filesystem]
+    config:
+        Db:
+            dsn: mysql:host=127.0.0.1;port=3306;dbname=swregistry_test_update
+            dump: tests/_data/swregistry_test_update.sql
+            user: "%DB_USER%"
+            password: "%DB_PASS%"
+            cleanup: false
+
+

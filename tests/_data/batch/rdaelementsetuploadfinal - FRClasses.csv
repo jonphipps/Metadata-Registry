@@ -1,0 +1,34 @@
+meta,id,owl:sameAs,rdfs:label,skos:definition,ParentProperty,reg:name,reg:type
+uri,key,owl:sameAs,rdfs:label,skos:definition,rdfs:subPropertyOf,reg:name,reg:type
+lang,en,,en,en,,,
+type,uri,uri,,,uri,,
+meta,token,rdac,"A unique token representing this element set. This will be used as the prefix identifying this URI in RDF curies or as a qname in XML",,,,
+meta,label,"RDA Classes","A human-readable descriptive label for the vocab. This will be displayed in lists of vocabs.",,,,
+meta,status_id,1,"The registry code of the status (defaults to published)",,,,
+meta,url,,"A non-Registry URL that contains more information about this element set",,,,
+meta,note,,"A note about this element set",,,,
+meta,tags,,"Comma separated list of tags",,,,
+meta,base_domain,http://rdaregistry.info/Elements/c/,"the URI of this vocab",,,,
+meta,type,schema,"""schema"" || ""vocab""",,,,
+meta,agent_id,,"The registry ID of the owner/agent",,,,
+meta,user_id,,"The registry ID of the vocab admin (must be affiliated with the owner/agent)",,,,
+prefix,owl,http://www.w3.org/2002/07/owl#,OWL,,,,
+prefix,rdfs,http://www.w3.org/2000/01/rdf-schema#,"RDF schema",,,,
+prefix,skos,http://www.w3.org/2004/02/skos/core#,SKOS,,,,
+prefix,mrc,http://id.loc.gov/vocabulary/relators/,"MARC relator codes",,,,
+prefix,reg,http://metadataregistry.org/uri/profile/RegAp/,"OMR elements",,,,
+prefix,rdaa,http://rdaregistry.info/Elements/a/,"RDA agent (person, family, corporate body) properties",,,,
+prefix,rdac,http://rdaregistry.info/Elements/c/,"RDA classes",,,,
+prefix,rdae,http://rdaregistry.info/Elements/e/,"RDA expression properties",,,,
+prefix,rdai,http://rdaregistry.info/Elements/i/,"RDA item properties",,,,
+prefix,rdam,http://rdaregistry.info/Elements/m/,"RDA manifestaion properties",,,,
+prefix,rdau,http://rdaregistry.info/Elements/u/,"RDA unconstrained properties",,,,
+prefix,rdaw,http://rdaregistry.info/Elements/w/,"RDA work properties",,,,
+,rdac:C10001,rdac:Work,Work,"A distinct intellectual or artistic creation (i.e., the intellectual or artistic content).",,Work,class
+,rdac:C10002,rdac:Agent,Agent,"A person, family, or corporate body.",,Agent,class
+,rdac:C10003,rdac:Item,Item,"A single exemplar or instance of a manifestation.",,Item,class
+,rdac:C10004,rdac:Person,Person,"An individual or an identity established by an individual (either alone or in collaboration with one or more other individuals).",rdac:C10002,Person,subclass
+,rdac:C10005,rdac:CorporateBody,"Corporate body","An organization or group of persons and/or organizations that is identified by a particular name and that acts, or may act, as a unit.",rdac:C10002,CorporateBody,subclass
+,rdac:C10006,rdac:Expression,Expression,"The intellectual or artistic realization of a work in the form of alpha-numeric, musical or choreographic notation, sound, image, object, movement, etc., or any combination of such forms.",,Expression,class
+,rdac:C10007,rdac:Manifestation,Manifestation,"The physical embodiment of an expression of a work.",,Manifestation,class
+,rdac:C10008,rdac:Family,Family,"Two or more persons related by birth, marriage, adoption, civil union, or similar legal status, or who otherwise present themselves as a family.",rdac:C10002,Family,subclass

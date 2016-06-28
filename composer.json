@@ -56,7 +56,8 @@
       "model\\": "lib/model"
     },
     "classmap": ["lib/model/",
-        "tests/"
+        "tests",
+        "tests.old/"
     ]
   },
 

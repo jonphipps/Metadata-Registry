@@ -7,5 +7,13 @@
 class_name: FunctionalTester
 modules:
     enabled:
-        # add framework module here
+        - Filesystem
         - \Helper\Functional
+        - Asserts
+#        - Db:
+#            dump: tests/_data/swregistry_test.sql
+#            dsn: "mysql:host=127.0.0.1;port=3306;dbname=swregistry_test"
+#            user: "%DB_USER%"
+#            password: "%DB_PASS%"
+#            populate: false
+#            cleanup: false

@@ -1,9 +1,30 @@
 # Codeception Test Suite Configuration
-#
-# Suite for unit (internal) tests.
 
+# suite for unit (internal) tests.
 class_name: UnitTester
+error_level: "E_ALL & ~E_STRICT & ~E_USER_DEPRECATED & ~E_DEPRECATED"
+params:
+    - tests/.env
 modules:
-    enabled:
-        - Asserts
-        - \Helper\Unit
+    enabled: [Asserts, \Helper\Unit, Db, Filesystem]
+    config:
+        Db:
+            dsn: mysql:host=127.0.0.1;port=3306;dbname=swregistry_test_update
+            user: root
+            password:
+env:
+    batch:
+        modules:
+            config:
+                Db:
+                    dump: tests/_data/batch/swregistry_test_2014-01-17.sql
+    normal:
+        modules:
+            config:
+                Db:
+                    dump: tests/_data/swregistry_test.sql
+    update:
+        modules:
+            config:
+                Db:
+                    dump: tests/_data/swregistry_test_update.sql
