@@ -47,17 +47,18 @@
     "neitanod/forceutf8": "^2.0",
     "mjphaynes/php-resque": "^1.2",
     "robmorgan/phinx": "^0.5.0",
-    "symfony/var-dumper": "2.8.x-dev"
+    "symfony/var-dumper": "2.8.x-dev",
+    "knplabs/github-api": "1.7.*"
   },
 
   "autoload": {
     "psr-4": {
       "ImportVocab\\": "plugins/jpAdminGeneratorPlugin/lib/ImportVocab",
-      "model\\": "lib/model"
+      "model\\": "lib/model",
+      "apps\\": "apps"
     },
     "classmap": ["lib/model/",
-        "tests",
-        "tests.old/"
+        "tests"
     ]
   },
 
