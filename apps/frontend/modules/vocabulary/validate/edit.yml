@@ -12,7 +12,7 @@ names:
   "vocabulary{uri}":
     required:       Yes
     required_msg:   The URI cannot be left blank
-    validators:     uniqueUriValidator, trailiingValidator
+    validators:     uniqueUriValidator
   "vocabulary{base_domain}":
     required:       Yes
     required_msg:   The Base Domain cannot be left blank

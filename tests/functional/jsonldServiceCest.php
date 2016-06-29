@@ -31,11 +31,11 @@ class jsonldServiceCest
         $I->assertInstanceOf("Vocabulary", $jsonLdService->getVocabulary());
         //then I initialize the master array
         //then I build the attributes array
-        $I->assertEquals($jsonLdService->jsonArray['@id'], "http://rdaregistry.info/termList/AspectRatio/");
+        $I->assertEquals($jsonLdService->jsonArray['@id'], "http://rdaregistry.info/termList/AspectRatio/","expected @id doesn't match URI");
         $I->assertEquals($jsonLdService->jsonArray['@type'], "ConceptScheme");
         $I->assertEquals($jsonLdService->jsonArray['title'], [ "en" => 'RDA Aspect Ratio' ]);
         $I->assertEquals($jsonLdService->jsonArray['description'], [ "en" => 'The ratio of the width to the height of a moving image.' ]);
-        //$I->assertEquals($jsonLdService->jsonArray['prefix'], "rdaar");
+        $I->assertEquals($jsonLdService->jsonArray['prefix'], "rdaar");
         //$I->assertEquals($jsonLdService->jsonArray['dateOfPublication'], "03/01/2016");
         $I->assertEquals($jsonLdService->jsonArray['token'], "AspectRatio");
         $I->assertEquals($jsonLdService->jsonArray['status'],
@@ -43,17 +43,18 @@ class jsonldServiceCest
                              "@id"          => 'http://metadataregistry.org/uri/RegStatus/1001',
                              "label"        => "Published"
                          ]);
-        $I->assertEquals($jsonLdService->jsonArray['api'], "http://api.metadataregistry.org/vocabularies/58");
-        $I->assertEquals($jsonLdService->jsonArray['url'], "http://www.rdaregistry.info/termList/AspectRatio/");
-        $I->assertEquals($jsonLdService->jsonArray['tags'],
+        $I->assertEquals("http://api.metadataregistry.org/vocabularies/58", $jsonLdService->jsonArray['api']);
+        $I->assertEquals("http://www.rdaregistry.info/termList/AspectRatio/", $jsonLdService->jsonArray['url']);
+        $I->assertEquals(
                          [
                                "en"=> [
                                    "Libraries",
                                    "Information Services"
                                ]
-                         ]);
-        $I->assertEquals($jsonLdService->jsonArray['count'], "3");
-        $I->assertEquals($jsonLdService->jsonArray['languages'], [
+                         ],
+                         $jsonLdService->jsonArray['tags']);
+        $I->assertEquals("3", $jsonLdService->jsonArray['count']);
+        $I->assertEquals([
         [
             "code"=> "ar",
           "lang"=> "Arabic",
@@ -102,9 +103,9 @@ class jsonldServiceCest
           "source"=> "2.4.3",
           "version"=> "WIP"
         ]
-      ]);
+      ],
+                         $jsonLdService->jsonArray['languages']);
 
-        $I->assertEquals($jsonLdService->jsonArray['prefix'], "rdaar");
 
         //TODO: These two properties don't currently exist in the data and ned to be added
         //"dateOfPublication":"03/01/2016",

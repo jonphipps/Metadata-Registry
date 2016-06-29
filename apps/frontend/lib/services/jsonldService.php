@@ -28,7 +28,8 @@ class jsonldService
         $this->jsonArray["@type"]       = "ConceptScheme";
         $this->jsonArray['title']       = [ $vocab->getLanguage() => $vocab->getName() ];
         $this->jsonArray['description'] = [ $vocab->getLanguage() => $vocab->getNote() ];
-        $this->jsonArray["token"]       = $vocab->getToken();
+        $this->jsonArray["token"] = $vocab->getToken();
+        $this->jsonArray["prefix"] = $vocab->getPrefix();
         $status                         = \ConceptPeer::getConceptByUri($vocab->getStatus()->getUri());
         $this->jsonArray['status']      = [
             "@id"   => $status->getUri(),
