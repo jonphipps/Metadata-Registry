@@ -19,7 +19,7 @@ class jsonldServiceCest
     }
 
     // tests
-    public function tryToTest(FunctionalTester $I)
+    public function testFullJsonLD(FunctionalTester $I)
     {
         //i have a value vocabulary
         $vocab = $this->vocab;
@@ -112,10 +112,7 @@ class jsonldServiceCest
         ]
       ],
                          $jsonLdService->jsonArray['languages']);
-
-
-        //TODO: These two properties don't currently exist in the data and need to be added
-        //"dateOfPublication":"03/01/2016",
+        $I->assertEquals($jsonLdService->jsonArray['dateOfPublication'], $releaseDate);
 
         /*
         $I->assertEquals(json_encode($jsonLdService->jsonArray, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT), '{

@@ -43,8 +43,8 @@ class jsonldService
             "en" => $this->getTags($this->vocab->getCommunity())
         ];
         $this->jsonArray["count"]       = $vocab->countConcepts();
-        $this->jsonArray["languages"]   = $this->getLanguages($vocab->getLanguages());
-
+        $this->jsonArray["languages"] = $this->getLanguages($vocab->getLanguages());
+        $this->jsonArray["dateOfPublication"] = $this->getDateOfPublication();
 
     }
 
@@ -92,13 +92,27 @@ class jsonldService
 
 
     /**
-     * @return string|\DateTime
+     * @return string
      */
     private function getReleaseTag()
     {
-        if ($this->release)
-        {
+        if ($this->release) {
             return $this->release->tag_name;
+        }
+
+        return '';
+
+    }
+
+
+    /**
+     * @return string|\DateTime
+     */
+    private function getDateOfPublication()
+    {
+        if ($this->release) {
+            return $releaseDate = \DateTime::createFromFormat(\DateTime::W3C, $this->release->published_at)
+                                          ->format('F j, Y');;
         }
 
         return '';
@@ -110,7 +124,7 @@ class jsonldService
     {
         $GuzzleClient = new Client([ 'base_uri' => 'https://api.github.com' ]);
         try {
-            $response     = $GuzzleClient->request('GET', '/repos/' . $this->vocab->getRepo() . '/releases/latest');
+            $response = $GuzzleClient->request('GET', '/repos/' . $this->vocab->getRepo() . '/releases/latest');
             if ($response) {
                 $this->release = json_decode($response->getBody());
             }
