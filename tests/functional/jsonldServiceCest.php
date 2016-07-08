@@ -23,11 +23,18 @@ class jsonldServiceCest
     {
         //i have a value vocabulary
         $vocab = $this->vocab;
-        $I->assertInstanceOf('Vocabulary', $vocab);
 
         //then I retrieve the attributes for the vocabulary
+        $GuzzleClient = new GuzzleHttp\Client(['base_uri'=> 'https://api.github.com']);
+        $response = $GuzzleClient->request('GET', '/repos/RDARegistry/RDA-Vocabularies/releases/latest');
+        $repoRelease = json_decode($response->getBody());
+        $releaseVersion = $repoRelease->tag_name;
+        $releaseDate = DateTime::createFromFormat(DateTime::W3C, $repoRelease->published_at)->format('F j, Y');
+        $vocab->setRepo('RDARegistry/RDA-Vocabularies');
+        $I->assertInstanceOf('Vocabulary', $vocab);
+
         //then I pass it to a new jsonld builder
-        $jsonLdService = new jsonldService($vocab, "2.4.3");
+        $jsonLdService = new jsonldService($vocab);
         $I->assertInstanceOf("Vocabulary", $jsonLdService->getVocabulary());
         //then I initialize the master array
         //then I build the attributes array
@@ -58,56 +65,56 @@ class jsonldServiceCest
         [
             "code"=> "ar",
           "lang"=> "Arabic",
-          "source"=> "2.4.3",
+          "source"=> $releaseVersion,
           "version"=> "WIP"
         ],
         [
             "code"=> "zh",
           "lang"=> "Chinese",
-          "source"=> "2.4.3",
-          "version"=> "2.4.3"
+          "source"=> $releaseVersion,
+          "version"=> $releaseVersion
         ],
         [
             "code"=> "nl",
           "lang"=> "Dutch",
-          "source"=> "2.4.3",
+          "source"=> $releaseVersion,
           "version"=> "WIP"
         ],
         [
             "code"=> "en",
           "lang"=> "English",
-          "source"=> "2.4.3",
-          "version"=> "2.4.3"
+          "source"=> $releaseVersion,
+          "version"=> $releaseVersion
         ],
         [
             "code"=> "fr",
           "lang"=> "French",
-          "source"=> "2.4.3",
-          "version"=> "2.4.3"
+          "source"=> $releaseVersion,
+          "version"=> $releaseVersion
         ],
         [
             "code"=> "de",
           "lang"=> "German",
-          "source"=> "2.4.3",
-          "version"=> "2.4.3"
+          "source"=> $releaseVersion,
+          "version"=> $releaseVersion
         ],
         [
             "code"=> "es",
           "lang"=> "Spanish",
-          "source"=> "2.4.3",
-          "version"=> "2.4.3"
+          "source"=> $releaseVersion,
+          "version"=> $releaseVersion
         ],
         [
             "code"=> "sv",
           "lang"=> "Swedish",
-          "source"=> "2.4.3",
+          "source"=> $releaseVersion,
           "version"=> "WIP"
         ]
       ],
                          $jsonLdService->jsonArray['languages']);
 
 
-        //TODO: These two properties don't currently exist in the data and ned to be added
+        //TODO: These two properties don't currently exist in the data and need to be added
         //"dateOfPublication":"03/01/2016",
 
         /*
@@ -137,49 +144,49 @@ class jsonldServiceCest
                 {
                   "code": "ar",
                   "lang": "Arabic",
-                  "source": "2.4.3",
+                  "source": $releaseVersion,
                   "version": "WIP"
                 },
                 {
                   "code": "zh",
                   "lang": "Chinese",
-                  "source": "2.4.3",
-                  "version": "2.4.3"
+                  "source": $releaseVersion,
+                  "version": $releaseVersion
                 },
                 {
                   "code": "nl",
                   "lang": "Dutch",
-                  "source": "2.4.3",
+                  "source": $releaseVersion,
                   "version": "WIP"
                 },
                 {
                   "code": "en",
                   "lang": "English",
-                  "source": "2.4.3",
-                  "version": "2.4.3"
+                  "source": $releaseVersion,
+                  "version": $releaseVersion
                 },
                 {
                   "code": "fr",
                   "lang": "French",
-                  "source": "2.4.3",
-                  "version": "2.4.3"
+                  "source": $releaseVersion,
+                  "version": $releaseVersion
                 },
                 {
                   "code": "de",
                   "lang": "German",
-                  "source": "2.4.3",
-                  "version": "2.4.3"
+                  "source": $releaseVersion,
+                  "version": $releaseVersion
                 },
                 {
                   "code": "es",
                   "lang": "Spanish",
-                  "source": "2.4.3",
-                  "version": "2.4.3"
+                  "source": $releaseVersion,
+                  "version": $releaseVersion
                 },
                 {
                   "code": "sv",
                   "lang": "Swedish",
-                  "source": "2.4.3",
+                  "source": $releaseVersion,
                   "version": "WIP"
                 }
               ]
@@ -202,7 +209,7 @@ class jsonldServiceCest
 
     public function testGetTags(FunctionalTester $I)
     {
-        $jsonLdService = new jsonldService($this->vocab, "2.4.3");
+        $jsonLdService = new jsonldService($this->vocab);
 
         $I->assertEmpty($jsonLdService->getTags(''));
     }

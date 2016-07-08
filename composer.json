@@ -33,7 +33,7 @@
     "league/plates": "2.*",
     "league/flysystem": "0.5.*",
     "vlucas/phpdotenv": "1.*@dev",
-    "ddeboer/data-import": "@stable",
+    "ddeboer/data-import": "0.18.*",
     "google/apiclient": "^1.1",
     "semsol/arc2": "^2.2",
     "easyrdf/easyrdf": "^0.9.1",

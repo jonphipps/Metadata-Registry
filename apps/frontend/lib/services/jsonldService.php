@@ -8,22 +8,24 @@
 
 namespace apps\frontend\lib\services;
 
+use GuzzleHttp\Client;
+
 class jsonldService
 {
 
     private $vocab;
 
-    private $version;
+    private $release;
 
     private $masterArray = [ ];
 
     public $jsonArray = [ ];
 
 
-    public function __construct(\Vocabulary $vocab, $publishedVersion)
+    public function __construct(\Vocabulary $vocab)
     {
         $this->vocab                    = $vocab;
-        $this->version                  = $publishedVersion;
+        $this->setReleaseFromGithub();
         $this->jsonArray["@id"]         = $vocab->getUri();
         $this->jsonArray["@type"]       = "ConceptScheme";
         $this->jsonArray['title']       = [ $vocab->getLanguage() => $vocab->getName() ];
@@ -66,10 +68,10 @@ class jsonldService
         //TODO 06/09/2016: This needs to lookup the actual published version that was translated as well as the published version of the language. Right now it's a fixed field
         foreach ($languages as $language) {
             $languageCount = $this->getLanguageCount($language);
-            $version       = ( $languageCount ) ? $this->version : "WIP";
+            $version       = ( $languageCount ) ? $this->getReleaseTag() : "WIP";
             $lang[]        = [ "code"    => $language,
                                "lang"    => format_language($language),
-                               "source"  => $this->version,
+                               "source"  => $this->getReleaseTag(),
                                "version" => $version
             ];
         }
@@ -86,5 +88,34 @@ class jsonldService
         $c->addJoin(\ConceptPropertyPeer::CONCEPT_ID, \ConceptPeer::ID);
 
         return $this->vocab->countConcepts($c);
+    }
+
+
+    /**
+     * @return string|\DateTime
+     */
+    private function getReleaseTag()
+    {
+        if ($this->release)
+        {
+            return $this->release->tag_name;
+        }
+
+        return '';
+
+    }
+
+
+    private function setReleaseFromGithub()
+    {
+        $GuzzleClient = new Client([ 'base_uri' => 'https://api.github.com' ]);
+        try {
+            $response     = $GuzzleClient->request('GET', '/repos/' . $this->vocab->getRepo() . '/releases/latest');
+            if ($response) {
+                $this->release = json_decode($response->getBody());
+            }
+        } catch (\GuzzleHttp\Exception\ClientException $e) {
+            $this->release = false;
+        }
     }
 }
