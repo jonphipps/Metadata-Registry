@@ -1,9 +1,9 @@
 methods:
   post:
-    -"schema{name}"
-    -"schema{uri}"
-    -"schema{base_domain}"
-    -"schema{token}"
+    - "schema{name}"
+    - "schema{uri}"
+    - "schema{base_domain}"
+    - "schema{token}"
 
 names:
   "schema{name}":

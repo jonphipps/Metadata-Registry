@@ -17,7 +17,7 @@ default:
 
   has_layout:     on
   layout:         layout
-  components:          {}
+  components:
     sidebar:      [sidebar, default]
 
   use_default_slots: on

@@ -4,7 +4,7 @@ all:
 
 editSuccess:
   stylesheets: [%sf_select2_web_dir%/select2]
-  javascripts: [schemaprop/swapoptions: { position: last }, schemaprop: { position: last }, %sf_jquery_web_dir%/jquery: { position: first }, %sf_select2_web_dir%/select2: { position: first }, "%sf_bower_web_dir%/string/lib/string.min.js": { position: last } ]
+  javascripts: [schemaprop/swapoptions: { position: last }, schemaprop: { position: last }, %sf_jquery_web_dir%/jquery: { position: first }, %sf_select2_web_dir%/select2: { position: first }, %sf_bower_web_dir%/string/lib/string.min.js: { position: last } ]
 
 showRdfSuccess:
   has_layout: off

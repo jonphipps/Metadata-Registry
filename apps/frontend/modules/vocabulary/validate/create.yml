@@ -1,9 +1,9 @@
 methods:
   post:
-    -"vocabulary{name}"
-    -"vocabulary{uri}"
-    -"vocabulary{base_domain}"
-    -"vocabulary{token}"
+    - "vocabulary{name}"
+    - "vocabulary{uri}"
+    - "vocabulary{base_domain}"
+    - "vocabulary{token}"
 
 names:
   "vocabulary{name}":

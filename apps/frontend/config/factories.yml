@@ -24,10 +24,10 @@ all:
 #  user:
 #    class: myUser
 #
-  storage:
-    class: sfSessionStorage
-    param:
-      session_name: nsdl_registry
+   storage:
+     class: sfSessionStorage
+     param:
+       session_name: nsdl_registry
 #      session_cookie_lifetime: 31536000
 #
 #  view_cache:
