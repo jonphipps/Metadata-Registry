@@ -65,7 +65,7 @@ abstract class sfAdminGenerator extends sfCrudGenerator
     $help = $this->getParameterValue($type.'.fields.'.$column->getName().'.help');
     if ($help)
     {
-      return "<div class=\"sf_admin_edit_help\">[?php echo __('".$this->escapeString($help)."') ?]</div>";
+      return "<div class=\"sf_admin_edit_help\">[?php echo __('". $this->escapeString(nl2br($help))."') ?]</div>";
     }
 
     return '';
