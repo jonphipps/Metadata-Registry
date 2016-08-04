@@ -48,7 +48,8 @@
     "mjphaynes/php-resque": "^1.2",
     "robmorgan/phinx": "^0.5.0",
     "symfony/var-dumper": "2.8.x-dev",
-    "knplabs/github-api": "1.7.*"
+    "knplabs/github-api": "1.7.*",
+    "hashids/hashids": "^1.0"
   },
 
   "autoload": {
