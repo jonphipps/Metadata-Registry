@@ -1,4 +1,5 @@
 <?php
+use apps\frontend\lib\services\jsonldService;
 use ImportVocab\ExportVocab;
 use League\Flysystem\Filesystem;
 use League\Flysystem\Adapter\Local as Adapter;
@@ -164,7 +165,7 @@ class vocabularyActions extends autovocabularyActions
   {
     //send the id to the publishing class
     if ( ! $this->vocabulary) {
-      $this->vocabulary = SchemaPeer::retrieveByPK($this->getRequestParameter('id'));
+      $this->vocabulary = VocabularyPeer::retrieveByPK($this->getRequestParameter('id'));
     }
 
     $vocabulary = $this->vocabulary;
@@ -183,7 +184,7 @@ class vocabularyActions extends autovocabularyActions
       $vocabDir = $regs[1];
     } else {
       $this->setFlash('error',
-                      'This Schema has NOT been published. We couldn\'t parse the file names from the uri.</br>Make sure that you\'ve set the base domain, the uri, and the Git Repository.');
+                      'This Vocabulary has NOT been published. We couldn\'t parse the file names from the uri.</br>Make sure that you\'ve set the base domain and the uri');
       $this->forward('vocabulary', 'show');
     }
     $file = $vocabDir . "." . $mime;
@@ -193,88 +194,14 @@ class vocabularyActions extends autovocabularyActions
     $filePath   = $repoRoot . DIRECTORY_SEPARATOR . $mime . DIRECTORY_SEPARATOR . $file;
     $aliasPath  = "alias" . DIRECTORY_SEPARATOR . $vocabDir;
 
-    $propArray   = $vocabulary->getPropertyArray();
-    $statusArray = $vocabulary->getStatusArray();
-
-    //use the default language if none specified
-    if ($useLanguage == "") {
-      $useLanguage = $vocabulary->getLanguage();
-    }
-
-    //todo: For each language make a language-specific file using the nolang context
-
     //make sure the path is created
     $filesystem->put($mime . DIRECTORY_SEPARATOR . $file, '');
     //open a file for writing the complete vocabulary file
     $vocabFile = fopen($filePath, 'w');
-    //$context = $vocabulary->getJsonLdContext("en");
-
-    if ( ! $uselanguageMap) {
-      //write the nolang context -- this one is what we already have, but it's static at the moment
-      $jsonldContext = $vocabulary->getBaseDomain() . "Contexts/elements_nolang.jsonld";
-      $contextArray  = [ $jsonldContext, [ "@language" => $useLanguage, ], ];
-    } else {
-      //write the language map context
-      $jsonldContext = $vocabulary->getBaseDomain() . "Contexts/elements_langmap.jsonld";
-      $contextArray  = $jsonldContext;
-      $cLang         = $vocabulary->getCriteriaForLanguage($uselanguageMap, $useLanguage);
-    }
-
-    //make a single file with all languages in a proper array for the language map context
-    $context = json_encode($contextArray, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
-    //prepend the context
-    fwrite($vocabFile, '{' . PHP_EOL . '"@context": ' . $context . ',' . PHP_EOL . '  "@graph": [');
+    $jsonLdService = new jsonldService($vocabulary);
+    fwrite($vocabFile, $jsonLdService->getJsonLd());
     fclose($vocabFile);
-    $vocabFile = fopen($filePath, 'a+');
-    $comma     = "";
-    $counter   = 0;
-    $aka       = [ ];
 
-    //get a list of the resources
-    /** @var SchemaProperty[] $properties */
-    $resources = $vocabulary->getSchemaPropertys();
-    /** @var SchemaProperty $resource */
-    foreach ($resources as $resource) {
-      $success = $vocabulary->getResourceArray($resource, $cLang, $propArray, $statusArray, $uselanguageMap, $useLanguage);
-      if ($success) {
-        $counter++;
-        $jsonld = json_encode($success, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
-        //$success["@context"] = json_encode($contextArray);
-        $success["@context"] = $contextArray;
-        ksort($success, SORT_FLAG_CASE | SORT_NATURAL);
-        $jsonFrag = json_encode($success, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
-        $jsonFrag .= PHP_EOL;
-        //$compacted = JsonLD::compact($jsonFrag);
-        //$expanded = JsonLD::expand($jsonFrag);
-        //$flattened = JsonLD::flatten($jsonFrag);
-        //$prettyC = JsonLD::toString($compacted, true);
-        //$prettyE = JsonLD::toString($expanded, true);
-        //$prettyF = JsonLD::toString($flattened, true);
-        //$quads = JsonLD::toRdf($jsonFrag);
-        //$nquads = new NQuads();
-        //$serialized = $nquads->serialize($quads);
-        //$document = JsonLD::fromRdf($quads);
-        //$doc = JsonLD::getDocument($jsonFrag);
-        //$graph = $doc->getGraph();
-        //$serialized2 = JsonLD::toString($graph->toJsonLd());
-        //$rdfFormats = EasyRdf_Format::getFormats();
-        //$graph = new EasyRdf_Graph($success["@id"]);
-        //$graph->parse($quads, "jsonld", $success["@id"]);
-        //$output = $graph->serialise("turtle");
-
-        //append the json to the open file
-        fwrite($vocabFile, $comma . PHP_EOL . $jsonld);
-
-        //update the fragment
-        //this just gets the last bit after the last slash
-        $filename = preg_replace('%.*/%i', '', $resource->getUri());
-        $filesystem->put($mime . DIRECTORY_SEPARATOR . $vocabDir . DIRECTORY_SEPARATOR . $filename . "." . $mime,
-                         $jsonFrag);
-        $comma = ",";
-      }
-    }
-    fwrite($vocabFile, PHP_EOL . "  ]" . PHP_EOL . "}" . PHP_EOL);
-    fclose($vocabFile);
     $filesystem->put($aliasPath . ".json",
                      json_encode($vocabulary->getLexicalArray(), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
     $filesystem->put($aliasPath . ".php", serialize($vocabulary->getLexicalArray()));
@@ -288,15 +215,6 @@ class vocabularyActions extends autovocabularyActions
     //$this->setFlash('error', 'This Schema has NOT been published');
     $this->forward('vocabulary', 'show');
 
-    /*      if (!$vocabulary) {
-            $vocabulary = SchemaPeer::retrieveByPk($this->getRequestParameter('id'));
-          }
-          $this->labels = $this->getLabels('show');
-    
-          $this->forward404Unless($vocabulary);
-          $this->properties = $vocabulary->getProperties();
-          $this->classes    = $vocabulary->getClasses();
-    */
   }
 
 }

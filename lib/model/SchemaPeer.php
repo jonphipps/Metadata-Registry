@@ -192,4 +192,28 @@ class SchemaPeer extends BaseSchemaPeer
     return $result;
   }
 
+
+    public static function getColumnCounts($id)
+    {
+        $con     = Propel::getConnection(SchemaPeer::DATABASE_NAME);
+        $results = [ ];
+        $rs      = $con->executeQuery(/** @lang MySQL */
+            <<<SQL
+select profile_property_id, lang, max(cnt) as maxcnt from (
+select profile_property_id, reg_schema_property_element.language as lang, reg_schema_property.id, count(reg_schema_property_element.language) as cnt
+from reg_schema_property_element join reg_schema_property on reg_schema_property_element.schema_property_id = reg_schema_property.id
+where reg_schema_property_element.deleted_at is null
+and reg_schema_property.schema_id = $id
+group by reg_schema_property.id, reg_schema_property_element.language, profile_property_id
+order by profile_property_id) as results
+group by profile_property_id, lang
+SQL
+        );
+        while ($rs->next()) {
+            $results[$rs->getInt('profile_property_id')][$rs->getString('lang')] = $rs->getInt('maxcnt');
+        }
+
+        return $results;
+    }
+
 }
