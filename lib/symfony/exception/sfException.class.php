@@ -101,9 +101,9 @@ class sfException extends Exception
       header('HTTP/1.0 500 Internal Server Error');
 
       // clean current output buffer
-      while (@ob_end_clean());
+      @ob_end_clean();
 
-      ob_start(sfConfig::get('sf_compressed') ? 'ob_gzhandler' : '');
+      ob_start(sfConfig::get('sf_compressed') ? 'ob_gzhandler' : null);
     }
 
     // send an error 500 if not in debug mode
