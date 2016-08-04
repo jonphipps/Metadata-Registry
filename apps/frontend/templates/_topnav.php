@@ -24,7 +24,7 @@ $topnav['vocabulary'] ['Concepts']   ['link'] = '/concept/list?vocabulary_id=';
 $topnav['vocabulary'] ['History']    ['link'] = '/history/list?vocabulary_id=';
 $topnav['vocabulary'] ['Versions']   ['link'] = '/version/list?vocabulary_id=';
 $topnav['vocabulary'] ['Maintainers']['link'] = '/vocabuser/list?vocabulary_id=';
-$topnav['vocabulary'] ['Export']     ['link'] = '/vocabulary/export?id=';
+$topnav['vocabulary'] ['Export']     ['link'] = '/export/list?vocabulary_id=';
 $topnav['vocabulary'] ['Import']     ['link'] = '/import/list?vocabulary_id=';
 //$topnav['vocabulary'] ['Discuss']    ['link'] = '/discuss/list?vocabulary_id=';
 //concepts
@@ -43,7 +43,7 @@ $topnav['schema']     ['Elements']   ['link'] = '/schemaprop/list?schema_id=';
 $topnav['schema']     ['History']    ['link'] = '/schemahistory/list?schema_id=';
 //  $topnav['schema']     ['Versions']   ['link'] = '/schemaversion/list?schema_id=';
 $topnav['schema']     ['Maintainers']['link'] = '/schemauser/list?schema_id=';
-$topnav['schema']     ['Export']     ['link'] = '/schema/export?id=';
+$topnav['schema']     ['Export']     ['link'] = '/export/list?schema_id=';
 $topnav['schema']     ['Import']     ['link'] = '/import/list?schema_id=';
 //$topnav['schema']     ['Discuss']    ['link'] = '/discuss/list?schema_id=';
 //schema properties
@@ -70,7 +70,8 @@ foreach (array(
                'schema_property_element',
                'schema_property',
                'schema',
-               'import',
+             'export',
+             'import',
          ) as $value
 ) {
     /** @var sfParameterHolder $sf_params **/
@@ -186,12 +187,21 @@ $tabMap['vocabulary']       ['export'] =
         'tab'   => 'vocabulary',
         'title' => 'Export',
     );
+$tabMap['vocabulary']       ['publish'] = [
+    'tab'   => 'vocabulary',
+    'title' => 'Publish',
+];
+
 if ('vocabulary' == $filter) {
     $tabMap['import']        ['list'] =
         array(
             'tab'   => 'vocabulary',
             'title' => 'List Imports',
         );
+    $tabMap['export']        ['list'] = [
+        'tab'   => 'vocabulary',
+        'title' => 'List Exports',
+    ];
     $tabMap['discuss']    ['list'] =
           array(
                 'tab'   => 'vocabulary',
@@ -287,11 +297,14 @@ $tabMap['schema']       ['export'] =
     );
 
 if ('schema' == $filter) {
-    $tabMap['import']        ['list'] =
-          array(
-                'tab'   => 'schema',
-                'title' => 'list Imports',
-          );
+    $tabMap['import']        ['list'] = [
+        'tab'   => 'schema',
+        'title' => 'list Imports',
+    ];
+    $tabMap['export']        ['list'] = [
+        'tab'   => 'schema',
+        'title' => 'list Exports',
+    ];
     $tabMap['discuss']       ['list'] =
           array(
                 'tab'   => 'schema',
@@ -395,6 +408,10 @@ $tabMap['import']     ['show'] =
             'tab'   => 'import',
             'title' => 'Show Import Detail',
       );
+$tabMap['export']     ['show'] = [
+    'tab'   => 'export',
+    'title' => 'Show Export Detail',
+];
 
 //get the current module/action
 /** @var sfParameterHolder $sf_params */
@@ -433,6 +450,8 @@ $showDiscussBc = false;
 $showVersionBc = false;
 $showSchemaImportBc = false;
 $showVocabularyImportBc = false;
+$showSchemaExportBc = false;
+$showVocabularyExportBc = false;
 $showBc = false;
 $tabTitle = false;
 
@@ -516,6 +535,13 @@ switch ($buildBc) {
                 $schema = SchemaPeer::retrieveByPK($id);
             }
         }
+        if ('export' == $filter) {
+            $export = ExportHistoryPeer::retrieveByPK($paramId);
+            if ($export) {
+                $id     = $export->getSchemaId();
+                $schema = SchemaPeer::retrieveByPK($id);
+            }
+        }
         if (!isset($vocabulary)) {
             $id = ('show' == $action) ? $sf_params->get('id') : $paramId;
             if ($id) {
@@ -531,6 +557,13 @@ switch ($buildBc) {
             $import = FileImportHistoryPeer::retrieveByPK($paramId);
             if ($import) {
                 $id = $import->getSchemaId();
+                $schema = SchemaPeer::retrieveByPK($id);
+            }
+        }
+        if ('export' == $filter) {
+            $export = ExportHistoryPeer::retrieveByPK($paramId);
+            if ($export) {
+                $id     = $export->getSchemaId();
                 $schema = SchemaPeer::retrieveByPK($id);
             }
         }
@@ -1209,7 +1242,7 @@ if ($tab):
                     $options['id'] = 'a' . $i;
                     $i ++;
 
-                    if (false !== strpos($value['link'], $module . '/' . $action)) {
+                  if (false !== strpos($value['link'], $module . '/' . $action)) {
                         echo '<li class = "ui-tabs-selected">' . link_to('<span>' . __($key) . '</span>',
                                     $value['link'] . $objectId, $options) . '</li>';
                     } else {
