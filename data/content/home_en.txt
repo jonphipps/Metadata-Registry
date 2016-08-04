@@ -6,7 +6,7 @@ The Metadata Registry provides services to developers and consumers of controlle
 
 How to begin
 ------------
-[Step-by-step illustrated instructions...](http://wiki.metadataregistry.org/Step-By-Step_Instruction)
+[Step-by-step illustrated instructions...](http://wiki.metadataregistry.org/Open_Metadata_Registry_Step-By-Step_Instruction)
 
 Play in the [Metadata Registry Sandbox](http://sandbox.metadataregistry.org)
 ============
