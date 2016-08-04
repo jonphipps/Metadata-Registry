@@ -462,7 +462,7 @@ class Schema extends BaseSchema {
     }
 
     /**
-     * @return array|mixed|string
+     * @return array
      */
     public function getLanguages()
     {
@@ -485,19 +485,19 @@ class Schema extends BaseSchema {
     }
 
     /**
-     * @return array|mixed|string
+     * @return array
      */
     public function getLanguagesNoDefault()
-  {
-    $languages = $this->getLanguages();
-      $language = $this->getLanguage();
-    $default = array_search( $language, $languages );
-    if ( false !== $default ) {
-      unset( $languages[ $default ] );
-    }
+    {
+        $languages = $this->getLanguages();
+        $language  = $this->getLanguage();
+        $default   = array_search($language, $languages);
+        if (false !== $default) {
+            unset( $languages[$default] );
+        }
 
-    return $languages;
-  }
+        return $languages;
+    }
 
     /**
      * @param SchemaProperty     $property
@@ -865,4 +865,5 @@ SQL
 
         return $results;
     }
+
 }
