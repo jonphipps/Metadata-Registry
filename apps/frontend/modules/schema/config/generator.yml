@@ -61,8 +61,9 @@ generator:
 #      hide:           [base_domain]
       display:
         "-Metadata":  { fields: [id, created_at, created_user, updated_at, updated_user], mode: edit }
-        "Detail":     [agent_id, name, languages, language, status_id]
+        "Detail":     [agent_id, name, languages, language]
         "Namespace":  [ base_domain, token, uri, ns_type, namespace]
+        "Publishing": [ repo, status_id]
         "Documentation": [url, note, community]
       actions:
         _list:         -
@@ -86,6 +87,7 @@ generator:
         "-Metadata":   { fields: [id, created_at, created_user, updated_at, updated_user], credentials: [[administrator, schemamaintainer, schemaadmin]] }
         "Detail":      [_agent, name, _languages, _language, status]
         "Namespace":   [uri, namespace]
+        "Publishing": [ repo, status]
         "Documentation": [url, note, community]
         "-Users":      [_list_users]
       actions:

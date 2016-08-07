@@ -60,8 +60,9 @@ generator:
         namespace:    { name: Namespace, type: plain}
       display:
         "-Metadata":  { fields: [id, created_at, created_user, last_updated, updated_user], mode: edit, credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
-        "Detail":     [agent_id, name, languages, language, status_id]
+        "Detail":     [agent_id, name, languages, language, repo]
         "Namespace":  [ base_domain, token, uri, ns_type, namespace, prefix]
+        "Publishing": [ repo, status_id]
         "Documentation": [url, note, community]
       actions:
         _list:         -
@@ -83,8 +84,9 @@ generator:
         namespace:    { name: Namespace }
       display:
         "-Metadata":   { fields: [id, created_at, created_user, last_updated, updated_user], credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
-        "Detail":      [_agent, name, _languages, _language, status]
+        "Detail":      [_agent, name, _languages, _language]
         "Namespace":   [uri, namespace, prefix]
+        "Publishing":  [ repo, status]
         "Documentation": [url, note, community]
         "-Users":      [_list_users]
       actions:
