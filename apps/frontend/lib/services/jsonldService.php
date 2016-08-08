@@ -169,9 +169,7 @@ class jsonldService
 
     public static function getConceptPropertyArray(\Concept $concept, $collapse = true)
     {
-        $c = new \Criteria();
-        $c->add(\ConceptPropertyPeer::DELETED_AT,  \Criteria::ISNULL);
-        $properties = $concept->getConceptPropertysRelatedByConceptIdJoinProfilePropertyRelatedBySkosPropertyId($c);
+        $properties = $concept->getConceptPropertysRelatedByConceptIdJoinProfilePropertyRelatedBySkosPropertyId();
         /** @var array $properties */
         $properties        = $properties ?: [];
         $array['@id']      = $concept->getUri();
@@ -181,19 +179,21 @@ class jsonldService
         $array['status']   = $concept->getStatus()->getDisplayName();
         if ($properties) {
             foreach ($properties as $property) {
-                /** @var \ProfileProperty $profile */
-                $profile = $property->getProfileProperty();
-                if ($profile->getHasLanguage()) {
-                    if ($profile->getIsSingleton()) {
-                        $array[$profile->getName()][$property->getLanguage()] = $property->getObject();
+                if (!$property->getDeletedAt()) {
+                    /** @var \ProfileProperty $profile */
+                    $profile = $property->getProfileProperty();
+                    if ($profile->getHasLanguage()) {
+                        if ($profile->getIsSingleton()) {
+                            $array[$profile->getName()][$property->getLanguage()] = $property->getObject();
+                        } else {
+                            $array[$profile->getName()][$property->getLanguage()][] = $property->getObject();
+                        }
                     } else {
-                        $array[$profile->getName()][$property->getLanguage()][] = $property->getObject();
-                    }
-                } else {
-                    if ($profile->getIsSingleton()) {
-                        $array[$profile->getName()] = $property->getObject();
-                    } else {
-                        $array[$profile->getName()][] = $property->getObject();
+                        if ($profile->getIsSingleton()) {
+                            $array[$profile->getName()] = $property->getObject();
+                        } else {
+                            $array[$profile->getName()][] = $property->getObject();
+                        }
                     }
                 }
             }
