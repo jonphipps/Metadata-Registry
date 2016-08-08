@@ -169,7 +169,9 @@ class jsonldService
 
     public static function getConceptPropertyArray(\Concept $concept, $collapse = true)
     {
-        $properties = $concept->getConceptPropertysRelatedByConceptIdJoinProfilePropertyRelatedBySkosPropertyId();
+        $c = new \Criteria();
+        $c->add(\ConceptPropertyPeer::DELETED_AT,  \Criteria::ISNULL);
+        $properties = $concept->getConceptPropertysRelatedByConceptIdJoinProfilePropertyRelatedBySkosPropertyId($c);
         /** @var array $properties */
         $properties        = $properties ?: [];
         $array['@id']      = $concept->getUri();
