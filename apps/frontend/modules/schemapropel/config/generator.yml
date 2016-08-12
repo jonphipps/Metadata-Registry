@@ -32,7 +32,7 @@ generator:
       fields:
         format_language: { name: Language }
         updated_user: { name: Updated by }
-      display:        [=profile_property, _object, format_language, status, updated_at, updated_user]
+      display:        [=profile_property, format_language, _object, status, updated_at, updated_user]
       displayfilter:  false
 #      sort:           profile_property
       object_actions:

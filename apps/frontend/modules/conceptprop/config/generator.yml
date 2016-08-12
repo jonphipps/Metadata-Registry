@@ -37,7 +37,7 @@ generator:
       fields:
         _language:     { name: Lang }
         updated_at: { name: Updated }
-      display:        [=profile_property, _show_object, _language, status, updated_at]
+      display:        [=profile_property, _language, _show_object, status, updated_at]
       displayfilter:  false
       object_actions:
         _edit:        { credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
