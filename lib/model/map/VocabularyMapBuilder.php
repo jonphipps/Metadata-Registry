@@ -107,8 +107,6 @@ class VocabularyMapBuilder {
 
 		$tMap->addColumn('PREFIXES', 'Prefixes', 'string', CreoleTypes::LONGVARCHAR, false, null);
 
-		$tMap->addColumn('REPOS', 'Repos', 'string', CreoleTypes::VARCHAR, false, 256);
-
 		$tMap->addColumn('REPO', 'Repo', 'string', CreoleTypes::VARCHAR, false, 256);
 
 		$tMap->addColumn('PREFIX', 'Prefix', 'string', CreoleTypes::VARCHAR, true, 255);

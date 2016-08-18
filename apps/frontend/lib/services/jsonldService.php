@@ -79,7 +79,6 @@ class jsonldService
      */
     public function getLanguages($languages)
     {
-        require_once \sfConfig::get('sf_symfony_lib_dir') . '/helper/I18NHelper.php';
         $lang = [];
 //TODO 06/09/2016: This needs to lookup the actual published version that was translated as well as the published version of the language. Right now it's a fixed field
         foreach ($languages as $language) {
@@ -87,7 +86,7 @@ class jsonldService
             $version       = ( $languageCount ) ? $this->getReleaseTag() : "WIP";
             $lang[]        = [
                 "code"    => $language,
-                "lang"    => format_language($language),
+                "lang"    => self::format_language($language),
 //TODO 07/28/2016: rather than get the current release tag, this needs to get the actual release associated with the language translation
 //                               "source"  => $this->getReleaseTag(),
                 "version" => $version
@@ -224,4 +223,16 @@ class jsonldService
     {
         return json_encode($this->itemArray, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
     }
+
+
+    private static function format_language($language_iso, $culture = null)
+    {
+        $c         = new \sfCultureInfo($culture === null ? \sfContext::getInstance()
+                                                                    ->getUser()
+                                                                    ->getCulture() : $culture);
+        $languages = $c->getLanguages();
+
+        return isset( $languages[$language_iso] ) ? $languages[$language_iso] : '';
+    }
+
 }

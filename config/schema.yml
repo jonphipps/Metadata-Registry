@@ -1837,9 +1837,6 @@ propel:
       default: slash
     prefixes: 
       type: LONGVARCHAR
-    repos: 
-      type: VARCHAR
-      size: 256
     repo: 
       type: VARCHAR
       size: 256
