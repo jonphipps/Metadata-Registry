@@ -44,7 +44,14 @@ class sfPropelAdminGenerator extends sfPropelCrudGenerator
     return $phpNames;
   }
 
-  public function getAdminColumnForField($field, $flag = null)
+
+    /**
+     * @param string $field
+     * @param string $flag
+     *
+     * @return sfAdminColumn
+     */
+    public function getAdminColumnForField($field, $flag = null)
   {
     $phpName = sfInflector::camelize($field);
 
@@ -52,13 +59,19 @@ class sfPropelAdminGenerator extends sfPropelCrudGenerator
   }
 
   // returns a column phpName or null if none was found
-  public function getColumnForPhpName($phpName)
+    /**
+     * @param string $phpName
+     *
+     * @return string | null
+     */
+    public function getColumnForPhpName($phpName)
   {
     // search the matching column for this column name
 
     foreach ($this->getTableMap()->getColumns() as $column)
     {
-      if ($column->getPhpName() == $phpName)
+        /** @var Column $column */
+        if ($column->getPhpName() == $phpName)
       {
         $found = true;
 
@@ -71,7 +84,7 @@ class sfPropelAdminGenerator extends sfPropelCrudGenerator
   }
 
   /**
-   * @param Column $columns
+   * @param Column[] $columns
    * @param string $phpName
    *
    * @return Column|null
