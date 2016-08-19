@@ -1,7 +1,8 @@
 [?php
 
 /**
- * <?php echo $this->getGeneratedModuleName() ?> actions.
+* <?php /** @var sfPropelAdminGenerator $this */
+echo $this->getGeneratedModuleName() ?> actions.
  *
  * @package    ##PROJECT_NAME##
  * @subpackage <?php echo $this->getGeneratedModuleName() ?>
