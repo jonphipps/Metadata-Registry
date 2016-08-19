@@ -464,7 +464,7 @@ EOF;
    * @param string $paramName The parameter name
    * @param string $category  (optional, default = 'NONE')
    *
-   * @return array sfAdminColumn array
+   * @return sfAdminColumn[]
    */
   public function getColumns($paramName, $category = 'NONE')
   {
