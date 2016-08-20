@@ -7,14 +7,24 @@ if ($sf_params->get('schema_id')) {
     $param = 'vocabulary_id=' . $sf_params->get('vocabulary_id');
 }
 ?>
-<ul class="sf_admin_actions">
-  <li><?php echo button_to(
-        __( 'List' ),
-        'import/list?'. $param . '',
-        array (
-            'title' => 'Show Export History list',
-            'class' => 'sf_admin_action_list',
-        )
-    ) ?></li>
 
+<ul class="sf_admin_actions">
+    <li><?php echo button_to(__('List'),
+                             'export/list?schema_id=' . $param . '',
+                             [
+                                 'title' => 'Show export_history list',
+                                 'class' => 'sf_admin_action_list',
+                             ]) ?></li>
+    <li><?php echo submit_tag(__('Export CSV'),
+                              [
+                                  'name'  => 'save',
+                                  'title' => 'Save',
+                                  'class' => 'sf_admin_action_save',
+                              ]) ?></li>
+    <li><?php echo button_to(__('Cancel'),
+                             'export/cancel?id=' . $export_history->getId(),
+                             [
+                                 'title' => 'Cancel',
+                                 'class' => 'sf_admin_action_cancel',
+                             ]) ?></li>
 </ul>

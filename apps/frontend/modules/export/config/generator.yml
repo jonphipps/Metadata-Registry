@@ -75,15 +75,17 @@ generator:
         id:           { credentials: [administrator], mode: edit }
         selected_language:
           condition:  "$sf_flash->get('hasLanguages')"
+          limitmethod: getLanguagesNoDefault
+          params:     include_blank=true
 
       display:
-        "Export Detail":     [id, csv_type, exclude_deprecated, exclude_generated, selected_language, selected_columns, include_deleted]
+        "Export Detail":     [id, csv_type, exclude_deprecated, exclude_generated, selected_language, include_deleted, selected_columns ]
       hide:           [schema_id, user_id, vocabulary_id]
 
       actions:
         _list:         { query_string: { schema_id: schema_id} }
-        _save:         { name: Import CSV, credentials: [[administrator, schemaadmin, vocabularyadmin]] }
-        _cancel:       { credentials: [[administrator, schemaadmin, vocabularyadmin]], query_string: { schema_id: schema_id} }
+        _save:         { name: Export CSV }
+        _cancel:       { query_string: { schema_id: schema_id} }
 
     show:
       title:           Show Export detail for %%resource%%
