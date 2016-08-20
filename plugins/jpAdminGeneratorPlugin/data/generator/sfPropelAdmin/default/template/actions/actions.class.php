@@ -395,7 +395,7 @@ $column = sfPropelManyToMany::getColumn($class, $through_class);
     if ($this->getRequest()->hasParameter('filter'))
     {
       $filters = $this->getRequestParameter('filters');
-      if ($filters)
+      if ($filters && is_array($filters))
         {
           $hasFilter = true;
 <?php foreach ($this->getColumns('list.filters') as $column): $type = $column->getCreoleType() ?>
