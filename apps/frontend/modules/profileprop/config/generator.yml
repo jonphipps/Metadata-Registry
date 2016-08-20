@@ -3,3 +3,8 @@ generator:
   param:
     model_class:      ProfileProperty
     theme:            default
+
+    list:
+      filters:        [profile_id]
+      urlfilters:
+        profile_id:    profile_id
