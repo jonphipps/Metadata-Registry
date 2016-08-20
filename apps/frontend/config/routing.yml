@@ -7,6 +7,18 @@ api_all:
   url:   /api/:objects/:action/*.
   param: { module: api}
 
+#agent filter
+agent_vocabs:
+  url: /agents/:agent_id/vocabularies.html
+  param: { module: vocabulary, action: list}
+
+
+# profile properties
+profile_properties:
+  url: /profiles/:profile_id/properties.html
+  param: { module: profileprop, action: list}
+
+
 # uri schema
 uri_schema_html:
   url:  /uri/schema/:schema.html
@@ -212,8 +224,6 @@ schema_history_feed_all_rss:
 all_history_feed_atom:
   url:   /allhistoryfeeds.atom
   param: { module: content, action: allHistoryFeeds, format: atom1}
-
-
 
 # user
 user_show:
