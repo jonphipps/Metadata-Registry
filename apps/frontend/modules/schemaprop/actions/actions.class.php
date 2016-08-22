@@ -22,7 +22,7 @@ class schemapropActions extends autoschemapropActions
 {
   public function preExecute ()
   {
-    if ('search' != $this->getRequestParameter('action'))
+      if ('search' != $this->getRequestParameter('action'))
     {
       $this->getCurrentSchema();
     }
@@ -141,7 +141,20 @@ class schemapropActions extends autoschemapropActions
 
   public function executeList ()
   {
-    //a current schema is required to be in the request URL
+      $schemaObj = $this->getCurrentSchema();
+      $schemaId  = $schemaObj->getId();
+      $this->crumbs = '';
+      $topnav[0]    = [ 'title' => 'Detail', 'link' => '@elementset_detail?id='. $schemaId ];
+      $topnav[1]    = [ 'title' => 'Elements', 'link' => '@elementset_elements?schema_id=' . $schemaId , 'selected' => true ];
+      //$topnav[2]    = [ 'title' => 'Namespaces', 'link' => '/namespace/list?schema_id=' . $schemaId ];
+      $topnav[2] = [ 'title' => 'History', 'link' => '@elementset_history?schema_id=' . $schemaId ];
+      //$topnav[2]    = [ 'title' => 'Versions', 'link' => '/schemaversion/list?schema_id=' . $schemaId ];
+      $topnav[3] = [ 'title' => 'Maintainers', 'link' => '@elementset_maintainers?schema_id=' . $schemaId  ];
+      $topnav[4] = [ 'title' => 'Export', 'link' => '@elementset_exports?schema_id=' . $schemaId ];
+      $topnav[5] = [ 'title' => 'Import', 'link' => '@elementset_imports?schema_id=' . $schemaId  ];
+      $this->tabs = $topnav;
+
+      //a current schema is required to be in the request URL
     myActionTools::requireSchemaFilter();
 
     //clear any existing property filters since they don't apply now

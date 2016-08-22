@@ -172,6 +172,36 @@ concept_history_feed_all_rss:
 
 
 #schemas (element sets)
+elementset_elements:
+  url:   /elementsets/:schema_id/elements
+  param: { module: schemaprop, action: list, tabnav: elementsets }
+
+elementset_history:
+  url:   /elementsets/:schema_id/history
+  param: { module: schemahistory, action: list, tabnav: elementsets }
+
+elementset_maintainers:
+  url:   /elementsets/:schema_id/maintainers
+  param: { module: schemauser, action: list, tabnav: elementsets }
+
+elementset_exports:
+  url:   /elementsets/:schema_id/exports
+  param: { module: exporthistory, action: list, tabnav: elementsets }
+
+elementset_imports:
+  url:   /elementsets/:schema_id/imports
+  param: { module: import, action: list, tabnav: elementsets }
+
+elementset_detail:
+  url:   /elementsets/:id
+  param: { module: schema, action: show, tabnav: elementsets }
+
+elementset_list:
+  url:   /elementsets
+  param: { module: schema, action: list, tabnav: elementsets }
+
+
+
 
 schema_search:
   url:   /schemaprop/search.

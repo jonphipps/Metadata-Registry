@@ -3,8 +3,10 @@
 <div id="sf_admin_container" class="sf_admin_list">
 
 <div id="sf_admin_header">
-[?php include_partial('<?php echo $this->getModuleName() ?>/list_header', array('pager' => $pager)) ?]
-[?php include_partial('<?php echo $this->getModuleName() ?>/list_messages', array('pager' => $pager)) ?]
+    [?php include_partial('<?php echo $this->getModuleName() ?>/breadcrumbs', array('crumbs' => $crumbs)) ?]
+    [?php include_partial('<?php echo $this->getModuleName() ?>/tabnav', array('tabs' => $tabs)) ?]
+    [?php include_partial('<?php echo $this->getModuleName() ?>/list_header', array('pager' => $pager)) ?]
+    [?php include_partial('<?php echo $this->getModuleName() ?>/list_messages', array('pager' => $pager)) ?]
 </div>
 
 <div id="sf_admin_content">
