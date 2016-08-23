@@ -8,8 +8,8 @@ generator:
       id:             { name: ID }
       created_at:     { name: Date Created }
       last_updated:   { name: Last Updated }
-      org_name:       { name: Owner Name}
-      org_email:      { name: Owner Email }
+      org_name:       { name: Agent Name}
+      org_email:      { name: Agent Email }
       ind_affiliation:{ name: Affiliation (Individual) }
       ind_role:       { name: Role (Individual) }
       address1:       { name: Address Line 1 }
@@ -24,10 +24,10 @@ generator:
       type:
 
     list:
-      title:           Resource Owners
+      title:           Agents
       display:         [=org_name, type]
       actions:
-        _create:       { name: Add Owner, credentials: [subscriber] }
+        _create:       { name: Add Agent, credentials: [subscriber] }
       object_actions:
         _edit:         { credentials: [[administrator, agentadmin]] }
 
@@ -35,7 +35,7 @@ generator:
       title:
         mode:
           edit:        Editing %%org_name%%
-          create:      Creating new owner
+          create:      Creating new agent
       display:
         "Detail":      [_type, org_name, org_email, ind_affiliation, address1, address2, city, state, postal_code, country, phone, web_address]
       fields:

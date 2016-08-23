@@ -10,7 +10,7 @@
     <fieldset>
         <h2><?php echo __('filters') ?></h2>
         <div class="form-row">
-            <label for="filters_agent_id"><?php echo __('Owner:') ?></label>
+            <label for="filters_agent_id"><?php echo __('Agent:') ?></label>
             <div class="content">
                 <?php echo object_select_tag(isset( $filters['agent_id'] ) ? $filters['agent_id'] : null,
                                              null,

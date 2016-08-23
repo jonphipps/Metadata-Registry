@@ -5,10 +5,10 @@
   <div class="round-border-topright"></div>
   <h1 class="orange"><?php echo __('Browse...') ?></h1>
   <ul>
-    <li><?php echo link_to(__('Resource&nbsp;Owners'), 'agent/list') ?>
+    <li><?php echo link_to(__('Agents'), 'agent/list') ?>
 <?php if ($sf_user->isAuthenticated())
 {
-  echo '&nbsp;&nbsp;' .  link_to(__('(Add)'), 'agent/create', array('title' => 'Register a new owner'));
+  echo '&nbsp;&nbsp;' .  link_to(__('(Add)'), 'agent/create', array('title' => 'Register a new agent'));
 }
 ?>
   </li>
@@ -25,9 +25,6 @@ if ($sf_user->isAuthenticated() && $sf_user->getAttribute('agentCount','0','subs
 {
   echo '&nbsp;&nbsp;' .  link_to(__('(Add)'), 'schema/create', array('title' => 'Register a new Element Set'));
 } ?>
-  </li>
-  <li>
-    <a title="SPARQL Endpoint" href="/endpoint.php">SPARQL</a>
   </li>
 </ul>
 </div>

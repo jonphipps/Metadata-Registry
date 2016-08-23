@@ -8,8 +8,8 @@ generator:
       id:             { name: ID, type: plain}
       created_at:     { name: Date Created, type: plain, params: date_format='s', help: This is the date the Vocabulary was created }
       last_updated:   { name: Last Updated, type: plain, params: date_format='s', help: This is the date the Vocabulary was last updated }
-      agent:          { name: Owner, help: The individual or organization that registered the vocabulary }
-      agent_id:       { name: Owner, help: The individual or organization that registered the vocabulary }
+      agent:          { name: Agent, help: The individual or organization that registered the vocabulary }
+      agent_id:       { name: Agent, help: The individual or organization that registered the vocabulary }
       name:           { name: Label, help: A descriptive name for the vocabulary. This will be displayed in lists of vocabularies. }
       note:           { name: Description, help: A general description of this vocabulary }
       url:            { name: URL, help: A non-Registry URL that contains more information about this vocabulary }

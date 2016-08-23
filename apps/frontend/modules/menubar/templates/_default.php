@@ -3,7 +3,7 @@
 <!-- This is the start of the menu -->
 <div id="mainMenu">
 	<a>Resources</a>
-	<a>Owners</a>
+	<a>Agents</a>
 <?php if ($sf_user->hasCredential(array (0 => 'administrator' ))): ?>
 	<a>Users</a>
 <?php endif ?>

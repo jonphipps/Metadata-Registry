@@ -14,7 +14,7 @@ generator:
       peer_method:     doSelectJoinAll
       title:           Members of %%agent%%
       fields:
-        agent:         { name: Owner }
+        agent:         { name: Agent }
         user:          { name: Member }
       display:         [_user, _agent, isRegistrarFor, isAdminFor]
       object_actions:

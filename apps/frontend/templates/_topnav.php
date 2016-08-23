@@ -133,7 +133,7 @@ if ('user' == $filter) {
     $tabMap['agentuser']  ['list'] =
           array(
                 'tab'   => 'user',
-                'title' => 'List Owners',
+                'title' => 'List Agents',
           );
     $tabMap['vocabuser']  ['list'] =
           array(
@@ -150,7 +150,7 @@ if ('user' == $filter) {
 $tabMap['agent']        ['list'] =
       array(
             'tab'   => 'agentlist',
-            'title' => 'List Owners',
+            'title' => 'List Agents',
       );
 $tabMap['agent']        ['show'] =
       array(
@@ -908,7 +908,7 @@ switch ($buildBc) {
         $tab = false;
         break;
     case 'agentlist':
-        $title = __('Owners');
+        $title = __('Agents');
         $tab = false;
         break;
     case 'userlist':
@@ -1108,7 +1108,7 @@ if ($showBc) {
 
     if ($showAgentBc) {
         if (isset($agent)) {
-            echo link_to('Owners:', '/agent/list') . '&nbsp;';
+            echo link_to('Agents:', '/agent/list') . '&nbsp;';
             if ($showAgentUserBc) {
                 echo link_to($agent->getOrgName(), 'agent/show?id=' . $agent->getId());
             } else {

@@ -4,5 +4,5 @@ all:
 
 listSuccess:
   metas:
-    title: "Registry :: Owners"
+    title: "Registry :: Agents"
 

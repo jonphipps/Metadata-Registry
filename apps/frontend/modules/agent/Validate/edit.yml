@@ -29,6 +29,6 @@ loginValidator:
   param:
     class:        Agent
     column:       org_name
-    unique_error: This owner has already been registered.
+    unique_error: This agent has already been registered.
 fillin:
   activate: on                                                                                  
