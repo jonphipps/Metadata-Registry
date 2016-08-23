@@ -939,7 +939,7 @@ if ($showBc) {
 
     if ($showVocabularyBc) {
         $spaceCount ++;
-        echo link_to('Vocabulary:', 'vocabulary/list') . '&nbsp;';
+        echo link_to('Vocabularies:', 'vocabulary/list') . '&nbsp;';
 
         if ($vocabulary) {
             if ($showConceptBc || $showHistoryBc || $showVocabUserBc || $showVersionBc || $showVocabularyImportBc) {
