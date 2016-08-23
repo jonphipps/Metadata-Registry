@@ -2,7 +2,8 @@
 
 <div id="sf_admin_container">
 <div id="sf_admin_header">
-[?php include_partial('<?php echo $this->getModuleName() ?>/show_header', array('<?php echo $this->getSingularName() ?>' => $<?php echo $this->getSingularName() ?>)) ?]
+    [?php include_component_slot('tabnav') ?]
+    [?php include_partial('<?php echo $this->getModuleName() ?>/show_header', array('<?php echo $this->getSingularName() ?>' => $<?php echo $this->getSingularName() ?>)) ?]
 </div>
 
 <div id="sf_admin_content">

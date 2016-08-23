@@ -19,5 +19,6 @@ default:
   layout:         layout
   components:
     sidebar:      [sidebar, default]
+    tabnav:       [tabnav, default]
 
   use_default_slots: on
