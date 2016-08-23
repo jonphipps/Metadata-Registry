@@ -772,7 +772,6 @@ propel:
       type: BOOLEAN
     skos_property_id: 
       type: INTEGER
-      required: true
       foreignTable: profile_property
       foreignReference: skos_id
       onDelete: RESTRICT
