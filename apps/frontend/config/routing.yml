@@ -203,6 +203,12 @@ vocabulary_list:
   url:   /vocabularies
   param: { module: vocabulary, action: list, tabnav: vocabularies }
 
+
+vocabulary_maintainer_detail:
+  url:   /vocabulary_maintainers/:id
+  param: { module: vocabuser, action: show}
+
+
 #concepts (concepts)
 concept_detail:
   url:   /concepts/:id
@@ -271,6 +277,12 @@ elementset_detail:
 elementset_list:
   url:   /elementsets
   param: { module: schema, action: list, tabnav: elementsets }
+
+
+elementset_maintainer_detail:
+  url:   /elementset_maintainers/:id
+  param: { module: schemauser, action: show}
+
 
 #elements (schemaprops)
 element_detail:
