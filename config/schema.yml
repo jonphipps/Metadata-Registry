@@ -481,7 +481,7 @@ propel:
       size: 255
       required: true
       default: ''
-    ind_affiliation:
+    ind_affiliation: 
       type: VARCHAR
       size: 255
     ind_role: 
@@ -780,7 +780,7 @@ propel:
     object: 
       type: LONGVARCHAR
       required: true
-    scheme_id:
+    scheme_id: 
       type: INTEGER
       foreignTable: reg_vocabulary
       foreignReference: id
@@ -1189,7 +1189,7 @@ propel:
       size: 255
       required: true
       default: ''
-    note:
+    note: 
       type: LONGVARCHAR
     uri: 
       type: VARCHAR
@@ -1304,7 +1304,7 @@ propel:
       size: 255
       required: true
       default: ''
-    definition:
+    definition: 
       type: LONGVARCHAR
     comment: 
       type: LONGVARCHAR
@@ -1418,7 +1418,7 @@ propel:
     object: 
       type: LONGVARCHAR
       required: true
-    related_schema_property_id:
+    related_schema_property_id: 
       type: INTEGER
       foreignTable: reg_schema_property
       foreignReference: id
@@ -1721,7 +1721,7 @@ propel:
       size: 255
       required: true
       default: ''
-    note:
+    note: 
       type: LONGVARCHAR
     uri: 
       type: VARCHAR
@@ -1783,7 +1783,7 @@ propel:
       type: VARCHAR
       size: 255
       required: true
-    _indexes:
+    _indexes: 
       last_updated_by_user_id: 
         - updated_user_id
       reg_vocabulary_idx1: 
@@ -1937,6 +1937,14 @@ propel:
     current_language: 
       type: CHAR
       size: 6
+    _indexes: 
+      user_schema: 
+        - user_id
+        - schema_id
+    _uniques: 
+      schema_user: 
+        - schema_id
+        - user_id
   schema_has_version: 
     _attributes: 
       phpName: SchemaHasVersion
