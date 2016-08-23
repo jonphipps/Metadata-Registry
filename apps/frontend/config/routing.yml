@@ -170,8 +170,80 @@ concept_history_feed_all_rss:
   url:   /history/feed.rss
   param: { module: history, action: feed, format: rss201}
 
+#element sets (schemas)
+vocabulary_concepts:
+  url:   /vocabularies/:vocabulary_id/concepts
+  param: { module: concept, action: list, tabnav: vocabularies }
 
-#schemas (element sets)
+vocabulary_history:
+  url:   /vocabularies/:vocabulary_id/history
+  param: { module: history, action: list, tabnav: vocabularies }
+
+vocabulary_version:
+  url:   /vocabularies/:vocabulary_id/versions
+  param: { module: version, action: list, tabnav: vocabularies }
+
+vocabulary_maintainers:
+  url:   /vocabularies/:vocabulary_id/maintainers
+  param: { module: vocabuser, action: list, tabnav: vocabularies }
+
+vocabulary_exports:
+  url:   /vocabularies/:vocabulary_id/exports
+  param: { module: exporthistory, action: list, tabnav: vocabularies }
+
+vocabulary_imports:
+  url:   /vocabularies/:vocabulary_id/imports
+  param: { module: import, action: list, tabnav: vocabularies }
+
+vocabulary_detail:
+  url:   /vocabularies/:id
+  param: { module: vocabulary, action: show, tabnav: vocabularies }
+
+vocabulary_list:
+  url:   /vocabularies
+  param: { module: vocabulary, action: list, tabnav: vocabularies }
+
+#concepts (concepts)
+concept_detail:
+  url:   /concepts/:id
+  param: { module: concept, action: show, tabnav: concepts }
+
+concept_properties:
+  url:   /concepts/:concept_id/properties
+  param: { module: conceptprop, action: list, tabnav: concepts }
+
+concept_history:
+  url:   /concepts/:concept_id/history
+  param: { module: history, action: list, tabnav: concepts, IdType: concept_id }
+
+#properties
+properties_detail:
+  url:   /properties/:id
+  param: { module: conceptprop, action: show, tabnav: properties }
+
+properties_history:
+  url:   /properties/:property_id/history
+  param: { module: history, action: list, tabnav: properties, IdType: property_id }
+
+
+
+#imports
+import_history:
+  url:   /imports/:import_id/history
+  param: { module: history, action: list, tabnav: imports, IdType: import_id }
+
+import_detail:
+  url:   /imports/:id
+  param: { module: import, action: show, tabnav: imports }
+
+
+#history
+history_detail:
+  url:   /history/:id
+  param: { module: history, action: show }
+
+
+#element sets (schemas)
 elementset_elements:
   url:   /elementsets/:schema_id/elements
   param: { module: schemaprop, action: list, tabnav: elementsets }
@@ -200,7 +272,27 @@ elementset_list:
   url:   /elementsets
   param: { module: schema, action: list, tabnav: elementsets }
 
+#elements (schemaprops)
+element_detail:
+  url:   /elements/:id
+  param: { module: schemaprop, action: show, tabnav: elements }
 
+element_statements:
+  url:   /elements/:schema_property_id/statements
+  param: { module: schemapropel, action: list, tabnav: elements }
+
+element_history:
+  url:   /elements/:schema_property_id/history
+  param: { module: schemahistory, action: list, tabnav: elements, IdType: schema_property_id }
+
+#statements
+statement_detail:
+  url:   /statements/:id
+  param: { module: schemapropel, action: show, tabnav: statements }
+
+statement_history:
+  url:   /statements/:schema_property_element_id/history
+  param: { module: schemahistory, action: list, tabnav: statements, IdType: schema_property_element_id }
 
 
 schema_search:
@@ -210,9 +302,16 @@ schema_search:
 schemaprop_language:
   url:   /schemaprop/language.
   param: { module: schemaprop, action: language }
+
+#schema history
 schema_history_list:
   url:   /schemahistory/list/:IdType/:id.html
   param: { module: schemahistory, action: list}
+
+schema_history_detail:
+  url:   /schemahistory/:id
+  param: { module: schemahistory, action: show }
+  requirements: { id: \d+ }
 
 schema_history_feed_atom:
   url:   /schemahistory/feed/:IdType/:id.atom
@@ -242,6 +341,43 @@ schema_history_feed_all_rss:
 all_history_feed_atom:
   url:   /allhistoryfeeds.atom
   param: { module: content, action: allHistoryFeeds, format: atom1}
+
+
+#agents
+agent_members:
+  url:   /agents/:agent_id/members
+  param: { module: agentuser, action: list, tabnav: agents }
+
+agent_detail:
+  url:   /agents/:id
+  param: { module: agent, action: show, tabnav: agents  }
+
+agent_list:
+  url:   /agents
+  param: { module: agent, action: list  }
+
+
+
+#members (users)
+member_agents:
+  url:   /members/:user_id/agents
+  param: { module: agentuser, action: list, tabnav: members }
+
+member_vocabularies:
+  url:   /members/:user_id/vocabularies
+  param: { module: vocabuser, action: list, tabnav: members }
+
+member_elementsets:
+  url:   /members/:user_id/elementsets
+  param: { module: schemauser, action: list, tabnav: members }
+
+member_detail:
+  url:   /members/:id
+  param: { module: user, action: show, tabnav: members  }
+
+member_list:
+  url:   /members
+  param: { module: user, action: list  }
 
 
 
