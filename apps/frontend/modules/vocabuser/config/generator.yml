@@ -10,12 +10,14 @@ generator:
       is_admin_for:      { name: Administrator }
       is_registrar_for:  { name: Registrar }
       is_maintainer_for: { name: Maintainer }
+      languages:         { name: Editable Languages }
+      default_language:  { name: Default Language }
 
     list:
       #peer_method:       doSelectJoinAll
       #peer_count_method: doCountForUser
       title:              Maintainers for %%vocabulary%%
-      display:            [_user, _vocabulary, isRegistrarFor, isAdminFor, isMaintainerFor]
+      display:            [_user, _vocabulary, isRegistrarFor, isAdminFor, isMaintainerFor, _languages, _defaultLanguage]
       object_actions:
         _show:
         _edit:            { credentials: [[administrator, vocabularyadmin, agentadmin]] }
@@ -37,7 +39,10 @@ generator:
       fields:
         user_id:       { params: peer_method=getNewUsersForVocabulary include_blank=false, mode: create }
         user:          { type: plain, mode: edit }
-      display:         [user, user_id, isAdminFor, isMaintainerFor]
+        is_registrar_for:  { credentials: [[administrator]], mode: edit}
+        languages:         { type: admin_select_language, params: multiple=true limitmethod=getLanguagesForSchema style="width:99%" include_custom=[*, All languages ], credentials: [[administrator, vocabularyadmin, agentadmin]] }
+        default_language:  { type: admin_select_language, params: limitmethod=getLanguagesForSchema style="width:99%", credentials: [[administrator, vocabularyadmin, agentadmin]] }
+      display:         [user, user_id, isRegistrarFor, isAdminFor, isMaintainerFor, languages, default_language]
       actions:
         _save:         { credentials: [[administrator, vocabularyadmin, agentadmin]] }
         _delete:       { credentials: [[administrator, vocabularyadmin, agentadmin]] }
@@ -49,7 +54,7 @@ generator:
       title:           %%vocabulary%% permissions for %%user%%
       fields:
         user:          { type: plain }
-      display:         [user, isRegistrarFor, isAdminFor, isMaintainerFor]
+      display:         [user, isRegistrarFor, isAdminFor, isMaintainerFor, _languages, _defaultLanguage]
       actions:
         _delete:       { credentials: [[administrator, vocabularyadmin, agentadmin]] }
         _edit:         { credentials: [[administrator, vocabularyadmin, agentadmin]] }
