@@ -111,7 +111,7 @@ class schemahistoryActions extends autoschemahistoryActions
       //a current schema is required to be in the request URL
       myActionTools::requireSchemaFilter();
     }
-    else
+    else if($id)
     {
       $this->getRequest()->getParameterHolder()->set($idType, $id);
     }

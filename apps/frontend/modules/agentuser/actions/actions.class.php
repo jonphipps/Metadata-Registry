@@ -36,7 +36,14 @@ class agentuserActions extends autoagentuserActions
     parent::executeDelete();
   }
 
-  private function setFilter()
+  public function executeList()
+  {
+      $this->setFilter();
+      parent::executeList();
+  }
+
+
+    private function setFilter()
   {
     $user_id = $this->getUser()->getAttribute('user_id','','sf_admin/agent_has_user/filters');
     $agent_id = $this->getUser()->getAttribute('agent_id','','sf_admin/agent_has_user/filters');

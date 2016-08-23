@@ -106,37 +106,41 @@ class historyActions extends autohistoryActions
 
   public function executeList()
   {
-    $idType = $this->getRequestParameter('IdType', null);
-    $id = $this->getRequestParameter('id', null);
+      $idType = $this->getRequestParameter('IdType', null);
+      $id     = $this->getRequestParameter('id', null);
 
-    if (!$idType) {
-      //a current vocabulary is required to be in the request URL
-      myActionTools::requireVocabularyFilter();
-    } else {
-      $this->getRequest()->getParameterHolder()->set($idType, $id);
-    }
-
-    if ($idType !== 'import_id') {
-      $vocabulary = myActionTools::findCurrentVocabulary();
-      $this->vocabulary = $vocabulary;
-
-      if (in_array($idType, array('concept_id', 'property_id'))) {
-        $this->concept = myActionTools::findCurrentConcept();
-        $this->setFlash('hasConcept', true);
+      if ( ! $idType) {
+          //a current vocabulary is required to be in the request URL
+          myActionTools::requireVocabularyFilter();
+      } else {
+          if ($id) {
+              $this->getRequest()->getParameterHolder()->set($idType, $id);
+          }
       }
-    } else {
-      $import = FileImportHistoryPeer::retrieveByPK($id);
-      if ($import) {
-        $vocabulary = $import->getVocabulary();
-        $this->vocabulary = $vocabulary;
-      }
-    }
 
-    //get the versions array
-    $c = new Criteria();
-    $c->add(VocabularyHasVersionPeer::VOCABULARY_ID, $vocabulary->getId());
-    $versions = VocabularyHasVersionPeer::doSelect($c);
-    $this->setFlash('versions', $versions);
+      if ($idType !== 'import_id') {
+          $vocabulary       = myActionTools::findCurrentVocabulary();
+          $this->vocabulary = $vocabulary;
+
+          if (in_array($idType, [ 'concept_id', 'property_id' ])) {
+              $this->concept = myActionTools::findCurrentConcept();
+              $this->setFlash('hasConcept', true);
+          }
+      } else {
+          $import = FileImportHistoryPeer::retrieveByPK($id);
+          if ($import) {
+              $vocabulary       = $import->getVocabulary();
+              $this->vocabulary = $vocabulary;
+          }
+      }
+
+      //get the versions array
+      if (isset($vocabulary)) {
+          $c = new Criteria();
+          $c->add(VocabularyHasVersionPeer::VOCABULARY_ID, $vocabulary->getId());
+          $versions = VocabularyHasVersionPeer::doSelect($c);
+          $this->setFlash('versions', $versions);
+      }
 
     parent::executeList();
   }
