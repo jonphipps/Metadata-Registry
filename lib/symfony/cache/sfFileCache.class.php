@@ -147,7 +147,7 @@ class sfFileCache extends sfCache {
    * @param boolean
    */
   public function setWriteControl($boolean) {
-    $this->writeControl = $boolean;
+    $this->writeControl = false;
   }
 
   /**
