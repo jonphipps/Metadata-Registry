@@ -103,51 +103,49 @@ class schemahistoryActions extends autoschemahistoryActions
   }
   public function executeList ()
   {
-    $idType = $this->getRequestParameter('IdType', null);
-    $id = $this->getRequestParameter('id', null);
+      $idType = $this->getRequestParameter('IdType', null);
+      $id     = $this->getRequestParameter('id', null);
 
-    if(!$idType)
-    {
-      //a current schema is required to be in the request URL
-      myActionTools::requireSchemaFilter();
-    }
-    else if($id)
-    {
-      $this->getRequest()->getParameterHolder()->set($idType, $id);
-    }
-
-    $schema = myActionTools::findCurrentSchema();
-    if ($schema)
-    {
-      $this->schema = $schema;
-      $schemaId = $schema->getId();
-    } else {
-      $import = FileImportHistoryPeer::retrieveByPK($id);
-      if ($import)
-      {
-        $this->schema = $import->getSchema();
-        $schemaId = $this->schema->getId();
+      if ( ! $idType) {
+          //a current schema is required to be in the request URL
+          myActionTools::requireSchemaFilter();
+      } else {
+          if ($id) {
+              $this->getRequest()->getParameterHolder()->set($idType, $id);
+          }
       }
-    }
 
-    if (in_array($idType, array('schema_property_id','schema_property_element_id')))
-    {
-      $property = myActionTools::findCurrentSchemaProperty();
-      if ($property)
-      {
-        $this->property = $property;
-        $this->setFlash('hasProperty', true);
-        $schemaId = $this->property->getSchemaId();
+      if ($idType !== 'import_id') {
+          $schema = myActionTools::findCurrentSchema();
+          if ($schema) {
+              $this->schema = $schema;
+              $schemaId     = $schema->getId();
+          }
+          if (in_array($idType, [ 'schema_property_id', 'schema_property_element_id' ])) {
+              $property = myActionTools::findCurrentSchemaProperty();
+              if ($property) {
+                  $this->property = $property;
+                  $this->setFlash('hasProperty', true);
+                  $schemaId = $this->property->getSchemaId();
+              }
+          }
+      } else {
+          $id = $this->getRequestParameter('import_id', null);
+          $import = FileImportHistoryPeer::retrieveByPK($id);
+          if ($import) {
+              $schema       = $import->getSchema();
+              $this->schema = $schema;
+              $schemaId = $schema->getId();
+          }
       }
-    }
 
-    //get the versions array
-    $c = new Criteria();
-    $c->add(SchemaHasVersionPeer::SCHEMA_ID, $schemaId);
-    $versions = SchemaHasVersionPeer::doSelect($c);
-    $this->setFlash('versions', $versions);
+      //get the versions array
+      $c = new Criteria();
+      $c->add(SchemaHasVersionPeer::SCHEMA_ID, $schemaId);
+      $versions = SchemaHasVersionPeer::doSelect($c);
+      $this->setFlash('versions', $versions);
 
-    parent::executeList();
+      parent::executeList();
 
   }
 

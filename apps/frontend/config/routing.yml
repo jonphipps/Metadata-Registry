@@ -201,7 +201,7 @@ vocabulary_detail:
 
 vocabulary_list:
   url:   /vocabularies
-  param: { module: vocabulary, action: list, tabnav: vocabularies }
+  param: { module: vocabulary, action: list}
 
 
 vocabulary_maintainer_detail:
@@ -235,12 +235,12 @@ properties_history:
 
 #imports
 import_history:
-  url:   /imports/:import_id/history
+  url:   /vocabulary_imports/:import_id/history
   param: { module: history, action: list, tabnav: imports, IdType: import_id }
 
 import_detail:
   url:   /imports/:id
-  param: { module: import, action: show, tabnav: imports }
+  param: { module: import, action: show }
 
 
 #history
@@ -276,7 +276,7 @@ elementset_detail:
 
 elementset_list:
   url:   /elementsets
-  param: { module: schema, action: list, tabnav: elementsets }
+  param: { module: schema, action: list}
 
 
 elementset_maintainer_detail:
@@ -296,6 +296,10 @@ element_statements:
 element_history:
   url:   /elements/:schema_property_id/history
   param: { module: schemahistory, action: list, tabnav: elements, IdType: schema_property_id }
+
+element_import_history:
+  url:   /elementset_imports/:import_id/history
+  param: { module: schemahistory, action: list, tabnav: imports, IdType: import_id }
 
 #statements
 statement_detail:
@@ -367,6 +371,10 @@ agent_detail:
 agent_list:
   url:   /agents
   param: { module: agent, action: list  }
+
+agent_members_detail:
+  url:   /agent_members/:id
+  param: { module: agentuser, action: show}
 
 
 

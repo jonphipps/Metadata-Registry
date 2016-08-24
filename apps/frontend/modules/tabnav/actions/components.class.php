@@ -113,8 +113,12 @@ class tabnavComponents extends sfComponents
         if ( ! $id) {
             $id = $this->getRequestParameter('id');
         }
-        $topnav[]   = [ 'title' => 'Detail', 'link' => '@import_detail?id=' . $id ];
-        $topnav[]   = [ 'title' => 'History', 'link' => '@import_history?import_id=' . $id ];
+        $topnav[] = [ 'title' => 'Detail', 'link' => '@import_detail?id=' . $id ];
+        if ($this->getRequestParameter('module') == 'schemahistory') {
+            $topnav[] = [ 'title' => 'History', 'link' => '@element_import_history?import_id=' . $id ];
+        } else {
+            $topnav[] = [ 'title' => 'History', 'link' => '@import_history?import_id=' . $id ];
+        }
         $this->tabs = $topnav;
     }
 
