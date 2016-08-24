@@ -14,7 +14,7 @@ generator:
         uri:          { name: Concept URI, helper: truncate_uri }
         pref_label:   { name: Concept}
         property:     { name: Property }
-        user          { name: User }
+        user          { name: Member }
         object:       { helper: truncate_text }
         language:     { name: Lang }
         _import:      { name: Import }

@@ -16,7 +16,7 @@ generator:
       fields:
         agent:         { name: Agent }
         user:          { name: Member }
-      display:         [_user, _agent, isRegistrarFor, isAdminFor]
+      display:         [_member, _agent, isRegistrarFor, isAdminFor]
       object_actions:
         _show:
         _edit:         { credentials: [[administrator, agentadmin]] }
@@ -50,7 +50,7 @@ generator:
       title:           %%agent%% permissions for %%user%%
       fields:
         user:          { type: plain }
-      display:         [_user, isRegistrarFor, isAdminFor]
+      display:         [_member, isRegistrarFor, isAdminFor]
       actions:
         _delete:       { credentials: [[administrator, agentadmin]] }
         _edit:         { credentials: [[administrator, vocabularyadmin]] }

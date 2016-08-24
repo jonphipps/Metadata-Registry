@@ -5,7 +5,7 @@
   $topnav['Concepts']['link'] = '/concept/list?vocabulary_id=';
   $topnav['History']['link'] = '/history/list?vocabulary_id=';
   $topnav['Versions']['link'] = '/version/list?vocabulary_id=';
-  $topnav['Users']['link'] = 'vocabuser/list?vocabulary_id=';
+  $topnav['Members']['link'] = 'vocabuser/list?vocabulary_id=';
 ?>
 <div id="tab_container">
 <ul class="ui-tabs-nav" >

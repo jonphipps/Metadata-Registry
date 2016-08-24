@@ -54,7 +54,7 @@ generator:
       title:           Show detail for version %%name%%
       display:
         "-Metadata":   { fields: [id, updated_at], credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
-        "User":        [ created_user, created_at ]
+        "Member":        [ created_user, created_at ]
         "Detail":      [ name, timeslice ]
       actions:
         _delete:       { credentials: [[administrator, vocabularyadmin]] }

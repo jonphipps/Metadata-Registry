@@ -89,7 +89,7 @@ generator:
         "Namespace":   [uri, namespace]
         "Publishing": [ repo, status]
         "Documentation": [url, note, community]
-        "-Users":      [_list_users]
+        "-Members":      [_list_users]
       actions:
         _list:
         _edit:       { credentials: [[administrator, schemamaintainer, schemaadmin]] }

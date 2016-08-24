@@ -17,7 +17,7 @@ generator:
       #peer_method:       doSelectJoinAll
       #peer_count_method: doCountForUser
       title:              Maintainers for %%schema%%
-      display:            [_user, _schema, isRegistrarFor, isAdminFor, isMaintainerFor, _languages, _defaultLanguage]
+      display:            [_member, _schema, isRegistrarFor, isAdminFor, isMaintainerFor, _languages, _defaultLanguage]
       object_actions:
         _show:
         _edit:            { credentials: [[administrator, schemaadmin, schemamaintainer, agentadmin]] }

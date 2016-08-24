@@ -622,38 +622,37 @@ switch ($buildBc) {
         if ('import' == $filter) {
             $import = FileImportHistoryPeer::retrieveByPK($paramId);
             if ($import) {
-                $id = $import->getSchemaId();
+                $id     = $import->getSchemaId();
                 $schema = SchemaPeer::retrieveByPK($id);
             }
-        }
-
-        if (!isset($history)) {
-            $id = $sf_params->get('id');
-            if ($id) {
-                $history = SchemaPropertyElementHistoryPeer::retrieveByPK($id);
+        } else {
+            if ( ! isset( $history )) {
+                $id = $sf_params->get('id');
+                if ($id) {
+                    $history = SchemaPropertyElementHistoryPeer::retrieveByPK($id);
+                }
             }
-        }
-        if (!isset($schema_property_element)) {
-            if ($history) {
-                sfPropelParanoidBehavior::disable();
-                $schema_property_element = $history->getSchemaPropertyElement();
+            if ( ! isset( $schema_property_element )) {
+                if ($history) {
+                    sfPropelParanoidBehavior::disable();
+                    $schema_property_element = $history->getSchemaPropertyElement();
+                }
             }
-        }
-        if (!isset($schema_property)) {
-            if ($schema_property_element) {
-                sfPropelParanoidBehavior::disable();
-                $schema_property = $schema_property_element->getSchemaPropertyRelatedBySchemaPropertyId();
+            if ( ! isset( $schema_property )) {
+                if ($schema_property_element) {
+                    sfPropelParanoidBehavior::disable();
+                    $schema_property = $schema_property_element->getSchemaPropertyRelatedBySchemaPropertyId();
+                }
             }
-        }
-        if (!isset($schema)) {
-            if ($schema_property) {
-                sfPropelParanoidBehavior::disable();
-                $schema = $schema_property->getSchema();
+            if ( ! isset( $schema )) {
+                if ($schema_property) {
+                    sfPropelParanoidBehavior::disable();
+                    $schema = $schema_property->getSchema();
+                }
             }
+            $tab = false;
+            break;
         }
-        $tab = false;
-        break;
-
     case 'schemahistorydetail':
         $showBc = true;
         $showSchemaBc = true;
@@ -912,7 +911,7 @@ switch ($buildBc) {
         $tab = false;
         break;
     case 'userlist':
-        $title = __('Users');
+        $title = __('Members');
         $tab = false;
         break;
     case 'importlist':
@@ -1122,7 +1121,7 @@ if ($showBc) {
     if ($showUserBc) {
         if (isset($user)) {
             $nickname = getUserName($user);
-            echo link_to('Users:', '/user/list') . '&nbsp;';
+            echo link_to('Members:', '/user/list') . '&nbsp;';
             echo $nickname;
 
             $title = ' :: ' . __('%%user%%', array('%%user%%' => $nickname));

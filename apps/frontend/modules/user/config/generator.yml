@@ -19,7 +19,7 @@ generator:
       is_administrator:     { name: Administrator }
 
     list:
-      title:           Users
+      title:           Members
       fields:
         user:          { credentials: [administrator] }
       display:         [user, =nickname, last_name, first_name]

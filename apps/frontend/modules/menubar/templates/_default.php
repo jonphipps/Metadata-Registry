@@ -5,7 +5,7 @@
 	<a>Resources</a>
 	<a>Agents</a>
 <?php if ($sf_user->hasCredential(array (0 => 'administrator' ))): ?>
-	<a>Users</a>
+	<a>Members</a>
 <?php endif ?>
 </div>
 <div id="submenu">

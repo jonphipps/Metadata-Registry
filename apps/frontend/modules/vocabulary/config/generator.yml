@@ -88,7 +88,7 @@ generator:
         "Namespace":   [uri, namespace, prefix]
         "Publishing":  [ repo, status]
         "Documentation": [url, note, community]
-        "-Users":      [_list_users]
+        "-Members":      [_list_users]
       actions:
         _list:
         _edit:       { credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }

@@ -17,7 +17,7 @@ generator:
       #peer_method:       doSelectJoinAll
       #peer_count_method: doCountForUser
       title:              Maintainers for %%vocabulary%%
-      display:            [_user, _vocabulary, isRegistrarFor, isAdminFor, isMaintainerFor, _languages, _defaultLanguage]
+      display:            [_member, _vocabulary, isRegistrarFor, isAdminFor, isMaintainerFor, _languages, _defaultLanguage]
       object_actions:
         _show:
         _edit:            { credentials: [[administrator, vocabularyadmin, agentadmin]] }
