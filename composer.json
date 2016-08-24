@@ -38,7 +38,7 @@
     "google/apiclient": "^1.1",
     "semsol/arc2": "^2.2",
     "easyrdf/easyrdf": "^0.9.1",
-    "ml/json-ld": "^1.0",
+    "ml/json-ld": "1.*",
     "symfony/property-access": "2.7.x-dev",
     "phpoffice/phpexcel": "^1.8",
     "symfony/validator": "2.7.x-dev",

@@ -55,5 +55,4 @@ dump.rdb
 node_modules
 composer.lock
 
-tests/_output/*
-FunctionalTesterActions.php
+tests/_support/_generated
