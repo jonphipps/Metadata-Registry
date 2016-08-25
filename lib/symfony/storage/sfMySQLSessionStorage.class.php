@@ -35,14 +35,15 @@
  */
 class sfMySQLSessionStorage extends sfSessionStorage
 {
-  protected
-    $resource = null;
+
+    /** @var mysqli $resource */
+    protected  $resource = null;
 
   /**
    * Initializes this Storage instance.
    *
-   * @param sfContext A sfContext instance
-   * @param array   An associative array of initialization parameters
+   * @param sfContext $context A sfContext instance
+   * @param array $parameters  An associative array of initialization parameters
    *
    * @return boolean true, if initialization completes successfully, otherwise false
    *
@@ -51,7 +52,7 @@ class sfMySQLSessionStorage extends sfSessionStorage
   public function initialize($context, $parameters = null)
   {
     // disable auto_start
-    $parameters['auto_start'] = false;
+      $parameters['auto_start'] = false;
 
     // initialize the parent
     parent::initialize($context, $parameters);
@@ -74,6 +75,7 @@ class sfMySQLSessionStorage extends sfSessionStorage
 
     // start our session
     session_start();
+    return true;
   }
 
   /**
@@ -90,7 +92,7 @@ class sfMySQLSessionStorage extends sfSessionStorage
   /**
    * Destroys a session.
    *
-   * @param string A session ID
+   * @param string $id A session ID
    *
    * @return boolean true, if the session was destroyed, otherwise an exception is thrown
    *
@@ -103,12 +105,12 @@ class sfMySQLSessionStorage extends sfSessionStorage
     $db_id_col = $this->getParameterHolder()->get('db_id_col', 'sess_id');
 
     // cleanup the session id, just in case
-    $id = mysql_real_escape_string($id, $this->resource);
+    $id = mysqli_real_escape_string($this->resource, $id);
 
     // delete the record associated with this id
     $sql = 'DELETE FROM '.$db_table.' WHERE '.$db_id_col.' = \''.$id.'\'';
 
-    if (@mysql_query($sql, $this->resource))
+    if (@mysqli_query($this->resource, $sql))
     {
       return true;
     }
@@ -123,7 +125,7 @@ class sfMySQLSessionStorage extends sfSessionStorage
   /**
    * Cleans up old sessions.
    *
-   * @param int The lifetime of a session in seconds
+   * @param int $lifetime The lifetime of a session in seconds
    *
    * @return boolean true, if old sessions have been cleaned, otherwise an exception is thrown
    *
@@ -139,7 +141,7 @@ class sfMySQLSessionStorage extends sfSessionStorage
     $sql = 'DELETE FROM '.$db_table.' '.
            'WHERE '.$db_time_col.' + INTERVAL '.$lifetime.' SECOND < NOW()';
 
-    if (@mysql_query($sql, $this->resource))
+    if (@mysqli_query($this->resource, $sql))
     {
       return true;
     }
@@ -153,8 +155,8 @@ class sfMySQLSessionStorage extends sfSessionStorage
   /**
    * Opens a session.
    *
-   * @param string
-   * @param string
+   * @param string $path
+   * @param string $name
    *
    * @return boolean true, if the session was opened, otherwise an exception is thrown
    *
@@ -177,7 +179,7 @@ class sfMySQLSessionStorage extends sfSessionStorage
   /**
    * Reads a session.
    *
-   * @param string A session ID
+   * @param string $id A session ID
    *
    * @return boolean true, if the session was read, otherwise an exception is thrown
    *
@@ -192,19 +194,19 @@ class sfMySQLSessionStorage extends sfSessionStorage
     $db_time_col = $this->getParameterHolder()->get('db_time_col', 'sess_time');
 
     // cleanup the session id, just in case
-    $id = mysql_real_escape_string($id, $this->resource);
+    $id = mysqli_real_escape_string($this->resource, $id);
 
     // delete the record associated with this id
     $sql = 'SELECT '.$db_data_col.' ' .
            'FROM '.$db_table.' ' .
            'WHERE '.$db_id_col.' = \''.$id.'\'';
 
-    $result = @mysql_query($sql, $this->resource);
+    $result = @mysqli_query($this->resource, $sql);
 
-    if ($result != false && @mysql_num_rows($result) == 1)
+    if ($result != false && @mysqli_num_rows($result) == 1)
     {
       // found the session
-      $data = mysql_fetch_row($result);
+      $data = mysqli_fetch_row($result);
 
       return $data[0];
     }
@@ -215,7 +217,7 @@ class sfMySQLSessionStorage extends sfSessionStorage
              $db_data_col.', '.$db_time_col.') VALUES (' .
              '\''.$id.'\', \'\', NOW())';
 
-      if (@mysql_query($sql, $this->resource))
+      if (@mysqli_query($this->resource, $sql))
       {
         return '';
       }
@@ -231,8 +233,8 @@ class sfMySQLSessionStorage extends sfSessionStorage
   /**
    * Writes session data.
    *
-   * @param string A session ID
-   * @param string A serialized chunk of session data
+   * @param string $id A session ID
+   * @param string $data A serialized chunk of session data
    *
    * @return boolean true, if the session was written, otherwise an exception is thrown
    *
@@ -247,8 +249,8 @@ class sfMySQLSessionStorage extends sfSessionStorage
     $db_time_col = $this->getParameterHolder()->get('db_time_col', 'sess_time');
 
     // cleanup the session id and data, just in case
-    $id   = mysql_real_escape_string($id, $this->resource);
-    $data = mysql_real_escape_string($data, $this->resource);
+    $id   = mysqli_real_escape_string($this->resource, $id);
+    $data = mysqli_real_escape_string($this->resource, $data);
 
     // delete the record associated with this id
     $sql = 'UPDATE '.$db_table.' ' .
@@ -256,7 +258,7 @@ class sfMySQLSessionStorage extends sfSessionStorage
            $db_time_col.' = NOW() ' .
            'WHERE '.$db_id_col.' = \''.$id.'\'';
 
-    if (@mysql_query($sql, $this->resource))
+    if (@mysqli_query($this->resource, $sql))
     {
       return true;
     }

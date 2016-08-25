@@ -3,7 +3,7 @@
 function link_to_remote_pane_file($text, $filename = null, $update = 'feedback', $html_options = '')
 {
   $anchor = '';
-  if(count($fileparts = split('#', $filename)) > 1)
+  if(count($fileparts = explode('#', $filename)) > 1)
   {
     $filename = $fileparts[0];
     $anchor = $fileparts[1];

@@ -103,7 +103,7 @@ include_once 'phing/types/selectors/SelectorUtils.php';
  *
  * This class is complete preg/ereg free port of the Java class
  * org.apache.tools.ant.DirectoryScanner. Even functions that use preg/ereg
- * internally (like split()) are not used. Only the _fast_ string functions
+ * internally (like explode()) are not used. Only the _fast_ string functions
  * and comparison operators (=== !=== etc) are used for matching and tokenizing.
  *
  *  @author   Arnout J. Kuiper, ajkuiper@wxs.nl

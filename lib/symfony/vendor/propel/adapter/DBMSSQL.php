@@ -61,7 +61,7 @@ class DBMSSQL extends DBSybase {
         } else {
 
             // no order by clause, if there are columns we can attempt to sort by the columns in the select statement
-            $select_items = split(',',$modified_select);
+            $select_items = explode(',',$modified_select);
             if(count($select_items)>0)
             {
                 $item_number = 0;
@@ -89,13 +89,13 @@ class DBMSSQL extends DBSybase {
 
         /* modify the sort order by for paging */
         $inverted_order = '';
-        $order_columns = split(',',str_ireplace('order by ','',$order_by));
+        $order_columns = explode(',',str_ireplace('order by ','',$order_by));
         $original_order_by = $order_by;
         $order_by = '';
         foreach($order_columns as $column)
         {
             // strip "table." from order by columns
-            $column = array_reverse(split("\.",$column));
+            $column = array_reverse(explode("\.",$column));
             $column = $column[0];
 
             // commas if we have multiple sort columns

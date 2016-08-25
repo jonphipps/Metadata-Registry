@@ -126,7 +126,7 @@ class ARC2_CBJSONParser extends ARC2_JSONParser {
   /*  */
   
   function extractTagListRDF($s, $s_type,  $v) {
-    $tags = split(', ', $v);
+    $tags = explode(', ', $v);
     foreach ($tags as $tag) {
       if (!trim($tag)) continue;
       $this->addT($s, $this->getPropertyURI('tag'), $tag, $s_type, 'literal');

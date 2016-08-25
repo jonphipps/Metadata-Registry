@@ -49,8 +49,8 @@ class ARC2_MicroformatsExtractor extends ARC2_PoshRdfExtractor {
         }
       }
     }
-    $n['a']['class m'] = split(' ', $n['a']['class']);
-    $n['a']['rel m'] = split(' ', $n['a']['rel']);
+    $n['a']['class m'] = explode(' ', $n['a']['class']);
+    $n['a']['rel m'] = explode(' ', $n['a']['rel']);
     return $n;
   }
   

@@ -281,7 +281,7 @@ function xComment($v) {
         $sub_v = substr($sub_v, 1);
       }
       $sub_v = $sub_v ? $sub_r[2] : $sub_v;
-      $vals = split(' ', $val);
+      $vals = explode(' ', $val);
       return array(array('k' => $r[1], 'value' => $val, 'values' => $vals), $sub_v);
     }
     return array(0, $v);
@@ -327,7 +327,7 @@ function xComment($v) {
   function extractRDF($formats = '') {
     $this->node_index = $this->getNodeIndex();
     $formats = !$formats ? $this->v1('sem_html_formats', $this->default_sem_html_formats, $this->a) : $formats;
-    $formats = split(' ', $formats);
+    $formats = explode(' ', $formats);
     foreach ($formats as $format) {
       if (!in_array($format, $this->extracted_formats)) {
         $comp = $this->camelCase($format) . 'Extractor';

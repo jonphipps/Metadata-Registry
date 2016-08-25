@@ -45,8 +45,12 @@ class sfMySQLDatabase extends sfDatabase
   public function connect()
   {
 
-    // determine how to get our
-    $method = $this->getParameter('method', 'normal');
+      // determine how to get our
+      $method   = $this->getParameter('method', 'normal');
+      $password = null;
+      $username = null;
+      $database = null;
+      $host     = null;
 
     switch ($method)
     {
@@ -63,15 +67,15 @@ class sfMySQLDatabase extends sfDatabase
         // construct a connection string from existing $_SERVER values
         // and extract them to local scope
         $parameters =& $this->loadParameters($_SERVER);
-        extract($parameters);
+        extract($parameters, EXTR_OVERWRITE);
 
         break;
 
       case 'env':
         // construct a connection string from existing $_ENV values
         // and extract them to local scope
-        $string =& $this->loadParameters($_ENV);
-        extract($parameters);
+        $parameters =& $this->loadParameters($_ENV);
+        extract($parameters, EXTR_OVERWRITE);
 
         break;
 
@@ -85,7 +89,7 @@ class sfMySQLDatabase extends sfDatabase
 
     // let's see if we need a persistent connection
     $persistent = $this->getParameter('persistent', false);
-    $connect    = ($persistent) ? 'mysql_pconnect' : 'mysql_connect';
+    $connect    = ($persistent) ? 'mysqli_pconnect' : 'mysqli_connect';
 
     if ($password == null)
     {
@@ -113,7 +117,7 @@ class sfMySQLDatabase extends sfDatabase
     }
 
     // select our database
-    if ($database != null && !@mysql_select_db($database, $this->connection))
+    if ($database != null && !@mysqli_select_db($database, $this->connection))
     {
       // can't select the database
       $error = 'Failed to select MySQLDatabase "%s"';
@@ -127,11 +131,14 @@ class sfMySQLDatabase extends sfDatabase
     $this->resource = $this->connection;
   }
 
-  /**
-   * Loads connection parameters from an existing array.
-   *
-   * @return array An associative array of connection parameters
-   */
+
+    /**
+     * Loads connection parameters from an existing array.
+     *
+     * @param array $array
+     *
+     * @return array An associative array of connection parameters
+     */
   protected function & loadParameters(&$array)
   {
     // list of available parameters
@@ -160,7 +167,7 @@ class sfMySQLDatabase extends sfDatabase
   {
     if ($this->connection != null)
     {
-      @mysql_close($this->connection);
+      @mysqli_close($this->connection);
     }
   }
 }
