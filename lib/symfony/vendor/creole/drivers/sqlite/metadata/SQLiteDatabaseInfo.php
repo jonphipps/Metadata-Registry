@@ -19,7 +19,7 @@
  * <http://creole.phpdb.org>.
  */
  
-require_once 'creole/metadata/DatabaseInfo.php';
+require_once __DIR__ . '../../../../creole/metadata/DatabaseInfo.php';
 
 /**
  * SQLite implementation of DatabaseInfo.
@@ -36,7 +36,7 @@ class SQLiteDatabaseInfo extends DatabaseInfo {
      */
     protected function initTables()
     {
-        include_once 'creole/drivers/sqlite/metadata/SQLiteTableInfo.php';        
+        include_once __DIR__ . '../../../../creole/drivers/sqlite/metadata/SQLiteTableInfo.php';
         
         $sql = "SELECT name FROM sqlite_master WHERE type='table' UNION ALL SELECT name FROM sqlite_temp_master WHERE type='table' ORDER BY name;";
         $result = sqlite_query($this->dblink, $sql);

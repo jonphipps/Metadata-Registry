@@ -19,7 +19,7 @@
  * <http://creole.phpdb.org>.
  */
 
-require_once 'creole/drivers/odbc/adapters/ODBCAdapter.php';
+require_once __DIR__ . '../../../../creole/drivers/odbc/adapters/ODBCAdapter.php';
 
 /**
  * CodeBase driver-specific behavior.
@@ -59,15 +59,22 @@ class CodeBaseAdapter extends ODBCAdapter
         return false;
     }
 
+
     /**
      * @see ODBCAdapter::createResultSet()
+     *
+     * @param $conn
+     * @param $odbcresult
+     * @param $fetchmode
+     *
+     * @return bool|ODBCResultSet
      */
     public function createResultSet($conn, $odbcresult, $fetchmode)
     {
-        require_once 'creole/drivers/odbc/ODBCResultSet.php';
+        require_once __DIR__ . '../../../../creole/drivers/odbc/ODBCResultSet.php';
         return new ODBCResultSet($conn, $odbcresult, $fetchmode, true);
     }
 
 }
 
-?>
+

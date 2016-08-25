@@ -19,9 +19,9 @@
  * <http://creole.phpdb.org>.
  */
 
-require_once 'creole/Connection.php';
-require_once 'creole/common/ConnectionCommon.php';
-require_once 'creole/drivers/odbc/adapters/ODBCAdapter.php';
+require_once __DIR__ . '../../../creole/Connection.php';
+require_once __DIR__ . '../../../creole/common/ConnectionCommon.php';
+require_once __DIR__ . '../../../creole/drivers/odbc/adapters/ODBCAdapter.php';
 
 /**
  * ODBC implementation of Connection.
@@ -159,7 +159,7 @@ class ODBCConnection extends ConnectionCommon implements Connection {
      */
     public function getDatabaseInfo()
     {
-        require_once 'creole/drivers/odbc/metadata/ODBCDatabaseInfo.php';
+        require_once __DIR__ . '../../../creole/drivers/odbc/metadata/ODBCDatabaseInfo.php';
         return new ODBCDatabaseInfo($this);
     }
 
@@ -185,7 +185,7 @@ class ODBCConnection extends ConnectionCommon implements Connection {
      */
     public function prepareStatement($sql)
     {
-        require_once 'creole/drivers/odbc/ODBCPreparedStatement.php';
+        require_once __DIR__ . '../../../creole/drivers/odbc/ODBCPreparedStatement.php';
         return new ODBCPreparedStatement($this, $sql);
     }
 
@@ -194,7 +194,7 @@ class ODBCConnection extends ConnectionCommon implements Connection {
      */
     public function createStatement()
     {
-        require_once 'creole/drivers/odbc/ODBCStatement.php';
+        require_once __DIR__ . '../../../creole/drivers/odbc/ODBCStatement.php';
         return new ODBCStatement($this);
     }
 

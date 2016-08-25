@@ -19,7 +19,7 @@
  * <http://creole.phpdb.org>.
  */
 
-require_once 'creole/util/Lob.php';
+require_once __DIR__ . '../../creole/util/Lob.php';
 
 /**
  * A class for handling character (ASCII) LOBs.

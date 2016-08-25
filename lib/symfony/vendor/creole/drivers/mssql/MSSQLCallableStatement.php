@@ -19,9 +19,9 @@
  * <http://creole.phpdb.org>.
  */
 
-require_once 'creole/drivers/mssql/MSSQLPreparedStatement.php';
-require_once 'creole/CallableStatement.php';
-include_once 'creole/CreoleTypes.php';
+require_once __DIR__ . '../../../creole/drivers/mssql/MSSQLPreparedStatement.php';
+require_once __DIR__ . '../../../creole/CallableStatement.php';
+include_once __DIR__ . '../../../creole/CreoleTypes.php';
 
 /**
  * MS SQL Server class to handle stored procedure execution.
@@ -350,7 +350,7 @@ class MSSQLCallableStatement extends MSSQLPreparedStatement implements CallableS
             throw new SQLException('Requesting variable not bound to output var: '.$paramIndex);
         }
         if ($this->boundOutVars[$paramIndex] === null) { return null; }
-        require_once 'creole/util/Blob.php';
+        require_once __DIR__ . '../../../creole/util/Blob.php';
         $b = new Blob();
         $b->setContents($this->boundOutVars[$paramIndex]);
         return $b;
@@ -365,7 +365,7 @@ class MSSQLCallableStatement extends MSSQLPreparedStatement implements CallableS
             throw new SQLException('Requesting variable not bound to output var: '.$paramIndex);
         }
         if ($this->boundOutVars[$paramIndex] === null) { return null; }
-        require_once 'creole/util/Clob.php';
+        require_once __DIR__ . '../../../creole/util/Clob.php';
         $c = new Clob();
         $c->setContents($this->boundOutVars[$paramIndex]);
         return $c;

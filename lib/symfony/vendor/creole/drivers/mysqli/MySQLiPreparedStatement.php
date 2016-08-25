@@ -19,8 +19,8 @@
  * <http://creole.phpdb.org>.
  */
 
-require_once 'creole/PreparedStatement.php';
-require_once 'creole/common/PreparedStatementCommon.php';
+require_once __DIR__ . '../../../creole/PreparedStatement.php';
+require_once __DIR__ . '../../../creole/common/PreparedStatementCommon.php';
 
 /**
  * MySQLi implementation of PreparedStatement.

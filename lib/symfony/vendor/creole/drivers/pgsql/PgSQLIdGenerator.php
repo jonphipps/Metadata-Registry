@@ -19,7 +19,7 @@
  * <http://creole.phpdb.org>.
  */
  
-require_once 'creole/IdGenerator.php';
+require_once __DIR__ . '../../../creole/IdGenerator.php';
 
 /**
  * PostgreSQL IdGenerator implemenation.

@@ -1,6 +1,6 @@
 <?php
 
-require_once 'creole/IdGenerator.php';
+require_once __DIR__ . '../../../creole/IdGenerator.php';
 
 /**
  * MSSQL IdGenerator implimenation.

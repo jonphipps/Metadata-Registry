@@ -19,7 +19,7 @@
  * <http://creole.phpdb.org>.
  */
 
-include_once 'creole/ResultSet.php'; // we need this for the fetchmode ResultSet flags (constants) that are passed to executeQuery()
+include_once __DIR__ . '../creole/ResultSet.php'; // we need this for the fetchmode ResultSet flags (constants) that are passed to executeQuery()
 
 /**
  * Connection is an abstract base class for DB dialect implementations, and must be

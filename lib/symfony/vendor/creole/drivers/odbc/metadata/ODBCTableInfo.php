@@ -19,7 +19,7 @@
  * <http://creole.phpdb.org>.
  */
  
-require_once 'creole/metadata/TableInfo.php';
+require_once __DIR__ . '../../../../creole/metadata/TableInfo.php';
 
 /**
  * ODBC implementation of TableInfo.
@@ -35,8 +35,8 @@ class ODBCTableInfo extends TableInfo {
      */
     protected function initColumns()
     {
-        include_once 'creole/metadata/ColumnInfo.php';
-        include_once 'creole/drivers/odbc/ODBCTypes.php';
+        include_once __DIR__ . '../../../../creole/metadata/ColumnInfo.php';
+        include_once __DIR__ . '../../../../creole/drivers/odbc/ODBCTypes.php';
 
         ODBCTypes::loadTypeMap($this->conn);
 
@@ -67,7 +67,7 @@ class ODBCTableInfo extends TableInfo {
      */
     protected function initPrimaryKey()
     {
-        include_once 'creole/metadata/PrimaryKeyInfo.php';
+        include_once __DIR__ . '../../../../creole/metadata/PrimaryKeyInfo.php';
 
         // columns have to be loaded first
         if (!$this->colsLoaded) $this->initColumns();
@@ -119,7 +119,7 @@ class ODBCTableInfo extends TableInfo {
 
                 if (($foreignTable = $this->database->getTable($ftbl)) === null)
                 {
-                    $foreignTable = new TableInfo($ltbl);
+                    $foreignTable = new ODBCTableInfo($this->dbname, $ftbl);
                     $this->database->addTable($foreignTable);
                 }
 

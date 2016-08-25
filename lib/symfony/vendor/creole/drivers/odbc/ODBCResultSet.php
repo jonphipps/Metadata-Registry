@@ -19,7 +19,7 @@
  * <http://creole.phpdb.org>.
  */
 
-require_once 'creole/drivers/odbc/ODBCResultSetCommon.php';
+require_once __DIR__ . '../../../creole/drivers/odbc/ODBCResultSetCommon.php';
 
 /**
  * ODBC implementation of ResultSet.
@@ -181,7 +181,7 @@ class ODBCResultSet extends ODBCResultSetCommon implements ResultSet
      */
     public function getBlob($column)
     {
-        require_once 'creole/util/Blob.php';
+        require_once __DIR__ . '../../../creole/util/Blob.php';
         $idx = (is_int($column) ? $column - 1 : $column);
         if (!array_key_exists($idx, $this->fields)) { throw new SQLException("Invalid resultset column: " . $column); }
         $data = $this->readLobData($column, ODBC_BINMODE_RETURN, $this->fields[$idx]);
@@ -196,7 +196,7 @@ class ODBCResultSet extends ODBCResultSetCommon implements ResultSet
      */
     public function getClob($column)
     {
-        require_once 'creole/util/Clob.php';
+        require_once __DIR__ . '../../../creole/util/Clob.php';
         $idx = (is_int($column) ? $column - 1 : $column);
         if (!array_key_exists($idx, $this->fields)) { throw new SQLException("Invalid resultset column: " . $column); }
         $data = $this->readLobData($column, ODBC_BINMODE_CONVERT, $this->fields[$idx]);

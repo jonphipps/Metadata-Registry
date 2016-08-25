@@ -19,7 +19,7 @@
  * <http://creole.phpdb.org>.
  */
 
-require_once 'creole/PreparedStatement.php';
+require_once __DIR__ . '../creole/PreparedStatement.php';
 
 /**
  * Interface for callable statements.

@@ -19,8 +19,8 @@
  * <http://creole.phpdb.org>.
  */
  
-require_once 'creole/Connection.php';
-require_once 'creole/common/ConnectionCommon.php';
+require_once __DIR__ . '../../../creole/Connection.php';
+require_once __DIR__ . '../../../creole/common/ConnectionCommon.php';
 
 /**
  * SQLite implementation of Connection.
@@ -104,7 +104,7 @@ class SQLiteConnection extends ConnectionCommon implements Connection {
      */
     public function getDatabaseInfo()
     {
-        require_once 'creole/drivers/sqlite/metadata/SQLiteDatabaseInfo.php';
+        require_once __DIR__ . '../../../creole/drivers/sqlite/metadata/SQLiteDatabaseInfo.php';
         return new SQLiteDatabaseInfo($this);
     }
     
@@ -113,7 +113,7 @@ class SQLiteConnection extends ConnectionCommon implements Connection {
      */
     public function getIdGenerator()
     {
-        require_once 'creole/drivers/sqlite/SQLiteIdGenerator.php';
+        require_once __DIR__ . '../../../creole/drivers/sqlite/SQLiteIdGenerator.php';
         return new SQLiteIdGenerator($this);
     }
     
@@ -122,7 +122,7 @@ class SQLiteConnection extends ConnectionCommon implements Connection {
      */
     public function prepareStatement($sql) 
     {
-        require_once 'creole/drivers/sqlite/SQLitePreparedStatement.php';
+        require_once __DIR__ . '../../../creole/drivers/sqlite/SQLitePreparedStatement.php';
         return new SQLitePreparedStatement($this, $sql);
     }
     
@@ -138,7 +138,7 @@ class SQLiteConnection extends ConnectionCommon implements Connection {
      */
     public function createStatement()
     {
-        require_once 'creole/drivers/sqlite/SQLiteStatement.php';
+        require_once __DIR__ . '../../../creole/drivers/sqlite/SQLiteStatement.php';
         return new SQLiteStatement($this);
     }
         
@@ -175,7 +175,7 @@ class SQLiteConnection extends ConnectionCommon implements Connection {
         if (!$result) {
             throw new SQLException('Could not execute query', $php_errormsg, $this->lastQuery); //sqlite_error_string(sqlite_last_error($this->dblink))
         }
-        require_once 'creole/drivers/sqlite/SQLiteResultSet.php';
+        require_once __DIR__ . '../../../creole/drivers/sqlite/SQLiteResultSet.php';
         return new SQLiteResultSet($this, $result, $fetchmode);    
     }    
     

@@ -19,7 +19,7 @@
  * <http://creole.phpdb.org>.
  */
 
-require_once 'creole/metadata/TableInfo.php';
+require_once __DIR__ . '../../../../creole/metadata/TableInfo.php';
 
 /**
  * PgSQL implementation of TableInfo.
@@ -65,8 +65,8 @@ class PgSQLTableInfo extends TableInfo {
     /** Load the columns for this table */
     protected function initColumns () {
     	// Include dependencies
-    	include_once ('creole/metadata/ColumnInfo.php');
-    	include_once ('creole/drivers/pgsql/PgSQLTypes.php');
+    	include_once __DIR__ . '../../../../creole/metadata/ColumnInfo.php';
+    	include_once __DIR__ . '../../../../creole/drivers/pgsql/PgSQLTypes.php';
 
     	// Get the columns, types, etc.
     	// Based on code from pgAdmin3 (http://www.pgadmin.org/)
@@ -242,7 +242,7 @@ class PgSQLTableInfo extends TableInfo {
     /** Load foreign keys for this table. */
     protected function initForeignKeys()
     {
-        include_once 'creole/metadata/ForeignKeyInfo.php';
+        include_once __DIR__ . '../../../../creole/metadata/ForeignKeyInfo.php';
 
         $result = pg_query ($this->conn->getResource(), sprintf ("SELECT
 						      conname,
@@ -324,7 +324,7 @@ class PgSQLTableInfo extends TableInfo {
     /** Load indexes for this table */
     protected function initIndexes()
     {
-        include_once 'creole/metadata/IndexInfo.php';
+        include_once __DIR__ . '../../../../creole/metadata/IndexInfo.php';
 
         // columns have to be loaded first
         if (!$this->colsLoaded) $this->initColumns();
@@ -372,7 +372,7 @@ class PgSQLTableInfo extends TableInfo {
     /** Loads the primary keys for this table. */
     protected function initPrimaryKey() {
 
-        include_once 'creole/metadata/PrimaryKeyInfo.php';
+        include_once __DIR__ . '../../../../creole/metadata/PrimaryKeyInfo.php';
 
 
         // columns have to be loaded first

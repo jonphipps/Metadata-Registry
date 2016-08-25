@@ -19,9 +19,9 @@
  * <http://creole.phpdb.org>.
  */
 
-require_once 'creole/drivers/odbc/ODBCCachedResultSet.php';
-require_once 'creole/drivers/odbc/ODBCResultSet.php';
-require_once 'creole/drivers/odbc/adapters/ODBCAdapter.php';
+require_once __DIR__ . '../../../../creole/drivers/odbc/ODBCCachedResultSet.php';
+require_once __DIR__ . '../../../../creole/drivers/odbc/ODBCResultSet.php';
+require_once __DIR__ . '../../../../creole/drivers/odbc/adapters/ODBCAdapter.php';
 
 /**
  * Implements MySQL driver-specific behavior.

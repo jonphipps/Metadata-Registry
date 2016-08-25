@@ -19,8 +19,8 @@
  * <http://creole.phpdb.org>.
  */
  
-require_once 'creole/ResultSet.php';
-require_once 'creole/common/ResultSetCommon.php';
+require_once __DIR__ . '../../../creole/ResultSet.php';
+require_once __DIR__ . '../../../creole/common/ResultSetCommon.php';
 
 /**
  * PostgreSQL implementation of ResultSet.
@@ -183,7 +183,7 @@ class PgSQLResultSet extends ResultSetCommon implements ResultSet {
 		if (is_int($column)) { $column--; } // because Java convention is to start at 1 
 		if (!array_key_exists($column, $this->fields)) { throw new SQLException("Invalid resultset column: " . (is_int($column) ? $column + 1 : $column)); }
 		if ($this->fields[$column] === null) { return null; }
-		require_once 'creole/util/Blob.php';
+		require_once __DIR__ . '../../../creole/util/Blob.php';
 		$b = new Blob();
 		$b->setContents(pg_unescape_bytea($this->fields[$column]));
 		return $b;

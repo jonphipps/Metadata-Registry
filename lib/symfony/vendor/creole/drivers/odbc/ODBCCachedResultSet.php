@@ -19,8 +19,8 @@
  * <http://creole.phpdb.org>.
  */
 
-require_once 'creole/drivers/odbc/ODBCResultSetCommon.php';
-require_once 'creole/drivers/odbc/ODBCTypes.php';
+require_once __DIR__ . '../../../creole/drivers/odbc/ODBCResultSetCommon.php';
+require_once __DIR__ . '../../../creole/drivers/odbc/ODBCTypes.php';
 
 /**
  * ODBC implementation of a cached ResultSet.

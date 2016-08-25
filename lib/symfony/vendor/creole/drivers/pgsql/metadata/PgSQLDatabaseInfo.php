@@ -19,7 +19,7 @@
  * <http://creole.phpdb.org>.
  */
 
-require_once 'creole/metadata/DatabaseInfo.php';
+require_once __DIR__ . '../../../../creole/metadata/DatabaseInfo.php';
 
 /**
  * MySQL implementation of DatabaseInfo.
@@ -36,7 +36,7 @@ class PgSQLDatabaseInfo extends DatabaseInfo {
      */
     protected function initTables()
     {
-        include_once 'creole/drivers/pgsql/metadata/PgSQLTableInfo.php';
+        include_once __DIR__ . '../../../../creole/drivers/pgsql/metadata/PgSQLTableInfo.php';
         
         // Get Database Version
 	// TODO: www.php.net/pg_version

@@ -19,7 +19,7 @@
  * <http://creole.phpdb.org>.
  */
 
-require_once 'creole/metadata/TableInfo.php';
+require_once __DIR__ . '../../../../creole/metadata/TableInfo.php';
 
 /**
  * MySQLi implementation of TableInfo.
@@ -32,8 +32,8 @@ class MySQLiTableInfo extends TableInfo {
     /** Loads the columns for this table. */
     protected function initColumns()
     {
-        require_once 'creole/metadata/ColumnInfo.php';
-        require_once 'creole/drivers/mysql/MySQLTypes.php';
+        require_once __DIR__ . '../../../../creole/metadata/ColumnInfo.php';
+        require_once __DIR__ . '../../../../creole/drivers/mysql/MySQLTypes.php';
 
         if (!@mysqli_select_db($this->conn->getResource(), $this->dbname)) {
             throw new SQLException('No database selected');
@@ -83,7 +83,7 @@ class MySQLiTableInfo extends TableInfo {
     /** Loads the primary key information for this table. */
     protected function initPrimaryKey()
     {
-        require_once 'creole/metadata/PrimaryKeyInfo.php';
+        require_once __DIR__ . '../../../../creole/metadata/PrimaryKeyInfo.php';
 
         // columns have to be loaded first
         if (!$this->colsLoaded) {
@@ -113,7 +113,7 @@ class MySQLiTableInfo extends TableInfo {
 
     /** Loads the indexes for this table. */
     protected function initIndexes() {
-        require_once 'creole/metadata/IndexInfo.php';
+        require_once __DIR__ . '../../../../creole/metadata/IndexInfo.php';
 
         // columns have to be loaded first
         if (!$this->colsLoaded) {

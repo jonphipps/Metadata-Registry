@@ -19,8 +19,8 @@
  * <http://creole.phpdb.org>.
  */
 
-require_once 'creole/CreoleTypes.php';
-require_once 'creole/metadata/TableInfo.php';
+require_once __DIR__ . '../../../../creole/CreoleTypes.php';
+require_once __DIR__ . '../../../../creole/metadata/TableInfo.php';
 
 /**
  * MSSQL implementation of TableInfo.
@@ -37,8 +37,8 @@ class MSSQLTableInfo extends TableInfo {
      */                          
     protected function initColumns() 
     {    
-        include_once 'creole/metadata/ColumnInfo.php';
-        include_once 'creole/drivers/mssql/MSSQLTypes.php';
+        include_once __DIR__ . '../../../../creole/metadata/ColumnInfo.php';
+        include_once __DIR__ . '../../../../creole/drivers/mssql/MSSQLTypes.php';
         
         if (!@mssql_select_db($this->dbname, $this->conn->getResource())) {
             throw new SQLException('No database selected');
@@ -75,7 +75,7 @@ class MSSQLTableInfo extends TableInfo {
     {
         // columns have to be loaded first
         if (!$this->colsLoaded) $this->initColumns();
-        include_once 'creole/metadata/IndexInfo.php';
+        include_once __DIR__ . '../../../../creole/metadata/IndexInfo.php';
         
         if (!@mssql_select_db($this->dbname, $this->conn->getResource())) {
             throw new SQLException('No database selected');
@@ -103,7 +103,7 @@ class MSSQLTableInfo extends TableInfo {
     {
         // columns have to be loaded first
         if (!$this->colsLoaded) $this->initColumns();
-        include_once 'creole/metadata/ForeignKeyInfo.php';
+        include_once __DIR__ . '../../../../creole/metadata/ForeignKeyInfo.php';
         
         if (!@mssql_select_db($this->dbname, $this->conn->getResource())) {
             throw new SQLException('No database selected');
@@ -128,7 +128,7 @@ class MSSQLTableInfo extends TableInfo {
                 if ($this->database->hasTable($ftbl)) {
                     $foreignTable = $this->database->getTable($ftbl);
                 } else {                
-                    $foreignTable = new TableInfo($ltbl);
+                    $foreignTable = new MSSQLTableInfo($this->dbname, $ftbl);
                     $this->database->addTable($foreignTable);
                 }
 
@@ -154,7 +154,7 @@ class MSSQLTableInfo extends TableInfo {
     {
         // columns have to be loaded first
         if (!$this->colsLoaded) $this->initColumns();
-        include_once 'creole/metadata/PrimaryKeyInfo.php';
+        include_once __DIR__ . '../../../../creole/metadata/PrimaryKeyInfo.php';
         
         if (!@mssql_select_db($this->dbname, $this->conn->getResource())) {
             throw new SQLException('No database selected');

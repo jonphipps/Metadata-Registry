@@ -19,8 +19,8 @@
  * <http://creole.phpdb.org>.
  */
 
-include_once 'creole/SQLException.php';
-include_once 'creole/Connection.php';
+include_once __DIR__ . '../creole/SQLException.php';
+include_once __DIR__ . '../creole/Connection.php';
 
 // static:
 // track errors is used by drivers to get better error messages
