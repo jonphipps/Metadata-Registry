@@ -24,7 +24,7 @@
  * 
  * This class may (optionally) be extended by driver classes simply to make it easier
  * to create driver classes.  This is also useful in the early stages of Creole development
- * as it means that API changes affect fewer files. As Creole matures/stabalizes having
+ * as it means that API changes affect fewer files. As Creole matures/stabilizes having
  * a common class may become less useful, as drivers may have their own ways of doing things
  * (and we'll have a solid unit test framework to make sure drivers conform to the API
  * described by the interfaces).
@@ -93,9 +93,14 @@ abstract class ResultSetCommon {
 	 * @var boolean
 	 */
 	protected $rtrimString = false;
-	
+
+
     /**
      * Constructor.
+     *
+     * @param Connection $conn
+     * @param $result
+     * @param null $fetchmode
      */
     public function __construct(Connection $conn, $result, $fetchmode = null)
     {
@@ -143,10 +148,13 @@ abstract class ResultSetCommon {
     public function isLowerAssocCase()
     {
         return $this->lowerAssocCase;
-    }        
-    
+    }
+
+
     /**
      * @see ResultSet::setFetchmode()
+     *
+     * @param $mode
      */
     public function setFetchmode($mode)
     {

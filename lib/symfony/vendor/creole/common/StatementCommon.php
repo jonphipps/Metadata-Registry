@@ -41,7 +41,7 @@ abstract class StatementCommon {
     protected $resultSet;
 
     /**
-     * Temporary hold the affected row cound after an execute() query.
+     * Temporary hold the affected row count after an execute() query.
      * @var int
      */
     protected $updateCount;
@@ -142,16 +142,18 @@ abstract class StatementCommon {
     {
         // do nothing here (subclasses will implement)
     }
-    
+
+
     /**
      * Generic execute() function has to check to see whether SQL is an update or select query.
-     * 
+     *
      * If you already know whether it's a SELECT or an update (manipulating) SQL, then use
-     * the appropriate method, as this one will incurr overhead to check the SQL.
-     * 
+     * the appropriate method, as this one will incur overhead to check the SQL.
+     *
+     * @param string $sql
      * @param int $fetchmode Fetchmode (only applies to queries).
-     * @return boolean True if it is a result set, false if not or if no more results (this is identical to JDBC return val).
-     * @throws SQLException
+     *
+     * @return bool True if it is a result set, false if not or if no more results (this is identical to JDBC return val).
      * @todo -cStatementCommon Update execute() to not use isSelect() method, but rather to determine type based on returned results.
      */
     public function execute($sql, $fetchmode = null)
@@ -174,7 +176,7 @@ abstract class StatementCommon {
      * This assumes that the last thing done was an executeQuery() or an execute()
      * with SELECT-type query.
      *
-     * @return RestultSet (or null if none)
+     * @return ResultSet (or null if none)
      */
     public function getResultSet()
     {
@@ -229,7 +231,7 @@ abstract class StatementCommon {
      * 
      * @param string $sql This method may optionally be called with the SQL statement.
      * @param int $fetchmode The mode to use when fetching the results (e.g. ResultSet::FETCHMODE_NUM, ResultSet::FETCHMODE_ASSOC).
-     * @return object Creole::ResultSet
+     * @return ResultSet
      * @throws SQLException If there is an error executing the specified query.
      * @todo -cStatementCommon Put native query execution logic in statement subclasses.
      */
@@ -263,7 +265,7 @@ abstract class StatementCommon {
      * Some drivers (e.g. MSSQL) support returning multiple result sets -- e.g.
      * from stored procedures.
      *
-     * This function also closes any current restult set.
+     * This function also closes any current resultset.
      *
      * Default behavior is for this function to return false.  Driver-specific
      * implementations of this class can override this method if they actually
