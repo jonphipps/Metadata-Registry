@@ -164,6 +164,12 @@ class SchemaPropertyElement extends BaseSchemaPropertyElement
     return $this->related_schema_property_id;
   }
 
+
+    public function getSchemaId()
+    {
+        return $this->getSchemaPropertyRelatedBySchemaPropertyId()->getSchemaId();
+  }
+
   /**
    * updates/creates/deletes the reciprocal property
    *
