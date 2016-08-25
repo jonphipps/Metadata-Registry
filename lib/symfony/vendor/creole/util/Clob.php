@@ -43,7 +43,7 @@ class Clob extends Lob {
             $this->setInputFile($file);
         }
         if (!$this->inFile) {
-            throw Exception('No file specified for read.');
+            throw new Exception('No file specified for read.');
         }
         $data = null;
         $file = fopen($this->inFile, "rt");
@@ -76,7 +76,7 @@ class Clob extends Lob {
         $fp = fopen($this->outFile, "wt");
         if (fputs($fp, $this->data) === false)
             throw new Exception('Unable to write to file: '.$this->outFile);
-        fclose($file);
+        fclose($fp);
     }
 
     /**
