@@ -1,3 +1,25 @@
+<?php
+if (isset( $breadcrumbs )): ?>
+    <h1>
+        <?php
+        $spaces = '';
+        $html   = '';
+        //Show the breadcrumbs
+        for ($i = 0; $i <= 3; $i++) {
+            /** @var \apps\frontend\lib\Breadcrumb $breadcrumb */
+            $breadcrumb = $breadcrumbs[$i];
+            $html .= $spaces;
+            $html .= link_to(__($breadcrumb->getEntityTypeLabel()) . ':&nbsp;', $breadcrumb->getEntityTypeUrl());
+            $html = empty( $breadcrumb->getEntityUrl() )
+                ? $html . __($breadcrumb->getEntityLabel())
+                : $html . link_to('"' . __($breadcrumb->getEntityLabel() . '"'), $breadcrumb->getEntityUrl());
+            $html .= "<br>\n";
+            $spaces .= "&nbsp;&nbsp;";
+        }
+        echo $html;
+        ?>
+    </h1>
+<?php endif; ?>
 <?php if (isset($tabs)): ?>
 <div id="tab_container">
     <ul class="ui-tabs-nav">
