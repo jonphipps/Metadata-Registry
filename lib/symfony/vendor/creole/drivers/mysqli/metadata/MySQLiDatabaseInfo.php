@@ -19,7 +19,7 @@
  * <http://creole.phpdb.org>.
  */
 
-require_once __DIR__ . '../../../../creole/metadata/DatabaseInfo.php';
+require_once 'creole/metadata/DatabaseInfo.php';
 
 /**
  * MySQLi implementation of DatabaseInfo.
@@ -35,7 +35,7 @@ class MySQLiDatabaseInfo extends DatabaseInfo {
      */
     protected function initTables()
     {
-        include_once __DIR__ . '../../../../creole/drivers/mysqli/metadata/MySQLiTableInfo.php';
+        include_once 'creole/drivers/mysqli/metadata/MySQLiTableInfo.php';
         
         $result = @mysqli_query($this->conn->getResource(), 'SHOW TABLES FROM ' . $this->dbname);
     

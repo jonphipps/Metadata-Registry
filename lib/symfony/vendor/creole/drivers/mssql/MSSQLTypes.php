@@ -20,7 +20,7 @@
  * <http://creole.phpdb.org>.
  */
  
-require_once __DIR__ . '../../../creole/CreoleTypes.php';
+require_once 'creole/CreoleTypes.php';
 
 /**
  * MSSQL types / type map.

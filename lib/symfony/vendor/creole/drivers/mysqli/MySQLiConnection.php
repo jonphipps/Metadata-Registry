@@ -19,9 +19,9 @@
  * <http://creole.phpdb.org>.
  */
 
-require_once __DIR__ . '../../../creole/Connection.php';
-require_once __DIR__ . '../../../creole/common/ConnectionCommon.php';
-include_once __DIR__ . '../../../creole/drivers/mysqli/MySQLiResultSet.php';
+require_once 'creole/Connection.php';
+require_once 'creole/common/ConnectionCommon.php';
+include_once 'creole/drivers/mysqli/MySQLiResultSet.php';
 
 /**
  * MySQLi implementation of Connection.
@@ -124,7 +124,7 @@ class MySQLiConnection extends ConnectionCommon implements Connection {
      */
     public function getDatabaseInfo()
     {
-        require_once __DIR__ . '../../../creole/drivers/mysqli/metadata/MySQLiDatabaseInfo.php';
+        require_once 'creole/drivers/mysqli/metadata/MySQLiDatabaseInfo.php';
         return new MySQLiDatabaseInfo($this);
     }
 
@@ -133,7 +133,7 @@ class MySQLiConnection extends ConnectionCommon implements Connection {
      */
     public function getIdGenerator()
     {
-        require_once __DIR__ . '../../../creole/drivers/mysqli/MySQLiIdGenerator.php';
+        require_once 'creole/drivers/mysqli/MySQLiIdGenerator.php';
         return new MySQLiIdGenerator($this);
     }
 
@@ -142,7 +142,7 @@ class MySQLiConnection extends ConnectionCommon implements Connection {
      */
     public function prepareStatement($sql)
     {
-        require_once __DIR__ . '../../../creole/drivers/mysqli/MySQLiPreparedStatement.php';
+        require_once 'creole/drivers/mysqli/MySQLiPreparedStatement.php';
         return new MySQLiPreparedStatement($this, $sql);
     }
 
@@ -158,7 +158,7 @@ class MySQLiConnection extends ConnectionCommon implements Connection {
      */
     public function createStatement()
     {
-        require_once __DIR__ . '../../../creole/drivers/mysqli/MySQLiStatement.php';
+        require_once 'creole/drivers/mysqli/MySQLiStatement.php';
         return new MySQLiStatement($this);
     }
 

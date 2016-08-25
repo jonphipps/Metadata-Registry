@@ -19,8 +19,8 @@
  * <http://creole.phpdb.org>.
  */
  
-require_once __DIR__ . '../../../creole/ResultSet.php';
-require_once __DIR__ . '../../../creole/common/ResultSetCommon.php';
+require_once 'creole/ResultSet.php';
+require_once 'creole/common/ResultSetCommon.php';
 
 /**
  * SQLite implementation of ResultSet class.
@@ -41,7 +41,7 @@ class SQLiteResultSet extends ResultSetCommon implements ResultSet {
      */
     public function getIterator()
     {
-        require_once __DIR__ . '../../../creole/drivers/sqlite/SQLiteResultSetIterator.php';
+        require_once 'creole/drivers/sqlite/SQLiteResultSetIterator.php';
         return new SQLiteResultSetIterator($this);
     }
            
@@ -102,7 +102,7 @@ class SQLiteResultSet extends ResultSetCommon implements ResultSet {
         $idx = (is_int($column) ? $column - 1 : $column);
         if (!array_key_exists($idx, $this->fields)) { throw new SQLException("Invalid resultset column: " . $column); }
         if ($this->fields[$idx] === null) { return null; }
-        require_once __DIR__ . '../../../creole/util/Blob.php';
+        require_once 'creole/util/Blob.php';
         $b = new Blob();
         $b->setContents(sqlite_udf_decode_binary($this->fields[$idx]));
         return $b;

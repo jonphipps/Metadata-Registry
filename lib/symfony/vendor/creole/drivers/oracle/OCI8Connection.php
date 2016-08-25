@@ -20,9 +20,9 @@
  * <http://creole.phpdb.org>.
  */
  
-require_once __DIR__ . '../../../creole/Connection.php';
-require_once __DIR__ . '../../../creole/common/ConnectionCommon.php';
-include_once __DIR__ . '../../../creole/drivers/oracle/OCI8ResultSet.php';
+require_once 'creole/Connection.php';
+require_once 'creole/common/ConnectionCommon.php';
+include_once 'creole/drivers/oracle/OCI8ResultSet.php';
 
 /**
  * Oracle implementation of Connection.
@@ -348,7 +348,7 @@ class OCI8Connection extends ConnectionCommon implements Connection
      */
     public function getDatabaseInfo()
     {
-        require_once __DIR__ . '../../../creole/drivers/oracle/metadata/OCI8DatabaseInfo.php';
+        require_once 'creole/drivers/oracle/metadata/OCI8DatabaseInfo.php';
 
         return new OCI8DatabaseInfo( $this );
     }
@@ -358,7 +358,7 @@ class OCI8Connection extends ConnectionCommon implements Connection
      */
     public function getIdGenerator()
     {
-        require_once __DIR__ . '../../../creole/drivers/oracle/OCI8IdGenerator.php';
+        require_once 'creole/drivers/oracle/OCI8IdGenerator.php';
 
         return new OCI8IdGenerator( $this );
     }
@@ -373,7 +373,7 @@ class OCI8Connection extends ConnectionCommon implements Connection
      */
     public function prepareStatement( $sql ) 
     {
-        require_once __DIR__ . '../../../creole/drivers/oracle/OCI8PreparedStatement.php';
+        require_once 'creole/drivers/oracle/OCI8PreparedStatement.php';
 
         return new OCI8PreparedStatement( $this, $sql );
     }
@@ -391,7 +391,7 @@ class OCI8Connection extends ConnectionCommon implements Connection
      */
     public function createStatement()
     {
-        require_once __DIR__ . '../../../creole/drivers/oracle/OCI8Statement.php';
+        require_once 'creole/drivers/oracle/OCI8Statement.php';
 
         return new OCI8Statement( $this );
     }

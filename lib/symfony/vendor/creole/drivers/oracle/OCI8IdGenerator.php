@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '../../../creole/IdGenerator.php';
+require_once 'creole/IdGenerator.php';
 
 /**
  * Oracle (OCI8) IdGenerator implimenation.

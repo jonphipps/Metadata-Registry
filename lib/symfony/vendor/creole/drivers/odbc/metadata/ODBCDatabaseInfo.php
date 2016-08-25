@@ -19,7 +19,7 @@
  * <http://creole.phpdb.org>.
  */
 
-require_once __DIR__ . '../../../../creole/metadata/DatabaseInfo.php';
+require_once 'creole/metadata/DatabaseInfo.php';
 
 /**
  * ODBC implementation of DatabaseInfo.
@@ -38,7 +38,7 @@ class ODBCDatabaseInfo extends DatabaseInfo {
      */
     protected function initTables()
     {
-        include_once __DIR__ . '../../../../creole/drivers/odbc/metadata/ODBCTableInfo.php';
+        include_once 'creole/drivers/odbc/metadata/ODBCTableInfo.php';
 
         $result = @odbc_tables($this->conn->getResource());
 

@@ -19,7 +19,7 @@
  * <http://creole.phpdb.org>.
  */
 
-require_once __DIR__ . '../../../../creole/metadata/DatabaseInfo.php';
+require_once 'creole/metadata/DatabaseInfo.php';
 
 /**
  * MSSQL impementation of DatabaseInfo.
@@ -36,7 +36,7 @@ class MSSQLDatabaseInfo extends DatabaseInfo {
      */
     protected function initTables()
     {
-        include_once __DIR__ . '../../../../creole/drivers/mssql/metadata/MSSQLTableInfo.php';
+        include_once 'creole/drivers/mssql/metadata/MSSQLTableInfo.php';
         
         $dsn = $this->conn->getDSN();
         

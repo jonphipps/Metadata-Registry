@@ -19,8 +19,8 @@
  * <http://creole.phpdb.org>.
  */
  
-require_once __DIR__ . '../../../creole/PreparedStatement.php';
-require_once __DIR__ . '../../../creole/common/PreparedStatementCommon.php';
+require_once 'creole/PreparedStatement.php';
+require_once 'creole/common/PreparedStatementCommon.php';
 
 /**
  * Oracle (OCI8) implementation of PreparedStatement.
@@ -279,7 +279,7 @@ class OCI8PreparedStatement extends PreparedStatementCommon implements PreparedS
      */
     function setBlob($paramIndex, $blob) 
     {
-        require_once __DIR__ . '../../../creole/util/Blob.php';
+        require_once 'creole/util/Blob.php';
         if (!($blob instanceof Blob)) {
             $b = new Blob();
             $b->setContents($blob);
@@ -296,7 +296,7 @@ class OCI8PreparedStatement extends PreparedStatementCommon implements PreparedS
      */
     function setClob($paramIndex, $clob) 
     {
-        require_once __DIR__ . '../../../creole/util/Clob.php';
+        require_once 'creole/util/Clob.php';
         if (!($clob instanceof Clob)) {
             $c = new Clob();
             $c->setContents($clob);

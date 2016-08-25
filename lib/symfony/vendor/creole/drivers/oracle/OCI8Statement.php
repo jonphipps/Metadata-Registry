@@ -19,8 +19,8 @@
  * <http://creole.phpdb.org>.
  */
  
-require_once __DIR__ . '../../../creole/Statement.php';
-require_once __DIR__ . '../../../creole/common/StatementCommon.php';
+require_once 'creole/Statement.php';
+require_once 'creole/common/StatementCommon.php';
 
 /**
  * Oracle (OCI8) Statement implementation.

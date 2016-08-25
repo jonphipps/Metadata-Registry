@@ -86,7 +86,7 @@ class ODBCAdapter
      */
     public function createResultSet($conn, $odbcresult, $fetchmode)
     {
-        require_once __DIR__ . '../../../../creole/drivers/odbc/ODBCResultSet.php';
+        require_once 'creole/drivers/odbc/ODBCResultSet.php';
         return new ODBCResultSet($conn, $odbcresult, $fetchmode);
     }
 
@@ -97,7 +97,7 @@ class ODBCAdapter
      */
     public function getIdGenerator($conn)
     {
-        require_once __DIR__ . '../../../../creole/drivers/odbc/ODBCIdGenerator.php';
+        require_once 'creole/drivers/odbc/ODBCIdGenerator.php';
         return new ODBCIdGenerator($conn);
     }
 
