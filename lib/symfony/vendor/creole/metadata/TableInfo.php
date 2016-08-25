@@ -43,7 +43,7 @@ abstract class TableInfo {
 
     /**
      * Additional and optional vendor specific information.
-     * @var vendorSpecificInfo
+     * @var array
      */
     protected $vendorSpecificInfo = array();
 
@@ -65,10 +65,11 @@ abstract class TableInfo {
     /** Shortcut to db name (needed by many drivers for queries). */
     protected $dbname;
 
+
     /**
-     * @param string $table The table name.
-     * @param string $database The database name.
-     * @param resource $dblink The db connection resource.
+     * @param DatabaseInfo|string $database The database name.
+     * @param string $name                  The table name.
+     *
      */
     function __construct(DatabaseInfo $database, $name) {
         $this->database = $database;
