@@ -44,6 +44,10 @@ body,
   background-color:#F6F2F6;
 }
 
+#sf_admin_container .form-row .content span,
+#sf_admin_container .show-row .content span {
+  float: left;
+}
 
 #sf_admin_container #sf_admin_content
 {
@@ -143,6 +147,7 @@ body,
   padding: 5px;
   border-bottom: 1px solid #ddd;
   background-color: #fffff0;
+  overflow: hidden;
 }
 
 #sf_admin_container .form-row .content,
