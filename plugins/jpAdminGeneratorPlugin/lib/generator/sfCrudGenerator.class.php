@@ -241,10 +241,6 @@ abstract class sfCrudGenerator extends sfGenerator
   /**
    * Gets the primary key name.
    *
-   * @return string
-  /**
-   * Gets the primary key name.
-   *
    * @return ColumnMap[]
    */
   public function getPrimaryKey()

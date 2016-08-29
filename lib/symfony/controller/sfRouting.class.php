@@ -49,7 +49,7 @@ class sfRouting
   /**
    * Sets the current route name.
    *
-   * @param string The route name
+   * @param string $name The route name
    */
   protected function setCurrentRouteName($name)
   {
@@ -69,7 +69,7 @@ class sfRouting
   /**
    * Gets the internal URI for the current request.
    *
-   * @param boolean Whether to give an internal URI with the route name (@route)
+   * @param boolean $with_route_name Whether to give an internal URI with the route name (@route)
    *                or with the module/action pair
    *
    * @return string The current internal URI
@@ -135,7 +135,7 @@ class sfRouting
   /**
    * Sets the compiled route array.
    *
-   * @param array The route array
+   * @param array $routes The route array
    *
    * @return array The route array
    */
@@ -157,7 +157,7 @@ class sfRouting
   /**
    * Returns true if the route name given is defined.
    *
-   * @param string The route name
+   * @param string $name The route name
    *
    * @return  boolean
    */
@@ -166,13 +166,15 @@ class sfRouting
     return isset($this->routes[$name]) ? true : false;
   }
 
-  /**
-   * Gets a route by its name.
-   *
-   * @param string The route name
-   *
-   * @return  array A route array
-   */
+
+    /**
+     * Gets a route by its name.
+     *
+     * @param string $name The route name
+     *
+     * @return array A route array
+     * @throws sfConfigurationException
+     */
   public function getRouteByName($name)
   {
     if ($name[0] == '@')
@@ -208,6 +210,13 @@ class sfRouting
    * Adds a new route at the beginning of the current list of routes.
    *
    * @see connect
+   *
+   * @param  string $name        The route name
+   * @param  string $route       The route string
+   * @param  array $default      The default parameter values
+   * @param  array $requirements The regexps parameters must match
+   *
+   * @return array
    */
   public function prependRoute($name, $route, $default = array(), $requirements = array())
   {
@@ -219,38 +228,48 @@ class sfRouting
     return $this->routes;
   }
 
-  /**
-   * Adds a new route.
-   *
-   * Alias for the connect method.
-   *
-   * @see connect
-   */
+
+    /**
+     * Adds a new route.
+     *
+     * Alias for the connect method.
+     *
+     * @see connect
+     *
+     * @param  string $name        The route name
+     * @param  string $route       The route string
+     * @param  array $default      The default parameter values
+     * @param  array $requirements The regexps parameters must match
+     *
+     * @return array
+     */
   public function appendRoute($name, $route, $default = array(), $requirements = array())
   {
     return $this->connect($name, $route, $default, $requirements);
   }
 
- /**
-  * Adds a new route at the end of the current list of routes.
-  *
-  * A route string is a string with 2 special constructions:
-  * - :string: :string denotes a named paramater (available later as $request->getParameter('string'))
-  * - *: * match an indefinite number of parameters in a route
-  *
-  * Here is a very common rule in a symfony project:
-  *
-  * <code>
-  * $r->connect('/:module/:action/*');
-  * </code>
-  *
-  * @param  string The route name
-  * @param  string The route string
-  * @param  array  The default parameter values
-  * @param  array  The regexps parameters must match
-  *
-  * @return array  current routes
-  */
+
+    /**
+     * Adds a new route at the end of the current list of routes.
+     *
+     * A route string is a string with 2 special constructions:
+     * - :string: :string denotes a named paramater (available later as $request->getParameter('string'))
+     * - *: * match an indefinite number of parameters in a route
+     *
+     * Here is a very common rule in a symfony project:
+     *
+     * <code>
+     * $r->connect('/:module/:action/*');
+     * </code>
+     *
+     * @param  string $name        The route name
+     * @param  string $route       The route string
+     * @param  array $default      The default parameter values
+     * @param  array $requirements The regexps parameters must match
+     *
+     * @return array current routes
+     * @throws sfConfigurationException
+     */
   public function connect($name, $route, $default = array(), $requirements = array())
   {
     // route already exists?
@@ -356,15 +375,20 @@ class sfRouting
     return $this->routes;
   }
 
- /**
-  * Generates a valid URLs for parameters.
-  *
-  * @param  array  The parameter values
-  * @param  string The divider between key/value pairs
-  * @param  string The equal sign to use between key and value
-  *
-  * @return string The generated URL
-  */
+
+    /**
+     * Generates a valid URLs for parameters.
+     *
+     * @param $name
+     * @param  array  $params   The parameter values
+     * @param  string $querydiv
+     * @param  string $divider The divider between key/value pairs
+     * @param  string $equals  The equal sign to use between key and value
+     *
+     * @return string The generated URL
+     * @throws sfConfigurationException
+     * @throws sfException
+     */
   public function generate($name, $params, $querydiv = '/', $divider = '/', $equals = '/')
   {
     $global_defaults = sfConfig::get('sf_routing_defaults', null);
@@ -509,7 +533,7 @@ class sfRouting
   *
   * Returns null if no route match the URL.
   *
-  * @param  string URL to be parsed
+  * @param  string $url URL to be parsed
   *
   * @return array  An array of parameters
   */

@@ -3,7 +3,7 @@
 /*
  * This file is part of the DbFinder package.
  * 
- * (c) 2007 François Zaninotto <francois.zaninotto@symfony-project.com>
+ * (c) 2007 FranÃ§ois Zaninotto <francois.zaninotto@symfony-project.com>
  * 
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.

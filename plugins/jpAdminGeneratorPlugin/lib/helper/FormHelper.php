@@ -157,9 +157,9 @@ function form_tag($url_for_options = '', $options = array())
  *  echo select_tag('url', options_for_select($url_list), array('onChange' => 'Javascript:this.form.submit();'));
  * </code>
  *
- * @param  string field name
- * @param  mixed  contains a string of valid <option></option> tags, or an array of options that will be passed to options_for_select
- * @param  array  additional HTML compliant <select> tag parameters
+ * @param  string $name field name
+ * @param  mixed $option_tags  contains a string of valid <option></option> tags, or an array of options that will be passed to options_for_select
+ * @param  array $options  additional HTML compliant <select> tag parameters
  *
  * @return string <select> tag optionally comprised of <option> tags.
  * @see options_for_select, content_tag

@@ -30,8 +30,8 @@ abstract class sfController
   /**
    * Indicates whether or not a module has a specific component.
    *
-   * @param string A module name
-   * @param string An component name
+   * @param string $moduleName A module name
+   * @param string $componentName An component name
    *
    * @return bool true, if the component exists, otherwise false
    */
@@ -43,8 +43,8 @@ abstract class sfController
   /**
    * Indicates whether or not a module has a specific action.
    *
-   * @param string A module name
-   * @param string An action name
+   * @param string $moduleName A module name
+   * @param string $actionName An action name
    *
    * @return bool true, if the action exists, otherwise false
    */
@@ -57,10 +57,10 @@ abstract class sfController
    * Looks for a controller and optionally throw exceptions if existence is required (i.e.
    * in the case of {@link getController()}).
    *
-   * @param string  The name of the module
-   * @param string  The name of the controller within the module
-   * @param string  Either 'action' or 'component' depending on the type of controller to look for
-   * @param boolean Whether to throw exceptions if the controller doesn't exist
+   * @param string $moduleName The name of the module
+   * @param string $controllerName The name of the controller within the module
+   * @param string $extension Either 'action' or 'component' depending on the type of controller to look for
+   * @param boolean $throwExceptions Whether to throw exceptions if the controller doesn't exist
    *
    * @throws sfConfigurationException thrown if the module is not enabled
    * @throws sfControllerException thrown if the controller doesn't exist and the $throwExceptions parameter is set to true
@@ -147,8 +147,8 @@ abstract class sfController
   /**
    * Forwards the request to another action.
    *
-   * @param string  A module name
-   * @param string  An action name
+   * @param string $moduleName A module name
+   * @param string $actionName An action name
    *
    * @throws <b>sfConfigurationException</b> If an invalid configuration setting has been found
    * @throws <b>sfForwardException</b> If an error occurs while forwarding the request
@@ -313,10 +313,10 @@ abstract class sfController
   /**
    * Retrieves an sfAction implementation instance.
    *
-   * @param  string A module name
-   * @param  string An action name
+   * @param  string $moduleName A module name
+   * @param  string $actionName An action name
    *
-   * @return sfAction An sfAction implementation instance, if the action exists, otherwise null
+   * @return sfController An sfAction implementation instance, if the action exists, otherwise null
    */
   public function getAction($moduleName, $actionName)
   {
@@ -326,10 +326,10 @@ abstract class sfController
   /**
    * Retrieves a sfComponent implementation instance.
    *
-   * @param  string A module name
-   * @param  string A component name
+   * @param  string $moduleName A module name
+   * @param  string $component NameA component name
    *
-   * @return sfComponent A sfComponent implementation instance, if the component exists, otherwise null
+   * @return sfController A sfComponent implementation instance, if the component exists, otherwise null
    */
   public function getComponent($moduleName, $componentName)
   {
@@ -339,11 +339,11 @@ abstract class sfController
   /**
    * Retrieves a controller implementation instance.
    *
-   * @param  string A module name
-   * @param  string A component name
-   * @param  string  Either 'action' or 'component' depending on the type of controller to look for
+   * @param  string $moduleName A module name
+   * @param  string $controllerName A component name
+   * @param  string $extension Either 'action' or 'component' depending on the type of controller to look for
    *
-   * @return object A controller implementation instance, if the controller exists, otherwise null
+   * @return sfController A controller implementation instance, if the controller exists, otherwise null
    *
    * @see getComponent(), getAction()
    */
@@ -403,9 +403,9 @@ abstract class sfController
   /**
    * Retrieves a sfView implementation instance.
    *
-   * @param string A module name
-   * @param string An action name
-   * @param string A view name
+   * @param string $moduleName A module name
+   * @param string $actionName An action name
+   * @param string $viewName A view name
    *
    * @return sfView A sfView implementation instance, if the view exists, otherwise null
    */
@@ -441,7 +441,7 @@ abstract class sfController
   /**
    * Initializes this controller.
    *
-   * @param sfContext A sfContext implementation instance
+   * @param sfContext $context A sfContext implementation instance
    */
   public function initialize($context)
   {
@@ -459,7 +459,7 @@ abstract class sfController
   /**
    * Retrieves a new sfController implementation instance.
    *
-   * @param string A sfController class name
+   * @param string $class A sfController class name
    *
    * @return sfController A sfController implementation instance
    *
@@ -494,8 +494,8 @@ abstract class sfController
    *
    * This methods calls a module/action with the sfMailView class.
    *
-   * @param  string A module name
-   * @param  string An action name
+   * @param  string $module A module name
+   * @param  string $action An action name
    *
    * @return string The generated mail content
    *
@@ -506,15 +506,18 @@ abstract class sfController
     return $this->getPresentationFor($module, $action, 'sfMail');
   }
 
-  /**
-   * Returns the rendered view presentation of a given module/action.
-   *
-   * @param  string A module name
-   * @param  string An action name
-   * @param  string A View class name
-   *
-   * @return string The generated content
-   */
+
+    /**
+     * Returns the rendered view presentation of a given module/action.
+     *
+     * @param  string $module   A module name
+     * @param  string $action   An action name
+     * @param  string $viewName A View class name
+     *
+     * @return string The generated content
+     * @throws Exception
+     * @throws sfException
+     */
   public function getPresentationFor($module, $action, $viewName = null)
   {
     if (sfConfig::get('sf_logging_enabled'))
@@ -596,7 +599,7 @@ abstract class sfController
   /**
    * Sets the presentation rendering mode.
    *
-   * @param int A rendering mode
+   * @param int $mode A rendering mode
    *
    * @throws sfRenderException If an invalid render mode has been set
    */
@@ -627,10 +630,10 @@ abstract class sfController
   }
 
   /**
-   * Loads application nad module filters.
+   * Loads application and module filters.
    *
-   * @param sfFilterChain A sfFilterChain instance
-   * @param sfAction      A sfAction instance
+   * @param sfFilterChain $filterChain A sfFilterChain instance
+   * @param sfAction $actionInstance   A sfAction instance
    */
   public function loadFilters($filterChain, $actionInstance)
   {
@@ -639,16 +642,18 @@ abstract class sfController
     require(sfConfigCache::getInstance()->checkConfig(sfConfig::get('sf_app_module_dir_name').'/'.$moduleName.'/'.sfConfig::get('sf_app_module_config_dir_name').'/filters.yml'));
   }
 
-  /**
-   * Calls methods defined via the sfMixer class.
-   *
-   * @param string The method name
-   * @param array  The method arguments
-   *
-   * @return mixed The returned value of the called method
-   *
-   * @see sfMixer
-   */
+
+    /**
+     * Calls methods defined via the sfMixer class.
+     *
+     * @param string $method   The method name
+     * @param array $arguments The method arguments
+     *
+     * @return mixed The returned value of the called method
+     *
+     * @throws sfException
+     * @see sfMixer
+     */
   public function __call($method, $arguments)
   {
     if (!$callable = sfMixer::getCallable('sfController:'.$method))

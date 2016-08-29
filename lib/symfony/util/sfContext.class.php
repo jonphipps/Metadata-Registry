@@ -23,23 +23,38 @@
  */
 class sfContext
 {
-  /**
-   * @var $response sfWebResponse
-   */
-  protected
-    $actionStack       = null,
-    $controller        = null,
-    $databaseManager   = null,
-    $request           = null,
-    $response          = null,
-    $storage           = null,
-    $viewCacheManager  = null,
-    $i18n              = null,
-    $logger            = null,
-    $user              = null;
+    /** @var sfActionStack $actionStack */
+    protected $actionStack = null;
 
-  protected static
-    $instance          = null;
+    /** @var sfController $controller */
+    protected $controller = null;
+
+    /** @var sfDatabaseManager $databaseManager */
+    protected $databaseManager = null;
+
+    /** @var sfWebRequest $request */
+    protected $request = null;
+
+    /** @var sfWebResponse $response */
+    protected $response = null;
+
+    /** @var sfStorage $storage */
+    protected $storage = null;
+
+    /** @var sfViewCacheManager $viewCacheManager */
+    protected $viewCacheManager = null;
+
+    /** @var sfI18N $i18n */
+    protected $i18n = null;
+
+    /** @var sfLogger $logger */
+    protected $logger = null;
+
+    /** @var myUser $user */
+    protected $user = null;
+
+    /** @var sfContext $instance */
+    protected static $instance = null;
 
   /**
    * Removes current sfContext instance
@@ -134,7 +149,11 @@ class sfContext
      return $this->controller;
    }
 
-   public function getLogger()
+
+    /**
+     * @return sfLogger
+     */
+    public function getLogger()
    {
      return $this->logger;
    }
@@ -147,7 +166,7 @@ class sfContext
    *
    * If the [sf_use_database] setting is off, this will return null.
    *
-   * @param name A database name.
+   * @param string $name A database name.
    *
    * @return mixed A Database instance.
    *
@@ -211,7 +230,7 @@ class sfContext
   }
 
   /**
-   * Retrieve the curretn view instance for this context.
+   * Retrieve the current view instance for this context.
    *
    * @return sfView The currently view instance, if one is set,
    *                otherwise null.
@@ -248,9 +267,8 @@ class sfContext
   /**
    * Set the response object.
    *
-   * @param sfResponse A sfResponse instance.
+   * @param sfWebResponse $response A sfResponse instance.
    *
-   * @return void.
    */
   public function setResponse($response)
   {
