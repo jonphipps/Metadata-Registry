@@ -31,7 +31,7 @@ class <?php echo $this->getGeneratedModuleName() ?>Actions extends sfActions
 
   public function executeCancel()
   {
-    return $this->redirect('<?php echo $this->getModuleName() ?>/list' . $this->redirectFilter);
+    $this->redirect('<?php echo $this->getModuleName() ?>/list' . $this->redirectFilter);
   }
 
   public function executeList()
