@@ -23,20 +23,8 @@ class <?php echo $this->getGeneratedModuleName() ?>Actions extends sfActions
 
   public function executeCancel()
   {
-    <?php echo $this->getMethodParamsForGetOrCreate() ?>;
-    if (<?php echo $this->getTestPksForGetOrCreate() ?>)
-    {
       return $this->redirect('<?php echo $this->getModuleName() ?>/list' . $this->redirectFilter);
     }
-    else
-    {
-      if (!$this-><?php echo $this->getSingularName() ?>)
-      {
-        $this-><?php echo $this->getSingularName() ?> = <?php echo $this->getClassName() ?>Peer::retrieveByPk(<?php echo $this->getRetrieveByPkParamsForAction(49) ?>);
-      }
-      return $this->redirect('<?php echo $this->getModuleName() ?>/show?<?php echo $this->getPrimaryKeyUrlParams('this->') ?>);
-    }
-  }
 
   public function executeList()
   {
@@ -132,7 +120,8 @@ class <?php echo $this->getGeneratedModuleName() ?>Actions extends sfActions
       }
       else
       {
-        return $this->redirect('<?php echo $this->getModuleName() ?>/show?<?php echo $this->getPrimaryKeyUrlParams('this->') ?>);
+        $url = isset($this->redirectFilter) ? '<?php echo $this->getModuleName() ?>/list' . $this->redirectFilter : '<?php echo $this->getModuleName() ?>/show?<?php echo $this->getPrimaryKeyUrlParams('this->') ?>;
+        return $this->redirect($url);
       }
     }
     else
@@ -175,7 +164,7 @@ class <?php echo $this->getGeneratedModuleName() ?>Actions extends sfActions
 <?php endif; ?>
 <?php endforeach; ?>
 <?php endforeach; ?>
-    $url = (isset($this->redirectFilter)) ? '<?php echo $this->getModuleName() ?>/list' . $this->redirectFilter : '<?php echo $this->getModuleName() ?>/list';
+    $url = isset($this->redirectFilter) ? '<?php echo $this->getModuleName() ?>/list' . $this->redirectFilter : '<?php echo $this->getModuleName() ?>/list';
     return $this->redirect($url);
   }
 
