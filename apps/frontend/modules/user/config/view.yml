@@ -2,7 +2,6 @@ passwordRequestMailSent:
   javascripts: [-*]
 
 all:
-  stylesheets: [-*, %SF_ADMIN_WEB_DIR%/css/main, main, layout, user/layout]
   javascripts: [%SF_PROTOTYPE_WEB_DIR%/prototype.min.js: { position: last }]
 
 editSuccess:
