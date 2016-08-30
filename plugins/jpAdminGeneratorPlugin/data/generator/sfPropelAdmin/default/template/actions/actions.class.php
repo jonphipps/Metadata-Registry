@@ -160,7 +160,9 @@ class <?php echo $this->getGeneratedModuleName() ?>Actions extends sfActions
     }
 
 <?php foreach ($this->getColumnCategories('edit.display') as $category): ?>
-<?php foreach ($this->getColumns('edit.display', $category) as $name => $column): ?>
+<?php
+    /** @var Column $column */
+    foreach ($this->getColumns('edit.display', $category) as $name => $column): ?>
 <?php $input_type = $this->getParameterValue('edit.fields.'.$column->getName().'.type') ?>
 <?php if ($input_type == 'admin_input_file_tag'): ?>
 <?php $upload_dir = $this->replaceConstants($this->getParameterValue('edit.fields.'.$column->getName().'.upload_dir')) ?>
@@ -188,6 +190,10 @@ class <?php echo $this->getGeneratedModuleName() ?>Actions extends sfActions
     return sfView::SUCCESS;
   }
 
+  /**
+   * @param <?php echo $this->getClassName() ?> $<?php echo $this->getSingularName() ?>
+
+   */
   protected function save<?php echo $this->getClassName() ?>($<?php echo $this->getSingularName() ?>)
   {
     $<?php echo $this->getSingularName() ?>->save();
@@ -256,6 +262,10 @@ $column = sfPropelManyToMany::getColumn($class, $through_class);
 <?php endforeach; ?>
   }
 
+  /**
+   * @param <?php echo $this->getClassName() ?> $<?php echo $this->getSingularName() ?>
+
+   */
   protected function delete<?php echo $this->getClassName() ?>($<?php echo $this->getSingularName() ?>)
   {
     $<?php echo $this->getSingularName() ?>->delete();
@@ -263,6 +273,7 @@ $column = sfPropelManyToMany::getColumn($class, $through_class);
 
   protected function update<?php echo $this->getClassName() ?>FromRequest()
   {
+  /** @var <?php echo $this->getClassName() ?> $<?php echo $this->getSingularName() ?> */
     $<?php echo $this->getSingularName() ?> = $this->getRequestParameter('<?php echo $this->getSingularName() ?>');
 
 <?php foreach ($this->getColumnCategories('edit.display') as $category): ?>
@@ -444,10 +455,15 @@ $column = sfPropelManyToMany::getColumn($class, $through_class);
     }
   }
 
+  /**
+   * @param Criteria $c
+   */
   protected function addFiltersCriteria($c)
   {
 <?php if ($this->getParameterValue('list.filters')): ?>
-<?php foreach ($this->getColumns('list.filters') as $column): $type = $column->getCreoleType() ?>
+<?php
+    /** @var TYPE_NAME $column */
+    foreach ($this->getColumns('list.filters') as $column): $type = $column->getCreoleType() ?>
 <?php if (($column->isPartial() || $column->isComponent()) && $this->getParameterValue('list.fields.'.$column->getName().'.filter_criteria_disabled')) continue ?>
     if (isset($this->filters['<?php echo $column->getName() ?>_is_empty']))
     {
@@ -505,6 +521,9 @@ $column = sfPropelManyToMany::getColumn($class, $through_class);
 <?php endif; ?>
   }
 
+  /**
+   * @param Criteria $c
+   */
   protected function addSortCriteria($c)
   {
     if ($sort_column = $this->getUser()->getAttribute('sort', null, 'sf_admin/<?php echo $this->getSingularName() ?>/sort'))
