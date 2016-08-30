@@ -11,7 +11,7 @@ use ImportVocab\ImportVocab;
  * @version    SVN: $Id: actions.class.php 2288 2006-10-02 15:22:13Z fabien $
  * @property   \FileImportHistory  $file_import_history
  */
-class importActions extends autoimportActions
+class importActions extends autoImportActions
 {
   public function preExecute()
   {

@@ -11,7 +11,7 @@
  * @author     Jon Phipps <jonphipps@gmail.com>
  * @version    SVN: $Id: actions.class.php 22 2006-04-22 00:33:21Z jphipps $
  */
-class conceptActions extends autoconceptActions
+class conceptActions extends autoConceptActions
 {
 
   public function preExecute ()

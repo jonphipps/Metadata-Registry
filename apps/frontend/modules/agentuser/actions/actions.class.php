@@ -9,7 +9,7 @@
  * @author     Jon Phipps <jonphipps@gmail.com>
  * @version    SVN: $Id: actions.class.php 63 2006-06-14 17:31:15Z jphipps $
  */
-class agentuserActions extends autoagentuserActions
+class agentuserActions extends autoAgentuserActions
 {
   public function setDefaults($AgentHasUser)
   {
