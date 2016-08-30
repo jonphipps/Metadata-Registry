@@ -12,7 +12,14 @@
 class historyActions extends autohistoryActions
 {
 
-  /**
+    public function executeShow()
+    {
+        parent::executeShow();
+        $this->breadcrumbs = \apps\frontend\lib\Breadcrumb::vocabularyHistoryDetailFactory($this->concept_property_history);
+    }
+
+
+    /**
   * rss and atom feeds
   *
   * @return return_type
@@ -104,46 +111,57 @@ class historyActions extends autohistoryActions
     return;
   }
 
-  public function executeList()
-  {
-      $idType = $this->getRequestParameter('IdType', null);
-      $id     = $this->getRequestParameter('id', null);
 
-      if ( ! $idType) {
-          //a current vocabulary is required to be in the request URL
-          myActionTools::requireVocabularyFilter();
-      } else {
-          if ($id) {
-              $this->getRequest()->getParameterHolder()->set($idType, $id);
-          }
-      }
+    public function executeList()
+    {
+        $idType = $this->getRequestParameter('IdType', null);
+        $id     = $this->getRequestParameter('id', null);
+        $vocabularyId = null;
 
-      if ($idType !== 'import_id') {
-          $vocabulary       = myActionTools::findCurrentVocabulary();
-          $this->vocabulary = $vocabulary;
+        if ( ! $idType) {
+            //a current vocabulary is required to be in the request URL
+            myActionTools::requireVocabularyFilter();
+        } else {
+            if ($id) {
+                $this->getRequest()->getParameterHolder()->set($idType, $id);
+            }
+        }
 
-          if (in_array($idType, [ 'concept_id', 'property_id' ])) {
-              $this->concept = myActionTools::findCurrentConcept();
-              $this->setFlash('hasConcept', true);
-          }
-      } else {
-          $import = FileImportHistoryPeer::retrieveByPK($id);
-          if ($import) {
-              $vocabulary       = $import->getVocabulary();
-              $this->vocabulary = $vocabulary;
-          }
-      }
+        if ($idType !== 'import_id') {
 
-      //get the versions array
-      if (isset($vocabulary)) {
-          $c = new Criteria();
-          $c->add(VocabularyHasVersionPeer::VOCABULARY_ID, $vocabulary->getId());
-          $versions = VocabularyHasVersionPeer::doSelect($c);
-          $this->setFlash('versions', $versions);
-      }
+            if ($idType == 'concept_id') {
+                $concept = ConceptPeer::retrieveByPK($this->getRequestParameter($idType));
+            }
+            if ($idType == 'property_id') {
+                $concept = ConceptPropertyPeer::retrieveByPK($this->getRequestParameter($idType))->getConceptRelatedByConceptId();
+            }
+            if (isset( $concept )) {
+                $this->concept = $concept;
+                $this->setFlash('hasConcept', true);
+                $this->vocabulary = $concept->getVocabulary();
+                $vocabularyId = $concept->getVocabularyId();
+            }
+        } else {
+            $id     = $this->getRequestParameter('import_id', null);
+            $import = FileImportHistoryPeer::retrieveByPK($id);
+            if ($import) {
+                $vocabulary       = $import->getVocabulary();
+                $this->vocabulary = $vocabulary;
+                $vocabularyId     = $vocabulary->getId();
+            }
+        }
 
-    parent::executeList();
-  }
+        //get the versions array
+        if ($vocabularyId) {
+            $c = new Criteria();
+            $c->add(VocabularyHasVersionPeer::VOCABULARY_ID, $vocabularyId);
+            $versions = VocabularyHasVersionPeer::doSelect($c);
+            $this->setFlash('versions', $versions);
+        }
+
+
+        parent::executeList();
+    }
 
   /**
   * description

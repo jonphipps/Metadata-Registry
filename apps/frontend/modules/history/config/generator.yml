@@ -23,7 +23,7 @@ generator:
       display:        [=created_at, uri, _pref_label, _property, _language, _action, user, _import, _ts]
       sort:           [created_at, desc]
       displayfilter:  false
-      filters:        [import_id, vocabulary_id, concept_property_id, concept_id, skos_property_id, updated_at, object, status, user]
+      filters:        [import_id, vocabulary_id, concept_property_id, concept_id, skos_property_id, object, user_id]
       # urlfilter form is [field to filter on]: [value passed from routing.yml]
       # multiple filters can be set but they're currently mutually exclusive (any of the list can be used but only one per url)
       urlfilters:

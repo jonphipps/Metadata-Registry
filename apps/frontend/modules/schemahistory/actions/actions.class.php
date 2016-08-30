@@ -10,7 +10,15 @@
 */
 class schemahistoryActions extends autoschemahistoryActions
 {
-  public function executeFeed()
+
+    public function executeShow()
+    {
+        parent::executeShow();
+        $this->breadcrumbs = \apps\frontend\lib\Breadcrumb::elementSetHistoryDetailFactory($this->schema_property_element_history);
+    }
+
+
+    public function executeFeed()
   {
     /** @var sfWebRequest **/
     $request = $this->getContext()->getRequest();
@@ -121,21 +129,26 @@ class schemahistoryActions extends autoschemahistoryActions
               $this->schema = $schema;
               $schemaId     = $schema->getId();
           }
-          if (in_array($idType, [ 'schema_property_id', 'schema_property_element_id' ])) {
-              $property = myActionTools::findCurrentSchemaProperty();
-              if ($property) {
-                  $this->property = $property;
-                  $this->setFlash('hasProperty', true);
-                  $schemaId = $this->property->getSchemaId();
-              }
+          if ($idType == 'schema_property_id') {
+              $property = SchemaPropertyPeer::retrieveByPK($this->getRequestParameter($idType));
           }
+          if ($idType == 'schema_property_element_id') {
+              $property = SchemaPropertyElementPeer::retrieveByPK($this->getRequestParameter($idType))
+                                                   ->getSchemaPropertyRelatedBySchemaPropertyId();
+          }
+          if (isset($property)) {
+              $this->property = $property;
+              $this->setFlash('hasProperty', true);
+              $schemaId = $this->property->getSchemaId();
+          }
+
       } else {
-          $id = $this->getRequestParameter('import_id', null);
+          $id     = $this->getRequestParameter('import_id', null);
           $import = FileImportHistoryPeer::retrieveByPK($id);
           if ($import) {
               $schema       = $import->getSchema();
               $this->schema = $schema;
-              $schemaId = $schema->getId();
+              $schemaId     = $schema->getId();
           }
       }
 
