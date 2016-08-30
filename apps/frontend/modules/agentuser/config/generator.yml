@@ -22,7 +22,7 @@ generator:
         _edit:         { credentials: [[administrator, agentadmin]] }
         _delete:       { credentials: [[administrator, agentadmin]] }
       actions:
-        _create:       { name: Add Member, credentials: [[administrator, agentadmin]] }
+        _create:       { name: Add Member, credentials: [[administrator, agentadmin]], query_string: { agent_id: agent_id} }
       displayfilter:   false
       filters:         [agent_id, user_id]
       urlfilters:
@@ -32,26 +32,27 @@ generator:
     edit:
       title:
         mode:
-          edit:       Editing %%agent%% permissions for %%user%%
-          create:     Adding member to %%agent%%
+          edit:       "Editing Agent: \"%%agent%%\" permissions for %%user%%"
+          create:     Adding New Member to %%agent%%
       helptype:       icon
       fields:
         user_id:        { params: peer_method=getNewUsersForAgent include_blank=false, mode: create }
         user:          { type: plain, mode: edit }
+        agent_id:      { type: plain }
+      hide:            [agent_id]
       display:         [user, user_id, isAdminFor]
       actions:
         _save:         { credentials: [[administrator, agentadmin]] }
         _delete:       { credentials: [[administrator, agentadmin]] }
-        _create:       { name: Add Member, credentials: [[administrator, agentadmin]], mode: edit }
-        _save_and_add: { credentials: [[administrator, agentadmin]] }
+        _save_and_add: { credentials: [[administrator, agentadmin]], query_string: { agent_id: agent_id}  }
         _cancel:       { credentials: [[administrator, agentadmin]] }
 
     show:
-      title:           %%agent%% permissions for %%user%%
+      title:           "Agent: \"%%agent%%\" permissions for %%user%%"
       fields:
         user:          { type: plain }
       display:         [_member, isRegistrarFor, isAdminFor]
       actions:
         _delete:       { credentials: [[administrator, agentadmin]] }
-        _edit:         { credentials: [[administrator, vocabularyadmin]] }
-        _create:       { name: Add Member, credentials: [[administrator, agentadmin]] }
+        _edit:         { credentials: [[administrator, agentadmin]] }
+        _create:       { name: Add Member, credentials: [[administrator, agentadmin]], query_string: { agent_id: agent_id} }

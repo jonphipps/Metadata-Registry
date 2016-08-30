@@ -20,8 +20,9 @@ class agentuserActions extends autoagentuserActions
     }
 
     $AgentHasUser->setIsRegistrarFor(false);
+      $AgentHasUser->setIsAdminFor(false);
 
-    parent::setDefaults($AgentHasUser);
+      parent::setDefaults($AgentHasUser);
   }
 
   public function executeCancel()
@@ -41,6 +42,14 @@ class agentuserActions extends autoagentuserActions
       $this->setFilter();
       parent::executeList();
   }
+
+
+    public function executeEdit()
+    {
+        $this->getUser()->setAttribute('agent_id', $this->getRequestParameter('agent_id'), 'sf_admin/agent_has_user/filters');
+        $this->setFilter();
+        return parent::executeEdit();
+    }
 
 
     private function setFilter()
