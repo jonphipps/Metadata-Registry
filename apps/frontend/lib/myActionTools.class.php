@@ -176,30 +176,42 @@ class myActionTools
     $action = $instance->getActionStack()->getLastEntry()->getActionInstance();
     $attributeHolder = $user->getAttributeHolder();
 
-    //check if there's a request parameter
-    $agentId = $request->getParameter('agent_id','');
+      //check if there's a request parameter
+      $agentId    = $request->getParameter('agent_id', '');
+      $vocabId    = $request->getParameter('vocabulary_id', '');
+      /** @var Vocabulary $vocabulary */
+      $vocabulary = $user->getAttribute('vocabulary', '', 'symfony/user/sfUser/attributes');
+      $agent = $user->getAttribute('agent', '', 'symfony/user/sfUser/attributes');
 
-    //agent_id's in the query string
-    if ($agentId)
-    {
-      self::updateAdminFilters($attributeHolder, 'agent_id', $agentId, 'concept');
-    }
+      //agent_id's not in the query string, but it's in a filter
+      if (empty( $agentId ) && !$agent) {
+          if (empty( $vocabulary )) {
+              if ($vocabId) {
+                  $vocabulary = VocabularyPeer::retrieveByPK($vocabId);
+              }
+          }
+          if ($vocabulary) {
+              $agentId = $vocabulary->getAgentId();
+              $agent   = $vocabulary->getAgent();
+          }
+      }
 
-    //agent_id's not in the query string, but it's in a filter
-    //note: this will still return the correct value if it's in the query string
-    $agentId = $attributeHolder->get('agent_id','','sf_admin/agent_has_user/filters');
+      //We got here and there's a agent_id but we didn't get the stored agent object
+      if ($agentId && ! $agent) {
+          //we get it from the database
+          $agent = self::setLatestagent($agentId);
+      }
 
-    $agent = $user->getCurrentagent();
+      if (!$agentId && $agent) {
+          $agentId = $agent->getId();
+      }
 
-    //We got here and there's a agent_id but we didn't get the stored agent object
-    if ($agentId && !$agent)
-    {
-      //we get it from the database
-      $agent = self::setLatestagent($agentId);
-    }
+      if ($agentId) {
+          self::updateAdminFilters($attributeHolder, 'agent_id', $agentId, 'agent');
+      }
 
-    //we got here and there's a agent and a agentid (yay)
-    if ($agent and $agentId)
+      //we got here and there's a agent and a agentid (yay)
+    if ($agent && $agentId)
     {
       //let's check the id of the stored agent
       $currentId = $agent->getId();
@@ -213,9 +225,7 @@ class myActionTools
     }
 
     //if we get here and there's still no agent then we return false
-    $agent = (isset($agent)) ? $agent : false;
-
-    return $agent;
+    return ($agent) ? $agent : false;
   }
 
   /**
@@ -287,7 +297,11 @@ class myActionTools
     {
       $idType = $request->getParameter('IdType', null);
       $id = $request->getParameter('id', null);
-      switch ($idType)
+        if (!$id) {
+            $id = $request->getParameter($idType, null);
+        }
+
+        switch ($idType)
       {
         case "property_id":
           $property = ConceptPropertyPeer::retrieveByPK($id);
