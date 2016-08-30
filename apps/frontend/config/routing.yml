@@ -201,12 +201,12 @@ vocabulary_detail:
 
 vocabulary_list:
   url:   /vocabularies
-  param: { module: vocabulary, action: list}
+  param: { module: vocabulary, action: list, tabnav: vocabularies}
 
 
 vocabulary_maintainer_detail:
   url:   /vocabulary_maintainers/:id
-  param: { module: vocabuser, action: show}
+  param: { module: vocabuser, action: show, tabnav: vocabularies_maintainers}
 
 
 #concepts (concepts)
@@ -234,13 +234,17 @@ properties_history:
 
 
 #imports
-import_history:
+vocabulary_import_history:
   url:   /vocabulary_imports/:import_id/history
   param: { module: history, action: list, tabnav: imports, IdType: import_id }
 
+elementset_import_history:
+  url:   /elementset_imports/:import_id/history
+  param: { module: schemahistory, action: list, tabnav: imports, IdType: import_id }
+
 import_detail:
   url:   /imports/:id
-  param: { module: import, action: show }
+  param: { module: import, action: show, tabnav: imports }
 
 
 #history
@@ -276,12 +280,12 @@ elementset_detail:
 
 elementset_list:
   url:   /elementsets
-  param: { module: schema, action: list}
+  param: { module: schema, action: list, tabnav: elementsets }
 
 
 elementset_maintainer_detail:
   url:   /elementset_maintainers/:id
-  param: { module: schemauser, action: show}
+  param: { module: schemauser, action: show, tabnav: elementsets_maintainers}
 
 
 #elements (schemaprops)
@@ -296,10 +300,6 @@ element_statements:
 element_history:
   url:   /elements/:schema_property_id/history
   param: { module: schemahistory, action: list, tabnav: elements, IdType: schema_property_id }
-
-element_import_history:
-  url:   /elementset_imports/:import_id/history
-  param: { module: schemahistory, action: list, tabnav: imports, IdType: import_id }
 
 #statements
 statement_detail:
@@ -360,21 +360,46 @@ all_history_feed_atom:
 
 
 #agents
+
+agent_members_action:
+  url:   /agentuser/:id/:action
+  param: { module: agentuser }
+
+agent_members_detail:
+  url:   /agentuser/:id
+  param: { module: agentuser, action: show }
+
+agent_members_create:
+  url:   /agents/:agent_id/members/create
+  param: { module: agentuser, action: create }
+
 agent_members:
   url:   /agents/:agent_id/members
   param: { module: agentuser, action: list, tabnav: agents }
 
+agent_vocabularies:
+  url:   /agents/:agent_id/vocabularies
+  param: { module: vocabulary, action: list, tabnav: vocabularies }
+
+agent_elementsets:
+  url:   /agents/:agent_id/elementsets
+  param: { module: schema, action: list, tabnav: elementsets }
+
+agent_action:
+  url:   /agents/:id/:action
+  param: { module: agent }
+
 agent_detail:
   url:   /agents/:id
-  param: { module: agent, action: show, tabnav: agents  }
+  param: { module: agent, action: show, tabnav: agents }
 
 agent_list:
   url:   /agents
-  param: { module: agent, action: list  }
+  param: { module: agent, action: list, tabnav: agents   }
 
 agent_members_detail:
   url:   /agent_members/:id
-  param: { module: agentuser, action: show}
+  param: { module: agentuser, action: show, tabnav: agents}
 
 
 
@@ -393,11 +418,11 @@ member_elementsets:
 
 member_detail:
   url:   /members/:id
-  param: { module: user, action: show, tabnav: members  }
+  param: { module: user, action: show, tabnav: members }
 
 member_list:
   url:   /members
-  param: { module: user, action: list  }
+  param: { module: user, action: list, tabnav: members }
 
 
 
