@@ -40,8 +40,8 @@ generator:
         user_id:       { params: peer_method=getNewUsersForVocabulary include_blank=false, mode: create }
         user:          { type: plain, mode: edit }
         is_registrar_for:  { credentials: [[administrator]], mode: edit}
-        languages:         { type: admin_select_language, params: multiple=true limitmethod=getLanguagesForSchema style="width:99%" include_custom=[*, All languages ], credentials: [[administrator, vocabularyadmin, agentadmin]] }
-        default_language:  { type: admin_select_language, params: limitmethod=getLanguagesForSchema style="width:99%", credentials: [[administrator, vocabularyadmin, agentadmin]] }
+        languages:         { type: admin_select_language, params: multiple=true limitmethod=getLanguagesForVocabulary style="width:99%" include_custom=[*, All languages ], credentials: [[administrator, vocabularyadmin, agentadmin]] }
+        default_language:  { type: admin_select_language, params: limitmethod=getLanguagesForVocabulary style="width:99%", credentials: [[administrator, vocabularyadmin, agentadmin]] }
       display:         [user, user_id, isRegistrarFor, isAdminFor, isMaintainerFor, languages, default_language]
       actions:
         _save:         { credentials: [[administrator, vocabularyadmin, agentadmin]] }

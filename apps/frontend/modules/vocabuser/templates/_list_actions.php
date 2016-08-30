@@ -29,10 +29,10 @@
         ) ?></li>
 
     <?php else: ?>
-      <li>You must add more Members to this Vocabulary's Owner before adding a new maintainer.</li>
+      <li>You must add more Members to this Vocabulary's Agent before adding a new maintainer.</li>
       <li><?php echo button_to(
             __( 'Add Member' ),
-            'agentuser/create',
+            'agentuser/create?vocabulary_id=' . $sf_request->getParameter( 'vocabulary_id', '' ) . '',
             array (
                 'title' => 'Create',
                 'class' => 'sf_admin_action_create',
