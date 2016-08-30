@@ -143,27 +143,38 @@ class UserPeer extends BaseUserPeer
   */
   public static function getNewUsersForAgent($criteria)
   {
-   $con = Propel::getConnection(self::DATABASE_NAME);
+      $curUsers = [];
+      $agentId = null;
 
-   $agent = sfContext::getInstance()->getUser()->getAttribute('agent', '');
-   if ($agent)
-   {
-     $agentId = $agent->getId();
-   }
+      $agent      = sfContext::getInstance()->getUser()->getAttribute('agent', '');
+      $vocabulary = sfContext::getInstance()
+                             ->getUser()
+                             ->getAttribute('vocabulary', '', 'symfony/user/sfUser/attributes');
+      if ($agent) {
+          $agentId = $agent->getId();
+      } else {
+          if ( ! empty( $vocabulary )) {
+              $agentId = $vocabulary->getAgentId();
+          } else {
+              $vocabId = sfContext::getInstance()->getRequest()->getParameter('vocabulary_id');
+              if ( ! empty( $vocabId )) {
+                  $vocabulary = VocabularyPeer::retrieveByPK($vocabId);
+                  $agentId    = $vocabulary->getAgentId();
+              }
+          }
+      }
+      if ($agentId) {
+          //get the current user list for this agent
+          $c = new Criteria();
+          $c->add(AgentHasUserPeer::AGENT_ID, $agentId);
 
-/**
-* @todo speed this up by making an array of current users and passing that to the query a 'not in array[]'
-**/
-   //get the current user list for this agent
-   $c = new Criteria();
-   $c->add(AgentHasUserPeer::AGENT_ID,$agent->getId());
+          $curUsers = AgentHasUserPeer::doSelect($c);
+      }
 
-   $curUsers = AgentHasUserPeer::doSelect($c);
+      $c = new Criteria();
+      $c->addAscendingOrderByColumn(self::NICKNAME);
 
-   $c = new Criteria();
-   $c->addAscendingOrderByColumn(self::NICKNAME);
-
-   $newUsers = UserPeer::doSelect($c);
+      $newUsers = UserPeer::doSelect($c);
    foreach ($curUsers as $curUser)
    {
      $curId = $curUser->getUserId();
@@ -177,9 +188,8 @@ class UserPeer extends BaseUserPeer
      }
    }
    //make sure the array is contiguous
-   $newUsers = array_merge($newUsers);
+   return array_merge($newUsers);
 
-   return $newUsers;
   }
 
   /**
