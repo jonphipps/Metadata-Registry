@@ -8,7 +8,7 @@
 * @author     Jon Phipps
 * @version    SVN: $Id: actions.class.php 1415 2006-06-11 08:33:51Z fabien $
 */
-class userActions extends autouserActions
+class userActions extends autoUserActions
 {
   public function executeShowSubscriber()
   {
