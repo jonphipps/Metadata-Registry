@@ -69,7 +69,7 @@ generator:
         "Detail":      [pref_label, uri, is_top_concept, status_id, _language]
         "Properties":  [_listproperties]
       actions:
-        _list:         { query_string: { vocabulary_id: vocabulary_id} }
+#        _list:         { query_string: { vocabulary_id: vocabulary_id} }
         _save:         { credentials: [[administrator, vocabularymaintainer, vocabularyadmin, conceptadmin]] }
         _delete:       { credentials: [[administrator, vocabularyadmin]] }
         _create:       { name: Add Concept, credentials: [[administrator, vocabularymaintainer, vocabularyadmin, conceptadmin]], mode: edit  }
@@ -84,7 +84,7 @@ generator:
         "Detail":      [pref_label, _language, _uri, is_top_concept, status]
         "Properties":  [_listproperties]
       actions:
-        _list:         { query_string: { vocabulary_id: vocabulary_id} }
+#        _list:         { query_string: { vocabulary_id: vocabulary_id} }
         _edit:         { credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
         _create:       { name: Add Concept, credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
         rdf:           { name: Get RDF, icon: %SF_ADMIN_WEB_DIR%/images/rdf_icon.png, route: rdf_concept }

@@ -66,7 +66,7 @@ generator:
         "Publishing": [ repo, status_id]
         "Documentation": [url, note, community]
       actions:
-        _list:         -
+#        _list:         -
         _save:         { credentials: [[administrator, hasAgents, schemamaintainer, schemaadmin]] }
         _delete:       { credentials: [administrator] }
         _create:       { credentials: [[administrator, hasAgents]], mode: edit }
@@ -91,7 +91,7 @@ generator:
         "Documentation": [url, note, community]
         "-Members":      [_list_users]
       actions:
-        _list:
+#        _list:
         _edit:       { credentials: [[administrator, schemamaintainer, schemaadmin]] }
         _publish:    { credentials: [[administrator]] }
 

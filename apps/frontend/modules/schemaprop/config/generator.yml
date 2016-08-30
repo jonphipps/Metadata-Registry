@@ -82,7 +82,7 @@ generator:
         "Detail":      [mytype, type, uri, language, label, name, lexical_alias, definition, comment, is_subproperty_of, is_subclass_of, parent_uri, domain, orange, status_id, note]
 #        "Statements":  [_listproperties]
       actions:
-        _list:         { query_string: { schema_id: schema_id} }
+#        _list:         { query_string: { schema_id: schema_id} }
         _save:         { credentials: [[administrator, schemamaintainer, schemaadmin, schemapropadmin]] }
         _delete:       { credentials: [[administrator, schemaadmin]] }
         _create:       { name: Add Element, credentials: [[administrator, schemamaintainer, schemaadmin, schemapropadmin]], mode: edit  }
@@ -104,7 +104,7 @@ generator:
         "Detail":      [_uri, label, name, _show_lexical_alias, definition, comment, type, _show_parent, _domain, _orange, status, _language, note]
 #        "Statements":  [_listproperties]
       actions:
-        _list:         { query_string: { schema_id: schema_id} }
+#        _list:         { query_string: { schema_id: schema_id} }
         _edit:         { credentials: [[administrator, schemamaintainer, schemaadmin]] }
         _create:       { name: Add Element, credentials: [[administrator, schemamaintainer, schemaadmin]] }
         rdf:

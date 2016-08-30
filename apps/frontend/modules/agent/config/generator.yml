@@ -41,7 +41,7 @@ generator:
       fields:
         country:       { type: select_country_tag, params: include_blank=true }
       actions:
-        _list:         -
+#        _list:         -
         _save:         { credentials: [[administrator, agentadmin]] } #for a single object, object and general credentials are merged
         _delete:       { credentials: [administrator] }
         _save_and_add: { credentials: [administrator] }
@@ -58,5 +58,5 @@ generator:
         "-Metadata":   { fields: [id, created_at, last_updated], credentials: [[administrator, agentadmin]] }
         "Detail":     [type, org_name, org_email, ind_affiliation, address1, address2, city, state, postal_code, country_name, phone, web_address]
       actions:
-        _list:        -
+#        _list:        -
         _edit:        { credentials: [[administrator, agentadmin]] }

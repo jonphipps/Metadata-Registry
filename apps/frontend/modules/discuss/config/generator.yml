@@ -44,7 +44,7 @@ generator:
         # "Other Properties":  [_listproperties]
       actions:
         # You can add a string literal to the query string like this: foo: "'bar'" which will add foo=bar
-        _list:         { query_string: {concept_id: concept_id} }
+#        _list:         { query_string: {concept_id: concept_id} }
         _save:         { credentials: [[administrator, vocabularymaintainer, vocabularyadmin, conceptpropadmin]] }
         _delete:       { credentials: [[administrator, vocabularyadmin]] }
         _create:       { query_string: {concept_id: concept_id}, name: Add Property, credentials: [[administrator, vocabularymaintainer, vocabularyadmin, conceptpropadmin]], mode: edit }

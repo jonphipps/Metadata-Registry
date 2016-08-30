@@ -43,7 +43,7 @@ generator:
       hide:           [schema_id, user_id, vocabulary_id]
 
       actions:
-        _list:         { query_string: { schema_id: schema_id} }
+#        _list:         { query_string: { schema_id: schema_id} }
         _save:         { name: Import CSV, credentials: [[administrator, schemaadmin, vocabularyadmin]] }
         _cancel:       { credentials: [[administrator, schemaadmin, vocabularyadmin]], query_string: { schema_id: schema_id} }
 
@@ -61,4 +61,4 @@ generator:
 #        "Map":                [map]
         "Import Log":         [_results]
       actions:
-        _list:         { query_string: { schema_id: schema_id} }
+#        _list:         { query_string: { schema_id: schema_id} }

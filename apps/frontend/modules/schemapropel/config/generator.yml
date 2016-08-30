@@ -57,7 +57,7 @@ generator:
         "Detail":     [profile_property, object, format_language, status, is_generated]
 #        "-Other Properties": [_listproperties]
       actions:
-        _list:        { query_string: {schema_property_id: schema_property_id} }
+#        _list:        { query_string: {schema_property_id: schema_property_id} }
         _edit:        { credentials: [[administrator, schemamaintainer, schemaadmin]] }
         _create:      { query_string: {schema_property_id: schema_property_id}, name: Add Statement, credentials: [[administrator, schemamaintainer, schemaadmin]] }
 
@@ -89,7 +89,7 @@ generator:
 #        "Other Properties":  [_listproperties]
       actions:
         # You can add a string literal to the query string like this: foo: "'bar'" which will add foo=bar
-        _list:         { query_string: {schema_property_id: schema_property_id} }
+#        _list:         { query_string: {schema_property_id: schema_property_id} }
         _save:         { credentials: [[administrator, schemamaintainer, schemaadmin, schema_property_elementadmin]] }
         _delete:       { credentials: [[administrator, schemaadmin]] }
         _create:       { query_string: {schema_property_id: schema_property_id}, name: Add Statement, credentials: [[administrator, schemamaintainer, schemaadmin, schema_property_elementadmin]], mode: edit }
