@@ -11,7 +11,7 @@ default:
     language:     en
     google-site-verification: Y6w7paanRUDHHWWKN9NXAtbDWP3ftC0yDYKwyiFmnzo
 
-  stylesheets:    [main, layout]
+  stylesheets:    [main, layout, ui]
 
   javascripts:    []
 
