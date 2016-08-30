@@ -6,7 +6,7 @@
 <div id="sf_admin_container">
 
 <div id="sf_admin_header">
-    [?php include_component_slot('tabnav') ?]
+    [?php include_component_slot('tabnav', ['breadcrumbs' => $breadcrumbs]) ?]
     [?php include_partial('<?php echo $this->getModuleName() ?>/edit_header', array('<?php echo $this->getSingularName() ?>' => $<?php echo $this->getSingularName() ?>, 'mode' => $mode)) ?]
 </div>
 

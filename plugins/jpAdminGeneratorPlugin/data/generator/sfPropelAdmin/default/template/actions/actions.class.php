@@ -1,7 +1,14 @@
 [?php
 
 /**
- * <?php echo $this->getGeneratedModuleName() ?> actions.
+* <?php echo $this->getGeneratedModuleName() ?> actions.
+ *
+ * @property mixed filters
+ * @property array|mixed breadcrumbs
+ * @property mixed|sfPropelPager pager
+ * @property array labels
+ * @property mixed redirectFilter
+ * @property <?php echo $this->getClassName() ?> <?php echo $this->getSingularName() ?>
  *
  * @package    ##PROJECT_NAME##
  * @subpackage <?php echo $this->getGeneratedModuleName() ?>
@@ -13,6 +20,7 @@ class <?php echo $this->getGeneratedModuleName() ?>Actions extends sfActions
 {
   public function preExecute ()
   {
+    $this->breadcrumbs = [];
     $this->getResponse()->addStylesheet('<?php echo $this->getParameterValue('css', sfConfig::get('sf_admin_web_dir').'/css/main') ?>');
   }
 
@@ -23,8 +31,8 @@ class <?php echo $this->getGeneratedModuleName() ?>Actions extends sfActions
 
   public function executeCancel()
   {
-      return $this->redirect('<?php echo $this->getModuleName() ?>/list' . $this->redirectFilter);
-    }
+    return $this->redirect('<?php echo $this->getModuleName() ?>/list' . $this->redirectFilter);
+  }
 
   public function executeList()
   {

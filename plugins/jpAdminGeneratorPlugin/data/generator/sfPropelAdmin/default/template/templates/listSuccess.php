@@ -3,7 +3,7 @@
 <div id="sf_admin_container" class="sf_admin_list">
 
 <div id="sf_admin_header">
-    [?php include_component_slot('tabnav') ?]
+    [?php include_component_slot('tabnav', ['breadcrumbs' => $breadcrumbs]) ?]
     [?php include_partial('<?php echo $this->getModuleName() ?>/list_header', array('pager' => $pager)) ?]
     [?php include_partial('<?php echo $this->getModuleName() ?>/list_messages', array('pager' => $pager)) ?]
 </div>
