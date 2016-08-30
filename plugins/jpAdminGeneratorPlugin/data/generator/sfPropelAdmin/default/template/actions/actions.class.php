@@ -88,7 +88,7 @@ class <?php echo $this->getGeneratedModuleName() ?>Actions extends sfActions
         $this-><?php echo $this->getSingularName() ?> = $<?php echo $this->getSingularName() ?>;
       }
 <?php else: ?>
-      $this-><?php echo $this->getSingularName() ?> = <?php echo $this->getClassName() ?>Peer::retrieveByPk(<?php echo $this->getRetrieveByPkParamsForAction(49) ?>);
+      $this-><?php echo $this->getSingularName() ?> = <?php echo $this->getClassName() ?>Peer::retrieveByPK(<?php echo $this->getRetrieveByPkParamsForAction(49) ?>);
 <?php endif ?>
     }
     $this->labels = $this->getLabels('show');
@@ -145,7 +145,7 @@ class <?php echo $this->getGeneratedModuleName() ?>Actions extends sfActions
   {
     if (!$this-><?php echo $this->getSingularName() ?>)
     {
-      $this-><?php echo $this->getSingularName() ?> = <?php echo $this->getClassName() ?>Peer::retrieveByPk(<?php echo $this->getRetrieveByPkParamsForAction(40) ?>);
+      $this-><?php echo $this->getSingularName() ?> = <?php echo $this->getClassName() ?>Peer::retrieveByPK(<?php echo $this->getRetrieveByPkParamsForAction(40) ?>);
     }
     $this->forward404Unless($this-><?php echo $this->getSingularName() ?>);
 
@@ -378,7 +378,7 @@ $column = sfPropelManyToMany::getColumn($class, $through_class);
     }
     else
     {
-      $<?php echo $this->getSingularName() ?> = <?php echo $this->getClassName() ?>Peer::retrieveByPk(<?php echo $this->getRetrieveByPkParamsForGetOrCreate() ?>);
+      $<?php echo $this->getSingularName() ?> = <?php echo $this->getClassName() ?>Peer::retrieveByPK(<?php echo $this->getRetrieveByPkParamsForGetOrCreate() ?>);
 
       $this->forward404Unless($<?php echo $this->getSingularName() ?>);
     }
