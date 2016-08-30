@@ -8,7 +8,7 @@
     <?php echo form_tag('schema/list', [ 'method' => 'get' ]) ?>
 
     <fieldset>
-        <h2><?php echo __('filters') ?></h2>
+        <h2><?php echo __('Filters') ?></h2>
         <div class="form-row">
             <label for="agent_id"><?php echo __('Owner:') ?></label>
             <div class="content">
