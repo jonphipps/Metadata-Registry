@@ -385,26 +385,24 @@ $column = sfPropelManyToMany::getColumn($class, $through_class);
 
   protected function processFilters()
   {
-  $hasFilter = false;
-<?php $urlFilters = $this->getParameterValue('list.urlfilters'); if($urlFilters): ?>
+    $urlFilterParams = [];
+    $this->getUser()->getAttributeHolder()->removeNamespace('sf_admin/<?php echo $this->getSingularName() ?>/filters');
+<?php $urlFilters = $this->getParameterValue('list.urlfilters');
+if($urlFilters): ?>
   <?php foreach ($urlFilters as $key => $param):  ?>
-  if ($this->hasRequestParameter('<?php echo $param ?>'))
-    {
-      $hasFilter = true;
-      //cancels all other filters
-      $this->getUser()->getAttributeHolder()->removeNamespace('sf_admin/<?php echo $this->getSingularName() ?>/filters');
-      $this->getUser()->getAttributeHolder()->set('<?php echo $key ?>', $this->getRequestParameter('<?php echo $param ?>'),'sf_admin/<?php echo $this->getSingularName() ?>/filters');
-    }
+    if ($this->hasRequestParameter('<?php echo $param ?>'))
+      {
+          $urlFilterParams['<?php echo $param ?>'] = $this->getRequestParameter('<?php echo $param ?>');
+      }
   <?php endforeach ?>
 <?php endif ?>
-
-<?php if ($this->getParameterValue('list.filters')): ?>
-    if ($this->getRequest()->hasParameter('filter'))
-    {
-      $filters = $this->getRequestParameter('filters');
-      if ($filters)
-        {
-          $hasFilter = true;
+<?php if ($this->getParameterValue('list.filters') || $urlFilters): ?>
+      $filters = $this->getRequestParameter('filters', []);
+      if (count($urlFilterParams))
+      {
+          $filters = array_merge($filters, $urlFilterParams);
+      }
+      if (count($filters)) {
 <?php foreach ($this->getColumns('list.filters') as $column): $type = $column->getCreoleType() ?>
 <?php if ($type == CreoleTypes::DATE || $type == CreoleTypes::TIMESTAMP): ?>
           if (isset($filters['<?php echo $column->getName() ?>']['from']) && $filters['<?php echo $column->getName() ?>']['from'] !== '')
@@ -418,15 +416,8 @@ $column = sfPropelManyToMany::getColumn($class, $through_class);
 <?php endif; ?>
 <?php endforeach; ?>
         $this->getUser()->getAttributeHolder()->removeNamespace('sf_admin/<?php echo $this->getSingularName() ?>');
-        $this->getUser()->getAttributeHolder()->removeNamespace('sf_admin/<?php echo $this->getSingularName() ?>/filters');
         $this->getUser()->getAttributeHolder()->add($filters, 'sf_admin/<?php echo $this->getSingularName() ?>/filters');
       }
-    }
-    if (!$hasFilter)
-    {
-      //cancels all filters
-      $this->getUser()->getAttributeHolder()->removeNamespace('sf_admin/<?php echo $this->getSingularName() ?>/filters');
-    }
 <?php endif; ?>
   }
 
