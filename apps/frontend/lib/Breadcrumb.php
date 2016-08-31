@@ -142,7 +142,8 @@ class Breadcrumb
             '@elementset_list',
             $elementSet->getName(),
             '@elementset_detail?id=' . $elementSet->getId(),
-            'schema');
+            'schema',
+            [ 'agent_id' => '@agent_elementsets?agent_id=' ]);
 
         if ($show) {
             $breadcrumb->entityUrl = null;
