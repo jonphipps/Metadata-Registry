@@ -10,7 +10,7 @@
     <fieldset>
         <h2><?php echo __('Filters') ?></h2>
         <div class="form-row">
-            <label for="agent_id"><?php echo __('Owner:') ?></label>
+            <label for="agent_id"><?php echo __('Agent:') ?></label>
             <div class="content">
                 <?php echo object_select_tag(isset( $filters['agent_id'] ) ? $filters['agent_id'] : null,
                                              null,
@@ -19,28 +19,15 @@
                                                  'related_class' => 'Schema',
                                                  'peer_method'   => 'getSchemaAgents',
                                                  'text_method'   => '__toString',
-                                                 'control_name' => 'filters[agent_id]',
-                                             ]) ?>
-            </div>
-        </div>
-        <div class="form-row">
-            <label for="filters_status_id"><?php echo __('Status:') ?></label>
-            <div class="content">
-                <?php echo object_select_tag(isset( $filters['status_id'] ) ? $filters['status_id'] : null,
-                                             null,
-                                             [
-                                                 'include_blank' => true,
-                                                 'related_class' => 'Status',
-                                                 'text_method'   => '__toString',
-                                                 'control_name'  => 'filters[status_id]',
+                                                 'control_name' => 'agent_id',
+                                                 'onchange' => "window.location.href = 'agents/' + this.value + '/elementsets.html';"
+
                                              ]) ?>
             </div>
         </div>
     </fieldset>
-
     <ul class="sf_admin_actions">
-        <li><?php echo button_to(__('reset'), 'schema/list', 'class=sf_admin_action_reset_filter') ?></li>
-        <li><?php echo submit_tag(__('filter'), 'name=filter class=sf_admin_action_filter') ?></li>
+        <li><?php echo button_to(__('Show All'), 'schema/list', 'class=sf_admin_action_reset_filter') ?></li>
     </ul>
 
     </form>

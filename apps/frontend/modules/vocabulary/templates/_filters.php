@@ -19,30 +19,15 @@
                                                  'related_class' => 'Vocabulary',
                                                  'peer_method'   => 'getVocabularyAgents',
                                                  'text_method'   => '__toString',
-                                                 'control_name'  => 'filters[agent_id]',
+                                                 'control_name'  => 'agent_id',
+                                                 'onchange' => "window.location.href = 'agents/' + this.value + '/vocabularies.html';"
                                              ]) ?>
             </div>
         </div>
-
-        <div class="form-row">
-            <label for="filters_status_id"><?php echo __('Status:') ?></label>
-            <div class="content">
-                <?php echo object_select_tag(isset( $filters['status_id'] ) ? $filters['status_id'] : null,
-                                             null,
-                                             [
-                                                 'include_blank' => true,
-                                                 'related_class' => 'Status',
-                                                 'text_method'   => '__toString',
-                                                 'control_name'  => 'filters[status_id]',
-                                             ]) ?>
-            </div>
-        </div>
-
     </fieldset>
 
     <ul class="sf_admin_actions">
-        <li><?php echo button_to(__('reset'), 'vocabulary/list', 'class=sf_admin_action_reset_filter') ?></li>
-        <li><?php echo submit_tag(__('filter'), 'name=filter class=sf_admin_action_filter') ?></li>
+        <li><?php echo button_to(__('Show All'), 'vocabulary/list', 'class=sf_admin_action_reset_filter') ?></li>
     </ul>
 
     </form>
