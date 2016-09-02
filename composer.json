@@ -56,7 +56,11 @@
     "psr-4": {
       "ImportVocab\\": "plugins/jpAdminGeneratorPlugin/lib/ImportVocab",
       "model\\": "lib/model",
-      "apps\\": "apps"
+      "apps\\": "apps",
+      "tests\\": "tests",
+      "Page\\": "tests/_support/Page",
+      "Helper\\": "tests/_support/Helper",
+      "Step\\": "tests/_support/Step"
     },
     "classmap": ["lib/model/",
         "tests"
