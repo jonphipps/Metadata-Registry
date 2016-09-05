@@ -42,16 +42,22 @@ class sfMailView extends sfPHPView
     require(sfConfigCache::getInstance()->checkConfig(sfConfig::get('sf_app_module_dir_name').'/'.$this->moduleName.'/'.sfConfig::get('sf_app_module_config_dir_name').'/mailer.yml'));
   }
 
-  /**
-   * Renders the presentation and send the email to the client.
-   *
-   * @return mixed Raw data of the mail
-   */
+
+    /**
+     * Renders the presentation and send the email to the client.
+     *
+     * @param null $templateVars
+     *
+     * @return mixed Raw data of the mail
+     * @throws sfActionException
+     */
   public function render($templateVars = null)
   {
-    $template         = $this->getDirectory().'/'.$this->getTemplate();
-    $actionStackEntry = $this->getContext()->getActionStack()->getLastEntry();
-    $actionInstance   = $actionStackEntry->getActionInstance();
+    $template           = $this->getDirectory().'/'.$this->getTemplate();
+      /** @var sfActionStackEntry $actionStackEntry */
+      $actionStackEntry = $this->getContext()->getActionStack()->getLastEntry();
+      /** @var mailActions $actionInstance */
+      $actionInstance = $actionStackEntry->getActionInstance();
 
     $retval = null;
 
@@ -64,7 +70,8 @@ class sfMailView extends sfPHPView
     }
 
     // get sfMail object from action
-    $mail = $actionInstance->getVarHolder()->get('mail');
+      /** @var sfMail $mail */
+      $mail = $actionInstance->getVarHolder()->get('mail');
     if (!$mail)
     {
       $error = 'You must define a sfMail object named $mail ($this->mail) in your action to be able to use a sfMailView.';
@@ -103,7 +110,7 @@ class sfMailView extends sfPHPView
     $vars = array(
       'mailer',
       'priority', 'content_type', 'charset', 'encoding', 'wordwrap',
-      'hostname', 'port', 'domain', 'username', 'password'
+      'hostname', 'port', 'domain', 'username', 'password', 'auth', 'authtype'
     );
     $defaultMail = new sfMail();
 

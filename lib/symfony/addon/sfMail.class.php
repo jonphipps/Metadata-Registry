@@ -1,5 +1,4 @@
 <?php
-
 /*
  * This file is part of the symfony package.
  * (c) 2004-2006 Fabien Potencier <fabien.potencier@symfony-project.com>
@@ -23,8 +22,6 @@ class sfMail
 
   public function __construct()
   {
-    require_once(sfConfig::get('sf_symfony_lib_dir').'/vendor/phpmailer/class.phpmailer.php');
-    require_once(sfConfig::get('sf_symfony_lib_dir').'/vendor/phpmailer/class.smtp.php');
 
     $this->mailer = new PHPMailer();
   }
@@ -98,14 +95,14 @@ class sfMail
     switch ($type)
     {
       case 'smtp':
-        $this->mailer->IsSMTP();
+        $this->mailer->isSMTP();
         if (isset($options['keep_alive'])) $this->mailer->SMTPKeepAlive = true;
         break;
       case 'sendmail':
-        $this->mailer->IsSendmail();
+        $this->mailer->isSendmail();
         break;
       default:
-        $this->mailer->IsMail();
+        $this->mailer->isMail();
         break;
     }
   }
@@ -173,13 +170,13 @@ class sfMail
       foreach ($addresses as $address)
       {
         list($address, $name) = $this->splitAddress($address);
-        $this->mailer->AddAddress($address, $name);
+        $this->mailer->addAddress($address, $name);
       }
     }
     else
     {
       list($address, $name) = $this->splitAddress($addresses);
-      $this->mailer->AddAddress($address, $name);
+      $this->mailer->addAddress($address, $name);
     }
   }
 
@@ -201,7 +198,7 @@ class sfMail
     {
       list($address, $name) = $this->splitAddress($address);
     }
-    $this->mailer->AddAddress($address, $name);
+    $this->mailer->addAddress($address, $name);
   }
 
   public function addCc($address, $name = null)
@@ -210,7 +207,7 @@ class sfMail
     {
       list($address, $name) = $this->splitAddress($address);
     }
-    $this->mailer->AddCc($address, $name);
+    $this->mailer->addCC($address, $name);
   }
 
   public function addBcc($address, $name = null)
@@ -219,7 +216,7 @@ class sfMail
     {
       list($address, $name) = $this->splitAddress($address);
     }
-    $this->mailer->AddBcc($address, $name);
+    $this->mailer->addBCC($address, $name);
   }
 
   public function addReplyTo($address, $name = null)
@@ -233,70 +230,62 @@ class sfMail
     {
       list($address, $name) = $this->splitAddress($address);
     }
-    $this->mailer->AddReplyTo($address, $name);
+    $this->mailer->addReplyTo($address, $name);
   }
 
   public function clearAddresses()
   {
-    $this->mailer->ClearAddresses();
+    $this->mailer->clearAddresses();
   }
 
   public function clearCcs()
   {
-    $this->mailer->ClearCcs();
+    $this->mailer->clearCCs();
   }
 
   public function clearBccs()
   {
-    $this->mailer->ClearBccs();
+    $this->mailer->clearBCCs();
   }
 
   public function clearReplyTos()
   {
-    $this->mailer->ClearReplyTos();
+    $this->mailer->clearReplyTos();
   }
 
   public function clearAllRecipients()
   {
-    $this->mailer->ClearAllRecipients();
+    $this->mailer->clearAllRecipients();
   }
 
   public function addAttachment($path, $name = '', $encoding = 'base64', $type = 'application/octet-stream')
   {
-    $this->mailer->AddAttachment($path, $name, $encoding, $type);
+    $this->mailer->addAttachment($path, $name, $encoding, $type);
   }
 
   public function addStringAttachment($string, $filename, $encoding = 'base64', $type = 'application/octet-stream')
   {
-    $this->mailer->AddStringAttachment($string, $filename, $encoding, $type);
+    $this->mailer->addStringAttachment($string, $filename, $encoding, $type);
   }
 
   public function addEmbeddedImage($path, $cid, $name = '', $encoding = 'base64', $type = 'application/octet-stream')
   {
-    $this->mailer->AddEmbeddedImage($path, $cid, $name, $encoding, $type);
-  }
-
-  public function setAttachments($attachments)
-  {
-    if ($attachments instanceof sfMailAttachments)
-    {
-      $this->mailer->setAttachments($attachments->getAttachments());
-    }
+    $this->mailer->addEmbeddedImage($path, $cid, $name, $encoding, $type);
   }
 
   public function clearAttachments()
   {
-    $this->mailer->ClearAttachments();
+    $this->mailer->clearAttachments();
   }
 
   function addCustomHeader($name, $value)
   {
-    $this->mailer->AddCustomHeader("$name: $value");
+    $this->mailer->addCustomHeader("$name: $value");
   }
 
   function clearCustomHeaders()
   {
-    $this->mailer->ClearCustomHeaders();
+    $this->mailer->clearCustomHeaders();
   }
 
   public function prepare()
@@ -307,12 +296,11 @@ class sfMail
       $this->mailer->ContentType = "multipart/alternative";
     }
 
-    $this->mailer->SetMessageType();
   }
 
   public function send()
   {
-    if (!$this->mailer->Send())
+    if (!$this->mailer->send())
     {
       throw new sfException($this->mailer->ErrorInfo);
     }
@@ -320,17 +308,17 @@ class sfMail
 
   public function smtpClose()
   {
-    $this->mailer->SmtpClose();
+    $this->mailer->smtpClose();
   }
   
   public function getRawHeader()
   {
-    return $this->mailer->CreateHeader();
+    return $this->mailer->createHeader();
   }
 
   public function getRawBody()
   {
-    return $this->mailer->CreateBody();
+    return $this->mailer->createBody();
   }
 
   public function setDomain($hostname)
@@ -403,4 +391,42 @@ class sfMail
   {
     return $this->mailer->AltBody;
   }
+
+
+    public function getAuth()
+    {
+        return $this->mailer->SMTPAuth;
+    }
+
+
+    /**
+     * @param bool $auth
+     *
+     * @return mixed
+     */
+    public function setAuth($auth)
+    {
+        return $this->mailer->SMTPAuth = $auth;
+    }
+
+
+    public function getAuthType()
+    {
+        return $this->mailer->AuthType;
+
+    }
+
+
+    /**
+     * /**
+     * SMTP auth type.
+     * Options are CRAM-MD5, LOGIN, PLAIN, NTLM, XOAUTH2, attempted in that order if not specified
+     * @var string
+     * @return string
+     */
+    public function setAuthtype($type)
+    {
+        return $this->mailer->AuthType = $type;
+
+    }
 }

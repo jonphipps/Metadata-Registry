@@ -1,5 +1,5 @@
 dev:
-  deliver:    off
+  deliver:    on
 
 all:
   mailer:     smtp

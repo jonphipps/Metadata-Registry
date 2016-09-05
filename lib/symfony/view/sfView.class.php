@@ -68,22 +68,24 @@ abstract class sfView
    */
   const RENDER_VAR = 4;
 
-  protected
-    $context            = null,
-    $decorator          = false,
-    $decoratorDirectory = null,
-    $decoratorTemplate  = null,
-    $directory          = null,
-    $componentSlots     = array(),
-    $template           = null,
-    $escaping           = null,
-    $escapingMethod     = null,
-    $attributeHolder    = null,
-    $parameterHolder    = null,
-    $moduleName         = '',
-    $actionName         = '',
-    $viewName           = '',
-    $extension          = '.php';
+    /** @var sfMail $mail */
+    /** @var sfParameterHolder $attributeHolder */
+    protected
+        $context            = null,
+        $decorator          = false,
+        $decoratorDirectory = null,
+        $decoratorTemplate  = null,
+        $directory          = null,
+        $componentSlots     = array(),
+        $template           = null,
+        $escaping           = null,
+        $escapingMethod     = null,
+        $attributeHolder    = null,
+        $parameterHolder    = null,
+        $moduleName         = '',
+        $actionName         = '',
+        $viewName           = '',
+        $extension          = '.php';
 
   /**
    * Executes any presentation logic and set template attributes.
