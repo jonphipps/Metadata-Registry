@@ -8,7 +8,7 @@ class_name: AcceptanceTester
 modules:
     enabled:
         - PhpBrowser:
-            url: http://registry.dev
+            url: http://registry.dev/frontend_dev.php
         - \Helper\Acceptance
         - Asserts
         - Filesystem
@@ -17,4 +17,12 @@ modules:
 #            url: http://registry.dev
 #            url: http://metadataregistry.org
 #            browser: firefox
+
+        - Db:
+            dump: tests/_data/swregistry_test_empty.sql
+            dsn: "mysql:host=%DB_HOST%;port=%DB_PORT_VM%;%DB_DATABASE%"
+            user: "%DB_USERNAME%"
+            password: "%DB_PASSWORD%"
+            populate: false
+            cleanup: false
 
