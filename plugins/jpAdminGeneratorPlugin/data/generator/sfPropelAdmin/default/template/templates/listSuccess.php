@@ -23,7 +23,9 @@
 
 <div id="sf_admin_bar">
 <?php if ($this->getParameterValue('list.filters') && $this->getParameterValue('list.displayfilter', true)): ?>
-[?php include_partial('filters', array('filters' => $filters)) ?]
+[?php if ($pager->getNbResults()) {
+    include_partial('filters', [ 'filters' => $filters ]);
+} ?]
 <?php endif; ?>
 </div>
 
