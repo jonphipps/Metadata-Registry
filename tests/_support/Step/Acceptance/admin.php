@@ -8,7 +8,7 @@ class admin extends \AcceptanceTester
     {
         $I = $this;
         $I->click('sign in / register');
-        $I->submitForm('#login_form', [ 'nickname' => 'jonphipps', 'password' => 'phipj121' ]);
+        $I->submitForm('#login_form', [ 'nickname' => "%ADMIN_USER%", 'password' => "%ADMIN_PASSWORD%" ]);
     }
 
 }
