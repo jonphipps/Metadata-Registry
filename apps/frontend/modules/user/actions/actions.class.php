@@ -25,7 +25,7 @@ class userActions extends autoUserActions
     //    $this->setShowVars();
   }
 
-  public function executeUpdate()
+    public function executeUpdate()
   {
     if ($this->getRequest()->getMethod() != sfRequest::POST)
     {
@@ -59,7 +59,7 @@ class userActions extends autoUserActions
       $referer = $this->getUser()->getAttribute  ('referer', '@homepage', 'sfRefererPlugin');
 
       //$this->getUser()->getAttributeHolder()->remove('referer');
-      if (preg_match('/add_user/', $referer) || preg_match('/password_request/', $referer)) {
+      if (preg_match('/add_user|password_request|login/', $referer)) {
         $this->redirect('@homepage');
       } else {
         $this->redirect($referer);
