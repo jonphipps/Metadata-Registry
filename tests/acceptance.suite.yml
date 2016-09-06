@@ -23,6 +23,6 @@ modules:
             dsn: "mysql:host=%DB_HOST%;port=%DB_PORT_VM%;%DB_DATABASE%"
             user: "%DB_USERNAME%"
             password: "%DB_PASSWORD%"
-            populate: false
+            populate: true
             cleanup: false
 

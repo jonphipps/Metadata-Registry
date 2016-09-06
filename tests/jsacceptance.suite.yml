@@ -1,0 +1,18 @@
+class_name: JsacceptanceTester
+modules:
+    enabled:
+        - \Helper\Jsacceptance
+        - WebDriver:
+            url: http://registry.dev/frontend_dev.php
+#            url: http://metadataregistry.org
+            browser: firefox
+        - Asserts
+        - Filesystem
+        - Db:
+            dump: tests/_data/swregistry_test_empty.sql
+            dsn: "mysql:host=%DB_HOST%;port=%DB_PORT_VM%;%DB_DATABASE%"
+            user: "%DB_USERNAME%"
+            password: "%DB_PASSWORD%"
+            populate: true
+            cleanup: false
+
