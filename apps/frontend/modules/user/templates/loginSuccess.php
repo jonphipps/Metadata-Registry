@@ -31,19 +31,19 @@
             <?php endif; ?>
 
             <?php echo form_tag($sf_request->getAttribute('newaccount', false) ? '@add_account' : '@login',
-                                'id=login_form') ?>
+                                ['id'=>'login_form', 'autocomplete'=>'off']) ?>
             <fieldset id="sf_fieldset_login">
                 <div class="form-row">
                     <?php echo form_error('nickname') ?>
                     <label for="nickname" class="required"><?php echo __('login name:') ?></label>
-                    <div class="content">
+                    <div class="content<?php if ($sf_request->hasError('nickname')): ?> form-error<?php endif; ?>">
                         <?php echo input_tag('nickname', $sf_params->get('nickname'), [ 'autofocus', 'required' ]) ?>
                     </div>
                 </div>
                 <div class="form-row">
                     <?php echo form_error('password') ?>
                     <label for="password" class="required"><?php echo __('password:') ?></label>
-                    <div class="content">
+                    <div class="content<?php if ($sf_request->hasError('password')): ?> form-error<?php endif; ?>">
                         <?php if ($sf_request->getParameter('new', false)) {
                             $param = [ 'id' => 'forgot', 'style' => "display: none" ];
                         } else {
@@ -67,8 +67,8 @@
                     <div class="form-row">
                         <?php echo form_error('email') ?>
                         <label for="email" class="required"><?php echo __('your email:') ?></label>
-                        <div class="content">
-                            <?php echo input_tag('email', $sf_params->get('email'), [ 'size=65' ]) ?>
+                        <div class="content<?php if ($sf_request->hasError('email')): ?> form-error<?php endif; ?>">
+                            <?php echo input_tag('email', $sf_params->get('email'), [ 'size=65', 'type=email' ]) ?>
                             <div style="padding:10px 0px 10px 0px;"><?php echo __('The Registry will never disclose this address to a third party') ?></div>
                         </div>
                     </div>
