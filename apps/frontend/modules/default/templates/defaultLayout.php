@@ -8,7 +8,7 @@
 
 <?php use_stylesheet('/sf/sf_default/css/screen.css', 'last') ?>
 
-<link rel="shortcut icon" href="/favicon.ico" />
+<link rel="icon" href="/favicon.ico" />
 
 <!--[if lt IE 7.]>
 <?php echo stylesheet_tag('/sf/sf_default/css/ie.css') ?>

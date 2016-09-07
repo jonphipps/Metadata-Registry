@@ -19,7 +19,7 @@ if ($sf_request->hasErrors()):
   $nickError = $sf_request->getError('nickname');
   $nickKey = array_search('nickname', $errorNames);
 
-  if ($nickKey and '' == $nickError)
+  if ($nickKey && '' == $nickError)
   {
     unset($errorNames[$nickKey]);
   }

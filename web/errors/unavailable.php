@@ -13,7 +13,7 @@
 <meta name="language" content="en" />
 <title>symfony project</title>
 
-<link rel="shortcut icon" href="/favicon.ico" />
+<link rel="icon" href="/favicon.ico" />
 <link rel="stylesheet" type="text/css" media="screen" href="<?php echo $path ?>/sf/sf_default/css/screen.css" />
 <!--[if lt IE 7.]>
 <link rel="stylesheet" type="text/css" media="screen" href="<?php echo $path ?>/sf/sf_default/css/ie.css" />

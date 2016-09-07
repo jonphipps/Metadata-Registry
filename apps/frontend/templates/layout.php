@@ -8,13 +8,13 @@
 
   <?php if (has_slot('data')): ?><?php include_slot('data') ?><?php endif; ?>
   <?php if ($_SERVER['SERVER_NAME'] == 'registry.dev' || $_SERVER['SERVER_NAME'] == 'beta.metadataregistry.net'): ?>
-    <link rel="shortcut icon" href="/registry_favicon_dev.ico"/>
+    <link rel="icon" href="/registry_favicon_dev.ico"/>
   <?php elseif ($_SERVER['SERVER_NAME'] == 'beta.metadataregistry.org' || $_SERVER['SERVER_NAME'] == 'beta-sand.metadataregistry.org' || $_SERVER['SERVER_NAME'] == 'beta-prod.metadataregistry.org'): ?>
-    <link rel="shortcut icon" href="/registry_favicon_beta.ico"/>
+    <link rel="icon" href="/registry_favicon_beta.ico"/>
   <?php elseif ($_SERVER['SERVER_NAME'] == 'sandbox.metadataregistry.org'): ?>
-    <link rel="shortcut icon" href="/registry_favicon_sand.ico"/>
+    <link rel="icon" href="/registry_favicon_sand.ico"/>
   <?php else: ?>
-    <link rel="shortcut icon" href="/registry_favicon_prod.ico"/>
+    <link rel="icon" href="/registry_favicon_prod.ico"/>
   <?php endif; ?>
 
   <?php if (has_slot('feeds')): ?><?php include_slot('feeds') ?><?php endif; ?>

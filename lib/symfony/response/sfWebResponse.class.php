@@ -420,7 +420,7 @@ class sfWebResponse extends sfResponse
   /**
    * Retrieves meta headers for the current web response.
    *
-   * @return string Meta headers
+   * @return array Meta headers
    */
   public function getHttpMetas()
   {
