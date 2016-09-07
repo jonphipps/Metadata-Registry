@@ -505,6 +505,6 @@ table.sf_admin_list td{
 
 #sf_fieldset_login .form-row span {
   float: left;
-  padding-right: 1em;
-  margin-right: 1em;
+  /*! padding-right: 1em; */
+  /*! margin-right: 1em; */
 }

@@ -3,6 +3,7 @@ passwordRequestMailSent:
 
 all:
   javascripts: [%SF_PROTOTYPE_WEB_DIR%/prototype.min.js: { position: last }]
+  stylesheets: [../jpAdminPlugin/css/main]
 
 editSuccess:
   javascripts: [setfocus: { position: last }]
