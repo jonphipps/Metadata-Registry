@@ -44,8 +44,8 @@ class sfGeneratorManager
   /**
    * Generates classes and templates for a given generator class.
    *
-   * @param string The generator class name
-   * @param array  An array of parameters
+   * @param string $generator_class The generator class name
+   * @param array $param An array of parameters
    *
    * @return string The cache for the configuration file
    */

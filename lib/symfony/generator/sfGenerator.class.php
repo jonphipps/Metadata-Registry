@@ -18,27 +18,33 @@
  */
 abstract class sfGenerator
 {
-  protected
-    $generatorClass      = '',
-    $generatorManager    = null,
-    $generatedModuleName = '',
-    $theme               = 'default',
-    $moduleName          = '';
+
+    /** @var sfGenerator $generatorClass */
+    protected $generatorClass = '';
+
+    /** @var sfGeneratorManager $generatorManager */
+    protected $generatorManager = null;
+
+    protected $generatedModuleName = '';
+
+    protected $theme = 'default';
+
+    protected $moduleName = '';
 
   /**
    * Initializes the current sfGenerator instance.
    *
-   * @param sfGeneratorManager A sfGeneratorManager instance
+   * @param sfGeneratorManager $generatorManager A sfGeneratorManager instance
    */
   public function initialize($generatorManager)
   {
-    $this->generatorManager = $generatorManager;
+      $this->generatorManager = $generatorManager;
   }
 
   /**
    * Generates classes and templates.
    *
-   * @param array An array of parameters
+   * @param array $params An array of parameters
    *
    * @return string The cache for the configuration file
    */
@@ -47,9 +53,9 @@ abstract class sfGenerator
   /**
    * Generates PHP files for a given module name.
    *
-   * @param string The name of module name to generate
-   * @param array  A list of template files to generate
-   * @param array  A list of configuration files to generate
+   * @param string $generatedModuleName The name of module name to generate
+   * @param array $templateFiles A list of template files to generate
+   * @param array $configFiles A list of configuration files to generate
    */
   protected function generatePhpFiles($generatedModuleName, $templateFiles = array(), $configFiles = array())
   {
@@ -83,7 +89,7 @@ abstract class sfGenerator
   /**
    * Evaluates a template file.
    *
-   * @param string The template file path
+   * @param string $templateFile The template file path
    *
    * @return string The evaluated template
    */
@@ -110,7 +116,7 @@ abstract class sfGenerator
   /**
    * Replaces PHP marks by <?php ?>.
    *
-   * @param string The PHP code
+   * @param string $text The PHP code
    *
    * @return string The converted PHP code
    */
@@ -133,7 +139,7 @@ abstract class sfGenerator
   /**
    * Sets the generator class.
    *
-   * @param string The generator class
+   * @param string $generator_class The generator class
    */
   public function setGeneratorClass($generator_class)
   {
@@ -143,7 +149,7 @@ abstract class sfGenerator
   /**
    * Gets the sfGeneratorManager instance.
    *
-   * @return string The sfGeneratorManager instance
+   * @return sfGeneratorManager The sfGeneratorManager instance
    */
   protected function getGeneratorManager()
   {
@@ -163,7 +169,7 @@ abstract class sfGenerator
   /**
    * Sets the module name of the generated module.
    *
-   * @param string The module name
+   * @param string $module_name The module name
    */
   public function setGeneratedModuleName($module_name)
   {
@@ -183,7 +189,7 @@ abstract class sfGenerator
   /**
    * Sets the module name.
    *
-   * @param string The module name
+   * @param string $module_name The module name
    */
   public function setModuleName($module_name)
   {
@@ -203,23 +209,25 @@ abstract class sfGenerator
   /**
    * Sets the theme name.
    *
-   * @param string The theme name
+   * @param string $theme The theme name
    */
   public function setTheme($theme)
   {
     $this->theme = $theme;
   }
 
-  /**
-   * Calls methods defined via the sfMixer class.
-   *
-   * @param string The method name
-   * @param array  The method arguments
-   *
-   * @return mixed The returned value of the called method
-   *
-   * @see sfMixer
-   */
+
+    /**
+     * Calls methods defined via the sfMixer class.
+     *
+     * @param string $method   The method name
+     * @param array $arguments The method arguments
+     *
+     * @return mixed The returned value of the called method
+     *
+     * @throws sfException
+     * @see sfMixer
+     */
   public function __call($method, $arguments)
   {
     if (!$callable = sfMixer::getCallable('sfGenerator:'.$method))

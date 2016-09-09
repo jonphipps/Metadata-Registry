@@ -470,7 +470,7 @@ EOF;
   {
     $phpNames = array();
 
-    // user has set a personnalized list of fields?
+    // user has set a personalized list of fields?
     $fields = $this->getParameterValue($paramName);
     if (is_array($fields))
     {
@@ -889,14 +889,16 @@ EOF;
     return $params;
   }
 
-  /**
-   * adds a class to a tag if it's set in the field params
-   * @param string $tag
-   * @param sfAdminColumn $column
-   * @param $params
-   * @param $action
-   * @return string
-   */
+
+    /**
+     * adds a class to a tag if it's set in the field params
+     *
+     * @param string $tag
+     * @param sfAdminColumn $column
+     * @param $action
+     *
+     * @return string
+     */
   public function getClass( $tag, $column, $action )
   {
     $classParam = $this->getParameterValue($action.'.fields.'.$column->getName().'.class');

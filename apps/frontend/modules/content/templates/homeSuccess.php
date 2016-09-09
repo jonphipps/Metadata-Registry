@@ -4,8 +4,8 @@
 <link rel="alternate" type="application/atom+xml" title="Registry News Atom 1.0" href="http://blog.metadataregistry.org/category/registry-development/the-registry/feed/atom"/>
 <link rel="alternate" type="application/atom+xml" title="Registry Changes Atom 1.0" href="http://metadataregistry.org/allhistoryfeeds.atom"/>
 <?php end_slot() ?>
-<?php if ($sf_user->isAuthenticated()):
-    /** @var myUser $sf_user */
+<?php /** @var myUser $sf_user */
+if ($sf_user->isAuthenticated()):
     $subscriber = $sf_user->getSubscriber();
     ?>
     <div id="sf_admin_container">
