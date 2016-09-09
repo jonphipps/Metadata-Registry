@@ -61,7 +61,7 @@ div#header ul, div#footer ul
   float:right;
   padding: 5px 5px;
   background: #d8732f url(../images/menu_left.gif) no-repeat left bottom;
-  font-size: 11px;
+  /*font-size: 11px;*/
 }
 
 div#header li, div#footer li, div#header form
@@ -73,7 +73,7 @@ div#header li, div#footer li, div#header form
 div#header li
 {
   padding: 0 7px;
-  font-weight: bold;
+  /*font-weight: bold;*/
   border-right: solid 1px #fff;
 }
 
@@ -101,11 +101,11 @@ div#header li :link, div#header li :visited
   color:#fff;
 }
 
-div#content
-{
-  width:100%
+div#content {
+  width: 80%;
+  margin-left: 10%;
+  margin-top: 3em;
 }
-
 div#content_main
 {
 /*  background: white;*/
@@ -113,6 +113,7 @@ div#content_main
 /*  margin-right:250px;*/
   margin-left:10px;
   top:0;
+  padding-top: 2em;
 }
 
 div#content_bar
@@ -314,11 +315,13 @@ div#search
   background-color: #F4F4F4;
 }
 
-input.searchterm
-{
+input.searchterm {
   border: solid 1px gray;
-  width:150px;
+  width: 150px;
   background-color: white;
+  top: 1px;
+  position: relative;
+  margin-right: 2px;
 }
 
 .form_error
@@ -563,3 +566,16 @@ div#tab_container
   color: #FF0000;
   font-weight: bold;
 }
+
+a.more-link {
+  display: block;
+  text-align: right;
+}
+
+.shadow {
+  -webkit-box-shadow: 5px 6px 7px 0px rgba(0, 0, 0, 0.25);
+  -moz-box-shadow: 5px 6px 7px 0px rgba(0, 0, 0, 0.25);
+  box-shadow: 5px 6px 7px 0px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(0, 0, 0, 0.25);
+}
+

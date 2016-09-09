@@ -1,6 +1,6 @@
 [?php use_helper('I18N', 'Date') ?]
 
-<div id="sf_admin_container" class="sf_admin_list">
+<div id="sf_admin_container" class="sf_admin_list shadow">
 
 <div id="sf_admin_header">
     [?php include_component_slot('tabnav', ['breadcrumbs' => $breadcrumbs]) ?]

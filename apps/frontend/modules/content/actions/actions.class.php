@@ -12,9 +12,13 @@ class contentActions extends sfActions
 {
   public function executeHome()
   {
-    $this->getRss();
-    $this->getChangeFeed();
-    $this->outputFile('home');
+      if (sfContext::getInstance()->getUser()->isAuthenticated()) {
+          $this->getResponse()->addStylesheet('/jpAdminPlugin/css/main');
+      } else {
+          $this->getRss();
+          $this->getChangeFeed();
+          $this->outputFile('home');
+      }
   }
 
   public function executeAbout()

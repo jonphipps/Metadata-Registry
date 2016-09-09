@@ -13,8 +13,7 @@
   text-decoration: underline;
 }
 
-body,
-#sf_admin_container td
+body #sf_admin_container td
 {
   margin: 0;
   padding: 20px;
@@ -86,9 +85,14 @@ body,
 #sf_admin_container fieldset input,
 #sf_admin_container fieldset textarea
 {
-  width: 97%
+  width: 99%
 }
 
+#sf_admin_container fieldset input[type="radio"]
+{
+  float: left;
+  width: auto;
+}
 #sf_admin_container fieldset textarea
 {
   height: 8em;
@@ -455,7 +459,10 @@ div #sf_admin_container
 {
   margin: 10px auto;
   background-color:white;
-  /*  width:480px;*/
+  -webkit-box-shadow: 5px 6px 7px 0px rgba(0, 0, 0, 0.25);
+  -moz-box-shadow: 5px 6px 7px 0px rgba(0, 0, 0, 0.25);
+  box-shadow: 5px 6px 7px 0px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(0, 0, 0, 0.25);
 }
 
 #sf_admin_container form#sf_admin_edit_form fieldset

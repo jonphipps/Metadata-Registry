@@ -68,7 +68,7 @@
                         <?php echo form_error('email') ?>
                         <label for="email" class="required"><?php echo __('your email:') ?></label>
                         <div class="content<?php if ($sf_request->hasError('email')): ?> form-error<?php endif; ?>">
-                            <?php echo input_tag('email', $sf_params->get('email'), [ 'size=65', 'type=email' ]) ?>
+                            <?php echo input_tag('email', $sf_params->get('email'), [ 'size'=>'65', 'type'=>'email' ]) ?>
                             <div style="padding:10px 0px 10px 0px;"><?php echo __('The Registry will never disclose this address to a third party') ?></div>
                         </div>
                     </div>
