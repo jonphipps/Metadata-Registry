@@ -92,7 +92,7 @@ function _tag_options($options = array())
   $html = '';
   foreach ($options as $key => $value)
   {
-      if ($key != $value) {
+      if ( in_array($key, [ 'id', 'name', 'type', 'value' ]) || $key != $value) {
           $html .= ' ' . $key . '="' . escape_once($value) . '"';
       } else { //html5
           $html .= ' ' . $key;
