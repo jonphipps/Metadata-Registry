@@ -86,4 +86,18 @@ class sfPropelAdminGenerator extends sfPropelCrudGenerator
     }
     return null;
   }
+
+
+    /**
+     * Gets a restful route if one has been defined
+     *
+     * @param string $action works for 'show' and 'list'
+     *
+     * @return string
+     */
+    public function getRestRoute($action)
+    {
+        return $this->getParameterValue('rest_route') ? $this->getParameterValue('rest_route') : $this->getModuleName() . '/' . $action;
+    }
+
 }

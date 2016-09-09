@@ -2,6 +2,7 @@ generator:
   class:              sfPropelAdminGenerator
   param:
     model_class:      Agent
+    rest_route:       agents
     theme:            default
 
     fields:

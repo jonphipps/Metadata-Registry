@@ -24,9 +24,9 @@
 <div id="indicator" style="display: none"></div>
 <div id="header">
     <ul>
-        <li><?php echo link_to(__('Agents'), 'agent/list') ?></li>
-        <li><?php echo link_to(__('Vocabularies'), 'vocabulary/list'); ?></li>
-        <li><?php echo link_to(__('Element Sets'), 'schema/list'); ?></li>
+        <li><?php echo link_to(__('Agents'), 'agents',  'title="Browse all Agents"' ) ?></li>
+        <li><?php echo link_to(__('Vocabularies'), 'vocabularies',  'title="Browse all Value Vocabularies"' ); ?></li>
+        <li><?php echo link_to(__('Element Sets'), 'schemas', 'title="Browse all Element Sets"'); ?></li>
         <li><?php include_partial('conceptprop/search', [ 'searchTerm' => $sf_params->get('term') ]) ?></li>
         <li><?php include_partial('schemaprop/search', [ 'searchTerm' => $sf_params->get('term') ]) ?></li>
         <?php if ($sf_user->isAuthenticated()): ?>

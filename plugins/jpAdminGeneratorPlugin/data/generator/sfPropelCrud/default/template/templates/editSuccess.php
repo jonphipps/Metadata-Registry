@@ -22,8 +22,8 @@
 [?php echo submit_tag('save') ?]
 [?php if (<?php echo $this->getPrimaryKeyIsSet() ?>): ?]
   &nbsp;[?php echo link_to('delete', '<?php echo $this->getModuleName() ?>/delete?<?php echo $this->getPrimaryKeyUrlParams() ?>, 'post=true&confirm=Are you sure?') ?]
-  &nbsp;[?php echo link_to('cancel', '<?php echo $this->getModuleName() ?>/show?<?php echo $this->getPrimaryKeyUrlParams() ?>) ?]
+  &nbsp;[?php echo link_to('cancel', '<?php echo $this->getRestRoute('show') ?>?<?php echo $this->getPrimaryKeyUrlParams() ?>) ?]
 [?php else: ?]
-  &nbsp;[?php echo link_to('cancel', '<?php echo $this->getModuleName() ?>/list') ?]
+  &nbsp;[?php echo link_to('cancel', '<?php echo $this->getRestRoute('list') ?>') ?]
 [?php endif; ?]
 </form>

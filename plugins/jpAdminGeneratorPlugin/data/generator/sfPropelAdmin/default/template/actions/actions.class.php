@@ -31,7 +31,7 @@ class <?php echo $this->getGeneratedModuleName() ?>Actions extends sfActions
 
   public function executeCancel()
   {
-    $this->redirect('<?php echo $this->getModuleName() ?>/list' . $this->redirectFilter);
+    $this->redirect('<?php echo $this->getRestRoute('list') ?> . $this->redirectFilter);
   }
 
   public function executeList()
@@ -91,6 +91,7 @@ class <?php echo $this->getGeneratedModuleName() ?>Actions extends sfActions
 
     $this->forward404Unless($this-><?php echo $this->getSingularName() ?>);
   }
+
   public function executeCreate()
   {
     if('create' == $this->getRequest()->getParameter('action'))
@@ -124,11 +125,11 @@ class <?php echo $this->getGeneratedModuleName() ?>Actions extends sfActions
       }
       else if ($this->getRequestParameter('save_and_list'))
       {
-        return $this->redirect('<?php echo $this->getModuleName() ?>/list');
+        return $this->redirect('<?php echo $this->getRestRoute('list') ?>);
       }
       else
       {
-        $url = isset($this->redirectFilter) ? '<?php echo $this->getModuleName() ?>/list' . $this->redirectFilter : '<?php echo $this->getModuleName() ?>/show?<?php echo $this->getPrimaryKeyUrlParams('this->') ?>;
+        $url = isset($this->redirectFilter) ? '<?php echo $this->getRestRoute('list') ?> . $this->redirectFilter : '<?php echo $this->getRestRoute('show') ?>?<?php echo $this->getPrimaryKeyUrlParams('this->') ?>;
         return $this->redirect($url);
       }
     }
@@ -172,7 +173,7 @@ class <?php echo $this->getGeneratedModuleName() ?>Actions extends sfActions
 <?php endif; ?>
 <?php endforeach; ?>
 <?php endforeach; ?>
-    $url = isset($this->redirectFilter) ? '<?php echo $this->getModuleName() ?>/list' . $this->redirectFilter : '<?php echo $this->getModuleName() ?>/list';
+    $url = isset($this->redirectFilter) ? '<?php echo $this->getRestRoute('list') ?> . $this->redirectFilter : '<?php echo $this->getRestRoute('list') ?>;
     return $this->redirect($url);
   }
 

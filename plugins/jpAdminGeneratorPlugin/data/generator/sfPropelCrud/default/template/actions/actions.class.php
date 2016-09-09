@@ -72,7 +72,7 @@ class <?php echo $this->getGeneratedModuleName() ?>Actions extends sfActions
 
     $<?php echo $this->getSingularName() ?>->save();
 
-    return $this->redirect('<?php echo $this->getModuleName() ?>/show?<?php echo $this->getPrimaryKeyUrlParams() ?>);
+    return $this->redirect('<?php echo $this->getRestRoute('show') ?>?<?php echo $this->getPrimaryKeyUrlParams() ?>);
 <?php //' ?>
   }
 
@@ -84,6 +84,6 @@ class <?php echo $this->getGeneratedModuleName() ?>Actions extends sfActions
 
     $<?php echo $this->getSingularName() ?>->delete();
 
-    return $this->redirect('<?php echo $this->getModuleName() ?>/list');
+    return $this->redirect('<?php echo $this->getRestRoute('list') ?>');
   }
 }
