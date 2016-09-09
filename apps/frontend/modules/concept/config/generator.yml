@@ -62,6 +62,7 @@ generator:
       fields:
         id:            { credentials: [administrator], mode: edit }
         language:      { params: disabled=true }
+        pref_label:    { params: autofocus}
       title:           Detail for %%pref_label%%
       hide:            [vocabulary_id]
       display:

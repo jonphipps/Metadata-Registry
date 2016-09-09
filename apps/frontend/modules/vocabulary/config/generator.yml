@@ -73,7 +73,6 @@ generator:
         _cancel:       { credentials: [[administrator, hasAgents, vocabularymaintainer, vocabularyadmin]] }
 
     show:
-      title:           Show detail for %%name%%
       fields:
         id:            { name: ID, type: plain, credentials: [administrator], mode: edit }
         uri:           { helper: auto_link_uri }

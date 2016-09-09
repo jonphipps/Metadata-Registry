@@ -5,7 +5,8 @@
 <link rel="alternate" type="application/atom+xml" title="Registry Changes Atom 1.0" href="http://metadataregistry.org/allhistoryfeeds.atom"/>
 <?php end_slot() ?>
 <?php /** @var myUser $sf_user */
-if ($sf_user->isAuthenticated()):
+$subscriber = $sf_user->getSubscriber();
+if ($subscriber && $sf_user->isAuthenticated()):
     $subscriber = $sf_user->getSubscriber();
     ?>
     <div id="sf_admin_container">

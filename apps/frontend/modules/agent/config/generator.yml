@@ -2,7 +2,6 @@ generator:
   class:              sfPropelAdminGenerator
   param:
     model_class:      Agent
-    rest_route:       agents
     theme:            default
 
     fields:
@@ -38,18 +37,26 @@ generator:
           edit:        Editing %%org_name%%
           create:      Creating new agent
       display:
-        "Detail":      [_type, org_name, org_email, ind_affiliation, address1, address2, city, state, postal_code, country, phone, web_address]
+        "Detail":      [type, org_name, org_email, ind_affiliation, address1, address2, city, state, postal_code, country, phone, web_address]
       fields:
         country:       { type: select_country_tag, params: include_blank=true }
+        type:
+          type: select_tag
+          params:
+            autofocus: autofocus
+            select_options:
+              Individual:  Individual
+              Organization: Organization
+            include_blank: false
+
       actions:
 #        _list:         -
         _save:         { credentials: [[administrator, agentadmin]] } #for a single object, object and general credentials are merged
-        _delete:       { credentials: [administrator] }
+        _delete:       { credentials: [[administrator, agentadmin]] }
         _save_and_add: { credentials: [administrator] }
         _cancel:       { credentials: [[administrator, agentadmin]] }
 
     show:
-      title:           Show detail for %%org_name%%
       fields:
         id:           { type: plain, credentials: [administrator] }
         created_at:   { type: plain }
