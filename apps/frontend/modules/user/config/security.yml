@@ -1,0 +1,14 @@
+all:
+  is_secure:  off
+
+create:
+  is_secure:   on
+  credentials: [administrator]
+
+edit:
+  is_secure:   on
+  credentials: [[administrator, subscriber]]
+
+showSubscriber:
+  is_secure:   on
+  credentials: [[administrator, subscriber]]
