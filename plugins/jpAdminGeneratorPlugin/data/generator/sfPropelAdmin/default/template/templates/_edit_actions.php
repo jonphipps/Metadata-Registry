@@ -13,7 +13,7 @@
 
         if ($actionName == '_cancel')
         {
-          $pkLink = true;
+          $pkLink = false;
         }
   echo $this->addCredentialCondition($this->getButtonToAction($actionName, $params, $pkLink), $params, false, false);
       }

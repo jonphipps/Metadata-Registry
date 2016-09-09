@@ -2,7 +2,7 @@
 
 <?php if ($this->getParameterValue('list.filters')): ?>
 <div class="sf_admin_filters">
-[?php echo form_tag('<?php echo $this->getRestRoute('list') ?>', array('method' => 'get')) ?]
+[?php echo form_tag('@<?php echo $this->getModuleName() ?>_list', array('method' => 'get')) ?]
 
   <fieldset>
     <h2>[?php echo __('filters') ?]</h2>
@@ -28,7 +28,7 @@
   </fieldset>
 
   <ul class="sf_admin_actions">
-    <li>[?php echo button_to(__('reset'), '<?php echo $this->getRestRoute('list') ?>, 'class=sf_admin_action_reset_filter') ?]</li>
+    <li>[?php echo button_to(__('reset'), '@<?php echo $this->getModuleName() ?>_list', 'class=sf_admin_action_reset_filter') ?]</li>
     <li>[?php echo submit_tag(__('filter'), 'name=filter class=sf_admin_action_filter') ?]</li>
   </ul>
 

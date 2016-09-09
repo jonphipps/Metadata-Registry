@@ -28,8 +28,7 @@ abstract class sfCrudGenerator extends sfGenerator
     $tableMap      = null,
     $primaryKey    = array(),
     $className     = '',
-    $params        = array(),
-    $rest_route    = '';
+    $params        = array();
 
   /**
    * Generates classes and templates in cache.
