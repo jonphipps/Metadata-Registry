@@ -71,7 +71,7 @@ function options_for_select($options = array(), $selected = '', $html_options = 
             $html .= content_tag('option', $value, array('value' => '')) . "\n";
         }
     } else if (_get_option($html_options, 'include_blank')) {
-        $html .= content_tag('option', '', array('value' => '')) . "\n";
+        $html .= content_tag('option', '', array('value' => '', 'label' => 'blank')) . "\n";
     }
 
     foreach ($options as $key => $value) {
