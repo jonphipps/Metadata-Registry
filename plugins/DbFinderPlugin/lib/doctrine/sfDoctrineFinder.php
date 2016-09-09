@@ -3,7 +3,7 @@
 /*
  * This file is part of the sfPropelFinder package.
  * 
- * (c) 2007 François Zaninotto <francois.zaninotto@symfony-project.com>
+ * (c) 2007 Francois Zaninotto <francois.zaninotto@symfony-project.com>
  * 
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -104,7 +104,7 @@ class sfDoctrineFinder extends sfModelFinder
     if(!is_null($this->select))
     {
       $columnNames = is_array($this->select) ? $this->select : array($this->select);
-      $select = array();
+      $select        = array();
       foreach ($columnNames as $column)
       {
         // check if the column was added by a withColumn, if not add it

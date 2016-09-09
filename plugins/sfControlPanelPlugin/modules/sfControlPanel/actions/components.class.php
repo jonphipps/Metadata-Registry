@@ -4,7 +4,7 @@
  * sfControlPanel components.
  *
  * @package    sfControlPanelPlugin
- * @author     François Zaninotto
+ * @author     Francois Zaninotto
  */
 class sfControlPanelComponents extends sfComponents
 {

@@ -17,11 +17,19 @@
  */
 class sfI18N
 {
-  protected
-    $context             = null,
-    $globalMessageSource = null,
-    $messageSource       = null,
-    $messageFormat       = null;
+    /** @var sfMessageSource $globalMessageSource */
+    protected $globalMessageSource = null;
+
+    /** @var sfMessageSource $messageSource */
+    protected $messageSource = null;
+
+    /** @var sfMessageFormat $messageFormat */
+    protected $messageFormat = null;
+
+    /** @var sfMessageFormat $globalMessageFormat */
+    protected $globalMessageFormat = null;
+
+    protected $context = null;
 
   static protected
     $instance            = null;
@@ -144,7 +152,7 @@ class sfI18N
     $c = new sfCultureInfo($culture);
     $countries = $c->getCountries();
 
-    return (array_key_exists($iso, $countries)) ? $countries[$iso] : '';
+    return array_key_exists($iso, $countries) ? $countries[$iso] : '';
   }
 
   public static function getNativeName($culture)
@@ -198,22 +206,23 @@ class sfI18N
     }
   }
 
-  /**
-   * Returns the hour, minute from a date formatted with a given culture.
-   *
-   * @param  string  $date    The formatted date as string
-   * @param  string  $culture The culture
-   *
-   * @return array   An array with the hour and minute
-   */
+
+    /**
+     * Returns the hour, minute from a date formatted with a given culture.
+     *
+     * @param string $time The formatted date as string
+     * @param string $culture The culture
+     *
+     * @return int|null|array An array with the hour and minute
+     */
   protected static function getTimeForCulture($time, $culture)
   {
     if (!$time) return 0;
 
-    $culture = is_null($culture) ? $this->culture : $culture;
+    $culture          = is_null($culture) ? sfContext::getInstance()->getUser()->getCulture() : $culture;
 
     $timeFormatInfo = @sfDateTimeFormatInfo::getInstance($culture);
-    $timeFormat = $timeFormatInfo->getShortTimePattern();
+    $timeFormat       = $timeFormatInfo->getShortTimePattern();
 
     // We construct the regexp based on time format
     $timeRegexp = preg_replace(array('/[^hm:]+/i', '/[hm]+/i'), array('', '(\d+)'), $timeFormat);
