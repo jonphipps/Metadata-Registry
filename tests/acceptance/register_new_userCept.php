@@ -4,12 +4,6 @@ $I->wantTo('register a new user');
 $I->amOnPage('/');
 $I->click('register');
 $I->seeInCurrentUrl('login');
-//$I->fillField('nickname', 'vocab_admin');
-//$I->fillField('password', '12345');
-//$I->fillField('password_bis', '12345');
-//$I->fillField('email', 'jphipps@madcreek.com');
-//$I->checkOption('new');
-//$I->click('sign in');
 $I->submitForm('#login_form',
                [
                    'nickname'     => 'vocab_admin',
@@ -21,5 +15,8 @@ $I->submitForm('#login_form',
                ],
                'commit');
 $I->dontSeeInCurrentUrl('login');
-$I->seeLink('(Add)');
+$I->seeElement('input', [ 'value' => 'Add Agent' ]);
+$I->dontSeeElement('input', [ 'value' => 'Add Vocabulary' ]);
+$I->dontSeeElement('input', [ 'value' => 'Add Element Set' ]);
 $I->seeLink('vocab_admin profile');
+$I->seeInTitle("The Registry! :: vocab_admin :: Home");

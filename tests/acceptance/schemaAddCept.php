@@ -4,9 +4,9 @@ use \Codeception\Util\Locator;
 
 /** @var \Codeception\Scenario $scenario */
 $I = new admin($scenario);
-$scenario->skip('not ready to test');
+//$scenario->skip('not ready to test');
 $I->wantTo('login and edit a schema description');
-$I->amOnPage('/elementsets/81.html');
+$I->amOnPage('/elementsets/');
 $I->seeInTitle('Show detail');
 $I->dontSeeElement('input', [ 'value' => 'List' ]);
 $I->dontSeeElement('input', [ 'title' => 'Edit' ]);
