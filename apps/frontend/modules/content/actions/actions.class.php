@@ -12,8 +12,10 @@ class contentActions extends sfActions
 {
   public function executeHome()
   {
-      if (sfContext::getInstance()->getUser()->isAuthenticated()) {
+      $user= sfContext::getInstance()->getUser();
+      if ($user && $user->isAuthenticated()) {
           $this->getResponse()->addStylesheet('/jpAdminPlugin/css/main');
+          $this->getResponse()->setTitle(sfConfig::get('app_title_prefix') . $user->getNickname() . ' :: Home');
       } else {
           $this->getRss();
           $this->getChangeFeed();
