@@ -905,18 +905,20 @@ function _convert_options($options)
 {
     $options = _parse_attributes($options);
 
-    foreach ([ 'disabled', 'readonly', 'multiple', 'novalidate', 'autofocus', 'required' ] as $attribute) {
-        if (array_key_exists($attribute, $options)) {
-            if ($options[$attribute]) {
-                $options[$attribute] = $attribute;
-            } else {
-                unset( $options[$attribute] );
-            }
-        } else { //search for value
-            $index = array_search($attribute, $options);
-            if ($index !== false) {
-                $options[$attribute] = $attribute;
-                unset( $options[$index] );
+    if (count($options)) {
+        foreach ([ 'disabled', 'readonly', 'multiple', 'novalidate', 'autofocus', 'required' ] as $attribute) {
+            if (array_key_exists($attribute, $options)) {
+                if ($options[$attribute]) {
+                    $options[$attribute] = $attribute;
+                } else {
+                    unset( $options[$attribute] );
+                }
+            } else { //search for value
+                $index = array_search($attribute, $options, true);
+                if ($index !== false) {
+                    $options[$attribute] = $attribute;
+                    unset( $options[$index] );
+                }
             }
         }
     }
