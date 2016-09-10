@@ -18,9 +18,9 @@ generator:
       uri:            { name: URI, help: The URI of this vocabulary. By default this will be a concatenation of the Base Domain and the Token. }
       community:      { name: Community, help: Tags identifying communities of practice that this vocabulary addresses }
       language:       { name: Default Language, help: Default language for the textual properties of this vocabulary }
-      languages:      { name: Available Languages, help: Available languages for the textual properties of this element set }
+      languages:      { name: Available Languages, help: Available languages for the textual properties of this vocabulary }
       status_id:      { name: Default Status, help: Default status for the concept properties of this vocabulary }
-      repo:           { name: Git Repository, help: This is the name of the Git Repo that will hold this Element Set }
+      repo:           { name: Git Repository, help: This is the name of the Git Repo that will hold this vocabulary }
       prefix:         { name: Prefix, help: This will be used as the prefix identifying this URI in an RDF CURIE or a qname in XML }
       ns_type:
         name: Type

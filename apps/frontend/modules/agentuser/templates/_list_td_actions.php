@@ -3,22 +3,43 @@
 // date: 2008/03/07 18:39:17
 ?>
 <td>
-<ul class="sf_admin_td_actions">
-  <li><?php echo link_to(image_tag('/jpAdminPlugin/images/show_icon.png', array('alt' => __('show'), 'title' => __('show'))), 'agentuser/show?id='.$agent_has_user->getId()) ?></li>
-  <li><?php if ($sf_user->hasObjectCredential($agent_has_user->getAgentId(), 'agent',  array (   0 =>    array (     0 => 'administrator',     1 => 'agentadmin',   ), ))
-  && $agent_has_user->getUserId() != $sf_user->getAttribute('subscriber_id','','subscriber')): ?>
-<?php echo link_to(image_tag('/jpAdminPlugin/images/edit_icon.png', array('alt' => __('edit'), 'title' => __('edit'))), 'agentuser/edit?id='.$agent_has_user->getId()) ?>
-<?php else: ?>
-&nbsp;
-<?php endif; ?></li>
-  <li><?php if ($sf_user->hasObjectCredential($agent_has_user->getAgentId(), 'agent',  array (   0 =>    array (     0 => 'administrator',     1 => 'agentadmin',   ), ))
-  && $agent_has_user->getUserId() != $sf_user->getAttribute('subscriber_id','','subscriber')): ?>
-<?php echo link_to(image_tag('/jpAdminPlugin/images/delete_icon.png', array('alt' => __('delete'), 'title' => __('delete'))), 'agentuser/delete?id='.$agent_has_user->getId(), array (
-  'post' => true,
-  'confirm' => __('Are you sure?'),
-)) ?>
-<?php else: ?>
-&nbsp;
-<?php endif; ?></li>
-</ul>
+    <ul class="sf_admin_td_actions">
+        <li><?php echo link_to(image_tag('/jpAdminPlugin/images/show_icon.png',
+                                         [ 'alt' => __('show'), 'title' => __('show') ]),
+                               'agentuser/show?id=' . $agent_has_user->getId()) ?></li>
+        <li><?php if ($sf_user->hasObjectCredential($agent_has_user->getAgentId(),
+                                                    'agent',
+                                                    [
+                                                        0 => [
+                                                            0 => 'administrator',
+                                                            1 => 'agentadmin',
+                                                        ],
+                                                    ]) && $agent_has_user->getUserId() != $sf_user->getAttribute('subscriber_id',
+                                                                                                                 '',
+                                                                                                                 'subscriber')
+            ): ?><?php echo link_to(image_tag('/jpAdminPlugin/images/edit_icon.png',
+                                              [ 'alt' => __('edit'), 'title' => __('edit') ]),
+                                    'agentuser/edit?id=' . $agent_has_user->getId()) ?><?php else: ?>
+                &nbsp;
+            <?php endif; ?></li>
+        <li><?php if ($sf_user->hasObjectCredential($agent_has_user->getAgentId(),
+                                                    'agent',
+                                                    [
+                                                        0 => [
+                                                            0 => 'administrator',
+                                                            1 => 'agentadmin',
+                                                        ],
+                                                    ]) && $agent_has_user->getUserId() != $sf_user->getAttribute('subscriber_id',
+                                                                                                                 '',
+                                                                                                                 'subscriber')
+            ): ?><?php echo link_to(image_tag('/jpAdminPlugin/images/delete_icon.png',
+                                              [ 'alt' => __('delete'), 'title' => __('delete') ]),
+                                    'agentuser/delete?id=' . $agent_has_user->getId(),
+                                    [
+                                        'post' => true,
+                                        'confirm' => __('Are you sure?'),
+                                    ]) ?><?php else: ?>
+                &nbsp;
+            <?php endif; ?></li>
+    </ul>
 </td>
