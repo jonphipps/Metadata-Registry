@@ -24,11 +24,9 @@
 <div id="indicator" style="display: none"></div>
 <div id="header">
     <ul>
-        <li><?php echo link_to(__('Agents'), 'agents',  'title="Browse all Agents"' ) ?></li>
-        <li><?php echo link_to(__('Vocabularies'), 'vocabularies',  'title="Browse all Value Vocabularies"' ); ?></li>
-        <li><?php echo link_to(__('Element Sets'), 'schemas', 'title="Browse all Element Sets"'); ?></li>
-        <li><?php include_partial('conceptprop/search', [ 'searchTerm' => $sf_params->get('term') ]) ?></li>
-        <li><?php include_partial('schemaprop/search', [ 'searchTerm' => $sf_params->get('term') ]) ?></li>
+        <li class="browse"><?php echo link_to(__('Agents'), 'agents',  'title="Browse all Agents"' ) ?></li>
+        <li class="browse"><?php echo link_to(__('Vocabularies'), 'vocabularies',  'title="Browse all Value Vocabularies"' ); ?></li>
+        <li class="browse"><?php echo link_to(__('Element Sets'), 'schemas', 'title="Browse all Element Sets"'); ?></li>
         <?php if ($sf_user->isAuthenticated()): ?>
             <li><?php echo link_to(__('%1% profile', [ '%1%' => $sf_user->getAttribute('nickname', '', 'subscriber') ]),
                                    '@current_user_profile') ?></li>
@@ -40,11 +38,15 @@
     </ul>
     <div style="padding-left: 10px;">
         <?php echo link_to(image_tag('open_metadata_logo_with_interoperability.png',
-                                     'alt=registry  style="position: absolute; top: 18px;" '),
+                                     'alt="Registry Home" style="position: absolute; max-width: 543px; width: 50%; height: auto; top: 0;" '),
                            '@homepage') ?>
     </div>
 </div>
-<div id="content">
+    <div id="search">
+        <div style="padding-bottom: 3px;"><?php include_partial('conceptprop/search',
+                                                                [ 'searchTerm' => $sf_params->get('term') ]) ?></div>
+        <div><?php include_partial('schemaprop/search', [ 'searchTerm' => $sf_params->get('term') ]) ?></div>
+    </div><div id="content">
     <div id="content_main" class="Left">
         <?php echo $sf_data->getRaw('sf_content') ?>
     </div>

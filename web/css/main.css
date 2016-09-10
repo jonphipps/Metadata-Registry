@@ -101,10 +101,15 @@ div#header li :link, div#header li :visited
   color:#fff;
 }
 
+div#header li.browse :link, div#header li.browse :visited {
+  color: aquamarine;
+}
+
 div#content {
-  width: 80%;
-  margin-left: 10%;
-  margin-top: 3em;
+
+  margin-top: 26px;
+  padding-right: 20px;
+  padding-left: 10px;
 }
 div#content_main
 {
@@ -113,7 +118,7 @@ div#content_main
 /*  margin-right:250px;*/
   margin-left:10px;
   top:0;
-  padding-top: 2em;
+  /*padding-top: 2em;*/
 }
 
 div#content_bar
@@ -303,16 +308,12 @@ div#footer
 
 div#search
 {
-  position:absolute;
-
-  top:26px;
-  right:0;
-  margin-top: 15px;
-  padding:3px;
-  text-align: right;
   float: right;
-  clear: both;
-  background-color: #F4F4F4;
+  margin-top: -50px;
+  margin-right: 20px;
+  background-color: #eef7ff;
+  padding: 1em;
+  border: 1px solid rgba(0, 0, 0, 0.25);
 }
 
 input.searchterm {

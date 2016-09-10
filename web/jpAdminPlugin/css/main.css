@@ -116,6 +116,10 @@ body #sf_admin_container td
   font-weight: bold !important;
 }
 
+#sf_admin_container label.required:before {
+  content: "*";
+}
+
 #sf_admin_container .save-ok
 {
   margin-bottom: 10px;
@@ -251,10 +255,26 @@ body #sf_admin_container td
   border: 1px solid #DDDDDD;
 }
 
+#sf_admin_container div#sf_admin_header h1.form {
+  float: left;
+}
 #sf_admin_container div#sf_admin_header h2
 {
   padding:5px;
   border-top: 1px solid silver;
+}
+
+#sf_admin_container div#sf_admin_header div.required {
+  text-align: right;
+  background-color: rgb(255, 255, 204);
+  padding-right: 1em;
+  float: right;
+  padding-top: 9px;
+}
+
+#sf_admin_container div#sf_admin_header {
+  overflow: hidden;
+  background-color: #ffc;
 }
 
 #sf_admin_container ul.sf_admin_td_actions

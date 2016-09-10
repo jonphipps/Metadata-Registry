@@ -12,5 +12,4 @@
 <?php endif; ?>
 [?php endif; 
   $sf_context->getResponse()->setTitle("<?php echo sfConfig::get('app_title_prefix') ?>" . $title); ?]
-<h1>[?php echo $title ?]</h1>
-
+<h1 class="form">[?php echo $title ?]</h1><div class="required">*Required</div>
