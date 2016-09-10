@@ -8,7 +8,7 @@ class_name: AcceptanceTester
 modules:
     enabled:
         - PhpBrowser:
-            url: http://registry.dev/frontend_dev.php
+            url: http://registry.dev/frontend_test-empty.php
         - \Helper\Acceptance
         - Asserts
         - Filesystem
