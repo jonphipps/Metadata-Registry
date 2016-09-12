@@ -54,6 +54,10 @@ function cdata_section($content)
 
 /**
  * Escape carrier returns and single and double quotes for Javascript segments.
+ *
+ * @param string $javascript
+ *
+ * @return mixed|string
  */
 function escape_javascript($javascript = '')
 {
@@ -66,7 +70,7 @@ function escape_javascript($javascript = '')
 /**
  * Escapes an HTML string.
  *
- * @param  string HTML string to escape
+ * @param  string $html HTML string to escape
  * @return string escaped string
  */
 function escape_once($html)
@@ -77,7 +81,7 @@ function escape_once($html)
 /**
  * Fixes double escaped strings.
  *
- * @param  string HTML string to fix
+ * @param  string $escaped HTML string to fix
  * @return string escaped string
  */
 function fix_double_escape($escaped)
@@ -85,6 +89,11 @@ function fix_double_escape($escaped)
   return preg_replace('/&amp;([a-z]+|(#\d+)|(#x[\da-f]+));/i', '&$1;', $escaped);
 }
 
+/**
+ * @param array $options
+ *
+ * @return string
+ */
 function _tag_options($options = array())
 {
   $options = _parse_attributes($options);
@@ -102,11 +111,23 @@ function _tag_options($options = array())
   return $html;
 }
 
+/**
+ * @param string $string
+ *
+ * @return array
+ */
 function _parse_attributes($string)
 {
   return is_array($string) ? $string : sfToolkit::stringToArray($string);
 }
 
+/**
+ * @param array|string $options
+ * @param string $name
+ * @param string|null $default
+ *
+ * @return mixed|null
+ */
 function _get_option(&$options, $name, $default = null)
 {
   if (is_array($options) && array_key_exists($name, $options))
