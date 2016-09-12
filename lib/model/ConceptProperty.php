@@ -388,5 +388,51 @@ class ConceptProperty extends BaseConceptProperty
 
         return $this->aProfileProperty;
     }
+
+
+    /**
+     * @return array
+     */
+    public function getLanguagesForUser()
+    {
+        $languages = null;
+        $user      = sfContext::getInstance()->getUser();
+        if ( !$user->hasCredential('administrator')) { //admins get to see all of the languages
+            $vocabUser = $this->getVocabularyForUser();
+            if ($vocabUser) {
+                $languages = $vocabUser->getLanguages();
+            }
+            if ( !$languages) {
+                $languages = $this->getLanguagesForVocabulary();
+            }
+        }
+
+        return $languages;
+    }
+
+
+    /**
+     * @return array
+     */
+    public function getLanguagesForVocabulary()
+    {
+        return $this->getVocabulary()->getLanguages();
+    }
+
+
+    /**
+     * @return SchemaHasUser
+     */
+    public function getVocabularyForUser()
+    {
+        $vocabId = $this->getVocabulary()->getId();
+        $userId   = sfContext::getInstance()->getUser()->getSubscriberId();
+        $c        = new Criteria();
+        $c->add(VocabularyHasUserPeer::VOCABULARY_ID, $vocabId);
+        $c->add(VocabularyHasUserPeer::USER_ID, $userId);
+
+        return VocabularyHasUserPeer::doSelectOne($c);
+    }
+
 } // ConceptProperty
 

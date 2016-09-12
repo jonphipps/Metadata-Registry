@@ -43,10 +43,10 @@ generator:
         _edit:        { credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
         _delete:      { credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
       actions:
-        _create:      {query_string: {concept_id: concept_id}, name: Add Property, credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
+        _create:      {query_string: {sf_request: concept_id}, name: Add Property, credentials: [[administrator, vocabularymaintainer, vocabularyadmin]], route: conceptprop_create }
       filters:        [concept_id, skos_property_id, updated_at, object]
       # urlfilter form is [field to filter on]: [value passed from routing.yml]
-      # multiple filters can be set but they're currently mutually exclusive (any of the list can be used but only one per url)
+      # multiple filters can be set but they're currently mutually exclusive (any of the list can be used but only one per url.)
       urlfilters:
         concept_id: concept_id
 
@@ -62,7 +62,7 @@ generator:
         object:             { name: Value }
         skos_property_id:   { name: skos:property, params: peer_method=getPicklist include_blank=false onchange=swapOptions() }
         related_concept_id: { params: related_class=Concept peer_method=getConceptsByRelatedVocabID }
-        language:           { type: select_language_tag, params: include_blank=true }
+        language:           { type: select_language_tag, params: include_blank=true limitmethod=getLanguagesForUser }
       display:
         "-Metadata":        { fields: [id, created_at, created_user, updated_at, updated_user], mode: edit, credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
         "Detail":            [skos_property_id, _scheme_id, related_concept_id, object, language, status_id]
@@ -72,9 +72,11 @@ generator:
 #        _list:         { query_string: {concept_id: concept_id} }
         _save:         { credentials: [[administrator, vocabularymaintainer, vocabularyadmin, conceptpropadmin]] }
         _delete:       { credentials: [[administrator, vocabularyadmin]] }
-        _create:       { query_string: {concept_id: concept_id}, name: Add Property, credentials: [[administrator, vocabularymaintainer, vocabularyadmin, conceptpropadmin]], mode: edit }
         _save_and_add: { query_string: {concept_id: concept_id}, credentials: [[administrator, vocabularymaintainer, vocabularyadmin, conceptpropadmin]] }
-        _cancel:       { credentials: [[administrator, vocabularymaintainer, vocabularyadmin, conceptpropadmin]], query_string: {concept_id: concept_id} }
+        _cancel:       { only_for: create, query_string: {sf_request: concept_id}, route: concept_properties, credentials: [[administrator, vocabularymaintainer, vocabularyadmin, conceptpropadmin]], query_string: {concept_id: concept_id} }
+        _cancel:       { only_for: edit, query_string: {concept_id: concept_id}, route: concept_properties, credentials: [[administrator, vocabularymaintainer, vocabularyadmin, conceptpropadmin]], query_string: {concept_id: concept_id} }
+      urlfilters:
+        concept_id: concept_id
 
     show:
       fields:
@@ -87,5 +89,5 @@ generator:
       actions:
 #        _list:        { query_string: {concept_id: concept_id} }
         _edit:        { credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
-        _create:      { query_string: {concept_id: concept_id}, name: Add Property, credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
+        _create:      { query_string: {concept_id: concept_id}, name: Add Property, credentials: [[administrator, vocabularymaintainer, vocabularyadmin]], route: conceptprop_create }
 

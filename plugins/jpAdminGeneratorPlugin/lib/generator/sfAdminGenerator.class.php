@@ -150,7 +150,11 @@ abstract class sfAdminGenerator extends sfCrudGenerator
       $queryString = $params['query_string'];
       foreach ($queryString as $key => $value)
       {
-        $qry[] = $key . '=' . $this->getQueryParam($value);
+          if ($key == 'sf_request') { //we get the parameter from the request
+              $qry[] = $value . '=' . "'.\$sf_request->getParameter(\"" . $value . "\").'";
+          } else {
+              $qry[] = $key . '=' . $this->getQueryParam($value);
+          }
       }
       if (is_array($qry))
       {
@@ -228,8 +232,18 @@ abstract class sfAdminGenerator extends sfCrudGenerator
     return $html;
   }
 
-  public function getQueryParam($value)
+
+    /**
+     * returns a query param
+     * @param string $value
+     **
+     * @return string that is:
+     *                the exact query string if it's already a string
+     *                a getter for the id set on the resource
+     */
+    public function getQueryParam($value)
   {
+
     $qte = $value{0};
     if ($qte == "'" || $qte == '"')
     {
@@ -241,6 +255,7 @@ abstract class sfAdminGenerator extends sfCrudGenerator
       return "'.\$" . $this->getSingularName() . "->get" . sfInflector::camelize($value) . "().'";
     }
   }
+
   /**
    * Returns HTML code for an action link.
    *

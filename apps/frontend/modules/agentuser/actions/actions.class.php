@@ -53,17 +53,14 @@ class agentuserActions extends autoAgentuserActions
 
 
     private function setFilter()
-  {
-    $user_id = $this->getUser()->getAttribute('user_id','','sf_admin/agent_has_user/filters');
-    $agent_id = $this->getUser()->getAttribute('agent_id','','sf_admin/agent_has_user/filters');
-    if ($user_id)
     {
-      $this->redirectFilter = '?user_id='. strval($user_id);
+        $user_id  = $this->getUser()->getAttribute('user_id', '', 'sf_admin/agent_has_user/filters');
+        $agent_id = $this->getUser()->getAttribute('agent_id', '', 'sf_admin/agent_has_user/filters');
+        if ($user_id) {
+            $this->redirectFilter = '?user_id=' . strval($user_id);
+        } elseif ($agent_id) {
+            $this->redirectFilter = '?agent_id=' . strval($agent_id);
+        }
     }
-    elseif ($agent_id)
-    {
-      $this->redirectFilter = '?agent_id='. strval($agent_id);
-    }
-  }
 
 }

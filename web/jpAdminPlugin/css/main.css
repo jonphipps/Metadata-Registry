@@ -48,10 +48,9 @@ body #sf_admin_container td
   float: left;
 }
 
-#sf_admin_container #sf_admin_content
-{
+#sf_admin_container #sf_admin_content {
   padding: 5px;
-  border-top:1px solid #DDDDDD;
+  /* border-top: 1px solid #DDDDDD; */
 }
 
 #sf_admin_container h1
@@ -120,6 +119,15 @@ body #sf_admin_container td
   content: "*";
 }
 
+#sf_admin_container div#sf_admin_header div.save-ok {
+  margin: 10px 10px 0 10px;
+  border: 1px solid #73B65A;
+}
+
+#sf_admin_container div#sf_admin_header div.save-ok h2.message {
+  padding: 5px 20px 5px 25px !important;
+}
+
 #sf_admin_container .save-ok
 {
   margin-bottom: 10px;
@@ -129,7 +137,7 @@ body #sf_admin_container td
 #sf_admin_container .save-ok h2
 {
   margin: 0 !important;
-  padding: 5px 20px 5px 25px;
+  padding: 5px 20px 5px 25px !important;
   font-size: 11px;
   color: #fff;
   background: #73B65A url(/jpAdminPlugin/images/ok.png) no-repeat 5px 2px;
@@ -317,16 +325,20 @@ body #sf_admin_container td
   float:left;
 }
 
-#sf_admin_container ul.sf_admin_actions input
+#sf_admin_container ul.sf_admin_actions input,
+#sf_admin_container ul.sf_admin_actions button,
+#sf_admin_container ul.sf_admin_actions a
 {
-  padding: 3px 3px 3px 20px;
+padding: 4px 4px 4px 20px;
   color: #333;
   font-size: 11px;
   font-family: Arial, sans-serif;
-  border: 0;
+  border: 1px solid lightgray;
   border-right: 4px solid #999;
   background-color: #ffc;
   cursor: pointer;
+  border-radius: 5px;
+  margin-left: 3px;
 }
 
 #sf_admin_container .sf_admin_action_publish

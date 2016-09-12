@@ -31,6 +31,7 @@ class <?php echo $this->getGeneratedModuleName() ?>Actions extends sfActions
 
   public function executeCancel()
   {
+    $this->setRedirectFilter();
     $this->redirect('@<?php echo $this->getModuleName() ?>_list' . $this->redirectFilter);
   }
 
@@ -41,6 +42,8 @@ class <?php echo $this->getGeneratedModuleName() ?>Actions extends sfActions
     $this->processSort();
 
     $this->processFilters();
+
+    $this->setRedirectFilter();
 
 <?php if ($this->getParameterValue('list.filters')): ?>
     $this->filters = $this->getUser()->getAttributeHolder()->getAll('sf_admin/<?php echo $this->getSingularName() ?>/filters');
@@ -118,17 +121,20 @@ class <?php echo $this->getGeneratedModuleName() ?>Actions extends sfActions
 
       $this->setFlash('notice', 'Your modifications have been saved');
 
+      $this->setRedirectFilter();
+
       if ($this->getRequestParameter('save_and_add'))
       {
-        return $this->redirect('<?php echo $this->getModuleName() ?>/create');
+        $url = isset( $this->redirectFilter ) ? '@<?php echo $this->getModuleName() ?>_create' . $this->redirectFilter : '<?php echo $this->getModuleName() ?>/create';
+        return $this->redirect($url);
       }
       else if ($this->getRequestParameter('save_and_list'))
       {
-        return $this->redirect('@<?php echo $this->getModuleName() ?>_list');
+        return $this->redirect('@<?php echo $this->getModuleName() ?>_list' . $this->redirectFilter);
       }
       else
       {
-        $url = isset($this->redirectFilter) ? '@<?php echo $this->getModuleName() ?>@list' . $this->redirectFilter : '@<?php echo $this->getModuleName() ?>_detail?<?php echo $this->getPrimaryKeyUrlParams('this->') ?>;
+        $url = $this->redirectFilter ? '@<?php echo $this->getModuleName() ?>_list' . $this->redirectFilter : '@<?php echo $this->getModuleName() ?>_detail?<?php echo $this->getPrimaryKeyUrlParams('this->') ?>;
         return $this->redirect($url);
       }
     }
@@ -140,6 +146,8 @@ class <?php echo $this->getGeneratedModuleName() ?>Actions extends sfActions
 
   public function executeDelete()
   {
+    $this->setRedirectFilter();
+
     if (!$this-><?php echo $this->getSingularName() ?>)
     {
       $this-><?php echo $this->getSingularName() ?> = <?php echo $this->getClassName() ?>Peer::retrieveByPK(<?php echo $this->getRetrieveByPkParamsForAction(40) ?>);
@@ -420,6 +428,19 @@ if($urlFilters): ?>
       }
 <?php endif; ?>
   }
+
+  private function setRedirectFilter()
+  {
+    $this->redirectFilter = '';
+<?php $urlFilters = $this->getParameterValue('list.urlfilters');
+if ($urlFilters): ?><?php foreach ($urlFilters as $key => $param): ?>
+    $<?php echo $param ?>  = $this->getUser()->getAttribute('<?php echo $param ?>', '', 'sf_admin/<?php echo $this->getSingularName() ?>/filters');
+    if ($<?php echo $param ?>) {
+      $this->redirectFilter = '?<?php echo $param ?>=' . strval($<?php echo $param ?>);
+    }
+<?php endforeach ?><?php endif ?>
+  }
+
 
   protected function processSort()
   {

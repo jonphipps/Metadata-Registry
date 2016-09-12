@@ -26,6 +26,7 @@
     display: block;
     clear: both;
     content: " ";
+    border-bottom: 1px solid #DDDDDD;
 }
 .ui-tabs-nav li {
     float: left;

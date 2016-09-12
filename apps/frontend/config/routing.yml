@@ -170,7 +170,11 @@ concept_history_feed_all_rss:
   url:   /history/feed.rss
   param: { module: history, action: feed, format: rss201}
 
-#element sets (schemas)
+#vocabularies
+vocabulary_concepts_edit:
+  url:   /vocabularies/:vocabulary_id/concepts/:id/edit
+  param: { module: concept, action: edit }
+
 vocabulary_concepts:
   url:   /vocabularies/:vocabulary_id/concepts
   param: { module: concept, action: list, tabnav: vocabularies }
@@ -210,11 +214,27 @@ vocabulary_maintainer_detail:
 
 
 #concepts (concepts)
+concepts:
+  url:   /concepts
+  param: { module: vocabulary, action: list, tabnav: vocabularies}
+
+concept_list:
+  url:   /vocabularies/:vocabulary_id/concepts
+  param: { module: concept, action: list, tabnav: vocabularies }
+
 concept_detail:
   url:   /concepts/:id
   param: { module: concept, action: show, tabnav: concepts }
 
+conceptprop_create:
+  url:   /concepts/:concept_id/properties/create
+  param: { module: conceptprop, action: create}
+
 concept_properties:
+  url:   /concepts/:concept_id/properties
+  param: { module: conceptprop, action: list, tabnav: concepts }
+
+conceptprop_list:
   url:   /concepts/:concept_id/properties
   param: { module: conceptprop, action: list, tabnav: concepts }
 
@@ -222,7 +242,15 @@ concept_history:
   url:   /concepts/:concept_id/history
   param: { module: history, action: list, tabnav: concepts, IdType: concept_id }
 
+concept_create:
+  url:   /vocabularies/:vocabulary_id/concept/create
+  param: { module: concept, action: create }
+
 #properties
+conceptprop_detail:
+  url:   /properties/:id
+  param: { module: conceptprop, action: show, tabnav: properties }
+
 properties_detail:
   url:   /properties/:id
   param: { module: conceptprop, action: show, tabnav: properties }
@@ -230,8 +258,6 @@ properties_detail:
 properties_history:
   url:   /properties/:property_id/history
   param: { module: history, action: list, tabnav: properties, IdType: property_id }
-
-
 
 #imports
 vocabulary_import_history:
@@ -254,6 +280,10 @@ history_detail:
 
 
 #element sets (schemas)
+schema_create:
+  url:   /elementsets/create
+  param: { module: schema, action: create }
+
 elementset_elements:
   url:   /elementsets/:schema_id/elements
   param: { module: schemaprop, action: list, tabnav: elementsets }
