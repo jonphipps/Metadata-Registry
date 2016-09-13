@@ -600,7 +600,7 @@ CREATE TABLE `reg_schema` (
   `ns_type` char(6) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'slash',
   `prefixes` text COLLATE utf8mb4_unicode_ci,
   `languages` text COLLATE utf8mb4_unicode_ci,
-  `repo` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `repo` varchar(255) COLLATE utf8mb4_unicode_ci,
   PRIMARY KEY (`id`),
   KEY `agent_id` (`agent_id`),
   KEY `created_user_id` (`created_user_id`),
@@ -947,7 +947,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `migrations` WRITE;
 ALTER TABLE `migrations` DISABLE KEYS;
-INSERT INTO `migrations` (`migration`, `batch`) VALUES 
+INSERT INTO `migrations` (`migration`, `batch`) VALUES
 	('2014_10_12_100000_create_password_resets_table',1),
 	('2015_10_26_173420_create_arc_g2t_table',1),
 	('2015_10_26_173420_create_arc_id2val_table',1),
@@ -1028,7 +1028,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `reg_agent` WRITE;
 ALTER TABLE `reg_agent` DISABLE KEYS;
-INSERT INTO `reg_agent` (`id`, `created_at`, `updated_at`, `last_updated`, `deleted_at`, `org_email`, `org_name`, `ind_affiliation`, `ind_role`, `address1`, `address2`, `city`, `state`, `postal_code`, `country`, `phone`, `web_address`, `type`) VALUES 
+INSERT INTO `reg_agent` (`id`, `created_at`, `updated_at`, `last_updated`, `deleted_at`, `org_email`, `org_name`, `ind_affiliation`, `ind_role`, `address1`, `address2`, `city`, `state`, `postal_code`, `country`, `phone`, `web_address`, `type`) VALUES
 	(58,'2006-06-05 15:58:02','2016-09-10 12:42:52','2006-06-06 02:16:33',NULL,'jphipps@madcreek.com','NSDL Registry','','','7717 Tracy Creek Rd.','','Vestal','NY','13850','USA','(607) 555-9825','http://metadataregistry.org','ORGANIZATION');
 ALTER TABLE `reg_agent` ENABLE KEYS;
 UNLOCK TABLES;
@@ -1036,7 +1036,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `profile` WRITE;
 ALTER TABLE `profile` DISABLE KEYS;
-INSERT INTO `profile` (`id`, `agent_id`, `created_at`, `updated_at`, `deleted_at`, `created_by`, `updated_by`, `deleted_by`, `child_updated_at`, `child_updated_by`, `name`, `note`, `uri`, `url`, `base_domain`, `token`, `community`, `last_uri_id`, `status_id`, `language`) VALUES 
+INSERT INTO `profile` (`id`, `agent_id`, `created_at`, `updated_at`, `deleted_at`, `created_by`, `updated_by`, `deleted_by`, `child_updated_at`, `child_updated_by`, `name`, `note`, `uri`, `url`, `base_domain`, `token`, `community`, `last_uri_id`, `status_id`, `language`) VALUES
 	(1,58,'2008-04-20 11:52:00','2008-04-20 11:52:00',NULL,36,36,NULL,NULL,NULL,'NSDL Registry Schema',NULL,'http://registry/uri/profile/registryschema',NULL,'http://registry/uri/profile/registryschema','registryschema','100000',100000,1,'en'),
 	(2,58,'2015-04-20 11:52:00','2015-04-20 11:52:00',NULL,36,36,NULL,NULL,NULL,'OMR Vocabulary Profile',NULL,'http://registry/uri/profile/vocabularyprofile',NULL,'http://registry/uri/profile/vocabularyprofile','registryschema','100000',100000,1,'en');
 ALTER TABLE `profile` ENABLE KEYS;
@@ -1045,7 +1045,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `profile_property` WRITE;
 ALTER TABLE `profile_property` DISABLE KEYS;
-INSERT INTO `profile_property` (`id`, `skos_id`, `created_at`, `updated_at`, `deleted_at`, `created_by`, `updated_by`, `deleted_by`, `profile_id`, `skos_parent_id`, `name`, `label`, `definition`, `comment`, `type`, `uri`, `status_id`, `language`, `note`, `display_order`, `export_order`, `picklist_order`, `examples`, `is_required`, `is_reciprocal`, `is_singleton`, `is_in_picklist`, `is_in_export`, `inverse_profile_property_id`, `is_in_class_picklist`, `is_in_property_picklist`, `is_in_rdf`, `is_in_xsd`, `is_attribute`, `has_language`, `is_object_prop`, `is_in_form`, `namespce`) VALUES 
+INSERT INTO `profile_property` (`id`, `skos_id`, `created_at`, `updated_at`, `deleted_at`, `created_by`, `updated_by`, `deleted_by`, `profile_id`, `skos_parent_id`, `name`, `label`, `definition`, `comment`, `type`, `uri`, `status_id`, `language`, `note`, `display_order`, `export_order`, `picklist_order`, `examples`, `is_required`, `is_reciprocal`, `is_singleton`, `is_in_picklist`, `is_in_export`, `inverse_profile_property_id`, `is_in_class_picklist`, `is_in_property_picklist`, `is_in_rdf`, `is_in_xsd`, `is_attribute`, `has_language`, `is_object_prop`, `is_in_form`, `namespce`) VALUES
 	(1,0,'2008-04-20 12:00:00','2015-12-23 01:00:17',NULL,36,36,NULL,1,NULL,'name','name',NULL,NULL,'property','reg:name',1,'en',NULL,1,3,1,NULL,1,0,1,0,1,NULL,0,0,1,1,1,1,0,1,'http://metadataregistry.org/uri/profile/regap/'),
 	(2,0,'2008-04-20 12:00:00','2015-12-23 01:00:17',NULL,36,36,NULL,1,NULL,'label','label',NULL,NULL,'property','rdfs:label',1,'en',NULL,2,4,2,NULL,1,0,1,1,1,NULL,1,1,1,1,0,1,0,1,'http://www.w3.org/2000/01/rdf-schema#'),
 	(3,0,'2008-04-20 12:01:00','2015-12-23 01:00:17',NULL,36,36,NULL,1,NULL,'definition','description',NULL,NULL,'property','skos:definition',1,'en',NULL,3,6,3,NULL,0,0,0,1,1,NULL,1,1,1,1,0,1,0,1,'http://www.w3.org/2004/02/skos/core#'),
@@ -1120,7 +1120,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `reg_agent_has_user` WRITE;
 ALTER TABLE `reg_agent_has_user` DISABLE KEYS;
-INSERT INTO `reg_agent_has_user` (`id`, `created_at`, `updated_at`, `deleted_at`, `user_id`, `agent_id`, `is_registrar_for`, `is_admin_for`) VALUES 
+INSERT INTO `reg_agent_has_user` (`id`, `created_at`, `updated_at`, `deleted_at`, `user_id`, `agent_id`, `is_registrar_for`, `is_admin_for`) VALUES
 	(4,'2006-06-05 15:58:02','2006-03-25 01:29:24',NULL,36,58,1,1),
 	(5,'2006-06-05 15:58:02','2006-04-21 00:23:19',NULL,39,58,0,1);
 ALTER TABLE `reg_agent_has_user` ENABLE KEYS;
@@ -1183,7 +1183,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `reg_prefix` WRITE;
 ALTER TABLE `reg_prefix` DISABLE KEYS;
-INSERT INTO `reg_prefix` (`prefix`, `uri`, `rank`) VALUES 
+INSERT INTO `reg_prefix` (`prefix`, `uri`, `rank`) VALUES
 	('aair','http://xmlns.notu.be/aair#',565),
 	('aapi','http://rdf.alchemyapi.com/rdf/v1/s/aapi-schema#',691),
 	('aat','http://vocab.getty.edu/aat/',318),
@@ -3073,7 +3073,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `reg_status` WRITE;
 ALTER TABLE `reg_status` DISABLE KEYS;
-INSERT INTO `reg_status` (`id`, `display_order`, `display_name`, `uri`) VALUES 
+INSERT INTO `reg_status` (`id`, `display_order`, `display_name`, `uri`) VALUES
 	(1,7,'Published','http://metadataregistry.org/uri/RegStatus/1001'),
 	(2,1,'New-Proposed','http://metadataregistry.org/uri/RegStatus/1002'),
 	(3,2,'Change-Proposed','http://metadataregistry.org/uri/RegStatus/1003'),
@@ -3089,7 +3089,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `reg_user` WRITE;
 ALTER TABLE `reg_user` DISABLE KEYS;
-INSERT INTO `reg_user` (`id`, `created_at`, `updated_at`, `deleted_at`, `last_updated`, `nickname`, `salutation`, `first_name`, `last_name`, `email`, `sha1_password`, `salt`, `want_to_be_moderator`, `is_moderator`, `is_administrator`, `deletions`, `password`, `culture`, `remember_token`) VALUES 
+INSERT INTO `reg_user` (`id`, `created_at`, `updated_at`, `deleted_at`, `last_updated`, `nickname`, `salutation`, `first_name`, `last_name`, `email`, `sha1_password`, `salt`, `want_to_be_moderator`, `is_moderator`, `is_administrator`, `deletions`, `password`, `culture`, `remember_token`) VALUES
 	(36,'2006-03-24 17:29:24','2016-09-10 12:42:52',NULL,'2015-06-21 21:05:49','jonphipps',NULL,'Jon','Phipps','jphipps@madcreek.com','2b49d534a27a9405e9f4101e2dadf2f98e3a185a','8b7bcbce1ea1c165322b69341d6e82cc',0,0,1,0,NULL,'en_US',NULL),
 	(39,'2006-04-20 17:23:19','2016-09-10 12:42:52',NULL,'2013-08-13 18:44:19','Diane',NULL,'Diane','Hillmann','diane.hillmann@cornell.edu','d85c8473050b57c544970aff2fe95dff713ec849','ca41ac63717f3de0a62f8af377bfeb48',0,0,1,0,NULL,'en_US',NULL);
 ALTER TABLE `reg_user` ENABLE KEYS;
@@ -3128,7 +3128,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `reg_skos_property` WRITE;
 ALTER TABLE `reg_skos_property` DISABLE KEYS;
-INSERT INTO `reg_skos_property` (`id`, `parent_id`, `inverse_id`, `name`, `uri`, `object_type`, `display_order`, `picklist_order`, `label`, `definition`, `comment`, `examples`, `is_required`, `is_reciprocal`, `is_singleton`, `is_scheme`, `is_in_picklist`) VALUES 
+INSERT INTO `reg_skos_property` (`id`, `parent_id`, `inverse_id`, `name`, `uri`, `object_type`, `display_order`, `picklist_order`, `label`, `definition`, `comment`, `examples`, `is_required`, `is_reciprocal`, `is_singleton`, `is_scheme`, `is_in_picklist`) VALUES
 	(1,0,NULL,'altLabel','http://www.w3.org/2004/02/skos/core#altLabel','literal',1,110,'alternative label','An alternative lexical label for a resource.','Acronyms, abbreviations, spelling variants, and irregular plural/singular forms may be included among the alternative labels for a concept. Mis-spelled terms are normally included as hidden labels (see skos:hiddenLabel).','http://www.w3.org/2004/02/skos/core/examples/altLabel.rdf.xml',0,0,0,0,1),
 	(2,26,NULL,'altSymbol','http://www.w3.org/2004/02/skos/core#altSymbol','literal',2,NULL,'alternative symbolic label','An alternative symbolic label for a resource.',NULL,'http://www.w3.org/2004/02/skos/core/examples/altSymbol.rdf.xml',0,0,0,0,0),
 	(3,NULL,16,'broader','http://www.w3.org/2004/02/skos/core#broader','resource',3,400,'has broader','A concept that is more general in meaning.','Broader concepts are typically rendered as parents in a concept hierarchy (tree).','http://www.w3.org/2004/02/skos/core/examples/broader.rdf.xml',0,0,0,0,1),
@@ -3203,5 +3203,3 @@ UNLOCK TABLES;
 
 
 SET FOREIGN_KEY_CHECKS = @PREVIOUS_FOREIGN_KEY_CHECKS;
-
-
