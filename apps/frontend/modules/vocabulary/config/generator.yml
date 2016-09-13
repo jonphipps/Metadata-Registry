@@ -44,6 +44,7 @@ generator:
       filters:        [agent_id, status_id]
       urlfilters:
         agent_id:     agent_id
+        user_id:      user_id
 
     edit:
       title:
@@ -70,7 +71,10 @@ generator:
         _delete:       { credentials: [administrator] }
         _create:       { credentials: [[administrator, hasAgents]], mode: edit }
         _save_and_add: { credentials: [administrator] }
-        _cancel:       { credentials: [[administrator, hasAgents, vocabularymaintainer, vocabularyadmin]] }
+        _cancel:       { credentials: [[administrator, hasAgents, schemamaintainer, schemaadmin]] }
+      urlfilters:
+        agent_id:     agent_id
+        user_id:      user_id
 
     show:
       fields:

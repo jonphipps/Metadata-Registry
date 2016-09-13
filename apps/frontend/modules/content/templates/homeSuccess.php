@@ -31,7 +31,7 @@ if ($subscriber && $sf_user->isAuthenticated()):
                 <ul class="sf_admin_actions">
                     <li>
                         <?php echo button_to(__('Add Element Set'),
-                                             'schema/create',
+                                             '@schema_create',
                                              [
                                                  'title' => 'Create',
                                                  'class' => 'sf_admin_action_create',
