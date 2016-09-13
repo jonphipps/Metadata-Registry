@@ -48,7 +48,7 @@ generator:
       object_actions:
         _edit:          { credentials: [[administrator, schemamaintainer, schemaadmin]] }
       actions:
-        _create:        { name: Add Element, credentials: [[administrator, schemamaintainer, schemaadmin]] }
+        _create:        { query_string: { sf_request: schema_id }, name: Add Element, credentials: [[administrator, schemamaintainer, schemaadmin]], route: schemaprop_create }
       filters:          [schema_id, label, updated_at, status]
       urlfilters:
         schema_id:  schema_id
@@ -85,10 +85,11 @@ generator:
 #        _list:         { query_string: { schema_id: schema_id} }
         _save:         { credentials: [[administrator, schemamaintainer, schemaadmin, schemapropadmin]] }
         _delete:       { credentials: [[administrator, schemaadmin]] }
-        _create:       { name: Add Element, credentials: [[administrator, schemamaintainer, schemaadmin, schemapropadmin]], mode: edit  }
         _save_and_add: { credentials: [[administrator, schemamaintainer, schemaadmin, schemapropadmin]] }
-        _cancel:       { credentials: [[administrator, schemamaintainer, schemaadmin, schemapropadmin]], query_string: { schema_id: schema_id} }
-
+        _cancel:       { only_for: create, query_string: {sf_request: schema_id}, route: elementset_elements, credentials: [[administrator, schemamaintainer, schemaadmin, schemapropadmin]]}
+        _cancel:       { only_for: edit, query_string: {schema_id: schema_id}, route: elementset_elements, credentials: [[administrator, schemamaintainer, schemaadmin, schemapropadmin]] }
+      urlfilters:
+        schema_id:  schema_id
     show:
       peer_method:   doSelectJoinAll
       fields:
@@ -106,7 +107,7 @@ generator:
       actions:
 #        _list:         { query_string: { schema_id: schema_id} }
         _edit:         { credentials: [[administrator, schemamaintainer, schemaadmin]] }
-        _create:       { name: Add Element, credentials: [[administrator, schemamaintainer, schemaadmin]] }
+        _create:       { query_string: {schema_id: schema_id }, route: schemaprop_create, name: Add Element, credentials: [[administrator, schemamaintainer, schemaadmin]] }
         rdf:
           name:      Get RDF
           icon:      %SF_ADMIN_WEB_DIR%/images/rdf_icon.png

@@ -39,27 +39,12 @@ generator:
         _edit:        { credentials: [[administrator, schemamaintainer, schemaadmin]] }
         _delete:      { credentials: [[administrator, schemamaintainer, schemaadmin]] }
       actions:
-        _create:      {query_string: {schema_property_id: schema_property_id}, name: Add Statement, credentials: [[administrator, schemamaintainer, schemaadmin]] }
+        _create:      {query_string: {sf_request: element_id}, route: schemapropel_create, name: Add Statement, credentials: [[administrator, schemamaintainer, schemaadmin]] }
       filters:        [schema_property_id, profile_property_id, updated_at, object]
       # urlfilter form is [field to filter on]: [value passed from routing.yml]
       # multiple filters can be set but they're currently mutually exclusive (any of the list can be used but only one per url)
       urlfilters:
         schema_property_id: schema_property_id
-
-    show:
-      fields:
-        id:               { credentials: [administrator] }
-        profile_property: { name: Profile Property }
-        show_object:      { name: Value }
-        is_generated:     { name: Generated }
-      display:
-        "-Metadata":   { fields: [id, created_at, created_user, updated_at, updated_user] }
-        "Detail":     [profile_property, object, format_language, status, is_generated]
-#        "-Other Properties": [_listproperties]
-      actions:
-#        _list:        { query_string: {schema_property_id: schema_property_id} }
-        _edit:        { credentials: [[administrator, schemamaintainer, schemaadmin]] }
-        _create:      { query_string: {schema_property_id: schema_property_id}, name: Add Statement, credentials: [[administrator, schemamaintainer, schemaadmin]] }
 
     edit:
       title:
@@ -82,7 +67,6 @@ generator:
           condition:                "$sf_flash->get('showList') || 'create' == $mode"
         language:                   { type: select_language_tag }
 #          condition:                "!$schema_property_element->isNew() and $schema_property_element->getProfileProperty()->getHasLanguage()"
-
       display:
         "-Metadata":        { mode: edit, fields: [id, created_at, created_user, updated_at, updated_user] }
         "Detail":            [profile_property_id, profile_property, related_schema_property_id, related_schema_class_id, object, _language, status_id]
@@ -92,6 +76,23 @@ generator:
 #        _list:         { query_string: {schema_property_id: schema_property_id} }
         _save:         { credentials: [[administrator, schemamaintainer, schemaadmin, schema_property_elementadmin]] }
         _delete:       { credentials: [[administrator, schemaadmin]] }
-        _create:       { query_string: {schema_property_id: schema_property_id}, name: Add Statement, credentials: [[administrator, schemamaintainer, schemaadmin, schema_property_elementadmin]], mode: edit }
         _save_and_add: { query_string: {schema_property_id: schema_property_id}, credentials: [[administrator, schemamaintainer, schemaadmin, schema_property_elementadmin]] }
-        _cancel:       { credentials: [[administrator, schemamaintainer, schemaadmin, schema_property_elementadmin]], query_string: {schema_property_id: schema_property_id} }
+        _cancel:       { only_for: create, query_string: {query_string: element_id}, route: schemapropel_list, credentials: [[administrator, schemamaintainer, schemaadmin, schema_property_elementadmin]] }
+        _cancel:       { only_for: edit, query_string: {schema_property_id: schema_property_id}, route: schemapropel_list, credentials: [[administrator, vocabularymaintainer, vocabularyadmin, conceptpropadmin]] }
+      urlfilters:
+        schema_property_id: schema_property_id
+
+    show:
+      fields:
+        id:               { credentials: [administrator] }
+        profile_property: { name: Profile Property }
+        show_object:      { name: Value }
+        is_generated:     { name: Generated }
+      display:
+        "-Metadata":   { fields: [id, created_at, created_user, updated_at, updated_user] }
+        "Detail":     [profile_property, object, format_language, status, is_generated]
+#        "-Other Properties": [_listproperties]
+      actions:
+#        _list:        { query_string: {schema_property_id: schema_property_id} }
+        _edit:        { credentials: [[administrator, schemamaintainer, schemaadmin]] }
+        _create:      { query_string: {schema_property_id: schema_property_id}, route: schemapropel_create, name: Add Statement, credentials: [[administrator, schemamaintainer, schemaadmin]] }

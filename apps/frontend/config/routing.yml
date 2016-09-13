@@ -287,6 +287,13 @@ schema_create:
 elementset_elements:
   url:   /elementsets/:schema_id/elements
   param: { module: schemaprop, action: list, tabnav: elementsets }
+schemaprop_create:
+  url:   /elementsets/:schema_id/elements/create
+  param: { module: schemaprop, action: create }
+
+schemaprop_list:
+  url:   /elementsets/:schema_id/elements
+  param: { module: schemaprop, action: create, tabnav: elementsets }
 
 elementset_history:
   url:   /elementsets/:schema_id/history
@@ -308,7 +315,14 @@ elementset_detail:
   url:   /elementsets/:id
   param: { module: schema, action: show, tabnav: elementsets }
 
+schema_detail:
+  url:   /elementsets/:id
+  param: { module: schema, action: show, tabnav: elementsets }
+
 elementset_list:
+  url:   /elementsets
+  param: { module: schema, action: list, tabnav: elementsets }
+schema_list:
   url:   /elementsets
   param: { module: schema, action: list, tabnav: elementsets }
 
@@ -322,6 +336,13 @@ elementset_maintainer_detail:
 element_detail:
   url:   /elements/:id
   param: { module: schemaprop, action: show, tabnav: elements }
+schemaprop_detail:
+  url:   /elements/:id
+  param: { module: schemaprop, action: show, tabnav: elements }
+
+schemapropel_create:
+  url:   /elements/:schema_property_id/statements/create
+  param: { module: schemapropel, action: create }
 
 element_statements:
   url:   /elements/:schema_property_id/statements
@@ -333,6 +354,9 @@ element_history:
 
 #statements
 statement_detail:
+   url:   /statements/:id
+   param: { module: schemapropel, action: show, tabnav: statements }
+schemapropel_detail:
   url:   /statements/:id
   param: { module: schemapropel, action: show, tabnav: statements }
 
@@ -354,7 +378,7 @@ schema_history_list:
   url:   /schemahistory/list/:IdType/:id.html
   param: { module: schemahistory, action: list}
 
-schema_history_detail:
+schemahistory_detail:
   url:   /schemahistory/:id
   param: { module: schemahistory, action: show }
   requirements: { id: \d+ }
