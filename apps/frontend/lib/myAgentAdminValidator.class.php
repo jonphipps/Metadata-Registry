@@ -8,13 +8,13 @@
  * @author     Jon Phipps <jonphipps@gmail.com>
  * @version    SVN: $Id: myNewAccountValidator.class.php 2 2006-04-03 21:07:20Z jphipps $
  */
-class myNewAccountValidator extends sfValidator
+class myAgentAdminValidator extends sfValidator
 {
   /**
    * Execute this validator.
    *
-   * @param mixed A file or parameter value/array.
-   * @param error An error message reference.
+   * @param mixed $value A file or parameter value/array.
+   * @param error $error An error message reference.
    *
    * @return bool true, if this validator executes successfully, otherwise
    *              false.
@@ -23,16 +23,17 @@ class myNewAccountValidator extends sfValidator
   {
     $this->getContext()->getRequest()->setAttribute('newaccount', true);
 
-    $login = $value;
+    $agent_id = $this->getParameter('agent_id');
 
     $c = new Criteria();
-    $c->add(UserPeer::NICKNAME, $login);
-    $user = UserPeer::doSelectOne($c);
+    $c->add(AgentHasUserPeer::AGENT_ID, $agent_id);
+    $c->add(AgentHasUserPeer::IS_ADMIN_FOR, true);
+    $adminCount = AgentHasUserPeer::doCount($c);
 
-    // nickname exists?
-    if ($user)
+    // there are still admins if this is set to false?
+    if ($value == false && $adminCount <= 1)
     {
-      $error = $this->getParameterHolder()->get('newaccount_error');
+      $error = $this->getParameterHolder()->get('limit_error');
       return false;
     }
 
@@ -45,7 +46,7 @@ class myNewAccountValidator extends sfValidator
     parent::initialize($context);
 
     // set defaults
-    $this->setParameter('unique_error', 'Uniqueness error');
+    $this->setParameter('limit_error', 'There must be at least one');
 
     $this->getParameterHolder()->add($parameters);
 
