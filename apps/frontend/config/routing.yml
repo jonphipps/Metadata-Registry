@@ -335,10 +335,25 @@ schema_list:
   url:   /elementsets
   param: { module: schema, action: list, tabnav: elementsets }
 
+elementset_maintainer_edit:
+  url:   /elementsets/:schema_id/elementset_maintainers/:id/edit
+  param: { module: schemauser, action: edit}
+  requirements: { id: \d+, schema_id: \d+ }
 
 elementset_maintainer_detail:
   url:   /elementset_maintainers/:id
   param: { module: schemauser, action: show, tabnav: elementsets_maintainers}
+  requirements: { id: \d+ }
+
+schemauser_detail:
+  url:   /elementset_maintainers/:id
+  param: { module: schemauser, action: show, tabnav: elementsets_maintainers}
+  requirements: { id: \d+ }
+
+schemauser_delete:
+  url:   /elementset_maintainers/:id/edit
+  param: { module: schemauser, action: delete}
+  requirements: { id: \d+ }
 
 
 #elements (schemaprops)

@@ -19,11 +19,11 @@ generator:
       title:              Maintainers for %%schema%%
       fields:
         user:             {name: Member, helper: link_to_object, condition: "!$sf_request->getParameter('user_id')" }
-        schema:           {name: Schema, helper: link_to_object, condition: "!$sf_request->getParameter('schema_id')" }
+        schema:           {name: Schema, helper: link_to_object, condition: "!$sf_request->getParameter('schema_id') " }
       display:            [ user, schema, isRegistrarFor, isAdminFor, isMaintainerFor, _languages, _defaultLanguage]
       object_actions:
         _show:
-        _edit:            { credentials: [[administrator, schemaadmin, schemamaintainer, agentadmin]] }
+        _edit:            { query_string: {sf_request: schema_id}, route: schemauser_edit, credentials: [[administrator, schemaadmin, schemamaintainer, agentadmin]] }
         _delete:          { credentials: [[administrator, schemaadmin, agentadmin]] }
       actions:
         _create:          {query_string: {schema_id: schema_id}, name: Add Maintainer, credentials: [[administrator, schemaadmin, agentadmin]] }
@@ -36,8 +36,8 @@ generator:
     edit:
       title:
         mode:
-          edit:       Editing %%schema%% permissions for %%user%%
-          create:     Adding maintainer to %%schema%%
+          edit:       Editing “%%schema%%” permissions for %%user%%
+          create:     Adding maintainer to “%%schema%%”
       helptype:       icon
       fields:
         user_id:       { params: peer_method=getNewUsersForSchema include_blank=false, mode: create }
