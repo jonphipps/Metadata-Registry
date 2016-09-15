@@ -17,7 +17,10 @@ generator:
       #peer_method:       doSelectJoinAll
       #peer_count_method: doCountForUser
       title:              Maintainers for %%schema%%
-      display:            [_member, _schema, isRegistrarFor, isAdminFor, isMaintainerFor, _languages, _defaultLanguage]
+      fields:
+        user:             {name: Member, helper: link_to_object, condition: "!$sf_request->getParameter('user_id')" }
+        schema:           {name: Schema, helper: link_to_object, condition: "!$sf_request->getParameter('schema_id')" }
+      display:            [ user, schema, isRegistrarFor, isAdminFor, isMaintainerFor, _languages, _defaultLanguage]
       object_actions:
         _show:
         _edit:            { credentials: [[administrator, schemaadmin, schemamaintainer, agentadmin]] }
@@ -27,7 +30,7 @@ generator:
       displayfilter:      false
       filters:            [schema_id, user_id]
       urlfilters:
-        schema_id:    schema_id
+        schema_id:        schema_id
         user_id:          user_id
 
     edit:

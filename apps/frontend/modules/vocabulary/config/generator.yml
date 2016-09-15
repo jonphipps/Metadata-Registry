@@ -35,12 +35,14 @@ generator:
       title:          Vocabularies
       fields:
         last_updated: { params: date_format='yyyy-MM-dd' }
-      display:        [=name, _agent, status, last_updated]
+        agent:        { helper: link_to_object, condition: "!$sf_request->getParameter('agent_id')" }
+      display:        [=name, agent, status, last_updated]
       sort:           name
       object_actions:
         _edit:        { credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
       actions:
-        _create:      { name: Add Vocabulary,  credentials: [[administrator, hasAgents]] }
+        _create:      { query_string: { sf_request: agent_id }, name: Add Vocabulary, credentials: [[administrator, hasAgents, agentadmin]], route: agent_vocabulary_create }
+
       filters:        [agent_id, status_id]
       urlfilters:
         agent_id:     agent_id
@@ -54,11 +56,12 @@ generator:
       helptype:       icon
       fields:
         id:           { name: ID, type: plain, credentials: [administrator], mode: edit }
-        agent_id:     { params: peer_method=getAgentsForCurrentUser}
+#        agent_id:     { params: peer_method=getAgentsForCurrentUser}
         token:        { params: onblur=updateUri() }
         languages:    { type: admin_select_language, params: multiple=true style="width:99%" }
         language:     { type: admin_select_language, params: limitmethod=getLanguages style="width:99%" }
         namespace:    { name: Namespace, type: plain}
+      hide:           [agent_id]
       display:
         "-Metadata":  { fields: [id, created_at, last_updated], mode: edit, credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
         "Detail":     [agent_id, name, languages, language]
@@ -69,12 +72,11 @@ generator:
 #        _list:         -
         _save:         { credentials: [[administrator, hasAgents, vocabularymaintainer, vocabularyadmin]] }
         _delete:       { credentials: [administrator] }
-        _create:       { credentials: [[administrator, hasAgents]], mode: edit }
         _save_and_add: { credentials: [administrator] }
-        _cancel:       { credentials: [[administrator, hasAgents, schemamaintainer, schemaadmin]] }
+        _cancel:       { only_for: create, query_string: {sf_request: agent_id}, route: agent_vocabularies, credentials: [[administrator, hasAgents, vocabularymaintainer, vocabularyadmin]]}
+        _cancel:       { only_for: edit, query_string: {agent_id: agent_id}, route: agent_vocabularies, credentials: [[administrator, hasAgents, vocabularymaintainer, vocabularyadmin]] }
       urlfilters:
         agent_id:     agent_id
-        user_id:      user_id
 
     show:
       fields:

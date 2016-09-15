@@ -90,6 +90,7 @@ generator:
         _cancel:       { only_for: edit, query_string: {schema_id: schema_id}, route: elementset_elements, credentials: [[administrator, schemamaintainer, schemaadmin, schemapropadmin]] }
       urlfilters:
         schema_id:  schema_id
+
     show:
       peer_method:   doSelectJoinAll
       fields:

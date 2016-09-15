@@ -48,13 +48,12 @@ generator:
               Individual:  Individual
               Organization: Organization
             include_blank: false
-
       actions:
 #        _list:         -
         _save:         { credentials: [[administrator, agentadmin]] } #for a single object, object and general credentials are merged
-        _delete:       { credentials: [[administrator, agentadmin]] }
+        _delete:       { credentials: [administrator] }
         _save_and_add: { credentials: [administrator] }
-        _cancel:       { credentials: [[administrator, agentadmin]] }
+        _cancel:       { route: homepage, credentials: [[administrator, agentadmin]] }
 
     show:
       fields:
