@@ -134,7 +134,7 @@ class <?php echo $this->getGeneratedModuleName() ?>Actions extends sfActions
       }
       else
       {
-        $url = $this->redirectFilter ? '@<?php echo $this->getModuleName() ?>_list' . $this->redirectFilter : '@<?php echo $this->getModuleName() ?>_detail?<?php echo $this->getPrimaryKeyUrlParams('this->') ?>;
+        $url = $this->redirectFilter ? '@<?php echo $this->getModuleName() ?>_list' . $this->redirectFilter : '@homepage';
         return $this->redirect($url);
       }
     }
