@@ -8,6 +8,8 @@
 $subscriber = $sf_user->getSubscriber();
 if ($subscriber && $sf_user->isAuthenticated()):
     $subscriber = $sf_user->getSubscriber();
+    /** @var AgentHasUser[] $agents */
+    $agents = AgentHasUserPeer::doSelectForUser($subscriber->getId());
     ?>
     <div id="sf_admin_container">
         <h1>My Stuff</h1>
@@ -27,11 +29,11 @@ if ($subscriber && $sf_user->isAuthenticated()):
                     </div>
                 </div>
             </fieldset>
-            <?php if ($sf_user->getAttribute('agentCount', '0', 'subscriber')): ?>
+            <?php if ($agents && count($agents) == 1): ?>
                 <ul class="sf_admin_actions">
                     <li>
-                        <?php echo button_to(__('Add Element Set'),
-                                             '@schema_create',
+                        <?php echo button_to(__('Add an Element Set'),
+                                                            '@agent_schema_create?agent_id=' . $agents[0]->getAgentId(),
                                              [
                                                  'title' => 'Create',
                                                  'class' => 'sf_admin_action_create',
@@ -55,11 +57,11 @@ if ($subscriber && $sf_user->isAuthenticated()):
                     </div>
                 </div>
             </fieldset>
-            <?php if ($sf_user->getAttribute('agentCount', '0', 'subscriber')): ?>
+            <?php if ($agents && count($agents) == 1): ?>
                 <ul class="sf_admin_actions">
                     <li>
                         <?php echo button_to(__('Add Vocabulary'),
-                                             'vocabulary/create',
+                                             '@agent_vocabulary_create?agent_id=' . $agents[0]->getAgentId(),
                                              [
                                                  'title' => 'Create',
                                                  'class' => 'sf_admin_action_create',
@@ -85,7 +87,7 @@ if ($subscriber && $sf_user->isAuthenticated()):
             <ul class="sf_admin_actions">
                 <li>
                     <?php echo button_to(__('Add Agent'),
-                                         'agent/create',
+                                         '@member_agents_create?user_id=' . $subscriber->getId(),
                                          [
                                              'title' => 'Create',
                                              'class' => 'sf_admin_action_create',
