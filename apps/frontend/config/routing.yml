@@ -199,6 +199,10 @@ vocabulary_imports:
   url:   /vocabularies/:vocabulary_id/imports
   param: { module: import, action: list, tabnav: vocabularies }
 
+vocabulary_edit:
+  url:   /vocabularies/:id/edit
+  param: { module: vocabulary, action: edit }
+
 vocabulary_detail:
   url:   /vocabularies/:id
   param: { module: vocabulary, action: show, tabnav: vocabularies }
@@ -280,6 +284,11 @@ history_detail:
 
 
 #element sets (schemas)
+schema_edit:
+  url:   /elementsets/:id/edit
+  param: { module: schema, action: create }
+  requirements: { id: \d+ }
+
 schema_create:
   url:   /elementsets/create
   param: { module: schema, action: create }
@@ -423,6 +432,11 @@ agent_members_detail:
   url:   /agentuser/:id
   param: { module: agentuser, action: show }
 
+agent_members_edit:
+  url:   /agents/:agent_id/members/:id/edit
+  param: { module: agentuser, action: edit }
+  requirements: { agent_id: \d+, id: \d+ }
+
 agent_members_create:
   url:   /agents/:agent_id/members/create
   param: { module: agentuser, action: create }
@@ -431,33 +445,68 @@ agent_members:
   url:   /agents/:agent_id/members
   param: { module: agentuser, action: list, tabnav: agents }
 
+agentuser_list:
+  url:   /agents/:agent_id/members
+  param: { module: agentuser, action: list, tabnav: agents }
+
 agent_vocabularies:
   url:   /agents/:agent_id/vocabularies
-  param: { module: vocabulary, action: list, tabnav: vocabularies }
+  param: { module: vocabulary, action: list, tabnav: agents }
+
+agent_vocabulary_create:
+  url:   /agents/:agent_id/vocabularies/create
+  param: { module: vocabulary, action: create }
+  requirements: { agent_id: \d+ }
+
+agent_schema_create:
+  url:   /agents/:agent_id/elementsets/create
+  param: { module: schema, action: create }
+  requirements: { agent_id: \d+ }
 
 agent_elementsets:
   url:   /agents/:agent_id/elementsets
-  param: { module: schema, action: list, tabnav: elementsets }
+  param: { module: schema, action: list, tabnav: agents }
 
 agent_action:
   url:   /agents/:id/:action
   param: { module: agent }
 
+agent_edit:
+  url:   /agents/:id/edit
+  param: { module: agent, action: edit}
+  requirements: { id: \d+ }
+
+agent_delete:
+  url:   /agents/:id/delete
+  param: { module: agent, action: delete}
+  requirements: { id: \d+ }
+
 agent_detail:
   url:   /agents/:id
   param: { module: agent, action: show, tabnav: agents }
+  requirements: { id: \d+ }
 
 agent_list:
   url:   /agents
-  param: { module: agent, action: list, tabnav: agents   }
+  param: { module: agent, action: list, tabnav: agents }
 
 agent_members_detail:
+  url:   /agent_members/:id
+  param: { module: agentuser, action: show, tabnav: agents}
+agentuser_detail:
+  url:   /agent_members/:id
+  param: { module: agentuser, action: show, tabnav: agents}
+agentuser_show:
   url:   /agent_members/:id
   param: { module: agentuser, action: show, tabnav: agents}
 
 
 
 #members (users)
+member_agents_create:
+  url:   /members/:user_id/agents/create
+  param: { module: agent, action: create }
+
 member_agents:
   url:   /members/:user_id/agents
   param: { module: agentuser, action: list, tabnav: members }
@@ -471,6 +520,9 @@ member_elementsets:
   param: { module: schemauser, action: list, tabnav: members }
 
 member_detail:
+  url:   /members/:id
+  param: { module: user, action: show, tabnav: members }
+user_detail:
   url:   /members/:id
   param: { module: user, action: show, tabnav: members }
 
