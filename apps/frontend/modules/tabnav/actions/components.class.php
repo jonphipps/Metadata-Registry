@@ -254,23 +254,25 @@ class tabnavComponents extends sfComponents
 
     public function executeAgents()
     {
-        $id = $this->getRequestParameter('agent_id');
-        if ( ! $id) {
-            $id = $this->getRequestParameter('id');
-        }
-        if ($id) {
-            $topnav[]   = [ 'title' => 'Details', 'link' => '@agent_detail?id=' . $id ];
-            $topnav[]   = [ 'title' => 'Members', 'link' => '@agent_members?agent_id=' . $id ];
-            $this->tabs = $topnav;
+      $id = $this->getRequestParameter('agent_id');
+      if ( ! $id) {
+        $id = $this->getRequestParameter('id');
+      }
+      if ($id) {
+        $topnav[]   = [ 'title' => 'Details', 'link' => '@agent_detail?id=' . $id ];
+        $topnav[]   = [ 'title' => 'Members', 'link' => '@agent_members?agent_id=' . $id ];
+        $topnav[]   = [ 'title' => 'Vocabularies', 'link' => '@agent_vocabularies?agent_id=' . $id ];
+        $topnav[]   = [ 'title' => 'Element Sets', 'link' => '@agent_elementsets?agent_id=' . $id ];
+        $this->tabs = $topnav;
 
-            $agent     = isset( $this->agent ) ? $this->agent : AgentPeer::retrieveByPK($id);
-            $breadcrumbs[0] = Breadcrumb::agentFactory($agent, true);
-        } else { //there's no id so it's a list of everything
-            $breadcrumbs[0] = Breadcrumb::listFactory('Agents');
-        }
+        $agent          = isset( $this->agent ) ? $this->agent : AgentPeer::retrieveByPK($id);
+        $breadcrumbs[0] = Breadcrumb::agentFactory($agent, true);
+      } else { //there's no id so it's a list of everything
+        $breadcrumbs[0] = Breadcrumb::listFactory('Agents');
+      }
 
-        //there's always a breadcrumb
-        $this->breadcrumbs = $breadcrumbs;
+      //there's always a breadcrumb
+      $this->breadcrumbs = $breadcrumbs;
     }
 }
 
