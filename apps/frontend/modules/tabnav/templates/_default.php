@@ -74,7 +74,9 @@ if (isset( $breadcrumbs) && count( $breadcrumbs )): ?>
 
 //set the meta title
 /** @var sfContext $sf_context */
-$sf_context->getResponse()->setTitle(sfConfig::get('app_title_prefix') . $title . $metaAction);
+if ($title) {
+    $sf_context->getResponse()->setTitle(sfConfig::get('app_title_prefix') . $title . $metaAction);
+}
 
 ?>
 <?php if (isset($tabs)): ?>

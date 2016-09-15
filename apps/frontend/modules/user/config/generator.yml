@@ -44,7 +44,6 @@ generator:
         _save_and_add: { credentials: [administrator] }
 
     show:
-      title:           Detail for %%user%%
       fields:
         vocabulary_list: { name: " " }
         agent_list:      { name: " " }
