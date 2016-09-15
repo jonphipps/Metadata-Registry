@@ -415,7 +415,7 @@ class sfRouting
       {
         if (!isset($params[$tmp]) && !isset($defaults[$tmp]))
         {
-          throw new sfException(sprintf('Route named "%s" have a mandatory "%s" parameter', $name, $tmp));
+          throw new sfException(sprintf('Route named "%s" must have a mandatory "%s" parameter', $name, $tmp));
         }
       }
     }
