@@ -49,7 +49,6 @@ generator:
       actions:
         _save:         { credentials: [[administrator, schemaadmin, agentadmin, schemamaintainer]] }
         _delete:       { credentials: [[administrator, schemaadmin, agentadmin]] }
-        _create:       { name: Add Maintainer, credentials: [[administrator, schemaadmin, agentadmin]], mode: edit  }
         _save_and_add: { credentials: [[administrator, schemaadmin, agentadmin]] }
         _cancel:       { credentials: [[administrator, schemaadmin, agentadmin, schemamaintainer]] }
 

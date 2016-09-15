@@ -33,8 +33,8 @@ generator:
     edit:
       title:
         mode:
-          edit:       Editing %%vocabulary%% permissions for %%user%%
-          create:     Adding maintainer to %%vocabulary%%
+          edit:       Editing “%%vocabulary%%” permissions for %%user%%
+          create:     Adding maintainer to “%%vocabulary%%”
       helptype:       icon
       fields:
         user_id:       { params: peer_method=getNewUsersForVocabulary include_blank=false, mode: create }
@@ -46,7 +46,6 @@ generator:
       actions:
         _save:         { credentials: [[administrator, vocabularyadmin, agentadmin]] }
         _delete:       { credentials: [[administrator, vocabularyadmin, agentadmin]] }
-        _create:       { name: Add Maintainer, credentials: [[administrator, vocabularyadmin, agentadmin]], mode: edit  }
         _save_and_add: { credentials: [[administrator, vocabularyadmin, agentadmin]] }
         _cancel:       { credentials: [[administrator, vocabularyadmin, agentadmin]] }
 
