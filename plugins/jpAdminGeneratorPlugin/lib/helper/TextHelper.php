@@ -232,3 +232,16 @@ function _auto_link_email_addresses($text)
 {
   return preg_replace('/([\w\.!#\$%\-+.]+@[A-Za-z0-9\-]+(\.[A-Za-z0-9\-]+)+)/', '<a href="mailto:\\1">\\1</a>', $text);
 }
+
+/**
+ * @param Agent $getter
+ *
+ * @return string
+ */
+function link_to_object($getter){
+  //$agent_has_user->getUser()
+  $name = (string) $getter;
+  $class = new AgentPeer();
+  $class = get_class($getter);
+  return link_to($name, '@'.strtolower($class).'_detail?id='. $getter->getId());
+}
