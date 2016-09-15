@@ -7,8 +7,15 @@
     {
       foreach ($showActions as $actionName => $params)
       {
+        $condition = isset( $params['condition'] ) ? $params['condition'] : false;
+        if ($condition): ?>
+          [?php if (<?php echo $condition ?>): ?]
+        <?php endif;
         $params['only_for'] = $this->getParameterValue('edit.actions.'.$actionName.'.mode');
         echo $this->addCredentialCondition($this->getButtonToAction($actionName, $params, (strtolower($actionName) != '_create'), 'show'), $params, false, true, "show");
+        if ($condition): ?>
+          [?php endif; ?]
+        <?php endif;
       }
     }
     else

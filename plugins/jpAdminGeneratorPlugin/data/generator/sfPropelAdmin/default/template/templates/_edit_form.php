@@ -122,8 +122,15 @@ foreach ($this->getPrimaryKey() as $pk): ?>
  */
  $editActions = $this->getParameterValue('edit.actions');
 ?>
-  <?php if (null === $editActions || (null !== $editActions && array_key_exists('_delete', $editActions))): ?>
+  <?php if (null === $editActions || (null !== $editActions && array_key_exists('_delete', $editActions))):
+    $condition = isset( $editActions['_delete']['condition'] ) ? $editActions['_delete']['condition'] : false;
+    if ($condition): ?>
+  [?php if (<?php echo $condition ?>): ?]
+    <?php endif; ?>
 <ul class="sf_admin_actions">
     <?php echo $this->addCredentialCondition($this->getButtonToAction('_delete', $editActions['_delete'], true,'edit'), $editActions['_delete'], false, true) ?>
 </ul>
+    <?php if ($condition): ?>
+  [?php endif; ?]
+    <?php endif; ?>
   <?php endif; ?>

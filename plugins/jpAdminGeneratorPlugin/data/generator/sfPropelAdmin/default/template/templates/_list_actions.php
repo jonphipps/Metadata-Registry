@@ -7,7 +7,14 @@
     {
       foreach ((array) $listActions as $actionName => $params)
       {
-    echo $this->addCredentialCondition($this->getButtonToAction($actionName, $params, false), $params, true, false);
+        $condition = isset( $params['condition'] ) ? $params['condition'] : false;
+        if ( $condition ): ?>
+          [?php if (<?php echo $condition ?>): ?]
+        <?php endif;
+        echo $this->addCredentialCondition($this->getButtonToAction($actionName, $params, false), $params, true, false);
+        if ($condition): ?>
+          [?php endif; ?]
+        <?php endif;
       }
     }
     else
