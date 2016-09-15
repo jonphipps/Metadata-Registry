@@ -89,7 +89,7 @@ abstract class sfAdminGenerator extends sfCrudGenerator
     $method   = 'button_to';
     $li_class = '';
     $only_for = isset($params['only_for']) ? $params['only_for'] : null;
-    $route = isset($params['route']) ? $params['route'] : null;
+    $route = ( isset( $params['route'] ) ) ? $params['route'] : $this->getModuleName() . $actionName;
 
     // default values
     if ($actionName[0] == '_')
@@ -267,41 +267,69 @@ abstract class sfAdminGenerator extends sfCrudGenerator
    */
   public function getLinkToAction($actionName, $params, $pk_link = false)
   {
-    $options = isset($params['params']) ? sfToolkit::stringToArray($params['params']) : array();
+    $params  = (array) $params;
+    $options = isset( $params['params'] ) ? sfToolkit::stringToArray($params['params']) : [];
+    $route   = ( isset( $params['route'] ) ) ? $params['route'] : $this->getModuleName() . $actionName;
 
     // default values
-    if ($actionName[0] == '_')
-    {
+    if ($actionName[0] == '_') {
       $actionName = substr($actionName, 1);
       $name       = $actionName;
-      $icon       = sfConfig::get('sf_admin_web_dir').'/images/'.$actionName.'_icon.png';
+      $icon       = sfConfig::get('sf_admin_web_dir') . '/images/' . $actionName . '_icon.png';
       $action     = $actionName;
 
-      if ($actionName == 'delete')
-      {
+      if ($actionName == 'delete') {
         $options['post'] = true;
-        if (!isset($options['confirm']))
-        {
+        if ( ! isset( $options['confirm'] )) {
           $options['confirm'] = 'Are you sure?';
         }
       }
-    }
-    else
-    {
-      $name   = isset($params['name']) ? $params['name'] : $actionName;
-      $icon   = isset($params['icon']) ? sfToolkit::replaceConstants($params['icon']) : sfConfig::get('sf_admin_web_dir').'/images/default_icon.png';
-      $action = isset($params['action']) ? $params['action'] : 'List'.sfInflector::camelize($actionName);
+    } else {
+      $name   = isset( $params['name'] ) ? $params['name'] : $actionName;
+      $icon   = isset( $params['icon'] ) ? sfToolkit::replaceConstants($params['icon']) : sfConfig::get('sf_admin_web_dir') . '/images/default_icon.png';
+      $action = isset( $params['action'] ) ? $params['action'] : 'List' . sfInflector::camelize($actionName);
     }
 
-    $url_params = $pk_link ? '?'.$this->getPrimaryKeyUrlParams() : '\'';
+    $fragmentStart = "?";
+    $url_params = '';
+
+    if ($pk_link) {
+      $url_params    = $fragmentStart . $this->getPrimaryKeyUrlParams();
+      $fragmentStart = ".'&";
+    }
+    if (isset( $params['query_string'] )) {
+      $qry         = '';
+      $queryString = $params['query_string'];
+      foreach ($queryString as $key => $value) {
+        if ($key == 'sf_request') { //we get the parameter from the request
+          $qry[] = $value . '=' . "'.\$sf_request->getParameter(\"" . $value . "\").'";
+        } else {
+          $qry[] = $key . '=' . $this->getQueryParam($value);
+        }
+      }
+      if (is_array($qry)) {
+        $qry = implode('&', $qry);
+      }
+      $url_params .= $fragmentStart . $qry . "'";
+    }
+    if ( ! isset( $params['query_string'] ) && ! $pk_link) {
+      $url_params = '\'';;
+    }
 
     $phpOptions = var_export($options, true);
 
     // little hack
     $phpOptions = preg_replace("/'confirm' => '(.+?)(?<!\\\)'/", '\'confirm\' => __(\'$1\')', $phpOptions);
 
-    return '[?php echo link_to(image_tag(\''.$icon.'\', array(\'alt\' => __(\''.$name.'\'), \'title\' => __(\''.$name.'\'))), \''.$this->getModuleName().'/'.$action.$url_params.($options ? ', '.$phpOptions : '').') ?]';
+    if ($route) {
+      $actionPath = "@" . $route;
+    } else {
+      $actionPath = $this->getModuleName() . '/' . $action;
+    }
+
+    return '[?php echo link_to(image_tag(\'' . $icon . '\', array(\'alt\' => __(\'' . $name . '\'), \'title\' => __(\'' . $name . '\'))), \'' . $actionPath . $url_params . ( $options ? ', ' . $phpOptions : '' ) . ') ?]';
   }
+
 
   /**
    * Returns HTML code for a column in edit mode.
