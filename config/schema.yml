@@ -1003,6 +1003,66 @@ propel:
       size: 255
     content: 
       type: LONGVARCHAR
+  reg_export_history: 
+    _attributes: 
+      phpName: ExportHistory
+      idMethod: native
+    id: 
+      type: INTEGER
+      required: true
+      autoIncrement: true
+      primaryKey: true
+    created_at: 
+      type: TIMESTAMP
+    updated_at: 
+      type: TIMESTAMP
+    user_id: 
+      type: INTEGER
+      foreignTable: reg_user
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
+      index: true
+    vocabulary_id: 
+      type: INTEGER
+      foreignTable: reg_vocabulary
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
+      index: true
+    schema_id: 
+      type: INTEGER
+      foreignTable: reg_schema
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
+      index: true
+    csv_type: 
+      type: VARCHAR
+      size: 100
+      required: true
+    exclude_deprecated: 
+      type: BOOLEAN
+      required: true
+    exclude_generated: 
+      type: BOOLEAN
+      required: true
+    include_deleted: 
+      type: BOOLEAN
+      required: true
+    selected_columns: 
+      type: LONGVARCHAR
+    selected_language: 
+      type: VARCHAR
+      size: 10
+    published_english_version: 
+      type: VARCHAR
+      size: 100
+    published_language_version: 
+      type: VARCHAR
+      size: 100
+    last_vocab_update: 
+      type: TIMESTAMP
   reg_file_import_history: 
     _attributes: 
       phpName: FileImportHistory

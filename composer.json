@@ -50,7 +50,8 @@
     "robmorgan/phinx": "^0.5.0",
     "symfony/var-dumper": "2.8.x-dev",
     "knplabs/github-api": "1.7.*",
-    "phpmailer/phpmailer": "~5.2"
+    "phpmailer/phpmailer": "~5.2",
+    "hashids/hashids": "^1.0"
   },
 
   "autoload": {

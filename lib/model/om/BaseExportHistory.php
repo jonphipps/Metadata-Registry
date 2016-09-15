@@ -1,0 +1,1572 @@
+<?php
+
+/**
+ * Base class that represents a row from the 'reg_export_history' table.
+ *
+ * 
+ *
+ * @package    lib.model.om
+ */
+abstract class BaseExportHistory extends BaseObject  implements Persistent {
+
+
+	/**
+	 * The Peer class.
+	 * Instance provides a convenient way of calling static methods on a class
+	 * that calling code may not be able to identify.
+	 * @var        ExportHistoryPeer
+	 */
+	protected static $peer;
+
+
+	/**
+	 * The value for the id field.
+	 * @var        int
+	 */
+	protected $id;
+
+
+	/**
+	 * The value for the created_at field.
+	 * @var        int
+	 */
+	protected $created_at;
+
+
+	/**
+	 * The value for the updated_at field.
+	 * @var        int
+	 */
+	protected $updated_at;
+
+
+	/**
+	 * The value for the user_id field.
+	 * @var        int
+	 */
+	protected $user_id;
+
+
+	/**
+	 * The value for the vocabulary_id field.
+	 * @var        int
+	 */
+	protected $vocabulary_id;
+
+
+	/**
+	 * The value for the schema_id field.
+	 * @var        int
+	 */
+	protected $schema_id;
+
+
+	/**
+	 * The value for the csv_type field.
+	 * @var        string
+	 */
+	protected $csv_type;
+
+
+	/**
+	 * The value for the exclude_deprecated field.
+	 * @var        boolean
+	 */
+	protected $exclude_deprecated;
+
+
+	/**
+	 * The value for the exclude_generated field.
+	 * @var        boolean
+	 */
+	protected $exclude_generated;
+
+
+	/**
+	 * The value for the include_deleted field.
+	 * @var        boolean
+	 */
+	protected $include_deleted;
+
+
+	/**
+	 * The value for the selected_columns field.
+	 * @var        string
+	 */
+	protected $selected_columns;
+
+
+	/**
+	 * The value for the selected_language field.
+	 * @var        string
+	 */
+	protected $selected_language;
+
+
+	/**
+	 * The value for the published_english_version field.
+	 * @var        string
+	 */
+	protected $published_english_version;
+
+
+	/**
+	 * The value for the published_language_version field.
+	 * @var        string
+	 */
+	protected $published_language_version;
+
+
+	/**
+	 * The value for the last_vocab_update field.
+	 * @var        int
+	 */
+	protected $last_vocab_update;
+
+	/**
+	 * @var        User
+	 */
+	protected $aUser;
+
+	/**
+	 * @var        Vocabulary
+	 */
+	protected $aVocabulary;
+
+	/**
+	 * @var        Schema
+	 */
+	protected $aSchema;
+
+	/**
+	 * Flag to prevent endless save loop, if this object is referenced
+	 * by another object which falls in this transaction.
+	 * @var        boolean
+	 */
+	protected $alreadyInSave = false;
+
+	/**
+	 * Flag to prevent endless validation loop, if this object is referenced
+	 * by another object which falls in this transaction.
+	 * @var        boolean
+	 */
+	protected $alreadyInValidation = false;
+
+	/**
+	 * Get the [id] column value.
+	 * 
+	 * @return     int
+	 */
+	public function getId()
+	{
+
+		return $this->id;
+	}
+
+	/**
+	 * Get the [optionally formatted] [created_at] column value.
+	 * 
+	 * @param      string $format The date/time format string (either date()-style or strftime()-style).
+	 *							If format is NULL, then the integer unix timestamp will be returned.
+	 * @return     mixed Formatted date/time value as string or integer unix timestamp (if format is NULL).
+	 * @throws     PropelException - if unable to convert the date/time to timestamp.
+	 */
+	public function getCreatedAt($format = 'Y-m-d H:i:s')
+	{
+
+		if ($this->created_at === null || $this->created_at === '') {
+			return null;
+		} elseif (!is_int($this->created_at)) {
+			// a non-timestamp value was set externally, so we convert it
+			$ts = strtotime($this->created_at);
+			if ($ts === -1 || $ts === false) { // in PHP 5.1 return value changes to FALSE
+				throw new PropelException("Unable to parse value of [created_at] as date/time value: " . var_export($this->created_at, true));
+			}
+		} else {
+			$ts = $this->created_at;
+		}
+		if ($format === null) {
+			return $ts;
+		} elseif (strpos($format, '%') !== false) {
+			return strftime($format, $ts);
+		} else {
+			return date($format, $ts);
+		}
+	}
+
+	/**
+	 * Get the [optionally formatted] [updated_at] column value.
+	 * 
+	 * @param      string $format The date/time format string (either date()-style or strftime()-style).
+	 *							If format is NULL, then the integer unix timestamp will be returned.
+	 * @return     mixed Formatted date/time value as string or integer unix timestamp (if format is NULL).
+	 * @throws     PropelException - if unable to convert the date/time to timestamp.
+	 */
+	public function getUpdatedAt($format = 'Y-m-d H:i:s')
+	{
+
+		if ($this->updated_at === null || $this->updated_at === '') {
+			return null;
+		} elseif (!is_int($this->updated_at)) {
+			// a non-timestamp value was set externally, so we convert it
+			$ts = strtotime($this->updated_at);
+			if ($ts === -1 || $ts === false) { // in PHP 5.1 return value changes to FALSE
+				throw new PropelException("Unable to parse value of [updated_at] as date/time value: " . var_export($this->updated_at, true));
+			}
+		} else {
+			$ts = $this->updated_at;
+		}
+		if ($format === null) {
+			return $ts;
+		} elseif (strpos($format, '%') !== false) {
+			return strftime($format, $ts);
+		} else {
+			return date($format, $ts);
+		}
+	}
+
+	/**
+	 * Get the [user_id] column value.
+	 * 
+	 * @return     int
+	 */
+	public function getUserId()
+	{
+
+		return $this->user_id;
+	}
+
+	/**
+	 * Get the [vocabulary_id] column value.
+	 * 
+	 * @return     int
+	 */
+	public function getVocabularyId()
+	{
+
+		return $this->vocabulary_id;
+	}
+
+	/**
+	 * Get the [schema_id] column value.
+	 * 
+	 * @return     int
+	 */
+	public function getSchemaId()
+	{
+
+		return $this->schema_id;
+	}
+
+	/**
+	 * Get the [csv_type] column value.
+	 * 
+	 * @return     string
+	 */
+	public function getCsvType()
+	{
+
+		return $this->csv_type;
+	}
+
+	/**
+	 * Get the [exclude_deprecated] column value.
+	 * 
+	 * @return     boolean
+	 */
+	public function getExcludeDeprecated()
+	{
+
+		return $this->exclude_deprecated;
+	}
+
+	/**
+	 * Get the [exclude_generated] column value.
+	 * 
+	 * @return     boolean
+	 */
+	public function getExcludeGenerated()
+	{
+
+		return $this->exclude_generated;
+	}
+
+	/**
+	 * Get the [include_deleted] column value.
+	 * 
+	 * @return     boolean
+	 */
+	public function getIncludeDeleted()
+	{
+
+		return $this->include_deleted;
+	}
+
+	/**
+	 * Get the [selected_columns] column value.
+	 * 
+	 * @return     string
+	 */
+	public function getSelectedColumns()
+	{
+
+		return $this->selected_columns;
+	}
+
+	/**
+	 * Get the [selected_language] column value.
+	 * 
+	 * @return     string
+	 */
+	public function getSelectedLanguage()
+	{
+
+		return $this->selected_language;
+	}
+
+	/**
+	 * Get the [published_english_version] column value.
+	 * 
+	 * @return     string
+	 */
+	public function getPublishedEnglishVersion()
+	{
+
+		return $this->published_english_version;
+	}
+
+	/**
+	 * Get the [published_language_version] column value.
+	 * 
+	 * @return     string
+	 */
+	public function getPublishedLanguageVersion()
+	{
+
+		return $this->published_language_version;
+	}
+
+	/**
+	 * Get the [optionally formatted] [last_vocab_update] column value.
+	 * 
+	 * @param      string $format The date/time format string (either date()-style or strftime()-style).
+	 *							If format is NULL, then the integer unix timestamp will be returned.
+	 * @return     mixed Formatted date/time value as string or integer unix timestamp (if format is NULL).
+	 * @throws     PropelException - if unable to convert the date/time to timestamp.
+	 */
+	public function getLastVocabUpdate($format = 'Y-m-d H:i:s')
+	{
+
+		if ($this->last_vocab_update === null || $this->last_vocab_update === '') {
+			return null;
+		} elseif (!is_int($this->last_vocab_update)) {
+			// a non-timestamp value was set externally, so we convert it
+			$ts = strtotime($this->last_vocab_update);
+			if ($ts === -1 || $ts === false) { // in PHP 5.1 return value changes to FALSE
+				throw new PropelException("Unable to parse value of [last_vocab_update] as date/time value: " . var_export($this->last_vocab_update, true));
+			}
+		} else {
+			$ts = $this->last_vocab_update;
+		}
+		if ($format === null) {
+			return $ts;
+		} elseif (strpos($format, '%') !== false) {
+			return strftime($format, $ts);
+		} else {
+			return date($format, $ts);
+		}
+	}
+
+	/**
+	 * Set the value of [id] column.
+	 * 
+	 * @param      int $v new value
+	 * @return     void
+	 */
+	public function setId($v)
+	{
+
+		// Since the native PHP type for this column is integer,
+		// we will cast the input value to an int (if it is not).
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->id !== $v) {
+			$this->id = $v;
+			$this->modifiedColumns[] = ExportHistoryPeer::ID;
+		}
+
+	} // setId()
+
+	/**
+	 * Set the value of [created_at] column.
+	 * 
+	 * @param      int $v new value
+	 * @return     void
+	 */
+	public function setCreatedAt($v)
+	{
+
+		if ($v !== null && !is_int($v)) {
+			$ts = strtotime($v);
+			if ($ts === -1 || $ts === false) { // in PHP 5.1 return value changes to FALSE
+				throw new PropelException("Unable to parse date/time value for [created_at] from input: " . var_export($v, true));
+			}
+		} else {
+			$ts = $v;
+		}
+		if ($this->created_at !== $ts) {
+			$this->created_at = $ts;
+			$this->modifiedColumns[] = ExportHistoryPeer::CREATED_AT;
+		}
+
+	} // setCreatedAt()
+
+	/**
+	 * Set the value of [updated_at] column.
+	 * 
+	 * @param      int $v new value
+	 * @return     void
+	 */
+	public function setUpdatedAt($v)
+	{
+
+		if ($v !== null && !is_int($v)) {
+			$ts = strtotime($v);
+			if ($ts === -1 || $ts === false) { // in PHP 5.1 return value changes to FALSE
+				throw new PropelException("Unable to parse date/time value for [updated_at] from input: " . var_export($v, true));
+			}
+		} else {
+			$ts = $v;
+		}
+		if ($this->updated_at !== $ts) {
+			$this->updated_at = $ts;
+			$this->modifiedColumns[] = ExportHistoryPeer::UPDATED_AT;
+		}
+
+	} // setUpdatedAt()
+
+	/**
+	 * Set the value of [user_id] column.
+	 * 
+	 * @param      int $v new value
+	 * @return     void
+	 */
+	public function setUserId($v)
+	{
+
+		// Since the native PHP type for this column is integer,
+		// we will cast the input value to an int (if it is not).
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->user_id !== $v) {
+			$this->user_id = $v;
+			$this->modifiedColumns[] = ExportHistoryPeer::USER_ID;
+		}
+
+		if ($this->aUser !== null && $this->aUser->getId() !== $v) {
+			$this->aUser = null;
+		}
+
+	} // setUserId()
+
+	/**
+	 * Set the value of [vocabulary_id] column.
+	 * 
+	 * @param      int $v new value
+	 * @return     void
+	 */
+	public function setVocabularyId($v)
+	{
+
+		// Since the native PHP type for this column is integer,
+		// we will cast the input value to an int (if it is not).
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->vocabulary_id !== $v) {
+			$this->vocabulary_id = $v;
+			$this->modifiedColumns[] = ExportHistoryPeer::VOCABULARY_ID;
+		}
+
+		if ($this->aVocabulary !== null && $this->aVocabulary->getId() !== $v) {
+			$this->aVocabulary = null;
+		}
+
+	} // setVocabularyId()
+
+	/**
+	 * Set the value of [schema_id] column.
+	 * 
+	 * @param      int $v new value
+	 * @return     void
+	 */
+	public function setSchemaId($v)
+	{
+
+		// Since the native PHP type for this column is integer,
+		// we will cast the input value to an int (if it is not).
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->schema_id !== $v) {
+			$this->schema_id = $v;
+			$this->modifiedColumns[] = ExportHistoryPeer::SCHEMA_ID;
+		}
+
+		if ($this->aSchema !== null && $this->aSchema->getId() !== $v) {
+			$this->aSchema = null;
+		}
+
+	} // setSchemaId()
+
+	/**
+	 * Set the value of [csv_type] column.
+	 * 
+	 * @param      string $v new value
+	 * @return     void
+	 */
+	public function setCsvType($v)
+	{
+
+		// Since the native PHP type for this column is string,
+		// we will cast the input to a string (if it is not).
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->csv_type !== $v) {
+			$this->csv_type = $v;
+			$this->modifiedColumns[] = ExportHistoryPeer::CSV_TYPE;
+		}
+
+	} // setCsvType()
+
+	/**
+	 * Set the value of [exclude_deprecated] column.
+	 * 
+	 * @param      boolean $v new value
+	 * @return     void
+	 */
+	public function setExcludeDeprecated($v)
+	{
+
+		if ($this->exclude_deprecated !== $v) {
+			$this->exclude_deprecated = $v;
+			$this->modifiedColumns[] = ExportHistoryPeer::EXCLUDE_DEPRECATED;
+		}
+
+	} // setExcludeDeprecated()
+
+	/**
+	 * Set the value of [exclude_generated] column.
+	 * 
+	 * @param      boolean $v new value
+	 * @return     void
+	 */
+	public function setExcludeGenerated($v)
+	{
+
+		if ($this->exclude_generated !== $v) {
+			$this->exclude_generated = $v;
+			$this->modifiedColumns[] = ExportHistoryPeer::EXCLUDE_GENERATED;
+		}
+
+	} // setExcludeGenerated()
+
+	/**
+	 * Set the value of [include_deleted] column.
+	 * 
+	 * @param      boolean $v new value
+	 * @return     void
+	 */
+	public function setIncludeDeleted($v)
+	{
+
+		if ($this->include_deleted !== $v) {
+			$this->include_deleted = $v;
+			$this->modifiedColumns[] = ExportHistoryPeer::INCLUDE_DELETED;
+		}
+
+	} // setIncludeDeleted()
+
+	/**
+	 * Set the value of [selected_columns] column.
+	 * 
+	 * @param      string $v new value
+	 * @return     void
+	 */
+	public function setSelectedColumns($v)
+	{
+
+		// Since the native PHP type for this column is string,
+		// we will cast the input to a string (if it is not).
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->selected_columns !== $v) {
+			$this->selected_columns = $v;
+			$this->modifiedColumns[] = ExportHistoryPeer::SELECTED_COLUMNS;
+		}
+
+	} // setSelectedColumns()
+
+	/**
+	 * Set the value of [selected_language] column.
+	 * 
+	 * @param      string $v new value
+	 * @return     void
+	 */
+	public function setSelectedLanguage($v)
+	{
+
+		// Since the native PHP type for this column is string,
+		// we will cast the input to a string (if it is not).
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->selected_language !== $v) {
+			$this->selected_language = $v;
+			$this->modifiedColumns[] = ExportHistoryPeer::SELECTED_LANGUAGE;
+		}
+
+	} // setSelectedLanguage()
+
+	/**
+	 * Set the value of [published_english_version] column.
+	 * 
+	 * @param      string $v new value
+	 * @return     void
+	 */
+	public function setPublishedEnglishVersion($v)
+	{
+
+		// Since the native PHP type for this column is string,
+		// we will cast the input to a string (if it is not).
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->published_english_version !== $v) {
+			$this->published_english_version = $v;
+			$this->modifiedColumns[] = ExportHistoryPeer::PUBLISHED_ENGLISH_VERSION;
+		}
+
+	} // setPublishedEnglishVersion()
+
+	/**
+	 * Set the value of [published_language_version] column.
+	 * 
+	 * @param      string $v new value
+	 * @return     void
+	 */
+	public function setPublishedLanguageVersion($v)
+	{
+
+		// Since the native PHP type for this column is string,
+		// we will cast the input to a string (if it is not).
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->published_language_version !== $v) {
+			$this->published_language_version = $v;
+			$this->modifiedColumns[] = ExportHistoryPeer::PUBLISHED_LANGUAGE_VERSION;
+		}
+
+	} // setPublishedLanguageVersion()
+
+	/**
+	 * Set the value of [last_vocab_update] column.
+	 * 
+	 * @param      int $v new value
+	 * @return     void
+	 */
+	public function setLastVocabUpdate($v)
+	{
+
+		if ($v !== null && !is_int($v)) {
+			$ts = strtotime($v);
+			if ($ts === -1 || $ts === false) { // in PHP 5.1 return value changes to FALSE
+				throw new PropelException("Unable to parse date/time value for [last_vocab_update] from input: " . var_export($v, true));
+			}
+		} else {
+			$ts = $v;
+		}
+		if ($this->last_vocab_update !== $ts) {
+			$this->last_vocab_update = $ts;
+			$this->modifiedColumns[] = ExportHistoryPeer::LAST_VOCAB_UPDATE;
+		}
+
+	} // setLastVocabUpdate()
+
+	/**
+	 * Hydrates (populates) the object variables with values from the database resultset.
+	 *
+	 * An offset (1-based "start column") is specified so that objects can be hydrated
+	 * with a subset of the columns in the resultset rows.  This is needed, for example,
+	 * for results of JOIN queries where the resultset row includes columns from two or
+	 * more tables.
+	 *
+	 * @param      ResultSet $rs The ResultSet class with cursor advanced to desired record pos.
+	 * @param      int $startcol 1-based offset column which indicates which restultset column to start with.
+	 * @return     int next starting column
+	 * @throws     PropelException  - Any caught Exception will be rewrapped as a PropelException.
+	 */
+	public function hydrate(ResultSet $rs, $startcol = 1)
+	{
+		try {
+
+			$this->id = $rs->getInt($startcol + 0);
+
+			$this->created_at = $rs->getTimestamp($startcol + 1, null);
+
+			$this->updated_at = $rs->getTimestamp($startcol + 2, null);
+
+			$this->user_id = $rs->getInt($startcol + 3);
+
+			$this->vocabulary_id = $rs->getInt($startcol + 4);
+
+			$this->schema_id = $rs->getInt($startcol + 5);
+
+			$this->csv_type = $rs->getString($startcol + 6);
+
+			$this->exclude_deprecated = $rs->getBoolean($startcol + 7);
+
+			$this->exclude_generated = $rs->getBoolean($startcol + 8);
+
+			$this->include_deleted = $rs->getBoolean($startcol + 9);
+
+			$this->selected_columns = $rs->getString($startcol + 10);
+
+			$this->selected_language = $rs->getString($startcol + 11);
+
+			$this->published_english_version = $rs->getString($startcol + 12);
+
+			$this->published_language_version = $rs->getString($startcol + 13);
+
+			$this->last_vocab_update = $rs->getTimestamp($startcol + 14, null);
+
+			$this->resetModified();
+
+			$this->setNew(false);
+
+			// FIXME - using NUM_COLUMNS may be clearer.
+			return $startcol + 15; // 15 = ExportHistoryPeer::NUM_COLUMNS - ExportHistoryPeer::NUM_LAZY_LOAD_COLUMNS).
+
+		} catch (Exception $e) {
+			throw new PropelException("Error populating ExportHistory object", $e);
+		}
+	}
+
+	/**
+	 * Removes this object from datastore and sets delete attribute.
+	 *
+	 * @param      Connection $con
+	 * @return     void
+	 * @throws     PropelException
+	 * @see        BaseObject::setDeleted()
+	 * @see        BaseObject::isDeleted()
+	 */
+	public function delete($con = null)
+	{
+
+    foreach (sfMixer::getCallables('BaseExportHistory:delete:pre') as $callable)
+    {
+      $ret = call_user_func($callable, $this, $con);
+      if ($ret)
+      {
+        return;
+      }
+    }
+
+
+		if ($this->isDeleted()) {
+			throw new PropelException("This object has already been deleted.");
+		}
+
+		if ($con === null) {
+			$con = Propel::getConnection(ExportHistoryPeer::DATABASE_NAME);
+		}
+
+		try {
+			$con->begin();
+			ExportHistoryPeer::doDelete($this, $con);
+			$this->setDeleted(true);
+			$con->commit();
+		} catch (PropelException $e) {
+			$con->rollback();
+			throw $e;
+		}
+	
+
+    foreach (sfMixer::getCallables('BaseExportHistory:delete:post') as $callable)
+    {
+      call_user_func($callable, $this, $con);
+    }
+
+  }
+	/**
+	 * Stores the object in the database.  If the object is new,
+	 * it inserts it; otherwise an update is performed.  This method
+	 * wraps the doSave() worker method in a transaction.
+	 *
+	 * @param      Connection $con
+	 * @return     int The number of rows affected by this insert/update and any referring fk objects' save() operations.
+	 * @throws     PropelException
+	 * @see        doSave()
+	 */
+	public function save($con = null)
+	{
+
+    foreach (sfMixer::getCallables('BaseExportHistory:save:pre') as $callable)
+    {
+      $affectedRows = call_user_func($callable, $this, $con);
+      if (is_int($affectedRows))
+      {
+        return $affectedRows;
+      }
+    }
+
+
+    if ($this->isNew() && !$this->isColumnModified(ExportHistoryPeer::CREATED_AT))
+    {
+      $this->setCreatedAt(time());
+    }
+
+    if ($this->isModified() && !$this->isColumnModified(ExportHistoryPeer::UPDATED_AT))
+    {
+      $this->setUpdatedAt(time());
+    }
+
+		if ($this->isDeleted()) {
+			throw new PropelException("You cannot save an object that has been deleted.");
+		}
+
+		if ($con === null) {
+			$con = Propel::getConnection(ExportHistoryPeer::DATABASE_NAME);
+		}
+
+		try {
+			$con->begin();
+			$affectedRows = $this->doSave($con);
+			$con->commit();
+    foreach (sfMixer::getCallables('BaseExportHistory:save:post') as $callable)
+    {
+      call_user_func($callable, $this, $con, $affectedRows);
+    }
+
+			return $affectedRows;
+		} catch (PropelException $e) {
+			$con->rollback();
+			throw $e;
+		}
+	}
+
+	/**
+	 * Stores the object in the database.
+	 *
+	 * If the object is new, it inserts it; otherwise an update is performed.
+	 * All related objects are also updated in this method.
+	 *
+	 * @param      Connection $con
+	 * @return     int The number of rows affected by this insert/update and any referring fk objects' save() operations.
+	 * @throws     PropelException
+	 * @see        save()
+	 */
+	protected function doSave($con)
+	{
+		$affectedRows = 0; // initialize var to track total num of affected rows
+		if (!$this->alreadyInSave) {
+			$this->alreadyInSave = true;
+
+
+			// We call the save method on the following object(s) if they
+			// were passed to this object by their coresponding set
+			// method.  This object relates to these object(s) by a
+			// foreign key reference.
+
+			if ($this->aUser !== null) {
+				if ($this->aUser->isModified()) {
+					$affectedRows += $this->aUser->save($con);
+				}
+				$this->setUser($this->aUser);
+			}
+
+			if ($this->aVocabulary !== null) {
+				if ($this->aVocabulary->isModified()) {
+					$affectedRows += $this->aVocabulary->save($con);
+				}
+				$this->setVocabulary($this->aVocabulary);
+			}
+
+			if ($this->aSchema !== null) {
+				if ($this->aSchema->isModified()) {
+					$affectedRows += $this->aSchema->save($con);
+				}
+				$this->setSchema($this->aSchema);
+			}
+
+
+			// If this object has been modified, then save it to the database.
+			if ($this->isModified()) {
+				if ($this->isNew()) {
+					$pk = ExportHistoryPeer::doInsert($this, $con);
+					$affectedRows += 1; // we are assuming that there is only 1 row per doInsert() which
+										 // should always be true here (even though technically
+										 // BasePeer::doInsert() can insert multiple rows).
+
+					$this->setId($pk);  //[IMV] update autoincrement primary key
+
+					$this->setNew(false);
+				} else {
+					$affectedRows += ExportHistoryPeer::doUpdate($this, $con);
+				}
+				$this->resetModified(); // [HL] After being saved an object is no longer 'modified'
+			}
+
+			$this->alreadyInSave = false;
+		}
+		return $affectedRows;
+	} // doSave()
+
+	/**
+	 * Array of ValidationFailed objects.
+	 * @var        array ValidationFailed[]
+	 */
+	protected $validationFailures = array();
+
+	/**
+	 * Gets any ValidationFailed objects that resulted from last call to validate().
+	 *
+	 *
+	 * @return     array ValidationFailed[]
+	 * @see        validate()
+	 */
+	public function getValidationFailures()
+	{
+		return $this->validationFailures;
+	}
+
+	/**
+	 * Validates the objects modified field values and all objects related to this table.
+	 *
+	 * If $columns is either a column name or an array of column names
+	 * only those columns are validated.
+	 *
+	 * @param      mixed $columns Column name or an array of column names.
+	 * @return     boolean Whether all columns pass validation.
+	 * @see        doValidate()
+	 * @see        getValidationFailures()
+	 */
+	public function validate($columns = null)
+	{
+		$res = $this->doValidate($columns);
+		if ($res === true) {
+			$this->validationFailures = array();
+			return true;
+		} else {
+			$this->validationFailures = $res;
+			return false;
+		}
+	}
+
+	/**
+	 * This function performs the validation work for complex object models.
+	 *
+	 * In addition to checking the current object, all related objects will
+	 * also be validated.  If all pass then <code>true</code> is returned; otherwise
+	 * an aggreagated array of ValidationFailed objects will be returned.
+	 *
+	 * @param      array $columns Array of column names to validate.
+	 * @return     mixed <code>true</code> if all validations pass; array of <code>ValidationFailed</code> objets otherwise.
+	 */
+	protected function doValidate($columns = null)
+	{
+		if (!$this->alreadyInValidation) {
+			$this->alreadyInValidation = true;
+			$retval = null;
+
+			$failureMap = array();
+
+
+			// We call the validate method on the following object(s) if they
+			// were passed to this object by their coresponding set
+			// method.  This object relates to these object(s) by a
+			// foreign key reference.
+
+			if ($this->aUser !== null) {
+				if (!$this->aUser->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aUser->getValidationFailures());
+				}
+			}
+
+			if ($this->aVocabulary !== null) {
+				if (!$this->aVocabulary->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aVocabulary->getValidationFailures());
+				}
+			}
+
+			if ($this->aSchema !== null) {
+				if (!$this->aSchema->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aSchema->getValidationFailures());
+				}
+			}
+
+
+			if (($retval = ExportHistoryPeer::doValidate($this, $columns)) !== true) {
+				$failureMap = array_merge($failureMap, $retval);
+			}
+
+
+
+			$this->alreadyInValidation = false;
+		}
+
+		return (!empty($failureMap) ? $failureMap : true);
+	}
+
+	/**
+	 * Retrieves a field from the object by name passed in as a string.
+	 *
+	 * @param      string $name name
+	 * @param      string $type The type of fieldname the $name is of:
+	 *                     one of the class type constants TYPE_PHPNAME,
+	 *                     TYPE_COLNAME, TYPE_FIELDNAME, TYPE_NUM
+	 * @return     mixed Value of field.
+	 */
+	public function getByName($name, $type = BasePeer::TYPE_PHPNAME)
+	{
+		$pos = ExportHistoryPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
+		return $this->getByPosition($pos);
+	}
+
+	/**
+	 * Retrieves a field from the object by Position as specified in the xml schema.
+	 * Zero-based.
+	 *
+	 * @param      int $pos position in xml schema
+	 * @return     mixed Value of field at $pos
+	 */
+	public function getByPosition($pos)
+	{
+		switch($pos) {
+			case 0:
+				return $this->getId();
+				break;
+			case 1:
+				return $this->getCreatedAt();
+				break;
+			case 2:
+				return $this->getUpdatedAt();
+				break;
+			case 3:
+				return $this->getUserId();
+				break;
+			case 4:
+				return $this->getVocabularyId();
+				break;
+			case 5:
+				return $this->getSchemaId();
+				break;
+			case 6:
+				return $this->getCsvType();
+				break;
+			case 7:
+				return $this->getExcludeDeprecated();
+				break;
+			case 8:
+				return $this->getExcludeGenerated();
+				break;
+			case 9:
+				return $this->getIncludeDeleted();
+				break;
+			case 10:
+				return $this->getSelectedColumns();
+				break;
+			case 11:
+				return $this->getSelectedLanguage();
+				break;
+			case 12:
+				return $this->getPublishedEnglishVersion();
+				break;
+			case 13:
+				return $this->getPublishedLanguageVersion();
+				break;
+			case 14:
+				return $this->getLastVocabUpdate();
+				break;
+			default:
+				return null;
+				break;
+		} // switch()
+	}
+
+	/**
+	 * Exports the object as an array.
+	 *
+	 * You can specify the key type of the array by passing one of the class
+	 * type constants.
+	 *
+	 * @param      string $keyType One of the class type constants TYPE_PHPNAME,
+	 *                        TYPE_COLNAME, TYPE_FIELDNAME, TYPE_NUM
+	 * @return     an associative array containing the field names (as keys) and field values
+	 */
+	public function toArray($keyType = BasePeer::TYPE_PHPNAME)
+	{
+		$keys = ExportHistoryPeer::getFieldNames($keyType);
+		$result = array(
+			$keys[0] => $this->getId(),
+			$keys[1] => $this->getCreatedAt(),
+			$keys[2] => $this->getUpdatedAt(),
+			$keys[3] => $this->getUserId(),
+			$keys[4] => $this->getVocabularyId(),
+			$keys[5] => $this->getSchemaId(),
+			$keys[6] => $this->getCsvType(),
+			$keys[7] => $this->getExcludeDeprecated(),
+			$keys[8] => $this->getExcludeGenerated(),
+			$keys[9] => $this->getIncludeDeleted(),
+			$keys[10] => $this->getSelectedColumns(),
+			$keys[11] => $this->getSelectedLanguage(),
+			$keys[12] => $this->getPublishedEnglishVersion(),
+			$keys[13] => $this->getPublishedLanguageVersion(),
+			$keys[14] => $this->getLastVocabUpdate(),
+		);
+		return $result;
+	}
+
+	/**
+	 * Sets a field from the object by name passed in as a string.
+	 *
+	 * @param      string $name peer name
+	 * @param      mixed $value field value
+	 * @param      string $type The type of fieldname the $name is of:
+	 *                     one of the class type constants TYPE_PHPNAME,
+	 *                     TYPE_COLNAME, TYPE_FIELDNAME, TYPE_NUM
+	 * @return     void
+	 */
+	public function setByName($name, $value, $type = BasePeer::TYPE_PHPNAME)
+	{
+		$pos = ExportHistoryPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
+		return $this->setByPosition($pos, $value);
+	}
+
+	/**
+	 * Sets a field from the object by Position as specified in the xml schema.
+	 * Zero-based.
+	 *
+	 * @param      int $pos position in xml schema
+	 * @param      mixed $value field value
+	 * @return     void
+	 */
+	public function setByPosition($pos, $value)
+	{
+		switch($pos) {
+			case 0:
+				$this->setId($value);
+				break;
+			case 1:
+				$this->setCreatedAt($value);
+				break;
+			case 2:
+				$this->setUpdatedAt($value);
+				break;
+			case 3:
+				$this->setUserId($value);
+				break;
+			case 4:
+				$this->setVocabularyId($value);
+				break;
+			case 5:
+				$this->setSchemaId($value);
+				break;
+			case 6:
+				$this->setCsvType($value);
+				break;
+			case 7:
+				$this->setExcludeDeprecated($value);
+				break;
+			case 8:
+				$this->setExcludeGenerated($value);
+				break;
+			case 9:
+				$this->setIncludeDeleted($value);
+				break;
+			case 10:
+				$this->setSelectedColumns($value);
+				break;
+			case 11:
+				$this->setSelectedLanguage($value);
+				break;
+			case 12:
+				$this->setPublishedEnglishVersion($value);
+				break;
+			case 13:
+				$this->setPublishedLanguageVersion($value);
+				break;
+			case 14:
+				$this->setLastVocabUpdate($value);
+				break;
+		} // switch()
+	}
+
+	/**
+	 * Populates the object using an array.
+	 *
+	 * This is particularly useful when populating an object from one of the
+	 * request arrays (e.g. $_POST).  This method goes through the column
+	 * names, checking to see whether a matching key exists in populated
+	 * array. If so the setByName() method is called for that column.
+	 *
+	 * You can specify the key type of the array by additionally passing one
+	 * of the class type constants TYPE_PHPNAME, TYPE_COLNAME, TYPE_FIELDNAME,
+	 * TYPE_NUM. The default key type is the column's phpname (e.g. 'authorId')
+	 *
+	 * @param      array  $arr     An array to populate the object from.
+	 * @param      string $keyType The type of keys the array uses.
+	 * @return     void
+	 */
+	public function fromArray($arr, $keyType = BasePeer::TYPE_PHPNAME)
+	{
+		$keys = ExportHistoryPeer::getFieldNames($keyType);
+
+		if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
+		if (array_key_exists($keys[1], $arr)) $this->setCreatedAt($arr[$keys[1]]);
+		if (array_key_exists($keys[2], $arr)) $this->setUpdatedAt($arr[$keys[2]]);
+		if (array_key_exists($keys[3], $arr)) $this->setUserId($arr[$keys[3]]);
+		if (array_key_exists($keys[4], $arr)) $this->setVocabularyId($arr[$keys[4]]);
+		if (array_key_exists($keys[5], $arr)) $this->setSchemaId($arr[$keys[5]]);
+		if (array_key_exists($keys[6], $arr)) $this->setCsvType($arr[$keys[6]]);
+		if (array_key_exists($keys[7], $arr)) $this->setExcludeDeprecated($arr[$keys[7]]);
+		if (array_key_exists($keys[8], $arr)) $this->setExcludeGenerated($arr[$keys[8]]);
+		if (array_key_exists($keys[9], $arr)) $this->setIncludeDeleted($arr[$keys[9]]);
+		if (array_key_exists($keys[10], $arr)) $this->setSelectedColumns($arr[$keys[10]]);
+		if (array_key_exists($keys[11], $arr)) $this->setSelectedLanguage($arr[$keys[11]]);
+		if (array_key_exists($keys[12], $arr)) $this->setPublishedEnglishVersion($arr[$keys[12]]);
+		if (array_key_exists($keys[13], $arr)) $this->setPublishedLanguageVersion($arr[$keys[13]]);
+		if (array_key_exists($keys[14], $arr)) $this->setLastVocabUpdate($arr[$keys[14]]);
+	}
+
+	/**
+	 * Build a Criteria object containing the values of all modified columns in this object.
+	 *
+	 * @return     Criteria The Criteria object containing all modified values.
+	 */
+	public function buildCriteria()
+	{
+		$criteria = new Criteria(ExportHistoryPeer::DATABASE_NAME);
+
+		if ($this->isColumnModified(ExportHistoryPeer::ID)) $criteria->add(ExportHistoryPeer::ID, $this->id);
+		if ($this->isColumnModified(ExportHistoryPeer::CREATED_AT)) $criteria->add(ExportHistoryPeer::CREATED_AT, $this->created_at);
+		if ($this->isColumnModified(ExportHistoryPeer::UPDATED_AT)) $criteria->add(ExportHistoryPeer::UPDATED_AT, $this->updated_at);
+		if ($this->isColumnModified(ExportHistoryPeer::USER_ID)) $criteria->add(ExportHistoryPeer::USER_ID, $this->user_id);
+		if ($this->isColumnModified(ExportHistoryPeer::VOCABULARY_ID)) $criteria->add(ExportHistoryPeer::VOCABULARY_ID, $this->vocabulary_id);
+		if ($this->isColumnModified(ExportHistoryPeer::SCHEMA_ID)) $criteria->add(ExportHistoryPeer::SCHEMA_ID, $this->schema_id);
+		if ($this->isColumnModified(ExportHistoryPeer::CSV_TYPE)) $criteria->add(ExportHistoryPeer::CSV_TYPE, $this->csv_type);
+		if ($this->isColumnModified(ExportHistoryPeer::EXCLUDE_DEPRECATED)) $criteria->add(ExportHistoryPeer::EXCLUDE_DEPRECATED, $this->exclude_deprecated);
+		if ($this->isColumnModified(ExportHistoryPeer::EXCLUDE_GENERATED)) $criteria->add(ExportHistoryPeer::EXCLUDE_GENERATED, $this->exclude_generated);
+		if ($this->isColumnModified(ExportHistoryPeer::INCLUDE_DELETED)) $criteria->add(ExportHistoryPeer::INCLUDE_DELETED, $this->include_deleted);
+		if ($this->isColumnModified(ExportHistoryPeer::SELECTED_COLUMNS)) $criteria->add(ExportHistoryPeer::SELECTED_COLUMNS, $this->selected_columns);
+		if ($this->isColumnModified(ExportHistoryPeer::SELECTED_LANGUAGE)) $criteria->add(ExportHistoryPeer::SELECTED_LANGUAGE, $this->selected_language);
+		if ($this->isColumnModified(ExportHistoryPeer::PUBLISHED_ENGLISH_VERSION)) $criteria->add(ExportHistoryPeer::PUBLISHED_ENGLISH_VERSION, $this->published_english_version);
+		if ($this->isColumnModified(ExportHistoryPeer::PUBLISHED_LANGUAGE_VERSION)) $criteria->add(ExportHistoryPeer::PUBLISHED_LANGUAGE_VERSION, $this->published_language_version);
+		if ($this->isColumnModified(ExportHistoryPeer::LAST_VOCAB_UPDATE)) $criteria->add(ExportHistoryPeer::LAST_VOCAB_UPDATE, $this->last_vocab_update);
+
+		return $criteria;
+	}
+
+	/**
+	 * Builds a Criteria object containing the primary key for this object.
+	 *
+	 * Unlike buildCriteria() this method includes the primary key values regardless
+	 * of whether or not they have been modified.
+	 *
+	 * @return     Criteria The Criteria object containing value(s) for primary key(s).
+	 */
+	public function buildPkeyCriteria()
+	{
+		$criteria = new Criteria(ExportHistoryPeer::DATABASE_NAME);
+
+		$criteria->add(ExportHistoryPeer::ID, $this->id);
+
+		return $criteria;
+	}
+
+	/**
+	 * Returns the primary key for this object (row).
+	 * @return     int
+	 */
+	public function getPrimaryKey()
+	{
+		return $this->getId();
+	}
+
+	/**
+	 * Generic method to set the primary key (id column).
+	 *
+	 * @param      int $key Primary key.
+	 * @return     void
+	 */
+	public function setPrimaryKey($key)
+	{
+		$this->setId($key);
+	}
+
+	/**
+	 * Sets contents of passed object to values from current object.
+	 *
+	 * If desired, this method can also make copies of all associated (fkey referrers)
+	 * objects.
+	 *
+	 * @param      object $copyObj An object of ExportHistory (or compatible) type.
+	 * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
+	 * @throws     PropelException
+	 */
+	public function copyInto($copyObj, $deepCopy = false)
+	{
+
+		$copyObj->setCreatedAt($this->created_at);
+
+		$copyObj->setUpdatedAt($this->updated_at);
+
+		$copyObj->setUserId($this->user_id);
+
+		$copyObj->setVocabularyId($this->vocabulary_id);
+
+		$copyObj->setSchemaId($this->schema_id);
+
+		$copyObj->setCsvType($this->csv_type);
+
+		$copyObj->setExcludeDeprecated($this->exclude_deprecated);
+
+		$copyObj->setExcludeGenerated($this->exclude_generated);
+
+		$copyObj->setIncludeDeleted($this->include_deleted);
+
+		$copyObj->setSelectedColumns($this->selected_columns);
+
+		$copyObj->setSelectedLanguage($this->selected_language);
+
+		$copyObj->setPublishedEnglishVersion($this->published_english_version);
+
+		$copyObj->setPublishedLanguageVersion($this->published_language_version);
+
+		$copyObj->setLastVocabUpdate($this->last_vocab_update);
+
+
+		$copyObj->setNew(true);
+
+		$copyObj->setId(NULL); // this is a pkey column, so set to default value
+
+	}
+
+	/**
+	 * Makes a copy of this object that will be inserted as a new row in table when saved.
+	 * It creates a new object filling in the simple attributes, but skipping any primary
+	 * keys that are defined for the table.
+	 *
+	 * If desired, this method can also make copies of all associated (fkey referrers)
+	 * objects.
+	 *
+	 * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
+	 * @return     ExportHistory Clone of current object.
+	 * @throws     PropelException
+	 */
+	public function copy($deepCopy = false)
+	{
+		// we use get_class(), because this might be a subclass
+		$clazz = get_class($this);
+		$copyObj = new $clazz();
+		$this->copyInto($copyObj, $deepCopy);
+		return $copyObj;
+	}
+
+	/**
+	 * Returns a peer instance associated with this om.
+	 *
+	 * Since Peer classes are not to have any instance attributes, this method returns the
+	 * same instance for all member of this class. The method could therefore
+	 * be static, but this would prevent one from overriding the behavior.
+	 *
+	 * @return     ExportHistoryPeer
+	 */
+	public function getPeer()
+	{
+		if (self::$peer === null) {
+			self::$peer = new ExportHistoryPeer();
+		}
+		return self::$peer;
+	}
+
+	/**
+	 * Declares an association between this object and a User object.
+	 *
+	 * @param      User $v
+	 * @return     void
+	 * @throws     PropelException
+	 */
+	public function setUser($v)
+	{
+
+
+		if ($v === null) {
+			$this->setUserId(NULL);
+		} else {
+			$this->setUserId($v->getId());
+		}
+
+
+		$this->aUser = $v;
+	}
+
+
+	/**
+	 * Get the associated User object
+	 *
+	 * @param      Connection Optional Connection object.
+	 * @return     User The associated User object.
+	 * @throws     PropelException
+	 */
+	public function getUser($con = null)
+	{
+		if ($this->aUser === null && ($this->user_id !== null)) {
+			// include the related Peer class
+			include_once 'lib/model/om/BaseUserPeer.php';
+
+			$this->aUser = UserPeer::retrieveByPK($this->user_id, $con);
+
+			/* The following can be used instead of the line above to
+			   guarantee the related object contains a reference
+			   to this object, but this level of coupling
+			   may be undesirable in many circumstances.
+			   As it can lead to a db query with many results that may
+			   never be used.
+			   $obj = UserPeer::retrieveByPK($this->user_id, $con);
+			   $obj->addUsers($this);
+			 */
+		}
+		return $this->aUser;
+	}
+
+	/**
+	 * Declares an association between this object and a Vocabulary object.
+	 *
+	 * @param      Vocabulary $v
+	 * @return     void
+	 * @throws     PropelException
+	 */
+	public function setVocabulary($v)
+	{
+
+
+		if ($v === null) {
+			$this->setVocabularyId(NULL);
+		} else {
+			$this->setVocabularyId($v->getId());
+		}
+
+
+		$this->aVocabulary = $v;
+	}
+
+
+	/**
+	 * Get the associated Vocabulary object
+	 *
+	 * @param      Connection Optional Connection object.
+	 * @return     Vocabulary The associated Vocabulary object.
+	 * @throws     PropelException
+	 */
+	public function getVocabulary($con = null)
+	{
+		if ($this->aVocabulary === null && ($this->vocabulary_id !== null)) {
+			// include the related Peer class
+			include_once 'lib/model/om/BaseVocabularyPeer.php';
+
+			$this->aVocabulary = VocabularyPeer::retrieveByPK($this->vocabulary_id, $con);
+
+			/* The following can be used instead of the line above to
+			   guarantee the related object contains a reference
+			   to this object, but this level of coupling
+			   may be undesirable in many circumstances.
+			   As it can lead to a db query with many results that may
+			   never be used.
+			   $obj = VocabularyPeer::retrieveByPK($this->vocabulary_id, $con);
+			   $obj->addVocabularys($this);
+			 */
+		}
+		return $this->aVocabulary;
+	}
+
+	/**
+	 * Declares an association between this object and a Schema object.
+	 *
+	 * @param      Schema $v
+	 * @return     void
+	 * @throws     PropelException
+	 */
+	public function setSchema($v)
+	{
+
+
+		if ($v === null) {
+			$this->setSchemaId(NULL);
+		} else {
+			$this->setSchemaId($v->getId());
+		}
+
+
+		$this->aSchema = $v;
+	}
+
+
+	/**
+	 * Get the associated Schema object
+	 *
+	 * @param      Connection Optional Connection object.
+	 * @return     Schema The associated Schema object.
+	 * @throws     PropelException
+	 */
+	public function getSchema($con = null)
+	{
+		if ($this->aSchema === null && ($this->schema_id !== null)) {
+			// include the related Peer class
+			include_once 'lib/model/om/BaseSchemaPeer.php';
+
+			$this->aSchema = SchemaPeer::retrieveByPK($this->schema_id, $con);
+
+			/* The following can be used instead of the line above to
+			   guarantee the related object contains a reference
+			   to this object, but this level of coupling
+			   may be undesirable in many circumstances.
+			   As it can lead to a db query with many results that may
+			   never be used.
+			   $obj = SchemaPeer::retrieveByPK($this->schema_id, $con);
+			   $obj->addSchemas($this);
+			 */
+		}
+		return $this->aSchema;
+	}
+
+
+  public function __call($method, $arguments)
+  {
+    if (!$callable = sfMixer::getCallable('BaseExportHistory:'.$method))
+    {
+      throw new sfException(sprintf('Call to undefined method BaseExportHistory::%s', $method));
+    }
+
+    array_unshift($arguments, $this);
+
+    return call_user_func_array($callable, $arguments);
+  }
+
+
+} // BaseExportHistory

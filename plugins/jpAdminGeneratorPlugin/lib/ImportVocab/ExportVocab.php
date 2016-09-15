@@ -143,34 +143,10 @@ class ExportVocab {
         $writer->setStream( fopen( $filename, 'w' ) );
 
         $header = $this->getPrologHeader();
-        if ($this->includeProlog) {
-            $header[ 1 ][ 0 ] = 'uri';
-            ksort($header[1]);
-            $header[ 2 ][ 0 ] = 'lang';
-            $header[ 2 ][ 1 ] = $this->getSchema()->getLanguage(); //default language
-            ksort($header[2]);
-            $header[ 3 ][ 0 ] = 'type';
-            $header[ 3 ][ 1 ] = 'uri'; //default type
-            ksort($header[3]);
-        }
+        $this->setHeaderCount(count($header[0]));
 
-        foreach ( $header as $line )
-        {
-            $writer->writeItem( $line );
-        }
+        $writer->writeItem($header[0] );
 
-        if ($this->includeProlog) {
-
-            $metadata = $this->getMetadata();
-            foreach ($metadata as $line) {
-                $writer->writeItem($line);
-            }
-
-            $prefixRows = $this->getPrefixRows();
-            foreach ($prefixRows as $line) {
-                $writer->writeItem($line);
-            }
-        }
         //get the data
         if ( $this->populate )
         {
@@ -324,22 +300,22 @@ class ExportVocab {
             /** @var \ProfileProperty $profile */
             $profile = $property['profile'];
             $label   = $profile->getLabel();
+            $label = ( $profile->getIsRequired() ) ? "*" . $label : $label;
             $id = $profile->getId();
+            $columnCounter = 0;
 
             if ( isset( $property['languages'] ) )
             {
                 foreach ( $property['languages'] as $language => $languageCount )
                 {
+                    if ($language == 'en') {
+                        $columnCounter++;
+                    }
                     if ( in_array( $language, $languages ) )
                     {
-                        for ( $I = 0; $I < $languageCount; $I ++ )
+                        for ( $I = 1; $I <= $languageCount; $I ++ )
                         {
-                            $rows[0][$column] = $label . " (" . $language . ")";
-                            if ($this->includeProlog) {
-                                $rows[ 1 ][ $column ] = $profile->getUri();
-                                $rows[ 2 ][ $column ] = $language;
-                                $rows[ 3 ][ $column ] = '';
-                            }
+                            $rows[0][$column] = ( $profile->getIsSingleton() ) ? $label . "_" . $language : $label . "[$I]_" . $language;
 
                             $map[$id . $language][] = $column ;
 
@@ -352,10 +328,13 @@ class ExportVocab {
             {
                 for ( $I = 0; $I < $property['count']; $I ++ )
                 {
+                    $columnCounter++;
+                    $labelCounter = ( $profile->getIsSingleton() ) ? $label : $label . "[$columnCounter]";
                     if ( isset( $swap[$id] ) and false !== $swap[$id] )
                     {
                         $rows[0][$column] = $swap[$id];
                         $swap[$id]        = false;
+                        $columnCounter--;
                         $map[$id . 'parent'][] = $column;
                         if ( $this->isTemplate() )
                         {
@@ -364,15 +343,9 @@ class ExportVocab {
                     }
                     else
                     {
-                        $rows[0][$column] = $label;
+                        $rows[0][$column] = $labelCounter;
                         $map[$id . ''][] = $column;
                     }
-                    if ($this->includeProlog) {
-                        $rows[ 1 ][ $column ] = $profile->getUri();
-                        $rows[ 2 ][ $column ] = '';
-                        $rows[ 3 ][ $column ] = $profile->getType();
-                    }
-
 
                     $column ++;
                 }
@@ -730,11 +703,14 @@ class ExportVocab {
 
     public function getAllProfileProperties($forExport = false)
     {
-        $foo = array();
+        $columns = [];
         if ('schema' === $this->type) {
             $profile = \ProfilePeer::retrieveByPK(1);
+            $columnCounts = \SchemaPeer::getColumnCounts($this->getSchema()->getId());
+
         } else {
             $profile = \ProfilePeer::retrieveByPK(2);
+            $columnCounts = \VocabularyPeer::getColumnCounts($this->getSchema()->getId());
         }
         $c = new \Criteria();
         $c->addAscendingOrderByColumn(\ProfilePropertyPeer::EXPORT_ORDER);
@@ -743,20 +719,25 @@ class ExportVocab {
         {
             $c->add( \ProfilePropertyPeer::IS_IN_EXPORT, true );
         }
-        $results   = $profile->getProfilePropertys($c);
+        $propertys   = $profile->getProfilePropertys($c);
         $languages = $this->getLanguages();
-        /** @var \profileProperty $result */
-        foreach ( $results as $result )
+        /** @var \profileProperty $property */
+        foreach ( $propertys as $property )
         {
-            foreach ( $languages as $language )
-            {
-                $foo[0][$result->getId()][$language] = 1;
+            $propertyId  = $property->getId();
+            $exportOrder = $property->getExportOrder();
+            $columns[$exportOrder]['profile'] = $property;
+            $columns[$exportOrder]['id'] = $propertyId;
+            if ($property->getHasLanguage()) {
+                foreach ($languages as $language) {
+                    $columns[$exportOrder]['languages'][$language] = ( isset( $columnCounts[$propertyId][$language] ) ) ? $columnCounts[$propertyId][$language] : 1;
+                }
+            } else {
+                $columns[$exportOrder]['count'] = ( isset( $columnCounts[$propertyId] ) ) ? $columnCounts[$propertyId][''] : 1;
             }
         }
 
-        $bar = self::buildColumnArray( $foo );
-
-        return $bar;
+        return $columns;
     }
 
     /**

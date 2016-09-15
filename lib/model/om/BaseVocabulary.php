@@ -296,6 +296,18 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	protected $lastDiscussCriteria = null;
 
 	/**
+	 * Collection to store aggregation of collExportHistorys.
+	 * @var        array
+	 */
+	protected $collExportHistorys;
+
+	/**
+	 * The criteria used to select the current contents of collExportHistorys.
+	 * @var        Criteria
+	 */
+	protected $lastExportHistoryCriteria = null;
+
+	/**
 	 * Collection to store aggregation of collFileImportHistorys.
 	 * @var        array
 	 */
@@ -1591,6 +1603,14 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 				}
 			}
 
+			if ($this->collExportHistorys !== null) {
+				foreach($this->collExportHistorys as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
+			}
+
 			if ($this->collFileImportHistorys !== null) {
 				foreach($this->collFileImportHistorys as $referrerFK) {
 					if (!$referrerFK->isDeleted()) {
@@ -1769,6 +1789,14 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 
 				if ($this->collDiscusss !== null) {
 					foreach($this->collDiscusss as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
+
+				if ($this->collExportHistorys !== null) {
+					foreach($this->collExportHistorys as $referrerFK) {
 						if (!$referrerFK->validate($columns)) {
 							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
 						}
@@ -2271,6 +2299,10 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 
 			foreach($this->getDiscusss() as $relObj) {
 				$copyObj->addDiscuss($relObj->copy($deepCopy));
+			}
+
+			foreach($this->getExportHistorys() as $relObj) {
+				$copyObj->addExportHistory($relObj->copy($deepCopy));
 			}
 
 			foreach($this->getFileImportHistorys() as $relObj) {
@@ -5085,6 +5117,211 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 		$this->lastDiscussCriteria = $criteria;
 
 		return $this->collDiscusss;
+	}
+
+	/**
+	 * Temporary storage of collExportHistorys to save a possible db hit in
+	 * the event objects are add to the collection, but the
+	 * complete collection is never requested.
+	 * @return     void
+	 */
+	public function initExportHistorys()
+	{
+		if ($this->collExportHistorys === null) {
+			$this->collExportHistorys = array();
+		}
+	}
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Vocabulary has previously
+	 * been saved, it will retrieve related ExportHistorys from storage.
+	 * If this Vocabulary is new, it will return
+	 * an empty collection or the current collection, the criteria
+	 * is ignored on a new object.
+	 *
+	 * @param      Connection $con
+	 * @param      Criteria $criteria
+	 * @throws     PropelException
+	 */
+	public function getExportHistorys($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseExportHistoryPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collExportHistorys === null) {
+			if ($this->isNew()) {
+			   $this->collExportHistorys = array();
+			} else {
+
+				$criteria->add(ExportHistoryPeer::VOCABULARY_ID, $this->getId());
+
+				ExportHistoryPeer::addSelectColumns($criteria);
+				$this->collExportHistorys = ExportHistoryPeer::doSelect($criteria, $con);
+			}
+		} else {
+			// criteria has no effect for a new object
+			if (!$this->isNew()) {
+				// the following code is to determine if a new query is
+				// called for.  If the criteria is the same as the last
+				// one, just return the collection.
+
+
+				$criteria->add(ExportHistoryPeer::VOCABULARY_ID, $this->getId());
+
+				ExportHistoryPeer::addSelectColumns($criteria);
+				if (!isset($this->lastExportHistoryCriteria) || !$this->lastExportHistoryCriteria->equals($criteria)) {
+					$this->collExportHistorys = ExportHistoryPeer::doSelect($criteria, $con);
+				}
+			}
+		}
+		$this->lastExportHistoryCriteria = $criteria;
+		return $this->collExportHistorys;
+	}
+
+	/**
+	 * Returns the number of related ExportHistorys.
+	 *
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct
+	 * @param      Connection $con
+	 * @throws     PropelException
+	 */
+	public function countExportHistorys($criteria = null, $distinct = false, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseExportHistoryPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		$criteria->add(ExportHistoryPeer::VOCABULARY_ID, $this->getId());
+
+		return ExportHistoryPeer::doCount($criteria, $distinct, $con);
+	}
+
+	/**
+	 * Method called to associate a ExportHistory object to this object
+	 * through the ExportHistory foreign key attribute
+	 *
+	 * @param      ExportHistory $l ExportHistory
+	 * @return     void
+	 * @throws     PropelException
+	 */
+	public function addExportHistory(ExportHistory $l)
+	{
+		$this->collExportHistorys[] = $l;
+		$l->setVocabulary($this);
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Vocabulary is new, it will return
+	 * an empty collection; or if this Vocabulary has previously
+	 * been saved, it will retrieve related ExportHistorys from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Vocabulary.
+	 */
+	public function getExportHistorysJoinUser($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseExportHistoryPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collExportHistorys === null) {
+			if ($this->isNew()) {
+				$this->collExportHistorys = array();
+			} else {
+
+				$criteria->add(ExportHistoryPeer::VOCABULARY_ID, $this->getId());
+
+				$this->collExportHistorys = ExportHistoryPeer::doSelectJoinUser($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(ExportHistoryPeer::VOCABULARY_ID, $this->getId());
+
+			if (!isset($this->lastExportHistoryCriteria) || !$this->lastExportHistoryCriteria->equals($criteria)) {
+				$this->collExportHistorys = ExportHistoryPeer::doSelectJoinUser($criteria, $con);
+			}
+		}
+		$this->lastExportHistoryCriteria = $criteria;
+
+		return $this->collExportHistorys;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Vocabulary is new, it will return
+	 * an empty collection; or if this Vocabulary has previously
+	 * been saved, it will retrieve related ExportHistorys from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Vocabulary.
+	 */
+	public function getExportHistorysJoinSchema($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseExportHistoryPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collExportHistorys === null) {
+			if ($this->isNew()) {
+				$this->collExportHistorys = array();
+			} else {
+
+				$criteria->add(ExportHistoryPeer::VOCABULARY_ID, $this->getId());
+
+				$this->collExportHistorys = ExportHistoryPeer::doSelectJoinSchema($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(ExportHistoryPeer::VOCABULARY_ID, $this->getId());
+
+			if (!isset($this->lastExportHistoryCriteria) || !$this->lastExportHistoryCriteria->equals($criteria)) {
+				$this->collExportHistorys = ExportHistoryPeer::doSelectJoinSchema($criteria, $con);
+			}
+		}
+		$this->lastExportHistoryCriteria = $criteria;
+
+		return $this->collExportHistorys;
 	}
 
 	/**

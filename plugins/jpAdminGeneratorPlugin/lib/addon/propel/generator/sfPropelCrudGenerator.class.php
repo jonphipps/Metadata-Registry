@@ -24,7 +24,7 @@ class sfPropelCrudGenerator extends sfAdminGenerator
   /**
    * Initializes the current sfGenerator instance.
    *
-   * @param sfGeneratorManager A sfGeneratorManager instance
+   * @param sfGeneratorManager $generatorManager A sfGeneratorManager instance
    */
   public function initialize($generatorManager)
   {
@@ -42,7 +42,8 @@ class sfPropelCrudGenerator extends sfAdminGenerator
    */
   protected function loadPrimaryKeys()
   {
-    foreach ($this->tableMap->getColumns() as $column)
+      /** @var Column $column */
+      foreach ($this->tableMap->getColumns() as $column)
     {
       if ($column->isPrimaryKey())
       {

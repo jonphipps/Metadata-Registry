@@ -126,12 +126,12 @@ class schemaActions extends autoSchemaActions
       case "1": //empty template
         $asTemplate = true;
         $populate = false;
-        $includeProlog = true;
+        $includeProlog = false;
         break;
       case "2": //populated template
         $asTemplate = true;
         $populate = true;
-        $includeProlog = true;
+        $includeProlog = false;
         break;
       case "3": //sparse data
         $asTemplate = false;

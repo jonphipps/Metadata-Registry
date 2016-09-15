@@ -1,7 +1,8 @@
 [?php
 
 /**
-* <?php echo $this->getGeneratedModuleName() ?> actions.
+* <?php /** @var sfPropelAdminGenerator $this */
+echo $this->getGeneratedModuleName() ?> actions.
  *
  * @property mixed filters
  * @property array|mixed breadcrumbs
