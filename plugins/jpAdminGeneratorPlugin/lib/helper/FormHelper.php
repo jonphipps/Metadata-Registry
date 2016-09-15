@@ -514,7 +514,7 @@ function checkbox_tag($name, $value = '1', $checked = false, $options = array())
         $html_options['checked'] = 'checked';
     }
 
-    return '<span class="checkbox">' . tag('input', $html_options) . '</span>';
+    return tag('input', $html_options) ;
 }
 
 /**
