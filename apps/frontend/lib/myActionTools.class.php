@@ -607,4 +607,24 @@ class myActionTools
   public static function getEditLanguage() {
     return new sfCultureInfo(sfContext::getInstance()->getUser()->getCulture());
   }
+
+
+  /**
+   * Builds a base domain using a 'uri' subdomain
+   *
+   * @param sfActions $action
+   *
+   * @return string
+   */
+  public static function getBaseDomain($action)
+  {
+    /** @var myWebRequest $request */
+    $request = $action->getRequest();
+
+    $host      = $request->getHost();
+    $uriPrefix = $request->getUriPrefix();
+    $protocol  = preg_replace('*' . $host . '*', '', $uriPrefix);
+
+    return $protocol . "uri." . $host . "/";
+  }
 }

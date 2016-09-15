@@ -28,10 +28,16 @@ class schemaActions extends autoSchemaActions
 */
   public function setDefaults($schema)
   {
-    $baseDomain = $this->getRequest()->getUriPrefix() . '/uri';
-    $schema->setBaseDomain($baseDomain . "/schema/");
+    $baseDomain = myActionTools::getBaseDomain($this);
+
+    $schema->setBaseDomain($baseDomain . "schema/");
     $schema->setLanguage(sfConfig::get('app_default_language'));
     $schema->setProfileId(sfConfig::get('app_schema_profile_id'));
+
+    $agent_id = $this->getRequestParameter('agent_id');
+    if ($agent_id) {
+      $schema->setAgentId($agent_id);
+    }
     parent::setDefaults($schema);
   }
 

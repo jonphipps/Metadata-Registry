@@ -16,18 +16,23 @@ use League\Flysystem\Filesystem;
 class vocabularyActions extends autoVocabularyActions
 {
 
-    /**
-     * Set defaults
-     *
-     * @param  Vocabulary $vocabulary
-     */
-    public function setDefaults($vocabulary)
-    {
-        $vocabulary->setBaseDomain($this->getRequest()->getUriPrefix() . '/uri/');
-        $vocabulary->setLanguage(sfConfig::get('app_default_language'));
-        $vocabulary->setProfileId(sfConfig::get('app_vocabulary_profile_id'));
-        parent::setDefaults($vocabulary);
+  /**
+   * Set defaults
+   *
+   * @param  Vocabulary $vocabulary
+   */
+  public function setDefaults($vocabulary)
+  {
+    $baseDomain = myActionTools::getBaseDomain($this);
+    $vocabulary->setBaseDomain($baseDomain);
+    $vocabulary->setLanguage(sfConfig::get('app_default_language'));
+    $vocabulary->setProfileId(sfConfig::get('app_vocabulary_profile_id'));
+    $agent_id = $this->getRequestParameter('agent_id');
+    if ($agent_id) {
+      $vocabulary->setAgentId($agent_id);
     }
+    parent::setDefaults($vocabulary);
+  }
 
 
     public function executeList()
