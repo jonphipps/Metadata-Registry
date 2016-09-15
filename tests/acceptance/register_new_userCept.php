@@ -15,8 +15,8 @@ $I->submitForm('#login_form',
                ],
                'commit');
 $I->dontSeeInCurrentUrl('login');
-$I->seeElement('input', [ 'value' => 'Add Agent' ]);
-$I->dontSeeElement('input', [ 'value' => 'Add Vocabulary' ]);
-$I->dontSeeElement('input', [ 'value' => 'Add Element Set' ]);
+$I->seeLink('Add Agent');
+$I->dontSeeLink('Add Vocabulary' );
+$I->dontSeeLink('Add Element Set');
 $I->seeLink('vocab_admin profile');
 $I->seeInTitle("The Registry! :: vocab_admin :: Home");
