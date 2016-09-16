@@ -1,10 +1,9 @@
 <?php use_helper('Validation', 'Javascript') ?>
 <div id="login_div">
     <div id="sf_admin_container">
-        <div id="sf_admin_header">
+        <div id="sf_admin_header" style="border-bottom: 1px solid lightgray">
             <h1><?php echo __('sign in / register') ?></h1></div>
         <div id="sf_admin_content">
-            <p><?php echo __('Note: User Registration is only required if you want to register or maintain resources.') ?></p>
             <?php
             if ($sf_request->hasErrors()):
                 $labels['password'] = 'password';
@@ -86,6 +85,7 @@
                 <li><?php echo submit_tag(__('sign in'), 'class=sf_admin_action_save') ?></li>
             </ul>
             </form></div>
+        <p style="padding-left: 1rem"><?php echo __('Note: User Registration is only required if you want to register or maintain resources.') ?></p>
     </div>
 </div>
 <?php echo javascript_tag("function toggleForm()
