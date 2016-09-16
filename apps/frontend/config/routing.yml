@@ -186,38 +186,70 @@ concept_history_feed_all_rss:
 vocabulary_concepts_edit:
   url:   /vocabularies/:vocabulary_id/concepts/:id/edit
   param: { module: concept, action: edit }
+  requirements: { vocabulary_id: \d+ }
 
 vocabulary_concepts:
   url:   /vocabularies/:vocabulary_id/concepts
   param: { module: concept, action: list, tabnav: vocabularies }
+  requirements: { vocabulary_id: \d+ }
 
 vocabulary_history:
   url:   /vocabularies/:vocabulary_id/history
   param: { module: history, action: list, tabnav: vocabularies }
+  requirements: { vocabulary_id: \d+ }
 
 vocabulary_version:
   url:   /vocabularies/:vocabulary_id/versions
   param: { module: version, action: list, tabnav: vocabularies }
+  requirements: { vocabulary_id: \d+ }
+
+vocabulary_vocabuser_show:
+  url:   /vocabularies/:vocabulary_id/maintainers/:id
+  param: { module: vocabuser, action: show, tabnav: vocabularies_maintainers}
+  requirements: { vocabulary_id: \d+, id: \d+ }
 
 vocabulary_maintainers:
   url:   /vocabularies/:vocabulary_id/maintainers
   param: { module: vocabuser, action: list, tabnav: vocabularies }
+  requirements: { vocabulary_id: \d+ }
+vocabulary_vocabuser_list:
+  url:   /vocabularies/:vocabulary_id/maintainers
+  param: { module: vocabuser, action: list, tabnav: vocabularies }
+  requirements: { vocabulary_id: \d+ }
+vocabuser_list:
+  url:   /vocabularies/:vocabulary_id/maintainers
+  param: { module: vocabuser, action: list, tabnav: vocabularies }
+  requirements: { vocabulary_id: \d+ }
+
+vocabulary_exports_create:
+  url:   /vocabularies/:vocabulary_id/exports/create
+  param: { module: export, action: create }
+  requirements: { vocabulary_id: \d+ }
 
 vocabulary_exports:
   url:   /vocabularies/:vocabulary_id/exports
-  param: { module: exporthistory, action: list, tabnav: vocabularies }
+  param: { module: export, action: list, tabnav: vocabularies }
+  requirements: { vocabulary_id: \d+ }
+
+vocabulary_exports_cancel:
+  url:   /vocabularies/:vocabulary_id/exports
+  param: { module: export, action: list, tabnav: vocabularies }
+  requirements: { vocabulary_id: \d+ }
 
 vocabulary_imports:
   url:   /vocabularies/:vocabulary_id/imports
   param: { module: import, action: list, tabnav: vocabularies }
+  requirements: { vocabulary_id: \d+ }
 
 vocabulary_edit:
   url:   /vocabularies/:id/edit
   param: { module: vocabulary, action: edit }
+  requirements: { id: \d+ }
 
 vocabulary_detail:
   url:   /vocabularies/:id
   param: { module: vocabulary, action: show, tabnav: vocabularies }
+  requirements: { id: \d+ }
 
 vocabulary_list:
   url:   /vocabularies
@@ -225,6 +257,8 @@ vocabulary_list:
 
 
 vocabulary_maintainer_detail:
+  url:   /vocabulary_maintainers/:id
+vocabuser_show:
   url:   /vocabulary_maintainers/:id
   param: { module: vocabuser, action: show, tabnav: vocabularies_maintainers}
 
@@ -287,6 +321,11 @@ elementset_import_history:
 import_detail:
   url:   /imports/:id
   param: { module: import, action: show, tabnav: imports }
+  requirements: { id: \d+ }
+import_show:
+  url:   /imports/:id
+  param: { module: import, action: show, tabnav: imports }
+  requirements: { id: \d+ }
 
 
 #history
@@ -298,8 +337,24 @@ history_detail:
 #element sets (schemas)
 schema_edit:
   url:   /elementsets/:id/edit
-  param: { module: schema, action: create }
+  param: { module: schema, action: edit }
   requirements: { id: \d+ }
+
+schema_delete:
+  url:   /elementsets/:id/delete
+  param: { module: schema, action: delete }
+  requirements: { id: \d+ }
+
+schema_publish:
+  url:   /elementsets/:id/publish
+  param: { module: schema, action: publish }
+  requirements: { id: \d+ }
+
+schema_exports_create:
+  url:   /elementsets/:schema_id/exports/create
+  param: { module: export, action: create  }
+  requirements: { schema_id: \d+ }
+
 
 schema_create:
   url:   /elementsets/create
@@ -308,37 +363,76 @@ schema_create:
 elementset_elements:
   url:   /elementsets/:schema_id/elements
   param: { module: schemaprop, action: list, tabnav: elementsets }
+  requirements: { schema_id: \d+ }
 schemaprop_create:
   url:   /elementsets/:schema_id/elements/create
   param: { module: schemaprop, action: create }
+  requirements: { schema_id: \d+ }
 
 schemaprop_list:
   url:   /elementsets/:schema_id/elements
   param: { module: schemaprop, action: create, tabnav: elementsets }
+  requirements: { schema_id: \d+ }
 
 elementset_history:
   url:   /elementsets/:schema_id/history
   param: { module: schemahistory, action: list, tabnav: elementsets }
+  requirements: { schema_id: \d+ }
 
 elementset_maintainers:
   url:   /elementsets/:schema_id/maintainers
   param: { module: schemauser, action: list, tabnav: elementsets }
+  requirements: { schema_id: \d+ }
+schemauser_list:
+   url:   /elementsets/:schema_id/maintainers
+   param: { module: schemauser, action: list, tabnav: elementsets }
+   requirements: { schema_id: \d+ }
+schemauser_cancel:
+   url:   /elementsets/:schema_id/maintainers
+   param: { module: schemauser, action: list, tabnav: elementsets }
+   requirements: { schema_id: \d+ }
+schema_schemauser_list:
+  url:   /elementsets/:schema_id/maintainers
+  param: { module: schemauser, action: list, tabnav: elementsets }
+  requirements: { schema_id: \d+ }
+schema_schemauser_cancel:
+  url:   /elementsets/:schema_id/maintainers
+  param: { module: schemauser, action: list, tabnav: elementsets }
+  requirements: { schema_id: \d+ }
+
+user_schemauser_cancel:
+  url:   /members/:user_id/elementset_maintainers
+  param: { module: schemauser, action: list, tabnav: elementsets }
+  requirements: { schema_id: \d+ }
+
+
 
 elementset_exports:
   url:   /elementsets/:schema_id/exports
-  param: { module: exporthistory, action: list, tabnav: elementsets }
+  param: { module: export, action: list, tabnav: elementsets }
+  requirements: { schema_id: \d+ }
+schema_exports:
+  url:   /elementsets/:schema_id/exports
+  param: { module: export, action: list, tabnav: elementsets  }
+  requirements: { schema_id: \d+ }
+schema_exports_cancel:
+  url:   /elementsets/:schema_id/exports
+  param: { module: export, action: list, tabnav: elementsets  }
+  requirements: { schema_id: \d+ }
 
 elementset_imports:
   url:   /elementsets/:schema_id/imports
   param: { module: import, action: list, tabnav: elementsets }
+  requirements: { schema_id: \d+ }
 
 elementset_detail:
   url:   /elementsets/:id
   param: { module: schema, action: show, tabnav: elementsets }
-
+  requirements: { id: \d+ }
 schema_detail:
   url:   /elementsets/:id
   param: { module: schema, action: show, tabnav: elementsets }
+  requirements: { id: \d+ }
 
 elementset_list:
   url:   /elementsets
@@ -347,9 +441,19 @@ schema_list:
   url:   /elementsets
   param: { module: schema, action: list, tabnav: elementsets }
 
+
+schema_schemauser_edit:
+  url:   /elementsets/:schema_id/elementset_maintainers/:id/edit
+  param: { module: schemauser, action: edit}
+  requirements: { id: \d+, schema_id: \d+ }
 elementset_maintainer_edit:
   url:   /elementsets/:schema_id/elementset_maintainers/:id/edit
   param: { module: schemauser, action: edit}
+  requirements: { id: \d+, schema_id: \d+ }
+
+schema_schemauser_show:
+  url:   /elementsets/:schema_id/elementset_maintainers/:id/show
+  param: { module: schemauser, action: show, tabnav: elementsets_maintainers}
   requirements: { id: \d+, schema_id: \d+ }
 
 elementset_maintainer_detail:
@@ -363,8 +467,13 @@ schemauser_detail:
   requirements: { id: \d+ }
 
 schemauser_delete:
-  url:   /elementset_maintainers/:id/edit
+  url:   /elementset_maintainers/:id/delete
   param: { module: schemauser, action: delete}
+  requirements: { id: \d+ }
+
+schemauser_edit:
+  url:   /elementset_maintainers/:id/edit
+  param: { module: schemauser, action: edit}
   requirements: { id: \d+ }
 
 
@@ -372,21 +481,36 @@ schemauser_delete:
 element_detail:
   url:   /elements/:id
   param: { module: schemaprop, action: show, tabnav: elements }
+  requirements: { id: \d+ }
 schemaprop_detail:
   url:   /elements/:id
   param: { module: schemaprop, action: show, tabnav: elements }
+  requirements: { id: \d+ }
+
+schemaprop_delete:
+  url:   /elements/:id/delete
+  param: { module: schemaprop, action: delete }
+  requirements: { id: \d+ }
+
+schemaprop_edit:
+  url:   /elements/:id/edit
+  param: { module: schemaprop, action: edit }
+  requirements: { id: \d+ }
 
 schemapropel_create:
   url:   /elements/:schema_property_id/statements/create
   param: { module: schemapropel, action: create }
+  requirements: { schema_property_id: \d+ }
 
 element_statements:
   url:   /elements/:schema_property_id/statements
   param: { module: schemapropel, action: list, tabnav: elements }
+  requirements: { schema_property_id: \d+ }
 
 element_history:
   url:   /elements/:schema_property_id/history
   param: { module: schemahistory, action: list, tabnav: elements, IdType: schema_property_id }
+  requirements: { schema_property_id: \d+ }
 
 #statements
 statement_detail:
