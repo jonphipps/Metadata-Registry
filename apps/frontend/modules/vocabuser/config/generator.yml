@@ -55,6 +55,10 @@ generator:
         user:          { type: plain }
       display:         [user, isRegistrarFor, isAdminFor, isMaintainerFor, _languages, _defaultLanguage]
       actions:
+        _list:
         _delete:       { credentials: [[administrator, vocabularyadmin, agentadmin]] }
         _edit:         { credentials: [[administrator, vocabularyadmin, agentadmin]] }
         _create:       { name: Add Maintainer, credentials: [[administrator, vocabularyadmin, agentadmin]] }
+      urlfilters:
+        vocabulary_id:    vocabulary_id
+        user_id:          user_id
