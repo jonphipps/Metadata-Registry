@@ -48,7 +48,6 @@ generator:
         _cancel:       { credentials: [[administrator, schemaadmin, vocabularyadmin]], query_string: { schema_id: schema_id} }
 
     show:
-      title:           Show Import detail for %%resource%%
       fields:
         id:            { credentials: [administrator] }
 #        map:           { helper: auto_link_uri }
