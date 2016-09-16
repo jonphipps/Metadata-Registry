@@ -63,7 +63,8 @@ generator:
       object_actions:
         _show:
       actions:
-        _create:      { name: Create New Export, query_string: { schema_id: schema_id} }
+        _create:       { name: Create New Export, query_string: { sf_request: schema_id}, condition: "!$sf_request->getParameter('vocabulary_id')", route: "schema_exports_create" }
+        _create:       { name: Create New Export, query_string: { sf_request: vocabulary_id}, condition: "!$sf_request->getParameter('schema_id')", route: "vocabulary_exports_create" }
 
     edit:
       title:
@@ -77,18 +78,19 @@ generator:
           condition:  "$sf_flash->get('hasLanguages')"
           limitmethod: getLanguagesNoDefault
           params:     include_blank=true
-
-      display:
-        "Export Detail":     [id, csv_type, exclude_deprecated, exclude_generated, selected_language, include_deleted, selected_columns ]
+      display:        [id, csv_type, exclude_deprecated, exclude_generated, selected_language, include_deleted, selected_columns ]
       hide:           [schema_id, user_id, vocabulary_id]
-
       actions:
-        _list:         { query_string: { schema_id: schema_id} }
         _save:         { name: Export CSV }
-        _cancel:       { query_string: { schema_id: schema_id} }
+        _cancel:       { only_for: create, query_string: { sf_request: schema_id}, condition: "!$sf_request->getParameter('vocabulary_id')", route: "schema_exports_cancel" }
+        _cancel:       { only_for: create, query_string: { sf_request: vocabulary_id}, condition: "!$sf_request->getParameter('schema_id')", route: "vocabulary_exports_cancel" }
+        _cancel:       { only_for: edit, query_string: { schema_id: schema_id}, condition: "!$sf_request->getParameter('vocabulary_id')", route: "schema_exports_cancel" }
+        _cancel:       { only_for: edit, query_string: { vocabulary_id: vocabulary_id}, condition: "!$sf_request->getParameter('schema_id')", route: "vocabulary_exports_cancel" }
+      urlfilters:
+        agent_id:      schema_id
+        vocabulary_id: vocabulary_id
 
     show:
-      title:           Show Export detail for %%resource%%
       fields:
         id:            { credentials: [administrator] }
 #        map:           { helper: auto_link_uri }
@@ -96,9 +98,8 @@ generator:
         created_at:    { params: date_format='F' }
         _elapsed:      { name: Elapsed }
       display:
-        "Import Detail":      [created_at, user, source_file_name]
-        "Results":            [totalProcessedCount, success_count, error_count, _elapsed]
+        "Import Detail":      [created_at, user]
+        "Results":            [csv_type, exclude_deprecated, exclude_generated, selected_language, include_deleted, selected_columns]
 #        "Map":                [map]
-        "Import Log":         [_results]
       actions:
         _list:         { query_string: { schema_id: schema_id} }
