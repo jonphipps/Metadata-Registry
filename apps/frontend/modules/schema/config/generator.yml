@@ -21,7 +21,7 @@ generator:
       language:       { name: Default Language, help: Default language for the textual properties of this element set }
       languages:      { name: Available Languages, help: Available languages for the textual properties of this element set }
       status_id:      { name: Default Status, help: Default status for the properties of this element set }
-      repo:           { name: Git Repository, help: This is the name of the Git Repo that will hold this Element Set. }
+      repo:           { name: Git Repository, help: This is the name of the Git Repo that will hold this Element Set }
       ns_type:
         name: Type
         help: "Element set URI will be terminated with either a hash ( # ) or a slash ( / ) to identify the namespace"
