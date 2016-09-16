@@ -2,6 +2,7 @@ table.layout {
   clear: left;
   border-collapse: collapse;
   width: 100%;
+  margin-bottom: .8rem;
 }
 
 table.layout td.left,

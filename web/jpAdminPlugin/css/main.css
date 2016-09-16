@@ -210,6 +210,19 @@ body #sf_admin_container td
   border: 1px solid #f33;
 }
 
+#sf_admin_container div.no-results {
+  margin-bottom: 10px;
+  border: 1px solid lightgray;
+  background-color: #ffc;
+}
+
+#sf_admin_container div.no-results h2 {
+  padding: 5px 20px 5px 25px;
+  font-size: 13px;
+  color: #f33;
+  background: #ffc url(/jpAdminPlugin/images/list.png) no-repeat 5px 4px ;
+}
+
 #sf_admin_container fieldset
 {
   margin-bottom: 5px;
@@ -417,16 +430,16 @@ padding: 4px 4px 4px 20px;
 
 #sf_admin_container .sf_admin_list
 {
-  width: 100%;
+  /*width: 100%;*/
   border: 1px solid #ddd;
   border-bottom: 0;
   border-right: 0;
-  padding-bottom: 5px
+  padding-bottom: .8rem
 }
 
 #sf_admin_container .sf_admin_list th
 {
-  padding: 2px;
+  padding: .25rem 1rem;
   background-color: #ccf;
   text-align: left;
   white-space:nowrap;
@@ -439,7 +452,7 @@ padding: 4px 4px 4px 20px;
 
 #sf_admin_container .sf_admin_list td
 {
-  padding: 3px;
+  padding: .25rem 1rem;
   border-bottom: 1px solid #ddd;
   border-right: 1px solid #ddd;
 }
