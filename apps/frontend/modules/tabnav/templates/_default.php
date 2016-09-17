@@ -90,7 +90,7 @@ if ($title) {
         //Show the tabs
         foreach ($tabs as $key => $tab):
           $options = [ 'id' => 'a' . $key ];
-          $selected = ($route == $tab['link']) ? ' class = "ui-tabs-selected"' : '';
+          $selected = ($module == $tab['module']) ? ' class = "ui-tabs-selected"' : '';
           echo '<li' . $selected . '>' . link_to('<span>' . __($tab['title']) . '</span>',
                                                  $tab['link'],
                                                  $options) . '
