@@ -19,7 +19,7 @@ class sfRoutingConfigHandler extends sfYamlConfigHandler
   /**
    * Executes this configuration handler.
    *
-   * @param array An array of absolute filesystem path to a configuration file
+   * @param array $configFiles An array of absolute filesystem path to a configuration file
    *
    * @return string Data to be written to a cache file
    *
@@ -33,14 +33,41 @@ class sfRoutingConfigHandler extends sfYamlConfigHandler
 
     // connect routes
     $routes = sfRouting::getInstance();
-    foreach ($config as $name => $params)
-    {
-      $routes->connect(
-        $name,
-        ($params['url'] ? $params['url'] : '/'),
-        (isset($params['param']) ? $params['param'] : array()),
-        (isset($params['requirements']) ? $params['requirements'] : array())
-      );
+    foreach ($config as $name => $params) {
+      if (preg_match('/_resource$/', $name)) {
+      $actions = [ 'edit', 'delete', 'show', 'create', 'list', 'cancel' ];
+        if (isset( $params['param']['only'] )) {
+          $actions = (array) $params['param']['only'];
+          unset( $params['param']['only'] );
+        } else {
+          if (isset( $params['param']['except'] )) {
+            foreach ($params['param']['except'] as $param) {
+              unset( $actions[$param] );
+            }
+            unset( $params['param']['except'] );
+          }
+        }
+        $name = preg_replace('/_resource$/', '', $name);
+        foreach ($actions as $action) {
+          $params['param']['action'] = $action;
+          if (in_array($action, [ 'edit', 'delete', 'show' ])) {
+            $url = ($action == 'show') ? $params['url'] . '/:id/' : $params['url'] . '/:id/' . $action;
+            $params['requirements'] = [ 'id' => '\d +' ];
+          } else {
+            $url = ( $action == 'create' ) ? $params['url'] . '/' . $action : $params['url'];
+            $params['requirements'] = [];
+          }
+          $routes->connect($name . '_' . $action,
+                           $url,
+            ( isset( $params['param'] ) ? $params['param'] : [] ),
+            ( isset( $params['requirements'] ) ? $params['requirements'] : [] ));
+        }
+      } else {
+        $routes->connect($name,
+          ( $params['url'] ? $params['url'] : '/' ),
+          ( isset( $params['param'] ) ? $params['param'] : [] ),
+          ( isset( $params['requirements'] ) ? $params['requirements'] : [] ));
+      }
     }
 
     // compile data

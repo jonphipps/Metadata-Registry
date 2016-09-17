@@ -101,7 +101,7 @@ class tabnavComponents extends sfComponents
             //$topnav[2]    = [ 'title' => 'Namespaces', 'link' => '/namespace/list?schema_id=' . $id ];
             $topnav[] = [ 'title' => 'History', 'link' => '@elementset_history?schema_id=' . $id ];
             //$topnav[2]    = [ 'title' => 'Versions', 'link' => '/schemaversion/list?schema_id=' . $id ];
-            $topnav[]   = [ 'title' => 'Maintainers', 'link' => '@elementset_maintainers?schema_id=' . $id ];
+            $topnav[]   = [ 'title' => 'Maintainers', 'link' => '@schema_schemauser_list?schema_id=' . $id ];
             $topnav[]   = [ 'title' => 'Exports', 'link' => '@elementset_exports?schema_id=' . $id ];
             $topnav[]   = [ 'title' => 'Imports', 'link' => '@elementset_imports?schema_id=' . $id ];
             $this->tabs = $topnav;
@@ -128,7 +128,7 @@ class tabnavComponents extends sfComponents
         $breadcrumbs[$refererRoute == 'member_elementsets'] = Breadcrumb::elementSetFactory($schema);
         $breadcrumbs[$refererRoute != 'member_elementsets'] = Breadcrumb::memberFactory($member);
         $breadcrumbs[2]                                     = new Breadcrumb('Maintainers',
-                                                                             '@elementset_maintainers?schema_id=' . $schema->getId(),
+                                                                             '@schema_schemauser_list?schema_id=' . $schema->getId(),
                                                                              $member->getNickname(),
                                                                              '');
 

@@ -379,18 +379,6 @@ elementset_history:
   param: { module: schemahistory, action: list, tabnav: elementsets }
   requirements: { schema_id: \d+ }
 
-elementset_maintainers:
-  url:   /elementsets/:schema_id/maintainers
-  param: { module: schemauser, action: list, tabnav: elementsets }
-  requirements: { schema_id: \d+ }
-schemauser_list:
-   url:   /elementsets/:schema_id/maintainers
-   param: { module: schemauser, action: list, tabnav: elementsets }
-   requirements: { schema_id: \d+ }
-schemauser_cancel:
-   url:   /elementsets/:schema_id/maintainers
-   param: { module: schemauser, action: list, tabnav: elementsets }
-   requirements: { schema_id: \d+ }
 schema_schemauser_list:
   url:   /elementsets/:schema_id/maintainers
   param: { module: schemauser, action: list, tabnav: elementsets }
@@ -443,38 +431,23 @@ schema_list:
 
 
 schema_schemauser_edit:
-  url:   /elementsets/:schema_id/elementset_maintainers/:id/edit
+  url:   /elementsets/:schema_id/maintainers/:id/edit
   param: { module: schemauser, action: edit}
   requirements: { id: \d+, schema_id: \d+ }
 elementset_maintainer_edit:
-  url:   /elementsets/:schema_id/elementset_maintainers/:id/edit
+  url:   /elementsets/:schema_id/maintainers/:id/edit
   param: { module: schemauser, action: edit}
   requirements: { id: \d+, schema_id: \d+ }
 
 schema_schemauser_show:
-  url:   /elementsets/:schema_id/elementset_maintainers/:id/show
+  url:   /elementsets/:schema_id/maintainers/:id/show
   param: { module: schemauser, action: show, tabnav: elementsets_maintainers}
   requirements: { id: \d+, schema_id: \d+ }
 
-elementset_maintainer_detail:
-  url:   /elementset_maintainers/:id
-  param: { module: schemauser, action: show, tabnav: elementsets_maintainers}
-  requirements: { id: \d+ }
 
-schemauser_detail:
-  url:   /elementset_maintainers/:id
-  param: { module: schemauser, action: show, tabnav: elementsets_maintainers}
-  requirements: { id: \d+ }
-
-schemauser_delete:
-  url:   /elementset_maintainers/:id/delete
-  param: { module: schemauser, action: delete}
-  requirements: { id: \d+ }
-
-schemauser_edit:
-  url:   /elementset_maintainers/:id/edit
-  param: { module: schemauser, action: edit}
-  requirements: { id: \d+ }
+schemauser_resource:
+  url:   /elementset_maintainers
+  param: { module: schemauser, tabnav: elementsets_maintainers}
 
 
 #elements (schemaprops)
