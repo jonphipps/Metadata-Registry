@@ -29,14 +29,8 @@
         ) ?></li>
 
     <?php else: ?>
-      <li>You must add more Members to this Vocabulary's Agent before adding a new maintainer.</li>
-      <li><?php echo button_to(
-            __( 'Add Member' ),
-            'agentuser/create?vocabulary_id=' . $sf_request->getParameter( 'vocabulary_id', '' ) . '',
-            array (
-                'title' => 'Create',
-                'class' => 'sf_admin_action_create',
-            )
-        ); ?> </li>
+      <li>
+        <?php echo __('All Project members have been added as Maintainers.') ?>
+      </li>
     <?php endif; ?>
   <?php endif; ?></ul>

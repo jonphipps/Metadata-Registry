@@ -9,5 +9,7 @@
 )) ?></li>
 
 <?php else: ?>
-&nbsp;
-<?php endif; ?></ul>
+    <li>
+      <?php echo __('All Project members have been added as Maintainers.') ?>
+    </li>
+  <?php endif; ?></ul>
