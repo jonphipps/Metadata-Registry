@@ -52,19 +52,19 @@
     </div>
 </div>
 <div id="footer">
-    <div>See a problem? <br/><?php echo link_to(__('Make an issue out of it...'),
-                                                'https://github.com/jonphipps/Metadata-Registry/issues/') ?>
+    <div style="margin-bottom: 10px;">See a problem?&nbsp;
+        <a href="https://github.com/jonphipps/Metadata-Registry/issues/">Please make an issue out of it...</a>
     </div>
     <div>
-        <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/"><img alt="Creative Commons License" style="border-width:0" src="/images/cc_by-nc-sa_3.0_80x15.png"/></a>
-        <?php echo __('powered by %1%',
-                      [
-                          '%1%' => link_to(image_tag('symfony.gif'),
-                                           'http://www.symfony-project.com/')
-                      ]); ?>
-        <?php echo link_to(image_tag('DO_Proudly_Hosted_Badge_Blue-735d53ec.png',
-                                     [ 'alt' => 'Powered by Digital Ocean', 'size' => '75x20' ]),
-                           'https://www.digitalocean.com/'); ?></div>
+        <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">
+            <img alt="Creative Commons License" style="border-width:0" src="/images/cc_by-nc-sa_3.0_80x15.png">
+        </a>&nbsp;&nbsp;&nbsp;
+        powered by <a href="http://www.symfony-project.com/"><img src="/images/symfony.gif" alt="Symfony">
+        </a>&nbsp;&nbsp;&nbsp;
+        <a href="https://www.digitalocean.com/">
+            <img alt="Powered by Digital Ocean" src="/images/DO_Proudly_Hosted_Badge_Blue-735d53ec.png" height="20" width="75">
+        </a>
+    </div>
 </div>
 <?php
 $trackingId = '';
