@@ -1,7 +1,8 @@
 <ul class="sf_admin_actions">
 <?php
+/** @var sfPropelAdminGenerator $this */
 $editActions = $this->getParameterValue('edit.actions');
-$urlFilters = $this->getParameterValue('list.urlfilters');
+$urlFilters  = $this->getParameterValue('list.urlfilters');
 
 if (false !== $editActions)
   {
@@ -27,13 +28,14 @@ echo '[?php if (' . $condition . "): ?]\n";
           foreach ($urlFilters as $index => $urlFilter):
             //note that this will replace any route and query string set for show
             $params['route'] = str_replace('_id', '', $urlFilter) . '_' . $this->getModuleName() . $actionName;
-            $params['query_string'] = ['sf_request' => $urlFilter];      ?>
-            [?php if ($sf_request->getParameter('<?php echo $urlFilter ?>')): ?]
-  <?php echo $this->addCredentialCondition($this->getButtonToAction($actionName, $params, $pkLink), $params, false, false) ?>
-            [?php endif; ?]
-          <?php endforeach;
+            $params['query_string'] = ['sf_request' => $urlFilter];
+echo "[?php if (\$sf_request->getParameter('". $urlFilter ."')): ?]\n" .
+  $this->addCredentialCondition($this->getButtonToAction($actionName, $params, $pkLink), $params, false, false) . "\n" .
+"[?php endif; ?]\n";
+          endforeach;
+        else:
   echo $this->addCredentialCondition($this->getButtonToAction($actionName, $params, $pkLink), $params, false, false);
-          endif;
+        endif;
         if ($condition) {
 echo "[?php endif; ?]\n";
         }
