@@ -1,7 +1,7 @@
 <?php slot('feeds');
-  $rss['link'] = "@schema_history_feed_rss?IdType=" . $sf_params->get('IdType') . "&id=" . $sf_params->get('id');
-  $rdf['link'] = "@schema_history_feed_rdf?IdType=" . $sf_params->get('IdType') . "&id=" . $sf_params->get('id');
-  $atom['link'] = "@schema_history_feed_atom?IdType=" . $sf_params->get('IdType') . "&id=" . $sf_params->get('id');
+  $rss['link'] = "@schema_history_feed_rss?IdType=" . $sf_params->get('IdType') . "&id=" . $sf_params->get($sf_params->get('IdType'));
+  $rdf['link'] = "@schema_history_feed_rdf?IdType=" . $sf_params->get('IdType') . "&id=" . $sf_params->get($sf_params->get('IdType'));
+  $atom['link'] = "@schema_history_feed_atom?IdType=" . $sf_params->get('IdType') . "&id=" . $sf_params->get($sf_params->get('IdType'));
   $rss['title'] = "RSS 2.01 History Feed";
   $rdf['title'] = "RSS 1.0 (RDF) History Feed";
   $atom['title'] = "Atom 1.0 History Feed";
