@@ -51,8 +51,10 @@ class sfRoutingConfigHandler extends sfYamlConfigHandler
         foreach ($actions as $action) {
           $params['param']['action'] = $action;
           if (in_array($action, [ 'edit', 'delete', 'show' ])) {
-            $url = ($action == 'show') ? $params['url'] . '/:id/' : $params['url'] . '/:id/' . $action;
-            $params['requirements'] = [ 'id' => '\d +' ];
+            $url = ($action == 'show') ? $params['url'] . '/:id' : $params['url'] . '/:id/' . $action;
+            $filterId = preg_replace("#(.*)/:(.*_id)(/.*)$#uis", "$2", $params['url']);
+            $requirements = ($filterId == $params['url']) ? [ 'id' => '\d+' ] : [ $filterId => '\d+', 'id' => '\d+' ];
+            $params['requirements'] = $requirements;
           } else {
             $url = ( $action == 'create' ) ? $params['url'] . '/' . $action : $params['url'];
             $params['requirements'] = [];

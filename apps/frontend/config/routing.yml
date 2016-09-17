@@ -379,14 +379,6 @@ elementset_history:
   param: { module: schemahistory, action: list, tabnav: elementsets }
   requirements: { schema_id: \d+ }
 
-schema_schemauser_list:
-  url:   /elementsets/:schema_id/maintainers
-  param: { module: schemauser, action: list, tabnav: elementsets }
-  requirements: { schema_id: \d+ }
-schema_schemauser_cancel:
-  url:   /elementsets/:schema_id/maintainers
-  param: { module: schemauser, action: list, tabnav: elementsets }
-  requirements: { schema_id: \d+ }
 
 user_schemauser_cancel:
   url:   /members/:user_id/elementset_maintainers
@@ -412,6 +404,15 @@ elementset_imports:
   url:   /elementsets/:schema_id/imports
   param: { module: import, action: list, tabnav: elementsets }
   requirements: { schema_id: \d+ }
+schema_import_list:
+  url:   /elementsets/:schema_id/imports
+  param: { module: import, action: list, tabnav: elementsets }
+  requirements: { schema_id: \d+ }
+
+schema_import_show:
+  url:   /elementsets/:schema_id/imports/:id
+  param: { module: import, action: show, tabnav: elementsets }
+  requirements: { schema_id: \d+, id: \d+  }
 
 elementset_detail:
   url:   /elementsets/:id
@@ -430,24 +431,14 @@ schema_list:
   param: { module: schema, action: list, tabnav: elementsets }
 
 
-schema_schemauser_edit:
-  url:   /elementsets/:schema_id/maintainers/:id/edit
-  param: { module: schemauser, action: edit}
-  requirements: { id: \d+, schema_id: \d+ }
-elementset_maintainer_edit:
-  url:   /elementsets/:schema_id/maintainers/:id/edit
-  param: { module: schemauser, action: edit}
-  requirements: { id: \d+, schema_id: \d+ }
-
-schema_schemauser_show:
-  url:   /elementsets/:schema_id/maintainers/:id/show
-  param: { module: schemauser, action: show, tabnav: elementsets_maintainers}
-  requirements: { id: \d+, schema_id: \d+ }
-
 
 schemauser_resource:
   url:   /elementset_maintainers
   param: { module: schemauser, tabnav: elementsets_maintainers}
+
+schema_schemauser_resource:
+  url:   /elementsets/:schema_id/maintainers
+  param: { module: schemauser, tabnav: elementsets}
 
 
 #elements (schemaprops)

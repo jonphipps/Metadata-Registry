@@ -36,16 +36,17 @@ generator:
           upload_dir: csv
           params:     include_link=upload
           credentials: [[administrator, schemaadmin, vocabularyadmin]]
-
       display:
 #        "-Metadata":  { fields: [id, created_at, created_user, updated_at, updated_user], mode: edit }
         "Import Detail":     [id, filename]
       hide:           [schema_id, user_id, vocabulary_id]
-
       actions:
 #        _list:         { query_string: { schema_id: schema_id} }
         _save:         { name: Import CSV, credentials: [[administrator, schemaadmin, vocabularyadmin]] }
         _cancel:       { credentials: [[administrator, schemaadmin, vocabularyadmin]], query_string: { schema_id: schema_id} }
+      urlfilters:
+        schema_id:                  schema_id
+        vocabulary_id:              vocabulary_id
 
     show:
       fields:
@@ -60,4 +61,7 @@ generator:
 #        "Map":                [map]
         "Import Log":         [_results]
       actions:
-#        _list:         { query_string: { schema_id: schema_id} }
+        _list:
+      urlfilters:
+        schema_id:                  schema_id
+        vocabulary_id:              vocabulary_id
