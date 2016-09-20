@@ -73,8 +73,8 @@ generator:
         _save:         { credentials: [[administrator, vocabularymaintainer, vocabularyadmin, conceptpropadmin]] }
         _delete:       { credentials: [[administrator, vocabularyadmin]] }
         _save_and_add: { query_string: {concept_id: concept_id}, credentials: [[administrator, vocabularymaintainer, vocabularyadmin, conceptpropadmin]] }
-        _cancel:       { only_for: create, query_string: {sf_request: concept_id}, route: concept_properties, credentials: [[administrator, vocabularymaintainer, vocabularyadmin, conceptpropadmin]], query_string: {concept_id: concept_id} }
-        _cancel:       { only_for: edit, query_string: {concept_id: concept_id}, route: concept_properties, credentials: [[administrator, vocabularymaintainer, vocabularyadmin, conceptpropadmin]], query_string: {concept_id: concept_id} }
+        _cancel:       { only_for: create, query_string: {sf_request: concept_id}, route: concept_conceptprop_list, credentials: [[administrator, vocabularymaintainer, vocabularyadmin, conceptpropadmin]], query_string: {concept_id: concept_id} }
+        _cancel:       { only_for: edit, query_string: {concept_id: concept_id}, route: concept_conceptprop_list, credentials: [[administrator, vocabularymaintainer, vocabularyadmin, conceptpropadmin]], query_string: {concept_id: concept_id} }
       urlfilters:
         concept_id: concept_id
 

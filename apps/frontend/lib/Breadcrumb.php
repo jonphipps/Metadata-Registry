@@ -56,7 +56,7 @@ class Breadcrumb
         $breadcrumb = new Breadcrumb('Agents',
                                      '@agent_list',
                                      $agent->getOrgName(),
-                                     '@agent_detail?id=' . $agent->getId());
+                                     '@agent_show?id=' . $agent->getId());
 
         if ($show) {
             $breadcrumb->entityUrl = null;
@@ -75,7 +75,7 @@ class Breadcrumb
     {
         $breadcrumbs    = [];
         $breadcrumbs[3] = new Breadcrumb('History',
-                                         '@statement_history?schema_property_element_id=' . $schemaHistory->getSchemaPropertyElementId(),
+                                         '@schemapropel_history?schema_property_element_id=' . $schemaHistory->getSchemaPropertyElementId(),
                                          'History Detail',
                                          null);
         $breadcrumbs[2] = self::statementFactory($schemaHistory->getSchemaPropertyElement());
@@ -96,9 +96,9 @@ class Breadcrumb
     public static function statementFactory($statement, $show = false)
     {
         $breadcrumb = new Breadcrumb('Statements',
-                                     '@element_statements?schema_property_id=' . $statement->getSchemaPropertyId(),
+                                     '@schemaprop_schemapropel_list?schema_property_id=' . $statement->getSchemaPropertyId(),
                                      $statement->getProfileProperty()->getLabel(),
-                                     '@statement_detail?id=' . $statement->getId());
+                                     '@schemapropel_show?id=' . $statement->getId());
 
         if ($show) {
             $breadcrumb->entityUrl = null;
@@ -117,9 +117,9 @@ class Breadcrumb
     public static function elementFactory($element, $show = false)
     {
         $breadcrumb = new Breadcrumb('Elements',
-                                     '@elementset_elements?schema_id=' . $element->getSchemaId(),
+                                     '@schema_schemaprop_list?schema_id=' . $element->getSchemaId(),
                                      $element->getLabel(),
-                                     '@element_detail?id=' . $element->getId());
+                                     '@schemaprop_show?id=' . $element->getId());
 
         if ($show) {
             $breadcrumb->entityUrl = null;
@@ -139,11 +139,11 @@ class Breadcrumb
     {
         $breadcrumb = new Breadcrumb(
             'Element Sets',
-            '@elementset_list',
+            '@schema_list',
             $elementSet->getName(),
-            '@elementset_detail?id=' . $elementSet->getId(),
+            '@schema_show?id=' . $elementSet->getId(),
             'schema',
-            [ 'agent_id' => '@agent_elementsets?agent_id=' ]);
+            [ 'agent_id' => '@agent_schema_list?agent_id=' ]);
 
         if ($show) {
             $breadcrumb->entityUrl = null;
@@ -183,9 +183,9 @@ class Breadcrumb
     public static function conceptPropertyFactory($conceptProperty, $show = false)
     {
         $breadcrumb = new Breadcrumb('Statements',
-                                     '@concept_properties?concept_id=' . $conceptProperty->getConceptId(),
+                                     '@concept_conceptprop_list?concept_id=' . $conceptProperty->getConceptId(),
                                      $conceptProperty->getProfileProperty()->getLabel(),
-                                     '@properties_detail?id=' . $conceptProperty->getId());
+                                     '@conceptprop_show?id=' . $conceptProperty->getId());
 
         if ($show) {
             $breadcrumb->entityUrl = null;
@@ -204,9 +204,9 @@ class Breadcrumb
     public static function conceptFactory($concept, $show = false)
     {
         $breadcrumb = new Breadcrumb('Concepts',
-                                     '@vocabulary_concepts?vocabulary_id=' . $concept->getVocabularyId(),
+                                     '@vocabulary_concept_list?vocabulary_id=' . $concept->getVocabularyId(),
                                      $concept->getPrefLabel(),
-                                     '@concept_detail?id=' . $concept->getId());
+                                     '@concept_show?id=' . $concept->getId());
 
         if ($show) {
             $breadcrumb->entityUrl = null;
@@ -226,9 +226,9 @@ class Breadcrumb
     {
         $breadcrumb = new Breadcrumb('Vocabularies',
                                      '@vocabulary_list', $vocabulary->getName(),
-                                     '@vocabulary_detail?id=' . $vocabulary->getId(),
+                                     '@vocabulary_show?id=' . $vocabulary->getId(),
                                      'vocabulary',
-        ['agent_id' => '@agent_vocabularies?agent_id=']);
+        ['agent_id' => '@agent_vocabulary_list?agent_id=']);
 
         if ($show) {
             $breadcrumb->entityUrl = null;
@@ -264,9 +264,9 @@ class Breadcrumb
     public static function importElementSetFactory($history, $show = false)
     {
         $breadcrumb = new Breadcrumb('Imports',
-                                     '@elementset_imports?schema_id=' . $history->getSchemaId(),
+                                     '@schema_imports?schema_id=' . $history->getSchemaId(),
                                      $history->getCreatedAt(),
-                                     '@history_detail?id=' . $history->getId());
+                                     '@history_show?id=' . $history->getId());
 
         if ($show) {
             $breadcrumb->entityUrl = null;
@@ -287,7 +287,7 @@ class Breadcrumb
         $breadcrumb = new Breadcrumb('Imports',
                                      '@vocabulary_imports?vocabulary_id=' . $history->getVocabularyId(),
                                      $history->getCreatedAt(),
-                                     '@history_detail?id=' . $history->getId());
+                                     '@history_show?id=' . $history->getId());
 
         if ($show) {
             $breadcrumb->entityUrl = null;
@@ -306,9 +306,9 @@ class Breadcrumb
     public static function memberFactory($member, $show = false)
     {
         $breadcrumb = new Breadcrumb('Members',
-                                     '@member_list',
+                                     '@user_list',
                                      $member->getNickname() . " (" . $member->getFullName() . ")",
-                                     '@member_detail?id=' . $member->getId());
+                                     '@user_show?id=' . $member->getId());
 
         if ($show) {
             $breadcrumb->entityUrl = null;

@@ -19,7 +19,7 @@ generator:
       title:              Maintainers for %%schema%%
       fields:
         user:             {name: Member, helper: link_to_object, condition: "!$sf_request->getParameter('user_id')" }
-        schema:           {name: Schema, helper: link_to_object, condition: "!$sf_request->getParameter('schema_id')"  }
+        schema:           {name: Schema, helper: link_to_object, condition: "!$sf_request->getParameter('schema_id')" }
       display:            [ user, schema, isRegistrarFor, isAdminFor, isMaintainerFor, _languages, _defaultLanguage]
       object_actions:
         _show:

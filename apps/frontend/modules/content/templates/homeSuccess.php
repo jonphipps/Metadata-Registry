@@ -87,7 +87,7 @@ if ($subscriber && $sf_user->isAuthenticated()):
             <ul class="sf_admin_actions">
                 <li>
                     <?php echo button_to(__('Add Agent'),
-                                         '@member_agents_create?user_id=' . $subscriber->getId(),
+                                         '@user_agents_create?user_id=' . $subscriber->getId(),
                                          [
                                              'title' => 'Create',
                                              'class' => 'sf_admin_action_create',

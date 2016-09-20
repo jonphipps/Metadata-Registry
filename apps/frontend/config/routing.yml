@@ -7,17 +7,6 @@ api_all:
   url:   /api/:objects/:action/*.
   param: { module: api}
 
-#agent filter
-agent_vocabs:
-  url: /agents/:agent_id/vocabularies.html
-  param: { module: vocabulary, action: list}
-
-
-# profile properties
-profile_properties:
-  url: /profiles/:profile_id/properties.html
-  param: { module: profileprop, action: list}
-
 
 # uri schema
 uri_schema_html:
@@ -183,19 +172,10 @@ concept_history_feed_all_rss:
   param: { module: history, action: feed, format: rss201}
 
 #vocabularies
-vocabulary_concepts_edit:
-  url:   /vocabularies/:vocabulary_id/concepts/:id/edit
-  param: { module: concept, action: edit }
-  requirements: { vocabulary_id: \d+ }
-
-vocabulary_concepts:
-  url:   /vocabularies/:vocabulary_id/concepts
-  param: { module: concept, action: list, tabnav: vocabularies }
-  requirements: { vocabulary_id: \d+ }
 
 vocabulary_history:
   url:   /vocabularies/:vocabulary_id/history
-  param: { module: history, action: list, tabnav: vocabularies }
+  param: { module: history, action: list, tabnav: vocabularies, IdType: vocabulary_id }
   requirements: { vocabulary_id: \d+ }
 
 vocabulary_version:
@@ -203,107 +183,13 @@ vocabulary_version:
   param: { module: version, action: list, tabnav: vocabularies }
   requirements: { vocabulary_id: \d+ }
 
-vocabulary_vocabuser_show:
-  url:   /vocabularies/:vocabulary_id/maintainers/:id
-  param: { module: vocabuser, action: show, tabnav: vocabularies_maintainers}
-  requirements: { vocabulary_id: \d+, id: \d+ }
-
-vocabulary_maintainers:
-  url:   /vocabularies/:vocabulary_id/maintainers
-  param: { module: vocabuser, action: list, tabnav: vocabularies }
-  requirements: { vocabulary_id: \d+ }
-vocabulary_vocabuser_list:
-  url:   /vocabularies/:vocabulary_id/maintainers
-  param: { module: vocabuser, action: list, tabnav: vocabularies }
-  requirements: { vocabulary_id: \d+ }
-vocabuser_list:
-  url:   /vocabularies/:vocabulary_id/maintainers
-  param: { module: vocabuser, action: list, tabnav: vocabularies }
-  requirements: { vocabulary_id: \d+ }
-
-vocabulary_exports_create:
-  url:   /vocabularies/:vocabulary_id/exports/create
-  param: { module: export, action: create }
-  requirements: { vocabulary_id: \d+ }
-
-vocabulary_exports:
-  url:   /vocabularies/:vocabulary_id/exports
-  param: { module: export, action: list, tabnav: vocabularies }
-  requirements: { vocabulary_id: \d+ }
-
-vocabulary_exports_cancel:
-  url:   /vocabularies/:vocabulary_id/exports
-  param: { module: export, action: list, tabnav: vocabularies }
-  requirements: { vocabulary_id: \d+ }
-
-vocabulary_imports:
-  url:   /vocabularies/:vocabulary_id/imports
-  param: { module: import, action: list, tabnav: vocabularies }
-  requirements: { vocabulary_id: \d+ }
-
-vocabulary_edit:
-  url:   /vocabularies/:id/edit
-  param: { module: vocabulary, action: edit }
-  requirements: { id: \d+ }
-
-vocabulary_detail:
-  url:   /vocabularies/:id
-  param: { module: vocabulary, action: show, tabnav: vocabularies }
-  requirements: { id: \d+ }
-
-vocabulary_list:
-  url:   /vocabularies
-  param: { module: vocabulary, action: list, tabnav: vocabularies}
-
-
-vocabulary_maintainer_detail:
-  url:   /vocabulary_maintainers/:id
-vocabuser_show:
-  url:   /vocabulary_maintainers/:id
-  param: { module: vocabuser, action: show, tabnav: vocabularies_maintainers}
-
-
-#concepts (concepts)
-concepts:
-  url:   /concepts
-  param: { module: vocabulary, action: list, tabnav: vocabularies}
-
-concept_list:
-  url:   /vocabularies/:vocabulary_id/concepts
-  param: { module: concept, action: list, tabnav: vocabularies }
-
-concept_detail:
-  url:   /concepts/:id
-  param: { module: concept, action: show, tabnav: concepts }
-
-conceptprop_create:
-  url:   /concepts/:concept_id/properties/create
-  param: { module: conceptprop, action: create}
-
-concept_properties:
-  url:   /concepts/:concept_id/properties
-  param: { module: conceptprop, action: list, tabnav: concepts }
-
-conceptprop_list:
-  url:   /concepts/:concept_id/properties
-  param: { module: conceptprop, action: list, tabnav: concepts }
 
 concept_history:
   url:   /concepts/:concept_id/history
   param: { module: history, action: list, tabnav: concepts, IdType: concept_id }
 
-concept_create:
-  url:   /vocabularies/:vocabulary_id/concept/create
-  param: { module: concept, action: create }
 
 #properties
-conceptprop_detail:
-  url:   /properties/:id
-  param: { module: conceptprop, action: show, tabnav: properties }
-
-properties_detail:
-  url:   /properties/:id
-  param: { module: conceptprop, action: show, tabnav: properties }
 
 properties_history:
   url:   /properties/:property_id/history
@@ -318,176 +204,162 @@ elementset_import_history:
   url:   /elementset_imports/:import_id/history
   param: { module: schemahistory, action: list, tabnav: imports, IdType: import_id }
 
-import_detail:
-  url:   /imports/:id
-  param: { module: import, action: show, tabnav: imports }
+
+#history
+history_show:
+  url:   /history/:id
+  param: { module: history, action: show }
+
+#element sets (schemas)
+schema_publish:
+  url:   /elementsets/:id/publish
+  param: { module: schema, action: publish }
   requirements: { id: \d+ }
+
+
+schema_history:
+  url:   /elementsets/:schema_id/history
+  param: { module: schemahistory, action: list, tabnav: elementsets }
+  requirements: { schema_id: \d+ }
+
+
+agent_agentuser_resource:
+  url:   /agents/:agent_id/members
+  param: { module: agentuser, tabnav: agents }
+
+agent_vocabulary_resource:
+  url:   /agents/:agent_id/vocabularies
+  param: { module: vocabulary, tabnav: agents }
+
+agent_schema_resource:
+  url:   /agents/:agent_id/elementsets
+  param: { module: schema, tabnav: agents }
+
+agentuser_resource:
+  url:   /agent_members
+  param: { module: agentuser, tabnav: agents}
+
+agent_resource:
+  url:   /agents
+  param: { module: agent, tabnav: agents }
+
+concept_conceptprop_resource:
+  url:   /concepts/:concept_id/properties
+  param: { module: conceptprop, tabnav: concepts }
+
+concept_resource:
+  url:   /concepts
+  param: { module: concept, tabnav: concepts }
+
+conceptprop_resource:
+  url:   /properties
+  param: { module: conceptprop, tabnav: properties }
+
+profile_profileprop_resource:
+  url: /profiles/:profile_id/properties
+  param: { module: profileprop }
+
+profile_resource:
+  url: /profiles
+  param: { module: profile }
+
+schemauser_resource:
+  url:   /elementset_maintainers
+  param: { module: schemauser, tabnav: elementsets_maintainers}
+
+schema_schemaprop_resource:
+  url:   /elementsets/:schema_id/elements
+  param: { module: schemaprop, tabnav: elementsets }
+
+schema_schemauser_resource:
+  url:   /elementsets/:schema_id/maintainers
+  param: { module: schemauser, tabnav: elementsets}
+
+schema_export_resource:
+  url:   /elementsets/:schema_id/exports
+  param: { module: export, tabnav: elementsets  }
+
+schema_import_resource:
+  url:   /elementsets/:schema_id/imports
+  param: { module: import, tabnav: elementsets }
+
+schema_resource:
+  url:   /elementsets
+  param: { module: schema, tabnav: elementsets }
+
+schemaprop_schemapropel_resource:
+  url:   /elements/:schema_property_id/statements
+  param: { module: schemapropel, tabnav: elements }
+
+schemaprop_resource:
+  url:   /elements
+  param: { module: schemaprop, tabnav: elements }
+
+user_agent_resource:
+  url:   /members/:user_id/agents
+  param: { module: agentuser, tabnav: members }
+
+user_schemauser_resource:
+  url:   /members/:user_id/elementset_maintainers
+  param: { module: schemauser, tabnav: members}
+
+user_vocabuser_resource:
+  url:   /members/:user_id/vocabulary_maintainers
+  param: { module: vocabuser, tabnav: members}
+
+user_resource:
+  url:   /members
+  param: { module: user, tabnav: members }
+
+vocabulary_concept_resource:
+  url:   /vocabularies/:vocabulary_id/concepts
+  param: { module: concept, tabnav: vocabularies }
+
+vocabulary_export_resource:
+  url:   /vocabularies/:vocabulary_id/exports
+  param: { module: export, tabnav: vocabularies }
+
+vocabulary_import_resource:
+  url:   /vocabularies/:vocabulary_id/imports
+  param: { module: import, tabnav: vocabularies }
+
+vocabulary_vocabuser_resource:
+  url:   /vocabularies/:vocabulary_id/maintainers
+  param: { module: vocabuser, tabnav: vocabularies}
+
+vocabuser_resource:
+  url:   vocabulary_maintainers
+  param: { module: vocabuser, tabnav: vocabularies}
+
+vocabularies_resource:
+  url:   /vocabularies
+  param: { module: vocabulary, tabnav: vocabularies}
+
+
+
+schemapropel_show:
+  url:   /statements/:id
+  param: { module: schemapropel, action: show, tabnav: statements }
+  requirements: { id: \d+ }
+
 import_show:
   url:   /imports/:id
   param: { module: import, action: show, tabnav: imports }
   requirements: { id: \d+ }
 
 
-#history
-history_detail:
-  url:   /history/:id
-  param: { module: history, action: show }
-
-
-#element sets (schemas)
-schema_edit:
-  url:   /elementsets/:id/edit
-  param: { module: schema, action: edit }
-  requirements: { id: \d+ }
-
-schema_delete:
-  url:   /elementsets/:id/delete
-  param: { module: schema, action: delete }
-  requirements: { id: \d+ }
-
-schema_publish:
-  url:   /elementsets/:id/publish
-  param: { module: schema, action: publish }
-  requirements: { id: \d+ }
-
-schema_exports_create:
-  url:   /elementsets/:schema_id/exports/create
-  param: { module: export, action: create  }
-  requirements: { schema_id: \d+ }
-
-
-schema_create:
-  url:   /elementsets/create
-  param: { module: schema, action: create }
-
-elementset_elements:
-  url:   /elementsets/:schema_id/elements
-  param: { module: schemaprop, action: list, tabnav: elementsets }
-  requirements: { schema_id: \d+ }
-schemaprop_create:
-  url:   /elementsets/:schema_id/elements/create
-  param: { module: schemaprop, action: create }
-  requirements: { schema_id: \d+ }
-
-schemaprop_list:
-  url:   /elementsets/:schema_id/elements
-  param: { module: schemaprop, action: create, tabnav: elementsets }
-  requirements: { schema_id: \d+ }
-
-elementset_history:
-  url:   /elementsets/:schema_id/history
-  param: { module: schemahistory, action: list, tabnav: elementsets }
-  requirements: { schema_id: \d+ }
-
-
-user_schemauser_cancel:
-  url:   /members/:user_id/elementset_maintainers
-  param: { module: schemauser, action: list, tabnav: elementsets }
-  requirements: { schema_id: \d+ }
-
-
-
-elementset_exports:
-  url:   /elementsets/:schema_id/exports
-  param: { module: export, action: list, tabnav: elementsets }
-  requirements: { schema_id: \d+ }
-schema_exports:
-  url:   /elementsets/:schema_id/exports
-  param: { module: export, action: list, tabnav: elementsets  }
-  requirements: { schema_id: \d+ }
-schema_exports_cancel:
-  url:   /elementsets/:schema_id/exports
-  param: { module: export, action: list, tabnav: elementsets  }
-  requirements: { schema_id: \d+ }
-
-elementset_imports:
-  url:   /elementsets/:schema_id/imports
-  param: { module: import, action: list, tabnav: elementsets }
-  requirements: { schema_id: \d+ }
-schema_import_list:
-  url:   /elementsets/:schema_id/imports
-  param: { module: import, action: list, tabnav: elementsets }
-  requirements: { schema_id: \d+ }
-
-schema_import_show:
-  url:   /elementsets/:schema_id/imports/:id
-  param: { module: import, action: show, tabnav: elementsets }
-  requirements: { schema_id: \d+, id: \d+  }
-
-elementset_detail:
-  url:   /elementsets/:id
-  param: { module: schema, action: show, tabnav: elementsets }
-  requirements: { id: \d+ }
-schema_detail:
-  url:   /elementsets/:id
-  param: { module: schema, action: show, tabnav: elementsets }
-  requirements: { id: \d+ }
-
-elementset_list:
-  url:   /elementsets
-  param: { module: schema, action: list, tabnav: elementsets }
-schema_list:
-  url:   /elementsets
-  param: { module: schema, action: list, tabnav: elementsets }
-
-
-
-schemauser_resource:
-  url:   /elementset_maintainers
-  param: { module: schemauser, tabnav: elementsets_maintainers}
-
-schema_schemauser_resource:
-  url:   /elementsets/:schema_id/maintainers
-  param: { module: schemauser, tabnav: elementsets}
-
-
 #elements (schemaprops)
-element_detail:
-  url:   /elements/:id
-  param: { module: schemaprop, action: show, tabnav: elements }
-  requirements: { id: \d+ }
-schemaprop_detail:
-  url:   /elements/:id
-  param: { module: schemaprop, action: show, tabnav: elements }
-  requirements: { id: \d+ }
 
-schemaprop_delete:
-  url:   /elements/:id/delete
-  param: { module: schemaprop, action: delete }
-  requirements: { id: \d+ }
-
-schemaprop_edit:
-  url:   /elements/:id/edit
-  param: { module: schemaprop, action: edit }
-  requirements: { id: \d+ }
-
-schemapropel_create:
-  url:   /elements/:schema_property_id/statements/create
-  param: { module: schemapropel, action: create }
-  requirements: { schema_property_id: \d+ }
-
-element_statements:
-  url:   /elements/:schema_property_id/statements
-  param: { module: schemapropel, action: list, tabnav: elements }
-  requirements: { schema_property_id: \d+ }
-
-element_history:
+schemaprop_history:
   url:   /elements/:schema_property_id/history
   param: { module: schemahistory, action: list, tabnav: elements, IdType: schema_property_id }
   requirements: { schema_property_id: \d+ }
 
 #statements
-statement_detail:
-   url:   /statements/:id
-   param: { module: schemapropel, action: show, tabnav: statements }
-schemapropel_detail:
-  url:   /statements/:id
-  param: { module: schemapropel, action: show, tabnav: statements }
 
-statement_history:
+schemapropel_history:
   url:   /statements/:schema_property_element_id/history
   param: { module: schemahistory, action: list, tabnav: statements, IdType: schema_property_element_id }
-
 
 schema_search:
   url:   /schemaprop/search.
@@ -502,7 +374,7 @@ schema_history_list:
   url:   /schemahistory/list/:IdType/:id.html
   param: { module: schemahistory, action: list}
 
-schemahistory_detail:
+schemahistory_show:
   url:   /schemahistory/:id
   param: { module: schemahistory, action: show }
   requirements: { id: \d+ }
@@ -536,124 +408,8 @@ all_history_feed_atom:
   url:   /allhistoryfeeds.atom
   param: { module: content, action: allHistoryFeeds, format: atom1}
 
-#agents
-
-agent_members_action:
-  url:   /agentuser/:id/:action
-  param: { module: agentuser }
-
-agent_members_detail:
-  url:   /agentuser/:id
-  param: { module: agentuser, action: show }
-
-agent_members_edit:
-  url:   /agents/:agent_id/members/:id/edit
-  param: { module: agentuser, action: edit }
-  requirements: { agent_id: \d+, id: \d+ }
-
-agent_members_create:
-  url:   /agents/:agent_id/members/create
-  param: { module: agentuser, action: create }
-
-agent_members:
-  url:   /agents/:agent_id/members
-  param: { module: agentuser, action: list, tabnav: agents }
-
-agentuser_list:
-  url:   /agents/:agent_id/members
-  param: { module: agentuser, action: list, tabnav: agents }
-
-agent_vocabularies:
-  url:   /agents/:agent_id/vocabularies
-  param: { module: vocabulary, action: list, tabnav: agents }
-
-agent_vocabulary_create:
-  url:   /agents/:agent_id/vocabularies/create
-  param: { module: vocabulary, action: create }
-  requirements: { agent_id: \d+ }
-
-agent_schema_create:
-  url:   /agents/:agent_id/elementsets/create
-  param: { module: schema, action: create }
-  requirements: { agent_id: \d+ }
-
-agent_elementsets:
-  url:   /agents/:agent_id/elementsets
-  param: { module: schema, action: list, tabnav: agents }
-
-agent_action:
-  url:   /agents/:id/:action
-  param: { module: agent }
-
-agent_edit:
-  url:   /agents/:id/edit
-  param: { module: agent, action: edit}
-  requirements: { id: \d+ }
-
-agent_delete:
-  url:   /agents/:id/delete
-  param: { module: agent, action: delete}
-  requirements: { id: \d+ }
-
-agent_detail:
-  url:   /agents/:id
-  param: { module: agent, action: show, tabnav: agents }
-  requirements: { id: \d+ }
-
-agent_list:
-  url:   /agents
-  param: { module: agent, action: list, tabnav: agents }
-
-agent_members_detail:
-  url:   /agent_members/:id
-  param: { module: agentuser, action: show, tabnav: agents}
-agentuser_detail:
-  url:   /agent_members/:id
-  param: { module: agentuser, action: show, tabnav: agents}
-agentuser_show:
-  url:   /agent_members/:id
-  param: { module: agentuser, action: show, tabnav: agents}
-
-
-
-#members (users)
-member_agents_create:
-  url:   /members/:user_id/agents/create
-  param: { module: agent, action: create }
-
-member_agents:
-  url:   /members/:user_id/agents
-  param: { module: agentuser, action: list, tabnav: members }
-
-member_vocabularies:
-  url:   /members/:user_id/vocabularies
-  param: { module: vocabuser, action: list, tabnav: members }
-
-member_elementsets:
-  url:   /members/:user_id/elementsets
-  param: { module: schemauser, action: list, tabnav: members }
-
-member_detail:
-  url:   /members/:id
-  param: { module: user, action: show, tabnav: members }
-user_detail:
-  url:   /members/:id
-  param: { module: user, action: show, tabnav: members }
-
-member_list:
-  url:   /members
-  param: { module: user, action: list, tabnav: members }
-
 
 # user
-user_show:
-  url:   /user/show/id:/id
-  param: { module: user, action: show }
-
-user_list:
-  url:   /user/list
-  param: { module: user, action: list }
-
 user_save:
   url:   /user/save
   param: { module: user, action: save }

@@ -49,7 +49,7 @@ generator:
       object_actions:
         _edit:          { credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
       actions:
-        _create:        { query_string: { sf_request: vocabulary_id }, name: Add Concept, credentials: [[administrator, vocabularymaintainer, vocabularyadmin]], mode: edit, route: concept_create }
+        _create:        { query_string: { sf_request: vocabulary_id }, name: Add Concept, credentials: [[administrator, vocabularymaintainer, vocabularyadmin]], mode: edit, route: vocabulary_concept_create }
       filters:          [vocabulary_id, pref_label, updated_at, is_top_concept, status]
       urlfilters:
         vocabulary_id:  vocabulary_id
@@ -73,8 +73,8 @@ generator:
         _save:         { credentials: [[administrator, vocabularymaintainer, vocabularyadmin, conceptadmin]] }
         _delete:       { credentials: [[administrator, vocabularyadmin]] }
         _save_and_add: { credentials: [[administrator, vocabularymaintainer, vocabularyadmin, conceptadmin]] }
-        _cancel:       { only_for: create, query_string: {sf_request: vocabulary_id}, route: vocabulary_concepts, credentials: [[administrator, vocabularymaintainer, vocabularyadmin, conceptadmin]] }
-        _cancel:       { only_for: edit, query_string: {vocabulary_id: vocabulary_id}, route: vocabulary_concepts, credentials: [[administrator, vocabularymaintainer, vocabularyadmin, conceptadmin]] }
+        _cancel:       { only_for: create, query_string: {sf_request: vocabulary_id}, route: vocabulary_concepts_list, credentials: [[administrator, vocabularymaintainer, vocabularyadmin, conceptadmin]] }
+        _cancel:       { only_for: edit, query_string: {vocabulary_id: vocabulary_id}, route: vocabulary_concepts_show, credentials: [[administrator, vocabularymaintainer, vocabularyadmin, conceptadmin]] }
       urlfilters:
         vocabulary_id:  vocabulary_id
 
