@@ -22,7 +22,7 @@
 [?php echo submit_tag('save') ?]
 [?php if (<?php echo $this->getPrimaryKeyIsSet() ?>): ?]
   &nbsp;[?php echo link_to('delete', '<?php echo $this->getModuleName() ?>/delete?<?php echo $this->getPrimaryKeyUrlParams() ?>, 'post=true&confirm=Are you sure?') ?]
-  &nbsp;[?php echo link_to('cancel', '@<?php echo $this->getModuleName() ?>_detail?<?php echo $this->getPrimaryKeyUrlParams() ?>) ?]
+  &nbsp;[?php echo link_to('cancel', '@<?php echo $this->getModuleName() ?>_show?<?php echo $this->getPrimaryKeyUrlParams() ?>) ?]
 [?php else: ?]
   &nbsp;[?php echo link_to('cancel', '@<?php echo $this->getModuleName() ?>_list') ?]
 [?php endif; ?]

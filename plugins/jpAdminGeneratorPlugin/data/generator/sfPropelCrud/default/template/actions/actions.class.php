@@ -72,7 +72,7 @@ class <?php echo $this->getGeneratedModuleName() ?>Actions extends sfActions
 
     $<?php echo $this->getSingularName() ?>->save();
 
-    return $this->redirect('@<?php echo $this->getModuleName() ?>_detail?<?php echo $this->getPrimaryKeyUrlParams() ?>);
+    return $this->redirect('@<?php echo $this->getModuleName() ?>_show?<?php echo $this->getPrimaryKeyUrlParams() ?>);
 <?php //' ?>
   }
 
