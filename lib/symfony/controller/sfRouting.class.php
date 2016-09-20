@@ -267,7 +267,7 @@ class sfRouting
      * @param  array $default      The default parameter values
      * @param  array $requirements The regexps parameters must match
      *
-     * @return array current routes
+     * @return array|false current routes
      * @throws sfConfigurationException
      */
   public function connect($name, $route, $default = array(), $requirements = array())
@@ -589,7 +589,7 @@ class sfRouting
         }
 
         $pos = 0;
-        foreach ($r as $found)
+        foreach ((array) $r as $found)
         {
           // if $found is a named url element (i.e. ':action')
           if (isset($names[$pos]))
@@ -615,7 +615,7 @@ class sfRouting
               $pass = sfToolkit::stripslashesDeep((array) $pass);
             }
 
-            foreach ($pass as $key => $value)
+            foreach ((array) $pass as $key => $value)
             {
               // we add this parameters if not in conflict with named url element (i.e. ':action')
               if (!isset($names_hash[$key]))
@@ -664,4 +664,5 @@ class sfRouting
 
     return $out;
   }
+
 }

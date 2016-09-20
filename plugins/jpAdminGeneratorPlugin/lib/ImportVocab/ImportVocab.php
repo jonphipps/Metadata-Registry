@@ -462,7 +462,7 @@ class ImportVocab
 
             //now do the individual added statements
             $elements = $property->getSchemaPropertyElementsRelatedBySchemaPropertyIdJoinProfileProperty();
-            /** @var \SchemaPropertyElement $element */
+            /** @var \SchemaPropertyElement[] $elements */
             foreach ($elements as $element) {
                 $profileProperty = $element->getProfileProperty();
                 if ( ! $profileProperty->getHasLanguage() && 'reg:uri' !== $profileProperty->getUri()) {
@@ -602,10 +602,10 @@ class ImportVocab
 //        } else {
                 $dbElements = $property->getElementsForImport($this->profileProperties);
                 foreach ($dbElements as $key => $dbElement) {
-                    /** @var string | array $rowElement */
                     $rowElement = isset( $row[$key] ) ? $row[$key] : null;
                     if (is_array($rowElement)) {
-                        foreach ($rowElement as $elementKey => &$element) {
+                      /** @var array $rowElement */
+                      foreach ($rowElement as $elementKey => &$element) {
                             if ($this->updateConceptProperty($element, $dbElement, $property)) {
                                 unset( $rowElement[$elementKey] );
                             }
@@ -709,7 +709,7 @@ class ImportVocab
                 if ($property) {
                     $dbElements  = $property->getSchemaPropertyElementsRelatedBySchemaPropertyIdJoinProfileProperty();
                     $dbElements2 = [ ];
-                    /** @var \SchemaPropertyElement $dbElement */
+                    /** @var \SchemaPropertyElement[] $dbElements */
                     foreach ($dbElements as $dbElement) {
                         if ($dbElement->getProfileProperty()->getHasLanguage()) {
                             $dbElements2[$dbElement->getProfilePropertyId()][$dbElement->getLanguage()][] = &$dbElement;
@@ -718,7 +718,7 @@ class ImportVocab
                         }
                     }
 
-                    /** @var \SchemaPropertyElement $element */
+                    /** @var \SchemaPropertyElement[] $dbElements */
                     foreach ($dbElements as $element) {
                         $language          = $element->getLanguage();
                         $profilePropertyId = $element->getProfilePropertyId();
@@ -900,10 +900,11 @@ class ImportVocab
 //        } else {
                 $dbElements = $property->getElementsForImport($this->profileProperties);
                 foreach ($dbElements as $key => $dbElement) {
-                    /** @var string | array $rowElement */
-                    $rowElement = isset( $row[$key] ) ? $row[$key] : null;
+                  /** @var string | array $rowElement */
+                  $rowElement = isset( $row[$key] ) ? $row[$key] : null;
                     if (is_array($rowElement)) {
-                        foreach ($rowElement as $elementKey => &$element) {
+                      /** @var array $rowElement */
+                      foreach ($rowElement as $elementKey => &$element) {
                             if ($this->updateElement($element, $dbElement, $property)) {
                                 unset( $rowElement[$elementKey] );
                             }
@@ -998,7 +999,7 @@ class ImportVocab
                 if ($property) {
                     $dbElements  = $property->getSchemaPropertyElementsRelatedBySchemaPropertyIdJoinProfileProperty();
                     $dbElements2 = [ ];
-                    /** @var \SchemaPropertyElement $dbElement */
+                    /** @var \SchemaPropertyElement[] $dbElements */
                     foreach ($dbElements as $dbElement) {
                         if ($dbElement->getProfileProperty()->getHasLanguage()) {
                             $dbElements2[$dbElement->getProfilePropertyId()][$dbElement->getLanguage()][] = &$dbElement;
@@ -1007,7 +1008,7 @@ class ImportVocab
                         }
                     }
 
-                    /** @var \SchemaPropertyElement $element */
+                    /** @var \SchemaPropertyElement[] $dbElements */
                     foreach ($dbElements as $element) {
                         $language          = $element->getLanguage();
                         $profilePropertyId = $element->getProfilePropertyId();
@@ -1548,7 +1549,7 @@ class ImportVocab
                 $this->deleteElement($dbElement, $property);
             }
         } else {
-            /** @var \SchemaPropertyElement $element */
+            /** @var \SchemaPropertyElement[] $dbElement */
             foreach ($dbElement as &$element) {
                 $this->updateElement($rowElement, $element, $property);
             }
@@ -1578,7 +1579,7 @@ class ImportVocab
                 $this->deleteConceptProperty($dbElement, $concept);
             }
         } else {
-            /** @var \ConceptProperty $element */
+            /** @var \ConceptProperty[] $dbElement */
             foreach ($dbElement as &$element) {
                 $this->updateConceptProperty($rowElement, $element, $concept);
             }
@@ -1791,7 +1792,7 @@ class ImportVocab
             return $dbElement->delete();
         } else {
             $affectedRows = 0;
-            /** @var \SchemaPropertyElement $element */
+            /** @var \SchemaPropertyElement[] $dbElement */
             foreach ($dbElement as &$element) {
                 $affectedRows += $this->deleteElement($element, $property);
             }
@@ -1829,7 +1830,7 @@ class ImportVocab
             return $dbElement->delete();
         } else {
             $affectedRows = 0;
-            /** @var \ConceptProperty $element */
+            /** @var \ConceptProperty[] $dbElement */
             foreach ($dbElement as &$element) {
                 $affectedRows += $this->deleteConceptProperty($element, $concept);
             }
@@ -1853,7 +1854,7 @@ class ImportVocab
         }
         $results   = $profile->getProfilePropertys($c);
         $languages = $this->vocabulary->getLanguages();
-        /** @var \profileProperty $result */
+        /** @var \profileProperty[] $results */
         foreach ($results as $result) {
             foreach ($languages as $language) {
                 $foo[0][$result->getId()][$language] = 1;

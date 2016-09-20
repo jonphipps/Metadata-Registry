@@ -28,8 +28,8 @@ class sfException extends Exception
   /**
    * Class constructor.
    *
-   * @param string The error message
-   * @param int    The error code
+   * @param string $message The error message
+   * @param int  $code  The error code
    */
   public function __construct($message = null, $code = 0)
   {
@@ -59,7 +59,7 @@ class sfException extends Exception
   /**
    * Prints the stack trace for this exception.
    *
-   * @param Exception An Exception implementation instance
+   * @param Exception $exception An Exception implementation instance
    */
   public function printStackTrace($exception = null)
   {
@@ -158,8 +158,8 @@ class sfException extends Exception
   /**
    * Returns an array of exception traces.
    *
-   * @param Exception An Exception implementation instance
-   * @param string The trace format (plain or html)
+   * @param Exception $exception An Exception implementation instance
+   * @param string $format The trace format (plain or html)
    *
    * @return array An array of traces
    */
@@ -210,7 +210,7 @@ class sfException extends Exception
   /**
    * Returns an HTML version of an array as YAML.
    *
-   * @param array The values array
+   * @param array $values The values array
    *
    * @return string An HTML string
    */
@@ -222,8 +222,8 @@ class sfException extends Exception
   /**
    * Returns an excerpt of a code file around the given line number.
    *
-   * @param string A file path
-   * @param int The selected line number
+   * @param string $file A file path
+   * @param int $line The selected line number
    *
    * @return string An HTML string
    */
@@ -246,9 +246,9 @@ class sfException extends Exception
   /**
    * Formats an array as a string.
    *
-   * @param array The argument array
-   * @param boolean
-   * @param string The format string (html or plain)
+   * @param array $args The argument array
+   * @param $single boolean
+   * @param string $format format string (html or plain)
    *
    * @return string
    */
@@ -307,7 +307,7 @@ class sfException extends Exception
   /**
    * Sets the name of this exception.
    *
-   * @param string An exception name
+   * @param string $name An exception name
    */
   protected function setName($name)
   {
