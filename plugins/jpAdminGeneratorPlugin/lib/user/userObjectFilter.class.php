@@ -13,7 +13,7 @@ class userObjectFilter extends sfFilter
     /** @var sfRequest **/
     $request    = $context->getRequest();
 
-    if ($request->getCookie('MyWebSite'))
+    if ($request->getCookie('nsdl_registry'))
     {
       // sign in
       $user->setAuthenticated(true);
