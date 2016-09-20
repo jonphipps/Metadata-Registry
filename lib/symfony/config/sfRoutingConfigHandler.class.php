@@ -41,8 +41,11 @@ class sfRoutingConfigHandler extends sfYamlConfigHandler
           unset( $params['param']['only'] );
         } else {
           if (isset( $params['param']['except'] )) {
-            foreach ($params['param']['except'] as $param) {
-              unset( $actions[$param] );
+            foreach ((array) $params['param']['except'] as $param) {
+              $key = array_search($param, $actions);
+              if ($key) {
+                unset( $actions[$key] );
+              }
             }
             unset( $params['param']['except'] );
           }
