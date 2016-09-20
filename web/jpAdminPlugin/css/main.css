@@ -278,6 +278,7 @@ body #sf_admin_container td
 
 #sf_admin_container div#sf_admin_header h1.form {
   float: left;
+    background-color: white;
 }
 #sf_admin_container div#sf_admin_header h2
 {
@@ -287,7 +288,7 @@ body #sf_admin_container td
 
 #sf_admin_container div#sf_admin_header div.required {
   text-align: right;
-  background-color: rgb(255, 255, 204);
+  background-color: white;
   padding-right: 1em;
   float: right;
   padding-top: 9px;
@@ -309,9 +310,14 @@ body #sf_admin_container td
   display: inline;
 }
 
+#sf_admin_container div.show {
+  margin-top: -5px;
+  margin-bottom: 10px;
+}
+
 #sf_admin_container ul.sf_admin_actions
 {
-  padding: 0 5px 5px 0;
+  padding-top: 10px;
   list-style-type: none;
   text-align: right;
 }
@@ -515,10 +521,24 @@ div #sf_admin_container
   background-color: #fffff0;
 }
 
-#sf_admin_container form#sf_admin_edit_form ul
+#sf_admin_container form#sf_admin_edit_form ul {
+  background-color: white;
+  padding-right: 10px;
+}
+
+#sf_admin_container form#sf_admin_edit_form
 {
-  background-color:white;
-  padding-right:10px;
+  margin: -5px 0 0 0;
+}
+
+#sf_admin_container div.form-header {
+  background-color: white;
+  overflow: auto;
+  margin: 0px 5px;
+  border-right: 1px solid lightgray;
+  border-left: 1px solid lightgray;
+  padding-bottom: 5px;
+  padding-top: 5px;
 }
 
 #sf_admin_container .mceEditor td

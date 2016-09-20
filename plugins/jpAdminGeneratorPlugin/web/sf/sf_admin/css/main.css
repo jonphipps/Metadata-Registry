@@ -84,6 +84,7 @@ body, #sf_admin_container td
   color: #666;
   font-weight: normal !important;
   white-space: nowrap;
+    background-color: white;
 }
 
 #sf_admin_container label.required
@@ -92,6 +93,19 @@ body, #sf_admin_container td
   font-weight: bold !important;
 }
 
+#sf_admin_container div.form-header {
+    background-color: white;
+    overflow: auto;
+    margin: 0px 5px;
+    border-right: 1px solid lightgray;
+    border-left: 1px solid lightgray;
+    padding-bottom: 5px;
+    padding-top: 5px;
+}
+
+#sf_admin_container form {
+    margin: -5px 0 0 0;
+}
 #sf_admin_container .save-ok
 {
   margin-bottom: 10px;

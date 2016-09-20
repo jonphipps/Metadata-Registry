@@ -1,3 +1,4 @@
+<div class="form-header">
 [?php if ('edit' == $mode): ?]
 <?php if (isset($this->params['edit']['title']['mode']['edit'])): ?>
 [?php $title = <?php echo $this->getI18NString('edit.title.mode.edit', '', false) ?>; ?]
@@ -13,3 +14,4 @@
 [?php endif; 
   $sf_context->getResponse()->setTitle("<?php echo sfConfig::get('app_title_prefix') ?>" . $title); ?]
 <h1 class="form">[?php echo $title ?]</h1><div class="required">*Required</div>
+</div>

@@ -8,10 +8,10 @@
 </div>
 
 <div id="sf_admin_content">
+    <div class="show">
 [?php include_partial('<?php echo $this->getModuleName() ?>/show_messages', array('<?php echo $this->getSingularName() ?>' => $<?php echo $this->getSingularName() ?>, 'labels' => $labels)) ?]
 [?php include_partial('<?php echo $this->getModuleName() ?>/show', array('<?php echo $this->getSingularName() ?>' => $<?php echo $this->getSingularName() ?>, 'labels' => $labels)) ?]
-
-
+    </div>
 </div>
 
 <div id="sf_admin_footer">
