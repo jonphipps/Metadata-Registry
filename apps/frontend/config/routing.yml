@@ -331,7 +331,7 @@ vocabuser_resource:
   url:   vocabulary_maintainers
   param: { module: vocabuser, tabnav: vocabularies}
 
-vocabularies_resource:
+vocabulary_resource:
   url:   /vocabularies
   param: { module: vocabulary, tabnav: vocabularies}
 
