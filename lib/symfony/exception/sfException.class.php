@@ -176,7 +176,7 @@ class sfException extends Exception
     $traces = array();
     if ($format == 'html')
     {
-      $lineFormat = 'at <strong>%s%s%s</strong>(%s)<br />in <em>%s</em> line %s <a href="#" onclick="toggle(\'%s\'); return false;">...</a><br /><ul id="%s" style="display: %s">%s</ul>';
+      $lineFormat = 'at <strong>%s%s%s</strong>(%s)<br />in <em><a href="phpstorm://open?file=%s&line=%s">%s</a></em> line %s <a href="#" onclick="toggle(\'%s\'); return false;">...</a><br /><ul id="%s" style="display: %s">%s</ul>';
     }
     else
     {
@@ -193,6 +193,8 @@ class sfException extends Exception
         (isset($traceData[$i]['type']) ? $traceData[$i]['type'] : ''),
         $traceData[$i]['function'],
         $this->formatArgs($args, false, $format),
+        rawurlencode("~/Code/registry/" . preg_replace('#^' .sfConfig::get('sf_root_dir') . '/#','',$file)),
+        $line,
         $shortFile,
         $line,
         'trace_'.$i,
