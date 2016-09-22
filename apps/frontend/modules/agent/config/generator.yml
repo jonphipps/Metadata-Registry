@@ -27,7 +27,7 @@ generator:
       title:           Agents
       display:         [=org_name, type]
       actions:
-        _create:       { name: Add Agent, credentials: [subscriber] }
+        _create:       { name: Add Agent, credentials: [subscriber], route: agent_create }
       object_actions:
         _edit:         { credentials: [[administrator, agentadmin]] }
 
