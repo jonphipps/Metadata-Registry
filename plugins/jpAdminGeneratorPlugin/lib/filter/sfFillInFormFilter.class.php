@@ -21,7 +21,7 @@ class sfFillInFormFilter extends sfFilter
   /**
    * Executes this filter.
    *
-   * @param sfFilterChain A sfFilterChain instance
+   * @param sfFilterChain $filterChain A sfFilterChain instance
    */
   public function execute($filterChain)
   {
@@ -49,7 +49,7 @@ class sfFillInFormFilter extends sfFilter
     $fillInForm->setTypes(array_diff($checkTypes, $excludeTypes));
 
     // fill in
-    $method  = 'fillIn'.ucfirst(strtolower($this->getParameter('content_type', 'Xhtml')));
+    $method  = 'fillIn'.ucfirst(strtolower($this->getParameter('content_type', 'html')));
 
     try
     {
