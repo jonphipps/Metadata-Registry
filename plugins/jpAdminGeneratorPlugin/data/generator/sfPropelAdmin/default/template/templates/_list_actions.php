@@ -1,7 +1,9 @@
 <ul class="sf_admin_actions">
 <?php
-  $listActions = $this->getParameterValue('list.actions');
-  if (false !== $listActions)
+/** @var sfPropelAdminGenerator $this */
+$listActions  = $this->getParameterValue('list.actions');
+  $urlFilters = $this->getParameterValue('list.urlfilters');
+if (false !== $listActions)
   {
     if (null !== $listActions)
     {
