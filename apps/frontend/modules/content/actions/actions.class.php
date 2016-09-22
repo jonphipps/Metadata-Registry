@@ -13,13 +13,13 @@ class contentActions extends sfActions
   public function executeHome()
   {
       $user= sfContext::getInstance()->getUser();
-      if ($user && $user->isAuthenticated()) {
-          $this->getResponse()->addStylesheet('/jpAdminPlugin/css/main');
-          $this->getResponse()->setTitle(sfConfig::get('app_title_prefix') . $user->getNickname() . ' :: Home');
+      if (!$user || !$user->isAuthenticated()) {
+        $this->getRss();
+        $this->getChangeFeed();
+        $this->outputFile('home');
       } else {
-          $this->getRss();
-          $this->getChangeFeed();
-          $this->outputFile('home');
+        $this->getResponse()->addStylesheet('/jpAdminPlugin/css/main');
+        $this->getResponse()->setTitle(sfConfig::get('app_title_prefix') . $user->getNickname() . ' :: Home');
       }
   }
 

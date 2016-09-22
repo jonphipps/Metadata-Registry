@@ -11,7 +11,7 @@ if ($subscriber && $sf_user->isAuthenticated()):
     /** @var AgentHasUser[] $agents */
     $agents = AgentHasUserPeer::doSelectForUser($subscriber->getId());
     ?>
-    <div id="sf_admin_container">
+    <div id="sf_admin_container" class="home">
         <h1>My Stuff</h1>
         <div id="sf_admin_content">
             <fieldset id="sf_fieldset_schemas">
@@ -87,7 +87,7 @@ if ($subscriber && $sf_user->isAuthenticated()):
             <ul class="sf_admin_actions">
                 <li>
                     <?php echo button_to(__('Add Agent'),
-                                         '@user_agents_create?user_id=' . $subscriber->getId(),
+                                         '@agent_create?user_id=' . $subscriber->getId(),
                                          [
                                              'title' => 'Create',
                                              'class' => 'sf_admin_action_create',
