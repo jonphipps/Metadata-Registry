@@ -47,7 +47,7 @@
                                                                 [ 'searchTerm' => $sf_params->get('term') ]) ?></div>
         <div><?php include_partial('schemaprop/search', [ 'searchTerm' => $sf_params->get('term') ]) ?></div>
     </div><div id="content">
-    <div id="content_main" class="Left">
+    <div id="content_main">
         <?php echo $sf_data->getRaw('sf_content') ?>
     </div>
 </div>

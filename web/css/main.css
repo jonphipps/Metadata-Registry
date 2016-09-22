@@ -122,8 +122,12 @@ div#content_main
   /*padding-top: 2em;*/
   display: inline-block;
   text-align: left;
+  min-width: 40%;
 }
 
+div.home {
+  padding-bottom: 1em;
+}
 div#content_bar
 {
 /*  position:absolute;*/
@@ -564,6 +568,17 @@ div#tab_container
 {
 	background-color: #FFFFCC;
   margin-right: 5px;
+}
+
+div.flexcontainer {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: row;
+  flex-direction: row;
+  -webkit-align-items: center;
+  align-items: center;
+  -webkit-justify-content: center;
+  justify-content: center;
 }
 
 .deprecated

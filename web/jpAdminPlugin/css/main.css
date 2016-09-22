@@ -436,7 +436,7 @@ padding: 4px 4px 4px 20px;
 
 #sf_admin_container .sf_admin_list
 {
-  /*width: 100%;*/
+  width: 100%;
   border: 1px solid #ddd;
   border-bottom: 0;
   border-right: 0;
