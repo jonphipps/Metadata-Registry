@@ -3,6 +3,12 @@ generator:
   param:
     model_class:      SchemaProperty
     theme:            default
+    label_singular:   Element
+    label_plural:     Elements
+    parents:
+      schema:
+        getid:        schema_id
+        requestid:    schema_id
     pager:
       no_results:     No Elements have been defined for this Element Set
 
@@ -26,14 +32,14 @@ generator:
         name:         Last Updated by
         help:         This is the user who updated the Property last
         type:         plain
-      uri:               { name: Canonical URI, help: "This is the 'standard' URI for this element. It will be the same regardless of language." }
-      name:              { name: Name, help: "This is a machine-compatible label for this property and is required for every Property" }
+      uri:               { name: Canonical URI, help: "This is the 'standard' URI for this element. It will be the same regardless of language. " }
+      name:              { name: Name, help: "This is a machine-compatible label for this property and is required for every Property." }
       label:             { name: Label, help: "This is a human-friendly label for this property and is required for every Property" }
       definition:        { name: Description, help: "A description of this property" }
       is_depricated:     { name: Deprecated, help: "This Element has been deprecated" }
       is_subproperty_of: { name: Subproperty of, help: "Choose a registered property from the list. This will override the existing subproperty URI (if any) when the form is saved." }
       is_subclass_of:    { name: Subclass of, help: "Choose a registered class from the list. This will override the existing subclass URI (if any) when the form is saved." }
-      parent_uri:        { name: Parent URI, help: "The URI of the parent class or property."}
+      parent_uri:        { name: Parent URI, help: "The URI of the parent class or property "}
       status_id:         { name: Status, help: "This is the overall status of this Element. Individual properties of this element may have a different status" }
       properties:        { name: Statements }
       orange:            { name: Range }
@@ -48,8 +54,8 @@ generator:
       object_actions:
         _edit:          { credentials: [[administrator, schemamaintainer, schemaadmin]] }
       actions:
-        _create:        { query_string: { sf_request: schema_id }, name: Add Element, credentials: [[administrator, schemamaintainer, schemaadmin]], route: schemaprop_create }
-      filters:          [schema_id, label, updated_at, status]
+        _create:        { query_string: { sf_request: schema_id }, name: Add Element, credentials: [[administrator, schemamaintainer, schemaadmin]], route: schema_schemaprop_create }
+      filters:          [schema_id, label, updated_at, status_id]
       urlfilters:
         schema_id:  schema_id
 
@@ -108,7 +114,7 @@ generator:
       actions:
 #        _list:         { query_string: { schema_id: schema_id} }
         _edit:         { credentials: [[administrator, schemamaintainer, schemaadmin]] }
-        _create:       { query_string: {schema_id: schema_id }, route: schemaprop_create, name: Add Element, credentials: [[administrator, schemamaintainer, schemaadmin]] }
+        _create:       { query_string: {schema_id: schema_id }, route: schema_schemaprop_create, name: Add Element, credentials: [[administrator, schemamaintainer, schemaadmin]] }
         rdf:
           name:      Get RDF
           icon:      %SF_ADMIN_WEB_DIR%/images/rdf_icon.png

@@ -9,6 +9,7 @@ echo $this->getGeneratedModuleName() ?> actions.
  * @property mixed|sfPropelPager pager
  * @property array labels
  * @property mixed redirectFilter
+ * @property mixed redirectRoute
  * @property <?php echo $this->getClassName() ?> <?php echo $this->getSingularName() ?>
  *
  * @package    ##PROJECT_NAME##
@@ -33,7 +34,7 @@ class <?php echo $this->getGeneratedModuleName() ?>Actions extends sfActions
   public function executeCancel()
   {
     $this->setRedirectFilter();
-    $this->redirect('@<?php echo $this->getModuleName() ?>_list' . $this->redirectFilter);
+    $this->redirect($this->redirectRoute . '_list' . $this->redirectFilter);
   }
 
   public function executeList()
@@ -101,13 +102,13 @@ class <?php echo $this->getGeneratedModuleName() ?>Actions extends sfActions
     {
       $this->getUser()->setTmpCredential('<?php echo $this->getModuleName() ?>admin');
     }
-    return $this->forward('<?php echo $this->getModuleName() ?>', 'edit');
+    $this->forward('<?php echo $this->getModuleName() ?>', 'edit');
   }
 
   public function executeSave()
   {
     $this->getUser()->setTmpCredential('<?php echo $this->getModuleName() ?>admin');
-    return $this->forward('<?php echo $this->getModuleName() ?>', 'edit');
+    $this->forward('<?php echo $this->getModuleName() ?>', 'edit');
   }
 
   public function executeEdit()
@@ -126,17 +127,17 @@ class <?php echo $this->getGeneratedModuleName() ?>Actions extends sfActions
 
       if ($this->getRequestParameter('save_and_add'))
       {
-        $url = isset( $this->redirectFilter ) ? '@<?php echo $this->getModuleName() ?>_create' . $this->redirectFilter : '<?php echo $this->getModuleName() ?>/create';
-        return $this->redirect($url);
+        $url = $this->redirectFilter ? $this->redirectRoute . '_create' . $this->redirectFilter : '@<?php echo $this->getModuleName() ?>_create';
+        $this->redirect($url);
       }
       else if ($this->getRequestParameter('save_and_list'))
       {
-        return $this->redirect('@<?php echo $this->getModuleName() ?>_list' . $this->redirectFilter);
+        $this->redirect($this->redirectRoute . '_list' . $this->redirectFilter);
       }
       else
       {
-        $url = $this->redirectFilter ? '@<?php echo $this->getModuleName() ?>_list' . $this->redirectFilter : '@homepage';
-        return $this->redirect($url);
+        $url = $this->redirectFilter ? $this->redirectRoute . '_list' . $this->redirectFilter : '@homepage';
+        $this->redirect($url);
       }
     }
     else
@@ -181,8 +182,8 @@ class <?php echo $this->getGeneratedModuleName() ?>Actions extends sfActions
 <?php endif; ?>
 <?php endforeach; ?>
 <?php endforeach; ?>
-    $url = isset($this->redirectFilter) ? '@<?php echo $this->getModuleName() ?>_list' . $this->redirectFilter : '@<?php echo $this->getModuleName() ?>_list';
-    return $this->redirect($url);
+    $url = $this->redirectFilter ? $this->redirectRoute . '_list' . $this->redirectFilter : '@<?php echo $this->getModuleName() ?>_list';
+    $this->redirect($url);
   }
 
   public function handleErrorEdit()
@@ -433,13 +434,33 @@ if($urlFilters): ?>
   private function setRedirectFilter()
   {
     $this->redirectFilter = '';
+    $this->redirectRoute = '@<?php echo $this->getModuleName() ?>';
+
+<?php $parents = $this->getParameterValue('parents');
+if ($parents): ?>
+  <?php foreach ($parents as $module => $param):
+    ?>
+    if ($this->getRequestParameter('<?php echo $param['requestid'] ?>'))
+      {
+//      $id = $this->schema_property ? $this->schema_property->getSchemaId() : $this->getRequestParameter('schema_id');
+        $id = $this-><?php echo $this->getSingularName() ?> ? $this-><?php echo $this->getSingularName() ?>->get<?php echo $this->getAdminColumnForField($param['getid'])->getPhpName() ?>() : $this->getRequestParameter('<?php echo $param['requestid'] ?>');
+
+//      $this->getUser()->setAttribute('schema_id', $id, 'sf_admin/schema_property/filters');
+        $this->getUser()->setAttribute('<?php echo $param['requestid'] ?>', $id, 'sf_admin/<?php echo $this->getSingularName() ?>/filters');
+        $this->redirectRoute = '@<?php echo $module . '_' . $this->getModuleName() ?>';
+      }
+  <?php endforeach; ?>
+<?php endif; ?>
+
 <?php $urlFilters = $this->getParameterValue('list.urlfilters');
-if ($urlFilters): ?><?php foreach ($urlFilters as $key => $param): ?>
+if ($urlFilters): ?>
+  <?php foreach ($urlFilters as $key => $param): ?>
     $<?php echo $param ?>  = $this->getUser()->getAttribute('<?php echo $param ?>', '', 'sf_admin/<?php echo $this->getSingularName() ?>/filters');
     if ($<?php echo $param ?>) {
       $this->redirectFilter = '?<?php echo $param ?>=' . strval($<?php echo $param ?>);
     }
 <?php endforeach ?><?php endif ?>
+
   }
 
 
@@ -472,7 +493,7 @@ if ($urlFilters): ?><?php foreach ($urlFilters as $key => $param): ?>
   {
 <?php if ($this->getParameterValue('list.filters')): ?>
 <?php
-    /** @var TYPE_NAME $column */
+    /** @var sfAdminColumn $column */
     foreach ($this->getColumns('list.filters') as $column): $type = $column->getCreoleType() ?>
 <?php if (($column->isPartial() || $column->isComponent()) && $this->getParameterValue('list.fields.'.$column->getName().'.filter_criteria_disabled')) continue ?>
     if (isset($this->filters['<?php echo $column->getName() ?>_is_empty']))
