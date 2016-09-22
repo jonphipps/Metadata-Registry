@@ -85,15 +85,15 @@ if ($title) {
         <?php
         //add the truncate helper if it's a list
         if ('list' == $action) {
-          use_helper('TruncateUri');
+            use_helper('TruncateUri');
         }
         //Show the tabs
         foreach ($tabs as $key => $tab):
-          $options = [ 'id' => 'a' . $key ];
-          $selected = ($module == $tab['module']) ? ' class = "ui-tabs-selected"' : '';
-          echo '<li' . $selected . '>' . link_to('<span>' . __($tab['title']) . '</span>',
-                                                 $tab['link'],
-                                                 $options) . '
+            $options  = [ 'id' => 'a' . $key ];
+            $selected = ( isset( $tab[$action . '_module'] ) && $module == $tab[$action . '_module'] ) ? ' class = "ui-tabs-selected"' : '';
+            echo '<li' . $selected . '>' . link_to('<span>' . __($tab['title']) . '</span>',
+                                                   $tab['link'],
+                                                   $options) . '
                     </li>';
         endforeach;
         ?>

@@ -35,12 +35,12 @@ class tabnavComponents extends sfComponents
             $topnav[] = [ 'title' => 'Details', 'link' => '@vocabulary_show?id=' . $id ];
             $topnav[] = [ 'title' => 'Concepts', 'link' => '@vocabulary_concept_list?vocabulary_id=' . $id ];
             //$topnav[2]    = [ 'title' => 'Namespaces', 'link' => '/namespace/list?vocabulary_id=' . $id ];
-            $topnav[]   = [ 'title' => 'History', 'link' => '@vocabulary_history?vocabulary_id=' . $id ];
-            $topnav[]   = [ 'title' => 'Versions', 'link' => '@vocabulary_version?vocabulary_id=' . $id ];
+            $topnav[]   = [ 'title' => 'History', 'link' => '@vocabulary_history_list?vocabulary_id=' . $id ];
+            $topnav[]   = [ 'title' => 'Versions', 'link' => '@vocabulary_version_list?vocabulary_id=' . $id ];
             $topnav[]   = [ 'title' => 'Maintainers', 'link' => '@vocabulary_vocabuser_list?vocabulary_id=' . $id ];
             $topnav[]   = [ 'title' => 'Exports', 'link' => '@vocabulary_export_list?vocabulary_id=' . $id ];
             $topnav[]   = [ 'title' => 'Imports', 'link' => '@vocabulary_import_list?vocabulary_id=' . $id ];
-            $this->tabs = self::getModuleForRoutes($topnav);
+            $this->tabs = self::getModulesForRoutes($topnav);
 
             $vocabulary         = isset( $this->vocabulary ) ? $this->vocabulary : VocabularyPeer::retrieveByPK($id);
             $breadcrumbs[0] = Breadcrumb::vocabularyFactory($vocabulary, true);
@@ -61,8 +61,8 @@ class tabnavComponents extends sfComponents
         }
         $topnav[]   = [ 'title' => 'Details', 'link' => '@concept_show?id=' . $id ];
         $topnav[]   = [ 'title' => 'Properties', 'link' => '@concept_conceptprop_list?concept_id=' . $id ];
-        $topnav[]   = [ 'title' => 'History', 'link' => '@concept_history?concept_id=' . $id ];
-        $this->tabs = self::getModuleForRoutes($topnav);
+        $topnav[]   = [ 'title' => 'History', 'link' => '@concept_history_list?concept_id=' . $id ];
+        $this->tabs = self::getModulesForRoutes($topnav);
 
         $concept        = isset( $this->concept ) ? $this->concept : ConceptPeer::retrieveByPK($id);
         $breadcrumbs[1] = Breadcrumb::conceptFactory( $concept, true);
@@ -78,8 +78,8 @@ class tabnavComponents extends sfComponents
             $id = $this->getRequestParameter('id');
         }
         $topnav[]   = [ 'title' => 'Details', 'link' => '@conceptprop_show?id=' . $id ];
-        $topnav[]   = [ 'title' => 'History', 'link' => '@properties_history?property_id=' . $id ];
-        $this->tabs = self::getModuleForRoutes($topnav);
+        $topnav[]   = [ 'title' => 'History', 'link' => '@properties_history_list?property_id=' . $id ];
+        $this->tabs = self::getModulesForRoutes($topnav);
 
         $property         = isset( $this->concept_property ) ? $this->concept_property : ConceptPropertyPeer::retrieveByPK($id);
         $breadcrumbs[0]    = Breadcrumb::vocabularyFactory($property->getConceptVocabulary());
@@ -99,12 +99,12 @@ class tabnavComponents extends sfComponents
             $topnav[] = [ 'title' => 'Details', 'link' => '@schema_show?id=' . $id ];
             $topnav[] = [ 'title' => 'Elements', 'link' => '@schema_schemaprop_list?schema_id=' . $id ];
             //$topnav[2]    = [ 'title' => 'Namespaces', 'link' => '/namespace/list?schema_id=' . $id ];
-            $topnav[] = [ 'title' => 'History', 'link' => '@schema_history?schema_id=' . $id ];
+            $topnav[] = [ 'title' => 'History', 'link' => '@schema_schemahistory_list?schema_id=' . $id ];
             //$topnav[2]    = [ 'title' => 'Versions', 'link' => '/schemaversion/list?schema_id=' . $id ];
             $topnav[]   = [ 'title' => 'Maintainers', 'link' => '@schema_schemauser_list?schema_id=' . $id ];
             $topnav[]   = [ 'title' => 'Exports', 'link' => '@schema_export_list?schema_id=' . $id ];
             $topnav[]   = [ 'title' => 'Imports', 'link' => '@schema_import_list?schema_id=' . $id ];
-            $this->tabs = self::getModuleForRoutes($topnav);
+            $this->tabs = self::getModulesForRoutes($topnav);
 
             $schema         = isset( $this->schema ) ? $this->schema : SchemaPeer::retrieveByPK($id);
             $breadcrumbs[0] = Breadcrumb::elementSetFactory($schema, true);
@@ -167,8 +167,8 @@ class tabnavComponents extends sfComponents
         }
         $topnav[]   = [ 'title' => 'Details', 'link' => '@schemaprop_show?id=' . $id ];
         $topnav[]   = [ 'title' => 'Statements', 'link' => '@schemaprop_schemapropel_list?schema_property_id=' . $id ];
-        $topnav[]   = [ 'title' => 'History', 'link' => '@schemaprop_history?schema_property_id=' . $id ];
-        $this->tabs = self::getModuleForRoutes($topnav);
+        $topnav[]   = [ 'title' => 'History', 'link' => '@schemaprop_schemahistory_list?schema_property_id=' . $id ];
+        $this->tabs = self::getModulesForRoutes($topnav);
 
         $element         = isset( $this->schema_property ) ? $this->schema_property : SchemaPropertyPeer::retrieveByPK($id);
         $breadcrumbs[0]    = Breadcrumb::elementSetFactory($element->getSchema());
@@ -184,8 +184,8 @@ class tabnavComponents extends sfComponents
             $id = $this->getRequestParameter('id');
         }
         $topnav[]   = [ 'title' => 'Details', 'link' => '@schemapropel_show?id=' . $id ];
-        $topnav[]   = [ 'title' => 'History', 'link' => '@schemapropel_history?schema_property_element_id=' . $id ];
-        $this->tabs = self::getModuleForRoutes($topnav);
+        $topnav[]   = [ 'title' => 'History', 'link' => '@schemapropel_schemahistory_list?schema_property_element_id=' . $id ];
+        $this->tabs = self::getModulesForRoutes($topnav);
 
         $statement         = isset( $this->schema_property_element )
             ? $this->schema_property_element
@@ -213,18 +213,18 @@ class tabnavComponents extends sfComponents
         $topnav[] = [ 'title' => 'Details', 'link' => '@import_show?id=' . $id ];
         if ($history ) {
             if ($schema) { //it's an elementset
-                $topnav[]       = [ 'title' => 'History', 'link' => '@schema_import_history?import_id=' . $id ];
+                $topnav[]       = [ 'title' => 'History', 'link' => '@schema_import_history_list?import_id=' . $id ];
                 $breadcrumbs[0] = Breadcrumb::elementSetFactory($schema);
                 $breadcrumbs[1] = Breadcrumb::importElementSetFactory($history, true);
             }
             if ($vocabulary) { //it's a vocabulary
-                $topnav[]       = [ 'title' => 'History', 'link' => '@vocabulary_import_history?import_id=' . $id ];
+                $topnav[]       = [ 'title' => 'History', 'link' => '@vocabulary_import_history_list?import_id=' . $id ];
                 $breadcrumbs[0] = Breadcrumb::vocabularyFactory($vocabulary);
                 $breadcrumbs[1] = Breadcrumb::importVocabularyFactory($history, true);
             }
         }
 
-        $this->tabs        = self::getModuleForRoutes($topnav);
+        $this->tabs        = self::getModulesForRoutes($topnav);
         $this->breadcrumbs = $breadcrumbs;
     }
 
@@ -237,10 +237,10 @@ class tabnavComponents extends sfComponents
         }
         if ($id) {
             $topnav[]       = [ 'title' => 'Details', 'link' => '@user_show?id=' . $id ];
-            $topnav[]       = [ 'title' => 'Agents', 'link' => '@user_agent?user_id=' . $id ];
-            $topnav[]       = [ 'title' => 'Vocabularies', 'link' => '@user_vocabulary?user_id=' . $id ];
-            $topnav[]       = [ 'title' => 'Element Sets', 'link' => '@user_schema?user_id=' . $id ];
-            $this->tabs     = self::getModuleForRoutes($topnav);
+            $topnav[]       = [ 'title' => 'Agents', 'link' => '@user_agent_list?user_id=' . $id ];
+            $topnav[]       = [ 'title' => 'Vocabularies', 'link' => '@user_vocabulary_list?user_id=' . $id ];
+            $topnav[]       = [ 'title' => 'Element Sets', 'link' => '@user_schema_list?user_id=' . $id ];
+            $this->tabs     = self::getModulesForRoutes($topnav);
             $member          = isset( $this->user ) ? $this->user : UserPeer::retrieveByPK($id);
             $breadcrumbs[0] = Breadcrumb::memberFactory($member, true);
         } else { //there's no id so it's a list of everything
@@ -263,7 +263,7 @@ class tabnavComponents extends sfComponents
         $topnav[]   = [ 'title' => 'Members', 'link' => '@agent_agentuser_list?agent_id=' . $id ];
         $topnav[]   = [ 'title' => 'Vocabularies', 'link' => '@agent_vocabulary_list?agent_id=' . $id ];
         $topnav[]   = [ 'title' => 'Element Sets', 'link' => '@agent_schema_list?agent_id=' . $id ];
-        $this->tabs = self::getModuleForRoutes($topnav);
+        $this->tabs = self::getModulesForRoutes($topnav);
 
         $agent          = isset( $this->agent ) ? $this->agent : AgentPeer::retrieveByPK($id);
         $breadcrumbs[0] = Breadcrumb::agentFactory($agent, true);
@@ -276,16 +276,51 @@ class tabnavComponents extends sfComponents
     }
 
 
-  public static function getModuleForRoutes($topnav)
+  public static function getModulesForRoutes($topnav)
   {
     foreach ($topnav as &$tab) {
       $routeName = preg_replace('#^\@(.*)\?.*$#uiUs', "$1", $tab['link']);
       if ($routeName) {
-        $route         = sfRouting::getInstance()->getRouteByName($routeName);
-        $tab['module'] = $route[4]['module'];
+        $tab = self::parseRouteName($routeName, $tab);
+        if (strstr($routeName, '_list')){
+          $route = sfRouting::getInstance()->getRouteByName($routeName);
+          $tab['list_module'] = $route[4]['module'];
+        }
+        //take the middle of the route, if there is one, and add show to it
       }
     }
     return $topnav;
+  }
+
+
+  private static function parseRouteName($routeName, $tab)
+  {
+    $routeParts = explode('_', $routeName);
+    //the action is always the highest part
+    $routeAction = array_pop($routeParts);
+    //the module for create, show, edit, list is always the one next to the action
+    $actionModule = array_pop($routeParts);
+
+    if ($routeAction == 'show') {
+      $tab['show_module'] = $actionModule;
+      $tab['edit_module'] = $actionModule;
+      $tab['create_module'] = $actionModule;
+
+      return $tab;
+    }
+    //in tabs there are only show and list actions predefined
+    $tab['list_module'] = $actionModule;
+
+    //add the action modules for matching
+    foreach ([ 'create', 'edit', 'show' ] as $action) {
+      $tabAction = $action . '_module';
+      //allow override in the tab setup
+      if ( ! isset( $tab[$tabAction] )) {
+        $tab[$tabAction] = $actionModule;
+      }
+    }
+
+    return $tab;
   }
 }
 
