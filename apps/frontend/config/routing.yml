@@ -200,7 +200,7 @@ vocabulary_import_history:
   url:   /vocabulary_imports/:import_id/history
   param: { module: history, action: list, tabnav: imports, IdType: import_id }
 
-elementset_import_history:
+elementset_schemahistory_list:
   url:   /elementset_imports/:import_id/history
   param: { module: schemahistory, action: list, tabnav: imports, IdType: import_id }
 
@@ -217,7 +217,7 @@ schema_publish:
   requirements: { id: \d+ }
 
 
-schema_history:
+schema_schemahistory_list:
   url:   /elementsets/:schema_id/history
   param: { module: schemahistory, action: list, tabnav: elementsets }
   requirements: { schema_id: \d+ }
@@ -303,9 +303,24 @@ user_schemauser_resource:
   url:   /members/:user_id/elementset_maintainers
   param: { module: schemauser, tabnav: members}
 
+user_schema_list:
+  url:   /members/:user_id/elementsets
+  param: { module: schema, action: list tabnav: members}
+  requirements: { user_id: \d+ }
+
 user_vocabuser_resource:
   url:   /members/:user_id/vocabulary_maintainers
   param: { module: vocabuser, tabnav: members}
+
+user_vocabulary_list:
+  url:   /members/:user_id/vocabularies
+  param: { module: vocabulary, action: list tabnav: members}
+  requirements: { user_id: \d+ }
+
+user_schema_list:
+  url:   /members/:user_id/elementsets
+  param: { module: schema, action: list tabnav: members}
+  requirements: { user_id: \d+ }
 
 user_resource:
   url:   /members
@@ -350,16 +365,17 @@ import_show:
 
 #elements (schemaprops)
 
-schemaprop_history:
+schemaprop_schemahistory_list:
   url:   /elements/:schema_property_id/history
   param: { module: schemahistory, action: list, tabnav: elements, IdType: schema_property_id }
   requirements: { schema_property_id: \d+ }
 
 #statements
 
-schemapropel_history:
+schemapropel_schemahistory_list:
   url:   /statements/:schema_property_element_id/history
   param: { module: schemahistory, action: list, tabnav: statements, IdType: schema_property_element_id }
+  requirements: { schema_property_element_id: \d+ }
 
 schema_search:
   url:   /schemaprop/search.
@@ -370,7 +386,7 @@ schemaprop_language:
   param: { module: schemaprop, action: language }
 
 #schema history
-schema_history_list:
+legacy_schema_history_list:
   url:   /schemahistory/list/:IdType/:id.html
   param: { module: schemahistory, action: list}
 
