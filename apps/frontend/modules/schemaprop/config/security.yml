@@ -7,3 +7,7 @@ all:
 edit:
   is_secure:   on
   credentials: [[administrator, schemamaintainer, schemaadmin, schemapropadmin]]
+
+create:
+  is_secure:   on
+  credentials: [[administrator, schemamaintainer, schemaadmin]]
