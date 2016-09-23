@@ -468,6 +468,19 @@ padding: 4px 4px 4px 20px;
   text-align: left;
 }
 
+#sf_admin_container .sf_admin_list div.pager {
+  vertical-align: top;
+  font-size: 14px;
+}
+
+#sf_admin_container .sf_admin_list div.pager a {
+  vertical-align: top;
+}
+
+#sf_admin_container .sf_admin_list div.pager span {
+  vertical-align: top;
+}
+
 #sf_admin_container .sf_admin_filters li
 {
   list-style-type: none;
