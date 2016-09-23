@@ -83,10 +83,6 @@ if ($title) {
 <div id="tab_container">
     <ul class="ui-tabs-nav">
         <?php
-        //add the truncate helper if it's a list
-        if ('list' == $action) {
-            use_helper('TruncateUri');
-        }
         //Show the tabs
         foreach ($tabs as $key => $tab):
             $options  = [ 'id' => 'a' . $key ];

@@ -1,4 +1,4 @@
-[?php use_helper('I18N', 'Date') ?]
+[?php use_helper('I18N', 'Date', 'TruncateUri') ?]
 
 <div id="sf_admin_container" class="sf_admin_list shadow">
 
