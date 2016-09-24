@@ -436,11 +436,11 @@ padding: 4px 4px 4px 20px;
 
 #sf_admin_container .sf_admin_list
 {
-  width: 100%;
+  /* width: 100%; */
   border: 1px solid #ddd;
   border-bottom: 0;
   border-right: 0;
-  padding-bottom: .8rem
+  padding-bottom: .8rem;
 }
 
 #sf_admin_container .sf_admin_list th
@@ -579,9 +579,13 @@ ul.sf_admin_checklist li
 
 table.sf_admin_list td{
   max-width: 100%;
-  white-space: nowrap;
+  white-space: normal;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+table.sf_admin_list td div.rowDetail {
+    display: none;
 }
 
  table.sf_admin_list td:hover{

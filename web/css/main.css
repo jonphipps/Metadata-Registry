@@ -513,9 +513,7 @@ padding:6px;
 margin-bottom:6px
 }
 
-table.rowDetail {
-border-collapse: collapse;
-}
+table.rowDetail {border-collapse: collapse;max-width: 40em;/* width: 30em; *//* display: none; */}
 
 table.rowDetail td, table.rowDetail th {
 padding: 3px !important;
@@ -524,6 +522,8 @@ padding: 3px !important;
 tr.rowDetailNew td{
   border: thin solid #d6d6d6;
   border-top-color: #7e7e7e;
+  white-space: normal;
+  max-width: 5em;
 }
 
 tr.rowDetailData td {
@@ -543,9 +543,7 @@ font-weight: bold !important;
 padding-right: 6px !important;
 }
 
-table.rowDetail tr {
-padding: 3px !important;
-}
+table.rowDetail tr {padding: 3px !important;}
 
 div.form-errors dl
 {

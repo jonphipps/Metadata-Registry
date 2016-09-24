@@ -19,8 +19,8 @@
     $oldLanguage = $previous->getLanguage();
     $str = <<<EOD
 <a class="load-local" href="#detail_$id" rel="#detail_$id" title="Change Detail">updated...</a>
-<div id="detail_$id">
-  <table cellpadding="0" cellspacing="0" class="rowDetail">
+<div id="detail_$id" class="rowDetail">
+  <table class="rowDetail">
     <tr>
       <th>&nbsp;</th>
       <td colspan="2">Previous Action: "$oldAction"</td>
