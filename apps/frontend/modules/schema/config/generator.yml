@@ -78,7 +78,6 @@ generator:
         agent_id:     agent_id
 
     show:
-      title:           Show detail for %%name%%
       fields:
         id:            { credentials: [administrator] }
         uri:           { helper: auto_link_uri }
@@ -93,7 +92,6 @@ generator:
         "Namespace":   [uri, namespace]
         "Publishing": [ repo, status]
         "Documentation": [url, note, community]
-        "-Members":      [_list_users]
       actions:
 #        _list:
         _edit:       { credentials: [[administrator, schemamaintainer, schemaadmin]] }

@@ -311,7 +311,7 @@ body #sf_admin_container td
 }
 
 #sf_admin_container div.show {
-  margin-top: -5px;
+  /*margin-top: -5px;*/
   margin-bottom: 10px;
 }
 
