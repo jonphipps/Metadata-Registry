@@ -48,5 +48,5 @@ generator:
         property_label:   { name: PropertyLabel }
         property_uri:     { name: Property URI }
         profile_property: { name: Statement Name }
-      display:            [id, created_at, user, _import, action, schema, property_label, property_uri, profile_property, object, _language, status]
+      display:            [id, created_at, user, _import, action, schema, property_label, property_uri, profile_property, object, _language, status ]
       actions:       -
