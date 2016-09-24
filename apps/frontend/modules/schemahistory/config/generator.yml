@@ -3,6 +3,15 @@ generator:
   param:
     model_class:      SchemaPropertyElementHistory
     theme:            default
+    label_singular:   History
+    label_plural:     History
+    parents:
+      schema:         { getid: schema_id, requestid: schema_id }
+      schemaprop:     { getid: schema_property_id, requestid: schema_property_id }
+      schemapropel:   { getid: schema_property_element_id, requestid: schema_property_element_id }
+      import:         { getid: import_id, requestid: import_id }
+    pager:
+      no_results:     There is no history for this Element Set
 
     list:
       peer_method:   doSelectForList
@@ -15,9 +24,9 @@ generator:
         ceated_user:  { name: Changed by }
         property:     { name: Property}
         element:      { name: Statement }
-        property_uri: { name: Property URI, helper: truncate_uri}
-        ts:           { name: TimeSlice}
-      display:        [=created_at, property_uri, _property, _element, _language, _action, user, _import]
+        property_uri: { name: Property URI, helper: truncate_uri }
+        ts:           { name: TimeSlice }
+      display:        [=created_at, property_uri, _property, _element, _language, _action, user, _import ]
       sort:           [created_at, desc]
       displayfilter:  false
       filters:        [schema_id, schema_property_id, schema_property_element_id, updated_at, object, status, user, import_id]

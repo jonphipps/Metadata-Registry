@@ -32,7 +32,7 @@ generator:
         name:         Last Updated by
         help:         This is the user who updated the Property last
         type:         plain
-      uri:               { name: Canonical URI, help: "This is the 'standard' URI for this element. It will be the same regardless of language. " }
+      uri:               { name: Canonical URI, help: "This is the 'standard' URI for this element. It will be the same regardless of language." }
       name:              { name: Name, help: "This is a machine-compatible label for this property and is required for every Property." }
       label:             { name: Label, help: "This is a human-friendly label for this property and is required for every Property" }
       definition:        { name: Description, help: "A description of this property" }
