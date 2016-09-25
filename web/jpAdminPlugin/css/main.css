@@ -163,6 +163,7 @@ body #sf_admin_container td
   border-bottom: 1px solid #ddd;
   background-color: #fffff0;
   overflow: hidden;
+  max-width: 60em;
 }
 
 #sf_admin_container .form-row .content,
@@ -426,6 +427,12 @@ padding: 4px 4px 4px 20px;
   background: url(/jpAdminPlugin/images/list.png) no-repeat 3px 2px;
   border-right: 4px solid #66f !important;
   padding-left:20px !important;
+}
+
+#sf_admin_container .sf_admin_action_feed {
+  background: url(/images/feed-icon.gif) no-repeat 3px 2px;
+  border-right: 4px solid grey !important;
+  padding-left: 22px !important;
 }
 
 #sf_admin_container .sf_admin_default_action
