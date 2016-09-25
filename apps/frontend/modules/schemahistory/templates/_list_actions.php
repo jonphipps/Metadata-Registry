@@ -1,10 +1,16 @@
 <?php slot('feeds');
-  $rss['link'] = "@schema_history_feed_rss?IdType=" . $sf_params->get('IdType') . "&id=" . $sf_params->get($sf_params->get('IdType'));
-  $rdf['link'] = "@schema_history_feed_rdf?IdType=" . $sf_params->get('IdType') . "&id=" . $sf_params->get($sf_params->get('IdType'));
-  $atom['link'] = "@schema_history_feed_atom?IdType=" . $sf_params->get('IdType') . "&id=" . $sf_params->get($sf_params->get('IdType'));
-  $rss['title'] = "RSS 2.01 History Feed";
-  $rdf['title'] = "RSS 1.0 (RDF) History Feed";
-  $atom['title'] = "Atom 1.0 History Feed";
+foreach ([ 'schema_id', 'schema_property_id', 'schema_property_element_id' ] as $type) {
+  /** @var sfParameterHolder $sf_params */
+  if ($sf_params->has($type)) {
+    $idType = $type ;
+  }
+}
+$rss['link']   = "@schema_history_feed_rss?IdType="  . $idType . "&id=" . $sf_params->get($idType);
+$rdf['link']   = "@schema_history_feed_rdf?IdType="  . $idType . "&id=" . $sf_params->get($idType);
+$atom['link']  = "@schema_history_feed_atom?IdType=" . $idType . "&id=" . $sf_params->get($idType);
+$rss['title']  = "RSS 2.01 History Feed";
+$rdf['title']  = "RSS 1.0 (RDF) History Feed";
+$atom['title'] = "Atom 1.0 History Feed";
   ?>
 <?php echo auto_discovery_link_tag('rss', $rss['link'], $rss) ?>
 <?php echo auto_discovery_link_tag('rdf', $rdf['link'], $rdf) ?>
@@ -19,6 +25,7 @@
     <?php echo link_to('rss2', $rss['link'], array(
       "rel"   => "alternate",
       "type"  => "application/rss+xml",
+      "class" => "sf_admin_action_feed",
       "title" => $rss['title']));
     ?>
   </li>
@@ -26,6 +33,7 @@
     <?php echo link_to('rss1', $rdf['link'], array(
       "rel"   => "alternate",
       "type"  => "application/rdf+xml",
+      "class" => "sf_admin_action_feed",
       "title" => $rdf['title']));
     ?>
   </li>
@@ -33,8 +41,8 @@
     <?php echo link_to('atom', $atom['link'], array(
       "rel"   => "alternate",
       "type"  => "application/atom+xml",
+      "class" => "sf_admin_action_feed",
       "title" => $atom['title']));
     ?>
   </li>
-  <li><img align="top" alt="Feed-icon" src="/images/feed-icon.gif" style="width: 16px; height: 16px;"/></li>
 </ul>
