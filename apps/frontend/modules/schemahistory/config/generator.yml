@@ -3,8 +3,8 @@ generator:
   param:
     model_class:      SchemaPropertyElementHistory
     theme:            default
-    label_singular:   History
-    label_plural:     History
+    label_singular:   Element Set History
+    label_plural:     Element Set History
     parents:
       schema:         { getid: schema_id, requestid: schema_id }
       schemaprop:     { getid: schema_property_id, requestid: schema_property_id }
@@ -30,7 +30,7 @@ generator:
       sort:           [created_at, desc]
       displayfilter:  false
       filters:        [schema_id, schema_property_id, schema_property_element_id, updated_at, object, status, user, import_id]
-      # urlfilter form is [field to filter on]: [value passed from routing.yml]
+      # urlfilter form is [field to filter on]: [value passed from routing.yml ]
       # multiple filters can be set but they're currently mutually exclusive (any of the list can be used but only one per url)
       urlfilters:
         schema_id:                  schema_id

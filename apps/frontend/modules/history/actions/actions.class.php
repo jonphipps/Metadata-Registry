@@ -37,7 +37,7 @@ class historyActions extends autoHistoryActions
 
     switch ($IdType)
     {
-      case "property_id":
+      case "concept_property_id":
         /** @var ConceptProperty **/
         $conceptProperty = ConceptPropertyPeer::retrieveByPK($id);
         if ($conceptProperty)
@@ -72,9 +72,6 @@ class historyActions extends autoHistoryActions
         $title .= " for all Vocabularies";
         break;
     }
-
-    //special rule for property_id
-    $column = ("property_id" == $IdType) ? "ConceptPropertyId" : sfInflector::camelize($IdType);
 
     //default limit to 100 if not set in config
     $limit = $request->getParameter('nb', sfConfig::get('app_frontend_feed_count', 100));
@@ -132,7 +129,7 @@ class historyActions extends autoHistoryActions
             if ($idType == 'concept_id') {
                 $concept = ConceptPeer::retrieveByPK($this->getRequestParameter($idType));
             }
-            if ($idType == 'property_id') {
+            if ($idType == 'concept_property_id') {
                 $concept = ConceptPropertyPeer::retrieveByPK($this->getRequestParameter($idType))->getConceptRelatedByConceptId();
             }
             if (isset( $concept )) {
@@ -216,7 +213,7 @@ class historyActions extends autoHistoryActions
     //order is important here
     $search = array(
        array('ns' => 'concept_property_history', 'id' => ''),
-       array('ns' => 'concept_property', 'id' => 'property_id'),
+       array('ns' => 'concept_property', 'id' => 'concept_property_id'),
        array('ns' => 'concept', 'id' => 'concept_id'),
        array('ns' => 'vocabulary', 'id' => 'vocabulary_id'),
        );

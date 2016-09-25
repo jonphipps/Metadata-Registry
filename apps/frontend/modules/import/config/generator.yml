@@ -3,6 +3,17 @@ generator:
   param:
     model_class:      FileImportHistory
     theme:            default
+    label_singular:   Import
+    label_plural:     Imports
+    parents:
+      schema:
+        getid:        schema_id
+        requestid:    schema_id
+      vocabulary:
+        getid:        vocabulary_id
+        requestid:    vocabulary_id
+    pager:
+      no_results:     There is no history of imports for this Element Set
 
     list:
       title:          Import History

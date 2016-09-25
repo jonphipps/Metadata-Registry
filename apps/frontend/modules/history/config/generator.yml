@@ -3,6 +3,15 @@ generator:
   param:
     model_class:      ConceptPropertyHistory
     theme:            default
+    label_singular:   Vocabulary History
+    label_plural:     Vocabulary History
+    parents:
+      vocabulary:     { getid: vocabulary_id, requestid: vocabulary_id }
+      concept:        { getid: concept_id, requestid: concept_id }
+      conceptprop:    { getid: concept_property_id, requestid: concept_property_id }
+      import:         { getid: import_id, requestid: import_id }
+    pager:
+      no_results:     There is no history for this Vocabulary
 
     list:
       peer_method:   doSelectJoinConceptRelatedByConceptId
@@ -28,7 +37,7 @@ generator:
       # multiple filters can be set but they're currently mutually exclusive (any of the list can be used but only one per url)
       urlfilters:
         concept_id:          concept_id
-        concept_property_id: property_id
+        concept_property_id: concept_property_id
         vocabulary_id:       vocabulary_id
         import_id:           import_id
       actions:       -

@@ -73,12 +73,12 @@ class tabnavComponents extends sfComponents
 
     public function executeProperties()
     {
-        $id = $this->getRequestParameter('property_id');
+        $id = $this->getRequestParameter('concept_property_id');
         if ( ! $id) {
             $id = $this->getRequestParameter('id');
         }
         $topnav[]   = [ 'title' => 'Details', 'link' => '@conceptprop_show?id=' . $id ];
-        $topnav[]   = [ 'title' => 'History', 'link' => '@properties_history_list?property_id=' . $id ];
+        $topnav[]   = [ 'title' => 'History', 'link' => '@conceptprop_history_list?concept_property_id=' . $id ];
         $this->tabs = self::getModulesForRoutes($topnav);
 
         $property         = isset( $this->concept_property ) ? $this->concept_property : ConceptPropertyPeer::retrieveByPK($id);
@@ -213,12 +213,12 @@ class tabnavComponents extends sfComponents
         $topnav[] = [ 'title' => 'Details', 'link' => '@import_show?id=' . $id ];
         if ($history ) {
             if ($schema) { //it's an elementset
-                $topnav[]       = [ 'title' => 'History', 'link' => '@schema_import_history_list?import_id=' . $id ];
+                $topnav[]       = [ 'title' => 'History', 'link' => '@import_schemahistory_list?import_id=' . $id ];
                 $breadcrumbs[0] = Breadcrumb::elementSetFactory($schema);
                 $breadcrumbs[1] = Breadcrumb::importElementSetFactory($history, true);
             }
             if ($vocabulary) { //it's a vocabulary
-                $topnav[]       = [ 'title' => 'History', 'link' => '@vocabulary_import_history_list?import_id=' . $id ];
+                $topnav[]       = [ 'title' => 'History', 'link' => '@import_history_list?import_id=' . $id ];
                 $breadcrumbs[0] = Breadcrumb::vocabularyFactory($vocabulary);
                 $breadcrumbs[1] = Breadcrumb::importVocabularyFactory($history, true);
             }

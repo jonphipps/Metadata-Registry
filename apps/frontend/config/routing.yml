@@ -143,9 +143,6 @@ concept_search:
   param: { module: conceptprop, action: search }
 
 # concept history
-concept_history_list:
-  url:   /history/list/:IdType/:id.html
-  param: { module: history, action: list}
 
 concept_history_feed_atom:
   url:   /history/feed/:IdType/:id.atom
@@ -173,14 +170,9 @@ concept_history_feed_all_rss:
 
 #vocabularies
 
-vocabulary_history:
+vocabulary_history_list:
   url:   /vocabularies/:vocabulary_id/history
   param: { module: history, action: list, tabnav: vocabularies, IdType: vocabulary_id }
-  requirements: { vocabulary_id: \d+ }
-
-vocabulary_version:
-  url:   /vocabularies/:vocabulary_id/versions
-  param: { module: version, action: list, tabnav: vocabularies }
   requirements: { vocabulary_id: \d+ }
 
 
@@ -189,20 +181,16 @@ concept_history:
   param: { module: history, action: list, tabnav: concepts, IdType: concept_id }
 
 
-#properties
-
-properties_history:
-  url:   /properties/:property_id/history
-  param: { module: history, action: list, tabnav: properties, IdType: property_id }
-
 #imports
-vocabulary_import_history:
-  url:   /vocabulary_imports/:import_id/history
-  param: { module: history, action: list, tabnav: imports, IdType: import_id }
+import_history_list:
+  url:   /imports/:import_id/history
+  param: { module: history, action: list, tabnav: imports }
+  requirements: { import_id: \d+ }
 
-elementset_schemahistory_list:
-  url:   /elementset_imports/:import_id/history
-  param: { module: schemahistory, action: list, tabnav: imports, IdType: import_id }
+import_schemahistory_list:
+  url:   /schemaimports/:import_id/history
+  param: { module: schemahistory, action: list, tabnav: imports }
+  requirements: { import_id: \d+ }
 
 
 #history
@@ -221,6 +209,17 @@ schema_schemahistory_list:
   url:   /elementsets/:schema_id/history
   param: { module: schemahistory, action: list, tabnav: elementsets }
   requirements: { schema_id: \d+ }
+
+concept_history_list:
+  url:   /concepts/:concept_id/history
+  param: { module: history, action: list, tabnav: vocabularies, IdType: concept_id }
+  requirements: { concept_id: \d+ }
+
+#properties
+conceptprop_history_list:
+  url:   /properties/:concept_property_id/history
+  param: { module: history, action: list, tabnav: properties, IdType: concept_property_id }
+  requirements: { concept_property_id: \d+ }
 
 
 agent_agentuser_resource:
@@ -305,7 +304,7 @@ user_schemauser_resource:
 
 user_schema_list:
   url:   /members/:user_id/elementsets
-  param: { module: schema, action: list tabnav: members}
+  param: { module: schema, action: list, tabnav: members}
   requirements: { user_id: \d+ }
 
 user_vocabuser_resource:
@@ -314,12 +313,12 @@ user_vocabuser_resource:
 
 user_vocabulary_list:
   url:   /members/:user_id/vocabularies
-  param: { module: vocabulary, action: list tabnav: members}
+  param: { module: vocabulary, action: list, tabnav: members}
   requirements: { user_id: \d+ }
 
 user_schema_list:
   url:   /members/:user_id/elementsets
-  param: { module: schema, action: list tabnav: members}
+  param: { module: schema, action: list, tabnav: members}
   requirements: { user_id: \d+ }
 
 user_resource:
@@ -329,21 +328,30 @@ user_resource:
 vocabulary_concept_resource:
   url:   /vocabularies/:vocabulary_id/concepts
   param: { module: concept, tabnav: vocabularies }
+  requirements: { vocabulary_id: \d+ }
 
 vocabulary_export_resource:
   url:   /vocabularies/:vocabulary_id/exports
   param: { module: export, tabnav: vocabularies }
+  requirements: { vocabulary_id: \d+ }
 
 vocabulary_import_resource:
   url:   /vocabularies/:vocabulary_id/imports
   param: { module: import, tabnav: vocabularies }
+  requirements: { vocabulary_id: \d+ }
 
 vocabulary_vocabuser_resource:
   url:   /vocabularies/:vocabulary_id/maintainers
   param: { module: vocabuser, tabnav: vocabularies}
+  requirements: { vocabulary_id: \d+ }
+
+vocabulary_version_resource:
+  url:   /vocabularies/:vocabulary_id/versions
+  param: { module: version, tabnav: vocabularies }
+  requirements: { vocabulary_id: \d+ }
 
 vocabuser_resource:
-  url:   vocabulary_maintainers
+  url:   /vocabulary_maintainers
   param: { module: vocabuser, tabnav: vocabularies}
 
 vocabulary_resource:
@@ -392,8 +400,9 @@ legacy_schema_history_list:
 
 schemahistory_show:
   url:   /schemahistory/:id
-  param: { module: schemahistory, action: show }
+  param: { module: schemahistory, action: show}
   requirements: { id: \d+ }
+
 
 schema_history_feed_atom:
   url:   /schemahistory/feed/:IdType/:id.atom
@@ -479,6 +488,10 @@ default_symfony:
 default_index:
   url:   /:module
   param: { action: index }
+
+default_resource:
+  url:   /:module/:id
+  requirements: { id: \d+ }
 
 default:
   url:   /:module/:action/*

@@ -3,7 +3,10 @@ generator:
   param:
     model_class:      Concept
     theme:            default
-
+    label_singular:   SKOS Concept
+    label_plural:     Skos Concepts
+    parents:
+      vocabulary:     { getid: vocabulary_id, requestid: vocabulary_id }
     pager:
       no_results:     No Concepts have been defined for this Vocabulary
 
@@ -32,7 +35,7 @@ generator:
       vocabulary:     { name: Vocabulary }
       vocabulary_id:  { name: Vocabulary }
       status_id:      { name: Status, help: "This is the overall status of this Concept. Individual properties may have a different status" }
-      is_top_concept: { name: Top Concept?, help: Is this a Top Concept? }
+      is_top_concept: { name: Top?, help: Is this a Top Concept? }
       versions:       { name: History }
       properties:     { name: Properties }
       listproperties: { name: " " }

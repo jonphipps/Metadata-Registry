@@ -75,7 +75,7 @@ class Breadcrumb
     {
         $breadcrumbs    = [];
         $breadcrumbs[3] = new Breadcrumb('History',
-                                         '@schemapropel_history?schema_property_element_id=' . $schemaHistory->getSchemaPropertyElementId(),
+                                         '@schemapropel_schemahistory_list?schema_property_element_id=' . $schemaHistory->getSchemaPropertyElementId(),
                                          'History Detail',
                                          null);
         $breadcrumbs[2] = self::statementFactory($schemaHistory->getSchemaPropertyElement());
@@ -162,7 +162,7 @@ class Breadcrumb
     {
         $breadcrumbs    = [];
         $breadcrumbs[3] = new Breadcrumb('History',
-                                         '@properties_history?property_id=' . $vocabularyHistory->getConceptPropertyId(),
+                                         '@conceptprop_history_list?concept_property_id=' . $vocabularyHistory->getConceptPropertyId(),
                                          'History Detail',
                                          null);
         $breadcrumbs[2] = self::conceptPropertyFactory($vocabularyHistory->getConceptProperty());
@@ -264,7 +264,7 @@ class Breadcrumb
     public static function importElementSetFactory($history, $show = false)
     {
         $breadcrumb = new Breadcrumb('Imports',
-                                     '@schema_imports?schema_id=' . $history->getSchemaId(),
+                                     '@schema_import_list?schema_id=' . $history->getSchemaId(),
                                      $history->getCreatedAt(),
                                      '@history_show?id=' . $history->getId());
 
@@ -285,7 +285,7 @@ class Breadcrumb
     public static function importVocabularyFactory($history, $show = false)
     {
         $breadcrumb = new Breadcrumb('Imports',
-                                     '@vocabulary_imports?vocabulary_id=' . $history->getVocabularyId(),
+                                     '@vocabulary_import_list?vocabulary_id=' . $history->getVocabularyId(),
                                      $history->getCreatedAt(),
                                      '@history_show?id=' . $history->getId());
 

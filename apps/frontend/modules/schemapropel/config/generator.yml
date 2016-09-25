@@ -3,6 +3,14 @@ generator:
   param:
     model_class:      SchemaPropertyElement
     theme:            default
+    label_singular:   Statement
+    label_plural:     Statements
+    parents:
+      schemaprop:
+        getid:        schema_property_id
+        requestid:    schema_property_id
+    pager:
+      no_results:     No Statements have been defined for this Element
 
     fields:
       id:
@@ -41,7 +49,7 @@ generator:
       actions:
         _create:      {query_string: {sf_request: element_id}, route: schemaprop_schemapropel_create, name: Add Statement, credentials: [[administrator, schemamaintainer, schemaadmin]] }
       filters:        [schema_property_id, profile_property_id, updated_at, object]
-      # urlfilter form is [field to filter on]: [value passed from routing.yml]
+      # urlfilter form is [field to filter on]: [value passed from routing.yml ]
       # multiple filters can be set but they're currently mutually exclusive (any of the list can be used but only one per url)
       urlfilters:
         schema_property_id: schema_property_id
