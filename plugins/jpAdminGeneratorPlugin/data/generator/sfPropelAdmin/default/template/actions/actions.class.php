@@ -442,10 +442,7 @@ if ($parents): ?>
     ?>
     if ($this->getRequestParameter('<?php echo $param['requestid'] ?>'))
       {
-//      $id = $this->schema_property ? $this->schema_property->getSchemaId() : $this->getRequestParameter('schema_id');
         $id = $this-><?php echo $this->getSingularName() ?> ? $this-><?php echo $this->getSingularName() ?>->get<?php echo $this->getAdminColumnForField($param['getid'])->getPhpName() ?>() : $this->getRequestParameter('<?php echo $param['requestid'] ?>');
-
-//      $this->getUser()->setAttribute('schema_id', $id, 'sf_admin/schema_property/filters');
         $this->getUser()->setAttribute('<?php echo $param['requestid'] ?>', $id, 'sf_admin/<?php echo $this->getSingularName() ?>/filters');
         $this->redirectRoute = '@<?php echo $module . '_' . $this->getModuleName() ?>';
       }
