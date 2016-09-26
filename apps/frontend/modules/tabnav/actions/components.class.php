@@ -237,9 +237,9 @@ class tabnavComponents extends sfComponents
         }
         if ($id) {
             $topnav[]       = [ 'title' => 'Details', 'link' => '@user_show?id=' . $id ];
-            $topnav[]       = [ 'title' => 'Agents', 'link' => '@user_agent_list?user_id=' . $id ];
-            $topnav[]       = [ 'title' => 'Vocabularies', 'link' => '@user_vocabulary_list?user_id=' . $id ];
-            $topnav[]       = [ 'title' => 'Element Sets', 'link' => '@user_schema_list?user_id=' . $id ];
+            $topnav[]       = [ 'title' => 'Agents', 'link' => '@user_agentuser_list?user_id=' . $id ];
+            $topnav[]       = [ 'title' => 'Vocabularies', 'link' => '@user_vocabuser_list?user_id=' . $id ];
+            $topnav[]       = [ 'title' => 'Element Sets', 'link' => '@user_schemauser_list?user_id=' . $id ];
             $this->tabs     = self::getModulesForRoutes($topnav);
             $member          = isset( $this->user ) ? $this->user : UserPeer::retrieveByPK($id);
             $breadcrumbs[0] = Breadcrumb::memberFactory($member, true);

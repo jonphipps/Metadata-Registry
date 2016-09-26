@@ -294,7 +294,7 @@ schemaprop_resource:
   url:   /elements
   param: { module: schemaprop, tabnav: elements }
 
-user_agent_resource:
+user_agentuser_resource:
   url:   /members/:user_id/agents
   param: { module: agentuser, tabnav: members }
 
@@ -358,6 +358,11 @@ vocabulary_resource:
   url:   /vocabularies
   param: { module: vocabulary, tabnav: vocabularies}
 
+vocabulary_publish:
+  url:   /vocabularies/:id/publish
+  param: { module: vocabulary, action: publish }
+  requirements: { id: \d+ }
+
 
 
 schemapropel_show:
@@ -394,9 +399,6 @@ schemaprop_language:
   param: { module: schemaprop, action: language }
 
 #schema history
-legacy_schema_history_list:
-  url:   /schemahistory/list/:IdType/:id.html
-  param: { module: schemahistory, action: list}
 
 schemahistory_show:
   url:   /schemahistory/:id
