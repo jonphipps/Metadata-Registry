@@ -18,6 +18,6 @@
         )) ?></li>
     <li><?php echo button_to(__('Get XML Schema'), '@xml_schema_vocabulary?id='.$vocabulary->getId(), array (
             'title' => 'xml',
-            'style' => 'background: #ffc url(/jpAdminPlugin/images/xmlschema_icon.png) no-repeat 2px 3px; padding-left:20px !important',
+            'style' => 'background: #ffc url(/jpAdminPlugin/images/xmlschema_icon.png) no-repeat 3px; padding-left:25px !important',
         )) ?></li>
 </ul>

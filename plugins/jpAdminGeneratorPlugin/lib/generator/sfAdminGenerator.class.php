@@ -178,7 +178,7 @@ abstract class sfAdminGenerator extends sfCrudGenerator
     }
     else
     {
-      $options['style'] = 'background: #ffc url('.$icon.') no-repeat 2px 3px; padding-left:20px !important';
+      $options['style'] = isset($options['style']) ? $options['style'] : 'background: #ffc url('.$icon.') no-repeat 2px 3px; padding-left:20px !important';
     }
 
 
