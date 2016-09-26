@@ -1,14 +1,15 @@
 <?php
 
 $uri = '';
-$concept = $sf_user->getAttribute('concept');
+$concept = $concept_property_history->getConceptRelatedByConceptId();
 
 /** @var \sfParameterHolder $sf_flash */
 if ($sf_flash->has('hasConcept'))
   {
-    $uri = $sf_user->getAttribute('concept')->getUri();
+    /** @var myUser $sf_user */
+    $uri = $concept->getUri();
   }
-  else if ($sf_user->getAttribute('vocabulary'))
+else if ($sf_user->getAttribute('vocabulary'))
   {
     $uri = $sf_user->getAttribute('vocabulary')->getUri();
   }
