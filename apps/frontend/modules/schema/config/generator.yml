@@ -3,6 +3,18 @@ generator:
   param:
     model_class:      Schema
     theme:            default
+    label_singular:   Element Set
+    label_plural:     Element Sets
+    parents:
+      user:
+        getid:        user_id
+        requestid:    user_id
+      agent:
+        getid:        agent_id
+        requestid:    agent_id
+    pager:
+      no_results:     No Element Sets have been defined
+
     fields:
       id:             { name: ID, type: plain}
       created_at:     { name: Date Created, type: plain, params: date_format='s', help: This is the date the element set was created }
@@ -46,6 +58,7 @@ generator:
       filters:        [agent_id, status_id]
       urlfilters:
         agent_id:     agent_id
+        user_id:      user_id
 
     edit:
       title:
@@ -76,6 +89,7 @@ generator:
         _cancel:       { only_for: edit, query_string: {agent_id: agent_id}, route: agent_schema, credentials: [[administrator, hasAgents, schemamaintainer, schemaadmin]] }
       urlfilters:
         agent_id:     agent_id
+        user_id:      user_id
 
     show:
       fields:
@@ -96,4 +110,7 @@ generator:
 #        _list:
         _edit:       { credentials: [[administrator, schemamaintainer, schemaadmin]] }
         _publish:    { credentials: [[administrator]] }
+      urlfilters:
+        agent_id:     agent_id
+        user_id:      user_id
 

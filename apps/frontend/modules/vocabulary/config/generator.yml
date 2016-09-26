@@ -3,6 +3,17 @@ generator:
   param:
     model_class:      Vocabulary
     theme:            default
+    label_singular:   Vocabulary
+    label_plural:     Vocabulary
+    parents:
+      user:
+        getid:        user_id
+        requestid:    user_id
+      agent:
+        getid:        agent_id
+        requestid:    agent_id
+    pager:
+      no_results:     No Vocabularies have been defined
 
     fields:
       id:             { name: ID, type: plain}
@@ -21,10 +32,10 @@ generator:
       languages:      { name: Available Languages, help: Available languages for the textual properties of this vocabulary }
       status_id:      { name: Default Status, help: Default status for the concept properties of this vocabulary }
       repo:           { name: Git Repository, help: This is the name of the Git Repo that will hold this vocabulary }
-      prefix:         { name: Prefix, help: This will be used as the prefix identifying this URI in an RDF CURIE or a qname in XML }
+      prefix:         { name: Prefix, help: This will be used as the prefix identifying this URI in an RDF CURIE or a qname in XML. }
       ns_type:
         name: Type
-        help: "The Vocabulary URI will be terminated with either a hash ( # ) or a slash ( / ) to identify the namespace"
+        help: "The Vocabulary URI will be terminated with either a hash ( # ) or a slash ( / ) to identify the namespace "
         type: select_tag
         params:
           select_options:
@@ -77,6 +88,7 @@ generator:
         _cancel:       { only_for: edit, query_string: {agent_id: agent_id}, route: agent_vocabulary, credentials: [[administrator, hasAgents, vocabularymaintainer, vocabularyadmin]] }
       urlfilters:
         agent_id:     agent_id
+        user_id:      user_id
 
     show:
       fields:
@@ -106,3 +118,7 @@ generator:
           name:      Get XML Schema
           icon:      %SF_ADMIN_WEB_DIR%/images/xmlschema_icon.png
           route:     xml_schema_vocabulary
+          params:    "style=\"background: #ffc url(/jpAdminPlugin/images/xmlschema_icon.png) no-repeat 3px; padding-left:25px !important\" "
+      urlfilters:
+        agent_id:     agent_id
+        user_id:      user_id
