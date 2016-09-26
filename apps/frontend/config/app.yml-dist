@@ -11,3 +11,4 @@ all:
   admin_email:         sysadmin@metadataregistry.org
   mysql_command:       mysql
   db_load_filename:    swregistry.sql
+  sf_root_dir_local:   {insert full path to the root of the symfony code}}

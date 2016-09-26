@@ -174,6 +174,8 @@ class sfException extends Exception
     ));
 
     $traces = array();
+    $sfRootDir = sfConfig::get('app_sf_root_dir_local');
+
     if ($format == 'html')
     {
       $lineFormat = 'at <strong>%s%s%s</strong>(%s)<br />in <em><a href="phpstorm://open?file=%s&line=%s">%s</a></em> line %s <a href="#" onclick="toggle(\'%s\'); return false;">...</a><br /><ul id="%s" style="display: %s">%s</ul>';
@@ -193,7 +195,7 @@ class sfException extends Exception
         (isset($traceData[$i]['type']) ? $traceData[$i]['type'] : ''),
         $traceData[$i]['function'],
         $this->formatArgs($args, false, $format),
-        rawurlencode("~/Code/registry/" . preg_replace('#^' .sfConfig::get('sf_root_dir') . '/#','',$file)),
+        rawurlencode($sfRootDir . "/" . preg_replace('#^' .sfConfig::get('sf_root_dir') . '/#','',$file)),
         $line,
         $shortFile,
         $line,
