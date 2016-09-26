@@ -111,7 +111,7 @@ class historyActions extends autoHistoryActions
 
     public function executeList()
     {
-        $idType = $this->getRequestParameter('IdType', null);
+        $idType = myActionTools::findIdType($this->getRequest()->getParameterHolder());
         $id     = $this->getRequestParameter('id', null);
         $vocabularyId = null;
 

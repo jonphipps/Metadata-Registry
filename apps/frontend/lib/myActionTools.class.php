@@ -16,15 +16,14 @@ class myActionTools
     return;
   }
 
+
   /**
-  * require that there be a schema
-  *
-  * returns a 404 if no schema has already been selected
+   * require that there be a schema
+   *
+   * returns a 404 if no schema has already been selected
    * Performs a redirect if one has but the param has not been added to the request
-  *
-  * @param  string $module The calling module
-  * @param  string $action The calling action
-  */
+   *
+   */
   public static function requireSchemaFilter()
   {
     /* @var sfAction */
@@ -509,7 +508,7 @@ class myActionTools
   /**
   * description
   *
-  * @return Schema Current schema object
+  * @return bool|Schema
    *
    * @param int $schemaId
   */
@@ -626,5 +625,53 @@ class myActionTools
     $protocol  = preg_replace('*' . $host . '*', '', $uriPrefix);
 
     return $protocol . "uri." . $host . "/";
+  }
+
+
+  /**
+   * @param sfParameterHolder $requestParams
+   * @param bool $findAll             if true, returns an array of all found Ids
+   * @param bool $includeValue        if true, returns an array of the form ['idType' => $value]
+   * @param null|array $suppliedTypes overrides the list of types to search for
+   *
+   * @return array|mixed returns false if no Ids found, a string if a single ID was requested, an array of Ids if $findAll is true
+   *
+   */
+  public static function findIdType(
+    sfParameterHolder $requestParams,
+    $findAll = false,
+    $includeValue = false,
+    $suppliedTypes = null)
+  {
+    $found = [];
+    $types = $suppliedTypes ? (array) $suppliedTypes : [
+      'vocabulary_id',
+      'concept_id',
+      'concept_property_id',
+      'schema_id',
+      'schema_property_id',
+      'schema_property_element_id',
+      'import_id' ];
+    foreach ($types as $type) {
+      /** @var sfParameterHolder $sf_params */
+      if ($requestParams->has($type)) {
+        if ($findAll) {
+          if ($includeValue) {
+            $found[$type] = $requestParams->get($type);
+          } else {
+            $found[] = $type;
+          }
+        } else {
+          if ($includeValue) {
+            $found[$type] = $requestParams->get($type);
+            break;
+          } else {
+            return $type;
+          }
+        }
+      }
+    }
+
+    return count($found) ? $found : false;
   }
 }
