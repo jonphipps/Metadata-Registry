@@ -1,7 +1,9 @@
 <?php
 namespace Page\Acceptance;
 
-class Home
+use Page\PageMaster;
+
+class HomePage extends PageMaster
 {
     // include url of current page
     public static $URL = '/';

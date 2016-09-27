@@ -1,7 +1,7 @@
 <?php
 namespace Page\Acceptance\agent;
 
-class Edit
+class CreatePage extends EditPage
 {
     // include url of current page
     public static $URL = '';

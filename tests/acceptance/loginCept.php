@@ -1,9 +1,9 @@
 <?php
-use Page\Acceptance\Home;
+use Page\Acceptance\HomePage;
 
 $I = new AcceptanceTester($scenario);
 $I->wantTo('see that the login page exists');
-$I->amOnPage(Home::$URL);
+$I->amOnPage(HomePage::$URL);
 
 $I->click('//*[@id="header"]/ul/li[1]/a'); //login
 $I->canSeeInCurrentUrl('login');

@@ -1,7 +1,7 @@
 <?php
-namespace Page\Acceptance\agent;
+namespace Page;
 
-class Create
+class CreateMaster extends EditMaster
 {
     // include url of current page
     public static $URL = '';
@@ -11,15 +11,6 @@ class Create
      * public static $usernameField = '#username';
      * public static $formSubmitButton = "#mainForm input[type=submit]";
      */
-    /**
-     * @var \AcceptanceTester;
-     */
-    protected $acceptanceTester;
-
-    public function __construct(\AcceptanceTester $I)
-    {
-        $this->acceptanceTester = $I;
-    }
 
     /**
      * Basic route example for your current URL
@@ -30,5 +21,6 @@ class Create
     {
         return static::$URL.$param;
     }
+
 
 }

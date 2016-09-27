@@ -9,7 +9,7 @@ $I->amOnPage('/');
 $I->loginAsAgentAdmin();
 //$I->seeElement('input',['value'=>'Add Agent']);
 $I->click("Add Agent");
-$I->seeInCurrentUrl('/agent/create');
+$I->seeInCurrentUrl('/agents/create');
 $I->see('Creating new agent', 'h1');
 $I->submitForm("#sf_admin_edit_form",
                [
@@ -22,8 +22,6 @@ $I->seeInCurrentUrl('/');
 $I->seeInDatabase('reg_agent', [ 'id' => 59, 'org_name' => 'An Agent Name', 'org_email' => 'jphipps@madcreek.com' ]);
 $I->seeInDatabase('reg_agent_has_user', [  'agent_id' => 59,  'user_id' => 41,  'is_registrar_for' => '1', 'is_admin_for' => '1' ]);
 $I->seeLink('An Agent Name');
-$I->seeLink('Add Vocabulary');
-$I->seeLink('Add Element Set');
 $I->seeInTitle("The Registry! :: vocab_admin :: Home");
 $I->click('An Agent Name');
 $I->seeInTitle("The Registry! :: An Agent Name :: Show the Details");
@@ -47,7 +45,7 @@ $I->seeInTitle("The Registry! :: vocab_admin :: Home");
 $I->wantTo('want to see the list of agents');
 $I->click('Agents');
 $I->seeInTitle("The Registry! :: Agents :: List");
-$I->see('Agents',['h1']);
+$I->see('Agents');
 $I->click('An Agent Name');
 $I->seeInTitle("The Registry! :: An Agent Name :: Show the Details");
 $I->seeElement('div#tab_container');

@@ -1,7 +1,10 @@
 <?php
 namespace Page\Acceptance\agent;
 
-class Lists
+use Page\EditMaster;
+use Page\PageMaster;
+
+class EditPage extends EditMaster
 {
     // include url of current page
     public static $URL = '';

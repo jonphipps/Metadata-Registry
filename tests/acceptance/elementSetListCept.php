@@ -1,5 +1,5 @@
 <?php
-use Page\Acceptance\Home;
+use Page\Acceptance\HomePage;
 
 $I = new AcceptanceTester($scenario);
 $I->wantTo('see that the empty element set list');

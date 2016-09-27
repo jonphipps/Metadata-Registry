@@ -1,15 +1,15 @@
 <?php
-use Page\Acceptance\Home;
+use Page\Acceptance\HomePage;
 
 $I = new AcceptanceTester($scenario);
 $I->wantTo('see that the home page exists');
-$I->amOnPage(Home::$URL);
-$I->seeInTitle(Home::$pageTitle);
-$I->see(Home::welcome(), Home::$elementWelcome);
-$I->see(Home::latestActivity(), Home::$elementLatestActivity);
-$I->see(Home::registryNews(), Home::$elementRegistryNews);
-$I->see(Home::sideMenu(), Home::$elementSideMenu);
-$I->see(Home::signin(), Home::$elementSignin);
-$I->seeElement(Home::$elementSearchElementForm);
-$I->seeElement(Home::$elementSearchVocabForm);
+$I->amOnPage(HomePage::$URL);
+$I->seeInTitle(HomePage::$pageTitle);
+$I->see(HomePage::welcome(), HomePage::$elementWelcome);
+$I->see(HomePage::latestActivity(), HomePage::$elementLatestActivity);
+$I->see(HomePage::registryNews(), HomePage::$elementRegistryNews);
+$I->see(HomePage::sideMenu(), HomePage::$elementSideMenu);
+$I->see(HomePage::signin(), HomePage::$elementSignin);
+$I->seeElement(HomePage::$elementSearchElementForm);
+$I->seeElement(HomePage::$elementSearchVocabForm);
 

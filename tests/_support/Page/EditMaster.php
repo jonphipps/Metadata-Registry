@@ -1,7 +1,10 @@
 <?php
-namespace Page\Acceptance\agent;
+/** This is the master EDIT page and contains all of the EDIT-specific page actions and elements
+ */
 
-class Show
+namespace Page;
+
+class EditMaster extends PageMaster
 {
     // include url of current page
     public static $URL = '';
@@ -11,15 +14,6 @@ class Show
      * public static $usernameField = '#username';
      * public static $formSubmitButton = "#mainForm input[type=submit]";
      */
-    /**
-     * @var \AcceptanceTester;
-     */
-    protected $acceptanceTester;
-
-    public function __construct(\AcceptanceTester $I)
-    {
-        $this->acceptanceTester = $I;
-    }
 
     /**
      * Basic route example for your current URL
@@ -30,5 +24,6 @@ class Show
     {
         return static::$URL.$param;
     }
+
 
 }

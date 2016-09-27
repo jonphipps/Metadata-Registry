@@ -7,13 +7,16 @@
 class_name: FunctionalTester
 modules:
     enabled:
+        - PhpBrowser:
+            url: http://registry.dev/frontend_test-empty.php
         - Filesystem
         - \Helper\Functional
         - Asserts
-#        - Db:
-#            dump: tests/_data/swregistry_test.sql
-#            dsn: "mysql:host=127.0.0.1;port=3306;dbname=swregistry_test"
-#            user: "%DB_USER%"
-#            password: "%DB_PASS%"
-#            populate: false
-#            cleanup: false
+        - Db:
+            dump: tests/_data/swregistry_test_empty.sql
+            dsn: "mysql:host=%DB_HOST%;port=%DB_PORT_VM%;%DB_DATABASE%"
+            user: "%DB_USERNAME%"
+            password: "%DB_PASSWORD%"
+            populate: true
+            cleanup: false
+
