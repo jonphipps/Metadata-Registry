@@ -27,7 +27,7 @@
 <?php endif; ?>
 
 */
-function cache($name, $lifeTime = 86400)
+function sfcache($name, $lifeTime = 86400)
 {
   $context = sfContext::getInstance();
 

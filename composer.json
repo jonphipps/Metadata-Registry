@@ -8,14 +8,18 @@
     }
   ],
   "require-dev": {
+    "fzaninotto/faker": "^1.6",
     "raveren/kint": "1.0.*@dev",
-    "phpspec/phpspec": "2.1.0",
+    "phpspec/phpspec": "~2.1",
     "henrikbjorn/phpspec-code-coverage": "1.0.*@dev",
     "codeception/specify": "^0.4.3",
     "codeception/verify": "^0.3.0",
     "captbaritone/mailcatcher-codeception-module": "^1.1",
     "codeception/codeception": "^2.2",
-    "sstalle/php7cc": "^1.1"
+    "mockery/mockery": "0.9.*",
+    "sstalle/php7cc": "^1.1",
+    "symfony/css-selector": "3.1.*",
+    "symfony/dom-crawler": "3.1.*"
   },
   "config": {
     "process-timeout": 900,
@@ -31,44 +35,66 @@
   "minimum-stability": "dev",
   "require": {
     "bgcc/sf-select2-widgets-plugin": "~1.0",
-    "league/plates": "2.*",
-    "league/flysystem": "0.5.*",
-    "vlucas/phpdotenv": "1.*@dev",
+    "league/flysystem": "~1.0",
+    "vlucas/phpdotenv": "~2.2",
     "ddeboer/data-import": "0.18.*",
     "google/apiclient": "^1.1",
     "semsol/arc2": "^2.2",
     "easyrdf/easyrdf": "^0.9.1",
     "ml/json-ld": "1.*",
-    "symfony/property-access": "2.7.x-dev",
     "phpoffice/phpexcel": "^1.8",
-    "symfony/validator": "2.7.x-dev",
-    "symfony/intl": "2.7.x-dev",
     "psr/log": "^1.0",
-    "symfony/http-foundation": "2.7.x-dev",
     "neitanod/forceutf8": "^2.0",
-    "mjphaynes/php-resque": "^1.2",
     "robmorgan/phinx": "^0.5.0",
-    "symfony/var-dumper": "2.8.x-dev",
     "knplabs/github-api": "1.7.*",
     "phpmailer/phpmailer": "~5.2",
-    "hashids/hashids": "^1.0"
+    "hashids/hashids": "^1.0",
+    "laravel/laravel": "~5.3.0",
+    "pusher/pusher-php-server": "^2.6",
+    "symfony/psr-http-message-bridge": "^1.0",
+    "doctrine/dbal": "^2.5",
+    "pda/pheanstalk": "^3.1",
+    "predis/predis": "^1.1"
   },
-
   "autoload": {
     "psr-4": {
       "ImportVocab\\": "plugins/jpAdminGeneratorPlugin/lib/ImportVocab",
       "model\\": "lib/model",
       "apps\\": "apps",
+      "larapp\\": "app/",
       "tests\\": "tests",
       "Page\\": "tests/_support/Page",
       "Helper\\": "tests/_support/Helper",
       "Step\\": "tests/_support/Step"
     },
-    "classmap": ["lib/model/",
-        "tests"
+    "classmap": [
+      "lib/model/",
+      "database",
+      "tests"
     ]
   },
-
-    "include-path": ["lib/model"]
-
+  "autoload-dev": {
+    "classmap": [
+      "tests/TestCase.php"
+    ]
+  },
+  "scripts": {
+    "post-root-package-install": [
+      "php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+    ],
+    "post-create-project-cmd": [
+      "php artisan key:generate"
+    ],
+    "post-install-cmd": [
+      "Illuminate\\Foundation\\ComposerScripts::postInstall",
+      "php artisan optimize"
+    ],
+    "post-update-cmd": [
+      "Illuminate\\Foundation\\ComposerScripts::postUpdate",
+      "php artisan optimize"
+    ]
+  },
+  "include-path": [
+    "lib/model"
+  ]
 }

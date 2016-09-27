@@ -52,7 +52,11 @@ coverage.xml
 spec/coverage
 .env
 dump.rdb
-node_modules
+/node_modules
 composer.lock
+
+Homestead.json
+Homestead.yaml
+/public/storage
 
 tests/_support/_generated

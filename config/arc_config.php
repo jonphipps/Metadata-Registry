@@ -1,5 +1,9 @@
 <?php
 
+if (php_sapi_name() == "cli") {
+  return;
+}
+
 if ($_SERVER['SERVER_NAME'] == 'registry')
 {
   define('SF_ENVIRONMENT', 'prod');
