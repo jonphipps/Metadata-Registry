@@ -437,9 +437,6 @@ all_history_feed_atom:
 
 
 # user
-user_save:
-  url:   /user/save
-  param: { module: user, action: save }
 
 user_profile:
   url:   /user/:nickname

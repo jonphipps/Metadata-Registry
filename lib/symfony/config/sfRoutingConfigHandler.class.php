@@ -35,7 +35,7 @@ class sfRoutingConfigHandler extends sfYamlConfigHandler
     $routes = sfRouting::getInstance();
     foreach ($config as $name => $params) {
       if (preg_match('/_resource$/', $name)) {
-      $actions = [ 'edit', 'delete', 'show', 'create', 'list', 'cancel' ];
+      $actions = [ 'edit', 'delete', 'show', 'create', 'list', 'save', 'cancel' ];
         if (isset( $params['param']['only'] )) {
           $actions = (array) $params['param']['only'];
           unset( $params['param']['only'] );
@@ -59,7 +59,7 @@ class sfRoutingConfigHandler extends sfYamlConfigHandler
             $requirements = ($filterId == $params['url']) ? [ 'id' => '\d+' ] : [ $filterId => '\d+', 'id' => '\d+' ];
             $params['requirements'] = $requirements;
           } else {
-            $url = ( $action == 'create' ) ? $params['url'] . '/' . $action : $params['url'];
+            $url = ( in_array($action, [ 'create', 'save' ]) ) ? $params['url'] . '/' . $action : $params['url'];
             $params['requirements'] = [];
           }
           $routes->connect($name . '_' . $action,
