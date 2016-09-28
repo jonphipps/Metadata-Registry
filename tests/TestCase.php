@@ -7,7 +7,8 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
      *
      * @var string
      */
-    protected $baseUrl = 'http://localhost';
+    protected $baseUrl = 'http://registry.dev';
+    protected static $setupDatabase = false;
 
     /**
      * Creates the application.
@@ -21,5 +22,19 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
         $app->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap();
 
         return $app;
+    }
+    public function setUp()
+    {
+        parent::setUp();
+        if(self::$setupDatabase)
+        {
+            $this->setupDatabase();
+        }
+    }
+    protected function setupDatabase()
+    {
+        Artisan::call('migrate:refresh');
+        Artisan::call('db:seed');
+        self::$setupDatabase = false;
     }
 }
