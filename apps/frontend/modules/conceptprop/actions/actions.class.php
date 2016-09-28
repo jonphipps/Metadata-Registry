@@ -213,12 +213,14 @@ class conceptpropActions extends autoConceptpropActions
     {
       $vocabulary = $concept->getVocabulary();
       $this->vocabulary = $vocabulary;
+      sfContext::getInstance()->getUser()->setCurrentVocabulary($vocabulary);
     }
     $this->forward404Unless($concept,'No concept has been selected.');
     $this->forward404Unless($vocabulary,'No vocabulary has been selected.');
 
     $this->concept = $concept;
     $this->conceptID = $concept->getId();
+    sfContext::getInstance()->getUser()->setCurrentConcept($concept);
 
     return $concept;
   }
