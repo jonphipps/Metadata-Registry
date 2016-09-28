@@ -10,7 +10,7 @@ foreach ($this->getParameterValue('list.object_actions') as $actionName => $para
   <?php endif;
   //if the actioname is show and we have urlfilters
   //set a condition for each filter
-  if ($urlFilters && in_array($actionName, [ '_show', '_edit' ])):
+  if ($urlFilters && in_array($actionName, [ '_show', '_edit', '_delete' ])):
     foreach ($urlFilters as $index => $urlFilter):
       //note that this will replace any route and query string set for show
       $params['route'] = str_replace('_id', '', $urlFilter) . '_' . $this->getModuleName() . $actionName;
