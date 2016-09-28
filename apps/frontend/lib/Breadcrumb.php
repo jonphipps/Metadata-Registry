@@ -73,6 +73,7 @@ class Breadcrumb
      */
     public static function elementSetHistoryDetailFactory($schemaHistory)
     {
+      \sfPropelParanoidBehavior::disable();
         $breadcrumbs    = [];
         $breadcrumbs[3] = new Breadcrumb('History',
                                          '@schemapropel_schemahistory_list?schema_property_element_id=' . $schemaHistory->getSchemaPropertyElementId(),
@@ -158,8 +159,9 @@ class Breadcrumb
      *
      * @return Breadcrumb[]
      */
-    public static function vocabularyHistoryDetailFactory($vocabularyHistory)
+    public static function vocabularyHistoryDetailFactory(\ConceptPropertyHistory $vocabularyHistory)
     {
+      \sfPropelParanoidBehavior::disable();
         $breadcrumbs    = [];
         $breadcrumbs[3] = new Breadcrumb('History',
                                          '@conceptprop_history_list?concept_property_id=' . $vocabularyHistory->getConceptPropertyId(),
