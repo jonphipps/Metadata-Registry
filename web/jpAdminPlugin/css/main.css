@@ -437,6 +437,12 @@ body #sf_admin_container td
   border-bottom: 0;
   border-right: 0;
   padding-bottom: .8rem;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+table.sf_admin_list.history {
+    width: inherit !important;
 }
 
 #sf_admin_container .sf_admin_list th

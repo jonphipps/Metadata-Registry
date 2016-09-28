@@ -1,4 +1,5 @@
-<table cellspacing="0" class="sf_admin_list">
+<?php  $class = in_array($this->getModuleName(), [ 'schemahistory', 'history' ]) ? "sf_admin_list history" : "sf_admin_list"  ?>
+<table class="<?php echo $class ?>">
 <thead>
 <tr>
 [?php include_partial('list_th_<?php echo $this->getParameterValue('list.layout', 'tabular') ?>') ?]
