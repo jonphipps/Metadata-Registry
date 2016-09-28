@@ -3,10 +3,17 @@ generator:
   param:
     model_class:      ExportHistory
     theme:            default
+    label_singular:   Export
+    label_plural:     Exports
+    parents:
+      schema:         { getid: schema_id, requestid: schema_id }
+      vocabulary:     { getid: vocabulary_id, requestid: vocabulary_id }
+    pager:
+      no_results:     There have been no Exports
 
     fields:
       id:             { name: ID, type: plain}
-      created_at:     { name: Date Created, type: plain, params: date_format='s', help: This is the date the export was created }
+      created_at:     { name: Date Created, type: plain, params: date_format='s', help: This is the date the export was created  }
       user:           { name: Member, type: plain, help: The individual that created the export }
       csv_type:
         name: CSV Type
