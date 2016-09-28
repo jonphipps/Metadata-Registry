@@ -1,4 +1,14 @@
-[?php echo form_tag('@<?php echo $this->getModuleName() ?>_save', array(
+[?php $parent = ''; $query = ''; ?]
+<?php $parents = $this->getParameterValue('parents');
+if ($parents): ?>
+<?php foreach ($parents as $module => $param): ?>
+  [?php if ($sf_params->has('<?php echo $param['requestid'] ?>')): ?]
+    [?php $parent = '<?php echo $module ?>_';
+          $query = '?<?php echo $param['requestid'] ?>=' . $sf_params->get('<?php echo $param['requestid'] ?>'); ?]
+  [?php endif; ?]
+<?php endforeach; ?>
+<?php endif; ?>
+[?php echo form_tag('@' . $parent . '<?php echo $this->getModuleName() ?>_save' . $query, array(
   'id'        => 'sf_admin_edit_form',
   'name'      => 'sf_admin_edit_form',
   'multipart' => true,
