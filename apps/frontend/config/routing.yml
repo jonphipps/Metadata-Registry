@@ -170,15 +170,26 @@ concept_history_feed_all_rss:
 
 #vocabularies
 
+vocabulary_history_show:
+  url:   /vocabularies/:vocabulary_id/history/:id
+  param: { module: history, action: show, tabnav: vocabularies, IdType: vocabulary_id }
+  requirements: { vocabulary_id: \d+, id: \d+ }
+
 vocabulary_history_list:
   url:   /vocabularies/:vocabulary_id/history
   param: { module: history, action: list, tabnav: vocabularies, IdType: vocabulary_id }
   requirements: { vocabulary_id: \d+ }
 
 
-concept_history:
+concept_history_show:
+  url:   /concepts/:concept_id/history/:id
+  param: { module: history, action: show, tabnav: concepts, IdType: concept_id }
+  requirements: { concept_id: \d+, id: \d+ }
+
+concept_history_list:
   url:   /concepts/:concept_id/history
   param: { module: history, action: list, tabnav: concepts, IdType: concept_id }
+  requirements: { concept_id: \d+ }
 
 
 #imports
@@ -209,11 +220,6 @@ schema_schemahistory_list:
   url:   /elementsets/:schema_id/history
   param: { module: schemahistory, action: list, tabnav: elementsets }
   requirements: { schema_id: \d+ }
-
-concept_history_list:
-  url:   /concepts/:concept_id/history
-  param: { module: history, action: list, tabnav: vocabularies, IdType: concept_id }
-  requirements: { concept_id: \d+ }
 
 #properties
 conceptprop_history_list:
