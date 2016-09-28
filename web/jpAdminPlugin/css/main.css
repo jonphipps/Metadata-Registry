@@ -343,6 +343,7 @@ body #sf_admin_container td
 #sf_admin_container ul.sf_admin_actions li.float-left-show
 {
   float:left;
+  margin-top: -5px;
 }
 
 #sf_admin_container ul.sf_admin_actions input,
