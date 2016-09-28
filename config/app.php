@@ -12,7 +12,7 @@ return [
     | any other location as required by the application or its packages.
     */
 
-    'name' => 'Laravel',
+    'name' => 'Registry',
 
     /*
     |--------------------------------------------------------------------------
@@ -51,7 +51,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost'),
+    'url' => env('APP_URL', 'http://registry.dev'),
 
     /*
     |--------------------------------------------------------------------------
@@ -172,11 +172,14 @@ return [
         /*
          * Application Service Providers...
          */
-        larapp\Providers\AppServiceProvider::class,
-        larapp\Providers\AuthServiceProvider::class,
-        // larapp\Providers\BroadcastServiceProvider::class,
-        larapp\Providers\EventServiceProvider::class,
-        larapp\Providers\RouteServiceProvider::class,
+        App\Providers\AppServiceProvider::class,
+        App\Providers\AuthServiceProvider::class,
+        // App\Providers\BroadcastServiceProvider::class,
+        App\Providers\EventServiceProvider::class,
+        App\Providers\RouteServiceProvider::class,
+        Barryvdh\Debugbar\ServiceProvider::class,
+        Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
+        Mpociot\LaravelTestFactoryHelper\TestFactoryHelperServiceProvider::class,
 
     ],
 
