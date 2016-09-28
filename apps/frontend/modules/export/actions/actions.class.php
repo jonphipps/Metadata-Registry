@@ -40,7 +40,9 @@ class exportActions extends autoexportActions
             $export_history->setSchemaId($schemaId);
         }
         $userId = sfContext::getInstance()->getUser()->getSubscriberId();
+      if ($userId) {
         $export_history->setUserId($userId);
+      }
 
         parent::setDefaults($export_history);
     }
