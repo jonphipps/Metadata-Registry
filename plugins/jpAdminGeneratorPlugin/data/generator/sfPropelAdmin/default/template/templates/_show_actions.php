@@ -16,13 +16,19 @@
         $params['only_for'] = $this->getParameterValue('edit.actions.'.$actionName.'.mode');
         //if the actioname is list or cancel and we have urlfilters
         //set a condition for each filter
-        if ($urlFilters && in_array($actionName, [ '_list', '_cancel' ]) ):
+        if ($urlFilters && in_array($actionName, [ '_list', '_cancel', '_delete' ]) ):
           foreach ($urlFilters as $index => $urlFilter):
             //note that this will replace any route and query string set for show
             $params['route'] = str_replace('_id', '', $urlFilter) . '_' . $this->getModuleName() . $actionName;
             $params['query_string'] = ['sf_request' => $urlFilter];      ?>
             [?php if ($sf_request->getParameter('<?php echo $urlFilter ?>')): ?]
-              <?php echo $this->addCredentialCondition($this->getLinkToAction($actionName, $params, true), $params, true, true, "show") ?>
+              <?php
+            if ($actionName === '_delete') {
+              $params['query_string']['id'] = 'id';
+               echo $this->addCredentialCondition($this->getButtonToAction($actionName, $params, false, 'show'), $params, false, true, "show");
+            } else {
+              echo $this->addCredentialCondition($this->getLinkToAction($actionName, $params, true), $params, true, true, "show");
+            } ?>
             [?php endif; ?]
           <?php endforeach;?>
         <?php else:
