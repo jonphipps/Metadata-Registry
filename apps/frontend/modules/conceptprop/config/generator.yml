@@ -3,6 +3,14 @@ generator:
   param:
     model_class:      ConceptProperty
     theme:            default
+    label_singular:   Property
+    label_plural:     Properties
+    parents:
+      concept:
+        getid:        concept_id
+        requestid:    concept_id
+    pager:
+      no_results:     No Properties have been defined for this Concept
 
     fields:
       id:
@@ -41,12 +49,12 @@ generator:
       displayfilter:  false
       object_actions:
         _edit:        { credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
-        _delete:      { credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
+        _delete:      { query_string: {credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
       actions:
-        _create:      {query_string: {sf_request: concept_id}, name: Add Property, credentials: [[administrator, vocabularymaintainer, vocabularyadmin]], route: conceptprop_create }
+        _create:      {query_string: {sf_request: concept_id}, name: Add Property, credentials: [[administrator, vocabularymaintainer, vocabularyadmin]], route: concept_conceptprop_create }
       filters:        [concept_id, skos_property_id, updated_at, object]
       # urlfilter form is [field to filter on]: [value passed from routing.yml]
-      # multiple filters can be set but they're currently mutually exclusive (any of the list can be used but only one per url.)
+      # multiple filters can be set but they're currently mutually exclusive (any of the list can be used but only one per url. )
       urlfilters:
         concept_id: concept_id
 
@@ -89,5 +97,6 @@ generator:
       actions:
 #        _list:        { query_string: {concept_id: concept_id} }
         _edit:        { credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
-        _create:      { query_string: {concept_id: concept_id}, name: Add Property, credentials: [[administrator, vocabularymaintainer, vocabularyadmin]], route: conceptprop_create }
+        _create:      { query_string: {concept_id: concept_id}, name: Add Property, credentials: [[administrator, vocabularymaintainer, vocabularyadmin]], route: concept_conceptprop_create }
+        _delete:      { query_string: {concept_id: concept_id}, credentials: [[administrator, vocabularyadmin]] }
 
