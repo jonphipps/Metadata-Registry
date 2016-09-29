@@ -49,7 +49,7 @@ generator:
       displayfilter:  false
       object_actions:
         _edit:        { credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
-        _delete:      { query_string: {credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
+        _delete:      { credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
       actions:
         _create:      {query_string: {sf_request: concept_id}, name: Add Property, credentials: [[administrator, vocabularymaintainer, vocabularyadmin]], route: concept_conceptprop_create }
       filters:        [concept_id, skos_property_id, updated_at, object]
