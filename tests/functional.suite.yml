@@ -5,6 +5,8 @@
 # Include one of framework modules (Symfony2, Yii2, Laravel5) to use it
 
 class_name: FunctionalTester
+params:
+    - .env
 modules:
     enabled:
         - PhpBrowser:

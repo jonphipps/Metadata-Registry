@@ -1,3 +1,5 @@
+params:
+    - .env
 class_name: ImportTester
 error_level: "E_ALL & ~E_STRICT & ~E_USER_DEPRECATED & ~E_DEPRECATED"
 modules:

@@ -1,3 +1,5 @@
+params:
+    - .env
 class_name: JsacceptanceTester
 modules:
     enabled:

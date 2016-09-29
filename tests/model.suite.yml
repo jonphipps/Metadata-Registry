@@ -1,3 +1,5 @@
+params:
+    - .env
 class_name: ModelTester
 error_level: "E_ALL & ~E_STRICT & ~E_USER_DEPRECATED & ~E_DEPRECATED"
 modules:
