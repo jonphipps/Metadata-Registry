@@ -57,3 +57,5 @@ composer.lock
 
 tests/_output/*
 FunctionalTesterActions.php
+bootstrap/cache
+tests/_support/_generated
