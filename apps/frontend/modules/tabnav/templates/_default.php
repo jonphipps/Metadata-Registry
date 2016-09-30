@@ -37,6 +37,8 @@ if (isset( $breadcrumbs) && count( $breadcrumbs )): ?>
             if ($breadcrumb->getEntityTypeUrl()) {
                 $url = $breadcrumb->getEntityTypeUrl();
                 $html .= $spaces;
+                $filterParam = '';
+
                 $namespace = $breadcrumb->getNamespace();
                 if ($namespace) {
                     $filters = $sf_user->getAttributeHolder()->getAll('sf_admin/' . $namespace . '/filters');
@@ -52,9 +54,9 @@ if (isset( $breadcrumbs) && count( $breadcrumbs )): ?>
                         }
                     }
                 }
-                if ( !empty($filterParam)) {
-                    $options = [ 'query_string' => $filterParam ];
-                }
+
+                $options = empty($filterParam) ? '' : [ 'query_string' => $filterParam ];
+
                 $html .= link_to(__($breadcrumb->getEntityTypeLabel()) . ':&nbsp;', $url, $options);
                 $html = empty( $breadcrumb->getEntityUrl() )
                     ? $html . $breadcrumbPrefix . '"' . __($breadcrumb->getEntityLabel() . '"')
