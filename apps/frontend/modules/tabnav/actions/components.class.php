@@ -15,17 +15,49 @@ use apps\frontend\lib\Breadcrumb;
 class tabnavComponents extends sfComponents
 {
 
-    public function executeDefault()
-    {
-        $tabnav = $this->getRequestParameter('tabnav');
-        if ($tabnav) {
-            $tabnav = 'execute' . ucfirst($tabnav);
-            $this->$tabnav();
-        }
+  public function executeDefault()
+  {
+    //show and edit should get the tab associated with the module
+    //this overrides the tabnav setting
+    $showActions = [ 'show', 'edit' ];
+    $tabnav      = in_array($this->getRequestParameter('action'), $showActions)
+      ? $this->getRequestParameter('module') : $this->getRequestParameter('tabnav');
+    if ($tabnav) {
+      $tabnav = 'execute' . ucfirst($tabnav);
+      $this->$tabnav();
+    }
+  }
+
+
+  public function executeHistory()
+  {
+    $tabnav = $this->getRequestParameter('tabnav');
+    if ($tabnav) {
+      $tabnav = 'execute' . ucfirst($tabnav);
+      $this->$tabnav();
     }
 
+    $history           = isset( $this->concept_property_history ) ? $this->concept_property_history : ConceptPropertyHistoryPeer::retrieveByPK($this->getRequestParameter('id'));
+    $this->breadcrumbs = Breadcrumb::vocabularyHistoryDetailFactory($history);
 
-    public function executeVocabularies()
+  }
+
+
+  public function executeSchemahistory()
+  {
+    $tabnav = $this->getRequestParameter('tabnav');
+    if ($tabnav) {
+      $tabnav = 'execute' . ucfirst($tabnav);
+      $this->$tabnav();
+    }
+
+    $history           = isset( $this->schema_property_element_history ) ? $this->schema_property_element_history : SchemaPropertyElementHistoryPeer::retrieveByPK($this->getRequestParameter('id'));
+    $this->breadcrumbs = Breadcrumb::elementSetHistoryDetailFactory($history);
+
+  }
+
+
+  public function executeVocabulary()
     {
         $id = $this->getRequestParameter('vocabulary_id');
         if ( ! $id) {
@@ -53,7 +85,7 @@ class tabnavComponents extends sfComponents
     }
 
 
-    public function executeConcepts()
+    public function executeConcept()
     {
         $id = $this->getRequestParameter('concept_id');
         if ( ! $id) {
@@ -71,7 +103,7 @@ class tabnavComponents extends sfComponents
     }
 
 
-    public function executeProperties()
+    public function executeConceptprop()
     {
         $id = $this->getRequestParameter('concept_property_id');
         if ( ! $id) {
@@ -89,7 +121,7 @@ class tabnavComponents extends sfComponents
     }
 
 
-    public function executeElementsets()
+    public function executeSchema()
     {
         $id = $this->getRequestParameter('schema_id');
         if ( ! $id) {
@@ -116,50 +148,61 @@ class tabnavComponents extends sfComponents
     }
 
 
-    public function executeElementsets_maintainers()
-    {
-        $id            = $this->getRequestParameter('id');
-        $schemaHasUser = $this->schema_has_user;
-        $schema        = $schemaHasUser->getSchema();
-        $member        = $schemaHasUser->getUser();
-        $requestStack  = $this->getUser()->getAttribute('request_stack', '', 'sfRefererPlugin');
-        $refererRoute  = isset( $requestStack['last_route'] ) ? $requestStack['last_route'] : 0;
+  public function executeSchemauser()
+  {
+    $id            = $this->getRequestParameter('id');
+    $schemaHasUser = $this->schema_has_user;
+    $schema        = $schemaHasUser->getSchema();
+    $member        = $schemaHasUser->getUser();
+    $requestStack  = $this->getUser()->getAttribute('request_stack', '', 'sfRefererPlugin');
+    $refererRoute  = isset( $requestStack['last_route'] ) ? $requestStack['last_route'] : 0;
 
-        $breadcrumbs[$refererRoute == 'user_schema'] = Breadcrumb::elementSetFactory($schema);
-        $breadcrumbs[$refererRoute != 'user_schema'] = Breadcrumb::memberFactory($member);
-        $breadcrumbs[2]                                     = new Breadcrumb('Maintainers',
-                                                                             '@schema_schemauser_list?schema_id=' . $schema->getId(),
-                                                                             $member->getNickname(),
-                                                                             '');
-
-        //there's always a breadcrumb
-        $this->breadcrumbs = $breadcrumbs;
+    $tabnav = $this->getRequestParameter('tabnav');
+    if ($tabnav) {
+      $tabnav = 'execute' . ucfirst($tabnav);
+      $this->$tabnav();
     }
 
+    $breadcrumbs[$refererRoute == 'user_schema'] = Breadcrumb::elementSetFactory($schema);
+    $breadcrumbs[$refererRoute != 'user_schema'] = Breadcrumb::memberFactory($member);
+    $breadcrumbs[2]                              = new Breadcrumb('Maintainers',
+      '@schema_schemauser_list?schema_id=' . $schema->getId(),
+      $member->getNickname(),
+      '');
 
-    public function executeVocabularies_maintainers()
-    {
-        $id            = $this->getRequestParameter('id');
-        /** @var VocabularyHasUser $vocabHasUser */
-        $vocabHasUser = $this->vocabulary_has_user;
-        $vocabulary   = $vocabHasUser->getVocabulary();
-        $member       = $vocabHasUser->getUser();
-        $requestStack = $this->getUser()->getAttribute('request_stack', '', 'sfRefererPlugin');
-        $refererRoute = isset( $requestStack['last_route'] ) ? $requestStack['last_route'] : 0;
+    //there's always a breadcrumb
+    $this->breadcrumbs = $breadcrumbs;
+  }
 
-        $breadcrumbs[$refererRoute != 'vocabulary_maintainers'] = Breadcrumb::vocabularyFactory($vocabulary);
-        $breadcrumbs[$refererRoute == 'vocabulary_maintainers'] = Breadcrumb::memberFactory($member);
-        $breadcrumbs[2]                                     = new Breadcrumb('Maintainers',
-                                                                             '@vocabulary_maintainers?vocabulary_id=' . $vocabulary->getId(),
-                                                                             $member->getNickname(),
-                                                                             '');
 
-        //there's always a breadcrumb
-        $this->breadcrumbs = $breadcrumbs;
+  public function executeVocabuser()
+  {
+    $id = $this->getRequestParameter('id');
+    /** @var VocabularyHasUser $vocabHasUser */
+    $vocabHasUser = $this->vocabulary_has_user;
+    $vocabulary   = $vocabHasUser->getVocabulary();
+    $member       = $vocabHasUser->getUser();
+    $requestStack = $this->getUser()->getAttribute('request_stack', '', 'sfRefererPlugin');
+    $refererRoute = isset( $requestStack['last_route'] ) ? $requestStack['last_route'] : 0;
+    $tabnav       = $this->getRequestParameter('tabnav');
+    if ($tabnav) {
+      $tabnav = 'execute' . ucfirst($tabnav);
+      $this->$tabnav();
     }
 
+    $breadcrumbs[$refererRoute == 'user_vocabulary'] = Breadcrumb::vocabularyFactory($vocabulary);
+    $breadcrumbs[$refererRoute != 'user_vocabulary'] = Breadcrumb::memberFactory($member);
+    $breadcrumbs[2]                                            = new Breadcrumb('Maintainers',
+      '@vocabulary_vocabuser_list?vocabulary_id=' . $vocabulary->getId(),
+      $member->getNickname(),
+      '');
 
-    public function executeElements()
+    //there's always a breadcrumb
+    $this->breadcrumbs = $breadcrumbs;
+  }
+
+
+    public function executeSchemaprop()
     {
         $id = $this->getRequestParameter('schema_property_id');
         if ( ! $id) {
@@ -177,7 +220,7 @@ class tabnavComponents extends sfComponents
     }
 
 
-    public function executeStatements()
+    public function executeSchemapropel()
     {
         $id = $this->getRequestParameter('schema_property_element_id');
         if ( ! $id) {
@@ -198,7 +241,7 @@ class tabnavComponents extends sfComponents
     }
 
 
-    public function executeImports()
+    public function executeImport()
     {
         $id = $this->getRequestParameter('import_id');
         if ( ! $id) {
@@ -229,7 +272,7 @@ class tabnavComponents extends sfComponents
     }
 
 
-    public function executeMembers()
+    public function executeUser()
     {
         $id = $this->getRequestParameter('user_id');
         if ( ! $id) {
@@ -252,7 +295,7 @@ class tabnavComponents extends sfComponents
     }
 
 
-    public function executeAgents()
+    public function executeAgent()
     {
       $id = $this->getRequestParameter('agent_id');
       if ( ! $id) {
