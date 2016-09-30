@@ -52,7 +52,8 @@ generator:
       display:          [=label, type, uri, status, updated_at, updated_user]
       displayfilter:    false
       object_actions:
-        _edit:          { credentials: [[administrator, schemamaintainer, schemaadmin]] }
+        _edit:          { query_string: { schema_id: schema_id }, name: Add Element, credentials: [[administrator, schemamaintainer, schemaadmin]], route: schema_schemaprop_edit }
+        _delete:        { query_string: { schema_id: schema_id }, name: Add Element, credentials: [[administrator, schemamaintainer, schemaadmin]], route: schema_schemaprop_delete }
       actions:
         _create:        { query_string: { sf_request: schema_id }, name: Add Element, credentials: [[administrator, schemamaintainer, schemaadmin]], route: schema_schemaprop_create }
       filters:          [schema_id, label, updated_at, status_id]
@@ -92,8 +93,8 @@ generator:
         _save:         { credentials: [[administrator, schemamaintainer, schemaadmin, schemapropadmin]] }
         _delete:       { credentials: [[administrator, schemaadmin]] }
         _save_and_add: { credentials: [[administrator, schemamaintainer, schemaadmin, schemapropadmin]] }
-        _cancel:       { only_for: create, query_string: {sf_request: schema_id}, route: elementset_elements, credentials: [[administrator, schemamaintainer, schemaadmin, schemapropadmin]]}
-        _cancel:       { only_for: edit, query_string: {schema_id: schema_id}, route: elementset_elements, credentials: [[administrator, schemamaintainer, schemaadmin, schemapropadmin]] }
+        _cancel:       { only_for: create, query_string: {sf_request: schema_id}, route: schema_schemaprop_list, credentials: [[administrator, schemamaintainer, schemaadmin, schemapropadmin]]}
+        _cancel:       { only_for: edit, query_string: {schema_id: schema_id}, route: schema_schemaprop_list, credentials: [[administrator, schemamaintainer, schemaadmin, schemapropadmin]] }
       urlfilters:
         schema_id:  schema_id
 

@@ -98,7 +98,7 @@ class conceptpropActions extends autoConceptpropActions
                       //get the maintainers of the reciprocal property
                       $maintainers = $related_concept->getVocabulary()->getVocabularyHasUsers();
                       /** @var VocabularyHasUser $maintainer */
-                      foreach ($maintainers as $maintainer) {
+                      foreach ((array) $maintainers as $maintainer) {
                           if ($userId === $maintainer->getUserId() and $maintainer->getIsMaintainerFor()) {
                               $permission = true;
                               break;
@@ -195,7 +195,7 @@ class conceptpropActions extends autoConceptpropActions
 
     //if (!$concept) //we have to do it the hard way
     //{
-      $this->conceptProperty = ConceptPropertyPeer::retrieveByPk($this->getRequestParameter('id'));
+      $this->conceptProperty = ConceptPropertyPeer::retrieveByPK($this->getRequestParameter('id'));
       /* @var Concept */
       if (isset($this->conceptProperty))
       {
@@ -292,19 +292,24 @@ class conceptpropActions extends autoConceptpropActions
     $this->pager->init();
   } //executeSearch
 
+
   /**
-  * checks for replated property and deletes if found
-  *
-  * @return return_type
-  * @param  var_type $var
-  */
+   * checks for replaced property and deletes if found
+   *
+   *
+   * @param $propertyId
+   * @param string $relatedIdFromRequest
+   *
+   * @return void
+   * @internal param var_type $var
+   */
   private function deleteReciprocalProperty($propertyId, $relatedIdFromRequest = '')
   {
       //retrieve the existing property
       if (isset($propertyId))
       {
          /* @var ConceptProperty */
-         $currentProperty = ConceptPropertyPeer::retrieveByPk($propertyId);
+         $currentProperty = ConceptPropertyPeer::retrieveByPK($propertyId);
       }
       if (isset($currentProperty))
       {

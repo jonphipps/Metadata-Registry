@@ -44,13 +44,13 @@ generator:
       displayfilter:  false
 #      sort:           profile_property
       object_actions:
-        _edit:        { credentials: [[administrator, schemamaintainer, schemaadmin]] }
-        _delete:      { credentials: [[administrator, schemamaintainer, schemaadmin]] }
+        _edit:        { condition: "!$schema_property_element->getIsSchemaProperty()", credentials: [[administrator, schemamaintainer, schemaadmin]] }
+        _delete:      { condition: "!$schema_property_element->getIsSchemaProperty()", credentials: [[administrator, schemamaintainer, schemaadmin]] }
       actions:
-        _create:      {query_string: {sf_request: element_id}, route: schemaprop_schemapropel_create, name: Add Statement, credentials: [[administrator, schemamaintainer, schemaadmin]] }
+        _create:      {query_string: {sf_request: schema_property_id}, route: schemaprop_schemapropel_create, name: Add Statement, credentials: [[administrator, schemamaintainer, schemaadmin]] }
       filters:        [schema_property_id, profile_property_id, updated_at, object]
       # urlfilter form is [field to filter on]: [value passed from routing.yml ]
-      # multiple filters can be set but they're currently mutually exclusive (any of the list can be used but only one per url)
+      # multiple filters can be set but they're currently mutually exclusive (any of the list can be used but only one per url )
       urlfilters:
         schema_property_id: schema_property_id
 
@@ -85,7 +85,7 @@ generator:
         _save:         { credentials: [[administrator, schemamaintainer, schemaadmin, schema_property_elementadmin]] }
         _delete:       { credentials: [[administrator, schemaadmin]] }
         _save_and_add: { query_string: {schema_property_id: schema_property_id}, credentials: [[administrator, schemamaintainer, schemaadmin, schema_property_elementadmin]] }
-        _cancel:       { only_for: create, query_string: {query_string: element_id}, route: schemaprop_schemapropel_list, credentials: [[administrator, schemamaintainer, schemaadmin, schema_property_elementadmin]] }
+        _cancel:       { only_for: create, query_string: {query_string: schema_property_id}, route: schemaprop_schemapropel_list, credentials: [[administrator, schemamaintainer, schemaadmin, schema_property_elementadmin]] }
         _cancel:       { only_for: edit, query_string: {schema_property_id: schema_property_id}, route: schemaprop_schemapropel_list, credentials: [[administrator, vocabularymaintainer, vocabularyadmin, conceptpropadmin]] }
       urlfilters:
         schema_property_id: schema_property_id
@@ -102,5 +102,6 @@ generator:
 #        "-Other Properties": [_listproperties]
       actions:
 #        _list:        { query_string: {schema_property_id: schema_property_id} }
-        _edit:        { credentials: [[administrator, schemamaintainer, schemaadmin]] }
+        _delete:        { query_string: {schema_property_id: schema_property_id}, route: schemaprop_schemapropel_edit, condition: "!$schema_property_element->getIsSchemaProperty()", credentials: [[administrator, schemamaintainer, schemaadmin]] }
+        _edit:        { query_string: {schema_property_id: schema_property_id}, route: schemaprop_schemapropel_edit, condition: "!$schema_property_element->getIsSchemaProperty()", credentials: [[administrator, schemamaintainer, schemaadmin]] }
         _create:      { query_string: {schema_property_id: schema_property_id}, route: schemaprop_schemapropel_create, name: Add Statement, credentials: [[administrator, schemamaintainer, schemaadmin]] }
