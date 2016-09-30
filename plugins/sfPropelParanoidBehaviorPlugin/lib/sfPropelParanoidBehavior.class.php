@@ -19,6 +19,14 @@ class sfPropelParanoidBehavior
   static protected $paranoidFlag = true;
   protected $paranoidFlags = array();
 
+
+  /**
+   * @param string $class
+   * @param Criteria $criteria
+   * @param null $con
+   *
+   * @return bool
+   */
   public function doSelectRS($class, $criteria, $con = null)
   {
     $columnName = sfConfig::get('propel_behavior_paranoid_'.$class.'_column', 'deleted_at');
