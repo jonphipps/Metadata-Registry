@@ -60,3 +60,5 @@ Homestead.yaml
 /public/storage
 
 tests/_support/_generated
+swregistry_test_backup*.sql
+dump.sql

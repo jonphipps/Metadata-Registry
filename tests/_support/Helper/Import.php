@@ -3,7 +3,9 @@ namespace Helper;
 // here you can define custom actions
 // all public methods declared in helper class will be available in $I
 
-class Import extends \Codeception\Module
+use Codeception\Module;
+
+class Import extends Module
 {
     /**
      * @param $table
@@ -35,7 +37,7 @@ class Import extends \Codeception\Module
     }
     /**
      * @param $dumpFile
-     * @throws \Codeception\Exception\Module
+     * @throws \Codeception\Exception\ModuleException
      */
     public function resetDatabase2($dumpFile)
     {

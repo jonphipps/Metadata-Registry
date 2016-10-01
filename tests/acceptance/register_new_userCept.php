@@ -20,3 +20,5 @@ $I->dontSeeLink('Add Vocabulary' );
 $I->dontSeeLink('Add Element Set');
 $I->seeLink('vocab_admin profile');
 $I->seeInTitle("The Registry! :: vocab_admin :: Home");
+$I->seeInDatabase('reg_user',['id'=> 40]);
+

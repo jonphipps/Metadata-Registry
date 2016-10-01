@@ -1,0 +1,11 @@
+# `userTests` environment config goes here
+modules:
+    config:
+        - Db:
+            dump: tests/_data/swregistry_test_backup_after.sql
+extensions:
+    config:
+      Codeception\Extension\Laxative:
+#        backup: true # true|false
+#        backup_path: tests/_data/swregistry_test_after_agent.sql
+

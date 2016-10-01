@@ -5,6 +5,10 @@
     {
       "type": "vcs",
       "url": "git@github.com:jonphipps/phpspecgen.git"
+    },
+    {
+      "type": "path",
+      "url": "packages/laxative"
     }
   ],
   "require-dev": {
@@ -21,7 +25,8 @@
     "symfony/css-selector": "3.1.*",
     "symfony/dom-crawler": "3.1.*",
     "mpociot/laravel-test-factory-helper": "^0.3",
-    "barryvdh/laravel-ide-helper": "^2.1"
+    "barryvdh/laravel-ide-helper": "^2.1",
+    "jonpitch/laxative": "*"
   },
   "config": {
     "process-timeout": 900,

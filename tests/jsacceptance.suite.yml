@@ -12,9 +12,9 @@ modules:
         - Filesystem
         - Db:
             dump: tests/_data/swregistry_test_empty.sql
-            dsn: "mysql:host=%DB_HOST%;port=%DB_PORT_VM%;%DB_DATABASE%"
+            dsn: "mysql:host=%DB_HOST%;port=%DB_PORT_VM%;dbname=%DB_DATABASE%"
             user: "%DB_USERNAME%"
             password: "%DB_PASSWORD%"
-            populate: true
+            populate: false
             cleanup: false
 

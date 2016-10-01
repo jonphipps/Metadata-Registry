@@ -1,0 +1,5 @@
+# `agentTests` environment config goes here
+modules:
+    config:
+        - Db:
+            dump: tests/_data/swregistry_test_backup_after_userTests.sql

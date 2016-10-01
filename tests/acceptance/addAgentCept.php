@@ -20,7 +20,7 @@ $I->submitForm("#sf_admin_edit_form",
                'Save');
 $I->seeInCurrentUrl('/');
 $I->seeInDatabase('reg_agent', [ 'id' => 59, 'org_name' => 'An Agent Name', 'org_email' => 'jphipps@madcreek.com' ]);
-$I->seeInDatabase('reg_agent_has_user', [  'agent_id' => 59,  'user_id' => 41,  'is_registrar_for' => '1', 'is_admin_for' => '1' ]);
+$I->seeInDatabase('reg_agent_has_user', [  'agent_id' => 59,  'user_id' => 40,  'is_registrar_for' => '1', 'is_admin_for' => '1' ]);
 $I->seeLink('An Agent Name');
 $I->seeInTitle("The Registry! :: vocab_admin :: Home");
 $I->click('An Agent Name');

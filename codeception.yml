@@ -15,6 +15,15 @@ settings:
 extensions:
     enabled:
         - Codeception\Extension\RunFailed
-
+        - Codeception\Extension\Laxative
+#        - _support\ConfigDbExtension
 #        - Codeception\Extension\Logger
 #        - Codeception\Extension\Recorder
+    config:
+      Codeception\Extension\Laxative:
+        backupBefore: true # true|false
+        backupAfter: true # true|false
+        backup_path: tests/_data/swregistry_test_backup
+#        dump_master: tests/_data/swregistry_test_empty.sql
+        migrations: 'php artisan migrate'
+        seed: ''
