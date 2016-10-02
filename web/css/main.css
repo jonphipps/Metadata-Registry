@@ -113,17 +113,7 @@ div#content {
   text-align: center;
 }
 div#content_main
-{
-/*  background: white;*/
-/*  padding:5px;*/
-/*  margin-right:250px;*/
-  margin-left:10px;
-  top:0;
-  /*padding-top: 2em;*/
-  display: inline-block;
-  text-align: left;
-  min-width: 40%;
-}
+{/*  background: white;*//*  padding:5px;*//*  margin-right:250px;*/margin-left:10px;top:0;/*padding-top: 2em;*/display: inline-block;text-align: left;min-width: 40%;max-width: 80%;}
 
 div.home {
   padding-bottom: 1em;
