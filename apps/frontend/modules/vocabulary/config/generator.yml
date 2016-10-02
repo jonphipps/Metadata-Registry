@@ -6,9 +6,6 @@ generator:
     label_singular:   Vocabulary
     label_plural:     Vocabulary
     parents:
-      user:
-        getid:        user_id
-        requestid:    user_id
       agent:
         getid:        agent_id
         requestid:    agent_id
