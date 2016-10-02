@@ -21,7 +21,7 @@ class sfCommonFilter extends sfFilter
   /**
    * Executes this filter.
    *
-   * @param sfFilterChain A sfFilterChain instance
+   * @param sfFilterChain $filterChain A sfFilterChain instance
    */
   public function execute($filterChain)
   {
@@ -31,24 +31,34 @@ class sfCommonFilter extends sfFilter
     // execute this filter only once
     $response = $this->getContext()->getResponse();
 
-    // include javascripts and stylesheets
+    // include stylesheets and put stylesheets before head
     $content = $response->getContent();
     if (false !== ($pos = strpos($content, '</head>')))
     {
       sfLoader::loadHelpers(array('Tag', 'Asset'));
       $html = '';
-      if (!$response->getParameter('javascripts_included', false, 'symfony/view/asset'))
-      {
-        $html .= get_javascripts($response);
-      }
+
       if (!$response->getParameter('stylesheets_included', false, 'symfony/view/asset'))
       {
-        $html .= get_stylesheets($response);
+        $html .= get_stylesheets();
       }
 
       if ($html)
       {
         $response->setContent(substr($content, 0, $pos).$html.substr($content, $pos));
+      }
+    }
+    //include javascript and put before before </body>
+    $content = $response->getContent();
+    if (false !== ( $pos = strpos($content, '</body>') )) {
+      sfLoader::loadHelpers([ 'Tag', 'Asset' ]);
+      $html = '';
+      if ( ! $response->getParameter('javascripts_included', false, 'symfony/view/asset')) {
+        $html .= get_javascripts();
+      }
+
+      if ($html) {
+        $response->setContent(substr($content, 0, $pos) . $html . substr($content, $pos));
       }
     }
 
