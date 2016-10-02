@@ -37,9 +37,6 @@ generator:
           THIS HAS NO EFFECT ON RDF EXPORT!! Deleted properties are never included in the RDF
       selected_language:
         name: Additional Language
-        type: admin_select_language
-        params:
-          limitmethod: getLanguagesNoDefault
         help: |
           The default language is English
           Additional language column included for populating each literal attribute
@@ -50,9 +47,9 @@ generator:
         params:
           peer_method: getProfileColumns
           related_class: ExportHistory
-      published_english_version:  { name: English Version, type: plain, help: The published English version on which this export is based }
+      published_english_version:  { name: English Version, type: plain, help: The published English version on which this export is based  }
       published_language_version:  { name: Language Version, type: plain, help: The published version of the selected language on which this export is based }
-      last_vocab_update:  { name: Last Update, type: plain, params: date_format='s', help: The date of the last update of this vocabulary }
+      last_vocab_update:  { name: Last Update, type: plain, params: date_format='s', help: The date of the last update of this vocabulary  }
 
     list:
       title:          Export History
@@ -82,10 +79,10 @@ generator:
       fields:
         id:           { credentials: [administrator], mode: edit }
         selected_language:
+          type:       admin_select_language
           condition:  "$sf_flash->get('hasLanguages')"
-          limitmethod: getLanguagesNoDefault
-          params:     include_blank=true
-      display:        [id, csv_type, exclude_deprecated, exclude_generated, selected_language, include_deleted, selected_columns ]
+          params:     include_blank=true limitmethod=getLanguagesNoDefault
+      display:        [id, csv_type, exclude_deprecated, exclude_generated, selected_language, include_deleted, selected_columns  ]
       hide:           [schema_id, user_id, vocabulary_id]
       actions:
         _save:         { name: Export CSV }
