@@ -1,4 +1,7 @@
-[?php $parent = ''; $query = ''; ?]
+[?php
+/** @var myWebRequest $sf_request */
+/** @var MyUser $sf_user */
+$parent = ''; $query = ''; ?]
 <?php $parents = $this->getParameterValue('parents');
 if ($parents): ?>
 <?php foreach ($parents as $module => $param): ?>

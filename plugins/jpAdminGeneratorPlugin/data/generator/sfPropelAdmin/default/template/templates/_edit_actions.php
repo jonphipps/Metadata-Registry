@@ -1,4 +1,5 @@
 <ul class="sf_admin_actions">
+[?php /** @var myWebRequest $sf_request */ ?]
 <?php
 /** @var sfPropelAdminGenerator $this */
 $editActions = $this->getParameterValue('edit.actions');

@@ -1,4 +1,5 @@
-[?php if ($sf_request->hasErrors()): ?]
+[?php /** @var myWebRequest $sf_request */
+if ($sf_request->hasErrors()): ?]
 <div class="form-errors">
 <h2>[?php echo __('Please correct the following errors...') ?]</h2>
 <dl>

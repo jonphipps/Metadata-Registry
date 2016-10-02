@@ -1,4 +1,7 @@
 <ul class="sf_admin_actions">
+[?php
+/** @var myWebRequest $sf_request */
+/** @var MyUser $sf_user */  ?]
 <?php
   /** @var sfPropelAdminGenerator $this */
 $showActions = $this->getParameterValue('show.actions');

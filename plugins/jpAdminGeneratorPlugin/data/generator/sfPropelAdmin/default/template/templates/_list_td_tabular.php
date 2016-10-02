@@ -21,7 +21,7 @@ foreach ($this->getColumns('list.display') as $column): ?>
 <?php endif; ?>
 <?php $credentials = $this->getParameterValue('list.fields.'.$column->getName().'.credentials') ?>
 <?php if ($credentials): $credentials = str_replace("\n", ' ', var_export($credentials, true)) ?>
-    [?php if ($sf_user->hasCredential(<?php echo $credentials ?>)): ?]
+    [?php /** @var MyUser $sf_user */ if ($sf_user->hasCredential(<?php echo $credentials ?>)): ?]
 <?php endif; ?>
 <?php if ($column->isLink()): ?>
     <?php echo $this->getClass('td', $column, 'list')?>[?php echo link_to(<?php echo $this->getColumnListTag($column) ?> ? <?php echo $this->getColumnListTag($column) ?> : __('-'), '@' . $parent . '<?php echo $this->getModuleName() ?>_show' . $query . '<?php echo $this->getPrimaryKeyUrlParams() ?>) ?]</td>

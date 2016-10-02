@@ -21,7 +21,7 @@
 ?>
 <?php $catCredentials = $this->getParameterValue('show.display.'.$category.'.credentials') ?>
 <?php if ($catCredentials): $catCredentials = str_replace("\n", ' ', var_export($catCredentials, true)) ?>
-[?php if ($sf_user->hasCredential(<?php echo $catCredentials ?>)): ?]
+[?php /** @var MyUser $sf_user */ if ($sf_user->hasCredential(<?php echo $catCredentials ?>)): ?]
 <?php endif; ?>
 <fieldset id="sf_fieldset_<?php echo preg_replace('/[^a-z0-9_]/', '_', strtolower($category_name)) ?>"<?php if ($collapse): ?> class="collapse"<?php endif; ?>>
 <?php if ($category != 'NONE'): ?>

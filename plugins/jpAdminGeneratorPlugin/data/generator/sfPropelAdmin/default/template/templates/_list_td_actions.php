@@ -1,3 +1,4 @@
+[?php /** @var myWebRequest $sf_request */ ?]
 <?php /** @var sfPropelAdminGenerator $this */
 if ($this->getParameterValue('list.object_actions')): ?>
 <td>

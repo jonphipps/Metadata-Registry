@@ -9,7 +9,7 @@
 <?php foreach ($this->getColumns('list.filters') as $column): $type = $column->getCreoleType() ?>
 <?php $credentials = $this->getParameterValue('list.fields.'.$column->getName().'.credentials') ?>
 <?php if ($credentials): $credentials = str_replace("\n", ' ', var_export($credentials, true)) ?>
-    [?php if ($sf_user->hasCredential(<?php echo $credentials ?>)): ?]
+    [?php /** @var MyUser $sf_user */ if ($sf_user->hasCredential(<?php echo $credentials ?>)): ?]
 <?php endif; ?>
     <div class="form-row">
     <label for="filters_<?php echo $column->getName() ?>">[?php echo __('<?php echo str_replace("'", "\\'", $this->getParameterValue('list.fields.'.$column->getName().'.name')) ?>:') ?]</label>

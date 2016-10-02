@@ -2,7 +2,8 @@
 <div class="save-ok">
   <h2 class="message">[?php echo __($sf_flash->get('notice')) ?]</h2>
 </div>[?php endif; ?]
-[?php if ($sf_request->getError('delete')): ?]
+[?php  /** @var myWebRequest $sf_request */
+if ($sf_request->getError('delete')): ?]
 <div class="form-errors">
   <h2 class="message">[?php echo __('Could not delete the selected %name%', array('%name%' => '<?php echo sfInflector::humanize($this->getSingularName()) ?>')) ?]</h2>
   <ul>
@@ -10,3 +11,4 @@
   </ul>
 </div>
 [?php endif; ?]
+
