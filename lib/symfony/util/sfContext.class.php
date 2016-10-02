@@ -85,7 +85,7 @@ class sfContext
     $this->actionStack = new sfActionStack();
 
     // include the factories configuration
-    require(sfConfigCache::getInstance()->checkConfig(sfConfig::get('sf_app_config_dir_name').'/factories.yml'));
+    require sfConfigCache::getInstance()->checkConfig(sfConfig::get('sf_app_config_dir_name').'/factories.yml');
 
     // register our shutdown function
     register_shutdown_function(array($this, 'shutdown'));

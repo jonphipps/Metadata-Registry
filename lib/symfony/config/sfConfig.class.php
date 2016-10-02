@@ -24,7 +24,7 @@ class sfConfig
   /**
    * Retrieves a config parameter.
    *
-   * @param string A config parameter name
+   * @param string $name A config parameter name
    * @param mixed  A default config parameter value
    *
    * @return mixed A config parameter value, if the config parameter exists, otherwise null

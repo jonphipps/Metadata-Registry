@@ -27,8 +27,8 @@ class sfCacheFilter extends sfFilter
   /**
    * Initializes this Filter.
    *
-   * @param sfContext The current application context
-   * @param array   An associative array of initialization parameters
+   * @param sfContext $context The current application context
+   * @param array $parameters  An associative array of initialization parameters
    *
    * @return bool true, if initialization completes successfully, otherwise false
    *
@@ -46,7 +46,7 @@ class sfCacheFilter extends sfFilter
   /**
    * Executes this filter.
    *
-   * @param sfFilterChain A sfFilterChain instance
+   * @param sfFilterChain $filterChain A sfFilterChain instance
    */
   public function execute($filterChain)
   {
@@ -66,6 +66,10 @@ class sfCacheFilter extends sfFilter
     $this->executeBeforeRendering();
   }
 
+
+  /**
+   * @return bool
+   */
   public function executeBeforeExecution()
   {
     // register our cache configuration
@@ -102,7 +106,6 @@ class sfCacheFilter extends sfFilter
   /**
    * Executes this filter.
    *
-   * @param sfFilterChain A sfFilterChain instance.
    */
   public function executeBeforeRendering()
   {
@@ -187,7 +190,7 @@ class sfCacheFilter extends sfFilter
   /**
    * Sets a page template in the cache.
    *
-   * @param string The internal URI
+   * @param string $uri The internal URI
    */
   protected function setPageCache($uri)
   {
@@ -206,10 +209,13 @@ class sfCacheFilter extends sfFilter
     }
   }
 
+
   /**
    * Gets a page template from the cache.
    *
-   * @param string The internal URI
+   * @param string $uri The internal URI
+   *
+   * @return bool
    */
   protected function getPageCache($uri)
   {
@@ -253,7 +259,7 @@ class sfCacheFilter extends sfFilter
   /**
    * Sets an action template in the cache.
    *
-   * @param string The internal URI
+   * @param string $uri The internal URI
    */
   protected function setActionCache($uri)
   {
@@ -265,10 +271,13 @@ class sfCacheFilter extends sfFilter
     }
   }
 
+
   /**
    * Gets an action template from the cache.
    *
-   * @param string The internal URI
+   * @param string $uri The internal URI
+   *
+   * @return bool
    */
   protected function getActionCache($uri)
   {

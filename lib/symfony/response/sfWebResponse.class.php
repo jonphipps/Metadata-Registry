@@ -11,7 +11,7 @@
 /**
  * sfWebResponse class.
  *
- * This class manages web reponses. It supports cookies and headers management.
+ * This class manages web responses. It supports cookies and headers management.
  * 
  * @package    symfony
  * @subpackage response
@@ -27,14 +27,17 @@ class sfWebResponse extends sfResponse
     $statusTexts = array(),
     $headerOnly  = false;
 
+
   /**
    * Initializes this sfWebResponse.
    *
-   * @param sfContext A sfContext instance
+   * @param sfContext $context
+   * @param array $parameters
    *
-   * @return boolean true, if initialization completes successfully, otherwise false
+   * @return bool true, if initialization completes successfully, otherwise false
    *
-   * @throws <b>sfInitializationException</b> If an error occurs while initializing this Response
+   * @internal param A $sfContext sfContext instance
+   *
    */
   public function initialize($context, $parameters = array())
   {
@@ -113,13 +116,13 @@ class sfWebResponse extends sfResponse
   /**
    * Sets a cookie.
    *
-   * @param string HTTP header name
-   * @param string Value for the cookie
-   * @param string Cookie expiration period
-   * @param string Path
-   * @param string Domain name
-   * @param boolean If secure
-   * @param boolean If uses only HTTP
+   * @param string $name HTTP header name
+   * @param string $value Value for the cookie
+   * @param string $expire Cookie expiration period
+   * @param string $path Path
+   * @param string $domain Domain name
+   * @param boolean $secure If secure
+   * @param boolean $httpOnly If uses only HTTP
    *
    * @throws <b>sfException</b> If fails to set the cookie
    */
@@ -155,8 +158,8 @@ class sfWebResponse extends sfResponse
   /**
    * Sets response status code.
    *
-   * @param string HTTP status code
-   * @param string HTTP status text
+   * @param string $code HTTP status code
+   * @param string $name HTTP status text
    *
    */
   public function setStatusCode($code, $name = null)
@@ -178,9 +181,9 @@ class sfWebResponse extends sfResponse
   /**
    * Sets a HTTP header.
    *
-   * @param string HTTP header name
-   * @param string Value
-   * @param boolean Replace for the value
+   * @param string $name HTTP header name
+   * @param string $value Value
+   * @param boolean $replace Replace for the value
    *
    */
   public function setHttpHeader($name, $value, $replace = true)
@@ -206,8 +209,12 @@ class sfWebResponse extends sfResponse
     $this->setParameter($name, $value, 'symfony/response/http/headers');
   }
 
+
   /**
    * Gets HTTP header current value.
+   *
+   * @param string $name
+   * @param string|null $default
    *
    * @return string
    */
@@ -216,10 +223,13 @@ class sfWebResponse extends sfResponse
     return $this->getParameter($this->normalizeHeaderName($name), $default, 'symfony/response/http/headers');
   }
 
+
   /**
    * Has a HTTP header.
    *
-   * @return boolean
+   * @param string $name
+   *
+   * @return bool
    */
   public function hasHttpHeader($name)
   {
@@ -229,7 +239,7 @@ class sfWebResponse extends sfResponse
   /**
    * Sets response content type.
    *
-   * @param string Content type
+   * @param string $value Content type
    *
    */
   public function setContentType($value)
@@ -265,7 +275,7 @@ class sfWebResponse extends sfResponse
     $status = 'HTTP/1.0 '.$this->statusCode.' '.$this->statusText;
     header($status);
 
-    if (substr(php_sapi_name(), 0, 3) == 'cgi')
+    if (0 === strpos(php_sapi_name(), 'cgi'))
     {
       // fastcgi servers cannot send this status information because it was sent by them already due to the HTT/1.0 line
       // so we can safely unset them. see ticket #3191
@@ -322,7 +332,7 @@ class sfWebResponse extends sfResponse
   /**
    * Retrieves a normalized Header.
    *
-   * @param string Header name
+   * @param string $name Header name
    *
    * @return string Normalized header
    */
@@ -335,12 +345,12 @@ class sfWebResponse extends sfResponse
   }
 
   /**
-   * Retrieves a formated date.
+   * Retrieves a formatted date.
    *
-   * @param string Timestamp
-   * @param string Format type
+   * @param string $timestamp Timestamp
+   * @param string $type Format type
    *
-   * @return string Formated date
+   * @return string Formatted date
    */
   public function getDate($timestamp, $type = 'rfc1123')
   {
@@ -369,7 +379,7 @@ class sfWebResponse extends sfResponse
   /**
    * Adds vary to a http header.
    *
-   * @param string HTTP header
+   * @param string $header HTTP header
    */
   public function addVaryHttpHeader($header)
   {
@@ -391,8 +401,8 @@ class sfWebResponse extends sfResponse
   /**
    * Adds an control cache http header.
    *
-   * @param string HTTP header
-   * @param string Value for the http header
+   * @param string $name HTTP header
+   * @param string $value Value for the http header
    */
   public function addCacheControlHttpHeader($name, $value = null)
   {
@@ -430,9 +440,9 @@ class sfWebResponse extends sfResponse
   /**
    * Adds meta headers to the current web response.
    *
-   * @param string Key to replace
-   * @param string Value for the replacement
-   * @param boolean Replace or not
+   * @param string $key Key to replace
+   * @param string $value Value for the replacement
+   * @param boolean $replace Replace or not
    */
   public function addHttpMeta($key, $value, $replace = true)
   {
@@ -467,10 +477,10 @@ class sfWebResponse extends sfResponse
   /**
    * Adds a meta header to the current web response.
    *
-   * @param string Name of the header
-   * @param string Meta header to be set
-   * @param boolean true if it's replaceable
-   * @param boolean true for escaping the header
+   * @param string $key Name of the header
+   * @param string $value Meta header to be set
+   * @param boolean $replace true if it's replaceable
+   * @param boolean $escape true for escaping the header
    */
   public function addMeta($key, $value, $replace = true, $escape = true)
   {
@@ -505,8 +515,8 @@ class sfWebResponse extends sfResponse
   /**
    * Sets title for the current web response.
    *
-   * @param string Title name
-   * @param boolean true, for escaping the title
+   * @param string $title Title name
+   * @param boolean $escape true, for escaping the title
    */
   public function setTitle($title, $escape = true)
   {
@@ -516,9 +526,9 @@ class sfWebResponse extends sfResponse
   /**
    * Retrieves stylesheets for the current web response.
    *
-   * @param string Position
+   * @param string $position Position
    *
-   * @return string Stylesheets
+   * @return array Stylesheets
    */
   public function getStylesheets($position = '')
   {
@@ -528,9 +538,9 @@ class sfWebResponse extends sfResponse
   /**
    * Adds an stylesheet to the current web response.
    *
-   * @param string Stylesheet
-   * @param string Position
-   * @param string Stylesheet options
+   * @param string $css Stylesheet
+   * @param string $position Position
+   * @param array $options Stylesheet options
    */
   public function addStylesheet($css, $position = '', $options = array())
   {
@@ -540,9 +550,9 @@ class sfWebResponse extends sfResponse
   /**
    * Retrieves javascript code from the current web response.
    *
-   * @param string Directory delimiter
+   * @param string $position Directory delimiter
    *
-   * @return string Javascript code
+   * @return array Javascript code
    */
   public function getJavascripts($position = '')
   {
@@ -552,8 +562,8 @@ class sfWebResponse extends sfResponse
   /**
    * Adds javascript code to the current web response.
    *
-   * @param string Javascript code
-   * @param string Directory delimiter
+   * @param string $js Javascript code
+   * @param string $position Directory delimiter
    */
   public function addJavascript($js, $position = '')
   {
@@ -579,7 +589,7 @@ class sfWebResponse extends sfResponse
   /**
    * Retrieves HTTP headers from the current web response.
    *
-   * @return string HTTP headers
+   * @return array HTTP headers
    */
   public function getHttpHeaders()
   {
@@ -595,9 +605,9 @@ class sfWebResponse extends sfResponse
   }
 
   /**
-   * Copies a propertie to a new one.
+   * Copies a property to a new one.
    *
-   * @param sfResponse Response instance
+   * @param sfResponse $response Response instance
    */
   public function mergeProperties($response)
   {

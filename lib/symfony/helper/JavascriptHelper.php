@@ -47,7 +47,10 @@
  * the use of form_remote_tag.
  */
 
-  function get_callbacks()
+/**
+ * @return array
+ */
+function get_callbacks()
   {
     static $callbacks;
     if (!$callbacks)
@@ -60,7 +63,10 @@
     return $callbacks;
   }
 
-  function get_ajax_options()
+/**
+ * @return array
+ */
+function get_ajax_options()
   {
     static $ajax_options;
     if (!$ajax_options)
@@ -74,14 +80,20 @@
     return $ajax_options;
   }
 
-  /**
-   * Returns a link that'll trigger a javascript function using the
-   * onclick handler and return false after the fact.
-   *
-   * Examples:
-   *   <?php echo link_to_function('Greeting', "alert('Hello world!')") ?>
-   *   <?php echo link_to_function(image_tag('delete'), "if confirm('Really?'){ do_delete(); }") ?>
-   */
+/**
+ * Returns a link that'll trigger a javascript function using the
+ * onclick handler and return false after the fact.
+ *
+ * Examples:
+ *   <?php echo link_to_function('Greeting', "alert('Hello world!')") ?>
+ *   <?php echo link_to_function(image_tag('delete'), "if confirm('Really?'){ do_delete(); }") ?>
+ *
+ * @param string $name
+ * @param string $function
+ * @param array $html_options
+ *
+ * @return string
+ */
   function link_to_function($name, $function, $html_options = array())
   {
     $html_options = _parse_attributes($html_options);
@@ -92,13 +104,19 @@
     return content_tag('a', $name, $html_options);
   }
 
-  /**
-   * Returns a button that'll trigger a javascript function using the
-   * onclick handler and return false after the fact.
-   *
-   * Examples:
-   *   <?php echo button_to_function('Greeting', "alert('Hello world!')") ?>
-   */
+/**
+ * Returns a button that'll trigger a javascript function using the
+ * onclick handler and return false after the fact.
+ *
+ * Examples:
+ *   <?php echo button_to_function('Greeting', "alert('Hello world!')") ?>
+ *
+ * @param string $name
+ * @param string $function
+ * @param array $html_options
+ *
+ * @return string
+ */
   function button_to_function($name, $function, $html_options = array())
   {
     $html_options = _parse_attributes($html_options);
@@ -109,125 +127,140 @@
 
     return tag('input', $html_options);
   }
-  
-  /**
-   * Returns an html button to a remote action defined by 'url' (using the
-   * 'url_for()' format) that's called in the background using XMLHttpRequest.
-   *
-   * See link_to_remote() for details.
-   *
-   */
+
+/**
+ * Returns an html button to a remote action defined by 'url' (using the
+ * 'url_for()' format) that's called in the background using XMLHttpRequest.
+ *
+ * See link_to_remote() for details.
+ *
+ * @param string $name
+ * @param array $options
+ * @param array $html_options
+ *
+ * @return string
+ */
   function button_to_remote($name, $options = array(), $html_options = array())
   {
     return button_to_function($name, remote_function($options), $html_options);
   }
 
-  /**
-   * Returns a link to a remote action defined by 'url'
-   * (using the 'url_for()' format) that's called in the background using
-   * XMLHttpRequest. The result of that request can then be inserted into a
-   * DOM object whose id can be specified with 'update'.
-   * Usually, the result would be a partial prepared by the controller with
-   * either 'render_partial()'.
-   *
-   * Examples:
-   *  <?php echo link_to_remote('Delete this post'), array(
-   *    'update' => 'posts',
-   *    'url'    => 'destroy?id='.$post.id,
-   *  )) ?>
-   *  <?php echo link_to_remote(image_tag('refresh'), array(
-   *    'update' => 'emails',
-   *    'url'    => '@list_emails',
-   *  )) ?>
-   *
-   * You can also specify a hash for 'update' to allow for
-   * easy redirection of output to an other DOM element if a server-side error occurs:
-   *
-   * Example:
-   *  <?php echo link_to_remote('Delete this post', array(
-   *      'update' => array('success' => 'posts', 'failure' => 'error'),
-   *      'url'    => 'destroy?id='.$post.id,
-   *  )) ?>
-   *
-   * Optionally, you can use the 'position' parameter to influence
-   * how the target DOM element is updated. It must be one of
-   * 'before', 'top', 'bottom', or 'after'.
-   *
-   * By default, these remote requests are processed asynchronous during
-   * which various JavaScript callbacks can be triggered (for progress indicators and
-   * the likes). All callbacks get access to the 'request' object,
-   * which holds the underlying XMLHttpRequest.
-   *
-   * To access the server response, use 'request.responseText', to
-   * find out the HTTP status, use 'request.status'.
-   *
-   * Example:
-   *  <?php echo link_to_remote($word, array(
-   *    'url'      => '@undo?n='.$word_counter,
-   *    'complete' => 'undoRequestCompleted(request)'
-   *  )) ?>
-   *
-   * The callbacks that may be specified are (in order):
-   *
-   * 'loading'                 Called when the remote document is being
-   *                           loaded with data by the browser.
-   * 'loaded'                  Called when the browser has finished loading
-   *                           the remote document.
-   * 'interactive'             Called when the user can interact with the
-   *                           remote document, even though it has not
-   *                           finished loading.
-   * 'success'                 Called when the XMLHttpRequest is completed,
-   *                           and the HTTP status code is in the 2XX range.
-   * 'failure'                 Called when the XMLHttpRequest is completed,
-   *                           and the HTTP status code is not in the 2XX
-   *                           range.
-   * 'complete'                Called when the XMLHttpRequest is complete
-   *                           (fires after success/failure if they are present).,
-   *
-   * You can further refine 'success' and 'failure' by adding additional
-   * callbacks for specific status codes:
-   *
-   * Example:
-   *  <?php echo link_to_remote($word, array(
-   *       'url'     => '@rule',
-   *       '404'     => "alert('Not found...? Wrong URL...?')",
-   *       'failure' => "alert('HTTP Error ' + request.status + '!')",
-   *  )) ?>
-   *
-   * A status code callback overrides the success/failure handlers if present.
-   *
-   * If you for some reason or another need synchronous processing (that'll
-   * block the browser while the request is happening), you can specify
-   * 'type' => 'synchronous'.
-   *
-   * You can customize further browser side call logic by passing
-   * in JavaScript code snippets via some optional parameters. In
-   * their order of use these are:
-   *
-   * 'confirm'             Adds confirmation dialog.
-   * 'condition'           Perform remote request conditionally
-   *                       by this expression. Use this to
-   *                       describe browser-side conditions when
-   *                       request should not be initiated.
-   * 'before'              Called before request is initiated.
-   * 'after'               Called immediately after request was
-   *                       initiated and before 'loading'.
-   * 'submit'              Specifies the DOM element ID that's used
-   *                       as the parent of the form elements. By
-   *                       default this is the current form, but
-   *                       it could just as well be the ID of a
-   *                       table row or any other DOM element.
-   */
+/**
+ * Returns a link to a remote action defined by 'url'
+ * (using the 'url_for()' format) that's called in the background using
+ * XMLHttpRequest. The result of that request can then be inserted into a
+ * DOM object whose id can be specified with 'update'.
+ * Usually, the result would be a partial prepared by the controller with
+ * either 'render_partial()'.
+ *
+ * Examples:
+ *  <?php echo link_to_remote('Delete this post'), array(
+ *    'update' => 'posts',
+ *    'url'    => 'destroy?id='.$post.id,
+ *  )) ?>
+ *  <?php echo link_to_remote(image_tag('refresh'), array(
+ *    'update' => 'emails',
+ *    'url'    => '@list_emails',
+ *  )) ?>
+ *
+ * You can also specify a hash for 'update' to allow for
+ * easy redirection of output to an other DOM element if a server-side error occurs:
+ *
+ * Example:
+ *  <?php echo link_to_remote('Delete this post', array(
+ *      'update' => array('success' => 'posts', 'failure' => 'error'),
+ *      'url'    => 'destroy?id='.$post.id,
+ *  )) ?>
+ *
+ * Optionally, you can use the 'position' parameter to influence
+ * how the target DOM element is updated. It must be one of
+ * 'before', 'top', 'bottom', or 'after'.
+ *
+ * By default, these remote requests are processed asynchronous during
+ * which various JavaScript callbacks can be triggered (for progress indicators and
+ * the likes). All callbacks get access to the 'request' object,
+ * which holds the underlying XMLHttpRequest.
+ *
+ * To access the server response, use 'request.responseText', to
+ * find out the HTTP status, use 'request.status'.
+ *
+ * Example:
+ *  <?php echo link_to_remote($word, array(
+ *    'url'      => '@undo?n='.$word_counter,
+ *    'complete' => 'undoRequestCompleted(request)'
+ *  )) ?>
+ *
+ * The callbacks that may be specified are (in order):
+ *
+ * 'loading'                 Called when the remote document is being
+ *                           loaded with data by the browser.
+ * 'loaded'                  Called when the browser has finished loading
+ *                           the remote document.
+ * 'interactive'             Called when the user can interact with the
+ *                           remote document, even though it has not
+ *                           finished loading.
+ * 'success'                 Called when the XMLHttpRequest is completed,
+ *                           and the HTTP status code is in the 2XX range.
+ * 'failure'                 Called when the XMLHttpRequest is completed,
+ *                           and the HTTP status code is not in the 2XX
+ *                           range.
+ * 'complete'                Called when the XMLHttpRequest is complete
+ *                           (fires after success/failure if they are present).,
+ *
+ * You can further refine 'success' and 'failure' by adding additional
+ * callbacks for specific status codes:
+ *
+ * Example:
+ *  <?php echo link_to_remote($word, array(
+ *       'url'     => '@rule',
+ *       '404'     => "alert('Not found...? Wrong URL...?')",
+ *       'failure' => "alert('HTTP Error ' + request.status + '!')",
+ *  )) ?>
+ *
+ * A status code callback overrides the success/failure handlers if present.
+ *
+ * If you for some reason or another need synchronous processing (that'll
+ * block the browser while the request is happening), you can specify
+ * 'type' => 'synchronous'.
+ *
+ * You can customize further browser side call logic by passing
+ * in JavaScript code snippets via some optional parameters. In
+ * their order of use these are:
+ *
+ * 'confirm'             Adds confirmation dialog.
+ * 'condition'           Perform remote request conditionally
+ *                       by this expression. Use this to
+ *                       describe browser-side conditions when
+ *                       request should not be initiated.
+ * 'before'              Called before request is initiated.
+ * 'after'               Called immediately after request was
+ *                       initiated and before 'loading'.
+ * 'submit'              Specifies the DOM element ID that's used
+ *                       as the parent of the form elements. By
+ *                       default this is the current form, but
+ *                       it could just as well be the ID of a
+ *                       table row or any other DOM element.
+ *
+ * @param string $name
+ * @param array $options
+ * @param array $html_options
+ *
+ * @return string
+ */
   function link_to_remote($name, $options = array(), $html_options = array())
   {
     return link_to_function($name, remote_function($options), $html_options);
   }
 
-  /**
-   * Periodically calls the specified url ('url') every 'frequency' seconds (default is 10).
-   * Usually used to update a specified div ('update') with the results of the remote call.
-   * The options for specifying the target with 'url' and defining callbacks is the same as 'link_to_remote()'.
-   */
+/**
+ * Periodically calls the specified url ('url') every 'frequency' seconds (default is 10).
+ * Usually used to update a specified div ('update') with the results of the remote call.
+ * The options for specifying the target with 'url' and defining callbacks is the same as 'link_to_remote()'.
+ *
+ * @param array $options
+ *
+ * @return string
+ */
   function periodically_call_remote($options = array())
   {
     $frequency = isset($options['frequency']) ? $options['frequency'] : 10; // every ten seconds by default
@@ -236,28 +269,33 @@
     return javascript_tag($code);
   }
 
-  /**
-   * Returns a form tag that will submit using XMLHttpRequest in the background instead of the regular
-   * reloading POST arrangement. Even though it's using JavaScript to serialize the form elements, the form submission
-   * will work just like a regular submission as viewed by the receiving side (all elements available in 'params').
-   * The options for specifying the target with 'url' and defining callbacks are the same as 'link_to_remote()'.
-   *
-   * A "fall-through" target for browsers that don't do JavaScript can be specified
-   * with the 'action'/'method' options on '$options_html'
-   *
-   * Example:
-   *  <?php echo form_remote_tag(array(
-   *    'url'      => '@tag_add',
-   *    'update'   => 'question_tags',
-   *    'loading'  => "Element.show('indicator'); \$('tag').value = ''",
-   *    'complete' => "Element.hide('indicator');".visual_effect('highlight', 'question_tags'),
-   *  )) ?>
-   *
-   * The hash passed as a second argument is equivalent to the options (2nd) argument in the form_tag() helper.
-   *
-   * By default the fall-through action is the same as the one specified in the 'url'
-   * (and the default method is 'post').
-   */
+/**
+ * Returns a form tag that will submit using XMLHttpRequest in the background instead of the regular
+ * reloading POST arrangement. Even though it's using JavaScript to serialize the form elements, the form submission
+ * will work just like a regular submission as viewed by the receiving side (all elements available in 'params').
+ * The options for specifying the target with 'url' and defining callbacks are the same as 'link_to_remote()'.
+ *
+ * A "fall-through" target for browsers that don't do JavaScript can be specified
+ * with the 'action'/'method' options on '$options_html'
+ *
+ * Example:
+ *  <?php echo form_remote_tag(array(
+ *    'url'      => '@tag_add',
+ *    'update'   => 'question_tags',
+ *    'loading'  => "Element.show('indicator'); \$('tag').value = ''",
+ *    'complete' => "Element.hide('indicator');".visual_effect('highlight', 'question_tags'),
+ *  )) ?>
+ *
+ * The hash passed as a second argument is equivalent to the options (2nd) argument in the form_tag() helper.
+ *
+ * By default the fall-through action is the same as the one specified in the 'url'
+ * (and the default method is 'post').
+ *
+ * @param array $options
+ * @param array $options_html
+ *
+ * @return string
+ */
   function form_remote_tag($options = array(), $options_html = array())
   {
     $options = _parse_attributes($options);
@@ -272,10 +310,17 @@
     return tag('form', $options_html, true);
   }
 
-  /**
-   *  Returns a button input tag that will submit form using XMLHttpRequest in the background instead of regular
-   *  reloading POST arrangement. The '$options' argument is the same as in 'form_remote_tag()'.
-   */
+/**
+ *  Returns a button input tag that will submit form using XMLHttpRequest in the background instead of regular
+ *  reloading POST arrangement. The '$options' argument is the same as in 'form_remote_tag()'.
+ *
+ * @param string $name
+ * @param string $value
+ * @param array $options
+ * @param array $options_html
+ *
+ * @return string
+ */
   function submit_to_remote($name, $value, $options = array(), $options_html = array())
   {
     $options = _parse_attributes($options);
@@ -294,50 +339,56 @@
     return tag('input', $options_html, false);
   }
 
-  /**
-   * Returns a Javascript function (or expression) that will update a DOM element '$element_id'
-   * according to the '$options' passed.
-   *
-   * Possible '$options' are:
-   * 'content'            The content to use for updating. Can be left out if using block, see example.
-   * 'action'             Valid options are 'update' (assumed by default), 'empty', 'remove'
-   * 'position'           If the 'action' is 'update', you can optionally specify one of the following positions:
-   *                      'before', 'top', 'bottom', 'after'.
-   *
-   * Example:
-   *   <?php echo javascript_tag(
-   *      update_element_function('products', array(
-   *            'position' => 'bottom',
-   *            'content'  => "<p>New product!</p>",
-   *      ))
-   *   ) ?>
-   *
-   *
-   * This method can also be used in combination with remote method call
-   * where the result is evaluated afterwards to cause multiple updates on a page.
-   *
-   * Example:
-   *
-   *  # Calling view
-   *  <?php echo form_remote_tag(array(
-   *      'url'      => '@buy',
-   *      'complete' => evaluate_remote_response()
-   *  )) ?>
-   *  all the inputs here...
-   *
-   *  # Target action
-   *  public function executeBuy()
-   *  {
-   *     $this->product = ProductPeer::retrieveByPk(1);
-   *  }
-   *
-   *  # Returning view
-   *  <php echo update_element_function('cart', array(
-   *      'action'   => 'update',
-   *      'position' => 'bottom',
-   *      'content'  => '<p>New Product: '.$product->getName().'</p>',
-   *  )) ?>
-   */
+/**
+ * Returns a Javascript function (or expression) that will update a DOM element '$element_id'
+ * according to the '$options' passed.
+ *
+ * Possible '$options' are:
+ * 'content'            The content to use for updating. Can be left out if using block, see example.
+ * 'action'             Valid options are 'update' (assumed by default), 'empty', 'remove'
+ * 'position'           If the 'action' is 'update', you can optionally specify one of the following positions:
+ *                      'before', 'top', 'bottom', 'after'.
+ *
+ * Example:
+ *   <?php echo javascript_tag(
+ *      update_element_function('products', array(
+ *            'position' => 'bottom',
+ *            'content'  => "<p>New product!</p>",
+ *      ))
+ *   ) ?>
+ *
+ *
+ * This method can also be used in combination with remote method call
+ * where the result is evaluated afterwards to cause multiple updates on a page.
+ *
+ * Example:
+ *
+ *  # Calling view
+ *  <?php echo form_remote_tag(array(
+ *      'url'      => '@buy',
+ *      'complete' => evaluate_remote_response()
+ *  )) ?>
+ *  all the inputs here...
+ *
+ *  # Target action
+ *  public function executeBuy()
+ *  {
+ *     $this->product = ProductPeer::retrieveByPk(1);
+ *  }
+ *
+ *  # Returning view
+ *  <php echo update_element_function('cart', array(
+ *      'action'   => 'update',
+ *      'position' => 'bottom',
+ *      'content'  => '<p>New Product: '.$product->getName().'</p>',
+ *  )) ?>
+ *
+ * @param string $element_id
+ * @param array $options
+ *
+ * @return string
+ * @throws sfException
+ */
   function update_element_function($element_id, $options = array())
   {
     sfContext::getInstance()->getResponse()->addJavascript(sfConfig::get('sf_prototype_web_dir').'/prototype.min.js');
@@ -385,16 +436,20 @@
     return 'eval(request.responseText)';
   }
 
-  /**
-   * Returns the javascript needed for a remote function.
-   * Takes the same arguments as 'link_to_remote()'.
-   *
-   * Example:
-   *   <select id="options" onchange="<?php echo remote_function(array('update' => 'options', 'url' => '@update_options')) ?>">
-   *     <option value="0">Hello</option>
-   *     <option value="1">World</option>
-   *   </select>
-   */
+/**
+ * Returns the javascript needed for a remote function.
+ * Takes the same arguments as 'link_to_remote()'.
+ *
+ * Example:
+ *   <select id="options" onchange="<?php echo remote_function(array('update' => 'options', 'url' => '@update_options')) ?>">
+ *     <option value="0">Hello</option>
+ *     <option value="1">World</option>
+ *   </select>
+ *
+ * @param array $options
+ *
+ * @return string
+ */
   function remote_function($options)
   {
     sfContext::getInstance()->getResponse()->addJavascript(sfConfig::get('sf_prototype_web_dir').'/prototype.min.js');
@@ -449,31 +504,36 @@
     return $function.';';
   }
 
-  /**
-   * Observes the field with the DOM ID specified by '$field_id' and makes
-   * an AJAX call when its contents have changed.
-   *
-   * Required '$options' are:
-   * 'url'                 'url_for()'-style options for the action to call
-   *                       when the field has changed.
-   *
-   * Additional options are:
-   * 'frequency'           The frequency (in seconds) at which changes to
-   *                       this field will be detected. Not setting this
-   *                       option at all or to a value equal to or less than
-   *                       zero will use event based observation instead of
-   *                       time based observation.
-   * 'update'              Specifies the DOM ID of the element whose
-   *                       innerHTML should be updated with the
-   *                       XMLHttpRequest response text.
-   * 'with'                A JavaScript expression specifying the
-   *                       parameters for the XMLHttpRequest. This defaults
-   *                       to 'value', which in the evaluated context
-   *                       refers to the new field value.
-   *
-   * Additionally, you may specify any of the options documented in
-   * link_to_remote().
-   */
+/**
+ * Observes the field with the DOM ID specified by '$field_id' and makes
+ * an AJAX call when its contents have changed.
+ *
+ * Required '$options' are:
+ * 'url'                 'url_for()'-style options for the action to call
+ *                       when the field has changed.
+ *
+ * Additional options are:
+ * 'frequency'           The frequency (in seconds) at which changes to
+ *                       this field will be detected. Not setting this
+ *                       option at all or to a value equal to or less than
+ *                       zero will use event based observation instead of
+ *                       time based observation.
+ * 'update'              Specifies the DOM ID of the element whose
+ *                       innerHTML should be updated with the
+ *                       XMLHttpRequest response text.
+ * 'with'                A JavaScript expression specifying the
+ *                       parameters for the XMLHttpRequest. This defaults
+ *                       to 'value', which in the evaluated context
+ *                       refers to the new field value.
+ *
+ * Additionally, you may specify any of the options documented in
+ * link_to_remote().
+ *
+ * @param string $field_id
+ * @param array $options
+ *
+ * @return string
+ */
   function observe_field($field_id, $options = array())
   {
     sfContext::getInstance()->getResponse()->addJavascript(sfConfig::get('sf_prototype_web_dir').'/prototype.min.js');
@@ -488,12 +548,17 @@
     }
   }
 
-  /**
-   * Like 'observe_field()', but operates on an entire form identified by the
-   * DOM ID '$form_id'. '$options' are the same as 'observe_field()', except
-   * the default value of the 'with' option evaluates to the
-   * serialized (request string) value of the form.
-   */
+/**
+ * Like 'observe_field()', but operates on an entire form identified by the
+ * DOM ID '$form_id'. '$options' are the same as 'observe_field()', except
+ * the default value of the 'with' option evaluates to the
+ * serialized (request string) value of the form.
+ *
+ * @param string $form_id
+ * @param array $options
+ *
+ * @return string
+ */
   function observe_form($form_id, $options = array())
   {
     sfContext::getInstance()->getResponse()->addJavascript(sfConfig::get('sf_prototype_web_dir').'/prototype.min.js');
@@ -508,31 +573,37 @@
     }
   }
 
-  /**
-   * Returns a JavaScript snippet to be used on the AJAX callbacks for starting
-   * visual effects.
-   *
-   * Example:
-   *  <?php echo link_to_remote('Reload', array(
-   *        'update'  => 'posts',
-   *        'url'     => '@reload',
-   *        'complete => visual_effect('highlight', 'posts', array('duration' => 0.5 )),
-   *  )) ?>
-   *
-   * If no '$element_id' is given, it assumes "element" which should be a local
-   * variable in the generated JavaScript execution context. This can be used
-   * for example with drop_receiving_element():
-   *
-   *  <?php echo drop_receiving_element( ..., array(
-   *        ...
-   *        'loading' => visual_effect('fade'),
-   *  )) ?>
-   *
-   * This would fade the element that was dropped on the drop receiving element.
-   *
-   * You can change the behaviour with various options, see
-   * http://script.aculo.us for more documentation.
-   */
+/**
+ * Returns a JavaScript snippet to be used on the AJAX callbacks for starting
+ * visual effects.
+ *
+ * Example:
+ *  <?php echo link_to_remote('Reload', array(
+ *        'update'  => 'posts',
+ *        'url'     => '@reload',
+ *        'complete => visual_effect('highlight', 'posts', array('duration' => 0.5 )),
+ *  )) ?>
+ *
+ * If no '$element_id' is given, it assumes "element" which should be a local
+ * variable in the generated JavaScript execution context. This can be used
+ * for example with drop_receiving_element():
+ *
+ *  <?php echo drop_receiving_element( ..., array(
+ *        ...
+ *        'loading' => visual_effect('fade'),
+ *  )) ?>
+ *
+ * This would fade the element that was dropped on the drop receiving element.
+ *
+ * You can change the behaviour with various options, see
+ * http://script.aculo.us for more documentation.
+ *
+ * @param string $name
+ * @param bool $element_id
+ * @param array $js_options
+ *
+ * @return string
+ */
   function visual_effect($name, $element_id = false, $js_options = array())
   {
     $response = sfContext::getInstance()->getResponse();
@@ -552,24 +623,29 @@
     }
   }
 
-  /**
-   * Makes the elements with the DOM ID specified by '$element_id' sortable
-   * by drag-and-drop and make an AJAX call whenever the sort order has
-   * changed. By default, the action called gets the serialized sortable
-   * element as parameters.
-   *
-   * Example:
-   *   <php echo sortable_element($my_list, array(
-   *      'url' => '@order',
-   *   )) ?>
-   *
-   * In the example, the action gets a '$my_list' array parameter
-   * containing the values of the ids of elements the sortable consists
-   * of, in the current order.
-   *
-   * You can change the behaviour with various options, see
-   * http://script.aculo.us for more documentation.
-   */
+/**
+ * Makes the elements with the DOM ID specified by '$element_id' sortable
+ * by drag-and-drop and make an AJAX call whenever the sort order has
+ * changed. By default, the action called gets the serialized sortable
+ * element as parameters.
+ *
+ * Example:
+ *   <php echo sortable_element($my_list, array(
+ *      'url' => '@order',
+ *   )) ?>
+ *
+ * In the example, the action gets a '$my_list' array parameter
+ * containing the values of the ids of elements the sortable consists
+ * of, in the current order.
+ *
+ * You can change the behaviour with various options, see
+ * http://script.aculo.us for more documentation.
+ *
+ * @param string $element_id
+ * @param array $options
+ *
+ * @return string
+ */
   function sortable_element($element_id, $options = array())
   {
     $response = sfContext::getInstance()->getResponse();
@@ -619,17 +695,22 @@
     return javascript_tag("Sortable.create('$element_id', "._options_for_javascript($options).")");
   }
 
-  /**
-   * Makes the element with the DOM ID specified by '$element_id' draggable.
-   *
-   * Example:
-   *   <?php echo draggable_element('my_image', array(
-   *      'revert' => true,
-   *   )) ?>
-   *
-   * You can change the behaviour with various options, see
-   * http://script.aculo.us for more documentation.
-   */
+/**
+ * Makes the element with the DOM ID specified by '$element_id' draggable.
+ *
+ * Example:
+ *   <?php echo draggable_element('my_image', array(
+ *      'revert' => true,
+ *   )) ?>
+ *
+ * You can change the behaviour with various options, see
+ * http://script.aculo.us for more documentation.
+ *
+ * @param string $element_id
+ * @param array $options
+ *
+ * @return string
+ */
   function draggable_element($element_id, $options = array())
   {
     $response = sfContext::getInstance()->getResponse();
@@ -641,19 +722,24 @@
     return javascript_tag("new Draggable('$element_id', "._options_for_javascript($options).")");
   }
 
-  /**
-   * Makes the element with the DOM ID specified by '$element_id' receive
-   * dropped draggable elements (created by 'draggable_element()') and make an AJAX call.
-   * By default, the action called gets the DOM ID of the element as parameter.
-   *
-   * Example:
-   *   <?php drop_receiving_element('my_cart', array(
-   *      'url' => 'cart/add',
-   *   )) ?>
-   *
-   * You can change the behaviour with various options, see
-   * http://script.aculo.us for more documentation.
-   */
+/**
+ * Makes the element with the DOM ID specified by '$element_id' receive
+ * dropped draggable elements (created by 'draggable_element()') and make an AJAX call.
+ * By default, the action called gets the DOM ID of the element as parameter.
+ *
+ * Example:
+ *   <?php drop_receiving_element('my_cart', array(
+ *      'url' => 'cart/add',
+ *   )) ?>
+ *
+ * You can change the behaviour with various options, see
+ * http://script.aculo.us for more documentation.
+ *
+ * @param string $element_id
+ * @param array $options
+ *
+ * @return string
+ */
   function drop_receiving_element($element_id, $options = array())
   {
     $response = sfContext::getInstance()->getResponse();
@@ -689,18 +775,27 @@
     return javascript_tag("Droppables.add('$element_id', "._options_for_javascript($options).")");
   }
 
-  /**
-   * Returns a JavaScript tag with the '$content' inside.
-   * Example:
-   *   <?php echo javascript_tag("alert('All is good')") ?>
-   *   => <script type="text/javascript">alert('All is good')</script>
-   */
+/**
+ * Returns a JavaScript tag with the '$content' inside.
+ * Example:
+ *   <?php echo javascript_tag("alert('All is good')") ?>
+ *   => <script type="text/javascript">alert('All is good')</script>
+ *
+ * @param string $content
+ *
+ * @return string
+ */
   function javascript_tag($content)
   {
     return content_tag('script', javascript_cdata_section($content), array('type' => 'text/javascript'));
   }
 
-  function javascript_cdata_section($content)
+/**
+ * @param string $content
+ *
+ * @return string
+ */
+function javascript_cdata_section($content)
   {
     return "\n//".cdata_section("\n$content\n//")."\n";
   }
@@ -943,7 +1038,12 @@
     return javascript_tag($javascript);
   }
 
-  function _options_for_javascript($options)
+/**
+ * @param array $options
+ *
+ * @return string
+ */
+function _options_for_javascript($options)
   {
     $opts = array();
     foreach ($options as $key => $value)
@@ -955,7 +1055,12 @@
     return '{'.join(', ', $opts).'}';
   }
 
-  function _array_or_string_for_javascript($option)
+/**
+ * @param array $option
+ *
+ * @return string
+ */
+function _array_or_string_for_javascript($option)
   {
     if (is_array($option))
     {
@@ -968,7 +1073,12 @@
     return '';
   }
 
-  function _options_for_ajax($options)
+/**
+ * @param array $options
+ *
+ * @return string
+ */
+function _options_for_ajax($options)
   {
     $js_options = _build_callbacks($options);
 
@@ -993,12 +1103,24 @@
     return _options_for_javascript($js_options);
   }
 
-  function _method_option_to_s($method)
+/**
+ * @param string $method
+ *
+ * @return string
+ */
+function _method_option_to_s($method)
   {
     return (is_string($method) && $method[0] != "'") ? "'$method'" : $method;
   }
 
-  function _build_observer($klass, $name, $options = array())
+/**
+ * @param string $klass
+ * @param string $name
+ * @param array $options
+ *
+ * @return string
+ */
+function _build_observer($klass, $name, $options = array())
   {
     if (!isset($options['with']) && isset($options['update']))
     {
@@ -1018,7 +1140,12 @@
     return javascript_tag($javascript);
   }
 
-  function _build_callbacks($options)
+/**
+ * @param array $options
+ *
+ * @return array
+ */
+function _build_callbacks($options)
   {
     $callbacks = array();
     foreach (get_callbacks() as $callback)

@@ -314,8 +314,8 @@ class sfLoader
   /**
    * Loads helpers.
    *
-   * @param array  An array of helpers to load
-   * @param string A module name (optional)
+   * @param array $helpers  An array of helpers to load
+   * @param string $moduleName A module name (optional)
    *
    * @throws sfViewException
    */
@@ -337,7 +337,7 @@ class sfLoader
         $included = false;
         if (is_readable($dir.'/'.$fileName))
         {
-          include($dir.'/'.$fileName);
+          include $dir.'/'.$fileName;
           $included = true;
           break;
         }

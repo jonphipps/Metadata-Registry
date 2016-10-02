@@ -22,10 +22,13 @@
  */
 class sfBasicSecurityFilter extends sfSecurityFilter
 {
+
   /**
    * Executes this filter.
    *
-   * @param sfFilterChain A sfFilterChain instance
+   * @param sfFilterChain $filterChain A sfFilterChain instance
+   *
+   * @throws sfStopException
    */
   public function execute($filterChain)
   {

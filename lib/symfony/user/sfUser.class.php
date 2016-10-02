@@ -52,7 +52,7 @@ class sfUser
   /**
    * Retrieve the current application context.
    *
-   * @return Context A Context instance.
+   * @return sfContext A Context instance.
    */
   public function getContext()
   {

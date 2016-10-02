@@ -52,13 +52,13 @@ class sfBasicSecurityUser extends sfUser implements sfSecurityUser
   /**
    * Removes a credential.
    *
-   * @param  mixed credential
+   * @param  array $credential
    */  
   public function removeCredential($credential)
   {
     if ($this->hasCredential($credential))
     {
-      foreach ($this->credentials as $key => $value)
+      foreach ((array) $this->credentials as $key => $value)
       {
         if ($credential == $value)
         {
@@ -77,7 +77,7 @@ class sfBasicSecurityUser extends sfUser implements sfSecurityUser
   /**
    * Adds a credential.
    *
-   * @param  mixed credential
+   * @param  mixed $credential
    */
   public function addCredential($credential)
   {
@@ -87,21 +87,20 @@ class sfBasicSecurityUser extends sfUser implements sfSecurityUser
   /**
    * Adds several credential at once.
    *
-   * @param  mixed array or list of credentials
    */
   public function addCredentials()
   {
     if (func_num_args() == 0) return;
 
     // Add all credentials
-    $credentials = (is_array(func_get_arg(0))) ? func_get_arg(0) : func_get_args();
+    $credentials = is_array(func_get_arg(0)) ? func_get_arg(0) : func_get_args();
 
     if (sfConfig::get('sf_logging_enabled'))
     {
       $this->getContext()->getLogger()->info('{sfUser} add credential(s) "'.implode(', ', $credentials).'"');
     }
 
-    foreach ($credentials as $aCredential)
+    foreach ((array) $credentials as $aCredential)
     {
       if (!in_array($aCredential, $this->credentials))
       {
@@ -114,8 +113,8 @@ class sfBasicSecurityUser extends sfUser implements sfSecurityUser
   /**
    * Returns true if user has credential.
    *
-   * @param  mixed credentials
-   * @param  boolean useAnd specify the mode, either AND or OR
+   * @param  array|string $credentials
+   * @param  boolean $useAnd specify the mode, either AND or OR
    * @return boolean
    *
    * @author Olivier Verdier <Olivier.Verdier@free.fr>
@@ -130,7 +129,7 @@ class sfBasicSecurityUser extends sfUser implements sfSecurityUser
     // now we assume that $credentials is an array
     $test = false;
 
-    foreach ($credentials as $credential)
+    foreach ((array) $credentials as $credential)
     {
       // recursively check the credential with a switched AND/OR mode
       $test = $this->hasCredential($credential, $useAnd ? false : true);
@@ -197,16 +196,24 @@ class sfBasicSecurityUser extends sfUser implements sfSecurityUser
     return $this->timedout;
   }
 
+
   /**
    * Returns the timestamp of the last user request.
    *
-   * @param  integer
+   * @return integer
    */
   public function getLastRequestTime()
   {
     return $this->lastRequest;
   }
 
+
+  /**
+   * @param sfContext $context
+   * @param null|array $parameters
+   *
+   * @return bool|void
+   */
   public function initialize($context, $parameters = null)
   {
     // initialize parent
