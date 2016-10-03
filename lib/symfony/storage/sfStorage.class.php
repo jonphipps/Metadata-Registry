@@ -20,6 +20,9 @@
  */
 abstract class sfStorage
 {
+
+  /** @var sfParameterHolder $parameterHolder  */
+  /** @var sfContext $context */
   protected
     $parameterHolder = null,
     $context         = null;
@@ -34,14 +37,14 @@ abstract class sfStorage
     return $this->context;
   }
 
+
   /**
    * Initializes this Storage instance.
    *
-   * @param sfContext A sfContext instance
-   * @param array   An associative array of initialization parameters
+   * @param sfContext $context A sfContext instance
+   * @param array $parameters  An associative array of initialization parameters
    *
    * @return boolean true, if initialization completes successfully, otherwise false
-   *
    * @throws <b>sfInitializationException</b> If an error occurs while initializing this sfStorage
    */
   public function initialize($context, $parameters = array())
@@ -55,9 +58,9 @@ abstract class sfStorage
   /**
    * Retrieves a new Storage implementation instance.
    *
-   * @param string A Storage implementation name
+   * @param string $class A Storage implementation name
    *
-   * @return Storage A Storage implementation instance
+   * @return sfStorage A Storage implementation instance
    *
    * @throws <b>sfFactoryException</b> If a storage implementation instance cannot be created
    */
@@ -83,7 +86,7 @@ abstract class sfStorage
    *
    * The preferred format for a key is directory style so naming conflicts can be avoided.
    *
-   * @param string A unique key identifying your data
+   * @param string $key A unique key identifying your data
    *
    * @return mixed Data associated with the key
    *
@@ -96,7 +99,7 @@ abstract class sfStorage
    *
    * The preferred format for a key is directory style so naming conflicts can be avoided.
    *
-   * @param string A unique key identifying your data
+   * @param string $key A unique key identifying your data
    *
    * @return mixed Data associated with the key
    *
@@ -116,8 +119,8 @@ abstract class sfStorage
    *
    * The preferred format for a key is directory style so naming conflicts can be avoided.
    *
-   * @param string A unique key identifying your data
-   * @param mixed  Data associated with your key
+   * @param string $key A unique key identifying your data
+   * @param mixed $data Data associated with your key
    *
    * @throws <b>sfStorageException</b> If an error occurs while writing to this storage
    */
@@ -136,9 +139,9 @@ abstract class sfStorage
   /**
    * Retrieves a parameter from the validator.
    *
-   * @param string Parameter name
-   * @param mixed A default parameter
-   * @param string Namespace for the current storage
+   * @param string $name Parameter name
+   * @param mixed $default A default parameter
+   * @param string $ns Namespace for the current storage
    *
    * @return mixed A parameter value
    */
@@ -150,8 +153,8 @@ abstract class sfStorage
   /**
    * Indicates whether or not a parameter exist for the storage instance.
    *
-   * @param string A parameter name
-   * @param string A parameter namespace
+   * @param string $name A parameter name
+   * @param string $ns A parameter namespace
    *
    * @return boolean true, if parameter exists, otherwise false
    */
@@ -160,12 +163,15 @@ abstract class sfStorage
     return $this->parameterHolder->has($name, $ns);
   }
 
+
   /**
    * Sets a parameter for the current storage instance.
    *
-   * @param string A parameter name
-   * @param mixed A parameter value
-   * @param string Namespace for the current storage
+   * @param $name      string A parameter name
+   * @param $value     mixed A parameter value
+   * @param string $ns Namespace for the current storage
+   *
+   * @return mixed
    */
   public function setParameter($name, $value, $ns = null)
   {

@@ -28,8 +28,8 @@ class sfSessionStorage extends sfStorage
   /**
    * Initializes this Storage instance.
    *
-   * @param sfContext A sfContext instance
-   * @param array   An associative array of initialization parameters
+   * @param sfContext $context A sfContext instance
+   * @param array $parameters  An associative array of initialization parameters
    *
    * @return boolean true, if initialization completes successfully, otherwise false
    *
@@ -83,7 +83,7 @@ class sfSessionStorage extends sfStorage
    *
    * The preferred format for a key is directory style so naming conflicts can be avoided.
    *
-   * @param string A unique key identifying your data
+   * @param string $key A unique key identifying your data
    *
    * @return mixed Data associated with the key
    */
@@ -104,7 +104,7 @@ class sfSessionStorage extends sfStorage
    *
    * The preferred format for a key is directory style so naming conflicts can be avoided.
    *
-   * @param string A unique key identifying your data
+   * @param string $key A unique key identifying your data
    *
    * @return mixed Data associated with the key
    */
@@ -126,8 +126,8 @@ class sfSessionStorage extends sfStorage
    *
    * The preferred format for a key is directory style so naming conflicts can be avoided.
    *
-   * @param string A unique key identifying your data
-   * @param mixed  Data associated with your key
+   * @param string $key A unique key identifying your data
+   * @param mixed $data Data associated with your key
    *
    */
   public function write($key, &$data)
