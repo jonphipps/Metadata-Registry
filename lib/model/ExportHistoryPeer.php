@@ -14,11 +14,11 @@ class ExportHistoryPeer extends BaseExportHistoryPeer
     {
         $request = sfContext::getInstance()->getRequest();
         if ($request->getParameter('schema_id')) {
-            $profile = 1;
+            $profileId = 1;
         }
         if ($request->getParameter('vocabulary_id')) {
-            $profile = 2;
+            $profileId = 2;
         }
-        ProfilePropertyPeer::getProfilePropertiesForCreate();
+        return ProfilePropertyPeer::getProfilePropertiesForExport($profileId);
     }
 }
