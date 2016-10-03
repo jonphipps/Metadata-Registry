@@ -24,7 +24,7 @@ class sfExecutionFilter extends sfFilter
   /**
    * Executes this filter.
    *
-   * @param sfFilterChain The filter chain
+   * @param sfFilterChain $filterChain The filter chain
    *
    * @throws <b>sfInitializeException</b> If an error occurs during view initialization.
    * @throws <b>sfViewException</b>       If an error occurs while executing the view.
@@ -60,6 +60,7 @@ class sfExecutionFilter extends sfFilter
 
     if (!$viewName)
     {
+      /** @var sfAction $actionInstance */
       if (($actionInstance->getRequestMethods() & $method) != $method)
       {
         // this action will skip validation/execution for this method
@@ -96,7 +97,7 @@ class sfExecutionFilter extends sfFilter
           $validatorManager = new sfValidatorManager();
           $validatorManager->initialize($context);
 
-          require($validateFile);
+          require $validateFile;
 
           // process validators
           $validated = $validatorManager->execute();
@@ -201,8 +202,8 @@ class sfExecutionFilter extends sfFilter
   /**
    * Registers the fill in filter in the filter chain.
    *
-   * @param sfFilterChain A sfFilterChain implementation instance
-   * @param array An array of parameters to pass to the fill in filter.
+   * @param sfFilterChain $filterChain A sfFilterChain implementation instance
+   * @param array $parameters An array of parameters to pass to the fill in filter.
    */
   protected function registerFillInFilter($filterChain, $parameters)
   {

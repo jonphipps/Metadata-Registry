@@ -18,26 +18,21 @@
  */
 abstract class sfComponent
 {
-  /**
-   * @var $context sfContext
-   */
-  /**
-   * @var myWebRequest $request
-   */
-  /**
-   * @var sfWebResponse $response
-   */
-  /**
-   * @var sfParameterHolder $varHolder
-   */
-  /**
-   * @var sfParameterHolder $requestParameterHolder
-   */
+
+  /** @var $context sfContext */
   protected
-    $context                = null,
-    $request                = null,
-    $response               = null,
-    $varHolder              = null,
+    $context                = null;
+  /** @var myWebRequest $request */
+  protected
+    $request                = null;
+  /** @var sfWebResponse $response */
+  protected
+    $response               = null;
+  /** @var sfParameterHolder $varHolder */
+  protected
+    $varHolder              = null;
+  /** @var sfParameterHolder $requestParameterHolder */
+  protected
     $requestParameterHolder = null;
 
   /**
@@ -275,9 +270,7 @@ abstract class sfComponent
    *
    * @param  string $key The variable name
    * @param  string $value The variable value
-   *
-   * @return boolean always true
-   *
+   **
    * @see setVar()
    */
   public function __set($key, $value)
@@ -379,20 +372,19 @@ abstract class sfComponent
     return $this->getUser()->hasAttribute($name, 'symfony/flash');
   }
 
+
   /**
    * Sends and email from the current action.
-   *
    * This methods calls a module/action with the sfMailView class.
-   *
    * This is a shortcut for
-   *
    * <code>$this->getController()->sendEmail($module, $action)</code>
    *
    * @param  string $module A module name
    * @param  string $action An action name
    *
    * @return string The generated mail content
-   *
+   * @throws Exception
+   * @throws sfException
    * @see sfMailView, getPresentationFor(), sfController
    */
   public function sendEmail($module, $action)
@@ -400,19 +392,19 @@ abstract class sfComponent
     return $this->getController()->getPresentationFor($module, $action, 'sfMail');
   }
 
+
   /**
    * Returns the rendered view presentation of a given module/action.
-   *
    * This is a shortcut for
-   *
    * <code>$this->getController()->getPresentationFor($module, $action, $viewName)</code>
    *
-   * @param  string $module A module name
-   * @param  string $action An action name
+   * @param  string $module   A module name
+   * @param  string $action   An action name
    * @param  string $viewName A View class name
    *
    * @return string The generated content
-   *
+   * @throws Exception
+   * @throws sfException
    * @see sfController
    */
   public function getPresentationFor($module, $action, $viewName = null)

@@ -76,7 +76,7 @@ class sfPHPView extends sfView
   /**
    * Renders the presentation.
    *
-   * @param string Filename
+   * @param string $_sfFile Filename
    *
    * @return string File content
    */
@@ -102,7 +102,7 @@ class sfPHPView extends sfView
 
       if ($_escaping === 'both')
       {
-        foreach ($sf_data as $_key => $_value)
+        foreach ((array) $sf_data as $_key => $_value)
         {
           ${$_key} = $_value;
         }
@@ -112,7 +112,7 @@ class sfPHPView extends sfView
     // render
     ob_start();
     ob_implicit_flush(0);
-    require($_sfFile);
+    require $_sfFile;
 
     return ob_get_clean();
   }
@@ -145,7 +145,7 @@ class sfPHPView extends sfView
 
     // require our configuration
     $viewConfigFile = $this->moduleName.'/'.sfConfig::get('sf_app_module_config_dir_name').'/view.yml';
-    require(sfConfigCache::getInstance()->checkConfig(sfConfig::get('sf_app_module_dir_name').'/'.$viewConfigFile));
+    require sfConfigCache::getInstance()->checkConfig(sfConfig::get('sf_app_module_dir_name').'/'.$viewConfigFile);
 
     // set template directory
     if (!$this->directory)
@@ -158,7 +158,7 @@ class sfPHPView extends sfView
    * Loop through all template slots and fill them in with the results of
    * presentation data.
    *
-   * @param string A chunk of decorator content
+   * @param string $content A chunk of decorator content
    *
    * @return string A decorated template
    */
@@ -183,11 +183,13 @@ class sfPHPView extends sfView
     return $retval;
   }
 
+
   /**
    * Renders the presentation.
-   *
    * When the controller render mode is sfView::RENDER_CLIENT, this method will
    * render the presentation directly to the client and null will be returned.
+   *
+   * @param array|null $templateVars
    *
    * @return string A string representing the rendered presentation, if
    *                the controller render mode is sfView::RENDER_VAR, otherwise null

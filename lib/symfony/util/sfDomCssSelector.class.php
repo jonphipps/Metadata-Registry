@@ -28,6 +28,12 @@ class sfDomCssSelector
     $this->dom = $dom;
   }
 
+
+  /**
+   * @param string $selector
+   *
+   * @return array
+   */
   public function getTexts($selector)
   {
     $texts = array();
@@ -39,6 +45,12 @@ class sfDomCssSelector
     return $texts;
   }
 
+
+  /**
+   * @param string $selector
+   *
+   * @return array
+   */
   public function getElements($selector)
   {
     $all_nodes = array();
@@ -185,9 +197,18 @@ class sfDomCssSelector
     return $all_nodes;
   }
 
+
+  /**
+   * @param DOMNodeList $nodes
+   * @param string $tagName
+   * @param string $combinator
+   *
+   * @return array
+   */
   protected function getElementsByTagName($nodes, $tagName, $combinator = ' ')
   {
     $founds = array();
+    /** @var DOMNode $node */
     foreach ($nodes as $node)
     {
       switch ($combinator)
@@ -228,6 +249,12 @@ class sfDomCssSelector
     return $founds;
   }
 
+
+  /**
+   * @param string $selector
+   *
+   * @return array
+   */
   protected function tokenize_selectors($selector)
   {
     // split tokens by , except in an attribute selector
@@ -259,6 +286,12 @@ class sfDomCssSelector
     return $tokens;
   }
 
+
+  /**
+   * @param string $selector
+   *
+   * @return array
+   */
   protected function tokenize($selector)
   {
     // split tokens by space except if space is in an attribute selector

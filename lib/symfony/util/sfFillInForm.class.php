@@ -40,10 +40,17 @@ class sfFillInForm
     $this->types = $types;
   }
 
+
   /**
    * fills in the values and returns HTML. This is a non validating tolerant mode.
    *
-   * @return HTML with values filled in
+   * @param string $html
+   * @param string $formName
+   * @param string $formId
+   * @param array $values
+   *
+   * @return string HTML with values filled in
+   * @throws sfException
    */
   public function fillInHtml($html, $formName, $formId, $values)
   {
@@ -69,10 +76,17 @@ class sfFillInForm
     return $dom->saveHTML();
   }
 
+
   /**
    * fills in the values and returns XHTML. This is same as XML but stripts the XML Prolog.
    *
-   * @return XHTML without prolog with values filled in
+   * @param string $xml
+   * @param string $formName
+   * @param string $formId
+   * @param array $values
+   *
+   * @return string XHTML without prolog with values filled in
+   * @throws sfException
    */
   public function fillInXhtml($xml, $formName, $formId, $values)
   {
@@ -81,10 +95,17 @@ class sfFillInForm
     return preg_replace($prolog_regexp, '', $xhtml);
   }
 
+
   /**
    * fills in the values and returns XHTML. It can only work correctly on validating XHTML.
    *
-   * @return XHTML including XML prolog with values filled in
+   * @param string $xml
+   * @param string $formName
+   * @param string $formId
+   * @param array $values
+   *
+   * @return string XHTML including XML prolog with values filled in
+   * @throws sfException
    */
   public function fillInXml($xml, $formName, $formId, $values)
   {
@@ -102,6 +123,16 @@ class sfFillInForm
     return $dom->saveXML();
   }
 
+
+  /**
+   * @param DOMDocument $dom
+   * @param string $formName
+   * @param string$formId
+   * @param array $values
+   *
+   * @return mixed
+   * @throws sfException
+   */
   public function fillInDom($dom, $formName, $formId, $values)
   {
     $xpath = new DomXPath($dom);
@@ -151,6 +182,7 @@ class sfFillInForm
 
     foreach ($xpath->query($query, $form) as $element)
     {
+      /** @var DOMElement $element */
       $name  = (string) $element->getAttribute('name');
       $value = (string) $element->getAttribute('value');
       $type  = (string) $element->getAttribute('type');
@@ -197,6 +229,7 @@ class sfFillInForm
         // if the name contains [] it is part of an array that needs to be shifted
         $value    = $this->getValue($values, $name, strpos($name,'[]') !== false);
         $multiple = $element->hasAttribute('multiple');
+        /** @var DOMElement $option */
         foreach ($xpath->query('descendant::'.$ns.'option', $element) as $option)
         {
           $option->removeAttribute('selected');
@@ -218,6 +251,13 @@ class sfFillInForm
     return $dom;
   }
 
+
+  /**
+   * @param array $values
+   * @param string $name
+   *
+   * @return bool
+   */
   protected function hasValue($values, $name)
   {
     if (array_key_exists($name, $values))
@@ -228,7 +268,16 @@ class sfFillInForm
     return null !== sfToolkit::getArrayValueForPath($values, $name);
   }
 
-  // use reference to values so that arrays can be shifted.
+
+  /**
+   * use reference to values so that arrays can be shifted.
+   *
+   * @param array $values
+   * @param string $name
+   * @param bool $shiftArray
+   *
+   * @return array|mixed|null
+   */
   protected function getValue(&$values, $name, $shiftArray = false)
   {
     if (array_key_exists($name, $values))
@@ -246,6 +295,13 @@ class sfFillInForm
     return $return;
   }
 
+
+  /**
+   * @param string $value
+   * @param string $name
+   *
+   * @return mixed|string
+   */
   protected function escapeValue($value, $name)
   {
     if (function_exists('iconv') && strtolower(sfConfig::get('sf_charset')) != 'utf-8')

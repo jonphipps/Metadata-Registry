@@ -23,7 +23,7 @@ class sfToolkit
   /**
    * Extract the class or interface name from filename.
    *
-   * @param string A filename.
+   * @param string $filename A filename.
    *
    * @return string A class or interface name, if one can be extracted, otherwise null.
    */
@@ -49,7 +49,7 @@ class sfToolkit
   /**
    * Clear all files in a given directory.
    *
-   * @param  string An absolute filesystem path to a directory.
+   * @param  string $directory An absolute filesystem path to a directory.
    *
    * @return void
    */
@@ -98,7 +98,7 @@ class sfToolkit
   /**
    * Clear all files and directories corresponding to a glob pattern.
    *
-   * @param  string An absolute filesystem pattern.
+   * @param  string $pattern An absolute filesystem pattern.
    *
    * @return void
    */
@@ -127,7 +127,7 @@ class sfToolkit
   /**
    * Determine if a filesystem path is absolute.
    *
-   * @param path A filesystem path.
+   * @param string $path A filesystem path.
    *
    * @return bool true, if the path is absolute, otherwise false.
    */
@@ -146,12 +146,15 @@ class sfToolkit
     return false;
   }
 
+
   /**
    * Determine if a lock file is present.
    *
-   * @param integer A max amount of life time for the lock file.
+   * @param $lockFile
+   * @param int $maxLockFileLifeTime
    *
    * @return bool true, if the lock file is present, otherwise false.
+   * @internal param A $integer max amount of life time for the lock file.
    */
   public static function hasLockFile($lockFile, $maxLockFileLifeTime = 0)
   {
@@ -174,6 +177,12 @@ class sfToolkit
     return $isLocked;
   }
 
+
+  /**
+   * @param string $source
+   *
+   * @return string
+   */
   public static function stripComments($source)
   {
     if (!sfConfig::get('sf_strip_comments', true) || !function_exists('token_get_all'))
@@ -206,6 +215,12 @@ class sfToolkit
     return $output;
   }
 
+
+  /**
+   * @param string $value
+   *
+   * @return array|string
+   */
   public static function stripslashesDeep($value)
   {
     return is_array($value) ? array_map(array('sfToolkit', 'stripslashesDeep'), $value) : stripslashes($value);
@@ -279,6 +294,12 @@ class sfToolkit
     }
   }
 
+
+  /**
+   * @param string $string
+   *
+   * @return array
+   */
   public static function stringToArray($string)
   {
     preg_match_all('/
@@ -301,10 +322,13 @@ class sfToolkit
     return $attributes;
   }
 
+
   /**
    * Finds the type of the passed value, returns the value as the new type.
    *
-   * @param  string
+   * @param  string $value
+   * @param bool $quoted
+   *
    * @return mixed
    */
   public static function literalize($value, $quoted = false)
@@ -348,7 +372,7 @@ class sfToolkit
   /**
    * Replaces constant identifiers in a scalar value.
    *
-   * @param string the value to perform the replacement on
+   * @param string $value the value to perform the replacement on
    * @return string the value with substitutions made
    */
   public static function replaceConstants($value)
@@ -357,7 +381,7 @@ class sfToolkit
   }
 
   /**
-   * Returns subject replaced with regular expression matchs
+   * Returns subject replaced with regular expression matches
    *
    * @param mixed $search subject to search
    * @param array $replacePairs array of search => replace pairs
@@ -393,12 +417,18 @@ class sfToolkit
 
   }
 
+
+  /**
+   * @param array $array
+   *
+   * @return bool
+   */
   public static function isArrayValuesEmpty($array)
   {
     static $isEmpty = true;
     foreach ($array as $value)
     {
-      $isEmpty = (is_array($value)) ? self::isArrayValuesEmpty($value) : (strlen($value) == 0);
+      $isEmpty = is_array($value) ? self::isArrayValuesEmpty($value) : (strlen($value) == 0);
       if (!$isEmpty)
       {
         break;
@@ -415,7 +445,7 @@ class sfToolkit
    * Copyright (c) 2007 Yahoo! Inc. All rights reserved.
    * Licensed under the BSD open source license
    *
-   * @param string
+   * @param string $string
    *
    * @return bool true if $string is valid UTF-8 and false otherwise.
    */
@@ -465,6 +495,14 @@ class sfToolkit
     return true;
   }
 
+
+  /**
+   * @param array $values
+   * @param string $name
+   * @param null|mixed $default
+   *
+   * @return mixed|null
+   */
   public static function &getArrayValueForPathByRef(&$values, $name, $default = null)
   {
     if (false !== ($offset = strpos($name, '[')))
@@ -503,6 +541,14 @@ class sfToolkit
     return $default;
   }
 
+
+  /**
+   * @param array $values
+   * @param string $name
+   * @param null|mixed $default
+   *
+   * @return mixed|null
+   */
   public static function getArrayValueForPath($values, $name, $default = null)
   {
     if (false !== ($offset = strpos($name, '[')))

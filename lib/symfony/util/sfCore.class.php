@@ -22,10 +22,15 @@ class sfCore
     $autoloadCallables = array(),
     $classes           = array();
 
+
+  /**
+   * @param string $sf_symfony_lib_dir
+   * @param string $sf_symfony_data_dir
+   */
   static public function bootstrap($sf_symfony_lib_dir, $sf_symfony_data_dir)
   {
-    require_once($sf_symfony_lib_dir.'/util/sfToolkit.class.php');
-    require_once($sf_symfony_lib_dir.'/config/sfConfig.class.php');
+    require_once $sf_symfony_lib_dir.'/util/sfToolkit.class.php';
+    require_once $sf_symfony_lib_dir.'/config/sfConfig.class.php';
 
     sfCore::initConfiguration($sf_symfony_lib_dir, $sf_symfony_data_dir);
 
@@ -53,7 +58,7 @@ class sfCore
     }
     else
     {
-      require(sfConfig::get('sf_symfony_lib_dir').'/symfony.php');
+      require sfConfig::get('sf_symfony_lib_dir').'/symfony.php';
     }
   }
 
@@ -77,7 +82,7 @@ class sfCore
     ));
 
     // directory layout
-    include($sf_symfony_data_dir.'/config/constants.php');
+    include $sf_symfony_data_dir.'/config/constants.php';
   }
 
   static public function initIncludePath()
@@ -91,7 +96,9 @@ class sfCore
     );
   }
 
-  // check to see if we're not in a cache cleaning process
+  /**
+   * check to see if we're not in a cache cleaning process
+   */
   static public function checkLock()
   {
     if (
@@ -102,7 +109,7 @@ class sfCore
     {
       // application is not available
       $file = sfConfig::get('sf_web_dir').'/errors/unavailable.php';
-      include(is_readable($file) ? $file : sfConfig::get('sf_symfony_data_dir').'/web/errors/unavailable.php');
+      include is_readable($file) ? $file : sfConfig::get('sf_symfony_data_dir').'/web/errors/unavailable.php';
 
       die(1);
     }
@@ -143,7 +150,7 @@ class sfCore
   /**
    * Handles autoloading of classes that have been specified in autoload.yml.
    *
-   * @param  string  A class name.
+   * @param  string $class  A class name.
    *
    * @return boolean Returns true if the class has been loaded
    */
@@ -165,7 +172,7 @@ class sfCore
     // we have a class path, let's include it
     if (isset(self::$classes[$class]))
     {
-      require(self::$classes[$class]);
+      require self::$classes[$class];
 
       return true;
     }
@@ -174,7 +181,7 @@ class sfCore
     // must be in a module context
     if (sfContext::hasInstance() && ($module = sfContext::getInstance()->getModuleName()) && isset(self::$classes[$module.'/'.$class]))
     {
-      require(self::$classes[$module.'/'.$class]);
+      require self::$classes[$module.'/'.$class];
 
       return true;
     }
@@ -218,6 +225,12 @@ class sfCore
     self::addAutoloadCallable(array('sfCore', 'splAutoload'));
   }
 
+
+  /**
+   * @param $class
+   *
+   * @return bool
+   */
   static public function splSimpleAutoload($class)
   {
     // class already exists
@@ -229,7 +242,7 @@ class sfCore
     // we have a class path, let's include it
     if (isset(self::$classes[$class]))
     {
-      require(self::$classes[$class]);
+      require self::$classes[$class];
 
       return true;
     }
@@ -239,8 +252,9 @@ class sfCore
 
   static public function initSimpleAutoload($dirs)
   {
-    require_once(dirname(__FILE__).'/sfFinder.class.php');
+    require_once dirname(__FILE__).'/sfFinder.class.php';
     self::$classes = array();
+    /** @var sfFinder $finder */
     $finder = sfFinder::type('file')->ignore_version_control()->name('*.php');
     foreach ((array) $dirs as $dir)
     {

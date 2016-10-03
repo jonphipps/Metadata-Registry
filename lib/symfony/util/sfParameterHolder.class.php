@@ -26,15 +26,17 @@ class sfParameterHolder
   protected $default_namespace = null;
   protected $parameters = array();
 
+
   /**
    * The constructor for sfParameterHolder.
-   * 
    * The default namespace may be overridden at initialization as follows:
    * <code>
    * <?php
    * $mySpecialPH = new sfParameterHolder('symfony/special');
    * ?>
    * </code>
+   *
+   * @param string $namespace
    */
   public function __construct($namespace = 'symfony/default')
   {
@@ -71,9 +73,9 @@ class sfParameterHolder
    * argument.  If not specified, the default namespace 'symfony/default' is
    * used.
    *
-   * @param string A parameter name.
-   * @param mixed  A default parameter value.
-   * @param string A parameter namespace.
+   * @param string $name A parameter name.
+   * @param mixed $default  A default parameter value.
+   * @param string $ns A parameter namespace.
    *
    * @return mixed A parameter value, if the parameter exists, otherwise null.
    */
@@ -103,7 +105,7 @@ class sfParameterHolder
   /**
    * Retrieve an array of parameter names from an optionally specified namespace.
    *
-   * @param string A parameter namespace.
+   * @param string $ns A parameter namespace.
    *
    * @return array An indexed array of parameter names, if the namespace exists, otherwise null.
    */
@@ -140,7 +142,7 @@ class sfParameterHolder
    * namespace is passed as an argument, only the parameters of the
    * specified namespace are returned.
    *
-   * @param string A parameter namespace.
+   * @param string $ns A parameter namespace.
    *
    * @return array An associative array of parameters.
    */
@@ -164,8 +166,8 @@ class sfParameterHolder
   /**
    * Indicates whether or not a parameter exists.
    *
-   * @param string A parameter name.
-   * @param string A parameter namespace.
+   * @param string $name A parameter name.
+   * @param string $ns A parameter namespace.
    *
    * @return bool true, if the parameter exists, otherwise false.
    */
@@ -212,7 +214,7 @@ class sfParameterHolder
   /**
    * Indicates whether or not A parameter namespace exists.
    *
-   * @param string A parameter namespace.
+   * @param string $ns A parameter namespace.
    *
    * @return bool true, if the namespace exists, otherwise false.
    */
@@ -224,8 +226,8 @@ class sfParameterHolder
   /**
    * Remove a parameter.
    *
-   * @param string A parameter name.
-   * @param string A parameter namespace.
+   * @param string $name A parameter name.
+   * @param string $ns A parameter namespace.
    *
    * @return string A parameter value, if the parameter was removed, otherwise null.
    */
@@ -247,12 +249,13 @@ class sfParameterHolder
     return $retval;
   }
 
+
   /**
    * Remove A parameter namespace and all of its associated parameters.
    *
-   * @param string A parameter namespace.
+   * @param string $ns A parameter namespace.
    *
-   * @return void
+   * @return mixed|null
    */
   public function & removeNamespace($ns = null)
   {
@@ -277,9 +280,9 @@ class sfParameterHolder
    *
    * If a parameter with the name already exists the value will be overridden.
    *
-   * @param string A parameter name.
-   * @param mixed  A parameter value.
-   * @param string A parameter namespace.
+   * @param string $name A parameter name.
+   * @param mixed $value A parameter value.
+   * @param string $ns A parameter namespace.
    *
    * @return void
    */
@@ -303,11 +306,10 @@ class sfParameterHolder
    *
    * If a parameter with the name already exists the value will be overridden.
    *
-   * @param string A parameter name.
-   * @param mixed  A reference to a parameter value.
-   * @param string A parameter namespace.
+   * @param string $name A parameter name.
+   * @param mixed $value  A reference to a parameter value.
+   * @param string $ns A parameter namespace.
    *
-   * @return void
    */
   public function setByRef($name, & $value, $ns = null)
   {
@@ -330,8 +332,8 @@ class sfParameterHolder
    * If an existing parameter name matches any of the keys in the supplied
    * array, the associated value will be overridden.
    *
-   * @param array An associative array of parameters and their associated values.
-   * @param string A parameter namespace.
+   * @param array $parameters An associative array of parameters and their associated values.
+   * @param string $ns A parameter namespace.
    *
    * @return void
    */
@@ -361,8 +363,8 @@ class sfParameterHolder
    * If an existing parameter name matches any of the keys in the supplied
    * array, the associated value will be overridden.
    *
-   * @param array An associative array of parameters and references to their associated values.
-   * @param string A parameter namespace.
+   * @param array $parameters An associative array of parameters and references to their associated values.
+   * @param string $ns A parameter namespace.
    *
    * @return void
    */

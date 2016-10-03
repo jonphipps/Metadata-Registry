@@ -18,10 +18,13 @@
  */
 class sfCommonFilter extends sfFilter
 {
+
   /**
    * Executes this filter.
    *
    * @param sfFilterChain $filterChain A sfFilterChain instance
+   *
+   * @throws sfViewException
    */
   public function execute($filterChain)
   {

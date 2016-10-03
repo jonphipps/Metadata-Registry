@@ -23,6 +23,13 @@ class sfMixer
     $mixinParameters = array(),
     $mixinInstances  = array();
 
+
+  /**
+   * @param string $name
+   * @param string $callable
+   *
+   * @throws Exception
+   */
   static public function register($name, $callable)
   {
     $lazy = false;
@@ -128,6 +135,12 @@ class sfMixer
     }
   }
 
+
+  /**
+   * @param $name
+   *
+   * @return array
+   */
   static public function getCallables($name)
   {
     self::getMixinInstance($name);

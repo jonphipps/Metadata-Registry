@@ -20,18 +20,19 @@
 /**
  * Evaluates and echoes a component slot.
  * The component name is deduced from the definition of the view.yml
- * For a variable to be accessible to the component and its partial, 
+ * For a variable to be accessible to the component and its partial,
  * it has to be passed in the second argument.
- *
  * <b>Example:</b>
  * <code>
  *  include_component_slot('sidebar', array('myvar' => 12345));
  * </code>
  *
- * @param  string slot name
- * @param  array variables to be made accessible to the component
- * @return void
- * @see    get_component_slot, include_partial, include_component
+ * @param  string $name slot name
+ * @param array $vars   $array to be made accessible to the component
+ *
+ * @throws sfConfigurationException
+ * @throws sfInitializationException
+ * @see      get_component_slot, include_partial, include_component
  */
 function include_component_slot($name, $vars = array())
 {
@@ -41,15 +42,17 @@ function include_component_slot($name, $vars = array())
 /**
  * Evaluates and returns a component slot.
  * The syntax is similar to the one of include_component_slot.
- *
  * <b>Example:</b>
  * <code>
  *  echo get_component_slot('sidebar', array('myvar' => 12345));
  * </code>
  *
- * @param  string slot name
- * @param  array variables to be made accessible to the component
+ * @param  string $name slot name
+ * @param  array $vars  variables to be made accessible to the component
+ *
  * @return string result of the component execution
+ * @throws sfConfigurationException
+ * @throws sfInitializationException
  * @see    get_component_slot, include_partial, include_component
  */
 function get_component_slot($name, $vars = array())
@@ -57,7 +60,8 @@ function get_component_slot($name, $vars = array())
   $context = sfContext::getInstance();
 
   $actionStackEntry = $context->getController()->getActionStack()->getLastEntry();
-  $viewInstance     = $actionStackEntry->getViewInstance();
+  /** @var sfView $viewInstance */
+  $viewInstance = $actionStackEntry->getViewInstance();
 
   if (!$viewInstance->hasComponentSlot($name))
   {
@@ -76,18 +80,19 @@ function get_component_slot($name, $vars = array())
 
 /**
  * Evaluates and echoes a component.
- * For a variable to be accessible to the component and its partial, 
+ * For a variable to be accessible to the component and its partial,
  * it has to be passed in the third argument.
- *
  * <b>Example:</b>
  * <code>
  *  include_component('mymodule', 'mypartial', array('myvar' => 12345));
  * </code>
  *
- * @param  string module name
- * @param  string component name
- * @param  array variables to be made accessible to the component
- * @return void
+ * @param  string $moduleName    module name
+ * @param  string $componentName component name
+ * @param  array $vars           variables to be made accessible to the component
+ *
+ * @throws sfConfigurationException
+ * @throws sfInitializationException
  * @see    get_component, include_partial, include_component_slot
  */
 function include_component($moduleName, $componentName, $vars = array())
@@ -98,16 +103,18 @@ function include_component($moduleName, $componentName, $vars = array())
 /**
  * Evaluates and returns a component.
  * The syntax is similar to the one of include_component.
- *
  * <b>Example:</b>
  * <code>
  *  echo get_component('mymodule', 'mypartial', array('myvar' => 12345));
  * </code>
  *
- * @param  string module name
- * @param  string component name
- * @param  array variables to be made accessible to the component
+ * @param  string $moduleName    module name
+ * @param  string $componentName component name
+ * @param  array $vars           variables to be made accessible to the component
+ *
  * @return string result of the component execution
+ * @throws sfConfigurationException
+ * @throws sfInitializationException
  * @see    include_component
  */
 function get_component($moduleName, $componentName, $vars = array())
@@ -149,8 +156,9 @@ function get_component($moduleName, $componentName, $vars = array())
   }
 
   // load component's module config file
-  require(sfConfigCache::getInstance()->checkConfig(sfConfig::get('sf_app_module_dir_name').'/'.$moduleName.'/'.sfConfig::get('sf_app_module_config_dir_name').'/module.yml'));
+  require sfConfigCache::getInstance()->checkConfig(sfConfig::get('sf_app_module_dir_name').'/'.$moduleName.'/'.sfConfig::get('sf_app_module_config_dir_name').'/module.yml');
 
+  /** @var sfComponent $componentInstance */
   $componentInstance->getVarHolder()->add($vars);
 
   // dispatch component
@@ -218,8 +226,8 @@ function get_component($moduleName, $componentName, $vars = array())
  *  include_partial('mypartial', array('myvar' => 12345));
  * </code>
  *
- * @param  string partial name
- * @param  array variables to be made accessible to the partial
+ * @param  string $templateName partial name
+ * @param  array $vars variables to be made accessible to the partial
  * @return void
  * @see    get_partial, include_component
  */
@@ -237,8 +245,8 @@ function include_partial($templateName, $vars = array())
  *  echo get_partial('mypartial', array('myvar' => 12345));
  * </code>
  *
- * @param  string partial name
- * @param  array variables to be made accessible to the partial
+ * @param  string $templateName partial name
+ * @param  array $vars variables to be made accessible to the partial
  * @return string result of the partial execution
  * @see    include_partial
  */
@@ -279,6 +287,14 @@ function get_partial($templateName, $vars = array())
   return $retval;
 }
 
+/**
+ * @param sfViewCacheManager $cacheManager
+ * @param string $moduleName
+ * @param null|string $actionName
+ * @param array $vars
+ *
+ * @return null|string
+ */
 function _get_cache($cacheManager, $moduleName, $actionName = null, $vars = array())
 {
   if (!$cacheManager->isActionCacheable($moduleName, $actionName))
@@ -297,11 +313,23 @@ function _get_cache($cacheManager, $moduleName, $actionName = null, $vars = arra
   return $retval;
 }
 
+/**
+ * @param string $moduleName
+ * @param string $actionName
+ * @param array $vars
+ *
+ * @return string
+ */
 function _get_cache_uri($moduleName, $actionName, & $vars = array())
 {
   return '@sf_cache_partial?module='.$moduleName.'&action='.$actionName.'&sf_cache_key='._get_cache_key($vars);
 }
 
+/**
+ * @param array $vars
+ *
+ * @return mixed|string
+ */
 function _get_cache_key(& $vars = array())
 {
   if (!isset($vars['sf_cache_key']))
@@ -317,6 +345,13 @@ function _get_cache_key(& $vars = array())
   return $vars['sf_cache_key'];
 }
 
+/**
+ * @param sfViewCacheManager $cacheManager
+ * @param string $uri
+ * @param string $retval
+ *
+ * @return string
+ */
 function _set_cache($cacheManager, $uri, $retval)
 {
   $saved = $cacheManager->set($retval, $uri);
@@ -332,8 +367,9 @@ function _set_cache($cacheManager, $uri, $retval)
 /**
  * Begins the capturing of the slot.
  *
- * @param  string slot name
- * @return void
+ * @param  string $name slot name
+ *
+ * @throws sfCacheException
  * @see    end_slot
  */
 function slot($name)
@@ -366,7 +402,7 @@ function slot($name)
 /**
  * Stops the content capture and save the content in the slot.
  *
- * @return void
+ * @throws sfCacheException
  * @see    slot
  */
 function end_slot()
@@ -391,7 +427,7 @@ function end_slot()
 /**
  * Returns true if the slot exists.
  *
- * @param  string slot name
+ * @param  string $name slot name
  * @return boolean true, if the slot exists
  * @see    get_slot, include_slot
  */
@@ -411,8 +447,8 @@ function has_slot($name)
  *  include_slot('navigation');
  * </code>
  *
- * @param  string slot name
- * @return void
+ * @param  string $name slot name
+ * @return boolean
  * @see    has_slot, get_slot
  */
 function include_slot($name)
@@ -445,7 +481,7 @@ function include_slot($name)
  *  echo get_slot('navigation');
  * </code>
  *
- * @param  string slot name
+ * @param  string $name slot name
  * @return string content of the slot
  * @see    has_slot, include_slot
  */

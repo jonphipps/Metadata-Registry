@@ -21,26 +21,32 @@
 abstract class sfController
 {
 
-  /** @var sfContext $context @var int $renderMode */
+  /** @var sfContext $context */
   protected
     $context                  = null,
     $controllerClasses        = array(),
-    $maxForwards              = 5,
+    $maxForwards              = 5;
+  /**  @var int $renderMode */
+  protected
     $renderMode               = sfView::RENDER_CLIENT,
     $viewCacheClassName       = null;
+
 
   /**
    * Indicates whether or not a module has a specific component.
    *
-   * @param string $moduleName A module name
+   * @param string $moduleName    A module name
    * @param string $componentName An component name
    *
    * @return bool true, if the component exists, otherwise false
+   * @throws sfConfigurationException
+   * @throws sfControllerException
    */
   public function componentExists($moduleName, $componentName)
   {
     return $this->controllerExists($moduleName, $componentName, 'component', false);
   }
+
 
   /**
    * Indicates whether or not a module has a specific action.
@@ -49,6 +55,8 @@ abstract class sfController
    * @param string $actionName An action name
    *
    * @return bool true, if the action exists, otherwise false
+   * @throws sfConfigurationException
+   * @throws sfControllerException
    */
   public function actionExists($moduleName, $actionName)
   {
@@ -90,7 +98,7 @@ abstract class sfController
       if (is_readable($file))
       {
         // action class exists
-        require_once($file);
+        require_once $file;
 
         $this->controllerClasses[$moduleName.'_'.$controllerName.'_'.$classSuffix] = $controllerName.$classSuffix;
 
@@ -101,7 +109,7 @@ abstract class sfController
       if (is_readable($module_file))
       {
         // module class exists
-        require_once($module_file);
+        require_once $module_file;
 
         if (!class_exists($moduleName.$classSuffix.'s', false))
         {
@@ -312,6 +320,7 @@ abstract class sfController
     }
   }
 
+
   /**
    * Retrieves an sfAction implementation instance.
    *
@@ -319,34 +328,41 @@ abstract class sfController
    * @param  string $actionName An action name
    *
    * @return sfController An sfAction implementation instance, if the action exists, otherwise null
+   * @throws sfConfigurationException
+   * @throws sfControllerException
    */
   public function getAction($moduleName, $actionName)
   {
     return $this->getController($moduleName, $actionName, 'action');
   }
 
+
   /**
    * Retrieves a sfComponent implementation instance.
    *
-   * @param  string $moduleName A module name
+   * @param  string $moduleName    A module name
    * @param  string $componentName A component name
    *
    * @return sfController A sfComponent implementation instance, if the component exists, otherwise null
+   * @throws sfConfigurationException
+   * @throws sfControllerException
    */
   public function getComponent($moduleName, $componentName)
   {
     return $this->getController($moduleName, $componentName, 'component');
   }
 
+
   /**
    * Retrieves a controller implementation instance.
    *
-   * @param  string $moduleName A module name
+   * @param  string $moduleName     A module name
    * @param  string $controllerName A component name
-   * @param  string $extension Either 'action' or 'component' depending on the type of controller to look for
+   * @param  string $extension      Either 'action' or 'component' depending on the type of controller to look for
    *
    * @return sfController A controller implementation instance, if the controller exists, otherwise null
-   *
+   * @throws sfConfigurationException
+   * @throws sfControllerException
    * @see getComponent(), getAction()
    */
   protected function getController($moduleName, $controllerName, $extension)
@@ -491,16 +507,17 @@ abstract class sfController
     }
   }
 
+
   /**
    * Sends and email from the current action.
-   *
    * This methods calls a module/action with the sfMailView class.
    *
    * @param  string $module A module name
    * @param  string $action An action name
    *
    * @return string The generated mail content
-   *
+   * @throws Exception
+   * @throws sfException
    * @see sfMailView, getPresentationFor(), sfController
    */
   public function sendEmail($module, $action)
@@ -635,7 +652,7 @@ abstract class sfController
    * Loads application and module filters.
    *
    * @param sfFilterChain $filterChain A sfFilterChain instance
-   * @param sfAction $actionInstance   A sfAction instance
+   * @param sfController $actionInstance   A sfAction instance
    */
   public function loadFilters($filterChain, $actionInstance)
   {

@@ -53,8 +53,8 @@ class sfFinder
    *
    * Finder will descend at most $level levels of directories below the starting point.
    *
-   * @param  integer level
-   * @return object current sfFinder object
+   * @param  integer $level level
+   * @return sfFinder current sfFinder object
    */
   public function maxdepth($level)
   {
@@ -68,8 +68,8 @@ class sfFinder
    *
    * Finder will start applying tests at level $level.
    *
-   * @param  integer level
-   * @return object current sfFinder object
+   * @param  integer $level
+   * @return sfFinder current sfFinder object
    */
   public function mindepth($level)
   {
@@ -86,8 +86,8 @@ class sfFinder
   /**
    * Sets the type of elements to returns.
    *
-   * @param  string directory or file or any (for both file and directory)
-   * @return object new sfFinder object
+   * @param  string $name directory or file or any (for both file and directory)
+   * @return sfFinder new sfFinder object
    */
   public static function type($name)
   {
@@ -109,8 +109,13 @@ class sfFinder
     return $finder;
   }
 
-  /*
+
+  /**
    * glob, patterns (must be //) or strings
+   *
+   * @param string $str
+   *
+   * @return string
    */
   protected function to_regex($str)
   {
@@ -124,6 +129,13 @@ class sfFinder
     }
   }
 
+
+  /**
+   * @param string|array $arg_list
+   * @param bool $not
+   *
+   * @return array
+   */
   protected function args_to_array($arg_list, $not = false)
   {
     $list = array();
@@ -132,7 +144,7 @@ class sfFinder
     {
       if (is_array($arg_list[$i]))
       {
-        foreach ($arg_list[$i] as $arg)
+        foreach ((array) $arg_list[$i] as $arg)
         {
           $list[] = array($not, $this->to_regex($arg));
         }
@@ -146,17 +158,17 @@ class sfFinder
     return $list;
   }
 
+
   /**
    * Adds rules that files must match.
-   *
    * You can use patterns (delimited with / sign), globs or simple strings.
-   *
    * $finder->name('*.php')
    * $finder->name('/\.php$/') // same as above
    * $finder->name('test.php')
    *
-   * @param  list   a list of patterns, globs or strings
-   * @return object current sfFinder object
+   * @param string ...   a list of patterns, globs or strings
+   *
+   * @return sfFinder current sfFinder object
    */
   public function name()
   {
@@ -166,12 +178,15 @@ class sfFinder
     return $this;
   }
 
+
   /**
    * Adds rules that files must not match.
    *
    * @see    ->name()
-   * @param  list   a list of patterns, globs or strings
-   * @return object current sfFinder object
+   *
+   * @param  string ...   a list of patterns, globs or strings
+   *
+   * @return sfFinder current sfFinder object
    */
   public function not_name()
   {
@@ -181,15 +196,16 @@ class sfFinder
     return $this;
   }
 
+
   /**
    * Adds tests for file sizes.
-   *
    * $finder->size('> 10K');
    * $finder->size('<= 1Ki');
    * $finder->size(4);
    *
-   * @param  list   a list of comparison strings
-   * @return object current sfFinder object
+   * @param  string ...   a list of comparison strings
+   *
+   * @return sfFinder current sfFinder object
    */
   public function size()
   {
@@ -202,11 +218,13 @@ class sfFinder
     return $this;
   }
 
+
   /**
    * Traverses no further.
    *
-   * @param  list   a list of patterns, globs to match
-   * @return object current sfFinder object
+   * @param  string ... a list of patterns, globs to match
+   *
+   * @return sfFinder current sfFinder object
    */
   public function prune()
   {
@@ -216,11 +234,13 @@ class sfFinder
     return $this;
   }
 
+
   /**
    * Discards elements that matches.
    *
-   * @param  list   a list of patterns, globs to match
-   * @return object current sfFinder object
+   * @param  string ...  a list of patterns, globs to match
+   *
+   * @return sfFinder current sfFinder object
    */
   public function discard()
   {
@@ -235,7 +255,7 @@ class sfFinder
    *
    * Currently supports Subversion, CVS, DARCS, Gnu Arch, Monotone, Bazaar-NG, GIT, Mercurial
    *
-   * @return object current pakeFinder object
+   * @return sfFinder current pakeFinder object
    */
   public function ignore_version_control()
   {
@@ -244,16 +264,17 @@ class sfFinder
     return $this->discard($ignores)->prune($ignores);
   }
 
+
   /**
    * Executes function or method for each element.
-   *
-   * Element match if functino or method returns true.
-   *
+   * Element match if function or method returns true.
    * $finder->exec('myfunction');
    * $finder->exec(array($object, 'mymethod'));
    *
-   * @param  mixed  function or method to call
-   * @return object current sfFinder object
+   * @param string ... function or method to call
+   *
+   * @return sfFinder current sfFinder object
+   * @throws sfException
    */
   public function exec()
   {
@@ -278,7 +299,7 @@ class sfFinder
   /**
    * Returns relative paths for all files and directories.
    *
-   * @return object current sfFinder object
+   * @return sfFinder current sfFinder object
    */
   public function relative()
   {
@@ -290,7 +311,7 @@ class sfFinder
   /**
    * Symlink following.
    *
-   * @return object current sfFinder object
+   * @return sfFinder current sfFinder object
    */
   public function follow_link()
   {
@@ -299,8 +320,11 @@ class sfFinder
     return $this;
   }
 
+
   /**
    * Searches files and directories which match defined rules.
+   *
+   * @param string ...   a list of patterns, globs or strings
    *
    * @return array list of files and directories
    */
@@ -350,6 +374,13 @@ class sfFinder
     return array_unique($files);
   }
 
+
+  /**
+   * @param string $dir
+   * @param int $depth
+   *
+   * @return array
+   */
   protected function search_in($dir, $depth = 0)
   {
     if ($depth > $this->maxdepth)
@@ -403,6 +434,13 @@ class sfFinder
     return $files;
   }
 
+
+  /**
+   * @param string $dir
+   * @param string $entry
+   *
+   * @return bool
+   */
   protected function match_names($dir, $entry)
   {
     if (!count($this->names)) return true;
@@ -455,6 +493,13 @@ class sfFinder
     }
   }
 
+
+  /**
+   * @param string $dir
+   * @param string $entry
+   *
+   * @return bool
+   */
   protected function size_ok($dir, $entry)
   {
     if (!count($this->sizes)) return true;
@@ -470,6 +515,13 @@ class sfFinder
     return true;
   }
 
+
+  /**
+   * @param string $dir
+   * @param string $entry
+   *
+   * @return bool
+   */
   protected function is_pruned($dir, $entry)
   {
     if (!count($this->prunes)) return false;
@@ -483,6 +535,13 @@ class sfFinder
     return false;
   }
 
+
+  /**
+   * @param string $dir
+   * @param string $entry
+   *
+   * @return bool
+   */
   protected function is_discarded($dir, $entry)
   {
     if (!count($this->discards)) return false;
@@ -496,6 +555,13 @@ class sfFinder
     return false;
   }
 
+
+  /**
+   * @param string $dir
+   * @param string $entry
+   *
+   * @return bool
+   */
   protected function exec_ok($dir, $entry)
   {
     if (!count($this->execs)) return true;
@@ -508,6 +574,12 @@ class sfFinder
     return true;
   }
 
+
+  /**
+   * @param string $path
+   *
+   * @return bool
+   */
   public static function isPathAbsolute($path)
   {
     if ($path{0} == '/' || $path{0} == '\\' ||
@@ -565,9 +637,9 @@ class sfGlobToRegex
   }
 
   /**
-   * Returns a compiled regex which is the equiavlent of the globbing pattern.
+   * Returns a compiled regex which is the equivalent of the globbing pattern.
    *
-   * @param  string glob pattern
+   * @param  string $glob pattern
    * @return string regex
    */
   public static function glob_to_regex($glob)
@@ -680,6 +752,13 @@ class sfNumberCompare
     $this->test = $test;
   }
 
+
+  /**
+   * @param $number
+   *
+   * @return bool
+   * @throws sfException
+   */
   public function test($number)
   {
     if (!preg_match('{^([<>]=?)?(.*?)([kmg]i?)?$}i', $this->test, $matches))

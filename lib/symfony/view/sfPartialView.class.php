@@ -45,7 +45,7 @@ class sfPartialView extends sfPHPView
   /**
    * Renders the presentation.
    *
-   * @param array Template attributes
+   * @param array $templateVars Template attributes
    *
    * @return string Current template content
    */
