@@ -1,6 +1,10 @@
 <?php
 class userObjectFilter extends sfFilter
 {
+
+  /**
+   * @param sfFilterChain $filterChain
+   */
   public function execute($filterChain)
   {
     // get the cool stuff
@@ -8,11 +12,12 @@ class userObjectFilter extends sfFilter
     $context    = $this->getContext();
     /** @var sfController **/
     $controller = $context->getController();
-    /** @var sfUser **/
+    /** @var myUser **/
     $user       = $context->getUser();
-    /** @var sfRequest **/
+    /** @var myWebRequest **/
     $request    = $context->getRequest();
 
+    /** @var myWebRequest $request */
     if ($request->getCookie('MyWebSite'))
     {
       // sign in
@@ -32,8 +37,9 @@ class userObjectFilter extends sfFilter
     // get the current action instance
     /** @var sfActionStackEntry **/
     $actionEntry    = $controller->getActionStack()->getLastEntry();
+    /** @var sfAction $actionInstance */
     $actionInstance = $actionEntry->getActionInstance();
-    $action = $request->getParameter('action');
+    $action         = $request->getParameter('action');
 
     //get the object security information
     $securityArray = $actionInstance->getSecurityConfiguration();
@@ -136,6 +142,10 @@ class userObjectFilter extends sfFilter
     $filterChain->execute();
   }
 
+
+  /**
+   * @param myUser $user
+   */
   private function setdefaultCred($user)
   {
     $user->modCredentials = $user->listCredentials();

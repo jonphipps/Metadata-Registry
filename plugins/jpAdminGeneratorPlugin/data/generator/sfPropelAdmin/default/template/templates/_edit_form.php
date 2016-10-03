@@ -1,6 +1,7 @@
 [?php
 /** @var myWebRequest $sf_request */
 /** @var MyUser $sf_user */
+/** @var sfParameterHolder $sf_params */
 $parent = ''; $query = ''; ?]
 <?php $parents = $this->getParameterValue('parents');
 if ($parents): ?>

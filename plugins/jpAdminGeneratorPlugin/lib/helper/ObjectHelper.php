@@ -22,13 +22,13 @@ use_helper('Form');
 /**
  * Returns a html date control.
  *
- * @param object $object        An object
- * @param string $method        An object column
- * @param array  $options       Date options
- * @param bool   $default_value Date default value
+ * @param object $object      An object
+ * @param string $method      An object column
+ * @param array $options      Date options
+ * @param bool $default_value Date default value
  *
  * @return string An html string which represents a date control.
- *
+ * @throws sfViewException
  */
 function object_input_date_tag($object, $method, $options = array(), $default_value = null)
 {
@@ -42,13 +42,14 @@ function object_input_date_tag($object, $method, $options = array(), $default_va
 /**
  * Returns a textarea html tag.
  *
- * @param object $object        An object
- * @param string $method        An object column
- * @param array  $options       Textarea options
- * @param bool   $default_value Textarea default value
+ * @param object $object      An object
+ * @param string $method      An object column
+ * @param array $options      Textarea options
+ * @param bool $default_value Textarea default value
  *
  * @return string An html string which represents a textarea tag.
- *
+ * @throws sfConfigurationException
+ * @throws sfViewException
  */
 function object_textarea_tag($object, $method, $options = array(), $default_value = null)
 {
@@ -105,17 +106,16 @@ function objects_for_select($options = array(), $value_method, $text_method = nu
 
 /**
  * Returns a list html tag.
- *
  * Updated by Jon Phipps 04/12/2008
  *   added 'select_options' parameter
  *
- * @param object $object        An object or the selected value
- * @param string $method        An object column.
- * @param array  $options       Input options (related_class option is mandatory).
- * @param bool   $default_value Input default value.
+ * @param object $object      An object or the selected value
+ * @param string $method      An object column.
+ * @param array $options      Input options (related_class option is mandatory).
+ * @param bool $default_value Input default value.
  *
  * @return string A list string which represents an input tag.
- *
+ * @throws sfViewException
  */
 function object_select_tag($object, $method, $options = array(), $default_value = null)
 {
@@ -285,13 +285,13 @@ function object_limitselect_language_tag($name, $selected = null, $options = arr
 /**
  * Returns a hidden input html tag.
  *
- * @param object $object        An object or the selected value
- * @param string $method        An object column.
- * @param array  $options       Input options.
- * @param bool   $default_value Input default value.
+ * @param object $object      An object or the selected value
+ * @param string $method      An object column.
+ * @param array $options      Input options.
+ * @param bool $default_value Input default value.
  *
  * @return string An html string which represents a hidden input tag.
- *
+ * @throws sfViewException
  */
 function object_input_hidden_tag($object, $method, $options = array(), $default_value = null)
 {
@@ -305,13 +305,13 @@ function object_input_hidden_tag($object, $method, $options = array(), $default_
 /**
  * Returns a input html tag.
  *
- * @param object $object        An object or the selected value
- * @param string $method        An object column.
- * @param array  $options       Input options.
- * @param bool   $default_value Input default value.
+ * @param object $object      An object or the selected value
+ * @param string $method      An object column.
+ * @param array $options      Input options.
+ * @param bool $default_value Input default value.
  *
  * @return string An html string which represents an input tag.
- *
+ * @throws sfViewException
  */
 function object_input_tag($object, $method, $options = array(), $default_value = null)
 {
@@ -325,13 +325,13 @@ function object_input_tag($object, $method, $options = array(), $default_value =
 /**
  * Returns a checkbox html tag.
  *
- * @param object $object        An object
- * @param string $method        An object column
- * @param array  $options       Checkbox options
- * @param bool   $default_value Checkbox default value
+ * @param object $object      An object
+ * @param string $method      An object column
+ * @param array $options      Checkbox options
+ * @param bool $default_value Checkbox default value
  *
  * @return string An html string which represents a checkbox tag.
- *
+ * @throws sfViewException
  */
 function object_checkbox_tag($object, $method, $options = array(), $default_value = null)
 {
@@ -342,6 +342,12 @@ function object_checkbox_tag($object, $method, $options = array(), $default_valu
   return checkbox_tag(_convert_method_to_name($method, $options), isset($options['value']) ? $options['value'] : 1, $checked, $options);
 }
 
+/**
+ * @param string $method
+ * @param array $options
+ *
+ * @return mixed|null|string
+ */
 function _convert_method_to_name($method, &$options)
 {
   $name = _get_option($options, 'control_name');

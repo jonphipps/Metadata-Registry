@@ -21,10 +21,13 @@ class ProfilePropertyPeer extends BaseProfilePropertyPeer
   /** the value for the label ID  */
   const LABEL_ID = 27;
 
+
   /**
    * description
    *
    * @return ProfileProperty[]
+   * @throws PropelException
+   * @throws SQLException
    */
   public static function getResourceProperties()
   {
@@ -41,10 +44,12 @@ class ProfilePropertyPeer extends BaseProfilePropertyPeer
     return $results;
   }
 
+
   /**
    * description
    *
    * @return ProfileProperty[]
+   * @throws PropelException
    */
   public static function getPicklist()
   {
@@ -55,7 +60,7 @@ class ProfilePropertyPeer extends BaseProfilePropertyPeer
     $results = self::doSelect($c);
 
     //create appearance of tree
-    /** @var $result ProfileProperty **/
+    /** @var ProfileProperty $result **/
     foreach ($results as $result)
     {
       $result->setId($result->getSkosId());
@@ -68,14 +73,17 @@ class ProfilePropertyPeer extends BaseProfilePropertyPeer
     return $results;
   }
 
+
   /**
    * description
    *
    * @return ProfileProperty[]
+   * @throws PropelException
+   * @throws SQLException
    */
   public static function getPropertyNames()
   {
-    $results = false;
+    $results = [];
     $c = new Criteria();
     $c->clearSelectColumns()->addSelectColumn(self::SKOS_ID);
     $c->add(self::PROFILE_ID, 2);
@@ -90,18 +98,18 @@ class ProfilePropertyPeer extends BaseProfilePropertyPeer
   }
 
 
-
-
   /**
-  * gets repeatable or unused profile properties for a resource property element
-  *
-  * @return array
-  * @param  criteria $criteria
-  */
+   * gets repeatable or unused profile properties for a resource property element
+   *
+   * @param  criteria $criteria
+   *
+   * @return array
+   * @throws PropelException
+   */
   public static function getProfilePropertiesForCreate($criteria = null)
   {
     if ($criteria === null) {
-      $criteria = new Criteria();
+    $criteria = new Criteria();
     }
     elseif ($criteria instanceof Criteria)
     {
@@ -127,8 +135,8 @@ class ProfilePropertyPeer extends BaseProfilePropertyPeer
     }
 
     //properties for the metadata registry schema are currently related to profile '1'
-    $criteria->add(ProfilePropertyPeer::PROFILE_ID,1);
-    $criteria->add(ProfilePropertyPeer::IS_IN_PICKLIST,1);
+    $criteria->add(ProfilePropertyPeer::PROFILE_ID, 1);
+    $criteria->add(ProfilePropertyPeer::IS_IN_PICKLIST, 1);
     $criteria->addAscendingOrderByColumn(ProfilePropertyPeer::URI);
 
     //get the list of all properties for this profile/namespace
@@ -137,6 +145,7 @@ class ProfilePropertyPeer extends BaseProfilePropertyPeer
     $propertyList = array();
     $pickList = array();
 
+    /** @var ProfileProperty $property */
     foreach ($profileProperties as $key => $property)
     {
       $propertyList[$property->getId()] = $property;
@@ -149,11 +158,11 @@ class ProfilePropertyPeer extends BaseProfilePropertyPeer
     $c->add(SchemaPropertyElementPeer::IS_SCHEMA_PROPERTY,true);
     $elements = SchemaPropertyElementPeer::doSelect($c);
 
+    /** @var SchemaPropertyElement $element */
     foreach ($elements as $key => $element)
     {
       $propertyId = $element->getProfilePropertyId();
       //if the property is in the list and not repeatable
-      /** @var ProfileProperty **/
       if (isset($propertyList[$propertyId]) && $propertyList[$propertyId]->getIsSingleton())
       {
         //remove it from the list of all properties
@@ -164,6 +173,47 @@ class ProfilePropertyPeer extends BaseProfilePropertyPeer
 
     return $propertyList; //whatever remains in the list
   }
+
+
+  /**
+   * gets repeatable or unused profile properties for a resource property element
+   *
+   * @param int $profileId
+   *
+   * @return ProfileProperty[]
+   * @throws PropelException
+   */
+  public static function getProfilePropertiesForExport($profileId)
+  {
+    $objectList = [];
+
+    $criteria = new Criteria();
+    $criteria->add(ProfilePropertyPeer::PROFILE_ID, $profileId);
+    $criteria->add(ProfilePropertyPeer::IS_IN_EXPORT, true);
+    $criteria->add(ProfilePropertyPeer::HAS_LANGUAGE, true);
+    $criteria->addAscendingOrderByColumn(ProfilePropertyPeer::EXPORT_ORDER);
+    /** @var ProfileProperty[] $properties */
+    $properties = self::doSelect($criteria);
+
+    foreach ($properties as $property) {
+      $objectList['DataType Properties (translatable)'][$property->getId()] = $property->getLabel();
+    }
+
+    $criteria = new Criteria();
+    $criteria->add(ProfilePropertyPeer::PROFILE_ID, $profileId);
+    $criteria->add(ProfilePropertyPeer::IS_IN_EXPORT, true);
+    $criteria->add(ProfilePropertyPeer::HAS_LANGUAGE, false);
+    $criteria->addAscendingOrderByColumn(ProfilePropertyPeer::EXPORT_ORDER);
+
+    $properties = self::doSelect($criteria);
+    foreach ($properties as $property) {
+      $objectList['Object Properties (resources)'][$property->getId()] = $property->getLabel();
+    }
+
+    return $objectList;
+
+  }
+
 
   /**
    * Retrieve a single object by pkey.
