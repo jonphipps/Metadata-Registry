@@ -70,10 +70,12 @@ class ConceptPeer extends BaseConceptPeer
      return self::getConceptsByVocabID($vocabId, $conceptId);
   }
 
+
   /**
    * description
    *
-   * @return return_type
+   * @return Concept[]
+   * @throws PropelException
    */
   public static function getConceptsByRelatedVocabID()
   {
@@ -95,11 +97,14 @@ class ConceptPeer extends BaseConceptPeer
      return self::getConceptsByVocabID($vocabId);
   }
 
+
   /**
    * gets concept by concept URI
    *
-   * @return Concept
    * @param $conceptUri
+   *
+   * @return Concept
+   * @throws PropelException
    */
   public static function getConceptByUri($conceptUri)
   {
