@@ -17,13 +17,6 @@ generator:
       user:           { name: Member, type: plain, help: The individual that created the export }
       csv_type:
         name: CSV Type
-        type: select_tag
-        params:
-          select_options:
-            2: Populated import template
-            1: Empty import template
-            3: Sparse data (just the populated attribute columns
-            4: Rich data (includes empty attribute columns
         help: The type of CSV file to export }
       exclude_deprecated:   { name: Exclude Deprecated, type: checkbox_tag, help: This will exclude from the export currently deprecated elements }
       exclude_generated:    { name: Exclude Generated, type: checkbox_tag, help: This will exclude from the export inferred elements materialized by the Registry }
@@ -41,12 +34,7 @@ generator:
           The default language is English
           Additional language column included for populating each literal attribute
 
-      selected_columns:
-        name: Selected Columns
-        type: select_tag
-        params:
-          peer_method: getProfileColumns
-          related_class: ExportHistory
+      selected_columns: { name: Selected Columns}
       published_english_version:  { name: English Version, type: plain, help: The published English version on which this export is based  }
       published_language_version:  { name: Language Version, type: plain, help: The published version of the selected language on which this export is based }
       last_vocab_update:  { name: Last Update, type: plain, params: date_format='s', help: The date of the last update of this vocabulary  }
@@ -58,7 +46,7 @@ generator:
       display:        [created_at, user, schema, selected_language, published_english_version, published_language_version]
       sort:           [created_at, desc]
       displayfilter:  false
-      filters:        [schema_id, created_at, user, vocabulary_id]
+      filters:        [schema_id, created_at, user_id, vocabulary_id]
       # urlfilter form is [field to filter on]: [value passed from routing.yml]
       # multiple filters can be set but they're currently mutually exclusive (any of the list can be used but only one per url)
       urlfilters:
@@ -67,7 +55,7 @@ generator:
       object_actions:
         _show:
       actions:
-        _create:       { name: Create New Export, query_string: { sf_request: schema_id}, condition: "!$sf_request->getParameter('vocabulary_id')", route: "export_schema_create" }
+        _create:       { name: Create New Export, query_string: { sf_request: schema_id}, condition: "!$sf_request->getParameter('vocabulary_id')", route: "schema_export_create" }
         _create:       { name: Create New Export, query_string: { sf_request: vocabulary_id}, condition: "!$sf_request->getParameter('schema_id')", route: "vocabulary_export_create" }
 
     edit:
@@ -78,10 +66,22 @@ generator:
       helptype:       icon
       fields:
         id:           { credentials: [administrator], mode: edit }
+        csv_type:
+          type: select_tag
+          params:
+            select_options:
+              2: Populated import template
+              1: Empty import template
+              3: Sparse data (just the populated attribute columns
+              4: Rich data (includes empty attribute columns
+            autofocus: autofocus
         selected_language:
           type:       admin_select_language
           condition:  "$sf_flash->get('hasLanguages')"
-          params:     include_blank=true limitmethod=getLanguagesNoDefault
+          params:     { include_blank: true, limitmethod: getLanguagesNoDefault }
+        selected_columns:
+          type: select_tag
+          params: peer_method=getProfileColumns related_class=ExportHistory
       display:        [id, csv_type, exclude_deprecated, exclude_generated, selected_language, include_deleted, selected_columns  ]
       hide:           [schema_id, user_id, vocabulary_id]
       actions:
