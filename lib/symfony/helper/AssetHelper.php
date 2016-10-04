@@ -37,9 +37,9 @@
  *    => <link rel="alternate" type="application/rss+xml" title="My RSS" href="http://www.curenthost.com/module/feed" />
  * </code>
  *
- * @param  string feed type ('rss', 'atom')
- * @param  string 'module/action' or '@rule' of the feed
- * @param  array additional HTML compliant <link> tag parameters
+ * @param  string $type feed type ('rss', 'atom')
+ * @param  array $url_options 'module/action' or '@rule' of the feed
+ * @param  array $tag_options additional HTML compliant <link> tag parameters
  * @return string XHTML compliant <link> tag
  */
 function auto_discovery_link_tag($type = 'rss', $url_options = array(), $tag_options = array())
@@ -66,8 +66,8 @@ function auto_discovery_link_tag($type = 'rss', $url_options = array(), $tag_opt
  * - file name, like "myscript.js", that gets expanded to "/js/myscript.js"
  * - file name without extension, like "myscript", that gets expanded to "/js/myscript.js"
  *
- * @param  string asset name
- * @param  bool return absolute path ?
+ * @param  string $source asset name
+ * @param  bool $absolute return absolute path ?
  * @return string file path to the JavaScript file
  * @see    javascript_include_tag
  */
@@ -88,7 +88,7 @@ function javascript_path($source, $absolute = false)
  *       <script language="JavaScript" type="text/javascript" src="/elsewhere/cools.js"></script>
  * </code>
  *
- * @param  string asset names
+ * @param  string ... asset names
  * @return string XHTML compliant <script> tag(s)
  * @see    javascript_path 
  */
@@ -118,8 +118,8 @@ function javascript_include_tag()
  * - file name, like "style.css", that gets expanded to "/css/style.css"
  * - file name without extension, like "style", that gets expanded to "/css/style.css"
  *
- * @param  string asset name
- * @param  bool return absolute path ?
+ * @param  string $source asset name
+ * @param  bool $absolute return absolute path ?
  * @return string file path to the stylesheet file
  * @see    stylesheet_tag  
  */
@@ -148,8 +148,8 @@ function stylesheet_path($source, $absolute = false)
  *       <link href="/css/stylish.css" media="screen" rel="stylesheet" type="text/css" />
  * </code>
  *
- * @param  string asset names
- * @param  array additional HTML compliant <link> tag parameters
+ * @param  string ... asset names
+ * @param  array ... additional HTML compliant <link> tag parameters
  * @return string XHTML compliant <link> tag(s)
  * @see    stylesheet_path 
  */
@@ -173,6 +173,10 @@ function stylesheet_tag()
  * Adds a stylesheet to the response object.
  *
  * @see sfResponse->addStylesheet()
+ *
+ * @param string $css
+ * @param string $position
+ * @param array $options
  */
 function use_stylesheet($css, $position = '', $options = array())
 {
@@ -183,6 +187,9 @@ function use_stylesheet($css, $position = '', $options = array())
  * Adds a javascript to the response object.
  *
  * @see sfResponse->addJavascript()
+ *
+ * @param string $js
+ * @param string $position
  */
 function use_javascript($js, $position = '')
 {
@@ -192,17 +199,19 @@ function use_javascript($js, $position = '')
 /**
  * Decorates the current template with a given layout.
  *
- * @param mixed The layout name or path or false to disable the layout
+ * @param mixed $layout The layout name or path or false to disable the layout
  */
 function decorate_with($layout)
 {
   $view = sfContext::getInstance()->getActionStack()->getLastEntry()->getViewInstance();
   if (false === $layout)
   {
+    /** @var sfView $view */
     $view->setDecorator(false);
   }
   else
   {
+    /** @var sfView $view */
     $view->setDecoratorTemplate($layout);
   }
 }
@@ -221,8 +230,8 @@ function decorate_with($layout)
  * - file name, like "rss.gif", that gets expanded to "/images/rss.gif"
  * - file name without extension, like "logo", that gets expanded to "/images/logo.png"
  * 
- * @param  string asset name
- * @param  bool return absolute path ?
+ * @param  string $source asset name
+ * @param  bool $absolute return absolute path ?
  * @return string file path to the image file
  * @see    image_tag  
  */
@@ -247,8 +256,8 @@ function image_path($source, $absolute = false)
  *    => <img src="/my_images/image.gif" alt="Alternative text" width="100" height="200" />
  * </code>
  *
- * @param  string image asset name
- * @param  array additional HTML compliant <img> tag parameters
+ * @param  string $source image asset name
+ * @param  array $options additional HTML compliant <img> tag parameters
  * @return string XHTML compliant <img> tag
  * @see    image_path 
  */
@@ -288,6 +297,14 @@ function image_tag($source, $options = array())
   return tag('img', $options);
 }
 
+/**
+ * @param string $source
+ * @param string $dir
+ * @param string $ext
+ * @param bool $absolute
+ *
+ * @return string
+ */
 function _compute_public_path($source, $dir, $ext, $absolute = false)
 {
   if (strpos($source, '://'))
@@ -295,7 +312,8 @@ function _compute_public_path($source, $dir, $ext, $absolute = false)
     return $source;
   }
 
-  $request = sfContext::getInstance()->getRequest();
+  /** @var myWebRequest $request */
+  $request              = sfContext::getInstance()->getRequest();
   $sf_relative_url_root = $request->getRelativeUrlRoot();
   if (0 !== strpos($source, '/'))
   {
@@ -469,7 +487,7 @@ function get_stylesheets()
         $files = array($files);
       }
 
-      foreach ($files as $file)
+      foreach ((array) $files as $file)
       {
         $file = stylesheet_path($file);
 
