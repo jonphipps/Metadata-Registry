@@ -1,3 +1,13 @@
 editSuccess:
   stylesheets: [%sf_select2_web_dir%/select2, %sf_jqwidgets_web_dir%/styles/jqx.base.css]
-  javascripts: [vocabulary: { position: last }, %sf_jquery_web_dir%/jquery, %sf_select2_web_dir%/select2 ]
+  javascripts:
+      - %sf_jquery_web_dir%/jquery
+      - %sf_select2_web_dir%/select2
+      - %sf_jqwidgets_web_dir%/jqxcore.js
+      - %sf_jqwidgets_web_dir%/jqxscrollbar.js
+      - %sf_jqwidgets_web_dir%/jqxbuttons.js
+      - %sf_jqwidgets_web_dir%/jqxlistbox.js
+      - %sf_jqwidgets_web_dir%/jqxcheckbox.js
+      - %sf_jqwidgets_web_dir%/jqxdragdrop.js
+      - export.js
+

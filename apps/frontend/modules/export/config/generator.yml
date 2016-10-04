@@ -80,8 +80,11 @@ generator:
           condition:  "$sf_flash->get('hasLanguages')"
           params:     { include_blank: true, limitmethod: getLanguagesNoDefault }
         selected_columns:
-          type: select_tag
-          params: peer_method=getProfileColumns related_class=ExportHistory
+          type:       select_tag
+          params:
+            array_method: getProfileColumns
+            related_class: ExportHistory
+            multiple: multiple
       display:        [id, csv_type, exclude_deprecated, exclude_generated, selected_language, include_deleted, selected_columns  ]
       hide:           [schema_id, user_id, vocabulary_id]
       actions:
