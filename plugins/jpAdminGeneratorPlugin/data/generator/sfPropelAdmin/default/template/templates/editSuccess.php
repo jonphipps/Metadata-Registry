@@ -1,4 +1,12 @@
-[?php /** @var myWebRequest $sf_request */
+[?php
+  /** @var sfContext $sf_context */
+  /** @var sfParameterHolder $sf_flash */
+  /** @var sfParameterHolder $sf_params */
+  /** @var myWebRequest $sf_request */
+  /** @var myUser $sf_user */
+  /** @var sfPartialView $sf_view */
+  /** @var <?php /** @var sfPropelAdminGenerator $this */
+echo $this->getClassName() ?>  $<?php echo $this->getSingularName() ?> */
 (strlen($sf_request->getParameter('id'))) ? $mode = 'edit' : $mode = 'create' ?]
 [?php use_helper('Object', 'Validation', 'ObjectAdmin', 'I18N', 'Date') ?]
 

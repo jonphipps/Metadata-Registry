@@ -1,4 +1,13 @@
-[?php /** @var myWebRequest $sf_request */ ?]
+[?php
+  /** @var sfContext $sf_context */
+  /** @var sfParameterHolder $sf_flash */
+  /** @var sfParameterHolder $sf_params */
+  /** @var myWebRequest $sf_request */
+  /** @var myUser $sf_user */
+  /** @var sfPartialView $sf_view */
+  /** @var <?php /** @var sfPropelAdminGenerator $this */
+echo $this->getClassName() ?>  $<?php echo $this->getSingularName() ?> */
+  ?]
 <?php /** @var sfPropelAdminGenerator $this */
 if ($this->getParameterValue('list.object_actions')): ?>
 <td>

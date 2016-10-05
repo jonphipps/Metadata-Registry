@@ -1,3 +1,13 @@
+[?php
+  /** @var sfContext $sf_context */
+  /** @var sfParameterHolder $sf_flash */
+  /** @var sfParameterHolder $sf_params */
+  /** @var myWebRequest $sf_request */
+  /** @var myUser $sf_user */
+  /** @var sfPartialView $sf_view */
+  /** @var <?php /** @var sfPropelAdminGenerator $this */
+echo $this->getClassName() ?>  $<?php echo $this->getSingularName() ?> */
+  ?]
 <?php  $class = in_array($this->getModuleName(), [ 'schemahistory', 'history' ]) ? "sf_admin_list history" : "sf_admin_list"  ?>
 <table class="<?php echo $class ?>">
 <thead>

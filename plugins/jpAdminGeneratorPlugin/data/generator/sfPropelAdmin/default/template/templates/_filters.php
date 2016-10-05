@@ -1,4 +1,13 @@
-[?php use_helper('Object') ?]
+[?php
+  /** @var sfContext $sf_context */
+  /** @var sfParameterHolder $sf_flash */
+  /** @var sfParameterHolder $sf_params */
+  /** @var myWebRequest $sf_request */
+  /** @var myUser $sf_user */
+  /** @var sfPartialView $sf_view */
+  /** @var <?php /** @var sfPropelAdminGenerator $this */
+echo $this->getClassName() ?>  $<?php echo $this->getSingularName() ?> */
+use_helper('Object') ?]
 
 <?php if ($this->getParameterValue('list.filters')): ?>
 <div class="sf_admin_filters">

@@ -1,7 +1,15 @@
-<?php $hides = $this->getParameterValue('list.hide', array()) ?>
-[?php /** @var sfParameterHolder $sf_params */
+[?php
+  /** @var sfContext $sf_context */
+  /** @var sfParameterHolder $sf_flash */
+  /** @var sfParameterHolder $sf_params */
+  /** @var myWebRequest $sf_request */
+  /** @var myUser $sf_user */
+  /** @var sfPartialView $sf_view */
+  /** @var <?php /** @var sfPropelAdminGenerator $this */
+echo $this->getClassName() ?>  $<?php echo $this->getSingularName() ?> */
 $filterParam = '';
-$parent = '';?]
+$parent = ''; ?]
+<?php $hides = $this->getParameterValue('list.hide', array()) ?>
 <?php $parents = $this->getParameterValue('parents');
 if ($parents): ?>
 <?php foreach ($parents as $module => $param): ?>
