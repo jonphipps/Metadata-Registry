@@ -241,38 +241,75 @@ class tabnavComponents extends sfComponents
     }
 
 
-    public function executeImport()
-    {
-        $id = $this->getRequestParameter('import_id');
-        if ( ! $id) {
-            $id = $this->getRequestParameter('id');
-        }
-
-        /** @var FileImportHistory $history */
-        $history = (isset($this->file_import_history)) ? $this->file_import_history :  FileImportHistoryPeer::retrieveByPK($id);
-        $vocabulary = $history->getVocabulary();
-        $schema = $history->getSchema();
-
-        $topnav[] = [ 'title' => 'Details', 'link' => '@import_show?id=' . $id ];
-        if ($history ) {
-            if ($schema) { //it's an elementset
-                $topnav[]       = [ 'title' => 'History', 'link' => '@import_schemahistory_list?import_id=' . $id ];
-                $breadcrumbs[0] = Breadcrumb::elementSetFactory($schema);
-                $breadcrumbs[1] = Breadcrumb::importElementSetFactory($history, true);
-            }
-            if ($vocabulary) { //it's a vocabulary
-                $topnav[]       = [ 'title' => 'History', 'link' => '@import_history_list?import_id=' . $id ];
-                $breadcrumbs[0] = Breadcrumb::vocabularyFactory($vocabulary);
-                $breadcrumbs[1] = Breadcrumb::importVocabularyFactory($history, true);
-            }
-        }
-
-        $this->tabs        = self::getModulesForRoutes($topnav);
-        $this->breadcrumbs = $breadcrumbs;
+  public function executeImport()
+  {
+    $id = $this->getRequestParameter('import_id');
+    if ( ! $id) {
+      $id = $this->getRequestParameter('id');
     }
 
+    /** @var FileImportHistory $history */
+    $history    = ( isset( $this->file_import_history ) ) ? $this->file_import_history : FileImportHistoryPeer::retrieveByPK($id);
+    $vocabulary = $history->getVocabulary();
+    $schema     = $history->getSchema();
 
-    public function executeUser()
+    $topnav[] = [ 'title' => 'Details', 'link' => '@import_show?id=' . $id ];
+    if ($history) {
+      if ($schema) { //it's an elementset
+        $topnav[]       = [ 'title' => 'History', 'link' => '@import_schemahistory_list?import_id=' . $id ];
+        $breadcrumbs[0] = Breadcrumb::elementSetFactory($schema);
+        $breadcrumbs[1] = Breadcrumb::importElementSetFactory($history, true);
+      }
+      if ($vocabulary) { //it's a vocabulary
+        $topnav[]       = [ 'title' => 'History', 'link' => '@import_history_list?import_id=' . $id ];
+        $breadcrumbs[0] = Breadcrumb::vocabularyFactory($vocabulary);
+        $breadcrumbs[1] = Breadcrumb::importVocabularyFactory($history, true);
+      }
+    }
+
+    $this->tabs        = self::getModulesForRoutes($topnav);
+    $this->breadcrumbs = $breadcrumbs;
+  }
+
+
+  public function executeExport()
+  {
+    $tabnav = $this->getRequestParameter('tabnav');
+    if ($tabnav) {
+      $tabnav = 'execute' . ucfirst($tabnav);
+      $this->$tabnav();
+    }
+
+    // $id = $this->getRequestParameter('export_id');
+    // if ( ! $id) {
+    //   $id = $this->getRequestParameter('id');
+    // }
+    //
+    // /** @var ExportHistory $history */
+    // $history    = ( isset( $this->export_history ) ) ? $this->export_history : FileImportHistoryPeer::retrieveByPK($id);
+    // $vocabulary = $history->getVocabulary();
+    // $schema     = $history->getSchema();
+    //
+    // $topnav[] = [ 'title' => 'Details', 'link' => '@import_show?id=' . $id ];
+    // if ($history) {
+    //   if ($schema) { //it's an elementset
+    //     $topnav[]       = [ 'title' => 'History', 'link' => '@schema_exports?export_id=' . $id ];
+    //     $breadcrumbs[0] = Breadcrumb::elementSetFactory($schema);
+    //     $breadcrumbs[1] = Breadcrumb::importElementSetFactory($history, true);
+    //   }
+    //   if ($vocabulary) { //it's a vocabulary
+    //     $topnav[]       = [ 'title' => 'History', 'link' => '@vocabulary_exports?export_id=' . $id ];
+    //     $breadcrumbs[0] = Breadcrumb::vocabularyFactory($vocabulary);
+    //     $breadcrumbs[1] = Breadcrumb::importVocabularyFactory($history, true);
+    //   }
+    // }
+    //
+    // $this->tabs        = self::getModulesForRoutes($topnav);
+    // $this->breadcrumbs = $breadcrumbs;
+  }
+
+
+  public function executeUser()
     {
         $id = $this->getRequestParameter('user_id');
         if ( ! $id) {

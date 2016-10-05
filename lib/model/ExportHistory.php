@@ -10,9 +10,12 @@
 class ExportHistory extends BaseExportHistory
 {
 
-    /**
-     * @return array
-     */
+  private  $SaveAsDefault;
+
+  /**
+   * @return array
+   * @throws PropelException
+   */
     public function getLanguagesNoDefault()
     {
         if ($this->getSchemaId()) {
@@ -26,4 +29,62 @@ class ExportHistory extends BaseExportHistory
 
     }
 
+
+  /**
+   * @return mixed
+   */
+  public function getSaveAsDefault()
+  {
+    return $this->SaveAsDefault;
+  }
+
+
+  /**
+   * @param mixed $SaveAsDefault
+   */
+  public function setSaveAsDefault($SaveAsDefault)
+  {
+    $this->SaveAsDefault = $SaveAsDefault;
+  }
+
+
+  /**
+   * @return array
+   */
+  public function getSelectedColumns()
+  {
+    return unserialize(parent::getSelectedColumns());
+  }
+
+
+  /**
+   * @param array $v
+   */
+  public function setSelectedColumns($v)
+  {
+    parent::setSelectedColumns(serialize($v));
+  }
+
+
+  public function getSelectedColumnsToString()
+  {
+    $columnString = '';
+    $columns = $this->getSelectedColumns();
+    if ($columns) {
+      foreach ($columns as $column) {
+        $profileProperty = ProfilePropertyPeer::retrieveByPK($column);
+        if ($profileProperty) {
+          $columnString .= $profileProperty->getLabel() . ", ";
+        }
+      }
+      $columnString = rtrim($columnString,", ");
+    }
+    return $columnString;
+  }
+
+
+  public function getCsvTypeToString()
+  {
+    return ExportHistoryPeer::$CSV_TYPES[$this->getCsvType()];
+  }
 }

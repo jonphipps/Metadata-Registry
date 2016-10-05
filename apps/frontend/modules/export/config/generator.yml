@@ -17,7 +17,9 @@ generator:
       user:           { name: Member, type: plain, help: The individual that created the export }
       csv_type:
         name: CSV Type
-        help: The type of CSV file to export }
+        help: The type of CSV file to export
+      csv_type_to_string:
+        name: CSV Type
       exclude_deprecated:   { name: Exclude Deprecated, type: checkbox_tag, help: This will exclude from the export currently deprecated elements }
       exclude_generated:    { name: Exclude Generated, type: checkbox_tag, help: This will exclude from the export inferred elements materialized by the Registry }
       include_deleted:
@@ -27,12 +29,13 @@ generator:
           This will include most of the previously deleted element properties in the export.
           This isn't a complete 'undo' feature. It simply puts properties that have been deleted back in the exported data.
           It's primary utility is to recover properties that were deleted by misteak in the last import.
-          THIS HAS NO EFFECT ON RDF EXPORT!! Deleted properties are never included in the RDF
+        credentials: [subscriber]
       selected_language:
         name: Additional Language
         help: |
           The default language is English
           Additional language column included for populating each literal attribute
+      selected_columns_to_string: {name: Selected Columns}
 
       selected_columns: { name: Selected Columns}
       published_english_version:  { name: English Version, type: plain, help: The published English version on which this export is based  }
@@ -43,7 +46,7 @@ generator:
       title:          Export History
       fields:
         created_at:   { params: date_format='F' }
-      display:        [created_at, user, schema, selected_language, published_english_version, published_language_version]
+      display:        [created_at, user, csv_type_to_string, _selected_language, published_english_version, published_language_version]
       sort:           [created_at, desc]
       displayfilter:  false
       filters:        [schema_id, created_at, user_id, vocabulary_id]
@@ -69,11 +72,8 @@ generator:
         csv_type:
           type: select_tag
           params:
-            select_options:
-              2: Populated import template
-              1: Empty import template
-              3: Sparse data (just the populated attribute columns
-              4: Rich data (includes empty attribute columns
+            array_method: getOptionsforCsvType
+            related_class: ExportHistory
             autofocus: autofocus
         selected_language:
           type:       admin_select_language
@@ -85,7 +85,13 @@ generator:
             array_method: getProfileColumns
             related_class: ExportHistory
             multiple: multiple
-      display:        [id, csv_type, exclude_deprecated, exclude_generated, selected_language, include_deleted, selected_columns  ]
+          help: |
+            Select the columns that will be in the exported CSV. Required columns will always be selected for you.
+            You may also drag and drop the columns to change the order.
+            The columns you select, and their order, will be saved for the next time you create an export.
+        save_as_default:   { name: Save as my default, type: checkbox_tag, help: Save these settings as my default settings for future exports, credentials: [subscriber] }
+
+      display:        [id, csv_type, exclude_deprecated, exclude_generated, selected_language, include_deleted, selected_columns ]
       hide:           [schema_id, user_id, vocabulary_id]
       actions:
         _save:         { name: Export CSV }
@@ -106,7 +112,8 @@ generator:
         _elapsed:      { name: Elapsed }
       display:
         "Import Detail":      [created_at, user]
-        "Results":            [csv_type, exclude_deprecated, exclude_generated, selected_language, include_deleted, selected_columns]
+        "Results":            [csv_type_to_string, exclude_deprecated, exclude_generated, _selected_language, include_deleted, selected_columns_to_string, published_english_version, published_language_version, last_vocab_update ]
 #        "Map":                [map]
       actions:
-        _list:         { query_string: { schema_id: schema_id} }
+        _list:
+
