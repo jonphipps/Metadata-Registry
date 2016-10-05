@@ -25,12 +25,14 @@ $parents     = $this->getParameterValue('parents');
             //note that this will replace any route and query string set for show
             $params['route'] = $module . '_' . $this->getModuleName() . $actionName;
             $params['query_string'] = [ $param['requestid'] => $param['getid'] ];    ?>
+            [?php if ($sf_request->getParameter('<?php echo $param['requestid'] ?>')): ?]
             <?php if (in_array($actionName, [ '_delete', '_edit' ])) {
               $params['query_string']['id'] = 'id';
                echo $this->addCredentialCondition($this->getButtonToAction($actionName, $params, false, 'show'), $params, false, true, "show");
             } else {
               echo $this->addCredentialCondition($this->getButtonToAction($actionName, $params, true), $params, true, true, "show");
             } ?>
+            [?php endif; ?]
           <?php endforeach;?>
         <?php else:
             echo $this->addCredentialCondition($this->getButtonToAction($actionName, $params, (strtolower($actionName) != '_create'), 'show'), $params, false, true, "show");
