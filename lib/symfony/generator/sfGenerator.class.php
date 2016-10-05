@@ -55,8 +55,8 @@ abstract class sfGenerator
    * Generates PHP files for a given module name.
    *
    * @param string $generatedModuleName The name of module name to generate
-   * @param array $templateFiles A list of template files to generate
-   * @param array $configFiles A list of configuration files to generate
+   * @param array $templateFiles        A list of template files to generate
+   * @param array $configFiles          A list of configuration files to generate
    *
    * @throws sfException
    */
@@ -243,5 +243,11 @@ abstract class sfGenerator
     array_unshift($arguments, $this);
 
     return call_user_func_array($callable, $arguments);
+  }
+
+
+  function has_string_keys(array $array)
+  {
+    return count(array_filter(array_keys($array), 'is_string')) > 0;
   }
 }
