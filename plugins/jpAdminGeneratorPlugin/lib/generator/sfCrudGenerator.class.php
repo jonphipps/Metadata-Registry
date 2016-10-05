@@ -58,7 +58,7 @@ abstract class sfCrudGenerator extends sfGenerator
     }
 
     // include security configuration
-    include(sfConfigCache::getInstance()->checkConfig(sfConfig::get('sf_app_module_dir_name').'/'.$this->params['moduleName'].'/'.sfConfig::get('sf_app_module_config_dir_name').'/security.yml', true));
+    include sfConfigCache::getInstance()->checkConfig(sfConfig::get('sf_app_module_dir_name').'/'.$this->params['moduleName'].'/'.sfConfig::get('sf_app_module_config_dir_name').'/security.yml', true);
 
     $modelClass = $this->params['model_class'];
 

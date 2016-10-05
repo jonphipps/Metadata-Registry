@@ -46,9 +46,9 @@ class sfConfigCache
   /**
    * Loads a configuration handler.
    *
-   * @param string The handler to use when parsing a configuration file
-   * @param array  An array of absolute filesystem paths to configuration files
-   * @param string An absolute filesystem path to the cache file that will be written
+   * @param string $handler The handler to use when parsing a configuration file
+   * @param array $configs An array of absolute filesystem paths to configuration files
+   * @param string $cache An absolute filesystem path to the cache file that will be written
    *
    * @throws <b>sfConfigurationException</b> If a requested configuration file does not have an associated configuration handler
    */
@@ -113,21 +113,19 @@ class sfConfigCache
     }
   }
 
+
   /**
    * Checks to see if a configuration file has been modified and if so
    * recompile the cache file associated with it.
-   *
    * The recompilation only occurs in a non debug environment.
-   *
-   * If the configuration file path is relative, symfony will look in directories 
+   * If the configuration file path is relative, symfony will look in directories
    * defined in the sfLoader::getConfigPaths() method.
    *
-   * @param string A filesystem path to a configuration file
+   * @param string $configPath A filesystem path to a configuration file
+   * @param bool $optional
    *
    * @return string An absolute filesystem path to the cache filename associated with this specified configuration file
-   *
-   * @throws <b>sfConfigurationException</b> If a requested configuration file does not exist
-   *
+   * @throws sfConfigurationException
    * @see sfLoader::getConfigPaths()
    */
   public function checkConfig($configPath, $optional = false)
@@ -216,7 +214,7 @@ class sfConfigCache
   /**
    * Converts a normal filename into a cache filename.
    *
-   * @param string A normal filename
+   * @param string $config A normal filename
    *
    * @return string An absolute filesystem path to a cache filename
    */
@@ -235,13 +233,17 @@ class sfConfigCache
     return sfConfig::get('sf_config_cache_dir').'/'.$config;
   }
 
+
   /**
    * Imports a configuration file.
    *
-   * @param string A filesystem path to a configuration file
-   * @param bool   Only allow this configuration file to be included once per request?
+   * @param string $config A filesystem path to a configuration file
+   * @param bool $once
+   * @param bool $optional
    *
-   * @see checkConfig()
+   * @throws sfConfigurationException
+   * @internal param Only $bool allow this configuration file to be included once per request?
+   * @see      checkConfig()
    */
   public function import($config, $once = true, $optional = false)
   {
@@ -255,11 +257,11 @@ class sfConfigCache
     // include cache file
     if ($once)
     {
-      include_once($cache);
+      include_once $cache;
     }
     else
     {
-      include($cache);
+      include $cache;
     }
   }
 
@@ -276,7 +278,7 @@ class sfConfigCache
 
     // application configuration handlers
 
-    require_once($this->checkConfig(sfConfig::get('sf_app_config_dir_name').'/config_handlers.yml'));
+    require_once $this->checkConfig(sfConfig::get('sf_app_config_dir_name').'/config_handlers.yml');
 
     // module level configuration handlers
 
@@ -307,7 +309,7 @@ class sfConfigCache
             // checkConfig knows how to use
             $configPath = sfConfig::get('sf_app_module_dir_name').'/'.$directory.'/'.sfConfig::get('sf_app_module_config_dir_name').'/config_handlers.yml';
 
-            require_once($this->checkConfig($configPath));
+            require_once $this->checkConfig($configPath);
           }
         }
       }
@@ -324,14 +326,15 @@ class sfConfigCache
     }
   }
 
+
   /**
    * Writes a cache file.
    *
-   * @param string An absolute filesystem path to a configuration file
-   * @param string An absolute filesystem path to the cache file that will be written
-   * @param string Data to be written to the cache file
+   * @param string $config An absolute filesystem path to a configuration file
+   * @param string $cache  An absolute filesystem path to the cache file that will be written
+   * @param string $data   Data to be written to the cache file
    *
-   * @throws sfCacheException If the cache file cannot be written
+   * @throws sfConfigurationException
    */
   protected function writeCacheFile($config, $cache, &$data)
   {

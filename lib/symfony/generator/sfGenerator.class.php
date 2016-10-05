@@ -50,12 +50,15 @@ abstract class sfGenerator
    */
   abstract public function generate($params = array());
 
+
   /**
    * Generates PHP files for a given module name.
    *
    * @param string $generatedModuleName The name of module name to generate
    * @param array $templateFiles A list of template files to generate
    * @param array $configFiles A list of configuration files to generate
+   *
+   * @throws sfException
    */
   protected function generatePhpFiles($generatedModuleName, $templateFiles = array(), $configFiles = array())
   {
@@ -86,12 +89,14 @@ abstract class sfGenerator
     }
   }
 
+
   /**
    * Evaluates a template file.
    *
    * @param string $templateFile The template file path
    *
    * @return string The evaluated template
+   * @throws sfException
    */
   protected function evalTemplate($templateFile)
   {
@@ -99,7 +104,7 @@ abstract class sfGenerator
 
     // eval template file
     ob_start();
-    require($templateFile);
+    require $templateFile;
     $content = ob_get_clean();
 
     // replace [?php and ?]
