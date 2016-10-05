@@ -1,7 +1,14 @@
-<ul class="sf_admin_actions">
 [?php
-/** @var myWebRequest $sf_request */
-/** @var MyUser $sf_user */  ?]
+  /** @var sfContext $sf_context */
+  /** @var sfParameterHolder $sf_flash */
+  /** @var sfParameterHolder $sf_params */
+  /** @var myWebRequest $sf_request */
+  /** @var myUser $sf_user */
+  /** @var sfPartialView $sf_view */
+  /** @var <?php /** @var sfPropelAdminGenerator $this */
+echo $this->getClassName() ?>  $<?php echo $this->getSingularName() ?> */
+  ?]
+<ul class="sf_admin_actions">
 <?php
   /** @var sfPropelAdminGenerator $this */
 $showActions = $this->getParameterValue('show.actions');
@@ -11,8 +18,13 @@ $parents     = $this->getParameterValue('parents');
   {
     if (null !== $showActions)
     {
+      $hasStringKeys = $this->has_string_keys($showActions);
       foreach ((array)$showActions as $actionName => $params)
       {
+        if ( ! $hasStringKeys) {
+          $actionName = array_keys($showActions[$actionName])[0];
+          $params     = $params[$actionName];
+        }
         $condition = isset( $params['condition'] ) ? $params['condition'] : false;
         if ($condition): ?>
           [?php if (<?php echo $condition ?>): ?]

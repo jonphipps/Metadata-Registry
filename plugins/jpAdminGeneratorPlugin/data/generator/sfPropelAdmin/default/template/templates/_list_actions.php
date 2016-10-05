@@ -12,13 +12,18 @@ echo $this->getClassName() ?>  $<?php echo $this->getSingularName() ?> */
 <?php
 /** @var sfPropelAdminGenerator $this */
 $listActions  = $this->getParameterValue('list.actions');
-  $urlFilters = $this->getParameterValue('list.urlfilters');
+$urlFilters = $this->getParameterValue('list.urlfilters');
 if (false !== $listActions)
   {
     if (null !== $listActions)
     {
+      $hasStringKeys = $this->has_string_keys($listActions);
       foreach ((array) $listActions as $actionName => $params)
       {
+        if (!$hasStringKeys){
+          $actionName = array_keys($listActions[$actionName])[0];
+          $params = $params[$actionName];
+        }
         $condition = isset( $params['condition'] ) ? $params['condition'] : false;
         if ( $condition ): ?>
           [?php if (<?php echo $condition ?>): ?]

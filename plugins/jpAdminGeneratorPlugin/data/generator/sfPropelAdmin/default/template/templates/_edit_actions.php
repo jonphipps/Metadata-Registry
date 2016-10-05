@@ -17,8 +17,13 @@ if (false !== $editActions)
   {
     if (null !== $editActions)
     {
+      $hasStringKeys = $this->has_string_keys($editActions);
       foreach ((array) $editActions as $actionName => $params)
       {
+        if ( ! $hasStringKeys) {
+          $actionName = array_keys($editActions[$actionName])[0];
+          $params     = $params[$actionName];
+        }
         $condition = isset( $params['condition'] ) ? $params['condition'] : false;
         $pkLink = false;
         if ($actionName == '_delete') continue;
@@ -33,10 +38,12 @@ echo '[?php if (' . $condition . "): ?]\n";
         }
         //if the actioname is list or cancel and we have parents
         if ($parents && in_array($actionName, [ '_list', '_cancel' ]) ):
+          $masterRoute = isset( $params['route'] ) ? $params['route'] : null;
+          $masteQueryString = isset( $params['query_string'] ) ? $params['query_string'] : null;
           foreach ($parents as $module => $param):
             //note that this will replace any route and query string set for show
-          $params['route']        = $module . '_' . $this->getModuleName() . $actionName;
-          $params['query_string'] = [ $param['requestid'] => $param['getid'] ];
+          $params['route']        = $masterRoute ? $masterRoute : $module . '_' . $this->getModuleName() . $actionName;
+          $params['query_string'] = $masteQueryString ? $masteQueryString: [ $param['requestid'] => $param['getid'] ];
 echo "[?php if (\$sf_request->getParameter('". $param['requestid'] ."')): ?]\n" .
   $this->addCredentialCondition($this->getButtonToAction($actionName, $params, $pkLink), $params, false, false) . "\n" .
 "[?php endif; ?]\n";
