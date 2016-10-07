@@ -391,6 +391,12 @@ import_show:
   param: { module: import, action: show, tabnav: import }
   requirements: { id: \d+ }
 
+export_download:
+  url:   /exports/:id/download
+  param: { module: export, action: download}
+  requirements: { id: \d+ }
+
+
 
 #elements (schemaprops)
 schemaprop_schemahistory_list:

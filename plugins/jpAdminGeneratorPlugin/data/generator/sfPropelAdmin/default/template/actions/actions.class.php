@@ -431,7 +431,7 @@ if($urlFilters): ?>
 <?php endif; ?>
   }
 
-  private function setRedirectFilter()
+  protected function setRedirectFilter()
   {
     $this->redirectFilter = '';
     $this->redirectRoute = '@<?php echo $this->getModuleName() ?>';

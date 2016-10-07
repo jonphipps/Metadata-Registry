@@ -58,8 +58,8 @@ generator:
       object_actions:
         _show:
       actions:
-        _create:       { name: Create New Export, query_string: { sf_request: schema_id}, condition: "!$sf_request->getParameter('vocabulary_id')", route: "schema_export_create" }
-        _create:       { name: Create New Export, query_string: { sf_request: vocabulary_id}, condition: "!$sf_request->getParameter('schema_id')", route: "vocabulary_export_create" }
+        - _create:       { name: Create New Export, query_string: { sf_request: vocabulary_id}, condition: "!$sf_request->getParameter('schema_id')", route: "vocabulary_export_create" }
+        - _create:       { name: Create New Export, query_string: { sf_request: schema_id}, condition: "!$sf_request->getParameter('vocabulary_id')", route: "schema_export_create" }
 
     edit:
       title:
@@ -91,14 +91,15 @@ generator:
             The columns you select, and their order, will be saved for the next time you create an export.
         save_as_default:   { name: Save as my default, type: checkbox_tag, help: Save these settings as my default settings for future exports, credentials: [subscriber] }
 
-      display:        [id, csv_type, exclude_deprecated, exclude_generated, selected_language, include_deleted, selected_columns ]
+      display:        [id, csv_type, exclude_deprecated, exclude_generated, selected_language, include_deleted, selected_columns  ]
       hide:           [schema_id, user_id, vocabulary_id]
       actions:
         _save:         { name: Export CSV }
-        _cancel:       { only_for: create, query_string: { sf_request: schema_id}, condition: "!$sf_request->getParameter('vocabulary_id')", route: "export_schema_cancel" }
-        _cancel:       { only_for: create, query_string: { sf_request: vocabulary_id}, condition: "!$sf_request->getParameter('schema_id')", route: "vocabulary_export_cancel" }
-        _cancel:       { only_for: edit, query_string: { schema_id: schema_id}, condition: "!$sf_request->getParameter('vocabulary_id')", route: "export_schema_cancel" }
-        _cancel:       { only_for: edit, query_string: { vocabulary_id: vocabulary_id}, condition: "!$sf_request->getParameter('schema_id')", route: "vocabulary_export_cancel" }
+        _cancel:       { name: Cancel  }
+#        - _cancel:       { mode: create, query_string: { sf_request: schema_id}, condition: "!$sf_request->getParameter('schema_id')", route: "schema_export_cancel" }
+#        - _cancel:       { mode: edit,   query_string: { schema_id: schema_id}, condition: "!$sf_request->getParameter('schema_id')", route: "schema_export_cancel" }
+#        - _cancel:       { mode: create, query_string: { sf_request: vocabulary_id}, condition: "!$sf_request->getParameter('vocabulary_id')", route: "vocabulary_export_cancel" }
+#        - _cancel:       { mode: edit,   query_string: { vocabulary_id: vocabulary_id}, condition: "!$sf_request->getParameter('vocabulary_id')", route: "vocabulary_export_cancel" }
       urlfilters:
         agent_id:      schema_id
         vocabulary_id: vocabulary_id

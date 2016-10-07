@@ -3,6 +3,7 @@
 <head>
     <?php include_http_metas() ?>
     <?php include_metas() ?>
+    <?php if (has_slot('download')): ?><?php include_slot('download') ?><?php endif; ?>
 
     <?php include_title() ?>
 
