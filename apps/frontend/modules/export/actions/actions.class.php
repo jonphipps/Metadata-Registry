@@ -68,9 +68,13 @@ class exportActions extends autoExportActions
 
       $this->saveExportHistory($this->export_history);
 
-      $this->setFlash('notice', 'Your download should start automatically...');
       //generate a url for the csv download for the id of this record
-      $this->setFlash('download', '@export_download' . '?id=' . $this->export_history->getId());
+      /** @var sfWebController $controller */
+      $controller   = $this->getController();
+      $downloadLink = $controller->genUrl('@export_download?id=' . $this->export_history->getId());
+      $this->setFlash('download', $downloadLink);
+      //$this->getResponse()->addHttpMeta('refresh', '5; url=' . $downloadLink, false);
+      $this->setFlash('notice', 'Your download should start automatically. If it doesn\'t, click <a href="'. $downloadLink . '">here</a>' );
 
       $this->setRedirectFilter();
       $url = $this->redirectFilter ? $this->redirectRoute . '_list' . $this->redirectFilter : '@homepage';
@@ -134,8 +138,9 @@ class exportActions extends autoExportActions
 
   public function executeDownload()
   {
+    /** @var ExportHistory $export */
     $export = ExportHistoryPeer::retrieveByPK($this->getRequestParameter('id'));
-    $this->forward404Unless($export, 'No filter has been selected.');
+    $this->forward404Unless((bool) $export, 'No parent filter has been selected.');
 
     $asTemplate    = '';
     $includeProlog = '';
@@ -175,6 +180,8 @@ class exportActions extends autoExportActions
     }
     $this->setLayout(false);
     sfConfig::set('sf_escaping_strategy', false);
+
+    $exportMe = new \App\Jobs\Export($export);
 
     $exportMe = new ExportVocab($export->getId(),
         '',

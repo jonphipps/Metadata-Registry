@@ -1,6 +1,6 @@
 <?php slot('download');
 /** @var sfParameterHolder $sf_flash */
 if($sf_flash->has('download')) {
-echo  '<meta http-equiv = "refresh" content = "1; url=' . url_for($sf_flash->get('download')) . '" >';
+echo  '<meta http-equiv = "refresh" content = "1; url=' . $sf_flash->get('download') . '" >';
 }
 end_slot();
