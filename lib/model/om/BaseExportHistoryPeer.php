@@ -131,15 +131,19 @@ abstract class BaseExportHistoryPeer {
 		}
 		return self::$phpNameMap;
 	}
-	/**
-	 * Translates a fieldname to another type
-	 *
-	 * @param      string $name field name
-	 * @param      string $fromType One of the class type constants TYPE_PHPNAME,
-	 *                         TYPE_COLNAME, TYPE_FIELDNAME, TYPE_NUM
-	 * @param      string $toType   One of the class type constants
-	 * @return     string translated name of the field.
-	 */
+
+
+  /**
+   * Translates a fieldname to another type
+   *
+   * @param      string $name     field name
+   * @param      string $fromType One of the class type constants TYPE_PHPNAME,
+   *                              TYPE_COLNAME, TYPE_FIELDNAME, TYPE_NUM
+   * @param      string $toType   One of the class type constants
+   *
+   * @return string translated name of the field.
+   * @throws PropelException
+   */
 	static public function translateFieldName($name, $fromType, $toType)
 	{
 		$toNames = self::getFieldNames($toType);
@@ -1491,13 +1495,16 @@ abstract class BaseExportHistoryPeer {
     return $res;
 	}
 
-	/**
-	 * Retrieve a single object by pkey.
-	 *
-	 * @param      mixed $pk the primary key.
-	 * @param      Connection $con the connection to use
-	 * @return     ExportHistory
-	 */
+
+  /**
+   * Retrieve a single object by pkey.
+   *
+   * @param      mixed $pk       the primary key.
+   * @param      Connection $con the connection to use
+   *
+   * @return ExportHistory|null
+   * @throws PropelException
+   */
 	public static function retrieveByPK($pk, $con = null)
 	{
 		if ($con === null) {
@@ -1514,14 +1521,17 @@ abstract class BaseExportHistoryPeer {
 		return !empty($v) > 0 ? $v[0] : null;
 	}
 
-	/**
-	 * Retrieve multiple objects by pkey.
-	 *
-	 * @param      array $pks List of primary keys
-	 * @param      Connection $con the connection to use
-	 * @throws     PropelException Any exceptions caught during processing will be
-	 *		 rethrown wrapped into a PropelException.
-	 */
+
+  /**
+   * Retrieve multiple objects by pkey.
+   *
+   * @param      array $pks      List of primary keys
+   * @param      Connection $con the connection to use
+   *
+   * @return array|null
+   * @throws     PropelException Any exceptions caught during processing will be
+   *     rethrown wrapped into a PropelException.
+   */
 	public static function retrieveByPKs($pks, $con = null)
 	{
 		if ($con === null) {
