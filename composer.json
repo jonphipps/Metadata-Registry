@@ -42,6 +42,7 @@
   ],
   "minimum-stability": "dev",
   "require": {
+    "php": ">=5.6.4",
     "bgcc/sf-select2-widgets-plugin": "~1.0",
     "league/flysystem": "~1.0",
     "vlucas/phpdotenv": "~2.2",
@@ -57,15 +58,25 @@
     "knplabs/github-api": "1.7.*",
     "phpmailer/phpmailer": "~5.2",
     "hashids/hashids": "^1.0",
-    "laravel/laravel": "~5.3.0",
+    "laravel/framework": "5.3.x",
     "pusher/pusher-php-server": "^2.6",
+    "yajra/laravel-datatables-oracle": "~6.0",
+    "infyomlabs/laravel-generator": "5.3.x-dev",
+    "laravelcollective/html": "dev-master",
+    "infyomlabs/adminlte-templates": "5.3.x-dev",
+    "infyomlabs/swagger-generator": "dev-master",
+    "jlapp/swaggervel": "dev-master",
+    "maatwebsite/excel": "~2.1.0",
     "symfony/psr-http-message-bridge": "^1.0",
-    "doctrine/dbal": "^2.5",
+    "doctrine/dbal": "~2.3",
     "pda/pheanstalk": "^3.1",
     "predis/predis": "^1.1",
     "filp/whoops": "^2.0",
     "willdurand/negotiation": "^2.0",
-    "barryvdh/laravel-debugbar": "^2.0"
+    "barryvdh/laravel-debugbar": "^2.0",
+    "barryvdh/laravel-snappy": "^0.3.0",
+    "h4cc/wkhtmltopdf-amd64": "0.12.x",
+    "h4cc/wkhtmltoimage-amd64": "0.12.x"
 
   },
   "autoload": {
