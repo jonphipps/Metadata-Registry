@@ -50,7 +50,7 @@ Export_*.sql
 Export_*.csv
 coverage.xml
 spec/coverage
-.env
+.env.*
 dump.rdb
 /node_modules
 composer.lock
