@@ -142,64 +142,15 @@ class exportActions extends autoExportActions
     $export = ExportHistoryPeer::retrieveByPK($this->getRequestParameter('id'));
     $this->forward404Unless((bool) $export, 'No parent filter has been selected.');
 
-    $asTemplate    = '';
-    $includeProlog = '';
-    $populate      = '';
-    $addLanguage   = $export->getSelectedLanguage();
-    $schema = $export->getSchema();
-    $vocabulary = $export->getVocabulary();
-    $defaultLanguage = $schema ? $schema->getLanguage() : $vocabulary->getLanguage();
-
-    if ($addLanguage) {
-      $languages = [ $defaultLanguage, $addLanguage, ];
-    } else {
-      $languages = [ $defaultLanguage, ];
-    }
-    switch ($export->getCsvType()) {
-      case "1": //empty template
-        $asTemplate    = true;
-        $populate      = false;
-        $includeProlog = false;
-        break;
-      case "2": //populated template
-        $asTemplate    = true;
-        $populate      = true;
-        $includeProlog = false;
-        break;
-      case "3": //sparse data
-        $asTemplate    = false;
-        $populate      = true;
-        $includeProlog = false;
-        break;
-      case "4": //rich data
-        $asTemplate    = true;
-        $populate      = true;
-        $includeProlog = false;
-        break;
-      default:
-    }
     $this->setLayout(false);
     sfConfig::set('sf_escaping_strategy', false);
 
-    $exportMe = new \App\Jobs\Export($export);
-
-    $exportMe = new ExportVocab($export->getId(),
-        '',
-        $populate,
-        $asTemplate,
-        $includeProlog,
-        (bool) $export->getIncludeDeleted(),
-        (bool) $export->getExcludeDeprecated(),
-        (bool) $export->getExcludeGenerated(),
-        $languages,
-        $export->getSelectedColumns());
+    $exportMe = new ExportVocab($export);
 
 //    $this->getResponse()->clearHttpHeaders();
 //    $this->getResponse()->setHttpHeader('Content-Description','File Transfer');
     $this->getResponse()->setHttpHeader('Content-Type', 'text/csv; charset=UTF-8');
     $this->getResponse()->setHttpHeader('Content-Disposition', 'attachment; filename="' . $exportMe->getFileName() . '"');
-    $this->getResponse()->setHttpHeader('Pragma', '');
-    $this->getResponse()->setHttpHeader('Cache-Control', '');
     $this->getResponse()->setHttpHeader('Expires', '0');
     $this->getResponse()->setHttpHeader('Cache-Control', 'must-revalidate, post-check=0, pre-check=0');
     $this->getResponse()->setHttpHeader('Pragma', 'public');
