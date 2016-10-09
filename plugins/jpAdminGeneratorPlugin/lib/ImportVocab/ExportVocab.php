@@ -25,7 +25,6 @@ class ExportVocab {
     private $headerCount;
     private $headerMap = array();
     private $populate = false;
-    private $includeProlog = true;
     /**
      * @var bool
      */
@@ -43,49 +42,70 @@ class ExportVocab {
      */
     private $type;
 
-    /**
-     * @param       $vocabId
-     * @param       $userId
-     * @param bool $populate
-     * @param bool $asTemplate
-     * @param bool $includeProlog
-     * @param bool $includeDeleted
-     * @param bool $excludeDeprecated
-     * @param bool $excludeGenerated
-     * @param array $languages
-     *
-     * @param string $type
-     * @internal param bool $download
-     */
-    public function __construct(
-        $vocabId,
-        $userId,
-        $populate = false,
-        $asTemplate = false,
-        $includeProlog = true,
-        $includeDeleted = false,
-        $excludeDeprecated = false,
-        $excludeGenerated = false,
-        $languages = array(),
-        $type = 'schema'
-    )
-    {
-        $this->type = $type;
-        $this->setSchema($vocabId);
-        $this->setUser($userId);
-        $this->setAsTemplate($asTemplate);
-        $this->languages = $languages;
-        $schema = $this->getSchema();
-        $this->language = isset($schema) ? $schema->getLanguage() : 'en';
-        $this->populate = $populate;
-        $this->includeProlog = $includeProlog;
 
-        $this->setPath(SF_ROOT_DIR . DIRECTORY_SEPARATOR . 'web' . DIRECTORY_SEPARATOR . 'repos' . DIRECTORY_SEPARATOR
-                       . 'agents' . DIRECTORY_SEPARATOR . $this->schema->getAgentId() . DIRECTORY_SEPARATOR);
-        $this->includeDeleted = $includeDeleted;
-        $this->excludeDeprecated = $excludeDeprecated;
-        $this->excludeGenerated = $excludeGenerated;
+  /**
+   * @param \ExportHistory $export
+   *
+   * @throws \PropelException
+   */
+  public function __construct(\ExportHistory $export)
+  {
+    $addLanguage = $export->getSelectedLanguage();
+    $schema      = $export->getSchema();
+    $vocabulary  = $export->getVocabulary();
+
+    if ($schema) {
+      $defaultLanguage = $schema->getLanguage();
+      $this->schema    = $export->getSchema();
+      $this->type      = 'schema';
+    } else {
+      $defaultLanguage = $vocabulary->getLanguage();
+      $this->schema    = $export->getVocabulary();
+      $this->type      = 'vocabulary';
     }
+    if ($addLanguage) {
+      $languages = [ $defaultLanguage, $addLanguage, ];
+    } else {
+      $languages = [ $defaultLanguage, ];
+    }
+    $this->languages = $languages;
+    $this->language  = $defaultLanguage;
+
+    $this->setUser($export->getUserId());
+
+    $asTemplate = '';
+    $populate   = '';
+    $this->type = $export->getCsvType();
+    switch ($export->getCsvType()) {
+      case "1": //empty template
+        $asTemplate = true;
+        $populate   = false;
+        break;
+      case "2": //populated template
+        $asTemplate = true;
+        $populate   = true;
+        break;
+      case "3": //sparse data
+        $asTemplate = false;
+        $populate   = true;
+        break;
+      case "4": //rich data
+        $asTemplate = true;
+        $populate   = true;
+        break;
+      default:
+    }
+    $this->setAsTemplate($asTemplate);
+    $this->populate = $populate;
+
+    $this->setPath(SF_ROOT_DIR . DIRECTORY_SEPARATOR . 'web' . DIRECTORY_SEPARATOR . 'repos' . DIRECTORY_SEPARATOR . 'agents' . DIRECTORY_SEPARATOR . $this->schema->getAgentId() . DIRECTORY_SEPARATOR . 'exports' . DIRECTORY_SEPARATOR);
+
+    $this->includeDeleted    = $export->getIncludeDeleted();
+    $this->excludeDeprecated = $export->getExcludeDeprecated();
+    $this->excludeGenerated  = $export->getExcludeGenerated();
+
+    $this->columns = $export->getSelectedColumns();
+  }
 
     /**
      * @param boolean $asTemplate
@@ -101,15 +121,6 @@ class ExportVocab {
     public function getSchema()
     {
         return $this->schema;
-    }
-
-    public function setSchema( $schemaId )
-    {
-        if ($this->type === 'schema' ) {
-            $this->schema = \SchemaPeer::retrieveByPK($schemaId);
-        } else {
-            $this->schema = \VocabularyPeer::retrieveByPK($schemaId);
-        }
     }
 
   public function getPath( )
@@ -283,7 +294,8 @@ class ExportVocab {
         if ( $this->asTemplate )
         {
             //get the headers from the profile instead of finding them for the schema
-            $properties = $this->getAllProfileProperties( true );
+
+              $properties = $this->getAllProfileProperties( true );
         }
         else
         {
@@ -494,7 +506,11 @@ class ExportVocab {
         return $this->user;
     }
 
-    public function setUser( $userId )
+
+  /**
+   * @param $userId
+   */
+  public function setUser( $userId )
     {
         $this->user = \UserPeer::retrieveByPK( $userId );
     }
@@ -703,23 +719,28 @@ class ExportVocab {
 
     public function getAllProfileProperties($forExport = false)
     {
-        $columns = [];
-        if ('schema' === $this->type) {
-            $profile = \ProfilePeer::retrieveByPK(1);
-            $columnCounts = \SchemaPeer::getColumnCounts($this->getSchema()->getId());
 
+      if ($forExport) {//get the selected columns
+        $selectedColumns = $this->columns;
+
+        //populate the properties
+        foreach ($selectedColumns as $index => $selectedColumn) {
+          $propertys[$index] = \ProfilePropertyPeer::retrieveByPK($selectedColumn);
+        }
+      } else {
+        if ('schema' === $this->type) {
+          $profile      = \ProfilePeer::retrieveByPK(1);
+          $columnCounts = \SchemaPeer::getColumnCounts($this->getSchema()->getId());
         } else {
-            $profile = \ProfilePeer::retrieveByPK(2);
-            $columnCounts = \VocabularyPeer::getColumnCounts($this->getSchema()->getId());
+          $profile      = \ProfilePeer::retrieveByPK(2);
+          $columnCounts = \VocabularyPeer::getColumnCounts($this->getSchema()->getId());
         }
         $c = new \Criteria();
         $c->addAscendingOrderByColumn(\ProfilePropertyPeer::EXPORT_ORDER);
+        $propertys = $profile->getProfilePropertys($c);
+      }
 
-        if ( $forExport )
-        {
-            $c->add( \ProfilePropertyPeer::IS_IN_EXPORT, true );
-        }
-        $propertys   = $profile->getProfilePropertys($c);
+        $columns = [];
         $languages = $this->getLanguages();
         /** @var \profileProperty $property */
         foreach ( $propertys as $property )
