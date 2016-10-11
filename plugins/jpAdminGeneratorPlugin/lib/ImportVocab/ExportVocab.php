@@ -2,13 +2,15 @@
 
 namespace ImportVocab;
 
+use Carbon\Carbon;
 use Ddeboer\DataImport\Writer\CsvWriter;
 use League\Flysystem\Adapter\Local as Adapter;
 use League\Flysystem\Filesystem;
+use sfConfig;
 
 class ExportVocab {
 
-    /** @var  \Schema */
+    /** @var  \Schema|\Vocabulary */
     private $schema;
 
     /** @var  \User */
@@ -25,6 +27,7 @@ class ExportVocab {
     private $headerCount;
     private $headerMap = array();
     private $populate = false;
+    private $exportId;
     /**
      * @var bool
      */
@@ -41,6 +44,7 @@ class ExportVocab {
      * @var string
      */
     private $type;
+  private $fileName;
 
 
   /**
@@ -54,15 +58,21 @@ class ExportVocab {
     $schema      = $export->getSchema();
     $vocabulary  = $export->getVocabulary();
 
+    $defaultLanguage = sfConfig::get('app_default_language');
+
     if ($schema) {
       $defaultLanguage = $schema->getLanguage();
       $this->schema    = $export->getSchema();
       $this->type      = 'schema';
-    } else {
+    }
+    if ($vocabulary) {
       $defaultLanguage = $vocabulary->getLanguage();
       $this->schema    = $export->getVocabulary();
       $this->type      = 'vocabulary';
     }
+
+    $this->profile = $this->getSchema()->getProfile();
+
     if ($addLanguage) {
       $languages = [ $defaultLanguage, $addLanguage, ];
     } else {
@@ -75,7 +85,6 @@ class ExportVocab {
 
     $asTemplate = '';
     $populate   = '';
-    $this->type = $export->getCsvType();
     switch ($export->getCsvType()) {
       case "1": //empty template
         $asTemplate = true;
@@ -105,6 +114,8 @@ class ExportVocab {
     $this->excludeGenerated  = $export->getExcludeGenerated();
 
     $this->columns = $export->getSelectedColumns();
+    $this->exportId = $export->getId();
+    $this->setFileName();
   }
 
     /**
@@ -157,6 +168,8 @@ class ExportVocab {
         $this->setHeaderCount(count($header[0]));
 
         $writer->writeItem($header[0] );
+
+      $statuses = \StatusPeer::getStatusForSelect();
 
         //get the data
         if ( $this->populate )
@@ -233,6 +246,9 @@ class ExportVocab {
                     /** @var \ProfileProperty $profileProperty */
                     $profileProperty = $element->getProfileProperty();
                     $propertyId      = $profileProperty->getId();
+                  if (strtolower($profileProperty->getName()) == "statusid") {
+                    $element->setObject($statuses[$element->getObject()]);
+                  }
                     if ('schema' === $this->type and in_array( $propertyId, [ 6, 9, ] ) and $element->getIsSchemaProperty() )
                     {
                         $language = 'parent';
@@ -260,19 +276,30 @@ class ExportVocab {
         }
 
         //add an empty line at the end
-        $line = array_fill( 0, $this->getHeaderCount(), '' );
-        $writer->writeItem( $line );
+        //$line = array_fill( 0, $this->getHeaderCount(), '' );
+        //$writer->writeItem( $line );
         $writer->finish();
     }
 
-    public function getFileName( $type = "csv" )
-    {
-        $template = $this->isTemplate() ? "_template" : "";
 
-        //handle special characters in token that result in invalid filename
-        $fileName = urlencode(utf8_encode(urldecode($this->getSchema()->getToken())));
-        return $fileName . $template . '.' . $type;
+  public function setFileName($type = "csv")
+  {
+    $date     = Carbon::create();
+    $date->setToStringFormat('Y-m-d\TH-i-s');
+    $template = $this->isTemplate() ? "_" . $date . "_" . $this->exportId . '_0' : "";
+
+    //handle special characters in token that result in invalid filename
+    $token = urlencode(utf8_encode(urldecode($this->getSchema()->getToken())));
+    $languageToken = '';
+    if ($this->getLanguages()) {
+      foreach ($this->getLanguages() as $language) {
+        $languageToken .= $language . '-';
+      }
+      $languageToken = rtrim($languageToken, "-") . "_";
     }
+
+    $this->fileName = $token . "_" . $languageToken . $template . '.' . $type;
+  }
 
     /**
      * @return boolean
@@ -312,7 +339,7 @@ class ExportVocab {
             /** @var \ProfileProperty $profile */
             $profile = $property['profile'];
             $label   = $profile->getLabel();
-            $label = ( $profile->getIsRequired() ) ? "*" . $label : $label;
+            $label = $profile->getIsRequired() ? "*" . $label : $label;
             $id = $profile->getId();
             $columnCounter = 0;
 
@@ -327,7 +354,7 @@ class ExportVocab {
                     {
                         for ( $I = 1; $I <= $languageCount; $I ++ )
                         {
-                            $rows[0][$column] = ( $profile->getIsSingleton() ) ? $label . "_" . $language : $label . "[$I]_" . $language;
+                            $rows[0][$column] = $profile->getIsSingleton() ? $label . "_" . $language : $label . "[$I]_" . $language;
 
                             $map[$id . $language][] = $column ;
 
@@ -341,7 +368,7 @@ class ExportVocab {
                 for ( $I = 0; $I < $property['count']; $I ++ )
                 {
                     $columnCounter++;
-                    $labelCounter = ( $profile->getIsSingleton() ) ? $label : $label . "[$columnCounter]";
+                    $labelCounter = $profile->getIsSingleton() ? $label : $label . "[$columnCounter]";
                     if ( isset( $swap[$id] ) and false !== $swap[$id] )
                     {
                         $rows[0][$column] = $swap[$id];
@@ -543,7 +570,13 @@ class ExportVocab {
         return $n;
     }
 
-    public function getPrefixes($reset = false)
+
+  /**
+   * @param bool $reset
+   *
+   * @return array
+   */
+  public function getPrefixes($reset = false)
     {
         $prefixes = [];
         if ( ! $reset) {
@@ -556,7 +589,7 @@ class ExportVocab {
             $this->prefixes = $this->schema->getPrefixes();
         }
 
-        return $this->getDefaultPrefix($this->prefixes);
+        return $this->prefixes;
     }
 
     /**
@@ -719,45 +752,54 @@ class ExportVocab {
 
     public function getAllProfileProperties($forExport = false)
     {
+      $columns = [];
+      $languages = $this->getLanguages();
+      if ('schema' === $this->type) {
+        $profile      = \ProfilePeer::retrieveByPK(1);
+        $columnCounts = \SchemaPeer::getColumnCounts($this->getSchema()->getId());
+      } else {
+        $profile      = \ProfilePeer::retrieveByPK(2);
+        $columnCounts = \VocabularyPeer::getColumnCounts($this->getSchema()->getId());
+      }
 
       if ($forExport) {//get the selected columns
         $selectedColumns = $this->columns;
 
         //populate the properties
+        /** @var int $selectedColumn */
         foreach ($selectedColumns as $index => $selectedColumn) {
-          $propertys[$index] = \ProfilePropertyPeer::retrieveByPK($selectedColumn);
+          $property = \ProfilePropertyPeer::retrieveByPK($selectedColumn);
+          $propertyId = $property->getId();
+          $columns[$index]['profile'] = $property;
+          $columns[$index]['id'] = $selectedColumn;
+          if ($property->getHasLanguage()) {
+            foreach ($languages as $language) {
+              $columns[$index]['languages'][$language] = isset( $columnCounts[$propertyId][$language] ) ? $columnCounts[$propertyId][$language] : 1;
+            }
+          } else {
+            $columns[$index]['count'] = isset( $columnCounts[$propertyId] ) ? $columnCounts[$propertyId][''] : 1;
+          }
         }
       } else {
-        if ('schema' === $this->type) {
-          $profile      = \ProfilePeer::retrieveByPK(1);
-          $columnCounts = \SchemaPeer::getColumnCounts($this->getSchema()->getId());
-        } else {
-          $profile      = \ProfilePeer::retrieveByPK(2);
-          $columnCounts = \VocabularyPeer::getColumnCounts($this->getSchema()->getId());
-        }
         $c = new \Criteria();
         $c->addAscendingOrderByColumn(\ProfilePropertyPeer::EXPORT_ORDER);
         $propertys = $profile->getProfilePropertys($c);
-      }
 
-        $columns = [];
-        $languages = $this->getLanguages();
         /** @var \profileProperty $property */
-        foreach ( $propertys as $property )
-        {
-            $propertyId  = $property->getId();
-            $exportOrder = $property->getExportOrder();
-            $columns[$exportOrder]['profile'] = $property;
-            $columns[$exportOrder]['id'] = $propertyId;
-            if ($property->getHasLanguage()) {
-                foreach ($languages as $language) {
-                    $columns[$exportOrder]['languages'][$language] = ( isset( $columnCounts[$propertyId][$language] ) ) ? $columnCounts[$propertyId][$language] : 1;
-                }
-            } else {
-                $columns[$exportOrder]['count'] = ( isset( $columnCounts[$propertyId] ) ) ? $columnCounts[$propertyId][''] : 1;
+        foreach ((array) $propertys as $property) {
+          $propertyId                       = $property->getId();
+          $exportOrder                      = $property->getExportOrder();
+          $columns[$exportOrder]['profile'] = $property;
+          $columns[$exportOrder]['id']      = $propertyId;
+          if ($property->getHasLanguage()) {
+            foreach ($languages as $language) {
+              $columns[$exportOrder]['languages'][$language] = isset( $columnCounts[$propertyId][$language] ) ? $columnCounts[$propertyId][$language] : 1;
             }
+          } else {
+            $columns[$exportOrder]['count'] = isset( $columnCounts[$propertyId] ) ? $columnCounts[$propertyId][''] : 1;
+          }
         }
-
+      }
         return $columns;
     }
 
@@ -813,5 +855,13 @@ class ExportVocab {
         return $bar;
     }
 
+
+  /**
+   * @return mixed
+   */
+  public function getFileName()
+  {
+    return $this->fileName;
+  }
 
 }
