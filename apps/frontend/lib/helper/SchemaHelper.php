@@ -3,7 +3,7 @@
   /**
   * creates a link to related SchemaProperty
   *
-  * @return none
+  * @return string
    *
   * @param  SchemaPropertyElement $property
   */
@@ -41,9 +41,11 @@
 
 /**
 * creates a link to related schema property
+
 *
-* @return none
-* @param  schemaproperty $property
+*@return string
+ *
+*@param  schemaproperty $property
 */
 function link_to_related_property($property)
 {
