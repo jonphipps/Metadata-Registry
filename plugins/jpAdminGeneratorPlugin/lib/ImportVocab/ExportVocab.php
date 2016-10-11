@@ -285,7 +285,7 @@ class ExportVocab {
   public function setFileName($type = "csv")
   {
     $date     = Carbon::create();
-    $date->setToStringFormat('Y-m-d\TH-i-s');
+    $date->setToStringFormat('Ymd\THis');
     $template = $this->isTemplate() ? "_" . $date . "_" . $this->exportId . '_0' : "";
 
     //handle special characters in token that result in invalid filename
@@ -295,7 +295,7 @@ class ExportVocab {
       foreach ($this->getLanguages() as $language) {
         $languageToken .= $language . '-';
       }
-      $languageToken = rtrim($languageToken, "-") . "_";
+      $languageToken = rtrim($languageToken, "-");
     }
 
     $this->fileName = $token . "_" . $languageToken . $template . '.' . $type;
