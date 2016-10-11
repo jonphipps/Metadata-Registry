@@ -12,8 +12,7 @@ class Status extends BaseStatus
    /**
    * description
    *
-   * @return return_type
-   * @param  var_type $var
+   * @return string
    */
    public function __toString()
    {

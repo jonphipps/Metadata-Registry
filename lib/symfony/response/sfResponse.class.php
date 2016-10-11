@@ -19,19 +19,19 @@
  */
 abstract class sfResponse
 {
-  protected
-    $parameterHolder = null,
-    $context         = null,
-    $content         = '';
+/** @var sfParameterHolder $parameterHolder */
+  protected $parameterHolder = null;
+  /** @var sfContext $context */
+  protected $context = null;
+  protected $content = '';
+
 
   /**
    * Initializes this sfResponse.
    *
-   * @param sfContext A sfContext instance
+   * @param sfContext $context A sfContext instance
+   * @param array $parameters
    *
-   * @return boolean true, if initialization completes successfully, otherwise false
-   *
-   * @throws <b>sfInitializationException</b> If an error occurs while initializing this Response
    */
   public function initialize($context, $parameters = array())
   {
@@ -44,7 +44,7 @@ abstract class sfResponse
   /**
    * Sets the context for the current response.
    *
-   * @param sfContext  A sfContext instance
+   * @param sfContext $context  A sfContext instance
    */
   public function setContext($context)
   {
@@ -64,7 +64,7 @@ abstract class sfResponse
   /**
    * Retrieves a new sfResponse implementation instance.
    *
-   * @param string A sfResponse implementation name
+   * @param string $class A sfResponse implementation name
    *
    * @return sfResponse A sfResponse implementation instance
    *
@@ -90,7 +90,7 @@ abstract class sfResponse
   /**
    * Sets the response content
    *
-   * @param string Content
+   * @param string $content
    */
   public function setContent($content)
   {
@@ -133,9 +133,9 @@ abstract class sfResponse
   /**
    * Retrieves a parameter from the current response.
    *
-   * @param string A parameter name
-   * @param string A default paramter value
-   * @param string Namespace for the current response
+   * @param string $name A parameter name
+   * @param string $default A default parameter value
+   * @param string $ns Namespace for the current response
    *
    * @return mixed A parameter value
    */
@@ -147,8 +147,8 @@ abstract class sfResponse
   /**
    * Indicates whether or not a parameter exist for the current response.
    *
-   * @param string A parameter name
-   * @param string Namespace for the current response
+   * @param string $name A parameter name
+   * @param string $ns Namespace for the current response
    *
    * @return boolean true, if the parameter exists otherwise false
    */
@@ -160,9 +160,9 @@ abstract class sfResponse
   /**
    * Sets a parameter for the current response.
    *
-   * @param string A parameter name
-   * @param string The parameter value to be set
-   * @param string Namespace for the current response
+   * @param string $name A parameter name
+   * @param string $value The parameter value to be set
+   * @param string $ns Namespace for the current response
    */
   public function setParameter($name, $value, $ns = null)
   {
@@ -178,8 +178,8 @@ abstract class sfResponse
   /**
    * Overloads a given method.
    *
-   * @param string Method name
-   * @param string Method arguments
+   * @param string $method Method name
+   * @param string $arguments Method arguments
    *
    * @return mixed User function callback
    *

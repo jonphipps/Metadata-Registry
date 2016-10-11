@@ -137,7 +137,7 @@ interface Connection {
      * 
      * @param string $sql The SQL statement.
      * @param int $fetchmode
-     * @return object ResultSet
+     * @return ResultSet
      * @throws SQLException if a database access error occurs.
      */
     public function executeQuery($sql, $fetchmode = null);
