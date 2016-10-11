@@ -241,4 +241,37 @@ class Vocabulary extends BaseVocabulary
     return $namespaces;
   }
 
+
+  public function getProfilePropertiesInUse()
+  {
+    $results = [];
+    $con     = Propel::getConnection(VocabularyPeer::DATABASE_NAME);
+    $id      = $this->getId();
+    /** @var ResultSet $rs */
+    $rs = $con->executeQuery(/** @lang MySQL */
+        <<<SQL
+select profile_property.* from reg_concept_property, reg_concept, profile_property
+where reg_concept.vocabulary_id = 58
+and reg_concept_property.concept_id = reg_concept.id
+and reg_concept_property.profile_property_id = profile_property.id
+group by profile_property.id
+order by profile_property.export_order
+SQL
+, ResultSet::FETCHMODE_NUM);
+    // set the class once to avoid overhead in the loop
+    $cls = ProfilePropertyPeer::getOMClass();
+    $cls = Propel::import($cls);
+    // populate the object(s)
+    while ($rs->next()) {
+
+      $obj = new $cls();
+      $obj->hydrate($rs);
+      $results[] = $obj;
+
+    }
+
+    return $results;
+
+  }
+
 }

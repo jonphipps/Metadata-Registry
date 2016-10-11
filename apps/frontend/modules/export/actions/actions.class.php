@@ -41,11 +41,20 @@ class exportActions extends autoExportActions
         } else {
             $export_history->setSchemaId($schemaId);
         }
+    $propertiesInUse = $schemaObj->getProfilePropertiesInUse();
+    $props=[];
+    if ($propertiesInUse) {
+      foreach ($propertiesInUse as $index => $property) {
+        $props[$index] = $property->getId();
+      }
+      $this->setFlash('propertiesInUse', json_encode($props));
+    }
+
         $userId = sfContext::getInstance()->getUser()->getSubscriberId();
       if ($userId) {
         $export_history->setUserId($userId);
       }
-
+    //todo: check if there was an export for this vocab for this user first, and then get the last for any vocab
       $lastExportForUser = ExportHistoryPeer::getLastExportForUser($userId);
       if ($lastExportForUser) {
         $export_history->setSelectedLanguage($lastExportForUser->getSelectedLanguage());

@@ -866,4 +866,42 @@ SQL
         return $results;
     }
 
+
+  /**
+   * @return ProfileProperty[]
+   */
+  public function getProfilePropertiesInUse()
+  {
+    $results=[];
+    $con = Propel::getConnection(SchemaPeer::DATABASE_NAME);
+    $id  = $this->getId();
+    /** @var ResultSet $rs */
+    $rs = $con->executeQuery(/** @lang MySQL */
+        <<<SQL
+select profile_property.* from reg_schema_property_element, reg_schema_property, profile_property
+where reg_schema_property.schema_id = $id
+and reg_schema_property_element.schema_property_id = reg_schema_property.id
+and reg_schema_property_element.profile_property_id = profile_property.id
+group by profile_property.id
+order by profile_property.export_order
+SQL
+    ,
+        ResultSet::FETCHMODE_NUM);
+
+    // set the class once to avoid overhead in the loop
+    $cls = ProfilePropertyPeer::getOMClass();
+    $cls = Propel::import($cls);
+    // populate the object(s)
+    while ($rs->next()) {
+
+      $obj = new $cls();
+      $obj->hydrate($rs);
+      $results[] = $obj;
+
+    }
+
+    return $results;
+
+  }
+
 }
