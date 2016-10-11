@@ -12,4 +12,4 @@ editSuccess:
       - export.js
 
 downloadSuccess:
-  has_layout: false
+  has_layout: off
