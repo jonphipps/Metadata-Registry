@@ -25,11 +25,11 @@ generator:
         type: plain
       created_user:
         name: Created by
-        help: This is the user who created the property
+        help: This is the member who created the property
         type: plain
       updated_user:
         name: Last Updated by
-        help: This is the user who updated the property last
+        help: This is the member who updated the property last
         type: plain
       concept_id:       { name: Parent Concept }
       related_concept_id:

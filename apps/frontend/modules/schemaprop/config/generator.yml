@@ -26,11 +26,11 @@ generator:
         type:         plain
       created_user:
         name:         Created by
-        help:         This is the user who created this Property
+        help:         This is the member who created this Property
         type:         plain
       updated_user:
         name:         Last Updated by
-        help:         This is the user who updated the Property last
+        help:         This is the member who updated the Property last
         type:         plain
       uri:               { name: Canonical URI, help: "This is the 'standard' URI for this element. It will be the same regardless of language." }
       name:              { name: Name, help: "This is a machine-compatible label for this property and is required for every Property." }

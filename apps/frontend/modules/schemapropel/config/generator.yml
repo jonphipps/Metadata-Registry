@@ -28,11 +28,11 @@ generator:
         class:        date
       created_user:
         name:         Created by
-        help:         This is the user who created this Property
+        help:         This is the member who created this Property
         type:         plain
       updated_user:
         name:         Last Updated by
-        help:         This is the user who updated the Property last
+        help:         This is the member who updated the Property last
         type:         plain
 
     list:
