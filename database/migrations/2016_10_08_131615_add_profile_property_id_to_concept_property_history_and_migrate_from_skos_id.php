@@ -13,11 +13,16 @@ class AddProfilePropertyIdToConceptPropertyHistoryAndMigrateFromSkosId extends M
      */
     public function up()
     {
+        /** @var \Illuminate\Database\Schema\MySqlBuilder Schema */
         Schema::table('reg_concept_property_history', function (Blueprint $table) {
             $table->integer('profile_property_id')->nullable()->index('reg_export_history_profile_property_id');
             $table->foreign('profile_property_id', 'reg_concept_property_element_history_ibfk_11')->references('id')
               ->on('profile_property')->onUpdate('NO ACTION')->onDelete('NO ACTION');
         });
+      DB::statement(
+'update reg_concept_property_history, profile_property
+set reg_concept_property_history.profile_property_id = profile_property.id
+where reg_concept_property_history.skos_property_id = profile_property.skos_id');
     }
 
     /**

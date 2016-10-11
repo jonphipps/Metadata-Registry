@@ -14,7 +14,7 @@ class UpdateAllVocabularyProfileId extends Migration
     public function up()
     {
 
-      //todo: Update the vocabulary profile id to 2
+      DB::statement('update reg_vocabulary set profile_id = 2;');
 
     }
 
@@ -25,8 +25,6 @@ class UpdateAllVocabularyProfileId extends Migration
      */
     public function down()
     {
-        Schema::table('reg_vocabularies', function (Blueprint $table) {
-            //
-        });
+
     }
 }

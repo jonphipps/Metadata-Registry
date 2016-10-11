@@ -13,7 +13,10 @@ class UpdateAllConceptPropertyProfilePropertyIdFromSkosId extends Migration
      */
     public function up()
     {
-        //todo: update the profileproperty_id to match the skos_id
+        DB::statement(
+'update reg_concept_property, profile_property
+set reg_concept_property.profile_property_id = profile_property.id
+where reg_concept_property.skos_property_id = profile_property.skos_id;');
     }
 
     /**
@@ -23,8 +26,6 @@ class UpdateAllConceptPropertyProfilePropertyIdFromSkosId extends Migration
      */
     public function down()
     {
-        Schema::table('reg_concept_property', function (Blueprint $table) {
-            //
-        });
+
     }
 }
