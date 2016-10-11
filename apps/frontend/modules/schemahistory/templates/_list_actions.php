@@ -1,6 +1,7 @@
-<?php slot('feeds');
+<?php /** @var sfParameterHolder $sf_params */
+if ( ! $sf_params->has('import_id')):
+slot('feeds');
 foreach ([ 'schema_id', 'schema_property_id', 'schema_property_element_id' ] as $type) {
-  /** @var sfParameterHolder $sf_params */
   if ($sf_params->has($type)) {
     $idType = $type ;
   }
@@ -46,3 +47,4 @@ $atom['title'] = "Atom 1.0 History Feed";
     ?>
   </li>
 </ul>
+<?php endif; ?>

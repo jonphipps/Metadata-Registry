@@ -193,10 +193,20 @@ concept_history_list:
 
 
 #imports
+import_history_show:
+  url:   /imports/:import_id/history/:id
+  param: { module: history, action: show, tabnav: import  }
+  requirements: { import_id: \d+, id: \d+ }
+
 import_history_list:
   url:   /imports/:import_id/history
   param: { module: history, action: list, tabnav: import }
   requirements: { import_id: \d+ }
+
+import_schemahistory_show:
+  url:   /schemaimports/:import_id/history/:id
+  param: { module: schemahistory, action: show, tabnav: import }
+  requirements: { import_id: \d+, id: \d+ }
 
 import_schemahistory_list:
   url:   /schemaimports/:import_id/history

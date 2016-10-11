@@ -22,7 +22,6 @@ class historyActions extends autoHistoryActions
     /**
   * rss and atom feeds
   *
-  * @return return_type
   */
   public function executeFeed()
   {

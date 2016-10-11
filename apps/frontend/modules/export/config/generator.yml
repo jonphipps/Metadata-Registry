@@ -13,7 +13,7 @@ generator:
 
     fields:
       id:             { name: ID, type: plain}
-      created_at:     { name: Date Created, type: plain, params: date_format='s', help: This is the date the export was created  }
+      created_at:     { name: Date Created, type: plain, params: date_format='s', help: This is the date the export was created }
       user:           { name: Member, type: plain, help: The individual that created the export }
       csv_type:
         name: CSV Type

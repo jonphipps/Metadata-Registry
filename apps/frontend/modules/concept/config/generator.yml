@@ -76,8 +76,8 @@ generator:
         _save:         { credentials: [[administrator, vocabularymaintainer, vocabularyadmin, conceptadmin]] }
         _delete:       { credentials: [[administrator, vocabularyadmin]] }
         _save_and_add: { credentials: [[administrator, vocabularymaintainer, vocabularyadmin, conceptadmin]] }
-        _cancel:       { only_for: create, query_string: {sf_request: vocabulary_id}, route: vocabulary_concepts_list, credentials: [[administrator, vocabularymaintainer, vocabularyadmin, conceptadmin]] }
-        _cancel:       { only_for: edit, query_string: {vocabulary_id: vocabulary_id}, route: vocabulary_concepts_show, credentials: [[administrator, vocabularymaintainer, vocabularyadmin, conceptadmin]] }
+        _cancel:       { only_for: create, query_string: {sf_request: vocabulary_id}, route: vocabulary_concept_list, credentials: [[administrator, vocabularymaintainer, vocabularyadmin, conceptadmin]] }
+        _cancel:       { only_for: edit, query_string: {vocabulary_id: vocabulary_id, id: id}, route: vocabulary_concept_show, credentials: [[administrator, vocabularymaintainer, vocabularyadmin, conceptadmin]] }
       urlfilters:
         vocabulary_id:  vocabulary_id
 

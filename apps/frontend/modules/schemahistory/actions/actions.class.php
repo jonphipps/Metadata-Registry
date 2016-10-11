@@ -38,7 +38,7 @@ class schemahistoryActions extends autoSchemahistoryActions
         $element = DbFinder::from('SchemaPropertyElement')->findPk($id);
         if ($element)
         {
-          /** @var SchemaProperty **/
+          /** @var SchemaProperty $property **/
           $property = $element->getSchemaPropertyRelatedBySchemaPropertyId();
           $title .= " for Property: '" .    $element->getProfileProperty()->getLabel();
           if ($property)
@@ -111,7 +111,7 @@ class schemahistoryActions extends autoSchemahistoryActions
   }
   public function executeList ()
   {
-      $idType = $this->getRequestParameter('IdType', null);
+        $idType = myActionTools::findIdType($this->getRequest()->getParameterHolder());
       $id     = $this->getRequestParameter('id', null);
 
       if ( ! $idType) {
