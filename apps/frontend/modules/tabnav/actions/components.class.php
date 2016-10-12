@@ -23,6 +23,10 @@ class tabnavComponents extends sfComponents
     $tabnav      = in_array($this->getRequestParameter('action'), $showActions)
       ? $this->getRequestParameter('module') : $this->getRequestParameter('tabnav');
     if ($tabnav) {
+      $bugsnag = $GLOBALS['bugsnag'];
+      $bugsnag->leaveBreadcrumb($tabnav,
+          \Bugsnag\Breadcrumbs\Breadcrumb::NAVIGATION_TYPE,
+          ['uri' => $this->getRequest()->getUri()]);
       $tabnav = 'execute' . ucfirst($tabnav);
       $this->$tabnav();
     }

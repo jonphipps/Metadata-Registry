@@ -44,6 +44,10 @@ class sfException extends Exception
     {
       sfLogger::getInstance()->err('{'.$this->getName().'} '.$message);
     }
+
+    /** @var Bugsnag\Client $bugsnag */
+    $bugsnag = $GLOBALS['bugsnag'];
+    $bugsnag->notifyException($this);
   }
 
   /**

@@ -64,7 +64,9 @@
         "barryvdh/laravel-snappy": "^0.3.0",
         "h4cc/wkhtmltopdf-amd64": "0.12.x",
         "h4cc/wkhtmltoimage-amd64": "0.12.x",
-        "laravelcollective/html": "dev-symfony as 5.3.x-dev"
+        "laravelcollective/html": "dev-symfony as 5.3.x-dev",
+        "bugsnag/bugsnag": "^3.0",
+        "bugsnag/bugsnag-laravel": "^2.0"
     },
     "autoload": {
         "psr-4": {

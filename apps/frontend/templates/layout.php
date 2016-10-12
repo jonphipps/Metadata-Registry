@@ -1,24 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <?php include_http_metas() ?>
+    <?php include_http_metas();
+    $bugsnag = $GLOBALS['bugsnag']; ?>
     <?php include_metas() ?>
     <?php if (has_slot('download')): ?><?php include_slot('download') ?><?php endif; ?>
 
     <?php include_title() ?>
 
     <?php if (has_slot('data')): ?><?php include_slot('data') ?><?php endif; ?>
-    <?php if ($_SERVER['SERVER_NAME'] == 'registry.dev' || $_SERVER['SERVER_NAME'] == 'beta.metadataregistry.net'): ?>
-        <link rel="icon" href="/registry_favicon_dev.ico"/>
-    <?php elseif ($_SERVER['SERVER_NAME'] == 'beta.metadataregistry.org' || $_SERVER['SERVER_NAME'] == 'beta-sand.metadataregistry.org' || $_SERVER['SERVER_NAME'] == 'beta-prod.metadataregistry.org'): ?>
-        <link rel="icon" href="/registry_favicon_beta.ico"/>
-    <?php elseif ($_SERVER['SERVER_NAME'] == 'sandbox.metadataregistry.org'): ?>
-        <link rel="icon" href="/registry_favicon_sand.ico"/>
-    <?php else: ?>
-        <link rel="icon" href="/registry_favicon_prod.ico"/>
-    <?php endif; ?>
+
+    <link rel="icon" href="/<?php env('FAVICON', 'registry_favicon_prod.ico') ?>"/>
 
     <?php if (has_slot('feeds')): ?><?php include_slot('feeds') ?><?php endif; ?>
+    <script src="//d2wy8f7a9ursnm.cloudfront.net/bugsnag-3.min.js" data-apikey="abb0b2a18c75a33583c907a7adc925a8"></script>
 </head>
 <body>
 <?php use_helper('Javascript') ?>
@@ -28,7 +23,8 @@
         <li class="browse"><?php echo link_to(__('Agents'), 'agents',  'title="Browse all Agents"' ) ?></li>
         <li class="browse"><?php echo link_to(__('Vocabularies'), 'vocabularies',  'title="Browse all Value Vocabularies"' ); ?></li>
         <li class="browse"><?php echo link_to(__('Element Sets'), 'elementsets', 'title="Browse all Element Sets"'); ?></li>
-        <?php if ($sf_user->isAuthenticated()): ?>
+        <?php /** @var myUser $sf_user */
+        if ($sf_user->isAuthenticated()): ?>
             <li><?php echo link_to(__('%1% profile', [ '%1%' => $sf_user->getAttribute('nickname', '', 'subscriber') ]),
                                    '@current_user_profile') ?></li>
             <li><?php echo link_to(__('sign out'), '@logout') ?></li>
@@ -44,12 +40,14 @@
     </div>
 </div>
     <div id="search">
-        <div style="padding-bottom: 3px;"><?php include_partial('conceptprop/search',
-                                                                [ 'searchTerm' => $sf_params->get('term') ]) ?></div>
+        <div style="padding-bottom: 3px;"><?php /** @var sfParameterHolder $sf_params */
+            include_partial('conceptprop/search', [ 'searchTerm' => $sf_params->get('term') ]) ?></div>
         <div><?php include_partial('schemaprop/search', [ 'searchTerm' => $sf_params->get('term') ]) ?></div>
     </div><div id="content">
     <div id="content_main">
-        <?php echo $sf_data->getRaw('sf_content') ?>
+        <?php
+        /** @var sfOutputEscaperArrayDecorator $sf_data */
+        echo $sf_data->getRaw('sf_content') ?>
     </div>
 </div>
 <div id="footer">

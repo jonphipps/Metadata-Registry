@@ -20,12 +20,14 @@
  */
 abstract class sfSecurityFilter extends sfFilter
 {
+
   /**
    * Returns a new instance of a sfSecurityFilter.
    *
-   * @param string The security class name
+   * @param string $class The security class name
    *
    * @return sfSecurityFilter A sfSecurityFilter implementation instance
+   * @throws sfFactoryException
    */
   public static function newInstance($class)
   {
