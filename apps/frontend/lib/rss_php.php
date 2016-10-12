@@ -31,7 +31,7 @@ DO NOT MODIFY ANYTHING BELOW
 
 #RSS_ENCODING CONDITIONAL INCLUSION
 	if(RSS_PHP_ENCODING_CONVERSION && function_exists('iconv')) {
-		if(file_exists(RSS_PHP_BASE.'encoding/xml.php') && file_exists(RSS_PHP_BASE.'encoding/iconv.php')) {
+		if(is_readable(RSS_PHP_BASE.'encoding/xml.php') && is_readable(RSS_PHP_BASE.'encoding/iconv.php')) {
 			require_once RSS_PHP_BASE.'encoding/iconv.php';
 			require_once RSS_PHP_BASE.'encoding/xml.php';
 			if(class_exists('encoding_xml') && class_exists('encoding_iconv')) {
@@ -45,7 +45,7 @@ DO NOT MODIFY ANYTHING BELOW
 
 #HTTP_TRANSPORT CONDITIONAL INCLUSION
 	if(RSS_PHP_HTTP_TRANSPORT && function_exists('stream_socket_client')) {
-		if(file_exists(RSS_PHP_BASE.'http/request.php') && file_exists(RSS_PHP_BASE.'http/handler.php')) {
+		if(is_readable(RSS_PHP_BASE.'http/request.php') && is_readable(RSS_PHP_BASE.'http/handler.php')) {
 			require_once RSS_PHP_BASE.'http/request.php';
 			require_once RSS_PHP_BASE.'http/handler.php';
 			if(class_exists('http_request') && class_exists('http_handler')) {
@@ -59,7 +59,7 @@ DO NOT MODIFY ANYTHING BELOW
 
 
 #INCLUDE RSS_PHP
-	if(file_exists(RSS_PHP_BASE.'rss.php')) {
+	if(is_readable(RSS_PHP_BASE.'rss.php')) {
 		require_once RSS_PHP_BASE.'rss.php';
 	} else {
 		if(!class_exists('rss_php')) {
@@ -138,7 +138,7 @@ class rss_php {
 				if($urlparts) {
 					if((count($urlparts) == 1 && isset($urlparts['path'])) || (count($urlparts) == 2 && isset($urlparts['path'])&& isset($urlparts['scheme']))) {
 						#local file
-						if(file_exists($urlparts['path'])) {
+						if(is_readable($urlparts['path'])) {
 							$returnValue = $this->loadParser(file_get_contents($url));
 						} else {
               throw new Exception('RSS_PHP ERROR : can not find the specified file ['.$url.']');
