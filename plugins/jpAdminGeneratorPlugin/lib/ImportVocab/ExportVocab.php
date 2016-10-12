@@ -755,12 +755,11 @@ class ExportVocab {
       $columns = [];
       $languages = $this->getLanguages();
       if ('schema' === $this->type) {
-        $profile      = \ProfilePeer::retrieveByPK(1);
-        $columnCounts = \SchemaPeer::getColumnCounts($this->getSchema()->getId());
+        $columnCounts = $this->schema->getColumnCounts($this->excludeDeprecated, $this->excludeGenerated, $this->includeDeleted);
       } else {
-        $profile      = \ProfilePeer::retrieveByPK(2);
         $columnCounts = \VocabularyPeer::getColumnCounts($this->getSchema()->getId());
       }
+      $profile = $this->profile;
 
       if ($forExport) {//get the selected columns
         $selectedColumns = $this->columns;

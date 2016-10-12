@@ -904,4 +904,43 @@ SQL
 
   }
 
+
+  /**
+   * @param bool $excludeDeprecated
+   * @param bool $excludeGenerated
+   * @param bool $includeDeleted
+   *
+   * @return array
+   */
+  public function getColumnCounts($excludeDeprecated = false, $excludeGenerated = false, $includeDeleted = false
+  ) {
+    $results       = [];
+    $con           = Propel::getConnection(SchemaPeer::DATABASE_NAME);
+    $id            = $this->getId();
+    $deleteSQL     = $includeDeleted ? '' : 'and reg_schema_property_element.deleted_at is null';
+    $generatedSQL  = $excludeGenerated ? 'and is_generated = 0' : '';
+    $deprecatedSQL = $excludeDeprecated ? 'and reg_schema_property.status_id <> 8' : '';
+    /** @var ResultSet $rs */
+    $rs = $con->executeQuery(/** @lang MySQL */
+        <<<SQL
+select profile_property_id, lang, max(cnt) as maxcnt from (
+select profile_property_id, reg_schema_property_element.language as lang, reg_schema_property.id, count(reg_schema_property_element.language) as cnt
+from reg_schema_property_element join reg_schema_property on reg_schema_property_element.schema_property_id = reg_schema_property.id
+$deleteSQL
+$generatedSQL
+and (reg_schema_property_element.language = '' or reg_schema_property_element.language = 'en' or reg_schema_property_element.language = 'fr')
+and reg_schema_property.schema_id = 81
+$deprecatedSQL
+group by reg_schema_property.id, reg_schema_property_element.language, profile_property_id
+order by profile_property_id) as results
+group by profile_property_id, lang
+SQL
+, ResultSet::FETCHMODE_ASSOC);
+    while ($rs->next()) {
+      $results[$rs->getInt('profile_property_id')][$rs->getString('lang')] = $rs->getInt('maxcnt');
+    }
+
+    return $results;
+  }
+
 }
