@@ -28,7 +28,7 @@ class ProfileProperty extends BaseProfileProperty
    */
   public function getLabelForExport($counter, $language = '')
   {
-    $label = $this->getName();
+    $label = $this->getLabel();
     $label = $this->getIsRequired() ? "*" . $label : $label;
     if ($this->getHasLanguage()) {
       $label = $this->getIsSingleton() ? $label . "_" . $language : $label . "[$counter]_" . $language;
