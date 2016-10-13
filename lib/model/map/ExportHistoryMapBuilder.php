@@ -73,13 +73,15 @@ class ExportHistoryMapBuilder {
 
 		$tMap->addForeignKey('SCHEMA_ID', 'SchemaId', 'int', CreoleTypes::INTEGER, 'reg_schema', 'ID', false, null);
 
-		$tMap->addColumn('CSV_TYPE', 'CsvType', 'string', CreoleTypes::VARCHAR, true, 100);
+		$tMap->addColumn('CSV_TYPE', 'CsvType', 'string', CreoleTypes::VARCHAR, false, 100);
 
-		$tMap->addColumn('EXCLUDE_DEPRECATED', 'ExcludeDeprecated', 'boolean', CreoleTypes::BOOLEAN, true, null);
+		$tMap->addColumn('EXCLUDE_DEPRECATED', 'ExcludeDeprecated', 'boolean', CreoleTypes::BOOLEAN, false, null);
 
-		$tMap->addColumn('EXCLUDE_GENERATED', 'ExcludeGenerated', 'boolean', CreoleTypes::BOOLEAN, true, null);
+		$tMap->addColumn('EXCLUDE_GENERATED', 'ExcludeGenerated', 'boolean', CreoleTypes::BOOLEAN, false, null);
 
-		$tMap->addColumn('INCLUDE_DELETED', 'IncludeDeleted', 'boolean', CreoleTypes::BOOLEAN, true, null);
+		$tMap->addColumn('INCLUDE_DELETED', 'IncludeDeleted', 'boolean', CreoleTypes::BOOLEAN, false, null);
+
+		$tMap->addColumn('INCLUDE_NOT_ACCEPTED', 'IncludeNotAccepted', 'boolean', CreoleTypes::BOOLEAN, false, null);
 
 		$tMap->addColumn('SELECTED_COLUMNS', 'SelectedColumns', 'string', CreoleTypes::LONGVARCHAR, false, null);
 

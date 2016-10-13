@@ -1040,17 +1040,22 @@ propel:
     csv_type: 
       type: VARCHAR
       size: 100
-      required: true
+      required: false
     exclude_deprecated: 
       type: BOOLEAN
-      required: true
+      required: false
     exclude_generated: 
       type: BOOLEAN
-      required: true
+      required: false
     include_deleted: 
       type: BOOLEAN
-      required: true
-    selected_columns: 
+      required: false
+    include_deleted:
+      type: BOOLEAN
+      required: false
+    include_not_accepted:
+      type: BOOLEAN
+    selected_columns:
       type: LONGVARCHAR
     selected_language: 
       type: VARCHAR

@@ -90,6 +90,13 @@ abstract class BaseExportHistory extends BaseObject  implements Persistent {
 
 
 	/**
+	 * The value for the include_not_accepted field.
+	 * @var        boolean
+	 */
+	protected $include_not_accepted;
+
+
+	/**
 	 * The value for the selected_columns field.
 	 * @var        string
 	 */
@@ -300,6 +307,17 @@ abstract class BaseExportHistory extends BaseObject  implements Persistent {
 	{
 
 		return $this->include_deleted;
+	}
+
+	/**
+	 * Get the [include_not_accepted] column value.
+	 * 
+	 * @return     boolean
+	 */
+	public function getIncludeNotAccepted()
+	{
+
+		return $this->include_not_accepted;
 	}
 
 	/**
@@ -596,6 +614,22 @@ abstract class BaseExportHistory extends BaseObject  implements Persistent {
 	} // setIncludeDeleted()
 
 	/**
+	 * Set the value of [include_not_accepted] column.
+	 * 
+	 * @param      boolean $v new value
+	 * @return     void
+	 */
+	public function setIncludeNotAccepted($v)
+	{
+
+		if ($this->include_not_accepted !== $v) {
+			$this->include_not_accepted = $v;
+			$this->modifiedColumns[] = ExportHistoryPeer::INCLUDE_NOT_ACCEPTED;
+		}
+
+	} // setIncludeNotAccepted()
+
+	/**
 	 * Set the value of [selected_columns] column.
 	 * 
 	 * @param      string $v new value
@@ -744,22 +778,24 @@ abstract class BaseExportHistory extends BaseObject  implements Persistent {
 
 			$this->include_deleted = $rs->getBoolean($startcol + 9);
 
-			$this->selected_columns = $rs->getString($startcol + 10);
+			$this->include_not_accepted = $rs->getBoolean($startcol + 10);
 
-			$this->selected_language = $rs->getString($startcol + 11);
+			$this->selected_columns = $rs->getString($startcol + 11);
 
-			$this->published_english_version = $rs->getString($startcol + 12);
+			$this->selected_language = $rs->getString($startcol + 12);
 
-			$this->published_language_version = $rs->getString($startcol + 13);
+			$this->published_english_version = $rs->getString($startcol + 13);
 
-			$this->last_vocab_update = $rs->getTimestamp($startcol + 14, null);
+			$this->published_language_version = $rs->getString($startcol + 14);
+
+			$this->last_vocab_update = $rs->getTimestamp($startcol + 15, null);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 15; // 15 = ExportHistoryPeer::NUM_COLUMNS - ExportHistoryPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 16; // 16 = ExportHistoryPeer::NUM_COLUMNS - ExportHistoryPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating ExportHistory object", $e);
@@ -1089,18 +1125,21 @@ abstract class BaseExportHistory extends BaseObject  implements Persistent {
 				return $this->getIncludeDeleted();
 				break;
 			case 10:
-				return $this->getSelectedColumns();
+				return $this->getIncludeNotAccepted();
 				break;
 			case 11:
-				return $this->getSelectedLanguage();
+				return $this->getSelectedColumns();
 				break;
 			case 12:
-				return $this->getPublishedEnglishVersion();
+				return $this->getSelectedLanguage();
 				break;
 			case 13:
-				return $this->getPublishedLanguageVersion();
+				return $this->getPublishedEnglishVersion();
 				break;
 			case 14:
+				return $this->getPublishedLanguageVersion();
+				break;
+			case 15:
 				return $this->getLastVocabUpdate();
 				break;
 			default:
@@ -1133,11 +1172,12 @@ abstract class BaseExportHistory extends BaseObject  implements Persistent {
 			$keys[7] => $this->getExcludeDeprecated(),
 			$keys[8] => $this->getExcludeGenerated(),
 			$keys[9] => $this->getIncludeDeleted(),
-			$keys[10] => $this->getSelectedColumns(),
-			$keys[11] => $this->getSelectedLanguage(),
-			$keys[12] => $this->getPublishedEnglishVersion(),
-			$keys[13] => $this->getPublishedLanguageVersion(),
-			$keys[14] => $this->getLastVocabUpdate(),
+			$keys[10] => $this->getIncludeNotAccepted(),
+			$keys[11] => $this->getSelectedColumns(),
+			$keys[12] => $this->getSelectedLanguage(),
+			$keys[13] => $this->getPublishedEnglishVersion(),
+			$keys[14] => $this->getPublishedLanguageVersion(),
+			$keys[15] => $this->getLastVocabUpdate(),
 		);
 		return $result;
 	}
@@ -1200,18 +1240,21 @@ abstract class BaseExportHistory extends BaseObject  implements Persistent {
 				$this->setIncludeDeleted($value);
 				break;
 			case 10:
-				$this->setSelectedColumns($value);
+				$this->setIncludeNotAccepted($value);
 				break;
 			case 11:
-				$this->setSelectedLanguage($value);
+				$this->setSelectedColumns($value);
 				break;
 			case 12:
-				$this->setPublishedEnglishVersion($value);
+				$this->setSelectedLanguage($value);
 				break;
 			case 13:
-				$this->setPublishedLanguageVersion($value);
+				$this->setPublishedEnglishVersion($value);
 				break;
 			case 14:
+				$this->setPublishedLanguageVersion($value);
+				break;
+			case 15:
 				$this->setLastVocabUpdate($value);
 				break;
 		} // switch()
@@ -1247,11 +1290,12 @@ abstract class BaseExportHistory extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[7], $arr)) $this->setExcludeDeprecated($arr[$keys[7]]);
 		if (array_key_exists($keys[8], $arr)) $this->setExcludeGenerated($arr[$keys[8]]);
 		if (array_key_exists($keys[9], $arr)) $this->setIncludeDeleted($arr[$keys[9]]);
-		if (array_key_exists($keys[10], $arr)) $this->setSelectedColumns($arr[$keys[10]]);
-		if (array_key_exists($keys[11], $arr)) $this->setSelectedLanguage($arr[$keys[11]]);
-		if (array_key_exists($keys[12], $arr)) $this->setPublishedEnglishVersion($arr[$keys[12]]);
-		if (array_key_exists($keys[13], $arr)) $this->setPublishedLanguageVersion($arr[$keys[13]]);
-		if (array_key_exists($keys[14], $arr)) $this->setLastVocabUpdate($arr[$keys[14]]);
+		if (array_key_exists($keys[10], $arr)) $this->setIncludeNotAccepted($arr[$keys[10]]);
+		if (array_key_exists($keys[11], $arr)) $this->setSelectedColumns($arr[$keys[11]]);
+		if (array_key_exists($keys[12], $arr)) $this->setSelectedLanguage($arr[$keys[12]]);
+		if (array_key_exists($keys[13], $arr)) $this->setPublishedEnglishVersion($arr[$keys[13]]);
+		if (array_key_exists($keys[14], $arr)) $this->setPublishedLanguageVersion($arr[$keys[14]]);
+		if (array_key_exists($keys[15], $arr)) $this->setLastVocabUpdate($arr[$keys[15]]);
 	}
 
 	/**
@@ -1273,6 +1317,7 @@ abstract class BaseExportHistory extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(ExportHistoryPeer::EXCLUDE_DEPRECATED)) $criteria->add(ExportHistoryPeer::EXCLUDE_DEPRECATED, $this->exclude_deprecated);
 		if ($this->isColumnModified(ExportHistoryPeer::EXCLUDE_GENERATED)) $criteria->add(ExportHistoryPeer::EXCLUDE_GENERATED, $this->exclude_generated);
 		if ($this->isColumnModified(ExportHistoryPeer::INCLUDE_DELETED)) $criteria->add(ExportHistoryPeer::INCLUDE_DELETED, $this->include_deleted);
+		if ($this->isColumnModified(ExportHistoryPeer::INCLUDE_NOT_ACCEPTED)) $criteria->add(ExportHistoryPeer::INCLUDE_NOT_ACCEPTED, $this->include_not_accepted);
 		if ($this->isColumnModified(ExportHistoryPeer::SELECTED_COLUMNS)) $criteria->add(ExportHistoryPeer::SELECTED_COLUMNS, $this->selected_columns);
 		if ($this->isColumnModified(ExportHistoryPeer::SELECTED_LANGUAGE)) $criteria->add(ExportHistoryPeer::SELECTED_LANGUAGE, $this->selected_language);
 		if ($this->isColumnModified(ExportHistoryPeer::PUBLISHED_ENGLISH_VERSION)) $criteria->add(ExportHistoryPeer::PUBLISHED_ENGLISH_VERSION, $this->published_english_version);
@@ -1349,6 +1394,8 @@ abstract class BaseExportHistory extends BaseObject  implements Persistent {
 		$copyObj->setExcludeGenerated($this->exclude_generated);
 
 		$copyObj->setIncludeDeleted($this->include_deleted);
+
+		$copyObj->setIncludeNotAccepted($this->include_not_accepted);
 
 		$copyObj->setSelectedColumns($this->selected_columns);
 
