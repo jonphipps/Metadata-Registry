@@ -31,5 +31,22 @@ $(document).ready(function () {
         }
     });
 
+    $( "#sf_admin_edit_form" ).submit(function( event ) {
+        var options = $("#export_history_selected_columns_jqxListBox option");
+        var jqoptions = $("#export_history_selected_columns_jqxListBox").jqxListBox('getItems'); 
+        //replace the values in the existing options with the jqoptions
+        z=0;
+        for (var i = 0; i < jqoptions.length; i++){
+            if (!jqoptions[i].isGroup) {
+                options[z].value    = jqoptions[i].value;
+                options[z].selected = jqoptions[i].checked;
+                z++;
+            }
+        }
+
+    return;
+
+});
+
 });
 
