@@ -10,7 +10,7 @@
 
     <?php if (has_slot('data')): ?><?php include_slot('data') ?><?php endif; ?>
 
-    <link rel="icon" href="/<?php env('FAVICON', 'registry_favicon_prod.ico') ?>"/>
+    <link rel="icon" href="/<?php echo env('FAVICON', 'registry_favicon_prod.ico') ?>"/>
 
     <?php if (has_slot('feeds')): ?><?php include_slot('feeds') ?><?php endif; ?>
     <script src="//d2wy8f7a9ursnm.cloudfront.net/bugsnag-3.min.js" data-apikey="abb0b2a18c75a33583c907a7adc925a8"></script>
