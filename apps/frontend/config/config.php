@@ -15,25 +15,27 @@ $dotenv->load();
 $bugsnag = Bugsnag\Client::make(env('BUGSNAG_API_KEY'));
 $bugsnag->setReleaseStage(env('BUGSNAG_RELEASE_STAGE', 'production'));
 
-Bugsnag\Handler::register($bugsnag);
-// switch ($_SERVER['SERVER_NAME']) {
-//   case 'registry.dev':
-//   case 'beta.metadataregistry.net':
-//     $bugsnag->setReleaseStage('development');
-//     $icon = 'registry_favicon_dev.ico';
-//     break;
-//   case 'beta.metadataregistry.org':
-//   case 'beta-sand.metadataregistry.org':
-//   case 'beta-prod.metadataregistry.org':
-//     $bugsnag->setReleaseStage('beta');
-//     $icon = 'registry_favicon_beta.ico';
-//     break;
-//   case 'sandbox.metadataregistry.org':
-//     $bugsnag->setReleaseStage('sandbox');
-//     $icon = 'registry_favicon_sand.ico';
-//     break;
-//   default:
-//     $bugsnag->setReleaseStage('production');
-//     $icon = 'registry_favicon_prod.ico';
-// }
-// putenv("FAVICON=$icon");
+if (array_key_exists('SERVER_NAME', $_SERVER)) {
+  Bugsnag\Handler::register($bugsnag);
+  switch ($_SERVER['SERVER_NAME']) {
+    case 'registry.dev':
+    case 'beta.metadataregistry.net':
+      $bugsnag->setReleaseStage('development');
+      $icon = 'registry_favicon_dev.ico';
+      break;
+    case 'beta.metadataregistry.org':
+    case 'beta-sand.metadataregistry.org':
+    case 'beta-prod.metadataregistry.org':
+      $bugsnag->setReleaseStage('beta');
+      $icon = 'registry_favicon_beta.ico';
+      break;
+    case 'sandbox.metadataregistry.org':
+      $bugsnag->setReleaseStage('sandbox');
+      $icon = 'registry_favicon_sand.ico';
+      break;
+    default:
+      $bugsnag->setReleaseStage('production');
+      $icon = 'registry_favicon_prod.ico';
+  }
+  putenv("FAVICON=$icon");
+}
