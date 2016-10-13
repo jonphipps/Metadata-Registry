@@ -171,7 +171,7 @@ class ExportVocabSpec extends ObjectBehavior {
     {
         /** @var \ImportVocab\ExportVocab $this */
         $this->setAsTemplate(true);
-        $header = $this->getPrologHeader();
+        $header = $this->getColumnArray();
         $header[0]->shouldHaveCount(34);
         $header[0][0]->shouldEqual("ID");
         $header[0][1]->shouldEqual("uri");
@@ -202,7 +202,7 @@ class ExportVocabSpec extends ObjectBehavior {
         /** @var \ImportVocab\ExportVocab $this */
         $this->setAsTemplate(true);
         $this->setLanguages([ 'en' ]);
-        $header = $this->getPrologHeader( );
+        $header = $this->getColumnArray( );
         $header[0]->shouldHaveCount( 27 );
         $header[0][0]->shouldEqual( "ID" );
         $header[0][1]->shouldEqual( "uri" );

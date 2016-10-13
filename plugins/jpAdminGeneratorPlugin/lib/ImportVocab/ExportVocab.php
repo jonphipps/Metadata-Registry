@@ -45,6 +45,7 @@ class ExportVocab {
      */
     private $type;
   private $fileName;
+  private $selectedColumns = [];
 
 
   /**
@@ -107,13 +108,18 @@ class ExportVocab {
     $this->setAsTemplate($asTemplate);
     $this->populate = $populate;
 
-    $this->setPath(SF_ROOT_DIR . DIRECTORY_SEPARATOR . 'web' . DIRECTORY_SEPARATOR . 'repos' . DIRECTORY_SEPARATOR . 'agents' . DIRECTORY_SEPARATOR . $this->schema->getAgentId() . DIRECTORY_SEPARATOR . 'exports' . DIRECTORY_SEPARATOR);
+    $this->setPath(SF_ROOT_DIR . DIRECTORY_SEPARATOR .
+        'web' . DIRECTORY_SEPARATOR .
+        'repos' . DIRECTORY_SEPARATOR .
+        'agents' . DIRECTORY_SEPARATOR .
+        $this->schema->getAgentId() . DIRECTORY_SEPARATOR .
+        'exports' . DIRECTORY_SEPARATOR);
 
     $this->includeDeleted    = $export->getIncludeDeleted();
     $this->excludeDeprecated = $export->getExcludeDeprecated();
     $this->excludeGenerated  = $export->getExcludeGenerated();
 
-    $this->columns = $export->getSelectedColumns();
+    $this->selectedColumns = $export->getSelectedColumns();
     $this->exportId = $export->getId();
     $this->setFileName();
   }
@@ -164,12 +170,12 @@ class ExportVocab {
         $writer   = new CsvWriter( "," );
         $writer->setStream( fopen( $filename, 'w' ) );
 
-        $header = $this->getPrologHeader();
+        $header = $this->getColumnArray();
         $this->setHeaderCount(count($header[0]));
 
         $writer->writeItem($header[0] );
 
-      $statuses = \StatusPeer::getStatusForSelect();
+        $statuses = \StatusPeer::getStatusForSelect();
 
         //get the data
         if ( $this->populate )
@@ -234,8 +240,10 @@ class ExportVocab {
                         $ce->addAscendingOrderByColumn(\ConceptPropertyPeer::UPDATED_AT);
                     }
                     $elements = \ConceptPropertyPeer::doSelectJoinProfilePropertyRelatedBySkosPropertyId($ce);
-                    $line[array_search('uri', $header[0])] = $property[1];
-                    $line[array_search('status', $header[0])] = $property[2];
+                    //the next two lines are here because vocabularies haven't traditionally had these elements stored as individual statements
+                    //todo: refactor the vocabulary statements to include these
+                    $line[array_search('*uri', $header[0])] = $property[1];
+                    $line[array_search('*status', $header[0])] = isset( $statuses[$property[2]] ) ? $statuses[$property[2]] : '';
                 }
                 /** @var \SchemaPropertyElement $element */
                 foreach ($elements as $element )
@@ -309,95 +317,112 @@ class ExportVocab {
         return $this->asTemplate;
     }
 
-    public function getPrologHeader()
-    {
-        $rows      = array();
-        $rows[0][0] = 'reg_id';
 
-        $map = array();
-        $languages = $this->getLanguages();
+  public function getColumnArray()
+  {
+    $row       = [];
+    $row[0] = 'reg_id';
 
-        //get the header
-        if ( $this->asTemplate )
-        {
-            //get the headers from the profile instead of finding them for the schema
+    $map       = [];
+    $languages = $this->getLanguages();
 
-              $properties = $this->getAllProfileProperties( true );
-        }
-        else
-        {
-            $properties = $this->findColumns();
-        }
-
-        $column = 1;
-        $swap[9] = "parent_class";
-        $swap[6] = "parent_property";
-
-        //repeat the lexical property headers for each language in the languages[]
-        foreach ( $properties as $property )
-        {
-            /** @var \ProfileProperty $profile */
-            $profile = $property['profile'];
-            $label   = $profile->getLabel();
-            $label = $profile->getIsRequired() ? "*" . $label : $label;
-            $id = $profile->getId();
-            $columnCounter = 0;
-
-            if ( isset( $property['languages'] ) )
-            {
-                foreach ( $property['languages'] as $language => $languageCount )
-                {
-                    if ($language == 'en') {
-                        $columnCounter++;
-                    }
-                    if ( in_array( $language, $languages ) )
-                    {
-                        for ( $I = 1; $I <= $languageCount; $I ++ )
-                        {
-                            $rows[0][$column] = $profile->getIsSingleton() ? $label . "_" . $language : $label . "[$I]_" . $language;
-
-                            $map[$id . $language][] = $column ;
-
-                            $column ++;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                for ( $I = 0; $I < $property['count']; $I ++ )
-                {
-                    $columnCounter++;
-                    $labelCounter = $profile->getIsSingleton() ? $label : $label . "[$columnCounter]";
-                    if ( isset( $swap[$id] ) and false !== $swap[$id] )
-                    {
-                        $rows[0][$column] = $swap[$id];
-                        $swap[$id]        = false;
-                        $columnCounter--;
-                        $map[$id . 'parent'][] = $column;
-                        if ( $this->isTemplate() )
-                        {
-                            $I --;
-                        }
-                    }
-                    else
-                    {
-                        $rows[0][$column] = $labelCounter;
-                        $map[$id . ''][] = $column;
-                    }
-
-                    $column ++;
-                }
-            }
-        }
-
-        $this->setHeaderMap($map);
-
-        return $rows;
+    //get the header
+    if ($this->asTemplate && !$this->populate) {
+      //get the headers from the profile instead of finding them for the schema
+      $properties = $this->getAllProfileProperties(true);
+    } else {
+      $properties = $this->findColumns();
     }
 
-    /**
-     * @return array
+    $column  = 1;
+    $swap[9] = "parent_class";
+    $swap[6] = "parent_property";
+
+    $headerArray     = [];
+    $columnCounts    = $this->findColumns();
+    $selectedColumns = $this->selectedColumns;
+    $column          = 1; //we reserve column 0 for the reg_id
+    $max             = count($selectedColumns) - 1;
+    $headerArray[0]['label'] = 'reg_id';
+    for ($I = 0; $I < $max; $I++) {
+      $id              = $selectedColumns[$I];
+      /** @var \ProfileProperty $ProfileProperty */
+      $ProfileProperty = \ProfilePropertyPeer::retrieveByPK($id);
+      if ($ProfileProperty->getHasLanguage()) {
+        foreach ($this->languages as $language) {
+          $languageCount = isset( $ColumnCounts[$id][$language] ) ? $ColumnCounts[$id][$language] : 1;
+          for ($counter = 0; $counter < $languageCount; $counter++) {
+            $headerArray[$column]['label']    = $ProfileProperty->getLabelForExport($counter, $language);
+            $headerArray[$column]['id']       = $id;
+            $headerArray[$column]['language'] = $language;
+            $column++;
+          }
+        }
+      } else {
+        $languageCount = isset( $ColumnCounts[$id][''] ) ? $ColumnCounts[$id][''] : 1;
+        for ($counter = 0; $counter < $languageCount; $counter++) {
+          $headerArray[$column]['label']    = $ProfileProperty->getLabelForExport($counter);
+          $headerArray[$column]['id']       = $id;
+          $headerArray[$column]['language'] = '';
+          $column++;
+        }
+      }
+    }
+
+    $columnCount = $column+1;
+
+    //repeat the lexical property headers for each language in the languages[]
+    foreach ($properties as $property) {
+      /** @var \ProfileProperty $profile */
+      $profile       = $property['profile'];
+      $label         = $profile->getLabel();
+      $label         = $profile->getIsRequired() ? "*" . $label : $label;
+      $id            = $profile->getId();
+      $columnCounter = 0;
+
+      if (isset( $property['languages'] )) {
+        foreach ($property['languages'] as $language => $languageCount) {
+          if ($language == 'en') {
+            $columnCounter++;
+          }
+          if (in_array($language, $languages)) {
+            for ($I = 1; $I <= $languageCount; $I++) {
+              $row[$column]       = $profile->getIsSingleton() ? $label . "_" . $language : $label . "[$I]_" . $language;
+              $map[$id . $language][] = $column;
+              $column++;
+            }
+          }
+        }
+      } else {
+        for ($I = 0; $I < $property['count']; $I++) {
+          $columnCounter++;
+          $labelCounter = $profile->getIsSingleton() ? $label : $label . "[$columnCounter]";
+          if (isset( $swap[$id] ) and false !== $swap[$id]) {
+            $row[$column] = $swap[$id];
+            $swap[$id]        = false;
+            $columnCounter--;
+            $map[$id . 'parent'][] = $column;
+            if ($this->isTemplate()) {
+              $I--;
+            }
+          } else {
+            $row[$column] = $labelCounter;
+            $map[$id . ''][]  = $column;
+          }
+
+          $column++;
+        }
+      }
+    }
+
+    $this->setHeaderMap($map);
+
+    return $row;
+  }
+
+
+  /**
+   * @return array
      */
     public function getLanguages()
     {
@@ -412,16 +437,15 @@ class ExportVocab {
         $this->languages = $languages;
     }
 
-    public function findColumns()
-    {
-        if ('schema' === $this->type) {
-            $this->setColumns($this->findUsedSchemaProfileProperties());
-        } else {
-            $this->setColumns($this->findUsedVocabularyProfileProperties());
-        }
+  public function findColumns()
+  {
+    $propertiesInUse = $this->schema->getColumnCounts($this->excludeDeprecated,
+        $this->excludeGenerated,
+        $this->includeDeleted, $this->languages);
+    $this->setColumns($propertiesInUse);
 
-        return $this->getColumns();
-    }
+    return $this->getColumns();
+  }
 
     /**
      * @return array
@@ -430,7 +454,7 @@ class ExportVocab {
     {
         if ( 0 === count( $this->columns ) )
         {
-            $this->getHeader();
+            $this->findColumns();
         }
 
         return $this->columns;
@@ -451,7 +475,7 @@ class ExportVocab {
     {
         if ( empty( $this->header ) )
         {
-            $this->setHeader( $this->getPrologHeader() );
+            $this->setHeader( $this->getColumnArray() );
         }
 
         return $this->header;

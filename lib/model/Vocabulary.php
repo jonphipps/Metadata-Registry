@@ -274,4 +274,48 @@ SQL
 
   }
 
+
+  /**
+   * @param bool $excludeDeprecated
+   * @param bool $excludeGenerated
+   * @param bool $includeDeleted
+   * @param $languages
+   *
+   * @return array
+   */
+  public function getColumnCounts($excludeDeprecated = false, $excludeGenerated = false, $includeDeleted = false, $languages)
+  {
+    $results       = [];
+    $con           = Propel::getConnection(VocabularyPeer::DATABASE_NAME);
+    $id            = $this->getId();
+    $deleteSQL     = $includeDeleted ? '' : 'and reg_concept_property.deleted_at is null';
+    $generatedSQL  = $excludeGenerated ? 'and is_generated = 0' : '';
+    $deprecatedSQL = $excludeDeprecated ? 'and reg_concept.status_id <> 8' : '';
+    $languageSQL = "and (reg_concept_property.language = ''";
+    foreach ($languages as $language) {
+      $languageSQL .= " or reg_concept_property.language = '$language'";
+    }
+    $languageSQL .= ")";
+    /** @var ResultSet $rs */
+    $rs = $con->executeQuery(/** @lang MySQL */
+        <<<SQL
+select profile_property_id, lang, max(cnt) as maxcnt from (
+select profile_property_id, reg_concept_property.language as lang, reg_concept.id, count(reg_concept_property.language) as cnt
+from reg_concept_property join reg_concept on reg_concept_property.concept_id = reg_concept.id
+$deleteSQL
+$generatedSQL
+$languageSQL
+and reg_concept.vocabulary_id = $id
+$deprecatedSQL
+group by reg_concept.id, reg_concept_property.language, profile_property_id) as results
+group by profile_property_id, lang
+SQL
+        , ResultSet::FETCHMODE_ASSOC);
+    while ($rs->next()) {
+      $results[$rs->getInt('profile_property_id')][$rs->getString('lang')] = $rs->getInt('maxcnt');
+    }
+
+    return $results;
+  }
+
 }
