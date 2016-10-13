@@ -909,24 +909,26 @@ SQL
    * @param bool $excludeDeprecated
    * @param bool $excludeGenerated
    * @param bool $includeDeleted
-   * @param $languages
+   * @param array $languages
    *
    * @return array
    */
   public function getColumnCounts(
-      $excludeDeprecated = false, $excludeGenerated = false, $includeDeleted = false, $languages) {
+      $excludeDeprecated = false, $excludeGenerated = false, $includeDeleted = false, $languages = []) {
     $results       = [];
     $con           = Propel::getConnection(SchemaPeer::DATABASE_NAME);
     $id            = $this->getId();
     $deleteSQL     = $includeDeleted ? '' : 'and reg_schema_property_element.deleted_at is null';
     $generatedSQL  = $excludeGenerated ? 'and is_generated = 0' : '';
     $deprecatedSQL = $excludeDeprecated ? 'and reg_schema_property.status_id <> 8' : '';
-    $languageSQL = "and (reg_schema_property_element.language = ''";
-    foreach ($languages as $language) {
-      $languageSQL .= " or reg_schema_property_element.language = '$language'";
-    }
-    $languageSQL .= ")";
-    /** @var ResultSet $rs */
+    $languageSQL = '';
+    if (count($languages)) {
+      $languageSQL = "and (reg_schema_property_element.language = ''";
+      foreach ($languages as $language) {
+        $languageSQL .= " or reg_schema_property_element.language = '$language'";
+      }
+      $languageSQL .= ")";
+    }    /** @var ResultSet $rs */
     $rs = $con->executeQuery(/** @lang MySQL */
         <<<SQL
 select profile_property_id, lang, max(cnt) as maxcnt from (
@@ -935,7 +937,7 @@ from reg_schema_property_element join reg_schema_property on reg_schema_property
 $deleteSQL
 $generatedSQL
 $languageSQL
-and reg_schema_property.schema_id = 81
+and reg_schema_property.schema_id = $id
 $deprecatedSQL
 group by reg_schema_property.id, reg_schema_property_element.language, profile_property_id
 order by profile_property_id) as results
@@ -944,6 +946,56 @@ SQL
         , ResultSet::FETCHMODE_ASSOC);
     while ($rs->next()) {
       $results[$rs->getInt('profile_property_id')][$rs->getString('lang')] = $rs->getInt('maxcnt');
+    }
+
+    return $results;
+  }
+
+
+  /**
+   * @param bool $excludeDeprecated
+   * @param bool $excludeGenerated
+   * @param bool $includeDeleted
+   * @param array $languages
+   *
+   * @return array
+   */
+  public function getDataForExport(
+      $excludeDeprecated = false, $excludeGenerated = false, $includeDeleted = false, $languages = []
+  ) {
+    $results       = [];
+    $con           = Propel::getConnection(SchemaPeer::DATABASE_NAME);
+    $id            = $this->getId();
+    $deleteSQL     = $includeDeleted ? '' : 'and reg_schema_property_element.deleted_at is null';
+    $generatedSQL  = $excludeGenerated ? 'and is_generated = 0' : '';
+    $deprecatedSQL = $excludeDeprecated ? 'and reg_schema_property.status_id <> 8' : '';
+    $languageSQL   = '';
+    if (count($languages)) {
+      $languageSQL = "and (reg_schema_property_element.language = ''";
+      foreach ($languages as $language) {
+        $languageSQL .= " or reg_schema_property_element.language = '$language'";
+      }
+      $languageSQL .= ")";
+    }
+    /** @var ResultSet $rs */
+    $rs = $con->executeQuery(/** @lang MySQL */
+        <<<SQL
+SELECT reg_schema_property_element.id,
+  reg_schema_property_element.schema_property_id,
+  reg_schema_property_element.profile_property_id,
+  reg_schema_property_element.object,
+  reg_schema_property_element.language
+FROM reg_schema_property_element
+JOIN reg_schema_property ON reg_schema_property_element.schema_property_id = reg_schema_property.id
+WHERE reg_schema_property.schema_id = $id
+$deprecatedSQL
+$deleteSQL
+$languageSQL
+$generatedSQL
+SQL
+        , ResultSet::FETCHMODE_ASSOC);
+    while ($rs->next()) {
+      $results[$rs->getInt('schema_property_id')][$rs->getInt('profile_property_id')][$rs->getString('language')][] = $rs->getString('object');
     }
 
     return $results;

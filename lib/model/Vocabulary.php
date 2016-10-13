@@ -283,7 +283,7 @@ SQL
    *
    * @return array
    */
-  public function getColumnCounts($excludeDeprecated = false, $excludeGenerated = false, $includeDeleted = false, $languages)
+  public function getColumnCounts($excludeDeprecated = false, $excludeGenerated = false, $includeDeleted = false, $languages = [])
   {
     $results       = [];
     $con           = Propel::getConnection(VocabularyPeer::DATABASE_NAME);
@@ -291,11 +291,14 @@ SQL
     $deleteSQL     = $includeDeleted ? '' : 'and reg_concept_property.deleted_at is null';
     $generatedSQL  = $excludeGenerated ? 'and is_generated = 0' : '';
     $deprecatedSQL = $excludeDeprecated ? 'and reg_concept.status_id <> 8' : '';
-    $languageSQL = "and (reg_concept_property.language = ''";
-    foreach ($languages as $language) {
-      $languageSQL .= " or reg_concept_property.language = '$language'";
+    $languageSQL   = '';
+    if (count($languages)) {
+      $languageSQL = "and (reg_concept_property.language = ''";
+      foreach ($languages as $language) {
+        $languageSQL .= " or reg_concept_property.language = '$language'";
+      }
+      $languageSQL .= ")";
     }
-    $languageSQL .= ")";
     /** @var ResultSet $rs */
     $rs = $con->executeQuery(/** @lang MySQL */
         <<<SQL
@@ -313,6 +316,67 @@ SQL
         , ResultSet::FETCHMODE_ASSOC);
     while ($rs->next()) {
       $results[$rs->getInt('profile_property_id')][$rs->getString('lang')] = $rs->getInt('maxcnt');
+    }
+
+    //fixme: !someday! Remove this hack that papers over the fact that uri and status aren't separate properties for vocabs
+    // this requires reconfiguring rdf generation, file import, and the form processing for vocabs
+    $results[59]['status'][''] = 1;
+    $results[62]['uri'][''] = 1;
+
+    return $results;
+  }
+
+
+  /**
+   * @param bool $excludeDeprecated
+   * @param bool $excludeGenerated
+   * @param bool $includeDeleted
+   * @param array $languages
+   *
+   * @return array
+   */
+  public function getDataForExport(
+      $excludeDeprecated = false, $excludeGenerated = false, $includeDeleted = false, $languages = []) {
+    $results       = [];
+    $con           = Propel::getConnection(VocabularyPeer::DATABASE_NAME);
+    $id            = $this->getId();
+    $deleteSQL     = $includeDeleted ? '' : 'and reg_concept_property.deleted_at is null';
+    $generatedSQL  = $excludeGenerated ? 'and reg_concept_property.is_generated = 0' : '';
+    $deprecatedSQL = $excludeDeprecated ? 'and reg_concept.status_id <> 8' : '';
+    $languageSQL = '';
+    if (count($languages)) {
+      $languageSQL = "and (reg_concept_property.language = ''";
+      foreach ($languages as $language) {
+        $languageSQL .= " or reg_concept_property.language = '$language'";
+      }
+      $languageSQL .= ")";
+    }
+    /** @var ResultSet $rs */
+    $rs = $con->executeQuery(/** @lang MySQL */
+        <<<SQL
+SELECT reg_concept_property.id,
+  reg_concept_property.concept_id,
+  reg_concept_property.profile_property_id,
+  reg_concept_property.object,
+  reg_concept_property.language,
+  reg_status.display_name as status,
+  reg_concept.uri
+FROM reg_concept_property
+JOIN reg_concept ON reg_concept_property.concept_id = reg_concept.id
+JOIN reg_status on reg_concept.status_id = reg_status.id
+WHERE reg_concept.vocabulary_id = $id
+$deprecatedSQL
+$deleteSQL
+$languageSQL
+$generatedSQL
+SQL
+        , ResultSet::FETCHMODE_ASSOC);
+    while ($rs->next()) {
+      $results[$rs->getInt('concept_id')][$rs->getInt('profile_property_id')][$rs->getString('language')][] = $rs->getString('object');
+
+      //fixme: adding in the concept status and uri data manually because it's not in the vocab properties
+      $results[$rs->getInt('concept_id')][59][''][] = $rs->getString('status');
+      $results[$rs->getInt('concept_id')][62][''][] = $rs->getString('uri');
     }
 
     return $results;

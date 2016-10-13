@@ -170,123 +170,69 @@ class ExportVocab {
         $writer   = new CsvWriter( "," );
         $writer->setStream( fopen( $filename, 'w' ) );
 
-        $header = $this->getColumnArray();
-        $this->setHeaderCount(count($header[0]));
+        //get the header array, which also contains the profilePropertyId map
+        $headerArray = $this->getColumnArray();
+        $this->setHeaderCount(count($headerArray));
+        $columnCount = $this->getHeaderCount();
 
-        $writer->writeItem($header[0] );
-
-        $statuses = \StatusPeer::getStatusForSelect();
-
-        //get the data
-        if ( $this->populate )
-        {
-            $prefixes = $this->getPrefixes();
-            $prefixPattern = array();
-            $prefixReplacement = array();
-            foreach ( $prefixes as $prefix => $namespace )
-            {
-                if (trim($prefix)) {
-                    if ( ! is_int($prefix)) {
-                        $prefixPattern[] = "|" . $namespace . "|";
-                        $prefixReplacement[] = $prefix . ":";
-                    }
-                }
-            }
-
-            $map = $this->getHeaderMap();
-            $c   = new \Criteria();
-            $c->clearSelectColumns();
-            if ('schema' === $this->type) {
-                $c->addSelectColumn(\SchemaPropertyPeer::ID);
-                $c->add(\SchemaPropertyPeer::SCHEMA_ID, $this->schema->getId());
-                if ($this->excludeDeprecated) {
-                    $c->add(\SchemaPropertyPeer::STATUS_ID, 8, \Criteria::NOT_EQUAL);
-                }
-                $c->addAscendingOrderByColumn(\SchemaPropertyPeer::URI);
-                $properties = \SchemaPropertyPeer::doSelectRS($c);
-            } else {
-                $c->addSelectColumn(\ConceptPeer::ID);
-                $c->addSelectColumn(\ConceptPeer::URI);
-                $c->addSelectColumn(\ConceptPeer::STATUS_ID);
-                $c->add(\ConceptPeer::VOCABULARY_ID, $this->schema->getId());
-                if ($this->excludeDeprecated) {
-                    $c->add(\ConceptPeer::STATUS_ID, 8, \Criteria::NOT_EQUAL);
-                }
-                $c->addAscendingOrderByColumn(\ConceptPeer::URI);
-                $properties = \ConceptPeer::doSelectRS($c);
-            }
-            foreach ( $properties as $property )
-            {
-                $line    = array_fill( 0, $this->getHeaderCount(), '' );
-                $line[0] = $property[0];
-                $map     = $this->getHeaderMap();
-
-                $ce = new \Criteria();
-                if ('schema' === $this->type) {
-                    $ce->add(\BaseSchemaPropertyElementPeer::SCHEMA_PROPERTY_ID, $property[0]);
-                    if (!$this->includeDeleted) {
-                        $ce->add(\BaseSchemaPropertyElementPeer::DELETED_AT, null);
-                    }
-                    if ($this->includeDeleted) {
-                        $ce->addAscendingOrderByColumn(\SchemaPropertyElementPeer::UPDATED_AT);
-                    }
-                    $elements = \SchemaPropertyElementPeer::doSelectJoinProfileProperty($ce);
-                } else {
-                    $ce->add(\ConceptPropertyPeer::CONCEPT_ID, $property[0]);
-                    if (!$this->includeDeleted) {
-                        $ce->add(\ConceptPropertyPeer::DELETED_AT, null);
-                    }
-                    if ($this->includeDeleted) {
-                        $ce->addAscendingOrderByColumn(\ConceptPropertyPeer::UPDATED_AT);
-                    }
-                    $elements = \ConceptPropertyPeer::doSelectJoinProfilePropertyRelatedBySkosPropertyId($ce);
-                    //the next two lines are here because vocabularies haven't traditionally had these elements stored as individual statements
-                    //todo: refactor the vocabulary statements to include these
-                    $line[array_search('*uri', $header[0])] = $property[1];
-                    $line[array_search('*status', $header[0])] = isset( $statuses[$property[2]] ) ? $statuses[$property[2]] : '';
-                }
-                /** @var \SchemaPropertyElement $element */
-                foreach ($elements as $element )
-                {
-                    if ($this->excludeGenerated and $element->getIsGenerated()) {
-                        continue;
-                    }
-                    /** @var \ProfileProperty $profileProperty */
-                    $profileProperty = $element->getProfileProperty();
-                    $propertyId      = $profileProperty->getId();
-                  if (strtolower($profileProperty->getName()) == "statusid") {
-                    $element->setObject($statuses[$element->getObject()]);
-                  }
-                    if ('schema' === $this->type and in_array( $propertyId, [ 6, 9, ] ) and $element->getIsSchemaProperty() )
-                    {
-                        $language = 'parent';
-                    }
-                    else
-                    {
-                        $language = $profileProperty->getHasLanguage() ? $element->getLanguage() : '';
-                    }
-                    $index = $propertyId . $language;
-                    if (isset($map[ $index ])) {
-                        foreach ($map[ $index ] as &$column) {
-                            if (false !== $column) {
-                                $line[ $column ] = $element->getObject();
-                                $column = false;
-                                break;
-                            }
-                        }
-                    }
-                }
-
-                $writer->writeItem( preg_replace( $prefixPattern, $prefixReplacement, $line ));
-
-                unset($line, $elements);
-            }
+        //set the row headers
+        $row = [];
+        for ($i = 0; $i < $columnCount; $i++) {
+          $row[$i] = $headerArray[$i]['label'];
         }
 
-        //add an empty line at the end
-        //$line = array_fill( 0, $this->getHeaderCount(), '' );
-        //$writer->writeItem( $line );
-        $writer->finish();
+      //fix up the status if it's numeric
+      $statusKey = array_search('*statusId', array_column($headerArray, 'label'));
+      if ($statusKey !== false) {
+        //change the row label to reflect the change from id to string
+        $row[$statusKey] = '*status';
+        //get the statuses array for later
+        $statuses = \StatusPeer::getStatusForSelect();
+      }
+
+      $writer->writeItem($row);
+
+      //get the data
+        if ( $this->populate ) {
+          $prefixes          = $this->getPrefixes();
+          $prefixPattern     = [];
+          $prefixReplacement = [];
+          foreach ($prefixes as $prefix => $namespace) {
+            if (trim($prefix)) {
+              if ( ! is_int($prefix)) {
+                $prefixPattern[]     = "|" . $namespace . "|";
+                $prefixReplacement[] = $prefix . ":";
+              }
+            }
+          }
+
+          $dataArray = $this->schema->getDataForExport($this->excludeDeprecated,
+              $this->excludeGenerated,
+              $this->includeDeleted,
+              $this->languages);
+
+          //turn the data array into populated rows
+          foreach ($dataArray as $rowId => $rowArray) {
+            $row    = [];
+            $row[0] = $rowId;
+            //make sure we're accessing the header array in order
+            for ($i = 1; $i < $columnCount; $i++) {
+              if (isset( $rowArray[$headerArray[$i]['id']][$headerArray[$i]['language']][0] )) {
+                //grab the item[0] in the language array and remove it
+                $row[$i] = array_shift($rowArray[$headerArray[$i]['id']][$headerArray[$i]['language']]);
+              } else {
+                $row[$i] = '';
+              }
+            }
+            //convert the statusId to a string, if it's not
+            if ($statusKey and isset( $row[$statusKey] )) {
+              $row[$statusKey] = isset( $statuses[$row[$statusKey]] ) ? $statuses[$row[$statusKey]] : $row[$statusKey];
+            }
+
+            $writer->writeItem(preg_replace($prefixPattern, $prefixReplacement, $row));
+          }
+        }
+      $writer->finish();
     }
 
 
@@ -320,21 +266,6 @@ class ExportVocab {
 
   public function getColumnArray()
   {
-    $row       = [];
-    $row[0] = 'reg_id';
-
-    $map       = [];
-    $languages = $this->getLanguages();
-
-    //get the header
-    if ($this->asTemplate && !$this->populate) {
-      //get the headers from the profile instead of finding them for the schema
-      $properties = $this->getAllProfileProperties(true);
-    } else {
-      $properties = $this->findColumns();
-    }
-
-    $column  = 1;
     $swap[9] = "parent_class";
     $swap[6] = "parent_property";
 
@@ -344,13 +275,15 @@ class ExportVocab {
     $column          = 1; //we reserve column 0 for the reg_id
     $max             = count($selectedColumns) - 1;
     $headerArray[0]['label'] = 'reg_id';
+    $headerArray[0]['id'] = null;
+    $headerArray[0]['language'] = '';
     for ($I = 0; $I < $max; $I++) {
       $id              = $selectedColumns[$I];
       /** @var \ProfileProperty $ProfileProperty */
       $ProfileProperty = \ProfilePropertyPeer::retrieveByPK($id);
       if ($ProfileProperty->getHasLanguage()) {
         foreach ($this->languages as $language) {
-          $languageCount = isset( $ColumnCounts[$id][$language] ) ? $ColumnCounts[$id][$language] : 1;
+          $languageCount = isset( $columnCounts[$id][$language] ) ? $columnCounts[$id][$language] : 1;
           for ($counter = 0; $counter < $languageCount; $counter++) {
             $headerArray[$column]['label']    = $ProfileProperty->getLabelForExport($counter, $language);
             $headerArray[$column]['id']       = $id;
@@ -359,7 +292,7 @@ class ExportVocab {
           }
         }
       } else {
-        $languageCount = isset( $ColumnCounts[$id][''] ) ? $ColumnCounts[$id][''] : 1;
+        $languageCount = isset( $columnCounts[$id][''] ) ? $columnCounts[$id][''] : 1;
         for ($counter = 0; $counter < $languageCount; $counter++) {
           $headerArray[$column]['label']    = $ProfileProperty->getLabelForExport($counter);
           $headerArray[$column]['id']       = $id;
@@ -369,55 +302,7 @@ class ExportVocab {
       }
     }
 
-    $columnCount = $column+1;
-
-    //repeat the lexical property headers for each language in the languages[]
-    foreach ($properties as $property) {
-      /** @var \ProfileProperty $profile */
-      $profile       = $property['profile'];
-      $label         = $profile->getLabel();
-      $label         = $profile->getIsRequired() ? "*" . $label : $label;
-      $id            = $profile->getId();
-      $columnCounter = 0;
-
-      if (isset( $property['languages'] )) {
-        foreach ($property['languages'] as $language => $languageCount) {
-          if ($language == 'en') {
-            $columnCounter++;
-          }
-          if (in_array($language, $languages)) {
-            for ($I = 1; $I <= $languageCount; $I++) {
-              $row[$column]       = $profile->getIsSingleton() ? $label . "_" . $language : $label . "[$I]_" . $language;
-              $map[$id . $language][] = $column;
-              $column++;
-            }
-          }
-        }
-      } else {
-        for ($I = 0; $I < $property['count']; $I++) {
-          $columnCounter++;
-          $labelCounter = $profile->getIsSingleton() ? $label : $label . "[$columnCounter]";
-          if (isset( $swap[$id] ) and false !== $swap[$id]) {
-            $row[$column] = $swap[$id];
-            $swap[$id]        = false;
-            $columnCounter--;
-            $map[$id . 'parent'][] = $column;
-            if ($this->isTemplate()) {
-              $I--;
-            }
-          } else {
-            $row[$column] = $labelCounter;
-            $map[$id . ''][]  = $column;
-          }
-
-          $column++;
-        }
-      }
-    }
-
-    $this->setHeaderMap($map);
-
-    return $row;
+    return $headerArray;
   }
 
 
