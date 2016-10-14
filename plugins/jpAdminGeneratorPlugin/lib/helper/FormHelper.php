@@ -104,7 +104,7 @@ function options_for_select($options = array(), $selected = '', $html_options = 
  * - multipart - When set to true, enctype is set to "multipart/form-data".
  *
  * <b>Examples:</b>
- *   <code><?php echo form_tag('@myroute'); ?></code>
+ *   <code><?php echo eform_tag('@myroute'); ?></code>
  *   <code><?php echo form_tag('/module/action', array('name' => 'myformname', 'multipart' => true)); ?></code>
  *
  * @param  string $url_for_options valid action, route or URL
@@ -126,6 +126,7 @@ function form_tag($url_for_options = '', $options = array())
     }
 
     $html_options['action'] = url_for($url_for_options);
+    $html_options['accept-charset'] ="utf-8";
 
     return tag('form', $html_options, true);
 }
