@@ -27,7 +27,6 @@ php_errors.log
 phpini.txt
 repos
 vendor.old
-vendor
 test/codeception.old
 test/acceptance
 .filemap
