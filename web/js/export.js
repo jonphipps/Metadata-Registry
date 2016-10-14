@@ -46,7 +46,57 @@ $(document).ready(function () {
 
     return;
 
-});
+    });
+
+    $('#label_for_export_history_selected_columns').append(
+    '<p style="margin-top: .3em; margin-left: .8em; white-space: nowrap;">' +
+    '<label><input type="radio" name="selectCols" id="select_all" style="margin-right: .4em;"> Select all</label></p>' +
+    '<p style=" margin-left: .8em; white-space: nowrap;">' +
+    '<label><input type="radio" name="selectCols" id="select_in_use" style="margin-right: .4em;"> Select only in use</label></p>' +
+    '<p style=" margin-left: .8em; white-space: nowrap;">' +
+    '<label><input type="radio" name="selectCols" id="select_none" style="margin-right: .4em;"> Select none</label></p>');
+
+    $("#select_all").change(function (event) {
+        if (this.checked) {
+            $("#export_history_selected_columns").jqxListBox('checkAll'); 
+        }
+    });
+    $("#select_in_use").change(function (event) {
+        if (this.checked) {
+            $("#export_history_selected_columns").jqxListBox('uncheckAll'); 
+            var jqbox = $("#export_history_selected_columns").jqxListBox('uncheckAll'); 
+            if( propertiesInUse !== 'undefined' ) {
+                for (var i = 0; i < propertiesInUse.length; i++){
+                    var item = $("#export_history_selected_columns").jqxListBox('getItemByValue', propertiesInUse[i]); 
+                    if(item !== 'undefined') {
+                        $("#export_history_selected_columns").jqxListBox('checkItem', item ); 
+                    }
+                }
+            }
+            checkRequired();
+        }
+    });
+    $("#select_none").change(function (event) {
+        if (this.checked) {
+            $("#export_history_selected_columns").jqxListBox('uncheckAll');
+            checkRequired(); 
+        }
+    });
+
+    function checkRequired(){
+        var items = $("#export_history_selected_columns").jqxListBox('getItems'); 
+        //replace the values in the existing options with the jqoptions
+        for (var i = 0; i < items.length; i++){
+            var item = items[i];
+            var label = item.label;
+            if (label[0] === "*" && item.checked === false) {
+                $("#export_history_selected_columns").jqxListBox('checkItem', item);
+            }
+        }
+
+        return;
+
+    }
 
 });
 
