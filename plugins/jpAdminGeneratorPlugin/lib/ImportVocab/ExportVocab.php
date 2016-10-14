@@ -257,7 +257,7 @@ class ExportVocab {
     $columnCounts    = $this->findColumns();
     $selectedColumns = $this->selectedColumns;
     $column          = 1; //we reserve column 0 for the reg_id
-    $max             = count($selectedColumns) - 1;
+    $max             = count($selectedColumns);
     $headerArray[0]['label'] = 'reg_id';
     $headerArray[0]['id'] = null;
     $headerArray[0]['language'] = '';
