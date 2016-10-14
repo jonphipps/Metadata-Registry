@@ -1,9 +1,7 @@
 //var $jq = jQuery.noConflict();
 $(document).ready(function () {
 
-    var $selLang = $('select#export_history_selected_language');
-
-    $selLang.select2({
+    $('select#export_history_selected_language').select2({
         placeholder: "Select an Additional Language (optional)",
         allowClear: true
     });
@@ -97,6 +95,19 @@ $(document).ready(function () {
         return;
 
     }
+
+    $(function(){
+        var tabindex = 1;
+        $('#sf_admin_edit_form').find('input,select').each(function() {
+            if (this.offsetWidth > 0 || this.offsetHeight > 0) {
+                var $input = $(this);
+                $input.attr("tabindex", tabindex);
+                tabindex++;
+            }
+        });
+        $("#select_all").focus();
+    });
+
 
 });
 
