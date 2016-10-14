@@ -166,7 +166,7 @@ class ExportVocab {
         }
 
       //fix up the status if it's numeric
-      $statusKey = array_search('*statusId', array_column($headerArray, 'label'));
+      $statusKey = array_search('*status', array_column($headerArray, 'label'));
       if ($statusKey !== false) {
         //change the row label to reflect the change from id to string
         $row[$statusKey] = '*status';
