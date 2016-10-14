@@ -85,8 +85,8 @@ class ExportVocab {
 
     $this->setUser($export->getUserId());
 
-        $asTemplate = true;
-        $populate   = true;
+    $asTemplate = true;
+    $populate   = true;
 
     $this->setAsTemplate($asTemplate);
     $this->populate = $populate;
@@ -310,7 +310,7 @@ class ExportVocab {
   {
     $propertiesInUse = $this->schema->getColumnCounts($this->excludeDeprecated,
         $this->excludeGenerated,
-        $this->includeDeleted,  $this->languages);
+        $this->includeDeleted, $this->includeNotAccepted,  $this->languages);
     $this->setColumns($propertiesInUse);
 
     return $this->getColumns();
@@ -648,7 +648,8 @@ class ExportVocab {
       $columns = [];
       $languages = $this->getLanguages();
       if ('schema' === $this->type) {
-        $columnCounts = $this->schema->getColumnCounts($this->excludeDeprecated, $this->excludeGenerated, $this->includeDeleted);
+        $columnCounts = $this->schema->getColumnCounts($this->excludeDeprecated, $this->excludeGenerated, $this->includeDeleted,
+            $this->includeNotAccepted);
       } else {
         $columnCounts = \VocabularyPeer::getColumnCounts($this->getSchema()->getId());
       }
