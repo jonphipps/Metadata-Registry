@@ -224,32 +224,4 @@ class VocabularyPeer extends BaseVocabularyPeer
     return $namespaces;
   }
 
-
-    public static function getColumnCounts($id)
-    {
-        $con     = Propel::getConnection(SchemaPeer::DATABASE_NAME);
-        $results = [ ];
-        $rs      = $con->executeQuery(
-            /** @lang MySQL */
-            <<<SQL
-select profile_property_id, lang, max(cnt) as maxcnt from (
-select profile_property.id as profile_property_id, reg_concept_property.language as lang, reg_concept.id, count(reg_concept_property.language) as cnt
-from profile_property, reg_concept_property join reg_concept on reg_concept_property.concept_id = reg_concept.id
-where reg_concept_property.deleted_at is null 
-and reg_concept_property.skos_property_id = profile_property.skos_id
-and reg_concept.vocabulary_id = $id
-group by reg_concept.id, reg_concept_property.language, skos_property_id
-order by skos_property_id, reg_concept.id, reg_concept_property.language
-) as results
-group by profile_property_id, lang
-
-SQL
-        );
-        while ($rs->next()) {
-            $results[$rs->getInt('profile_property_id')][$rs->getString('lang')] = $rs->getInt('maxcnt');
-        }
-
-        return $results;
-    }
-
 } // VocabularyPeer
