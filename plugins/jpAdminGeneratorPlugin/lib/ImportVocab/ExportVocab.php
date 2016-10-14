@@ -85,27 +85,9 @@ class ExportVocab {
 
     $this->setUser($export->getUserId());
 
-    $asTemplate = '';
-    $populate   = '';
-    switch ($export->getCsvType()) {
-      case "1": //empty template
-        $asTemplate = true;
-        $populate   = false;
-        break;
-      case "2": //populated template
         $asTemplate = true;
         $populate   = true;
-        break;
-      case "3": //sparse data
-        $asTemplate = false;
-        $populate   = true;
-        break;
-      case "4": //rich data
-        $asTemplate = true;
-        $populate   = true;
-        break;
-      default:
-    }
+
     $this->setAsTemplate($asTemplate);
     $this->populate = $populate;
 

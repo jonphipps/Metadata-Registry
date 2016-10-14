@@ -83,8 +83,4 @@ class ExportHistory extends BaseExportHistory
   }
 
 
-  public function getCsvTypeToString()
-  {
-    return ExportHistoryPeer::$CSV_TYPES[$this->getCsvType()];
-  }
 }

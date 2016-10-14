@@ -15,11 +15,6 @@ generator:
       id:             { name: ID, type: plain}
       created_at:     { name: Date Created, type: plain, params: date_format='s', help: This is the date the export was created }
       user:           { name: Member, type: plain, help: The individual that created the export }
-      csv_type:
-        name: CSV Type
-        help: The type of CSV file to export
-      csv_type_to_string:
-        name: CSV Type
       exclude_deprecated:   { name: Exclude Deprecated, type: checkbox_tag, help: This will exclude from the export currently deprecated elements }
       exclude_generated:    { name: Exclude Generated, type: checkbox_tag, help: This will exclude from the export inferred elements materialized by the Registry }
       include_deleted:
@@ -52,7 +47,7 @@ generator:
       title:          Export History
       fields:
         created_at:   { params: date_format='F' }
-      display:        [created_at, user, csv_type_to_string, _selected_language, published_english_version, published_language_version]
+      display:        [created_at, user, _selected_language, published_english_version, published_language_version]
       sort:           [created_at, desc]
       displayfilter:  false
       filters:        [schema_id, created_at, user_id, vocabulary_id]
@@ -109,7 +104,7 @@ generator:
         _elapsed:      { name: Elapsed }
       display:
         "Import Detail":      [created_at, user]
-        "Results":            [csv_type_to_string, _selected_language, selected_columns_to_string, exclude_deprecated, exclude_generated, include_deleted, include_not_accepted, published_english_version, published_language_version, last_vocab_update ]
+        "Results":            [_selected_language, selected_columns_to_string, exclude_deprecated, exclude_generated, include_deleted, include_not_accepted, published_english_version, published_language_version, last_vocab_update ]
 #        "Map":                [map]
       actions:
         _list:

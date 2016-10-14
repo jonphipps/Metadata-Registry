@@ -10,13 +10,6 @@
 class ExportHistoryPeer extends BaseExportHistoryPeer
 {
 
-  public static $CSV_TYPES = [
-      2 => 'Populated import template',
-      1 => 'Empty import template',
-      3 => 'Sparse (just the populated attribute columns)',
-      4 => 'Full (includes empty attribute columns)',
-  ];
-
     public static function getProfileColumns()
     {
         $request = sfContext::getInstance()->getRequest();
