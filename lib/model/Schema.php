@@ -913,19 +913,21 @@ SQL
    * @param array $languages
 
    *
-*@return array
+   * @return array
    */
   public function getColumnCounts(
       $excludeDeprecated = false, $excludeGenerated = false, $includeDeleted = false, $includeNotAccepted = false,
-      $languages = []) {
+      $languages = []
+  ) {
     $results       = [];
+    $maxes         = [];
     $con           = Propel::getConnection(SchemaPeer::DATABASE_NAME);
     $id            = $this->getId();
     $deleteSQL     = $includeDeleted ? '' : 'and reg_schema_property_element.deleted_at is null';
     $generatedSQL  = $excludeGenerated ? 'and is_generated = 0' : '';
     $deprecatedSQL = $excludeDeprecated ? 'and reg_schema_property.status_id <> 8' : '';
-    $allStatusSQL = $includeNotAccepted ? '' : 'and reg_schema_property.status_id = 1';
-    $languageSQL = '';
+    $allStatusSQL  = $includeNotAccepted ? '' : 'and reg_schema_property.status_id = 1';
+    $languageSQL   = '';
     if (count($languages)) {
       $languageSQL = "and (reg_schema_property_element.language = ''";
       foreach ($languages as $language) {
@@ -950,7 +952,20 @@ group by profile_property_id, lang
 SQL
         , ResultSet::FETCHMODE_ASSOC);
     while ($rs->next()) {
-      $results[$rs->getInt('profile_property_id')][$rs->getString('lang')] = $rs->getInt('maxcnt');
+      $id                                   = $rs->getInt('profile_property_id');
+      $max                                  = $rs->getInt('maxcnt');
+      $results[$id][$rs->getString('lang')] = $max;
+      if (isset( $maxes[$id] )) {
+        $maxes[$id] = $max > $maxes[$id] ? $max : $maxes[$id];
+      } else {
+        $maxes[$id] = $max;
+      }
+    }
+
+    foreach ($results as $index => &$languages) {
+      foreach ($languages as &$language) {
+        $language = $maxes[$index];
+      }
     }
 
     return $results;

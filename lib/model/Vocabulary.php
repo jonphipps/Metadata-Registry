@@ -286,15 +286,16 @@ SQL
    */
   public function getColumnCounts(
       $excludeDeprecated = false, $excludeGenerated = false, $includeDeleted = false, $includeNotAccepted = false,
-      $languages = [])
-  {
+      $languages = []
+  ) {
     $results       = [];
+    $maxes         = [];
     $con           = Propel::getConnection(VocabularyPeer::DATABASE_NAME);
     $id            = $this->getId();
     $deleteSQL     = $includeDeleted ? '' : 'and reg_concept_property.deleted_at is null';
     $generatedSQL  = $excludeGenerated ? 'and is_generated = 0' : '';
     $deprecatedSQL = $excludeDeprecated ? 'and reg_concept.status_id <> 8' : '';
-    $allStatusSQL = $includeNotAccepted ? '' : 'and reg_concept.status_id = 1';
+    $allStatusSQL  = $includeNotAccepted ? '' : 'and reg_concept.status_id = 1';
     $languageSQL   = '';
     if (count($languages)) {
       $languageSQL = "and (reg_concept_property.language = ''";
@@ -320,7 +321,20 @@ group by profile_property_id, lang
 SQL
         , ResultSet::FETCHMODE_ASSOC);
     while ($rs->next()) {
-      $results[$rs->getInt('profile_property_id')][$rs->getString('lang')] = $rs->getInt('maxcnt');
+      $id                                   = $rs->getInt('profile_property_id');
+      $max                                  = $rs->getInt('maxcnt');
+      $results[$id][$rs->getString('lang')] = $max;
+      if (isset( $maxes[$id] )) {
+        $maxes[$id] = $max > $maxes[$id] ? $max : $maxes[$id];
+      } else {
+        $maxes[$id] = $max;
+      }
+    }
+
+    foreach ($results as $index => &$languages) {
+      foreach ($languages as &$language) {
+        $language = $maxes[$index];
+      }
     }
 
     //fixme: !someday! Remove this hack that papers over the fact that uri and status aren't separate properties for vocabs
@@ -343,15 +357,16 @@ SQL
    */
   public function getDataForExport(
       $excludeDeprecated = false, $excludeGenerated = false, $includeDeleted = false, $includeNotAccepted = false,
-      $languages = []) {
+      $languages = []
+  ) {
     $results       = [];
     $con           = Propel::getConnection(VocabularyPeer::DATABASE_NAME);
     $id            = $this->getId();
     $deleteSQL     = $includeDeleted ? '' : 'and reg_concept_property.deleted_at is null';
     $generatedSQL  = $excludeGenerated ? 'and reg_concept_property.is_generated = 0' : '';
     $deprecatedSQL = $excludeDeprecated ? 'and reg_concept.status_id <> 8' : '';
-    $allStatusSQL = $includeNotAccepted ? '' : 'and reg_concept.status_id = 1';
-    $languageSQL = '';
+    $allStatusSQL  = $includeNotAccepted ? '' : 'and reg_concept.status_id = 1';
+    $languageSQL   = '';
     if (count($languages)) {
       $languageSQL = "and (reg_concept_property.language = ''";
       foreach ($languages as $language) {
