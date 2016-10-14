@@ -46,6 +46,7 @@ class ExportVocab {
     private $type;
   private $fileName;
   private $selectedColumns = [];
+  private $includeNotAccepted;
 
 
   /**
@@ -118,6 +119,7 @@ class ExportVocab {
     $this->includeDeleted    = $export->getIncludeDeleted();
     $this->excludeDeprecated = $export->getExcludeDeprecated();
     $this->excludeGenerated  = $export->getExcludeGenerated();
+    $this->includeNotAccepted = $export->getIncludeNotAccepted();
 
     $this->selectedColumns = $export->getSelectedColumns();
     $this->exportId = $export->getId();
@@ -208,7 +210,7 @@ class ExportVocab {
 
           $dataArray = $this->schema->getDataForExport($this->excludeDeprecated,
               $this->excludeGenerated,
-              $this->includeDeleted,
+              $this->includeDeleted, $this->includeNotAccepted,
               $this->languages);
 
           //turn the data array into populated rows
@@ -326,7 +328,7 @@ class ExportVocab {
   {
     $propertiesInUse = $this->schema->getColumnCounts($this->excludeDeprecated,
         $this->excludeGenerated,
-        $this->includeDeleted, $this->languages);
+        $this->includeDeleted,  $this->languages);
     $this->setColumns($propertiesInUse);
 
     return $this->getColumns();

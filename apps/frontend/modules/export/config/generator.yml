@@ -30,6 +30,12 @@ generator:
           This isn't a complete 'undo' feature. It simply puts properties that have been deleted back in the exported data.
           It's primary utility is to recover properties that were deleted by misteak in the last import.
         credentials: [subscriber]
+      include_not_accepted:
+        name: Include not 'Published'
+        type: checkbox_tag
+        help: |
+          This will include Resources in the export that have a status other than 'Published'.
+          The default is to ONLY export published Resources, and this will override that.
       selected_language:
         name: Additional Language
         help: |
@@ -91,7 +97,7 @@ generator:
             The columns you select, and their order, will be saved for the next time you create an export.
         save_as_default:   { name: Save as my default, type: checkbox_tag, help: Save these settings as my default settings for future exports, credentials: [subscriber] }
 
-      display:        [id, csv_type, exclude_deprecated, exclude_generated, selected_language, include_deleted, selected_columns  ]
+      display:        [id, csv_type, selected_language, selected_columns, exclude_deprecated, exclude_generated, include_deleted, include_not_accepted  ]
       hide:           [schema_id, user_id, vocabulary_id]
       actions:
         _save:         { name: Export CSV }
@@ -113,7 +119,7 @@ generator:
         _elapsed:      { name: Elapsed }
       display:
         "Import Detail":      [created_at, user]
-        "Results":            [csv_type_to_string, exclude_deprecated, exclude_generated, _selected_language, include_deleted, selected_columns_to_string, published_english_version, published_language_version, last_vocab_update ]
+        "Results":            [csv_type_to_string, _selected_language, selected_columns_to_string, exclude_deprecated, exclude_generated, include_deleted, include_not_accepted, published_english_version, published_language_version, last_vocab_update ]
 #        "Map":                [map]
       actions:
         _list:

@@ -279,11 +279,14 @@ SQL
    * @param bool $excludeDeprecated
    * @param bool $excludeGenerated
    * @param bool $includeDeleted
-   * @param $languages
+   * @param bool $includeNotAccepted
+   * @param array $languages
    *
    * @return array
    */
-  public function getColumnCounts($excludeDeprecated = false, $excludeGenerated = false, $includeDeleted = false, $languages = [])
+  public function getColumnCounts(
+      $excludeDeprecated = false, $excludeGenerated = false, $includeDeleted = false, $includeNotAccepted = false,
+      $languages = [])
   {
     $results       = [];
     $con           = Propel::getConnection(VocabularyPeer::DATABASE_NAME);
@@ -291,6 +294,7 @@ SQL
     $deleteSQL     = $includeDeleted ? '' : 'and reg_concept_property.deleted_at is null';
     $generatedSQL  = $excludeGenerated ? 'and is_generated = 0' : '';
     $deprecatedSQL = $excludeDeprecated ? 'and reg_concept.status_id <> 8' : '';
+    $allStatusSQL = $includeNotAccepted ? '' : 'and reg_concept.status_id = 1';
     $languageSQL   = '';
     if (count($languages)) {
       $languageSQL = "and (reg_concept_property.language = ''";
@@ -310,6 +314,7 @@ $generatedSQL
 $languageSQL
 and reg_concept.vocabulary_id = $id
 $deprecatedSQL
+$allStatusSQL
 group by reg_concept.id, reg_concept_property.language, profile_property_id) as results
 group by profile_property_id, lang
 SQL
@@ -331,18 +336,21 @@ SQL
    * @param bool $excludeDeprecated
    * @param bool $excludeGenerated
    * @param bool $includeDeleted
+   * @param bool $includeNotAccepted
    * @param array $languages
    *
    * @return array
    */
   public function getDataForExport(
-      $excludeDeprecated = false, $excludeGenerated = false, $includeDeleted = false, $languages = []) {
+      $excludeDeprecated = false, $excludeGenerated = false, $includeDeleted = false, $includeNotAccepted = false,
+      $languages = []) {
     $results       = [];
     $con           = Propel::getConnection(VocabularyPeer::DATABASE_NAME);
     $id            = $this->getId();
     $deleteSQL     = $includeDeleted ? '' : 'and reg_concept_property.deleted_at is null';
     $generatedSQL  = $excludeGenerated ? 'and reg_concept_property.is_generated = 0' : '';
     $deprecatedSQL = $excludeDeprecated ? 'and reg_concept.status_id <> 8' : '';
+    $allStatusSQL = $includeNotAccepted ? '' : 'and reg_concept.status_id = 1';
     $languageSQL = '';
     if (count($languages)) {
       $languageSQL = "and (reg_concept_property.language = ''";
@@ -369,6 +377,8 @@ $deprecatedSQL
 $deleteSQL
 $languageSQL
 $generatedSQL
+$allStatusSQL
+order by reg_concept.uri
 SQL
         , ResultSet::FETCHMODE_ASSOC);
     while ($rs->next()) {

@@ -909,18 +909,22 @@ SQL
    * @param bool $excludeDeprecated
    * @param bool $excludeGenerated
    * @param bool $includeDeleted
+   * @param bool $includeNotAccepted
    * @param array $languages
+
    *
-   * @return array
+*@return array
    */
   public function getColumnCounts(
-      $excludeDeprecated = false, $excludeGenerated = false, $includeDeleted = false, $languages = []) {
+      $excludeDeprecated = false, $excludeGenerated = false, $includeDeleted = false, $includeNotAccepted = false,
+      $languages = []) {
     $results       = [];
     $con           = Propel::getConnection(SchemaPeer::DATABASE_NAME);
     $id            = $this->getId();
     $deleteSQL     = $includeDeleted ? '' : 'and reg_schema_property_element.deleted_at is null';
     $generatedSQL  = $excludeGenerated ? 'and is_generated = 0' : '';
     $deprecatedSQL = $excludeDeprecated ? 'and reg_schema_property.status_id <> 8' : '';
+    $allStatusSQL = $includeNotAccepted ? '' : 'and reg_schema_property.status_id = 1';
     $languageSQL = '';
     if (count($languages)) {
       $languageSQL = "and (reg_schema_property_element.language = ''";
@@ -939,6 +943,7 @@ $generatedSQL
 $languageSQL
 and reg_schema_property.schema_id = $id
 $deprecatedSQL
+$allStatusSQL
 group by reg_schema_property.id, reg_schema_property_element.language, profile_property_id
 order by profile_property_id) as results
 group by profile_property_id, lang
@@ -956,12 +961,14 @@ SQL
    * @param bool $excludeDeprecated
    * @param bool $excludeGenerated
    * @param bool $includeDeleted
+   * @param bool $includeNotAccepted
    * @param array $languages
    *
    * @return array
    */
   public function getDataForExport(
-      $excludeDeprecated = false, $excludeGenerated = false, $includeDeleted = false, $languages = []
+      $excludeDeprecated = false, $excludeGenerated = false, $includeDeleted = false, $includeNotAccepted = false,
+      $languages = []
   ) {
     $results       = [];
     $con           = Propel::getConnection(SchemaPeer::DATABASE_NAME);
@@ -969,6 +976,7 @@ SQL
     $deleteSQL     = $includeDeleted ? '' : 'and reg_schema_property_element.deleted_at is null';
     $generatedSQL  = $excludeGenerated ? 'and is_generated = 0' : '';
     $deprecatedSQL = $excludeDeprecated ? 'and reg_schema_property.status_id <> 8' : '';
+    $allStatusSQL = $includeNotAccepted ? '' : 'and reg_schema_property.status_id = 1';
     $languageSQL   = '';
     if (count($languages)) {
       $languageSQL = "and (reg_schema_property_element.language = ''";
@@ -992,6 +1000,7 @@ $deprecatedSQL
 $deleteSQL
 $languageSQL
 $generatedSQL
+$allStatusSQL
 SQL
         , ResultSet::FETCHMODE_ASSOC);
     while ($rs->next()) {
