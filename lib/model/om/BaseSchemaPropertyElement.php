@@ -62,6 +62,13 @@ abstract class BaseSchemaPropertyElement extends BaseObject  implements Persiste
 
 
 	/**
+	 * The value for the deleted_user_id field.
+	 * @var        int
+	 */
+	protected $deleted_user_id;
+
+
+	/**
 	 * The value for the schema_property_id field.
 	 * @var        int
 	 */
@@ -125,6 +132,11 @@ abstract class BaseSchemaPropertyElement extends BaseObject  implements Persiste
 	 * @var        User
 	 */
 	protected $aUserRelatedByUpdatedUserId;
+
+	/**
+	 * @var        User
+	 */
+	protected $aUserRelatedByDeletedUserId;
 
 	/**
 	 * @var        SchemaProperty
@@ -308,6 +320,17 @@ abstract class BaseSchemaPropertyElement extends BaseObject  implements Persiste
 	{
 
 		return $this->updated_user_id;
+	}
+
+	/**
+	 * Get the [deleted_user_id] column value.
+	 * 
+	 * @return     int
+	 */
+	public function getDeletedUserId()
+	{
+
+		return $this->deleted_user_id;
 	}
 
 	/**
@@ -545,6 +568,32 @@ abstract class BaseSchemaPropertyElement extends BaseObject  implements Persiste
 	} // setUpdatedUserId()
 
 	/**
+	 * Set the value of [deleted_user_id] column.
+	 * 
+	 * @param      int $v new value
+	 * @return     void
+	 */
+	public function setDeletedUserId($v)
+	{
+
+		// Since the native PHP type for this column is integer,
+		// we will cast the input value to an int (if it is not).
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->deleted_user_id !== $v) {
+			$this->deleted_user_id = $v;
+			$this->modifiedColumns[] = SchemaPropertyElementPeer::DELETED_USER_ID;
+		}
+
+		if ($this->aUserRelatedByDeletedUserId !== null && $this->aUserRelatedByDeletedUserId->getId() !== $v) {
+			$this->aUserRelatedByDeletedUserId = null;
+		}
+
+	} // setDeletedUserId()
+
+	/**
 	 * Set the value of [schema_property_id] column.
 	 * 
 	 * @param      int $v new value
@@ -753,28 +802,30 @@ abstract class BaseSchemaPropertyElement extends BaseObject  implements Persiste
 
 			$this->updated_user_id = $rs->getInt($startcol + 5);
 
-			$this->schema_property_id = $rs->getInt($startcol + 6);
+			$this->deleted_user_id = $rs->getInt($startcol + 6);
 
-			$this->profile_property_id = $rs->getInt($startcol + 7);
+			$this->schema_property_id = $rs->getInt($startcol + 7);
 
-			$this->is_schema_property = $rs->getBoolean($startcol + 8);
+			$this->profile_property_id = $rs->getInt($startcol + 8);
 
-			$this->object = $rs->getString($startcol + 9);
+			$this->is_schema_property = $rs->getBoolean($startcol + 9);
 
-			$this->related_schema_property_id = $rs->getInt($startcol + 10);
+			$this->object = $rs->getString($startcol + 10);
 
-			$this->language = $rs->getString($startcol + 11);
+			$this->related_schema_property_id = $rs->getInt($startcol + 11);
 
-			$this->status_id = $rs->getInt($startcol + 12);
+			$this->language = $rs->getString($startcol + 12);
 
-			$this->is_generated = $rs->getBoolean($startcol + 13);
+			$this->status_id = $rs->getInt($startcol + 13);
+
+			$this->is_generated = $rs->getBoolean($startcol + 14);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 14; // 14 = SchemaPropertyElementPeer::NUM_COLUMNS - SchemaPropertyElementPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 15; // 15 = SchemaPropertyElementPeer::NUM_COLUMNS - SchemaPropertyElementPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating SchemaPropertyElement object", $e);
@@ -922,6 +973,13 @@ abstract class BaseSchemaPropertyElement extends BaseObject  implements Persiste
 				$this->setUserRelatedByUpdatedUserId($this->aUserRelatedByUpdatedUserId);
 			}
 
+			if ($this->aUserRelatedByDeletedUserId !== null) {
+				if ($this->aUserRelatedByDeletedUserId->isModified()) {
+					$affectedRows += $this->aUserRelatedByDeletedUserId->save($con);
+				}
+				$this->setUserRelatedByDeletedUserId($this->aUserRelatedByDeletedUserId);
+			}
+
 			if ($this->aSchemaPropertyRelatedBySchemaPropertyId !== null) {
 				if ($this->aSchemaPropertyRelatedBySchemaPropertyId->isModified()) {
 					$affectedRows += $this->aSchemaPropertyRelatedBySchemaPropertyId->save($con);
@@ -1066,6 +1124,12 @@ abstract class BaseSchemaPropertyElement extends BaseObject  implements Persiste
 				}
 			}
 
+			if ($this->aUserRelatedByDeletedUserId !== null) {
+				if (!$this->aUserRelatedByDeletedUserId->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aUserRelatedByDeletedUserId->getValidationFailures());
+				}
+			}
+
 			if ($this->aSchemaPropertyRelatedBySchemaPropertyId !== null) {
 				if (!$this->aSchemaPropertyRelatedBySchemaPropertyId->validate($columns)) {
 					$failureMap = array_merge($failureMap, $this->aSchemaPropertyRelatedBySchemaPropertyId->getValidationFailures());
@@ -1163,27 +1227,30 @@ abstract class BaseSchemaPropertyElement extends BaseObject  implements Persiste
 				return $this->getUpdatedUserId();
 				break;
 			case 6:
-				return $this->getSchemaPropertyId();
+				return $this->getDeletedUserId();
 				break;
 			case 7:
-				return $this->getProfilePropertyId();
+				return $this->getSchemaPropertyId();
 				break;
 			case 8:
-				return $this->getIsSchemaProperty();
+				return $this->getProfilePropertyId();
 				break;
 			case 9:
-				return $this->getObject();
+				return $this->getIsSchemaProperty();
 				break;
 			case 10:
-				return $this->getRelatedSchemaPropertyId();
+				return $this->getObject();
 				break;
 			case 11:
-				return $this->getLanguage();
+				return $this->getRelatedSchemaPropertyId();
 				break;
 			case 12:
-				return $this->getStatusId();
+				return $this->getLanguage();
 				break;
 			case 13:
+				return $this->getStatusId();
+				break;
+			case 14:
 				return $this->getIsGenerated();
 				break;
 			default:
@@ -1212,14 +1279,15 @@ abstract class BaseSchemaPropertyElement extends BaseObject  implements Persiste
 			$keys[3] => $this->getDeletedAt(),
 			$keys[4] => $this->getCreatedUserId(),
 			$keys[5] => $this->getUpdatedUserId(),
-			$keys[6] => $this->getSchemaPropertyId(),
-			$keys[7] => $this->getProfilePropertyId(),
-			$keys[8] => $this->getIsSchemaProperty(),
-			$keys[9] => $this->getObject(),
-			$keys[10] => $this->getRelatedSchemaPropertyId(),
-			$keys[11] => $this->getLanguage(),
-			$keys[12] => $this->getStatusId(),
-			$keys[13] => $this->getIsGenerated(),
+			$keys[6] => $this->getDeletedUserId(),
+			$keys[7] => $this->getSchemaPropertyId(),
+			$keys[8] => $this->getProfilePropertyId(),
+			$keys[9] => $this->getIsSchemaProperty(),
+			$keys[10] => $this->getObject(),
+			$keys[11] => $this->getRelatedSchemaPropertyId(),
+			$keys[12] => $this->getLanguage(),
+			$keys[13] => $this->getStatusId(),
+			$keys[14] => $this->getIsGenerated(),
 		);
 		return $result;
 	}
@@ -1270,27 +1338,30 @@ abstract class BaseSchemaPropertyElement extends BaseObject  implements Persiste
 				$this->setUpdatedUserId($value);
 				break;
 			case 6:
-				$this->setSchemaPropertyId($value);
+				$this->setDeletedUserId($value);
 				break;
 			case 7:
-				$this->setProfilePropertyId($value);
+				$this->setSchemaPropertyId($value);
 				break;
 			case 8:
-				$this->setIsSchemaProperty($value);
+				$this->setProfilePropertyId($value);
 				break;
 			case 9:
-				$this->setObject($value);
+				$this->setIsSchemaProperty($value);
 				break;
 			case 10:
-				$this->setRelatedSchemaPropertyId($value);
+				$this->setObject($value);
 				break;
 			case 11:
-				$this->setLanguage($value);
+				$this->setRelatedSchemaPropertyId($value);
 				break;
 			case 12:
-				$this->setStatusId($value);
+				$this->setLanguage($value);
 				break;
 			case 13:
+				$this->setStatusId($value);
+				break;
+			case 14:
 				$this->setIsGenerated($value);
 				break;
 		} // switch()
@@ -1322,14 +1393,15 @@ abstract class BaseSchemaPropertyElement extends BaseObject  implements Persiste
 		if (array_key_exists($keys[3], $arr)) $this->setDeletedAt($arr[$keys[3]]);
 		if (array_key_exists($keys[4], $arr)) $this->setCreatedUserId($arr[$keys[4]]);
 		if (array_key_exists($keys[5], $arr)) $this->setUpdatedUserId($arr[$keys[5]]);
-		if (array_key_exists($keys[6], $arr)) $this->setSchemaPropertyId($arr[$keys[6]]);
-		if (array_key_exists($keys[7], $arr)) $this->setProfilePropertyId($arr[$keys[7]]);
-		if (array_key_exists($keys[8], $arr)) $this->setIsSchemaProperty($arr[$keys[8]]);
-		if (array_key_exists($keys[9], $arr)) $this->setObject($arr[$keys[9]]);
-		if (array_key_exists($keys[10], $arr)) $this->setRelatedSchemaPropertyId($arr[$keys[10]]);
-		if (array_key_exists($keys[11], $arr)) $this->setLanguage($arr[$keys[11]]);
-		if (array_key_exists($keys[12], $arr)) $this->setStatusId($arr[$keys[12]]);
-		if (array_key_exists($keys[13], $arr)) $this->setIsGenerated($arr[$keys[13]]);
+		if (array_key_exists($keys[6], $arr)) $this->setDeletedUserId($arr[$keys[6]]);
+		if (array_key_exists($keys[7], $arr)) $this->setSchemaPropertyId($arr[$keys[7]]);
+		if (array_key_exists($keys[8], $arr)) $this->setProfilePropertyId($arr[$keys[8]]);
+		if (array_key_exists($keys[9], $arr)) $this->setIsSchemaProperty($arr[$keys[9]]);
+		if (array_key_exists($keys[10], $arr)) $this->setObject($arr[$keys[10]]);
+		if (array_key_exists($keys[11], $arr)) $this->setRelatedSchemaPropertyId($arr[$keys[11]]);
+		if (array_key_exists($keys[12], $arr)) $this->setLanguage($arr[$keys[12]]);
+		if (array_key_exists($keys[13], $arr)) $this->setStatusId($arr[$keys[13]]);
+		if (array_key_exists($keys[14], $arr)) $this->setIsGenerated($arr[$keys[14]]);
 	}
 
 	/**
@@ -1347,6 +1419,7 @@ abstract class BaseSchemaPropertyElement extends BaseObject  implements Persiste
 		if ($this->isColumnModified(SchemaPropertyElementPeer::DELETED_AT)) $criteria->add(SchemaPropertyElementPeer::DELETED_AT, $this->deleted_at);
 		if ($this->isColumnModified(SchemaPropertyElementPeer::CREATED_USER_ID)) $criteria->add(SchemaPropertyElementPeer::CREATED_USER_ID, $this->created_user_id);
 		if ($this->isColumnModified(SchemaPropertyElementPeer::UPDATED_USER_ID)) $criteria->add(SchemaPropertyElementPeer::UPDATED_USER_ID, $this->updated_user_id);
+		if ($this->isColumnModified(SchemaPropertyElementPeer::DELETED_USER_ID)) $criteria->add(SchemaPropertyElementPeer::DELETED_USER_ID, $this->deleted_user_id);
 		if ($this->isColumnModified(SchemaPropertyElementPeer::SCHEMA_PROPERTY_ID)) $criteria->add(SchemaPropertyElementPeer::SCHEMA_PROPERTY_ID, $this->schema_property_id);
 		if ($this->isColumnModified(SchemaPropertyElementPeer::PROFILE_PROPERTY_ID)) $criteria->add(SchemaPropertyElementPeer::PROFILE_PROPERTY_ID, $this->profile_property_id);
 		if ($this->isColumnModified(SchemaPropertyElementPeer::IS_SCHEMA_PROPERTY)) $criteria->add(SchemaPropertyElementPeer::IS_SCHEMA_PROPERTY, $this->is_schema_property);
@@ -1418,6 +1491,8 @@ abstract class BaseSchemaPropertyElement extends BaseObject  implements Persiste
 		$copyObj->setCreatedUserId($this->created_user_id);
 
 		$copyObj->setUpdatedUserId($this->updated_user_id);
+
+		$copyObj->setDeletedUserId($this->deleted_user_id);
 
 		$copyObj->setSchemaPropertyId($this->schema_property_id);
 
@@ -1594,6 +1669,56 @@ abstract class BaseSchemaPropertyElement extends BaseObject  implements Persiste
 			 */
 		}
 		return $this->aUserRelatedByUpdatedUserId;
+	}
+
+	/**
+	 * Declares an association between this object and a User object.
+	 *
+	 * @param      User $v
+	 * @return     void
+	 * @throws     PropelException
+	 */
+	public function setUserRelatedByDeletedUserId($v)
+	{
+
+
+		if ($v === null) {
+			$this->setDeletedUserId(NULL);
+		} else {
+			$this->setDeletedUserId($v->getId());
+		}
+
+
+		$this->aUserRelatedByDeletedUserId = $v;
+	}
+
+
+	/**
+	 * Get the associated User object
+	 *
+	 * @param      Connection Optional Connection object.
+	 * @return     User The associated User object.
+	 * @throws     PropelException
+	 */
+	public function getUserRelatedByDeletedUserId($con = null)
+	{
+		if ($this->aUserRelatedByDeletedUserId === null && ($this->deleted_user_id !== null)) {
+			// include the related Peer class
+			include_once 'lib/model/om/BaseUserPeer.php';
+
+			$this->aUserRelatedByDeletedUserId = UserPeer::retrieveByPK($this->deleted_user_id, $con);
+
+			/* The following can be used instead of the line above to
+			   guarantee the related object contains a reference
+			   to this object, but this level of coupling
+			   may be undesirable in many circumstances.
+			   As it can lead to a db query with many results that may
+			   never be used.
+			   $obj = UserPeer::retrieveByPK($this->deleted_user_id, $con);
+			   $obj->addUsersRelatedByDeletedUserId($this);
+			 */
+		}
+		return $this->aUserRelatedByDeletedUserId;
 	}
 
 	/**

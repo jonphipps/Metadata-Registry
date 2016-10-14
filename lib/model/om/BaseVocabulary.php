@@ -69,6 +69,13 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 
 
 	/**
+	 * The value for the deleted_user_id field.
+	 * @var        int
+	 */
+	protected $deleted_user_id;
+
+
+	/**
 	 * The value for the child_updated_at field.
 	 * @var        int
 	 */
@@ -207,6 +214,11 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	 * @var        User
 	 */
 	protected $aUserRelatedByUpdatedUserId;
+
+	/**
+	 * @var        User
+	 */
+	protected $aUserRelatedByDeletedUserId;
 
 	/**
 	 * @var        User
@@ -492,6 +504,17 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	{
 
 		return $this->updated_user_id;
+	}
+
+	/**
+	 * Get the [deleted_user_id] column value.
+	 * 
+	 * @return     int
+	 */
+	public function getDeletedUserId()
+	{
+
+		return $this->deleted_user_id;
 	}
 
 	/**
@@ -883,6 +906,32 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 		}
 
 	} // setUpdatedUserId()
+
+	/**
+	 * Set the value of [deleted_user_id] column.
+	 * 
+	 * @param      int $v new value
+	 * @return     void
+	 */
+	public function setDeletedUserId($v)
+	{
+
+		// Since the native PHP type for this column is integer,
+		// we will cast the input value to an int (if it is not).
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->deleted_user_id !== $v) {
+			$this->deleted_user_id = $v;
+			$this->modifiedColumns[] = VocabularyPeer::DELETED_USER_ID;
+		}
+
+		if ($this->aUserRelatedByDeletedUserId !== null && $this->aUserRelatedByDeletedUserId->getId() !== $v) {
+			$this->aUserRelatedByDeletedUserId = null;
+		}
+
+	} // setDeletedUserId()
 
 	/**
 	 * Set the value of [child_updated_at] column.
@@ -1325,48 +1374,50 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 
 			$this->updated_user_id = $rs->getInt($startcol + 6);
 
-			$this->child_updated_at = $rs->getTimestamp($startcol + 7, null);
+			$this->deleted_user_id = $rs->getInt($startcol + 7);
 
-			$this->child_updated_user_id = $rs->getInt($startcol + 8);
+			$this->child_updated_at = $rs->getTimestamp($startcol + 8, null);
 
-			$this->name = $rs->getString($startcol + 9);
+			$this->child_updated_user_id = $rs->getInt($startcol + 9);
 
-			$this->note = $rs->getString($startcol + 10);
+			$this->name = $rs->getString($startcol + 10);
 
-			$this->uri = $rs->getString($startcol + 11);
+			$this->note = $rs->getString($startcol + 11);
 
-			$this->url = $rs->getString($startcol + 12);
+			$this->uri = $rs->getString($startcol + 12);
 
-			$this->base_domain = $rs->getString($startcol + 13);
+			$this->url = $rs->getString($startcol + 13);
 
-			$this->token = $rs->getString($startcol + 14);
+			$this->base_domain = $rs->getString($startcol + 14);
 
-			$this->community = $rs->getString($startcol + 15);
+			$this->token = $rs->getString($startcol + 15);
 
-			$this->last_uri_id = $rs->getInt($startcol + 16);
+			$this->community = $rs->getString($startcol + 16);
 
-			$this->status_id = $rs->getInt($startcol + 17);
+			$this->last_uri_id = $rs->getInt($startcol + 17);
 
-			$this->language = $rs->getString($startcol + 18);
+			$this->status_id = $rs->getInt($startcol + 18);
 
-			$this->languages = $rs->getString($startcol + 19);
+			$this->language = $rs->getString($startcol + 19);
 
-			$this->profile_id = $rs->getInt($startcol + 20);
+			$this->languages = $rs->getString($startcol + 20);
 
-			$this->ns_type = $rs->getString($startcol + 21);
+			$this->profile_id = $rs->getInt($startcol + 21);
 
-			$this->prefixes = $rs->getString($startcol + 22);
+			$this->ns_type = $rs->getString($startcol + 22);
 
-			$this->repo = $rs->getString($startcol + 23);
+			$this->prefixes = $rs->getString($startcol + 23);
 
-			$this->prefix = $rs->getString($startcol + 24);
+			$this->repo = $rs->getString($startcol + 24);
+
+			$this->prefix = $rs->getString($startcol + 25);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 25; // 25 = VocabularyPeer::NUM_COLUMNS - VocabularyPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 26; // 26 = VocabularyPeer::NUM_COLUMNS - VocabularyPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Vocabulary object", $e);
@@ -1514,6 +1565,13 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 					$affectedRows += $this->aUserRelatedByUpdatedUserId->save($con);
 				}
 				$this->setUserRelatedByUpdatedUserId($this->aUserRelatedByUpdatedUserId);
+			}
+
+			if ($this->aUserRelatedByDeletedUserId !== null) {
+				if ($this->aUserRelatedByDeletedUserId->isModified()) {
+					$affectedRows += $this->aUserRelatedByDeletedUserId->save($con);
+				}
+				$this->setUserRelatedByDeletedUserId($this->aUserRelatedByDeletedUserId);
 			}
 
 			if ($this->aUserRelatedByChildUpdatedUserId !== null) {
@@ -1723,6 +1781,12 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 				}
 			}
 
+			if ($this->aUserRelatedByDeletedUserId !== null) {
+				if (!$this->aUserRelatedByDeletedUserId->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aUserRelatedByDeletedUserId->getValidationFailures());
+				}
+			}
+
 			if ($this->aUserRelatedByChildUpdatedUserId !== null) {
 				if (!$this->aUserRelatedByChildUpdatedUserId->validate($columns)) {
 					$failureMap = array_merge($failureMap, $this->aUserRelatedByChildUpdatedUserId->getValidationFailures());
@@ -1881,57 +1945,60 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 				return $this->getUpdatedUserId();
 				break;
 			case 7:
-				return $this->getChildUpdatedAt();
+				return $this->getDeletedUserId();
 				break;
 			case 8:
-				return $this->getChildUpdatedUserId();
+				return $this->getChildUpdatedAt();
 				break;
 			case 9:
-				return $this->getName();
+				return $this->getChildUpdatedUserId();
 				break;
 			case 10:
-				return $this->getNote();
+				return $this->getName();
 				break;
 			case 11:
-				return $this->getUri();
+				return $this->getNote();
 				break;
 			case 12:
-				return $this->getUrl();
+				return $this->getUri();
 				break;
 			case 13:
-				return $this->getBaseDomain();
+				return $this->getUrl();
 				break;
 			case 14:
-				return $this->getToken();
+				return $this->getBaseDomain();
 				break;
 			case 15:
-				return $this->getCommunity();
+				return $this->getToken();
 				break;
 			case 16:
-				return $this->getLastUriId();
+				return $this->getCommunity();
 				break;
 			case 17:
-				return $this->getStatusId();
+				return $this->getLastUriId();
 				break;
 			case 18:
-				return $this->getLanguage();
+				return $this->getStatusId();
 				break;
 			case 19:
-				return $this->getLanguages();
+				return $this->getLanguage();
 				break;
 			case 20:
-				return $this->getProfileId();
+				return $this->getLanguages();
 				break;
 			case 21:
-				return $this->getNsType();
+				return $this->getProfileId();
 				break;
 			case 22:
-				return $this->getPrefixes();
+				return $this->getNsType();
 				break;
 			case 23:
-				return $this->getRepo();
+				return $this->getPrefixes();
 				break;
 			case 24:
+				return $this->getRepo();
+				break;
+			case 25:
 				return $this->getPrefix();
 				break;
 			default:
@@ -1961,24 +2028,25 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 			$keys[4] => $this->getLastUpdated(),
 			$keys[5] => $this->getCreatedUserId(),
 			$keys[6] => $this->getUpdatedUserId(),
-			$keys[7] => $this->getChildUpdatedAt(),
-			$keys[8] => $this->getChildUpdatedUserId(),
-			$keys[9] => $this->getName(),
-			$keys[10] => $this->getNote(),
-			$keys[11] => $this->getUri(),
-			$keys[12] => $this->getUrl(),
-			$keys[13] => $this->getBaseDomain(),
-			$keys[14] => $this->getToken(),
-			$keys[15] => $this->getCommunity(),
-			$keys[16] => $this->getLastUriId(),
-			$keys[17] => $this->getStatusId(),
-			$keys[18] => $this->getLanguage(),
-			$keys[19] => $this->getLanguages(),
-			$keys[20] => $this->getProfileId(),
-			$keys[21] => $this->getNsType(),
-			$keys[22] => $this->getPrefixes(),
-			$keys[23] => $this->getRepo(),
-			$keys[24] => $this->getPrefix(),
+			$keys[7] => $this->getDeletedUserId(),
+			$keys[8] => $this->getChildUpdatedAt(),
+			$keys[9] => $this->getChildUpdatedUserId(),
+			$keys[10] => $this->getName(),
+			$keys[11] => $this->getNote(),
+			$keys[12] => $this->getUri(),
+			$keys[13] => $this->getUrl(),
+			$keys[14] => $this->getBaseDomain(),
+			$keys[15] => $this->getToken(),
+			$keys[16] => $this->getCommunity(),
+			$keys[17] => $this->getLastUriId(),
+			$keys[18] => $this->getStatusId(),
+			$keys[19] => $this->getLanguage(),
+			$keys[20] => $this->getLanguages(),
+			$keys[21] => $this->getProfileId(),
+			$keys[22] => $this->getNsType(),
+			$keys[23] => $this->getPrefixes(),
+			$keys[24] => $this->getRepo(),
+			$keys[25] => $this->getPrefix(),
 		);
 		return $result;
 	}
@@ -2032,57 +2100,60 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 				$this->setUpdatedUserId($value);
 				break;
 			case 7:
-				$this->setChildUpdatedAt($value);
+				$this->setDeletedUserId($value);
 				break;
 			case 8:
-				$this->setChildUpdatedUserId($value);
+				$this->setChildUpdatedAt($value);
 				break;
 			case 9:
-				$this->setName($value);
+				$this->setChildUpdatedUserId($value);
 				break;
 			case 10:
-				$this->setNote($value);
+				$this->setName($value);
 				break;
 			case 11:
-				$this->setUri($value);
+				$this->setNote($value);
 				break;
 			case 12:
-				$this->setUrl($value);
+				$this->setUri($value);
 				break;
 			case 13:
-				$this->setBaseDomain($value);
+				$this->setUrl($value);
 				break;
 			case 14:
-				$this->setToken($value);
+				$this->setBaseDomain($value);
 				break;
 			case 15:
-				$this->setCommunity($value);
+				$this->setToken($value);
 				break;
 			case 16:
-				$this->setLastUriId($value);
+				$this->setCommunity($value);
 				break;
 			case 17:
-				$this->setStatusId($value);
+				$this->setLastUriId($value);
 				break;
 			case 18:
-				$this->setLanguage($value);
+				$this->setStatusId($value);
 				break;
 			case 19:
-				$this->setLanguages($value);
+				$this->setLanguage($value);
 				break;
 			case 20:
-				$this->setProfileId($value);
+				$this->setLanguages($value);
 				break;
 			case 21:
-				$this->setNsType($value);
+				$this->setProfileId($value);
 				break;
 			case 22:
-				$this->setPrefixes($value);
+				$this->setNsType($value);
 				break;
 			case 23:
-				$this->setRepo($value);
+				$this->setPrefixes($value);
 				break;
 			case 24:
+				$this->setRepo($value);
+				break;
+			case 25:
 				$this->setPrefix($value);
 				break;
 		} // switch()
@@ -2115,24 +2186,25 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[4], $arr)) $this->setLastUpdated($arr[$keys[4]]);
 		if (array_key_exists($keys[5], $arr)) $this->setCreatedUserId($arr[$keys[5]]);
 		if (array_key_exists($keys[6], $arr)) $this->setUpdatedUserId($arr[$keys[6]]);
-		if (array_key_exists($keys[7], $arr)) $this->setChildUpdatedAt($arr[$keys[7]]);
-		if (array_key_exists($keys[8], $arr)) $this->setChildUpdatedUserId($arr[$keys[8]]);
-		if (array_key_exists($keys[9], $arr)) $this->setName($arr[$keys[9]]);
-		if (array_key_exists($keys[10], $arr)) $this->setNote($arr[$keys[10]]);
-		if (array_key_exists($keys[11], $arr)) $this->setUri($arr[$keys[11]]);
-		if (array_key_exists($keys[12], $arr)) $this->setUrl($arr[$keys[12]]);
-		if (array_key_exists($keys[13], $arr)) $this->setBaseDomain($arr[$keys[13]]);
-		if (array_key_exists($keys[14], $arr)) $this->setToken($arr[$keys[14]]);
-		if (array_key_exists($keys[15], $arr)) $this->setCommunity($arr[$keys[15]]);
-		if (array_key_exists($keys[16], $arr)) $this->setLastUriId($arr[$keys[16]]);
-		if (array_key_exists($keys[17], $arr)) $this->setStatusId($arr[$keys[17]]);
-		if (array_key_exists($keys[18], $arr)) $this->setLanguage($arr[$keys[18]]);
-		if (array_key_exists($keys[19], $arr)) $this->setLanguages($arr[$keys[19]]);
-		if (array_key_exists($keys[20], $arr)) $this->setProfileId($arr[$keys[20]]);
-		if (array_key_exists($keys[21], $arr)) $this->setNsType($arr[$keys[21]]);
-		if (array_key_exists($keys[22], $arr)) $this->setPrefixes($arr[$keys[22]]);
-		if (array_key_exists($keys[23], $arr)) $this->setRepo($arr[$keys[23]]);
-		if (array_key_exists($keys[24], $arr)) $this->setPrefix($arr[$keys[24]]);
+		if (array_key_exists($keys[7], $arr)) $this->setDeletedUserId($arr[$keys[7]]);
+		if (array_key_exists($keys[8], $arr)) $this->setChildUpdatedAt($arr[$keys[8]]);
+		if (array_key_exists($keys[9], $arr)) $this->setChildUpdatedUserId($arr[$keys[9]]);
+		if (array_key_exists($keys[10], $arr)) $this->setName($arr[$keys[10]]);
+		if (array_key_exists($keys[11], $arr)) $this->setNote($arr[$keys[11]]);
+		if (array_key_exists($keys[12], $arr)) $this->setUri($arr[$keys[12]]);
+		if (array_key_exists($keys[13], $arr)) $this->setUrl($arr[$keys[13]]);
+		if (array_key_exists($keys[14], $arr)) $this->setBaseDomain($arr[$keys[14]]);
+		if (array_key_exists($keys[15], $arr)) $this->setToken($arr[$keys[15]]);
+		if (array_key_exists($keys[16], $arr)) $this->setCommunity($arr[$keys[16]]);
+		if (array_key_exists($keys[17], $arr)) $this->setLastUriId($arr[$keys[17]]);
+		if (array_key_exists($keys[18], $arr)) $this->setStatusId($arr[$keys[18]]);
+		if (array_key_exists($keys[19], $arr)) $this->setLanguage($arr[$keys[19]]);
+		if (array_key_exists($keys[20], $arr)) $this->setLanguages($arr[$keys[20]]);
+		if (array_key_exists($keys[21], $arr)) $this->setProfileId($arr[$keys[21]]);
+		if (array_key_exists($keys[22], $arr)) $this->setNsType($arr[$keys[22]]);
+		if (array_key_exists($keys[23], $arr)) $this->setPrefixes($arr[$keys[23]]);
+		if (array_key_exists($keys[24], $arr)) $this->setRepo($arr[$keys[24]]);
+		if (array_key_exists($keys[25], $arr)) $this->setPrefix($arr[$keys[25]]);
 	}
 
 	/**
@@ -2151,6 +2223,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(VocabularyPeer::LAST_UPDATED)) $criteria->add(VocabularyPeer::LAST_UPDATED, $this->last_updated);
 		if ($this->isColumnModified(VocabularyPeer::CREATED_USER_ID)) $criteria->add(VocabularyPeer::CREATED_USER_ID, $this->created_user_id);
 		if ($this->isColumnModified(VocabularyPeer::UPDATED_USER_ID)) $criteria->add(VocabularyPeer::UPDATED_USER_ID, $this->updated_user_id);
+		if ($this->isColumnModified(VocabularyPeer::DELETED_USER_ID)) $criteria->add(VocabularyPeer::DELETED_USER_ID, $this->deleted_user_id);
 		if ($this->isColumnModified(VocabularyPeer::CHILD_UPDATED_AT)) $criteria->add(VocabularyPeer::CHILD_UPDATED_AT, $this->child_updated_at);
 		if ($this->isColumnModified(VocabularyPeer::CHILD_UPDATED_USER_ID)) $criteria->add(VocabularyPeer::CHILD_UPDATED_USER_ID, $this->child_updated_user_id);
 		if ($this->isColumnModified(VocabularyPeer::NAME)) $criteria->add(VocabularyPeer::NAME, $this->name);
@@ -2234,6 +2307,8 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 		$copyObj->setCreatedUserId($this->created_user_id);
 
 		$copyObj->setUpdatedUserId($this->updated_user_id);
+
+		$copyObj->setDeletedUserId($this->deleted_user_id);
 
 		$copyObj->setChildUpdatedAt($this->child_updated_at);
 
@@ -2512,6 +2587,56 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 			 */
 		}
 		return $this->aUserRelatedByUpdatedUserId;
+	}
+
+	/**
+	 * Declares an association between this object and a User object.
+	 *
+	 * @param      User $v
+	 * @return     void
+	 * @throws     PropelException
+	 */
+	public function setUserRelatedByDeletedUserId($v)
+	{
+
+
+		if ($v === null) {
+			$this->setDeletedUserId(NULL);
+		} else {
+			$this->setDeletedUserId($v->getId());
+		}
+
+
+		$this->aUserRelatedByDeletedUserId = $v;
+	}
+
+
+	/**
+	 * Get the associated User object
+	 *
+	 * @param      Connection Optional Connection object.
+	 * @return     User The associated User object.
+	 * @throws     PropelException
+	 */
+	public function getUserRelatedByDeletedUserId($con = null)
+	{
+		if ($this->aUserRelatedByDeletedUserId === null && ($this->deleted_user_id !== null)) {
+			// include the related Peer class
+			include_once 'lib/model/om/BaseUserPeer.php';
+
+			$this->aUserRelatedByDeletedUserId = UserPeer::retrieveByPK($this->deleted_user_id, $con);
+
+			/* The following can be used instead of the line above to
+			   guarantee the related object contains a reference
+			   to this object, but this level of coupling
+			   may be undesirable in many circumstances.
+			   As it can lead to a db query with many results that may
+			   never be used.
+			   $obj = UserPeer::retrieveByPK($this->deleted_user_id, $con);
+			   $obj->addUsersRelatedByDeletedUserId($this);
+			 */
+		}
+		return $this->aUserRelatedByDeletedUserId;
 	}
 
 	/**
@@ -4121,6 +4246,55 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 		return $this->collConceptPropertyHistorysRelatedByVocabularyId;
 	}
 
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Vocabulary is new, it will return
+	 * an empty collection; or if this Vocabulary has previously
+	 * been saved, it will retrieve related ConceptPropertyHistorysRelatedByVocabularyId from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Vocabulary.
+	 */
+	public function getConceptPropertyHistorysRelatedByVocabularyIdJoinProfileProperty($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseConceptPropertyHistoryPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collConceptPropertyHistorysRelatedByVocabularyId === null) {
+			if ($this->isNew()) {
+				$this->collConceptPropertyHistorysRelatedByVocabularyId = array();
+			} else {
+
+				$criteria->add(ConceptPropertyHistoryPeer::VOCABULARY_ID, $this->getId());
+
+				$this->collConceptPropertyHistorysRelatedByVocabularyId = ConceptPropertyHistoryPeer::doSelectJoinProfileProperty($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(ConceptPropertyHistoryPeer::VOCABULARY_ID, $this->getId());
+
+			if (!isset($this->lastConceptPropertyHistoryRelatedByVocabularyIdCriteria) || !$this->lastConceptPropertyHistoryRelatedByVocabularyIdCriteria->equals($criteria)) {
+				$this->collConceptPropertyHistorysRelatedByVocabularyId = ConceptPropertyHistoryPeer::doSelectJoinProfileProperty($criteria, $con);
+			}
+		}
+		$this->lastConceptPropertyHistoryRelatedByVocabularyIdCriteria = $criteria;
+
+		return $this->collConceptPropertyHistorysRelatedByVocabularyId;
+	}
+
 	/**
 	 * Temporary storage of collConceptPropertyHistorysRelatedBySchemeId to save a possible db hit in
 	 * the event objects are add to the collection, but the
@@ -4564,6 +4738,55 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 
 			if (!isset($this->lastConceptPropertyHistoryRelatedBySchemeIdCriteria) || !$this->lastConceptPropertyHistoryRelatedBySchemeIdCriteria->equals($criteria)) {
 				$this->collConceptPropertyHistorysRelatedBySchemeId = ConceptPropertyHistoryPeer::doSelectJoinFileImportHistory($criteria, $con);
+			}
+		}
+		$this->lastConceptPropertyHistoryRelatedBySchemeIdCriteria = $criteria;
+
+		return $this->collConceptPropertyHistorysRelatedBySchemeId;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Vocabulary is new, it will return
+	 * an empty collection; or if this Vocabulary has previously
+	 * been saved, it will retrieve related ConceptPropertyHistorysRelatedBySchemeId from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Vocabulary.
+	 */
+	public function getConceptPropertyHistorysRelatedBySchemeIdJoinProfileProperty($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseConceptPropertyHistoryPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collConceptPropertyHistorysRelatedBySchemeId === null) {
+			if ($this->isNew()) {
+				$this->collConceptPropertyHistorysRelatedBySchemeId = array();
+			} else {
+
+				$criteria->add(ConceptPropertyHistoryPeer::SCHEME_ID, $this->getId());
+
+				$this->collConceptPropertyHistorysRelatedBySchemeId = ConceptPropertyHistoryPeer::doSelectJoinProfileProperty($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(ConceptPropertyHistoryPeer::SCHEME_ID, $this->getId());
+
+			if (!isset($this->lastConceptPropertyHistoryRelatedBySchemeIdCriteria) || !$this->lastConceptPropertyHistoryRelatedBySchemeIdCriteria->equals($criteria)) {
+				$this->collConceptPropertyHistorysRelatedBySchemeId = ConceptPropertyHistoryPeer::doSelectJoinProfileProperty($criteria, $con);
 			}
 		}
 		$this->lastConceptPropertyHistoryRelatedBySchemeIdCriteria = $criteria;
@@ -5317,6 +5540,55 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 
 			if (!isset($this->lastExportHistoryCriteria) || !$this->lastExportHistoryCriteria->equals($criteria)) {
 				$this->collExportHistorys = ExportHistoryPeer::doSelectJoinSchema($criteria, $con);
+			}
+		}
+		$this->lastExportHistoryCriteria = $criteria;
+
+		return $this->collExportHistorys;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Vocabulary is new, it will return
+	 * an empty collection; or if this Vocabulary has previously
+	 * been saved, it will retrieve related ExportHistorys from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Vocabulary.
+	 */
+	public function getExportHistorysJoinProfile($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseExportHistoryPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collExportHistorys === null) {
+			if ($this->isNew()) {
+				$this->collExportHistorys = array();
+			} else {
+
+				$criteria->add(ExportHistoryPeer::VOCABULARY_ID, $this->getId());
+
+				$this->collExportHistorys = ExportHistoryPeer::doSelectJoinProfile($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(ExportHistoryPeer::VOCABULARY_ID, $this->getId());
+
+			if (!isset($this->lastExportHistoryCriteria) || !$this->lastExportHistoryCriteria->equals($criteria)) {
+				$this->collExportHistorys = ExportHistoryPeer::doSelectJoinProfile($criteria, $con);
 			}
 		}
 		$this->lastExportHistoryCriteria = $criteria;

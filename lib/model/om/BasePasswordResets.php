@@ -37,7 +37,7 @@ abstract class BasePasswordResets extends BaseObject  implements Persistent {
 	 * The value for the created_at field.
 	 * @var        int
 	 */
-	protected $created_at = -62169984000;
+	protected $created_at;
 
 
 	/**
@@ -185,7 +185,7 @@ abstract class BasePasswordResets extends BaseObject  implements Persistent {
 		} else {
 			$ts = $v;
 		}
-		if ($this->created_at !== $ts || $ts === -62169984000) {
+		if ($this->created_at !== $ts) {
 			$this->created_at = $ts;
 			$this->modifiedColumns[] = PasswordResetsPeer::CREATED_AT;
 		}

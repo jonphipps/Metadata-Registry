@@ -67,9 +67,9 @@ class SkosPropertyMapBuilder {
 
 		$tMap->addColumn('INVERSE_ID', 'InverseId', 'int', CreoleTypes::INTEGER, false, null);
 
-		$tMap->addColumn('NAME', 'Name', 'string', CreoleTypes::VARCHAR, true, 255);
+		$tMap->addColumn('NAME', 'Name', 'string', CreoleTypes::VARCHAR, true, 190);
 
-		$tMap->addColumn('URI', 'Uri', 'string', CreoleTypes::VARCHAR, true, 255);
+		$tMap->addColumn('URI', 'Uri', 'string', CreoleTypes::VARCHAR, true, 190);
 
 		$tMap->addColumn('OBJECT_TYPE', 'ObjectType', 'string', CreoleTypes::CHAR, true, null);
 

@@ -176,8 +176,6 @@ propel:
       required: true
     created_at: 
       type: TIMESTAMP
-      required: true
-      default: 0000-00-00 00:00:00
     _indexes: 
       password_resets_email_index: 
         - email
@@ -441,9 +439,8 @@ propel:
       required: true
       default: 0
     namespce: 
-      type: CHAR
+      type: VARCHAR
       size: 255
-      required: true
     _indexes: 
       profile_property_status_id: 
         - status_id
@@ -466,6 +463,9 @@ propel:
       primaryKey: true
     created_at: 
       type: TIMESTAMP
+    updated_at: 
+      type: TIMESTAMP
+      required: true
     last_updated: 
       type: TIMESTAMP
       required: true
@@ -480,7 +480,6 @@ propel:
       type: VARCHAR
       size: 255
       required: true
-      default: ''
     ind_affiliation: 
       type: VARCHAR
       size: 255
@@ -685,9 +684,8 @@ propel:
       default: ''
     pref_label: 
       type: VARCHAR
-      size: 255
+      size: 175
       required: true
-      default: ''
       index: true
     vocabulary_id: 
       type: INTEGER
@@ -728,6 +726,7 @@ propel:
       vocabulary_id_pref_label: 
         - vocabulary_id
         - pref_label
+        - language
   reg_concept_property: 
     _attributes: 
       phpName: ConceptProperty
@@ -819,6 +818,7 @@ propel:
       index: true
     is_generated: 
       type: BOOLEAN
+      required: true
       default: 0
   reg_concept_property_history: 
     _attributes: 
@@ -906,9 +906,17 @@ propel:
       onDelete: RESTRICT
       onUpdate: RESTRICT
       index: true
+    profile_property_id: 
+      type: INTEGER
+      foreignTable: profile_property
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
     _indexes: 
       reg_concept_property_history_idx1: 
         - created_at
+      reg_concept_property_history_ibfk_11: 
+        - profile_property_id
   reg_discuss: 
     _attributes: 
       phpName: Discuss
@@ -1037,25 +1045,19 @@ propel:
       onDelete: RESTRICT
       onUpdate: RESTRICT
       index: true
-    csv_type: 
-      type: VARCHAR
-      size: 100
-      required: false
     exclude_deprecated: 
       type: BOOLEAN
-      required: false
+      default: 0
     exclude_generated: 
       type: BOOLEAN
-      required: false
+      default: 0
     include_deleted: 
       type: BOOLEAN
-      required: false
-    include_deleted:
+      default: 0
+    include_not_accepted: 
       type: BOOLEAN
-      required: false
-    include_not_accepted:
-      type: BOOLEAN
-    selected_columns:
+      default: 0
+    selected_columns: 
       type: LONGVARCHAR
     selected_language: 
       type: VARCHAR
@@ -1068,6 +1070,13 @@ propel:
       size: 100
     last_vocab_update: 
       type: TIMESTAMP
+    profile_id: 
+      type: INTEGER
+      foreignTable: profile
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
+      index: true
   reg_file_import_history: 
     _attributes: 
       phpName: FileImportHistory
@@ -1244,6 +1253,13 @@ propel:
       foreignReference: id
       onDelete: SET NULL
       onUpdate: RESTRICT
+    deleted_user_id: 
+      type: INTEGER
+      foreignTable: reg_user
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
+      index: true
     child_updated_at: 
       type: TIMESTAMP
     child_updated_user_id: 
@@ -1251,9 +1267,8 @@ propel:
       index: true
     name: 
       type: VARCHAR
-      size: 255
+      size: 191
       required: true
-      default: ''
     note: 
       type: LONGVARCHAR
     uri: 
@@ -1313,7 +1328,7 @@ propel:
     repo: 
       type: VARCHAR
       size: 255
-    _indexes:
+    _indexes: 
       last_updated_by_user_id: 
         - updated_user_id
       reg_schema_idx1: 
@@ -1455,6 +1470,13 @@ propel:
       onUpdate: RESTRICT
       index: true
     updated_user_id: 
+      type: INTEGER
+      foreignTable: reg_user
+      foreignReference: id
+      onDelete: RESTRICT
+      onUpdate: RESTRICT
+      index: true
+    deleted_user_id: 
       type: INTEGER
       foreignTable: reg_user
       foreignReference: id
@@ -1609,14 +1631,12 @@ propel:
       type: INTEGER
     name: 
       type: VARCHAR
-      size: 255
+      size: 190
       required: true
-      default: ''
     uri: 
       type: VARCHAR
-      size: 255
+      size: 190
       required: true
-      default: ''
     object_type: 
       type: CHAR
       required: true
@@ -1689,11 +1709,14 @@ propel:
       primaryKey: true
     created_at: 
       type: TIMESTAMP
-    last_updated: 
+    updated_at: 
       type: TIMESTAMP
       required: true
     deleted_at: 
       type: TIMESTAMP
+    last_updated: 
+      type: TIMESTAMP
+      required: true
     nickname: 
       type: VARCHAR
       size: 60
@@ -1734,6 +1757,9 @@ propel:
       type: VARCHAR
       size: 7
       default: en_US
+    remember_token: 
+      type: VARCHAR
+      size: 100
   reg_vocabulary: 
     _attributes: 
       phpName: Vocabulary
@@ -1771,6 +1797,13 @@ propel:
       foreignReference: id
       onDelete: SET NULL
       onUpdate: RESTRICT
+    deleted_user_id: 
+      type: INTEGER
+      foreignTable: reg_user
+      foreignReference: id
+      onDelete: SET NULL
+      onUpdate: RESTRICT
+      index: true
     child_updated_at: 
       type: TIMESTAMP
     child_updated_user_id: 

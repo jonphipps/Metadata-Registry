@@ -75,6 +75,8 @@ class VocabularyMapBuilder {
 
 		$tMap->addForeignKey('UPDATED_USER_ID', 'UpdatedUserId', 'int', CreoleTypes::INTEGER, 'reg_user', 'ID', false, null);
 
+		$tMap->addForeignKey('DELETED_USER_ID', 'DeletedUserId', 'int', CreoleTypes::INTEGER, 'reg_user', 'ID', false, null);
+
 		$tMap->addColumn('CHILD_UPDATED_AT', 'ChildUpdatedAt', 'int', CreoleTypes::TIMESTAMP, false, null);
 
 		$tMap->addForeignKey('CHILD_UPDATED_USER_ID', 'ChildUpdatedUserId', 'int', CreoleTypes::INTEGER, 'reg_user', 'ID', false, null);

@@ -123,6 +123,13 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 	 */
 	protected $import_id;
 
+
+	/**
+	 * The value for the profile_property_id field.
+	 * @var        int
+	 */
+	protected $profile_property_id;
+
 	/**
 	 * @var        ConceptProperty
 	 */
@@ -167,6 +174,11 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 	 * @var        FileImportHistory
 	 */
 	protected $aFileImportHistory;
+
+	/**
+	 * @var        ProfileProperty
+	 */
+	protected $aProfileProperty;
 
 	/**
 	 * Flag to prevent endless save loop, if this object is referenced
@@ -365,6 +377,17 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 	{
 
 		return $this->import_id;
+	}
+
+	/**
+	 * Get the [profile_property_id] column value.
+	 * 
+	 * @return     int
+	 */
+	public function getProfilePropertyId()
+	{
+
+		return $this->profile_property_id;
 	}
 
 	/**
@@ -736,6 +759,32 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 	} // setImportId()
 
 	/**
+	 * Set the value of [profile_property_id] column.
+	 * 
+	 * @param      int $v new value
+	 * @return     void
+	 */
+	public function setProfilePropertyId($v)
+	{
+
+		// Since the native PHP type for this column is integer,
+		// we will cast the input value to an int (if it is not).
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->profile_property_id !== $v) {
+			$this->profile_property_id = $v;
+			$this->modifiedColumns[] = ConceptPropertyHistoryPeer::PROFILE_PROPERTY_ID;
+		}
+
+		if ($this->aProfileProperty !== null && $this->aProfileProperty->getId() !== $v) {
+			$this->aProfileProperty = null;
+		}
+
+	} // setProfilePropertyId()
+
+	/**
 	 * Hydrates (populates) the object variables with values from the database resultset.
 	 *
 	 * An offset (1-based "start column") is specified so that objects can be hydrated
@@ -782,12 +831,14 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 
 			$this->import_id = $rs->getInt($startcol + 14);
 
+			$this->profile_property_id = $rs->getInt($startcol + 15);
+
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 15; // 15 = ConceptPropertyHistoryPeer::NUM_COLUMNS - ConceptPropertyHistoryPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 16; // 16 = ConceptPropertyHistoryPeer::NUM_COLUMNS - ConceptPropertyHistoryPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating ConceptPropertyHistory object", $e);
@@ -979,6 +1030,13 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 				$this->setFileImportHistory($this->aFileImportHistory);
 			}
 
+			if ($this->aProfileProperty !== null) {
+				if ($this->aProfileProperty->isModified()) {
+					$affectedRows += $this->aProfileProperty->save($con);
+				}
+				$this->setProfileProperty($this->aProfileProperty);
+			}
+
 
 			// If this object has been modified, then save it to the database.
 			if ($this->isModified()) {
@@ -1121,6 +1179,12 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 				}
 			}
 
+			if ($this->aProfileProperty !== null) {
+				if (!$this->aProfileProperty->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aProfileProperty->getValidationFailures());
+				}
+			}
+
 
 			if (($retval = ConceptPropertyHistoryPeer::doValidate($this, $columns)) !== true) {
 				$failureMap = array_merge($failureMap, $retval);
@@ -1204,6 +1268,9 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 			case 14:
 				return $this->getImportId();
 				break;
+			case 15:
+				return $this->getProfilePropertyId();
+				break;
 			default:
 				return null;
 				break;
@@ -1239,6 +1306,7 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 			$keys[12] => $this->getCreatedUserId(),
 			$keys[13] => $this->getChangeNote(),
 			$keys[14] => $this->getImportId(),
+			$keys[15] => $this->getProfilePropertyId(),
 		);
 		return $result;
 	}
@@ -1315,6 +1383,9 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 			case 14:
 				$this->setImportId($value);
 				break;
+			case 15:
+				$this->setProfilePropertyId($value);
+				break;
 		} // switch()
 	}
 
@@ -1353,6 +1424,7 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 		if (array_key_exists($keys[12], $arr)) $this->setCreatedUserId($arr[$keys[12]]);
 		if (array_key_exists($keys[13], $arr)) $this->setChangeNote($arr[$keys[13]]);
 		if (array_key_exists($keys[14], $arr)) $this->setImportId($arr[$keys[14]]);
+		if (array_key_exists($keys[15], $arr)) $this->setProfilePropertyId($arr[$keys[15]]);
 	}
 
 	/**
@@ -1379,6 +1451,7 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 		if ($this->isColumnModified(ConceptPropertyHistoryPeer::CREATED_USER_ID)) $criteria->add(ConceptPropertyHistoryPeer::CREATED_USER_ID, $this->created_user_id);
 		if ($this->isColumnModified(ConceptPropertyHistoryPeer::CHANGE_NOTE)) $criteria->add(ConceptPropertyHistoryPeer::CHANGE_NOTE, $this->change_note);
 		if ($this->isColumnModified(ConceptPropertyHistoryPeer::IMPORT_ID)) $criteria->add(ConceptPropertyHistoryPeer::IMPORT_ID, $this->import_id);
+		if ($this->isColumnModified(ConceptPropertyHistoryPeer::PROFILE_PROPERTY_ID)) $criteria->add(ConceptPropertyHistoryPeer::PROFILE_PROPERTY_ID, $this->profile_property_id);
 
 		return $criteria;
 	}
@@ -1460,6 +1533,8 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 		$copyObj->setChangeNote($this->change_note);
 
 		$copyObj->setImportId($this->import_id);
+
+		$copyObj->setProfilePropertyId($this->profile_property_id);
 
 
 		$copyObj->setNew(true);
@@ -1954,6 +2029,56 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 			 */
 		}
 		return $this->aFileImportHistory;
+	}
+
+	/**
+	 * Declares an association between this object and a ProfileProperty object.
+	 *
+	 * @param      ProfileProperty $v
+	 * @return     void
+	 * @throws     PropelException
+	 */
+	public function setProfileProperty($v)
+	{
+
+
+		if ($v === null) {
+			$this->setProfilePropertyId(NULL);
+		} else {
+			$this->setProfilePropertyId($v->getId());
+		}
+
+
+		$this->aProfileProperty = $v;
+	}
+
+
+	/**
+	 * Get the associated ProfileProperty object
+	 *
+	 * @param      Connection Optional Connection object.
+	 * @return     ProfileProperty The associated ProfileProperty object.
+	 * @throws     PropelException
+	 */
+	public function getProfileProperty($con = null)
+	{
+		if ($this->aProfileProperty === null && ($this->profile_property_id !== null)) {
+			// include the related Peer class
+			include_once 'lib/model/om/BaseProfilePropertyPeer.php';
+
+			$this->aProfileProperty = ProfilePropertyPeer::retrieveByPK($this->profile_property_id, $con);
+
+			/* The following can be used instead of the line above to
+			   guarantee the related object contains a reference
+			   to this object, but this level of coupling
+			   may be undesirable in many circumstances.
+			   As it can lead to a db query with many results that may
+			   never be used.
+			   $obj = ProfilePropertyPeer::retrieveByPK($this->profile_property_id, $con);
+			   $obj->addProfilePropertys($this);
+			 */
+		}
+		return $this->aProfileProperty;
 	}
 
 

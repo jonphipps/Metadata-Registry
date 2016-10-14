@@ -3452,6 +3452,55 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in SchemaProperty.
 	 */
+	public function getSchemaPropertyElementsRelatedBySchemaPropertyIdJoinUserRelatedByDeletedUserId($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseSchemaPropertyElementPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collSchemaPropertyElementsRelatedBySchemaPropertyId === null) {
+			if ($this->isNew()) {
+				$this->collSchemaPropertyElementsRelatedBySchemaPropertyId = array();
+			} else {
+
+				$criteria->add(SchemaPropertyElementPeer::SCHEMA_PROPERTY_ID, $this->getId());
+
+				$this->collSchemaPropertyElementsRelatedBySchemaPropertyId = SchemaPropertyElementPeer::doSelectJoinUserRelatedByDeletedUserId($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(SchemaPropertyElementPeer::SCHEMA_PROPERTY_ID, $this->getId());
+
+			if (!isset($this->lastSchemaPropertyElementRelatedBySchemaPropertyIdCriteria) || !$this->lastSchemaPropertyElementRelatedBySchemaPropertyIdCriteria->equals($criteria)) {
+				$this->collSchemaPropertyElementsRelatedBySchemaPropertyId = SchemaPropertyElementPeer::doSelectJoinUserRelatedByDeletedUserId($criteria, $con);
+			}
+		}
+		$this->lastSchemaPropertyElementRelatedBySchemaPropertyIdCriteria = $criteria;
+
+		return $this->collSchemaPropertyElementsRelatedBySchemaPropertyId;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this SchemaProperty is new, it will return
+	 * an empty collection; or if this SchemaProperty has previously
+	 * been saved, it will retrieve related SchemaPropertyElementsRelatedBySchemaPropertyId from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in SchemaProperty.
+	 */
 	public function getSchemaPropertyElementsRelatedBySchemaPropertyIdJoinProfileProperty($criteria = null, $con = null)
 	{
 		// include the Peer class
@@ -3736,6 +3785,55 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 			if (!isset($this->lastSchemaPropertyElementRelatedByRelatedSchemaPropertyIdCriteria) || !$this->lastSchemaPropertyElementRelatedByRelatedSchemaPropertyIdCriteria->equals($criteria)) {
 				$this->collSchemaPropertyElementsRelatedByRelatedSchemaPropertyId = SchemaPropertyElementPeer::doSelectJoinUserRelatedByUpdatedUserId($criteria, $con);
+			}
+		}
+		$this->lastSchemaPropertyElementRelatedByRelatedSchemaPropertyIdCriteria = $criteria;
+
+		return $this->collSchemaPropertyElementsRelatedByRelatedSchemaPropertyId;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this SchemaProperty is new, it will return
+	 * an empty collection; or if this SchemaProperty has previously
+	 * been saved, it will retrieve related SchemaPropertyElementsRelatedByRelatedSchemaPropertyId from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in SchemaProperty.
+	 */
+	public function getSchemaPropertyElementsRelatedByRelatedSchemaPropertyIdJoinUserRelatedByDeletedUserId($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseSchemaPropertyElementPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collSchemaPropertyElementsRelatedByRelatedSchemaPropertyId === null) {
+			if ($this->isNew()) {
+				$this->collSchemaPropertyElementsRelatedByRelatedSchemaPropertyId = array();
+			} else {
+
+				$criteria->add(SchemaPropertyElementPeer::RELATED_SCHEMA_PROPERTY_ID, $this->getId());
+
+				$this->collSchemaPropertyElementsRelatedByRelatedSchemaPropertyId = SchemaPropertyElementPeer::doSelectJoinUserRelatedByDeletedUserId($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(SchemaPropertyElementPeer::RELATED_SCHEMA_PROPERTY_ID, $this->getId());
+
+			if (!isset($this->lastSchemaPropertyElementRelatedByRelatedSchemaPropertyIdCriteria) || !$this->lastSchemaPropertyElementRelatedByRelatedSchemaPropertyIdCriteria->equals($criteria)) {
+				$this->collSchemaPropertyElementsRelatedByRelatedSchemaPropertyId = SchemaPropertyElementPeer::doSelectJoinUserRelatedByDeletedUserId($criteria, $con);
 			}
 		}
 		$this->lastSchemaPropertyElementRelatedByRelatedSchemaPropertyIdCriteria = $criteria;

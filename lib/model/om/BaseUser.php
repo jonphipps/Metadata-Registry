@@ -34,10 +34,10 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 
 	/**
-	 * The value for the last_updated field.
+	 * The value for the updated_at field.
 	 * @var        int
 	 */
-	protected $last_updated;
+	protected $updated_at;
 
 
 	/**
@@ -45,6 +45,13 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	 * @var        int
 	 */
 	protected $deleted_at;
+
+
+	/**
+	 * The value for the last_updated field.
+	 * @var        int
+	 */
+	protected $last_updated;
 
 
 	/**
@@ -136,6 +143,13 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	 * @var        string
 	 */
 	protected $culture = 'en_US';
+
+
+	/**
+	 * The value for the remember_token field.
+	 * @var        string
+	 */
+	protected $remember_token;
 
 	/**
 	 * Collection to store aggregation of collProfilesRelatedByCreatedBy.
@@ -390,6 +404,18 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	protected $lastSchemaRelatedByUpdatedUserIdCriteria = null;
 
 	/**
+	 * Collection to store aggregation of collSchemasRelatedByDeletedUserId.
+	 * @var        array
+	 */
+	protected $collSchemasRelatedByDeletedUserId;
+
+	/**
+	 * The criteria used to select the current contents of collSchemasRelatedByDeletedUserId.
+	 * @var        Criteria
+	 */
+	protected $lastSchemaRelatedByDeletedUserIdCriteria = null;
+
+	/**
 	 * Collection to store aggregation of collSchemaPropertysRelatedByCreatedUserId.
 	 * @var        array
 	 */
@@ -438,6 +464,18 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	protected $lastSchemaPropertyElementRelatedByUpdatedUserIdCriteria = null;
 
 	/**
+	 * Collection to store aggregation of collSchemaPropertyElementsRelatedByDeletedUserId.
+	 * @var        array
+	 */
+	protected $collSchemaPropertyElementsRelatedByDeletedUserId;
+
+	/**
+	 * The criteria used to select the current contents of collSchemaPropertyElementsRelatedByDeletedUserId.
+	 * @var        Criteria
+	 */
+	protected $lastSchemaPropertyElementRelatedByDeletedUserIdCriteria = null;
+
+	/**
 	 * Collection to store aggregation of collSchemaPropertyElementHistorys.
 	 * @var        array
 	 */
@@ -472,6 +510,18 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	 * @var        Criteria
 	 */
 	protected $lastVocabularyRelatedByUpdatedUserIdCriteria = null;
+
+	/**
+	 * Collection to store aggregation of collVocabularysRelatedByDeletedUserId.
+	 * @var        array
+	 */
+	protected $collVocabularysRelatedByDeletedUserId;
+
+	/**
+	 * The criteria used to select the current contents of collVocabularysRelatedByDeletedUserId.
+	 * @var        Criteria
+	 */
+	protected $lastVocabularyRelatedByDeletedUserIdCriteria = null;
 
 	/**
 	 * Collection to store aggregation of collVocabularysRelatedByChildUpdatedUserId.
@@ -590,26 +640,26 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	}
 
 	/**
-	 * Get the [optionally formatted] [last_updated] column value.
+	 * Get the [optionally formatted] [updated_at] column value.
 	 * 
 	 * @param      string $format The date/time format string (either date()-style or strftime()-style).
 	 *							If format is NULL, then the integer unix timestamp will be returned.
 	 * @return     mixed Formatted date/time value as string or integer unix timestamp (if format is NULL).
 	 * @throws     PropelException - if unable to convert the date/time to timestamp.
 	 */
-	public function getLastUpdated($format = 'Y-m-d H:i:s')
+	public function getUpdatedAt($format = 'Y-m-d H:i:s')
 	{
 
-		if ($this->last_updated === null || $this->last_updated === '') {
+		if ($this->updated_at === null || $this->updated_at === '') {
 			return null;
-		} elseif (!is_int($this->last_updated)) {
+		} elseif (!is_int($this->updated_at)) {
 			// a non-timestamp value was set externally, so we convert it
-			$ts = strtotime($this->last_updated);
+			$ts = strtotime($this->updated_at);
 			if ($ts === -1 || $ts === false) { // in PHP 5.1 return value changes to FALSE
-				throw new PropelException("Unable to parse value of [last_updated] as date/time value: " . var_export($this->last_updated, true));
+				throw new PropelException("Unable to parse value of [updated_at] as date/time value: " . var_export($this->updated_at, true));
 			}
 		} else {
-			$ts = $this->last_updated;
+			$ts = $this->updated_at;
 		}
 		if ($format === null) {
 			return $ts;
@@ -641,6 +691,37 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 			}
 		} else {
 			$ts = $this->deleted_at;
+		}
+		if ($format === null) {
+			return $ts;
+		} elseif (strpos($format, '%') !== false) {
+			return strftime($format, $ts);
+		} else {
+			return date($format, $ts);
+		}
+	}
+
+	/**
+	 * Get the [optionally formatted] [last_updated] column value.
+	 * 
+	 * @param      string $format The date/time format string (either date()-style or strftime()-style).
+	 *							If format is NULL, then the integer unix timestamp will be returned.
+	 * @return     mixed Formatted date/time value as string or integer unix timestamp (if format is NULL).
+	 * @throws     PropelException - if unable to convert the date/time to timestamp.
+	 */
+	public function getLastUpdated($format = 'Y-m-d H:i:s')
+	{
+
+		if ($this->last_updated === null || $this->last_updated === '') {
+			return null;
+		} elseif (!is_int($this->last_updated)) {
+			// a non-timestamp value was set externally, so we convert it
+			$ts = strtotime($this->last_updated);
+			if ($ts === -1 || $ts === false) { // in PHP 5.1 return value changes to FALSE
+				throw new PropelException("Unable to parse value of [last_updated] as date/time value: " . var_export($this->last_updated, true));
+			}
+		} else {
+			$ts = $this->last_updated;
 		}
 		if ($format === null) {
 			return $ts;
@@ -795,6 +876,17 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	}
 
 	/**
+	 * Get the [remember_token] column value.
+	 * 
+	 * @return     string
+	 */
+	public function getRememberToken()
+	{
+
+		return $this->remember_token;
+	}
+
+	/**
 	 * Set the value of [id] column.
 	 * 
 	 * @param      int $v new value
@@ -841,28 +933,28 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	} // setCreatedAt()
 
 	/**
-	 * Set the value of [last_updated] column.
+	 * Set the value of [updated_at] column.
 	 * 
 	 * @param      int $v new value
 	 * @return     void
 	 */
-	public function setLastUpdated($v)
+	public function setUpdatedAt($v)
 	{
 
 		if ($v !== null && !is_int($v)) {
 			$ts = strtotime($v);
 			if ($ts === -1 || $ts === false) { // in PHP 5.1 return value changes to FALSE
-				throw new PropelException("Unable to parse date/time value for [last_updated] from input: " . var_export($v, true));
+				throw new PropelException("Unable to parse date/time value for [updated_at] from input: " . var_export($v, true));
 			}
 		} else {
 			$ts = $v;
 		}
-		if ($this->last_updated !== $ts) {
-			$this->last_updated = $ts;
-			$this->modifiedColumns[] = UserPeer::LAST_UPDATED;
+		if ($this->updated_at !== $ts) {
+			$this->updated_at = $ts;
+			$this->modifiedColumns[] = UserPeer::UPDATED_AT;
 		}
 
-	} // setLastUpdated()
+	} // setUpdatedAt()
 
 	/**
 	 * Set the value of [deleted_at] column.
@@ -887,6 +979,30 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		}
 
 	} // setDeletedAt()
+
+	/**
+	 * Set the value of [last_updated] column.
+	 * 
+	 * @param      int $v new value
+	 * @return     void
+	 */
+	public function setLastUpdated($v)
+	{
+
+		if ($v !== null && !is_int($v)) {
+			$ts = strtotime($v);
+			if ($ts === -1 || $ts === false) { // in PHP 5.1 return value changes to FALSE
+				throw new PropelException("Unable to parse date/time value for [last_updated] from input: " . var_export($v, true));
+			}
+		} else {
+			$ts = $v;
+		}
+		if ($this->last_updated !== $ts) {
+			$this->last_updated = $ts;
+			$this->modifiedColumns[] = UserPeer::LAST_UPDATED;
+		}
+
+	} // setLastUpdated()
 
 	/**
 	 * Set the value of [nickname] column.
@@ -1157,6 +1273,28 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	} // setCulture()
 
 	/**
+	 * Set the value of [remember_token] column.
+	 * 
+	 * @param      string $v new value
+	 * @return     void
+	 */
+	public function setRememberToken($v)
+	{
+
+		// Since the native PHP type for this column is string,
+		// we will cast the input to a string (if it is not).
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->remember_token !== $v) {
+			$this->remember_token = $v;
+			$this->modifiedColumns[] = UserPeer::REMEMBER_TOKEN;
+		}
+
+	} // setRememberToken()
+
+	/**
 	 * Hydrates (populates) the object variables with values from the database resultset.
 	 *
 	 * An offset (1-based "start column") is specified so that objects can be hydrated
@@ -1177,42 +1315,46 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 			$this->created_at = $rs->getTimestamp($startcol + 1, null);
 
-			$this->last_updated = $rs->getTimestamp($startcol + 2, null);
+			$this->updated_at = $rs->getTimestamp($startcol + 2, null);
 
 			$this->deleted_at = $rs->getTimestamp($startcol + 3, null);
 
-			$this->nickname = $rs->getString($startcol + 4);
+			$this->last_updated = $rs->getTimestamp($startcol + 4, null);
 
-			$this->salutation = $rs->getString($startcol + 5);
+			$this->nickname = $rs->getString($startcol + 5);
 
-			$this->first_name = $rs->getString($startcol + 6);
+			$this->salutation = $rs->getString($startcol + 6);
 
-			$this->last_name = $rs->getString($startcol + 7);
+			$this->first_name = $rs->getString($startcol + 7);
 
-			$this->email = $rs->getString($startcol + 8);
+			$this->last_name = $rs->getString($startcol + 8);
 
-			$this->sha1_password = $rs->getString($startcol + 9);
+			$this->email = $rs->getString($startcol + 9);
 
-			$this->salt = $rs->getString($startcol + 10);
+			$this->sha1_password = $rs->getString($startcol + 10);
 
-			$this->want_to_be_moderator = $rs->getBoolean($startcol + 11);
+			$this->salt = $rs->getString($startcol + 11);
 
-			$this->is_moderator = $rs->getBoolean($startcol + 12);
+			$this->want_to_be_moderator = $rs->getBoolean($startcol + 12);
 
-			$this->is_administrator = $rs->getBoolean($startcol + 13);
+			$this->is_moderator = $rs->getBoolean($startcol + 13);
 
-			$this->deletions = $rs->getInt($startcol + 14);
+			$this->is_administrator = $rs->getBoolean($startcol + 14);
 
-			$this->password = $rs->getString($startcol + 15);
+			$this->deletions = $rs->getInt($startcol + 15);
 
-			$this->culture = $rs->getString($startcol + 16);
+			$this->password = $rs->getString($startcol + 16);
+
+			$this->culture = $rs->getString($startcol + 17);
+
+			$this->remember_token = $rs->getString($startcol + 18);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 17; // 17 = UserPeer::NUM_COLUMNS - UserPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 19; // 19 = UserPeer::NUM_COLUMNS - UserPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating User object", $e);
@@ -1292,6 +1434,11 @@ abstract class BaseUser extends BaseObject  implements Persistent {
     if ($this->isNew() && !$this->isColumnModified(UserPeer::CREATED_AT))
     {
       $this->setCreatedAt(time());
+    }
+
+    if ($this->isModified() && !$this->isColumnModified(UserPeer::UPDATED_AT))
+    {
+      $this->setUpdatedAt(time());
     }
 
 		if ($this->isDeleted()) {
@@ -1521,6 +1668,14 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 				}
 			}
 
+			if ($this->collSchemasRelatedByDeletedUserId !== null) {
+				foreach($this->collSchemasRelatedByDeletedUserId as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
+			}
+
 			if ($this->collSchemaPropertysRelatedByCreatedUserId !== null) {
 				foreach($this->collSchemaPropertysRelatedByCreatedUserId as $referrerFK) {
 					if (!$referrerFK->isDeleted()) {
@@ -1553,6 +1708,14 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 				}
 			}
 
+			if ($this->collSchemaPropertyElementsRelatedByDeletedUserId !== null) {
+				foreach($this->collSchemaPropertyElementsRelatedByDeletedUserId as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
+			}
+
 			if ($this->collSchemaPropertyElementHistorys !== null) {
 				foreach($this->collSchemaPropertyElementHistorys as $referrerFK) {
 					if (!$referrerFK->isDeleted()) {
@@ -1571,6 +1734,14 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 			if ($this->collVocabularysRelatedByUpdatedUserId !== null) {
 				foreach($this->collVocabularysRelatedByUpdatedUserId as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
+			}
+
+			if ($this->collVocabularysRelatedByDeletedUserId !== null) {
+				foreach($this->collVocabularysRelatedByDeletedUserId as $referrerFK) {
 					if (!$referrerFK->isDeleted()) {
 						$affectedRows += $referrerFK->save($con);
 					}
@@ -1855,6 +2026,14 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 					}
 				}
 
+				if ($this->collSchemasRelatedByDeletedUserId !== null) {
+					foreach($this->collSchemasRelatedByDeletedUserId as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
+
 				if ($this->collSchemaPropertysRelatedByCreatedUserId !== null) {
 					foreach($this->collSchemaPropertysRelatedByCreatedUserId as $referrerFK) {
 						if (!$referrerFK->validate($columns)) {
@@ -1887,6 +2066,14 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 					}
 				}
 
+				if ($this->collSchemaPropertyElementsRelatedByDeletedUserId !== null) {
+					foreach($this->collSchemaPropertyElementsRelatedByDeletedUserId as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
+
 				if ($this->collSchemaPropertyElementHistorys !== null) {
 					foreach($this->collSchemaPropertyElementHistorys as $referrerFK) {
 						if (!$referrerFK->validate($columns)) {
@@ -1905,6 +2092,14 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 				if ($this->collVocabularysRelatedByUpdatedUserId !== null) {
 					foreach($this->collVocabularysRelatedByUpdatedUserId as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
+
+				if ($this->collVocabularysRelatedByDeletedUserId !== null) {
+					foreach($this->collVocabularysRelatedByDeletedUserId as $referrerFK) {
 						if (!$referrerFK->validate($columns)) {
 							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
 						}
@@ -1990,49 +2185,55 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 				return $this->getCreatedAt();
 				break;
 			case 2:
-				return $this->getLastUpdated();
+				return $this->getUpdatedAt();
 				break;
 			case 3:
 				return $this->getDeletedAt();
 				break;
 			case 4:
-				return $this->getNickname();
+				return $this->getLastUpdated();
 				break;
 			case 5:
-				return $this->getSalutation();
+				return $this->getNickname();
 				break;
 			case 6:
-				return $this->getFirstName();
+				return $this->getSalutation();
 				break;
 			case 7:
-				return $this->getLastName();
+				return $this->getFirstName();
 				break;
 			case 8:
-				return $this->getEmail();
+				return $this->getLastName();
 				break;
 			case 9:
-				return $this->getSha1Password();
+				return $this->getEmail();
 				break;
 			case 10:
-				return $this->getSalt();
+				return $this->getSha1Password();
 				break;
 			case 11:
-				return $this->getWantToBeModerator();
+				return $this->getSalt();
 				break;
 			case 12:
-				return $this->getIsModerator();
+				return $this->getWantToBeModerator();
 				break;
 			case 13:
-				return $this->getIsAdministrator();
+				return $this->getIsModerator();
 				break;
 			case 14:
-				return $this->getDeletions();
+				return $this->getIsAdministrator();
 				break;
 			case 15:
-				return $this->getPassword();
+				return $this->getDeletions();
 				break;
 			case 16:
+				return $this->getPassword();
+				break;
+			case 17:
 				return $this->getCulture();
+				break;
+			case 18:
+				return $this->getRememberToken();
 				break;
 			default:
 				return null;
@@ -2056,21 +2257,23 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		$result = array(
 			$keys[0] => $this->getId(),
 			$keys[1] => $this->getCreatedAt(),
-			$keys[2] => $this->getLastUpdated(),
+			$keys[2] => $this->getUpdatedAt(),
 			$keys[3] => $this->getDeletedAt(),
-			$keys[4] => $this->getNickname(),
-			$keys[5] => $this->getSalutation(),
-			$keys[6] => $this->getFirstName(),
-			$keys[7] => $this->getLastName(),
-			$keys[8] => $this->getEmail(),
-			$keys[9] => $this->getSha1Password(),
-			$keys[10] => $this->getSalt(),
-			$keys[11] => $this->getWantToBeModerator(),
-			$keys[12] => $this->getIsModerator(),
-			$keys[13] => $this->getIsAdministrator(),
-			$keys[14] => $this->getDeletions(),
-			$keys[15] => $this->getPassword(),
-			$keys[16] => $this->getCulture(),
+			$keys[4] => $this->getLastUpdated(),
+			$keys[5] => $this->getNickname(),
+			$keys[6] => $this->getSalutation(),
+			$keys[7] => $this->getFirstName(),
+			$keys[8] => $this->getLastName(),
+			$keys[9] => $this->getEmail(),
+			$keys[10] => $this->getSha1Password(),
+			$keys[11] => $this->getSalt(),
+			$keys[12] => $this->getWantToBeModerator(),
+			$keys[13] => $this->getIsModerator(),
+			$keys[14] => $this->getIsAdministrator(),
+			$keys[15] => $this->getDeletions(),
+			$keys[16] => $this->getPassword(),
+			$keys[17] => $this->getCulture(),
+			$keys[18] => $this->getRememberToken(),
 		);
 		return $result;
 	}
@@ -2109,49 +2312,55 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 				$this->setCreatedAt($value);
 				break;
 			case 2:
-				$this->setLastUpdated($value);
+				$this->setUpdatedAt($value);
 				break;
 			case 3:
 				$this->setDeletedAt($value);
 				break;
 			case 4:
-				$this->setNickname($value);
+				$this->setLastUpdated($value);
 				break;
 			case 5:
-				$this->setSalutation($value);
+				$this->setNickname($value);
 				break;
 			case 6:
-				$this->setFirstName($value);
+				$this->setSalutation($value);
 				break;
 			case 7:
-				$this->setLastName($value);
+				$this->setFirstName($value);
 				break;
 			case 8:
-				$this->setEmail($value);
+				$this->setLastName($value);
 				break;
 			case 9:
-				$this->setSha1Password($value);
+				$this->setEmail($value);
 				break;
 			case 10:
-				$this->setSalt($value);
+				$this->setSha1Password($value);
 				break;
 			case 11:
-				$this->setWantToBeModerator($value);
+				$this->setSalt($value);
 				break;
 			case 12:
-				$this->setIsModerator($value);
+				$this->setWantToBeModerator($value);
 				break;
 			case 13:
-				$this->setIsAdministrator($value);
+				$this->setIsModerator($value);
 				break;
 			case 14:
-				$this->setDeletions($value);
+				$this->setIsAdministrator($value);
 				break;
 			case 15:
-				$this->setPassword($value);
+				$this->setDeletions($value);
 				break;
 			case 16:
+				$this->setPassword($value);
+				break;
+			case 17:
 				$this->setCulture($value);
+				break;
+			case 18:
+				$this->setRememberToken($value);
 				break;
 		} // switch()
 	}
@@ -2178,21 +2387,23 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 		if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
 		if (array_key_exists($keys[1], $arr)) $this->setCreatedAt($arr[$keys[1]]);
-		if (array_key_exists($keys[2], $arr)) $this->setLastUpdated($arr[$keys[2]]);
+		if (array_key_exists($keys[2], $arr)) $this->setUpdatedAt($arr[$keys[2]]);
 		if (array_key_exists($keys[3], $arr)) $this->setDeletedAt($arr[$keys[3]]);
-		if (array_key_exists($keys[4], $arr)) $this->setNickname($arr[$keys[4]]);
-		if (array_key_exists($keys[5], $arr)) $this->setSalutation($arr[$keys[5]]);
-		if (array_key_exists($keys[6], $arr)) $this->setFirstName($arr[$keys[6]]);
-		if (array_key_exists($keys[7], $arr)) $this->setLastName($arr[$keys[7]]);
-		if (array_key_exists($keys[8], $arr)) $this->setEmail($arr[$keys[8]]);
-		if (array_key_exists($keys[9], $arr)) $this->setSha1Password($arr[$keys[9]]);
-		if (array_key_exists($keys[10], $arr)) $this->setSalt($arr[$keys[10]]);
-		if (array_key_exists($keys[11], $arr)) $this->setWantToBeModerator($arr[$keys[11]]);
-		if (array_key_exists($keys[12], $arr)) $this->setIsModerator($arr[$keys[12]]);
-		if (array_key_exists($keys[13], $arr)) $this->setIsAdministrator($arr[$keys[13]]);
-		if (array_key_exists($keys[14], $arr)) $this->setDeletions($arr[$keys[14]]);
-		if (array_key_exists($keys[15], $arr)) $this->setPassword($arr[$keys[15]]);
-		if (array_key_exists($keys[16], $arr)) $this->setCulture($arr[$keys[16]]);
+		if (array_key_exists($keys[4], $arr)) $this->setLastUpdated($arr[$keys[4]]);
+		if (array_key_exists($keys[5], $arr)) $this->setNickname($arr[$keys[5]]);
+		if (array_key_exists($keys[6], $arr)) $this->setSalutation($arr[$keys[6]]);
+		if (array_key_exists($keys[7], $arr)) $this->setFirstName($arr[$keys[7]]);
+		if (array_key_exists($keys[8], $arr)) $this->setLastName($arr[$keys[8]]);
+		if (array_key_exists($keys[9], $arr)) $this->setEmail($arr[$keys[9]]);
+		if (array_key_exists($keys[10], $arr)) $this->setSha1Password($arr[$keys[10]]);
+		if (array_key_exists($keys[11], $arr)) $this->setSalt($arr[$keys[11]]);
+		if (array_key_exists($keys[12], $arr)) $this->setWantToBeModerator($arr[$keys[12]]);
+		if (array_key_exists($keys[13], $arr)) $this->setIsModerator($arr[$keys[13]]);
+		if (array_key_exists($keys[14], $arr)) $this->setIsAdministrator($arr[$keys[14]]);
+		if (array_key_exists($keys[15], $arr)) $this->setDeletions($arr[$keys[15]]);
+		if (array_key_exists($keys[16], $arr)) $this->setPassword($arr[$keys[16]]);
+		if (array_key_exists($keys[17], $arr)) $this->setCulture($arr[$keys[17]]);
+		if (array_key_exists($keys[18], $arr)) $this->setRememberToken($arr[$keys[18]]);
 	}
 
 	/**
@@ -2206,8 +2417,9 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 		if ($this->isColumnModified(UserPeer::ID)) $criteria->add(UserPeer::ID, $this->id);
 		if ($this->isColumnModified(UserPeer::CREATED_AT)) $criteria->add(UserPeer::CREATED_AT, $this->created_at);
-		if ($this->isColumnModified(UserPeer::LAST_UPDATED)) $criteria->add(UserPeer::LAST_UPDATED, $this->last_updated);
+		if ($this->isColumnModified(UserPeer::UPDATED_AT)) $criteria->add(UserPeer::UPDATED_AT, $this->updated_at);
 		if ($this->isColumnModified(UserPeer::DELETED_AT)) $criteria->add(UserPeer::DELETED_AT, $this->deleted_at);
+		if ($this->isColumnModified(UserPeer::LAST_UPDATED)) $criteria->add(UserPeer::LAST_UPDATED, $this->last_updated);
 		if ($this->isColumnModified(UserPeer::NICKNAME)) $criteria->add(UserPeer::NICKNAME, $this->nickname);
 		if ($this->isColumnModified(UserPeer::SALUTATION)) $criteria->add(UserPeer::SALUTATION, $this->salutation);
 		if ($this->isColumnModified(UserPeer::FIRST_NAME)) $criteria->add(UserPeer::FIRST_NAME, $this->first_name);
@@ -2221,6 +2433,7 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(UserPeer::DELETIONS)) $criteria->add(UserPeer::DELETIONS, $this->deletions);
 		if ($this->isColumnModified(UserPeer::PASSWORD)) $criteria->add(UserPeer::PASSWORD, $this->password);
 		if ($this->isColumnModified(UserPeer::CULTURE)) $criteria->add(UserPeer::CULTURE, $this->culture);
+		if ($this->isColumnModified(UserPeer::REMEMBER_TOKEN)) $criteria->add(UserPeer::REMEMBER_TOKEN, $this->remember_token);
 
 		return $criteria;
 	}
@@ -2277,9 +2490,11 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 		$copyObj->setCreatedAt($this->created_at);
 
-		$copyObj->setLastUpdated($this->last_updated);
+		$copyObj->setUpdatedAt($this->updated_at);
 
 		$copyObj->setDeletedAt($this->deleted_at);
+
+		$copyObj->setLastUpdated($this->last_updated);
 
 		$copyObj->setNickname($this->nickname);
 
@@ -2306,6 +2521,8 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		$copyObj->setPassword($this->password);
 
 		$copyObj->setCulture($this->culture);
+
+		$copyObj->setRememberToken($this->remember_token);
 
 
 		if ($deepCopy) {
@@ -2397,6 +2614,10 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 				$copyObj->addSchemaRelatedByUpdatedUserId($relObj->copy($deepCopy));
 			}
 
+			foreach($this->getSchemasRelatedByDeletedUserId() as $relObj) {
+				$copyObj->addSchemaRelatedByDeletedUserId($relObj->copy($deepCopy));
+			}
+
 			foreach($this->getSchemaPropertysRelatedByCreatedUserId() as $relObj) {
 				$copyObj->addSchemaPropertyRelatedByCreatedUserId($relObj->copy($deepCopy));
 			}
@@ -2413,6 +2634,10 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 				$copyObj->addSchemaPropertyElementRelatedByUpdatedUserId($relObj->copy($deepCopy));
 			}
 
+			foreach($this->getSchemaPropertyElementsRelatedByDeletedUserId() as $relObj) {
+				$copyObj->addSchemaPropertyElementRelatedByDeletedUserId($relObj->copy($deepCopy));
+			}
+
 			foreach($this->getSchemaPropertyElementHistorys() as $relObj) {
 				$copyObj->addSchemaPropertyElementHistory($relObj->copy($deepCopy));
 			}
@@ -2423,6 +2648,10 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 			foreach($this->getVocabularysRelatedByUpdatedUserId() as $relObj) {
 				$copyObj->addVocabularyRelatedByUpdatedUserId($relObj->copy($deepCopy));
+			}
+
+			foreach($this->getVocabularysRelatedByDeletedUserId() as $relObj) {
+				$copyObj->addVocabularyRelatedByDeletedUserId($relObj->copy($deepCopy));
 			}
 
 			foreach($this->getVocabularysRelatedByChildUpdatedUserId() as $relObj) {
@@ -6449,6 +6678,55 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		return $this->collConceptPropertyHistorys;
 	}
 
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this User is new, it will return
+	 * an empty collection; or if this User has previously
+	 * been saved, it will retrieve related ConceptPropertyHistorys from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in User.
+	 */
+	public function getConceptPropertyHistorysJoinProfileProperty($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseConceptPropertyHistoryPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collConceptPropertyHistorys === null) {
+			if ($this->isNew()) {
+				$this->collConceptPropertyHistorys = array();
+			} else {
+
+				$criteria->add(ConceptPropertyHistoryPeer::CREATED_USER_ID, $this->getId());
+
+				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelectJoinProfileProperty($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(ConceptPropertyHistoryPeer::CREATED_USER_ID, $this->getId());
+
+			if (!isset($this->lastConceptPropertyHistoryCriteria) || !$this->lastConceptPropertyHistoryCriteria->equals($criteria)) {
+				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelectJoinProfileProperty($criteria, $con);
+			}
+		}
+		$this->lastConceptPropertyHistoryCriteria = $criteria;
+
+		return $this->collConceptPropertyHistorys;
+	}
+
 	/**
 	 * Temporary storage of collDiscusssRelatedByCreatedUserId to save a possible db hit in
 	 * the event objects are add to the collection, but the
@@ -7652,6 +7930,55 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		return $this->collExportHistorys;
 	}
 
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this User is new, it will return
+	 * an empty collection; or if this User has previously
+	 * been saved, it will retrieve related ExportHistorys from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in User.
+	 */
+	public function getExportHistorysJoinProfile($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseExportHistoryPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collExportHistorys === null) {
+			if ($this->isNew()) {
+				$this->collExportHistorys = array();
+			} else {
+
+				$criteria->add(ExportHistoryPeer::USER_ID, $this->getId());
+
+				$this->collExportHistorys = ExportHistoryPeer::doSelectJoinProfile($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(ExportHistoryPeer::USER_ID, $this->getId());
+
+			if (!isset($this->lastExportHistoryCriteria) || !$this->lastExportHistoryCriteria->equals($criteria)) {
+				$this->collExportHistorys = ExportHistoryPeer::doSelectJoinProfile($criteria, $con);
+			}
+		}
+		$this->lastExportHistoryCriteria = $criteria;
+
+		return $this->collExportHistorys;
+	}
+
 	/**
 	 * Temporary storage of collFileImportHistorys to save a possible db hit in
 	 * the event objects are add to the collection, but the
@@ -8412,6 +8739,260 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		$this->lastSchemaRelatedByUpdatedUserIdCriteria = $criteria;
 
 		return $this->collSchemasRelatedByUpdatedUserId;
+	}
+
+	/**
+	 * Temporary storage of collSchemasRelatedByDeletedUserId to save a possible db hit in
+	 * the event objects are add to the collection, but the
+	 * complete collection is never requested.
+	 * @return     void
+	 */
+	public function initSchemasRelatedByDeletedUserId()
+	{
+		if ($this->collSchemasRelatedByDeletedUserId === null) {
+			$this->collSchemasRelatedByDeletedUserId = array();
+		}
+	}
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this User has previously
+	 * been saved, it will retrieve related SchemasRelatedByDeletedUserId from storage.
+	 * If this User is new, it will return
+	 * an empty collection or the current collection, the criteria
+	 * is ignored on a new object.
+	 *
+	 * @param      Connection $con
+	 * @param      Criteria $criteria
+	 * @throws     PropelException
+	 */
+	public function getSchemasRelatedByDeletedUserId($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseSchemaPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collSchemasRelatedByDeletedUserId === null) {
+			if ($this->isNew()) {
+			   $this->collSchemasRelatedByDeletedUserId = array();
+			} else {
+
+				$criteria->add(SchemaPeer::DELETED_USER_ID, $this->getId());
+
+				SchemaPeer::addSelectColumns($criteria);
+				$this->collSchemasRelatedByDeletedUserId = SchemaPeer::doSelect($criteria, $con);
+			}
+		} else {
+			// criteria has no effect for a new object
+			if (!$this->isNew()) {
+				// the following code is to determine if a new query is
+				// called for.  If the criteria is the same as the last
+				// one, just return the collection.
+
+
+				$criteria->add(SchemaPeer::DELETED_USER_ID, $this->getId());
+
+				SchemaPeer::addSelectColumns($criteria);
+				if (!isset($this->lastSchemaRelatedByDeletedUserIdCriteria) || !$this->lastSchemaRelatedByDeletedUserIdCriteria->equals($criteria)) {
+					$this->collSchemasRelatedByDeletedUserId = SchemaPeer::doSelect($criteria, $con);
+				}
+			}
+		}
+		$this->lastSchemaRelatedByDeletedUserIdCriteria = $criteria;
+		return $this->collSchemasRelatedByDeletedUserId;
+	}
+
+	/**
+	 * Returns the number of related SchemasRelatedByDeletedUserId.
+	 *
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct
+	 * @param      Connection $con
+	 * @throws     PropelException
+	 */
+	public function countSchemasRelatedByDeletedUserId($criteria = null, $distinct = false, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseSchemaPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		$criteria->add(SchemaPeer::DELETED_USER_ID, $this->getId());
+
+		return SchemaPeer::doCount($criteria, $distinct, $con);
+	}
+
+	/**
+	 * Method called to associate a Schema object to this object
+	 * through the Schema foreign key attribute
+	 *
+	 * @param      Schema $l Schema
+	 * @return     void
+	 * @throws     PropelException
+	 */
+	public function addSchemaRelatedByDeletedUserId(Schema $l)
+	{
+		$this->collSchemasRelatedByDeletedUserId[] = $l;
+		$l->setUserRelatedByDeletedUserId($this);
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this User is new, it will return
+	 * an empty collection; or if this User has previously
+	 * been saved, it will retrieve related SchemasRelatedByDeletedUserId from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in User.
+	 */
+	public function getSchemasRelatedByDeletedUserIdJoinAgent($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseSchemaPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collSchemasRelatedByDeletedUserId === null) {
+			if ($this->isNew()) {
+				$this->collSchemasRelatedByDeletedUserId = array();
+			} else {
+
+				$criteria->add(SchemaPeer::DELETED_USER_ID, $this->getId());
+
+				$this->collSchemasRelatedByDeletedUserId = SchemaPeer::doSelectJoinAgent($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(SchemaPeer::DELETED_USER_ID, $this->getId());
+
+			if (!isset($this->lastSchemaRelatedByDeletedUserIdCriteria) || !$this->lastSchemaRelatedByDeletedUserIdCriteria->equals($criteria)) {
+				$this->collSchemasRelatedByDeletedUserId = SchemaPeer::doSelectJoinAgent($criteria, $con);
+			}
+		}
+		$this->lastSchemaRelatedByDeletedUserIdCriteria = $criteria;
+
+		return $this->collSchemasRelatedByDeletedUserId;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this User is new, it will return
+	 * an empty collection; or if this User has previously
+	 * been saved, it will retrieve related SchemasRelatedByDeletedUserId from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in User.
+	 */
+	public function getSchemasRelatedByDeletedUserIdJoinStatus($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseSchemaPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collSchemasRelatedByDeletedUserId === null) {
+			if ($this->isNew()) {
+				$this->collSchemasRelatedByDeletedUserId = array();
+			} else {
+
+				$criteria->add(SchemaPeer::DELETED_USER_ID, $this->getId());
+
+				$this->collSchemasRelatedByDeletedUserId = SchemaPeer::doSelectJoinStatus($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(SchemaPeer::DELETED_USER_ID, $this->getId());
+
+			if (!isset($this->lastSchemaRelatedByDeletedUserIdCriteria) || !$this->lastSchemaRelatedByDeletedUserIdCriteria->equals($criteria)) {
+				$this->collSchemasRelatedByDeletedUserId = SchemaPeer::doSelectJoinStatus($criteria, $con);
+			}
+		}
+		$this->lastSchemaRelatedByDeletedUserIdCriteria = $criteria;
+
+		return $this->collSchemasRelatedByDeletedUserId;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this User is new, it will return
+	 * an empty collection; or if this User has previously
+	 * been saved, it will retrieve related SchemasRelatedByDeletedUserId from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in User.
+	 */
+	public function getSchemasRelatedByDeletedUserIdJoinProfile($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseSchemaPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collSchemasRelatedByDeletedUserId === null) {
+			if ($this->isNew()) {
+				$this->collSchemasRelatedByDeletedUserId = array();
+			} else {
+
+				$criteria->add(SchemaPeer::DELETED_USER_ID, $this->getId());
+
+				$this->collSchemasRelatedByDeletedUserId = SchemaPeer::doSelectJoinProfile($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(SchemaPeer::DELETED_USER_ID, $this->getId());
+
+			if (!isset($this->lastSchemaRelatedByDeletedUserIdCriteria) || !$this->lastSchemaRelatedByDeletedUserIdCriteria->equals($criteria)) {
+				$this->collSchemasRelatedByDeletedUserId = SchemaPeer::doSelectJoinProfile($criteria, $con);
+			}
+		}
+		$this->lastSchemaRelatedByDeletedUserIdCriteria = $criteria;
+
+		return $this->collSchemasRelatedByDeletedUserId;
 	}
 
 	/**
@@ -9529,6 +10110,309 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	}
 
 	/**
+	 * Temporary storage of collSchemaPropertyElementsRelatedByDeletedUserId to save a possible db hit in
+	 * the event objects are add to the collection, but the
+	 * complete collection is never requested.
+	 * @return     void
+	 */
+	public function initSchemaPropertyElementsRelatedByDeletedUserId()
+	{
+		if ($this->collSchemaPropertyElementsRelatedByDeletedUserId === null) {
+			$this->collSchemaPropertyElementsRelatedByDeletedUserId = array();
+		}
+	}
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this User has previously
+	 * been saved, it will retrieve related SchemaPropertyElementsRelatedByDeletedUserId from storage.
+	 * If this User is new, it will return
+	 * an empty collection or the current collection, the criteria
+	 * is ignored on a new object.
+	 *
+	 * @param      Connection $con
+	 * @param      Criteria $criteria
+	 * @throws     PropelException
+	 */
+	public function getSchemaPropertyElementsRelatedByDeletedUserId($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseSchemaPropertyElementPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collSchemaPropertyElementsRelatedByDeletedUserId === null) {
+			if ($this->isNew()) {
+			   $this->collSchemaPropertyElementsRelatedByDeletedUserId = array();
+			} else {
+
+				$criteria->add(SchemaPropertyElementPeer::DELETED_USER_ID, $this->getId());
+
+				SchemaPropertyElementPeer::addSelectColumns($criteria);
+				$this->collSchemaPropertyElementsRelatedByDeletedUserId = SchemaPropertyElementPeer::doSelect($criteria, $con);
+			}
+		} else {
+			// criteria has no effect for a new object
+			if (!$this->isNew()) {
+				// the following code is to determine if a new query is
+				// called for.  If the criteria is the same as the last
+				// one, just return the collection.
+
+
+				$criteria->add(SchemaPropertyElementPeer::DELETED_USER_ID, $this->getId());
+
+				SchemaPropertyElementPeer::addSelectColumns($criteria);
+				if (!isset($this->lastSchemaPropertyElementRelatedByDeletedUserIdCriteria) || !$this->lastSchemaPropertyElementRelatedByDeletedUserIdCriteria->equals($criteria)) {
+					$this->collSchemaPropertyElementsRelatedByDeletedUserId = SchemaPropertyElementPeer::doSelect($criteria, $con);
+				}
+			}
+		}
+		$this->lastSchemaPropertyElementRelatedByDeletedUserIdCriteria = $criteria;
+		return $this->collSchemaPropertyElementsRelatedByDeletedUserId;
+	}
+
+	/**
+	 * Returns the number of related SchemaPropertyElementsRelatedByDeletedUserId.
+	 *
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct
+	 * @param      Connection $con
+	 * @throws     PropelException
+	 */
+	public function countSchemaPropertyElementsRelatedByDeletedUserId($criteria = null, $distinct = false, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseSchemaPropertyElementPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		$criteria->add(SchemaPropertyElementPeer::DELETED_USER_ID, $this->getId());
+
+		return SchemaPropertyElementPeer::doCount($criteria, $distinct, $con);
+	}
+
+	/**
+	 * Method called to associate a SchemaPropertyElement object to this object
+	 * through the SchemaPropertyElement foreign key attribute
+	 *
+	 * @param      SchemaPropertyElement $l SchemaPropertyElement
+	 * @return     void
+	 * @throws     PropelException
+	 */
+	public function addSchemaPropertyElementRelatedByDeletedUserId(SchemaPropertyElement $l)
+	{
+		$this->collSchemaPropertyElementsRelatedByDeletedUserId[] = $l;
+		$l->setUserRelatedByDeletedUserId($this);
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this User is new, it will return
+	 * an empty collection; or if this User has previously
+	 * been saved, it will retrieve related SchemaPropertyElementsRelatedByDeletedUserId from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in User.
+	 */
+	public function getSchemaPropertyElementsRelatedByDeletedUserIdJoinSchemaPropertyRelatedBySchemaPropertyId($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseSchemaPropertyElementPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collSchemaPropertyElementsRelatedByDeletedUserId === null) {
+			if ($this->isNew()) {
+				$this->collSchemaPropertyElementsRelatedByDeletedUserId = array();
+			} else {
+
+				$criteria->add(SchemaPropertyElementPeer::DELETED_USER_ID, $this->getId());
+
+				$this->collSchemaPropertyElementsRelatedByDeletedUserId = SchemaPropertyElementPeer::doSelectJoinSchemaPropertyRelatedBySchemaPropertyId($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(SchemaPropertyElementPeer::DELETED_USER_ID, $this->getId());
+
+			if (!isset($this->lastSchemaPropertyElementRelatedByDeletedUserIdCriteria) || !$this->lastSchemaPropertyElementRelatedByDeletedUserIdCriteria->equals($criteria)) {
+				$this->collSchemaPropertyElementsRelatedByDeletedUserId = SchemaPropertyElementPeer::doSelectJoinSchemaPropertyRelatedBySchemaPropertyId($criteria, $con);
+			}
+		}
+		$this->lastSchemaPropertyElementRelatedByDeletedUserIdCriteria = $criteria;
+
+		return $this->collSchemaPropertyElementsRelatedByDeletedUserId;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this User is new, it will return
+	 * an empty collection; or if this User has previously
+	 * been saved, it will retrieve related SchemaPropertyElementsRelatedByDeletedUserId from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in User.
+	 */
+	public function getSchemaPropertyElementsRelatedByDeletedUserIdJoinProfileProperty($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseSchemaPropertyElementPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collSchemaPropertyElementsRelatedByDeletedUserId === null) {
+			if ($this->isNew()) {
+				$this->collSchemaPropertyElementsRelatedByDeletedUserId = array();
+			} else {
+
+				$criteria->add(SchemaPropertyElementPeer::DELETED_USER_ID, $this->getId());
+
+				$this->collSchemaPropertyElementsRelatedByDeletedUserId = SchemaPropertyElementPeer::doSelectJoinProfileProperty($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(SchemaPropertyElementPeer::DELETED_USER_ID, $this->getId());
+
+			if (!isset($this->lastSchemaPropertyElementRelatedByDeletedUserIdCriteria) || !$this->lastSchemaPropertyElementRelatedByDeletedUserIdCriteria->equals($criteria)) {
+				$this->collSchemaPropertyElementsRelatedByDeletedUserId = SchemaPropertyElementPeer::doSelectJoinProfileProperty($criteria, $con);
+			}
+		}
+		$this->lastSchemaPropertyElementRelatedByDeletedUserIdCriteria = $criteria;
+
+		return $this->collSchemaPropertyElementsRelatedByDeletedUserId;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this User is new, it will return
+	 * an empty collection; or if this User has previously
+	 * been saved, it will retrieve related SchemaPropertyElementsRelatedByDeletedUserId from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in User.
+	 */
+	public function getSchemaPropertyElementsRelatedByDeletedUserIdJoinSchemaPropertyRelatedByRelatedSchemaPropertyId($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseSchemaPropertyElementPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collSchemaPropertyElementsRelatedByDeletedUserId === null) {
+			if ($this->isNew()) {
+				$this->collSchemaPropertyElementsRelatedByDeletedUserId = array();
+			} else {
+
+				$criteria->add(SchemaPropertyElementPeer::DELETED_USER_ID, $this->getId());
+
+				$this->collSchemaPropertyElementsRelatedByDeletedUserId = SchemaPropertyElementPeer::doSelectJoinSchemaPropertyRelatedByRelatedSchemaPropertyId($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(SchemaPropertyElementPeer::DELETED_USER_ID, $this->getId());
+
+			if (!isset($this->lastSchemaPropertyElementRelatedByDeletedUserIdCriteria) || !$this->lastSchemaPropertyElementRelatedByDeletedUserIdCriteria->equals($criteria)) {
+				$this->collSchemaPropertyElementsRelatedByDeletedUserId = SchemaPropertyElementPeer::doSelectJoinSchemaPropertyRelatedByRelatedSchemaPropertyId($criteria, $con);
+			}
+		}
+		$this->lastSchemaPropertyElementRelatedByDeletedUserIdCriteria = $criteria;
+
+		return $this->collSchemaPropertyElementsRelatedByDeletedUserId;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this User is new, it will return
+	 * an empty collection; or if this User has previously
+	 * been saved, it will retrieve related SchemaPropertyElementsRelatedByDeletedUserId from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in User.
+	 */
+	public function getSchemaPropertyElementsRelatedByDeletedUserIdJoinStatus($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseSchemaPropertyElementPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collSchemaPropertyElementsRelatedByDeletedUserId === null) {
+			if ($this->isNew()) {
+				$this->collSchemaPropertyElementsRelatedByDeletedUserId = array();
+			} else {
+
+				$criteria->add(SchemaPropertyElementPeer::DELETED_USER_ID, $this->getId());
+
+				$this->collSchemaPropertyElementsRelatedByDeletedUserId = SchemaPropertyElementPeer::doSelectJoinStatus($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(SchemaPropertyElementPeer::DELETED_USER_ID, $this->getId());
+
+			if (!isset($this->lastSchemaPropertyElementRelatedByDeletedUserIdCriteria) || !$this->lastSchemaPropertyElementRelatedByDeletedUserIdCriteria->equals($criteria)) {
+				$this->collSchemaPropertyElementsRelatedByDeletedUserId = SchemaPropertyElementPeer::doSelectJoinStatus($criteria, $con);
+			}
+		}
+		$this->lastSchemaPropertyElementRelatedByDeletedUserIdCriteria = $criteria;
+
+		return $this->collSchemaPropertyElementsRelatedByDeletedUserId;
+	}
+
+	/**
 	 * Temporary storage of collSchemaPropertyElementHistorys to save a possible db hit in
 	 * the event objects are add to the collection, but the
 	 * complete collection is never requested.
@@ -10484,6 +11368,260 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		$this->lastVocabularyRelatedByUpdatedUserIdCriteria = $criteria;
 
 		return $this->collVocabularysRelatedByUpdatedUserId;
+	}
+
+	/**
+	 * Temporary storage of collVocabularysRelatedByDeletedUserId to save a possible db hit in
+	 * the event objects are add to the collection, but the
+	 * complete collection is never requested.
+	 * @return     void
+	 */
+	public function initVocabularysRelatedByDeletedUserId()
+	{
+		if ($this->collVocabularysRelatedByDeletedUserId === null) {
+			$this->collVocabularysRelatedByDeletedUserId = array();
+		}
+	}
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this User has previously
+	 * been saved, it will retrieve related VocabularysRelatedByDeletedUserId from storage.
+	 * If this User is new, it will return
+	 * an empty collection or the current collection, the criteria
+	 * is ignored on a new object.
+	 *
+	 * @param      Connection $con
+	 * @param      Criteria $criteria
+	 * @throws     PropelException
+	 */
+	public function getVocabularysRelatedByDeletedUserId($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseVocabularyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collVocabularysRelatedByDeletedUserId === null) {
+			if ($this->isNew()) {
+			   $this->collVocabularysRelatedByDeletedUserId = array();
+			} else {
+
+				$criteria->add(VocabularyPeer::DELETED_USER_ID, $this->getId());
+
+				VocabularyPeer::addSelectColumns($criteria);
+				$this->collVocabularysRelatedByDeletedUserId = VocabularyPeer::doSelect($criteria, $con);
+			}
+		} else {
+			// criteria has no effect for a new object
+			if (!$this->isNew()) {
+				// the following code is to determine if a new query is
+				// called for.  If the criteria is the same as the last
+				// one, just return the collection.
+
+
+				$criteria->add(VocabularyPeer::DELETED_USER_ID, $this->getId());
+
+				VocabularyPeer::addSelectColumns($criteria);
+				if (!isset($this->lastVocabularyRelatedByDeletedUserIdCriteria) || !$this->lastVocabularyRelatedByDeletedUserIdCriteria->equals($criteria)) {
+					$this->collVocabularysRelatedByDeletedUserId = VocabularyPeer::doSelect($criteria, $con);
+				}
+			}
+		}
+		$this->lastVocabularyRelatedByDeletedUserIdCriteria = $criteria;
+		return $this->collVocabularysRelatedByDeletedUserId;
+	}
+
+	/**
+	 * Returns the number of related VocabularysRelatedByDeletedUserId.
+	 *
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct
+	 * @param      Connection $con
+	 * @throws     PropelException
+	 */
+	public function countVocabularysRelatedByDeletedUserId($criteria = null, $distinct = false, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseVocabularyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		$criteria->add(VocabularyPeer::DELETED_USER_ID, $this->getId());
+
+		return VocabularyPeer::doCount($criteria, $distinct, $con);
+	}
+
+	/**
+	 * Method called to associate a Vocabulary object to this object
+	 * through the Vocabulary foreign key attribute
+	 *
+	 * @param      Vocabulary $l Vocabulary
+	 * @return     void
+	 * @throws     PropelException
+	 */
+	public function addVocabularyRelatedByDeletedUserId(Vocabulary $l)
+	{
+		$this->collVocabularysRelatedByDeletedUserId[] = $l;
+		$l->setUserRelatedByDeletedUserId($this);
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this User is new, it will return
+	 * an empty collection; or if this User has previously
+	 * been saved, it will retrieve related VocabularysRelatedByDeletedUserId from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in User.
+	 */
+	public function getVocabularysRelatedByDeletedUserIdJoinAgent($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseVocabularyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collVocabularysRelatedByDeletedUserId === null) {
+			if ($this->isNew()) {
+				$this->collVocabularysRelatedByDeletedUserId = array();
+			} else {
+
+				$criteria->add(VocabularyPeer::DELETED_USER_ID, $this->getId());
+
+				$this->collVocabularysRelatedByDeletedUserId = VocabularyPeer::doSelectJoinAgent($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(VocabularyPeer::DELETED_USER_ID, $this->getId());
+
+			if (!isset($this->lastVocabularyRelatedByDeletedUserIdCriteria) || !$this->lastVocabularyRelatedByDeletedUserIdCriteria->equals($criteria)) {
+				$this->collVocabularysRelatedByDeletedUserId = VocabularyPeer::doSelectJoinAgent($criteria, $con);
+			}
+		}
+		$this->lastVocabularyRelatedByDeletedUserIdCriteria = $criteria;
+
+		return $this->collVocabularysRelatedByDeletedUserId;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this User is new, it will return
+	 * an empty collection; or if this User has previously
+	 * been saved, it will retrieve related VocabularysRelatedByDeletedUserId from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in User.
+	 */
+	public function getVocabularysRelatedByDeletedUserIdJoinStatus($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseVocabularyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collVocabularysRelatedByDeletedUserId === null) {
+			if ($this->isNew()) {
+				$this->collVocabularysRelatedByDeletedUserId = array();
+			} else {
+
+				$criteria->add(VocabularyPeer::DELETED_USER_ID, $this->getId());
+
+				$this->collVocabularysRelatedByDeletedUserId = VocabularyPeer::doSelectJoinStatus($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(VocabularyPeer::DELETED_USER_ID, $this->getId());
+
+			if (!isset($this->lastVocabularyRelatedByDeletedUserIdCriteria) || !$this->lastVocabularyRelatedByDeletedUserIdCriteria->equals($criteria)) {
+				$this->collVocabularysRelatedByDeletedUserId = VocabularyPeer::doSelectJoinStatus($criteria, $con);
+			}
+		}
+		$this->lastVocabularyRelatedByDeletedUserIdCriteria = $criteria;
+
+		return $this->collVocabularysRelatedByDeletedUserId;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this User is new, it will return
+	 * an empty collection; or if this User has previously
+	 * been saved, it will retrieve related VocabularysRelatedByDeletedUserId from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in User.
+	 */
+	public function getVocabularysRelatedByDeletedUserIdJoinProfile($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseVocabularyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collVocabularysRelatedByDeletedUserId === null) {
+			if ($this->isNew()) {
+				$this->collVocabularysRelatedByDeletedUserId = array();
+			} else {
+
+				$criteria->add(VocabularyPeer::DELETED_USER_ID, $this->getId());
+
+				$this->collVocabularysRelatedByDeletedUserId = VocabularyPeer::doSelectJoinProfile($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(VocabularyPeer::DELETED_USER_ID, $this->getId());
+
+			if (!isset($this->lastVocabularyRelatedByDeletedUserIdCriteria) || !$this->lastVocabularyRelatedByDeletedUserIdCriteria->equals($criteria)) {
+				$this->collVocabularysRelatedByDeletedUserId = VocabularyPeer::doSelectJoinProfile($criteria, $con);
+			}
+		}
+		$this->lastVocabularyRelatedByDeletedUserIdCriteria = $criteria;
+
+		return $this->collVocabularysRelatedByDeletedUserId;
 	}
 
 	/**

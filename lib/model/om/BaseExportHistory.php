@@ -62,38 +62,31 @@ abstract class BaseExportHistory extends BaseObject  implements Persistent {
 
 
 	/**
-	 * The value for the csv_type field.
-	 * @var        string
-	 */
-	protected $csv_type;
-
-
-	/**
 	 * The value for the exclude_deprecated field.
 	 * @var        boolean
 	 */
-	protected $exclude_deprecated;
+	protected $exclude_deprecated = false;
 
 
 	/**
 	 * The value for the exclude_generated field.
 	 * @var        boolean
 	 */
-	protected $exclude_generated;
+	protected $exclude_generated = false;
 
 
 	/**
 	 * The value for the include_deleted field.
 	 * @var        boolean
 	 */
-	protected $include_deleted;
+	protected $include_deleted = false;
 
 
 	/**
 	 * The value for the include_not_accepted field.
 	 * @var        boolean
 	 */
-	protected $include_not_accepted;
+	protected $include_not_accepted = false;
 
 
 	/**
@@ -130,6 +123,13 @@ abstract class BaseExportHistory extends BaseObject  implements Persistent {
 	 */
 	protected $last_vocab_update;
 
+
+	/**
+	 * The value for the profile_id field.
+	 * @var        int
+	 */
+	protected $profile_id;
+
 	/**
 	 * @var        User
 	 */
@@ -144,6 +144,11 @@ abstract class BaseExportHistory extends BaseObject  implements Persistent {
 	 * @var        Schema
 	 */
 	protected $aSchema;
+
+	/**
+	 * @var        Profile
+	 */
+	protected $aProfile;
 
 	/**
 	 * Flag to prevent endless save loop, if this object is referenced
@@ -266,17 +271,6 @@ abstract class BaseExportHistory extends BaseObject  implements Persistent {
 	}
 
 	/**
-	 * Get the [csv_type] column value.
-	 * 
-	 * @return     string
-	 */
-	public function getCsvType()
-	{
-
-		return $this->csv_type;
-	}
-
-	/**
 	 * Get the [exclude_deprecated] column value.
 	 * 
 	 * @return     boolean
@@ -393,6 +387,17 @@ abstract class BaseExportHistory extends BaseObject  implements Persistent {
 		} else {
 			return date($format, $ts);
 		}
+	}
+
+	/**
+	 * Get the [profile_id] column value.
+	 * 
+	 * @return     int
+	 */
+	public function getProfileId()
+	{
+
+		return $this->profile_id;
 	}
 
 	/**
@@ -544,28 +549,6 @@ abstract class BaseExportHistory extends BaseObject  implements Persistent {
 	} // setSchemaId()
 
 	/**
-	 * Set the value of [csv_type] column.
-	 * 
-	 * @param      string $v new value
-	 * @return     void
-	 */
-	public function setCsvType($v)
-	{
-
-		// Since the native PHP type for this column is string,
-		// we will cast the input to a string (if it is not).
-		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
-		}
-
-		if ($this->csv_type !== $v) {
-			$this->csv_type = $v;
-			$this->modifiedColumns[] = ExportHistoryPeer::CSV_TYPE;
-		}
-
-	} // setCsvType()
-
-	/**
 	 * Set the value of [exclude_deprecated] column.
 	 * 
 	 * @param      boolean $v new value
@@ -574,7 +557,7 @@ abstract class BaseExportHistory extends BaseObject  implements Persistent {
 	public function setExcludeDeprecated($v)
 	{
 
-		if ($this->exclude_deprecated !== $v) {
+		if ($this->exclude_deprecated !== $v || $v === false) {
 			$this->exclude_deprecated = $v;
 			$this->modifiedColumns[] = ExportHistoryPeer::EXCLUDE_DEPRECATED;
 		}
@@ -590,7 +573,7 @@ abstract class BaseExportHistory extends BaseObject  implements Persistent {
 	public function setExcludeGenerated($v)
 	{
 
-		if ($this->exclude_generated !== $v) {
+		if ($this->exclude_generated !== $v || $v === false) {
 			$this->exclude_generated = $v;
 			$this->modifiedColumns[] = ExportHistoryPeer::EXCLUDE_GENERATED;
 		}
@@ -606,7 +589,7 @@ abstract class BaseExportHistory extends BaseObject  implements Persistent {
 	public function setIncludeDeleted($v)
 	{
 
-		if ($this->include_deleted !== $v) {
+		if ($this->include_deleted !== $v || $v === false) {
 			$this->include_deleted = $v;
 			$this->modifiedColumns[] = ExportHistoryPeer::INCLUDE_DELETED;
 		}
@@ -622,7 +605,7 @@ abstract class BaseExportHistory extends BaseObject  implements Persistent {
 	public function setIncludeNotAccepted($v)
 	{
 
-		if ($this->include_not_accepted !== $v) {
+		if ($this->include_not_accepted !== $v || $v === false) {
 			$this->include_not_accepted = $v;
 			$this->modifiedColumns[] = ExportHistoryPeer::INCLUDE_NOT_ACCEPTED;
 		}
@@ -742,6 +725,32 @@ abstract class BaseExportHistory extends BaseObject  implements Persistent {
 	} // setLastVocabUpdate()
 
 	/**
+	 * Set the value of [profile_id] column.
+	 * 
+	 * @param      int $v new value
+	 * @return     void
+	 */
+	public function setProfileId($v)
+	{
+
+		// Since the native PHP type for this column is integer,
+		// we will cast the input value to an int (if it is not).
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->profile_id !== $v) {
+			$this->profile_id = $v;
+			$this->modifiedColumns[] = ExportHistoryPeer::PROFILE_ID;
+		}
+
+		if ($this->aProfile !== null && $this->aProfile->getId() !== $v) {
+			$this->aProfile = null;
+		}
+
+	} // setProfileId()
+
+	/**
 	 * Hydrates (populates) the object variables with values from the database resultset.
 	 *
 	 * An offset (1-based "start column") is specified so that objects can be hydrated
@@ -770,25 +779,25 @@ abstract class BaseExportHistory extends BaseObject  implements Persistent {
 
 			$this->schema_id = $rs->getInt($startcol + 5);
 
-			$this->csv_type = $rs->getString($startcol + 6);
+			$this->exclude_deprecated = $rs->getBoolean($startcol + 6);
 
-			$this->exclude_deprecated = $rs->getBoolean($startcol + 7);
+			$this->exclude_generated = $rs->getBoolean($startcol + 7);
 
-			$this->exclude_generated = $rs->getBoolean($startcol + 8);
+			$this->include_deleted = $rs->getBoolean($startcol + 8);
 
-			$this->include_deleted = $rs->getBoolean($startcol + 9);
+			$this->include_not_accepted = $rs->getBoolean($startcol + 9);
 
-			$this->include_not_accepted = $rs->getBoolean($startcol + 10);
+			$this->selected_columns = $rs->getString($startcol + 10);
 
-			$this->selected_columns = $rs->getString($startcol + 11);
+			$this->selected_language = $rs->getString($startcol + 11);
 
-			$this->selected_language = $rs->getString($startcol + 12);
+			$this->published_english_version = $rs->getString($startcol + 12);
 
-			$this->published_english_version = $rs->getString($startcol + 13);
+			$this->published_language_version = $rs->getString($startcol + 13);
 
-			$this->published_language_version = $rs->getString($startcol + 14);
+			$this->last_vocab_update = $rs->getTimestamp($startcol + 14, null);
 
-			$this->last_vocab_update = $rs->getTimestamp($startcol + 15, null);
+			$this->profile_id = $rs->getInt($startcol + 15);
 
 			$this->resetModified();
 
@@ -950,6 +959,13 @@ abstract class BaseExportHistory extends BaseObject  implements Persistent {
 				$this->setSchema($this->aSchema);
 			}
 
+			if ($this->aProfile !== null) {
+				if ($this->aProfile->isModified()) {
+					$affectedRows += $this->aProfile->save($con);
+				}
+				$this->setProfile($this->aProfile);
+			}
+
 
 			// If this object has been modified, then save it to the database.
 			if ($this->isModified()) {
@@ -1056,6 +1072,12 @@ abstract class BaseExportHistory extends BaseObject  implements Persistent {
 				}
 			}
 
+			if ($this->aProfile !== null) {
+				if (!$this->aProfile->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aProfile->getValidationFailures());
+				}
+			}
+
 
 			if (($retval = ExportHistoryPeer::doValidate($this, $columns)) !== true) {
 				$failureMap = array_merge($failureMap, $retval);
@@ -1113,34 +1135,34 @@ abstract class BaseExportHistory extends BaseObject  implements Persistent {
 				return $this->getSchemaId();
 				break;
 			case 6:
-				return $this->getCsvType();
-				break;
-			case 7:
 				return $this->getExcludeDeprecated();
 				break;
-			case 8:
+			case 7:
 				return $this->getExcludeGenerated();
 				break;
-			case 9:
+			case 8:
 				return $this->getIncludeDeleted();
 				break;
-			case 10:
+			case 9:
 				return $this->getIncludeNotAccepted();
 				break;
-			case 11:
+			case 10:
 				return $this->getSelectedColumns();
 				break;
-			case 12:
+			case 11:
 				return $this->getSelectedLanguage();
 				break;
-			case 13:
+			case 12:
 				return $this->getPublishedEnglishVersion();
 				break;
-			case 14:
+			case 13:
 				return $this->getPublishedLanguageVersion();
 				break;
-			case 15:
+			case 14:
 				return $this->getLastVocabUpdate();
+				break;
+			case 15:
+				return $this->getProfileId();
 				break;
 			default:
 				return null;
@@ -1168,16 +1190,16 @@ abstract class BaseExportHistory extends BaseObject  implements Persistent {
 			$keys[3] => $this->getUserId(),
 			$keys[4] => $this->getVocabularyId(),
 			$keys[5] => $this->getSchemaId(),
-			$keys[6] => $this->getCsvType(),
-			$keys[7] => $this->getExcludeDeprecated(),
-			$keys[8] => $this->getExcludeGenerated(),
-			$keys[9] => $this->getIncludeDeleted(),
-			$keys[10] => $this->getIncludeNotAccepted(),
-			$keys[11] => $this->getSelectedColumns(),
-			$keys[12] => $this->getSelectedLanguage(),
-			$keys[13] => $this->getPublishedEnglishVersion(),
-			$keys[14] => $this->getPublishedLanguageVersion(),
-			$keys[15] => $this->getLastVocabUpdate(),
+			$keys[6] => $this->getExcludeDeprecated(),
+			$keys[7] => $this->getExcludeGenerated(),
+			$keys[8] => $this->getIncludeDeleted(),
+			$keys[9] => $this->getIncludeNotAccepted(),
+			$keys[10] => $this->getSelectedColumns(),
+			$keys[11] => $this->getSelectedLanguage(),
+			$keys[12] => $this->getPublishedEnglishVersion(),
+			$keys[13] => $this->getPublishedLanguageVersion(),
+			$keys[14] => $this->getLastVocabUpdate(),
+			$keys[15] => $this->getProfileId(),
 		);
 		return $result;
 	}
@@ -1228,34 +1250,34 @@ abstract class BaseExportHistory extends BaseObject  implements Persistent {
 				$this->setSchemaId($value);
 				break;
 			case 6:
-				$this->setCsvType($value);
-				break;
-			case 7:
 				$this->setExcludeDeprecated($value);
 				break;
-			case 8:
+			case 7:
 				$this->setExcludeGenerated($value);
 				break;
-			case 9:
+			case 8:
 				$this->setIncludeDeleted($value);
 				break;
-			case 10:
+			case 9:
 				$this->setIncludeNotAccepted($value);
 				break;
-			case 11:
+			case 10:
 				$this->setSelectedColumns($value);
 				break;
-			case 12:
+			case 11:
 				$this->setSelectedLanguage($value);
 				break;
-			case 13:
+			case 12:
 				$this->setPublishedEnglishVersion($value);
 				break;
-			case 14:
+			case 13:
 				$this->setPublishedLanguageVersion($value);
 				break;
-			case 15:
+			case 14:
 				$this->setLastVocabUpdate($value);
+				break;
+			case 15:
+				$this->setProfileId($value);
 				break;
 		} // switch()
 	}
@@ -1286,16 +1308,16 @@ abstract class BaseExportHistory extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[3], $arr)) $this->setUserId($arr[$keys[3]]);
 		if (array_key_exists($keys[4], $arr)) $this->setVocabularyId($arr[$keys[4]]);
 		if (array_key_exists($keys[5], $arr)) $this->setSchemaId($arr[$keys[5]]);
-		if (array_key_exists($keys[6], $arr)) $this->setCsvType($arr[$keys[6]]);
-		if (array_key_exists($keys[7], $arr)) $this->setExcludeDeprecated($arr[$keys[7]]);
-		if (array_key_exists($keys[8], $arr)) $this->setExcludeGenerated($arr[$keys[8]]);
-		if (array_key_exists($keys[9], $arr)) $this->setIncludeDeleted($arr[$keys[9]]);
-		if (array_key_exists($keys[10], $arr)) $this->setIncludeNotAccepted($arr[$keys[10]]);
-		if (array_key_exists($keys[11], $arr)) $this->setSelectedColumns($arr[$keys[11]]);
-		if (array_key_exists($keys[12], $arr)) $this->setSelectedLanguage($arr[$keys[12]]);
-		if (array_key_exists($keys[13], $arr)) $this->setPublishedEnglishVersion($arr[$keys[13]]);
-		if (array_key_exists($keys[14], $arr)) $this->setPublishedLanguageVersion($arr[$keys[14]]);
-		if (array_key_exists($keys[15], $arr)) $this->setLastVocabUpdate($arr[$keys[15]]);
+		if (array_key_exists($keys[6], $arr)) $this->setExcludeDeprecated($arr[$keys[6]]);
+		if (array_key_exists($keys[7], $arr)) $this->setExcludeGenerated($arr[$keys[7]]);
+		if (array_key_exists($keys[8], $arr)) $this->setIncludeDeleted($arr[$keys[8]]);
+		if (array_key_exists($keys[9], $arr)) $this->setIncludeNotAccepted($arr[$keys[9]]);
+		if (array_key_exists($keys[10], $arr)) $this->setSelectedColumns($arr[$keys[10]]);
+		if (array_key_exists($keys[11], $arr)) $this->setSelectedLanguage($arr[$keys[11]]);
+		if (array_key_exists($keys[12], $arr)) $this->setPublishedEnglishVersion($arr[$keys[12]]);
+		if (array_key_exists($keys[13], $arr)) $this->setPublishedLanguageVersion($arr[$keys[13]]);
+		if (array_key_exists($keys[14], $arr)) $this->setLastVocabUpdate($arr[$keys[14]]);
+		if (array_key_exists($keys[15], $arr)) $this->setProfileId($arr[$keys[15]]);
 	}
 
 	/**
@@ -1313,7 +1335,6 @@ abstract class BaseExportHistory extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(ExportHistoryPeer::USER_ID)) $criteria->add(ExportHistoryPeer::USER_ID, $this->user_id);
 		if ($this->isColumnModified(ExportHistoryPeer::VOCABULARY_ID)) $criteria->add(ExportHistoryPeer::VOCABULARY_ID, $this->vocabulary_id);
 		if ($this->isColumnModified(ExportHistoryPeer::SCHEMA_ID)) $criteria->add(ExportHistoryPeer::SCHEMA_ID, $this->schema_id);
-		if ($this->isColumnModified(ExportHistoryPeer::CSV_TYPE)) $criteria->add(ExportHistoryPeer::CSV_TYPE, $this->csv_type);
 		if ($this->isColumnModified(ExportHistoryPeer::EXCLUDE_DEPRECATED)) $criteria->add(ExportHistoryPeer::EXCLUDE_DEPRECATED, $this->exclude_deprecated);
 		if ($this->isColumnModified(ExportHistoryPeer::EXCLUDE_GENERATED)) $criteria->add(ExportHistoryPeer::EXCLUDE_GENERATED, $this->exclude_generated);
 		if ($this->isColumnModified(ExportHistoryPeer::INCLUDE_DELETED)) $criteria->add(ExportHistoryPeer::INCLUDE_DELETED, $this->include_deleted);
@@ -1323,6 +1344,7 @@ abstract class BaseExportHistory extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(ExportHistoryPeer::PUBLISHED_ENGLISH_VERSION)) $criteria->add(ExportHistoryPeer::PUBLISHED_ENGLISH_VERSION, $this->published_english_version);
 		if ($this->isColumnModified(ExportHistoryPeer::PUBLISHED_LANGUAGE_VERSION)) $criteria->add(ExportHistoryPeer::PUBLISHED_LANGUAGE_VERSION, $this->published_language_version);
 		if ($this->isColumnModified(ExportHistoryPeer::LAST_VOCAB_UPDATE)) $criteria->add(ExportHistoryPeer::LAST_VOCAB_UPDATE, $this->last_vocab_update);
+		if ($this->isColumnModified(ExportHistoryPeer::PROFILE_ID)) $criteria->add(ExportHistoryPeer::PROFILE_ID, $this->profile_id);
 
 		return $criteria;
 	}
@@ -1387,8 +1409,6 @@ abstract class BaseExportHistory extends BaseObject  implements Persistent {
 
 		$copyObj->setSchemaId($this->schema_id);
 
-		$copyObj->setCsvType($this->csv_type);
-
 		$copyObj->setExcludeDeprecated($this->exclude_deprecated);
 
 		$copyObj->setExcludeGenerated($this->exclude_generated);
@@ -1406,6 +1426,8 @@ abstract class BaseExportHistory extends BaseObject  implements Persistent {
 		$copyObj->setPublishedLanguageVersion($this->published_language_version);
 
 		$copyObj->setLastVocabUpdate($this->last_vocab_update);
+
+		$copyObj->setProfileId($this->profile_id);
 
 
 		$copyObj->setNew(true);
@@ -1600,6 +1622,56 @@ abstract class BaseExportHistory extends BaseObject  implements Persistent {
 			 */
 		}
 		return $this->aSchema;
+	}
+
+	/**
+	 * Declares an association between this object and a Profile object.
+	 *
+	 * @param      Profile $v
+	 * @return     void
+	 * @throws     PropelException
+	 */
+	public function setProfile($v)
+	{
+
+
+		if ($v === null) {
+			$this->setProfileId(NULL);
+		} else {
+			$this->setProfileId($v->getId());
+		}
+
+
+		$this->aProfile = $v;
+	}
+
+
+	/**
+	 * Get the associated Profile object
+	 *
+	 * @param      Connection Optional Connection object.
+	 * @return     Profile The associated Profile object.
+	 * @throws     PropelException
+	 */
+	public function getProfile($con = null)
+	{
+		if ($this->aProfile === null && ($this->profile_id !== null)) {
+			// include the related Peer class
+			include_once 'lib/model/om/BaseProfilePeer.php';
+
+			$this->aProfile = ProfilePeer::retrieveByPK($this->profile_id, $con);
+
+			/* The following can be used instead of the line above to
+			   guarantee the related object contains a reference
+			   to this object, but this level of coupling
+			   may be undesirable in many circumstances.
+			   As it can lead to a db query with many results that may
+			   never be used.
+			   $obj = ProfilePeer::retrieveByPK($this->profile_id, $con);
+			   $obj->addProfiles($this);
+			 */
+		}
+		return $this->aProfile;
 	}
 
 

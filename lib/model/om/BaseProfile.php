@@ -201,6 +201,18 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 	protected $lastProfilePropertyCriteria = null;
 
 	/**
+	 * Collection to store aggregation of collExportHistorys.
+	 * @var        array
+	 */
+	protected $collExportHistorys;
+
+	/**
+	 * The criteria used to select the current contents of collExportHistorys.
+	 * @var        Criteria
+	 */
+	protected $lastExportHistoryCriteria = null;
+
+	/**
 	 * Collection to store aggregation of collSchemas.
 	 * @var        array
 	 */
@@ -1274,6 +1286,14 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 				}
 			}
 
+			if ($this->collExportHistorys !== null) {
+				foreach($this->collExportHistorys as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
+			}
+
 			if ($this->collSchemas !== null) {
 				foreach($this->collSchemas as $referrerFK) {
 					if (!$referrerFK->isDeleted()) {
@@ -1404,6 +1424,14 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 
 				if ($this->collProfilePropertys !== null) {
 					foreach($this->collProfilePropertys as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
+
+				if ($this->collExportHistorys !== null) {
+					foreach($this->collExportHistorys as $referrerFK) {
 						if (!$referrerFK->validate($columns)) {
 							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
 						}
@@ -1823,6 +1851,10 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 
 			foreach($this->getProfilePropertys() as $relObj) {
 				$copyObj->addProfileProperty($relObj->copy($deepCopy));
+			}
+
+			foreach($this->getExportHistorys() as $relObj) {
+				$copyObj->addExportHistory($relObj->copy($deepCopy));
 			}
 
 			foreach($this->getSchemas() as $relObj) {
@@ -2533,6 +2565,260 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 	}
 
 	/**
+	 * Temporary storage of collExportHistorys to save a possible db hit in
+	 * the event objects are add to the collection, but the
+	 * complete collection is never requested.
+	 * @return     void
+	 */
+	public function initExportHistorys()
+	{
+		if ($this->collExportHistorys === null) {
+			$this->collExportHistorys = array();
+		}
+	}
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Profile has previously
+	 * been saved, it will retrieve related ExportHistorys from storage.
+	 * If this Profile is new, it will return
+	 * an empty collection or the current collection, the criteria
+	 * is ignored on a new object.
+	 *
+	 * @param      Connection $con
+	 * @param      Criteria $criteria
+	 * @throws     PropelException
+	 */
+	public function getExportHistorys($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseExportHistoryPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collExportHistorys === null) {
+			if ($this->isNew()) {
+			   $this->collExportHistorys = array();
+			} else {
+
+				$criteria->add(ExportHistoryPeer::PROFILE_ID, $this->getId());
+
+				ExportHistoryPeer::addSelectColumns($criteria);
+				$this->collExportHistorys = ExportHistoryPeer::doSelect($criteria, $con);
+			}
+		} else {
+			// criteria has no effect for a new object
+			if (!$this->isNew()) {
+				// the following code is to determine if a new query is
+				// called for.  If the criteria is the same as the last
+				// one, just return the collection.
+
+
+				$criteria->add(ExportHistoryPeer::PROFILE_ID, $this->getId());
+
+				ExportHistoryPeer::addSelectColumns($criteria);
+				if (!isset($this->lastExportHistoryCriteria) || !$this->lastExportHistoryCriteria->equals($criteria)) {
+					$this->collExportHistorys = ExportHistoryPeer::doSelect($criteria, $con);
+				}
+			}
+		}
+		$this->lastExportHistoryCriteria = $criteria;
+		return $this->collExportHistorys;
+	}
+
+	/**
+	 * Returns the number of related ExportHistorys.
+	 *
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct
+	 * @param      Connection $con
+	 * @throws     PropelException
+	 */
+	public function countExportHistorys($criteria = null, $distinct = false, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseExportHistoryPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		$criteria->add(ExportHistoryPeer::PROFILE_ID, $this->getId());
+
+		return ExportHistoryPeer::doCount($criteria, $distinct, $con);
+	}
+
+	/**
+	 * Method called to associate a ExportHistory object to this object
+	 * through the ExportHistory foreign key attribute
+	 *
+	 * @param      ExportHistory $l ExportHistory
+	 * @return     void
+	 * @throws     PropelException
+	 */
+	public function addExportHistory(ExportHistory $l)
+	{
+		$this->collExportHistorys[] = $l;
+		$l->setProfile($this);
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Profile is new, it will return
+	 * an empty collection; or if this Profile has previously
+	 * been saved, it will retrieve related ExportHistorys from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Profile.
+	 */
+	public function getExportHistorysJoinUser($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseExportHistoryPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collExportHistorys === null) {
+			if ($this->isNew()) {
+				$this->collExportHistorys = array();
+			} else {
+
+				$criteria->add(ExportHistoryPeer::PROFILE_ID, $this->getId());
+
+				$this->collExportHistorys = ExportHistoryPeer::doSelectJoinUser($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(ExportHistoryPeer::PROFILE_ID, $this->getId());
+
+			if (!isset($this->lastExportHistoryCriteria) || !$this->lastExportHistoryCriteria->equals($criteria)) {
+				$this->collExportHistorys = ExportHistoryPeer::doSelectJoinUser($criteria, $con);
+			}
+		}
+		$this->lastExportHistoryCriteria = $criteria;
+
+		return $this->collExportHistorys;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Profile is new, it will return
+	 * an empty collection; or if this Profile has previously
+	 * been saved, it will retrieve related ExportHistorys from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Profile.
+	 */
+	public function getExportHistorysJoinVocabulary($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseExportHistoryPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collExportHistorys === null) {
+			if ($this->isNew()) {
+				$this->collExportHistorys = array();
+			} else {
+
+				$criteria->add(ExportHistoryPeer::PROFILE_ID, $this->getId());
+
+				$this->collExportHistorys = ExportHistoryPeer::doSelectJoinVocabulary($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(ExportHistoryPeer::PROFILE_ID, $this->getId());
+
+			if (!isset($this->lastExportHistoryCriteria) || !$this->lastExportHistoryCriteria->equals($criteria)) {
+				$this->collExportHistorys = ExportHistoryPeer::doSelectJoinVocabulary($criteria, $con);
+			}
+		}
+		$this->lastExportHistoryCriteria = $criteria;
+
+		return $this->collExportHistorys;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Profile is new, it will return
+	 * an empty collection; or if this Profile has previously
+	 * been saved, it will retrieve related ExportHistorys from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Profile.
+	 */
+	public function getExportHistorysJoinSchema($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseExportHistoryPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collExportHistorys === null) {
+			if ($this->isNew()) {
+				$this->collExportHistorys = array();
+			} else {
+
+				$criteria->add(ExportHistoryPeer::PROFILE_ID, $this->getId());
+
+				$this->collExportHistorys = ExportHistoryPeer::doSelectJoinSchema($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(ExportHistoryPeer::PROFILE_ID, $this->getId());
+
+			if (!isset($this->lastExportHistoryCriteria) || !$this->lastExportHistoryCriteria->equals($criteria)) {
+				$this->collExportHistorys = ExportHistoryPeer::doSelectJoinSchema($criteria, $con);
+			}
+		}
+		$this->lastExportHistoryCriteria = $criteria;
+
+		return $this->collExportHistorys;
+	}
+
+	/**
 	 * Temporary storage of collSchemas to save a possible db hit in
 	 * the event objects are add to the collection, but the
 	 * complete collection is never requested.
@@ -2779,6 +3065,55 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 
 			if (!isset($this->lastSchemaCriteria) || !$this->lastSchemaCriteria->equals($criteria)) {
 				$this->collSchemas = SchemaPeer::doSelectJoinUserRelatedByUpdatedUserId($criteria, $con);
+			}
+		}
+		$this->lastSchemaCriteria = $criteria;
+
+		return $this->collSchemas;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Profile is new, it will return
+	 * an empty collection; or if this Profile has previously
+	 * been saved, it will retrieve related Schemas from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Profile.
+	 */
+	public function getSchemasJoinUserRelatedByDeletedUserId($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseSchemaPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collSchemas === null) {
+			if ($this->isNew()) {
+				$this->collSchemas = array();
+			} else {
+
+				$criteria->add(SchemaPeer::PROFILE_ID, $this->getId());
+
+				$this->collSchemas = SchemaPeer::doSelectJoinUserRelatedByDeletedUserId($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(SchemaPeer::PROFILE_ID, $this->getId());
+
+			if (!isset($this->lastSchemaCriteria) || !$this->lastSchemaCriteria->equals($criteria)) {
+				$this->collSchemas = SchemaPeer::doSelectJoinUserRelatedByDeletedUserId($criteria, $con);
 			}
 		}
 		$this->lastSchemaCriteria = $criteria;
@@ -3082,6 +3417,55 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 
 			if (!isset($this->lastVocabularyCriteria) || !$this->lastVocabularyCriteria->equals($criteria)) {
 				$this->collVocabularys = VocabularyPeer::doSelectJoinUserRelatedByUpdatedUserId($criteria, $con);
+			}
+		}
+		$this->lastVocabularyCriteria = $criteria;
+
+		return $this->collVocabularys;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Profile is new, it will return
+	 * an empty collection; or if this Profile has previously
+	 * been saved, it will retrieve related Vocabularys from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Profile.
+	 */
+	public function getVocabularysJoinUserRelatedByDeletedUserId($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseVocabularyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collVocabularys === null) {
+			if ($this->isNew()) {
+				$this->collVocabularys = array();
+			} else {
+
+				$criteria->add(VocabularyPeer::PROFILE_ID, $this->getId());
+
+				$this->collVocabularys = VocabularyPeer::doSelectJoinUserRelatedByDeletedUserId($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(VocabularyPeer::PROFILE_ID, $this->getId());
+
+			if (!isset($this->lastVocabularyCriteria) || !$this->lastVocabularyCriteria->equals($criteria)) {
+				$this->collVocabularys = VocabularyPeer::doSelectJoinUserRelatedByDeletedUserId($criteria, $con);
 			}
 		}
 		$this->lastVocabularyCriteria = $criteria;

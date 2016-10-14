@@ -34,6 +34,13 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 
 
 	/**
+	 * The value for the updated_at field.
+	 * @var        int
+	 */
+	protected $updated_at;
+
+
+	/**
 	 * The value for the last_updated field.
 	 * @var        int
 	 */
@@ -58,7 +65,7 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	 * The value for the org_name field.
 	 * @var        string
 	 */
-	protected $org_name = '';
+	protected $org_name;
 
 
 	/**
@@ -231,6 +238,37 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 			}
 		} else {
 			$ts = $this->created_at;
+		}
+		if ($format === null) {
+			return $ts;
+		} elseif (strpos($format, '%') !== false) {
+			return strftime($format, $ts);
+		} else {
+			return date($format, $ts);
+		}
+	}
+
+	/**
+	 * Get the [optionally formatted] [updated_at] column value.
+	 * 
+	 * @param      string $format The date/time format string (either date()-style or strftime()-style).
+	 *							If format is NULL, then the integer unix timestamp will be returned.
+	 * @return     mixed Formatted date/time value as string or integer unix timestamp (if format is NULL).
+	 * @throws     PropelException - if unable to convert the date/time to timestamp.
+	 */
+	public function getUpdatedAt($format = 'Y-m-d H:i:s')
+	{
+
+		if ($this->updated_at === null || $this->updated_at === '') {
+			return null;
+		} elseif (!is_int($this->updated_at)) {
+			// a non-timestamp value was set externally, so we convert it
+			$ts = strtotime($this->updated_at);
+			if ($ts === -1 || $ts === false) { // in PHP 5.1 return value changes to FALSE
+				throw new PropelException("Unable to parse value of [updated_at] as date/time value: " . var_export($this->updated_at, true));
+			}
+		} else {
+			$ts = $this->updated_at;
 		}
 		if ($format === null) {
 			return $ts;
@@ -493,6 +531,30 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	} // setCreatedAt()
 
 	/**
+	 * Set the value of [updated_at] column.
+	 * 
+	 * @param      int $v new value
+	 * @return     void
+	 */
+	public function setUpdatedAt($v)
+	{
+
+		if ($v !== null && !is_int($v)) {
+			$ts = strtotime($v);
+			if ($ts === -1 || $ts === false) { // in PHP 5.1 return value changes to FALSE
+				throw new PropelException("Unable to parse date/time value for [updated_at] from input: " . var_export($v, true));
+			}
+		} else {
+			$ts = $v;
+		}
+		if ($this->updated_at !== $ts) {
+			$this->updated_at = $ts;
+			$this->modifiedColumns[] = AgentPeer::UPDATED_AT;
+		}
+
+	} // setUpdatedAt()
+
+	/**
 	 * Set the value of [last_updated] column.
 	 * 
 	 * @param      int $v new value
@@ -577,7 +639,7 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 			$v = (string) $v; 
 		}
 
-		if ($this->org_name !== $v || $v === '') {
+		if ($this->org_name !== $v) {
 			$this->org_name = $v;
 			$this->modifiedColumns[] = AgentPeer::ORG_NAME;
 		}
@@ -847,42 +909,44 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 
 			$this->created_at = $rs->getTimestamp($startcol + 1, null);
 
-			$this->last_updated = $rs->getTimestamp($startcol + 2, null);
+			$this->updated_at = $rs->getTimestamp($startcol + 2, null);
 
-			$this->deleted_at = $rs->getTimestamp($startcol + 3, null);
+			$this->last_updated = $rs->getTimestamp($startcol + 3, null);
 
-			$this->org_email = $rs->getString($startcol + 4);
+			$this->deleted_at = $rs->getTimestamp($startcol + 4, null);
 
-			$this->org_name = $rs->getString($startcol + 5);
+			$this->org_email = $rs->getString($startcol + 5);
 
-			$this->ind_affiliation = $rs->getString($startcol + 6);
+			$this->org_name = $rs->getString($startcol + 6);
 
-			$this->ind_role = $rs->getString($startcol + 7);
+			$this->ind_affiliation = $rs->getString($startcol + 7);
 
-			$this->address1 = $rs->getString($startcol + 8);
+			$this->ind_role = $rs->getString($startcol + 8);
 
-			$this->address2 = $rs->getString($startcol + 9);
+			$this->address1 = $rs->getString($startcol + 9);
 
-			$this->city = $rs->getString($startcol + 10);
+			$this->address2 = $rs->getString($startcol + 10);
 
-			$this->state = $rs->getString($startcol + 11);
+			$this->city = $rs->getString($startcol + 11);
 
-			$this->postal_code = $rs->getString($startcol + 12);
+			$this->state = $rs->getString($startcol + 12);
 
-			$this->country = $rs->getString($startcol + 13);
+			$this->postal_code = $rs->getString($startcol + 13);
 
-			$this->phone = $rs->getString($startcol + 14);
+			$this->country = $rs->getString($startcol + 14);
 
-			$this->web_address = $rs->getString($startcol + 15);
+			$this->phone = $rs->getString($startcol + 15);
 
-			$this->type = $rs->getString($startcol + 16);
+			$this->web_address = $rs->getString($startcol + 16);
+
+			$this->type = $rs->getString($startcol + 17);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 17; // 17 = AgentPeer::NUM_COLUMNS - AgentPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 18; // 18 = AgentPeer::NUM_COLUMNS - AgentPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Agent object", $e);
@@ -962,6 +1026,11 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
     if ($this->isNew() && !$this->isColumnModified(AgentPeer::CREATED_AT))
     {
       $this->setCreatedAt(time());
+    }
+
+    if ($this->isModified() && !$this->isColumnModified(AgentPeer::UPDATED_AT))
+    {
+      $this->setUpdatedAt(time());
     }
 
 		if ($this->isDeleted()) {
@@ -1196,48 +1265,51 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 				return $this->getCreatedAt();
 				break;
 			case 2:
-				return $this->getLastUpdated();
+				return $this->getUpdatedAt();
 				break;
 			case 3:
-				return $this->getDeletedAt();
+				return $this->getLastUpdated();
 				break;
 			case 4:
-				return $this->getOrgEmail();
+				return $this->getDeletedAt();
 				break;
 			case 5:
-				return $this->getOrgName();
+				return $this->getOrgEmail();
 				break;
 			case 6:
-				return $this->getIndAffiliation();
+				return $this->getOrgName();
 				break;
 			case 7:
-				return $this->getIndRole();
+				return $this->getIndAffiliation();
 				break;
 			case 8:
-				return $this->getAddress1();
+				return $this->getIndRole();
 				break;
 			case 9:
-				return $this->getAddress2();
+				return $this->getAddress1();
 				break;
 			case 10:
-				return $this->getCity();
+				return $this->getAddress2();
 				break;
 			case 11:
-				return $this->getState();
+				return $this->getCity();
 				break;
 			case 12:
-				return $this->getPostalCode();
+				return $this->getState();
 				break;
 			case 13:
-				return $this->getCountry();
+				return $this->getPostalCode();
 				break;
 			case 14:
-				return $this->getPhone();
+				return $this->getCountry();
 				break;
 			case 15:
-				return $this->getWebAddress();
+				return $this->getPhone();
 				break;
 			case 16:
+				return $this->getWebAddress();
+				break;
+			case 17:
 				return $this->getType();
 				break;
 			default:
@@ -1262,21 +1334,22 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 		$result = array(
 			$keys[0] => $this->getId(),
 			$keys[1] => $this->getCreatedAt(),
-			$keys[2] => $this->getLastUpdated(),
-			$keys[3] => $this->getDeletedAt(),
-			$keys[4] => $this->getOrgEmail(),
-			$keys[5] => $this->getOrgName(),
-			$keys[6] => $this->getIndAffiliation(),
-			$keys[7] => $this->getIndRole(),
-			$keys[8] => $this->getAddress1(),
-			$keys[9] => $this->getAddress2(),
-			$keys[10] => $this->getCity(),
-			$keys[11] => $this->getState(),
-			$keys[12] => $this->getPostalCode(),
-			$keys[13] => $this->getCountry(),
-			$keys[14] => $this->getPhone(),
-			$keys[15] => $this->getWebAddress(),
-			$keys[16] => $this->getType(),
+			$keys[2] => $this->getUpdatedAt(),
+			$keys[3] => $this->getLastUpdated(),
+			$keys[4] => $this->getDeletedAt(),
+			$keys[5] => $this->getOrgEmail(),
+			$keys[6] => $this->getOrgName(),
+			$keys[7] => $this->getIndAffiliation(),
+			$keys[8] => $this->getIndRole(),
+			$keys[9] => $this->getAddress1(),
+			$keys[10] => $this->getAddress2(),
+			$keys[11] => $this->getCity(),
+			$keys[12] => $this->getState(),
+			$keys[13] => $this->getPostalCode(),
+			$keys[14] => $this->getCountry(),
+			$keys[15] => $this->getPhone(),
+			$keys[16] => $this->getWebAddress(),
+			$keys[17] => $this->getType(),
 		);
 		return $result;
 	}
@@ -1315,48 +1388,51 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 				$this->setCreatedAt($value);
 				break;
 			case 2:
-				$this->setLastUpdated($value);
+				$this->setUpdatedAt($value);
 				break;
 			case 3:
-				$this->setDeletedAt($value);
+				$this->setLastUpdated($value);
 				break;
 			case 4:
-				$this->setOrgEmail($value);
+				$this->setDeletedAt($value);
 				break;
 			case 5:
-				$this->setOrgName($value);
+				$this->setOrgEmail($value);
 				break;
 			case 6:
-				$this->setIndAffiliation($value);
+				$this->setOrgName($value);
 				break;
 			case 7:
-				$this->setIndRole($value);
+				$this->setIndAffiliation($value);
 				break;
 			case 8:
-				$this->setAddress1($value);
+				$this->setIndRole($value);
 				break;
 			case 9:
-				$this->setAddress2($value);
+				$this->setAddress1($value);
 				break;
 			case 10:
-				$this->setCity($value);
+				$this->setAddress2($value);
 				break;
 			case 11:
-				$this->setState($value);
+				$this->setCity($value);
 				break;
 			case 12:
-				$this->setPostalCode($value);
+				$this->setState($value);
 				break;
 			case 13:
-				$this->setCountry($value);
+				$this->setPostalCode($value);
 				break;
 			case 14:
-				$this->setPhone($value);
+				$this->setCountry($value);
 				break;
 			case 15:
-				$this->setWebAddress($value);
+				$this->setPhone($value);
 				break;
 			case 16:
+				$this->setWebAddress($value);
+				break;
+			case 17:
 				$this->setType($value);
 				break;
 		} // switch()
@@ -1384,21 +1460,22 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 
 		if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
 		if (array_key_exists($keys[1], $arr)) $this->setCreatedAt($arr[$keys[1]]);
-		if (array_key_exists($keys[2], $arr)) $this->setLastUpdated($arr[$keys[2]]);
-		if (array_key_exists($keys[3], $arr)) $this->setDeletedAt($arr[$keys[3]]);
-		if (array_key_exists($keys[4], $arr)) $this->setOrgEmail($arr[$keys[4]]);
-		if (array_key_exists($keys[5], $arr)) $this->setOrgName($arr[$keys[5]]);
-		if (array_key_exists($keys[6], $arr)) $this->setIndAffiliation($arr[$keys[6]]);
-		if (array_key_exists($keys[7], $arr)) $this->setIndRole($arr[$keys[7]]);
-		if (array_key_exists($keys[8], $arr)) $this->setAddress1($arr[$keys[8]]);
-		if (array_key_exists($keys[9], $arr)) $this->setAddress2($arr[$keys[9]]);
-		if (array_key_exists($keys[10], $arr)) $this->setCity($arr[$keys[10]]);
-		if (array_key_exists($keys[11], $arr)) $this->setState($arr[$keys[11]]);
-		if (array_key_exists($keys[12], $arr)) $this->setPostalCode($arr[$keys[12]]);
-		if (array_key_exists($keys[13], $arr)) $this->setCountry($arr[$keys[13]]);
-		if (array_key_exists($keys[14], $arr)) $this->setPhone($arr[$keys[14]]);
-		if (array_key_exists($keys[15], $arr)) $this->setWebAddress($arr[$keys[15]]);
-		if (array_key_exists($keys[16], $arr)) $this->setType($arr[$keys[16]]);
+		if (array_key_exists($keys[2], $arr)) $this->setUpdatedAt($arr[$keys[2]]);
+		if (array_key_exists($keys[3], $arr)) $this->setLastUpdated($arr[$keys[3]]);
+		if (array_key_exists($keys[4], $arr)) $this->setDeletedAt($arr[$keys[4]]);
+		if (array_key_exists($keys[5], $arr)) $this->setOrgEmail($arr[$keys[5]]);
+		if (array_key_exists($keys[6], $arr)) $this->setOrgName($arr[$keys[6]]);
+		if (array_key_exists($keys[7], $arr)) $this->setIndAffiliation($arr[$keys[7]]);
+		if (array_key_exists($keys[8], $arr)) $this->setIndRole($arr[$keys[8]]);
+		if (array_key_exists($keys[9], $arr)) $this->setAddress1($arr[$keys[9]]);
+		if (array_key_exists($keys[10], $arr)) $this->setAddress2($arr[$keys[10]]);
+		if (array_key_exists($keys[11], $arr)) $this->setCity($arr[$keys[11]]);
+		if (array_key_exists($keys[12], $arr)) $this->setState($arr[$keys[12]]);
+		if (array_key_exists($keys[13], $arr)) $this->setPostalCode($arr[$keys[13]]);
+		if (array_key_exists($keys[14], $arr)) $this->setCountry($arr[$keys[14]]);
+		if (array_key_exists($keys[15], $arr)) $this->setPhone($arr[$keys[15]]);
+		if (array_key_exists($keys[16], $arr)) $this->setWebAddress($arr[$keys[16]]);
+		if (array_key_exists($keys[17], $arr)) $this->setType($arr[$keys[17]]);
 	}
 
 	/**
@@ -1412,6 +1489,7 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 
 		if ($this->isColumnModified(AgentPeer::ID)) $criteria->add(AgentPeer::ID, $this->id);
 		if ($this->isColumnModified(AgentPeer::CREATED_AT)) $criteria->add(AgentPeer::CREATED_AT, $this->created_at);
+		if ($this->isColumnModified(AgentPeer::UPDATED_AT)) $criteria->add(AgentPeer::UPDATED_AT, $this->updated_at);
 		if ($this->isColumnModified(AgentPeer::LAST_UPDATED)) $criteria->add(AgentPeer::LAST_UPDATED, $this->last_updated);
 		if ($this->isColumnModified(AgentPeer::DELETED_AT)) $criteria->add(AgentPeer::DELETED_AT, $this->deleted_at);
 		if ($this->isColumnModified(AgentPeer::ORG_EMAIL)) $criteria->add(AgentPeer::ORG_EMAIL, $this->org_email);
@@ -1482,6 +1560,8 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	{
 
 		$copyObj->setCreatedAt($this->created_at);
+
+		$copyObj->setUpdatedAt($this->updated_at);
 
 		$copyObj->setLastUpdated($this->last_updated);
 
@@ -2307,6 +2387,55 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in Agent.
 	 */
+	public function getSchemasJoinUserRelatedByDeletedUserId($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseSchemaPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collSchemas === null) {
+			if ($this->isNew()) {
+				$this->collSchemas = array();
+			} else {
+
+				$criteria->add(SchemaPeer::AGENT_ID, $this->getId());
+
+				$this->collSchemas = SchemaPeer::doSelectJoinUserRelatedByDeletedUserId($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(SchemaPeer::AGENT_ID, $this->getId());
+
+			if (!isset($this->lastSchemaCriteria) || !$this->lastSchemaCriteria->equals($criteria)) {
+				$this->collSchemas = SchemaPeer::doSelectJoinUserRelatedByDeletedUserId($criteria, $con);
+			}
+		}
+		$this->lastSchemaCriteria = $criteria;
+
+		return $this->collSchemas;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Agent is new, it will return
+	 * an empty collection; or if this Agent has previously
+	 * been saved, it will retrieve related Schemas from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Agent.
+	 */
 	public function getSchemasJoinStatus($criteria = null, $con = null)
 	{
 		// include the Peer class
@@ -2591,6 +2720,55 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 
 			if (!isset($this->lastVocabularyCriteria) || !$this->lastVocabularyCriteria->equals($criteria)) {
 				$this->collVocabularys = VocabularyPeer::doSelectJoinUserRelatedByUpdatedUserId($criteria, $con);
+			}
+		}
+		$this->lastVocabularyCriteria = $criteria;
+
+		return $this->collVocabularys;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Agent is new, it will return
+	 * an empty collection; or if this Agent has previously
+	 * been saved, it will retrieve related Vocabularys from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Agent.
+	 */
+	public function getVocabularysJoinUserRelatedByDeletedUserId($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseVocabularyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collVocabularys === null) {
+			if ($this->isNew()) {
+				$this->collVocabularys = array();
+			} else {
+
+				$criteria->add(VocabularyPeer::AGENT_ID, $this->getId());
+
+				$this->collVocabularys = VocabularyPeer::doSelectJoinUserRelatedByDeletedUserId($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(VocabularyPeer::AGENT_ID, $this->getId());
+
+			if (!isset($this->lastVocabularyCriteria) || !$this->lastVocabularyCriteria->equals($criteria)) {
+				$this->collVocabularys = VocabularyPeer::doSelectJoinUserRelatedByDeletedUserId($criteria, $con);
 			}
 		}
 		$this->lastVocabularyCriteria = $criteria;

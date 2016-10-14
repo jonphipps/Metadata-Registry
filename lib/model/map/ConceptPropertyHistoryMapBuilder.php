@@ -91,6 +91,8 @@ class ConceptPropertyHistoryMapBuilder {
 
 		$tMap->addForeignKey('IMPORT_ID', 'ImportId', 'int', CreoleTypes::INTEGER, 'reg_file_import_history', 'ID', false, null);
 
+		$tMap->addForeignKey('PROFILE_PROPERTY_ID', 'ProfilePropertyId', 'int', CreoleTypes::INTEGER, 'profile_property', 'ID', false, null);
+
 	} // doBuild()
 
 } // ConceptPropertyHistoryMapBuilder
