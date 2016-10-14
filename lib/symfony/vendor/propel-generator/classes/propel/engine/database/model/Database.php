@@ -391,7 +391,7 @@ class Database extends XMLElement {
 				}
 
 				$referrers = $foreignTable->getReferrers();
-				if ($referrers === null || ! in_array($currFK,$referrers,true) ) {
+				if ($referrers === null || ! in_array($currFK,$referrers) ) {
 					$foreignTable->addReferrer($currFK);
 				}
 

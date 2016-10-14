@@ -63,7 +63,7 @@ class MysqlPlatform extends DefaultPlatform {
     {
         return 64;
     }
-    
+
     /**
      * @see Platform::supportsNativeDeleteTrigger()
      */
@@ -76,7 +76,7 @@ class MysqlPlatform extends DefaultPlatform {
         }
         return $usingInnoDB || false;
     }
-    
+
     /**
      * @see Platform#hasSize(String)
      */
@@ -92,9 +92,9 @@ class MysqlPlatform extends DefaultPlatform {
      * @return string
      */
     public function escapeText($text) {
-        return addslashes($text);
+        return mysql_escape_string($text);
     }
-	
+
 	/**
 	 * @see Platform::quoteIdentifier()
 	 */
