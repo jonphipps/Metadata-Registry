@@ -43,9 +43,6 @@ abstract class BaseExportHistoryPeer {
 	/** the column name for the SCHEMA_ID field */
 	const SCHEMA_ID = 'reg_export_history.SCHEMA_ID';
 
-	/** the column name for the CSV_TYPE field */
-	const CSV_TYPE = 'reg_export_history.CSV_TYPE';
-
 	/** the column name for the EXCLUDE_DEPRECATED field */
 	const EXCLUDE_DEPRECATED = 'reg_export_history.EXCLUDE_DEPRECATED';
 
@@ -73,6 +70,9 @@ abstract class BaseExportHistoryPeer {
 	/** the column name for the LAST_VOCAB_UPDATE field */
 	const LAST_VOCAB_UPDATE = 'reg_export_history.LAST_VOCAB_UPDATE';
 
+	/** the column name for the PROFILE_ID field */
+	const PROFILE_ID = 'reg_export_history.PROFILE_ID';
+
 	/** The PHP to DB Name Mapping */
 	private static $phpNameMap = null;
 
@@ -84,9 +84,9 @@ abstract class BaseExportHistoryPeer {
 	 * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
 	 */
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'CreatedAt', 'UpdatedAt', 'UserId', 'VocabularyId', 'SchemaId', 'CsvType', 'ExcludeDeprecated', 'ExcludeGenerated', 'IncludeDeleted', 'IncludeNotAccepted', 'SelectedColumns', 'SelectedLanguage', 'PublishedEnglishVersion', 'PublishedLanguageVersion', 'LastVocabUpdate', ),
-		BasePeer::TYPE_COLNAME => array (ExportHistoryPeer::ID, ExportHistoryPeer::CREATED_AT, ExportHistoryPeer::UPDATED_AT, ExportHistoryPeer::USER_ID, ExportHistoryPeer::VOCABULARY_ID, ExportHistoryPeer::SCHEMA_ID, ExportHistoryPeer::CSV_TYPE, ExportHistoryPeer::EXCLUDE_DEPRECATED, ExportHistoryPeer::EXCLUDE_GENERATED, ExportHistoryPeer::INCLUDE_DELETED, ExportHistoryPeer::INCLUDE_NOT_ACCEPTED, ExportHistoryPeer::SELECTED_COLUMNS, ExportHistoryPeer::SELECTED_LANGUAGE, ExportHistoryPeer::PUBLISHED_ENGLISH_VERSION, ExportHistoryPeer::PUBLISHED_LANGUAGE_VERSION, ExportHistoryPeer::LAST_VOCAB_UPDATE, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'created_at', 'updated_at', 'user_id', 'vocabulary_id', 'schema_id', 'csv_type', 'exclude_deprecated', 'exclude_generated', 'include_deleted', 'include_not_accepted', 'selected_columns', 'selected_language', 'published_english_version', 'published_language_version', 'last_vocab_update', ),
+		BasePeer::TYPE_PHPNAME => array ('Id', 'CreatedAt', 'UpdatedAt', 'UserId', 'VocabularyId', 'SchemaId', 'ExcludeDeprecated', 'ExcludeGenerated', 'IncludeDeleted', 'IncludeNotAccepted', 'SelectedColumns', 'SelectedLanguage', 'PublishedEnglishVersion', 'PublishedLanguageVersion', 'LastVocabUpdate', 'ProfileId', ),
+		BasePeer::TYPE_COLNAME => array (ExportHistoryPeer::ID, ExportHistoryPeer::CREATED_AT, ExportHistoryPeer::UPDATED_AT, ExportHistoryPeer::USER_ID, ExportHistoryPeer::VOCABULARY_ID, ExportHistoryPeer::SCHEMA_ID, ExportHistoryPeer::EXCLUDE_DEPRECATED, ExportHistoryPeer::EXCLUDE_GENERATED, ExportHistoryPeer::INCLUDE_DELETED, ExportHistoryPeer::INCLUDE_NOT_ACCEPTED, ExportHistoryPeer::SELECTED_COLUMNS, ExportHistoryPeer::SELECTED_LANGUAGE, ExportHistoryPeer::PUBLISHED_ENGLISH_VERSION, ExportHistoryPeer::PUBLISHED_LANGUAGE_VERSION, ExportHistoryPeer::LAST_VOCAB_UPDATE, ExportHistoryPeer::PROFILE_ID, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'created_at', 'updated_at', 'user_id', 'vocabulary_id', 'schema_id', 'exclude_deprecated', 'exclude_generated', 'include_deleted', 'include_not_accepted', 'selected_columns', 'selected_language', 'published_english_version', 'published_language_version', 'last_vocab_update', 'profile_id', ),
 		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, )
 	);
 
@@ -97,9 +97,9 @@ abstract class BaseExportHistoryPeer {
 	 * e.g. self::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
 	 */
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'CreatedAt' => 1, 'UpdatedAt' => 2, 'UserId' => 3, 'VocabularyId' => 4, 'SchemaId' => 5, 'CsvType' => 6, 'ExcludeDeprecated' => 7, 'ExcludeGenerated' => 8, 'IncludeDeleted' => 9, 'IncludeNotAccepted' => 10, 'SelectedColumns' => 11, 'SelectedLanguage' => 12, 'PublishedEnglishVersion' => 13, 'PublishedLanguageVersion' => 14, 'LastVocabUpdate' => 15, ),
-		BasePeer::TYPE_COLNAME => array (ExportHistoryPeer::ID => 0, ExportHistoryPeer::CREATED_AT => 1, ExportHistoryPeer::UPDATED_AT => 2, ExportHistoryPeer::USER_ID => 3, ExportHistoryPeer::VOCABULARY_ID => 4, ExportHistoryPeer::SCHEMA_ID => 5, ExportHistoryPeer::CSV_TYPE => 6, ExportHistoryPeer::EXCLUDE_DEPRECATED => 7, ExportHistoryPeer::EXCLUDE_GENERATED => 8, ExportHistoryPeer::INCLUDE_DELETED => 9, ExportHistoryPeer::INCLUDE_NOT_ACCEPTED => 10, ExportHistoryPeer::SELECTED_COLUMNS => 11, ExportHistoryPeer::SELECTED_LANGUAGE => 12, ExportHistoryPeer::PUBLISHED_ENGLISH_VERSION => 13, ExportHistoryPeer::PUBLISHED_LANGUAGE_VERSION => 14, ExportHistoryPeer::LAST_VOCAB_UPDATE => 15, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'created_at' => 1, 'updated_at' => 2, 'user_id' => 3, 'vocabulary_id' => 4, 'schema_id' => 5, 'csv_type' => 6, 'exclude_deprecated' => 7, 'exclude_generated' => 8, 'include_deleted' => 9, 'include_not_accepted' => 10, 'selected_columns' => 11, 'selected_language' => 12, 'published_english_version' => 13, 'published_language_version' => 14, 'last_vocab_update' => 15, ),
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'CreatedAt' => 1, 'UpdatedAt' => 2, 'UserId' => 3, 'VocabularyId' => 4, 'SchemaId' => 5, 'ExcludeDeprecated' => 6, 'ExcludeGenerated' => 7, 'IncludeDeleted' => 8, 'IncludeNotAccepted' => 9, 'SelectedColumns' => 10, 'SelectedLanguage' => 11, 'PublishedEnglishVersion' => 12, 'PublishedLanguageVersion' => 13, 'LastVocabUpdate' => 14, 'ProfileId' => 15, ),
+		BasePeer::TYPE_COLNAME => array (ExportHistoryPeer::ID => 0, ExportHistoryPeer::CREATED_AT => 1, ExportHistoryPeer::UPDATED_AT => 2, ExportHistoryPeer::USER_ID => 3, ExportHistoryPeer::VOCABULARY_ID => 4, ExportHistoryPeer::SCHEMA_ID => 5, ExportHistoryPeer::EXCLUDE_DEPRECATED => 6, ExportHistoryPeer::EXCLUDE_GENERATED => 7, ExportHistoryPeer::INCLUDE_DELETED => 8, ExportHistoryPeer::INCLUDE_NOT_ACCEPTED => 9, ExportHistoryPeer::SELECTED_COLUMNS => 10, ExportHistoryPeer::SELECTED_LANGUAGE => 11, ExportHistoryPeer::PUBLISHED_ENGLISH_VERSION => 12, ExportHistoryPeer::PUBLISHED_LANGUAGE_VERSION => 13, ExportHistoryPeer::LAST_VOCAB_UPDATE => 14, ExportHistoryPeer::PROFILE_ID => 15, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'created_at' => 1, 'updated_at' => 2, 'user_id' => 3, 'vocabulary_id' => 4, 'schema_id' => 5, 'exclude_deprecated' => 6, 'exclude_generated' => 7, 'include_deleted' => 8, 'include_not_accepted' => 9, 'selected_columns' => 10, 'selected_language' => 11, 'published_english_version' => 12, 'published_language_version' => 13, 'last_vocab_update' => 14, 'profile_id' => 15, ),
 		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, )
 	);
 
@@ -213,8 +213,6 @@ abstract class BaseExportHistoryPeer {
 
         $criteria->addSelectColumn(($tableAlias) ? ExportHistoryPeer::alias($tableAlias, ExportHistoryPeer::SCHEMA_ID) : ExportHistoryPeer::SCHEMA_ID);
 
-        $criteria->addSelectColumn(($tableAlias) ? ExportHistoryPeer::alias($tableAlias, ExportHistoryPeer::CSV_TYPE) : ExportHistoryPeer::CSV_TYPE);
-
         $criteria->addSelectColumn(($tableAlias) ? ExportHistoryPeer::alias($tableAlias, ExportHistoryPeer::EXCLUDE_DEPRECATED) : ExportHistoryPeer::EXCLUDE_DEPRECATED);
 
         $criteria->addSelectColumn(($tableAlias) ? ExportHistoryPeer::alias($tableAlias, ExportHistoryPeer::EXCLUDE_GENERATED) : ExportHistoryPeer::EXCLUDE_GENERATED);
@@ -232,6 +230,8 @@ abstract class BaseExportHistoryPeer {
         $criteria->addSelectColumn(($tableAlias) ? ExportHistoryPeer::alias($tableAlias, ExportHistoryPeer::PUBLISHED_LANGUAGE_VERSION) : ExportHistoryPeer::PUBLISHED_LANGUAGE_VERSION);
 
         $criteria->addSelectColumn(($tableAlias) ? ExportHistoryPeer::alias($tableAlias, ExportHistoryPeer::LAST_VOCAB_UPDATE) : ExportHistoryPeer::LAST_VOCAB_UPDATE);
+
+        $criteria->addSelectColumn(($tableAlias) ? ExportHistoryPeer::alias($tableAlias, ExportHistoryPeer::PROFILE_ID) : ExportHistoryPeer::PROFILE_ID);
 
 	}
 
@@ -789,6 +789,8 @@ abstract class BaseExportHistoryPeer {
 
 		$criteria->addJoin(ExportHistoryPeer::SCHEMA_ID, SchemaPeer::ID);
 
+		$criteria->addJoin(ExportHistoryPeer::PROFILE_ID, ProfilePeer::ID);
+
 		$rs = ExportHistoryPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
 			return $rs->getInt(1);
@@ -835,6 +837,12 @@ abstract class BaseExportHistoryPeer {
 
         $c->addJoin(ExportHistoryPeer::SCHEMA_ID, SchemaPeer::alias('a3', SchemaPeer::ID));
         $c->addAlias('a3', SchemaPeer::TABLE_NAME);
+
+		ProfilePeer::addSelectColumns($c, 'a4');
+		$startcol6 = $startcol5 + ProfilePeer::NUM_COLUMNS;
+
+        $c->addJoin(ExportHistoryPeer::PROFILE_ID, ProfilePeer::alias('a4', ProfilePeer::ID));
+        $c->addAlias('a4', ProfilePeer::TABLE_NAME);
 
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
@@ -926,6 +934,32 @@ abstract class BaseExportHistoryPeer {
 				$obj4->addExportHistory($obj1);
 			}
 
+
+				// Add objects for joined Profile rows
+	
+			$omClass = ProfilePeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj5 = new $cls();
+			$obj5->hydrate($rs, $startcol5);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj5 = $temp_obj1->getProfile(); // CHECKME
+				if ($temp_obj5->getPrimaryKey() === $obj5->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj5->addExportHistory($obj1); // CHECKME
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj5->initExportHistorys();
+				$obj5->addExportHistory($obj1);
+			}
+
 			$results[] = $obj1;
 		}
 		return $results;
@@ -962,6 +996,8 @@ abstract class BaseExportHistoryPeer {
 		$criteria->addJoin(ExportHistoryPeer::VOCABULARY_ID, VocabularyPeer::ID);
 
 		$criteria->addJoin(ExportHistoryPeer::SCHEMA_ID, SchemaPeer::ID);
+
+		$criteria->addJoin(ExportHistoryPeer::PROFILE_ID, ProfilePeer::ID);
 
 		$rs = ExportHistoryPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
@@ -1004,6 +1040,8 @@ abstract class BaseExportHistoryPeer {
 
 		$criteria->addJoin(ExportHistoryPeer::SCHEMA_ID, SchemaPeer::ID);
 
+		$criteria->addJoin(ExportHistoryPeer::PROFILE_ID, ProfilePeer::ID);
+
 		$rs = ExportHistoryPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
 			return $rs->getInt(1);
@@ -1045,6 +1083,51 @@ abstract class BaseExportHistoryPeer {
 
 		$criteria->addJoin(ExportHistoryPeer::VOCABULARY_ID, VocabularyPeer::ID);
 
+		$criteria->addJoin(ExportHistoryPeer::PROFILE_ID, ProfilePeer::ID);
+
+		$rs = ExportHistoryPeer::doSelectRS($criteria, $con);
+		if ($rs->next()) {
+			return $rs->getInt(1);
+		} else {
+			// no rows returned; we infer that means 0 matches.
+			return 0;
+		}
+	}
+
+
+	/**
+	 * Returns the number of rows matching criteria, joining the related Profile table
+	 *
+	 * @param Criteria $c
+	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
+	 * @param Connection $con
+	 * @return int Number of matching rows.
+	 */
+	public static function doCountJoinAllExceptProfile(Criteria $criteria, $distinct = false, $con = null)
+	{
+		// we're going to modify criteria, so copy it first
+		$criteria = clone $criteria;
+
+		// clear out anything that might confuse the ORDER BY clause
+		$criteria->clearSelectColumns()->clearOrderByColumns();
+		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->addSelectColumn(ExportHistoryPeer::COUNT_DISTINCT);
+		} else {
+			$criteria->addSelectColumn(ExportHistoryPeer::COUNT);
+		}
+
+		// just in case we're grouping: add those columns to the select statement
+		foreach($criteria->getGroupByColumns() as $column)
+		{
+			$criteria->addSelectColumn($column);
+		}
+
+		$criteria->addJoin(ExportHistoryPeer::USER_ID, UserPeer::ID);
+
+		$criteria->addJoin(ExportHistoryPeer::VOCABULARY_ID, VocabularyPeer::ID);
+
+		$criteria->addJoin(ExportHistoryPeer::SCHEMA_ID, SchemaPeer::ID);
+
 		$rs = ExportHistoryPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
 			return $rs->getInt(1);
@@ -1082,9 +1165,14 @@ abstract class BaseExportHistoryPeer {
 		SchemaPeer::addSelectColumns($c);
 		$startcol4 = $startcol3 + SchemaPeer::NUM_COLUMNS;
 
+		ProfilePeer::addSelectColumns($c);
+		$startcol5 = $startcol4 + ProfilePeer::NUM_COLUMNS;
+
 		$c->addJoin(ExportHistoryPeer::VOCABULARY_ID, VocabularyPeer::ID);
 
 		$c->addJoin(ExportHistoryPeer::SCHEMA_ID, SchemaPeer::ID);
+
+		$c->addJoin(ExportHistoryPeer::PROFILE_ID, ProfilePeer::ID);
 
 
 		$rs = BasePeer::doSelect($c, $con);
@@ -1144,6 +1232,29 @@ abstract class BaseExportHistoryPeer {
 				$obj3->addExportHistory($obj1);
 			}
 
+			$omClass = ProfilePeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj4  = new $cls();
+			$obj4->hydrate($rs, $startcol4);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj4 = $temp_obj1->getProfile(); //CHECKME
+				if ($temp_obj4->getPrimaryKey() === $obj4->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj4->addExportHistory($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj4->initExportHistorys();
+				$obj4->addExportHistory($obj1);
+			}
+
 			$results[] = $obj1;
 		}
 		return $results;
@@ -1177,9 +1288,14 @@ abstract class BaseExportHistoryPeer {
 		SchemaPeer::addSelectColumns($c);
 		$startcol4 = $startcol3 + SchemaPeer::NUM_COLUMNS;
 
+		ProfilePeer::addSelectColumns($c);
+		$startcol5 = $startcol4 + ProfilePeer::NUM_COLUMNS;
+
 		$c->addJoin(ExportHistoryPeer::USER_ID, UserPeer::ID);
 
 		$c->addJoin(ExportHistoryPeer::SCHEMA_ID, SchemaPeer::ID);
+
+		$c->addJoin(ExportHistoryPeer::PROFILE_ID, ProfilePeer::ID);
 
 
 		$rs = BasePeer::doSelect($c, $con);
@@ -1239,6 +1355,29 @@ abstract class BaseExportHistoryPeer {
 				$obj3->addExportHistory($obj1);
 			}
 
+			$omClass = ProfilePeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj4  = new $cls();
+			$obj4->hydrate($rs, $startcol4);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj4 = $temp_obj1->getProfile(); //CHECKME
+				if ($temp_obj4->getPrimaryKey() === $obj4->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj4->addExportHistory($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj4->initExportHistorys();
+				$obj4->addExportHistory($obj1);
+			}
+
 			$results[] = $obj1;
 		}
 		return $results;
@@ -1272,9 +1411,14 @@ abstract class BaseExportHistoryPeer {
 		VocabularyPeer::addSelectColumns($c);
 		$startcol4 = $startcol3 + VocabularyPeer::NUM_COLUMNS;
 
+		ProfilePeer::addSelectColumns($c);
+		$startcol5 = $startcol4 + ProfilePeer::NUM_COLUMNS;
+
 		$c->addJoin(ExportHistoryPeer::USER_ID, UserPeer::ID);
 
 		$c->addJoin(ExportHistoryPeer::VOCABULARY_ID, VocabularyPeer::ID);
+
+		$c->addJoin(ExportHistoryPeer::PROFILE_ID, ProfilePeer::ID);
 
 
 		$rs = BasePeer::doSelect($c, $con);
@@ -1332,6 +1476,152 @@ abstract class BaseExportHistoryPeer {
 			if ($newObject) {
 				$obj3->initExportHistorys();
 				$obj3->addExportHistory($obj1);
+			}
+
+			$omClass = ProfilePeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj4  = new $cls();
+			$obj4->hydrate($rs, $startcol4);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj4 = $temp_obj1->getProfile(); //CHECKME
+				if ($temp_obj4->getPrimaryKey() === $obj4->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj4->addExportHistory($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj4->initExportHistorys();
+				$obj4->addExportHistory($obj1);
+			}
+
+			$results[] = $obj1;
+		}
+		return $results;
+	}
+
+
+	/**
+	 * Selects a collection of ExportHistory objects pre-filled with all related objects except Profile.
+	 *
+	 * @return array Array of ExportHistory objects.
+	 * @throws PropelException Any exceptions caught during processing will be
+	 *		 rethrown wrapped into a PropelException.
+	 */
+	public static function doSelectJoinAllExceptProfile(Criteria $c, $con = null)
+	{
+		$c = clone $c;
+
+		// Set the correct dbName if it has not been overridden
+		// $c->getDbName() will return the same object if not set to another value
+		// so == check is okay and faster
+		if ($c->getDbName() == Propel::getDefaultDB()) {
+			$c->setDbName(self::DATABASE_NAME);
+		}
+
+		ExportHistoryPeer::addSelectColumns($c);
+		$startcol2 = (ExportHistoryPeer::NUM_COLUMNS - ExportHistoryPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+
+		UserPeer::addSelectColumns($c);
+		$startcol3 = $startcol2 + UserPeer::NUM_COLUMNS;
+
+		VocabularyPeer::addSelectColumns($c);
+		$startcol4 = $startcol3 + VocabularyPeer::NUM_COLUMNS;
+
+		SchemaPeer::addSelectColumns($c);
+		$startcol5 = $startcol4 + SchemaPeer::NUM_COLUMNS;
+
+		$c->addJoin(ExportHistoryPeer::USER_ID, UserPeer::ID);
+
+		$c->addJoin(ExportHistoryPeer::VOCABULARY_ID, VocabularyPeer::ID);
+
+		$c->addJoin(ExportHistoryPeer::SCHEMA_ID, SchemaPeer::ID);
+
+
+		$rs = BasePeer::doSelect($c, $con);
+		$results = array();
+
+		while($rs->next()) {
+
+			$omClass = ExportHistoryPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj1 = new $cls();
+			$obj1->hydrate($rs);
+
+			$omClass = UserPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj2  = new $cls();
+			$obj2->hydrate($rs, $startcol2);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj2 = $temp_obj1->getUser(); //CHECKME
+				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj2->addExportHistory($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj2->initExportHistorys();
+				$obj2->addExportHistory($obj1);
+			}
+
+			$omClass = VocabularyPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj3  = new $cls();
+			$obj3->hydrate($rs, $startcol3);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj3 = $temp_obj1->getVocabulary(); //CHECKME
+				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj3->addExportHistory($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj3->initExportHistorys();
+				$obj3->addExportHistory($obj1);
+			}
+
+			$omClass = SchemaPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj4  = new $cls();
+			$obj4->hydrate($rs, $startcol4);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj4 = $temp_obj1->getSchema(); //CHECKME
+				if ($temp_obj4->getPrimaryKey() === $obj4->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj4->addExportHistory($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj4->initExportHistorys();
+				$obj4->addExportHistory($obj1);
 			}
 
 			$results[] = $obj1;

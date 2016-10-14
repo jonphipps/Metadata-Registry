@@ -75,12 +75,6 @@ generator:
       helptype:       icon
       fields:
         id:           { credentials: [administrator], mode: edit }
-        csv_type:
-          type: select_tag
-          params:
-            array_method: getOptionsforCsvType
-            related_class: ExportHistory
-            autofocus: autofocus
         selected_language:
           type:       admin_select_language
           condition:  "$sf_flash->get('hasLanguages')"
@@ -102,10 +96,6 @@ generator:
       actions:
         _save:         { name: Export CSV }
         _cancel:       { name: Cancel  }
-#        - _cancel:       { mode: create, query_string: { sf_request: schema_id}, condition: "!$sf_request->getParameter('schema_id')", route: "schema_export_cancel" }
-#        - _cancel:       { mode: edit,   query_string: { schema_id: schema_id}, condition: "!$sf_request->getParameter('schema_id')", route: "schema_export_cancel" }
-#        - _cancel:       { mode: create, query_string: { sf_request: vocabulary_id}, condition: "!$sf_request->getParameter('vocabulary_id')", route: "vocabulary_export_cancel" }
-#        - _cancel:       { mode: edit,   query_string: { vocabulary_id: vocabulary_id}, condition: "!$sf_request->getParameter('vocabulary_id')", route: "vocabulary_export_cancel" }
       urlfilters:
         agent_id:      schema_id
         vocabulary_id: vocabulary_id

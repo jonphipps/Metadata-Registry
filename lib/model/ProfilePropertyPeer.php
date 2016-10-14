@@ -190,7 +190,7 @@ class ProfilePropertyPeer extends BaseProfilePropertyPeer
     $userId = sfContext::getInstance()->getUser()->getSubscriberId();
 
     if ($userId) {
-      $lastExportForUser = ExportHistoryPeer::getLastExportForUser($userId);
+      $lastExportForUser = ExportHistoryPeer::getLastExportForUser($userId, $profileId);
       if ($lastExportForUser) {
         $lastColumns = $lastExportForUser->getSelectedColumns();
       }

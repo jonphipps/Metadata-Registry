@@ -30,26 +30,11 @@ class ExportHistoryPeer extends BaseExportHistoryPeer
     }
 
 
-  public static function getOptionsforCsvType()
-  {
-    $userId = sfContext::getInstance()->getUser()->getSubscriberId();
-    $select_options = self::$CSV_TYPES;
-
-    //non-members don't get to have nice things
-    if (!$userId) {
-      unset( $select_options[1] );
-      unset( $select_options[2] );
-    }
-
-    return $select_options;
-
-  }
-
-
-  public static function getLastExportForUser($userId)
+  public static function getLastExportForUser($userId, $profileId)
   {
     $c=new Criteria();
     $c->add(ExportHistoryPeer::USER_ID, $userId);
+    $c->add(ExportHistoryPeer::PROFILE_ID, $profileId);
     $c->addDescendingOrderByColumn(ExportHistoryPeer::CREATED_AT);
 
     return self::doSelectOne($c);

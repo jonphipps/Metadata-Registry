@@ -73,8 +73,6 @@ class ExportHistoryMapBuilder {
 
 		$tMap->addForeignKey('SCHEMA_ID', 'SchemaId', 'int', CreoleTypes::INTEGER, 'reg_schema', 'ID', false, null);
 
-		$tMap->addColumn('CSV_TYPE', 'CsvType', 'string', CreoleTypes::VARCHAR, false, 100);
-
 		$tMap->addColumn('EXCLUDE_DEPRECATED', 'ExcludeDeprecated', 'boolean', CreoleTypes::BOOLEAN, false, null);
 
 		$tMap->addColumn('EXCLUDE_GENERATED', 'ExcludeGenerated', 'boolean', CreoleTypes::BOOLEAN, false, null);
@@ -92,6 +90,8 @@ class ExportHistoryMapBuilder {
 		$tMap->addColumn('PUBLISHED_LANGUAGE_VERSION', 'PublishedLanguageVersion', 'string', CreoleTypes::VARCHAR, false, 100);
 
 		$tMap->addColumn('LAST_VOCAB_UPDATE', 'LastVocabUpdate', 'int', CreoleTypes::TIMESTAMP, false, null);
+
+		$tMap->addForeignKey('PROFILE_ID', 'ProfileId', 'int', CreoleTypes::INTEGER, 'profile', 'ID', false, null);
 
 	} // doBuild()
 

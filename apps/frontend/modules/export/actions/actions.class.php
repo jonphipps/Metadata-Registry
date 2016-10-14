@@ -35,12 +35,12 @@ class exportActions extends autoExportActions
   {
     $schemaObj = $this->getCurrentSchema();
     $schemaId  = $schemaObj->getId();
-
     if ('Vocabulary' == get_class($schemaObj)) {
       $export_history->setVocabularyId($schemaId);
     } else {
       $export_history->setSchemaId($schemaId);
     }
+
     $propertiesInUse = $schemaObj->getProfilePropertiesInUse();
     $props=[];
     if ($propertiesInUse) {
@@ -54,8 +54,12 @@ class exportActions extends autoExportActions
     if ($userId) {
       $export_history->setUserId($userId);
     }
+
+    $profileId = $schemaObj->getProfileId();
+    $export_history->setProfileId($profileId);
+
     //todo: check if there was an export for this vocab for this user first, and then get the last for any vocab
-    $lastExportForUser = ExportHistoryPeer::getLastExportForUser($userId);
+    $lastExportForUser = ExportHistoryPeer::getLastExportForUser($userId, $profileId);
     if ($lastExportForUser) {
       $export_history->setSelectedLanguage($lastExportForUser->getSelectedLanguage());
       $export_history->setSelectedColumns($lastExportForUser->getSelectedColumns());
