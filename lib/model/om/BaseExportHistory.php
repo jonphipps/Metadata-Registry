@@ -130,6 +130,20 @@ abstract class BaseExportHistory extends BaseObject  implements Persistent {
 	 */
 	protected $profile_id;
 
+
+	/**
+	 * The value for the file field.
+	 * @var        string
+	 */
+	protected $file;
+
+
+	/**
+	 * The value for the map field.
+	 * @var        string
+	 */
+	protected $map;
+
 	/**
 	 * @var        User
 	 */
@@ -398,6 +412,28 @@ abstract class BaseExportHistory extends BaseObject  implements Persistent {
 	{
 
 		return $this->profile_id;
+	}
+
+	/**
+	 * Get the [file] column value.
+	 * 
+	 * @return     string
+	 */
+	public function getFile()
+	{
+
+		return $this->file;
+	}
+
+	/**
+	 * Get the [map] column value.
+	 * 
+	 * @return     string
+	 */
+	public function getMap()
+	{
+
+		return $this->map;
 	}
 
 	/**
@@ -751,6 +787,50 @@ abstract class BaseExportHistory extends BaseObject  implements Persistent {
 	} // setProfileId()
 
 	/**
+	 * Set the value of [file] column.
+	 * 
+	 * @param      string $v new value
+	 * @return     void
+	 */
+	public function setFile($v)
+	{
+
+		// Since the native PHP type for this column is string,
+		// we will cast the input to a string (if it is not).
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->file !== $v) {
+			$this->file = $v;
+			$this->modifiedColumns[] = ExportHistoryPeer::FILE;
+		}
+
+	} // setFile()
+
+	/**
+	 * Set the value of [map] column.
+	 * 
+	 * @param      string $v new value
+	 * @return     void
+	 */
+	public function setMap($v)
+	{
+
+		// Since the native PHP type for this column is string,
+		// we will cast the input to a string (if it is not).
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->map !== $v) {
+			$this->map = $v;
+			$this->modifiedColumns[] = ExportHistoryPeer::MAP;
+		}
+
+	} // setMap()
+
+	/**
 	 * Hydrates (populates) the object variables with values from the database resultset.
 	 *
 	 * An offset (1-based "start column") is specified so that objects can be hydrated
@@ -799,12 +879,16 @@ abstract class BaseExportHistory extends BaseObject  implements Persistent {
 
 			$this->profile_id = $rs->getInt($startcol + 15);
 
+			$this->file = $rs->getString($startcol + 16);
+
+			$this->map = $rs->getString($startcol + 17);
+
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 16; // 16 = ExportHistoryPeer::NUM_COLUMNS - ExportHistoryPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 18; // 18 = ExportHistoryPeer::NUM_COLUMNS - ExportHistoryPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating ExportHistory object", $e);
@@ -1164,6 +1248,12 @@ abstract class BaseExportHistory extends BaseObject  implements Persistent {
 			case 15:
 				return $this->getProfileId();
 				break;
+			case 16:
+				return $this->getFile();
+				break;
+			case 17:
+				return $this->getMap();
+				break;
 			default:
 				return null;
 				break;
@@ -1200,6 +1290,8 @@ abstract class BaseExportHistory extends BaseObject  implements Persistent {
 			$keys[13] => $this->getPublishedLanguageVersion(),
 			$keys[14] => $this->getLastVocabUpdate(),
 			$keys[15] => $this->getProfileId(),
+			$keys[16] => $this->getFile(),
+			$keys[17] => $this->getMap(),
 		);
 		return $result;
 	}
@@ -1279,6 +1371,12 @@ abstract class BaseExportHistory extends BaseObject  implements Persistent {
 			case 15:
 				$this->setProfileId($value);
 				break;
+			case 16:
+				$this->setFile($value);
+				break;
+			case 17:
+				$this->setMap($value);
+				break;
 		} // switch()
 	}
 
@@ -1318,6 +1416,8 @@ abstract class BaseExportHistory extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[13], $arr)) $this->setPublishedLanguageVersion($arr[$keys[13]]);
 		if (array_key_exists($keys[14], $arr)) $this->setLastVocabUpdate($arr[$keys[14]]);
 		if (array_key_exists($keys[15], $arr)) $this->setProfileId($arr[$keys[15]]);
+		if (array_key_exists($keys[16], $arr)) $this->setFile($arr[$keys[16]]);
+		if (array_key_exists($keys[17], $arr)) $this->setMap($arr[$keys[17]]);
 	}
 
 	/**
@@ -1345,6 +1445,8 @@ abstract class BaseExportHistory extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(ExportHistoryPeer::PUBLISHED_LANGUAGE_VERSION)) $criteria->add(ExportHistoryPeer::PUBLISHED_LANGUAGE_VERSION, $this->published_language_version);
 		if ($this->isColumnModified(ExportHistoryPeer::LAST_VOCAB_UPDATE)) $criteria->add(ExportHistoryPeer::LAST_VOCAB_UPDATE, $this->last_vocab_update);
 		if ($this->isColumnModified(ExportHistoryPeer::PROFILE_ID)) $criteria->add(ExportHistoryPeer::PROFILE_ID, $this->profile_id);
+		if ($this->isColumnModified(ExportHistoryPeer::FILE)) $criteria->add(ExportHistoryPeer::FILE, $this->file);
+		if ($this->isColumnModified(ExportHistoryPeer::MAP)) $criteria->add(ExportHistoryPeer::MAP, $this->map);
 
 		return $criteria;
 	}
@@ -1428,6 +1530,10 @@ abstract class BaseExportHistory extends BaseObject  implements Persistent {
 		$copyObj->setLastVocabUpdate($this->last_vocab_update);
 
 		$copyObj->setProfileId($this->profile_id);
+
+		$copyObj->setFile($this->file);
+
+		$copyObj->setMap($this->map);
 
 
 		$copyObj->setNew(true);

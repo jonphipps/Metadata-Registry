@@ -19,7 +19,7 @@ abstract class BaseExportHistoryPeer {
 	const CLASS_DEFAULT = 'lib.model.ExportHistory';
 
 	/** The total number of columns. */
-	const NUM_COLUMNS = 16;
+	const NUM_COLUMNS = 18;
 
 	/** The number of lazy-loaded columns. */
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -73,6 +73,12 @@ abstract class BaseExportHistoryPeer {
 	/** the column name for the PROFILE_ID field */
 	const PROFILE_ID = 'reg_export_history.PROFILE_ID';
 
+	/** the column name for the FILE field */
+	const FILE = 'reg_export_history.FILE';
+
+	/** the column name for the MAP field */
+	const MAP = 'reg_export_history.MAP';
+
 	/** The PHP to DB Name Mapping */
 	private static $phpNameMap = null;
 
@@ -84,10 +90,10 @@ abstract class BaseExportHistoryPeer {
 	 * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
 	 */
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'CreatedAt', 'UpdatedAt', 'UserId', 'VocabularyId', 'SchemaId', 'ExcludeDeprecated', 'ExcludeGenerated', 'IncludeDeleted', 'IncludeNotAccepted', 'SelectedColumns', 'SelectedLanguage', 'PublishedEnglishVersion', 'PublishedLanguageVersion', 'LastVocabUpdate', 'ProfileId', ),
-		BasePeer::TYPE_COLNAME => array (ExportHistoryPeer::ID, ExportHistoryPeer::CREATED_AT, ExportHistoryPeer::UPDATED_AT, ExportHistoryPeer::USER_ID, ExportHistoryPeer::VOCABULARY_ID, ExportHistoryPeer::SCHEMA_ID, ExportHistoryPeer::EXCLUDE_DEPRECATED, ExportHistoryPeer::EXCLUDE_GENERATED, ExportHistoryPeer::INCLUDE_DELETED, ExportHistoryPeer::INCLUDE_NOT_ACCEPTED, ExportHistoryPeer::SELECTED_COLUMNS, ExportHistoryPeer::SELECTED_LANGUAGE, ExportHistoryPeer::PUBLISHED_ENGLISH_VERSION, ExportHistoryPeer::PUBLISHED_LANGUAGE_VERSION, ExportHistoryPeer::LAST_VOCAB_UPDATE, ExportHistoryPeer::PROFILE_ID, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'created_at', 'updated_at', 'user_id', 'vocabulary_id', 'schema_id', 'exclude_deprecated', 'exclude_generated', 'include_deleted', 'include_not_accepted', 'selected_columns', 'selected_language', 'published_english_version', 'published_language_version', 'last_vocab_update', 'profile_id', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'CreatedAt', 'UpdatedAt', 'UserId', 'VocabularyId', 'SchemaId', 'ExcludeDeprecated', 'ExcludeGenerated', 'IncludeDeleted', 'IncludeNotAccepted', 'SelectedColumns', 'SelectedLanguage', 'PublishedEnglishVersion', 'PublishedLanguageVersion', 'LastVocabUpdate', 'ProfileId', 'File', 'Map', ),
+		BasePeer::TYPE_COLNAME => array (ExportHistoryPeer::ID, ExportHistoryPeer::CREATED_AT, ExportHistoryPeer::UPDATED_AT, ExportHistoryPeer::USER_ID, ExportHistoryPeer::VOCABULARY_ID, ExportHistoryPeer::SCHEMA_ID, ExportHistoryPeer::EXCLUDE_DEPRECATED, ExportHistoryPeer::EXCLUDE_GENERATED, ExportHistoryPeer::INCLUDE_DELETED, ExportHistoryPeer::INCLUDE_NOT_ACCEPTED, ExportHistoryPeer::SELECTED_COLUMNS, ExportHistoryPeer::SELECTED_LANGUAGE, ExportHistoryPeer::PUBLISHED_ENGLISH_VERSION, ExportHistoryPeer::PUBLISHED_LANGUAGE_VERSION, ExportHistoryPeer::LAST_VOCAB_UPDATE, ExportHistoryPeer::PROFILE_ID, ExportHistoryPeer::FILE, ExportHistoryPeer::MAP, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'created_at', 'updated_at', 'user_id', 'vocabulary_id', 'schema_id', 'exclude_deprecated', 'exclude_generated', 'include_deleted', 'include_not_accepted', 'selected_columns', 'selected_language', 'published_english_version', 'published_language_version', 'last_vocab_update', 'profile_id', 'file', 'map', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, )
 	);
 
 	/**
@@ -97,10 +103,10 @@ abstract class BaseExportHistoryPeer {
 	 * e.g. self::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
 	 */
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'CreatedAt' => 1, 'UpdatedAt' => 2, 'UserId' => 3, 'VocabularyId' => 4, 'SchemaId' => 5, 'ExcludeDeprecated' => 6, 'ExcludeGenerated' => 7, 'IncludeDeleted' => 8, 'IncludeNotAccepted' => 9, 'SelectedColumns' => 10, 'SelectedLanguage' => 11, 'PublishedEnglishVersion' => 12, 'PublishedLanguageVersion' => 13, 'LastVocabUpdate' => 14, 'ProfileId' => 15, ),
-		BasePeer::TYPE_COLNAME => array (ExportHistoryPeer::ID => 0, ExportHistoryPeer::CREATED_AT => 1, ExportHistoryPeer::UPDATED_AT => 2, ExportHistoryPeer::USER_ID => 3, ExportHistoryPeer::VOCABULARY_ID => 4, ExportHistoryPeer::SCHEMA_ID => 5, ExportHistoryPeer::EXCLUDE_DEPRECATED => 6, ExportHistoryPeer::EXCLUDE_GENERATED => 7, ExportHistoryPeer::INCLUDE_DELETED => 8, ExportHistoryPeer::INCLUDE_NOT_ACCEPTED => 9, ExportHistoryPeer::SELECTED_COLUMNS => 10, ExportHistoryPeer::SELECTED_LANGUAGE => 11, ExportHistoryPeer::PUBLISHED_ENGLISH_VERSION => 12, ExportHistoryPeer::PUBLISHED_LANGUAGE_VERSION => 13, ExportHistoryPeer::LAST_VOCAB_UPDATE => 14, ExportHistoryPeer::PROFILE_ID => 15, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'created_at' => 1, 'updated_at' => 2, 'user_id' => 3, 'vocabulary_id' => 4, 'schema_id' => 5, 'exclude_deprecated' => 6, 'exclude_generated' => 7, 'include_deleted' => 8, 'include_not_accepted' => 9, 'selected_columns' => 10, 'selected_language' => 11, 'published_english_version' => 12, 'published_language_version' => 13, 'last_vocab_update' => 14, 'profile_id' => 15, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'CreatedAt' => 1, 'UpdatedAt' => 2, 'UserId' => 3, 'VocabularyId' => 4, 'SchemaId' => 5, 'ExcludeDeprecated' => 6, 'ExcludeGenerated' => 7, 'IncludeDeleted' => 8, 'IncludeNotAccepted' => 9, 'SelectedColumns' => 10, 'SelectedLanguage' => 11, 'PublishedEnglishVersion' => 12, 'PublishedLanguageVersion' => 13, 'LastVocabUpdate' => 14, 'ProfileId' => 15, 'File' => 16, 'Map' => 17, ),
+		BasePeer::TYPE_COLNAME => array (ExportHistoryPeer::ID => 0, ExportHistoryPeer::CREATED_AT => 1, ExportHistoryPeer::UPDATED_AT => 2, ExportHistoryPeer::USER_ID => 3, ExportHistoryPeer::VOCABULARY_ID => 4, ExportHistoryPeer::SCHEMA_ID => 5, ExportHistoryPeer::EXCLUDE_DEPRECATED => 6, ExportHistoryPeer::EXCLUDE_GENERATED => 7, ExportHistoryPeer::INCLUDE_DELETED => 8, ExportHistoryPeer::INCLUDE_NOT_ACCEPTED => 9, ExportHistoryPeer::SELECTED_COLUMNS => 10, ExportHistoryPeer::SELECTED_LANGUAGE => 11, ExportHistoryPeer::PUBLISHED_ENGLISH_VERSION => 12, ExportHistoryPeer::PUBLISHED_LANGUAGE_VERSION => 13, ExportHistoryPeer::LAST_VOCAB_UPDATE => 14, ExportHistoryPeer::PROFILE_ID => 15, ExportHistoryPeer::FILE => 16, ExportHistoryPeer::MAP => 17, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'created_at' => 1, 'updated_at' => 2, 'user_id' => 3, 'vocabulary_id' => 4, 'schema_id' => 5, 'exclude_deprecated' => 6, 'exclude_generated' => 7, 'include_deleted' => 8, 'include_not_accepted' => 9, 'selected_columns' => 10, 'selected_language' => 11, 'published_english_version' => 12, 'published_language_version' => 13, 'last_vocab_update' => 14, 'profile_id' => 15, 'file' => 16, 'map' => 17, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, )
 	);
 
 	/**
@@ -232,6 +238,10 @@ abstract class BaseExportHistoryPeer {
         $criteria->addSelectColumn(($tableAlias) ? ExportHistoryPeer::alias($tableAlias, ExportHistoryPeer::LAST_VOCAB_UPDATE) : ExportHistoryPeer::LAST_VOCAB_UPDATE);
 
         $criteria->addSelectColumn(($tableAlias) ? ExportHistoryPeer::alias($tableAlias, ExportHistoryPeer::PROFILE_ID) : ExportHistoryPeer::PROFILE_ID);
+
+        $criteria->addSelectColumn(($tableAlias) ? ExportHistoryPeer::alias($tableAlias, ExportHistoryPeer::FILE) : ExportHistoryPeer::FILE);
+
+        $criteria->addSelectColumn(($tableAlias) ? ExportHistoryPeer::alias($tableAlias, ExportHistoryPeer::MAP) : ExportHistoryPeer::MAP);
 
 	}
 

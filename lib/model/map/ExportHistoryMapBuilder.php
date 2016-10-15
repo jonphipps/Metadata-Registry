@@ -93,6 +93,10 @@ class ExportHistoryMapBuilder {
 
 		$tMap->addForeignKey('PROFILE_ID', 'ProfileId', 'int', CreoleTypes::INTEGER, 'profile', 'ID', false, null);
 
+		$tMap->addColumn('FILE', 'File', 'string', CreoleTypes::VARCHAR, true, 255);
+
+		$tMap->addColumn('MAP', 'Map', 'string', CreoleTypes::LONGVARCHAR, true, null);
+
 	} // doBuild()
 
 } // ExportHistoryMapBuilder

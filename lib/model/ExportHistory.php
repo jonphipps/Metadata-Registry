@@ -40,6 +40,29 @@ class ExportHistory extends BaseExportHistory
 
 
   /**
+   * @return array | null
+   */
+  public function getMap()
+  {
+    $map = parent::getMap();
+    if ($map) {
+      return unserialize($map);
+    }
+
+    return null;
+  }
+
+
+  /**
+   * @param array $v
+   */
+  public function setMap($v)
+  {
+    parent::setMap(serialize($v));
+  }
+
+
+  /**
    * @param mixed $SaveAsDefault
    */
   public function setSaveAsDefault($SaveAsDefault)
