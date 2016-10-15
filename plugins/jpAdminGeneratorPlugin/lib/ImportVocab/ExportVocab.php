@@ -47,6 +47,8 @@ class ExportVocab {
   private $fileName;
   private $selectedColumns = [];
   private $includeNotAccepted;
+  /** @var \ExportHistory $export */
+  private $export;
 
 
   /**
@@ -56,6 +58,7 @@ class ExportVocab {
    */
   public function __construct(\ExportHistory $export)
   {
+    $this->export = $export;
     $addLanguage = $export->getSelectedLanguage();
     $schema      = $export->getSchema();
     $vocabulary  = $export->getVocabulary();
@@ -161,7 +164,9 @@ class ExportVocab {
 
         //set the row headers
         $row = [];
-        for ($i = 0; $i < $columnCount; $i++) {
+        $map = [];
+      /** @noinspection ForeachInvariantsInspection */
+      for ($i = 0; $i < $columnCount; $i++) {
           $row[$i] = $headerArray[$i]['label'];
         }
 
@@ -203,7 +208,9 @@ class ExportVocab {
             for ($i = 1; $i < $columnCount; $i++) {
               if (isset( $rowArray[$headerArray[$i]['id']][$headerArray[$i]['language']][0] )) {
                 //grab the item[0] in the language array and remove it
-                $row[$i] = array_shift($rowArray[$headerArray[$i]['id']][$headerArray[$i]['language']]);
+                $data = array_shift($rowArray[$headerArray[$i]['id']][$headerArray[$i]['language']]);
+                $row[$i] = $data['object'];
+                $map[$rowId][$i] = $data['id'];
               } else {
                 $row[$i] = '';
               }
@@ -216,6 +223,9 @@ class ExportVocab {
             $writer->writeItem(preg_replace($prefixPattern, $prefixReplacement, $row));
           }
         }
+        $this->export->setMap($map);
+        $this->export->setFile($this->fileName);
+        $this->export->save();
       $writer->finish();
     }
 
@@ -261,6 +271,7 @@ class ExportVocab {
     $headerArray[0]['label'] = 'reg_id';
     $headerArray[0]['id'] = null;
     $headerArray[0]['language'] = '';
+    /** @noinspection ForeachInvariantsInspection */
     for ($I = 0; $I < $max; $I++) {
       $id              = $selectedColumns[$I];
       /** @var \ProfileProperty $ProfileProperty */

@@ -397,11 +397,21 @@ order by reg_concept.uri
 SQL
         , ResultSet::FETCHMODE_ASSOC);
     while ($rs->next()) {
-      $results[$rs->getInt('concept_id')][$rs->getInt('profile_property_id')][$rs->getString('language')][] = $rs->getString('object');
+      $concept_id       = $rs->getInt('concept_id');
+      $result           = [];
+
+      $result['object'] = $rs->getString('object');
+      $result['id']     = $rs->getInt('id');
+      $results[$concept_id][$rs->getInt('profile_property_id')][$rs->getString('language')][] = $result;
 
       //fixme: adding in the concept status and uri data manually because it's not in the vocab properties
-      $results[$rs->getInt('concept_id')][59][''][] = $rs->getString('status');
-      $results[$rs->getInt('concept_id')][62][''][] = $rs->getString('uri');
+      $result['object']             = $rs->getString('status');
+      $result['id']                 = 0;
+      $results[$concept_id][59][''][] = $result;
+
+      $result['object']             = $rs->getString('uri');
+      $result['id']                 = 0;
+      $results[$concept_id][62][''][] = $result;
     }
 
     return $results;

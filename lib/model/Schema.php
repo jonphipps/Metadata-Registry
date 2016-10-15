@@ -1018,8 +1018,14 @@ $generatedSQL
 $allStatusSQL
 SQL
         , ResultSet::FETCHMODE_ASSOC);
+
     while ($rs->next()) {
-      $results[$rs->getInt('schema_property_id')][$rs->getInt('profile_property_id')][$rs->getString('language')][] = $rs->getString('object');
+      $id     = $rs->getInt('schema_property_id');
+      $result = [];
+      $result['object'] = $rs->getString('object');
+      $result['id']     = $rs->getInt('id');
+
+      $results[$id][$rs->getInt('profile_property_id')][$rs->getString('language')][] = $result;
     }
 
     return $results;
