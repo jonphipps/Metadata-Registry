@@ -1,7 +1,10 @@
 <?php
 use Illuminate\Container\Container;
 use Illuminate\Events\Dispatcher;
+use Illuminate\Hashing\BcryptHasher;
 use Illuminate\Support\Facades\Facade;
+use Illuminate\Http\Request;
+use Illuminate\Database\Capsule\Manager as Capsule;
 
 // include project configuration
 include( SF_ROOT_DIR . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'config.php' );
@@ -16,8 +19,30 @@ require SF_ROOT_DIR . DIRECTORY_SEPARATOR . 'bootstrap/autoload.php';
 //initialize laravel
 $container = new Container;
 Container::setInstance($container);
+// add the current request to the service container
+Container::getInstance()->instance('request', Request::createFromGlobals());
+// add the Illuminate Database Capsule
+$capsule = new Capsule(Container::getInstance());
+$capsule->addConnection([
+    'driver'    => 'mysql',
+    'host'      => 'localhost',
+    'database'  => 'database',
+    'username'  => 'username',
+    'password'  => 'password',
+    'charset'   => 'utf8',
+    'collation' => 'utf8_unicode_ci',
+    'prefix'    => '',
+]);
+$capsule->setAsGlobal();
+$capsule->bootEloquent();
+// add the Illuminate Dispatcher
 $container->instance('events', new Dispatcher($container));
+// add the Illuminate Hasher
+$container->instance('hasher', new BcryptHasher);
 Facade::setFacadeApplication($container);
+
+// clean up the global scope
+unset( $capsule, $container );
 
 $dotenv = new Dotenv\Dotenv(SF_ROOT_DIR);
 $dotenv->load();
