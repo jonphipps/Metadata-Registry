@@ -13,21 +13,20 @@ class ImportJob
         set_time_limit(0);
     }
 
-    public function perform($args)
+    public function perform()
     {
-        list($schemaId, $filePath, $importId, $environment, $type) = $args;
+        list($schemaId, $filePath, $importId, $environment, $type) = $this->args;
         // Set up environment for this job
         define('SF_ROOT_DIR', realpath(dirname(__file__) . '/../../../..'));
         define('SF_APP', 'frontend');
         define('SF_ENVIRONMENT', $environment);
         define('SF_DEBUG', false);
 
-//initialize composer
-        require_once(SF_ROOT_DIR . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php');
-// initialize symfony
-        require_once(SF_ROOT_DIR . DIRECTORY_SEPARATOR . 'apps' . DIRECTORY_SEPARATOR . SF_APP . DIRECTORY_SEPARATOR
-                     . 'config' . DIRECTORY_SEPARATOR . 'config.php');
-// initialize database manager
+        //initialize composer
+        require_once SF_ROOT_DIR . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
+        // initialize symfony
+        require_once SF_ROOT_DIR . DIRECTORY_SEPARATOR . 'apps' . DIRECTORY_SEPARATOR . SF_APP . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'config.php';
+        // initialize database manager
         $databaseManager = new \sfDatabaseManager();
         $databaseManager->initialize();
 

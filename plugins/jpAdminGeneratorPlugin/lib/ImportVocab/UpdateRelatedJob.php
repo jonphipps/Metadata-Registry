@@ -13,14 +13,9 @@ class UpdateRelatedJob
         set_time_limit(0);
     }
 
-    /**
-     * @param $args
-     *
-     * @throws \PropelException
-     */
-    public function perform($args)
+    public function perform()
     {
-        list($environment, $importId) = $args;
+        list($environment, $importId) = $this->args;
 
         if ( ! defined('SF_ENVIRONMENT')) {
             //todo: this part really should be in a _bootstrapDbJob include
@@ -30,12 +25,11 @@ class UpdateRelatedJob
             define('SF_ENVIRONMENT', $environment);
             define('SF_DEBUG', false);
 
-//initialize composer
-            require_once(SF_ROOT_DIR . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php');
-// initialize symfony
-            require_once(SF_ROOT_DIR . DIRECTORY_SEPARATOR . 'apps' . DIRECTORY_SEPARATOR . SF_APP . DIRECTORY_SEPARATOR
-                         . 'config' . DIRECTORY_SEPARATOR . 'config.php');
-// initialize database manager
+            //initialize composer
+            require_once SF_ROOT_DIR . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
+            // initialize symfony
+            require_once SF_ROOT_DIR . DIRECTORY_SEPARATOR . 'apps' . DIRECTORY_SEPARATOR . SF_APP . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'config.php';
+            // initialize database manager
             $databaseManager = new \sfDatabaseManager();
             $databaseManager->initialize();
         }

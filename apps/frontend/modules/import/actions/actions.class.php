@@ -1,5 +1,4 @@
 <?php
-use ImportVocab\ImportJob;
 use ImportVocab\ImportVocab;
 
 /**
@@ -13,10 +12,11 @@ use ImportVocab\ImportVocab;
  */
 class importActions extends autoImportActions
 {
+  //use DispatchesJobs;
+
   public function preExecute()
   {
     $this->getCurrentSchema();
-
 
     parent::preExecute();
   }
@@ -115,26 +115,41 @@ class importActions extends autoImportActions
       }
       $this->file_import_history->setResults("Queued for processing.");
       $this->saveFileImportHistory($this->file_import_history);
-      $this->setFlash('notice',
-            'Your file has been accepted and queued for processing. Check back in a few minutes for the results');
-      unset ($import);
+
       $environment = SF_ENVIRONMENT;
-      $importId = $this->file_import_history->getId();
+      $importId    = $this->file_import_history->getId();
 
-      //todo it's at this point that we push this onto a queue for processing
-      $job = Resque::push('ImportVocab\ImportJob', array(
-                  $schemaId,
-                  $filePath,
-                  $importId,
-                  $environment,
-                  $type
-            ));
-      $job2 = Resque::push('ImportVocab\UpdateRelatedJob', array(
-            $environment,
-            $importId,
-      ));
+      //Laravel
+      // $job = ( new importVocabulary($schemaId, $filePath, $importId, $environment, $type) )->onQueue('import');
+      // $this->dispatch($job);
+      $job  = Resque::enqueue('import',
+          'ImportVocab\ImportJob',
+          [
+              $schemaId,
+              $filePath,
+              $importId,
+              $environment,
+              $type,
+          ],
+          true);
 
-      return $this->redirect('import/show?id=' . $importId);
+      $this->file_import_history->setToken($job);
+      $this->file_import_history->save();
+
+      $job2 = Resque::enqueue('import',
+          'ImportVocab\UpdateRelatedJob',
+          [
+              $environment,
+              $importId,
+          ],
+          true);
+
+      $this->setFlash('notice',
+          'Your file has been accepted and queued for processing. Check back in a few minutes for the results');
+
+      unset ( $import );
+
+      return $this->redirect('@' . $type . '_import_show?id=' . $importId . '&' . $type_id . '=' . $schemaId);
     }
 
   }

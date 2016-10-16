@@ -66,7 +66,8 @@
         "h4cc/wkhtmltoimage-amd64": "0.12.x",
         "laravelcollective/html": "dev-symfony as 5.3.x-dev",
         "bugsnag/bugsnag": "^3.0",
-        "bugsnag/bugsnag-laravel": "^2.0"
+        "bugsnag/bugsnag-laravel": "^2.0",
+        "chrisboulton/php-resque": "dev-master"
     },
     "autoload": {
         "psr-4": {
