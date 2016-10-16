@@ -1,4 +1,8 @@
 <?php
+use Illuminate\Container\Container;
+use Illuminate\Events\Dispatcher;
+use Illuminate\Support\Facades\Facade;
+
 // include project configuration
 include( SF_ROOT_DIR . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'config.php' );
 
@@ -8,6 +12,12 @@ sfCore::bootstrap($sf_symfony_lib_dir, $sf_symfony_data_dir);
 
 //initialize composer through laravel bootstrap
 require SF_ROOT_DIR . DIRECTORY_SEPARATOR . 'bootstrap/autoload.php';
+
+//initialize laravel
+$container = new Container;
+Container::setInstance($container);
+$container->instance('events', new Dispatcher($container));
+Facade::setFacadeApplication($container);
 
 $dotenv = new Dotenv\Dotenv(SF_ROOT_DIR);
 $dotenv->load();
