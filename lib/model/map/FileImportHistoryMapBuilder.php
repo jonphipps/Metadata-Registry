@@ -89,6 +89,8 @@ class FileImportHistoryMapBuilder {
 
 		$tMap->addColumn('SUCCESS_COUNT', 'SuccessCount', 'int', CreoleTypes::INTEGER, false, null);
 
+		$tMap->addColumn('TOKEN', 'Token', 'int', CreoleTypes::INTEGER, false, null);
+
 	} // doBuild()
 
 } // FileImportHistoryMapBuilder

@@ -151,6 +151,30 @@ propel:
       po: 
         - p
         - o
+  failed_jobs: 
+    _attributes: 
+      phpName: FailedJobs
+      idMethod: native
+    id: 
+      type: INTEGER
+      required: true
+      autoIncrement: true
+      primaryKey: true
+    connection: 
+      type: LONGVARCHAR
+      required: true
+    queue: 
+      type: LONGVARCHAR
+      required: true
+    payload: 
+      type: LONGVARCHAR
+      required: true
+    exception: 
+      type: LONGVARCHAR
+      required: true
+    failed_at: 
+      type: TIMESTAMP
+      required: true
   migrations: 
     _attributes: 
       phpName: Migrations
@@ -1141,6 +1165,8 @@ propel:
     error_count: 
       type: INTEGER
     success_count: 
+      type: INTEGER
+    token: 
       type: INTEGER
   reg_lookup: 
     _attributes: 

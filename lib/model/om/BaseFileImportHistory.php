@@ -116,6 +116,13 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 	 */
 	protected $success_count;
 
+
+	/**
+	 * The value for the token field.
+	 * @var        int
+	 */
+	protected $token;
+
 	/**
 	 * @var        User
 	 */
@@ -346,6 +353,17 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 	{
 
 		return $this->success_count;
+	}
+
+	/**
+	 * Get the [token] column value.
+	 * 
+	 * @return     int
+	 */
+	public function getToken()
+	{
+
+		return $this->token;
 	}
 
 	/**
@@ -675,6 +693,28 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 	} // setSuccessCount()
 
 	/**
+	 * Set the value of [token] column.
+	 * 
+	 * @param      int $v new value
+	 * @return     void
+	 */
+	public function setToken($v)
+	{
+
+		// Since the native PHP type for this column is integer,
+		// we will cast the input value to an int (if it is not).
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->token !== $v) {
+			$this->token = $v;
+			$this->modifiedColumns[] = FileImportHistoryPeer::TOKEN;
+		}
+
+	} // setToken()
+
+	/**
 	 * Hydrates (populates) the object variables with values from the database resultset.
 	 *
 	 * An offset (1-based "start column") is specified so that objects can be hydrated
@@ -719,12 +759,14 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 
 			$this->success_count = $rs->getInt($startcol + 13);
 
+			$this->token = $rs->getInt($startcol + 14);
+
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 14; // 14 = FileImportHistoryPeer::NUM_COLUMNS - FileImportHistoryPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 15; // 15 = FileImportHistoryPeer::NUM_COLUMNS - FileImportHistoryPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating FileImportHistory object", $e);
@@ -1105,6 +1147,9 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 			case 13:
 				return $this->getSuccessCount();
 				break;
+			case 14:
+				return $this->getToken();
+				break;
 			default:
 				return null;
 				break;
@@ -1139,6 +1184,7 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 			$keys[11] => $this->getTotalProcessedCount(),
 			$keys[12] => $this->getErrorCount(),
 			$keys[13] => $this->getSuccessCount(),
+			$keys[14] => $this->getToken(),
 		);
 		return $result;
 	}
@@ -1212,6 +1258,9 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 			case 13:
 				$this->setSuccessCount($value);
 				break;
+			case 14:
+				$this->setToken($value);
+				break;
 		} // switch()
 	}
 
@@ -1249,6 +1298,7 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[11], $arr)) $this->setTotalProcessedCount($arr[$keys[11]]);
 		if (array_key_exists($keys[12], $arr)) $this->setErrorCount($arr[$keys[12]]);
 		if (array_key_exists($keys[13], $arr)) $this->setSuccessCount($arr[$keys[13]]);
+		if (array_key_exists($keys[14], $arr)) $this->setToken($arr[$keys[14]]);
 	}
 
 	/**
@@ -1274,6 +1324,7 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(FileImportHistoryPeer::TOTAL_PROCESSED_COUNT)) $criteria->add(FileImportHistoryPeer::TOTAL_PROCESSED_COUNT, $this->total_processed_count);
 		if ($this->isColumnModified(FileImportHistoryPeer::ERROR_COUNT)) $criteria->add(FileImportHistoryPeer::ERROR_COUNT, $this->error_count);
 		if ($this->isColumnModified(FileImportHistoryPeer::SUCCESS_COUNT)) $criteria->add(FileImportHistoryPeer::SUCCESS_COUNT, $this->success_count);
+		if ($this->isColumnModified(FileImportHistoryPeer::TOKEN)) $criteria->add(FileImportHistoryPeer::TOKEN, $this->token);
 
 		return $criteria;
 	}
@@ -1353,6 +1404,8 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 		$copyObj->setErrorCount($this->error_count);
 
 		$copyObj->setSuccessCount($this->success_count);
+
+		$copyObj->setToken($this->token);
 
 
 		if ($deepCopy) {
