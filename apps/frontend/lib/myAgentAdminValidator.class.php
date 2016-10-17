@@ -23,7 +23,7 @@ class myAgentAdminValidator extends sfValidator
   {
     $this->getContext()->getRequest()->setAttribute('newaccount', true);
 
-    $agent_id = $this->getParameter('agent_id');
+    $agent_id = $this->getContext()->getRequest()->getParameter('agent_id');
 
     $c = new Criteria();
     $c->add(AgentHasUserPeer::AGENT_ID, $agent_id);
