@@ -13,6 +13,7 @@ echo $this->getClassName() ?>  $<?php echo $this->getSingularName() ?> */
 /** @var sfPropelAdminGenerator $this */
 $listActions  = $this->getParameterValue('list.actions');
 $urlFilters = $this->getParameterValue('list.urlfilters');
+$parents = $this->getParameterValue('parents');
 if (false !== $listActions)
   {
     if (null !== $listActions)
@@ -28,7 +29,19 @@ if (false !== $listActions)
         if ( $condition ): ?>
           [?php if (<?php echo $condition ?>): ?]
         <?php endif;
+        if ($parents):
+          $masterRoute      = isset( $params['route'] ) ? $params['route'] : null;
+          $masteQueryString = isset( $params['query_string'] ) ? $params['query_string'] : null;
+          foreach ($parents as $module => $param):
+            $params['route'] = $masterRoute ? $masterRoute : $module . '_' . $this->getModuleName() . $actionName;
+            $params['query_string'] = $masteQueryString ? $masteQueryString : [ 'sf_request' => $param['getid'] ]; ?>
+            [?php if ($sf_request->getParameter('<?php echo $param['requestid'] ?>')): ?]
+              <?php echo $this->addCredentialCondition($this->getButtonToAction($actionName, $params, false), $params, true, false) ?>
+            [?php endif; ?]
+          <?php endforeach;
+        else:
         echo $this->addCredentialCondition($this->getButtonToAction($actionName, $params, false), $params, true, false);
+        endif;
         if ($condition): ?>
           [?php endif; ?]
         <?php endif;
