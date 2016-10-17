@@ -1,19 +1,15 @@
 methods:
   post:
     - "agent_has_user{is_admin_for}"
-    - "agent_has_user{agent_id}"
 
 names:
   "agent_has_user{is_admin_for}":
     validators:   adminValidator
-    required:     true
-  "agent_has_user{agent_id}":
-    required:     true
+    required:     false
 
 adminValidator:
   class:          myAgentAdminValidator
   param:
-    agent_id:    "agent_has_user{agent_id}"
     limit_error: There must be at least one Administrator.
 
 fillin:

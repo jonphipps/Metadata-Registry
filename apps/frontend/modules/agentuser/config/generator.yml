@@ -3,6 +3,19 @@ generator:
   param:
     model_class:      AgentHasUser
     theme:            default
+    label_singular:   Project
+    label_plural:     Projects
+    parents:
+      agent:
+        getid:        agent_id
+        requestid:    agent_id
+      user:
+        getid:        user_id
+        requestid:    user_id
+    pager:
+      no_results:     No Project/Member relationships have been defined
+
+
     fields:
       id:                { name: ID, type: plain, credentials: [administrator] }
       created_at:        { name: Date Created, type: plain, credentials: [administrator] }
@@ -14,15 +27,15 @@ generator:
       peer_method:     doSelectJoinAll
       title:           Members of %%agent%%
       fields:
-        agent:         { name: Agent, type: link, condition: "!$sf_request->getParameter('agent_id')", helper: link_to_object }
+        agent:         { name: Project, type: link, condition: "!$sf_request->getParameter('agent_id')", helper: link_to_object }
         user:          { name: Member, type: link, condition: "!$sf_request->getParameter('user_id')", helper: link_to_object }
       display:         [ -user, +agent, isRegistrarFor, isAdminFor]
       object_actions:
         _show:
-        _edit:         { query_string: {agent_id: agent_id }, route: agent_members_edit, credentials: [[administrator, agentadmin]] }
-        _delete:       { credentials: [[administrator, agentadmin]], condition: "!$agent_has_user->getIsRegistrarFor()" }
+        _edit:         { credentials: [[administrator, agentadmin]], query_string: { agent_id: agent_id}, route: agent_agentuser_edit }
+        _delete:       { credentials: [[administrator, agentadmin]], query_string: { agent_id: agent_id}, route: agent_agentuser_delete, condition: "!$agent_has_user->getIsRegistrarFor()" }
       actions:
-        _create:       { name: Add Member, credentials: [[administrator, agentadmin]], query_string: { agent_id: agent_id} }
+        _create:       { name: Add Member, credentials: [[administrator, agentadmin]] }
       displayfilter:   false
       filters:         [agent_id, user_id]
       urlfilters:
@@ -32,7 +45,7 @@ generator:
     edit:
       title:
         mode:
-          edit:       "Editing Agent: \"%%agent%%\" permissions for %%user%% "
+          edit:       "Editing Project: \"%%agent%%\" permissions for %%user%% "
           create:     Adding New Member to %%agent%%
       helptype:       icon
       fields:
@@ -44,18 +57,16 @@ generator:
       actions:
         _save:         { credentials: [[administrator, agentadmin]] }
         _delete:       { credentials: [[administrator, agentadmin]], condition: "!$agent_has_user->getIsRegistrarFor()" }
-        _save_and_add: { credentials: [[administrator, agentadmin]], query_string: { agent_id: agent_id} }
-        _cancel:       { only_for: create, query_string: {sf_request: agent_id}, route: agent_members, credentials: [[administrator, agentadmin]] }
-        _cancel:       { only_for: edit, query_string: {agent_id: agent_id}, route: agent_members, credentials: [[administrator, agentadmin]] }
+        _cancel:       { credentials: [[administrator, agentadmin]] }
       urlfilters:
         agent_id:      agent_id
 
     show:
-      title:           "Agent: \"%%agent%%\" permissions for %%user%%"
+      title:           "Project: \"%%agent%%\" permissions for %%user%%"
       fields:
         user:          { type: plain }
       display:         [_member, isRegistrarFor, isAdminFor]
       actions:
-        _delete:       { credentials: [[administrator, agentadmin]] }
-        _edit:         { credentials: [[administrator, agentadmin]] }
-        _create:       { name: Add Member, credentials: [[administrator, agentadmin]], query_string: { agent_id: agent_id} }
+        _delete:       { credentials: [[administrator, agentadmin]], query_string: { agent_id: agent_id}, route: agent_agentuser_delete }
+        _edit:         { credentials: [[administrator, agentadmin]], query_string: { agent_id: agent_id}, route: agent_agentuser_edit }
+        _create:       { name: Add Member, credentials: [[administrator, agentadmin]], query_string: { agent_id: agent_id}, route: agent_agentuser_create }
