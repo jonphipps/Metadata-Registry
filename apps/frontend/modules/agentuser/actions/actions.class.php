@@ -11,18 +11,21 @@
  */
 class agentuserActions extends autoAgentuserActions
 {
+
+  /**
+   * @param AgentHasUser $AgentHasUser
+   */
   public function setDefaults($AgentHasUser)
   {
     $agent = myActionTools::findCurrentAgent();
-    if ($agent)
-    {
+    if ($agent) {
       $AgentHasUser->setAgentId($agent->getId());
     }
 
     $AgentHasUser->setIsRegistrarFor(false);
-      $AgentHasUser->setIsAdminFor(false);
+    $AgentHasUser->setIsAdminFor(false);
 
-      parent::setDefaults($AgentHasUser);
+    parent::setDefaults($AgentHasUser);
   }
 
   public function executeCancel()
@@ -30,6 +33,7 @@ class agentuserActions extends autoAgentuserActions
     $this->setFilter();
     parent::executeCancel();
   }
+
 
   public function executeDelete()
   {
@@ -46,21 +50,26 @@ class agentuserActions extends autoAgentuserActions
 
     public function executeEdit()
     {
-        $this->getUser()->setAttribute('agent_id', $this->getRequestParameter('agent_id'), 'sf_admin/agent_has_user/filters');
+//        $this->getUser()->setAttribute('agent_id', $this->getRequestParameter('agent_id'), 'sf_admin/agent_has_user/filters');
         $this->setFilter();
-        return parent::executeEdit();
+        parent::executeEdit();
     }
 
 
     private function setFilter()
     {
-        $user_id  = $this->getUser()->getAttribute('user_id', '', 'sf_admin/agent_has_user/filters');
-        $agent_id = $this->getUser()->getAttribute('agent_id', '', 'sf_admin/agent_has_user/filters');
-        if ($user_id) {
-            $this->redirectFilter = '?user_id=' . strval($user_id);
-        } elseif ($agent_id) {
-            $this->redirectFilter = '?agent_id=' . strval($agent_id);
-        }
+      $user_id  = $this->getRequestParameter('user_id')
+          ? $this->getRequestParameter('user_id')
+          : $this->getUser()->getAttribute('user_id', '', 'sf_admin/agent_has_user/filters');
+      $agent_id = $this->getRequestParameter('agent_id')
+          ? $this->getRequestParameter('agent_id')
+          : $this->getUser()->getAttribute('agent_id', '', 'sf_admin/agent_has_user/filters');
+
+      if ($user_id) {
+        $this->redirectFilter = '?user_id=' . strval($user_id);
+      } elseif ($agent_id) {
+        $this->redirectFilter = '?agent_id=' . strval($agent_id);
+      }
     }
 
 }
