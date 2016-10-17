@@ -153,6 +153,19 @@ class tabnavComponents extends sfComponents
     }
 
 
+  public function executeAgentuser()
+  {
+    $id           = $this->getRequestParameter('id');
+    $agentUser    = $this->agent_has_user ? $this->agent_has_user : AgentHasUserPeer::retrieveByPK($id);
+    $this->agent  = $agentUser->getAgent();
+    $this->member = $agentUser->getUser();
+    $tabnav       = $this->getRequestParameter('tabnav');
+    if ($tabnav) {
+      $tabnav = 'execute' . ucfirst($tabnav);
+      $this->$tabnav();
+    }
+  }
+
   public function executeSchemauser()
   {
     $id            = $this->getRequestParameter('id');
