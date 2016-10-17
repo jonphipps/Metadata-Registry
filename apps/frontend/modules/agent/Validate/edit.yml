@@ -1,34 +1,23 @@
 methods:
   post:
     - "agent{org_name}"
-    - "agent{org_email}"
 
 names:
   agent{org_name}:
     required:     Yes
     required_msg: Name cannot be blank
     validators:   nameValidator, loginValidator
-  agent{org_email}:
-    required:     Yes
-    required_msg: Email cannot be blank
-    validators:   emailValidator
 
 nameValidator:
   class:          sfStringValidator
   param:
     min:          2
     min_error:    The name must be at least 2 characters long.
-emailValidator:
-  class:          sfRegexValidator
-  param:
-    match:        Yes
-    match_error:  "Please enter a valid email address (for example: name@domain.com)"
-    pattern:      /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/i
 loginValidator:
   class:          sfPropelUniqueValidator
   param:
     class:        Agent
     column:       org_name
-    unique_error: This agent has already been registered.
+    unique_error: This Project name is already in use.
 fillin:
   activate: on                                                                                  

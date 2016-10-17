@@ -250,15 +250,15 @@ conceptprop_history_show:
 
 
 agent_agentuser_resource:
-  url:   /agents/:agent_id/members
+  url:   /projects/:agent_id/members
   param: { module: agentuser, tabnav: agent }
 
 agent_vocabulary_resource:
-  url:   /agents/:agent_id/vocabularies
+  url:   /projects/:agent_id/vocabularies
   param: { module: vocabulary, tabnav: agent }
 
 agent_schema_resource:
-  url:   /agents/:agent_id/elementsets
+  url:   /projects/:agent_id/elementsets
   param: { module: schema, tabnav: agent }
 
 agentuser_resource:
@@ -266,7 +266,7 @@ agentuser_resource:
   param: { module: agentuser, tabnav: agent}
 
 agent_resource:
-  url:   /agents
+  url:   /projects
   param: { module: agent, tabnav: agent }
 
 concept_conceptprop_resource:
@@ -326,7 +326,7 @@ schemaprop_resource:
   param: { module: schemaprop, tabnav: schemaprop }
 
 user_agentuser_resource:
-  url:   /members/:user_id/agents
+  url:   /members/:user_id/projects
   param: { module: agentuser, tabnav: user }
 
 user_schemauser_resource:

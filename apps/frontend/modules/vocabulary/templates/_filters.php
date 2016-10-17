@@ -10,7 +10,7 @@ use_helper('Object'); ?>
     <fieldset>
         <h2><?php echo __('Filters') ?></h2>
         <div class="form-row">
-            <label for="filters_agent_id"><?php echo __('Agent:') ?></label>
+            <label for="filters_agent_id"><?php echo __('Project:') ?></label>
             <div class="content">
                 <?php echo object_select_tag(isset( $filters['agent_id'] ) ? $filters['agent_id'] : null,
                                              null,
@@ -20,7 +20,7 @@ use_helper('Object'); ?>
                                                  'peer_method'   => 'getVocabularyAgents',
                                                  'text_method'   => '__toString',
                                                  'control_name'  => 'agent_id',
-                                                 'onchange' => "window.location.href = 'agents/' + this.value + '/vocabularies.html';"
+                                                 'onchange' => "window.location.href = 'projects/' + this.value + '/vocabularies.html';"
                                              ]) ?>
             </div>
         </div>

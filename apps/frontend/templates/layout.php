@@ -20,9 +20,9 @@
 <div id="indicator" style="display: none"></div>
 <div id="header">
     <ul>
-        <li class="browse"><?php echo link_to(__('Agents'), 'agents',  'title="Browse all Agents"' ) ?></li>
-        <li class="browse"><?php echo link_to(__('Vocabularies'), 'vocabularies',  'title="Browse all Value Vocabularies"' ); ?></li>
-        <li class="browse"><?php echo link_to(__('Element Sets'), 'elementsets', 'title="Browse all Element Sets"'); ?></li>
+        <li class="browse"><?php echo link_to(__('Projects'), '@agent_list',  'title="Browse all Projects"' ) ?></li>
+        <li class="browse"><?php echo link_to(__('Vocabularies'), '@vocabulary_list',  'title="Browse all Value Vocabularies"' ); ?></li>
+        <li class="browse"><?php echo link_to(__('Element Sets'), '@schema_list', 'title="Browse all Element Sets"'); ?></li>
         <?php /** @var myUser $sf_user */
         if ($sf_user->isAuthenticated()): ?>
             <li><?php echo link_to(__('%1% profile', [ '%1%' => $sf_user->getAttribute('nickname', '', 'subscriber') ]),

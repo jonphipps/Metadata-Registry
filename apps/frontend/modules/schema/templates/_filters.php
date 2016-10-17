@@ -9,7 +9,7 @@
     <fieldset>
         <h2><?php echo __('Filters') ?></h2>
         <div class="form-row">
-            <label for="agent_id"><?php echo __('Agent:') ?></label>
+            <label for="agent_id"><?php echo __('Project:') ?></label>
             <div class="content">
                 <?php echo object_select_tag(isset( $filters['agent_id'] ) ? $filters['agent_id'] : null,
                                              null,
@@ -19,7 +19,7 @@
                                                  'peer_method'   => 'getSchemaAgents',
                                                  'text_method'   => '__toString',
                                                  'control_name' => 'agent_id',
-                                                 'onchange' => "window.location.href = 'agents/' + this.value + '/elementsets.html';"
+                                                 'onchange' => "window.location.href = 'projects/' + this.value + '/elementsets.html';"
 
                                              ]) ?>
             </div>

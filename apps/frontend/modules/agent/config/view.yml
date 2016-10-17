@@ -4,5 +4,5 @@ all:
 
 listSuccess:
   metas:
-    title: "Registry :: Agents"
+    title: "Registry :: Projects"
 

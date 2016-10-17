@@ -53,7 +53,7 @@ class Breadcrumb
      */
     public static function agentFactory($agent, $show = false)
     {
-        $breadcrumb = new Breadcrumb('Agents',
+        $breadcrumb = new Breadcrumb('Projects',
                                      '@agent_list',
                                      $agent->getOrgName(),
                                      '@agent_show?id=' . $agent->getId());

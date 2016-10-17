@@ -8,26 +8,13 @@ generator:
       id:             { name: ID }
       created_at:     { name: Date Created }
       last_updated:   { name: Last Updated }
-      org_name:       { name: Agent Name}
-      org_email:      { name: Agent Email }
-      ind_affiliation:{ name: Affiliation (Individual) }
-      ind_role:       { name: Role (Individual) }
-      address1:       { name: Address Line 1 }
-      address2:       { name: Address Line 2 }
-      city:
-      state:
-      postal_code:
-      country:
-      country_name:   { name: Country }
-      phone:
-      web_address:
-      type:
+      org_name:       { name: Project Name}
 
     list:
-      title:           Agents
-      display:         [=org_name, type]
+      title:           Projects
+      display:         [=org_name]
       actions:
-        _create:       { name: Add Agent, credentials: [subscriber], route: agent_create }
+        _create:       { name: Add Project, credentials: [subscriber], route: agent_create }
       object_actions:
         _edit:         { credentials: [[administrator, agentadmin]] }
 
@@ -35,22 +22,9 @@ generator:
       title:
         mode:
           edit:        Editing %%org_name%%
-          create:      Creating new agent
+          create:      Creating new Project
       display:
-        "Detail":      [type, org_name, org_email, ind_affiliation, address1, address2, city, state, postal_code, country, phone, web_address]
-      fields:
-        country:       { type: select_country_tag, params: include_blank=true }
-        type:
-          type: select_tag
-          params:
-            autofocus: autofocus
-            select_options:
-              Individual:  Individual
-              Organization: Organization
-            include_blank: false
-        org_email:      { params: type=email }
-        phone:          { params: type=tel }
-        web_address:    { params: type=url }
+        "Detail":      [org_name]
       actions:
 #        _list:         -
         _save:         { credentials: [[administrator, agentadmin]] } #for a single object, object and general credentials are merged
@@ -63,10 +37,9 @@ generator:
         id:           { type: plain, credentials: [administrator] }
         created_at:   { type: plain }
         last_updated: { type: plain }
-        org_email:    { type: plain, credentials: [[administrator, agentadmin]] }
       display:
         "-Metadata":   { fields: [id, created_at, last_updated], credentials: [[administrator, agentadmin]] }
-        "Detail":     [type, org_name, org_email, ind_affiliation, address1, address2, city, state, postal_code, country_name, phone, web_address]
+        "Detail":     [org_name]
       actions:
 #        _list:        -
         _edit:        { credentials: [[administrator, agentadmin]] }

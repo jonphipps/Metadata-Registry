@@ -94,7 +94,7 @@
         </div>
     </fieldset>
     <fieldset id="sf_fieldset_agents">
-        <h2><?php echo __('Agents') ?></h2>
+        <h2><?php echo __('Projects') ?></h2>
         <div id="show_row_user_agent_list" class="show-row">
             <div id="show_row_content_user_agent_list" class="content">
                 <?php $showValue = get_partial('agent_list', [ 'type' => 'list', 'user' => $subscriber ]);

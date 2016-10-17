@@ -5,7 +5,7 @@
   <div class="round-border-topright"></div>
   <h1 class="orange"><?php echo __('Browse...') ?></h1>
   <ul>
-    <li><?php echo link_to(__('Agents'), 'agent/list') ?>
+    <li><?php echo link_to(__('Projects'), 'agent/list') ?>
 <?php if ($sf_user->isAuthenticated())
 {
   echo '&nbsp;&nbsp;' .  link_to(__('(Add)'), 'agent/create', array('title' => 'Register a new agent'));

@@ -50,15 +50,13 @@ class SchemaPeer extends BaseSchemaPeer
    $stmt = $con->createStatement();
    $rs = $stmt->executeQuery($sql, ResultSet::FETCHMODE_NUM);
 
-   $result =  parent::populateObjects($rs);
-   return $result;
+   return parent::populateObjects($rs);
   }
 
   /**
-  * gets a list of all agents related to all schemas
+  * gets a list of all projects related to all schemas
   *
   * @return array Agents
-  * @param  var_type $var
   */
   public static function getSchemaAgents()
   {

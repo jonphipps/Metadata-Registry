@@ -322,7 +322,7 @@ class tabnavComponents extends sfComponents
         }
         if ($id) {
             $topnav[]       = [ 'title' => 'Details', 'link' => '@user_show?id=' . $id ];
-            $topnav[]       = [ 'title' => 'Agents', 'link' => '@user_agentuser_list?user_id=' . $id ];
+            $topnav[]       = [ 'title' => 'Projects', 'link' => '@user_agentuser_list?user_id=' . $id ];
             $topnav[]       = [ 'title' => 'Vocabularies', 'link' => '@user_vocabuser_list?user_id=' . $id ];
             $topnav[]       = [ 'title' => 'Element Sets', 'link' => '@user_schemauser_list?user_id=' . $id ];
             $this->tabs     = self::getModulesForRoutes($topnav);
@@ -353,7 +353,7 @@ class tabnavComponents extends sfComponents
         $agent          = isset( $this->agent ) ? $this->agent : AgentPeer::retrieveByPK($id);
         $breadcrumbs[0] = Breadcrumb::agentFactory($agent, true);
       } else { //there's no id so it's a list of everything
-        $breadcrumbs[0] = Breadcrumb::listFactory('Agents');
+        $breadcrumbs[0] = Breadcrumb::listFactory('Projects');
       }
 
       //there's always a breadcrumb
