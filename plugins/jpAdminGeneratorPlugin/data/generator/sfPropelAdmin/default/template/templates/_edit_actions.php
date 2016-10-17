@@ -37,7 +37,7 @@ if (false !== $editActions)
 echo '[?php if (' . $condition . "): ?]\n";
         }
         //if the actioname is list or cancel and we have parents
-        if ($parents && in_array($actionName, [ '_list', '_cancel' ]) ):
+        if ($parents && in_array($actionName, [ '_list', '_cancel', '_delete' ]) ):
           $masterRoute = isset( $params['route'] ) ? $params['route'] : null;
           $masteQueryString = isset( $params['query_string'] ) ? $params['query_string'] : null;
           foreach ($parents as $module => $param):
