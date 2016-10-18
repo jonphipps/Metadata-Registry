@@ -144,6 +144,20 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	 */
 	protected $type;
 
+
+	/**
+	 * The value for the repo field.
+	 * @var        string
+	 */
+	protected $repo;
+
+
+	/**
+	 * The value for the is_private field.
+	 * @var        boolean
+	 */
+	protected $is_private = false;
+
 	/**
 	 * Collection to store aggregation of collProfiles.
 	 * @var        array
@@ -482,6 +496,28 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	{
 
 		return $this->type;
+	}
+
+	/**
+	 * Get the [repo] column value.
+	 * 
+	 * @return     string
+	 */
+	public function getRepo()
+	{
+
+		return $this->repo;
+	}
+
+	/**
+	 * Get the [is_private] column value.
+	 * 
+	 * @return     boolean
+	 */
+	public function getIsPrivate()
+	{
+
+		return $this->is_private;
 	}
 
 	/**
@@ -889,6 +925,44 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	} // setType()
 
 	/**
+	 * Set the value of [repo] column.
+	 * 
+	 * @param      string $v new value
+	 * @return     void
+	 */
+	public function setRepo($v)
+	{
+
+		// Since the native PHP type for this column is string,
+		// we will cast the input to a string (if it is not).
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->repo !== $v) {
+			$this->repo = $v;
+			$this->modifiedColumns[] = AgentPeer::REPO;
+		}
+
+	} // setRepo()
+
+	/**
+	 * Set the value of [is_private] column.
+	 * 
+	 * @param      boolean $v new value
+	 * @return     void
+	 */
+	public function setIsPrivate($v)
+	{
+
+		if ($this->is_private !== $v || $v === false) {
+			$this->is_private = $v;
+			$this->modifiedColumns[] = AgentPeer::IS_PRIVATE;
+		}
+
+	} // setIsPrivate()
+
+	/**
 	 * Hydrates (populates) the object variables with values from the database resultset.
 	 *
 	 * An offset (1-based "start column") is specified so that objects can be hydrated
@@ -941,12 +1015,16 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 
 			$this->type = $rs->getString($startcol + 17);
 
+			$this->repo = $rs->getString($startcol + 18);
+
+			$this->is_private = $rs->getBoolean($startcol + 19);
+
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 18; // 18 = AgentPeer::NUM_COLUMNS - AgentPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 20; // 20 = AgentPeer::NUM_COLUMNS - AgentPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Agent object", $e);
@@ -1312,6 +1390,12 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 			case 17:
 				return $this->getType();
 				break;
+			case 18:
+				return $this->getRepo();
+				break;
+			case 19:
+				return $this->getIsPrivate();
+				break;
 			default:
 				return null;
 				break;
@@ -1350,6 +1434,8 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 			$keys[15] => $this->getPhone(),
 			$keys[16] => $this->getWebAddress(),
 			$keys[17] => $this->getType(),
+			$keys[18] => $this->getRepo(),
+			$keys[19] => $this->getIsPrivate(),
 		);
 		return $result;
 	}
@@ -1435,6 +1521,12 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 			case 17:
 				$this->setType($value);
 				break;
+			case 18:
+				$this->setRepo($value);
+				break;
+			case 19:
+				$this->setIsPrivate($value);
+				break;
 		} // switch()
 	}
 
@@ -1476,6 +1568,8 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[15], $arr)) $this->setPhone($arr[$keys[15]]);
 		if (array_key_exists($keys[16], $arr)) $this->setWebAddress($arr[$keys[16]]);
 		if (array_key_exists($keys[17], $arr)) $this->setType($arr[$keys[17]]);
+		if (array_key_exists($keys[18], $arr)) $this->setRepo($arr[$keys[18]]);
+		if (array_key_exists($keys[19], $arr)) $this->setIsPrivate($arr[$keys[19]]);
 	}
 
 	/**
@@ -1505,6 +1599,8 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(AgentPeer::PHONE)) $criteria->add(AgentPeer::PHONE, $this->phone);
 		if ($this->isColumnModified(AgentPeer::WEB_ADDRESS)) $criteria->add(AgentPeer::WEB_ADDRESS, $this->web_address);
 		if ($this->isColumnModified(AgentPeer::TYPE)) $criteria->add(AgentPeer::TYPE, $this->type);
+		if ($this->isColumnModified(AgentPeer::REPO)) $criteria->add(AgentPeer::REPO, $this->repo);
+		if ($this->isColumnModified(AgentPeer::IS_PRIVATE)) $criteria->add(AgentPeer::IS_PRIVATE, $this->is_private);
 
 		return $criteria;
 	}
@@ -1592,6 +1688,10 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 		$copyObj->setWebAddress($this->web_address);
 
 		$copyObj->setType($this->type);
+
+		$copyObj->setRepo($this->repo);
+
+		$copyObj->setIsPrivate($this->is_private);
 
 
 		if ($deepCopy) {

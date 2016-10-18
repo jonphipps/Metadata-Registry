@@ -537,6 +537,13 @@ propel:
     type: 
       type: CHAR
       size: 15
+    repo: 
+      type: VARCHAR
+      size: 255
+    is_private: 
+      type: BOOLEAN
+      required: true
+      default: 0
   reg_agent_has_user: 
     _attributes: 
       phpName: AgentHasUser
@@ -844,6 +851,9 @@ propel:
       type: BOOLEAN
       required: true
       default: 0
+    _indexes: 
+      fulltext: 
+        - object
   reg_concept_property_history: 
     _attributes: 
       phpName: ConceptPropertyHistory
@@ -1565,6 +1575,8 @@ propel:
       reg_schema_property_element_idx2: 
         - updated_at
       reg_schema_property_element_idx1: 
+        - object
+      fulltext: 
         - object
   reg_schema_property_element_history: 
     _attributes: 

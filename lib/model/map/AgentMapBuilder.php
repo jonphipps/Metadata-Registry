@@ -97,6 +97,10 @@ class AgentMapBuilder {
 
 		$tMap->addColumn('TYPE', 'Type', 'string', CreoleTypes::CHAR, false, 15);
 
+		$tMap->addColumn('REPO', 'Repo', 'string', CreoleTypes::VARCHAR, false, 255);
+
+		$tMap->addColumn('IS_PRIVATE', 'IsPrivate', 'boolean', CreoleTypes::BOOLEAN, true, null);
+
 	} // doBuild()
 
 } // AgentMapBuilder
