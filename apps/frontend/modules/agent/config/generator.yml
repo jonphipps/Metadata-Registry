@@ -11,10 +11,12 @@ generator:
       org_name:       { name: Project Name}
       repo:           { name: GitHub Repository}
       is_private:     { name: Private}
+      description:    { name: Description }
+      license:        { name: License}
 
     list:
       title:           Projects
-      display:         [=org_name, created_at, is_private]
+      display:         [=org_name, created_at]
       actions:
         _create:       { name: Add Project, credentials: [subscriber], route: agent_create }
       object_actions:
@@ -26,7 +28,7 @@ generator:
           edit:        Editing %%org_name%%
           create:      Creating new Project
       display:
-        "Detail":      [org_name, repo, is_private]
+        "Detail":      [org_name, description, license, repo]
       actions:
 #        _list:         -
         _save:         { credentials: [[administrator, agentadmin]] } #for a single object, object and general credentials are merged
@@ -41,7 +43,7 @@ generator:
         last_updated: { type: plain }
       display:
         "-Metadata":   { fields: [id, created_at, last_updated], credentials: [[administrator, agentadmin]] }
-        "Detail":     [org_name, repo, is_private]
+        "Detail":     [org_name, description, license, repo]
       actions:
 #        _list:        -
         _edit:        { credentials: [[administrator, agentadmin]] }

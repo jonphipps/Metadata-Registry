@@ -236,6 +236,42 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	protected $lastProfilePropertyRelatedByDeletedByCriteria = null;
 
 	/**
+	 * Collection to store aggregation of collAgentsRelatedByCreatedBy.
+	 * @var        array
+	 */
+	protected $collAgentsRelatedByCreatedBy;
+
+	/**
+	 * The criteria used to select the current contents of collAgentsRelatedByCreatedBy.
+	 * @var        Criteria
+	 */
+	protected $lastAgentRelatedByCreatedByCriteria = null;
+
+	/**
+	 * Collection to store aggregation of collAgentsRelatedByUpdatedBy.
+	 * @var        array
+	 */
+	protected $collAgentsRelatedByUpdatedBy;
+
+	/**
+	 * The criteria used to select the current contents of collAgentsRelatedByUpdatedBy.
+	 * @var        Criteria
+	 */
+	protected $lastAgentRelatedByUpdatedByCriteria = null;
+
+	/**
+	 * Collection to store aggregation of collAgentsRelatedByDeletedBy.
+	 * @var        array
+	 */
+	protected $collAgentsRelatedByDeletedBy;
+
+	/**
+	 * The criteria used to select the current contents of collAgentsRelatedByDeletedBy.
+	 * @var        Criteria
+	 */
+	protected $lastAgentRelatedByDeletedByCriteria = null;
+
+	/**
 	 * Collection to store aggregation of collAgentHasUsers.
 	 * @var        array
 	 */
@@ -1556,6 +1592,30 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 				}
 			}
 
+			if ($this->collAgentsRelatedByCreatedBy !== null) {
+				foreach($this->collAgentsRelatedByCreatedBy as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
+			}
+
+			if ($this->collAgentsRelatedByUpdatedBy !== null) {
+				foreach($this->collAgentsRelatedByUpdatedBy as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
+			}
+
+			if ($this->collAgentsRelatedByDeletedBy !== null) {
+				foreach($this->collAgentsRelatedByDeletedBy as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
+			}
+
 			if ($this->collAgentHasUsers !== null) {
 				foreach($this->collAgentHasUsers as $referrerFK) {
 					if (!$referrerFK->isDeleted()) {
@@ -1908,6 +1968,30 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 				if ($this->collProfilePropertysRelatedByDeletedBy !== null) {
 					foreach($this->collProfilePropertysRelatedByDeletedBy as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
+
+				if ($this->collAgentsRelatedByCreatedBy !== null) {
+					foreach($this->collAgentsRelatedByCreatedBy as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
+
+				if ($this->collAgentsRelatedByUpdatedBy !== null) {
+					foreach($this->collAgentsRelatedByUpdatedBy as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
+
+				if ($this->collAgentsRelatedByDeletedBy !== null) {
+					foreach($this->collAgentsRelatedByDeletedBy as $referrerFK) {
 						if (!$referrerFK->validate($columns)) {
 							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
 						}
@@ -2556,6 +2640,18 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 			foreach($this->getProfilePropertysRelatedByDeletedBy() as $relObj) {
 				$copyObj->addProfilePropertyRelatedByDeletedBy($relObj->copy($deepCopy));
+			}
+
+			foreach($this->getAgentsRelatedByCreatedBy() as $relObj) {
+				$copyObj->addAgentRelatedByCreatedBy($relObj->copy($deepCopy));
+			}
+
+			foreach($this->getAgentsRelatedByUpdatedBy() as $relObj) {
+				$copyObj->addAgentRelatedByUpdatedBy($relObj->copy($deepCopy));
+			}
+
+			foreach($this->getAgentsRelatedByDeletedBy() as $relObj) {
+				$copyObj->addAgentRelatedByDeletedBy($relObj->copy($deepCopy));
 			}
 
 			foreach($this->getAgentHasUsers() as $relObj) {
@@ -4301,6 +4397,327 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		$this->lastProfilePropertyRelatedByDeletedByCriteria = $criteria;
 
 		return $this->collProfilePropertysRelatedByDeletedBy;
+	}
+
+	/**
+	 * Temporary storage of collAgentsRelatedByCreatedBy to save a possible db hit in
+	 * the event objects are add to the collection, but the
+	 * complete collection is never requested.
+	 * @return     void
+	 */
+	public function initAgentsRelatedByCreatedBy()
+	{
+		if ($this->collAgentsRelatedByCreatedBy === null) {
+			$this->collAgentsRelatedByCreatedBy = array();
+		}
+	}
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this User has previously
+	 * been saved, it will retrieve related AgentsRelatedByCreatedBy from storage.
+	 * If this User is new, it will return
+	 * an empty collection or the current collection, the criteria
+	 * is ignored on a new object.
+	 *
+	 * @param      Connection $con
+	 * @param      Criteria $criteria
+	 * @throws     PropelException
+	 */
+	public function getAgentsRelatedByCreatedBy($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseAgentPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collAgentsRelatedByCreatedBy === null) {
+			if ($this->isNew()) {
+			   $this->collAgentsRelatedByCreatedBy = array();
+			} else {
+
+				$criteria->add(AgentPeer::CREATED_BY, $this->getId());
+
+				AgentPeer::addSelectColumns($criteria);
+				$this->collAgentsRelatedByCreatedBy = AgentPeer::doSelect($criteria, $con);
+			}
+		} else {
+			// criteria has no effect for a new object
+			if (!$this->isNew()) {
+				// the following code is to determine if a new query is
+				// called for.  If the criteria is the same as the last
+				// one, just return the collection.
+
+
+				$criteria->add(AgentPeer::CREATED_BY, $this->getId());
+
+				AgentPeer::addSelectColumns($criteria);
+				if (!isset($this->lastAgentRelatedByCreatedByCriteria) || !$this->lastAgentRelatedByCreatedByCriteria->equals($criteria)) {
+					$this->collAgentsRelatedByCreatedBy = AgentPeer::doSelect($criteria, $con);
+				}
+			}
+		}
+		$this->lastAgentRelatedByCreatedByCriteria = $criteria;
+		return $this->collAgentsRelatedByCreatedBy;
+	}
+
+	/**
+	 * Returns the number of related AgentsRelatedByCreatedBy.
+	 *
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct
+	 * @param      Connection $con
+	 * @throws     PropelException
+	 */
+	public function countAgentsRelatedByCreatedBy($criteria = null, $distinct = false, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseAgentPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		$criteria->add(AgentPeer::CREATED_BY, $this->getId());
+
+		return AgentPeer::doCount($criteria, $distinct, $con);
+	}
+
+	/**
+	 * Method called to associate a Agent object to this object
+	 * through the Agent foreign key attribute
+	 *
+	 * @param      Agent $l Agent
+	 * @return     void
+	 * @throws     PropelException
+	 */
+	public function addAgentRelatedByCreatedBy(Agent $l)
+	{
+		$this->collAgentsRelatedByCreatedBy[] = $l;
+		$l->setUserRelatedByCreatedBy($this);
+	}
+
+	/**
+	 * Temporary storage of collAgentsRelatedByUpdatedBy to save a possible db hit in
+	 * the event objects are add to the collection, but the
+	 * complete collection is never requested.
+	 * @return     void
+	 */
+	public function initAgentsRelatedByUpdatedBy()
+	{
+		if ($this->collAgentsRelatedByUpdatedBy === null) {
+			$this->collAgentsRelatedByUpdatedBy = array();
+		}
+	}
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this User has previously
+	 * been saved, it will retrieve related AgentsRelatedByUpdatedBy from storage.
+	 * If this User is new, it will return
+	 * an empty collection or the current collection, the criteria
+	 * is ignored on a new object.
+	 *
+	 * @param      Connection $con
+	 * @param      Criteria $criteria
+	 * @throws     PropelException
+	 */
+	public function getAgentsRelatedByUpdatedBy($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseAgentPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collAgentsRelatedByUpdatedBy === null) {
+			if ($this->isNew()) {
+			   $this->collAgentsRelatedByUpdatedBy = array();
+			} else {
+
+				$criteria->add(AgentPeer::UPDATED_BY, $this->getId());
+
+				AgentPeer::addSelectColumns($criteria);
+				$this->collAgentsRelatedByUpdatedBy = AgentPeer::doSelect($criteria, $con);
+			}
+		} else {
+			// criteria has no effect for a new object
+			if (!$this->isNew()) {
+				// the following code is to determine if a new query is
+				// called for.  If the criteria is the same as the last
+				// one, just return the collection.
+
+
+				$criteria->add(AgentPeer::UPDATED_BY, $this->getId());
+
+				AgentPeer::addSelectColumns($criteria);
+				if (!isset($this->lastAgentRelatedByUpdatedByCriteria) || !$this->lastAgentRelatedByUpdatedByCriteria->equals($criteria)) {
+					$this->collAgentsRelatedByUpdatedBy = AgentPeer::doSelect($criteria, $con);
+				}
+			}
+		}
+		$this->lastAgentRelatedByUpdatedByCriteria = $criteria;
+		return $this->collAgentsRelatedByUpdatedBy;
+	}
+
+	/**
+	 * Returns the number of related AgentsRelatedByUpdatedBy.
+	 *
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct
+	 * @param      Connection $con
+	 * @throws     PropelException
+	 */
+	public function countAgentsRelatedByUpdatedBy($criteria = null, $distinct = false, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseAgentPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		$criteria->add(AgentPeer::UPDATED_BY, $this->getId());
+
+		return AgentPeer::doCount($criteria, $distinct, $con);
+	}
+
+	/**
+	 * Method called to associate a Agent object to this object
+	 * through the Agent foreign key attribute
+	 *
+	 * @param      Agent $l Agent
+	 * @return     void
+	 * @throws     PropelException
+	 */
+	public function addAgentRelatedByUpdatedBy(Agent $l)
+	{
+		$this->collAgentsRelatedByUpdatedBy[] = $l;
+		$l->setUserRelatedByUpdatedBy($this);
+	}
+
+	/**
+	 * Temporary storage of collAgentsRelatedByDeletedBy to save a possible db hit in
+	 * the event objects are add to the collection, but the
+	 * complete collection is never requested.
+	 * @return     void
+	 */
+	public function initAgentsRelatedByDeletedBy()
+	{
+		if ($this->collAgentsRelatedByDeletedBy === null) {
+			$this->collAgentsRelatedByDeletedBy = array();
+		}
+	}
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this User has previously
+	 * been saved, it will retrieve related AgentsRelatedByDeletedBy from storage.
+	 * If this User is new, it will return
+	 * an empty collection or the current collection, the criteria
+	 * is ignored on a new object.
+	 *
+	 * @param      Connection $con
+	 * @param      Criteria $criteria
+	 * @throws     PropelException
+	 */
+	public function getAgentsRelatedByDeletedBy($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseAgentPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collAgentsRelatedByDeletedBy === null) {
+			if ($this->isNew()) {
+			   $this->collAgentsRelatedByDeletedBy = array();
+			} else {
+
+				$criteria->add(AgentPeer::DELETED_BY, $this->getId());
+
+				AgentPeer::addSelectColumns($criteria);
+				$this->collAgentsRelatedByDeletedBy = AgentPeer::doSelect($criteria, $con);
+			}
+		} else {
+			// criteria has no effect for a new object
+			if (!$this->isNew()) {
+				// the following code is to determine if a new query is
+				// called for.  If the criteria is the same as the last
+				// one, just return the collection.
+
+
+				$criteria->add(AgentPeer::DELETED_BY, $this->getId());
+
+				AgentPeer::addSelectColumns($criteria);
+				if (!isset($this->lastAgentRelatedByDeletedByCriteria) || !$this->lastAgentRelatedByDeletedByCriteria->equals($criteria)) {
+					$this->collAgentsRelatedByDeletedBy = AgentPeer::doSelect($criteria, $con);
+				}
+			}
+		}
+		$this->lastAgentRelatedByDeletedByCriteria = $criteria;
+		return $this->collAgentsRelatedByDeletedBy;
+	}
+
+	/**
+	 * Returns the number of related AgentsRelatedByDeletedBy.
+	 *
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct
+	 * @param      Connection $con
+	 * @throws     PropelException
+	 */
+	public function countAgentsRelatedByDeletedBy($criteria = null, $distinct = false, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseAgentPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		$criteria->add(AgentPeer::DELETED_BY, $this->getId());
+
+		return AgentPeer::doCount($criteria, $distinct, $con);
+	}
+
+	/**
+	 * Method called to associate a Agent object to this object
+	 * through the Agent foreign key attribute
+	 *
+	 * @param      Agent $l Agent
+	 * @return     void
+	 * @throws     PropelException
+	 */
+	public function addAgentRelatedByDeletedBy(Agent $l)
+	{
+		$this->collAgentsRelatedByDeletedBy[] = $l;
+		$l->setUserRelatedByDeletedBy($this);
 	}
 
 	/**

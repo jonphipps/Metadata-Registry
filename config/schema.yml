@@ -544,6 +544,32 @@ propel:
       type: BOOLEAN
       required: true
       default: 0
+    license: 
+      type: VARCHAR
+      size: 255
+    description: 
+      type: LONGVARCHAR
+    created_by: 
+      type: INTEGER
+      foreignTable: reg_user
+      foreignReference: id
+      onDelete: SET NULL
+      onUpdate: RESTRICT
+      index: true
+    updated_by: 
+      type: INTEGER
+      foreignTable: reg_user
+      foreignReference: id
+      onDelete: SET NULL
+      onUpdate: RESTRICT
+      index: true
+    deleted_by: 
+      type: INTEGER
+      foreignTable: reg_user
+      foreignReference: id
+      onDelete: SET NULL
+      onUpdate: RESTRICT
+      index: true
   reg_agent_has_user: 
     _attributes: 
       phpName: AgentHasUser

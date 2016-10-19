@@ -158,6 +158,56 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	 */
 	protected $is_private = false;
 
+
+	/**
+	 * The value for the license field.
+	 * @var        string
+	 */
+	protected $license;
+
+
+	/**
+	 * The value for the description field.
+	 * @var        string
+	 */
+	protected $description;
+
+
+	/**
+	 * The value for the created_by field.
+	 * @var        int
+	 */
+	protected $created_by;
+
+
+	/**
+	 * The value for the updated_by field.
+	 * @var        int
+	 */
+	protected $updated_by;
+
+
+	/**
+	 * The value for the deleted_by field.
+	 * @var        int
+	 */
+	protected $deleted_by;
+
+	/**
+	 * @var        User
+	 */
+	protected $aUserRelatedByCreatedBy;
+
+	/**
+	 * @var        User
+	 */
+	protected $aUserRelatedByUpdatedBy;
+
+	/**
+	 * @var        User
+	 */
+	protected $aUserRelatedByDeletedBy;
+
 	/**
 	 * Collection to store aggregation of collProfiles.
 	 * @var        array
@@ -518,6 +568,61 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	{
 
 		return $this->is_private;
+	}
+
+	/**
+	 * Get the [license] column value.
+	 * 
+	 * @return     string
+	 */
+	public function getLicense()
+	{
+
+		return $this->license;
+	}
+
+	/**
+	 * Get the [description] column value.
+	 * 
+	 * @return     string
+	 */
+	public function getDescription()
+	{
+
+		return $this->description;
+	}
+
+	/**
+	 * Get the [created_by] column value.
+	 * 
+	 * @return     int
+	 */
+	public function getCreatedBy()
+	{
+
+		return $this->created_by;
+	}
+
+	/**
+	 * Get the [updated_by] column value.
+	 * 
+	 * @return     int
+	 */
+	public function getUpdatedBy()
+	{
+
+		return $this->updated_by;
+	}
+
+	/**
+	 * Get the [deleted_by] column value.
+	 * 
+	 * @return     int
+	 */
+	public function getDeletedBy()
+	{
+
+		return $this->deleted_by;
 	}
 
 	/**
@@ -963,6 +1068,128 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	} // setIsPrivate()
 
 	/**
+	 * Set the value of [license] column.
+	 * 
+	 * @param      string $v new value
+	 * @return     void
+	 */
+	public function setLicense($v)
+	{
+
+		// Since the native PHP type for this column is string,
+		// we will cast the input to a string (if it is not).
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->license !== $v) {
+			$this->license = $v;
+			$this->modifiedColumns[] = AgentPeer::LICENSE;
+		}
+
+	} // setLicense()
+
+	/**
+	 * Set the value of [description] column.
+	 * 
+	 * @param      string $v new value
+	 * @return     void
+	 */
+	public function setDescription($v)
+	{
+
+		// Since the native PHP type for this column is string,
+		// we will cast the input to a string (if it is not).
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->description !== $v) {
+			$this->description = $v;
+			$this->modifiedColumns[] = AgentPeer::DESCRIPTION;
+		}
+
+	} // setDescription()
+
+	/**
+	 * Set the value of [created_by] column.
+	 * 
+	 * @param      int $v new value
+	 * @return     void
+	 */
+	public function setCreatedBy($v)
+	{
+
+		// Since the native PHP type for this column is integer,
+		// we will cast the input value to an int (if it is not).
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->created_by !== $v) {
+			$this->created_by = $v;
+			$this->modifiedColumns[] = AgentPeer::CREATED_BY;
+		}
+
+		if ($this->aUserRelatedByCreatedBy !== null && $this->aUserRelatedByCreatedBy->getId() !== $v) {
+			$this->aUserRelatedByCreatedBy = null;
+		}
+
+	} // setCreatedBy()
+
+	/**
+	 * Set the value of [updated_by] column.
+	 * 
+	 * @param      int $v new value
+	 * @return     void
+	 */
+	public function setUpdatedBy($v)
+	{
+
+		// Since the native PHP type for this column is integer,
+		// we will cast the input value to an int (if it is not).
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->updated_by !== $v) {
+			$this->updated_by = $v;
+			$this->modifiedColumns[] = AgentPeer::UPDATED_BY;
+		}
+
+		if ($this->aUserRelatedByUpdatedBy !== null && $this->aUserRelatedByUpdatedBy->getId() !== $v) {
+			$this->aUserRelatedByUpdatedBy = null;
+		}
+
+	} // setUpdatedBy()
+
+	/**
+	 * Set the value of [deleted_by] column.
+	 * 
+	 * @param      int $v new value
+	 * @return     void
+	 */
+	public function setDeletedBy($v)
+	{
+
+		// Since the native PHP type for this column is integer,
+		// we will cast the input value to an int (if it is not).
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->deleted_by !== $v) {
+			$this->deleted_by = $v;
+			$this->modifiedColumns[] = AgentPeer::DELETED_BY;
+		}
+
+		if ($this->aUserRelatedByDeletedBy !== null && $this->aUserRelatedByDeletedBy->getId() !== $v) {
+			$this->aUserRelatedByDeletedBy = null;
+		}
+
+	} // setDeletedBy()
+
+	/**
 	 * Hydrates (populates) the object variables with values from the database resultset.
 	 *
 	 * An offset (1-based "start column") is specified so that objects can be hydrated
@@ -1019,12 +1246,22 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 
 			$this->is_private = $rs->getBoolean($startcol + 19);
 
+			$this->license = $rs->getString($startcol + 20);
+
+			$this->description = $rs->getString($startcol + 21);
+
+			$this->created_by = $rs->getInt($startcol + 22);
+
+			$this->updated_by = $rs->getInt($startcol + 23);
+
+			$this->deleted_by = $rs->getInt($startcol + 24);
+
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 20; // 20 = AgentPeer::NUM_COLUMNS - AgentPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 25; // 25 = AgentPeer::NUM_COLUMNS - AgentPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Agent object", $e);
@@ -1153,6 +1390,33 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 			$this->alreadyInSave = true;
 
 
+			// We call the save method on the following object(s) if they
+			// were passed to this object by their coresponding set
+			// method.  This object relates to these object(s) by a
+			// foreign key reference.
+
+			if ($this->aUserRelatedByCreatedBy !== null) {
+				if ($this->aUserRelatedByCreatedBy->isModified()) {
+					$affectedRows += $this->aUserRelatedByCreatedBy->save($con);
+				}
+				$this->setUserRelatedByCreatedBy($this->aUserRelatedByCreatedBy);
+			}
+
+			if ($this->aUserRelatedByUpdatedBy !== null) {
+				if ($this->aUserRelatedByUpdatedBy->isModified()) {
+					$affectedRows += $this->aUserRelatedByUpdatedBy->save($con);
+				}
+				$this->setUserRelatedByUpdatedBy($this->aUserRelatedByUpdatedBy);
+			}
+
+			if ($this->aUserRelatedByDeletedBy !== null) {
+				if ($this->aUserRelatedByDeletedBy->isModified()) {
+					$affectedRows += $this->aUserRelatedByDeletedBy->save($con);
+				}
+				$this->setUserRelatedByDeletedBy($this->aUserRelatedByDeletedBy);
+			}
+
+
 			// If this object has been modified, then save it to the database.
 			if ($this->isModified()) {
 				if ($this->isNew()) {
@@ -1265,6 +1529,30 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 			$retval = null;
 
 			$failureMap = array();
+
+
+			// We call the validate method on the following object(s) if they
+			// were passed to this object by their coresponding set
+			// method.  This object relates to these object(s) by a
+			// foreign key reference.
+
+			if ($this->aUserRelatedByCreatedBy !== null) {
+				if (!$this->aUserRelatedByCreatedBy->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aUserRelatedByCreatedBy->getValidationFailures());
+				}
+			}
+
+			if ($this->aUserRelatedByUpdatedBy !== null) {
+				if (!$this->aUserRelatedByUpdatedBy->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aUserRelatedByUpdatedBy->getValidationFailures());
+				}
+			}
+
+			if ($this->aUserRelatedByDeletedBy !== null) {
+				if (!$this->aUserRelatedByDeletedBy->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aUserRelatedByDeletedBy->getValidationFailures());
+				}
+			}
 
 
 			if (($retval = AgentPeer::doValidate($this, $columns)) !== true) {
@@ -1396,6 +1684,21 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 			case 19:
 				return $this->getIsPrivate();
 				break;
+			case 20:
+				return $this->getLicense();
+				break;
+			case 21:
+				return $this->getDescription();
+				break;
+			case 22:
+				return $this->getCreatedBy();
+				break;
+			case 23:
+				return $this->getUpdatedBy();
+				break;
+			case 24:
+				return $this->getDeletedBy();
+				break;
 			default:
 				return null;
 				break;
@@ -1436,6 +1739,11 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 			$keys[17] => $this->getType(),
 			$keys[18] => $this->getRepo(),
 			$keys[19] => $this->getIsPrivate(),
+			$keys[20] => $this->getLicense(),
+			$keys[21] => $this->getDescription(),
+			$keys[22] => $this->getCreatedBy(),
+			$keys[23] => $this->getUpdatedBy(),
+			$keys[24] => $this->getDeletedBy(),
 		);
 		return $result;
 	}
@@ -1527,6 +1835,21 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 			case 19:
 				$this->setIsPrivate($value);
 				break;
+			case 20:
+				$this->setLicense($value);
+				break;
+			case 21:
+				$this->setDescription($value);
+				break;
+			case 22:
+				$this->setCreatedBy($value);
+				break;
+			case 23:
+				$this->setUpdatedBy($value);
+				break;
+			case 24:
+				$this->setDeletedBy($value);
+				break;
 		} // switch()
 	}
 
@@ -1570,6 +1893,11 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[17], $arr)) $this->setType($arr[$keys[17]]);
 		if (array_key_exists($keys[18], $arr)) $this->setRepo($arr[$keys[18]]);
 		if (array_key_exists($keys[19], $arr)) $this->setIsPrivate($arr[$keys[19]]);
+		if (array_key_exists($keys[20], $arr)) $this->setLicense($arr[$keys[20]]);
+		if (array_key_exists($keys[21], $arr)) $this->setDescription($arr[$keys[21]]);
+		if (array_key_exists($keys[22], $arr)) $this->setCreatedBy($arr[$keys[22]]);
+		if (array_key_exists($keys[23], $arr)) $this->setUpdatedBy($arr[$keys[23]]);
+		if (array_key_exists($keys[24], $arr)) $this->setDeletedBy($arr[$keys[24]]);
 	}
 
 	/**
@@ -1601,6 +1929,11 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(AgentPeer::TYPE)) $criteria->add(AgentPeer::TYPE, $this->type);
 		if ($this->isColumnModified(AgentPeer::REPO)) $criteria->add(AgentPeer::REPO, $this->repo);
 		if ($this->isColumnModified(AgentPeer::IS_PRIVATE)) $criteria->add(AgentPeer::IS_PRIVATE, $this->is_private);
+		if ($this->isColumnModified(AgentPeer::LICENSE)) $criteria->add(AgentPeer::LICENSE, $this->license);
+		if ($this->isColumnModified(AgentPeer::DESCRIPTION)) $criteria->add(AgentPeer::DESCRIPTION, $this->description);
+		if ($this->isColumnModified(AgentPeer::CREATED_BY)) $criteria->add(AgentPeer::CREATED_BY, $this->created_by);
+		if ($this->isColumnModified(AgentPeer::UPDATED_BY)) $criteria->add(AgentPeer::UPDATED_BY, $this->updated_by);
+		if ($this->isColumnModified(AgentPeer::DELETED_BY)) $criteria->add(AgentPeer::DELETED_BY, $this->deleted_by);
 
 		return $criteria;
 	}
@@ -1693,6 +2026,16 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 
 		$copyObj->setIsPrivate($this->is_private);
 
+		$copyObj->setLicense($this->license);
+
+		$copyObj->setDescription($this->description);
+
+		$copyObj->setCreatedBy($this->created_by);
+
+		$copyObj->setUpdatedBy($this->updated_by);
+
+		$copyObj->setDeletedBy($this->deleted_by);
+
 
 		if ($deepCopy) {
 			// important: temporarily setNew(false) because this affects the behavior of
@@ -1760,6 +2103,156 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 			self::$peer = new AgentPeer();
 		}
 		return self::$peer;
+	}
+
+	/**
+	 * Declares an association between this object and a User object.
+	 *
+	 * @param      User $v
+	 * @return     void
+	 * @throws     PropelException
+	 */
+	public function setUserRelatedByCreatedBy($v)
+	{
+
+
+		if ($v === null) {
+			$this->setCreatedBy(NULL);
+		} else {
+			$this->setCreatedBy($v->getId());
+		}
+
+
+		$this->aUserRelatedByCreatedBy = $v;
+	}
+
+
+	/**
+	 * Get the associated User object
+	 *
+	 * @param      Connection Optional Connection object.
+	 * @return     User The associated User object.
+	 * @throws     PropelException
+	 */
+	public function getUserRelatedByCreatedBy($con = null)
+	{
+		if ($this->aUserRelatedByCreatedBy === null && ($this->created_by !== null)) {
+			// include the related Peer class
+			include_once 'lib/model/om/BaseUserPeer.php';
+
+			$this->aUserRelatedByCreatedBy = UserPeer::retrieveByPK($this->created_by, $con);
+
+			/* The following can be used instead of the line above to
+			   guarantee the related object contains a reference
+			   to this object, but this level of coupling
+			   may be undesirable in many circumstances.
+			   As it can lead to a db query with many results that may
+			   never be used.
+			   $obj = UserPeer::retrieveByPK($this->created_by, $con);
+			   $obj->addUsersRelatedByCreatedBy($this);
+			 */
+		}
+		return $this->aUserRelatedByCreatedBy;
+	}
+
+	/**
+	 * Declares an association between this object and a User object.
+	 *
+	 * @param      User $v
+	 * @return     void
+	 * @throws     PropelException
+	 */
+	public function setUserRelatedByUpdatedBy($v)
+	{
+
+
+		if ($v === null) {
+			$this->setUpdatedBy(NULL);
+		} else {
+			$this->setUpdatedBy($v->getId());
+		}
+
+
+		$this->aUserRelatedByUpdatedBy = $v;
+	}
+
+
+	/**
+	 * Get the associated User object
+	 *
+	 * @param      Connection Optional Connection object.
+	 * @return     User The associated User object.
+	 * @throws     PropelException
+	 */
+	public function getUserRelatedByUpdatedBy($con = null)
+	{
+		if ($this->aUserRelatedByUpdatedBy === null && ($this->updated_by !== null)) {
+			// include the related Peer class
+			include_once 'lib/model/om/BaseUserPeer.php';
+
+			$this->aUserRelatedByUpdatedBy = UserPeer::retrieveByPK($this->updated_by, $con);
+
+			/* The following can be used instead of the line above to
+			   guarantee the related object contains a reference
+			   to this object, but this level of coupling
+			   may be undesirable in many circumstances.
+			   As it can lead to a db query with many results that may
+			   never be used.
+			   $obj = UserPeer::retrieveByPK($this->updated_by, $con);
+			   $obj->addUsersRelatedByUpdatedBy($this);
+			 */
+		}
+		return $this->aUserRelatedByUpdatedBy;
+	}
+
+	/**
+	 * Declares an association between this object and a User object.
+	 *
+	 * @param      User $v
+	 * @return     void
+	 * @throws     PropelException
+	 */
+	public function setUserRelatedByDeletedBy($v)
+	{
+
+
+		if ($v === null) {
+			$this->setDeletedBy(NULL);
+		} else {
+			$this->setDeletedBy($v->getId());
+		}
+
+
+		$this->aUserRelatedByDeletedBy = $v;
+	}
+
+
+	/**
+	 * Get the associated User object
+	 *
+	 * @param      Connection Optional Connection object.
+	 * @return     User The associated User object.
+	 * @throws     PropelException
+	 */
+	public function getUserRelatedByDeletedBy($con = null)
+	{
+		if ($this->aUserRelatedByDeletedBy === null && ($this->deleted_by !== null)) {
+			// include the related Peer class
+			include_once 'lib/model/om/BaseUserPeer.php';
+
+			$this->aUserRelatedByDeletedBy = UserPeer::retrieveByPK($this->deleted_by, $con);
+
+			/* The following can be used instead of the line above to
+			   guarantee the related object contains a reference
+			   to this object, but this level of coupling
+			   may be undesirable in many circumstances.
+			   As it can lead to a db query with many results that may
+			   never be used.
+			   $obj = UserPeer::retrieveByPK($this->deleted_by, $con);
+			   $obj->addUsersRelatedByDeletedBy($this);
+			 */
+		}
+		return $this->aUserRelatedByDeletedBy;
 	}
 
 	/**

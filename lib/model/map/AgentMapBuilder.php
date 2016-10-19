@@ -101,6 +101,16 @@ class AgentMapBuilder {
 
 		$tMap->addColumn('IS_PRIVATE', 'IsPrivate', 'boolean', CreoleTypes::BOOLEAN, true, null);
 
+		$tMap->addColumn('LICENSE', 'License', 'string', CreoleTypes::VARCHAR, false, 255);
+
+		$tMap->addColumn('DESCRIPTION', 'Description', 'string', CreoleTypes::LONGVARCHAR, false, null);
+
+		$tMap->addForeignKey('CREATED_BY', 'CreatedBy', 'int', CreoleTypes::INTEGER, 'reg_user', 'ID', false, null);
+
+		$tMap->addForeignKey('UPDATED_BY', 'UpdatedBy', 'int', CreoleTypes::INTEGER, 'reg_user', 'ID', false, null);
+
+		$tMap->addForeignKey('DELETED_BY', 'DeletedBy', 'int', CreoleTypes::INTEGER, 'reg_user', 'ID', false, null);
+
 	} // doBuild()
 
 } // AgentMapBuilder
