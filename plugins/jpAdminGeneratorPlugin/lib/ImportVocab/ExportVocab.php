@@ -168,6 +168,7 @@ class ExportVocab {
       /** @noinspection ForeachInvariantsInspection */
       for ($i = 0; $i < $columnCount; $i++) {
           $row[$i] = $headerArray[$i]['label'];
+          $map[0][$i] = $headerArray[$i];
         }
 
       //fix up the status if it's numeric
@@ -616,9 +617,8 @@ class ExportVocab {
             }
         }
 
-        $bar = self::buildColumnArray( $foo );
+        return self::buildColumnArray( $foo );
 
-        return $bar;
     }
 
     public function findUsedVocabularyProfileProperties()
@@ -649,9 +649,8 @@ class ExportVocab {
             }
         }
 
-        $bar = self::buildColumnArray( $foo );
+        return self::buildColumnArray( $foo );
 
-        return $bar;
     }
 
     public function getAllProfileProperties($forExport = false)
