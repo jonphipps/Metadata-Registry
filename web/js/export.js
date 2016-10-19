@@ -1,4 +1,3 @@
-//var $jq = jQuery.noConflict();
 $(document).ready(function () {
 
     $('select#export_history_selected_language').select2({

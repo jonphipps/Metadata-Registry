@@ -1,8 +1,7 @@
-var $jq = jQuery.noConflict();
-$jq(document).ready(function () {
+$(document).ready(function () {
 
-  var $selLanguages = $jq("select#schema_has_user_languages")
-  var $selLang = $jq('select#schema_has_user_default_language');
+  var $selLanguages = $("select#schema_has_user_languages")
+  var $selLang = $('select#schema_has_user_default_language');
 
   $selLanguages.select2({
     placeholder: "Select all available Language(s)",
@@ -28,7 +27,7 @@ $jq(document).ready(function () {
           $selLanguages.select2({ maximumSelectionSize: 1 });
         } else {
           $selLanguages.select2({ maximumSelectionSize: -1 });
-          $jq.each(data, function (index, value) {
+          $.each(data, function (index, value) {
             $selLang.append('<option value="' + data[index].id + '">' + data[index].text + '</option>');
             if (data[index].id == savedVal) {
               $selLang.select2("val", savedVal)

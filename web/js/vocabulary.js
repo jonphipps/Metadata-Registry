@@ -8,15 +8,14 @@ function updateUri() {
     }
     if (updateIt) {
         uriField.value = domainField.value + tokenField.value;
-        $jq('#vocabulary_ns_type').change();
+        $('#vocabulary_ns_type').change();
     }
 }
 
-var $jq = jQuery.noConflict();
-$jq(document).ready(function () {
-    var $selLanguages = $jq("select#vocabulary_languages"),
-        $selLang = $jq('select#vocabulary_language'),
-        $selNamespace = $jq('#vocabulary_ns_type');
+$(document).ready(function () {
+    var $selLanguages = $("select#vocabulary_languages"),
+        $selLang = $('select#vocabulary_language'),
+        $selNamespace = $('#vocabulary_ns_type');
 
     $selLanguages.select2({
         placeholder: "Select all available Language(s)",
@@ -34,7 +33,7 @@ $jq(document).ready(function () {
             var savedVal = $selLang.select2("val");
             $selLang[0].options.length = 0;
             $selLang.select2("val", "");
-            $jq.each(data, function (index, value) {
+            $.each(data, function (index, value) {
                 $selLang.append('<option value="' + data[index].id + '">' + data[index].text + '</option>');
                 if (data[index].id == savedVal) {
                     $selLang.select2("val", savedVal)
@@ -45,7 +44,7 @@ $jq(document).ready(function () {
     $selNamespace.on('change',
         function(e) {
             var trailing = '/',
-                $uri = $jq('#vocabulary_uri');
+                $uri = $('#vocabulary_uri');
 
             var uri = stripTrailingSlash($uri.val());
 
@@ -54,14 +53,14 @@ $jq(document).ready(function () {
                 $uri.val(uri);
             }
             if (uri !== "") {
-                $jq('#form_row_content_vocabulary_namespace').text(uri + trailing);
+                $('#form_row_content_vocabulary_namespace').text(uri + trailing);
             }
         }
     );
 
-    $jq('#vocabulary_uri').on('change',
+    $('#vocabulary_uri').on('change',
         function (e) {
-        $jq('#vocabulary_ns_type').change();
+        $('#vocabulary_ns_type').change();
         });
 
 });

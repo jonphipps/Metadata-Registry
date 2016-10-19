@@ -9,6 +9,7 @@ editSuccess:
       - %sf_jqwidgets_web_dir%/jqxlistbox.js
       - %sf_jqwidgets_web_dir%/jqxcheckbox.js
       - %sf_jqwidgets_web_dir%/jqxdragdrop.js
+      - %sf_jqwidgets_web_dir%/jqxexpander.js
       - export.js
 
 downloadSuccess:
