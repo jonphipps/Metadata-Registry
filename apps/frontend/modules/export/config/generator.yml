@@ -86,7 +86,9 @@ generator:
             The columns you select, and their order, will be saved for the next time you create an export.
         save_as_default:   { name: Save as my default, type: checkbox_tag, help: Save these settings as my default settings for future exports, credentials: [subscriber] }
 
-      display:        [id, selected_columns, selected_language, exclude_deprecated, exclude_generated, include_deleted, include_not_accepted  ]
+      display:
+        "Export":      [id, selected_columns, selected_language ]
+        "-Advanced":   [exclude_deprecated, exclude_generated, include_deleted, include_not_accepted ]
       hide:           [schema_id, user_id, vocabulary_id]
       actions:
         _save:         { name: Export CSV }
