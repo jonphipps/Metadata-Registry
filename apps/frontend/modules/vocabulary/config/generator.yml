@@ -82,7 +82,7 @@ generator:
         _delete:       { credentials: [administrator] }
         _save_and_add: { credentials: [administrator] }
         _cancel:       { only_for: create, query_string: {sf_request: agent_id}, route: agent_vocabulary_list, credentials: [[administrator, hasAgents, vocabularymaintainer, vocabularyadmin]]}
-        _cancel:       { only_for: edit, query_string: {agent_id: agent_id}, route: agent_vocabulary, credentials: [[administrator, hasAgents, vocabularymaintainer, vocabularyadmin]] }
+        _cancel:       { only_for: edit, query_string: {agent_id: agent_id}, route: agent_vocabulary_list, credentials: [[administrator, hasAgents, vocabularymaintainer, vocabularyadmin]] }
       urlfilters:
         agent_id:     agent_id
         user_id:      user_id
@@ -102,7 +102,6 @@ generator:
         "Namespace":   [uri, namespace, prefix]
         "Publishing":  [ repo, status]
         "Documentation": [url, note, community]
-        "-Members":      [_list_users]
       actions:
 #        _list:
         _edit:       { credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
