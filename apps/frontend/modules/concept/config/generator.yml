@@ -68,7 +68,7 @@ generator:
         pref_label:    { params: autofocus=autofocus}
       hide:            [vocabulary_id]
       display:
-#        "-Metadata":   { fields: [id, created_at, created_by, updated_at, updated_by], mode: edit, credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
+        "-Metadata":   { fields: [id, created_at, created_by, updated_at, updated_by], mode: edit, credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
         "Detail":      [pref_label, uri, is_top_concept, status_id, _language]
         "Properties":  [_listproperties]
       actions:
