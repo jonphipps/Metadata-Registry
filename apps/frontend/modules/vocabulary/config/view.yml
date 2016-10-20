@@ -1,6 +1,6 @@
 all:
   stylesheets: [vocabulary/layout, tabs]
-  javascripts: [%sf_jquery_web_dir%/jquery]
+  javascripts: [%sf_jquery_web_dir%/jquery.min.js]
 
 editSuccess:
   stylesheets: [%sf_select2_web_dir%/select2]

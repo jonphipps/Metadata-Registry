@@ -2,7 +2,7 @@ passwordRequestMailSent:
   javascripts: [-*]
 
 all:
-  javascripts: [%sf_jquery_web_dir%/jquery]
+  javascripts: [%sf_jquery_web_dir%/jquery.min.js]
   stylesheets: [../jpAdminPlugin/css/main]
 
 editSuccess:

@@ -27,7 +27,7 @@
     if ($first)
     {
       $first = false;
-      echo "[?php use_javascript(sfConfig::get('sf_prototype_web_dir').'/prototype.min.js') ?]\n";
+      echo "[?php use_javascript(sfConfig::get('sf_jquery_web_dir').'/jquery.min.js') ?]\n";
       echo "[?php use_javascript(sfConfig::get('sf_admin_web_dir').'/js/collapse') ?]\n";
     }
   }

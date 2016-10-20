@@ -42,7 +42,7 @@ if ($displayOn):
   <script src="js/jq/jquery.cluetip.js" type="text/javascript" ></script>
 
   <script type="text/javascript">
-jQuery(document).ready(function(){
+$(document).ready(function(){
   $('#showhidedoc_link').toggle(
       function() {
         $('.frbrDoc').addClass('hidden');
@@ -70,7 +70,7 @@ jQuery(document).ready(function(){
 
       $('#showhidelim_link').click();
 
-  jQuery("#checkchildren").checkboxTree({
+  $("#checkchildren").checkboxTree({
       collapsedarrow: "images/checkboxtree/img-arrow-collapsed.gif",
       expandedarrow: "images/checkboxtree/img-arrow-expanded.gif",
       blankarrow: "images/checkboxtree/img-arrow-blank.gif",

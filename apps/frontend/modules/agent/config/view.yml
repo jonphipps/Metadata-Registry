@@ -1,6 +1,6 @@
 all:
   stylesheets: [agent/layout]
-  javascripts: [%sf_jquery_web_dir%/jquery]
+  javascripts: [%sf_jquery_web_dir%/jquery.min.js]
 
 listSuccess:
   metas:

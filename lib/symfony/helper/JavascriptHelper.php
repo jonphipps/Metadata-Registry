@@ -35,7 +35,7 @@
  *   The function will return references to the JavaScript files created by the +rails+ command in your
  *   <tt>public/javascripts</tt> directory. Using it is recommended as the browser can then cache the libraries
  *   instead of fetching all the functions anew on every request.
- * * Use <tt><?php echo javascript_include_tag 'prototype' ?></tt>: As above, but will only include the Prototype core library,
+ * * Use <tt><?php echo javascript_include_tag 'jquery' ?></tt>: As above, but will only include the Prototype core library,
  *   which means you are able to use all basic AJAX functionality. For the script.aculo.us-based JavaScript helpers,
  *   like visual effects, autocompletion, drag and drop and so on, you should use the method described above.
  * * Use <tt><?php echo define_javascript_functions ?></tt>: this will copy all the JavaScript support functions within a single
@@ -391,7 +391,7 @@ function get_ajax_options()
  */
   function update_element_function($element_id, $options = array())
   {
-    sfContext::getInstance()->getResponse()->addJavascript(sfConfig::get('sf_prototype_web_dir').'/prototype.min.js');
+    sfContext::getInstance()->getResponse()->addJavascript(sfConfig::get('sf_jquery_web_dir').'/jquery.min.js');
 
     $content = escape_javascript(isset($options['content']) ? $options['content'] : '');
 
@@ -452,7 +452,7 @@ function get_ajax_options()
  */
   function remote_function($options)
   {
-    sfContext::getInstance()->getResponse()->addJavascript(sfConfig::get('sf_prototype_web_dir').'/prototype.min.js');
+    sfContext::getInstance()->getResponse()->addJavascript(sfConfig::get('sf_jquery_web_dir').'/jquery.min.js');
 
     $javascript_options = _options_for_ajax($options);
 
@@ -536,7 +536,7 @@ function get_ajax_options()
  */
   function observe_field($field_id, $options = array())
   {
-    sfContext::getInstance()->getResponse()->addJavascript(sfConfig::get('sf_prototype_web_dir').'/prototype.min.js');
+    sfContext::getInstance()->getResponse()->addJavascript(sfConfig::get('sf_jquery_web_dir').'/jquery.min.js');
 
     if (isset($options['frequency']) && $options['frequency'] > 0)
     {
@@ -561,7 +561,7 @@ function get_ajax_options()
  */
   function observe_form($form_id, $options = array())
   {
-    sfContext::getInstance()->getResponse()->addJavascript(sfConfig::get('sf_prototype_web_dir').'/prototype.min.js');
+    sfContext::getInstance()->getResponse()->addJavascript(sfConfig::get('sf_jquery_web_dir').'/jquery.min.js');
 
     if (isset($options['frequency']) && $options['frequency'] > 0)
     {
@@ -607,7 +607,7 @@ function get_ajax_options()
   function visual_effect($name, $element_id = false, $js_options = array())
   {
     $response = sfContext::getInstance()->getResponse();
-    $response->addJavascript(sfConfig::get('sf_prototype_web_dir').'/prototype.min.js');
+    $response->addJavascript(sfConfig::get('sf_jquery_web_dir').'/jquery.min.js');
     $response->addJavascript(sfConfig::get('sf_scriptaculous_web_dir').'/builder');
     $response->addJavascript(sfConfig::get('sf_scriptaculous_web_dir').'/effects');
 
@@ -649,7 +649,7 @@ function get_ajax_options()
   function sortable_element($element_id, $options = array())
   {
     $response = sfContext::getInstance()->getResponse();
-    $response->addJavascript(sfConfig::get('sf_prototype_web_dir').'/prototype.min.js');
+    $response->addJavascript(sfConfig::get('sf_jquery_web_dir').'/jquery.min.js');
     $response->addJavascript(sfConfig::get('sf_scriptaculous_web_dir').'/builder');
     $response->addJavascript(sfConfig::get('sf_scriptaculous_web_dir').'/effects');
     $response->addJavascript(sfConfig::get('sf_scriptaculous_web_dir').'/dragdrop');
@@ -714,7 +714,7 @@ function get_ajax_options()
   function draggable_element($element_id, $options = array())
   {
     $response = sfContext::getInstance()->getResponse();
-    $response->addJavascript(sfConfig::get('sf_prototype_web_dir').'/prototype.min.js');
+    $response->addJavascript(sfConfig::get('sf_jquery_web_dir').'/jquery.min.js');
     $response->addJavascript(sfConfig::get('sf_scriptaculous_web_dir').'/builder');
     $response->addJavascript(sfConfig::get('sf_scriptaculous_web_dir').'/effects');
     $response->addJavascript(sfConfig::get('sf_scriptaculous_web_dir').'/dragdrop');
@@ -743,7 +743,7 @@ function get_ajax_options()
   function drop_receiving_element($element_id, $options = array())
   {
     $response = sfContext::getInstance()->getResponse();
-    $response->addJavascript(sfConfig::get('sf_prototype_web_dir').'/prototype.min.js');
+    $response->addJavascript(sfConfig::get('sf_jquery_web_dir').'/jquery.min.js');
     $response->addJavascript(sfConfig::get('sf_scriptaculous_web_dir').'/builder');
     $response->addJavascript(sfConfig::get('sf_scriptaculous_web_dir').'/effects');
     $response->addJavascript(sfConfig::get('sf_scriptaculous_web_dir').'/dragdrop');
@@ -801,7 +801,7 @@ function javascript_cdata_section($content)
   }
 
   /**
-   * wrapper for script.aculo.us/prototype Ajax.Autocompleter.
+   * wrapper for script.aculo.us/jquery Ajax.Autocompleter.
    *
    * @param string $name  value of input field
    * @param string $value default value for input field
@@ -819,14 +819,14 @@ function javascript_cdata_section($content)
     $tag_options = _convert_options($tag_options);
 
     $response = $context->getResponse();
-    $response->addJavascript(sfConfig::get('sf_prototype_web_dir').'/prototype.min.js');
+    $response->addJavascript(sfConfig::get('sf_jquery_web_dir').'/jquery.min.js');
     $response->addJavascript(sfConfig::get('sf_scriptaculous_web_dir').'/effects');
-    $response->addJavascript(sfConfig::get('sf_prototype_web_dir').'/js/controls');
+    $response->addJavascript(sfConfig::get('sf_jquery_web_dir').'/js/controls');
 
     $comp_options = _convert_options($completion_options);
     if (isset($comp_options['use_style']) && $comp_options['use_style'] == true)
     {
-      $response->addStylesheet('/sf/prototype/css/input_auto_complete_tag');
+      $response->addStylesheet('/sf/jquery/css/input_auto_complete_tag');
     }
 
     $tag_options['id'] = get_id_from_name(isset($tag_options['id']) ? $tag_options['id'] : $name);
@@ -839,7 +839,7 @@ function javascript_cdata_section($content)
   }
 
   /**
-   * wrapper for script.aculo.us/prototype Ajax.InPlaceEditor.
+   * wrapper for script.aculo.us/jquery Ajax.InPlaceEditor.
    * @param string $name id of field that can be edited
    * @param string $url of module/action to be called when ok is clicked
    * @param array $editor_options tag options. (rows, cols, highlightcolor, highlightendcolor, etc...)
@@ -849,7 +849,7 @@ function javascript_cdata_section($content)
   function input_in_place_editor_tag($name, $url, $editor_options = array())
   {
     $response = sfContext::getInstance()->getResponse();
-    $response->addJavascript(sfConfig::get('sf_prototype_web_dir').'/prototype.min.js');
+    $response->addJavascript(sfConfig::get('sf_jquery_web_dir').'/jquery.min.js');
     $response->addJavascript(sfConfig::get('sf_scriptaculous_web_dir').'/effects');
     $response->addJavascript(sfConfig::get('sf_scriptaculous_web_dir').'/js/controls');
 
@@ -905,7 +905,7 @@ function javascript_cdata_section($content)
    * 'cancel_text'         The text on the cancel link. (default: "cancel")
    * 'save_text'           The text on the save link. (default: "ok")
    * 'external_control'    The id of an external control used to enter edit mode.
-   * 'options'             Pass through options to the AJAX call (see prototype's Ajax.Updater)
+   * 'options'             Pass through options to the AJAX call (see jquery's Ajax.Updater)
    * 'with'                JavaScript snippet that should return what is to be sent
    *                       in the AJAX call, 'form' is an implicit parameter
    */
@@ -968,7 +968,7 @@ function javascript_cdata_section($content)
     }
 
   /**
-   * wrapper for script.aculo.us/prototype Ajax.Autocompleter.
+   * wrapper for script.aculo.us/jquery Ajax.Autocompleter.
    *
    * @param string $field_id value of input field
    * @param string $url of module/action to execute for autocompletion

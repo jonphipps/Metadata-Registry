@@ -320,13 +320,14 @@ class Schema extends BaseSchema {
 
     /**
      * gets just the properties, ordered by name
+
      *
-     * @param bool $excludeDeprecated
-     * @param bool $excludeGenerated
+      *@param bool $excludeDeprecated
+     * @param bool $includeGenerated
      *
-     * @return array SchemaProperty
+*@return array SchemaProperty
      */
-    public function getProperties($excludeDeprecated = false, $excludeGenerated = false)
+    public function getProperties($excludeDeprecated = false, $includeGenerated = false)
     {
         $c = new Criteria();
         $c->add( SchemaPropertyPeer::TYPE, 'property' );
@@ -340,13 +341,14 @@ class Schema extends BaseSchema {
 
     /**
      * gets just the classes, ordered by name
+
      *
-     * @param bool $excludeDeprecated
-     * @param bool $excludeGenerated
+*@param bool $excludeDeprecated
+     * @param bool $includeGenerated
      *
-     * @return array SchemaProperty
+*@return array SchemaProperty
      */
-    public function getClasses($excludeDeprecated = false, $excludeGenerated = false)
+    public function getClasses($excludeDeprecated = false, $includeGenerated = false)
     {
         $c = new Criteria();
         $c->add( SchemaPropertyPeer::TYPE, 'class' );
@@ -907,16 +909,17 @@ SQL
 
   /**
    * @param bool $excludeDeprecated
-   * @param bool $excludeGenerated
+   * @param bool $includeGenerated
    * @param bool $includeDeleted
    * @param bool $includeNotAccepted
    * @param array $languages
 
+
    *
-   * @return array
+*@return array
    */
   public function getColumnCounts(
-      $excludeDeprecated = false, $excludeGenerated = false, $includeDeleted = false, $includeNotAccepted = false,
+      $excludeDeprecated = false, $includeGenerated = false, $includeDeleted = false, $includeNotAccepted = false,
       $languages = []
   ) {
     $results       = [];
@@ -924,7 +927,7 @@ SQL
     $con           = Propel::getConnection(SchemaPeer::DATABASE_NAME);
     $id            = $this->getId();
     $deleteSQL     = $includeDeleted ? '' : 'and reg_schema_property_element.deleted_at is null';
-    $generatedSQL  = $excludeGenerated ? 'and is_generated = 0' : '';
+    $generatedSQL  = $includeGenerated ? '' : 'and is_generated = 0';
     $deprecatedSQL = $excludeDeprecated ? 'and reg_schema_property.status_id <> 8' : '';
     $allStatusSQL  = $includeNotAccepted ? '' : 'and reg_schema_property.status_id = 1';
     $languageSQL   = '';
@@ -974,22 +977,23 @@ SQL
 
   /**
    * @param bool $excludeDeprecated
-   * @param bool $excludeGenerated
+   * @param bool $includeGenerated
    * @param bool $includeDeleted
    * @param bool $includeNotAccepted
    * @param array $languages
+
    *
-   * @return array
+*@return array
    */
   public function getDataForExport(
-      $excludeDeprecated = false, $excludeGenerated = false, $includeDeleted = false, $includeNotAccepted = false,
+      $excludeDeprecated = false, $includeGenerated = false, $includeDeleted = false, $includeNotAccepted = false,
       $languages = []
   ) {
     $results       = [];
     $con           = Propel::getConnection(SchemaPeer::DATABASE_NAME);
     $id            = $this->getId();
     $deleteSQL     = $includeDeleted ? '' : 'and reg_schema_property_element.deleted_at is null';
-    $generatedSQL  = $excludeGenerated ? 'and is_generated = 0' : '';
+    $generatedSQL  = $includeGenerated ? '' : 'and is_generated = 0';
     $deprecatedSQL = $excludeDeprecated ? 'and reg_schema_property.status_id <> 8' : '';
     $allStatusSQL = $includeNotAccepted ? '' : 'and reg_schema_property.status_id = 1';
     $languageSQL   = '';

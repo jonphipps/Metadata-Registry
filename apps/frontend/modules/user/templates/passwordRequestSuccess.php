@@ -1,7 +1,4 @@
 <?php use_helper('Validation', 'Javascript') ?>
-<?php use_javascript(sfConfig::get('sf_prototype_web_dir').'/prototype.min.js', 'first') ?>
-
-<?php echo javascript_tag("formUtil.focusOnFirst('email_password');") ?>
 
 <div id="sf_admin_container">
 <div id="login_div">
@@ -20,7 +17,7 @@
             <?php echo form_error('email') ?>
             <label for="email"><?php echo __('email:') ?></label>
             <div class="content">
-               <?php echo input_tag('email', $sf_params->get('email'), 'style=width:300px') ?>
+               <?php echo input_tag('email', $sf_params->get('email'), 'style=width:300px autofocus=autofocus') ?>
             </div>
          </div>
       </fieldset>

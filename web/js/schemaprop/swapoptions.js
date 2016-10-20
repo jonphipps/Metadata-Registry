@@ -2,41 +2,40 @@ function swapOptions()
 {
   //var the_div = $('form_row_concept_property_object');
   var selectedType;
-  if ($("form_row_content_schema_property_mytype")){  
-     selectedType = $("form_row_content_schema_property_mytype").innerHTML.trim();
+  if ($("#form_row_content_schema_property_mytype")){
+     selectedType = document.getElementById("form_row_content_schema_property_mytype").innerHTML.trim();
   } else {
-     selectedType = $('schema_property_type').value;
+     selectedType = $('#schema_property_type').val();
   }
-
-
 
     //showHideParent();
     if(selectedType == 'property' || selectedType == 'subproperty')
     {
-      Element.hide('form_row_schema_property_is_subclass_of');
-      Element.show('form_row_schema_property_domain');
-      Element.show('form_row_schema_property_orange');
-      Element.show('form_row_schema_property_is_subproperty_of');
+        $('#form_row_schema_property_is_subclass_of').toggle(false);
+        $('#form_row_schema_property_domain').toggle(true);
+        $('#form_row_schema_property_orange').toggle(true);
+        $('#form_row_schema_property_is_subproperty_of').toggle(true);
     }
     else
     {
-      Element.hide('form_row_schema_property_is_subproperty_of');
-      Element.hide('form_row_schema_property_domain');
-      Element.hide('form_row_schema_property_orange');
-      Element.show('form_row_schema_property_is_subclass_of');
-      $('schema_property_is_subproperty_of').selectedIndex = '';
+      $('#form_row_schema_property_is_subproperty_of').toggle(false);
+      $('#form_row_schema_property_domain').toggle(false);
+      $('#form_row_schema_property_orange').toggle(false);
+      $('#form_row_schema_property_is_subclass_of').toggle(true);
+      $('#schema_property_is_subproperty_of').selectedIndex = '';
     }
 
 }
 
 function showHideParent(){
-      if ((!document.getElementById("schema_property_is_subclass_of").value &&
-        !document.getElementById("schema_property_is_subproperty_of").value) &&
-        !document.getElementById("schema_property_parent_uri").value
+      if ((!document.getElementById("#schema_property_is_subclass_of").val() &&
+        !document.getElementById("#schema_property_is_subproperty_of").val()) &&
+        !document.getElementById("#schema_property_parent_uri").val()
     ){
-      Element.hide('form_row_schema_property_parent_uri');
+      $('#form_row_schema_property_parent_uri').toggle(false);
     } else {
-      Element.show('form_row_schema_property_parent_uri');
+     $('#form_row_schema_property_parent_uri').toggle(true);
     }
 }
-Event.observe(window, 'load', swapOptions);
+
+$(document).ready(swapOptions);

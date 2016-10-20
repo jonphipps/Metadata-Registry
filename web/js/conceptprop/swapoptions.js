@@ -11,52 +11,55 @@ var showSelectScheme = new Array();
   showSelectScheme[36] = true;
   showSelectScheme[37] = true;
 var vocabId;
-var the_div1 = $('form_row_concept_property_object');
-var the_div2 = $('form_row_concept_property_language');
+var the_div1 = $('#form_row_concept_property_object');
+var the_div2 = $('#form_row_concept_property_language');
 
 function swapOptions()
 {
-  var selectedId = $F('concept_property_skos_property_id');
+  var selectedId = $('#concept_property_skos_property_id').val();
 
-  if(vocabId == null)
+  if(vocabId == undefined)
   {
-    vocabId = $F('concept_property_scheme_id');
+    vocabId = $('#concept_property_scheme_id').val();
   }
+
 
   if(showSelect[selectedId])
   {
-    schemeSelected = $('concept_property_scheme_id');
+    schemeSelected = $('#concept_property_scheme_id');
     if(schemeSelected.value != vocabId)
     {
       schemeSelected.value = vocabId;
-      schemeSelected.onchange();
+      swapOptions;
     }
-    Element.hide('form_row_concept_property_language');
-    Element.hide('form_row_concept_property_scheme_id');
-    Element.show('form_row_concept_property_related_concept_id');
+    $('#form_row_concept_property_language').toggle(false);
+    $('#form_row_concept_property_scheme_id').toggle(false);
+    $('#form_row_concept_property_related_concept_id').toggle(true);
     //new Effect.BlindUp(the_div1);
     //new Effect.BlindUp(the_div2);
-    $('concept_property_related_concept_id').focus();
+    $('#concept_property_related_concept_id').focus();
   }
   else if(showSelectScheme[selectedId])
   {
-    Element.hide('form_row_concept_property_language');
-    Element.show('form_row_concept_property_scheme_id');
-    Element.show('form_row_concept_property_related_concept_id');
+    $('#form_row_concept_property_language').toggle(false);
+    $('#form_row_concept_property_scheme_id').toggle(true);
+    $('#form_row_concept_property_related_concept_id').toggle(true);
     //new Effect.BlindUp(the_div1);
     //new Effect.BlindUp(the_div2);
-    $('concept_property_scheme_id').focus();
+    $('#concept_property_scheme_id').focus();
   }
   else
   {
-    Element.show('form_row_concept_property_language');
-    Element.hide('form_row_concept_property_scheme_id');
-    Element.hide('form_row_concept_property_related_concept_id');
+    $('#form_row_concept_property_language').toggle(true);
+    $('#form_row_concept_property_scheme_id').toggle(false);
+    $('#form_row_concept_property_related_concept_id').toggle(false);
     //Element.show('form_row_concept_property_object');
     //new Effect.BlindUp(the_div1);
     //new Effect.BlindUp(the_div2);
-    $('concept_property_related_concept_id').selectedIndex = '';
-    $('concept_property_object').focus();
+    $('#concept_property_related_concept_id').selectedIndex = '';
+    $('#concept_property_object').focus();
   }
 }
-Event.observe(window, 'load', swapOptions);
+
+$(document).ready(swapOptions); 
+  

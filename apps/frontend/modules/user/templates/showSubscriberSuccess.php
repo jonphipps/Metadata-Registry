@@ -1,6 +1,4 @@
 <?php use_helper('Validation', 'Javascript', 'Date', 'Text', 'Object') ?>
-<?php use_javascript(sfConfig::get('sf_prototype_web_dir') . '/prototype.min.js', 'first') ?>
-<?php use_javascript(sfConfig::get('sf_admin_web_dir') . '/js/setfocus', 'last') ?>
 
 <?php echo javascript_tag("formUtil.focusOnFirst('sf_admin_edit_form');") ?>
 <div id="sf_admin_container">
@@ -27,7 +25,7 @@
                 <?php echo form_error('first_name') ?>
                 <label for="first_name"><?php echo __('first name:') ?></label>
                 <div class="content">
-                    <?php echo object_input_tag($subscriber, 'getFirstName', 'size=30') ?>
+                    <?php echo object_input_tag($subscriber, 'getFirstName', 'size=30 autofocus=autofocus') ?>
                 </div>
             </div>
             <div class="form-row">

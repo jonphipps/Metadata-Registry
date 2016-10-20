@@ -1,5 +1,5 @@
 all:
-  javascripts: [%sf_jquery_web_dir%/jquery]
+  javascripts: [%sf_jquery_web_dir%/jquery.min.js]
 
 editSuccess:
   javascripts: [schemapropel/swapoptions: { position: last }]

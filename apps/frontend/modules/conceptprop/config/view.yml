@@ -1,6 +1,6 @@
 all:
   stylesheets: [conceptprop/layout]
-  javascripts: [%sf_jquery_web_dir%/jquery]
+  javascripts: [%sf_jquery_web_dir%/jquery.min.js]
 
 editSuccess:
   javascripts: [conceptprop/swapoptions: { position: last }]
