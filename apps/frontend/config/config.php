@@ -49,6 +49,7 @@ $dotenv->load();
 /** @var Bugsnag $bugsnag */
 $bugsnag = Bugsnag\Client::make(env('BUGSNAG_API_KEY'));
 $bugsnag->setReleaseStage(env('BUGSNAG_RELEASE_STAGE', 'production'));
+$bugsnag->setErrorReportingLevel(E_ALL & ~E_NOTICE);
 
 if (array_key_exists('SERVER_NAME', $_SERVER)) {
   Bugsnag\Handler::register($bugsnag);
@@ -73,4 +74,6 @@ if (array_key_exists('SERVER_NAME', $_SERVER)) {
       $icon = 'registry_favicon_prod.ico';
   }
   putenv("FAVICON=$icon");
+  $bugsnag->setNotifyReleaseStages([ 'development', 'beta', 'sandbox' ]);
+
 }
