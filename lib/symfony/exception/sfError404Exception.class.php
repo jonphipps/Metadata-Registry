@@ -21,8 +21,8 @@ class sfError404Exception extends sfException
   /**
    * Class constructor.
    *
-   * @param string The error message
-   * @param int    The error code
+   * @param string $message The error message
+   * @param int    $code The error code
    */
   public function __construct($message = null, $code = 0)
   {
@@ -33,7 +33,7 @@ class sfError404Exception extends sfException
   /**
    * Forwards to the 404 action.
    *
-   * @param Exception An Exception implementation instance
+   * @param Exception $exception An Exception implementation instance
    */
   public function printStackTrace($exception = null)
   {

@@ -68,7 +68,7 @@ generator:
         id:                 { credentials: [administrator], mode: edit }
         _scheme_id:         { name: Vocabulary }
         object:             { name: Value }
-        skos_property_id:   { name: skos:property, params: peer_method=getPicklist include_blank=false onchange=swapOptions() }
+        skos_property_id:   { name: skos:property, params: peer_method=getPicklist include_blank=false onchange=swapOptions() autofocus=autofocus }
         related_concept_id: { params: related_class=Concept peer_method=getConceptsByRelatedVocabID }
         language:           { type: select_language_tag, params: include_blank=true limitmethod=getLanguagesForUser }
       display:
