@@ -277,15 +277,16 @@ SQL
 
   /**
    * @param bool $excludeDeprecated
-   * @param bool $excludeGenerated
+   * @param bool $includeGenerated
    * @param bool $includeDeleted
    * @param bool $includeNotAccepted
    * @param array $languages
+
    *
-   * @return array
+*@return array
    */
   public function getColumnCounts(
-      $excludeDeprecated = false, $excludeGenerated = false, $includeDeleted = false, $includeNotAccepted = false,
+      $excludeDeprecated = false, $includeGenerated = false, $includeDeleted = false, $includeNotAccepted = false,
       $languages = []
   ) {
     $results       = [];
@@ -293,7 +294,7 @@ SQL
     $con           = Propel::getConnection(VocabularyPeer::DATABASE_NAME);
     $id            = $this->getId();
     $deleteSQL     = $includeDeleted ? '' : 'and reg_concept_property.deleted_at is null';
-    $generatedSQL  = $excludeGenerated ? 'and is_generated = 0' : '';
+    $generatedSQL  = $includeGenerated ? '' : 'and is_generated = 0';
     $deprecatedSQL = $excludeDeprecated ? 'and reg_concept.status_id <> 8' : '';
     $allStatusSQL  = $includeNotAccepted ? '' : 'and reg_concept.status_id = 1';
     $languageSQL   = '';
@@ -348,22 +349,23 @@ SQL
 
   /**
    * @param bool $excludeDeprecated
-   * @param bool $excludeGenerated
+   * @param bool $includeGenerated
    * @param bool $includeDeleted
    * @param bool $includeNotAccepted
    * @param array $languages
+
    *
-   * @return array
+*@return array
    */
   public function getDataForExport(
-      $excludeDeprecated = false, $excludeGenerated = false, $includeDeleted = false, $includeNotAccepted = false,
+      $excludeDeprecated = false, $includeGenerated = false, $includeDeleted = false, $includeNotAccepted = false,
       $languages = []
   ) {
     $results       = [];
     $con           = Propel::getConnection(VocabularyPeer::DATABASE_NAME);
     $id            = $this->getId();
     $deleteSQL     = $includeDeleted ? '' : 'and reg_concept_property.deleted_at is null';
-    $generatedSQL  = $excludeGenerated ? 'and reg_concept_property.is_generated = 0' : '';
+    $generatedSQL  = $includeGenerated ? '' : 'and reg_concept_property.is_generated = 0';
     $deprecatedSQL = $excludeDeprecated ? 'and reg_concept.status_id <> 8' : '';
     $allStatusSQL  = $includeNotAccepted ? '' : 'and reg_concept.status_id = 1';
     $languageSQL   = '';

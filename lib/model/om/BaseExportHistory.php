@@ -69,10 +69,10 @@ abstract class BaseExportHistory extends BaseObject  implements Persistent {
 
 
 	/**
-	 * The value for the exclude_generated field.
+	 * The value for the include_generated field.
 	 * @var        boolean
 	 */
-	protected $exclude_generated = false;
+	protected $include_generated = false;
 
 
 	/**
@@ -296,14 +296,14 @@ abstract class BaseExportHistory extends BaseObject  implements Persistent {
 	}
 
 	/**
-	 * Get the [exclude_generated] column value.
+	 * Get the [include_generated] column value.
 	 * 
 	 * @return     boolean
 	 */
-	public function getExcludeGenerated()
+	public function getIncludeGenerated()
 	{
 
-		return $this->exclude_generated;
+		return $this->include_generated;
 	}
 
 	/**
@@ -601,20 +601,20 @@ abstract class BaseExportHistory extends BaseObject  implements Persistent {
 	} // setExcludeDeprecated()
 
 	/**
-	 * Set the value of [exclude_generated] column.
+	 * Set the value of [include_generated] column.
 	 * 
 	 * @param      boolean $v new value
 	 * @return     void
 	 */
-	public function setExcludeGenerated($v)
+	public function setIncludeGenerated($v)
 	{
 
-		if ($this->exclude_generated !== $v || $v === false) {
-			$this->exclude_generated = $v;
-			$this->modifiedColumns[] = ExportHistoryPeer::EXCLUDE_GENERATED;
+		if ($this->include_generated !== $v || $v === false) {
+			$this->include_generated = $v;
+			$this->modifiedColumns[] = ExportHistoryPeer::INCLUDE_GENERATED;
 		}
 
-	} // setExcludeGenerated()
+	} // setIncludeGenerated()
 
 	/**
 	 * Set the value of [include_deleted] column.
@@ -861,7 +861,7 @@ abstract class BaseExportHistory extends BaseObject  implements Persistent {
 
 			$this->exclude_deprecated = $rs->getBoolean($startcol + 6);
 
-			$this->exclude_generated = $rs->getBoolean($startcol + 7);
+			$this->include_generated = $rs->getBoolean($startcol + 7);
 
 			$this->include_deleted = $rs->getBoolean($startcol + 8);
 
@@ -1222,7 +1222,7 @@ abstract class BaseExportHistory extends BaseObject  implements Persistent {
 				return $this->getExcludeDeprecated();
 				break;
 			case 7:
-				return $this->getExcludeGenerated();
+				return $this->getIncludeGenerated();
 				break;
 			case 8:
 				return $this->getIncludeDeleted();
@@ -1281,7 +1281,7 @@ abstract class BaseExportHistory extends BaseObject  implements Persistent {
 			$keys[4] => $this->getVocabularyId(),
 			$keys[5] => $this->getSchemaId(),
 			$keys[6] => $this->getExcludeDeprecated(),
-			$keys[7] => $this->getExcludeGenerated(),
+			$keys[7] => $this->getIncludeGenerated(),
 			$keys[8] => $this->getIncludeDeleted(),
 			$keys[9] => $this->getIncludeNotAccepted(),
 			$keys[10] => $this->getSelectedColumns(),
@@ -1345,7 +1345,7 @@ abstract class BaseExportHistory extends BaseObject  implements Persistent {
 				$this->setExcludeDeprecated($value);
 				break;
 			case 7:
-				$this->setExcludeGenerated($value);
+				$this->setIncludeGenerated($value);
 				break;
 			case 8:
 				$this->setIncludeDeleted($value);
@@ -1407,7 +1407,7 @@ abstract class BaseExportHistory extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[4], $arr)) $this->setVocabularyId($arr[$keys[4]]);
 		if (array_key_exists($keys[5], $arr)) $this->setSchemaId($arr[$keys[5]]);
 		if (array_key_exists($keys[6], $arr)) $this->setExcludeDeprecated($arr[$keys[6]]);
-		if (array_key_exists($keys[7], $arr)) $this->setExcludeGenerated($arr[$keys[7]]);
+		if (array_key_exists($keys[7], $arr)) $this->setIncludeGenerated($arr[$keys[7]]);
 		if (array_key_exists($keys[8], $arr)) $this->setIncludeDeleted($arr[$keys[8]]);
 		if (array_key_exists($keys[9], $arr)) $this->setIncludeNotAccepted($arr[$keys[9]]);
 		if (array_key_exists($keys[10], $arr)) $this->setSelectedColumns($arr[$keys[10]]);
@@ -1436,7 +1436,7 @@ abstract class BaseExportHistory extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(ExportHistoryPeer::VOCABULARY_ID)) $criteria->add(ExportHistoryPeer::VOCABULARY_ID, $this->vocabulary_id);
 		if ($this->isColumnModified(ExportHistoryPeer::SCHEMA_ID)) $criteria->add(ExportHistoryPeer::SCHEMA_ID, $this->schema_id);
 		if ($this->isColumnModified(ExportHistoryPeer::EXCLUDE_DEPRECATED)) $criteria->add(ExportHistoryPeer::EXCLUDE_DEPRECATED, $this->exclude_deprecated);
-		if ($this->isColumnModified(ExportHistoryPeer::EXCLUDE_GENERATED)) $criteria->add(ExportHistoryPeer::EXCLUDE_GENERATED, $this->exclude_generated);
+		if ($this->isColumnModified(ExportHistoryPeer::INCLUDE_GENERATED)) $criteria->add(ExportHistoryPeer::INCLUDE_GENERATED, $this->include_generated);
 		if ($this->isColumnModified(ExportHistoryPeer::INCLUDE_DELETED)) $criteria->add(ExportHistoryPeer::INCLUDE_DELETED, $this->include_deleted);
 		if ($this->isColumnModified(ExportHistoryPeer::INCLUDE_NOT_ACCEPTED)) $criteria->add(ExportHistoryPeer::INCLUDE_NOT_ACCEPTED, $this->include_not_accepted);
 		if ($this->isColumnModified(ExportHistoryPeer::SELECTED_COLUMNS)) $criteria->add(ExportHistoryPeer::SELECTED_COLUMNS, $this->selected_columns);
@@ -1513,7 +1513,7 @@ abstract class BaseExportHistory extends BaseObject  implements Persistent {
 
 		$copyObj->setExcludeDeprecated($this->exclude_deprecated);
 
-		$copyObj->setExcludeGenerated($this->exclude_generated);
+		$copyObj->setIncludeGenerated($this->include_generated);
 
 		$copyObj->setIncludeDeleted($this->include_deleted);
 

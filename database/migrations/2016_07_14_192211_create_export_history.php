@@ -20,7 +20,7 @@ class CreateExportHistory extends Migration
             $table->integer('schema_id')->nullable()->index('schema_id');
             $table->string('csv_type', 100)->nullable();;
             $table->boolean('exclude_deprecated')->nullable();;
-            $table->boolean('exclude_generated')->nullable();;
+            $table->boolean('include_generated')->nullable();;
             $table->boolean('include_deleted')->nullable();;
             $table->text('selected_columns')->nullable();
             $table->string('selected_language', 10)->nullable();

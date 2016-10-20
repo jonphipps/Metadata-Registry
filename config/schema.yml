@@ -1108,7 +1108,7 @@ propel:
     exclude_deprecated: 
       type: BOOLEAN
       default: 0
-    exclude_generated: 
+    include_generated:
       type: BOOLEAN
       default: 0
     include_deleted: 

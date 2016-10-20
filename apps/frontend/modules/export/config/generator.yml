@@ -16,7 +16,7 @@ generator:
       created_at:     { name: Date Created, type: plain, params: date_format='s', help: This is the date the export was created }
       user:           { name: Member, type: plain, help: The individual that created the export }
       exclude_deprecated:   { name: Exclude Deprecated, type: checkbox_tag, help: This will exclude from the export currently deprecated elements }
-      exclude_generated:    { name: Exclude Generated, type: checkbox_tag, help: This will exclude from the export inferred elements materialized by the Registry }
+      include_generated:    { name: Include Generated, type: checkbox_tag, help: This will include in the export inferred elements materialized by the Registry }
       include_deleted:
         name: Include Deleted
         type: checkbox_tag
@@ -88,7 +88,7 @@ generator:
 
       display:
         "Export":      [id, selected_columns, selected_language ]
-        "-Advanced":   [exclude_deprecated, exclude_generated, include_deleted, include_not_accepted ]
+        "-Advanced":   [exclude_deprecated, include_generated, include_deleted, include_not_accepted ]
       hide:           [schema_id, user_id, vocabulary_id]
       actions:
         _save:         { name: Export CSV }
@@ -106,7 +106,7 @@ generator:
         _elapsed:      { name: Elapsed }
       display:
         "Import Detail":      [created_at, user]
-        "Results":            [_selected_language, selected_columns_to_string, exclude_deprecated, exclude_generated, include_deleted, include_not_accepted, published_english_version, published_language_version, last_vocab_update ]
+        "Results":            [_selected_language, selected_columns_to_string, exclude_deprecated, include_generated, include_deleted, include_not_accepted, published_english_version, published_language_version, last_vocab_update ]
 #        "Map":                [map]
       actions:
         _list:

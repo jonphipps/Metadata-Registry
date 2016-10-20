@@ -75,7 +75,7 @@ class ExportHistoryMapBuilder {
 
 		$tMap->addColumn('EXCLUDE_DEPRECATED', 'ExcludeDeprecated', 'boolean', CreoleTypes::BOOLEAN, false, null);
 
-		$tMap->addColumn('EXCLUDE_GENERATED', 'ExcludeGenerated', 'boolean', CreoleTypes::BOOLEAN, false, null);
+		$tMap->addColumn('INCLUDE_GENERATED', 'IncludeGenerated', 'boolean', CreoleTypes::BOOLEAN, false, null);
 
 		$tMap->addColumn('INCLUDE_DELETED', 'IncludeDeleted', 'boolean', CreoleTypes::BOOLEAN, false, null);
 
