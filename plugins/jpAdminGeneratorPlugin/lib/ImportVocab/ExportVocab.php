@@ -39,7 +39,7 @@ class ExportVocab {
     /**
      * @var bool
      */
-    private $excludeGenerated;
+    private $includeGenerated;
     /**
      * @var string
      */
@@ -101,9 +101,9 @@ class ExportVocab {
         $this->schema->getAgentId() . DIRECTORY_SEPARATOR .
         'exports' . DIRECTORY_SEPARATOR);
 
-    $this->includeDeleted    = $export->getIncludeDeleted();
-    $this->excludeDeprecated = $export->getExcludeDeprecated();
-    $this->excludeGenerated  = $export->getExcludeGenerated();
+    $this->includeDeleted     = $export->getIncludeDeleted();
+    $this->excludeDeprecated  = $export->getExcludeDeprecated();
+    $this->includeGenerated   = $export->getIncludeGenerated();
     $this->includeNotAccepted = $export->getIncludeNotAccepted();
 
     $this->selectedColumns = $export->getSelectedColumns();
@@ -197,7 +197,7 @@ class ExportVocab {
           }
 
           $dataArray = $this->schema->getDataForExport($this->excludeDeprecated,
-              $this->excludeGenerated,
+              $this->includeGenerated,
               $this->includeDeleted, $this->includeNotAccepted,
               $this->languages);
 
@@ -321,7 +321,7 @@ class ExportVocab {
   public function findColumns()
   {
     $propertiesInUse = $this->schema->getColumnCounts($this->excludeDeprecated,
-        $this->excludeGenerated,
+        $this->includeGenerated,
         $this->includeDeleted, $this->includeNotAccepted,  $this->languages);
     $this->setColumns($propertiesInUse);
 
@@ -658,7 +658,7 @@ class ExportVocab {
       $columns = [];
       $languages = $this->getLanguages();
       if ('schema' === $this->type) {
-        $columnCounts = $this->schema->getColumnCounts($this->excludeDeprecated, $this->excludeGenerated, $this->includeDeleted,
+        $columnCounts = $this->schema->getColumnCounts($this->excludeDeprecated, $this->includeGenerated, $this->includeDeleted,
             $this->includeNotAccepted);
       } else {
         $columnCounts = \VocabularyPeer::getColumnCounts($this->getSchema()->getId());

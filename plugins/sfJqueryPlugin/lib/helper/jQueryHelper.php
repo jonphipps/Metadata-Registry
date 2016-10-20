@@ -2,7 +2,7 @@
 /**
  * Include the jquery.js core whenever the jQuery helper is needed
  */
-sfContext::getInstance()->getResponse()->addJavascript('jq/jquery');
+sfContext::getInstance()->getResponse()->addJavascript(sfConfig::get('sf_jquery_web_dir') . '/jquery.min.js');
 
 /**
    * Periodically calls the specified url ('url') every 'frequency' seconds (default is 10).

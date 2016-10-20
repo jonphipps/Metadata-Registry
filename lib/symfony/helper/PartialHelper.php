@@ -228,7 +228,6 @@ function get_component($moduleName, $componentName, $vars = array())
  *
  * @param  string $templateName partial name
  * @param  array $vars variables to be made accessible to the partial
- * @return void
  * @see    get_partial, include_component
  */
 function include_partial($templateName, $vars = array())
