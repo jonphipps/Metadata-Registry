@@ -14,8 +14,8 @@ class AddFileAndMapToExportHistory extends Migration
     public function up()
     {
         Schema::table('reg_export_history', function (Blueprint $table) {
-            $table->string('file');
-            $table->text('map');
+            $table->string('file')->nullable();
+            $table->longText('map')->nullable();
         });
     }
 
