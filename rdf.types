@@ -1,0 +1,16 @@
+  charset       utf-8;
+  charset_types application/rdf+xml text/n3 text/turtle text/rdf+nt application/ld+json application/rdf+json application/json text/csv;
+
+  types {
+    application/rdf+xml  xml;
+    application/rdf+xml  rdf;
+    application/rdf+xml  rdfs;
+    application/rdf+xml  owl;
+    text/n3              n3;
+    text/turtle          ttl;
+    text/rdf+nt          nt;
+    application/ld+json  jsonld;
+    application/rdf+json rdf-json;
+    text/html            microdata;
+    text/csv             csv;
+  }
