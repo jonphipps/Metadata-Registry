@@ -11,9 +11,9 @@ function updateUri () {
   }
   if (updateIt) {
     tokenValue = S(labelField.val()).camelize().s;
-    uriField.val() = domainField.val() + tokenValue;
+    uriField.val(domainField.val() + tokenValue);
     labelField.defaultValue = labelValue;
-    tokenField.val() = tokenValue;
+    tokenField.val(tokenValue);
     tokenField.select();
   }
 }
@@ -27,10 +27,10 @@ $(document).ready(function () {
 
   var updateParent = function (sel) {
     if (sel.select2("val") !== '') {
-      $ParentUri.val() = sel.select2("data").text.split("--")[1].trim();
+      $ParentUri.val(sel.select2("data").text.split("--")[1].trim());
       $parentValue = $ParentUri.val();
     } else {
-      $ParentUri.val() = '';
+      $ParentUri.val('');
     }
     $ParentUri.focus();
   };
