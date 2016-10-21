@@ -37,7 +37,7 @@ foreach ($this->getColumns('list.display') as $column): ?>
 <?php else: ?>
 <?php $helper = $this->getParameterValue('list.fields.'.$column->getName().'.helper') ?>
   <?php if ($helper): ?>
-      [?php use_helper('text') ?]
+      [?php use_helper('Text') ?]
       <?php echo $this->getClass('td', $column, 'list')?>[?php $value = <?php echo $helper ?>(<?php echo $this->getColumnListTag($column) ?>); echo ($value) ? $value : '&nbsp;' ?]</td>
   <?php else: ?>
       <?php echo $this->getClass('td', $column, 'list')?>[?php $value = <?php echo $this->getColumnListTag($column) ?>; echo ($value) ? $value : '&nbsp;' ?]</td>
