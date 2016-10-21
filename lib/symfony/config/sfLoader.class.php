@@ -41,7 +41,7 @@ class sfLoader
   /**
    * Gets directories where controller classes are stored for a given module.
    *
-   * @param string The module name
+   * @param string $moduleName The module name
    *
    * @return array An array of directories
    */
@@ -70,7 +70,7 @@ class sfLoader
   /**
    * Gets directories where template files are stored for a given module.
    *
-   * @param string The module name
+   * @param string $moduleName The module name
    *
    * @return array An array of directories
    */
@@ -100,8 +100,8 @@ class sfLoader
   /**
    * Gets the template directory to use for a given module and template file.
    *
-   * @param string The module name
-   * @param string The template file
+   * @param string $moduleName The module name
+   * @param string $templateFile The template file
    *
    * @return string A template directory
    */
@@ -122,8 +122,8 @@ class sfLoader
   /**
    * Gets the template to use for a given module and template file.
    *
-   * @param string The module name
-   * @param string The template file
+   * @param string $moduleName The module name
+   * @param string $templateFile The template file
    *
    * @return string A template path
    */
@@ -137,7 +137,7 @@ class sfLoader
   /**
    * Gets the i18n directory to use for a given module.
    *
-   * @param string The module name
+   * @param string $moduleName The module name
    *
    * @return string An i18n directory
    */
@@ -163,8 +163,8 @@ class sfLoader
   /**
    * Gets directories where template files are stored for a generator class and a specific theme.
    *
-   * @param string The generator class name
-   * @param string The theme name
+   * @param string $class The generator class name
+   * @param string $theme The theme name
    *
    * @return array An array of directories
    */
@@ -185,8 +185,8 @@ class sfLoader
   /**
    * Gets directories where the skeleton is stored for a generator class and a specific theme.
    *
-   * @param string The generator class name
-   * @param string The theme name
+   * @param string $class The generator class name
+   * @param string $theme The theme name
    *
    * @return array An array of directories
    */
@@ -207,9 +207,9 @@ class sfLoader
   /**
    * Gets the template to use for a generator class.
    *
-   * @param string The generator class name
-   * @param string The theme name
-   * @param string The template path
+   * @param string $class The generator class name
+   * @param string $theme The theme name
+   * @param string $path The template path
    *
    * @return string A template path
    *
@@ -232,7 +232,7 @@ class sfLoader
   /**
    * Gets the configuration file paths for a given relative configuration path.
    *
-   * @param string The configuration path
+   * @param string $configPath The configuration path
    *
    * @return array An array of paths
    */
@@ -279,7 +279,7 @@ class sfLoader
   /**
    * Gets the helper directories for a given module name.
    *
-   * @param string The module name
+   * @param string $moduleName The module name
    *
    * @return array An array of directories
    */
@@ -346,7 +346,7 @@ class sfLoader
       if (!$included)
       {
         // search in the include path
-        if ((@include('helper/'.$fileName)) != 1)
+        if ((@include 'helper/'.$fileName ) != 1)
         {
           $dirs = array_merge($dirs, explode(PATH_SEPARATOR, get_include_path()));
 
