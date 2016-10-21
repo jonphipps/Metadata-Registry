@@ -365,7 +365,7 @@ SQL
     $con           = Propel::getConnection(VocabularyPeer::DATABASE_NAME);
     $id            = $this->getId();
     $deleteSQL     = $includeDeleted ? '' : 'and reg_concept_property.deleted_at is null';
-    $generatedSQL  = $includeGenerated ? '' : 'and reg_concept_property.is_generated = 0';
+    $generatedSQL  = $includeGenerated ? 'and reg_concept_property.is_generated = 0' : '';
     $deprecatedSQL = $excludeDeprecated ? 'and reg_concept.status_id <> 8' : '';
     $allStatusSQL  = $includeNotAccepted ? '' : 'and reg_concept.status_id = 1';
     $languageSQL   = '';
