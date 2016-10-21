@@ -25,7 +25,7 @@ class CreateRegConceptPropertyTable extends Migration
                 $table->integer('concept_id')->index('concept_id');
                 $table->boolean('primary_pref_label')->nullable();
                 $table->integer('skos_property_id')->nullable()->index('skos_property_id');
-                $table->text('object')->default('');
+                $table->text('object')->default('')->nullable();
                 $table->integer('scheme_id')->nullable()->index('scheme_id');
                 $table->integer('related_concept_id')->nullable()->index('related_concept_id');
                 $table->char('language', 6)->nullable()->default('en');
