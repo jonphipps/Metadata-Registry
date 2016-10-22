@@ -13,7 +13,7 @@
     <link rel="icon" href="/<?php echo env('FAVICON', 'registry_favicon_prod.ico') ?>"/>
 
     <?php if (has_slot('feeds')): ?><?php include_slot('feeds') ?><?php endif; ?>
-    <script src="//d2wy8f7a9ursnm.cloudfront.net/bugsnag-3.min.js" data-apikey="abb0b2a18c75a33583c907a7adc925a8"></script>
+    <script src="//d2wy8f7a9ursnm.cloudfront.net/bugsnag-3.min.js" data-apikey="abb0b2a18c75a33583c907a7adc925a8" data-notifyReleaseStages=["beta","production"] data-releasestage="<?php echo env('BUGSNAG_RELEASE_STAGE', '') ?>"></script>
 </head>
 <body>
 <?php use_helper('Javascript') ?>
