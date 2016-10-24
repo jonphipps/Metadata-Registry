@@ -40,12 +40,14 @@ class contentActions extends sfActions
     $this->outputFile('unavailable');
   }
 
+
   /**
-  * retrieves and parses file for output
-  *
-  * @return string
-  * @param $file Base name of file to parse
-  */
+   * retrieves and parses file for output
+   *
+   * @param string $infile Base name of file to parse
+   *
+   * @return string
+   */
   public function outputFile($infile)
   {
     require_once('markdown.php');
@@ -90,12 +92,11 @@ class contentActions extends sfActions
     }
   }
 
+
   /**
-  * Displays the latest changes to the registry
-  *
-  * @return return_type
-  * @param  var_type $var
-  */
+   * Displays the latest changes to the registry
+   *
+   */
   public function executeAllHistoryFeeds()
   {
     $this->setTemplate('allFeeds');
