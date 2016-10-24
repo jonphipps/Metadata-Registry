@@ -67,7 +67,8 @@
         "laravelcollective/html": "dev-symfony as 5.3.x-dev",
         "bugsnag/bugsnag": "^3.0",
         "bugsnag/bugsnag-laravel": "^2.0",
-        "chrisboulton/php-resque": "dev-master"
+        "chrisboulton/php-resque": "dev-master",
+        "michelf/php-markdown": "^1.6"
     },
     "autoload": {
         "psr-4": {

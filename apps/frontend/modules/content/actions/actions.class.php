@@ -1,5 +1,5 @@
 <?php
-
+use \Michelf\Markdown;
 /**
  * content actions.
  *
@@ -50,7 +50,6 @@ class contentActions extends sfActions
    */
   public function outputFile($infile)
   {
-    require_once('markdown.php');
 
     $hostPrefix = '/content/';
 
@@ -67,7 +66,7 @@ class contentActions extends sfActions
       $file = $fileRoot . '_en.txt';
     }
 
-    $this->html = markdown(file_get_contents($file));
+    $this->html = Markdown::defaultTransform(file_get_contents($file));
 
     $this->getContext()->getResponse()->setTitle(sfConfig::get('app_title_prefix') . $infile);
   }
