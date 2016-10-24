@@ -52,7 +52,6 @@ spec/coverage
 .env.*
 dump.rdb
 /node_modules
-composer.lock
 
 Homestead.json
 Homestead.yaml
