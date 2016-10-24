@@ -61,6 +61,7 @@ default:
     bower_web_dir:          /js/components
     jquery_web_dir:         /js/components/jquery/dist
     jqwidgets_web_dir:      /js/components/jqwidgets/jqwidgets
+    semanticui_web_dir:     /js/semantic/dist/components
     admin_web_dir:          /sf/sf_admin
     web_debug_web_dir:      /sf/sf_web_debug
     calendar_web_dir:       /sf/calendar
