@@ -10,7 +10,7 @@ You can now connect to your Registry profile with:
 login name: <?php echo $nickname ?>
   password: <?php echo $password ?>
 
-To get connected, go to the login page (<?php echo "http://" . $_SERVER["HTTP_HOST"] ?>/login.html).
+To get connected, go to the login page (<?php echo url_for('@login', true) ?>).
 
 We hope to see you soon on The Registry!
 

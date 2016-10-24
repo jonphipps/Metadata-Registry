@@ -12,8 +12,8 @@ login name: <strong><?php echo $nickname ?></strong><br/>
   password: <strong><?php echo $password ?></strong>
 </p>
 
-<p>To get connected, go to the <?php echo link_to('Registry login page', "http://"  . $_SERVER["HTTP_HOST"]  . '/login.html') ?>.</p>
+<p>To get connected, go to the <?php echo link_to('Registry login page', '@login', [ 'absolute' => true]) ?>.</p>
 
-<p>We hope to see you soon on the <?php echo link_to('Registry!', '@homepage') ?></p>
+<p>We hope to see you soon on the <?php echo link_to('Registry!', '@homepage', [ 'absolute' => true ]) ?></p>
 
 <p>The Registry email robot</p>
