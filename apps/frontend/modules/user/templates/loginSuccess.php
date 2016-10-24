@@ -1,4 +1,6 @@
-<?php use_helper('Validation', 'Javascript') ?>
+<?php use_helper('Validation');
+/** @var sfWebRequest $sf_request */
+ $newAccount = $sf_request->getAttribute('newaccount', false) ?>
 <div id="login_div">
     <div id="sf_admin_container">
         <div id="sf_admin_header" style="border-bottom: 1px solid lightgray">
@@ -29,7 +31,7 @@
                 </div>
             <?php endif; ?>
 
-            <?php echo form_tag($sf_request->getAttribute('newaccount', false) ? '@add_account' : '@login',
+            <?php echo form_tag($newAccount ? '@add_account' : '@login',
                                 ['id'=>'login_form', 'autocomplete'=>'off']) ?>
             <fieldset id="sf_fieldset_login">
                 <div class="form-row">
@@ -50,13 +52,10 @@
                         }
                         ?>
                         <?php echo input_password_tag('password', null, [ 'required' ]) ?>
-                        &nbsp;<?php echo link_to(__('forgot your password?'),
-                                                 '@user_require_password',
-                                                 $param) ?>
+                        &nbsp;<?php echo $newAccount ? '' : link_to(__('forgot your password?'), '@user_require_password', $param) ?>
                     </div>
                 </div>
-                <div id="new_account" <?php echo $sf_request->getAttribute('newaccount',
-                                                                           false) ? '' : ' style="display: none"' ?>>
+                <div id="new_account" <?php echo $newAccount ? '' : ' style="display: none"' ?>>
                     <div class="form-row">
                         <label for="password_bis" class="required"><?php echo __('confirm password:') ?></label>
                         <div class="content">
@@ -72,39 +71,19 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-row">
-                    <?php echo checkbox_tag('new',
-                                            1,
-                                            $sf_request->getAttribute('newaccount', false) ? 1 : 0,
-                                            [ 'onclick' => 'toggleForm()' ]) ?>
-                    &nbsp;<label for="new" style="display: inline; float: none"><?php echo __('click here to create a new account') ?></label>
-                </div>
             </fieldset>
             <?php echo input_hidden_tag('referer', $sf_request->getAttribute('referer')) ?>
             <ul class="sf_admin_actions">
-                <li><?php echo submit_tag(__('sign in'), 'class=sf_admin_action_save') ?></li>
+                <li><?php echo submit_tag(__($newAccount ? 'register' : 'sign in'),
+                        'class=sf_admin_action_save') ?></li>
+                <li><?php echo $newAccount ? '' : button_to(__('Register a new account'),
+                        '@add_account',
+                        [
+                            'title' => 'Register a new account',
+                            'class' => 'sf_admin_action_create',
+                        ]) ?></li>
             </ul>
             </form></div>
         <p style="padding-left: 1rem"><?php echo __('Note: User Registration is only required if you want to register or maintain resources.') ?></p>
     </div>
 </div>
-<?php echo javascript_tag("function toggleForm()
-{
-  if (Element.visible('new_account'))
-  {
-    " . visual_effect('BlindUp', 'new_account') . "
-    $('login_form').action = '" . url_for('@login') . "';
-    $('forgot').show();
-    $('nickname').activate();
-  }
-  else
-  {
-    " . visual_effect('BlindDown', 'new_account') . "
-    $('login_form').action = '" . url_for('@add_account') . "';
-    $('forgot').hide();
-    $('nickname').activate();
-  }
-
-  return false;
-}") ?>
-

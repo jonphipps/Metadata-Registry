@@ -44,12 +44,17 @@ class userActions extends autoUserActions
   public function executeLogin()
   {
     $request = $this->getRequest();
-    //$request->setAttribute('newaccount', false);
+    $request->setAttribute('newaccount', false);
 
     if ($request->getMethod() != sfRequest::POST)
     {
       // display the form
-      $this->getResponse()->setTitle('The Registry! :: sign in / register');
+      $response = $this->getResponse();
+      $response->setTitle('The Registry! :: sign in / register');
+      $AttributeHolder = $request->getAttributeHolder();
+      $referrer = $request->getReferer();
+      $AttributeHolder->set('referer', $referrer);
+
       return sfView::SUCCESS;
     }
     else
@@ -73,7 +78,7 @@ class userActions extends autoUserActions
 
     $this->getUser()->signOut();
 
-    $this->redirect($referer);
+    $this->redirect('@homepage');
   }
 
   public function executePasswordRequest()

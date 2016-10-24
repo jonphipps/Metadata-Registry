@@ -549,7 +549,7 @@ div.form-errors dd
 
 div#login_div {
 	margin:auto;
-	width:520px;
+	/* width:520px; */
 }
 
 div#tab_container

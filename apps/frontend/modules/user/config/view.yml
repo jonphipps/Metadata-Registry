@@ -7,3 +7,4 @@ all:
 
 editSuccess:
   javascripts: [setfocus: { position: last }]
+
