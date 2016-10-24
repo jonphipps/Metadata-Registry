@@ -82,8 +82,8 @@ generator:
         _save:         { credentials: [[administrator, hasAgents, schemamaintainer, schemaadmin]] }
         _delete:       { credentials: [administrator] }
         _save_and_add: { credentials: [administrator] }
-        _cancel:       { only_for: create, query_string: {sf_request: agent_id}, route: agent_schema, credentials: [[administrator, hasAgents, schemamaintainer, schemaadmin]]}
-        _cancel:       { only_for: edit, query_string: {agent_id: agent_id}, route: agent_schema, credentials: [[administrator, hasAgents, schemamaintainer, schemaadmin]] }
+        _cancel:       { only_for: create, query_string: {sf_request: agent_id}, route: agent_schema_list, credentials: [[administrator, hasAgents, schemamaintainer, schemaadmin]]}
+        _cancel:       { only_for: edit, query_string: {agent_id: agent_id}, route: agent_schema_list, credentials: [[administrator, hasAgents, schemamaintainer, schemaadmin]] }
       urlfilters:
         agent_id:     agent_id
         user_id:      user_id
