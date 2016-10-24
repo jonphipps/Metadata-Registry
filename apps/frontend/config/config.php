@@ -14,7 +14,7 @@ require_once( $sf_symfony_lib_dir . '/util/sfCore.class.php' );
 sfCore::bootstrap($sf_symfony_lib_dir, $sf_symfony_data_dir);
 
 //initialize composer through laravel bootstrap
-require SF_ROOT_DIR . DIRECTORY_SEPARATOR . 'bootstrap/autoload.php';
+require_once SF_ROOT_DIR . DIRECTORY_SEPARATOR . 'bootstrap/autoload.php';
 
 //initialize laravel
 $container = new Container;
