@@ -1,0 +1,7 @@
+rules:
+  property-sort-order: 0
+  no-url-protocols: 0
+  no-important: 0
+  nesting-depth:
+    - 1
+    - max-depth: 3
