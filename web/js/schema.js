@@ -1,16 +1,27 @@
 function updateUri() {
-    var domainField = $('schema_base_domain'),
-        tokenField = $('schema_token'),
-        uriField = $('schema_uri'),
-        updateIt = true;
+    var domainField = $('#schema_base_domain'),
+        tokenField = $('#schema_token'),
+        uriField = $('#schema_uri'),
+        newVal = domainField.val() + tokenField.val();
+    if ('' != tokenField.val() && uriField.val() != newVal) {
+        swal({
+            title: "Update URI?",
+            text: "Automatically update the URI to '" + newVal + "''?",
+            type: "question",
+            showCancelButton: true,
+            confirmButtonText: "Yes, please",
+            cancelButtonText: "No!"
+        }).then(function () {
+            uriField.val(domainField.val() + tokenField.val());
+            typeField = $('#schema_ns_type');
+            typeField.change();
+            typeField.focus();
+        }, function (dismiss) {
+            uriField.focus();
 
-    if ('' != tokenField.value && uriField.value != domainField.value + tokenField.value) {
-        updateIt = confirm("Automatically update the URI based on your changes?");
+        })
     }
-    if (updateIt) {
-        uriField.value = domainField.value + tokenField.value;
-        $('#schema_ns_type').change();
-    }
+
 }
 
 $(document).ready(function () {
