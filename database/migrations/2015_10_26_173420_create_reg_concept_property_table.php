@@ -31,6 +31,7 @@ class CreateRegConceptPropertyTable extends Migration
                 $table->char('language', 6)->nullable()->default('en');
                 $table->integer('status_id')->nullable()->default(1)->index('status_id');
                 $table->boolean('is_concept_property')->default(0);
+                $table->boolean('is_generated')->default(0);
             });
     }
 

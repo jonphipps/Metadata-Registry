@@ -33,7 +33,7 @@ class RenameCsvTypeToProfileIdAndAddForeignKeyOnExportHistory extends Migration
   {
     Schema::table('reg_export_history',
         function (Blueprint $table) {
-          $table->dropForeign('reg_export_history_ibfk_1');
+          $table->dropForeign('reg_export_history_ibfk_4');
         });
   }
 }

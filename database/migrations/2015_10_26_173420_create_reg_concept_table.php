@@ -23,7 +23,7 @@ class CreateRegConceptTable extends Migration
                 $table->integer('created_user_id')->nullable()->index('created_user_id');
                 $table->integer('updated_user_id')->nullable()->index('last_updated_by_user_id');
                 $table->string('uri')->default('')->index('reg_concept_idx1');
-                $table->string('pref_label', 175)->default('')->index('pref_label');
+                $table->string('pref_label', 191)->default('')->index('pref_label');
                 $table->integer('vocabulary_id')->nullable()->index('vocabulary_id');
                 $table->boolean('is_top_concept')->nullable();
                 $table->integer('pref_label_id')->nullable()->index('pref_label_id');

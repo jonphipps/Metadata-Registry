@@ -16,7 +16,7 @@ class UpdateProfilePropertiesAddNamespace extends Migration
     {
         Schema::table('profile_property', function(Blueprint $table)
         {
-            $table->char('namespce',255);
+            $table->string('namespce',255);
         });
 
         $properties = ProfileProperty::all();
