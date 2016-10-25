@@ -1,15 +1,14 @@
 {
   "name": "jqwidgets",
   "homepage": "https://github.com/jqwidgets/jQWidgets",
-  "version": "4.2.1",
-  "_release": "4.2.1",
+  "version": "4.3.0",
+  "_release": "4.3.0",
   "_resolution": {
     "type": "version",
-    "tag": "v4.2.1",
-    "commit": "9cb085907b7499adc26589a202736a0c5573480c"
+    "tag": "v4.3.0",
+    "commit": "5dd13e18e7e2e126313a3e09fd219f1babc12465"
   },
   "_source": "https://github.com/jqwidgets/jQWidgets.git",
   "_target": "^4.2.1",
-  "_originalSource": "jqwidgets",
-  "_direct": true
+  "_originalSource": "jqwidgets"
 }
