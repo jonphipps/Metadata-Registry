@@ -1108,7 +1108,7 @@ propel:
     exclude_deprecated: 
       type: BOOLEAN
       default: 0
-    include_generated:
+    include_generated: 
       type: BOOLEAN
       default: 0
     include_deleted: 
@@ -1140,10 +1140,8 @@ propel:
     file: 
       type: VARCHAR
       size: 255
-      required: true
     map: 
       type: LONGVARCHAR
-      required: true
   reg_file_import_history: 
     _attributes: 
       phpName: FileImportHistory
@@ -1397,6 +1395,10 @@ propel:
     repo: 
       type: VARCHAR
       size: 255
+    prefix: 
+      type: VARCHAR
+      size: 255
+      required: true
     _indexes: 
       last_updated_by_user_id: 
         - updated_user_id

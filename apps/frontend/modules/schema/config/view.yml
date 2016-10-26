@@ -1,6 +1,6 @@
 editSuccess:
-  stylesheets: [%sf_select2_web_dir%/select2]
-  javascripts: [schema: { position: last }, components/jquery/dist/jquery.min.js, %sf_select2_web_dir%/select2]
+  stylesheets: [%sf_select2_web_dir%/select2, /js/components/sweetalert2/dist/sweetalert2.css]
+  javascripts: [schema: { position: last }, %sf_jquery_web_dir%/jquery.min.js, %sf_select2_web_dir%/select2, /js/components/sweetalert2/dist/sweetalert2.min.js]
 
 exportSuccess:
   stylesheets: [%sf_select2_web_dir%/select2]

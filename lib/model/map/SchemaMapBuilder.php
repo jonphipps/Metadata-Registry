@@ -111,6 +111,8 @@ class SchemaMapBuilder {
 
 		$tMap->addColumn('REPO', 'Repo', 'string', CreoleTypes::VARCHAR, false, 255);
 
+		$tMap->addColumn('PREFIX', 'Prefix', 'string', CreoleTypes::VARCHAR, true, 255);
+
 	} // doBuild()
 
 } // SchemaMapBuilder

@@ -193,6 +193,13 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 	 */
 	protected $repo;
 
+
+	/**
+	 * The value for the prefix field.
+	 * @var        string
+	 */
+	protected $prefix;
+
 	/**
 	 * @var        Agent
 	 */
@@ -686,6 +693,17 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 	{
 
 		return $this->repo;
+	}
+
+	/**
+	 * Get the [prefix] column value.
+	 * 
+	 * @return     string
+	 */
+	public function getPrefix()
+	{
+
+		return $this->prefix;
 	}
 
 	/**
@@ -1271,6 +1289,28 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 	} // setRepo()
 
 	/**
+	 * Set the value of [prefix] column.
+	 * 
+	 * @param      string $v new value
+	 * @return     void
+	 */
+	public function setPrefix($v)
+	{
+
+		// Since the native PHP type for this column is string,
+		// we will cast the input to a string (if it is not).
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->prefix !== $v) {
+			$this->prefix = $v;
+			$this->modifiedColumns[] = SchemaPeer::PREFIX;
+		}
+
+	} // setPrefix()
+
+	/**
 	 * Hydrates (populates) the object variables with values from the database resultset.
 	 *
 	 * An offset (1-based "start column") is specified so that objects can be hydrated
@@ -1337,12 +1377,14 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 
 			$this->repo = $rs->getString($startcol + 24);
 
+			$this->prefix = $rs->getString($startcol + 25);
+
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 25; // 25 = SchemaPeer::NUM_COLUMNS - SchemaPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 26; // 26 = SchemaPeer::NUM_COLUMNS - SchemaPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Schema object", $e);
@@ -1883,6 +1925,9 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 			case 24:
 				return $this->getRepo();
 				break;
+			case 25:
+				return $this->getPrefix();
+				break;
 			default:
 				return null;
 				break;
@@ -1928,6 +1973,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 			$keys[22] => $this->getPrefixes(),
 			$keys[23] => $this->getLanguages(),
 			$keys[24] => $this->getRepo(),
+			$keys[25] => $this->getPrefix(),
 		);
 		return $result;
 	}
@@ -2034,6 +2080,9 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 			case 24:
 				$this->setRepo($value);
 				break;
+			case 25:
+				$this->setPrefix($value);
+				break;
 		} // switch()
 	}
 
@@ -2082,6 +2131,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[22], $arr)) $this->setPrefixes($arr[$keys[22]]);
 		if (array_key_exists($keys[23], $arr)) $this->setLanguages($arr[$keys[23]]);
 		if (array_key_exists($keys[24], $arr)) $this->setRepo($arr[$keys[24]]);
+		if (array_key_exists($keys[25], $arr)) $this->setPrefix($arr[$keys[25]]);
 	}
 
 	/**
@@ -2118,6 +2168,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(SchemaPeer::PREFIXES)) $criteria->add(SchemaPeer::PREFIXES, $this->prefixes);
 		if ($this->isColumnModified(SchemaPeer::LANGUAGES)) $criteria->add(SchemaPeer::LANGUAGES, $this->languages);
 		if ($this->isColumnModified(SchemaPeer::REPO)) $criteria->add(SchemaPeer::REPO, $this->repo);
+		if ($this->isColumnModified(SchemaPeer::PREFIX)) $criteria->add(SchemaPeer::PREFIX, $this->prefix);
 
 		return $criteria;
 	}
@@ -2219,6 +2270,8 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 		$copyObj->setLanguages($this->languages);
 
 		$copyObj->setRepo($this->repo);
+
+		$copyObj->setPrefix($this->prefix);
 
 
 		if ($deepCopy) {
