@@ -18,13 +18,13 @@ generator:
       last_updated:   { name: Last Updated, type: plain, params: date_format='s', help: This is the date the Vocabulary was last updated }
       agent:          { name: Project, help: The project to which this vocabulary belongs }
       agent_id:       { name: Project, help: The project to which this vocabulary belongs }
-      name:           { name: Label, help: A descriptive name for the vocabulary. This will be displayed in lists of vocabularies. }
+      name:           { name: Label, help: A human-readable descriptive label for the vocabulary. This will be displayed in lists of vocabularies. }
       note:           { name: Description, help: A general description of this vocabulary }
       url:            { name: URL, help: A non-Registry URL that contains more information about this vocabulary }
       base_domain:    { name: Base Domain, help: The root of all URIs for this vocabulary and its terms. Defaults to the Base Domain set by the Owner of this vocabulary. }
       token:          { name: Token, help: A unique token representing this vocabulary. This is combined with the Base Domain to create a unique Namespace for this vocabulary. }
       uri:            { name: URI, help: The URI of this vocabulary. By default this will be a concatenation of the Base Domain and the Token. }
-      community:      { name: Community, help: Tags identifying communities of practice that this vocabulary addresses }
+      community:      { name: Tags, help: Tags identifying communities of practice that this vocabulary addresses }
       language:       { name: Default Language, help: Default language for the textual properties of this vocabulary }
       languages:      { name: Available Languages, help: Available languages for the textual properties of this vocabulary }
       status_id:      { name: Default Status, help: Default status for the concept properties of this vocabulary }
