@@ -87,9 +87,12 @@ class schemaActions extends autoSchemaActions
         $this->properties = $this->schema->getProperties($this->excludeDeprecated, $this->excludeGenerated);
         $this->classes = $this->schema->getClasses($this->excludeDeprecated, $this->excludeGenerated);
         $filename = preg_replace("/.*\/(.*)[\/#]$/u", "$1.xml", $this->schema->getUri());
-        $this->getResponse()->setHttpHeader('Content-Disposition', 'attachment; filename="' . $filename . '"');
+        $this->getResponse()->setHttpHeader('Content-Disposition', 'attachment; filename="' . $filename . '.rdf"');
+        $this->getResponse()->setHttpHeader('Content-Type', 'application/rdf+xml; charset=UTF-8');
+        $this->getResponse()->setHttpHeader('Pragma', '');
+        $this->getResponse()->setHttpHeader('Cache-Control', '');
 
-        //$this->forward('rdf','ShowSchema');
+      //$this->forward('rdf','ShowSchema');
     }
 
     public function executeExport()

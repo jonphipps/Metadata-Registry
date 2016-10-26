@@ -1,12 +1,13 @@
 <?php echo '<?xml version="1.0" encoding="UTF-8"?>'; ?>
 <?php $ts = ($timestamp) ? '/ts/' . date('YmdHis', $timestamp) : '';
+/** @var Schema $schema */
 $ns = $schema->getRdfNamespaces();
 ?>
 <rdf:RDF
     <?php
-    echo 'xml:base="' .  htmlspecialchars($schema->getUri() . $ts) . '"';
-    foreach ($ns as $key => $uri) {
-        echo "\n    xmlns:" . $key . '="' . $uri . '"';
+    echo 'xml:base="' . htmlspecialchars($schema->getUri() . $ts) . '"';
+    foreach ((array) $ns as $key => $uri) {
+      echo "\n    xmlns:" . $key . '="' . $uri . '"';
     }
     ?>
 >

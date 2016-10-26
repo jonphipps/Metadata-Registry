@@ -107,6 +107,10 @@ generator:
 #        _list:
         _edit:       { credentials: [[administrator, schemamaintainer, schemaadmin]] }
         _publish:    { credentials: [[administrator]] }
+        rdf:
+          name:      Get RDF
+          icon:      %SF_ADMIN_WEB_DIR%/images/rdf_icon.png
+          route:     rdf_schema
       urlfilters:
         agent_id:     agent_id
         user_id:      user_id
