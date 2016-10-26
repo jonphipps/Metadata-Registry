@@ -862,6 +862,9 @@ SQL
         while ($rs->next()) {
             $results[$rs->getString('prefix')] = $rs->getString('uri');
         }
+      if ($this->getPrefix()) {
+        $results[$this->getPrefix()] = $this->getUri();
+      }
 
         ksort($results);
 

@@ -236,6 +236,11 @@ class Vocabulary extends BaseVocabulary
     foreach (['dc', 'reg', 'rdf', 'skos'] as $ns) {
       $namespaces[$ns] = $coreNamespaces[$ns];
     }
+
+    if ($this->getPrefix()) {
+      $results[$this->getPrefix()] = $this->getUri();
+    }
+
     ksort($namespaces);
 
     return $namespaces;
