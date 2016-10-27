@@ -49,7 +49,7 @@
         "knplabs/github-api": "1.7.*",
         "phpmailer/phpmailer": "~5.2",
         "hashids/hashids": "^1.0",
-        "laravel/framework": "5.3.x",
+        "laravel/framework": "5.3.*",
         "pusher/pusher-php-server": "^2.6",
         "yajra/laravel-datatables-oracle": "~6.0",
         "jlapp/swaggervel": "dev-master",
@@ -75,7 +75,7 @@
             "ImportVocab\\": "plugins/jpAdminGeneratorPlugin/lib/ImportVocab",
             "model\\": "lib/model",
             "apps\\": "apps",
-            "App\\": "app"
+            "App\\": "app/"
         },
         "classmap": [
             "lib/model/",

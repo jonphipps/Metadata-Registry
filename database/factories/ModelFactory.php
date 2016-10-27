@@ -253,10 +253,11 @@ $factory->define(App\Models\VocabularyHasVersion::class, function (Faker\Generat
 
 //INSERT INTO `swregistry`.`reg_user` (id, created_at, last_updated, deleted_at, nickname, salutation, first_name, last_name, email, sha1_password, salt, want_to_be_moderator, is_moderator, is_administrator, deletions, password, culture) VALUES ()
 $factory->define(App\Models\User::class, function (Faker\Generator $faker) {
+    static $password;
     return [
         'nickname' => $faker->name,
         'name' => $faker->name,
-        'email' => $faker->email,
+        'email' => $faker->unique()->safeEmail,
         'password' => $password ?: $password = bcrypt('secret'),
         'sha1_password' => '4d62099656182b62337a7b52535f4f1e1a214542',
         'salt' => 'a4f51ef3ff29a5162c98c684581250de',

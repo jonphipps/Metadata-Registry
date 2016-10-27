@@ -1,7 +1,8 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 class CreateRegUserTable extends Migration {
 
@@ -14,7 +15,7 @@ class CreateRegUserTable extends Migration {
 	{
 		Schema::create('reg_user', function(Blueprint $table)
 		{
-			$table->integer('id', true);
+            $table->increments('id');
 			$table->dateTime('created_at')->nullable();
 			$table->dateTime('deleted_at')->nullable();
 			$table->timestamp('last_updated')->default(DB::raw('CURRENT_TIMESTAMP'));
@@ -29,7 +30,7 @@ class CreateRegUserTable extends Migration {
 			$table->boolean('is_moderator')->nullable()->default(0);
 			$table->boolean('is_administrator')->nullable()->default(0);
 			$table->integer('deletions')->nullable()->default(0);
-			$table->string('password', 40)->nullable();
+			$table->string('password')->nullable();
 			$table->string('culture', 7)->nullable()->default('en_US');
             $table->rememberToken();
 
@@ -44,7 +45,7 @@ class CreateRegUserTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('reg_user');
+        Schema::dropIfExists('users');
 	}
 
 }

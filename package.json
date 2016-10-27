@@ -14,11 +14,6 @@
     "laravel-elixir-webpack-official": "^1.0.2",
     "lodash": "^4.16.2",
     "vue": "^2.0.1",
-    "vue-resource": "^1.0.3",
-    "graceful-fs": "^4.0.0",
-    "minimatch": "^3.0",
-    "node-sass": "^3.4.2",
-    "stream-browserify": "^2.0.1",
-    "webpack": "^1.12.6"
+    "vue-resource": "^1.0.3"
   }
 }
