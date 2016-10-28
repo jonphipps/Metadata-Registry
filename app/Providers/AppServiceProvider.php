@@ -27,5 +27,9 @@ class AppServiceProvider extends ServiceProvider
     {
       $this->app->alias('bugsnag.logger', Log::class);
       $this->app->alias('bugsnag.logger', LoggerInterface::class);
+      $this->app->bind('path.public',
+          function () {
+            return base_path() . '/web';
+          });
     }
 }
