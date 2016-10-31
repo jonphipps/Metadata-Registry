@@ -16,3 +16,7 @@ Route::get('/', function () {
 });
 Auth::routes();
 Route::get('/home', 'HomeController@index');
+Route::get('{all}',
+    function () {
+  return "symfony";
+    })->where('all', '.*');

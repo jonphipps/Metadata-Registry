@@ -5,7 +5,22 @@ define('SF_APP', 'frontend');
 define('SF_ENVIRONMENT', 'prod');
 define('SF_DEBUG', false);
 
-require_once(SF_ROOT_DIR . DIRECTORY_SEPARATOR . 'apps' . DIRECTORY_SEPARATOR . SF_APP . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'config.php');
+//initialize composer through laravel bootstrap
+require_once SF_ROOT_DIR . DIRECTORY_SEPARATOR . 'bootstrap/autoload.php';
 
-sfContext::getInstance()->getController()->dispatch();
+//fire up Laravel
+$app = require_once SF_ROOT_DIR . DIRECTORY_SEPARATOR . 'bootstrap/app.php';
+$uri = urldecode(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
+/** @var \Illuminate\Contracts\Http\Kernel $kernel */
+$kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
 
+$response = $kernel->handle($request = Illuminate\Http\Request::capture());
+if ($response->getStatusCode() !== 404) {
+  $response->send();
+  $kernel->terminate($request, $response);
+} else {
+
+  require_once SF_ROOT_DIR . DIRECTORY_SEPARATOR . 'apps' . DIRECTORY_SEPARATOR . SF_APP . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'config.php';
+
+  sfContext::getInstance()->getController()->dispatch();
+}
