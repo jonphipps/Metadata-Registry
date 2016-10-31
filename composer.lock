@@ -5336,12 +5336,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Codeception/Codeception.git",
-                "reference": "5fbe312c8138e71458ec1e715b0ce262331ca5a2"
+                "reference": "d50ef568c6542a14b7f7d059330ffb286a4912ac"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Codeception/Codeception/zipball/5fbe312c8138e71458ec1e715b0ce262331ca5a2",
-                "reference": "5fbe312c8138e71458ec1e715b0ce262331ca5a2",
+                "url": "https://api.github.com/repos/Codeception/Codeception/zipball/d50ef568c6542a14b7f7d059330ffb286a4912ac",
+                "reference": "d50ef568c6542a14b7f7d059330ffb286a4912ac",
                 "shasum": ""
             },
             "require": {
@@ -5419,7 +5419,7 @@
                 "functional testing",
                 "unit testing"
             ],
-            "time": "2016-10-27 00:00:34"
+            "time": "2016-10-27 16:50:22"
         },
         {
             "name": "codeception/specify",
