@@ -3,7 +3,6 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
- use Illuminate\Support\Facades\Schema;
 
 class CreateRegUserTable extends Migration {
 
@@ -31,7 +30,7 @@ class CreateRegUserTable extends Migration {
 			$table->boolean('is_moderator')->nullable()->default(0);
 			$table->boolean('is_administrator')->nullable()->default(0);
 			$table->integer('deletions')->nullable()->default(0);
-			$table->string('password')->nullable();
+			$table->string('password', 255)->nullable();
 			$table->string('culture', 7)->nullable()->default('en_US');
             $table->rememberToken();
 
