@@ -16,7 +16,7 @@ $kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
 
 //let laravel handle the response
 $response = $kernel->handle($request = Illuminate\Http\Request::capture());
-if ($response->getContent() !== "symfony") {
+if ($response->getStatusCode() !== 418) {
   $response->send();
   $kernel->terminate($request, $response);
 } else {

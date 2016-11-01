@@ -37,7 +37,8 @@ Route::group(['namespace' => 'Backend', 'prefix' => 'admin', 'as' => 'admin.', '
 	require (__DIR__ . '/Backend/Access.php');
 	require (__DIR__ . '/Backend/LogViewer.php');
 });
+
 Route::get('{all}',
     function () {
-  return "symfony";
+      return response("symfony", 418);
     })->where('all', '.*');
