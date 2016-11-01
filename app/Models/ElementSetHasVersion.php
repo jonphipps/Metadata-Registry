@@ -2,18 +2,20 @@
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Access\User\User;
+
 /**
  * App\Models\ElementSetHasVersion
  *
- * @property integer $id
+ * @property int $id
  * @property string $name
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $deleted_at
  * @property \Carbon\Carbon $updated_at
- * @property integer $created_user_id
- * @property integer $schema_id
+ * @property int $created_user_id
+ * @property int $schema_id
  * @property \Carbon\Carbon $timeslice
- * @property-read \App\Models\User $UserCreator
+ * @property-read \App\Models\Access\User\User $UserCreator
  * @property-read \App\Models\ElementSet $ElementSet
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSetHasVersion whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSetHasVersion whereName($value)
@@ -56,7 +58,7 @@ class ElementSetHasVersion extends Model
 
     public function UserCreator()
     {
-        return $this->belongsTo('App\Models\User', 'created_user_id', 'id');
+        return $this->belongsTo(User::class, 'created_user_id', 'id');
     }
 
     public function ElementSet()

@@ -5,8 +5,8 @@ use Illuminate\Database\Eloquent\Model as Model;
 /**
  * App\Models\Status
  *
- * @property integer $id
- * @property integer $display_order
+ * @property int $id
+ * @property int $display_order
  * @property string $display_name
  * @property string $uri
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Status whereId($value)

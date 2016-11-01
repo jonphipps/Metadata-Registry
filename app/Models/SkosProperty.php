@@ -3,23 +3,23 @@
 /**
  * App\Models\SkosProperty
  *
- * @property integer $id
- * @property integer $parent_id
- * @property integer $inverse_id
+ * @property int $id
+ * @property int $parent_id
+ * @property int $inverse_id id of the inverse property
  * @property string $name
  * @property string $uri
- * @property string $object_type
- * @property integer $display_order
- * @property integer $picklist_order
- * @property string $label
+ * @property string $object_type the type of the object for which this is the predicate
+ * @property int $display_order Display order of properties
+ * @property int $picklist_order
+ * @property string $label The pretty label for the property
  * @property string $definition
  * @property string $comment
- * @property string $examples
- * @property boolean $is_required
- * @property boolean $is_reciprocal
- * @property boolean $is_singleton
- * @property boolean $is_scheme
- * @property boolean $is_in_picklist
+ * @property string $examples Link to example usage
+ * @property bool $is_required boolean -- id this value required
+ * @property bool $is_reciprocal boolean - subject and object must both have this property
+ * @property bool $is_singleton boolean -- is this property allowed to repeat for a concept
+ * @property bool $is_scheme boolean - is in conceptScheme domain
+ * @property bool $is_in_picklist boolean - is in the property picklist
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ConceptAttributeHistory[] $ConceptAttributeHistory
  * @method static \Illuminate\Database\Query\Builder|\App\Models\SkosProperty whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\SkosProperty whereParentId($value)

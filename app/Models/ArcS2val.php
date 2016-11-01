@@ -3,9 +3,9 @@
 /**
  * App\Models\ArcS2val
  *
- * @property integer $id
- * @property integer $cid
- * @property boolean $misc
+ * @property int $id
+ * @property int $cid
+ * @property bool $misc
  * @property string $val
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ArcS2val whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ArcS2val whereCid($value)

@@ -2,30 +2,31 @@
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Access\User\User;
 
 /**
  * App\Models\Discuss
  *
- * @property integer $id
+ * @property int $id
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property \Carbon\Carbon $deleted_at
- * @property integer $created_user_id
- * @property integer $deleted_user_id
+ * @property int $created_user_id
+ * @property int $deleted_user_id
  * @property string $uri
- * @property integer $schema_id
- * @property integer $schema_property_id
- * @property integer $schema_property_element_id
- * @property integer $vocabulary_id
- * @property integer $concept_id
- * @property integer $concept_property_id
- * @property integer $root_id
- * @property integer $parent_id
+ * @property int $schema_id
+ * @property int $schema_property_id
+ * @property int $schema_property_element_id
+ * @property int $vocabulary_id
+ * @property int $concept_id
+ * @property int $concept_property_id
+ * @property int $root_id
+ * @property int $parent_id
  * @property string $subject
  * @property string $content
- * @property-read \App\Models\User $CreatedBy
+ * @property-read \App\Models\Access\User\User $CreatedBy
  * @property-read \App\Models\ConceptAttribute $ConceptAttribute
- * @property-read \App\Models\User $DeletedBy
+ * @property-read \App\Models\Access\User\User $DeletedBy
  * @property-read \App\Models\ElementSet $ElementSet
  * @property-read \App\Models\Element $Element
  * @property-read \App\Models\ElementAttribute $ElementAttribute
@@ -109,7 +110,7 @@ class Discuss extends Model
     ];
     public function CreatedBy()
     {
-        return $this->belongsTo('App\Models\User', 'created_user_id', 'id');
+        return $this->belongsTo(User::class, 'created_user_id', 'id');
     }
 
     public function ConceptAttribute()
@@ -119,7 +120,7 @@ class Discuss extends Model
 
     public function DeletedBy()
     {
-        return $this->belongsTo('App\Models\User', 'deleted_user_id', 'id');
+        return $this->belongsTo(User::class, 'deleted_user_id', 'id');
     }
 
     public function ElementSet()

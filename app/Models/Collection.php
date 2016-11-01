@@ -2,23 +2,25 @@
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Access\User\User;
+
 /**
  * App\Models\Collection
  *
- * @property integer $id
+ * @property int $id
  * @property string $created_at
  * @property string $updated_at
  * @property \Carbon\Carbon $deleted_at
  * @property \Carbon\Carbon $last_updated
- * @property integer $created_user_id
- * @property integer $updated_user_id
- * @property integer $vocabulary_id
+ * @property int $created_user_id
+ * @property int $updated_user_id
+ * @property int $vocabulary_id
  * @property string $name
  * @property string $uri
  * @property string $pref_label
- * @property integer $status_id
- * @property-read \App\Models\User $UserCreator
- * @property-read \App\Models\User $UserUpdater
+ * @property int $status_id
+ * @property-read \App\Models\Access\User\User $UserCreator
+ * @property-read \App\Models\Access\User\User $UserUpdater
  * @property-read \App\Models\Vocabulary $Vocabulary
  * @property-read \App\Models\Status $Status
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Collection whereId($value)
@@ -73,12 +75,12 @@ class Collection extends Model
 
     public function UserCreator()
     {
-        return $this->belongsTo('App\Models\User', 'created_user_id', 'id');
+        return $this->belongsTo(User::class, 'created_user_id', 'id');
     }
 
     public function UserUpdater()
     {
-        return $this->belongsTo('App\Models\User', 'updated_user_id', 'id');
+        return $this->belongsTo(User::class, 'updated_user_id', 'id');
     }
 
     public function Vocabulary()

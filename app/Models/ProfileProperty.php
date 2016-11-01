@@ -5,44 +5,44 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * App\Models\ProfileProperty
  *
- * @property integer $id
- * @property integer $skos_id
+ * @property int $id
+ * @property int $skos_id
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property string $deleted_at
- * @property integer $created_by
- * @property integer $updated_by
- * @property integer $deleted_by
- * @property integer $profile_id
- * @property integer $skos_parent_id
+ * @property int $created_by
+ * @property int $updated_by
+ * @property int $deleted_by
+ * @property int $profile_id
+ * @property int $skos_parent_id
  * @property string $name
  * @property string $label
  * @property string $definition
  * @property string $comment
  * @property string $type
  * @property string $uri
- * @property integer $status_id
+ * @property int $status_id
  * @property string $language
  * @property string $note
- * @property integer $display_order
- * @property integer $export_order
- * @property integer $picklist_order
- * @property string $examples
- * @property boolean $is_required
- * @property boolean $is_reciprocal
- * @property boolean $is_singleton
- * @property boolean $is_in_picklist
- * @property boolean $is_in_export
- * @property integer $inverse_profile_property_id
- * @property boolean $is_in_class_picklist
- * @property boolean $is_in_property_picklist
- * @property boolean $is_in_rdf
- * @property boolean $is_in_xsd
- * @property boolean $is_attribute
- * @property boolean $has_language
- * @property boolean $is_object_prop
- * @property boolean $is_in_form
- * @property string $namespace
+ * @property int $display_order Display order of properties
+ * @property int $export_order Display order of properties
+ * @property int $picklist_order
+ * @property string $examples Link to example usage
+ * @property bool $is_required boolean -- id this value required
+ * @property bool $is_reciprocal boolean - subject and object must both have this property
+ * @property bool $is_singleton boolean -- is this property allowed to repeat for a concept
+ * @property bool $is_in_picklist boolean - is in the property picklist
+ * @property bool $is_in_export
+ * @property int $inverse_profile_property_id id of the inverse property
+ * @property bool $is_in_class_picklist boolean - is in the property picklist
+ * @property bool $is_in_property_picklist boolean - is in the property picklist
+ * @property bool $is_in_rdf boolean - should this display in the RDF
+ * @property bool $is_in_xsd boolean - should this display in the XSD
+ * @property bool $is_attribute boolean - is this an attribute? attribute's aren't editable outside the main form
+ * @property bool $has_language Boolean that determines whether language attribute is displayed for this property
+ * @property bool $is_object_prop
+ * @property bool $is_in_form
+ * @property string $namespce
  * @property-read \App\Models\Profile $Profile
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ProfileProperty whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ProfileProperty whereSkosId($value)
@@ -81,7 +81,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ProfileProperty whereHasLanguage($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ProfileProperty whereIsObjectProp($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ProfileProperty whereIsInForm($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ProfileProperty whereNamespace($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ProfileProperty whereNamespce($value)
  * @mixin \Eloquent
  */
 class ProfileProperty extends Model

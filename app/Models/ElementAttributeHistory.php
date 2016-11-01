@@ -2,24 +2,26 @@
 
 use Illuminate\Database\Eloquent\Model as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Access\User\User;
+
 /**
  * App\Models\ElementAttributeHistory
  *
- * @property integer $id
+ * @property int $id
  * @property \Carbon\Carbon $created_at
- * @property integer $created_user_id
+ * @property int $created_user_id
  * @property string $action
- * @property integer $schema_property_element_id
- * @property integer $schema_property_id
- * @property integer $schema_id
- * @property integer $profile_property_id
+ * @property int $schema_property_element_id
+ * @property int $schema_property_id
+ * @property int $schema_id
+ * @property int $profile_property_id
  * @property string $object
- * @property integer $related_schema_property_id
+ * @property int $related_schema_property_id
  * @property string $language
- * @property integer $status_id
+ * @property int $status_id
  * @property string $change_note
- * @property integer $import_id
- * @property-read \App\Models\User $UserCreator
+ * @property int $import_id
+ * @property-read \App\Models\Access\User\User $UserCreator
  * @property-read \App\Models\ElementAttribute $ElementAttribute
  * @property-read \App\Models\Element $Element
  * @property-read \App\Models\ElementSet $ElementSet
@@ -80,7 +82,7 @@ class ElementAttributeHistory extends Model
 
     public function UserCreator()
     {
-        return $this->belongsTo('App\Models\User', 'created_user_id', 'id');
+        return $this->belongsTo(User::class, 'created_user_id', 'id');
     }
 
     public function ElementAttribute()

@@ -1,11 +1,12 @@
 <?php namespace App\Models;
 
+use App\Models\Access\User\User;
 use Illuminate\Database\Eloquent\Model as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * App\Models\Agent
  *
- * @property integer $id
+ * @property int $id
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property \Carbon\Carbon $last_updated
@@ -23,8 +24,15 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string $phone
  * @property string $web_address
  * @property string $type
+ * @property string $repo
+ * @property bool $is_private
+ * @property string $license
+ * @property string $description
+ * @property int $created_by
+ * @property int $updated_by
+ * @property int $deleted_by
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Profile[] $Profiles
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $Users
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Access\User\User[] $Users
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ElementSet[] $Schemas
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Vocabulary[] $Vocabularies
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Agent whereId($value)
@@ -45,6 +53,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Agent wherePhone($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Agent whereWebAddress($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Agent whereType($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Agent whereRepo($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Agent whereIsPrivate($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Agent whereLicense($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Agent whereDescription($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Agent whereCreatedBy($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Agent whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Agent whereDeletedBy($value)
  * @mixin \Eloquent
  */
 class Agent extends Model
@@ -108,7 +123,7 @@ class Agent extends Model
      */
     public function Users()
     {
-        return $this->belongsToMany('App\Models\User', AgentHasUser::TABLE)
+        return $this->belongsToMany(User::class, AgentHasUser::TABLE)
             ->withPivot('is_registrar_for', 'is_admin_for')
             ->withTimestamps();
     }

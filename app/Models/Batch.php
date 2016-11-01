@@ -3,11 +3,11 @@
 /**
  * App\Models\Batch
  *
- * @property integer $id
+ * @property int $id
  * @property \Carbon\Carbon $run_time
  * @property string $run_description
  * @property string $object_type
- * @property integer $object_id
+ * @property int $object_id
  * @property \Carbon\Carbon $event_time
  * @property string $event_type
  * @property string $event_description

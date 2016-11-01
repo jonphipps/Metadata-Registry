@@ -5,12 +5,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * App\Models\RdfNamespace
  *
- * @property integer $id
- * @property integer $schema_id
+ * @property int $id
+ * @property int $schema_id
  * @property string $created_at
  * @property \Carbon\Carbon $deleted_at
- * @property integer $created_user_id
- * @property integer $updated_user_id
+ * @property int $created_user_id
+ * @property int $updated_user_id
  * @property string $token
  * @property string $note
  * @property string $uri
