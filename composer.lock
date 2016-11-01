@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "0fb713dc14d873681553627224d3bd7a",
-    "content-hash": "9590f693ed2e5e6f1a0a5e840d2cea23",
+    "hash": "1ce3e1f36e4b753207f49df782098d34",
+    "content-hash": "ad49931c383d4ffb6dcc4c2151e2ce42",
     "packages": [
         {
             "name": "arcanedev/log-viewer",
@@ -3460,6 +3460,67 @@
                 "php"
             ],
             "time": "2016-01-15 21:03:42"
+        },
+        {
+            "name": "nstapelbroek/culpa",
+            "version": "2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nstapelbroek/culpa-laravel-5.git",
+                "reference": "aa395ef1e5d9cfcd13daa35ef2454b74bc840c42"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nstapelbroek/culpa-laravel-5/zipball/aa395ef1e5d9cfcd13daa35ef2454b74bc840c42",
+                "reference": "aa395ef1e5d9cfcd13daa35ef2454b74bc840c42",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/config": "~5.1",
+                "illuminate/events": "~5.1",
+                "illuminate/support": "~5.1"
+            },
+            "conflict": {
+                "rmasters/culpa": "*"
+            },
+            "require-dev": {
+                "ext-sqlite3": "*",
+                "illuminate/database": "~5.1",
+                "mockery/mockery": "0.9.*",
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Culpa\\": "src/",
+                    "Culpa\\Tests\\": "tests/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ross Masters",
+                    "email": "ross@rossmasters.com"
+                },
+                {
+                    "name": "Nico Stapelbroek",
+                    "email": "nstapelbroek@gmail.com"
+                }
+            ],
+            "description": "Adds Blameable support to Eloquent models in Laravel 5",
+            "homepage": "https://github.com/nstapelbroek/culpa-laravel-5",
+            "keywords": [
+                "Blamable",
+                "Blameable",
+                "created-by",
+                "deleted-by",
+                "laravel",
+                "updated-by"
+            ],
+            "time": "2016-01-08 15:17:15"
         },
         {
             "name": "paragonie/random_compat",
