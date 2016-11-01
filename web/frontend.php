@@ -15,7 +15,7 @@ $uri = urldecode(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
 $kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
 
 $response = $kernel->handle($request = Illuminate\Http\Request::capture());
-if ($response->getStatusCode() !== 404) {
+if ($response->getContent() !== "symfony") {
   $response->send();
   $kernel->terminate($request, $response);
 } else {
