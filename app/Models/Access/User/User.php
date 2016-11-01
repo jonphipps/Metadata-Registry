@@ -2,8 +2,8 @@
 
 namespace App\Models\Access\User;
 
-use App\Models\Agent;
-use App\Models\AgentHasUser;
+use App\Models\Project;
+use App\Models\ProjectHasUser;
 use Illuminate\Notifications\Notifiable;
 use App\Models\Access\User\Traits\UserAccess;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -39,7 +39,7 @@ use App\Models\Access\User\Traits\Relationship\UserRelationship;
  * @property string $name
  * @property bool $confirmed
  * @property bool $status
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Agent[] $Agents
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Project[] $Projects
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $readNotifications
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $unreadNotifications
@@ -133,9 +133,9 @@ class User extends Authenticatable
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function Agents()
+    public function Projects()
     {
-        return $this->belongsToMany(Agent::class, AgentHasUser::TABLE)
+        return $this->belongsToMany(Project::class, ProjectHasUser::TABLE, 'user_id', 'agent_id')
                     ->withPivot('is_registrar_for', 'is_admin_for')
                     ->withTimestamps();
     }

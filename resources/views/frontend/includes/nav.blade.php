@@ -13,8 +13,17 @@
 
         <div class="collapse navbar-collapse" id="frontend-navbar-collapse">
             <ul class="nav navbar-nav">
-                <li>{{ \Collective\Html\link_to_route('frontend.macros', trans('navs.frontend.macros')) }}</li>
+                @if ($logged_in_user)
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                            {{ trans('navs.frontend.projects') }}
+                            <span class="caret"></span>
+                        </a>
+                        @include('includes.partials.projects')
+                    </li>
+                @endif
             </ul>
+
 
             <ul class="nav navbar-nav navbar-right">
                 @if (config('locale.status') && count(config('locale.languages')) > 1)
@@ -38,7 +47,7 @@
                 @else
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                            {{ $logged_in_user->name }} <span class="caret"></span>
+                            {{ $logged_in_user->nickname }} <span class="caret"></span>
                         </a>
 
                         <ul class="dropdown-menu" role="menu">

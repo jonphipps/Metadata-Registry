@@ -5,7 +5,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Access\User\User;
 
 /**
- * App\Models\AgentHasUser
+ * App\Models\ProjectHasUser
  *
  * @property int $id
  * @property string $created_at
@@ -16,18 +16,18 @@ use App\Models\Access\User\User;
  * @property bool $is_registrar_for
  * @property bool $is_admin_for
  * @property-read \App\Models\Access\User\User $User
- * @property-read \App\Models\Agent $Agent
- * @method static \Illuminate\Database\Query\Builder|\App\Models\AgentHasUser whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\AgentHasUser whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\AgentHasUser whereUpdatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\AgentHasUser whereDeletedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\AgentHasUser whereUserId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\AgentHasUser whereAgentId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\AgentHasUser whereIsRegistrarFor($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\AgentHasUser whereIsAdminFor($value)
+ * @property-read \App\Models\Project $Agent
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ProjectHasUser whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ProjectHasUser whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ProjectHasUser whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ProjectHasUser whereDeletedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ProjectHasUser whereUserId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ProjectHasUser whereAgentId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ProjectHasUser whereIsRegistrarFor($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ProjectHasUser whereIsAdminFor($value)
  * @mixin \Eloquent
  */
-class AgentHasUser extends Model
+class ProjectHasUser extends Model
 {
 
     const TABLE = 'reg_agent_has_user';
@@ -73,7 +73,7 @@ class AgentHasUser extends Model
 
     public function Agent()
     {
-        return $this->belongsTo('App\Models\Agent', 'agent_id', 'id');
+        return $this->belongsTo(Project::class, 'agent_id', 'id');
     }
     
 }

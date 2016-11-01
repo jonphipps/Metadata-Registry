@@ -15,7 +15,7 @@
 
 
 //INSERT INTO `swregistry`.`Agent` (id, created_at, created_at_timestamp, last_updated, deleted_at, org_email, org_name, ind_affiliation, ind_role, address1, address2, city, state, postal_code, country, phone, web_address, type) VALUES ()
-$factory->define(App\Models\Agent::class, function (Faker\Generator $faker) {
+$factory->define(App\Models\Project::class, function (Faker\Generator $faker) {
     return [
         'org_email' => $faker->companyEmail,
         'org_name' => $faker->company,
@@ -33,8 +33,8 @@ $factory->define(App\Models\Agent::class, function (Faker\Generator $faker) {
     ];
 });
 
-//INSERT INTO `swregistry`.`AgentHasUser` (id, created_at, updated_at, deleted_at, user_id, agent_id, is_registrar_for, is_admin_for) VALUES ()
-$factory->define(App\Models\AgentHasUser::class,
+//INSERT INTO `swregistry`.`ProjectHasUser` (id, created_at, updated_at, deleted_at, user_id, agent_id, is_registrar_for, is_admin_for) VALUES ()
+$factory->define(App\Models\ProjectHasUser::class,
     function (Faker\Generator $faker) {
         xdebug_break();
         return [
@@ -378,20 +378,20 @@ function getUser($except = [ ])
 function getAgentUser()
 {
     //get the user_ids not associated with an existing agent
-    $except = \App\Models\AgentHasUser::all('user_id')->pluck('user_id')->toArray();
+    $except = \App\Models\ProjectHasUser::all('user_id')->pluck('user_id')->toArray();
 
     return getUser($except);
 }
 
 function getAgent($except = [ ])
 {
-    $ids = \App\Models\Agent::all('id')->except($except)->pluck('id')->toArray();
+    $ids = \App\Models\Project::all('id')->except($except)->pluck('id')->toArray();
     if ($ids) {
         $faker = \Faker\Factory::create();;
 
         return $faker->randomElement($ids);
     }
-    $agent = factory(App\Models\Agent::class, 1)->create();
+    $agent = factory(App\Models\Project::class, 1)->create();
 
     return $agent->id;
 }

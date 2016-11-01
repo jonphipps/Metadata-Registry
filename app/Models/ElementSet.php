@@ -38,7 +38,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string $prefix
  * @property-read \App\Models\Profile $Profile
  * @property-read \App\Models\Status $Status
- * @property-read \App\Models\Agent $Agent
+ * @property-read \App\Models\Project $Agent
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Element[] $Elements
  * @property-read \App\Models\Access\User\User $creator
  * @property-read \App\Models\Access\User\User $updater
@@ -165,7 +165,7 @@ class ElementSet extends Model
 
     public function Agent()
     {
-        return $this->belongsTo('App\Models\Agent', 'agent_id', 'id');
+        return $this->belongsTo(Project::class, 'agent_id', 'id');
     }
 
 

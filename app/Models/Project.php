@@ -4,7 +4,7 @@ use App\Models\Access\User\User;
 use Illuminate\Database\Eloquent\Model as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 /**
- * App\Models\Agent
+ * App\Models\Project
  *
  * @property int $id
  * @property \Carbon\Carbon $created_at
@@ -35,34 +35,34 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Access\User\User[] $Users
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ElementSet[] $Schemas
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Vocabulary[] $Vocabularies
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Agent whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Agent whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Agent whereUpdatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Agent whereLastUpdated($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Agent whereDeletedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Agent whereOrgEmail($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Agent whereOrgName($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Agent whereIndAffiliation($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Agent whereIndRole($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Agent whereAddress1($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Agent whereAddress2($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Agent whereCity($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Agent whereState($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Agent wherePostalCode($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Agent whereCountry($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Agent wherePhone($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Agent whereWebAddress($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Agent whereType($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Agent whereRepo($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Agent whereIsPrivate($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Agent whereLicense($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Agent whereDescription($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Agent whereCreatedBy($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Agent whereUpdatedBy($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Agent whereDeletedBy($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereLastUpdated($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereDeletedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereOrgEmail($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereOrgName($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereIndAffiliation($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereIndRole($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereAddress1($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereAddress2($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereCity($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereState($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Project wherePostalCode($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereCountry($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Project wherePhone($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereWebAddress($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereType($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereRepo($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereIsPrivate($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereLicense($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereDescription($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereCreatedBy($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereDeletedBy($value)
  * @mixin \Eloquent
  */
-class Agent extends Model
+class Project extends Model
 {
     use SoftDeletes;
 
@@ -123,7 +123,7 @@ class Agent extends Model
      */
     public function Users()
     {
-        return $this->belongsToMany(User::class, AgentHasUser::TABLE)
+        return $this->belongsToMany(User::class, ProjectHasUser::TABLE)
             ->withPivot('is_registrar_for', 'is_admin_for')
             ->withTimestamps();
     }
