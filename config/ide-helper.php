@@ -41,7 +41,11 @@ return array(
     */
 
     'model_locations' => array(
-        'app', 'app/models'
+        'app', 'app/Models',
+        'app/Models/Access/Permission',
+        'app/Models/Access/Role',
+        'app/Models/Access/User',
+        'app/Models/History'
     ),
 
 
