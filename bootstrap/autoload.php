@@ -1,5 +1,5 @@
 <?php
-
+define('ROOT_DIR', realpath(dirname(__FILE__) . '/..'));
 define('LARAVEL_START', microtime(true));
 
 /*
@@ -37,7 +37,7 @@ if (file_exists($compiledPath)) {
  * Setup bugsnag and set the correct favicon
  */
 
-$dotenv = new Dotenv\Dotenv(SF_ROOT_DIR);
+$dotenv = new Dotenv\Dotenv(ROOT_DIR);
 $dotenv->load();
 $bugsnagStage = env('BUGSNAG_RELEASE_STAGE', '');
 /** @var Bugsnag\Configuration $bugsnag */
