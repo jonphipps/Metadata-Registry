@@ -53,7 +53,6 @@ return [
         'array'   => 'The :attribute may not have more than :max items.',
     ],
     'mimes'                => 'The :attribute must be a file of type: :values.',
-    'mimetypes'            => 'The :attribute must be a file of type: :values.',
     'min'                  => [
         'numeric' => 'The :attribute must be at least :min.',
         'file'    => 'The :attribute must be at least :min kilobytes.',
@@ -81,7 +80,6 @@ return [
     'string'               => 'The :attribute must be a string.',
     'timezone'             => 'The :attribute must be a valid zone.',
     'unique'               => 'The :attribute has already been taken.',
-    'uploaded'             => 'The :attribute failed to upload.',
     'url'                  => 'The :attribute format is invalid.',
 
     /*
@@ -112,6 +110,54 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+
+        'backend' => [
+            'access' => [
+                'permissions' => [
+                    'associated_roles' => 'Associated Roles',
+                    'dependencies' => 'Dependencies',
+                    'display_name' => 'Display Name',
+                    'group' => 'Group',
+                    'group_sort' => 'Group Sort',
+
+                    'groups' => [
+                        'name' => 'Group Name',
+                    ],
+
+                    'name' => 'Name',
+                    'system' => 'System?',
+                ],
+
+                'roles' => [
+                    'associated_permissions' => 'Associated Permissions',
+                    'name' => 'Name',
+                    'sort' => 'Sort',
+                ],
+
+                'users' => [
+                    'active' => 'Active',
+                    'associated_roles' => 'Associated Roles',
+                    'confirmed' => 'Confirmed',
+                    'email' => 'E-mail Address',
+                    'name' => 'Name',
+                    'other_permissions' => 'Other Permissions',
+                    'password' => 'Password',
+                    'password_confirmation' => 'Password Confirmation',
+                    'send_confirmation_email' => 'Send Confirmation E-mail',
+                ],
+            ],
+        ],
+
+        'frontend' => [
+            'email' => 'E-mail Address',
+            'name' => 'Login Name',
+            'password' => 'Password',
+            'password_confirmation' => 'Password Confirmation',
+            'old_password' => 'Old Password',
+            'new_password' => 'New Password',
+            'new_password_confirmation' => 'New Password Confirmation',
+        ],
+    ],
 
 ];

@@ -14,7 +14,7 @@
             "type": "vcs",
             "url": "git@github.com:jonphipps/html.git"
         },
-        "repo-name": {
+        "3": {
             "type": "git",
             "url": "git@github.com:jamisonvalenta/Laravel-4-Generators.git"
         }
@@ -51,7 +51,6 @@
         "hashids/hashids": "^1.0",
         "laravel/framework": "5.3.*",
         "pusher/pusher-php-server": "^2.6",
-        "yajra/laravel-datatables-oracle": "~6.0",
         "jlapp/swaggervel": "dev-master",
         "maatwebsite/excel": "~2.1.0",
         "symfony/psr-http-message-bridge": "^1.0",
@@ -68,7 +67,14 @@
         "bugsnag/bugsnag": "^3.0",
         "bugsnag/bugsnag-laravel": "^2.0",
         "chrisboulton/php-resque": "dev-master",
-        "michelf/php-markdown": "^1.6"
+        "michelf/php-markdown": "^1.6",
+        "laravel/socialite": "^2.0",
+        "creativeorange/gravatar": "~1.0",
+        "davejamesmiller/laravel-breadcrumbs": "^3.0",
+        "hieu-le/active": "~2.0",
+        "arcanedev/log-viewer": "~4.0",
+        "arcanedev/no-captcha": "~3.0",
+        "yajra/laravel-datatables-oracle": "~6.0"
     },
     "autoload": {
         "psr-4": {
@@ -81,6 +87,9 @@
             "lib/model/",
             "database",
             "tests"
+        ],
+        "files": [
+            "app/helpers.php"
         ]
     },
     "require-dev": {

@@ -12,7 +12,7 @@ return [
     | any other location as required by the application or its packages.
     */
 
-    'name' => 'Registry',
+    'name' => 'Open Metadata Registry',
 
     /*
     |--------------------------------------------------------------------------
@@ -92,6 +92,17 @@ return [
 
     'fallback_locale' => 'en',
 
+	/*
+    |--------------------------------------------------------------------------
+    | PHP Locale Code
+    |--------------------------------------------------------------------------
+    |
+    | The PHP locale determines the default locale that will be used
+    | by the Carbon library when setting Carbon's localization.
+    |
+    */
+	'locale_php' => env('APP_LOCALE_PHP', 'en_US'),
+
     /*
     |--------------------------------------------------------------------------
     | Encryption Key
@@ -120,7 +131,7 @@ return [
     |
     */
 
-    'log' => env('APP_LOG', 'single'),
+    'log' => env('APP_LOG', 'daily'),
 
     'log_level' => env('APP_LOG_LEVEL', 'debug'),
 
@@ -166,16 +177,31 @@ return [
         /*
          * Package Service Providers...
          */
+		Arcanedev\LogViewer\LogViewerServiceProvider::class,
+		Arcanedev\NoCaptcha\NoCaptchaServiceProvider::class,
+		Collective\Html\HtmlServiceProvider::class,
+		Creativeorange\Gravatar\GravatarServiceProvider::class,
+		DaveJamesMiller\Breadcrumbs\ServiceProvider::class,
+		HieuLe\Active\ActiveServiceProvider::class,
+		Laravel\Socialite\SocialiteServiceProvider::class,
+		Yajra\Datatables\DatatablesServiceProvider::class,
 
-        //
+		/*
+		 * Has to override the Collective\Html\HtmlServiceProvider form singleton
+		 */
+		App\Providers\MacroServiceProvider::class,
 
-        /*
+		/*
          * Application Service Providers...
          */
+		App\Providers\AccessServiceProvider::class,
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
+		App\Providers\BladeServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
+		App\Providers\ComposerServiceProvider::class,
         App\Providers\EventServiceProvider::class,
+		App\Providers\HistoryServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
@@ -225,16 +251,26 @@ return [
         'Request'      => Illuminate\Support\Facades\Request::class,
         'Response'     => Illuminate\Support\Facades\Response::class,
         'Route'        => Illuminate\Support\Facades\Route::class,
+        'SchemaL' => Illuminate\Support\Facades\Schema::class,
         'Session'      => Illuminate\Support\Facades\Session::class,
         'Storage'      => Illuminate\Support\Facades\Storage::class,
         'URL'          => Illuminate\Support\Facades\URL::class,
         'Validator'    => Illuminate\Support\Facades\Validator::class,
         'View'         => Illuminate\Support\Facades\View::class,
+		/*
+         * Third Party Aliases
+         */
         'Excel'        => Maatwebsite\Excel\Facades\Excel::class,
         'PDF'          => Barryvdh\Snappy\Facades\SnappyPdf::class,
         'SnappyImage'  => Barryvdh\Snappy\Facades\SnappyImage::class,
         'Bugsnag' => Bugsnag\BugsnagLaravel\Facades\Bugsnag::class,
-
+		'Active'      => HieuLe\Active\Facades\Active::class,
+		'Breadcrumbs' => DaveJamesMiller\Breadcrumbs\Facade::class,
+		'Captcha'     => Arcanedev\NoCaptcha\Facades\NoCaptcha::class,
+		'Form'        => Collective\Html\FormFacade::class,
+		'Gravatar'    => Creativeorange\Gravatar\Facades\Gravatar::class,
+		'Html'        => Collective\Html\HtmlFacade::class,
+		'Socialite'   => Laravel\Socialite\Facades\Socialite::class,
     ],
 
 ];
