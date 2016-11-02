@@ -2,16 +2,16 @@
 
 return [
 
-    /*
-    |--------------------------------------------------------------------------
-    | Validation Language Lines
-    |--------------------------------------------------------------------------
-    |
-    | The following language lines contain the default error messages used by
-    | the validator class. Some of these rules have multiple versions such
-    | as the size rules. Feel free to tweak each of these messages here.
-    |
-    */
+  /*
+  |--------------------------------------------------------------------------
+  | Validation Language Lines
+  |--------------------------------------------------------------------------
+  |
+  | The following language lines contain the default error messages used by
+  | the validator class. Some of these rules have multiple versions such
+  | as the size rules. Feel free to tweak each of these messages here.
+  |
+  */
 
     'accepted'             => ':attribute must Akzeptert werden.',
     'active_url'           => ':attribute ist keine gültige URL.',
@@ -82,16 +82,16 @@ return [
     'unique'               => ':attribute ist schon vergeben.',
     'url'                  => ':attribute Format ist ungültig.',
 
-    /*
-    |--------------------------------------------------------------------------
-    | Custom Validation Language Lines
-    |--------------------------------------------------------------------------
-    |
-    | Here you may specify custom validation messages for attributes using the
-    | convention "attribute.rule" to name the lines. This makes it quick to
-    | specify a specific custom language line for a given attribute rule.
-    |
-    */
+  /*
+  |--------------------------------------------------------------------------
+  | Custom Validation Language Lines
+  |--------------------------------------------------------------------------
+  |
+  | Here you may specify custom validation messages for attributes using the
+  | convention "attribute.rule" to name the lines. This makes it quick to
+  | specify a specific custom language line for a given attribute rule.
+  |
+  */
 
     'custom' => [
         'attribute-name' => [
@@ -99,16 +99,16 @@ return [
         ],
     ],
 
-    /*
-    |--------------------------------------------------------------------------
-    | Custom Validation Attributes
-    |--------------------------------------------------------------------------
-    |
-    | The following language lines are used to swap attribute place-holders
-    | with something more reader friendly such as E-Mail Address instead
-    | of "email". This simply helps us make messages a little cleaner.
-    |
-    */
+  /*
+  |--------------------------------------------------------------------------
+  | Custom Validation Attributes
+  |--------------------------------------------------------------------------
+  |
+  | The following language lines are used to swap attribute place-holders
+  | with something more reader friendly such as E-Mail Address instead
+  | of "email". This simply helps us make messages a little cleaner.
+  |
+  */
 
     'attributes' => [
 
@@ -116,46 +116,46 @@ return [
             'access' => [
                 'permissions' => [
                     'associated_roles' => 'Zugeordnerte Rollen',
-                    'dependencies' => 'Abhängigkeiten',
-                    'display_name' => 'Anzeige Name',
-                    'group' => 'Gruppe',
-                    'group_sort' => 'Gruppen Sortierung',
+                    'dependencies'     => 'Abhängigkeiten',
+                    'display_name'     => 'Anzeige Name',
+                    'group'            => 'Gruppe',
+                    'group_sort'       => 'Gruppen Sortierung',
 
                     'groups' => [
                         'name' => 'Gruppen Name',
                     ],
 
-                    'name' => 'Name',
+                    'name'   => 'Name',
                     'system' => 'System?',
                 ],
 
                 'roles' => [
                     'associated_permissions' => 'Zugeordnerte Berechtigungen',
-                    'name' => 'Name',
-                    'sort' => 'Sortierung',
+                    'name'                   => 'Name',
+                    'sort'                   => 'Sortierung',
                 ],
 
                 'users' => [
-                    'active' => 'Aktiv',
-                    'associated_roles' => 'Zugeordnerte Rollen',
-                    'confirmed' => 'Bestätigt',
-                    'email' => 'E-Mailadresse',
-                    'name' => 'Name',
-                    'other_permissions' => 'Andere Berechtigungen',
-                    'password' => 'Passwort',
-                    'password_confirmation' => 'Passwort (Wdh.)',
+                    'active'                  => 'Aktiv',
+                    'associated_roles'        => 'Zugeordnerte Rollen',
+                    'confirmed'               => 'Bestätigt',
+                    'email'                   => 'E-Mailadresse',
+                    'name'                    => 'Benutzername',
+                    'other_permissions'       => 'Andere Berechtigungen',
+                    'password'                => 'Passwort',
+                    'password_confirmation'   => 'Passwort (Wdh.)',
                     'send_confirmation_email' => 'Bestätigungs E-Mail senden',
                 ],
             ],
         ],
 
         'frontend' => [
-            'email' => 'E-Mailadresse',
-            'name' => 'Name',
-            'password' => 'Passwort',
-            'password_confirmation' => 'Passwort (Wdh.)',
-            'old_password' => 'Altes Passwort',
-            'new_password' => 'Neues Passwort',
+            'email'                     => 'E-Mailadresse',
+            'name'                      => 'Benutzername',
+            'password'                  => 'Passwort',
+            'password_confirmation'     => 'Passwort (Wdh.)',
+            'old_password'              => 'Altes Passwort',
+            'new_password'              => 'Neues Passwort',
             'new_password_confirmation' => 'Neues Passwort (Wdh.)',
         ],
     ],

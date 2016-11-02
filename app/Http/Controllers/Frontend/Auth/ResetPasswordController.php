@@ -64,7 +64,7 @@ class ResetPasswordController extends Controller
   {
     return [
         'token'    => 'required',
-        'nickname' => 'required',
+        'name' => 'required',
         'password' => 'required|confirmed|min:6',
     ];
   }
@@ -79,7 +79,7 @@ class ResetPasswordController extends Controller
    */
   protected function credentials(Request $request)
   {
-    return $request->only('nickname',
+    return $request->only('name',
         'password',
         'password_confirmation',
         'token');
@@ -97,7 +97,7 @@ class ResetPasswordController extends Controller
    */
   protected function sendResetFailedResponse(Request $request, $response)
   {
-    return redirect()->back()->withInput($request->only('nickname'))->withErrors([ 'nickname' => trans($response) ]);
+    return redirect()->back()->withInput($request->only('name'))->withErrors([ 'name' => trans($response) ]);
   }
 
 

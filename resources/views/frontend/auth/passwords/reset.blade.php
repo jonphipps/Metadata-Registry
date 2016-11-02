@@ -29,9 +29,9 @@
                         </div><!--form-group-->
 
                     <div class="form-group">
-                        {{ Form::label('nickname', trans('validation.attributes.frontend.name'), ['class' => 'col-md-4 control-label']) }}
+                        {{ Form::label('name', trans('validation.attributes.frontend.name'), ['class' => 'col-md-4 control-label']) }}
                         <div class="col-md-6">
-                            {{ Form::input('text', 'nickname', null, ['class' => 'form-control', 'placeholder' => trans('validation.attributes.frontend.name'), 'required', 'autofocus']) }}
+                            {{ Form::input('text', 'name', null, ['class' => 'form-control', 'placeholder' => trans('validation.attributes.frontend.name'), 'required', 'autofocus']) }}
                         </div><!--col-md-6-->
                     </div><!--form-group-->
 

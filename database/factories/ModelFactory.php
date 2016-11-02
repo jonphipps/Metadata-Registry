@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Access\User\User;
 /*
 |--------------------------------------------------------------------------
 | Model Factories
@@ -251,12 +252,13 @@ $factory->define(App\Models\VocabularyHasVersion::class, function (Faker\Generat
 });
 
 
-//INSERT INTO `swregistry`.`reg_user` (id, created_at, last_updated, deleted_at, nickname, salutation, first_name, last_name, email, sha1_password, salt, want_to_be_moderator, is_moderator, is_administrator, deletions, password, culture) VALUES ()
-$factory->define(App\Models\User::class, function (Faker\Generator $faker) {
+//INSERT INTO `swregistry`.`reg_user` (id, created_at, last_updated, deleted_at, nickname, name, salutation, first_name, last_name, email, sha1_password, salt, want_to_be_moderator, is_moderator, is_administrator, deletions, password, culture) VALUES ()
+$factory->define(User::class, function (Faker\Generator $faker) {
     static $password;
+    $name = $faker->userName;
     return [
-        'nickname' => $faker->name,
-        'name' => $faker->name,
+        'nickname' => $name,
+        'name' => $name,
         'email' => $faker->unique()->safeEmail,
         'password' => $password ?: $password = bcrypt('secret'),
         'sha1_password' => '4d62099656182b62337a7b52535f4f1e1a214542',
@@ -265,7 +267,7 @@ $factory->define(App\Models\User::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->defineAs(App\Models\User::class, 'super_admin', function (Faker\Generator $faker) use ($factory) {
+$factory->defineAs(User::class, 'super_admin', function (Faker\Generator $faker) use ($factory) {
     $user = $factory->raw(App\Models\Element::class);
 
     return array_merge($user, [
@@ -275,7 +277,7 @@ $factory->defineAs(App\Models\User::class, 'super_admin', function (Faker\Genera
 
 //INSERT INTO `swregistry`.`Element` (id, created_at, updated_at, deleted_at, created_user_id, updated_user_id, schema_id, name, label, definition, comment, type, is_subproperty_of, parent_uri, uri, status_id, language, note, domain, orange, is_deprecated, url, lexical_alias, hash_id) VALUES ()
 $factory->define(App\Models\Element::class, function (Faker\Generator $faker) {
-    $userIds = \App\Models\User::all('id')->pluck('id')->toArray();
+    $userIds = User::all('id')->pluck('id')->toArray();
     $schemaIds = \App\Models\ElementSet::all('id')->pluck('id')->toArray();
     $statusIds = \App\Models\Status::all('id')->pluck('id')->toArray();
     $user_id = $faker->randomElement($userIds);
@@ -364,13 +366,13 @@ $factory->define(App\Models\Orders::class, function (Faker\Generator $faker) {
 
 function getUser($except = [ ])
 {
-    $userIds = \App\Models\User::all('id')->except($except)->pluck('id')->toArray();
+    $userIds = User::all('id')->except($except)->pluck('id')->toArray();
     if ($userIds) {
         $faker = \Faker\Factory::create();;
 
         return $faker->randomElement($userIds);
     }
-    $user = factory(App\Models\User::class, 1)->create();
+    $user = factory(User::class, 1)->create();
 
     return $user->id;
 }
@@ -466,8 +468,8 @@ $factory->define(App\Models\Batch::class, function (Faker\Generator $faker) {
 $factory->define(App\Models\Collection::class, function (Faker\Generator $faker) {
     return [
         'last_updated' =>  $faker->dateTimeBetween() ,
-        'created_user_id' =>  factory(App\Models\User::class)->create()->id ,
-        'updated_user_id' =>  factory(App\Models\User::class)->create()->id ,
+        'created_user_id' =>  factory(User::class)->create()->id ,
+        'updated_user_id' =>  factory(User::class)->create()->id ,
         'vocabulary_id' =>  factory(App\Models\Vocabulary::class)->create()->id ,
         'name' =>  $faker->name ,
         'uri' =>  $faker->word ,
@@ -478,8 +480,8 @@ $factory->define(App\Models\Collection::class, function (Faker\Generator $faker)
 
 $factory->define(App\Models\Discuss::class, function (Faker\Generator $faker) {
     return [
-        'created_user_id' =>  factory(App\Models\User::class)->create()->id ,
-        'deleted_user_id' =>  factory(App\Models\User::class)->create()->id ,
+        'created_user_id' =>  factory(User::class)->create()->id ,
+        'deleted_user_id' =>  factory(User::class)->create()->id ,
         'uri' =>  $faker->word ,
         'schema_id' =>  factory(App\Models\ElementSet::class)->create()->id ,
         'schema_property_id' =>  factory(App\Models\Element::class)->create()->id ,
