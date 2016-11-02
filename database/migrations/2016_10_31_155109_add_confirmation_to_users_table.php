@@ -23,6 +23,7 @@ class AddConfirmationToUsersTable extends Migration
         });
     //set a random unique confirmation code
     DB::statement('update reg_user set confirmation_code = md5(SYSDATE(6));');
+    DB::statement('update reg_user set name = nickname;');
   }
 
 
@@ -35,7 +36,7 @@ class AddConfirmationToUsersTable extends Migration
   {
     Schema::table('reg_user',
         function (Blueprint $table) {
-          $table->dropColumn([ 'confirmation_code', 'confirmed', 'name' ]);
+          $table->dropColumn([ 'confirmation_code', 'confirmed', 'name', 'status' ]);
         });
   }
 }
