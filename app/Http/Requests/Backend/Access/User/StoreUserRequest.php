@@ -29,8 +29,8 @@ class StoreUserRequest extends Request
     public function rules()
     {
         return [
-            'name'     => 'required|max:255',
-            'email'    =>  ['required', 'email', 'max:255', Rule::unique('users')],
+            'name'     => ['required','max:255', Rule::unique('reg_user', 'nickname')],
+            'email'    =>  ['required', 'email', 'max:255'],
             'password' => 'required|min:6|confirmed',
         ];
     }
