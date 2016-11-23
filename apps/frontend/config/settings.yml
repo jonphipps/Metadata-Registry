@@ -15,7 +15,7 @@ dev:
     error_reporting:        15
     web_debug:              on
     cache:                  off
-    no_script_name:         off
+    no_script_name:         on
     etag:                   off
     # Activated modules from plugins or from the symfony core
     enabled_modules:        [default, sfControlPanel]
@@ -67,7 +67,7 @@ all:
     user_object:            on
     standard_helpers:       [Partial, Cache, Form, I18N]
     timeout:                43200
-    suffix:                .html
+#    suffix:                .html
 
 #    default_module:         default   # Default module and action to be called when
 #    default_action:         index     # A routing rule doesn't set it
