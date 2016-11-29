@@ -23,12 +23,25 @@ class RoleRepository extends Repository
 	const MODEL = Role::class;
 
     /**
-     * @param  string  $order_by
-     * @param  string  $sort
-     * @return mixed
-     */
+	 * @param string $order_by
+	 * @param string $sort
+	 * @return mixed
+	 */
     public function getAll($order_by = 'sort', $sort = 'asc')
     {
+		return $this->query()
+			->with('users', 'permissions')
+			->orderBy($order_by, $sort)
+			->get();
+	}
+
+	/**
+	 * @param string $order_by
+	 * @param string $sort
+	 * @return mixed
+	 */
+	public function getForDataTable($order_by = 'sort', $sort = 'asc')
+	{
 		return $this->query()
 			->with('users', 'permissions')
 			->orderBy($order_by, $sort)

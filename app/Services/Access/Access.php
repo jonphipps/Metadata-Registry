@@ -92,9 +92,6 @@ class Access
     {
         if ($user = $this->user()) {
             //If not an array, make a one item array
-            if (!is_array($roles)) {
-                $roles = array($roles);
-            }
 
             return $user->hasRoles($roles, $needsAll);
         }
@@ -127,9 +124,6 @@ class Access
     {
         if ($user = $this->user()) {
             //If not an array, make a one item array
-            if (!is_array($permissions)) {
-                $permissions = array($permissions);
-            }
 
             return $user->allowMultiple($permissions, $needsAll);
         }

@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" href="/<?php echo env('FAVICON', 'registry_favicon_prod.ico') ?>"/>
+    	<link rel="icon" href="/<?php echo env('FAVICON', 'registry_favicon_prod.ico') ?>"/>
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <title>@yield('title', app_name())</title>
@@ -15,7 +15,7 @@
         @yield('meta')
 
         <!-- Styles -->
-        @yield('before-styles-end')
+        @yield('before-styles')
 
         {{ Html::style(elixir('css/frontend.css')) }}
 
@@ -24,7 +24,7 @@
             {!! Html::style(elixir('css/rtl.css')) !!}
         @endif
 
-        @yield('after-styles-end')
+        @yield('after-styles')
 
         <!-- Scripts -->
         <script>
@@ -45,9 +45,9 @@
         </div><!--#app-->
 
         <!-- Scripts -->
-        @yield('before-scripts-end')
+        @yield('before-scripts')
         {!! Html::script(elixir('js/frontend.js')) !!}
-        @yield('after-scripts-end')
+        @yield('after-scripts')
 
         @include('includes.partials.ga')
     </body>

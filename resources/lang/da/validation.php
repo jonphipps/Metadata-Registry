@@ -2,25 +2,27 @@
 
 return [
 
-  /*
-  |--------------------------------------------------------------------------
-  | Validation Language Lines
-  |--------------------------------------------------------------------------
-  |
-  | The following language lines contain the default error messages used by
-  | the validator class. Some of these rules have multiple versions such
-  | as the size rules. Feel free to tweak each of these messages here.
-  |
-  */
+    /*
+    |--------------------------------------------------------------------------
+    | Validation Language Lines
+    |--------------------------------------------------------------------------
+    |
+    | The following language lines contain the default error messages used by
+    | the validator class. Some of these rules have multiple versions such
+    | as the size rules. Feel free to tweak each of these messages here.
+    |
+    */
 
     'accepted'             => ':attribute skal accepteres.',
     'active_url'           => ':attribute er ikke en gyldig adresse.',
     'after'                => ':attribute skal være en dato efter :date.',
+	'after_or_equal'       => 'The :attribute must be a date after or equal to :date.',
     'alpha'                => ':attribute må kun indeholde bogstaver.',
     'alpha_dash'           => ':attribute må kun indeholde bogstaver, tal og mellemstreger.',
     'alpha_num'            => ':attribute må kun indeholde bogstaver og tal.',
     'array'                => ':attribute skal være en liste.',
     'before'               => ':attribute skal være en dato før :date.',
+	'before_or_equal'      => 'The :attribute must be a date before or equal to :date.',
     'between'              => [
         'numeric' => ':attribute skal være mellem :min og :max.',
         'file'    => ':attribute skal være mellem :min og :max kilobytes.',
@@ -82,16 +84,16 @@ return [
     'unique'               => ':attribute er allerede i brug.',
     'url'                  => ':attribute er ikke i det rigtige format.',
 
-  /*
-  |--------------------------------------------------------------------------
-  | Custom Validation Language Lines
-  |--------------------------------------------------------------------------
-  |
-  | Here you may specify custom validation messages for attributes using the
-  | convention "attribute.rule" to name the lines. This makes it quick to
-  | specify a specific custom language line for a given attribute rule.
-  |
-  */
+    /*
+    |--------------------------------------------------------------------------
+    | Custom Validation Language Lines
+    |--------------------------------------------------------------------------
+    |
+    | Here you may specify custom validation messages for attributes using the
+    | convention "attribute.rule" to name the lines. This makes it quick to
+    | specify a specific custom language line for a given attribute rule.
+    |
+    */
 
     'custom' => [
         'attribute-name' => [
@@ -99,16 +101,16 @@ return [
         ],
     ],
 
-  /*
-  |--------------------------------------------------------------------------
-  | Custom Validation Attributes
-  |--------------------------------------------------------------------------
-  |
-  | The following language lines are used to swap attribute place-holders
-  | with something more reader friendly such as E-Mail Address instead
-  | of "email". This simply helps us make messages a little cleaner.
-  |
-  */
+    /*
+    |--------------------------------------------------------------------------
+    | Custom Validation Attributes
+    |--------------------------------------------------------------------------
+    |
+    | The following language lines are used to swap attribute place-holders
+    | with something more reader friendly such as E-Mail Address instead
+    | of "email". This simply helps us make messages a little cleaner.
+    |
+    */
 
     'attributes' => [
 
@@ -116,46 +118,46 @@ return [
             'access' => [
                 'permissions' => [
                     'associated_roles' => 'Tilknyttede Roller',
-                    'dependencies'     => 'Afhængigheder',
-                    'display_name'     => 'Visningsnavn',
-                    'group'            => 'Gruppe',
-                    'group_sort'       => 'Gruppesortering',
+                    'dependencies' => 'Afhængigheder',
+                    'display_name' => 'Visningsnavn',
+                    'group' => 'Gruppe',
+                    'group_sort' => 'Gruppesortering',
 
                     'groups' => [
                         'name' => 'Gruppenavn',
                     ],
 
-                    'name'   => 'Navn',
+                    'name' => 'Navn',
                     'system' => 'System?',
                 ],
 
                 'roles' => [
                     'associated_permissions' => 'Tilknyttede Rettigheder',
-                    'name'                   => 'Navn',
-                    'sort'                   => 'Sortér',
+                    'name' => 'Navn',
+                    'sort' => 'Sortér',
                 ],
 
                 'users' => [
-                    'active'                  => 'Aktiv',
-                    'associated_roles'        => 'Tilknyttede Roller',
-                    'confirmed'               => 'Bekræftet',
-                    'email'                   => 'E-mailadresse',
-                    'name'                    => 'Navn',
-                    'other_permissions'       => 'Andre Rettigheder',
-                    'password'                => 'Adgangskode',
-                    'password_confirmation'   => 'Bekræft adgangskode',
+                    'active' => 'Aktiv',
+                    'associated_roles' => 'Tilknyttede Roller',
+                    'confirmed' => 'Bekræftet',
+                    'email' => 'E-mailadresse',
+                    'name' => 'Navn',
+                    'other_permissions' => 'Andre Rettigheder',
+                    'password' => 'Adgangskode',
+                    'password_confirmation' => 'Bekræft adgangskode',
                     'send_confirmation_email' => 'Send bekræfelsesmail',
                 ],
             ],
         ],
 
         'frontend' => [
-            'email'                     => 'E-mailadresse',
-            'name'                      => 'Navn',
-            'password'                  => 'Adgangskode',
-            'password_confirmation'     => 'Bekræft adgangskode',
-            'old_password'              => 'Gammel adgangskode',
-            'new_password'              => 'Ny adgangskode',
+            'email' => 'E-mailadresse',
+            'name' => 'Navn',
+            'password' => 'Adgangskode',
+            'password_confirmation' => 'Bekræft adgangskode',
+            'old_password' => 'Gammel adgangskode',
+            'new_password' => 'Ny adgangskode',
             'new_password_confirmation' => 'Bekræft ny adgangskode',
         ],
     ],

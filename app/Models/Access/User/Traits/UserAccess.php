@@ -46,8 +46,11 @@ trait UserAccess
      * @param  $needsAll
      * @return bool
      */
-    public function hasRoles($roles, $needsAll)
+    public function hasRoles($roles, $needsAll = false)
     {
+		if (! is_array($roles)) {
+			$roles = array($roles);
+		}
         //User has to possess all of the roles specified
         if ($needsAll) {
             $hasRoles = 0;
@@ -63,15 +66,14 @@ trait UserAccess
         }
 
         //User has to possess one of the roles specified
-        $hasRoles = 0;
         foreach ($roles as $role) {
             if ($this->hasRole($role)) {
-                $hasRoles++;
+                return true;
             }
 
         }
 
-        return $hasRoles > 0;
+        return false;
     }
 
     /**
@@ -117,6 +119,9 @@ trait UserAccess
      */
     public function allowMultiple($permissions, $needsAll = false)
     {
+		if (! is_array($permissions)) {
+			$permissions = array($permissions);
+		}
         //User has to possess all of the permissions specified
         if ($needsAll) {
             $hasPermissions = 0;
@@ -132,14 +137,13 @@ trait UserAccess
         }
 
         //User has to possess one of the permissions specified
-        $hasPermissions = 0;
         foreach ($permissions as $perm) {
             if ($this->allow($perm)) {
-                $hasPermissions++;
+				return true;
             }
         }
 
-        return $hasPermissions > 0;
+        return false;
     }
 
     /**
