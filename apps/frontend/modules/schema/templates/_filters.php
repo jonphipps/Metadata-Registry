@@ -19,7 +19,7 @@
                                                  'peer_method'   => 'getSchemaAgents',
                                                  'text_method'   => '__toString',
                                                  'control_name' => 'agent_id',
-                                                 'onchange' => "window.location.href = 'projects/' + this.value + '/elementsets.html';"
+                                                 'onchange' => "window.location.href = 'projects/' + this.value + '/elementsets';"
 
                                              ]) ?>
             </div>

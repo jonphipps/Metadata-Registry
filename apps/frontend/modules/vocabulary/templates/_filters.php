@@ -20,7 +20,7 @@ use_helper('Object'); ?>
                                                  'peer_method'   => 'getVocabularyAgents',
                                                  'text_method'   => '__toString',
                                                  'control_name'  => 'agent_id',
-                                                 'onchange' => "window.location.href = 'projects/' + this.value + '/vocabularies.html';"
+                                                 'onchange' => "window.location.href = 'projects/' + this.value + '/vocabularies';"
                                              ]) ?>
             </div>
         </div>

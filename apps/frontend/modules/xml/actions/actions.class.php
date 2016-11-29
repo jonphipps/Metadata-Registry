@@ -46,7 +46,7 @@ class xmlActions extends sfActions
 
           //redirect
           $this->getContext()->getResponse()->setStatusCode(303);
-          $this->redirect($this->getRequest()->getUriPrefix() . '/concept/list/vocabulary_id/' . $vocabulary->getId() . '.html');
+          $this->redirect($this->getRequest()->getUriPrefix() . '/concept/list/vocabulary_id/' . $vocabulary->getId());
           break;
        case 'uri':
           //this URI does NOT have an 'id', HAS an 'rdf' suffix, and HAS a 'uri' action
@@ -70,7 +70,7 @@ class xmlActions extends sfActions
 
              $this->forward404Unless($vocabulary);
              //redirect
-             $this->redirect($this->getRequest()->getUriPrefix() . '/concept/list/vocabulary_id/' . $vocabulary->getId() . '.html');
+             $this->redirect($this->getRequest()->getUriPrefix() . '/concept/list/vocabulary_id/' . $vocabulary->getId() );
           }
           //else if ((true === strpos($_SERVER['HTTP_ACCEPT'],'text/xml')) ||
           //    (true === strpos($_SERVER['HTTP_ACCEPT'], 'application/xml')) ||

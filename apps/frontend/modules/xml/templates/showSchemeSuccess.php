@@ -18,7 +18,7 @@ $ts = ($timestamp) ? '/ts/' . date('YmdHis',$timestamp) : ''; ?>
 <?php if ($vocabulary->getNote()): ?>
             <?php echo htmlspecialchars(html_entity_decode($vocabulary->getNote(), ENT_QUOTES | ENT_HTML5, 'UTF-8'))  . "\n" ?>
 <?php endif; ?>
-            Further information about this Vocabulary is available at <?php echo $vocabulary->getUri() . ".html\n" ?>
+            Further information about this Vocabulary is available at <?php echo $vocabulary->getUri() . "\n" ?>
         </xs:documentation>
 <?php if ($timestamp): ?>
         <xs:documentation xml:lang="en">

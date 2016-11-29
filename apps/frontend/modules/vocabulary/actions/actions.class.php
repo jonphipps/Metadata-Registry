@@ -202,7 +202,7 @@ class vocabularyActions extends autoVocabularyActions
             $this->setFlash('error',
                             'This Vocabulary has NOT been published. We couldn\'t parse the file names from the uri.</br>Make sure that you\'ve set the the Git repository and have a valid namespace');
             $this->redirect($this->getRequest()
-                                 ->getUriPrefix() . '/vocabulary/show/id/' . $vocabulary->getId() . '.html');
+                                 ->getUriPrefix() . '/vocabulary/show/id/' . $vocabulary->getId());
         }
         $file = rtrim($vocabDir, "/") . "." . $mime;
 
@@ -225,7 +225,7 @@ class vocabularyActions extends autoVocabularyActions
 
         //if publish was successful
         $this->setFlash('notice', 'This Vocabulary has been published');
-        $this->redirect($this->getRequest()->getUriPrefix() . '/vocabulary/show/id/' . $vocabulary->getId() . '.html');
+        $this->redirect($this->getRequest()->getUriPrefix() . '/vocabulary/show/id/' . $vocabulary->getId());
 
 
     }
