@@ -2,22 +2,24 @@
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Access\User\User;
+
 /**
  * App\Models\VocabularyHasUser
  *
- * @property integer $id
+ * @property int $id
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property \Carbon\Carbon $deleted_at
- * @property integer $vocabulary_id
- * @property integer $user_id
- * @property boolean $is_maintainer_for
- * @property boolean $is_registrar_for
- * @property boolean $is_admin_for
+ * @property int $vocabulary_id
+ * @property int $user_id
+ * @property bool $is_maintainer_for
+ * @property bool $is_registrar_for
+ * @property bool $is_admin_for
  * @property string $languages
  * @property string $default_language
  * @property string $current_language
- * @property-read \App\Models\User $User
+ * @property-read \App\Models\Access\User\User $User
  * @property-read \App\Models\Vocabulary $Vocabulary
  * @method static \Illuminate\Database\Query\Builder|\App\Models\VocabularyHasUser whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\VocabularyHasUser whereCreatedAt($value)
@@ -75,7 +77,7 @@ class VocabularyHasUser extends Model
 
     public function User()
     {
-        return $this->belongsTo('App\Models\User', 'user_id', 'id');
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
     public function Vocabulary()

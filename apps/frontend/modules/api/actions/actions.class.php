@@ -199,7 +199,7 @@ class apiActions extends sfActions
             /** @var Concept $concept **/
             $concept = ConceptPeer::getConceptByUri($uri);
             $this->forward404Unless($concept);
-            $uri = $request->getUriPrefix() . "/concept/show/id/". $concept->getId() . ".html";
+            $uri = $request->getUriPrefix() . "/concept/show/id/". $concept->getId() ;
             //redirect
             $this->redirectIf($redir, $uri, 303);
             //return the url
@@ -225,7 +225,7 @@ class apiActions extends sfActions
             /** @var Vocabulary $vocabulary **/
             $vocabulary = VocabularyPeer::retrieveByUri($uri);
             $this->forward404Unless($vocabulary);
-            $uri = $request->getUriPrefix() . "/vocabulary/show/id/". $vocabulary->getId() . ".html";
+            $uri = $request->getUriPrefix() . "/vocabulary/show/id/". $vocabulary->getId() ;
             //redirect
             $this->redirectIf($redir, $uri, 303);
             //return the url
@@ -255,7 +255,7 @@ class apiActions extends sfActions
         switch ($module)
         {
           case 'html':
-            $uri = $request->getUriPrefix() . "/schema/show/id/". $schema->getId() . ".html";
+            $uri = $request->getUriPrefix() . "/schema/show/id/". $schema->getId();
             //redirect
             $this->redirectIf($redir, $uri, 303);
             //return the url
@@ -278,7 +278,7 @@ class apiActions extends sfActions
         switch ($module)
         {
           case 'html':
-            $uri = $request->getUriPrefix() . "/schemaprop/show/id/". $property->getId() . ".html";
+            $uri = $request->getUriPrefix() . "/schemaprop/show/id/". $property->getId() ;
             //redirect
             $this->redirectIf($redir, $uri, 303);
             //return the url

@@ -2,24 +2,27 @@
 
 use Illuminate\Database\Eloquent\Model as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Access\User\User;
+
 /**
  * App\Models\FileImportHistory
  *
- * @property integer $id
+ * @property int $id
  * @property \Carbon\Carbon $created_at
- * @property string $map
- * @property integer $user_id
- * @property integer $vocabulary_id
- * @property integer $schema_id
+ * @property string $map stores the serialized column map array
+ * @property int $user_id
+ * @property int $vocabulary_id
+ * @property int $schema_id
  * @property string $file_name
  * @property string $source_file_name
  * @property string $file_type
- * @property integer $batch_id
- * @property string $results
- * @property integer $total_processed_count
- * @property integer $error_count
- * @property integer $success_count
- * @property-read \App\Models\User $User
+ * @property int $batch_id
+ * @property string $results stores the serialized results of the import
+ * @property int $total_processed_count
+ * @property int $error_count
+ * @property int $success_count
+ * @property int $token
+ * @property-read \App\Models\Access\User\User $User
  * @property-read \App\Models\Vocabulary $Vocabulary
  * @property-read \App\Models\ElementSet $ElementSet
  * @property-read \App\Models\Batch $Batch
@@ -39,6 +42,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\FileImportHistory whereTotalProcessedCount($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\FileImportHistory whereErrorCount($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\FileImportHistory whereSuccessCount($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\FileImportHistory whereToken($value)
  * @mixin \Eloquent
  */
 class FileImportHistory extends Model
@@ -79,7 +83,7 @@ class FileImportHistory extends Model
 
     public function User()
     {
-        return $this->belongsTo('App\Models\User', 'user_id', 'id');
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
     public function Vocabulary()

@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Contracts\Logging\Log;
 use Illuminate\Support\ServiceProvider;
 use Psr\Log\LoggerInterface;
+use Carbon\Carbon;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -15,7 +16,36 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+		/**
+		 * Application locale defaults for various components
+		 *
+		 * These will be overridden by LocaleMiddleware if the session local is set
+		 */
+
+		/**
+		 * setLocale for php. Enables ->formatLocalized() with localized values for dates
+		 */
+		setLocale(LC_TIME, config('app.locale_php'));
+
+		/**
+		 * setLocale to use Carbon source locales. Enables diffForHumans() localized
+		 */
+		Carbon::setLocale(config('app.locale'));
+
+		/**
+		 * Set the session variable for whether or not the app is using RTL support
+		 * For use in the blade directive in BladeServiceProvider
+		 */
+		if (config('locale.languages')[config('app.locale')][2]) {
+			session(['lang-rtl' => true]);
+		} else {
+			session()->forget('lang-rtl');
+		}
+
+		// Force SSL in production
+		if ($this->app->environment() == 'production') {
+			//URL::forceSchema('https');
+		}
     }
 
     /**
@@ -25,7 +55,26 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
+		/**
+		 * Sets third party service providers that are only needed on local environments
+		 */
+		if ($this->app->environment() == 'local') {
+			/**
+			 * Loader for registering facades
+			 */
+			$loader = \Illuminate\Foundation\AliasLoader::getInstance();
+
+			/**
+			 * Load third party local providers and facades
+			 */
+			$this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
+			$loader->alias('Debugbar', \Barryvdh\Debugbar\Facade::class);
+		}
       $this->app->alias('bugsnag.logger', Log::class);
       $this->app->alias('bugsnag.logger', LoggerInterface::class);
+      $this->app->bind('path.public',
+          function () {
+            return base_path() . '/web';
+          });
     }
 }

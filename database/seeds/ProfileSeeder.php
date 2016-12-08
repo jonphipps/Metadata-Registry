@@ -18,7 +18,7 @@ class ProfileSeeder extends Seeder
        ";
         DB::update(DB::raw($updateStatement));
         $updateStatement = "
-        INSERT INTO `reg_user` (`id`, `created_at`, `last_updated`, `deleted_at`, `nickname`, `salutation`, `first_name`, `last_name`, `email`, `sha1_password`, `salt`, `want_to_be_moderator`, `is_moderator`, `is_administrator`, `deletions`, `password`, `culture`) VALUES
+        INSERT INTO `reg_user` (`id`, `created_at`, `last_updated`, `deleted_at`, `name`, `salutation`, `first_name`, `last_name`, `email`, `sha1_password`, `salt`, `want_to_be_moderator`, `is_moderator`, `is_administrator`, `deletions`, `password`, `culture`) VALUES
 	(36,'2006-03-24 17:29:24','2015-06-21 21:05:49',NULL,'jonphipps',NULL,'Jon','Phipps','jphipps@madcreek.com','2b49d534a27a9405e9f4101e2dadf2f98e3a185a','8b7bcbce1ea1c165322b69341d6e82cc',0,0,1,0,NULL,'en_US'),
 	(39,'2006-04-20 17:23:19','2013-08-13 18:44:19',NULL,'Diane',NULL,'Diane','Hillmann','diane.hillmann@cornell.edu','d85c8473050b57c544970aff2fe95dff713ec849','ca41ac63717f3de0a62f8af377bfeb48',0,0,1,0,NULL,'en_US');
 

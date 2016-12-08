@@ -817,10 +817,14 @@ class myUser extends sfBasicSecurityUser
   */
   public function getCurrentSchema()
   {
-    /** @var Schema **/
+    /** @var Schema * */
     $schema = $this->getAttribute('schema');
+    if (is_object($schema) && get_class($schema) == 'Schema') {
+      return $schema;
+    }
+    $this->setAttribute('schema', '');
 
-    return $schema;
+    return null;
   }
 
   /**

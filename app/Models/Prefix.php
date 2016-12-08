@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  *
  * @property string $prefix
  * @property string $uri
- * @property integer $rank
+ * @property int $rank
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Prefix wherePrefix($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Prefix whereUri($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Prefix whereRank($value)

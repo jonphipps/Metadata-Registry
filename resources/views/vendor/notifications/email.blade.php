@@ -71,7 +71,7 @@ $style = [
                     <tr>
                         <td style="{{ $style['email-masthead'] }}">
                             <a style="{{ $fontFamily }} {{ $style['email-masthead_name'] }}" href="{{ url('/') }}" target="_blank">
-                                {{ config('app.name') }}
+                                {{ app_name() }}
                             </a>
                         </td>
                     </tr>
@@ -88,9 +88,9 @@ $style = [
                                                 {{ $greeting }}
                                             @else
                                                 @if ($level == 'error')
-                                                    Whoops!
+                                                {{ trans('strings.emails.auth.error') }}
                                                 @else
-                                                    Hello!
+                                                    {{ trans('strings.emails.auth.greeting') }}
                                                 @endif
                                             @endif
                                         </h1>
@@ -140,7 +140,7 @@ $style = [
 
                                         <!-- Salutation -->
                                         <p style="{{ $style['paragraph'] }}">
-                                            Regards,<br>{{ config('app.name') }}
+                                            {{ trans('strings.emails.auth.regards') }}<br>{{ app_name() }}
                                         </p>
 
                                         <!-- Sub Copy -->
@@ -149,8 +149,7 @@ $style = [
                                                 <tr>
                                                     <td style="{{ $fontFamily }}">
                                                         <p style="{{ $style['paragraph-sub'] }}">
-                                                            If you’re having trouble clicking the "{{ $actionText }}" button,
-                                                            copy and paste the URL below into your web browser:
+                                                            {{ trans('strings.emails.auth.trouble_clicking_button', ['action_text' => $actionText]) }}
                                                         </p>
 
                                                         <p style="{{ $style['paragraph-sub'] }}">
@@ -176,8 +175,8 @@ $style = [
                                     <td style="{{ $fontFamily }} {{ $style['email-footer_cell'] }}">
                                         <p style="{{ $style['paragraph-sub'] }}">
                                             &copy; {{ date('Y') }}
-                                            <a style="{{ $style['anchor'] }}" href="{{ url('/') }}" target="_blank">{{ config('app.name') }}</a>.
-                                            All rights reserved.
+                                            <a style="{{ $style['anchor'] }}" href="{{ url('/') }}" target="_blank">{{ app_name() }}</a>.
+                                            {{ trans('strings.backend.general.all_rights_reserved') }}
                                         </p>
                                     </td>
                                 </tr>

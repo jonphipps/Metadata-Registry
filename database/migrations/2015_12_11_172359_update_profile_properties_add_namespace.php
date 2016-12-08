@@ -4,6 +4,7 @@ use App\Models\Prefix;
 use App\Models\ProfileProperty;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+ use Illuminate\Support\Facades\Schema;
 
 class UpdateProfilePropertiesAddNamespace extends Migration
 {

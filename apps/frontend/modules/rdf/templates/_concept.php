@@ -1,4 +1,5 @@
-<!-- Concept: <?php echo $concept->getPrefLabel(); ?>  -->
+<!-- Concept: <?php /** @var Concept $concept */
+echo $concept->getPrefLabel(); ?>  -->
 <?php
   $ts = ($timestamp) ? '/ts/' . date('YmdHis',$timestamp) : '';
   $language = $concept->getLanguage();
@@ -12,7 +13,7 @@
       <skos:topConceptOf rdf:resource="<?php echo htmlspecialchars($vocabulary->getUri()); ?>"/>
 <?php endif; ?>
 <?php
-/** @var \ConceptProperty $property */
+/** @var \ConceptProperty[] $properties */
 foreach ($properties as $property): ?>
 <?php
   if($timestamp)

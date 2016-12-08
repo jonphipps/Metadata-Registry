@@ -3,15 +3,15 @@
 /**
  * App\Models\ArcTriple
  *
- * @property integer $t
- * @property integer $s
- * @property integer $p
- * @property integer $o
- * @property integer $o_lang_dt
+ * @property int $t
+ * @property int $s
+ * @property int $p
+ * @property int $o
+ * @property int $o_lang_dt
  * @property string $o_comp
- * @property boolean $s_type
- * @property boolean $o_type
- * @property boolean $misc
+ * @property bool $s_type
+ * @property bool $o_type
+ * @property bool $misc
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ArcTriple whereT($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ArcTriple whereS($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ArcTriple whereP($value)

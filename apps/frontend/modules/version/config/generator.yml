@@ -3,6 +3,10 @@ generator:
   param:
     model_class:      VocabularyHasVersion
     theme:            default
+    parents:
+      vocabulary:
+        getid:        vocabulary_id
+        requestid:    vocabulary_id
     pager:
       no_results:     No Versions have been defined for this Vocabulary
     fields:

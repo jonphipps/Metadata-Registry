@@ -8,27 +8,27 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * App\Models\Element
  *
- * @property integer $id
+ * @property int $id
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property string $deleted_at
- * @property integer $created_user_id
- * @property integer $updated_user_id
- * @property integer $schema_id
+ * @property int $created_user_id
+ * @property int $updated_user_id
+ * @property int $schema_id
  * @property string $name
  * @property string $label
  * @property string $definition
  * @property string $comment
  * @property string $type
- * @property integer $is_subproperty_of
+ * @property int $is_subproperty_of
  * @property string $parent_uri
  * @property string $uri
- * @property integer $status_id
+ * @property int $status_id
  * @property string $language
  * @property string $note
  * @property string $domain
  * @property string $orange
- * @property boolean $is_deprecated
+ * @property bool $is_deprecated Boolean. Has this class/property been deprecated
  * @property string $url
  * @property string $lexical_alias
  * @property string $hash_id

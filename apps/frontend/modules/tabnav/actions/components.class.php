@@ -220,7 +220,26 @@ class tabnavComponents extends sfComponents
   }
 
 
-    public function executeSchemaprop()
+  public function executeVersion()
+  {
+    $id = $this->getRequestParameter('id');
+    /** @var VocabularyHasUser $vocabHasUser */
+    $version = $this->vocabulary_has_version;
+    $vocabulary   = $version->getVocabulary();
+    $tabnav       = $this->getRequestParameter('tabnav');
+    if ($tabnav) {
+      $tabnav = 'execute' . ucfirst($tabnav);
+      $this->$tabnav();
+    }
+
+    $breadcrumbs[0] = Breadcrumb::vocabularyFactory($vocabulary);
+
+    //there's always a breadcrumb
+    $this->breadcrumbs = $breadcrumbs;
+  }
+
+
+  public function executeSchemaprop()
     {
         $id = $this->getRequestParameter('schema_property_id');
         if ( ! $id) {

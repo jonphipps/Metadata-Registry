@@ -52,6 +52,11 @@ return [
             'prefix' => '',
         ],
 
+		'sqlite_testing' => [
+			'driver'   => 'sqlite',
+			'database' => ':memory:',
+			'prefix'   => '',
+		],
         'mysql' => [
             'driver' => 'mysql',
             'host' => env('DB_HOST', 'localhost'),
@@ -110,7 +115,7 @@ return [
         'cluster' => false,
 
         'default' => [
-            'host' => env('REDIS_HOST', 'localhost'),
+            'host' => env('REDIS_HOST', '127.0.0.1'),
             'password' => env('REDIS_PASSWORD', null),
             'port' => env('REDIS_PORT', 6379),
             'database' => 0,

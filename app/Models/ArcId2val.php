@@ -3,10 +3,10 @@
 /**
  * App\Models\ArcId2val
  *
- * @property integer $id
- * @property boolean $misc
+ * @property int $id
+ * @property bool $misc
  * @property string $val
- * @property boolean $val_type
+ * @property bool $val_type
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ArcId2val whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ArcId2val whereMisc($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ArcId2val whereVal($value)

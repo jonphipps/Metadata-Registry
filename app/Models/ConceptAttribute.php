@@ -7,23 +7,24 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * App\Models\ConceptAttribute
  *
- * @property integer $id
+ * @property int $id
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property string $deleted_at
  * @property string $last_updated
- * @property integer $created_user_id
- * @property integer $updated_user_id
- * @property integer $concept_id
- * @property boolean $primary_pref_label
- * @property integer $skos_property_id
+ * @property int $created_user_id
+ * @property int $updated_user_id
+ * @property int $concept_id
+ * @property bool $primary_pref_label
+ * @property int $skos_property_id
  * @property string $object
- * @property integer $scheme_id
- * @property integer $related_concept_id
+ * @property int $scheme_id
+ * @property int $related_concept_id
  * @property string $language
- * @property integer $status_id
- * @property boolean $is_concept_property
- * @property integer $profile_property_id
+ * @property int $status_id
+ * @property bool $is_concept_property
+ * @property int $profile_property_id
+ * @property bool $is_generated
  * @property-read \App\Models\Concept $Concept
  * @property-read \App\Models\ProfileProperty $ProfileProperty
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttribute whereId($value)
@@ -43,6 +44,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttribute whereStatusId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttribute whereIsConceptProperty($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttribute whereProfilePropertyId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttribute whereIsGenerated($value)
  * @mixin \Eloquent
  */
 class ConceptAttribute extends Model

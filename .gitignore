@@ -55,6 +55,16 @@ dump.rdb
 
 Homestead.json
 Homestead.yaml
+/public/css/frontend.css
+/public/css/frontend.css.map
+/public/css/backend.css
+/public/css/backend.css.map
+/public/css/rtl.css
+/public/css/rtl.css.map
+/public/js/frontend.js
+/public/js/frontend.js.map
+/public/js/backend.js
+/public/js/backend.js.map
 /public/storage
 
 tests/_support/_generated

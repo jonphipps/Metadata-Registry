@@ -41,7 +41,7 @@ class jsonldService
             "label" => $status->getPrefLabel()
         ];
         $this->vocabArray['omr_api']           = "http://api.metadataregistry.org/vocabularies/" . $vocab->getId();
-        $this->vocabArray['omr_home']          = "http://metadataregistry.org/vocabulary/show/id/" . $vocab->getId() . ".html";
+        $this->vocabArray['omr_home']          = "http://metadataregistry.org/vocabulary/show/id/" . $vocab->getId();
         $this->vocabArray['documentation']     = $vocab->getUrl();
         $this->vocabArray['tags']              = [
             "en" => $this->getTags($this->vocab->getCommunity())

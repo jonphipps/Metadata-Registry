@@ -6,16 +6,16 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * App\Models\Profile
  *
- * @property integer $id
- * @property integer $agent_id
+ * @property int $id
+ * @property int $agent_id
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property string $deleted_at
- * @property integer $created_by
- * @property integer $updated_by
- * @property integer $deleted_by
+ * @property int $created_by
+ * @property int $updated_by
+ * @property int $deleted_by
  * @property string $child_updated_at
- * @property integer $child_updated_by
+ * @property int $child_updated_by
  * @property string $name
  * @property string $note
  * @property string $uri
@@ -23,11 +23,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string $base_domain
  * @property string $token
  * @property string $community
- * @property integer $last_uri_id
- * @property integer $status_id
+ * @property int $last_uri_id
+ * @property int $status_id
  * @property string $language
  * @property-read \App\Models\Status $Status
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ProfileProperty[] $profileProperties
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ProfileProperty[] $ProfileProperties
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ElementSet[] $ElementSets
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Vocabulary[] $Vocabularies
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Profile whereId($value)

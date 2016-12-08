@@ -2,30 +2,33 @@
 
 use Illuminate\Database\Eloquent\Model as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Access\User\User;
+
 /**
  * App\Models\ConceptAttributeHistory
  *
- * @property integer $id
+ * @property int $id
  * @property \Carbon\Carbon $created_at
  * @property string $action
- * @property integer $concept_property_id
- * @property integer $concept_id
- * @property integer $vocabulary_id
- * @property integer $skos_property_id
+ * @property int $concept_property_id
+ * @property int $concept_id
+ * @property int $vocabulary_id
+ * @property int $skos_property_id
  * @property string $object
- * @property integer $scheme_id
- * @property integer $related_concept_id
- * @property string $language
- * @property integer $status_id
- * @property integer $created_user_id
+ * @property int $scheme_id id of the related vocabulary when required
+ * @property int $related_concept_id id of the related concept when required
+ * @property string $language This will be an RFC3066 language code, which means it can be en, eng, en-us, or eng-us -- iso639-1 (2-char codes), iso639-2 (3-char codes), and combined with iso3166 (2-char country codes)
+ * @property int $status_id
+ * @property int $created_user_id The ID of the user that created the property
  * @property string $change_note
- * @property integer $import_id
+ * @property int $import_id
+ * @property int $profile_property_id
  * @property-read \App\Models\SkosProperty $SkosProperty
  * @property-read \App\Models\FileImportHistory $FileImportHistory
  * @property-read \App\Models\Vocabulary $ObjectScheme
  * @property-read \App\Models\Status $Status
  * @property-read \App\Models\Concept $ObjectConcept
- * @property-read \App\Models\User $UserCreator
+ * @property-read \App\Models\Access\User\User $UserCreator
  * @property-read \App\Models\ConceptAttribute $ConceptAttribute
  * @property-read \App\Models\Vocabulary $Vocabulary
  * @property-read \App\Models\Concept $Concept
@@ -44,6 +47,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttributeHistory whereCreatedUserId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttributeHistory whereChangeNote($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttributeHistory whereImportId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttributeHistory whereProfilePropertyId($value)
  * @mixin \Eloquent
  */
 class ConceptAttributeHistory extends Model
@@ -121,7 +125,7 @@ class ConceptAttributeHistory extends Model
 
     public function UserCreator()
     {
-        return $this->belongsTo('App\Models\User', 'created_user_id', 'id');
+        return $this->belongsTo(User::class, 'created_user_id', 'id');
     }
 
     public function ConceptAttribute()

@@ -3,11 +3,11 @@
 /**
  * App\Models\Lookup
  *
- * @property integer $id
- * @property integer $type_id
+ * @property int $id
+ * @property int $type_id This will be the lookup type and will reference the list of lookup types stored in this very same table
  * @property string $short_value
  * @property string $long_value
- * @property integer $display_order
+ * @property int $display_order
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Lookup whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Lookup whereTypeId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Lookup whereShortValue($value)

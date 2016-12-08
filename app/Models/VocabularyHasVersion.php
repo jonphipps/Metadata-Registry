@@ -2,6 +2,8 @@
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Access\User\User;
+
 /**
  * App\Models\VocabularyHasVersion
  *
@@ -54,7 +56,7 @@ class VocabularyHasVersion extends Model
 
     public function UserCreator()
     {
-        return $this->belongsTo('App\Models\User', 'created_user_id', 'id');
+        return $this->belongsTo(User::class, 'created_user_id', 'id');
     }
 
     public function Vocabulary()

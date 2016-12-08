@@ -9,19 +9,19 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * App\Models\Concept
  *
- * @property integer $id
+ * @property int $id
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property string $deleted_at
  * @property string $last_updated
- * @property integer $created_user_id
- * @property integer $updated_user_id
+ * @property int $created_user_id
+ * @property int $updated_user_id
  * @property string $uri
  * @property string $pref_label
- * @property integer $vocabulary_id
- * @property boolean $is_top_concept
- * @property integer $pref_label_id
- * @property integer $status_id
+ * @property int $vocabulary_id
+ * @property bool $is_top_concept
+ * @property int $pref_label_id
+ * @property int $status_id
  * @property string $language
  * @property-read \App\Models\Vocabulary $Vocabulary
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ConceptAttribute[] $Properties
