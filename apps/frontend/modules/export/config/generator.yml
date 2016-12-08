@@ -105,7 +105,7 @@ generator:
         created_at:    { params: date_format='F' }
         _elapsed:      { name: Elapsed }
       display:
-        "Import Detail":      [created_at, user]
+        "Export Detail":      [created_at, user, file]
         "Results":            [_selected_language, selected_columns_to_string, exclude_deprecated, include_generated, include_deleted, include_not_accepted, published_english_version, published_language_version, last_vocab_update ]
 #        "Map":                [map]
       actions:
