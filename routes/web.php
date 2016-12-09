@@ -8,6 +8,11 @@
 Route::get('lang/{lang}', 'LanguageController@swap');
 
 /* ----------------------------------------------------------------------- */
+Route::group([ 'middleware' => 'passthru' ], function () {
+  Route::any('vocabularies/{id}/exports/save');
+  Route::any('elementsets/{id}/exports/save');
+});
+
 
 /**
  * Frontend Routes
@@ -34,7 +39,7 @@ Route::group(['namespace' => 'Backend', 'prefix' => 'admin', 'as' => 'admin.', '
 	includeRouteFiles(__DIR__ . '/Backend/');
 });
 
-Route::get('{all}',
+Route::any('{all}',
     function () {
       return response("symfony", 418);
     })->where('all', '.*');
