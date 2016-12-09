@@ -37,7 +37,10 @@ class rdfActions extends sfActions
           $filename = isset($vocabulary) ? $vocabulary->getToken() : $id;
           $this->getContext()->getResponse()->setStatusCode(200);
           $this->getResponse()->setHttpHeader('Content-Disposition', 'attachment; filename="' . $filename . '.xml"');
-          break;
+          $this->getResponse()->setHttpHeader('Content-Type', 'application/rdf+xml; charset=UTF-8');
+          $this->getResponse()->setHttpHeader('Pragma', '');
+          $this->getResponse()->setHttpHeader('Cache-Control', '');
+         break;
        case 'html':
           //this URI does NOT have an 'id', HAS an 'html' suffix, and HAS a 'uri' action
           //redirect to the base registry using the correct id for the scheme:
