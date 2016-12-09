@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use Bugsnag;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Session\TokenMismatchException;
@@ -38,6 +39,7 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $exception)
     {
+        Bugsnag::notifyException($exception);
         parent::report($exception);
     }
 
