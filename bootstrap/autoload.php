@@ -76,5 +76,7 @@ if (array_key_exists('SERVER_NAME', $_SERVER)) {
       $icon = 'registry_favicon_prod.ico';
   }
   putenv("FAVICON=$icon");
-  $bugsnag->setNotifyReleaseStages([ 'beta', 'sandbox', 'production' ]);
+  $releaseStage = empty(env('BUGSNAG_NOTIFY_RELEASE_STAGES')) ? ['production'] : explode(',',
+      str_replace(' ', '', env('BUGSNAG_NOTIFY_RELEASE_STAGES')));
+  $bugsnag->setNotifyReleaseStages($releaseStage);
 }
