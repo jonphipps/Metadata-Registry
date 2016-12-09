@@ -363,7 +363,7 @@ SQL
 *@return array
    */
   public function getDataForExport(
-      $excludeDeprecated = false, $includeGenerated = false, $includeDeleted = false, $includeNotAccepted = false,
+      $includeDeprecated = false, $includeGenerated = false, $includeDeleted = false, $includeNotAccepted = false,
       $languages = []
   ) {
     $results       = [];
@@ -371,8 +371,19 @@ SQL
     $id            = $this->getId();
     $deleteSQL     = $includeDeleted ? '' : 'and reg_concept_property.deleted_at is null';
     $generatedSQL  = $includeGenerated ? 'and reg_concept_property.is_generated = 0' : '';
-    $deprecatedSQL = $excludeDeprecated ? 'and reg_concept.status_id <> 8' : '';
-    $allStatusSQL  = $includeNotAccepted ? '' : 'and reg_concept.status_id = 1';
+    $deprecatedSQL = $includeDeprecated ? '' : 'and reg_concept.status_id <> 8';
+
+    $allStatusSQL = '';
+    if ($includeNotAccepted && $includeDeprecated) {
+      $allStatusSQL = '';
+    }
+    if ( ! $includeNotAccepted && $includeDeprecated) {
+      $allStatusSQL = 'and reg_concept.status_id in (1,8)';
+    }
+    if ( ! $includeNotAccepted && ! $includeDeprecated) {
+      $allStatusSQL = 'and reg_concept.status_id = 1';
+    }
+
     $languageSQL   = '';
     if (count($languages)) {
       $languageSQL = "and (reg_concept_property.language = ''";
