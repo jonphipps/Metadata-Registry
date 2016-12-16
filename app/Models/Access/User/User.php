@@ -2,8 +2,12 @@
 
 namespace App\Models\Access\User;
 
+use App\Models\ElementSet;
+use App\Models\ElementSetHasUser;
 use App\Models\Project;
 use App\Models\ProjectHasUser;
+use App\Models\Vocabulary;
+use App\Models\VocabularyHasUser;
 use Illuminate\Notifications\Notifiable;
 use App\Models\Access\User\Traits\UserAccess;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -39,7 +43,9 @@ use App\Models\Access\User\Traits\Relationship\UserRelationship;
  * @property string $name
  * @property bool $confirmed
  * @property bool $status
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Project[] $Projects
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Project[] $projects
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Vocabulary[] $vocabs
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ElementSet[] $elementsets
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $readNotifications
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $unreadNotifications
@@ -87,20 +93,15 @@ use App\Models\Access\User\Traits\Relationship\UserRelationship;
  */
 class User extends Authenticatable
 {
-    use UserScope,
-		UserAccess,
-		Notifiable,
-		SoftDeletes,
-		UserAttribute,
-		UserRelationship,
-		UserSendPasswordReset;
-
 	/**
 	 * The database table used by the model.
 	 *
 	 * @var string
 	 */
-    protected $table = 'reg_user';
+  protected $table = self::TABLE;
+  const TABLE = 'reg_user';
+
+  use UserScope, UserAccess, Notifiable, SoftDeletes, UserAttribute, UserRelationship, UserSendPasswordReset;
 
     /**
      * The attributes that are mass assignable.

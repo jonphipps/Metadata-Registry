@@ -12,28 +12,29 @@
  * @property bool $s_type
  * @property bool $o_type
  * @property bool $misc
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ArcTriple whereT($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ArcTriple whereS($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ArcTriple whereP($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ArcTriple whereO($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ArcTriple whereOLangDt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ArcTriple whereOComp($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ArcTriple whereSType($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ArcTriple whereOType($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ArcTriple whereMisc($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ArcTriple whereT( $value )
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ArcTriple whereS( $value )
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ArcTriple whereP( $value )
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ArcTriple whereO( $value )
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ArcTriple whereOLangDt( $value )
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ArcTriple whereOComp( $value )
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ArcTriple whereSType( $value )
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ArcTriple whereOType( $value )
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ArcTriple whereMisc( $value )
  * @mixin \Eloquent
  */
 class ArcTriple extends \Illuminate\Database\Eloquent\Model
 {
-    protected $table = 'arc_triple';
+  protected $table = self::TABLE;
+  const TABLE = 'arc_triple';
 
-    public $primaryKey = 't';
+  public $primaryKey = 't';
 
-    public $timestamps = false;
+  public $timestamps = false;
 
-    public $incrementing = false;
+  public $incrementing = false;
 
-    protected $fillable = array('s', 'p', 'o', 'o_lang_dt', 'o_comp', 's_type', 'o_type', 'misc');
+  protected $fillable = [ 's', 'p', 'o', 'o_lang_dt', 'o_comp', 's_type', 'o_type', 'misc' ];
 
 }
 

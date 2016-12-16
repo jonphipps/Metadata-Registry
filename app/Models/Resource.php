@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Eloquent\Model as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+
 /**
  * App\Models\Resource
  *
@@ -9,30 +10,28 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Resource extends Model
 {
-    use SoftDeletes;
+  protected $table = self::TABLE;
+  const TABLE = "resources";
 
-    public $table = "resources";
-    
-    protected $dates = ['deleted_at'];
+  use SoftDeletes;
 
+  protected $dates = [ 'deleted_at' ];
 
-    public $fillable = [
-        "metadata"
-    ];
+  public $fillable = [
+      "metadata",
+  ];
 
-    /**
-     * The attributes that should be casted to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        "metadata" => "string"
-    ];
+  /**
+   * The attributes that should be casted to native types.
+   *
+   * @var array
+   */
+  protected $casts = [
+      "metadata" => "string",
+  ];
 
-    public static $rules = [
+  public static $rules = [
 
-    ];
-
-
+  ];
 
 }

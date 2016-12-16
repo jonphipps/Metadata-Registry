@@ -17,64 +17,62 @@ use App\Models\Access\User\User;
  * @property bool $is_admin_for
  * @property-read \App\Models\Access\User\User $User
  * @property-read \App\Models\Project $Agent
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ProjectHasUser whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ProjectHasUser whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ProjectHasUser whereUpdatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ProjectHasUser whereDeletedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ProjectHasUser whereUserId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ProjectHasUser whereAgentId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ProjectHasUser whereIsRegistrarFor($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ProjectHasUser whereIsAdminFor($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ProjectHasUser whereId( $value )
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ProjectHasUser whereCreatedAt( $value )
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ProjectHasUser whereUpdatedAt( $value )
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ProjectHasUser whereDeletedAt( $value )
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ProjectHasUser whereUserId( $value )
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ProjectHasUser whereAgentId( $value )
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ProjectHasUser whereIsRegistrarFor( $value )
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ProjectHasUser whereIsAdminFor( $value )
  * @mixin \Eloquent
  */
 class ProjectHasUser extends Model
 {
+  protected $table = self::TABLE;
+  const TABLE = 'reg_agent_has_user';
 
-    const TABLE = 'reg_agent_has_user';
-
-    protected $table = self::TABLE;
-
-    use SoftDeletes;
+  use SoftDeletes;
 
 
-    public function getDates()
-    {
-        return [ 'deleted_at' ];
-    }
+  public function getDates()
+  {
+    return [ 'deleted_at' ];
+  }
 
 
-    protected $fillable = [ 'deleted_at', 'is_registrar_for', 'is_admin_for' ];
+  protected $fillable = [ 'deleted_at', 'is_registrar_for', 'is_admin_for' ];
 
-    /**
-     * The attributes that should be casted to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'id'               => 'integer',
-        'user_id'          => 'integer',
-        'agent_id'         => 'integer',
-        'is_registrar_for' => 'boolean',
-        'is_admin_for'     => 'boolean'
-    ];
+  /**
+   * The attributes that should be casted to native types.
+   *
+   * @var array
+   */
+  protected $casts = [
+      'id'               => 'integer',
+      'user_id'          => 'integer',
+      'agent_id'         => 'integer',
+      'is_registrar_for' => 'boolean',
+      'is_admin_for'     => 'boolean',
+  ];
 
-    public static $rules = [
-        'updated_at' => 'required|',
-        'user_id'    => 'required|',
-        'agent_id'   => 'required|'
-    ];
-
-
-    public function User()
-    {
-        return $this->belongsTo(User::class, 'user_id', 'id');
-    }
+  public static $rules = [
+      'updated_at' => 'required|',
+      'user_id'    => 'required|',
+      'agent_id'   => 'required|',
+  ];
 
 
-    public function Agent()
-    {
-        return $this->belongsTo(Project::class, 'agent_id', 'id');
-    }
-    
+  public function User()
+  {
+    return $this->belongsTo(User::class, 'user_id', 'id');
+  }
+
+
+  public function Agent()
+  {
+    return $this->belongsTo(Project::class, 'agent_id', 'id');
+  }
+
 }
 

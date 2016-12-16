@@ -32,59 +32,59 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property-read \App\Models\Access\User\User $creator
  * @property-read \App\Models\Access\User\User $updater
  * @property-read \App\Models\Access\User\User $eraser
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereUpdatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereDeletedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereCreatedUserId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereUpdatedUserId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereDeletedUserId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereSchemaPropertyId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereProfilePropertyId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereIsSchemaProperty($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereObject($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereRelatedSchemaPropertyId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereLanguage($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereStatusId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereIsGenerated($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereId( $value )
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereCreatedAt( $value )
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereUpdatedAt( $value )
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereDeletedAt( $value )
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereCreatedUserId( $value )
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereUpdatedUserId( $value )
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereDeletedUserId( $value )
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereSchemaPropertyId( $value )
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereProfilePropertyId( $value )
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereIsSchemaProperty( $value )
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereObject( $value )
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereRelatedSchemaPropertyId( $value )
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereLanguage( $value )
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereStatusId( $value )
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereIsGenerated( $value )
  * @mixin \Eloquent
  */
 class ElementAttribute extends Model
 {
+  protected $table = self::TABLE;
+  const TABLE = 'reg_schema_property_element';
 
-    use SoftDeletes, Blameable, CreatedBy, UpdatedBy, DeletedBy;
+  use SoftDeletes, Blameable, CreatedBy, UpdatedBy, DeletedBy;
 
-    protected $blameable = [
-        'created' => 'created_user_id',
-        'updated' => 'updated_user_id',
-        'deleted' => 'deleted_user_id'
-    ];
+  protected $blameable = [
+      'created' => 'created_user_id',
+      'updated' => 'updated_user_id',
+      'deleted' => 'deleted_user_id',
+  ];
 
-    protected $dates = [ 'deleted_at' ];
-
-    protected $table = 'reg_schema_property_element';
-
-
-    public function ProfileProperty()
-    {
-        return $this->belongsTo('App\Models\ProfileProperty', 'profile_property_id', 'id');
-    }
+  protected $dates = [ 'deleted_at' ];
 
 
-    public function Element()
-    {
-        return $this->belongsTo('App\Models\Element', 'schema_property_id', 'id');
-    }
+  public function ProfileProperty()
+  {
+    return $this->belongsTo('App\Models\ProfileProperty', 'profile_property_id', 'id');
+  }
 
 
-    public function Status()
-    {
-        return $this->belongsTo('App\Models\Status', 'status_id', 'id');
-    }
+  public function Element()
+  {
+    return $this->belongsTo('App\Models\Element', 'schema_property_id', 'id');
+  }
 
 
-    public function ElementAttributeHistory()
-    {
-        return $this->hasMany('App\Models\ElementAttributeHistory', '$schema_property_element_id', 'id');
-    }
+  public function Status()
+  {
+    return $this->belongsTo('App\Models\Status', 'status_id', 'id');
+  }
+
+
+  public function ElementAttributeHistory()
+  {
+    return $this->hasMany('App\Models\ElementAttributeHistory', '$schema_property_element_id', 'id');
+  }
 }

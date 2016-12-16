@@ -5,21 +5,22 @@
  *
  * @property int $g
  * @property int $t
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ArcG2t whereG($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ArcG2t whereT($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ArcG2t whereG( $value )
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ArcG2t whereT( $value )
  * @mixin \Eloquent
  */
 class ArcG2t extends \Illuminate\Database\Eloquent\Model
 {
-    protected $table = 'arc_g2t';
+  protected $table = self::TABLE;
+  const TABLE = 'arc_g2t';
 
-    public $primaryKey = 't';
+  public $primaryKey = 't';
 
-    public $timestamps = false;
+  public $timestamps = false;
 
-    public $incrementing = false;
+  public $incrementing = false;
 
-    protected $fillable = array();
+  protected $fillable = [];
 
 }
 

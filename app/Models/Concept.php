@@ -25,35 +25,39 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string $language
  * @property-read \App\Models\Vocabulary $Vocabulary
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ConceptAttribute[] $Properties
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereUpdatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereDeletedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereLastUpdated($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereCreatedUserId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereUpdatedUserId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereUri($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept wherePrefLabel($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereVocabularyId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereIsTopConcept($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept wherePrefLabelId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereStatusId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereLanguage($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereId( $value )
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereCreatedAt( $value )
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereUpdatedAt( $value )
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereDeletedAt( $value )
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereLastUpdated( $value )
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereCreatedUserId( $value )
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereUpdatedUserId( $value )
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereUri( $value )
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept wherePrefLabel( $value )
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereVocabularyId( $value )
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereIsTopConcept( $value )
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept wherePrefLabelId( $value )
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereStatusId( $value )
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereLanguage( $value )
  * @mixin \Eloquent
  */
 class Concept extends Model
 {
-    use SoftDeletes;
-    protected $table = 'reg_concept';
-    protected $primaryKey = 'id';
+  protected $table = self::TABLE;
+  const TABLE = 'reg_concept';
 
-    public function Vocabulary()
-    {
-        return $this->belongsTo('App\Models\Vocabulary', 'vocabulary_id', 'id');
-    }
+  protected $primaryKey = 'id';
 
-    public function Properties()
-    {
+  use SoftDeletes;
+
+  public function Vocabulary()
+  {
+    return $this->belongsTo('App\Models\Vocabulary', 'vocabulary_id', 'id');
+  }
+
+
+  public function Properties()
+  {
 //        $properties = DB::table('reg_concept_property')
 //            ->join('profile_property', 'profile_property.skos_id', '=', 'reg_concept_property.skos_property_id')
 //            ->select(
@@ -68,6 +72,6 @@ class Concept extends Model
 //            ->get();
 //        return $properties;
 
-        return $this->hasMany(ConceptAttribute::class, 'concept_id');
-    }
+    return $this->hasMany(ConceptAttribute::class, 'concept_id');
+  }
 }

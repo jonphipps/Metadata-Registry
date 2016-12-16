@@ -5,21 +5,22 @@
  *
  * @property string $k
  * @property string $val
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ArcSetting whereK($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ArcSetting whereVal($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ArcSetting whereK( $value )
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ArcSetting whereVal( $value )
  * @mixin \Eloquent
  */
 class ArcSetting extends \Illuminate\Database\Eloquent\Model
 {
-    protected $table = 'arc_setting';
+  protected $table = self::TABLE;
+  const TABLE = 'arc_setting';
 
-    public $primaryKey = 'k';
+  public $primaryKey = 'k';
 
-    public $timestamps = false;
+  public $timestamps = false;
 
-    public $incrementing = false;
+  public $incrementing = false;
 
-    protected $fillable = array('val');
+  protected $fillable = [ 'val' ];
 
 }
 
