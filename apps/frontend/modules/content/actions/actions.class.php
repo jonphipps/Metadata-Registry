@@ -12,8 +12,8 @@ class contentActions extends sfActions
 {
   public function executeHome()
   {
-      $user= sfContext::getInstance()->getUser();
-      if (!$user || !$user->isAuthenticated()) {
+      $user= Auth::user();
+      if (!$user || !Auth::check()) {
         $this->getRss();
         $this->getChangeFeed();
         $this->outputFile('home');

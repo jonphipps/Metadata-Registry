@@ -70,3 +70,7 @@ Homestead.yaml
 tests/_support/_generated
 swregistry_test_backup*.sql
 dump.sql
+tests/_data/swregistry_20161218_1448EST.sql
+tests/_data/swregistry_20161218_1501EST.sql
+tests/_data/swregistry_prod_20161218_1738EST.sql
+tests/_data/swregistry_prod_temp_20161218_1643EST.sql

@@ -24,9 +24,9 @@
         <li class="browse"><?php echo link_to(__('Projects'), '@agent_list',  'title="Browse all Projects"' ) ?></li>
         <li class="browse"><?php echo link_to(__('Vocabularies'), '@vocabulary_list',  'title="Browse all Value Vocabularies"' ); ?></li>
         <li class="browse"><?php echo link_to(__('Element Sets'), '@schema_list', 'title="Browse all Element Sets"'); ?></li>
-        <?php /** @var myUser $sf_user */
-        if ($sf_user->isAuthenticated()): ?>
-            <li><?php echo link_to(__('%1% profile', [ '%1%' => $sf_user->getAttribute('nickname', '', 'subscriber') ]),
+        <?php
+        if (Auth::check()): ?>
+            <li><?php echo link_to(__('%1% profile', [ '%1%' => Auth::user()->nickname ]),
                                    '@current_user_profile') ?></li>
             <li><?php echo link_to(__('sign out'), '@logout') ?></li>
         <?php else: ?>

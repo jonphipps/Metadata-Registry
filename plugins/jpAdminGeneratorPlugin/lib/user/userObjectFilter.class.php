@@ -24,7 +24,7 @@ class userObjectFilter extends sfFilter
       $user->setAuthenticated(true);
     }
 
-    if (!$user->isAuthenticated())
+    if (!Auth::check())
     {
       //this will make sure we are really signed out
       $user->signOut();
