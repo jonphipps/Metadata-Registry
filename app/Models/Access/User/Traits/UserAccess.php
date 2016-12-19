@@ -46,37 +46,38 @@ trait UserAccess
      * @param  $needsAll
      * @return bool
      */
-    public function hasRoles($roles, $needsAll = false)
-    {
-		if (! is_array($roles)) {
-			$roles = array($roles);
-		}
-        //User has to possess all of the roles specified
-        if ($needsAll) {
-            $hasRoles = 0;
-            $numRoles = count($roles);
+  public function hasRoles($roles, $needsAll = false)
+  {
+    if ( ! is_array($roles)) {
+      $roles = [ $roles ];
+    }
+    //User has to possess all of the roles specified
+    if ($needsAll) {
+      $hasRoles = 0;
+      $numRoles = count($roles);
 
-            foreach ($roles as $role) {
-                if ($this->hasRole($role)) {
-                    $hasRoles++;
-                }
-            }
-
-            return $numRoles == $hasRoles;
+      foreach ($roles as $role) {
+        if ($this->hasRole($role)) {
+          $hasRoles++;
         }
+      }
 
-        //User has to possess one of the roles specified
-        foreach ($roles as $role) {
-            if ($this->hasRole($role)) {
-                return true;
-            }
-
-        }
-
-        return false;
+      return $numRoles == $hasRoles;
     }
 
-    /**
+    //User has to possess one of the roles specified
+    foreach ($roles as $role) {
+      if ($this->hasRole($role)) {
+        return true;
+      }
+
+    }
+
+    return false;
+  }
+
+
+  /**
      * Check if user has a permission by its name or id.
      *
      * @param  string $nameOrId Permission name or id.
@@ -228,4 +229,23 @@ trait UserAccess
             $this->detachRole($role);
         }
     }
+
+
+  /**
+   * This is an alias for hasRoles
+   *
+   * @param $credentials
+   * @param bool $needsAll
+   *
+   * @return bool
+   */
+  public function hasCredential($credentials, $needsAll = false)
+  {
+    if (is_array($credentials) && is_array($credentials[0])) {
+      $credentials = $credentials[0];
+    }
+    return $this->hasRoles($credentials, $needsAll);
+
+  }
+
 }
