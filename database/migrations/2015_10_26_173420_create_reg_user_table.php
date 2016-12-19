@@ -33,8 +33,6 @@ class CreateRegUserTable extends Migration {
 			$table->integer('deletions')->nullable()->default(0);
 			$table->string('password', 255)->nullable();
 			$table->string('culture', 7)->nullable()->default('en_US');
-      $table->rememberToken();
-
 		});
 	}
 
@@ -46,7 +44,7 @@ class CreateRegUserTable extends Migration {
 	 */
 	public function down()
 	{
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('reg_user');
 	}
 
 }

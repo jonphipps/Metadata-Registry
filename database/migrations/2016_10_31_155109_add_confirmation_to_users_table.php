@@ -19,7 +19,7 @@ class AddConfirmationToUsersTable extends Migration
           $table->string('confirmation_code');
           $table->string('name', 191);
           $table->boolean('confirmed')->default(config('access.users.confirm_email') ? false : true);
-          $table->boolean('status')->default(true);
+          $table->rememberToken();
         });
     //set a random unique confirmation code
     DB::statement('update reg_user set confirmation_code = md5(SYSDATE(6));');
