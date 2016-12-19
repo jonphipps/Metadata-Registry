@@ -640,8 +640,8 @@ class myUser extends sfBasicSecurityUser
    * Exactly the same as hasCredential except it uses the temporary credentials we built
    * We could also have added the credential array as a param to the regular credential check
    *
-   * @param  mixed credentials
-   * @param  boolean useAnd specify the mode, either AND or OR
+   * @param  mixed $credentials
+   * @param  boolean $useAnd specify the mode, either AND or OR
    * @return boolean
    *
    * @author Olivier Verdier <Olivier.Verdier@free.fr>
