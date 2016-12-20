@@ -1637,6 +1637,7 @@ class ImportVocab
                                                 $property,
                                                 $profileProperty->getName(), ! $profileProperty->getIsObjectProp(),
                                                 $key);
+                        $dbElement->setIsSchemaProperty(true);
                     }
                 }
 
@@ -1716,6 +1717,7 @@ class ImportVocab
                                                $concept,
                                                $profileProperty->getName(), ! $profileProperty->getIsObjectProp(),
                                                $key);
+                      $dbElement->setIsConceptProperty(true);
                     }
                 }
 
