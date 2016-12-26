@@ -114,7 +114,8 @@
         "infyomlabs/adminlte-templates": "5.3.x-dev",
         "infyomlabs/swagger-generator": "dev-master",
         "xethron/migrations-generator": "dev-l5",
-        "way/generators": "dev-feature/laravel-five-stable"
+        "way/generators": "dev-feature/laravel-five-stable",
+        "behat/behat": "^v3.3.0"
     },
     "autoload-dev": {
         "psr-4": {
