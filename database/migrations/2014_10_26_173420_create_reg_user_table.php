@@ -16,8 +16,8 @@ class CreateRegUserTable extends Migration {
 	{
 		Schema::create('reg_user', function(Blueprint $table)
 		{
-      $table->increments('id');
-			$table->dateTime('created_at')->nullable();
+      $table->integer('id', true);
+      $table->dateTime('created_at')->nullable();
 			$table->dateTime('deleted_at')->nullable();
 			$table->timestamp('last_updated')->default(DB::raw('CURRENT_TIMESTAMP'));
  			$table->string('nickname', 60)->nullable();
