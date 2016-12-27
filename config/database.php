@@ -57,7 +57,8 @@ return [
             'database' => ':memory:',
             'prefix'   => '',
         ],
-        'mysql'          => [
+
+        'mysql' => [
             'driver'    => 'mysql',
             'host'      => env('DB_HOST', 'localhost'),
             'port'      => ( 'homestead' === env('DB_USERNAME',
@@ -65,6 +66,20 @@ return [
             'database'  => env('DB_DATABASE', 'forge'),
             'username'  => env('DB_USERNAME', 'forge'),
             'password'  => env('DB_PASSWORD', ''),
+            'charset'   => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'prefix'    => '',
+            'strict'    => false,
+            'engine'    => 'InnoDB',
+        ],
+
+        'mysql_testing' => [
+            'driver'    => 'mysql',
+            'host'      => env('DBTEST_HOST', 'localhost'),
+            'port'      => env('DBTEST_PORT', '3306'),
+            'database'  => env('DBTEST_DATABASE', 'swregistry_test'),
+            'username'  => env('DBTEST_USERNAME', 'root'),
+            'password'  => env('DBTEST_PASSWORD', ''),
             'charset'   => 'utf8mb4',
             'collation' => 'utf8mb4_unicode_ci',
             'prefix'    => '',
