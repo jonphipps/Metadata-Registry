@@ -93,9 +93,12 @@ class SetupAccessTables extends Migration
 	 */
 	public function down()
 	{
-		Schema::table(config('access.users_table'), function (Blueprint $table) {
-			$table->dropColumn('status');
-		});
+    if (Schema::hasColumn(config('access.users_table'), 'status')) {
+      Schema::table(config('access.users_table'),
+          function (Blueprint $table) {
+            $table->dropColumn('status');
+          });
+    }
 
 		/**
 		 * Remove Foreign/Unique/Index
@@ -121,9 +124,9 @@ class SetupAccessTables extends Migration
 		/**
 		 * Drop tables
 		 */
-		Schema::dropIfExists(config('access.role_user_table'));
 		Schema::dropIfExists(config('access.permission_role_table'));
-		Schema::dropIfExists(config('access.roles_table'));
-		Schema::dropIfExists(config('access.permissions_table'));
+    Schema::dropIfExists(config('access.role_user_table'));
+    Schema::dropIfExists(config('access.roles_table'));
+    Schema::dropIfExists(config('access.permissions_table'));
 	}
 }
