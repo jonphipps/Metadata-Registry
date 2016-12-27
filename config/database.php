@@ -76,7 +76,8 @@ return [
         'mysql_testing' => [
             'driver'    => 'mysql',
             'host'      => env('DBTEST_HOST', 'localhost'),
-            'port'      => env('DBTEST_PORT', '3306'),
+            'port' => ( 'homestead' === env('DB_USERNAME',
+                    'forge') && 'homestead' !== gethostname() ) ? '33060' : '3306',
             'database'  => env('DBTEST_DATABASE', 'swregistry_test'),
             'username'  => env('DBTEST_USERNAME', 'root'),
             'password'  => env('DBTEST_PASSWORD', ''),
