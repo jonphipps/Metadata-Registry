@@ -18,11 +18,11 @@ class DatabaseSeeder extends Seeder
         $this->call(AccessTableSeeder::class);
         $this->call(HistoryTypeTableSeeder::class);
 
-        // $this->call(SkosPropertySeeder::class);
-        // $this->call(StatusSeeder::class);
-        // $this->call(ProfileSeeder::class);
-        // $this->call(ProfilePropertySeeder::class);
-        // $this->call(PrefixSeeder::class);
+        $this->call(SkosPropertySeeder::class);
+        $this->call(StatusSeeder::class);
+        $this->call(ProfileSeeder::class);
+        $this->call(ProfilePropertySeeder::class);
+        $this->call(PrefixSeeder::class);
 
         Model::reguard();
     }
