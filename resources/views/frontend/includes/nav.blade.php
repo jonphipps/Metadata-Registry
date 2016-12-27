@@ -43,7 +43,9 @@
 
                 @if (! $logged_in_user)
                     <li>{{ \Collective\Html\link_to_route('frontend.auth.login', trans('navs.frontend.login')) }}</li>
+                    @if (config('access.users.registration'))
                     <li>{{ \Collective\Html\link_to_route('frontend.auth.register', trans('navs.frontend.register')) }}</li>
+                    @endif
                 @else
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">

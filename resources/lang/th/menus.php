@@ -33,12 +33,12 @@ return [
                 'deleted' => 'ผู้ใช้ที่ถูกลบ',
                 'edit' => 'แก้ไขผู้ใช้',
                 'main' => 'ผู้ใช้',
-				'view' => 'View User',
+        'view' => 'แสดงผู้ใช้',
             ],
         ],
 
         'log-viewer' => [
-            'main' => 'Log Viewer',
+            'main' => 'แสดงข้อมูล Log',
             'dashboard' => 'แผงควบคุม',
             'logs' => 'รายการล็อก',
         ],
@@ -46,7 +46,7 @@ return [
         'sidebar' => [
             'dashboard' => 'แผงควบคุม',
             'general' => 'ทั่วไป',
-			'system' => 'System',
+        'system' => 'ระบบ',
         ],
     ],
 
@@ -62,6 +62,7 @@ return [
             'ar' => 'อารบิก (Arabic)',
             'da' => 'เดนมา์ก (Danish)',
             'de' => 'เยอรมัน (German)',
+            'el' => '(Greek)',
             'en' => 'อังกฤษ (English)',
             'es' => 'สเปน (Spanish)',
             'fr' => 'ฝรั่งเศส (French)',

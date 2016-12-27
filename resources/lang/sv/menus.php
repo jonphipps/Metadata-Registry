@@ -62,6 +62,7 @@ return [
             'ar' => 'Arabiska (Arabic)',
             'da' => 'Danska (Danish)',
             'de' => 'Tyska (German)',
+            'el' => '(Greek)',
             'pt_BR' => 'Brasiliansk portugisiska (Brazilian Portuguese)',
             'en' => 'Engelska (English)',
             'fr' => 'Franska (French)',

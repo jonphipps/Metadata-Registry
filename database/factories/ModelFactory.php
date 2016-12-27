@@ -257,16 +257,58 @@ $factory->define(App\Models\VocabularyHasVersion::class, function (Faker\Generat
 //INSERT INTO `swregistry`.`reg_user` (id, created_at, last_updated, deleted_at, nickname, name, salutation, first_name, last_name, email, sha1_password, salt, want_to_be_moderator, is_moderator, is_administrator, deletions, password, culture) VALUES ()
 $factory->define(User::class, function (Faker\Generator $faker) {
     static $password;
-    $name = $faker->userName;
+    $name = $faker->userName->unique();
     return [
         'nickname' => $name,
         'name' => $name,
-        'email' => $faker->unique()->safeEmail,
+        'email' => $faker->safeEmail,
         'password' => $password ?: $password = bcrypt('secret'),
         'sha1_password' => '4d62099656182b62337a7b52535f4f1e1a214542',
         'salt' => 'a4f51ef3ff29a5162c98c684581250de',
         'remember_token' => str_random(10),
+		'confirmation_code' => md5(uniqid(mt_rand(), true)),
     ];
+});
+
+$factory->state(User::class, 'active', function () {
+	return [
+		'status' => 1,
+	];
+});
+
+$factory->state(User::class, 'inactive', function () {
+	return [
+		'status' => 0,
+	];
+});
+
+$factory->state(User::class, 'confirmed', function () {
+	return [
+		'confirmed' => 1,
+	];
+});
+
+$factory->state(User::class, 'unconfirmed', function () {
+	return [
+		'confirmed' => 0,
+	];
+});
+
+/**
+ * Roles
+ */
+$factory->define(Role::class, function (Generator $faker) {
+	return [
+		'name' => $faker->name,
+		'all' => 0,
+		'sort' => $faker->numberBetween(1, 100),
+	];
+});
+
+$factory->state(Role::class, 'admin', function () {
+	return [
+		'all' => 1,
+	];
 });
 
 $factory->defineAs(User::class, 'super_admin', function (Faker\Generator $faker) use ($factory) {

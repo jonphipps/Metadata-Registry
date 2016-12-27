@@ -17,7 +17,7 @@
                     </div>
                 @else
                     <div class="col-md-3">
-                        <canvas id="stats-doughnut-chart"></canvas>
+                        <canvas id="stats-doughnut-chart" height="300"></canvas>
                     </div>
                     <div class="col-md-9">
                         <section class="box-body">
@@ -53,11 +53,15 @@
 @section('after-scripts-end')
     <script>
         $(function() {
-            var data = {!! $reports !!};
 
-            new Chart($('#stats-doughnut-chart')[0].getContext('2d'))
-                .Doughnut(data, {
-                    animationEasing : "easeOutQuart"
+            new Chart($('canvas#stats-doughnut-chart'), {
+                type: 'doughnut',
+                data: {!! $chartData !!},
+                options: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
                 });
         });
     </script>

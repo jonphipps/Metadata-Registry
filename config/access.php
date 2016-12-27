@@ -46,6 +46,11 @@ return [
 	 */
 	'users' => [
 		/*
+		 * Whether or not public registration is on
+		 */
+		'registration' => env('ENABLE_REGISTRATION', 'true'),
+
+		/*
 		 * The role the user is assigned to when they sign up from the frontend, not namespaced
 		 */
 		'default_role' => 'Subscriber',

@@ -62,6 +62,7 @@ return [
             'ar' => 'العربية (Arabic)',
             'da' => 'Danese (Danish)',
             'de' => 'Tedesco (German)',
+            'el' => '(Greek)',
             'en' => 'Inglese (English)',
             'es' => 'Spagnol (Spanish)',
             'fr' => 'Francese (French)',

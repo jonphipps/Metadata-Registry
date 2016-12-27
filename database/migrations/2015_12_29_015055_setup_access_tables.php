@@ -19,6 +19,9 @@ class SetupAccessTables extends Migration
 	{
 		Schema::table(config('access.users_table'), function ($table) {
 			$table->tinyInteger('status')->after('password')->default(1)->unsigned();
+			$table->string('confirmation_code')->after('status')->nullable();
+			$table->boolean('confirmed')->after('confirmation_code')->default(config('access.users.confirm_email') ? false : true);
+			$table->softDeletes();
 		});
 
 		Schema::create(config('access.roles_table'), function ($table) {

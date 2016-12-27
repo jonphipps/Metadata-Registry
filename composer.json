@@ -22,7 +22,8 @@
     "config": {
         "process-timeout": 900,
         "cache-dir:": "../",
-        "preferred-install": "dist"
+        "preferred-install": "dist",
+        "sort-packages": true
     },
     "license": "Apache-2.0",
     "authors": [
