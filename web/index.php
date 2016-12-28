@@ -10,11 +10,12 @@ $app = require_once SF_ROOT_DIR . DIRECTORY_SEPARATOR . 'bootstrap/app.php';
 
 //we may use this in future to prescreen URLs to bypass laravel processing
 $uri = urldecode(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
-  /** @var \Illuminate\Contracts\Http\Kernel $kernel */
-  $kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
+
+/** @var \Illuminate\Contracts\Http\Kernel $kernel */
+$kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
 
 //let laravel handle the response
-  $response = $kernel->handle($request = Illuminate\Http\Request::capture());
+$response = $kernel->handle($request = Illuminate\Http\Request::capture());
 if ($response->getStatusCode() !== 418) {
   $response->send();
 

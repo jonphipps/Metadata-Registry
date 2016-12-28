@@ -486,7 +486,7 @@ user_update:
   param: { module: user, action: update }
 
 current_user_profile:
-  url:   /user
+  url:   /account
   param: { module: user, action: showSubscriber }
 
 add_account:
