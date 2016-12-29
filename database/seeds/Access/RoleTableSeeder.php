@@ -19,7 +19,7 @@ class RoleTableSeeder extends Seeder
    */
   public function run()
   {
-    $this->enableForeignKeys();
+    $this->disableForeignKeys();
 
     if (DB::connection()->getDriverName() == 'mysql') {
       DB::table(config('access.roles_table'))->truncate();

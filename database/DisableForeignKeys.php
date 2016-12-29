@@ -18,11 +18,12 @@ trait DisablesForeignKeys
       'sqlite' => [
           'enable'  => 'PRAGMA foreign_keys = ON;',
           'disable' => 'PRAGMA foreign_keys = OFF;',
-      ],
+      ]
   ];
-*
-   * Disable foreign key checks for current db driver
-   */
+
+
+  /**
+   * Disable foreign key checks for current db driver */
   protected function disableForeignKeys()
   {
     DB::statement($this->getDisableStatement());

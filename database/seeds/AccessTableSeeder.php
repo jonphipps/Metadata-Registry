@@ -8,7 +8,7 @@ use Illuminate\Database\Seeder;
 class AccessTableSeeder extends Seeder
 {
 
-  use \database\DisablesForeignKeys;
+  use database\DisablesForeignKeys;
 
 
   /**
