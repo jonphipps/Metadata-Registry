@@ -89,11 +89,11 @@ class LoggedOutFormTest extends TestCase
 	 */
 	public function testLoginRequiredFields() {
 		$this->visit('/login')
-			->type('', 'email')
+			->type('', 'name')
 			->type('', 'password')
 			->press('Login')
 			->seePageIs('/login')
-			->see('The email field is required.')
+			->see('The name field is required.')
 			->see('The password field is required.');
 	}
 
@@ -109,7 +109,7 @@ class LoggedOutFormTest extends TestCase
 
 		//User Test
 		$this->visit('/login')
-			->type($this->user->email, 'email')
+			->type($this->user->name, 'name')
 			->type('1234', 'password')
 			->press('Login')
 			->seePageIs('/dashboard')
@@ -119,7 +119,7 @@ class LoggedOutFormTest extends TestCase
 
 		//Admin Test
 		$this->visit('/login')
-			->type($this->admin->email, 'email')
+			->type($this->admin->name, 'name')
 			->type('1234', 'password')
 			->press('Login')
 			->seePageIs('/admin/dashboard')
@@ -169,8 +169,9 @@ class LoggedOutFormTest extends TestCase
 
 		$this->visit('password/reset/'.$token)
 			->see($this->user->email)
-			->type('', 'password')
-			->type('', 'password_confirmation')
+        ->type($this->user->name, 'name')
+        ->type('', 'password')
+        ->type('', 'password_confirmation')
 			->press('Reset Password')
 			->see('The password field is required.');
 	}
@@ -184,7 +185,8 @@ class LoggedOutFormTest extends TestCase
 
 		$this->visit('password/reset/'.$token)
 			->see($this->user->email)
-			->type('12345678', 'password')
+        ->type($this->user->name, 'name')
+        ->type('12345678', 'password')
 			->type('12345678', 'password_confirmation')
 			->press('Reset Password')
 			->seePageIs('/')
@@ -202,7 +204,7 @@ class LoggedOutFormTest extends TestCase
 		$unconfirmed->attachRole(3); //User
 
 		$this->visit('/login')
-			->type($unconfirmed->email, 'email')
+			->type($unconfirmed->name, 'name')
 			->type('secret', 'password')
 			->press('Login')
 			->seePageIs('/login')
@@ -220,7 +222,7 @@ class LoggedOutFormTest extends TestCase
 		$inactive->attachRole(3); //User
 
 		$this->visit('/login')
-			->type($inactive->email, 'email')
+			->type($inactive->name, 'name')
 			->type('secret', 'password')
 			->press('Login')
 			->seePageIs('/login')
@@ -232,7 +234,7 @@ class LoggedOutFormTest extends TestCase
 	 */
 	public function testInvalidLoginCredentials() {
 		$this->visit('/login')
-			->type($this->user->email, 'email')
+			->type($this->user->name, 'name')
 			->type('9s8gy8s9diguh4iev', 'password')
 			->press('Login')
 			->seePageIs('/login')
