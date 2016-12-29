@@ -113,19 +113,21 @@ class UserFormTest extends TestCase
 		Event::assertFired(UserCreated::class);
 	}
 
-	public function testCreateUserFailsIfNameExists() {
-    $this->markTestSkipped('must be revisited.');
-		$this->actingAs($this->admin)
-			->visit('/admin/access/user/create')
-			->type('User', 'name')
-			->type('user@user.com', 'email')
-			->type('123456', 'password')
-			->type('123456', 'password_confirmation')
-        ->check('assignees_roles[3]')
-			->press('Create')
-			->seePageIs('/admin/access/user/create')
-			->see('The email has already been taken.');
-	}
+
+  public function testCreateUserFailsIfNameExists()
+  {
+//    $this->markTestSkipped('Must be revisited:');
+    $this->actingAs($this->admin)
+        ->visit('/admin/access/user/create')
+        ->type('defaultuser', 'name')
+        ->type('user@user.com', 'email')
+        ->type('123456', 'password')
+        ->type('123456', 'password_confirmation')
+        ->check('assignees_roles[3]');
+    $this->press('Create');
+    $this->seePageIs('/admin/access/user/create')
+        ->see('The name has already been taken.');
+  }
 
 	public function testUpdateUserRequiredFields() {
 		$this->actingAs($this->admin)
