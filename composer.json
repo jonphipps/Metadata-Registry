@@ -75,9 +75,9 @@
         "hieu-le/active": "~2.0",
         "arcanedev/log-viewer": "~4.0",
         "arcanedev/no-captcha": "~3.0",
-        "yajra/laravel-datatables-oracle": "~6.0",
-        "nstapelbroek/culpa": "^2.0"
+        "yajra/laravel-datatables-oracle": "~6.0", "nstapelbroek/culpa": "^2.0"
     },
+
     "autoload": {
         "psr-4": {
             "ImportVocab\\": "plugins/jpAdminGeneratorPlugin/lib/ImportVocab",
@@ -95,28 +95,30 @@
         ]
     },
     "require-dev": {
-        "fzaninotto/faker": "^1.6",
-        "raveren/kint": "1.0.*@dev",
-        "phpspec/phpspec": "~2.1",
-        "henrikbjorn/phpspec-code-coverage": "1.0.*@dev",
-        "codeception/specify": "^0.4.3",
-        "codeception/verify": "^0.3.0",
+        "barryvdh/laravel-ide-helper": "^2.1",
+        "behat/behat": "^3.3",
+        "behat/mink": "^1.7",
+        "behat/mink-extension": "^2.2",
         "captbaritone/mailcatcher-codeception-module": "^1.1",
         "codeception/codeception": "^2.2",
+        "codeception/specify": "^0.4.3",
+        "codeception/verify": "^0.3.0",
+        "fzaninotto/faker": "^1.6",
+        "henrikbjorn/phpspec-code-coverage": "1.0.*@dev",
+        "infyomlabs/adminlte-templates": "5.3.x-dev",
+        "infyomlabs/laravel-generator": "5.3.x-dev",
+        "infyomlabs/swagger-generator": "dev-master",
+        "jonpitch/laxative": "*",
+        "laracasts/behat-laravel-extension": "^1.0",
         "mockery/mockery": "0.9.*",
+        "mpociot/laravel-test-factory-helper": "^0.3",
+        "orangehill/iseed": "dev-master",
+        "raveren/kint": "1.0.*@dev",
         "sstalle/php7cc": "^1.1",
         "symfony/css-selector": "3.1.*",
         "symfony/dom-crawler": "3.1.*",
-        "mpociot/laravel-test-factory-helper": "^0.3",
-        "barryvdh/laravel-ide-helper": "^2.1",
-        "jonpitch/laxative": "*",
-        "orangehill/iseed": "dev-master",
-        "infyomlabs/laravel-generator": "5.3.x-dev",
-        "infyomlabs/adminlte-templates": "5.3.x-dev",
-        "infyomlabs/swagger-generator": "dev-master",
-        "xethron/migrations-generator": "dev-l5",
         "way/generators": "dev-feature/laravel-five-stable",
-        "behat/behat": "^v3.3.0"
+        "xethron/migrations-generator": "dev-l5"
     },
     "autoload-dev": {
         "psr-4": {
