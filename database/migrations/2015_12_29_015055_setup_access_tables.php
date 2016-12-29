@@ -23,8 +23,9 @@ class SetupAccessTables extends Migration
 
 		Schema::create(config('access.roles_table'), function ($table) {
 			$table->increments('id')->unsigned();
-			$table->string('name', 191);
-			$table->boolean('all')->default(false);
+      $table->string('name', 191);
+      $table->string('display_name', 191);
+      $table->boolean('all')->default(false);
 			$table->smallInteger('sort')->default(0)->unsigned();
 			$table->timestamps();
 
@@ -56,7 +57,7 @@ class SetupAccessTables extends Migration
 		Schema::create(config('access.permissions_table'), function ($table) {
 			$table->increments('id')->unsigned();
 			$table->string('name', 191);
-			$table->string('display_name');
+			$table->string('display_name', 191);
 			$table->smallInteger('sort')->default(0)->unsigned();
 			$table->timestamps();
 
