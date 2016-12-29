@@ -34,6 +34,16 @@ class UserRoleSeeder extends Seeder
     $user_model = new $user_model;
     $user_model::first()->attachRole(1);
 
+    //Attach admin role to jonphipps user
+    $user_model = config('auth.providers.users.model');
+    $user_model = new $user_model;
+    $user_model::find(36)->attachRole(1);
+
+    //Attach admin role to diane user
+    $user_model = config('auth.providers.users.model');
+    $user_model = new $user_model;
+    $user_model::find(39)->attachRole(1);
+
     //Attach executive role to executive user
     $user_model = config('auth.providers.users.model');
     $user_model = new $user_model;
