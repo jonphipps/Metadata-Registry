@@ -23,7 +23,7 @@ trait DisablesForeignKeys
 
 
   /**
-   * Disable foreign key checks for current db driver */
+   * Disable foreign key checks for current db driver*/
   protected function disableForeignKeys()
   {
     DB::statement($this->getDisableStatement());

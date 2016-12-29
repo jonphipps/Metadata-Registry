@@ -34,7 +34,7 @@ class UserTableSeeder extends Seeder
     $users = [
         [
             'id'                => '1',
-            'name'              => 'Admin User',
+            'name'              => 'adminuser',
             'first_name'        => 'Admin',
             'last_name'         => 'User',
             'nickname'          => 'adminuser',
@@ -48,7 +48,7 @@ class UserTableSeeder extends Seeder
         ],
         [
             'id'                => '2',
-            'name'              => 'Backend User',
+            'name'              => 'backenduser',
             'first_name'        => 'Backend',
             'last_name'         => 'User',
             'nickname'          => 'backenduser',
@@ -62,7 +62,7 @@ class UserTableSeeder extends Seeder
         ],
         [
             'id'                => '3',
-            'name'              => 'Default User',
+            'name'              => 'defaultuser',
             'first_name'        => 'Default',
             'last_name'         => 'User',
             'nickname'          => 'defaultuser',
@@ -76,7 +76,7 @@ class UserTableSeeder extends Seeder
         ],
         [
             'id'                => '36',
-            'name'              => 'Jon Phipps',
+            'name'              => 'jonphipps',
             'first_name'        => 'Jon',
             'last_name'         => 'Phipps',
             'nickname'          => 'jonphipps',
@@ -90,7 +90,7 @@ class UserTableSeeder extends Seeder
         ],
         [
             'id'                => '39',
-            'name'              => 'Diane Hillmann',
+            'name'              => 'Diane',
             'first_name'        => 'Diane',
             'last_name'         => 'Hillmann',
             'nickname'          => 'Diane',
