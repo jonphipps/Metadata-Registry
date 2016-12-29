@@ -132,7 +132,6 @@ class LoggedOutRouteTest extends TestCase
 	public function test404Page()
 	{
 		$this->get('7g48hwbfw9eufj')
-			->seeStatusCode(404)
-			->see('Page Not Found');
+			->seeStatusCode(418);
 	}
 }
