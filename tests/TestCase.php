@@ -1,5 +1,7 @@
 <?php
 
+define('SF_ROOT_DIR', realpath(dirname(__FILE__) . '/..'));
+
 use App\Models\Access\User\User;
 use App\Models\Access\Role\Role;
 use Illuminate\Support\Facades\App;
@@ -28,6 +30,11 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
 
   public static $setupDatabase = false;
 
+  protected $userTable;
+  protected $roleUserTable;
+  protected $roleTable;
+  protected $permissionRoleTable;
+
 
   /**
    * Creates the application.
@@ -53,14 +60,6 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
     if (self::$setupDatabase) {
       $this->setupDatabase();
     }
-  }
-
-
-  public function setupDatabase()
-  {
-    // Set up the database
-    Artisan::call('migrate:refresh');
-    Artisan::call('db:seed');
 
     /**
      * Create class properties to be used in tests
@@ -72,6 +71,46 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
     $this->executiveRole = Role::find(2);
     $this->userRole      = Role::find(3);
 
+    /** Define tables */
+
+    $this->userTable     = config('access.users_table');
+    $this->roleUserTable = config('access.role_user_table');
+    $this->roleTable = config('access.roles_table');
+    $this->permissionRoleTable = config('access.permission_role_table');
+
+  }
+
+
+  public function setupDatabase()
+  {
+    // Set up the database
+    Artisan::call('migrate:refresh');
+    Artisan::call('db:seed');
+
     self::$setupDatabase = false;
   }
+
+
+  /**
+   * @param string $uri
+   * @param null|string|null $message
+   *
+   * @return $this
+   */
+  protected function assertPageLoaded($uri, $message = null)
+  {
+    if ($this->response->getStatusCode() == 418) {
+      //it's not a route that laravel recognizes
+      //so we fire up symfony
+      define('SF_APP', 'frontend');
+      define('SF_ENVIRONMENT', env('SF_ENVIRONMENT', 'prod'));
+      define('SF_DEBUG', env('SF_DEBUG', 'false'));
+
+      require_once SF_ROOT_DIR . DIRECTORY_SEPARATOR . 'apps' . DIRECTORY_SEPARATOR . SF_APP . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'config.php';
+
+      sfContext::getInstance()->getController()->dispatch();
+    }
+    parent::assertPageLoaded($uri);
+  }
+
 }
