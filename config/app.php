@@ -210,7 +210,7 @@ return [
         Barryvdh\Snappy\ServiceProvider::class,
         Bugsnag\BugsnagLaravel\BugsnagServiceProvider::class,
         Culpa\CulpaServiceProvider::class,
-
+        GrahamCampbell\GitHub\GitHubServiceProvider::class
     ],
 
   /*
@@ -272,6 +272,7 @@ return [
         'Gravatar'     => Creativeorange\Gravatar\Facades\Gravatar::class,
         'Html'         => Collective\Html\HtmlFacade::class,
         'Socialite'    => Laravel\Socialite\Facades\Socialite::class,
+        'GitHub'       => GrahamCampbell\GitHub\Facades\GitHub::class
     ],
 
 ];
