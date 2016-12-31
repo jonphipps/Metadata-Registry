@@ -100,6 +100,7 @@
         "behat/behat": "^3.3",
         "behat/mink": "^1.7",
         "behat/mink-extension": "^2.2",
+        "behat/mink-goutte-driver": "^1.2",
         "captbaritone/mailcatcher-codeception-module": "^1.1",
         "codeception/codeception": "^2.2",
         "codeception/specify": "^0.4.3",

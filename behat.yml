@@ -3,5 +3,7 @@ default:
         Laracasts\Behat:
             # env_path: .env.behat
         Behat\MinkExtension:
+            base_url: http://registry.dev
             default_session: laravel
             laravel: ~
+            goutte: ~
