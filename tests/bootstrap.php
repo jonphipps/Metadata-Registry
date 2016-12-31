@@ -8,4 +8,4 @@ $artisan = $dir . '/../artisan';
 
 $connection = env('DB_CONNECTION');
 
-exec("php $artisan migrate:refresh --seed --database=$connection", $returns);
+//exec("php $artisan migrate:refresh --seed --database=$connection", $returns);
