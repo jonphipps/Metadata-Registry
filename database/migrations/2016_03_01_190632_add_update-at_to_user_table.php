@@ -12,13 +12,14 @@ class AddUpdateAtToUserTable extends Migration
      *
      * @return void
      */
-    public function up()
-    {
-        Schema::table('reg_user',
-            function (Blueprint $table) {
-                $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'))->after('created_at');
-            });
-    }
+  public function up()
+  {
+    Schema::table('reg_user',
+        function (Blueprint $table) {
+          $default = DB::getDriverName() == 'mysql' ? DB::raw('CURRENT_TIMESTAMP') : '';
+          $table->timestamp('updated_at')->default($default)->after('created_at');
+        });
+  }
 
 
     /**

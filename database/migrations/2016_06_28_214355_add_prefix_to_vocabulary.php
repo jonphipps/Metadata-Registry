@@ -16,7 +16,7 @@ class AddPrefixToVocabulary extends Migration
     {
         Schema::table('reg_vocabulary',
             function (Blueprint $table) {
-                $table->string('prefix');
+                $table->string('prefix')->default('');
             });
     }
 

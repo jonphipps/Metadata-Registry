@@ -16,12 +16,16 @@ class CreateArcS2valTable extends Migration
     {
         Schema::create('arc_s2val',
             function (Blueprint $table) {
-                $table->integer('id')->unsigned()->unique('id');
-                $table->integer('cid')->unsigned()->index('cid');
+                $table->integer('id')->unsigned()->unique('id-s');
+                $table->integer('cid')->unsigned()->index('cid-s');
                 $table->boolean('misc')->default(0);
                 $table->text('val');
             });
-        DB::statement('CREATE INDEX v ON arc_s2val (val(64));');
+      if (DB::getDriverName() == 'mysql') {
+        DB::statement('CREATE INDEX v3 ON arc_s2val (val(64));');
+      } else {
+        DB::statement('CREATE INDEX v3 ON arc_s2val (val);');
+      }
     }
 
 

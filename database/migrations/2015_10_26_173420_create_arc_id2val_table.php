@@ -22,7 +22,12 @@ class CreateArcId2valTable extends Migration
                 $table->boolean('val_type')->default(0);
                 $table->unique([ 'id', 'val_type' ], 'id');
             });
-        DB::statement('CREATE INDEX v ON arc_id2val (val(64));');
+
+      if (DB::getDriverName() == 'mysql') {
+        DB::statement('CREATE INDEX v1 ON arc_id2val (val(64));');
+      } else{
+        DB::statement('CREATE INDEX v1 ON arc_id2val (val);');
+      }
     }
 
 

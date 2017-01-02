@@ -17,7 +17,7 @@ class CreateRegStatusTable extends Migration
         Schema::create('reg_status',
             function (Blueprint $table) {
                 $table->integer('id', true);
-                $table->integer('display_order')->nullable()->index('display_order');
+                $table->integer('display_order')->nullable()->index();
                 $table->string('display_name')->nullable();
                 $table->string('uri')->nullable();
             });

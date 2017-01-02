@@ -17,14 +17,14 @@ class CreateRegVocabularyTable extends Migration
         Schema::create('reg_vocabulary',
             function (Blueprint $table) {
                 $table->integer('id', true);
-                $table->integer('agent_id')->index('agent_id');
+                $table->integer('agent_id')->index();
                 $table->dateTime('created_at')->nullable();
                 $table->dateTime('deleted_at')->nullable();
                 $table->timestamp('last_updated')->default(DB::raw('CURRENT_TIMESTAMP'));
-                $table->integer('created_user_id')->nullable()->index('created_user_id');
-                $table->integer('updated_user_id')->nullable()->index('last_updated_by_user_id');
+                $table->integer('created_user_id')->nullable()->index();
+                $table->integer('updated_user_id')->nullable()->index();
                 $table->dateTime('child_updated_at')->nullable();
-                $table->integer('child_updated_user_id')->nullable()->index('child_updated_user_id');
+                $table->integer('child_updated_user_id')->nullable()->index();
                 $table->string('name')->default('')->index('reg_vocabulary_idx2');
                 $table->text('note')->nullable();
                 $table->string('uri')->default('')->index('reg_vocabulary_idx1');
@@ -33,10 +33,10 @@ class CreateRegVocabularyTable extends Migration
                 $table->string('token', 45)->default('');
                 $table->string('community', 45)->nullable();
                 $table->integer('last_uri_id')->nullable()->default(1000);
-                $table->integer('status_id')->default(1)->index('status_id');
+                $table->integer('status_id')->default(1)->index();
                 $table->char('language', 6)->default('en');
                 $table->text('languages')->nullable();
-                $table->integer('profile_id')->nullable()->index('profile_id');
+                $table->integer('profile_id')->nullable()->index();
                 $table->enum('ns_type', [ 'hash', 'slash' ])->default('slash');
                 $table->text('prefixes')->nullable();
                 $table->string('repo', 256)->nullable();

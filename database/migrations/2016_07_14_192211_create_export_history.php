@@ -16,9 +16,9 @@ class CreateExportHistory extends Migration
         Schema::create('reg_export_history', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
-            $table->integer('user_id')->nullable()->index('user_id');
-            $table->integer('vocabulary_id')->nullable()->index('vocabulary_id');
-            $table->integer('schema_id')->nullable()->index('schema_id');
+            $table->integer('user_id')->nullable()->index();
+            $table->integer('vocabulary_id')->nullable()->index();
+            $table->integer('schema_id')->nullable()->index();
             $table->string('csv_type', 100)->nullable();;
             $table->boolean('exclude_deprecated')->nullable();;
             $table->boolean('include_generated')->nullable();;

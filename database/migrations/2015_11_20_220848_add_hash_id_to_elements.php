@@ -15,7 +15,7 @@ class AddHashIdToElements extends Migration
     {
         Schema::table('reg_schema_property', function(Blueprint $table)
         {
-            $table->char('hash_id',255)->index('hash_id');
+            $table->char('hash_id',255)->default('')->index('hash_id');
         });
     }
 

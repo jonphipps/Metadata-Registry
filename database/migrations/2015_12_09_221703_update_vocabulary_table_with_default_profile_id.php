@@ -13,7 +13,7 @@ class UpdateVocabularyTableWithDefaultProfileId extends Migration
      */
     public function up()
     {
-        DB::statement('update reg_vocabulary set reg_vocabulary.profile_id = 2;');
+        DB::statement('update reg_vocabulary set profile_id = 2;');
     }
 
     /**

@@ -21,8 +21,8 @@ class CreateRegVocabularyHasVersionTable extends Migration
                 $table->dateTime('created_at')->nullable();
                 $table->dateTime('deleted_at')->nullable();
                 $table->dateTime('updated_at')->nullable();
-                $table->integer('created_user_id')->nullable()->index('created_user_id');
-                $table->integer('vocabulary_id')->nullable()->index('vocabulary_id');
+                $table->integer('created_user_id')->nullable()->index();
+                $table->integer('vocabulary_id')->nullable()->index();
                 $table->dateTime('timeslice')->nullable();
             });
     }

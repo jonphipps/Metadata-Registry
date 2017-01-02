@@ -21,8 +21,8 @@ class CreateRegSchemaTable extends Migration
                 $table->dateTime('created_at')->nullable();
                 $table->dateTime('updated_at')->nullable();
                 $table->dateTime('deleted_at')->nullable();
-                $table->integer('created_user_id')->nullable()->index('created_user_id');
-                $table->integer('updated_user_id')->nullable()->index('last_updated_by_user_id');
+                $table->integer('created_user_id')->nullable()->index();
+                $table->integer('updated_user_id')->nullable()->index();
                 $table->dateTime('child_updated_at')->nullable();
                 $table->integer('child_updated_user_id')->nullable()->index('child_updated_user_id');
                 $table->string('name', 191)->default('')->index('reg_schema_idx2');
@@ -33,9 +33,9 @@ class CreateRegSchemaTable extends Migration
                 $table->string('token', 45)->default('');
                 $table->string('community', 45)->nullable();
                 $table->integer('last_uri_id')->nullable()->default(100000);
-                $table->integer('status_id')->default(1)->index('status_id');
+                $table->integer('status_id')->default(1)->index();
                 $table->char('language', 6)->default('en');
-                $table->integer('profile_id')->nullable()->index('profile_id');
+                $table->integer('profile_id')->nullable()->index();
                 $table->char('ns_type', 6)->default('slash');
                 $table->text('prefixes', 65535)->nullable();
                 $table->text('languages', 65535)->nullable();

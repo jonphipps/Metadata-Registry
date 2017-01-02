@@ -16,10 +16,10 @@ class CreateArcTripleTable extends Migration
     {
         Schema::create('arc_triple',
             function (Blueprint $table) {
-                $table->integer('t')->unsigned()->unique('t');
-                $table->integer('s')->unsigned()->index('s');
-                $table->integer('p')->unsigned()->index('p');
-                $table->integer('o')->unsigned()->index('o');
+                $table->integer('t')->unsigned()->unique('t-t');
+                $table->integer('s')->unsigned()->index('s-t');
+                $table->integer('p')->unsigned()->index('p-t');
+                $table->integer('o')->unsigned()->index('o-t');
                 $table->integer('o_lang_dt')->unsigned()->index('o_lang_dt');
                 $table->char('o_comp', 35);
                 $table->boolean('s_type')->default(0);

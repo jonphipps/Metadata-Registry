@@ -21,14 +21,14 @@ class CreateRegConceptTable extends Migration
                 $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
                 $table->dateTime('deleted_at')->nullable();
                 $table->dateTime('last_updated')->nullable();
-                $table->integer('created_user_id')->nullable()->index('created_user_id');
+                $table->integer('created_user_id')->nullable()->index();
                 $table->integer('updated_user_id')->nullable()->index('last_updated_by_user_id');
                 $table->string('uri')->default('')->index('reg_concept_idx1');
                 $table->string('pref_label', 191)->default('')->index('pref_label');
-                $table->integer('vocabulary_id')->nullable()->index('vocabulary_id');
+                $table->integer('vocabulary_id')->nullable()->index();
                 $table->boolean('is_top_concept')->nullable();
                 $table->integer('pref_label_id')->nullable()->index('pref_label_id');
-                $table->integer('status_id')->default(1)->index('status_id');
+                $table->integer('status_id')->default(1)->index();
                 $table->char('language', 6)->default('en');
                 $table->unique([ 'vocabulary_id', 'pref_label' ], 'vocabulary_id_pref_label');
             });

@@ -16,13 +16,14 @@ class AddConfirmationToUsersTable extends Migration
   {
     Schema::table('reg_user',
         function (Blueprint $table) {
-          $table->string('confirmation_code');
-          $table->string('name', 191);
+          $table->string('confirmation_code')->default('');
+          $table->string('name', 191)->default('');
           $table->boolean('confirmed')->default(config('access.users.confirm_email') ? false : true);
           $table->rememberToken();
         });
     //set a random unique confirmation code
-    DB::statement('update reg_user set confirmation_code = md5(SYSDATE(6));');
+    $code = DB::getDriverName() == 'mysql' ? "md5(SYSDATE(6))" : "hex(randomblob(16))";
+    DB::statement("update reg_user set confirmation_code = $code;");
     DB::statement('update reg_user set name = nickname;');
   }
 

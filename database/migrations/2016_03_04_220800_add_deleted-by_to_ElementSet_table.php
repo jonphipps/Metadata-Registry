@@ -14,7 +14,7 @@ class AddDeletedByToElementSetTable extends Migration
     public function up()
     {
         Schema::table('reg_schema', function (Blueprint $table) {
-            $table->integer('deleted_user_id')->after('updated_user_id')->nullable()->index('deleted_user_id');
+            $table->integer('deleted_user_id')->after('updated_user_id')->nullable()->index();
             $table->foreign('deleted_user_id', 'reg_schema_ibfk_6')
                   ->references('id')
                   ->on('reg_user')
@@ -32,7 +32,6 @@ class AddDeletedByToElementSetTable extends Migration
     {
         Schema::table('reg_schema', function (Blueprint $table) {
             $table->dropForeign('reg_schema_ibfk_6');
-            $table->dropIndex('deleted_user_id');
             $table->dropColumn('deleted_user_id');
         });
     }

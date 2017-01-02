@@ -15,7 +15,8 @@ class AddUpdateAtToAgentTable extends Migration
     {
         Schema::table('reg_agent',
             function (Blueprint $table) {
-                $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'))->after('created_at');
+              $default = DB::getDriverName() == 'mysql' ? DB::raw('CURRENT_TIMESTAMP') : '';
+              $table->timestamp('updated_at')->default($default)->after('created_at');
             });
     }
 

@@ -19,8 +19,8 @@ class CreateRegFileImportHistoryTable extends Migration {
 			$table->timestamp('created_at')->nullable()->default(DB::raw('CURRENT_TIMESTAMP'));
 			$table->text('map')->nullable();
 			$table->integer('user_id')->nullable()->index('user_id');
-			$table->integer('vocabulary_id')->nullable()->index('vocabulary_id');
-			$table->integer('schema_id')->nullable()->index('schema_id');
+			$table->integer('vocabulary_id')->nullable()->index();
+			$table->integer('schema_id')->nullable()->index();
 			$table->string('file_name')->nullable();
 			$table->string('source_file_name')->nullable();
 			$table->string('file_type', 30)->nullable();

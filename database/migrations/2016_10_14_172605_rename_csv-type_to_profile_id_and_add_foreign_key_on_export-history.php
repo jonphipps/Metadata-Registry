@@ -17,7 +17,7 @@ class RenameCsvTypeToProfileIdAndAddForeignKeyOnExportHistory extends Migration
     Schema::table('reg_export_history',
         function (Blueprint $table) {
           $table->dropColumn('csv_type');
-          $table->integer('profile_id')->nullable()->index('profile_id');
+          $table->integer('profile_id')->nullable()->index();
           $table->foreign('profile_id', 'reg_export_history_ibfk_4')->references('id')->on('profile')
               ->onUpdate('NO ACTION')->onDelete('NO ACTION');
         });

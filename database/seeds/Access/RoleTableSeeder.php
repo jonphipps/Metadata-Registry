@@ -50,7 +50,7 @@ class RoleTableSeeder extends Seeder
             'updated_at'   => Carbon::now(),
         ],
         [
-            'name'         => 'subscriber',
+            'name'         => 'user',
             'display_name' => 'Subscriber',
             'all'          => false,
             'sort'         => 3,

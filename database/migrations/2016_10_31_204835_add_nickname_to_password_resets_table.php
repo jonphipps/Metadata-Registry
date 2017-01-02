@@ -14,7 +14,7 @@ class AddNicknameToPasswordResetsTable extends Migration
     public function up()
     {
         Schema::table('password_resets', function (Blueprint $table) {
-            $table->string('name', 60);
+            $table->string('name', 60)->default('');;
         });
     }
 

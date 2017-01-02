@@ -17,7 +17,7 @@ class CreateRegRdfNamespaceTable extends Migration
         Schema::create('reg_rdf_namespace',
             function (Blueprint $table) {
                 $table->integer('id', true);
-                $table->integer('schema_id')->index('schema_id');
+                $table->integer('schema_id')->index();
                 $table->dateTime('created_at')->nullable();
                 $table->dateTime('deleted_at')->nullable();
                 $table->integer('created_user_id')->nullable();
