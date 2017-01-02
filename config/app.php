@@ -210,7 +210,8 @@ return [
         Barryvdh\Snappy\ServiceProvider::class,
         Bugsnag\BugsnagLaravel\BugsnagServiceProvider::class,
         Culpa\CulpaServiceProvider::class,
-        GrahamCampbell\GitHub\GitHubServiceProvider::class
+        GrahamCampbell\GitHub\GitHubServiceProvider::class,
+        Antennaio\Codeception\DbDumpServiceProvider::class,
     ],
 
   /*
