@@ -41,5 +41,15 @@ Route::group(['namespace' => 'Backend', 'prefix' => 'admin', 'as' => 'admin.', '
 
 Route::any('{all}',
     function () {
-      return response("symfony", 418);
+      // fire up symfony
+      if (!defined('SF_APP')) {
+        define('SF_APP', 'frontend');
+        define('SF_ENVIRONMENT', env('SF_ENVIRONMENT', 'prod'));
+        define('SF_DEBUG', env('SF_DEBUG', 'false'));
+      }
+      require_once SF_ROOT_DIR . DIRECTORY_SEPARATOR . 'apps' . DIRECTORY_SEPARATOR . SF_APP . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'config.php';
+      //let symfony handle/render the request
+      sfContext::getInstance()->getController()->dispatch();
+      // return the symfony rendering as the response
+      return ob_get_clean();
     })->where('all', '.*');
