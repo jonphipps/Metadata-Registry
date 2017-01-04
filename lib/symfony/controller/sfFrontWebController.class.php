@@ -74,5 +74,6 @@ class sfFrontWebController extends sfWebController
         header('HTTP/1.0 500 Internal Server Error');
       }
     }
+    return $this->getContext()->getResponse();
   }
 }
