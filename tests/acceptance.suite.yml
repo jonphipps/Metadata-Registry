@@ -8,5 +8,8 @@ class_name: AcceptanceTester
 modules:
     enabled:
         - PhpBrowser:
-            url: http://localhost/myapp
+            url: 'https://registry.dev/' # put your local url
+        - Laravel5:
+            part: ORM
+            cleanup: false # can't wrap into transaction
         - \Helper\Acceptance
