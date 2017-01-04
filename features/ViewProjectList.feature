@@ -1,3 +1,4 @@
+@javascript
 Feature: ViewProjectList
   In order to browse the list of existing projects
   As a guest user
