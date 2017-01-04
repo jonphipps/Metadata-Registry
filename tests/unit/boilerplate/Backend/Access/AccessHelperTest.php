@@ -33,15 +33,15 @@ class AccessHelperTest extends TestCase {
 
 	public function testAccessHasRole() {
 		$this->actingAs($this->executive);
-		$this->assertTrue(access()->hasRole('Executive'));
-		$this->assertFalse(access()->hasRole('Administrator'));
+		$this->assertTrue(access()->hasRole('executive'));
+		$this->assertFalse(access()->hasRole('administrator'));
 		$this->assertTrue(access()->hasRole(2));
 		$this->assertFalse(access()->hasRole(1));
 	}
 
 	public function testAdminHasAllRoles() {
 		$this->actingAs($this->admin);
-		$this->assertTrue(access()->hasRole('Administrator'));
+		$this->assertTrue(access()->hasRole('administrator'));
 		$this->assertTrue(access()->hasRole('Non-Existing Role'));
 		$this->assertTrue(access()->hasRole(1));
 		$this->assertTrue(access()->hasRole(123));
@@ -49,13 +49,13 @@ class AccessHelperTest extends TestCase {
 
 	public function testAccessHasRoles() {
 		$this->actingAs($this->executive);
-		$this->assertTrue(access()->hasRoles(['Executive', 'User']));
+		$this->assertTrue(access()->hasRoles(['executive', 'user']));
 		$this->assertTrue(access()->hasRoles([2, 3]));
 	}
 
 	public function testAccessHasRolesNeedsAll() {
 		$this->actingAs($this->executive);
-		$this->assertFalse(access()->hasRoles(['Executive', 'User'], true));
+		$this->assertFalse(access()->hasRoles(['executive', 'user'], true));
 		$this->assertFalse(access()->hasRoles([2, 3], true));
 	}
 

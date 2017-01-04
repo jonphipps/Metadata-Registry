@@ -64,9 +64,9 @@ class RoleFormTest extends TestCase
 			->press('Create')
 			->seePageIs('/admin/access/role')
 			->see('The role was successfully created.')
-			->seeInDatabase($this->roleTable, ['name' => 'Test Role', 'all' => 0])
-			->seeInDatabase($this->permissionRoleTable, ['permission_id' => 2, 'role_id' => 5])
-			->seeInDatabase($this->permissionRoleTable, ['permission_id' => 3, 'role_id' => 5]);
+			->seeInDatabase($this->roleTable, ['name' => 'Test Role', 'all' => 0]);
+			$this->seeInDatabase($this->permissionRoleTable, ['permission_id' => 2, 'role_id' => 12])
+			->seeInDatabase($this->permissionRoleTable, ['permission_id' => 3, 'role_id' => 12]);
 
 		Event::assertFired(RoleCreated::class);
 	}
@@ -139,6 +139,7 @@ class RoleFormTest extends TestCase
 	public function testUpdateRoleRequiresPermission() {
 		$this->actingAs($this->admin)
 			->visit('/admin/access/role/3/edit')
+        ->uncheck('permissions[4]')
 			->press('Update')
 			->seePageIs('/admin/access/role/3/edit')
 			->see('You must select at least one permission for this role.');
