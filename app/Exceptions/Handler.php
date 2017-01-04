@@ -39,7 +39,9 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $exception)
     {
+      if (class_exists('Bugsnag' && method_exists('Bugsnag', 'notify_exception'))) {
         Bugsnag::notifyException($exception);
+      }
         parent::report($exception);
     }
 
