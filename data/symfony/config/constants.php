@@ -7,10 +7,12 @@ $sf_root_dir    = sfConfig::get('sf_root_dir');
 $sf_app         = sfConfig::get('sf_app');
 $sf_environment = sfConfig::get('sf_environment');
 
+$cache = strpos($_SERVER['HOME'],'vagrant') === false ? 'cachev' : 'cache';
+
 sfConfig::add(array(
   // root directory names
   'sf_bin_dir_name'     => $sf_bin_dir_name     = 'batch',
-  'sf_cache_dir_name'   => $sf_cache_dir_name   = 'cache',
+  'sf_cache_dir_name'   => $sf_cache_dir_name   = $cache,
   'sf_log_dir_name'     => $sf_log_dir_name     = 'log',
   'sf_lib_dir_name'     => $sf_lib_dir_name     = 'lib',
   'sf_web_dir_name'     => $sf_web_dir_name     = 'web',
