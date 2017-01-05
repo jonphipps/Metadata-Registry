@@ -74,7 +74,9 @@ class sfSessionStorage extends sfStorage
     if ($this->getParameter('auto_start', true))
     {
       // start our session
-      session_start();
+      if (! headers_sent() && session_status() == PHP_SESSION_NONE) {
+        session_start();
+      }
     }
   }
 

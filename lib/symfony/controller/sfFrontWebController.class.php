@@ -71,7 +71,9 @@ class sfFrontWebController extends sfWebController
       }
       catch (Exception $e)
       {
-        header('HTTP/1.0 500 Internal Server Error');
+        if (!headers_sent()) {
+          header('HTTP/1.0 500 Internal Server Error');
+        }
       }
     }
     return $this->getContext()->getResponse();
