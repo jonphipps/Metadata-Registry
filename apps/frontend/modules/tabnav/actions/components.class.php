@@ -24,10 +24,15 @@ class tabnavComponents extends sfComponents
       ? $this->getRequestParameter('module') : $this->getRequestParameter('tabnav');
     if ($tabnav) {
       $bugsnag = $GLOBALS['bugsnag'];
-      /** @var Bugsnag\Client $bugsnag */
-      $bugsnag->leaveBreadcrumb($tabnav,
-          \Bugsnag\Breadcrumbs\Breadcrumb::NAVIGATION_TYPE,
-          ['uri' => $this->getRequest()->getUri()]);
+      if ($bugsnag) {
+        /** @var Bugsnag\Client $bugsnag */
+        $bugsnag->leaveBreadcrumb($tabnav,
+            \Bugsnag\Breadcrumbs\Breadcrumb::NAVIGATION_TYPE,
+            [
+                'uri' => $this->getRequest()
+                              ->getUri(),
+            ]);
+      }
       $tabnav = 'execute' . ucfirst($tabnav);
       $this->$tabnav();
     }

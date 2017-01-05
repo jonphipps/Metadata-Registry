@@ -35,10 +35,12 @@ class userObjectFilter extends sfFilter
     $key = false;
 
     $bugsnag = $GLOBALS['bugsnag'];
-    $bugsnag->registerCallback(function ($report) {
-      $userId = sfContext::getInstance()->getUser()->getSubscriberId();
-      $report->setUser([ 'id' => $userId ]);
-    });
+    if ($bugsnag) {
+      $bugsnag->registerCallback(function ($report) {
+        $userId = sfContext::getInstance()->getUser()->getSubscriberId();
+        $report->setUser([ 'id' => $userId ]);
+      });
+    }
 
     // get the current action instance
     /** @var sfActionStackEntry **/
