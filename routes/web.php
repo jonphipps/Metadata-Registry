@@ -47,6 +47,10 @@ Route::any('{all}',
         define('SF_ENVIRONMENT', env('SF_ENVIRONMENT', 'prod'));
         define('SF_DEBUG', env('SF_DEBUG', 'false'));
       }
+      if (!defined('SF_ROOT_DIR')) {
+        define('SF_ROOT_DIR', env('SF_ROOT_DIR'));
+      }
+
       $_SERVER['HTTP_HOST']       = ( empty($_SERVER['HTTP_HOST']) ) ? Request()->getHost() : $_SERVER['HTTP_HOST'];
       $_SERVER['SERVER_NAME']     = ( empty($_SERVER['SERVER_NAME']) ) ? $_SERVER['HTTP_HOST'] : $_SERVER['SERVER_NAME'];
       $_SERVER['SERVER_PORT']     = ( empty($_SERVER['SERVER_PORT']) ) ? 80 : $_SERVER['SERVER_PORT'];
