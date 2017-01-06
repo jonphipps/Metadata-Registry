@@ -16,8 +16,8 @@ abstract class Request extends FormRequest {
 	protected $error = '';
 
 	/**
-	 * @return $this
-	 */
+	 * @return \Illuminate\Http\RedirectResponse
+   */
 	public function forbiddenResponse()
     {
         if (empty($error)) {
