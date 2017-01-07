@@ -50,13 +50,13 @@ class Concept extends Model
 
   use SoftDeletes;
 
-  public function Vocabulary()
+  public function vocabulary()
   {
     return $this->belongsTo('App\Models\Vocabulary', 'vocabulary_id', 'id');
   }
 
 
-  public function Properties()
+  public function properties()
   {
 //        $properties = DB::table('reg_concept_property')
 //            ->join('profile_property', 'profile_property.skos_id', '=', 'reg_concept_property.skos_property_id')

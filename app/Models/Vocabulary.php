@@ -73,6 +73,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Vocabulary extends Model
 {
+
   const TABLE = 'reg_vocabulary';
   protected $table = self::TABLE;
 
@@ -123,7 +124,7 @@ class Vocabulary extends Model
   }
 
 
-  public function Profile()
+  public function profile()
   {
     return $this->belongsTo('App\Models\Profile', 'profile_id', 'id');
   }
@@ -132,5 +133,18 @@ class Vocabulary extends Model
   public function concepts()
   {
     return $this->hasMany(Concept::class, 'vocabulary_id');
+  }
+
+
+  public function users()
+  {
+    return $this->belongsToMany(Access\User\User::class, 'vocabulary_has_user', 'vocabulary_id', 'user_id')
+                ->withTimestamps()
+                ->withPivot('is_maintainer_for',
+                    'is_registrar_for',
+                    'is_admin_for',
+                    'languages',
+                    'default_language',
+                    'current_language');
   }
 }

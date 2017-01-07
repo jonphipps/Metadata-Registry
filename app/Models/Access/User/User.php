@@ -149,7 +149,13 @@ class User extends Authenticatable
   public function vocabs()
   {
     return $this->belongsToMany(Vocabulary::class, VocabularyHasUser::TABLE, 'user_id', 'vocabulary_id')
-        ->withPivot('is_registrar_for', 'is_admin_for', 'is_maintainer_for')->withTimestamps();
+        ->withPivot('is_maintainer_for',
+            'is_registrar_for',
+            'is_admin_for',
+            'languages',
+            'default_language',
+            'current_language')->withTimestamps();
+
   }
 
 
