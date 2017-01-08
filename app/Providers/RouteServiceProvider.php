@@ -55,7 +55,7 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->mapApiRoutes();
 
-        //
+      require base_path('routes/symfony.php');
     }
 
     /**
