@@ -35,7 +35,7 @@ class sfBasicSecurityFilter extends sfSecurityFilter
     // get the cool stuff
     $context    = $this->getContext();
     $controller = $context->getController();
-    $user       = Auth::user();
+    $user       = $context->getUser();
 
     // get the current action instance
     $actionEntry    = $controller->getActionStack()->getLastEntry();
@@ -63,7 +63,7 @@ class sfBasicSecurityFilter extends sfSecurityFilter
     // NOTE: the nice thing about the Action class is that getCredential()
     //       is vague enough to describe any level of security and can be
     //       used to retrieve such data and should never have to be altered
-    if (Auth::check())
+    if ($user->isAuthenticated())
     {
       // the user is authenticated
       if ($credential === null || $user->hasCredential($credential))

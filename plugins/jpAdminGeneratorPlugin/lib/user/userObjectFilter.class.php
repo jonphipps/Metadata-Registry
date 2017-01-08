@@ -34,14 +34,22 @@ class userObjectFilter extends sfFilter
 
     $key = false;
 
+    /** @var \Bugsnag\Client $bugsnag */
     $bugsnag = $GLOBALS['bugsnag'];
     if ($bugsnag) {
       $bugsnag->registerCallback(function ($report) {
-        $userId = sfContext::getInstance()->getUser()->getSubscriberId();
+        $userId = Auth::user()->id;
+        /** @var \Bugsnag\Report $report */
         $report->setUser([ 'id' => $userId ]);
       });
     }
 
+    if ($user->getSubscriberId() == 0 && auth::user()) {
+      $Luser = \UserPeer::retrieveByPK(auth::user()->id);
+      if ($Luser) {
+        $user->signIn($Luser);
+      }
+    }
     // get the current action instance
     /** @var sfActionStackEntry **/
     $actionEntry    = $controller->getActionStack()->getLastEntry();
