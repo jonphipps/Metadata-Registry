@@ -322,7 +322,7 @@ abstract class sfAction extends sfComponent
   /**
    * Returns the security configuration for this module.
    *
-   * @return string Current security configuration as an array
+   * @return array Current security configuration as an array
    */
   public function getSecurityConfiguration()
   {

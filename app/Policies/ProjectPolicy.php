@@ -34,7 +34,7 @@ class ProjectPolicy
    */
   public function create(User $user)
   {
-    //
+    $user->hasRole('user');
   }
 
 
