@@ -26,7 +26,10 @@
         <li class="browse"><?php echo link_to(__('Element Sets'), '@schema_list', 'title="Browse all Element Sets"'); ?></li>
         <?php
         if (Auth::check()): ?>
-            <li><?php echo link_to(__('%1% profile', [ '%1%' => Auth::user()->nickname ]),
+          <li class="browse"><?php echo link_to(__('Dashboard'),
+                'dashboard',
+                'title="Dashboard"'); ?></li>
+          <li><?php echo link_to(__('%1% profile', [ '%1%' => Auth::user()->nickname ]),
                                    '@current_user_profile') ?></li>
             <li><?php echo link_to(__('sign out'), '@logout') ?></li>
         <?php else: ?>
