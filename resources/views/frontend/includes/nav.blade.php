@@ -10,7 +10,6 @@
 
             {{ \Collective\Html\link_to_route('frontend.index', app_name(), [], ['class' => 'navbar-brand']) }}
         </div><!--navbar-header-->
-
         <div class="collapse navbar-collapse" id="frontend-navbar-collapse">
             <ul class="nav navbar-nav">
                 @if ($logged_in_user)
@@ -19,7 +18,9 @@
                             {{ trans('navs.frontend.projects') }}
                             <span class="caret"></span>
                         </a>
-                        @include('includes.partials.projects')
+                        <ul class="dropdown-menu" role="menu">
+                            @include('includes.partials.projects')
+                        </ul>
                     </li>
                 @endif
             </ul>
