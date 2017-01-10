@@ -136,7 +136,7 @@ class <?php echo $this->getGeneratedModuleName() ?>Actions extends sfActions
       }
       else
       {
-        $url = $this->redirectFilter ? $this->redirectRoute . '_list' . $this->redirectFilter : '@homepage';
+        $url = $this->redirectFilter ? $this->redirectRoute . '_list' . $this->redirectFilter : $this->redirectRoute ? $this->redirectRoute . '_list'  : '@homepage';
         $this->redirect($url);
       }
     }
