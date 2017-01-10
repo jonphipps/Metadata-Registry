@@ -146,7 +146,7 @@ class User extends Authenticatable
   /**
    * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
    */
-  public function vocabs()
+  public function vocabularies()
   {
     return $this->belongsToMany(Vocabulary::class, VocabularyHasUser::TABLE, 'user_id', 'vocabulary_id')
         ->withPivot('is_maintainer_for',
