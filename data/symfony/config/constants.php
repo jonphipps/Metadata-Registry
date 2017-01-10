@@ -7,7 +7,7 @@ $sf_root_dir    = sfConfig::get('sf_root_dir');
 $sf_app         = sfConfig::get('sf_app');
 $sf_environment = sfConfig::get('sf_environment');
 
-$cache = strpos($_SERVER['HOME'],'vagrant') === false ? 'cachev' : 'cache';
+$cache = strpos($_SERVER['HOME'],'vagrant') === false ? 'cache' : 'cachev';
 
 sfConfig::add(array(
   // root directory names
