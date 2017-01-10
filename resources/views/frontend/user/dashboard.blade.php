@@ -6,69 +6,30 @@
         <div class="col-xs-12">
 
             <div class="panel panel-default">
-                <div class="panel-heading">{{ trans('navs.frontend.dashboard') }}</div>
+                <div class="panel-heading">
+                    {{ trans('navs.frontend.dashboard') }}
+                </div>
 
                 <div class="panel-body">
 
                     <div class="row">
-
-                        <div class="col-md-4 col-md-push-8">
-
-                            <ul class="media-list">
-                                <li class="media">
-                                    <div class="media-left">
-                                        <img class="media-object" src="{{ $logged_in_user->picture }}" alt="Profile picture">
-                                    </div><!--media-left-->
-
-                                    <div class="media-body">
-                                        <h4 class="media-heading">
-                                            {{ $logged_in_user->name }}<br/>
-                                            <small>
-                                                {{ $logged_in_user->email }}<br/>
-                                                Joined {{ $logged_in_user->created_at->format('F jS, Y') }}
-                                            </small>
-                                        </h4>
-
-                                        {{ \Collective\Html\link_to_route('frontend.user.account', trans('navs.frontend.user.account'), [], ['class' => 'btn btn-info btn-xs']) }}
-
-                                        @permission('view-backend')
-                                            {{ \Collective\Html\link_to_route('admin.dashboard', trans('navs.frontend.user.administration'), [], ['class' => 'btn btn-danger btn-xs']) }}
-                                        @endauth
-                                    </div><!--media-body-->
-                                </li><!--media-->
-                            </ul><!--media-list-->
-
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h4>Sidebar Item</h4>
-                                </div><!--panel-heading-->
-
-                                <div class="panel-body">
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non qui facilis deleniti expedita fuga ipsum numquam aperiam itaque cum maxime.
-                                </div><!--panel-body-->
-                            </div><!--panel-->
-
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h4>Sidebar Item</h4>
-                                </div><!--panel-heading-->
-
-                                <div class="panel-body">
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non qui facilis deleniti expedita fuga ipsum numquam aperiam itaque cum maxime.
-                                </div><!--panel-body-->
-                            </div><!--panel-->
-                        </div><!--col-md-4-->
-
+                        @include('includes.partials.r-sidebar')
                         <div class="col-md-8 col-md-pull-4">
                             <div class="row">
                                 <div class="col-xs-12">
                                     <div class="panel panel-default">
                                         <div class="panel-heading">
-                                            <h4>Item</h4>
-                                        </div><!--panel-heading-->
-
+                                            <h4>Projects</h4>
+                                         </div><!--panel-heading-->
                                         <div class="panel-body">
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non qui facilis deleniti expedita fuga ipsum numquam aperiam itaque cum maxime.</p>
+                                            <ul class="list-unstyled">
+                                                @foreach ($logged_in_user->projects as $project)
+                                                    <li>{{ \Collective\Html\link_to('projects/'.$project->id, $project->org_name) }}</li>
+                                                @endforeach
+                                            </ul>
+                                            <a class="btn btn-default btn-sm pull-right" href="projects/create" role="button">Add New
+                                                    Project</a>
+
                                         </div><!--panel-body-->
                                     </div><!--panel-->
                                 </div><!--col-xs-12-->
@@ -78,11 +39,15 @@
                                 <div class="col-md-6">
                                     <div class="panel panel-default">
                                         <div class="panel-heading">
-                                            <h4>Item</h4>
+                                            <h4>Vocabularies</h4>
                                         </div><!--panel-heading-->
 
                                         <div class="panel-body">
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non qui facilis deleniti expedita fuga ipsum numquam aperiam itaque cum maxime.</p>
+                                            <ul class="list-unstyled">
+                                            @foreach ($logged_in_user->vocabularies as $vocab)
+                                                <li>{{ \Collective\Html\link_to('vocabularies/'.$vocab->id, $vocab->name) }}</li>
+                                            @endforeach
+                                            </ul>
                                         </div><!--panel-body-->
                                     </div><!--panel-->
                                 </div><!--col-md-6-->
@@ -90,11 +55,26 @@
                                 <div class="col-md-6">
                                     <div class="panel panel-default">
                                         <div class="panel-heading">
-                                            <h4>Item</h4>
+                                            <h4>Element Sets</h4>
                                         </div><!--panel-heading-->
 
                                         <div class="panel-body">
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non qui facilis deleniti expedita fuga ipsum numquam aperiam itaque cum maxime.</p>
+                                            <ul class="list-unstyled">
+                                                @foreach ($logged_in_user->elementsets as $elementset)
+                                                    <li>{{ \Collective\Html\link_to('projects/'.$elementset->id, $elementset->name) }}</li>
+                                                @endforeach
+                                            </ul>                                        </div><!--panel-body-->
+                                    </div><!--panel-->
+                                </div><!--col-md-6-->
+
+                                <div class="col-md-6">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h4>Profiles</h4>
+                                        </div><!--panel-heading-->
+
+                                        <div class="panel-body">
+                                            <p>This will be a list of Application Profiles used by this project (maybe)</p>
                                         </div><!--panel-body-->
                                     </div><!--panel-->
                                 </div><!--col-md-6-->
@@ -102,23 +82,12 @@
                                 <div class="col-md-6">
                                     <div class="panel panel-default">
                                         <div class="panel-heading">
-                                            <h4>Item</h4>
+                                            <h4>Members</h4>
                                         </div><!--panel-heading-->
 
                                         <div class="panel-body">
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non qui facilis deleniti expedita fuga ipsum numquam aperiam itaque cum maxime.</p>
-                                        </div><!--panel-body-->
-                                    </div><!--panel-->
-                                </div><!--col-md-6-->
-
-                                <div class="col-md-6">
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading">
-                                            <h4>Item</h4>
-                                        </div><!--panel-heading-->
-
-                                        <div class="panel-body">
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non qui facilis deleniti expedita fuga ipsum numquam aperiam itaque cum maxime.</p>
+                                            <p>This will be a list of members of this project
+                                                (maybe). Languages in use is another possibility. Or maps.</p>
                                         </div><!--panel-body-->
                                     </div><!--panel-->
                                 </div><!--col-md-6-->
