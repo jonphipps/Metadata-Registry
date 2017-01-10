@@ -1,6 +1,13 @@
 generator:
   class:              sfPropelAdminGenerator
   param:
+    parents:
+      schema:
+        getid:        schema_id
+        requestid:    schema_id
+      user:
+         getid:        user_id
+         requestid:    user_id
     model_class:      SchemaHasUser
     theme:            default
     fields:

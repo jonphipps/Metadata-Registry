@@ -3,6 +3,13 @@ generator:
   param:
     model_class:      VocabularyHasUser
     theme:            default
+    parents:
+      vocabulary:
+        getid:        vocabulary_id
+        requestid:    vocabulary_id
+      user:
+         getid:        user_id
+         requestid:    user_id
     fields:
       id:                { name: ID, type: plain, credentials: [administrator] }
       created_at:        { name: Date Created, type: plain, credentials: [administrator] }
