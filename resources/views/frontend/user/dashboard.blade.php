@@ -15,11 +15,11 @@
                                 <div class="col-xs-12">
                                     <div class="panel panel-default">
                                         <div class="panel-heading">
-                                            <h4>Projects</h4>
+                                            <h4>My Projects</h4>
                                         </div><!--panel-heading-->
                                         <div class="panel-body">
                                             <ul class="list-unstyled">
-                                                @forelse ($logged_in_user->projects as $project)
+                                                @forelse ($logged_in_user->projects->sortBy('org_name') as $project)
                                                     <li>{{ \Collective\Html\link_to('projects/'.$project->id, $project->org_name) }}</li>
                                                 @empty
                                                     Start by Adding a Project...
@@ -36,12 +36,12 @@
                                 <div class="col-md-6">
                                     <div class="panel panel-default">
                                         <div class="panel-heading">
-                                            <h4>Vocabularies</h4>
+                                            <h4>Vocabularies I Maintain</h4>
                                         </div><!--panel-heading-->
                                         <div class="panel-body">
                                             <ul class="list-unstyled">
-                                                @forelse ($logged_in_user->vocabularies as $vocab)
-                                                    <li>{{ \Collective\Html\link_to('vocabularies/'.$vocab->id, $vocab->name) }}</li>
+                                                @forelse ($logged_in_user->vocabularies->sortBy('name') as $vocab)
+                                                    <li>{{ \Collective\Html\link_to('vocabularies/'.$vocab->id . '/concepts', $vocab->name) }}</li>
                                                 @empty
                                                     No Vocabularies defined
                                                 @endforelse
@@ -52,12 +52,12 @@
                                 <div class="col-md-6">
                                     <div class="panel panel-default">
                                         <div class="panel-heading">
-                                            <h4>Element Sets</h4>
+                                            <h4>Element Sets I Maintain</h4>
                                         </div><!--panel-heading-->
                                         <div class="panel-body">
                                             <ul class="list-unstyled">
-                                                @forelse ($logged_in_user->elementsets as $elementset)
-                                                    <li>{{ \Collective\Html\link_to('projects/'.$elementset->id, $elementset->name) }}</li>
+                                                @forelse ($logged_in_user->elementsets->sortBy('name') as $elementset)
+                                                    <li>{{ \Collective\Html\link_to('elementsets/'.$elementset->id . '/elements', $elementset->name) }}</li>
                                                 @empty
                                                     No Element Sets defined
                                                 @endforelse
