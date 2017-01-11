@@ -130,6 +130,11 @@ class Vocabulary extends Model
   }
 
 
+  public function project()
+  {
+    return $this->belongsTo(Project::class, 'agent_id', 'id');
+  }
+
   public function concepts()
   {
     return $this->hasMany(Concept::class, 'vocabulary_id');
