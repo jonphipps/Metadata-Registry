@@ -78,3 +78,9 @@ testing.html
 
 tests/_output/*
 cachev
+web/build
+backend-rtl.css
+backend.css
+frontend.css
+backend.js
+frontend.js
