@@ -204,14 +204,11 @@ return [
         App\Providers\HistoryServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
-        Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
-        Mpociot\LaravelTestFactoryHelper\TestFactoryHelperServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Barryvdh\Snappy\ServiceProvider::class,
         Bugsnag\BugsnagLaravel\BugsnagServiceProvider::class,
         Culpa\CulpaServiceProvider::class,
         GrahamCampbell\GitHub\GitHubServiceProvider::class,
-        Antennaio\Codeception\DbDumpServiceProvider::class,
     ],
 
   /*

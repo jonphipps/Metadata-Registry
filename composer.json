@@ -82,7 +82,8 @@
         "symfony/psr-http-message-bridge": "^1.0",
         "vlucas/phpdotenv": "~2.2",
         "willdurand/negotiation": "^2.0",
-        "yajra/laravel-datatables-oracle": "~6.0"
+        "yajra/laravel-datatables-oracle": "~6.0",
+        "infyomlabs/adminlte-templates": "5.3.x-dev"
     },
 
     "autoload": {
@@ -114,7 +115,6 @@
         "codeception/verify": "^0.3.0",
         "fzaninotto/faker": "^1.6",
         "henrikbjorn/phpspec-code-coverage": "1.0.*@dev",
-        "infyomlabs/adminlte-templates": "5.3.x-dev",
         "infyomlabs/laravel-generator": "5.3.x-dev",
         "infyomlabs/swagger-generator": "dev-master",
         "jonpitch/laxative": "*",
