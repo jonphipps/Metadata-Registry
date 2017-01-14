@@ -75,8 +75,6 @@ class AppServiceProvider extends ServiceProvider
       $this->app->register(\Mpociot\LaravelTestFactoryHelper\TestFactoryHelperServiceProvider::class);
       $this->app->register(\Antennaio\Codeception\DbDumpServiceProvider::class);
 
-
-
     }
     $this->app->alias('bugsnag.logger', Log::class);
     $this->app->alias('bugsnag.logger', LoggerInterface::class);

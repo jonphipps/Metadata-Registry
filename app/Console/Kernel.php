@@ -13,8 +13,9 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
-    ];
+        \Spatie\MigrateFresh\Commands\MigrateFresh::class,
+
+];
 
     /**
      * Define the application's command schedule.
