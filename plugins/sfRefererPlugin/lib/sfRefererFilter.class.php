@@ -52,7 +52,7 @@ class sfRefererFilter extends sfFilter
         }
 
         if (sfRequest::GET == $request->getMethod()) {
-            $request_stack = $user->getAttribute('request_stack', '', 'sfRefererPlugin');
+            $request_stack = $user->getAttribute('request_stack', [], 'sfRefererPlugin');
 
             if (isset( $request_stack['current_uri'] )) {
                 $request_stack['last_uri'] = $request_stack['current_uri'];
