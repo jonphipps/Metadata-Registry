@@ -8,8 +8,8 @@ class_name: AcceptanceTester
 modules:
     enabled:
         - PhpBrowser:
-            url: 'https://registry.dev/' # put your local url
+            url: 'http://registry.dev/' # put your local url
         - Laravel5:
             part: ORM
-            cleanup: false # can't wrap into transaction
+            environment_file: .env.testing
         - \Helper\Acceptance
