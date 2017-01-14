@@ -1,6 +1,6 @@
 <?php
 
-define('SF_ROOT_DIR', __DIR__ . '/..');
+define('SF_ROOT_DIR', realpath(dirname(__FILE__) . '/..'));
 define('SF_APP', 'frontend');
 
 //initialize composer through laravel bootstrap
