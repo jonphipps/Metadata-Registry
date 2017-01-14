@@ -38,10 +38,9 @@
     ],
     "minimum-stability": "stable",
     "require": {
-        "php": ">=5.6.4",
+        "php": ">=7.0.0",
         "arcanedev/log-viewer": "~4.0",
         "arcanedev/no-captcha": "~3.0",
-        "barryvdh/laravel-debugbar": "^2.0",
         "barryvdh/laravel-snappy": "^0.3.0",
         "bgcc/sf-select2-widgets-plugin": "~1.0",
         "bugsnag/bugsnag": "^3.0",
@@ -103,6 +102,7 @@
         ]
     },
     "require-dev": {
+        "barryvdh/laravel-debugbar": "^2.0",
         "barryvdh/laravel-ide-helper": "dev-master",
         "behat/behat": "^3.3",
         "behat/mink": "^1.7",
