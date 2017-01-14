@@ -1,0 +1,9 @@
+Feature: ViewHomePage
+  In order to ...
+  As a ...
+  I need to ...
+
+  Scenario: try ViewHomePage
+    Given I am on "/"
+    Then I should see "Welcome"
+    Then I should see "Login"
