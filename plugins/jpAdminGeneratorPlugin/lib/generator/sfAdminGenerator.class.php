@@ -146,7 +146,7 @@ abstract class sfAdminGenerator extends sfCrudGenerator
     }
     elseif (isset($params['query_string']))
     {
-      $qry = '';
+      $qry = [];
       $queryString = $params['query_string'];
       foreach ($queryString as $key => $value)
       {
@@ -298,7 +298,7 @@ abstract class sfAdminGenerator extends sfCrudGenerator
       $fragmentStart = ".'&";
     }
     if (isset( $params['query_string'] )) {
-      $qry         = '';
+      $qry         = [];
       $queryString = $params['query_string'];
       foreach ($queryString as $key => $value) {
         if ($key == 'sf_request') { //we get the parameter from the request
