@@ -54,6 +54,9 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
   public function setUp()
   {
     parent::setUp();
+
+    ini_restore('arg_separator.output');
+
     // Run the tests in English
     App::setLocale('en');
 
