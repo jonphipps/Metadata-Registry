@@ -31,14 +31,15 @@
                     <div class="form-group">
                         {{ Form::label('name', trans('validation.attributes.frontend.name'), ['class' => 'col-md-4 control-label']) }}
                         <div class="col-md-6">
-                            {{ Form::input('text', 'name', null, ['class' => 'form-control', 'placeholder' => trans('validation.attributes.frontend.name'), 'required', 'autofocus']) }}
+                            <p class="form-control-static">{{ $name }}</p>
+                            {{ Form::input('hidden', 'name', $name, ['class' => 'form-control', 'placeholder' => trans('validation.attributes.frontend.name')]) }}
                         </div><!--col-md-6-->
                     </div><!--form-group-->
 
                     <div class="form-group">
                         {{ Form::label('password', trans('validation.attributes.frontend.password'), ['class' => 'col-md-4 control-label']) }}
                         <div class="col-md-6">
-                            {{ Form::input('password', 'password', null, ['class' => 'form-control', 'placeholder' => trans('validation.attributes.frontend.password')]) }}
+                            {{ Form::input('password', 'password', null, ['class' => 'form-control', 'placeholder' => trans('validation.attributes.frontend.password'), 'autofocus']) }}
                         </div><!--col-md-6-->
                     </div><!--form-group-->
 
