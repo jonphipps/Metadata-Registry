@@ -60,7 +60,7 @@ class UserRepository extends Repository
 	 */
 	public function getEmailForPasswordToken($token) {
 		if ($row = DB::table('password_resets')->where('token', $token)->first())
-			return $row->email;
+			return ['email' => $row->email, 'name' => $row->name];
 		throw new GeneralException(trans('auth.unknown'));
 	}
 

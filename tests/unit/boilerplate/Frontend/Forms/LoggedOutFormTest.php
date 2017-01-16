@@ -134,31 +134,32 @@ class LoggedOutFormTest extends TestCase
 	 */
 	public function testForgotPasswordRequiredFields() {
 		$this->visit('/password/reset')
-			->type('', 'email')
+			->type('', 'name')
 			->press('Send Password Reset Link')
 			->seePageIs('/password/reset')
-			->see('The email field is required.');
+			->see('The name field is required.');
 	}
 
-	/**
-	 * Test that the forgot password form sends the user the notification and places the
-	 * row in the password_resets table
-	 */
-	public function testForgotPasswordForm()
-	{
-		Notification::fake();
 
-		$this->visit('password/reset')
-			->type($this->user->email, 'email')
-			->press('Send Password Reset Link')
-			->seePageIs('password/reset')
-			->see('We have e-mailed your password reset link!')
-			->seeInDatabase('password_resets', ['email' => $this->user->email]);
+  /**
+   * Test that the forgot password form sends the user the notification and places the
+   * row in the password_resets table
+   */
+  public function testForgotPasswordForm()
+  {
+    Notification::fake();
 
-		Notification::assertSentTo(
-			[$this->user], UserNeedsPasswordReset::class
-		);
-	}
+    $this->visit('password/reset')
+         ->type($this->user->name, 'name')
+         ->press('Send Password Reset Link')
+         ->seePageIs('password/reset')
+         ->see('We have e-mailed your password reset link!')
+         ->seeInDatabase('password_resets', [ 'email' => $this->user->email ])
+         ->seeInDatabase('password_resets', [ 'name' => $this->user->name ]);
+
+    Notification::assertSentTo([ $this->user ],
+        UserNeedsPasswordReset::class);
+  }
 
 	/**
 	 * Test that the errors work if nothing is filled in the reset password form
@@ -189,7 +190,7 @@ class LoggedOutFormTest extends TestCase
         ->type('12345678', 'password')
 			->type('12345678', 'password_confirmation')
 			->press('Reset Password')
-			->seePageIs('/')
+			->seePageIs('/dashboard')
 			->see($this->user->name);
 	}
 

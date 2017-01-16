@@ -20,6 +20,8 @@ class ResetPasswordController extends Controller
 	 */
 	protected $user;
 
+  protected $redirectTo = '/dashboard';
+
     /**
      * ChangePasswordController constructor.
      * @param UserRepository $user
@@ -35,23 +37,28 @@ class ResetPasswordController extends Controller
 	 * @return string
 	 */
 	public function redirectPath() {
-		return route('frontend.index');
+		return route('frontend.user.dashboard');
 	}
 
-	/**
-	 * Display the password reset view for the given token.
-	 *
-	 * If no token is present, display the link request form.
-	 *
-	 * @param  string|null  $token
-	 * @return \Illuminate\Http\Response
-	 */
-	public function showResetForm($token = null)
-	{
-		return view('frontend.auth.passwords.reset')
-			->withToken($token)
-			->withEmail($this->user->getEmailForPasswordToken($token));
-	}
+
+  /**
+   * Display the password reset view for the given token.
+   * If no token is present, display the link request form.
+   *
+   * @param  string|null $token
+   *
+   * @return \Illuminate\Http\Response
+   */
+  public function showResetForm($token = null)
+  {
+    $email = $this->user->getEmailForPasswordToken($token)['email'];
+    $name  = $this->user->getEmailForPasswordToken($token)['name'];
+
+    return view('frontend.auth.passwords.reset')
+        ->withToken($token)
+        ->withEmail($email)
+        ->withName($name);
+  }
 
 
 
