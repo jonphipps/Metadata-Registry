@@ -22,16 +22,18 @@ class RoleFormTest extends TestCase
 			->see('The name field is required.');
 	}
 
-	public function testCreateRoleRequiredFieldsSpecificPermissions() {
-		// Custom Permissions
-		$this->actingAs($this->admin)
-			->visit('/admin/access/role/create')
-			->type('Test Role', 'name')
-			->select('custom', 'associated-permissions')
-			->press('Create')
-			->seePageIs('/admin/access/role/create')
-			->see('You must select at least one permission for this role.');
-	}
+
+  public function testCreateRoleRequiredFieldsSpecificPermissions()
+  {
+    // Custom Permissions
+    $this->actingAs($this->admin)
+         ->visit('/admin/access/role/create')
+         ->type('Test Role', 'name')
+         ->select('custom', 'associated-permissions');
+    $this->press('Create');
+    $this->seePageIs('/admin/access/role/create')
+         ->see('You must select at least one permission for this role.');
+  }
 
 	public function testCreateRoleFormAll() {
 		// Make sure our events are fired
@@ -54,22 +56,23 @@ class RoleFormTest extends TestCase
 		// Make sure our events are fired
 		Event::fake();
 
-		// Test create with some permissions
-		$this->actingAs($this->admin)
-			->visit('/admin/access/role/create')
-			->type('Test Role', 'name')
-			->select('custom', 'associated-permissions')
-			->check('permissions[2]')
-			->check('permissions[3]')
-			->press('Create')
-			->seePageIs('/admin/access/role')
-			->see('The role was successfully created.')
-			->seeInDatabase($this->roleTable, ['name' => 'Test Role', 'all' => 0]);
-			$this->seeInDatabase($this->permissionRoleTable, ['permission_id' => 2, 'role_id' => 12])
-			->seeInDatabase($this->permissionRoleTable, ['permission_id' => 3, 'role_id' => 12]);
-
-		Event::assertFired(RoleCreated::class);
-	}
+    // Test create with some permissions
+    $this->actingAs($this->admin)
+         ->visit('/admin/access/role/create')
+         ->type('Test Role', 'name')
+         ->select('custom', 'associated-permissions')
+         ->check('permissions[2]')
+         ->check('permissions[3]')
+         ->press('Create')
+         ->seePageIs('/admin/access/role')
+         ->see('The role was successfully created.')
+         ->seeInDatabase($this->roleTable, [ 'name' => 'Test Role', 'all' => 0 ]);
+    $latestId = App\Models\Access\Role\Role::orderby('created_at', 'desc')
+                                           ->first()->id;
+    $this->seeInDatabase($this->permissionRoleTable, [ 'permission_id' => 2, 'role_id' => $latestId ])
+         ->seeInDatabase($this->permissionRoleTable, [ 'permission_id' => 3, 'role_id' => $latestId ]);
+    Event::assertFired(RoleCreated::class);
+  }
 
 	public function testRoleAlreadyExists() {
 		$this->actingAs($this->admin)
