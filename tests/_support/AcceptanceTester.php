@@ -1,4 +1,5 @@
 <?php
+use Behat\Gherkin\Node\TableNode;
 
 /**
  * Inherited Methods
@@ -45,4 +46,41 @@ class AcceptanceTester extends \Codeception\Actor
   {
     $this->dontSee($string);
   }
+
+
+  /**
+   * @Then     I fill in the following:
+   *
+   * @param TableNode $fields
+   *
+   * @internal param \Behat\Gherkin\Node\TableNode $tableNode
+   */
+  public function iFillInTheFollowing(TableNode $fields)
+  {
+    foreach ($fields->getRowsHash() as $field => $value) {
+      $this->fillField($field, $value);
+    }
+  }
+
+
+  /**
+   * @Then I press :button
+   */
+  public function iPress($button)
+  {
+    $this->click($button);
+
+  }
+
+
+  /**
+   * @Then I should be on :url
+   *
+   */
+  public function iShouldBeOn($url)
+  {
+    //$foo = $this->grabRecord('App\Models\Access\User\User',[ 'id'=> 3 ]);
+    $this->seeInCurrentUrl($url);
+  }
+
 }

@@ -13,3 +13,11 @@ modules:
             part: ORM
             environment_file: .env.testing
         - \Helper\Acceptance
+gherkin:
+    contexts:
+        default:
+            - AcceptanceTester
+            - AdditionalSteps
+        role:
+            admin:
+                - Step\Admin
