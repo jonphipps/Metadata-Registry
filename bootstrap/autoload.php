@@ -45,9 +45,9 @@ $bugsnag = Bugsnag\Client::make(env('BUGSNAG_API_KEY'));
 $bugsnag->setReleaseStage($bugsnagStage);
 $bugsnag->setErrorReportingLevel(E_ALL & ~E_NOTICE);
 
-if (array_key_exists('SERVER_NAME', $_SERVER)) {
+if (array_key_exists('HTTP_HOST', $_SERVER)) {
   Bugsnag\Handler::register($bugsnag);
-  switch ($_SERVER['SERVER_NAME']) {
+  switch ($_SERVER['HTTP_HOST']) {
     case 'registry.dev':
       if ( ! $bugsnagStage) {
         $bugsnag->setReleaseStage('development');
