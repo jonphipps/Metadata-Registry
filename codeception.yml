@@ -5,6 +5,8 @@ paths:
     data: tests/_data
     support: tests/_support
     envs: tests/_envs
+params:
+    - .env.testing
 settings:
     bootstrap: _bootstrap.php
     colors: true
@@ -15,7 +17,9 @@ extensions:
 modules:
     config:
         Db:
-            dsn: ''
-            user: ''
+            dsn: 'mysql:host=localhost;dbname=swregistry_test'
+            user: root
             password: ''
             dump: tests/_data/dump.sql
+            populate: false
+            cleanup: false
