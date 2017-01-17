@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Frontend\Auth;
 
+use App\Models\Access\User\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use App\Repositories\Frontend\Access\User\UserRepository;
+use Illuminate\Support\Str;
 
 /**
  * Class ResetPasswordController
@@ -41,6 +43,26 @@ class ResetPasswordController extends Controller
 	}
 
 
+  /**
+   * Reset the given user's password.
+   *
+   * @param  User $user
+   * @param  string $password
+   *
+   * @return void
+   */
+  protected function resetPassword($user, $password)
+  {
+    $user->forceFill([
+        'password'       => bcrypt($password),
+        'remember_token' => Str::random(60),
+        'confirmed'      => 1,
+    ])
+         ->save();
+
+    $this->guard()
+         ->login($user);
+  }
   /**
    * Display the password reset view for the given token.
    * If no token is present, display the link request form.

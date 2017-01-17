@@ -21,8 +21,11 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
    * @var string
    */
   protected $baseUrl = 'http://registry.dev';
+  /** @var  User $user */
   protected $admin;
+  /** @var  User $user */
   protected $executive;
+  /** @var  User $user */
   protected $user;
   protected $adminRole;
   protected $executiveRole;
