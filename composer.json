@@ -60,6 +60,7 @@
         "hieu-le/active": "~2.0",
         "infyomlabs/adminlte-templates": "5.3.x-dev",
         "jlapp/swaggervel": "dev-master",
+        "laravel/browser-kit-testing": "@dev",
         "laravel/framework": "5.3.*",
         "laravel/socialite": "^2.0",
         "laravelcollective/html": "dev-symfony as 5.3.x-dev",
