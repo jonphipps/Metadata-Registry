@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "92ea7091b2eef82ed048f759f28387cb",
+    "content-hash": "bd02c7f63877a872843713b317d0d45d",
     "packages": [
         {
             "name": "arcanedev/log-viewer",
@@ -9728,6 +9728,48 @@
             "description": "Symfony DependencyInjection Component",
             "homepage": "https://symfony.com",
             "time": "2017-01-10T14:21:25+00:00"
+        },
+        {
+            "name": "tightenco/mailthief",
+            "version": "v0.3.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/tightenco/mailthief.git",
+                "reference": "b9ea841ad2c679dcf2aed200aca306f57ca9ea56"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/tightenco/mailthief/zipball/b9ea841ad2c679dcf2aed200aca306f57ca9ea56",
+                "reference": "b9ea841ad2c679dcf2aed200aca306f57ca9ea56",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/mail": "^5.0",
+                "illuminate/view": "^5.0"
+            },
+            "require-dev": {
+                "laravel/framework": "^5.1",
+                "mockery/mockery": "^0.9.5",
+                "phpunit/phpunit": "^5.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MailThief\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Adam Wathan",
+                    "email": "adam.wathan@gmail.com"
+                }
+            ],
+            "description": "A fake Mailer for Laravel applications that takes the pain out of testing mail.",
+            "time": "2017-01-30T17:27:29+00:00"
         },
         {
             "name": "way/generators",
