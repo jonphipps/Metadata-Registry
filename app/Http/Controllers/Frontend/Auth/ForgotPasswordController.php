@@ -42,6 +42,16 @@ class ForgotPasswordController extends Controller
   }
 
 
+  public function sendLoginNameEmail(Request $request)
+  {
+    $this->validate($request, [ 'email' => 'required|email|exists:'. User::TABLE ]);
+
+    //if the email exists, we look up all of the user names associated with it
+    //and send them to the user as an email, with a link back to the login screen
+
+
+
+  }
   /**
    * Send a reset link to the given user.
    *

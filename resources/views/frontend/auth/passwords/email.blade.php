@@ -13,7 +13,7 @@
 
             <div class="panel panel-default">
 
-                <div class="panel-heading">{{ trans('labels.frontend.passwords.reset_password_box_title') }}</div>
+                <div class="panel-heading">{{ trans('labels.frontend.passwords.send_login_box_title') }}</div>
 
                 <div class="panel-body">
 
@@ -28,7 +28,7 @@
 
                     <div class="form-group">
                         <div class="col-md-6 col-md-offset-4">
-                            {{ Form::submit(trans('labels.frontend.passwords.send_password_reset_link_button'), ['class' => 'btn btn-primary']) }}
+                            {{ Form::submit(trans('labels.frontend.passwords.send_login_button'), ['class' => 'btn btn-primary']) }}
                         </div><!--col-md-6-->
                     </div><!--form-group-->
 

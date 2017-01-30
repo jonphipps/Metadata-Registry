@@ -112,9 +112,12 @@ return [
 
         'passwords' => [
             'forgot_password'                 => 'Forgot Your Password?',
+            'forgot_login_name'               => 'Forgot Your Login Name?',
             'reset_password_box_title'        => 'Reset Password',
             'reset_password_button'           => 'Reset Password',
             'send_password_reset_link_button' => 'Send Password Reset Link',
+            'send_login_box_title'            => 'Send Login Name',
+            'send_login_button'               => 'Send Login Name',
         ],
 
         'macros' => [
