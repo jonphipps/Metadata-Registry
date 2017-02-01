@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Notification;
 use App\Notifications\Frontend\Auth\UserNeedsConfirmation;
 use App\Notifications\Frontend\Auth\UserNeedsPasswordReset;
 use Illuminate\Foundation\Testing\Concerns\InteractsWithDatabase;
+use tests\traits\InteractsWithMailTrap;
+
 
 /**
  * Class LoggedOutFormTest
@@ -19,6 +21,7 @@ class LoggedOutFormTest extends TestCase
 {
 
   use InteractsWithDatabase;
+  use InteractsWithMailTrap;
 
 
   /**
@@ -138,6 +141,79 @@ class LoggedOutFormTest extends TestCase
          ->see('Access Management');
 
     Event::assertFired(UserLoggedIn::class);
+  }
+
+
+  /**
+   * Test that the errors work if nothing is filled in the forgot password form
+   */
+  public function testForgotLoginRequiredFields()
+  {
+    $this->visit('/password/email')
+         ->type('', 'email')
+         ->press('Send Login Name')
+         ->seePageIs('/password/email')
+         ->see('The email field is required.');
+  }
+
+
+  /**
+   * Test that the forgot login form sends the user the notification and contains the login info
+   */
+  public function testForgotLoginForm()
+  {
+
+    $this->visit('password/email')
+         ->type($this->user->email, 'email')
+         ->press('Send Login Name')
+         ->seePageIs('/login')
+         ->see('We have e-mailed your login name(s)!');
+
+    $this->_initializeClient();
+    $this->receivedAnEmailToEmail($this->user->email);
+    $this->seeInEmailTextBody($this->user->name);
+
+    // //$this->seeMessageFor($this->user->email);
+    // Notification::assertSentTo([ $this->user ],
+    //     UserNeedsLogin::class);
+
+    // Notification::assertSentTo([ $this->user ],
+    //     UserNeedsLogin::class,
+    //     function ($notification, $channels) {
+    //       return $notification->order->id === false;
+    //     });
+  }
+
+
+  /**
+   * Test that the forgot login form sends the user the notification and contains the login info
+ */
+  public function testForgotMultipleLoginsForm()
+  {
+    $user2 = factory(App\Models\Access\User\User::class)->create([
+        'email'=> $this->user->email
+    ]);
+
+    $this->visit('password/email')
+         ->type($this->user->email, 'email')
+         ->press('Send Login Name')
+         ->seePageIs('/login')
+         ->see('We have e-mailed your login name(s)!');
+
+    $this->_initializeClient();
+    $this->receivedAnEmailToEmail($this->user->email);
+    $this->seeInEmailTextBody($this->user->name);
+    $this->seeInEmailTextBody($user2->name);
+
+    // //$this->seeMessageFor($this->user->email);
+    // Notification::assertSentTo([ $this->user ],
+    //     UserNeedsLogin::class);
+
+    // Notification::assertSentTo([ $this->user ],
+    //     UserNeedsLogin::class,
+    //     function ($notification, $channels) {
+    //       return $notification->order->id === false;
+    //     });
   }
 
 
