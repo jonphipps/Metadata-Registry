@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Frontend\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\Access\User\User;
+use App\Notifications\Frontend\Auth\UserNeedsLogin;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Password;
 
 /**
@@ -47,7 +49,13 @@ class ForgotPasswordController extends Controller
     $this->validate($request, [ 'email' => 'required|email|exists:'. User::TABLE ]);
 
     //if the email exists, we look up all of the user names associated with it
+    $email = $request->get('email');
+    $user = \App\Models\Access\User\User::where('email', $email)->first();
+
     //and send them to the user as an email, with a link back to the login screen
+    Notification::send($user, new UserNeedsLogin($user));
+
+    return redirect('login')->with('status','We have e-mailed your login name(s)!');
 
 
 

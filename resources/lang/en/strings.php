@@ -82,6 +82,13 @@ return [
             'password_if_not_requested' => 'If you did not request a password reset, no further action is required.',
             'reset_password' => 'Click here to reset your password',
 
+            'login_name_subject'    => 'Request Login Name',
+            'login_name_cause_of_email' => 'You are receiving this email because we received a request to send you the Login Name(s) for your account.',
+            'login_name_list' => 'Here is the login name associated with the email you provided:',
+            'login_names_list' => 'Here are the login names associated with the email you provided:',
+            'login_name_if_not_requested' => 'If you did not make this request, no further action is required.',
+            'login'            => 'Click here to login',
+
             'click_to_confirm' => 'Click here to confirm your account:',
         ],
     ],
