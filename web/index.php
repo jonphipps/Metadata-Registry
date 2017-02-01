@@ -6,11 +6,11 @@ define('SF_APP', 'frontend');
 //initialize composer through laravel bootstrap
 require_once SF_ROOT_DIR . DIRECTORY_SEPARATOR . 'bootstrap/autoload.php';
 
-define('SF_ENVIRONMENT', env('SF_ENVIRONMENT', 'prod'));
-define('SF_DEBUG', env('SF_DEBUG', 'false'));
-
 //fire up Laravel
 $app = require_once SF_ROOT_DIR . DIRECTORY_SEPARATOR . 'bootstrap/app.php';
+
+define('SF_ENVIRONMENT', env('APP_ENV', 'prod'));
+define('SF_DEBUG', env('APP_DEBUG', 'false'));
 
 //we may use this in future to prescreen URLs to bypass laravel processing
 $uri = urldecode(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
