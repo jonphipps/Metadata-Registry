@@ -2,6 +2,7 @@
 
 namespace ImportVocab;
 
+use App\lib\model\Schema;
 use Carbon\Carbon;
 use Ddeboer\DataImport\Writer\CsvWriter;
 use League\Flysystem\Adapter\Local as Adapter;
@@ -10,7 +11,7 @@ use sfConfig;
 
 class ExportVocab {
 
-    /** @var  \Schema|\Vocabulary */
+    /** @var  Schema|\Vocabulary */
     private $schema;
 
     /** @var  \User */
@@ -120,7 +121,7 @@ class ExportVocab {
     }
 
     /**
-     * @return \Schema
+     * @return Schema
      */
     public function getSchema()
     {

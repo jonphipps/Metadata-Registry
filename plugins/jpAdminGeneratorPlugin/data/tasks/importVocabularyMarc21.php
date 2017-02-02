@@ -11,6 +11,8 @@
  *
  */
 
+use App\lib\model\Schema;
+
 pake_desc('Import a file into a vocabulary');
 pake_task('import-marc-vocabulary');
 

@@ -190,6 +190,7 @@ return [
        * Has to override the Collective\Html\HtmlServiceProvider form singleton
        */
         App\Providers\MacroServiceProvider::class,
+        Encore\Admin\Providers\AdminServiceProvider::class,
 
       /*
            * Application Service Providers...

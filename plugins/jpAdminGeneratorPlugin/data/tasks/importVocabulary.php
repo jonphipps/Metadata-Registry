@@ -11,6 +11,7 @@
  *
  */
 
+use App\lib\model\Schema;
 use ImportVocab\ImportVocab;
 
 pake_desc('Import a file into a vocabulary');

@@ -1,4 +1,5 @@
 <?php
+use App\lib\model\Schema;
 
 /**
  * Base static class for performing query and update operations on the 'reg_schema' table.

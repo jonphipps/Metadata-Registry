@@ -1,4 +1,5 @@
 <?php
+use App\lib\model\Schema;
 
 /**
  * Subclass for representing a row from the 'reg_schema_property' table.

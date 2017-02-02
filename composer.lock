@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "701fae745878f8a3669353981717b5b0",
+    "content-hash": "31cb1aab218738e8d9046d26856d11f2",
     "packages": [
         {
             "name": "arcanedev/log-viewer",
@@ -1593,6 +1593,77 @@
                 "sparql"
             ],
             "time": "2015-02-27T09:45:49+00:00"
+        },
+        {
+            "name": "encore/laravel-admin",
+            "version": "v1.3.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jonphipps/laravel-admin.git",
+                "reference": "fa7b1fdc7f5b37bffc80500b98fb9a4d3fb72155"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jonphipps/laravel-admin/zipball/fa7b1fdc7f5b37bffc80500b98fb9a4d3fb72155",
+                "reference": "fa7b1fdc7f5b37bffc80500b98fb9a4d3fb72155",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": "~5.3",
+                "php": ">=5.6.4"
+            },
+            "require-dev": {
+                "fzaninotto/faker": "~1.4",
+                "intervention/image": "~2.3",
+                "laravel/laravel": "~5.3",
+                "phpunit/phpunit": "~4.0",
+                "symfony/css-selector": "2.8.*|3.0.*",
+                "symfony/dom-crawler": "2.8.*|3.0.*"
+            },
+            "suggest": {
+                "intervention/image": "Required to handling and manipulation upload images (~2.3).",
+                "spatie/eloquent-sortable": "Required to built orderable gird."
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Encore\\Admin\\": "src/"
+                },
+                "files": [
+                    "src/helpers.php"
+                ]
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Tests\\Models\\": "tests/models",
+                    "Tests\\Controllers\\": "tests/controllers"
+                },
+                "classmap": [
+                    "tests/TestCase.php"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "zsong",
+                    "email": "zosong@126.com"
+                }
+            ],
+            "description": "laravel admin",
+            "homepage": "https://github.com/z-song/laravel-admin",
+            "keywords": [
+                "admin",
+                "chart",
+                "form",
+                "grid",
+                "laravel"
+            ],
+            "support": {
+                "source": "https://github.com/jonphipps/laravel-admin/tree/v1.3.2"
+            },
+            "time": "2017-01-15T07:16:56+00:00"
         },
         {
             "name": "filp/whoops",
@@ -4972,6 +5043,57 @@
                 "sparql"
             ],
             "time": "2016-10-07T13:56:26+00:00"
+        },
+        {
+            "name": "spatie/eloquent-sortable",
+            "version": "3.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/eloquent-sortable.git",
+                "reference": "16c9828fa2cd50b720b03d647a8fc37b64a8fb95"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/eloquent-sortable/zipball/16c9828fa2cd50b720b03d647a8fc37b64a8fb95",
+                "reference": "16c9828fa2cd50b720b03d647a8fc37b64a8fb95",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/database": "~5.3.0|~5.4.0",
+                "illuminate/support": "~5.3.0|~5.4.0",
+                "php": ">=7.0"
+            },
+            "require-dev": {
+                "orchestra/testbench": "~3.3.0|~3.4.0",
+                "phpunit/phpunit": "^5.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\EloquentSortable\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Freek Van der Herten",
+                    "email": "freek@spatie.be"
+                }
+            ],
+            "description": "Sortable behaviour for eloquent models",
+            "homepage": "https://github.com/spatie/eloquent-sortable",
+            "keywords": [
+                "behaviour",
+                "eloquent",
+                "laravel",
+                "model",
+                "sort",
+                "sortable"
+            ],
+            "time": "2017-01-23T09:32:16+00:00"
         },
         {
             "name": "spatie/laravel-migrate-fresh",

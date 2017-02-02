@@ -1,5 +1,31 @@
 <?php
 
+namespace App\lib\model;
+
+use BaseSchema;
+use BaseSchemaPropertyElementPeer;
+use ConceptPeer;
+use Criteria;
+use Exception;
+use PrefixPeer;
+use ProfileProperty;
+use ProfilePropertyPeer;
+use Propel;
+use PropelException;
+use ResultSet;
+use SchemaHasUser;
+use SchemaHasUserPeer;
+use SchemaPeer;
+use SchemaProperty;
+use SchemaPropertyElement;
+use SchemaPropertyElementPeer;
+use SchemaPropertyPeer;
+use sfContext;
+use sfInflector;
+use Status;
+use StatusPeer;
+use User;
+
 /**
  * Subclass for representing a row from the 'reg_schema' table.
  *
@@ -239,7 +265,7 @@ class Schema extends BaseSchema {
     /**
      * Gets the created_by_user
      *
-     * @return User
+     * @return string
      */
     public function getCreatedUser()
     {
@@ -255,7 +281,7 @@ class Schema extends BaseSchema {
     /**
      * Gets the updated_by_user
      *
-     * @return User
+     * @return string
      */
     public function getUpdatedUser()
     {
@@ -979,14 +1005,13 @@ SQL
 
 
   /**
-   * @param bool $excludeDeprecated
+   * @param bool $includeDeprecated
    * @param bool $includeGenerated
    * @param bool $includeDeleted
    * @param bool $includeNotAccepted
    * @param array $languages
-
    *
-*@return array
+   * @return array
    */
   public function getDataForExport(
       $includeDeprecated = false, $includeGenerated = false, $includeDeleted = false, $includeNotAccepted = false,

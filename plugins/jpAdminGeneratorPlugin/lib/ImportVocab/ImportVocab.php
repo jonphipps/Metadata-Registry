@@ -13,6 +13,7 @@ use Ddeboer\DataImport\Reader\CsvReader;
 use Ddeboer\DataImport\ValueConverter\MappingValueConverter;
 use Ddeboer\DataImport\Workflow;
 use Ddeboer\DataImport\Writer;
+use Schema;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
 /**
@@ -119,7 +120,7 @@ class ImportVocab
      */
     public $vocabId;
 
-    /** @var \Schema */
+    /** @var Schema */
     public $vocabulary;
 
     /** @var int */
