@@ -9,7 +9,7 @@ use App\Exceptions\GeneralException;
 use App\Models\Access\Role\Role;
 use App\Repositories\Repository;
 use Illuminate\Database\Eloquent\Model;
-use $logged_in_userDB;
+use DB;
 
 /**
  * Class RoleRepository

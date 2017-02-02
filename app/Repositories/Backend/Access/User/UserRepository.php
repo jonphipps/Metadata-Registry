@@ -16,7 +16,7 @@ use App\Notifications\Frontend\Auth\UserNeedsConfirmation;
 use App\Repositories\Backend\Access\Role\RoleRepository;
 use App\Repositories\Repository;
 use Illuminate\Database\Eloquent\Model;
-use $logged_in_userDB;
+use DB;
 
 /**
  * Class UserRepository
