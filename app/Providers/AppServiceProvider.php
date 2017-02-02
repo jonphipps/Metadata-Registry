@@ -2,10 +2,10 @@
 
 namespace App\Providers;
 
+use Carbon\Carbon;
 use Illuminate\Contracts\Logging\Log;
 use Illuminate\Support\ServiceProvider;
 use Psr\Log\LoggerInterface;
-use Carbon\Carbon;
 
 class AppServiceProvider extends ServiceProvider
 {

@@ -4,9 +4,8 @@ namespace App\Notifications\Frontend\Auth;
 
 use App\Models\Access\User\User;
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
-use PhpParser\Node\Expr\Instanceof_;
+use Illuminate\Notifications\Notification;
 
 /**
  * Class UserNeedsPasswordReset
@@ -43,14 +42,12 @@ class UserNeedsLogin extends Notification
    */
   public function toMail($notifiable)
   {
-    $this->users = User::where('email', $notifiable->email)
-                       ->get();
+    $this->users = User::where('email', $notifiable->email)->get();
 
     $message = ( new MailMessage )->subject(app_name() . ': ' . trans('strings.emails.auth.login_name_subject'))
                                   ->line(trans('strings.emails.auth.login_name_cause_of_email'));
     if ($this->users->count() === 1) {
-      $message->line(trans('strings.emails.auth.login_name_list'))
-              ->line($notifiable->name);
+      $message->line(trans('strings.emails.auth.login_name_list'))->line($notifiable->name);
     } else {
       $count = 0;
       /** @var \Collection $notifiable */

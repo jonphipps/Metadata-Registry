@@ -6,9 +6,10 @@ use Collective\Html\FormBuilder;
 
 /**
  * Class Macros
+ *
  * @package App\Http
  */
 class Macros extends FormBuilder
 {
-    use Dropdowns;
+  use Dropdowns;
 }

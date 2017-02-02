@@ -6,16 +6,17 @@ use App\Http\Controllers\Controller;
 
 /**
  * Class DashboardController
+ *
  * @package App\Http\Controllers\Frontend
  */
 class DashboardController extends Controller
 {
 
-    /**
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function index()
-    {
-        return view('frontend.user.dashboard');
-    }
+  /**
+   * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+   */
+  public function index()
+  {
+    return view('frontend.user.dashboard');
+  }
 }

@@ -3,14 +3,15 @@
 namespace App\Jobs;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Container\Container;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 
 class Export implements ShouldQueue
 {
-    use InteractsWithQueue, Queueable, SerializesModels;
+  use InteractsWithQueue, Queueable, SerializesModels;
+
 
   /**
    * Create a new job instance.
@@ -19,31 +20,32 @@ class Export implements ShouldQueue
    *
    * @throws \PropelException
    */
-    public function __construct(\ExportHistory $export)
-    {
-      //new up a laravel container
-      Container::setInstance(new Container);
+  public function __construct(\ExportHistory $export)
+  {
+    //new up a laravel container
+    Container::setInstance(new Container);
 
     $addLanguage     = $export->getSelectedLanguage();
-      $schema          = $export->getSchema();
-      $vocabulary      = $export->getVocabulary();
-      $defaultLanguage = $schema ? $schema->getLanguage() : $vocabulary->getLanguage();
+    $schema          = $export->getSchema();
+    $vocabulary      = $export->getVocabulary();
+    $defaultLanguage = $schema ? $schema->getLanguage() : $vocabulary->getLanguage();
 
-      if ($addLanguage) {
-        $languages = [ $defaultLanguage, $addLanguage, ];
-      } else {
-        $languages = [ $defaultLanguage, ];
-      }
-
+    if ($addLanguage) {
+      $languages = [ $defaultLanguage, $addLanguage, ];
+    } else {
+      $languages = [ $defaultLanguage, ];
     }
 
-    /**
-     * Execute the job.
-     *
-     * @return void
-     */
-    public function handle()
-    {
-        //
-    }
+  }
+
+
+  /**
+   * Execute the job.
+   *
+   * @return void
+   */
+  public function handle()
+  {
+    //
+  }
 }
