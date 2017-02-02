@@ -272,7 +272,7 @@ $factory->define(App\Models\VocabularyHasVersion::class,
 $factory->define(User::class,
     function (Faker\Generator $faker) {
       static $password;
-      $name = $faker->userName;
+      $name = $faker->unique()->userName;
 
       return [
           'nickname'          => $name,
