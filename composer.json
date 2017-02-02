@@ -1,170 +1,175 @@
 {
-    "name": "jonphipps/metadata-registry",
-    "description": "A metadata registry",
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "git@github.com:jonphipps/phpspecgen.git"
-        },
-        {
-            "type": "vcs",
-            "url": "git@github.com:jonphipps/laxative.git"
-        },
-        {
-            "type": "vcs",
-            "url": "git@github.com:jonphipps/html.git"
-        },
-        {
-            "type": "git",
-            "url": "git@github.com:jamisonvalenta/Laravel-4-Generators.git"
-        },
-        {
-            "type": "vcs",
-            "url": "git@github.com:jonphipps/laravel-codeception-dbdump.git"
-        }
+  "name": "jonphipps/metadata-registry",
+  "description": "A metadata registry",
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "git@github.com:jonphipps/phpspecgen.git"
+    },
+    {
+      "type": "vcs",
+      "url": "git@github.com:jonphipps/laxative.git"
+    },
+    {
+      "type": "vcs",
+      "url": "git@github.com:jonphipps/html.git"
+    },
+    {
+      "type": "git",
+      "url": "git@github.com:jamisonvalenta/Laravel-4-Generators.git"
+    },
+    {
+      "type": "vcs",
+      "url": "git@github.com:jonphipps/laravel-codeception-dbdump.git"
+    },
+    {
+      "type": "vcs",
+      "url": "git@github.com:jonphipps/laravel-admin.git"
+    }
+  ],
+  "config": {
+    "process-timeout": 900,
+    "cache-dir:": "../",
+    "preferred-install": "dist",
+    "sort-packages": true
+  },
+  "license": "Apache-2.0",
+  "authors": [
+    {
+      "name": "Jon Phipps",
+      "email": "jphipps@madcreek.com"
+    }
+  ],
+  "minimum-stability": "stable",
+  "require": {
+    "php": ">=7.0.0",
+    "arcanedev/log-viewer": "~4.0",
+    "arcanedev/no-captcha": "~3.0",
+    "barryvdh/laravel-snappy": "^0.3.0",
+    "bgcc/sf-select2-widgets-plugin": "~1.0",
+    "bugsnag/bugsnag": "^3.0",
+    "bugsnag/bugsnag-laravel": "^2.0",
+    "chrisboulton/php-resque": "dev-master",
+    "creativeorange/gravatar": "~1.0",
+    "davejamesmiller/laravel-breadcrumbs": "^3.0",
+    "ddeboer/data-import": "0.18.*",
+    "doctrine/dbal": "~2.4",
+    "easyrdf/easyrdf": "^0.9.1",
+    "encore/laravel-admin": "1.3.*",
+    "filp/whoops": "^2.0",
+    "google/apiclient": "^1.1",
+    "graham-campbell/github": "^5.0",
+    "h4cc/wkhtmltoimage-amd64": "0.12.x",
+    "h4cc/wkhtmltopdf-amd64": "0.12.x",
+    "hashids/hashids": "^1.0",
+    "hieu-le/active": "~2.0",
+    "infyomlabs/adminlte-templates": "5.3.x-dev",
+    "jlapp/swaggervel": "dev-master",
+    "laravel/browser-kit-testing": "@dev",
+    "laravel/framework": "5.3.*",
+    "laravel/socialite": "^2.0",
+    "laravelcollective/html": "dev-symfony as 5.3.x-dev",
+    "league/flysystem": "~1.0",
+    "maatwebsite/excel": "~2.1.0",
+    "michelf/php-markdown": "^1.6",
+    "ml/json-ld": "1.*",
+    "mpociot/laravel-test-factory-helper": "^0.3.1",
+    "neitanod/forceutf8": "^2.0",
+    "nstapelbroek/culpa": "^2.0",
+    "pda/pheanstalk": "^3.1",
+    "php-http/guzzle6-adapter": "^1.1",
+    "phpmailer/phpmailer": "~5.2",
+    "phpoffice/phpexcel": "^1.8",
+    "predis/predis": "^1.1",
+    "psr/log": "^1.0",
+    "pusher/pusher-php-server": "^2.6",
+    "roave/security-advisories": "dev-master",
+    "robmorgan/phinx": "^0.5.0",
+    "semsol/arc2": "^2.2",
+    "spatie/eloquent-sortable": "^3.2",
+    "spatie/laravel-migrate-fresh": "^1.3",
+    "symfony/psr-http-message-bridge": "^1.0",
+    "vlucas/phpdotenv": "~2.2",
+    "willdurand/negotiation": "^2.0",
+    "yajra/laravel-datatables-oracle": "~6.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "ImportVocab\\": "plugins/jpAdminGeneratorPlugin/lib/ImportVocab",
+      "model\\": "lib/model",
+      "apps\\": "apps",
+      "App\\": "app/"
+    },
+    "classmap": [
+      "lib/model/",
+      "database",
+      "tests"
     ],
-    "config": {
-        "process-timeout": 900,
-        "cache-dir:": "../",
-        "preferred-install": "dist",
-        "sort-packages": true
-    },
-    "license": "Apache-2.0",
-    "authors": [
-        {
-            "name": "Jon Phipps",
-            "email": "jphipps@madcreek.com"
-        }
-    ],
-    "minimum-stability": "stable",
-    "require": {
-        "php": ">=7.0.0",
-        "arcanedev/log-viewer": "~4.0",
-        "arcanedev/no-captcha": "~3.0",
-        "barryvdh/laravel-snappy": "^0.3.0",
-        "bgcc/sf-select2-widgets-plugin": "~1.0",
-        "bugsnag/bugsnag": "^3.0",
-        "bugsnag/bugsnag-laravel": "^2.0",
-        "chrisboulton/php-resque": "dev-master",
-        "creativeorange/gravatar": "~1.0",
-        "davejamesmiller/laravel-breadcrumbs": "^3.0",
-        "ddeboer/data-import": "0.18.*",
-        "doctrine/dbal": "~2.4",
-        "easyrdf/easyrdf": "^0.9.1",
-        "filp/whoops": "^2.0",
-        "google/apiclient": "^1.1",
-        "graham-campbell/github": "^5.0",
-        "h4cc/wkhtmltoimage-amd64": "0.12.x",
-        "h4cc/wkhtmltopdf-amd64": "0.12.x",
-        "hashids/hashids": "^1.0",
-        "hieu-le/active": "~2.0",
-        "infyomlabs/adminlte-templates": "5.3.x-dev",
-        "jlapp/swaggervel": "dev-master",
-        "laravel/browser-kit-testing": "@dev",
-        "laravel/framework": "5.3.*",
-        "laravel/socialite": "^2.0",
-        "laravelcollective/html": "dev-symfony as 5.3.x-dev",
-        "league/flysystem": "~1.0",
-        "maatwebsite/excel": "~2.1.0",
-        "michelf/php-markdown": "^1.6",
-        "ml/json-ld": "1.*",
-        "mpociot/laravel-test-factory-helper": "^0.3.1",
-        "neitanod/forceutf8": "^2.0",
-        "nstapelbroek/culpa": "^2.0",
-        "pda/pheanstalk": "^3.1",
-        "php-http/guzzle6-adapter": "^1.1",
-        "phpmailer/phpmailer": "~5.2",
-        "phpoffice/phpexcel": "^1.8",
-        "predis/predis": "^1.1",
-        "psr/log": "^1.0",
-        "pusher/pusher-php-server": "^2.6",
-        "roave/security-advisories": "dev-master",
-        "robmorgan/phinx": "^0.5.0",
-        "semsol/arc2": "^2.2",
-        "spatie/laravel-migrate-fresh": "^1.3",
-        "symfony/psr-http-message-bridge": "^1.0",
-        "vlucas/phpdotenv": "~2.2",
-        "willdurand/negotiation": "^2.0",
-        "yajra/laravel-datatables-oracle": "~6.0"
-    },
-
-    "autoload": {
-        "psr-4": {
-            "ImportVocab\\": "plugins/jpAdminGeneratorPlugin/lib/ImportVocab",
-            "model\\": "lib/model",
-            "apps\\": "apps",
-            "App\\": "app/"
-        },
-        "classmap": [
-            "lib/model/",
-            "database",
-            "tests"
-        ],
-        "files": [
-            "app/helpers.php"
-        ]
-    },
-    "require-dev": {
-        "antennaio/laravel-codeception-dbdump": "dev-master",
-        "barryvdh/laravel-debugbar": "^2.0",
-        "barryvdh/laravel-ide-helper": "dev-master",
-        "behat/behat": "^3.3",
-        "behat/mink": "^1.7",
-        "behat/mink-extension": "^2.2",
-        "behat/mink-goutte-driver": "^1.2",
-        "behat/mink-selenium2-driver": "^1.3",
-        "captbaritone/mailcatcher-codeception-module": "^1.1",
-        "codeception/codeception": "^2.2",
-        "codeception/specify": "^0.4.3",
-        "codeception/verify": "^0.3.0",
-        "fzaninotto/faker": "^1.6",
-        "henrikbjorn/phpspec-code-coverage": "1.0.*@dev",
-        "infyomlabs/laravel-generator": "5.3.x-dev",
-        "infyomlabs/swagger-generator": "dev-master",
-        "jonpitch/laxative": "*",
-        "laracasts/behat-laravel-extension": "^1.0",
-        "mockery/mockery": "0.9.*",
-        "orangehill/iseed": "dev-master",
-        "raveren/kint": "1.0.*@dev",
-        "sstalle/php7cc": "^1.1",
-        "symfony/css-selector": "3.1.*",
-        "symfony/dom-crawler": "3.1.*",
-        "tightenco/mailthief": "^0.3.4",
-        "way/generators": "dev-feature/laravel-five-stable",
-        "xethron/migrations-generator": "dev-l5"
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "ImportVocab\\": "plugins/jpAdminGeneratorPlugin/lib/ImportVocab",
-            "model\\": "lib/model",
-            "apps\\": "apps",
-            "App\\": "app",
-            "tests\\": "tests",
-            "Helper\\": "tests/_support/Helper"
-        },
-        "classmap": [
-            "database",
-            "tests"
-        ]
-    },
-    "scripts": {
-        "post-root-package-install": [
-            "php -r \"file_exists('.env') || copy('.env.example', '.env');\""
-        ],
-        "post-create-project-cmd": [
-            "php artisan key:generate"
-        ],
-        "post-install-cmd": [
-            "Illuminate\\Foundation\\ComposerScripts::postInstall",
-            "php artisan optimize"
-        ],
-        "post-update-cmd": [
-            "Illuminate\\Foundation\\ComposerScripts::postUpdate",
-            "php artisan ide-helper:generate",
-            "php artisan optimize"
-        ]
-    },
-    "include-path": [
-        "lib/model"
+    "files": [
+      "app/helpers.php"
     ]
+  },
+  "require-dev": {
+    "antennaio/laravel-codeception-dbdump": "dev-master",
+    "barryvdh/laravel-debugbar": "^2.0",
+    "barryvdh/laravel-ide-helper": "dev-master",
+    "behat/behat": "^3.3",
+    "behat/mink": "^1.7",
+    "behat/mink-extension": "^2.2",
+    "behat/mink-goutte-driver": "^1.2",
+    "behat/mink-selenium2-driver": "^1.3",
+    "captbaritone/mailcatcher-codeception-module": "^1.1",
+    "codeception/codeception": "^2.2",
+    "codeception/specify": "^0.4.3",
+    "codeception/verify": "^0.3.0",
+    "fzaninotto/faker": "^1.6",
+    "henrikbjorn/phpspec-code-coverage": "1.0.*@dev",
+    "infyomlabs/laravel-generator": "5.3.x-dev",
+    "infyomlabs/swagger-generator": "dev-master",
+    "jonpitch/laxative": "*",
+    "laracasts/behat-laravel-extension": "^1.0",
+    "mockery/mockery": "0.9.*",
+    "orangehill/iseed": "dev-master",
+    "raveren/kint": "1.0.*@dev",
+    "sstalle/php7cc": "^1.1",
+    "symfony/css-selector": "3.1.*",
+    "symfony/dom-crawler": "3.1.*",
+    "tightenco/mailthief": "^0.3.4",
+    "way/generators": "dev-feature/laravel-five-stable",
+    "xethron/migrations-generator": "dev-l5"
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "ImportVocab\\": "plugins/jpAdminGeneratorPlugin/lib/ImportVocab",
+      "model\\": "lib/model",
+      "apps\\": "apps",
+      "App\\": "app",
+      "tests\\": "tests",
+      "Helper\\": "tests/_support/Helper"
+    },
+    "classmap": [
+      "database",
+      "tests"
+    ]
+  },
+  "scripts": {
+    "post-root-package-install": [
+      "php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+    ],
+    "post-create-project-cmd": [
+      "php artisan key:generate"
+    ],
+    "post-install-cmd": [
+      "Illuminate\\Foundation\\ComposerScripts::postInstall",
+      "php artisan optimize"
+    ],
+    "post-update-cmd": [
+      "Illuminate\\Foundation\\ComposerScripts::postUpdate",
+      "php artisan ide-helper:generate",
+      "php artisan optimize"
+    ]
+  },
+  "include-path": [
+    "lib/model"
+  ]
 }
