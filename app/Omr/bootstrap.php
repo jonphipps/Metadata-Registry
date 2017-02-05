@@ -19,3 +19,12 @@
  */
 
 Encore\Admin\Form::forget(['map', 'editor']);
+
+Encore\Admin\Grid\Column::extend('bool',
+    function ($value) {
+      return $value ? "<i class='fa fa-check' style='color:green'></i>" : "";
+});
+Encore\Admin\Grid\Column::extend('link',
+    function ($route, $id, $label) {
+      return '<a href="' . route($route, ['id' => $id])  . '">' . $label . '</a>';
+    });
