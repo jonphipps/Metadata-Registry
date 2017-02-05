@@ -6,6 +6,14 @@
  */
 Route::get('/', 'FrontendController@index')->name('index');
 Route::get('macros', 'FrontendController@macros')->name('macros');
+Route::resource('projects',
+    'ProjectController',
+    [
+        'only' => [
+            'index',
+            'show',
+        ],
+    ]);
 
 /**
  * These frontend controllers require the user to be logged in
@@ -30,4 +38,15 @@ Route::group([ 'middleware' => 'auth' ],
              */
             Route::patch('profile/update', 'ProfileController@update')->name('profile.update');
           });
+      Route::resource('projects',
+          'ProjectController',
+          [
+              'except' => [
+                  'index',
+                  'show',
+              ],
+          ]);
+      Route::get('project_user/{id}',
+          'ProjectHasUserController@edit')->name('project.user.edit');
+
     });

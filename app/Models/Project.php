@@ -1,7 +1,6 @@
 <?php namespace App\Models;
 
 use App\Models\Access\User\User;
-use app\Models\ProjectHasUser;
 use Illuminate\Database\Eloquent\Model as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -142,7 +141,7 @@ class Project extends Model
    */
   public function Users()
   {
-    return $this->belongsToMany(User::class, ProjectHasUser::TABLE)->withPivot('is_registrar_for', 'is_admin_for')
+    return $this->belongsToMany(User::class, ProjectHasUser::TABLE, 'agent_id', 'user_id')->withPivot('is_registrar_for', 'is_admin_for')
         ->withTimestamps();
   }
 
