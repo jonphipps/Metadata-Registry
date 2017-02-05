@@ -119,7 +119,7 @@ trait UserAccess
     public function allowMultiple($permissions, $needsAll = false)
     {
         if (! is_array($permissions)) {
-            $permissions = array($permissions);
+            $permissions = [$permissions];
         }
         //User has to possess all of the permissions specified
         if ($needsAll) {

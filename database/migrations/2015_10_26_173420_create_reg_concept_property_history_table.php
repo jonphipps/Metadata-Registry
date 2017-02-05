@@ -17,7 +17,7 @@ class CreateRegConceptPropertyHistoryTable extends Migration
         Schema::create('reg_concept_property_history', function (Blueprint $table) {
             $table->integer('id', true);
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'))->index('reg_concept_property_history_idx1');
-            $table->enum('action', array('updated','added','deleted','force_deleted'))->nullable();
+            $table->enum('action', ['updated','added','deleted','force_deleted'])->nullable();
             $table->integer('concept_property_id')->nullable()->index('concept_property_id');
             $table->integer('concept_id')->nullable()->index('concept_id');
             $table->integer('vocabulary_id')->nullable()->index();

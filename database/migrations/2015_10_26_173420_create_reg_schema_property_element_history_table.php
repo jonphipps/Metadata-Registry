@@ -18,7 +18,7 @@ class CreateRegSchemaPropertyElementHistoryTable extends Migration
             $table->integer('id', true);
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'))->index('reg_schema_property_element_history_idx1');
             $table->integer('created_user_id')->nullable()->index();
-            $table->enum('action', array('updated','added','deleted','force_deleted','generated'))->nullable();
+            $table->enum('action', ['updated','added','deleted','force_deleted','generated'])->nullable();
             $table->integer('schema_property_element_id')->nullable()->index('reg_schema_property_element_history_idx2');
             $table->integer('schema_property_id')->nullable()->index();
             $table->integer('schema_id')->nullable()->index();
