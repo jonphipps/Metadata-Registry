@@ -153,13 +153,13 @@ class ElementSet extends Model
 
     public function Profile()
     {
-        return $this->belongsTo('App\Models\Profile', 'profile_id', 'id');
+        return $this->belongsTo(\App\Models\Profile::class, 'profile_id', 'id');
     }
 
 
     public function Status()
     {
-        return $this->belongsTo('App\Models\Status', 'status_id', 'id');
+        return $this->belongsTo(\App\Models\Status::class, 'status_id', 'id');
     }
 
 
@@ -171,6 +171,6 @@ class ElementSet extends Model
 
     public function Elements()
     {
-        return $this->hasMany('App\Models\Element', 'schema_id', 'id');
+        return $this->hasMany(\App\Models\Element::class, 'schema_id', 'id');
     }
 }

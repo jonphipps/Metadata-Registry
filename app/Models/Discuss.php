@@ -119,7 +119,7 @@ class Discuss extends Model
 
     public function ConceptAttribute()
     {
-        return $this->belongsTo('App\Models\ConceptAttribute', 'concept_property_id', 'id');
+        return $this->belongsTo(\App\Models\ConceptAttribute::class, 'concept_property_id', 'id');
     }
 
 
@@ -131,42 +131,42 @@ class Discuss extends Model
 
     public function ElementSet()
     {
-        return $this->belongsTo('App\Models\ElementSet', 'schema_id', 'id');
+        return $this->belongsTo(\App\Models\ElementSet::class, 'schema_id', 'id');
     }
 
 
     public function Element()
     {
-        return $this->belongsTo('App\Models\Element', 'schema_property_id', 'id');
+        return $this->belongsTo(\App\Models\Element::class, 'schema_property_id', 'id');
     }
 
 
     public function ElementAttribute()
     {
-        return $this->belongsTo('App\Models\ElementAttribute', 'schema_property_element_id', 'id');
+        return $this->belongsTo(\App\Models\ElementAttribute::class, 'schema_property_element_id', 'id');
     }
 
 
     public function Vocabulary()
     {
-        return $this->belongsTo('App\Models\Vocabulary', 'vocabulary_id', 'id');
+        return $this->belongsTo(\App\Models\Vocabulary::class, 'vocabulary_id', 'id');
     }
 
 
     public function Concept()
     {
-        return $this->belongsTo('App\Models\Concept', 'concept_id', 'id');
+        return $this->belongsTo(\App\Models\Concept::class, 'concept_id', 'id');
     }
 
 
     public function DiscussRoot()
     {
-        return $this->belongsTo('App\Models\Discuss', 'root_id', 'id');
+        return $this->belongsTo(\App\Models\Discuss::class, 'root_id', 'id');
     }
 
 
     public function DiscussParent()
     {
-        return $this->belongsTo('App\Models\Discuss', 'parent_id', 'id');
+        return $this->belongsTo(\App\Models\Discuss::class, 'parent_id', 'id');
     }
 }

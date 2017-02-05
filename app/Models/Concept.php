@@ -52,7 +52,7 @@ class Concept extends Model
 
     public function vocabulary()
     {
-        return $this->belongsTo('App\Models\Vocabulary', 'vocabulary_id', 'id');
+        return $this->belongsTo(\App\Models\Vocabulary::class, 'vocabulary_id', 'id');
     }
 
 

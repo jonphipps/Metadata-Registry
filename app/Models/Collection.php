@@ -91,12 +91,12 @@ class Collection extends Model
 
     public function Vocabulary()
     {
-        return $this->belongsTo('App\Models\Vocabulary', 'vocabulary_id', 'id');
+        return $this->belongsTo(\App\Models\Vocabulary::class, 'vocabulary_id', 'id');
     }
 
 
     public function Status()
     {
-        return $this->belongsTo('App\Models\Status', 'status_id', 'id');
+        return $this->belongsTo(\App\Models\Status::class, 'status_id', 'id');
     }
 }

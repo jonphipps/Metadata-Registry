@@ -89,42 +89,42 @@ class ElementAttributeHistory extends Model
 
     public function ElementAttribute()
     {
-        return $this->belongsTo('App\Models\ElementAttribute', 'schema_property_element_id', 'id');
+        return $this->belongsTo(\App\Models\ElementAttribute::class, 'schema_property_element_id', 'id');
     }
 
 
     public function Element()
     {
-        return $this->belongsTo('App\Models\Element', 'schema_property_id', 'id');
+        return $this->belongsTo(\App\Models\Element::class, 'schema_property_id', 'id');
     }
 
 
     public function ElementSet()
     {
-        return $this->belongsTo('App\Models\ElementSet', 'schema_id', 'id');
+        return $this->belongsTo(\App\Models\ElementSet::class, 'schema_id', 'id');
     }
 
 
     public function RelatedElement()
     {
-        return $this->belongsTo('App\Models\Element', 'related_schema_property_id', 'id');
+        return $this->belongsTo(\App\Models\Element::class, 'related_schema_property_id', 'id');
     }
 
 
     public function Status()
     {
-        return $this->belongsTo('App\Models\Status', 'status_id', 'id');
+        return $this->belongsTo(\App\Models\Status::class, 'status_id', 'id');
     }
 
 
     public function ProfileProperty()
     {
-        return $this->belongsTo('App\Models\ProfileProperty', 'profile_property_id', 'id');
+        return $this->belongsTo(\App\Models\ProfileProperty::class, 'profile_property_id', 'id');
     }
 
 
     public function FileImportHistory()
     {
-        return $this->belongsTo('App\Models\FileImportHistory', 'import_id', 'id');
+        return $this->belongsTo(\App\Models\FileImportHistory::class, 'import_id', 'id');
     }
 }

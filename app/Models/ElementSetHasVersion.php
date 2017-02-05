@@ -63,6 +63,6 @@ class ElementSetHasVersion extends Model
 
     public function ElementSet()
     {
-        return $this->belongsTo('App\Models\ElementSet', 'schema_id', 'id');
+        return $this->belongsTo(\App\Models\ElementSet::class, 'schema_id', 'id');
     }
 }

@@ -75,6 +75,6 @@ class Batch extends \Illuminate\Database\Eloquent\Model
 
     public function FileImportHistory()
     {
-        return $this->hasMany('App\Models\FileImportHistory', 'batch_id', 'id');
+        return $this->hasMany(\App\Models\FileImportHistory::class, 'batch_id', 'id');
     }
 }

@@ -67,24 +67,24 @@ class ElementAttribute extends Model
 
     public function ProfileProperty()
     {
-        return $this->belongsTo('App\Models\ProfileProperty', 'profile_property_id', 'id');
+        return $this->belongsTo(\App\Models\ProfileProperty::class, 'profile_property_id', 'id');
     }
 
 
     public function Element()
     {
-        return $this->belongsTo('App\Models\Element', 'schema_property_id', 'id');
+        return $this->belongsTo(\App\Models\Element::class, 'schema_property_id', 'id');
     }
 
 
     public function Status()
     {
-        return $this->belongsTo('App\Models\Status', 'status_id', 'id');
+        return $this->belongsTo(\App\Models\Status::class, 'status_id', 'id');
     }
 
 
     public function ElementAttributeHistory()
     {
-        return $this->hasMany('App\Models\ElementAttributeHistory', '$schema_property_element_id', 'id');
+        return $this->hasMany(\App\Models\ElementAttributeHistory::class, '$schema_property_element_id', 'id');
     }
 }

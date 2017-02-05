@@ -101,31 +101,31 @@ class ConceptAttributeHistory extends Model
 
     public function SkosProperty()
     {
-        return $this->belongsTo('App\Models\SkosProperty', 'skos_property_id', 'id');
+        return $this->belongsTo(\App\Models\SkosProperty::class, 'skos_property_id', 'id');
     }
 
 
     public function FileImportHistory()
     {
-        return $this->belongsTo('App\Models\FileImportHistory', 'import_id', 'id');
+        return $this->belongsTo(\App\Models\FileImportHistory::class, 'import_id', 'id');
     }
 
 
     public function ObjectScheme()
     {
-        return $this->belongsTo('App\Models\Vocabulary', 'scheme_id', 'id');
+        return $this->belongsTo(\App\Models\Vocabulary::class, 'scheme_id', 'id');
     }
 
 
     public function Status()
     {
-        return $this->belongsTo('App\Models\Status', 'status_id', 'id');
+        return $this->belongsTo(\App\Models\Status::class, 'status_id', 'id');
     }
 
 
     public function ObjectConcept()
     {
-        return $this->belongsTo('App\Models\Concept', 'related_concept_id', 'id');
+        return $this->belongsTo(\App\Models\Concept::class, 'related_concept_id', 'id');
     }
 
 
@@ -137,18 +137,18 @@ class ConceptAttributeHistory extends Model
 
     public function ConceptAttribute()
     {
-        return $this->belongsTo('App\Models\ConceptAttribute', 'concept_property_id', 'id');
+        return $this->belongsTo(\App\Models\ConceptAttribute::class, 'concept_property_id', 'id');
     }
 
 
     public function Vocabulary()
     {
-        return $this->belongsTo('App\Models\Vocabulary', 'vocabulary_id', 'id');
+        return $this->belongsTo(\App\Models\Vocabulary::class, 'vocabulary_id', 'id');
     }
 
 
     public function Concept()
     {
-        return $this->belongsTo('App\Models\Concept', 'concept_id', 'id');
+        return $this->belongsTo(\App\Models\Concept::class, 'concept_id', 'id');
     }
 }

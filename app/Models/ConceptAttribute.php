@@ -61,12 +61,12 @@ class ConceptAttribute extends Model
 
     public function Concept()
     {
-        return $this->belongsTo('App\Models\Concept', 'concept_id', 'id');
+        return $this->belongsTo(\App\Models\Concept::class, 'concept_id', 'id');
     }
 
 
     public function ProfileProperty()
     {
-        return $this->belongsTo('App\Models\ProfileProperty', 'profile_property_id', 'id');
+        return $this->belongsTo(\App\Models\ProfileProperty::class, 'profile_property_id', 'id');
     }
 }

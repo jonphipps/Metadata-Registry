@@ -65,25 +65,25 @@ class Profile extends Model
 
     public function Status()
     {
-        return $this->belongsTo('App\Models\Status', 'status_id', 'id');
+        return $this->belongsTo(\App\Models\Status::class, 'status_id', 'id');
     }
 
 
     public function ProfileProperties()
     {
-        return $this->hasMany('App\Models\ProfileProperty', 'profile_id', 'id');
+        return $this->hasMany(\App\Models\ProfileProperty::class, 'profile_id', 'id');
     }
 
 
     public function ElementSets()
     {
-        return $this->hasMany('App\Models\ElementSet', 'profile_id', 'id');
+        return $this->hasMany(\App\Models\ElementSet::class, 'profile_id', 'id');
     }
 
 
     public function Vocabularies()
     {
-        return $this->hasMany('App\Models\Vocabulary', 'profile_id', 'id');
+        return $this->hasMany(\App\Models\Vocabulary::class, 'profile_id', 'id');
     }
 
 

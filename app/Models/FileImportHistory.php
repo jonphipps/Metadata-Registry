@@ -99,30 +99,30 @@ class FileImportHistory extends Model
 
     public function Vocabulary()
     {
-        return $this->belongsTo('App\Models\Vocabulary', 'vocabulary_id', 'id');
+        return $this->belongsTo(\App\Models\Vocabulary::class, 'vocabulary_id', 'id');
     }
 
 
     public function ElementSet()
     {
-        return $this->belongsTo('App\Models\ElementSet', 'schema_id', 'id');
+        return $this->belongsTo(\App\Models\ElementSet::class, 'schema_id', 'id');
     }
 
 
     public function Batch()
     {
-        return $this->belongsTo('App\Models\Batch', 'batch_id', 'id');
+        return $this->belongsTo(\App\Models\Batch::class, 'batch_id', 'id');
     }
 
 
     public function ConceptAttributeHistory()
     {
-        return $this->hasMany('App\Models\ConceptAttributeHistory', 'import_id', 'id');
+        return $this->hasMany(\App\Models\ConceptAttributeHistory::class, 'import_id', 'id');
     }
 
 
     public function ElementAttributeHistory()
     {
-        return $this->hasMany('App\Models\ElementAttributeHistory', 'import_id', 'id');
+        return $this->hasMany(\App\Models\ElementAttributeHistory::class, 'import_id', 'id');
     }
 }

@@ -71,13 +71,13 @@ class Element extends Model
 
     public function ElementSet()
     {
-        return $this->belongsTo('App\Models\ElementSet', 'schema_id', 'id');
+        return $this->belongsTo(\App\Models\ElementSet::class, 'schema_id', 'id');
     }
 
 
     public function ElementAttributes()
     {
-        return $this->hasMany('App\Models\ElementAttribute', 'schema_property_id', 'id');
+        return $this->hasMany(\App\Models\ElementAttribute::class, 'schema_property_id', 'id');
     }
 
 

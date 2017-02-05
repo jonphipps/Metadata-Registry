@@ -105,6 +105,6 @@ class ProfileProperty extends Model
 
     public function Profile()
     {
-        return $this->belongsTo('App\Models\Profile', 'profile_id', 'id');
+        return $this->belongsTo(\App\Models\Profile::class, 'profile_id', 'id');
     }
 }
