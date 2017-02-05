@@ -127,6 +127,7 @@
     "infyomlabs/laravel-generator": "5.3.x-dev",
     "infyomlabs/swagger-generator": "dev-master",
     "jonpitch/laxative": "*",
+    "klaravel/db-logger": "^1.0",
     "laracasts/behat-laravel-extension": "^1.0",
     "mockery/mockery": "0.9.*",
     "orangehill/iseed": "dev-master",
