@@ -1,5 +1,8 @@
 <?php
 
+namespace Tests\unit\boilerplate\Frontend\Forms;
+
+
 /**
  * Class LoggedInFormTest
  */
@@ -47,7 +50,7 @@ class LoggedInFormTest extends TestCase
                 ->press('update-profile')
                 ->seePageIs('/account')
                 ->see('Profile successfully updated.')
-                ->seeInDatabase(config('access.users_table'), ['email' => '2_'.$this->user->email, 'name'  => $this->user->name.'_'.$rand]);
+                ->assertDatabaseHas(config('access.users_table'), ['email' => '2_'.$this->user->email, 'name'  => $this->user->name.'_'.$rand]);
         } else {
             $this->actingAs($this->user)
                 ->visit('/account')
@@ -56,7 +59,7 @@ class LoggedInFormTest extends TestCase
                 ->press('update-profile')
                 ->seePageIs('/account')
                 ->see('Profile successfully updated.')
-                ->seeInDatabase(config('access.users_table'), ['name'  => $this->user->name.'_'.$rand]);
+                ->assertDatabaseHas(config('access.users_table'), ['name'  => $this->user->name.'_'.$rand]);
         }
     }
 

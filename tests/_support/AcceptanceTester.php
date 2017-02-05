@@ -1,4 +1,7 @@
 <?php
+
+namespace Tests\_support;
+
 use Behat\Gherkin\Node\TableNode;
 
 /**

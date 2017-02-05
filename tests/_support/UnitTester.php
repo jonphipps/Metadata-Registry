@@ -1,5 +1,8 @@
 <?php
 
+namespace Tests\_support;
+
+
 
 /**
  * Inherited Methods

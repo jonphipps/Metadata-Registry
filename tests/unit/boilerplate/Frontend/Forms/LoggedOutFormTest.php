@@ -1,5 +1,8 @@
 <?php
 
+namespace Tests\unit\boilerplate\Frontend\Forms;
+
+
 use Faker\Factory;
 use App\Models\Access\User\User;
 use Illuminate\Support\Facades\DB;
@@ -69,7 +72,7 @@ class LoggedOutFormTest extends TestCase
                ->see('Your account was successfully created. We have sent you an e-mail to confirm your account.')
                ->see('Login')
                ->seePageIs('/')
-               ->seeInDatabase(config('access.users_table'), [ 'email' => $email, 'name' => $name ]);
+               ->assertDatabaseHas(config('access.users_table'), [ 'email' => $email, 'name' => $name ]);
 
             // Get the user that was inserted into the database
             $user = User::where('email', $email)
@@ -89,10 +92,10 @@ class LoggedOutFormTest extends TestCase
                ->press('Register')
                ->see('Dashboard')
                ->seePageIs('/')
-               ->seeInDatabase(config('access.users_table'), [ 'email' => $email, 'name' => $name ]);
+               ->assertDatabaseHas(config('access.users_table'), [ 'email' => $email, 'name' => $name ]);
         }
 
-        Event::assertFired(UserRegistered::class);
+        Event::assertDispatched(UserRegistered::class);
     }
 
 
@@ -141,7 +144,7 @@ class LoggedOutFormTest extends TestCase
          ->see($this->admin->name)
          ->see('Access Management');
 
-        Event::assertFired(UserLoggedIn::class);
+        Event::assertDispatched(UserLoggedIn::class);
     }
 
 
@@ -244,8 +247,8 @@ class LoggedOutFormTest extends TestCase
          ->press('Send Password Reset Link')
          ->seePageIs('password/reset')
          ->see('We have e-mailed your password reset link!')
-         ->seeInDatabase('password_resets', [ 'email' => $this->user->email ])
-         ->seeInDatabase('password_resets', [ 'name' => $this->user->name ]);
+         ->assertDatabaseHas('password_resets', [ 'email' => $this->user->email ])
+         ->assertDatabaseHas('password_resets', [ 'name' => $this->user->name ]);
 
         Notification::assertSentTo(
             [ $this->user ],
@@ -291,7 +294,7 @@ class LoggedOutFormTest extends TestCase
          ->press('Reset Password')
          ->seePageIs('/dashboard')
          ->see($this->user->name);
-        $this->seeInDatabase(App\Models\Access\User\User::TABLE, [ 'id' => $this->user->id, 'confirmed' => 1 ]);
+        $this->assertDatabaseHas(App\Models\Access\User\User::TABLE, [ 'id' => $this->user->id, 'confirmed' => 1 ]);
     }
 
 

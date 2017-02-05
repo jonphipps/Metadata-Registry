@@ -1,5 +1,8 @@
 <?php
 
+namespace Tests\unit\boilerplate\Backend\Forms\Access;
+
+
 use App\Models\Access\User\User;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Notification;
@@ -68,13 +71,13 @@ class UserFormTest extends TestCase
          ->press('Create')
          ->seePageIs('/admin/access/user')
          ->see('The user was successfully created.')
-         ->seeInDatabase($userTable, [ 'name' => $name, 'email' => $email, 'status' => 1, 'confirmed' => 1 ]);
+         ->assertDatabaseHas($userTable, [ 'name' => $name, 'email' => $email, 'status' => 1, 'confirmed' => 1 ]);
         $latestId = App\Models\Access\User\User::orderby('created_at', 'desc')
                                            ->first()->id;
-        $this->seeInDatabase($roleUserTable, [ 'user_id' => $latestId, 'role_id' => 2 ])
-         ->seeInDatabase($roleUserTable, [ 'user_id' => $latestId, 'role_id' => 3 ]);
+        $this->assertDatabaseHas($roleUserTable, [ 'user_id' => $latestId, 'role_id' => 2 ])
+         ->assertDatabaseHas($roleUserTable, [ 'user_id' => $latestId, 'role_id' => 3 ]);
 
-        Event::assertFired(UserCreated::class);
+        Event::assertDispatched(UserCreated::class);
     }
 
 
@@ -106,11 +109,11 @@ class UserFormTest extends TestCase
          ->press('Create')
          ->seePageIs('/admin/access/user')
          ->see('The user was successfully created.')
-         ->seeInDatabase($this->userTable, [ 'name' => $name, 'email' => $email, 'status' => 1, 'confirmed' => 0 ]);
+         ->assertDatabaseHas($this->userTable, [ 'name' => $name, 'email' => $email, 'status' => 1, 'confirmed' => 0 ]);
         $latestId = App\Models\Access\User\User::orderby('created_at', 'desc')
                                            ->first()->id;
-        $this->seeInDatabase($this->roleUserTable, [ 'user_id' => $latestId, 'role_id' => 2 ])
-         ->seeInDatabase($this->roleUserTable, [ 'user_id' => $latestId, 'role_id' => 3 ]);
+        $this->assertDatabaseHas($this->roleUserTable, [ 'user_id' => $latestId, 'role_id' => 2 ])
+         ->assertDatabaseHas($this->roleUserTable, [ 'user_id' => $latestId, 'role_id' => 3 ]);
 
         // Get the user that was inserted into the database
         $user = User::where('email', $email)
@@ -122,7 +125,7 @@ class UserFormTest extends TestCase
             UserNeedsConfirmation::class
         );
 
-        Event::assertFired(UserCreated::class);
+        Event::assertDispatched(UserCreated::class);
     }
 
 
@@ -170,11 +173,11 @@ class UserFormTest extends TestCase
             ->press('Update')
             ->seePageIs('/admin/access/user')
             ->see('The user was successfully updated.')
-            ->seeInDatabase($this->userTable, ['id' => $this->user->id, 'name' => 'User New', 'email' => 'user2@user.com', 'status' => 0, 'confirmed' => 0])
-            ->seeInDatabase($this->roleUserTable, ['user_id' => $this->user->id, 'role_id' => 2])
+            ->assertDatabaseHas($this->userTable, ['id' => $this->user->id, 'name' => 'User New', 'email' => 'user2@user.com', 'status' => 0, 'confirmed' => 0])
+            ->assertDatabaseHas($this->roleUserTable, ['user_id' => $this->user->id, 'role_id' => 2])
             ->notSeeInDatabase($this->roleUserTable, ['user_id' => $this->user->id, 'role_id' => 3]);
 
-        Event::assertFired(UserUpdated::class);
+        Event::assertDispatched(UserUpdated::class);
     }
 
     public function testDeleteUserForm()
@@ -187,7 +190,7 @@ class UserFormTest extends TestCase
             ->assertRedirectedTo('/admin/access/user/deleted')
             ->notSeeInDatabase($this->userTable, ['id' => $this->user->id, 'deleted_at' => null]);
 
-        Event::assertFired(UserDeleted::class);
+        Event::assertDispatched(UserDeleted::class);
     }
 
     public function testUserCanNotDeleteSelf()
@@ -196,7 +199,7 @@ class UserFormTest extends TestCase
             ->visit('/admin/access/user')
             ->delete('/admin/access/user/'.$this->admin->id)
             ->assertRedirectedTo('/admin/access/user')
-            ->seeInDatabase($this->userTable, ['id' => $this->admin->id, 'deleted_at' => null])
+            ->assertDatabaseHas($this->userTable, ['id' => $this->admin->id, 'deleted_at' => null])
             ->seeInSession(['flash_danger' => 'You can not delete yourself.']);
         ;
     }
@@ -229,7 +232,7 @@ class UserFormTest extends TestCase
             ->seePageIs('/admin/access/user')
             ->see('The user\'s password was successfully updated.');
 
-        Event::assertFired(UserPasswordChanged::class);
+        Event::assertDispatched(UserPasswordChanged::class);
     }
 
     public function testChangeUserPasswordDoNotMatch()

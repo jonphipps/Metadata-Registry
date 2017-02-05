@@ -1,5 +1,8 @@
 <?php
 
+namespace Tests\unit\boilerplate\Backend\Forms\Access;
+
+
 use App\Models\Access\Role\Role;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
@@ -49,9 +52,9 @@ class RoleFormTest extends TestCase
             ->press('Create')
             ->seePageIs('/admin/access/role')
             ->see('The role was successfully created.')
-            ->seeInDatabase($this->roleTable, ['name' => 'Test Role', 'all' => 1, 'sort' => 999]);
+            ->assertDatabaseHas($this->roleTable, ['name' => 'Test Role', 'all' => 1, 'sort' => 999]);
 
-        Event::assertFired(RoleCreated::class);
+        Event::assertDispatched(RoleCreated::class);
     }
 
     public function testCreateRoleFormSpecificPermissions()
@@ -69,12 +72,12 @@ class RoleFormTest extends TestCase
          ->press('Create')
          ->seePageIs('/admin/access/role')
          ->see('The role was successfully created.')
-         ->seeInDatabase($this->roleTable, [ 'name' => 'Test Role', 'all' => 0 ]);
+         ->assertDatabaseHas($this->roleTable, [ 'name' => 'Test Role', 'all' => 0 ]);
         $latestId = App\Models\Access\Role\Role::orderby('created_at', 'desc')
                                            ->first()->id;
-        $this->seeInDatabase($this->permissionRoleTable, [ 'permission_id' => 2, 'role_id' => $latestId ])
-         ->seeInDatabase($this->permissionRoleTable, [ 'permission_id' => 3, 'role_id' => $latestId ]);
-        Event::assertFired(RoleCreated::class);
+        $this->assertDatabaseHas($this->permissionRoleTable, [ 'permission_id' => 2, 'role_id' => $latestId ])
+         ->assertDatabaseHas($this->permissionRoleTable, [ 'permission_id' => 3, 'role_id' => $latestId ]);
+        Event::assertDispatched(RoleCreated::class);
     }
 
     public function testRoleAlreadyExists()
@@ -122,9 +125,9 @@ class RoleFormTest extends TestCase
             ->press('Update')
             ->seePageIs('/admin/access/role')
             ->see('The role was successfully updated.')
-            ->seeInDatabase($this->roleTable, ['id' => 1, 'name' => 'Administrator Edited', 'sort' => 123]);
+            ->assertDatabaseHas($this->roleTable, ['id' => 1, 'name' => 'Administrator Edited', 'sort' => 123]);
 
-        Event::assertFired(RoleUpdated::class);
+        Event::assertDispatched(RoleUpdated::class);
     }
 
     public function testUpdateRoleFormSpecificPermissions()
@@ -141,10 +144,10 @@ class RoleFormTest extends TestCase
             ->press('Update')
             ->seePageIs('/admin/access/role')
             ->see('The role was successfully updated.')
-            ->seeInDatabase($this->permissionRoleTable, ['permission_id' => 2, 'role_id' => 3])
-            ->seeInDatabase($this->permissionRoleTable, ['permission_id' => 3, 'role_id' => 3]);
+            ->assertDatabaseHas($this->permissionRoleTable, ['permission_id' => 2, 'role_id' => 3])
+            ->assertDatabaseHas($this->permissionRoleTable, ['permission_id' => 3, 'role_id' => 3]);
 
-        Event::assertFired(RoleUpdated::class);
+        Event::assertDispatched(RoleUpdated::class);
     }
 
     public function testUpdateRoleRequiresPermission()
@@ -165,13 +168,13 @@ class RoleFormTest extends TestCase
         $role = factory(Role::class)->create();
 
         $this->actingAs($this->admin)
-            ->seeInDatabase($this->roleTable, ['id' => $role->id])
+            ->assertDatabaseHas($this->roleTable, ['id' => $role->id])
             ->delete('/admin/access/role/'.$role->id)
             ->assertRedirectedTo('/admin/access/role')
             ->notSeeInDatabase($this->roleTable, ['id' => $role->id])
             ->seeInSession(['flash_success' => 'The role was successfully deleted.']);
 
-        Event::assertFired(RoleDeleted::class);
+        Event::assertDispatched(RoleDeleted::class);
     }
 
     public function testDeleteRoleWithPermissions()
@@ -193,7 +196,7 @@ class RoleFormTest extends TestCase
             ->notSeeInDatabase($this->permissionRoleTable, ['permission_id' => 2, 'role_id' => 2])
             ->seeInSession(['flash_success' => 'The role was successfully deleted.']);
 
-        Event::assertFired(RoleDeleted::class);
+        Event::assertDispatched(RoleDeleted::class);
     }
 
     public function testCanNotDeleteAdministratorRole()
@@ -202,7 +205,7 @@ class RoleFormTest extends TestCase
             ->visit('/admin/access/role')
             ->delete('/admin/access/role/1')
             ->assertRedirectedTo('/admin/access/role')
-            ->seeInDatabase($this->roleTable, ['id' => 1, 'name' => 'Administrator'])
+            ->assertDatabaseHas($this->roleTable, ['id' => 1, 'name' => 'Administrator'])
             ->seeInSession(['flash_danger' => 'You can not delete the Administrator role.']);
     }
 
@@ -212,7 +215,7 @@ class RoleFormTest extends TestCase
             ->visit('/admin/access/role')
             ->delete('/admin/access/role/2')
             ->assertRedirectedTo('/admin/access/role')
-            ->seeInDatabase($this->roleTable, ['id' => 2])
+            ->assertDatabaseHas($this->roleTable, ['id' => 2])
             ->seeInSession(['flash_danger' => 'You can not delete a role with associated users.']);
     }
 }

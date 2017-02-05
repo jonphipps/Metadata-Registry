@@ -1,5 +1,8 @@
 <?php
 
+namespace Tests\unit\boilerplate\Frontend\Routes;
+
+
 use Illuminate\Support\Facades\Event;
 use App\Events\Frontend\Auth\UserLoggedOut;
 
@@ -71,6 +74,6 @@ class LoggedInRouteTest extends TestCase
             ->see('Login')
             ->see('Register');
 
-        Event::assertFired(UserLoggedOut::class);
+        Event::assertDispatched(UserLoggedOut::class);
     }
 }

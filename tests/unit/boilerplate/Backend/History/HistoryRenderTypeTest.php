@@ -1,5 +1,8 @@
 <?php
 
+namespace Tests\unit\boilerplate\Backend\History;
+
+
 use App\Repositories\Backend\History\Facades\History;
 
 /**

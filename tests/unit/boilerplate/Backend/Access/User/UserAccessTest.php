@@ -1,5 +1,8 @@
 <?php
 
+namespace Tests\unit\boilerplate\Backend\Access\User;
+
+
 /**
  * Class UserAccessTest
  */
