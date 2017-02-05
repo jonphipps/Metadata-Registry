@@ -61,7 +61,7 @@
         "infyomlabs/adminlte-templates": "5.3.x-dev",
         "jlapp/swaggervel": "dev-master",
         "laravel/browser-kit-testing": "@dev",
-        "laravel/framework": "5.3.*",
+        "laravel/framework": "5.4.*",
         "laravel/socialite": "^2.0",
         "laravelcollective/html": "dev-symfony as 5.3.x-dev",
         "league/flysystem": "~1.0",
@@ -85,9 +85,9 @@
         "symfony/psr-http-message-bridge": "^1.0",
         "vlucas/phpdotenv": "~2.2",
         "willdurand/negotiation": "^2.0",
-        "yajra/laravel-datatables-oracle": "~6.0"
+        "yajra/laravel-datatables-oracle": "~6.0",
+        "laravel/tinker": "~1.0"
     },
-
     "autoload": {
         "psr-4": {
             "ImportVocab\\": "plugins/jpAdminGeneratorPlugin/lib/ImportVocab",
@@ -127,11 +127,10 @@
         "orangehill/iseed": "dev-master",
         "raveren/kint": "1.0.*@dev",
         "sstalle/php7cc": "^1.1",
-        "symfony/css-selector": "3.1.*",
-        "symfony/dom-crawler": "3.1.*",
         "tightenco/mailthief": "^0.3.4",
         "way/generators": "dev-feature/laravel-five-stable",
-        "xethron/migrations-generator": "dev-l5"
+        "xethron/migrations-generator": "dev-l5",
+        "phpunit/phpunit": "~5.7"
     },
     "autoload-dev": {
         "psr-4": {
@@ -140,7 +139,8 @@
             "apps\\": "apps",
             "App\\": "app",
             "tests\\": "tests",
-            "Helper\\": "tests/_support/Helper"
+            "Helper\\": "tests/_support/Helper",
+            "Tests\\": "tests/"
         },
         "classmap": [
             "database",
