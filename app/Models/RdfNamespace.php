@@ -31,19 +31,19 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class RdfNamespace extends Model
 {
-  protected $table = self::TABLE;
-  const TABLE = 'reg_rdf_namespace';
+    protected $table = self::TABLE;
+    const TABLE = 'reg_rdf_namespace';
 
-  use SoftDeletes;
-
-
-  public function getDates()
-  {
-    return [ 'deleted_at' ];
-  }
+    use SoftDeletes;
 
 
-  protected $fillable = [
+    public function getDates()
+    {
+        return [ 'deleted_at' ];
+    }
+
+
+    protected $fillable = [
       'deleted_at',
       'created_user_id',
       'updated_user_id',
@@ -51,13 +51,11 @@ class RdfNamespace extends Model
       'note',
       'uri',
       'schema_location',
-  ];
+    ];
 
 
-  public function ElementSet()
-  {
-    return $this->belongsTo('App\Models\ElementSet', 'schema_id', 'id');
-  }
-
+    public function ElementSet()
+    {
+        return $this->belongsTo('App\Models\ElementSet', 'schema_id', 'id');
+    }
 }
-

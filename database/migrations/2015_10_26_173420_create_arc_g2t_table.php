@@ -14,13 +14,15 @@ class CreateArcG2tTable extends Migration
      */
     public function up()
     {
-        Schema::create('arc_g2t',
+        Schema::create(
+            'arc_g2t',
             function (Blueprint $table) {
                 $table->integer('g')->unsigned()->index('g');
                 $table->integer('t')->unsigned()->index('t');
                 $table->unique([ 'g', 't' ], 'gt');
                 $table->index([ 't', 'g' ], 'tg');
-            });
+            }
+        );
     }
 
 
@@ -33,5 +35,4 @@ class CreateArcG2tTable extends Migration
     {
         Schema::drop('arc_g2t');
     }
-
 }

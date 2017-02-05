@@ -17,16 +17,16 @@ class Kernel extends HttpKernel
    *
    * @var array
    */
-  protected $middleware = [
+    protected $middleware = [
       \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
-  ];
+    ];
 
   /**
    * The application's route middleware groups.
    *
    * @var array
    */
-  protected $middlewareGroups = [
+    protected $middlewareGroups = [
       'web' => [
           \App\Http\Middleware\EncryptCookies::class,
           \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
@@ -56,7 +56,7 @@ class Kernel extends HttpKernel
           'throttle:60,1',
           'bindings',
       ],
-  ];
+    ];
 
   /**
    * The application's route middleware.
@@ -64,7 +64,7 @@ class Kernel extends HttpKernel
    *
    * @var array
    */
-  protected $routeMiddleware = [
+    protected $routeMiddleware = [
       'auth'                        => \Illuminate\Auth\Middleware\Authenticate::class,
       'auth.basic'                  => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
       'bindings'                    => \Illuminate\Routing\Middleware\SubstituteBindings::class,
@@ -79,5 +79,5 @@ class Kernel extends HttpKernel
        */
       'access.routeNeedsRole'       => \App\Http\Middleware\RouteNeedsRole::class,
       'access.routeNeedsPermission' => \App\Http\Middleware\RouteNeedsPermission::class,
-  ];
+    ];
 }

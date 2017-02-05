@@ -18,10 +18,10 @@ use App\Notifications\Frontend\Auth\UserNeedsConfirmation;
  */
 class UserRepository extends Repository
 {
-	/**
-	 * Associated Repository Model
-	 */
-	const MODEL = User::class;
+    /**
+     * Associated Repository Model
+     */
+    const MODEL = User::class;
 
     /**
      * @var RoleRepository
@@ -40,7 +40,8 @@ class UserRepository extends Repository
      * @param $email
      * @return bool
      */
-    public function findByEmail($email) {
+    public function findByEmail($email)
+    {
         return $this->query()->where('email', $email)->first();
     }
 
@@ -49,20 +50,23 @@ class UserRepository extends Repository
      * @return mixed
      * @throws GeneralException
      */
-    public function findByToken($token) {
+    public function findByToken($token)
+    {
         return $this->query()->where('confirmation_code', $token)->first();
     }
 
-	/**
-	 * @param $token
-	 * @return mixed
-	 * @throws GeneralException
-	 */
-	public function getEmailForPasswordToken($token) {
-		if ($row = DB::table('password_resets')->where('token', $token)->first())
-			return ['email' => $row->email, 'name' => $row->name];
-		throw new GeneralException(trans('auth.unknown'));
-	}
+    /**
+     * @param $token
+     * @return mixed
+     * @throws GeneralException
+     */
+    public function getEmailForPasswordToken($token)
+    {
+        if ($row = DB::table('password_resets')->where('token', $token)->first()) {
+            return ['email' => $row->email, 'name' => $row->name];
+        }
+        throw new GeneralException(trans('auth.unknown'));
+    }
 
     /**
      * @param array $data
@@ -71,46 +75,46 @@ class UserRepository extends Repository
      */
     public function create(array $data, $provider = false)
     {
-    	$user = self::MODEL;
-    	$user = new $user;
-		$user->name = $data['name'];
-		$user->email = $data['email'];
-		$user->confirmation_code = md5(uniqid(mt_rand(), true));
-		$user->status = 1;
-		$user->password = $provider ? null : bcrypt($data['password']);
-		$user->confirmed = $provider ? 1 : (config('access.users.confirm_email') ? 0 : 1);
+        $user = self::MODEL;
+        $user = new $user;
+        $user->name = $data['name'];
+        $user->email = $data['email'];
+        $user->confirmation_code = md5(uniqid(mt_rand(), true));
+        $user->status = 1;
+        $user->password = $provider ? null : bcrypt($data['password']);
+        $user->confirmed = $provider ? 1 : (config('access.users.confirm_email') ? 0 : 1);
 
-		DB::transaction(function() use ($user) {
-			if (parent::save($user)) {
-				/**
-				 * Add the default site role to the new user
-				 */
-				$user->attachRole($this->role->getDefaultUserRole());
-			}
-		});
+        DB::transaction(function () use ($user) {
+            if (parent::save($user)) {
+                /**
+                 * Add the default site role to the new user
+                 */
+                $user->attachRole($this->role->getDefaultUserRole());
+            }
+        });
 
-		/**
-		 * If users have to confirm their email and this is not a social account,
-		 * send the confirmation email
-		 *
-		 * If this is a social account they are confirmed through the social provider by default
-		 */
-		if (config('access.users.confirm_email') && $provider === false) {
-			$user->notify(new UserNeedsConfirmation($user->confirmation_code));
-		}
+        /**
+         * If users have to confirm their email and this is not a social account,
+         * send the confirmation email
+         *
+         * If this is a social account they are confirmed through the social provider by default
+         */
+        if (config('access.users.confirm_email') && $provider === false) {
+            $user->notify(new UserNeedsConfirmation($user->confirmation_code));
+        }
 
-		/**
-		 * Return the user object
-		 */
-		return $user;
+        /**
+         * Return the user object
+         */
+        return $user;
     }
 
-	/**
-	 * @param $data
-	 * @param $provider
-	 * @return UserRepository|bool
-	 */
-	public function findOrCreateSocial($data, $provider)
+    /**
+     * @param $data
+     * @param $provider
+     * @return UserRepository|bool
+     */
+    public function findOrCreateSocial($data, $provider)
     {
         /**
          * User email may not provided.
@@ -179,7 +183,7 @@ class UserRepository extends Repository
         if ($user->confirmation_code == $token) {
             $user->confirmed = 1;
 
-			event(new UserConfirmed($user));
+            event(new UserConfirmed($user));
             return parent::save($user);
         }
 

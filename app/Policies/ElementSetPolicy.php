@@ -8,7 +8,7 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 
 class ElementSetPolicy
 {
-  use HandlesAuthorization;
+    use HandlesAuthorization;
 
 
   /**
@@ -19,10 +19,10 @@ class ElementSetPolicy
    *
    * @return mixed
    */
-  public function view(User $user, ElementSet $elementSet)
-  {
-    //
-  }
+    public function view(User $user, ElementSet $elementSet)
+    {
+        //
+    }
 
 
   /**
@@ -32,10 +32,10 @@ class ElementSetPolicy
    *
    * @return mixed
    */
-  public function create(User $user)
-  {
-    //
-  }
+    public function create(User $user)
+    {
+        //
+    }
 
 
   /**
@@ -46,10 +46,10 @@ class ElementSetPolicy
    *
    * @return mixed
    */
-  public function update(User $user, ElementSet $elementSet)
-  {
-    //
-  }
+    public function update(User $user, ElementSet $elementSet)
+    {
+        //
+    }
 
 
   /**
@@ -60,8 +60,8 @@ class ElementSetPolicy
    *
    * @return mixed
    */
-  public function delete(User $user, ElementSet $elementSet)
-  {
-    //
-  }
+    public function delete(User $user, ElementSet $elementSet)
+    {
+        //
+    }
 }

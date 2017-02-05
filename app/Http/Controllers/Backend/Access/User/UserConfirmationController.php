@@ -13,14 +13,14 @@ use App\Http\Requests\Backend\Access\User\ManageUserRequest;
 class UserConfirmationController extends Controller
 {
 
-	/**
-	 * @param User $user
-	 * @param ManageUserRequest $request
-	 * @return mixed
-	 */
-	public function sendConfirmationEmail(User $user, ManageUserRequest $request)
-	{
-		$user->notify(new UserNeedsConfirmation($user->confirmation_code));
-		return redirect()->back()->withFlashSuccess(trans('alerts.backend.users.confirmation_email'));
-	}
+    /**
+     * @param User $user
+     * @param ManageUserRequest $request
+     * @return mixed
+     */
+    public function sendConfirmationEmail(User $user, ManageUserRequest $request)
+    {
+        $user->notify(new UserNeedsConfirmation($user->confirmation_code));
+        return redirect()->back()->withFlashSuccess(trans('alerts.backend.users.confirmation_email'));
+    }
 }

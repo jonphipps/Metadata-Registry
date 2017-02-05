@@ -87,25 +87,24 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class ProfileProperty extends Model
 {
-  protected $table = self::TABLE;
-  const TABLE = 'profile_property';
+    protected $table = self::TABLE;
+    const TABLE = 'profile_property';
 
-  use SoftDeletes;
+    use SoftDeletes;
 
-  public function getNameAttribute($value)
-  {
-    //this is necessary to use the legacy database, where range was at one time a reserved word
-    if ('orange' === $value) {
-      return 'range';
-    } else {
-      return $value;
+    public function getNameAttribute($value)
+    {
+        //this is necessary to use the legacy database, where range was at one time a reserved word
+        if ('orange' === $value) {
+            return 'range';
+        } else {
+            return $value;
+        }
     }
-  }
 
 
-  public function Profile()
-  {
-    return $this->belongsTo('App\Models\Profile', 'profile_id', 'id');
-  }
-
+    public function Profile()
+    {
+        return $this->belongsTo('App\Models\Profile', 'profile_id', 'id');
+    }
 }

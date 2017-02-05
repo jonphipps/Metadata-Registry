@@ -35,7 +35,7 @@ class UserController extends Controller
         $this->roles = $roles;
     }
 
-	/**
+    /**
      * @param ManageUserRequest $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
@@ -44,7 +44,7 @@ class UserController extends Controller
         return view('backend.access.index');
     }
 
-	/**
+    /**
      * @param ManageUserRequest $request
      * @return mixed
      */
@@ -54,7 +54,7 @@ class UserController extends Controller
             ->withRoles($this->roles->getAll());
     }
 
-	/**
+    /**
      * @param StoreUserRequest $request
      * @return mixed
      */
@@ -64,17 +64,18 @@ class UserController extends Controller
         return redirect()->route('admin.access.user.index')->withFlashSuccess(trans('alerts.backend.users.created'));
     }
 
-	/**
-	 * @param User $user
-	 * @param ManageUserRequest $request
-	 * @return mixed
-	 */
-	public function show(User $user, ManageUserRequest $request) {
-		return view('backend.access.show')
-			->withUser($user);
-	}
+    /**
+     * @param User $user
+     * @param ManageUserRequest $request
+     * @return mixed
+     */
+    public function show(User $user, ManageUserRequest $request)
+    {
+        return view('backend.access.show')
+            ->withUser($user);
+    }
 
-	/**
+    /**
      * @param User $user
      * @param ManageUserRequest $request
      * @return mixed
@@ -87,7 +88,7 @@ class UserController extends Controller
             ->withRoles($this->roles->getAll());
     }
 
-	/**
+    /**
      * @param User $user
      * @param UpdateUserRequest $request
      * @return mixed
@@ -98,7 +99,7 @@ class UserController extends Controller
         return redirect()->route('admin.access.user.index')->withFlashSuccess(trans('alerts.backend.users.updated'));
     }
 
-	/**
+    /**
      * @param User $user
      * @param ManageUserRequest $request
      * @return mixed

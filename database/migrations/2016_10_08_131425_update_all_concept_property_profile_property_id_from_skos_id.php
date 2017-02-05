@@ -13,11 +13,11 @@ class UpdateAllConceptPropertyProfilePropertyIdFromSkosId extends Migration
      */
     public function up()
     {
-      if (DB::getDriverName() == 'mysql') {
-        DB::statement('update reg_concept_property, profile_property
+        if (DB::getDriverName() == 'mysql') {
+            DB::statement('update reg_concept_property, profile_property
 set reg_concept_property.profile_property_id = profile_property.id
 where reg_concept_property.skos_property_id = profile_property.skos_id;');
-      }
+        }
     }
 
     /**
@@ -27,6 +27,5 @@ where reg_concept_property.skos_property_id = profile_property.skos_id;');
      */
     public function down()
     {
-
     }
 }

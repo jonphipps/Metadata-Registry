@@ -15,26 +15,31 @@ class UpdateProfilePropertiesAddNamespace extends Migration
      */
     public function up()
     {
-        Schema::table('profile_property', function(Blueprint $table)
-        {
-            $table->string('namespce',255)->default('');
+        Schema::table('profile_property', function (Blueprint $table) {
+            $table->string('namespce', 255)->default('');
         });
 
         $properties = ProfileProperty::all();
         $prefix = Prefix::wherePrefix('reg')->first();
         if (!$prefix) {
             Prefix::create(
-                array_combine(['prefix','uri','rank'],
-                    ['reg','http://metadataregistry.org/uri/profile/regap/',1500]));
+                array_combine(
+                    ['prefix','uri','rank'],
+                    ['reg','http://metadataregistry.org/uri/profile/regap/',1500]
+                )
+            );
         }
         $prefix = Prefix::wherePrefix('rdakit')->first();
         if (!$prefix) {
             Prefix::create(
-                array_combine(['prefix','uri','rank'],
-                    ['rdakit','http://metadataregistry.org/uri/profile/rdakit/',1501]));
+                array_combine(
+                    ['prefix','uri','rank'],
+                    ['rdakit','http://metadataregistry.org/uri/profile/rdakit/',1501]
+                )
+            );
         }
         foreach ($properties as $property) {
-            $uri = explode(':',$property->uri);
+            $uri = explode(':', $property->uri);
             $prefix = Prefix::wherePrefix($uri[0])->first();
             if (!$prefix) {
                 echo "**************\nMissing prefix: $uri[0]\n";
@@ -52,8 +57,7 @@ class UpdateProfilePropertiesAddNamespace extends Migration
      */
     public function down()
     {
-        Schema::table('profile_property', function(Blueprint $table)
-        {
+        Schema::table('profile_property', function (Blueprint $table) {
             $table->dropColumn('namespce');
         });
     }

@@ -14,7 +14,8 @@ class CreateRegSchemaPropertyTable extends Migration
      */
     public function up()
     {
-        Schema::create('reg_schema_property',
+        Schema::create(
+            'reg_schema_property',
             function (Blueprint $table) {
                 $table->integer('id', true);
                 $table->dateTime('created_at')->nullable();
@@ -39,7 +40,8 @@ class CreateRegSchemaPropertyTable extends Migration
                 $table->boolean('is_deprecated')->nullable();
                 $table->string('url')->nullable();
                 $table->string('lexical_alias')->nullable();
-            });
+            }
+        );
     }
 
 
@@ -52,5 +54,4 @@ class CreateRegSchemaPropertyTable extends Migration
     {
         Schema::drop('reg_schema_property');
     }
-
 }

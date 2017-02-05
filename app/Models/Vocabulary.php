@@ -74,82 +74,84 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Vocabulary extends Model
 {
 
-  const TABLE = 'reg_vocabulary';
-  protected $table = self::TABLE;
+    const TABLE = 'reg_vocabulary';
+    protected $table = self::TABLE;
 
-  use SoftDeletes, Blameable, CreatedBy, UpdatedBy, DeletedBy;
+    use SoftDeletes, Blameable, CreatedBy, UpdatedBy, DeletedBy;
 
-  protected $blameable = [
+    protected $blameable = [
       'created' => 'created_user_id',
       'updated' => 'updated_user_id',
       'deleted' => 'deleted_user_id',
-  ];
+    ];
 
-  protected $dates = [ 'deleted_at', 'last_updated' ];
+    protected $dates = [ 'deleted_at', 'last_updated' ];
 
-  protected $primaryKey = 'id';
+    protected $primaryKey = 'id';
 
 
-  public function getLanguagesAttribute($value)
-  {
-    if (empty($value)) {
-      $languages = [ $this->language ];
+    public function getLanguagesAttribute($value)
+    {
+        if (empty($value)) {
+            $languages = [ $this->language ];
 
-      if (empty($languages)) {
-        $languages = [ 'en' ];
-      }
-    } else {
-      $languages = unserialize($value);
+            if (empty($languages)) {
+                $languages = [ 'en' ];
+            }
+        } else {
+            $languages = unserialize($value);
+        }
+
+        return $languages;
     }
 
-    return $languages;
-  }
+
+    public function setLanguagesAttribute($value)
+    {
+        $this->attributes['languages'] = serialize($value);
+    }
 
 
-  public function setLanguagesAttribute($value)
-  {
-    $this->attributes['languages'] = serialize($value);
-  }
+    public function getPrefixesAttribute($value)
+    {
+        return unserialize($value);
+    }
 
 
-  public function getPrefixesAttribute($value)
-  {
-    return unserialize($value);
-  }
+    public function setPrefixesAttribute($value)
+    {
+        $this->attributes['prefixes'] = serialize($value);
+    }
 
 
-  public function setPrefixesAttribute($value)
-  {
-    $this->attributes['prefixes'] = serialize($value);
-  }
+    public function profile()
+    {
+        return $this->belongsTo('App\Models\Profile', 'profile_id', 'id');
+    }
 
 
-  public function profile()
-  {
-    return $this->belongsTo('App\Models\Profile', 'profile_id', 'id');
-  }
+    public function project()
+    {
+        return $this->belongsTo(Project::class, 'agent_id', 'id');
+    }
+
+    public function concepts()
+    {
+        return $this->hasMany(Concept::class, 'vocabulary_id');
+    }
 
 
-  public function project()
-  {
-    return $this->belongsTo(Project::class, 'agent_id', 'id');
-  }
-
-  public function concepts()
-  {
-    return $this->hasMany(Concept::class, 'vocabulary_id');
-  }
-
-
-  public function users()
-  {
-    return $this->belongsToMany(Access\User\User::class, 'vocabulary_has_user', 'vocabulary_id', 'user_id')
+    public function users()
+    {
+        return $this->belongsToMany(Access\User\User::class, 'vocabulary_has_user', 'vocabulary_id', 'user_id')
                 ->withTimestamps()
-                ->withPivot('is_maintainer_for',
+                ->withPivot(
+                    'is_maintainer_for',
                     'is_registrar_for',
                     'is_admin_for',
                     'languages',
                     'default_language',
-                    'current_language');
-  }
+                    'current_language'
+                );
+    }
 }

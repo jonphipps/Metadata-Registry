@@ -11,7 +11,7 @@ use Closure;
 class RouteNeedsRole
 {
 
-	/**
+    /**
      * @param $request
      * @param Closure $next
      * @param $role

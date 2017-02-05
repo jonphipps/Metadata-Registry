@@ -4,18 +4,18 @@ use Illuminate\Database\Seeder;
 
 class SkosPropertySeeder extends Seeder
 {
-  use \database\DisablesForeignKeys;
+    use \database\DisablesForeignKeys;
 
   /**
    * Run the database seeds.
    *
    * @return void
    */
-  public function run()
-  {
-    $this->disableForeignKeys();
+    public function run()
+    {
+        $this->disableForeignKeys();
 
-    $updateStatement = "
+        $updateStatement = "
 INSERT INTO `reg_skos_property` (`id`, `parent_id`, `inverse_id`, `name`, `uri`, `object_type`, `display_order`, `picklist_order`, `label`, `definition`, `comment`, `examples`, `is_required`, `is_reciprocal`, `is_singleton`, `is_scheme`, `is_in_picklist`) VALUES
 	(1,0,NULL,'altLabel','http://www.w3.org/2004/02/skos/core#altLabel','literal',1,110,'alternative label','An alternative lexical label for a resource.','Acronyms, abbreviations, spelling variants, and irregular plural/singular forms may be included among the alternative labels for a concept. Mis-spelled terms are normally included as hidden labels (see skos:hiddenLabel).','http://www.w3.org/2004/02/skos/core/examples/altLabel.rdf.xml',0,0,0,0,1),
 	(2,26,NULL,'altSymbol','http://www.w3.org/2004/02/skos/core#altSymbol','literal',2,NULL,'alternative symbolic label','An alternative symbolic label for a resource.',NULL,'http://www.w3.org/2004/02/skos/core/examples/altSymbol.rdf.xml',0,0,0,0,0),
@@ -55,8 +55,8 @@ INSERT INTO `reg_skos_property` (`id`, `parent_id`, `inverse_id`, `name`, `uri`,
 	(42,NULL,NULL,'ToolkitDefinition','rdakit:toolkitDefinition','literal',NULL,NULL,NULL,NULL,NULL,NULL,0,0,0,0,1),
 	(43,NULL,NULL,'ToolkitLabel','rdakit:toolkitLabel','literal',NULL,NULL,NULL,NULL,NULL,NULL,0,0,0,0,1);
 ";
-    DB::update(DB::raw($updateStatement));
+        DB::update(DB::raw($updateStatement));
 
-    $this->enableForeignKeys();
-  }
+        $this->enableForeignKeys();
+    }
 }

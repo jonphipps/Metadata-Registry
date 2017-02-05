@@ -18,9 +18,10 @@ use App\Models\Access\Role\Role;
 /** @var Illuminate\Database\Eloquent\Factory $factory */
 
 //INSERT INTO `swregistry`.`Agent` (id, created_at, created_at_timestamp, last_updated, deleted_at, org_email, org_name, ind_affiliation, ind_role, address1, address2, city, state, postal_code, country, phone, web_address, type) VALUES ()
-$factory->define(App\Models\Project::class,
+$factory->define(
+    App\Models\Project::class,
     function (Faker\Generator $faker) {
-      return [
+        return [
           'org_email'       => $faker->companyEmail,
           'org_name'        => $faker->company,
           'ind_affiliation' => $faker->company,
@@ -34,26 +35,30 @@ $factory->define(App\Models\Project::class,
           'phone'           => $faker->phoneNumber,
           'web_address'     => $faker->url,
           'type'            => $faker->randomElement([ 'Individual', 'Organization' ]),
-      ];
-    });
+        ];
+    }
+);
 
 //INSERT INTO `swregistry`.`ProjectHasUser` (id, created_at, updated_at, deleted_at, user_id, agent_id, is_registrar_for, is_admin_for) VALUES ()
-$factory->define(App\Models\ProjectHasUser::class,
+$factory->define(
+    App\Models\ProjectHasUser::class,
     function (Faker\Generator $faker) {
-      xdebug_break();
+        xdebug_break();
 
-      return [
+        return [
           'agent_id'         => getAgent(),
           'user_id'          => getAgentUser(),
           'is_registrar_for' => true,
           'is_admin_for'     => true,
-      ];
-    });
+        ];
+    }
+);
 
 //INSERT INTO `swregistry`.`Concept` (id, created_at, updated_at, deleted_at, last_updated, created_user_id, updated_user_id, uri, pref_label, vocabulary_id, is_top_concept, pref_label_id, status_id, language) VALUES ()
-$factory->define(App\Models\Concept::class,
+$factory->define(
+    App\Models\Concept::class,
     function (Faker\Generator $faker) {
-      return [
+        return [
           'created_user_id' => $faker,
           'updated_user_id' => $faker,
           'uri'             => $faker,
@@ -63,13 +68,15 @@ $factory->define(App\Models\Concept::class,
           'pref_label_id'   => $faker,
           'status_id'       => $faker,
           'language'        => $faker,
-      ];
-    });
+        ];
+    }
+);
 
 //INSERT INTO `swregistry`.`ConceptAttribute` (id, created_at, updated_at, deleted_at, last_updated, created_user_id, updated_user_id, concept_id, primary_pref_label, skos_property_id, object, scheme_id, related_concept_id, language, status_id, is_concept_property, profile_property_id) VALUES ()
-$factory->define(App\Models\ConceptAttribute::class,
+$factory->define(
+    App\Models\ConceptAttribute::class,
     function (Faker\Generator $faker) {
-      return [
+        return [
           'created_user_id'     => $faker,
           'updated_user_id'     => $faker,
           'concept_id'          => $faker,
@@ -82,13 +89,15 @@ $factory->define(App\Models\ConceptAttribute::class,
           'status_id'           => $faker,
           'is_concept_property' => $faker,
           'profile_property_id' => $faker,
-      ];
-    });
+        ];
+    }
+);
 
 //INSERT INTO `swregistry`.`ConceptAttributeHistory` (id, created_at, action, concept_property_id, concept_id, vocabulary_id, skos_property_id, object, scheme_id, related_concept_id, language, status_id, created_user_id, change_note, import_id) VALUES ()
-$factory->define(App\Models\ConceptAttributeHistory::class,
+$factory->define(
+    App\Models\ConceptAttributeHistory::class,
     function (Faker\Generator $faker) {
-      return [
+        return [
           'action'              => $faker,
           'concept_property_id' => $faker,
           'concept_id'          => $faker,
@@ -102,13 +111,15 @@ $factory->define(App\Models\ConceptAttributeHistory::class,
           'created_user_id'     => $faker,
           'change_note'         => $faker,
           'import_id'           => $faker,
-      ];
-    });
+        ];
+    }
+);
 
 //INSERT INTO `swregistry`.`FileImportHistory` (id, created_at, map, user_id, vocabulary_id, schema_id, file_name, source_file_name, file_type, batch_id, results, total_processed_count, error_count, success_count) VALUES ()
-$factory->define(App\Models\FileImportHistory::class,
+$factory->define(
+    App\Models\FileImportHistory::class,
     function (Faker\Generator $faker) {
-      return [
+        return [
           'action'              => $faker,
           'concept_property_id' => $faker,
           'concept_id'          => $faker,
@@ -122,12 +133,14 @@ $factory->define(App\Models\FileImportHistory::class,
           'created_user_id'     => $faker,
           'change_note'         => $faker,
           'import_id'           => $faker,
-      ];
-    });
+        ];
+    }
+);
 //INSERT INTO `swregistry`.`ElementAttribute` (id, created_at, updated_at, deleted_at, created_user_id, updated_user_id, schema_property_id, profile_property_id, is_schema_property, object, related_schema_property_id, language, status_id, is_generated) VALUES ()
-$factory->define(App\Models\ElementAttribute::class,
+$factory->define(
+    App\Models\ElementAttribute::class,
     function (Faker\Generator $faker) {
-      return [
+        return [
           'action'              => $faker,
           'concept_property_id' => $faker,
           'concept_id'          => $faker,
@@ -141,12 +154,14 @@ $factory->define(App\Models\ElementAttribute::class,
           'created_user_id'     => $faker,
           'change_note'         => $faker,
           'import_id'           => $faker,
-      ];
-    });
+        ];
+    }
+);
 //INSERT INTO `swregistry`.`ElementAttributeHistory` (id, created_at, created_user_id, action, schema_property_element_id, schema_property_id, schema_id, profile_property_id, object, related_schema_property_id, language, status_id, change_note, import_id) VALUES ()
-$factory->define(App\Models\ElementAttributeHistory::class,
+$factory->define(
+    App\Models\ElementAttributeHistory::class,
     function (Faker\Generator $faker) {
-      return [
+        return [
           'action'              => $faker,
           'concept_property_id' => $faker,
           'concept_id'          => $faker,
@@ -160,14 +175,16 @@ $factory->define(App\Models\ElementAttributeHistory::class,
           'created_user_id'     => $faker,
           'change_note'         => $faker,
           'import_id'           => $faker,
-      ];
-    });
+        ];
+    }
+);
 //INSERT INTO `swregistry`.`ElementSet` (id, agent_id, created_at, updated_at, deleted_at, created_user_id, updated_user_id, child_updated_at, child_updated_user_id, name, note, uri, url, base_domain, token, community, last_uri_id, status_id, language, profile_id, ns_type, prefixes, languages, repo) VALUES ()
-$factory->define(App\Models\ElementSet::class,
+$factory->define(
+    App\Models\ElementSet::class,
     function (Faker\Generator $faker) {
-      $user = getNewUser();
+        $user = getNewUser();
 
-      return [
+        return [
           'created_user_id'       => $user,
           'updated_user_id'       => $user,
           'child_updated_at'      => '',
@@ -187,12 +204,14 @@ $factory->define(App\Models\ElementSet::class,
           'prefixes'              => '',
           'languages'             => '',
           'repo'                  => '',
-      ];
-    });
+        ];
+    }
+);
 //INSERT INTO `swregistry`.`ElementSetHasUser` (id, created_at, updated_at, deleted_at, schema_id, user_id, is_maintainer_for, is_registrar_for, is_admin_for, languages, default_language, current_language) VALUES ()
-$factory->define(App\Models\ElementSetHasUser::class,
+$factory->define(
+    App\Models\ElementSetHasUser::class,
     function (Faker\Generator $faker) {
-      return [
+        return [
           'schema_id'         => $faker,
           'user_id'           => $faker,
           'is_maintainer_for' => $faker,
@@ -201,22 +220,26 @@ $factory->define(App\Models\ElementSetHasUser::class,
           'languages'         => $faker,
           'default_language'  => $faker,
           'current_language'  => $faker,
-      ];
-    });
+        ];
+    }
+);
 //INSERT INTO `swregistry`.`ElementSetHasVersion` (id, name, created_at, deleted_at, updated_at, created_user_id, schema_id, timeslice) VALUES ()
-$factory->define(App\Models\ElementSetHasVersion::class,
+$factory->define(
+    App\Models\ElementSetHasVersion::class,
     function (Faker\Generator $faker) {
-      return [
+        return [
           'name'            => $faker,
           'created_user_id' => $faker,
           'schema_id'       => $faker,
           'timeslice'       => $faker,
-      ];
-    });
+        ];
+    }
+);
 //INSERT INTO `swregistry`.`Vocabulary` (id, agent_id, created_at, deleted_at, last_updated, created_user_id, updated_user_id, child_updated_at, child_updated_user_id, name, note, uri, url, base_domain, token, community, last_uri_id, status_id, language, languages, profile_id, ns_type, prefixes, repos, repo) VALUES ()
-$factory->define(App\Models\Vocabulary::class,
+$factory->define(
+    App\Models\Vocabulary::class,
     function (Faker\Generator $faker) {
-      return [
+        return [
           'agent_id'              => $faker,
           'created_user_id'       => $faker,
           'updated_user_id'       => $faker,
@@ -238,12 +261,14 @@ $factory->define(App\Models\Vocabulary::class,
           'prefixes'              => $faker,
           'repos'                 => $faker,
           'repo'                  => $faker,
-      ];
-    });
+        ];
+    }
+);
 //INSERT INTO `swregistry`.`VocabularyHasUser` (id, created_at, updated_at, deleted_at, vocabulary_id, user_id, is_maintainer_for, is_registrar_for, is_admin_for, languages, default_language, current_language) VALUES ()
-$factory->define(App\Models\VocabularyHasUser::class,
+$factory->define(
+    App\Models\VocabularyHasUser::class,
     function (Faker\Generator $faker) {
-      return [
+        return [
           'vocabulary_id'     => $faker,
           'user_id'           => $faker,
           'is_maintainer_for' => $faker,
@@ -252,12 +277,14 @@ $factory->define(App\Models\VocabularyHasUser::class,
           'languages'         => $faker,
           'default_language'  => $faker,
           'current_language'  => $faker,
-      ];
-    });
+        ];
+    }
+);
 //INSERT INTO `swregistry`.`VocabularyHasVersion` (id, name, created_at, deleted_at, updated_at, created_user_id, vocabulary_id, timeslice) VALUES ()
-$factory->define(App\Models\VocabularyHasVersion::class,
+$factory->define(
+    App\Models\VocabularyHasVersion::class,
     function (Faker\Generator $faker) {
-      return [
+        return [
           'name'            => $faker,
           'created_at'      => $faker,
           'deleted_at'      => $faker,
@@ -265,16 +292,18 @@ $factory->define(App\Models\VocabularyHasVersion::class,
           'created_user_id' => $faker,
           'vocabulary_id'   => $faker,
           'timeslice'       => $faker,
-      ];
-    });
+        ];
+    }
+);
 
 //INSERT INTO `swregistry`.`reg_user` (id, created_at, last_updated, deleted_at, nickname, name, salutation, first_name, last_name, email, sha1_password, salt, want_to_be_moderator, is_moderator, is_administrator, deletions, password, culture) VALUES ()
-$factory->define(User::class,
+$factory->define(
+    User::class,
     function (Faker\Generator $faker) {
-      static $password;
-      $name = $faker->userName;
+        static $password;
+        $name = $faker->userName;
 
-      return [
+        return [
           'nickname'          => $name,
           'name'              => $name,
           'email'             => $faker->safeEmail,
@@ -283,97 +312,118 @@ $factory->define(User::class,
           'salt'              => 'a4f51ef3ff29a5162c98c684581250de',
           'remember_token'    => str_random(10),
           'confirmation_code' => md5(uniqid(mt_rand(), true)),
-      ];
-    });
+        ];
+    }
+);
 
-$factory->state(User::class,
+$factory->state(
+    User::class,
     'active',
     function () {
-      return [
+        return [
           'status' => 1,
-      ];
-    });
+        ];
+    }
+);
 
-$factory->state(User::class,
+$factory->state(
+    User::class,
     'inactive',
     function () {
-      return [
+        return [
           'status' => 0,
-      ];
-    });
+        ];
+    }
+);
 
-$factory->state(User::class,
+$factory->state(
+    User::class,
     'confirmed',
     function () {
-      return [
+        return [
           'confirmed' => 1,
-      ];
-    });
+        ];
+    }
+);
 
-$factory->state(User::class,
+$factory->state(
+    User::class,
     'unconfirmed',
     function () {
-      return [
+        return [
           'confirmed' => 0,
-      ];
-    });
+        ];
+    }
+);
 
 /**
  * Roles
  */
-$factory->define(Role::class,
+$factory->define(
+    Role::class,
     function (Generator $faker) {
-      return [
+        return [
           'name' => $faker->name,
           'all'  => 0,
           'sort' => $faker->numberBetween(1, 100),
-      ];
-    });
+        ];
+    }
+);
 
-$factory->state(Role::class,
+$factory->state(
+    Role::class,
     'admin',
     function () {
-      return [
+        return [
           'all' => 1,
-      ];
-    });
+        ];
+    }
+);
 
-$factory->defineAs(User::class,
+$factory->defineAs(
+    User::class,
     'super_admin',
     function (Faker\Generator $faker) use ($factory) {
-      $user = $factory->raw(App\Models\Element::class);
+        $user = $factory->raw(App\Models\Element::class);
 
-      return array_merge($user,
-          [
+        return array_merge(
+            $user,
+            [
               'is_administrator' => true,
-          ]);
-    });
+            ]
+        );
+    }
+);
 
 //INSERT INTO `swregistry`.`Element` (id, created_at, updated_at, deleted_at, created_user_id, updated_user_id, schema_id, name, label, definition, comment, type, is_subproperty_of, parent_uri, uri, status_id, language, note, domain, orange, is_deprecated, url, lexical_alias, hash_id) VALUES ()
-$factory->define(App\Models\Element::class,
+$factory->define(
+    App\Models\Element::class,
     function (Faker\Generator $faker) {
-      $userIds   = User::all('id')->pluck('id')->toArray();
-      $schemaIds = \App\Models\ElementSet::all('id')->pluck('id')->toArray();
-      $statusIds = \App\Models\Status::all('id')->pluck('id')->toArray();
-      $user_id   = $faker->randomElement($userIds);
+        $userIds   = User::all('id')->pluck('id')->toArray();
+        $schemaIds = \App\Models\ElementSet::all('id')->pluck('id')->toArray();
+        $statusIds = \App\Models\Status::all('id')->pluck('id')->toArray();
+        $user_id   = $faker->randomElement($userIds);
 
-      return [
+        return [
           'created_user_id' => $user_id,
           'updated_user_id' => $user_id,
           'schema_id'       => $faker->randomElement($schemaIds),
           'status_id'       => $faker->randomElement($statusIds),
-      ];
-    });
+        ];
+    }
+);
 
-$factory->defineAs(App\Models\Element::class,
+$factory->defineAs(
+    App\Models\Element::class,
     'ElementFull',
     function (Faker\Generator $faker) use ($factory) {
-      $element = $factory->raw(App\Models\Element::class);
-      $label   = $faker->words;
-      $uri     = $faker->url;
+        $element = $factory->raw(App\Models\Element::class);
+        $label   = $faker->words;
+        $uri     = $faker->url;
 
-      return array_merge($element,
-          [
+        return array_merge(
+            $element,
+            [
               'name'              => $faker->word,
               'label'             => $label,
               'definition'        => $faker->sentence(),
@@ -389,16 +439,19 @@ $factory->defineAs(App\Models\Element::class,
               'is_deprecated'     => false,
               'url'               => $faker->url,
               'lexical_alias'     => $uri . '/' . str_slug($label),
-          ]);
-    });
+            ]
+        );
+    }
+);
 
 //******************************************
 /** used for testing nils-api */
 //******************************************
 
-$factory->define(App\Models\Employees::class,
+$factory->define(
+    App\Models\Employees::class,
     function (Faker\Generator $faker) {
-      return [
+        return [
           'company'         => $faker->company,
           'last_name'       => $faker->lastName,
           'first_name'      => $faker->firstName,
@@ -415,14 +468,16 @@ $factory->define(App\Models\Employees::class,
           'country_region'  => $faker->country,
           'web_page'        => $faker->url,
           'notes'           => $faker->sentence,
-      ];
-    });
+        ];
+    }
+);
 
-$factory->define(App\Models\Orders::class,
+$factory->define(
+    App\Models\Orders::class,
     function (Faker\Generator $faker) {
-      $employeeIds = \App\Models\Employees::all('id')->pluck('id')->toArray();
+        $employeeIds = \App\Models\Employees::all('id')->pluck('id')->toArray();
 
-      return [
+        return [
           'employee_id'          => $faker->randomElement($employeeIds),
           'customer_id'          => $faker->numberBetween(1, 100),
           'order_date'           => $faker->dateTimeThisMonth,
@@ -441,97 +496,111 @@ $factory->define(App\Models\Orders::class,
           'notes'                => $faker->sentence,
           'tax_rate'             => $faker->randomFloat(2),
           'status_id'            => $faker->numberBetween(1, 100),
-      ];
-    });
-
-if ( ! function_exists('getNewUser')) {
-  function getNewUser($except = [])
-  {
-    $userIds = User::all('id')->except($except)->pluck('id')->toArray();
-    if ($userIds) {
-      $faker = \Faker\Factory::create();;
-
-      return $faker->randomElement($userIds);
+        ];
     }
-    $user = factory(User::class, 1)->create();
+);
 
-    return $user->id;
-  }
-}
+if (! function_exists('getNewUser')) {
+    function getNewUser($except = [])
+    {
+        $userIds = User::all('id')->except($except)->pluck('id')->toArray();
+        if ($userIds) {
+            $faker = \Faker\Factory::create();
+            ;
 
-if ( ! function_exists('getAgentUser')) {
-  function getAgentUser()
-  {
-    //get the user_ids not associated with an existing agent
-    $except = \App\Models\ProjectHasUser::all('user_id')->pluck('user_id')->toArray();
+            return $faker->randomElement($userIds);
+        }
+        $user = factory(User::class, 1)->create();
 
-    return getNewUser($except);
-  }
-}
-
-if ( ! function_exists('getAgent')) {
-  function getAgent($except = [])
-  {
-    $ids = \App\Models\Project::all('id')->except($except)->pluck('id')->toArray();
-    if ($ids) {
-      $faker = \Faker\Factory::create();;
-
-      return $faker->randomElement($ids);
+        return $user->id;
     }
-    $agent = factory(App\Models\Project::class, 1)->create();
-
-    return $agent->id;
-  }
 }
-$factory->define(App\Models\ArcG2t::class,
+
+if (! function_exists('getAgentUser')) {
+    function getAgentUser()
+    {
+        //get the user_ids not associated with an existing agent
+        $except = \App\Models\ProjectHasUser::all('user_id')->pluck('user_id')->toArray();
+
+        return getNewUser($except);
+    }
+}
+
+if (! function_exists('getAgent')) {
+    function getAgent($except = [])
+    {
+        $ids = \App\Models\Project::all('id')->except($except)->pluck('id')->toArray();
+        if ($ids) {
+            $faker = \Faker\Factory::create();
+            ;
+
+            return $faker->randomElement($ids);
+        }
+        $agent = factory(App\Models\Project::class, 1)->create();
+
+        return $agent->id;
+    }
+}
+$factory->define(
+    App\Models\ArcG2t::class,
     function (Faker\Generator $faker) {
-      return [
+        return [
           'g' => $faker->randomNumber(),
           't' => $faker->randomNumber(),
-      ];
-    });
+        ];
+    }
+);
 
-$factory->define(App\Models\ArcId2val::class,
+$factory->define(
+    App\Models\ArcId2val::class,
     function (Faker\Generator $faker) {
-      return [
+        return [
           'id'       => $faker->randomNumber(),
           'misc'     => $faker->boolean,
           'val'      => $faker->text,
           'val_type' => $faker->boolean,
-      ];
-    });
+        ];
+    }
+);
 
-$factory->define(App\Models\ArcO2val::class,
+$factory->define(
+    App\Models\ArcO2val::class,
     function (Faker\Generator $faker) {
-      return [
+        return [
           'id'   => $faker->randomNumber(),
           'cid'  => $faker->randomNumber(),
           'misc' => $faker->boolean,
           'val'  => $faker->text,
-      ];
-    });
+        ];
+    }
+);
 
-$factory->define(App\Models\ArcS2val::class,
+$factory->define(
+    App\Models\ArcS2val::class,
     function (Faker\Generator $faker) {
-      return [
+        return [
           'id'   => $faker->randomNumber(),
           'cid'  => $faker->randomNumber(),
           'misc' => $faker->boolean,
           'val'  => $faker->text,
-      ];
-    });
+        ];
+    }
+);
 
-$factory->define(App\Models\ArcSetting::class,
+$factory->define(
+    App\Models\ArcSetting::class,
     function (Faker\Generator $faker) {
-      return [
+        return [
           'k'   => $faker->word,
           'val' => $faker->text,
-      ];
-    });
+        ];
+    }
+);
 
-$factory->define(App\Models\ArcTriple::class,
+$factory->define(
+    App\Models\ArcTriple::class,
     function (Faker\Generator $faker) {
-      return [
+        return [
           't'         => $faker->randomNumber(),
           's'         => $faker->randomNumber(),
           'p'         => $faker->randomNumber(),
@@ -541,12 +610,14 @@ $factory->define(App\Models\ArcTriple::class,
           's_type'    => $faker->boolean,
           'o_type'    => $faker->boolean,
           'misc'      => $faker->boolean,
-      ];
-    });
+        ];
+    }
+);
 
-$factory->define(App\Models\Batch::class,
+$factory->define(
+    App\Models\Batch::class,
     function (Faker\Generator $faker) {
-      return [
+        return [
           'run_time'          => $faker->dateTimeBetween(),
           'run_description'   => $faker->text,
           'object_type'       => $faker->word,
@@ -555,12 +626,14 @@ $factory->define(App\Models\Batch::class,
           'event_type'        => $faker->word,
           'event_description' => $faker->text,
           'registry_uri'      => $faker->word,
-      ];
-    });
+        ];
+    }
+);
 
-$factory->define(App\Models\Collection::class,
+$factory->define(
+    App\Models\Collection::class,
     function (Faker\Generator $faker) {
-      return [
+        return [
           'last_updated'    => $faker->dateTimeBetween(),
           'created_user_id' => factory(User::class)->create()->id,
           'updated_user_id' => factory(User::class)->create()->id,
@@ -569,12 +642,14 @@ $factory->define(App\Models\Collection::class,
           'uri'             => $faker->word,
           'pref_label'      => $faker->word,
           'status_id'       => factory(App\Models\Status::class)->create()->id,
-      ];
-    });
+        ];
+    }
+);
 
-$factory->define(App\Models\Discuss::class,
+$factory->define(
+    App\Models\Discuss::class,
     function (Faker\Generator $faker) {
-      return [
+        return [
           'created_user_id'            => factory(User::class)->create()->id,
           'deleted_user_id'            => factory(User::class)->create()->id,
           'uri'                        => $faker->word,
@@ -588,31 +663,37 @@ $factory->define(App\Models\Discuss::class,
           'parent_id'                  => factory(App\Models\Discuss::class)->create()->id,
           'subject'                    => $faker->word,
           'content'                    => $faker->text,
-      ];
-    });
+        ];
+    }
+);
 
-$factory->define(App\Models\Lookup::class,
+$factory->define(
+    App\Models\Lookup::class,
     function (Faker\Generator $faker) {
-      return [
+        return [
           'type_id'       => $faker->randomNumber(),
           'short_value'   => $faker->word,
           'long_value'    => $faker->word,
           'display_order' => $faker->randomNumber(),
-      ];
-    });
+        ];
+    }
+);
 
-$factory->define(App\Models\Prefix::class,
+$factory->define(
+    App\Models\Prefix::class,
     function (Faker\Generator $faker) {
-      return [
+        return [
           'prefix' => $faker->word,
           'uri'    => $faker->word,
           'rank'   => $faker->randomNumber(),
-      ];
-    });
+        ];
+    }
+);
 
-$factory->define(App\Models\Profile::class,
+$factory->define(
+    App\Models\Profile::class,
     function (Faker\Generator $faker) {
-      return [
+        return [
           'agent_id'         => $faker->randomNumber(),
           'created_by'       => $faker->randomNumber(),
           'updated_by'       => $faker->randomNumber(),
@@ -629,12 +710,14 @@ $factory->define(App\Models\Profile::class,
           'last_uri_id'      => $faker->randomNumber(),
           'status_id'        => factory(App\Models\Status::class)->create()->id,
           'language'         => $faker->word,
-      ];
-    });
+        ];
+    }
+);
 
-$factory->define(App\Models\ProfileProperty::class,
+$factory->define(
+    App\Models\ProfileProperty::class,
     function (Faker\Generator $faker) {
-      return [
+        return [
           'skos_id'                     => $faker->randomNumber(),
           'created_by'                  => $faker->randomNumber(),
           'updated_by'                  => $faker->randomNumber(),
@@ -669,12 +752,14 @@ $factory->define(App\Models\ProfileProperty::class,
           'is_object_prop'              => $faker->boolean,
           'is_in_form'                  => $faker->boolean,
           'namespace'                   => $faker->word,
-      ];
-    });
+        ];
+    }
+);
 
-$factory->define(App\Models\RdfNamespace::class,
+$factory->define(
+    App\Models\RdfNamespace::class,
     function (Faker\Generator $faker) {
-      return [
+        return [
           'schema_id'       => factory(App\Models\ElementSet::class)->create()->id,
           'created_user_id' => $faker->randomNumber(),
           'updated_user_id' => $faker->randomNumber(),
@@ -682,17 +767,21 @@ $factory->define(App\Models\RdfNamespace::class,
           'note'            => $faker->text,
           'uri'             => $faker->word,
           'schema_location' => $faker->word,
-      ];
-    });
+        ];
+    }
+);
 
-$factory->define(App\Models\Resource::class,
+$factory->define(
+    App\Models\Resource::class,
     function (Faker\Generator $faker) {
-      return [];
-    });
+        return [];
+    }
+);
 
-$factory->define(App\Models\SkosProperty::class,
+$factory->define(
+    App\Models\SkosProperty::class,
     function (Faker\Generator $faker) {
-      return [
+        return [
           'parent_id'      => $faker->randomNumber(),
           'inverse_id'     => $faker->randomNumber(),
           'name'           => $faker->name,
@@ -709,21 +798,24 @@ $factory->define(App\Models\SkosProperty::class,
           'is_singleton'   => $faker->boolean,
           'is_scheme'      => $faker->boolean,
           'is_in_picklist' => $faker->boolean,
-      ];
-    });
+        ];
+    }
+);
 
-$factory->define(App\Models\Status::class,
+$factory->define(
+    App\Models\Status::class,
     function (Faker\Generator $faker) {
-      return [
+        return [
           'display_order' => $faker->randomNumber(),
           'display_name'  => $faker->word,
           'uri'           => $faker->word,
-      ];
-    });
+        ];
+    }
+);
 
-if ( ! function_exists('getRandomStatus')) {
-  function getRandomStatus(Faker\Generator $faker)
-  {
-    return $faker->numberBetween(1, 9);
-  }
+if (! function_exists('getRandomStatus')) {
+    function getRandomStatus(Faker\Generator $faker)
+    {
+        return $faker->numberBetween(1, 9);
+    }
 }

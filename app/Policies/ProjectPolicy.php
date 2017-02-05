@@ -8,7 +8,7 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 
 class ProjectPolicy
 {
-  use HandlesAuthorization;
+    use HandlesAuthorization;
 
 
   /**
@@ -19,10 +19,10 @@ class ProjectPolicy
    *
    * @return mixed
    */
-  public function view(User $user, Project $project)
-  {
-    //
-  }
+    public function view(User $user, Project $project)
+    {
+        //
+    }
 
 
   /**
@@ -32,10 +32,10 @@ class ProjectPolicy
    *
    * @return mixed
    */
-  public function create(User $user)
-  {
-    $user->hasRole('user');
-  }
+    public function create(User $user)
+    {
+        $user->hasRole('user');
+    }
 
 
   /**
@@ -46,10 +46,10 @@ class ProjectPolicy
    *
    * @return mixed
    */
-  public function update(User $user, Project $project)
-  {
-    //
-  }
+    public function update(User $user, Project $project)
+    {
+        //
+    }
 
 
   /**
@@ -60,8 +60,8 @@ class ProjectPolicy
    *
    * @return mixed
    */
-  public function delete(User $user, Project $project)
-  {
-    //
-  }
+    public function delete(User $user, Project $project)
+    {
+        //
+    }
 }

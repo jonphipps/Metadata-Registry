@@ -51,23 +51,22 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class ConceptAttribute extends Model
 {
 
-  protected $table = self::TABLE;
-  const TABLE = 'reg_concept_property';
+    protected $table = self::TABLE;
+    const TABLE = 'reg_concept_property';
 
-  protected $primaryKey = 'id';
+    protected $primaryKey = 'id';
 
-  use SoftDeletes;
-
-
-  public function Concept()
-  {
-    return $this->belongsTo('App\Models\Concept', 'concept_id', 'id');
-  }
+    use SoftDeletes;
 
 
-  public function ProfileProperty()
-  {
-    return $this->belongsTo('App\Models\ProfileProperty', 'profile_property_id', 'id');
-  }
+    public function Concept()
+    {
+        return $this->belongsTo('App\Models\Concept', 'concept_id', 'id');
+    }
 
+
+    public function ProfileProperty()
+    {
+        return $this->belongsTo('App\Models\ProfileProperty', 'profile_property_id', 'id');
+    }
 }

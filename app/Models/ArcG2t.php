@@ -11,16 +11,14 @@
  */
 class ArcG2t extends \Illuminate\Database\Eloquent\Model
 {
-  protected $table = self::TABLE;
-  const TABLE = 'arc_g2t';
+    protected $table = self::TABLE;
+    const TABLE = 'arc_g2t';
 
-  public $primaryKey = 't';
+    public $primaryKey = 't';
 
-  public $timestamps = false;
+    public $timestamps = false;
 
-  public $incrementing = false;
+    public $incrementing = false;
 
-  protected $fillable = [];
-
+    protected $fillable = [];
 }
-

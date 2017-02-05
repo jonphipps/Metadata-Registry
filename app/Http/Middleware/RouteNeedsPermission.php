@@ -11,7 +11,7 @@ use Closure;
 class RouteNeedsPermission
 {
 
-	/**
+    /**
      * @param $request
      * @param Closure $next
      * @param $permission

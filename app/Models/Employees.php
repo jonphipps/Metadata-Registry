@@ -21,15 +21,15 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 class Employees extends Model
 {
 
-  public $timestamps = false;
-  protected $table = 'employees';
-  protected $primaryKey = 'id';
-  protected $appends = [ 'full_name' ];
+    public $timestamps = false;
+    protected $table = 'employees';
+    protected $primaryKey = 'id';
+    protected $appends = [ 'full_name' ];
 
   /**
    * @var array
    */
-  protected $fillable = [
+    protected $fillable = [
       'company',
       'last_name',
       'first_name',
@@ -47,24 +47,23 @@ class Employees extends Model
       'web_page',
       'notes',
       'attachments',
-  ];
+    ];
 
 
   /**
    * @return \Illuminate\Database\Eloquent\Relations\HasOne
    */
-  public function latestOrders()
-  {
-    return $this->hasMany(Orders::class, 'employee_id')->limit(10);
-  }
+    public function latestOrders()
+    {
+        return $this->hasMany(Orders::class, 'employee_id')->limit(10);
+    }
 
 
   /**
    * @return string
    */
-  public function getFullNameAttribute()
-  {
-    return $this->first_name . ' ' . $this->last_name;
-  }
+    public function getFullNameAttribute()
+    {
+        return $this->first_name . ' ' . $this->last_name;
+    }
 }
-

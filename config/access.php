@@ -5,92 +5,92 @@ use App\Models\Access\Permission\Permission;
 
 return [
 
-	/*
+    /*
 	 * Users table used to store users
 	 */
-	'users_table' => 'reg_user',
+    'users_table' => 'reg_user',
 
-	/*
+    /*
 	 * Role model used by Access to create correct relations. Update the role if it is in a different namespace.
 	*/
-	'role' => Role::class,
+    'role' => Role::class,
 
-	/*
+    /*
 	 * Roles table used by Access to save roles to the database.
 	 */
-	'roles_table' => 'roles',
+    'roles_table' => 'roles',
 
-	/*
+    /*
 	 * Permission model used by Access to create correct relations.
 	 * Update the permission if it is in a different namespace.
 	 */
-	'permission' => Permission::class,
+    'permission' => Permission::class,
 
-	/*
+    /*
 	 * Permissions table used by Access to save permissions to the database.
 	 */
-	'permissions_table' => 'permissions',
+    'permissions_table' => 'permissions',
 
-	/*
+    /*
 	 * permission_role table used by Access to save relationship between permissions and roles to the database.
 	 */
-	'permission_role_table' => 'permission_role',
+    'permission_role_table' => 'permission_role',
 
-	/*
+    /*
 	 * assigned_roles table used by Access to save assigned roles to the database.
 	 */
-	'role_user_table' => 'role_user',
+    'role_user_table' => 'role_user',
 
-	/*
+    /*
 	 * Configurations for the user
 	 */
-	'users' => [
-		/*
+    'users' => [
+        /*
 		 * Whether or not public registration is on
 		 */
-		'registration' => env('ENABLE_REGISTRATION', 'true'),
+        'registration' => env('ENABLE_REGISTRATION', 'true'),
 
-		/*
+        /*
 		 * The role the user is assigned to when they sign up from the frontend, not namespaced
 		 */
-		'default_role' => 'Subscriber',
-		//'default_role' => 2,
+        'default_role' => 'Subscriber',
+        //'default_role' => 2,
 
-		/*
+        /*
 		 * Whether or not the user has to confirm their email when signing up
 		 */
-		'confirm_email' => true,
+        'confirm_email' => true,
 
-		/*
+        /*
 		 * Whether or not the users email can be changed on the edit profile screen
 		 */
-		'change_email' => true,
-	],
+        'change_email' => true,
+    ],
 
-	/*
+    /*
 	 * Configuration for roles
 	 */
-	'roles' => [
-		/*
+    'roles' => [
+        /*
 		 * Whether a role must contain a permission or can be used standalone as a label
 		 */
-		'role_must_contain_permission' => true
-	],
+        'role_must_contain_permission' => true
+    ],
 
-	/*
+    /*
 	 * Socialite session variable name
 	 * Contains the name of the currently logged in provider in the users session
 	 * Makes it so social logins can not change passwords, etc.
 	 */
-	'socialite_session_name' => 'socialite_provider',
+    'socialite_session_name' => 'socialite_provider',
 
-	/*
+    /*
 	 * Application captcha specific settings
 	 */
-	'captcha' => [
-		/*
+    'captcha' => [
+        /*
 		 * Whether the registration captcha is on or off
 		 */
-		'registration' => env('REGISTRATION_CAPTCHA_STATUS', false),
-	],
+        'registration' => env('REGISTRATION_CAPTCHA_STATUS', false),
+    ],
 ];

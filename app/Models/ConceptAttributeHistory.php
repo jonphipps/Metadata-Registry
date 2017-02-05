@@ -52,17 +52,17 @@ use App\Models\Access\User\User;
  */
 class ConceptAttributeHistory extends Model
 {
-  protected $table = self::TABLE;
-  const TABLE = 'reg_concept_property_history';
+    protected $table = self::TABLE;
+    const TABLE = 'reg_concept_property_history';
 
-  protected $fillable = [ 'action', 'object', 'language', 'change_note' ];
+    protected $fillable = [ 'action', 'object', 'language', 'change_note' ];
 
   /**
    * The attributes that should be casted to native types.
    *
    * @var array
    */
-  protected $casts = [
+    protected $casts = [
       "id"                  => "integer",
       "action"              => "string",
       "concept_property_id" => "integer",
@@ -77,14 +77,14 @@ class ConceptAttributeHistory extends Model
       "created_user_id"     => "integer",
       "change_note"         => "string",
       "import_id"           => "integer",
-  ];
+    ];
 
-  public static $rules = [
+    public static $rules = [
       "created_at"  => "required|",
       "object"      => "max:65535",
       "language"    => "max:6",
       "change_note" => "max:65535",
-  ];
+    ];
 
 
   /** ===============
@@ -92,64 +92,63 @@ class ConceptAttributeHistory extends Model
    * ================
    */
 
-  public function getObjectAttribute($value)
-  {
-    //TODO: Check to make sure the data in the database needs to be decoded
-    return utf8_decode($value);
-  }
+    public function getObjectAttribute($value)
+    {
+        //TODO: Check to make sure the data in the database needs to be decoded
+        return utf8_decode($value);
+    }
 
 
-  public function SkosProperty()
-  {
-    return $this->belongsTo('App\Models\SkosProperty', 'skos_property_id', 'id');
-  }
+    public function SkosProperty()
+    {
+        return $this->belongsTo('App\Models\SkosProperty', 'skos_property_id', 'id');
+    }
 
 
-  public function FileImportHistory()
-  {
-    return $this->belongsTo('App\Models\FileImportHistory', 'import_id', 'id');
-  }
+    public function FileImportHistory()
+    {
+        return $this->belongsTo('App\Models\FileImportHistory', 'import_id', 'id');
+    }
 
 
-  public function ObjectScheme()
-  {
-    return $this->belongsTo('App\Models\Vocabulary', 'scheme_id', 'id');
-  }
+    public function ObjectScheme()
+    {
+        return $this->belongsTo('App\Models\Vocabulary', 'scheme_id', 'id');
+    }
 
 
-  public function Status()
-  {
-    return $this->belongsTo('App\Models\Status', 'status_id', 'id');
-  }
+    public function Status()
+    {
+        return $this->belongsTo('App\Models\Status', 'status_id', 'id');
+    }
 
 
-  public function ObjectConcept()
-  {
-    return $this->belongsTo('App\Models\Concept', 'related_concept_id', 'id');
-  }
+    public function ObjectConcept()
+    {
+        return $this->belongsTo('App\Models\Concept', 'related_concept_id', 'id');
+    }
 
 
-  public function UserCreator()
-  {
-    return $this->belongsTo(User::class, 'created_user_id', 'id');
-  }
+    public function UserCreator()
+    {
+        return $this->belongsTo(User::class, 'created_user_id', 'id');
+    }
 
 
-  public function ConceptAttribute()
-  {
-    return $this->belongsTo('App\Models\ConceptAttribute', 'concept_property_id', 'id');
-  }
+    public function ConceptAttribute()
+    {
+        return $this->belongsTo('App\Models\ConceptAttribute', 'concept_property_id', 'id');
+    }
 
 
-  public function Vocabulary()
-  {
-    return $this->belongsTo('App\Models\Vocabulary', 'vocabulary_id', 'id');
-  }
+    public function Vocabulary()
+    {
+        return $this->belongsTo('App\Models\Vocabulary', 'vocabulary_id', 'id');
+    }
 
 
-  public function Concept()
-  {
-    return $this->belongsTo('App\Models\Concept', 'concept_id', 'id');
-  }
-
+    public function Concept()
+    {
+        return $this->belongsTo('App\Models\Concept', 'concept_id', 'id');
+    }
 }

@@ -26,19 +26,19 @@
  */
 class Batch extends \Illuminate\Database\Eloquent\Model
 {
-  protected $table = self::TABLE;
-  const TABLE = 'reg_batch';
+    protected $table = self::TABLE;
+    const TABLE = 'reg_batch';
 
-  public $timestamps = false;
-
-
-  public function getDates()
-  {
-    return [ 'run_time', 'event_time' ];
-  }
+    public $timestamps = false;
 
 
-  protected $fillable = [
+    public function getDates()
+    {
+        return [ 'run_time', 'event_time' ];
+    }
+
+
+    protected $fillable = [
       'run_time',
       'run_description',
       'object_type',
@@ -47,14 +47,14 @@ class Batch extends \Illuminate\Database\Eloquent\Model
       'event_type',
       'event_description',
       'registry_uri',
-  ];
+    ];
 
   /**
    * The attributes that should be casted to native types.
    *
    * @var array
    */
-  protected $casts = [
+    protected $casts = [
       "id"                => "integer",
       "run_description"   => "string",
       "object_type"       => "string",
@@ -62,21 +62,19 @@ class Batch extends \Illuminate\Database\Eloquent\Model
       "event_type"        => "string",
       "event_description" => "string",
       "registry_uri"      => "string",
-  ];
+    ];
 
-  public static $rules = [
+    public static $rules = [
       "run_description"   => "max:65535",
       "object_type"       => "max:20",
       "event_type"        => "max:20",
       "event_description" => "max:65535",
       "registry_uri"      => "max:255",
-  ];
+    ];
 
 
-  public function FileImportHistory()
-  {
-    return $this->hasMany('App\Models\FileImportHistory', 'batch_id', 'id');
-  }
-
+    public function FileImportHistory()
+    {
+        return $this->hasMany('App\Models\FileImportHistory', 'batch_id', 'id');
+    }
 }
-

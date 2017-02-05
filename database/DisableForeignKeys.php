@@ -10,7 +10,7 @@ use DB;
 trait DisablesForeignKeys
 {
 
-  private $commands = [
+    private $commands = [
       'mysql'  => [
           'enable'  => 'SET FOREIGN_KEY_CHECKS=1;',
           'disable' => 'SET FOREIGN_KEY_CHECKS=0;',
@@ -19,24 +19,24 @@ trait DisablesForeignKeys
           'enable'  => 'PRAGMA foreign_keys = ON;',
           'disable' => 'PRAGMA foreign_keys = OFF;',
       ]
-  ];
+    ];
 
 
   /**
    * Disable foreign key checks for current db driver*/
-  protected function disableForeignKeys()
-  {
-    DB::statement($this->getDisableStatement());
-  }
+    protected function disableForeignKeys()
+    {
+        DB::statement($this->getDisableStatement());
+    }
 
 
   /**
    * Enable foreign key checks for current db driver
    */
-  protected function enableForeignKeys()
-  {
-    DB::statement($this->getEnableStatement());
-  }
+    protected function enableForeignKeys()
+    {
+        DB::statement($this->getEnableStatement());
+    }
 
 
   /**
@@ -44,10 +44,10 @@ trait DisablesForeignKeys
    *
    * @return mixed
    */
-  private function getEnableStatement()
-  {
-    return $this->getDriverCommands()['enable'];
-  }
+    private function getEnableStatement()
+    {
+        return $this->getDriverCommands()['enable'];
+    }
 
 
   /**
@@ -55,10 +55,10 @@ trait DisablesForeignKeys
    *
    * @return mixed
    */
-  private function getDisableStatement()
-  {
-    return $this->getDriverCommands()['disable'];
-  }
+    private function getDisableStatement()
+    {
+        return $this->getDriverCommands()['disable'];
+    }
 
 
   /**
@@ -66,8 +66,8 @@ trait DisablesForeignKeys
    *
    * @return mixed
    */
-  private function getDriverCommands()
-  {
-    return $this->commands[DB::getDriverName()];
-  }
+    private function getDriverCommands()
+    {
+        return $this->commands[DB::getDriverName()];
+    }
 }

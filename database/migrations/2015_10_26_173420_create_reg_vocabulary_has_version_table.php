@@ -14,7 +14,8 @@ class CreateRegVocabularyHasVersionTable extends Migration
      */
     public function up()
     {
-        Schema::create('reg_vocabulary_has_version',
+        Schema::create(
+            'reg_vocabulary_has_version',
             function (Blueprint $table) {
                 $table->integer('id', true);
                 $table->string('name')->default('')->index('name');
@@ -24,7 +25,8 @@ class CreateRegVocabularyHasVersionTable extends Migration
                 $table->integer('created_user_id')->nullable()->index();
                 $table->integer('vocabulary_id')->nullable()->index();
                 $table->dateTime('timeslice')->nullable();
-            });
+            }
+        );
     }
 
 
@@ -37,5 +39,4 @@ class CreateRegVocabularyHasVersionTable extends Migration
     {
         Schema::drop('reg_vocabulary_has_version');
     }
-
 }

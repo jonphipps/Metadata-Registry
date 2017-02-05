@@ -14,7 +14,8 @@ class CreateRegRdfNamespaceTable extends Migration
      */
     public function up()
     {
-        Schema::create('reg_rdf_namespace',
+        Schema::create(
+            'reg_rdf_namespace',
             function (Blueprint $table) {
                 $table->integer('id', true);
                 $table->integer('schema_id')->index();
@@ -26,7 +27,8 @@ class CreateRegRdfNamespaceTable extends Migration
                 $table->text('note')->nullable();
                 $table->string('uri')->default('');
                 $table->string('schema_location')->nullable();
-            });
+            }
+        );
     }
 
 
@@ -39,5 +41,4 @@ class CreateRegRdfNamespaceTable extends Migration
     {
         Schema::drop('reg_rdf_namespace');
     }
-
 }

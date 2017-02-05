@@ -14,7 +14,8 @@ class AddOnlyacceptedFieldToExport extends Migration
     public function up()
     {
         Schema::table('reg_export_history', function (Blueprint $table) {
-            $table->boolean('include_not_accepted')->after('include_deleted')->nullable();;
+            $table->boolean('include_not_accepted')->after('include_deleted')->nullable();
+            ;
         });
     }
 

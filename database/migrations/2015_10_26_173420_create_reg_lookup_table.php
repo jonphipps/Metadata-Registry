@@ -14,7 +14,8 @@ class CreateRegLookupTable extends Migration
      */
     public function up()
     {
-        Schema::create('reg_lookup',
+        Schema::create(
+            'reg_lookup',
             function (Blueprint $table) {
                 $table->integer('id', true);
                 $table->integer('type_id')->nullable();
@@ -22,7 +23,8 @@ class CreateRegLookupTable extends Migration
                 $table->string('long_value')->nullable();
                 $table->integer('display_order')->nullable();
                 $table->index([ 'type_id', 'display_order' ], 'display_order');
-            });
+            }
+        );
     }
 
 
@@ -35,5 +37,4 @@ class CreateRegLookupTable extends Migration
     {
         Schema::drop('reg_lookup');
     }
-
 }

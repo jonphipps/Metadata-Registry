@@ -46,37 +46,39 @@ $bugsnag->setReleaseStage($bugsnagStage);
 $bugsnag->setErrorReportingLevel(E_ALL & ~E_NOTICE);
 
 if (array_key_exists('HTTP_HOST', $_SERVER)) {
-  Bugsnag\Handler::register($bugsnag);
-  switch ($_SERVER['HTTP_HOST']) {
-    case 'registry.dev':
-      if ( ! $bugsnagStage) {
-        $bugsnag->setReleaseStage('development');
-      }
-      $icon = 'registry_favicon_dev.ico';
-      break;
-    case 'beta.metadataregistry.net':
-    case 'beta.metadataregistry.org':
-    case 'beta-sand.metadataregistry.org':
-    case 'beta-prod.metadataregistry.org':
-      if ( ! $bugsnagStage) {
-        $bugsnag->setReleaseStage('beta');
-      }
-      $icon = 'registry_favicon_beta.ico';
-      break;
-    case 'sandbox.metadataregistry.org':
-      if ( ! $bugsnagStage) {
-        $bugsnag->setReleaseStage('sandbox');
-      }
-      $icon = 'registry_favicon_sand.ico';
-      break;
-    default:
-      if ( ! $bugsnagStage) {
-        $bugsnag->setReleaseStage('production');
-      }
-      $icon = 'registry_favicon_prod.ico';
-  }
-  putenv("FAVICON=$icon");
-  $releaseStage = empty(env('BUGSNAG_NOTIFY_RELEASE_STAGES')) ? ['production'] : explode(',',
-      str_replace(' ', '', env('BUGSNAG_NOTIFY_RELEASE_STAGES')));
-  $bugsnag->setNotifyReleaseStages($releaseStage);
+    Bugsnag\Handler::register($bugsnag);
+    switch ($_SERVER['HTTP_HOST']) {
+        case 'registry.dev':
+            if (! $bugsnagStage) {
+                $bugsnag->setReleaseStage('development');
+            }
+            $icon = 'registry_favicon_dev.ico';
+            break;
+        case 'beta.metadataregistry.net':
+        case 'beta.metadataregistry.org':
+        case 'beta-sand.metadataregistry.org':
+        case 'beta-prod.metadataregistry.org':
+            if (! $bugsnagStage) {
+                $bugsnag->setReleaseStage('beta');
+            }
+            $icon = 'registry_favicon_beta.ico';
+            break;
+        case 'sandbox.metadataregistry.org':
+            if (! $bugsnagStage) {
+                $bugsnag->setReleaseStage('sandbox');
+            }
+            $icon = 'registry_favicon_sand.ico';
+            break;
+        default:
+            if (! $bugsnagStage) {
+                $bugsnag->setReleaseStage('production');
+            }
+            $icon = 'registry_favicon_prod.ico';
+    }
+    putenv("FAVICON=$icon");
+    $releaseStage = empty(env('BUGSNAG_NOTIFY_RELEASE_STAGES')) ? ['production'] : explode(
+        ',',
+        str_replace(' ', '', env('BUGSNAG_NOTIFY_RELEASE_STAGES'))
+    );
+    $bugsnag->setNotifyReleaseStages($releaseStage);
 }

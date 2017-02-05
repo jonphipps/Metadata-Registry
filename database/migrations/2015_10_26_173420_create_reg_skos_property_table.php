@@ -14,7 +14,8 @@ class CreateRegSkosPropertyTable extends Migration
      */
     public function up()
     {
-        Schema::create('reg_skos_property',
+        Schema::create(
+            'reg_skos_property',
             function (Blueprint $table) {
                 $table->integer('id', true);
                 $table->integer('parent_id')->nullable();
@@ -33,7 +34,8 @@ class CreateRegSkosPropertyTable extends Migration
                 $table->boolean('is_singleton')->default(0);
                 $table->boolean('is_scheme')->default(0);
                 $table->boolean('is_in_picklist')->default(1);
-            });
+            }
+        );
     }
 
 
@@ -46,5 +48,4 @@ class CreateRegSkosPropertyTable extends Migration
     {
         Schema::drop('reg_skos_property');
     }
-
 }

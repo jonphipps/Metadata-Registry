@@ -42,7 +42,7 @@ class Access
         return auth()->guest();
     }
 
-	/**
+    /**
      * @return mixed
      */
     public function logout()
@@ -59,11 +59,12 @@ class Access
         return auth()->id();
     }
 
-	/**
+    /**
      * @param $id
      * @return mixed
      */
-    public function loginUsingId($id) {
+    public function loginUsingId($id)
+    {
         return auth()->loginUsingId($id);
     }
 

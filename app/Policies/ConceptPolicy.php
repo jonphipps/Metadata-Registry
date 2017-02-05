@@ -8,7 +8,7 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 
 class ConceptPolicy
 {
-  use HandlesAuthorization;
+    use HandlesAuthorization;
 
 
   /**
@@ -19,10 +19,10 @@ class ConceptPolicy
    *
    * @return mixed
    */
-  public function view(User $user, Concept $concept)
-  {
-    //project is public or user is member of project
-  }
+    public function view(User $user, Concept $concept)
+    {
+        //project is public or user is member of project
+    }
 
 
   /**
@@ -32,10 +32,10 @@ class ConceptPolicy
    *
    * @return mixed
    */
-  public function create(User $user)
-  {
-    //User must be one of: admin, projectadmin, vocabularyadmin
-  }
+    public function create(User $user)
+    {
+        //User must be one of: admin, projectadmin, vocabularyadmin
+    }
 
 
   /**
@@ -46,11 +46,10 @@ class ConceptPolicy
    *
    * @return mixed
    */
-  public function update(User $user, Concept $concept)
-  {
-    //User must be one of: admin, projectadmin, vocabularyadmin
-
-  }
+    public function update(User $user, Concept $concept)
+    {
+        //User must be one of: admin, projectadmin, vocabularyadmin
+    }
 
 
   /**
@@ -61,8 +60,8 @@ class ConceptPolicy
    *
    * @return mixed
    */
-  public function delete(User $user, Concept $concept)
-  {
-    //User must be one of: admin, projectadmin, vocabularyadmin
-  }
+    public function delete(User $user, Concept $concept)
+    {
+        //User must be one of: admin, projectadmin, vocabularyadmin
+    }
 }

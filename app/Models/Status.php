@@ -17,6 +17,6 @@ use Illuminate\Database\Eloquent\Model as Model;
  */
 class Status extends Model
 {
-  protected $table = self::TABLE;
-  const TABLE = 'reg_status';
+    protected $table = self::TABLE;
+    const TABLE = 'reg_status';
 }

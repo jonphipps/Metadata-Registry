@@ -47,10 +47,10 @@ use App\Models\Access\User\User;
  */
 class FileImportHistory extends Model
 {
-  protected $table = self::TABLE;
-  const TABLE = 'reg_file_import_history';
+    protected $table = self::TABLE;
+    const TABLE = 'reg_file_import_history';
 
-  protected $fillable = [
+    protected $fillable = [
       'map',
       'file_name',
       'source_file_name',
@@ -59,14 +59,14 @@ class FileImportHistory extends Model
       'total_processed_count',
       'error_count',
       'success_count',
-  ];
+    ];
 
   /**
    * The attributes that should be casted to native types.
    *
    * @var array
    */
-  protected $casts = [
+    protected $casts = [
       "id"                    => "integer",
       "map"                   => "string",
       "user_id"               => "integer",
@@ -80,50 +80,49 @@ class FileImportHistory extends Model
       "total_processed_count" => "integer",
       "error_count"           => "integer",
       "success_count"         => "integer",
-  ];
+    ];
 
-  public static $rules = [
+    public static $rules = [
       "map"              => "max:65535",
       "file_name"        => "max:255",
       "source_file_name" => "max:255",
       "file_type"        => "max:30",
       "results"          => "max:65535",
-  ];
+    ];
 
 
-  public function User()
-  {
-    return $this->belongsTo(User::class, 'user_id', 'id');
-  }
+    public function User()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
 
 
-  public function Vocabulary()
-  {
-    return $this->belongsTo('App\Models\Vocabulary', 'vocabulary_id', 'id');
-  }
+    public function Vocabulary()
+    {
+        return $this->belongsTo('App\Models\Vocabulary', 'vocabulary_id', 'id');
+    }
 
 
-  public function ElementSet()
-  {
-    return $this->belongsTo('App\Models\ElementSet', 'schema_id', 'id');
-  }
+    public function ElementSet()
+    {
+        return $this->belongsTo('App\Models\ElementSet', 'schema_id', 'id');
+    }
 
 
-  public function Batch()
-  {
-    return $this->belongsTo('App\Models\Batch', 'batch_id', 'id');
-  }
+    public function Batch()
+    {
+        return $this->belongsTo('App\Models\Batch', 'batch_id', 'id');
+    }
 
 
-  public function ConceptAttributeHistory()
-  {
-    return $this->hasMany('App\Models\ConceptAttributeHistory', 'import_id', 'id');
-  }
+    public function ConceptAttributeHistory()
+    {
+        return $this->hasMany('App\Models\ConceptAttributeHistory', 'import_id', 'id');
+    }
 
 
-  public function ElementAttributeHistory()
-  {
-    return $this->hasMany('App\Models\ElementAttributeHistory', 'import_id', 'id');
-  }
-
+    public function ElementAttributeHistory()
+    {
+        return $this->hasMany('App\Models\ElementAttributeHistory', 'import_id', 'id');
+    }
 }

@@ -5,7 +5,7 @@ use Illuminate\Database\Seeder;
 class ProfilePropertySeeder extends Seeder
 {
 
-  use \database\DisablesForeignKeys;
+    use \database\DisablesForeignKeys;
 
 
   /**
@@ -13,14 +13,13 @@ class ProfilePropertySeeder extends Seeder
    *
    * @return void
    */
-  public function run()
-  {
-    $this->disableForeignKeys();
+    public function run()
+    {
+        $this->disableForeignKeys();
 
-    $updateStatement = file_get_contents(__DIR__ . '/ProfilePropertySeeder.sql');
-    DB::statement($updateStatement);
+        $updateStatement = file_get_contents(__DIR__ . '/ProfilePropertySeeder.sql');
+        DB::statement($updateStatement);
 
-    $this->enableForeignKeys();
-
-  }
+        $this->enableForeignKeys();
+    }
 }

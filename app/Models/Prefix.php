@@ -16,35 +16,34 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Prefix extends Model
 {
-  protected $table = self::TABLE;
-  const TABLE = 'reg_prefix';
+    protected $table = self::TABLE;
+    const TABLE = 'reg_prefix';
 
-  public $primaryKey = 'prefix';
+    public $primaryKey = 'prefix';
 
-  public $timestamps = false;
+    public $timestamps = false;
 
-  public $incrementing = false;
+    public $incrementing = false;
 
-  public $fillable = [
+    public $fillable = [
       "prefix",
       "uri",
       "rank",
-  ];
+    ];
 
   /**
    * The attributes that should be casted to native types.
    *
    * @var array
    */
-  protected $casts = [
+    protected $casts = [
       "prefix" => "string",
       "uri"    => "string",
       "rank"   => "integer",
-  ];
+    ];
 
-  public static $rules = [
+    public static $rules = [
       "prefix" => "required|max:40",
       "uri"    => "max:256",
-  ];
-
+    ];
 }

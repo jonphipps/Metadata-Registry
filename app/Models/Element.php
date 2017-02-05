@@ -62,27 +62,26 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Element extends Model
 {
-  protected $table = self::TABLE;
-  const TABLE = 'reg_schema_property';
+    protected $table = self::TABLE;
+    const TABLE = 'reg_schema_property';
 
-  protected $primaryKey = 'id';
-  use SoftDeletes;
-
-
-  public function ElementSet()
-  {
-    return $this->belongsTo('App\Models\ElementSet', 'schema_id', 'id');
-  }
+    protected $primaryKey = 'id';
+    use SoftDeletes;
 
 
-  public function ElementAttributes()
-  {
-    return $this->hasMany('App\Models\ElementAttribute', 'schema_property_id', 'id');
-  }
+    public function ElementSet()
+    {
+        return $this->belongsTo('App\Models\ElementSet', 'schema_id', 'id');
+    }
 
 
-  public function CreatedBy()
-  {
+    public function ElementAttributes()
+    {
+        return $this->hasMany('App\Models\ElementAttribute', 'schema_property_id', 'id');
+    }
 
-  }
+
+    public function CreatedBy()
+    {
+    }
 }

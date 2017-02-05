@@ -14,13 +14,15 @@ class CreateRegStatusTable extends Migration
      */
     public function up()
     {
-        Schema::create('reg_status',
+        Schema::create(
+            'reg_status',
             function (Blueprint $table) {
                 $table->integer('id', true);
                 $table->integer('display_order')->nullable()->index();
                 $table->string('display_name')->nullable();
                 $table->string('uri')->nullable();
-            });
+            }
+        );
     }
 
 
@@ -33,5 +35,4 @@ class CreateRegStatusTable extends Migration
     {
         Schema::drop('reg_status');
     }
-
 }

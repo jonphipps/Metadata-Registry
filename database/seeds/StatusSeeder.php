@@ -4,19 +4,19 @@ use Illuminate\Database\Seeder;
 
 class StatusSeeder extends Seeder
 {
-  use \database\DisablesForeignKeys;
+    use \database\DisablesForeignKeys;
 
   /**
    * Run the database seeds.
    *
    * @return void
    */
-  public function run()
-  {
+    public function run()
+    {
 
-    $this->disableForeignKeys();
+        $this->disableForeignKeys();
 
-    $updateStatement = "
+        $updateStatement = "
 INSERT INTO `reg_status` (`id`, `display_order`, `display_name`, `uri`) VALUES
 	(1,7,'Published','http://metadataregistry.org/uri/RegStatus/1001'),
 	(2,1,'New-Proposed','http://metadataregistry.org/uri/RegStatus/1002'),
@@ -28,8 +28,8 @@ INSERT INTO `reg_status` (`id`, `display_order`, `display_name`, `uri`) VALUES
 	(8,8,'Deprecated','http://metadataregistry.org/uri/RegStatus/1008'),
 	(9,9,'Not Approved','http://metadataregistry.org/uri/RegStatus/1009');
 ";
-    DB::update(DB::raw($updateStatement));
+        DB::update(DB::raw($updateStatement));
 
-    $this->enableForeignKeys();
-  }
+        $this->enableForeignKeys();
+    }
 }

@@ -54,46 +54,45 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Profile extends Model
 {
-  protected $table = self::TABLE;
-  const TABLE = 'profile';
+    protected $table = self::TABLE;
+    const TABLE = 'profile';
 
-  use SoftDeletes;
+    use SoftDeletes;
 
   /*********************************
    * relationships
    **********************************/
 
-  public function Status()
-  {
-    return $this->belongsTo('App\Models\Status', 'status_id', 'id');
-  }
+    public function Status()
+    {
+        return $this->belongsTo('App\Models\Status', 'status_id', 'id');
+    }
 
 
-  public function ProfileProperties()
-  {
-    return $this->hasMany('App\Models\ProfileProperty', 'profile_id', 'id');
-  }
+    public function ProfileProperties()
+    {
+        return $this->hasMany('App\Models\ProfileProperty', 'profile_id', 'id');
+    }
 
 
-  public function ElementSets()
-  {
-    return $this->hasMany('App\Models\ElementSet', 'profile_id', 'id');
-  }
+    public function ElementSets()
+    {
+        return $this->hasMany('App\Models\ElementSet', 'profile_id', 'id');
+    }
 
 
-  public function Vocabularies()
-  {
-    return $this->hasMany('App\Models\Vocabulary', 'profile_id', 'id');
-  }
+    public function Vocabularies()
+    {
+        return $this->hasMany('App\Models\Vocabulary', 'profile_id', 'id');
+    }
 
 
   /*********************************
    * lookup functions
    **********************************/
 
-  public function requiredProperties()
-  {
-    return $this->ProfileProperties()->whereIsRequired(true)->get();
-  }
-
+    public function requiredProperties()
+    {
+        return $this->ProfileProperties()->whereIsRequired(true)->get();
+    }
 }

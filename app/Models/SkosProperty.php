@@ -42,12 +42,12 @@
  */
 class SkosProperty extends \Illuminate\Database\Eloquent\Model
 {
-  protected $table = self::TABLE;
-  const TABLE = 'reg_skos_property';
+    protected $table = self::TABLE;
+    const TABLE = 'reg_skos_property';
 
-  public $timestamps = false;
+    public $timestamps = false;
 
-  protected $fillable = [
+    protected $fillable = [
       'parent_id',
       'inverse_id',
       'name',
@@ -64,13 +64,11 @@ class SkosProperty extends \Illuminate\Database\Eloquent\Model
       'is_singleton',
       'is_scheme',
       'is_in_picklist',
-  ];
+    ];
 
 
-  public function ConceptAttributeHistory()
-  {
-    return $this->hasMany('App\Models\ConceptAttributeHistory', 'skos_property_id', 'id');
-  }
-
+    public function ConceptAttributeHistory()
+    {
+        return $this->hasMany('App\Models\ConceptAttributeHistory', 'skos_property_id', 'id');
+    }
 }
-

@@ -37,14 +37,14 @@ use App\Models\Access\User\User;
  */
 class ElementSetHasUser extends Model
 {
-  protected $table = self::TABLE;
-  const TABLE = 'schema_has_user';
+    protected $table = self::TABLE;
+    const TABLE = 'schema_has_user';
 
-  use SoftDeletes;
+    use SoftDeletes;
 
-  protected $dates = [ 'deleted_at' ];
+    protected $dates = [ 'deleted_at' ];
 
-  protected $fillable = [
+    protected $fillable = [
       'deleted_at',
       'is_maintainer_for',
       'is_registrar_for',
@@ -52,14 +52,14 @@ class ElementSetHasUser extends Model
       'languages',
       'default_language',
       'current_language',
-  ];
+    ];
 
   /**
    * The attributes that should be casted to native types.
    *
    * @var array
    */
-  protected $casts = [
+    protected $casts = [
       "id"                => "integer",
       "schema_id"         => "integer",
       "user_id"           => "integer",
@@ -69,27 +69,25 @@ class ElementSetHasUser extends Model
       "languages"         => "string",
       "default_language"  => "string",
       "current_language"  => "string",
-  ];
+    ];
 
-  public static $rules = [
+    public static $rules = [
       "schema_id"        => "required|",
       "user_id"          => "required|",
       "languages"        => "max:65535",
       "default_language" => "required|max:6",
       "current_language" => "max:6",
-  ];
+    ];
 
 
-  public function ElementSet()
-  {
-    return $this->belongsTo('App\Models\ElementSet', 'schema_id', 'id');
-  }
+    public function ElementSet()
+    {
+        return $this->belongsTo('App\Models\ElementSet', 'schema_id', 'id');
+    }
 
 
-  public function User()
-  {
-    return $this->belongsTo(User::class, 'user_id', 'id');
-  }
-
+    public function User()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
 }
-

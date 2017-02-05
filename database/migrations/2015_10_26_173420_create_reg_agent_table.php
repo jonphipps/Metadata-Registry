@@ -14,7 +14,8 @@ class CreateRegAgentTable extends Migration
      */
     public function up()
     {
-        Schema::create('reg_agent',
+        Schema::create(
+            'reg_agent',
             function (Blueprint $table) {
                 $table->integer('id', true);
                 $table->dateTime('created_at')->nullable();
@@ -33,7 +34,8 @@ class CreateRegAgentTable extends Migration
                 $table->string('phone', 45)->nullable();
                 $table->string('web_address')->nullable();
                 $table->char('type', 15)->nullable();
-            });
+            }
+        );
     }
 
 
@@ -46,5 +48,4 @@ class CreateRegAgentTable extends Migration
     {
         Schema::drop('reg_agent');
     }
-
 }

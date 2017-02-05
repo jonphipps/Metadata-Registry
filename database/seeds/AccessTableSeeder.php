@@ -8,7 +8,7 @@ use Illuminate\Database\Seeder;
 class AccessTableSeeder extends Seeder
 {
 
-  use database\DisablesForeignKeys;
+    use database\DisablesForeignKeys;
 
 
   /**
@@ -16,16 +16,16 @@ class AccessTableSeeder extends Seeder
    *
    * @return void
    */
-  public function run()
-  {
-    $this->disableForeignKeys();
+    public function run()
+    {
+        $this->disableForeignKeys();
 
-    $this->call(UserTableSeeder::class);
-    $this->call(RoleTableSeeder::class);
-    $this->call(UserRoleSeeder::class);
-    $this->call(PermissionTableSeeder::class);
-    $this->call(PermissionRoleSeeder::class);
+        $this->call(UserTableSeeder::class);
+        $this->call(RoleTableSeeder::class);
+        $this->call(UserRoleSeeder::class);
+        $this->call(PermissionTableSeeder::class);
+        $this->call(PermissionRoleSeeder::class);
 
-    $this->enableForeignKeys();
-  }
+        $this->enableForeignKeys();
+    }
 }

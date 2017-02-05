@@ -11,16 +11,14 @@
  */
 class ArcSetting extends \Illuminate\Database\Eloquent\Model
 {
-  protected $table = self::TABLE;
-  const TABLE = 'arc_setting';
+    protected $table = self::TABLE;
+    const TABLE = 'arc_setting';
 
-  public $primaryKey = 'k';
+    public $primaryKey = 'k';
 
-  public $timestamps = false;
+    public $timestamps = false;
 
-  public $incrementing = false;
+    public $incrementing = false;
 
-  protected $fillable = [ 'val' ];
-
+    protected $fillable = [ 'val' ];
 }
-

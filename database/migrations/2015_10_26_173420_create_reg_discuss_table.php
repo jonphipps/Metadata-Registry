@@ -14,7 +14,8 @@ class CreateRegDiscussTable extends Migration
      */
     public function up()
     {
-        Schema::create('reg_discuss',
+        Schema::create(
+            'reg_discuss',
             function (Blueprint $table) {
                 $table->integer('id', true);
                 $table->dateTime('created_at')->nullable();
@@ -33,7 +34,8 @@ class CreateRegDiscussTable extends Migration
                 $table->integer('parent_id')->nullable()->index('parent_id');
                 $table->string('subject')->nullable();
                 $table->text('content')->nullable();
-            });
+            }
+        );
     }
 
 
@@ -46,5 +48,4 @@ class CreateRegDiscussTable extends Migration
     {
         Schema::drop('reg_discuss');
     }
-
 }

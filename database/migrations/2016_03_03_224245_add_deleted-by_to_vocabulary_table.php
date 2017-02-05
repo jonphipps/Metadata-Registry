@@ -14,7 +14,8 @@ class AddDeletedByToVocabularyTable extends Migration
      */
     public function up()
     {
-        Schema::table('reg_vocabulary',
+        Schema::table(
+            'reg_vocabulary',
             function (Blueprint $table) {
                 $table->integer('deleted_user_id')->after('updated_user_id')->nullable()->index();
                 $table->foreign('deleted_user_id', 'reg_vocabulary_ibfk_7')
@@ -22,8 +23,8 @@ class AddDeletedByToVocabularyTable extends Migration
                       ->on('reg_user')
                       ->onUpdate('NO ACTION')
                       ->onDelete('SET NULL');
-
-            });
+            }
+        );
     }
 
 
@@ -34,11 +35,12 @@ class AddDeletedByToVocabularyTable extends Migration
      */
     public function down()
     {
-        Schema::table('reg_vocabulary',
+        Schema::table(
+            'reg_vocabulary',
             function (Blueprint $table) {
                 $table->dropForeign('reg_vocabulary_ibfk_7');
                 $table->dropColumn('deleted_user_id');
-
-            });
+            }
+        );
     }
 }

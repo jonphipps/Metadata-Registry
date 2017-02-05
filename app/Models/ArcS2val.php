@@ -15,14 +15,12 @@
  */
 class ArcS2val extends \Illuminate\Database\Eloquent\Model
 {
-  protected $table = self::TABLE;
-  const TABLE = 'arc_s2val';
+    protected $table = self::TABLE;
+    const TABLE = 'arc_s2val';
 
-  public $timestamps = false;
+    public $timestamps = false;
 
-  public $incrementing = false;
+    public $incrementing = false;
 
-  protected $fillable = [ 'cid', 'misc', 'val' ];
-
+    protected $fillable = [ 'cid', 'misc', 'val' ];
 }
-

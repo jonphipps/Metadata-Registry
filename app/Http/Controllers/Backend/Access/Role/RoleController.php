@@ -31,17 +31,17 @@ class RoleController extends Controller
      * @param PermissionRepository $permissions
      */
     public function __construct(RoleRepository $roles, PermissionRepository $permissions)
-	{
+    {
         $this->roles = $roles;
         $this->permissions = $permissions;
     }
 
-	/**
-	 * @param ManageRoleRequest $request
-	 * @return mixed
-	 */
-	public function index(ManageRoleRequest $request)
-	{
+    /**
+     * @param ManageRoleRequest $request
+     * @return mixed
+     */
+    public function index(ManageRoleRequest $request)
+    {
         return view('backend.access.roles.index');
     }
 
@@ -53,7 +53,7 @@ class RoleController extends Controller
     {
         return view('backend.access.roles.create')
             ->withPermissions($this->permissions->getAll())
-			->withRoleCount($this->roles->getCount());
+            ->withRoleCount($this->roles->getCount());
     }
 
     /**

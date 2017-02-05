@@ -29,7 +29,6 @@ class AddForeignKeysToRegExportHistoryTable extends Migration
                   ->on('reg_schema')
                   ->onUpdate('NO ACTION')
                   ->onDelete('NO ACTION');
-
         });
     }
 

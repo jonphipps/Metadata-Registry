@@ -14,12 +14,14 @@ class CreateRegPrefixTable extends Migration
      */
     public function up()
     {
-        Schema::create('reg_prefix',
+        Schema::create(
+            'reg_prefix',
             function (Blueprint $table) {
                 $table->string('prefix', 40)->primary();
                 $table->string('uri', 256)->nullable()->index('prefix_uri');
                 $table->integer('rank')->nullable()->default(0)->index('prefix_rank');
-            });
+            }
+        );
     }
 
 
@@ -32,5 +34,4 @@ class CreateRegPrefixTable extends Migration
     {
         Schema::drop('reg_prefix');
     }
-
 }

@@ -33,13 +33,13 @@ class SocialLogin extends Model
    *
    * @var string
    */
-  protected $table = self::TABLE;
-  const TABLE = 'social_logins';
+    protected $table = self::TABLE;
+    const TABLE = 'social_logins';
 
   /**
    * The attributes that are mass assignable.
    *
    * @var array
    */
-  protected $fillable = [ 'user_id', 'provider', 'provider_id', 'token', 'avatar' ];
+    protected $fillable = [ 'user_id', 'provider', 'provider_id', 'token', 'avatar' ];
 }
