@@ -2,11 +2,12 @@
 
 namespace App\Providers;
 
+use DB;
 use Encore\Admin\Routing\Router;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 
-class AdminServiceProvider extends ServiceProvider
+class OmrServiceProvider extends ServiceProvider
 {
   /**
    * @var array
@@ -26,8 +27,8 @@ class AdminServiceProvider extends ServiceProvider
   protected $routeMiddleware = [
 //      'admin.auth'       => \Encore\Admin\Middleware\Authenticate::class,
 'admin.pjax'       => \Encore\Admin\Middleware\PjaxMiddleware::class,
-'admin.log'        => \Encore\Admin\Middleware\OperationLog::class,
-'admin.permission' => \Encore\Admin\Middleware\PermissionMiddleware::class,
+//'admin.log'        => \Encore\Admin\Middleware\OperationLog::class,
+//'admin.permission' => \Encore\Admin\Middleware\PermissionMiddleware::class,
   ];
 
   /**
@@ -39,7 +40,7 @@ class AdminServiceProvider extends ServiceProvider
       'admin' => [
 //          'admin.auth',
 'admin.pjax',
-'admin.log',
+//'admin.log',
       ],
   ];
 
@@ -58,6 +59,7 @@ class AdminServiceProvider extends ServiceProvider
       require $routes;
 
       $this->app['admin.router']->register();
+
     }
   }
 
@@ -74,10 +76,10 @@ class AdminServiceProvider extends ServiceProvider
 
       $loader->alias('Admin', \Encore\Admin\Facades\Admin::class);
 
-      $this->setupAuth();
+      //$this->setupAuth();
     });
 
-    $this->setupClassAliases();
+    //$this->setupClassAliases();
     $this->registerRouteMiddleware();
     $this->registerCommands();
 

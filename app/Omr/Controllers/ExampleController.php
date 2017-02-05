@@ -81,7 +81,7 @@ class ExampleController extends Controller
     /**
      * Make a form builder.
      *
-     * @return Form
+     * @return \Form
      */
     protected function form()
     {
