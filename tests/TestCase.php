@@ -2,7 +2,6 @@
 
 namespace Tests;
 
-
 define('SF_ROOT_DIR', realpath(dirname(__FILE__) . '/..'));
 
 use App\Models\Access\User\User;

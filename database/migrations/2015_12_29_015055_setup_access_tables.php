@@ -97,9 +97,9 @@ class SetupAccessTables extends Migration
         if (Schema::hasColumn(config('access.users_table'), 'status')) {
               Schema::table(
                   config('access.users_table'),
-                  function (Blueprint $table) {
+                    function (Blueprint $table) {
                         $table->dropColumn('status');
-                      }
+                    }
               );
         }
 

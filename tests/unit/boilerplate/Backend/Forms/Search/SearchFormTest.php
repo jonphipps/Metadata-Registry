@@ -2,7 +2,6 @@
 
 namespace Tests\unit\boilerplate\Backend\Forms\Search;
 
-
 /**
  * Class SearchFormTest
  */

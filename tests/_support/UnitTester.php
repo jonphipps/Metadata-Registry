@@ -2,8 +2,6 @@
 
 namespace Tests\_support;
 
-
-
 /**
  * Inherited Methods
  * @method void wantToTest($text)

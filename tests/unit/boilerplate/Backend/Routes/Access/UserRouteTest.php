@@ -2,7 +2,6 @@
 
 namespace Tests\unit\boilerplate\Backend\Routes\Access;
 
-
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Event;
 use App\Events\Backend\Access\User\UserRestored;

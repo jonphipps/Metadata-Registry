@@ -2,7 +2,6 @@
 
 namespace Tests\unit\boilerplate\Backend\Routes;
 
-
 /**
  * Class LogViewerRouteTest
  */

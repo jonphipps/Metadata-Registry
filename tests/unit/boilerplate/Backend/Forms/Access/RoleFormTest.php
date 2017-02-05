@@ -2,7 +2,6 @@
 
 namespace Tests\unit\boilerplate\Backend\Forms\Access;
 
-
 use App\Models\Access\Role\Role;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;

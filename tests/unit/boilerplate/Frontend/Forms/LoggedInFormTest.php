@@ -2,7 +2,6 @@
 
 namespace Tests\unit\boilerplate\Frontend\Forms;
 
-
 /**
  * Class LoggedInFormTest
  */

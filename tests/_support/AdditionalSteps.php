@@ -2,7 +2,6 @@
 
 namespace Tests\_support;
 
-
 class AdditionalSteps
 {
 
