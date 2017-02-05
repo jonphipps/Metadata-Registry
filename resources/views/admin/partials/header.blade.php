@@ -42,7 +42,7 @@
                                 {{--<a href="#" class="btn btn-default btn-flat">Profile</a>--}}
                             {{--</div>--}}
                             <div class="pull-right">
-                                <a href="{{ Admin::url('auth/logout') }}" class="btn btn-default btn-flat">{{ trans('admin::lang.logout') }}</a>
+                                <a href="{{ Admin::url('logout') }}" class="btn btn-default btn-flat">{{ trans('admin::lang.logout') }}</a>
                             </div>
                         </li>
                     </ul>
