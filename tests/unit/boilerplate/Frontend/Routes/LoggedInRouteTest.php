@@ -27,8 +27,8 @@ class LoggedInRouteTest extends TestCase
 	public function testDashboardPage() {
 		$this->actingAs($this->user)
 			->visit('/dashboard')
-			->see($this->user->email)
-			->see('Joined')
+			->see($this->user->name)
+			->see('Member')
 			->dontSee('Administration');
 	}
 

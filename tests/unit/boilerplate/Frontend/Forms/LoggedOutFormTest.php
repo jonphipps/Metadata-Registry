@@ -127,7 +127,7 @@ class LoggedOutFormTest extends TestCase
          ->type('1234', 'password')
          ->press('Login')
          ->seePageIs('/dashboard')
-         ->see($this->user->email);
+         ->see($this->user->name);
 
     Auth::logout();
 
