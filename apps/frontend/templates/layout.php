@@ -21,24 +21,24 @@
 <div id="indicator" style="display: none"></div>
 <div id="header">
     <ul>
-        <li class="browse"><?php echo link_to(__('Projects'), '@agent_list',  'title="Browse all Projects"' ) ?></li>
-        <li class="browse"><?php echo link_to(__('Vocabularies'), '@vocabulary_list',  'title="Browse all Value Vocabularies"' ); ?></li>
-        <li class="browse"><?php echo link_to(__('Element Sets'), '@schema_list', 'title="Browse all Element Sets"'); ?></li>
+        <li class="browse"><?php echo sf_link_to(__s('Projects'), '@agent_list',  'title="Browse all Projects"' ) ?></li>
+        <li class="browse"><?php echo sf_link_to(__s('Vocabularies'), '@vocabulary_list',  'title="Browse all Value Vocabularies"' ); ?></li>
+        <li class="browse"><?php echo sf_link_to(__s('Element Sets'), '@schema_list', 'title="Browse all Element Sets"'); ?></li>
         <?php
         if (Auth::check()): ?>
-          <li class="browse"><?php echo link_to(__('Dashboard'),
+          <li class="browse"><?php echo sf_link_to(__s('Dashboard'),
                 'dashboard',
                 'title="Dashboard"'); ?></li>
-          <li><?php echo link_to(__('%1% profile', [ '%1%' => Auth::user()->nickname ]),
+          <li><?php echo sf_link_to(__s('%1% profile', [ '%1%' => Auth::user()->nickname ]),
                                    '@current_user_profile') ?></li>
-            <li><?php echo link_to(__('sign out'), '@logout') ?></li>
+            <li><?php echo sf_link_to(__s('sign out'), '@logout') ?></li>
         <?php else: ?>
-            <li><?php echo link_to(__('sign in / register'), '@login') ?></li>
+            <li><?php echo sf_link_to(__s('sign in / register'), '@login') ?></li>
         <?php endif ?>
-        <li class="last"><?php echo link_to(__('about'), '@about') ?></li>
+        <li class="last"><?php echo sf_link_to(__s('about'), '@about') ?></li>
     </ul>
     <div style="padding-left: 10px;">
-        <?php echo link_to(image_tag('open_metadata_logo_with_interoperability.png',
+        <?php echo sf_link_to(image_tag('open_metadata_logo_with_interoperability.png',
                                      'alt="Registry Home" style="position: absolute; max-width: 543px; width: 50%; height: auto; top: 0;" '),
                            '@homepage') ?>
     </div>

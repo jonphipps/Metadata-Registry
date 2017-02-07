@@ -155,7 +155,7 @@ function distance_of_time_in_words($from_time, $to_time = null, $include_seconds
   {
     use_helper('I18N');
 
-    return __($string, $parameters);
+    return __s($string, $parameters);
   }
   else
   {

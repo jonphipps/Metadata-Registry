@@ -21,7 +21,7 @@ use_helper('I18N', 'Date', 'TruncateUri') ?]
 <div id="sf_admin_content">
 [?php if (!$pager->getNbResults()): ?]
     <div class="no-results">
-        <h2 class="message">[?php echo __('There are no “%name%” at this time', array('%name%' =>
+        <h2 class="message">[?php echo __s('There are no “%name%” at this time', array('%name%' =>
             '<?php echo sfInflector::humanize($this->getPluralName()) ?>')) ?]</h2>
     </div>
 [?php else: ?]

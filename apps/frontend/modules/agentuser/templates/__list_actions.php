@@ -5,7 +5,7 @@
 <ul class="sf_admin_actions">
 <?php if ($sf_user->hasCredential( array (   0 =>    array (     0 => 'administrator',     1 => 'agentadmin',   ), ))
 && '' != $sf_request->getParameter('agent_id','')): ?>
-<li><?php echo button_to(__('Add Member'), 'agentuser/create?agent_id=' . $sf_request->getParameter('agent_id'), array (
+<li><?php echo button_to(__s('Add Member'), 'agentuser/create?agent_id=' . $sf_request->getParameter('agent_id'), array (
   'title' => 'Create',
   'class' => 'sf_admin_action_create',
 )) ?></li>

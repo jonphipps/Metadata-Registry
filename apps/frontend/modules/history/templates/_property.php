@@ -4,10 +4,10 @@ $skosName = $concept_property_history->getSkosProperty() ? $concept_property_his
 
 if ($concept_property_history->getConceptProperty())
   {
-    echo link_to($skosName ? $skosName : __('-'), 'conceptprop/show?id='.$concept_property_history->getConceptPropertyId());
+    echo sf_link_to($skosName ? $skosName : __s('-'), 'conceptprop/show?id='.$concept_property_history->getConceptPropertyId());
   }
   else
   {
-    echo $skosName ? $skosName : __('-');
+    echo $skosName ? $skosName : __s('-');
   }
 ?>

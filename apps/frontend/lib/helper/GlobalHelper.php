@@ -2,7 +2,7 @@
 
 function link_to_rss($name, $uri)
 {
-  return link_to(image_tag('feed.gif', array('alt' => $name, 'title' => $name, 'align' => 'middle')), $uri);
+  return sf_link_to(image_tag('feed.gif', array('alt' => $name, 'title' => $name, 'align' => 'middle')), $uri);
 }
 
 function link_to_login($name, $uri = null)
@@ -11,7 +11,7 @@ function link_to_login($name, $uri = null)
 
   if ($uri && sfContext::getInstance()->getUser()->isAuthenticated())
   {
-    return link_to($name, $uri);
+    return sf_link_to($name, $uri);
   }
   else
   {
@@ -30,8 +30,8 @@ function pager_navigation($pager, $uri)
     // First and previous page
     if ($pager->getPage() != 1)
     {
-      $navigation .= link_to(image_tag('first.gif', 'align=middle'), $uri.'1');
-      $navigation .= link_to(image_tag('previous.gif', 'align=middle'), $uri.$pager->getPreviousPage()).'&nbsp;';
+      $navigation .= sf_link_to(image_tag('first.gif', 'align=middle'), $uri.'1');
+      $navigation .= sf_link_to(image_tag('previous.gif', 'align=middle'), $uri.$pager->getPreviousPage()).'&nbsp;';
     }
     
     // Pages one by one
@@ -45,8 +45,8 @@ function pager_navigation($pager, $uri)
     // Next and last page
     if ($pager->getPage() != $pager->getCurrentMaxLink())
     {
-      $navigation .= '&nbsp;'.link_to(image_tag('next.gif', 'align=middle'), $uri.$pager->getNextPage());
-      $navigation .= link_to(image_tag('last.gif', 'align=middle'), $uri.$pager->getLastPage());
+      $navigation .= '&nbsp;'.sf_link_to(image_tag('next.gif', 'align=middle'), $uri.$pager->getNextPage());
+      $navigation .= sf_link_to(image_tag('last.gif', 'align=middle'), $uri.$pager->getLastPage());
     }
 
   }

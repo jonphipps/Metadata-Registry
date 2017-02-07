@@ -20,7 +20,7 @@
   ): ?>
     <?php if ( count( $sf_flash->get( 'newUsers', array () ) ) ): ?>
       <li><?php echo button_to(
-            __( 'Add Maintainer' ),
+            __s( 'Add Maintainer' ),
             'vocabuser/create?vocabulary_id=' . $sf_request->getParameter( 'vocabulary_id', '' ) . '',
             array (
                 'title' => 'Create',
@@ -30,7 +30,7 @@
 
     <?php else: ?>
       <li>
-        <?php echo __('All Project members have been added as Maintainers.') ?>
+        <?php echo __s('All Project members have been added as Maintainers.') ?>
       </li>
     <?php endif; ?>
   <?php endif; ?></ul>

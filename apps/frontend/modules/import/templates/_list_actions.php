@@ -20,7 +20,7 @@
                 } else {
                 $param = 'vocabulary_id=' . $sf_params->get('vocabulary_id');
             }
-            echo button_to(__('Import New CSV'), 'import/create?' . $param . '',
+            echo button_to(__s('Import New CSV'), 'import/create?' . $param . '',
                   array(
                         'title' => 'Create',
                         'class' => 'sf_admin_action_create',

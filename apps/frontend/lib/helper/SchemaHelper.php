@@ -18,13 +18,13 @@
       if ($relSchemaProperty) {
         $link = 'schemaprop/show/?id=' . $relSchemaPropertyId;
 
-        return link_to($property->getObject(), $link, ["title" => $relSchemaProperty]);
+        return sf_link_to($property->getObject(), $link, ["title" => $relSchemaProperty]);
     }
   }
-  //If the skosProperty.objectType is resource then we display a truncated URI with a complete link_to
+  //If the skosProperty.objectType is resource then we display a truncated URI with a complete sf_link_to
   if (strpos(0 === $property->getObject(),sfConfig::get('app_base_domain')))
   {
-    return link_to(truncate_text($property->getObject(), 30), $property->getObject());
+    return sf_link_to(truncate_text($property->getObject(), 30), $property->getObject());
   }
 
   //if it's a status code, we resolve the status
@@ -57,7 +57,7 @@ function link_to_related_property($property)
     $relProperty = SchemaPropertyPeer::retrieveByPK($relPropertyId);
     if ($relProperty)
     {
-      return link_to($relProperty->getLabel(), 'schemaprop/show/?id=' . $relPropertyId, ['title' => $relPropertyUri]);
+      return sf_link_to($relProperty->getLabel(), 'schemaprop/show/?id=' . $relPropertyId, ['title' => $relPropertyUri]);
     }
   }
 

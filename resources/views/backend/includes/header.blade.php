@@ -38,7 +38,7 @@
                     <ul class="dropdown-menu">
                         <li class="header">{{ trans_choice('strings.backend.general.you_have.messages', 0, ['number' => 0]) }}</li>
                         <li class="footer">
-                            {{ \Collective\Html\link_to('#', trans('strings.backend.general.see_all.messages')) }}
+                            {{ laravel_link_to('#', trans('strings.backend.general.see_all.messages')) }}
                         </li>
                     </ul>
                 </li><!-- /.messages-menu -->
@@ -52,7 +52,7 @@
                     <ul class="dropdown-menu">
                         <li class="header">{{ trans_choice('strings.backend.general.you_have.notifications', 0) }}</li>
                         <li class="footer">
-                            {{ \Collective\Html\link_to('#', trans('strings.backend.general.see_all.notifications')) }}
+                            {{ laravel_link_to('#', trans('strings.backend.general.see_all.notifications')) }}
                         </li>
                     </ul>
                 </li><!-- /.notifications-menu -->
@@ -66,7 +66,7 @@
                     <ul class="dropdown-menu">
                         <li class="header">{{ trans_choice('strings.backend.general.you_have.tasks', 0, ['number' => 0]) }}</li>
                         <li class="footer">
-                            {{ \Collective\Html\link_to('#', trans('strings.backend.general.see_all.tasks')) }}
+                            {{ laravel_link_to('#', trans('strings.backend.general.see_all.tasks')) }}
                         </li>
                     </ul>
                 </li><!-- /.tasks-menu -->
@@ -88,13 +88,13 @@
 
                         <li class="user-body">
                             <div class="col-xs-4 text-center">
-                                {{ \Collective\Html\link_to('#', 'Link') }}
+                                {{ laravel_link_to('#', 'Link') }}
                             </div>
                             <div class="col-xs-4 text-center">
-                                {{ \Collective\Html\link_to('#', 'Link') }}
+                                {{ laravel_link_to('#', 'Link') }}
                             </div>
                             <div class="col-xs-4 text-center">
-                                {{ \Collective\Html\link_to('#', 'Link') }}
+                                {{ laravel_link_to('#', 'Link') }}
                             </div>
                         </li>
 

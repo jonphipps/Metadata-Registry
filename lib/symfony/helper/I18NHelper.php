@@ -17,7 +17,7 @@
  * @version    SVN: $Id: I18NHelper.php 415 2008-04-04 19:30:57Z jphipps $
  */
 
-function __($text, $args = array(), $catalogue = 'messages')
+function __s($text, $args = array(), $catalogue = 'messages')
 {
   static $i18n;
 
@@ -28,7 +28,7 @@ function __($text, $args = array(), $catalogue = 'messages')
       $i18n = sfContext::getInstance()->getI18N();
     }
 
-    return $i18n->__($text, $args, $catalogue);
+    return $i18n->__s($text, $args, $catalogue);
   }
   else
   {
@@ -52,7 +52,7 @@ function __($text, $args = array(), $catalogue = 'messages')
 
 function format_number_choice($text, $args = array(), $number, $catalogue = 'messages')
 {
-  $translated = __($text, $args, $catalogue);
+  $translated = __s($text, $args, $catalogue);
 
   $choice = new sfChoiceFormat();
 

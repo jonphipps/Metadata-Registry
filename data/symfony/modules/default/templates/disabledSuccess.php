@@ -13,7 +13,7 @@
   <dd>
     <ul class="sfTIconList">
       <li class="sfTLinkMessage"><a href="javascript:history.go(-1)">Back to previous page</a></li>
-      <li class="sfTLinkMessage"><?php echo link_to('Go to Homepage', '@homepage') ?></li>
+      <li class="sfTLinkMessage"><?php echo sf_link_to('Go to Homepage', '@homepage') ?></li>
     </ul>
   </dd>
 </dl>

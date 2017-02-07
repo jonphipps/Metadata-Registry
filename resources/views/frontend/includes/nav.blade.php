@@ -8,7 +8,7 @@
                 <span class="icon-bar"></span>
             </button>
 
-            {{ \Collective\Html\link_to_route('frontend.index', app_name(), [], ['class' => 'navbar-brand']) }}
+            {{ laravel_link_to_route('frontend.index', app_name(), [], ['class' => 'navbar-brand']) }}
         </div><!--navbar-header-->
         <div class="collapse navbar-collapse" id="frontend-navbar-collapse">
             <ul class="nav navbar-nav">
@@ -39,13 +39,13 @@
                 @endif
 
                 @if ($logged_in_user)
-                    <li>{{ \Collective\Html\link_to_route('frontend.user.dashboard', trans('navs.frontend.dashboard')) }}</li>
+                    <li>{{ laravel_link_to_route('frontend.user.dashboard', trans('navs.frontend.dashboard')) }}</li>
                 @endif
 
                 @if (! $logged_in_user)
-                    <li>{{ \Collective\Html\link_to_route('frontend.auth.login', trans('navs.frontend.login')) }}</li>
+                    <li>{{ laravel_link_to_route('frontend.auth.login', trans('navs.frontend.login')) }}</li>
                     @if (config('access.users.registration'))
-                    <li>{{ \Collective\Html\link_to_route('frontend.auth.register', trans('navs.frontend.register')) }}</li>
+                    <li>{{ laravel_link_to_route('frontend.auth.register', trans('navs.frontend.register')) }}</li>
                     @endif
                 @else
                     <li class="dropdown">
@@ -55,11 +55,11 @@
 
                         <ul class="dropdown-menu" role="menu">
                             @permission('view-backend')
-                                <li>{{ \Collective\Html\link_to_route('admin.dashboard', trans('navs.frontend.user.administration')) }}</li>
+                                <li>{{ laravel_link_to_route('admin.dashboard', trans('navs.frontend.user.administration')) }}</li>
                             @endauth
 
-                            <li>{{ \Collective\Html\link_to_route('frontend.user.account', trans('navs.frontend.user.account')) }}</li>
-                            <li>{{ \Collective\Html\link_to_route('frontend.auth.logout', trans('navs.general.logout')) }}</li>
+                            <li>{{ laravel_link_to_route('frontend.user.account', trans('navs.frontend.user.account')) }}</li>
+                            <li>{{ laravel_link_to_route('frontend.auth.logout', trans('navs.general.logout')) }}</li>
                         </ul>
                     </li>
                 @endif

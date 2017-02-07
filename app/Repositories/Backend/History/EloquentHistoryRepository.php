@@ -127,15 +127,15 @@ class EloquentHistoryRepository implements HistoryContract
                         if (is_array($values)) {
                             switch (count($values)) {
                                 case 1:
-                                    ${"asset_".$count} = link_to_route($values[0], $values[0]);
+                                    ${"asset_".$count} = laravel_link_to_route($values[0], $values[0]);
                                     break;
 
                                 case 2:
-                                    ${"asset_".$count} = link_to_route($values[0], $values[1]);
+                                    ${"asset_".$count} = laravel_link_to_route($values[0], $values[1]);
                                     break;
 
                                 case 3:
-                                    ${"asset_".$count} = link_to_route($values[0], $values[1], $values[2]);
+                                    ${"asset_".$count} = laravel_link_to_route($values[0], $values[1], $values[2]);
                                     break;
 
                                 default:
@@ -143,7 +143,7 @@ class EloquentHistoryRepository implements HistoryContract
                             }
                         } else {
                             //Normal url
-                            ${"asset_".$count} = link_to($values, $values);
+                            ${"asset_".$count} = laravel_link_to($values, $values);
                         }
                         break;
 

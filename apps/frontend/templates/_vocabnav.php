@@ -28,11 +28,11 @@
 
     if (false !== strpos($value['link'], $module . '/' . $action))
     {
-      echo '<li class = "ui-tabs-selected">' . link_to('<span>' . __($key) . '</span>', $value['link'] . $vocabulary_id, $options) . '</li>';
+      echo '<li class = "ui-tabs-selected">' . sf_link_to('<span>' . __s($key) . '</span>', $value['link'] . $vocabulary_id, $options) . '</li>';
     }
     else
     {
-      echo '<li>' . link_to('<span>' . __($key) . '</span>', $value['link'] . $vocabulary_id, $options) . '</li>';
+      echo '<li>' . sf_link_to('<span>' . __s($key) . '</span>', $value['link'] . $vocabulary_id, $options) . '</li>';
     }
   endforeach;
 ?>

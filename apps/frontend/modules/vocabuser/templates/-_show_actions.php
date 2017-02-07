@@ -15,11 +15,11 @@
                                                                                                               '',
                                                                                                               'subscriber')
     ): ?>
-        <li class="float-left-show"><?php if ($vocabulary_has_user->getId()): ?><?php echo button_to(__('Delete'),
+        <li class="float-left-show"><?php if ($vocabulary_has_user->getId()): ?><?php echo button_to(__s('Delete'),
                                                                                                      'vocabuser/delete?id=' . $vocabulary_has_user->getId(),
                                                                                                      [
                                                                                                          'post' => true,
-                                                                                                         'confirm' => __('Are you sure?'),
+                                                                                                         'confirm' => __s('Are you sure?'),
                                                                                                          'title' => 'Delete',
                                                                                                          'class' => 'sf_admin_action_delete',
                                                                                                      ]) ?><?php endif; ?>
@@ -37,7 +37,7 @@
                                                                                                               '',
                                                                                                               'subscriber')
     ): ?>
-        <li><?php echo button_to(__('Edit'),
+        <li><?php echo button_to(__s('Edit'),
                                  'vocabuser/edit?id=' . $vocabulary_has_user->getId(),
                                  [
                                      'title' => 'Edit',
@@ -54,7 +54,7 @@
                                                 ],
                                             ]) && count($sf_flash->get('newUsers', []))
     ): ?>
-        <li><?php if ($vocabulary_has_user->getId()): ?><?php echo button_to(__('Add Maintainer'),
+        <li><?php if ($vocabulary_has_user->getId()): ?><?php echo button_to(__s('Add Maintainer'),
                                                                              'vocabuser/create',
                                                                              [
                                                                                  'title' => 'Create',

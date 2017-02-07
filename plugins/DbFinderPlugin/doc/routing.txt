@@ -37,7 +37,7 @@ And in order to generate an URL for a blog object, you must specify each paramet
 
     // in modules/blog/templates/listSuccess.php
     ...
-    <?php echo link_to($post->getTitle(), 'blog/show?stripped_title=' . $post->getStrippedTitle()) ?>
+    <?php echo sf_link_to($post->getTitle(), 'blog/show?stripped_title=' . $post->getStrippedTitle()) ?>
     ...
 
 ### Fetching A Model Object With `DbFinderObjectRoute`
@@ -74,7 +74,7 @@ Also, the URL generation code just needs the model object, as the route definiti
 
     // in modules/blog/templates/listSuccess.php
     ...
-    <?php echo link_to($post->getTitle(), 'blog_show', $post) ?>
+    <?php echo sf_link_to($post->getTitle(), 'blog_show', $post) ?>
     ...
 
 ### Pseudo-Conditions
@@ -125,16 +125,16 @@ That custom finder is all it takes to make the `getObject()` work in the action.
       filterBy('StrippedTitle', $request->getParameter('stripped_title'))->
       findOne();
 
-But there is one thing left: the URL generation. If you try to call a `link_to()` helper on the `blog_show` rule, it will fail:
+But there is one thing left: the URL generation. If you try to call a `sf_link_to()` helper on the `blog_show` rule, it will fail:
 
     // in modules/blog/templates/listSuccess.php
     ...
-    <?php echo link_to($post->getTitle(), 'blog_show', $post) ?>
+    <?php echo sf_link_to($post->getTitle(), 'blog_show', $post) ?>
     ...
     
 This is because the route object looks for an object property for every token defined in the `url` parameter. In fact, the previous line is transformed to something like:
 
-    <?php echo link_to($post->getTitle(), 'blog/show' .
+    <?php echo sf_link_to($post->getTitle(), 'blog/show' .
       '?blog_title=' . $post->getBlogTitle() . 
       '&date=' . $post->getDate() . 
       '&stripped_title=' . $post->getStrippedTitle()) ?>
@@ -175,7 +175,7 @@ Note that, with parameters such as `page`, the syntax of a link generation call 
 
     // in modules/blog/templates/listSuccess.php
     ...
-    <?php echo link_to($post->getTitle(), 'blog_show', array(
+    <?php echo sf_link_to($post->getTitle(), 'blog_show', array(
       'sf_subject' => $post,
       'page'       => 2
     )) ?>

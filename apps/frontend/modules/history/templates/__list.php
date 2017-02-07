@@ -23,17 +23,17 @@
                     <?php if ($sf_params->has('vocabulary_id')): ?>
                         <?php $filterParam .= '&vocabulary_id=' . $sf_params->get('vocabulary_id'); ?>
                     <?php endif; ?>
-                    <?php echo link_to(
+                    <?php echo sf_link_to(
                         image_tag(
                             sfConfig::get('sf_admin_web_dir') . '/images/first.png',
-                            array ('align' => 'absmiddle', 'alt' => __('First'), 'title' => __('First'))
+                            array ('align' => 'absmiddle', 'alt' => __s('First'), 'title' => __s('First'))
                         ),
                         'history/list?page=1' . $filterParam
                     ) ?>
-                    <?php echo link_to(
+                    <?php echo sf_link_to(
                         image_tag(
                             sfConfig::get('sf_admin_web_dir') . '/images/previous.png',
-                            array ('align' => 'absmiddle', 'alt' => __('Previous'), 'title' => __('Previous'))
+                            array ('align' => 'absmiddle', 'alt' => __s('Previous'), 'title' => __s('Previous'))
                         ),
                         'history/list?page=' . $pager->getPreviousPage() . $filterParam
                     ) ?>
@@ -46,17 +46,17 @@
                         ) ?>
                     <?php endforeach; ?>
 
-                    <?php echo link_to(
+                    <?php echo sf_link_to(
                         image_tag(
                             sfConfig::get('sf_admin_web_dir') . '/images/next.png',
-                            array ('align' => 'absmiddle', 'alt' => __('Next'), 'title' => __('Next'))
+                            array ('align' => 'absmiddle', 'alt' => __s('Next'), 'title' => __s('Next'))
                         ),
                         'history/list?page=' . $pager->getNextPage() . $filterParam
                     ) ?>
-                    <?php echo link_to(
+                    <?php echo sf_link_to(
                         image_tag(
                             sfConfig::get('sf_admin_web_dir') . '/images/last.png',
-                            array ('align' => 'absmiddle', 'alt' => __('Last'), 'title' => __('Last'))
+                            array ('align' => 'absmiddle', 'alt' => __s('Last'), 'title' => __s('Last'))
                         ),
                         'history/list?page=' . $pager->getLastPage() . $filterParam
                     ) ?>

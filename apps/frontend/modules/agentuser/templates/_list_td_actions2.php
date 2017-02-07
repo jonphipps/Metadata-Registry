@@ -4,8 +4,8 @@
 ?>
 <td>
     <ul class="sf_admin_td_actions">
-        <li><?php echo link_to(image_tag('/jpAdminPlugin/images/show_icon.png',
-                                         [ 'alt' => __('show'), 'title' => __('show') ]),
+        <li><?php echo sf_link_to(image_tag('/jpAdminPlugin/images/show_icon.png',
+                                         [ 'alt' => __s('show'), 'title' => __s('show') ]),
                                'agentuser/show?id=' . $agent_has_user->getId()) ?></li>
         <li><?php if ($sf_user->hasObjectCredential($agent_has_user->getAgentId(),
                                                     'agent',
@@ -17,8 +17,8 @@
                                                     ]) && $agent_has_user->getUserId() != $sf_user->getAttribute('subscriber_id',
                                                                                                                  '',
                                                                                                                  'subscriber')
-            ): ?><?php echo link_to(image_tag('/jpAdminPlugin/images/edit_icon.png',
-                                              [ 'alt' => __('edit'), 'title' => __('edit') ]),
+            ): ?><?php echo sf_link_to(image_tag('/jpAdminPlugin/images/edit_icon.png',
+                                              [ 'alt' => __s('edit'), 'title' => __s('edit') ]),
                                     'agentuser/edit?id=' . $agent_has_user->getId()) ?><?php else: ?>
                 &nbsp;
             <?php endif; ?></li>
@@ -32,12 +32,12 @@
                                                     ]) && $agent_has_user->getUserId() != $sf_user->getAttribute('subscriber_id',
                                                                                                                  '',
                                                                                                                  'subscriber')
-            ): ?><?php echo link_to(image_tag('/jpAdminPlugin/images/delete_icon.png',
-                                              [ 'alt' => __('delete'), 'title' => __('delete') ]),
+            ): ?><?php echo sf_link_to(image_tag('/jpAdminPlugin/images/delete_icon.png',
+                                              [ 'alt' => __s('delete'), 'title' => __s('delete') ]),
                                     'agentuser/delete?id=' . $agent_has_user->getId(),
                                     [
                                         'post' => true,
-                                        'confirm' => __('Are you sure?'),
+                                        'confirm' => __s('Are you sure?'),
                                     ]) ?><?php else: ?>
                 &nbsp;
             <?php endif; ?></li>

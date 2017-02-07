@@ -3,10 +3,10 @@
 // date: 2014/03/29 19:52:50
 ?>
 <?php if ('edit' == $mode): ?>
-<?php $title = __('Detail for %%label%%',
+<?php $title = __s('Detail for %%label%%',
 array('%%label%%' => $schema_property->getLabel())); ?>
 <?php else: ?>
-<?php $title = __('Creating new ') . "schema_property"; ?>
+<?php $title = __s('Creating new ') . "schema_property"; ?>
 <?php endif;
   /** @var $sf_context sfContext */
   $sf_context->getResponse()->setTitle("The Registry! :: " . $title); ?>

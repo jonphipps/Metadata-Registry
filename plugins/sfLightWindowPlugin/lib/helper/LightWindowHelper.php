@@ -48,7 +48,7 @@ function lw_link($name = '', $internal_uri = '', $options = array())
     return content_tag('a', $name, $html_options);
   }
     
-  return link_to($name, $internal_uri, $html_options);
+  return sf_link_to($name, $internal_uri, $html_options);
 }
 
 function lw_image($name = '', $image_path = '', $options = array())

@@ -2,9 +2,9 @@
 <?php if ($sf_user->hasObjectCredential($schema_has_user->getSchemaId(), 'schema',  array (   0 =>    array (     0 => 'administrator',     1 => 'schemaadmin',     2 => 'agentadmin',   ), ))
   && $schema_has_user->getUserId() != $sf_user->getAttribute('subscriber_id','','subscriber')): ?>
 <li class="float-left-show"><?php if ($schema_has_user->getId()): ?>
-<?php echo button_to(__('Delete'), 'schemauser/delete?id='.$schema_has_user->getId(), array (
+<?php echo button_to(__s('Delete'), 'schemauser/delete?id='.$schema_has_user->getId(), array (
   'post' => true,
-  'confirm' => __('Are you sure?'),
+  'confirm' => __s('Are you sure?'),
   'title' => 'Delete',
   'class' => 'sf_admin_action_delete',
 )) ?><?php endif; ?>
@@ -12,7 +12,7 @@
  <?php endif; ?>
 <?php if ($sf_user->hasObjectCredential($schema_has_user->getSchemaId(), 'schema',  array (   0 =>    array (     0 => 'administrator',     1 => 'schemaadmin',     2 => 'agentadmin',     3 => 'schemamaintainer',  ), ))
  && $schema_has_user->getUserId() != $sf_user->getAttribute('subscriber_id','','subscriber')): ?>
-<li><?php echo button_to(__('Edit'), 'schemauser/edit?id='.$schema_has_user->getId(), array (
+<li><?php echo button_to(__s('Edit'), 'schemauser/edit?id='.$schema_has_user->getId(), array (
   'title' => 'Edit',
   'class' => 'sf_admin_action_edit',
 )) ?></li>
@@ -20,7 +20,7 @@
 <?php if ($sf_user->hasObjectCredential($schema_has_user->getSchemaId(), 'schema',  array (   0 =>    array (     0 => 'administrator',     1 => 'schemaadmin',     2 => 'agentadmin',   ), ))
 && count($sf_flash->get('newUsers', array()))): ?>
 <li><?php if ($schema_has_user->getId()): ?>
-<?php echo button_to(__('Add Maintainer'), 'schemauser/create', array (
+<?php echo button_to(__s('Add Maintainer'), 'schemauser/create', array (
   'title' => 'Create',
   'class' => 'sf_admin_action_create',
 )) ?><?php endif; ?>

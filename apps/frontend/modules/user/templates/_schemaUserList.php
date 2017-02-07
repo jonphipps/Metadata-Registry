@@ -8,7 +8,7 @@
 <?php foreach($users as $user): ?>
   <tr>
     <td>
-      <?php $objUser = $user->getUser(); echo link_to($objUser->getUser(), 'user/show?id=' . $objUser->getId()); ?>
+      <?php $objUser = $user->getUser(); echo sf_link_to($objUser->getUser(), 'user/show?id=' . $objUser->getId()); ?>
     </td>
     <td>
       <?php echo $user->getIsAdminFor() ? image_tag(sfConfig::get('sf_admin_web_dir').'/images/tick.png') : '&nbsp;' ?>

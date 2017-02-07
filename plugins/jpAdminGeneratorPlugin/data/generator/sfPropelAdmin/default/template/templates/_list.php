@@ -14,7 +14,7 @@ echo $this->getClassName() ?>  $<?php echo $this->getSingularName() ?> */
 <tr>
 [?php include_partial('list_th_<?php echo $this->getParameterValue('list.layout', 'tabular') ?>') ?]
 <?php if ($this->getParameterValue('list.object_actions')): ?>
-  <th id="sf_admin_list_th_sf_actions">[?php echo __('Actions') ?]</th>
+  <th id="sf_admin_list_th_sf_actions">[?php echo __s('Actions') ?]</th>
 <?php endif; ?>
 </tr>
 </thead>
@@ -36,15 +36,15 @@ if ($parents): ?>
   [?php endif; ?]
 <?php endforeach; ?>
 <?php endif; ?>
-  [?php echo link_to(image_tag(sfConfig::get('sf_admin_web_dir').'/images/first.png', array('alt' => __('First'), 'title' => __('First'))), '@' . $parent . '<?php echo $this->getModuleName() ?>_list?' .$filterParam, ['query_string' => '&page=1' . $sortParam]) ?]
-  [?php echo link_to(image_tag(sfConfig::get('sf_admin_web_dir').'/images/previous.png', array('alt' => __('Previous'), 'title' => __('Previous'))), '@' . $parent . '<?php echo $this->getModuleName() ?>_list?' .$filterParam, ['query_string' => '&page='.$pager->getPreviousPage() . $sortParam]) ?]
+  [?php echo sf_link_to(image_tag(sfConfig::get('sf_admin_web_dir').'/images/first.png', array('alt' => __s('First'), 'title' => __s('First'))), '@' . $parent . '<?php echo $this->getModuleName() ?>_list?' .$filterParam, ['query_string' => '&page=1' . $sortParam]) ?]
+  [?php echo sf_link_to(image_tag(sfConfig::get('sf_admin_web_dir').'/images/previous.png', array('alt' => __s('Previous'), 'title' => __s('Previous'))), '@' . $parent . '<?php echo $this->getModuleName() ?>_list?' .$filterParam, ['query_string' => '&page='.$pager->getPreviousPage() . $sortParam]) ?]
 
   [?php foreach ($pager->getLinks() as $page): ?]
     [?php echo link_to_unless($page == $pager->getPage(), $page, '@' . $parent . '<?php echo $this->getModuleName() ?>_list?' . $filterParam, ['query_string' => '&page=' . $page . $sortParam]) ?]
   [?php endforeach; ?]
 
-  [?php echo link_to(image_tag(sfConfig::get('sf_admin_web_dir').'/images/next.png', array('alt' => __('Next'), 'title' => __('Next'))), '@' . $parent . '<?php echo $this->getModuleName() ?>_list?' .$filterParam, ['query_string' => '&page='.$pager->getNextPage() . $sortParam]) ?]
-  [?php echo link_to(image_tag(sfConfig::get('sf_admin_web_dir').'/images/last.png', array('alt' => __('Last'), 'title' => __('Last'))), '@' . $parent . '<?php echo $this->getModuleName() ?>_list?' .$filterParam, ['query_string' => '&page='.$pager->getLastPage() . $sortParam]) ?]
+  [?php echo sf_link_to(image_tag(sfConfig::get('sf_admin_web_dir').'/images/next.png', array('alt' => __s('Next'), 'title' => __s('Next'))), '@' . $parent . '<?php echo $this->getModuleName() ?>_list?' .$filterParam, ['query_string' => '&page='.$pager->getNextPage() . $sortParam]) ?]
+  [?php echo sf_link_to(image_tag(sfConfig::get('sf_admin_web_dir').'/images/last.png', array('alt' => __s('Last'), 'title' => __s('Last'))), '@' . $parent . '<?php echo $this->getModuleName() ?>_list?' .$filterParam, ['query_string' => '&page='.$pager->getLastPage() . $sortParam]) ?]
 [?php endif; ?]
 </div>
 [?php echo format_number_choice('[0] no result|[1] 1 result|(1,+Inf] %1% results', array('%1%' => $pager->getNbResults()), $pager->getNbResults()) ?]

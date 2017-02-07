@@ -33,14 +33,14 @@ function object_admin_input_file_tag($object, $method, $options = array())
     if ($include_link = _get_option($options, 'include_link'))
     {
       $image_path = image_path('/'.sfConfig::get('sf_upload_dir_name').'/'.$include_link.'/'.$value);
-      $image_text = ($include_text = _get_option($options, 'include_text')) ? __($include_text) : __('[show file]');
+      $image_text = ($include_text = _get_option($options, 'include_text')) ? __s($include_text) : __s('[show file]');
 
       $html .= sprintf('<a onclick="window.open(this.href);return false;" href="%s">%s</a>', $image_path, $image_text)."\n";
     }
 
     if ($include_remove = _get_option($options, 'include_remove'))
     {
-      $html .= checkbox_tag(strpos($name, ']') !== false ? substr($name, 0, -1).'_remove]' : $name).' '.($include_remove !== true ? __($include_remove) : __('remove file'))."\n";
+      $html .= checkbox_tag(strpos($name, ']') !== false ? substr($name, 0, -1).'_remove]' : $name).' '.($include_remove !== true ? __s($include_remove) : __s('remove file'))."\n";
     }
   }
 
@@ -57,8 +57,8 @@ function object_admin_double_list($object, $method, $options = array(), $callbac
   {
     $options['size'] = 10;
   }
-  $label_all   = __(isset($options['unassociated_label']) ? $options['unassociated_label'] : 'Unassociated');
-  $label_assoc = __(isset($options['associated_label'])   ? $options['associated_label']   : 'Associated');
+  $label_all   = __s(isset($options['unassociated_label']) ? $options['unassociated_label'] : 'Unassociated');
+  $label_assoc = __s(isset($options['associated_label'])   ? $options['associated_label']   : 'Associated');
 
   // get the lists of objects
   list($all_objects, $objects_associated, $associated_ids) = _get_object_list($object, $method, $options, $callback);

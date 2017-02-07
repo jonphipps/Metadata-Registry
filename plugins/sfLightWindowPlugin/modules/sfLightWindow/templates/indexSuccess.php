@@ -3,7 +3,7 @@
 <div class="page-body">
 
 	<h1 style="color: #FFFFFF;">LightWindow v2.0 <span style="font-size:14px">Now with sfLightWindowPlugin for Symfony!</span></h1>
-	<p>This is a port of the original demo used with <?php echo link_to('LightWindow v2.0', 'http://stickmanlabs.com/lightwindow') ?>. If you look at the source you will see it uses the symfony helpers to do all the work. It's amazingly simple to add these great effects to your site.</p>
+	<p>This is a port of the original demo used with <?php echo sf_link_to('LightWindow v2.0', 'http://stickmanlabs.com/lightwindow') ?>. If you look at the source you will see it uses the symfony helpers to do all the work. It's amazingly simple to add these great effects to your site.</p>
 	<p><small>Changes from original LightWindow v2.0</small> The sfLightWindowPlugin uses a slightly altered lightwindow.js source. The only changes made were to the path of the image files, and the option of using an improved inline form handler, found in the last two methods <span>_lwUpdateWithResponse</span> and <span>_lwSingleFormCall</span>.</p>
 	<p><small>Requirements</small> LightWindow v2.0 requires at least prototype 1.5.1.1 and scriptaculous > v1.7.1. These are included with the plugin, but you can customize the location of this files in sfLightWindowPlugin/config/config.php.</p>
 	<p><small>Notes</small> Due to the size of some of the sample content, it is best that your browser window is larger than 800px for these demos. </p>

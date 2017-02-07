@@ -24,7 +24,7 @@ $atom['title'] = "Atom 1.0 History Feed";
 ?>
 <ul class="sf_admin_actions">
   <li>
-    <?php echo link_to('rss2', $rss['link'], array(
+    <?php echo sf_link_to('rss2', $rss['link'], array(
       "rel"   => "alternate",
       "type"  => "application/rss+xml",
       "class" => "sf_admin_action_feed",
@@ -32,7 +32,7 @@ $atom['title'] = "Atom 1.0 History Feed";
     ?>
   </li>
   <li>
-    <?php echo link_to('rss1', $rdf['link'], array(
+    <?php echo sf_link_to('rss1', $rdf['link'], array(
       "rel"   => "alternate",
       "type"  => "application/rdf+xml",
       "class" => "sf_admin_action_feed",
@@ -40,7 +40,7 @@ $atom['title'] = "Atom 1.0 History Feed";
     ?>
   </li>
   <li>
-    <?php echo link_to('atom', $atom['link'], array(
+    <?php echo sf_link_to('atom', $atom['link'], array(
       "rel"   => "alternate",
       "type"  => "application/atom+xml",
       "class" => "sf_admin_action_feed",

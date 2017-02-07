@@ -106,7 +106,7 @@ class DbFinderAdminGenerator extends sfGenerator
     
     $phpOptions = var_export($options, true); 
     
-    return '[?php echo content_tag(\'option\', __(\''.$name.'\')'.($options ? ', '.$phpOptions : '').') ?]'; 
+    return '[?php echo content_tag(\'option\', __s(\''.$name.'\')'.($options ? ', '.$phpOptions : '').') ?]';
   }
   
   public function __call($method, $arguments)

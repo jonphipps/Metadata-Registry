@@ -1,23 +1,23 @@
 <?php use_helper('Global', 'Javascript') ?>
 
 <div id="add_question">
-  <?php echo link_to_login(__('ask a new question'), '@add_question') ?>
+  <?php echo link_to_login(__s('ask a new question'), '@add_question') ?>
 </div>
 
-<h2><?php echo __('find it') ?></h2>
+<h2><?php echo __s('find it') ?></h2>
 <?php echo include_partial('question/search') ?>
 
-<h2><?php echo __('browse the Registry') ?></h2>
+<h2><?php echo __s('browse the Registry') ?></h2>
 <?php echo include_partial('sidebar/rss_links') ?>
 
-<h2><?php echo __('question tags') ?></h2>
+<h2><?php echo __s('question tags') ?></h2>
 
 <ul id="question_tags">
   <?php echo include_partial('tag/question_tags', array('question' => $question, 'tags' => $question->getTags())) ?>
 </ul>
 
 <?php if ($sf_user->isAuthenticated()): ?>
-  <div><?php echo __('add your own:') ?>
+  <div><?php echo __s('add your own:') ?>
   <?php echo form_remote_tag(array(
     'url'      => '@tag_add',
     'update'   => 'question_tags',
