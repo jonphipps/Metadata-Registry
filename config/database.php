@@ -3,28 +3,17 @@
 return [
 
   /*
-  |--------------------------------------------------------------------------
-  | PDO Fetch Style
-  |--------------------------------------------------------------------------
-  |
-  | By default, database results will be returned as instances of the PHP
-  | stdClass object; however, you may desire to retrieve records in an
-  | array format for simplicity. Here you can tweak the fetch style.
-  |
-  */
+    |--------------------------------------------------------------------------
 
-    'fetch' => PDO::FETCH_OBJ,
 
-  /*
-  |--------------------------------------------------------------------------
-  | Default Database Connection Name
-  |--------------------------------------------------------------------------
-  |
-  | Here you may specify which of the database connections below you wish
-  | to use as your default connection for all database work. Of course
-  | you may use many connections at once using the Database library.
-  |
-  */
+    | Default Database Connection Name
+    |--------------------------------------------------------------------------
+    |
+    | Here you may specify which of the database connections below you wish
+    | to use as your default connection for all database work. Of course
+    | you may use many connections at once using the Database library.
+    |
+    */
 
     'default' => env('DB_CONNECTION', 'mysql'),
 
@@ -48,7 +37,7 @@ return [
 
         'sqlite' => [
             'driver'   => 'sqlite',
-            'database' => database_path('database.sqlite'),
+            'database' => env('DB_DATABASE', database_path('database.sqlite')),
             'prefix'   => '',
         ],
 
@@ -94,7 +83,7 @@ return [
 
         'pgsql' => [
             'driver'   => 'pgsql',
-            'host'     => env('DB_HOST', 'localhost'),
+            'host'     => env('DB_HOST', '127.0.0.1'),
             'port'     => env('DB_PORT', '5432'),
             'database' => env('DB_DATABASE', 'forge'),
             'username' => env('DB_USERNAME', 'forge'),
@@ -133,7 +122,7 @@ return [
 
     'redis' => [
 
-        'cluster' => false,
+        'client' => 'predis',
 
         'default' => [
             'host'     => env('REDIS_HOST', '127.0.0.1'),

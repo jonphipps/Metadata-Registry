@@ -44,6 +44,7 @@ class CreateRegUserTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('reg_user');
+        Schema::disableForeignKeyConstraints();
+        Schema::dropIfExists('users');
     }
 }
