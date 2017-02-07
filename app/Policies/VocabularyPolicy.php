@@ -49,7 +49,9 @@ class VocabularyPolicy
             },
             $conn->listTableForeignKeys($table)
         );
-    }pdate the vocabulary.
+    }
+
+   /** update the vocabulary.
     *
     * @param  User $user
     * @param  Vocabulary $vocabulary
