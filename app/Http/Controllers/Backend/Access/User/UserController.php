@@ -37,7 +37,7 @@ class UserController extends Controller
   }
 
 
-  /**
+	/**
    * @param ManageUserRequest $request
    *
    * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
@@ -48,7 +48,7 @@ class UserController extends Controller
   }
 
 
-  /**
+	/**
    * @param ManageUserRequest $request
    *
    * @return mixed
@@ -59,7 +59,7 @@ class UserController extends Controller
   }
 
 
-  /**
+	/**
    * @param StoreUserRequest $request
    *
    * @return mixed
@@ -75,19 +75,19 @@ class UserController extends Controller
   }
 
 
-  /**
-   * @param User $user
-   * @param ManageUserRequest $request
+	/**
+	 * @param User $user
+	 * @param ManageUserRequest $request
    *
-   * @return mixed
-   */
+	 * @return mixed
+	 */
   public function show(User $user, ManageUserRequest $request)
   {
     return view('backend.access.show')->withUser($user);
-  }
+	}
 
 
-  /**
+	/**
    * @param User $user
    * @param ManageUserRequest $request
    *
@@ -102,7 +102,7 @@ class UserController extends Controller
   }
 
 
-  /**
+	/**
    * @param User $user
    * @param UpdateUserRequest $request
    *
@@ -117,7 +117,7 @@ class UserController extends Controller
   }
 
 
-  /**
+	/**
    * @param User $user
    * @param ManageUserRequest $request
    *

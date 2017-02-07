@@ -14,7 +14,8 @@ class CreateRegSchemaTable extends Migration
      */
     public function up()
     {
-        Schema::create('reg_schema',
+        Schema::create(
+            'reg_schema',
             function (Blueprint $table) {
                 $table->integer('id', true);
                 $table->integer('agent_id')->index('agent_id');
@@ -40,7 +41,8 @@ class CreateRegSchemaTable extends Migration
                 $table->text('prefixes', 65535)->nullable();
                 $table->text('languages', 65535)->nullable();
                 $table->string('repo')->nullable();
-            });
+            }
+        );
     }
 
 
@@ -53,5 +55,4 @@ class CreateRegSchemaTable extends Migration
     {
         Schema::drop('reg_schema');
     }
-
 }

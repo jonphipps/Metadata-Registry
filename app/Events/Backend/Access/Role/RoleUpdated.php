@@ -11,18 +11,18 @@ use Illuminate\Queue\SerializesModels;
  */
 class RoleUpdated extends Event
 {
-	use SerializesModels;
+    use SerializesModels;
 
-	/**
-	 * @var $role
-	 */
-	public $role;
+    /**
+     * @var $role
+     */
+    public $role;
 
-	/**
-	 * @param $role
-	 */
-	public function __construct($role)
-	{
-		$this->role = $role;
-	}
+    /**
+     * @param $role
+     */
+    public function __construct($role)
+    {
+        $this->role = $role;
+    }
 }

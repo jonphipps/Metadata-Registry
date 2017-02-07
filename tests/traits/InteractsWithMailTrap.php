@@ -22,22 +22,22 @@ trait InteractsWithMailTrap
   /**
    * @var \GuzzleHttp\Client
    */
-  protected $client;
+    protected $client;
 
   /**
    * @var string
    */
-  protected $mailtrapBaseUrl = 'https://mailtrap.io/api/v1/';
+    protected $mailtrapBaseUrl = 'https://mailtrap.io/api/v1/';
 
   /**
    * @var array
    */
-  protected $config = [ 'client_id' => null, 'inbox_id' => null, 'cleanup' => true ];
+    protected $config = [ 'client_id' => null, 'inbox_id' => null, 'cleanup' => true ];
 
   /**
    * @var array
    */
-  protected $requiredFields = [ 'client_id', 'inbox_id' ];
+    protected $requiredFields = [ 'client_id', 'inbox_id' ];
 
 
   /**
@@ -45,18 +45,18 @@ trait InteractsWithMailTrap
    *
    * @return void
    */
-  public function _initializeClient()
-  {
-    $this->config['client_id']=env('MAILTRAP_API_KEY');
-    $this->config['inbox_id']=env('MAILTRAP_INBOX_ID');
+    public function _initializeClient()
+    {
+        $this->config['client_id']=env('MAILTRAP_API_KEY');
+        $this->config['inbox_id']=env('MAILTRAP_INBOX_ID');
 
-    $this->client = new Client([
+        $this->client = new Client([
         'base_uri' => $this->mailtrapBaseUrl,
         'headers'  => [
             'Api-Token' => $this->config['client_id'],
         ],
-    ]);
-  }
+        ]);
+    }
 
 
 
@@ -65,10 +65,10 @@ trait InteractsWithMailTrap
    *
    * @return void
    */
-  public function cleanInbox()
-  {
-    $this->client->patch("inboxes/{$this->config['inbox_id']}/clean");
-  }
+    public function cleanInbox()
+    {
+        $this->client->patch("inboxes/{$this->config['inbox_id']}/clean");
+    }
 
 
   /**
@@ -78,14 +78,14 @@ trait InteractsWithMailTrap
    *
    * @return mixed
    */
-  public function receivedAnEmail($params)
-  {
-    $message = $this->fetchLastMessage();
+    public function receivedAnEmail($params)
+    {
+        $message = $this->fetchLastMessage();
 
-    foreach ($params as $param => $value) {
-      $this->assertEquals($value, $message[$param]);
+        foreach ($params as $param => $value) {
+            $this->assertEquals($value, $message[$param]);
+        }
     }
-  }
 
 
   /**
@@ -93,18 +93,18 @@ trait InteractsWithMailTrap
    *
    * @return array
    */
-  public function fetchLastMessage()
-  {
-    $messages = $this->client->get("inboxes/{$this->config['inbox_id']}/messages")
+    public function fetchLastMessage()
+    {
+        $messages = $this->client->get("inboxes/{$this->config['inbox_id']}/messages")
                              ->getBody();
-    if ($messages instanceof Stream) {
-      $messages = $messages->getContents();
+        if ($messages instanceof Stream) {
+            $messages = $messages->getContents();
+        }
+
+        $messages = json_decode($messages, true);
+
+        return array_shift($messages);
     }
-
-    $messages = json_decode($messages, true);
-
-    return array_shift($messages);
-  }
 
 
   /**
@@ -112,14 +112,14 @@ trait InteractsWithMailTrap
    *
    * @return array
    */
-  public function fetchAttachmentsOfLastMessage()
-  {
-    $email    = $this->fetchLastMessage();
-    $response = $this->client->get("inboxes/{$this->config['inbox_id']}/messages/{$email['id']}/attachments")
+    public function fetchAttachmentsOfLastMessage()
+    {
+        $email    = $this->fetchLastMessage();
+        $response = $this->client->get("inboxes/{$this->config['inbox_id']}/messages/{$email['id']}/attachments")
                              ->getBody();
 
-    return json_decode($response, true);
-  }
+        return json_decode($response, true);
+    }
 
 
   /**
@@ -129,11 +129,11 @@ trait InteractsWithMailTrap
    *
    * @return mixed
    */
-  public function receivedAnEmailFromEmail($senderEmail)
-  {
-    $message = $this->fetchLastMessage();
-    $this->assertEquals($senderEmail, $message['from_email']);
-  }
+    public function receivedAnEmailFromEmail($senderEmail)
+    {
+        $message = $this->fetchLastMessage();
+        $this->assertEquals($senderEmail, $message['from_email']);
+    }
 
 
   /**
@@ -143,11 +143,11 @@ trait InteractsWithMailTrap
    *
    * @return mixed
    */
-  public function receivedAnEmailFromName($senderName)
-  {
-    $message = $this->fetchLastMessage();
-    $this->assertEquals($senderName, $message['from_name']);
-  }
+    public function receivedAnEmailFromName($senderName)
+    {
+        $message = $this->fetchLastMessage();
+        $this->assertEquals($senderName, $message['from_name']);
+    }
 
 
   /**
@@ -157,11 +157,11 @@ trait InteractsWithMailTrap
    *
    * @return mixed
    */
-  public function receivedAnEmailToEmail($recipientEmail)
-  {
-    $message = $this->fetchLastMessage();
-    $this->assertEquals($recipientEmail, $message['to_email']);
-  }
+    public function receivedAnEmailToEmail($recipientEmail)
+    {
+        $message = $this->fetchLastMessage();
+        $this->assertEquals($recipientEmail, $message['to_email']);
+    }
 
 
   /**
@@ -171,11 +171,11 @@ trait InteractsWithMailTrap
    *
    * @return mixed
    */
-  public function receivedAnEmailToName($recipientName)
-  {
-    $message = $this->fetchLastMessage();
-    $this->assertEquals($recipientName, $message['to_name']);
-  }
+    public function receivedAnEmailToName($recipientName)
+    {
+        $message = $this->fetchLastMessage();
+        $this->assertEquals($recipientName, $message['to_name']);
+    }
 
 
   /**
@@ -185,11 +185,11 @@ trait InteractsWithMailTrap
    *
    * @return mixed
    */
-  public function receivedAnEmailWithSubject($subject)
-  {
-    $message = $this->fetchLastMessage();
-    $this->assertEquals($subject, $message['subject']);
-  }
+    public function receivedAnEmailWithSubject($subject)
+    {
+        $message = $this->fetchLastMessage();
+        $this->assertEquals($subject, $message['subject']);
+    }
 
 
   /**
@@ -199,11 +199,11 @@ trait InteractsWithMailTrap
    *
    * @return mixed
    */
-  public function receivedAnEmailWithTextBody($textBody)
-  {
-    $message = $this->fetchLastMessage();
-    $this->assertEquals($textBody, $message['text_body']);
-  }
+    public function receivedAnEmailWithTextBody($textBody)
+    {
+        $message = $this->fetchLastMessage();
+        $this->assertEquals($textBody, $message['text_body']);
+    }
 
 
   /**
@@ -213,11 +213,11 @@ trait InteractsWithMailTrap
    *
    * @return mixed
    */
-  public function receivedAnEmailWithHtmlBody($htmlBody)
-  {
-    $message = $this->fetchLastMessage();
-    $this->assertEquals($htmlBody, $message['html_body']);
-  }
+    public function receivedAnEmailWithHtmlBody($htmlBody)
+    {
+        $message = $this->fetchLastMessage();
+        $this->assertEquals($htmlBody, $message['html_body']);
+    }
 
 
   /**
@@ -227,11 +227,11 @@ trait InteractsWithMailTrap
    *
    * @return mixed
    */
-  public function seeInEmailTextBody($expected)
-  {
-    $email = $this->fetchLastMessage();
-    $this->assertContains($expected, $email['text_body'], 'Email body contains text');
-  }
+    public function seeInEmailTextBody($expected)
+    {
+        $email = $this->fetchLastMessage();
+        $this->assertContains($expected, $email['text_body'], 'Email body contains text');
+    }
 
 
   /**
@@ -241,11 +241,11 @@ trait InteractsWithMailTrap
    *
    * @return mixed
    */
-  public function seeInEmailHtmlBody($expected)
-  {
-    $email = $this->fetchLastMessage();
-    $this->assertContains($expected, $email['html_body'], 'Email body contains HTML');
-  }
+    public function seeInEmailHtmlBody($expected)
+    {
+        $email = $this->fetchLastMessage();
+        $this->assertContains($expected, $email['html_body'], 'Email body contains HTML');
+    }
 
 
   /**
@@ -253,12 +253,12 @@ trait InteractsWithMailTrap
    *
    * @param $count
    */
-  public function seeAttachments($count)
-  {
-    $attachments = $this->fetchAttachmentsOfLastMessage();
+    public function seeAttachments($count)
+    {
+        $attachments = $this->fetchAttachmentsOfLastMessage();
 
-    $this->assertEquals($count, count($attachments));
-  }
+        $this->assertEquals($count, count($attachments));
+    }
 
 
   /**
@@ -266,11 +266,10 @@ trait InteractsWithMailTrap
    *
    * @param $bool
    */
-  public function seeAnAttachment($bool)
-  {
-    $attachments = $this->fetchAttachmentsOfLastMessage();
+    public function seeAnAttachment($bool)
+    {
+        $attachments = $this->fetchAttachmentsOfLastMessage();
 
-    $this->assertEquals($bool, count($attachments) > 0);
-  }
-
+        $this->assertEquals($bool, count($attachments) > 0);
+    }
 }

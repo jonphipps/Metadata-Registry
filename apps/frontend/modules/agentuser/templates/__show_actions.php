@@ -14,11 +14,11 @@
                                                                                                       '',
                                                                                                       'subscriber')
  ): ?>
-  <li class="float-left-show"><?php if ($agent_has_user->getId()): ?><?php echo button_to(__('Delete'),
+  <li class="float-left-show"><?php if ($agent_has_user->getId()): ?><?php echo button_to(__s('Delete'),
                                                                                           'agentuser/delete?id=' . $agent_has_user->getId(),
                                                                                           [
                                                                                               'post' => true,
-                                                                                              'confirm' => __('Are you sure?'),
+                                                                                              'confirm' => __s('Are you sure?'),
                                                                                               'title' => 'Delete',
                                                                                               'class' => 'sf_admin_action_delete',
                                                                                           ]) ?><?php endif; ?>
@@ -35,7 +35,7 @@
                                                                                                       '',
                                                                                                       'subscriber')
  ): ?>
-  <li><?php echo button_to(__('Edit'),
+  <li><?php echo button_to(__s('Edit'),
                            'agentuser/edit?id=' . $agent_has_user->getId(),
                            [
                                'title' => 'Edit',
@@ -53,7 +53,7 @@
                                                                                                       '',
                                                                                                       'subscriber')
  ): ?>
-  <li><?php if ($agent_has_user->getId()): ?><?php echo button_to(__('Add Member'),
+  <li><?php if ($agent_has_user->getId()): ?><?php echo button_to(__s('Add Member'),
                                                                   'agentuser/create',
                                                                   [
                                                                       'title' => 'Create',

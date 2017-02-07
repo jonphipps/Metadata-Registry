@@ -72,11 +72,11 @@ function url_for($internal_uri, $absolute = false)
  *
  * <b>Examples:</b>
  * <code>
- *  echo link_to('Delete this page', 'my_module/my_action');
+ *  echo sf_link_to('Delete this page', 'my_module/my_action');
  *    => <a href="/path/to/my/action">Delete this page</a>
- *  echo link_to('Visit Hoogle', 'http://www.hoogle.com');
+ *  echo sf_link_to('Visit Hoogle', 'http://www.hoogle.com');
  *    => <a href="http://www.hoogle.com">Visit Hoogle</a>
- *  echo link_to('Delete this page', 'my_module/my_action', array('id' => 'myid', 'confirm' => 'Are you sure?', 'absolute' => true));
+ *  echo sf_link_to('Delete this page', 'my_module/my_action', array('id' => 'myid', 'confirm' => 'Are you sure?', 'absolute' => true));
  *    => <a href="http://myapp.example.com/path/to/my/action" id="myid" onclick="return confirm('Are you sure?');">Delete this page</a>
  * </code>
  *
@@ -89,7 +89,7 @@ function url_for($internal_uri, $absolute = false)
  * @return string XHTML compliant <a href> tag
  * @see    url_for
  */
-function link_to($name = '', $internal_uri = '', $options = array())
+function sf_link_to($name = '', $internal_uri = '', $options = array())
 {
   $html_options = _parse_attributes($options);
 
@@ -162,7 +162,7 @@ function link_to($name = '', $internal_uri = '', $options = array())
  * @param  string $internal_uri 'module/action' or '@rule' of the action
  * @param  array $options additional HTML compliant <a> tag parameters
  * @return string XHTML compliant <a href> tag or name
- * @see    link_to
+ * @see    sf_link_to
  */
 function link_to_if($condition, $name = '', $internal_uri = '', $options = array())
 {
@@ -170,7 +170,7 @@ function link_to_if($condition, $name = '', $internal_uri = '', $options = array
   if ($condition)
   {
     unset($html_options['tag']);
-    return link_to($name, $internal_uri, $html_options);
+    return sf_link_to($name, $internal_uri, $html_options);
   }
   else
   {
@@ -211,7 +211,7 @@ function link_to_if($condition, $name = '', $internal_uri = '', $options = array
  * @param  string $url 'module/action' or '@rule' of the action
  * @param  array $options additional HTML compliant <a> tag parameters
  * @return string XHTML compliant <a href> tag or name
- * @see    link_to
+ * @see    sf_link_to
  */
 function link_to_unless($condition, $name = '', $url = '', $options = array())
 {
@@ -221,7 +221,7 @@ function link_to_unless($condition, $name = '', $url = '', $options = array())
 /**
  * Creates an <input> button tag of the given name pointing to a routed URL
  * based on the module/action passed as argument and the routing configuration.
- * The syntax is similar to the one of link_to.
+ * The syntax is similar to the one of sf_link_to.
  *
  * <b>Options:</b>
  * - 'absolute' - if set to true, the helper outputs an absolute URL
@@ -242,7 +242,7 @@ function link_to_unless($condition, $name = '', $url = '', $options = array())
  *
  * @return string XHTML compliant <input> tag
  * @throws sfConfigurationException
- * @see    url_for, link_to
+ * @see    url_for, sf_link_to
  */
 function button_to($name, $internal_uri ='', $options = array())
 {
@@ -312,7 +312,7 @@ function button_to($name, $internal_uri ='', $options = array())
  * @param array $default_value
  *
  * @return string XHTML compliant <a href> tag
- * @see    link_to
+ * @see    sf_link_to
  */
 function mail_to($email, $name = '', $options = array(), $default_value = array())
 {

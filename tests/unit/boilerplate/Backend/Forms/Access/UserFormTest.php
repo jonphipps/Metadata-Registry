@@ -1,5 +1,7 @@
 <?php
 
+namespace Tests\unit\boilerplate\Backend\Forms\Access;
+
 use App\Models\Access\User\User;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Notification;
@@ -14,45 +16,47 @@ use App\Notifications\Frontend\Auth\UserNeedsConfirmation;
  */
 class UserFormTest extends TestCase
 {
-	public function testCreateUserRequiredFields() {
-		$this->actingAs($this->admin)
-			->visit('/admin/access/user/create')
-			->type('', 'name')
-			->type('', 'email')
-			->type('', 'password')
-			->type('', 'password_confirmation')
-			->press('Create')
-			->see('The name field is required.')
-			->see('The email field is required.')
-			->see('The password field is required.');
-	}
+    public function testCreateUserRequiredFields()
+    {
+        $this->actingAs($this->admin)
+            ->visit('/admin/access/user/create')
+            ->type('', 'name')
+            ->type('', 'email')
+            ->type('', 'password')
+            ->type('', 'password_confirmation')
+            ->press('Create')
+            ->see('The name field is required.')
+            ->see('The email field is required.')
+            ->see('The password field is required.');
+    }
 
-	public function testCreateUserPasswordsDoNotMatch() {
-		$this->actingAs($this->admin)
-			->visit('/admin/access/user/create')
-			->type('Test User', 'name')
-			->type('test@test.com', 'email')
-			->type('123456', 'password')
-			->type('1234567', 'password_confirmation')
-			->press('Create')
-			->see('The password confirmation does not match.');
-	}
+    public function testCreateUserPasswordsDoNotMatch()
+    {
+        $this->actingAs($this->admin)
+            ->visit('/admin/access/user/create')
+            ->type('Test User', 'name')
+            ->type('test@test.com', 'email')
+            ->type('123456', 'password')
+            ->type('1234567', 'password_confirmation')
+            ->press('Create')
+            ->see('The password confirmation does not match.');
+    }
 
 
-  public function testCreateUserConfirmedForm()
-  {
-    // Make sure our events are fired
-    Event::fake();
+    public function testCreateUserConfirmedForm()
+    {
+        // Make sure our events are fired
+        Event::fake();
 
-    // Create any needed resources
-    $faker         = Faker\Factory::create();
-    $name          = $faker->name;
-    $email         = $faker->safeEmail;
-    $password      = $faker->password(8);
-    $userTable     = config('access.users_table');
-    $roleUserTable = config('access.role_user_table');
+        // Create any needed resources
+        $faker         = Faker\Factory::create();
+        $name          = $faker->name;
+        $email         = $faker->safeEmail;
+        $password      = $faker->password(8);
+        $userTable     = config('access.users_table');
+        $roleUserTable = config('access.role_user_table');
 
-    $this->actingAs($this->admin)
+        $this->actingAs($this->admin)
          ->visit('/admin/access/user/create')
          ->type($name, 'name')
          ->type($email, 'email')
@@ -66,31 +70,31 @@ class UserFormTest extends TestCase
          ->press('Create')
          ->seePageIs('/admin/access/user')
          ->see('The user was successfully created.')
-         ->seeInDatabase($userTable, [ 'name' => $name, 'email' => $email, 'status' => 1, 'confirmed' => 1 ]);
-    $latestId = App\Models\Access\User\User::orderby('created_at', 'desc')
+         ->assertDatabaseHas($userTable, [ 'name' => $name, 'email' => $email, 'status' => 1, 'confirmed' => 1 ]);
+        $latestId = App\Models\Access\User\User::orderby('created_at', 'desc')
                                            ->first()->id;
-    $this->seeInDatabase($roleUserTable, [ 'user_id' => $latestId, 'role_id' => 2 ])
-         ->seeInDatabase($roleUserTable, [ 'user_id' => $latestId, 'role_id' => 3 ]);
+        $this->assertDatabaseHas($roleUserTable, [ 'user_id' => $latestId, 'role_id' => 2 ])
+         ->assertDatabaseHas($roleUserTable, [ 'user_id' => $latestId, 'role_id' => 3 ]);
 
-    Event::assertFired(UserCreated::class);
-  }
+        Event::assertDispatched(UserCreated::class);
+    }
 
 
-  public function testCreateUserUnconfirmedForm()
-  {
-    // Make sure our events are fired
-    Event::fake();
+    public function testCreateUserUnconfirmedForm()
+    {
+        // Make sure our events are fired
+        Event::fake();
 
-    // Make sure our notifications are sent
-    Notification::fake();
+        // Make sure our notifications are sent
+        Notification::fake();
 
-    // Create any needed resources
-    $faker    = Faker\Factory::create();
-    $name     = $faker->name;
-    $email    = $faker->safeEmail;
-    $password = $faker->password(8);
+        // Create any needed resources
+        $faker    = Faker\Factory::create();
+        $name     = $faker->name;
+        $email    = $faker->safeEmail;
+        $password = $faker->password(8);
 
-    $this->actingAs($this->admin)
+        $this->actingAs($this->admin)
          ->visit('/admin/access/user/create')
          ->type($name, 'name')
          ->type($email, 'email')
@@ -104,131 +108,141 @@ class UserFormTest extends TestCase
          ->press('Create')
          ->seePageIs('/admin/access/user')
          ->see('The user was successfully created.')
-         ->seeInDatabase($this->userTable, [ 'name' => $name, 'email' => $email, 'status' => 1, 'confirmed' => 0 ]);
-    $latestId = App\Models\Access\User\User::orderby('created_at', 'desc')
+         ->assertDatabaseHas($this->userTable, [ 'name' => $name, 'email' => $email, 'status' => 1, 'confirmed' => 0 ]);
+        $latestId = App\Models\Access\User\User::orderby('created_at', 'desc')
                                            ->first()->id;
-    $this->seeInDatabase($this->roleUserTable, [ 'user_id' => $latestId, 'role_id' => 2 ])
-         ->seeInDatabase($this->roleUserTable, [ 'user_id' => $latestId, 'role_id' => 3 ]);
+        $this->assertDatabaseHas($this->roleUserTable, [ 'user_id' => $latestId, 'role_id' => 2 ])
+         ->assertDatabaseHas($this->roleUserTable, [ 'user_id' => $latestId, 'role_id' => 3 ]);
 
-    // Get the user that was inserted into the database
-    $user = User::where('email', $email)
+        // Get the user that was inserted into the database
+        $user = User::where('email', $email)
                 ->first();
 
-    // Check that the user was sent the confirmation email
-    Notification::assertSentTo([ $user ],
-        UserNeedsConfirmation::class);
+        // Check that the user was sent the confirmation email
+        Notification::assertSentTo(
+            [ $user ],
+            UserNeedsConfirmation::class
+        );
 
-    Event::assertFired(UserCreated::class);
-  }
+        Event::assertDispatched(UserCreated::class);
+    }
 
 
-  public function testCreateUserFailsIfNameExists()
-  {
-//    $this->markTestSkipped('Must be revisited:');
-    $this->actingAs($this->admin)
+    public function testCreateUserFailsIfNameExists()
+    {
+    //    $this->markTestSkipped('Must be revisited:');
+        $this->actingAs($this->admin)
         ->visit('/admin/access/user/create')
         ->type('defaultuser', 'name')
         ->type('user@user.com', 'email')
         ->type('123456', 'password')
         ->type('123456', 'password_confirmation')
         ->check('assignees_roles[3]');
-    $this->press('Create');
-    $this->seePageIs('/admin/access/user/create')
+        $this->press('Create');
+        $this->seePageIs('/admin/access/user/create')
         ->see('The name has already been taken.');
-  }
+    }
 
-	public function testUpdateUserRequiredFields() {
-		$this->actingAs($this->admin)
-			->visit('/admin/access/user/3/edit')
-			->type('', 'name')
-			->type('', 'email')
-			->press('Update')
-			->see('The name field is required.')
-			->see('The email field is required.');
-	}
+    public function testUpdateUserRequiredFields()
+    {
+        $this->actingAs($this->admin)
+            ->visit('/admin/access/user/3/edit')
+            ->type('', 'name')
+            ->type('', 'email')
+            ->press('Update')
+            ->see('The name field is required.')
+            ->see('The email field is required.');
+    }
 
-	public function testUpdateUserForm() {
-		// Make sure our events are fired
-		Event::fake();
+    public function testUpdateUserForm()
+    {
+        // Make sure our events are fired
+        Event::fake();
 
-		$this->actingAs($this->admin)
-			->visit('/admin/access/user/'.$this->user->id.'/edit')
-			->see($this->user->name)
-			->see($this->user->email)
-			->type('User New', 'name')
-			->type('user2@user.com', 'email')
-			->uncheck('status')
-			->uncheck('confirmed')
-			->check('assignees_roles[2]')
-			->uncheck('assignees_roles[3]')
-			->press('Update')
-			->seePageIs('/admin/access/user')
-			->see('The user was successfully updated.')
-			->seeInDatabase($this->userTable, ['id' => $this->user->id, 'name' => 'User New', 'email' => 'user2@user.com', 'status' => 0, 'confirmed' => 0])
-			->seeInDatabase($this->roleUserTable, ['user_id' => $this->user->id, 'role_id' => 2])
-			->notSeeInDatabase($this->roleUserTable, ['user_id' => $this->user->id, 'role_id' => 3]);
+        $this->actingAs($this->admin)
+            ->visit('/admin/access/user/'.$this->user->id.'/edit')
+            ->see($this->user->name)
+            ->see($this->user->email)
+            ->type('User New', 'name')
+            ->type('user2@user.com', 'email')
+            ->uncheck('status')
+            ->uncheck('confirmed')
+            ->check('assignees_roles[2]')
+            ->uncheck('assignees_roles[3]')
+            ->press('Update')
+            ->seePageIs('/admin/access/user')
+            ->see('The user was successfully updated.')
+            ->assertDatabaseHas($this->userTable, ['id' => $this->user->id, 'name' => 'User New', 'email' => 'user2@user.com', 'status' => 0, 'confirmed' => 0])
+            ->assertDatabaseHas($this->roleUserTable, ['user_id' => $this->user->id, 'role_id' => 2])
+            ->notSeeInDatabase($this->roleUserTable, ['user_id' => $this->user->id, 'role_id' => 3]);
 
-		Event::assertFired(UserUpdated::class);
-	}
+        Event::assertDispatched(UserUpdated::class);
+    }
 
-	public function testDeleteUserForm() {
-		// Make sure our events are fired
-		Event::fake();
+    public function testDeleteUserForm()
+    {
+        // Make sure our events are fired
+        Event::fake();
 
-		$this->actingAs($this->admin)
-			->delete('/admin/access/user/'.$this->user->id)
-			->assertRedirectedTo('/admin/access/user/deleted')
-			->notSeeInDatabase($this->userTable, ['id' => $this->user->id, 'deleted_at' => null]);
+        $this->actingAs($this->admin)
+            ->delete('/admin/access/user/'.$this->user->id)
+            ->assertRedirectedTo('/admin/access/user/deleted')
+            ->notSeeInDatabase($this->userTable, ['id' => $this->user->id, 'deleted_at' => null]);
 
-		Event::assertFired(UserDeleted::class);
-	}
+        Event::assertDispatched(UserDeleted::class);
+    }
 
-	public function testUserCanNotDeleteSelf() {
-		$this->actingAs($this->admin)
-			->visit('/admin/access/user')
-			->delete('/admin/access/user/'.$this->admin->id)
-			->assertRedirectedTo('/admin/access/user')
-			->seeInDatabase($this->userTable, ['id' => $this->admin->id, 'deleted_at' => null])
-			->seeInSession(['flash_danger' => 'You can not delete yourself.']);;
-	}
+    public function testUserCanNotDeleteSelf()
+    {
+        $this->actingAs($this->admin)
+            ->visit('/admin/access/user')
+            ->delete('/admin/access/user/'.$this->admin->id)
+            ->assertRedirectedTo('/admin/access/user')
+            ->assertDatabaseHas($this->userTable, ['id' => $this->admin->id, 'deleted_at' => null])
+            ->seeInSession(['flash_danger' => 'You can not delete yourself.']);
+        ;
+    }
 
-	public function testChangeUserPasswordRequiredFields() {
-		$this->actingAs($this->admin)
-			->visit('/admin/access/user/'.$this->user->id.'/password/change')
-			->see('Change Password for '.$this->user->name)
-			->type('', 'password')
-			->type('', 'password_confirmation')
-			->press('Update')
-			->seePageIs('/admin/access/user/'.$this->user->id.'/password/change')
-			->see('The password field is required.');
-	}
+    public function testChangeUserPasswordRequiredFields()
+    {
+        $this->actingAs($this->admin)
+            ->visit('/admin/access/user/'.$this->user->id.'/password/change')
+            ->see('Change Password for '.$this->user->name)
+            ->type('', 'password')
+            ->type('', 'password_confirmation')
+            ->press('Update')
+            ->seePageIs('/admin/access/user/'.$this->user->id.'/password/change')
+            ->see('The password field is required.');
+    }
 
-	public function testChangeUserPasswordForm() {
-		// Make sure our events are fired
-		Event::fake();
+    public function testChangeUserPasswordForm()
+    {
+        // Make sure our events are fired
+        Event::fake();
 
-		$password = '87654321';
+        $password = '87654321';
 
-		$this->actingAs($this->admin)
-			->visit('/admin/access/user/'.$this->user->id.'/password/change')
-			->see('Change Password for '.$this->user->name)
-			->type($password, 'password')
-			->type($password, 'password_confirmation')
-			->press('Update')
-			->seePageIs('/admin/access/user')
-			->see('The user\'s password was successfully updated.');
+        $this->actingAs($this->admin)
+            ->visit('/admin/access/user/'.$this->user->id.'/password/change')
+            ->see('Change Password for '.$this->user->name)
+            ->type($password, 'password')
+            ->type($password, 'password_confirmation')
+            ->press('Update')
+            ->seePageIs('/admin/access/user')
+            ->see('The user\'s password was successfully updated.');
 
-		Event::assertFired(UserPasswordChanged::class);
-	}
+        Event::assertDispatched(UserPasswordChanged::class);
+    }
 
-	public function testChangeUserPasswordDoNotMatch() {
-		$this->actingAs($this->admin)
-			->visit('/admin/access/user/'.$this->user->id.'/password/change')
-			->see('Change Password for '.$this->user->name)
-			->type('123456', 'password')
-			->type('1234567', 'password_confirmation')
-			->press('Update')
-			->seePageIs('/admin/access/user/'.$this->user->id.'/password/change')
-			->see('The password confirmation does not match.');
-	}
+    public function testChangeUserPasswordDoNotMatch()
+    {
+        $this->actingAs($this->admin)
+            ->visit('/admin/access/user/'.$this->user->id.'/password/change')
+            ->see('Change Password for '.$this->user->name)
+            ->type('123456', 'password')
+            ->type('1234567', 'password_confirmation')
+            ->press('Update')
+            ->seePageIs('/admin/access/user/'.$this->user->id.'/password/change')
+            ->see('The password confirmation does not match.');
+    }
 }

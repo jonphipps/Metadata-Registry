@@ -28,10 +28,12 @@ class AddLanguageToTheUniquePreflabelIndex extends Migration
      */
     public function down()
     {
-        Schema::table('reg_concept',
+        Schema::table(
+            'reg_concept',
             function (Blueprint $table) {
                 $table->dropIndex('vocabulary_id_pref_label');
                 $table->unique([ 'vocabulary_id', 'pref_label' ], 'vocabulary_id_pref_label');
-            });
+            }
+        );
     }
 }

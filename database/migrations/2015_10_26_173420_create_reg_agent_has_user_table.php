@@ -14,7 +14,8 @@ class CreateRegAgentHasUserTable extends Migration
      */
     public function up()
     {
-        Schema::create('reg_agent_has_user',
+        Schema::create(
+            'reg_agent_has_user',
             function (Blueprint $table) {
                 $table->integer('id', true);
                 $table->dateTime('created_at')->nullable();
@@ -26,7 +27,8 @@ class CreateRegAgentHasUserTable extends Migration
                 $table->boolean('is_admin_for')->nullable()->default(1);
                 $table->unique([ 'user_id', 'agent_id' ], 'user_agent_id');
                 $table->unique([ 'agent_id', 'user_id' ], 'agent_user_id');
-            });
+            }
+        );
     }
 
 
@@ -39,5 +41,4 @@ class CreateRegAgentHasUserTable extends Migration
     {
         Schema::drop('reg_agent_has_user');
     }
-
 }

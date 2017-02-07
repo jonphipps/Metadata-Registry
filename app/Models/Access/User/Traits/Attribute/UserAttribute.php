@@ -25,23 +25,25 @@ trait UserAttribute
         return ! app('session')->has(config('access.socialite_session_name'));
     }
 
-	/**
-	 * @return string
-	 */
-	public function getStatusLabelAttribute()
-	{
-		if ($this->isActive())
-			return "<label class='label label-success'>".trans('labels.general.active')."</label>";
-		return "<label class='label label-danger'>".trans('labels.general.inactive')."</label>";
-	}
+    /**
+     * @return string
+     */
+    public function getStatusLabelAttribute()
+    {
+        if ($this->isActive()) {
+            return "<label class='label label-success'>".trans('labels.general.active')."</label>";
+        }
+        return "<label class='label label-danger'>".trans('labels.general.inactive')."</label>";
+    }
 
     /**
      * @return string
      */
     public function getConfirmedLabelAttribute()
     {
-        if ($this->isConfirmed())
+        if ($this->isConfirmed()) {
             return "<label class='label label-success'>".trans('labels.general.yes')."</label>";
+        }
         return "<label class='label label-danger'>".trans('labels.general.no')."</label>";
     }
 
@@ -59,7 +61,9 @@ trait UserAttribute
      */
     public function getPicture($size = false)
     {
-        if (! $size) $size = config('gravatar.default.size');
+        if (! $size) {
+            $size = config('gravatar.default.size');
+        }
         return gravatar()->get($this->email, ['size' => $size]);
     }
 
@@ -81,24 +85,26 @@ trait UserAttribute
     /**
      * @return bool
      */
-    public function isActive() {
+    public function isActive()
+    {
         return $this->status == 1;
     }
 
     /**
      * @return bool
      */
-    public function isConfirmed() {
+    public function isConfirmed()
+    {
         return $this->confirmed == 1;
     }
 
-	/**
-	 * @return string
-	 */
-	public function getShowButtonAttribute()
-	{
-		return '<a href="' . route('admin.access.user.show', $this) . '" class="btn btn-xs btn-info"><i class="fa fa-search" data-toggle="tooltip" data-placement="top" title="' . trans('buttons.general.crud.view') . '"></i></a> ';
-	}
+    /**
+     * @return string
+     */
+    public function getShowButtonAttribute()
+    {
+        return '<a href="' . route('admin.access.user.show', $this) . '" class="btn btn-xs btn-info"><i class="fa fa-search" data-toggle="tooltip" data-placement="top" title="' . trans('buttons.general.crud.view') . '"></i></a> ';
+    }
 
     /**
      * @return string
@@ -175,7 +181,7 @@ trait UserAttribute
         return '';
     }
 
-	/**
+    /**
      * @return string
      */
     public function getRestoreButtonAttribute()
@@ -183,7 +189,7 @@ trait UserAttribute
         return '<a href="' . route('admin.access.user.restore', $this) . '" name="restore_user" class="btn btn-xs btn-info"><i class="fa fa-refresh" data-toggle="tooltip" data-placement="top" title="' . trans('buttons.backend.access.users.restore_user') . '"></i></a> ';
     }
 
-	/**
+    /**
      * @return string
      */
     public function getDeletePermanentlyButtonAttribute()
@@ -191,7 +197,7 @@ trait UserAttribute
         return '<a href="' . route('admin.access.user.delete-permanently', $this) . '" name="delete_user_perm" class="btn btn-xs btn-danger"><i class="fa fa-trash" data-toggle="tooltip" data-placement="top" title="' . trans('buttons.backend.access.users.delete_permanently') . '"></i></a> ';
     }
 
-	/**
+    /**
      * @return string
      */
     public function getLoginAsButtonAttribute()
@@ -202,9 +208,13 @@ trait UserAttribute
         if (! session()->has("admin_user_id") || ! session()->has("temp_user_id")) {
             //Won't break, but don't let them "Login As" themselves
             if ($this->id != access()->id()) {
-                return '<a href="' . route('admin.access.user.login-as',
-                    $this) . '" class="btn btn-xs btn-success"><i class="fa fa-lock" data-toggle="tooltip" data-placement="top" title="' . trans('buttons.backend.access.users.login_as',
-                    ['user' => $this->name]) . '"></i></a> ';
+                return '<a href="' . route(
+                    'admin.access.user.login-as',
+                    $this
+                ) . '" class="btn btn-xs btn-success"><i class="fa fa-lock" data-toggle="tooltip" data-placement="top" title="' . trans(
+                    'buttons.backend.access.users.login_as',
+                    ['user' => $this->name]
+                ) . '"></i></a> ';
             }
         }
 
@@ -223,8 +233,8 @@ trait UserAttribute
 
         return
             $this->getLoginAsButtonAttribute() .
-			$this->getShowButtonAttribute() .
-			$this->getEditButtonAttribute() .
+            $this->getShowButtonAttribute() .
+            $this->getEditButtonAttribute() .
             $this->getChangePasswordButtonAttribute() .
             $this->getStatusButtonAttribute() .
             $this->getConfirmedButtonAttribute() .

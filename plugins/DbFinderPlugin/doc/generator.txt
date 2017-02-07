@@ -28,7 +28,7 @@ In the list view, the `display` parameter already allows to set some column as l
 
 This will generate, in the `Title` column, the following code:
 
-    <?php echo link_to($article->getTitle(), 'article/edit?id='.$article->getId()) ?>
+    <?php echo sf_link_to($article->getTitle(), 'article/edit?id='.$article->getId()) ?>
 
 DbFinderAdminGenerator goes a little further and allows to link to the edit view of *another* module. This is especially useful for foreign key columns:
 
@@ -39,7 +39,7 @@ DbFinderAdminGenerator goes a little further and allows to link to the edit view
 
 Now the `Category` column will also bear a hyperlink to the related Category object:
 
-    <?php echo link_to($article->getCategory(), 'categoryAdmin/edit?id='.$article->getCategory()->getPrimaryKey()) ?>
+    <?php echo sf_link_to($article->getCategory(), 'categoryAdmin/edit?id='.$article->getCategory()->getPrimaryKey()) ?>
 
 This was easily achieved with the regular admin generators by using partial columns, but now a simple equal sign does the job.
 

@@ -46,35 +46,34 @@ trait UserAccess
      * @param  $needsAll
      * @return bool
      */
-  public function hasRoles($roles, $needsAll = false)
-  {
-    if ( ! is_array($roles)) {
-      $roles = [ $roles ];
-    }
-    //User has to possess all of the roles specified
-    if ($needsAll) {
-      $hasRoles = 0;
-      $numRoles = count($roles);
-
-      foreach ($roles as $role) {
-        if ($this->hasRole($role)) {
-          $hasRoles++;
+    public function hasRoles($roles, $needsAll = false)
+    {
+        if (! is_array($roles)) {
+            $roles = [ $roles ];
         }
-      }
+        //User has to possess all of the roles specified
+        if ($needsAll) {
+            $hasRoles = 0;
+            $numRoles = count($roles);
 
-      return $numRoles == $hasRoles;
+            foreach ($roles as $role) {
+                if ($this->hasRole($role)) {
+                    $hasRoles++;
+                }
+            }
+
+            return $numRoles == $hasRoles;
+        }
+
+        //User has to possess one of the roles specified
+        foreach ($roles as $role) {
+            if ($this->hasRole($role)) {
+                return true;
+            }
+        }
+
+        return false;
     }
-
-    //User has to possess one of the roles specified
-    foreach ($roles as $role) {
-      if ($this->hasRole($role)) {
-        return true;
-      }
-
-    }
-
-    return false;
-  }
 
 
   /**
@@ -93,7 +92,6 @@ trait UserAccess
 
             // Validate against the Permission table
             foreach ($role->permissions as $perm) {
-
                 //First check to see if it's an ID
                 if (is_numeric($nameOrId)) {
                     if ($perm->id == $nameOrId) {
@@ -120,9 +118,9 @@ trait UserAccess
      */
     public function allowMultiple($permissions, $needsAll = false)
     {
-		if (! is_array($permissions)) {
-			$permissions = array($permissions);
-		}
+        if (! is_array($permissions)) {
+            $permissions = [$permissions];
+        }
         //User has to possess all of the permissions specified
         if ($needsAll) {
             $hasPermissions = 0;
@@ -140,7 +138,7 @@ trait UserAccess
         //User has to possess one of the permissions specified
         foreach ($permissions as $perm) {
             if ($this->allow($perm)) {
-				return true;
+                return true;
             }
         }
 
@@ -239,13 +237,11 @@ trait UserAccess
    *
    * @return bool
    */
-  public function hasCredential($credentials, $needsAll = false)
-  {
-    if (is_array($credentials) && is_array($credentials[0])) {
-      $credentials = $credentials[0];
+    public function hasCredential($credentials, $needsAll = false)
+    {
+        if (is_array($credentials) && is_array($credentials[0])) {
+            $credentials = $credentials[0];
+        }
+        return $this->hasRoles($credentials, $needsAll);
     }
-    return $this->hasRoles($credentials, $needsAll);
-
-  }
-
 }

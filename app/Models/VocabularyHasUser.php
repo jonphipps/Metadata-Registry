@@ -37,14 +37,14 @@ use App\Models\Access\User\User;
  */
 class VocabularyHasUser extends Model
 {
-  protected $table = self::TABLE;
-  const TABLE = 'reg_vocabulary_has_user';
+    protected $table = self::TABLE;
+    const TABLE = 'reg_vocabulary_has_user';
 
-  use SoftDeletes;
+    use SoftDeletes;
 
-  protected $dates = [ 'deleted_at' ];
+    protected $dates = [ 'deleted_at' ];
 
-  protected $fillable = [
+    protected $fillable = [
       'deleted_at',
       'is_maintainer_for',
       'is_registrar_for',
@@ -52,14 +52,14 @@ class VocabularyHasUser extends Model
       'languages',
       'default_language',
       'current_language',
-  ];
+    ];
 
   /**
    * The attributes that should be casted to native types.
    *
    * @var array
    */
-  protected $casts = [
+    protected $casts = [
       "id"                => "integer",
       "vocabulary_id"     => "integer",
       "user_id"           => "integer",
@@ -69,28 +69,26 @@ class VocabularyHasUser extends Model
       "languages"         => "string",
       "default_language"  => "string",
       "current_language"  => "string",
-  ];
+    ];
 
-  public static $rules = [
+    public static $rules = [
       "updated_at"       => "required|",
       "vocabulary_id"    => "required|",
       "user_id"          => "required|",
       "languages"        => "max:65535",
       "default_language" => "max:6",
       "current_language" => "max:6",
-  ];
+    ];
 
 
-  public function User()
-  {
-    return $this->belongsTo(User::class, 'user_id', 'id');
-  }
+    public function User()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
 
 
-  public function Vocabulary()
-  {
-    return $this->belongsTo('App\Models\Vocabulary', 'vocabulary_id', 'id');
-  }
-
+    public function Vocabulary()
+    {
+        return $this->belongsTo(\App\Models\Vocabulary::class, 'vocabulary_id', 'id');
+    }
 }
-

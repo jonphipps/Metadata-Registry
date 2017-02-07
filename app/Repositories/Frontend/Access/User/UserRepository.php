@@ -19,10 +19,10 @@ use Hash;
  */
 class UserRepository extends Repository
 {
-  /**
-   * Associated Repository Model
-   */
-  const MODEL = User::class;
+    /**
+     * Associated Repository Model
+     */
+    const MODEL = User::class;
 
   /**
    * @var RoleRepository
@@ -131,72 +131,82 @@ class UserRepository extends Repository
     /**
      * User email may not provided.
      */
-    $user_email = $data->email ?: "{$data->id}@{$provider}.com";
-
-    /**
-     * Check to see if there is a user with this email first
-     */
-    $user = $this->findByEmail($user_email);
-
-    /**
-     * If the user does not exist create them
-     * The true flag indicate that it is a social account
-     * Which triggers the script to use some default values in the create method
-     */
-    if ( ! $user) {
-      $user = $this->create([
-          'name'  => $data->name,
-          'email' => $user_email,
-      ],
-          true);
+    public function findByEmail($email)
+    {
+        return $this->query()->where('email', $email)->first();
     }
 
     /**
      * See if the user has logged in with this social account before
      */
-    if ( ! $user->hasProvider($provider)) {
-      /**
-       * Gather the provider data for saving and associate it with the user
-       */
-      $user->providers()->save(new SocialLogin([
-          'provider'    => $provider,
-          'provider_id' => $data->id,
-          'token'       => $data->token,
-          'avatar'      => $data->avatar,
-      ]));
-    } else {
-      /**
-       * Update the users information, token and avatar can be updated.
-       */
-      $user->providers()->update([
-          'token'  => $data->token,
-          'avatar' => $data->avatar,
-      ]);
+    public function findByToken($token)
+    {
+        return $this->query()->where('confirmation_code', $token)->first();
+    }
+
+    /**
+     * @param $token
+     * @return mixed
+     * @throws GeneralException
+     */
+    public function getEmailForPasswordToken($token)
+    {
+        if ($row = DB::table(config('auth.passwords.users.table'))->where('token', $token)->first()) {
+            return ['email' => $row->email, 'name' => $row->name];
+        }
+        throw new GeneralException(trans('auth.unknown'));
     }
 
     /**
      * Return the user object
      */
-    return $user;
-  }
+    public function create(array $data, $provider = false)
+    {
+        $user = self::MODEL;
+        $user = new $user;
+        $user->name = $data['name'];
+        $user->email = $data['email'];
+        $user->confirmation_code = md5(uniqid(mt_rand(), true));
+        $user->status = 1;
+        $user->password = $provider ? null : bcrypt($data['password']);
+        $user->confirmed = $provider ? 1 : (config('access.users.confirm_email') ? 0 : 1);
 
+        DB::transaction(function () use ($user) {
+            if (parent::save($user)) {
+                /**
+                 * Add the default site role to the new user
+                 */
+                $user->attachRole($this->role->getDefaultUserRole());
+            }
+        });
 
-  /**
-   * @param $token
-   *
-   * @return bool
-   * @throws GeneralException
-   */
-  public function confirmAccount($token)
-  {
-    $user = $this->findByToken($token);
+        /**
+         * If users have to confirm their email and this is not a social account,
+         * send the confirmation email
+         *
+         * If this is a social account they are confirmed through the social provider by default
+         */
+        if (config('access.users.confirm_email') && $provider === false) {
+            $user->notify(new UserNeedsConfirmation($user->confirmation_code));
+        }
 
-    if ($user->confirmed == 1) {
-      throw new GeneralException(trans('exceptions.frontend.auth.confirmation.already_confirmed'));
+        /**
+         * Return the user object
+         */
+        return $user;
     }
 
-    if ($user->confirmation_code == $token) {
-      $user->confirmed = 1;
+    /**
+     * @param $data
+     * @param $provider
+     * @return UserRepository|bool
+     */
+    public function findOrCreateSocial($data, $provider)
+    {
+        /**
+         * User email may not provided.
+         */
+        $user_email = $data->email ? : "{$data->id}@{$provider}.com";
 
       event(new UserConfirmed($user));
 
@@ -219,12 +229,8 @@ class UserRepository extends Repository
     $user       = parent::find($id);
     $user->name = $input['name'];
 
-    if ($user->canChangeEmail()) {
-      //Address is not current address
-      if ($user->email != $input['email']) {
-        //Emails have to be unique
-        if ($this->findByEmail($input['email'])) {
-          throw new GeneralException(trans('exceptions.frontend.auth.email_taken'));
+            event(new UserConfirmed($user));
+            return parent::save($user);
         }
 
         $user->email = $input['email'];

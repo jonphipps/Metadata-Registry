@@ -14,7 +14,8 @@ class CreateRegConceptPropertyTable extends Migration
      */
     public function up()
     {
-        Schema::create('reg_concept_property',
+        Schema::create(
+            'reg_concept_property',
             function (Blueprint $table) {
                 $table->integer('id', true);
                 $table->dateTime('created_at')->nullable();
@@ -33,7 +34,8 @@ class CreateRegConceptPropertyTable extends Migration
                 $table->integer('status_id')->nullable()->default(1)->index();
                 $table->boolean('is_concept_property')->default(0);
                 $table->boolean('is_generated')->default(0);
-            });
+            }
+        );
     }
 
 
@@ -46,5 +48,4 @@ class CreateRegConceptPropertyTable extends Migration
     {
         Schema::drop('reg_concept_property');
     }
-
 }

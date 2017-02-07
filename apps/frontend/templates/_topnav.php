@@ -426,7 +426,7 @@ if ('list' == $action) {
 //retrieve the map
 $tab = $tabMap[$module][$action]['tab'];
 $buildBc = $tab;
-$metaAction = ' :: ' . __($tabMap[$module][$action]['title']);
+$metaAction = ' :: ' . __s($tabMap[$module][$action]['title']);
 
 //set the filter
 /** @var myUser $sf_user * */
@@ -486,7 +486,7 @@ $tabTitle = false;
       //and turn of the tabs
       $tab = false;
       //and set the title that will be displayed instead of the tab
-      //$tabTitle = __('History Detail');
+      //$tabTitle = __s('History Detail');
       //turn on the history breadcrumb
       $showHistoryBc = true;
 
@@ -739,7 +739,7 @@ switch ($buildBc) {
         $showSchemaBc = true;
         $tab = true;
 
-        $title = __('Export');
+        $title = __s('Export');
 
         break;
 
@@ -932,23 +932,23 @@ switch ($buildBc) {
     //these top-level 'list tabs' don't show any breadcrumb or tab
     //setting $tab to false at this point turns off tab display
     case 'vocabularylist':
-        $title = __('Vocabularies');
+        $title = __s('Vocabularies');
         $tab = false;
         break;
     case 'schemalist':
-        $title = __('Element Sets');
+        $title = __s('Element Sets');
         $tab = false;
         break;
     case 'agentlist':
-        $title = __('Projects');
+        $title = __s('Projects');
         $tab = false;
         break;
     case 'userlist':
-        $title = __('Members');
+        $title = __s('Members');
         $tab = false;
         break;
     case 'importlist':
-        $title = __('Imports');
+        $title = __s('Imports');
         $tab = false;
         break;
 }
@@ -971,20 +971,20 @@ if ($showBc) {
 
     if ($showVocabularyBc) {
         $spaceCount ++;
-        echo link_to('Vocabularies:', 'vocabulary/list') . '&nbsp;';
+        echo sf_link_to('Vocabularies:', 'vocabulary/list') . '&nbsp;';
 
         if ($vocabulary) {
             if ($showConceptBc || $showHistoryBc || $showVocabUserBc || $showVersionBc || $showVocabularyImportBc) {
                 if ($vocabulary->getDeletedAt()) {
                     echo $vocabulary->getName() . '&nbsp;(deleted)';
                 } else {
-                    echo link_to($vocabulary->getName(), 'vocabulary/show?id=' . $vocabulary->getId());
+                    echo sf_link_to($vocabulary->getName(), 'vocabulary/show?id=' . $vocabulary->getId());
                 }
             } else {
-                echo __('Show detail for ') . $vocabulary->getName();
+                echo __s('Show detail for ') . $vocabulary->getName();
             }
 
-            $title = __('%%vocabulary%%', array('%%vocabulary%%' => $vocabulary->getName()));
+            $title = __s('%%vocabulary%%', array('%%vocabulary%%' => $vocabulary->getName()));
         }
     }
 
@@ -994,20 +994,20 @@ if ($showBc) {
             if ($vocabulary->getDeletedAt()) {
                 echo "<br />&nbsp;&nbsp;Concepts&nbsp;(deleted):&nbsp;";
             } else {
-                echo '<br />&nbsp;&nbsp;' . link_to('Concepts:',
+                echo '<br />&nbsp;&nbsp;' . sf_link_to('Concepts:',
                             '/concept/list?vocabulary_id=' . $concept->getVocabularyId()) . '&nbsp;&nbsp;';
             }
             if ($showconceptpropBc || $showHistoryBc) {
                 if ($concept->getDeletedAt()) {
                     echo $concept->getPrefLabel() . '&nbsp;(deleted)';
                 } else {
-                    echo link_to($concept->getPrefLabel(), '/concept/show?id=' . $concept->getID());
+                    echo sf_link_to($concept->getPrefLabel(), '/concept/show?id=' . $concept->getID());
                 }
             } else {
                 echo $concept->getPrefLabel();
             }
 
-            $title .= ' :: ' . __('%%concept%%', array('%%concept%%' => $concept));
+            $title .= ' :: ' . __s('%%concept%%', array('%%concept%%' => $concept));
         }
     }
 
@@ -1017,27 +1017,27 @@ if ($showBc) {
             if ($concept->getDeletedAt()) {
                 echo "<br />&nbsp;&nbsp;&nbsp;&nbsp;Properties&nbsp;(deleted):&nbsp;";
             } else {
-                echo "<br />&nbsp;&nbsp;&nbsp;&nbsp;" . link_to('Properties:',
+                echo "<br />&nbsp;&nbsp;&nbsp;&nbsp;" . sf_link_to('Properties:',
                             '/conceptprop/list?concept_id=' . $concept->getID()) . '&nbsp;';
             }
             if ($showHistoryBc) {
                 if ($concept_property->getDeletedAt()) {
                     echo $concept_property->getSkosPropertyName() . '&nbsp;(deleted)';
                 } else {
-                    echo link_to($concept_property->getSkosPropertyName(),
+                    echo sf_link_to($concept_property->getSkosPropertyName(),
                           '/conceptprop/show?id=' . $concept_property->getID());
                 }
             } else {
                 echo $concept_property->getSkosPropertyName();
             }
 
-            $title .= ' :: ' . __('%%property%%', array('%%property%%' => $concept_property->getSkosPropertyName()));
+            $title .= ' :: ' . __s('%%property%%', array('%%property%%' => $concept_property->getSkosPropertyName()));
         }
     }
 
     if ($showSchemaBc) {
         $spaceCount ++;
-        echo link_to('Element Sets:', 'schema/list') . '&nbsp;';
+        echo sf_link_to('Element Sets:', 'schema/list') . '&nbsp;';
 
         if ($schema) {
             if ($showSchemaPropBc || $showSchemaHistoryBc || $showVocabUserBc || $showVersionBc
@@ -1046,13 +1046,13 @@ if ($showBc) {
                 if ($schema->getDeletedAt()) {
                     echo $schema->getName() . '&nbsp;(deleted)';
                 } else {
-                    echo link_to($schema->getName(), 'schema/show?id=' . $schema->getId());
+                    echo sf_link_to($schema->getName(), 'schema/show?id=' . $schema->getId());
                 }
             } else {
-                echo __('Show ' . $bcTitle . ' for ') . $schema->getName();
+                echo __s('Show ' . $bcTitle . ' for ') . $schema->getName();
             }
 
-            $title = __('%%schema%%', array('%%schema%%' => $schema->getName()));
+            $title = __s('%%schema%%', array('%%schema%%' => $schema->getName()));
         }
     }
 
@@ -1062,20 +1062,20 @@ if ($showBc) {
             if ($schema->getDeletedAt()) {
                 echo "<br />&nbsp;&nbsp;Elements&nbsp;(deleted):&nbsp;";
             } else {
-                echo '<br />&nbsp;&nbsp;' . link_to('Elements:',
+                echo '<br />&nbsp;&nbsp;' . sf_link_to('Elements:',
                             '/schemaprop/list?schema_id=' . $schema_property->getSchemaId()) . '&nbsp;&nbsp;';
             }
             if ($showSchemaPropelBc || $showSchemaHistoryBc) {
                 if ($schema_property->getDeletedAt()) {
                     echo $schema_property . '&nbsp;(deleted)';
                 } else {
-                    echo link_to($schema_property, '/schemaprop/show?id=' . $schema_property->getId());
+                    echo sf_link_to($schema_property, '/schemaprop/show?id=' . $schema_property->getId());
                 }
             } else {
                 echo $schema_property;
             }
 
-            $title .= ' :: ' . __('%%schemaprop%%', array('%%schemaprop%%' => $schema_property));
+            $title .= ' :: ' . __s('%%schemaprop%%', array('%%schemaprop%%' => $schema_property));
         }
     }
 
@@ -1085,12 +1085,12 @@ if ($showBc) {
             if ($schema->getDeletedAt()) {
                 echo "<br />&nbsp;&nbsp;Elements&nbsp;(deleted):&nbsp;";
             } else {
-                echo '<br />&nbsp;&nbsp;' . link_to('Imports:',
+                echo '<br />&nbsp;&nbsp;' . sf_link_to('Imports:',
                             '/import/list?schema_id=' . $file_import_history->getSchemaId()) . '&nbsp;&nbsp;';
             }
             echo $file_import_history->getCreatedAt();
 
-            $title .= ' :: ' . __('%%import%%', array('%%import%%' => $file_import_history));
+            $title .= ' :: ' . __s('%%import%%', array('%%import%%' => $file_import_history));
         }
     }
 
@@ -1100,21 +1100,21 @@ if ($showBc) {
             if ($schema_property->getDeletedAt()) {
                 echo "<br />&nbsp;&nbsp;&nbsp;&nbsp;Statements&nbsp;(deleted):&nbsp;";
             } else {
-                echo "<br />&nbsp;&nbsp;&nbsp;&nbsp;" . link_to('Statements:',
+                echo "<br />&nbsp;&nbsp;&nbsp;&nbsp;" . sf_link_to('Statements:',
                             '/schemapropel/list?schema_property_id=' . $schema_property->getId()) . '&nbsp;';
             }
             if ($showSchemaHistoryBc) {
                 if ($schema_property_element->getDeletedAt()) {
                     echo $schema_property_element . '&nbsp;(deleted)';
                 } else {
-                    echo link_to($schema_property_element,
+                    echo sf_link_to($schema_property_element,
                           '/schemapropel/show?id=' . $schema_property_element->getId());
                 }
             } else {
                 echo $schema_property_element;
             }
 
-            $title .= ' :: ' . __('%%schemapropel%%', array('%%schemapropel%%' => $schema_property_element));
+            $title .= ' :: ' . __s('%%schemapropel%%', array('%%schemapropel%%' => $schema_property_element));
         }
     }
 
@@ -1134,30 +1134,30 @@ if ($showBc) {
         if ($showSchemaPropelBc && $schema_property_element) {
             $id = 'schema_property_element_id=' . $schema_property_element->getId();
         }
-        echo "<br />$spaces" . link_to('History:', '/schemahistory/list?' . $id) . '&nbsp;';
+        echo "<br />$spaces" . sf_link_to('History:', '/schemahistory/list?' . $id) . '&nbsp;';
         echo 'History detail';
     }
 
     if ($showAgentBc) {
         if (isset($agent)) {
-            echo link_to('Projects:', '/agent/list') . '&nbsp;';
+            echo sf_link_to('Projects:', '/agent/list') . '&nbsp;';
             if ($showAgentUserBc) {
-                echo link_to($agent->getOrgName(), 'agent/show?id=' . $agent->getId());
+                echo sf_link_to($agent->getOrgName(), 'agent/show?id=' . $agent->getId());
             } else {
-                echo __('Show detail for ') . $agent->getOrgName();
+                echo __s('Show detail for ') . $agent->getOrgName();
             }
 
-            $title = ' :: ' . __('%%owner%%', array('%%owner%%' => $agent->getOrgName()));
+            $title = ' :: ' . __s('%%owner%%', array('%%owner%%' => $agent->getOrgName()));
         }
     }
 
     if ($showUserBc) {
         if (isset($user)) {
             $nickname = getUserName($user);
-            echo link_to('Members:', '/user/list') . '&nbsp;';
+            echo sf_link_to('Members:', '/user/list') . '&nbsp;';
             echo $nickname;
 
-            $title = ' :: ' . __('%%user%%', array('%%user%%' => $nickname));
+            $title = ' :: ' . __s('%%user%%', array('%%user%%' => $nickname));
         }
     }
 
@@ -1169,53 +1169,53 @@ if ($showBc) {
         if ($vocabulary) {
             $id = $vocabulary->getId();
         }
-        echo "<br />$spaces" . link_to('History:', '/history/list?vocabulary_id=' . $id) . '&nbsp;';
+        echo "<br />$spaces" . sf_link_to('History:', '/history/list?vocabulary_id=' . $id) . '&nbsp;';
         echo 'History detail';
     }
 
     if ($showAgentUserBc) {
         $spaceCount ++;
-        echo '<br />&nbsp;&nbsp;' . link_to('Members:', '/agentuser/list?agent_id=' . $agent->getId()) . '&nbsp;&nbsp;';
+        echo '<br />&nbsp;&nbsp;' . sf_link_to('Members:', '/agentuser/list?agent_id=' . $agent->getId()) . '&nbsp;&nbsp;';
         if ($agent_has_user) {
             $user = $agent_has_user->getUser();
             $nickname = $user->getNickname();
-            echo link_to($nickname, 'user/show?id=' . $user->getId());
-            $title .= ' :: ' . __('%%name%%', array('%%name%%' => $nickname));
+            echo sf_link_to($nickname, 'user/show?id=' . $user->getId());
+            $title .= ' :: ' . __s('%%name%%', array('%%name%%' => $nickname));
         }
     }
 
     if ($showVocabUserBc) {
         $spaceCount ++;
-        echo '<br />&nbsp;&nbsp;' . link_to('Maintainers:', '/vocabuser/list?vocabulary_id=' . $vocabulary->getId())
+        echo '<br />&nbsp;&nbsp;' . sf_link_to('Maintainers:', '/vocabuser/list?vocabulary_id=' . $vocabulary->getId())
              . '&nbsp;&nbsp;';
         if ($vocabulary_has_user) {
             $user = $vocabulary_has_user->getUser();
             $nickname = getUserName($user);
-            echo link_to($nickname, 'user/show?id=' . $user->getId());
-            $title .= ' :: ' . __('%%name%%', array('%%name%%' => $nickname));
+            echo sf_link_to($nickname, 'user/show?id=' . $user->getId());
+            $title .= ' :: ' . __s('%%name%%', array('%%name%%' => $nickname));
         }
     }
 
     if ($showSchemaUserBc) {
         $spaceCount ++;
-        echo '<br />&nbsp;&nbsp;' . link_to('Maintainers:', '/schemauser/list?schema_id=' . $schema->getId())
+        echo '<br />&nbsp;&nbsp;' . sf_link_to('Maintainers:', '/schemauser/list?schema_id=' . $schema->getId())
              . '&nbsp;&nbsp;';
         if ($schema_has_user) {
             $user = $schema_has_user->getUser();
             $nickname = getUserName($user);
-            echo link_to($nickname, 'user/show?id=' . $user->getId());
-            $title .= ' :: ' . __('%%name%%', array('%%name%%' => $nickname));
+            echo sf_link_to($nickname, 'user/show?id=' . $user->getId());
+            $title .= ' :: ' . __s('%%name%%', array('%%name%%' => $nickname));
         }
     }
 
     if ($showVersionBc) {
         $spaceCount ++;
         if ($vocabulary_has_version) {
-            echo '<br />&nbsp;&nbsp;' . link_to('Versions:',
+            echo '<br />&nbsp;&nbsp;' . sf_link_to('Versions:',
                         '/version/list?vocabulary_id=' . $vocabulary_has_version->getVocabularyId()) . '&nbsp;&nbsp;';
             $version = $vocabulary_has_version->getName();
             echo $version;
-            $title .= ' :: ' . __('%%name%%', array('%%name%%' => $version));
+            $title .= ' :: ' . __s('%%name%%', array('%%name%%' => $version));
         }
     }
 } else //there's no breadcrumb so we show the title
@@ -1242,10 +1242,10 @@ if ($tab):
                     $i ++;
 
                   if (false !== strpos($value['link'], $module . '/' . $action)) {
-                        echo '<li class = "ui-tabs-selected">' . link_to('<span>' . __($key) . '</span>',
+                        echo '<li class = "ui-tabs-selected">' . sf_link_to('<span>' . __s($key) . '</span>',
                                     $value['link'] . $objectId, $options) . '</li>';
                     } else {
-                        echo '<li>' . link_to('<span>' . __($key) . '</span>', $value['link'] . $objectId, $options)
+                        echo '<li>' . sf_link_to('<span>' . __s($key) . '</span>', $value['link'] . $objectId, $options)
                              . '</li>';
                     }
                 endforeach;

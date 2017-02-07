@@ -19,10 +19,10 @@
               )
           )
           && ! $schema_property_element->getIsSchemaProperty()): ?>
-        <?php echo link_to(
+        <?php echo sf_link_to(
             image_tag(
                 '/jpAdminPlugin/images/edit_icon.png',
-                array ( 'alt' => __( 'edit' ), 'title' => __( 'edit' ) )
+                array ( 'alt' => __s( 'edit' ), 'title' => __s( 'edit' ) )
             ),
             'schemapropel/edit?id=' . $schema_property_element->getId()
         ) ?>
@@ -45,15 +45,15 @@
               $sf_flash->get( 'required', array () )
           )
       ): ?>
-        <?php echo link_to(
+        <?php echo sf_link_to(
             image_tag(
                 '/jpAdminPlugin/images/delete_icon.png',
-                array ( 'alt' => __( 'delete' ), 'title' => __( 'delete' ) )
+                array ( 'alt' => __s( 'delete' ), 'title' => __s( 'delete' ) )
             ),
             'schemapropel/delete?id=' . $schema_property_element->getId(),
             array (
                 'post' => true,
-                'confirm' => __( 'Are you sure?' ),
+                'confirm' => __s( 'Are you sure?' ),
             )
         ) ?>
       <?php else: ?>

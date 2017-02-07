@@ -10,7 +10,7 @@
       'vocabulary',
       [ 0 => [ 0 => 'administrator', 1 => 'vocabularymaintainer', 2 => 'vocabularyadmin', ], ])
   ): ?>
-    <li><?php echo button_to(__('Edit'),
+    <li><?php echo button_to(__s('Edit'),
           '@agent_vocabulary_edit?agent_id=' . $vocabulary->getAgentId() . '&id=' . $vocabulary->getId() . '',
           [
               'title' => 'Edit',
@@ -18,20 +18,20 @@
           ]) ?></li>
 <?php endif; ?>
   <?php if ($sf_user->hasObjectCredential($vocabulary->getId(), 'vocabulary', [ 0 => [ 0 => 'administrator', ], ])): ?>
-    <li><?php echo button_to(__('Publish'),
+    <li><?php echo button_to(__s('Publish'),
           '@vocabulary_publish?id=' . $vocabulary->getId(),
           [
               'title' => 'Publish',
               'class' => 'sf_admin_action_publish',
           ]) ?></li>
   <?php endif; ?>
-  <li><?php echo button_to(__('Get RDF'),
+  <li><?php echo button_to(__s('Get RDF'),
         '@rdf_vocabulary?id=' . $vocabulary->getId(),
         [
             'title' => 'rdf',
             'style' => 'background: #ffc url(/jpAdminPlugin/images/rdf_icon.png) no-repeat 2px 3px; padding-left:20px !important',
         ]) ?></li>
-  <li><?php echo button_to(__('Get XML Schema'),
+  <li><?php echo button_to(__s('Get XML Schema'),
         '@xml_schema_vocabulary?id=' . $vocabulary->getId(),
         [
             'style' => 'background: #ffc url(/jpAdminPlugin/images/xmlschema_icon.png) no-repeat 3px; padding-left:25px !important',

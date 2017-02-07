@@ -9,7 +9,7 @@ use Illuminate\Database\Seeder;
 class UserTableSeeder extends Seeder
 {
 
-  use \database\DisablesForeignKeys;
+    use \database\DisablesForeignKeys;
 
 
   /**
@@ -17,21 +17,21 @@ class UserTableSeeder extends Seeder
    *
    * @return void
    */
-  public function run()
-  {
-    $this->disableForeignKeys();
+    public function run()
+    {
+        $this->disableForeignKeys();
 
-    if (DB::connection()->getDriverName() == 'mysql') {
-      DB::table(config('access.users_table'))->truncate();
-    } elseif (DB::connection()->getDriverName() == 'sqlite') {
-      DB::statement('DELETE FROM ' . config('access.users_table'));
-    } else {
-      //For PostgreSQL or anything else
-      DB::statement('TRUNCATE TABLE ' . config('access.users_table') . ' CASCADE');
-    }
+        if (DB::connection()->getDriverName() == 'mysql') {
+            DB::table(config('access.users_table'))->truncate();
+        } elseif (DB::connection()->getDriverName() == 'sqlite') {
+            DB::statement('DELETE FROM ' . config('access.users_table'));
+        } else {
+            //For PostgreSQL or anything else
+            DB::statement('TRUNCATE TABLE ' . config('access.users_table') . ' CASCADE');
+        }
 
-    //Add the master administrator, user id of 1
-    $users = [
+        //Add the master administrator, user id of 1
+        $users = [
         [
             'id'                => '1',
             'name'              => 'adminuser',
@@ -102,10 +102,10 @@ class UserTableSeeder extends Seeder
             'created_at'        => Carbon::now(),
             'updated_at'        => Carbon::now(),
         ],
-    ];
+        ];
 
-    DB::table(config('access.users_table'))->insert($users);
+        DB::table(config('access.users_table'))->insert($users);
 
-    $this->enableForeignKeys();
-  }
+        $this->enableForeignKeys();
+    }
 }

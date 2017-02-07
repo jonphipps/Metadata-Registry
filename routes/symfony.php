@@ -1,25 +1,27 @@
 <?php
 /** Created by PhpStorm,  User: jonphipps,  Date: 2017-01-08,  Time: 5:39 PM */
 
-Route::group([ 'middleware' => 'symfony' ],
-    function () {
+Route::group([ 'middleware' => 'symfony' ], function () {
 
-      Route::group([ 'middleware' => 'passthru' ],
-          function () {
+    Route::group(
+        [ 'middleware' => 'passthru' ],
+        function () {
             Route::any('vocabularies/{id}/exports/save');
             Route::any('elementsets/{id}/exports/save');
-          });
+        }
+    );
 
-      Route::any('{all}',
-          function () {
+    Route::any(
+        '{all}',
+        function () {
             // fire up symfony
-            if ( ! defined('SF_APP')) {
-              define('SF_APP', 'frontend');
-              define('SF_ENVIRONMENT', env('SF_ENVIRONMENT', 'prod'));
-              define('SF_DEBUG', env('SF_DEBUG', 'false'));
+            if (! defined('SF_APP')) {
+                define('SF_APP', 'frontend');
+                define('SF_ENVIRONMENT', env('SF_ENVIRONMENT', 'prod'));
+                define('SF_DEBUG', env('SF_DEBUG', 'false'));
             }
-            if ( ! defined('SF_ROOT_DIR')) {
-              define('SF_ROOT_DIR', env('SF_ROOT_DIR'));
+            if (! defined('SF_ROOT_DIR')) {
+                define('SF_ROOT_DIR', env('SF_ROOT_DIR'));
             }
 
             $_SERVER['HTTP_HOST']       = ( empty($_SERVER['HTTP_HOST']) ) ? Request()->getHost() : $_SERVER['HTTP_HOST'];
@@ -39,6 +41,6 @@ Route::group([ 'middleware' => 'symfony' ],
 
             // return the symfony rendering as the response
             return ob_get_clean();
-          })->where('all', '.*');
-    });
-
+        }
+    )->where('all', '.*');
+});

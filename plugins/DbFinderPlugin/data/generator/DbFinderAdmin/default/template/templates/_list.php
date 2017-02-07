@@ -9,7 +9,7 @@
 <?php endif; ?>
 [?php include_partial('list_th_<?php echo $this->getParameterValue('list.layout', 'tabular') ?>') ?]
 <?php if ($this->getParameterValue('list.object_actions')): ?>
-  <th id="sf_admin_list_th_sf_actions">[?php echo __('Actions') ?]</th>
+  <th id="sf_admin_list_th_sf_actions">[?php echo __s('Actions') ?]</th>
 <?php endif; ?>
 </tr>
 </thead>
@@ -17,15 +17,15 @@
 <tr><th colspan="<?php echo count($this->getColumns('list.display')) + ($this->getParameterValue('list.object_actions') ? 1 : 0) + ($this->getParameterValue('list.batch_actions') ? 1 : 0) ?>">
 <div class="float-right">
 [?php if ($pager->haveToPaginate()): ?]
-  [?php echo link_to(image_tag(sfConfig::get('sf_admin_web_dir').'/images/first.png', array('align' => 'absmiddle', 'alt' => __('First'), 'title' => __('First'))), '<?php echo $this->getModuleName() ?>/list?page=1') ?]
-  [?php echo link_to(image_tag(sfConfig::get('sf_admin_web_dir').'/images/previous.png', array('align' => 'absmiddle', 'alt' => __('Previous'), 'title' => __('Previous'))), '<?php echo $this->getModuleName() ?>/list?page='.$pager->getPreviousPage()) ?]
+  [?php echo sf_link_to(image_tag(sfConfig::get('sf_admin_web_dir').'/images/first.png', array('align' => 'absmiddle', 'alt' => __s('First'), 'title' => __s('First'))), '<?php echo $this->getModuleName() ?>/list?page=1') ?]
+  [?php echo sf_link_to(image_tag(sfConfig::get('sf_admin_web_dir').'/images/previous.png', array('align' => 'absmiddle', 'alt' => __s('Previous'), 'title' => __s('Previous'))), '<?php echo $this->getModuleName() ?>/list?page='.$pager->getPreviousPage()) ?]
 
   [?php foreach ($pager->getLinks() as $page): ?]
     [?php echo link_to_unless($page == $pager->getPage(), $page, '<?php echo $this->getModuleName() ?>/list?page='.$page) ?]
   [?php endforeach; ?]
 
-  [?php echo link_to(image_tag(sfConfig::get('sf_admin_web_dir').'/images/next.png', array('align' => 'absmiddle', 'alt' => __('Next'), 'title' => __('Next'))), '<?php echo $this->getModuleName() ?>/list?page='.$pager->getNextPage()) ?]
-  [?php echo link_to(image_tag(sfConfig::get('sf_admin_web_dir').'/images/last.png', array('align' => 'absmiddle', 'alt' => __('Last'), 'title' => __('Last'))), '<?php echo $this->getModuleName() ?>/list?page='.$pager->getLastPage()) ?]
+  [?php echo sf_link_to(image_tag(sfConfig::get('sf_admin_web_dir').'/images/next.png', array('align' => 'absmiddle', 'alt' => __s('Next'), 'title' => __s('Next'))), '<?php echo $this->getModuleName() ?>/list?page='.$pager->getNextPage()) ?]
+  [?php echo sf_link_to(image_tag(sfConfig::get('sf_admin_web_dir').'/images/last.png', array('align' => 'absmiddle', 'alt' => __s('Last'), 'title' => __s('Last'))), '<?php echo $this->getModuleName() ?>/list?page='.$pager->getLastPage()) ?]
 [?php endif; ?]
 </div>
 [?php echo format_number_choice('[0] no result|[1] 1 result|(1,+Inf] %1% results', array('%1%' => $pager->getNbResults()), $pager->getNbResults()) ?]

@@ -25,16 +25,14 @@
  */
 class ArcTriple extends \Illuminate\Database\Eloquent\Model
 {
-  protected $table = self::TABLE;
-  const TABLE = 'arc_triple';
+    protected $table = self::TABLE;
+    const TABLE = 'arc_triple';
 
-  public $primaryKey = 't';
+    public $primaryKey = 't';
 
-  public $timestamps = false;
+    public $timestamps = false;
 
-  public $incrementing = false;
+    public $incrementing = false;
 
-  protected $fillable = [ 's', 'p', 'o', 'o_lang_dt', 'o_comp', 's_type', 'o_type', 'misc' ];
-
+    protected $fillable = [ 's', 'p', 'o', 'o_lang_dt', 'o_comp', 's_type', 'o_type', 'misc' ];
 }
-

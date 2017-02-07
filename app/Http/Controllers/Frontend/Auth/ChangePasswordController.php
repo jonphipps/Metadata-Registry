@@ -19,28 +19,28 @@ class ChangePasswordController extends Controller
   protected $user;
 
 
-  /**
-   * ChangePasswordController constructor.
+	/**
+	 * ChangePasswordController constructor.
    *
-   * @param UserRepository $user
-   */
-  public function __construct(UserRepository $user)
-  {
-    $this->user = $user;
-  }
+	 * @param UserRepository $user
+	 */
+	public function __construct(UserRepository $user)
+	{
+		$this->user = $user;
+	}
 
 
-  /**
-   * @param ChangePasswordRequest $request
+	/**
+	 * @param ChangePasswordRequest $request
    *
-   * @return mixed
-   */
+	 * @return mixed
+	 */
   public function changePassword(ChangePasswordRequest $request)
   {
-    $this->user->changePassword($request->all());
+		$this->user->changePassword($request->all());
 
     return redirect()
         ->route('frontend.user.account')
         ->withFlashSuccess(trans('strings.frontend.user.password_updated'));
-  }
+	}
 }

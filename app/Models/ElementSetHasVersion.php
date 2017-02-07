@@ -29,42 +29,40 @@ use App\Models\Access\User\User;
  */
 class ElementSetHasVersion extends Model
 {
-  protected $table = self::TABLE;
-  const TABLE = 'schema_has_version';
+    protected $table = self::TABLE;
+    const TABLE = 'schema_has_version';
 
-  use SoftDeletes;
+    use SoftDeletes;
 
-  protected $dates = [ 'deleted_at', 'timeslice' ];
+    protected $dates = [ 'deleted_at', 'timeslice' ];
 
-  protected $fillable = [ 'name', 'deleted_at', 'timeslice' ];
+    protected $fillable = [ 'name', 'deleted_at', 'timeslice' ];
 
   /**
    * The attributes that should be casted to native types.
    *
    * @var array
    */
-  protected $casts = [
+    protected $casts = [
       "id"              => "integer",
       "name"            => "string",
       "created_user_id" => "integer",
       "schema_id"       => "integer",
-  ];
+    ];
 
-  public static $rules = [
+    public static $rules = [
       "name" => "required|max:255",
-  ];
+    ];
 
 
-  public function UserCreator()
-  {
-    return $this->belongsTo(User::class, 'created_user_id', 'id');
-  }
+    public function UserCreator()
+    {
+        return $this->belongsTo(User::class, 'created_user_id', 'id');
+    }
 
 
-  public function ElementSet()
-  {
-    return $this->belongsTo('App\Models\ElementSet', 'schema_id', 'id');
-  }
-
+    public function ElementSet()
+    {
+        return $this->belongsTo(\App\Models\ElementSet::class, 'schema_id', 'id');
+    }
 }
-

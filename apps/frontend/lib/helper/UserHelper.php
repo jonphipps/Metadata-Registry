@@ -10,12 +10,12 @@ function link_to_user_interested($user, $question)
     if ($interested)
     {
       // already interested
-      return __('interested!');
+      return __s('interested!');
     }
     else
     {
       // didn't declare interest yet
-      return link_to_remote(__('interested?'), array(
+      return link_to_remote(__s('interested?'), array(
         'url'      => 'user/interested?id='.$question->getId(),
         'update'   => array('success' => 'block_'.$question->getId()),
         'loading'  => "Element.show('indicator')",
@@ -25,7 +25,7 @@ function link_to_user_interested($user, $question)
   }
   else
   {
-    return link_to_login(__('interested?'));
+    return link_to_login(__s('interested?'));
   }
 }
 
@@ -33,10 +33,10 @@ function link_to_profile($user)
 {
   if ($user->getNickname() == 'anonymous')
   {
-    return __('anonymous');
+    return __s('anonymous');
   }
   else
   {
-    return link_to($user->__toString(), '@user_profile?nickname='.$user->getNickname());
+    return sf_link_to($user->__toString(), '@user_profile?nickname='.$user->getNickname());
   }
 }

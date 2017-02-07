@@ -29,42 +29,40 @@ use App\Models\Access\User\User;
  */
 class VocabularyHasVersion extends Model
 {
-  protected $table = self::TABLE;
-  const TABLE = 'reg_vocabulary_has_version';
+    protected $table = self::TABLE;
+    const TABLE = 'reg_vocabulary_has_version';
 
-  use SoftDeletes;
+    use SoftDeletes;
 
-  protected $dates = [ 'deleted_at' ];
+    protected $dates = [ 'deleted_at' ];
 
-  protected $fillable = [ 'name', 'deleted_at', 'timeslice' ];
+    protected $fillable = [ 'name', 'deleted_at', 'timeslice' ];
 
   /**
    * The attributes that should be casted to native types.
    *
    * @var array
    */
-  protected $casts = [
+    protected $casts = [
       "id"              => "integer",
       "name"            => "string",
       "created_user_id" => "integer",
       "vocabulary_id"   => "integer",
-  ];
+    ];
 
-  public static $rules = [
+    public static $rules = [
       "name" => "required|max:255",
-  ];
+    ];
 
 
-  public function UserCreator()
-  {
-    return $this->belongsTo(User::class, 'created_user_id', 'id');
-  }
+    public function UserCreator()
+    {
+        return $this->belongsTo(User::class, 'created_user_id', 'id');
+    }
 
 
-  public function Vocabulary()
-  {
-    return $this->belongsTo('App\Models\Vocabulary', 'vocabulary_id', 'id');
-  }
-
+    public function Vocabulary()
+    {
+        return $this->belongsTo(\App\Models\Vocabulary::class, 'vocabulary_id', 'id');
+    }
 }
-

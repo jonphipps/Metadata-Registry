@@ -37,11 +37,19 @@ class RouteServiceProvider extends ServiceProvider
      * This allows us to use the Route Model Binding with SoftDeletes on
      * On a model by model basis
      */
-    $this->bind('deletedUser',
-        function ($value) {
-          $user = new User;
+    public function boot()
+    {
+        /**
+         * Register route model bindings
+         */
 
-          return User::withTrashed()->where($user->getRouteKeyName(), $value)->first();
+        /**
+         * This allows us to use the Route Model Binding with SoftDeletes on
+         * On a model by model basis
+         */
+        $this->bind('deletedUser', function ($value) {
+            $user = new User;
+            return User::withTrashed()->where($user->getRouteKeyName(), $value)->first();
         });
 
     parent::boot();
@@ -57,7 +65,8 @@ class RouteServiceProvider extends ServiceProvider
   {
     $this->mapWebRoutes();
 
-    $this->mapApiRoutes();
+        require base_path('routes/symfony.php');
+    }
 
     require base_path('routes/symfony.php');
   }

@@ -29,50 +29,48 @@ use App\Models\Access\User\User;
  */
 class ProjectHasUser extends Model
 {
-  protected $table = self::TABLE;
-  const TABLE = 'reg_agent_has_user';
+    protected $table = self::TABLE;
+    const TABLE = 'reg_agent_has_user';
 
-  use SoftDeletes;
-
-
-  public function getDates()
-  {
-    return [ 'deleted_at' ];
-  }
+    use SoftDeletes;
 
 
-  protected $fillable = [ 'deleted_at', 'is_registrar_for', 'is_admin_for' ];
+    public function getDates()
+    {
+        return [ 'deleted_at' ];
+    }
+
+
+    protected $fillable = [ 'deleted_at', 'is_registrar_for', 'is_admin_for' ];
 
   /**
    * The attributes that should be casted to native types.
    *
    * @var array
    */
-  protected $casts = [
+    protected $casts = [
       'id'               => 'integer',
       'user_id'          => 'integer',
       'agent_id'         => 'integer',
       'is_registrar_for' => 'boolean',
       'is_admin_for'     => 'boolean',
-  ];
+    ];
 
-  public static $rules = [
+    public static $rules = [
       'updated_at' => 'required|',
       'user_id'    => 'required|',
       'agent_id'   => 'required|',
-  ];
+    ];
 
 
-  public function user()
-  {
-    return $this->belongsTo(User::class, 'user_id', 'id');
-  }
+    public function User()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
 
 
-  public function project()
-  {
-    return $this->belongsTo(Project::class, 'agent_id', 'id');
-  }
-
+    public function Agent()
+    {
+        return $this->belongsTo(Project::class, 'agent_id', 'id');
+    }
 }
-

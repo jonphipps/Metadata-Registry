@@ -6,7 +6,7 @@
 <?php foreach ($this->getColumns('list.display') as $column): ?>
 <?php if (in_array($column->getName(), $hides)) continue ?>
 <?php if (list($moduleLink, $pkLink) = $this->DbFinderAdminGenerator->getColumnLink($column)): ?>
-  [?php echo <?php echo $this->getColumnListTag($column) ?> ? link_to(<?php echo $this->getColumnListTag($column) ?>, '<?php echo $moduleLink ?>/edit?<?php echo $pkLink ?>) : __('-') ?]
+  [?php echo <?php echo $this->getColumnListTag($column) ?> ? sf_link_to(<?php echo $this->getColumnListTag($column) ?>, '<?php echo $moduleLink ?>/edit?<?php echo $pkLink ?>) : __s('-') ?]
   <?php else: ?>
   [?php echo <?php echo $this->getColumnListTag($column) ?> ?]
   <?php endif; ?>

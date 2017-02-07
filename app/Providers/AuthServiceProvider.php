@@ -24,7 +24,7 @@ class AuthServiceProvider extends ServiceProvider
       ElementSet::class => ElementSetPolicy::class,
       /** Module policy mapper */
       'agent'           => ProjectPolicy::class,
-  ];
+    ];
 
 
   /**

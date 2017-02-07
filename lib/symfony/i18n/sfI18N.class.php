@@ -135,7 +135,7 @@ class sfI18N
     return $this->globalMessageFormat;
   }
 
-  public function __($string, $args = array(), $catalogue = 'messages')
+  public function __s($string, $args = array(), $catalogue = 'messages')
   {
     $retval = $this->messageFormat->formatExists($string, $args, $catalogue);
 

@@ -1,1 +1,1 @@
-<?php echo link_to('Concepts', '/concept/list?vocabulary_id=' . $vocabulary->getID()) ?>
+<?php echo sf_link_to('Concepts', '/concept/list?vocabulary_id=' . $vocabulary->getID()) ?>

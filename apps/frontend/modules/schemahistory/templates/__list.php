@@ -25,15 +25,15 @@
 <?php if ($sf_params->has('schema_property_element_id')): ?>
     <?php $filterParam .= '&schema_property_element_id=' . $sf_params->get('schema_property_element_id'); ?>
 <?php endif; ?>
-  <?php echo link_to(image_tag(sfConfig::get('sf_admin_web_dir').'/images/first.png', array('align' => 'absmiddle', 'alt' => __('First'), 'title' => __('First'))), 'schemahistory/list?page=1' . $filterParam) ?>
-  <?php echo link_to(image_tag(sfConfig::get('sf_admin_web_dir').'/images/previous.png', array('align' => 'absmiddle', 'alt' => __('Previous'), 'title' => __('Previous'))), 'schemahistory/list?page='.$pager->getPreviousPage() . $filterParam) ?>
+  <?php echo sf_link_to(image_tag(sfConfig::get('sf_admin_web_dir').'/images/first.png', array('align' => 'absmiddle', 'alt' => __s('First'), 'title' => __s('First'))), 'schemahistory/list?page=1' . $filterParam) ?>
+  <?php echo sf_link_to(image_tag(sfConfig::get('sf_admin_web_dir').'/images/previous.png', array('align' => 'absmiddle', 'alt' => __s('Previous'), 'title' => __s('Previous'))), 'schemahistory/list?page='.$pager->getPreviousPage() . $filterParam) ?>
 
   <?php foreach ($pager->getLinks() as $page): ?>
     <?php echo link_to_unless($page == $pager->getPage(), $page, 'schemahistory/list?page='.$page . $filterParam) ?>
   <?php endforeach; ?>
 
-  <?php echo link_to(image_tag(sfConfig::get('sf_admin_web_dir').'/images/next.png', array('align' => 'absmiddle', 'alt' => __('Next'), 'title' => __('Next'))), 'schemahistory/list?page='.$pager->getNextPage() . $filterParam) ?>
-  <?php echo link_to(image_tag(sfConfig::get('sf_admin_web_dir').'/images/last.png', array('align' => 'absmiddle', 'alt' => __('Last'), 'title' => __('Last'))), 'schemahistory/list?page='.$pager->getLastPage() . $filterParam) ?>
+  <?php echo sf_link_to(image_tag(sfConfig::get('sf_admin_web_dir').'/images/next.png', array('align' => 'absmiddle', 'alt' => __s('Next'), 'title' => __s('Next'))), 'schemahistory/list?page='.$pager->getNextPage() . $filterParam) ?>
+  <?php echo sf_link_to(image_tag(sfConfig::get('sf_admin_web_dir').'/images/last.png', array('align' => 'absmiddle', 'alt' => __s('Last'), 'title' => __s('Last'))), 'schemahistory/list?page='.$pager->getLastPage() . $filterParam) ?>
 <?php endif; ?>
 </div>
 <?php echo format_number_choice('[0] no result|[1] 1 result|(1,+Inf] %1% results', array('%1%' => $pager->getNbResults()), $pager->getNbResults()) ?>

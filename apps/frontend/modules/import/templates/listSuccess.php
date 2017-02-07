@@ -14,7 +14,7 @@
 
 <div id="sf_admin_content">
 <?php if (!$pager->getNbResults()): ?>
-<br /><?php echo __('No results') ?>
+<br /><?php echo __s('No results') ?>
 <?php else: ?>
 <?php include_partial('import/list', array('pager' => $pager)) ?>
 <?php endif; ?>

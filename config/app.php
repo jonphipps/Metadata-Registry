@@ -12,7 +12,7 @@ return [
   | any other location as required by the application or its packages.
   */
 
-  'name' => 'Open Metadata Registry',
+    'name' => 'Open Metadata Registry',
 
   /*
   |--------------------------------------------------------------------------
@@ -25,7 +25,7 @@ return [
   |
   */
 
-  'env' => env('APP_ENV', 'production'),
+    'env' => env('APP_ENV', 'production'),
 
   /*
   |--------------------------------------------------------------------------
@@ -38,7 +38,7 @@ return [
   |
   */
 
-  'debug' => env('APP_DEBUG', false),
+    'debug' => env('APP_DEBUG', false),
 
   /*
   |--------------------------------------------------------------------------
@@ -51,7 +51,7 @@ return [
   |
   */
 
-  'url' => env('APP_URL', 'http://registry.dev'),
+    'url' => env('APP_URL', 'http://registry.dev'),
 
   /*
   |--------------------------------------------------------------------------
@@ -64,7 +64,7 @@ return [
   |
   */
 
-  'timezone' => 'UTC',
+    'timezone' => 'UTC',
 
   /*
   |--------------------------------------------------------------------------
@@ -77,7 +77,7 @@ return [
   |
   */
 
-  'locale' => env('APP_LOCALE', 'en'),
+    'locale' => env('APP_LOCALE', 'en'),
 
   /*
   |--------------------------------------------------------------------------
@@ -90,7 +90,7 @@ return [
   |
   */
 
-  'fallback_locale' => env('APP_FALLBACK_LOCALE', 'en'),
+    'fallback_locale' => env('APP_FALLBACK_LOCALE', 'en'),
 
   /*
     |--------------------------------------------------------------------------
@@ -101,7 +101,7 @@ return [
     | by the Carbon library when setting Carbon's localization.
     |
     */
-  'locale_php'      => env('APP_LOCALE_PHP', 'en_US'),
+    'locale_php'      => env('APP_LOCALE_PHP', 'en_US'),
 
   /*
   |--------------------------------------------------------------------------
@@ -114,9 +114,9 @@ return [
   |
   */
 
-  'key' => env('APP_KEY'),
+    'key' => env('APP_KEY'),
 
-  'cipher' => 'AES-256-CBC',
+    'cipher' => 'AES-256-CBC',
 
   /*
   |--------------------------------------------------------------------------
@@ -131,9 +131,9 @@ return [
   |
   */
 
-  'log' => env('APP_LOG', 'daily'),
+    'log' => env('APP_LOG', 'daily'),
 
-  'log_level' => env('APP_LOG_LEVEL', 'debug'),
+    'log_level' => env('APP_LOG_LEVEL', 'debug'),
 
   /*
   |--------------------------------------------------------------------------
@@ -146,70 +146,71 @@ return [
   |
   */
 
-  'providers' => [
+    'providers' => [
 
-    /*
-     * Laravel Framework Service Providers...
-     */
-    Illuminate\Auth\AuthServiceProvider::class,
-    Illuminate\Broadcasting\BroadcastServiceProvider::class,
-    Illuminate\Bus\BusServiceProvider::class,
-    Illuminate\Cache\CacheServiceProvider::class,
-    Illuminate\Foundation\Providers\ConsoleSupportServiceProvider::class,
-    Illuminate\Cookie\CookieServiceProvider::class,
-    Illuminate\Database\DatabaseServiceProvider::class,
-    Illuminate\Encryption\EncryptionServiceProvider::class,
-    Illuminate\Filesystem\FilesystemServiceProvider::class,
-    Illuminate\Foundation\Providers\FoundationServiceProvider::class,
-    Illuminate\Hashing\HashServiceProvider::class,
-    Illuminate\Mail\MailServiceProvider::class,
-    Illuminate\Notifications\NotificationServiceProvider::class,
-    Illuminate\Pagination\PaginationServiceProvider::class,
-    Illuminate\Pipeline\PipelineServiceProvider::class,
-    Illuminate\Queue\QueueServiceProvider::class,
-    Illuminate\Redis\RedisServiceProvider::class,
-    Illuminate\Auth\Passwords\PasswordResetServiceProvider::class,
-    Illuminate\Session\SessionServiceProvider::class,
-    Illuminate\Translation\TranslationServiceProvider::class,
-    Illuminate\Validation\ValidationServiceProvider::class,
-    Illuminate\View\ViewServiceProvider::class,
+      /*
+       * Laravel Framework Service Providers...
+       */
+        Illuminate\Auth\AuthServiceProvider::class,
+        Illuminate\Broadcasting\BroadcastServiceProvider::class,
+        Illuminate\Bus\BusServiceProvider::class,
+        Illuminate\Cache\CacheServiceProvider::class,
+        Illuminate\Foundation\Providers\ConsoleSupportServiceProvider::class,
+        Illuminate\Cookie\CookieServiceProvider::class,
+        Illuminate\Database\DatabaseServiceProvider::class,
+        Illuminate\Encryption\EncryptionServiceProvider::class,
+        Illuminate\Filesystem\FilesystemServiceProvider::class,
+        Illuminate\Foundation\Providers\FoundationServiceProvider::class,
+        Illuminate\Hashing\HashServiceProvider::class,
+        Illuminate\Mail\MailServiceProvider::class,
+        Illuminate\Notifications\NotificationServiceProvider::class,
+        Illuminate\Pagination\PaginationServiceProvider::class,
+        Illuminate\Pipeline\PipelineServiceProvider::class,
+        Illuminate\Queue\QueueServiceProvider::class,
+        Illuminate\Redis\RedisServiceProvider::class,
+        Illuminate\Auth\Passwords\PasswordResetServiceProvider::class,
+        Illuminate\Session\SessionServiceProvider::class,
+        Laravel\Tinker\TinkerServiceProvider::class,
+        Illuminate\Translation\TranslationServiceProvider::class,
+        Illuminate\Validation\ValidationServiceProvider::class,
+        Illuminate\View\ViewServiceProvider::class,
 
-    /*
-     * Package Service Providers...
-     */
-    Arcanedev\LogViewer\LogViewerServiceProvider::class,
-    Arcanedev\NoCaptcha\NoCaptchaServiceProvider::class,
-    Collective\Html\HtmlServiceProvider::class,
-    Creativeorange\Gravatar\GravatarServiceProvider::class,
-    DaveJamesMiller\Breadcrumbs\ServiceProvider::class,
-    HieuLe\Active\ActiveServiceProvider::class,
-    Laravel\Socialite\SocialiteServiceProvider::class,
-    Yajra\Datatables\DatatablesServiceProvider::class,
+      /*
+       * Package Service Providers...
+       */
+        Arcanedev\LogViewer\LogViewerServiceProvider::class,
+        Arcanedev\NoCaptcha\NoCaptchaServiceProvider::class,
+        Collective\Html\HtmlServiceProvider::class,
+        Creativeorange\Gravatar\GravatarServiceProvider::class,
+        DaveJamesMiller\Breadcrumbs\ServiceProvider::class,
+        Encore\Admin\Providers\AdminServiceProvider::class,
+        HieuLe\Active\ActiveServiceProvider::class,
+        Laravel\Socialite\SocialiteServiceProvider::class,
+        Yajra\Datatables\DatatablesServiceProvider::class,
 
-    /*
-     * Has to override the Collective\Html\HtmlServiceProvider form singleton
-     */
-    App\Providers\MacroServiceProvider::class,
-    App\Providers\OmrServiceProvider::class,
+      /*
+       * Has to override the Collective\Html\HtmlServiceProvider form singleton
+       */
+        App\Providers\MacroServiceProvider::class,
 
-    /*
-         * Application Service Providers...
-         */
-    App\Providers\AccessServiceProvider::class,
-    App\Providers\AppServiceProvider::class,
-    App\Providers\AuthServiceProvider::class,
-    App\Providers\BladeServiceProvider::class,
-    // App\Providers\BroadcastServiceProvider::class,
-    App\Providers\ComposerServiceProvider::class,
-    App\Providers\EventServiceProvider::class,
-    App\Providers\HistoryServiceProvider::class,
-    App\Providers\RouteServiceProvider::class,
-    Maatwebsite\Excel\ExcelServiceProvider::class,
-    Barryvdh\Snappy\ServiceProvider::class,
-    Bugsnag\BugsnagLaravel\BugsnagServiceProvider::class,
-    Culpa\CulpaServiceProvider::class,
-    GrahamCampbell\GitHub\GitHubServiceProvider::class,
-  ],
+      /*
+           * Application Service Providers...
+           */
+        App\Providers\AccessServiceProvider::class,
+        App\Providers\AppServiceProvider::class,
+        App\Providers\AuthServiceProvider::class,
+        App\Providers\BladeServiceProvider::class,
+      // App\Providers\BroadcastServiceProvider::class,
+        App\Providers\ComposerServiceProvider::class,
+        App\Providers\EventServiceProvider::class,
+        App\Providers\HistoryServiceProvider::class,
+        App\Providers\RouteServiceProvider::class,
+        Maatwebsite\Excel\ExcelServiceProvider::class,
+        Barryvdh\Snappy\ServiceProvider::class,
+        Bugsnag\BugsnagLaravel\BugsnagServiceProvider::class,
+        Culpa\CulpaServiceProvider::class,
+        GrahamCampbell\GitHub\GitHubServiceProvider::class,
+    ],
 
   /*
   |--------------------------------------------------------------------------
@@ -222,56 +223,56 @@ return [
   |
   */
 
-  'aliases' => [
+    'aliases' => [
 
-      'App'          => Illuminate\Support\Facades\App::class,
-      'Artisan'      => Illuminate\Support\Facades\Artisan::class,
-      'Auth'         => Illuminate\Support\Facades\Auth::class,
-      'Blade'        => Illuminate\Support\Facades\Blade::class,
-      'Bus'          => Illuminate\Support\Facades\Bus::class,
-      'Cache'        => Illuminate\Support\Facades\Cache::class,
-      'Config'       => Illuminate\Support\Facades\Config::class,
-      'Cookie'       => Illuminate\Support\Facades\Cookie::class,
-      'Crypt'        => Illuminate\Support\Facades\Crypt::class,
-      'DB'           => Illuminate\Support\Facades\DB::class,
-      'Eloquent'     => Illuminate\Database\Eloquent\Model::class,
-      'Event'        => Illuminate\Support\Facades\Event::class,
-      'File'         => Illuminate\Support\Facades\File::class,
-      'Gate'         => Illuminate\Support\Facades\Gate::class,
-      'Hash'         => Illuminate\Support\Facades\Hash::class,
-      'Lang'         => Illuminate\Support\Facades\Lang::class,
-      'Log'          => Illuminate\Support\Facades\Log::class,
-      'Mail'         => Illuminate\Support\Facades\Mail::class,
-      'Notification' => Illuminate\Support\Facades\Notification::class,
-      'Password'     => Illuminate\Support\Facades\Password::class,
-      'Queue'        => Illuminate\Support\Facades\Queue::class,
-      'Redirect'     => Illuminate\Support\Facades\Redirect::class,
-      'Redis'        => Illuminate\Support\Facades\Redis::class,
-      'Request'      => Illuminate\Support\Facades\Request::class,
-      'Response'     => Illuminate\Support\Facades\Response::class,
-      'Route'        => Illuminate\Support\Facades\Route::class,
-      'SchemaL'      => Illuminate\Support\Facades\Schema::class,
-      'Session'      => Illuminate\Support\Facades\Session::class,
-      'Storage'      => Illuminate\Support\Facades\Storage::class,
-      'URL'          => Illuminate\Support\Facades\URL::class,
-      'Validator'    => Illuminate\Support\Facades\Validator::class,
-      'View'         => Illuminate\Support\Facades\View::class,
+        'App'          => Illuminate\Support\Facades\App::class,
+        'Artisan'      => Illuminate\Support\Facades\Artisan::class,
+        'Auth'         => Illuminate\Support\Facades\Auth::class,
+        'Blade'        => Illuminate\Support\Facades\Blade::class,
+        'Broadcast'    => Illuminate\Support\Facades\Broadcast::class,
+        'Bus'          => Illuminate\Support\Facades\Bus::class,
+        'Cache'        => Illuminate\Support\Facades\Cache::class,
+        'Config'       => Illuminate\Support\Facades\Config::class,
+        'Cookie'       => Illuminate\Support\Facades\Cookie::class,
+        'Crypt'        => Illuminate\Support\Facades\Crypt::class,
+        'DB'           => Illuminate\Support\Facades\DB::class,
+        'Eloquent'     => Illuminate\Database\Eloquent\Model::class,
+        'Event'        => Illuminate\Support\Facades\Event::class,
+        'File'         => Illuminate\Support\Facades\File::class,
+        'Gate'         => Illuminate\Support\Facades\Gate::class,
+        'Hash'         => Illuminate\Support\Facades\Hash::class,
+        'Lang'         => Illuminate\Support\Facades\Lang::class,
+        'Log'          => Illuminate\Support\Facades\Log::class,
+        'Mail'         => Illuminate\Support\Facades\Mail::class,
+        'Notification' => Illuminate\Support\Facades\Notification::class,
+        'Password'     => Illuminate\Support\Facades\Password::class,
+        'Queue'        => Illuminate\Support\Facades\Queue::class,
+        'Redirect'     => Illuminate\Support\Facades\Redirect::class,
+        'Redis'        => Illuminate\Support\Facades\Redis::class,
+        'Request'      => Illuminate\Support\Facades\Request::class,
+        'Response'     => Illuminate\Support\Facades\Response::class,
+        'Route'        => Illuminate\Support\Facades\Route::class,
+        'SchemaL'      => Illuminate\Support\Facades\Schema::class,
+        'Session'      => Illuminate\Support\Facades\Session::class,
+        'Storage'      => Illuminate\Support\Facades\Storage::class,
+        'URL'          => Illuminate\Support\Facades\URL::class,
+        'Validator'    => Illuminate\Support\Facades\Validator::class,
+        'View'         => Illuminate\Support\Facades\View::class,
       /*
            * Third Party Aliases
            */
-      'Excel'        => Maatwebsite\Excel\Facades\Excel::class,
-      'PDF'          => Barryvdh\Snappy\Facades\SnappyPdf::class,
-      'SnappyImage'  => Barryvdh\Snappy\Facades\SnappyImage::class,
-      'Bugsnag'      => Bugsnag\BugsnagLaravel\Facades\Bugsnag::class,
-      'Active'       => HieuLe\Active\Facades\Active::class,
-      'Breadcrumbs'  => DaveJamesMiller\Breadcrumbs\Facade::class,
-      'Captcha'      => Arcanedev\NoCaptcha\Facades\NoCaptcha::class,
-      'Form'         => Collective\Html\FormFacade::class,
-      'Gravatar'     => Creativeorange\Gravatar\Facades\Gravatar::class,
-      'Html'         => Collective\Html\HtmlFacade::class,
-      'Socialite'    => Laravel\Socialite\Facades\Socialite::class,
-      'GitHub'       => GrahamCampbell\GitHub\Facades\GitHub::class,
-
-  ],
+        'Excel'        => Maatwebsite\Excel\Facades\Excel::class,
+        'PDF'          => Barryvdh\Snappy\Facades\SnappyPdf::class,
+        'SnappyImage'  => Barryvdh\Snappy\Facades\SnappyImage::class,
+        'Bugsnag'      => Bugsnag\BugsnagLaravel\Facades\Bugsnag::class,
+        'Active'       => HieuLe\Active\Facades\Active::class,
+        'Breadcrumbs'  => DaveJamesMiller\Breadcrumbs\Facade::class,
+        'Captcha'      => Arcanedev\NoCaptcha\Facades\NoCaptcha::class,
+        'Form'         => Collective\Html\FormFacade::class,
+        'Gravatar'     => Creativeorange\Gravatar\Facades\Gravatar::class,
+        'Html'         => Collective\Html\HtmlFacade::class,
+        'Socialite'    => Laravel\Socialite\Facades\Socialite::class,
+        'GitHub'       => GrahamCampbell\GitHub\Facades\GitHub::class
+    ],
 
 ];

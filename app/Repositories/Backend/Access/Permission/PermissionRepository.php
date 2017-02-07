@@ -12,8 +12,8 @@ use App\Repositories\Repository;
  */
 class PermissionRepository extends Repository
 {
-  /**
-   * Associated Repository Model
-   */
-  const MODEL = Permission::class;
+    /**
+     * Associated Repository Model
+     */
+    const MODEL = Permission::class;
 }

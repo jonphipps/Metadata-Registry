@@ -8,7 +8,7 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 
 class VocabularyPolicy
 {
-  use HandlesAuthorization;
+    use HandlesAuthorization;
 
 
   /**
@@ -19,10 +19,10 @@ class VocabularyPolicy
    *
    * @return mixed
    */
-  public function view(User $user, Vocabulary $vocabulary)
-  {
-    //
-  }
+    public function view(User $user, Vocabulary $vocabulary)
+    {
+        //
+    }
 
 
   /** * Determine whether the user can create vocabularies.
@@ -31,34 +31,37 @@ class VocabularyPolicy
    *
    * @return mixed
    */
-  public function create(User $user)
-  {
-    //
-  }
+    public function create(User $user)
+    {
+        //
+    }
 
 
-  public function listTableForeignKeys($table)
-  {
-    $conn = SchemaL::getConnection()->getDoctrineSchemaManager();
+    public function listTableForeignKeys($table)
+    {
+        $conn = SchemaL::getConnection()->getDoctrineSchemaManager();
 
-    return array_map(
+        return array_map(
 
-        function ($key) {
-          /** @var \Doctrine\DBAL\Schema\ForeignKeyConstraint $key */
-          return $key->getName();
-        },
-        $conn->listTableForeignKeys($table));
-  }pdate the vocabulary.
-   *
-   * @param  User $user
-   * @param  Vocabulary $vocabulary
-   *
-   * @return mixed
-   */
-  public function update(User $user, Vocabulary $vocabulary)
-  {
-    //
-  }
+            function ($key) {
+            /** @var \Doctrine\DBAL\Schema\ForeignKeyConstraint $key */
+                return $key->getName();
+            },
+            $conn->listTableForeignKeys($table)
+        );
+    }
+
+   /** update the vocabulary.
+    *
+    * @param  User $user
+    * @param  Vocabulary $vocabulary
+    *
+    * @return mixed
+    */
+    public function update(User $user, Vocabulary $vocabulary)
+    {
+        //
+    }
 
 
   /**
@@ -69,8 +72,8 @@ class VocabularyPolicy
    *
    * @return mixed
    */
-  public function delete(User $user, Vocabulary $vocabulary)
-  {
-    //
-  }
+    public function delete(User $user, Vocabulary $vocabulary)
+    {
+        //
+    }
 }

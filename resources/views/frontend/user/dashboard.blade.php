@@ -20,7 +20,7 @@
                                         <div class="panel-body">
                                             <ul class="list-unstyled">
                                                 @forelse ($logged_in_user->projects->sortBy('org_name') as $project)
-                                                    <li>{{ \Collective\Html\link_to('projects/'.$project->id, $project->org_name) }}</li>
+                                                    <li>{{ laravel_link_to('projects/'.$project->id, $project->org_name) }}</li>
                                                 @empty
                                                     Start by Adding a Project...
                                                 @endforelse
@@ -41,7 +41,7 @@
                                         <div class="panel-body">
                                             <ul class="list-unstyled">
                                                 @forelse ($logged_in_user->vocabularies->sortBy('name') as $vocab)
-                                                    <li>{{ \Collective\Html\link_to('vocabularies/'.$vocab->id . '/concepts', $vocab->name) }}</li>
+                                                    <li>{{ laravel_link_to('vocabularies/'.$vocab->id . '/concepts', $vocab->name) }}</li>
                                                 @empty
                                                     No Vocabularies defined
                                                 @endforelse
@@ -57,7 +57,7 @@
                                         <div class="panel-body">
                                             <ul class="list-unstyled">
                                                 @forelse ($logged_in_user->elementsets->sortBy('name') as $elementset)
-                                                    <li>{{ \Collective\Html\link_to('elementsets/'.$elementset->id . '/elements', $elementset->name) }}</li>
+                                                    <li>{{ laravel_link_to('elementsets/'.$elementset->id . '/elements', $elementset->name) }}</li>
                                                 @empty
                                                     No Element Sets defined
                                                 @endforelse

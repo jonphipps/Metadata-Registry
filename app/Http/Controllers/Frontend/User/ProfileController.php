@@ -13,32 +13,27 @@ use App\Repositories\Frontend\Access\User\UserRepository;
  */
 class ProfileController extends Controller
 {
-  /**
-   * @var UserRepository
-   */
-  protected $user;
+    /**
+     * @var UserRepository
+     */
+    protected $user;
 
+    /**
+     * ProfileController constructor.
+     * @param UserRepository $user
+     */
+    public function __construct(UserRepository $user)
+    {
+        $this->user = $user;
+    }
 
-  /**
-   * ProfileController constructor.
-   *
-   * @param UserRepository $user
-   */
-  public function __construct(UserRepository $user)
-  {
-    $this->user = $user;
-  }
-
-
-  /**
-   * @param UpdateProfileRequest $request
-   *
-   * @return mixed
-   */
-  public function update(UpdateProfileRequest $request)
-  {
-    $this->user->updateProfile(access()->id(), $request->all());
-
-    return redirect()->route('frontend.user.account')->withFlashSuccess(trans('strings.frontend.user.profile_updated'));
-  }
+    /**
+     * @param UpdateProfileRequest $request
+     * @return mixed
+     */
+    public function update(UpdateProfileRequest $request)
+    {
+        $this->user->updateProfile(access()->id(), $request->all());
+        return redirect()->route('frontend.user.account')->withFlashSuccess(trans('strings.frontend.user.profile_updated'));
+    }
 }

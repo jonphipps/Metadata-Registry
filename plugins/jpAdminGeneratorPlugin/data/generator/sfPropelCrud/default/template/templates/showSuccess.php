@@ -9,5 +9,5 @@
 </tbody>
 </table>
 <hr />
-[?php echo link_to('edit', '<?php echo $this->getModuleName() ?>/edit?<?php echo $this->getPrimaryKeyUrlParams() ?>) ?]
-&nbsp;[?php echo link_to('list', '@<?php echo $this->getModuleName() ?>_list') ?]
+[?php echo sf_link_to('edit', '<?php echo $this->getModuleName() ?>/edit?<?php echo $this->getPrimaryKeyUrlParams() ?>) ?]
+&nbsp;[?php echo sf_link_to('list', '@<?php echo $this->getModuleName() ?>_list') ?]

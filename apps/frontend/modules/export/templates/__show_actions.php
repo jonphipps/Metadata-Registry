@@ -8,7 +8,7 @@
         } else {
             $param = 'vocabulary_id=' . $file_import_history->getVocabularyId();
         }
-        echo button_to(__('List'), 'export/list?' . $param . '', array(
+        echo button_to(__s('List'), 'export/list?' . $param . '', array(
             'title' => 'Show Export History list',
             'class' => 'sf_admin_action_list',
         )) ?></li>

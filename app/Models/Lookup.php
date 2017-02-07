@@ -17,12 +17,10 @@
  */
 class Lookup extends \Illuminate\Database\Eloquent\Model
 {
-  protected $table = self::TABLE;
-  const TABLE = 'reg_lookup';
+    protected $table = self::TABLE;
+    const TABLE = 'reg_lookup';
 
-  public $timestamps = false;
+    public $timestamps = false;
 
-  protected $fillable = [ 'type_id', 'short_value', 'long_value', 'display_order' ];
-
+    protected $fillable = [ 'type_id', 'short_value', 'long_value', 'display_order' ];
 }
-

@@ -14,49 +14,49 @@ use App\Repositories\Frontend\Access\User\UserRepository;
  */
 class ConfirmAccountController extends Controller
 {
-  /**
-   * @var UserRepository
-   */
-  protected $user;
+	/**
+	 * @var UserRepository
+	 */
+	protected $user;
 
 
-  /**
-   * ConfirmAccountController constructor.
+	/**
+	 * ConfirmAccountController constructor.
    *
-   * @param UserRepository $user
-   */
-  public function __construct(UserRepository $user)
-  {
-    $this->user = $user;
-  }
+	 * @param UserRepository $user
+	 */
+	public function __construct(UserRepository $user)
+	{
+		$this->user = $user;
+	}
 
 
-  /**
-   * @param $token
+	/**
+	 * @param $token
    *
-   * @return mixed
-   */
-  public function confirm($token)
-  {
-    $this->user->confirmAccount($token);
+	 * @return mixed
+	 */
+	public function confirm($token)
+	{
+		$this->user->confirmAccount($token);
 
     return redirect()
         ->route('frontend.auth.login')
         ->withFlashSuccess(trans('exceptions.frontend.auth.confirmation.success'));
-  }
+	}
 
 
-  /**
-   * @param $user
+	/**
+	 * @param $user
    *
-   * @return mixed
-   */
-  public function sendConfirmationEmail(User $user)
-  {
-    $user->notify(new UserNeedsConfirmation($user->confirmation_code));
+	 * @return mixed
+	 */
+	public function sendConfirmationEmail(User $user)
+	{
+		$user->notify(new UserNeedsConfirmation($user->confirmation_code));
 
     return redirect()
         ->route('frontend.auth.login')
         ->withFlashSuccess(trans('exceptions.frontend.auth.confirmation.resent'));
-  }
+	}
 }

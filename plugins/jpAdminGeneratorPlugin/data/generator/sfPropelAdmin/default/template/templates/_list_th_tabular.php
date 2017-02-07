@@ -29,17 +29,17 @@ foreach ($this->getColumns('list.display') as $column): ?>
 <?php if ($column->isReal()): ?>
   [?php /** @var sfUser $sf_user */
     if ($sf_user->getAttribute('sort', null, 'sf_admin/<?php echo $this->getSingularName() ?>/sort') == '<?php echo $column->getName() ?>'): ?]
-      [?php echo link_to(__('<?php echo str_replace("'", "\\'", $this->getParameterValue('list.fields.'.$column->getName().'.name')) ?>'), '@' . $parent . '<?php echo $this->getModuleName() ?>_list' . $filterParam, ['query_string' => 'sort=<?php echo $column->getName() ?>&type='.($sf_user->getAttribute('type', 'asc', 'sf_admin/<?php echo $this->getSingularName() ?>/sort') == 'asc' ? 'desc' : 'asc')]) ?]
+      [?php echo sf_link_to(__s('<?php echo str_replace("'", "\\'", $this->getParameterValue('list.fields.'.$column->getName().'.name')) ?>'), '@' . $parent . '<?php echo $this->getModuleName() ?>_list' . $filterParam, ['query_string' => 'sort=<?php echo $column->getName() ?>&type='.($sf_user->getAttribute('type', 'asc', 'sf_admin/<?php echo $this->getSingularName() ?>/sort') == 'asc' ? 'desc' : 'asc')]) ?]
       [?php if ($sf_user->getAttribute('type', null, 'sf_admin/<?php echo $this->getSingularName() ?>/sort') == 'asc'): ?]
-        [?php echo image_tag(sfConfig::get('sf_admin_web_dir').'/images/s_asc.png', array('align' => 'absmiddle', 'alt' => __('Ascending Order'), 'title' => __('List has been sorted in ascending order'))) ?]
+        [?php echo image_tag(sfConfig::get('sf_admin_web_dir').'/images/s_asc.png', array('align' => 'absmiddle', 'alt' => __s('Ascending Order'), 'title' => __s('List has been sorted in ascending order'))) ?]
       [?php elseif ($sf_user->getAttribute('type', null, 'sf_admin/<?php echo $this->getSingularName() ?>/sort') == 'desc'): ?]
-          [?php echo image_tag(sfConfig::get('sf_admin_web_dir').'/images/s_desc.png', array('align' => 'absmiddle', 'alt' => __('Descending Order'), 'title' => __('List has been sorted in descending order'))) ?]
+          [?php echo image_tag(sfConfig::get('sf_admin_web_dir').'/images/s_desc.png', array('align' => 'absmiddle', 'alt' => __s('Descending Order'), 'title' => __s('List has been sorted in descending order'))) ?]
       [?php endif; ?]
     [?php else: ?]
-      [?php echo link_to(__('<?php echo str_replace("'", "\\'", $this->getParameterValue('list.fields.'.$column->getName().'.name')) ?>'), '@' . $parent . '<?php echo $this->getModuleName() ?>_list' . $filterParam, ['query_string' => 'sort=<?php echo $column->getName() ?>&type=asc']) ?]
+      [?php echo sf_link_to(__s('<?php echo str_replace("'", "\\'", $this->getParameterValue('list.fields.'.$column->getName().'.name')) ?>'), '@' . $parent . '<?php echo $this->getModuleName() ?>_list' . $filterParam, ['query_string' => 'sort=<?php echo $column->getName() ?>&type=asc']) ?]
     [?php endif; ?]
 <?php else: ?>
-    [?php echo __('<?php echo str_replace("'", "\\'", $this->getParameterValue('list.fields.'.$column->getName().'.name')) ?>') ?]
+    [?php echo __s('<?php echo str_replace("'", "\\'", $this->getParameterValue('list.fields.'.$column->getName().'.name')) ?>') ?]
 <?php endif; ?>
 <?php echo $this->getHelpAsIcon($column, 'list') ?>
   </th>

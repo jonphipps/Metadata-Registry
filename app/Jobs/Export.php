@@ -20,20 +20,21 @@ class Export implements ShouldQueue
    *
    * @throws \PropelException
    */
-  public function __construct(\ExportHistory $export)
-  {
-    //new up a laravel container
-    Container::setInstance(new Container);
+    public function __construct(\ExportHistory $export)
+    {
+      //new up a laravel container
+        Container::setInstance(new Container);
 
-    $addLanguage     = $export->getSelectedLanguage();
-    $schema          = $export->getSchema();
-    $vocabulary      = $export->getVocabulary();
-    $defaultLanguage = $schema ? $schema->getLanguage() : $vocabulary->getLanguage();
+        $addLanguage     = $export->getSelectedLanguage();
+        $schema          = $export->getSchema();
+        $vocabulary      = $export->getVocabulary();
+        $defaultLanguage = $schema ? $schema->getLanguage() : $vocabulary->getLanguage();
 
-    if ($addLanguage) {
-      $languages = [ $defaultLanguage, $addLanguage, ];
-    } else {
-      $languages = [ $defaultLanguage, ];
+        if ($addLanguage) {
+            $languages = [ $defaultLanguage, $addLanguage, ];
+        } else {
+            $languages = [ $defaultLanguage, ];
+        }
     }
 
   }

@@ -12,20 +12,19 @@ use Illuminate\Foundation\Http\FormRequest;
 abstract class Request extends FormRequest
 {
 
-  /**
-   * @var string
-   */
-  protected $error = '';
+    /**
+     * @var string
+     */
+    protected $error = '';
 
-
-  /**
-   * @return \Illuminate\Http\RedirectResponse
+    /**
+     * @return \Illuminate\Http\RedirectResponse
    */
-  public function forbiddenResponse()
-  {
-    if (empty($error)) {
-      $this->error = trans('auth.general_error');
-    }
+    public function forbiddenResponse()
+    {
+        if (empty($error)) {
+            $this->error = trans('auth.general_error');
+        }
 
     return redirect()->back()->withErrors($this->error);
   }

@@ -16,7 +16,7 @@
   )
   ): ?>
     <li><?php echo submit_tag(
-          __( 'Save' ),
+          __s( 'Save' ),
           array (
               'name' => 'save',
               'title' => 'Save',
@@ -37,7 +37,7 @@
   ): ?>
     <li><?php if ( $vocabulary_has_user->getId() ): ?>
         <?php echo button_to(
-            __( 'Add Maintainer' ),
+            __s( 'Add Maintainer' ),
             'vocabuser/create',
             array (
                 'title' => 'Create',
@@ -58,7 +58,7 @@
              && 1 < count( $sf_flash->get( 'newUsers', array () ) )
   ): ?>
     <li><?php echo submit_tag(
-          __( 'Save and add' ),
+          __s( 'Save and add' ),
           array (
               'name' => 'save_and_add',
               'title' => 'Save and add',
@@ -78,7 +78,7 @@
   )
   ): ?>
     <li><?php echo button_to(
-          __( 'Cancel' ),
+          __s( 'Cancel' ),
           'vocabuser/cancel?id=' . $vocabulary_has_user->getId(),
           array (
               'title' => 'Cancel',

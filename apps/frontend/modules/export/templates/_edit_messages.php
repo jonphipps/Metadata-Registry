@@ -4,6 +4,6 @@
 ?>
 <?php if ($sf_flash->has('error')): ?>
     <div class="form-errors">
-        <h2><?php echo __($sf_flash->get('error')) ?></h2>
+        <h2><?php echo __s($sf_flash->get('error')) ?></h2>
     </div>
 <?php endif; ?>

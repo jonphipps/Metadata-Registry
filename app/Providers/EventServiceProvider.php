@@ -29,13 +29,29 @@ class EventServiceProvider extends ServiceProvider
      */
 
     /**
-     * Auth Subscribers
+     * Class event subscribers
+     * @var array
      */
-    \App\Listeners\Frontend\Auth\UserEventListener::class,
+    protected $subscribe = [
+        /**
+         * Frontend Subscribers
+         */
 
-    /**
-     * Backend Subscribers
-     */
+        /**
+         * Auth Subscribers
+         */
+        \App\Listeners\Frontend\Auth\UserEventListener::class,
+
+        /**
+         * Backend Subscribers
+         */
+
+        /**
+         * Access Subscribers
+         */
+        \App\Listeners\Backend\Access\User\UserEventListener::class,
+        \App\Listeners\Backend\Access\Role\RoleEventListener::class,
+    ];
 
     /**
      * Access Subscribers

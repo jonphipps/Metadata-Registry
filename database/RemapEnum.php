@@ -11,9 +11,9 @@ trait RemapEnum
   /**
    * Make sure Doctrine understands Enums
    */
-  public function remapEnum()
-  {
-    $platform = SchemaL::getConnection()->getDoctrineSchemaManager()->getDatabasePlatform();
-    $platform->registerDoctrineTypeMapping('enum', 'string');
-  }
+    public function remapEnum()
+    {
+        $platform = SchemaL::getConnection()->getDoctrineSchemaManager()->getDatabasePlatform();
+        $platform->registerDoctrineTypeMapping('enum', 'string');
+    }
 }

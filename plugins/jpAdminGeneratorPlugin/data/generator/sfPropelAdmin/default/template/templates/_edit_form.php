@@ -83,7 +83,7 @@ foreach ($this->getPrimaryKey() as $pk): ?>
 <?php endif; ?>
 <fieldset id="sf_fieldset_<?php echo preg_replace('/[^a-z0-9_]/', '_', strtolower($category_name)) ?>" <?php if ($collapse): ?> class="collapse"<?php endif; ?>>
 <?php if ($category != 'NONE'): ?>
-  <h2>[?php echo __('<?php echo $category_name ?>') ?]</h2>
+  <h2>[?php echo __s('<?php echo $category_name ?>') ?]</h2>
 <?php endif; ?>
 <?php foreach ($this->getColumns('edit.display', $category) as $name => $column): ?>
 <?php if (in_array($column->getName(), $hides)) continue ?>
@@ -100,7 +100,7 @@ foreach ($this->getPrimaryKey() as $pk): ?>
 [?php if ('<?php echo $colMode ?>' == $mode): ?]
 <?php endif; ?>
 <div id="form_row_<?php echo $this->getSingularName() ?>_<?php echo $column->getName() ?>" class="form-row">
-    [?php echo label_for('<?php echo $this->getParameterValue("edit.fields.".$column->getName().".label_for", $this->getSingularName()."[".$column->getName()."]") ?>', __($labels['<?php echo $this->getSingularName() ?>{<?php echo $column->getName() ?>}']), '<?php if ($column->isNotNull()): ?>class=required <?php endif; ?>id=label_for_<?php echo $this->getParameterValue("edit.fields.".$column->getName().".label_for", $this->getSingularName()."_".$column->getName()) ?>') ?]
+    [?php echo label_for('<?php echo $this->getParameterValue("edit.fields.".$column->getName().".label_for", $this->getSingularName()."[".$column->getName()."]") ?>', __s($labels['<?php echo $this->getSingularName() ?>{<?php echo $column->getName() ?>}']), '<?php if ($column->isNotNull()): ?>class=required <?php endif; ?>id=label_for_<?php echo $this->getParameterValue("edit.fields.".$column->getName().".label_for", $this->getSingularName()."_".$column->getName()) ?>') ?]
 
   <div id="form_row_content_<?php echo $this->getSingularName() ?>_<?php echo $column->getName() ?>" class="content[?php if ($sf_request->hasError('<?php echo $this->getSingularName() ?>{<?php echo $column->getName() ?>}')): ?] form-error[?php endif; ?]">
 [?php if ($sf_request->hasError('<?php echo $this->getSingularName() ?>{<?php echo $column->getName() ?>}')): ?]

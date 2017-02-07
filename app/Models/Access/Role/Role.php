@@ -34,9 +34,9 @@ use App\Models\Access\Role\Traits\Relationship\RoleRelationship;
 class Role extends Model
 {
     use RoleScope,
-		RoleAccess,
-		RoleAttribute,
-		RoleRelationship;
+        RoleAccess,
+        RoleAttribute,
+        RoleRelationship;
 
     /**
      * The database table used by the model.

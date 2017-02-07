@@ -18,23 +18,31 @@ class ResetPasswordController extends Controller
 {
   use ResetsPasswords;
 
-  /**
-   * @var UserRepository
-   */
-  protected $user;
+    /**
+     * @var UserRepository
+     */
+    protected $user;
 
-  protected $redirectTo = '/dashboard';
+    protected $redirectTo = '/dashboard';
 
+    /**
+     * ChangePasswordController constructor.
+     * @param UserRepository $user
+     */
+    public function __construct(UserRepository $user)
+    {
+        $this->user = $user;
+    }
 
-  /**
-   * ChangePasswordController constructor.
-   *
-   * @param UserRepository $user
-   */
-  public function __construct(UserRepository $user)
-  {
-    $this->user = $user;
-  }
+    /**
+     * Where to redirect users after resetting password
+     *
+     * @return string
+     */
+    public function redirectPath()
+    {
+        return route('frontend.user.dashboard');
+    }
 
 
   /**
@@ -56,18 +64,18 @@ class ResetPasswordController extends Controller
    *
    * @return void
    */
-  protected function resetPassword($user, $password)
-  {
-    $user->forceFill([
+    protected function resetPassword($user, $password)
+    {
+        $user->forceFill([
         'password'       => bcrypt($password),
         'remember_token' => Str::random(60),
         'confirmed'      => 1,
-    ])->save();
+        ])
+         ->save();
 
-    $this->guard()->login($user);
-  }
-
-
+        $this->guard()
+         ->login($user);
+    }
   /**
    * Display the password reset view for the given token.
    * If no token is present, display the link request form.
@@ -76,13 +84,16 @@ class ResetPasswordController extends Controller
    *
    * @return \Illuminate\Http\Response
    */
-  public function showResetForm($token = null)
-  {
-    $email = $this->user->getEmailForPasswordToken($token)['email'];
-    $name  = $this->user->getEmailForPasswordToken($token)['name'];
+    public function showResetForm($token = null)
+    {
+        $email = $this->user->getEmailForPasswordToken($token)['email'];
+        $name  = $this->user->getEmailForPasswordToken($token)['name'];
 
-    return view('frontend.auth.passwords.reset')->withToken($token)->withEmail($email)->withName($name);
-  }
+        return view('frontend.auth.passwords.reset')
+        ->withToken($token)
+        ->withEmail($email)
+        ->withName($name);
+    }
 
 
   /**
@@ -90,14 +101,14 @@ class ResetPasswordController extends Controller
    *
    * @return array
    */
-  protected function rules()
-  {
-    return [
+    protected function rules()
+    {
+        return [
         'token'    => 'required',
         'name'     => 'required',
         'password' => 'required|confirmed|min:6',
-    ];
-  }
+        ];
+    }
 
 
   /**
@@ -107,13 +118,15 @@ class ResetPasswordController extends Controller
    *
    * @return array
    */
-  protected function credentials(Request $request)
-  {
-    return $request->only('name',
-        'password',
-        'password_confirmation',
-        'token');
-  }
+    protected function credentials(Request $request)
+    {
+        return $request->only(
+            'name',
+            'password',
+            'password_confirmation',
+            'token'
+        );
+    }
 
 
   /**
@@ -124,9 +137,8 @@ class ResetPasswordController extends Controller
    *
    * @return \Illuminate\Http\RedirectResponse
    */
-  protected function sendResetFailedResponse(Request $request, $response)
-  {
-    return redirect()->back()->withInput($request->only('name'))->withErrors([ 'name' => trans($response) ]);
-  }
-
+    protected function sendResetFailedResponse(Request $request, $response)
+    {
+        return redirect()->back()->withInput($request->only('name'))->withErrors([ 'name' => trans($response) ]);
+    }
 }

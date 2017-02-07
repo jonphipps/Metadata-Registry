@@ -10,11 +10,9 @@ class EmployeesTableSeeder extends Seeder
    *
    * @return void
    */
-  public function run()
-  {
-    DB::table('employees')->delete();
-    factory(\App\Models\Employees::class, 10)->create();
-
-  }
-
+    public function run()
+    {
+        DB::table('employees')->delete();
+        factory(\App\Models\Employees::class, 10)->create();
+    }
 }

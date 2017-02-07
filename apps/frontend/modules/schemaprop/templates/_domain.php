@@ -9,14 +9,14 @@ if (count($result)) {
     //get the related property
     $relProperty = $domain->getSchemaPropertyRelatedByRelatedSchemaPropertyId();
     if ($relProperty) {
-        echo link_to($relProperty->getLabel(), 'schemaprop/show/?id=' . $relProperty->getId(), ['title' => $relProperty->getUri()]);
+        echo sf_link_to($relProperty->getLabel(), 'schemaprop/show/?id=' . $relProperty->getId(), ['title' => $relProperty->getUri()]);
     } else {
         $relProperty = SchemaPropertyPeer::retrieveByUri($domain->getObject());
         if ($relProperty) {
             //the id was broken, let's fix it...
             $domain->setRelatedSchemaPropertyId($relProperty->getId());
             $domain->save();
-            echo link_to($relProperty->getLabel(), 'schemaprop/show/?id=' . $relProperty->getId(),
+            echo sf_link_to($relProperty->getLabel(), 'schemaprop/show/?id=' . $relProperty->getId(),
                 ['title' => $relProperty->getUri()]);
         } else {
             echo $domain->getObject();

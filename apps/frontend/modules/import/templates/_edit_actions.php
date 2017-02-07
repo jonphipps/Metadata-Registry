@@ -9,7 +9,7 @@ if ($sf_params->get('schema_id')) {
 ?>
 <ul class="sf_admin_actions">
   <li><?php echo button_to(
-        __( 'List' ),
+        __s( 'List' ),
         'import/list?'. $param . '',
         array (
             'title' => 'Show file_import_history list',
@@ -18,7 +18,7 @@ if ($sf_params->get('schema_id')) {
     ) ?></li>
   <?php if ( $sf_user->hasCredential( array ( 0 => array ( 0 => 'administrator', 1 => 'schemaadmin', 2 => 'vocabularyadmin', ), ) ) ): ?>
     <li><?php echo submit_tag(
-          __( 'Import CSV' ),
+          __s( 'Import CSV' ),
           array (
               'name'  => 'save',
               'title' => 'Save',
@@ -28,7 +28,7 @@ if ($sf_params->get('schema_id')) {
   <?php endif; ?>
   <?php if ( $sf_user->hasCredential( array ( 0 => array ( 0 => 'administrator', 1 => 'schemaadmin', 2 => 'vocabularyadmin', ), ) ) ): ?>
     <li><?php echo button_to(
-          __( 'Cancel' ),
+          __s( 'Cancel' ),
           'import/list?' . $param . '',
           array (
               'title' => 'Cancel',

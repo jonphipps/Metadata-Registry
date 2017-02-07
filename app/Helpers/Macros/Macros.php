@@ -11,5 +11,5 @@ use App\Helpers\Macros\Traits\Dropdowns;
  */
 class Macros extends FormBuilder
 {
-	use Dropdowns;
+    use Dropdowns;
 }

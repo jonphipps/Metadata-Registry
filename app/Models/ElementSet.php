@@ -74,21 +74,21 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class ElementSet extends Model
 {
 
-  const TABLE = 'reg_schema';
+    const TABLE = 'reg_schema';
 
-  public $table = self::TABLE;
+    public $table = self::TABLE;
 
-  use SoftDeletes, Blameable, CreatedBy, UpdatedBy, DeletedBy;
+    use SoftDeletes, Blameable, CreatedBy, UpdatedBy, DeletedBy;
 
-  protected $blameable = [
+    protected $blameable = [
       'created' => 'created_user_id',
       'updated' => 'updated_user_id',
       'deleted' => 'deleted_user_id',
-  ];
+    ];
 
-  protected $dates = [ 'deleted_at' ];
+    protected $dates = [ 'deleted_at' ];
 
-  protected $fillable = [
+    protected $fillable = [
       'deleted_at',
       'name',
       'note',
@@ -103,14 +103,14 @@ class ElementSet extends Model
       'prefixes',
       'languages',
       'repo',
-  ];
+    ];
 
   /**
    * The attributes that should be casted to native types.
    *
    * @var array
    */
-  protected $casts = [
+    protected $casts = [
       'id'                    => 'integer',
       'agent_id'              => 'integer',
       'created_user_id'       => 'integer',
@@ -131,9 +131,9 @@ class ElementSet extends Model
       'prefixes'              => 'string',
       'languages'             => 'string',
       'repo'                  => 'string',
-  ];
+    ];
 
-  public static $rules = [
+    public static $rules = [
       'agent_id'    => 'required|',
       'name'        => 'required|max:255',
       'note'        => 'max:65535',
@@ -148,30 +148,29 @@ class ElementSet extends Model
       'prefixes'    => 'max:65535',
       'languages'   => 'max:65535',
       'repo'        => 'required|max:255',
-  ];
+    ];
 
 
-  public function Profile()
-  {
-    return $this->belongsTo('App\Models\Profile', 'profile_id', 'id');
-  }
+    public function Profile()
+    {
+        return $this->belongsTo(\App\Models\Profile::class, 'profile_id', 'id');
+    }
 
 
-  public function Status()
-  {
-    return $this->belongsTo('App\Models\Status', 'status_id', 'id');
-  }
+    public function Status()
+    {
+        return $this->belongsTo(\App\Models\Status::class, 'status_id', 'id');
+    }
 
 
-  public function Agent()
-  {
-    return $this->belongsTo(Project::class, 'agent_id', 'id');
-  }
+    public function Agent()
+    {
+        return $this->belongsTo(Project::class, 'agent_id', 'id');
+    }
 
 
-  public function Elements()
-  {
-    return $this->hasMany('App\Models\Element', 'schema_id', 'id');
-  }
-
+    public function Elements()
+    {
+        return $this->hasMany(\App\Models\Element::class, 'schema_id', 'id');
+    }
 }

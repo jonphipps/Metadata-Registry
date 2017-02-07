@@ -14,7 +14,8 @@ class CreateRegVocabularyTable extends Migration
      */
     public function up()
     {
-        Schema::create('reg_vocabulary',
+        Schema::create(
+            'reg_vocabulary',
             function (Blueprint $table) {
                 $table->integer('id', true);
                 $table->integer('agent_id')->index();
@@ -40,7 +41,8 @@ class CreateRegVocabularyTable extends Migration
                 $table->enum('ns_type', [ 'hash', 'slash' ])->default('slash');
                 $table->text('prefixes')->nullable();
                 $table->string('repo', 256)->nullable();
-            });
+            }
+        );
     }
 
 
@@ -53,5 +55,4 @@ class CreateRegVocabularyTable extends Migration
     {
         Schema::drop('reg_vocabulary');
     }
-
 }

@@ -6,7 +6,7 @@
 <?php if ($sf_user->hasCredential( array (   0 =>    array (     0 => 'administrator',     1 => 'vocabularymaintainer',     2 => 'vocabularyadmin',   ), ))): ?>
 <li><?php $concept = $sf_user->getAttribute('concept','',sfUser::ATTRIBUTE_NAMESPACE);
   $conceptId = ($concept) ? '?concept_id=' . $concept->getId() : '';
-  echo button_to(__('Add Property'), 'conceptprop/create' . $conceptId . '', array (
+  echo button_to(__s('Add Property'), 'conceptprop/create' . $conceptId . '', array (
   'title' => 'Create',
   'class' => 'sf_admin_action_create',
 )) ?></li>

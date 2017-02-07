@@ -2,7 +2,8 @@
 
 return [
 
-    'pdf'   => [
+
+    'pdf' => [
         'enabled' => true,
         'binary'  => '/usr/local/bin/wkhtmltopdf',
         'timeout' => false,
@@ -16,5 +17,6 @@ return [
         'options' => [],
         'env'     => [],
     ],
+
 
 ];

@@ -25,10 +25,10 @@ use DB;
  */
 class UserRepository extends Repository
 {
-  /**
-   * Associated Repository Model
-   */
-  const MODEL = User::class;
+    /**
+     * Associated Repository Model
+     */
+    const MODEL = User::class;
 
   /**
    * @var RoleRepository
@@ -72,46 +72,80 @@ class UserRepository extends Repository
       return $dataTableQuery->onlyTrashed();
     }
 
-    // active() is a scope on the UserScope trait
-    return $dataTableQuery->active($status);
-  }
+    /**
+     * @param int $status
+     * @param bool $trashed
+     * @return mixed
+     */
+    public function getForDataTable($status = 1, $trashed = false)
+    {
+        /**
+         * Note: You must return deleted_at or the User getActionButtonsAttribute won't
+         * be able to differentiate what buttons to show for each row.
+         */
+        $dataTableQuery = $this->query()
+            ->with('roles')
+            ->select([
+                config('access.users_table') . '.id',
+                config('access.users_table') . '.name',
+                config('access.users_table') . '.email',
+                config('access.users_table') . '.status',
+                config('access.users_table') . '.confirmed',
+                config('access.users_table') . '.created_at',
+                config('access.users_table') . '.updated_at',
+                config('access.users_table') . '.deleted_at',
+            ]);
 
+        if ($trashed == "true") {
+            return $dataTableQuery->onlyTrashed();
+        }
 
-  /**
-   * @param Model $input
-   */
-  public function create($input)
-  {
-    $data  = $input['data'];
-    $roles = $input['roles'];
+        // active() is a scope on the UserScope trait
+        return $dataTableQuery->active($status);
+    }
 
-    $user = $this->createUserStub($data);
+    /**
+     * @param Model $input
+     */
+    public function create($input)
+    {
+        $data = $input['data'];
+        $roles = $input['roles'];
 
     DB::transaction(function () use ($user, $data, $roles) {
       if (parent::save($user)) {
 
-        //User Created, Validate Roles
-        if ( ! count($roles['assignees_roles'])) {
-          throw new GeneralException(trans('exceptions.backend.access.users.role_needed_create'));
-        }
+        DB::transaction(function () use ($user, $data, $roles) {
+            if (parent::save($user)) {
+                //User Created, Validate Roles
+                if (! count($roles['assignees_roles'])) {
+                    throw new GeneralException(trans('exceptions.backend.access.users.role_needed_create'));
+                }
 
-        //Attach new roles
-        $user->attachRoles($roles['assignees_roles']);
+                //Attach new roles
+                $user->attachRoles($roles['assignees_roles']);
 
-        //Send confirmation email if requested
-        if (isset($data['confirmation_email']) && $user->confirmed == 0) {
-          $user->notify(new UserNeedsConfirmation($user->confirmation_code));
-        }
+                //Send confirmation email if requested
+                if (isset($data['confirmation_email']) && $user->confirmed == 0) {
+                    $user->notify(new UserNeedsConfirmation($user->confirmation_code));
+                }
 
-        event(new UserCreated($user));
+                event(new UserCreated($user));
+                return true;
+            }
 
-        return true;
-      }
+            throw new GeneralException(trans('exceptions.backend.access.users.create_error'));
+        });
+    }
 
-      throw new GeneralException(trans('exceptions.backend.access.users.create_error'));
-    });
-  }
-
+    /**
+     * @param Model $user
+     * @param array $input
+     */
+    public function update(Model $user, array $input)
+    {
+        $data = $input['data'];
+        $roles = $input['roles'];
 
   /**
    * @param Model $user
@@ -122,22 +156,33 @@ class UserRepository extends Repository
     $data  = $input['data'];
     $roles = $input['roles'];
 
-    $this->checkUserByEmail($data, $user);
+        DB::transaction(function () use ($user, $data, $roles) {
+            if (parent::update($user, $data)) {
+                //For whatever reason this just wont work in the above call, so a second is needed for now
+                $user->status = isset($data['status']) ? 1 : 0;
+                $user->confirmed = isset($data['confirmed']) ? 1 : 0;
+                parent::save($user);
 
-    DB::transaction(function () use ($user, $data, $roles) {
-      if (parent::update($user, $data)) {
-        //For whatever reason this just wont work in the above call, so a second is needed for now
-        $user->status    = isset($data['status']) ? 1 : 0;
-        $user->confirmed = isset($data['confirmed']) ? 1 : 0;
-        parent::save($user);
+                $this->checkUserRolesCount($roles);
+                $this->flushRoles($roles, $user);
 
-        $this->checkUserRolesCount($roles);
-        $this->flushRoles($roles, $user);
+                event(new UserUpdated($user));
+                return true;
+            }
 
-        event(new UserUpdated($user));
+            throw new GeneralException(trans('exceptions.backend.access.users.update_error'));
+        });
+    }
 
-        return true;
-      }
+    /**
+     * @param Model $user
+     * @param $input
+     * @return bool
+     * @throws GeneralException
+     */
+    public function updatePassword(Model $user, $input)
+    {
+        $user->password = bcrypt($input['password']);
 
       throw new GeneralException(trans('exceptions.backend.access.users.update_error'));
     });
@@ -161,8 +206,16 @@ class UserRepository extends Repository
       return true;
     }
 
-    throw new GeneralException(trans('exceptions.backend.access.users.update_password_error'));
-  }
+    /**
+     * @param Model $user
+     * @return bool
+     * @throws GeneralException
+     */
+    public function delete(Model $user)
+    {
+        if (access()->id() == $user->id) {
+            throw new GeneralException(trans('exceptions.backend.access.users.cant_delete_self'));
+        }
 
 
   /**
@@ -177,30 +230,36 @@ class UserRepository extends Repository
       throw new GeneralException(trans('exceptions.backend.access.users.cant_delete_self'));
     }
 
-    if (parent::delete($user)) {
-      event(new UserDeleted($user));
+    /**
+     * @param Model $user
+     * @throws GeneralException
+     */
+    public function forceDelete(Model $user)
+    {
+        if (is_null($user->deleted_at)) {
+            throw new GeneralException(trans('exceptions.backend.access.users.delete_first'));
+        }
 
-      return true;
+        DB::transaction(function () use ($user) {
+            if (parent::forceDelete($user)) {
+                event(new UserPermanentlyDeleted($user));
+                return true;
+            }
+
+            throw new GeneralException(trans('exceptions.backend.access.users.delete_error'));
+        });
     }
 
-    throw new GeneralException(trans('exceptions.backend.access.users.delete_error'));
-  }
-
-
-  /**
-   * @param Model $user
-   *
-   * @throws GeneralException
-   */
-  public function forceDelete(Model $user)
-  {
-    if (is_null($user->deleted_at)) {
-      throw new GeneralException(trans('exceptions.backend.access.users.delete_first'));
-    }
-
-    DB::transaction(function () use ($user) {
-      if (parent::forceDelete($user)) {
-        event(new UserPermanentlyDeleted($user));
+    /**
+     * @param Model $user
+     * @return bool
+     * @throws GeneralException
+     */
+    public function restore(Model $user)
+    {
+        if (is_null($user->deleted_at)) {
+            throw new GeneralException(trans('exceptions.backend.access.users.cant_restore'));
+        }
 
         return true;
       }
@@ -222,15 +281,30 @@ class UserRepository extends Repository
       throw new GeneralException(trans('exceptions.backend.access.users.cant_restore'));
     }
 
-    if (parent::restore(( $user ))) {
-      event(new UserRestored($user));
+    /**
+     * @param Model $user
+     * @param $status
+     * @return bool
+     * @throws GeneralException
+     */
+    public function mark(Model $user, $status)
+    {
+        if (access()->id() == $user->id && $status == 0) {
+            throw new GeneralException(trans('exceptions.backend.access.users.cant_deactivate_self'));
+        }
 
       return true;
     }
 
-    throw new GeneralException(trans('exceptions.backend.access.users.restore_error'));
-  }
+        switch ($status) {
+            case 0:
+                event(new UserDeactivated($user));
+                break;
 
+            case 1:
+                event(new UserReactivated($user));
+                break;
+        }
 
   /**
    * @param Model $user
@@ -309,23 +383,20 @@ class UserRepository extends Repository
     }
   }
 
-
-  /**
-   * @param  $input
-   *
-   * @return mixed
-   */
-  protected function createUserStub($input)
-  {
-    $user                    = self::MODEL;
-    $user                    = new $user;
-    $user->name              = $input['name'];
-    $user->email             = $input['email'];
-    $user->password          = bcrypt($input['password']);
-    $user->status            = isset($input['status']) ? 1 : 0;
-    $user->confirmation_code = md5(uniqid(mt_rand(), true));
-    $user->confirmed         = isset($input['confirmed']) ? 1 : 0;
-
-    return $user;
-  }
+    /**
+     * @param  $input
+     * @return mixed
+     */
+    protected function createUserStub($input)
+    {
+        $user                    = self::MODEL;
+        $user                    = new $user;
+        $user->name              = $input['name'];
+        $user->email             = $input['email'];
+        $user->password          = bcrypt($input['password']);
+        $user->status            = isset($input['status']) ? 1 : 0;
+        $user->confirmation_code = md5(uniqid(mt_rand(), true));
+        $user->confirmed         = isset($input['confirmed']) ? 1 : 0;
+        return $user;
+    }
 }

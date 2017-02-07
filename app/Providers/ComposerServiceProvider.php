@@ -13,37 +13,38 @@ use Illuminate\Support\ServiceProvider;
  */
 class ComposerServiceProvider extends ServiceProvider
 {
-  /**
-   * Register bindings in the container.
-   *
-   * @return void
-   */
-  public function boot()
-  {
     /**
-     * Global
+     * Register bindings in the container.
+     *
+     * @return void
      */
-    View::composer(// This class binds the $logged_in_user variable to every view
-        '*',
-        GlobalComposer::class);
+    public function boot()
+    {
+        /**
+         * Global
+         */
+        View::composer(
+            // This class binds the $logged_in_user variable to every view
+            '*',
+            GlobalComposer::class
+        );
+
+        /**
+         * Frontend
+         */
+
+        /**
+         * Backend
+         */
+    }
 
     /**
-     * Frontend
+     * Register the service provider.
+     *
+     * @return void
      */
-
-    /**
-     * Backend
-     */
-  }
-
-
-  /**
-   * Register the service provider.
-   *
-   * @return void
-   */
-  public function register()
-  {
-    //
-  }
+    public function register()
+    {
+        //
+    }
 }

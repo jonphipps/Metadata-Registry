@@ -10,9 +10,9 @@ class OrdersTableSeeder extends Seeder
    *
    * @return void
    */
-  public function run()
-  {
-    DB::table('orders')->delete();
-    factory(App\Models\Orders::class, 10)->create();
-  }
+    public function run()
+    {
+        DB::table('orders')->delete();
+        factory(App\Models\Orders::class, 10)->create();
+    }
 }

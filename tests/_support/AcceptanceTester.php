@@ -1,4 +1,7 @@
 <?php
+
+namespace Tests\_support;
+
 use Behat\Gherkin\Node\TableNode;
 
 /**
@@ -18,34 +21,34 @@ use Behat\Gherkin\Node\TableNode;
 class AcceptanceTester extends \Codeception\Actor
 {
 
-  use _generated\AcceptanceTesterActions;
+    use _generated\AcceptanceTesterActions;
 
 
   /**
    * @Given I am on :page
    */
-  public function iAmOn($page)
-  {
-    $this->amOnPage($page);
-  }
+    public function iAmOn($page)
+    {
+        $this->amOnPage($page);
+    }
 
 
   /**
    * @Then I should see :string
    */
-  public function iShouldSee($string)
-  {
-    $this->see($string);
-  }
+    public function iShouldSee($string)
+    {
+        $this->see($string);
+    }
 
 
   /**
    * @Then I should not see :string
    */
-  public function iShouldNotSee($string)
-  {
-    $this->dontSee($string);
-  }
+    public function iShouldNotSee($string)
+    {
+        $this->dontSee($string);
+    }
 
 
   /**
@@ -55,32 +58,30 @@ class AcceptanceTester extends \Codeception\Actor
    *
    * @internal param \Behat\Gherkin\Node\TableNode $tableNode
    */
-  public function iFillInTheFollowing(TableNode $fields)
-  {
-    foreach ($fields->getRowsHash() as $field => $value) {
-      $this->fillField($field, $value);
+    public function iFillInTheFollowing(TableNode $fields)
+    {
+        foreach ($fields->getRowsHash() as $field => $value) {
+            $this->fillField($field, $value);
+        }
     }
-  }
 
 
   /**
    * @Then I press :button
    */
-  public function iPress($button)
-  {
-    $this->click($button);
-
-  }
+    public function iPress($button)
+    {
+        $this->click($button);
+    }
 
 
   /**
    * @Then I should be on :url
    *
    */
-  public function iShouldBeOn($url)
-  {
-    //$foo = $this->grabRecord('App\Models\Access\User\User',[ 'id'=> 3 ]);
-    $this->seeInCurrentUrl($url);
-  }
-
+    public function iShouldBeOn($url)
+    {
+        //$foo = $this->grabRecord('App\Models\Access\User\User',[ 'id'=> 3 ]);
+        $this->seeInCurrentUrl($url);
+    }
 }

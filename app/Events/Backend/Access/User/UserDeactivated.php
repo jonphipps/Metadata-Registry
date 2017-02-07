@@ -11,18 +11,18 @@ use Illuminate\Queue\SerializesModels;
  */
 class UserDeactivated extends Event
 {
-	use SerializesModels;
+    use SerializesModels;
 
-	/**
-	 * @var $user
-	 */
-	public $user;
+    /**
+     * @var $user
+     */
+    public $user;
 
-	/**
-	 * @param $user
-	 */
-	public function __construct($user)
-	{
-		$this->user = $user;
-	}
+    /**
+     * @param $user
+     */
+    public function __construct($user)
+    {
+        $this->user = $user;
+    }
 }

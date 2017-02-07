@@ -14,7 +14,8 @@ class CreateRegSchemaPropertyElementTable extends Migration
      */
     public function up()
     {
-        Schema::create('reg_schema_property_element',
+        Schema::create(
+            'reg_schema_property_element',
             function (Blueprint $table) {
                 $table->integer('id', true);
                 $table->dateTime('created_at')->nullable();
@@ -32,12 +33,13 @@ class CreateRegSchemaPropertyElementTable extends Migration
                 $table->char('language', 6);
                 $table->integer('status_id')->nullable()->default(1)->index();
                 $table->boolean('is_generated')->default(0);
-            });
-      if (DB::getDriverName() == 'mysql') {
-        DB::statement('CREATE INDEX reg_schema_property_element_idx1 ON reg_schema_property_element (object(150));');
-      } else {
-        DB::statement('CREATE INDEX reg_schema_property_element_idx1 ON reg_schema_property_element (object);');
-      }
+            }
+        );
+        if (DB::getDriverName() == 'mysql') {
+            DB::statement('CREATE INDEX reg_schema_property_element_idx1 ON reg_schema_property_element (object(150));');
+        } else {
+            DB::statement('CREATE INDEX reg_schema_property_element_idx1 ON reg_schema_property_element (object);');
+        }
     }
 
 
@@ -50,5 +52,4 @@ class CreateRegSchemaPropertyElementTable extends Migration
     {
         Schema::drop('reg_schema_property_element');
     }
-
 }
