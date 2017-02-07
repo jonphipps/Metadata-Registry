@@ -13,10 +13,12 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 /**
  * Class TestCase
  */
-abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
+abstract class TestCase extends BaseTestCase
 {
 
     use DatabaseTransactions;
+	use CreatesApplication;
+
   /**
    * The base URL to use while testing the application.
    *
