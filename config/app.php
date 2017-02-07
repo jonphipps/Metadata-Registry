@@ -205,7 +205,6 @@ return [
         App\Providers\HistoryServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
-        Barryvdh\Snappy\ServiceProvider::class,
         Bugsnag\BugsnagLaravel\BugsnagServiceProvider::class,
         Culpa\CulpaServiceProvider::class,
         GrahamCampbell\GitHub\GitHubServiceProvider::class,
