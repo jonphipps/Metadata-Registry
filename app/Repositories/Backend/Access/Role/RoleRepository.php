@@ -2,18 +2,17 @@
 
 namespace App\Repositories\Backend\Access\Role;
 
+use App\Models\Access\Role\Role;
+use App\Repositories\Repository;
+use Illuminate\Support\Facades\DB;
+use App\Exceptions\GeneralException;
+use Illuminate\Database\Eloquent\Model;
 use App\Events\Backend\Access\Role\RoleCreated;
 use App\Events\Backend\Access\Role\RoleDeleted;
 use App\Events\Backend\Access\Role\RoleUpdated;
-use App\Exceptions\GeneralException;
-use App\Models\Access\Role\Role;
-use App\Repositories\Repository;
-use Illuminate\Database\Eloquent\Model;
-use DB;
 
 /**
  * Class RoleRepository
- *
  * @package app\Repositories\Role
  */
 class RoleRepository extends Repository
@@ -112,52 +111,38 @@ class RoleRepository extends Repository
         });
     }
 
-    if ( ! isset($input['permissions'])) {
-      $input['permissions'] = [];
-    }
-
-    //This config is only required if all is false
-    if ( ! $all) {
-      //See if the role must contain a permission as per config
-      if (config('access.roles.role_must_contain_permission') && count($input['permissions']) == 0) {
-        throw new GeneralException(trans('exceptions.backend.access.roles.needs_permission'));
-      }
-    }
-
-    $role->name = $input['name'];
-    $role->sort = isset($input['sort']) && strlen($input['sort']) > 0 && is_numeric($input['sort']) ? (int) $input['sort'] : 0;
-
-    //See if this role has all permissions and set the flag on the role
-    $role->all = $all;
-
-    DB::transaction(function () use ($role, $input, $all) {
-      if (parent::save($role)) {
-        //If role has all access detach all permissions because they're not needed
-        if ($all) {
-          $role->permissions()->sync([]);
+    /**
+     * @param  Model $role
+     * @param  $input
+     * @throws GeneralException
+     * @return bool
+     */
+    public function update(Model $role, array $input)
+    {
+        //See if the role has all access, administrator always has all access
+        if ($role->id == 1) {
+            $all = true;
         } else {
-          //Remove all roles first
-          $role->permissions()->sync([]);
+            $all = $input['associated-permissions'] == 'all' ? true : false;
+        }
 
         if (! isset($input['permissions'])) {
             $input['permissions'] = [];
         }
 
-          if (is_array($input['permissions']) && count($input['permissions'])) {
-            foreach ($input['permissions'] as $perm) {
-              if (is_numeric($perm)) {
-                array_push($permissions, $perm);
-              }
+        //This config is only required if all is false
+        if (! $all) {
+            //See if the role must contain a permission as per config
+            if (config('access.roles.role_must_contain_permission') && count($input['permissions']) == 0) {
+                throw new GeneralException(trans('exceptions.backend.access.roles.needs_permission'));
             }
-          }
-
-          $role->attachPermissions($permissions);
         }
 
-        event(new RoleUpdated($role));
+        $role->name = $input['name'];
+        $role->sort = isset($input['sort']) && strlen($input['sort']) > 0 && is_numeric($input['sort']) ? (int) $input['sort'] : 0;
 
-        return true;
-      }
+        //See if this role has all permissions and set the flag on the role
+        $role->all = $all;
 
         DB::transaction(function () use ($role, $input, $all) {
             if (parent::save($role)) {
@@ -190,12 +175,22 @@ class RoleRepository extends Repository
         });
     }
 
-        return true;
-      }
+    /**
+     * @param  Model $role
+     * @throws GeneralException
+     * @return bool
+     */
+    public function delete(Model $role)
+    {
+        //Would be stupid to delete the administrator role
+        if ($role->id == 1) { //id is 1 because of the seeder
+            throw new GeneralException(trans('exceptions.backend.access.roles.cant_delete_admin'));
+        }
 
-      throw new GeneralException(trans('exceptions.backend.access.roles.delete_error'));
-    });
-  }
+        //Don't delete the role is there are users associated
+        if ($role->users()->count() > 0) {
+            throw new GeneralException(trans('exceptions.backend.access.roles.has_users'));
+        }
 
         DB::transaction(function () use ($role) {
             //Detach all associated roles

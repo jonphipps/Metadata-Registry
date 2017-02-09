@@ -34,16 +34,6 @@ class ResetPasswordController extends Controller
         $this->user = $user;
     }
 
-    /**
-     * Where to redirect users after resetting password
-     *
-     * @return string
-     */
-    public function redirectPath()
-    {
-        return route('frontend.user.dashboard');
-    }
-
 
   /**
    * Where to redirect users after resetting password

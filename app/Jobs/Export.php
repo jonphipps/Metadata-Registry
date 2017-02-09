@@ -3,15 +3,14 @@
 namespace App\Jobs;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Container\Container;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Container\Container;
 
 class Export implements ShouldQueue
 {
-  use InteractsWithQueue, Queueable, SerializesModels;
-
+    use InteractsWithQueue, Queueable, SerializesModels;
 
   /**
    * Create a new job instance.
@@ -37,16 +36,13 @@ class Export implements ShouldQueue
         }
     }
 
-  }
-
-
-  /**
-   * Execute the job.
-   *
-   * @return void
-   */
-  public function handle()
-  {
-    //
-  }
+    /**
+     * Execute the job.
+     *
+     * @return void
+     */
+    public function handle()
+    {
+        //
+    }
 }

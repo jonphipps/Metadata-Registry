@@ -21,14 +21,6 @@ class UserNeedsPasswordReset extends Notification
    */
   public $token;
 
-    /**
-     * UserNeedsPasswordReset constructor.
-     * @param $token
-     */
-    public function __construct($token)
-    {
-        $this->token = $token;
-    }
 
   /**
    * UserNeedsPasswordReset constructor.

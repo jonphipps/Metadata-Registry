@@ -16,7 +16,7 @@ use App\Notifications\Frontend\Auth\UserNeedsConfirmation;
 use App\Repositories\Backend\Access\Role\RoleRepository;
 use App\Repositories\Repository;
 use Illuminate\Database\Eloquent\Model;
-use DB;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Class UserRepository
@@ -25,10 +25,10 @@ use DB;
  */
 class UserRepository extends Repository
 {
-    /**
-     * Associated Repository Model
-     */
-    const MODEL = User::class;
+  /**
+   * Associated Repository Model
+   */
+  const MODEL = User::class;
 
   /**
    * @var RoleRepository
@@ -72,80 +72,45 @@ class UserRepository extends Repository
       return $dataTableQuery->onlyTrashed();
     }
 
-    /**
-     * @param int $status
-     * @param bool $trashed
-     * @return mixed
-     */
-    public function getForDataTable($status = 1, $trashed = false)
-    {
-        /**
-         * Note: You must return deleted_at or the User getActionButtonsAttribute won't
-         * be able to differentiate what buttons to show for each row.
-         */
-        $dataTableQuery = $this->query()
-            ->with('roles')
-            ->select([
-                config('access.users_table') . '.id',
-                config('access.users_table') . '.name',
-                config('access.users_table') . '.email',
-                config('access.users_table') . '.status',
-                config('access.users_table') . '.confirmed',
-                config('access.users_table') . '.created_at',
-                config('access.users_table') . '.updated_at',
-                config('access.users_table') . '.deleted_at',
-            ]);
+    // active() is a scope on the UserScope trait
+    return $dataTableQuery->active($status);
+  }
 
-        if ($trashed == "true") {
-            return $dataTableQuery->onlyTrashed();
-        }
 
-        // active() is a scope on the UserScope trait
-        return $dataTableQuery->active($status);
-    }
+  /**
+   * @param Model $input
+   */
+  public function create($input)
+  {
+    $data  = $input['data'];
+    $roles = $input['roles'];
 
-    /**
-     * @param Model $input
-     */
-    public function create($input)
-    {
-        $data = $input['data'];
-        $roles = $input['roles'];
+    $user = $this->createUserStub($data);
 
     DB::transaction(function () use ($user, $data, $roles) {
       if (parent::save($user)) {
+        //User Created, Validate Roles
+        if ( ! count($roles['assignees_roles'])) {
+          throw new GeneralException(trans('exceptions.backend.access.users.role_needed_create'));
+        }
 
-        DB::transaction(function () use ($user, $data, $roles) {
-            if (parent::save($user)) {
-                //User Created, Validate Roles
-                if (! count($roles['assignees_roles'])) {
-                    throw new GeneralException(trans('exceptions.backend.access.users.role_needed_create'));
-                }
+        //Attach new roles
+        $user->attachRoles($roles['assignees_roles']);
 
-                //Attach new roles
-                $user->attachRoles($roles['assignees_roles']);
+        //Send confirmation email if requested
+        if (isset($data['confirmation_email']) && $user->confirmed == 0) {
+          $user->notify(new UserNeedsConfirmation($user->confirmation_code));
+        }
 
-                //Send confirmation email if requested
-                if (isset($data['confirmation_email']) && $user->confirmed == 0) {
-                    $user->notify(new UserNeedsConfirmation($user->confirmation_code));
-                }
+        event(new UserCreated($user));
 
-                event(new UserCreated($user));
-                return true;
-            }
+        return true;
+      }
 
-            throw new GeneralException(trans('exceptions.backend.access.users.create_error'));
-        });
-    }
+      throw new GeneralException(trans('exceptions.backend.access.users.create_error'));
+    });
+  }
 
-    /**
-     * @param Model $user
-     * @param array $input
-     */
-    public function update(Model $user, array $input)
-    {
-        $data = $input['data'];
-        $roles = $input['roles'];
 
   /**
    * @param Model $user
@@ -156,33 +121,22 @@ class UserRepository extends Repository
     $data  = $input['data'];
     $roles = $input['roles'];
 
-        DB::transaction(function () use ($user, $data, $roles) {
-            if (parent::update($user, $data)) {
-                //For whatever reason this just wont work in the above call, so a second is needed for now
-                $user->status = isset($data['status']) ? 1 : 0;
-                $user->confirmed = isset($data['confirmed']) ? 1 : 0;
-                parent::save($user);
+    $this->checkUserByEmail($data, $user);
 
-                $this->checkUserRolesCount($roles);
-                $this->flushRoles($roles, $user);
+    DB::transaction(function () use ($user, $data, $roles) {
+      if (parent::update($user, $data)) {
+        //For whatever reason this just wont work in the above call, so a second is needed for now
+        $user->status    = isset($data['status']) ? 1 : 0;
+        $user->confirmed = isset($data['confirmed']) ? 1 : 0;
+        parent::save($user);
 
-                event(new UserUpdated($user));
-                return true;
-            }
+        $this->checkUserRolesCount($roles);
+        $this->flushRoles($roles, $user);
 
-            throw new GeneralException(trans('exceptions.backend.access.users.update_error'));
-        });
-    }
+        event(new UserUpdated($user));
 
-    /**
-     * @param Model $user
-     * @param $input
-     * @return bool
-     * @throws GeneralException
-     */
-    public function updatePassword(Model $user, $input)
-    {
-        $user->password = bcrypt($input['password']);
+        return true;
+      }
 
       throw new GeneralException(trans('exceptions.backend.access.users.update_error'));
     });
@@ -206,16 +160,8 @@ class UserRepository extends Repository
       return true;
     }
 
-    /**
-     * @param Model $user
-     * @return bool
-     * @throws GeneralException
-     */
-    public function delete(Model $user)
-    {
-        if (access()->id() == $user->id) {
-            throw new GeneralException(trans('exceptions.backend.access.users.cant_delete_self'));
-        }
+    throw new GeneralException(trans('exceptions.backend.access.users.update_password_error'));
+  }
 
 
   /**
@@ -230,36 +176,30 @@ class UserRepository extends Repository
       throw new GeneralException(trans('exceptions.backend.access.users.cant_delete_self'));
     }
 
-    /**
-     * @param Model $user
-     * @throws GeneralException
-     */
-    public function forceDelete(Model $user)
-    {
-        if (is_null($user->deleted_at)) {
-            throw new GeneralException(trans('exceptions.backend.access.users.delete_first'));
-        }
+    if (parent::delete($user)) {
+      event(new UserDeleted($user));
 
-        DB::transaction(function () use ($user) {
-            if (parent::forceDelete($user)) {
-                event(new UserPermanentlyDeleted($user));
-                return true;
-            }
-
-            throw new GeneralException(trans('exceptions.backend.access.users.delete_error'));
-        });
+      return true;
     }
 
-    /**
-     * @param Model $user
-     * @return bool
-     * @throws GeneralException
-     */
-    public function restore(Model $user)
-    {
-        if (is_null($user->deleted_at)) {
-            throw new GeneralException(trans('exceptions.backend.access.users.cant_restore'));
-        }
+    throw new GeneralException(trans('exceptions.backend.access.users.delete_error'));
+  }
+
+
+  /**
+   * @param Model $user
+   *
+   * @throws GeneralException
+   */
+  public function forceDelete(Model $user)
+  {
+    if (is_null($user->deleted_at)) {
+      throw new GeneralException(trans('exceptions.backend.access.users.delete_first'));
+    }
+
+    DB::transaction(function () use ($user) {
+      if (parent::forceDelete($user)) {
+        event(new UserPermanentlyDeleted($user));
 
         return true;
       }
@@ -281,30 +221,15 @@ class UserRepository extends Repository
       throw new GeneralException(trans('exceptions.backend.access.users.cant_restore'));
     }
 
-    /**
-     * @param Model $user
-     * @param $status
-     * @return bool
-     * @throws GeneralException
-     */
-    public function mark(Model $user, $status)
-    {
-        if (access()->id() == $user->id && $status == 0) {
-            throw new GeneralException(trans('exceptions.backend.access.users.cant_deactivate_self'));
-        }
+    if (parent::restore(( $user ))) {
+      event(new UserRestored($user));
 
       return true;
     }
 
-        switch ($status) {
-            case 0:
-                event(new UserDeactivated($user));
-                break;
+    throw new GeneralException(trans('exceptions.backend.access.users.restore_error'));
+  }
 
-            case 1:
-                event(new UserReactivated($user));
-                break;
-        }
 
   /**
    * @param Model $user
@@ -359,7 +284,7 @@ class UserRepository extends Repository
 
   /**
    * @param $roles
-   * @param User $user
+   * @param $user
    */
   protected function flushRoles($roles, $user)
   {
@@ -383,20 +308,23 @@ class UserRepository extends Repository
     }
   }
 
-    /**
-     * @param  $input
-     * @return mixed
-     */
-    protected function createUserStub($input)
-    {
-        $user                    = self::MODEL;
-        $user                    = new $user;
-        $user->name              = $input['name'];
-        $user->email             = $input['email'];
-        $user->password          = bcrypt($input['password']);
-        $user->status            = isset($input['status']) ? 1 : 0;
-        $user->confirmation_code = md5(uniqid(mt_rand(), true));
-        $user->confirmed         = isset($input['confirmed']) ? 1 : 0;
-        return $user;
-    }
+
+  /**
+   * @param  $input
+   *
+   * @return mixed
+   */
+  protected function createUserStub($input)
+  {
+    $user                    = self::MODEL;
+    $user                    = new $user;
+    $user->name              = $input['name'];
+    $user->email             = $input['email'];
+    $user->password          = bcrypt($input['password']);
+    $user->status            = isset($input['status']) ? 1 : 0;
+    $user->confirmation_code = md5(uniqid(mt_rand(), true));
+    $user->confirmed         = isset($input['confirmed']) ? 1 : 0;
+
+    return $user;
+  }
 }

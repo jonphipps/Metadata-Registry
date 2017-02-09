@@ -183,7 +183,6 @@ return [
         Collective\Html\HtmlServiceProvider::class,
         Creativeorange\Gravatar\GravatarServiceProvider::class,
         DaveJamesMiller\Breadcrumbs\ServiceProvider::class,
-        Encore\Admin\Providers\AdminServiceProvider::class,
         HieuLe\Active\ActiveServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
         Yajra\Datatables\DatatablesServiceProvider::class,
@@ -192,6 +191,8 @@ return [
        * Has to override the Collective\Html\HtmlServiceProvider form singleton
        */
         App\Providers\MacroServiceProvider::class,
+        App\Providers\OmrServiceProvider::class,
+        Laravel\Tinker\TinkerServiceProvider::class,
 
       /*
            * Application Service Providers...
@@ -200,7 +201,7 @@ return [
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
         App\Providers\BladeServiceProvider::class,
-      // App\Providers\BroadcastServiceProvider::class,
+        App\Providers\BroadcastServiceProvider::class,
         App\Providers\ComposerServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\HistoryServiceProvider::class,
@@ -272,7 +273,9 @@ return [
         'Gravatar'     => Creativeorange\Gravatar\Facades\Gravatar::class,
         'Html'         => Collective\Html\HtmlFacade::class,
         'Socialite'    => Laravel\Socialite\Facades\Socialite::class,
-        'GitHub'       => GrahamCampbell\GitHub\Facades\GitHub::class
+        'GitHub'       => GrahamCampbell\GitHub\Facades\GitHub::class,
+        'Debugbar'     => Barryvdh\Debugbar\Facade::class,
+        'Admin'        => Encore\Admin\Facades\Admin::class,
     ],
 
 ];

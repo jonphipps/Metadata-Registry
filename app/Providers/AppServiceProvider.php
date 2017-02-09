@@ -2,10 +2,11 @@
 
 namespace App\Providers;
 
-use Carbon\Carbon;
 use Illuminate\Contracts\Logging\Log;
 use Illuminate\Support\ServiceProvider;
 use Psr\Log\LoggerInterface;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Schema;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -76,7 +77,13 @@ class AppServiceProvider extends ServiceProvider
       $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
       $this->app->register(\Mpociot\LaravelTestFactoryHelper\TestFactoryHelperServiceProvider::class);
       $this->app->register(\Antennaio\Codeception\DbDumpServiceProvider::class);
-      $this->app->register(\Klaravel\DbLogger\ServiceProvider::class);
 
     }
+    $this->app->alias('bugsnag.logger', Log::class);
+    $this->app->alias('bugsnag.logger', LoggerInterface::class);
+    $this->app->bind('path.public',
+        function () {
+          return base_path() . '/web';
+        });
+  }
 }
