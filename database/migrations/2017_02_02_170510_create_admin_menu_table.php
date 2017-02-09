@@ -14,7 +14,7 @@ class CreateAdminMenuTable extends Migration
   public function up()
   {
 
-    Schema::create('admin_menu',
+    Schema::create(config('admin.database.menu_table'),
         function (Blueprint $table) {
           $table->increments('id');
           $table->integer('parent_id')->default(0);
@@ -26,6 +26,14 @@ class CreateAdminMenuTable extends Migration
           $table->timestamps();
 
         });
+    Schema::create(config('admin.database.role_menu_table'),
+        function (Blueprint $table) {
+          $table->integer('role_id');
+          $table->integer('menu_id');
+          $table->index([ 'role_id', 'menu_id' ]);
+          $table->timestamps();
+        });
+
   }
 
 
@@ -36,6 +44,8 @@ class CreateAdminMenuTable extends Migration
    */
   public function down()
   {
-    Schema::dropIfExists('admin_menu');
+    Schema::dropIfExists(config('admin.database.menu_table'));
+    Schema::dropIfExists(config('admin.database.role_menu_table'));
+
   }
 }
