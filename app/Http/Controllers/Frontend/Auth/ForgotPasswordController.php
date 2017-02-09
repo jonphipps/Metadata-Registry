@@ -57,6 +57,7 @@ class ForgotPasswordController extends Controller
 
         return redirect('login')->with('status', 'We have e-mailed your login name(s)!');
     }
+
   /**
    * Send a reset link to the given user.
    *
