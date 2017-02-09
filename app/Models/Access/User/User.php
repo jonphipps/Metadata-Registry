@@ -99,7 +99,7 @@ class User extends Authenticatable
    * @var string
    */
     protected $table = self::TABLE;
-    const TABLE = 'reg_user';
+    public const TABLE = 'reg_user';
 
     use UserScope, UserAccess, Notifiable, SoftDeletes, UserAttribute, UserRelationship, UserSendPasswordReset;
 

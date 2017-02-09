@@ -76,8 +76,8 @@ class ResetPasswordController extends Controller
    */
     public function showResetForm($token = null)
     {
-        $email = $this->user->getEmailForPasswordToken($token)['email'];
-        $name  = $this->user->getEmailForPasswordToken($token)['name'];
+      /** @noinspection NonSecureExtractUsageInspection */
+      extract($this->user->getEmailForPasswordToken($token));
 
         return view('frontend.auth.passwords.reset')
         ->withToken($token)
