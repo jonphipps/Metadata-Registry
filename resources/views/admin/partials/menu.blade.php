@@ -1,4 +1,4 @@
-@if($logged_in_user->visible($item['roles']))
+@if(Admin::user()->visible($item['roles']))
     @if(!isset($item['children']))
         <li>
             <a href="{{ Admin::url($item['uri']) }}"><i class="fa {{$item['icon']}}"></i>

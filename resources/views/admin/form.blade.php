@@ -22,19 +22,30 @@
             @if(!$tabObj->isEmpty())
                 @include('admin::form.tab', compact('tabObj'))
             @else
-                @foreach($form->fields() as $field)
-                    {!! $field->render() !!}
-                @endforeach
+                <div class="fields-group">
+                    @foreach($form->fields() as $field)
+                        @if( ! $field instanceof \Encore\Admin\Form\Field\HasMany)
+                            {!! $field->render() !!}
+                        @endif
+                    @endforeach
+                </div>
+                <div class="fields-group">
+                    @foreach($form->fields() as $field)
+                        @if( $field instanceof \Encore\Admin\Form\Field\HasMany)
+                            {!! $field->render() !!}
+                        @endif
+                    @endforeach
+                </div>
             @endif
 
         </div>
         <!-- /.box-body -->
         <div class="box-footer">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
-            <div class="col-sm-2">
+            <div class="col-sm-2 col-lg-2">
 
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-8 col-lg-8">
 
                 <div class="btn-group pull-right">
                 {!! $form->submit() !!}

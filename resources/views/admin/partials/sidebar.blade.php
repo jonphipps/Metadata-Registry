@@ -3,6 +3,7 @@
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
 
+    @if (Auth::check())
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel">
             <div class="pull-left image">
@@ -14,7 +15,7 @@
                 <a href="#"><i class="fa fa-circle text-success"></i> {{ trans('admin::lang.online') }}</a>
             </div>
         </div>
-
+    @endif
         <!-- search form (Optional) -->
         <!--<form action="#" method="get" class="sidebar-form">
             <div class="input-group">

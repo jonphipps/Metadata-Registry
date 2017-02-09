@@ -4,9 +4,9 @@
     <!-- Logo -->
     <a href="/{{ trim(config('admin.prefix'), '/') }}" class="logo">
         <!-- mini logo for sidebar mini 50x50 pixels -->
-        <span class="logo-mini"><b>{{config('admin.name')}}</b></span>
+        <span class="logo-mini">{!! config('admin.logo-mini', config('admin.name')) !!}</span>
         <!-- logo for regular state and mobile devices -->
-        <span class="logo-lg"><b>{{config('admin.name')}}</b></span>
+        <span class="logo-lg">{!! config('admin.logo', config('admin.name')) !!}</span>
     </a>
 
     <!-- Header Navbar -->
@@ -18,6 +18,10 @@
         <!-- Navbar Right Menu -->
         <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
+
+                {!! Admin::getNavbar()->render() !!}
+
+        @if (Auth::check())
                 <!-- User Account Menu -->
                 <li class="dropdown user user-menu">
                     <!-- Menu Toggle Button -->
@@ -38,9 +42,9 @@
                             </p>
                         </li>
                         <li class="user-footer">
-                            {{--<div class="pull-left">--}}
-                                {{--<a href="#" class="btn btn-default btn-flat">Profile</a>--}}
-                            {{--</div>--}}
+                            <div class="pull-left">
+                                <a href="{{ Admin::url('auth/setting') }}" class="btn btn-default btn-flat">{{ trans('admin::lang.setting') }}</a>
+                            </div>
                             <div class="pull-right">
                                 <a href="{{ Admin::url('logout') }}" class="btn btn-default btn-flat">{{ trans('admin::lang.logout') }}</a>
                             </div>
@@ -53,5 +57,6 @@
                 {{--</li>--}}
             </ul>
         </div>
+        @endif
     </nav>
 </header>
