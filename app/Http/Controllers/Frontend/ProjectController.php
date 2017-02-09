@@ -18,7 +18,7 @@ class ProjectController extends Controller
   /**
    * Index interface.
    *
-   * @return Content
+   * @return \Encore\Admin\Layout\Content
    */
   public function index()
   {
