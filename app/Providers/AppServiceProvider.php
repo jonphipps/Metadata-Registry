@@ -79,8 +79,8 @@ class AppServiceProvider extends ServiceProvider
       $this->app->register(\Antennaio\Codeception\DbDumpServiceProvider::class);
 
     }
-    $this->app->alias('bugsnag.logger', Log::class);
-    $this->app->alias('bugsnag.logger', LoggerInterface::class);
+    $this->app->alias('bugsnag.multi', Log::class);
+    $this->app->alias('bugsnag.multi', LoggerInterface::class);
     $this->app->bind('path.public',
         function () {
           return base_path() . '/web';
