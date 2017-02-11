@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class StatusSeeder extends Seeder
+class AdminMenuSeeder extends Seeder
 {
     use \database\DisablesForeignKeys;
 
