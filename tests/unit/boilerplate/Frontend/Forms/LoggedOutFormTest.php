@@ -14,11 +14,12 @@ use App\Notifications\Frontend\Auth\UserNeedsConfirmation;
 use App\Notifications\Frontend\Auth\UserNeedsPasswordReset;
 use Illuminate\Foundation\Testing\Concerns\InteractsWithDatabase;
 use tests\traits\InteractsWithMailTrap;
+use Tests\BrowserKitTest;
 
 /**
  * Class LoggedOutFormTest
  */
-class LoggedOutFormTest extends TestCase
+class LoggedOutFormTest extends BrowserKitTest
 {
 
     use InteractsWithDatabase;
@@ -53,7 +54,7 @@ class LoggedOutFormTest extends TestCase
         Event::fake();
 
         // Create any needed resources
-        $faker    = Faker\Factory::create();
+        $faker = Factory::create();
         $name     = $faker->name;
         $email    = $faker->safeEmail;
         $password = $faker->password(8);
@@ -71,11 +72,10 @@ class LoggedOutFormTest extends TestCase
                ->see('Your account was successfully created. We have sent you an e-mail to confirm your account.')
                ->see('Login')
                ->seePageIs('/')
-               ->assertDatabaseHas(config('access.users_table'), [ 'email' => $email, 'name' => $name ]);
+                ->seeInDatabase(config('access.users_table'), ['email' => $email, 'name'  => $name]);
 
             // Get the user that was inserted into the database
-            $user = User::where('email', $email)
-                  ->first();
+            $user = User::where('email', $email)->first();
 
             // Check that the user was sent the confirmation email
             Notification::assertSentTo(
@@ -119,6 +119,7 @@ class LoggedOutFormTest extends TestCase
    */
     public function testLoginForm()
     {
+      $this->setupDatabase();
         // Make sure our events are fired
         Event::fake();
 
@@ -165,7 +166,6 @@ class LoggedOutFormTest extends TestCase
    */
     public function testForgotLoginForm()
     {
-
         $this->visit('password/email')
          ->type($this->user->email, 'email')
          ->press('Send Login Name')
@@ -175,16 +175,6 @@ class LoggedOutFormTest extends TestCase
         $this->_initializeClient();
         $this->receivedAnEmailToEmail($this->user->email);
         $this->seeInEmailTextBody($this->user->name);
-
-        // //$this->seeMessageFor($this->user->email);
-        // Notification::assertSentTo([ $this->user ],
-        //     UserNeedsLogin::class);
-
-        // Notification::assertSentTo([ $this->user ],
-        //     UserNeedsLogin::class,
-        //     function ($notification, $channels) {
-        //       return $notification->order->id === false;
-        //     });
     }
 
 
@@ -193,7 +183,7 @@ class LoggedOutFormTest extends TestCase
  */
     public function testForgotMultipleLoginsForm()
     {
-        $user2 = factory(App\Models\Access\User\User::class)->create([
+        $user2 = factory(\App\Models\Access\User\User::class)->create([
         'email'=> $this->user->email
         ]);
 
@@ -207,16 +197,6 @@ class LoggedOutFormTest extends TestCase
         $this->receivedAnEmailToEmail($this->user->email);
         $this->seeInEmailTextBody($this->user->name);
         $this->seeInEmailTextBody($user2->name);
-
-        // //$this->seeMessageFor($this->user->email);
-        // Notification::assertSentTo([ $this->user ],
-        //     UserNeedsLogin::class);
-
-        // Notification::assertSentTo([ $this->user ],
-        //     UserNeedsLogin::class,
-        //     function ($notification, $channels) {
-        //       return $notification->order->id === false;
-        //     });
     }
 
 
@@ -246,8 +226,8 @@ class LoggedOutFormTest extends TestCase
          ->press('Send Password Reset Link')
          ->seePageIs('password/reset')
          ->see('We have e-mailed your password reset link!')
-         ->assertDatabaseHas('password_resets', [ 'email' => $this->user->email ])
-         ->assertDatabaseHas('password_resets', [ 'name' => $this->user->name ]);
+         ->seeInDatabase('password_resets', [ 'email' => $this->user->email ])
+         ->seeInDatabase('password_resets', [ 'name' => $this->user->name ]);
 
         Notification::assertSentTo(
             [ $this->user ],
@@ -261,12 +241,14 @@ class LoggedOutFormTest extends TestCase
    */
     public function testResetPasswordRequiredFields()
     {
-        $token = "1234567890abcdefghijklmnopqrstuvwxyz";
-        $this->createPasswordResetToken($token);
+      $token = $this->app->make('auth.password.broker')->createToken($this->user);
 
-        $this->visit('password/reset/' . $token)
+      //add the user name to the password tokens table
+      DB::table('password_resets')->where('email', $this->user->email)->update([ 'name' => $this->user->name ]);
+
+      $this->visit('password/reset/' . $token)
          ->see($this->user->email)
-         ->type($this->user->name, 'name')
+         ->see($this->user->name)
          ->type('', 'password')
          ->type('', 'password_confirmation')
          ->press('Reset Password')
@@ -279,21 +261,20 @@ class LoggedOutFormTest extends TestCase
    */
     public function testResetPasswordForm()
     {
-        $token = "abcdefghijklmnopqrstuvwxyz1234567890";
-        $this->createPasswordResetToken($token);
-        //$this->user->confirmed = 0;
-        //$this->user->save();
+        $token = $this->app->make('auth.password.broker')->createToken($this->user );
+      //add the user name to the password tokens table
+      DB::table('password_resets')->where('email', $this->user->email)->update([ 'name' => $this->user->name ]);
 
-        /** @noinspection PhpVoidFunctionResultUsedInspection */
+      /** @noinspection PhpVoidFunctionResultUsedInspection */
         $this->visit('password/reset/' . $token)
          ->see($this->user->email)
-         ->type($this->user->name, 'name')
+         ->see($this->user->name)
          ->type('12345678', 'password')
          ->type('12345678', 'password_confirmation')
          ->press('Reset Password')
          ->seePageIs('/dashboard')
          ->see($this->user->name);
-        $this->assertDatabaseHas(App\Models\Access\User\User::TABLE, [ 'id' => $this->user->id, 'confirmed' => 1 ]);
+        $this->seeInDatabase(\App\Models\Access\User\User::TABLE, [ 'id' => $this->user->id, 'confirmed' => 1 ]);
     }
 
 

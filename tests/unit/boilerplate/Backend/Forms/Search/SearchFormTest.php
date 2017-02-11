@@ -2,10 +2,11 @@
 
 namespace Tests\unit\boilerplate\Backend\Forms\Search;
 
+use Tests\BrowserKitTest;
 /**
  * Class SearchFormTest
  */
-class SearchFormTest extends TestCase
+class SearchFormTest extends BrowserKitTest
 {
 
     public function testSearchPageWithNoQuery()

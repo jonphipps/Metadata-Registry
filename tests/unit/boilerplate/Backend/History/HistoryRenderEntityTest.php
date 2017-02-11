@@ -4,11 +4,12 @@ namespace Tests\unit\boilerplate\Backend\History;
 
 use App\Models\Access\User\User;
 use App\Repositories\Backend\History\Facades\History;
+use Tests\BrowserKitTest;
 
 /**
  * Class HistoryRenderEntityTest
  */
-class HistoryRenderEntityTest extends TestCase
+class HistoryRenderEntityTest extends BrowserKitTest
 {
     public function testViewOnlyHasHistoryOfEntity()
     {

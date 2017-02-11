@@ -3,6 +3,7 @@
 namespace Tests\unit\boilerplate\Backend\Forms\Access;
 
 use App\Models\Access\User\User;
+use Faker\Factory;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Notification;
 use App\Events\Backend\Access\User\UserCreated;
@@ -10,11 +11,12 @@ use App\Events\Backend\Access\User\UserUpdated;
 use App\Events\Backend\Access\User\UserDeleted;
 use App\Events\Backend\Access\User\UserPasswordChanged;
 use App\Notifications\Frontend\Auth\UserNeedsConfirmation;
+use Tests\BrowserKitTest;
 
 /**
  * Class UserFormTest
  */
-class UserFormTest extends TestCase
+class UserFormTest extends BrowserKitTest
 {
     public function testCreateUserRequiredFields()
     {
@@ -49,7 +51,7 @@ class UserFormTest extends TestCase
         Event::fake();
 
         // Create any needed resources
-        $faker         = Faker\Factory::create();
+        $faker = Factory::create();
         $name          = $faker->name;
         $email         = $faker->safeEmail;
         $password      = $faker->password(8);
@@ -70,11 +72,10 @@ class UserFormTest extends TestCase
          ->press('Create')
          ->seePageIs('/admin/access/user')
          ->see('The user was successfully created.')
-         ->assertDatabaseHas($userTable, [ 'name' => $name, 'email' => $email, 'status' => 1, 'confirmed' => 1 ]);
-        $latestId = App\Models\Access\User\User::orderby('created_at', 'desc')
-                                           ->first()->id;
-        $this->assertDatabaseHas($roleUserTable, [ 'user_id' => $latestId, 'role_id' => 2 ])
-         ->assertDatabaseHas($roleUserTable, [ 'user_id' => $latestId, 'role_id' => 3 ]);
+            ->seeInDatabase($this->userTable, ['name' => $name, 'email' => $email, 'status' => 1, 'confirmed' => 1]);
+       $latestId = User::orderby('created_at', 'desc')->first()->id;
+       $this->seeInDatabase($this->roleUserTable, ['user_id' => $latestId, 'role_id' => 2])
+            ->seeInDatabase($this->roleUserTable, ['user_id' => $latestId, 'role_id' => 3]);
 
         Event::assertDispatched(UserCreated::class);
     }
@@ -89,8 +90,8 @@ class UserFormTest extends TestCase
         Notification::fake();
 
         // Create any needed resources
-        $faker    = Faker\Factory::create();
-        $name     = $faker->name;
+        $faker = Factory::create();
+        $name     = $faker->userName;
         $email    = $faker->safeEmail;
         $password = $faker->password(8);
 
@@ -108,15 +109,13 @@ class UserFormTest extends TestCase
          ->press('Create')
          ->seePageIs('/admin/access/user')
          ->see('The user was successfully created.')
-         ->assertDatabaseHas($this->userTable, [ 'name' => $name, 'email' => $email, 'status' => 1, 'confirmed' => 0 ]);
-        $latestId = App\Models\Access\User\User::orderby('created_at', 'desc')
-                                           ->first()->id;
-        $this->assertDatabaseHas($this->roleUserTable, [ 'user_id' => $latestId, 'role_id' => 2 ])
-         ->assertDatabaseHas($this->roleUserTable, [ 'user_id' => $latestId, 'role_id' => 3 ]);
+            ->seeInDatabase($this->userTable, ['name' => $name, 'email' => $email, 'status' => 1, 'confirmed' => 0]);
+       $latestId = User::orderby('created_at', 'desc')->first()->id;
+       $this->seeInDatabase($this->roleUserTable, ['user_id' => $latestId, 'role_id' => 2])
+            ->seeInDatabase($this->roleUserTable, ['user_id' => $latestId, 'role_id' => 3]);
 
         // Get the user that was inserted into the database
-        $user = User::where('email', $email)
-                ->first();
+        $user = User::where('email', $email)->first();
 
         // Check that the user was sent the confirmation email
         Notification::assertSentTo(
@@ -172,9 +171,9 @@ class UserFormTest extends TestCase
             ->press('Update')
             ->seePageIs('/admin/access/user')
             ->see('The user was successfully updated.')
-            ->assertDatabaseHas($this->userTable, ['id' => $this->user->id, 'name' => 'User New', 'email' => 'user2@user.com', 'status' => 0, 'confirmed' => 0])
-            ->assertDatabaseHas($this->roleUserTable, ['user_id' => $this->user->id, 'role_id' => 2])
-            ->notSeeInDatabase($this->roleUserTable, ['user_id' => $this->user->id, 'role_id' => 3]);
+            ->seeInDatabase($this->userTable, ['id' => $this->user->id, 'name' => 'User New', 'email' => 'user2@user.com', 'status' => 0, 'confirmed' => 0])
+            ->seeInDatabase($this->roleUserTable, ['user_id' => $this->user->id, 'role_id' => 2])
+            ->dontSeeInDatabase($this->roleUserTable, ['user_id' => $this->user->id, 'role_id' => 3]);
 
         Event::assertDispatched(UserUpdated::class);
     }
@@ -187,7 +186,7 @@ class UserFormTest extends TestCase
         $this->actingAs($this->admin)
             ->delete('/admin/access/user/'.$this->user->id)
             ->assertRedirectedTo('/admin/access/user/deleted')
-            ->notSeeInDatabase($this->userTable, ['id' => $this->user->id, 'deleted_at' => null]);
+            ->dontSeeInDatabase($this->userTable, ['id' => $this->user->id, 'deleted_at' => null]);
 
         Event::assertDispatched(UserDeleted::class);
     }
@@ -198,9 +197,8 @@ class UserFormTest extends TestCase
             ->visit('/admin/access/user')
             ->delete('/admin/access/user/'.$this->admin->id)
             ->assertRedirectedTo('/admin/access/user')
-            ->assertDatabaseHas($this->userTable, ['id' => $this->admin->id, 'deleted_at' => null])
+            ->seeInDatabase($this->userTable, ['id' => $this->admin->id, 'deleted_at' => null])
             ->seeInSession(['flash_danger' => 'You can not delete yourself.']);
-        ;
     }
 
     public function testChangeUserPasswordRequiredFields()

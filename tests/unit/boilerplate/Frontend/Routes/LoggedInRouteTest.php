@@ -4,11 +4,12 @@ namespace Tests\unit\boilerplate\Frontend\Routes;
 
 use Illuminate\Support\Facades\Event;
 use App\Events\Frontend\Auth\UserLoggedOut;
+use Tests\BrowserKitTest;
 
 /**
  * Class LoggedInRouteTest
  */
-class LoggedInRouteTest extends TestCase
+class LoggedInRouteTest extends BrowserKitTest
 {
 
     /**
@@ -30,8 +31,8 @@ class LoggedInRouteTest extends TestCase
     {
         $this->actingAs($this->user)
             ->visit('/dashboard')
-            ->see($this->user->email)
-            ->see('Joined')
+            ->see($this->user->name)
+            ->see('Member since')
             ->dontSee('Administration');
     }
 

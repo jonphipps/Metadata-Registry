@@ -2,6 +2,7 @@
 
 namespace Tests\unit\boilerplate\Backend\Access;
 
+use Tests\TestCase;
 /**
  * Class AccessHelperTest
  */
@@ -67,7 +68,7 @@ class AccessHelperTest extends TestCase
     public function testAccessHasRolesNeedsAll()
     {
         $this->actingAs($this->executive);
-        $this->assertFalse(access()->hasRoles(['executive', 'user'], true));
+        $this->assertFalse(access()->hasRoles(['executive', 'User'], true));
         $this->assertFalse(access()->hasRoles([2, 3], true));
     }
 

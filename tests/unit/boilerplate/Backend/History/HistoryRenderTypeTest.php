@@ -3,11 +3,12 @@
 namespace Tests\unit\boilerplate\Backend\History;
 
 use App\Repositories\Backend\History\Facades\History;
+use Tests\BrowserKitTest;
 
 /**
  * Class HistoryRenderTypeTest
  */
-class HistoryRenderTypeTest extends TestCase
+class HistoryRenderTypeTest extends BrowserKitTest
 {
     public function testViewOnlyHasHistoryOfType()
     {

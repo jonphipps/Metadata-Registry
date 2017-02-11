@@ -8,11 +8,12 @@ use Illuminate\Support\Facades\Event;
 use App\Events\Frontend\Auth\UserConfirmed;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\Frontend\Auth\UserNeedsConfirmation;
+use Tests\BrowserKitTest;
 
 /**
  * Class LoggedOutRouteTest
  */
-class LoggedOutRouteTest extends TestCase
+class LoggedOutRouteTest extends BrowserKitTest
 {
 
   /**
@@ -106,7 +107,7 @@ class LoggedOutRouteTest extends TestCase
         $this->visit('/account/confirm/' . $unconfirmed->confirmation_code)
          ->seePageIs('/login')
          ->see('Your account has been successfully confirmed!')
-         ->assertDatabaseHas(config('access.users_table'), [ 'email' => $unconfirmed->email, 'confirmed' => 1 ]);
+            ->seeInDatabase(config('access.users_table'), ['email' => $unconfirmed->email, 'confirmed'  => 1]);
 
         Event::assertDispatched(UserConfirmed::class);
     }

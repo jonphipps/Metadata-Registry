@@ -2,10 +2,11 @@
 
 namespace Tests\unit\boilerplate\Backend\Routes;
 
+use Tests\BrowserKitTest;
 /**
  * Class DashboardRouteTest
  */
-class DashboardRouteTest extends TestCase
+class DashboardRouteTest extends BrowserKitTest
 {
     public function testAdminDashboard()
     {

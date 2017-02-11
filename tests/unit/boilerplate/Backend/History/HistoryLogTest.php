@@ -3,11 +3,12 @@
 namespace Tests\unit\boilerplate\Backend\History;
 
 use App\Repositories\Backend\History\Facades\History;
+use Tests\BrowserKitTest;
 
 /**
  * Class HistoryLogTest
  */
-class HistoryLogTest extends TestCase
+class HistoryLogTest extends BrowserKitTest
 {
     public function testHistoryLogByTypeNameFunction()
     {
@@ -15,7 +16,7 @@ class HistoryLogTest extends TestCase
 
         History::log('User', 'trans("history.backend.users.created") ' . $this->user->name, $this->user->id, 'plus', 'bg-green');
 
-        $this->assertDatabaseHas('history', [
+        $this->seeInDatabase('history', [
             'type_id' => 1,
             'user_id' => $this->admin->id,
             'entity_id' => $this->user->id,
@@ -33,7 +34,7 @@ class HistoryLogTest extends TestCase
 
         History::log(1, 'trans("history.backend.users.created") ' . $this->user->name, $this->user->id, 'plus', 'bg-green');
 
-        $this->assertDatabaseHas('history', [
+        $this->seeInDatabase('history', [
             'type_id' => 1,
             'user_id' => $this->admin->id,
             'entity_id' => $this->user->id,

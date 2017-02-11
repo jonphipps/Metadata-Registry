@@ -1,16 +1,16 @@
 <?php
 
-use Illuminate\Foundation\Testing\Concerns\InteractsWithPages;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\BrowserKitTest;
 
 /**
  * Class LoggedInRouteTest
  */
-class DashboardTest extends TestCase
+class DashboardTest extends BrowserKitTest
 {
-  use InteractsWithPages, DatabaseTransactions;
+  use DatabaseTransactions;
 
 
 
