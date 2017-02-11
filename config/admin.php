@@ -15,7 +15,7 @@ return [
   /*
    * Laravel-admin install directory.
    */
-  'directory' => app_path('Omr'),
+  'directory' => app_path('Http/Omr'),
 
   /*
    * Laravel-admin title.
