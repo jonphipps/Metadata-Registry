@@ -31,6 +31,17 @@ class UserNeedsConfirmation extends Notification
     $this->confirmation_code = $confirmation_code;
   }
 
+    /**
+     * Get the notification's delivery channels.
+     *
+     * @param mixed $notifiable
+     *
+     * @return array
+     */
+    public function via($notifiable)
+    {
+        return ['mail'];
+    }
 
   /**
    * Get the mail representation of the notification.
