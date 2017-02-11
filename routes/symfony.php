@@ -21,7 +21,7 @@ Route::group([ 'middleware' => 'symfony' ], function () {
                 define('SF_DEBUG', env('SF_DEBUG', 'false'));
             }
             if (! defined('SF_ROOT_DIR')) {
-                define('SF_ROOT_DIR', env('SF_ROOT_DIR'));
+                define('SF_ROOT_DIR', env('SF_ROOT_DIR', app()->basePath()));
             }
 
             $_SERVER['HTTP_HOST']       = ( empty($_SERVER['HTTP_HOST']) ) ? Request()->getHost() : $_SERVER['HTTP_HOST'];
