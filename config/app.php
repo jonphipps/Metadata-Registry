@@ -275,7 +275,6 @@ return [
         'Socialite'    => Laravel\Socialite\Facades\Socialite::class,
         'GitHub'       => GrahamCampbell\GitHub\Facades\GitHub::class,
         'Debugbar'     => Barryvdh\Debugbar\Facade::class,
-        'Admin'        => Encore\Admin\Facades\Admin::class,
     ],
 
 ];
