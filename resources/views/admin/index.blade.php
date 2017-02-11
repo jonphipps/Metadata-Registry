@@ -38,7 +38,7 @@
 <body class="hold-transition {{config('admin.skin')}} {{join(' ', config('admin.layout'))}}">
 <div class="wrapper">
 
-    @include('admin::partials.header')
+    @include('backend.includes.header')
 
     @include('admin::partials.sidebar')
 
