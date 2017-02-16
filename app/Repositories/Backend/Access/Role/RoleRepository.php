@@ -3,28 +3,28 @@
 namespace App\Repositories\Backend\Access\Role;
 
 use App\Models\Access\Role\Role;
-use App\Repositories\Repository;
 use Illuminate\Support\Facades\DB;
 use App\Exceptions\GeneralException;
+use App\Repositories\BaseRepository;
 use Illuminate\Database\Eloquent\Model;
 use App\Events\Backend\Access\Role\RoleCreated;
 use App\Events\Backend\Access\Role\RoleDeleted;
 use App\Events\Backend\Access\Role\RoleUpdated;
 
 /**
- * Class RoleRepository
- * @package app\Repositories\Role
+ * Class RoleRepository.
  */
-class RoleRepository extends Repository
+class RoleRepository extends BaseRepository
 {
     /**
-     * Associated Repository Model
+     * Associated Repository Model.
      */
     const MODEL = Role::class;
 
     /**
      * @param string $order_by
      * @param string $sort
+     *
      * @return mixed
      */
     public function getAll($order_by = 'sort', $sort = 'asc')
@@ -36,26 +36,25 @@ class RoleRepository extends Repository
     }
 
     /**
-     * @param string $order_by
-     * @param string $sort
      * @return mixed
      */
-    public function getForDataTable($order_by = 'sort', $sort = 'asc')
+    public function getForDataTable()
     {
         return $this->query()
             ->with('users', 'permissions')
-            ->orderBy($order_by, $sort)
             ->select([
-                config('access.roles_table') . '.id',
-                config('access.roles_table') . '.name',
-                config('access.roles_table') . '.all',
-                config('access.roles_table') . '.sort',
+                config('access.roles_table').'.id',
+                config('access.roles_table').'.name',
+                config('access.roles_table').'.all',
+                config('access.roles_table').'.sort',
             ]);
     }
 
     /**
-     * @param  array $input
+     * @param array $input
+     *
      * @throws GeneralException
+     *
      * @return bool
      */
     public function create(array $input)
@@ -80,15 +79,15 @@ class RoleRepository extends Repository
         }
 
         DB::transaction(function () use ($input, $all) {
-            $role       = self::MODEL;
-            $role       = new $role;
+            $role = self::MODEL;
+            $role = new $role();
             $role->name = $input['name'];
-            $role->sort = isset($input['sort']) && strlen($input['sort']) > 0 && is_numeric($input['sort']) ? (int)$input['sort'] : 0;
+            $role->sort = isset($input['sort']) && strlen($input['sort']) > 0 && is_numeric($input['sort']) ? (int) $input['sort'] : 0;
 
             //See if this role has all permissions and set the flag on the role
             $role->all = $all;
 
-            if (parent::save($role)) {
+            if ($role->save()) {
                 if (! $all) {
                     $permissions = [];
 
@@ -104,6 +103,7 @@ class RoleRepository extends Repository
                 }
 
                 event(new RoleCreated($role));
+
                 return true;
             }
 
@@ -112,9 +112,11 @@ class RoleRepository extends Repository
     }
 
     /**
-     * @param  Model $role
+     * @param Model $role
      * @param  $input
+     *
      * @throws GeneralException
+     *
      * @return bool
      */
     public function update(Model $role, array $input)
@@ -145,7 +147,7 @@ class RoleRepository extends Repository
         $role->all = $all;
 
         DB::transaction(function () use ($role, $input, $all) {
-            if (parent::save($role)) {
+            if ($role->save()) {
                 //If role has all access detach all permissions because they're not needed
                 if ($all) {
                     $role->permissions()->sync([]);
@@ -168,6 +170,7 @@ class RoleRepository extends Repository
                 }
 
                 event(new RoleUpdated($role));
+
                 return true;
             }
 
@@ -176,8 +179,10 @@ class RoleRepository extends Repository
     }
 
     /**
-     * @param  Model $role
+     * @param Model $role
+     *
      * @throws GeneralException
+     *
      * @return bool
      */
     public function delete(Model $role)
@@ -196,8 +201,9 @@ class RoleRepository extends Repository
             //Detach all associated roles
             $role->permissions()->sync([]);
 
-            if (parent::delete($role)) {
+            if ($role->delete()) {
                 event(new RoleDeleted($role));
+
                 return true;
             }
 
@@ -213,6 +219,7 @@ class RoleRepository extends Repository
         if (is_numeric(config('access.users.default_role'))) {
             return $this->query()->where('id', (int) config('access.users.default_role'))->first();
         }
+
         return $this->query()->where('name', config('access.users.default_role'))->first();
     }
 }

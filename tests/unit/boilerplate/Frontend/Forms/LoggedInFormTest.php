@@ -1,24 +1,14 @@
 <?php
+use Tests\BrowserKitTestCase;
 
-namespace Tests\unit\boilerplate\Frontend\Forms;
-
-use App\Models\Access\User\User;
-use Tests\BrowserKitTest;
 /**
- * Class LoggedInFormTest
+ * Class LoggedInFormTest.
  */
-class LoggedInFormTest extends BrowserKitTest
+class LoggedInFormTest extends BrowserKitTestCase
 {
-  public function setUp()
-  {
-    parent::setUp();
-    $this->setupDatabase();
-    $this->user = User::find(3);
-  }
-
 
     /**
-     * Test that the errors work if nothing is filled in the update account form
+     * Test that the errors work if nothing is filled in the update account form.
      */
     public function testUpdateProfileRequiredFields()
     {
@@ -43,7 +33,7 @@ class LoggedInFormTest extends BrowserKitTest
 
     /**
      * Test that we can target the update profile form and update the profile
-     * Based on whether the user is allowed to alter their email address or not
+     * Based on whether the user is allowed to alter their email address or not.
      */
     public function testUpdateProfileForm()
     {
@@ -58,7 +48,8 @@ class LoggedInFormTest extends BrowserKitTest
                 ->press('update-profile')
                 ->seePageIs('/account')
                 ->see('Profile successfully updated.')
-                ->seeInDatabase(config('access.users_table'), ['email' => '2_'.$this->user->email, 'name'  => $this->user->name.'_'.$rand]);
+                 ->seeInDatabase(config('access.users_table'),
+                     ['email' => '2_'.$this->user->email, 'name' => $this->user->name.'_'.$rand]);
         } else {
             $this->actingAs($this->user)
                 ->visit('/account')
@@ -72,7 +63,7 @@ class LoggedInFormTest extends BrowserKitTest
     }
 
     /**
-     * Test that the errors work if nothing is filled in the change password form
+     * Test that the errors work if nothing is filled in the change password form.
      */
     public function testChangePasswordRequiredFields()
     {
@@ -88,7 +79,7 @@ class LoggedInFormTest extends BrowserKitTest
     }
 
     /**
-     * Test that the frontend change password form works
+     * Test that the frontend change password form works.
      */
     public function testChangePasswordForm()
     {

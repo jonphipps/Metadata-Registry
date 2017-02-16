@@ -1,31 +1,25 @@
 <?php
 
-namespace Tests\unit\boilerplate\Frontend\Routes;
-
 use Illuminate\Support\Facades\Event;
 use App\Events\Frontend\Auth\UserLoggedOut;
-use Tests\BrowserKitTest;
+use Tests\BrowserKitTestCase;
 
 /**
- * Class LoggedInRouteTest
+ * Class LoggedInRouteTest.
  */
-class LoggedInRouteTest extends BrowserKitTest
+class LoggedInRouteTest extends BrowserKitTestCase
 {
 
     /**
-     * Test the homepage works and the dashboard button appears
+     * Test the homepage works and the dashboard button appears.
      */
     public function testHomePageLoggedIn()
     {
-        $this->actingAs($this->user)
-            ->visit('/')
-            ->see('Dashboard')
-            ->see($this->user->name)
-            ->dontSee('Administration');
+        $this->actingAs($this->user)->visit('/')->see('Dashboard')->see($this->user->name)->dontSee('Administration');
     }
 
     /**
-     * Test the dashboard page works and displays the users information
+     * Test the dashboard page works and displays the users information.
      */
     public function testDashboardPage()
     {
@@ -37,7 +31,7 @@ class LoggedInRouteTest extends BrowserKitTest
     }
 
     /**
-     * Test the account page works and displays the users information
+     * Test the account page works and displays the users information.
      */
     public function testAccountPage()
     {
@@ -51,28 +45,22 @@ class LoggedInRouteTest extends BrowserKitTest
     }
 
     /**
-     * Test the account page works and displays the users information
+     * Test the account page works and displays the users information.
      */
     public function testLoggedInAdmin()
     {
-        $this->actingAs($this->admin)
-            ->visit('/')
-            ->see('Administration')
-            ->see($this->admin->name);
+        $this->actingAs($this->admin)->visit('/')->see('Administration')->see($this->admin->name);
     }
 
     /**
-     * Test the logout button redirects the user back to home and the login button is again visible
+     * Test the logout button redirects the user back to home and the login button is again visible.
      */
     public function testLogoutRoute()
     {
         // Make sure our events are fired
         Event::fake();
 
-        $this->actingAs($this->user)
-            ->visit('/logout')
-            ->see('Login')
-            ->see('Register');
+        $this->actingAs($this->user)->visit('/logout')->see('Login')->see('Register');
 
         Event::assertDispatched(UserLoggedOut::class);
     }

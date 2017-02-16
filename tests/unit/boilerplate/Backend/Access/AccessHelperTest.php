@@ -1,14 +1,12 @@
 <?php
 
-namespace Tests\unit\boilerplate\Backend\Access;
+use Tests\BrowserKitTestCase;
 
-use Tests\TestCase;
 /**
- * Class AccessHelperTest
+ * Class AccessHelperTest.
  */
-class AccessHelperTest extends TestCase
+class AccessHelperTest extends BrowserKitTestCase
 {
-
     public function testAccessUser()
     {
         $this->actingAs($this->user);
@@ -61,7 +59,7 @@ class AccessHelperTest extends TestCase
     public function testAccessHasRoles()
     {
         $this->actingAs($this->executive);
-        $this->assertTrue(access()->hasRoles(['executive', 'user']));
+        $this->assertTrue(access()->hasRoles(['executive', 'User']));
         $this->assertTrue(access()->hasRoles([2, 3]));
     }
 

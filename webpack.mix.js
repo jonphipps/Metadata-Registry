@@ -1,4 +1,5 @@
 const { mix } = require('laravel-mix');
+const WebpackRTLPlugin = require('webpack-rtl-plugin');
 
 /*
  |--------------------------------------------------------------------------
@@ -11,5 +12,23 @@ const { mix } = require('laravel-mix');
  |
  */
 
-mix.js('resources/assets/js/app.js', 'public/js')
-   .sass('resources/assets/sass/app.scss', 'public/css');
+mix.config.publicPath = 'web';
+
+mix.sass('resources/assets/sass/frontend/app.scss', 'web/css/frontend.css')
+    .sass('resources/assets/sass/backend/app.scss', 'web/css/backend.css')
+    .js([
+        'resources/assets/js/frontend/app.js',
+        'resources/assets/js/plugin/sweetalert/sweetalert.min.js',
+        'resources/assets/js/plugins.js'
+    ], 'web/js/frontend.js')
+    .js([
+        'resources/assets/js/backend/app.js',
+        'resources/assets/js/plugin/sweetalert/sweetalert.min.js',
+        'resources/assets/js/plugins.js'
+    ], 'web/js/backend.js')
+    .webpackConfig({
+        plugins: [
+            new WebpackRTLPlugin('/css/[name].rtl.css')
+        ]
+    })
+    .version();

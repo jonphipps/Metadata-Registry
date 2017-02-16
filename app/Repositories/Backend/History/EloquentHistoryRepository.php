@@ -1,61 +1,163 @@
-<?php namespace App\Repositories\Backend\History;
+<?php
+
+namespace App\Repositories\Backend\History;
 
 use App\Models\History\History;
 use App\Models\History\HistoryType;
+use App\Exceptions\GeneralException;
 
 /**
- * Class EloquentHistoryRepository
- *
- * @package App\Repositories\Backend\History
+ * Class EloquentHistoryRepository.
  */
 class EloquentHistoryRepository implements HistoryContract
 {
+    /**
+     * @var
+     */
+    public $type;
+
+    /**
+     * @var
+     */
+    public $text;
+
+    /**
+     * @var null
+     */
+    public $entity_id = null;
+
+    /**
+     * @var null
+     */
+    public $icon = null;
+
+    /**
+     * @var null
+     */
+    public $class = null;
+
+    /**
+     * @var null
+     */
+    public $assets = null;
 
     /**
      * Pagination type
      * paginate: Prev/Next with page numbers
-     * simplePaginate: Just Prev/Next arrows
+     * simplePaginate: Just Prev/Next arrows.
+     *
      * @var string
      */
-    private $paginationType = "simplePaginate";
+    private $paginationType = 'simplePaginate';
 
     /**
      * @param $type
-     * @param $text
-     * @param null $entity_id
-     * @param null $icon
-     * @param null $class
-     * @param null $assets
-     * @return bool|static
+     *
+     * @return $this
+     * @throws GeneralException
      */
-    public function log($type, $text, $entity_id = null, $icon = null, $class = null, $assets = null)
+    public function withType($type)
     {
         //Type can be id or name
         if (is_numeric($type)) {
-            $type = HistoryType::findOrFail($type);
+            $this->type = HistoryType::findOrFail($type);
         } else {
-            $type = HistoryType::where('name', $type)->first();
+            $this->type = HistoryType::where('name', $type)->first();
         }
 
-        if ($type instanceof HistoryType) {
-            return History::create([
-                'type_id' => $type->id,
-                'text' => $text,
-                'user_id' => access()->id(),
-                'entity_id' => $entity_id,
-                'icon' => $icon,
-                'class' => $class,
-                'assets' => is_array($assets) && count($assets) ? json_encode($assets) : null,
-            ]);
+        if ($this->type instanceof HistoryType) {
+            return $this;
         }
 
-        return false;
+        throw new GeneralException('An invalid history type was supplied: '.$type.'.');
+    }
+
+    /**
+     * @param $text
+     *
+     * @return $this
+     * @throws GeneralException
+     */
+    public function withText($text)
+    {
+        if (strlen($text)) {
+            $this->text = $text;
+        } else {
+            throw new GeneralException('You must supply text for each history item.');
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param $entity_id
+     *
+     * @return $this
+     */
+    public function withEntity($entity_id)
+    {
+        $this->entity_id = $entity_id;
+
+        return $this;
+    }
+
+    /**
+     * @param $icon
+     *
+     * @return $this
+     */
+    public function withIcon($icon)
+    {
+        $this->icon = $icon;
+
+        return $this;
+    }
+
+    /**
+     * @param $class
+     *
+     * @return $this
+     */
+    public function withClass($class)
+    {
+        $this->class = $class;
+
+        return $this;
+    }
+
+    /**
+     * @param $assets
+     *
+     * @return $this
+     */
+    public function withAssets($assets)
+    {
+        $this->assets = is_array($assets) && count($assets) ? json_encode($assets) : null;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function log()
+    {
+        return History::create([
+            'type_id'   => $this->type->id,
+            'user_id'   => access()->id(),
+            'entity_id' => $this->entity_id,
+            'icon'      => $this->icon,
+            'class'     => $this->class,
+            'text'      => $this->text,
+            'assets'    => $this->assets,
+        ]);
     }
 
     /**
      * @param null $limit
      * @param bool $paginate
-     * @param int $pagination
+     * @param int  $pagination
+     *
      * @return string|\Symfony\Component\Translation\TranslatorInterface
      */
     public function render($limit = null, $paginate = true, $pagination = 10)
@@ -63,8 +165,9 @@ class EloquentHistoryRepository implements HistoryContract
         $history = History::with('user')->latest();
         $history = $this->buildPagination($history, $limit, $paginate, $pagination);
         if (! $history->count()) {
-            return trans("history.backend.none");
+            return trans('history.backend.none');
         }
+
         return $this->buildList($history, $paginate);
     }
 
@@ -72,7 +175,8 @@ class EloquentHistoryRepository implements HistoryContract
      * @param $type
      * @param null $limit
      * @param bool $paginate
-     * @param int $pagination
+     * @param int  $pagination
+     *
      * @return string|\Symfony\Component\Translation\TranslatorInterface
      */
     public function renderType($type, $limit = null, $paginate = true, $pagination = 10)
@@ -81,8 +185,9 @@ class EloquentHistoryRepository implements HistoryContract
         $history = $this->checkType($history, $type);
         $history = $this->buildPagination($history, $limit, $paginate, $pagination);
         if (! $history->count()) {
-            return trans("history.backend.none_for_type");
+            return trans('history.backend.none_for_type');
         }
+
         return $this->buildList($history, $paginate);
     }
 
@@ -91,7 +196,8 @@ class EloquentHistoryRepository implements HistoryContract
      * @param $entity_id
      * @param null $limit
      * @param bool $paginate
-     * @param int $pagination
+     * @param int  $pagination
+     *
      * @return string|\Symfony\Component\Translation\TranslatorInterface
      */
     public function renderEntity($type, $entity_id, $limit = null, $paginate = true, $pagination = 10)
@@ -100,59 +206,61 @@ class EloquentHistoryRepository implements HistoryContract
         $history = $this->checkType($history, $type);
         $history = $this->buildPagination($history, $limit, $paginate, $pagination);
         if (! $history->count()) {
-            return trans("history.backend.none_for_entity", ['entity' => $type]);
+            return trans('history.backend.none_for_entity', ['entity' => $type]);
         }
+
         return $this->buildList($history, $paginate);
     }
 
     /**
      * @param $text
      * @param bool $assets
+     *
      * @return mixed|string
      */
     public function renderDescription($text, $assets = false)
     {
         $assets = json_decode($assets, true);
         $count = 1;
-        $asset_count = count($assets)+1;
+        $asset_count = count($assets) + 1;
 
         if (count($assets)) {
             foreach ($assets as $name => $values) {
-                switch ($name) {
-                    case "string":
-                        ${"asset_".$count} = $values;
-                        break;
+                $key = explode('_', $name)[0];
+                $type = explode('_', $name)[1];
 
-                    //Cant have link be multiple array keys, allows for link, link1, link2, etc.
-                    case substr($name, 0, 4) == "link":
+                switch ($type) {
+                    case 'link':
                         if (is_array($values)) {
                             switch (count($values)) {
                                 case 1:
-                                    ${"asset_".$count} = laravel_link_to_route($values[0], $values[0]);
-                                    break;
+                                    $text = str_replace('{'.$key.'}', link_to_route($values[0], $values[0]), $text);
+                                break;
 
                                 case 2:
-                                    ${"asset_".$count} = laravel_link_to_route($values[0], $values[1]);
-                                    break;
+                                    $text = str_replace('{'.$key.'}', link_to_route($values[0], $values[1]), $text);
+                                break;
 
                                 case 3:
-                                    ${"asset_".$count} = laravel_link_to_route($values[0], $values[1], $values[2]);
-                                    break;
+                                    $text = str_replace('{'.$key.'}', link_to_route($values[0], $values[1], $values[2]), $text);
+                                break;
 
-                                default:
-                                    break;
+                                case 4:
+                                    $text = str_replace('{'.$key.'}', link_to_route($values[0], $values[1], $values[2], $values[3]), $text);
+                                break;
                             }
                         } else {
                             //Normal url
-                            ${"asset_".$count} = laravel_link_to($values, $values);
+                            $text = str_replace('{'.$key.'}', link_to($values, $values), $text);
                         }
-                        break;
 
-                    default:
-                        break;
+                    break;
+
+                    case 'string':
+                        $text = str_replace('{'.$key.'}', $values, $text);
+                    break;
                 }
 
-                $text = str_replace("$".$count, ${"asset_".$count}, $text);
                 $count++;
             }
         }
@@ -164,12 +272,14 @@ class EloquentHistoryRepository implements HistoryContract
                 return trans($matches[1]);
             }, $text);
         }
+
         return '';
     }
 
     /**
      * @param $history
      * @param bool $paginate
+     *
      * @return string
      */
     public function buildList($history, $paginate = true)
@@ -183,6 +293,7 @@ class EloquentHistoryRepository implements HistoryContract
      * @param $limit
      * @param $paginate
      * @param $pagination
+     *
      * @return mixed
      */
     public function buildPagination($query, $limit, $paginate, $pagination)
@@ -201,6 +312,7 @@ class EloquentHistoryRepository implements HistoryContract
     /**
      * @param $query
      * @param $type
+     *
      * @return mixed
      */
     private function checkType($query, $type)

@@ -1,38 +1,16 @@
-<?php namespace App\Models\History;
+<?php
+
+namespace App\Models\History;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\History\Traits\Relationship\HistoryRelationship;
 
 /**
- * App\Models\History\History
- *
- * @property int $id
- * @property int $type_id
- * @property int $user_id
- * @property int $entity_id
- * @property string $icon
- * @property string $class
- * @property string $text
- * @property string $assets
- * @property \Carbon\Carbon $created_at
- * @property \Carbon\Carbon $updated_at
- * @property-read \App\Models\Access\User\User $user
- * @property-read \App\Models\History\HistoryType $type
- * @method static \Illuminate\Database\Query\Builder|\App\Models\History\History whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\History\History whereTypeId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\History\History whereUserId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\History\History whereEntityId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\History\History whereIcon($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\History\History whereClass($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\History\History whereText($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\History\History whereAssets($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\History\History whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\History\History whereUpdatedAt($value)
- * @mixin \Eloquent
+ * Class History
+ * package App.
  */
 class History extends Model
 {
-
     use HistoryRelationship;
 
     /**

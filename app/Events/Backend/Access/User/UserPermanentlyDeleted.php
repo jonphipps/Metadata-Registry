@@ -2,19 +2,17 @@
 
 namespace App\Events\Backend\Access\User;
 
-use App\Events\Event;
 use Illuminate\Queue\SerializesModels;
 
 /**
- * Class UserPermanentlyDeleted
- * @package App\Events\Backend\Access\User
+ * Class UserPermanentlyDeleted.
  */
-class UserPermanentlyDeleted extends Event
+class UserPermanentlyDeleted
 {
     use SerializesModels;
 
     /**
-     * @var $user
+     * @var
      */
     public $user;
 

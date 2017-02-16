@@ -37,9 +37,8 @@ class RouteServiceProvider extends ServiceProvider
      * This allows us to use the Route Model Binding with SoftDeletes on
      * On a model by model basis
      */
-    $this->bind('deletedUser',
-        function ($value) {
-          $user = new User;
+        $this->bind('deletedUser', function ($value) {
+            $user = new User();
 
           return User::withTrashed()->where($user->getRouteKeyName(), $value)->first();
         });
@@ -71,13 +70,9 @@ class RouteServiceProvider extends ServiceProvider
    */
   protected function mapWebRoutes()
   {
-    Route::group([
-        'middleware' => 'web',
-        'namespace'  => $this->namespace,
-    ],
-        function ($router) {
-          require base_path('routes/web.php');
-        });
+        Route::middleware('web')
+             ->namespace($this->namespace)
+             ->group(base_path('routes/web.php'));
   }
 
 
@@ -89,13 +84,9 @@ class RouteServiceProvider extends ServiceProvider
    */
   protected function mapApiRoutes()
   {
-    Route::group([
-        'middleware' => 'api',
-        'namespace'  => $this->namespace,
-        'prefix'     => 'api',
-    ],
-        function ($router) {
-          require base_path('routes/api.php');
-        });
+        Route::prefix('api')
+             ->middleware('api')
+             ->namespace($this->namespace)
+             ->group(base_path('routes/api.php'));
   }
 }

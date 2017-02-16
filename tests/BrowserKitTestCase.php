@@ -8,7 +8,7 @@ use Laravel\BrowserKitTesting\TestCase as BaseTestCase;
 /**
  * Class TestCase.
  */
-abstract class BrowserKitTest extends BaseTestCase
+abstract class BrowserKitTestCase extends BaseTestCase
 {
   use CreatesApplication;
   use DatabaseTransactions;

@@ -42,10 +42,10 @@ class PermissionTableSeeder extends Seeder
      * Misc Access Permissions
      */
         $permission_model          = config('access.permission');
-        $viewBackend               = new $permission_model;
+        $viewBackend = new $permission_model();
         $viewBackend->name         = 'view-backend';
         $viewBackend->display_name = 'View Backend';
-        $viewBackend->sort         = 2;
+        $viewBackend->sort = 1;
         $viewBackend->created_at   = Carbon::now();
         $viewBackend->updated_at   = Carbon::now();
         $viewBackend->save();
@@ -54,7 +54,7 @@ class PermissionTableSeeder extends Seeder
      * Access Permissions
      */
         $permission_model          = config('access.permission');
-        $manageUsers               = new $permission_model;
+        $manageUsers               = new $permission_model();
         $manageUsers->name         = 'manage-users';
         $manageUsers->display_name = 'Manage Users';
         $manageUsers->sort         = 3;
@@ -63,7 +63,7 @@ class PermissionTableSeeder extends Seeder
         $manageUsers->save();
 
         $permission_model          = config('access.permission');
-        $manageRoles               = new $permission_model;
+        $manageRoles               = new $permission_model();
         $manageRoles->name         = 'manage-roles';
         $manageRoles->display_name = 'Manage Roles';
         $manageRoles->sort         = 4;
@@ -72,7 +72,7 @@ class PermissionTableSeeder extends Seeder
         $manageRoles->save();
 
         $permission_model          = config('access.permission');
-        $manageRoles               = new $permission_model;
+        $manageRoles               = new $permission_model();
         $manageRoles->name         = 'create-project';
         $manageRoles->display_name = 'Create a Project';
         $manageRoles->sort         = 5;
@@ -81,7 +81,7 @@ class PermissionTableSeeder extends Seeder
         $manageRoles->save();
 
         $permission_model          = config('access.permission');
-        $manageRoles               = new $permission_model;
+        $manageRoles               = new $permission_model();
         $manageRoles->name         = 'edit-project';
         $manageRoles->display_name = 'Edit a Project';
         $manageRoles->sort         = 6;
@@ -90,7 +90,7 @@ class PermissionTableSeeder extends Seeder
         $manageRoles->save();
 
         $permission_model          = config('access.permission');
-        $manageRoles               = new $permission_model;
+        $manageRoles               = new $permission_model();
         $manageRoles->name         = 'edit-schema';
         $manageRoles->display_name = 'Edit an Element Set';
         $manageRoles->sort         = 10;
@@ -99,7 +99,7 @@ class PermissionTableSeeder extends Seeder
         $manageRoles->save();
 
         $permission_model          = config('access.permission');
-        $manageRoles               = new $permission_model;
+        $manageRoles               = new $permission_model();
         $manageRoles->name         = 'edit-vocab';
         $manageRoles->display_name = 'Edit a Vocabulary';
         $manageRoles->sort         = 13;
@@ -108,7 +108,7 @@ class PermissionTableSeeder extends Seeder
         $manageRoles->save();
 
         $permission_model          = config('access.permission');
-        $manageRoles               = new $permission_model;
+        $manageRoles               = new $permission_model();
         $manageRoles->name         = 'view-project';
         $manageRoles->display_name = 'View a Private Project';
         $manageRoles->sort         = 8;
@@ -117,7 +117,7 @@ class PermissionTableSeeder extends Seeder
         $manageRoles->save();
 
         $permission_model          = config('access.permission');
-        $manageRoles               = new $permission_model;
+        $manageRoles               = new $permission_model();
         $manageRoles->name         = 'create-schema';
         $manageRoles->display_name = 'Create an Element Set';
         $manageRoles->sort         = 9;
@@ -126,7 +126,7 @@ class PermissionTableSeeder extends Seeder
         $manageRoles->save();
 
         $permission_model          = config('access.permission');
-        $manageRoles               = new $permission_model;
+        $manageRoles               = new $permission_model();
         $manageRoles->name         = 'create-vocab';
         $manageRoles->display_name = 'Create a Vocabulary';
         $manageRoles->sort         = 12;
@@ -135,7 +135,7 @@ class PermissionTableSeeder extends Seeder
         $manageRoles->save();
 
         $permission_model          = config('access.permission');
-        $manageRoles               = new $permission_model;
+        $manageRoles               = new $permission_model();
         $manageRoles->name         = 'delete-project';
         $manageRoles->display_name = 'Delete a Project';
         $manageRoles->sort         = 7;
@@ -144,7 +144,7 @@ class PermissionTableSeeder extends Seeder
         $manageRoles->save();
 
         $permission_model          = config('access.permission');
-        $manageRoles               = new $permission_model;
+        $manageRoles               = new $permission_model();
         $manageRoles->name         = 'delete-schema';
         $manageRoles->display_name = 'Delete an Element Set';
         $manageRoles->sort         = 11;
@@ -153,7 +153,7 @@ class PermissionTableSeeder extends Seeder
         $manageRoles->save();
 
         $permission_model          = config('access.permission');
-        $manageRoles               = new $permission_model;
+        $manageRoles               = new $permission_model();
         $manageRoles->name         = 'delete-vocab';
         $manageRoles->display_name = 'Delete a Vocabulary';
         $manageRoles->sort         = 14;
@@ -162,7 +162,7 @@ class PermissionTableSeeder extends Seeder
         $manageRoles->save();
 
         $permission_model          = config('access.permission');
-        $manageRoles               = new $permission_model;
+        $manageRoles               = new $permission_model();
         $manageRoles->name         = 'edit-self';
         $manageRoles->display_name = 'Edit Self';
         $manageRoles->sort         = 1;
