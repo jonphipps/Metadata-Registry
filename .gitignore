@@ -36,3 +36,4 @@ tests_codecept/_output/*
 /apps/frontend/config/app.yml
 /node_modules/
 /.github/
+/.env
