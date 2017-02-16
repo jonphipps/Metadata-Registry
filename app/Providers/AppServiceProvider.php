@@ -26,7 +26,7 @@ class AppServiceProvider extends ServiceProvider
         /**
      * setLocale for php. Enables ->formatLocalized() with localized values for dates
      */
-        setLocale(LC_TIME, config('app.locale_php'));
+        setlocale(LC_TIME, config('app.locale_php'));
 
         /**
      * setLocale to use Carbon source locales. Enables diffForHumans() localized
@@ -62,16 +62,20 @@ class AppServiceProvider extends ServiceProvider
         /**
      * Sets third party service providers that are only needed on local environments
      */
-        if ($this->app->environment() == 'dev' || $this->app->environment() == 'testing') {
+        if ($this->app->environment() != 'production') {
             /**
-       * Loader for registering facades
-       */
+             * Loader for registering facades.
+             */
             $loader = \Illuminate\Foundation\AliasLoader::getInstance();
 
-            /**
-       * Load third party local providers and facades
-       */
+            /*
+             * Load third party local providers
+             */
             $this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
+
+            /*
+             * Load third party local aliases
+             */
             $loader->alias('Debugbar', \Barryvdh\Debugbar\Facade::class);
 
       $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
