@@ -1,28 +1,64 @@
-<?php namespace App\Repositories\Backend\History;
+<?php
+
+namespace App\Repositories\Backend\History;
 
 /**
- * Interface HistoryContract
- *
- * @package App\Repositories\Backend\History
+ * Interface HistoryContract.
  */
 interface HistoryContract
 {
-
     /**
      * @param $type
-     * @param $text
-     * @param null $entity_id
-     * @param null $icon
-     * @param null $class
-     * @param null $assets
+     *
      * @return mixed
      */
-    public function log($type, $text, $entity_id = null, $icon = null, $class = null, $assets = null);
+    public function withType($type);
+
+    /**
+     * @param $text
+     *
+     * @return mixed
+     */
+    public function withText($text);
+
+    /**
+     * @param $entity_id
+     *
+     * @return mixed
+     */
+    public function withEntity($entity_id);
+
+    /**
+     * @param $icon
+     *
+     * @return mixed
+     */
+    public function withIcon($icon);
+
+    /**
+     * @param $class
+     *
+     * @return mixed
+     */
+    public function withClass($class);
+
+    /**
+     * @param $assets
+     *
+     * @return mixed
+     */
+    public function withAssets($assets);
+
+    /**
+     * @return mixed
+     */
+    public function log();
 
     /**
      * @param null $limit
      * @param bool $paginate
-     * @param int $pagination
+     * @param int  $pagination
+     *
      * @return mixed
      */
     public function render($limit = null, $paginate = true, $pagination = 10);
@@ -31,7 +67,8 @@ interface HistoryContract
      * @param $type
      * @param null $limit
      * @param bool $paginate
-     * @param int $pagination
+     * @param int  $pagination
+     *
      * @return mixed
      */
     public function renderType($type, $limit = null, $paginate = true, $pagination = 10);
@@ -41,7 +78,8 @@ interface HistoryContract
      * @param $entity_id
      * @param null $limit
      * @param bool $paginate
-     * @param int $pagination
+     * @param int  $pagination
+     *
      * @return mixed
      */
     public function renderEntity($type, $entity_id, $limit = null, $paginate = true, $pagination = 10);
@@ -49,6 +87,7 @@ interface HistoryContract
     /**
      * @param $text
      * @param bool $assets
+     *
      * @return mixed
      */
     public function renderDescription($text, $assets = false);
@@ -56,6 +95,7 @@ interface HistoryContract
     /**
      * @param $history
      * @param bool $paginate
+     *
      * @return mixed
      */
     public function buildList($history, $paginate = true);
@@ -65,6 +105,7 @@ interface HistoryContract
      * @param $limit
      * @param $paginate
      * @param $pagination
+     *
      * @return mixed
      */
     public function buildPagination($query, $limit, $paginate, $pagination);

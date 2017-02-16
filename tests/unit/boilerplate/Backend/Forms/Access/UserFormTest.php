@@ -1,49 +1,45 @@
 <?php
 
-namespace Tests\unit\boilerplate\Backend\Forms\Access;
-
 use App\Models\Access\User\User;
-use Faker\Factory;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Notification;
 use App\Events\Backend\Access\User\UserCreated;
-use App\Events\Backend\Access\User\UserUpdated;
 use App\Events\Backend\Access\User\UserDeleted;
+use App\Events\Backend\Access\User\UserUpdated;
 use App\Events\Backend\Access\User\UserPasswordChanged;
 use App\Notifications\Frontend\Auth\UserNeedsConfirmation;
-use Tests\BrowserKitTest;
+use Tests\BrowserKitTestCase;
 
 /**
- * Class UserFormTest
+ * Class UserFormTest.
  */
-class UserFormTest extends BrowserKitTest
+class UserFormTest extends BrowserKitTestCase
 {
     public function testCreateUserRequiredFields()
     {
         $this->actingAs($this->admin)
-            ->visit('/admin/access/user/create')
-            ->type('', 'name')
-            ->type('', 'email')
-            ->type('', 'password')
-            ->type('', 'password_confirmation')
-            ->press('Create')
-            ->see('The name field is required.')
-            ->see('The email field is required.')
-            ->see('The password field is required.');
+             ->visit('/admin/access/user/create')
+             ->type('', 'name')
+             ->type('', 'email')
+             ->type('', 'password')
+             ->type('', 'password_confirmation')
+             ->press('Create')
+             ->see('The name field is required.')
+             ->see('The email field is required.')
+             ->see('The password field is required.');
     }
 
     public function testCreateUserPasswordsDoNotMatch()
     {
         $this->actingAs($this->admin)
-            ->visit('/admin/access/user/create')
-            ->type('Test User', 'name')
-            ->type('test@test.com', 'email')
-            ->type('123456', 'password')
-            ->type('1234567', 'password_confirmation')
-            ->press('Create')
-            ->see('The password confirmation does not match.');
+             ->visit('/admin/access/user/create')
+             ->type('Test User', 'name')
+             ->type('test@test.com', 'email')
+             ->type('123456', 'password')
+             ->type('1234567', 'password_confirmation')
+             ->press('Create')
+             ->see('The password confirmation does not match.');
     }
-
 
     public function testCreateUserConfirmedForm()
     {
@@ -51,35 +47,36 @@ class UserFormTest extends BrowserKitTest
         Event::fake();
 
         // Create any needed resources
-        $faker = Factory::create();
-        $name          = $faker->name;
-        $email         = $faker->safeEmail;
-        $password      = $faker->password(8);
-        $userTable     = config('access.users_table');
+        $faker = Faker\Factory::create();
+        $name = $faker->name;
+        $email = $faker->safeEmail;
+        $password = $faker->password(8);
+        $userTable = config('access.users_table');
         $roleUserTable = config('access.role_user_table');
 
         $this->actingAs($this->admin)
-         ->visit('/admin/access/user/create')
-         ->type($name, 'name')
-         ->type($email, 'email')
-         ->type($password, 'password')
-         ->type($password, 'password_confirmation')
-         ->seeIsChecked('status')
-         ->seeIsChecked('confirmed')
-         ->dontSeeIsChecked('confirmation_email')
-         ->check('assignees_roles[2]')
-         ->check('assignees_roles[3]')
-         ->press('Create')
-         ->seePageIs('/admin/access/user')
-         ->see('The user was successfully created.')
-            ->seeInDatabase($this->userTable, ['name' => $name, 'email' => $email, 'status' => 1, 'confirmed' => 1]);
-       $latestId = User::orderby('created_at', 'desc')->first()->id;
-       $this->seeInDatabase($this->roleUserTable, ['user_id' => $latestId, 'role_id' => 2])
-            ->seeInDatabase($this->roleUserTable, ['user_id' => $latestId, 'role_id' => 3]);
+             ->visit('/admin/access/user/create')
+             ->type($name, 'name')
+             ->type($email, 'email')
+             ->type($password, 'password')
+             ->type($password, 'password_confirmation')
+             ->seeIsChecked('status')
+             ->seeIsChecked('confirmed')
+             ->dontSeeIsChecked('confirmation_email')
+             ->check('assignees_roles[2]')
+             ->check('assignees_roles[3]')
+             ->press('Create')
+             ->seePageIs('/admin/access/user')
+             ->see('The user was successfully created.')
+             ->seeInDatabase(config('access.users_table'),
+                 ['name' => $name, 'email' => $email, 'status' => 1, 'confirmed' => 1]);
+        $latestId = User::orderby('created_at', 'desc')
+                        ->first()->id;
+        $this->seeInDatabase(config('access.role_user_table'), ['user_id' => $latestId, 'role_id' => 2])
+             ->seeInDatabase(config('access.role_user_table'), ['user_id' => $latestId, 'role_id' => 3]);
 
         Event::assertDispatched(UserCreated::class);
     }
-
 
     public function testCreateUserUnconfirmedForm()
     {
@@ -90,67 +87,67 @@ class UserFormTest extends BrowserKitTest
         Notification::fake();
 
         // Create any needed resources
-        $faker = Factory::create();
-        $name     = $faker->userName;
-        $email    = $faker->safeEmail;
+        $faker = Faker\Factory::create();
+        $name = $faker->userName;
+        $email = $faker->safeEmail;
         $password = $faker->password(8);
 
         $this->actingAs($this->admin)
-         ->visit('/admin/access/user/create')
-         ->type($name, 'name')
-         ->type($email, 'email')
-         ->type($password, 'password')
-         ->type($password, 'password_confirmation')
-         ->seeIsChecked('status')
-         ->uncheck('confirmed')
-         ->check('confirmation_email')
-         ->check('assignees_roles[2]')
-         ->check('assignees_roles[3]')
-         ->press('Create')
-         ->seePageIs('/admin/access/user')
-         ->see('The user was successfully created.')
-            ->seeInDatabase($this->userTable, ['name' => $name, 'email' => $email, 'status' => 1, 'confirmed' => 0]);
-       $latestId = User::orderby('created_at', 'desc')->first()->id;
-       $this->seeInDatabase($this->roleUserTable, ['user_id' => $latestId, 'role_id' => 2])
-            ->seeInDatabase($this->roleUserTable, ['user_id' => $latestId, 'role_id' => 3]);
+             ->visit('/admin/access/user/create')
+             ->type($name, 'name')
+             ->type($email, 'email')
+             ->type($password, 'password')
+             ->type($password, 'password_confirmation')
+             ->seeIsChecked('status')
+             ->uncheck('confirmed')
+             ->check('confirmation_email')
+             ->check('assignees_roles[2]')
+             ->check('assignees_roles[3]')
+             ->press('Create')
+             ->seePageIs('/admin/access/user')
+             ->see('The user was successfully created.')
+             ->seeInDatabase(config('access.users_table'),
+                 ['name' => $name, 'email' => $email, 'status' => 1, 'confirmed' => 0]);
+        $latestId = User::orderby('created_at', 'desc')
+                        ->first()->id;
+        $this->seeInDatabase(config('access.role_user_table'), ['user_id' => $latestId, 'role_id' => 2])
+             ->seeInDatabase(config('access.role_user_table'), ['user_id' => $latestId, 'role_id' => 3]);
 
         // Get the user that was inserted into the database
-        $user = User::where('email', $email)->first();
+        $user = User::where('email', $email)
+                    ->first();
 
         // Check that the user was sent the confirmation email
-        Notification::assertSentTo(
-            [ $user ],
-            UserNeedsConfirmation::class
-        );
+        Notification::assertSentTo([$user],
+            UserNeedsConfirmation::class);
 
         Event::assertDispatched(UserCreated::class);
     }
 
-
     public function testCreateUserFailsIfNameExists()
     {
-    //    $this->markTestSkipped('Must be revisited:');
+        //    $this->markTestSkipped('Must be revisited:');
         $this->actingAs($this->admin)
-        ->visit('/admin/access/user/create')
-        ->type('defaultuser', 'name')
-        ->type('user@user.com', 'email')
-        ->type('123456', 'password')
-        ->type('123456', 'password_confirmation')
-        ->check('assignees_roles[3]');
+             ->visit('/admin/access/user/create')
+             ->type('defaultuser', 'name')
+             ->type('user@user.com', 'email')
+             ->type('123456', 'password')
+             ->type('123456', 'password_confirmation')
+             ->check('assignees_roles[3]');
         $this->press('Create');
         $this->seePageIs('/admin/access/user/create')
-        ->see('The name has already been taken.');
+             ->see('The name has already been taken.');
     }
 
     public function testUpdateUserRequiredFields()
     {
         $this->actingAs($this->admin)
-            ->visit('/admin/access/user/3/edit')
-            ->type('', 'name')
-            ->type('', 'email')
-            ->press('Update')
-            ->see('The name field is required.')
-            ->see('The email field is required.');
+             ->visit('/admin/access/user/3/edit')
+             ->type('', 'name')
+             ->type('', 'email')
+             ->press('Update')
+             ->see('The name field is required.')
+             ->see('The email field is required.');
     }
 
     public function testUpdateUserForm()
@@ -159,21 +156,28 @@ class UserFormTest extends BrowserKitTest
         Event::fake();
 
         $this->actingAs($this->admin)
-            ->visit('/admin/access/user/'.$this->user->id.'/edit')
-            ->see($this->user->name)
-            ->see($this->user->email)
-            ->type('User New', 'name')
-            ->type('user2@user.com', 'email')
-            ->uncheck('status')
-            ->uncheck('confirmed')
-            ->check('assignees_roles[2]')
-            ->uncheck('assignees_roles[3]')
-            ->press('Update')
-            ->seePageIs('/admin/access/user')
-            ->see('The user was successfully updated.')
-            ->seeInDatabase($this->userTable, ['id' => $this->user->id, 'name' => 'User New', 'email' => 'user2@user.com', 'status' => 0, 'confirmed' => 0])
-            ->seeInDatabase($this->roleUserTable, ['user_id' => $this->user->id, 'role_id' => 2])
-            ->dontSeeInDatabase($this->roleUserTable, ['user_id' => $this->user->id, 'role_id' => 3]);
+             ->visit('/admin/access/user/'.$this->user->id.'/edit')
+             ->see($this->user->name)
+             ->see($this->user->email)
+             ->type('User New', 'name')
+             ->type('user2@user.com', 'email')
+             ->uncheck('status')
+             ->uncheck('confirmed')
+             ->check('assignees_roles[2]')
+             ->uncheck('assignees_roles[3]')
+             ->press('Update')
+             ->seePageIs('/admin/access/user')
+             ->see('The user was successfully updated.')
+             ->seeInDatabase(config('access.users_table'),
+                 [
+                     'id'        => $this->user->id,
+                     'name'      => 'User New',
+                     'email'     => 'user2@user.com',
+                     'status'    => 0,
+                     'confirmed' => 0,
+                 ])
+             ->seeInDatabase(config('access.role_user_table'), ['user_id' => $this->user->id, 'role_id' => 2])
+             ->notSeeInDatabase(config('access.role_user_table'), ['user_id' => $this->user->id, 'role_id' => 3]);
 
         Event::assertDispatched(UserUpdated::class);
     }
@@ -184,9 +188,9 @@ class UserFormTest extends BrowserKitTest
         Event::fake();
 
         $this->actingAs($this->admin)
-            ->delete('/admin/access/user/'.$this->user->id)
-            ->assertRedirectedTo('/admin/access/user/deleted')
-            ->dontSeeInDatabase($this->userTable, ['id' => $this->user->id, 'deleted_at' => null]);
+             ->delete('/admin/access/user/'.$this->user->id)
+             ->assertRedirectedTo('/admin/access/user/deleted')
+             ->notSeeInDatabase(config('access.users_table'), ['id' => $this->user->id, 'deleted_at' => null]);
 
         Event::assertDispatched(UserDeleted::class);
     }
@@ -194,23 +198,23 @@ class UserFormTest extends BrowserKitTest
     public function testUserCanNotDeleteSelf()
     {
         $this->actingAs($this->admin)
-            ->visit('/admin/access/user')
-            ->delete('/admin/access/user/'.$this->admin->id)
-            ->assertRedirectedTo('/admin/access/user')
-            ->seeInDatabase($this->userTable, ['id' => $this->admin->id, 'deleted_at' => null])
-            ->seeInSession(['flash_danger' => 'You can not delete yourself.']);
+             ->visit('/admin/access/user')
+             ->delete('/admin/access/user/'.$this->admin->id)
+             ->assertRedirectedTo('/admin/access/user')
+             ->seeInDatabase(config('access.users_table'), ['id' => $this->admin->id, 'deleted_at' => null])
+             ->seeInSession(['flash_danger' => 'You can not delete yourself.']);
     }
 
     public function testChangeUserPasswordRequiredFields()
     {
         $this->actingAs($this->admin)
-            ->visit('/admin/access/user/'.$this->user->id.'/password/change')
-            ->see('Change Password for '.$this->user->name)
-            ->type('', 'password')
-            ->type('', 'password_confirmation')
-            ->press('Update')
-            ->seePageIs('/admin/access/user/'.$this->user->id.'/password/change')
-            ->see('The password field is required.');
+             ->visit('/admin/access/user/'.$this->user->id.'/password/change')
+             ->see('Change Password for '.$this->user->name)
+             ->type('', 'password')
+             ->type('', 'password_confirmation')
+             ->press('Update')
+             ->seePageIs('/admin/access/user/'.$this->user->id.'/password/change')
+             ->see('The password field is required.');
     }
 
     public function testChangeUserPasswordForm()
@@ -221,13 +225,13 @@ class UserFormTest extends BrowserKitTest
         $password = '87654321';
 
         $this->actingAs($this->admin)
-            ->visit('/admin/access/user/'.$this->user->id.'/password/change')
-            ->see('Change Password for '.$this->user->name)
-            ->type($password, 'password')
-            ->type($password, 'password_confirmation')
-            ->press('Update')
-            ->seePageIs('/admin/access/user')
-            ->see('The user\'s password was successfully updated.');
+             ->visit('/admin/access/user/'.$this->user->id.'/password/change')
+             ->see('Change Password for '.$this->user->name)
+             ->type($password, 'password')
+             ->type($password, 'password_confirmation')
+             ->press('Update')
+             ->seePageIs('/admin/access/user')
+             ->see('The user\'s password was successfully updated.');
 
         Event::assertDispatched(UserPasswordChanged::class);
     }
@@ -235,12 +239,12 @@ class UserFormTest extends BrowserKitTest
     public function testChangeUserPasswordDoNotMatch()
     {
         $this->actingAs($this->admin)
-            ->visit('/admin/access/user/'.$this->user->id.'/password/change')
-            ->see('Change Password for '.$this->user->name)
-            ->type('123456', 'password')
-            ->type('1234567', 'password_confirmation')
-            ->press('Update')
-            ->seePageIs('/admin/access/user/'.$this->user->id.'/password/change')
-            ->see('The password confirmation does not match.');
+             ->visit('/admin/access/user/'.$this->user->id.'/password/change')
+             ->see('Change Password for '.$this->user->name)
+             ->type('123456', 'password')
+             ->type('1234567', 'password_confirmation')
+             ->press('Update')
+             ->seePageIs('/admin/access/user/'.$this->user->id.'/password/change')
+             ->see('The password confirmation does not match.');
     }
 }

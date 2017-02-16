@@ -1,33 +1,26 @@
 <?php
-
-namespace Tests\unit\boilerplate\Backend\Routes\Access;
-
-use Tests\BrowserKitTest;
+use Tests\BrowserKitTestCase;
 
 /**
- * Class RoleRouteTest
+ * Class RoleRouteTest.
  */
-class RoleRouteTest extends BrowserKitTest
+class RoleRouteTest extends BrowserKitTestCase
 {
     public function testRolesIndex()
     {
-        $this->actingAs($this->admin)
-            ->visit('/admin/access/role')
-            ->see('Role Management');
+        $this->actingAs($this->admin)->visit('/admin/access/role')->see('Role Management');
     }
 
     public function testCreateRole()
     {
-        $this->actingAs($this->admin)
-            ->visit('/admin/access/role/create')
-            ->see('Create Role');
+        $this->actingAs($this->admin)->visit('/admin/access/role/create')->see('Create Role');
     }
 
     public function testEditRole()
     {
         $this->actingAs($this->admin)
-            ->visit('/admin/access/role/'.$this->adminRole->id.'/edit')
-            ->see('Edit Role')
-            ->see($this->adminRole->name);
+             ->visit('/admin/access/role/'.$this->adminRole->id.'/edit')
+             ->see('Edit Role')
+             ->see($this->adminRole->name);
     }
 }

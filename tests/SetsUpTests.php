@@ -38,11 +38,6 @@ trait SetsUpTests
 
   public static $setupDatabase = true;
 
-  protected $userTable;
-  protected $roleUserTable;
-  protected $roleTable;
-  protected $permissionRoleTable;
-
 
   /**
    * Set up tests.
@@ -69,12 +64,6 @@ trait SetsUpTests
     $this->executiveRole = Role::find(2);
     $this->userRole      = Role::find(3);
 
-    /** Define tables */
-
-    $this->userTable           = config('access.users_table');
-    $this->roleUserTable       = config('access.role_user_table');
-    $this->roleTable           = config('access.roles_table');
-    $this->permissionRoleTable = config('access.permission_role_table');
   }
 
 
@@ -82,7 +71,7 @@ trait SetsUpTests
   {
     // Set up the database
     Artisan::call('migrate:refresh');
-    Artisan::call('db:seed');
+    Artisan::call('db:seed', ['--class' => 'AdminSeeder']);
 
     self::$setupDatabase = false;
   }

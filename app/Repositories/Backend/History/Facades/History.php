@@ -1,10 +1,11 @@
-<?php namespace App\Repositories\Backend\History\Facades;
+<?php
+
+namespace App\Repositories\Backend\History\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
 class History extends Facade
 {
-
     /**
      * Get the registered name of the component.
      *

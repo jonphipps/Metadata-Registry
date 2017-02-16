@@ -87,7 +87,7 @@
         "symfony/psr-http-message-bridge": "^1.0",
         "vlucas/phpdotenv": "~2.2",
         "willdurand/negotiation": "^2.0",
-        "yajra/laravel-datatables-oracle": "~6.0"
+        "yajra/laravel-datatables-oracle": "^7.0"
     },
     "autoload": {
         "psr-4": {
@@ -128,13 +128,14 @@
         "mockery/mockery": "0.9.*",
         "mpociot/laravel-test-factory-helper": "^0.4.0",
         "orangehill/iseed": "dev-master",
-        "phpunit/phpunit": "^5.0",
+        "phpunit/phpunit": "^5.7",
         "raveren/kint": "1.0.*@dev",
         "sstalle/php7cc": "^1.1",
         "tightenco/mailthief": "^0.3.4",
         "way/generators": "dev-feature/laravel-five-stable",
         "werxe/whoops-laravel": "^2.0@dev",
-        "xethron/migrations-generator": "dev-l5"
+        "xethron/migrations-generator": "dev-l5",
+        "laravel/browser-kit-testing": "^1.0"
     },
     "autoload-dev": {
         "psr-4": {

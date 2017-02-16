@@ -2,14 +2,12 @@
 
 namespace App\Providers;
 
-use App\Http\Composers\GlobalComposer;
 use Illuminate\Support\Facades\View;
+use App\Http\Composers\GlobalComposer;
 use Illuminate\Support\ServiceProvider;
 
 /**
- * Class ComposerServiceProvider
- *
- * @package App\Providers
+ * Class ComposerServiceProvider.
  */
 class ComposerServiceProvider extends ServiceProvider
 {
@@ -20,20 +18,19 @@ class ComposerServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        /**
+        /*
          * Global
          */
         View::composer(
             // This class binds the $logged_in_user variable to every view
-            '*',
-            GlobalComposer::class
+            '*', GlobalComposer::class
         );
 
-        /**
+        /*
          * Frontend
          */
 
-        /**
+        /*
          * Backend
          */
     }

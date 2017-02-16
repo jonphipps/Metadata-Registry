@@ -46,41 +46,6 @@ if ( ! function_exists('gravatar')) {
 	}
 }
 
-if ( ! function_exists('getFallbackLocale')) {
-	/**
-	 * Get the fallback locale
-	 *
-	 * @return \Illuminate\Foundation\Application|mixed
-	 */
-	function getFallbackLocale()
-	{
-		return config('app.fallback_locale');
-	}
-}
-
-if ( ! function_exists('getLanguageBlock')) {
-
-	/**
-	 * Get the language block with a fallback
-	 *
-	 * @param $view
-	 * @param array $data
-   *
-	 * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-	 */
-	function getLanguageBlock($view, $data = [])
-	{
-		$components = explode("lang", $view);
-		$current  = $components[0]."lang.".app()->getLocale().".".$components[1];
-		$fallback  = $components[0]."lang.".getFallbackLocale().".".$components[1];
-
-		if (view()->exists($current)) {
-			return view($current, $data);
-		} else {
-			return view($fallback, $data);
-		}
-	}
-}
 if ( ! function_exists('includeRouteFiles')) {
 
 	/**
@@ -96,15 +61,25 @@ if ( ! function_exists('includeRouteFiles')) {
 		$directory_list = [$directory];
 
 		while (false !== ($filename = readdir($handle))) {
-      if ($filename != "." && $filename != ".." && is_dir($directory . $filename)) {
-				array_push($directory_list, $directory.$filename."/");
+            if ($filename != '.' && $filename != '..' && is_dir($directory.$filename)) {
+                array_push($directory_list, $directory.$filename.'/');
       }
 		}
 
 		foreach ($directory_list as $directory) {
-			foreach (glob($directory."*.php") as $filename) {
-				require($filename);
+            foreach (glob($directory.'*.php') as $filename) {
+                require $filename;
 			}
 		}
 	}
+}
+if (! function_exists('getRtlCss')) {
+    function getRtlCss($path)
+    {
+        $path = explode('/', $path);
+        $filename = end($path);
+        array_pop($path);
+        $filename = rtrim($filename, '.css');
+        return implode('/', $path).'/'.$filename.'.rtl.css';
+    }
 }

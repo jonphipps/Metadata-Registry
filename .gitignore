@@ -84,3 +84,6 @@ backend.css
 frontend.css
 backend.js
 frontend.js
+public/web/css
+public/web/js
+mix-manifest.json

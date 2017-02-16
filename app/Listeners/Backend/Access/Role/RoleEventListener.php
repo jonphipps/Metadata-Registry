@@ -3,9 +3,7 @@
 namespace App\Listeners\Backend\Access\Role;
 
 /**
- * Class RoleEventListener
- *
- * @package App\Listeners\Backend\Access\Role
+ * Class RoleEventListener.
  */
 class RoleEventListener
 {
@@ -19,13 +17,12 @@ class RoleEventListener
      */
     public function onCreated($event)
     {
-        history()->log(
-            $this->history_slug,
-            'trans("history.backend.roles.created") '.$event->role->name,
-            $event->role->id,
-            'plus',
-            'bg-green'
-        );
+        history()->withType($this->history_slug)
+            ->withEntity($event->role->id)
+            ->withText('trans("history.backend.roles.created") <strong>'.$event->role->name.'</strong>')
+            ->withIcon('plus')
+            ->withClass('bg-green')
+            ->log();
     }
 
     /**
@@ -33,13 +30,12 @@ class RoleEventListener
      */
     public function onUpdated($event)
     {
-        history()->log(
-            $this->history_slug,
-            'trans("history.backend.roles.updated") '.$event->role->name,
-            $event->role->id,
-            'save',
-            'bg-aqua'
-        );
+        history()->withType($this->history_slug)
+            ->withEntity($event->role->id)
+            ->withText('trans("history.backend.roles.updated") <strong>'.$event->role->name.'</strong>')
+            ->withIcon('save')
+            ->withClass('bg-aqua')
+            ->log();
     }
 
     /**
@@ -47,19 +43,18 @@ class RoleEventListener
      */
     public function onDeleted($event)
     {
-        history()->log(
-            $this->history_slug,
-            'trans("history.backend.roles.deleted") '.$event->role->name,
-            $event->role->id,
-            'trash',
-            'bg-maroon'
-        );
+        history()->withType($this->history_slug)
+            ->withEntity($event->role->id)
+            ->withText('trans("history.backend.roles.deleted") <strong>'.$event->role->name.'</strong>')
+            ->withIcon('trash')
+            ->withClass('bg-maroon')
+            ->log();
     }
 
     /**
      * Register the listeners for the subscriber.
      *
-     * @param  \Illuminate\Events\Dispatcher  $events
+     * @param \Illuminate\Events\Dispatcher $events
      */
     public function subscribe($events)
     {

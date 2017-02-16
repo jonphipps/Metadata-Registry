@@ -1,18 +1,13 @@
 <?php
+use Tests\BrowserKitTestCase;
 
-namespace Tests\unit\boilerplate\Backend\Routes;
-
-use Tests\BrowserKitTest;
 /**
- * Class DashboardRouteTest
+ * Class DashboardRouteTest.
  */
-class DashboardRouteTest extends BrowserKitTest
+class DashboardRouteTest extends BrowserKitTestCase
 {
     public function testAdminDashboard()
     {
-        $this->actingAs($this->admin)
-            ->visit('/admin/dashboard')
-            ->see('Access Management')
-            ->see($this->admin->name);
+        $this->actingAs($this->admin)->visit('/admin/dashboard')->see('Access Management')->see($this->admin->name);
     }
 }

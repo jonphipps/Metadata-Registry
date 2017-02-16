@@ -1,6 +1,5 @@
 <?php
 
-namespace Tests\unit\boilerplate\Frontend\Routes;
 
 use App\Models\Access\User\User;
 use Illuminate\Support\Facades\App;
@@ -8,100 +7,91 @@ use Illuminate\Support\Facades\Event;
 use App\Events\Frontend\Auth\UserConfirmed;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\Frontend\Auth\UserNeedsConfirmation;
-use Tests\BrowserKitTest;
+use Tests\BrowserKitTestCase;
 
 /**
- * Class LoggedOutRouteTest
+ * Class LoggedOutRouteTest.
  */
-class LoggedOutRouteTest extends BrowserKitTest
+class LoggedOutRouteTest extends BrowserKitTestCase
 {
 
   /**
-   * User Logged Out Frontend
-   */
+     * User Logged Out Frontend.
+     */
 
   /**
-   * Test the homepage works
-   */
+     * Test the homepage works.
+     */
     public function testHomePage()
     {
-        $this->visit('/')
-         ->assertResponseOk();
+        $this->visit('/')->assertResponseOk();
     }
 
 
   /**
-   * Test the macro page works
-   */
+     * Test the macro page works.
+     */
     public function testMacroPage()
     {
-        $this->visit('/macros')
-         ->see('Macro Examples');
+        $this->visit('/macros')->see('Macro Examples');
     }
 
 
   /**
-   * Test the login page works
-   */
+     * Test the login page works.
+     */
     public function testLoginPage()
     {
-        $this->visit('/login')
-         ->see('Login');
+        $this->visit('/login')->see('Login');
     }
 
 
   /**
-   * Test the register page works
-   */
+     * Test the register page works.
+     */
     public function testRegisterPage()
     {
-        $this->visit('/register')
-         ->see('Register');
+        $this->visit('/register')->see('Register');
     }
 
 
   /**
-   * Test the forgot password page works
-   */
+     * Test the forgot password page works.
+     */
     public function testForgotPasswordPage()
     {
-        $this->visit('password/reset')
-         ->see('Reset Password');
+        $this->visit('password/reset')->see('Reset Password');
     }
 
 
   /**
-   * Test the dashboard page redirects to login
-   */
+     * Test the dashboard page redirects to login.
+     */
     public function testDashboardPageLoggedOut()
     {
-        $this->visit('/dashboard')
-         ->seePageIs('/login');
+        $this->visit('/dashboard')->seePageIs('/login');
     }
 
 
   /**
-   * Test the account page redirects to login
-   */
+     * Test the account page redirects to login.
+     */
     public function testAccountPageLoggedOut()
     {
-        $this->visit('/account')
-         ->seePageIs('/login');
+        $this->visit('/account')->seePageIs('/login');
     }
 
 
   /**
-   * Create an unconfirmed user and assure the user gets
-   * confirmed when hitting the confirmation route
-   */
+     * Create an unconfirmed user and assure the user gets
+     * confirmed when hitting the confirmation route.
+     */
     public function testConfirmAccountRoute()
     {
         Event::fake();
 
         // Create default user to test with
-        $unconfirmed = factory(User::class)
-        ->states('unconfirmed')
-        ->create();
+        $unconfirmed = factory(User::class)->states('unconfirmed')->create();
         $unconfirmed->attachRole(3); //User
 
         $this->visit('/account/confirm/' . $unconfirmed->confirmation_code)
@@ -114,9 +104,9 @@ class LoggedOutRouteTest extends BrowserKitTest
 
 
   /**
-   * Assure the user gets resent a confirmation email
-   * after hitting the resend confirmation route
-   */
+     * Assure the user gets resent a confirmation email
+     * after hitting the resend confirmation route.
+     */
     public function testResendConfirmAccountRoute()
     {
         Notification::fake();
@@ -125,29 +115,25 @@ class LoggedOutRouteTest extends BrowserKitTest
          ->seePageIs('/login')
          ->see('A new confirmation e-mail has been sent to the address on file.');
 
-        Notification::assertSentTo(
-            [ $this->user ],
-            UserNeedsConfirmation::class
-        );
+        Notification::assertSentTo([$this->user],
+            UserNeedsConfirmation::class);
     }
 
 
   /**
-   * Test the language switcher changes the desired language in the session
-   */
+     * Test the language switcher changes the desired language in the session.
+     */
     public function testLanguageSwitcher()
     {
-        $this->visit('lang/es')
-         ->see('Registrarse')
-         ->assertSessionHas('locale', 'es');
+        $this->visit('lang/es')->see('Registrarse')->assertSessionHas('locale', 'es');
 
         App::setLocale('en');
     }
 
 
   /**
-   * Test the generic 404 page
-   */
+     * Test the generic 404 page.
+     */
     public function test404Page()
     {
         $this->get('7g48hwbfw9eufj')

@@ -1,8 +1,5 @@
 <?php
 
-namespace Tests\unit\boilerplate\Frontend\Forms;
-
-use Faker\Factory;
 use App\Models\Access\User\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -12,23 +9,21 @@ use App\Events\Frontend\Auth\UserRegistered;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\Frontend\Auth\UserNeedsConfirmation;
 use App\Notifications\Frontend\Auth\UserNeedsPasswordReset;
-use Illuminate\Foundation\Testing\Concerns\InteractsWithDatabase;
+use Tests\BrowserKitTestCase;
 use tests\traits\InteractsWithMailTrap;
-use Tests\BrowserKitTest;
 
 /**
  * Class LoggedOutFormTest
  */
-class LoggedOutFormTest extends BrowserKitTest
+class LoggedOutFormTest extends BrowserKitTestCase
 {
 
-    use InteractsWithDatabase;
     use InteractsWithMailTrap;
 
 
   /**
-   * Test that the errors work if nothing is filled in the registration form
-   */
+     * Test that the errors work if nothing is filled in the registration form.
+     */
     public function testRegistrationRequiredFields()
     {
         $this->visit('/register')
@@ -44,17 +39,17 @@ class LoggedOutFormTest extends BrowserKitTest
 
 
   /**
-   * Test the registration form
-   * Test it works with confirming email on or off, and that the confirm email notification is sent
-   * Note: Captcha is disabled by default in phpunit.xml
-   */
+     * Test the registration form
+     * Test it works with confirming email on or off, and that the confirm email notification is sent
+     * Note: Captcha is disabled by default in phpunit.xml.
+     */
     public function testRegistrationForm()
     {
         // Make sure our events are fired
         Event::fake();
 
         // Create any needed resources
-        $faker = Factory::create();
+        $faker = Faker\Factory::create();
         $name     = $faker->name;
         $email    = $faker->safeEmail;
         $password = $faker->password(8);
@@ -78,10 +73,8 @@ class LoggedOutFormTest extends BrowserKitTest
             $user = User::where('email', $email)->first();
 
             // Check that the user was sent the confirmation email
-            Notification::assertSentTo(
-                [ $user ],
-                UserNeedsConfirmation::class
-            );
+            Notification::assertSentTo([$user],
+                UserNeedsConfirmation::class);
         } else {
             $this->visit('/register')
                ->type($name, 'name')
@@ -91,7 +84,7 @@ class LoggedOutFormTest extends BrowserKitTest
                ->press('Register')
                ->see('Dashboard')
                ->seePageIs('/')
-               ->assertDatabaseHas(config('access.users_table'), [ 'email' => $email, 'name' => $name ]);
+                 ->seeInDatabase(config('access.users_table'), ['email' => $email, 'name' => $name]);
         }
 
         Event::assertDispatched(UserRegistered::class);
@@ -99,8 +92,8 @@ class LoggedOutFormTest extends BrowserKitTest
 
 
   /**
-   * Test that the errors work if nothing is filled in the login form
-   */
+     * Test that the errors work if nothing is filled in the login form.
+     */
     public function testLoginRequiredFields()
     {
         $this->visit('/login')
@@ -119,7 +112,6 @@ class LoggedOutFormTest extends BrowserKitTest
    */
     public function testLoginForm()
     {
-      $this->setupDatabase();
         // Make sure our events are fired
         Event::fake();
 
@@ -183,7 +175,7 @@ class LoggedOutFormTest extends BrowserKitTest
  */
     public function testForgotMultipleLoginsForm()
     {
-        $user2 = factory(\App\Models\Access\User\User::class)->create([
+        $user2 = factory(User::class)->create([
         'email'=> $this->user->email
         ]);
 
@@ -214,9 +206,9 @@ class LoggedOutFormTest extends BrowserKitTest
 
 
   /**
-   * Test that the forgot password form sends the user the notification and places the
-   * row in the password_resets table
-   */
+     * Test that the forgot password form sends the user the notification and places the
+     * row in the password_resets table.
+     */
     public function testForgotPasswordForm()
     {
         Notification::fake();
@@ -237,8 +229,8 @@ class LoggedOutFormTest extends BrowserKitTest
 
 
   /**
-   * Test that the errors work if nothing is filled in the reset password form
-   */
+     * Test that the errors work if nothing is filled in the reset password form.
+     */
     public function testResetPasswordRequiredFields()
     {
       $token = $this->app->make('auth.password.broker')->createToken($this->user);
@@ -257,8 +249,8 @@ class LoggedOutFormTest extends BrowserKitTest
 
 
   /**
-   * Test that the password reset form works and logs the user back in
-   */
+     * Test that the password reset form works and logs the user back in.
+     */
     public function testResetPasswordForm()
     {
         $token = $this->app->make('auth.password.broker')->createToken($this->user );
@@ -274,19 +266,17 @@ class LoggedOutFormTest extends BrowserKitTest
          ->press('Reset Password')
          ->seePageIs('/dashboard')
          ->see($this->user->name);
-        $this->seeInDatabase(\App\Models\Access\User\User::TABLE, [ 'id' => $this->user->id, 'confirmed' => 1 ]);
+        $this->seeInDatabase(config('access.users_table'), [ 'id' => $this->user->id, 'confirmed' => 1 ]);
     }
 
 
   /**
-   * Test that an unconfirmed user can not login
-   */
+     * Test that an unconfirmed user can not login.
+     */
     public function testUnconfirmedUserCanNotLogIn()
     {
         // Create default user to test with
-        $unconfirmed = factory(User::class)
-        ->states('unconfirmed')
-        ->create();
+        $unconfirmed = factory(User::class)->states('unconfirmed')->create();
         $unconfirmed->attachRole(3); //User
 
         $this->visit('/login')
@@ -299,14 +289,12 @@ class LoggedOutFormTest extends BrowserKitTest
 
 
   /**
-   * Test that an inactive user can not login
-   */
+     * Test that an inactive user can not login.
+     */
     public function testInactiveUserCanNotLogIn()
     {
         // Create default user to test with
-        $inactive = factory(User::class)
-        ->states('confirmed', 'inactive')
-        ->create();
+        $inactive = factory(User::class)->states('confirmed', 'inactive')->create();
         $inactive->attachRole(3); //User
 
         $this->visit('/login')
@@ -319,8 +307,8 @@ class LoggedOutFormTest extends BrowserKitTest
 
 
   /**
-   * Test that a user with invalid credentials get kicked back
-   */
+     * Test that a user with invalid credentials get kicked back.
+     */
     public function testInvalidLoginCredentials()
     {
         $this->visit('/login')
@@ -333,16 +321,15 @@ class LoggedOutFormTest extends BrowserKitTest
 
 
   /**
-   * Adds a password reset row to the database to play with
-   *
-   * @param $token
-   *
-   * @return mixed
-   */
+     * Adds a password reset row to the database to play with.
+     *
+     * @param $token
+     *
+     * @return mixed
+     */
     private function createPasswordResetToken($token)
     {
-        DB::table('password_resets')
-        ->insert([
+        DB::table('password_resets')->insert([
           'email'      => $this->user->email,
           'token'      => $token,
           'created_at' => \Carbon\Carbon::now(),
