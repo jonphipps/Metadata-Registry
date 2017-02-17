@@ -17,7 +17,7 @@ trait SetsUpTests
    *
    * @var string
    */
-  protected $baseUrl = 'http://l5boilerplate.dev';
+    protected $baseUrl;
 
   protected $admin;
 
@@ -38,12 +38,12 @@ trait SetsUpTests
 
   public static $setupDatabase = true;
 
-
   /**
    * Set up tests.
    */
   public function setUpTests()
   {
+        $this->baseUrl = config('app.url', 'http://registry.dev');
 
     // Run the tests in English
     App::setLocale('en');
