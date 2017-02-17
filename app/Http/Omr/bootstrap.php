@@ -18,8 +18,5 @@
  *
  */
 
-use App\Http\omr\Extensions\jdisplay;
-use Encore\Admin\Form;
 
 Encore\Admin\Form::forget([ 'map', 'editor']);
-Form::extend('display', jdisplay::class);
