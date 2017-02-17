@@ -2,7 +2,7 @@
 
 namespace App\Http\omr\Controllers;
 
-use App\User;
+use App\Models\Access\User\User;
 
 use Admin;
 use Encore\Admin\Form;
