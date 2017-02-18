@@ -1,11 +1,21 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>{{ Admin::title() }}</title>
-    <!-- Tell the browser to be responsive to screen width -->
-    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="icon" href="/<?php echo env('FAVICON', 'registry_favicon_prod.ico') ?>"/>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>@yield('title', app_name())</title>
+    <!-- Meta -->
+    <meta name="description" content="@yield('meta_description', 'Open Metadata Registry')">
+    <meta name="author" content="@yield('meta_author', 'Jon Phipps')">
+@yield('meta')
+
+<!-- Styles -->
+@yield('before-styles')
+
+<!-- Tell the browser to be responsive to screen width -->
 
     <link rel="stylesheet" href="{{ asset("/packages/admin/AdminLTE/bootstrap/css/bootstrap.min.css") }}">
     <!-- Font Awesome -->
@@ -106,6 +116,8 @@
         });
     });
 </script>
+@yield('after-scripts')
 
+@include('includes.partials.ga')
 </body>
 </html>
