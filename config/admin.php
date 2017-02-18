@@ -45,6 +45,7 @@ return [
 
       'host' => 'http://localhost:8000/upload/',
   ],
+  'operation_log' => true,
 
   /*
    * Laravel-admin database setting.
