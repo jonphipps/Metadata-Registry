@@ -1,4 +1,6 @@
-@if(Admin::user()->visible($item['roles']))
+<?php //FIXME: This shows all of the menu items all of the time. It should look like this...
+// Admin::user()->visible($item['roles']) ?>
+@if(true)
     @if(!isset($item['children']))
         <li>
             <a href="{{ Admin::url($item['uri']) }}"><i class="fa {{$item['icon']}}"></i>
