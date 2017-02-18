@@ -79,7 +79,7 @@ class UserRepository extends BaseRepository
       }
     }
 
-    throw new GeneralException(trans('auth.unknown'));
+    throw new GeneralException(trans('auth.invalid_token'));
   }
 
 

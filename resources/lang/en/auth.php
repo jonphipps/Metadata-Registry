@@ -20,4 +20,5 @@ return [
     ],
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
     'unknown' => 'An unknown error occurred',
+    'invalid_token' => 'The password reset token has expired or been used before.'
 ];
