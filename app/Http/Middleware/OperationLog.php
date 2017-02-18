@@ -1,6 +1,6 @@
 <?php
 
-namespace Encore\Admin\Middleware;
+namespace App\Http\Middleware;
 
 use Encore\Admin\Facades\Admin;
 use Illuminate\Http\Request;
@@ -17,9 +17,9 @@ class OperationLog
      */
     public function handle(Request $request, \Closure $next)
     {
-        if (config('admin.operation_log') && Admin::user()) {
+        if (config('admin.operation_log') && auth()->user()->is_administrator) {
             $log = [
-                'user_id' => Admin::user()->id,
+                'user_id' => auth()->id(),
                 'path'    => $request->path(),
                 'method'  => $request->method(),
                 'ip'      => $request->getClientIp(),
