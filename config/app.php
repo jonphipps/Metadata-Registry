@@ -192,6 +192,7 @@ return [
        */
         App\Providers\MacroServiceProvider::class,
         App\Providers\OmrServiceProvider::class,
+        //Encore\Admin\Providers\AdminServiceProvider::class,
         Laravel\Tinker\TinkerServiceProvider::class,
 
       /*
