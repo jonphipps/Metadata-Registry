@@ -18,7 +18,7 @@ class VocabularyController extends Controller
     /**
      * Index interface.
      *
-     * @return Content
+     * @return \Encore\Admin\Layout\Content
      */
     public function index()
     {
@@ -86,7 +86,7 @@ class VocabularyController extends Controller
     /**
      * Make a form builder.
      *
-     * @return Form
+     * @return \Form
      */
     protected function form()
     {
