@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\ProjectHasUser;
 use Auth;
 use Encore\Admin\Grid;
+use Encore\Admin\Grid\Displayers\Actions;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Layout\Row;
 use Encore\Admin\Widgets\Box;
@@ -58,16 +59,45 @@ class DashboardController extends Controller
           $grid->resource('projects');
 
           $grid->disableExport();
-          $grid->actions(function ($actions) {
-            $actions->disableDelete();
-            $actions->disableEdit();
-          });
+            if (! Auth::user()->is_administrator) {
+                $grid->actions(function ($actions) {
+                    /** @var Actions $actions */
+                    $actions->disableDelete();
+                    $actions->disableEdit();
+                });
+            } else {
+                $grid->actions(function ($actions) {
+                    /** @var Actions $actions */
+                    $actions->disableDelete();
+                    $actions->disableEdit();
+                    $actions->setResource('ProjectHasUser');
 
-          $grid->id('ID')->sortable()->display(function ($id) {
-            return  '<a href="' . route('frontend.project.user.edit', [ 'id' => $id ]) . '">' . $id . '</a>';
-          });
+                        // append an action.
+                        $actions->append(/** @lang HTML */
+                            <<<EOT
+<a href="{$actions->getResource()}/{$actions->getKey()}" class="btn btn-xs btn-info">
+    <i class="fa fa-search" data-toggle="tooltip" data-placement="top" title="" data-original-title="View"></i>
+</a>
+EOT
+                        );
+                        // prepend an action.
+                        $actions->prepend(/** @lang HTML */
+                            <<<EOT
+<a href="{$actions->getResource()}/{$actions->getKey()}/edit" class="btn btn-xs btn-primary">
+    <i class="fa fa-pencil" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit"></i>
+</a>
+EOT
+                        );
+
+                    // $actions->row;
+                });
+            }
+
+          // $grid->id('ID')->sortable()->display(function ($id) {
+          //   return  '<a href="' . route('frontend.project.user.edit', [ 'id' => $id ]) . '">' . $id . '</a>';
+          // });
           $grid->column('project.org_name', 'Name')->sortable()->display(function ($project) {
-            $foo = '<a href="' . route('frontend.projects.show', [ 'id' => $this->agent_id ]) . '">' . $project . '</a>';
+            $foo = '<a href="' . route('projects.show', [ 'id' => $this->agent_id ]) . '">' . $project . '</a>';
 
             return $foo;
           });
