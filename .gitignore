@@ -29,11 +29,17 @@ tests/_support/_generated/
 dump.sql
 testing.html
 
-tests_codecept/_output/*
+tests_codecept/_output/
 /web/repos/
 /packages/
 /apps/frontend/config/mailer.yml
 /apps/frontend/config/app.yml
-/node_modules/
 /.github/
 /.env
+node_modules
+!.gitignore
+/web/css/backend.*
+/web/css/frontend.*
+/web/js/backend.*
+/web/js/frontend.*
+mix-manifest.json
