@@ -52,17 +52,15 @@ class OmrServiceProvider extends ServiceProvider
    */
   public function boot()
   {
-    $this->loadViewsFrom(base_path() . '/resources/views/admin/', 'admin');
-    $this->loadTranslationsFrom(base_path() . '/resources/lang/', 'admin');
+        $this->loadViewsFrom(base_path('vendor/encore/laravel-admin/views'), 'admin');
+        $this->loadTranslationsFrom(base_path('resources/lang/'), 'admin');
 
     if (file_exists($routes = admin_path('routes.php'))) {
       require $routes;
 
       $this->app['admin.router']->register();
-
     }
   }
-
 
   /**
    * Register the service provider.
