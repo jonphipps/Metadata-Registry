@@ -8,7 +8,7 @@ use Tests\BrowserKitTestCase;
 /**
  * Class LoggedInRouteTest
  */
-class ProjectTestCase extends BrowserKitTestCase
+class ProjectTest extends BrowserKitTestCase
 {
   use DatabaseTransactions;
 

@@ -8,7 +8,7 @@ use Tests\BrowserKitTestCase;
 /**
  * Class LoggedInRouteTest
  */
-class DashboardTestCase extends BrowserKitTestCase
+class DashboardTest extends BrowserKitTestCase
 {
   use DatabaseTransactions;
 
