@@ -42,7 +42,7 @@
                     <li class="dropdown notifications-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <i class="fa fa-bell-o"></i>
-                            <span class="label label-default">0</span>
+                            <span class="label label-default"></span>
                         </a>
                         <ul class="dropdown-menu">
                             <li class="header">{{ trans_choice('strings.backend.general.you_have.notifications', 0) }}</li>
@@ -55,7 +55,7 @@
                     <li class="dropdown tasks-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <i class="fa fa-flag-o"></i>
-                            <span class="label label-default">0</span>
+                            <span class="label label-default"></span>
                         </a>
                         <ul class="dropdown-menu">
                             <li class="header">{{ trans_choice('strings.backend.general.you_have.tasks', 0, ['number' => 0]) }}</li>
@@ -83,17 +83,17 @@
                                     {{ laravel_link_to('#', 'Link') }}
                                 </div>
                                 <div class="col-xs-4 text-center">
-                                    {{ laravel_link_to('#', 'Link') }}
+                                    {{ laravel_link_to_route('frontend.user.account', 'Account') }}
                                 </div>
                                 <div class="col-xs-4 text-center">
-                                    {{ laravel_link_to('#', 'Link') }}
+                                    {{ laravel_link_to_route('admin.dashboard', 'Admin') }}
                                 </div>
                             </li>
                             <li class="user-footer">
                                 <div class="pull-left">
-                                    <a href="{!! route('frontend.index') !!}" class="btn btn-default btn-flat">
+                                    <a href="{!! route('frontend.user.dashboard') !!}" class="btn btn-default btn-flat">
                                         <i class="fa fa-home"></i>
-                                        {{ trans('navs.general.home') }}
+                                        {{ trans('navs.frontend.dashboard') }}
                                     </a>
                                 </div>
                                 <div class="pull-right">
