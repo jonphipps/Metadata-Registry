@@ -37,8 +37,8 @@
                             <img src="{{ asset ("/packages/admin/AdminLTE/dist/img/user2-160x160.jpg") }}" class="img-circle" alt="User Image">
 
                             <p>
-                                {{ $logged_in_user->name }}
-                                <small>Member since admin {{ $logged_in_user->created_at }}</small>
+                                {{ Auth::user()->name }}
+                                <small>Member since {{ $logged_in_user->created_at }}</small>
                             </p>
                         </li>
                         <li class="user-footer">
