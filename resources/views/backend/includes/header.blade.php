@@ -29,7 +29,7 @@
                     <li class="dropdown messages-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <i class="fa fa-envelope-o"></i>
-                            <span class="label label-default">0</span>
+                            <span class="label label-default"></span>
                         </a>
                         <ul class="dropdown-menu">
                             <li class="header">{{ trans_choice('strings.backend.general.you_have.messages', 0, ['number' => 0]) }}</li>
