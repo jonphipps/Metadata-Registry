@@ -75,6 +75,10 @@ trait SetsUpTests
         self::$setupDatabase = false;
     }
 
+    public function dontSetupDatabase()
+    {
+        self::$setupDatabase = false;
+    }
     /**
      * @param string           $uri
      * @param null|string|null $message
