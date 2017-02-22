@@ -6,9 +6,9 @@ use App\Models\Project;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Admin;
-use Encore\Admin\Layout\Content;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\ModelForm;
+use Encore\Admin\Layout\Content;
 
 class ProjectController extends Controller
 {
@@ -18,7 +18,6 @@ class ProjectController extends Controller
   /**
    * Index interface.
    *
-   * @return \Encore\Admin\Layout\Content
    */
   public function index()
   {
@@ -31,14 +30,13 @@ class ProjectController extends Controller
     });
   }
 
-
-  /**
-   * Edit interface.
-   *
-   * @param $id
-   *
-   * @return Content
-   */
+    /**
+     * Edit interface.
+     *
+     * @param $id
+     *
+     * @return \Encore\Admin\Content|Content
+     */
   public function edit($id)
   {
     return Admin::content(function (Content $content) use ($id) {
@@ -54,7 +52,7 @@ class ProjectController extends Controller
   /**
    * Create interface.
    *
-   * @return Content
+   * @return \Encore\Admin\Content|Content
    */
   public function create()
   {
@@ -89,7 +87,7 @@ class ProjectController extends Controller
   /**
    * Make a form builder.
    *
-   * @return Form
+   * @return \Form
    */
   protected function form()
   {
