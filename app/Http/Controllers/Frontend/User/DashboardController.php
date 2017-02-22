@@ -64,6 +64,10 @@ class DashboardController extends Controller
                     /** @var Actions $actions */
                     $actions->disableDelete();
                     $actions->disableEdit();
+                    $actions->setResource('ProjectHasUser');
+                    // append an action.
+                    $actions->append('<a href="'.$actions->getResource().'/'.$actions->getKey().'" class="btn btn-xs btn-info" style="margin-right:4px">
+                        <i class="fa fa-search" data-toggle="tooltip" data-placement="top" title="" data-original-title="View"></i></a>');
                 });
             } else {
                 $grid->actions(function ($actions) {
@@ -73,23 +77,15 @@ class DashboardController extends Controller
                     $actions->setResource('ProjectHasUser');
 
                         // append an action.
-                        $actions->append(/** @lang HTML */
-                            <<<EOT
-<a href="{$actions->getResource()}/{$actions->getKey()}" class="btn btn-xs btn-info">
-    <i class="fa fa-search" data-toggle="tooltip" data-placement="top" title="" data-original-title="View"></i>
-</a>
-EOT
-                        );
+                    $actions->append(
+                        '<a href="'.$actions->getResource().'/'.$actions->getKey().'" class="btn btn-xs btn-info" style="margin-right:4px">
+                        <i class="fa fa-search" data-toggle="tooltip" data-placement="top" title="" data-original-title="View"></i></a>'
+                    );
                         // prepend an action.
-                        $actions->prepend(/** @lang HTML */
-                            <<<EOT
-<a href="{$actions->getResource()}/{$actions->getKey()}/edit" class="btn btn-xs btn-primary">
-    <i class="fa fa-pencil" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit"></i>
-</a>
-EOT
-                        );
-
-                    // $actions->row;
+                    $actions->prepend(
+                            '<a href="'.$actions->getResource().'/'.$actions->getKey().'/edit" class="btn btn-xs btn-primary" style="margin-right:4px">
+                        <i class="fa fa-pencil" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit"></i></a>'
+                    );
                 });
             }
 
