@@ -18,32 +18,6 @@ class OmrServiceProvider extends ServiceProvider
         'Encore\Admin\Commands\UninstallCommand',
     ];
 
-    /**
-     * The application's route middleware.
-     *
-     * @var array
-     */
-    protected $routeMiddleware = [
-        'admin.auth'       => \Encore\Admin\Middleware\Authenticate::class,
-        'admin.pjax'       => \Encore\Admin\Middleware\PjaxMiddleware::class,
-        'admin.log'        => \App\Http\Middleware\OperationLog::class,
-        'admin.permission' => \Encore\Admin\Middleware\PermissionMiddleware::class,
-        'admin.bootstrap'  => \Encore\Admin\Middleware\BootstrapMiddleware::class,
-    ];
-
-    /**
-     * The application's route middleware groups.
-     *
-     * @var array
-     */
-    protected $middlewareGroups = [
-        'admin' => [
-            'admin.auth',
-            'admin.pjax',
-            'admin.log',
-            'admin.bootstrap',
-        ],
-    ];
 
     /**
      * Boot the service provider.
@@ -80,7 +54,6 @@ class OmrServiceProvider extends ServiceProvider
 
         });
 
-        //$this->registerRouteMiddleware();
 
         $this->commands($this->commands);
     }
@@ -100,21 +73,5 @@ class OmrServiceProvider extends ServiceProvider
         ]);
     }
 
-    /**
-     * Register the route middleware.
-     *
-     * @return void
-     */
-    protected function registerRouteMiddleware()
-    {
-        // register route middleware.
-        foreach ($this->routeMiddleware as $key => $middleware) {
-            app('router')->aliasMiddleware($key, $middleware);
-        }
 
-        // register middleware group.
-        foreach ($this->middlewareGroups as $key => $middleware) {
-            app('router')->middlewareGroup($key, $middleware);
-        }
-    }
 }

@@ -24,7 +24,7 @@ Route::namespace('Frontend')->as('frontend.')->group(function () {
  * Backend Routes
  * Namespaces indicate folder structure
  */
-Route::middleware('admin')->namespace('Backend')->prefix('admin')->as('admin.')->group(function () {
+Route::middleware('backend')->namespace('Backend')->prefix('admin')->as('admin.')->group(function () {
     /**
      * These routes need view-backend permission
      * (good if you want to allow more than one group in the backend,

@@ -28,14 +28,8 @@ Route::middleware('auth')->group(function () {
                  */
         Route::name('profile.update')->patch('profile/update', 'ProfileController@update');
             });
-        Route::resource('projects',
-            'ProjectController',
-            [
-                'except' => [
-                    'index',
-                    'show',
-                ],
-            ]);
+
         Route::get('project_user/{id}',
             'ProjectHasUserController@edit')->name('project.user.edit');
     });
+
