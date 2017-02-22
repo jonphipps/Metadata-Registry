@@ -41,7 +41,9 @@ class AuthTest extends BrowserKitTestCase
         //acting as a user
         $this->actingAs($this->user);
         //I can create a project
-        $this->assertTrue($this->user->can('create',\App\Models\Project::class));
+        $this->assertTrue($this->user->can('create', \App\Models\Project::class));
+        $this->visit('projects/create')->seeStatusCode(200);
+
         //but I can't create other things
         $this->assertTrue($this->user->cannot('create', \App\Models\Vocabulary::class));
         $this->assertTrue($this->user->cannot('create', \App\Models\ElementSet::class));
@@ -69,11 +71,18 @@ class AuthTest extends BrowserKitTestCase
                 'user_id'          => $this->user->id,
             ]);
 
-        //$this->actingAs($this->user);
+        $this->visit("projects/$project->id")->seeStatusCode(200);
+
+        $this->actingAs($this->user);
+        $this->visit("projects/$project->id/edit")->seeStatusCode(200);
+        //can't edit a project I don't own
+        $project2 = factory(\App\Models\Project::class)->create();
+        $response = $this->get("projects/$project2->id/edit")->seeStatusCode(403);
+
         //I can create a project
         $this->assertTrue($this->user->can('update', $project));
         //but I can also create other things
-        // $this->assertTrue($this->user->can('create', \App\Models\Vocabulary::class));
-        // $this->assertTrue($this->user->can('create', \App\Models\ElementSet::class));
+        $this->assertTrue($this->user->can('create', [\App\Models\Vocabulary::class, $project]));
+        $this->assertTrue($this->user->can('create', [\App\Models\ElementSet::class, $project]));
     }
 }
