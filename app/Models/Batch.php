@@ -13,15 +13,15 @@
  * @property string $event_description
  * @property string $registry_uri
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\FileImportHistory[] $FileImportHistory
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Batch whereId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Batch whereRunTime( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Batch whereRunDescription( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Batch whereObjectType( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Batch whereObjectId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Batch whereEventTime( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Batch whereEventType( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Batch whereEventDescription( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Batch whereRegistryUri( $value )
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Batch whereEventDescription($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Batch whereEventTime($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Batch whereEventType($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Batch whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Batch whereObjectId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Batch whereObjectType($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Batch whereRegistryUri($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Batch whereRunDescription($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Batch whereRunTime($value)
  * @mixin \Eloquent
  */
 class Batch extends \Illuminate\Database\Eloquent\Model

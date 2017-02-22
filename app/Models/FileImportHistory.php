@@ -9,7 +9,7 @@ use App\Models\Access\User\User;
  *
  * @property int $id
  * @property \Carbon\Carbon $created_at
- * @property string $map     stores the serialized column map array
+ * @property string $map stores the serialized column map array
  * @property int $user_id
  * @property int $vocabulary_id
  * @property int $schema_id
@@ -22,27 +22,27 @@ use App\Models\Access\User\User;
  * @property int $error_count
  * @property int $success_count
  * @property int $token
- * @property-read \App\Models\Access\User\User $User
- * @property-read \App\Models\Vocabulary $Vocabulary
- * @property-read \App\Models\ElementSet $ElementSet
  * @property-read \App\Models\Batch $Batch
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ConceptAttributeHistory[] $ConceptAttributeHistory
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ElementAttributeHistory[] $ElementAttributeHistory
- * @method static \Illuminate\Database\Query\Builder|\App\Models\FileImportHistory whereId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\FileImportHistory whereCreatedAt( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\FileImportHistory whereMap( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\FileImportHistory whereUserId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\FileImportHistory whereVocabularyId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\FileImportHistory whereSchemaId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\FileImportHistory whereFileName( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\FileImportHistory whereSourceFileName( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\FileImportHistory whereFileType( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\FileImportHistory whereBatchId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\FileImportHistory whereResults( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\FileImportHistory whereTotalProcessedCount( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\FileImportHistory whereErrorCount( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\FileImportHistory whereSuccessCount( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\FileImportHistory whereToken( $value )
+ * @property-read \App\Models\ElementSet $ElementSet
+ * @property-read \App\Models\Access\User\User $User
+ * @property-read \App\Models\Vocabulary $Vocabulary
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\FileImportHistory whereBatchId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\FileImportHistory whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\FileImportHistory whereErrorCount($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\FileImportHistory whereFileName($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\FileImportHistory whereFileType($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\FileImportHistory whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\FileImportHistory whereMap($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\FileImportHistory whereResults($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\FileImportHistory whereSchemaId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\FileImportHistory whereSourceFileName($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\FileImportHistory whereSuccessCount($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\FileImportHistory whereToken($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\FileImportHistory whereTotalProcessedCount($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\FileImportHistory whereUserId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\FileImportHistory whereVocabularyId($value)
  * @mixin \Eloquent
  */
 class FileImportHistory extends Model

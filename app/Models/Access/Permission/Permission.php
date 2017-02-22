@@ -15,11 +15,11 @@ use App\Models\Access\Permission\Traits\Relationship\PermissionRelationship;
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Access\Role\Role[] $roles
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\Permission\Permission whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\Permission\Permission whereDisplayName($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\Permission\Permission whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\Permission\Permission whereName($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\Permission\Permission whereDisplayName($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\Permission\Permission whereSort($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\Permission\Permission whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\Permission\Permission whereUpdatedAt($value)
  * @mixin \Eloquent
  */

@@ -23,22 +23,22 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property int $pref_label_id
  * @property int $status_id
  * @property string $language
- * @property-read \App\Models\Vocabulary $Vocabulary
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ConceptAttribute[] $Properties
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereCreatedAt( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereUpdatedAt( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereDeletedAt( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereLastUpdated( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereCreatedUserId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereUpdatedUserId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereUri( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept wherePrefLabel( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereVocabularyId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereIsTopConcept( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept wherePrefLabelId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereStatusId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereLanguage( $value )
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ConceptAttribute[] $properties
+ * @property-read \App\Models\Vocabulary $vocabulary
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereCreatedUserId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereDeletedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereIsTopConcept($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereLanguage($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereLastUpdated($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept wherePrefLabel($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept wherePrefLabelId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereStatusId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereUpdatedUserId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereUri($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereVocabularyId($value)
  * @mixin \Eloquent
  */
 class Concept extends Model

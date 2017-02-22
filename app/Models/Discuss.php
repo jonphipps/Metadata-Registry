@@ -24,33 +24,33 @@ use App\Models\Access\User\User;
  * @property int $parent_id
  * @property string $subject
  * @property string $content
- * @property-read \App\Models\Access\User\User $CreatedBy
+ * @property-read \App\Models\Concept $Concept
  * @property-read \App\Models\ConceptAttribute $ConceptAttribute
+ * @property-read \App\Models\Access\User\User $CreatedBy
  * @property-read \App\Models\Access\User\User $DeletedBy
- * @property-read \App\Models\ElementSet $ElementSet
+ * @property-read \App\Models\Discuss $DiscussParent
+ * @property-read \App\Models\Discuss $DiscussRoot
  * @property-read \App\Models\Element $Element
  * @property-read \App\Models\ElementAttribute $ElementAttribute
+ * @property-read \App\Models\ElementSet $ElementSet
  * @property-read \App\Models\Vocabulary $Vocabulary
- * @property-read \App\Models\Concept $Concept
- * @property-read \App\Models\Discuss $DiscussRoot
- * @property-read \App\Models\Discuss $DiscussParent
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Discuss whereId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Discuss whereCreatedAt( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Discuss whereUpdatedAt( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Discuss whereDeletedAt( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Discuss whereCreatedUserId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Discuss whereDeletedUserId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Discuss whereUri( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Discuss whereSchemaId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Discuss whereSchemaPropertyId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Discuss whereSchemaPropertyElementId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Discuss whereVocabularyId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Discuss whereConceptId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Discuss whereConceptPropertyId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Discuss whereRootId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Discuss whereParentId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Discuss whereSubject( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Discuss whereContent( $value )
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Discuss whereConceptId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Discuss whereConceptPropertyId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Discuss whereContent($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Discuss whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Discuss whereCreatedUserId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Discuss whereDeletedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Discuss whereDeletedUserId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Discuss whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Discuss whereParentId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Discuss whereRootId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Discuss whereSchemaId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Discuss whereSchemaPropertyElementId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Discuss whereSchemaPropertyId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Discuss whereSubject($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Discuss whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Discuss whereUri($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Discuss whereVocabularyId($value)
  * @mixin \Eloquent
  */
 class Discuss extends Model

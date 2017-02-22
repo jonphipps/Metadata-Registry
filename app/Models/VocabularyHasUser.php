@@ -1,6 +1,7 @@
 <?php namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Access\User\User;
 
@@ -21,18 +22,18 @@ use App\Models\Access\User\User;
  * @property string $current_language
  * @property-read \App\Models\Access\User\User $User
  * @property-read \App\Models\Vocabulary $Vocabulary
- * @method static \Illuminate\Database\Query\Builder|\App\Models\VocabularyHasUser whereId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\VocabularyHasUser whereCreatedAt( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\VocabularyHasUser whereUpdatedAt( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\VocabularyHasUser whereDeletedAt( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\VocabularyHasUser whereVocabularyId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\VocabularyHasUser whereUserId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\VocabularyHasUser whereIsMaintainerFor( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\VocabularyHasUser whereIsRegistrarFor( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\VocabularyHasUser whereIsAdminFor( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\VocabularyHasUser whereLanguages( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\VocabularyHasUser whereDefaultLanguage( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\VocabularyHasUser whereCurrentLanguage( $value )
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\VocabularyHasUser whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\VocabularyHasUser whereCurrentLanguage($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\VocabularyHasUser whereDefaultLanguage($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\VocabularyHasUser whereDeletedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\VocabularyHasUser whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\VocabularyHasUser whereIsAdminFor($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\VocabularyHasUser whereIsMaintainerFor($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\VocabularyHasUser whereIsRegistrarFor($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\VocabularyHasUser whereLanguages($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\VocabularyHasUser whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\VocabularyHasUser whereUserId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\VocabularyHasUser whereVocabularyId($value)
  * @mixin \Eloquent
  */
 class VocabularyHasUser extends Model

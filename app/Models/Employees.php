@@ -14,8 +14,8 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 /**
  * App\Models\Employees
  *
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Orders[] $latestOrders
  * @property-read string $full_name
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Orders[] $latestOrders
  * @mixin \Eloquent
  */
 class Employees extends Model

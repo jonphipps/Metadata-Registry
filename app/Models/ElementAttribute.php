@@ -25,28 +25,28 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string $language
  * @property int $status_id
  * @property bool $is_generated
- * @property-read \App\Models\ProfileProperty $ProfileProperty
  * @property-read \App\Models\Element $Element
- * @property-read \App\Models\Status $Status
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ElementAttributeHistory[] $ElementAttributeHistory
+ * @property-read \App\Models\ProfileProperty $ProfileProperty
+ * @property-read \App\Models\Status $Status
  * @property-read \App\Models\Access\User\User $creator
- * @property-read \App\Models\Access\User\User $updater
  * @property-read \App\Models\Access\User\User $eraser
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereCreatedAt( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereUpdatedAt( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereDeletedAt( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereCreatedUserId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereUpdatedUserId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereDeletedUserId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereSchemaPropertyId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereProfilePropertyId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereIsSchemaProperty( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereObject( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereRelatedSchemaPropertyId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereLanguage( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereStatusId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereIsGenerated( $value )
+ * @property-read \App\Models\Access\User\User $updater
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereCreatedUserId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereDeletedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereDeletedUserId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereIsGenerated($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereIsSchemaProperty($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereLanguage($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereObject($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereProfilePropertyId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereRelatedSchemaPropertyId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereSchemaPropertyId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereStatusId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereUpdatedUserId($value)
  * @mixin \Eloquent
  */
 class ElementAttribute extends Model

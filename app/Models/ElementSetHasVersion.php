@@ -15,16 +15,16 @@ use App\Models\Access\User\User;
  * @property int $created_user_id
  * @property int $schema_id
  * @property \Carbon\Carbon $timeslice
- * @property-read \App\Models\Access\User\User $UserCreator
  * @property-read \App\Models\ElementSet $ElementSet
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSetHasVersion whereId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSetHasVersion whereName( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSetHasVersion whereCreatedAt( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSetHasVersion whereDeletedAt( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSetHasVersion whereUpdatedAt( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSetHasVersion whereCreatedUserId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSetHasVersion whereSchemaId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSetHasVersion whereTimeslice( $value )
+ * @property-read \App\Models\Access\User\User $UserCreator
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSetHasVersion whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSetHasVersion whereCreatedUserId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSetHasVersion whereDeletedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSetHasVersion whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSetHasVersion whereName($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSetHasVersion whereSchemaId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSetHasVersion whereTimeslice($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSetHasVersion whereUpdatedAt($value)
  * @mixin \Eloquent
  */
 class ElementSetHasVersion extends Model
