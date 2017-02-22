@@ -89,7 +89,7 @@ class Kernel extends HttpKernel
          * Encore admin Middleware
          */
         'admin.auth'                  => \Encore\Admin\Middleware\Authenticate::class,
-        'admin.pjax'                  => \Encore\Admin\Middleware\PjaxMiddleware::class,
+        'admin.pjax'                  => \App\Http\Middleware\PjaxMiddleware::class,
         'admin.log'                   => \App\Http\Middleware\OperationLog::class,
         'admin.permission'            => \Encore\Admin\Middleware\PermissionMiddleware::class,
         'admin.bootstrap'             => \Encore\Admin\Middleware\BootstrapMiddleware::class,
