@@ -36,3 +36,7 @@ tests_codecept/_output/*
 /apps/frontend/config/app.yml
 /node_modules/
 /.github/
+backend.*.css
+frontend.*.css
+frontend.*.js
+mix-manifest.json
