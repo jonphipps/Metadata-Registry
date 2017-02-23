@@ -27,7 +27,7 @@ return [
 			'deleted_permanently' => 'De gebruiker is permanent verwijderd.',
 			'restored' => 'De gebruiker is met succes hersteld.',
 			'updated' => 'De gebruiker is succesvol bijgewerkt.',
-			'updated_password' => "Het wachtwoord van de gebruiker is succesvol bijgewerkt",
-		]
+            'updated_password'    => 'Het wachtwoord van de gebruiker is succesvol bijgewerkt',
+        ],
 	],
 ];

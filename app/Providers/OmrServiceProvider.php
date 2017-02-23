@@ -2,8 +2,7 @@
 
 namespace App\Providers;
 
-use DB;
-use Encore\Admin\Routing\Router;
+use Encore\Admin\Facades\Admin;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 
@@ -13,10 +12,10 @@ class OmrServiceProvider extends ServiceProvider
    * @var array
    */
   protected $commands = [
-      'MakeCommand',
-      'MenuCommand',
-      'InstallCommand',
-      'UninstallCommand',
+        'Encore\Admin\Commands\MakeCommand',
+        'Encore\Admin\Commands\MenuCommand',
+        'Encore\Admin\Commands\InstallCommand',
+        'Encore\Admin\Commands\UninstallCommand',
   ];
 
   /**
@@ -25,10 +24,11 @@ class OmrServiceProvider extends ServiceProvider
    * @var array
    */
   protected $routeMiddleware = [
-//      'admin.auth'       => \Encore\Admin\Middleware\Authenticate::class,
-'admin.pjax'       => \Encore\Admin\Middleware\PjaxMiddleware::class,
-//'admin.log'        => \Encore\Admin\Middleware\OperationLog::class,
-//'admin.permission' => \Encore\Admin\Middleware\PermissionMiddleware::class,
+        'admin.auth'       => \Encore\Admin\Middleware\Authenticate::class,
+        'admin.pjax'        => \Encore\Admin\Middleware\PjaxMiddleware::class,
+        'admin.log'        => \App\Http\Middleware\OperationLog::class,
+        'admin.permission' => \Encore\Admin\Middleware\PermissionMiddleware::class,
+        'admin.bootstrap'   => \Encore\Admin\Middleware\BootstrapMiddleware::class,
   ];
 
   /**
@@ -38,9 +38,10 @@ class OmrServiceProvider extends ServiceProvider
    */
   protected $middlewareGroups = [
       'admin' => [
-//          'admin.auth',
-'admin.pjax',
-//'admin.log',
+            'admin.auth',
+            'admin.pjax',
+            'admin.log',
+            'admin.bootstrap',
       ],
   ];
 
@@ -52,14 +53,13 @@ class OmrServiceProvider extends ServiceProvider
    */
   public function boot()
   {
-    $this->loadViewsFrom(base_path() . '/resources/views/admin/', 'admin');
-    $this->loadTranslationsFrom(base_path() . '/resources/lang/', 'admin');
+        $this->loadViewsFrom(base_path('vendor/encore/laravel-admin/views'), 'admin');
+        $this->loadTranslationsFrom(base_path('resources/lang/'), 'admin');
+
+    Admin::registerAuthRoutes();
 
     if (file_exists($routes = admin_path('routes.php'))) {
       require $routes;
-
-      $this->app['admin.router']->register();
-
     }
   }
 
@@ -76,14 +76,14 @@ class OmrServiceProvider extends ServiceProvider
 
       $loader->alias('Admin', \Encore\Admin\Facades\Admin::class);
 
-      //$this->setupAuth();
+            // if (is_null(config('auth.guards.admin'))) {
+            //     $this->setupAuth();
+            // }
     });
 
-    //$this->setupClassAliases();
-    $this->registerRouteMiddleware();
-    $this->registerCommands();
+        //$this->registerRouteMiddleware();
 
-    $this->registerRouter();
+        $this->commands($this->commands);
   }
 
 
@@ -102,38 +102,6 @@ class OmrServiceProvider extends ServiceProvider
     ]);
   }
 
-
-  /**
-   * Setup the class aliases.
-   *
-   * @return void
-   */
-  protected function setupClassAliases()
-  {
-    $aliases = [
-        'admin.router' => \Encore\Admin\Routing\Router::class,
-    ];
-
-    foreach ($aliases as $key => $alias) {
-      $this->app->alias($key, $alias);
-    }
-  }
-
-
-  /**
-   * Register admin routes.
-   *
-   * @return void
-   */
-  public function registerRouter()
-  {
-    $this->app->singleton('admin.router',
-        function ($app) {
-          return new Router($app['router']);
-        });
-  }
-
-
   /**
    * Register the route middleware.
    *
@@ -143,25 +111,12 @@ class OmrServiceProvider extends ServiceProvider
   {
     // register route middleware.
     foreach ($this->routeMiddleware as $key => $middleware) {
-      app('router')->middleware($key, $middleware);
+            app('router')->aliasMiddleware($key, $middleware);
     }
 
     // register middleware group.
     foreach ($this->middlewareGroups as $key => $middleware) {
       app('router')->middlewareGroup($key, $middleware);
-    }
-  }
-
-
-  /**
-   * Register the commands.
-   *
-   * @return void
-   */
-  protected function registerCommands()
-  {
-    foreach ($this->commands as $command) {
-      $this->commands('Encore\Admin\Commands\\' . $command);
     }
   }
 }

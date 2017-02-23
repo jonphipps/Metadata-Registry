@@ -15,7 +15,7 @@ return [
 	'backend' => [
 		'none' => 'Er is geen recente geschiedenis.',
 		'none_for_type' => 'Er is geen geschiedenis voor dit type.',
-		'none_for_entity' => "Er is geen geschiedenis voor deze :entity.",
+        'none_for_entity' => 'Er is geen geschiedenis voor deze :entity.',
 		'recent_history' => 'Recente Geschiedenis',
 
 		'roles' => [

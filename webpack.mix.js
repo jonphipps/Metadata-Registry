@@ -12,8 +12,7 @@ const WebpackRTLPlugin = require('webpack-rtl-plugin');
  |
  */
 
-mix.config.publicPath = 'web';
-
+mix.setPublicPath('web/');
 mix.sass('resources/assets/sass/frontend/app.scss', 'web/css/frontend.css')
     .sass('resources/assets/sass/backend/app.scss', 'web/css/backend.css')
     .js([

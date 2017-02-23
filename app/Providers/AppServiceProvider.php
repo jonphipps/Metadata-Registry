@@ -2,41 +2,42 @@
 
 namespace App\Providers;
 
-use Illuminate\Contracts\Logging\Log;
-use Illuminate\Support\ServiceProvider;
-use Psr\Log\LoggerInterface;
 use Carbon\Carbon;
+use Psr\Log\LoggerInterface;
+use Illuminate\Contracts\Logging\Log;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
 
   /**
-   * Bootstrap any application services.
-   *
-   * @return void
-   */
+     * Bootstrap any application services.
+     *
+     * @return void
+     */
     public function boot()
     {
-        /**
-     * Application locale defaults for various components
-     * These will be overridden by LocaleMiddleware if the session local is set
-     */
+        /*
+         * Application locale defaults for various components
+         *
+         * These will be overridden by LocaleMiddleware if the session local is set
+         */
 
-        /**
-     * setLocale for php. Enables ->formatLocalized() with localized values for dates
-     */
+        /*
+         * setLocale for php. Enables ->formatLocalized() with localized values for dates
+         */
         setlocale(LC_TIME, config('app.locale_php'));
 
-        /**
-     * setLocale to use Carbon source locales. Enables diffForHumans() localized
-     */
+        /*
+         * setLocale to use Carbon source locales. Enables diffForHumans() localized
+         */
         Carbon::setLocale(config('app.locale'));
 
-        /**
-     * Set the session variable for whether or not the app is using RTL support
-     * For use in the blade directive in BladeServiceProvider
-     */
+        /*
+         * Set the session variable for whether or not the app is using RTL support
+         * For use in the blade directive in BladeServiceProvider
+         */
         if (config('locale.languages')[config('app.locale')][2]) {
             session([ 'lang-rtl' => true ]);
         } else {
@@ -47,21 +48,22 @@ class AppServiceProvider extends ServiceProvider
         if ($this->app->environment() == 'production') {
             //URL::forceScheme('https');
         }
-        //set the default string length for l5.4
+
+        // Set the default string length for Laravel5.4
+        // https://laravel-news.com/laravel-5-4-key-too-long-error
         Schema::defaultStringLength(191);
     }
 
-
   /**
-   * Register any application services.
-   *
-   * @return void
-   */
+     * Register any application services.
+     *
+     * @return void
+     */
     public function register()
     {
-        /**
-     * Sets third party service providers that are only needed on local environments
-     */
+        /*
+         * Sets third party service providers that are only needed on local/testing environments
+         */
         if ($this->app->environment() != 'production') {
             /**
              * Loader for registering facades.

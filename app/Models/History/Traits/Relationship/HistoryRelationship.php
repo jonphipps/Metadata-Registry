@@ -6,12 +6,10 @@ use App\Models\Access\User\User;
 use App\Models\History\HistoryType;
 
 /**
- * Class HistoryRelationship
- * @package App\Models\History\Traits\Relationship
+ * Class HistoryRelationship.
  */
 trait HistoryRelationship
 {
-
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */

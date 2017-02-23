@@ -15,7 +15,7 @@ return [
 	'backend' => [
 		'none' => 'لا يوجد ماضي حديث.',
 		'none_for_type' => 'لا يوجد أي ماضي لهذاالنوع.',
-		'none_for_entity' => "لا يوجد أي ماضي لهذا الـ :entity.",
+        'none_for_entity' => 'لا يوجد أي ماضي لهذا الـ :entity.',
 		'recent_history' => 'Recent History',
 
 		'roles' => [

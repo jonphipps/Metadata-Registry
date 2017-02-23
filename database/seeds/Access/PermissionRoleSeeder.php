@@ -1,7 +1,9 @@
 <?php
 
+use Database\TruncateTable;
 use Illuminate\Database\Seeder;
 use App\Models\Access\Role\Role;
+use Database\DisableForeignKeys;
 
 /**
  * Class PermissionRoleSeeder
@@ -9,7 +11,7 @@ use App\Models\Access\Role\Role;
 class PermissionRoleSeeder extends Seeder
 {
 
-    use \database\DisablesForeignKeys;
+    use DisableForeignKeys, TruncateTable;
 
 
   /**
@@ -21,14 +23,8 @@ class PermissionRoleSeeder extends Seeder
     {
         $this->disableForeignKeys();
 
-        if (DB::connection()->getDriverName() == 'mysql') {
-            DB::table(config('access.permission_role_table'))->truncate();
-        } elseif (DB::connection()->getDriverName() == 'sqlite') {
-            DB::statement('DELETE FROM ' . config('access.permission_role_table'));
-        } else {
+        $this->truncate(config('access.permission_role_table'));
             //For PostgreSQL or anything else
-            DB::statement('TRUNCATE TABLE ' . config('access.permission_role_table') . ' CASCADE');
-        }
 
         /**
      * Assign view backend and manage user permissions to executive role as example

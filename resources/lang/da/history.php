@@ -15,9 +15,9 @@ return [
 	'backend' => [
 		'none' => 'Der er ingen historik.',
 		'none_for_type' => 'Der er ingen historik af denne type.',
-		'none_for_entity' => "Der er ingen historik for :entity.",
+        'none_for_entity' => 'Der er ingen historik for :entity.',
 		'recent_history' => 'Seneste Historik',
-		
+
 		'roles' => [
 			'created' => 'oprettede rollen',
 			'deleted' => 'slettede rollen',

@@ -76,25 +76,25 @@ return [
 
 				'tabs' => [
 					'titles' => [
-						'overview' => 'Overview',
-						'history' => 'History',
+                        'overview' => 'Aperçu',
+                        'history'  => 'Historique',
 					],
 
 					'content' => [
 						'overview' => [
 							'avatar' => 'Avatar',
-							'confirmed' => 'Confirmed',
-							'created_at' => 'Created At',
-							'deleted_at' => 'Deleted At',
+                            'confirmed'    => 'Confirmé',
+                            'created_at'   => 'Créé le',
+                            'deleted_at'   => 'Supprimé le',
 							'email' => 'E-mail',
-							'last_updated' => 'Last Updated',
-							'name' => 'Name',
-							'status' => 'Status',
+                            'last_updated' => 'Mise à jour',
+                            'name'         => 'Nom',
+                            'status'       => 'Statut',
 						],
 					],
 				],
 
-				'view' => 'View User',
+                'view' => 'Voir utilisateur',
             ],
         ],
     ],
@@ -103,8 +103,8 @@ return [
 
         'auth' => [
             'login_box_title' => 'Connexion',
-            'login_button' => "Entrer",
-            'login_with' => "Se connecter avec :social_media",
+            'login_button'       => 'Entrer',
+            'login_with'         => 'Se connecter avec :social_media',
             'register_box_title' => "S'enregistrer",
             'register_button' => 'Créer le compte',
             'remember_me' => 'Se souvenir de moi',

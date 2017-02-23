@@ -1,16 +1,16 @@
 <?php
 
+use Tests\BrowserKitTestCase;
 use App\Models\Access\User\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Event;
+use tests\traits\InteractsWithMailTrap;
 use App\Events\Frontend\Auth\UserLoggedIn;
 use App\Events\Frontend\Auth\UserRegistered;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\Frontend\Auth\UserNeedsConfirmation;
 use App\Notifications\Frontend\Auth\UserNeedsPasswordReset;
-use Tests\BrowserKitTestCase;
-use tests\traits\InteractsWithMailTrap;
 
 /**
  * Class LoggedOutFormTest

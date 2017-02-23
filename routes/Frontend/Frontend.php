@@ -4,38 +4,30 @@
  * Frontend Controllers
  * All route names are prefixed with 'frontend.'
  */
-Route::name('index')->get('/', 'FrontendController@index');
-Route::name('macros')->get('macros', 'FrontendController@macros');
+Route::get('/', 'FrontendController@index')->name('index');
+Route::get('macros', 'FrontendController@macros')->name('macros');
 
 /**
  * These frontend controllers require the user to be logged in
  * All route names are prefixed with 'frontend.'
  */
-Route::middleware('auth')->group(function () {
-    Route::namespace('User')->as('user.')->group(function () {
+Route::group(['middleware' => 'auth'], function () {
+    Route::group(['namespace' => 'User', 'as' => 'user.'], function () {
                 /**
                  * User Dashboard Specific
                  */
-        Route::name('dashboard')->get('dashboard', 'DashboardController@index');
+        Route::get('dashboard', 'DashboardController@index')->name('dashboard');
 
                 /**
                  * User Account Specific
                  */
-        Route::name('account')->get('account', 'AccountController@index');
+        Route::get('account', 'AccountController@index')->name('account');
 
                 /**
                  * User Profile Specific
                  */
-        Route::name('profile.update')->patch('profile/update', 'ProfileController@update');
+        Route::patch('profile/update', 'ProfileController@update')->name('profile.update');
             });
-        Route::resource('projects',
-            'ProjectController',
-            [
-                'except' => [
-                    'index',
-                    'show',
-                ],
-            ]);
         Route::get('project_user/{id}',
             'ProjectHasUserController@edit')->name('project.user.edit');
     });

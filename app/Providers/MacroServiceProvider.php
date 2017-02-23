@@ -6,9 +6,7 @@ use App\Helpers\Macros\Macros;
 use Collective\Html\HtmlServiceProvider;
 
 /**
- * Class MacroServiceProvider
- *
- * @package App\Providers
+ * Class MacroServiceProvider.
  */
 class MacroServiceProvider extends HtmlServiceProvider
 {

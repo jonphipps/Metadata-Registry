@@ -36,7 +36,7 @@ return [
             'roles' => [
                 'create'     => 'Rolle erstellen',
                 'edit'       => 'rolle bearbeiten',
-                'management' => 'Rollen Vervalten',
+                'management' => 'Rollen verwalten',
 
                 'table' => [
                     'number_of_users' => 'Anzahl Benutzer',
@@ -67,7 +67,7 @@ return [
                     'email'          => 'E-Mail',
                     'id'             => 'ID',
                     'last_updated'   => 'Letzte Aktualisierung',
-                    'name'           => 'Benutzername',
+                    'name'           => 'Name',
                     'no_deactivated' => 'Keine deaktivierten Benutzer',
                     'no_deleted'     => 'Keine gelöschten Benutzer',
                     'roles'          => 'Rollen',

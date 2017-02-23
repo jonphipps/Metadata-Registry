@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'failed' => "Ces informations de connexion ne correspondent pas.",
+    'failed'        => 'Ces informations de connexion ne correspondent pas.',
     'general_error' => "Vous n'avez pas les droits requis pour cette action.",
     'socialite' => [
         'unacceptable' => 'Le login :provider est de type incorrect.',

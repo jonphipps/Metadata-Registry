@@ -1,16 +1,17 @@
 <?php
 
+use Database\TruncateTable;
 use Carbon\Carbon as Carbon;
 use Illuminate\Database\Seeder;
+use Database\DisableForeignKeys;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Class UserTableSeeder
  */
 class UserTableSeeder extends Seeder
 {
-
-    use \database\DisablesForeignKeys;
-
+    use DisableForeignKeys, TruncateTable;
 
   /**
    * Run the database seed.
@@ -20,15 +21,7 @@ class UserTableSeeder extends Seeder
     public function run()
     {
         $this->disableForeignKeys();
-
-        if (DB::connection()->getDriverName() == 'mysql') {
-            DB::table(config('access.users_table'))->truncate();
-        } elseif (DB::connection()->getDriverName() == 'sqlite') {
-            DB::statement('DELETE FROM ' . config('access.users_table'));
-        } else {
-            //For PostgreSQL or anything else
-            DB::statement('TRUNCATE TABLE ' . config('access.users_table') . ' CASCADE');
-        }
+        $this->truncate(config('access.users_table'));
 
         //Add the master administrator, user id of 1
         $users = [

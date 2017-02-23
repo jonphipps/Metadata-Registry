@@ -7,9 +7,7 @@ use App\Http\Requests\Frontend\User\UpdateProfileRequest;
 use App\Repositories\Frontend\Access\User\UserRepository;
 
 /**
- * Class ProfileController
- *
- * @package App\Http\Controllers\Frontend
+ * Class ProfileController.
  */
 class ProfileController extends Controller
 {
@@ -20,6 +18,7 @@ class ProfileController extends Controller
 
     /**
      * ProfileController constructor.
+     *
      * @param UserRepository $user
      */
     public function __construct(UserRepository $user)
@@ -29,6 +28,7 @@ class ProfileController extends Controller
 
     /**
      * @param UpdateProfileRequest $request
+     *
      * @return mixed
      */
     public function update(UpdateProfileRequest $request)

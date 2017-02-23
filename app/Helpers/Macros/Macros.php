@@ -6,8 +6,7 @@ use Collective\Html\FormBuilder;
 use App\Helpers\Macros\Traits\Dropdowns;
 
 /**
- * Class Macros
- * @package App\Http
+ * Class Macros.
  */
 class Macros extends FormBuilder
 {

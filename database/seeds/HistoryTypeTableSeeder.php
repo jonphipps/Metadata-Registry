@@ -1,16 +1,17 @@
 <?php
 
+use Database\TruncateTable;
 use Carbon\Carbon as Carbon;
 use Illuminate\Database\Seeder;
+use Database\DisableForeignKeys;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Class HistoryTypeTableSeeder
  */
 class HistoryTypeTableSeeder extends Seeder
 {
-
-    use \database\DisablesForeignKeys;
-
+    use DisableForeignKeys, TruncateTable;
 
   /**
    * Run the database seed.
@@ -19,17 +20,8 @@ class HistoryTypeTableSeeder extends Seeder
    */
     public function run()
     {
-
         $this->disableForeignKeys();
-
-        if (DB::connection()->getDriverName() == 'mysql') {
-            DB::table('history_types')->truncate();
-        } elseif (DB::connection()->getDriverName() == 'sqlite') {
-            DB::statement('DELETE FROM history_types');
-        } else {
-            //For PostgreSQL or anything else
-            DB::statement('TRUNCATE TABLE history_types CASCADE');
-        }
+        $this->truncate('history_types');
 
         $types = [
         [

@@ -6,14 +6,14 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 /**
- * Class SearchController
- * @package App\Http\Controllers\Backend\Search
+ * Class SearchController.
  */
 class SearchController extends Controller
 {
 
     /**
      * @param Request $request
+     *
      * @return mixed
      */
     public function index(Request $request)
@@ -25,7 +25,7 @@ class SearchController extends Controller
         }
 
         /**
-         * Process Search Results Here
+         * Process Search Results Here.
          */
         $results = null;
 
