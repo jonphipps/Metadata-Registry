@@ -3,9 +3,7 @@
 namespace App\Listeners\Frontend\Auth;
 
 /**
- * Class UserEventListener
- *
- * @package App\Listeners\Frontend\Auth
+ * Class UserEventListener.
  */
 class UserEventListener
 {
@@ -45,7 +43,7 @@ class UserEventListener
     /**
      * Register the listeners for the subscriber.
      *
-     * @param  \Illuminate\Events\Dispatcher  $events
+     * @param \Illuminate\Events\Dispatcher $events
      */
     public function subscribe($events)
     {

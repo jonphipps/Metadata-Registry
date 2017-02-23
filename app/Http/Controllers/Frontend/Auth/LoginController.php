@@ -2,19 +2,17 @@
 
 namespace App\Http\Controllers\Frontend\Auth;
 
+use App\Helpers\Auth\Auth;
+use Illuminate\Http\Request;
+use App\Exceptions\GeneralException;
+use App\Http\Controllers\Controller;
+use App\Helpers\Frontend\Auth\Socialite;
 use App\Events\Frontend\Auth\UserLoggedIn;
 use App\Events\Frontend\Auth\UserLoggedOut;
-use App\Exceptions\GeneralException;
-use App\Helpers\Auth\Auth;
-use App\Helpers\Frontend\Auth\Socialite;
-use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Http\Request;
 
 /**
- * Class LoginController
- *
- * @package App\Http\Controllers\Auth
+ * Class LoginController.
  */
 class LoginController extends Controller
 {
@@ -26,7 +24,8 @@ class LoginController extends Controller
     }
 
     /**
-     * Where to redirect users after login
+     * Where to redirect users after login.
+     *
      * @return string
      */
     public function redirectPath()
@@ -52,12 +51,14 @@ class LoginController extends Controller
     /**
      * @param Request $request
      * @param $user
-     * @return \Illuminate\Http\RedirectResponse
+     *
      * @throws GeneralException
+     *
+     * @return \Illuminate\Http\RedirectResponse
      */
     protected function authenticated(Request $request, $user)
     {
-        /**
+        /*
          * Check to see if the users account is confirmed and active
          */
         if (! $user->isConfirmed()) {
@@ -75,33 +76,34 @@ class LoginController extends Controller
     /**
      * Log the user out of the application.
      *
-     * @param  Request  $request
+     * @param Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function logout(Request $request)
     {
-        /**
+        /*
          * Boilerplate needed logic
          */
 
-        /**
+        /*
          * Remove the socialite session variable if exists
          */
         if (app('session')->has(config('access.socialite_session_name'))) {
             app('session')->forget(config('access.socialite_session_name'));
         }
 
-        /**
+        /*
          * Remove any session data from backend
          */
         app()->make(Auth::class)->flushTempSession();
 
-        /**
+        /*
          * Fire event, Log out user, Redirect
          */
         event(new UserLoggedOut($this->guard()->user()));
 
-        /**
+        /*
          * Laravel specific logic
          */
         $this->guard()->logout();
@@ -118,13 +120,13 @@ class LoginController extends Controller
     {
         //If for some reason route is getting hit without someone already logged in
         if (! access()->user()) {
-            return redirect()->route("frontend.auth.login");
+            return redirect()->route('frontend.auth.login');
         }
 
         //If admin id is set, relogin
-        if (session()->has("admin_user_id") && session()->has("temp_user_id")) {
+        if (session()->has('admin_user_id') && session()->has('temp_user_id')) {
             //Save admin id
-            $admin_id = session()->get("admin_user_id");
+            $admin_id = session()->get('admin_user_id');
 
             app()->make(Auth::class)->flushTempSession();
 
@@ -132,13 +134,13 @@ class LoginController extends Controller
             access()->loginUsingId((int)$admin_id);
 
             //Redirect to backend user page
-            return redirect()->route("admin.access.user.index");
+            return redirect()->route('admin.access.user.index');
         } else {
             app()->make(Auth::class)->flushTempSession();
 
             //Otherwise logout and redirect to login
             access()->logout();
-            return redirect()->route("frontend.auth.login");
+            return redirect()->route('frontend.auth.login');
         }
     }
 }

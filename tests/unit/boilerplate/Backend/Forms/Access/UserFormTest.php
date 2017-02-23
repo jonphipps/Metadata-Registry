@@ -1,5 +1,6 @@
 <?php
 
+use Tests\BrowserKitTestCase;
 use App\Models\Access\User\User;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Notification;
@@ -8,7 +9,6 @@ use App\Events\Backend\Access\User\UserDeleted;
 use App\Events\Backend\Access\User\UserUpdated;
 use App\Events\Backend\Access\User\UserPasswordChanged;
 use App\Notifications\Frontend\Auth\UserNeedsConfirmation;
-use Tests\BrowserKitTestCase;
 
 /**
  * Class UserFormTest.
@@ -51,8 +51,6 @@ class UserFormTest extends BrowserKitTestCase
         $name = $faker->name;
         $email = $faker->safeEmail;
         $password = $faker->password(8);
-        $userTable = config('access.users_table');
-        $roleUserTable = config('access.role_user_table');
 
         $this->actingAs($this->admin)
              ->visit('/admin/access/user/create')
@@ -114,8 +112,7 @@ class UserFormTest extends BrowserKitTestCase
              ->seeInDatabase(config('access.role_user_table'), ['user_id' => $latestId, 'role_id' => 3]);
 
         // Get the user that was inserted into the database
-        $user = User::where('email', $email)
-                    ->first();
+        $user = User::where('email', $email)->first();
 
         // Check that the user was sent the confirmation email
         Notification::assertSentTo([$user],

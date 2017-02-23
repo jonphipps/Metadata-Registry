@@ -13,62 +13,57 @@ use App\Repositories\Backend\Access\Role\RoleRepository;
 use App\Notifications\Frontend\Auth\UserNeedsConfirmation;
 
 /**
- * Class UserRepository
- *
- * @package App\Repositories\Frontend\User
+ * Class UserRepository.
  */
 class UserRepository extends BaseRepository
 {
   /**
-   * Associated Repository Model
-   */
+     * Associated Repository Model.
+     */
   const MODEL = User::class;
 
   /**
-   * @var RoleRepository
-   */
+     * @var RoleRepository
+     */
   protected $role;
 
-
   /**
-   * @param RoleRepository $role
-   */
+     * @param RoleRepository $role
+     */
   public function __construct(RoleRepository $role)
   {
     $this->role = $role;
   }
 
-
   /**
-   * @param $email
-   *
-   * @return bool
-   */
+     * @param $email
+     *
+     * @return bool
+     */
   public function findByEmail($email)
   {
     return $this->query()->where('email', $email)->first();
   }
 
-
   /**
-   * @param $token
-   *
-   * @return mixed
-   * @throws GeneralException
-   */
+     * @param $token
+     *
+     * @throws GeneralException
+     *
+     * @return mixed
+     */
   public function findByToken($token)
   {
     return $this->query()->where('confirmation_code', $token)->first();
   }
 
-
   /**
-   * @param $token
-   *
-   *
-   * @return array
-   * @throws GeneralException
-   */
+     * @param $token
+     *
+     * @throws GeneralException
+     *
+     * @return mixed
+     */
   public function getEmailForPasswordToken($token)
   {
     //get all of the rows in password_resets and do a password_verify ( $token , $dbToken ) on each one and return the first match
@@ -82,13 +77,12 @@ class UserRepository extends BaseRepository
     throw new GeneralException(trans('auth.invalid_token'));
   }
 
-
   /**
-   * @param array $data
-   * @param bool $provider
-   *
-   * @return static
-   */
+     * @param array $data
+     * @param bool  $provider
+     *
+     * @return static
+     */
   public function create(array $data, $provider = false)
   {
     $user                    = self::MODEL;
@@ -109,45 +103,45 @@ class UserRepository extends BaseRepository
       }
     });
 
-    /**
-     * If users have to confirm their email and this is not a social account,
-     * send the confirmation email
-     * If this is a social account they are confirmed through the social provider by default
-     */
+        /*
+         * If users have to confirm their email and this is not a social account,
+         * send the confirmation email
+         *
+         * If this is a social account they are confirmed through the social provider by default
+         */
     if (config('access.users.confirm_email') && $provider === false) {
       $user->notify(new UserNeedsConfirmation($user->confirmation_code));
     }
 
-    /**
-     * Return the user object
-     */
+        /*
+         * Return the user object
+         */
     return $user;
   }
 
-
   /**
-   * @param $data
-   * @param $provider
-   *
-   * @return UserRepository|bool
-   */
+     * @param $data
+     * @param $provider
+     *
+     * @return UserRepository|bool
+     */
   public function findOrCreateSocial($data, $provider)
   {
     /**
-     * User email may not provided.
-     */
+         * User email may not provided.
+         */
     $user_email = $data->email ?: "{$data->id}@{$provider}.com";
 
     /**
-     * Check to see if there is a user with this email first
-     */
+         * Check to see if there is a user with this email first.
+         */
     $user = $this->findByEmail($user_email);
 
-    /**
-     * If the user does not exist create them
-     * The true flag indicate that it is a social account
-     * Which triggers the script to use some default values in the create method
-     */
+        /*
+         * If the user does not exist create them
+         * The true flag indicate that it is a social account
+         * Which triggers the script to use some default values in the create method
+         */
     if ( ! $user) {
       $user = $this->create([
           'name'  => $data->name,
@@ -155,13 +149,13 @@ class UserRepository extends BaseRepository
             ], true);
     }
 
-    /**
-     * See if the user has logged in with this social account before
-     */
+        /*
+         * See if the user has logged in with this social account before
+         */
     if ( ! $user->hasProvider($provider)) {
-      /**
-       * Gather the provider data for saving and associate it with the user
-       */
+            /*
+             * Gather the provider data for saving and associate it with the user
+             */
       $user->providers()->save(new SocialLogin([
           'provider'    => $provider,
           'provider_id' => $data->id,
@@ -169,28 +163,28 @@ class UserRepository extends BaseRepository
           'avatar'      => $data->avatar,
       ]));
     } else {
-      /**
-       * Update the users information, token and avatar can be updated.
-       */
+            /*
+             * Update the users information, token and avatar can be updated.
+             */
       $user->providers()->update([
           'token'  => $data->token,
           'avatar' => $data->avatar,
       ]);
     }
 
-    /**
-     * Return the user object
-     */
+        /*
+         * Return the user object
+         */
     return $user;
   }
 
-
   /**
-   * @param $token
-   *
-   * @return bool
-   * @throws GeneralException
-   */
+     * @param $token
+     *
+     * @throws GeneralException
+     *
+     * @return bool
+     */
   public function confirmAccount($token)
   {
     $user = $this->findByToken($token);
@@ -210,14 +204,14 @@ class UserRepository extends BaseRepository
     throw new GeneralException(trans('exceptions.frontend.auth.confirmation.mismatch'));
   }
 
-
   /**
-   * @param $id
-   * @param $input
-   *
-   * @return mixed
-   * @throws GeneralException
-   */
+     * @param $id
+     * @param $input
+     *
+     * @throws GeneralException
+     *
+     * @return mixed
+     */
   public function updateProfile($id, $input)
   {
         $user = $this->find($id);
@@ -238,13 +232,13 @@ class UserRepository extends BaseRepository
         return $user->save();
   }
 
-
   /**
-   * @param $input
-   *
-   * @return mixed
-   * @throws GeneralException
-   */
+     * @param $input
+     *
+     * @throws GeneralException
+     *
+     * @return mixed
+     */
   public function changePassword($input)
   {
         $user = $this->find(access()->id());

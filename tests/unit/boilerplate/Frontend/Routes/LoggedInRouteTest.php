@@ -1,15 +1,14 @@
 <?php
 
+use Tests\BrowserKitTestCase;
 use Illuminate\Support\Facades\Event;
 use App\Events\Frontend\Auth\UserLoggedOut;
-use Tests\BrowserKitTestCase;
 
 /**
  * Class LoggedInRouteTest.
  */
 class LoggedInRouteTest extends BrowserKitTestCase
 {
-
     /**
      * Test the homepage works and the dashboard button appears.
      */

@@ -15,7 +15,7 @@ return [
 	'backend' => [
 		'none' => 'No existe historial reciente.',
 		'none_for_type' => 'No existe historia para este tipo.',
-		'none_for_entity' => "No hay historial para esta :entity.",
+        'none_for_entity' => 'No hay historial para esta :entity.',
 		'recent_history' => 'Historial Reciente',
 
 		'roles' => [

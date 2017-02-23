@@ -12,9 +12,7 @@ use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Password;
 
 /**
- * Class ForgotPasswordController
- *
- * @package App\Http\Controllers\Frontend\Auth
+ * Class ForgotPasswordController.
  */
 class ForgotPasswordController extends Controller
 {
@@ -23,10 +21,10 @@ class ForgotPasswordController extends Controller
 
 
   /**
-   * Display the form to request a password reset link.
-   *
-   * @return \Illuminate\Http\Response
-   */
+     * Display the form to request a password reset link.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function showLinkRequestForm()
     {
         return view('frontend.auth.passwords.email');

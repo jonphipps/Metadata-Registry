@@ -3,14 +3,13 @@
 namespace App\Helpers\Frontend\Auth;
 
 /**
- * Class Socialite
- * @package App\Helpers\Frontend\Auth
+ * Class Socialite.
  */
 class Socialite
 {
 
     /**
-     * Generates social login links based on what is enabled
+     * Generates social login links based on what is enabled.
      *
      * @return string
      */
@@ -51,7 +50,7 @@ class Socialite
     }
 
     /**
-     * List of the accepted third party provider types to login with
+     * List of the accepted third party provider types to login with.
      *
      * @return array
      */

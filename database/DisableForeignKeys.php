@@ -1,15 +1,17 @@
 <?php
+
+namespace Database;
+
+use Illuminate\Support\Facades\DB;
+
 /**
- * Created by PhpStorm,  User: jonphipps,  Date: 2016-12-28,  Time: 9:25 AM
+ * Class DisableForeignKeys.
  */
-
-namespace database;
-
-use DB;
-
-trait DisablesForeignKeys
+trait DisableForeignKeys
 {
-
+    /**
+     * @var array
+     */
     private $commands = [
       'mysql'  => [
           'enable'  => 'SET FOREIGN_KEY_CHECKS=1;',
@@ -18,9 +20,16 @@ trait DisablesForeignKeys
       'sqlite' => [
           'enable'  => 'PRAGMA foreign_keys = ON;',
           'disable' => 'PRAGMA foreign_keys = OFF;',
-      ]
+        ],
+        'sqlsrv' => [
+            'enable' => 'EXEC sp_msforeachtable @command1="print \'?\'", @command2="ALTER TABLE ? WITH CHECK CHECK CONSTRAINT all";',
+            'disable' => 'EXEC sp_msforeachtable "ALTER TABLE ? NOCHECK CONSTRAINT all";',
+        ],
+        'postgres' => [
+            'enable' => 'SET CONSTRAINTS ALL IMMEDIATE;',
+            'disable' => 'SET CONSTRAINTS ALL DEFERRED;',
+        ],
     ];
-
 
   /**
    * Disable foreign key checks for current db driver*/
@@ -29,7 +38,6 @@ trait DisablesForeignKeys
         DB::statement($this->getDisableStatement());
     }
 
-
   /**
    * Enable foreign key checks for current db driver
    */
@@ -37,7 +45,6 @@ trait DisablesForeignKeys
     {
         DB::statement($this->getEnableStatement());
     }
-
 
   /**
    * Return current driver enable command
@@ -49,7 +56,6 @@ trait DisablesForeignKeys
         return $this->getDriverCommands()['enable'];
     }
 
-
   /**
    * Return current driver disable command
    *
@@ -59,7 +65,6 @@ trait DisablesForeignKeys
     {
         return $this->getDriverCommands()['disable'];
     }
-
 
   /**
    * Returns command array for current db driver

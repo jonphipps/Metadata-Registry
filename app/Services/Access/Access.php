@@ -3,9 +3,7 @@
 namespace App\Services\Access;
 
 /**
- * Class Access
- *
- * @package App\Services\Access
+ * Class Access.
  */
 class Access
 {
@@ -15,7 +13,6 @@ class Access
    * @var \Illuminate\Foundation\Application
    */
   public $app;
-
 
   /**
    * Create a new confide instance.
@@ -27,7 +24,6 @@ class Access
     $this->app = $app;
   }
 
-
   /**
    * Get the currently authenticated user or null.
    */
@@ -36,9 +32,8 @@ class Access
     return auth()->user();
   }
 
-
   /**
-   * Return if the current session user is a guest or not
+   * Return if the current session user is a guest or not.
    *
    * @return mixed
    */
@@ -47,8 +42,7 @@ class Access
     return auth()->guest();
   }
 
-
-	/**
+  /**
    * @return mixed
    */
   public function logout()
@@ -56,9 +50,8 @@ class Access
     return auth()->logout();
   }
 
-
   /**
-   * Get the currently authenticated user's id
+   * Get the currently authenticated user's id.
    *
    * @return mixed
    */
@@ -67,8 +60,7 @@ class Access
     return auth()->id();
   }
 
-
-	/**
+  /**
    * @param $id
    *
    * @return mixed
@@ -78,11 +70,10 @@ class Access
     return auth()->loginUsingId($id);
   }
 
-
   /**
-   * Checks if the current user has a Role by its name or id
+   * Checks if the current user has a Role by its name or id.
    *
-   * @param  string $role Role name.
+   * @param string $role Role name.
    *
    * @return bool
    */
@@ -95,31 +86,27 @@ class Access
     return false;
   }
 
-
   /**
-   * Checks if the user has either one or more, or all of an array of roles
+   * Checks if the user has either one or more, or all of an array of roles.
    *
    * @param  $roles
-   * @param  bool $needsAll
+   * @param bool $needsAll
    *
    * @return bool
    */
   public function hasRoles($roles, $needsAll = false)
   {
     if ($user = $this->user()) {
-      //If not an array, make a one item array
-
       return $user->hasRoles($roles, $needsAll);
     }
 
     return false;
   }
 
-
   /**
-   * Check if the current user has a permission by its name or id
+   * Check if the current user has a permission by its name or id.
    *
-   * @param  string $permission Permission name or id.
+   * @param string $permission Permission name or id.
    *
    * @return bool
    */
@@ -132,9 +119,8 @@ class Access
     return false;
   }
 
-
   /**
-   * Check an array of permissions and whether or not all are required to continue
+   * Check an array of permissions and whether or not all are required to continue.
    *
    * @param  $permissions
    * @param  $needsAll
@@ -144,14 +130,11 @@ class Access
   public function allowMultiple($permissions, $needsAll = false)
   {
     if ($user = $this->user()) {
-      //If not an array, make a one item array
-
       return $user->allowMultiple($permissions, $needsAll);
     }
 
     return false;
   }
-
 
   /**
    * @param  $permission
@@ -162,7 +145,6 @@ class Access
   {
     return $this->allow($permission);
   }
-
 
   /**
    * @param  $permissions

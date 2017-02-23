@@ -1,9 +1,13 @@
 <?php
 
-Route::namespace('Search')->prefix('search')->as('search.')->group(function () {
+Route::group([
+    'prefix'     => 'search',
+    'as'         => 'search.',
+    'namespace'  => 'Search',
+], function () {
 
     /*
      * Search Specific Functionality
      */
-    Route::name('index')->get('/', 'SearchController@index');
+    Route::get('/', 'SearchController@index')->name('index');
 });

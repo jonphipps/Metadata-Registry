@@ -1,6 +1,8 @@
 <?php
 
+use Database\TruncateTable;
 use Illuminate\Database\Seeder;
+use Database\DisableForeignKeys;
 
 /**
  * Class UserRoleSeeder
@@ -8,7 +10,7 @@ use Illuminate\Database\Seeder;
 class UserRoleSeeder extends Seeder
 {
 
-    use \database\DisablesForeignKeys;
+    use DisableForeignKeys, TruncateTable;
 
 
   /**
@@ -19,15 +21,7 @@ class UserRoleSeeder extends Seeder
     public function run()
     {
         $this->disableForeignKeys();
-
-        if (DB::connection()->getDriverName() == 'mysql') {
-            DB::table(config('access.role_user_table'))->truncate();
-        } elseif (DB::connection()->getDriverName() == 'sqlite') {
-            DB::statement('DELETE FROM ' . config('access.role_user_table'));
-        } else {
-            //For PostgreSQL or anything else
-            DB::statement('TRUNCATE TABLE ' . config('access.role_user_table') . ' CASCADE');
-        }
+        $this->truncate(config('access.role_user_table'));
 
         //Attach admin role to admin user
         $user_model = config('auth.providers.users.model');

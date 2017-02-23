@@ -3,16 +3,17 @@
 namespace App\Helpers\Macros\Traits;
 
 /**
- * Class Dropdowns
- * @package App\Services\Macros
+ * Class Dropdowns.
  */
 trait Dropdowns
 {
     /**
-     * Use this to set the default country state type for the shorthand method
+     * Use this to set the default country state type for the shorthand method.
+     *
      * @param  $name
-     * @param  null     $selected
-     * @param  array    $options
+     * @param null  $selected
+     * @param array $options
+     *
      * @return string
      */
     public function selectState($name, $selected = null, $options = [])
@@ -22,8 +23,9 @@ trait Dropdowns
 
     /**
      * @param  $name
-     * @param  null     $selected
-     * @param  array    $options
+     * @param null  $selected
+     * @param array $options
+     *
      * @return string
      */
     public function selectStateUS($name, $selected = null, $options = [])
@@ -88,8 +90,9 @@ trait Dropdowns
 
     /**
      * @param  $name
-     * @param  null    $selected
-     * @param  array   $options
+     * @param null  $selected
+     * @param array $options
+     *
      * @return mixed
      */
     public function selectStateUSOutlyingTerritories($name, $selected = null, $options = [])
@@ -109,8 +112,9 @@ trait Dropdowns
 
     /**
      * @param  $name
-     * @param  null    $selected
-     * @param  array   $options
+     * @param null  $selected
+     * @param array $options
+     *
      * @return mixed
      */
     public function selectStateUSArmedForces($name, $selected = null, $options = [])
@@ -127,8 +131,9 @@ trait Dropdowns
 
     /**
      * @param  $name
-     * @param  null    $selected
-     * @param  array   $options
+     * @param null  $selected
+     * @param array $options
+     *
      * @return mixed
      */
     public function selectCanadaTerritories($name, $selected = null, $options = [])
@@ -155,8 +160,9 @@ trait Dropdowns
 
     /**
      * @param  $name
-     * @param  null    $selected
-     * @param  array   $options
+     * @param null  $selected
+     * @param array $options
+     *
      * @return mixed
      */
     public function selectStateMexico($name, $selected = null, $options = [])
@@ -201,10 +207,12 @@ trait Dropdowns
     }
 
     /**
-     * Use this to set the default country dropdown type for the shorthand method
+     * Use this to set the default country dropdown type for the shorthand method.
+     *
      * @param  $name
-     * @param  null     $selected
-     * @param  array    $options
+     * @param null  $selected
+     * @param array $options
+     *
      * @return string
      */
     public function selectCountry($name, $selected = null, $options = [])
@@ -214,8 +222,9 @@ trait Dropdowns
 
     /**
      * @param  $name
-     * @param  null    $selected
-     * @param  array   $options
+     * @param null  $selected
+     * @param array $options
+     *
      * @return mixed
      */
     public function selectCountryAlpha($name, $selected = null, $options = [])
@@ -478,8 +487,9 @@ trait Dropdowns
 
     /**
      * @param  $name
-     * @param  null     $selected
-     * @param  array    $options
+     * @param null  $selected
+     * @param array $options
+     *
      * @return string
      */
     public function selectCountryAlpha2($name, $selected = null, $options = [])
@@ -737,8 +747,9 @@ trait Dropdowns
 
     /**
      * @param  $name
-     * @param  null     $selected
-     * @param  array    $options
+     * @param null  $selected
+     * @param array $options
+     *
      * @return string
      */
     public function selectCountryAlpha3($name, $selected = null, $options = [])
@@ -1001,8 +1012,9 @@ trait Dropdowns
 
     /**
      * @param  $name
-     * @param  null     $selected
-     * @param  array    $options
+     * @param null  $selected
+     * @param array $options
+     *
      * @return string
      */
     public function selectCountryNumeric($name, $selected = null, $options = [])
@@ -1265,8 +1277,9 @@ trait Dropdowns
 
     /**
      * @param  $name
-     * @param  null    $selected
-     * @param  array   $options
+     * @param null  $selected
+     * @param array $options
+     *
      * @return mixed
      */
     public function selectTimezone($name, $selected = null, $options = [])
@@ -1289,6 +1302,7 @@ trait Dropdowns
 
     /**
      * @param  $offset
+     *
      * @return string
      */
     private function formatOffset($offset)

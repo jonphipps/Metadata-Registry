@@ -28,6 +28,6 @@ return [
             'restored' => "L'utente è stato ripristinato con successo.",
             'updated' => "L'utente è stato aggiornato con successo.",
             'updated_password' => "La password dell'utente è stata aggiornata con successo.",
-        ]
+        ],
     ],
 ];

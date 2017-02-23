@@ -5,15 +5,13 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 
 /**
- * Class DashboardController
- *
- * @package App\Http\Controllers\Backend
+ * Class DashboardController.
  */
 class DashboardController extends Controller
 {
   /**
-   * @return \Illuminate\View\View
-   */
+     * @return \Illuminate\View\View
+     */
   public function index()
   {
     return view('backend.dashboard');

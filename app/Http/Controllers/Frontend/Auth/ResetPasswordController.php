@@ -10,9 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 /**
- * Class ResetPasswordController
- *
- * @package App\Http\Controllers\Frontend\Auth
+ * Class ResetPasswordController.
  */
 class ResetPasswordController extends Controller
 {
@@ -27,6 +25,7 @@ class ResetPasswordController extends Controller
 
     /**
      * ChangePasswordController constructor.
+     *
      * @param UserRepository $user
      */
     public function __construct(UserRepository $user)
@@ -34,12 +33,11 @@ class ResetPasswordController extends Controller
         $this->user = $user;
     }
 
-
   /**
-   * Where to redirect users after resetting password
-   *
-   * @return string
-   */
+     * Where to redirect users after resetting password.
+     *
+     * @return string
+     */
   public function redirectPath()
   {
     return route('frontend.user.dashboard');
@@ -67,13 +65,14 @@ class ResetPasswordController extends Controller
          ->login($user);
     }
   /**
-   * Display the password reset view for the given token.
-   * If no token is present, display the link request form.
-   *
-   * @param  string|null $token
-   *
-   * @return \Illuminate\Http\Response
-   */
+     * Display the password reset view for the given token.
+     *
+     * If no token is present, display the link request form.
+     *
+     * @param string|null $token
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function showResetForm($token = null)
     {
       /** @noinspection NonSecureExtractUsageInspection */

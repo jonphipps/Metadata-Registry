@@ -6,17 +6,15 @@ use App\Http\Requests\Request;
 use Illuminate\Validation\Rule;
 
 /**
- * Class RegisterRequest
- *
- * @package App\Http\Requests\Frontend\Access
+ * Class RegisterRequest.
  */
 class RegisterRequest extends Request
 {
   /**
-   * Determine if the user is authorized to make this request.
-   *
-   * @return bool
-   */
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
   public function authorize()
   {
     return true;

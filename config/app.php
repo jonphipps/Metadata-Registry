@@ -170,7 +170,6 @@ return [
         Illuminate\Redis\RedisServiceProvider::class,
         Illuminate\Auth\Passwords\PasswordResetServiceProvider::class,
         Illuminate\Session\SessionServiceProvider::class,
-        Laravel\Tinker\TinkerServiceProvider::class,
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
@@ -180,11 +179,16 @@ return [
        */
         Arcanedev\LogViewer\LogViewerServiceProvider::class,
         Arcanedev\NoCaptcha\NoCaptchaServiceProvider::class,
+        Barryvdh\Snappy\ServiceProvider::class,
+        Bugsnag\BugsnagLaravel\BugsnagServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
         Creativeorange\Gravatar\GravatarServiceProvider::class,
+        Culpa\CulpaServiceProvider::class,
         DaveJamesMiller\Breadcrumbs\ServiceProvider::class,
+        GrahamCampbell\GitHub\GitHubServiceProvider::class,
         HieuLe\Active\ActiveServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
+<<<<<<< HEAD
         Yajra\Datatables\DatatablesServiceProvider::class,
 
       /*
@@ -193,11 +197,15 @@ return [
         App\Providers\MacroServiceProvider::class,
         App\Providers\OmrServiceProvider::class,
         //Encore\Admin\Providers\AdminServiceProvider::class,
+=======
+>>>>>>> L5BP5_4
         Laravel\Tinker\TinkerServiceProvider::class,
+        Maatwebsite\Excel\ExcelServiceProvider::class,
+        Yajra\Datatables\DatatablesServiceProvider::class,
 
-      /*
-           * Application Service Providers...
-           */
+       /*
+        * Application Service Providers...
+        */
         App\Providers\AccessServiceProvider::class,
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
@@ -206,12 +214,10 @@ return [
         App\Providers\ComposerServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\HistoryServiceProvider::class,
+        App\Providers\MacroServiceProvider::class,
+        App\Providers\OmrServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        Maatwebsite\Excel\ExcelServiceProvider::class,
-        Barryvdh\Snappy\ServiceProvider::class,
-        Bugsnag\BugsnagLaravel\BugsnagServiceProvider::class,
-        Culpa\CulpaServiceProvider::class,
-        GrahamCampbell\GitHub\GitHubServiceProvider::class,
+
     ],
 
   /*
@@ -260,22 +266,24 @@ return [
         'URL'          => Illuminate\Support\Facades\URL::class,
         'Validator'    => Illuminate\Support\Facades\Validator::class,
         'View'         => Illuminate\Support\Facades\View::class,
+
       /*
            * Third Party Aliases
            */
-        'Excel'        => Maatwebsite\Excel\Facades\Excel::class,
-        'PDF'          => Barryvdh\Snappy\Facades\SnappyPdf::class,
-        'SnappyImage'  => Barryvdh\Snappy\Facades\SnappyImage::class,
-        'Bugsnag'      => Bugsnag\BugsnagLaravel\Facades\Bugsnag::class,
         'Active'       => HieuLe\Active\Facades\Active::class,
         'Breadcrumbs'  => DaveJamesMiller\Breadcrumbs\Facade::class,
+        'Bugsnag'      => Bugsnag\BugsnagLaravel\Facades\Bugsnag::class,
         'Captcha'      => Arcanedev\NoCaptcha\Facades\NoCaptcha::class,
+        'Debugbar'     => Barryvdh\Debugbar\Facade::class,
+        'Excel'        => Maatwebsite\Excel\Facades\Excel::class,
         'Form'         => Collective\Html\FormFacade::class,
+        'GitHub'       => GrahamCampbell\GitHub\Facades\GitHub::class,
         'Gravatar'     => Creativeorange\Gravatar\Facades\Gravatar::class,
         'Html'         => Collective\Html\HtmlFacade::class,
+        'PDF'          => Barryvdh\Snappy\Facades\SnappyPdf::class,
+        'SnappyImage'  => Barryvdh\Snappy\Facades\SnappyImage::class,
         'Socialite'    => Laravel\Socialite\Facades\Socialite::class,
-        'GitHub'       => GrahamCampbell\GitHub\Facades\GitHub::class,
-        'Debugbar'     => Barryvdh\Debugbar\Facade::class,
+
     ],
 
 ];

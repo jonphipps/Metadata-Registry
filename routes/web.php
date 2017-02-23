@@ -4,17 +4,17 @@
  * Global Routes
  * Routes that are used between both frontend and backend
  */
+
 // Switch between the included languages
 Route::get('lang/{lang}', 'LanguageController@swap');
 
 /* ----------------------------------------------------------------------- */
 
-
 /**
  * Frontend Routes
  * Namespaces indicate folder structure
  */
-Route::namespace('Frontend')->as('frontend.')->group(function () {
+Route::group(['namespace' => 'Frontend', 'as' => 'frontend.'], function () {
     includeRouteFiles(__DIR__ . '/Frontend/');
 });
 
@@ -24,7 +24,7 @@ Route::namespace('Frontend')->as('frontend.')->group(function () {
  * Backend Routes
  * Namespaces indicate folder structure
  */
-Route::middleware('backend')->namespace('Backend')->prefix('admin')->as('admin.')->group(function () {
+Route::group(['namespace' => 'Backend', 'prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'admin'], function () {
     /**
      * These routes need view-backend permission
      * (good if you want to allow more than one group in the backend,

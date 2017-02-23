@@ -5,8 +5,7 @@ namespace App\Exceptions;
 use Exception;
 
 /**
- * Class GeneralException
- * @package App\Exceptions
+ * Class GeneralException.
  */
 class GeneralException extends Exception
 {
