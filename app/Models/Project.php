@@ -1,6 +1,7 @@
 <?php namespace App\Models;
 
 use App\Models\Access\User\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -65,101 +66,121 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Project extends Model
 {
-    protected $table = self::TABLE;
-    const TABLE = 'reg_agent';
+  protected $table = self::TABLE;
+  const TABLE = 'reg_agent';
 
-    use SoftDeletes;
+  use SoftDeletes;
 
     protected $dates = ['deleted_at', 'last_updated'];
 
-    protected $fillable = [
-        'last_updated',
-        'deleted_at',
-        'org_email',
-        'org_name',
-        'ind_affiliation',
-        'ind_role',
-        'address1',
-        'address2',
-        'city',
-        'state',
-        'postal_code',
-        'country',
-        'phone',
-        'web_address',
-        'type',
-    ];
+  protected $fillable = [
+      'last_updated',
+      'deleted_at',
+      'org_email',
+      'org_name',
+      'ind_affiliation',
+      'ind_role',
+      'address1',
+      'address2',
+      'city',
+      'state',
+      'postal_code',
+      'country',
+      'phone',
+      'web_address',
+      'type',
+  ];
 
-    /**
-     * The attributes that should be casted to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'id'              => 'integer',
-        'org_email'       => 'string',
-        'org_name'        => 'string',
-        'ind_affiliation' => 'string',
-        'ind_role'        => 'string',
-        'address1'        => 'string',
-        'address2'        => 'string',
-        'city'            => 'string',
-        'state'           => 'string',
-        'postal_code'     => 'string',
-        'country'         => 'string',
-        'phone'           => 'string',
-        'web_address'     => 'string',
-        'type'            => 'string',
-    ];
+  /**
+   * The attributes that should be casted to native types.
+   *
+   * @var array
+   */
+  protected $casts = [
+      'id'              => 'integer',
+      'org_email'       => 'string',
+      'org_name'        => 'string',
+      'ind_affiliation' => 'string',
+      'ind_role'        => 'string',
+      'address1'        => 'string',
+      'address2'        => 'string',
+      'city'            => 'string',
+      'state'           => 'string',
+      'postal_code'     => 'string',
+      'country'         => 'string',
+      'phone'           => 'string',
+      'web_address'     => 'string',
+      'type'            => 'string',
+  ];
 
-    public static $rules = [
-        'last_updated'    => 'required|',
-        'org_email'       => 'required|max:100',
-        'org_name'        => 'required|max:255',
-        'ind_affiliation' => 'max:255',
-        'ind_role'        => 'max:45',
-        'address1'        => 'max:255',
-        'address2'        => 'max:255',
-        'city'            => 'max:45',
-        'state'           => 'max:2',
-        'postal_code'     => 'max:15',
-        'country'         => 'max:3',
-        'phone'           => 'max:45',
-        'web_address'     => 'max:255',
-        'type'            => 'max:15',
-    ];
+  public static $rules = [
+      'last_updated'    => 'required|',
+      'org_email'       => 'required|max:100',
+      'org_name'        => 'required|max:255',
+      'ind_affiliation' => 'max:255',
+      'ind_role'        => 'max:45',
+      'address1'        => 'max:255',
+      'address2'        => 'max:255',
+      'city'            => 'max:45',
+      'state'           => 'max:2',
+      'postal_code'     => 'max:15',
+      'country'         => 'max:3',
+      'phone'           => 'max:45',
+      'web_address'     => 'max:255',
+      'type'            => 'max:15',
+  ];
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function profiles()
-    {
-        return $this->hasMany(Profile::class, 'agent_id', 'id');
-    }
+  /**
+   * @param Builder $query
+   *
+   * @return mixed
+   */
+  public function ScopePublic($query)
+  {
+    return $query->where('is_private', '<>', 1);
+  }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function users()
-    {
-        return $this->belongsToMany(User::class, ProjectHasUser::TABLE)
-                    ->withPivot('is_registrar_for', 'is_admin_for')
-                    ->withTimestamps();
-    }
+  /**
+   * @param Builder $query
+   *
+   * @return mixed
+   */
+  public function ScopePrivate($query)
+  {
+    return $query->where('is_private', true);
+  }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function elementSets()
-    {
-        return $this->hasMany(ElementSet::class, 'agent_id', 'id');
-    }
+  /**
+   * @return \Illuminate\Database\Eloquent\Relations\HasMany
+   */
+  public function profiles()
+  {
+    return $this->hasMany(Profile::class, 'agent_id', 'id');
+  }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function vocabularies()
-    {
-        return $this->hasMany(Vocabulary::class, 'agent_id', 'id');
-    }
+  /**
+   * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+   */
+  public function users()
+  {
+    return $this->belongsToMany(User::class, ProjectHasUser::TABLE)
+                ->withPivot('is_registrar_for', 'is_admin_for')
+                ->withTimestamps();
+  }
+
+  /**
+   * @return \Illuminate\Database\Eloquent\Relations\HasMany
+   */
+  public function elementSets()
+  {
+    return $this->hasMany(ElementSet::class, 'agent_id', 'id');
+  }
+
+  /**
+   * @return \Illuminate\Database\Eloquent\Relations\HasMany
+   */
+  public function vocabularies()
+  {
+    return $this->hasMany(Vocabulary::class, 'agent_id', 'id');
+  }
 }
