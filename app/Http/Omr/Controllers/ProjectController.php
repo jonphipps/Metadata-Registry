@@ -16,7 +16,8 @@ class ProjectController extends Controller
 
     public function __construct()
     {
-        $this->authorizeResource(Project::class, 'project');
+    //show has to be handled with a query scope in order to exclude private projects
+    $this->authorizeResource(Project::class, 'project', [ 'except' => [ 'view', 'show' ] ]);
     }
 
     /**
