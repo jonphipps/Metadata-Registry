@@ -18,21 +18,6 @@ class ProjectPolicy
         }
     }
 
-    /**
-     * Determine whether the user can view the project.
-     *
-     * @param  User    $user
-     * @param  Project $project
-     *
-     * @return mixed
-     */
-    public function view(User $user, Project $project)
-    {
-        return ! $project->is_private or ProjectHasUser::where([
-                ['user_id', '=', $user->id],
-                ['agent_id', '=', $project->id],
-            ])->count();
-    }
 
     /**
      * Determine whether the user can create projects.
