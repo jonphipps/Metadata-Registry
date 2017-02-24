@@ -39,4 +39,5 @@ tests_codecept/_output/*
 backend.*.css
 frontend.*.css
 frontend.*.js
+backend.*.js
 mix-manifest.json
