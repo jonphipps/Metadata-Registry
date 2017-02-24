@@ -1,5 +1,7 @@
 <?php
 
+namespace Tests\unit\boilerplate\Frontend\Routes;
+
 use Tests\BrowserKitTestCase;
 use App\Models\Access\User\User;
 use Illuminate\Support\Facades\App;
@@ -135,7 +137,7 @@ class LoggedOutRouteTest extends BrowserKitTestCase
      */
     public function test404Page()
     {
-        $this->get('7g48hwbfw9eufj')
-         ->see('The server returned a 404 response');
+        $this->visit('angobango');
+        $this->see('The server returned a 404 response');
     }
 }

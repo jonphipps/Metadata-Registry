@@ -12,10 +12,10 @@ class OmrServiceProvider extends ServiceProvider
    * @var array
    */
   protected $commands = [
-        'Encore\Admin\Commands\MakeCommand',
-        'Encore\Admin\Commands\MenuCommand',
-        'Encore\Admin\Commands\InstallCommand',
-        'Encore\Admin\Commands\UninstallCommand',
+        \Encore\Admin\Commands\MakeCommand::class,
+        \Encore\Admin\Commands\MenuCommand::class,
+        \Encore\Admin\Commands\InstallCommand::class,
+        \Encore\Admin\Commands\UninstallCommand::class,
   ];
 
   /**
@@ -24,10 +24,10 @@ class OmrServiceProvider extends ServiceProvider
    * @var array
    */
   protected $routeMiddleware = [
-        'admin.auth'       => \Encore\Admin\Middleware\Authenticate::class,
+        //'admin.auth'       => \Encore\Admin\Middleware\Authenticate::class,
         'admin.pjax'        => \Encore\Admin\Middleware\PjaxMiddleware::class,
         'admin.log'        => \App\Http\Middleware\OperationLog::class,
-        'admin.permission' => \Encore\Admin\Middleware\PermissionMiddleware::class,
+        //'admin.permission' => \Encore\Admin\Middleware\PermissionMiddleware::class,
         'admin.bootstrap'   => \Encore\Admin\Middleware\BootstrapMiddleware::class,
   ];
 
@@ -38,7 +38,7 @@ class OmrServiceProvider extends ServiceProvider
    */
   protected $middlewareGroups = [
       'admin' => [
-            'admin.auth',
+//            'admin.auth',
             'admin.pjax',
             'admin.log',
             'admin.bootstrap',
@@ -56,7 +56,7 @@ class OmrServiceProvider extends ServiceProvider
         $this->loadViewsFrom(base_path('vendor/encore/laravel-admin/views'), 'admin');
         $this->loadTranslationsFrom(base_path('resources/lang/'), 'admin');
 
-    Admin::registerAuthRoutes();
+    //Admin::registerAuthRoutes();
 
     if (file_exists($routes = admin_path('routes.php'))) {
       require $routes;
@@ -81,7 +81,7 @@ class OmrServiceProvider extends ServiceProvider
             // }
     });
 
-        //$this->registerRouteMiddleware();
+        $this->registerRouteMiddleware();
 
         $this->commands($this->commands);
   }

@@ -269,11 +269,11 @@ class LoggedOutFormTest extends BrowserKitTestCase
              ->see($this->user->name);
         $this->seeInDatabase(config('access.users_table'), ['id' => $this->user->id, 'confirmed' => 1]);
 
-        Auth::logout();
-        $this->visit('login')
-            ->type($this->user->name, 'name')
-            ->type('12345678', 'password')
-            ->seePageIs('dashboard');
+        // Auth::logout();
+        // $this->visit('login')
+        //     ->type($this->user->name, 'name')
+        //     ->type('12345678', 'password')
+        //     ->seePageIs('dashboard');
     }
 
 
