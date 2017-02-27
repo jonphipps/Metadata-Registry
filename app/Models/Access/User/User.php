@@ -152,7 +152,22 @@ class User extends Authenticatable
     return (bool) VocabularyHasUser::where([
             [ 'user_id', '=', $this->id ],
             [ 'is_admin_for', '=', true ],
-        ]) ->count() or $this->isAdminForProjectId($vocabulary->agent_id);
+        ])->count()
+        or $this->isAdminForProjectId($vocabulary->agent_id);
+  }
+
+  /**
+   * @param Vocabulary $vocabulary
+   *
+   * @return bool
+   */
+  public function isMaintainerForVocabulary(Vocabulary $vocabulary)
+  {
+    return (bool) VocabularyHasUser::where([
+            [ 'user_id', '=', $this->id ],
+            [ 'is_maintainer_for', '=', true ],
+        ])->count()
+        or $this->isAdminForVocabulary($vocabulary);
   }
 
   /**

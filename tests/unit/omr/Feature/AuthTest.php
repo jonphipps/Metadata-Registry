@@ -85,4 +85,83 @@ class AuthTest extends BrowserKitTestCase
         $this->assertTrue($this->user->can('create', [\App\Models\Vocabulary::class, $project]));
         $this->assertTrue($this->user->can('create', [\App\Models\ElementSet::class, $project]));
     }
+
+  /**
+   * @test
+   */
+  public function a_project_admin_can_edit_create_delete_a_project_vocabulary()
+  {
+    //given a user is a project admin
+    /** @var \App\Models\Project $project */
+    $project = factory(\App\Models\Project::class)->create();
+    $this->user->projects()
+               ->attach($project,
+                   [
+                       'is_registrar_for' => true,
+                       'is_admin_for'     => true,
+                   ]);
+    $vocabulary = factory(\App\Models\Vocabulary::class)->make();
+    $this->user->vocabularies()
+               ->attach($vocabulary,
+                   [
+                       'is_registrar_for' => true,
+                       'is_admin_for'     => true,
+                   ]);
+    $project->vocabularies()->save($vocabulary);
+    //when
+    //then she has permission to edit/create/delete a vocabulary
+    $this->assertTrue($this->user->can('create', [ \App\Models\Vocabulary::class, $project ]));
+    $this->assertTrue($this->user->can('update', [ \App\Models\Vocabulary::class, $vocabulary ]));
+    $this->assertTrue($this->user->can('delete', [ \App\Models\Vocabulary::class, $vocabulary ]));
+
+  }
+
+  /**
+   * @test
+   */
+  public function a_vocabulary_admin_can_edit_create_delete_a_vocabulary()
+  {
+    //given a user is a vocab admin
+    $project    = factory(\App\Models\Project::class)->create();
+    $vocabulary = factory(\App\Models\Vocabulary::class)->make();
+    $project->vocabularies()
+            ->save($vocabulary);
+    $this->user->vocabularies()
+               ->attach($vocabulary->id,
+                   [
+                       'is_registrar_for' => true,
+                       'is_admin_for'     => true,
+                   ]);
+    //then she has permission to edit/create/delete a vocabulary
+    $this->assertTrue($this->user->cannot('create', [ \App\Models\Vocabulary::class, $project ]));
+    $this->assertTrue($this->user->can('update', [ \App\Models\Vocabulary::class, $vocabulary ]));
+    $this->assertTrue($this->user->can('delete', [ \App\Models\Vocabulary::class, $vocabulary ]));
+
+  }
+
+  /**
+   * @test
+   */
+  public function a_vocabulary_maintainer_can_edit_create_delete_vocabulary_concepts()
+  {
+    //given a user is a vocab admin
+    /** @var \App\Models\Project $project */
+    $project    = factory(\App\Models\Project::class)->create();
+    /** @var \App\Models\Vocabulary $vocabulary */
+    $vocabulary = factory(\App\Models\Vocabulary::class)->create(['agent_id' => $project->id]);
+    /** @var \App\Models\Concept $concept */
+    $concept = factory(\App\Models\Concept::class)->create(['vocabulary_id' => $vocabulary->id]);
+
+    $this->user->vocabularies()
+               ->attach($vocabulary->id,
+                   [
+                       'is_registrar_for' => true,
+                       'is_maintainer_for'     => true,
+                   ]);
+    //then she has permission to edit/create/delete a vocabulary
+    $this->assertTrue($this->user->can('create', [ \App\Models\Concept::class, $vocabulary ]));
+    $this->assertTrue($this->user->can('update', [ \App\Models\Concept::class, $concept ]));
+    $this->assertTrue($this->user->can('delete', [ \App\Models\Concept::class, $concept ]));
+
+  }
 }

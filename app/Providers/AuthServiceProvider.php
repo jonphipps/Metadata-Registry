@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\Concept;
 use App\Models\ElementSet;
+use App\Policies\ConceptPolicy;
 use App\Models\Project;
 use App\Models\Vocabulary;
 use App\Policies\ElementSetPolicy;
@@ -24,6 +26,7 @@ class AuthServiceProvider extends ServiceProvider
       'App\Model'       => 'App\Policies\ModelPolicy',
       Project::class    => ProjectPolicy::class,
       Vocabulary::class => VocabularyPolicy::class,
+      Concept::class    => ConceptPolicy::class,
       ElementSet::class => ElementSetPolicy::class,
       /** Module policy mapper */
       'agent'           => ProjectPolicy::class,
