@@ -11,6 +11,12 @@ class ElementSetPolicy
 {
     use HandlesAuthorization;
 
+    public function before(User $user)
+    {
+        if ($user->is_administrator) {
+            return true;
+        }
+    }
 
   /**
    * Determine whether the user can view the elementSet.
@@ -51,7 +57,9 @@ class ElementSetPolicy
    */
     public function update(User $user, ElementSet $elementSet)
     {
-        //
+        if ($user->isAdminForElementSet($elementSet)) {
+            return true;
+        }
     }
 
 
@@ -65,6 +73,8 @@ class ElementSetPolicy
    */
     public function delete(User $user, ElementSet $elementSet)
     {
-        //
+      if ($user->isAdminForElementSet($elementSet)) {
+        return true;
+      }
     }
 }

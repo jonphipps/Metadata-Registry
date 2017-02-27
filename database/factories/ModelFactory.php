@@ -87,19 +87,10 @@ $factory->define(
     App\Models\ConceptAttributeHistory::class,
     function (Faker\Generator $faker) {
         return [
-          'action'              => $faker,
-          'concept_property_id' => $faker,
-          'concept_id'          => $faker,
-          'vocabulary_id'       => $faker,
-          'skos_property_id'    => $faker,
-          'object'              => $faker,
-          'scheme_id'           => $faker,
-          'related_concept_id'  => $faker,
-          'language'            => $faker,
-          'status_id'           => $faker,
-          'created_user_id'     => $faker,
-          'change_note'         => $faker,
-          'import_id'           => $faker,
+          'action'              => 'action',
+          'object'              => 'the object',
+          'status_id'           => 1,
+          'change_note'         => 'a change note',
         ];
     }
 );
@@ -126,24 +117,13 @@ $factory->define(
     }
 );
 //INSERT INTO `swregistry`.`ElementAttribute` (id, created_at, updated_at, deleted_at, created_user_id, updated_user_id, schema_property_id, profile_property_id, is_schema_property, object, related_schema_property_id, language, status_id, is_generated) VALUES ()
-$factory->define(
-    App\Models\ElementAttribute::class,
+$factory->define(App\Models\ElementAttribute::class,
     function (Faker\Generator $faker) {
-        return [
-          'action'              => $faker,
-          'concept_property_id' => $faker,
-          'concept_id'          => $faker,
-          'vocabulary_id'       => $faker,
-          'skos_property_id'    => $faker,
-          'object'              => $faker,
-          'scheme_id'           => $faker,
-          'related_concept_id'  => $faker,
-          'language'            => $faker,
-          'status_id'           => $faker,
-          'created_user_id'     => $faker,
-          'change_note'         => $faker,
-          'import_id'           => $faker,
-        ];
+      return [
+          'object'              => 'this is the object',
+          'language'            => 'en',
+          'profile_property_id' => 2,
+      ];
     }
 );
 //INSERT INTO `swregistry`.`ElementAttributeHistory` (id, created_at, created_user_id, action, schema_property_element_id, schema_property_id, schema_id, profile_property_id, object, related_schema_property_id, language, status_id, change_note, import_id) VALUES ()
@@ -151,19 +131,7 @@ $factory->define(
     App\Models\ElementAttributeHistory::class,
     function (Faker\Generator $faker) {
         return [
-          'action'              => $faker,
-          'concept_property_id' => $faker,
-          'concept_id'          => $faker,
-          'vocabulary_id'       => $faker,
-          'skos_property_id'    => $faker,
-          'object'              => $faker,
-          'scheme_id'           => $faker,
-          'related_concept_id'  => $faker,
-          'language'            => $faker,
-          'status_id'           => $faker,
-          'created_user_id'     => $faker,
-          'change_note'         => $faker,
-          'import_id'           => $faker,
+          'object'              => 'this is the object',
         ];
     }
 );
@@ -174,10 +142,6 @@ $factory->define(
         $user = getNewUser();
 
         return [
-          'created_user_id'       => $user,
-          'updated_user_id'       => $user,
-          'child_updated_at'      => '',
-          'child_updated_user_id' => '',
           'name'                  => $faker->word,
           'note'                  => $faker->paragraph(),
           'uri'                   => $faker->url,
@@ -201,14 +165,7 @@ $factory->define(
     App\Models\ElementSetHasUser::class,
     function (Faker\Generator $faker) {
         return [
-          'schema_id'         => $faker,
-          'user_id'           => $faker,
-          'is_maintainer_for' => $faker,
-          'is_registrar_for'  => $faker,
-          'is_admin_for'      => $faker,
-          'languages'         => $faker,
-          'default_language'  => $faker,
-          'current_language'  => $faker,
+
         ];
     }
 );
@@ -388,10 +345,7 @@ $factory->define(
         $user_id   = $faker->randomElement($userIds);
 
         return [
-          'created_user_id' => $user_id,
-          'updated_user_id' => $user_id,
-          'schema_id'       => $faker->randomElement($schemaIds),
-          'status_id'       => $faker->randomElement($statusIds),
+          'status_id'       => 1,
         ];
     }
 );

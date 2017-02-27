@@ -65,25 +65,25 @@ class ElementAttribute extends Model
     protected $dates = [ 'deleted_at' ];
 
 
-    public function ProfileProperty()
+    public function profileProperty()
     {
         return $this->belongsTo(\App\Models\ProfileProperty::class, 'profile_property_id', 'id');
     }
 
 
-    public function Element()
+    public function element()
     {
         return $this->belongsTo(\App\Models\Element::class, 'schema_property_id', 'id');
     }
 
 
-    public function Status()
+    public function status()
     {
         return $this->belongsTo(\App\Models\Status::class, 'status_id', 'id');
     }
 
 
-    public function ElementAttributeHistory()
+    public function elementAttributeHistory()
     {
         return $this->hasMany(\App\Models\ElementAttributeHistory::class, '$schema_property_element_id', 'id');
     }

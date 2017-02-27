@@ -152,8 +152,7 @@ class User extends Authenticatable
     return (bool) VocabularyHasUser::where([
             [ 'user_id', '=', $this->id ],
             [ 'is_admin_for', '=', true ],
-        ])->count()
-        or $this->isAdminForProjectId($vocabulary->agent_id);
+        ])->count() or $this->isAdminForProjectId($vocabulary->agent_id);
   }
 
   /**
@@ -166,8 +165,35 @@ class User extends Authenticatable
     return (bool) VocabularyHasUser::where([
             [ 'user_id', '=', $this->id ],
             [ 'is_maintainer_for', '=', true ],
-        ])->count()
-        or $this->isAdminForVocabulary($vocabulary);
+        ])->count() or $this->isAdminForVocabulary($vocabulary);
+  }
+
+  /**
+   * @param ElementSet $elementSet
+   *
+   * @return bool
+   * @internal param Vocabulary $vocabulary
+   */
+  public function isAdminForElementSet(ElementSet $elementSet)
+  {
+    return (bool) ElementSetHasUser::where([
+            [ 'user_id', '=', $this->id ],
+            [ 'is_admin_for', '=', true ],
+        ])->count() or $this->isAdminForProjectId($elementSet->agent_id);
+  }
+
+  /**
+   * @param ElementSet $elementSet
+   *
+   * @return bool
+   * @internal param Vocabulary $vocabulary
+   */
+  public function isMaintainerForElementSet(ElementSet $elementSet)
+  {
+    return (bool) ElementSetHasUser::where([
+            [ 'user_id', '=', $this->id ],
+            [ 'is_maintainer_for', '=', true ],
+        ])->count() or $this->isAdminForElementSet($elementSet);
   }
 
   /**

@@ -194,4 +194,110 @@ class AuthTest extends BrowserKitTestCase
     $this->assertTrue($this->executive->cannot('delete', [ \App\Models\ConceptAttribute::class, $conceptAttribute ]));
   }
 
+  /**
+   * @test
+   */
+  public function a_project_admin_can_edit_create_delete_a_project_elementset()
+  {
+    //given a user is a project admin
+    /** @var \App\Models\Project $project */
+    $project = factory(\App\Models\Project::class)->create();
+    $this->user->projects()
+               ->attach($project,
+                   [
+                       'is_registrar_for' => true,
+                       'is_admin_for'     => true,
+                   ]);
+    $elementset = factory(\App\Models\ElementSet::class)->make();
+    $this->user->elementsets()
+               ->attach($elementset,
+                   [
+                       'is_registrar_for' => true,
+                       'is_admin_for'     => true,
+                   ]);
+    $project->vocabularies()
+            ->save($elementset);
+    //when
+    //then she has permission to edit/create/delete an elementSet
+    $this->assertTrue($this->user->can('create', [ \App\Models\ElementSet::class, $project ]));
+    $this->assertTrue($this->user->can('update', [ \App\Models\ElementSet::class, $elementset ]));
+    $this->assertTrue($this->user->can('delete', [ \App\Models\ElementSet::class, $elementset ]));
+
+  }
+
+  /**
+   * @test
+   */
+  public function an_elementSet_admin_can_edit_create_delete_an_elementSet()
+  {
+    //given a user is a vocab admin
+    $project    = factory(\App\Models\Project::class)->create();
+    $elementSet = factory(\App\Models\ElementSet::class)->make();
+    $project->elementSets()
+            ->save($elementSet);
+    $this->user->elementSets()
+               ->attach($elementSet->id,
+                   [
+                       'is_registrar_for' => true,
+                       'is_admin_for'     => true,
+                   ]);
+    //then she has permission to edit/create/delete an elementSet
+    $this->assertTrue($this->user->cannot('create', [ \App\Models\ElementSet::class, $project ]));
+    $this->assertTrue($this->user->can('update', [ \App\Models\ElementSet::class, $elementSet ]));
+    $this->assertTrue($this->user->can('delete', [ \App\Models\ElementSet::class, $elementSet ]));
+
+  }
+
+  /**
+   * @test
+   */
+  public function an_elementSet_maintainer_can_edit_create_delete_elementSet_elements()
+  {
+    //given a user is a vocab maintainer
+    /** @var \App\Models\Project $project */
+    $project = factory(\App\Models\Project::class)->create();
+    /** @var \App\Models\ElementSet $elementSet */
+    $elementSet = factory(\App\Models\ElementSet::class)->create([ 'agent_id' => $project->id ]);
+    /** @var \App\Models\Element $element */
+    $element = factory(\App\Models\Element::class)->create([ 'schema_id' => $elementSet->id ]);
+    $this->user->elementSets()
+               ->attach($elementSet->id,
+                   [
+                       'is_registrar_for'  => true,
+                       'is_maintainer_for' => true,
+                   ]);
+    //then she has permission to edit/create/delete an elementSet
+    $this->assertTrue($this->user->can('create', [ \App\Models\Element::class, $elementSet ]));
+    $this->assertTrue($this->user->can('update', [ \App\Models\Element::class, $element ]));
+    $this->assertTrue($this->user->can('delete', [ \App\Models\Element::class, $element ]));
+
+  }
+
+  /**
+   * @test
+   */
+  public function an_elementSet_maintainer_can_edit_create_delete_elementSet_element_properties()
+  {
+    //given a user is a vocab maintainer
+    /** @var \App\Models\Project $project */
+    $project = factory(\App\Models\Project::class)->create();
+    /** @var \App\Models\ElementSet $elementSet */
+    $elementSet = factory(\App\Models\ElementSet::class)->create([ 'agent_id' => $project->id ]);
+    /** @var \App\Models\Element $element */
+    $element          = factory(\App\Models\Element::class)->create([ 'schema_id' => $elementSet->id ]);
+    $elementAttribute = factory(\App\Models\ElementAttribute::class)->create([ 'schema_property_id' => $element->id ]);
+    $this->user->elementSets()
+               ->attach($elementSet->id,
+                   [
+                       'is_registrar_for'  => true,
+                       'is_maintainer_for' => true,
+                   ]);
+    //then she has permission to edit/create/delete an elementSet
+    $this->assertTrue($this->user->can('create', [ \App\Models\ElementAttribute::class, $elementSet ]));
+    $this->assertTrue($this->user->can('update', [ \App\Models\ElementAttribute::class, $elementAttribute ]));
+    $this->assertTrue($this->user->can('delete', [ \App\Models\ElementAttribute::class, $elementAttribute ]));
+    $this->assertTrue($this->executive->cannot('create', [ \App\Models\ElementAttribute::class, $elementSet ]));
+    $this->assertTrue($this->executive->cannot('update', [ \App\Models\ElementAttribute::class, $elementAttribute ]));
+    $this->assertTrue($this->executive->cannot('delete', [ \App\Models\ElementAttribute::class, $elementAttribute ]));
+  }
 }

@@ -69,13 +69,13 @@ class Element extends Model
     use SoftDeletes;
 
 
-    public function ElementSet()
+    public function elementSet()
     {
         return $this->belongsTo(\App\Models\ElementSet::class, 'schema_id', 'id');
     }
 
 
-    public function ElementAttributes()
+    public function elementAttributes()
     {
         return $this->hasMany(\App\Models\ElementAttribute::class, 'schema_property_id', 'id');
     }
