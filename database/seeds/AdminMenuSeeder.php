@@ -4,7 +4,7 @@ use Illuminate\Database\Seeder;
 
 class AdminMenuSeeder extends Seeder
 {
-    use \database\DisablesForeignKeys;
+    use \database\DisableForeignKeys;
 
   /**
    * Run the database seeds.

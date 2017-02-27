@@ -69,8 +69,8 @@ trait SetsUpTests
     {
         // Set up the database
         Artisan::call('migrate:refresh');
-        Artisan::call('db:seed', ['--class' => 'AdminSeeder']);
-        // Artisan::call('db:seed');
+      //Artisan::call('db:seed', [ '--class' => 'AdminSeeder' ]);
+        Artisan::call('db:seed');
 
         self::$setupDatabase = false;
     }
