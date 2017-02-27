@@ -69,15 +69,17 @@ class ProjectController extends Controller
                ->display(function ($vocabs) {
                  $count = count($vocabs);
 
-                 return $count ? '<a href="' . url('projects/' . $this->id . '/vocabularies') . '"><span class="label label-warning">' . $count . '</span>' : '';
+                 return $count ? '<a href="' . url('projects/' . $this->id . '/vocabularies') . '"><span class="badge">' . $count . '</span>' : '';
 
                });
+
+          $grid->vocabulary_count();
 
           $grid->elementsets('Element Sets')
                ->display(function ($elements) {
                  $count = count($elements);
 
-                 return $count ? '<a href="' . url('projects/' . $this->id . '/elementsets') . '"><span class="label label-warning">' . $count . '</span>' : '';
+                 return $count ? '<a href="' . url('projects/' . $this->id . '/elementsets') . '"><span class="badge">' . $count . '</span>' : '';
 
                });
 
