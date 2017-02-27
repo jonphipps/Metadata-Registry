@@ -59,15 +59,10 @@ $factory->define(
     App\Models\Concept::class,
     function (Faker\Generator $faker) {
         return [
-          'created_user_id' => $faker,
-          'updated_user_id' => $faker,
-          'uri'             => $faker,
-          'pref_label'      => $faker,
-          'vocabulary_id'   => $faker,
-          'is_top_concept'  => $faker,
-          'pref_label_id'   => $faker,
-          'status_id'       => $faker,
-          'language'        => $faker,
+          'uri'             => 'http://uti.metadataregistry.org/testVocab/testConcept',
+          'pref_label'      => 'Test concept',
+          'status_id'       => 1,
+          'language'        => 'en',
         ];
     }
 );
@@ -77,18 +72,12 @@ $factory->define(
     App\Models\ConceptAttribute::class,
     function (Faker\Generator $faker) {
         return [
-          'created_user_id'     => $faker,
-          'updated_user_id'     => $faker,
-          'concept_id'          => $faker,
-          'primary_pref_label'  => $faker,
-          'skos_property_id'    => $faker,
-          'object'              => $faker,
-          'scheme_id'           => $faker,
-          'related_concept_id'  => $faker,
-          'language'            => $faker,
-          'status_id'           => $faker,
-          'is_concept_property' => $faker,
-          'profile_property_id' => $faker,
+          'skos_property_id'    => 19,
+          'object'              => 'Test Concept',
+          'language'            => 'en',
+          'status_id'           => 1,
+          'is_concept_property' => true,
+          'profile_property_id' => 45,
         ];
     }
 );
