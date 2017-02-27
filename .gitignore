@@ -21,6 +21,7 @@ dbg-wizard.php
 _output/*
 coverage.xml
 /spec/coverage/
+.env
 .env.*
 /public/
 /storage/
