@@ -151,7 +151,6 @@ class User extends Authenticatable
   {
     return (bool) VocabularyHasUser::where([
             [ 'user_id', '=', $this->id ],
-            [ 'agent_id', '=', $vocabulary->id ],
             [ 'is_admin_for', '=', true ],
         ]) ->count() or $this->isAdminForProjectId($vocabulary->agent_id);
   }

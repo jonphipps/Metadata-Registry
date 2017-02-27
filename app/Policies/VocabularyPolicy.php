@@ -85,6 +85,8 @@ class VocabularyPolicy
    */
     public function delete(User $user, Vocabulary $vocabulary)
     {
-        //
+      if ($user->isAdminForVocabulary($vocabulary)) {
+        return true;
+      }
     }
 }
