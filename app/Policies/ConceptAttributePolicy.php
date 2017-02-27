@@ -28,7 +28,13 @@ class ConceptAttributePolicy
    */
   public function view(User $user, ConceptAttribute $conceptAttribute)
   {
-    //
+    $project = $conceptAttribute->concept->vocabulary->project;
+    if ($project->is_private && $user->isMemberOfProject($project)) {
+      return true;
+    };
+    if ( ! $project->is_private) {
+      return true;
+    };
   }
 
   /**

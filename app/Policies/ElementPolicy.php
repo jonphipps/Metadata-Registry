@@ -28,7 +28,13 @@ class ElementPolicy
    */
   public function view(User $user, Element $element)
   {
-    //
+    $project = $element->elementSet->project;
+    if ($project->is_private && $user->isMemberOfProject($project)) {
+      return true;
+    };
+    if ( ! $project->is_private) {
+      return true;
+    };
   }
 
   /**

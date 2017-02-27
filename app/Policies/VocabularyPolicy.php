@@ -29,7 +29,16 @@ class VocabularyPolicy
    */
     public function view(User $user, Vocabulary $vocabulary)
     {
-        //
+      {
+        $project = $vocabulary->project;
+        if ($project->is_private && $user->isMemberOfProject($project)) {
+          return true;
+        };
+        if ( ! $project->is_private) {
+          return true;
+        };
+      }
+
     }
 
     /** * Determine whether the user can create vocabularies.

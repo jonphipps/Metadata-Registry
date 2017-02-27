@@ -28,7 +28,14 @@ class ConceptPolicy
    */
   public function view(User $user, Concept $concept)
   {
-    //project is public or user is member of project
+    $project = $concept->vocabulary->project;
+    if ($project->is_private && $user->isMemberOfProject($project)) {
+      return true;
+    };
+    if ( ! $project->is_private) {
+      return true;
+    };
+
   }
 
   /**

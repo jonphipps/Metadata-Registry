@@ -25,12 +25,18 @@ class ElementAttributePolicy
      * @param  \App\Models\ElementAttribute  $elementAttribute
      * @return mixed
      */
-    public function view(User $user, ElementAttribute $elementAttribute)
-    {
-        //
-    }
+  public function view(User $user, ElementAttribute $elementAttribute)
+  {
+    $project = $elementAttribute->element->elementSet->project;
+    if ($project->is_private && $user->isMemberOfProject($project)) {
+      return true;
+    };
+    if ( ! $project->is_private) {
+      return true;
+    };
+  }
 
-    /**
+  /**
      * Determine whether the user can create elementAttributes.
      *
      * @param  \App\Models\Access\User\User  $user

@@ -196,6 +196,10 @@ class User extends Authenticatable
         ])->count() or $this->isAdminForElementSet($elementSet);
   }
 
+  public function isMemberOfProject(Project $project)
+  {
+    return (bool) $this->projects()->wherePivot('agent_id', $project->id)->count();
+  }
   /**
    * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
    */

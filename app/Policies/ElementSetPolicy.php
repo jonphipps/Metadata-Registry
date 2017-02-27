@@ -28,10 +28,13 @@ class ElementSetPolicy
    */
     public function view(User $user, ElementSet $elementSet)
     {
-        $project = $elementSet->project();
-        if ($project->is_private && $user->isMemberOfProjectId($project->id)) {
+        $project = $elementSet->project;
+        if ($project->is_private && $user->isMemberOfProject($project)) {
             return true;
         };
+      if (!$project->is_private) {
+        return true;
+      };
     }
 
 
