@@ -17,7 +17,6 @@ class VocabularyPolicy
         if ($user->is_administrator) {
             return true;
         }
-
     }
 
     /**

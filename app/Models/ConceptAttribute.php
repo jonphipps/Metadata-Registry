@@ -59,13 +59,13 @@ class ConceptAttribute extends Model
     use SoftDeletes;
 
 
-    public function Concept()
+    public function concept()
     {
         return $this->belongsTo(\App\Models\Concept::class, 'concept_id', 'id');
     }
 
 
-    public function ProfileProperty()
+    public function profileProperty()
     {
         return $this->belongsTo(\App\Models\ProfileProperty::class, 'profile_property_id', 'id');
     }

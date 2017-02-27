@@ -144,7 +144,7 @@ class AuthTest extends BrowserKitTestCase
    */
   public function a_vocabulary_maintainer_can_edit_create_delete_vocabulary_concepts()
   {
-    //given a user is a vocab admin
+    //given a user is a vocab maintainer
     /** @var \App\Models\Project $project */
     $project    = factory(\App\Models\Project::class)->create();
     /** @var \App\Models\Vocabulary $vocabulary */
@@ -164,4 +164,34 @@ class AuthTest extends BrowserKitTestCase
     $this->assertTrue($this->user->can('delete', [ \App\Models\Concept::class, $concept ]));
 
   }
+
+  /**
+   * @test
+   */
+  public function a_vocabulary_maintainer_can_edit_create_delete_vocabulary_concept_properties()
+  {
+    //given a user is a vocab maintainer
+    /** @var \App\Models\Project $project */
+    $project = factory(\App\Models\Project::class)->create();
+    /** @var \App\Models\Vocabulary $vocabulary */
+    $vocabulary = factory(\App\Models\Vocabulary::class)->create([ 'agent_id' => $project->id ]);
+    /** @var \App\Models\Concept $concept */
+    $concept = factory(\App\Models\Concept::class)->create([ 'vocabulary_id' => $vocabulary->id ]);
+    $conceptAttribute = factory(\App\Models\ConceptAttribute::class)->create([ 'concept_id' => $concept->id ]);
+    $this->user->vocabularies()
+               ->attach($vocabulary->id,
+                   [
+                       'is_registrar_for'  => true,
+                       'is_maintainer_for' => true,
+                   ]);
+    //then she has permission to edit/create/delete a vocabulary
+    $this->assertTrue($this->user->can('create', [ \App\Models\ConceptAttribute::class, $vocabulary ]));
+    $this->assertTrue($this->user->can('update', [ \App\Models\ConceptAttribute::class, $conceptAttribute ]));
+    $this->assertTrue($this->user->can('delete', [ \App\Models\ConceptAttribute::class, $conceptAttribute ]));
+
+    $this->assertTrue($this->executive->cannot('create', [ \App\Models\ConceptAttribute::class, $vocabulary ]));
+    $this->assertTrue($this->executive->cannot('update', [ \App\Models\ConceptAttribute::class, $conceptAttribute ]));
+    $this->assertTrue($this->executive->cannot('delete', [ \App\Models\ConceptAttribute::class, $conceptAttribute ]));
+  }
+
 }
