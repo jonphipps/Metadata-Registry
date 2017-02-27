@@ -9,7 +9,14 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 
 class ConceptAttributePolicy
 {
-    use HandlesAuthorization;
+  use HandlesAuthorization;
+
+  public function before(User $user)
+  {
+    if ($user->is_administrator) {
+      return true;
+    }
+  }
 
   /**
    * Determine whether the user can view the conceptAttribute.
@@ -19,10 +26,10 @@ class ConceptAttributePolicy
    *
    * @return mixed
    */
-    public function view(User $user, ConceptAttribute $conceptAttribute)
-    {
-        //
-    }
+  public function view(User $user, ConceptAttribute $conceptAttribute)
+  {
+    //
+  }
 
   /**
    * Determine whether the user can create conceptAttributes.
@@ -48,13 +55,13 @@ class ConceptAttributePolicy
    *
    * @return mixed
    */
-    public function update(User $user, ConceptAttribute $conceptAttribute)
-    {
-      //User must be one of: admin, projectadmin, vocabularyadmin
-      if ($user->ismaintainerForVocabulary($conceptAttribute->concept->vocabulary)) {
-        return true;
-      }
+  public function update(User $user, ConceptAttribute $conceptAttribute)
+  {
+    //User must be one of: admin, projectadmin, vocabularyadmin
+    if ($user->ismaintainerForVocabulary($conceptAttribute->concept->vocabulary)) {
+      return true;
     }
+  }
 
   /**
    * Determine whether the user can delete the conceptAttribute.
@@ -64,11 +71,11 @@ class ConceptAttributePolicy
    *
    * @return mixed
    */
-    public function delete(User $user, ConceptAttribute $conceptAttribute)
-    {
-      //User must be one of: admin, projectadmin, vocabularyadmin
-      if ($user->ismaintainerForVocabulary($conceptAttribute->concept->vocabulary)) {
-        return true;
-      }
+  public function delete(User $user, ConceptAttribute $conceptAttribute)
+  {
+    //User must be one of: admin, projectadmin, vocabularyadmin
+    if ($user->ismaintainerForVocabulary($conceptAttribute->concept->vocabulary)) {
+      return true;
     }
+  }
 }
