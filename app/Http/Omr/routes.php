@@ -9,13 +9,16 @@ Route::group([
 ],
     function (Router $router) {
       $router->get('/', 'HomeController@index');
-      $router->resource('/projects',
-          'ProjectController');
-      $router->resource('/vocabularies', 'VocabularyController');
-      Route::group([
-          'middleware' => [ 'admin' ],
-      ],
+      $router->resource('/projects', 'ProjectController', [ 'only' => 'index' ]);
+      Route::group([ 'middleware' => [ 'admin' ] ],
           function (Router $router) {
+            $router->get('/projects/{project}/vocabularies', 'VocabularyController@index');
+            $router->get('/projects/{project}/elementsets', 'ElementSetController@index');
+            $router->resource('/projects', 'ProjectController', [ 'except' => 'index' ]);
+            $router->resource('/vocabularies/{vocabulary}/concepts', 'ConceptController');
+            $router->resource('/vocabularies', 'VocabularyController');
+            $router->resource('/elementsets/{elementSet}/elements', 'ElementController');
+            $router->resource('/elementsets', 'ElementSetController');
             $router->resource('/users', 'UserController');
             $router->get('project_user/{id}',
                 'ProjectHasUserController@edit')

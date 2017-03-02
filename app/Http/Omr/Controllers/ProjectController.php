@@ -10,6 +10,8 @@ use Admin;
 use Encore\Admin\Layout\Content;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\ModelForm;
+use Illuminate\Auth\Access\AuthorizationException;
+use PhpParser\Node\Stmt\TryCatch;
 
 class ProjectController extends Controller
 {
@@ -18,7 +20,7 @@ class ProjectController extends Controller
   public function __construct()
   {
     //show has to be handled with a query scope in order to exclude private projects
-    $this->authorizeResource(Project::class, 'project', [ 'except' => [ 'view', 'show' ] ]);
+    $this->authorizeResource(Project::class, 'project', [ 'except' => [ 'view', 'index', 'show' ] ]);
   }
 
   /**
@@ -56,15 +58,17 @@ class ProjectController extends Controller
                ->disableExport()
                ->disableRowSelector();
 
-          $grid->id('ID')
-               ->display(function ($id) {
-                 return '<a href="' . url('projects/' . $id) . '">' . $id . '</a>';
-               })
-               ->sortable();
+          // $grid->id('ID')
+          //      ->display(function ($id) {
+          //        return '<a href="' . url('projects/' . $id) . '">' . $id . '</a>';
+          //      })
+          //      ->sortable();
 
           $grid->org_name('Project Name')
+               ->display(function ($name) {
+                 return '<a href="' . url('projects/' . $this->id) . '">' . $name . '</a>';
+               })
                ->sortable();
-
           $grid->vocabularies('Vocabularies')
                ->display(function ($vocabs) {
                  $count = count($vocabs);
@@ -73,29 +77,20 @@ class ProjectController extends Controller
 
                });
 
-          $grid->vocabulary_count();
-
           $grid->elementsets('Element Sets')
                ->display(function ($elements) {
                  $count = count($elements);
 
-                 return $count ? '<a href="' . url('projects/' . $this->id . '/elementsets') . '"><span class="badge">' . $count . '</span>' : '';
+                 return $count ? '<a href="' . url('projects/' . $this->id . '/elementsets') . '"><span class="badge" >' . $count . '</span>' : '';
 
                });
 
           $grid->created_at('Created')
-               ->display(function ($dt) {
-                 return Carbon::parse($dt)
-                              ->diffForHumans();
-               })
-               ->sortable();
+               ->datediff()->sortable();
 
           $grid->updated_at('Last Updated')
-               ->display(function ($dt) {
-                 return Carbon::parse($dt)
-                              ->diffForHumans() . " ($dt)";
-               })
-               ->sortable();
+               ->sortable()->datediff();
+
         });
   }
 
@@ -150,6 +145,15 @@ class ProjectController extends Controller
 
   public function show(Project $project)
   {
+    if ($project->is_private) {
+      try {
+        $this->authorize('view', $project);
+      }
+      catch (AuthorizationException $e) {
+         return redirect()->route('frontend.auth.login');
+      }
+    }
+
     return Admin::content(function (Content $content) use ($project) {
       $content->header('Show Project');
       $content->description('');

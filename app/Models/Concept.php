@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Helpers\Macros\Traits\Languages;
+use Cache;
 use DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -58,20 +60,25 @@ class Concept extends Model
 
     public function properties()
     {
-    //        $properties = DB::table('reg_concept_property')
-    //            ->join('profile_property', 'profile_property.skos_id', '=', 'reg_concept_property.skos_property_id')
-    //            ->select(
-    //                'profile_property.uri',
-    //                'profile_property.label',
-    //                'reg_concept_property.object',
-    //                'reg_concept_property.language')
-    //            ->where('concept_id', $this->id)
-    //            ->whereNull('reg_concept_property.deleted_at')
-    //            ->orderBy('profile_property.export_order')
-    //            ->orderBy('reg_concept_property.language')
-    //            ->get();
-    //        return $properties;
-
         return $this->hasMany(ConceptAttribute::class, 'concept_id');
     }
+
+  public function status()
+  {
+    return $this->belongsTo(\App\Models\Status::class, 'status_id', 'id');
+  }
+
+  public function name()
+  {
+    return $this->pref_label;
+  }
+
+  public function getLanguageAttribute($value)
+  {
+    return Cache::get('language_' . $value,
+        function () use ($value) {
+          return Languages::list($value);
+        });
+  }
+
 }

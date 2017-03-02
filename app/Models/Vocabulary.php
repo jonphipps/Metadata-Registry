@@ -149,7 +149,12 @@ class Vocabulary extends Model
         return $this->hasMany(Concept::class, 'vocabulary_id');
     }
 
-    /**
+  public function status()
+  {
+    return $this->belongsTo(\App\Models\Status::class, 'status_id', 'id');
+  }
+
+  /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function users()

@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Helpers\Macros\Traits\Languages;
+use Cache;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -66,7 +68,7 @@ class Element extends Model
     const TABLE = 'reg_schema_property';
 
     protected $primaryKey = 'id';
-    use SoftDeletes;
+    use SoftDeletes, Languages;
 
 
     public function elementSet()
@@ -80,8 +82,17 @@ class Element extends Model
         return $this->hasMany(\App\Models\ElementAttribute::class, 'schema_property_id', 'id');
     }
 
+  public function status()
+  {
+    return $this->belongsTo(\App\Models\Status::class, 'status_id', 'id');
+  }
 
-    public function CreatedBy()
-    {
-    }
+  public function getLanguageAttribute($value)
+  {
+    return Cache::get('language_' . $value,
+        function () use ($value) {
+          return Languages::list($value);
+        });
+  }
+
 }
