@@ -18,5 +18,12 @@
  *
  */
 
+use Carbon\Carbon;
 
 Encore\Admin\Form::forget([ 'map', 'editor']);
+Encore\Admin\Grid\Column::extend('datediff',
+    function ($value) {
+      $date = Carbon::parse($value);
+      return '<span data-toggle="tooltip" data-placement="left" title="' . $date->toDateString() . '">' . $date->diffForHumans() . '</span>';
+    });
+
