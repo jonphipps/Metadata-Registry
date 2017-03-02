@@ -18,8 +18,33 @@ class ProjectPolicy
         }
     }
 
+  /**
+   * @return bool
+   */
+  public function index()
+  {
+    return true;
+  }
 
-    /**
+  /**
+   * Determine whether the user can view the elementSet.
+   *
+   * @param  User $user
+   * @param Project $project
+   *
+   * @return mixed
+   */
+  public function view(User $user, Project $project)
+  {
+    if ($project->is_private && $user->isMemberOfProject($project)) {
+      return true;
+    };
+    if ( ! $project->is_private) {
+      return true;
+    };
+  }
+
+  /**
      * Determine whether the user can create projects.
      *
      * @param  User $user
@@ -52,10 +77,10 @@ class ProjectPolicy
      *
      * @return mixed
      */
-    // public function edit(User $user, Project $project)
-    // {
-    //     return $this->update($user, $project);
-    // }
+    public function edit(User $user, Project $project)
+    {
+        return $this->update($user, $project);
+    }
 
     /**
      * Determine whether the user can delete the project.
