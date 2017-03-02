@@ -28,7 +28,7 @@ class Kernel extends HttpKernel
    * @var array
    */
   protected $middlewareGroups = [
-      'web' => [
+      'web'     => [
           \App\Http\Middleware\EncryptCookies::class,
           \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
           \Illuminate\Session\Middleware\StartSession::class,
@@ -37,6 +37,7 @@ class Kernel extends HttpKernel
           \App\Http\Middleware\VerifyCsrfToken::class,
           \Illuminate\Routing\Middleware\SubstituteBindings::class,
           \App\Http\Middleware\LocaleMiddleware::class,
+          \Encore\Admin\Middleware\BootstrapMiddleware::class,
       ],
       'symfony' => [
           \App\Http\Middleware\EncryptCookies::class,
@@ -46,19 +47,21 @@ class Kernel extends HttpKernel
           \Illuminate\Routing\Middleware\SubstituteBindings::class,
           \App\Http\Middleware\LocaleMiddleware::class,
       ],
-      'admin' => [
+      'admin'   => [
           'auth',
           'admin.pjax',
           'admin.log',
-          'admin.bootstrap',
+          //'admin.bootstrap',
+          //'access.revalidate',
           'timeout',
       ],
       'backend' => [
           'auth',
           'access.routeNeedsPermission:view-backend',
+          //'access.revalidate',
           'timeout',
       ],
-      'api' => [
+      'api'     => [
           'throttle:60,1',
           'bindings',
       ],
@@ -92,5 +95,6 @@ class Kernel extends HttpKernel
      */
       'access.routeNeedsRole'       => \App\Http\Middleware\RouteNeedsRole::class,
       'access.routeNeedsPermission' => \App\Http\Middleware\RouteNeedsPermission::class,
+      'access.revalidate'           => \App\Http\Middleware\PreventBackHistory::class,
   ];
 }
