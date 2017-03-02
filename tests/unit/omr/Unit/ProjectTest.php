@@ -15,7 +15,7 @@ class ProjectTest extends TestCase
 
   public function setUp()
   {
-    $this->dontSetupDatabase();
+    //$this->dontSetupDatabase();
     parent::setUp();
   }
 
@@ -29,8 +29,11 @@ class ProjectTest extends TestCase
     $project2 = factory(Project::class)->create([ 'is_private' => true ]);
     //when I request only public projects
     //then I don't see any private projects in the response
-    $this->assertEquals(1,
-        Project::public()->count());
+    $this->assertEquals(3,
+        Project::count());
+    $this->assertEquals(2,
+        Project::public ()
+               ->count());
     $this->assertEquals(1,
         Project::private()->count());
 

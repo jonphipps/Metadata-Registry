@@ -7,18 +7,19 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\BrowserKitTestCase;
+use Tests\TestCase;
 
 /**
  * Class LoggedInRouteTest
  */
-class ProjectTestCase extends BrowserKitTestCase
+class ProjectTestCase extends TestCase
 {
 
   use DatabaseTransactions;
 
   public function setUp()
   {
-    //$this->dontSetupDatabase();
+    $this->dontSetupDatabase();
     parent::setUp();
   }
 
@@ -31,15 +32,13 @@ class ProjectTestCase extends BrowserKitTestCase
     $project = factory(\App\Models\Project::class)->create();
     //given I am NOT logged in
     \Auth::logout();
-    $this->visit('projects')
-         ->see('Login')
-         ->see('Register')
-         ->see($project->created_at)
-         ->see($project->org_name)
-         ->dontseeElement('i.fa-save')
-        ->see('Action')
-         ->dontsee("/projects/$project->id/edit")
-         ->dontseeElement('a.grid-row-delete', [ 'data-id' => $project->id ]);
+    $response = $this->get('projects');
+    $this->assertFalse($response->isRedirect());
+    $response->assertSee('Login')
+             ->assertSee('Register')
+             ->assertSee($project->org_name)
+             ->assertdontsee('Action')
+             ->assertdontsee("/projects/$project->id/edit");
   }
 
   /**
@@ -52,10 +51,9 @@ class ProjectTestCase extends BrowserKitTestCase
     $project2 = factory(\App\Models\Project::class)->create([ 'is_private' => true ]);
     //given I am NOT logged in
     \Auth::logout();
-    $this->visit('projects')
-         ->see($project->created_at)
-         ->see($project->org_name)
-         ->dontSee($project2->org_name);
+    $response = $this->get('projects')
+                     ->assertsee($project->org_name)
+                     ->assertDontSee($project2->org_name);
   }
 
 }
