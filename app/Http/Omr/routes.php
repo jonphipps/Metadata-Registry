@@ -8,7 +8,7 @@ Route::group([
     'middleware' => [ 'web' ],
 ],
     function (Router $router) {
-      $router->get('/', 'HomeController@index');
+      $router->get('/home', 'HomeController@index');
       $router->resource('/projects', 'ProjectController', [ 'only' => 'index' ]);
       Route::group([ 'middleware' => [ 'admin' ] ],
           function (Router $router) {
