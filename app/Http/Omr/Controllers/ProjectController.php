@@ -5,6 +5,8 @@ namespace App\Http\omr\Controllers;
 use App\Models\Project;
 use Carbon\Carbon;
 use Encore\Admin\Form;
+use Encore\Admin\Form\Builder;
+use Encore\Admin\Form\Tools;
 use Encore\Admin\Grid;
 use Admin;
 use Encore\Admin\Layout\Content;
@@ -127,10 +129,10 @@ class ProjectController extends Controller
                 $form->text('org_name', 'Name');
               })
                ->tab('Administrative Metadata',
-        function (Form $form) {
-          $form->display('id', 'ID');
-          $form->display('created_at', 'Created At');
-          $form->display('updated_at', 'Updated At');
+                   function (Form $form) {
+                     $form->display('id', 'ID');
+                     $form->display('created_at', 'Created At');
+                     $form->display('updated_at', 'Updated At');
                      $form->divider();
                });
 
@@ -183,44 +185,8 @@ class ProjectController extends Controller
     return Admin::content(function (Content $content) use ($project) {
       $content->header('Show Project');
       $content->description('');
-      $content->body($this->display($project));
+      $content->row($this->form(Builder::MODE_VIEW)->view($project->id));
     });
-  }
-
-  private function display(Project $project)
-  {
-    $url = url('projects');
-    $str= <<<EOT
-    <div class="box-header with-border">
-        <h3 class="box-title">$project->org_name</h3>
-
-        <div class="box-tools">
-
-            <div class="btn-group pull-right" style="margin-right: 10px">
-                <a class="btn btn-sm btn-danger"><i class="fa fa-trash"></i>&nbsp;Delete</a>
-            </div>
-
-            <div class="btn-group pull-right" style="margin-right: 10px">
-                <a class="btn btn-sm btn-primary" href="$project->id/edit"><i class="fa fa-pencil"></i>&nbsp;Edit</a>
-            </div>
-
-            <div class="btn-group pull-right" style="margin-right: 10px">
-                <a href="$url" class="btn btn-sm btn-default form-history-back"><i class="fa fa-list"></i>&nbsp;List</a>
-            </div>
-
-        </div>
-    </div>
-    <!-- /.box-header -->
-    
-EOT;
-
-    $str .= '<dl class="dl-horizontal">';
-    foreach ($project->attributesToArray() as $key => $value) {
-      $str .= "<dt>$key</dt><dd>$value</dd>";
-    }
-    $str .= '</dl>';
-
-    return $str;
   }
 
   public function update(Project $project)
