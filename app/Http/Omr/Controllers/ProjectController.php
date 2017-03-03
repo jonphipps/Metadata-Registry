@@ -46,8 +46,7 @@ class ProjectController extends Controller
   {
     return Admin::grid(Project::class,
         function (Grid $grid) {
-          $grid->model()
-               ->public();
+          $grid->model()->public();
 
           $grid->filter(function ($filter) {
             $filter->like('org_name', 'name');
@@ -108,8 +107,7 @@ class ProjectController extends Controller
     return Admin::content(function (Content $content) use ($project) {
       $content->header('header');
       $content->description('description');
-      $content->body($this->form()
-                          ->edit($project->id));
+      $content->body($this->form()->edit($project->id));
     });
   }
 
@@ -202,16 +200,14 @@ EOT;
     $id = $project->id;
 
     //$this->authorize('update', $project);
-    return $this->form()
-                ->update($id);
+    return $this->form()->update($id);
   }
 
   public function destroy(Project $project)
   {
     $id = $project->id;
     //$this->authorize('destroy', $project);
-    if ($this->form()
-             ->destroy($id)
+    if ($this->form()->destroy($id)
     ) {
       return response()->json([
           'status'  => true,
@@ -228,7 +224,6 @@ EOT;
   public function store()
   {
     //$this->authorize('create', Project::class);
-    return $this->form()
-                ->store();
+    return $this->form()->store();
   }
 }
