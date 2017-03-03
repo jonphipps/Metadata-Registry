@@ -254,4 +254,55 @@ EOT;
     //$this->authorize('create', Project::class);
     return $this->form()->store();
   }
+
+  /**
+   * Built delete action.
+   *
+   * @return string
+   */
+  private static function deleteButton()
+  {
+    $confirm = trans('admin::lang.delete_confirm');
+    $text = trans('admin::lang.delete');
+    $url = request()->url();
+    $id = request()->project->id;
+    $script = /** @lang JavaScript 1.5 */
+        <<<SCRIPT
+        
+$('#form-delete-button').unbind('click').click(function() {
+    if(confirm("{$confirm}")) {
+        $.ajax({
+            method: 'post',
+            url: '{$url}',
+            data: {
+                _method:'delete',
+                _token:LA.token,
+            },
+            success: function (data) {
+                $.pjax.reload('#pjax-container');
+
+                if (typeof data === 'object') {
+                    if (data.status) {
+                        toastr.success(data.message);
+                    } else {
+                        toastr.error(data.message);
+                    }
+                }
+            }
+        });
+    }
+});
+
+SCRIPT;
+    Admin::script($script);
+
+    return /** @lang HTML */
+        <<<EOT
+        <div class="btn-group pull-right" style="margin-right: 10px">    
+    <a href="javascript:void(0);" data-id="{$id}" id="form-delete-button" class="btn btn-sm btn-danger">
+        <i class="fa fa-trash"></i>&nbsp;$text
+    </a>
+</div>
+EOT;
+  }
 }
