@@ -114,15 +114,43 @@ class ProjectController extends Controller
   /**
    * Make a form builder.
    *
+   * @param string $mode
+   *
    * @return \Form
    */
-  protected function form()
+  protected function form($mode = Builder::MODE_EDIT)
   {
     return Admin::form(Project::class,
+        function (Form $form) use ($mode) {
+          $form->tab('Descriptive Metadata',
+              function (Form $form) {
+                $form->text('org_name', 'Name');
+              })
+               ->tab('Administrative Metadata',
         function (Form $form) {
           $form->display('id', 'ID');
           $form->display('created_at', 'Created At');
           $form->display('updated_at', 'Updated At');
+                     $form->divider();
+               });
+
+          //make a few changes if the mode is a view-only
+          if ($mode == Builder::MODE_VIEW) {
+            $form->disableReset();
+            if (auth()->check()) {
+              $form->tools(function (Tools $tools) {
+                $editButton = '<div class="btn-group pull-right" style="margin-right: 10px"><a href="' . request()->url() . '/edit" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i>&nbsp;' . trans('admin::lang.edit') . '</a></div>';
+                if (auth()->user()->can('delete', request()->project)
+                ) {
+                  $tools->add(self::deleteButton());
+                }
+                if (auth()->user()->can('edit', request()->project)
+                ) {
+                  $tools->add($editButton);
+                }
+              });
+            }
+          }
         });
   }
 
