@@ -96,4 +96,8 @@ SCRIPT;
 EOT;
   }
 
+  public static function badge($count)
+  {
+    return '<span class="badge">' . $count . '</span>';
+  }
 }
