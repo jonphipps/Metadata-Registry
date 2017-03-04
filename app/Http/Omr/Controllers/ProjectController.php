@@ -5,13 +5,13 @@ namespace App\Http\omr\Controllers;
 use Admin;
 use App\Models\ElementSet;
 use App\Models\Project;
-use App\Models\ProjectHasUser;
 use App\Models\Vocabulary;
 use Encore\Admin\Form;
 use Encore\Admin\Form\Builder;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Widgets\Box;
+use Encore\Admin\Widgets\Form as WidgetForm;
 use Illuminate\Auth\Access\AuthorizationException;
 
 class ProjectController extends OmrController
@@ -155,8 +155,8 @@ class ProjectController extends OmrController
       $content->description('');
       $content->row($this->form(Builder::MODE_VIEW)->view($project->id));
       $content->row($this->members($project->id));
-      $content->row($this->vocabularies($project->id));
-      $content->row($this->elementsets($project->id));
+      $content->row($this->vocabulariesForm($project->id));
+      $content->row($this->elementSetsForm($project->id));
     });
   }
 
@@ -166,20 +166,52 @@ class ProjectController extends OmrController
    * @return Box
    */
   private function members($id)
+  { $project = request()->project;
+    $count = $project->members()->count();
+    $form = new WidgetForm();
+    $options = $project->members()->get()->mapWithKeys(function ($item) {
+      return [ $item['id'] => $item['name'] ];
+    });
+    $form->select('Select')->options($options);
+    return new Box('Members  ' . OmrController::badge($count), $form );
+
+  }
+
+  /**
+   * @param $id
+   *
+   * @return Box
+   */
+  private function vocabulariesForm($id)
   {
-    return new Box('Members', Admin::grid(ProjectHasUser::class,
-        function (Grid $grid) use ($id) {
-          $grid->disableActions()
-              ->disableCreation()
-              ->disableExport()
-              ->disableRowSelector()
-              ->disablePagination()
-              ->disableFilter();
-          $grid->tools->disableRefreshButton();
-          $grid->model()->where('agent_id', $id);
-          $grid->id();
-          $grid->user()->name()->sortable();
-        }));
+    $project = request()->project;
+    $count   = $project->vocabularies()->count();
+    $form    = new WidgetForm();
+    $options = $project->vocabularies()->get()->mapWithKeys(function ($item) {
+      return [ $item['id'] => $item['name'] ];
+    });
+    $form->select('Select')->options($options);
+
+    return new Box('Vocabularies  ' . OmrController::badge($count), $form);
+
+  }
+
+  /**
+   * @param $id
+   *
+   * @return Box
+   */
+  private function elementSetsForm($id)
+  {
+    $project = request()->project;
+    $count   = $project->elementSets()->count();
+    $form    = new WidgetForm();
+    $options = $project->elementSets()->get()->mapWithKeys(function ($item) {
+      return [ $item['id'] => $item['name'] ];
+    });
+    $form->select('Select')->options($options);
+
+    return new Box('Element Sets  ' . OmrController::badge($count), $form);
 
   }
 
