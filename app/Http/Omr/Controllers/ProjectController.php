@@ -61,9 +61,7 @@ class ProjectController extends OmrController
             return $count ?
                 '<a href="' .
                 url('projects/' . $this->id . '/vocabularies') .
-                '"><span class="badge">' .
-                $count .
-                '</span>' : '';
+                '">'. OmrController::badge($count) : '';
           });
           $grid->elementsets('Element Sets')->display(function ($elements) {
             $count = count($elements);
@@ -71,9 +69,7 @@ class ProjectController extends OmrController
             return $count ?
                 '<a href="' .
                 url('projects/' . $this->id . '/elementsets') .
-                '"><span class="badge" >' .
-                $count .
-                '</span>' : '';
+                '">'. OmrController::badge($count) : '';
           });
           $grid->created_at('Created')->datediff()->sortable();
           $grid->updated_at('Last Updated')->sortable()->datediff();
