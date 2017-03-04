@@ -157,7 +157,7 @@ class Vocabulary extends Model
   /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function users()
+    public function members()
     {
         return $this->belongsToMany(Access\User\User::class, 'vocabulary_has_user', 'vocabulary_id', 'user_id')
                 ->withTimestamps()

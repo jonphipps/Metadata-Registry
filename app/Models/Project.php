@@ -161,9 +161,9 @@ class Project extends Model
   /**
    * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
    */
-  public function users()
+  public function members()
   {
-    return $this->belongsToMany(User::class, ProjectHasUser::TABLE)
+    return $this->belongsToMany(User::class, ProjectHasUser::TABLE, 'agent_id', 'user_id')
                 ->withPivot('is_registrar_for', 'is_admin_for')
                 ->withTimestamps();
   }
