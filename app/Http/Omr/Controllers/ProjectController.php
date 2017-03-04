@@ -2,33 +2,32 @@
 
 namespace App\Http\omr\Controllers;
 
+use Admin;
+use App\Models\ElementSet;
 use App\Models\Project;
-use Carbon\Carbon;
+use App\Models\ProjectHasUser;
+use App\Models\Vocabulary;
 use Encore\Admin\Form;
 use Encore\Admin\Form\Builder;
-use Encore\Admin\Form\Tools;
 use Encore\Admin\Grid;
-use Admin;
 use Encore\Admin\Layout\Content;
-use App\Http\Controllers\Controller;
-use Encore\Admin\Controllers\ModelForm;
+use Encore\Admin\Widgets\Box;
 use Illuminate\Auth\Access\AuthorizationException;
-use PhpParser\Node\Stmt\TryCatch;
 
 class ProjectController extends OmrController
 {
-  use ModelForm;
 
   public function __construct()
   {
     //show has to be handled with a query scope in order to exclude private projects
-    $this->authorizeResource(Project::class, 'project', [ 'except' => [ 'view', 'index', 'show' ] ]);
+    $this->authorizeResource(Project::class,
+                             'project',
+                             [ 'except' => [ 'view', 'index', 'show' ] ]);
   }
 
   /**
    * Index interface.
    *
-   * @return \Encore\Admin\Content|Content
    */
   public function index()
   {
@@ -49,49 +48,35 @@ class ProjectController extends OmrController
     return Admin::grid(Project::class,
         function (Grid $grid) {
           $grid->model()->public();
-
           $grid->filter(function ($filter) {
             $filter->like('org_name', 'name');
           });
+          $grid->disableActions()->disableCreation()->disableExport()->disableRowSelector();
+          $grid->org_name('Project Name')->display(function ($name) {
+            return '<a href="' . url('projects/' . $this->id) . '">' . $name . '</a>';
+          })->sortable();
+          $grid->vocabularies('Vocabularies')->display(function ($vocabs) {
+            $count = count($vocabs);
 
-          $grid->disableActions()
-               ->disableCreation()
-               ->disableExport()
-               ->disableRowSelector();
+            return $count ?
+                '<a href="' .
+                url('projects/' . $this->id . '/vocabularies') .
+                '"><span class="badge">' .
+                $count .
+                '</span>' : '';
+          });
+          $grid->elementsets('Element Sets')->display(function ($elements) {
+            $count = count($elements);
 
-          // $grid->id('ID')
-          //      ->display(function ($id) {
-          //        return '<a href="' . url('projects/' . $id) . '">' . $id . '</a>';
-          //      })
-          //      ->sortable();
-
-          $grid->org_name('Project Name')
-               ->display(function ($name) {
-                 return '<a href="' . url('projects/' . $this->id) . '">' . $name . '</a>';
-               })
-               ->sortable();
-          $grid->vocabularies('Vocabularies')
-               ->display(function ($vocabs) {
-                 $count = count($vocabs);
-
-                 return $count ? '<a href="' . url('projects/' . $this->id . '/vocabularies') . '"><span class="badge">' . $count . '</span>' : '';
-
-               });
-
-          $grid->elementsets('Element Sets')
-               ->display(function ($elements) {
-                 $count = count($elements);
-
-                 return $count ? '<a href="' . url('projects/' . $this->id . '/elementsets') . '"><span class="badge" >' . $count . '</span>' : '';
-
-               });
-
-          $grid->created_at('Created')
-               ->datediff()->sortable();
-
-          $grid->updated_at('Last Updated')
-               ->sortable()->datediff();
-
+            return $count ?
+                '<a href="' .
+                url('projects/' . $this->id . '/elementsets') .
+                '"><span class="badge" >' .
+                $count .
+                '</span>' : '';
+          });
+          $grid->created_at('Created')->datediff()->sortable();
+          $grid->updated_at('Last Updated')->sortable()->datediff();
         });
   }
 
@@ -100,12 +85,10 @@ class ProjectController extends OmrController
    *
    * @param Project $project
    *
-   * @return \Encore\Admin\Content|Content
+   * @return Content
    */
   public function edit(Project $project)
   {
-    //$id = $project->id;
-    //$this->authorize('update', $project);
     return Admin::content(function (Content $content) use ($project) {
       $content->header('header');
       $content->description('description');
@@ -118,7 +101,7 @@ class ProjectController extends OmrController
    *
    * @param string $mode
    *
-   * @return \Form
+   * @return Form
    */
   protected function form($mode = Builder::MODE_EDIT)
   {
@@ -127,31 +110,16 @@ class ProjectController extends OmrController
           $form->tab('Descriptive Metadata',
               function (Form $form) {
                 $form->text('org_name', 'Name');
-              })
-               ->tab('Administrative Metadata',
-                   function (Form $form) {
-                     $form->display('id', 'ID');
-                     $form->display('created_at', 'Created At');
-                     $form->display('updated_at', 'Updated At');
-                     $form->divider();
-               });
-
+              })->tab('Administrative Metadata',
+                  function (Form $form) {
+                    $form->display('id', 'ID');
+                    $form->display('created_at', 'Created At');
+                    $form->display('updated_at', 'Updated At');
+                    $form->divider();
+                  });
           //make a few changes if the mode is a view-only
           if ($mode == Builder::MODE_VIEW) {
-            $form->disableReset();
-            if (auth()->check()) {
-              $form->tools(function (Tools $tools) {
-                $editButton = '<div class="btn-group pull-right" style="margin-right: 10px"><a href="' . request()->url() . '/edit" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i>&nbsp;' . trans('admin::lang.edit') . '</a></div>';
-                if (auth()->user()->can('delete', request()->project)
-                ) {
-                  $tools->add(self::deleteButton());
-                }
-                if (auth()->user()->can('edit', request()->project)
-                ) {
-                  $tools->add($editButton);
-                }
-              });
-            }
+            $this->addEditButtons($form, request()->project);
           }
         });
   }
@@ -159,11 +127,10 @@ class ProjectController extends OmrController
   /**
    * Create interface.
    *
-   * @return \Encore\Admin\Content|Content
+   * @return \Encore\Admin\Layout\Content
    */
   public function create()
   {
-    //$this->authorize('create', Project::class);
     return Admin::content(function (Content $content) {
       $content->header('header');
       $content->description('description');
@@ -171,6 +138,11 @@ class ProjectController extends OmrController
     });
   }
 
+  /**
+   * @param Project $project
+   *
+   * @return Content|\Illuminate\Http\RedirectResponse
+   */
   public function show(Project $project)
   {
     if ($project->is_private) {
@@ -178,7 +150,7 @@ class ProjectController extends OmrController
         $this->authorize('view', $project);
       }
       catch (AuthorizationException $e) {
-         return redirect()->route('frontend.auth.login');
+        return redirect()->route('frontend.auth.login');
       }
     }
 
@@ -186,22 +158,105 @@ class ProjectController extends OmrController
       $content->header('Show Project');
       $content->description('');
       $content->row($this->form(Builder::MODE_VIEW)->view($project->id));
+      $content->row($this->members($project->id));
+      $content->row($this->vocabularies($project->id));
+      $content->row($this->elementsets($project->id));
     });
   }
 
-  public function update(Project $project)
+  /**
+   * @param $id
+   *
+   * @return Box
+   */
+  private function members($id)
   {
-    $id = $project->id;
+    return new Box('Members', Admin::grid(ProjectHasUser::class,
+        function (Grid $grid) use ($id) {
+          $grid->disableActions()
+              ->disableCreation()
+              ->disableExport()
+              ->disableRowSelector()
+              ->disablePagination()
+              ->disableFilter();
+          $grid->tools->disableRefreshButton();
+          $grid->model()->where('agent_id', $id);
+          $grid->id();
+          $grid->user()->name()->sortable();
+        }));
 
-    //$this->authorize('update', $project);
-    return $this->form()->update($id);
   }
 
+  /**
+   * @param $id
+   *
+   * @return Box
+   */
+  private function vocabularies($id)
+  {
+    return new Box('Vocabularies',
+      Admin::grid(Vocabulary::class,
+          function (Grid $grid) use ($id) {
+            $grid->filter(function ($filter) {
+              $filter->like('name', 'name');
+            });
+            $grid->model()->setSortName('v')->setPerPageName('vp');
+            $grid->disableActions()
+                 ->disableCreation()
+                 ->disableExport()
+                 ->disableRowSelector();
+            $grid->tools->disableRefreshButton();
+            $grid->model()->where('agent_id', $id);
+            $grid->id();
+            $grid->name()->sortable();
+          }));
+
+  }
+
+  /**
+   * @param $id
+   *
+   * @return Box
+   */
+  private function elementsets($id)
+  {
+    return new Box('Element Sets', Admin::grid(ElementSet::class,
+        function (Grid $grid) use ($id) {
+          $grid->filter(function ($filter) {
+            $filter->like('name', 'name');
+          });
+          $grid->model()->setSortName('e')->setPerPageName('ep');
+          $grid->disableActions()
+               ->disableCreation()
+               ->disableExport()
+               ->disableRowSelector();
+          $grid->tools->disableRefreshButton();
+          $grid->model()->where('agent_id', $id);
+          $grid->id();
+          $grid->name()->sortable();
+        }));
+
+  }
+
+
+  /**
+   * @param Project $project
+   *
+   * @return mixed
+   */
+  public function update(Project $project)
+  {
+    return $this->form()->update($project->id);
+  }
+
+  /**
+   * @param Project $project
+   *
+   * @return \Illuminate\Http\JsonResponse
+   */
   public function destroy(Project $project)
   {
-    $id = $project->id;
-    //$this->authorize('destroy', $project);
-    if ($this->form()->destroy($id)
+    if ($this->form()->destroy($project->id)
     ) {
       return response()->json([
           'status'  => true,
@@ -215,60 +270,12 @@ class ProjectController extends OmrController
     }
   }
 
+  /**
+   * @return mixed
+   */
   public function store()
   {
-    //$this->authorize('create', Project::class);
     return $this->form()->store();
   }
 
-  /**
-   * Built delete action.
-   *
-   * @return string
-   */
-  private static function deleteButton()
-  {
-    $confirm = trans('admin::lang.delete_confirm');
-    $text = trans('admin::lang.delete');
-    $url = request()->url();
-    $id = request()->project->id;
-    $script = /** @lang JavaScript 1.5 */
-        <<<SCRIPT
-        
-$('#form-delete-button').unbind('click').click(function() {
-    if(confirm("{$confirm}")) {
-        $.ajax({
-            method: 'post',
-            url: '{$url}',
-            data: {
-                _method:'delete',
-                _token:LA.token,
-            },
-            success: function (data) {
-                $.pjax.reload('#pjax-container');
-
-                if (typeof data === 'object') {
-                    if (data.status) {
-                        toastr.success(data.message);
-                    } else {
-                        toastr.error(data.message);
-                    }
-                }
-            }
-        });
-    }
-});
-
-SCRIPT;
-    Admin::script($script);
-
-    return /** @lang HTML */
-        <<<EOT
-        <div class="btn-group pull-right" style="margin-right: 10px">    
-    <a href="javascript:void(0);" data-id="{$id}" id="form-delete-button" class="btn btn-sm btn-danger">
-        <i class="fa fa-trash"></i>&nbsp;$text
-    </a>
-</div>
-EOT;
-  }
 }
