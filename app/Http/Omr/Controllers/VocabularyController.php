@@ -43,8 +43,7 @@ class VocabularyController extends OmrController
     return Admin::content(function (Content $content) use ($id) {
       $content->header('header');
       $content->description('description');
-      $content->body($this->form()
-                          ->edit($id));
+      $content->body($this->form()->edit($id));
     });
   }
 
