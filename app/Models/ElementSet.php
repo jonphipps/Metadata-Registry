@@ -173,4 +173,20 @@ class ElementSet extends Model
     {
         return $this->hasMany(\App\Models\Element::class, 'schema_id', 'id');
     }
+
+  /**
+   * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+   */
+  public function members()
+  {
+    return $this->belongsToMany(Access\User\User::class,
+                                'schema_has_user',
+                                'schema_id',
+                                'user_id')->withTimestamps()->withPivot('is_maintainer_for',
+                                                                        'is_registrar_for',
+                                                                        'is_admin_for',
+                                                                        'languages',
+                                                                        'default_language',
+                                                                        'current_language');
+  }
 }
