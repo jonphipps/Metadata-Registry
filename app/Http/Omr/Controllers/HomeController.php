@@ -2,7 +2,6 @@
 
 namespace App\Http\Omr\Controllers;
 
-use App\Http\Controllers\Controller;
 use Admin;
 use Encore\Admin\Layout\Column;
 use Encore\Admin\Layout\Content;
@@ -19,7 +18,8 @@ use Encore\Admin\Widgets\InfoBox;
 use Encore\Admin\Widgets\Tab;
 use Encore\Admin\Widgets\Table;
 
-class HomeController extends Controller
+class HomeController extends OmrController
+
 {
     public function index()
     {

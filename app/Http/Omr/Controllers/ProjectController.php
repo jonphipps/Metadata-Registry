@@ -15,7 +15,7 @@ use Encore\Admin\Controllers\ModelForm;
 use Illuminate\Auth\Access\AuthorizationException;
 use PhpParser\Node\Stmt\TryCatch;
 
-class ProjectController extends Controller
+class ProjectController extends OmrController
 {
   use ModelForm;
 

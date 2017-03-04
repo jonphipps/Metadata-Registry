@@ -2,7 +2,6 @@
 
 namespace App\Http\Omr\Controllers;
 
-use App\Http\Requests\Request;
 use App\Models\Element;
 use App\Models\ElementSet;
 use Encore\Admin\Form;
@@ -12,7 +11,8 @@ use Encore\Admin\Layout\Content;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\ModelForm;
 
-class ElementController extends Controller
+class ElementController extends OmrController
+
 {
     use ModelForm;
 
