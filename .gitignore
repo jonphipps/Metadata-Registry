@@ -6,7 +6,6 @@
 /cachev/
 /log/
 /web/uploads/
-/config/databases.yml
 /config/propel.ini
 Thumbs.db
 .DS_Store
