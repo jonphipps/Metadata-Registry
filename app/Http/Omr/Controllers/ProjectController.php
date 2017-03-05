@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\omr\Controllers;
+namespace App\Http\Omr\Controllers;
 
 use Admin;
 use App\Models\ElementSet;
