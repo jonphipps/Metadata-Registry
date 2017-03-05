@@ -28,6 +28,7 @@ addons:
   mariadb: '10.2'
 
 before_install:
+  - cp .env.example .env
   - echo "extension = memcached.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - echo "extension = redis.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - travis_retry composer self-update && composer --version
@@ -35,7 +36,6 @@ before_install:
   - travis_retry composer install --prefer-dist --no-interaction
 
 install:
-  - cp .env.example .env
   - npm install
 # codeception
 #  - travis_retry composer global require "codeception/codeception=2.2.*" "codeception/specify=*" "codeception/verify=*"
