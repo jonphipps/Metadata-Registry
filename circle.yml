@@ -3,8 +3,6 @@ machine:
     version: 7.1.x
   node:
     version: 7.6
-  mariadb:
-    version: 10.2
   services:
     - mariadb
     - redis
