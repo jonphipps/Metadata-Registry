@@ -31,11 +31,11 @@ install:
   - travis_retry composer self-update && composer --version
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
   - travis_retry composer install --prefer-dist --no-interaction
-  - npm install -g npm@2
 # codeception
 #  - travis_retry composer global require "codeception/codeception=2.2.*" "codeception/specify=*" "codeception/verify=*"
-  - npm install
-  - npm install bower
+#  - npm install
+  - yarn
+#  - npm install bower
   - bower install
 # setup application:
 #  - |
@@ -64,7 +64,7 @@ before_script:
   - export MAIL_PORT=2525
   - export MAIL_ENCRYPTION=null
 
-  - php artisan migrate --seed --force
+  - php artisan migrate -vvv --seed --force
   - php artisan key:generate
 
 script:
