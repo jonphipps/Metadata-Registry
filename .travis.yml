@@ -38,6 +38,7 @@ install:
 #  - yarn
   - npm install bower
   - bower install
+  - npm run production
 # setup application:
 #  - |
 #    cd tests
@@ -71,7 +72,7 @@ before_script:
 script:
   - |
     cd web
-    php -S localhost:80 > /dev/null 2>&1 &
+    php -S localhost:8080 > /dev/null 2>&1 &
     cd ..
   - phpunit --configuration phpunit.xml
 
