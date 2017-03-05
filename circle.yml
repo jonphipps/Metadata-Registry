@@ -1,0 +1,16 @@
+machine:
+  php:
+    version: 7.1.x
+  node:
+    version: 7.6
+  services:
+    mariadb:
+        version: 10.2
+    - redis
+    - memcached
+  hosts:
+    registry.dev: 127.0.0.1
+
+checkout:
+  post:
+    - mv /.env.travis .env

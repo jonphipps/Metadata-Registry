@@ -29,9 +29,6 @@ addons:
 
 before_install:
   - cp .env.travis .env
-  - echo $MAIL_USERNAME >> .env
-  - echo $MAIL_PASSWORD >> .env
-
   - echo "extension = memcached.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - echo "extension = redis.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - travis_retry composer self-update && composer --version
