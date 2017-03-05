@@ -24,8 +24,8 @@ cache:
     - vendor
     - $HOME/.composer/cache
 
-services:
-  - mysql
+addons:
+  mariadb: '10.2'
 
 install:
   - cp .env.example .env
