@@ -1,7 +1,6 @@
 language: php
 
 php:
-  - 5.6
   - 7.0
 #  - hhvm
 #  - hhvm-nightly
@@ -20,8 +19,12 @@ sudo: false
 # cache vendor dirs
 cache:
   directories:
+    - node_modules
     - vendor
     - $HOME/.composer/cache
+
+services:
+  - mysql
 
 install:
   - travis_retry composer self-update && composer --version
@@ -29,15 +32,47 @@ install:
   - travis_retry composer install --dev --prefer-dist --no-interaction
 # codeception
   - travis_retry composer global require "codeception/codeception=2.2.*" "codeception/specify=*" "codeception/verify=*"
+  - npm install
+  - npm install bower
+  - bower install
 # setup application:
-  - |
-    cd tests
-    codecept build
-    cd ..
+#  - |
+#    cd tests
+#    codecept build
+#    cd ..
+# execute any number of scripts before the test run, custom env's are available as variables
+before_script:
+  - mysql -e 'create database swregistry_test;'
+  - export DB_DATABASE='swregistry_test'
+  - export DB_USERNAME=root
+  - export DB_PASSWORD=
+
+  - export SF_ENVIRONMENT=dev
+  - export SF_DEBUG=true
+
+  - export APP_ENV=dev
+  - export APP_DEBUG=true
+  - export APP_LOG_LEVEL=debug
+  - export APP_URL=http://localhost:8080
+  - export APP_LOCALE=en
+  - export APP_FALLBACK_LOCALE=en
+  - export APP_LOCALE_PHP=en_US
+
+  - export MAIL_DRIVER=smtp
+  - export MAIL_PORT=2525
+  - export MAIL_ENCRYPTION=null
+
+  - php artisan migrate --seed --force
+  - php artisan key:generate
 
 script:
   - |
     cd web
     php -S localhost:8080 > /dev/null 2>&1 &
     cd ..
-    vendor/bin/codecept run
+  - phpunit --configuration phpunit.xml
+
+# whitelist
+branches:
+  only:
+    - z-song
