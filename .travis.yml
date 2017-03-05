@@ -27,12 +27,16 @@ cache:
 addons:
   mariadb: '10.2'
 
-install:
-  - cp .env.example .env
+before_install:
+  - echo "extension = memcached.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+  - echo "extension = redis.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - travis_retry composer self-update && composer --version
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
   - travis_retry composer install --prefer-dist --no-interaction
-#  - npm install -g npm@3
+
+install:
+  - cp .env.example .env
+  - npm install
 # codeception
 #  - travis_retry composer global require "codeception/codeception=2.2.*" "codeception/specify=*" "codeception/verify=*"
 #  - yarn
@@ -47,25 +51,6 @@ install:
 # execute any number of scripts before the test run, custom env's are available as variables
 before_script:
   - mysql -e 'create database swregistry_test;'
-  - export DB_DATABASE='swregistry_test'
-  - export DB_USERNAME=root
-  - export DB_PASSWORD=
-
-  - export SF_ENVIRONMENT=dev
-  - export SF_DEBUG=true
-
-  - export APP_ENV=dev
-  - export APP_DEBUG=true
-  - export APP_LOG_LEVEL=debug
-  - export APP_URL=http://localhost:8080
-  - export APP_LOCALE=en
-  - export APP_FALLBACK_LOCALE=en
-  - export APP_LOCALE_PHP=en_US
-
-  - export MAIL_DRIVER=smtp
-  - export MAIL_PORT=2525
-  - export MAIL_ENCRYPTION=null
-
   - php artisan migrate -vvv --seed --force
   - php artisan key:generate
 
