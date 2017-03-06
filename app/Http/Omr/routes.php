@@ -10,6 +10,9 @@ Route::group([
     function (Router $router) {
       $router->get('/home', 'HomeController@index');
       $router->resource('/projects', 'ProjectController', [ 'only' => 'index' ]);
+      $router->get('/concepts/select','ConceptController@select');
+      $router->get('/elements/select','ElementController@select');
+
       Route::group([ 'middleware' => [ 'admin' ] ],
           function (Router $router) {
             $router->get('/projects/{project}/vocabularies', 'VocabularyController@index');

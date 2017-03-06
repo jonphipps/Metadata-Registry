@@ -177,10 +177,33 @@ class Project extends Model
   }
 
   /**
+   * @return \Illuminate\Database\Eloquent\Collection|static[]
+   */
+  public function elementSetsForSelect()
+  {
+    return ElementSet::select('id', 'name')->where('agent_id', $this->id)->orderBy('name')->get()
+        ->mapWithKeys(function ($item) {
+          return [ $item['id'] => $item['name'] ];
+        });;
+  }
+
+  /**
    * @return \Illuminate\Database\Eloquent\Relations\HasMany
    */
   public function vocabularies()
   {
     return $this->hasMany(Vocabulary::class, 'agent_id', 'id');
   }
+
+  /**
+   * @return \Illuminate\Database\Eloquent\Collection|static[]
+   */
+  public function vocabulariesForSelect()
+  {
+    return Vocabulary::select( 'id', 'name' )->where('agent_id', $this->id)->orderBy('name')->get()
+        ->mapWithKeys(function ($item) {
+          return [ $item['id'] => $item['name'] ];
+        });;
+  }
+
 }

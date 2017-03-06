@@ -187,10 +187,9 @@ class ProjectController extends OmrController
     $project = request()->project;
     $count   = $project->vocabularies()->count();
     $form    = new WidgetForm();
-    $options = $project->vocabularies()->get()->mapWithKeys(function ($item) {
-      return [ $item['id'] => $item['name'] ];
-    });
-    $form->select('Select')->options($options);
+    $options = $project->vocabulariesForSelect();
+    $form->select('vocabs', 'Select')->options($options)->load('concepts', '/concepts/select','id', 'pref_label')->placeholder('Select a Vocabulary');
+    $form->select('concepts', 'Select')->placeholder('Select a vocabulary first');
 
     return new Box('Vocabularies  ' . OmrController::badge($count), $form);
 
@@ -206,10 +205,12 @@ class ProjectController extends OmrController
     $project = request()->project;
     $count   = $project->elementSets()->count();
     $form    = new WidgetForm();
-    $options = $project->elementSets()->get()->mapWithKeys(function ($item) {
-      return [ $item['id'] => $item['name'] ];
-    });
-    $form->select('Select')->options($options);
+    $options = $project->elementSetsForSelect();
+    $form->select('elementsets', 'Select')
+        ->options($options)
+        ->load('elements', '/elements/select', 'id', 'label')
+        ->placeholder('Select an Element Set');
+    $form->select('elements', 'Select')->placeholder('Select an element set first');
 
     return new Box('Element Sets  ' . OmrController::badge($count), $form);
 
