@@ -9,6 +9,7 @@ use Encore\Admin\Grid;
 use Encore\Admin\Facades\Admin;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Controllers\ModelForm;
+use Illuminate\Http\Request;
 
 class ConceptController extends OmrController
 
@@ -20,7 +21,7 @@ class ConceptController extends OmrController
    *
    * @param Vocabulary $vocabulary
    *
-   * @return \Encore\Admin\Content|Content
+   * @return Content
    */
   public function index(Vocabulary $vocabulary)
   {
@@ -36,7 +37,7 @@ class ConceptController extends OmrController
    *
    * @param $id
    *
-   * @return \Encore\Admin\Content|Content
+   * @return Content
    */
   public function edit($id)
   {
@@ -51,7 +52,7 @@ class ConceptController extends OmrController
   /**
    * Create interface.
    *
-   * @return \Encore\Admin\Content|Content
+   * @return Content
    */
   public function create()
   {
@@ -60,6 +61,13 @@ class ConceptController extends OmrController
       $content->description('description');
       $content->body($this->form());
     });
+  }
+
+  public function select(Request $request)
+  {
+    $q = $request->get('q');
+    return Concept::where('vocabulary_id',$q)->orderBy('pref_label')->paginate(null, [ 'id', 'pref_label' ]);
+
   }
 
   /**
@@ -96,7 +104,7 @@ class ConceptController extends OmrController
   /**
    * Make a form builder.
    *
-   * @return Form|\Form
+   * @return Form
    */
   protected function form()
   {

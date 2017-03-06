@@ -8,8 +8,8 @@ use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Facades\Admin;
 use Encore\Admin\Layout\Content;
-use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\ModelForm;
+use Illuminate\Http\Request;
 
 class ElementController extends OmrController
 
@@ -21,7 +21,7 @@ class ElementController extends OmrController
    *
    * @param ElementSet $elementSet
    *
-   * @return \Encore\Admin\Content|Content
+   * @return Content
    */
     public function index(ElementSet $elementSet)
     {
@@ -39,7 +39,7 @@ class ElementController extends OmrController
      *
      * @param $id
      *
-     * @return \Encore\Admin\Content|Content
+     * @return Content
      */
     public function edit($id)
     {
@@ -55,7 +55,7 @@ class ElementController extends OmrController
     /**
      * Create interface.
      *
-     * @return \Encore\Admin\Content|Content
+     * @return Content
      */
     public function create()
     {
@@ -67,6 +67,13 @@ class ElementController extends OmrController
             $content->body($this->form());
         });
     }
+
+  public function select(Request $request)
+  {
+    $q = $request->get('q');
+    return Element::where('schema_id',$q)->orderBy('label')->paginate(null, [ 'id', 'label' ]);
+
+  }
 
   /**
    * Make a grid builder.
