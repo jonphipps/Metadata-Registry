@@ -66,7 +66,10 @@ class ConceptController extends OmrController
   public function select(Request $request)
   {
     $q = $request->get('q');
-    return Concept::where('vocabulary_id',$q)->orderBy('pref_label')->paginate(null, [ 'id', 'pref_label' ]);
+    return Concept::where('vocabulary_id',$q)->whereNotNull('pref_label')->orderBy('pref_label')->get(['id', 'pref_label'])
+        ->mapWithKeys(function ($item) {
+          return [ $item['id'] => $item['pref_label'] ];
+        })->toJson();
 
   }
 

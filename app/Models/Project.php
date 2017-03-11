@@ -181,10 +181,57 @@ class Project extends Model
    */
   public function elementSetsForSelect()
   {
-    return ElementSet::select('id', 'name')->where('agent_id', $this->id)->orderBy('name')->get()
+    return ElementSet::select(['id', 'name'])->where('agent_id', $this->id)->orderBy('name')->get()
         ->mapWithKeys(function ($item) {
           return [ $item['id'] => $item['name'] ];
-        });;
+        });
+  }
+
+  /**
+   * @return array
+   */
+  public function elementsForSelect()
+  {
+    return \DB::table(ElementAttribute::TABLE)
+        ->join(Element::TABLE, Element::TABLE . '.id', '=', ElementAttribute::TABLE . '.schema_property_id')
+        ->join(ElementSet::TABLE, ElementSet::TABLE . '.id', "=", Element::TABLE . '.schema_id')
+        ->select(ElementAttribute::TABLE . '.schema_property_id as id',
+                 ElementSet::TABLE . '.name as ElementSet',
+                 ElementAttribute::TABLE . '.language',
+                 ElementAttribute::TABLE . '.object as label')
+        ->where([ [ ElementAttribute::TABLE . '.profile_property_id', 2 ],
+                    [ ElementSet::TABLE . '.agent_id', $this->id ] ])
+        ->orderBy(ElementSet::TABLE . '.name')
+        ->orderBy(ElementAttribute::TABLE . '.language')
+        ->orderBy(ElementAttribute::TABLE . '.object')
+        ->get()
+        ->mapWithKeys(function ($item) {
+          return [ $item->id . '_' . $item->language => $item->ElementSet .
+              " - (" .
+              $item->language .
+              ") " .
+              $item->label ];
+        })
+        ->toArray();
+
+
+
+  // $elements = [];
+    // /** @var ElementSet[] $elementsets */
+    // $elementsets =
+    //     ElementSet::with('elements')
+    //         ->where('agent_id', $this->id)
+    //         ->orderBy('name')
+    //         ->get()
+    //         ->groupBy('name');
+    // foreach ($elementsets as $key => $elementset) {
+    //   $elements[$key] =  $elementset->first()->elements->mapWithKeys(function ($item) use($key) {
+    //     if (!empty($item['label'])) {
+    //       return [ $item['id'] => "{$key} - " . $item['label'] ];
+    //     }
+    //   })->toArray();
+    //   }
+    // return $elements;
   }
 
   /**
@@ -203,7 +250,31 @@ class Project extends Model
     return Vocabulary::select( 'id', 'name' )->where('agent_id', $this->id)->orderBy('name')->get()
         ->mapWithKeys(function ($item) {
           return [ $item['id'] => $item['name'] ];
-        });;
+        });
   }
+
+  /**
+   * @return array
+   */
+  public function conceptsForSelect()
+  {
+
+    return \DB::table(ConceptAttribute::TABLE)
+            ->join(Concept::TABLE, Concept::TABLE.'.id', '=', ConceptAttribute::TABLE.'.concept_id')
+            ->join(Vocabulary::TABLE, Vocabulary::TABLE. '.id', "=",Concept::TABLE .'.vocabulary_id')
+            ->select(ConceptAttribute::TABLE.'.concept_id as id', Vocabulary::TABLE.'.name as vocabulary',
+                     ConceptAttribute::TABLE.'.language', ConceptAttribute::TABLE.'.object as label')
+            ->where([[ConceptAttribute::TABLE.'.profile_property_id', 45],[ Vocabulary::TABLE.'.agent_id', $this->id]])
+            ->orderBy(Vocabulary::TABLE . '.name')
+            ->orderBy(ConceptAttribute::TABLE . '.language')
+            ->orderBy(ConceptAttribute::TABLE . '.object')
+            ->get()->mapWithKeys(function ($item) {
+              return [ $item->id . '_' . $item->language => $item->vocabulary .
+                  " - (" .
+                  $item->language .
+                  ") " .
+                  $item->label ];
+            })->toArray();
+      }
 
 }

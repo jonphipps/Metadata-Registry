@@ -71,7 +71,7 @@ class ElementController extends OmrController
   public function select(Request $request)
   {
     $q = $request->get('q');
-    return Element::where('schema_id',$q)->orderBy('label')->paginate(null, [ 'id', 'label' ]);
+    return Element::where('schema_id',$q)->whereNotNull('label')->orderBy('label')->paginate(null, [ 'id', 'label' ]);
 
   }
 
