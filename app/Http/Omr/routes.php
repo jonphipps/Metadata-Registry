@@ -17,15 +17,14 @@ Route::group([
           function (Router $router) {
             $router->get('/projects/{project}/vocabularies', 'VocabularyController@index');
             $router->get('/projects/{project}/elementsets', 'ElementSetController@index');
+            $router->get('/projects/{project}/members/create', 'ProjectHasUserController@create')->name('project.user.create');
             $router->resource('/projects', 'ProjectController', [ 'except' => 'index' ]);
             $router->resource('/vocabularies/{vocabulary}/concepts', 'ConceptController');
             $router->resource('/vocabularies', 'VocabularyController');
             $router->resource('/elementsets/{elementSet}/elements', 'ElementController');
             $router->resource('/elementsets', 'ElementSetController');
             $router->resource('/users', 'UserController');
-            $router->get('project_user/{id}',
-                'ProjectHasUserController@edit')
-                   ->name('project.user.edit');
+            $router->get('/project_user/{id}', 'ProjectHasUserController@edit')->name('project.user.edit');
           });
 
     });
