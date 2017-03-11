@@ -11,6 +11,7 @@ use Encore\Admin\Form\Builder;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Widgets\Box;
+use Encore\Admin\Widgets\BoxTools;
 use Encore\Admin\Widgets\Form as WidgetForm;
 use Illuminate\Auth\Access\AuthorizationException;
 
@@ -166,14 +167,21 @@ class ProjectController extends OmrController
    * @return Box
    */
   private function members($id)
-  { $project = request()->project;
-    $count = $project->members()->count();
-    $form = new WidgetForm();
+  {
+    $project = request()->project;
+    $count   = $project->members()->count();
+    $form    = new WidgetForm();
     $options = $project->members()->get()->mapWithKeys(function ($item) {
       return [ $item['id'] => $item['name'] ];
     });
-    $form->select('Select')->options($options);
-    return new Box('Members  ' . OmrController::badge($count), $form );
+    $form->select('Select a Project Member')
+        ->options($options)
+        ->placeholder('Select a Project Member');
+
+    $tools = new BoxTools();
+    $tools->prepend(OmrController::createButton( 'Add a Member','project.user.create', ['project' => $project]));
+    $box =  new Box('Members  ' . OmrController::badge($count), $form, $tools);
+    return $box->collapsable();
 
   }
 
