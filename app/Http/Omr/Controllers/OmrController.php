@@ -6,7 +6,6 @@ namespace App\Http\Omr\Controllers;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Admin;
 use Encore\Admin\Form;
-use Encore\Admin\Form\Builder;
 use Encore\Admin\Form\Tools;
 use Illuminate\Database\Eloquent\Model;
 
@@ -42,6 +41,28 @@ class OmrController extends Controller
         '/edit" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i>&nbsp;' .
         trans('admin::lang.edit') .
         '</a></div>';
+  }
+
+  /**
+   * @param string $caption
+   * @param string $route
+   * @param array|null $routeParams
+   *
+   * @return string
+   */
+  public static function createButton($caption = '', $route = '', $routeParams = null)
+  {
+    $route   = route($route, $routeParams) ?? request()->url() . '/create';
+    $caption = $caption ?? trans('admin::lang.create');
+    return <<<EOT
+<div class="btn-group pull-right" style="margin-right: 10px">
+  <a href="{$route}" class="btn btn-sm btn-success">
+    <i class="fa fa-plus-square-o"></i>
+    &nbsp;$caption
+  </a>
+</div>
+EOT;
+
   }
 
   /**
