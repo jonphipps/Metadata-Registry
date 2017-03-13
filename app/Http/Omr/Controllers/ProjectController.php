@@ -177,10 +177,14 @@ class ProjectController extends OmrController
     $form->select('Select a Project Member')
         ->options($options)
         ->placeholder('Select a Project Member');
+    $content = $form . '<div class="btn-group pull-right" style="margin-right: 10px">
+  <a href="http://registry.dev/projects/'.$project->id.'/members/create" class="btn btn-sm btn-success">
+    <i class="fa fa-plus-square-o"></i>
+    &nbsp;Add a Member
+  </a>
+</div>';
 
-    $tools = new BoxTools();
-    $tools->prepend(OmrController::createButton( 'Add a Member','project.user.create', ['project' => $project]));
-    $box =  new Box('Members  ' . OmrController::badge($count), $form, $tools);
+    $box =  new Box('Members  ' . OmrController::badge($count), $content);
     return $box->collapsable();
 
   }
