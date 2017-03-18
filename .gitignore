@@ -84,3 +84,6 @@ backend.css
 frontend.css
 backend.js
 frontend.js
+public
+frontend.*.rtl.css
+mix-manifest.json
