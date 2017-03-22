@@ -87,3 +87,9 @@ frontend.js
 public
 frontend.*.rtl.css
 mix-manifest.json
+app.css
+app.css.map
+backend.css.map
+frontend.css.map
+backend.js.map
+frontend.js.map
