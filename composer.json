@@ -51,7 +51,6 @@
         "ddeboer/data-import": "0.18.*",
         "doctrine/dbal": "~2.4",
         "easyrdf/easyrdf": "^0.9.1",
-        "encore/laravel-admin": "1.4.x-dev",
         "filp/whoops": "^2.0",
         "google/apiclient": "^2.1",
         "graham-campbell/github": "^5.0",

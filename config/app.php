@@ -204,7 +204,6 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\HistoryServiceProvider::class,
         App\Providers\MacroServiceProvider::class,
-        App\Providers\OmrServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
     ],

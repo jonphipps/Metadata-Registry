@@ -28,6 +28,5 @@ Route::group(['middleware' => 'auth'], function () {
                  */
         Route::patch('profile/update', 'ProfileController@update')->name('profile.update');
             });
-        Route::get('project_user/{id}',
-            'ProjectHasUserController@edit')->name('project.user.edit');
+
     });

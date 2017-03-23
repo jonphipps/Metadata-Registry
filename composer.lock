@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "299be018506e33f4a802783c737c9dfd",
+    "content-hash": "a2bd07c5209af49c4f395b4d8cfc5c0b",
     "packages": [
         {
             "name": "arcanedev/log-viewer",
@@ -1480,66 +1480,6 @@
                 "sparql"
             ],
             "time": "2015-02-27T09:45:49+00:00"
-        },
-        {
-            "name": "encore/laravel-admin",
-            "version": "1.4.x-dev",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/z-song/laravel-admin.git",
-                "reference": "77adf72a67a2b114e21d210e56c8132bca854970"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/z-song/laravel-admin/zipball/77adf72a67a2b114e21d210e56c8132bca854970",
-                "reference": "77adf72a67a2b114e21d210e56c8132bca854970",
-                "shasum": ""
-            },
-            "require": {
-                "laravel/framework": "5.4.*",
-                "php": ">=5.6.4",
-                "symfony/dom-crawler": "3.1.*"
-            },
-            "require-dev": {
-                "fzaninotto/faker": "~1.4",
-                "intervention/image": "~2.3",
-                "laravel/laravel": "5.4.*",
-                "phpunit/phpunit": "~5.0",
-                "symfony/css-selector": "2.8.*|3.0.*"
-            },
-            "suggest": {
-                "intervention/image": "Required to handling and manipulation upload images (~2.3).",
-                "spatie/eloquent-sortable": "Required to built orderable gird."
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Encore\\Admin\\": "src/"
-                },
-                "files": [
-                    "src/helpers.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "zsong",
-                    "email": "zosong@126.com"
-                }
-            ],
-            "description": "laravel admin",
-            "homepage": "https://github.com/z-song/laravel-admin",
-            "keywords": [
-                "admin",
-                "chart",
-                "form",
-                "grid",
-                "laravel"
-            ],
-            "time": "2017-03-17T06:53:48+00:00"
         },
         {
             "name": "erusev/parsedown",
@@ -5454,16 +5394,16 @@
         },
         {
             "name": "symfony/dom-crawler",
-            "version": "v3.1.10",
+            "version": "v3.2.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/dom-crawler.git",
-                "reference": "7eede2a901a19928494194f7d1815a77b9a473a0"
+                "reference": "403944e294cf4ceb3b8447f54cbad88ea7b99cee"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/dom-crawler/zipball/7eede2a901a19928494194f7d1815a77b9a473a0",
-                "reference": "7eede2a901a19928494194f7d1815a77b9a473a0",
+                "url": "https://api.github.com/repos/symfony/dom-crawler/zipball/403944e294cf4ceb3b8447f54cbad88ea7b99cee",
+                "reference": "403944e294cf4ceb3b8447f54cbad88ea7b99cee",
                 "shasum": ""
             },
             "require": {
@@ -5479,7 +5419,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.1-dev"
+                    "dev-master": "3.2-dev"
                 }
             },
             "autoload": {
@@ -5506,7 +5446,7 @@
             ],
             "description": "Symfony DomCrawler Component",
             "homepage": "https://symfony.com",
-            "time": "2017-01-21T17:13:55+00:00"
+            "time": "2017-02-21T09:12:04+00:00"
         },
         {
             "name": "symfony/event-dispatcher",
@@ -10205,7 +10145,6 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "chrisboulton/php-resque": 20,
-        "encore/laravel-admin": 20,
         "infyomlabs/adminlte-templates": 20,
         "jlapp/swaggervel": 20,
         "roave/security-advisories": 20,

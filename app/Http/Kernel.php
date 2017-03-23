@@ -49,13 +49,6 @@ class Kernel extends HttpKernel
           \App\Http\Middleware\LocaleMiddleware::class,
       ],
 
-      'admin' => [
-          'auth',
-          'admin.pjax',
-          'access.routeNeedsPermission:view-backend',
-          'timeout',
-      ],
-
       'api' => [
           'throttle:60,1',
           'bindings',
@@ -84,8 +77,6 @@ class Kernel extends HttpKernel
          */
       'access.routeNeedsRole'       => \App\Http\Middleware\RouteNeedsRole::class,
       'access.routeNeedsPermission' => \App\Http\Middleware\RouteNeedsPermission::class,
-
-      'admin.pjax' => \Encore\Admin\Middleware\PjaxMiddleware::class,
 
     ];
 }
