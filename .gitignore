@@ -12,7 +12,6 @@ Thumbs.db
 /.idea/
 
 /vendor/
-phpini.txt
 .filemap
 
 
@@ -38,57 +37,27 @@ coverage.xml
 /public/js/backend.js.map
 
 tests/_support/_generated
-swregistry_test_backup*.sql
-dump.sql
-tests/_data/swregistry_20161218_1448EST.sql
-tests/_data/swregistry_20161218_1501EST.sql
-tests/_data/swregistry_prod_20161218_1738EST.sql
-tests/_data/swregistry_prod_temp_20161218_1643EST.sql
 testing.html
 
 tests_codecept/_output/*
 /web/repos/
 /packages/
-/apps/frontend/config/mailer.yml
 /apps/frontend/config/app.yml
 /.github/
 backend.*.css
 frontend.*.css
 frontend.*.js
 mix-manifest.json
-backend-rtl-*.css
 backend-*.js
 frontend-*.js
-web/css/backend-rtl.css
 web/css/backend.css
 web/css/frontend.css
 backend-*.css
 frontend-*.css
 rtl-*.css
-web/build/css/backend.css.map
-web/build/css/frontend.css.map
-web/build/css/rtl.css.map
-web/build/fonts/bootstrap/glyphicons-halflings-regular.eot
-web/build/fonts/bootstrap/glyphicons-halflings-regular.svg
-web/build/fonts/bootstrap/glyphicons-halflings-regular.ttf
-web/build/fonts/bootstrap/glyphicons-halflings-regular.woff
-web/build/fonts/bootstrap/glyphicons-halflings-regular.woff2
-web/build/fonts/font-awesome/fontawesome-webfont.eot
-web/build/fonts/font-awesome/fontawesome-webfont.svg
-web/build/fonts/font-awesome/fontawesome-webfont.ttf
-web/build/fonts/font-awesome/fontawesome-webfont.woff
-web/build/fonts/font-awesome/fontawesome-webfont.woff2
-web/build/fonts/font-awesome/FontAwesome.otf
-web/build/js/backend.js.map
-web/build/js/frontend.js.map
-web/build/rev-manifest.json
 web/js/backend.266b79533b83cacee4a9.js
 web/js/backend.js
-web/js/backend.js.map
 web/js/frontend.js
-frontend.*.rtl.css
-mix-manifest.json
-web/js/frontend.js.map
 app/Mail/
 apps/test/
 public/js/backend.266b79533b83cacee4a9.js
