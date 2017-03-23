@@ -15,16 +15,14 @@
  */
 class ArcId2val extends \Illuminate\Database\Eloquent\Model
 {
-  protected $table = self::TABLE;
-  const TABLE = 'arc_id2val';
+    protected $table = self::TABLE;
+    const TABLE = 'arc_id2val';
 
-  public $primaryKey = 'val_type';
+    public $primaryKey = 'val_type';
 
-  public $timestamps = false;
+    public $timestamps = false;
 
-  public $incrementing = false;
+    public $incrementing = false;
 
-  protected $fillable = [ 'misc', 'val' ];
-
+    protected $fillable = [ 'misc', 'val' ];
 }
-

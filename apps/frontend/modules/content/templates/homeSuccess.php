@@ -15,7 +15,7 @@ if ($subscriber && $sf_user->isAuthenticated()):
         <h1>My Stuff</h1>
         <div id="sf_admin_content">
             <fieldset id="sf_fieldset_schemas">
-                <h2><?php echo __('Element Sets') ?></h2>
+                <h2><?php echo __s('Element Sets') ?></h2>
                 <div id="show_row_user_schema_list" class="show-row">
                     <div id="show_row_content_user_schema_list" class="content">
                         <?php $showValue = get_partial('user/schema_list', [ 'type' => 'list', 'user' => $subscriber ]);
@@ -32,7 +32,7 @@ if ($subscriber && $sf_user->isAuthenticated()):
             <?php if ($agents && count($agents) == 1): ?>
                 <ul class="sf_admin_actions">
                     <li>
-                        <?php echo button_to(__('Add an Element Set'),
+                        <?php echo button_to(__s('Add an Element Set'),
                                                             '@agent_schema_create?agent_id=' . $agents[0]->getAgentId(),
                                              [
                                                  'title' => 'Create',
@@ -42,7 +42,7 @@ if ($subscriber && $sf_user->isAuthenticated()):
                 </ul>
             <?php endif; ?>
             <fieldset id="sf_fieldset_vocabularies">
-                <h2><?php echo __('Vocabularies') ?></h2>
+                <h2><?php echo __s('Vocabularies') ?></h2>
                 <div id="show_row_user_vocabulary_list" class="show-row">
                     <div id="show_row_content_user_vocabulary_list" class="content">
                         <?php $showValue = get_partial('user/vocabulary_list',
@@ -60,7 +60,7 @@ if ($subscriber && $sf_user->isAuthenticated()):
             <?php if ($agents && count($agents) == 1): ?>
                 <ul class="sf_admin_actions">
                     <li>
-                        <?php echo button_to(__('Add Vocabulary'),
+                        <?php echo button_to(__s('Add Vocabulary'),
                                              '@agent_vocabulary_create?agent_id=' . $agents[0]->getAgentId(),
                                              [
                                                  'title' => 'Create',
@@ -70,7 +70,7 @@ if ($subscriber && $sf_user->isAuthenticated()):
                 </ul>
             <?php endif; ?>
             <fieldset id="sf_fieldset_agents">
-                <h2><?php echo __('Projects') ?></h2>
+                <h2><?php echo __s('Projects') ?></h2>
                 <div id="show_row_user_agent_list" class="show-row">
                     <div id="show_row_content_user_agent_list" class="content">
                         <?php $showValue = get_partial('user/agent_list', [ 'type' => 'list', 'user' => $subscriber ]);
@@ -86,7 +86,7 @@ if ($subscriber && $sf_user->isAuthenticated()):
             </fieldset>
             <ul class="sf_admin_actions">
                 <li>
-                    <?php echo button_to(__('Add Project'),
+                    <?php echo button_to(__s('Add Project'),
                                          '@agent_create?user_id=' . $subscriber->getId(),
                                          [
                                              'title' => 'Create',

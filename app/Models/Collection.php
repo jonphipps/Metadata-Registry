@@ -39,26 +39,26 @@ use App\Models\Access\User\User;
  */
 class Collection extends Model
 {
-  protected $table = self::TABLE;
-  const TABLE = 'reg_collection';
+    protected $table = self::TABLE;
+    const TABLE = 'reg_collection';
 
-  use SoftDeletes;
-
-
-  public function getDates()
-  {
-    return [ 'deleted_at', 'last_updated' ];
-  }
+    use SoftDeletes;
 
 
-  protected $fillable = [ 'deleted_at', 'last_updated', 'name', 'uri', 'pref_label' ];
+    public function getDates()
+    {
+        return [ 'deleted_at', 'last_updated' ];
+    }
+
+
+    protected $fillable = [ 'deleted_at', 'last_updated', 'name', 'uri', 'pref_label' ];
 
   /**
    * The attributes that should be casted to native types.
    *
    * @var array
    */
-  protected $casts = [
+    protected $casts = [
       "id"              => "integer",
       "created_user_id" => "integer",
       "updated_user_id" => "integer",
@@ -67,38 +67,36 @@ class Collection extends Model
       "uri"             => "string",
       "pref_label"      => "string",
       "status_id"       => "integer",
-  ];
+    ];
 
-  public static $rules = [
+    public static $rules = [
       "name"       => "required|max:255",
       "uri"        => "max:255",
       "pref_label" => "required|max:255",
       "status_id"  => "required|",
-  ];
+    ];
 
 
-  public function UserCreator()
-  {
-    return $this->belongsTo(User::class, 'created_user_id', 'id');
-  }
+    public function UserCreator()
+    {
+        return $this->belongsTo(User::class, 'created_user_id', 'id');
+    }
 
 
-  public function UserUpdater()
-  {
-    return $this->belongsTo(User::class, 'updated_user_id', 'id');
-  }
+    public function UserUpdater()
+    {
+        return $this->belongsTo(User::class, 'updated_user_id', 'id');
+    }
 
 
-  public function Vocabulary()
-  {
-    return $this->belongsTo('App\Models\Vocabulary', 'vocabulary_id', 'id');
-  }
+    public function Vocabulary()
+    {
+        return $this->belongsTo(\App\Models\Vocabulary::class, 'vocabulary_id', 'id');
+    }
 
 
-  public function Status()
-  {
-    return $this->belongsTo('App\Models\Status', 'status_id', 'id');
-  }
-
+    public function Status()
+    {
+        return $this->belongsTo(\App\Models\Status::class, 'status_id', 'id');
+    }
 }
-

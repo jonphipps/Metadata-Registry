@@ -7,9 +7,9 @@
     <div class="sf_admin_filters">
     <?php echo form_tag('schema/list', [ 'method' => 'get' ]) ?>
     <fieldset>
-        <h2><?php echo __('Filters') ?></h2>
+        <h2><?php echo __s('Filters') ?></h2>
         <div class="form-row">
-            <label for="agent_id"><?php echo __('Project:') ?></label>
+            <label for="agent_id"><?php echo __s('Project:') ?></label>
             <div class="content">
                 <?php echo object_select_tag(isset( $filters['agent_id'] ) ? $filters['agent_id'] : null,
                                              null,
@@ -26,7 +26,7 @@
         </div>
     </fieldset>
     <ul class="sf_admin_actions">
-        <li><?php echo button_to(__('Show All'), 'schema/list', 'class=sf_admin_action_reset_filter') ?></li>
+        <li><?php echo button_to(__s('Show All'), 'schema/list', 'class=sf_admin_action_reset_filter') ?></li>
     </ul>
 
     </form>

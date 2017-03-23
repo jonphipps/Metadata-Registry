@@ -9,7 +9,7 @@ if (count($result)) {
     //get the related property
     $relProperty = $range->getSchemaPropertyRelatedByRelatedSchemaPropertyId();
     if ($relProperty) {
-        echo link_to($relProperty->getLabel(), 'schemaprop/show/?id=' . $relProperty->getId(),
+        echo sf_link_to($relProperty->getLabel(), 'schemaprop/show/?id=' . $relProperty->getId(),
             ['title' => $relProperty->getUri()]);
     } else {
         $relProperty = SchemaPropertyPeer::retrieveByUri($range->getObject());
@@ -17,7 +17,7 @@ if (count($result)) {
             //the id was broken, let's fix it...
             $range->setRelatedSchemaPropertyId($relProperty->getId());
             $range->save();
-            echo link_to($relProperty->getLabel(), 'schemaprop/show/?id=' . $relProperty->getId(),
+            echo sf_link_to($relProperty->getLabel(), 'schemaprop/show/?id=' . $relProperty->getId(),
                 ['title' => $relProperty->getUri()]);
         } else {
             echo $range->getObject();

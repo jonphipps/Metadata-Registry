@@ -1,7 +1,6 @@
 <?php namespace App\Models;
 
 use App\Models\Access\User\User;
-use app\Models\ProjectHasUser;
 use Illuminate\Database\Eloquent\Model as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -66,14 +65,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Project extends Model
 {
-  protected $table = self::TABLE;
-  const TABLE = 'reg_agent';
+    protected $table = self::TABLE;
+    const TABLE = 'reg_agent';
 
-  use SoftDeletes;
+    use SoftDeletes;
 
-  protected $dates = [ 'deleted_at', 'last_updated' ];
+    protected $dates = [ 'deleted_at', 'last_updated' ];
 
-  protected $fillable = [
+    protected $fillable = [
       'last_updated',
       'deleted_at',
       'org_email',
@@ -89,14 +88,14 @@ class Project extends Model
       'phone',
       'web_address',
       'type',
-  ];
+    ];
 
   /**
    * The attributes that should be casted to native types.
    *
    * @var array
    */
-  protected $casts = [
+    protected $casts = [
       'id'              => 'integer',
       'org_email'       => 'string',
       'org_name'        => 'string',
@@ -111,9 +110,9 @@ class Project extends Model
       'phone'           => 'string',
       'web_address'     => 'string',
       'type'            => 'string',
-  ];
+    ];
 
-  public static $rules = [
+    public static $rules = [
       'last_updated'    => 'required|',
       'org_email'       => 'required|max:100',
       'org_name'        => 'required|max:255',
@@ -128,34 +127,33 @@ class Project extends Model
       'phone'           => 'max:45',
       'web_address'     => 'max:255',
       'type'            => 'max:15',
-  ];
+    ];
 
 
-  public function Profiles()
-  {
-    return $this->hasMany(Profile::class, 'agent_id', 'id');
-  }
+    public function Profiles()
+    {
+        return $this->hasMany(Profile::class, 'agent_id', 'id');
+    }
 
 
   /**
    * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
    */
-  public function Users()
-  {
-    return $this->belongsToMany(User::class, ProjectHasUser::TABLE)->withPivot('is_registrar_for', 'is_admin_for')
+    public function Users()
+    {
+        return $this->belongsToMany(User::class, ProjectHasUser::TABLE)->withPivot('is_registrar_for', 'is_admin_for')
         ->withTimestamps();
-  }
+    }
 
 
-  public function Schemas()
-  {
-    return $this->hasMany(ElementSet::class, 'agent_id', 'id');
-  }
+    public function Schemas()
+    {
+        return $this->hasMany(ElementSet::class, 'agent_id', 'id');
+    }
 
 
-  public function Vocabularies()
-  {
-    return $this->hasMany(Vocabulary::class, 'agent_id', 'id');
-  }
-
+    public function Vocabularies()
+    {
+        return $this->hasMany(Vocabulary::class, 'agent_id', 'id');
+    }
 }

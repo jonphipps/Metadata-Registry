@@ -19,14 +19,14 @@ use Illuminate\Database\Eloquent\Model;
 class Orders extends Model
 {
 
-  public $timestamps = false;
-  protected $table = 'orders';
-  protected $primaryKey = 'id';
+    public $timestamps = false;
+    protected $table = 'orders';
+    protected $primaryKey = 'id';
 
   /**
    * @var array
    */
-  protected $fillable = [
+    protected $fillable = [
       'employee_id',
       'customer_id',
       'order_date',
@@ -46,14 +46,14 @@ class Orders extends Model
       'tax_rate',
       'tax_status_id',
       'status_id',
-  ];
+    ];
 
 
   /**
    * @return \Illuminate\Database\Eloquent\Relations\HasOne
    */
-  public function employee()
-  {
-    return $this->belongsTo(Employees::class, 'employee_id');
-  }
+    public function employee()
+    {
+        return $this->belongsTo(Employees::class, 'employee_id');
+    }
 }

@@ -1,6 +1,6 @@
 <div class="pull-right mb-10 hidden-sm hidden-xs">
-    {{  \Collective\Html\link_to_route('admin.access.role.index', trans('menus.backend.access.roles.all'), [], ['class' => 'btn btn-primary btn-xs']) }}
-    {{  \Collective\Html\link_to_route('admin.access.role.create', trans('menus.backend.access.roles.create'), [], ['class' => 'btn btn-success btn-xs']) }}
+    {{  laravel_link_to_route('admin.access.role.index', trans('menus.backend.access.roles.all'), [], ['class' => 'btn btn-primary btn-xs']) }}
+    {{  laravel_link_to_route('admin.access.role.create', trans('menus.backend.access.roles.create'), [], ['class' => 'btn btn-success btn-xs']) }}
 </div><!--pull right-->
 
 <div class="pull-right mb-10 hidden-lg hidden-md">
@@ -10,8 +10,8 @@
         </button>
 
         <ul class="dropdown-menu" role="menu">
-            <li>{{  \Collective\Html\link_to_route('admin.access.role.index', trans('menus.backend.access.roles.all')) }}</li>
-            <li>{{  \Collective\Html\link_to_route('admin.access.role.create', trans('menus.backend.access.roles.create')) }}</li>
+            <li>{{  laravel_link_to_route('admin.access.role.index', trans('menus.backend.access.roles.all')) }}</li>
+            <li>{{  laravel_link_to_route('admin.access.role.create', trans('menus.backend.access.roles.create')) }}</li>
         </ul>
     </div><!--btn group-->
 </div><!--pull right-->

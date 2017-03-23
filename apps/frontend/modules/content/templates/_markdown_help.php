@@ -5,7 +5,7 @@
 }") ?>
 
 <div class="in_form">
-  <div class="small"><?php echo __('basic %1% formatting allowed', array('%1%' => link_to_function('markdown', "toggleMarkdownHelp()"))) ?></div>
+  <div class="small"><?php echo __s('basic %1% formatting allowed', array('%1%' => link_to_function('markdown', "toggleMarkdownHelp()"))) ?></div>
   <div id="markdown_help" style="display: none">
     <p>Phrase Emphasis</p>
 

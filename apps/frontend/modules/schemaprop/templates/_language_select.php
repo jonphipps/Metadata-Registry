@@ -11,7 +11,7 @@
   //we'll need to add the array of languages to use to the $sf_user session in the action class
 ?>
   <?php echo form_tag('@schemaprop_language') ?>
-      <?php echo label_for('culture', __('Current content language').':', array("style" =>"float: left; width: 148px; padding-top: 5px; font-weight: bold;")) ?>
+      <?php echo label_for('culture', __s('Current content language').':', array("style" =>"float: left; width: 148px; padding-top: 5px; font-weight: bold;")) ?>
   <?php /** @var $sf_user MyUser */
       $languages = $sf_user->getAttribute("languages", null);
       $CurrentLanguage = $sf_user->getAttribute("CurrentLanguage", null);

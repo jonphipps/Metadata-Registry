@@ -16,17 +16,18 @@ trait ForeignKeysTrait
    *
    * @return array
    */
-  public function listTableForeignKeys(Blueprint $table)
-  {
-    $conn = SchemaL::getConnection()->getDoctrineSchemaManager();
+    public function listTableForeignKeys(Blueprint $table)
+    {
+        $conn = SchemaL::getConnection()->getDoctrineSchemaManager();
 
-    return array_map(
-        function ($key) {
-          /** @var \Doctrine\DBAL\Schema\ForeignKeyConstraint $key */
-          return $key->getName();
-        },
-        $conn->listTableForeignKeys($table));
-  }
+        return array_map(
+            function ($key) {
+            /** @var \Doctrine\DBAL\Schema\ForeignKeyConstraint $key */
+                return $key->getName();
+            },
+            $conn->listTableForeignKeys($table)
+        );
+    }
 
 
   /**
@@ -35,13 +36,12 @@ trait ForeignKeysTrait
    * @param Blueprint $table
    * @param string $key
    */
-  public function dropForeignKey(Blueprint $table, $key)
-  {
-    $foreignKeys = $this->listTableForeignKeys($table);
+    public function dropForeignKey(Blueprint $table, $key)
+    {
+        $foreignKeys = $this->listTableForeignKeys($table);
 
-    if (in_array($key, $foreignKeys)) {
-      $table->dropForeign($key);
+        if (in_array($key, $foreignKeys)) {
+            $table->dropForeign($key);
+        }
     }
-  }
-
 }

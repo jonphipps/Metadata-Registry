@@ -2,45 +2,46 @@
 
 namespace App\Http\Controllers\Frontend\Auth;
 
-use App\Models\Access\User\User;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\ResetsPasswords;
+use App\Models\Access\User\User;
 use App\Repositories\Frontend\Access\User\UserRepository;
+use Illuminate\Foundation\Auth\ResetsPasswords;
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 /**
- * Class ResetPasswordController
- * @package App\Http\Controllers\Frontend\Auth
+ * Class ResetPasswordController.
  */
 class ResetPasswordController extends Controller
 {
-    use ResetsPasswords;
+  use ResetsPasswords;
 
-	/**
-	 * @var UserRepository
-	 */
-	protected $user;
+    /**
+     * @var UserRepository
+     */
+    protected $user;
 
-  protected $redirectTo = '/dashboard';
+    protected $redirectTo = '/dashboard';
 
     /**
      * ChangePasswordController constructor.
+     *
      * @param UserRepository $user
      */
     public function __construct(UserRepository $user)
     {
-    	$this->user = $user;
+        $this->user = $user;
     }
 
-	/**
-	 * Where to redirect users after resetting password
-	 *
-	 * @return string
-	 */
-	public function redirectPath() {
-		return route('frontend.user.dashboard');
-	}
+  /**
+     * Where to redirect users after resetting password.
+     *
+     * @return string
+     */
+  public function redirectPath()
+  {
+    return route('frontend.user.dashboard');
+  }
 
 
   /**
@@ -51,37 +52,37 @@ class ResetPasswordController extends Controller
    *
    * @return void
    */
-  protected function resetPassword($user, $password)
-  {
-    $user->forceFill([
+    protected function resetPassword($user, $password)
+    {
+        $user->forceFill([
         'password'       => bcrypt($password),
         'remember_token' => Str::random(60),
         'confirmed'      => 1,
-    ])
+        ])
          ->save();
 
-    $this->guard()
+        $this->guard()
          ->login($user);
-  }
+    }
   /**
-   * Display the password reset view for the given token.
-   * If no token is present, display the link request form.
-   *
-   * @param  string|null $token
-   *
-   * @return \Illuminate\Http\Response
-   */
-  public function showResetForm($token = null)
-  {
-    $email = $this->user->getEmailForPasswordToken($token)['email'];
-    $name  = $this->user->getEmailForPasswordToken($token)['name'];
+     * Display the password reset view for the given token.
+     *
+     * If no token is present, display the link request form.
+     *
+     * @param string|null $token
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function showResetForm($token = null)
+    {
+      /** @noinspection NonSecureExtractUsageInspection */
+      extract($this->user->getEmailForPasswordToken($token));
 
-    return view('frontend.auth.passwords.reset')
+        return view('frontend.auth.passwords.reset')
         ->withToken($token)
         ->withEmail($email)
         ->withName($name);
-  }
-
+    }
 
 
   /**
@@ -89,31 +90,32 @@ class ResetPasswordController extends Controller
    *
    * @return array
    */
-  protected function rules()
-  {
-    return [
+    protected function rules()
+    {
+        return [
         'token'    => 'required',
-        'name' => 'required',
+        'name'     => 'required',
         'password' => 'required|confirmed|min:6',
-    ];
-  }
+        ];
+    }
 
 
-   /**
+  /**
    * Get the password reset credentials from the request.
    *
    * @param  \Illuminate\Http\Request $request
    *
    * @return array
    */
-  protected function credentials(Request $request)
-  {
-    return $request->only('name',
-        'password',
-        'password_confirmation',
-        'token');
-  }
-
+    protected function credentials(Request $request)
+    {
+        return $request->only(
+            'name',
+            'password',
+            'password_confirmation',
+            'token'
+        );
+    }
 
 
   /**
@@ -124,11 +126,8 @@ class ResetPasswordController extends Controller
    *
    * @return \Illuminate\Http\RedirectResponse
    */
-  protected function sendResetFailedResponse(Request $request, $response)
-  {
-    return redirect()->back()->withInput($request->only('name'))->withErrors([ 'name' => trans($response) ]);
-  }
-
-
-
+    protected function sendResetFailedResponse(Request $request, $response)
+    {
+        return redirect()->back()->withInput($request->only('name'))->withErrors([ 'name' => trans($response) ]);
+    }
 }

@@ -243,5 +243,5 @@ function link_to_object($getter){
   $name = (string) $getter;
   $class = new AgentPeer();
   $class = get_class($getter);
-  return link_to($name, '@'.strtolower($class).'_show?id='. $getter->getId());
+  return sf_link_to($name, '@'.strtolower($class).'_show?id='. $getter->getId());
 }

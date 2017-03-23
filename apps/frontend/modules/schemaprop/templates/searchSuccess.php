@@ -1,21 +1,21 @@
 <?php use_helper( 'I18N', 'Date' ) ?>
 <div id="sf_admin_container" class="sf_admin_list">
   <div id="sf_admin_header">
-    <h1><?php echo __( 'Search results for ', array () ) . "<em>'" . $sf_params->get( 'sq' ) . "'</em>" ?></h1>
+    <h1><?php echo __s( 'Search results for ', array () ) . "<em>'" . $sf_params->get( 'sq' ) . "'</em>" ?></h1>
   </div>
 
   <div id="sf_admin_content">
 
     <?php if ( ! $pager->getNbResults() ): ?>
-      <?php echo __( 'no result' ) ?>
+      <?php echo __s( 'no result' ) ?>
     <?php else: ?>
       <table cellspacing="0" class="sf_admin_list" width="100%">
         <thead>
         <tr>
           <th id="sf_admin_list_th_schema_name">
             <?php if ( $sf_user->getAttribute( 'sort', null, 'sf_admin/schema_search/sort' ) == 'schema_name' ): ?>
-              <?php echo link_to(
-                  __( 'Schema' ),
+              <?php echo sf_link_to(
+                  __s( 'Schema' ),
                   'schemaprop/search?sort=schema_name&type=' . ( $sf_user->getAttribute(
                       'type',
                       'asc',
@@ -28,8 +28,8 @@
                     sfConfig::get( 'sf_admin_web_dir' ) . '/images/s_asc.png',
                     array (
                         'align' => 'middle',
-                        'alt'   => __( 'Ascending Order' ),
-                        'title' => __( 'List has been sorted in ascending order' )
+                        'alt'   => __s( 'Ascending Order' ),
+                        'title' => __s( 'List has been sorted in ascending order' )
                     )
                 ) ?>
               <?php elseif ( $sf_user->getAttribute( 'type', null, 'sf_admin/schema_search/sort' ) == 'desc' ): ?>
@@ -37,15 +37,15 @@
                     sfConfig::get( 'sf_admin_web_dir' ) . '/images/s_desc.png',
                     array (
                         'align' => 'middle',
-                        'alt'   => __( 'Descending Order' ),
-                        'title' => __( 'List has been sorted in descending order' )
+                        'alt'   => __s( 'Descending Order' ),
+                        'title' => __s( 'List has been sorted in descending order' )
                     )
                 ) ?>
               <?php endif; ?>
             <?php else: ?>
 
-              <?php echo link_to(
-                  __( 'Schema' ),
+              <?php echo sf_link_to(
+                  __s( 'Schema' ),
                   'schemaprop/search?sort=schema_name&type=asc&sq=' . $sf_params->get( 'sq' )
               ) ?>
             <?php endif; ?>
@@ -54,8 +54,8 @@
           <th id="sf_admin_list_th_schema_prop_label">
             <?php if ( $sf_user->getAttribute( 'sort', null, 'sf_admin/schema_search/sort' ) == 'schema_prop_label'
             ): ?>
-              <?php echo link_to(
-                  __( 'Property' ),
+              <?php echo sf_link_to(
+                  __s( 'Property' ),
                   'schemaprop/search?sort=schema_prop_label&type=' . ( $sf_user->getAttribute(
                       'type',
                       'asc',
@@ -68,8 +68,8 @@
                     sfConfig::get( 'sf_admin_web_dir' ) . '/images/s_asc.png',
                     array (
                         'align' => 'middle',
-                        'alt'   => __( 'Ascending Order' ),
-                        'title' => __( 'List has been sorted in ascending order' )
+                        'alt'   => __s( 'Ascending Order' ),
+                        'title' => __s( 'List has been sorted in ascending order' )
                     )
                 ) ?>
               <?php elseif ( $sf_user->getAttribute( 'type', null, 'sf_admin/schema_search/sort' ) == 'desc' ): ?>
@@ -77,15 +77,15 @@
                     sfConfig::get( 'sf_admin_web_dir' ) . '/images/s_desc.png',
                     array (
                         'align' => 'middle',
-                        'alt'   => __( 'Descending Order' ),
-                        'title' => __( 'List has been sorted in descending order' )
+                        'alt'   => __s( 'Descending Order' ),
+                        'title' => __s( 'List has been sorted in descending order' )
                     )
                 ) ?>
               <?php endif; ?>
             <?php else: ?>
 
-              <?php echo link_to(
-                  __( 'Property' ),
+              <?php echo sf_link_to(
+                  __s( 'Property' ),
                   'schemaprop/search?sort=schema_prop_label&type=asc&sq=' . $sf_params->get( 'sq' )
               ) ?>
             <?php endif; ?>
@@ -93,8 +93,8 @@
 
           <th id="sf_admin_list_th_type">
             <?php if ( $sf_user->getAttribute( 'sort', null, 'sf_admin/schema_search/sort' ) == 'type' ): ?>
-              <?php echo link_to(
-                  __( 'Type' ),
+              <?php echo sf_link_to(
+                  __s( 'Type' ),
                   'schemaprop/search?sort=type&type=' . ( $sf_user->getAttribute(
                       'type',
                       'asc',
@@ -107,8 +107,8 @@
                     sfConfig::get( 'sf_admin_web_dir' ) . '/images/s_asc.png',
                     array (
                         'align' => 'middle',
-                        'alt'   => __( 'Ascending Order' ),
-                        'title' => __( 'List has been sorted in ascending order' )
+                        'alt'   => __s( 'Ascending Order' ),
+                        'title' => __s( 'List has been sorted in ascending order' )
                     )
                 ) ?>
               <?php elseif ( $sf_user->getAttribute( 'type', null, 'sf_admin/schema_search/sort' ) == 'desc' ): ?>
@@ -116,15 +116,15 @@
                     sfConfig::get( 'sf_admin_web_dir' ) . '/images/s_desc.png',
                     array (
                         'align' => 'middle',
-                        'alt'   => __( 'Descending Order' ),
-                        'title' => __( 'List has been sorted in descending order' )
+                        'alt'   => __s( 'Descending Order' ),
+                        'title' => __s( 'List has been sorted in descending order' )
                     )
                 ) ?>
               <?php endif; ?>
             <?php else: ?>
 
-              <?php echo link_to(
-                  __( 'Type' ),
+              <?php echo sf_link_to(
+                  __s( 'Type' ),
                   'schemaprop/search?sort=type&type=asc&sq=' . $sf_params->get( 'sq' )
               ) ?>
             <?php endif; ?>
@@ -132,8 +132,8 @@
 
           <th id="sf_admin_list_th_language">
             <?php if ( $sf_user->getAttribute( 'sort', null, 'sf_admin/schema_search/sort' ) == 'language' ): ?>
-              <?php echo link_to(
-                  __( 'Language' ),
+              <?php echo sf_link_to(
+                  __s( 'Language' ),
                   'schemaprop/search?sort=language&type=' . ( $sf_user->getAttribute(
                       'type',
                       'asc',
@@ -146,8 +146,8 @@
                     sfConfig::get( 'sf_admin_web_dir' ) . '/images/s_asc.png',
                     array (
                         'align' => 'middle',
-                        'alt'   => __( 'Ascending Order' ),
-                        'title' => __( 'List has been sorted in ascending order' )
+                        'alt'   => __s( 'Ascending Order' ),
+                        'title' => __s( 'List has been sorted in ascending order' )
                     )
                 ) ?>
               <?php elseif ( $sf_user->getAttribute( 'type', null, 'sf_admin/schema_search/sort' ) == 'desc' ): ?>
@@ -155,15 +155,15 @@
                     sfConfig::get( 'sf_admin_web_dir' ) . '/images/s_desc.png',
                     array (
                         'align' => 'middle',
-                        'alt'   => __( 'Descending Order' ),
-                        'title' => __( 'List has been sorted in descending order' )
+                        'alt'   => __s( 'Descending Order' ),
+                        'title' => __s( 'List has been sorted in descending order' )
                     )
                 ) ?>
               <?php endif; ?>
             <?php else: ?>
 
-              <?php echo link_to(
-                  __( 'Language' ),
+              <?php echo sf_link_to(
+                  __s( 'Language' ),
                   'schemaprop/search?sort=language&type=asc&sq=' . $sf_params->get( 'sq' )
               ) ?>
             <?php endif; ?>
@@ -171,8 +171,8 @@
 
           <th id="sf_admin_list_th_updated">
             <?php if ( $sf_user->getAttribute( 'sort', null, 'sf_admin/schema_search/sort' ) == 'updated' ): ?>
-              <?php echo link_to(
-                  __( 'Last Updated' ),
+              <?php echo sf_link_to(
+                  __s( 'Last Updated' ),
                   'schemaprop/search?sort=updated&type=' . ( $sf_user->getAttribute(
                       'type',
                       'asc',
@@ -185,8 +185,8 @@
                     sfConfig::get( 'sf_admin_web_dir' ) . '/images/s_asc.png',
                     array (
                         'align' => 'middle',
-                        'alt'   => __( 'Ascending Order' ),
-                        'title' => __( 'List has been sorted in ascending order' )
+                        'alt'   => __s( 'Ascending Order' ),
+                        'title' => __s( 'List has been sorted in ascending order' )
                     )
                 ) ?>
               <?php elseif ( $sf_user->getAttribute( 'type', null, 'sf_admin/schema_search/sort' ) == 'desc' ): ?>
@@ -194,15 +194,15 @@
                     sfConfig::get( 'sf_admin_web_dir' ) . '/images/s_desc.png',
                     array (
                         'align' => 'middle',
-                        'alt'   => __( 'Descending Order' ),
-                        'title' => __( 'List has been sorted in descending order' )
+                        'alt'   => __s( 'Descending Order' ),
+                        'title' => __s( 'List has been sorted in descending order' )
                     )
                 ) ?>
               <?php endif; ?>
             <?php else: ?>
 
-              <?php echo link_to(
-                  __( 'Last Updated' ),
+              <?php echo sf_link_to(
+                  __s( 'Last Updated' ),
                   'schemaprop/search?sort=updated&type=asc&sq=' . $sf_params->get( 'sq' )
               ) ?>
             <?php endif; ?>
@@ -212,7 +212,7 @@
 
 
           <?php if ( $sf_user->hasCredential( array ( 0 => 'administrator', ) ) ): ?>
-            <th id="sf_admin_list_th_sf_actions"><?php echo __( 'Actions' ) ?></th>
+            <th id="sf_admin_list_th_sf_actions"><?php echo __s( 'Actions' ) ?></th>
           <?php endif; ?>
         </tr>
         </thead>
@@ -222,11 +222,11 @@
           <th colspan="7">
             <div class="float-right">
               <?php if ( $pager->haveToPaginate() ): ?>
-                <?php echo link_to(
+                <?php echo sf_link_to(
                     image_tag( sfConfig::get( 'sf_admin_web_dir' ) . '/images/first.png', 'align=middle' ),
                     'schemaprop/search?page=1&sq=' . $sf_params->get( 'sq' )
                 ) ?>
-                <?php echo link_to(
+                <?php echo sf_link_to(
                     image_tag( sfConfig::get( 'sf_admin_web_dir' ) . '/images/previous.png', 'align=middle' ),
                     'schemaprop/search?page=' . $pager->getPreviousPage() . '&sq=' . $sf_params->get( 'sq' )
                 ) ?>
@@ -239,11 +239,11 @@
                   ) ?>
                 <?php endforeach; ?>
 
-                <?php echo link_to(
+                <?php echo sf_link_to(
                     image_tag( sfConfig::get( 'sf_admin_web_dir' ) . '/images/next.png', 'align=middle' ),
                     'schemaprop/search?page=' . $pager->getNextPage() . '&sq=' . $sf_params->get( 'sq' )
                 ) ?>
-                <?php echo link_to(
+                <?php echo sf_link_to(
                     image_tag( sfConfig::get( 'sf_admin_web_dir' ) . '/images/last.png', 'align=middle' ),
                     'schemaprop/search?page=' . $pager->getLastPage() . '&sq=' . $sf_params->get( 'sq' )
                 ) ?>
@@ -262,7 +262,7 @@
         <?php $i = 1;
         foreach ( $pager->getResults() as $property ): $odd = fmod( ++ $i, 2 ) ?>
           <tr class="sf_admin_row_<?php echo $odd ?>">
-            <td><?php echo link_to(
+            <td><?php echo sf_link_to(
                   htmlspecialchars(html_entity_decode($property->getSchema()->getName(), ENT_QUOTES | ENT_HTML5, 'UTF-8')),
                   '/schema/show?id=' . $property->getschemaId(),
                   array ( "title" => $property->getSchema()->getUri() )
@@ -279,14 +279,14 @@
               $query = '/(' . $sf_params->get( 'sq' ) . ')/i';
               $propertyLabel = htmlspecialchars(html_entity_decode($property->getLabel(), ENT_QUOTES | ENT_HTML5, 'UTF-8'));
               $propertyLabel = preg_replace( $query, '<span class="highlight">$1</span>', $propertyLabel );
-              echo link_to(
+              echo sf_link_to(
                   $propertyLabel,
                   '/schemaprop/show?id=' . $property->getId(),
                   array ( "title" => $property->getUri() )
               ) ?></td>
             <td><?php if ( $property->getIsSubpropertyOf() ) {
                 $parentUri = $property->getParentUri();
-                echo link_to( $property->getType(), $parentUri, array ( "title" => $parentUri ) );
+                echo sf_link_to( $property->getType(), $parentUri, array ( "title" => $parentUri ) );
               } else {
                 echo $property->getType();
               } ?></td>
@@ -302,10 +302,10 @@
             <?php if ( $sf_user->hasCredential( array ( 0 => 'administrator', ) ) ): ?>
               <td>
                 <ul class="sf_admin_td_actions">
-                  <li><?php echo link_to(
+                  <li><?php echo sf_link_to(
                         image_tag(
                             sfConfig::get( 'sf_admin_web_dir' ) . '/images/edit_icon.png',
-                            array ( 'alt' => __( 'edit' ), 'title' => __( 'edit' ) )
+                            array ( 'alt' => __s( 'edit' ), 'title' => __s( 'edit' ) )
                         ),
                         'schemaprop/edit?id=' . $property->getId()
                     ) ?></li>

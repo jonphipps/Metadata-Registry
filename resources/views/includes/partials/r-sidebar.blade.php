@@ -12,7 +12,7 @@
                         {{ $logged_in_user->email }}<br/>
                         Joined {{ $logged_in_user->created_at->format('F jS, Y') }}
                     </small>
-                </h4>{{ \Collective\Html\link_to_route('frontend.user.account', trans('navs.frontend.user.account'), [], ['class' => 'btn btn-info btn-xs']) }}@permission('view-backend'){{ \Collective\Html\link_to_route('admin.dashboard', trans('navs.frontend.user.administration'), [], ['class' => 'btn btn-danger btn-xs']) }}@endauth
+                </h4>{{ laravel_link_to_route('frontend.user.account', trans('navs.frontend.user.account'), [], ['class' => 'btn btn-info btn-xs']) }}@permission('view-backend'){{ laravel_link_to_route('admin.dashboard', trans('navs.frontend.user.administration'), [], ['class' => 'btn btn-danger btn-xs']) }}@endauth
             </div><!--media-body--></li><!--media--></ul>
     <!--media-list-->
     @endif

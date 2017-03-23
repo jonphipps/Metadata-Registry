@@ -12,12 +12,12 @@ $title = '';
 if (isset( $tabs )) {
     foreach ($tabs as $tab) {
         if ($route == $tab['link'] ) {
-            $metaAction = ucfirst(__($action)) . ' the ' . __($tab['title']);
+            $metaAction = ucfirst(__s($action)) . ' the ' . __s($tab['title']);
             $breadcrumbPrefix = $metaAction . " of ";
         }
     }
 } else {
-    $metaAction = ucfirst(__($action));
+    $metaAction = ucfirst(__s($action));
 }
 
 $metaAction = " :: " . $metaAction;
@@ -57,13 +57,13 @@ if (isset( $breadcrumbs) && count( $breadcrumbs )): ?>
 
                 $options = empty($filterParam) ? '' : [ 'query_string' => $filterParam ];
 
-                $html .= link_to(__($breadcrumb->getEntityTypeLabel()) . ':&nbsp;', $url, $options);
+                $html .= sf_link_to(__s($breadcrumb->getEntityTypeLabel()) . ':&nbsp;', $url, $options);
                 $html = empty( $breadcrumb->getEntityUrl() )
-                    ? $html . $breadcrumbPrefix . '"' . __($breadcrumb->getEntityLabel() . '"')
-                    : $html . link_to('"' . __($breadcrumb->getEntityLabel() . '"'), $breadcrumb->getEntityUrl());
-                $title = __($breadcrumb->getEntityLabel());
+                    ? $html . $breadcrumbPrefix . '"' . __s($breadcrumb->getEntityLabel() . '"')
+                    : $html . sf_link_to('"' . __s($breadcrumb->getEntityLabel() . '"'), $breadcrumb->getEntityUrl());
+                $title = __s($breadcrumb->getEntityLabel());
             } else { //There's just a top level list
-                $title = __($breadcrumb->getEntityTypeLabel());
+                $title = __s($breadcrumb->getEntityTypeLabel());
                 $html .= $title;
             }
             $html .= "<br>\n";
@@ -89,7 +89,7 @@ if ($title) {
         foreach ($tabs as $key => $tab):
             $options  = [ 'id' => 'a' . $key ];
             $selected = ( isset( $tab[$action . '_module'] ) && $module == $tab[$action . '_module'] ) ? ' class = "ui-tabs-selected"' : '';
-            echo '<li' . $selected . '>' . link_to('<span>' . __($tab['title']) . '</span>',
+            echo '<li' . $selected . '>' . sf_link_to('<span>' . __s($tab['title']) . '</span>',
                                                    $tab['link'],
                                                    $options) . '
                     </li>';

@@ -2,17 +2,16 @@
 
 namespace App\Repositories\Backend\Access\Permission;
 
-use App\Repositories\Repository;
+use App\Repositories\BaseRepository;
 use App\Models\Access\Permission\Permission;
 
 /**
- * Class PermissionRepository
- * @package App\Repositories\Permission
+ * Class PermissionRepository.
  */
-class PermissionRepository extends Repository
+class PermissionRepository extends BaseRepository
 {
-	/**
-	 * Associated Repository Model
-	 */
-	const MODEL = Permission::class;
+    /**
+     * Associated Repository Model.
+     */
+    const MODEL = Permission::class;
 }

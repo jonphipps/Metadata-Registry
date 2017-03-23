@@ -8,7 +8,7 @@
         } else {
             $param = 'vocabulary_id=' . $sf_params->get('vocabulary_id');
         }
-        echo button_to(__('Export CSV'),
+        echo button_to(__s('Export CSV'),
                        'export/create?' . $param . '',
                        [
                            'title' => 'Create',

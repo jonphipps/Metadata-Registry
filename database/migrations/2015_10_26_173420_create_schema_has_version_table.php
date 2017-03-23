@@ -14,7 +14,8 @@ class CreateSchemaHasVersionTable extends Migration
      */
     public function up()
     {
-        Schema::create('schema_has_version',
+        Schema::create(
+            'schema_has_version',
             function (Blueprint $table) {
                 $table->integer('id', true);
                 $table->string('name')->default('');
@@ -24,7 +25,8 @@ class CreateSchemaHasVersionTable extends Migration
                 $table->integer('created_user_id')->nullable()->index();
                 $table->integer('schema_id')->nullable()->index();
                 $table->dateTime('timeslice')->nullable();
-            });
+            }
+        );
     }
 
 
@@ -37,5 +39,4 @@ class CreateSchemaHasVersionTable extends Migration
     {
         Schema::drop('schema_has_version');
     }
-
 }

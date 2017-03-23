@@ -13,11 +13,13 @@ class AddUpdateAtToAgentTable extends Migration
      */
     public function up()
     {
-        Schema::table('reg_agent',
+        Schema::table(
+            'reg_agent',
             function (Blueprint $table) {
-              $default = DB::getDriverName() == 'mysql' ? DB::raw('CURRENT_TIMESTAMP') : '';
-              $table->timestamp('updated_at')->default($default)->after('created_at');
-            });
+                $default = DB::getDriverName() == 'mysql' ? DB::raw('CURRENT_TIMESTAMP') : '';
+                $table->timestamp('updated_at')->default($default)->after('created_at');
+            }
+        );
     }
 
 
@@ -28,9 +30,11 @@ class AddUpdateAtToAgentTable extends Migration
      */
     public function down()
     {
-        Schema::table('reg_agent',
+        Schema::table(
+            'reg_agent',
             function (Blueprint $table) {
                 $table->dropColumn('updated_at');
-            });
+            }
+        );
     }
 }

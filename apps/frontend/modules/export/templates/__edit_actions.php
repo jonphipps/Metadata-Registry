@@ -9,19 +9,19 @@ if ($sf_params->get('schema_id')) {
 ?>
 
 <ul class="sf_admin_actions">
-    <li><?php echo button_to(__('List'),
+    <li><?php echo button_to(__s('List'),
                              'export/list?schema_id=' . $param . '',
                              [
                                  'title' => 'Show export_history list',
                                  'class' => 'sf_admin_action_list',
                              ]) ?></li>
-    <li><?php echo submit_tag(__('Export CSV'),
+    <li><?php echo submit_tag(__s('Export CSV'),
                               [
                                   'name'  => 'save',
                                   'title' => 'Save',
                                   'class' => 'sf_admin_action_save',
                               ]) ?></li>
-    <li><?php echo button_to(__('Cancel'),
+    <li><?php echo button_to(__s('Cancel'),
                              'export/cancel?id=' . $export_history->getId(),
                              [
                                  'title' => 'Cancel',

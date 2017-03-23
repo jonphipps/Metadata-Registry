@@ -65,7 +65,7 @@
         <div class="box box-success">
             <div class="box-body">
                 <div class="pull-left">
-                    {{ \Collective\Html\link_to_route('admin.access.role.index', trans('buttons.general.cancel'), [], ['class' => 'btn btn-danger btn-xs']) }}
+                    {{ laravel_link_to_route('admin.access.role.index', trans('buttons.general.cancel'), [], ['class' => 'btn btn-danger btn-xs']) }}
                 </div><!--pull-left-->
 
                 <div class="pull-right">
@@ -77,8 +77,8 @@
         </div><!--box-->
 
     {{ Form::close() }}
-@stop
+@endsection
 
 @section('after-scripts')
     {{ Html::script('js/backend/access/roles/script.js') }}
-@stop
+@endsection

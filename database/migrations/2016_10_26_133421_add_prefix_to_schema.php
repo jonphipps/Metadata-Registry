@@ -14,7 +14,7 @@ class AddPrefixToSchema extends Migration
     public function up()
     {
         Schema::table('reg_schema', function (Blueprint $table) {
-          $table->string('prefix')->default('');
+            $table->string('prefix')->default('');
         });
     }
 
@@ -26,7 +26,7 @@ class AddPrefixToSchema extends Migration
     public function down()
     {
         Schema::table('reg_schema', function (Blueprint $table) {
-          $table->dropColumn('prefix');
+            $table->dropColumn('prefix');
         });
     }
 }

@@ -14,7 +14,8 @@ class CreateSchemaHasUserTable extends Migration
      */
     public function up()
     {
-        Schema::create('schema_has_user',
+        Schema::create(
+            'schema_has_user',
             function (Blueprint $table) {
                 $table->integer('id', true);
                 $table->dateTime('created_at')->nullable();
@@ -28,7 +29,8 @@ class CreateSchemaHasUserTable extends Migration
                 $table->text('languages', 65535)->nullable();
                 $table->char('default_language', 6)->default('en');
                 $table->char('current_language', 6)->nullable();
-            });
+            }
+        );
     }
 
 
@@ -41,5 +43,4 @@ class CreateSchemaHasUserTable extends Migration
     {
         Schema::drop('schema_has_user');
     }
-
 }

@@ -14,10 +14,12 @@ class AddPrefixToVocabulary extends Migration
      */
     public function up()
     {
-        Schema::table('reg_vocabulary',
+        Schema::table(
+            'reg_vocabulary',
             function (Blueprint $table) {
                 $table->string('prefix')->default('');
-            });
+            }
+        );
     }
 
 
@@ -28,9 +30,11 @@ class AddPrefixToVocabulary extends Migration
      */
     public function down()
     {
-        Schema::table('reg_vocabulary',
+        Schema::table(
+            'reg_vocabulary',
             function (Blueprint $table) {
                 $table->dropColumn('prefix');
-            });
+            }
+        );
     }
 }

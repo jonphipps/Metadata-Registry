@@ -11,9 +11,9 @@
 <?php echo object_input_hidden_tag($vocabulary, 'getId') ?>
 
 <fieldset id="sf_fieldset_defaults">
-    <h2><?php echo __('Export') ?></h2>
+    <h2><?php echo __s('Export') ?></h2>
 
-    <div id="form_row_vocabulary_exportType" class="form-row"><?php echo label_for('exportType', __('CSV Type'),
+    <div id="form_row_vocabulary_exportType" class="form-row"><?php echo label_for('exportType', __s('CSV Type'),
               'class=required id=label_for_vocabulary_exportType') ?>
 
         <div id="form_row_content_vocabulary_language" class="content<?php if ($sf_request->hasError('exportType')): ?> form-error<?php endif; ?>">
@@ -27,27 +27,27 @@
             ));
             echo $value ? $value : '&nbsp;' ?>
 
-            <div class="sf_admin_edit_help"><?php echo __('The type of CSV file to export') ?></div>
+            <div class="sf_admin_edit_help"><?php echo __s('The type of CSV file to export') ?></div>
         </div>
     </div>
     <div id="form_row_exclude_deprecated" class="form-row">
-        <?php echo label_for('excludeDeprecated', __('Exclude Deprecated'), 'id=label_for_exclude_deprecated') ?>
+        <?php echo label_for('excludeDeprecated', __s('Exclude Deprecated'), 'id=label_for_exclude_deprecated') ?>
         <div id="form_row_content_exclude_deprecated" class="content<?php if ($sf_request->hasError('excludeDeprecated')): ?> form-error<?php endif; ?>">
             <?php echo checkbox_tag('excludeDeprecated', 1,
                   $sf_request->getAttribute('excludeDeprecated', false) ? 1 : 0, array('style' => "width:1em")) ?>
-            <div class="sf_admin_edit_help"><?php echo __('This will <em>exclude</em> from the export currently deprecated elements.') ?></div>
+            <div class="sf_admin_edit_help"><?php echo __s('This will <em>exclude</em> from the export currently deprecated elements.') ?></div>
         </div>
     </div>
     <div id="form_row_exclude_generated" class="form-row">
-        <?php echo label_for('excludeGenerated', __('Exclude Generated'), 'id=label_for_exclude_generated') ?>
+        <?php echo label_for('excludeGenerated', __s('Exclude Generated'), 'id=label_for_exclude_generated') ?>
         <div id="form_row_content_exclude_generated" class="content<?php if ($sf_request->hasError('excludeGenerated')): ?> form-error<?php endif; ?>">
             <?php echo checkbox_tag('excludeGenerated', 1, $sf_request->getAttribute('excludeGenerated', false) ? 1 : 0,
                   array('style' => "width:1em")) ?>
-            <div class="sf_admin_edit_help"><?php echo __('This will <em>exclude</em> from the export inferred elements materialized by the Registry.') ?></div>
+            <div class="sf_admin_edit_help"><?php echo __s('This will <em>exclude</em> from the export inferred elements materialized by the Registry.') ?></div>
         </div>
     </div><?php if (isset($vocabulary) and count($vocabulary->getLanguages()) > 1) : ?>
         <div id="form_row_add_language" class="form-row">
-        <?php echo label_for('addLanguage', __('Additional Language'), 'id=label_for_add_language') ?>
+        <?php echo label_for('addLanguage', __s('Additional Language'), 'id=label_for_add_language') ?>
         <div id="form_row_content_export_language" class="content
             <?php if ($sf_request->hasError('addLanguage')): ?> form-error
             <?php endif; ?>">
@@ -62,15 +62,15 @@
             ));
             echo $value ? $value : '&nbsp;';
             ?>
-            <div class="sf_admin_edit_help"><?php echo __('The default language is ' . $defaultLanguage) ?></div>
-            <div class="sf_admin_edit_help"><?php echo __('Additional language column included for populating each literal attribute') ?></div>
+            <div class="sf_admin_edit_help"><?php echo __s('The default language is ' . $defaultLanguage) ?></div>
+            <div class="sf_admin_edit_help"><?php echo __s('Additional language column included for populating each literal attribute') ?></div>
         </div></div><?php endif; ?>
     <div id="form_row_include_deleted" class="form-row">
-        <?php echo label_for('includeDeleted', __('Include Deleted'), 'id=label_for_include_deleted') ?>
+        <?php echo label_for('includeDeleted', __s('Include Deleted'), 'id=label_for_include_deleted') ?>
         <div id="form_row_content_include_deleted" class="content<?php if ($sf_request->hasError('includeDeleted')): ?> form-error<?php endif; ?>">
             <?php echo checkbox_tag('includeDeleted', 1, $sf_request->getAttribute('includeDeleted', false) ? 1 : 0,
                   array('style' => "width:1em")) ?>
-            <div class="sf_admin_edit_help"><?php echo nl2br(__("This will include </em>most</em> of the previously deleted element properties in the export.
+            <div class="sf_admin_edit_help"><?php echo nl2br(__s("This will include </em>most</em> of the previously deleted element properties in the export.
                 This isn't a complete 'undo' feature. It simply puts properties that have been deleted back in the exported data.
                 It's primary utility is to recover properties that were deleted by misteak in the last import.
                 <em>THIS HAS NO EFFECT ON RDF EXPORT!!</em> Deleted properties are never included in the RDF.")) ?></div>

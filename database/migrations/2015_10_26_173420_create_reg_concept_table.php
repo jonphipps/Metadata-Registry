@@ -14,7 +14,8 @@ class CreateRegConceptTable extends Migration
      */
     public function up()
     {
-        Schema::create('reg_concept',
+        Schema::create(
+            'reg_concept',
             function (Blueprint $table) {
                 $table->integer('id', true);
                 $table->dateTime('created_at')->nullable();
@@ -31,7 +32,8 @@ class CreateRegConceptTable extends Migration
                 $table->integer('status_id')->default(1)->index();
                 $table->char('language', 6)->default('en');
                 $table->unique([ 'vocabulary_id', 'pref_label' ], 'vocabulary_id_pref_label');
-            });
+            }
+        );
     }
 
 
@@ -44,5 +46,4 @@ class CreateRegConceptTable extends Migration
     {
         Schema::drop('reg_concept');
     }
-
 }

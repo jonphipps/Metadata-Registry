@@ -3,27 +3,28 @@
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Class DatabaseSeeder.
+ */
 class DatabaseSeeder extends Seeder
 {
-
   /**
    * Run the database seeds.
    *
    * @return void
    */
-  public function run()
-  {
-    Model::unguard();
+    public function run()
+    {
+        Model::unguard();
 
-    $this->call(AccessTableSeeder::class);
-    $this->call(HistoryTypeTableSeeder::class);
+        $this->call(AdminSeeder::class);
 
-    $this->call(SkosPropertySeeder::class);
-    $this->call(StatusSeeder::class);
-    $this->call(ProfileSeeder::class);
-    $this->call(ProfilePropertySeeder::class);
-    $this->call(PrefixSeeder::class);
+        $this->call(SkosPropertySeeder::class);
+        $this->call(StatusSeeder::class);
+        $this->call(ProfileSeeder::class);
+        $this->call(ProfilePropertySeeder::class);
+        $this->call(PrefixSeeder::class);
 
-    Model::reguard();
-  }
+        Model::reguard();
+    }
 }

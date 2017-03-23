@@ -51,40 +51,40 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class ElementAttribute extends Model
 {
-  protected $table = self::TABLE;
-  const TABLE = 'reg_schema_property_element';
+    protected $table = self::TABLE;
+    const TABLE = 'reg_schema_property_element';
 
-  use SoftDeletes, Blameable, CreatedBy, UpdatedBy, DeletedBy;
+    use SoftDeletes, Blameable, CreatedBy, UpdatedBy, DeletedBy;
 
-  protected $blameable = [
+    protected $blameable = [
       'created' => 'created_user_id',
       'updated' => 'updated_user_id',
       'deleted' => 'deleted_user_id',
-  ];
+    ];
 
-  protected $dates = [ 'deleted_at' ];
-
-
-  public function ProfileProperty()
-  {
-    return $this->belongsTo('App\Models\ProfileProperty', 'profile_property_id', 'id');
-  }
+    protected $dates = [ 'deleted_at' ];
 
 
-  public function Element()
-  {
-    return $this->belongsTo('App\Models\Element', 'schema_property_id', 'id');
-  }
+    public function ProfileProperty()
+    {
+        return $this->belongsTo(\App\Models\ProfileProperty::class, 'profile_property_id', 'id');
+    }
 
 
-  public function Status()
-  {
-    return $this->belongsTo('App\Models\Status', 'status_id', 'id');
-  }
+    public function Element()
+    {
+        return $this->belongsTo(\App\Models\Element::class, 'schema_property_id', 'id');
+    }
 
 
-  public function ElementAttributeHistory()
-  {
-    return $this->hasMany('App\Models\ElementAttributeHistory', '$schema_property_element_id', 'id');
-  }
+    public function Status()
+    {
+        return $this->belongsTo(\App\Models\Status::class, 'status_id', 'id');
+    }
+
+
+    public function ElementAttributeHistory()
+    {
+        return $this->hasMany(\App\Models\ElementAttributeHistory::class, '$schema_property_element_id', 'id');
+    }
 }

@@ -5,25 +5,24 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
- * Class Request
- * @package App\Http\Requests
+ * Class Request.
  */
-abstract class Request extends FormRequest {
+abstract class Request extends FormRequest
+{
+    /**
+     * @var string
+     */
+    protected $error = '';
 
-	/**
-	 * @var string
-	 */
-	protected $error = '';
-
-	/**
-	 * @return \Illuminate\Http\RedirectResponse
-   */
-	public function forbiddenResponse()
+    /**
+     * @return $this
+     */
+    public function forbiddenResponse()
     {
         if (empty($error)) {
             $this->error = trans('auth.general_error');
         }
 
-        return redirect()->back()->withErrors($this->error);
-    }
+    return redirect()->back()->withErrors($this->error);
+  }
 }

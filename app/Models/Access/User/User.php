@@ -93,79 +93,83 @@ use App\Models\Access\User\Traits\Relationship\UserRelationship;
  */
 class User extends Authenticatable
 {
+    use UserScope,
+        UserAccess,
+        Notifiable,
+        SoftDeletes,
+        UserAttribute,
+        UserRelationship,
+        UserSendPasswordReset;
   /**
-   * The database table used by the model.
-   *
-   * @var string
-   */
-  protected $table = self::TABLE;
-  const TABLE = 'reg_user';
-
-  use UserScope, UserAccess, Notifiable, SoftDeletes, UserAttribute, UserRelationship, UserSendPasswordReset;
-
-  /**
-   * The attributes that are mass assignable.
-   *
-   * @var array
-   */
-  protected $fillable = [ 'name', 'email', 'password', 'status', 'confirmation_code', 'confirmed' ];
+     * The database table used by the model.
+     *
+     * @var string
+     */
+    protected $table = self::TABLE;
+    public const TABLE = 'reg_user';
 
   /**
-   * The attributes that should be hidden for arrays.
-   *
-   * @var array
-   */
-  protected $hidden = [ 'password', 'remember_token' ];
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [ 'name', 'email', 'password', 'status', 'confirmation_code', 'confirmed' ];
 
   /**
-   * @var array
-   */
-  protected $dates = [ 'deleted_at' ];
-
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [ 'password', 'remember_token' ];
 
   /**
-   * @param array $attributes
-   */
-  public function __construct(array $attributes = [])
-  {
-    parent::__construct($attributes);
-    $this->table = config('access.users_table');
-  }
+     * @var array
+     */
+    protected $dates = [ 'deleted_at' ];
+
+  /**
+     * @param array $attributes
+     */
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+        $this->table = config('access.users_table');
+    }
 
 
   /**
    * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
    */
-  public function projects()
-  {
-    return $this->belongsToMany(Project::class, ProjectHasUser::TABLE, 'user_id', 'agent_id')
+    public function projects()
+    {
+        return $this->belongsToMany(Project::class, ProjectHasUser::TABLE, 'user_id', 'agent_id')
         ->withPivot('is_registrar_for', 'is_admin_for')->withTimestamps();
-  }
+    }
 
 
   /**
    * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
    */
-  public function vocabularies()
-  {
-    return $this->belongsToMany(Vocabulary::class, VocabularyHasUser::TABLE, 'user_id', 'vocabulary_id')
-        ->withPivot('is_maintainer_for',
+    public function vocabularies()
+    {
+        return $this->belongsToMany(Vocabulary::class, VocabularyHasUser::TABLE, 'user_id', 'vocabulary_id')
+        ->withPivot(
+            'is_maintainer_for',
             'is_registrar_for',
             'is_admin_for',
             'languages',
             'default_language',
-            'current_language')->withTimestamps();
-
-  }
+            'current_language'
+        )->withTimestamps();
+    }
 
 
   /**
    * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
    */
-  public function elementsets()
-  {
-    return $this->belongsToMany(ElementSet::class, ElementSetHasUser::TABLE, 'user_id', 'schema_id')
+    public function elementsets()
+    {
+        return $this->belongsToMany(ElementSet::class, ElementSetHasUser::TABLE, 'user_id', 'schema_id')
         ->withPivot('is_registrar_for', 'is_admin_for', 'is_maintainer_for')->withTimestamps();
-  }
-
+    }
 }

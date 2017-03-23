@@ -13,7 +13,7 @@
 <tr>
 <?php foreach ($this->getTableMap()->getColumns() as $column): ?>
   <?php if ($column->isPrimaryKey()): ?>
-  <td>[?php echo link_to($<?php echo $this->getSingularName() ?>->get<?php echo $column->getPhpName() ?>(), '<?php echo $this->getModuleName() ?>/show?<?php echo $this->getPrimaryKeyUrlParams() ?>) ?]</td>
+  <td>[?php echo sf_link_to($<?php echo $this->getSingularName() ?>->get<?php echo $column->getPhpName() ?>(), '<?php echo $this->getModuleName() ?>/show?<?php echo $this->getPrimaryKeyUrlParams() ?>) ?]</td>
   <?php else: ?>
   <td>[?php echo $<?php echo $this->getSingularName() ?>->get<?php echo $column->getPhpName() ?>() ?]</td>
   <?php endif; ?>
@@ -23,4 +23,4 @@
 </tbody>
 </table>
 
-[?php echo link_to ('create', '<?php echo $this->getModuleName() ?>/create') ?]
+[?php echo sf_link_to ('create', '<?php echo $this->getModuleName() ?>/create') ?]

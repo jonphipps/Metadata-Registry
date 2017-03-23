@@ -2,19 +2,17 @@
 
 namespace App\Events\Frontend\Auth;
 
-use App\Events\Event;
 use Illuminate\Queue\SerializesModels;
 
 /**
- * Class UserLoggedOut
- * @package App\Events\Frontend\Auth
+ * Class UserLoggedOut.
  */
-class UserLoggedOut extends Event
+class UserLoggedOut
 {
     use SerializesModels;
 
     /**
-     * @var $user
+     * @var
      */
     public $user;
 

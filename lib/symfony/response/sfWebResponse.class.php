@@ -488,7 +488,7 @@ class sfWebResponse extends sfResponse
 
     if (sfConfig::get('sf_i18n'))
     {
-      $value = $this->getContext()->getI18N()->__($value);
+      $value = $this->getContext()->getI18N()->__s($value);
     }
 
     if ($escape)

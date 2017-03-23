@@ -19,16 +19,19 @@ class CreateExportHistory extends Migration
             $table->integer('user_id')->nullable()->index();
             $table->integer('vocabulary_id')->nullable()->index();
             $table->integer('schema_id')->nullable()->index();
-            $table->string('csv_type', 100)->nullable();;
-            $table->boolean('exclude_deprecated')->nullable();;
-            $table->boolean('include_generated')->nullable();;
-            $table->boolean('include_deleted')->nullable();;
+            $table->string('csv_type', 100)->nullable();
+            ;
+            $table->boolean('exclude_deprecated')->nullable();
+            ;
+            $table->boolean('include_generated')->nullable();
+            ;
+            $table->boolean('include_deleted')->nullable();
+            ;
             $table->text('selected_columns')->nullable();
             $table->string('selected_language', 10)->nullable();
             $table->string('published_english_version', 100)->nullable();
             $table->string('published_language_version', 100)->nullable();
             $table->timestamp('last_vocab_update')->nullable();
-
         });
     }
 

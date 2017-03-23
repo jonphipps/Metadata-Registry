@@ -27,7 +27,7 @@ return [
             'deleted_permanently' => 'Usuario eliminado de forma permanente.',
             'restored' => 'Usuario restaurado satisfactoriamente.',
             'updated' => 'Usuario actualizado satisfactoriamente.',
-            'updated_password' => "Contraseña actualizada satisfactoriamente.",
-        ]
+            'updated_password'    => 'Contraseña actualizada satisfactoriamente.',
+        ],
     ],
 ];

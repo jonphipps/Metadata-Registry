@@ -17,7 +17,7 @@
                         <div class="col-md-6">
                             {{ Form::input('name', 'name', null, ['class' => 'form-control', 'placeholder' => trans('validation.attributes.frontend.name')]) }}
                             <div style="padding-top: .5em">
-                                {{ \Collective\Html\link_to_route('frontend.auth.password.email', trans('labels.frontend.passwords.forgot_login_name')) }}
+                                {{ laravel_link_to_route('frontend.auth.password.email', trans('labels.frontend.passwords.forgot_login_name')) }}
                             </div>
                         </div><!--col-md-6-->
                     </div><!--form-group-->

@@ -176,4 +176,16 @@ return [
 
     'http_only' => true,
 
+    /*
+    |--------------------------------------------------------------------------
+    | Session Timeout
+    |--------------------------------------------------------------------------
+    |
+    | Setting these values will enable a session timeout middleware that
+    | will automatically log the user out after a set number of seconds.
+    |
+    */
+    'timeout_status' => env('SESSION_TIMEOUT_STATUS', true),
+    'timeout'        => env('SESSION_TIMEOUT', 600),
+
 ];

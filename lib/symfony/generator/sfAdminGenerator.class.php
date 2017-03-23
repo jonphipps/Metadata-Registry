@@ -41,7 +41,7 @@ abstract class sfAdminGenerator extends sfCrudGenerator
     $help = $this->getParameterValue($type.'.fields.'.$column->getName().'.help');
     if ($help)
     {
-      return "[?php echo image_tag(sfConfig::get('sf_admin_web_dir').'/images/help.png', array('align' => 'absmiddle', 'alt' => __('".$this->escapeString($help)."'), 'title' => __('".$this->escapeString($help)."'))) ?]";
+      return "[?php echo image_tag(sfConfig::get('sf_admin_web_dir').'/images/help.png', array('align' => 'absmiddle', 'alt' => __s('".$this->escapeString($help)."'), 'title' => __s('".$this->escapeString($help)."'))) ?]";
     }
 
     return '';
@@ -60,7 +60,7 @@ abstract class sfAdminGenerator extends sfCrudGenerator
     $help = $this->getParameterValue($type.'.fields.'.$column->getName().'.help');
     if ($help)
     {
-      return "<div class=\"sf_admin_edit_help\">[?php echo __('".$this->escapeString($help)."') ?]</div>";
+      return "<div class=\"sf_admin_edit_help\">[?php echo __s('".$this->escapeString($help)."') ?]</div>";
     }
 
     return '';
@@ -155,16 +155,16 @@ abstract class sfAdminGenerator extends sfCrudGenerator
 
     if ($method == 'submit_tag')
     {
-      $html .= '[?php echo submit_tag(__(\''.$name.'\'), '.var_export($options, true).') ?]';
+      $html .= '[?php echo submit_tag(__s(\''.$name.'\'), '.var_export($options, true).') ?]';
     }
     else
     {
       $phpOptions = var_export($options, true);
 
       // little hack
-      $phpOptions = preg_replace("/'confirm' => '(.+?)(?<!\\\)'/", '\'confirm\' => __(\'$1\')', $phpOptions);
+      $phpOptions = preg_replace("/'confirm' => '(.+?)(?<!\\\)'/", '\'confirm\' => __s(\'$1\')', $phpOptions);
 
-      $html .= '[?php echo button_to(__(\''.$name.'\'), \''.$this->getModuleName().'/'.$action.$url_params.', '.$phpOptions.') ?]';
+      $html .= '[?php echo button_to(__s(\''.$name.'\'), \''.$this->getModuleName().'/'.$action.$url_params.', '.$phpOptions.') ?]';
     }
 
     if ($only_for !== null)
@@ -219,9 +219,9 @@ abstract class sfAdminGenerator extends sfCrudGenerator
     $phpOptions = var_export($options, true);
 
     // little hack
-    $phpOptions = preg_replace("/'confirm' => '(.+?)(?<!\\\)'/", '\'confirm\' => __(\'$1\')', $phpOptions);
+    $phpOptions = preg_replace("/'confirm' => '(.+?)(?<!\\\)'/", '\'confirm\' => __s(\'$1\')', $phpOptions);
 
-    return '<li>[?php echo link_to(image_tag(\''.$icon.'\', array(\'alt\' => __(\''.$name.'\'), \'title\' => __(\''.$name.'\'))), \''.$this->getModuleName().'/'.$action.$url_params.($options ? ', '.$phpOptions : '').') ?]</li>'."\n";
+    return '<li>[?php echo sf_link_to(image_tag(\''.$icon.'\', array(\'alt\' => __s(\''.$name.'\'), \'title\' => __s(\''.$name.'\'))), \''.$this->getModuleName().'/'.$action.$url_params.($options ? ', '.$phpOptions : '').') ?]</li>'."\n";
   }
 
   /**
@@ -504,7 +504,7 @@ EOF;
     {
       if ($column->isLink())
       {
-        $vars[] = '\'%%'.$column->getName().'%%\' => link_to('.$this->getColumnListTag($column).', \''.$this->getModuleName().'/edit?'.$this->getPrimaryKeyUrlParams().')';
+        $vars[] = '\'%%'.$column->getName().'%%\' => sf_link_to('.$this->getColumnListTag($column).', \''.$this->getModuleName().'/edit?'.$this->getPrimaryKeyUrlParams().')';
       }
       elseif ($column->isPartial())
       {
@@ -523,7 +523,7 @@ EOF;
     // strip all = signs
     $value = preg_replace('/%%=([^%]+)%%/', '%%$1%%', $value);
 
-    $i18n = '__(\''.$value.'\', '."\n".'array('.implode(",\n", $vars).'))';
+    $i18n = '__s(\''.$value.'\', '."\n".'array('.implode(",\n", $vars).'))';
 
     return $withEcho ? '[?php echo '.$i18n.' ?]' : $i18n;
   }
@@ -643,7 +643,7 @@ EOF;
     }
     else if ($type == CreoleTypes::BOOLEAN)
     {
-      $defaultIncludeCustom = '__("yes or no")';
+      $defaultIncludeCustom = '__s("yes or no")';
 
       $option_params = $this->getObjectTagParams($params, array('include_custom' => $defaultIncludeCustom));
       $params = $this->getObjectTagParams($params);
@@ -651,7 +651,7 @@ EOF;
       // little hack
       $option_params = preg_replace("/'".preg_quote($defaultIncludeCustom)."'/", $defaultIncludeCustom, $option_params);
 
-      $options = "options_for_select(array(1 => __('yes'), 0 => __('no')), $default_value, $option_params)";
+      $options = "options_for_select(array(1 => __s('yes'), 0 => __s('no')), $default_value, $option_params)";
 
       return "select_tag($name, $options, $params)";
     }

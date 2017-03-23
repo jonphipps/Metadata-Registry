@@ -39,18 +39,18 @@
                 </div><!--form control-->
 
                 <div class="form-group">
-                    {{ Form::label('password', trans('validation.attributes.backend.access.users.password'), ['class' => 'col-lg-2 control-label', 'placeholder' => trans('validation.attributes.backend.access.users.password')]) }}
+                    {{ Form::label('password', trans('validation.attributes.backend.access.users.password'), ['class' => 'col-lg-2 control-label']) }}
 
                     <div class="col-lg-10">
-                        {{ Form::password('password', ['class' => 'form-control']) }}
+                        {{ Form::password('password', ['class' => 'form-control', 'placeholder' => trans('validation.attributes.backend.access.users.password')]) }}
                     </div><!--col-lg-10-->
                 </div><!--form control-->
 
                 <div class="form-group">
-                    {{ Form::label('password_confirmation', trans('validation.attributes.backend.access.users.password_confirmation'), ['class' => 'col-lg-2 control-label', 'placeholder' => trans('validation.attributes.backend.access.users.password_confirmation')]) }}
+                    {{ Form::label('password_confirmation', trans('validation.attributes.backend.access.users.password_confirmation'), ['class' => 'col-lg-2 control-label']) }}
 
                     <div class="col-lg-10">
-                        {{ Form::password('password_confirmation', ['class' => 'form-control']) }}
+                        {{ Form::password('password_confirmation', ['class' => 'form-control', 'placeholder' => trans('validation.attributes.backend.access.users.password_confirmation')]) }}
                     </div><!--col-lg-10-->
                 </div><!--form control-->
 
@@ -122,7 +122,7 @@
         <div class="box box-info">
             <div class="box-body">
                 <div class="pull-left">
-                    {{ \Collective\Html\link_to_route('admin.access.user.index', trans('buttons.general.cancel'), [], ['class' => 'btn btn-danger btn-xs']) }}
+                    {{ laravel_link_to_route('admin.access.user.index', trans('buttons.general.cancel'), [], ['class' => 'btn btn-danger btn-xs']) }}
                 </div><!--pull-left-->
 
                 <div class="pull-right">
@@ -134,8 +134,8 @@
         </div><!--box-->
 
     {{ Form::close() }}
-@stop
+@endsection
 
 @section('after-scripts')
     {{ Html::script('js/backend/access/users/script.js') }}
-@stop
+@endsection

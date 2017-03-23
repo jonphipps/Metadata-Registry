@@ -2,27 +2,25 @@
 
 namespace App\Events\Frontend\Auth;
 
-use App\Events\Event;
 use Illuminate\Queue\SerializesModels;
 
 /**
- * Class UserConfirmed
- * @package App\Events\Frontend\Auth
+ * Class UserConfirmed.
  */
-class UserConfirmed extends Event
+class UserConfirmed
 {
-	use SerializesModels;
+    use SerializesModels;
 
-	/**
-	 * @var $user
-	 */
-	public $user;
+    /**
+     * @var
+     */
+    public $user;
 
-	/**
-	 * @param $user
-	 */
-	public function __construct($user)
-	{
-		$this->user = $user;
-	}
+    /**
+     * @param $user
+     */
+    public function __construct($user)
+    {
+        $this->user = $user;
+    }
 }

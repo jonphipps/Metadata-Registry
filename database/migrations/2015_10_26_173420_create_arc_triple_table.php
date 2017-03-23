@@ -14,7 +14,8 @@ class CreateArcTripleTable extends Migration
      */
     public function up()
     {
-        Schema::create('arc_triple',
+        Schema::create(
+            'arc_triple',
             function (Blueprint $table) {
                 $table->integer('t')->unsigned()->unique('t-t');
                 $table->integer('s')->unsigned()->index('s-t');
@@ -28,7 +29,8 @@ class CreateArcTripleTable extends Migration
                 $table->index([ 's', 'p', 'o' ], 'spo');
                 $table->index([ 'o', 's' ], 'os');
                 $table->index([ 'p', 'o' ], 'po');
-            });
+            }
+        );
     }
 
 
@@ -41,5 +43,4 @@ class CreateArcTripleTable extends Migration
     {
         Schema::drop('arc_triple');
     }
-
 }

@@ -15,7 +15,7 @@ return [
 	'backend' => [
 		'none' => 'Aucun historique récent.',
 		'none_for_type' => 'Aucun historique pour ce type.',
-		'none_for_entity' => "Aucun historique pour :entity.",
+        'none_for_entity' => 'Aucun historique pour :entity.',
 		'recent_history' => 'Historique récent',
 
 		'roles' => [

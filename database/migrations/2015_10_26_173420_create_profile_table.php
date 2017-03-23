@@ -4,7 +4,8 @@ use Illuminate\Database\Migrations\Migration;
  use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateProfileTable extends Migration {
+class CreateProfileTable extends Migration
+{
 
     /**
      * Run the migrations.
@@ -13,8 +14,7 @@ class CreateProfileTable extends Migration {
      */
     public function up()
     {
-        Schema::create('profile', function(Blueprint $table)
-        {
+        Schema::create('profile', function (Blueprint $table) {
             $table->integer('id', true);
             $table->integer('agent_id')->index('profile_agent_id');
             $table->dateTime('created_at')->nullable();
@@ -48,5 +48,4 @@ class CreateProfileTable extends Migration {
     {
         Schema::drop('profile');
     }
-
 }

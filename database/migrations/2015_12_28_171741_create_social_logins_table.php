@@ -10,32 +10,32 @@ use Illuminate\Database\Migrations\Migration;
  */
 class CreateSocialLoginsTable extends Migration
 {
-	/**
-	 * Run the migrations.
-	 *
-	 * @return void
-	 */
-	public function up()
-	{
-		Schema::create('social_logins', function (Blueprint $table) {
-			$table->increments('id')->unsigned();
-			$table->integer('user_id');
-			$table->foreign('user_id')->references('id')->on('reg_user')->onDelete('cascade');
-			$table->string('provider', 32);
-			$table->string('provider_id');
-			$table->string('token')->nullable();
-			$table->string('avatar')->nullable();
-			$table->timestamps();
-		});
-	}
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('social_logins', function (Blueprint $table) {
+            $table->increments('id')->unsigned();
+            $table->integer('user_id');
+            $table->foreign('user_id')->references('id')->on('reg_user')->onDelete('cascade');
+            $table->string('provider', 32);
+            $table->string('provider_id');
+            $table->string('token')->nullable();
+            $table->string('avatar')->nullable();
+            $table->timestamps();
+        });
+    }
 
-	/**
-	 * Reverse the migrations.
-	 *
-	 * @return void
-	 */
-	public function down()
-	{
-		Schema::dropIfExists('social_logins');
-	}
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('social_logins');
+    }
 }

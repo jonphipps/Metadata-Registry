@@ -15,7 +15,7 @@ return [
 	'backend' => [
 		'none' => 'Det finns ingen historik för förändringar.',
 		'none_for_type' => 'Det finns ingen historik för denna typ',
-		'none_for_entity' => "Det finns ingen historik för denna :entity.",
+        'none_for_entity' => 'Det finns ingen historik för denna :entity.',
 		'recent_history' => 'Senaste förändringarna',
 
 		'roles' => [

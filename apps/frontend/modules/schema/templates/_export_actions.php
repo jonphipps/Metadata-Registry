@@ -5,7 +5,7 @@
 <ul class="sf_admin_actions">
 
   <li><?php echo submit_tag(
-        __( 'Get CSV' ),
+        __s( 'Get CSV' ),
         array (
             'name'  => 'getCSV',
             'title' => 'Get CSV',
@@ -13,7 +13,7 @@
         )
     ) ?></li>
   <li><?php echo submit_tag(
-        __( 'Get RDF' ),
+        __s( 'Get RDF' ),
         array (
               'name'  => 'showRdf',
               'title' => 'Get RDF',

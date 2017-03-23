@@ -2,27 +2,25 @@
 
 namespace App\Events\Backend\Access\User;
 
-use App\Events\Event;
 use Illuminate\Queue\SerializesModels;
 
 /**
- * Class UserRestored
- * @package App\Events\Backend\Access\User
+ * Class UserRestored.
  */
-class UserRestored extends Event
+class UserRestored
 {
-	use SerializesModels;
+    use SerializesModels;
 
-	/**
-	 * @var $user
-	 */
-	public $user;
+    /**
+     * @var
+     */
+    public $user;
 
-	/**
-	 * @param $user
-	 */
-	public function __construct($user)
-	{
-		$this->user = $user;
-	}
+    /**
+     * @param $user
+     */
+    public function __construct($user)
+    {
+        $this->user = $user;
+    }
 }
