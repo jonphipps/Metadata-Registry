@@ -2,13 +2,13 @@
 
 /**
  * Frontend Access Controllers
- * All route names are prefixed with 'frontend.auth'
+ * All route names are prefixed with 'frontend.auth'.
  */
 Route::group(['namespace' => 'Auth', 'as' => 'auth.'], function () {
 
-        /**
-         * These routes require the user to be logged in
-         */
+    /*
+     * These routes require the user to be logged in
+     */
     Route::group(['middleware' => 'auth'], function () {
         Route::get('logout', 'LoginController@logout')->name('logout');
 
@@ -19,9 +19,9 @@ Route::group(['namespace' => 'Auth', 'as' => 'auth.'], function () {
         Route::patch('password/change', 'ChangePasswordController@changePassword')->name('password.change');
             });
 
-        /**
-         * These routes require no user to be logged in
-         */
+    /*
+     * These routes require no user to be logged in
+     */
     Route::group(['middleware' => 'guest'], function () {
                 // Authentication Routes
         Route::get('login', 'LoginController@showLoginForm')->name('login');

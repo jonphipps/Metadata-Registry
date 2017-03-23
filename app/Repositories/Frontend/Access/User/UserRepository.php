@@ -96,9 +96,9 @@ class UserRepository extends BaseRepository
 
     DB::transaction(function () use ($user) {
             if ($user->save()) {
-        /**
-         * Add the default site role to the new user
-         */
+                /*
+                 * Add the default site role to the new user
+                 */
         $user->attachRole($this->role->getDefaultUserRole());
       }
     });
@@ -124,17 +124,14 @@ class UserRepository extends BaseRepository
      * @param $provider
      *
      * @return UserRepository|bool
+     * @throws GeneralException
      */
   public function findOrCreateSocial($data, $provider)
   {
-    /**
-         * User email may not provided.
-         */
+        // User email may not provided.
     $user_email = $data->email ?: "{$data->id}@{$provider}.com";
 
-    /**
-         * Check to see if there is a user with this email first.
-         */
+        // Check to see if there is a user with this email first.
     $user = $this->findByEmail($user_email);
 
         /*
@@ -143,19 +140,20 @@ class UserRepository extends BaseRepository
          * Which triggers the script to use some default values in the create method
          */
     if ( ! $user) {
+            // Registration is not enabled
+            if (! config('access.users.registration')) {
+                throw new GeneralException(trans('exceptions.frontend.auth.registration_disabled'));
+            }
+
       $user = $this->create([
           'name'  => $data->name,
           'email' => $user_email,
             ], true);
     }
 
-        /*
-         * See if the user has logged in with this social account before
-         */
+        // See if the user has logged in with this social account before
     if ( ! $user->hasProvider($provider)) {
-            /*
-             * Gather the provider data for saving and associate it with the user
-             */
+            // Gather the provider data for saving and associate it with the user
       $user->providers()->save(new SocialLogin([
           'provider'    => $provider,
           'provider_id' => $data->id,
@@ -163,18 +161,14 @@ class UserRepository extends BaseRepository
           'avatar'      => $data->avatar,
       ]));
     } else {
-            /*
-             * Update the users information, token and avatar can be updated.
-             */
+            // Update the users information, token and avatar can be updated.
       $user->providers()->update([
           'token'  => $data->token,
           'avatar' => $data->avatar,
       ]);
     }
 
-        /*
-         * Return the user object
-         */
+        // Return the user object
     return $user;
   }
 

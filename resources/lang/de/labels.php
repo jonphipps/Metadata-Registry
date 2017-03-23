@@ -2,25 +2,25 @@
 
 return [
 
-  /*
-  |--------------------------------------------------------------------------
-  | Labels Language Lines
-  |--------------------------------------------------------------------------
-  |
-  | The following language lines are used in labels throughout the system.
-  | Regardless where it is placed, a label can be listed here so it is easily
-  | found in a intuitive way.
-  |
-  */
+    /*
+    |--------------------------------------------------------------------------
+    | Labels Language Lines
+    |--------------------------------------------------------------------------
+    |
+    | The following language lines are used in labels throughout the system.
+    | Regardless where it is placed, a label can be listed here so it is easily
+    | found in a intuitive way.
+    |
+    */
 
     'general' => [
-        'all'               => 'Alle',
-        'yes'               => 'Ja',
-        'no'                => 'Nein',
-        'custom'            => 'Custom', // TODO TRANSLATION
-        'actions'           => 'Aktionen',
-        'active'            => 'Active',
-        'buttons'           => [
+        'all'     => 'Alle',
+        'yes'     => 'Ja',
+        'no'      => 'Nein',
+        'custom'  => 'Custom', // TODO TRANSLATION
+        'actions' => 'Aktionen',
+        'active'  => 'Active',
+        'buttons' => [
             'save'   => 'Speichern',
             'update' => 'Aktualisieren',
         ],
@@ -88,7 +88,7 @@ return [
                             'deleted_at'   => 'Deleted At',
                             'email'        => 'E-mail',
                             'last_updated' => 'Last Updated',
-                            'name'         => 'Benutzername',
+                            'name'         => 'Name',
                             'status'       => 'Status',
                         ],
                     ],
@@ -154,7 +154,7 @@ return [
                 'edit_information'   => 'Informationen bearbeiten',
                 'email'              => 'E-Mail',
                 'last_updated'       => 'Letzte Aktualisierung',
-                'name'               => 'Benutzername',
+                'name'               => 'Name',
                 'update_information' => 'Informationen aktualisieren',
             ],
         ],

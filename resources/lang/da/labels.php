@@ -2,25 +2,25 @@
 
 return [
 
-  /*
-  |--------------------------------------------------------------------------
-  | Labels Language Lines
-  |--------------------------------------------------------------------------
-  |
-  | The following language lines are used in labels throughout the system.
-  | Regardless where it is placed, a label can be listed here so it is easily
-  | found in a intuitive way.
-  |
-  */
+    /*
+    |--------------------------------------------------------------------------
+    | Labels Language Lines
+    |--------------------------------------------------------------------------
+    |
+    | The following language lines are used in labels throughout the system.
+    | Regardless where it is placed, a label can be listed here so it is easily
+    | found in a intuitive way.
+    |
+    */
 
     'general' => [
-        'all'               => 'Alle',
-        'yes'               => 'Ja',
-        'no'                => 'Nej',
-        'custom'            => 'Brugerdefineret',
-        'actions'           => 'Handlinger',
-        'active'            => 'Active',
-        'buttons'           => [
+        'all'     => 'Alle',
+        'yes'     => 'Ja',
+        'no'      => 'Nej',
+        'custom'  => 'Brugerdefineret',
+        'actions' => 'Handlinger',
+        'active'  => 'Active',
+        'buttons' => [
             'save'   => 'Gem',
             'update' => 'Opdater',
         ],

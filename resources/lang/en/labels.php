@@ -2,25 +2,25 @@
 
 return [
 
-  /*
-  |--------------------------------------------------------------------------
-  | Labels Language Lines
-  |--------------------------------------------------------------------------
-  |
-  | The following language lines are used in labels throughout the system.
-  | Regardless where it is placed, a label can be listed here so it is easily
-  | found in a intuitive way.
-  |
-  */
+    /*
+    |--------------------------------------------------------------------------
+    | Labels Language Lines
+    |--------------------------------------------------------------------------
+    |
+    | The following language lines are used in labels throughout the system.
+    | Regardless where it is placed, a label can be listed here so it is easily
+    | found in a intuitive way.
+    |
+    */
 
     'general' => [
-        'all'               => 'All',
-        'yes'               => 'Yes',
-        'no'                => 'No',
-        'custom'            => 'Custom',
-        'actions'           => 'Actions',
-        'active'            => 'Active',
-        'buttons'           => [
+        'all'     => 'All',
+        'yes'     => 'Yes',
+        'no'      => 'No',
+        'custom'  => 'Custom',
+        'actions' => 'Actions',
+        'active'  => 'Active',
+        'buttons' => [
             'save'   => 'Save',
             'update' => 'Update',
         ],
@@ -67,7 +67,7 @@ return [
                     'email'          => 'E-mail',
                     'id'             => 'ID',
                     'last_updated'   => 'Last Updated',
-                    'name'           => 'Login Name',
+                    'name'           => 'Name',
                     'no_deactivated' => 'No Deactivated Users',
                     'no_deleted'     => 'No Deleted Users',
                     'roles'          => 'Roles',
@@ -88,7 +88,7 @@ return [
                             'deleted_at'   => 'Deleted At',
                             'email'        => 'E-mail',
                             'last_updated' => 'Last Updated',
-                            'name'         => 'Login Name',
+                            'name'         => 'Name',
                             'status'       => 'Status',
                         ],
                     ],
@@ -112,12 +112,9 @@ return [
 
         'passwords' => [
             'forgot_password'                 => 'Forgot Your Password?',
-            'forgot_login_name'               => 'Forgot Your Login Name?',
             'reset_password_box_title'        => 'Reset Password',
             'reset_password_button'           => 'Reset Password',
             'send_password_reset_link_button' => 'Send Password Reset Link',
-            'send_login_box_title'            => 'Send Login Name',
-            'send_login_button'               => 'Send Login Name',
         ],
 
         'macros' => [
@@ -157,7 +154,7 @@ return [
                 'edit_information'   => 'Edit Information',
                 'email'              => 'E-mail',
                 'last_updated'       => 'Last Updated',
-                'name'               => 'Login Name',
+                'name'               => 'Name',
                 'update_information' => 'Update Information',
             ],
         ],

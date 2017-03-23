@@ -49,6 +49,13 @@ class Kernel extends HttpKernel
           \App\Http\Middleware\LocaleMiddleware::class,
       ],
 
+      'admin' => [
+          'auth',
+          'access.routeNeedsPermission:view-backend',
+          'timeout',
+      ],
+
+
       'api' => [
           'throttle:60,1',
           'bindings',

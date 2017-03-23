@@ -2,7 +2,7 @@
 
 return [
 
-    /**
+    /*
      * Skin for Admin LTE backend theme
      *
      * Available options:
@@ -22,7 +22,7 @@ return [
      */
     'theme' => 'blue',
 
-    /**
+    /*
      * Layout for the Admin LTE backend theme
      *
      * Fixed:               use the class .fixed to get a fixed header and sidebar.
