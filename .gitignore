@@ -5,7 +5,6 @@
 /cachev/
 /log/
 /web/uploads/
-/config/databases.yml
 /config/propel.ini
 data/sql
 Thumbs.db

@@ -1,0 +1,43 @@
+testing:
+  propel:
+    param:
+      database:           swregistry_test
+
+test-empty:
+  propel:
+    param:
+      database:           swregistry_test_empty
+
+test-empty-dev:
+  propel:
+    param:
+      database:           swregistry_test_empty
+
+test-update:
+  propel:
+    param:
+      database:           swregistry_test_update
+
+sandbox:
+  propel:
+    param:
+      database:           sandbox
+
+prod:
+  propel:
+    param:
+      database:           swregistry
+all:
+  propel:
+    class:                sfPropelDatabase
+    param:
+      phptype:            mysqli
+      host:               %DB_HOST%
+      port:               %DB_PORT%
+      database:           %DB_DATABASE%
+      username:           %DB_USERNAME%
+      password:           %DB_PASSWORD%
+      compat_assoc_lower: true
+      datasource:         propel
+      encoding:           %DB_ENCODING%
+
