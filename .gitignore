@@ -55,3 +55,4 @@ tests/Browser/
 web/build/
 web/js/components/jqwidgets/images/
 node_modules
+.idea.zip
