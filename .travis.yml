@@ -25,7 +25,7 @@ cache:
     - $HOME/.composer/cache
 
 addons:
-  mariadb: '10.2'
+  mariadb: '10.1'
 
 before_install:
   - cp .env.travis .env
@@ -57,10 +57,6 @@ before_script:
   - php artisan key:generate
 
 script:
-  - |
-    cd web
-    php -S localhost:8080 > /dev/null 2>&1 &
-    cd ..
   - phpunit --configuration phpunit.xml
 
 # whitelist
