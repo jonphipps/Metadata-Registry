@@ -31,3 +31,14 @@ mix.sass('resources/assets/sass/frontend/app.scss', 'web/css/frontend.css')
         ]
     })
     .version();
+/*
+ | See https://browsersync.io/docs/options
+*/
+// mix.browsersync({
+//     files: [
+//         'app/**/*.php',
+//         'resources/views/**/*.php',
+//         'web/js/**/*.js',
+//         'web/css/**/*.css'
+//     ]
+// });

@@ -60,7 +60,6 @@
         "hieu-le/active": "~3.0",
         "infyomlabs/adminlte-templates": "5.3.x-dev",
         "jlapp/swaggervel": "dev-master",
-        "laravel/browser-kit-testing": "^1.0",
         "laravel/framework": "5.4.*",
         "laravel/socialite": "^3.0",
         "laravel/tinker": "~1.0",
@@ -124,6 +123,8 @@
         "infyomlabs/swagger-generator": "dev-master",
         "jonpitch/laxative": "*",
         "laracasts/behat-laravel-extension": "^1.0",
+        "laravel/browser-kit-testing": "^1.0",
+        "laravel/dusk": "^1.0",
         "mockery/mockery": "0.9.*",
         "mpociot/laravel-test-factory-helper": "^0.4.0",
         "orangehill/iseed": "dev-master",
@@ -133,8 +134,7 @@
         "tightenco/mailthief": "^0.3.4",
         "way/generators": "dev-feature/laravel-five-stable",
         "werxe/whoops-laravel": "^2.0@dev",
-        "xethron/migrations-generator": "dev-l5",
-        "laravel/browser-kit-testing": "^1.0"
+        "xethron/migrations-generator": "dev-l5"
     },
     "autoload-dev": {
         "psr-4": {
