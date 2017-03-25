@@ -57,7 +57,7 @@ before_script:
   - php artisan key:generate
 
 script:
-  - phpunit --configuration phpunit.xml
+  - vendor/bin/phpunit --configuration phpunit.xml
 
 # whitelist
 branches:
