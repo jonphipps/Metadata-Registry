@@ -1,6 +1,7 @@
 <?php namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Access\User\User;
 
@@ -15,16 +16,16 @@ use App\Models\Access\User\User;
  * @property int $agent_id
  * @property bool $is_registrar_for
  * @property bool $is_admin_for
- * @property-read \App\Models\Access\User\User $User
- * @property-read \App\Models\Project $Agent
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ProjectHasUser whereId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ProjectHasUser whereCreatedAt( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ProjectHasUser whereUpdatedAt( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ProjectHasUser whereDeletedAt( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ProjectHasUser whereUserId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ProjectHasUser whereAgentId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ProjectHasUser whereIsRegistrarFor( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ProjectHasUser whereIsAdminFor( $value )
+ * @property-read \App\Models\Project $project
+ * @property-read \App\Models\Access\User\User $user
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ProjectHasUser whereAgentId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ProjectHasUser whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ProjectHasUser whereDeletedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ProjectHasUser whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ProjectHasUser whereIsAdminFor($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ProjectHasUser whereIsRegistrarFor($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ProjectHasUser whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ProjectHasUser whereUserId($value)
  * @mixin \Eloquent
  */
 class ProjectHasUser extends Model

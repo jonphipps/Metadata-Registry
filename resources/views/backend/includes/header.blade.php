@@ -23,16 +23,18 @@
                 @if (config('locale.status') && count(config('locale.languages')) > 1)
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                            <i class="fa fa-language"></i> {{ trans('menus.language-picker.language') }} <span class="caret"></span>
+                            <i class="fa fa-language"></i> {{ trans('menus.language-picker.language') }}
+                            <span class="caret"></span>
                         </a>
                         @include('includes.partials.lang')
                     </li>
                 @endif
 
+                @if($logged_in_user)
                 <li class="dropdown messages-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <i class="fa fa-envelope-o"></i>
-                        <span class="label label-default">0</span>
+                            <span class="label label-default"></span>
                     </a>
 
                     <ul class="dropdown-menu">
@@ -46,7 +48,7 @@
                 <li class="dropdown notifications-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <i class="fa fa-bell-o"></i>
-                        <span class="label label-default">0</span>
+                            <span class="label label-default"></span>
                     </a>
 
                     <ul class="dropdown-menu">
@@ -60,7 +62,7 @@
                 <li class="dropdown tasks-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <i class="fa fa-flag-o"></i>
-                        <span class="label label-default">0</span>
+                            <span class="label label-default"></span>
                     </a>
 
                     <ul class="dropdown-menu">
@@ -91,18 +93,18 @@
                                 {{ laravel_link_to('#', 'Link') }}
                             </div>
                             <div class="col-xs-4 text-center">
-                                {{ laravel_link_to('#', 'Link') }}
+                                    {{ laravel_link_to_route('frontend.user.account', 'Account') }}
                             </div>
                             <div class="col-xs-4 text-center">
-                                {{ laravel_link_to('#', 'Link') }}
+                                    {{ laravel_link_to_route('admin.dashboard', 'Admin') }}
                             </div>
                         </li>
 
                         <li class="user-footer">
                             <div class="pull-left">
-                                <a href="{!! route('frontend.index') !!}" class="btn btn-default btn-flat">
+                                    <a href="{!! route('frontend.user.dashboard') !!}" class="btn btn-default btn-flat">
                                     <i class="fa fa-home"></i>
-                                    {{ trans('navs.general.home') }}
+                                        {{ trans('navs.frontend.dashboard') }}
                                 </a>
                             </div>
                             <div class="pull-right">
@@ -114,6 +116,10 @@
                         </li>
                     </ul>
                 </li>
+                @else
+                    <li>{{ laravel_link_to('login', trans('navs.frontend.login')) }}</li>
+                    <li>{{ laravel_link_to('register', trans('navs.frontend.register')) }}</li>
+                @endif
             </ul>
         </div><!-- /.navbar-custom-menu -->
     </nav>

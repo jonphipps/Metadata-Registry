@@ -1,6 +1,7 @@
 <?php namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Access\User\User;
 
@@ -21,18 +22,18 @@ use App\Models\Access\User\User;
  * @property string $current_language
  * @property-read \App\Models\ElementSet $ElementSet
  * @property-read \App\Models\Access\User\User $User
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSetHasUser whereId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSetHasUser whereCreatedAt( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSetHasUser whereUpdatedAt( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSetHasUser whereDeletedAt( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSetHasUser whereSchemaId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSetHasUser whereUserId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSetHasUser whereIsMaintainerFor( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSetHasUser whereIsRegistrarFor( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSetHasUser whereIsAdminFor( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSetHasUser whereLanguages( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSetHasUser whereDefaultLanguage( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSetHasUser whereCurrentLanguage( $value )
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSetHasUser whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSetHasUser whereCurrentLanguage($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSetHasUser whereDefaultLanguage($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSetHasUser whereDeletedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSetHasUser whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSetHasUser whereIsAdminFor($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSetHasUser whereIsMaintainerFor($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSetHasUser whereIsRegistrarFor($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSetHasUser whereLanguages($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSetHasUser whereSchemaId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSetHasUser whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSetHasUser whereUserId($value)
  * @mixin \Eloquent
  */
 class ElementSetHasUser extends Model

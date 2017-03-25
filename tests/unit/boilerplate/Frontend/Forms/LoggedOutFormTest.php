@@ -247,26 +247,33 @@ class LoggedOutFormTest extends BrowserKitTestCase
          ->see('The password field is required.');
     }
 
-
-  /**
+    /**
      * Test that the password reset form works and logs the user back in.
      */
     public function testResetPasswordForm()
     {
-        $token = $this->app->make('auth.password.broker')->createToken($this->user );
-      //add the user name to the password tokens table
-      DB::table('password_resets')->where('email', $this->user->email)->update([ 'name' => $this->user->name ]);
+        $token = $this->app->make('auth.password.broker')->createToken($this->user);
+        //add the user name to the password tokens table
+        DB::table('password_resets')
+          ->where('email', $this->user->email)
+          ->update(['name' => $this->user->name]);
 
-      /** @noinspection PhpVoidFunctionResultUsedInspection */
-        $this->visit('password/reset/' . $token)
-         ->see($this->user->email)
-         ->see($this->user->name)
-         ->type('12345678', 'password')
-         ->type('12345678', 'password_confirmation')
-         ->press('Reset Password')
-         ->seePageIs('/dashboard')
-         ->see($this->user->name);
-        $this->seeInDatabase(config('access.users_table'), [ 'id' => $this->user->id, 'confirmed' => 1 ]);
+        /** @noinspection PhpVoidFunctionResultUsedInspection */
+        $this->visit('password/reset/'.$token)
+             ->see($this->user->email)
+             ->see($this->user->name)
+             ->type('12345678', 'password')
+             ->type('12345678', 'password_confirmation')
+             ->press('Reset Password')
+             ->seePageIs('/dashboard')
+             ->see($this->user->name);
+        $this->seeInDatabase(config('access.users_table'), ['id' => $this->user->id, 'confirmed' => 1]);
+
+        // Auth::logout();
+        // $this->visit('login')
+        //     ->type($this->user->name, 'name')
+        //     ->type('12345678', 'password')
+        //     ->seePageIs('dashboard');
     }
 
 

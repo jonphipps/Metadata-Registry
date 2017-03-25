@@ -19,22 +19,22 @@ use App\Models\Access\User\User;
  * @property string $uri
  * @property string $pref_label
  * @property int $status_id
+ * @property-read \App\Models\Status $Status
  * @property-read \App\Models\Access\User\User $UserCreator
  * @property-read \App\Models\Access\User\User $UserUpdater
  * @property-read \App\Models\Vocabulary $Vocabulary
- * @property-read \App\Models\Status $Status
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Collection whereId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Collection whereCreatedAt( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Collection whereUpdatedAt( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Collection whereDeletedAt( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Collection whereLastUpdated( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Collection whereCreatedUserId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Collection whereUpdatedUserId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Collection whereVocabularyId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Collection whereName( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Collection whereUri( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Collection wherePrefLabel( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Collection whereStatusId( $value )
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Collection whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Collection whereCreatedUserId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Collection whereDeletedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Collection whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Collection whereLastUpdated($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Collection whereName($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Collection wherePrefLabel($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Collection whereStatusId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Collection whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Collection whereUpdatedUserId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Collection whereUri($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Collection whereVocabularyId($value)
  * @mixin \Eloquent
  */
 class Collection extends Model

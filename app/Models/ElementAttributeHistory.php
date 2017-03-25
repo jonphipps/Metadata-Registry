@@ -21,28 +21,28 @@ use App\Models\Access\User\User;
  * @property int $status_id
  * @property string $change_note
  * @property int $import_id
- * @property-read \App\Models\Access\User\User $UserCreator
- * @property-read \App\Models\ElementAttribute $ElementAttribute
  * @property-read \App\Models\Element $Element
+ * @property-read \App\Models\ElementAttribute $ElementAttribute
  * @property-read \App\Models\ElementSet $ElementSet
+ * @property-read \App\Models\FileImportHistory $FileImportHistory
+ * @property-read \App\Models\ProfileProperty $ProfileProperty
  * @property-read \App\Models\Element $RelatedElement
  * @property-read \App\Models\Status $Status
- * @property-read \App\Models\ProfileProperty $ProfileProperty
- * @property-read \App\Models\FileImportHistory $FileImportHistory
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttributeHistory whereId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttributeHistory whereCreatedAt( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttributeHistory whereCreatedUserId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttributeHistory whereAction( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttributeHistory whereSchemaPropertyElementId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttributeHistory whereSchemaPropertyId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttributeHistory whereSchemaId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttributeHistory whereProfilePropertyId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttributeHistory whereObject( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttributeHistory whereRelatedSchemaPropertyId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttributeHistory whereLanguage( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttributeHistory whereStatusId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttributeHistory whereChangeNote( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttributeHistory whereImportId( $value )
+ * @property-read \App\Models\Access\User\User $UserCreator
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttributeHistory whereAction($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttributeHistory whereChangeNote($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttributeHistory whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttributeHistory whereCreatedUserId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttributeHistory whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttributeHistory whereImportId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttributeHistory whereLanguage($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttributeHistory whereObject($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttributeHistory whereProfilePropertyId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttributeHistory whereRelatedSchemaPropertyId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttributeHistory whereSchemaId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttributeHistory whereSchemaPropertyElementId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttributeHistory whereSchemaPropertyId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttributeHistory whereStatusId($value)
  * @mixin \Eloquent
  */
 class ElementAttributeHistory extends Model

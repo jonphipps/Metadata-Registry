@@ -9,7 +9,7 @@ class LogViewerRouteTest extends BrowserKitTestCase
     public function testLogViewerDashboard()
     {
         $this->actingAs($this->admin)
-            ->visit('/admin/log-viewer')
+            ->visit('admin/log-viewer')
             ->see('Log Viewer');
     }
 
@@ -23,14 +23,14 @@ class LogViewerRouteTest extends BrowserKitTestCase
     public function testLogViewerSingle()
     {
         $this->actingAs($this->admin)
-            ->visit('/admin/log-viewer/logs/'.date('Y-m-d'))
+            ->visit('/admin/log-viewer/'.date('Y-m-d'))
             ->see('Log ['.date('Y-m-d').']');
     }
 
     public function testLogViewerSingleType()
     {
         $this->actingAs($this->admin)
-             ->visit('/admin/log-viewer/logs/'.date('Y-m-d').'/error')
+             ->visit('/admin/log-viewer/'.date('Y-m-d').'/error')
              ->see('Log ['.date('Y-m-d').']');
     }
 }

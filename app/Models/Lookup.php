@@ -8,11 +8,11 @@
  * @property string $short_value
  * @property string $long_value
  * @property int $display_order
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Lookup whereId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Lookup whereTypeId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Lookup whereShortValue( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Lookup whereLongValue( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Lookup whereDisplayOrder( $value )
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Lookup whereDisplayOrder($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Lookup whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Lookup whereLongValue($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Lookup whereShortValue($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Lookup whereTypeId($value)
  * @mixin \Eloquent
  */
 class Lookup extends \Illuminate\Database\Eloquent\Model

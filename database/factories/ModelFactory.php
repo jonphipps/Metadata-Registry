@@ -59,15 +59,10 @@ $factory->define(
     App\Models\Concept::class,
     function (Faker\Generator $faker) {
         return [
-          'created_user_id' => $faker,
-          'updated_user_id' => $faker,
-          'uri'             => $faker,
-          'pref_label'      => $faker,
-          'vocabulary_id'   => $faker,
-          'is_top_concept'  => $faker,
-          'pref_label_id'   => $faker,
-          'status_id'       => $faker,
-          'language'        => $faker,
+          'uri'             => 'http://uti.metadataregistry.org/testVocab/testConcept',
+          'pref_label'      => 'Test concept',
+          'status_id'       => 1,
+          'language'        => 'en',
         ];
     }
 );
@@ -77,18 +72,12 @@ $factory->define(
     App\Models\ConceptAttribute::class,
     function (Faker\Generator $faker) {
         return [
-          'created_user_id'     => $faker,
-          'updated_user_id'     => $faker,
-          'concept_id'          => $faker,
-          'primary_pref_label'  => $faker,
-          'skos_property_id'    => $faker,
-          'object'              => $faker,
-          'scheme_id'           => $faker,
-          'related_concept_id'  => $faker,
-          'language'            => $faker,
-          'status_id'           => $faker,
-          'is_concept_property' => $faker,
-          'profile_property_id' => $faker,
+          'skos_property_id'    => 19,
+          'object'              => 'Test Concept',
+          'language'            => 'en',
+          'status_id'           => 1,
+          'is_concept_property' => true,
+          'profile_property_id' => 45,
         ];
     }
 );
@@ -98,19 +87,10 @@ $factory->define(
     App\Models\ConceptAttributeHistory::class,
     function (Faker\Generator $faker) {
         return [
-          'action'              => $faker,
-          'concept_property_id' => $faker,
-          'concept_id'          => $faker,
-          'vocabulary_id'       => $faker,
-          'skos_property_id'    => $faker,
-          'object'              => $faker,
-          'scheme_id'           => $faker,
-          'related_concept_id'  => $faker,
-          'language'            => $faker,
-          'status_id'           => $faker,
-          'created_user_id'     => $faker,
-          'change_note'         => $faker,
-          'import_id'           => $faker,
+          'action'              => 'action',
+          'object'              => 'the object',
+          'status_id'           => 1,
+          'change_note'         => 'a change note',
         ];
     }
 );
@@ -137,24 +117,13 @@ $factory->define(
     }
 );
 //INSERT INTO `swregistry`.`ElementAttribute` (id, created_at, updated_at, deleted_at, created_user_id, updated_user_id, schema_property_id, profile_property_id, is_schema_property, object, related_schema_property_id, language, status_id, is_generated) VALUES ()
-$factory->define(
-    App\Models\ElementAttribute::class,
+$factory->define(App\Models\ElementAttribute::class,
     function (Faker\Generator $faker) {
-        return [
-          'action'              => $faker,
-          'concept_property_id' => $faker,
-          'concept_id'          => $faker,
-          'vocabulary_id'       => $faker,
-          'skos_property_id'    => $faker,
-          'object'              => $faker,
-          'scheme_id'           => $faker,
-          'related_concept_id'  => $faker,
-          'language'            => $faker,
-          'status_id'           => $faker,
-          'created_user_id'     => $faker,
-          'change_note'         => $faker,
-          'import_id'           => $faker,
-        ];
+      return [
+          'object'              => 'this is the object',
+          'language'            => 'en',
+          'profile_property_id' => 2,
+      ];
     }
 );
 //INSERT INTO `swregistry`.`ElementAttributeHistory` (id, created_at, created_user_id, action, schema_property_element_id, schema_property_id, schema_id, profile_property_id, object, related_schema_property_id, language, status_id, change_note, import_id) VALUES ()
@@ -162,19 +131,7 @@ $factory->define(
     App\Models\ElementAttributeHistory::class,
     function (Faker\Generator $faker) {
         return [
-          'action'              => $faker,
-          'concept_property_id' => $faker,
-          'concept_id'          => $faker,
-          'vocabulary_id'       => $faker,
-          'skos_property_id'    => $faker,
-          'object'              => $faker,
-          'scheme_id'           => $faker,
-          'related_concept_id'  => $faker,
-          'language'            => $faker,
-          'status_id'           => $faker,
-          'created_user_id'     => $faker,
-          'change_note'         => $faker,
-          'import_id'           => $faker,
+          'object'              => 'this is the object',
         ];
     }
 );
@@ -185,10 +142,6 @@ $factory->define(
         $user = getNewUser();
 
         return [
-          'created_user_id'       => $user,
-          'updated_user_id'       => $user,
-          'child_updated_at'      => '',
-          'child_updated_user_id' => '',
           'name'                  => $faker->word,
           'note'                  => $faker->paragraph(),
           'uri'                   => $faker->url,
@@ -212,14 +165,7 @@ $factory->define(
     App\Models\ElementSetHasUser::class,
     function (Faker\Generator $faker) {
         return [
-          'schema_id'         => $faker,
-          'user_id'           => $faker,
-          'is_maintainer_for' => $faker,
-          'is_registrar_for'  => $faker,
-          'is_admin_for'      => $faker,
-          'languages'         => $faker,
-          'default_language'  => $faker,
-          'current_language'  => $faker,
+
         ];
     }
 );
@@ -240,27 +186,21 @@ $factory->define(
     App\Models\Vocabulary::class,
     function (Faker\Generator $faker) {
         return [
-          'agent_id'              => $faker,
-          'created_user_id'       => $faker,
-          'updated_user_id'       => $faker,
-          'child_updated_at'      => $faker,
-          'child_updated_user_id' => $faker,
-          'name'                  => $faker,
-          'note'                  => $faker,
-          'uri'                   => $faker,
-          'url'                   => $faker,
-          'base_domain'           => $faker,
-          'token'                 => $faker,
-          'community'             => $faker,
-          'last_uri_id'           => $faker,
-          'status_id'             => $faker,
-          'language'              => $faker,
-          'languages'             => $faker,
-          'profile_id'            => $faker,
-          'ns_type'               => $faker,
-          'prefixes'              => $faker,
-          'repos'                 => $faker,
-          'repo'                  => $faker,
+          'name'                  => 'Test Vocab',
+          'note'                  => 'just a note',
+          'uri'                   => 'http://uri.metadataregistry.org/testVocab',
+          'url'                   => 'http://example.com/testVocab/docs',
+          'base_domain'           => 'http://uri.metadataregistry.org/',
+          'token'                 => 'testVocab',
+          'community'             => 'education, testing',
+          'last_uri_id'           => 0,
+          'status_id'             => 1,
+          'language'              => 'en',
+          'languages'             => serialize([ 'en' ]),
+          'profile_id'            => 2,
+          'ns_type'               => 'slash',
+          'prefix'                => 'testvocab',
+          'repo'                  => 'https://github.com/vocabhub/testing',
         ];
     }
 );
@@ -405,10 +345,7 @@ $factory->define(
         $user_id   = $faker->randomElement($userIds);
 
         return [
-          'created_user_id' => $user_id,
-          'updated_user_id' => $user_id,
-          'schema_id'       => $faker->randomElement($schemaIds),
-          'status_id'       => $faker->randomElement($statusIds),
+          'status_id'       => 1,
         ];
     }
 );

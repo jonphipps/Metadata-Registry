@@ -26,30 +26,30 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property int $last_uri_id
  * @property int $status_id
  * @property string $language
- * @property-read \App\Models\Status $Status
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ProfileProperty[] $ProfileProperties
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ElementSet[] $ElementSets
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ProfileProperty[] $ProfileProperties
+ * @property-read \App\Models\Status $Status
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Vocabulary[] $Vocabularies
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Profile whereId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Profile whereAgentId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Profile whereCreatedAt( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Profile whereUpdatedAt( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Profile whereDeletedAt( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Profile whereCreatedBy( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Profile whereUpdatedBy( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Profile whereDeletedBy( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Profile whereChildUpdatedAt( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Profile whereChildUpdatedBy( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Profile whereName( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Profile whereNote( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Profile whereUri( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Profile whereUrl( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Profile whereBaseDomain( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Profile whereToken( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Profile whereCommunity( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Profile whereLastUriId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Profile whereStatusId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Profile whereLanguage( $value )
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Profile whereAgentId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Profile whereBaseDomain($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Profile whereChildUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Profile whereChildUpdatedBy($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Profile whereCommunity($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Profile whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Profile whereCreatedBy($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Profile whereDeletedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Profile whereDeletedBy($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Profile whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Profile whereLanguage($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Profile whereLastUriId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Profile whereName($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Profile whereNote($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Profile whereStatusId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Profile whereToken($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Profile whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Profile whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Profile whereUri($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Profile whereUrl($value)
  * @mixin \Eloquent
  */
 class Profile extends Model

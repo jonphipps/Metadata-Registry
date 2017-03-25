@@ -5,8 +5,8 @@
  *
  * @property int $g
  * @property int $t
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ArcG2t whereG( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ArcG2t whereT( $value )
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ArcG2t whereG($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ArcG2t whereT($value)
  * @mixin \Eloquent
  */
 class ArcG2t extends \Illuminate\Database\Eloquent\Model

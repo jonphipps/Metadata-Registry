@@ -3,15 +3,23 @@
 namespace App\Policies;
 
 use App\Models\Access\User\User;
+use App\Models\Project;
 use App\Models\Vocabulary;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Support\Facades\Schema;
 
 class VocabularyPolicy
 {
     use HandlesAuthorization;
 
+    public function before(User $user)
+    {
+        if ($user->is_administrator) {
+            return true;
+        }
+    }
 
-  /**
+    /**
    * Determine whether the user can view the vocabulary.
    *
    * @param  User $user
@@ -21,25 +29,34 @@ class VocabularyPolicy
    */
     public function view(User $user, Vocabulary $vocabulary)
     {
-        //
+      {
+        $project = $vocabulary->project;
+        if ($project->is_private && $user->isMemberOfProject($project)) {
+          return true;
+        };
+        if ( ! $project->is_private) {
+          return true;
+        };
+      }
+
     }
 
-
-  /** * Determine whether the user can create vocabularies.
-   *
-   * @param  User $user
-   *
-   * @return mixed
-   */
-    public function create(User $user)
+    /** * Determine whether the user can create vocabularies.
+     *
+     * @param  User   $user
+     * @param Project $project
+     *
+     * @return mixed
+     */
+    public function create(User $user, Project $project = null)
     {
-        //
+        return ($project && $user->isAdminForProjectId($project->id));
     }
 
 
     public function listTableForeignKeys($table)
     {
-        $conn = SchemaL::getConnection()->getDoctrineSchemaManager();
+        $conn = Schema::getConnection()->getDoctrineSchemaManager();
 
         return array_map(
 
@@ -60,7 +77,9 @@ class VocabularyPolicy
     */
     public function update(User $user, Vocabulary $vocabulary)
     {
-        //
+        if ($user->isAdminForVocabulary($vocabulary)) {
+            return true;
+        }
     }
 
 
@@ -74,6 +93,8 @@ class VocabularyPolicy
    */
     public function delete(User $user, Vocabulary $vocabulary)
     {
-        //
+      if ($user->isAdminForVocabulary($vocabulary)) {
+        return true;
+      }
     }
 }

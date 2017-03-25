@@ -5,8 +5,8 @@
  *
  * @property string $k
  * @property string $val
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ArcSetting whereK( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ArcSetting whereVal( $value )
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ArcSetting whereK($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ArcSetting whereVal($value)
  * @mixin \Eloquent
  */
 class ArcSetting extends \Illuminate\Database\Eloquent\Model

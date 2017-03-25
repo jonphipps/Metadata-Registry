@@ -144,7 +144,7 @@ return [
                     'associated_roles'        => 'Associated Roles',
                     'confirmed'               => 'Confirmed',
                     'email'                   => 'E-mail Address',
-                    'name'                    => 'Name',
+                    'name'                    => 'Login Name',
                     'other_permissions'       => 'Other Permissions',
                     'password'                => 'Password',
                     'password_confirmation'   => 'Password Confirmation',
@@ -155,7 +155,7 @@ return [
 
         'frontend' => [
             'email'                     => 'E-mail Address',
-            'name'                      => 'Name',
+            'name'                      => 'Login Name',
             'password'                  => 'Password',
             'password_confirmation'     => 'Password Confirmation',
             'old_password'              => 'Old Password',

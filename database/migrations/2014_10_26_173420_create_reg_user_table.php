@@ -31,7 +31,7 @@ class CreateRegUserTable extends Migration
             $table->boolean('is_moderator')->nullable()->default(0);
             $table->boolean('is_administrator')->nullable()->default(0);
             $table->integer('deletions')->nullable()->default(0);
-            $table->string('password', 255)->nullable();
+            $table->string('password', 191)->nullable();
             $table->string('culture', 7)->nullable()->default('en_US');
         });
     }

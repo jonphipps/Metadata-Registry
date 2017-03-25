@@ -4,12 +4,19 @@ namespace App\Policies;
 
 use App\Models\Access\User\User;
 use App\Models\ElementSet;
+use App\Models\Project;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class ElementSetPolicy
 {
     use HandlesAuthorization;
 
+    public function before(User $user)
+    {
+        if ($user->is_administrator) {
+            return true;
+        }
+    }
 
   /**
    * Determine whether the user can view the elementSet.
@@ -21,24 +28,29 @@ class ElementSetPolicy
    */
     public function view(User $user, ElementSet $elementSet)
     {
-        //
+        $project = $elementSet->project;
+        if ($project->is_private && $user->isMemberOfProject($project)) {
+            return true;
+        };
+      if (!$project->is_private) {
+        return true;
+      };
     }
 
 
   /**
    * Determine whether the user can create elementSets.
-   *
-   * @param  User $user
+   * @param  User   $user
+   * @param Project $project
    *
    * @return mixed
    */
-    public function create(User $user)
+    public function create(User $user, Project $project = null)
     {
-        //
+        return ($project && $user->isAdminForProjectId($project->id));
     }
 
-
-  /**
+    /**
    * Determine whether the user can update the elementSet.
    *
    * @param  User $user
@@ -48,7 +60,9 @@ class ElementSetPolicy
    */
     public function update(User $user, ElementSet $elementSet)
     {
-        //
+        if ($user->isAdminForElementSet($elementSet)) {
+            return true;
+        }
     }
 
 
@@ -62,6 +76,8 @@ class ElementSetPolicy
    */
     public function delete(User $user, ElementSet $elementSet)
     {
-        //
+      if ($user->isAdminForElementSet($elementSet)) {
+        return true;
+      }
     }
 }

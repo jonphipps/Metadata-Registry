@@ -8,11 +8,15 @@ use Tests\BrowserKitTestCase;
 /**
  * Class LoggedInRouteTest
  */
-class DashboardTestCase extends BrowserKitTestCase
+class DashboardTest extends BrowserKitTestCase
 {
   use DatabaseTransactions;
 
-
+  public function setUp()
+  {
+    $this->dontSetupDatabase();
+    parent::setUp();
+  }
 
   /**
    * @test

@@ -17,16 +17,16 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string $uri
  * @property string $schema_location
  * @property-read \App\Models\ElementSet $ElementSet
- * @method static \Illuminate\Database\Query\Builder|\App\Models\RdfNamespace whereId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\RdfNamespace whereSchemaId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\RdfNamespace whereCreatedAt( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\RdfNamespace whereDeletedAt( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\RdfNamespace whereCreatedUserId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\RdfNamespace whereUpdatedUserId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\RdfNamespace whereToken( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\RdfNamespace whereNote( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\RdfNamespace whereUri( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\RdfNamespace whereSchemaLocation( $value )
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\RdfNamespace whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\RdfNamespace whereCreatedUserId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\RdfNamespace whereDeletedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\RdfNamespace whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\RdfNamespace whereNote($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\RdfNamespace whereSchemaId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\RdfNamespace whereSchemaLocation($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\RdfNamespace whereToken($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\RdfNamespace whereUpdatedUserId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\RdfNamespace whereUri($value)
  * @mixin \Eloquent
  */
 class RdfNamespace extends Model

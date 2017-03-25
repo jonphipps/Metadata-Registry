@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Helpers\Macros\Traits\Languages;
+use Cache;
 use DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -23,22 +25,22 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property int $pref_label_id
  * @property int $status_id
  * @property string $language
- * @property-read \App\Models\Vocabulary $Vocabulary
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ConceptAttribute[] $Properties
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereCreatedAt( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereUpdatedAt( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereDeletedAt( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereLastUpdated( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereCreatedUserId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereUpdatedUserId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereUri( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept wherePrefLabel( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereVocabularyId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereIsTopConcept( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept wherePrefLabelId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereStatusId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereLanguage( $value )
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ConceptAttribute[] $properties
+ * @property-read \App\Models\Vocabulary $vocabulary
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereCreatedUserId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereDeletedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereIsTopConcept($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereLanguage($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereLastUpdated($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept wherePrefLabel($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept wherePrefLabelId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereStatusId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereUpdatedUserId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereUri($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereVocabularyId($value)
  * @mixin \Eloquent
  */
 class Concept extends Model
@@ -58,20 +60,25 @@ class Concept extends Model
 
     public function properties()
     {
-    //        $properties = DB::table('reg_concept_property')
-    //            ->join('profile_property', 'profile_property.skos_id', '=', 'reg_concept_property.skos_property_id')
-    //            ->select(
-    //                'profile_property.uri',
-    //                'profile_property.label',
-    //                'reg_concept_property.object',
-    //                'reg_concept_property.language')
-    //            ->where('concept_id', $this->id)
-    //            ->whereNull('reg_concept_property.deleted_at')
-    //            ->orderBy('profile_property.export_order')
-    //            ->orderBy('reg_concept_property.language')
-    //            ->get();
-    //        return $properties;
-
         return $this->hasMany(ConceptAttribute::class, 'concept_id');
     }
+
+  public function status()
+  {
+    return $this->belongsTo(\App\Models\Status::class, 'status_id', 'id');
+  }
+
+  public function name()
+  {
+    return $this->pref_label;
+  }
+
+  public function getLanguageAttribute($value)
+  {
+    return Cache::get('language_' . $value,
+        function () use ($value) {
+          return Languages::list($value);
+        });
+  }
+
 }

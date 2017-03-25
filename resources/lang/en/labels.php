@@ -67,7 +67,7 @@ return [
                     'email'          => 'E-mail',
                     'id'             => 'ID',
                     'last_updated'   => 'Last Updated',
-                    'name'           => 'Name',
+                    'name'           => 'Login Name',
                     'no_deactivated' => 'No Deactivated Users',
                     'no_deleted'     => 'No Deleted Users',
                     'roles'          => 'Roles',
@@ -88,7 +88,7 @@ return [
                             'deleted_at'   => 'Deleted At',
                             'email'        => 'E-mail',
                             'last_updated' => 'Last Updated',
-                            'name'         => 'Name',
+                            'name'         => 'Login Name',
                             'status'       => 'Status',
                         ],
                     ],
@@ -112,9 +112,12 @@ return [
 
         'passwords' => [
             'forgot_password'                 => 'Forgot Your Password?',
+            'forgot_login_name'               => 'Forgot Your Login Name?',
             'reset_password_box_title'        => 'Reset Password',
             'reset_password_button'           => 'Reset Password',
             'send_password_reset_link_button' => 'Send Password Reset Link',
+            'send_login_box_title'            => 'Send Login Name',
+            'send_login_button'               => 'Send Login Name',
         ],
 
         'macros' => [
@@ -154,7 +157,7 @@ return [
                 'edit_information'   => 'Edit Information',
                 'email'              => 'E-mail',
                 'last_updated'       => 'Last Updated',
-                'name'               => 'Name',
+                'name'               => 'Login Name',
                 'update_information' => 'Update Information',
             ],
         ],

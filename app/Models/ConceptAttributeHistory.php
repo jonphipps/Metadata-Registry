@@ -15,39 +15,39 @@ use App\Models\Access\User\User;
  * @property int $vocabulary_id
  * @property int $skos_property_id
  * @property string $object
- * @property int $scheme_id          id of the related vocabulary when required
+ * @property int $scheme_id id of the related vocabulary when required
  * @property int $related_concept_id id of the related concept when required
- * @property string $language        This will be an RFC3066 language code, which means it can be en, eng, en-us, or eng-us -- iso639-1 (2-char codes), iso639-2 (3-char codes), and combined with iso3166 (2-char country codes)
+ * @property string $language This will be an RFC3066 language code, which means it can be en, eng, en-us, or eng-us -- iso639-1 (2-char codes), iso639-2 (3-char codes), and combined with iso3166 (2-char country codes)
  * @property int $status_id
- * @property int $created_user_id    The ID of the user that created the property
+ * @property int $created_user_id The ID of the user that created the property
  * @property string $change_note
  * @property int $import_id
  * @property int $profile_property_id
- * @property-read \App\Models\SkosProperty $SkosProperty
- * @property-read \App\Models\FileImportHistory $FileImportHistory
- * @property-read \App\Models\Vocabulary $ObjectScheme
- * @property-read \App\Models\Status $Status
- * @property-read \App\Models\Concept $ObjectConcept
- * @property-read \App\Models\Access\User\User $UserCreator
- * @property-read \App\Models\ConceptAttribute $ConceptAttribute
- * @property-read \App\Models\Vocabulary $Vocabulary
  * @property-read \App\Models\Concept $Concept
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttributeHistory whereId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttributeHistory whereCreatedAt( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttributeHistory whereAction( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttributeHistory whereConceptPropertyId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttributeHistory whereConceptId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttributeHistory whereVocabularyId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttributeHistory whereSkosPropertyId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttributeHistory whereObject( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttributeHistory whereSchemeId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttributeHistory whereRelatedConceptId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttributeHistory whereLanguage( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttributeHistory whereStatusId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttributeHistory whereCreatedUserId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttributeHistory whereChangeNote( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttributeHistory whereImportId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttributeHistory whereProfilePropertyId( $value )
+ * @property-read \App\Models\ConceptAttribute $ConceptAttribute
+ * @property-read \App\Models\FileImportHistory $FileImportHistory
+ * @property-read \App\Models\Concept $ObjectConcept
+ * @property-read \App\Models\Vocabulary $ObjectScheme
+ * @property-read \App\Models\SkosProperty $SkosProperty
+ * @property-read \App\Models\Status $Status
+ * @property-read \App\Models\Access\User\User $UserCreator
+ * @property-read \App\Models\Vocabulary $Vocabulary
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttributeHistory whereAction($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttributeHistory whereChangeNote($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttributeHistory whereConceptId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttributeHistory whereConceptPropertyId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttributeHistory whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttributeHistory whereCreatedUserId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttributeHistory whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttributeHistory whereImportId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttributeHistory whereLanguage($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttributeHistory whereObject($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttributeHistory whereProfilePropertyId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttributeHistory whereRelatedConceptId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttributeHistory whereSchemeId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttributeHistory whereSkosPropertyId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttributeHistory whereStatusId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttributeHistory whereVocabularyId($value)
  * @mixin \Eloquent
  */
 class ConceptAttributeHistory extends Model
