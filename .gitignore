@@ -1,95 +1,43 @@
 # symfony ignore
 
 *.bak
-.project
-lib/ZendFramework/*
 
 cache/*
 log/*
 web/uploads/*
-config/databases.yml
 config/propel.ini
-config/Copy of properties.ini
 data/sql
-/phpinfo.txt
-/projectFilesBackup/
 Thumbs.db
 .DS_Store
 /.idea/
 
 /vendor/
-swregistry2.sql
-swregistry_dump.sql
-test/functional/fixtures/swregistry_test_dump_empty.sql
-test/functional/fixtures/swregistry_test_dump.sql
-plugins/jpAdminGeneratorPlugin/lib/ImportVocab/tests/_log
-php_errors.log
-phpini.txt
 repos
-vendor.old
-test/codeception.old
-test/acceptance
 .filemap
 
 
-seleniumTestRunner.php
-tmp_selenium.html
-tmp_selenium_phpunit.php
 mailer.yml
-schema_org_dataset
-.env.php
 .gitignore.orig
 phpinfo.php
-importVocabulary.php.orig
 dbg-wizard.php
-composer.phar
 *.log
 tests/_output/*
-Export_*.sql
-Export_*.csv
 coverage.xml
 spec/coverage
 .env.*
-dump.rdb
-/node_modules
-
-Homestead.json
-Homestead.yaml
-/public/css/frontend.css
-/public/css/frontend.css.map
-/public/css/backend.css
-/public/css/backend.css.map
-/public/css/rtl.css
-/public/css/rtl.css.map
-/public/js/frontend.js
-/public/js/frontend.js.map
-/public/js/backend.js
-/public/js/backend.js.map
-/public/storage
 
 tests/_support/_generated
-swregistry_test_backup*.sql
 dump.sql
-tests/_data/swregistry_20161218_1448EST.sql
-tests/_data/swregistry_20161218_1501EST.sql
-tests/_data/swregistry_prod_20161218_1738EST.sql
-tests/_data/swregistry_prod_temp_20161218_1643EST.sql
 testing.html
 
-tests/_output/*
 cachev
 web/build
-backend-rtl.css
-backend.css
-frontend.css
-backend.js
-frontend.js
+node_modules
 public
-frontend.*.rtl.css
+backend.*.css
+backend.*.js
+frontend.*.css
+frontend.*.js
+backend.*.map
+frontend.*.map
 mix-manifest.json
-app.css
-app.css.map
-backend.css.map
-frontend.css.map
-backend.js.map
-frontend.js.map
