@@ -11,6 +11,7 @@ include SF_ROOT_DIR . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'co
 
 if (class_exists('DB')) {
   require_once $sf_symfony_lib_dir . '/config/sfConfig.class.php';
+  sfConfig::set('db_phptype', DB::connection()->getConfig("driver"));
   sfConfig::set('db_host', DB::connection()->getConfig("host"));
   sfConfig::set('db_port', DB::connection()->getConfig("port"));
   sfConfig::set('db_database', DB::connection()->getConfig("database"));
