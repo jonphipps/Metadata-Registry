@@ -51,7 +51,6 @@ app/Mail/
 apps/test/
 
 test_sym/functional/test/
-tests/Browser/
 web/build/
 web/js/components/jqwidgets/images/
 node_modules
