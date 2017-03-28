@@ -16,7 +16,7 @@ class AddUpdateAtToAgentTable extends Migration
         Schema::table(
             'reg_agent',
             function (Blueprint $table) {
-                $table->datetime('updated_at')->after('created_at');
+                $table->datetime('updated_at')->after('created_at')->nullable();
             }
         );
     }
