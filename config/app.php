@@ -190,6 +190,8 @@ return [
         Laravel\Socialite\SocialiteServiceProvider::class,
         Laravel\Tinker\TinkerServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
+        Prettus\Repository\Providers\RepositoryServiceProvider::class,
+        Spatie\Fractal\FractalServiceProvider::class,
         Yajra\Datatables\DatatablesServiceProvider::class,
 
        /*
@@ -264,7 +266,9 @@ return [
         'Captcha'      => Arcanedev\NoCaptcha\Facades\NoCaptcha::class,
         'Debugbar'     => Barryvdh\Debugbar\Facade::class,
         'Excel'        => Maatwebsite\Excel\Facades\Excel::class,
+        'Flash'        => Laracasts\Flash\Flash::class,
         'Form'         => Collective\Html\FormFacade::class,
+        'Fractal'      => Spatie\Fractal\FractalFacade::class,
         'GitHub'       => GrahamCampbell\GitHub\Facades\GitHub::class,
         'Gravatar'     => Creativeorange\Gravatar\Facades\Gravatar::class,
         'Html'         => Collective\Html\HtmlFacade::class,
