@@ -40,10 +40,14 @@ frontend.*.css
 frontend.*.js
 backend.*.map
 frontend.*.map
-mix-manifest.json
 resources/assets/js/dist/backend.js
 resources/assets/js/dist/frontend.js
-web/css/backend-rtl.css
-web/css/rtl.css
 web/js/backend.js
 web/js/frontend.js
+resources/assets/css/backend/app.css
+resources/assets/css/backend/app.css.map
+resources/assets/css/frontend/app.css
+resources/assets/css/frontend/app.css.map
+web/css/rtl.css.map
+web/css/backend-rtl.css
+web/css/rtl.css
