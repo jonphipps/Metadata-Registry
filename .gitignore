@@ -51,3 +51,5 @@ resources/assets/css/frontend/app.css.map
 web/css/rtl.css.map
 web/css/backend-rtl.css
 web/css/rtl.css
+web/css/backend.css
+web/css/frontend.css
