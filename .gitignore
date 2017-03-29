@@ -41,3 +41,9 @@ frontend.*.js
 backend.*.map
 frontend.*.map
 mix-manifest.json
+resources/assets/js/dist/backend.js
+resources/assets/js/dist/frontend.js
+web/css/backend-rtl.css
+web/css/rtl.css
+web/js/backend.js
+web/js/frontend.js
