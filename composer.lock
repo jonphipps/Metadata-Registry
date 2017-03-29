@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "ffac8cb860beabefd40fe460ae301e44",
+    "content-hash": "366b343ae411038bb23c8a8179dfe97a",
     "packages": [
         {
             "name": "arcanedev/log-viewer",
@@ -2270,51 +2270,6 @@
             "time": "2017-02-15T03:04:16+00:00"
         },
         {
-            "name": "infyomlabs/adminlte-templates",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/InfyOmLabs/adminlte-templates.git",
-                "reference": "51a671d525c87ffcb69af6c1b98a0f7c75362392"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/InfyOmLabs/adminlte-templates/zipball/51a671d525c87ffcb69af6c1b98a0f7c75362392",
-                "reference": "51a671d525c87ffcb69af6c1b98a0f7c75362392",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/support": "~5.0",
-                "php": ">=5.5.9"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "InfyOm\\AdminLTETemplates\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Mitul Golakiya",
-                    "email": "me@mitul.me"
-                }
-            ],
-            "description": "AdminLTE templates for InfyOm Laravel Generator",
-            "keywords": [
-                "AdminLTE",
-                "bootstrap",
-                "generator",
-                "infyom",
-                "laravel",
-                "templates"
-            ],
-            "time": "2016-08-20T20:49:41+00:00"
-        },
-        {
             "name": "jakub-onderka/php-console-color",
             "version": "0.1",
             "source": {
@@ -2458,51 +2413,6 @@
                 "tokenizer"
             ],
             "time": "2016-12-07T09:37:55+00:00"
-        },
-        {
-            "name": "jlapp/swaggervel",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/slampenny/Swaggervel.git",
-                "reference": "e026d72cacec8b2db8b2510179d73042f5e87bb9"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/slampenny/Swaggervel/zipball/e026d72cacec8b2db8b2510179d73042f5e87bb9",
-                "reference": "e026d72cacec8b2db8b2510179d73042f5e87bb9",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0",
-                "zircote/swagger-php": "*"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Jlapp\\Swaggervel": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "jlapp",
-                    "email": "jordan@jordanlapp.com"
-                }
-            ],
-            "description": "A great way to integrate Swagger into Laravel",
-            "keywords": [
-                "L4",
-                "api",
-                "documentation",
-                "l5",
-                "laravel",
-                "swagger"
-            ],
-            "time": "2016-01-25T15:38:17+00:00"
         },
         {
             "name": "knplabs/github-api",
@@ -6768,68 +6678,6 @@
                 "laravel"
             ],
             "time": "2017-02-23T03:11:23+00:00"
-        },
-        {
-            "name": "zircote/swagger-php",
-            "version": "2.0.9",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/zircote/swagger-php.git",
-                "reference": "b0b136e3c51c8b05d78a0ea3f1b60cd331cc3544"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/zircote/swagger-php/zipball/b0b136e3c51c8b05d78a0ea3f1b60cd331cc3544",
-                "reference": "b0b136e3c51c8b05d78a0ea3f1b60cd331cc3544",
-                "shasum": ""
-            },
-            "require": {
-                "doctrine/annotations": "*",
-                "php": ">=5.6",
-                "symfony/finder": "*"
-            },
-            "require-dev": {
-                "phpunit/phpunit": ">=4.8 <=5.6",
-                "squizlabs/php_codesniffer": ">=2.7",
-                "zendframework/zend-form": "<2.8"
-            },
-            "bin": [
-                "bin/swagger"
-            ],
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Swagger\\": "src"
-                },
-                "files": [
-                    "src/functions.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache2"
-            ],
-            "authors": [
-                {
-                    "name": "Robert Allen",
-                    "email": "zircote@gmail.com",
-                    "homepage": "http://www.zircote.com"
-                },
-                {
-                    "name": "Bob Fanger",
-                    "email": "bfanger@gmail.com",
-                    "homepage": "http://bfanger.nl"
-                }
-            ],
-            "description": "Swagger-PHP - Generate interactive documentation for your RESTful API using phpdoc annotations",
-            "homepage": "https://github.com/zircote/swagger-php/",
-            "keywords": [
-                "api",
-                "json",
-                "rest",
-                "service discovery"
-            ],
-            "time": "2017-02-22T23:16:25+00:00"
         }
     ],
     "packages-dev": [
@@ -8061,98 +7909,6 @@
             "time": "2015-05-11T14:41:42+00:00"
         },
         {
-            "name": "infyomlabs/laravel-generator",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/InfyOmLabs/laravel-generator.git",
-                "reference": "a2038b2ae6c72987e79e830896cc6d12c06e4ee7"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/InfyOmLabs/laravel-generator/zipball/a2038b2ae6c72987e79e830896cc6d12c06e4ee7",
-                "reference": "a2038b2ae6c72987e79e830896cc6d12c06e4ee7",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/support": "~5.0",
-                "laracasts/flash": "~2.0",
-                "php": ">=5.5.9",
-                "prettus/l5-repository": "~2.1"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "InfyOm\\Generator\\": "src/"
-                },
-                "files": [
-                    "src/helpers.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Mitul Golakiya",
-                    "email": "me@mitul.me"
-                }
-            ],
-            "description": "InfyOm Laravel Generator",
-            "keywords": [
-                "api",
-                "crud",
-                "generator",
-                "laravel",
-                "migration",
-                "model",
-                "repository",
-                "request",
-                "swagger",
-                "test",
-                "view"
-            ],
-            "time": "2016-08-18T14:19:50+00:00"
-        },
-        {
-            "name": "infyomlabs/swagger-generator",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/InfyOmLabs/swagger-generator.git",
-                "reference": "a0d85f22acd100f73515d98901d6f23efc1d2443"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/InfyOmLabs/swagger-generator/zipball/a0d85f22acd100f73515d98901d6f23efc1d2443",
-                "reference": "a0d85f22acd100f73515d98901d6f23efc1d2443",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.5.9"
-            },
-            "type": "library",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Mitul Golakiya",
-                    "email": "me@mitul.me"
-                }
-            ],
-            "description": "Swagger Generator for InfyOm Laravel Generator",
-            "keywords": [
-                "generator",
-                "laravel",
-                "swagger",
-                "templates"
-            ],
-            "time": "2016-02-14T10:41:03+00:00"
-        },
-        {
             "name": "instaclick/php-webdriver",
             "version": "1.4.3",
             "source": {
@@ -8305,49 +8061,6 @@
                 "laravel"
             ],
             "time": "2015-02-28T14:31:47+00:00"
-        },
-        {
-            "name": "laracasts/flash",
-            "version": "2.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/laracasts/flash.git",
-                "reference": "03eec812fd6ae948664ff51b4320785f6d15ee5d"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/laracasts/flash/zipball/03eec812fd6ae948664ff51b4320785f6d15ee5d",
-                "reference": "03eec812fd6ae948664ff51b4320785f6d15ee5d",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/support": "~5.0",
-                "php": ">=5.4.0"
-            },
-            "require-dev": {
-                "mockery/mockery": "dev-master"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Laracasts\\Flash": "src/"
-                },
-                "files": [
-                    "src/Laracasts/Flash/functions.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Jeffrey Way",
-                    "email": "jeffrey@laracasts.com"
-                }
-            ],
-            "description": "Easy flash notifications",
-            "time": "2016-07-11T20:46:02+00:00"
         },
         {
             "name": "laravel/browser-kit-testing",
@@ -10581,13 +10294,9 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "chrisboulton/php-resque": 20,
-        "infyomlabs/adminlte-templates": 20,
-        "jlapp/swaggervel": 20,
         "roave/security-advisories": 20,
         "antennaio/laravel-codeception-dbdump": 20,
         "barryvdh/laravel-ide-helper": 20,
-        "infyomlabs/laravel-generator": 20,
-        "infyomlabs/swagger-generator": 20,
         "orangehill/iseed": 20,
         "raveren/kint": 20,
         "way/generators": 20,
