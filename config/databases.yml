@@ -18,6 +18,11 @@ test-update:
     param:
       database:           swregistry_test_update
 
+dev:
+  propel:
+    param:
+      database:           swregistry
+
 sandbox:
   propel:
     param:
