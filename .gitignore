@@ -1,17 +1,18 @@
 # symfony ignore
 
 *.bak
-/cache/
-/cachev/
-/log/
-/web/uploads/
-/config/propel.ini
+
+cache/*
+log/*
+web/uploads/*
+config/propel.ini
 data/sql
 Thumbs.db
-dump.sql
+.DS_Store
 /.idea/
 
 /vendor/
+repos
 .filemap
 
 
@@ -22,36 +23,33 @@ dbg-wizard.php
 *.log
 tests/_output/*
 coverage.xml
-/spec/coverage/
-.env
+spec/coverage
 .env.*
-!/.env.travis
-/public/
-/storage/
 
 tests/_support/_generated
+dump.sql
 testing.html
 
-tests_codecept/_output/*
-/web/repos/
-/packages/
-/apps/frontend/config/app.yml
-/.github/
-frontend.*.css
-frontend-*.css
-frontend.*.js
-frontend-*.js
-mix-manifest.json
-backend.*.css
-backend-*.css
-backend.*.js
-backend-*.js
-rtl-*.css
-app/Mail/
-apps/test/
-
-test_sym/functional/test/
-web/build/
-web/js/components/jqwidgets/images/
+cachev
+web/build
 node_modules
-.idea.zip
+public
+backend.*.css
+backend.*.js
+frontend.*.css
+frontend.*.js
+backend.*.map
+frontend.*.map
+resources/assets/js/dist/backend.js
+resources/assets/js/dist/frontend.js
+web/js/backend.js
+web/js/frontend.js
+resources/assets/css/backend/app.css
+resources/assets/css/backend/app.css.map
+resources/assets/css/frontend/app.css
+resources/assets/css/frontend/app.css.map
+web/css/rtl.css.map
+web/css/backend-rtl.css
+web/css/rtl.css
+web/css/backend.css
+web/css/frontend.css
