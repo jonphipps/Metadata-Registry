@@ -68,6 +68,7 @@ all:
     standard_helpers:       [Partial, Cache, Form, I18N]
     timeout:                43200
     relative_url_root:      ''
+    no_script_name:         on
 #    suffix:                .html
 
 #    default_module:         default   # Default module and action to be called when
