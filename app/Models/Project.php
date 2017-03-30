@@ -2,7 +2,7 @@
 
 use App\Models\Access\User\User;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model as Model;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -37,44 +37,55 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Profile[] $profiles
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Access\User\User[] $users
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Vocabulary[] $vocabularies
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereAddress1($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereAddress2($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereCity($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereCountry($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereCreatedBy($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereDeletedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereDeletedBy($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereDescription($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereIndAffiliation($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereIndRole($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereIsPrivate($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereLastUpdated($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereLicense($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereOrgEmail($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereOrgName($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Project wherePhone($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Project wherePostalCode($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereRepo($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereState($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereType($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereUpdatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereUpdatedBy($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereWebAddress($value)
+ * @method static \Illuminate\Database\Query\Builder|Project whereAddress1( $value )
+ * @method static \Illuminate\Database\Query\Builder|Project whereAddress2( $value )
+ * @method static \Illuminate\Database\Query\Builder|Project whereCity( $value )
+ * @method static \Illuminate\Database\Query\Builder|Project whereCountry( $value )
+ * @method static \Illuminate\Database\Query\Builder|Project whereCreatedAt( $value )
+ * @method static \Illuminate\Database\Query\Builder|Project whereCreatedBy( $value )
+ * @method static \Illuminate\Database\Query\Builder|Project whereDeletedAt( $value )
+ * @method static \Illuminate\Database\Query\Builder|Project whereDeletedBy( $value )
+ * @method static \Illuminate\Database\Query\Builder|Project whereDescription( $value )
+ * @method static \Illuminate\Database\Query\Builder|Project whereId( $value )
+ * @method static \Illuminate\Database\Query\Builder|Project whereIndAffiliation( $value )
+ * @method static \Illuminate\Database\Query\Builder|Project whereIndRole( $value )
+ * @method static \Illuminate\Database\Query\Builder|Project whereIsPrivate( $value )
+ * @method static \Illuminate\Database\Query\Builder|Project whereLastUpdated( $value )
+ * @method static \Illuminate\Database\Query\Builder|Project whereLicense( $value )
+ * @method static \Illuminate\Database\Query\Builder|Project whereOrgEmail( $value )
+ * @method static \Illuminate\Database\Query\Builder|Project whereOrgName( $value )
+ * @method static \Illuminate\Database\Query\Builder|Project wherePhone( $value )
+ * @method static \Illuminate\Database\Query\Builder|Project wherePostalCode( $value )
+ * @method static \Illuminate\Database\Query\Builder|Project whereRepo( $value )
+ * @method static \Illuminate\Database\Query\Builder|Project whereState( $value )
+ * @method static \Illuminate\Database\Query\Builder|Project whereType( $value )
+ * @method static \Illuminate\Database\Query\Builder|Project whereUpdatedAt( $value )
+ * @method static \Illuminate\Database\Query\Builder|Project whereUpdatedBy( $value )
+ * @method static \Illuminate\Database\Query\Builder|Project whereWebAddress( $value )
  * @mixin \Eloquent
  */
 class Project extends Model
 {
-  protected $table = self::TABLE;
   const TABLE = 'reg_agent';
+  public static $rules = [ 'last_updated'    => 'required|',
+                           'org_email'       => 'required|max:100',
+                           'org_name'        => 'required|max:255',
+                           'ind_affiliation' => 'max:255',
+                           'ind_role'        => 'max:45',
+                           'address1'        => 'max:255',
+                           'address2'        => 'max:255',
+                           'city'            => 'max:45',
+                           'state'           => 'max:2',
+                           'postal_code'     => 'max:15',
+                           'country'         => 'max:3',
+                           'phone'           => 'max:45',
+                           'web_address'     => 'max:255',
+                           'type'            => 'max:15', ];
 
   use SoftDeletes;
-
-    protected $dates = ['deleted_at', 'last_updated'];
-
-  protected $fillable = [
-      'last_updated',
+  protected $table = self::TABLE;
+  protected $dates = [ 'deleted_at', 'last_updated' ];
+  protected $fillable = [ 'last_updated',
       'deleted_at',
       'org_email',
       'org_name',
@@ -88,47 +99,26 @@ class Project extends Model
       'country',
       'phone',
       'web_address',
-      'type',
-  ];
-
+      'type', ];
   /**
    * The attributes that should be casted to native types.
    *
    * @var array
    */
-  protected $casts = [
-      'id'              => 'integer',
-      'org_email'       => 'string',
-      'org_name'        => 'string',
-      'ind_affiliation' => 'string',
-      'ind_role'        => 'string',
-      'address1'        => 'string',
-      'address2'        => 'string',
-      'city'            => 'string',
-      'state'           => 'string',
-      'postal_code'     => 'string',
-      'country'         => 'string',
-      'phone'           => 'string',
-      'web_address'     => 'string',
-      'type'            => 'string',
-  ];
-
-  public static $rules = [
-      'last_updated'    => 'required|',
-      'org_email'       => 'required|max:100',
-      'org_name'        => 'required|max:255',
-      'ind_affiliation' => 'max:255',
-      'ind_role'        => 'max:45',
-      'address1'        => 'max:255',
-      'address2'        => 'max:255',
-      'city'            => 'max:45',
-      'state'           => 'max:2',
-      'postal_code'     => 'max:15',
-      'country'         => 'max:3',
-      'phone'           => 'max:45',
-      'web_address'     => 'max:255',
-      'type'            => 'max:15',
-  ];
+  protected $casts = [ 'id'              => 'integer',
+                       'org_email'       => 'string',
+                       'org_name'        => 'string',
+                       'ind_affiliation' => 'string',
+                       'ind_role'        => 'string',
+                       'address1'        => 'string',
+                       'address2'        => 'string',
+                       'city'            => 'string',
+                       'state'           => 'string',
+                       'postal_code'     => 'string',
+                       'country'         => 'string',
+                       'phone'           => 'string',
+                       'web_address'     => 'string',
+                       'type'            => 'string', ];
 
   /**
    * @param Builder $query
@@ -164,8 +154,8 @@ class Project extends Model
   public function members()
   {
     return $this->belongsToMany(User::class, ProjectHasUser::TABLE, 'agent_id', 'user_id')
-                ->withPivot('is_registrar_for', 'is_admin_for')
-                ->withTimestamps();
+        ->withPivot('is_registrar_for', 'is_admin_for')
+        ->withTimestamps();
   }
 
   /**
@@ -181,7 +171,10 @@ class Project extends Model
    */
   public function elementSetsForSelect()
   {
-    return ElementSet::select(['id', 'name'])->where('agent_id', $this->id)->orderBy('name')->get()
+    return ElementSet::select([ 'id', 'name' ])
+        ->where('agent_id', $this->id)
+        ->orderBy('name')
+        ->get()
         ->mapWithKeys(function ($item) {
           return [ $item['id'] => $item['name'] ];
         });
@@ -193,8 +186,11 @@ class Project extends Model
   public function elementsForSelect()
   {
     return \DB::table(ElementAttribute::TABLE)
-        ->join(Element::TABLE, Element::TABLE . '.id', '=', ElementAttribute::TABLE . '.schema_property_id')
-        ->join(ElementSet::TABLE, ElementSet::TABLE . '.id', "=", Element::TABLE . '.schema_id')
+        ->join(Element::TABLE,
+               Element::TABLE . '.id',
+               '=',
+               ElementAttribute::TABLE . '.schema_property_id')
+        ->join(ElementSet::TABLE, ElementSet::TABLE . '.id', '=', Element::TABLE . '.schema_id')
         ->select(ElementAttribute::TABLE . '.schema_property_id as id',
                  ElementSet::TABLE . '.name as ElementSet',
                  ElementAttribute::TABLE . '.language',
@@ -207,16 +203,13 @@ class Project extends Model
         ->get()
         ->mapWithKeys(function ($item) {
           return [ $item->id . '_' . $item->language => $item->ElementSet .
-              " - (" .
+              ' - (' .
               $item->language .
-              ") " .
+              ') ' .
               $item->label ];
         })
         ->toArray();
-
-
-
-  // $elements = [];
+    // $elements = [];
     // /** @var ElementSet[] $elementsets */
     // $elementsets =
     //     ElementSet::with('elements')
@@ -247,7 +240,10 @@ class Project extends Model
    */
   public function vocabulariesForSelect()
   {
-    return Vocabulary::select( 'id', 'name' )->where('agent_id', $this->id)->orderBy('name')->get()
+    return Vocabulary::select('id', 'name')
+        ->where('agent_id', $this->id)
+        ->orderBy('name')
+        ->get()
         ->mapWithKeys(function ($item) {
           return [ $item['id'] => $item['name'] ];
         });
@@ -258,23 +254,27 @@ class Project extends Model
    */
   public function conceptsForSelect()
   {
-
     return \DB::table(ConceptAttribute::TABLE)
-            ->join(Concept::TABLE, Concept::TABLE.'.id', '=', ConceptAttribute::TABLE.'.concept_id')
-            ->join(Vocabulary::TABLE, Vocabulary::TABLE. '.id', "=",Concept::TABLE .'.vocabulary_id')
-            ->select(ConceptAttribute::TABLE.'.concept_id as id', Vocabulary::TABLE.'.name as vocabulary',
-                     ConceptAttribute::TABLE.'.language', ConceptAttribute::TABLE.'.object as label')
-            ->where([[ConceptAttribute::TABLE.'.profile_property_id', 45],[ Vocabulary::TABLE.'.agent_id', $this->id]])
-            ->orderBy(Vocabulary::TABLE . '.name')
-            ->orderBy(ConceptAttribute::TABLE . '.language')
-            ->orderBy(ConceptAttribute::TABLE . '.object')
-            ->get()->mapWithKeys(function ($item) {
-              return [ $item->id . '_' . $item->language => $item->vocabulary .
-                  " - (" .
-                  $item->language .
-                  ") " .
-                  $item->label ];
-            })->toArray();
-      }
+        ->join(Concept::TABLE, Concept::TABLE . '.id', '=', ConceptAttribute::TABLE . '.concept_id')
+        ->join(Vocabulary::TABLE, Vocabulary::TABLE . '.id', '=', Concept::TABLE . '.vocabulary_id')
+        ->select(ConceptAttribute::TABLE . '.concept_id as id',
+                 Vocabulary::TABLE . '.name as vocabulary',
+                 ConceptAttribute::TABLE . '.language',
+                 ConceptAttribute::TABLE . '.object as label')
+        ->where([ [ ConceptAttribute::TABLE . '.profile_property_id', 45 ],
+                    [ Vocabulary::TABLE . '.agent_id', $this->id ] ])
+        ->orderBy(Vocabulary::TABLE . '.name')
+        ->orderBy(ConceptAttribute::TABLE . '.language')
+        ->orderBy(ConceptAttribute::TABLE . '.object')
+        ->get()
+        ->mapWithKeys(function ($item) {
+          return [ $item->id . '_' . $item->language => $item->vocabulary .
+              ' - (' .
+              $item->language .
+              ') ' .
+              $item->label ];
+        })
+        ->toArray();
+  }
 
 }
