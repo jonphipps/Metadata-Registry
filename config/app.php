@@ -187,6 +187,7 @@ return [
         DaveJamesMiller\Breadcrumbs\ServiceProvider::class,
         GrahamCampbell\GitHub\GitHubServiceProvider::class,
         HieuLe\Active\ActiveServiceProvider::class,
+        JeroenG\Packager\PackagerServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
         Laravel\Tinker\TinkerServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,

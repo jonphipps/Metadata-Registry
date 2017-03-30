@@ -58,6 +58,7 @@
         "h4cc/wkhtmltopdf-amd64": "0.12.x",
         "hashids/hashids": "^2.0",
         "hieu-le/active": "~3.0",
+        "jeroen-g/laravel-packager": "^1.5",
         "laravel/framework": "5.4.*",
         "laravel/socialite": "^3.0",
         "laravel/tinker": "~1.0",

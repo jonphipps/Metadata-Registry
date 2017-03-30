@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "366b343ae411038bb23c8a8179dfe97a",
+    "content-hash": "8a9872c7381f8a860918c3b42e07c7bb",
     "packages": [
         {
             "name": "arcanedev/log-viewer",
@@ -2413,6 +2413,55 @@
                 "tokenizer"
             ],
             "time": "2016-12-07T09:37:55+00:00"
+        },
+        {
+            "name": "jeroen-g/laravel-packager",
+            "version": "v1.5.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Jeroen-G/laravel-packager.git",
+                "reference": "9f5c2c9e14ff10934e7db832fad49a28a4dba538"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Jeroen-G/laravel-packager/zipball/9f5c2c9e14ff10934e7db832fad49a28a4dba538",
+                "reference": "9f5c2c9e14ff10934e7db832fad49a28a4dba538",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "~6",
+                "illuminate/console": "~5",
+                "illuminate/filesystem": "~5",
+                "illuminate/support": "~5",
+                "sensiolabs/security-checker": "^4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "JeroenG\\Packager\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "EUPL-1.1"
+            ],
+            "authors": [
+                {
+                    "name": "JeroenG",
+                    "email": "jeroengjeroeng@gmail.com",
+                    "homepage": "https://github.com/Jeroen-G"
+                }
+            ],
+            "description": "A cli tool for creating Laravel packages.",
+            "homepage": "https://github.com/Jeroen-G/laravel-packager",
+            "keywords": [
+                "Skeleton",
+                "github",
+                "laravel",
+                "package",
+                "packager"
+            ],
+            "time": "2017-03-11T18:22:08+00:00"
         },
         {
             "name": "knplabs/github-api",
@@ -5088,6 +5137,50 @@
                 "sparql"
             ],
             "time": "2016-10-07T13:56:26+00:00"
+        },
+        {
+            "name": "sensiolabs/security-checker",
+            "version": "v4.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sensiolabs/security-checker.git",
+                "reference": "04bb87f5bd28a7d6ce7f4a4d1d6b94b3c1aa8dae"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sensiolabs/security-checker/zipball/04bb87f5bd28a7d6ce7f4a4d1d6b94b3c1aa8dae",
+                "reference": "04bb87f5bd28a7d6ce7f4a4d1d6b94b3c1aa8dae",
+                "shasum": ""
+            },
+            "require": {
+                "symfony/console": "~2.7|~3.0"
+            },
+            "bin": [
+                "security-checker"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "SensioLabs\\Security": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien.potencier@gmail.com"
+                }
+            ],
+            "description": "A security checker for your composer.lock",
+            "time": "2017-03-29T08:08:00+00:00"
         },
         {
             "name": "spatie/eloquent-sortable",
