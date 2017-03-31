@@ -3,8 +3,7 @@
 <head>
     <?php use Illuminate\Support\Facades\Auth;
     include_http_metas();
-    $bugsnag = $GLOBALS['bugsnag']; ?>
-    <?php include_metas() ?>
+    include_metas() ?>
     <?php if (has_slot('download')): ?><?php include_slot('download') ?><?php endif; ?>
 
     <?php include_title() ?>

@@ -4,12 +4,14 @@ namespace Tests\Feature;
 
 use App\Models\Project;
 use App\Models\ProjectHasUser;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
 class ProjectViewTest extends TestCase
 {
-  use DatabaseTransactions;
+  //use DatabaseTransactions;
+  //use DatabaseMigrations;
 
   /**
    * @test
@@ -30,6 +32,7 @@ class ProjectViewTest extends TestCase
   {
     /** @var Project $project */
     $project = factory(Project::class)->create();
+    \DB::commit();
     $this->actingAs($this->user);
     $this->user->projects()->attach($project,
                                     [ 'is_registrar_for' => true,
@@ -39,8 +42,16 @@ class ProjectViewTest extends TestCase
                                'is_admin_for'     => true,
                                'agent_id'         => $project->id,
                                'user_id'          => $this->user->id, ]);
-    $this->get($this->baseUrl . '/projects')->assertSee($project->org_name);
-    $this->get($this->baseUrl . '/projects/' . $project->id)->assertSee($project->org_name)->assertSee('/projects/59/edit');
+    //check the list for editability
+    $this->get($this->baseUrl . '/projects')->assertSee($project->org_name)
+        ->assertSee("/projects/{$project->id}/edit")
+        ->assertDontSee('/projects/58/edit');
+    $this->get($this->baseUrl . '/projects/' . $project->id)
+        ->assertSee($project->org_name)
+        ->assertSee("projects/{$project->id}/edit");
+    $this->get($this->baseUrl . '/projects/' . $project->id)
+        ->assertSee($project->org_name)
+        ->assertDontSee('projects/58/edit');
     $this->get($this->baseUrl . '/dashboard' )->assertSee($project->org_name);
   }
 

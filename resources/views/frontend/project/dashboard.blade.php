@@ -32,7 +32,7 @@
                                                 <dd>{{$value}}</dd>
                                                 @endforeach
                                             </dl>
-                                            <a class="btn btn-default btn-sm pull-right" href="projects/create" role="button">Edit</a>
+                                            <a class="btn btn-default btn-sm pull-right" href="projects/{{$project->id}}/edit" role="button">Edit</a>
                                         </div><!--panel-body-->
                                     </div><!--panel-->
                                 </div><!--col-xs-12-->
