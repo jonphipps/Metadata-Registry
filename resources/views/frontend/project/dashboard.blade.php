@@ -32,7 +32,9 @@
                                                 <dd>{{$value}}</dd>
                                                 @endforeach
                                             </dl>
+                                            @can('edit', $project)
                                             <a class="btn btn-default btn-sm pull-right" href="projects/{{$project->id}}/edit" role="button">Edit</a>
+                                            @endcan
                                         </div><!--panel-body-->
                                     </div><!--panel-->
                                 </div><!--col-xs-12-->

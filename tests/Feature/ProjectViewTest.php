@@ -18,11 +18,14 @@ class ProjectViewTest extends TestCase
    */
   public function i_can_add_a_project_to_the_database_and_view_it()
   {
-    //given I add a project to the database
+    //given I add a project to the database and I'm logged out
+    auth()->logout();
     /** @var Project $project */
     $project = factory(Project::class)->create();
     //when I go to the url
-    $this->get($this->baseUrl . '/projects/' . $project->id)->assertSee($project->org_name);
+    $this->get($this->baseUrl . '/projects/' . $project->id)
+        ->assertSee($project->org_name)
+        ->assertDontSee("projects/{$project->id}/edit");
   }
 
   /**
@@ -33,7 +36,6 @@ class ProjectViewTest extends TestCase
     /** @var Project $project */
     $project = factory(Project::class)->create();
     \DB::commit();
-    $this->actingAs($this->user);
     $this->user->projects()->attach($project,
                                     [ 'is_registrar_for' => true,
                                       'is_admin_for'     => true, ]);
@@ -43,6 +45,7 @@ class ProjectViewTest extends TestCase
                                'agent_id'         => $project->id,
                                'user_id'          => $this->user->id, ]);
     //check the list for editability
+    $this->actingAs($this->user);
     $this->get($this->baseUrl . '/projects')->assertSee($project->org_name)
         ->assertSee("/projects/{$project->id}/edit")
         ->assertDontSee('/projects/58/edit');
