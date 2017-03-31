@@ -46,9 +46,9 @@ class sfException extends Exception
     }
 
     if (get_class($this) !== 'sfStopException') {
-      /** @var Bugsnag\Client $bugsnag */
-      $bugsnag = $GLOBALS['bugsnag'];
-      $bugsnag->notifyException($this);
+      if (app()->resolved('bugsnag')) {
+        app()->bugsnag->notifyException($this);
+      }
     }
   }
 
