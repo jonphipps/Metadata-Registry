@@ -11,7 +11,7 @@
 ?>
 <td>
   <ul class="sf_admin_td_actions">
-    <li> <?php echo auth()->user()->can('edit', \App\Models\Project::find($agent->getId())) ?
+    <li> <?php echo auth()->user() && auth()->user()->can('edit', \App\Models\Project::find($agent->getId())) ?
           sf_link_to(image_tag('/jpAdminPlugin/images/edit_icon.png',
                                [ 'alt' => __s('edit'), 'title' => __s('edit') ]),
                      '@agent_edit?id=' . $agent->getId()) : '&nbsp;' ?></li>
