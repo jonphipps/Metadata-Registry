@@ -137,7 +137,7 @@ class LoggedOutRouteTest extends BrowserKitTestCase
      */
     public function test404Page()
     {
-        $this->visit('angobango');
-        $this->see('The server returned a 404 response');
+        $this->get('angobango')
+            ->see('The server returned a 404 response');
     }
 }
