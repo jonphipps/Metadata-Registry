@@ -6,7 +6,7 @@ use App\Models\Access\Role\Role;
 use Database\DisableForeignKeys;
 
 /**
- * Class PermissionRoleSeeder
+ * Class PermissionRoleSeeder.
  */
 class PermissionRoleSeeder extends Seeder
 {
@@ -15,21 +15,18 @@ class PermissionRoleSeeder extends Seeder
 
 
   /**
-   * Run the database seed.
-   *
-   * @return void
-   */
+     * Run the database seed.
+     *
+     * @return void
+     */
     public function run()
     {
         $this->disableForeignKeys();
-
         $this->truncate(config('access.permission_role_table'));
-            //For PostgreSQL or anything else
 
-        /**
-     * Assign view backend and manage user permissions to executive role as example
-     */
-
+        /*
+         * Assign view backend to executive role as example
+         */
         Role::find(2)->permissions()->sync([ 1, 2 ]); // Executive
         Role::find(3)->permissions()->sync([ 4 ]); //Subscriber
         Role::find(4)->permissions()->sync([ 5, 6, 7, 9,12,13,14 ]); //agentadmin

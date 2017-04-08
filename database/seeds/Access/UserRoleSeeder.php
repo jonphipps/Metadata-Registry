@@ -5,7 +5,7 @@ use Illuminate\Database\Seeder;
 use Database\DisableForeignKeys;
 
 /**
- * Class UserRoleSeeder
+ * Class UserRoleSeeder.
  */
 class UserRoleSeeder extends Seeder
 {
@@ -14,10 +14,10 @@ class UserRoleSeeder extends Seeder
 
 
   /**
-   * Run the database seed.
-   *
-   * @return void
-   */
+     * Run the database seed.
+     *
+     * @return void
+     */
     public function run()
     {
         $this->disableForeignKeys();

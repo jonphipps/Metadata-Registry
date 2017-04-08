@@ -21,12 +21,13 @@ return [
         ],
 
         'users' => [
-            'confirmation_email' => 'A new confirmation e-mail has been sent to the address on file.',
-            'created' => 'Ο χρήστης δημιουργήθηκε επιτυχώς.',
-            'deleted' => 'Ο χρήστης διαγράφηκε επιτυχώς.',
+            'confirmation_email'  => 'A new confirmation e-mail has been sent to the address on file.',
+            'created'             => 'Ο χρήστης δημιουργήθηκε επιτυχώς.',
+            'deleted'             => 'Ο χρήστης διαγράφηκε επιτυχώς.',
             'deleted_permanently' => 'Ο χρήστης διαγράφηκε μόνιμα.',
-            'restored' => 'Ο χρήστης επαναφέρθηκε επιτυχώς.',
-            'updated' => 'Ο χρήστης ανανεώθηκε επιτυχώς.',
+            'restored'            => 'Ο χρήστης επαναφέρθηκε επιτυχώς.',
+            'session_cleared'      => "The user's session was successfully cleared.",
+            'updated'             => 'Ο χρήστης ανανεώθηκε επιτυχώς.',
             'updated_password'    => 'Ο κωδικός χρήστη ανανεώθηκε επιτυχώς.',
         ],
     ],

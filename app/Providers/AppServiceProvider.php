@@ -16,54 +16,64 @@ class AppServiceProvider extends ServiceProvider
 {
 
   /**
-   * Bootstrap any application services.
-   *
-   * @return void
-   */
+     * Bootstrap any application services.
+     *
+     * @return void
+     */
   public function boot()
   {
-    /**
-     * Application locale defaults for various components
-     * These will be overridden by LocaleMiddleware if the session local is set
-     */
-    /**
-     * setLocale for php. Enables ->formatLocalized() with localized values for dates
-     */
-    setlocale(LC_TIME, config('app.locale_php'));
-    /**
-     * setLocale to use Carbon source locales. Enables diffForHumans() localized
-     */
-    Carbon::setLocale(config('app.locale'));
-    /**
-     * Set the session variable for whether or not the app is using RTL support
-     * For use in the blade directive in BladeServiceProvider
-     */
-    if (config('locale.languages')[config('app.locale')][2]) {
-      session([ 'lang-rtl' => true ]);
-    } else {
-      session()->forget('lang-rtl');
+        /*
+         * Application locale defaults for various components
+         *
+         * These will be overridden by LocaleMiddleware if the session local is set
+         */
+
+        /*
+         * setLocale for php. Enables ->formatLocalized() with localized values for dates
+         */
+        setlocale(LC_TIME, config('app.locale_php'));
+
+        /*
+         * setLocale to use Carbon source locales. Enables diffForHumans() localized
+         */
+        Carbon::setLocale(config('app.locale'));
+
+        /*
+         * Set the session variable for whether or not the app is using RTL support
+         * For use in the blade directive in BladeServiceProvider
+         */
+        if (config('locale.languages')[config('app.locale')][2]) {
+            session(['lang-rtl' => true]);
+        } else {
+            session()->forget('lang-rtl');
+        }
+
+        // Force SSL in production
+        if ($this->app->environment() == 'production') {
+            //URL::forceScheme('https');
+        }
+
+        // Set the default string length for Laravel5.4
+        // https://laravel-news.com/laravel-5-4-key-too-long-error
+        Schema::defaultStringLength(191);
+
+        if (app()->resolved('bugsnag')) {
+            $bugsnag = app('bugsnag');
+            $bugsnag->setReleaseStage(env('BUGSNAG_RELEASE_STAGE', ''));
+            $bugsnag->setErrorReportingLevel(E_ALL & ~E_NOTICE);
+        }
     }
-    // Force SSL in production
-    if ($this->app->environment() === 'production') {
-      //URL::forceSchema('https');
-    }
-    if (app()->resolved('bugsnag')) {
-      $bugsnag = app('bugsnag');
-      $bugsnag->setReleaseStage(env('BUGSNAG_RELEASE_STAGE', ''));
-      $bugsnag->setErrorReportingLevel(E_ALL & ~E_NOTICE);
-    }
-  }
 
   /**
-   * Register any application services.
-   *
-   * @return void
-   */
+     * Register any application services.
+     *
+     * @return void
+     */
   public function register()
   {
-    /**
-     * Sets third party service providers that are only needed on local environments
-     */
+        /*
+         * Sets third party service providers that are only needed on local/testing environments
+         */
     $environment = $this->app->environment();
     if ($environment === 'dev' || $environment === 'testing') {
       /**

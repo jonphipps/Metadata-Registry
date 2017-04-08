@@ -142,6 +142,9 @@ class UserRepository extends BaseRepository
     /**
      * @param Model $user
      * @param array $input
+     *
+     * @return bool
+     * @throws GeneralException
      */
     public function update(Model $user, array $input)
     {

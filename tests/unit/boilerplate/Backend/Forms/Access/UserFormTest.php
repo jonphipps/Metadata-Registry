@@ -66,8 +66,7 @@ class UserFormTest extends BrowserKitTestCase
              ->press('Create')
              ->seePageIs('/admin/access/user')
              ->see('The user was successfully created.')
-             ->seeInDatabase(config('access.users_table'),
-                 ['name' => $name, 'email' => $email, 'status' => 1, 'confirmed' => 1]);
+             ->seeInDatabase(config('access.users_table'), ['name' => $name, 'email' => $email, 'status' => 1, 'confirmed' => 1]);
         $latestId = User::orderby('created_at', 'desc')
                         ->first()->id;
         $this->seeInDatabase(config('access.role_user_table'), ['user_id' => $latestId, 'role_id' => 2])

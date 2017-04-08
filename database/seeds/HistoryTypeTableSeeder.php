@@ -7,17 +7,17 @@ use Database\DisableForeignKeys;
 use Illuminate\Support\Facades\DB;
 
 /**
- * Class HistoryTypeTableSeeder
+ * Class HistoryTypeTableSeeder.
  */
 class HistoryTypeTableSeeder extends Seeder
 {
     use DisableForeignKeys, TruncateTable;
 
   /**
-   * Run the database seed.
-   *
-   * @return void
-   */
+     * Run the database seed.
+     *
+     * @return void
+     */
     public function run()
     {
         $this->disableForeignKeys();

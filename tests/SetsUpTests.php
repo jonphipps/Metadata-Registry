@@ -73,6 +73,15 @@ trait SetsUpTests
     self::$setupDatabase = false;
   }
 
+    public function tearDown()
+    {
+        $this->beforeApplicationDestroyed(function () {
+            DB::disconnect();
+        });
+
+        parent::tearDown();
+    }
+
   protected function disableExceptionHandling()
   {
     $this->oldExceptionHandler = $this->app->make(ExceptionHandler::class);

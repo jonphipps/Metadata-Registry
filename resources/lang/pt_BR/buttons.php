@@ -16,30 +16,33 @@ return [
     'backend' => [
         'access' => [
             'users' => [
-                'activate' => 'Ativar',
-                'change_password' => 'Alterar senha',
-                'deactivate' => 'Desativar',
+                'activate'           => 'Ativar',
+                'change_password'    => 'Alterar senha',
+                'clear_session'         => 'Clear Session',
+                'deactivate'         => 'Desativar',
                 'delete_permanently' => 'Excluir Permanentemente',
-                'login_as' => 'Entrar como :user',
-                'resend_email' => 'Reenviar e-mail de confirmação',
-                'restore_user' => 'Restaurar Usuário',
+                'login_as'           => 'Entrar como :user',
+                'resend_email'       => 'Reenviar e-mail de confirmação',
+                'restore_user'       => 'Restaurar Usuário',
             ],
         ],
     ],
     'emails' => [
         'auth' => [
             'confirm_account' => 'Confirmar conta',
-            'reset_password' => 'Reiniciar senha',
+            'reset_password'  => 'Reiniciar senha',
         ],
     ],
     'general' => [
         'cancel' => 'Cancelar',
-        'crud' => [
+        'continue' => 'Continue',
+
+        'crud'   => [
             'create' => 'Criar',
             'delete' => 'Excluir',
-            'edit' => 'Editar',
+            'edit'   => 'Editar',
             'update' => 'Atualizar',
-            'view' => 'Visualizar',
+            'view'   => 'Visualizar',
         ],
         'save' => 'Salvar',
         'view' => 'Visualizar',

@@ -52,11 +52,11 @@ class RouteServiceProvider extends ServiceProvider
      */
   public function map()
   {
-    $this->mapWebRoutes();
+        $this->mapApiRoutes();
 
-    $this->mapApiRoutes();
+        $this->mapWebRoutes();
 
-    require base_path('routes/symfony.php');
+        require base_path('routes/symfony.php');
   }
 
 
