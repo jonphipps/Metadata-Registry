@@ -147,8 +147,13 @@
             "Tests\\": "tests/"
         },
         "classmap": [
+            "lib/model/",
             "database",
             "tests"
+        ],
+        "files": [
+            "app/helpers.php",
+            "app/Helpers/helpers.php"
         ]
     },
     "scripts": {
