@@ -7,7 +7,7 @@ return [
     /*
      * Users table used to store users
      */
-    'users_table' => 'users',
+    'users_table' => 'reg_user',
 
     /*
      * Role model used by Access to create correct relations. Update the role if it is in a different namespace.

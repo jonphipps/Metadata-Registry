@@ -24,9 +24,15 @@
             <div class="box-body">
                 <div class="form-group">
                     {{ Form::label('name', trans('validation.attributes.backend.access.roles.name'), ['class' => 'col-lg-2 control-label']) }}
-
                     <div class="col-lg-10">
                         {{ Form::text('name', null, ['class' => 'form-control', 'placeholder' => trans('validation.attributes.backend.access.roles.name')]) }}
+                    </div><!--col-lg-10-->
+                </div><!--form control-->
+
+                <div class="form-group">
+                    {{ Form::label('display_name', trans('validation.attributes.backend.access.roles.display_name'), ['class' => 'col-lg-2 control-label']) }}
+                    <div class="col-lg-10">
+                        {{ Form::text('display_name', null, ['class' => 'form-control', 'placeholder' => trans('validation.attributes.backend.access.roles.display_name')]) }}
                     </div><!--col-lg-10-->
                 </div><!--form control-->
 

@@ -1,18 +1,20 @@
 <?php
-
-use Tests\BrowserKitTestCase;
-use App\Models\Access\Role\Role;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Event;
 use App\Events\Backend\Access\Role\RoleCreated;
 use App\Events\Backend\Access\Role\RoleDeleted;
 use App\Events\Backend\Access\Role\RoleUpdated;
+use App\Models\Access\Role\Role;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Event;
+use Tests\BrowserKitTestCase;
 
 /**
  * Class RoleFormTest.
  */
 class RoleFormTest extends BrowserKitTestCase
 {
+  use DatabaseTransactions;
+
     public function testCreateRoleRequiredFieldsAll()
     {
         // All Permissions
@@ -45,6 +47,7 @@ class RoleFormTest extends BrowserKitTestCase
         $this->actingAs($this->admin)
              ->visit('/admin/access/role/create')
              ->type('Test Role', 'name')
+             ->type('Test Role', 'display_name')
              ->type('999', 'sort')
              ->press('Create')
              ->seePageIs('/admin/access/role')
@@ -63,13 +66,16 @@ class RoleFormTest extends BrowserKitTestCase
         $this->actingAs($this->admin)
              ->visit('/admin/access/role/create')
              ->type('Test Role', 'name')
+             ->type('Test Role', 'display_name')
              ->select('custom', 'associated-permissions')
              ->check('permissions[1]')
              ->press('Create')
              ->seePageIs('/admin/access/role')
              ->see('The role was successfully created.')
-             ->seeInDatabase(config('access.roles_table'), ['name' => 'Test Role', 'all' => 0])
-             ->seeInDatabase(config('access.permission_role_table'), ['permission_id' => 1, 'role_id' => 4]);
+             ->seeInDatabase(config('access.roles_table'), ['name' => 'Test Role', 'all' => 0]);
+        $latestId = Role::orderby('created_at', 'desc')
+                        ->first()->id;
+        $this->seeInDatabase(config('access.permission_role_table'), ['permission_id' => 1, 'role_id' => $latestId]);
 
         Event::assertDispatched(RoleCreated::class);
     }
@@ -79,6 +85,7 @@ class RoleFormTest extends BrowserKitTestCase
         $this->actingAs($this->admin)
              ->visit('/admin/access/role/create')
              ->type('Administrator', 'name')
+             ->type('Administrator', 'display_name')
              ->press('Create')
              ->seePageIs('/admin/access/role/create')
              ->see('That role already exists. Please choose a different name.');
@@ -145,6 +152,7 @@ class RoleFormTest extends BrowserKitTestCase
     {
         $this->actingAs($this->admin)
              ->visit('/admin/access/role/3/edit')
+             ->uncheck('permissions[4]')
              ->press('Update')
              ->seePageIs('/admin/access/role/3/edit')
              ->see('You must select at least one permission for this role.');

@@ -50,7 +50,7 @@ class Role extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'all', 'sort'];
+    protected $fillable = ['name', 'display_name', 'all', 'sort'];
 
     /**
      * @param array $attributes

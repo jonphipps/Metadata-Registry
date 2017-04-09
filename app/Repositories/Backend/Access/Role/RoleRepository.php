@@ -50,13 +50,13 @@ class RoleRepository extends BaseRepository
             ]);
     }
 
-    /**
-     * @param array $input
-     *
-     * @throws GeneralException
-     *
-     * @return bool
-     */
+  /**
+   * @param array $input
+   *
+   * @throws GeneralException
+   * @return bool
+   * @throws \Exception
+   */
     public function create(array $input)
     {
         if ($this->query()->where('name', $input['name'])->first()) {
@@ -82,6 +82,7 @@ class RoleRepository extends BaseRepository
             $role = self::MODEL;
             $role = new $role();
             $role->name = $input['name'];
+            $role->display_name = $input['display_name'];
             $role->sort = isset($input['sort']) && strlen($input['sort']) > 0 && is_numeric($input['sort']) ? (int) $input['sort'] : 0;
 
             //See if this role has all permissions and set the flag on the role

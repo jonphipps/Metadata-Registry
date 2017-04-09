@@ -302,8 +302,10 @@ $factory->state(
 $factory->define(
     Role::class,
     function (Generator $faker) {
+      $name = $faker->name;
         return [
-          'name' => $faker->name,
+          'name' => $name,
+          'display_name' => $name,
           'all'  => 0,
           'sort' => $faker->numberBetween(1, 100),
         ];

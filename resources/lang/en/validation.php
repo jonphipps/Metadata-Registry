@@ -136,6 +136,7 @@ return [
                 'roles' => [
                     'associated_permissions' => 'Associated Permissions',
                     'name'                   => 'Name',
+                    'display_name'           => 'Display Name',
                     'sort'                   => 'Sort',
                 ],
 
