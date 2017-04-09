@@ -7,6 +7,8 @@ use Barryvdh\Debugbar\Facade;
 use Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider;
 use Illuminate\Contracts\Logging\Log;
 use Illuminate\Foundation\AliasLoader;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Mpociot\LaravelTestFactoryHelper\TestFactoryHelperServiceProvider;
 use Psr\Log\LoggerInterface;
@@ -51,6 +53,11 @@ class AppServiceProvider extends ServiceProvider
         // Force SSL in production
         if ($this->app->environment() == 'production') {
             //URL::forceScheme('https');
+        } else {
+          DB::enableQueryLog();
+          // DB::listen(function ($query) {
+          //   var_dump([ $query->sql, $query->bindings, $query->time ]);
+          // });
         }
 
         // Set the default string length for Laravel5.4
