@@ -43,14 +43,14 @@ class AddPrivateAndRepoToAgents extends Migration
    */
     public function down()
     {
-        Schema::table(
-            'reg_agent',
-            function (Blueprint $table) {
-                $table->dropColumn('repo');
-                $table->dropColumn('is_private');
-                $table->dropColumn('license');
-                $table->dropColumn('description');
-            }
-        );
+        // Schema::table(
+        //     'reg_agent',
+        //     function (Blueprint $table) {
+        //         $table->dropColumn('repo');
+        //         $table->dropColumn('is_private');
+        //         $table->dropColumn('license');
+        //         $table->dropColumn('description');
+        //     }
+        // );
     }
 }

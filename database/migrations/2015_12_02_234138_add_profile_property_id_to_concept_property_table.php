@@ -34,13 +34,13 @@ class AddProfilePropertyIdToConceptPropertyTable extends Migration
    */
     public function down()
     {
-        Schema::table(
-            'reg_concept_property',
-            function (Blueprint $table) {
-                $table->dropForeign('reg_concept_property_ibfk_10');
-                $table->dropIndex('profile_property_id');
-                $table->dropColumn('profile_property_id');
-            }
-        );
+        // Schema::table(
+        //     'reg_concept_property',
+        //     function (Blueprint $table) {
+        //         $table->dropForeign('reg_concept_property_ibfk_10');
+        //         $table->dropIndex('profile_property_id');
+        //         $table->dropColumn('profile_property_id');
+        //     }
+        // );
     }
 }

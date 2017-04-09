@@ -26,8 +26,8 @@ class AddOnlyacceptedFieldToExport extends Migration
      */
     public function down()
     {
-        Schema::table('reg_export_history', function (Blueprint $table) {
-            $table->dropColumn('include_not_accepted');
-        });
+        // Schema::table('reg_export_history', function (Blueprint $table) {
+        //     $table->dropColumn('include_not_accepted');
+        // });
     }
 }
