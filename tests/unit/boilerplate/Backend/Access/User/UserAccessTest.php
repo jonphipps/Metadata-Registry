@@ -1,4 +1,6 @@
 <?php
+
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\BrowserKitTestCase;
 
 /**
@@ -6,6 +8,8 @@ use Tests\BrowserKitTestCase;
  */
 class UserAccessTest extends BrowserKitTestCase
 {
+    use DatabaseTransactions;
+
     public function testUserCantAccessAdminDashboard()
     {
         $this->visit('/')

@@ -1,11 +1,14 @@
 <?php
 
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\BrowserKitTestCase;
 /**
  * Class UserRoleTest.
  */
 class UserRoleTest extends BrowserKitTestCase
 {
+    use DatabaseTransactions;
+
     public function testAttachRoleToUserById()
     {
         $this->notSeeInDatabase(config('access.role_user_table'), ['user_id' => $this->user->id, 'role_id' => $this->adminRole->id]);

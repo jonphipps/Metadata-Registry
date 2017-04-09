@@ -12,11 +12,11 @@ class DashboardTest extends BrowserKitTestCase
 {
   use DatabaseTransactions;
 
-  public function setUp()
-  {
-    $this->dontSetupDatabase();
-    parent::setUp();
-  }
+  // public function setUp()
+  // {
+  //   $this->dontSetupDatabase();
+  //   parent::setUp();
+  // }
 
   /**
    * @test

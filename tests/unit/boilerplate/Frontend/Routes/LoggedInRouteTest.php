@@ -1,5 +1,5 @@
 <?php
-
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\BrowserKitTestCase;
 use Illuminate\Support\Facades\Event;
 use App\Events\Frontend\Auth\UserLoggedOut;
@@ -9,6 +9,7 @@ use App\Events\Frontend\Auth\UserLoggedOut;
  */
 class LoggedInRouteTest extends BrowserKitTestCase
 {
+  use DatabaseTransactions;
     /**
      * Test the homepage works and the dashboard button appears.
      */

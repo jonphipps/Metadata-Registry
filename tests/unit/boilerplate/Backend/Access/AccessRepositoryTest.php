@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\BrowserKitTestCase;
 
 /**
@@ -7,6 +8,8 @@ use Tests\BrowserKitTestCase;
  */
 class AccessRepositoryTest extends BrowserKitTestCase
 {
+  use DatabaseTransactions;
+
     public function testGetUsersByPermissionUsingName()
     {
         $results = app()->make(\App\Repositories\Backend\Access\User\UserRepository::class)

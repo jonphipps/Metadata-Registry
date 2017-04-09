@@ -1,4 +1,5 @@
 <?php
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\BrowserKitTestCase;
 
 /**
@@ -6,7 +7,9 @@ use Tests\BrowserKitTestCase;
  */
 class SearchFormTest extends BrowserKitTestCase
 {
-    public function testSearchPageWithNoQuery()
+  use DatabaseTransactions;
+
+  public function testSearchPageWithNoQuery()
     {
         $this->actingAs($this->admin)
              ->visit('/admin/search')

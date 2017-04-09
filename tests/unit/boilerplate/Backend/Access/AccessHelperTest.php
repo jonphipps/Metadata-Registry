@@ -1,5 +1,5 @@
 <?php
-
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\BrowserKitTestCase;
 
 /**
@@ -7,6 +7,8 @@ use Tests\BrowserKitTestCase;
  */
 class AccessHelperTest extends BrowserKitTestCase
 {
+    use DatabaseTransactions;
+
     public function testAccessUser()
     {
         $this->actingAs($this->user);

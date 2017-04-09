@@ -1,10 +1,13 @@
 <?php
 
-use Tests\BrowserKitTestCase;
 use App\Models\Access\Permission\Permission;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\BrowserKitTestCase;
 
 class RolePermissionTest extends BrowserKitTestCase
 {
+  use DatabaseTransactions;
+
     public function testSavePermissionsToRole()
     {
         $this->notSeeInDatabase(config('access.permission_role_table'), ['permission_id' => 1, 'role_id' => $this->userRole->id]);

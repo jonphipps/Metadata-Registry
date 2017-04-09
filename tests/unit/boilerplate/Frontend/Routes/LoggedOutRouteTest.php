@@ -1,7 +1,6 @@
 <?php
 
-namespace Tests\unit\boilerplate\Frontend\Routes;
-
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\BrowserKitTestCase;
 use App\Models\Access\User\User;
 use Illuminate\Support\Facades\App;
@@ -15,6 +14,7 @@ use App\Notifications\Frontend\Auth\UserNeedsConfirmation;
  */
 class LoggedOutRouteTest extends BrowserKitTestCase
 {
+  use DatabaseTransactions;
 
   /**
      * User Logged Out Frontend.

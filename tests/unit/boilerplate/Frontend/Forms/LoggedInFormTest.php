@@ -1,4 +1,5 @@
 <?php
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\BrowserKitTestCase;
 
 /**
@@ -6,6 +7,13 @@ use Tests\BrowserKitTestCase;
  */
 class LoggedInFormTest extends BrowserKitTestCase
 {
+    use DatabaseTransactions;
+
+  public static function setUpBeforeClass()
+  {
+    self::$setupDatabase = true;
+    parent::setUpBeforeClass();
+  }
 
     /**
      * Test that the errors work if nothing is filled in the update account form.
