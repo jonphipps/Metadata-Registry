@@ -9,6 +9,7 @@ use App\Models\Access\User\User;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\DB;
 
 trait SetsUpTests
 {
@@ -72,15 +73,6 @@ trait SetsUpTests
   {
     self::$setupDatabase = false;
   }
-
-    public function tearDown()
-    {
-        $this->beforeApplicationDestroyed(function () {
-            DB::disconnect();
-        });
-
-        parent::tearDown();
-    }
 
   protected function disableExceptionHandling()
   {
