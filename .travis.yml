@@ -24,8 +24,8 @@ cache:
     - vendor
     - $HOME/.composer/cache
 
-addons:
-  mariadb: '10.1'
+services:
+  - mysql
 
 before_install:
   - cp .env.travis .env
