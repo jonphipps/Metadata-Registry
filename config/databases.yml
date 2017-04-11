@@ -1,37 +1,3 @@
-testing:
-  propel:
-    param:
-      database:           swregistry_test
-
-test-empty:
-  propel:
-    param:
-      database:           swregistry_test_empty
-
-test-empty-dev:
-  propel:
-    param:
-      database:           swregistry_test_empty
-
-test-update:
-  propel:
-    param:
-      database:           swregistry_test_update
-
-dev:
-  propel:
-    param:
-      database:           swregistry
-
-sandbox:
-  propel:
-    param:
-      database:           sandbox
-
-prod:
-  propel:
-    param:
-      database:           swregistry
 all:
   propel:
     class:                sfPropelDatabase
