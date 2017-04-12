@@ -3,6 +3,9 @@ language: php
 dist: trusty
 sudo: required
 
+addons:
+  mysql: 5.7
+
 php:
   - 7.1
 #  - hhvm
@@ -27,10 +30,6 @@ services:
   - mysql
 
 before_install:
-  - wget http://dev.mysql.com/get/mysql-apt-config_5.7.18-1_all.deb
-  - sudo dpkg -i mysql-apt-config_5.7.18-1_all.deb
-  - sudo apt-get update
-  - sudo apt-get install mysql-server
   - cp .env.travis .env
   - echo "extension = memcached.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - echo "extension = redis.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
