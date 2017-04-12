@@ -43,7 +43,6 @@ install:
 #  - yarn
   - npm install bower
   - bower install
-  - yarn
   - gulp --production
 # setup application:
 #  - |
