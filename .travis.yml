@@ -1,8 +1,7 @@
 language: php
 
 php:
-  - 5.6
-  - 7.0
+  - 7.1
 #  - hhvm
 #  - hhvm-nightly
 
@@ -12,32 +11,54 @@ matrix:
   fast_finish: true
   allow_failures:
 #    - php: hhvm-nightly
-    - php: 7.0
 
 # faster builds on new travis setup not using sudo
 sudo: false
 
 # cache vendor dirs
 cache:
+  yarn: true
   directories:
+    - node_modules
     - vendor
     - $HOME/.composer/cache
 
-install:
+services:
+  - mysql
+
+before_install:
+  - cp .env.travis .env
+  - echo "extension = memcached.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+  - echo "extension = redis.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - travis_retry composer self-update && composer --version
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
-  - travis_retry composer install --dev --prefer-dist --no-interaction
+  - travis_retry composer install --prefer-dist --no-interaction
+  - nvm install 7.6
+  - nvm use 7.6
+
+install:
+  - npm install
 # codeception
-  - travis_retry composer global require "codeception/codeception=2.2.*" "codeception/specify=*" "codeception/verify=*"
+#  - travis_retry composer global require "codeception/codeception=2.2.*" "codeception/specify=*" "codeception/verify=*"
+#  - yarn
+  - npm install bower
+  - bower install
+  - npm run production
 # setup application:
-  - |
-    cd tests
-    codecept build
-    cd ..
+#  - |
+#    cd tests
+#    codecept build
+#    cd ..
+# execute any number of scripts before the test run, custom env's are available as variables
+before_script:
+  - mysql -e 'create database swregistry_test;'
+  - php artisan migrate -vvv --seed --force
+  - php artisan key:generate
 
 script:
-  - |
-    cd web
-    php -S localhost:8080 > /dev/null 2>&1 &
-    cd ..
-    vendor/bin/codecept run
+  - vendor/bin/phpunit --configuration phpunit.xml
+
+# whitelist
+branches:
+  only:
+    - beta

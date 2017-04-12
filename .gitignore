@@ -53,3 +53,4 @@ web/css/backend-rtl.css
 web/css/rtl.css
 web/css/backend.css
 web/css/frontend.css
+!/.env.travis
