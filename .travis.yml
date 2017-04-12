@@ -1,5 +1,14 @@
 language: php
 
+dist: trusty
+sudo: required
+addons:
+  apt:
+    packages:
+    - mysql-server-5.7
+    - mysql-client-core-5.7
+    - mysql-client-5.7
+
 php:
   - 7.1
 #  - hhvm
@@ -11,9 +20,6 @@ matrix:
   fast_finish: true
   allow_failures:
 #    - php: hhvm-nightly
-
-# faster builds on new travis setup not using sudo
-sudo: false
 
 # cache vendor dirs
 cache:
@@ -51,7 +57,7 @@ install:
 #    cd ..
 # execute any number of scripts before the test run, custom env's are available as variables
 before_script:
-  - mysql -e 'create database swregistry_test;'
+  - mysql -u root -e 'create database swregistry_test;'
   - php artisan migrate -vvv --seed --force
   - php artisan key:generate
 
