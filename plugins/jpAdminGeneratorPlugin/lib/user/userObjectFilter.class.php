@@ -8,32 +8,26 @@ class userObjectFilter extends sfFilter
   public function execute($filterChain)
   {
     // get the cool stuff
-    /** @var sfContext **/
-    $context    = $this->getContext();
-    /** @var sfController **/
+    /** @var sfContext * */
+    $context = $this->getContext();
+    /** @var sfController * */
     $controller = $context->getController();
-    /** @var myUser **/
-    $user       = $context->getUser();
-    /** @var myWebRequest **/
-    $request    = $context->getRequest();
-
+    /** @var myUser * */
+    $user = $context->getUser();
+    /** @var myWebRequest * */
+    $request = $context->getRequest();
     /** @var myWebRequest $request */
-    if ($request->getCookie('MyWebSite'))
-    {
+    if ($request->getCookie('MyWebSite')) {
       // sign in
       $user->setAuthenticated(true);
     }
-
-    if (!Auth::check())
-    {
+    if ( ! Auth::check()) {
       //this will make sure we are really signed out
       $user->signOut();
       // we bail
       $filterChain->execute();
     }
-
     $key = false;
-
     /** @var \Bugsnag\Client $bugsnag */
     $bugsnag = $GLOBALS['bugsnag'];
     if ($bugsnag) {
@@ -43,11 +37,15 @@ class userObjectFilter extends sfFilter
         $report->setUser([ 'id' => $userId ]);
       });
     }
-
-    if ($user->getSubscriberId() == 0 && auth::user()) {
-      $Luser = \UserPeer::retrieveByPK(auth::user()->id);
-      if ($Luser) {
-        $user->signIn($Luser);
+    $laravelUserId      = Auth::id() ?? 0;
+    $symfonyUserId      = $user->getSubscriberId();
+    if (auth::check()) {
+      if ($symfonyUserId === 0 || ( $symfonyUserId !== $laravelUserId )) {
+        $symfonyUserId = \UserPeer::retrieveByPK($laravelUserId);
+        if ($symfonyUserId) {
+          $user->signOut();
+          $user->signIn($symfonyUserId);
+        }
       }
     }
     // get the current action instance
