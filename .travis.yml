@@ -1,13 +1,6 @@
 language: php
 
 dist: trusty
-sudo: required
-addons:
-  apt:
-    packages:
-    - mysql-server-5.7
-    - mysql-client-core-5.7
-    - mysql-client-5.7
 
 php:
   - 7.1
@@ -31,6 +24,10 @@ cache:
 
 services:
   - mysql
+
+sudo: true
+before_script:
+  - bash .travis.install-mysql-5.7.sh
 
 before_install:
   - cp .env.travis .env
