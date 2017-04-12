@@ -45,7 +45,7 @@ install:
 #  - travis_retry composer global require "codeception/codeception=2.2.*" "codeception/specify=*" "codeception/verify=*"
 #  - yarn
   - npm install bower
-  - bower install
+#  - bower install
   - gulp --production
 # setup application:
 #  - |
