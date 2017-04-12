@@ -136,8 +136,7 @@ class <?php echo $this->getGeneratedModuleName() ?>Actions extends sfActions
       }
       else
       {
-        $url = $this->redirectFilter ? $this->redirectRoute . '_list' . $this->redirectFilter : $this->redirectRoute ? $this->redirectRoute . '_list'  : '@homepage';
-        $this->redirect($url);
+        $this->redirect($this->redirectRoute ? $this->redirectRoute . '_list' . $this->redirectFilter : '@homepage');
       }
     }
     else
@@ -454,7 +453,7 @@ if ($urlFilters): ?>
   <?php foreach ($urlFilters as $key => $param): ?>
     $<?php echo $param ?>  = $this->getUser()->getAttribute('<?php echo $param ?>', '', 'sf_admin/<?php echo $this->getSingularName() ?>/filters');
     if ($<?php echo $param ?>) {
-      $this->redirectFilter = '?<?php echo $param ?>=' . strval($<?php echo $param ?>);
+      $this->redirectFilter = '?<?php echo $param ?>=' . (string) $<?php echo $param ?>;
     }
 <?php endforeach ?><?php endif ?>
 
