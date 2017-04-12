@@ -174,7 +174,7 @@ class tabnavComponents extends sfComponents
   public function executeSchemauser()
   {
     $id            = $this->getRequestParameter('id');
-    $schemaHasUser = $this->schema_has_user;
+    $schemaHasUser = $this->schema_has_user ?? SchemaHasUserPeer::retrieveByPK($id);
     $schema        = $schemaHasUser->getSchema();
     $member        = $schemaHasUser->getUser();
     $requestStack  = $this->getUser()->getAttribute('request_stack', '', 'sfRefererPlugin');
@@ -202,7 +202,7 @@ class tabnavComponents extends sfComponents
   {
     $id = $this->getRequestParameter('id');
     /** @var VocabularyHasUser $vocabHasUser */
-    $vocabHasUser = $this->vocabulary_has_user;
+    $vocabHasUser = $this->vocabulary_has_user ?? VocabularyHasUserPeer::retrieveByPK($id);
     $vocabulary   = $vocabHasUser->getVocabulary();
     $member       = $vocabHasUser->getUser();
     $requestStack = $this->getUser()->getAttribute('request_stack', '', 'sfRefererPlugin');
