@@ -1,6 +1,10 @@
 language: php
 
 dist: trusty
+sudo: required
+
+before_script:
+  - bash .travis.install-mysql-5.7.sh
 
 php:
   - 7.1
@@ -24,10 +28,6 @@ cache:
 
 services:
   - mysql
-
-sudo: true
-before_script:
-  - bash .travis.install-mysql-5.7.sh
 
 before_install:
   - cp .env.travis .env
