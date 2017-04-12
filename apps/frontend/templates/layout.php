@@ -17,8 +17,15 @@
     <script src="//d2wy8f7a9ursnm.cloudfront.net/bugsnag-3.min.js" data-apikey="abb0b2a18c75a33583c907a7adc925a8" data-notifyReleaseStages=["beta","production"] data-releasestage="<?php echo env('BUGSNAG_RELEASE_STAGE', '') ?>"></script>
 </head>
 <body>
-<?php use_helper('Javascript') ?>
+<?php use_helper('Javascript')  ?>
 <div id="indicator" style="display: none"></div>
+<?php if (access()->user() && session()->has("admin_user_id") && session()->has("temp_user_id")): ?>
+<div class="alert alert-warning logged-in-as">
+  <div style="margin-left: 46em;">
+    You are currently logged in as <strong><?php echo access()->user()->nickname ?>.</strong>
+  <a style="padding-left: 1em" href="<?php echo route("frontend.auth.logout-as") ?> ">Re-Login as <?php echo session()->get("admin_user_name") ?></a>.</div>
+</div><!--alert alert-warning logged-in-as-->
+<?php endif; ?>
 <div id="header">
     <ul>
         <li class="browse"><?php echo link_to(__('Projects'), '@agent_list',  'title="Browse all Projects"' ) ?></li>
