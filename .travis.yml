@@ -38,6 +38,7 @@ before_install:
   - travis_retry composer install --prefer-dist --no-interaction --no-dev
   - nvm install 7.6
   - nvm use 7.6
+  - mysql -u root -e "SET PASSWORD FOR 'root'@'localhost' = PASSWORD('')"
 
 install:
   - npm install
@@ -54,7 +55,6 @@ install:
 #    cd ..
 # execute any number of scripts before the test run, custom env's are available as variables
 before_script:
-  - mysql -u root -e "SET PASSWORD FOR 'root'@'localhost' = PASSWORD('')"
   - mysql -u root -e 'create database swregistry_test;'
   - php artisan migrate -vvv --seed --force
   - php artisan key:generate
