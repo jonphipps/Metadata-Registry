@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use App\Models\Project;
 use App\Models\ProjectHasUser;
-use function htmlspecialchars_decode;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
@@ -25,7 +24,7 @@ class ProjectViewTest extends TestCase
     $project = factory(Project::class)->create();
     //when I go to the url
     $this->get($this->baseUrl . '/projects/' . $project->id)
-        ->assertSee(htmlspecialchars($project->org_name))
+        ->assertSeeText($project->org_name)
         ->assertDontSee("projects/{$project->id}/edit");
   }
 
@@ -47,14 +46,14 @@ class ProjectViewTest extends TestCase
                                'user_id'          => $this->user->id, ]);
     //check the list for editability
     $this->actingAs($this->user);
-    $this->get($this->baseUrl . '/projects')->assertSee(htmlspecialchars($project->org_name))
+    $this->get($this->baseUrl . '/projects')->assertSeeText($project->org_name)
         ->assertSee("/projects/{$project->id}/edit")
         ->assertDontSee('/projects/58/edit');
     $this->get($this->baseUrl . '/projects/' . $project->id)
-        ->assertSee(htmlspecialchars($project->org_name))
+        ->assertSeeText($project->org_name)
         ->assertSee("projects/{$project->id}/edit");
     $this->get($this->baseUrl . '/projects/' . $project->id)
-        ->assertSee(htmlspecialchars($project->org_name))
+        ->assertSeeText($project->org_name)
         ->assertDontSee('projects/58/edit');
     $this->get($this->baseUrl . '/dashboard' )->assertSee($project->org_name);
   }
