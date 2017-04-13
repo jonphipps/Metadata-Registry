@@ -1,8 +1,5 @@
 language: php
 
-dist: trusty
-sudo: required
-
 php:
   - 7.1
 #  - hhvm
@@ -24,9 +21,12 @@ cache:
     - $HOME/.composer/cache
 
 services:
-  - sudo mysql
+  - mysql
 
 before_install:
+  - chmod +x ./scripts/* #thanks https://medium.com/@psaunders
+  - ./scripts/travis_mysql_5.7.sh
+  - ./scripts/mysql-reset-root-password.sh
   - cp .env.travis .env
   - echo "extension = memcached.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - echo "extension = redis.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
@@ -35,7 +35,6 @@ before_install:
   - travis_retry composer install --prefer-dist --no-interaction --no-dev
   - nvm install 7.6
   - nvm use 7.6
-  - mysql -u root -e "SET PASSWORD FOR 'root'@'localhost' = PASSWORD('')"
 
 install:
   - npm install
