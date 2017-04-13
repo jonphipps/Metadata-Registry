@@ -4,9 +4,8 @@ namespace App\Notifications\Frontend\Auth;
 
 use App\Models\Access\User\User;
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
-use PhpParser\Node\Expr\Instanceof_;
+use Illuminate\Notifications\Notification;
 
 /**
  * Class UserNeedsPasswordReset

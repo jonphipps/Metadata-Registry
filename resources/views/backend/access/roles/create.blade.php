@@ -31,6 +31,13 @@
                 </div><!--form control-->
 
                 <div class="form-group">
+                    {{ Form::label('display_name', trans('validation.attributes.backend.access.roles.display_name'), ['class' => 'col-lg-2 control-label']) }}
+                    <div class="col-lg-10">
+                        {{ Form::text('display_name', null, ['class' => 'form-control', 'placeholder' => trans('validation.attributes.backend.access.roles.display_name')]) }}
+                    </div><!--col-lg-10-->
+                </div><!--form control-->
+
+                <div class="form-group">
                     {{ Form::label('associated-permissions', trans('validation.attributes.backend.access.roles.associated_permissions'), ['class' => 'col-lg-2 control-label']) }}
 
                     <div class="col-lg-10">

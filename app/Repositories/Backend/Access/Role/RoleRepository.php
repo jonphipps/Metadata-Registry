@@ -80,8 +80,9 @@ class RoleRepository extends Repository
 
 		DB::transaction(function() use ($input, $all) {
 			$role 		= self::MODEL;
-			$role       = new $role;
+            $role = new $role();
 			$role->name = $input['name'];
+            $role->display_name = $input['display_name'];
 			$role->sort = isset($input['sort']) && strlen($input['sort']) > 0 && is_numeric($input['sort']) ? (int)$input['sort'] : 0;
 
 			//See if this role has all permissions and set the flag on the role

@@ -37,7 +37,7 @@ class RouteServiceProvider extends ServiceProvider
 		 * On a model by model basis
 		 */
 		$this->bind('deletedUser', function($value) {
-			$user = new User;
+            $user = new User();
 			return User::withTrashed()->where($user->getRouteKeyName(), $value)->first();
 		});
 

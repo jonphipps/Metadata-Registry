@@ -29,9 +29,8 @@ class userObjectFilter extends sfFilter
     }
     $key = false;
     /** @var \Bugsnag\Client $bugsnag */
-    $bugsnag = $GLOBALS['bugsnag'];
-    if ($bugsnag) {
-      $bugsnag->registerCallback(function ($report) {
+    if (app()->resolved('bugsnag')) {
+      app()->bugsnag->registerCallback(function ($report) {
         $userId = Auth::user()->id;
         /** @var \Bugsnag\Report $report */
         $report->setUser([ 'id' => $userId ]);

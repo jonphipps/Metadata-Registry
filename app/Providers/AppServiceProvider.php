@@ -2,9 +2,7 @@
 
 namespace App\Providers;
 
-use Illuminate\Contracts\Logging\Log;
 use Illuminate\Support\ServiceProvider;
-use Psr\Log\LoggerInterface;
 use Carbon\Carbon;
 
 class AppServiceProvider extends ServiceProvider
@@ -46,6 +44,11 @@ class AppServiceProvider extends ServiceProvider
     if ($this->app->environment() == 'production') {
       //URL::forceSchema('https');
     }
+        if (app()->resolved('bugsnag')) {
+            $bugsnag = app('bugsnag');
+            $bugsnag->setReleaseStage(env('BUGSNAG_RELEASE_STAGE', ''));
+            $bugsnag->setErrorReportingLevel(E_ALL & ~E_NOTICE);
+        }
   }
 
 
@@ -59,7 +62,8 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Sets third party service providers that are only needed on local environments
      */
-    if ($this->app->environment() == 'dev' || $this->app->environment() == 'testing') {
+    $environment = $this->app->environment();
+    if ($environment === 'dev' || $environment === 'testing') {
       /**
        * Loader for registering facades
        */
@@ -76,11 +80,8 @@ class AppServiceProvider extends ServiceProvider
       $this->app->register(\Antennaio\Codeception\DbDumpServiceProvider::class);
 
     }
-    $this->app->alias('bugsnag.logger', Log::class);
-    $this->app->alias('bugsnag.logger', LoggerInterface::class);
-    $this->app->bind('path.public',
-        function () {
-          return base_path() . '/web';
-        });
+    $this->app->bind('path.public', function () {return base_path() . '/web';});
+    $this->app->alias('bugsnag.multi', \Illuminate\Contracts\Logging\Log::class);
+    $this->app->alias('bugsnag.multi', \Psr\Log\LoggerInterface::class);
   }
 }

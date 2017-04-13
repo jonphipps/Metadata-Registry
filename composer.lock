@@ -4944,16 +4944,16 @@
         },
         {
             "name": "spatie/laravel-migrate-fresh",
-            "version": "1.4.1",
+            "version": "1.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-migrate-fresh.git",
-                "reference": "d7844712788563089d60ac648cc221b2b4e8a884"
+                "reference": "2b9c1d2878f0e78e2f7b99441370d2f66c651357"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-migrate-fresh/zipball/d7844712788563089d60ac648cc221b2b4e8a884",
-                "reference": "d7844712788563089d60ac648cc221b2b4e8a884",
+                "url": "https://api.github.com/repos/spatie/laravel-migrate-fresh/zipball/2b9c1d2878f0e78e2f7b99441370d2f66c651357",
+                "reference": "2b9c1d2878f0e78e2f7b99441370d2f66c651357",
                 "shasum": ""
             },
             "require": {
@@ -4994,7 +4994,7 @@
                 "migrate",
                 "spatie"
             ],
-            "time": "2017-03-22T19:47:39+00:00"
+            "time": "2017-04-13T14:55:24+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",

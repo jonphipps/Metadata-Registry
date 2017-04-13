@@ -69,7 +69,7 @@ class SkosProperty extends \Illuminate\Database\Eloquent\Model
 
   public function ConceptAttributeHistory()
   {
-    return $this->hasMany('App\Models\ConceptAttributeHistory', 'skos_property_id', 'id');
+        return $this->hasMany(\App\Models\ConceptAttributeHistory::class, 'skos_property_id', 'id');
   }
 
 }

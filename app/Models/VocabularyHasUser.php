@@ -1,6 +1,7 @@
 <?php namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Access\User\User;
 
@@ -89,7 +90,7 @@ class VocabularyHasUser extends Model
 
   public function Vocabulary()
   {
-    return $this->belongsTo('App\Models\Vocabulary', 'vocabulary_id', 'id');
+        return $this->belongsTo(\App\Models\Vocabulary::class, 'vocabulary_id', 'id');
   }
 
 }

@@ -1,5 +1,6 @@
 <?php
 use apps\frontend\lib\Breadcrumb;
+use Bugsnag\Breadcrumbs\Breadcrumb as Bugsnag_Breadcrumb;
 
 /**
  * sidebar components.
@@ -23,15 +24,9 @@ class tabnavComponents extends sfComponents
     $tabnav      = in_array($this->getRequestParameter('action'), $showActions)
       ? $this->getRequestParameter('module') : $this->getRequestParameter('tabnav');
     if ($tabnav) {
-      $bugsnag = $GLOBALS['bugsnag'];
-      if ($bugsnag) {
-        /** @var Bugsnag\Client $bugsnag */
-        $bugsnag->leaveBreadcrumb($tabnav,
-            \Bugsnag\Breadcrumbs\Breadcrumb::NAVIGATION_TYPE,
-            [
-                'uri' => $this->getRequest()
-                              ->getUri(),
-            ]);
+      if (app()->resolved('bugsnag')) {
+        app()->bugsnag->leaveBreadcrumb($tabnav,
+           Bugsnag_Breadcrumb::NAVIGATION_TYPE, [ 'uri' => $this->getRequest()->getUri(), ]);
       }
       $tabnav = 'execute' . ucfirst($tabnav);
       $this->$tabnav();

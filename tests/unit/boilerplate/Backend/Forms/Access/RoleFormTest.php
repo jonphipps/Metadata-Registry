@@ -43,6 +43,7 @@ class RoleFormTest extends TestCase
 		$this->actingAs($this->admin)
 			->visit('/admin/access/role/create')
 			->type('Test Role', 'name')
+             ->type('Test Role', 'display_name')
 			->type('999', 'sort')
 			->press('Create')
 			->seePageIs('/admin/access/role')
