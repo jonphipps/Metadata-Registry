@@ -24,7 +24,9 @@ services:
   - mysql
 
 before_install:
-  - mysql -V
+  - chmod +x ./scripts/* #thanks https://medium.com/@psaunders
+  - ./scripts/travis_mysql_5.7.sh
+  - ./scripts/mysql-reset-root-password.sh
   - cp .env.travis .env
   - echo "extension = memcached.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - echo "extension = redis.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
