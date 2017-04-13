@@ -61,5 +61,4 @@ script:
 # whitelist
 branches:
   only:
-    - beta
     - new_tabs
