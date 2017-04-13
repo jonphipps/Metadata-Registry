@@ -1,13 +1,13 @@
 <?php
 
-namespace Database;
+namespace database;
 
 use Illuminate\Support\Facades\DB;
 
 /**
  * Class DisablesForeignKeys.
  */
-trait DisableForeignKeys
+trait DisablesForeignKeys
 {
     /**
      * @var array

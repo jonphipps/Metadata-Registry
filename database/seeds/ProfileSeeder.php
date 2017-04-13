@@ -4,7 +4,7 @@ use Illuminate\Database\Seeder;
 
 class ProfileSeeder extends Seeder
 {
-    use \database\DisableForeignKeys;
+    use \Database\DisablesForeignKeys;
 
   /**
    * Run the database seeds.

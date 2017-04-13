@@ -1,9 +1,9 @@
 <?php
 
-use Database\TruncateTable;
+use database\TruncateTable;
 use Carbon\Carbon as Carbon;
 use Illuminate\Database\Seeder;
-use Database\DisableForeignKeys;
+use database\DisablesForeignKeys;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
  */
 class UserTableSeeder extends Seeder
 {
-    use DisableForeignKeys, TruncateTable;
+    use DisablesForeignKeys, TruncateTable;
 
   /**
      * Run the database seed.

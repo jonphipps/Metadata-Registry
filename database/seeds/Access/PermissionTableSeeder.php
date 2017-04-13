@@ -1,16 +1,16 @@
 <?php
 
 use Carbon\Carbon;
-use Database\TruncateTable;
+use database\TruncateTable;
 use Illuminate\Database\Seeder;
-use Database\DisableForeignKeys;
+use database\DisablesForeignKeys;
 
 /**
  * Class PermissionTableSeeder.
  */
 class PermissionTableSeeder extends Seeder
 {
-    use DisableForeignKeys, TruncateTable;
+    use DisablesForeignKeys, TruncateTable;
 
   /**
      * Run the database seed.

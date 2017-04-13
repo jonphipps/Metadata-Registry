@@ -4,7 +4,7 @@ use Illuminate\Database\Seeder;
 
 class SkosPropertySeeder extends Seeder
 {
-    use \database\DisableForeignKeys;
+    use \Database\DisablesForeignKeys;
 
   /**
    * Run the database seeds.
