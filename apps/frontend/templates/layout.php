@@ -18,6 +18,13 @@
 <body>
 <?php use_helper('Javascript') ?>
 <div id="indicator" style="display: none"></div>
+<?php if (access()->user() && session()->has("admin_user_id") && session()->has("temp_user_id")): ?>
+<div class="alert alert-warning logged-in-as">
+  <div style="margin-left: 46em;">
+    You are currently logged in as <strong><?php echo access()->user()->nickname ?>.</strong>
+  <a style="padding-left: 1em" href="<?php echo route("frontend.auth.logout-as") ?> ">Re-Login as <?php echo session()->get("admin_user_name") ?></a>.</div>
+</div><!--alert alert-warning logged-in-as-->
+<?php endif; ?>
 <div id="header">
     <ul>
         <li class="browse"><?php echo sf_link_to(__s('Projects'), '@agent_list',  'title="Browse all Projects"' ) ?></li>
