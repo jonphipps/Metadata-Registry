@@ -33,7 +33,7 @@ class AccessHelperTest extends TestCase {
 
 	public function testAccessHasRole() {
 		$this->actingAs($this->executive);
-		$this->assertTrue(access()->hasRole('Executive'));
+		$this->assertTrue(access()->hasRole('executive'));
 		$this->assertFalse(access()->hasRole('administrator'));
 		$this->assertTrue(access()->hasRole(2));
 		$this->assertFalse(access()->hasRole(1));
@@ -49,7 +49,7 @@ class AccessHelperTest extends TestCase {
 
 	public function testAccessHasRoles() {
 		$this->actingAs($this->executive);
-		$this->assertTrue(access()->hasRoles(['Executive', 'user']));
+		$this->assertTrue(access()->hasRoles(['executive', 'user']));
 		$this->assertTrue(access()->hasRoles([2, 3]));
 	}
 
