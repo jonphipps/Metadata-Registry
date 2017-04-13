@@ -11,10 +11,6 @@ matrix:
   fast_finish: true
   allow_failures:
 #    - php: hhvm-nightly
-    - php: 7.0
-
-# faster builds on new travis setup not using sudo
-sudo: false
 
 # cache vendor dirs
 cache:
@@ -46,7 +42,7 @@ install:
 #  - travis_retry composer global require "codeception/codeception=2.2.*" "codeception/specify=*" "codeception/verify=*"
 #  - yarn
   - npm install bower
-  - bower install
+#  - bower install
   - npm run production
 # setup application:
 #  - |
