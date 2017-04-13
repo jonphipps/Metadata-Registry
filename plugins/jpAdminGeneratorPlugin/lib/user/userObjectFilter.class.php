@@ -41,11 +41,15 @@ class userObjectFilter extends sfFilter
         $report->setUser([ 'id' => $userId ]);
       });
     }
-
-    if ($user->getSubscriberId() == 0 && auth::user()) {
-      $Luser = \UserPeer::retrieveByPK(auth::user()->id);
-      if ($Luser) {
-        $user->signIn($Luser);
+    $laravelUserId      = Auth::id() ?? 0;
+    $symfonyUserId      = $user->getSubscriberId();
+    if (auth::check()) {
+      if ($symfonyUserId === 0 || ( $symfonyUserId !== $laravelUserId )) {
+        $symfonyUserId = \UserPeer::retrieveByPK($laravelUserId);
+        if ($symfonyUserId) {
+          $user->signOut();
+          $user->signIn($symfonyUserId);
+        }
       }
     }
     // get the current action instance
