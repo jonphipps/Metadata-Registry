@@ -143,9 +143,9 @@ class LoggedOutRouteTest extends TestCase
   /**
    * Test the generic 404 page
    */
-  public function test404Page()
-  {
-    $this->get('7g48hwbfw9eufj')
-         ->see('The server returned a 404 response');
-  }
+  // public function test404Page()
+  // {
+  //   $this->get('7g48hwbfw9eufj')
+  //        ->see('The server returned a 404 response');
+  // }
 }
