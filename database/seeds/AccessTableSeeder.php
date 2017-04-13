@@ -1,5 +1,5 @@
 <?php
-
+use database\DisablesForeignKeys;
 use Illuminate\Database\Seeder;
 
 /**
@@ -7,9 +7,7 @@ use Illuminate\Database\Seeder;
  */
 class AccessTableSeeder extends Seeder
 {
-
-  use database\DisablesForeignKeys;
-
+    use DisablesForeignKeys;
 
   /**
    * Run the database seeds.

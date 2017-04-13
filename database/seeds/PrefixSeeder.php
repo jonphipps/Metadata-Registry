@@ -4,7 +4,7 @@ use Illuminate\Database\Seeder;
 
 class PrefixSeeder extends Seeder
 {
-  use \database\DisablesForeignKeys;
+  use \Database\DisablesForeignKeys;
 
   /**
    * Run the database seeds.

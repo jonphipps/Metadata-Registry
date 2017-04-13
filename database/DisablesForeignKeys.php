@@ -1,7 +1,4 @@
 <?php
-/**
- * Created by PhpStorm,  User: jonphipps,  Date: 2016-12-28,  Time: 9:25 AM
- */
 
 namespace database;
 
@@ -18,7 +15,15 @@ trait DisablesForeignKeys
       'sqlite' => [
           'enable'  => 'PRAGMA foreign_keys = ON;',
           'disable' => 'PRAGMA foreign_keys = OFF;',
-      ]
+        ],
+        'sqlsrv' => [
+            'enable' => 'EXEC sp_msforeachtable @command1="print \'?\'", @command2="ALTER TABLE ? WITH CHECK CHECK CONSTRAINT all";',
+            'disable' => 'EXEC sp_msforeachtable "ALTER TABLE ? NOCHECK CONSTRAINT all";',
+        ],
+        'pgsql' => [
+            'enable' => 'SET CONSTRAINTS ALL IMMEDIATE;',
+            'disable' => 'SET CONSTRAINTS ALL DEFERRED;',
+        ],
   ];
 
 

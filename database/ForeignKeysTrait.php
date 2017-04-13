@@ -25,7 +25,8 @@ trait ForeignKeysTrait
           /** @var \Doctrine\DBAL\Schema\ForeignKeyConstraint $key */
           return $key->getName();
         },
-        $conn->listTableForeignKeys($table));
+            $conn->listTableForeignKeys($table)
+        );
   }
 
 

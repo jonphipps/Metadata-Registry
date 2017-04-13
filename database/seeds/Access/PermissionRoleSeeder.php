@@ -1,39 +1,32 @@
 <?php
 
+use database\TruncateTable;
 use Illuminate\Database\Seeder;
 use App\Models\Access\Role\Role;
+use database\DisablesForeignKeys;
 
 /**
- * Class PermissionRoleSeeder
+ * Class PermissionRoleSeeder.
  */
 class PermissionRoleSeeder extends Seeder
 {
 
-  use \database\DisablesForeignKeys;
+    use DisablesForeignKeys, TruncateTable;
 
 
   /**
-   * Run the database seed.
-   *
-   * @return void
-   */
-  public function run()
-  {
-    $this->disableForeignKeys();
-
-    if (DB::connection()->getDriverName() == 'mysql') {
-      DB::table(config('access.permission_role_table'))->truncate();
-    } elseif (DB::connection()->getDriverName() == 'sqlite') {
-      DB::statement('DELETE FROM ' . config('access.permission_role_table'));
-    } else {
-      //For PostgreSQL or anything else
-      DB::statement('TRUNCATE TABLE ' . config('access.permission_role_table') . ' CASCADE');
-    }
-
-    /**
-     * Assign view backend and manage user permissions to executive role as example
+     * Run the database seed.
+     *
+     * @return void
      */
+    public function run()
+    {
+        $this->disableForeignKeys();
+        $this->truncate(config('access.permission_role_table'));
 
+        /*
+         * Assign view backend to executive role as example
+         */
     Role::find(2)->permissions()->sync([ 1, 2 ]); // Executive
     Role::find(3)->permissions()->sync([ 4 ]); //Subscriber
     Role::find(4)->permissions()->sync([ 5, 6, 7, 9,12,13,14 ]); //agentadmin
