@@ -3,9 +3,6 @@ language: php
 dist: trusty
 sudo: false
 
-addons:
-  - mysql: 5.7
-
 php:
   - 7.1
 #  - hhvm
