@@ -28,6 +28,9 @@ services:
   - mysql
 
 before_install:
+  - chmod +x ./scripts/* #thanks https://medium.com/@psaunders
+  - ./scripts/travis_mysql_5.7.sh
+  - ./scripts/mysql-reset-root-password.sh
   - cp .env.travis .env
   - echo "extension = memcached.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - echo "extension = redis.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
@@ -52,7 +55,7 @@ install:
 #    cd ..
 # execute any number of scripts before the test run, custom env's are available as variables
 before_script:
-  - mysql -e 'create database swregistry_test;'
+  - mysql -u root -e 'create database swregistry_test;'
   - php artisan migrate -vvv --seed --force
   - php artisan key:generate
 

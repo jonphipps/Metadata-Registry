@@ -450,19 +450,19 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/chrisboulton/php-resque.git",
-                "reference": "cf187fae522df085f79837d3763645da066194d6"
+                "reference": "968b7e6a307a2079051dfc571d2fc2be0546209f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/chrisboulton/php-resque/zipball/cf187fae522df085f79837d3763645da066194d6",
-                "reference": "cf187fae522df085f79837d3763645da066194d6",
+                "url": "https://api.github.com/repos/chrisboulton/php-resque/zipball/968b7e6a307a2079051dfc571d2fc2be0546209f",
+                "reference": "968b7e6a307a2079051dfc571d2fc2be0546209f",
                 "shasum": ""
             },
             "require": {
                 "colinmollenhour/credis": "~1.7",
                 "ext-pcntl": "*",
                 "php": ">=5.3.0",
-                "psr/log": "1.0.0"
+                "psr/log": "~1.0"
             },
             "require-dev": {
                 "phpunit/phpunit": "3.7.*"
@@ -498,7 +498,7 @@
                 "redis",
                 "resque"
             ],
-            "time": "2016-11-03T21:56:00+00:00"
+            "time": "2017-04-12T21:58:19+00:00"
         },
         {
             "name": "clue/stream-filter",
@@ -1525,20 +1525,21 @@
         },
         {
             "name": "filp/whoops",
-            "version": "2.1.6",
+            "version": "2.1.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filp/whoops.git",
-                "reference": "92bdc6800ac6e233c9e161a1768e082389a73530"
+                "reference": "f2950be7da8b8d6c4e77821b6c9d486e36cdc4f3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/filp/whoops/zipball/92bdc6800ac6e233c9e161a1768e082389a73530",
-                "reference": "92bdc6800ac6e233c9e161a1768e082389a73530",
+                "url": "https://api.github.com/repos/filp/whoops/zipball/f2950be7da8b8d6c4e77821b6c9d486e36cdc4f3",
+                "reference": "f2950be7da8b8d6c4e77821b6c9d486e36cdc4f3",
                 "shasum": ""
             },
             "require": {
-                "php": "^5.5.9 || ^7.0"
+                "php": "^5.5.9 || ^7.0",
+                "psr/log": "^1.0.1"
             },
             "require-dev": {
                 "mockery/mockery": "0.9.*",
@@ -1581,7 +1582,7 @@
                 "whoops",
                 "zf2"
             ],
-            "time": "2017-02-18T14:22:27+00:00"
+            "time": "2017-03-07T09:04:45+00:00"
         },
         {
             "name": "firebase/php-jwt",
@@ -2599,16 +2600,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.4.17",
+            "version": "v5.4.18",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "f7675d59e3863a58ecdff1a5ee1dcd0cff788f4b"
+                "reference": "d15ded55b5e690199393ea93a57edcbae20d1ffc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/f7675d59e3863a58ecdff1a5ee1dcd0cff788f4b",
-                "reference": "f7675d59e3863a58ecdff1a5ee1dcd0cff788f4b",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/d15ded55b5e690199393ea93a57edcbae20d1ffc",
+                "reference": "d15ded55b5e690199393ea93a57edcbae20d1ffc",
                 "shasum": ""
             },
             "require": {
@@ -2724,7 +2725,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2017-04-03T13:07:39+00:00"
+            "time": "2017-04-10T19:27:41+00:00"
         },
         {
             "name": "laravel/socialite",
@@ -4666,22 +4667,30 @@
         },
         {
             "name": "psr/log",
-            "version": "1.0.0",
+            "version": "1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/log.git",
-                "reference": "fe0936ee26643249e916849d48e3a51d5f5e278b"
+                "reference": "4ebe3a8bf773a19edfe0a84b6585ba3d401b724d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/log/zipball/fe0936ee26643249e916849d48e3a51d5f5e278b",
-                "reference": "fe0936ee26643249e916849d48e3a51d5f5e278b",
+                "url": "https://api.github.com/repos/php-fig/log/zipball/4ebe3a8bf773a19edfe0a84b6585ba3d401b724d",
+                "reference": "4ebe3a8bf773a19edfe0a84b6585ba3d401b724d",
                 "shasum": ""
             },
+            "require": {
+                "php": ">=5.3.0"
+            },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
             "autoload": {
-                "psr-0": {
-                    "Psr\\Log\\": ""
+                "psr-4": {
+                    "Psr\\Log\\": "Psr/Log/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -4695,12 +4704,13 @@
                 }
             ],
             "description": "Common interface for logging libraries",
+            "homepage": "https://github.com/php-fig/log",
             "keywords": [
                 "log",
                 "psr",
                 "psr-3"
             ],
-            "time": "2012-12-21T11:40:51+00:00"
+            "time": "2016-10-10T12:19:37+00:00"
         },
         {
             "name": "psy/psysh",
@@ -5348,16 +5358,16 @@
         },
         {
             "name": "spatie/laravel-migrate-fresh",
-            "version": "1.4.1",
+            "version": "1.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-migrate-fresh.git",
-                "reference": "d7844712788563089d60ac648cc221b2b4e8a884"
+                "reference": "2b9c1d2878f0e78e2f7b99441370d2f66c651357"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-migrate-fresh/zipball/d7844712788563089d60ac648cc221b2b4e8a884",
-                "reference": "d7844712788563089d60ac648cc221b2b4e8a884",
+                "url": "https://api.github.com/repos/spatie/laravel-migrate-fresh/zipball/2b9c1d2878f0e78e2f7b99441370d2f66c651357",
+                "reference": "2b9c1d2878f0e78e2f7b99441370d2f66c651357",
                 "shasum": ""
             },
             "require": {
@@ -5398,7 +5408,7 @@
                 "migrate",
                 "spatie"
             ],
-            "time": "2017-03-22T19:47:39+00:00"
+            "time": "2017-04-13T14:55:24+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -6904,12 +6914,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/barryvdh/laravel-ide-helper.git",
-                "reference": "ff3844e4e189e5abd99ac9dcb9e0978e0e373e26"
+                "reference": "3ab73555d9ee631c2e21a2c3a81b9cb654c0abb6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/barryvdh/laravel-ide-helper/zipball/ff3844e4e189e5abd99ac9dcb9e0978e0e373e26",
-                "reference": "ff3844e4e189e5abd99ac9dcb9e0978e0e373e26",
+                "url": "https://api.github.com/repos/barryvdh/laravel-ide-helper/zipball/3ab73555d9ee631c2e21a2c3a81b9cb654c0abb6",
+                "reference": "3ab73555d9ee631c2e21a2c3a81b9cb654c0abb6",
                 "shasum": ""
             },
             "require": {
@@ -6964,7 +6974,7 @@
                 "phpstorm",
                 "sublime"
             ],
-            "time": "2017-04-08T08:19:23+00:00"
+            "time": "2017-04-11T05:31:58+00:00"
         },
         {
             "name": "barryvdh/reflection-docblock",
@@ -8214,16 +8224,16 @@
         },
         {
             "name": "laravel/dusk",
-            "version": "v1.0.11",
+            "version": "v1.0.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/dusk.git",
-                "reference": "fc079ddbe34fd7f227f80b5b125abebb51f98c43"
+                "reference": "9a150bedc3ae6566d05f0a8d1657c658ce98dcad"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/dusk/zipball/fc079ddbe34fd7f227f80b5b125abebb51f98c43",
-                "reference": "fc079ddbe34fd7f227f80b5b125abebb51f98c43",
+                "url": "https://api.github.com/repos/laravel/dusk/zipball/9a150bedc3ae6566d05f0a8d1657c658ce98dcad",
+                "reference": "9a150bedc3ae6566d05f0a8d1657c658ce98dcad",
                 "shasum": ""
             },
             "require": {
@@ -8265,7 +8275,7 @@
                 "testing",
                 "webdriver"
             ],
-            "time": "2017-03-20T20:56:17+00:00"
+            "time": "2017-04-07T21:47:06+00:00"
         },
         {
             "name": "maximebf/debugbar",
@@ -8435,16 +8445,16 @@
         },
         {
             "name": "myclabs/deep-copy",
-            "version": "1.6.0",
+            "version": "1.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/myclabs/DeepCopy.git",
-                "reference": "5a5a9fc8025a08d8919be87d6884d5a92520cefe"
+                "reference": "8e6e04167378abf1ddb4d3522d8755c5fd90d102"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/5a5a9fc8025a08d8919be87d6884d5a92520cefe",
-                "reference": "5a5a9fc8025a08d8919be87d6884d5a92520cefe",
+                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/8e6e04167378abf1ddb4d3522d8755c5fd90d102",
+                "reference": "8e6e04167378abf1ddb4d3522d8755c5fd90d102",
                 "shasum": ""
             },
             "require": {
@@ -8473,7 +8483,7 @@
                 "object",
                 "object graph"
             ],
-            "time": "2017-01-26T22:05:40+00:00"
+            "time": "2017-04-12T18:52:22+00:00"
         },
         {
             "name": "orangehill/iseed",
