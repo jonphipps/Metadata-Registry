@@ -19,13 +19,13 @@ dependencies:
     - ~/.cache/yarn
   override:
     - yarn
+    - composer self-update && composer --version
+    - sudo chown ubuntu ~/.composer -R
+    - composer install --prefer-dist --no-interaction
 
 test:
   pre:
     - npm run production
-    - sudo composer self-update && composer --version
-    - sudo chown ubuntu ~/.composer -R
-    - composer install --prefer-dist --no-interaction
     - php artisan migrate -vvv --seed --force
     - php artisan key:generate
   override:
