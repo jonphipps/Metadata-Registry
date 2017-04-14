@@ -4,7 +4,6 @@ machine:
   node:
     version: 7.6
   services:
-    - mariadb
     - redis
     - memcached
   hosts:
@@ -12,4 +11,10 @@ machine:
 
 checkout:
   post:
-    - mv /.env.travis .env
+    - mv /.env.circle .env
+
+dependencies:
+  override:
+    - yarn
+  post:
+    - npm run production

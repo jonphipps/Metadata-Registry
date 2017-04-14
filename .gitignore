@@ -55,3 +55,4 @@ web/css/backend.css
 web/css/frontend.css
 mix-manifest.json
 !/.env.travis
+!/.env.circle
