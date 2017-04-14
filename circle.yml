@@ -25,8 +25,8 @@ dependencies:
 
 test:
   pre:
-    - gulp --production
     - php artisan migrate -vvv --seed --force
     - php artisan key:generate
+    - gulp --production
   override:
     - ./vendor/bin/phpunit
