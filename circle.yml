@@ -15,7 +15,7 @@ checkout:
 
 dependencies:
   cache_directories:
-    - vendor
+    - ~/Metadata-Registry/vendor
     - ~/.cache/yarn
   override:
     - yarn
