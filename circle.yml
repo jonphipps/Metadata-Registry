@@ -27,3 +27,5 @@ test:
     - composer install --prefer-dist --no-interaction
     - php artisan migrate -vvv --seed --force
     - php artisan key:generate
+  override:
+    - ./vendor/bin/phpunit
