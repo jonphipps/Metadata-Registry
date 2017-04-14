@@ -11,8 +11,8 @@
         <title>@yield('title', app_name())</title>
 
         <!-- Meta -->
-        <meta name="description" content="@yield('meta_description', 'Default Description')">
-        <meta name="author" content="@yield('meta_author', 'Anthony Rappa')">
+        <meta name="description" content="@yield('meta_description', 'Open Metadata Registry')">
+        <meta name="author" content="@yield('meta_author', 'Jon Phipps')">
         @yield('meta')
 
         <!-- Styles -->
