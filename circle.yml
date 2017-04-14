@@ -14,7 +14,16 @@ checkout:
     - mv .env.circle .env
 
 dependencies:
+  cache_directories:
+    - vendor
+    - ~/.cache/yarn
   override:
     - yarn
-  post:
+
+test:
+  pre:
     - npm run production
+    - sudo composer self-update && composer --version
+    - composer install --prefer-dist --no-interaction
+    - php artisan migrate -vvv --seed --force
+    - php artisan key:generate
