@@ -7,6 +7,7 @@
             <h1 style="text-align: center">Open Metadata Registry</h1>
         </div>
     </div>
+    @include('includes.partials.messages')
     @yield('content')
 </div>
 </html>
