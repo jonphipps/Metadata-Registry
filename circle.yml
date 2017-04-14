@@ -22,6 +22,7 @@ dependencies:
     - composer self-update && composer --version
     - sudo chown ubuntu ~/.composer -R
     - composer install --prefer-dist --no-interaction
+    - npm install -g gulp-cli
 
 test:
   pre:
