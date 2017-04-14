@@ -1,6 +1,6 @@
 machine:
   php:
-    version: 7.1.x
+    version: 7.1
   node:
     version: 7.6
   services:
