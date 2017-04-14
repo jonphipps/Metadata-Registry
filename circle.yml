@@ -11,7 +11,7 @@ machine:
 
 checkout:
   post:
-    - mv /.env.circle .env
+    - mv .env.circle .env
 
 dependencies:
   override:
