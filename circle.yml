@@ -25,7 +25,7 @@ dependencies:
 
 test:
   pre:
-    - npm run production
+    - gulp --production
     - php artisan migrate -vvv --seed --force
     - php artisan key:generate
   override:
