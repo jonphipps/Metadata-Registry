@@ -2,6 +2,7 @@
 <aside class="main-sidebar">
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
+        @if(Auth::check())
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel">
             <div class="pull-left image">
@@ -13,7 +14,7 @@
                 <a href="#"><i class="fa fa-circle text-success"></i> {{ trans('strings.backend.general.status.online') }}</a>
             </div><!--pull-left-->
         </div><!--user-panel-->
-
+        @endif()
         <!-- search form (Optional) -->
         {{ Form::open(['route' => 'admin.search.index', 'method' => 'get', 'class' => 'sidebar-form']) }}
             <div class="input-group">
