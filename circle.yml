@@ -1,0 +1,32 @@
+machine:
+  php:
+    version: 7.1.3
+  node:
+    version: 7.6
+  services:
+    - redis
+    - memcached
+  hosts:
+    registry.dev: 127.0.0.1
+
+checkout:
+  post:
+    - mv .env.circle .env
+
+dependencies:
+  cache_directories:
+    - ~/.composer
+    - ~/.cache/yarn
+  override:
+    - yarn
+    - composer self-update && composer --version
+    - sudo chown ubuntu ~/.composer -R
+    - composer install --prefer-dist --no-interaction
+
+test:
+  pre:
+    - npm run production
+    - php artisan migrate -vvv --seed --force
+    - php artisan key:generate
+  override:
+    - ./vendor/bin/phpunit

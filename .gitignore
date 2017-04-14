@@ -54,3 +54,4 @@ web/css/rtl.css
 web/css/backend.css
 web/css/frontend.css
 !/.env.travis
+!/.env.circle
