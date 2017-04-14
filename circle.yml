@@ -15,7 +15,7 @@ checkout:
 
 dependencies:
   cache_directories:
-    - ~/Metadata-Registry/vendor
+    - ~/.composer
     - ~/.cache/yarn
   override:
     - yarn
@@ -24,6 +24,7 @@ test:
   pre:
     - npm run production
     - sudo composer self-update && composer --version
+    - sudo chown ubuntu ~/.composer -R
     - composer install --prefer-dist --no-interaction
     - php artisan migrate -vvv --seed --force
     - php artisan key:generate
