@@ -1,8 +1,7 @@
 <?php
-
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class AddUpdatedAtToVoabularyTable extends Migration
 {
@@ -15,8 +14,7 @@ class AddUpdatedAtToVoabularyTable extends Migration
   {
     Schema::table('reg_vocabulary',
         function (Blueprint $table) {
-          $table->timestamp('updated_at')
-               ->nullable();
+          $table->timestamp('updated_at')->nullable();
         });
     \DB::statement('update reg_vocabulary set updated_at = last_updated;');
   }
