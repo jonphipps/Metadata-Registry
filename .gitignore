@@ -56,3 +56,4 @@ web/css/frontend.css
 mix-manifest.json
 !/.env.travis
 !/.env.circle
+symfony_routes.*

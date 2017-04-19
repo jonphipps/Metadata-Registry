@@ -17,11 +17,12 @@ if (file_exists('config/config.php'))
 }
 if (!isset($sf_symfony_lib_dir))
 {
-  if (is_readable(dirname(__FILE__).'/../../lib/VERSION'))
+  $file = $argv[0];
+  if (is_readable(dirname($file).'/lib/symfony/VERSION'))
   {
     // SVN
-    $sf_symfony_lib_dir  = realpath(dirname(__FILE__).'/../../lib');
-    $sf_symfony_data_dir = realpath(dirname(__FILE__).'/..');
+    $sf_symfony_lib_dir  = dirname($file) . '/lib/symfony';
+    $sf_symfony_data_dir = dirname($file) . '/data/symfony';
   }
   else
   {
