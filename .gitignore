@@ -58,3 +58,4 @@ mix-manifest.json
 !/.env.circle
 symfony_routes.*
 /packages/
+/client_secret.json
