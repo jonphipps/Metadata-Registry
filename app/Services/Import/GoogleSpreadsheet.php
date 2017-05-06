@@ -4,20 +4,19 @@
 
 namespace App\Services\Import;
 
-
-use function base_path;
-use function collect;
 use Google\Spreadsheet\DefaultServiceRequest;
 use Google\Spreadsheet\ServiceRequestFactory;
 use Google_Client;
 use Google_Service_Sheets;
 use Google_Service_Sheets_Sheet;
 use Illuminate\Support\Collection;
+use function base_path;
+use function collect;
 
 class GoogleSpreadsheet
 {
     private $service;
-    private $worksheets;
+    private $spreadsheetId;
 
     /** Google spreadsheet object has
      * a google services connection <— built with service
@@ -39,21 +38,13 @@ class GoogleSpreadsheet
 
         $accessToken = $client->fetchAccessTokenWithAssertion()["access_token"];
         ServiceRequestFactory::setInstance(new DefaultServiceRequest($accessToken));
-        $this->service = new Google_Service_Sheets($client);
-        $this->setWorksheets($sheetUrl);
+        $this->service       = new Google_Service_Sheets($client);
+        $this->spreadsheetId = $this->getIdFromUrl($sheetUrl);
     }
 
-    /**
-     * @param string $sheetUrl
-     */
-    private function setWorksheets(string $sheetUrl): void
+    public function getWorksheetData($name)
     {
-        $spreadsheetId = $this->getIdFromUrl($sheetUrl);
-        $worksheets = $this->service->spreadsheets->get($spreadsheetId)->sheets;
-        /** @var Google_Service_Sheets_Sheet[] $worksheets */
-        foreach ($worksheets as $worksheet) {
-            $this->worksheets[] = $worksheet->getProperties()->title;
-        }
+        return collect($this->service->spreadsheets_values->get($this->spreadsheetId, $name)->getValues());
     }
 
     /**
@@ -61,18 +52,25 @@ class GoogleSpreadsheet
      */
     public function getWorksheets(): Collection
     {
-        return collect($this->worksheets);
+        $sheets     = [];
+        $worksheets = $this->service->spreadsheets->get($this->spreadsheetId)->sheets;
+        /** @var Google_Service_Sheets_Sheet[] $worksheets */
+        foreach ($worksheets as $worksheet) {
+            $sheets[] = $worksheet->getProperties()->title;
+        }
+
+        return collect($sheets);
     }
 
     /**
-     * @param string  $url Google service URL
+     * @param string $url Google service URL
      *
      * @return string
      */
     private function getIdFromUrl(string $url): string
     {
         preg_match('/[-\\w]{25,}/u', $url, $matches);
+
         return $matches[0];
     }
-
 }
