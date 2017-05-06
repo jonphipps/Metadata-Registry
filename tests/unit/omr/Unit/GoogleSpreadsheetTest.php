@@ -29,37 +29,6 @@ class GoogleSpreadsheetTest extends TestCase
         $this->assertArraySubset($expected, $worksheets);
     }
 
-    /**
-     * @test
-     */
-    public function it_retrieves_an_associative_array_of_data_for_a_worksheet()
-    {
-        //given a spreadsheet and worksheet title string
-        $sheetUrl = 'https://docs.google.com/spreadsheets/d/1WTxiOvHHUurz76NZ0WU_2GjjY4SG8Gzbg0vH8xwNz_I/edit#gid=0';
-        $sheet    = new GoogleSpreadsheet($sheetUrl);
-        //when I request the data for a worksheet
-        $data = $sheet->getWorksheetDataForImport('worksheet data test')->toArray();
-        //then i get the data back
-        $expected = [ '1' => ['reg_id' => 'data A2', 'header B1' => 'data B2' ]];
-        //ddd($data, $expected);
-        $this->assertSame($expected, $data);
-    }
-
-    /**
-     * @test
-     */
-    public function it_retrieves_an_associative_array_of_data_for_a_worksheet_that_has_no_regsitry_ids()
-    {
-        //given a spreadsheet and worksheet title string
-        $sheetUrl = 'https://docs.google.com/spreadsheets/d/1WTxiOvHHUurz76NZ0WU_2GjjY4SG8Gzbg0vH8xwNz_I/edit#gid=0';
-        $sheet    = new GoogleSpreadsheet($sheetUrl);
-        //when I request the data for a worksheet
-        $data = $sheet->getWorksheetDataForImport('worksheet no id test')->toArray();
-        //then i get the data back
-        $expected = [ '1' => [ 'reg_id' => '', 'header B1' => 'data B2' ], '2' => [ 'reg_id' => '', 'header B1' => 'data B3' ] ];
-        // ddd($data, $expected);
-        $this->assertSame($expected, $data);
-    }
 
     /**
      * @test
