@@ -9,9 +9,9 @@ use function base_path;
 use function collect;
 use Google\Spreadsheet\DefaultServiceRequest;
 use Google\Spreadsheet\ServiceRequestFactory;
-use Google\Spreadsheet\Worksheet;
 use Google_Client;
 use Google_Service_Sheets;
+use Google_Service_Sheets_Sheet;
 use Illuminate\Support\Collection;
 
 class GoogleSpreadsheet
@@ -25,10 +25,10 @@ class GoogleSpreadsheet
      * an identifier <— gets from the URL
      * a collection of worksheets <— gets from service
      *
-     * @param $sheetUrl
+     * @param string $sheetUrl
      */
 
-    public function __construct($sheetUrl)
+    public function __construct(string $sheetUrl)
     {
         putenv('GOOGLE_APPLICATION_CREDENTIALS=' . base_path('client_secret.json'));
 
@@ -44,17 +44,15 @@ class GoogleSpreadsheet
     }
 
     /**
-     * @param $sheetUrl
+     * @param string $sheetUrl
      */
-    private function setWorksheets($sheetUrl): void
+    private function setWorksheets(string $sheetUrl): void
     {
-        // Get our spreadsheet: https://docs.google.com/spreadsheets/d/1fM26a68SScrDvIJfgtT4QS-Vmhxw_deNhBrPMmBWQkI/edit?usp=sharing
-        //basically this is how you get each worksheet for processing
         $spreadsheetId = $this->getIdFromUrl($sheetUrl);
         $worksheets = $this->service->spreadsheets->get($spreadsheetId)->sheets;
-        /** @var Worksheet $worksheet */
+        /** @var Google_Service_Sheets_Sheet[] $worksheets */
         foreach ($worksheets as $worksheet) {
-            $this->worksheets[] = $worksheet->getproperties()->title;
+            $this->worksheets[] = $worksheet->getProperties()->title;
         }
     }
 
@@ -66,7 +64,12 @@ class GoogleSpreadsheet
         return collect($this->worksheets);
     }
 
-    private function getIdFromUrl($url)
+    /**
+     * @param string  $url Google service URL
+     *
+     * @return string
+     */
+    private function getIdFromUrl(string $url): string
     {
         preg_match('/[-\\w]{25,}/u', $url, $matches);
         return $matches[0];
