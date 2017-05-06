@@ -58,7 +58,7 @@ class DataImporterTest extends TestCase
     public function it_retrieves_an_export_history_record_by_name()
     {
         //given we have a valid export history record
-        factory(ExportHistory::class)
+        //factory(ExportHistory::class);
         //when we ask for it from the database
         //then we get one
     }
