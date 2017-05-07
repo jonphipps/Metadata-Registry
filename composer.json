@@ -15,10 +15,6 @@
             "url": "git@github.com:jonphipps/html.git"
         },
         {
-            "type": "git",
-            "url": "git@github.com:jamisonvalenta/Laravel-4-Generators.git"
-        },
-        {
             "type": "vcs",
             "url": "git@github.com:jonphipps/laravel-codeception-dbdump.git"
         }
@@ -133,9 +129,8 @@
         "phpunit/phpunit": "5.7.x",
         "sstalle/php7cc": "^1.1",
         "tightenco/mailthief": "^0.3.4",
-        "way/generators": "dev-feature/laravel-five-stable",
         "werxe/whoops-laravel": "^2.0@dev",
-        "xethron/migrations-generator": "dev-l5"
+        "xethron/migrations-generator": "^2.0"
     },
     "autoload-dev": {
         "psr-4": {

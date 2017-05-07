@@ -51,7 +51,7 @@ class AppServiceProvider extends ServiceProvider
         }
 
         // Force SSL in production
-        if ($this->app->environment() == 'production') {
+        if ($this->app->environment() === 'production') {
             //URL::forceScheme('https');
         } else {
           DB::enableQueryLog();
@@ -82,7 +82,7 @@ class AppServiceProvider extends ServiceProvider
          * Sets third party service providers that are only needed on local/testing environments
          */
     $environment = $this->app->environment();
-    if ($environment === 'dev' || $environment === 'testing') {
+    if ($environment !== 'production') {
       /**
        * Loader for registering facades
        */
@@ -95,7 +95,8 @@ class AppServiceProvider extends ServiceProvider
       $this->app->register(IdeHelperServiceProvider::class);
       $this->app->register(TestFactoryHelperServiceProvider::class);
       $this->app->register(DbDumpServiceProvider::class);
-
+        $this->app->register(\Way\Generators\GeneratorsServiceProvider::class);
+        $this->app->register(\Xethron\MigrationsGenerator\MigrationsGeneratorServiceProvider::class);
     }
     $this->app->bind('path.public', function () {return base_path() . '/web';});
     $this->app->alias('bugsnag.multi', \Illuminate\Contracts\Logging\Log::class);

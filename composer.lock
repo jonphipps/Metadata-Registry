@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "103ad3d326c129659d710d6230df7f2c",
+    "content-hash": "d2e0cb9a4ef31042cc897997551c4a37",
     "packages": [
         {
             "name": "arcanedev/log-viewer",
@@ -10218,45 +10218,6 @@
             "time": "2017-04-22T17:42:32+00:00"
         },
         {
-            "name": "way/generators",
-            "version": "dev-feature/laravel-five-stable",
-            "source": {
-                "type": "git",
-                "url": "git@github.com:jamisonvalenta/Laravel-4-Generators.git",
-                "reference": "a358bb44f517e2b3c1fd4f848f2646857c75b3a4"
-            },
-            "require": {
-                "illuminate/support": "~5.0",
-                "php": ">=5.4.0"
-            },
-            "require-dev": {
-                "behat/behat": "~2.5.1",
-                "behat/mink": "~1.5.0",
-                "behat/mink-extension": "~1.2.0",
-                "behat/mink-goutte-driver": "~1.0.9",
-                "behat/mink-selenium2-driver": "~1.1.1",
-                "phpspec/phpspec": "~2.0",
-                "phpunit/phpunit": "~3.7"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Way\\Generators": "src/"
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Jeffrey Way",
-                    "email": "jeffrey@jeffrey-way.com"
-                }
-            ],
-            "description": "Rapidly generate resources, migrations, models, and much more.",
-            "time": "2015-02-17 06:26:25"
-        },
-        {
             "name": "webmozart/assert",
             "version": "1.2.0",
             "source": {
@@ -10409,7 +10370,7 @@
         },
         {
             "name": "xethron/migrations-generator",
-            "version": "dev-l5",
+            "version": "v2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Xethron/migrations-generator.git",
@@ -10468,9 +10429,7 @@
         "antennaio/laravel-codeception-dbdump": 20,
         "barryvdh/laravel-ide-helper": 20,
         "orangehill/iseed": 20,
-        "way/generators": 20,
-        "werxe/whoops-laravel": 20,
-        "xethron/migrations-generator": 20
+        "werxe/whoops-laravel": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
