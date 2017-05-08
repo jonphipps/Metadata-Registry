@@ -138,8 +138,7 @@
             "model\\": "lib/model",
             "apps\\": "apps",
             "App\\": "app",
-            "tests\\": "tests",
-            "Helper\\": "tests/_support/Helper",
+            "Database\\": "database/",
             "Tests\\": "tests/"
         },
         "classmap": [

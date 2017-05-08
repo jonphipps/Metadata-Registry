@@ -20,5 +20,4 @@ abstract class BrowserKitTestCase extends BaseTestCase
     parent::setUp();
     $this->setUpTests();
   }
-
 }

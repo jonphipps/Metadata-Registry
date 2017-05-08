@@ -130,4 +130,13 @@ trait SetsUpTests
     parent::assertPageLoaded($uri);
   }
 
+    public function tearDown()
+    {
+        $this->beforeApplicationDestroyed(function () {
+            DB::disconnect();
+        });
+
+        parent::tearDown();
+    }
+
 }
