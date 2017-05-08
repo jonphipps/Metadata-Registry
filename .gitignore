@@ -15,7 +15,6 @@ Thumbs.db
 repos
 .filemap
 
-
 mailer.yml
 .gitignore.orig
 phpinfo.php
@@ -24,7 +23,6 @@ dbg-wizard.php
 tests/_output/*
 coverage.xml
 spec/coverage
-.env.*
 
 tests/_support/_generated
 dump.sql
@@ -54,8 +52,28 @@ web/css/rtl.css
 web/css/backend.css
 web/css/frontend.css
 mix-manifest.json
+.env
+.env.*
 !/.env.travis
 !/.env.circle
 symfony_routes.*
 /packages/
 /client_secret.json
+_ide_helper.php
+
+# from boilerplate
+/web/storage
+/web/hot
+/storage/*.key
+Homestead.json
+Homestead.yaml
+*.sublime-project
+*.sublime-workspace
+.project
+/nbproject
+composer.phar
+error.log
+Todo.rtf
+.vagrant
+/.vagrant
+npm-debug.log
