@@ -1,9 +1,9 @@
-@extends('frontend.layouts.auth')
+@extends('frontend.layouts.app')
 
 @section('content')
     <div class="row">
 
-        <div class="col-md-6 col-md-offset-3">
+        <div class="col-md-8 col-md-offset-2">
 
             @if (session('status'))
                 <div class="alert alert-success">
@@ -17,12 +17,12 @@
 
                 <div class="panel-body">
 
-                    {{ Form::open(['route' => 'frontend.auth.password.email', 'class' => 'form-horizontal']) }}
+                    {{ Form::open(['route' => 'frontend.auth.password.email.post', 'class' => 'form-horizontal']) }}
 
                     <div class="form-group">
                         {{ Form::label('email', trans('validation.attributes.frontend.email'), ['class' => 'col-md-4 control-label']) }}
                         <div class="col-md-6">
-                            {{ Form::input('email', 'email', null, ['class' => 'form-control', 'placeholder' => trans('validation.attributes.frontend.email')]) }}
+                            {{ Form::email('email', null, ['class' => 'form-control', 'maxlength' => '191', 'required' => 'required', 'autofocus' => 'autofocus', 'placeholder' => trans('validation.attributes.frontend.email')]) }}
                         </div><!--col-md-6-->
                     </div><!--form-group-->
 

@@ -105,7 +105,7 @@ class UserRepository extends BaseRepository
     }
 
     /**
-     * @param Model $input
+     * @param array $input
      */
     public function create($input)
     {
@@ -153,13 +153,13 @@ class UserRepository extends BaseRepository
 
         $this->checkUserByEmail($data, $user);
 
-        DB::transaction(function () use ($user, $data, $roles) {
-            if ($user->update($data)) {
-                //For whatever reason this just wont work in the above call, so a second is needed for now
-                $user->status = isset($data['status']) ? 1 : 0;
-                $user->confirmed = isset($data['confirmed']) ? 1 : 0;
-                $user->save();
+        $user->name = $data['name'];
+        $user->email = $data['email'];
+        $user->status = isset($data['status']) ? 1 : 0;
+        $user->confirmed = isset($data['confirmed']) ? 1 : 0;
 
+        DB::transaction(function () use ($user, $data, $roles) {
+            if ($user->save()) {
                 $this->checkUserRolesCount($roles);
                 $this->flushRoles($roles, $user);
 
@@ -204,6 +204,10 @@ class UserRepository extends BaseRepository
     {
         if (access()->id() == $user->id) {
             throw new GeneralException(trans('exceptions.backend.access.users.cant_delete_self'));
+        }
+
+        if ($user->id == 1) {
+            throw new GeneralException(trans('exceptions.backend.access.users.cant_delete_admin'));
         }
 
         if ($user->delete()) {
@@ -342,7 +346,7 @@ class UserRepository extends BaseRepository
     protected function createUserStub($input)
     {
         $user = self::MODEL;
-        $user = new $user();
+        $user = new $user;
         $user->name = $input['name'];
         $user->email = $input['email'];
         $user->password = bcrypt($input['password']);

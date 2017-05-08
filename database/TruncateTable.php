@@ -1,6 +1,6 @@
 <?php
 
-namespace database;
+namespace Database;
 
 use Illuminate\Support\Facades\DB;
 
@@ -23,7 +23,7 @@ trait TruncateTable
             case 'pgsql':
                 return  DB::statement('TRUNCATE TABLE '.$table.' RESTART IDENTITY CASCADE');
 
-            case 'sqlite':
+            case 'sqlite': case 'sqlsrv':
                 return DB::statement('DELETE FROM '.$table);
         }
 

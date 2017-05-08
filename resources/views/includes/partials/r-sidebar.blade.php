@@ -1,20 +1,28 @@
 <div class="col-md-4 col-md-push-8">
     @if (Auth::check())
-        <ul class="media-list">
+      <ul class="media-list">
         <li class="media">
             <div class="media-left">
-                <img class="media-object" src="{{ $logged_in_user->picture }}" alt="Profile picture">
-            </div>
-            <! --media-left-->
+              <img class="media-object profile-picture" src="{{ $logged_in_user->picture }}" alt="Profile picture">
+            </div><!--media-left-->
+
             <div class="media-body">
-                <h4 class="media-heading">{{ $logged_in_user->name }}<br/>
+                <h4 class="media-heading">
+                {{ $logged_in_user->name }}<br/>
                     <small>
                         {{ $logged_in_user->email }}<br/>
                         Joined {{ $logged_in_user->created_at->format('F jS, Y') }}
                     </small>
-                </h4>{{ laravel_link_to_route('frontend.user.account', trans('navs.frontend.user.account'), [], ['class' => 'btn btn-info btn-xs']) }}@permission('view-backend'){{ laravel_link_to_route('admin.dashboard', trans('navs.frontend.user.administration'), [], ['class' => 'btn btn-danger btn-xs']) }}@endauth
-            </div><!--media-body--></li><!--media--></ul>
-    <!--media-list-->
+                </h4>
+
+                {{ laravel_link_to_route('frontend.user.account', trans('navs.frontend.user.account'), [], ['class' => 'btn btn-info btn-xs']) }}
+
+                @permission('view-backend')
+                {{ laravel_link_to_route('admin.dashboard', trans('navs.frontend.user.administration'), [], ['class' => 'btn btn-danger btn-xs']) }}
+                @endauth
+            </div><!--media-body-->
+          </li><!--media-->
+        </ul><!--media-list-->
     @endif
     <div class="panel panel-default">
         <div class="panel-heading">

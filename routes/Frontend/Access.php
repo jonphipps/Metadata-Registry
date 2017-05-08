@@ -25,7 +25,7 @@ Route::group(['namespace' => 'Auth', 'as' => 'auth.'], function () {
     Route::group(['middleware' => 'guest'], function () {
                 // Authentication Routes
         Route::get('login', 'LoginController@showLoginForm')->name('login');
-        Route::post('login', 'LoginController@login')->name('login');
+        Route::post('login', 'LoginController@login')->name('login.post');
 
                 // Socialite Routes
         Route::get('login/{provider}', 'SocialLoginController@login')->name('social.login');
@@ -33,7 +33,7 @@ Route::group(['namespace' => 'Auth', 'as' => 'auth.'], function () {
                 // Registration Routes
                 if (config('access.users.registration')) {
             Route::get('register', 'RegisterController@showRegistrationForm')->name('register');
-            Route::post('register', 'RegisterController@register')->name('register');
+            Route::post('register', 'RegisterController@register')->name('register.post');
                 }
 
                 // Confirm Account Routes
@@ -43,8 +43,8 @@ Route::group(['namespace' => 'Auth', 'as' => 'auth.'], function () {
                 // Password Reset Routes
         Route::get('password/email', 'ForgotPasswordController@showLinkRequestForm')->name('password.email');
         Route::get('password/reset', 'ForgotPasswordController@showLinkRequestFormForName')->name('password.name');
-        Route::post('password/email', 'ForgotPasswordController@sendLoginNameEmail')->name('password.email');
-        Route::post('password/name', 'ForgotPasswordController@sendResetLinkEmailForName')->name('password.name');
+        Route::post('password/email', 'ForgotPasswordController@sendLoginNameEmail')->name('password.email.post');
+        Route::post('password/name', 'ForgotPasswordController@sendResetLinkEmailForName')->name('password.name.post');
 
         Route::get('password/reset/{token}', 'ResetPasswordController@showResetForm')->name('password.reset.form');
         Route::post('password/reset', 'ResetPasswordController@reset')->name('password.reset');

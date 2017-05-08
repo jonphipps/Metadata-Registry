@@ -26,7 +26,7 @@
                     {{ Form::label('name', trans('validation.attributes.backend.access.users.name'), ['class' => 'col-lg-2 control-label']) }}
 
                     <div class="col-lg-10">
-                        {{ Form::text('name', null, ['class' => 'form-control', 'placeholder' => trans('validation.attributes.backend.access.users.name')]) }}
+                        {{ Form::text('name', null, ['class' => 'form-control', 'maxlength' => '191', 'required' => 'required', 'autofocus' => 'autofocus', 'placeholder' => trans('validation.attributes.backend.access.users.name')]) }}
                     </div><!--col-lg-10-->
                 </div><!--form control-->
 
@@ -34,7 +34,7 @@
                     {{ Form::label('email', trans('validation.attributes.backend.access.users.email'), ['class' => 'col-lg-2 control-label']) }}
 
                     <div class="col-lg-10">
-                        {{ Form::text('email', null, ['class' => 'form-control', 'placeholder' => trans('validation.attributes.backend.access.users.email')]) }}
+                        {{ Form::email('email', null, ['class' => 'form-control', 'maxlength' => '191', 'required' => 'required', 'placeholder' => trans('validation.attributes.backend.access.users.email')]) }}
                     </div><!--col-lg-10-->
                 </div><!--form control-->
 
@@ -56,7 +56,7 @@
                     </div><!--form control-->
 
                     <div class="form-group">
-                        {{ Form::label('status', trans('validation.attributes.backend.access.users.associated_roles'), ['class' => 'col-lg-2 control-label']) }}
+                        {{ Form::label('associated_roles', trans('validation.attributes.backend.access.users.associated_roles'), ['class' => 'col-lg-2 control-label']) }}
 
                         <div class="col-lg-3">
                             @if (count($roles) > 0)
@@ -112,7 +112,7 @@
         @if ($user->id == 1)
             {{ Form::hidden('status', 1) }}
             {{ Form::hidden('confirmed', 1) }}
-            {{ Form::hidden('assignees_roles[]', 1) }}
+            {{ Form::hidden('assignees_roles[0]', 1) }}
         @endif
 
     {{ Form::close() }}

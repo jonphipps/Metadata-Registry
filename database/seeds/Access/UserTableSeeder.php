@@ -1,9 +1,9 @@
 <?php
 
-use database\TruncateTable;
 use Carbon\Carbon as Carbon;
+use Database\DisablesForeignKeys;
+use Database\TruncateTable;
 use Illuminate\Database\Seeder;
-use database\DisablesForeignKeys;
 use Illuminate\Support\Facades\DB;
 
 /**

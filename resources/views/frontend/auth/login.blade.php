@@ -1,10 +1,10 @@
-@extends('frontend.layouts.auth')
+@extends('frontend.layouts.app')
 
 @section('content')
 
     <div class="row">
 
-        <div class="col-md-6 col-md-offset-3">
+        <div class="col-md-8 col-md-offset-2">
             @if (session('status'))
                 <div class="alert alert-success">
                     {{ session('status') }}
@@ -15,19 +15,19 @@
 
                 <div class="panel-body">
 
-                    {{ Form::open(['route' => 'frontend.auth.login', 'class' => 'form-horizontal']) }}
+                    {{ Form::open(['route' => 'frontend.auth.login.post', 'class' => 'form-horizontal']) }}
 
                     <div class="form-group">
                         {{ Form::label('name', trans('validation.attributes.frontend.name'), ['class' => 'col-md-4 control-label']) }}
                         <div class="col-md-6">
-                            {{ Form::input('name', 'name', null, ['class' => 'form-control', 'placeholder' => trans('validation.attributes.frontend.name')]) }}
+                            {{ Form::text('name', null, ['class' => 'form-control', 'maxlength' => '191', 'required' => 'required', 'autofocus' => 'autofocus', 'placeholder' => trans('validation.attributes.frontend.name')]) }}
                         </div><!--col-md-6-->
                     </div><!--form-group-->
 
                     <div class="form-group">
                         {{ Form::label('password', trans('validation.attributes.frontend.password'), ['class' => 'col-md-4 control-label']) }}
                         <div class="col-md-6">
-                            {{ Form::input('password', 'password', null, ['class' => 'form-control', 'placeholder' => trans('validation.attributes.frontend.password')]) }}
+                            {{ Form::password('password', ['class' => 'form-control', 'required' => 'required', 'placeholder' => trans('validation.attributes.frontend.password')]) }}
                         </div><!--col-md-6-->
                     </div><!--form-group-->
 

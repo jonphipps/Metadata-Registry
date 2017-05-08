@@ -28,9 +28,9 @@ class RegisterRequest extends Request
     public function rules()
     {
         return [
-            'name' => ['required','max:255', Rule::unique('reg_user', 'nickname')],
-            'email' => ['required', 'email', 'max:255'],
-            'password' => 'required|min:6|confirmed',
+            'name' => ['required','max:191', Rule::unique('reg_user', 'nickname')],
+            'email' => ['required', 'email', 'max:191'],
+            'password' => 'required|string|min:6|confirmed',
             'g-recaptcha-response' => 'required_if:captcha_status,true|captcha',
         ];
     }
