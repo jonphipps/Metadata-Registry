@@ -78,7 +78,7 @@ class sfRoutingConfigHandler extends sfYamlConfigHandler
     }
 
     //look at the routes -- change this to true to test
-    $foo = true;
+    $foo = false;
     if ($foo ===true) {
       //$urls = self::getRouteListByUrl($routes->getRoutes(),true, false, true);
       ksort($config);
