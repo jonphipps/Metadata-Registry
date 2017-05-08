@@ -77,3 +77,4 @@ Todo.rtf
 .vagrant
 /.vagrant
 npm-debug.log
+mix.*.js
