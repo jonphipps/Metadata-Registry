@@ -8,10 +8,10 @@ use App\Models\Access\User\User;
  * App\Models\Collection
  *
  * @property int $id
- * @property string $created_at
- * @property string $updated_at
- * @property \Carbon\Carbon $deleted_at
- * @property \Carbon\Carbon $last_updated
+ * @property string|null $created_at
+ * @property string|null $updated_at
+ * @property \Carbon\Carbon|null $deleted_at
+ * @property \Carbon\Carbon|null $last_updated
  * @property int $created_user_id
  * @property int $updated_user_id
  * @property int $vocabulary_id
@@ -20,9 +20,9 @@ use App\Models\Access\User\User;
  * @property string $pref_label
  * @property int $status_id
  * @property-read \App\Models\Status $Status
- * @property-read \App\Models\Access\User\User $UserCreator
- * @property-read \App\Models\Access\User\User $UserUpdater
- * @property-read \App\Models\Vocabulary $Vocabulary
+ * @property-read \App\Models\Access\User\User|null $UserCreator
+ * @property-read \App\Models\Access\User\User|null $UserUpdater
+ * @property-read \App\Models\Vocabulary|null $Vocabulary
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Collection whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Collection whereCreatedUserId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Collection whereDeletedAt($value)

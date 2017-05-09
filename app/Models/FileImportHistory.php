@@ -8,7 +8,7 @@ use App\Models\Access\User\User;
  * App\Models\FileImportHistory
  *
  * @property int $id
- * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon|null $created_at
  * @property string $map stores the serialized column map array
  * @property int $user_id
  * @property int $vocabulary_id
@@ -21,13 +21,13 @@ use App\Models\Access\User\User;
  * @property int $total_processed_count
  * @property int $error_count
  * @property int $success_count
- * @property int $token
- * @property-read \App\Models\Batch $Batch
+ * @property int|null $token
+ * @property-read \App\Models\Batch|null $Batch
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ConceptAttributeHistory[] $ConceptAttributeHistory
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ElementAttributeHistory[] $ElementAttributeHistory
- * @property-read \App\Models\ElementSet $ElementSet
- * @property-read \App\Models\Access\User\User $User
- * @property-read \App\Models\Vocabulary $Vocabulary
+ * @property-read \App\Models\ElementSet|null $ElementSet
+ * @property-read \App\Models\Access\User\User|null $User
+ * @property-read \App\Models\Vocabulary|null $Vocabulary
  * @method static \Illuminate\Database\Query\Builder|\App\Models\FileImportHistory whereBatchId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\FileImportHistory whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\FileImportHistory whereErrorCount($value)

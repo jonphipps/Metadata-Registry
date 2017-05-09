@@ -9,14 +9,14 @@ use App\Models\Access\User\User;
  *
  * @property int $id
  * @property string $name
- * @property \Carbon\Carbon $created_at
- * @property \Carbon\Carbon $deleted_at
- * @property \Carbon\Carbon $updated_at
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $deleted_at
+ * @property \Carbon\Carbon|null $updated_at
  * @property int $created_user_id
  * @property int $schema_id
- * @property \Carbon\Carbon $timeslice
- * @property-read \App\Models\ElementSet $ElementSet
- * @property-read \App\Models\Access\User\User $UserCreator
+ * @property \Carbon\Carbon|null $timeslice
+ * @property-read \App\Models\ElementSet|null $ElementSet
+ * @property-read \App\Models\Access\User\User|null $UserCreator
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSetHasVersion whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSetHasVersion whereCreatedUserId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSetHasVersion whereDeletedAt($value)

@@ -21,14 +21,14 @@ use App\Models\Access\User\User;
  * @property int $status_id
  * @property string $change_note
  * @property int $import_id
- * @property-read \App\Models\Element $Element
- * @property-read \App\Models\ElementAttribute $ElementAttribute
- * @property-read \App\Models\ElementSet $ElementSet
- * @property-read \App\Models\FileImportHistory $FileImportHistory
- * @property-read \App\Models\ProfileProperty $ProfileProperty
- * @property-read \App\Models\Element $RelatedElement
- * @property-read \App\Models\Status $Status
- * @property-read \App\Models\Access\User\User $UserCreator
+ * @property-read \App\Models\Element|null $Element
+ * @property-read \App\Models\ElementAttribute|null $ElementAttribute
+ * @property-read \App\Models\ElementSet|null $ElementSet
+ * @property-read \App\Models\FileImportHistory|null $FileImportHistory
+ * @property-read \App\Models\ProfileProperty|null $ProfileProperty
+ * @property-read \App\Models\Element|null $RelatedElement
+ * @property-read \App\Models\Status|null $Status
+ * @property-read \App\Models\Access\User\User|null $UserCreator
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttributeHistory whereAction($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttributeHistory whereChangeNote($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttributeHistory whereCreatedAt($value)

@@ -12,13 +12,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  *
  * @property int $id
  * @property int $agent_id
- * @property \Carbon\Carbon $created_at
- * @property \Carbon\Carbon $updated_at
- * @property \Carbon\Carbon $deleted_at
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property \Carbon\Carbon|null $deleted_at
  * @property int $created_user_id
  * @property int $updated_user_id
- * @property int $deleted_user_id
- * @property string $child_updated_at
+ * @property int|null $deleted_user_id
+ * @property string|null $child_updated_at
  * @property int $child_updated_user_id
  * @property string $name
  * @property string $note
@@ -36,13 +36,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string $languages
  * @property string $repo
  * @property string $prefix
- * @property-read \App\Models\Access\User\User $creator
+ * @property-read \App\Models\Access\User\User|null $creator
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Element[] $elements
- * @property-read \App\Models\Access\User\User $eraser
- * @property-read \App\Models\Profile $profile
+ * @property-read \App\Models\Access\User\User|null $eraser
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Access\User\User[] $members
+ * @property-read \App\Models\Profile|null $profile
  * @property-read \App\Models\Project $project
  * @property-read \App\Models\Status $status
- * @property-read \App\Models\Access\User\User $updater
+ * @property-read \App\Models\Access\User\User|null $updater
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSet whereAgentId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSet whereBaseDomain($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSet whereChildUpdatedAt($value)

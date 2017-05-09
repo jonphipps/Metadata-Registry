@@ -11,31 +11,32 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * App\Models\Element
  *
  * @property int $id
- * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon $updated_at
- * @property string $deleted_at
- * @property int $created_user_id
- * @property int $updated_user_id
+ * @property string|null $deleted_at
+ * @property int|null $created_user_id
+ * @property int|null $updated_user_id
  * @property int $schema_id
  * @property string $name
  * @property string $label
- * @property string $definition
- * @property string $comment
+ * @property string|null $definition
+ * @property string|null $comment
  * @property string $type
- * @property int $is_subproperty_of
- * @property string $parent_uri
+ * @property int|null $is_subproperty_of
+ * @property string|null $parent_uri
  * @property string $uri
  * @property int $status_id
  * @property string $language
- * @property string $note
- * @property string $domain
- * @property string $orange
- * @property bool $is_deprecated Boolean. Has this class/property been deprecated
- * @property string $url
- * @property string $lexical_alias
+ * @property string|null $note
+ * @property string|null $domain
+ * @property string|null $orange
+ * @property int|null $is_deprecated Boolean. Has this class/property been deprecated
+ * @property string|null $url
+ * @property string|null $lexical_alias
  * @property string $hash_id
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ElementAttribute[] $ElementAttributes
- * @property-read \App\Models\ElementSet $ElementSet
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ElementAttribute[] $elementAttributes
+ * @property-read \App\Models\ElementSet $elementSet
+ * @property-read \App\Models\Status $status
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Element whereComment($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Element whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Element whereCreatedUserId($value)

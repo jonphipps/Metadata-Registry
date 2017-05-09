@@ -8,22 +8,22 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  *
  * @property int $id
  * @property int $agent_id
- * @property \Carbon\Carbon $created_at
- * @property \Carbon\Carbon $updated_at
- * @property string $deleted_at
- * @property int $created_by
- * @property int $updated_by
- * @property int $deleted_by
- * @property string $child_updated_at
- * @property int $child_updated_by
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property string|null $deleted_at
+ * @property int|null $created_by
+ * @property int|null $updated_by
+ * @property int|null $deleted_by
+ * @property string|null $child_updated_at
+ * @property int|null $child_updated_by
  * @property string $name
- * @property string $note
+ * @property string|null $note
  * @property string $uri
- * @property string $url
+ * @property string|null $url
  * @property string $base_domain
  * @property string $token
- * @property string $community
- * @property int $last_uri_id
+ * @property string|null $community
+ * @property int|null $last_uri_id
  * @property int $status_id
  * @property string $language
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ElementSet[] $ElementSets

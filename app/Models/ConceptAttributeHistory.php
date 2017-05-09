@@ -22,16 +22,16 @@ use App\Models\Access\User\User;
  * @property int $created_user_id The ID of the user that created the property
  * @property string $change_note
  * @property int $import_id
- * @property int $profile_property_id
- * @property-read \App\Models\Concept $Concept
- * @property-read \App\Models\ConceptAttribute $ConceptAttribute
- * @property-read \App\Models\FileImportHistory $FileImportHistory
- * @property-read \App\Models\Concept $ObjectConcept
- * @property-read \App\Models\Vocabulary $ObjectScheme
- * @property-read \App\Models\SkosProperty $SkosProperty
- * @property-read \App\Models\Status $Status
- * @property-read \App\Models\Access\User\User $UserCreator
- * @property-read \App\Models\Vocabulary $Vocabulary
+ * @property int|null $profile_property_id
+ * @property-read \App\Models\Concept|null $Concept
+ * @property-read \App\Models\ConceptAttribute|null $ConceptAttribute
+ * @property-read \App\Models\FileImportHistory|null $FileImportHistory
+ * @property-read \App\Models\Concept|null $ObjectConcept
+ * @property-read \App\Models\Vocabulary|null $ObjectScheme
+ * @property-read \App\Models\SkosProperty|null $SkosProperty
+ * @property-read \App\Models\Status|null $Status
+ * @property-read \App\Models\Access\User\User|null $UserCreator
+ * @property-read \App\Models\Vocabulary|null $Vocabulary
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttributeHistory whereAction($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttributeHistory whereChangeNote($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttributeHistory whereConceptId($value)

@@ -8,9 +8,9 @@ use App\Models\Access\User\User;
  * App\Models\Discuss
  *
  * @property int $id
- * @property \Carbon\Carbon $created_at
- * @property \Carbon\Carbon $updated_at
- * @property \Carbon\Carbon $deleted_at
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property \Carbon\Carbon|null $deleted_at
  * @property int $created_user_id
  * @property int $deleted_user_id
  * @property string $uri
@@ -24,16 +24,16 @@ use App\Models\Access\User\User;
  * @property int $parent_id
  * @property string $subject
  * @property string $content
- * @property-read \App\Models\Concept $Concept
- * @property-read \App\Models\ConceptAttribute $ConceptAttribute
- * @property-read \App\Models\Access\User\User $CreatedBy
- * @property-read \App\Models\Access\User\User $DeletedBy
- * @property-read \App\Models\Discuss $DiscussParent
- * @property-read \App\Models\Discuss $DiscussRoot
- * @property-read \App\Models\Element $Element
- * @property-read \App\Models\ElementAttribute $ElementAttribute
- * @property-read \App\Models\ElementSet $ElementSet
- * @property-read \App\Models\Vocabulary $Vocabulary
+ * @property-read \App\Models\Concept|null $Concept
+ * @property-read \App\Models\ConceptAttribute|null $ConceptAttribute
+ * @property-read \App\Models\Access\User\User|null $CreatedBy
+ * @property-read \App\Models\Access\User\User|null $DeletedBy
+ * @property-read \App\Models\Discuss|null $DiscussParent
+ * @property-read \App\Models\Discuss|null $DiscussRoot
+ * @property-read \App\Models\Element|null $Element
+ * @property-read \App\Models\ElementAttribute|null $ElementAttribute
+ * @property-read \App\Models\ElementSet|null $ElementSet
+ * @property-read \App\Models\Vocabulary|null $Vocabulary
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Discuss whereConceptId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Discuss whereConceptPropertyId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Discuss whereContent($value)

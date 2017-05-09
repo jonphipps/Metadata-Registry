@@ -4,9 +4,9 @@
  * App\Models\ArcId2val
  *
  * @property int $id
- * @property bool $misc
+ * @property int $misc
  * @property string $val
- * @property bool $val_type
+ * @property int $val_type
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ArcId2val whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ArcId2val whereMisc($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ArcId2val whereVal($value)

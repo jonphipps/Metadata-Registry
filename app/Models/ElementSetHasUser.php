@@ -9,9 +9,9 @@ use App\Models\Access\User\User;
  * App\Models\ElementSetHasUser
  *
  * @property int $id
- * @property \Carbon\Carbon $created_at
- * @property \Carbon\Carbon $updated_at
- * @property \Carbon\Carbon $deleted_at
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property \Carbon\Carbon|null $deleted_at
  * @property int $schema_id
  * @property int $user_id
  * @property bool $is_maintainer_for

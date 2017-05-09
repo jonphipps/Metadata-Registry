@@ -5,7 +5,7 @@
  *
  * @property int $id
  * @property int $cid
- * @property bool $misc
+ * @property int $misc
  * @property string $val
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ArcO2val whereCid($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ArcO2val whereId($value)

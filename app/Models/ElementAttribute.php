@@ -11,27 +11,27 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * App\Models\ElementAttribute
  *
  * @property int $id
- * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon $updated_at
- * @property \Carbon\Carbon $deleted_at
- * @property int $created_user_id
- * @property int $updated_user_id
- * @property int $deleted_user_id
+ * @property \Carbon\Carbon|null $deleted_at
+ * @property int|null $created_user_id
+ * @property int|null $updated_user_id
+ * @property int|null $deleted_user_id
  * @property int $schema_property_id
  * @property int $profile_property_id
- * @property bool $is_schema_property
+ * @property int|null $is_schema_property
  * @property string $object
- * @property int $related_schema_property_id
+ * @property int|null $related_schema_property_id
  * @property string $language
- * @property int $status_id
- * @property bool $is_generated
- * @property-read \App\Models\Element $Element
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ElementAttributeHistory[] $ElementAttributeHistory
- * @property-read \App\Models\ProfileProperty $ProfileProperty
- * @property-read \App\Models\Status $Status
- * @property-read \App\Models\Access\User\User $creator
- * @property-read \App\Models\Access\User\User $eraser
- * @property-read \App\Models\Access\User\User $updater
+ * @property int|null $status_id
+ * @property int $is_generated
+ * @property-read \App\Models\Access\User\User|null $creator
+ * @property-read \App\Models\Element $element
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ElementAttributeHistory[] $elementAttributeHistory
+ * @property-read \App\Models\Access\User\User|null $eraser
+ * @property-read \App\Models\ProfileProperty $profileProperty
+ * @property-read \App\Models\Status|null $status
+ * @property-read \App\Models\Access\User\User|null $updater
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereCreatedUserId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereDeletedAt($value)

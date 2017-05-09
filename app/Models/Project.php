@@ -9,10 +9,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * App\Models\Project
  *
  * @property int $id
- * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon $updated_at
  * @property \Carbon\Carbon $last_updated
- * @property \Carbon\Carbon $deleted_at
+ * @property \Carbon\Carbon|null $deleted_at
  * @property string $org_email
  * @property string $org_name
  * @property string $ind_affiliation
@@ -26,42 +26,42 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string $phone
  * @property string $web_address
  * @property string $type
- * @property string $repo
- * @property bool $is_private
- * @property string $license
- * @property string $description
- * @property int $created_by
- * @property int $updated_by
- * @property int $deleted_by
+ * @property string|null $repo
+ * @property int $is_private
+ * @property string|null $license
+ * @property string|null $description
+ * @property int|null $created_by
+ * @property int|null $updated_by
+ * @property int|null $deleted_by
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ElementSet[] $elementSets
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Access\User\User[] $members
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Profile[] $profiles
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Access\User\User[] $users
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Vocabulary[] $vocabularies
- * @method static \Illuminate\Database\Query\Builder|Project whereAddress1( $value )
- * @method static \Illuminate\Database\Query\Builder|Project whereAddress2( $value )
- * @method static \Illuminate\Database\Query\Builder|Project whereCity( $value )
- * @method static \Illuminate\Database\Query\Builder|Project whereCountry( $value )
- * @method static \Illuminate\Database\Query\Builder|Project whereCreatedAt( $value )
- * @method static \Illuminate\Database\Query\Builder|Project whereCreatedBy( $value )
- * @method static \Illuminate\Database\Query\Builder|Project whereDeletedAt( $value )
- * @method static \Illuminate\Database\Query\Builder|Project whereDeletedBy( $value )
- * @method static \Illuminate\Database\Query\Builder|Project whereDescription( $value )
- * @method static \Illuminate\Database\Query\Builder|Project whereId( $value )
- * @method static \Illuminate\Database\Query\Builder|Project whereIndAffiliation( $value )
- * @method static \Illuminate\Database\Query\Builder|Project whereIndRole( $value )
- * @method static \Illuminate\Database\Query\Builder|Project whereIsPrivate( $value )
- * @method static \Illuminate\Database\Query\Builder|Project whereLastUpdated( $value )
- * @method static \Illuminate\Database\Query\Builder|Project whereLicense( $value )
- * @method static \Illuminate\Database\Query\Builder|Project whereOrgEmail( $value )
- * @method static \Illuminate\Database\Query\Builder|Project whereOrgName( $value )
- * @method static \Illuminate\Database\Query\Builder|Project wherePhone( $value )
- * @method static \Illuminate\Database\Query\Builder|Project wherePostalCode( $value )
- * @method static \Illuminate\Database\Query\Builder|Project whereRepo( $value )
- * @method static \Illuminate\Database\Query\Builder|Project whereState( $value )
- * @method static \Illuminate\Database\Query\Builder|Project whereType( $value )
- * @method static \Illuminate\Database\Query\Builder|Project whereUpdatedAt( $value )
- * @method static \Illuminate\Database\Query\Builder|Project whereUpdatedBy( $value )
- * @method static \Illuminate\Database\Query\Builder|Project whereWebAddress( $value )
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereAddress1($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereAddress2($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereCity($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereCountry($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereCreatedBy($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereDeletedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereDeletedBy($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereDescription($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereIndAffiliation($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereIndRole($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereIsPrivate($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereLastUpdated($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereLicense($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereOrgEmail($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereOrgName($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Project wherePhone($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Project wherePostalCode($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereRepo($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereState($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereType($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereWebAddress($value)
  * @mixin \Eloquent
  */
 class Project extends Model

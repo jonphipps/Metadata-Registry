@@ -9,25 +9,25 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * App\Models\ConceptAttribute
  *
  * @property int $id
- * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon $updated_at
- * @property string $deleted_at
- * @property string $last_updated
- * @property int $created_user_id
- * @property int $updated_user_id
+ * @property string|null $deleted_at
+ * @property string|null $last_updated
+ * @property int|null $created_user_id
+ * @property int|null $updated_user_id
  * @property int $concept_id
- * @property bool $primary_pref_label
- * @property int $skos_property_id
- * @property string $object
- * @property int $scheme_id
- * @property int $related_concept_id
- * @property string $language
- * @property int $status_id
- * @property bool $is_concept_property
- * @property int $profile_property_id
- * @property bool $is_generated
- * @property-read \App\Models\Concept $Concept
- * @property-read \App\Models\ProfileProperty $ProfileProperty
+ * @property int|null $primary_pref_label
+ * @property int|null $skos_property_id
+ * @property string|null $object
+ * @property int|null $scheme_id
+ * @property int|null $related_concept_id
+ * @property string|null $language
+ * @property int|null $status_id
+ * @property int $is_concept_property
+ * @property int|null $profile_property_id
+ * @property int $is_generated
+ * @property-read \App\Models\Concept $concept
+ * @property-read \App\Models\ProfileProperty|null $profileProperty
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttribute whereConceptId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttribute whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttribute whereCreatedUserId($value)

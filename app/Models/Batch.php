@@ -4,11 +4,11 @@
  * App\Models\Batch
  *
  * @property int $id
- * @property \Carbon\Carbon $run_time
+ * @property \Carbon\Carbon|null $run_time
  * @property string $run_description
  * @property string $object_type
  * @property int $object_id
- * @property \Carbon\Carbon $event_time
+ * @property \Carbon\Carbon|null $event_time
  * @property string $event_type
  * @property string $event_description
  * @property string $registry_uri

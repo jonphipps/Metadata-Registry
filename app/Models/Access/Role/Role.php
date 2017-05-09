@@ -14,9 +14,10 @@ use App\Models\Access\Role\Traits\Relationship\RoleRelationship;
  * @property int $id
  * @property string $name
  * @property string $display_name
- * @property bool $all
+ * @property int $all
  * @property int $sort
- * @property \Carbon\Carbon $updated_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property \Carbon\Carbon|null $created_at
  * @property-read string $action_buttons
  * @property-read string $delete_button
  * @property-read string $edit_button
@@ -24,6 +25,7 @@ use App\Models\Access\Role\Traits\Relationship\RoleRelationship;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Access\User\User[] $users
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\Role\Role sort($direction = 'asc')
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\Role\Role whereAll($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\Role\Role whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\Role\Role whereDisplayName($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\Role\Role whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\Role\Role whereName($value)

@@ -8,14 +8,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  *
  * @property int $id
  * @property int $schema_id
- * @property string $created_at
- * @property \Carbon\Carbon $deleted_at
- * @property int $created_user_id
- * @property int $updated_user_id
+ * @property string|null $created_at
+ * @property \Carbon\Carbon|null $deleted_at
+ * @property int|null $created_user_id
+ * @property int|null $updated_user_id
  * @property string $token
- * @property string $note
+ * @property string|null $note
  * @property string $uri
- * @property string $schema_location
+ * @property string|null $schema_location
  * @property-read \App\Models\ElementSet $ElementSet
  * @method static \Illuminate\Database\Query\Builder|\App\Models\RdfNamespace whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\RdfNamespace whereCreatedUserId($value)

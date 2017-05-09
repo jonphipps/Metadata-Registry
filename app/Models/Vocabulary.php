@@ -14,37 +14,39 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  *
  * @property int $id
  * @property int $agent_id
- * @property \Carbon\Carbon $created_at
- * @property \Carbon\Carbon $deleted_at
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $deleted_at
  * @property \Carbon\Carbon $last_updated
- * @property int $created_user_id
- * @property int $updated_user_id
- * @property int $deleted_user_id
- * @property string $child_updated_at
- * @property int $child_updated_user_id
+ * @property int|null $created_user_id
+ * @property int|null $updated_user_id
+ * @property int|null $deleted_user_id
+ * @property string|null $child_updated_at
+ * @property int|null $child_updated_user_id
  * @property string $name
- * @property string $note
+ * @property string|null $note
  * @property string $uri
- * @property string $url
+ * @property string|null $url
  * @property string $base_domain
  * @property string $token
- * @property string $community
- * @property int $last_uri_id
+ * @property string|null $community
+ * @property int|null $last_uri_id
  * @property int $status_id This will be the default status id for all concept properties for this vocabulary
  * @property string $language This is the default language for all concept properties
- * @property string $languages
- * @property int $profile_id
+ * @property string|null $languages
+ * @property int|null $profile_id
  * @property string $ns_type
- * @property string $prefixes
- * @property string $repo
+ * @property string|null $prefixes
+ * @property string|null $repo
  * @property string $prefix
+ * @property \Carbon\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Concept[] $concepts
- * @property-read \App\Models\Access\User\User $creator
- * @property-read \App\Models\Access\User\User $eraser
- * @property-read \App\Models\Profile $profile
+ * @property-read \App\Models\Access\User\User|null $creator
+ * @property-read \App\Models\Access\User\User|null $eraser
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Access\User\User[] $members
+ * @property-read \App\Models\Profile|null $profile
  * @property-read \App\Models\Project $project
- * @property-read \App\Models\Access\User\User $updater
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Access\User\User[] $users
+ * @property-read \App\Models\Status $status
+ * @property-read \App\Models\Access\User\User|null $updater
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Vocabulary whereAgentId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Vocabulary whereBaseDomain($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Vocabulary whereChildUpdatedAt($value)
@@ -68,6 +70,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Vocabulary whereRepo($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Vocabulary whereStatusId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Vocabulary whereToken($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Vocabulary whereUpdatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Vocabulary whereUpdatedUserId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Vocabulary whereUri($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Vocabulary whereUrl($value)
