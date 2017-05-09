@@ -127,6 +127,8 @@
         "mpociot/laravel-test-factory-helper": "^0.4.0",
         "orangehill/iseed": "dev-master",
         "phpunit/phpunit": "5.7.x",
+        "reliese/laravel": "^0.0.13",
+        "spatie/phpunit-snapshot-assertions": "^0.4.1",
         "sstalle/php7cc": "^1.1",
         "tightenco/mailthief": "^0.3.4",
         "werxe/whoops-laravel": "^2.0@dev",
