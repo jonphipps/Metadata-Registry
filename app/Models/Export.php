@@ -26,14 +26,14 @@ use function unserialize;
  * @property bool                                   $include_generated
  * @property bool                                   $include_deleted
  * @property bool                                   $include_not_accepted
- * @property string|null                            $selected_columns
+ * @property \Illuminate\Support\Collection|null    $selected_columns
  * @property string|null                            $selected_language
  * @property string|null                            $published_english_version
  * @property string|null                            $published_language_version
  * @property \Carbon\Carbon|null                    $last_vocab_update
  * @property int                                    $profile_id
  * @property string|null                            $file
- * @property string|null                            $map
+ * @property \Illuminate\Support\Collection|null    $map
  * @property-read \App\Models\ElementSet|null       $elementSet
  * @property-read \App\Models\Profile|null          $profile
  * @property-read \App\Models\Access\User\User|null $user
