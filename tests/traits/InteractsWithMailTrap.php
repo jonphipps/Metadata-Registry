@@ -1,6 +1,6 @@
 <?php
 
-namespace tests\traits;
+namespace Tests\traits;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Stream;
