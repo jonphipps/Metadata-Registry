@@ -165,4 +165,9 @@ class Export extends Eloquent
     {
         return $this->belongsTo(Vocabulary::class, 'vocabulary_id');
     }
+
+    public static function findByExportFileName($name)
+    {
+        return self::whereFile($name)->firstOrFail();
+    }
 }
