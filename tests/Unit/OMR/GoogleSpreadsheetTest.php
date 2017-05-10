@@ -5,13 +5,12 @@
 namespace Tests\Unit\OMR;
 
 use App\Services\Import\GoogleSpreadsheet;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Spatie\Snapshots\MatchesSnapshots;
 use Tests\TestCase;
 
 class GoogleSpreadsheetTest extends TestCase
 {
-    use DatabaseTransactions;
-
+    use MatchesSnapshots;
     /**
      * @test
      */
@@ -39,11 +38,9 @@ class GoogleSpreadsheetTest extends TestCase
         $sheetUrl = 'https://docs.google.com/spreadsheets/d/1WTxiOvHHUurz76NZ0WU_2GjjY4SG8Gzbg0vH8xwNz_I/edit#gid=0';
         $sheet    = new GoogleSpreadsheet($sheetUrl);
         //when I request the data for a worksheet
-        $data = $sheet->getWorksheetData('worksheet data test')->toArray();
+        $data = $sheet->getWorksheetData('RDAMediaType_en-fr_20170508T205240_547_0')->toArray();
         //then i get the data back
-        //dd($data);
-        $expected = [ [ 'reg_id', 'header B1' ], [ "data A2", "data B2" ] ];
-        $this->assertSame($expected, $data);
+        $this->assertMatchesSnapshot($data);
     }
 
     public function setUp()
