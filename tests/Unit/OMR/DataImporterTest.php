@@ -6,6 +6,7 @@ namespace Tests\Unit\OMR;
 
 use App\Models\Export;
 use App\Services\Import\DataImporter;
+use function db2_conn_error;
 use Spatie\Snapshots\MatchesSnapshots;
 use Tests\TestCase;
 use function collect;
@@ -23,8 +24,9 @@ class DataImporterTest extends TestCase
     }
 
     /** @test */
-    public function it_builds_an_array_of_changes_to_the_dataset_froma_worksheet_and_export_map()
+    public function it_builds_an_array_of_updates_to_the_dataset_from_a_worksheet_and_export_map()
     {
+        $this->artisan('db:seed',['--class'=> 'RDAMediaTypeSeeder']);
         //given a data set pulled from a worksheet
         $data   = collect($this->getWorksheetData());
         $map    = $this->getMap()->toArray();
@@ -37,7 +39,57 @@ class DataImporterTest extends TestCase
         //when i pass them to the importer
         $changeSet = $importer->getChageset();
         //then i get back a list of fields that will change
-        $this->assertMatchesSnapshot($changeSet);
+        $this->assertMatchesSnapshot($changeSet->toArray());
+    }
+
+    /** @test */
+    public function it_builds_an_array_of_additions_to_the_dataset_froma_worksheet_and_export_map()
+    {
+        //given a data set pulled from a worksheet
+        $data   = collect($this->getWorksheetData());
+        //add a new row that has no reg_id
+        $newRow = $data[8];
+        $newRow[0]='';
+        $newRow[1] = 'New Video Row';
+        $newRow[15] = 'RDAMediaType:1009';
+        $data[]=$newRow;
+        $map    = $this->getMap()->toArray();
+        $export = factory(Export::class)->make([
+            'map'              => $map,
+            'selected_columns' => $this->getColumns(),
+        ]);
+        //and an export map
+        $importer = new DataImporter($data, $export);
+        //when i pass them to the importer
+        $newRows = $importer->getAddRows();
+        $updatedRows = $importer->getUpdateRows();
+        //then i get back a list of fields that will be added
+        $this->assertMatchesSnapshot($newRows->toArray());
+        //and i get back a list of fields that will be updated
+        $this->assertMatchesSnapshot($updatedRows->toArray());
+    }
+
+    /** @test */
+    public function it_builds_an_array_of_deleted_rows_missing_froma_worksheet_but_present_in_export_map()
+    {
+        //given a data set pulled from a worksheet
+        $data = collect($this->getWorksheetData());
+        //add a new row that has no reg_id
+        $deletedRow = $data->pop();
+        $map        = $this->getMap()->toArray();
+        $export     = factory(Export::class)->make([
+            'map'              => $map,
+            'selected_columns' => $this->getColumns(),
+        ]);
+        //and an export map
+        $importer = new DataImporter($data, $export);
+        //when i pass them to the importer
+        $deletedRows = $importer->getDeleteRows();
+        $updatedRows = $importer->getUpdateRows();
+        //then i get back a list of fields that will be deleted
+        $this->assertMatchesSnapshot($deletedRows->toArray());
+        //and i get back a list of fields that will be updated
+        $this->assertMatchesSnapshot($updatedRows->toArray());
     }
 
     /** @test */
