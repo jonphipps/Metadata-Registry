@@ -1,0 +1,2 @@
+INSERT INTO `reg_agent` (`id`, `created_at`, `updated_at`, `last_updated`, `deleted_at`, `org_email`, `org_name`, `ind_affiliation`, `ind_role`, `address1`, `address2`, `city`, `state`, `postal_code`, `country`, `phone`, `web_address`, `type`, `repo`, `is_private`, `license`, `description`, `created_by`, `updated_by`, `deleted_by`) VALUES
+	(177,'2014-01-13 09:58:44','2017-03-18 15:04:17','2016-07-08 05:52:17',NULL,'rscchair@rdatoolkit.org','ALA Publishing','',NULL,'','','','','','US','','','Individual',NULL,0,NULL,NULL,NULL,NULL,NULL);
