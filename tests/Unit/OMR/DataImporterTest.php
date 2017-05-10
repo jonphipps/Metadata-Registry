@@ -29,11 +29,7 @@ class DataImporterTest extends TestCase
         $this->artisan('db:seed',['--class'=> 'RDAMediaTypeSeeder']);
         //given a data set pulled from a worksheet
         $data   = collect($this->getWorksheetData());
-        $map    = $this->getMap()->toArray();
-        $export = factory(Export::class)->make([
-            'map'              => $map,
-            'selected_columns' => $this->getColumns(),
-        ]);
+        $export = Export::findByExportFileName('RDAMediaType_en-fr_20170508T205240_547_0.csv');
         //and an export map
         $importer = new DataImporter($data, $export);
         //when i pass them to the importer
