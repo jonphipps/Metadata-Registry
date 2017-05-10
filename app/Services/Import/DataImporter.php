@@ -4,7 +4,9 @@
 
 namespace App\Services\Import;
 
+use App\Models\Concept;
 use App\Models\Export;
+use Illuminate\Database\Eloquent\Collection as DBCollection;
 use Illuminate\Support\Collection;
 use function collect;
 
@@ -34,6 +36,9 @@ class DataImporter
     /** @var Collection $updateRows */
     private $deleteRows;
 
+    /** @var DBCollection $statements */
+    private $statements;
+
     public function __construct(collection $data, Export $export = null)
     {
         $this->data    = $data;
@@ -45,6 +50,8 @@ class DataImporter
             $this->rowMap     = self::getRowMap($export->map);
             $this->updateRows = $this->getUpdateRows(); //gets data rows with matching map
             $this->deleteRows = $this->getDeleteRows(); //gets map rows with no matching row
+            $this->statements = $this->getStatements();
+
         }
     }
 
@@ -70,13 +77,15 @@ class DataImporter
     {
         $rows   = $this->updateRows;
         $rowMap = $this->rowMap;
+        $statements = $this->statements;
 
         return $rows->transform(function (Collection $row, $key) use ($rowMap) {
             $map = $rowMap[$key];
 
             return $row->map(function ($value, $column) use ($map) {
-                return [ 'new value'    => $value,
-                         'statement_id' => $map->get($column),
+                return [
+                    'new value'    => $value,
+                    'statement_id' => $map->get($column),
                 ];
             })->reject(function ($array) {
                 return empty($array['new value']) && empty($array['statement_id']);
@@ -139,6 +148,18 @@ class DataImporter
                 return [ $p[$key]['label'] => $item ];
             });
         });
+    }
+
+    public function getStatements()
+    {
+        return Concept::whereVocabularyId($this->export->vocabulary_id)->with('properties.profileProperty')->get()->keyBy('id')->map(function ($concept, $key) {
+                return $concept->properties->keyBy('id')->map(function ($property) {
+                        return [
+                            'old value'  => $property->object,
+                            'updated_at' => $property->updated_at,
+                        ];
+                    });
+            });
     }
 
     public function getUpdateRows()
