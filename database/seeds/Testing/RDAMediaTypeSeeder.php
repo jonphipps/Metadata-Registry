@@ -42,7 +42,7 @@ class RDAMediaTypeSeeder extends Seeder
         DB::statement($updateStatement);
 
         Project::truncate();
-        $updateStatement = file_get_contents(__DIR__ . '/RDAMediaTypeProject.sql');
+        $updateStatement = file_get_contents(__DIR__ . '/RDAProject.sql');
         DB::statement($updateStatement);
 
         $this->enableForeignKeys();
