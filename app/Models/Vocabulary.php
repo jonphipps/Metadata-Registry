@@ -104,7 +104,7 @@ class Vocabulary extends Model
                 $languages = [ 'en' ];
             }
         } else {
-            $languages = unserialize($value);
+            $languages = unserialize($value,[true]);
         }
 
         return $languages;
@@ -119,7 +119,7 @@ class Vocabulary extends Model
 
     public function getPrefixesAttribute($value)
     {
-        return unserialize($value);
+        return unserialize($value,[true]);
     }
 
 
