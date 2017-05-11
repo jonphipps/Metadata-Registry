@@ -24,17 +24,38 @@ class DataImporterTest extends TestCase
     }
 
     /** @test */
-    public function it_builds_an_array_of_updates_to_the_dataset_from_a_worksheet_and_export_map()
+    public function if_the_dataset_and_the_export_map_are_the_same_then_there_are_no_updates()
     {
         $this->artisan('db:seed',['--class'=> 'RDAMediaTypeSeeder']);
         //given a data set pulled from a worksheet
         $data   = collect($this->getWorksheetData());
-        $export = Export::findByExportFileName('RDAMediaType_en-fr_20170508T205240_547_0.csv');
+        $export = Export::findByExportFileName('RDAMediaType_en-fr_20170511T172922_569_0.csv');
         //and an export map
         $importer = new DataImporter($data, $export);
         //when i pass them to the importer
-        $changeSet = $importer->getChageset();
-        //then i get back a list of fields that will change
+        $changeSet = $importer->getChangeset();
+        //then i get back a list of fields that will change, none in this case
+        $this->assertEquals(0, $changeSet->count());
+    }
+
+    /** @test */
+    public function it_builds_an_array_of_updates_to_the_dataset_from_a_worksheet_and_export_map()
+    {
+        $this->artisan('db:seed', [ '--class' => 'RDAMediaTypeSeeder' ]);
+        //given a data set pulled from a worksheet
+        $data   = collect($this->getWorksheetData());
+        $row = $data->pull(8);
+        $row[4] = 'bingo';
+        $row[5] = 'foobar';
+        $row[6] = '';
+        $data->put(8,$row);
+        $export = Export::findByExportFileName('RDAMediaType_en-fr_20170511T172922_569_0.csv');
+        //and an export map
+        $importer = new DataImporter($data, $export);
+        //when i pass them to the importer
+        $changeSet = $importer->getChangeset();
+        //then i get back a list of fields that will change, none in this case
+        $this->assertEquals(1, $changeSet->count());
         $this->assertMatchesSnapshot($changeSet->toArray());
     }
 
@@ -238,7 +259,7 @@ SQL;
      */
     private function getWorksheetData()
     {
-        return include_once __DIR__ . '/__snapshots__/GoogleSpreadsheetTest__it_retrieves_the_data_for_a_worksheet__1.php';
+        return include __DIR__ . '/__snapshots__/GoogleSpreadsheetTest__it_retrieves_the_data_for_a_worksheet__1.php';
     }
 
 }

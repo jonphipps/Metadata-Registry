@@ -8,6 +8,7 @@ use App\Models\Concept;
 use App\Models\Export;
 use Illuminate\Database\Eloquent\Collection as DBCollection;
 use Illuminate\Support\Collection;
+use const null;
 use function collect;
 
 class DataImporter
@@ -39,6 +40,9 @@ class DataImporter
     /** @var DBCollection $statements */
     private $statements;
 
+    /** @var array $prefixes */
+    private $prefixes = [];
+
     public function __construct(collection $data, Export $export = null)
     {
         $this->data    = $data;
@@ -51,6 +55,7 @@ class DataImporter
             $this->updateRows = $this->getUpdateRows(); //gets data rows with matching map
             $this->deleteRows = $this->getDeleteRows(); //gets map rows with no matching row
             $this->statements = $this->getStatements();
+            $this->prefixes =  $export->vocabulary->prefixes;
 
         }
     }
@@ -73,27 +78,43 @@ class DataImporter
      * @internal param Collection $map
      * @internal param array $rowMap
      */
-    public function getChageset(): Collection
+    public function getChangeset(): Collection
     {
         $rows   = $this->updateRows;
         $rowMap = $this->rowMap;
         $statements = $this->statements;
 
-        return $rows->transform(function (Collection $row, $key) use ($rowMap) {
+        $changeSet =  $rows->map(function (Collection $row, $key) use ($rowMap, $statements) {
             $map = $rowMap[$key];
-
-            return $row->map(function ($value, $column) use ($map) {
+            $statementRow = $statements[$key];
+            return $row->map(function ($value, $column) use ($map, $statementRow) {
+                // this is to correct for export maps that have '0' for a statement cell reference, but do have data in the statement row
+                $statementId = ($map->get($column) !== 0) ? $map->get($column) : $column;
+                $statement = $statementId ? collect($statementRow->pull($statementId)): null;
                 return [
                     'new value'    => $value,
-                    'statement_id' => $map->get($column),
+                    'old value' => $statement ? $statement->get('old value') : null,
+                    'statement_id' => $statementId,
+                    'updated_at' => $statement ? $statement->get('updated_at'): null
                 ];
             })->reject(function ($array) {
-                return empty($array['new value']) && empty($array['statement_id']);
+                return empty($array['new value']) && empty($array['statement_id']); //remove all of the items that have been, and continue to be, empty
             })->reject(function ($array, $arrayKey) {
-                return $arrayKey === 'reg_id';
+                return $arrayKey === 'reg_id'; //remove all of the reg_id items
+            })->reject(function ($array) {
+                return $array['new value'] === $array['old value']; //reject every item that has no changes
+            })->reject(function ($array) {
+                //reset the URI to be fully qualified
+                if ($array['statement_id'] === '*uri'){
+                    $array['new value'] = self::makeFqn($this->prefixes, $array['new value']);
+                }
+                return $array['new value'] === $array['old value']; //reject if the URIs match
             });
+        })->reject(function (Collection $items){
+            return $items->count() === 0; //reject every row that no longer has items
         });
 
+        return $changeSet;
     }
 
     /**
@@ -152,14 +173,25 @@ class DataImporter
 
     public function getStatements()
     {
-        return Concept::whereVocabularyId($this->export->vocabulary_id)->with('properties.profileProperty')->get()->keyBy('id')->map(function ($concept, $key) {
-                return $concept->properties->keyBy('id')->map(function ($property) {
-                        return [
-                            'old value'  => $property->object,
-                            'updated_at' => $property->updated_at,
-                        ];
-                    });
-            });
+        return Concept::whereVocabularyId($this->export->vocabulary_id)->with('properties.profileProperty', 'status')->get()->keyBy('id')->map(function ($concept, $key) {
+            $properties =  $concept->properties->keyBy('id')->map(function ($property)  {
+                return [
+                    'old value'  => $property->object,
+                    'updated_at' => $property->updated_at,
+                ];
+            })
+                ->prepend([
+                'old value'  => $concept->uri,
+                'updated_at' => $concept->updated_at,
+            ],
+                '*uri')
+                ->prepend([
+                'old value'  => $concept->status->display_name,
+                'updated_at' => $concept->updated_at,
+            ],
+                '*status');
+            return $properties;
+        });
     }
 
     public function getUpdateRows()
@@ -168,6 +200,24 @@ class DataImporter
         return $this->rows->reject(function ($row) {
             return empty($row['reg_id']);
         })->keyBy('reg_id');
+    }
+
+    /**
+     * @param array  $prefixes
+     * @param string $uri
+     *
+     * @return string
+     */
+    private static function makeFqn($prefixes, $uri)
+    {
+        $result = $uri;
+        foreach ($prefixes as $prefix => $fullUri) {
+                $result = preg_replace('#' . $prefix . ':#uis', $fullUri, $uri);
+                if ($result !== $uri){
+                    break;
+                }
+            }
+        return $result;
 
     }
 
