@@ -151,6 +151,35 @@ class ElementSet extends Model
       'repo'        => 'required|max:255',
     ];
 
+    public function getLanguagesAttribute($value)
+    {
+        if (empty($value)) {
+            $languages = [ $this->language ];
+
+            if (empty($languages)) {
+                $languages = [ 'en' ];
+            }
+        } else {
+            $languages = unserialize($value, [ true ]);
+        }
+
+        return $languages;
+    }
+
+    public function setLanguagesAttribute($value)
+    {
+        $this->attributes['languages'] = serialize($value);
+    }
+
+    public function getPrefixesAttribute($value)
+    {
+        return unserialize($value, [ true ]);
+    }
+
+    public function setPrefixesAttribute($value)
+    {
+        $this->attributes['prefixes'] = serialize($value);
+    }
 
     public function profile()
     {
