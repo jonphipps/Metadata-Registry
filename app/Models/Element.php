@@ -78,7 +78,7 @@ class Element extends Model
     }
 
 
-    public function elementAttributes()
+    public function properties()
     {
         return $this->hasMany(\App\Models\ElementAttribute::class, 'schema_property_id', 'id');
     }
