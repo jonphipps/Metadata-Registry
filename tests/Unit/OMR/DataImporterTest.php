@@ -6,6 +6,7 @@ namespace Tests\Unit\OMR;
 
 use App\Models\Export;
 use App\Services\Import\DataImporter;
+use function base_path;
 use function db2_conn_error;
 use Spatie\Snapshots\MatchesSnapshots;
 use Tests\TestCase;
@@ -28,8 +29,23 @@ class DataImporterTest extends TestCase
     {
         $this->artisan('db:seed',['--class'=> 'RDAMediaTypeSeeder']);
         //given a data set pulled from a worksheet
-        $data   = collect($this->getWorksheetData());
+        $data   = collect($this->getVocabularyWorksheetData());
         $export = Export::findByExportFileName('RDAMediaType_en-fr_20170511T172922_569_0.csv');
+        //and an export map
+        $importer = new DataImporter($data, $export);
+        //when i pass them to the importer
+        $changeSet = $importer->getChangeset();
+        //then i get back a list of fields that will change, none in this case
+        $this->assertEquals(0, $changeSet->count());
+    }
+
+    /** @test */
+    public function if_the_the_import_is_an_elementset_and_the_dataset_and_the_export_map_are_the_same_then_there_are_no_updates()
+    {
+        $this->artisan('db:seed', [ '--class' => 'RDAClassesSeeder' ]);
+        //given a data set pulled from a worksheet
+        $data   = collect($this->getElementSetWorksheetData());
+        $export = Export::findByExportFileName('rdac_en-fr_20170511T182904_570_0.csv');
         //and an export map
         $importer = new DataImporter($data, $export);
         //when i pass them to the importer
@@ -43,13 +59,34 @@ class DataImporterTest extends TestCase
     {
         $this->artisan('db:seed', [ '--class' => 'RDAMediaTypeSeeder' ]);
         //given a data set pulled from a worksheet
-        $data   = collect($this->getWorksheetData());
-        $row = $data->pull(8);
+        $data   = collect($this->getVocabularyWorksheetData());
+        $row    = $data->pull(8);
         $row[4] = 'bingo';
         $row[5] = 'foobar';
         $row[6] = '';
-        $data->put(8,$row);
+        $data->put(8, $row);
         $export = Export::findByExportFileName('RDAMediaType_en-fr_20170511T172922_569_0.csv');
+        //and an export map
+        $importer = new DataImporter($data, $export);
+        //when i pass them to the importer
+        $changeSet = $importer->getChangeset();
+        //then i get back a list of fields that will change, none in this case
+        $this->assertEquals(1, $changeSet->count());
+        $this->assertMatchesSnapshot($changeSet->toArray());
+    }
+
+    /** @test */
+    public function it_builds_an_array_of_elementset_updates_to_the_dataset_from_a_worksheet_and_export_map()
+    {
+        $this->artisan('db:seed', [ '--class' => 'RDAClassesSeeder' ]);
+        //given a data set pulled from a worksheet
+        $data   = collect($this->getElementSetWorksheetData());
+        $row    = $data->pull(8);
+        $row[2] = 'bingo';
+        $row[4] = 'foobar';
+        $row[5] = '';
+        $data->put(8, $row);
+        $export = Export::findByExportFileName('rdac_en-fr_20170511T182904_570_0.csv');
         //and an export map
         $importer = new DataImporter($data, $export);
         //when i pass them to the importer
@@ -63,7 +100,7 @@ class DataImporterTest extends TestCase
     public function it_builds_an_array_of_additions_to_the_dataset_froma_worksheet_and_export_map()
     {
         //given a data set pulled from a worksheet
-        $data   = collect($this->getWorksheetData());
+        $data   = collect($this->getVocabularyWorksheetData());
         //add a new row that has no reg_id
         $newRow = $data[8];
         $newRow[0]='';
@@ -90,7 +127,7 @@ class DataImporterTest extends TestCase
     public function it_builds_an_array_of_deleted_rows_missing_froma_worksheet_but_present_in_export_map()
     {
         //given a data set pulled from a worksheet
-        $data = collect($this->getWorksheetData());
+        $data = collect($this->getVocabularyWorksheetData());
         //add a new row that has no reg_id
         $deletedRow = $data->pop();
         $map        = $this->getMap()->toArray();
@@ -257,9 +294,17 @@ SQL;
     /**
      * @return \Illuminate\Support\Collection
      */
-    private function getWorksheetData()
+    private function getVocabularyWorksheetData()
     {
         return include __DIR__ . '/__snapshots__/GoogleSpreadsheetTest__it_retrieves_the_data_for_a_worksheet__1.php';
+    }
+
+    /**
+     * @return \Illuminate\Support\Collection
+     */
+    private function getElementSetWorksheetData()
+    {
+        return include __DIR__ . '/__snapshots__/GoogleSpreadsheetTest__it_retrieves_the_data_for_an_elementset_worksheet__1.php';
     }
 
 }

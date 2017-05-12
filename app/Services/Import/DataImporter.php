@@ -5,6 +5,7 @@
 namespace App\Services\Import;
 
 use App\Models\Concept;
+use App\Models\Element;
 use App\Models\Export;
 use Illuminate\Database\Eloquent\Collection as DBCollection;
 use Illuminate\Support\Collection;
@@ -54,8 +55,13 @@ class DataImporter
             $this->rowMap     = self::getRowMap($export->map);
             $this->updateRows = $this->getUpdateRows(); //gets data rows with matching map
             $this->deleteRows = $this->getDeleteRows(); //gets map rows with no matching row
-            $this->statements = $this->getStatements();
-            $this->prefixes =  $export->vocabulary->prefixes;
+            if ($export->vocabulary_id) {
+                $this->prefixes   = $export->vocabulary->prefixes;
+                $this->statements = $this->getVocabularyStatements();
+            } else {
+                $this->prefixes   = $export->elementSet->prefixes;
+                $this->statements = $this->getElementSetStatements();
+            }
 
         }
     }
@@ -80,22 +86,24 @@ class DataImporter
      */
     public function getChangeset(): Collection
     {
-        $rows   = $this->updateRows;
-        $rowMap = $this->rowMap;
+        $rows       = $this->updateRows;
+        $rowMap     = $this->rowMap;
         $statements = $this->statements;
 
-        $changeSet =  $rows->map(function (Collection $row, $key) use ($rowMap, $statements) {
-            $map = $rowMap[$key];
+        $changeSet = $rows->map(function (Collection $row, $key) use ($rowMap, $statements) {
+            $map          = $rowMap[$key];
             $statementRow = $statements[$key];
+
             return $row->map(function ($value, $column) use ($map, $statementRow) {
                 // this is to correct for export maps that have '0' for a statement cell reference, but do have data in the statement row
-                $statementId = ($map->get($column) !== 0) ? $map->get($column) : $column;
-                $statement = $statementId ? collect($statementRow->pull($statementId)): null;
+                $statementId = ( $map->get($column) !== 0 ) ? $map->get($column) : $column;
+                $statement   = $statementId ? collect($statementRow->pull($statementId)) : null;
+
                 return [
                     'new value'    => $value,
-                    'old value' => $statement ? $statement->get('old value') : null,
+                    'old value'    => $statement ? $statement->get('old value') : null,
                     'statement_id' => $statementId,
-                    'updated_at' => $statement ? $statement->get('updated_at'): null
+                    'updated_at'   => $statement ? $statement->get('updated_at') : null,
                 ];
             })->reject(function ($array) {
                 return empty($array['new value']) && empty($array['statement_id']); //remove all of the items that have been, and continue to be, empty
@@ -105,12 +113,13 @@ class DataImporter
                 return $array['new value'] === $array['old value']; //reject every item that has no changes
             })->reject(function ($array) {
                 //reset the URI to be fully qualified
-                if ($array['statement_id'] === '*uri'){
+                if ($array['statement_id'] === '*uri') {
                     $array['new value'] = self::makeFqn($this->prefixes, $array['new value']);
                 }
+
                 return $array['new value'] === $array['old value']; //reject if the URIs match
             });
-        })->reject(function (Collection $items){
+        })->reject(function (Collection $items) {
             return $items->count() === 0; //reject every row that no longer has items
         });
 
@@ -171,35 +180,62 @@ class DataImporter
         });
     }
 
-    public function getStatements()
-    {
-        return Concept::whereVocabularyId($this->export->vocabulary_id)->with('properties.profileProperty', 'status')->get()->keyBy('id')->map(function ($concept, $key) {
-            $properties =  $concept->properties->keyBy('id')->map(function ($property)  {
-                return [
-                    'old value'  => $property->object,
-                    'updated_at' => $property->updated_at,
-                ];
-            })
-                ->prepend([
-                'old value'  => $concept->uri,
-                'updated_at' => $concept->updated_at,
-            ],
-                '*uri')
-                ->prepend([
-                'old value'  => $concept->status->display_name,
-                'updated_at' => $concept->updated_at,
-            ],
-                '*status');
-            return $properties;
-        });
-    }
-
     public function getUpdateRows()
     {
         //only keep rows that have a non-empty reg_id
         return $this->rows->reject(function ($row) {
             return empty($row['reg_id']);
         })->keyBy('reg_id');
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getVocabularyStatements()
+    {
+        return Concept::whereVocabularyId($this->export->vocabulary_id)->with('properties.profileProperty', 'status')->get()->keyBy('id')->map(function ($concept, $key) {
+            return $concept->properties->keyBy('id')->map(function ($property) {
+                return [
+                    'old value'  => $property->object,
+                    'updated_at' => $property->updated_at,
+                ];
+            })->prepend([
+                'old value'  => $concept->uri,
+                'updated_at' => $concept->updated_at,
+            ],
+                '*uri')->prepend([
+                    'old value'  => $concept->status->display_name,
+                    'updated_at' => $concept->updated_at,
+                ],
+                    '*status');
+        });
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getElementSetStatements()
+    {
+        return Element::whereSchemaId($this->export->schema_id)->with('properties.profileProperty', 'status')->get()->keyBy('id')->map(function ($element, $key) {
+            $status = $element->status->display_name;
+            $thingy = $element->properties->keyBy('id')->map(function ($property) {
+                return [
+                    'old value'  => $property->object,
+                    'updated_at' => $property->updated_at,
+                    'profile_uri' => $property->profileProperty->uri,
+                    'is_resource' => (bool) $property->profileProperty->is_object_prop,
+                ];
+            })->map(function($item) use ($status){
+                if ($item['profile_uri'] === 'reg:status'){
+                    $item['old value'] = $status;
+                }
+                if ($item['is_resource']){
+                    $item['old value'] = self::makeCurie($this->prefixes, $item['old value']);
+                }
+                return $item;
+            });
+            return $thingy;
+        });
     }
 
     /**
@@ -212,13 +248,32 @@ class DataImporter
     {
         $result = $uri;
         foreach ($prefixes as $prefix => $fullUri) {
-                $result = preg_replace('#' . $prefix . ':#uis', $fullUri, $uri);
-                if ($result !== $uri){
-                    break;
-                }
+            $result = preg_replace('#' . $prefix . ':#uis', $fullUri, $uri);
+            if ($result !== $uri) {
+                break;
             }
-        return $result;
+        }
 
+        return $result;
+    }
+
+    /**
+     * @param array  $prefixes
+     * @param string $uri
+     *
+     * @return string
+     */
+    private static function makeCurie($prefixes, $uri)
+    {
+        $result = $uri;
+        foreach ($prefixes as $prefix => $fullUri) {
+            $result = preg_replace('!' . $fullUri . '!uis', $prefix . ':', $uri);
+            if ($result !== $uri) {
+                break;
+            }
+        }
+
+        return $result;
     }
 
 }
