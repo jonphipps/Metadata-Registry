@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
     <head>
         <title>Print Table</title>
@@ -15,7 +15,7 @@
     <body>
         <table class="table table-bordered table-condensed table-striped">
             @foreach($data as $row)
-                @if ($row == reset($data)) 
+                @if ($row == reset($data))
                     <tr>
                         @foreach($row as $key => $value)
                             <th>{!! $key !!}</th>

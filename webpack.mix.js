@@ -30,7 +30,10 @@ mix.sass('resources/assets/sass/frontend/app.scss', 'web/css/frontend.css')
             new WebpackRTLPlugin('/css/[name].rtl.css')
         ]
     })
-    .version();
+
+if(mix.config.inProduction){
+    mix.version();
+}
 /*
  | See https://browsersync.io/docs/options
 */

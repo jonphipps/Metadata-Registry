@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Backend\Access\User;
 
-use App\Models\Access\User\User;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Backend\Access\User\ManageUserRequest;
+use App\Http\Requests\Backend\Access\User\StoreUserRequest;
+use App\Http\Requests\Backend\Access\User\UpdateUserRequest;
+use App\Models\Access\User\User;
 use App\Repositories\Backend\Access\Role\RoleRepository;
 use App\Repositories\Backend\Access\User\UserRepository;
-use App\Http\Requests\Backend\Access\User\StoreUserRequest;
-use App\Http\Requests\Backend\Access\User\ManageUserRequest;
-use App\Http\Requests\Backend\Access\User\UpdateUserRequest;
 
 /**
  * Class UserController.
@@ -63,7 +63,9 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
-        $this->users->create(['data' => $request->only('name', 'email', 'password', 'status', 'confirmed', 'confirmation_email'), 'roles' => $request->only('assignees_roles')]);
+        $this->users->create([ 'data'  => $request->only('name', 'email', 'password', 'status', 'confirmed', 'confirmation_email'),
+                               'roles' => $request->only('assignees_roles'),
+        ]);
 
         return redirect()->route('admin.access.user.index')->withFlashSuccess(trans('alerts.backend.users.created'));
     }

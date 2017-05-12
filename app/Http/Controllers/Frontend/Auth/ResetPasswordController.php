@@ -75,6 +75,9 @@ class ResetPasswordController extends Controller
      */
     public function showResetForm($token = null)
     {
+        if (! $token) {
+            return redirect()->route('frontend.auth.password.email');
+        }
       /** @noinspection NonSecureExtractUsageInspection */
       extract($this->user->getEmailForPasswordToken($token));
 
@@ -130,4 +133,16 @@ class ResetPasswordController extends Controller
     {
         return redirect()->back()->withInput($request->only('name'))->withErrors([ 'name' => trans($response) ]);
     }
+
+    /**
+     * Get the response for a successful password reset.
+     *
+     * @param  string  $response
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    protected function sendResetResponse($response)
+    {
+        return redirect()->route(homeRoute())->withFlashSuccess(trans($response));
+    }
+
 }

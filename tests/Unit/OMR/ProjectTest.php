@@ -18,24 +18,20 @@ class ProjectTest extends TestCase
     parent::setUp();
   }
 
-  /**
-   * @test
-   */
-  public function get_only_public_projects()
-  {
-    //given there are public and private projects
-    $project1 = factory(Project::class)->create();
-    $project2 = factory(Project::class)->create([ 'is_private' => true ]);
-    //when I request only public projects
-    //then I don't see any private projects in the response
-    $this->assertEquals(3,
-        Project::count());
-    $this->assertEquals(2,
-        Project::public ()
-               ->count());
-    $this->assertEquals(1,
-        Project::private()->count());
-
-  }
+    /**
+     * @test
+     */
+    public function get_only_public_projects()
+    {
+        //given there are public and private projects
+        $projectCount = Project::count();
+        $project1     = factory(Project::class)->create();
+        $project2     = factory(Project::class)->create([ 'is_private' => true ]);
+        $this->assertEquals($projectCount + 2, Project::count());
+        //when I request only public projects
+        //then I don't see any private projects in the response
+        $this->assertEquals($projectCount + 1, Project::public()->count());
+        $this->assertEquals(1, Project::private()->count());
+    }
 
 }

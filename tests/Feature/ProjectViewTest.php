@@ -4,6 +4,8 @@ namespace Tests\Feature;
 
 use App\Models\Project;
 use App\Models\ProjectHasUser;
+use const ENT_QUOTES;
+use function htmlspecialchars;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
@@ -24,7 +26,7 @@ class ProjectViewTest extends TestCase
     $project = factory(Project::class)->create();
     //when I go to the url
     $this->get($this->baseUrl . '/projects/' . $project->id)
-        ->assertSeeText($project->org_name)
+        ->assertSeeText(htmlspecialchars($project->org_name))
         ->assertDontSee("projects/{$project->id}/edit");
   }
 

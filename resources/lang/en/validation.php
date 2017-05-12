@@ -130,6 +130,8 @@ return [
                     ],
 
                     'name'   => 'Name',
+                    'first_name' => 'First Name',
+                    'last_name'  => 'Last Name',
                     'system' => 'System?',
                 ],
 
@@ -146,6 +148,8 @@ return [
                     'confirmed'               => 'Confirmed',
                     'email'                   => 'E-mail Address',
                     'name'                    => 'Login Name',
+                    'last_name'               => 'Last Name',
+                    'first_name'              => 'First Name',
                     'other_permissions'       => 'Other Permissions',
                     'password'                => 'Password',
                     'password_confirmation'   => 'Password Confirmation',
@@ -156,6 +160,8 @@ return [
 
         'frontend' => [
             'email'                     => 'E-mail Address',
+            'first_name'                => 'First Name',
+            'last_name'                 => 'Last Name',
             'name'                      => 'Login Name',
             'password'                  => 'Password',
             'password_confirmation'     => 'Password Confirmation',

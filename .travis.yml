@@ -62,3 +62,5 @@ script:
 branches:
   only:
     - beta
+after_failure:
+  - cat storage/logs/laravel-`date +"%Y-%m-%d"`.log
