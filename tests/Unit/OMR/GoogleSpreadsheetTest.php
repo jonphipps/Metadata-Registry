@@ -43,6 +43,20 @@ class GoogleSpreadsheetTest extends TestCase
         $this->assertMatchesSnapshot($data);
     }
 
+    /**
+     * @test
+     */
+    public function it_retrieves_the_data_for_an_elementset_worksheet()
+    {
+        //given a spreadsheet and worksheet title string
+        $sheetUrl = 'https://docs.google.com/spreadsheets/d/1WTxiOvHHUurz76NZ0WU_2GjjY4SG8Gzbg0vH8xwNz_I/edit#gid=901382718';
+        $sheet    = new GoogleSpreadsheet($sheetUrl);
+        //when I request the data for a worksheet
+        $data = $sheet->getWorksheetData('rdac_en-fr_20170511T182904_570_0')->toArray();
+        //then i get the data back
+        $this->assertMatchesSnapshot($data);
+    }
+
     public function setUp()
     {
         $this->dontSetupDatabase();
