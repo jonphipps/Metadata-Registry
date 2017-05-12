@@ -2,6 +2,9 @@
 
 use App\Models\Concept;
 use App\Models\ConceptAttribute;
+use App\Models\Element;
+use App\Models\ElementAttribute;
+use App\Models\ElementSet;
 use App\Models\Export;
 use App\Models\Project;
 use App\Models\Vocabulary;
@@ -31,15 +34,15 @@ class RDAClassesSeeder extends Seeder
         $updateStatement = file_get_contents(__DIR__ . '/RDAClassesExports.sql');
         DB::statement($updateStatement);
 
-        Vocabulary::truncate();
+        ElementSet::truncate();
         $updateStatement = file_get_contents(__DIR__ . '/RDAClassesElementSet.sql');
         DB::statement($updateStatement);
 
-        Concept::truncate();
+        Element::truncate();
         $updateStatement = file_get_contents(__DIR__ . '/RDAClasses_elements.sql');
         DB::statement($updateStatement);
 
-        ConceptAttribute::truncate();
+        ElementAttribute::truncate();
         $updateStatement = file_get_contents(__DIR__ . '/RDAClasses_element_attributes_fr_en.sql');
         DB::statement($updateStatement);
 
