@@ -33,8 +33,8 @@ before_install:
   - travis_retry composer self-update && composer --version
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
   - travis_retry composer install --prefer-dist --no-interaction
-  - nvm install 7.6
-  - nvm use 7.6
+  - nvm install stable
+  - nvm use stable
 
 install:
   - npm install
@@ -43,6 +43,7 @@ install:
 #  - yarn
   - npm install bower
   - npm update vue
+  - npm update vue-template-compiler
 #  - bower install
   - npm run production
 # setup application:
