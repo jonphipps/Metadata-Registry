@@ -52,7 +52,7 @@ class ProjectViewTest extends TestCase
         ->assertSee("/projects/{$project->id}/edit")
         ->assertDontSee('/projects/58/edit');
     $this->get($this->baseUrl . '/projects/' . $project->id)
-        ->assertSeeText($project->org_name)
+        ->assertSeeText(htmlspecialchars($project->org_name))
         ->assertSee("projects/{$project->id}/edit");
     $this->get($this->baseUrl . '/projects/' . $project->id)
         ->assertSeeText($project->org_name)
