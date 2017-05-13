@@ -42,6 +42,7 @@ install:
 #  - travis_retry composer global require "codeception/codeception=2.2.*" "codeception/specify=*" "codeception/verify=*"
 #  - yarn
   - npm install bower
+  - npm update vue
 #  - bower install
   - npm run production
 # setup application:

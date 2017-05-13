@@ -18,6 +18,7 @@ dependencies:
     - ~/.composer
     - ~/.cache/yarn
   override:
+    - npm update vue
     - yarn
     - composer self-update && composer --version
     - sudo chown ubuntu ~/.composer -R
