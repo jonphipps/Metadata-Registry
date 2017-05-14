@@ -430,7 +430,7 @@ Once the feed is built, it is very easy to use it for the display in the templat
 <ul>
   <?php foreach($feed->getItems() as $post): ?>
   <li>
-    <?php echo format_date($post->getPubDate(), 'd/MM H:mm') ?> -
+    <?php echo sf_format_date($post->getPubDate(), 'd/MM H:mm') ?> -
     <?php echo sf_link_to($post->getTitle(), $post->getLink()) ?>
     by <?php echo $post->getAuthorName() ?>
   </li>

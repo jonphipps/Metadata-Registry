@@ -6,7 +6,7 @@
 <div class="question">
   <h2><?php echo link_to_question($question) ?></h2>
   <div class="subtitle">
-  <?php echo __s('asked by %1% on %2%', array('%1%' => link_to_profile($question->getUser()), '%2%' => format_date($question->getCreatedAt(), 'f'))) ?>
+  <?php echo __s('asked by %1% on %2%', array('%1%' => link_to_profile($question->getUser()), '%2%' => sf_format_date($question->getCreatedAt(), 'f'))) ?>
   </div>
   <div><?php echo truncate_text(strip_tags($question->getHtmlBody()), 200) ?></div>
   <div class="options">

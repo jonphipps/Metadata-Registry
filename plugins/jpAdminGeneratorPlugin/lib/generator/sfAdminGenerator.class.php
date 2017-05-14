@@ -796,7 +796,7 @@ EOF;
     else if ($type == CreoleTypes::DATE || $type == CreoleTypes::TIMESTAMP)
     {
       $format = isset($params['date_format']) ? $params['date_format'] : ($type == CreoleTypes::DATE ? 'D' : 'f');
-      return "($columnGetter !== null && $columnGetter !== '') ? format_date($columnGetter, \"$format\") : ''";
+      return "($columnGetter !== null && $columnGetter !== '') ? sf_format_date($columnGetter, \"$format\") : ''";
     }
     elseif ($type == CreoleTypes::BOOLEAN)
     {

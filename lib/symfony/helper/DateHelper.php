@@ -17,23 +17,23 @@
  * @version    SVN: $Id: DateHelper.php 496 2008-07-22 21:16:09Z jphipps $
  */
 
-function format_daterange($start_date, $end_date, $format = 'd', $full_text, $start_text, $end_text, $culture = null, $charset = null)
+function sf_format_daterange($start_date, $end_date, $format = 'd', $full_text, $start_text, $end_text, $culture = null, $charset = null)
 {
   if ($start_date != '' && $end_date != '')
   {
-    return sprintf($full_text, format_date($start_date, $format, $culture, $charset), format_date($end_date, $format, $culture, $charset));
+    return sprintf($full_text, sf_format_date($start_date, $format, $culture, $charset), sf_format_date($end_date, $format, $culture, $charset));
   }
   else if ($start_date != '')
   {
-    return sprintf($start_text, format_date($start_date, $format, $culture, $charset));
+    return sprintf($start_text, sf_format_date($start_date, $format, $culture, $charset));
   }
   else if ($end_date != '')
   {
-    return sprintf($end_text, format_date($end_date, $format, $culture, $charset));
+    return sprintf($end_text, sf_format_date($end_date, $format, $culture, $charset));
   }
 }
 
-function format_date($date, $format = 'd', $culture = null, $charset = null)
+function sf_format_date($date, $format = 'd', $culture = null, $charset = null)
 {
   static $dateFormats = array();
 
@@ -60,9 +60,9 @@ function format_date($date, $format = 'd', $culture = null, $charset = null)
   return $dateFormats[$culture]->format($date, $format, null, $charset);
 }
 
-function format_datetime($date, $format = 'F', $culture = null, $charset = null)
+function sf_format_datetime($date, $format = 'F', $culture = null, $charset = null)
 {
-  return format_date($date, $format, $culture, $charset);
+  return sf_format_date($date, $format, $culture, $charset);
 }
 
 function distance_of_time_in_words($from_time, $to_time = null, $include_seconds = false)

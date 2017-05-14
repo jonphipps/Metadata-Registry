@@ -31,8 +31,8 @@ abstract class sfAdminGenerator extends sfCrudGenerator
   /**
    * Returns HTML code for a help icon.
    *
-   * @param string The column name
-   * @param string The field type (list, edit)
+   * @param string $column The column name
+   * @param string $type The field type (list, edit)
    *
    * @return string HTML code
    */
@@ -50,8 +50,8 @@ abstract class sfAdminGenerator extends sfCrudGenerator
   /**
    * Returns HTML code for a help text.
    *
-   * @param string The column name
-   * @param string The field type (list, edit)
+   * @param string $column The column name
+   * @param string $type The field type (list, edit)
    *
    * @return string HTML code
    */
@@ -66,15 +66,16 @@ abstract class sfAdminGenerator extends sfCrudGenerator
     return '';
   }
 
-  /**
-   * Returns HTML code for an action button.
-   *
-   * @param string  The action name
-   * @param array   The parameters
-   * @param boolean Whether to add a primary key link or not
-   *
-   * @return string HTML code
-   */
+    /**
+     * Returns HTML code for an action button.
+     *
+     * @param string  $actionName The action name
+     * @param array   $params     The parameters
+     * @param boolean $pk_link    Whether to add a primary key link or not
+     *
+     * @return string HTML code
+     * @throws sfConfigurationException
+     */
   public function getButtonToAction($actionName, $params, $pk_link = false)
   {
     $params   = (array) $params;
@@ -84,7 +85,7 @@ abstract class sfAdminGenerator extends sfCrudGenerator
     $only_for = isset($params['only_for']) ? $params['only_for'] : null;
 
     // default values
-    if ($actionName[0] == '_')
+    if ($actionName[0] === '_')
     {
       $actionName     = substr($actionName, 1);
       $default_name   = strtr($actionName, '_', ' ');
@@ -92,13 +93,13 @@ abstract class sfAdminGenerator extends sfCrudGenerator
       $default_action = $actionName;
       $default_class  = 'sf_admin_action_'.$actionName;
 
-      if ($actionName == 'save' || $actionName == 'save_and_add' || $actionName == 'save_and_list')
+      if ($actionName === 'save' || $actionName === 'save_and_add' || $actionName === 'save_and_list')
       {
         $method = 'submit_tag';
         $options['name'] = $actionName;
       }
 
-      if ($actionName == 'delete')
+      if ($actionName === 'delete')
       {
         $options['post'] = true;
         if (!isset($options['confirm']))
@@ -140,11 +141,11 @@ abstract class sfAdminGenerator extends sfCrudGenerator
 
     $html = '<li'.$li_class.'>';
 
-    if ($only_for == 'edit')
+    if ($only_for === 'edit')
     {
       $html .= '[?php if ('.$this->getPrimaryKeyIsSet().'): ?]'."\n";
     }
-    else if ($only_for == 'create')
+    else if ($only_for === 'create')
     {
       $html .= '[?php if (!'.$this->getPrimaryKeyIsSet().'): ?]'."\n";
     }
@@ -180,9 +181,9 @@ abstract class sfAdminGenerator extends sfCrudGenerator
   /**
    * Returns HTML code for an action link.
    *
-   * @param string  The action name
-   * @param array   The parameters
-   * @param boolean Whether to add a primary key link or not
+   * @param string  $actionName The action name
+   * @param array   $params The parameters
+   * @param boolean $pk_link Whether to add a primary key link or not
    *
    * @return string HTML code
    */
@@ -191,14 +192,14 @@ abstract class sfAdminGenerator extends sfCrudGenerator
     $options = isset($params['params']) ? sfToolkit::stringToArray($params['params']) : array();
 
     // default values
-    if ($actionName[0] == '_')
+    if ($actionName[0] === '_')
     {
       $actionName = substr($actionName, 1);
       $name       = $actionName;
       $icon       = sfConfig::get('sf_admin_web_dir').'/images/'.$actionName.'_icon.png';
       $action     = $actionName;
 
-      if ($actionName == 'delete')
+      if ($actionName === 'delete')
       {
         $options['post'] = true;
         if (!isset($options['confirm']))
@@ -227,8 +228,8 @@ abstract class sfAdminGenerator extends sfCrudGenerator
   /**
    * Returns HTML code for a column in edit mode.
    *
-   * @param string  The column name
-   * @param array   The parameters
+   * @param string  $column The column name
+   * @param array   $params The parameters
    *
    * @return string HTML code
    */
@@ -265,7 +266,7 @@ abstract class sfAdminGenerator extends sfCrudGenerator
     // user sets a specific tag to use
     if ($inputType = $this->getParameterValue('edit.fields.'.$column->getName().'.type'))
     {
-      if ($inputType == 'plain')
+      if ($inputType === 'plain')
       {
         return $this->getColumnListTag($column, $params);
       }
@@ -282,7 +283,7 @@ abstract class sfAdminGenerator extends sfCrudGenerator
   /**
    * Returns all column categories.
    *
-   * @param string  The parameter name
+   * @param string  $paramName The parameter name
    *
    * @return array The column categories
    */
@@ -306,8 +307,8 @@ abstract class sfAdminGenerator extends sfCrudGenerator
   /**
    * Wraps content with a credential condition.
    *
-   * @param string  The content
-   * @param array   The parameters
+   * @param string  $content The content
+   * @param array   $params The parameters
    *
    * @return string HTML code
    */
@@ -329,13 +330,14 @@ EOF;
     }
   }
 
-  /**
-   * Gets sfAdminColumn objects for a given category.
-   *
-   * @param string The parameter name
-   *
-   * @return array sfAdminColumn array
-   */
+    /**
+     * Gets sfAdminColumn objects for a given category.
+     *
+     * @param string $paramName The parameter name
+     * @param string $category
+     *
+     * @return array sfAdminColumn array
+     */
   public function getColumns($paramName, $category = 'NONE')
   {
     $phpNames = array();
@@ -375,7 +377,7 @@ EOF;
   /**
    * Gets modifier flags from a column name.
    *
-   * @param string The column name
+   * @param string $text The column name
    *
    * @return array An array of detected flags
    */
@@ -394,8 +396,8 @@ EOF;
   /**
    * Gets a parameter value.
    *
-   * @param string The key name
-   * @param mixed  The default value
+   * @param string $key The key name
+   * @param mixed  $default The default value
    *
    * @return mixed The parameter value
    */
@@ -414,9 +416,9 @@ EOF;
   /**
    * Gets a field parameter value.
    *
-   * @param string The key name
-   * @param string The type (list, edit)
-   * @param mixed  The default value
+   * @param string $key The key name
+   * @param string $type The type (list, edit)
+   * @param mixed  $default The default value
    *
    * @return mixed The parameter value
    */
@@ -448,8 +450,8 @@ EOF;
   /**
    * Gets the value for a given key.
    *
-   * @param string The key name
-   * @param mixed  The default value
+   * @param string $key The key name
+   * @param mixed  $default The default value
    *
    * @return mixed The key value
    */
@@ -479,14 +481,15 @@ EOF;
     return $default;
   }
 
-  /**
-   * Wraps a content for I18N.
-   *
-   * @param string The key name
-   * @param string The defaul value
-   *
-   * @return string HTML code
-   */
+    /**
+     * Wraps a content for I18N.
+     *
+     * @param string $key     The key name
+     * @param string $default The default value
+     * @param bool   $withEcho
+     *
+     * @return string HTML code
+     */
   public function getI18NString($key, $default = null, $withEcho = true)
   {
     $value = $this->escapeString($this->getParameterValue($key, $default));
@@ -531,7 +534,7 @@ EOF;
   /**
    * Replaces constants in a string.
    *
-   * @param string
+   * @param string $value
    *
    * @return string
    */
@@ -556,8 +559,8 @@ EOF;
   /**
    * Returns HTML code for a column in list mode.
    *
-   * @param string  The column name
-   * @param array   The parameters
+   * @param string  $column The column name
+   * @param array   $params The parameters
    *
    * @return string HTML code
    */
@@ -582,7 +585,7 @@ EOF;
     else if ($type == CreoleTypes::DATE || $type == CreoleTypes::TIMESTAMP)
     {
       $format = isset($params['date_format']) ? $params['date_format'] : ($type == CreoleTypes::DATE ? 'D' : 'f');
-      return "($columnGetter !== null && $columnGetter !== '') ? format_date($columnGetter, \"$format\") : ''";
+      return "($columnGetter !== null && $columnGetter !== '') ? sf_format_date($columnGetter, \"$format\") : ''";
     }
     elseif ($type == CreoleTypes::BOOLEAN)
     {
@@ -597,8 +600,8 @@ EOF;
   /**
    * Returns HTML code for a column in filter mode.
    *
-   * @param string  The column name
-   * @param array   The parameters
+   * @param string  $column The column name
+   * @param array   $params The parameters
    *
    * @return string HTML code
    */
@@ -678,13 +681,13 @@ EOF;
     }
   }
 
-  /**
-   * Escapes a string.
-   *
-   * @param string
-   *
-   * @param string
-   */
+    /**
+     * Escapes a string.
+     *
+     * @param string $string
+     *
+     * @return mixed
+     */
   protected function escapeString($string)
   {
     return preg_replace('/\'/', '\\\'', $string);
@@ -709,9 +712,9 @@ class sfAdminColumn
   /**
    * Constructor.
    *
-   * @param string The column php name
-   * @param string The column name
-   * @param array  The column flags
+   * @param string $phpName The column php name
+   * @param string $column The column name
+   * @param array  $flags The column flags
    */
   public function __construct($phpName, $column = null, $flags = array())
   {
