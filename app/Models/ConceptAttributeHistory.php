@@ -9,6 +9,7 @@ use App\Models\Access\User\User;
  *
  * @property int $id
  * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
  * @property string $action
  * @property int $concept_property_id
  * @property int $concept_id
@@ -23,6 +24,7 @@ use App\Models\Access\User\User;
  * @property string $change_note
  * @property int $import_id
  * @property int|null $profile_property_id
+ * @property int $created_by
  * @property-read \App\Models\Concept|null $Concept
  * @property-read \App\Models\ConceptAttribute|null $ConceptAttribute
  * @property-read \App\Models\FileImportHistory|null $FileImportHistory
@@ -37,6 +39,7 @@ use App\Models\Access\User\User;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttributeHistory whereConceptId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttributeHistory whereConceptPropertyId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttributeHistory whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttributeHistory whereCreatedBy($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttributeHistory whereCreatedUserId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttributeHistory whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttributeHistory whereImportId($value)
@@ -47,6 +50,7 @@ use App\Models\Access\User\User;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttributeHistory whereSchemeId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttributeHistory whereSkosPropertyId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttributeHistory whereStatusId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttributeHistory whereUpdatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttributeHistory whereVocabularyId($value)
  * @mixin \Eloquent
  */

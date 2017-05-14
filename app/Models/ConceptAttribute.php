@@ -23,20 +23,24 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property int|null $related_concept_id
  * @property string|null $language
  * @property int|null $status_id
- * @property int $is_concept_property
- * @property int|null $profile_property_id
- * @property int $is_generated
+ * @property bool $is_concept_property
+ * @property bool $is_generated
+ * @property int $profile_property_id
+ * @property int $created_by
+ * @property int $updated_by
+ * @property int $deleted_by
  * @property-read \App\Models\Concept $concept
  * @property-read \App\Models\ProfileProperty|null $profileProperty
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttribute whereConceptId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttribute whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttribute whereCreatedBy($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttribute whereCreatedUserId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttribute whereDeletedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttribute whereDeletedBy($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttribute whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttribute whereIsConceptProperty($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttribute whereIsGenerated($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttribute whereLanguage($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttribute whereLastUpdated($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttribute whereObject($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttribute wherePrimaryPrefLabel($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttribute whereProfilePropertyId($value)
@@ -45,6 +49,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttribute whereSkosPropertyId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttribute whereStatusId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttribute whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttribute whereUpdatedBy($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttribute whereUpdatedUserId($value)
  * @mixin \Eloquent
  */

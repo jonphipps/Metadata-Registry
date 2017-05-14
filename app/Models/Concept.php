@@ -25,12 +25,17 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property int|null $pref_label_id
  * @property int $status_id
  * @property string $language
+ * @property int $created_by
+ * @property int $updated_by
+ * @property int $deleted_by
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ConceptAttribute[] $properties
  * @property-read \App\Models\Status $status
  * @property-read \App\Models\Vocabulary|null $vocabulary
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereCreatedBy($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereCreatedUserId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereDeletedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereDeletedBy($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereIsTopConcept($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereLanguage($value)
@@ -39,6 +44,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept wherePrefLabelId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereStatusId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereUpdatedBy($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereUpdatedUserId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereUri($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereVocabularyId($value)

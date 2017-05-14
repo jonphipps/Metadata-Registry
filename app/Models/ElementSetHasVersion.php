@@ -15,9 +15,11 @@ use App\Models\Access\User\User;
  * @property int $created_user_id
  * @property int $schema_id
  * @property \Carbon\Carbon|null $timeslice
+ * @property int $created_by
  * @property-read \App\Models\ElementSet|null $ElementSet
  * @property-read \App\Models\Access\User\User|null $UserCreator
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSetHasVersion whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSetHasVersion whereCreatedBy($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSetHasVersion whereCreatedUserId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSetHasVersion whereDeletedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSetHasVersion whereId($value)

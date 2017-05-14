@@ -7,24 +7,32 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * App\Models\RdfNamespace
  *
  * @property int $id
- * @property int $schema_id
  * @property string|null $created_at
+ * @property string $updated_at
  * @property \Carbon\Carbon|null $deleted_at
+ * @property int $schema_id
  * @property int|null $created_user_id
  * @property int|null $updated_user_id
  * @property string $token
  * @property string|null $note
  * @property string $uri
  * @property string|null $schema_location
+ * @property int $created_by
+ * @property int $updated_by
+ * @property int $deleted_by
  * @property-read \App\Models\ElementSet $ElementSet
  * @method static \Illuminate\Database\Query\Builder|\App\Models\RdfNamespace whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\RdfNamespace whereCreatedBy($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\RdfNamespace whereCreatedUserId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\RdfNamespace whereDeletedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\RdfNamespace whereDeletedBy($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\RdfNamespace whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\RdfNamespace whereNote($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\RdfNamespace whereSchemaId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\RdfNamespace whereSchemaLocation($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\RdfNamespace whereToken($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\RdfNamespace whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\RdfNamespace whereUpdatedBy($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\RdfNamespace whereUpdatedUserId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\RdfNamespace whereUri($value)
  * @mixin \Eloquent

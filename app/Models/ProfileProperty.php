@@ -29,20 +29,20 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property int|null $export_order Display order of properties
  * @property int|null $picklist_order
  * @property string|null $examples Link to example usage
- * @property int $is_required boolean -- id this value required
- * @property int $is_reciprocal boolean - subject and object must both have this property
- * @property int $is_singleton boolean -- is this property allowed to repeat for a concept
- * @property int $is_in_picklist boolean - is in the property picklist
- * @property int $is_in_export
- * @property int|null $inverse_profile_property_id id of the inverse property
- * @property int $is_in_class_picklist boolean - is in the property picklist
- * @property int $is_in_property_picklist boolean - is in the property picklist
- * @property int $is_in_rdf boolean - should this display in the RDF
- * @property int $is_in_xsd boolean - should this display in the XSD
- * @property int $is_attribute boolean - is this an attribute? attribute's aren't editable outside the main form
- * @property int $has_language Boolean that determines whether language attribute is displayed for this property
- * @property int $is_object_prop
- * @property int $is_in_form
+ * @property bool $is_required boolean -- id this value required
+ * @property bool $is_reciprocal boolean - subject and object must both have this property
+ * @property bool $is_singleton boolean -- is this property allowed to repeat for a concept
+ * @property bool $is_in_picklist boolean - is in the property picklist
+ * @property bool $is_in_export
+ * @property bool|null $inverse_profile_property_id id of the inverse property
+ * @property bool $is_in_class_picklist boolean - is in the property picklist
+ * @property bool $is_in_property_picklist boolean - is in the property picklist
+ * @property bool $is_in_rdf boolean - should this display in the RDF
+ * @property bool $is_in_xsd boolean - should this display in the XSD
+ * @property bool $is_attribute boolean - is this an attribute? attribute's aren't editable outside the main form
+ * @property bool $has_language Boolean that determines whether language attribute is displayed for this property
+ * @property bool $is_object_prop
+ * @property bool $is_in_form
  * @property string $namespce
  * @property-read \App\Models\Profile $Profile
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ProfileProperty whereComment($value)

@@ -36,7 +36,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string $languages
  * @property string $repo
  * @property string $prefix
- * @property-read \App\Models\Access\User\User|null $creator
+ * @property int $created_by
+ * @property int $updated_by
+ * @property int $deleted_by
+ * @property-read \App\Models\Access\User\User $creator
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Element[] $elements
  * @property-read \App\Models\Access\User\User|null $eraser
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Access\User\User[] $members
@@ -50,8 +53,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSet whereChildUpdatedUserId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSet whereCommunity($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSet whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSet whereCreatedBy($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSet whereCreatedUserId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSet whereDeletedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSet whereDeletedBy($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSet whereDeletedUserId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSet whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSet whereLanguage($value)
@@ -67,6 +72,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSet whereStatusId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSet whereToken($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSet whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSet whereUpdatedBy($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSet whereUpdatedUserId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSet whereUri($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSet whereUrl($value)

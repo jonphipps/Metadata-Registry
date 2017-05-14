@@ -14,8 +14,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  *
  * @property int $id
  * @property int $agent_id
- * @property \Carbon\Carbon|null $created_at
- * @property \Carbon\Carbon|null $deleted_at
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property \Carbon\Carbon $deleted_at
  * @property \Carbon\Carbon $last_updated
  * @property int|null $created_user_id
  * @property int|null $updated_user_id
@@ -38,7 +39,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string|null $prefixes
  * @property string|null $repo
  * @property string $prefix
- * @property \Carbon\Carbon|null $updated_at
+ * @property int $created_by
+ * @property int $updated_by
+ * @property int $deleted_by
+ * @property int $child_updated_by
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Concept[] $concepts
  * @property-read \App\Models\Access\User\User|null $creator
  * @property-read \App\Models\Access\User\User|null $eraser
@@ -50,11 +54,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Vocabulary whereAgentId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Vocabulary whereBaseDomain($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Vocabulary whereChildUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Vocabulary whereChildUpdatedBy($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Vocabulary whereChildUpdatedUserId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Vocabulary whereCommunity($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Vocabulary whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Vocabulary whereCreatedBy($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Vocabulary whereCreatedUserId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Vocabulary whereDeletedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Vocabulary whereDeletedBy($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Vocabulary whereDeletedUserId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Vocabulary whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Vocabulary whereLanguage($value)
@@ -71,6 +78,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Vocabulary whereStatusId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Vocabulary whereToken($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Vocabulary whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Vocabulary whereUpdatedBy($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Vocabulary whereUpdatedUserId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Vocabulary whereUri($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Vocabulary whereUrl($value)

@@ -15,11 +15,11 @@
  * @property string|null $definition
  * @property string|null $comment
  * @property string|null $examples Link to example usage
- * @property int $is_required boolean -- id this value required
- * @property int $is_reciprocal boolean - subject and object must both have this property
- * @property int $is_singleton boolean -- is this property allowed to repeat for a concept
- * @property int $is_scheme boolean - is in conceptScheme domain
- * @property int $is_in_picklist boolean - is in the property picklist
+ * @property bool $is_required boolean -- id this value required
+ * @property bool $is_reciprocal boolean - subject and object must both have this property
+ * @property bool $is_singleton boolean -- is this property allowed to repeat for a concept
+ * @property bool $is_scheme boolean - is in conceptScheme domain
+ * @property bool $is_in_picklist boolean - is in the property picklist
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ConceptAttributeHistory[] $ConceptAttributeHistory
  * @method static \Illuminate\Database\Query\Builder|\App\Models\SkosProperty whereComment($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\SkosProperty whereDefinition($value)

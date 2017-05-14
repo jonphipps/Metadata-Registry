@@ -19,13 +19,16 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property int|null $deleted_user_id
  * @property int $schema_property_id
  * @property int $profile_property_id
- * @property int|null $is_schema_property
+ * @property bool|null $is_schema_property
  * @property string $object
  * @property int|null $related_schema_property_id
  * @property string $language
  * @property int|null $status_id
- * @property int $is_generated
- * @property-read \App\Models\Access\User\User|null $creator
+ * @property bool $is_generated
+ * @property int $created_by
+ * @property int $updated_by
+ * @property int $deleted_by
+ * @property-read \App\Models\Access\User\User $creator
  * @property-read \App\Models\Element $element
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ElementAttributeHistory[] $elementAttributeHistory
  * @property-read \App\Models\Access\User\User|null $eraser
@@ -33,8 +36,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property-read \App\Models\Status|null $status
  * @property-read \App\Models\Access\User\User|null $updater
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereCreatedBy($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereCreatedUserId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereDeletedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereDeletedBy($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereDeletedUserId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereIsGenerated($value)
@@ -46,6 +51,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereSchemaPropertyId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereStatusId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereUpdatedBy($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereUpdatedUserId($value)
  * @mixin \Eloquent
  */

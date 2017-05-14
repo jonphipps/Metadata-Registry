@@ -24,6 +24,9 @@ use App\Models\Access\User\User;
  * @property int $parent_id
  * @property string $subject
  * @property string $content
+ * @property int $created_by
+ * @property int $updated_by
+ * @property int $deleted_by
  * @property-read \App\Models\Concept|null $Concept
  * @property-read \App\Models\ConceptAttribute|null $ConceptAttribute
  * @property-read \App\Models\Access\User\User|null $CreatedBy
@@ -38,8 +41,10 @@ use App\Models\Access\User\User;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Discuss whereConceptPropertyId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Discuss whereContent($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Discuss whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Discuss whereCreatedBy($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Discuss whereCreatedUserId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Discuss whereDeletedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Discuss whereDeletedBy($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Discuss whereDeletedUserId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Discuss whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Discuss whereParentId($value)
@@ -49,6 +54,7 @@ use App\Models\Access\User\User;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Discuss whereSchemaPropertyId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Discuss whereSubject($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Discuss whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Discuss whereUpdatedBy($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Discuss whereUri($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Discuss whereVocabularyId($value)
  * @mixin \Eloquent

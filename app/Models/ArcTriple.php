@@ -9,9 +9,9 @@
  * @property int $o
  * @property int $o_lang_dt
  * @property string $o_comp
- * @property int $s_type
- * @property int $o_type
- * @property int $misc
+ * @property bool $s_type
+ * @property bool $o_type
+ * @property bool $misc
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ArcTriple whereMisc($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ArcTriple whereO($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ArcTriple whereOComp($value)

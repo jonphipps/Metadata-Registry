@@ -1,9 +1,11 @@
 <?php namespace App\Models;
 
 use App\Models\Access\User\User;
+use Backpack\CRUD\CrudTrait;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Laracasts\Matryoshka\Cacheable;
 
 /**
  * App\Models\Project
@@ -82,7 +84,7 @@ class Project extends Model
                            'web_address'     => 'max:255',
                            'type'            => 'max:15', ];
 
-  use SoftDeletes;
+  use CrudTrait, Cacheable, SoftDeletes;
   protected $table = self::TABLE;
   protected $dates = [ 'deleted_at', 'last_updated' ];
   protected $fillable = [ 'last_updated',
