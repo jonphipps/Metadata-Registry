@@ -181,6 +181,11 @@ return [
          */
         Arcanedev\LogViewer\LogViewerServiceProvider::class,
         Arcanedev\NoCaptcha\NoCaptchaServiceProvider::class,
+        Backpack\Base\BaseServiceProvider::class,
+        Backpack\CRUD\CrudServiceProvider::class,
+        Backpack\Generators\GeneratorsServiceProvider::class,
+        Backpack\LangFileManager\LangFileManagerServiceProvider::class,
+        Barryvdh\Elfinder\ElfinderServiceProvider::class,
         Barryvdh\Snappy\ServiceProvider::class,
         Bugsnag\BugsnagLaravel\BugsnagServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
@@ -190,11 +195,14 @@ return [
         GrahamCampbell\GitHub\GitHubServiceProvider::class,
         HieuLe\Active\ActiveServiceProvider::class,
         JeroenG\Packager\PackagerServiceProvider::class,
+        Laracasts\Matryoshka\MatryoshkaServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
         Laravel\Tinker\TinkerServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Prettus\Repository\Providers\RepositoryServiceProvider::class,
+        Prologue\Alerts\AlertsServiceProvider::class,
         Spatie\Fractal\FractalServiceProvider::class,
+        Spatie\Translatable\TranslatableServiceProvider::class,
         Yajra\Datatables\DatatablesServiceProvider::class,
 
        /*
@@ -210,6 +218,12 @@ return [
         App\Providers\HistoryServiceProvider::class,
         App\Providers\MacroServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+
+
+
+      /*
+      * Other Service Providers...
+      */
 
     ],
 
@@ -264,12 +278,13 @@ return [
          * Third Party Aliases
          */
         'Active'       => HieuLe\Active\Facades\Active::class,
+        'Alert'        => Prologue\Alerts\Facades\Alert::class,
         'Breadcrumbs'  => DaveJamesMiller\Breadcrumbs\Facade::class,
         'Bugsnag'      => Bugsnag\BugsnagLaravel\Facades\Bugsnag::class,
         'Captcha'      => Arcanedev\NoCaptcha\Facades\NoCaptcha::class,
+        'CRUD'         => Backpack\CRUD\CrudServiceProvider::class,
         'Debugbar'     => Barryvdh\Debugbar\Facade::class,
         'Excel'        => Maatwebsite\Excel\Facades\Excel::class,
-        'Flash'        => Laracasts\Flash\Flash::class,
         'Form'         => Collective\Html\FormFacade::class,
         'Fractal'      => Spatie\Fractal\FractalFacade::class,
         'GitHub'       => GrahamCampbell\GitHub\Facades\GitHub::class,
