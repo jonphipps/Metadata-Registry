@@ -4,12 +4,15 @@ php:
   - 7.1
 #  - hhvm
 #  - hhvm-nightly
-
+env:
+  matrix:
+  - NO_GOOGLE=TRUE
 # run build against hhvm but allow them to fail
 # http://docs.travis-ci.com/user/build-configuration/#Rows-That-are-Allowed-To-Fail
 matrix:
   fast_finish: true
   allow_failures:
+    - env: NO_GOOGLE=TRUE
 #    - php: hhvm-nightly
 
 # cache vendor dirs
@@ -37,13 +40,11 @@ before_install:
   - nvm use stable
 
 install:
-  - npm install
+#  - npm install
 # codeception
 #  - travis_retry composer global require "codeception/codeception=2.2.*" "codeception/specify=*" "codeception/verify=*"
-#  - yarn
+  - yarn
   - npm install bower
-  - npm update vue
-  - npm update vue-template-compiler
 #  - bower install
   - npm run production
 # setup application:
