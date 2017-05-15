@@ -15,7 +15,7 @@ return [
     'project_name' => 'Backpack',
 
     // Menu logos
-    'logo_lg'   => '<b>Open</b>Registry',
+    'logo_lg'   => '<b>Open</b>&nbsp;Metadata&nbsp;Registry',
     'logo_mini' => '<b>OMR</b>p',
 
     // Developer or company name. Shown in footer.
