@@ -122,6 +122,12 @@ class Project extends Model
                        'web_address'     => 'string',
                        'type'            => 'string', ];
 
+  protected $hidden = [
+      'ind_affiliation', 'ind_role', 'address1', 'address2', 'city', 'state', 'postal_code',
+      'phone', 'license', 'created_by', 'updated_by', 'deleted_by', 'org_email', 'description',
+      'repo'
+  ];
+
   /**
    * @param Builder $query
    *
