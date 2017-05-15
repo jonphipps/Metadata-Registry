@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "24f84a2e83a74d11a3933e2feaad5916",
+    "content-hash": "b6d606e8a2920b4c83448c0f588267fb",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -335,17 +335,12 @@
         },
         {
             "name": "backpack/crud",
-            "version": "3.2.11",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Laravel-Backpack/CRUD.git",
-                "reference": "a58929d3633023b9b01e6a5d2311a94d094c1baa"
-            },
+            "version": "dev-feature-show",
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Laravel-Backpack/CRUD/zipball/a58929d3633023b9b01e6a5d2311a94d094c1baa",
-                "reference": "a58929d3633023b9b01e6a5d2311a94d094c1baa",
-                "shasum": ""
+                "type": "path",
+                "url": "packages/backpack_CRUD",
+                "reference": "0b3f78802735b6a5bc47c615dd884c1ad64387f9",
+                "shasum": null
             },
             "require": {
                 "backpack/base": "^0.7.15",
@@ -371,7 +366,16 @@
                     "Backpack\\CRUD\\": "src"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "Backpack\\CRUD\\Test\\": "tests"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "phpunit"
+                ]
+            },
             "license": [
                 "MIT"
             ],
@@ -386,33 +390,31 @@
             "description": "Quickly build an admin interface for your Eloquent models, using Laravel 5. Build a CMS in a matter of minutes.",
             "homepage": "https://github.com/laravel-backpack/CRUD",
             "keywords": [
-                "Admin Interface",
+                "CMS",
+                "CRUD",
+                "admin interface",
                 "admin panel",
-                "cms",
                 "create",
-                "crud",
                 "delete",
                 "read",
                 "update"
-            ],
-            "time": "2017-04-21T16:15:29+00:00"
+            ]
         },
         {
             "name": "backpack/langfilemanager",
-            "version": "1.0.18",
+            "version": "1.0.5",
             "source": {
                 "type": "git",
-                "url": "https://github.com/Laravel-Backpack/LangFileManager.git",
-                "reference": "6d83aaaec4579ccc874e93c0df110bf9810f6a18"
+                "url": "https://github.com/Laravel-Backpack/langfilemanager.git",
+                "reference": "82118f85a8c1502bc6cae43ac4e83fc00a0dcbb6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Laravel-Backpack/LangFileManager/zipball/6d83aaaec4579ccc874e93c0df110bf9810f6a18",
-                "reference": "6d83aaaec4579ccc874e93c0df110bf9810f6a18",
+                "url": "https://api.github.com/repos/Laravel-Backpack/langfilemanager/zipball/82118f85a8c1502bc6cae43ac4e83fc00a0dcbb6",
+                "reference": "82118f85a8c1502bc6cae43ac4e83fc00a0dcbb6",
                 "shasum": ""
             },
             "require": {
-                "backpack/crud": "^3.0.6",
                 "illuminate/support": "~5.1",
                 "php": ">=5.3.0"
             },
@@ -466,7 +468,7 @@
                 "translationmanager",
                 "updivision"
             ],
-            "time": "2016-09-24T14:33:54+00:00"
+            "time": "2016-03-12T12:26:11+00:00"
         },
         {
             "name": "barryvdh/elfinder-flysystem-driver",
@@ -3451,16 +3453,16 @@
         },
         {
             "name": "laravelcollective/html",
-            "version": "v5.4.1",
+            "version": "v5.4.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/LaravelCollective/html.git",
-                "reference": "7570f25d58a00fd6909c0563808590f9cdb14d47"
+                "reference": "023efce5fd8057cb3b5ce503f3391cc4effa7caa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/LaravelCollective/html/zipball/7570f25d58a00fd6909c0563808590f9cdb14d47",
-                "reference": "7570f25d58a00fd6909c0563808590f9cdb14d47",
+                "url": "https://api.github.com/repos/LaravelCollective/html/zipball/023efce5fd8057cb3b5ce503f3391cc4effa7caa",
+                "reference": "023efce5fd8057cb3b5ce503f3391cc4effa7caa",
                 "shasum": ""
             },
             "require": {
@@ -3501,7 +3503,7 @@
             ],
             "description": "HTML and Form Builders for the Laravel Framework",
             "homepage": "http://laravelcollective.com",
-            "time": "2017-01-26T19:27:05+00:00"
+            "time": "2017-05-15T09:38:20+00:00"
         },
         {
             "name": "league/flysystem",
@@ -8054,21 +8056,21 @@
         },
         {
             "name": "behat/behat",
-            "version": "v3.3.0",
+            "version": "v3.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Behat/Behat.git",
-                "reference": "15a3a1857457eaa29cdf41564a5e421effb09526"
+                "reference": "44a58c1480d6144b2dc2c2bf02b9cef73c83840d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Behat/Behat/zipball/15a3a1857457eaa29cdf41564a5e421effb09526",
-                "reference": "15a3a1857457eaa29cdf41564a5e421effb09526",
+                "url": "https://api.github.com/repos/Behat/Behat/zipball/44a58c1480d6144b2dc2c2bf02b9cef73c83840d",
+                "reference": "44a58c1480d6144b2dc2c2bf02b9cef73c83840d",
                 "shasum": ""
             },
             "require": {
                 "behat/gherkin": "^4.4.4",
-                "behat/transliterator": "~1.0",
+                "behat/transliterator": "^1.2",
                 "container-interop/container-interop": "^1.1",
                 "ext-mbstring": "*",
                 "php": ">=5.3.3",
@@ -8132,7 +8134,7 @@
                 "symfony",
                 "testing"
             ],
-            "time": "2016-12-25T13:43:52+00:00"
+            "time": "2017-05-15T16:49:16+00:00"
         },
         {
             "name": "behat/gherkin",
@@ -11497,6 +11499,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "backpack/crud": 20,
         "chrisboulton/php-resque": 20,
         "laracasts/matryoshka": 20,
         "roave/security-advisories": 20,
