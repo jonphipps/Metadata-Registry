@@ -108,7 +108,7 @@ class ProjectCrudController extends CrudController
 
   public function edit($id)
   {
-    if (Auth::user()->isAdminForProjectId($id)) {
+    if (Auth::check() && Auth::user()->isAdminForProjectId($id)) {
       $this->crud->allowAccess([ 'update']);
     }
     return parent::edit($id);
@@ -116,7 +116,7 @@ class ProjectCrudController extends CrudController
 
   public function destroy($id)
   {
-    if (Auth::user()->isAdminForProjectId($id)) {
+    if (Auth::check() && Auth::user()->isAdminForProjectId($id)) {
       $this->crud->allowAccess([ 'delete' ]);
     }
     return parent::destroy($id);
@@ -139,7 +139,7 @@ class ProjectCrudController extends CrudController
 
     public function update(UpdateRequest $request)
     {
-      if (Auth::user()->isAdminForProjectId($request->id)) {
+      if (Auth::check() && Auth::user()->isAdminForProjectId($request->id)) {
         $this->crud->allowAccess([ 'update' ]);
       }
       // your additional operations before save here

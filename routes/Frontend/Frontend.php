@@ -6,7 +6,8 @@
  */
 Route::get('/', 'FrontendController@index')->name('index');
 Route::get('macros', 'FrontendController@macros')->name('macros');
-Route::get('projects/{project}','ProjectController@show')->name('project.show');
+CRUD::resource('projects', 'ProjectCrudController',['except'=> ['show']]);
+Route::get('projects/{project}', 'ProjectController@show')->name('project.show');
 /*
  * These frontend controllers require the user to be logged in
  * All route names are prefixed with 'frontend.'
