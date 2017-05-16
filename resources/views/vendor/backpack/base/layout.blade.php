@@ -41,7 +41,8 @@
 </head>
 
 <body class="hold-transition {{ config('backpack.base.skin') }} sidebar-mini ">
-    <!-- Site wrapper -->
+@include('includes.partials.logged-in-as')
+<!-- Site wrapper -->
     <div class="wrapper">
 
       <header class="main-header">
@@ -55,14 +56,12 @@
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top" role="navigation">
           <!-- Sidebar toggle button-->
-@if(Auth::check())
           <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
             <span class="sr-only">{{ trans('backpack::base.toggle_navigation') }}</span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-@endif
           @include('backpack::inc.menu')
         </nav>
       </header>
@@ -72,7 +71,7 @@
       <!-- =============================================== -->
 
       <!-- Content Wrapper. Contains page content -->
-      <div class="content-wrapper" @if(!Auth::check()) style="margin-left: 0" @endif>
+      <div class="content-wrapper">
         <!-- Content Header (Page header) -->
          @yield('header')
 
@@ -86,7 +85,7 @@
       </div>
       <!-- /.content-wrapper -->
 
-      <footer class="main-footer" @if(!Auth::check()) style="margin-left: 0" @endif >
+      <footer class="main-footer" >
         @if (config('backpack.base.show_powered_by'))
             <div class="pull-right hidden-xs">
               {{ trans('backpack::base.powered_by') }} <a target="_blank" href="http://laravelbackpack.com">Laravel BackPack</a>
