@@ -8,7 +8,7 @@
                 </div>
                 <div class="panel-body">
                     <div class="row">
-                        <div class="col-xs-12">
+                        <div class="col-md-6">
                             <div class="panel panel-default">
                                 <div class="panel-heading">
                                     <h4>Project Detail</h4>
@@ -34,40 +34,6 @@
                                 </div><!--panel-body-->
                             </div><!--panel-->
                         </div><!--col-xs-12-->
-                    </div><!--row-->
-                    <div class="row">
-                        <div class="col-xs-12 ">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h4>Project Vocabularies</h4>
-                                </div><!--panel-heading-->
-                                <div class="panel-body">
-                                    <ul class="list-unstyled">
-                                        @forelse ($project->vocabularies->sortBy('name') as $vocab)
-                                            <li>{{ laravel_link_to('vocabularies/'.$vocab->id . '/concepts', $vocab->name) }}</li>
-                                        @empty
-                                            No Vocabularies defined
-                                        @endforelse
-                                    </ul>
-                                </div><!--panel-body-->
-                            </div><!--panel-->
-                        </div><!--col-md-6-->
-                        <div class="col-xs-12">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h4>Project Element Sets</h4>
-                                </div><!--panel-heading-->
-                                <div class="panel-body">
-                                    <ul class="list-unstyled">
-                                        @forelse ($project->elementsets->sortBy('name') as $elementset)
-                                            <li>{{ laravel_link_to('elementsets/'.$elementset->id . '/elements', $elementset->name) }}</li>
-                                        @empty
-                                            No Element Sets defined
-                                        @endforelse
-                                    </ul>
-                                </div><!--panel-body-->
-                            </div><!--panel-->
-                        </div><!--col-md-6-->
                         <div class="col-md-6">
                             <div class="panel panel-default">
                                 <div class="panel-heading">
@@ -85,8 +51,87 @@
                                     <h4>Members</h4>
                                 </div><!--panel-heading-->
                                 <div class="panel-body">
-                                    <p>This will be a list of members of this project
-                                        (maybe). Languages in use is another possibility. Or maps.</p>
+                                    <p>This will be a list of members of this project</p>
+                                </div><!--panel-body-->
+                            </div><!--panel-->
+                        </div><!--col-md-6-->
+                    </div><!--row-->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4>Project Vocabularies</h4>
+                                </div><!--panel-heading-->
+                                <div class="panel-body">
+                                    <ul class="list-unstyled">
+                                        @forelse ($project->vocabularies->sortBy('name') as $vocab)
+                                            <li>{{ laravel_link_to('vocabularies/'.$vocab->id . '/concepts', $vocab->name) }}</li>
+                                        @empty
+                                            No Vocabularies defined
+                                        @endforelse
+                                    </ul>
+                                </div><!--panel-body-->
+                            </div><!--panel-->
+                        </div><!--col-md-6-->
+                        <div class="col-md-6">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4>Project Element Sets</h4>
+                                </div><!--panel-heading-->
+                                <div class="panel-body">
+                                    <ul class="list-unstyled">
+                                        @forelse ($project->elementsets->sortBy('name') as $elementset)
+                                            <li>{{ laravel_link_to('elementsets/'.$elementset->id . '/elements', $elementset->name) }}</li>
+                                        @empty
+                                            No Element Sets defined
+                                        @endforelse
+                                    </ul>
+                                </div><!--panel-body-->
+                            </div><!--panel-->
+                        </div><!--col-md-6-->
+                    </div><!--row-->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4>Exports</h4>
+                                </div><!--panel-heading-->
+                                <div class="panel-body">
+                                    <p>This will be a list of Project-level Exports
+                                        (maybe)</p>
+                                </div><!--panel-body-->
+                            </div><!--panel-->
+                        </div><!--col-md-6-->
+                        <div class="col-md-6">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4>Imports</h4>
+                                </div><!--panel-heading-->
+                                <div class="panel-body">
+                                    <p>This will be a list of project-level Imports</p>
+                                </div><!--panel-body-->
+                            </div><!--panel-->
+                        </div><!--col-md-6-->
+                    </div><!--row-->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4>Languages</h4>
+                                </div><!--panel-heading-->
+                                <div class="panel-body">
+                                    <p>This will be a list of Languages in use by this project
+                                        (maybe)</p>
+                                </div><!--panel-body-->
+                            </div><!--panel-->
+                        </div><!--col-md-6-->
+                        <div class="col-md-6">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4>Maps</h4>
+                                </div><!--panel-heading-->
+                                <div class="panel-body">
+                                    <p>This will be a list of maps maintained by this project</p>
                                 </div><!--panel-body-->
                             </div><!--panel-->
                         </div><!--col-md-6-->
