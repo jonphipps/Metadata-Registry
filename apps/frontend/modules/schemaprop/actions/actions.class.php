@@ -268,7 +268,12 @@ class schemapropActions extends autoSchemapropActions
     $this->getUser()->setAttribute('sort', $this->getRequestParameter('sort'), 'sf_admin/schema_search/sort');
     $this->getUser()->setAttribute('type', $this->getRequestParameter('type', 'asc'), 'sf_admin/schema_search/sort');
 
-   if ($this->getRequest()->hasParameter('sq'))
+      if ($this->getRequest()->hasParameter('q')) {
+          $q = $this->getRequestParameter('q');
+          $this->getRequest()->setParameter('sq', $q);
+      }
+
+      if ($this->getRequest()->hasParameter('sq'))
     {
       $this->getRequest()->setParameter('filter','filter');
       $filters = array('label' => $this->getRequestParameter('sq'));

@@ -249,6 +249,11 @@ class conceptpropActions extends autoConceptpropActions
 		$this->getUser()->setAttribute('type', $this->getRequestParameter('type', 'asc'), 'sf_admin/concept_search/sort');
 	  }
 
+      if ($this->getRequest()->hasParameter('q')) {
+	      $q = $this->getRequestParameter('q');
+	      $this->getRequest()->setParameter('concept_term', $q);
+      }
+
 	 if ($this->getRequest()->hasParameter('concept_term'))
     {
       $this->getRequest()->setParameter('filter','filter');
@@ -266,7 +271,7 @@ class conceptpropActions extends autoConceptpropActions
 	 //set sort criteria
 	 if ($sort_column)
 	 {
-		if ($this->getUser()->getAttribute('type', null, 'sf_admin/concept_search/sort') == 'asc')
+		if ($this->getUser()->getAttribute('type', null, 'sf_admin/concept_search/sort') === 'asc')
 		{
 		  $c->addAscendingOrderByColumn($sort_column);
 		}
