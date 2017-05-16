@@ -18,8 +18,6 @@
                     </li>
                 @endif
             </ul>
-
-
             <ul class="nav navbar-nav navbar-right">
                 @if (config('locale.status') && count(config('locale.languages')) > 1)
                     <li class="dropdown">
@@ -38,7 +36,6 @@
 
                 @if (! $logged_in_user)
                     <li>{{ laravel_link_to_route('frontend.auth.login', trans('navs.frontend.login'), [], ['class' => active_class(Active::checkRoute('frontend.auth.login')) ]) }}</li>
-
                     @if (config('access.users.registration'))
                         <li>{{ laravel_link_to_route('frontend.auth.register', trans('navs.frontend.register'), [], ['class' => active_class(Active::checkRoute('frontend.auth.register')) ]) }}</li>
                     @endif
