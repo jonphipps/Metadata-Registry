@@ -98,6 +98,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->register(\Way\Generators\GeneratorsServiceProvider::class);
         $this->app->register(\Xethron\MigrationsGenerator\MigrationsGeneratorServiceProvider::class);
         $this->app->register(\Reliese\Coders\CodersServiceProvider::class);
+        $this->app->register(\Orangehill\Iseed\IseedServiceProvider::class);
     }
     $this->app->bind('path.public', function () {return base_path() . '/web';});
     $this->app->alias('bugsnag.multi', \Illuminate\Contracts\Logging\Log::class);
