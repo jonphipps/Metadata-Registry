@@ -18,8 +18,6 @@ class CreateProfileTable extends Migration {
 			$table->increments('id');
 			$table->timestamps();
 			$table->softDeletes();
-			$table->integer('project_id')->unsigned()->nullable()->index();
-			$table->integer('agent_id')->unsigned()->nullable()->index();
 			$table->integer('created_by')->unsigned()->nullable()->index();
 			$table->integer('updated_by')->unsigned()->nullable()->index();
 			$table->integer('deleted_by')->unsigned()->nullable()->index();

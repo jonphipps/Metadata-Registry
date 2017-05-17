@@ -15,8 +15,6 @@ class AddForeignKeysToProfileTable extends Migration {
 	{
 		Schema::table('profile', function(Blueprint $table)
 		{
-			$table->foreign('project_id', 'profile_ibfk_1')->references('id')->on('projects')->onUpdate('NO ACTION')->onDelete('RESTRICT');
-			$table->foreign('agent_id', 'profile_ibfk_7')->references('id')->on('projects')->onUpdate('NO ACTION')->onDelete('RESTRICT');
 			$table->foreign('status_id', 'profile_ibfk_2')->references('id')->on('reg_status')->onUpdate('RESTRICT')->onDelete('RESTRICT');
 			$table->foreign('updated_by', 'profile_ibfk_3')->references('id')->on('users')->onUpdate('NO ACTION')->onDelete('SET NULL');
 			$table->foreign('created_by', 'profile_ibfk_4')->references('id')->on('users')->onUpdate('NO ACTION')->onDelete('SET NULL');
@@ -35,7 +33,6 @@ class AddForeignKeysToProfileTable extends Migration {
 	{
 		Schema::table('profile', function(Blueprint $table)
 		{
-			$table->dropForeign('profile_ibfk_1');
 			$table->dropForeign('profile_ibfk_2');
 			$table->dropForeign('profile_ibfk_3');
 			$table->dropForeign('profile_ibfk_4');
