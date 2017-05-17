@@ -20,11 +20,11 @@ class CreateImportsTable extends Migration {
 			$table->enum('source', array('Google','upload'))->nullable();
 			$table->timestamps();
 			$table->softDeletes()->index();
-			$table->text('map')->nullable();
+			$table->mediumText('map')->nullable();
 			$table->integer('imported_by_id')->unsigned()->nullable()->index();
 			$table->string('file_name')->nullable();
 			$table->string('file_type')->nullable();
-			$table->text('results')->nullable();
+			$table->mediumText('results')->nullable();
 			$table->integer('total_processed_count')->unsigned()->nullable();
 			$table->integer('error_count')->unsigned()->nullable();
 			$table->integer('success_count')->unsigned()->nullable();

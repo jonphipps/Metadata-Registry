@@ -24,7 +24,7 @@ class CreateRegSchemaPropertyElementTable extends Migration {
 			$table->integer('schema_property_id')->unsigned()->index();
 			$table->integer('profile_property_id')->unsigned()->index();
 			$table->boolean('is_schema_property')->nullable();
-			$table->text('object');
+			$table->mediumText('object');
 			$table->integer('related_schema_property_id')->unsigned()->nullable()->index();
 			$table->char('language', 6);
 			$table->integer('status_id')->unsigned()->nullable()->default(1)->index();

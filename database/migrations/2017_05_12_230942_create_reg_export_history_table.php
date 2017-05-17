@@ -31,7 +31,7 @@ class CreateRegExportHistoryTable extends Migration {
 			$table->dateTime('last_vocab_update')->nullable();
 			$table->integer('profile_id')->unsigned()->nullable()->index();
 			$table->string('file')->nullable();
-			$table->text('map')->nullable();
+			$table->mediumText('map')->nullable();
 		});
 	}
 

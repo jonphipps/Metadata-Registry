@@ -32,7 +32,7 @@ class CreateExportsTable extends Migration {
 			$table->integer('profile_id')->unsigned()->nullable()->index();
 			$table->integer('exported_by')->unsigned()->nullable()->index();
 			$table->string('file')->nullable();
-			$table->text('map')->nullable();
+			$table->mediumText('map')->nullable();
 		});
 	}
 

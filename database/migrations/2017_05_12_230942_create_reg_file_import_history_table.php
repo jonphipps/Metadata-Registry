@@ -17,7 +17,7 @@ class CreateRegFileImportHistoryTable extends Migration {
 		{
 			$table->increments('id');
 			$table->timestamps();
-			$table->text('map')->nullable()->comment('stores the serialized column map array');
+			$table->mediumText('map')->nullable()->comment('stores the serialized column map array');
 			$table->integer('user_id')->unsigned()->nullable()->index();
 			$table->integer('vocabulary_id')->unsigned()->nullable()->index();
 			$table->integer('schema_id')->unsigned()->nullable()->index();
