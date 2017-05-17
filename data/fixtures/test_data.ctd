@@ -28,7 +28,7 @@ CREATE TABLE `reg_agent_has_user` (
   PRIMARY KEY  (`agent_id`,`user_id`),
   KEY `user_id` (`user_id`),
   KEY `agent_id` (`agent_id`),
-  CONSTRAINT `reg_agent_has_user_fk` FOREIGN KEY (`user_id`) REFERENCES `reg_user` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `reg_agent_has_user_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `reg_agent_has_user_fk1` FOREIGN KEY (`agent_id`) REFERENCES `reg_agent` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='InnoDB free: 0 kB; (`user_id`) REFER `swregistry/reg_agents`';
 
@@ -57,7 +57,7 @@ CREATE TABLE `reg_vocabulary_has_user` (
   PRIMARY KEY  (`user_id`,`vocabulary_id`),
   KEY `resource_id` (`vocabulary_id`),
   KEY `user_id` (`user_id`),
-  CONSTRAINT `reg_resource_has_user_fk1` FOREIGN KEY (`user_id`) REFERENCES `reg_user` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `reg_resource_has_user_fk1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `reg_vocabulary_has_user_fk` FOREIGN KEY (`vocabulary_id`) REFERENCES `reg_vocabulary` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='InnoDB free: 0 kB; (`agent_id`) REFER `swregistry/reg_agent`';
 
@@ -290,7 +290,7 @@ CREATE TABLE `reg_concept_history` (
   PRIMARY KEY  (`sid`,`concept_property_id`),
   KEY `user_id` (`user_id`),
   KEY `concept_property_id` (`concept_property_id`),
-  CONSTRAINT `reg_concept_history_fk` FOREIGN KEY (`user_id`) REFERENCES `reg_user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `reg_concept_history_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `reg_concept_history_fk1` FOREIGN KEY (`concept_property_id`) REFERENCES `reg_concept_property` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -339,11 +339,11 @@ UNLOCK TABLES;
 /*!40000 ALTER TABLE `reg_concept` ENABLE KEYS */;
 
 --
--- Table structure for table `reg_user`
+-- Table structure for table `users`
 --
 
-DROP TABLE IF EXISTS `reg_user`;
-CREATE TABLE `reg_user` (
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE `users` (
   `id` int(11) NOT NULL auto_increment,
   `created_at` datetime default NULL,
   `last_updated` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
@@ -363,15 +363,15 @@ CREATE TABLE `reg_user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `reg_user`
+-- Dumping data for table `users`
 --
 
 
-/*!40000 ALTER TABLE `reg_user` DISABLE KEYS */;
-LOCK TABLES `reg_user` WRITE;
-INSERT INTO `reg_user` VALUES (35,'2006-03-24 15:16:33','2007-03-05 23:24:31','nickname','Salut','userFirstName','userLastName','useremail@nowhere.com','d34c30813aa5568a1d4e940d2405cf508887a799','e1e1be54a7818611c83b919fd5be0847',0,0,0,0,NULL),(36,'2006-03-24 17:29:24','2006-09-08 18:50:56','jonphipps',NULL,'Jon','Phipps','jphipps@madcreek.com','f4521d500ef2f3e2ea857eacb42679f549a13c40','70a6e9945d591c5347f7d65100bd8a18',NULL,0,1,0,NULL),(37,'2006-04-07 15:53:03','2006-04-07 19:53:03','dih1',NULL,NULL,NULL,'dih1@cornell.edu','a7294c358591a15d9bcb0a8cfd707335c2b9d222','88f61322d3c9f042b442ca255a4a567e',0,0,0,0,NULL),(38,'2006-04-07 15:53:36','2006-04-07 19:53:36','sas1',NULL,NULL,NULL,'sasutton@u.washington.edu','f01d10ee8880f4417ec1185579f49d87f798271d','704a68f4da0b09ae1090ec52363a80cc',0,0,0,0,NULL),(41,'2006-09-21 11:07:11','2006-09-21 15:07:11','vadmin',NULL,NULL,NULL,'vadmin@vadmin.com','1c2b85d7b8f9d216761dd1fb88960c499bc819bf','78dcb50e9e681b91fc5ac2e104ec0c0b',0,0,0,0,NULL),(43,'2007-02-28 18:22:13','2007-02-28 23:22:13','vocabowner',NULL,NULL,NULL,'vocabowner@jonphipps.com','ea209e975bcc394664ce42b03c0e345c2d0146c2','c6b0f0fb89531da792853cfa4968c9ea',0,0,0,0,NULL),(44,'2007-03-03 18:14:51','2007-03-03 23:39:27','admin',NULL,NULL,NULL,'admin@example.com','bf772da2ec13e3884cc80b4745f65c6fe88c64ba','445cf98776808291e6f1e8bc819a2cf2',0,0,1,0,NULL),(45,'2007-03-05 18:21:49','2007-03-05 23:21:49','agentadmin',NULL,NULL,NULL,'agentadmin@example.com','631e1e33866a78776596a12960a02083050bad6d','5a5d9ff756b88b3095c8df8755cba9c3',0,0,0,0,NULL);
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+LOCK TABLES `users` WRITE;
+INSERT INTO `users` VALUES (35,'2006-03-24 15:16:33','2007-03-05 23:24:31','nickname','Salut','userFirstName','userLastName','useremail@nowhere.com','d34c30813aa5568a1d4e940d2405cf508887a799','e1e1be54a7818611c83b919fd5be0847',0,0,0,0,NULL),(36,'2006-03-24 17:29:24','2006-09-08 18:50:56','jonphipps',NULL,'Jon','Phipps','jphipps@madcreek.com','f4521d500ef2f3e2ea857eacb42679f549a13c40','70a6e9945d591c5347f7d65100bd8a18',NULL,0,1,0,NULL),(37,'2006-04-07 15:53:03','2006-04-07 19:53:03','dih1',NULL,NULL,NULL,'dih1@cornell.edu','a7294c358591a15d9bcb0a8cfd707335c2b9d222','88f61322d3c9f042b442ca255a4a567e',0,0,0,0,NULL),(38,'2006-04-07 15:53:36','2006-04-07 19:53:36','sas1',NULL,NULL,NULL,'sasutton@u.washington.edu','f01d10ee8880f4417ec1185579f49d87f798271d','704a68f4da0b09ae1090ec52363a80cc',0,0,0,0,NULL),(41,'2006-09-21 11:07:11','2006-09-21 15:07:11','vadmin',NULL,NULL,NULL,'vadmin@vadmin.com','1c2b85d7b8f9d216761dd1fb88960c499bc819bf','78dcb50e9e681b91fc5ac2e104ec0c0b',0,0,0,0,NULL),(43,'2007-02-28 18:22:13','2007-02-28 23:22:13','vocabowner',NULL,NULL,NULL,'vocabowner@jonphipps.com','ea209e975bcc394664ce42b03c0e345c2d0146c2','c6b0f0fb89531da792853cfa4968c9ea',0,0,0,0,NULL),(44,'2007-03-03 18:14:51','2007-03-03 23:39:27','admin',NULL,NULL,NULL,'admin@example.com','bf772da2ec13e3884cc80b4745f65c6fe88c64ba','445cf98776808291e6f1e8bc819a2cf2',0,0,1,0,NULL),(45,'2007-03-05 18:21:49','2007-03-05 23:21:49','agentadmin',NULL,NULL,NULL,'agentadmin@example.com','631e1e33866a78776596a12960a02083050bad6d','5a5d9ff756b88b3095c8df8755cba9c3',0,0,0,0,NULL);
 UNLOCK TABLES;
-/*!40000 ALTER TABLE `reg_user` ENABLE KEYS */;
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;

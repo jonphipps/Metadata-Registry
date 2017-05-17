@@ -175,16 +175,16 @@
         <foreign-key foreignTable="reg_agent" onDelete="restrict" onUpdate="restrict">
             <reference local="agent_id" foreign="id"/>
         </foreign-key>
-        <foreign-key foreignTable="reg_user" onDelete="set null" onUpdate="restrict">
+        <foreign-key foreignTable="users" onDelete="set null" onUpdate="restrict">
             <reference local="created_by" foreign="id"/>
         </foreign-key>
-        <foreign-key foreignTable="reg_user" onDelete="set null" onUpdate="restrict">
+        <foreign-key foreignTable="users" onDelete="set null" onUpdate="restrict">
             <reference local="updated_by" foreign="id"/>
         </foreign-key>
-        <foreign-key foreignTable="reg_user" onDelete="set null" onUpdate="restrict">
+        <foreign-key foreignTable="users" onDelete="set null" onUpdate="restrict">
             <reference local="deleted_by" foreign="id"/>
         </foreign-key>
-        <foreign-key foreignTable="reg_user" onDelete="set null" onUpdate="restrict">
+        <foreign-key foreignTable="users" onDelete="set null" onUpdate="restrict">
             <reference local="child_updated_by" foreign="id"/>
         </foreign-key>
         <foreign-key foreignTable="reg_status" onDelete="restrict" onUpdate="restrict">
@@ -282,13 +282,13 @@
                 required="true" default="1"/>
         <column primaryKey="false" autoIncrement="false" lazyLoad="false" name="is_in_form" type="BOOLEAN"
                 required="true" default="0"/>
-        <foreign-key foreignTable="reg_user" onDelete="set null" onUpdate="restrict">
+        <foreign-key foreignTable="users" onDelete="set null" onUpdate="restrict">
             <reference local="created_by" foreign="id"/>
         </foreign-key>
-        <foreign-key foreignTable="reg_user" onDelete="set null" onUpdate="restrict">
+        <foreign-key foreignTable="users" onDelete="set null" onUpdate="restrict">
             <reference local="updated_by" foreign="id"/>
         </foreign-key>
-        <foreign-key foreignTable="reg_user" onDelete="set null" onUpdate="restrict">
+        <foreign-key foreignTable="users" onDelete="set null" onUpdate="restrict">
             <reference local="deleted_by" foreign="id"/>
         </foreign-key>
         <foreign-key foreignTable="profile" onDelete="restrict" onUpdate="restrict">
@@ -370,7 +370,7 @@
                 type="BOOLEAN" default="1"/>
         <column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="is_admin_for"
                 type="BOOLEAN" default="1"/>
-        <foreign-key foreignTable="reg_user" onDelete="cascade" onUpdate="restrict">
+        <foreign-key foreignTable="users" onDelete="cascade" onUpdate="restrict">
             <reference local="user_id" foreign="id"/>
         </foreign-key>
         <foreign-key foreignTable="reg_agent" onDelete="cascade" onUpdate="restrict">
@@ -431,10 +431,10 @@
                 required="true" default="null"/>
         <column primaryKey="false" autoIncrement="false" lazyLoad="false" name="status_id" type="INTEGER"
                 required="true" default="1"/>
-        <foreign-key foreignTable="reg_user" onDelete="set null" onUpdate="restrict">
+        <foreign-key foreignTable="users" onDelete="set null" onUpdate="restrict">
             <reference local="created_user_id" foreign="id"/>
         </foreign-key>
-        <foreign-key foreignTable="reg_user" onDelete="set null" onUpdate="restrict">
+        <foreign-key foreignTable="users" onDelete="set null" onUpdate="restrict">
             <reference local="updated_user_id" foreign="id"/>
         </foreign-key>
         <foreign-key foreignTable="reg_vocabulary" onDelete="cascade" onUpdate="restrict">
@@ -484,10 +484,10 @@
                 required="true" default="1"/>
         <column primaryKey="false" autoIncrement="false" lazyLoad="false" name="language" type="CHAR" size="6"
                 required="true" default="en"/>
-        <foreign-key foreignTable="reg_user" onDelete="set null" onUpdate="restrict">
+        <foreign-key foreignTable="users" onDelete="set null" onUpdate="restrict">
             <reference local="created_user_id" foreign="id"/>
         </foreign-key>
-        <foreign-key foreignTable="reg_user" onDelete="set null" onUpdate="restrict">
+        <foreign-key foreignTable="users" onDelete="set null" onUpdate="restrict">
             <reference local="updated_user_id" foreign="id"/>
         </foreign-key>
         <foreign-key foreignTable="reg_vocabulary" onDelete="cascade" onUpdate="restrict">
@@ -557,10 +557,10 @@
                 type="INTEGER" default="1"/>
         <column primaryKey="false" autoIncrement="false" lazyLoad="false" name="is_concept_property" type="BOOLEAN"
                 required="true" default="0"/>
-        <foreign-key foreignTable="reg_user" onDelete="set null" onUpdate="restrict">
+        <foreign-key foreignTable="users" onDelete="set null" onUpdate="restrict">
             <reference local="created_user_id" foreign="id"/>
         </foreign-key>
-        <foreign-key foreignTable="reg_user" onDelete="set null" onUpdate="restrict">
+        <foreign-key foreignTable="users" onDelete="set null" onUpdate="restrict">
             <reference local="updated_user_id" foreign="id"/>
         </foreign-key>
         <foreign-key foreignTable="reg_concept" onDelete="cascade" onUpdate="restrict">
@@ -652,7 +652,7 @@
         <foreign-key foreignTable="reg_status" onDelete="restrict" onUpdate="restrict">
             <reference local="status_id" foreign="id"/>
         </foreign-key>
-        <foreign-key foreignTable="reg_user" onDelete="set null" onUpdate="restrict">
+        <foreign-key foreignTable="users" onDelete="set null" onUpdate="restrict">
             <reference local="created_user_id" foreign="id"/>
         </foreign-key>
         <index name="reg_concept_property_history_concept_property_id_index">
@@ -720,10 +720,10 @@
                 size="255"/>
         <column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="content"
                 type="LONGVARCHAR"/>
-        <foreign-key foreignTable="reg_user" onDelete="restrict" onUpdate="restrict">
+        <foreign-key foreignTable="users" onDelete="restrict" onUpdate="restrict">
             <reference local="created_user_id" foreign="id"/>
         </foreign-key>
-        <foreign-key foreignTable="reg_user" onDelete="restrict" onUpdate="restrict">
+        <foreign-key foreignTable="users" onDelete="restrict" onUpdate="restrict">
             <reference local="deleted_user_id" foreign="id"/>
         </foreign-key>
         <foreign-key foreignTable="reg_schema" onDelete="cascade" onUpdate="restrict">
@@ -813,7 +813,7 @@
                 type="INTEGER"/>
         <column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="success_count"
                 type="INTEGER"/>
-        <foreign-key foreignTable="reg_user" onDelete="restrict" onUpdate="restrict">
+        <foreign-key foreignTable="users" onDelete="restrict" onUpdate="restrict">
             <reference local="user_id" foreign="id"/>
         </foreign-key>
         <foreign-key foreignTable="reg_vocabulary" onDelete="restrict" onUpdate="restrict">
@@ -948,10 +948,10 @@
         <foreign-key foreignTable="reg_agent" onDelete="restrict" onUpdate="restrict">
             <reference local="agent_id" foreign="id"/>
         </foreign-key>
-        <foreign-key foreignTable="reg_user" onDelete="set null" onUpdate="restrict">
+        <foreign-key foreignTable="users" onDelete="set null" onUpdate="restrict">
             <reference local="created_user_id" foreign="id"/>
         </foreign-key>
-        <foreign-key foreignTable="reg_user" onDelete="set null" onUpdate="restrict">
+        <foreign-key foreignTable="users" onDelete="set null" onUpdate="restrict">
             <reference local="updated_user_id" foreign="id"/>
         </foreign-key>
         <foreign-key foreignTable="reg_status" onDelete="restrict" onUpdate="restrict">
@@ -1032,10 +1032,10 @@
                 size="255"/>
         <column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="is_deprecated"
                 type="BOOLEAN"/>
-        <foreign-key foreignTable="reg_user" onDelete="set null" onUpdate="restrict">
+        <foreign-key foreignTable="users" onDelete="set null" onUpdate="restrict">
             <reference local="created_user_id" foreign="id"/>
         </foreign-key>
-        <foreign-key foreignTable="reg_user" onDelete="set null" onUpdate="restrict">
+        <foreign-key foreignTable="users" onDelete="set null" onUpdate="restrict">
             <reference local="updated_user_id" foreign="id"/>
         </foreign-key>
         <foreign-key foreignTable="reg_schema" onDelete="cascade" onUpdate="restrict">
@@ -1094,10 +1094,10 @@
                 size="6" default="en"/>
         <column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="status_id"
                 type="INTEGER" default="1"/>
-        <foreign-key foreignTable="reg_user" onDelete="restrict" onUpdate="restrict">
+        <foreign-key foreignTable="users" onDelete="restrict" onUpdate="restrict">
             <reference local="created_user_id" foreign="id"/>
         </foreign-key>
-        <foreign-key foreignTable="reg_user" onDelete="restrict" onUpdate="restrict">
+        <foreign-key foreignTable="users" onDelete="restrict" onUpdate="restrict">
             <reference local="updated_user_id" foreign="id"/>
         </foreign-key>
         <foreign-key foreignTable="reg_schema_property" onDelete="cascade" onUpdate="restrict">
@@ -1166,7 +1166,7 @@
                 type="LONGVARCHAR"/>
         <column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="import_id"
                 type="INTEGER"/>
-        <foreign-key foreignTable="reg_user" onDelete="restrict" onUpdate="restrict">
+        <foreign-key foreignTable="users" onDelete="restrict" onUpdate="restrict">
             <reference local="created_user_id" foreign="id"/>
         </foreign-key>
         <foreign-key foreignTable="reg_schema_property_element" onDelete="cascade" onUpdate="restrict">
@@ -1277,7 +1277,7 @@
             <unique-column name="id"/>
         </unique>
     </table>
-    <table skipSql="false" abstract="false" name="reg_user" phpName="User" idMethod="native">
+    <table skipSql="false" abstract="false" name="users" phpName="User" idMethod="native">
         <column lazyLoad="false" name="id" type="INTEGER" required="true" autoIncrement="true" primaryKey="true"/>
         <column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="created_at"
                 type="TIMESTAMP"/>
@@ -1363,13 +1363,13 @@
         <foreign-key foreignTable="reg_agent" onDelete="restrict" onUpdate="restrict">
             <reference local="agent_id" foreign="id"/>
         </foreign-key>
-        <foreign-key foreignTable="reg_user" onDelete="set null" onUpdate="restrict">
+        <foreign-key foreignTable="users" onDelete="set null" onUpdate="restrict">
             <reference local="created_user_id" foreign="id"/>
         </foreign-key>
-        <foreign-key foreignTable="reg_user" onDelete="set null" onUpdate="restrict">
+        <foreign-key foreignTable="users" onDelete="set null" onUpdate="restrict">
             <reference local="updated_user_id" foreign="id"/>
         </foreign-key>
-        <foreign-key foreignTable="reg_user" onDelete="set null" onUpdate="restrict">
+        <foreign-key foreignTable="users" onDelete="set null" onUpdate="restrict">
             <reference local="child_updated_user_id" foreign="id"/>
         </foreign-key>
         <foreign-key foreignTable="reg_status" onDelete="restrict" onUpdate="restrict">
@@ -1431,7 +1431,7 @@
         <foreign-key foreignTable="reg_vocabulary" onDelete="cascade" onUpdate="restrict">
             <reference local="vocabulary_id" foreign="id"/>
         </foreign-key>
-        <foreign-key foreignTable="reg_user" onDelete="cascade" onUpdate="restrict">
+        <foreign-key foreignTable="users" onDelete="cascade" onUpdate="restrict">
             <reference local="user_id" foreign="id"/>
         </foreign-key>
         <unique name="resource_user_id">
@@ -1460,7 +1460,7 @@
                 type="INTEGER"/>
         <column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="timeslice"
                 type="TIMESTAMP"/>
-        <foreign-key foreignTable="reg_user" onDelete="set null" onUpdate="restrict">
+        <foreign-key foreignTable="users" onDelete="set null" onUpdate="restrict">
             <reference local="created_user_id" foreign="id"/>
         </foreign-key>
         <foreign-key foreignTable="reg_vocabulary" onDelete="cascade" onUpdate="restrict">
@@ -1506,7 +1506,7 @@
         <foreign-key foreignTable="reg_schema" onDelete="cascade" onUpdate="restrict">
             <reference local="schema_id" foreign="id"/>
         </foreign-key>
-        <foreign-key foreignTable="reg_user" onDelete="cascade" onUpdate="restrict">
+        <foreign-key foreignTable="users" onDelete="cascade" onUpdate="restrict">
             <reference local="user_id" foreign="id"/>
         </foreign-key>
         <index name="schema_has_user_schema_id_index">
@@ -1535,7 +1535,7 @@
                 type="INTEGER"/>
         <column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="timeslice"
                 type="TIMESTAMP"/>
-        <foreign-key foreignTable="reg_user" onDelete="restrict" onUpdate="restrict">
+        <foreign-key foreignTable="users" onDelete="restrict" onUpdate="restrict">
             <reference local="created_user_id" foreign="id"/>
         </foreign-key>
         <foreign-key foreignTable="reg_schema" onDelete="cascade" onUpdate="restrict">

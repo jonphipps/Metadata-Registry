@@ -51,7 +51,7 @@ return [
       |
       |
       */
-      'table'     => 'reg_user',
+      'table'     => 'users',
 
     ],
     /*

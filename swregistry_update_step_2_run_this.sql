@@ -92,12 +92,12 @@ CREATE INDEX reg_schema_property_element_history_fk7 ON reg_schema_property_elem
 
 
 --
--- reg_user
+-- users
 --
 
-ALTER TABLE reg_user
+ALTER TABLE users
 ADD culture VARCHAR(7) DEFAULT 'en_US';
-DROP INDEX id ON reg_user;
+DROP INDEX id ON users;
 
 --
 -- reg_vocabulary

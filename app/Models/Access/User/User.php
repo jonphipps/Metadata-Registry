@@ -100,7 +100,7 @@ class User extends Authenticatable
    * @var string
    */
   protected $table = self::TABLE;
-  public const TABLE = 'reg_user';
+  public const TABLE = 'users';
 
   /**
    * The attributes that are mass assignable.

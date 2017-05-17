@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Subclass for representing a row from the 'reg_user' table.
+ * Subclass for representing a row from the 'users' table.
  *
  * 
  *

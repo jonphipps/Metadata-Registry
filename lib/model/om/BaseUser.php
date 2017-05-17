@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Base class that represents a row from the 'reg_user' table.
+ * Base class that represents a row from the 'users' table.
  *
  * 
  *

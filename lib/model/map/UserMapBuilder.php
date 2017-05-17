@@ -2,7 +2,7 @@
 
 
 /**
- * This class adds structure of 'reg_user' table to 'propel' DatabaseMap object.
+ * This class adds structure of 'users' table to 'propel' DatabaseMap object.
  *
  *
  *
@@ -56,7 +56,7 @@ class UserMapBuilder {
 	{
 		$this->dbMap = Propel::getDatabaseMap('propel');
 
-		$tMap = $this->dbMap->addTable('reg_user');
+		$tMap = $this->dbMap->addTable('users');
 		$tMap->setPhpName('User');
 
 		$tMap->setUseIdGenerator(true);

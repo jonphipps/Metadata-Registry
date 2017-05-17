@@ -71,15 +71,15 @@ class ProfileMapBuilder {
 
 		$tMap->addColumn('DELETED_AT', 'DeletedAt', 'int', CreoleTypes::TIMESTAMP, false, null);
 
-		$tMap->addForeignKey('CREATED_BY', 'CreatedBy', 'int', CreoleTypes::INTEGER, 'reg_user', 'ID', false, null);
+		$tMap->addForeignKey('CREATED_BY', 'CreatedBy', 'int', CreoleTypes::INTEGER, 'users', 'ID', false, null);
 
-		$tMap->addForeignKey('UPDATED_BY', 'UpdatedBy', 'int', CreoleTypes::INTEGER, 'reg_user', 'ID', false, null);
+		$tMap->addForeignKey('UPDATED_BY', 'UpdatedBy', 'int', CreoleTypes::INTEGER, 'users', 'ID', false, null);
 
-		$tMap->addForeignKey('DELETED_BY', 'DeletedBy', 'int', CreoleTypes::INTEGER, 'reg_user', 'ID', false, null);
+		$tMap->addForeignKey('DELETED_BY', 'DeletedBy', 'int', CreoleTypes::INTEGER, 'users', 'ID', false, null);
 
 		$tMap->addColumn('CHILD_UPDATED_AT', 'ChildUpdatedAt', 'int', CreoleTypes::TIMESTAMP, false, null);
 
-		$tMap->addForeignKey('CHILD_UPDATED_BY', 'ChildUpdatedBy', 'int', CreoleTypes::INTEGER, 'reg_user', 'ID', false, null);
+		$tMap->addForeignKey('CHILD_UPDATED_BY', 'ChildUpdatedBy', 'int', CreoleTypes::INTEGER, 'users', 'ID', false, null);
 
 		$tMap->addColumn('NAME', 'Name', 'string', CreoleTypes::VARCHAR, true, 255);
 

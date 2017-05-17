@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Subclass for performing query and update operations on the 'reg_user' table.
+ * Subclass for performing query and update operations on the 'users' table.
  *
  *
  *
@@ -118,7 +118,7 @@ class UserPeer extends BaseUserPeer
      $userId = $user->getId();
    }
 
-   $sql = "SELECT DISTINCT reg_user.* FROM " . UserPeer::TABLE_NAME;
+   $sql = "SELECT DISTINCT users.* FROM " . UserPeer::TABLE_NAME;
 
    if (!$showAll) //we add criteria to select only users attached to the supplied $userId
    {

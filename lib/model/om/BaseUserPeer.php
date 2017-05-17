@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Base static class for performing query and update operations on the 'reg_user' table.
+ * Base static class for performing query and update operations on the 'users' table.
  *
  * 
  *
@@ -13,7 +13,7 @@ abstract class BaseUserPeer {
 	const DATABASE_NAME = 'propel';
 
 	/** the table name for this class */
-	const TABLE_NAME = 'reg_user';
+	const TABLE_NAME = 'users';
 
 	/** A class that can be returned by this peer. */
 	const CLASS_DEFAULT = 'lib.model.User';
@@ -26,61 +26,61 @@ abstract class BaseUserPeer {
 
 
 	/** the column name for the ID field */
-	const ID = 'reg_user.ID';
+	const ID = 'users.ID';
 
 	/** the column name for the CREATED_AT field */
-	const CREATED_AT = 'reg_user.CREATED_AT';
+	const CREATED_AT = 'users.CREATED_AT';
 
 	/** the column name for the UPDATED_AT field */
-	const UPDATED_AT = 'reg_user.UPDATED_AT';
+	const UPDATED_AT = 'users.UPDATED_AT';
 
 	/** the column name for the DELETED_AT field */
-	const DELETED_AT = 'reg_user.DELETED_AT';
+	const DELETED_AT = 'users.DELETED_AT';
 
 	/** the column name for the LAST_UPDATED field */
-	const LAST_UPDATED = 'reg_user.LAST_UPDATED';
+	const LAST_UPDATED = 'users.LAST_UPDATED';
 
 	/** the column name for the NICKNAME field */
-	const NICKNAME = 'reg_user.NICKNAME';
+	const NICKNAME = 'users.NICKNAME';
 
 	/** the column name for the SALUTATION field */
-	const SALUTATION = 'reg_user.SALUTATION';
+	const SALUTATION = 'users.SALUTATION';
 
 	/** the column name for the FIRST_NAME field */
-	const FIRST_NAME = 'reg_user.FIRST_NAME';
+	const FIRST_NAME = 'users.FIRST_NAME';
 
 	/** the column name for the LAST_NAME field */
-	const LAST_NAME = 'reg_user.LAST_NAME';
+	const LAST_NAME = 'users.LAST_NAME';
 
 	/** the column name for the EMAIL field */
-	const EMAIL = 'reg_user.EMAIL';
+	const EMAIL = 'users.EMAIL';
 
 	/** the column name for the SHA1_PASSWORD field */
-	const SHA1_PASSWORD = 'reg_user.SHA1_PASSWORD';
+	const SHA1_PASSWORD = 'users.SHA1_PASSWORD';
 
 	/** the column name for the SALT field */
-	const SALT = 'reg_user.SALT';
+	const SALT = 'users.SALT';
 
 	/** the column name for the WANT_TO_BE_MODERATOR field */
-	const WANT_TO_BE_MODERATOR = 'reg_user.WANT_TO_BE_MODERATOR';
+	const WANT_TO_BE_MODERATOR = 'users.WANT_TO_BE_MODERATOR';
 
 	/** the column name for the IS_MODERATOR field */
-	const IS_MODERATOR = 'reg_user.IS_MODERATOR';
+	const IS_MODERATOR = 'users.IS_MODERATOR';
 
 	/** the column name for the IS_ADMINISTRATOR field */
-	const IS_ADMINISTRATOR = 'reg_user.IS_ADMINISTRATOR';
+	const IS_ADMINISTRATOR = 'users.IS_ADMINISTRATOR';
 
 	/** the column name for the DELETIONS field */
-	const DELETIONS = 'reg_user.DELETIONS';
+	const DELETIONS = 'users.DELETIONS';
 
 	/** the column name for the PASSWORD field */
-	const PASSWORD = 'reg_user.PASSWORD';
+	const PASSWORD = 'users.PASSWORD';
 
 	/** the column name for the CULTURE field */
-	const CULTURE = 'reg_user.CULTURE';
+	const CULTURE = 'users.CULTURE';
 
 	/** the column name for the REMEMBER_TOKEN field */
-	const REMEMBER_TOKEN = 'reg_user.REMEMBER_TOKEN';
+	const REMEMBER_TOKEN = 'users.REMEMBER_TOKEN';
 
 	/** The PHP to DB Name Mapping */
 	private static $phpNameMap = null;
@@ -250,8 +250,8 @@ abstract class BaseUserPeer {
 
 	}
 
-	const COUNT = 'COUNT(reg_user.ID)';
-	const COUNT_DISTINCT = 'COUNT(DISTINCT reg_user.ID)';
+	const COUNT = 'COUNT(users.ID)';
+	const COUNT_DISTINCT = 'COUNT(DISTINCT users.ID)';
 
 	/**
 	 * Returns the number of rows matching criteria.
@@ -521,7 +521,7 @@ abstract class BaseUserPeer {
   }
 
 	/**
-	 * Method to DELETE all rows from the reg_user table.
+	 * Method to DELETE all rows from the users table.
 	 *
 	 * @return     int The number of affected rows (if supported by underlying database driver).
 	 */

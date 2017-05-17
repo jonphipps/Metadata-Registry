@@ -229,19 +229,19 @@ propel:
       type: TIMESTAMP
     created_by: 
       type: INTEGER
-      foreignTable: reg_user
+      foreignTable: users
       foreignReference: id
       onDelete: SET NULL
       onUpdate: RESTRICT
     updated_by: 
       type: INTEGER
-      foreignTable: reg_user
+      foreignTable: users
       foreignReference: id
       onDelete: SET NULL
       onUpdate: RESTRICT
     deleted_by: 
       type: INTEGER
-      foreignTable: reg_user
+      foreignTable: users
       foreignReference: id
       onDelete: SET NULL
       onUpdate: RESTRICT
@@ -249,7 +249,7 @@ propel:
       type: TIMESTAMP
     child_updated_by: 
       type: INTEGER
-      foreignTable: reg_user
+      foreignTable: users
       foreignReference: id
       onDelete: SET NULL
       onUpdate: RESTRICT
@@ -332,19 +332,19 @@ propel:
       type: TIMESTAMP
     created_by: 
       type: INTEGER
-      foreignTable: reg_user
+      foreignTable: users
       foreignReference: id
       onDelete: SET NULL
       onUpdate: RESTRICT
     updated_by: 
       type: INTEGER
-      foreignTable: reg_user
+      foreignTable: users
       foreignReference: id
       onDelete: SET NULL
       onUpdate: RESTRICT
     deleted_by: 
       type: INTEGER
-      foreignTable: reg_user
+      foreignTable: users
       foreignReference: id
       onDelete: SET NULL
       onUpdate: RESTRICT
@@ -551,21 +551,21 @@ propel:
       type: LONGVARCHAR
     created_by: 
       type: INTEGER
-      foreignTable: reg_user
+      foreignTable: users
       foreignReference: id
       onDelete: SET NULL
       onUpdate: RESTRICT
       index: true
     updated_by: 
       type: INTEGER
-      foreignTable: reg_user
+      foreignTable: users
       foreignReference: id
       onDelete: SET NULL
       onUpdate: RESTRICT
       index: true
     deleted_by: 
       type: INTEGER
-      foreignTable: reg_user
+      foreignTable: users
       foreignReference: id
       onDelete: SET NULL
       onUpdate: RESTRICT
@@ -590,7 +590,7 @@ propel:
       type: INTEGER
       required: true
       default: 0
-      foreignTable: reg_user
+      foreignTable: users
       foreignReference: id
       onDelete: CASCADE
       onUpdate: RESTRICT
@@ -662,14 +662,14 @@ propel:
       type: TIMESTAMP
     created_user_id: 
       type: INTEGER
-      foreignTable: reg_user
+      foreignTable: users
       foreignReference: id
       onDelete: SET NULL
       onUpdate: RESTRICT
       index: true
     updated_user_id: 
       type: INTEGER
-      foreignTable: reg_user
+      foreignTable: users
       foreignReference: id
       onDelete: SET NULL
       onUpdate: RESTRICT
@@ -723,14 +723,14 @@ propel:
       type: TIMESTAMP
     created_user_id: 
       type: INTEGER
-      foreignTable: reg_user
+      foreignTable: users
       foreignReference: id
       onDelete: SET NULL
       onUpdate: RESTRICT
       index: true
     updated_user_id: 
       type: INTEGER
-      foreignTable: reg_user
+      foreignTable: users
       foreignReference: id
       onDelete: SET NULL
       onUpdate: RESTRICT
@@ -804,14 +804,14 @@ propel:
       type: TIMESTAMP
     created_user_id: 
       type: INTEGER
-      foreignTable: reg_user
+      foreignTable: users
       foreignReference: id
       onDelete: SET NULL
       onUpdate: RESTRICT
       index: true
     updated_user_id: 
       type: INTEGER
-      foreignTable: reg_user
+      foreignTable: users
       foreignReference: id
       onDelete: SET NULL
       onUpdate: RESTRICT
@@ -952,7 +952,7 @@ propel:
       index: true
     created_user_id: 
       type: INTEGER
-      foreignTable: reg_user
+      foreignTable: users
       foreignReference: id
       onDelete: SET NULL
       onUpdate: RESTRICT
@@ -994,14 +994,14 @@ propel:
       type: TIMESTAMP
     created_user_id: 
       type: INTEGER
-      foreignTable: reg_user
+      foreignTable: users
       foreignReference: id
       onDelete: RESTRICT
       onUpdate: RESTRICT
       index: true
     deleted_user_id: 
       type: INTEGER
-      foreignTable: reg_user
+      foreignTable: users
       foreignReference: id
       onDelete: RESTRICT
       onUpdate: RESTRICT
@@ -1086,7 +1086,7 @@ propel:
       type: TIMESTAMP
     user_id: 
       type: INTEGER
-      foreignTable: reg_user
+      foreignTable: users
       foreignReference: id
       onDelete: RESTRICT
       onUpdate: RESTRICT
@@ -1157,7 +1157,7 @@ propel:
       type: LONGVARCHAR
     user_id: 
       type: INTEGER
-      foreignTable: reg_user
+      foreignTable: users
       foreignReference: id
       onDelete: RESTRICT
       onUpdate: RESTRICT
@@ -1309,20 +1309,20 @@ propel:
       type: TIMESTAMP
     created_user_id: 
       type: INTEGER
-      foreignTable: reg_user
+      foreignTable: users
       foreignReference: id
       onDelete: SET NULL
       onUpdate: RESTRICT
       index: true
     updated_user_id: 
       type: INTEGER
-      foreignTable: reg_user
+      foreignTable: users
       foreignReference: id
       onDelete: SET NULL
       onUpdate: RESTRICT
     deleted_user_id: 
       type: INTEGER
-      foreignTable: reg_user
+      foreignTable: users
       foreignReference: id
       onDelete: RESTRICT
       onUpdate: RESTRICT
@@ -1424,14 +1424,14 @@ propel:
       type: TIMESTAMP
     created_user_id: 
       type: INTEGER
-      foreignTable: reg_user
+      foreignTable: users
       foreignReference: id
       onDelete: SET NULL
       onUpdate: RESTRICT
       index: true
     updated_user_id: 
       type: INTEGER
-      foreignTable: reg_user
+      foreignTable: users
       foreignReference: id
       onDelete: SET NULL
       onUpdate: RESTRICT
@@ -1535,21 +1535,21 @@ propel:
       type: TIMESTAMP
     created_user_id: 
       type: INTEGER
-      foreignTable: reg_user
+      foreignTable: users
       foreignReference: id
       onDelete: RESTRICT
       onUpdate: RESTRICT
       index: true
     updated_user_id: 
       type: INTEGER
-      foreignTable: reg_user
+      foreignTable: users
       foreignReference: id
       onDelete: RESTRICT
       onUpdate: RESTRICT
       index: true
     deleted_user_id: 
       type: INTEGER
-      foreignTable: reg_user
+      foreignTable: users
       foreignReference: id
       onDelete: RESTRICT
       onUpdate: RESTRICT
@@ -1620,7 +1620,7 @@ propel:
       required: true
     created_user_id: 
       type: INTEGER
-      foreignTable: reg_user
+      foreignTable: users
       foreignReference: id
       onDelete: RESTRICT
       onUpdate: RESTRICT
@@ -1771,7 +1771,7 @@ propel:
     uri: 
       type: VARCHAR
       size: 255
-  reg_user: 
+  users:
     _attributes: 
       phpName: User
       idMethod: native
@@ -1859,20 +1859,20 @@ propel:
       required: true
     created_user_id: 
       type: INTEGER
-      foreignTable: reg_user
+      foreignTable: users
       foreignReference: id
       onDelete: SET NULL
       onUpdate: RESTRICT
       index: true
     updated_user_id: 
       type: INTEGER
-      foreignTable: reg_user
+      foreignTable: users
       foreignReference: id
       onDelete: SET NULL
       onUpdate: RESTRICT
     deleted_user_id: 
       type: INTEGER
-      foreignTable: reg_user
+      foreignTable: users
       foreignReference: id
       onDelete: SET NULL
       onUpdate: RESTRICT
@@ -1881,7 +1881,7 @@ propel:
       type: TIMESTAMP
     child_updated_user_id: 
       type: INTEGER
-      foreignTable: reg_user
+      foreignTable: users
       foreignReference: id
       onDelete: SET NULL
       onUpdate: RESTRICT
@@ -1988,7 +1988,7 @@ propel:
       type: INTEGER
       required: true
       default: 0
-      foreignTable: reg_user
+      foreignTable: users
       foreignReference: id
       onDelete: CASCADE
       onUpdate: RESTRICT
@@ -2041,7 +2041,7 @@ propel:
       type: TIMESTAMP
     created_user_id: 
       type: INTEGER
-      foreignTable: reg_user
+      foreignTable: users
       foreignReference: id
       onDelete: SET NULL
       onUpdate: RESTRICT
@@ -2083,7 +2083,7 @@ propel:
       type: INTEGER
       required: true
       default: 0
-      foreignTable: reg_user
+      foreignTable: users
       foreignReference: id
       onDelete: CASCADE
       onUpdate: RESTRICT
@@ -2137,7 +2137,7 @@ propel:
       type: TIMESTAMP
     created_user_id: 
       type: INTEGER
-      foreignTable: reg_user
+      foreignTable: users
       foreignReference: id
       onDelete: RESTRICT
       onUpdate: RESTRICT

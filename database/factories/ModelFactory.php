@@ -869,8 +869,7 @@ $factory->define(App\Models\VocabularyHasVersion::class,
         ];
     });
 
-//INSERT INTO `swregistry`.`reg_user` (id, created_at, last_updated, deleted_at, nickname, name, salutation, first_name, last_name, email, sha1_password, salt, want_to_be_moderator, is_moderator, is_administrator, deletions, password, culture) VALUES ()
-$factory->define(User::class,
+users$factory->define(User::class,
     function (Faker\Generator $faker) {
         static $password;
         $name = $faker->unique()->userName;
