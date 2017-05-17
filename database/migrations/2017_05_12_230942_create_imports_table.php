@@ -16,12 +16,12 @@ class CreateImportsTable extends Migration {
 		Schema::create('imports', function(Blueprint $table)
 		{
 			$table->increments('id');
+			$table->timestamps();
 			$table->string('source_file_name')->nullable();
 			$table->enum('source', array('Google','upload'))->nullable();
-			$table->timestamps();
-			$table->softDeletes()->index();
 			$table->mediumText('map')->nullable();
-			$table->integer('imported_by_id')->unsigned()->nullable()->index();
+			$table->integer('imported_by')->unsigned()->nullable()->index();
+			$table->integer('user_id')->unsigned()->nullable()->index();
 			$table->string('file_name')->nullable();
 			$table->string('file_type')->nullable();
 			$table->mediumText('results')->nullable();
@@ -32,6 +32,7 @@ class CreateImportsTable extends Migration {
 			$table->integer('thing_collection_id')->unsigned()->nullable()->index();
 			$table->integer('vocabulary_id')->unsigned()->nullable()->index();
 			$table->integer('element_set_id')->unsigned()->nullable()->index();
+			$table->integer('schema_id')->unsigned()->nullable()->index();
 			$table->integer('token')->nullable();
 		});
 	}
