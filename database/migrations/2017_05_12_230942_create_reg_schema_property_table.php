@@ -22,8 +22,8 @@ class CreateRegSchemaPropertyTable extends Migration {
 			$table->integer('updated_user_id')->unsigned()->nullable()->index();
 			$table->integer('deleted_user_id')->unsigned()->nullable()->index();
 			$table->integer('schema_id')->unsigned()->index();
-			$table->string('name')->default('');
-			$table->string('label')->default('');
+			$table->text('name')->nullable();
+			$table->text('label')->nullable();
 			$table->text('definition')->nullable();
 			$table->text('comment')->nullable();
 			$table->string('type', 15)->default('property');
@@ -31,18 +31,21 @@ class CreateRegSchemaPropertyTable extends Migration {
 			$table->string('parent_uri')->nullable();
 			$table->string('uri')->default('')->index();
 			$table->integer('status_id')->unsigned()->default(1)->index();
-			$table->string('language', 6)->default('');
+			$table->char('language', 10)->default('');
 			$table->text('note')->nullable();
 			$table->string('domain')->nullable();
 			$table->string('orange')->nullable();
 			$table->boolean('is_deprecated')->nullable()->comment('Boolean. Has this class/property been deprecated');
 			$table->string('url')->nullable();
-			$table->string('lexical_alias')->nullable();
+			$table->text('lexical_alias')->nullable();
 			$table->char('hash_id')->default('')->index();
 			$table->integer('created_by')->unsigned()->nullable()->index();
 			$table->integer('updated_by')->unsigned()->nullable()->index();
 			$table->integer('deleted_by')->unsigned()->nullable()->index();
 		});
+        if (DB::getDriverName() === 'mysql') {
+            DB::statement('ALTER TABLE reg_schema_property ADD FULLTEXT full( `label`)');
+        }
 	}
 
 

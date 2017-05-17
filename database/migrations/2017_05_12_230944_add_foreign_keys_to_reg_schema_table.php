@@ -18,6 +18,7 @@ class AddForeignKeysToRegSchemaTable extends Migration {
 			$table->foreign('created_user_id', 'reg_schema_ibfk_1')->references('id')->on('users')->onUpdate('NO ACTION')->onDelete('SET NULL');
 			$table->foreign('updated_user_id', 'reg_schema_ibfk_2')->references('id')->on('users')->onUpdate('NO ACTION')->onDelete('SET NULL');
 			$table->foreign('project_id', 'reg_schema_ibfk_3')->references('id')->on('projects')->onUpdate('NO ACTION')->onDelete('RESTRICT');
+			$table->foreign('agent_id', 'reg_schema_ibfk_10')->references('id')->on('projects')->onUpdate('NO ACTION')->onDelete('RESTRICT');
 			$table->foreign('profile_id', 'reg_schema_ibfk_4')->references('id')->on('profile')->onUpdate('NO ACTION')->onDelete('NO ACTION');
 			$table->foreign('status_id', 'reg_schema_ibfk_5')->references('id')->on('reg_status')->onUpdate('NO ACTION')->onDelete('NO ACTION');
 			$table->foreign('deleted_user_id', 'reg_schema_ibfk_6')->references('id')->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');

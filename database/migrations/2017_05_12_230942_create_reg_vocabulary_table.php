@@ -16,9 +16,10 @@ class CreateRegVocabularyTable extends Migration {
 		Schema::create('reg_vocabulary', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->integer('project_id')->unsigned()->index();
 			$table->timestamps();
 			$table->softDeletes();
+			$table->integer('project_id')->unsigned()->nullable()->index();
+			$table->integer('agent_id')->unsigned()->nullable()->index();
 			$table->timestamp('last_updated')->default(DB::raw('CURRENT_TIMESTAMP'));
 			$table->integer('created_user_id')->unsigned()->nullable()->index();
 			$table->integer('updated_user_id')->unsigned()->nullable()->index();

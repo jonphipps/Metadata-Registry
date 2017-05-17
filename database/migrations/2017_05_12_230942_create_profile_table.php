@@ -16,9 +16,10 @@ class CreateProfileTable extends Migration {
 		Schema::create('profile', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->integer('project_id')->unsigned()->index();
 			$table->timestamps();
 			$table->softDeletes();
+			$table->integer('project_id')->unsigned()->nullable()->index();
+			$table->integer('agent_id')->unsigned()->nullable()->index();
 			$table->integer('created_by')->unsigned()->nullable()->index();
 			$table->integer('updated_by')->unsigned()->nullable()->index();
 			$table->integer('deleted_by')->unsigned()->nullable()->index();
