@@ -248,7 +248,7 @@ class Project extends Model
    */
   public function vocabulariesForSelect()
   {
-    return Vocabulary::select('id', 'name')
+    return Vocabulary::select(['id', 'name'])
         ->where('agent_id', $this->id)
         ->orderBy('name')
         ->get()
