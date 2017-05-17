@@ -13,25 +13,25 @@ use App\Models\Access\User\User;
  * @property string $updated_at
  * @property \Carbon\Carbon|null $deleted_at
  * @property int $user_id
- * @property int $agent_id
+ * @property int $project_id
  * @property bool $is_registrar_for
  * @property bool $is_admin_for
  * @property-read \App\Models\Project $project
  * @property-read \App\Models\Access\User\User $user
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ProjectHasUser whereAgentId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ProjectHasUser whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ProjectHasUser whereDeletedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ProjectHasUser whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ProjectHasUser whereIsAdminFor($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ProjectHasUser whereIsRegistrarFor($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ProjectHasUser whereUpdatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ProjectHasUser whereUserId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ProjectUser whereAgentId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ProjectUser whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ProjectUser whereDeletedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ProjectUser whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ProjectUser whereIsAdminFor($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ProjectUser whereIsRegistrarFor($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ProjectUser whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ProjectUser whereUserId($value)
  * @mixin \Eloquent
  */
-class ProjectHasUser extends Model
+class ProjectUser extends Model
 {
     protected $table = self::TABLE;
-    const TABLE = 'reg_agent_has_user';
+    const TABLE = 'project_user';
 
     use SoftDeletes;
 
@@ -52,7 +52,7 @@ class ProjectHasUser extends Model
     protected $casts = [
       'id'               => 'integer',
       'user_id'          => 'integer',
-      'agent_id'         => 'integer',
+      'project_id'         => 'integer',
       'is_registrar_for' => 'boolean',
       'is_admin_for'     => 'boolean',
     ];
@@ -60,7 +60,7 @@ class ProjectHasUser extends Model
     public static $rules = [
       'updated_at' => 'required|',
       'user_id'    => 'required|',
-      'agent_id'   => 'required|',
+      'project_id'   => 'required|',
     ];
 
 
@@ -72,6 +72,6 @@ class ProjectHasUser extends Model
 
     public function project()
     {
-        return $this->belongsTo(Project::class, 'agent_id', 'id');
+        return $this->belongsTo(Project::class, 'project_id', 'id');
     }
 }

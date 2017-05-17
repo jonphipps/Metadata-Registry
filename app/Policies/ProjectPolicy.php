@@ -4,7 +4,7 @@ namespace App\Policies;
 
 use App\Models\Access\User\User;
 use App\Models\Project;
-use App\Models\ProjectHasUser;
+use App\Models\ProjectUser;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class ProjectPolicy

@@ -3,7 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Project;
-use App\Models\ProjectHasUser;
+use App\Models\ProjectUser;
 use const ENT_QUOTES;
 use function htmlspecialchars;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -41,7 +41,7 @@ class ProjectViewTest extends TestCase
     $this->user->projects()->attach($project,
                                     [ 'is_registrar_for' => true,
                                       'is_admin_for'     => true, ]);
-    $this->assertDatabaseHas(ProjectHasUser::TABLE,
+    $this->assertDatabaseHas(ProjectUser::TABLE,
                              [ 'is_registrar_for' => true,
                                'is_admin_for'     => true,
                                'agent_id'         => $project->id,

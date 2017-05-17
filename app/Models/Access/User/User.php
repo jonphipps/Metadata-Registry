@@ -5,7 +5,7 @@ namespace App\Models\Access\User;
 use App\Models\ElementSet;
 use App\Models\ElementSetHasUser;
 use App\Models\Project;
-use App\Models\ProjectHasUser;
+use App\Models\ProjectUser;
 use App\Models\Vocabulary;
 use App\Models\VocabularyHasUser;
 use Illuminate\Notifications\Notifiable;
@@ -137,9 +137,9 @@ class User extends Authenticatable
    */
   public function isAdminForProjectId($project_id)
   {
-    return (bool) ProjectHasUser::where([
+    return (bool) ProjectUser::where([
         [ 'user_id', '=', $this->id ],
-        [ 'agent_id', '=', $project_id ],
+        [ 'project_id', '=', $project_id ],
         [ 'is_admin_for', '=', true ],
     ])->count();
   }
@@ -154,7 +154,7 @@ class User extends Authenticatable
     return (bool) VocabularyHasUser::where([
             [ 'user_id', '=', $this->id ],
             [ 'is_admin_for', '=', true ],
-        ])->count() or $this->isAdminForProjectId($vocabulary->agent_id);
+        ])->count() or $this->isAdminForProjectId($vocabulary->project_id);
   }
 
   /**
@@ -181,7 +181,7 @@ class User extends Authenticatable
     return (bool) ElementSetHasUser::where([
             [ 'user_id', '=', $this->id ],
             [ 'is_admin_for', '=', true ],
-        ])->count() or $this->isAdminForProjectId($elementSet->agent_id);
+        ])->count() or $this->isAdminForProjectId($elementSet->project_id);
   }
 
   /**
@@ -200,14 +200,14 @@ class User extends Authenticatable
 
   public function isMemberOfProject(Project $project)
   {
-    return (bool) $this->projects()->wherePivot('agent_id', $project->id)->count();
+    return (bool) $this->projects()->wherePivot('project_id', $project->id)->count();
   }
   /**
    * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
    */
   public function projects()
   {
-    return $this->belongsToMany(Project::class, ProjectHasUser::TABLE, 'user_id', 'agent_id')
+    return $this->belongsToMany(Project::class, ProjectUser::TABLE, 'user_id', 'project_id')
                 ->withPivot('is_registrar_for', 'is_admin_for')
                 ->withTimestamps();
   }

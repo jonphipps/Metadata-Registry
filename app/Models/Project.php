@@ -68,7 +68,7 @@ use Laracasts\Matryoshka\Cacheable;
  */
 class Project extends Model
 {
-  const TABLE = 'reg_agent';
+  const TABLE = 'projects';
   public static $rules = [ 'last_updated'    => 'required|',
                            'org_email'       => 'required|max:100',
                            'org_name'        => 'required|max:255',
@@ -153,7 +153,7 @@ class Project extends Model
    */
   public function profiles()
   {
-    return $this->hasMany(Profile::class, 'agent_id', 'id');
+    return $this->hasMany(Profile::class, 'project_id', 'id');
   }
 
   /**
@@ -161,7 +161,7 @@ class Project extends Model
    */
   public function members()
   {
-    return $this->belongsToMany(User::class, ProjectHasUser::TABLE, 'agent_id', 'user_id')
+    return $this->belongsToMany(User::class, ProjectUser::TABLE, 'project_id', 'user_id')
         ->withPivot('is_registrar_for', 'is_admin_for')
         ->withTimestamps();
   }
@@ -171,7 +171,7 @@ class Project extends Model
    */
   public function elementSets()
   {
-    return $this->hasMany(ElementSet::class, 'agent_id', 'id');
+    return $this->hasMany(ElementSet::class, 'project_id', 'id');
   }
 
   /**
@@ -180,7 +180,7 @@ class Project extends Model
   public function elementSetsForSelect()
   {
     return ElementSet::select([ 'id', 'name' ])
-        ->where('agent_id', $this->id)
+        ->where('project_id', $this->id)
         ->orderBy('name')
         ->get()
         ->mapWithKeys(function ($item) {
@@ -204,7 +204,7 @@ class Project extends Model
                  ElementAttribute::TABLE . '.language',
                  ElementAttribute::TABLE . '.object as label')
         ->where([ [ ElementAttribute::TABLE . '.profile_property_id', 2 ],
-                    [ ElementSet::TABLE . '.agent_id', $this->id ] ])
+                    [ ElementSet::TABLE . '.project_id', $this->id ] ])
         ->orderBy(ElementSet::TABLE . '.name')
         ->orderBy(ElementAttribute::TABLE . '.language')
         ->orderBy(ElementAttribute::TABLE . '.object')
@@ -221,7 +221,7 @@ class Project extends Model
     // /** @var ElementSet[] $elementsets */
     // $elementsets =
     //     ElementSet::with('elements')
-    //         ->where('agent_id', $this->id)
+    //         ->where('project_id', $this->id)
     //         ->orderBy('name')
     //         ->get()
     //         ->groupBy('name');
@@ -240,7 +240,7 @@ class Project extends Model
    */
   public function vocabularies()
   {
-    return $this->hasMany(Vocabulary::class, 'agent_id', 'id');
+    return $this->hasMany(Vocabulary::class, 'project_id', 'id');
   }
 
   /**
@@ -249,7 +249,7 @@ class Project extends Model
   public function vocabulariesForSelect()
   {
     return Vocabulary::select(['id', 'name'])
-        ->where('agent_id', $this->id)
+        ->where('project_id', $this->id)
         ->orderBy('name')
         ->get()
         ->mapWithKeys(function ($item) {
@@ -270,7 +270,7 @@ class Project extends Model
                  ConceptAttribute::TABLE . '.language',
                  ConceptAttribute::TABLE . '.object as label')
         ->where([ [ ConceptAttribute::TABLE . '.profile_property_id', 45 ],
-                    [ Vocabulary::TABLE . '.agent_id', $this->id ] ])
+                    [ Vocabulary::TABLE . '.project_id', $this->id ] ])
         ->orderBy(Vocabulary::TABLE . '.name')
         ->orderBy(ConceptAttribute::TABLE . '.language')
         ->orderBy(ConceptAttribute::TABLE . '.object')

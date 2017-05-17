@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * App\Models\ElementSet
  *
  * @property int $id
- * @property int $agent_id
+ * @property int $project_id
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
  * @property \Carbon\Carbon|null $deleted_at
@@ -119,7 +119,7 @@ class ElementSet extends Model
    */
     protected $casts = [
       'id'                    => 'integer',
-      'agent_id'              => 'integer',
+      'project_id'              => 'integer',
       'created_user_id'       => 'integer',
       'updated_user_id'       => 'integer',
       'child_updated_user_id' => 'integer',
@@ -141,7 +141,7 @@ class ElementSet extends Model
     ];
 
     public static $rules = [
-      'agent_id'    => 'required|',
+      'project_id'    => 'required|',
       'name'        => 'required|max:255',
       'note'        => 'max:65535',
       'uri'         => 'required|max:255',
@@ -201,7 +201,7 @@ class ElementSet extends Model
 
     public function project()
     {
-        return $this->belongsTo(Project::class, 'agent_id', 'id');
+        return $this->belongsTo(Project::class, 'project_id', 'id');
     }
 
 

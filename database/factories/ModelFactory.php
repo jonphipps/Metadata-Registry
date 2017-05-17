@@ -552,7 +552,7 @@ $factory->define(App\Models\ProfileProperty::class, function (Faker\Generator $f
 //     ];
 // });
 
-$factory->define(App\Models\ProjectHasUser::class, function (Faker\Generator $faker) {
+$factory->define(App\Models\ProjectUser::class, function (Faker\Generator $faker) {
     return [
         'user_id' => function () {
              return factory(App\Models\Access\User\User::class)->create()->id;
@@ -698,7 +698,7 @@ $factory->define(App\Models\Project::class,
     });
 
 //INSERT INTO `swregistry`.`ProjectHasUser` (id, created_at, updated_at, deleted_at, user_id, agent_id, is_registrar_for, is_admin_for) VALUES ()
-$factory->define(App\Models\ProjectHasUser::class,
+$factory->define(App\Models\ProjectUser::class,
     function (Faker\Generator $faker) {
         xdebug_break();
 
@@ -1063,7 +1063,7 @@ if ( ! function_exists('getAgentUser')) {
     function getAgentUser()
     {
         //get the user_ids not associated with an existing agent
-        $except = \App\Models\ProjectHasUser::all('user_id')->pluck('user_id')->toArray();
+        $except = \App\Models\ProjectUser::all('user_id')->pluck('user_id')->toArray();
 
         return getNewUser($except);
     }

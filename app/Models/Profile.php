@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * App\Models\Profile
  *
  * @property int $id
- * @property int $agent_id
+ * @property int $project_id
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
  * @property string|null $deleted_at

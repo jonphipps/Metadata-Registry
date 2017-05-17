@@ -64,7 +64,7 @@ class AuthTest extends BrowserKitTestCase
                 'is_admin_for'     => true,
             ]);
 
-        $this->seeInDatabase(\App\Models\ProjectHasUser::TABLE,
+        $this->seeInDatabase(\App\Models\ProjectUser::TABLE,
             [
                 'is_registrar_for' => true,
                 'is_admin_for'     => true,
@@ -94,7 +94,7 @@ class AuthTest extends BrowserKitTestCase
     $user->projects()->attach($project,
                                     [ 'is_registrar_for' => true,
                                       'is_admin_for'     => true, ]);
-    $this->seeInDatabase(\App\Models\ProjectHasUser::TABLE,
+    $this->seeInDatabase(\App\Models\ProjectUser::TABLE,
                          [ 'is_registrar_for' => true,
                            'is_admin_for'     => true,
                            'agent_id'         => $project->id,
