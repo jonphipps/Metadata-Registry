@@ -25,6 +25,5 @@ class DatabaseSeeder extends Seeder
         $this->call(ProfilePropertySeeder::class);
         //$this->call(PrefixSeeder::class);
 
-        Model::reguard();
     }
 }
