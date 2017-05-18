@@ -31,7 +31,6 @@ class Project extends Model
     protected $hidden = [
         'id',
         'description',
-        'is_private',
         'created_at',
         'updated_at',
         'deleted_at',
@@ -103,6 +102,17 @@ class Project extends Model
                 ];
             })
             ->toArray();
+    }
+
+    public function getVocabColumn()
+    {
+            $count = $this->vocabularies()->count();
+            return $count ? '<a href="' . url('projects/' . $this->id . '/vocabularies') . '">' . self::badge($count) : '&nbsp;';
+    }
+     public function getElementColumn()
+    {
+            $count = $this->elementSets()->count();
+            return $count ? '<a href="' . url('projects/' . $this->id . '/elementsets') . '">' . self::badge($count) : '&nbsp;';
     }
 
     /**
@@ -207,4 +217,8 @@ class Project extends Model
         });
     }
 
+    public static function badge($count)
+    {
+        return '<span class="badge">' . $count . '</span>';
+    }
 }
