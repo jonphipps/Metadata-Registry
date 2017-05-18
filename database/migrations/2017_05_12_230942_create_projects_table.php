@@ -34,7 +34,7 @@ class CreateProjectsTable extends Migration {
 			$table->integer('deleted_by')->unsigned()->nullable()->index();
 			$table->integer('starting_number')->unsigned()->nullable();
 			$table->string('license_uri')->nullable();
-			$table->integer('default_language_id')->unsigned()->nullable()->index();
+			$table->char('default_language',10)->nullable();
 			$table->string('google_sheet_url')->nullable();
 		});
 	}
