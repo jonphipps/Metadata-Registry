@@ -15,11 +15,11 @@ class AddForeignKeysToRegFileImportHistoryTable extends Migration {
 	{
 		Schema::table('reg_file_import_history', function(Blueprint $table)
 		{
-			$table->foreign('user_id', 'reg_file_import_history_ibfk_1')->references('id')->on('users')->onUpdate('NO ACTION')->onDelete('SET NULL');
-			$table->foreign('imported_by', 'reg_file_import_history_ibfk_5')->references('id')->on('users')->onUpdate('NO ACTION')->onDelete('SET NULL');
+			$table->foreign('user_id',       'reg_file_import_history_ibfk_1')->references('id')->on('users')->onUpdate('NO ACTION')->onDelete('SET NULL');
+			$table->foreign('imported_by',   'reg_file_import_history_ibfk_5')->references('id')->on('users')->onUpdate('NO ACTION')->onDelete('SET NULL');
 			$table->foreign('vocabulary_id', 'reg_file_import_history_ibfk_2')->references('id')->on('reg_vocabulary')->onUpdate('NO ACTION')->onDelete('NO ACTION');
-			$table->foreign('schema_id', 'reg_file_import_history_ibfk_3')->references('id')->on('reg_schema')->onUpdate('NO ACTION')->onDelete('NO ACTION');
-			$table->foreign('batch_id', 'reg_file_import_history_ibfk_4')->references('id')->on('reg_batch')->onUpdate('NO ACTION')->onDelete('CASCADE');
+			$table->foreign('schema_id',     'reg_file_import_history_ibfk_3')->references('id')->on('reg_schema')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+			$table->foreign('batch_id',      'reg_file_import_history_ibfk_4')->references('id')->on('reg_batch')->onUpdate('NO ACTION')->onDelete('CASCADE');
 		});
 	}
 

@@ -17,7 +17,7 @@ class AddForeignKeysToImportsTable extends Migration {
 		{
 			$table->foreign('imported_by', 'imports_ibfk_1')->references('id')->on('users')->onUpdate('NO ACTION')->onDelete('SET NULL');
 			$table->foreign('user_id', 'imports_ibfk_2')->references('id')->on('users')->onUpdate('NO ACTION')->onDelete('SET NULL');
-            $table->foreign('vocabulary_id', 'imports_ibfk_2')->references('id')->on('reg_vocabulary')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+            $table->foreign('vocabulary_id', 'imports_ibfk_3')->references('id')->on('reg_vocabulary')->onUpdate('NO ACTION')->onDelete('NO ACTION');
             $table->foreign('schema_id', 'imports_ibfk_4')->references('id')->on('reg_schema')->onUpdate('NO ACTION')->onDelete('NO ACTION');
         });
 	}
