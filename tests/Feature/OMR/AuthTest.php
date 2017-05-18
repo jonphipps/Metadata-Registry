@@ -16,11 +16,11 @@ class AuthTest extends BrowserKitTestCase
     use DatabaseTransactions;
 
 
-    // public function setUp()
-    // {
-    //     $this->dontSetupDatabase();
-    //     parent::setUp();
-    // }
+    public function setUp()
+    {
+        $this->dontSetupDatabase();
+        parent::setUp();
+    }
 
     //
     //A logged in user will have permission to view and edit their account, but not delete it
