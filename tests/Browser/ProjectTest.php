@@ -10,7 +10,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class ProjectTest extends DuskTestCase
 {
-  use DatabaseTransactions;
+  use DatabaseMigrations;
     /**
      * A Dusk test example.
      *
@@ -24,7 +24,7 @@ class ProjectTest extends DuskTestCase
       $this->browse(function (Browser $browser) use ($project) {
         $browser->visit('/projects')
                     ->assertSee('Projects')
-            // ->assertSee($project->org_name);
+            // ->assertSee($project->label);
             ->assertSee('NSDL');
         });
     }
