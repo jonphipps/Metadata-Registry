@@ -5,25 +5,28 @@ namespace App\Providers;
 use Antennaio\Codeception\DbDumpServiceProvider;
 use Barryvdh\Debugbar\Facade;
 use Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider;
-use Illuminate\Contracts\Logging\Log;
+use Carbon\Carbon;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Dusk\DuskServiceProvider;
 use Mpociot\LaravelTestFactoryHelper\TestFactoryHelperServiceProvider;
-use Psr\Log\LoggerInterface;
-use Carbon\Carbon;
+use Orangehill\Iseed\IseedServiceProvider;
+use Reliese\Coders\CodersServiceProvider;
+use Way\Generators\GeneratorsServiceProvider;
+use Xethron\MigrationsGenerator\MigrationsGeneratorServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
 
-  /**
+    /**
      * Bootstrap any application services.
      *
      * @return void
      */
-  public function boot()
-  {
+    public function boot()
+    {
         /*
          * Application locale defaults for various components
          *
@@ -45,7 +48,7 @@ class AppServiceProvider extends ServiceProvider
          * For use in the blade directive in BladeServiceProvider
          */
         if (config('locale.languages')[config('app.locale')][2]) {
-            session(['lang-rtl' => true]);
+            session([ 'lang-rtl' => true ]);
         } else {
             session()->forget('lang-rtl');
         }
@@ -54,10 +57,10 @@ class AppServiceProvider extends ServiceProvider
         if ($this->app->environment() === 'production') {
             //URL::forceScheme('https');
         } else {
-          DB::enableQueryLog();
-          // DB::listen(function ($query) {
-          //   var_dump([ $query->sql, $query->bindings, $query->time ]);
-          // });
+            DB::enableQueryLog();
+            // DB::listen(function ($query) {
+            //   var_dump([ $query->sql, $query->bindings, $query->time ]);
+            // });
         }
 
         // Set the default string length for Laravel5.4
@@ -71,37 +74,41 @@ class AppServiceProvider extends ServiceProvider
         }
     }
 
-  /**
+    /**
      * Register any application services.
      *
      * @return void
      */
-  public function register()
-  {
+    public function register()
+    {
         /*
          * Sets third party service providers that are only needed on local/testing environments
          */
-    $environment = $this->app->environment();
-    if ($environment !== 'production') {
-      /**
-       * Loader for registering facades
-       */
-      $loader = AliasLoader::getInstance();
-      /**
-       * Load third party local providers and facades
-       */
-      $this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
-      $loader->alias('Debugbar', Facade::class);
-      $this->app->register(IdeHelperServiceProvider::class);
-      $this->app->register(TestFactoryHelperServiceProvider::class);
-      $this->app->register(DbDumpServiceProvider::class);
-        $this->app->register(\Way\Generators\GeneratorsServiceProvider::class);
-        $this->app->register(\Xethron\MigrationsGenerator\MigrationsGeneratorServiceProvider::class);
-        $this->app->register(\Reliese\Coders\CodersServiceProvider::class);
-        $this->app->register(\Orangehill\Iseed\IseedServiceProvider::class);
+        $environment = $this->app->environment();
+        if ($environment !== 'production') {
+            /**
+             * Loader for registering facades
+             */
+            $loader = AliasLoader::getInstance();
+            /**
+             * Load third party local providers and facades
+             */
+            $this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
+            $loader->alias('Debugbar', Facade::class);
+            $this->app->register(IdeHelperServiceProvider::class);
+            $this->app->register(TestFactoryHelperServiceProvider::class);
+            $this->app->register(DbDumpServiceProvider::class);
+            $this->app->register(GeneratorsServiceProvider::class);
+            $this->app->register(MigrationsGeneratorServiceProvider::class);
+            $this->app->register(CodersServiceProvider::class);
+            $this->app->register(IseedServiceProvider::class);
+            $this->app->register(DuskServiceProvider::class);
+        }
+        $this->app->bind('path.public',
+            function() {
+                return base_path() . '/web';
+            });
+        $this->app->alias('bugsnag.multi', \Illuminate\Contracts\Logging\Log::class);
+        $this->app->alias('bugsnag.multi', \Psr\Log\LoggerInterface::class);
     }
-    $this->app->bind('path.public', function () {return base_path() . '/web';});
-    $this->app->alias('bugsnag.multi', \Illuminate\Contracts\Logging\Log::class);
-    $this->app->alias('bugsnag.multi', \Psr\Log\LoggerInterface::class);
-  }
 }
