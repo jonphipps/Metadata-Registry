@@ -72,7 +72,8 @@
 
       <!-- Content Wrapper. Contains page content -->
       <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
+        @include('includes.partials.messages')
+      <!-- Content Header (Page header) -->
          @yield('header')
 
         <!-- Main content -->
