@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Requests\ProjectRequest as StoreRequest;
 use App\Http\Requests\ProjectRequest as UpdateRequest;
 use Auth;
-use Backpack\CRUD\app\Http\Controllers\CrudController;
+use App\Http\Controllers\CustomCrudController as CrudController;
 use Backpack\CRUD\app\Http\Requests\CrudRequest;
 
 // VALIDATION: change the requests to match your own file names if you need form validation
