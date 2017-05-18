@@ -22,7 +22,7 @@
                                                     Start by Adding a Project...
                                                 @endforelse
                                             </ul>
-                                            <a class="btn btn-default btn-sm pull-right" href="{{ route('project.create') }}" role="button">Add New Project</a>
+                                            <a class="btn btn-default btn-sm pull-right" href="{{ route('frontend.crud.projects.create') }}" role="button">Add New Project</a>
                                         </div><!--panel-body-->
                                     </div><!--panel-->
                                 </div><!--col-xs-12-->
