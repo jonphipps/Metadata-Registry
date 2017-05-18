@@ -44,7 +44,7 @@ class ProjectViewTest extends TestCase
     $this->assertDatabaseHas(ProjectUser::TABLE,
                              [ 'is_registrar_for' => true,
                                'is_admin_for'     => true,
-                               'agent_id'         => $project->id,
+                               'project_id'         => $project->id,
                                'user_id'          => $this->user->id, ]);
     //check the list for editability
     $this->actingAs($this->user);
