@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "b752f57cd2933eb8bb51a1345656aa0a",
+    "content-hash": "162faf05cd3c85ce424a9e0087fa720e",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -335,11 +335,11 @@
         },
         {
             "name": "backpack/crud",
-            "version": "dev-feature-show",
+            "version": "dev-patch-revisionable",
             "dist": {
                 "type": "path",
                 "url": "packages/backpack_CRUD",
-                "reference": "0b3f78802735b6a5bc47c615dd884c1ad64387f9",
+                "reference": "b36ff2221ff32d8f7a6385411922aa460211b03f",
                 "shasum": null
             },
             "require": {
@@ -348,8 +348,7 @@
                 "doctrine/dbal": "^2.5",
                 "intervention/image": "^2.3",
                 "laravelcollective/html": "~5.0",
-                "livecontrol/eloquent-datatable": "^0.1.5",
-                "venturecraft/revisionable": "1.*"
+                "livecontrol/eloquent-datatable": "^0.1.5"
             },
             "require-dev": {
                 "phpunit/phpunit": "4.*",
@@ -398,7 +397,10 @@
                 "delete",
                 "read",
                 "update"
-            ]
+            ],
+            "transport-options": {
+                "symlink": true
+            }
         },
         {
             "name": "backpack/langfilemanager",
@@ -3561,16 +3563,16 @@
         },
         {
             "name": "laravelcollective/html",
-            "version": "v5.4.3",
+            "version": "v5.4.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/LaravelCollective/html.git",
-                "reference": "023efce5fd8057cb3b5ce503f3391cc4effa7caa"
+                "reference": "4aae8fb4384f9aaa17df44ad843b45af9cd721b3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/LaravelCollective/html/zipball/023efce5fd8057cb3b5ce503f3391cc4effa7caa",
-                "reference": "023efce5fd8057cb3b5ce503f3391cc4effa7caa",
+                "url": "https://api.github.com/repos/LaravelCollective/html/zipball/4aae8fb4384f9aaa17df44ad843b45af9cd721b3",
+                "reference": "4aae8fb4384f9aaa17df44ad843b45af9cd721b3",
                 "shasum": ""
             },
             "require": {
@@ -3611,7 +3613,7 @@
             ],
             "description": "HTML and Form Builders for the Laravel Framework",
             "homepage": "http://laravelcollective.com",
-            "time": "2017-05-15T09:38:20+00:00"
+            "time": "2017-05-19T08:15:59+00:00"
         },
         {
             "name": "league/flysystem",
@@ -5577,16 +5579,16 @@
         },
         {
             "name": "psy/psysh",
-            "version": "v0.8.4",
+            "version": "v0.8.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bobthecow/psysh.git",
-                "reference": "17cf432bb80d9198df239b80d00a29155bd74d82"
+                "reference": "38a9d21406597a0440690eafbcb0222f528c8ac6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/17cf432bb80d9198df239b80d00a29155bd74d82",
-                "reference": "17cf432bb80d9198df239b80d00a29155bd74d82",
+                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/38a9d21406597a0440690eafbcb0222f528c8ac6",
+                "reference": "38a9d21406597a0440690eafbcb0222f528c8ac6",
                 "shasum": ""
             },
             "require": {
@@ -5646,7 +5648,7 @@
                 "interactive",
                 "shell"
             ],
-            "time": "2017-05-12T15:41:55+00:00"
+            "time": "2017-05-17T06:49:19+00:00"
         },
         {
             "name": "pusher/pusher-php-server",
@@ -6341,16 +6343,16 @@
         },
         {
             "name": "studio-42/elfinder",
-            "version": "2.1.23",
+            "version": "2.1.24",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Studio-42/elFinder.git",
-                "reference": "c02d75b37ee904117346646d19a85ef9b9defbcb"
+                "reference": "085b4f8b470335f89ca0dce0a8d31243e46e6b7d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Studio-42/elFinder/zipball/c02d75b37ee904117346646d19a85ef9b9defbcb",
-                "reference": "c02d75b37ee904117346646d19a85ef9b9defbcb",
+                "url": "https://api.github.com/repos/Studio-42/elFinder/zipball/085b4f8b470335f89ca0dce0a8d31243e46e6b7d",
+                "reference": "085b4f8b470335f89ca0dce0a8d31243e46e6b7d",
                 "shasum": ""
             },
             "require": {
@@ -6395,7 +6397,7 @@
             ],
             "description": "File manager for web",
             "homepage": "http://elfinder.org",
-            "time": "2017-03-31T08:05:06+00:00"
+            "time": "2017-05-19T06:16:48+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -7614,17 +7616,12 @@
         },
         {
             "name": "venturecraft/revisionable",
-            "version": "1.28.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/VentureCraft/revisionable.git",
-                "reference": "5a76d29b897d4864cef41c605e7e03258dd5d051"
-            },
+            "version": "dev-develop",
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/VentureCraft/revisionable/zipball/5a76d29b897d4864cef41c605e7e03258dd5d051",
-                "reference": "5a76d29b897d4864cef41c605e7e03258dd5d051",
-                "shasum": ""
+                "type": "path",
+                "url": "packages/venturecraft_revisionable",
+                "reference": "9fd3e9f33da09f841616c28721e55f51e1cdb1c8",
+                "shasum": null
             },
             "require": {
                 "illuminate/support": "~4.0|~5.0|~5.1",
@@ -7639,7 +7636,6 @@
                     "Venturecraft\\Revisionable": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -7658,7 +7654,13 @@
                 "model",
                 "revision"
             ],
-            "time": "2016-08-02T02:32:00+00:00"
+            "support": {
+                "issues": "https://github.com/VentureCraft/revisionable/issues",
+                "source": "https://github.com/VentureCraft/revisionable"
+            },
+            "transport-options": {
+                "symlink": true
+            }
         },
         {
             "name": "vlucas/phpdotenv",
@@ -10476,23 +10478,23 @@
         },
         {
             "name": "sebastian/diff",
-            "version": "1.4.1",
+            "version": "1.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/diff.git",
-                "reference": "13edfd8706462032c2f52b4b862974dd46b71c9e"
+                "reference": "3c7d21999e815cdfac70c6c7d79d3a9cb1bc7bc2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/diff/zipball/13edfd8706462032c2f52b4b862974dd46b71c9e",
-                "reference": "13edfd8706462032c2f52b4b862974dd46b71c9e",
+                "url": "https://api.github.com/repos/sebastianbergmann/diff/zipball/3c7d21999e815cdfac70c6c7d79d3a9cb1bc7bc2",
+                "reference": "3c7d21999e815cdfac70c6c7d79d3a9cb1bc7bc2",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.3"
+                "php": "^5.3.3 || ^7.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "~4.8"
+                "phpunit/phpunit": "^4.8.35 || ^5.7 || ^6.0"
             },
             "type": "library",
             "extra": {
@@ -10524,7 +10526,7 @@
             "keywords": [
                 "diff"
             ],
-            "time": "2015-12-08T07:14:41+00:00"
+            "time": "2017-05-18T13:44:30+00:00"
         },
         {
             "name": "sebastian/environment",
@@ -11252,16 +11254,16 @@
         },
         {
             "name": "tightenco/mailthief",
-            "version": "v0.3.5",
+            "version": "v0.3.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tightenco/mailthief.git",
-                "reference": "3269c0baf1b926ee759b5eee6cccca783beecfed"
+                "reference": "fda78fe3dc649ea405378fe77c016d96a1d2eae7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tightenco/mailthief/zipball/3269c0baf1b926ee759b5eee6cccca783beecfed",
-                "reference": "3269c0baf1b926ee759b5eee6cccca783beecfed",
+                "url": "https://api.github.com/repos/tightenco/mailthief/zipball/fda78fe3dc649ea405378fe77c016d96a1d2eae7",
+                "reference": "fda78fe3dc649ea405378fe77c016d96a1d2eae7",
                 "shasum": ""
             },
             "require": {
@@ -11290,7 +11292,7 @@
                 }
             ],
             "description": "A fake Mailer for Laravel applications that takes the pain out of testing mail.",
-            "time": "2017-04-22T17:42:32+00:00"
+            "time": "2017-05-16T15:04:00+00:00"
         },
         {
             "name": "webmozart/assert",
@@ -11503,6 +11505,7 @@
         "chrisboulton/php-resque": 20,
         "laracasts/matryoshka": 20,
         "roave/security-advisories": 20,
+        "venturecraft/revisionable": 20,
         "antennaio/laravel-codeception-dbdump": 20,
         "werxe/whoops-laravel": 20
     },

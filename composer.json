@@ -20,7 +20,17 @@
         },
         {
             "type": "path",
-            "url": "packages/backpack_CRUD"
+            "url": "packages/backpack_CRUD",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "packages/venturecraft_revisionable",
+            "options": {
+                "symlink": true
+            }
         }
     ],
     "config": {
@@ -94,6 +104,7 @@
         "spatie/laravel-translatable": "^1.2",
         "symfony/psr-http-message-bridge": "^1.0",
         "vlucas/phpdotenv": "~2.2",
+        "venturecraft/revisionable": "@dev",
         "wildside/userstamps": "^0.2.3",
         "willdurand/negotiation": "^2.0",
         "yajra/laravel-datatables-oracle": "^7.0"
