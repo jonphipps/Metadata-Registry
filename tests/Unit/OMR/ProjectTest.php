@@ -25,7 +25,7 @@ class ProjectTest extends TestCase
     {
         //given there are public and private projects
         $projectCount = Project::count();
-        $project1     = factory(Project::class)->create();
+        $project1     = factory(Project::class)->create( [ 'is_private' => false ]);
         $project2     = factory(Project::class)->create([ 'is_private' => true ]);
         $this->assertEquals($projectCount + 2, Project::count());
         //when I request only public projects

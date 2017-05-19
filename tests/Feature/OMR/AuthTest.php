@@ -341,12 +341,12 @@ class AuthTest extends BrowserKitTestCase
         /** @var \App\Models\ConceptAttribute $conceptAttribute */
         $conceptAttribute = factory( \App\Models\ConceptAttribute::class )->create( [ 'concept_id' => $concept->id ] );
 
-        $this->assertTrue( $this->executive->can( 'view', [ \App\Models\ElementSet::class, $elementSet ] ) );
         $this->assertTrue( $this->executive->can( 'view', [ \App\Models\Element::class, $element ] ) );
         $this->assertTrue( $this->executive->can( 'view', [ \App\Models\ElementAttribute::class, $elementAttribute ] ) );
         $this->assertTrue( $this->executive->can( 'view', [ \App\Models\Vocabulary::class, $vocabulary ] ) );
         $this->assertTrue( $this->executive->can( 'view', [ \App\Models\Concept::class, $concept ] ) );
         $this->assertTrue( $this->executive->can( 'view', [ \App\Models\ConceptAttribute::class, $conceptAttribute ] ) );
+        $this->assertTrue( $this->executive->can( 'view', [ \App\Models\ElementSet::class, $elementSet ] ) );
 
     }
 
